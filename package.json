@@ -1,0 +1,78 @@
+{
+  "name": "lmm-oa-sws",
+  "version": "1.1.0-beta.1",
+  "private": true,
+  "dependencies": {
+    "@emotion/react": "^11.4.1",
+    "@emotion/styled": "^11.3.0",
+    "@fontsource/roboto": "^4.5.0",
+    "@gxl/epub-parser": "^2.0.4",
+    "@mui/icons-material": "^5.0.3",
+    "@mui/lab": "^5.0.0-alpha.50",
+    "@mui/material": "^5.0.3",
+    "@mui/styles": "^5.0.1",
+    "cryptr": "^6.0.2",
+    "dateformat": "^4.5.1",
+    "dexie": "^3.0.3",
+    "dexie-export-import": "^1.0.3",
+    "downloadjs": "^1.4.7",
+    "file-select-dialog": "^1.5.4",
+    "firebase": "^9.2.0",
+    "html-react-parser": "^1.2.7",
+    "html2pdf.js": "^0.10.1",
+    "jquery": "^3.6.0",
+    "json-as-xlsx": "^2.1.0",
+    "jw-epub-parser": "^1.1.0",
+    "pdf-lib": "^1.16.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.3",
+    "recoil": "^0.5.2",
+    "ua-parser-js": "^1.0.2",
+    "use-pwa2": "^0.2.0",
+    "workbox-cli": "^6.2.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build && workbox generateSW workbox-config.js",
+    "preghpush": "git add .",
+    "ghpush": "git-cz",
+    "postghpush": "git push",
+    "semantic-release": "semantic-release"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sws2apps/lmm-oa-sws.git"
+  },
+  "devDependencies": {
+    "@semantic-release/changelog": "^6.0.1",
+    "@semantic-release/exec": "^6.0.2",
+    "@semantic-release/git": "^10.0.1",
+    "cz-conventional-changelog": "^3.3.0",
+    "semantic-release": "^18.0.1"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
