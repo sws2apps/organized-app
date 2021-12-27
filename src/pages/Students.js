@@ -294,9 +294,9 @@ const Students = () => {
 
         let xlsx = require('json-as-xlsx')
         let settings = {
-            fileName: 'Students_list', // Name of the spreadsheet
-            extraLength: 0, // A bigger number means that columns will be wider
-            writeOptions: {} // Style options from https://github.com/SheetJS/sheetjs#writing-options
+            fileName: 'Students_list',
+            extraLength: 0,
+            writeOptions: {}
         }
 
         xlsx(data, settings)
