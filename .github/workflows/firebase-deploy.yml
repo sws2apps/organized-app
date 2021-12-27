@@ -10,7 +10,7 @@ jobs:
     if: ${{ github.repository == 'sws2apps/lmm-oa-sws' && github.ref == 'refs/heads/alpha' }}
     environment:
       name: Development
-      url: ${{ steps.firebase_deploy.outputs.url }}
+      url: ${{ steps.firebase_deploy_alpha.outputs.url }}
     runs-on: ubuntu-latest
 
     strategy:
@@ -45,7 +45,7 @@ jobs:
       
       - name: Deploy to LMM-OA to Alpha Prerelease
         if: ${{ steps.check_build.outputs.files_exists == 'true' }}
-        id: firebase_deploy
+        id: firebase_deploy_alpha
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
@@ -58,7 +58,7 @@ jobs:
     if: ${{ github.repository == 'sws2apps/lmm-oa-sws' && github.ref == 'refs/heads/beta' }}
     environment:
       name: Staging
-      url: ${{ steps.firebase_deploy.outputs.url }}
+      url: ${{ steps.firebase_deploy_beta.outputs.url }}
     runs-on: ubuntu-latest
 
     strategy:
@@ -93,7 +93,7 @@ jobs:
       
       - name: Deploy to LMM-OA to Beta Prerelease
         if: ${{ steps.check_build.outputs.files_exists == 'true' }}
-        id: firebase_deploy
+        id: firebase_deploy_beta
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
@@ -106,7 +106,7 @@ jobs:
     if: ${{ github.repository == 'sws2apps/lmm-oa-sws' && github.ref == 'refs/heads/main' }}
     environment:
       name: Production
-      url: ${{ steps.firebase_deploy.outputs.url }}
+      url: ${{ steps.firebase_deploy_prod.outputs.url }}
     runs-on: ubuntu-latest
 
     strategy:
@@ -141,7 +141,7 @@ jobs:
       
       - name: Deploy to LMM-OA to Production
         if: ${{ steps.check_build.outputs.files_exists == 'true' }}
-        id: firebase_deploy
+        id: firebase_deploy_prod
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
