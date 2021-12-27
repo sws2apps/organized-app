@@ -1,5 +1,5 @@
 # How to Contribute
-LMM-OA is one of the web applications, developped by the Scheduling Workbox System (SWS) team. But we are also more than happy to receive support from those who are very intersted to assist us. Hopefully this document makes the process for contributing clear and answers some questions that you may have.
+LMM-OA is one of the applications developped by the [Scheduling Workbox System (SWS)](https://github.com/sws2apps) team. But we are also more than happy to receive support from those who are very intersted to assist us. Hopefully this document makes the process for contributing clear and answers some questions that you may have.
 
 Please make sure that you have read the [code of conduct](https://github.com/sws2apps/lmm-oa-sws/blob/main/CODE_OF_CONDUCT.md) before continuing.
 
@@ -13,7 +13,7 @@ We used three different branches to make production, beta and alpha releases of 
 | :----- | :-------- |
 | main   | making production release of LMM-OA: bug fix for the current version will be queued in this branch |
 | beta   | making beta release of LMM-OA: new feature will be queued in this branch |
-| alpha   | making alpha release of LMM-OA: major update to the application will be queued in this branch |
+| alpha  | making beta release of LMM-OA: breaking change will be queued in this branch |
 
 ## Bugs
 
@@ -35,24 +35,25 @@ If you’re only fixing a bug, it’s fine to submit a pull request right away b
 We are monitoring for pull requests. We will review your pull request and either merge it, request changes to it, or close it with an explanation. We’ll do our best to provide updates and feedback throughout the process.
 
 **Before submitting a PR**, please make sure the following is done:
-1. Fork the repository
-2. Depending on what you are suggesting, clone or create a new branch from the appropriate branch in the forked repository:
+1. Fork the repository and clone it locally.
+2. Start working in the appropriate branch, depending on what you are suggesting:
    - `main`, if you want to suggest a bug fix for the current version released in production.
    - `beta`, if you want to suggest a new feature.
-   - `alpha`, if you want to suggest a major update to the application.
-3. If you have already forked repository, fetch and pull changes first, before creating the new branch.
-4. Run `npm i` in your local branch.
-5. Run `npm start` to make sure that the code is compiled successfully.
-6. Test your changes to make sure that they are working as intended.
+   - `alpha`, if you want to suggest breaking change.
+3. If you have clonned the forked repository, fetch and merge first from upstream to origin, and from origin to your local repository. Make sure to resolve any conflicts before starting your work.
+4. Setup the environment variable .env. To get the right values, contact one of the developers contributing to this project. If you want, you can create your own values as well while you are working.
+5. Run `npm i` in your local branch.
+6. Run `npm run start` to make sure that the code is compiled successfully.
+7. Test your changes to make sure that they are working as intended.
 
 **When commiting your changes**, we recommend the following commands to be run:
 1. Run `git add .`
-2. Run `npm run ghpush` to start the [commitizen cli](https://github.com/commitizen/cz-cli#using-the-command-line-tool). Make sure that you’ve set your changes accordingly. Failure to set this accordingly will cause your pull request on the release branch to be discarded.
-3. Run `git push`
-4. Fetch and pull the approriate branch in the forked repository. This will make sure that you will receive the latest remote code changes before merging your local changes.
-5. Compare your local branch and the branch in the forked repository, and create a PR.
-6. Rebase and Merge to bring your code to the forked repository branch. Make sure to resolve any conflicts.
+2. Run `npm run ghcommit` to start the [commitizen cli](https://github.com/commitizen/cz-cli#using-the-command-line-tool). Make sure that you’ve set your changes accordingly. Failure to set this accordingly will cause your pull request on the release branch to be discarded.
+3. Fetch and merge from upstream to origin, and from origin to your local repository. Make sure to resolve any conflicts.
+4. Run `git push`
 
-**When your proposed changes are in the forked repository on GitHub**, create your final PR.
+**When your proposed changes are in the forked repository on GitHub**:
+1. Create your PR.
+2. Make sure the title follows the [conventional-changelog](https://github.com/semantic-release/semantic-release#commit-message-format) format.
 
-You will receive a notification and be informed when your PR is published on beta, or alpha, or in production.
+You will receive a notification and be informed when your PR is published on beta, or in production.
