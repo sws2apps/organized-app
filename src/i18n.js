@@ -1,12 +1,12 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
-import translationEN from './locales/e.json';
+import translationE from './locales/e.json';
 import translationMG from './locales/mg.json';
 
 const resources = {
     e: {
-        translation: translationEN,
+        translation: translationE,
     },
     mg: {
         translation: translationMG,
