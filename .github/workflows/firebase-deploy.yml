@@ -35,7 +35,7 @@ jobs:
         run: npx semantic-release
         env:
           REACT_APP_ENCRYPTION_KEY: ${{ secrets.REACT_APP_ENCRYPTION_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       
       - name: Check if new version has been generated
         id: check_build
@@ -68,6 +68,8 @@ jobs:
     steps:
       - name: Checkout for release preparation
         uses: actions/checkout@v2
+        with:
+          persist-credentials: false
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
@@ -81,7 +83,7 @@ jobs:
         run: npx semantic-release
         env:
           REACT_APP_ENCRYPTION_KEY: ${{ secrets.REACT_APP_ENCRYPTION_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       
       - name: Check if new version has been generated
         id: check_build
@@ -114,6 +116,8 @@ jobs:
     steps:
       - name: Checkout for release preparation
         uses: actions/checkout@v2
+        with:
+          persist-credentials: false
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
@@ -127,7 +131,7 @@ jobs:
         run: npx semantic-release
         env:
           REACT_APP_ENCRYPTION_KEY: ${{ secrets.REACT_APP_ENCRYPTION_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       
       - name: Check if new version has been generated
         id: check_build
