@@ -118,6 +118,7 @@
     "students.deleteTitle": "Delete {{ currentStudent }}",
     "students.deleteConfirmation": "Are you sure to delete this student from the record?",
     "students.existAlready": "This student already exists in your record",
+    "students.deleteSucess": "Student delete successfully",
 
     "about.description": "LMM-OA (Life and Ministry Meeting Overseer Assistant) is an application to coordinate and manage students assignment schedule for Midweek Meeting."
 }

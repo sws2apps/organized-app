@@ -212,7 +212,7 @@ const Students = () => {
 
         setAppSnackOpen(true);
         setAppSeverity("success");
-        setAppMessage("Voafafa soa aman-tsara ny mpianatra");
+        setAppMessage(t("students.deleteSucess"));
     }
 
     const handleChangeGender = async (e) => {

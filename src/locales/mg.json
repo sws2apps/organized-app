@@ -118,6 +118,7 @@
     "students.deleteTitle": "Hamafa an’i: {{ currentStudent }}",
     "students.deleteConfirmation": "Tianao hofafana ao amin’ny rakitra fitehirizana ve io mpianatra io?",
     "students.existAlready": "Efa misy ao anaty rakitra fitehirizana io mpianatra io",
+    "students.deleteSucess": "Voafafa soa aman-tsara ny mpianatra",
 
     "about.description": "Programa fandaminana anjaran’ny mpianatra amin’ny fivoriana andavanandro ny LMM-OA (Life and Ministry Meeting Overseer Assistant)."
 }
