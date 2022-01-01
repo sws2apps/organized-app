@@ -14,12 +14,14 @@ import StepperWelcome from '../components/startup/StepperWelcome';
 import StepperCongregation from '../components/startup/StepperCongregation';
 import StepperMeetingDetails from '../components/startup/StepperMeetingDetails';
 import { initAppDb, isDbExist } from '../indexedDb/dbUtility';
-import { checkSrcUpdate } from '../indexedDb/dbSourceMaterial';
+import { checkSrcUpdate, dbGetListWeekType, dbGetYearList } from '../indexedDb/dbSourceMaterial';
 import { dbGetAppSettings, dbUpdateAppSettings } from '../indexedDb/dbAppSettings';
 import { classCountState, congIDState, congNameState, congNumberState, isErrorCongNameState, isErrorCongNumberState, meetingDayState } from '../appStates/appCongregation';
 import { appLangState, isAppLoadState } from '../appStates/appSettings';
+import { assTypeListState, weekTypeListState, yearsListState } from '../appStates/appSourceMaterial';
 import { allStudentsState, filteredStudentsState } from '../appStates/appStudents';
 import { dbGetStudents } from '../indexedDb/dbPersons';
+import { dbGetListAssType } from '../indexedDb/dbAssignment';
 
 const Startup = () => {
     const { t, i18n } = useTranslation();
@@ -38,6 +40,9 @@ const Startup = () => {
     const setIsAppLoad = useSetRecoilState(isAppLoadState);
     const setDbStudents = useSetRecoilState(allStudentsState);
     const setStudents = useSetRecoilState(filteredStudentsState);
+    const setYearsList = useSetRecoilState(yearsListState);
+    const setAssTypeList = useSetRecoilState(assTypeListState);
+    const setWeekTypeList = useSetRecoilState(weekTypeListState);
 
     const [activeStep, setActiveStep] = useState(0);
     const steps = [
@@ -125,10 +130,19 @@ const Startup = () => {
                 setAppLang(app_lang);
 
                 i18n.changeLanguage(app_lang);
+
+                const weekTypeList = await dbGetListWeekType();
+                setWeekTypeList(weekTypeList);
+
+                const assTypeList = await dbGetListAssType();
+                setAssTypeList(assTypeList);
                 
                 const data = await dbGetStudents();
                 setDbStudents(data);
                 setStudents(data);
+
+                const years = await dbGetYearList();
+                setYearsList(years);
                 
                 setTimeout(() => {
                     setIsAppLoad(false);
@@ -143,7 +157,7 @@ const Startup = () => {
         return () => {
             //clean up
         }
-    }, [i18n, setIsAppLoad, setClassCount, setCongID, setCongName, setCongNumber, setMeetingDay, setAppLang, setDbStudents, setStudents])
+    }, [i18n, setIsAppLoad, setClassCount, setCongID, setCongName, setCongNumber, setMeetingDay, setAppLang, setDbStudents, setStudents, setYearsList, setAssTypeList, setWeekTypeList])
 
 
     if (isSetup) {

@@ -49,3 +49,13 @@ export const userPasswordState = atom({
     key: 'userPassowrd',
     default: '',
 })
+
+export const monthNamesState = atom({
+    key: 'monthNames',
+    default: [],
+})
+
+export const shortDateFormatState = atom({
+    key: 'shortDateFormat',
+    default: 'mm/dd/yyyy',
+})

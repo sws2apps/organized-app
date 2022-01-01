@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import { styled } from '@mui/styles';
 import Box from '@mui/material/Box';
@@ -14,6 +15,7 @@ import Typography from '@mui/material/Typography';
 import { dbGetAppSettings } from '../indexedDb/dbAppSettings';
 import { dbGetScheduleData } from '../indexedDb/dbSchedule';
 import { dbIsWeekExist, dbGetSourceMaterial } from '../indexedDb/dbSourceMaterial';
+import { appLangState } from '../appStates/appSettings';
 
 const sharedStyles = {
     typoLineHeight: {
@@ -153,6 +155,8 @@ const Home = () => {
     const [disablePrevious, setDisablePrevious] = useState(false);
     const [disableNext, setDisableNext] = useState(false);
 
+    const appLang = useRecoilValue(appLangState);
+
     const handleActiveWeek = () => {
         var today = new Date();
         var day = today.getDay();
@@ -208,7 +212,7 @@ const Home = () => {
             setFCurrentWeek(weekValueFormatted);
 
             const scheduleData = await dbGetScheduleData(weekValue);
-            const sourceData = await dbGetSourceMaterial(weekValue);
+            const sourceData = await dbGetSourceMaterial(weekValue, appLang);
 
             if (typeof sourceData.bibleReading_src === "undefined") {
                 setBibleReadingSrc("")
@@ -273,7 +277,7 @@ const Home = () => {
         if (currentWeek !== "") {
             loadCurrentWeekData();
         }
-    }, [t, currentWeek])
+    }, [t, currentWeek, appLang])
 
     useEffect( () => {
         var today = new Date();

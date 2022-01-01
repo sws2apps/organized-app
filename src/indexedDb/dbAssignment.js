@@ -4,24 +4,24 @@ import { dbGetScheduleData } from './dbSchedule';
 import { dbGetSourceMaterial, dbGetWeekListBySched } from './dbSourceMaterial';
 import appDb from './mainDb';
 
-export const dbGetAssType = async (assType) => {
+export const dbGetAssType = async (assType, appLang) => {
     var srcAssType = "";
     if (assType === "") {
         return srcAssType;
     } else {
         var i = parseInt(assType, 10);
-        const appData = await appDb.table("ass_type_MG").get(i);
-        srcAssType = appData.ass_type_name;
+        const appData = await appDb.table("ass_type").get(i);
+        srcAssType = appData.ass_type_name[appLang];
         return srcAssType;
     }
 };
 
-export const dbGetAssTypeId = async (assType) => {
+export const dbGetAssTypeId = async (assType, appLang) => {
     var srcAssType = "";
     if (assType === "") {
         return srcAssType;
     } else {
-        const appData = await appDb.table("ass_type_MG").get({"ass_type_name": assType});
+        const appData = await appDb.table("ass_type").get({"ass_type_name": assType});
         if (typeof appData === "undefined") {
             return "";
         } else {
@@ -34,12 +34,12 @@ export const dbGetAssTypeId = async (assType) => {
 export const dbGetListAssType = async () => {
     var assType = [];
     var obj = {};
-    const appData = await appDb.table("ass_type_MG").reverse().reverse().sortBy("id_type");
+    const appData = await appDb.table("ass_type").reverse().reverse().sortBy("id_type");
 
     for(let i=0; i < appData.length; i++) {
         obj = {};
-        obj.value = appData[i].id_type;
-        obj.label = appData[i].ass_type_name;
+        obj.id_type = appData[i].id_type;
+        obj.ass_type_name = appData[i].ass_type_name;
         assType.push(obj);
     }
     return assType;

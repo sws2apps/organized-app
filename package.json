@@ -30,6 +30,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "recoil": "^0.5.2",
+    "recoil-outside": "^0.1.1",
     "ua-parser-js": "^1.0.2",
     "use-pwa2": "^0.2.0",
     "web-worker-hooks": "^0.5.1",

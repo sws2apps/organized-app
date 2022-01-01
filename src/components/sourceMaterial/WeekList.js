@@ -1,36 +1,39 @@
 import { useEffect, useState } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { useTranslation } from 'react-i18next';
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
-import { dbGetScheduleListByYear, dbGetWeekListBySched, dbGetYearList } from "../../indexedDb/dbSourceMaterial";
+import { dbGetScheduleListByYear, dbGetWeekListBySched } from "../../indexedDb/dbSourceMaterial";
+import { monthNamesState, shortDateFormatState } from '../../appStates/appSettings';
+import { currentWeekState, yearsListState } from '../../appStates/appSourceMaterial';
 
-const WeekList = (props) => {
-    const [years, setYears] = useState([]);
+const dateFormat = require('dateformat');
+
+const WeekList = () => {
+    const { t } = useTranslation();
+
     const [currentYear, setCurrentYear] = useState("");
     const [schedules, setSchedules] = useState([]);
     const [currentSchedule, setCurrentSchedule] = useState("");
     const [weeks, setWeeks] = useState([]);
-    const [currentWeek, setCurrentWeek] = useState("");
+
+    const [currentWeek, setCurrentWeek] = useRecoilState(currentWeekState);
+
+    const years = useRecoilValue(yearsListState);
+    const monthNames = useRecoilValue(monthNamesState);
+    const shortDateFormat = useRecoilValue(shortDateFormatState);
 
     const handleYearChange = async (e) => {
         setCurrentYear(e.target.value);
-        const scheduleData = await dbGetScheduleListByYear(e.target.value);
-        setCurrentSchedule("");
-        setSchedules(scheduleData);
-        handleScheduleChange(scheduleData[0].value);
     }
 
     const handleScheduleChange = async (value) => {
         setCurrentSchedule(value);
-        const weekData = await dbGetWeekListBySched(value);
-        setCurrentWeek("");
-        setWeeks(weekData);
-        handleWeekChange(weekData[0].value);
     }
 
     const handleWeekChange = (value) => {
         if (value !== undefined) {
             setCurrentWeek(value);
-            props.setCurrentWeek(value);
         }
     }
 
@@ -54,62 +57,76 @@ const WeekList = (props) => {
 
     useEffect(() => {
         let mounted = true;
-        const getSchedules = async () => {
-            const years = await dbGetYearList();            
-            const year = years[0].value;            
-            const data = await dbGetScheduleListByYear(year);            
-            const sched = data[0].value;            
-            const weekData = await dbGetWeekListBySched(sched);
+        const getSchedules = async () => {          
+            const year = years[0].value;                    
 
             if (mounted) {
-                setYears(years);
-                setCurrentYear(year);
-                setSchedules(data);
-                setCurrentSchedule(sched);
-                setWeeks(weekData);
-                setCurrentWeek(weekData[0].value);
+                setCurrentYear(currentYear || year);
             }
         };
 
-        if (mounted) {
+        if (mounted && years.length > 0) {
             getSchedules();
         }
         
         return (() => {
             mounted = false;
         })
-    }, [])
+    }, [years, currentYear])
 
     useEffect(() => {
-        const refreshData = async () => {
-            const years = await dbGetYearList();
-            setYears(years);
-            const data = await dbGetScheduleListByYear(currentYear);
-            setSchedules(data);
-            const weekData = await dbGetWeekListBySched(currentSchedule);
-            setWeeks(weekData);
-        }
+        const getScheduleByYear = async () => {
+            let data = await dbGetScheduleListByYear(currentYear);
+            let newData = [];
+            for(let i=0; i < data.length; i++) {
+                let obj = {};
+                obj.value = data[i].value;
+                const monthIndex = parseInt(data[i].value.split('/')[0], 10);
+                obj.label = monthNames[monthIndex - 1];
+                newData.push(obj);
+            }
+            setSchedules(newData);
 
-        if (props.isRender === true) {
-            refreshData();
+            setCurrentSchedule(currentSchedule || newData[0].value);
         }
-    }, [props.isRender, currentYear, currentSchedule])
+        
+        if (currentYear !== '') {
+            getScheduleByYear();
+        }
+    }, [currentYear, monthNames, currentSchedule])
 
     useEffect(() => {
-        if (currentWeek) {
-            props.setCurrentWeek(currentWeek);
+        const getWeekBySchedule = async () => {
+            let data = await dbGetWeekListBySched(currentSchedule);
+            let newData = [];
+            for(let i=0; i < data.length; i++) {
+                const weekDate = data[i].weekOf;
+                const day = weekDate.split("/")[1];
+                const month = weekDate.split("/")[0];
+                const year = weekDate.split("/")[2];
+                const newDate = new Date(year, +month - 1, day);
+                const dateFormatted = dateFormat(newDate, shortDateFormat)
+                let obj = {};
+                obj.value = data[i].value;
+                obj.label = dateFormatted;
+                newData.push(obj);
+            }
+            setWeeks(newData);
+
+            setCurrentWeek(currentWeek || newData[0].value);
         }
-        return (() => {
-            //clean
-        })
-    }, [props, currentWeek])
+
+        if (currentSchedule !== '') {
+            getWeekBySchedule();
+        }
+    }, [currentSchedule, shortDateFormat, setCurrentWeek, currentWeek])
 
     return ( 
         <div>
             <TextField
                 id="outlined-select-year"
                 select
-                label="Taona"
+                label={t("global.year")}
                 value={currentYear}
                 onChange={(e) => handleYearChange(e)}
                 size="small"
@@ -125,12 +142,12 @@ const WeekList = (props) => {
                 <TextField
                     id="outlined-select-schedule"
                     select
-                    label="Fandaharana"
+                    label={t("global.schedule")}
                     value={currentSchedule}
                     onChange={(e) => handleScheduleChange(e.target.value)}
                     size="small"
                     sx={{
-                        minWidth: '130px',
+                        minWidth: '140px',
                         marginRight: '5px',
                         marginBottom: '10px',
                     }}
@@ -142,7 +159,7 @@ const WeekList = (props) => {
                 <TextField
                     id="outlined-select-week"
                     select
-                    label="Herinandro"
+                    label={t("global.week")}
                     value={currentWeek}
                     onChange={(e) => handleWeekChange(e.target.value)}
                     size="small"

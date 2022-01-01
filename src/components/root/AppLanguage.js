@@ -20,6 +20,7 @@ const AppLanguage = (props) => {
     const [anchorEl, setAnchorEl] = useState(null);
 
     const [appLang, setAppLang] = useRecoilState(appLangState);
+    const [appLangLocal, setAppLangLocal] = useState(appLang);
 
     const blueColor = blue[400];
 
@@ -31,7 +32,7 @@ const AppLanguage = (props) => {
     let isMenuOpen = Boolean(anchorEl);
 
     const handleLangChange = async (e) => {
-        setAppLang(e.target.parentElement.dataset.code);
+        setAppLangLocal(e.target.parentElement.dataset.code);
         handleClose();
     };
     
@@ -45,19 +46,20 @@ const AppLanguage = (props) => {
 
     useEffect(() => {
         const updateLang = async () => {
-            i18n.changeLanguage(appLang);
+            i18n.changeLanguage(appLangLocal);
+            setAppLang(appLangLocal);
 
             const isExist = await isDbExist();
             
             if (isExist) {
                 await dbUpdateAppSettings({
-                    app_lang: appLang,
+                    app_lang: appLangLocal,
                 });
             }
         }
         
         updateLang();
-    }, [appLang, i18n])
+    }, [appLangLocal, i18n, setAppLang])
 
     return ( 
         <>

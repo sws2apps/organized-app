@@ -4,6 +4,7 @@ import { Route, HashRouter } from 'react-router-dom';
 import usePwa2 from 'use-pwa2/dist/index.js';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import AppNotification from './components/root/AppNotification';
+import CustomLocal from './components/root/CustomLocal';
 import Layout from './components/root/Layout';
 import ServiceWorkerWrapper from './components/root/ServiceWorkerWrapper';
 import Startup from './pages/Startup';
@@ -66,6 +67,7 @@ const App = () => {
             <ServiceWorkerWrapper
                 updatePwa={updatePwa}
             />
+            <CustomLocal />
             {appSnackOpen && (
                 <AppNotification />
             )}
