@@ -153,5 +153,9 @@
     "sourceMaterial.addWeekTitle": "Add new week",
     "sourceMaterial.invalidFilename": "The EPUB file selected could not be imported",
 
+    "importEPUB.invalid": "The EPUB file selected is not a Meeting Workbook file. Please verify it again.",
+    "importEPUB.inProgress": "EPUB import in progress. Please wait ...",
+    "importEPUB.completed": "Source material has been imported successfully",
+
     "about.description": "LMM-OA (Life and Ministry Meeting Overseer Assistant) is an application to coordinate and manage students assignment schedule for Midweek Meeting."
 }

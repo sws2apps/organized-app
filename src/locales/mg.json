@@ -153,5 +153,9 @@
     "sourceMaterial.addWeekTitle": "Hanampy herinandro vaovao",
     "sourceMaterial.invalidFilename": "Tsy afaka ampidirina io rakitra EPUB nosafidinao io",
 
+    "importEPUB.invalid": "Tsy rakitra EPUB misy ny Tari-dalana ho An’ny Fivoriana io nosafidianao io, fa hamarino indray mandeha.",
+    "importEPUB.inProgress": "Mampiditra ny rakitra EPUB. Miandrasa kely ...",
+    "importEPUB.completed": "Vita ny fampidirana ny loharanon-kevitra",
+
     "about.description": "Programa fandaminana anjaran’ny mpianatra amin’ny fivoriana andavanandro ny LMM-OA (Life and Ministry Meeting Overseer Assistant)."
 }
