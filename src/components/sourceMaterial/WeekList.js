@@ -110,7 +110,7 @@ const WeekList = () => {
 		if (currentYear !== '') {
 			getScheduleByYear();
 		}
-	}, [currentYear, monthNames, currentSchedule]);
+	}, [currentYear, monthNames]);
 
 	useEffect(() => {
 		const getWeekBySchedule = async () => {
@@ -136,7 +136,7 @@ const WeekList = () => {
 		if (currentSchedule !== '') {
 			getWeekBySchedule();
 		}
-	}, [currentSchedule, shortDateFormat, setCurrentWeek, currentWeek]);
+	}, [currentSchedule, shortDateFormat, setCurrentWeek]);
 
 	return (
 		<div>
