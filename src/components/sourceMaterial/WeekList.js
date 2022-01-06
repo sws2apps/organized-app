@@ -134,6 +134,7 @@ const WeekList = () => {
 		};
 
 		if (currentSchedule !== '') {
+			setCurrentWeek('');
 			getWeekBySchedule();
 		}
 	}, [currentSchedule, shortDateFormat, setCurrentWeek]);

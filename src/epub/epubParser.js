@@ -1,16 +1,16 @@
 import loadEPUB from 'jw-epub-parser';
+import { promiseGetRecoil } from 'recoil-outside';
 import { dbSaveSrcData } from '../indexedDb/dbSourceMaterial';
+import { monthNamesState } from '../appStates/appSettings';
+import { assTypeLocalState } from '../appStates/appSourceMaterial';
 
 const dateFormat = require('dateformat');
 
-export const addEpubDataToDb = async (
-	fileEPUB,
-	monthNames,
-	assTypeList,
-	appLang
-) => {
+export const addEpubDataToDb = async (fileEPUB) => {
 	try {
 		const data = await loadEPUB(fileEPUB);
+		const monthNames = await promiseGetRecoil(monthNamesState);
+		const assTypeList = await promiseGetRecoil(assTypeLocalState);
 
 		for (let i = 0; i < data.weeksData.length; i++) {
 			const src = data.weeksData[i];
@@ -187,10 +187,9 @@ export const addEpubDataToDb = async (
 			obj.noMeeting = false;
 			obj.isOverride = false;
 
-			await dbSaveSrcData(obj, appLang);
+			await dbSaveSrcData(obj);
 		}
-	} catch (err) {
-		console.log(err);
+	} catch {
 		return 'error';
 	}
 };

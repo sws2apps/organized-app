@@ -17,9 +17,8 @@ import {
 	dbIsWeekExist,
 	dbGetSourceMaterial,
 } from '../indexedDb/dbSourceMaterial';
-import { appLangState } from '../appStates/appSettings';
 import { classCountState } from '../appStates/appCongregation';
-import { assTypeLocalState } from '../appStates/appSourceMaterial';
+import { shortDateFormatState } from '../appStates/appSettings';
 
 const dateFormat = require('dateformat');
 
@@ -160,9 +159,8 @@ const Home = () => {
 	const [disablePrevious, setDisablePrevious] = useState(false);
 	const [disableNext, setDisableNext] = useState(false);
 
-	const appLang = useRecoilValue(appLangState);
 	const classCount = useRecoilValue(classCountState);
-	const assTypeList = useRecoilValue(assTypeLocalState);
+	const shortDateFormat = useRecoilValue(shortDateFormatState);
 
 	const handleActiveWeek = () => {
 		var today = new Date();
@@ -210,24 +208,17 @@ const Home = () => {
 			setDisableNext(!hasNext);
 
 			const weekValue = dateFormat(currentWeek, 'mm/dd/yyyy');
-			const weekValueFormatted = dateFormat(
-				currentWeek,
-				t('global.shortDateFormat')
-			);
+			const weekValueFormatted = dateFormat(weekValue, shortDateFormat);
 			setFCurrentWeek(weekValueFormatted);
 
 			const scheduleData = await dbGetScheduleData(weekValue);
-			const sourceData = await dbGetSourceMaterial(weekValue, appLang);
-			let indexType;
+			const sourceData = await dbGetSourceMaterial(weekValue);
 
 			setBibleReadingSrc(sourceData.bibleReading_src);
 			setStuBReadA(scheduleData.bRead_stu_A_dispName);
 			setStuBReadB(scheduleData.bRead_stu_B_dispName);
 			setAss1Type(sourceData.ass1_type);
-			indexType = assTypeList.findIndex(
-				(type) => type.value === sourceData.ass1_type
-			);
-			setAss1TypeName(indexType >= 0 ? assTypeList[indexType].label : '');
+			setAss1TypeName(sourceData.ass1_type_name);
 			setAss1Time(sourceData.ass1_time);
 			setAss1Src(sourceData.ass1_src);
 			setStu1A(scheduleData.ass1_stu_A_dispName);
@@ -235,10 +226,7 @@ const Home = () => {
 			setStu1B(scheduleData.ass1_stu_B_dispName);
 			setAss1B(scheduleData.ass1_ass_B_dispName);
 			setAss2Type(sourceData.ass2_type);
-			indexType = assTypeList.findIndex(
-				(type) => type.value === sourceData.ass2_type
-			);
-			setAss2TypeName(indexType >= 0 ? assTypeList[indexType].label : '');
+			setAss2TypeName(sourceData.ass2_type_name);
 			setAss2Time(sourceData.ass2_time);
 			setAss2Src(sourceData.ass2_src);
 			setStu2A(scheduleData.ass2_stu_A_dispName);
@@ -246,10 +234,7 @@ const Home = () => {
 			setStu2B(scheduleData.ass2_stu_B_dispName);
 			setAss2B(scheduleData.ass2_ass_B_dispName);
 			setAss3Type(sourceData.ass3_type);
-			indexType = assTypeList.findIndex(
-				(type) => type.value === sourceData.ass3_type
-			);
-			setAss3TypeName(indexType >= 0 ? assTypeList[indexType].label : '');
+			setAss3TypeName(sourceData.ass3_type_name);
 			setAss3Time(sourceData.ass3_time);
 			setAss3Src(sourceData.ass3_src);
 			setStu3A(scheduleData.ass3_stu_A_dispName);
@@ -257,10 +242,7 @@ const Home = () => {
 			setStu3B(scheduleData.ass3_stu_B_dispName);
 			setAss3B(scheduleData.ass3_ass_B_dispName);
 			setAss4Type(sourceData.ass4_type);
-			indexType = assTypeList.findIndex(
-				(type) => type.value === sourceData.ass4_type
-			);
-			setAss4TypeName(indexType >= 0 ? assTypeList[indexType].label : '');
+			setAss4TypeName(sourceData.ass4_type_name);
 			setAss4Time(sourceData.ass4_time);
 			setAss4Src(sourceData.ass4_src);
 			setStu4A(scheduleData.ass4_stu_A_dispName);
@@ -275,7 +257,7 @@ const Home = () => {
 		if (currentWeek !== '') {
 			loadCurrentWeekData();
 		}
-	}, [t, currentWeek, appLang, assTypeList]);
+	}, [shortDateFormat, currentWeek]);
 
 	useEffect(() => {
 		var today = new Date();

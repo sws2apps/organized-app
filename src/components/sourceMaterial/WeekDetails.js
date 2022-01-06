@@ -88,7 +88,7 @@ const WeekDetails = (props) => {
 	useEffect(() => {
 		let isSubscribed = true;
 		const loadWeekData = async () => {
-			const data = await dbGetSourceMaterial(props.currentWeek, appLang);
+			const data = await dbGetSourceMaterial(props.currentWeek);
 			if (isSubscribed) {
 				setWeekOf(data.weekOf);
 				setHasMeeting(!data.noMeeting);

@@ -59,7 +59,7 @@ const SourceMaterial = () => {
 	};
 
 	const handleSaveSource = async (data) => {
-		const isSaved = await dbSaveSrcData(data, appLang);
+		const isSaved = await dbSaveSrcData(data);
 		if (isSaved === true) {
 			setAppSnackOpen(true);
 			setAppSeverity('success');

@@ -76,6 +76,10 @@
     "global.ayfPart2": "Part 2",
     "global.ayfPart3": "Part 3",
     "global.ayfPart4": "Part 4",
+    "global.noMeeting": "There is no midweek meeting for this week",
+    "global.normalWeek": "Normal Week",
+    "global.circuitOverseerWeek": "Circuit Overseer Week",
+    "global.conventionWeek": "Convention Week",
 
     "startup.welcomeTitle": "Welcome to LMM-OA",
     "startup.welcomeDescription": "LMM-OA (or Life and Ministry Meeting Overseer Assistant) is an application designed for the Life and Ministry Meeting Overseer.",
@@ -156,6 +160,13 @@
     "importEPUB.invalid": "The EPUB file selected is not a Meeting Workbook file. Please verify it again.",
     "importEPUB.inProgress": "EPUB import in progress. Please wait ...",
     "importEPUB.completed": "Source material has been imported successfully",
+
+    "schedule.autofill": "Autofill",
+    "schedule.send": "Send",
+    "schedule.sendToMSC": "To MSC",
+    "schedule.sendToStudents": "To students",
+    "schedule.assignStudent": "Assign student",
+    "schedule.s89": "S-89 Assignment Form",
 
     "about.description": "LMM-OA (Life and Ministry Meeting Overseer Assistant) is an application to coordinate and manage students assignment schedule for Midweek Meeting."
 }

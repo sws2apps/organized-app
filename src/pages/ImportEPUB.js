@@ -44,12 +44,7 @@ const ImportEPUB = () => {
 	useEffect(() => {
 		const loadEPUB = async () => {
 			setIsLoading(false);
-			const result = await addEpubDataToDb(
-				fileEPUB,
-				monthNames,
-				assTypeList,
-				appLang
-			);
+			const result = await addEpubDataToDb(fileEPUB);
 			if (result === 'error') {
 				setIsValid(false);
 			} else {

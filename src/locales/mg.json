@@ -76,6 +76,10 @@
     "global.ayfPart2": "Anjara 2",
     "global.ayfPart3": "Anjara 3",
     "global.ayfPart4": "Anjara 4",
+    "global.noMidweekMeeting": "Tsy misy fivoriana andavanandro amin’io herinandro io",
+    "global.normalWeek": "Herinandro Mahazatra",
+    "global.circuitOverseerWeek": "Fitsidihan’ny Mpiandraikitra ny Faritra",
+    "global.conventionWeek": "Herinandron’ny Fivoriambe",
 
     "startup.welcomeTitle": "Tongasoa eto amin’ny LMM-OA",
     "startup.welcomeDescription": "Programa natao ho ampiasain’ny Mpiandraikitra ny Fivoriana Momba ny Fiainantsika sy ny Fanompoana ny LMM-OA (na Life and Ministry Meeting Overseer Assistant).",
@@ -156,6 +160,13 @@
     "importEPUB.invalid": "Tsy rakitra EPUB misy ny Tari-dalana ho An’ny Fivoriana io nosafidianao io, fa hamarino indray mandeha.",
     "importEPUB.inProgress": "Mampiditra ny rakitra EPUB. Miandrasa kely ...",
     "importEPUB.completed": "Vita ny fampidirana ny loharanon-kevitra",
+
+    "schedule.autofill": "Hameno ho azy",
+    "schedule.send": "Alefa",
+    "schedule.sendToMSC": "MSC",
+    "schedule.sendToStudents": "Mpianatra rehetra ",
+    "schedule.assignStudent": "Fanendrena mpianatra",
+    "schedule.s89": "Fanomezana Anjara S-89",
 
     "about.description": "Programa fandaminana anjaran’ny mpianatra amin’ny fivoriana andavanandro ny LMM-OA (Life and Ministry Meeting Overseer Assistant)."
 }

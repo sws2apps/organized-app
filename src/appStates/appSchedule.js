@@ -1,0 +1,46 @@
+import { atom } from 'recoil';
+
+export const isAutoFillSchedState = atom({
+	key: 'isAutoFillSched',
+	default: false,
+});
+
+export const isDeleteSchedState = atom({
+	key: 'isDeleteSched',
+	default: false,
+});
+
+export const isS89OpenState = atom({
+	key: 'isS89Open',
+	default: false,
+});
+
+export const dlgAutoFillOpenState = atom({
+	key: 'dlgAutoFillOpen',
+	default: false,
+});
+
+export const dlgAssDeleteOpenState = atom({
+	key: 'dlgAssDeleteOpen',
+	default: false,
+});
+
+export const isDlgActionOpenState = atom({
+	key: 'isDlgActionOpen',
+	default: false,
+});
+
+export const currentScheduleState = atom({
+	key: 'currentSchedule',
+	default: '',
+});
+
+export const currentWeekSchedState = atom({
+	key: 'currentWeekSched',
+	default: '',
+});
+
+export const weekListSchedState = atom({
+	key: 'weekListSched',
+	default: [],
+});

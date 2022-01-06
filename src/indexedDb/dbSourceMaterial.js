@@ -1,4 +1,7 @@
 import appDb from './mainDb';
+import { promiseGetRecoil } from 'recoil-outside';
+import { appLangState } from '../appStates/appSettings';
+import { assTypeLocalState } from '../appStates/appSourceMaterial';
 
 export const dbGetListWeekType = async () => {
 	var weekType = [];
@@ -37,26 +40,46 @@ export const dbGetWeekTypeName = async (weekType) => {
 	}
 };
 
-export const dbGetSourceMaterial = async (weekOf, appLang) => {
-	const lang = appLang.toUpperCase() || 'E';
+export const dbGetSourceMaterial = async (weekOf) => {
+	const appLang = (await promiseGetRecoil(appLangState)) || 'e';
+	const lang = appLang.toUpperCase();
+	const assTypeList = await promiseGetRecoil(assTypeLocalState);
+
 	const appData = await appDb.table('src').get({ weekOf: weekOf });
 
 	let obj = {};
+	let indexType;
 
 	obj.weekOf = appData.weekOf;
 	obj.bibleReading_src = appData.bibleReading_src
 		? appData.bibleReading_src[lang] || ''
 		: '';
 	obj.ass1_type = +appData.ass1_type || '';
+
+	indexType = assTypeList.findIndex((type) => type.value === obj.ass1_type);
+	obj.ass1_type_name = indexType >= 0 ? assTypeList[indexType].label : '';
+
 	obj.ass1_time = appData.ass1_time || '';
 	obj.ass1_src = appData.ass1_src ? appData.ass1_src[lang] || '' : '';
 	obj.ass2_type = +appData.ass2_type || '';
+
+	indexType = assTypeList.findIndex((type) => type.value === obj.ass2_type);
+	obj.ass2_type_name = indexType >= 0 ? assTypeList[indexType].label : '';
+
 	obj.ass2_time = appData.ass2_time || '';
 	obj.ass2_src = appData.ass2_src ? appData.ass2_src[lang] || '' : '';
 	obj.ass3_type = +appData.ass3_type || '';
+
+	indexType = assTypeList.findIndex((type) => type.value === obj.ass3_type);
+	obj.ass3_type_name = indexType >= 0 ? assTypeList[indexType].label : '';
+
 	obj.ass3_time = appData.ass3_time || '';
 	obj.ass3_src = appData.ass3_src ? appData.ass3_src[lang] || '' : '';
 	obj.ass4_type = +appData.ass4_type || '';
+
+	indexType = assTypeList.findIndex((type) => type.value === obj.ass4_type);
+	obj.ass4_type_name = indexType >= 0 ? assTypeList[indexType].label : '';
+
 	obj.ass4_time = appData.ass4_time || '';
 	obj.ass4_src = appData.ass4_src ? appData.ass4_src[lang] || '' : '';
 
@@ -80,8 +103,9 @@ export const dbGetSMUpdate = async (weekOf) => {
 	return obj;
 };
 
-export const dbSaveSrcData = async (srcData, appLang) => {
+export const dbSaveSrcData = async (srcData) => {
 	var isSuccess = false;
+	const appLang = (await promiseGetRecoil(appLangState)) || 'e';
 	const lang = appLang.toUpperCase();
 
 	const { bibleReading_src, ass1_src, ass2_src, ass3_src, ass4_src } =
