@@ -13,6 +13,7 @@ import {
 	dlgAssDeleteOpenState,
 	isDeleteSchedState,
 	isDlgActionOpenState,
+	schedActionTypeState,
 	weekListSchedState,
 	weeksToDeleteState,
 } from '../../appStates/appSchedule';
@@ -37,6 +38,7 @@ const DialogAssignmentDelete = () => {
 	const setIsDlgActionOpen = useSetRecoilState(isDlgActionOpenState);
 	const setIsDeleteSched = useSetRecoilState(isDeleteSchedState);
 	const setWeeksDelete = useSetRecoilState(weeksToDeleteState);
+	const setActionType = useSetRecoilState(schedActionTypeState);
 
 	const currentSchedule = useRecoilValue(currentScheduleState);
 	const monthNames = useRecoilValue(monthNamesState);
@@ -45,6 +47,7 @@ const DialogAssignmentDelete = () => {
 	const shortDateFormat = useRecoilValue(shortDateFormatState);
 
 	const handleDeleteAll = () => {
+		setActionType('DeleteAssignment');
 		setWeeksDelete(weekList);
 		setIsDeleteSched(true);
 		setIsDlgActionOpen(true);
@@ -54,6 +57,7 @@ const DialogAssignmentDelete = () => {
 	const handleDeleteWeek = () => {
 		var obj = [];
 		obj.push({ value: currentWeek });
+		setActionType('DeleteAssignment');
 		setWeeksDelete(obj);
 		setIsDeleteSched(true);
 		setIsDlgActionOpen(true);

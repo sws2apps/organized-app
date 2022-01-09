@@ -1,71 +1,91 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { useTranslation } from 'react-i18next';
 import CircularProgress from '@mui/material/CircularProgress';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import Typography from '@mui/material/Typography';
 import { dbAutoFill, dbDeleteWeekAssignment } from '../../indexedDb/dbSchedule';
+import {
+	currentScheduleState,
+	currentWeekSchedState,
+	isDlgActionOpenState,
+	schedActionTypeState,
+	weeksToDeleteState,
+} from '../../appStates/appSchedule';
 
 const ScheduleActions = (props) => {
-    const [isOpen, setIsOpen] = useState(false);
+	const { handleWeekChange } = props;
 
-    useEffect(() => {
-        setIsOpen(props.isDlgActionOpen);
-    }, [props.isDlgActionOpen])
+	const { t } = useTranslation();
 
-    useEffect(() => {
-        const currentSchedule = props.scheduleName;
-        const autoAssignSchedule = async () => {
-            if ((currentSchedule !== "") && typeof currentSchedule !== "undefined") {
-                await dbAutoFill(currentSchedule);
-            }
-            props.handleWeekChange(props.currentWeek);
-            props.setIsDlgActionOpen(false);
-        }
+	const [isDlgActionOpen, setIsDlgActionOpen] =
+		useRecoilState(isDlgActionOpenState);
 
-        const deleteAssignment = async () => {
-            const allWeeks = props.weeks;
-            if (allWeeks.length > 0) {
-                for (let i=0; i < allWeeks.length; i++) {
-                    await dbDeleteWeekAssignment(allWeeks[i].value);
-                }
-            }
-            props.handleWeekChange(props.currentWeek);
-            props.setIsDlgActionOpen(false);
-        }
+	const currentSchedule = useRecoilValue(currentScheduleState);
+	const actionType = useRecoilValue(schedActionTypeState);
+	const currentWeek = useRecoilValue(currentWeekSchedState);
+	const weeksDelete = useRecoilValue(weeksToDeleteState);
 
-        if (props.type === "AutoFill") {
-            autoAssignSchedule();
-        } else if (props.type === "DeleteAssignment") {
-            deleteAssignment();
-        }
+	useEffect(() => {
+		const autoAssignSchedule = async () => {
+			if (currentSchedule !== '' && typeof currentSchedule !== 'undefined') {
+				await dbAutoFill(currentSchedule);
+			}
+			handleWeekChange(currentWeek);
+			setIsDlgActionOpen(false);
+		};
 
-        return () => {
-            //clean-up
-        }
-    }, [props])
+		const deleteAssignment = async () => {
+			if (weeksDelete.length > 0) {
+				for (let i = 0; i < weeksDelete.length; i++) {
+					await dbDeleteWeekAssignment(weeksDelete[i].value);
+				}
+			}
+			handleWeekChange(currentWeek);
+			setIsDlgActionOpen(false);
+		};
 
-    return ( 
-        <Dialog
-            open={isOpen}
-            aria-labelledby="dialog-title"
-        >
-            <DialogTitle id="dialog-title">
-                <Typography>Miandrasa kely ...</Typography>
-            </DialogTitle>
-            <DialogContent>
-                <CircularProgress
-                    color="secondary"
-                    size={80}
-                    disableShrink={true}
-                    sx={{
-                        display: 'flex',
-                        margin: '10px auto',
-                    }}
-                />
-            </DialogContent>
-        </Dialog>
-     );
-}
- 
+		if (actionType === 'AutoFill') {
+			autoAssignSchedule();
+		} else if (actionType === 'DeleteAssignment') {
+			deleteAssignment();
+		}
+
+		return () => {
+			//clean-up
+		};
+	}, [
+		actionType,
+		currentSchedule,
+		currentWeek,
+		handleWeekChange,
+		setIsDlgActionOpen,
+		weeksDelete,
+	]);
+
+	return (
+		<Dialog
+			open={isDlgActionOpen}
+			aria-labelledby='dialog-title-schedule-actions'
+		>
+			<DialogTitle id='dialog-title-schedule-actions'>
+				<Typography>{t('global.pleaseWait')}</Typography>
+			</DialogTitle>
+			<DialogContent>
+				<CircularProgress
+					color='secondary'
+					size={80}
+					disableShrink={true}
+					sx={{
+						display: 'flex',
+						margin: '10px auto',
+					}}
+				/>
+			</DialogContent>
+		</Dialog>
+	);
+};
+
 export default ScheduleActions;

@@ -54,3 +54,8 @@ export const weeksToDeleteState = atom({
 	key: 'weeksToDelete',
 	default: [],
 });
+
+export const schedActionTypeState = atom({
+	key: 'schedActionType',
+	default: '',
+});

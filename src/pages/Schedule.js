@@ -212,7 +212,9 @@ const Schedule = () => {
 		<Box sx={{ marginRight: '5px' }}>
 			{dlgAutoFillOpen && <DialogAutoFill />}
 			{dlgAssDeleteOpen && <DialogAssignmentDelete />}
-			{isDlgActionOpen && <ScheduleActions />}
+			{isDlgActionOpen && (
+				<ScheduleActions handleWeekChange={handleWeekChange} />
+			)}
 			{schedules.length > 0 && (
 				<>
 					<Box

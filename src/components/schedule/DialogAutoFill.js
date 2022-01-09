@@ -12,6 +12,7 @@ import {
 	dlgAutoFillOpenState,
 	isAutoFillSchedState,
 	isDlgActionOpenState,
+	schedActionTypeState,
 } from '../../appStates/appSchedule';
 import { monthNamesState } from '../../appStates/appSettings';
 
@@ -25,11 +26,13 @@ const DialogAutoFill = () => {
 
 	const setIsAutoFill = useSetRecoilState(isAutoFillSchedState);
 	const setIsDlgActionOpen = useSetRecoilState(isDlgActionOpenState);
+	const setActionType = useSetRecoilState(schedActionTypeState);
 
 	const currentSchedule = useRecoilValue(currentScheduleState);
 	const monthNames = useRecoilValue(monthNamesState);
 
 	const handleAutoFill = () => {
+		setActionType('AutoFill');
 		setIsAutoFill(true);
 		setIsDlgActionOpen(true);
 		setDlgAutoFillOpen(false);
