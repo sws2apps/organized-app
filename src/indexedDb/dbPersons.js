@@ -1,6 +1,11 @@
 import { dbGetAppSettings } from './dbAppSettings';
 import { dbGetSourceMaterial } from './dbSourceMaterial';
+import { getI18n } from 'react-i18next';
 import appDb from './mainDb';
+
+const dateFormat = require('dateformat');
+
+const { t } = getI18n();
 
 export const dbGetStudents = async () => {
 	var appData = [];
@@ -27,49 +32,14 @@ export const dbGetStudents = async () => {
 		person.isTalk = appData[i].isTalk;
 		person.isUnavailable = appData[i].isUnavailable;
 		person.forLivePart = appData[i].forLivePart;
-		if (typeof appData[i].viewOnlineSchedule === 'undefined') {
-			person.viewOnlineSchedule = false;
-		} else {
-			person.viewOnlineSchedule = appData[i].viewOnlineSchedule;
-		}
-		if (typeof appData[i].student_PIN === 'undefined') {
-			person.student_PIN = '';
-		} else {
-			person.student_PIN = appData[i].student_PIN;
-		}
-		if (
-			typeof appData[i].viewStudent_Part === 'undefined' ||
-			appData[i].viewStudent_Part === ''
-		) {
-			person.viewStudent_Part = [];
-		} else {
-			person.viewStudent_Part = appData[i].viewStudent_Part;
-		}
-		if (typeof appData[i].lastBRead === 'undefined') {
-			person.lastBRead = '';
-		} else {
-			person.lastBRead = appData[i].lastBRead;
-		}
-		if (typeof appData[i].lastInitialCall === 'undefined') {
-			person.lastInitialCall = '';
-		} else {
-			person.lastInitialCall = appData[i].lastInitialCall;
-		}
-		if (typeof appData[i].lastReturnVisit === 'undefined') {
-			person.lastReturnVisit = '';
-		} else {
-			person.lastReturnVisit = appData[i].lastReturnVisit;
-		}
-		if (typeof appData[i].lastBibleStudy === 'undefined') {
-			person.lastBibleStudy = '';
-		} else {
-			person.lastBibleStudy = appData[i].lastBibleStudy;
-		}
-		if (typeof appData[i].lastTalk === 'undefined') {
-			person.lastTalk = '';
-		} else {
-			person.lastTalk = appData[i].lastTalk;
-		}
+		person.viewOnlineSchedule = appData[i].viewOnlineSchedule || false;
+		person.student_PIN = appData[i].student_PIN || '';
+		person.viewStudent_Part = appData[i].viewStudent_Part || [];
+		person.lastBRead = appData[i].lastBRead || '';
+		person.lastInitialCall = appData[i].lastInitialCall || '';
+		person.lastReturnVisit = appData[i].lastReturnVisit || '';
+		person.lastBibleStudy = appData[i].lastBibleStudy || '';
+		person.lastTalk = appData[i].lastTalk || '';
 
 		allStudents.push(person);
 	}
@@ -145,49 +115,14 @@ export const dbGetStudentDetails = async (id) => {
 	person.isTalk = appData.isTalk;
 	person.isUnavailable = appData.isUnavailable;
 	person.forLivePart = appData.forLivePart;
-	if (typeof appData.viewOnlineSchedule === 'undefined') {
-		person.viewOnlineSchedule = false;
-	} else {
-		person.viewOnlineSchedule = appData.viewOnlineSchedule;
-	}
-	if (typeof appData.student_PIN === 'undefined') {
-		person.student_PIN = '';
-	} else {
-		person.student_PIN = appData.student_PIN;
-	}
-	if (
-		typeof appData.viewStudent_Part === 'undefined' ||
-		appData.viewStudent_Part === ''
-	) {
-		person.viewStudent_Part = [];
-	} else {
-		person.viewStudent_Part = appData.viewStudent_Part;
-	}
-	if (typeof appData.lastBRead === 'undefined') {
-		person.lastBRead = '';
-	} else {
-		person.lastBRead = appData.lastBRead;
-	}
-	if (typeof appData.lastInitialCall === 'undefined') {
-		person.lastInitialCall = '';
-	} else {
-		person.lastInitialCall = appData.lastInitialCall;
-	}
-	if (typeof appData.lastReturnVisit === 'undefined') {
-		person.lastReturnVisit = '';
-	} else {
-		person.lastReturnVisit = appData.lastReturnVisit;
-	}
-	if (typeof appData.lastBibleStudy === 'undefined') {
-		person.lastBibleStudy = '';
-	} else {
-		person.lastBibleStudy = appData.lastBibleStudy;
-	}
-	if (typeof appData.lastTalk === 'undefined') {
-		person.lastTalk = '';
-	} else {
-		person.lastTalk = appData.lastTalk;
-	}
+	person.viewOnlineSchedule = appData.viewOnlineSchedule || false;
+	person.student_PIN = appData.student_PIN || '';
+	person.viewStudent_Part = appData.viewStudent_Part | [];
+	person.lastBRead = appData.lastBRead || '';
+	person.lastInitialCall = appData.lastInitialCall || '';
+	person.lastReturnVisit = appData.lastReturnVisit || '';
+	person.lastBibleStudy = appData.lastBibleStudy || '';
+	person.lastTalk = appData.lastTalk || '';
 
 	return person;
 };
@@ -243,8 +178,7 @@ export const dbGetPersonsByAssType = async (assType) => {
 			const [varMonth, varDay, varYear] =
 				dbPersons[i].lastAssignment.split('/');
 			var lDate = new Date(varYear, varMonth - 1, varDay);
-			var dateFormat = require('dateformat');
-			const dateFormatted = dateFormat(lDate, 'dd/mm/yyyy');
+			const dateFormatted = dateFormat(lDate, t('global.shortDateFormat'));
 			person.lastAssignmentFormat = dateFormatted;
 		}
 		person.person_displayName = dbPersons[i].person_displayName;
@@ -272,22 +206,17 @@ export const dbGetPersonsByAssType = async (assType) => {
 	return persons;
 };
 
-export const dbHistoryAssignment = async (
-	appLang,
-	shortDateFormat,
-	assTypeList
-) => {
+export const dbHistoryAssignment = async () => {
 	const appData = await appDb.table('sched_MM').reverse().sortBy('weekOf');
 	var dbHistory = [];
 	var histID = 0;
 	for (let i = 0; i < appData.length; i++) {
 		var person = {};
 
-		const weekData = await dbGetSourceMaterial(appData[i].weekOf, appLang);
-		var dateFormat = require('dateformat');
+		const weekData = await dbGetSourceMaterial(appData[i].weekOf);
 		const [varMonth, varDay, varYear] = appData[i].weekOf.split('/');
 		const lDate = new Date(varYear, varMonth - 1, varDay);
-		const dateFormatted = dateFormat(lDate, shortDateFormat);
+		const dateFormatted = dateFormat(lDate, t('global.shortDateFormat'));
 		const cnAss = [{ iAss: 1 }, { iAss: 2 }, { iAss: 3 }];
 		const varClasses = [{ classLabel: 'A' }, { classLabel: 'B' }];
 
@@ -302,7 +231,7 @@ export const dbHistoryAssignment = async (
 				const stuDetails = await dbGetStudentDetails(person.studentID);
 				person.studentName = stuDetails.person_displayName;
 				person.assignmentID = 0;
-				person.assignmentName = assTypeList[0].label;
+				person.assignmentName = t('global.bibleReading');
 				person.class = varClasses[a].classLabel;
 				dbHistory.push(person);
 				person = {};
@@ -327,13 +256,13 @@ export const dbHistoryAssignment = async (
 					person.studentName = stuDetails.person_displayName;
 					person.assignmentID = assType;
 					if (assType === 1) {
-						person.assignmentName = 'Fitoriana';
+						person.assignmentName = t('global.initialCall');
 					} else if (assType === 2) {
-						person.assignmentName = 'Fiverenana Mitsidika';
+						person.assignmentName = t('global.returnVisit');
 					} else if (assType === 3) {
-						person.assignmentName = 'Fampianarana Baiboly';
+						person.assignmentName = t('global.bibleStudy');
 					} else if (assType === 4) {
-						person.assignmentName = 'Lahateny';
+						person.assignmentName = t('global.talk');
 					}
 					person.class = varClasses[a].classLabel;
 					dbHistory.push(person);
@@ -393,7 +322,6 @@ export const dbHistoryAssistant = async (mainStuID) => {
 		var person = {};
 
 		const weekData = await dbGetSourceMaterial(appData[i].weekOf);
-		var dateFormat = require('dateformat');
 		const [varMonth, varDay, varYear] = appData[i].weekOf.split('/');
 		const lDate = new Date(varYear, varMonth - 1, varDay);
 		const dateFormatted = dateFormat(lDate, 'dd/mm/yyyy');

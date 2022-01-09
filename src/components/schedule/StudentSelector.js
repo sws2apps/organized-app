@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from '@mui/material/IconButton';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -12,12 +13,12 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
+import { green, grey } from '@mui/material/colors';
 import {
 	dbGetPersonsByAssType,
 	dbHistoryAssignment,
 	dbHistoryAssistant,
 } from '../../indexedDb/dbPersons';
-import { appLangState } from '../../appStates/appSettings';
 
 const sharedStyles = {
 	tblContainer: {
@@ -31,6 +32,9 @@ const sharedStyles = {
 		marginTop: '20px',
 		fontWeight: 'bold',
 		textAlign: 'center',
+		backgroundColor: grey[200],
+		borderRadius: '3px',
+		padding: '3px',
 	},
 	tableLoader: {
 		display: 'flex',
@@ -59,8 +63,6 @@ const StudentSelector = (props) => {
 	const [isLoadingAssistantHistory, setIsLoadingAssistantHistory] =
 		useState(true);
 	const [isLoadingAssHistory, setIsLoadingAssHistory] = useState(true);
-
-	const appLang = useRecoilValue(appLangState);
 
 	const handleSelectStudent = (selectedStudent) => {
 		setSelectedStudent(selectedStudent.innerText);
@@ -133,7 +135,7 @@ const StudentSelector = (props) => {
 			setPickStudents(students);
 			setIsLoadingStudent(false);
 
-			const history = await dbHistoryAssignment(appLang);
+			const history = await dbHistoryAssignment();
 			var filteredHistory = [];
 			if (
 				assID === 3 ||
@@ -163,7 +165,7 @@ const StudentSelector = (props) => {
 		return () => {
 			isSubscribed = false;
 		};
-	}, [isLoadingStudent, assID, assType, appLang]);
+	}, [isLoadingStudent, assID, assType]);
 
 	useEffect(() => {
 		let isSubscribed = true;
@@ -207,48 +209,54 @@ const StudentSelector = (props) => {
 	}, [stuForAssistant]);
 
 	return (
-		<>
-			<Typography
-				variant='body1'
+		<Box>
+			<Box
 				sx={{
-					fontWeight: 'bold',
-					color: 'orangered',
+					display: 'flex',
+					justifyContent: 'space-between',
 				}}
 			>
-				{assTypeName}
-			</Typography>
-			<Typography variant='body2'>{currentStudent}</Typography>
-			{(assID === 3 ||
-				assID === 5 ||
-				assID === 7 ||
-				assID === 9 ||
-				assID === 11 ||
-				assID === 13 ||
-				assID === 15 ||
-				assID === 17) && (
-				<>
+				<Box>
 					<Typography
-						variant='body2'
+						variant='body1'
 						sx={{
-							marginTop: '5px',
 							fontWeight: 'bold',
+							color: 'orangered',
 						}}
 					>
-						{assTypeNameForAssistant}
+						{assTypeName}
 					</Typography>
-					<Typography variant='body2'>Mitarika: {stuForAssistant}</Typography>
-				</>
-			)}
-			{currentStudent !== '' && (
-				<Button
-					variant='contained'
-					color='error'
-					startIcon={<DeleteIcon />}
-					onClick={() => handleDelete()}
-				>
-					Hamafa
-				</Button>
-			)}
+					<Typography variant='body2'>{currentStudent}</Typography>
+					{(assID === 3 ||
+						assID === 5 ||
+						assID === 7 ||
+						assID === 9 ||
+						assID === 11 ||
+						assID === 13 ||
+						assID === 15 ||
+						assID === 17) && (
+						<>
+							<Typography
+								variant='body2'
+								sx={{
+									marginTop: '5px',
+									fontWeight: 'bold',
+								}}
+							>
+								{assTypeNameForAssistant}
+							</Typography>
+							<Typography variant='body2'>
+								{t('students.student')}: {stuForAssistant}
+							</Typography>
+						</>
+					)}
+				</Box>
+				{currentStudent !== '' && (
+					<IconButton color='error' edge='start' onClick={handleDelete}>
+						<DeleteIcon />
+					</IconButton>
+				)}
+			</Box>
 			<Typography variant='body2' sx={sharedStyles.tableHeader}>
 				{t('schedule.availableStudents')}
 			</Typography>
@@ -390,9 +398,9 @@ const StudentSelector = (props) => {
 							{currentStudent !== selectedStudent && (
 								<Button
 									variant='contained'
-									color='primary'
 									startIcon={<AccountCircleIcon />}
 									onClick={() => handleAssignStudent()}
+									sx={{ backgroundColor: green[600] }}
 								>
 									{t('schedule.assign')}
 								</Button>
@@ -413,7 +421,9 @@ const StudentSelector = (props) => {
 					{stuForAssistant !== '' && (
 						<>
 							<Typography variant='body2' sx={sharedStyles.tableHeader}>
-								{stuForAssistant} (Mpanampy efa niaraka taminy)
+								{t('schedule.assistantHistory', {
+									currentStudent: stuForAssistant,
+								})}
 							</Typography>
 							{isLoadingAssistantHistory && (
 								<CircularProgress
@@ -429,7 +439,7 @@ const StudentSelector = (props) => {
 										<TableHead>
 											<TableRow>
 												<TableCell style={{ width: '60px' }} align='center'>
-													Daty
+													{t('global.date')}
 												</TableCell>
 												<TableCell
 													style={{ width: '250px' }}
@@ -437,7 +447,7 @@ const StudentSelector = (props) => {
 														'& .MuiTableCell-sizeSmall': sharedStyles.tblData,
 													}}
 												>
-													Mpianatra
+													{t('global.student')}
 												</TableCell>
 											</TableRow>
 										</TableHead>
@@ -534,7 +544,7 @@ const StudentSelector = (props) => {
 					</Table>
 				</TableContainer>
 			)}
-		</>
+		</Box>
 	);
 };
 

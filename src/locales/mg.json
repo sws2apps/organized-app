@@ -148,6 +148,7 @@
     "students.deleteConfirmation": "Tianao hofafana ao amin’ny rakitra fitehirizana ve io mpianatra io?",
     "students.existAlready": "Efa misy ao anaty rakitra fitehirizana io mpianatra io",
     "students.deleteSucess": "Voafafa soa aman-tsara ny mpianatra",
+    "students.student": "Mitarika",
 
     "sourceMaterial.weekAdded": "Tafiditra ny herinandro vaovao",
     "sourceMaterial.weekSaved": "Vita ny fitehirizana ny loharanon-kevitra",
@@ -183,6 +184,7 @@
     "schedule.deleteAssignmentDesc": "Tianao hofafana ve ny fanendrena rehetra amin’ny fandaharana {{ currentSchedule }}, sa ny fanendrena amin’ny herinandron’ny {{ currentWeek}} ihany?",
     "schedule.deleteAllLabel": "Herinandro rehetra",
     "schedule.deleteWeekOnlyLabel": "{{ currentWeek }} ihany",
+    "schedule.assistantHistory": "{{ currentStudent }} (Mpanampy efa niaraka taminy)",
 
     "about.description": "Programa fandaminana anjaran’ny mpianatra amin’ny fivoriana andavanandro ny LMM-OA (Life and Ministry Meeting Overseer Assistant)."
 }

@@ -148,6 +148,7 @@
     "students.deleteConfirmation": "Are you sure to delete this student from the record?",
     "students.existAlready": "This student already exists in your record",
     "students.deleteSucess": "Student delete successfully",
+    "students.student": "Student",
 
     "sourceMaterial.weekAdded": "New week has been added",
     "sourceMaterial.weekSaved": "Source material for this week has been saved",
@@ -183,6 +184,7 @@
     "schedule.deleteAssignmentDesc": "Are you sure to delete all the assignments for the {{ currentSchedule }} schedule, or the assignments for the week of {{ currentWeek}} only?",
     "schedule.deleteAllLabel": "All weeks",
     "schedule.deleteWeekOnlyLabel": "{{ currentWeek }} only",
+    "schedule.assistantHistory": "{{ currentStudent }} (Assistant History)",
 
     "about.description": "LMM-OA (Life and Ministry Meeting Overseer Assistant) is an application to coordinate and manage students assignment schedule for Midweek Meeting."
 }

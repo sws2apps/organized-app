@@ -24,6 +24,7 @@ import {
 	isS89OpenState,
 	currentScheduleState,
 	currentWeekSchedState,
+	isReloadScheduleState,
 } from '../../appStates/appSchedule';
 import { classCountState } from '../../appStates/appCongregation';
 import { dbGetSourceMaterial } from '../../indexedDb/dbSourceMaterial';
@@ -188,6 +189,7 @@ const ScheduleDetails = (props) => {
 	const [isDlgOpen, setIsDlgOpen] = useState(false);
 
 	const [isS89, setIsS89] = useRecoilState(isS89OpenState);
+	const [isReload, setIsReload] = useRecoilState(isReloadScheduleState);
 
 	const classCount = useRecoilValue(classCountState);
 	const week = useRecoilValue(currentWeekSchedState);
@@ -363,10 +365,11 @@ const ScheduleDetails = (props) => {
 			setNoMeeting(scheduleData.noMeeting);
 		};
 
-		if (week !== '') {
+		if (week !== '' || isReload) {
 			loadCurrentWeekData();
+			setIsReload(false);
 		}
-	}, [t, week]);
+	}, [t, week, isReload, setIsReload]);
 
 	if (noMeeting) {
 		return (

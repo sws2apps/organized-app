@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import CircularProgress from '@mui/material/CircularProgress';
 import Dialog from '@mui/material/Dialog';
@@ -11,6 +11,7 @@ import {
 	currentScheduleState,
 	currentWeekSchedState,
 	isDlgActionOpenState,
+	isReloadScheduleState,
 	schedActionTypeState,
 	weeksToDeleteState,
 } from '../../appStates/appSchedule';
@@ -23,6 +24,7 @@ const ScheduleActions = (props) => {
 	const [isDlgActionOpen, setIsDlgActionOpen] =
 		useRecoilState(isDlgActionOpenState);
 
+	const setIsReloadSchedule = useSetRecoilState(isReloadScheduleState);
 	const currentSchedule = useRecoilValue(currentScheduleState);
 	const actionType = useRecoilValue(schedActionTypeState);
 	const currentWeek = useRecoilValue(currentWeekSchedState);
@@ -33,8 +35,8 @@ const ScheduleActions = (props) => {
 			if (currentSchedule !== '' && typeof currentSchedule !== 'undefined') {
 				await dbAutoFill(currentSchedule);
 			}
-			handleWeekChange(currentWeek);
 			setIsDlgActionOpen(false);
+			setIsReloadSchedule(true);
 		};
 
 		const deleteAssignment = async () => {
@@ -43,8 +45,9 @@ const ScheduleActions = (props) => {
 					await dbDeleteWeekAssignment(weeksDelete[i].value);
 				}
 			}
-			handleWeekChange(currentWeek);
+
 			setIsDlgActionOpen(false);
+			setIsReloadSchedule(true);
 		};
 
 		if (actionType === 'AutoFill') {
@@ -62,6 +65,7 @@ const ScheduleActions = (props) => {
 		currentWeek,
 		handleWeekChange,
 		setIsDlgActionOpen,
+		setIsReloadSchedule,
 		weeksDelete,
 	]);
 

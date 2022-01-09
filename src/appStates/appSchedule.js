@@ -59,3 +59,8 @@ export const schedActionTypeState = atom({
 	key: 'schedActionType',
 	default: '',
 });
+
+export const isReloadScheduleState = atom({
+	key: 'isReloadSchedule',
+	default: false,
+});
