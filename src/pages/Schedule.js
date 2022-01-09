@@ -32,6 +32,7 @@ import {
 	dlgAssDeleteOpenState,
 	isDlgActionOpenState,
 	isS89OpenState,
+	weekListSchedState,
 } from '../appStates/appSchedule';
 
 const dateFormat = require('dateformat');
@@ -48,7 +49,6 @@ const Schedule = () => {
 
 	const [currentYear, setCurrentYear] = useState('');
 	const [schedules, setSchedules] = useState([]);
-	const [weeks, setWeeks] = useState([]);
 	const [anchorEl, setAnchorEl] = useState(null);
 
 	const [currentWeek, setCurrentWeek] = useRecoilState(currentWeekSchedState);
@@ -59,6 +59,7 @@ const Schedule = () => {
 	);
 	const [currentSchedule, setCurrentSchedule] =
 		useRecoilState(currentScheduleState);
+	const [weeks, setWeeks] = useRecoilState(weekListSchedState);
 
 	const setIsS89 = useSetRecoilState(isS89OpenState);
 
@@ -181,7 +182,7 @@ const Schedule = () => {
 		if (currentSchedule !== '') {
 			getWeekBySchedule();
 		}
-	}, [currentSchedule, shortDateFormat, setCurrentWeek]);
+	}, [currentSchedule, shortDateFormat, setCurrentWeek, setWeeks]);
 
 	const renderYearList = (year) => {
 		return (

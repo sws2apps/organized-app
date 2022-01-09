@@ -49,3 +49,8 @@ export const weekListSchedState = atom({
 	key: 'weekListSched',
 	default: [],
 });
+
+export const weeksToDeleteState = atom({
+	key: 'weeksToDelete',
+	default: [],
+});

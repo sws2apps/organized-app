@@ -178,6 +178,10 @@
     "schedule.assign": "Assign",
     "schedule.autoFillTitle": "Schedule autofill",
     "schedule.autoFillDesc": "Are you sure to autofill the {{ currentSchedule }} schedule?",
+    "schedule.deleteAssignmentTitle": "Delete assignment",
+    "schedule.deleteAssignmentDesc": "Are you sure to delete all the assignments for the {{ currentSchedule }} schedule, or the assignments for the week of {{ currentWeek}} only?",
+    "schedule.deleteAllLabel": "All weeks",
+    "schedule.deleteWeekOnlyLabel": "{{ currentWeek }} only",
 
     "about.description": "LMM-OA (Life and Ministry Meeting Overseer Assistant) is an application to coordinate and manage students assignment schedule for Midweek Meeting."
 }

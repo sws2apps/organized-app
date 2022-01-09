@@ -178,6 +178,10 @@
     "schedule.assign": "Hanendry",
     "schedule.autoFillTitle": "Hameno ho azy fandaharana",
     "schedule.autoFillDesc": "Tianao hofenoina ho azy ve ny fandaharana {{ currentSchedule }}?",
+    "schedule.deleteAssignmentTitle": "Hamafa fanendrena",
+    "schedule.deleteAssignmentDesc": "Tianao hofafana ve ny fanendrena rehetra amin’ny fandaharana {{ currentSchedule }}, sa ny fanendrena amin’ny herinandron’ny {{ currentWeek}} ihany?",
+    "schedule.deleteAllLabel": "Herinandro rehetra",
+    "schedule.deleteWeekOnlyLabel": "{{ currentWeek }} ihany",
 
     "about.description": "Programa fandaminana anjaran’ny mpianatra amin’ny fivoriana andavanandro ny LMM-OA (Life and Ministry Meeting Overseer Assistant)."
 }
