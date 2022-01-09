@@ -1,5 +1,6 @@
 {
     "global.home": "Home",
+    "global.student": "Student",
     "global.students": "Students",
     "global.schedule": "Schedule",
     "global.sourceMaterial": "Source Material",
@@ -26,6 +27,7 @@
     "global.thursday": "Thursday",
     "global.friday": "Friday",
     "global.saturday": "Saturday",
+    "global.class": "Class",
     "global.oneClass": "1 class",
     "global.twoClass": "2 classes",
     "global.bibleReading": "Bible Reading",
@@ -80,6 +82,9 @@
     "global.normalWeek": "Normal Week",
     "global.circuitOverseerWeek": "Circuit Overseer Week",
     "global.conventionWeek": "Convention Week",
+    "global.date": "Date",
+    "global.assignment": "Assignment",
+    "global.assistant": "Assistant",
 
     "startup.welcomeTitle": "Welcome to LMM-OA",
     "startup.welcomeDescription": "LMM-OA (or Life and Ministry Meeting Overseer Assistant) is an application designed for the Life and Ministry Meeting Overseer.",
@@ -167,6 +172,12 @@
     "schedule.sendToStudents": "To students",
     "schedule.assignStudent": "Assign student",
     "schedule.s89": "S-89 Assignment Form",
+    "schedule.availableStudents": "Available for assignment",
+    "schedule.studentHistory": "{{ currentStudent }} (History)",
+    "schedule.assignmentHistory": "Assignment History",
+    "schedule.assign": "Assign",
+    "schedule.autoFillTitle": "Schedule autofill",
+    "schedule.autoFillDesc": "Are you sure to autofill the {{ currentSchedule }} schedule?",
 
     "about.description": "LMM-OA (Life and Ministry Meeting Overseer Assistant) is an application to coordinate and manage students assignment schedule for Midweek Meeting."
 }

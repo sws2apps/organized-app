@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
+import { useTranslation } from 'react-i18next';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -38,6 +39,8 @@ const sharedStyles = {
 };
 
 const StudentSelector = (props) => {
+	const { t } = useTranslation();
+
 	const assInfo = props.assInfo;
 	const [assID, setAssID] = useState('');
 	const [assType, setAssType] = useState('');
@@ -247,7 +250,7 @@ const StudentSelector = (props) => {
 				</Button>
 			)}
 			<Typography variant='body2' sx={sharedStyles.tableHeader}>
-				Afaka manao ny anjara
+				{t('schedule.availableStudents')}
 			</Typography>
 			{isLoadingStudent && (
 				<CircularProgress
@@ -263,14 +266,14 @@ const StudentSelector = (props) => {
 						<TableHead>
 							<TableRow>
 								<TableCell style={{ width: '200px' }} sx={sharedStyles.tblData}>
-									Mpianatra
+									{t('global.student')}
 								</TableCell>
 								<TableCell
 									align='center'
 									style={{ width: '150px' }}
 									sx={sharedStyles.tblData}
 								>
-									Anjara Farany
+									{t('global.lastAssignment')}
 								</TableCell>
 							</TableRow>
 						</TableHead>
@@ -282,6 +285,7 @@ const StudentSelector = (props) => {
 										onClick={(e) => handleSelectStudent(e.target)}
 										sx={{
 											'& .MuiTableCell-sizeSmall': sharedStyles.tblData,
+											cursor: 'pointer',
 										}}
 									>
 										{student.person_displayName}
@@ -303,7 +307,7 @@ const StudentSelector = (props) => {
 			{selectedStudent !== '' && (
 				<>
 					<Typography variant='body2' sx={sharedStyles.tableHeader}>
-						{selectedStudent} (Anjara efa nataony)
+						{t('schedule.studentHistory', { currentStudent: selectedStudent })}
 					</Typography>
 					{isLoadingStuHistory && (
 						<CircularProgress
@@ -326,7 +330,7 @@ const StudentSelector = (props) => {
 													'& .MuiTableCell-sizeSmall': sharedStyles.tblData,
 												}}
 											>
-												Daty
+												{t('global.date')}
 											</TableCell>
 											<TableCell
 												style={{ width: '250px' }}
@@ -334,7 +338,7 @@ const StudentSelector = (props) => {
 													'& .MuiTableCell-sizeSmall': sharedStyles.tblData,
 												}}
 											>
-												Anjara
+												{t('global.assignment')}
 											</TableCell>
 											<TableCell
 												style={{ width: '20px' }}
@@ -343,7 +347,7 @@ const StudentSelector = (props) => {
 													'& .MuiTableCell-sizeSmall': sharedStyles.tblData,
 												}}
 											>
-												Kilasy
+												{t('global.class')}
 											</TableCell>
 										</TableRow>
 									</TableHead>
@@ -390,7 +394,7 @@ const StudentSelector = (props) => {
 									startIcon={<AccountCircleIcon />}
 									onClick={() => handleAssignStudent()}
 								>
-									Hanendry
+									{t('schedule.assign')}
 								</Button>
 							)}
 						</>
@@ -471,7 +475,7 @@ const StudentSelector = (props) => {
 				</>
 			)}
 			<Typography variant='body2' sx={sharedStyles.tableHeader}>
-				Mpianatra efa nanao io anjara io
+				{t('schedule.assignmentHistory')}
 			</Typography>
 			{isLoadingAssHistory && (
 				<CircularProgress
@@ -487,20 +491,20 @@ const StudentSelector = (props) => {
 						<TableHead>
 							<TableRow>
 								<TableCell style={{ width: '60px' }} align='center'>
-									Daty
+									{t('global.date')}
 								</TableCell>
 								<TableCell
 									style={{ width: '250px' }}
 									sx={{ '& .MuiTableCell-sizeSmall': sharedStyles.tblData }}
 								>
-									Mpianatra
+									{t('global.student')}
 								</TableCell>
 								<TableCell
 									style={{ width: '20px' }}
 									align='center'
 									sx={{ '& .MuiTableCell-sizeSmall': sharedStyles.tblData }}
 								>
-									Kilasy
+									{t('global.class')}
 								</TableCell>
 							</TableRow>
 						</TableHead>

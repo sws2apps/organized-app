@@ -26,6 +26,7 @@ import {
 } from '../appStates/appSettings';
 import { yearsListState } from '../appStates/appSourceMaterial';
 import {
+	currentScheduleState,
 	currentWeekSchedState,
 	dlgAutoFillOpenState,
 	dlgAssDeleteOpenState,
@@ -41,13 +42,12 @@ const sharedStyles = {
 	},
 };
 
-const Schedule = (props) => {
+const Schedule = () => {
 	let history = useHistory();
 	const { t } = useTranslation();
 
 	const [currentYear, setCurrentYear] = useState('');
 	const [schedules, setSchedules] = useState([]);
-	const [currentSchedule, setCurrentSchedule] = useState('');
 	const [weeks, setWeeks] = useState([]);
 	const [anchorEl, setAnchorEl] = useState(null);
 
@@ -57,6 +57,8 @@ const Schedule = (props) => {
 	const [dlgAssDeleteOpen, setDlgAssDeleteOpen] = useRecoilState(
 		dlgAssDeleteOpenState
 	);
+	const [currentSchedule, setCurrentSchedule] =
+		useRecoilState(currentScheduleState);
 
 	const setIsS89 = useSetRecoilState(isS89OpenState);
 
@@ -153,7 +155,7 @@ const Schedule = (props) => {
 		if (currentYear !== '') {
 			getScheduleByYear();
 		}
-	}, [currentYear, monthNames]);
+	}, [currentYear, monthNames, setCurrentSchedule]);
 
 	useEffect(() => {
 		const getWeekBySchedule = async () => {

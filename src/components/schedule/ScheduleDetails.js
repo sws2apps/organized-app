@@ -366,7 +366,7 @@ const ScheduleDetails = (props) => {
 		if (week !== '') {
 			loadCurrentWeekData();
 		}
-	}, [week]);
+	}, [t, week]);
 
 	if (noMeeting) {
 		return (

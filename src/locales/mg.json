@@ -1,5 +1,6 @@
 {
     "global.home": "Fandraisana",
+    "global.student": "Mpianatra",
     "global.students": "Mpianatra",
     "global.schedule": "Fandaharana",
     "global.sourceMaterial": "Loharanon-kevitra",
@@ -26,6 +27,7 @@
     "global.thursday": "Alakamisy",
     "global.friday": "Zoma",
     "global.saturday": "Asabotsy",
+    "global.class": "Kilasy",
     "global.oneClass": "Kilasy 1",
     "global.twoClass": "Kilasy 2",
     "global.bibleReading": "Famakiana Baiboly",
@@ -80,6 +82,9 @@
     "global.normalWeek": "Herinandro Mahazatra",
     "global.circuitOverseerWeek": "Fitsidihan’ny Mpiandraikitra ny Faritra",
     "global.conventionWeek": "Herinandron’ny Fivoriambe",
+    "global.date": "Daty",
+    "global.assignment": "Anjara",
+    "global.assistant": "Mpanampy",
 
     "startup.welcomeTitle": "Tongasoa eto amin’ny LMM-OA",
     "startup.welcomeDescription": "Programa natao ho ampiasain’ny Mpiandraikitra ny Fivoriana Momba ny Fiainantsika sy ny Fanompoana ny LMM-OA (na Life and Ministry Meeting Overseer Assistant).",
@@ -167,6 +172,12 @@
     "schedule.sendToStudents": "Mpianatra rehetra ",
     "schedule.assignStudent": "Fanendrena mpianatra",
     "schedule.s89": "Fanomezana Anjara S-89",
+    "schedule.availableStudents": "Afaka manao ny anjara",
+    "schedule.studentHistory": "{{ currentStudent }} (Anjara efa nataony)",
+    "schedule.assignmentHistory": "Mpianatra efa nanao io anjara io",
+    "schedule.assign": "Hanendry",
+    "schedule.autoFillTitle": "Hameno ho azy fandaharana",
+    "schedule.autoFillDesc": "Tianao hofenoina ho azy ve ny fandaharana {{ currentSchedule }}?",
 
     "about.description": "Programa fandaminana anjaran’ny mpianatra amin’ny fivoriana andavanandro ny LMM-OA (Life and Ministry Meeting Overseer Assistant)."
 }

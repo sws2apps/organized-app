@@ -35,6 +35,11 @@ export const currentScheduleState = atom({
 	default: '',
 });
 
+export const currentScheduleNameState = atom({
+	key: 'currentScheduleName',
+	default: '',
+});
+
 export const currentWeekSchedState = atom({
 	key: 'currentWeekSched',
 	default: '',
