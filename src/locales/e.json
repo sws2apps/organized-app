@@ -86,6 +86,12 @@
     "global.assignment": "Assignment",
     "global.assistant": "Assistant",
     "global.pleaseWait": "Please wait ...",
+    "global.download": "Download",
+    "global.mainHall": "Main Hall",
+    "global.auxClass1": "Auxiliary Classroom 1",
+    "global.auxClass2": "Auxiliary Classroom 2",
+    "global.allWeeks": "All weeks",
+    "global.preview": "Preview",
 
     "startup.welcomeTitle": "Welcome to LMM-OA",
     "startup.welcomeDescription": "LMM-OA (or Life and Ministry Meeting Overseer Assistant) is an application designed for the Life and Ministry Meeting Overseer.",
@@ -185,6 +191,12 @@
     "schedule.deleteAllLabel": "All weeks",
     "schedule.deleteWeekOnlyLabel": "{{ currentWeek }} only",
     "schedule.assistantHistory": "{{ currentStudent }} (Assistant History)",
+    "schedule.s89NoData": "There is no assignment to be printed for this schedule",
+    "schedule.assignmentPart": "Part {{ id }} ({{ time }}.)",
+
+    "s89.title": "OUR CHRISTIAN LIFE AND MINISTRY<br />MEETING ASSIGNMENT",
+    "s89.toBeGiven": "To be given in:",
+    "s89.descFooter": "<strong>Note to student:</strong> The source material and study point for your assignment can be found in the  <em>Life and Ministry Meeting Workbook</em>. Please work on the listed study point, which is discussed in the <em>Teaching</em> brochure.",
 
     "about.description": "LMM-OA (Life and Ministry Meeting Overseer Assistant) is an application to coordinate and manage students assignment schedule for Midweek Meeting."
 }

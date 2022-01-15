@@ -64,3 +64,8 @@ export const isReloadScheduleState = atom({
 	key: 'isReloadSchedule',
 	default: false,
 });
+
+export const s89DataState = atom({
+	key: 's89Data',
+	default: [],
+});

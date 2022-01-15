@@ -86,6 +86,12 @@
     "global.assignment": "Anjara",
     "global.assistant": "Mpanampy",
     "global.pleaseWait": "Miandrasa kely ...",
+    "global.download": "Haka",
+    "global.mainHall": "Efitrano lehibe",
+    "global.auxClass1": "Efitrano faharoa",
+    "global.auxClass2": "Efitrano fahatelo",
+    "global.allWeeks": "Herinandro rehetra",
+    "global.preview": "Hijery mialoha",
 
     "startup.welcomeTitle": "Tongasoa eto amin’ny LMM-OA",
     "startup.welcomeDescription": "Programa natao ho ampiasain’ny Mpiandraikitra ny Fivoriana Momba ny Fiainantsika sy ny Fanompoana ny LMM-OA (na Life and Ministry Meeting Overseer Assistant).",
@@ -185,6 +191,12 @@
     "schedule.deleteAllLabel": "Herinandro rehetra",
     "schedule.deleteWeekOnlyLabel": "{{ currentWeek }} ihany",
     "schedule.assistantHistory": "{{ currentStudent }} (Mpanampy efa niaraka taminy)",
+    "schedule.s89NoData": "Tsy misy anjara azo atao pirinty ao amin’io fandaharana io",
+    "schedule.assignmentPart": "Anjara {{ id }} ({{ time }}.)",
+
+    "s89.title": "ANJARA AMIN’NY FIVORIANA MOMBA<br />NY FIAINANTSIKA SY NY FANOMPOANA",
+    "s89.toBeGiven": "Hatao ao amin’ny:",
+    "s89.descFooter": "<strong>Ho an’ny mpianatra:</strong> Hita ao amin’ny <em>Tari-dalana ho An’ny Fiainantsika sy ny Fanompoana</em> ny loharanon-kevitra sy ny lesona ho an’ny anjaranao. Omano mifanaraka amin’ireo lesona ao amin’ny bokikely <em>Miezaha</em> izany.",
 
     "about.description": "Programa fandaminana anjaran’ny mpianatra amin’ny fivoriana andavanandro ny LMM-OA (Life and Ministry Meeting Overseer Assistant)."
 }

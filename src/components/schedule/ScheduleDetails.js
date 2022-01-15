@@ -428,7 +428,7 @@ const ScheduleDetails = (props) => {
 			)}
 			{isS89 && (
 				<Dialog
-					open={mdDown ? isDlgOpen : false}
+					open={mdDown ? isS89 : false}
 					onClose={handleDlgClose}
 					aria-labelledby='dialog-title'
 				>
@@ -446,11 +446,7 @@ const ScheduleDetails = (props) => {
 						</Box>
 					</DialogTitle>
 					<DialogContent>
-						<S89
-							isS89={isS89}
-							currentSchedule={currentSchedule}
-							setIsS89={(value) => setIsS89(value)}
-						/>
+						<S89 />
 					</DialogContent>
 				</Dialog>
 			)}

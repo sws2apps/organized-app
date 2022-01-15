@@ -19,6 +19,7 @@ const Settings = lazy(() => import('./pages/Settings'));
 const SourceMaterial = lazy(() => import('./pages/SourceMaterial'));
 const Students = lazy(() => import('./pages/Students'));
 const ScheduleTemplate = lazy(() => import('./template/ScheduleTemplate'));
+const S89Template = lazy(() => import('./template/S89Template'));
 const Administration = lazy(() => import('./pages/Administration'));
 
 const theme = createTheme({
@@ -88,6 +89,9 @@ const App = () => {
 							</Route>
 							<Route path='/ScheduleTemplate'>
 								<ScheduleTemplate />
+							</Route>
+							<Route path='/S89Template'>
+								<S89Template />
 							</Route>
 							<Route path='/SourceMaterial'>
 								<SourceMaterial />

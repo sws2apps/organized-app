@@ -128,6 +128,7 @@ const Schedule = () => {
 			}
 		};
 
+		setIsS89(false);
 		if (mounted && years.length > 0) {
 			getSchedules();
 		}
@@ -135,7 +136,7 @@ const Schedule = () => {
 		return () => {
 			mounted = false;
 		};
-	}, [years, currentYear]);
+	}, [years, currentYear, setIsS89]);
 
 	useEffect(() => {
 		const getScheduleByYear = async () => {
