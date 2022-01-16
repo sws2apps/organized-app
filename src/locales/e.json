@@ -31,10 +31,12 @@
     "global.oneClass": "1 class",
     "global.twoClass": "2 classes",
     "global.bibleReading": "Bible Reading",
+    "global.bibleReadingTime": "(4 min. or less)",
     "global.initialCall": "Initial Call",
     "global.returnVisit": "Return Visit",
     "global.bibleStudy": "Bible Study",
     "global.talk": "Talk",
+    "global.partLessTime": "{{ duration }} min. or less",
     "global.initialCallVideo": "Initial Call Video",
     "global.returnVisitVideo": "Return Visit Video",
     "global.otherPart": "Other",
@@ -88,6 +90,7 @@
     "global.pleaseWait": "Please wait ...",
     "global.download": "Download",
     "global.mainHall": "Main Hall",
+    "global.auxClass": "Auxiliary Classroom",
     "global.auxClass1": "Auxiliary Classroom 1",
     "global.auxClass2": "Auxiliary Classroom 2",
     "global.allWeeks": "All weeks",
@@ -197,6 +200,9 @@
     "s89.title": "OUR CHRISTIAN LIFE AND MINISTRY<br />MEETING ASSIGNMENT",
     "s89.toBeGiven": "To be given in:",
     "s89.descFooter": "<strong>Note to student:</strong> The source material and study point for your assignment can be found in the  <em>Life and Ministry Meeting Workbook</em>. Please work on the listed study point, which is discussed in the <em>Teaching</em> brochure.",
+
+    "scheduleTemplate.studentsAssignment": "Students Assigments",
+    "scheduleTemplate.studentAssistant": "Student/Assistant:",
 
     "about.description": "LMM-OA (Life and Ministry Meeting Overseer Assistant) is an application to coordinate and manage students assignment schedule for Midweek Meeting."
 }

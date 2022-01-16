@@ -31,10 +31,12 @@
     "global.oneClass": "Kilasy 1",
     "global.twoClass": "Kilasy 2",
     "global.bibleReading": "Famakiana Baiboly",
+    "global.bibleReadingTime": "(4 min. na latsaka)",
     "global.initialCall": "Fitoriana",
     "global.returnVisit": "Fiverenana Mitsidika",
     "global.bibleStudy": "Fampianarana Baiboly",
     "global.talk": "Lahateny",
+    "global.partLessTime": "{{ duration }} min. na latsaka",
     "global.initialCallVideo": "Video Fitoriana",
     "global.returnVisitVideo": "Video Fiverenana Mitsidika",
     "global.otherPart": "Hafa",
@@ -88,6 +90,7 @@
     "global.pleaseWait": "Miandrasa kely ...",
     "global.download": "Haka",
     "global.mainHall": "Efitrano lehibe",
+    "global.auxClass": "Efitrano faharoa",
     "global.auxClass1": "Efitrano faharoa",
     "global.auxClass2": "Efitrano fahatelo",
     "global.allWeeks": "Herinandro rehetra",
@@ -197,6 +200,9 @@
     "s89.title": "ANJARA AMIN’NY FIVORIANA MOMBA<br />NY FIAINANTSIKA SY NY FANOMPOANA",
     "s89.toBeGiven": "Hatao ao amin’ny:",
     "s89.descFooter": "<strong>Ho an’ny mpianatra:</strong> Hita ao amin’ny <em>Tari-dalana ho An’ny Fiainantsika sy ny Fanompoana</em> ny loharanon-kevitra sy ny lesona ho an’ny anjaranao. Omano mifanaraka amin’ireo lesona ao amin’ny bokikely <em>Miezaha</em> izany.",
+
+    "scheduleTemplate.studentsAssignment": "Anjaran’ny Mpianatra",
+    "scheduleTemplate.studentAssistant": "Mpianatra/Mpanampy:",
 
     "about.description": "Programa fandaminana anjaran’ny mpianatra amin’ny fivoriana andavanandro ny LMM-OA (Life and Ministry Meeting Overseer Assistant)."
 }

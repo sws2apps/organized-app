@@ -1,30 +1,40 @@
 import { useEffect, useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import Typography from '@mui/material/Typography';
 import { dbGetScheduleForPrint } from '../indexedDb/dbAssignment';
-import { dbGetAppSettings } from '../indexedDb/dbAppSettings';
+import {
+	classCountState,
+	congNameState,
+	congNumberState,
+} from '../appStates/appCongregation';
+import { currentScheduleState } from '../appStates/appSchedule';
+import { monthNamesState } from '../appStates/appSettings';
 
-const ScheduleTemplate = (props) => {
+const ScheduleTemplate = () => {
+	let history = useHistory();
+	const { t } = useTranslation();
+
 	const [data, setData] = useState([]);
-	const [classCount, setClassCount] = useState(1);
-	const [congName, setCongName] = useState('');
-	const [congNumber, setCongNumber] = useState('');
+	const [month, setMonth] = useState('');
 
-	let currentSchedule;
-	if (props.location.state !== undefined) {
-		currentSchedule = props.location.state.currentSchedule;
-	}
+	const currentSchedule = useRecoilValue(currentScheduleState);
+	const classCount = useRecoilValue(classCountState);
+	const congName = useRecoilValue(congNameState);
+	const congNumber = useRecoilValue(congNumberState);
+	const monthNames = useRecoilValue(monthNamesState);
 
 	const savePDF = () => {
 		var html2pdf = require('html2pdf.js');
 		const element = document.getElementById('schedule_template');
 		var opt = {
 			margin: [0.2, 0.5, 0.2, 0.5],
-			filename: 'Anjara_Mpianatra.pdf',
-			image: { type: 'jpeg', quality: 0.5 },
+			filename: `${currentSchedule.replace('/', '-')}.pdf`,
+			image: { type: 'jpeg', quality: 0.98 },
 			html2canvas: { scale: 2 },
 			jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
 		};
@@ -33,29 +43,24 @@ const ScheduleTemplate = (props) => {
 
 	useEffect(() => {
 		const getData = async () => {
+			const month = currentSchedule.split('/')[0];
+
+			const monthName = monthNames[+month - 1];
+			setMonth(monthName);
+
 			const data = await dbGetScheduleForPrint(currentSchedule);
+			console.log(data);
 			setData(data);
 		};
-		getData();
-	}, [currentSchedule]);
 
-	const loadSettings = async () => {
-		const appSettings = await dbGetAppSettings();
-		setClassCount(appSettings.class_count);
-		setCongName(appSettings.cong_name);
-		setCongNumber(appSettings.cong_number);
-	};
-	loadSettings();
-
-	if (props.location.state === undefined) {
-		return (
-			<Redirect
-				to={{
-					pathname: '/Schedule',
-				}}
-			/>
-		);
-	}
+		if (currentSchedule === '') {
+			history.push({
+				pathname: '/Schedule',
+			});
+		} else {
+			getData();
+		}
+	}, [history, currentSchedule, monthNames]);
 
 	return (
 		<>
@@ -105,41 +110,12 @@ const ScheduleTemplate = (props) => {
 										color: 'black',
 									}}
 								>
-									Anjaran’ny mpianatra
+									{t('scheduleTemplate.studentsAssignment')}
 								</Typography>
 							</Box>
 							{data.map((weekItem) => {
-								const month = weekItem.week.split('/')[0];
-								var monthName = '';
-
-								if (month === '01') {
-									monthName = 'Janoary';
-								} else if (month === '02') {
-									monthName = 'Febroary';
-								} else if (month === '03') {
-									monthName = 'Martsa';
-								} else if (month === '04') {
-									monthName = 'Aprily';
-								} else if (month === '05') {
-									monthName = 'Mey';
-								} else if (month === '06') {
-									monthName = 'Jona';
-								} else if (month === '07') {
-									monthName = 'Jolay';
-								} else if (month === '08') {
-									monthName = 'Aogositra';
-								} else if (month === '09') {
-									monthName = 'Septambra';
-								} else if (month === '10') {
-									monthName = 'Oktobra';
-								} else if (month === '11') {
-									monthName = 'Novambra';
-								} else if (month === '12') {
-									monthName = 'Desambra';
-								}
-
 								const dateV =
-									weekItem.week.split('/')[1] + ' ' + monthName.toUpperCase();
+									weekItem.week.split('/')[1] + ' ' + month.toUpperCase();
 
 								return (
 									<Box key={weekItem.week} sx={{ marginBottom: '15px' }}>
@@ -163,7 +139,7 @@ const ScheduleTemplate = (props) => {
 													lineHeight: '20px',
 												}}
 											>
-												Tsy misy fivoriana
+												{t('sourceMaterial.noMeeting')}
 											</Typography>
 										)}
 										{weekItem.scheduleData.week_type !== 1 && (
@@ -195,7 +171,7 @@ const ScheduleTemplate = (props) => {
 																lineHeight: '20px',
 															}}
 														>
-															HARENA AVY AO AMIN’NY TENIN’ANDRIAMANITRA
+															{t('global.treasuresPart')}
 														</Typography>
 														<Typography
 															sx={{
@@ -207,7 +183,7 @@ const ScheduleTemplate = (props) => {
 																lineHeight: '20px',
 															}}
 														>
-															{classCount === 1 ? '' : 'Efitrano faharoa'}
+															{classCount === 1 ? '' : t('global.auxClass')}
 														</Typography>
 														<Typography
 															sx={{
@@ -219,7 +195,7 @@ const ScheduleTemplate = (props) => {
 																lineHeight: '20px',
 															}}
 														>
-															Efitrano Lehibe
+															{t('global.mainHall')}
 														</Typography>
 													</Box>
 													<Box
@@ -249,9 +225,9 @@ const ScheduleTemplate = (props) => {
 																				lineHeight: 1.2,
 																			}}
 																		>
-																			Famakiana Baiboly
+																			{t('global.bibleReading')}
 																			<span className='student-part-duration'>
-																				(4 min. na latsaka)
+																				{t('global.bibleReadingTime')}
 																			</span>
 																		</Typography>
 																	</li>
@@ -266,13 +242,13 @@ const ScheduleTemplate = (props) => {
 																	lineHeight: '20px',
 																}}
 															>
-																Mpianatra:
+																{t('global.student')}:
 															</Typography>
 														</Box>
 														<Typography
 															sx={{
 																color: 'black',
-																fontSize: '13px',
+																fontSize: '12px',
 																padding: '0 0 0 8px',
 																width: '180px',
 																lineHeight: '20px',
@@ -285,7 +261,7 @@ const ScheduleTemplate = (props) => {
 														<Typography
 															sx={{
 																color: 'black',
-																fontSize: '13px',
+																fontSize: '12px',
 																padding: '0 0 0 8px',
 																width: '180px',
 																lineHeight: '20px',
@@ -306,7 +282,7 @@ const ScheduleTemplate = (props) => {
 																lineHeight: '20px',
 															}}
 														>
-															FAMPIOFANANA AMIN’NY FANOMPOANA
+															{t('global.applyFieldMinistryPart')}
 														</Typography>
 														<Typography
 															sx={{
@@ -318,7 +294,7 @@ const ScheduleTemplate = (props) => {
 																lineHeight: '20px',
 															}}
 														>
-															{classCount === 1 ? '' : 'Efitrano faharoa'}
+															{classCount === 1 ? '' : t('global.auxClass')}
 														</Typography>
 														<Typography
 															sx={{
@@ -330,7 +306,7 @@ const ScheduleTemplate = (props) => {
 																lineHeight: '20px',
 															}}
 														>
-															Efitrano Lehibe
+															{t('global.mainHall')}
 														</Typography>
 													</Box>
 													{[1, 2, 3, 4].map((index) => {
@@ -344,7 +320,7 @@ const ScheduleTemplate = (props) => {
 														const fldAssB = 'ass' + index + '_ass_B_dispName';
 
 														return (
-															<>
+															<Box key={index}>
 																{weekItem.sourceData[fldType] !== '' && (
 																	<Box
 																		key={index}
@@ -376,9 +352,7 @@ const ScheduleTemplate = (props) => {
 																						>
 																							{weekItem.sourceData[fldType] ===
 																							7
-																								? weekItem.sourceData[
-																										fldSrc
-																								  ].split(': (')[0]
+																								? weekItem.sourceData[fldSrc]
 																								: weekItem.sourceData[
 																										fldTypeName
 																								  ]}
@@ -388,7 +362,10 @@ const ScheduleTemplate = (props) => {
 																								] === 5 ||
 																									weekItem.sourceData[
 																										fldType
-																									] === 6) && (
+																									] === 6 ||
+																									weekItem.sourceData[
+																										fldType
+																									] === 7) && (
 																									<>
 																										(
 																										{
@@ -413,27 +390,13 @@ const ScheduleTemplate = (props) => {
 																									] === 4) && (
 																									<>
 																										(
-																										{
-																											weekItem.sourceData[
-																												fldTime
-																											]
-																										}{' '}
-																										min. na latsaka)
-																									</>
-																								)}
-																								{weekItem.sourceData[
-																									fldType
-																								] === 7 && (
-																									<>
-																										(
-																										{
-																											weekItem.sourceData[
-																												fldSrc
-																											]
-																												.split(': (')[1]
-																												.split(' ')[0]
-																										}{' '}
-																										min.)
+																										{t('global.partLessTime', {
+																											duration:
+																												weekItem.sourceData[
+																													fldTime
+																												],
+																										})}
+																										)
 																									</>
 																								)}
 																							</span>
@@ -453,7 +416,9 @@ const ScheduleTemplate = (props) => {
 																						lineHeight: '20px',
 																					}}
 																				>
-																					Mpianatra/Mpanampy:
+																					{t(
+																						'scheduleTemplate.studentAssistant'
+																					)}
 																				</Typography>
 																			)}
 																			{weekItem.sourceData[fldType] === 4 && (
@@ -466,7 +431,7 @@ const ScheduleTemplate = (props) => {
 																						lineHeight: '20px',
 																					}}
 																				>
-																					Mpianatra:
+																					{t('global.student')}:
 																				</Typography>
 																			)}
 																		</Box>
@@ -528,7 +493,7 @@ const ScheduleTemplate = (props) => {
 																		</Typography>
 																	</Box>
 																)}
-															</>
+															</Box>
 														);
 													})}
 												</>
