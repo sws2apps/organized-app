@@ -204,5 +204,27 @@
     "scheduleTemplate.studentsAssignment": "Students Assigments",
     "scheduleTemplate.studentAssistant": "Student/Assistant:",
 
+    "help.headDesc": "LMM-OA is an application to assist the Life and Ministry Meeting Overseer, to schedule the students assignment for the midweek meeting. Please find below some of the frequently asked questions about this application.",
+    "help.aboutApps": "ABOUT THIS APPLICATION",
+    "help.student": "STUDENTS",
+    "help.scheduling": "SCHEDULING",
+    "help.sourceMaterial": "SOURCE MATERIAL",
+    "help.qDeviceSupported": "What browsers support LMM-OA web application?",
+    "help.aDeviceSupported": "You may open and use LMM-OA with a modern and up to date browsers, such as:",
+    "help.qAlwaysBrowser": "Do I always need to use a browser to open LMM-OA?",
+    "help.aAlwaysBrowser1": "You may install LMM-OA to your device, so that you are no longer required to open the browser to use the application.",
+    "help.aAlwaysBrowser2": "The install button is on the top right of the screen",
+    "help.aAlwaysBrowser3": "Then follow the on-screen prompt to complete your installation",
+    "help.aAlwaysBrowser4": "If you do not find that icon in your browser, search on the internet on how to install a PWA apps into your specific device",
+    "help.qAlwaysInternet": "Do I always need to be connected to use LMM-OA?",
+    "help.aAlwaysInternet": "You do not need to have an internet connection to use LMM-OA. Internet is required only during its first load. LMM-OA downloads all the needed files to run the application when you are offline. A notification will appear on the screen when this first load is completed.",
+    "help.qStudentViewSchedule": "How students can view their assignments parts that are published online?",
+    "help.qCovidSchedule": "How to schedule the student parts during this COVID-19 pandemic?",
+    "help.aCovidSchedule1": "During this COVID-19 pandemic, it could be that there are some students which are temporarily available for assignments in live meeting using Zoom or KHConf or another applications.",
+    "help.aCovidSchedule2": "In the Settings page, there is an option called <strong>Students for live meeting only</strong>. If this setting is enabled, only students that meet this requirement only will be available for assignment. In the Student Details form, there is an option called <strong>Available for live meeting</strong>. If this option is enabled, only then the student will be available for assignment.",
+    "help.qAddSourceMaterial": "How to add source materials?",
+    "help.aAddSourceMaterial": "Click the <strong>Add new week</strong>, to add new week into the source material. But you may add weeks too using an EPUB file downloaded from JW.ORG. Click the <strong>Import EPUB</strong>, and browse to the location where you have downloaded the EPUB file.",
+
+
     "about.description": "LMM-OA (Life and Ministry Meeting Overseer Assistant) is an application to coordinate and manage students assignment schedule for Midweek Meeting."
 }

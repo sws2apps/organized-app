@@ -204,5 +204,27 @@
     "scheduleTemplate.studentsAssignment": "Anjaran’ny Mpianatra",
     "scheduleTemplate.studentAssistant": "Mpianatra/Mpanampy:",
 
+    "help.headDesc": "Programa natao hanampiana ny Mpiandraikitra ny Fivoriana Momba ny Fiainantsika sy ny Fanompoana ny LMM-OA, mba handaminana ny anjaran’ny mpianatra amin’ny fivoriana andavanandro. Hitanao eto ambany ny valin’ny fanontaniana samihafa rehefa mampiasa ity programa ity.",
+    "help.aboutApps": "MOMBAMOMBA ILAY PROGRAMA",
+    "help.student": "MPIANATRA",
+    "help.scheduling": "FANDAMINANA ANJARA",
+    "help.sourceMaterial": "LOHARANON-KEVITRA",
+    "help.qDeviceSupported": "Inona avy ny fitaovana fijerena internet azo ampiasana ny LMM-OA?",
+    "help.aDeviceSupported": "Afaka manokatra ny LMM-OA ny ankamaroan’ireo programa fijerena internet nivoaka farany, ohatra hoe:",
+    "help.qAlwaysBrowser": "Tsy maintsy manokatra programa fijerena internet ve vao afaka mampiasa ny LMM-OA?",
+    "help.aAlwaysBrowser1": "Azonao atao ampidirina ao amin’ny fitaovana ampiasainao ny LMM-OA, ka tsy voatery manokatra ny programa fijerenao internet ianao avy eo rehefa hampiasa azy ity.",
+    "help.aAlwaysBrowser2": "Eo amin’ny farany ambony indrindra, amin’ny sisiny ankavanana no misy ny fampidirana ny LMM-OA",
+    "help.aAlwaysBrowser3": "Araho avy eo ny toromarika miseho manaraka mandra-pahavitan’ny fampidirana ny programa LMM-OA ao amin’ny fitaovana ampiasainao.",
+    "help.aAlwaysBrowser4": "Raha tsy miseho io sary io amin’ny fitaovana ampiasainao, dia azonao karohina ao amin’ny internet ny fanaovana install ny programa PWA amin’ny fitaovana sy programa fijerena internet ampiasainao",
+    "help.qAlwaysInternet": "Tsy maintsy misy fahana internet ve vao afaka mampiasa ny LMM-OA?",
+    "help.aAlwaysInternet": "Tsy mila fahana internet ianao rehefa mampiasa ny LMM-OA. Rehefa manokatra azy voalohany ihany ianao no mila manana fahana. Maka ny rakitra rehetra ilaina mba hampandeha ny LMM-OA rehefa tsy misy internet ny fitaovana ampiasainao aloha. Hisy filazana hiseho eo amin’ny efijery rehefa vita izany.",
+    "help.qStudentViewSchedule": "Ahoana no hahafahan’ny mpianatra mijery fandaharana avy amin’ny internet?",
+    "help.aStudentViewSchedule1": "Ahoana no hahafahan’ny mpianatra mijery fandaharana avy amin’ny internet?",
+    "help.qCovidSchedule": "Ahoana no fomba handaminana anjara mandritra izao COVID-19 izao?",
+    "help.aCovidSchedule1": "Mandritra ny valan’aretina COVID-19, dia mety misy mpianatra sasany tsy afaka manatrika ny fivoriana alamina amin’ny Zoom, na KHConf, na programa fanaovana fivoriana miaraka hafa.",
+    "help.aCovidSchedule2": "Misy safidy hoe <strong>Mpianatra afaka mandray anjara mivantana ihany</strong> ao amin’ny Fanamboarana. Raha asiana marika io, dia ireo mpianatra afaka manao anjara amin’ny fivoriana miaraka ihany no miseho rehefa hanao fanendrena ianao. Ao amin’ny mombamomba ny mpianatra dia misy safidy hoe <strong>Afaka manao anjara mivantana</strong>. Raha asiana marika io ho an’ny mpianatra iray, dia amin’izay ihany izy vao afaka tendrena hanao anjara.",
+    "help.qAddSourceMaterial": "Ahoana ny fomba fampidirina ireo loharanon-kevitra?",
+    "help.aAddSourceMaterial": "Afaka mampiditra herinandro vaovao ianao, eo amin’ilay hoe <strong>Herinandro vaovao</strong>. Azo ampidirina amin’ny alalan’ny EPUB nalaina mialoha avy tao amin’ny JW.ORG koa anefa izy io. Tsindrio ilay hoe <strong>Haka EPUB</strong>, ary safidio ilay rakitra EPUB ao amin’ny fitaovana ampiasainao.",
+
     "about.description": "Programa fandaminana anjaran’ny mpianatra amin’ny fivoriana andavanandro ny LMM-OA (Life and Ministry Meeting Overseer Assistant)."
 }
