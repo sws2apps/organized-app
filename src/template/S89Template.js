@@ -34,7 +34,7 @@ const S89Template = () => {
 		const html2pdf = require('html2pdf.js');
 		const element = document.getElementById('S89-wrapper');
 		var opt = {
-			filename: 'S89.pdf',
+			filename: 'S-89.pdf',
 			image: { type: 'jpeg', quality: 0.98 },
 			html2canvas: { scale: 2 },
 			jsPDF: { unit: 'in', format: [3.35, 4.45], orientation: 'portrait' },
