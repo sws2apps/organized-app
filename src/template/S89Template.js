@@ -34,7 +34,7 @@ const S89Template = () => {
 		const html2pdf = require('html2pdf.js');
 		const element = document.getElementById('S89-wrapper');
 		var opt = {
-			filename: 'Anjara_Mpianatra.pdf',
+			filename: 'S89.pdf',
 			image: { type: 'jpeg', quality: 0.98 },
 			html2canvas: { scale: 2 },
 			jsPDF: { unit: 'in', format: [3.35, 4.45], orientation: 'portrait' },
@@ -43,7 +43,6 @@ const S89Template = () => {
 	};
 
 	useEffect(() => {
-		console.log(s89Data);
 		if (s89Data.length === 0) {
 			history.push({
 				pathname: '/Schedule',
@@ -313,6 +312,7 @@ const S89Template = () => {
 														sx={{
 															...sharedStyles.tblData,
 															lineHeight: 1,
+															width: '125px',
 														}}
 													>
 														<Typography
