@@ -254,6 +254,7 @@
     "settings.backupRestoreInvalidPassword": "The password to open the backup data is incorrect",
     "settings.backupRestoreError": "An error occurred while processing your backup data",
     "settings.backupInvalidFile": "The file selected is not a valid backup for LMM-OA. Please choose the correct file",
+    "settings.restoreComplete": "The backup data for LMM-OA has been successfully restored",
 
     "about.description": "LMM-OA (Life and Ministry Meeting Overseer Assistant) is an application to coordinate and manage students assignment schedule for Midweek Meeting."
 }

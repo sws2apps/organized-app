@@ -255,6 +255,7 @@
     "settings.backupRestoreInvalidPassword": "Diso ny tenimiafina nampidirinao mba hanokafana ny rakitra fiandry",
     "settings.backupRestoreError": "Nisy olana teo am-panokafana ny rakitra fiandry nosafidianao",
     "settings.backupInvalidFile": "Tsy rakitra fiandry ho an’ny LMM-OA io nosafidianao io, fa hamarino indray mandeha.",
+    "settings.restoreComplete": "Vita ny famerenana ny rakitra fiandry ho an’ny LMM-OA",
 
     "about.description": "Programa fandaminana anjaran’ny mpianatra amin’ny fivoriana andavanandro ny LMM-OA (Life and Ministry Meeting Overseer Assistant)."
 }

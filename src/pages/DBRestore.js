@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
+import { useTranslation } from 'react-i18next';
 import CircularProgress from '@mui/material/CircularProgress';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import Container from '@mui/material/Container';
@@ -23,6 +24,7 @@ const sharedStyles = {
 };
 
 const DBRestore = () => {
+	const { t } = useTranslation();
 	const [isValid, setIsValid] = useState(false);
 	const [isComplete, setIsComplete] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
@@ -78,8 +80,7 @@ const DBRestore = () => {
 				<Container sx={sharedStyles.jsonLoad}>
 					<ErrorIcon color='error' sx={{ fontSize: '150px' }} />
 					<Typography variant='body1' align='center'>
-						Tsy rakitra misy ny fitehirizana momba ny LMM-OA io nosafidianao io,
-						fa hamarino indray mandeha.
+						{t('settings.backupInvalidFile')}
 					</Typography>
 				</Container>
 			)}
@@ -93,7 +94,7 @@ const DBRestore = () => {
 								align='center'
 								sx={sharedStyles.textCircular}
 							>
-								Miandrasa kely ...
+								{t('global.pleaseWait')}
 							</Typography>
 						</>
 					)}
@@ -105,7 +106,7 @@ const DBRestore = () => {
 								align='center'
 								sx={sharedStyles.textCircular}
 							>
-								Vita ny famerenana ny rakitra fiandry ho an’ny LMM-OA.
+								{t('settings.restoreComplete')}
 							</Typography>
 						</>
 					)}
