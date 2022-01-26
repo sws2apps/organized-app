@@ -57,29 +57,32 @@ export const dbRestoreDb = async (fileJSON) => {
 	await importDB(fileJSON);
 };
 
-export const dbExportDb = async () => {
-	const blob = await exportDB(appDb);
-	const convertBase64 = () => {
-		return new Promise((resolve, reject) => {
-			let reader = new FileReader();
-			reader.readAsDataURL(blob);
-			reader.onloadend = () => resolve(reader.result);
-			reader.onerror = (error) => reject(error);
-		});
-	};
+export const dbExportDb = async (passcode) => {
+	try {
+		const blob = await exportDB(appDb);
+		const convertBase64 = () => {
+			return new Promise((resolve, reject) => {
+				let reader = new FileReader();
+				reader.readAsDataURL(blob);
+				reader.onloadend = () => resolve(reader.result);
+				reader.onerror = (error) => reject(error);
+			});
+		};
 
-	const data = await convertBase64();
-	const myKey = '';
-	const Cryptr = require('cryptr');
-	const cryptr = new Cryptr(myKey);
-	const encryptedData = cryptr.encrypt(data);
+		const data = await convertBase64();
+		const Cryptr = require('cryptr');
+		const cryptr = new Cryptr(passcode);
+		const encryptedData = cryptr.encrypt(data);
 
-	const newBlob = new Blob([encryptedData], { type: 'text/csv' });
+		const newBlob = new Blob([encryptedData], { type: 'text/csv' });
 
-	download(newBlob, 'lmm-oa.backup.db', 'text/plain');
+		download(newBlob, 'lmm-oa.backup.db', 'text/plain');
+	} catch {
+		return;
+	}
 };
 
-export const dbExportJsonDb = async () => {
+export const dbExportJsonDb = async (passcode) => {
 	const blob = await exportDB(appDb);
 	const convertBase64 = () => {
 		return new Promise((resolve, reject) => {
@@ -91,9 +94,8 @@ export const dbExportJsonDb = async () => {
 	};
 
 	const data = await convertBase64();
-	const myKey = '';
 	const Cryptr = require('cryptr');
-	const cryptr = new Cryptr(myKey);
+	const cryptr = new Cryptr(passcode);
 	const encryptedData = cryptr.encrypt(data);
 	return encryptedData;
 };

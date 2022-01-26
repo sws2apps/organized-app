@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { useTranslation } from 'react-i18next';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -6,49 +7,49 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { deleteDb } from '../../indexedDb/dbUtility';
-import { useEffect } from 'react';
+import { isDeleteDbOpenState } from '../../appStates/appSettings';
 
-const DialogDbDeletion = (props) => {
-    const [open, setOpen] = useState(true);
+const DialogDbDeletion = () => {
+	const { t } = useTranslation();
 
-    const handleClose = () => {
-        props.setOpen(false);
-    };
+	const [open, setOpen] = useRecoilState(isDeleteDbOpenState);
 
-    const handleDelete = async () => {
-        await deleteDb();
-        window.location.href = './';
-    };
+	const handleClose = () => {
+		setOpen(false);
+	};
 
-    useEffect(() => {
-        setOpen(props.open)
-    }, [props.open])
+	const handleDelete = async () => {
+		await deleteDb();
+		window.location.href = './';
+	};
 
-    return ( 
-        <div>
-            <Dialog
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
-                <DialogTitle id="alert-dialog-title">{"Hofafana tanteraka ve ny rakitra LMM-OA?"}</DialogTitle>
-                <DialogContent>
-                <DialogContentText id="alert-dialog-description">
-                    Ho voafafa daholo ny rakitra rehetra momba ny LMM-OA, anisan’izany ny lisitry ny mpianatra, fandaharana, mombamomba ny fiangonana.
-                </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                <Button onClick={handleClose} color="primary">
-                    Aoka ihany
-                </Button>
-                <Button onClick={handleDelete} color="primary" autoFocus>
-                    Hamafa
-                </Button>
-                </DialogActions>
-            </Dialog>
-        </div>
-     );
-}
- 
+	return (
+		<div>
+			<Dialog
+				open={open}
+				onClose={handleClose}
+				aria-labelledby='alert-dialog-title'
+				aria-describedby='alert-dialog-description'
+			>
+				<DialogTitle id='alert-dialog-title'>
+					{t('settings.deleteDbTitle')}
+				</DialogTitle>
+				<DialogContent>
+					<DialogContentText id='alert-dialog-description'>
+						{t('settings.deleteDbDesc')}
+					</DialogContentText>
+				</DialogContent>
+				<DialogActions>
+					<Button onClick={handleClose} color='primary'>
+						{t('global.cancel')}
+					</Button>
+					<Button onClick={handleDelete} color='primary' autoFocus>
+						{t('global.delete')}
+					</Button>
+				</DialogActions>
+			</Dialog>
+		</div>
+	);
+};
+
 export default DialogDbDeletion;

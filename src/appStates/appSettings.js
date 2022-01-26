@@ -22,12 +22,7 @@ export const isAboutOpenState = atom({
 });
 
 export const isLoginOpenState = atom({
-	key: 'isLoginState',
-	default: false,
-});
-
-export const isLoggedState = atom({
-	key: 'isLoggedState',
+	key: 'isLoginOpen',
 	default: false,
 });
 
@@ -106,4 +101,49 @@ export const shortDateFormatState = selector({
 			];
 		return format;
 	},
+});
+
+export const isDeleteDbOpenState = atom({
+	key: 'isDeleteDbOpen',
+	default: false,
+});
+
+export const isBackupDbOpenState = atom({
+	key: 'isBackupDbOpen',
+	default: false,
+});
+
+export const isBackupOfflineState = atom({
+	key: 'isBackupOffline',
+	default: false,
+});
+
+export const isBackupOnlineState = atom({
+	key: 'isBackupOnline',
+	default: false,
+});
+
+export const isRestoreOfflineState = atom({
+	key: 'isRestoreOffline',
+	default: false,
+});
+
+export const isRestoreOnlineState = atom({
+	key: 'isRestoreOnline',
+	default: false,
+});
+
+export const backupEncryptedState = atom({
+	key: 'backupEncrypted',
+	default: {},
+});
+
+export const backupJsonDataState = atom({
+	key: 'backupJsonData',
+	default: undefined,
+});
+
+export const isUserLoggedState = atom({
+	key: 'isUserLogged',
+	default: false,
 });
