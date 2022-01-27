@@ -163,7 +163,7 @@ const Startup = () => {
 				setCongName(cong_name);
 				setClassCount(class_count);
 				setMeetingDay(meeting_day);
-				setCongID(cong_ID);
+				setCongID(cong_ID || '');
 				setAppLang(app_lang);
 				setLiveClass(liveEventClass);
 

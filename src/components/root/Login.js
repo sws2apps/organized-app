@@ -37,8 +37,11 @@ const Login = () => {
 	const [btnDisabled, setBtnDisabled] = useState(true);
 	const [isProcessing, setIsProcessing] = useState(false);
 	const [isCompleted, setIsCompleted] = useState(false);
-	const [verifyLink, setVerifyLink] = useState('');
-	const [isLogin, setIsLogin] = useState(false);
+
+	const [isCreateWithLink, setIsCreateWithLink] = useState(false);
+	const [isCreateWithoutLink, setIsCreateWithoutLink] = useState(false);
+	const [isAccountNotVerified, setIsAccountNotVerified] = useState(false);
+	const [isEmailResent, setIsEmailResent] = useState(false);
 
 	const [isOpen, setIsOpen] = useRecoilState(isLoginOpenState);
 
@@ -84,9 +87,8 @@ const Login = () => {
 							setIsUserLogged(true);
 							handleClose();
 						} else {
-							setIsLogin(true);
 							if (data.message !== 'VERIFY_FAILED') {
-								setVerifyLink(data.message);
+								setIsAccountNotVerified(true);
 							}
 							setIsCompleted(true);
 							setIsProcessing(false);
@@ -138,9 +140,52 @@ const Login = () => {
 				.then(async (res) => {
 					const data = await res.json();
 					if (res.status === 200) {
-						if (data.message !== 'VERIFY_FAILED') {
-							setVerifyLink(data.message);
+						if (data.message === 'VERIFY_FAILED') {
+							setIsCreateWithoutLink(true);
+						} else {
+							setIsCreateWithLink(true);
 						}
+						setIsCompleted(true);
+						setIsProcessing(false);
+					} else {
+						setIsProcessing(false);
+						setAppMessage(data.message);
+						setAppSeverity('warning');
+						setAppSnackOpen(true);
+					}
+				})
+				.catch(() => {
+					setIsProcessing(false);
+					setAppMessage(t('login.createFailed'));
+					setAppSeverity('error');
+					setAppSnackOpen(true);
+				});
+		}
+	};
+
+	const resendVerification = async () => {
+		setIsCompleted(false);
+		setIsCreateWithLink(false);
+		setIsCreateWithoutLink(false);
+		setIsAccountNotVerified(false);
+		setIsProcessing(true);
+		const reqPayload = {
+			email: email,
+			password: password,
+		};
+
+		if (apiHost !== '') {
+			fetch(`${apiHost}api/resend-verification`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(reqPayload),
+			})
+				.then(async (res) => {
+					const data = await res.json();
+					if (res.status === 200 && data.message === 'CHECK_EMAIL') {
+						setIsEmailResent(true);
 						setIsCompleted(true);
 						setIsProcessing(false);
 					} else {
@@ -297,40 +342,43 @@ const Login = () => {
 					<>
 						{isCompleted && (
 							<>
-								{isLogin && (
+								{isEmailResent && (
+									<Typography sx={{ width: '250px' }}>
+										{t('login.accountNewLink')}
+									</Typography>
+								)}
+
+								{isNewAccount && (
 									<>
-										{verifyLink.length === 0 && (
+										{isCreateWithLink && (
 											<Typography sx={{ width: '250px' }}>
-												{t('login.accountNotVerifiedNoLink')}
+												{t('login.accountCreated')}
 											</Typography>
 										)}
-										{verifyLink.length > 0 && (
-											<Typography sx={{ width: '250px' }}>
-												{t('login.accountNotVerified')}
-												<Link href={verifyLink}>
-													{t('login.accountActivate')}
-												</Link>
-												.
-											</Typography>
+										{isCreateWithoutLink && (
+											<>
+												<Typography sx={{ width: '250px' }}>
+													{t('login.accountCreatedNoLink')}
+												</Typography>
+												<Typography sx={{ width: '250px' }}>
+													<Link component='button' onClick={resendVerification}>
+														{t('login.accountResendLink')}
+													</Link>
+												</Typography>
+											</>
 										)}
 									</>
 								)}
-								{!isLogin && (
+								{!isNewAccount && isAccountNotVerified && (
 									<>
-										{verifyLink.length === 0 && (
-											<Typography sx={{ width: '250px' }}>
-												{t('login.accountCreateWithoutLink')}
-											</Typography>
-										)}
-										{verifyLink.length > 0 && (
-											<Typography sx={{ width: '250px' }}>
-												{t('login.accountCreateWithLink')}
-												<Link href={verifyLink}>
-													{t('login.accountActivate')}
-												</Link>
-												.
-											</Typography>
-										)}
+										<Typography sx={{ width: '250px' }}>
+											{t('login.accountNotVerified')}
+										</Typography>
+										<Typography sx={{ width: '250px' }}>
+											<Link component='button' onClick={resendVerification}>
+												{t('login.accountResendLink')}
+											</Link>
+										</Typography>
 									</>
 								)}
 
