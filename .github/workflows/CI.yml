@@ -36,6 +36,7 @@ jobs:
 
   scorecards:
     name: Scorecards Analysis
+    if: ${{ github.ref == 'refs/heads/main' }}
     needs: [codeql]
     runs-on: ubuntu-latest
     permissions:
@@ -58,30 +59,6 @@ jobs:
           publish_results: true
 
       - name: 'Upload to code-scanning'
-        uses: github/codeql-action/upload-sarif@1a927e9307bc11970b2c679922ebc4d03a5bd980
-        with:
-          sarif_file: results.sarif
-
-  nodejsscan:
-    name: NodeJS Scan
-    needs: [scorecards]
-    runs-on: ubuntu-latest
-    permissions:
-      security-events: write
-      actions: read
-      contents: read
-
-    steps:
-      - name: Checkout the code
-        uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579
-
-      - name: nodejsscan scan
-        id: njsscan
-        uses: ajinabraham/njsscan-action@7237412fdd36af517e2745077cedbf9d6900d711
-        with:
-          args: '. --sarif --output results.sarif || true'
-
-      - name: Upload njsscan report
         uses: github/codeql-action/upload-sarif@1a927e9307bc11970b2c679922ebc4d03a5bd980
         with:
           sarif_file: results.sarif
