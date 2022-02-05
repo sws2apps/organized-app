@@ -150,7 +150,7 @@ const Startup = () => {
 				await initAppDb();
 				await checkSrcUpdate();
 
-				const {
+				let {
 					cong_number,
 					cong_name,
 					class_count,
@@ -164,7 +164,7 @@ const Startup = () => {
 				setClassCount(class_count);
 				setMeetingDay(meeting_day);
 				setCongID(cong_id || '');
-				setAppLang(app_lang);
+				setAppLang(app_lang || 'e');
 				setLiveClass(liveEventClass);
 
 				i18n.changeLanguage(app_lang);
