@@ -147,3 +147,23 @@ export const isUserLoggedState = atom({
 	key: 'isUserLogged',
 	default: false,
 });
+
+export const isCongLoginOpenState = atom({
+	key: 'isCongLoginOpen',
+	default: false,
+});
+
+export const isCongCreateAccountState = atom({
+	key: 'isCongCreateAccount',
+	default: false,
+});
+
+export const isCongSignInState = atom({
+	key: 'isCongSignIn',
+	default: false,
+});
+
+export const isCongUpdateAccountState = atom({
+	key: 'isCongUpdateAccount',
+	default: false,
+});

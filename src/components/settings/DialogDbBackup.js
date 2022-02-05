@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
 import { useTranslation } from 'react-i18next';
@@ -35,6 +35,8 @@ import { dbExportDb, dbExportJsonDb } from '../../indexedDb/dbUtility';
 const DialogDbBackup = () => {
 	let history = useHistory();
 	const { t } = useTranslation();
+
+	let abortCont = useMemo(() => new AbortController(), []);
 
 	const [isDisabled, setIsDisabled] = useState(true);
 	const [dateFormat, setDateFormat] = useState('');
@@ -103,6 +105,7 @@ const DialogDbBackup = () => {
 		dbExportJsonDb(backupConfirmPwd)
 			.then((data) => {
 				fetch(`${apiHost}api/user/send-backup`, {
+					signal: abortCont.signal,
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
@@ -275,6 +278,7 @@ const DialogDbBackup = () => {
 				if (apiHost !== '') {
 					try {
 						const result = await fetch(`${apiHost}api/user/get-backup`, {
+							signal: abortCont.signal,
 							method: 'GET',
 							headers: {
 								uid: uid,
@@ -321,6 +325,8 @@ const DialogDbBackup = () => {
 			// Retrieve online backup if any
 			getOnlineBackup();
 		}
+
+		return () => abortCont.abort();
 	}, [
 		isBackupOnline,
 		open,
@@ -331,6 +337,7 @@ const DialogDbBackup = () => {
 		setAppSeverity,
 		setAppSnackOpen,
 		t,
+		abortCont,
 	]);
 
 	useEffect(() => {
@@ -340,6 +347,7 @@ const DialogDbBackup = () => {
 				if (apiHost !== '') {
 					try {
 						const result = await fetch(`${apiHost}api/user/get-backup`, {
+							signal: abortCont.signal,
 							method: 'GET',
 							headers: {
 								uid: uid,
@@ -380,6 +388,8 @@ const DialogDbBackup = () => {
 			// Retrieve online backup if any
 			getOnlineBackup();
 		}
+
+		return () => abortCont.abort();
 	}, [
 		isRestoreOnline,
 		open,
@@ -390,6 +400,7 @@ const DialogDbBackup = () => {
 		setAppSeverity,
 		setAppSnackOpen,
 		t,
+		abortCont,
 	]);
 
 	useEffect(() => {
@@ -401,6 +412,10 @@ const DialogDbBackup = () => {
 			}
 		}
 	}, [isRestoreOnline, backupConfirmPwd]);
+
+	useEffect(() => {
+		return () => abortCont.abort();
+	}, [abortCont]);
 
 	return (
 		<div>

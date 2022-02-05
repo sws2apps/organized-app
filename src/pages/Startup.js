@@ -155,7 +155,7 @@ const Startup = () => {
 					cong_name,
 					class_count,
 					meeting_day,
-					cong_ID,
+					cong_id,
 					app_lang,
 					liveEventClass,
 				} = await dbGetAppSettings();
@@ -163,7 +163,7 @@ const Startup = () => {
 				setCongName(cong_name);
 				setClassCount(class_count);
 				setMeetingDay(meeting_day);
-				setCongID(cong_ID || '');
+				setCongID(cong_id || '');
 				setAppLang(app_lang);
 				setLiveClass(liveEventClass);
 

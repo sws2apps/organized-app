@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
@@ -30,6 +30,10 @@ import {
 } from '../../appStates/appNotification';
 
 const Login = () => {
+	const { t } = useTranslation();
+
+	let abortCont = useMemo(() => new AbortController(), []);
+
 	const [isNewAccount, setIsNewAccount] = useState(false);
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
@@ -53,8 +57,6 @@ const Login = () => {
 	const setAppMessage = useSetRecoilState(appMessageState);
 	const setIsUserLogged = useSetRecoilState(isUserLoggedState);
 
-	const { t } = useTranslation();
-
 	const handleClose = (event, reason) => {
 		if (reason === 'backdropClick' || reason === 'escapeKeyDown') {
 			return;
@@ -70,7 +72,8 @@ const Login = () => {
 		};
 
 		if (apiHost !== '') {
-			fetch(`${apiHost}api/login`, {
+			fetch(`${apiHost}api/user/login`, {
+				signal: abortCont.signal,
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -81,8 +84,6 @@ const Login = () => {
 					const data = await res.json();
 					if (res.status === 200) {
 						if (data.verified) {
-							setIsCompleted(true);
-							setIsProcessing(false);
 							setUidUser(data.message);
 							setIsUserLogged(true);
 							handleClose();
@@ -104,6 +105,11 @@ const Login = () => {
 							warnMsg = t('login.accountNotFound');
 						} else if (data.message === 'USER_DISABLED') {
 							warnMsg = t('login.accountDisabled');
+						} else if (
+							data.message === 'BLOCKED_TEMPORARILY_TRY_AGAIN' ||
+							data.message === 'BLOCKED_TEMPORARILY'
+						) {
+							warnMsg = t('login.hostBlocked');
 						} else {
 							warnMsg = data.message;
 						}
@@ -130,7 +136,8 @@ const Login = () => {
 		};
 
 		if (apiHost !== '') {
-			fetch(`${apiHost}api/create-account`, {
+			fetch(`${apiHost}api/user/create-account`, {
+				signal: abortCont.signal,
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -175,7 +182,8 @@ const Login = () => {
 		};
 
 		if (apiHost !== '') {
-			fetch(`${apiHost}api/resend-verification`, {
+			fetch(`${apiHost}api/user/resend-verification`, {
+				signal: abortCont.signal,
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -229,6 +237,10 @@ const Login = () => {
 			setBtnDisabled(true);
 		}
 	}, [isNewAccount, email, password, confPassword]);
+
+	useEffect(() => {
+		return () => abortCont.abort();
+	}, [abortCont]);
 
 	return (
 		<Dialog open={isOpen} onClose={handleClose}>
