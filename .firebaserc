@@ -2,7 +2,8 @@
   "projects": {
     "development": "dev-lmm-oa-sws",
     "staging": "staging-lmm-oa-sws",
-    "production": "lmm-oa-sws"
+    "production": "lmm-oa-sws",
+    "default": "lmm-oa-sws"
   },
   "targets": {}
 }
