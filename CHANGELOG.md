@@ -1,3 +1,11 @@
+# [1.0.0-alpha.3](https://github.com/sws2apps/lmm-oa-sws/compare/v1.0.0-alpha.2...v1.0.0-alpha.3) (2022-02-06)
+
+
+### Bug Fixes
+
+* **app:** change build dependency for firebase deploy ([aab0bd5](https://github.com/sws2apps/lmm-oa-sws/commit/aab0bd5cbb71993c63373534b153a2df1e39445d))
+* **firebase:** add path in action checkout for firebase pipeline ([76374b1](https://github.com/sws2apps/lmm-oa-sws/commit/76374b1f419b3d9d83932f118e626d7a9fa3ca25))
+
 # [1.0.0-alpha.2](https://github.com/sws2apps/lmm-oa-sws/compare/v1.0.0-alpha.1...v1.0.0-alpha.2) (2022-02-06)
 
 
