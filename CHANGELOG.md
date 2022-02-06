@@ -1,3 +1,12 @@
+# [1.0.0-alpha.10](https://github.com/sws2apps/lmm-oa-sws/compare/v1.0.0-alpha.9...v1.0.0-alpha.10) (2022-02-06)
+
+
+### Bug Fixes
+
+* **appmenus:** change app stage style to have font size 12px and bold ([d894e20](https://github.com/sws2apps/lmm-oa-sws/commit/d894e2063ef29e818f1dfeba55c82b0662a8de29))
+* **login:** display a generic warning message if fetch reponse is unknown ([9e20047](https://github.com/sws2apps/lmm-oa-sws/commit/9e200476e4a2a0cc9fb87d16077dad719479c728))
+* **login:** display correct message when provided information are incorrect ([c6fd8d8](https://github.com/sws2apps/lmm-oa-sws/commit/c6fd8d8a5e2ccf1d4468650f118610172fa24828))
+
 # [1.0.0-alpha.9](https://github.com/sws2apps/lmm-oa-sws/compare/v1.0.0-alpha.8...v1.0.0-alpha.9) (2022-02-06)
 
 
