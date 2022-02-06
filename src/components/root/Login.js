@@ -112,7 +112,7 @@ const Login = () => {
 						) {
 							warnMsg = t('login.hostBlocked');
 						} else {
-							warnMsg = data.message;
+							warnMsg = t('global.errorTryAgain');
 						}
 						setIsProcessing(false);
 						setAppMessage(warnMsg);
