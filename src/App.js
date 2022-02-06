@@ -47,12 +47,23 @@ const App = () => {
 		if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
 			setApiHost('http://localhost:8000/');
 		} else {
-			console.log(process.env.APP_FLAG);
-			if (process.env.APP_FLAG === 'development') {
+			console.log(window.location.hostname);
+
+			const appUrl = window.location.hostname;
+			if (
+				appUrl === 'dev-lmm-oa-sws.web.app' ||
+				appUrl === 'dev-lmm-oa-sws.firebaseapp.com'
+			) {
 				setApiHost('https://dev-sws2apps.herokuapp.com/');
-			} else if (process.env.APP_FLAG === 'development') {
+			} else if (
+				appUrl === 'staging-lmm-oa-sws.web.app' ||
+				appUrl === 'staging-lmm-oa-sws.firebaseapp.com'
+			) {
 				setApiHost('https://staging-sws2apps.herokuapp.com/');
-			} else if (process.env.APP_FLAG === 'production') {
+			} else if (
+				appUrl === 'lmm-oa-sws.web.app' ||
+				appUrl === 'lmm-oa-sws.firebaseapp.com'
+			) {
 				setApiHost('https://dev-sws2apps.herokuapp.com/');
 			}
 		}
