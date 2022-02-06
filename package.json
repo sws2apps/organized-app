@@ -42,7 +42,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && workbox generateSW workbox-config.js",
+    "build": "cross-env APP_FLAG=production && react-scripts build && workbox generateSW workbox-config.js",
+    "build-dev": "cross-env APP_FLAG=development && react-scripts build && workbox generateSW workbox-config.js",
+    "build-staging": "cross-env APP_FLAG=staging && react-scripts build && workbox generateSW workbox-config.js",
     "preghcommit": "git add .",
     "ghcommit": "git-cz",
     "semantic-release": "semantic-release"

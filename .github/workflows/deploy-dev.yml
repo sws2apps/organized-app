@@ -36,7 +36,6 @@ jobs:
         run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          APP_FLAG: ${{ secrets.APP_FLAG }}
 
       - name: Check if new version has been generated
         id: check_build
