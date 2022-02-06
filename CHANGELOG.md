@@ -1,3 +1,10 @@
+# [1.0.0-alpha.4](https://github.com/sws2apps/lmm-oa-sws/compare/v1.0.0-alpha.3...v1.0.0-alpha.4) (2022-02-06)
+
+
+### Bug Fixes
+
+* **app:** fix firebase deploy actions ([7a24fac](https://github.com/sws2apps/lmm-oa-sws/commit/7a24fac4a80b93b200250d3dce09c27a24689660))
+
 # [1.0.0-alpha.3](https://github.com/sws2apps/lmm-oa-sws/compare/v1.0.0-alpha.2...v1.0.0-alpha.3) (2022-02-06)
 
 
