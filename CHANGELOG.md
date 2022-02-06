@@ -1,3 +1,10 @@
+# [1.0.0-alpha.8](https://github.com/sws2apps/lmm-oa-sws/compare/v1.0.0-alpha.7...v1.0.0-alpha.8) (2022-02-06)
+
+
+### Bug Fixes
+
+* **deps:** replace html-react-parser with interweave for html parsing ([dc2f319](https://github.com/sws2apps/lmm-oa-sws/commit/dc2f319e5f05e480fcf2d6af24cb9575c8fd7adf))
+
 # [1.0.0-alpha.7](https://github.com/sws2apps/lmm-oa-sws/compare/v1.0.0-alpha.6...v1.0.0-alpha.7) (2022-02-06)
 
 
