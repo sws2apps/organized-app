@@ -18,12 +18,20 @@ jobs:
         node-version: [16.x]
 
     steps:
+      - name: Checkout for firebase deployment
+        uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579
+        with:
+          repository: danielmillan/pipelines-firebase-hosting
+          ref: '1.0.8'
+          token: ${{ secrets.GH_TOKEN }}
+          persist-credentials: false
+          path: ./.github/actions/pipelines-firebase-hosting
+
       - name: Checkout for release preparation
         uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579
         with:
           ref: alpha
           persist-credentials: false
-          path: ./.github/actions/pipelines-firebase-hosting
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@1f8c6b94b26d0feae1e387ca63ccbdc44d27b561
