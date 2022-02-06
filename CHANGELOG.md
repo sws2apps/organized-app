@@ -1,3 +1,10 @@
+# [1.0.0-alpha.5](https://github.com/sws2apps/lmm-oa-sws/compare/v1.0.0-alpha.4...v1.0.0-alpha.5) (2022-02-06)
+
+
+### Bug Fixes
+
+* **app:** change firebase.json to use build folder ([307a6e3](https://github.com/sws2apps/lmm-oa-sws/commit/307a6e3cd2c787e33356045d6ee711ef21f8004d))
+
 # [1.0.0-alpha.4](https://github.com/sws2apps/lmm-oa-sws/compare/v1.0.0-alpha.3...v1.0.0-alpha.4) (2022-02-06)
 
 
