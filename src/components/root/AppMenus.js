@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
@@ -20,6 +20,7 @@ import AppDrawer from './AppDrawer';
 import AppLanguage from './AppLanguage';
 import * as serviceWorkerRegistration from '../../serviceWorkerRegistration';
 import {
+	appStageState,
 	isAboutOpenState,
 	isLoginOpenState,
 	isUserLoggedState,
@@ -40,6 +41,8 @@ const AppMenus = (props) => {
 	const setIsAboutOpen = useSetRecoilState(isAboutOpenState);
 	const setIsLoginOpen = useSetRecoilState(isLoginOpenState);
 	const setUidUser = useSetRecoilState(uidUserState);
+
+	const appStage = useRecoilValue(appStageState);
 
 	const { t } = useTranslation();
 
@@ -147,9 +150,27 @@ const AppMenus = (props) => {
 				<Box
 					sx={{
 						minWidth: '30px',
-						flex: 'none',
+						display: 'flex',
 					}}
 				>
+					{appStage !== 'LIVE' && (
+						<Typography
+							sx={{
+								display: 'flex',
+								alignItems: 'center',
+								marginTop: '8px',
+								marginRight: '20px',
+								backgroundColor: '#F5EEF8',
+								padding: '2px 10px 2px 10px',
+								height: '25px',
+								color: '#EC7063',
+								borderRadius: '5px',
+							}}
+						>
+							{appStage}
+						</Typography>
+					)}
+
 					{!isLoading && enabledInstall && (
 						<IconButton
 							color='inherit'

@@ -7,7 +7,11 @@ import AppNotification from './components/root/AppNotification';
 import Layout from './components/root/Layout';
 import ServiceWorkerWrapper from './components/root/ServiceWorkerWrapper';
 import Startup from './pages/Startup';
-import { apiHostState, isAppLoadState } from './appStates/appSettings';
+import {
+	apiHostState,
+	appStageState,
+	isAppLoadState,
+} from './appStates/appSettings';
 import { appSnackOpenState } from './appStates/appNotification';
 
 const DBRestore = lazy(() => import('./pages/DBRestore'));
@@ -42,24 +46,26 @@ const App = () => {
 	const appSnackOpen = useRecoilValue(appSnackOpenState);
 
 	const setApiHost = useSetRecoilState(apiHostState);
+	const setAppStage = useSetRecoilState(appStageState);
 
 	useEffect(() => {
 		if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
 			setApiHost('http://localhost:8000/');
+			setAppStage('local');
 		} else {
-			console.log(window.location.hostname);
-
 			const appUrl = window.location.hostname;
 			if (
 				appUrl === 'dev-lmm-oa-sws.web.app' ||
 				appUrl === 'dev-lmm-oa-sws.firebaseapp.com'
 			) {
 				setApiHost('https://dev-sws2apps.herokuapp.com/');
+				setAppStage('DEV Environment');
 			} else if (
 				appUrl === 'staging-lmm-oa-sws.web.app' ||
 				appUrl === 'staging-lmm-oa-sws.firebaseapp.com'
 			) {
 				setApiHost('https://staging-sws2apps.herokuapp.com/');
+				setAppStage('STG Environment');
 			} else if (
 				appUrl === 'lmm-oa-sws.web.app' ||
 				appUrl === 'lmm-oa-sws.firebaseapp.com'
@@ -67,7 +73,7 @@ const App = () => {
 				setApiHost('https://dev-sws2apps.herokuapp.com/');
 			}
 		}
-	}, [setApiHost]);
+	}, [setApiHost, setAppStage]);
 
 	useEffect(() => {
 		if (!indexedDB) {

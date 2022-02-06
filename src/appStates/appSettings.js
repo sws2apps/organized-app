@@ -167,3 +167,8 @@ export const isCongUpdateAccountState = atom({
 	key: 'isCongUpdateAccount',
 	default: false,
 });
+
+export const appStageState = atom({
+	key: 'appStage',
+	default: 'LIVE',
+});
