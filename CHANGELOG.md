@@ -5,6 +5,13 @@
 
 * **deployment:** serve build folder for deployment ([44997bd](https://github.com/sws2apps/lmm-oa-sws/commit/44997bd16852443a6fa60c362dd6143b02101845))
 
+# [1.0.0-alpha.2](https://github.com/sws2apps/lmm-oa-sws/compare/v1.0.0-alpha.1...v1.0.0-alpha.2) (2022-02-06)
+
+
+### Bug Fixes
+
+* **deployment:** serve build folder for deployment ([44997bd](https://github.com/sws2apps/lmm-oa-sws/commit/44997bd16852443a6fa60c362dd6143b02101845))
+
 # 1.0.0-alpha.1 (2022-02-06)
 
 
