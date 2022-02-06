@@ -1,3 +1,15 @@
+# [1.0.0-alpha.7](https://github.com/sws2apps/lmm-oa-sws/compare/v1.0.0-alpha.6...v1.0.0-alpha.7) (2022-02-06)
+
+
+### Bug Fixes
+
+* **app:** change app flag to use window location hostname ([aa0cee1](https://github.com/sws2apps/lmm-oa-sws/commit/aa0cee1c1b5e8f7cf85b1e948d913ad4d689ce07))
+
+
+### Reverts
+
+* Revert "chore(release): 1.0.0-alpha.6 [skip ci]" ([d58852e](https://github.com/sws2apps/lmm-oa-sws/commit/d58852e7012ac236ef104ff03e4d725268e7ff9f))
+
 # [1.0.0-alpha.5](https://github.com/sws2apps/lmm-oa-sws/compare/v1.0.0-alpha.4...v1.0.0-alpha.5) (2022-02-06)
 
 
