@@ -125,6 +125,7 @@
     "login.accountResendLink": "Hamerina handefa ny hafatra fanamarinana",
     "login.accountNewLink": "Naverina nalefa ny hafatra fanamarinana ny kaontinao",
     "login.hostBlocked": "Tsy mbola afaka manao fangatahana ity fitaovana ity izao, andramo indray rehefa afaka kelikely",
+    "login.incorrectInfo": "Diso ny adiresy email na ny teny miafina nampidirinao",
 
     "administration.congregationAccount": "KAONTIN’NY FIANGONANA",
     "administration.congConnectInfo": "FANAZAVANA AMIN’NY FAMPIASANA INTERNET",

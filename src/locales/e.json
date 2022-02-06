@@ -125,6 +125,7 @@
     "login.accountResendLink": "Resend verification email",
     "login.accountNewLink": "The verification email has been resent",
     "login.hostBlocked": "This device has been blocked from making any requests, try again later",
+    "login.incorrectInfo": "Your username or password is incorrect",
 
     "administration.congregationAccount": "CONGREGATION ACCOUNT",
     "administration.congConnectInfo": "CONNECTION INFORMATION",

@@ -99,10 +99,11 @@ const Login = () => {
 						if (
 							data.message === 'EMAIL_NOT_FOUND' ||
 							data.message === 'INVALID_EMAIL' ||
-							data.message === 'INVALID_PASSWORD' ||
 							data.message === 'MISSING_EMAIL'
 						) {
 							warnMsg = t('login.accountNotFound');
+						} else if (data.message === 'INVALID_PASSWORD') {
+							warnMsg = t('login.incorrectInfo');
 						} else if (data.message === 'USER_DISABLED') {
 							warnMsg = t('login.accountDisabled');
 						} else if (
