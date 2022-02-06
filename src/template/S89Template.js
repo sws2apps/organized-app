@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { useTranslation } from 'react-i18next';
-import parse from 'html-react-parser';
+import { Markup } from 'interweave';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
@@ -85,7 +85,7 @@ const S89Template = () => {
 																lineHeight: 1.3,
 															}}
 														>
-															{parse(t('s89.title'))}
+															<Markup content={t('s89.title')} />
 														</Typography>
 													</TableCell>
 												</TableRow>
@@ -725,7 +725,7 @@ const S89Template = () => {
 												textAlign: 'justify',
 											}}
 										>
-											{parse(t('s89.descFooter'))}
+											<Markup content={t('s89.descFooter')} />
 										</Typography>
 									</Box>
 									<Box sx={{ display: 'flex' }}>

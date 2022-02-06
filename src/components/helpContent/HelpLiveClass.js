@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import parse from 'html-react-parser';
+import { Markup } from 'interweave';
 import Typography from '@mui/material/Typography';
 
 const HelpLiveClass = () => {
@@ -10,7 +10,7 @@ const HelpLiveClass = () => {
 				{t('help.aCovidSchedule1')}
 			</Typography>
 			<Typography variant='body1' gutterBottom>
-				{parse(t('help.aCovidSchedule2'))}
+				<Markup content={t('help.aCovidSchedule2')} />
 			</Typography>
 		</div>
 	);
