@@ -42,9 +42,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "cross-env APP_FLAG=production && react-scripts build && workbox generateSW workbox-config.js",
-    "build-dev": "cross-env APP_FLAG=development && react-scripts build && workbox generateSW workbox-config.js",
-    "build-staging": "cross-env APP_FLAG=staging && react-scripts build && workbox generateSW workbox-config.js",
+    "build": "react-scripts build && workbox generateSW workbox-config.js",
     "preghcommit": "git add .",
     "ghcommit": "git-cz",
     "semantic-release": "semantic-release"
@@ -75,7 +73,6 @@
     "@semantic-release/changelog": "^6.0.1",
     "@semantic-release/exec": "^6.0.2",
     "@semantic-release/git": "^10.0.1",
-    "cross-env": "^7.0.3",
     "cz-conventional-changelog": "^3.3.0",
     "semantic-release": "^18.0.1"
   },
