@@ -34,6 +34,8 @@ jobs:
 
       - name: Rebuild App
         run: npm run build
+        env:
+          APP_FLAG: ${{ secrets.APP_FLAG }}
 
       - name: Check if new version has been generated
         id: check_build

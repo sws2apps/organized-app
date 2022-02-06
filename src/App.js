@@ -47,7 +47,14 @@ const App = () => {
 		if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
 			setApiHost('http://localhost:8000/');
 		} else {
-			setApiHost('https://sws2apps.herokuapp.com/');
+			console.log(process.env.APP_FLAG);
+			if (process.env.APP_FLAG === 'development') {
+				setApiHost('https://dev-sws2apps.herokuapp.com/');
+			} else if (process.env.APP_FLAG === 'development') {
+				setApiHost('https://staging-sws2apps.herokuapp.com/');
+			} else if (process.env.APP_FLAG === 'production') {
+				setApiHost('https://dev-sws2apps.herokuapp.com/');
+			}
 		}
 	}, [setApiHost]);
 
