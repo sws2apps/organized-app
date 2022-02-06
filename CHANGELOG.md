@@ -1,10 +1,3 @@
-# [1.0.0-alpha.6](https://github.com/sws2apps/lmm-oa-sws/compare/v1.0.0-alpha.5...v1.0.0-alpha.6) (2022-02-06)
-
-
-### Features
-
-* **app:** add new flag to specify running instance of app ([0518355](https://github.com/sws2apps/lmm-oa-sws/commit/0518355db97d3708450f17b6038901b714237eb5))
-
 # [1.0.0-alpha.5](https://github.com/sws2apps/lmm-oa-sws/compare/v1.0.0-alpha.4...v1.0.0-alpha.5) (2022-02-06)
 
 
