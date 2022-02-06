@@ -1,3 +1,10 @@
+# [1.0.0-alpha.8](https://github.com/sws2apps/lmm-oa-sws/compare/v1.0.0-alpha.7...v1.0.0-alpha.8) (2022-02-06)
+
+
+### Bug Fixes
+
+* **deps:** replace html-react-parser with interweave for html parsing ([dc2f319](https://github.com/sws2apps/lmm-oa-sws/commit/dc2f319e5f05e480fcf2d6af24cb9575c8fd7adf))
+
 # [1.0.0-alpha.7](https://github.com/sws2apps/lmm-oa-sws/compare/v1.0.0-alpha.6...v1.0.0-alpha.7) (2022-02-06)
 
 
@@ -79,16 +86,3 @@
 * **settings:** add localize to settings form ([5afe43e](https://github.com/sws2apps/lmm-oa-sws/commit/5afe43e6640e2d68b64347f4e9ace0069ec30166))
 * **source material:** add localize to source material form ([b340aef](https://github.com/sws2apps/lmm-oa-sws/commit/b340aef1a2e013eb47ac910f37ed28f30375f430))
 * **source material:** localize source material page ([a035dc5](https://github.com/sws2apps/lmm-oa-sws/commit/a035dc587e37e106d6e7304e9accdafc5ce69974))
-
-# 1.0.0-alpha.1 (2021-12-27)
-
-
-### Bug Fixes
-
-* **i18n:** change path to import english translation file ([d3f353c](https://github.com/sws2apps/lmm-oa-sws/commit/d3f353c91744438bdb3f30c547a00c1c69921909))
-
-
-### Features
-
-* **app:** initial commit ([d96445a](https://github.com/sws2apps/lmm-oa-sws/commit/d96445a5820d972691e2ab3872241d0b252671ba))
-* **i18n:** localize startup, home, students ([2c3d4c3](https://github.com/sws2apps/lmm-oa-sws/commit/2c3d4c3d741c189076a5232188394012dc979c40))
