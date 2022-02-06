@@ -165,6 +165,8 @@ const AppMenus = (props) => {
 								height: '25px',
 								color: '#EC7063',
 								borderRadius: '5px',
+								fontSize: '12px',
+								fontWeight: 'bold',
 							}}
 						>
 							{appStage}
