@@ -1,3 +1,10 @@
+# [1.0.0-alpha.9](https://github.com/sws2apps/lmm-oa-sws/compare/v1.0.0-alpha.8...v1.0.0-alpha.9) (2022-02-06)
+
+
+### Features
+
+* **app:** display app stage for local, development and staging ([f478eb1](https://github.com/sws2apps/lmm-oa-sws/commit/f478eb11b6494fde898c8b5f5c391036388b7e35))
+
 # [1.0.0-alpha.8](https://github.com/sws2apps/lmm-oa-sws/compare/v1.0.0-alpha.7...v1.0.0-alpha.8) (2022-02-06)
 
 
