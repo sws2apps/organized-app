@@ -54,7 +54,7 @@ jobs:
 
       - name: Deploy to Firebase
         if: ${{ steps.check_build.outputs.files_exists == 'true' }}
-        uses: danielmillan/pipelines-firebase-hosting@8a7c15d150288fde37efe3edb186e5bb5931c3de
+        uses: ./.github/actions/pipelines-firebase-hosting
         with:
           firebase-token: ${{ secrets.FIREBASE_TOKEN }}
           resources-name: build
