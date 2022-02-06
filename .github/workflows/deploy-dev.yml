@@ -45,7 +45,8 @@ jobs:
 
       - name: Deploy to Firebase
         if: ${{ steps.check_build.outputs.files_exists == 'true' }}
-        uses: doonstore/firebase-deploy@3c07a0714007ef3bec30f35ed62f43b13cf48ad5
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-          FIREBASE_PROJECT: ${{ secrets.FIREBASE_PROJECT }}
+        uses: danielmillan/pipelines-firebase-hosting@8a7c15d150288fde37efe3edb186e5bb5931c3de
+        with:
+          firebase-token: ${{ secrets.FIREBASE_TOKEN }}
+          resources-name: build
+          project-name: ${{ secrets.FIREBASE_PROJECT }}
