@@ -1,10 +1,11 @@
 name: CI
 
 on:
+  workflow_dispatch:
   push:
-    branches: [main, beta, alpha]
+    branches: [main]
   pull_request:
-    branches: [main, beta, alpha]
+    branches: [main]
 
 permissions: read-all
 
@@ -36,7 +37,6 @@ jobs:
 
   scorecards:
     name: Scorecards Analysis
-    needs: [codeql]
     runs-on: ubuntu-latest
     permissions:
       security-events: write

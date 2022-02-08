@@ -1,0 +1,36 @@
+name: code-quality-check
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [beta, alpha]
+  pull_request:
+    branches: [beta, alpha]
+
+permissions: read-all
+
+jobs:
+  codeql:
+    name: Code QL
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: ['javascript']
+
+    steps:
+      - name: Checkout repository for code analysis
+        uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@1a927e9307bc11970b2c679922ebc4d03a5bd980
+        with:
+          languages: ${{ matrix.language }}
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@1a927e9307bc11970b2c679922ebc4d03a5bd980
