@@ -3,6 +3,8 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
+import { useTheme } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import CssBaseline from '@mui/material/CssBaseline';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -45,6 +47,11 @@ const AppMenus = (props) => {
 	const appStage = useRecoilValue(appStageState);
 
 	const { t } = useTranslation();
+
+	const theme = useTheme();
+	const miniView = useMediaQuery(theme.breakpoints.down('sm'), {
+		noSsr: true,
+	});
 
 	const handleInstallPwa = () => {
 		installPwa();
@@ -169,7 +176,7 @@ const AppMenus = (props) => {
 								fontWeight: 'bold',
 							}}
 						>
-							{appStage}
+							{miniView ? appStage.substring(0, 1).toUpperCase() : appStage}
 						</Typography>
 					)}
 
