@@ -36,7 +36,6 @@ jobs:
 
   scorecards:
     name: Scorecards Analysis
-    if: ${{ github.ref == 'refs/heads/main' }}
     needs: [codeql]
     runs-on: ubuntu-latest
     permissions:
