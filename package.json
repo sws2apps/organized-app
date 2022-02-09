@@ -25,7 +25,7 @@
     "react-dom": "^17.0.2",
     "react-i18next": "^11.15.4",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "5.0.0",
+    "react-scripts": "4.0.3",
     "recoil": "^0.6.1",
     "recoil-outside": "^0.1.1",
     "ua-parser-js": "^1.0.2",
