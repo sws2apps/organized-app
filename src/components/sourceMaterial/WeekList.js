@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { useTranslation } from 'react-i18next';
+import dateFormat from 'dateformat';
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 import {
@@ -15,8 +16,6 @@ import {
 	currentWeekState,
 	yearsListState,
 } from '../../appStates/appSourceMaterial';
-
-const dateFormat = require('dateformat');
 
 const WeekList = () => {
 	const { t } = useTranslation();

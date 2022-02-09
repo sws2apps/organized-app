@@ -1,10 +1,9 @@
 import loadEPUB from 'jw-epub-parser';
+import dateFormat from 'dateformat';
 import { promiseGetRecoil } from 'recoil-outside';
 import { dbSaveSrcData } from '../indexedDb/dbSourceMaterial';
 import { monthNamesState } from '../appStates/appSettings';
 import { assTypeLocalState } from '../appStates/appSourceMaterial';
-
-const dateFormat = require('dateformat');
 
 export const addEpubDataToDb = async (fileEPUB) => {
 	try {

@@ -39,7 +39,7 @@ const DialogDbBackup = () => {
 	let abortCont = useMemo(() => new AbortController(), []);
 
 	const [isDisabled, setIsDisabled] = useState(true);
-	const [dateFormat, setDateFormat] = useState('');
+	const [formatDate, setFormatDate] = useState('');
 	const [backupCreatePwd, setBackupCreatePwd] = useState('');
 	const [backupConfirmPwd, setBackupConfirmPwd] = useState('');
 	const [backupNewDevice, setBackupNewDevice] = useState('');
@@ -234,7 +234,7 @@ const DialogDbBackup = () => {
 		if (backupDate !== '') {
 			var timestamp = backupDate;
 			var date = new Date(timestamp);
-			setDateFormat(
+			setFormatDate(
 				date.toLocaleDateString() + ' ' + date.toLocaleTimeString()
 			);
 		}
@@ -630,7 +630,7 @@ const DialogDbBackup = () => {
 															sx={{ fontSize: '11px' }}
 															align='center'
 														>
-															{dateFormat}
+															{formatDate}
 														</Typography>
 													</Box>
 												</Box>
@@ -726,7 +726,7 @@ const DialogDbBackup = () => {
 												{backupDevice.split('|')[1]}
 											</Typography>
 											<Typography sx={{ fontSize: '11px' }} align='center'>
-												{dateFormat}
+												{formatDate}
 											</Typography>
 										</Box>
 										<Box

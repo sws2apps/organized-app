@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import { styled } from '@mui/styles';
+import dateFormat from 'dateformat';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
@@ -19,8 +20,6 @@ import {
 } from '../indexedDb/dbSourceMaterial';
 import { classCountState } from '../appStates/appCongregation';
 import { shortDateFormatState } from '../appStates/appSettings';
-
-const dateFormat = require('dateformat');
 
 const sharedStyles = {
 	typoLineHeight: {

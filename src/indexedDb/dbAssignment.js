@@ -1,13 +1,12 @@
 import { getI18n } from 'react-i18next';
 import { promiseGetRecoil } from 'recoil-outside';
+import dateFormat from 'dateformat';
 import { dbGetAppSettings } from './dbAppSettings';
 import { dbGetStudentDetails } from './dbPersons';
 import { dbGetScheduleData } from './dbSchedule';
 import { dbGetSourceMaterial, dbGetWeekListBySched } from './dbSourceMaterial';
 import appDb from './mainDb';
 import { assTypeLocalState } from '../appStates/appSourceMaterial';
-
-const dateFormat = require('dateformat');
 
 const { t } = getI18n();
 
@@ -77,7 +76,6 @@ export const dbHistoryAssignment = async () => {
 		var person = {};
 
 		const weekData = await dbGetSourceMaterial(appData[i].weekOf);
-		var dateFormat = require('dateformat');
 		const [varMonth, varDay, varYear] = appData[i].weekOf.split('/');
 		const lDate = new Date(varYear, varMonth - 1, varDay);
 		const dateFormatted = dateFormat(lDate, 'dd/mm/yyyy');

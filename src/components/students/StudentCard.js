@@ -1,5 +1,5 @@
-import { ReactComponent as maleIcon } from '../../img/student_male.svg';
-import { ReactComponent as femaleIcon } from '../../img/student_female.svg';
+import maleIcon from '../../img/student_male.svg';
+import femaleIcon from '../../img/student_female.svg';
 import { useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import {

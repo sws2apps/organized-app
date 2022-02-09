@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
+import dateFormat from 'dateformat';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -21,8 +22,6 @@ import {
 	monthNamesState,
 	shortDateFormatState,
 } from '../../appStates/appSettings';
-
-const dateFormat = require('dateformat');
 
 const DialogAssignmentDelete = () => {
 	const { t } = useTranslation();

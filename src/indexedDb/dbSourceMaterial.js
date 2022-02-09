@@ -1,5 +1,6 @@
 import appDb from './mainDb';
 import { promiseGetRecoil } from 'recoil-outside';
+import dateFormat from 'dateformat';
 import { appLangState } from '../appStates/appSettings';
 import { assTypeLocalState } from '../appStates/appSourceMaterial';
 
@@ -212,7 +213,6 @@ const dbSaveSchedData = async (weekOf, weekType, noMeeting, isOverride) => {
 
 export const hasCurrentWeek = async () => {
 	var varBool = true;
-	var dateFormat = require('dateformat');
 	var today = new Date();
 	var day = today.getDay();
 	var diff = today.getDate() - day + (day === 0 ? -6 : 1);
@@ -228,7 +228,6 @@ export const hasCurrentWeek = async () => {
 export const checkSrcUpdate = async () => {
 	var checkCurrentWeek = await hasCurrentWeek();
 	if (checkCurrentWeek === false) {
-		var dateFormat = require('dateformat');
 		var today = new Date();
 		var day = today.getDay();
 		var diff = today.getDate() - day + (day === 0 ? -6 : 1);
@@ -357,7 +356,6 @@ export const dbAddManualSource = async () => {
 	const year = lastWeek.split('/')[2];
 	var result = new Date(year, month - 1, day);
 	result.setDate(result.getDate() + 7);
-	var dateFormat = require('dateformat');
 	const fMonday = dateFormat(result, 'mm/dd/yyyy');
 	await dbAddWeekToSource(fMonday);
 	await dbAddWeekToSchedule(fMonday);

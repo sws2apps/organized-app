@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
+import dateFormat from 'dateformat';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -34,8 +35,6 @@ import {
 	isS89OpenState,
 	weekListSchedState,
 } from '../appStates/appSchedule';
-
-const dateFormat = require('dateformat');
 
 const sharedStyles = {
 	btnSchedule: {

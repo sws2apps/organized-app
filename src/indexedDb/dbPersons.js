@@ -1,9 +1,8 @@
+import dateFormat from 'dateformat';
 import { dbGetAppSettings } from './dbAppSettings';
 import { dbGetSourceMaterial } from './dbSourceMaterial';
 import { getI18n } from 'react-i18next';
 import appDb from './mainDb';
-
-const dateFormat = require('dateformat');
 
 const { t } = getI18n();
 

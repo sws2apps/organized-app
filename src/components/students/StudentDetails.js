@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as maleIcon } from '../../img/student_male.svg';
-import { ReactComponent as femaleIcon } from '../../img/student_female.svg';
+import maleIcon from '../../img/student_male.svg';
+import femaleIcon from '../../img/student_female.svg';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
