@@ -1,3 +1,16 @@
+# [1.0.0-alpha.11](https://github.com/sws2apps/lmm-oa-sws/compare/v1.0.0-alpha.10...v1.0.0-alpha.11) (2022-02-09)
+
+
+### Bug Fixes
+
+* **app:** fix dateformat deps after version update ([aac993a](https://github.com/sws2apps/lmm-oa-sws/commit/aac993ac2f1d3fa3b748aae377a945cf13e4fd41))
+* **deps:** update some dependencies to their latest version ([601065e](https://github.com/sws2apps/lmm-oa-sws/commit/601065ee6fe45b34830b2186f7da6fd4ac0f8237))
+
+
+### Features
+
+* **navbar:** shorten app stage for smaller screen ([bb4a543](https://github.com/sws2apps/lmm-oa-sws/commit/bb4a543f346f89ace3aabdc7f2375f4df5f02579))
+
 # [1.0.0-alpha.10](https://github.com/sws2apps/lmm-oa-sws/compare/v1.0.0-alpha.9...v1.0.0-alpha.10) (2022-02-06)
 
 
