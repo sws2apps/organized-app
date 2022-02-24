@@ -1,0 +1,52 @@
+name: CD
+
+on:
+  workflow_dispatch:
+
+permissions: read-all
+
+jobs:
+  dev_deploy:
+    name: Build and Deploy to Development
+    if: ${{ github.repository == 'sws2apps/lmm-oa-sws' && github.ref == 'refs/heads/alpha' }}
+    environment:
+      name: Development
+      url: https://dev-lmm-oa-sws.web.app
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+      - name: Checkout for release preparation
+        uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579
+        with:
+          ref: alpha
+          persist-credentials: false
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@1f8c6b94b26d0feae1e387ca63ccbdc44d27b561
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install package dependencies
+        run: npm ci
+
+      - name: Run Semantic Release to version and build App
+        run: npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      - name: Check if new version has been generated
+        id: check_build
+        uses: andstor/file-existence-action@87d74d4732ddb824259d80c8a508c0124bf1c673
+        with:
+          files: 'build'
+
+      - name: Deploy to Firebase
+        if: ${{ steps.check_build.outputs.files_exists == 'true' }}
+        uses: doonstore/firebase-deploy@3c07a0714007ef3bec30f35ed62f43b13cf48ad5
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          FIREBASE_PROJECT: ${{ secrets.FIREBASE_PROJECT }}
