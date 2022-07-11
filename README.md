@@ -6,7 +6,7 @@ LMM-OA is a web application that will allow you to schedule students assignment 
 
 ## Preview
 
-![LMM-OA](https://user-images.githubusercontent.com/26148770/170794436-1368d227-bd0f-482b-b7a8-c89d66787362.png)
+![LMM-OA](https://user-images.githubusercontent.com/26148770/178285310-fb3e4965-270e-468d-b08d-81951b406f6a.png)
 
 ## Who should use LMM-OA?
 
