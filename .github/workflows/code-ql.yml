@@ -2,9 +2,9 @@ name: CodeQL
 
 on:
   push:
-    branches: [alpha]
+    branches: [main]
   pull_request:
-    branches: [alpha]
+    branches: [main]
   schedule:
     - cron: '0 12 * * 4'
 
@@ -21,13 +21,13 @@ jobs:
 
     steps:
       - name: Checkout repository for code analysis
-        uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579
+        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@75f07e7ab2ee63cba88752d8c696324e4df67466
+        uses: github/codeql-action/init@86f3159a697a097a813ad9bfa0002412d97690a4
         with:
           languages: javascript
           queries: security-extended
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@75f07e7ab2ee63cba88752d8c696324e4df67466
+        uses: github/codeql-action/analyze@86f3159a697a097a813ad9bfa0002412d97690a4

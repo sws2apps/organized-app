@@ -1,0 +1,75 @@
+{
+  "name": "lmm-oa-sws",
+  "version": "1.0.0-alpha.182",
+  "private": true,
+  "dependencies": {
+    "@date-io/date-fns": "^2.16.0",
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
+    "@fingerprintjs/fingerprintjs-pro": "^3.7.1",
+    "@fontsource/roboto": "^4.5.8",
+    "@mui/icons-material": "^5.10.6",
+    "@mui/lab": "^5.0.0-alpha.100",
+    "@mui/material": "^5.10.6",
+    "@mui/x-date-pickers": "^5.0.2",
+    "@sws2apps/react-sw-helper": "^1.8.0",
+    "date-fns": "^2.29.3",
+    "dateformat": "^5.0.3",
+    "dexie": "^3.2.2",
+    "dexie-export-import": "^1.0.3",
+    "downloadjs": "^1.4.7",
+    "file-select-dialog": "^1.5.4",
+    "html2pdf.js": "^0.10.1",
+    "i18next": "^21.9.2",
+    "interweave": "^13.0.0",
+    "jw-epub-parser": "^1.23.3",
+    "qrcode": "^1.5.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-i18next": "^11.18.6",
+    "react-router-dom": "^6.4.1",
+    "react-scripts": "^5.0.1",
+    "recoil": "^0.7.5",
+    "recoil-outside": "^0.1.1",
+    "simple-crypto-js": "^3.0.1",
+    "ua-parser-js": "^1.0.2",
+    "use-pwa2": "^0.2.0",
+    "workbox-cli": "^6.5.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build && workbox generateSW workbox-config.cjs",
+    "preview": "serve -l 5000 -s build",
+    "test": "cypress run"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sws2apps/lmm-oa-sws.git"
+  },
+  "devDependencies": {
+    "@semantic-release/changelog": "^6.0.1",
+    "@semantic-release/exec": "^6.0.2",
+    "@semantic-release/git": "^10.0.1",
+    "cypress": "^10.8.0",
+    "prop-types": "^15.8.1",
+    "serve": "^14.0.1"
+  }
+}
