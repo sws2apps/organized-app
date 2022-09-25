@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/sws2apps/lmm-oa-sws/compare/v1.0.0...v1.0.1) (2022-09-25)
+
+
+### Bug Fixes
+
+* **csp:** update values to allow requests to new api ([8ad44f0](https://github.com/sws2apps/lmm-oa-sws/commit/8ad44f0811377f3bd890df923e9856dc7f5b8a75))
+
 # 1.0.0 (2022-09-25)
 
 
