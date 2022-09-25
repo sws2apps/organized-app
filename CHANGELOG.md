@@ -1,3 +1,10 @@
+# 1.0.0 (2022-09-25)
+
+
+### Features
+
+* **app:** initial application live release ([1029c73](https://github.com/sws2apps/lmm-oa-sws/commit/1029c730d16feca11506456d5c18cf4710bcec09))
+
 # [1.0.0-alpha.182](https://github.com/sws2apps/lmm-oa-sws/compare/v1.0.0-alpha.181...v1.0.0-alpha.182) (2022-09-24)
 
 
