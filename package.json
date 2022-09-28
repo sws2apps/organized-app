@@ -11,7 +11,7 @@
     "@mui/icons-material": "^5.10.6",
     "@mui/lab": "^5.0.0-alpha.101",
     "@mui/material": "^5.10.7",
-    "@mui/x-date-pickers": "^5.0.2",
+    "@mui/x-date-pickers": "^5.0.3",
     "@sws2apps/react-sw-helper": "^1.8.0",
     "date-fns": "^2.29.3",
     "dateformat": "^5.0.3",
