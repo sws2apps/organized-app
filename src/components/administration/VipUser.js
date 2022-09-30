@@ -73,7 +73,7 @@ const VipUser = ({ member, setMembers }) => {
 						method: 'DELETE',
 						headers: {
 							'Content-Type': 'application/json',
-							visitor_id: visitorID,
+							visitorid: visitorID,
 							email: userEmail,
 						},
 					}

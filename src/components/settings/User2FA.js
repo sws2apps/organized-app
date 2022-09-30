@@ -62,7 +62,7 @@ const User2FA = () => {
 					method: 'GET',
 					headers: {
 						'Content-Type': 'application/json',
-						visitor_id: visitorID,
+						visitorid: visitorID,
 						email: userEmail,
 					},
 				});

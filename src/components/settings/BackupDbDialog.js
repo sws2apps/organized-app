@@ -66,7 +66,7 @@ const BackupDbDialog = () => {
 						method: 'GET',
 						headers: {
 							'Content-Type': 'application/json',
-							visitor_id: visitorID,
+							visitorid: visitorID,
 							email: userEmail,
 						},
 					}
@@ -134,7 +134,7 @@ const BackupDbDialog = () => {
 						method: 'POST',
 						headers: {
 							'Content-Type': 'application/json',
-							visitor_id: visitorID,
+							visitorid: visitorID,
 							email: userEmail,
 						},
 						body: JSON.stringify(reqPayload),

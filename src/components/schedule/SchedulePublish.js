@@ -63,7 +63,7 @@ const SchedulePublish = () => {
 						method: 'POST',
 						headers: {
 							'Content-Type': 'application/json',
-							visitor_id: visitorID,
+							visitorid: visitorID,
 							email: userEmail,
 						},
 						body: JSON.stringify({ cong_schedule, cong_sourceMaterial }),

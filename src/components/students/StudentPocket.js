@@ -63,7 +63,7 @@ const StudentPocket = ({ id, name }) => {
 						method: 'GET',
 						headers: {
 							'Content-Type': 'application/json',
-							visitor_id: visitorID,
+							visitorid: visitorID,
 							email: userEmail,
 						},
 					}
@@ -103,7 +103,7 @@ const StudentPocket = ({ id, name }) => {
 						method: 'PATCH',
 						headers: {
 							'Content-Type': 'application/json',
-							visitor_id: visitorID,
+							visitorid: visitorID,
 							email: userEmail,
 						},
 						body: JSON.stringify({ username: name }),
@@ -152,7 +152,7 @@ const StudentPocket = ({ id, name }) => {
 						method: 'PATCH',
 						headers: {
 							'Content-Type': 'application/json',
-							visitor_id: visitorID,
+							visitorid: visitorID,
 							email: userEmail,
 						},
 						body: JSON.stringify({ members }),
@@ -194,7 +194,7 @@ const StudentPocket = ({ id, name }) => {
 						method: 'PUT',
 						headers: {
 							'Content-Type': 'application/json',
-							visitor_id: visitorID,
+							visitorid: visitorID,
 							email: userEmail,
 						},
 						body: JSON.stringify({ username: name }),
@@ -225,7 +225,7 @@ const StudentPocket = ({ id, name }) => {
 		}
 	};
 
-	const handleDeleteDevice = async (pocket_visitor_id) => {
+	const handleDeleteDevice = async (pocket_visitorid) => {
 		try {
 			if (apiHost !== '') {
 				setIsGenerating(true);
@@ -236,10 +236,10 @@ const StudentPocket = ({ id, name }) => {
 						method: 'DELETE',
 						headers: {
 							'Content-Type': 'application/json',
-							visitor_id: visitorID,
+							visitorid: visitorID,
 							email: userEmail,
 						},
-						body: JSON.stringify({ pocket_visitor_id }),
+						body: JSON.stringify({ pocket_visitorid }),
 					}
 				);
 
@@ -291,7 +291,7 @@ const StudentPocket = ({ id, name }) => {
 						method: 'GET',
 						headers: {
 							'Content-Type': 'application/json',
-							visitor_id: visitorID,
+							visitorid: visitorID,
 							email: userEmail,
 						},
 					}
@@ -453,7 +453,7 @@ const StudentPocket = ({ id, name }) => {
 								<Divider />
 								{devices.map((device) => (
 									<Box
-										key={device.visitor_id}
+										key={device.visitorid}
 										sx={{
 											display: 'flex',
 											alignItems: 'center',
@@ -507,7 +507,7 @@ const StudentPocket = ({ id, name }) => {
 												variant='outlined'
 												color='error'
 												sx={{ marginBottom: '10px' }}
-												onClick={() => handleDeleteDevice(device.visitor_id)}
+												onClick={() => handleDeleteDevice(device.visitorid)}
 												disabled={isGenerating}
 											>
 												{t('settings.sessionRevoke')}

@@ -53,7 +53,7 @@ const UserFullname = () => {
 					method: 'PATCH',
 					headers: {
 						'Content-Type': 'application/json',
-						visitor_id: visitorID,
+						visitorid: visitorID,
 						email: userEmail,
 					},
 					body: JSON.stringify({ fullname: tmpUsername }),

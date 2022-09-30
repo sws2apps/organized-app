@@ -98,7 +98,7 @@ const VipUserDetail = () => {
 						method: 'GET',
 						headers: {
 							'Content-Type': 'application/json',
-							visitor_id: visitorID,
+							visitorid: visitorID,
 							email: userEmail,
 						},
 					}
@@ -151,7 +151,7 @@ const VipUserDetail = () => {
 					method: `${id ? 'PATCH' : 'PUT'}`,
 					headers: {
 						'Content-Type': 'application/json',
-						visitor_id: visitorID,
+						visitorid: visitorID,
 						email: userEmail,
 					},
 					body: JSON.stringify({ user_role: member.cong_role }),

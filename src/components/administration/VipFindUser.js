@@ -54,7 +54,7 @@ const VipFindUser = ({ setMember }) => {
 						method: 'GET',
 						headers: {
 							'Content-Type': 'application/json',
-							visitor_id: visitorID,
+							visitorid: visitorID,
 							email: userEmail,
 						},
 					}

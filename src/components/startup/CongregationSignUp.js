@@ -70,7 +70,7 @@ const CongregationSignUp = () => {
 					method: 'PUT',
 					headers: {
 						'Content-Type': 'application/json',
-						visitor_id: visitorID,
+						visitorid: visitorID,
 						email: userEmail,
 					},
 					body: JSON.stringify(reqPayload),

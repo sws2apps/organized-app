@@ -66,7 +66,7 @@ const RestoreDbDialog = () => {
 						method: 'GET',
 						headers: {
 							'Content-Type': 'application/json',
-							visitor_id: visitorID,
+							visitorid: visitorID,
 							email: userEmail,
 						},
 					}
@@ -123,7 +123,7 @@ const RestoreDbDialog = () => {
 						method: 'GET',
 						headers: {
 							'Content-Type': 'application/json',
-							visitor_id: visitorID,
+							visitorid: visitorID,
 							email: userEmail,
 						},
 					}

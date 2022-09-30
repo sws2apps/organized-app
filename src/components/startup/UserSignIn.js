@@ -146,7 +146,7 @@ const UserSignIn = () => {
 			const reqPayload = {
 				email: userTmpEmail,
 				password: userTmpPwd,
-				visitor_id: visitorID,
+				visitorid: visitorID,
 			};
 
 			if (apiHost !== '') {

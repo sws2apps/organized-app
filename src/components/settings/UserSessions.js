@@ -44,7 +44,7 @@ const UserSessions = () => {
 					method: 'GET',
 					headers: {
 						'Content-Type': 'application/json',
-						visitor_id: visitorID,
+						visitorid: visitorID,
 						email: userEmail,
 					},
 				});
@@ -100,7 +100,7 @@ const UserSessions = () => {
 				{sessions.length > 0 &&
 					sessions.map((session) => (
 						<UserSessionItem
-							key={session.visitor_id}
+							key={session.visitorid}
 							session={session}
 							setSessions={(value) => setSessions(value)}
 						/>

@@ -50,10 +50,10 @@ const UserSessionItem = ({ session, setSessions }) => {
 					method: 'DELETE',
 					headers: {
 						'Content-Type': 'application/json',
-						visitor_id: visitorID,
+						visitorid: visitorID,
 						email: userEmail,
 					},
-					body: JSON.stringify({ session: session.visitor_id }),
+					body: JSON.stringify({ session: session.visitorid }),
 				});
 
 				const data = await res.json();
@@ -102,7 +102,7 @@ const UserSessionItem = ({ session, setSessions }) => {
 					<Typography sx={{ fontSize: '14px' }}>
 						{t('settings.lastSeen', { last_seen: lastSeen })}
 					</Typography>
-					{visitorID === session.visitor_id && (
+					{visitorID === session.visitorid && (
 						<Chip
 							label={t('settings.currentSession')}
 							sx={{
