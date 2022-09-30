@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/sws2apps/lmm-oa-sws/compare/v1.1.0...v1.1.1) (2022-09-30)
+
+
+### Bug Fixes
+
+* **api:** update visitor_id field name in req.headers to visitorid ([a5dad3d](https://github.com/sws2apps/lmm-oa-sws/commit/a5dad3db94629c83c3dc4f99b8303bcbaa24a350))
+
 # [1.1.0](https://github.com/sws2apps/lmm-oa-sws/compare/v1.0.1...v1.1.0) (2022-09-30)
 
 
