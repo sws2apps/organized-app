@@ -1,3 +1,17 @@
+# [1.1.0](https://github.com/sws2apps/lmm-oa-sws/compare/v1.0.1...v1.1.0) (2022-09-30)
+
+
+### Bug Fixes
+
+* **index.html:** disable feature to translate website ([adb0c81](https://github.com/sws2apps/lmm-oa-sws/commit/adb0c812324f5e6580a541ef6da3d3a2d8740fc0))
+
+
+### Features
+
+* **deps:** bump @mui/lab from 5.0.0-alpha.100 to 5.0.0-alpha.101 ([d81c086](https://github.com/sws2apps/lmm-oa-sws/commit/d81c0860f05f0768d47cd75735de6534e87d503a))
+* **deps:** bump @mui/material from 5.10.6 to 5.10.7 ([b051979](https://github.com/sws2apps/lmm-oa-sws/commit/b0519798fd4e0f277f95437b00e44cc7ed294404))
+* **deps:** bump @mui/x-date-pickers from 5.0.2 to 5.0.3 ([7d95a9f](https://github.com/sws2apps/lmm-oa-sws/commit/7d95a9f153f0aaf9d02762d26a02355f50fe0df3))
+
 ## [1.0.1](https://github.com/sws2apps/lmm-oa-sws/compare/v1.0.0...v1.0.1) (2022-09-25)
 
 
