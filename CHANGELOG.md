@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/sws2apps/lmm-oa-sws/compare/v1.1.1...v1.1.2) (2022-10-03)
+
+
+### Bug Fixes
+
+* **source material:** refresh years list after source material update ([4deacaa](https://github.com/sws2apps/lmm-oa-sws/commit/4deacaa9a8810f1c19d4bc4d3b611d991849ce67))
+
 ## [1.1.1](https://github.com/sws2apps/lmm-oa-sws/compare/v1.1.0...v1.1.1) (2022-09-30)
 
 
