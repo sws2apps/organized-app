@@ -8,7 +8,7 @@
     "@emotion/styled": "^11.10.4",
     "@fingerprintjs/fingerprintjs-pro": "^3.7.1",
     "@fontsource/roboto": "^4.5.8",
-    "@mui/icons-material": "^5.10.6",
+    "@mui/icons-material": "^5.10.9",
     "@mui/lab": "^5.0.0-alpha.102",
     "@mui/material": "^5.10.9",
     "@mui/x-date-pickers": "^5.0.4",
