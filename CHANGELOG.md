@@ -1,3 +1,21 @@
+# [1.2.0](https://github.com/sws2apps/lmm-oa-sws/compare/v1.1.2...v1.2.0) (2022-10-12)
+
+
+### Features
+
+* **deps:** bump @mui/icons-material from 5.10.6 to 5.10.9 ([7a7cc91](https://github.com/sws2apps/lmm-oa-sws/commit/7a7cc91bc331cb30608d6076e6de572d61915eb0))
+* **deps:** bump @mui/lab from 5.0.0-alpha.101 to 5.0.0-alpha.102 ([6c38fe7](https://github.com/sws2apps/lmm-oa-sws/commit/6c38fe7a722f84a28e65bdf0f8472d56a5e03cd4))
+* **deps:** bump @mui/lab from 5.0.0-alpha.102 to 5.0.0-alpha.103 ([0fc3051](https://github.com/sws2apps/lmm-oa-sws/commit/0fc30512922d192e6c41e06d61925ab61be593a6))
+* **deps:** bump @mui/material from 5.10.7 to 5.10.8 ([5a065b3](https://github.com/sws2apps/lmm-oa-sws/commit/5a065b3327760836bfe74c4fec262e0719ad8786))
+* **deps:** bump @mui/material from 5.10.8 to 5.10.9 ([41b5630](https://github.com/sws2apps/lmm-oa-sws/commit/41b563027169cccf6d1b2e456a0795185095f958))
+* **deps:** bump @mui/x-date-pickers from 5.0.3 to 5.0.4 ([246f7d3](https://github.com/sws2apps/lmm-oa-sws/commit/246f7d30a3bb321d049b3c4db29bc1624fdf0165))
+* **deps:** bump @sws2apps/react-sw-helper from 1.8.0 to 1.9.0 ([5f84fca](https://github.com/sws2apps/lmm-oa-sws/commit/5f84fca3171d97fa31468d18fe11c6141899a5b0))
+* **deps:** bump i18next from 21.9.2 to 21.10.0 ([6762c1a](https://github.com/sws2apps/lmm-oa-sws/commit/6762c1acd100317b8c783e7a6a8ca3cd08a38b52))
+* **deps:** bump jw-epub-parser from 1.23.3 to 1.24.0 ([d21ec96](https://github.com/sws2apps/lmm-oa-sws/commit/d21ec96f18c130514515288b55d376aac9a7f670))
+* **deps:** bump jw-epub-parser from 1.24.0 to 1.25.0 ([e30d601](https://github.com/sws2apps/lmm-oa-sws/commit/e30d601160361ade98e2b3d2a5f030aafaac9610))
+* **deps:** bump react-router-dom from 6.4.1 to 6.4.2 ([f28f9b0](https://github.com/sws2apps/lmm-oa-sws/commit/f28f9b0f84157fc7a7aae3332df2c3fd9de953df))
+* **deps:** bump recoil from 0.7.5 to 0.7.6 ([b02ceae](https://github.com/sws2apps/lmm-oa-sws/commit/b02ceae8009034d6277f018f3470349224844e39))
+
 ## [1.1.2](https://github.com/sws2apps/lmm-oa-sws/compare/v1.1.1...v1.1.2) (2022-10-03)
 
 
