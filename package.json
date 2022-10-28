@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@date-io/date-fns": "^2.16.0",
-    "@emotion/react": "^11.10.4",
+    "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.4",
     "@fingerprintjs/fingerprintjs-pro": "^3.7.1",
     "@fontsource/roboto": "^4.5.8",
