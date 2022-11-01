@@ -1,3 +1,26 @@
+# [1.3.0](https://github.com/sws2apps/lmm-oa-sws/compare/v1.2.0...v1.3.0) (2022-11-01)
+
+
+### Features
+
+* **deps:** bump @emotion/react from 11.10.4 to 11.10.5 ([dfe301b](https://github.com/sws2apps/lmm-oa-sws/commit/dfe301b8a026e905193f960545f4a5d15027b350))
+* **deps:** bump @emotion/styled from 11.10.4 to 11.10.5 ([8ebbe2f](https://github.com/sws2apps/lmm-oa-sws/commit/8ebbe2fa9a7e13633edb3cc4451bab7d7fd95425))
+* **deps:** bump @mui/lab from 5.0.0-alpha.103 to 5.0.0-alpha.104 ([92d486a](https://github.com/sws2apps/lmm-oa-sws/commit/92d486ae38f262976f390af78482e8d847584599))
+* **deps:** bump @mui/lab from 5.0.0-alpha.104 to 5.0.0-alpha.105 ([26ebf58](https://github.com/sws2apps/lmm-oa-sws/commit/26ebf5898579c422b0ba369be6dd7b19e13edc7b))
+* **deps:** bump @mui/lab from 5.0.0-alpha.105 to 5.0.0-alpha.106 ([239e32b](https://github.com/sws2apps/lmm-oa-sws/commit/239e32b28a90817336429d1801a178eb10ebd258))
+* **deps:** bump @mui/material from 5.10.10 to 5.10.11 ([a7512d1](https://github.com/sws2apps/lmm-oa-sws/commit/a7512d19575da2812e6ec87c58cd1829f5f62a9a))
+* **deps:** bump @mui/material from 5.10.11 to 5.10.12 ([435843b](https://github.com/sws2apps/lmm-oa-sws/commit/435843b9e4dde54cb6a9bc8c534694dd9e1f0ee2))
+* **deps:** bump @mui/material from 5.10.9 to 5.10.10 ([866b9e0](https://github.com/sws2apps/lmm-oa-sws/commit/866b9e00c327e1c8950e12118058733ac7269ee9))
+* **deps:** bump @mui/x-date-pickers from 5.0.4 to 5.0.5 ([ee7fa38](https://github.com/sws2apps/lmm-oa-sws/commit/ee7fa3891937d9a1b9b1876dcbd24aaaeb63c72e))
+* **deps:** bump @mui/x-date-pickers from 5.0.5 to 5.0.6 ([deb32e1](https://github.com/sws2apps/lmm-oa-sws/commit/deb32e1f2b05fc1827976c72704c0c4715165bcb))
+* **deps:** bump i18next from 21.10.0 to 22.0.1 ([de19b55](https://github.com/sws2apps/lmm-oa-sws/commit/de19b55ba7a87f462a759bc69da1735d56609599))
+* **deps:** bump i18next from 22.0.1 to 22.0.2 ([3dddb6b](https://github.com/sws2apps/lmm-oa-sws/commit/3dddb6b6478428512c7bcad1759ffad537f47aa9))
+* **deps:** bump i18next from 22.0.2 to 22.0.3 ([7530b93](https://github.com/sws2apps/lmm-oa-sws/commit/7530b93605f0626b3e39815fa07fb7576f64a869))
+* **deps:** bump i18next from 22.0.3 to 22.0.4 ([c706df5](https://github.com/sws2apps/lmm-oa-sws/commit/c706df5cf29ea68f312f26a76a937b4db281905e))
+* **deps:** bump jw-epub-parser from 1.25.0 to 1.26.0 ([9ddc03f](https://github.com/sws2apps/lmm-oa-sws/commit/9ddc03f90a25569da6255d09b61f4cb7c3507bd0))
+* **deps:** bump react-i18next from 11.18.6 to 12.0.0 ([47e4933](https://github.com/sws2apps/lmm-oa-sws/commit/47e4933d59be73a7eae95a6cc6127b4879da5a93))
+* **deps:** bump ua-parser-js from 1.0.2 to 1.0.32 ([cd9646b](https://github.com/sws2apps/lmm-oa-sws/commit/cd9646b3b6db6ff738218c967e6a805ecb1fa08d))
+
 # [1.2.0](https://github.com/sws2apps/lmm-oa-sws/compare/v1.1.2...v1.2.0) (2022-10-12)
 
 
