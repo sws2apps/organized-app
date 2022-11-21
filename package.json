@@ -70,6 +70,6 @@
     "@semantic-release/git": "^10.0.1",
     "cypress": "^11.1.0",
     "prop-types": "^15.8.1",
-    "serve": "^14.1.1"
+    "serve": "^14.1.2"
   }
 }
