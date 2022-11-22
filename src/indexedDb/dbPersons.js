@@ -255,7 +255,6 @@ export const dbHistoryAssistant = async (mainStuID) => {
 };
 
 export const dbSavePerson = async (uid, data) => {
-  console.log(uid, data);
   const person = await dbGetStudentDetails(uid);
   await appDb.table('persons').update(person.id, {
     ...data,
