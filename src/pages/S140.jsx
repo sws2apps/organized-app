@@ -94,7 +94,7 @@ const S140 = () => {
       setRootModalOpen(true);
 
       const data = await dbGetScheduleForPrint(currentSchedule.value);
-      console.log(data);
+
       setData(data);
       setRootModalOpen(false);
     };
