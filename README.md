@@ -2,11 +2,7 @@
 
 [![lmm-oa-sws](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/rfu8xk&style=plastic&logo=cypress)](https://dashboard.cypress.io/projects/rfu8xk/runs)
 
-LMM-OA is a web application that will allow you to schedule students assignment for Midweek Meeting for Jehovah’s Witnesses.
-
-## Note
-
-An update is being prepared to support the latest Organization changes.
+LMM-OA is a web application that will allow you to schedule the Midweek Meeting for Jehovah’s Witnesses.
 
 ## Preview
 

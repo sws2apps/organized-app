@@ -5,9 +5,9 @@
     "scope": "/",
     "start_url": "/",
     "id": "/",
-    "name": "LMM-OA",
+    "name": "Life and Ministry Meeting Overseer Assistant",
     "short_name": "LMM-OA",
-    "description": "Application to schedule the students assignment for midweek meeting designed for the Life and Ministry Meeting Overseer",
+    "description": "Schedule assignments for Midweek Meeting of Jehovah’s Witnesses",
     "icons": [
         {
             "src": "/img/icon-192x192.png",

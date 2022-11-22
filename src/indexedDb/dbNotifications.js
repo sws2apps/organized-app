@@ -1,5 +1,5 @@
 import { promiseSetRecoil } from 'recoil-outside';
-import { appNotificationsState } from '../appStates/appSettings';
+import { appNotificationsState } from '../states/main';
 import { langList } from '../locales/langList';
 import appDb from './mainDb';
 

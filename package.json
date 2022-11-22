@@ -1,17 +1,31 @@
 {
   "name": "lmm-oa-sws",
-  "version": "1.3.0",
   "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sws2apps/lmm-oa-sws.git"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && workbox generateSW workbox.config.cjs",
+    "preview": "serve -l 5000 -s dist"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app"
+    ]
+  },
   "dependencies": {
-    "@date-io/date-fns": "^2.16.0",
-    "@emotion/react": "^11.10.5",
-    "@emotion/styled": "^11.10.5",
-    "@fingerprintjs/fingerprintjs-pro": "^3.8.1",
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
+    "@fingerprintjs/fingerprintjs-pro": "^3.7.1",
     "@fontsource/roboto": "^4.5.8",
-    "@mui/icons-material": "^5.10.14",
-    "@mui/lab": "^5.0.0-alpha.108",
-    "@mui/material": "^5.10.14",
-    "@mui/x-date-pickers": "^5.0.8",
+    "@mui/icons-material": "^5.10.9",
+    "@mui/lab": "^5.0.0-alpha.107",
+    "@mui/material": "^5.10.13",
+    "@mui/x-date-pickers": "^5.0.7",
     "@sws2apps/react-sw-helper": "^1.9.0",
     "date-fns": "^2.29.3",
     "dateformat": "^5.0.3",
@@ -20,56 +34,33 @@
     "downloadjs": "^1.4.7",
     "file-select-dialog": "^1.5.4",
     "html2pdf.js": "^0.10.1",
-    "i18next": "^22.0.6",
+    "i18next": "^21.10.0",
     "interweave": "^13.0.0",
     "jw-epub-parser": "^1.27.0",
+    "prop-types": "^15.8.1",
     "qrcode": "^1.5.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-i18next": "^12.0.0",
-    "react-router-dom": "^6.4.3",
-    "react-scripts": "^5.0.1",
+    "react-router-dom": "^6.4.2",
     "recoil": "^0.7.6",
     "recoil-outside": "^0.1.1",
     "simple-crypto-js": "^3.0.1",
-    "ua-parser-js": "^1.0.32",
     "use-pwa2": "^0.2.0",
+    "vite-plugin-package-version": "^1.0.2",
     "workbox-cli": "^6.5.4"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build && workbox generateSW workbox-config.cjs",
-    "preview": "serve -l 5000 -s build",
-    "test": "cypress run"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/sws2apps/lmm-oa-sws.git"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.1",
-    "@semantic-release/exec": "^6.0.2",
+    "@semantic-release/exec": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
-    "cypress": "^11.1.0",
-    "prop-types": "^15.8.1",
-    "serve": "^14.1.2"
+    "@types/react": "^18.0.17",
+    "@types/react-dom": "^18.0.6",
+    "@vitejs/plugin-react": "^2.1.0",
+    "eslint": "^8.25.0",
+    "eslint-config-react-app": "^7.0.1",
+    "serve": "^14.1.2",
+    "vite": "^3.1.7",
+    "vite-plugin-eslint": "^1.8.1"
   }
 }

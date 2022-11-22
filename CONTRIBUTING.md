@@ -40,11 +40,6 @@ If you’re only fixing a bug, it’s fine to submit a pull request right away b
 - You will be working on one item at a time.
 - If you do not have it yet, fork the repository. Clone it if you will work locally.
 - If you have already forked and clone the repository, make sure that it is in sync with the upstream repository ([Syncing a fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork)).
-- Setup the environment variable .env with the following content:
-  ```bash
-  GENERATE_SOURCEMAP=false
-  REACT_APP_VERSION=$npm_package_version
-  ```
 - Run `npm i` to install the needed dependencies
 
 ## Sending a Pull Request (PR)
@@ -53,7 +48,7 @@ We are monitoring for pull requests. We will review your pull request and either
 
 **Before submitting a PR**, please make sure the following is done:
 
-- Run `npm start`, and test if the changes you are proposing are working correctly.
+- Run `npm dev`, and test if the changes you are proposing are working correctly.
 - Run `npm build`, to check if the application build correctly.
 
 **When commiting your changes**, we recommend the following command to be run:
