@@ -1,3 +1,30 @@
+# [2.0.0](https://github.com/sws2apps/lmm-oa-sws/compare/v1.3.0...v2.0.0) (2022-11-22)
+
+
+### Features
+
+* **app:** support latest organization changes on the use of this application ([ed7ea9c](https://github.com/sws2apps/lmm-oa-sws/commit/ed7ea9c241499a6770d407227d24e595dce02704))
+* **deps:** bump @fingerprintjs/fingerprintjs-pro from 3.7.1 to 3.8.0 ([f0cf967](https://github.com/sws2apps/lmm-oa-sws/commit/f0cf967e73c1210883a661b84f15aea0dc1c1488))
+* **deps:** bump @fingerprintjs/fingerprintjs-pro from 3.8.0 to 3.8.1 ([151400d](https://github.com/sws2apps/lmm-oa-sws/commit/151400d063171e3ae99aba3d50fe7f23e6730f9d))
+* **deps:** bump @mui/icons-material from 5.10.9 to 5.10.14 ([e85f00f](https://github.com/sws2apps/lmm-oa-sws/commit/e85f00f0b7be9f8df00f45836fedaf42029f956c))
+* **deps:** bump @mui/lab from 5.0.0-alpha.106 to 5.0.0-alpha.107 ([8b4b4d0](https://github.com/sws2apps/lmm-oa-sws/commit/8b4b4d0cc9194c7757168ac115f707d980601f2c))
+* **deps:** bump @mui/lab from 5.0.0-alpha.107 to 5.0.0-alpha.108 ([92a6a75](https://github.com/sws2apps/lmm-oa-sws/commit/92a6a75a816ef99c35a5751efb775397d09530b6))
+* **deps:** bump @mui/material from 5.10.12 to 5.10.13 ([86f2c1e](https://github.com/sws2apps/lmm-oa-sws/commit/86f2c1ef1380ccade4ea95eaddf5bda12902b623))
+* **deps:** bump @mui/material from 5.10.13 to 5.10.14 ([7537a66](https://github.com/sws2apps/lmm-oa-sws/commit/7537a669061c56bb417b47bc113fb6853a2da951))
+* **deps:** bump @mui/x-date-pickers from 5.0.6 to 5.0.7 ([172b7bb](https://github.com/sws2apps/lmm-oa-sws/commit/172b7bb11a2515f7152fbf026e9fdb7b02070ba9))
+* **deps:** bump @mui/x-date-pickers from 5.0.7 to 5.0.8 ([6b84413](https://github.com/sws2apps/lmm-oa-sws/commit/6b84413097ecad0afcd6aaa9162e5d1ccc07dfa6))
+* **deps:** bump i18next from 22.0.4 to 22.0.5 ([3091c28](https://github.com/sws2apps/lmm-oa-sws/commit/3091c28c6bc7ca3e4ac96927b193ceba8138eba3))
+* **deps:** bump i18next from 22.0.5 to 22.0.6 ([4757ab3](https://github.com/sws2apps/lmm-oa-sws/commit/4757ab3a9ab5cb0f92c5cedcc2abec7cbc315066))
+* **deps:** bump jw-epub-parser from 1.26.0 to 1.27.0 ([b5fdd3c](https://github.com/sws2apps/lmm-oa-sws/commit/b5fdd3ce92cb1ab650510c42f58b5afb2383a846))
+* **deps:** bump loader-utils from 2.0.2 to 2.0.3 ([af7389d](https://github.com/sws2apps/lmm-oa-sws/commit/af7389d6e7df68a89e437e301c07a9112d7f04a4))
+* **deps:** bump loader-utils from 2.0.3 to 2.0.4 ([8ce4b6d](https://github.com/sws2apps/lmm-oa-sws/commit/8ce4b6d9c5f0c275532b8e0d2c9db2dd90044fc9))
+* **deps:** bump react-router-dom from 6.4.2 to 6.4.3 ([c6318ec](https://github.com/sws2apps/lmm-oa-sws/commit/c6318ec3aebad7dcee9f390221bf113bbd1d35a4))
+
+
+### BREAKING CHANGES
+
+* **app:** Major updates have been implemented in LMM-OA to support the latest organization changes. Also, most parts of the application were redesigned. We do now support light and dark mode.
+
 # [1.3.0](https://github.com/sws2apps/lmm-oa-sws/compare/v1.2.0...v1.3.0) (2022-11-01)
 
 
