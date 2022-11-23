@@ -1,3 +1,10 @@
+## [2.1.1](https://github.com/sws2apps/lmm-oa-sws/compare/v2.1.0...v2.1.1) (2022-11-23)
+
+
+### Bug Fixes
+
+* **updater:** fix wrong translation being shown ([ca656cc](https://github.com/sws2apps/lmm-oa-sws/commit/ca656cc171e55ecbcddaa1da07a7148219463ff2))
+
 # [2.1.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.0.0...v2.1.0) (2022-11-23)
 
 
