@@ -91,7 +91,11 @@ export const assTypeAYFOnlyState = selector({
   key: 'assTypeAYFOnly',
   get: ({ get }) => {
     const assTypeList = get(assTypeLocalNewState);
-    const newList = assTypeList.filter((ass) => ass.type === 'ayf');
+    const newList = assTypeList
+      .filter((ass) => ass.type === 'ayf')
+      .sort((a, b) => {
+        return a.code > b.code ? 1 : -1;
+      });
     const final = newList.map((list) => {
       return { label: list.label, value: list.value };
     });
