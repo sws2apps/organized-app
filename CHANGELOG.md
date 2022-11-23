@@ -1,3 +1,17 @@
+# [2.1.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.0.0...v2.1.0) (2022-11-23)
+
+
+### Bug Fixes
+
+* **backup:** add app settings to the list of records to be backed up ([3f2cab4](https://github.com/sws2apps/lmm-oa-sws/commit/3f2cab447e0fa7f06d881f349d2781a854a13cbf))
+
+
+### Features
+
+* **deps:** bump @mui/icons-material from 5.10.9 to 5.10.15 ([fd76886](https://github.com/sws2apps/lmm-oa-sws/commit/fd7688661ceda67eee874c74c18a515deafa362e))
+* **deps:** bump @mui/material from 5.10.13 to 5.10.15 ([d864259](https://github.com/sws2apps/lmm-oa-sws/commit/d86425946ca42970702c78f4451170869bbad2aa))
+* **deps:** bump @mui/x-date-pickers from 5.0.7 to 5.0.8 ([56c4d45](https://github.com/sws2apps/lmm-oa-sws/commit/56c4d4538f8429aa9ac422c9484f1118a9c74eb8))
+
 # [2.0.0](https://github.com/sws2apps/lmm-oa-sws/compare/v1.3.0...v2.0.0) (2022-11-22)
 
 
