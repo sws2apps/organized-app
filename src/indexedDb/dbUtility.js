@@ -157,6 +157,9 @@ export const dbExportDataOnline = async () => {
   // get app settings
   const dbSettings = await appDb.app_settings.toArray();
 
+  // restore credentials
+  await dbUpdateAppSettings({ userPass: userPass, username: username });
+
   return { dbPersons, dbSourceMaterial, dbSchedule, dbPocketTbl, dbSettings };
 };
 
