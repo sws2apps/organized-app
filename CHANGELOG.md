@@ -1,3 +1,11 @@
+## [2.1.3](https://github.com/sws2apps/lmm-oa-sws/compare/v2.1.2...v2.1.3) (2022-11-23)
+
+
+### Bug Fixes
+
+* **app:** auto fetch service worker update ([eb0aef9](https://github.com/sws2apps/lmm-oa-sws/commit/eb0aef9567261ed96f973456e463de7475b2b5e3))
+* **backup:** restore user credentials after creating backup ([2e2c9f5](https://github.com/sws2apps/lmm-oa-sws/commit/2e2c9f5df59dda6064891e16d506a592cb9aebf2))
+
 ## [2.1.2](https://github.com/sws2apps/lmm-oa-sws/compare/v2.1.1...v2.1.2) (2022-11-23)
 
 
