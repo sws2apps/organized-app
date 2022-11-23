@@ -264,7 +264,7 @@ const StudentAdvancedSearch = ({
     <Collapse in={advancedOpen} timeout="auto" unmountOnExit>
       <Box
         sx={{
-          margin: '0 10px 20px 0',
+          marginBottom: '20px',
           backgroundColor: alpha(theme.palette.common[themeOptions.searchBg], 0.25),
           borderRadius: '8px',
           marginTop: '8px',

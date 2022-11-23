@@ -55,42 +55,28 @@ const SourceCard = ({ schedule }) => {
     <Paper
       elevation={3}
       sx={{
-        padding: '15px',
-        width: '350px',
+        padding: '10px',
         height: '280px',
+        width: '280px',
         boxSizing: 'content-box',
       }}
     >
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '10px' }}>
         <CalendarMonthIcon color="primary" sx={{ fontSize: '60px' }} />
-        <Typography variant="h6" sx={{ borderBottom: '1px solid', width: '350px', paddingBottom: '5px' }}>
+        <Typography variant="h6" sx={{ borderBottom: '1px solid', paddingRight: '40px', paddingBottom: '5px' }}>
           {schedule.label}
         </Typography>
       </Box>
 
-      <Box
-        sx={{
-          marginTop: '10px',
-          display: 'flex',
-          gap: '40px',
-          justifyContent: 'flex-end',
-          alignItems: 'center',
-          width: '100%',
-        }}
-      >
-        <Box>
-          <Typography>{t('global.week')}</Typography>
-        </Box>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          {weeks.map((week) => (
-            <Box key={week.value} sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-              <Typography>{week.label}</Typography>
-              <IconButton sx={{ padding: 0 }} onClick={() => handleEditSource(week)}>
-                <EditIcon color="success" />
-              </IconButton>
-            </Box>
-          ))}
-        </Box>
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px', marginLeft: '80px' }}>
+        {weeks.map((week) => (
+          <Box key={week.value} sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+            <Typography>{week.label}</Typography>
+            <IconButton sx={{ padding: 0 }} onClick={() => handleEditSource(week)}>
+              <EditIcon color="success" />
+            </IconButton>
+          </Box>
+        ))}
       </Box>
     </Paper>
   );

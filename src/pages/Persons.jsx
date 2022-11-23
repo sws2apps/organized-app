@@ -246,7 +246,6 @@ const Persons = () => {
           alignItems: 'center',
           justifyContent: 'space-between',
           width: '100%',
-          paddingRight: '10px',
           marginTop: '10px',
         }}
       >
@@ -387,7 +386,7 @@ const Persons = () => {
         txtSearch={txtSearch}
       />
 
-      <Box sx={{ marginBottom: '10px', marginRight: '5px' }}>
+      <Box sx={{ marginBottom: '10px' }}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={tabValue} onChange={handleTabChange} aria-label="basic tabs example">
             <Tab label={`${t('persons.searchResult')} (${isSearch ? 0 : persons.length})`} {...a11yProps(0)} />

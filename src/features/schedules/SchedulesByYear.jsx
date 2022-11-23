@@ -28,7 +28,7 @@ const SchedulesByYear = ({ year }) => {
   }, [getMonthlySchedules]);
 
   return (
-    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '15px', padding: '0 20px 20px 20px' }}>
+    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '15px', padding: '5px' }}>
       {schedules.map((schedule) => (
         <ScheduleCard key={schedule.value} schedule={schedule} />
       ))}

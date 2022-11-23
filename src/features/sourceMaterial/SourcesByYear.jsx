@@ -28,7 +28,7 @@ const SourcesByYear = ({ year }) => {
   }, [getMonthlySources]);
 
   return (
-    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '15px', padding: '0 20px 20px 20px' }}>
+    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '15px', padding: '0 5px 10px 5px' }}>
       {sources.map((schedule) => (
         <SourceCard key={schedule.value} schedule={schedule} />
       ))}

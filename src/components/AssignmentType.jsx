@@ -63,7 +63,7 @@ const AssignmentType = ({ student, assignable, currentType, handleChangeType }) 
         <Autocomplete
           id="grouped-demo"
           size="small"
-          sx={{ minWidth: '340px' }}
+          sx={{ minWidth: '260px' }}
           options={localList}
           groupBy={(option) => option.type}
           getOptionLabel={(option) => (option.label ? option.label : '')}

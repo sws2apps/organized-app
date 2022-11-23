@@ -85,7 +85,7 @@ const ScheduleCard = ({ schedule }) => {
     <Paper
       elevation={3}
       sx={{
-        padding: '15px',
+        padding: '10px',
         display: 'flex',
         gap: '20px',
         justifyContent: 'space-between',
@@ -93,10 +93,10 @@ const ScheduleCard = ({ schedule }) => {
         flexWrap: 'wrap',
       }}
     >
-      <Typography variant="h6" sx={{ minWidth: '180px' }}>
+      <Typography variant="h6" sx={{ minWidth: '150px' }}>
         {schedule.label}
       </Typography>
-      <Box sx={{ display: 'flex', gap: '10px' }}>
+      <Box sx={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
         <IconButton onClick={handleOpenSchedule}>
           <OpenInNewIcon color="success" sx={{ fontSize: '35px' }} />
         </IconButton>

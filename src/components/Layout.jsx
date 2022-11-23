@@ -62,7 +62,7 @@ const Layout = ({ updatePwa }) => {
       <NavBar enabledInstall={enabledInstall} isLoading={isLoading} installPwa={installPwa} />
       <AppUpdater updatePwa={updatePwa} enabledInstall={enabledInstall} />
 
-      <Box sx={{ padding: '20px' }}>
+      <Box sx={{ padding: '10px' }}>
         <UserAutoLogin />
 
         {isOpenAbout && <About />}
