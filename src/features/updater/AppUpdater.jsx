@@ -20,17 +20,17 @@ const AppUpdater = ({ enabledInstall, updatePwa }) => {
     <>
       <Snackbar
         open={showReload}
-        message={t('appNewVersionAvailable')}
+        message={t('global.newVersion')}
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         action={
           <Button color="inherit" size="small" onClick={reloadPage}>
-            {t('appUpdateBtn')}
+            {t('global.updateApp')}
           </Button>
         }
       />
       <Snackbar
         open={isPrecached && enabledInstall && !showReload}
-        message={t('appContentCached')}
+        message={t('global.cacheCompleted')}
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         action={
           <Button color="inherit" size="small" onClick={() => setIsPrecached(false)}>
