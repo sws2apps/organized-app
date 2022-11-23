@@ -1,3 +1,11 @@
+## [2.1.4](https://github.com/sws2apps/lmm-oa-sws/compare/v2.1.3...v2.1.4) (2022-11-23)
+
+
+### Bug Fixes
+
+* **source-material:** fix issue where field ministry video parts were not detected ([4871382](https://github.com/sws2apps/lmm-oa-sws/commit/4871382f50b046ca32a577180a238ceb852b902b))
+* **styles:** update some styles for mobile view ([1de3afa](https://github.com/sws2apps/lmm-oa-sws/commit/1de3afa4b48a7e1c83712b34fccb9ee5d875f3c7))
+
 ## [2.1.3](https://github.com/sws2apps/lmm-oa-sws/compare/v2.1.2...v2.1.3) (2022-11-23)
 
 
