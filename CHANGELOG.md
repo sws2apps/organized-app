@@ -1,3 +1,10 @@
+## [2.1.2](https://github.com/sws2apps/lmm-oa-sws/compare/v2.1.1...v2.1.2) (2022-11-23)
+
+
+### Bug Fixes
+
+* **backup:** fix typo error in variable name ([94f716e](https://github.com/sws2apps/lmm-oa-sws/commit/94f716e8c60fb8020b2ac857bb97de9e1ffab501))
+
 ## [2.1.1](https://github.com/sws2apps/lmm-oa-sws/compare/v2.1.0...v2.1.1) (2022-11-23)
 
 
