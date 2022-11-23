@@ -113,7 +113,7 @@ const BackupDbDialog = () => {
           cong_schedule: dbSchedule,
           cong_sourceMaterial: dbSourceMaterial,
           cong_swsPocket: dbPocketTbl,
-          const_settings: dbSettings,
+          cong_settings: dbSettings,
         };
 
         const res = await fetch(`${apiHost}api/congregations/${congID}/backup`, {
