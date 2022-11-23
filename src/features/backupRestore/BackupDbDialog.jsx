@@ -106,13 +106,14 @@ const BackupDbDialog = () => {
         setIsProcessing(true);
         cancel.current = false;
 
-        const { dbPersons, dbSourceMaterial, dbSchedule, dbPocketTbl } = await dbExportDataOnline();
+        const { dbPersons, dbSourceMaterial, dbSchedule, dbPocketTbl, dbSettings } = await dbExportDataOnline();
 
         const reqPayload = {
           cong_persons: dbPersons,
           cong_schedule: dbSchedule,
           cong_sourceMaterial: dbSourceMaterial,
           cong_swsPocket: dbPocketTbl,
+          const_settings: dbSettings,
         };
 
         const res = await fetch(`${apiHost}api/congregations/${congID}/backup`, {
@@ -168,14 +169,14 @@ const BackupDbDialog = () => {
       <Dialog
         open={open}
         onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'
       >
-        <DialogTitle id="alert-dialog-title">{t('settings.createBackup')}</DialogTitle>
+        <DialogTitle id='alert-dialog-title'>{t('settings.createBackup')}</DialogTitle>
         <DialogContent sx={{ minWidth: '380px' }}>
           {isProcessing && (
             <CircularProgress
-              color="secondary"
+              color='secondary'
               size={80}
               disableShrink={true}
               sx={{
@@ -199,10 +200,10 @@ const BackupDbDialog = () => {
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleClose} color='primary'>
             {t('global.cancel')}
           </Button>
-          <Button onClick={handleCreateBackup} disabled={isProcessing} color="primary">
+          <Button onClick={handleCreateBackup} disabled={isProcessing} color='primary'>
             {t('global.create')}
           </Button>
         </DialogActions>

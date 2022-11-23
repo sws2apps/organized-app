@@ -118,9 +118,15 @@ const RestoreDbDialog = () => {
           const data = await res.json();
 
           if (res.status === 200) {
-            const { cong_persons, cong_schedule, cong_sourceMaterial, cong_swsPocket } = data;
+            const { cong_persons, cong_schedule, cong_sourceMaterial, cong_swsPocket, cong_settings } = data;
 
-            await dbRestoreCongregationBackup(cong_persons, cong_schedule, cong_sourceMaterial, cong_swsPocket);
+            await dbRestoreCongregationBackup(
+              cong_persons,
+              cong_schedule,
+              cong_sourceMaterial,
+              cong_swsPocket,
+              cong_settings
+            );
 
             window.location.reload();
             return;
@@ -159,14 +165,14 @@ const RestoreDbDialog = () => {
       <Dialog
         open={open}
         onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'
       >
-        <DialogTitle id="alert-dialog-title">{t('settings.restoreBackup')}</DialogTitle>
+        <DialogTitle id='alert-dialog-title'>{t('settings.restoreBackup')}</DialogTitle>
         <DialogContent sx={{ minWidth: '380px' }}>
           {isProcessing && (
             <CircularProgress
-              color="secondary"
+              color='secondary'
               size={80}
               disableShrink={true}
               sx={{
@@ -190,10 +196,10 @@ const RestoreDbDialog = () => {
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleClose} color='primary'>
             {t('global.cancel')}
           </Button>
-          <Button onClick={restoreBackup} disabled={isProcessing} color="primary">
+          <Button onClick={restoreBackup} disabled={isProcessing} color='primary'>
             {t('global.restore')}
           </Button>
         </DialogActions>

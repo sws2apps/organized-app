@@ -147,10 +147,39 @@ export const dbExportDataOnline = async () => {
   // get sws-pocket schedules
   const dbPocketTbl = await appDb.sws_pocket.toArray();
 
-  return { dbPersons, dbSourceMaterial, dbSchedule, dbPocketTbl };
+  // remove user credentials before export
+  const appSettings = await dbGetAppSettings();
+  const { userPass, username } = appSettings;
+  delete appSettings.userPass;
+  delete appSettings.username;
+  await dbUpdateAppSettings({ ...appSettings }, true);
+
+  // get app settings
+  const dbSettings = await appDb.app_settings.toArray();
+
+  return { dbPersons, dbSourceMaterial, dbSchedule, dbPocketTbl, dbSettings };
 };
 
-export const dbRestoreCongregationBackup = async (cong_persons, cong_schedule, cong_sourceMaterial, cong_swsPocket) => {
+export const dbRestoreCongregationBackup = async (
+  cong_persons,
+  cong_schedule,
+  cong_sourceMaterial,
+  cong_swsPocket,
+  cong_settings
+) => {
+  // get user credentials before import
+  const { userPass, username } = await dbGetAppSettings();
+
+  // restore settings
+  await appDb.app_settings.clear();
+  for (let i = 0; i < cong_settings.length; i++) {
+    const setting = cong_settings[i];
+    await appDb.app_settings.add(setting, setting.id);
+  }
+
+  // append saved user credentials
+  await dbUpdateAppSettings({ userPass: userPass, username: username });
+
   // restore persons
   await appDb.persons.clear();
   for (let i = 0; i < cong_persons.length; i++) {
