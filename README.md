@@ -1,12 +1,10 @@
 # Life and Ministry Meeting Overseer Assistant (LMM-OA)
 
-[![lmm-oa-sws](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/rfu8xk&style=plastic&logo=cypress)](https://dashboard.cypress.io/projects/rfu8xk/runs)
-
 LMM-OA is a web application that will allow you to schedule the Midweek Meeting for Jehovah’s Witnesses.
 
 ## Preview
 
-![LMM-OA](https://user-images.githubusercontent.com/26148770/178285310-fb3e4965-270e-468d-b08d-81951b406f6a.png)
+![LMM-OA](https://user-images.githubusercontent.com/26148770/203717917-a88b34b7-b898-445e-b688-2a2f59ccbec9.png)
 
 ## Who should use LMM-OA?
 
