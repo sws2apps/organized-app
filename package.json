@@ -55,7 +55,7 @@
     "@semantic-release/exec": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
     "@types/react": "^18.0.17",
-    "@types/react-dom": "^18.0.6",
+    "@types/react-dom": "^18.0.9",
     "@vitejs/plugin-react": "^2.1.0",
     "eslint": "^8.28.0",
     "eslint-config-react-app": "^7.0.1",
