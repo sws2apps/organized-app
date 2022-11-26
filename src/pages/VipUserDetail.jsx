@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Box from '@mui/material/Box';
@@ -18,6 +19,8 @@ import { appMessageState, appSeverityState, appSnackOpenState } from '../states/
 import { congIDState } from '../states/congregation';
 
 const VipUserDetail = () => {
+  const queryClient = useQueryClient();
+
   const cancel = useRef();
 
   const { id } = useParams();
@@ -77,47 +80,24 @@ const VipUserDetail = () => {
     });
   };
 
-  const handleFetchUserById = useCallback(async () => {
-    try {
-      if (apiHost !== '') {
-        cancel.current = false;
+  const handleFetchUser = async () => {
+    if (apiHost !== '') {
+      cancel.current = false;
 
-        setMember({});
-        setIsProcessing(true);
+      const res = await fetch(`${apiHost}api/congregations/${congID}/members/${id}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          visitorid: visitorID,
+          email: userEmail,
+        },
+      });
 
-        const res = await fetch(`${apiHost}api/congregations/${congID}/members/${id}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            visitorid: visitorID,
-            email: userEmail,
-          },
-        });
-
-        if (!cancel.current) {
-          const data = await res.json();
-
-          if (res.status === 200) {
-            setMember(data);
-            setIsProcessing(false);
-            return;
-          }
-
-          setIsProcessing(false);
-          setAppMessage(data.message);
-          setAppSeverity('warning');
-          setAppSnackOpen(true);
-        }
-      }
-    } catch (err) {
-      if (!cancel.current) {
-        setIsProcessing(false);
-        setAppMessage(err.message);
-        setAppSeverity('error');
-        setAppSnackOpen(true);
-      }
+      return await res.json();
     }
-  }, [apiHost, cancel, congID, id, setAppMessage, setAppSeverity, setAppSnackOpen, userEmail, visitorID]);
+  };
+
+  const { isLoading, error, data } = useQuery({ queryKey: ['vipUser', id], queryFn: handleFetchUser });
 
   const handleUpdateRole = async () => {
     try {
@@ -145,6 +125,7 @@ const VipUserDetail = () => {
 
           if (res.status === 200) {
             setModalOpen(false);
+            queryClient.invalidateQueries({ queryKey: ['vipUser', id] });
             navigate('/administration');
             return;
           }
@@ -170,8 +151,20 @@ const VipUserDetail = () => {
   };
 
   useEffect(() => {
-    if (id) handleFetchUserById();
-  }, [id, handleFetchUserById]);
+    if (data) {
+      setMember(data);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    setIsProcessing(isLoading);
+  }, [isLoading]);
+
+  useEffect(() => {
+    setAppMessage(error);
+    setAppSeverity('error');
+    setAppSnackOpen(true);
+  }, [error, setAppMessage, setAppSeverity, setAppSnackOpen]);
 
   useEffect(() => {
     return () => {

@@ -14,7 +14,7 @@ import { themeOptionsState } from '../../states/theme';
 const boxStudentAYF = {
   display: 'flex',
   flexDirection: 'column',
-  marginBottom: '8px',
+  gap: '5px',
 };
 
 const typoStudentField = {
@@ -28,7 +28,7 @@ const typoStudentField = {
 
 const boxStudentFldContainer = {
   display: 'flex',
-  marginRight: '5px',
+  gap: '5px',
   alignItems: 'flex-end',
 };
 
@@ -64,7 +64,7 @@ const ScheduleAYF = (props) => {
     isStuB,
     isAssB,
   } = props.params;
-  const { loadStudentPicker } = props;
+  const { loadStudentPicker, readOnly } = props;
 
   const classCount = useRecoilValue(classCountState);
 
@@ -154,16 +154,20 @@ const ScheduleAYF = (props) => {
                   >
                     {stuA}
                   </Typography>
-                  {isStuA && (
-                    <CircularProgress sx={{ padding: '1px' }} color="secondary" size={26} disableShrink={true} />
-                  )}
-                  {!isStuA && (
-                    <IconButton
-                      sx={iconButtonContainer}
-                      onClick={() => loadStuPicker(stuAID, assType, assTypeName, stuA)}
-                    >
-                      <EditIcon sx={editIconButton} />
-                    </IconButton>
+                  {readOnly === undefined && (
+                    <>
+                      {isStuA && (
+                        <CircularProgress sx={{ padding: '1px' }} color="secondary" size={26} disableShrink={true} />
+                      )}
+                      {!isStuA && (
+                        <IconButton
+                          sx={iconButtonContainer}
+                          onClick={() => loadStuPicker(stuAID, assType, assTypeName, stuA)}
+                        >
+                          <EditIcon sx={editIconButton} />
+                        </IconButton>
+                      )}
+                    </>
                   )}
                 </Box>
                 {assType !== 104 && (
@@ -177,16 +181,22 @@ const ScheduleAYF = (props) => {
                     >
                       {assA}
                     </Typography>
-                    {isAssA && (
-                      <CircularProgress sx={{ padding: '1px' }} color="secondary" size={26} disableShrink={true} />
-                    )}
-                    {!isAssA && (
-                      <IconButton
-                        sx={iconButtonContainer}
-                        onClick={() => loadStuPicker(assAID, assType, t('global.assistant'), assA, stuA, assTypeName)}
-                      >
-                        <EditIcon sx={editIconButton} />
-                      </IconButton>
+                    {readOnly === undefined && (
+                      <>
+                        {isAssA && (
+                          <CircularProgress sx={{ padding: '1px' }} color="secondary" size={26} disableShrink={true} />
+                        )}
+                        {!isAssA && (
+                          <IconButton
+                            sx={iconButtonContainer}
+                            onClick={() =>
+                              loadStuPicker(assAID, assType, t('global.assistant'), assA, stuA, assTypeName)
+                            }
+                          >
+                            <EditIcon sx={editIconButton} />
+                          </IconButton>
+                        )}
+                      </>
                     )}
                   </Box>
                 )}
@@ -203,16 +213,20 @@ const ScheduleAYF = (props) => {
                     >
                       {stuB}
                     </Typography>
-                    {isStuB && (
-                      <CircularProgress sx={{ padding: '1px' }} color="secondary" size={26} disableShrink={true} />
-                    )}
-                    {!isStuB && (
-                      <IconButton
-                        sx={iconButtonContainer}
-                        onClick={() => loadStuPicker(stuBID, assType, assTypeName, stuB)}
-                      >
-                        <EditIcon sx={editIconButton} />
-                      </IconButton>
+                    {readOnly === undefined && (
+                      <>
+                        {isStuB && (
+                          <CircularProgress sx={{ padding: '1px' }} color="secondary" size={26} disableShrink={true} />
+                        )}
+                        {!isStuB && (
+                          <IconButton
+                            sx={iconButtonContainer}
+                            onClick={() => loadStuPicker(stuBID, assType, assTypeName, stuB)}
+                          >
+                            <EditIcon sx={editIconButton} />
+                          </IconButton>
+                        )}
+                      </>
                     )}
                   </Box>
                   {assType !== 104 && (
@@ -226,16 +240,27 @@ const ScheduleAYF = (props) => {
                       >
                         {assB}
                       </Typography>
-                      {isAssB && (
-                        <CircularProgress sx={{ padding: '1px' }} color="secondary" size={26} disableShrink={true} />
-                      )}
-                      {!isAssB && (
-                        <IconButton
-                          sx={iconButtonContainer}
-                          onClick={() => loadStuPicker(assBID, assType, t('global.assistant'), assB, stuB, assTypeName)}
-                        >
-                          <EditIcon sx={editIconButton} />
-                        </IconButton>
+                      {readOnly === undefined && (
+                        <>
+                          {isAssB && (
+                            <CircularProgress
+                              sx={{ padding: '1px' }}
+                              color="secondary"
+                              size={26}
+                              disableShrink={true}
+                            />
+                          )}
+                          {!isAssB && (
+                            <IconButton
+                              sx={iconButtonContainer}
+                              onClick={() =>
+                                loadStuPicker(assBID, assType, t('global.assistant'), assB, stuB, assTypeName)
+                              }
+                            >
+                              <EditIcon sx={editIconButton} />
+                            </IconButton>
+                          )}
+                        </>
                       )}
                     </Box>
                   )}

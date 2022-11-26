@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
+import { useQuery } from '@tanstack/react-query';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { UserSessionItem } from './';
@@ -24,49 +25,49 @@ const UserSessions = () => {
 
   const [sessions, setSessions] = useState([]);
 
-  const handleGetSessions = useCallback(async () => {
-    try {
-      if (apiHost !== '') {
-        cancel.current = false;
-        setModalOpen(true);
+  const handleSessions = async () => {
+    if (apiHost !== '') {
+      cancel.current = false;
 
-        const res = await fetch(`${apiHost}api/users/${userID}/sessions`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            visitorid: visitorID,
-            email: userEmail,
-          },
-        });
+      const res = await fetch(`${apiHost}api/users/${userID}/sessions`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          visitorid: visitorID,
+          email: userEmail,
+        },
+      });
 
-        if (!cancel.current) {
-          const data = await res.json();
-
-          if (res.status === 200) {
-            setModalOpen(false);
-            setSessions(data);
-            return;
-          }
-
-          setModalOpen(false);
-          setAppMessage(data.message);
-          setAppSeverity('warning');
-          setAppSnackOpen(true);
-        }
-      }
-    } catch (err) {
-      if (!cancel.current) {
-        setModalOpen(false);
-        setAppMessage(err.message);
-        setAppSeverity('error');
-        setAppSnackOpen(true);
-      }
+      return await res.json();
     }
-  }, [apiHost, cancel, setAppMessage, setAppSeverity, setAppSnackOpen, setModalOpen, userEmail, userID, visitorID]);
+  };
+
+  const { isLoading, error, data } = useQuery({ queryKey: ['sessions'], queryFn: handleSessions });
 
   useEffect(() => {
-    handleGetSessions();
-  }, [handleGetSessions]);
+    if (data) {
+      setSessions(data);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (data && !cancel.current) {
+      setSessions(data);
+    }
+  }, [data, cancel, setSessions]);
+
+  useEffect(() => {
+    if (error) {
+      setModalOpen(false);
+      setAppMessage(error);
+      setAppSeverity('error');
+      setAppSnackOpen(true);
+    }
+  }, [error, setAppMessage, setAppSeverity, setAppSnackOpen, setModalOpen]);
+
+  useEffect(() => {
+    setModalOpen(isLoading);
+  }, [isLoading, setModalOpen]);
 
   useEffect(() => {
     return () => {

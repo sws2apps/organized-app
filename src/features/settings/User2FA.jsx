@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import { Markup } from 'interweave';
+import { useQuery } from '@tanstack/react-query';
 import QRCode from 'qrcode';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -34,6 +35,25 @@ const User2FA = () => {
   const [token, setToken] = useState('');
   const [viewerOpen, setViewerOpen] = useState(false);
 
+  const handleFecth = async () => {
+    if (apiHost !== '') {
+      cancel.current = false;
+
+      const res = await fetch(`${apiHost}api/users/${userID}/2fa`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          visitorid: visitorID,
+          email: userEmail,
+        },
+      });
+
+      return await res.json();
+    }
+  };
+
+  const { isLoading, error, data } = useQuery({ queryKey: ['2fa'], queryFn: handleFecth });
+
   const handleCopyClipboard = useCallback(async (text) => {
     await navigator.clipboard.writeText(text);
   }, []);
@@ -42,49 +62,30 @@ const User2FA = () => {
     setViewerOpen(false);
   }, []);
 
-  const handleFetch2FA = async () => {
-    try {
-      if (apiHost !== '') {
-        cancel.current = false;
+  useEffect(() => {
+    setModalOpen(isLoading);
+  }, [isLoading, setModalOpen]);
 
-        setModalOpen(true);
+  useEffect(() => {
+    const getImg = async () => {
+      const qrImg = await QRCode.toDataURL(data.qrCode);
+      setQrCode(qrImg);
+      setToken(data.secret);
+    };
 
-        const res = await fetch(`${apiHost}api/users/${userID}/2fa`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            visitorid: visitorID,
-            email: userEmail,
-          },
-        });
-
-        if (!cancel.current) {
-          const data = await res.json();
-
-          if (res.status === 200) {
-            const qrImg = await QRCode.toDataURL(data.qrCode);
-            setQrCode(qrImg);
-            setToken(data.secret);
-            setModalOpen(false);
-            setViewerOpen(true);
-            return;
-          }
-
-          setModalOpen(false);
-          setAppMessage(data.message);
-          setAppSeverity('warning');
-          setAppSnackOpen(true);
-        }
-      }
-    } catch (err) {
-      if (!cancel.current) {
-        setModalOpen(false);
-        setAppMessage(err.message);
-        setAppSeverity('error');
-        setAppSnackOpen(true);
-      }
+    if (data) {
+      getImg();
     }
-  };
+  }, [data]);
+
+  useEffect(() => {
+    if (error) {
+      setModalOpen(false);
+      setAppMessage(error);
+      setAppSeverity('error');
+      setAppSnackOpen(true);
+    }
+  }, [error, setAppMessage, setAppSeverity, setAppSnackOpen, setModalOpen]);
 
   useEffect(() => {
     return () => {
@@ -138,7 +139,7 @@ const User2FA = () => {
         </Dialog>
       )}
       <Typography>{t('settings.twoFactorDesc')}</Typography>
-      <Button onClick={handleFetch2FA} variant="contained" sx={{ marginTop: '10px' }}>
+      <Button onClick={() => setViewerOpen(true)} variant="contained" sx={{ marginTop: '10px' }}>
         {t('settings.twoFactorAddDevice')}
       </Button>
     </Box>

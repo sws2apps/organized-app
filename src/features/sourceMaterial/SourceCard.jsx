@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { useTranslation } from 'react-i18next';
 import dateFormat from 'dateformat';
 import Box from '@mui/material/Box';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
@@ -15,7 +14,6 @@ import { currentWeekState } from '../../states/sourceMaterial';
 
 const SourceCard = ({ schedule }) => {
   const navigate = useNavigate();
-  const { t } = useTranslation();
 
   const setCurrentWeek = useSetRecoilState(currentWeekState);
 

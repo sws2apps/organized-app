@@ -1,6 +1,7 @@
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useRef, useState } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import dateFormat from 'dateformat';
 import Autocomplete from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
@@ -20,6 +21,8 @@ import { allStudentsState } from '../../states/persons';
 import { dbGetStudentDetailsMini } from '../../indexedDb/dbPersons';
 
 const PersonPocket = ({ id, name }) => {
+  const queryClient = useQueryClient();
+
   const { t } = useTranslation();
 
   let cancel = useRef();
@@ -43,6 +46,25 @@ const PersonPocket = ({ id, name }) => {
   const [pocketOptions, setPocketOptions] = useState([]);
   const [value, setValue] = useState([]);
 
+  const fetchPocket = async () => {
+    if (apiHost !== '' && congID !== '') {
+      cancel.current = false;
+
+      const res = await fetch(`${apiHost}api/congregations/${congID}/pockets/${id}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          visitorid: visitorID,
+          email: userEmail,
+        },
+      });
+
+      return await res.json();
+    }
+  };
+
+  const { isLoading, error, data } = useQuery({ queryKey: ['person', id], queryFn: fetchPocket });
+
   const handleUpdatePocketUsername = async () => {
     try {
       if (apiHost !== '') {
@@ -64,6 +86,7 @@ const PersonPocket = ({ id, name }) => {
           if (res.status === 200) {
             setPocketName(data.username);
             setIsGenerating(false);
+            queryClient.invalidateQueries({ queryKey: ['person', id] });
             return;
           }
 
@@ -106,6 +129,7 @@ const PersonPocket = ({ id, name }) => {
             setVerifyCode(data.code);
             setPocketName(data.username);
             setIsGenerating(false);
+            queryClient.invalidateQueries({ queryKey: ['person', id] });
             return;
           }
 
@@ -147,6 +171,7 @@ const PersonPocket = ({ id, name }) => {
           if (res.status === 200) {
             setVerifyCode(data.code);
             setIsGenerating(false);
+            queryClient.invalidateQueries({ queryKey: ['person', id] });
             return;
           }
 
@@ -194,6 +219,7 @@ const PersonPocket = ({ id, name }) => {
               setPocketName('');
               setIsGettingUser(false);
               setDevices([]);
+              queryClient.invalidateQueries({ queryKey: ['person', id] });
             }
 
             setIsGenerating(false);
@@ -246,6 +272,7 @@ const PersonPocket = ({ id, name }) => {
           if (res.status === 200) {
             setPocketMembers(data.pocket_members);
             setIsGenerating(false);
+            queryClient.invalidateQueries({ queryKey: ['person', id] });
             return;
           }
 
@@ -266,61 +293,32 @@ const PersonPocket = ({ id, name }) => {
   };
 
   useEffect(() => {
-    const fetchPocketUser = async () => {
-      try {
-        if (apiHost !== '' && congID !== '') {
-          cancel.current = false;
+    setIsGettingUser(isLoading);
+  }, [isLoading]);
 
-          setIsGenerating(false);
-          setIsGettingUser(true);
-          setDevices([]);
-          setVerifyCode('');
-          setPocketName('');
-
-          const res = await fetch(`${apiHost}api/congregations/${congID}/pockets/${id}`, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              visitorid: visitorID,
-              email: userEmail,
-            },
-          });
-
-          if (!cancel.current) {
-            const data = await res.json();
-
-            if (res.status === 200) {
-              setDevices(data.pocket_devices);
-              setVerifyCode(data.pocket_oCode);
-              setPocketName(data.username);
-              setPocketMembers(data.pocket_members);
-              setIsGettingUser(false);
-              return;
-            }
-
-            if (data.message === 'POCKET_NOT_FOUND') {
-              setIsGettingUser(false);
-              return;
-            }
-
-            setIsGettingUser(false);
-            setAppMessage(data.message);
-            setAppSeverity('warning');
-            setAppSnackOpen(true);
-          }
-        }
-      } catch (err) {
-        if (!cancel.current) {
-          setIsGettingUser(false);
-          setAppMessage(err.message);
-          setAppSeverity('error');
-          setAppSnackOpen(true);
-        }
+  useEffect(() => {
+    if (data) {
+      if (data.message === 'POCKET_NOT_FOUND') {
+        setIsGettingUser(false);
+        return;
       }
-    };
 
-    fetchPocketUser();
-  }, [apiHost, cancel, congID, id, setAppMessage, setAppSeverity, setAppSnackOpen, userEmail, visitorID]);
+      setDevices(data.pocket_devices);
+      setVerifyCode(data.pocket_oCode);
+      setPocketName(data.username);
+      setPocketMembers(data.pocket_members);
+      setIsGettingUser(false);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (error) {
+      setIsGettingUser(false);
+      setAppMessage(error);
+      setAppSeverity('error');
+      setAppSnackOpen(true);
+    }
+  }, [error, setAppMessage, setAppSeverity, setAppSnackOpen]);
 
   useEffect(() => {
     const options = dbStudents.filter((student) => student.person_uid !== id);

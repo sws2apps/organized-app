@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useQuery } from '@tanstack/react-query';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import Fab from '@mui/material/Fab';
@@ -31,49 +32,42 @@ const VipUsers = () => {
     navigate('/administration/members/new');
   };
 
-  const getCongregationMembers = useCallback(async () => {
-    try {
-      if (apiHost !== '') {
-        cancel.current = false;
+  const handleFetchUsers = async () => {
+    if (apiHost !== '') {
+      cancel.current = false;
 
-        setIsProcessing(true);
-        const res = await fetch(`${apiHost}api/congregations/${congID}/members`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            visitorid: visitorID,
-            email: userEmail,
-          },
-        });
+      const res = await fetch(`${apiHost}api/congregations/${congID}/members`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          visitorid: visitorID,
+          email: userEmail,
+        },
+      });
 
-        if (!cancel.current) {
-          const data = await res.json();
-
-          if (res.status === 200) {
-            setMembers(data);
-            setIsProcessing(false);
-            return;
-          }
-
-          setIsProcessing(false);
-          setAppMessage(data.message);
-          setAppSeverity('warning');
-          setAppSnackOpen(true);
-        }
-      }
-    } catch (err) {
-      if (!cancel.current) {
-        setIsProcessing(false);
-        setAppMessage(err.message);
-        setAppSeverity('error');
-        setAppSnackOpen(true);
-      }
+      return await res.json();
     }
-  }, [apiHost, cancel, congID, setAppMessage, setAppSeverity, setAppSnackOpen, userEmail, visitorID]);
+  };
+
+  const { isLoading, error, data } = useQuery({ queryKey: ['vipUsers'], queryFn: handleFetchUsers });
 
   useEffect(() => {
-    getCongregationMembers();
-  }, [getCongregationMembers]);
+    if (data) {
+      setMembers(data);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    setIsProcessing(isLoading);
+  }, [isLoading]);
+
+  useEffect(() => {
+    if (error) {
+      setAppMessage(error);
+      setAppSeverity('error');
+      setAppSnackOpen(true);
+    }
+  }, [error, setAppMessage, setAppSeverity, setAppSnackOpen]);
 
   useEffect(() => {
     return () => {

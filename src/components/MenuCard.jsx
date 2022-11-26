@@ -46,12 +46,16 @@ const MenuCard = ({ menu }) => {
           >
             <List>
               {links.map((link, index) => (
-                <ListItem key={`menu-child-${index}`} disablePadding disabled={link.disabled}>
-                  <ListItemButton onClick={() => handleAction(link)}>
-                    <ListItemIcon>{link.icon}</ListItemIcon>
-                    <ListItemText primary={link.title} />
-                  </ListItemButton>
-                </ListItem>
+                <Box key={`menu-child-${index}`}>
+                  {link.visible && (
+                    <ListItem disablePadding disabled={link.disabled}>
+                      <ListItemButton onClick={() => handleAction(link)}>
+                        <ListItemIcon>{link.icon}</ListItemIcon>
+                        <ListItemText primary={link.title} />
+                      </ListItemButton>
+                    </ListItem>
+                  )}
+                </Box>
               ))}
             </List>
           </Box>

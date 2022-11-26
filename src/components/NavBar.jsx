@@ -6,20 +6,15 @@ import { useTheme } from '@mui/material';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import AccountCircle from '@mui/icons-material/AccountCircle';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import AppBar from '@mui/material/AppBar';
 import Badge from '@mui/material/Badge';
 import Box from '@mui/material/Box';
-import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import Collapse from '@mui/material/Collapse';
 import CssBaseline from '@mui/material/CssBaseline';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
 import GetApp from '@mui/icons-material/GetApp';
 import IconButton from '@mui/material/IconButton';
 import InfoIcon from '@mui/icons-material/Info';
 import KeyIcon from '@mui/icons-material/Key';
-import List from '@mui/material/List';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Menu from '@mui/material/Menu';
@@ -27,15 +22,12 @@ import MenuItem from '@mui/material/MenuItem';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import Toolbar from '@mui/material/Toolbar';
-import TopicIcon from '@mui/icons-material/Topic';
 import Typography from '@mui/material/Typography';
-import SettingsIcon from '@mui/icons-material/Settings';
 import AppLanguage from '../features/languageSwitcher';
 import ThemeSwitcher from '../features/themeSwitcher';
 import { WhatsNewContent } from '../features/whatsNew';
 import { themeOptionsState } from '../states/theme';
 import {
-  backupDbOpenState,
   countNotificationsState,
   isAboutOpenState,
   isAppClosingState,
@@ -45,7 +37,6 @@ import {
   isUserSignInState,
   isUserSignUpState,
   offlineOverrideState,
-  restoreDbOpenState,
 } from '../states/main';
 import { congAccountConnectedState, congInfoFormattedState, usernameState } from '../states/congregation';
 
@@ -80,8 +71,6 @@ const NavBar = (props) => {
 
   const setIsAboutOpen = useSetRecoilState(isAboutOpenState);
   const setIsAppClosing = useSetRecoilState(isAppClosingState);
-  const setIsBackupDb = useSetRecoilState(backupDbOpenState);
-  const setIsRestoreDb = useSetRecoilState(restoreDbOpenState);
   const setOfflineOverride = useSetRecoilState(offlineOverrideState);
   const setIsAppLoad = useSetRecoilState(isAppLoadState);
   const setShowTermsUse = useSetRecoilState(isShowTermsUseState);
@@ -105,7 +94,6 @@ const NavBar = (props) => {
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [anchorPopoverEl, setAnchorPopoverEl] = useState(null);
-  const [backupOpen, setBackupOpen] = useState(false);
 
   const open = Boolean(anchorEl);
   const openPopover = Boolean(anchorPopoverEl);
@@ -146,27 +134,13 @@ const NavBar = (props) => {
     setIsAppLoad(true);
   };
 
-  const handleBackupClick = () => {
-    setBackupOpen(!backupOpen);
-  };
-
-  const handleCreateBackup = () => {
-    handleClose();
-    setIsBackupDb(true);
-  };
-
-  const handleRestoreBackup = () => {
-    handleClose();
-    setIsRestoreDb(true);
-  };
-
   const handleGoDashboard = () => {
     navigate('/');
   };
 
   const handleGoSettings = () => {
     handleClose();
-    navigate('/settings');
+    navigate('/user-settings');
   };
 
   return (
@@ -286,7 +260,7 @@ const NavBar = (props) => {
                     <AccountCircle sx={{ fontSize: '40px' }} />
                   </IconButton>
                   <Menu
-                    sx={{ marginTop: '40px' }}
+                    sx={{ marginTop: '40px', '.MuiMenu-list': { minWidth: '200px !important' } }}
                     id="menu-account"
                     MenuListProps={{
                       'aria-labelledby': 'button-account',
@@ -314,38 +288,14 @@ const NavBar = (props) => {
                     )}
 
                     {isOnline && congAccountConnected && (
-                      <MenuItem onClick={handleBackupClick} sx={{ width: '320px' }}>
+                      <MenuItem onClick={handleGoSettings}>
                         <ListItemIcon>
-                          <TopicIcon />
+                          <AdminPanelSettingsIcon fontSize="medium" color="primary" />
                         </ListItemIcon>
-                        <ListItemText primary={t('global.backup')} sx={{ marginRight: '10px' }} />
-                        {backupOpen ? <ExpandLess /> : <ExpandMore />}
+                        <ListItemText>{t('global.myUserProfile')}</ListItemText>
                       </MenuItem>
                     )}
 
-                    <Collapse in={backupOpen} timeout="auto" unmountOnExit>
-                      <List component="div" disablePadding sx={{ paddingLeft: '20px' }}>
-                        <MenuItem onClick={handleCreateBackup}>
-                          <ListItemIcon>
-                            <CloudUploadIcon fontSize="medium" sx={{ color: '#2ECC71' }} />
-                          </ListItemIcon>
-                          <ListItemText>{t('global.sendBackup')}</ListItemText>
-                        </MenuItem>
-                        <MenuItem onClick={handleRestoreBackup}>
-                          <ListItemIcon>
-                            <CloudDownloadIcon fontSize="medium" />
-                          </ListItemIcon>
-                          <ListItemText>{t('global.restoreBackup')}</ListItemText>
-                        </MenuItem>
-                      </List>
-                    </Collapse>
-
-                    <MenuItem onClick={handleGoSettings}>
-                      <ListItemIcon>
-                        <SettingsIcon fontSize="medium" color="error" />
-                      </ListItemIcon>
-                      <ListItemText>{t('global.settings')}</ListItemText>
-                    </MenuItem>
                     <MenuItem onClick={handleAbout}>
                       <ListItemIcon>
                         <InfoIcon fontSize="medium" sx={{ color: '#3498DB' }} />
@@ -364,7 +314,7 @@ const NavBar = (props) => {
                           sx={{
                             borderTop: '1px outset',
                             paddingTop: '5px',
-                            width: '280px',
+                            minWidth: '200px',
                           }}
                         >
                           <Typography

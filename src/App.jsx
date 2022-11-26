@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect, useState } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import FingerprintJS from '@fingerprintjs/fingerprintjs-pro';
 import CssBaseline from '@mui/material/CssBaseline';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -13,6 +14,8 @@ import NotificationWrapper from './features/notificationWrapper';
 import Layout from './components/Layout';
 import PrivateRoot from './components/PrivateRoot';
 import { isAdminCongState } from './states/congregation';
+import WeeklyAssignments from './pages/WeeklyAssignments';
+import CongregationSettings from './pages/CongregationSettings';
 
 // lazy loading
 const Administration = lazy(() => import('./pages/Administration'));
@@ -23,7 +26,7 @@ const ScheduleDetails = lazy(() => import('./pages/ScheduleDetails'));
 const S89 = lazy(() => import('./pages/S89'));
 const S140 = lazy(() => import('./pages/S140'));
 const ScheduleWeekDetails = lazy(() => import('./pages/ScheduleWeekDetails'));
-const Settings = lazy(() => import('./pages/Settings'));
+const Settings = lazy(() => import('./pages/UserSettings'));
 const SourceMaterials = lazy(() => import('./pages/SourceMaterials'));
 const SourceWeekDetails = lazy(() => import('./pages/SourceWeekDetails'));
 const VipUserDetail = lazy(() => import('./pages/VipUserDetail'));
@@ -40,6 +43,8 @@ const darkTheme = createTheme({
     mode: 'dark',
   },
 });
+
+const queryClient = new QueryClient();
 
 const WaitingPage = () => {
   return (
@@ -100,6 +105,14 @@ const App = ({ updatePwa }) => {
           ),
         },
         {
+          path: '/schedules/view',
+          element: (
+            <Suspense fallback={<WaitingPage />}>
+              <WeeklyAssignments />
+            </Suspense>
+          ),
+        },
+        {
           path: '/schedules',
           element: (
             <Suspense fallback={<WaitingPage />}>
@@ -156,10 +169,18 @@ const App = ({ updatePwa }) => {
           ),
         },
         {
-          path: '/settings',
+          path: '/user-settings',
           element: (
             <Suspense fallback={<WaitingPage />}>
               <Settings />
+            </Suspense>
+          ),
+        },
+        {
+          path: '/congregation-settings',
+          element: (
+            <Suspense fallback={<WaitingPage />}>
+              <CongregationSettings />
             </Suspense>
           ),
         },
@@ -254,13 +275,15 @@ const App = ({ updatePwa }) => {
   }, []);
 
   return (
-    <ThemeProvider theme={activeTheme}>
-      <CssBaseline />
-      <InternetChecker />
-      {appSnackOpen && <NotificationWrapper />}
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={activeTheme}>
+        <CssBaseline />
+        <InternetChecker />
+        {appSnackOpen && <NotificationWrapper />}
 
-      <RouterProvider router={router} />
-    </ThemeProvider>
+        <RouterProvider router={router} />
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 };
 

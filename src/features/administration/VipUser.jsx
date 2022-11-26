@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
+import { useQueryClient } from '@tanstack/react-query';
 import dateFormat from 'dateformat';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Box from '@mui/material/Box';
@@ -22,6 +23,8 @@ const roleStyles = {
 };
 
 const VipUser = ({ member, setMembers }) => {
+  const queryClient = useQueryClient();
+
   const cancel = useRef();
 
   const navigate = useNavigate();
@@ -75,6 +78,8 @@ const VipUser = ({ member, setMembers }) => {
           if (res.status === 200) {
             setMembers(data);
             setModalOpen(false);
+
+            queryClient.invalidateQueries({ queryKey: ['vipUsers'] });
             return;
           }
 
