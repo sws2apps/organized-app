@@ -1,3 +1,17 @@
+# [2.2.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.1.4...v2.2.0) (2022-11-26)
+
+
+### Features
+
+* **deps:** bump @emotion/react from 11.10.4 to 11.10.5 ([e9f9aba](https://github.com/sws2apps/lmm-oa-sws/commit/e9f9aba07246ac28ba204f835d2464400f562cdf))
+* **deps:** bump @emotion/styled from 11.10.4 to 11.10.5 ([78eebcb](https://github.com/sws2apps/lmm-oa-sws/commit/78eebcb319b75cd27c551f596856c0df53ba2798))
+* **deps:** bump @fingerprintjs/fingerprintjs-pro from 3.7.1 to 3.8.1 ([e201360](https://github.com/sws2apps/lmm-oa-sws/commit/e20136060c403831cd145fb1b3fd4e1339cc8ef4))
+* **deps:** bump @mui/lab from 5.0.0-alpha.107 to 5.0.0-alpha.109 ([ca7df54](https://github.com/sws2apps/lmm-oa-sws/commit/ca7df543cfe593e8e246622ea5edd6019cf639c5))
+* **deps:** bump @mui/x-date-pickers from 5.0.8 to 5.0.9 ([647713d](https://github.com/sws2apps/lmm-oa-sws/commit/647713dfe3e18350c7b39b25945ba54b774ccac9))
+* **deps:** bump i18next from 21.10.0 to 22.0.6 ([86da21a](https://github.com/sws2apps/lmm-oa-sws/commit/86da21a6c36c5b78da09f06a34d336b065c2cd48))
+* **deps:** bump react-router-dom from 6.4.2 to 6.4.3 ([0e6829c](https://github.com/sws2apps/lmm-oa-sws/commit/0e6829c6155fef48038f38c953349df69d750012))
+* **schedules:** view weekly assignments program ([72cd8de](https://github.com/sws2apps/lmm-oa-sws/commit/72cd8def4375187c0f9bd5a271547ae9f3079407))
+
 ## [2.1.4](https://github.com/sws2apps/lmm-oa-sws/compare/v2.1.3...v2.1.4) (2022-11-23)
 
 
