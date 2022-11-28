@@ -27,7 +27,7 @@
     "@mui/material": "^5.10.15",
     "@mui/x-date-pickers": "^5.0.9",
     "@sws2apps/react-sw-helper": "^1.9.0",
-    "@tanstack/react-query": "^4.17.1",
+    "@tanstack/react-query": "^4.18.0",
     "date-fns": "^2.29.3",
     "dateformat": "^5.0.3",
     "dexie": "^3.2.2",
