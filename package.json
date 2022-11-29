@@ -24,7 +24,7 @@
     "@fontsource/roboto": "^4.5.8",
     "@mui/icons-material": "^5.10.16",
     "@mui/lab": "^5.0.0-alpha.109",
-    "@mui/material": "^5.10.15",
+    "@mui/material": "^5.10.16",
     "@mui/x-date-pickers": "^5.0.9",
     "@sws2apps/react-sw-helper": "^1.9.0",
     "@tanstack/react-query": "^4.18.0",
