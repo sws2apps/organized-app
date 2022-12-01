@@ -43,7 +43,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-i18next": "^12.0.0",
-    "react-router-dom": "^6.4.3",
+    "react-router-dom": "^6.4.4",
     "recoil": "^0.7.6",
     "recoil-outside": "^0.1.1",
     "simple-crypto-js": "^3.0.1",
