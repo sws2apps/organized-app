@@ -1,3 +1,10 @@
+## [2.3.1](https://github.com/sws2apps/lmm-oa-sws/compare/v2.3.0...v2.3.1) (2022-12-03)
+
+
+### Bug Fixes
+
+* **schedule:** hide publish schedule when not connected to congregation account ([8ec8695](https://github.com/sws2apps/lmm-oa-sws/commit/8ec86950e9c65a4679d568067586343ca18b92d1))
+
 # [2.3.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.2.0...v2.3.0) (2022-12-03)
 
 
