@@ -1,3 +1,21 @@
+# [2.3.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.2.0...v2.3.0) (2022-12-03)
+
+
+### Bug Fixes
+
+* **notifications:** update for new api response ([6157283](https://github.com/sws2apps/lmm-oa-sws/commit/615728317a56e29b14ab838a0f6a23dd8927ff10))
+
+
+### Features
+
+* **deps:** bump @mui/icons-material from 5.10.15 to 5.10.16 ([577e9bb](https://github.com/sws2apps/lmm-oa-sws/commit/577e9bb0867a688fd9354a68efc7478d86670e3f))
+* **deps:** bump @mui/lab from 5.0.0-alpha.109 to 5.0.0-alpha.110 ([d2684ff](https://github.com/sws2apps/lmm-oa-sws/commit/d2684ffb7985a1fde56929bc6f671419b4d64959))
+* **deps:** bump @mui/material from 5.10.15 to 5.10.16 ([50e8074](https://github.com/sws2apps/lmm-oa-sws/commit/50e807406dc520be46d8702f67ead9ce8b59dd45))
+* **deps:** bump @tanstack/react-query from 4.17.1 to 4.18.0 ([28fde41](https://github.com/sws2apps/lmm-oa-sws/commit/28fde41b88617a8f49ba594b001ec27cbdda66de))
+* **deps:** bump @tanstack/react-query from 4.18.0 to 4.19.0 ([c6b35a2](https://github.com/sws2apps/lmm-oa-sws/commit/c6b35a2eca5b10f9aa87e3c2ab55c6532dcc5069))
+* **deps:** bump jw-epub-parser from 1.27.0 to 1.28.0 ([4c07f23](https://github.com/sws2apps/lmm-oa-sws/commit/4c07f2336d1fcb25153db39f0d28bc6d7fdcc94b))
+* **deps:** bump react-router-dom from 6.4.3 to 6.4.4 ([00a1c3f](https://github.com/sws2apps/lmm-oa-sws/commit/00a1c3f12d33292617af6cdc65e2ce7bcc0d6f82))
+
 # [2.2.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.1.4...v2.2.0) (2022-11-26)
 
 
