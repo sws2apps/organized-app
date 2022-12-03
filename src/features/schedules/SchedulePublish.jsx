@@ -39,25 +39,28 @@ const SchedulePublish = () => {
     [setOpen]
   );
 
-  const publishSchedulePocket = useCallback(async () => {
-    try {
-      cancel.current = false;
+  useEffect(() => {
+    const abortCont = new AbortController();
 
-      const dataPocket = await dbBuildScheduleForShare(currentSchedule.value);
-      const { cong_schedule, cong_sourceMaterial } = dataPocket;
+    const publish = async () => {
+      try {
+        cancel.current = false;
 
-      if (apiHost !== '') {
-        const res = await fetch(`${apiHost}api/congregations/${congID}/schedule`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            visitorid: visitorID,
-            email: userEmail,
-          },
-          body: JSON.stringify({ cong_schedule, cong_sourceMaterial }),
-        });
+        const dataPocket = await dbBuildScheduleForShare(currentSchedule.value);
+        const { cong_schedule, cong_sourceMaterial } = dataPocket;
 
-        if (!cancel.current) {
+        if (apiHost !== '') {
+          const res = await fetch(`${apiHost}api/congregations/${congID}/schedule`, {
+            method: 'POST',
+            signal: abortCont.signal,
+            headers: {
+              'Content-Type': 'application/json',
+              visitorid: visitorID,
+              email: userEmail,
+            },
+            body: JSON.stringify({ cong_schedule, cong_sourceMaterial }),
+          });
+
           const data = await res.json();
 
           if (res.status === 200) {
@@ -74,17 +77,22 @@ const SchedulePublish = () => {
           setAppSnackOpen(true);
           handleClose(false);
         }
+      } catch (err) {
+        if (err.name !== 'AbortError') {
+          setAppMessage(err.message);
+          setAppSeverity('error');
+          setAppSnackOpen(true);
+          handleClose();
+        }
       }
-    } catch (err) {
-      if (!cancel.current) {
-        setAppMessage(err.message);
-        setAppSeverity('error');
-        setAppSnackOpen(true);
-        handleClose();
-      }
-    }
+    };
+
+    publish();
+
+    return () => {
+      abortCont.abort();
+    };
   }, [
-    cancel,
     apiHost,
     congID,
     currentSchedule,
@@ -96,16 +104,6 @@ const SchedulePublish = () => {
     userEmail,
     visitorID,
   ]);
-
-  useEffect(() => {
-    publishSchedulePocket();
-  }, [publishSchedulePocket]);
-
-  useEffect(() => {
-    return () => {
-      cancel.current = true;
-    };
-  }, []);
 
   return (
     <Box>

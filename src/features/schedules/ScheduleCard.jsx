@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -23,6 +23,7 @@ import {
   isPublishOpenState,
   s89DataState,
 } from '../../states/schedule';
+import { congAccountConnectedState } from '../../states/congregation';
 
 const ScheduleCard = ({ schedule }) => {
   const navigate = useNavigate();
@@ -36,6 +37,8 @@ const ScheduleCard = ({ schedule }) => {
   const setCurrentSchedule = useSetRecoilState(currentScheduleState);
   const setS89Data = useSetRecoilState(s89DataState);
   const setPublishPocket = useSetRecoilState(isPublishOpenState);
+
+  const isCongAccountConnected = useRecoilValue(congAccountConnectedState);
 
   const [anchorPrintEl, setAnchorPrintEl] = useState(null);
 
@@ -140,9 +143,12 @@ const ScheduleCard = ({ schedule }) => {
           </MenuItem>
         </Menu>
 
-        <IconButton onClick={handlePublishPocket}>
-          <SendIcon color="info" sx={{ fontSize: '35px' }} />
-        </IconButton>
+        {isCongAccountConnected && (
+          <IconButton onClick={handlePublishPocket}>
+            <SendIcon color="info" sx={{ fontSize: '35px' }} />
+          </IconButton>
+        )}
+
         <IconButton onClick={handleDeleteSchedule}>
           <DeleteIcon color="error" sx={{ fontSize: '35px' }} />
         </IconButton>
