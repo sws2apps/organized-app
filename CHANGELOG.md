@@ -1,3 +1,10 @@
+# [2.6.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.5.0...v2.6.0) (2022-12-04)
+
+
+### Features
+
+* **app:** add error element and change application name ([daf6ec6](https://github.com/sws2apps/lmm-oa-sws/commit/daf6ec659a85ff4165c6714d5908bd1e6cf9095c))
+
 # [2.5.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.4.0...v2.5.0) (2022-12-04)
 
 
