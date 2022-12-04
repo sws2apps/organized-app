@@ -1,3 +1,15 @@
+# [2.5.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.4.0...v2.5.0) (2022-12-04)
+
+
+### Bug Fixes
+
+* **startup:** fix error message on invalid otp token ([448ae3f](https://github.com/sws2apps/lmm-oa-sws/commit/448ae3feefd691ad07ac4c8c2b19dcf0cf6474e3))
+
+
+### Features
+
+* **startup:** new ui for otp code ([1280319](https://github.com/sws2apps/lmm-oa-sws/commit/128031906ebb1199643541e2bf041af04de9d412))
+
 # [2.4.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.3.1...v2.4.0) (2022-12-04)
 
 
