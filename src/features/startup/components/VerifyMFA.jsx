@@ -143,18 +143,20 @@ const VerifyMFA = () => {
               setIsProcessing(false);
               setIsUserMfaVerify(false);
               setIsCongAccountCreate(true);
-            } else if (res.status === 403) {
-              setSecretTokenPath(data.secret);
-              setQrCodePath(data.qrCode);
-              setIsReEnrollMFA(true);
-              setIsUserMfaSetup(true);
-              setIsProcessing(false);
-              setIsUserMfaVerify(false);
             } else {
-              setIsProcessing(false);
-              setAppMessage(data.message);
-              setAppSeverity('warning');
-              setAppSnackOpen(true);
+              if (data.message) {
+                setIsProcessing(false);
+                setAppMessage(data.message);
+                setAppSeverity('warning');
+                setAppSnackOpen(true);
+              } else {
+                setSecretTokenPath(data.secret);
+                setQrCodePath(data.qrCode);
+                setIsReEnrollMFA(true);
+                setIsUserMfaSetup(true);
+                setIsProcessing(false);
+                setIsUserMfaVerify(false);
+              }
             }
           }
         }
