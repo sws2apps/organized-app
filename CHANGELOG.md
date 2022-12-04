@@ -1,3 +1,10 @@
+# [2.4.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.3.1...v2.4.0) (2022-12-04)
+
+
+### Features
+
+* **setup:** support change of otp library ([32f496b](https://github.com/sws2apps/lmm-oa-sws/commit/32f496bf611d3c9dbc4c03a8f28e6ad8859af156))
+
 ## [2.3.1](https://github.com/sws2apps/lmm-oa-sws/compare/v2.3.0...v2.3.1) (2022-12-03)
 
 
