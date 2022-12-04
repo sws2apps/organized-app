@@ -1,11 +1,11 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
+import { MuiOtpInput } from 'mui-one-time-password-input';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
-import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../../../states/notification';
 import {
@@ -32,13 +32,20 @@ import { dbUpdateAppSettings } from '../../../indexedDb/dbAppSettings';
 import { loadApp } from '../../../utils/app';
 import { runUpdater } from '../../../utils/updater';
 
+const matchIsNumeric = (text) => {
+  return !isNaN(Number(text));
+};
+
+const validateChar = (value, index) => {
+  return matchIsNumeric(value);
+};
+
 const VerifyMFA = () => {
   const cancel = useRef();
 
   const { t } = useTranslation();
 
   const [isProcessing, setIsProcessing] = useState(false);
-  const [hasErrorOTP, setHasErrorOTP] = useState(false);
   const [userOTP, setUserOTP] = useState('');
 
   const setAppSnackOpen = useSetRecoilState(appSnackOpenState);
@@ -65,11 +72,13 @@ const VerifyMFA = () => {
   const visitorID = useRecoilValue(visitorIDState);
   const userPwd = useRecoilValue(userPasswordState);
 
-  const handleVerifyOTP = async () => {
+  const handleOtpChange = async (newValue) => {
+    setUserOTP(newValue);
+  };
+
+  const handleVerifyOTP = useCallback(async () => {
     try {
       cancel.current = false;
-
-      setHasErrorOTP(false);
 
       if (userOTP.length === 6) {
         setIsProcessing(true);
@@ -160,8 +169,6 @@ const VerifyMFA = () => {
             }
           }
         }
-      } else {
-        setHasErrorOTP(true);
       }
     } catch (err) {
       if (!cancel.current) {
@@ -171,7 +178,37 @@ const VerifyMFA = () => {
         setAppSnackOpen(true);
       }
     }
-  };
+  }, [
+    apiHost,
+    setAppMessage,
+    setAppSeverity,
+    setAppSnackOpen,
+    setCongAccountConnected,
+    setCongID,
+    setIsAdminCong,
+    setIsAppLoad,
+    setIsCongAccountCreate,
+    setIsReEnrollMFA,
+    setIsSetup,
+    setIsUnauthorizedRole,
+    setIsUserMfaSetup,
+    setIsUserMfaVerify,
+    setOfflineOverride,
+    setQrCodePath,
+    setSecretTokenPath,
+    setStartupProgress,
+    setUserID,
+    userEmail,
+    userOTP,
+    userPwd,
+    visitorID,
+  ]);
+
+  useEffect(() => {
+    if (userOTP.length === 6) {
+      handleVerifyOTP();
+    }
+  }, [handleVerifyOTP, userOTP]);
 
   useEffect(() => {
     return () => {
@@ -186,18 +223,14 @@ const VerifyMFA = () => {
       </Typography>
 
       <Box sx={{ width: '100%', maxWidth: '450px', marginTop: '20px' }}>
-        <TextField
-          id="outlined-otp"
-          type="number"
-          label={t('login.labelOTP')}
-          variant="outlined"
-          size="small"
-          autoComplete="off"
-          required
+        <MuiOtpInput
           value={userOTP}
-          onChange={(e) => setUserOTP(e.target.value)}
-          error={hasErrorOTP ? true : false}
-          sx={{ width: '100%' }}
+          onChange={handleOtpChange}
+          length={6}
+          display="flex"
+          gap={1}
+          validateChar={validateChar}
+          TextFieldsProps={{ autoComplete: 'off' }}
         />
       </Box>
 

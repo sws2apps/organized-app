@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import { Markup } from 'interweave';
+import { MuiOtpInput } from 'mui-one-time-password-input';
 import QRCode from 'qrcode';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -47,13 +48,20 @@ const a11yProps = (index) => {
   };
 };
 
+const matchIsNumeric = (text) => {
+  return !isNaN(Number(text));
+};
+
+const validateChar = (value, index) => {
+  return matchIsNumeric(value);
+};
+
 const SetupMFA = () => {
   const cancel = useRef();
 
   const { t } = useTranslation();
 
   const [isProcessing, setIsProcessing] = useState(false);
-  const [hasErrorOTP, setHasErrorOTP] = useState(false);
   const [userOTP, setUserOTP] = useState('');
   const [imgPath, setImgPath] = useState('');
   const [isNoQR, setIsNoQR] = useState(false);
@@ -90,10 +98,9 @@ const SetupMFA = () => {
     await navigator.clipboard.writeText(text);
   };
 
-  const handleVerifyOTP = async () => {
+  const handleVerifyOTP = useCallback(async () => {
     try {
       cancel.current = false;
-      setHasErrorOTP(false);
 
       if (userOTP.length === 6) {
         setIsProcessing(true);
@@ -181,8 +188,6 @@ const SetupMFA = () => {
             }
           }
         }
-      } else {
-        setHasErrorOTP(true);
       }
     } catch (err) {
       if (!cancel.current) {
@@ -192,7 +197,37 @@ const SetupMFA = () => {
         setAppSnackOpen(true);
       }
     }
+  }, [
+    apiHost,
+    setAppMessage,
+    setAppSeverity,
+    setAppSnackOpen,
+    setCongAccountConnected,
+    setCongID,
+    setIsAdminCong,
+    setIsAppLoad,
+    setIsCongAccountCreate,
+    setIsSetup,
+    setIsUnauthorizedRole,
+    setIsUserMfaSetup,
+    setOfflineOverride,
+    setStartupProgress,
+    setUserID,
+    userEmail,
+    userOTP,
+    userPwd,
+    visitorID,
+  ]);
+
+  const handleOtpChange = async (newValue) => {
+    setUserOTP(newValue);
   };
+
+  useEffect(() => {
+    if (userOTP.length === 6) {
+      handleVerifyOTP();
+    }
+  }, [handleVerifyOTP, userOTP]);
 
   useEffect(() => {
     const getQrCode = async () => {
@@ -289,17 +324,14 @@ const SetupMFA = () => {
       <Typography sx={{ marginBottom: '15px', marginTop: '20px' }}>{t('login.setupTextOTP')}</Typography>
 
       <Box sx={{ width: '300px' }}>
-        <TextField
-          id="outlined-otp"
-          type="number"
-          label={t('login.labelOTP')}
-          variant="outlined"
-          autoComplete="off"
-          required
+        <MuiOtpInput
           value={userOTP}
-          onChange={(e) => setUserOTP(e.target.value)}
-          error={hasErrorOTP ? true : false}
-          sx={{ width: '100%' }}
+          onChange={handleOtpChange}
+          length={6}
+          display="flex"
+          gap={1}
+          validateChar={validateChar}
+          TextFieldsProps={{ autoComplete: 'off' }}
         />
       </Box>
 

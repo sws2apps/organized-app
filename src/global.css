@@ -112,3 +112,7 @@
   margin: 6px;
   font-size: 11px;
 }
+
+.MuiOtpInput-TextField input {
+  font-size: 25px;
+}
