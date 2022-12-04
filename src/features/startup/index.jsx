@@ -37,13 +37,13 @@ import CongregationWait from './components/CongregationWait';
 const Startup = () => {
   const [isSetup, setIsSetup] = useRecoilState(isSetupState);
   const [startupProgress, setStartupProgress] = useRecoilState(startupProgressState);
+  const [showTermsUse, setShowTermsUse] = useRecoilState(isShowTermsUseState);
+  const [isUserSignUp, setIsUserSignUp] = useRecoilState(isUserSignUpState);
+  const [isUserSignIn, setIsUserSignIn] = useRecoilState(isUserSignInState);
 
   const setIsAppLoad = useSetRecoilState(isAppLoadState);
 
-  const showTermsUse = useRecoilValue(isShowTermsUseState);
   const offlineOverride = useRecoilValue(offlineOverrideState);
-  const isUserSignIn = useRecoilValue(isUserSignInState);
-  const isUserSignUp = useRecoilValue(isUserSignUpState);
   const isEmailNotVerified = useRecoilValue(isEmailNotVerifiedState);
   const isUserMfaSetup = useRecoilValue(isUserMfaSetupState);
   const isUnauthorizedRole = useRecoilValue(isUnauthorizedRoleState);
@@ -60,15 +60,18 @@ const Startup = () => {
       } else {
         let { isLoggedOut, userPass, username } = await dbGetAppSettings();
 
-        isLoggedOut = isLoggedOut === undefined ? true : isLoggedOut;
-
-        if (!isLoggedOut && userPass?.length > 0 && username?.length > 0) {
+        if (isLoggedOut === false && userPass?.length > 0 && username?.length > 0) {
           await loadApp();
           await runUpdater();
           setTimeout(() => {
             setIsAppLoad(false);
             setStartupProgress(0);
           }, [1000]);
+        } else if (isLoggedOut === true) {
+          setShowTermsUse(false);
+          setIsUserSignUp(false);
+          setIsUserSignIn(true);
+          setIsSetup(true);
         } else {
           setIsSetup(true);
         }
@@ -76,7 +79,15 @@ const Startup = () => {
     };
 
     checkLoginState();
-  }, [offlineOverride, setIsAppLoad, setIsSetup, setStartupProgress]);
+  }, [
+    offlineOverride,
+    setIsAppLoad,
+    setIsSetup,
+    setStartupProgress,
+    setShowTermsUse,
+    setIsUserSignUp,
+    setIsUserSignIn,
+  ]);
 
   if (isSetup) {
     return (

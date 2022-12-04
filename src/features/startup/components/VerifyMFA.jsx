@@ -12,10 +12,14 @@ import {
   apiHostState,
   isAppLoadState,
   isCongAccountCreateState,
+  isReEnrollMFAState,
   isSetupState,
   isUnauthorizedRoleState,
+  isUserMfaSetupState,
   isUserMfaVerifyState,
   offlineOverrideState,
+  qrCodePathState,
+  secretTokenPathState,
   startupProgressState,
   userEmailState,
   userIDState,
@@ -51,6 +55,10 @@ const VerifyMFA = () => {
   const setIsAdminCong = useSetRecoilState(isAdminCongState);
   const setCongID = useSetRecoilState(congIDState);
   const setUserID = useSetRecoilState(userIDState);
+  const setIsReEnrollMFA = useSetRecoilState(isReEnrollMFAState);
+  const setIsUserMfaSetup = useSetRecoilState(isUserMfaSetupState);
+  const setQrCodePath = useSetRecoilState(qrCodePathState);
+  const setSecretTokenPath = useSetRecoilState(secretTokenPathState);
 
   const apiHost = useRecoilValue(apiHostState);
   const userEmail = useRecoilValue(userEmailState);
@@ -135,6 +143,13 @@ const VerifyMFA = () => {
               setIsProcessing(false);
               setIsUserMfaVerify(false);
               setIsCongAccountCreate(true);
+            } else if (res.status === 403) {
+              setSecretTokenPath(data.secret);
+              setQrCodePath(data.qrCode);
+              setIsReEnrollMFA(true);
+              setIsUserMfaSetup(true);
+              setIsProcessing(false);
+              setIsUserMfaVerify(false);
             } else {
               setIsProcessing(false);
               setAppMessage(data.message);

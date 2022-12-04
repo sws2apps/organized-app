@@ -227,6 +227,7 @@
   "login.otherDevice": "Other device",
   "login.setupThisDevice": "Setup",
   "login.mfaVerifyTitle": "MFA verification",
+  "login.mfaSetupUpdate": "<strong>Important:</strong> We have updated the MFA verification system. First, delete the previous sws2apps account created on <em>Microsoft Authenticator</em> or <em>Google Authenticator</em>. Then, choose on which device do you want to finalize the setup of the new verification code.",
 
   "home.currentSchedule": "MEETING SCHEDULE—{{currentWeek}}",
 

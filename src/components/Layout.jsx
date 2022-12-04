@@ -11,6 +11,7 @@ import { WhatsNew } from '../features/whatsNew';
 import {
   backupDbOpenState,
   isAboutOpenState,
+  isAppClosingState,
   isAppLoadState,
   isWhatsNewOpenState,
   restoreDbOpenState,
@@ -23,6 +24,7 @@ import { isImportEPUBState, isImportJWOrgState } from '../states/sourceMaterial'
 import { ImportEPUB, ImportJWOrg } from '../features/sourceMaterial';
 import { fetchNotifications } from '../utils/app';
 import { AppUpdater } from '../features/updater';
+import { UserSignOut } from '../features/userSignOut';
 
 const Layout = ({ updatePwa }) => {
   let location = useLocation();
@@ -39,6 +41,7 @@ const Layout = ({ updatePwa }) => {
   const isPublishPocket = useRecoilValue(isPublishOpenState);
   const isImportEPUB = useRecoilValue(isImportEPUBState);
   const isImportJWOrg = useRecoilValue(isImportJWOrgState);
+  const isAppClosing = useRecoilValue(isAppClosingState);
 
   const checkPwaUpdate = () => {
     if ('serviceWorker' in navigator) {
@@ -74,6 +77,7 @@ const Layout = ({ updatePwa }) => {
         {isPublishPocket && <SchedulePublish />}
         {isImportEPUB && <ImportEPUB />}
         {isImportJWOrg && <ImportJWOrg />}
+        {isAppClosing && <UserSignOut />}
 
         {isAppLoad && <Startup />}
         {!isAppLoad && <Outlet />}

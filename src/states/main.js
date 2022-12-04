@@ -315,3 +315,8 @@ export const userIDState = atom({
   key: 'userID',
   default: '',
 });
+
+export const isReEnrollMFAState = atom({
+  key: 'isReEnrollMFA',
+  default: false,
+});

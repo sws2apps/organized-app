@@ -228,6 +228,7 @@
   "login.otherDevice": "Fitaovana hafa",
   "login.setupThisDevice": "Hanamboatra",
   "login.mfaVerifyTitle": "Fanamarinana fanampiny",
+  "login.mfaSetupUpdate": "<strong>Fampahafantarana:</strong> Nohavaozina ny fanamarinana fanampiny mba hidirana amin’ity programa. Fafao aloha ny kaonty efa anananao mifandray amin’ny kaontinao ao amin’ny <em>Microsoft Authenticator</em> na <em>Google Authenticator</em>. Safidio avy eo hoe aiza ny fitaovana tianao hanamboarana ilay kaody fanamarinana vaovao.",
 
   "home.currentSchedule": "FANDAHARAM-PIVORIANA—{{currentWeek}}",
 

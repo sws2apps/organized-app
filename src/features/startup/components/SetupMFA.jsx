@@ -19,6 +19,7 @@ import {
   apiHostState,
   isAppLoadState,
   isCongAccountCreateState,
+  isReEnrollMFAState,
   isSetupState,
   isUnauthorizedRoleState,
   isUserMfaSetupState,
@@ -79,6 +80,7 @@ const SetupMFA = () => {
   const userEmail = useRecoilValue(userEmailState);
   const visitorID = useRecoilValue(visitorIDState);
   const userPwd = useRecoilValue(userPasswordState);
+  const isReEnrollMFA = useRecoilValue(isReEnrollMFAState);
 
   const handleTabChange = (e, newValue) => {
     setTabValue(newValue);
@@ -225,7 +227,7 @@ const SetupMFA = () => {
           margin: '20px 0',
         }}
       >
-        <Markup content={t('login.mfaSetupTitle')} />
+        <Markup content={isReEnrollMFA ? t('login.mfaSetupUpdate') : t('login.mfaSetupTitle')} />
       </Typography>
 
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
