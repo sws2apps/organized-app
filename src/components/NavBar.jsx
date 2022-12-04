@@ -190,7 +190,7 @@ const NavBar = (props) => {
                 }}
               />
               <Typography noWrap sx={{ fontSize: '18px' }}>
-                {lgUp ? 'Life and Ministry Meeting Overseer Assistant' : 'LMM-OA'}
+                {lgUp ? 'Congregation Program for Everyone' : 'CPE App'}
               </Typography>
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}>

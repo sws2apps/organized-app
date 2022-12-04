@@ -216,6 +216,19 @@ const VerifyMFA = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const handlePaste = (e) => {
+      const text = (e.clipboardData || window.clipboardData).getData('text');
+      setUserOTP(text)
+    };
+
+    window.addEventListener('paste', handlePaste);
+
+    return () => {
+      window.removeEventListener('paste', handlePaste);
+    };
+  }, []);
+
   return (
     <Container sx={{ marginTop: '20px' }}>
       <Typography variant="h4" sx={{ marginBottom: '15px' }}>

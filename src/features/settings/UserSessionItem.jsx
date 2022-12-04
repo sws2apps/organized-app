@@ -25,7 +25,7 @@ const UserSessionItem = ({ session, setSessions }) => {
   const visitorID = useRecoilValue(visitorIDState);
   const userID = useRecoilValue(userIDState);
 
-  const lastSeen = dateFormat(new Date(session.last_seen), t('global.shortDateTimeFormat'));
+  const lastSeen = session.last_seen ? dateFormat(new Date(session.last_seen), t('global.shortDateTimeFormat')) : '';
 
   const handleRevokeSession = async () => {
     try {

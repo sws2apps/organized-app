@@ -1,18 +1,19 @@
-# Life and Ministry Meeting Overseer Assistant (LMM-OA)
+# Congregation Program for Everyone (CPE)
 
-LMM-OA is a web application that will allow you to schedule the Midweek Meeting for Jehovah’s Witnesses.
+- **Module**: Life and Ministry Meeting Overseer Assistant.
+- This module of the CPE program will allow you to schedule the Midweek Meeting for Jehovah’s Witnesses.
 
 ## Preview
 
 ![LMM-OA](https://user-images.githubusercontent.com/26148770/203717917-a88b34b7-b898-445e-b688-2a2f59ccbec9.png)
 
-## Who should use LMM-OA?
+## Who should use this module?
 
-LMM-OA is designed for use by the Life and Ministry Meeting Overseer.
+This module is designed for use by the Life and Ministry Meeting Overseer.
 
-## What are the device requirements to open LMM-OA?
+## What are the device requirements to open CPE?
 
-LMM-OA is a web application, and it is also PWA capable. All devices that have up to date browser, depending on which platform it is running can use this web application.
+CPE is a web application, and it is also PWA capable. All devices that have up to date browser, depending on which platform it is running can use this web application.
 
 ## May I contribute?
 

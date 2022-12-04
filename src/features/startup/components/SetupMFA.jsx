@@ -230,6 +230,19 @@ const SetupMFA = () => {
   }, [handleVerifyOTP, userOTP]);
 
   useEffect(() => {
+    const handlePaste = (e) => {
+      const text = (e.clipboardData || window.clipboardData).getData('text');
+      setUserOTP(text)
+    };
+
+    window.addEventListener('paste', handlePaste);
+
+    return () => {
+      window.removeEventListener('paste', handlePaste);
+    };
+  }, []);
+
+  useEffect(() => {
     const getQrCode = async () => {
       QRCode.toDataURL(qrCodePath, function (err, data_url) {
         if (err) {

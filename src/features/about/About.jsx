@@ -35,7 +35,7 @@ const About = () => {
               marginTop: '5px',
             }}
           >
-            LMM-OA
+            Congregation Program for Everyone
           </Typography>
           <Typography variant="body1">{import.meta.env.PACKAGE_VERSION}</Typography>
         </Box>
@@ -79,7 +79,7 @@ const About = () => {
             </Typography>
           </Box>
           <Typography variant="body2" sx={{ marginTop: '15px' }}>
-            Copyright © {currentYear} | LMM-OA [sws2apps]
+            Copyright © {currentYear} | CPE [sws2apps]
           </Typography>
         </Box>
       </DialogContent>

@@ -16,6 +16,7 @@ import PrivateRoot from './components/PrivateRoot';
 import { isAdminCongState } from './states/congregation';
 import WeeklyAssignments from './pages/WeeklyAssignments';
 import CongregationSettings from './pages/CongregationSettings';
+import ErrorBoundary from './components/ErrorBoundary';
 
 // lazy loading
 const Administration = lazy(() => import('./pages/Administration'));
@@ -78,6 +79,7 @@ const App = ({ updatePwa }) => {
   const router = createBrowserRouter([
     {
       element: <Layout updatePwa={updatePwa} />,
+      errorElement: <ErrorBoundary />,
       children: [
         { path: '/', element: <DashboardMenu /> },
         {
@@ -266,7 +268,7 @@ const App = ({ updatePwa }) => {
       } else {
         return (
           <div className="browser-not-supported">
-            You seem to use an unsupported browser to use LMM-OA. Make sure that you browser is up to date, or try to
+            You seem to use an unsupported browser to use CPE. Make sure that you browser is up to date, or try to
             use another browser.
           </div>
         );
