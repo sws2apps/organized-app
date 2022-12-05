@@ -573,7 +573,7 @@ export const dbCountAssignmentsInfo = async (week) => {
   }
 
   // LC Part 2
-  if (sourceData.cnLC === 2) {
+  if (sourceData.lcCount === 2) {
     assTotal = assTotal + 1;
 
     if (schedData.lc_part2 !== '') {
