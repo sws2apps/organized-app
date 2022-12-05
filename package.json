@@ -59,7 +59,7 @@
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.9",
     "@vitejs/plugin-react": "^2.2.0",
-    "eslint": "^8.28.0",
+    "eslint": "^8.29.0",
     "eslint-config-react-app": "^7.0.1",
     "serve": "^14.1.2",
     "vite": "^3.2.4",
