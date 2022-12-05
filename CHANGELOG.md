@@ -1,3 +1,10 @@
+## [2.6.1](https://github.com/sws2apps/lmm-oa-sws/compare/v2.6.0...v2.6.1) (2022-12-05)
+
+
+### Bug Fixes
+
+* **schedule:** 2nd assignments in living as christians part not being assigned ([1239890](https://github.com/sws2apps/lmm-oa-sws/commit/1239890c1c0e62ecdc4c0ed2126e754d3a4c021f))
+
 # [2.6.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.5.0...v2.6.0) (2022-12-04)
 
 
