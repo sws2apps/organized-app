@@ -1,3 +1,12 @@
+# [2.7.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.6.1...v2.7.0) (2022-12-06)
+
+
+### Features
+
+* **deps:** bump @tanstack/react-query from 4.19.0 to 4.19.1 ([e1724ed](https://github.com/sws2apps/lmm-oa-sws/commit/e1724ed51e1684b06b27cb15a27adf57b9c46d27))
+* **deps:** bump i18next from 22.0.6 to 22.0.8 ([3bdab6b](https://github.com/sws2apps/lmm-oa-sws/commit/3bdab6b558b73038cdcdfd0dfea852d12c248a22))
+* **source-material:** add new assignment type for memorial video ([49f8c0b](https://github.com/sws2apps/lmm-oa-sws/commit/49f8c0b6e6980ba718c953cad60756afa62cf40c))
+
 ## [2.6.1](https://github.com/sws2apps/lmm-oa-sws/compare/v2.6.0...v2.6.1) (2022-12-05)
 
 
