@@ -1,3 +1,10 @@
+## [2.7.1](https://github.com/sws2apps/lmm-oa-sws/compare/v2.7.0...v2.7.1) (2022-12-06)
+
+
+### Bug Fixes
+
+* **source-material:** change the regex to search from start when parsing assignment type ([95625e3](https://github.com/sws2apps/lmm-oa-sws/commit/95625e32dcc20915d5f712a988d467fd54ac6233))
+
 # [2.7.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.6.1...v2.7.0) (2022-12-06)
 
 
