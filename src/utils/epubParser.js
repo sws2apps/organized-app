@@ -81,7 +81,7 @@ const addDataToDb = async (data) => {
 
       //AYF1 Assignment Type
       for (a = assTypeList.length - 1; a >= 0; a--) {
-        if (new RegExp('\\b' + assTypeList[a].label + '\\b').test(src.ayfPart1)) {
+        if (new RegExp('^\\b' + assTypeList[a].label + '\\b').test(src.ayfPart1)) {
           assType = assTypeList[a].value;
           break;
         }
@@ -119,7 +119,7 @@ const addDataToDb = async (data) => {
         //AYF2 Assignment Type
         assType = '';
         for (a = assTypeList.length - 1; a >= 0; a--) {
-          if (new RegExp('\\b' + assTypeList[a].label + '\\b').test(src.ayfPart2)) {
+          if (new RegExp('^\\b' + assTypeList[a].label + '\\b').test(src.ayfPart2)) {
             assType = assTypeList[a].value;
             break;
           }
@@ -148,7 +148,7 @@ const addDataToDb = async (data) => {
         //AYF3 Assignment Type
         assType = '';
         for (a = assTypeList.length - 1; a >= 0; a--) {
-          if (new RegExp('\\b' + assTypeList[a].label + '\\b').test(src.ayfPart3)) {
+          if (new RegExp('^\\b' + assTypeList[a].label + '\\b').test(src.ayfPart3)) {
             assType = assTypeList[a].value;
             break;
           }
@@ -177,7 +177,7 @@ const addDataToDb = async (data) => {
         //AYF4 Assignment Type
         assType = '';
         for (a = assTypeList.length - 1; a >= 0; a--) {
-          if (new RegExp('\\b' + assTypeList[a].label + '\\b').test(src.ayfPart4)) {
+          if (new RegExp('^\\b' + assTypeList[a].label + '\\b').test(src.ayfPart4)) {
             assType = assTypeList[a].value;
             break;
           }
