@@ -243,6 +243,7 @@ const updateAssignmentType = async (step) => {
   let rvVideoObj = {};
   let otherObj = {};
   let memorialObj = {};
+  let memorialVideoObj = {};
   let chairmanMMObj = {};
   let prayerMMObj = {};
   let tgwTalkObj = {};
@@ -261,6 +262,7 @@ const updateAssignmentType = async (step) => {
     icVideoObj[lang.code.toUpperCase()] = getI18n().getDataByLanguage(lang.code).translation['global.initialCallVideo'];
     rvVideoObj[lang.code.toUpperCase()] = getI18n().getDataByLanguage(lang.code).translation['global.returnVisitVideo'];
     memorialObj[lang.code.toUpperCase()] = getI18n().getDataByLanguage(lang.code).translation['global.memorialInvite'];
+    memorialVideoObj[lang.code.toUpperCase()] = getI18n().getDataByLanguage(lang.code).translation['global.memorialInviteVideo'];
     chairmanMMObj[lang.code.toUpperCase()] = getI18n().getDataByLanguage(lang.code).translation[
       'global.chairmanMidweekMeeting'
     ];
@@ -431,6 +433,16 @@ const updateAssignmentType = async (step) => {
       type: 'lc',
       ass_type_name: {
         ...cbsReaderObj,
+      },
+    },
+    {
+      id_type: 21,
+      code: 117,
+      linkTo: 105,
+      assignable: false,
+      type: 'ayf',
+      ass_type_name: {
+        ...memorialVideoObj,
       },
     },
   ]);

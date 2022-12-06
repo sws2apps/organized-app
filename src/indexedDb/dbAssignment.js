@@ -899,21 +899,21 @@ export const dbGetScheduleForPrint = async (scheduleName) => {
     time.ayf1 = addMinutes(time.bibleReading, 5);
 
     // ayf 2
-    if (sourceData.ass1_type === 105 || sourceData.ass1_type === 106 || sourceData.ass1_type === 107) {
+    if (sourceData.ass1_type === 105 || sourceData.ass1_type === 106 || sourceData.ass1_type === 107 || sourceData.ass1_type === 117) {
       time.ayf2 = addMinutes(time.ayf1, +sourceData.ass1_time);
     } else {
       time.ayf2 = addMinutes(time.ayf1, +sourceData.ass1_time + 1);
     }
 
     // ayf 3
-    if (sourceData.ass2_type === 105 || sourceData.ass2_type === 106 || sourceData.ass2_type === 107) {
+    if (sourceData.ass2_type === 105 || sourceData.ass2_type === 106 || sourceData.ass2_type === 107 || sourceData.ass2_type === 117) {
       time.ayf3 = addMinutes(time.ayf2, +sourceData.ass2_time);
     } else {
       time.ayf3 = addMinutes(time.ayf2, +sourceData.ass2_time + 1);
     }
 
     // ayf 4
-    if (sourceData.ass3_type === 105 || sourceData.ass3_type === 106 || sourceData.ass3_type === 107) {
+    if (sourceData.ass3_type === 105 || sourceData.ass3_type === 106 || sourceData.ass3_type === 107 || sourceData.ass2_type === 117) {
       time.ayf4 = addMinutes(time.ayf3, +sourceData.ass3_time);
     } else {
       time.ayf4 = addMinutes(time.ayf3, +sourceData.ass3_time + 1);
@@ -921,7 +921,7 @@ export const dbGetScheduleForPrint = async (scheduleName) => {
 
     // middle song
     if (sourceData.ass4_time !== '') {
-      if (sourceData.ass4_type === 105 || sourceData.ass4_type === 106 || sourceData.ass4_type === 107) {
+      if (sourceData.ass4_type === 105 || sourceData.ass4_type === 106 || sourceData.ass4_type === 107 || sourceData.ass2_type === 117) {
         time.middleSong = addMinutes(time.ayf4, +sourceData.ass4_time);
       } else {
         time.middleSong = addMinutes(time.ayf4, +sourceData.ass4_time + 1);

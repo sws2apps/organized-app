@@ -104,6 +104,7 @@
   "global.noOptions": "No options",
   "global.waitForRequest": "An existing connection is already sent to the server. Please try again later",
   "global.memorialInvite": "Memorial Invitation",
+  "global.memorialInviteVideo": "Memorial Invitation Video",
   "global.newVersion": "A new version of CPE is available",
   "global.updateApp": "Update",
   "global.cacheCompleted": "CPE can be used offline now",

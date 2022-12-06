@@ -489,7 +489,8 @@ const S140 = () => {
                                             <span className="student-part-duration">
                                               {(weekItem.sourceData[fldType] === 105 ||
                                                 weekItem.sourceData[fldType] === 106 ||
-                                                weekItem.sourceData[fldType] === 107) && (
+                                                weekItem.sourceData[fldType] === 107 ||
+                                                weekItem.sourceData[fldType] === 117) && (
                                                 <>({weekItem.sourceData[fldTime]} min.)</>
                                               )}
                                               {(weekItem.sourceData[fldType] === 101 ||
@@ -523,7 +524,8 @@ const S140 = () => {
                                         ? t('scheduleTemplate.studentAssistant')
                                         : weekItem.sourceData[fldType] === 105 ||
                                           weekItem.sourceData[fldType] === 106 ||
-                                          weekItem.sourceData[fldType] === 107
+                                          weekItem.sourceData[fldType] === 107 ||
+                                          weekItem.sourceData[fldType] === 117
                                         ? ''
                                         : t('global.student')}
                                     </Typography>
@@ -544,7 +546,8 @@ const S140 = () => {
                                         )}
                                         {weekItem.sourceData[fldType] === 105 ||
                                         weekItem.sourceData[fldType] === 106 ||
-                                        weekItem.sourceData[fldType] === 107
+                                        weekItem.sourceData[fldType] === 107 ||
+                                        weekItem.sourceData[fldType] === 117
                                           ? weekItem.scheduleData.chairmanMM_B_dispName
                                           : ''}
                                       </>
@@ -565,7 +568,8 @@ const S140 = () => {
                                       )}
                                       {weekItem.sourceData[fldType] === 105 ||
                                       weekItem.sourceData[fldType] === 106 ||
-                                      weekItem.sourceData[fldType] === 107
+                                      weekItem.sourceData[fldType] === 107 ||
+                                      weekItem.sourceData[fldType] === 117
                                         ? weekItem.scheduleData.chairmanMM_A_dispName
                                         : ''}
                                     </>
