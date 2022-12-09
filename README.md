@@ -1,15 +1,14 @@
 # Congregation Program for Everyone (CPE)
 
-- **Module**: Life and Ministry Meeting Overseer Assistant.
 - This module of the CPE program will allow you to schedule the Midweek Meeting for Jehovah’s Witnesses.
 
 ## Preview
 
-![LMM-OA](https://user-images.githubusercontent.com/26148770/203717917-a88b34b7-b898-445e-b688-2a2f59ccbec9.png)
+![cpe_lmmo_home png](https://user-images.githubusercontent.com/99427273/206681843-4bf8d5e9-a611-4bde-af69-8ce29542357c.jpg)
 
 ## Who should use this module?
 
-This module is designed for use by the Life and Ministry Meeting Overseer.
+This module is designed for use by the Life and Ministry Meeting Overseer and his Assistant.
 
 ## What are the device requirements to open CPE?
 
