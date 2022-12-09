@@ -230,8 +230,8 @@ const S89Template = () => {
                       <Typography
                         sx={{
                           fontFamily: 'Segoe UI',
-                          fontSize: '12px',
-                          lineHeight: 1,
+                          fontSize: '11px',
+                          lineHeight: '25px',
                           color: 'black',
                           height: '20px',
                           borderBottom: '1px dotted black',
@@ -271,8 +271,8 @@ const S89Template = () => {
                       <Typography
                         sx={{
                           fontFamily: 'Segoe UI',
-                          fontSize: '12px',
-                          lineHeight: 1,
+                          fontSize: '11px',
+                          lineHeight: '25px',
                           color: 'black',
                           height: '20px',
                           borderBottom: '1px dotted black',

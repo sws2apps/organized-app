@@ -63,12 +63,14 @@ const ScheduleCard = ({ schedule }) => {
   };
 
   const handleS89Export = async () => {
+    handleClosePrint();
     setS89Data([]);
     setCurrentSchedule(schedule);
     navigate('/assignment-form');
   };
 
   const handleS140Export = async () => {
+    handleClosePrint();
     setCurrentSchedule(schedule);
     navigate('/midweek-meeting-schedule');
   };
