@@ -78,6 +78,7 @@ export const assTypeLocalNewState = selector({
       obj.maleOnly = assTypeList[i].maleOnly;
       obj.label = assTypeList[i].ass_type_name[appLang.toUpperCase()];
       obj.type = assTypeList[i].type;
+      obj.linkTo = assTypeList[i].linkTo;
       newList.push(obj);
     }
 

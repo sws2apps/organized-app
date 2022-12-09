@@ -262,7 +262,9 @@ const updateAssignmentType = async (step) => {
     icVideoObj[lang.code.toUpperCase()] = getI18n().getDataByLanguage(lang.code).translation['global.initialCallVideo'];
     rvVideoObj[lang.code.toUpperCase()] = getI18n().getDataByLanguage(lang.code).translation['global.returnVisitVideo'];
     memorialObj[lang.code.toUpperCase()] = getI18n().getDataByLanguage(lang.code).translation['global.memorialInvite'];
-    memorialVideoObj[lang.code.toUpperCase()] = getI18n().getDataByLanguage(lang.code).translation['global.memorialInviteVideo'];
+    memorialVideoObj[lang.code.toUpperCase()] = getI18n().getDataByLanguage(lang.code).translation[
+      'global.memorialInviteVideo'
+    ];
     chairmanMMObj[lang.code.toUpperCase()] = getI18n().getDataByLanguage(lang.code).translation[
       'global.chairmanMidweekMeeting'
     ];

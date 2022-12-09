@@ -51,6 +51,7 @@ export const dbGetListAssType = async () => {
     obj.ass_type_name = appData[i].ass_type_name;
     obj.maleOnly = appData[i].maleOnly || false;
     obj.type = appData[i].type;
+    obj.linkTo = appData[i].linkTo;
     assType.push(obj);
   }
   return assType;
@@ -210,7 +211,7 @@ export const dbHistoryAssignment = async () => {
               const stuDetails = await dbGetStudentByUid(person.studentID);
               person.studentName = stuDetails?.person_displayName || '';
               person.assignmentID = assType;
-              if (assType === 101 || assType === 108) {
+              if (assType === 101) {
                 person.assignmentName = getI18n().t('global.initialCall');
               } else if (assType === 102) {
                 person.assignmentName = getI18n().t('global.returnVisit');
@@ -218,6 +219,8 @@ export const dbHistoryAssignment = async () => {
                 person.assignmentName = getI18n().t('global.bibleStudy');
               } else if (assType === 104) {
                 person.assignmentName = getI18n().t('global.talk');
+              } else if (assType === 108) {
+                person.assignmentName = getI18n().t('global.memorialInvite');
               }
               person.class = varClasses[a].classLabel;
               dbHistory.push(person);
@@ -899,21 +902,36 @@ export const dbGetScheduleForPrint = async (scheduleName) => {
     time.ayf1 = addMinutes(time.bibleReading, 5);
 
     // ayf 2
-    if (sourceData.ass1_type === 105 || sourceData.ass1_type === 106 || sourceData.ass1_type === 107 || sourceData.ass1_type === 117) {
+    if (
+      sourceData.ass1_type === 105 ||
+      sourceData.ass1_type === 106 ||
+      sourceData.ass1_type === 107 ||
+      sourceData.ass1_type === 117
+    ) {
       time.ayf2 = addMinutes(time.ayf1, +sourceData.ass1_time);
     } else {
       time.ayf2 = addMinutes(time.ayf1, +sourceData.ass1_time + 1);
     }
 
     // ayf 3
-    if (sourceData.ass2_type === 105 || sourceData.ass2_type === 106 || sourceData.ass2_type === 107 || sourceData.ass2_type === 117) {
+    if (
+      sourceData.ass2_type === 105 ||
+      sourceData.ass2_type === 106 ||
+      sourceData.ass2_type === 107 ||
+      sourceData.ass2_type === 117
+    ) {
       time.ayf3 = addMinutes(time.ayf2, +sourceData.ass2_time);
     } else {
       time.ayf3 = addMinutes(time.ayf2, +sourceData.ass2_time + 1);
     }
 
     // ayf 4
-    if (sourceData.ass3_type === 105 || sourceData.ass3_type === 106 || sourceData.ass3_type === 107 || sourceData.ass2_type === 117) {
+    if (
+      sourceData.ass3_type === 105 ||
+      sourceData.ass3_type === 106 ||
+      sourceData.ass3_type === 107 ||
+      sourceData.ass2_type === 117
+    ) {
       time.ayf4 = addMinutes(time.ayf3, +sourceData.ass3_time);
     } else {
       time.ayf4 = addMinutes(time.ayf3, +sourceData.ass3_time + 1);
@@ -921,7 +939,12 @@ export const dbGetScheduleForPrint = async (scheduleName) => {
 
     // middle song
     if (sourceData.ass4_time !== '') {
-      if (sourceData.ass4_type === 105 || sourceData.ass4_type === 106 || sourceData.ass4_type === 107 || sourceData.ass2_type === 117) {
+      if (
+        sourceData.ass4_type === 105 ||
+        sourceData.ass4_type === 106 ||
+        sourceData.ass4_type === 107 ||
+        sourceData.ass2_type === 117
+      ) {
         time.middleSong = addMinutes(time.ayf4, +sourceData.ass4_time);
       } else {
         time.middleSong = addMinutes(time.ayf4, +sourceData.ass4_time + 1);

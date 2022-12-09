@@ -6,6 +6,7 @@ import appDb from './mainDb';
 import { allStudentsState, filteredStudentsState } from '../states/persons';
 import { sortHistoricalDateDesc } from '../utils/app';
 import { dbStudentAssignmentsHistory } from './dbAssignment';
+import { assTypeLocalNewState } from '../states/sourceMaterial';
 
 export const dbGetStudents = async () => {
   let allStudents = [];
@@ -152,6 +153,12 @@ export const dbGetStudentDetailsMini = async (uid) => {
 };
 
 export const dbGetPersonsByAssType = async (assType) => {
+  // check is assType is linked to another type
+  const assTypeList = await promiseGetRecoil(assTypeLocalNewState);
+
+  const linkTo = assTypeList.find((item) => item.value === assType)?.linkTo;
+  assType = linkTo ? linkTo : assType
+  
   const data = await promiseGetRecoil(allStudentsState);
   // remove disqualified students
   const appData = data.filter((person) => person.isDisqualified === false);
