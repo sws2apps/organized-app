@@ -773,6 +773,7 @@ export const dbGetS89ItemData = async (week, assName, classLabel) => {
   s89Data.bibleStudySpec = '';
   s89Data.isTalk = false;
   s89Data.assignmentDate = dateFormatted;
+  s89Data.isMemorialInvite = false;
 
   if (assName === 'ass1' || assName === 'ass2' || assName === 'ass3' || assName === 'ass4') {
     const assType = sourceData[assTypeFld];
@@ -791,7 +792,8 @@ export const dbGetS89ItemData = async (week, assName, classLabel) => {
     const assTime = sourceData[assTimeFld];
 
     if (assType === 101 || assType === 108) {
-      s89Data.isInitialCall = true;
+      if (assType === 101) s89Data.isInitialCall = true;
+      if (assType === 108) s89Data.isMemorialInvite = true;
       if (assName === 'ass1') {
         if (ass1Type === ass2Type || ass1Type === ass3Type || ass1Type === ass4Type) {
           s89Data.initialCallSpec = getI18n().t('schedule.assignmentPart', {

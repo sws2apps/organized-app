@@ -3,21 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { Markup } from 'interweave';
 import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import { appLangState } from '../../states/main';
 import { s89DataState } from '../../states/schedule';
-
-const sharedStyles = {
-  tblData: {
-    padding: 0,
-    borderBottom: 'none',
-  },
-};
 
 const S89Template = () => {
   const { t } = useTranslation();
@@ -37,172 +25,131 @@ const S89Template = () => {
                   height: '426.8px',
                 }}
               >
-                <TableContainer sx={{ paddingTop: '10px' }}>
-                  <Table size="small">
-                    <TableBody>
-                      <TableRow>
-                        <TableCell align="center" sx={sharedStyles.tblData}>
-                          <Typography
-                            sx={{
-                              fontFamily: 'Segoe UI',
-                              fontWeight: 'bold',
-                              fontSize: '15px',
-                              lineHeight: 1.3,
-                              color: 'black',
-                            }}
-                          >
-                            <Markup content={t('s89.title')} />
-                          </Typography>
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-                <TableContainer
+                {/* S-89 Header */}
+                <Typography
+                  align="center"
+                  sx={{
+                    paddingTop: '10px',
+                    fontFamily: 'Segoe UI',
+                    fontWeight: 'bold',
+                    fontSize: '15px',
+                    lineHeight: 1.3,
+                    color: 'black',
+                  }}
+                >
+                  <Markup content={t('s89.title')} />
+                </Typography>
+
+                {/* Student name row */}
+                <Box
                   sx={{
                     paddingTop: '5px',
                     paddingLeft: '10px',
                     paddingRight: '10px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '5px',
                   }}
                 >
-                  <Table size="small">
-                    <TableBody>
-                      <TableRow>
-                        <TableCell
-                          sx={{
-                            ...sharedStyles.tblData,
-                            width: 0,
-                            paddingRight: '10px',
-                          }}
-                        >
-                          <Typography
-                            sx={{
-                              fontFamily: 'Segoe UI',
-                              fontWeight: 'bold',
-                              fontSize: '15px',
-                              color: 'black',
-                            }}
-                          >
-                            {t('global.name')}:
-                          </Typography>
-                        </TableCell>
-                        <TableCell
-                          sx={{
-                            ...sharedStyles.tblData,
-                            borderBottom: '1px dotted black',
-                          }}
-                        >
-                          <Typography
-                            sx={{
-                              fontFamily: 'Segoe UI',
-                              fontSize: '13px',
-                              color: 'black',
-                            }}
-                          >
-                            {data.studentName}
-                          </Typography>
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-                <TableContainer
+                  <Typography
+                    sx={{
+                      fontFamily: 'Segoe UI',
+                      fontWeight: 'bold',
+                      fontSize: '15px',
+                      height: '20px',
+                      color: 'black',
+                    }}
+                  >
+                    {t('global.name')}:
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontFamily: 'Segoe UI',
+                      fontSize: '13px',
+                      color: 'black',
+                      height: '20px',
+                      borderBottom: '1px dotted black',
+                      width: '100%',
+                    }}
+                  >
+                    {data.studentName}
+                  </Typography>
+                </Box>
+
+                {/* Assistant name row */}
+                <Box
                   sx={{
-                    paddingTop: '5px',
+                    paddingTop: '10px',
                     paddingLeft: '10px',
                     paddingRight: '10px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '5px',
                   }}
                 >
-                  <Table size="small">
-                    <TableBody>
-                      <TableRow>
-                        <TableCell
-                          sx={{
-                            ...sharedStyles.tblData,
-                            width: 0,
-                            paddingRight: '10px',
-                          }}
-                        >
-                          <Typography
-                            sx={{
-                              fontFamily: 'Segoe UI',
-                              fontWeight: 'bold',
-                              fontSize: '15px',
-                              color: 'black',
-                            }}
-                          >
-                            {t('global.assistant')}:
-                          </Typography>
-                        </TableCell>
-                        <TableCell
-                          sx={{
-                            ...sharedStyles.tblData,
-                            borderBottom: '1px dotted black',
-                          }}
-                        >
-                          <Typography
-                            sx={{
-                              fontFamily: 'Segoe UI',
-                              fontSize: '13px',
-                              color: 'black',
-                            }}
-                          >
-                            {data.assistantName}
-                          </Typography>
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-                <TableContainer
+                  <Typography
+                    sx={{
+                      fontFamily: 'Segoe UI',
+                      fontWeight: 'bold',
+                      fontSize: '15px',
+                      color: 'black',
+                      height: '20px',
+                    }}
+                  >
+                    {t('global.assistant')}:
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontFamily: 'Segoe UI',
+                      fontSize: '13px',
+                      color: 'black',
+                      width: '100%',
+                      height: '20px',
+                      borderBottom: '1px dotted black',
+                    }}
+                  >
+                    {data.assistantName}
+                  </Typography>
+                </Box>
+
+                {/* Assignment date row */}
+                <Box
                   sx={{
-                    paddingTop: '5px',
+                    paddingTop: '10px',
                     paddingLeft: '10px',
                     paddingRight: '10px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '5px',
                   }}
                 >
-                  <Table size="small">
-                    <TableBody>
-                      <TableRow>
-                        <TableCell
-                          sx={{
-                            ...sharedStyles.tblData,
-                            width: 0,
-                            paddingRight: '10px',
-                          }}
-                        >
-                          <Typography
-                            sx={{
-                              fontFamily: 'Segoe UI',
-                              fontWeight: 'bold',
-                              fontSize: '15px',
-                              color: 'black',
-                            }}
-                          >
-                            {t('global.date')}:
-                          </Typography>
-                        </TableCell>
-                        <TableCell
-                          align="center"
-                          sx={{
-                            ...sharedStyles.tblData,
-                            borderBottom: '1px dotted black',
-                          }}
-                        >
-                          <Typography
-                            sx={{
-                              fontFamily: 'Segoe UI',
-                              fontSize: '13px',
-                              color: 'black',
-                            }}
-                          >
-                            {data.assignmentDate}
-                          </Typography>
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </TableContainer>
+                  <Typography
+                    sx={{
+                      fontFamily: 'Segoe UI',
+                      fontWeight: 'bold',
+                      fontSize: '15px',
+                      color: 'black',
+                      height: '20px',
+                    }}
+                  >
+                    {t('global.date')}:
+                  </Typography>
+                  <Typography
+                    align="center"
+                    sx={{
+                      fontFamily: 'Segoe UI',
+                      fontSize: '13px',
+                      color: 'black',
+                      width: '100%',
+                      height: '20px',
+                      borderBottom: '1px dotted black',
+                    }}
+                  >
+                    {data.assignmentDate}
+                  </Typography>
+                </Box>
+
+                {/* Assignment label */}
                 <Typography
                   sx={{
                     fontFamily: 'Segoe UI',
@@ -215,361 +162,220 @@ const S89Template = () => {
                 >
                   {t('global.assignment')}:
                 </Typography>
-                <TableContainer
+
+                {/* Assignment type */}
+                <Box
                   sx={{
+                    display: 'flex',
+                    alignItems: 'flex-start',
                     paddingTop: '5px',
                     paddingLeft: '15px',
-                    paddingRight: '10px',
+                    gap: '5px',
                   }}
                 >
-                  <Table size="small">
-                    <TableBody>
-                      <TableRow>
-                        <TableCell
+                  {/* 1st column */}
+                  <Box sx={{ width: '150px', display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                    {/* Bible Reading */}
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                      <Checkbox
+                        color="default"
+                        size="small"
+                        sx={{
+                          padding: 0,
+                          '& .MuiSvgIcon-root': { fontSize: 15 },
+                          color: 'black',
+                        }}
+                        checked={data.isBRead}
+                        onChange={() => {}}
+                      />
+                      <Typography
+                        sx={{
+                          fontFamily: 'Segoe UI',
+                          fontSize: '12px',
+                          lineHeight: 1,
+                          color: 'black',
+                        }}
+                      >
+                        {t('global.bibleReading')}
+                      </Typography>
+                    </Box>
+
+                    {/* Initial Call or Memorial Invitation */}
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                      <Checkbox
+                        color="default"
+                        size="small"
+                        sx={{
+                          padding: 0,
+                          '& .MuiSvgIcon-root': { fontSize: 15 },
+                          color: 'black',
+                        }}
+                        checked={data.isMemorialInvite ? true : data.isInitialCall}
+                        onChange={() => {}}
+                      />
+                      <Typography
+                        sx={{
+                          fontFamily: 'Segoe UI',
+                          fontSize: '12px',
+                          lineHeight: 1,
+                          color: 'black',
+                        }}
+                      >
+                        {data.isMemorialInvite ? t('global.memorialInvite') : t('global.initialCall')}
+                      </Typography>
+                    </Box>
+
+                    {/* Initial Call or Memorial Invitation Part Indice */}
+                    <Box sx={{ paddingLeft: '20px', marginTop: '-5px' }}>
+                      <Typography
+                        sx={{
+                          fontFamily: 'Segoe UI',
+                          fontSize: '12px',
+                          lineHeight: 1,
+                          color: 'black',
+                          height: '20px',
+                          borderBottom: '1px dotted black',
+                        }}
+                      >
+                        {data.initialCallSpec}
+                      </Typography>
+                    </Box>
+
+                    {/* Return Visit */}
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px', marginTop: '2px' }}>
+                      <Checkbox
+                        color="default"
+                        size="small"
+                        sx={{
+                          padding: 0,
+                          '& .MuiSvgIcon-root': { fontSize: 15 },
+                          color: 'black',
+                        }}
+                        checked={data.isReturnVisit}
+                        onChange={() => {}}
+                      />
+                      <Typography
+                        sx={{
+                          fontFamily: 'Segoe UI',
+                          fontSize: '12px',
+                          lineHeight: 1,
+                          color: 'black',
+                        }}
+                      >
+                        {t('global.returnVisit')}
+                      </Typography>
+                    </Box>
+
+                    {/* Return Visit Part Indice */}
+                    <Box sx={{ paddingLeft: '20px', marginTop: '-5px' }}>
+                      <Typography
+                        sx={{
+                          fontFamily: 'Segoe UI',
+                          fontSize: '12px',
+                          lineHeight: 1,
+                          color: 'black',
+                          height: '20px',
+                          borderBottom: '1px dotted black',
+                        }}
+                      >
+                        {data.returnVisitSpec}
+                      </Typography>
+                    </Box>
+                  </Box>
+
+                  {/* 2nd column */}
+                  <Box sx={{ width: '140px' }}>
+                    {/* Bible Study */}
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                      <Checkbox
+                        color="default"
+                        size="small"
+                        sx={{
+                          padding: 0,
+                          '& .MuiSvgIcon-root': { fontSize: 15 },
+                          color: 'black',
+                        }}
+                        checked={data.isBibleStudy}
+                        onChange={() => {}}
+                      />
+                      <Typography
+                        sx={{
+                          fontFamily: 'Segoe UI',
+                          fontSize: '12px',
+                          lineHeight: 1,
+                          color: 'black',
+                        }}
+                      >
+                        {t('global.bibleStudy')}
+                      </Typography>
+                    </Box>
+
+                    {/* Talk */}
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                      <Checkbox
+                        color="default"
+                        size="small"
+                        sx={{
+                          padding: 0,
+                          '& .MuiSvgIcon-root': { fontSize: 15 },
+                          color: 'black',
+                        }}
+                        checked={data.isTalk}
+                        onChange={() => {}}
+                      />
+                      <Typography
+                        sx={{
+                          fontFamily: 'Segoe UI',
+                          fontSize: '12px',
+                          lineHeight: 1,
+                          color: 'black',
+                        }}
+                      >
+                        {t('global.talk')}
+                      </Typography>
+                    </Box>
+
+                    {/* Other Assignment */}
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                        <Checkbox
+                          color="default"
+                          size="small"
                           sx={{
-                            ...sharedStyles.tblData,
-                            width: 0,
-                            paddingRight: '5px',
+                            padding: 0,
+                            '& .MuiSvgIcon-root': { fontSize: 15 },
+                            color: 'black',
+                          }}
+                          checked={false}
+                          onChange={() => {}}
+                        />
+                        <Typography
+                          sx={{
+                            fontFamily: 'Segoe UI',
+                            fontSize: '12px',
                             lineHeight: 1,
+                            color: 'black',
                           }}
                         >
-                          <Checkbox
-                            color="default"
-                            size="small"
-                            sx={{
-                              padding: 0,
-                              '& .MuiSvgIcon-root': { fontSize: 15 },
-                              color: 'black',
-                            }}
-                            checked={data.isBRead}
-                            onChange={() => {}}
-                          />
-                        </TableCell>
-                        <TableCell
-                          sx={{
-                            ...sharedStyles.tblData,
-                            lineHeight: 1,
-                            width: '127px',
-                          }}
-                        >
-                          <Typography
-                            sx={{
-                              fontFamily: 'Segoe UI',
-                              fontSize: '12px',
-                              lineHeight: 1,
-                              color: 'black',
-                            }}
-                          >
-                            {t('global.bibleReading')}
-                          </Typography>
-                        </TableCell>
-                        <TableCell
-                          sx={{
-                            ...sharedStyles.tblData,
-                            width: 0,
-                            paddingRight: '5px',
-                            paddingLeft: '5px',
-                            lineHeight: 1,
-                          }}
-                        >
-                          <Checkbox
-                            color="default"
-                            size="small"
-                            sx={{
-                              padding: 0,
-                              '& .MuiSvgIcon-root': { fontSize: 15 },
-                              color: 'black',
-                            }}
-                            checked={data.isBibleStudy}
-                            onChange={() => {}}
-                          />
-                        </TableCell>
-                        <TableCell
-                          sx={{
-                            ...sharedStyles.tblData,
-                            lineHeight: 1,
-                            width: '125px',
-                          }}
-                        >
-                          <Typography
-                            sx={{
-                              fontFamily: 'Segoe UI',
-                              fontSize: '12px',
-                              lineHeight: 1,
-                              color: 'black',
-                            }}
-                          >
-                            {t('global.bibleStudy')}
-                          </Typography>
-                        </TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell
-                          sx={{
-                            ...sharedStyles.tblData,
-                            width: 0,
-                            paddingRight: '5px',
-                            lineHeight: 1,
-                          }}
-                        >
-                          <Checkbox
-                            color="default"
-                            size="small"
-                            sx={{
-                              padding: 0,
-                              '& .MuiSvgIcon-root': { fontSize: 15 },
-                              color: 'black',
-                            }}
-                            checked={data.isInitialCall}
-                            onChange={() => {}}
-                          />
-                        </TableCell>
-                        <TableCell
-                          sx={{
-                            ...sharedStyles.tblData,
-                            lineHeight: 1,
-                          }}
-                        >
-                          <Typography
-                            sx={{
-                              fontFamily: 'Segoe UI',
-                              fontSize: '12px',
-                              lineHeight: 1,
-                              color: 'black',
-                            }}
-                          >
-                            {t('global.initialCall')}
-                          </Typography>
-                        </TableCell>
-                        <TableCell
-                          sx={{
-                            ...sharedStyles.tblData,
-                            width: 0,
-                            paddingRight: '5px',
-                            paddingLeft: '5px',
-                            lineHeight: 1,
-                          }}
-                        >
-                          <Checkbox
-                            color="default"
-                            size="small"
-                            sx={{
-                              padding: 0,
-                              '& .MuiSvgIcon-root': { fontSize: 15 },
-                              color: 'black',
-                            }}
-                            checked={data.isTalk}
-                            onChange={() => {}}
-                          />
-                        </TableCell>
-                        <TableCell
-                          sx={{
-                            ...sharedStyles.tblData,
-                            lineHeight: 1,
-                          }}
-                        >
-                          <Typography
-                            sx={{
-                              fontFamily: 'Segoe UI',
-                              fontSize: '12px',
-                              lineHeight: 1,
-                              color: 'black',
-                            }}
-                          >
-                            {t('global.talk')}
-                          </Typography>
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-                <TableContainer
-                  sx={{
-                    paddingLeft: '30px',
-                    paddingRight: '10px',
-                  }}
-                >
-                  <Table size="small">
-                    <TableBody>
-                      <TableRow>
-                        <TableCell
-                          sx={{
-                            ...sharedStyles.tblData,
-                            width: 0,
-                            paddingRight: '5px',
-                            lineHeight: 1,
-                          }}
-                        ></TableCell>
-                        <TableCell
-                          sx={{
-                            ...sharedStyles.tblData,
-                            lineHeight: 1,
-                            borderBottom: '1px dotted black',
-                            width: '127px',
-                          }}
-                        >
-                          <Typography
-                            sx={{
-                              fontFamily: 'Segoe UI',
-                              fontSize: '12px',
-                              lineHeight: 1,
-                              color: 'black',
-                            }}
-                          >
-                            {data.initialCallSpec}
-                          </Typography>
-                        </TableCell>
-                        <TableCell
-                          sx={{
-                            ...sharedStyles.tblData,
-                            width: 0,
-                            paddingRight: '5px',
-                            paddingLeft: '5px',
-                            lineHeight: 1,
-                          }}
-                        >
-                          <Checkbox
-                            color="default"
-                            size="small"
-                            sx={{
-                              padding: 0,
-                              '& .MuiSvgIcon-root': { fontSize: 15 },
-                              color: 'black',
-                            }}
-                          />
-                        </TableCell>
-                        <TableCell
-                          sx={{
-                            ...sharedStyles.tblData,
-                            width: 0,
-                            paddingRight: '2px',
-                            lineHeight: 1,
-                          }}
-                        >
-                          <Typography
-                            sx={{
-                              fontFamily: 'Segoe UI',
-                              fontSize: '12px',
-                              lineHeight: 1,
-                              color: 'black',
-                            }}
-                          >
-                            {t('global.otherPart')}:
-                          </Typography>
-                        </TableCell>
-                        <TableCell
-                          sx={{
-                            ...sharedStyles.tblData,
-                            borderBottom: '1px dotted black',
-                            lineHeight: 1,
-                          }}
-                        >
-                          <Typography
-                            sx={{
-                              fontFamily: 'Segoe UI',
-                              fontSize: '12px',
-                              lineHeight: 1,
-                              color: 'black',
-                            }}
-                          ></Typography>
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-                <TableContainer
-                  sx={{
-                    paddingTop: '3px',
-                    paddingLeft: '15px',
-                    paddingRight: '10px',
-                    width: '175px',
-                  }}
-                >
-                  <Table size="small">
-                    <TableBody>
-                      <TableRow>
-                        <TableCell
-                          sx={{
-                            ...sharedStyles.tblData,
-                            width: 0,
-                            paddingRight: '5px',
-                            lineHeight: 1,
-                          }}
-                        >
-                          <Checkbox
-                            color="default"
-                            size="small"
-                            sx={{
-                              padding: 0,
-                              '& .MuiSvgIcon-root': { fontSize: 15 },
-                              color: 'black',
-                            }}
-                            checked={data.isReturnVisit}
-                            onChange={() => {}}
-                          />
-                        </TableCell>
-                        <TableCell
-                          sx={{
-                            ...sharedStyles.tblData,
-                            lineHeight: 1.3,
-                          }}
-                        >
-                          <Typography
-                            sx={{
-                              fontFamily: 'Segoe UI',
-                              fontSize: '12px',
-                              lineHeight: 1.3,
-                              color: 'black',
-                            }}
-                          >
-                            {t('global.returnVisit')}
-                          </Typography>
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-                <TableContainer
-                  sx={{
-                    paddingLeft: '30px',
-                    paddingRight: '10px',
-                    width: '173px',
-                  }}
-                >
-                  <Table size="small" sx={{ height: '18px' }}>
-                    <TableBody>
-                      <TableRow>
-                        <TableCell
-                          sx={{
-                            ...sharedStyles.tblData,
-                            width: 0,
-                            paddingRight: '5px',
-                            lineHeight: 1,
-                          }}
-                        ></TableCell>
-                        <TableCell
-                          sx={{
-                            ...sharedStyles.tblData,
-                            borderBottom: '1px dotted black',
-                            lineHeight: 1,
-                            width: '127px',
-                          }}
-                        >
-                          <Typography
-                            sx={{
-                              fontFamily: 'Segoe UI',
-                              fontSize: '12px',
-                              lineHeight: 1,
-                              color: 'black',
-                            }}
-                          >
-                            {data.returnVisitSpec}
-                          </Typography>
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </TableContainer>
+                          {t('global.otherPart')}:
+                        </Typography>
+                      </Box>
+                      <Typography
+                        sx={{
+                          fontFamily: 'Segoe UI',
+                          fontSize: '12px',
+                          lineHeight: 1,
+                          color: 'black',
+                          height: '18px',
+                          width: '100%',
+                          borderBottom: '1px dotted black',
+                        }}
+                      ></Typography>
+                    </Box>
+                  </Box>
+                </Box>
+
+                {/* Class label */}
                 <Typography
                   sx={{
                     fontFamily: 'Segoe UI',
@@ -582,132 +388,85 @@ const S89Template = () => {
                 >
                   {t('s89.toBeGiven')}
                 </Typography>
-                <TableContainer
-                  sx={{
-                    paddingLeft: '15px',
-                    paddingRight: '10px',
-                  }}
-                >
-                  <Table size="small">
-                    <TableBody>
-                      <TableRow>
-                        <TableCell
-                          sx={{
-                            ...sharedStyles.tblData,
-                            width: 0,
-                            paddingRight: '5px',
-                            lineHeight: 1.2,
-                          }}
-                        >
-                          <Checkbox
-                            color="default"
-                            size="small"
-                            sx={{
-                              padding: 0,
-                              '& .MuiSvgIcon-root': { fontSize: 15 },
-                              color: 'black',
-                            }}
-                            checked={data.isMainHall}
-                            onChange={() => {}}
-                          />
-                        </TableCell>
-                        <TableCell
-                          sx={{
-                            ...sharedStyles.tblData,
-                            lineHeight: 1.2,
-                          }}
-                        >
-                          <Typography
-                            sx={{
-                              fontFamily: 'Segoe UI',
-                              fontSize: '12px',
-                              lineHeight: 1.2,
-                              color: 'black',
-                            }}
-                          >
-                            {t('global.mainHall')}
-                          </Typography>
-                        </TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell
-                          sx={{
-                            ...sharedStyles.tblData,
-                            width: 0,
-                            paddingRight: '5px',
-                            lineHeight: 1.2,
-                          }}
-                        >
-                          <Checkbox
-                            color="default"
-                            size="small"
-                            sx={{
-                              padding: 0,
-                              '& .MuiSvgIcon-root': { fontSize: 15 },
-                              color: 'black',
-                            }}
-                            checked={data.isAuxClass}
-                            onChange={() => {}}
-                          />
-                        </TableCell>
-                        <TableCell
-                          sx={{
-                            ...sharedStyles.tblData,
-                            lineHeight: 1.2,
-                          }}
-                        >
-                          <Typography
-                            sx={{
-                              fontFamily: 'Segoe UI',
-                              fontSize: '12px',
-                              lineHeight: 1.2,
-                              color: 'black',
-                            }}
-                          >
-                            {t('global.auxClass1')}
-                          </Typography>
-                        </TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell
-                          sx={{
-                            ...sharedStyles.tblData,
-                            width: 0,
-                            paddingRight: '5px',
-                            lineHeight: 1.2,
-                          }}
-                        >
-                          <Checkbox
-                            color="default"
-                            size="small"
-                            sx={{
-                              padding: 0,
-                              '& .MuiSvgIcon-root': { fontSize: 15 },
-                              color: 'black',
-                            }}
-                          />
-                        </TableCell>
-                        <TableCell
-                          sx={{
-                            ...sharedStyles.tblData,
-                            lineHeight: 1.2,
-                          }}
-                        >
-                          <Typography
-                            sx={{
-                              fontFamily: 'Segoe UI',
-                              fontSize: '12px',
-                              lineHeight: 1.2,
-                              color: 'black',
-                            }}
-                          >
-                            {t('global.auxClass2')}
-                          </Typography>
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </TableContainer>
+
+                <Box sx={{ paddingLeft: '15px', display: 'flex', flexDirection: 'column', gap: '3px' }}>
+                  {/* 1st class */}
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                    <Checkbox
+                      color="default"
+                      size="small"
+                      sx={{
+                        padding: 0,
+                        '& .MuiSvgIcon-root': { fontSize: 15 },
+                        color: 'black',
+                      }}
+                      checked={data.isMainHall}
+                      onChange={() => {}}
+                    />
+                    <Typography
+                      sx={{
+                        fontFamily: 'Segoe UI',
+                        fontSize: '12px',
+                        lineHeight: 1.2,
+                        color: 'black',
+                      }}
+                    >
+                      {t('global.mainHall')}
+                    </Typography>
+                  </Box>
+
+                  {/* 2nd class */}
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                    <Checkbox
+                      color="default"
+                      size="small"
+                      sx={{
+                        padding: 0,
+                        '& .MuiSvgIcon-root': { fontSize: 15 },
+                        color: 'black',
+                      }}
+                      checked={data.isAuxClass}
+                      onChange={() => {}}
+                    />
+                    <Typography
+                      sx={{
+                        fontFamily: 'Segoe UI',
+                        fontSize: '12px',
+                        lineHeight: 1.2,
+                        color: 'black',
+                      }}
+                    >
+                      {t('global.auxClass1')}
+                    </Typography>
+                  </Box>
+
+                  {/* 3rd class */}
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                    <Checkbox
+                      color="default"
+                      size="small"
+                      sx={{
+                        padding: 0,
+                        '& .MuiSvgIcon-root': { fontSize: 15 },
+                        color: 'black',
+                      }}
+                      checked={false}
+                      onChange={() => {}}
+                    />
+                    <Typography
+                      sx={{
+                        fontFamily: 'Segoe UI',
+                        fontSize: '12px',
+                        lineHeight: 1.2,
+                        color: 'black',
+                      }}
+                    >
+                      {t('global.auxClass2')}
+                    </Typography>
+                  </Box>
+                </Box>
+
+                {/* S-89 Note */}
                 <Box>
                   <Typography
                     sx={{
@@ -724,6 +483,8 @@ const S89Template = () => {
                     <Markup content={t('s89.descFooter')} />
                   </Typography>
                 </Box>
+
+                {/* S-89 Footer */}
                 <Box sx={{ display: 'flex' }}>
                   <Typography
                     sx={{

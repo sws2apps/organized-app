@@ -29,21 +29,25 @@ const S89 = () => {
         <Typography sx={{ textTransform: 'uppercase', fontWeight: 'bold' }}>{t('schedule.s89')}</Typography>
       </Box>
 
-      <S89Selector setIsGenerating={(value) => setIsGenerating(value)} />
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+        <S89Selector setIsGenerating={(value) => setIsGenerating(value)} />
 
-      <Box sx={{ maxWidth: '500px', overflow: 'auto' }}>
-        {isGenerating && (
-          <CircularProgress
-            color="secondary"
-            size={60}
-            disableShrink={true}
-            sx={{
-              display: 'flex',
-              margin: '60px auto',
-            }}
-          />
-        )}
-        {!isGenerating && s89Data.length > 0 && <S89Template />}
+        <Box sx={{ maxWidth: '500px', overflow: 'auto' }}>
+          {isGenerating && (
+            <Box sx={{ width: '280px' }}>
+              <CircularProgress
+                color="secondary"
+                size={60}
+                disableShrink={true}
+                sx={{
+                  display: 'flex',
+                  margin: '60px auto',
+                }}
+              />
+            </Box>
+          )}
+          {!isGenerating && s89Data.length > 0 && <S89Template />}
+        </Box>
       </Box>
     </Box>
   );
