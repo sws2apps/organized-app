@@ -1,3 +1,10 @@
+## [2.8.1](https://github.com/sws2apps/lmm-oa-sws/compare/v2.8.0...v2.8.1) (2022-12-09)
+
+
+### Bug Fixes
+
+* **template:** update style for assignment part indice in S-89 ([11d78c5](https://github.com/sws2apps/lmm-oa-sws/commit/11d78c5d69bed1e058be0be225f346d2590179fa))
+
 # [2.8.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.7.1...v2.8.0) (2022-12-09)
 
 
