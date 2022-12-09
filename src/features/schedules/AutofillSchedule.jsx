@@ -262,7 +262,7 @@ const AutofillSchedule = () => {
 
         // LC Part 2
         const autoLCPart2 = async () => {
-          if (schedData.lcCount === 2) {
+          if (sourceData.lcCount === 2) {
             students = await dbGetPersonsByAssType(114);
             if (students.length > 0) {
               const lcPart2 = students[0].person_uid;
