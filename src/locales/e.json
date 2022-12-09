@@ -317,7 +317,7 @@
   "schedule.deleteWeekOnlyLabel": "{{ currentWeek }} only",
   "schedule.assistantHistory": "{{ currentStudent }} (Assistant History)",
   "schedule.s89NoData": "There is no assignment to be printed for this schedule",
-  "schedule.assignmentPart": "Part {{ id }} ({{ time }}.)",
+  "schedule.assignmentPart": "Part {{ id }} ({{ time }} min.)",
   "schedule.publishPocket": "Publish schedule to SWS Pocket ...",
   "schedule.publishMSC": "Publish schedule to MSC ...",
   "schedule.publishSuccess": "Scheduled sucessfully published",

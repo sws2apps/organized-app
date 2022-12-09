@@ -403,10 +403,9 @@ const S89Template = () => {
                         <TableCell
                           sx={{
                             ...sharedStyles.tblData,
-                            width: 0,
-                            paddingRight: '127px',
                             lineHeight: 1,
                             borderBottom: '1px dotted black',
+                            width: '127px',
                           }}
                         >
                           <Typography
@@ -417,7 +416,7 @@ const S89Template = () => {
                               color: 'black',
                             }}
                           >
-                            {data.isInitialCallSpec}
+                            {data.initialCallSpec}
                           </Typography>
                         </TableCell>
                         <TableCell
@@ -553,6 +552,7 @@ const S89Template = () => {
                             ...sharedStyles.tblData,
                             borderBottom: '1px dotted black',
                             lineHeight: 1,
+                            width: '127px',
                           }}
                         >
                           <Typography

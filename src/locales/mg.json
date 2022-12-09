@@ -318,7 +318,7 @@
   "schedule.deleteWeekOnlyLabel": "{{ currentWeek }} ihany",
   "schedule.assistantHistory": "{{ currentStudent }} (Mpanampy efa niaraka taminy)",
   "schedule.s89NoData": "Tsy misy anjara azo atao pirinty ao amin’io fandaharana io",
-  "schedule.assignmentPart": "Anjara {{ id }} ({{ time }}.)",
+  "schedule.assignmentPart": "Anjara {{ id }} ({{ time }} min.)",
   "schedule.publishPocket": "Handefa fandaharana -> SWS Pocket ...",
   "schedule.publishMSC": "Handefa fandaharana -> MSC ...",
   "schedule.publishSuccess": "Lasa soa aman-tsara ny fandaharana",
