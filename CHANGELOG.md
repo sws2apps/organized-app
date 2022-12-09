@@ -1,3 +1,24 @@
+# [2.8.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.7.1...v2.8.0) (2022-12-09)
+
+
+### Bug Fixes
+
+* **schedule:** memorial invitation students not showing ([80916b5](https://github.com/sws2apps/lmm-oa-sws/commit/80916b57aa9b069e5a83a1789dbc8acc209df665))
+* **schedules:** autofill not assigning part 2 in living as christians part ([bd4dc5d](https://github.com/sws2apps/lmm-oa-sws/commit/bd4dc5d57b519cdcf951b6ccf96c97086f0b3b61))
+* **template:** assignment indice not being shown in s89 template ([4747d57](https://github.com/sws2apps/lmm-oa-sws/commit/4747d578883f6c1220f0ab9317573576fdf3a30c))
+* **template:** update s-89 template to display memorial invitation part ([a17dd18](https://github.com/sws2apps/lmm-oa-sws/commit/a17dd1852a7aacd4916019891ba548bfeb5c99b7))
+
+
+### Features
+
+* **deps:** bump @mui/lab from 5.0.0-alpha.110 to 5.0.0-alpha.111 ([756975b](https://github.com/sws2apps/lmm-oa-sws/commit/756975b0c1192688f6016e220dca6b8ef58e5ccb))
+* **deps:** bump @mui/material from 5.10.16 to 5.10.17 ([5cf05e7](https://github.com/sws2apps/lmm-oa-sws/commit/5cf05e79e9285aee0e2f3b19e7590040543b3aee))
+* **deps:** bump @mui/x-date-pickers from 5.0.9 to 5.0.10 ([f969e5f](https://github.com/sws2apps/lmm-oa-sws/commit/f969e5f6425211d8e6c58d67f2bff7ca577c55f7))
+* **deps:** bump i18next from 22.0.8 to 22.1.4 ([5321cd1](https://github.com/sws2apps/lmm-oa-sws/commit/5321cd1898321f552672cf0c511eb88fd0162330))
+* **deps:** bump react-i18next from 12.0.0 to 12.1.0 ([ccc0c6e](https://github.com/sws2apps/lmm-oa-sws/commit/ccc0c6e023c3ea7402545a63afba7da48f6069f7))
+* **deps:** bump react-i18next from 12.1.0 to 12.1.1 ([6e701a7](https://github.com/sws2apps/lmm-oa-sws/commit/6e701a7a855d10260ae28cb79f15bf2b1505278e))
+* **deps:** bump react-router-dom from 6.4.4 to 6.4.5 ([7958f03](https://github.com/sws2apps/lmm-oa-sws/commit/7958f0326f0c03d2819e23a4bdeaa453aa0decb9))
+
 ## [2.7.1](https://github.com/sws2apps/lmm-oa-sws/compare/v2.7.0...v2.7.1) (2022-12-06)
 
 
