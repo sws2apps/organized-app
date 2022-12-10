@@ -24,8 +24,7 @@ export const dbGetScheduleData = async (weekValue) => {
     }
   }
 
-  for (let a = 0; a < assList.length; a++) {
-    const item = assList[a];
+  for (const item of assList) {
     const fldDispName = `${item.assignment}_dispName`;
 
     if (item.person) {
