@@ -62,7 +62,7 @@ const PersonCard = ({ person }) => {
   };
 
   const handleDelete = (uid, name) => {
-    var obj = {};
+    const obj = {};
     obj.name = name;
     obj.person_uid = uid;
     setCurrentStudent(obj);

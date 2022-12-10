@@ -111,7 +111,7 @@ const ScheduleAYF = (props) => {
   };
 
   const loadStuPicker = (assID, assType, assTypeName, currentStudent, stuForAssistant, assTypeNameForAssistant) => {
-    var obj = {};
+    const obj = {};
     obj.assID = assID;
     obj.assType = assType;
     obj.assTypeName = assTypeName;

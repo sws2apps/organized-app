@@ -26,11 +26,11 @@ const PersonBasic = ({ isMale, isFemale, name, displayName, setIsMale, setIsFema
     if (name === '') {
       setDisplayName('');
     } else {
-      var txtArray = name.split(' ');
+      const txtArray = name.split(' ');
       if (txtArray.length === 1) {
         setDisplayName(name);
       } else {
-        var varDisplay = '';
+        let varDisplay = '';
         for (let i = 0; i < txtArray.length; i++) {
           if (i === txtArray.length - 1) {
             varDisplay += txtArray[i];

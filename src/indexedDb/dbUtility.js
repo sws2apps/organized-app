@@ -48,7 +48,7 @@ export const isDbExist = async (dbName) => {
 };
 
 export const isValidJSON = async (fileJSON) => {
-  var isValid = false;
+  let isValid = false;
   const getJSON = () => {
     return new Promise((resolve, reject) => {
       let reader = new FileReader();

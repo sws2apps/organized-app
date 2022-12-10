@@ -84,8 +84,8 @@ export const fetchNotifications = async () => {
 export const sortHistoricalDateDesc = (data) => {
   data.sort((a, b) => {
     if (a.startDate === b.startDate) return 0;
-    var dateA = a.startDate.split('/')[2] + '/' + a.startDate.split('/')[0] + '/' + a.startDate.split('/')[1];
-    var dateB = b.startDate.split('/')[2] + '/' + b.startDate.split('/')[0] + '/' + b.startDate.split('/')[1];
+    const dateA = a.startDate.split('/')[2] + '/' + a.startDate.split('/')[0] + '/' + a.startDate.split('/')[1];
+    const dateB = b.startDate.split('/')[2] + '/' + b.startDate.split('/')[0] + '/' + b.startDate.split('/')[1];
     return dateA > dateB ? 1 : -1;
   });
 

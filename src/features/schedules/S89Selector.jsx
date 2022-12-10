@@ -67,7 +67,7 @@ const S89Selector = ({ setIsGenerating }) => {
   const savePDF = async () => {
     setDlgOpen(true);
     const element = document.getElementById('S89-wrapper');
-    var opt = {
+    const opt = {
       filename: 'S-89.pdf',
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 2 },

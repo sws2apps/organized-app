@@ -34,6 +34,15 @@ const AssignmentType = ({ student, assignable, currentType, handleChangeType }) 
     handleChangeType(newVal.value);
   };
 
+  const getHeaderLabel = (value) => {
+    if (value === 'mm') return t('global.midweekMeeting');
+    if (value === 'tgw') return t('global.treasuresPart');
+    if (value === 'ayf') return t('global.applyFieldMinistryPart');
+    if (value === 'lc') return t('global.livingPart');
+
+    return '';
+  };
+
   useEffect(() => {
     setIsFemale(student.isFemale);
   }, [student.isFemale]);
@@ -61,8 +70,8 @@ const AssignmentType = ({ student, assignable, currentType, handleChangeType }) 
     <>
       {localList.length > 0 && (
         <Autocomplete
-          id="grouped-demo"
-          size="small"
+          id='grouped-demo'
+          size='small'
           sx={{ minWidth: '260px' }}
           options={localList}
           groupBy={(option) => option.type}
@@ -74,17 +83,7 @@ const AssignmentType = ({ student, assignable, currentType, handleChangeType }) 
           renderInput={(params) => <TextField {...params} label={t('sourceMaterial.partType')} />}
           renderGroup={(params) => (
             <li key={`group-${params.group}`}>
-              <GroupHeader>
-                {params.group === 'mm'
-                  ? t('global.midweekMeeting')
-                  : params.group === 'tgw'
-                  ? t('global.treasuresPart')
-                  : params.group === 'ayf'
-                  ? t('global.applyFieldMinistryPart')
-                  : params.group === 'lc'
-                  ? t('global.livingPart')
-                  : ''}
-              </GroupHeader>
+              <GroupHeader>{getHeaderLabel(params.group)}</GroupHeader>
               <GroupItems>
                 {params.children.sort((a, b) => {
                   return a.key > b.key ? 1 : -1;

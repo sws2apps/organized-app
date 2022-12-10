@@ -170,10 +170,10 @@ const WeeklyAssignments = () => {
   const themeOptions = useRecoilValue(themeOptionsState);
 
   const handleActiveWeek = () => {
-    var today = new Date();
-    var day = today.getDay();
-    var diff = today.getDate() - day + (day === 0 ? -6 : 1);
-    var monDay = new Date(today.setDate(diff));
+    const today = new Date();
+    const day = today.getDay();
+    const diff = today.getDate() - day + (day === 0 ? -6 : 1);
+    const monDay = new Date(today.setDate(diff));
     setCurrentWeek(monDay);
   };
 
@@ -187,7 +187,7 @@ const WeeklyAssignments = () => {
 
   useEffect(() => {
     const loadCurrentWeekData = async () => {
-      var result = new Date(currentWeek);
+      let result = new Date(currentWeek);
       result.setDate(currentWeek.getDate() - 7);
       let previousWeek = dateFormat(result, 'mm/dd/yyyy');
 
@@ -287,10 +287,10 @@ const WeeklyAssignments = () => {
   }, [shortDateFormat, currentWeek]);
 
   useEffect(() => {
-    var today = new Date();
-    var day = today.getDay();
-    var diff = today.getDate() - day + (day === 0 ? -6 : 1);
-    var monDay = new Date(today.setDate(diff));
+    const today = new Date();
+    const day = today.getDay();
+    const diff = today.getDate() - day + (day === 0 ? -6 : 1);
+    const monDay = new Date(today.setDate(diff));
     setCurrentWeek(monDay);
   }, []);
 

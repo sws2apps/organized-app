@@ -12,11 +12,11 @@ import { allStudentsState, filteredStudentsState, studentsAssignmentHistoryState
 import { meetingTimeState } from '../states/congregation';
 
 export const dbGetAssType = async (assType, appLang) => {
-  var srcAssType = '';
+  let srcAssType = '';
   if (assType === '') {
     return srcAssType;
   } else {
-    var i = parseInt(assType, 10);
+    const i = parseInt(assType, 10);
     const appData = await appDb.table('ass_type').get(i);
     srcAssType = appData.ass_type_name[appLang];
     return srcAssType;
@@ -24,7 +24,7 @@ export const dbGetAssType = async (assType, appLang) => {
 };
 
 export const dbGetAssTypeId = async (assType, appLang) => {
-  var srcAssType = '';
+  let srcAssType = '';
   if (assType === '') {
     return srcAssType;
   } else {
@@ -39,8 +39,8 @@ export const dbGetAssTypeId = async (assType, appLang) => {
 };
 
 export const dbGetListAssType = async () => {
-  var assType = [];
-  var obj = {};
+  const assType = [];
+  let obj = {};
   const appData = await appDb.table('ass_type').reverse().reverse().sortBy('code');
 
   for (let i = 0; i < appData.length; i++) {
@@ -61,7 +61,7 @@ export const dbSaveAss = async (weekOf, stuID, varSave) => {
   const appData = await appDb.table('sched_MM').get({ weekOf: weekOf });
   const stuPrev = appData[varSave];
 
-  var obj = {};
+  const obj = {};
   obj[varSave] = stuID;
 
   await appDb.table('sched_MM').update(weekOf, { ...obj });
@@ -206,7 +206,7 @@ export const dbHistoryAssignment = async () => {
 
         //AYF Assigment History
         for (let b = 0; b < cnAss.length - 1; b++) {
-          var weekFld = 'ass' + cnAss[b].iAss + '_type';
+          const weekFld = 'ass' + cnAss[b].iAss + '_type';
           const assType = weekData[weekFld];
 
           for (let a = 0; a < varClasses.length - 1; a++) {
@@ -257,6 +257,8 @@ export const dbHistoryAssignment = async () => {
         // LC Assignment History
         for (let b = 1; b < 3; b++) {
           fldName = `lc_part${b}`;
+          const fldSource = `lcPart${b}_src`;
+          const fldTime = `lcPart${b}_time`;
           if (typeof appData[i][fldName] !== 'undefined') {
             person.ID = histID;
             person.weekOf = appData[i].weekOf;
@@ -266,7 +268,7 @@ export const dbHistoryAssignment = async () => {
             person.studentName = stuDetails.person_displayName;
             person.assignmentID = 114;
             person.assignmentName = getI18n().t('global.lcPart');
-            person.assignmentSource = `(${weekData[`lcPart$b}_time`]}) ${weekData[`lcPart$b}_src`]}`;
+            person.assignmentSource = `(${weekData[fldTime]}) ${weekData[fldSource]}`;
             person.class = '';
             dbHistory.push(person);
             person = {};
@@ -328,8 +330,8 @@ export const dbHistoryAssignment = async () => {
         }
       }
       dbHistory.sort((a, b) => {
-        var dateA = a.weekOf.split('/')[2] + '/' + a.weekOf.split('/')[0] + '/' + a.weekOf.split('/')[1];
-        var dateB = b.weekOf.split('/')[2] + '/' + b.weekOf.split('/')[0] + '/' + b.weekOf.split('/')[1];
+        const dateA = a.weekOf.split('/')[2] + '/' + a.weekOf.split('/')[0] + '/' + a.weekOf.split('/')[1];
+        const dateB = b.weekOf.split('/')[2] + '/' + b.weekOf.split('/')[0] + '/' + b.weekOf.split('/')[1];
         return dateA < dateB ? 1 : -1;
       });
     }
@@ -348,7 +350,7 @@ export const dbLastBRead = async (stuID) => {
   const appData = await promiseGetRecoil(studentsAssignmentHistoryState);
   const lastBRead = appData.filter((data) => (data.assignmentID === 100) & (data.studentID === stuID));
 
-  var dLast;
+  let dLast;
   if (lastBRead.length > 0) {
     dLast = lastBRead[0].weekOf;
   }
@@ -359,7 +361,7 @@ export const dbFirstBRead = async (stuID) => {
   const appData = await promiseGetRecoil(studentsAssignmentHistoryState);
   const lastBRead = appData.filter((data) => (data.assignmentID === 100) & (data.studentID === stuID));
 
-  var dLast;
+  let dLast;
   if (lastBRead.length > 0) {
     dLast = lastBRead[lastBRead.length - 1].weekOf;
   }
@@ -370,7 +372,7 @@ export const dbLastIniCall = async (stuID) => {
   const appData = await promiseGetRecoil(studentsAssignmentHistoryState);
   const lastIniCall = appData.filter((data) => (data.assignmentID === 101) & (data.studentID === stuID));
 
-  var dLast;
+  let dLast;
   if (lastIniCall.length > 0) {
     dLast = lastIniCall[0].weekOf;
   }
@@ -381,7 +383,7 @@ export const dbFirstIniCall = async (stuID) => {
   const appData = await promiseGetRecoil(studentsAssignmentHistoryState);
   const lastIniCall = appData.filter((data) => (data.assignmentID === 101) & (data.studentID === stuID));
 
-  var dLast;
+  let dLast;
   if (lastIniCall.length > 0) {
     dLast = lastIniCall[lastIniCall.length - 1].weekOf;
   }
@@ -392,7 +394,7 @@ export const dbLastRV = async (stuID) => {
   const appData = await promiseGetRecoil(studentsAssignmentHistoryState);
   const lastRV = appData.filter((data) => (data.assignmentID === 102) & (data.studentID === stuID));
 
-  var dLast;
+  let dLast;
   if (lastRV.length > 0) {
     dLast = lastRV[0].weekOf;
   }
@@ -403,7 +405,7 @@ export const dbFirstRV = async (stuID) => {
   const appData = await promiseGetRecoil(studentsAssignmentHistoryState);
   const lastRV = appData.filter((data) => (data.assignmentID === 102) & (data.studentID === stuID));
 
-  var dLast;
+  let dLast;
   if (lastRV.length > 0) {
     dLast = lastRV[lastRV.length - 1].weekOf;
   }
@@ -414,7 +416,7 @@ export const dbLastBibleStudy = async (stuID) => {
   const appData = await promiseGetRecoil(studentsAssignmentHistoryState);
   const lastBibleStudy = appData.filter((data) => (data.assignmentID === 103) & (data.studentID === stuID));
 
-  var dLast;
+  let dLast;
   if (lastBibleStudy.length > 0) {
     dLast = lastBibleStudy[0].weekOf;
   }
@@ -425,7 +427,7 @@ export const dbFirstBibleStudy = async (stuID) => {
   const appData = await promiseGetRecoil(studentsAssignmentHistoryState);
   const lastBibleStudy = appData.filter((data) => (data.assignmentID === 103) & (data.studentID === stuID));
 
-  var dLast;
+  let dLast;
   if (lastBibleStudy.length > 0) {
     dLast = lastBibleStudy[lastBibleStudy.length - 1].weekOf;
   }
@@ -436,7 +438,7 @@ export const dbLastTalk = async (stuID) => {
   const appData = await promiseGetRecoil(studentsAssignmentHistoryState);
   const lastTalk = appData.filter((data) => (data.assignmentID === 104) & (data.studentID === stuID));
 
-  var dLast;
+  let dLast;
   if (lastTalk.length > 0) {
     dLast = lastTalk[0].weekOf;
   }
@@ -447,7 +449,7 @@ export const dbFirstTalk = async (stuID) => {
   const appData = await promiseGetRecoil(studentsAssignmentHistoryState);
   const lastTalk = appData.filter((data) => (data.assignmentID === 104) & (data.studentID === stuID));
 
-  var dLast;
+  let dLast;
   if (lastTalk.length > 0) {
     dLast = lastTalk[lastTalk.length - 1].weekOf;
   }
@@ -457,7 +459,7 @@ export const dbFirstTalk = async (stuID) => {
 export const dbLastAssistant = async (stuID) => {
   const appData = await promiseGetRecoil(studentsAssignmentHistoryState);
   const lastAssistant = appData.filter((data) => (data.assignmentID === 109) & (data.studentID === stuID));
-  var dLast;
+  let dLast;
   if (lastAssistant.length > 0) {
     dLast = lastAssistant[0].weekOf;
   }
@@ -467,7 +469,7 @@ export const dbLastAssistant = async (stuID) => {
 export const dbLastAssignment = async (stuID) => {
   const appData = await promiseGetRecoil(studentsAssignmentHistoryState);
   const lastAssignment = appData.filter((data) => data.studentID === stuID);
-  var dLast;
+  let dLast;
   if (lastAssignment.length > 0) {
     dLast = lastAssignment[0].weekOf;
   }
@@ -643,7 +645,7 @@ export const dbRefreshStudentHistory = async (varPrev, varNew) => {
       if (student) {
         const stuAssignment = await dbLastAssignment(varPers);
 
-        var obj = {};
+        const obj = {};
         obj.lastAssignment = stuAssignment;
         await appDb.table('persons').update(student.id, { ...obj });
 
@@ -659,13 +661,13 @@ export const dbRefreshStudentHistory = async (varPrev, varNew) => {
 };
 
 export const dbGetS89WeekList = async (scheduleName) => {
-  var s89Data = [];
+  const s89Data = [];
   const allWeeks = await dbGetWeekListBySched(scheduleName);
   for (let i = 0; i < allWeeks.length; i++) {
     const week = allWeeks[i].value;
     const scheduleData = await dbGetScheduleData(week);
     if (!scheduleData.noMeeting) {
-      var parentWeek = {};
+      const parentWeek = {};
       parentWeek.value = week;
       const dateW = new Date(week);
       const weekDateFormatted = dateFormat(dateW, getI18n().t('global.shortDateFormat'));
@@ -673,14 +675,15 @@ export const dbGetS89WeekList = async (scheduleName) => {
       parentWeek.children = [];
 
       const sourceData = await dbGetSourceMaterial(week);
+      let assClass = {};
+      let assType = {};
 
       if (scheduleData.bRead_stu_A !== '' || scheduleData.bRead_stu_B !== '') {
-        var assType = {};
         assType.label = getI18n().t('global.bibleReading');
         assType.value = week + '-0@bRead-A';
         if (scheduleData.bRead_stu_A !== '' && scheduleData.bRead_stu_B !== '') {
           assType.children = [];
-          var assClass = {};
+          assClass = {};
           assClass.value = week + '-0@bRead-A';
           assClass.label = getI18n().t('global.mainHall');
           assType.children.push(assClass);
@@ -722,7 +725,7 @@ export const dbGetS89WeekList = async (scheduleName) => {
       }
     }
   }
-  var obj = {};
+  const obj = {};
   obj.value = 'S89';
   obj.label = getI18n().t('global.allWeeks');
   obj.children = s89Data;
@@ -730,10 +733,10 @@ export const dbGetS89WeekList = async (scheduleName) => {
 };
 
 export const dbGetS89ItemData = async (week, assName, classLabel) => {
-  var stuFld = '';
-  var assFld = '';
-  var assTimeFld = '';
-  var assTypeFld = 0;
+  let stuFld = '';
+  let assFld = '';
+  let assTimeFld = '';
+  let assTypeFld = 0;
 
   if (assName === 'bRead') {
     stuFld = 'bRead_stu_' + classLabel;
@@ -760,7 +763,7 @@ export const dbGetS89ItemData = async (week, assName, classLabel) => {
   }
 
   const appSettings = await dbGetAppSettings();
-  var midDay = parseInt(appSettings.meeting_day, 10);
+  let midDay = parseInt(appSettings.meeting_day, 10);
 
   const [varMonth, varDay, varYear] = week.split('/');
   midDay = parseInt(varDay, 10) + midDay - 1;
@@ -770,7 +773,7 @@ export const dbGetS89ItemData = async (week, assName, classLabel) => {
   const sourceData = await dbGetSourceMaterial(week);
   const scheduleData = await dbGetScheduleData(week);
 
-  var s89Data = {};
+  const s89Data = {};
   const stuID = scheduleData[stuFld];
   const { person_name } = await dbGetStudentDetails(stuID);
   s89Data.studentName = person_name;
@@ -886,7 +889,7 @@ export const dbGetS89ItemData = async (week, assName, classLabel) => {
 };
 
 export const dbGetScheduleForPrint = async (scheduleName) => {
-  var data = [];
+  const data = [];
   const allWeeks = await dbGetWeekListBySched(scheduleName);
   const meetingStart = dateFormat(await promiseGetRecoil(meetingTimeState), 'h:MM');
 
@@ -1000,7 +1003,7 @@ export const dbGetScheduleForPrint = async (scheduleName) => {
       time.pgmEnd = addMinutes(time.coTalk, 30);
     }
 
-    var obj = {};
+    const obj = {};
     obj.week = week;
     obj.scheduleData = scheduleData;
     obj.sourceData = { ...sourceData, ...time };

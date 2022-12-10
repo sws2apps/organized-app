@@ -78,7 +78,7 @@ export const dbGetStudentsMini = async () => {
 };
 
 export const dbIsStudentExist = async (varName) => {
-  var isExist = false;
+  let isExist = false;
   const appData = await appDb.table('persons').get({ person_name: varName });
   if (typeof appData !== 'undefined') {
     isExist = true;
@@ -176,17 +176,17 @@ export const dbGetPersonsByAssType = async (assType) => {
       person.assignments.find((assignment) => assignment.isActive === true && assignment.code === assType)
     );
   }
-  var persons = [];
+  const persons = [];
 
   for (let i = 0; i < dbPersons.length; i++) {
-    var person = {};
+    const person = {};
     person.person_uid = dbPersons[i].person_uid;
     person.lastAssignment = dbPersons[i].lastAssignment;
     if (typeof dbPersons[i].lastAssignment === 'undefined') {
       person.lastAssignmentFormat = '';
     } else {
       const [varMonth, varDay, varYear] = dbPersons[i].lastAssignment.split('/');
-      var lDate = new Date(varYear, varMonth - 1, varDay);
+      const lDate = new Date(varYear, varMonth - 1, varDay);
       const dateFormatted = dateFormat(lDate, getI18n().t('global.shortDateFormat'));
       person.lastAssignmentFormat = dateFormatted;
     }
@@ -199,9 +199,9 @@ export const dbGetPersonsByAssType = async (assType) => {
     if (typeof a.lastAssignment === 'undefined') return -1;
     if (typeof b.lastAssignment === 'undefined') return 1;
     if (a.lastAssignment === b.lastAssignment) return 0;
-    var dateA =
+    const dateA =
       a.lastAssignment.split('/')[2] + '/' + a.lastAssignment.split('/')[0] + '/' + a.lastAssignment.split('/')[1];
-    var dateB =
+    const dateB =
       b.lastAssignment.split('/')[2] + '/' + b.lastAssignment.split('/')[0] + '/' + b.lastAssignment.split('/')[1];
     return dateA > dateB ? 1 : -1;
   });
@@ -216,10 +216,10 @@ export const dbStudentID = async (varName) => {
 export const dbHistoryAssistant = async (mainStuID) => {
   mainStuID = await dbStudentID(mainStuID);
   const appData = await appDb.table('sched_MM').reverse().sortBy('weekOf');
-  var dbHistory = [];
-  var histID = 0;
+  const dbHistory = [];
+  let histID = 0;
   for (let i = 0; i < appData.length; i++) {
-    var person = {};
+    let person = {};
 
     const weekData = await dbGetSourceMaterial(appData[i].weekOf);
     const [varMonth, varDay, varYear] = appData[i].weekOf.split('/');
@@ -230,7 +230,7 @@ export const dbHistoryAssistant = async (mainStuID) => {
 
     //AYF Assigment History
     for (let b = 0; b < cnAss.length; b++) {
-      var weekFld = 'ass' + cnAss[b].iAss + '_type';
+      let weekFld = 'ass' + cnAss[b].iAss + '_type';
       const assType = weekData[weekFld];
 
       if (assType === 101 || assType === 102 || assType === 103 || assType === 108) {

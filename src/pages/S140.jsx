@@ -29,6 +29,40 @@ const styles = {
   },
 };
 
+const ScheduleHeading = (congName, congNumber, midweekMeetingPrint) => {
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'flex-end',
+        borderBottom: '3px solid black',
+        paddingBottom: '2px',
+        marginBottom: '20px',
+      }}
+    >
+      <Typography
+        sx={{
+          fontWeight: 'bold',
+          fontSize: '13px',
+          color: 'black',
+        }}
+      >
+        {congName !== '' && congNumber !== '' ? `${congName.toUpperCase()} (${congNumber})` : ''}
+      </Typography>
+      <Typography
+        sx={{
+          fontWeight: 'bold',
+          fontSize: '19px',
+          color: 'black',
+        }}
+      >
+        {midweekMeetingPrint}
+      </Typography>
+    </Box>
+  );
+};
+
 const S140 = () => {
   let navigate = useNavigate();
   const { t } = useTranslation();
@@ -45,7 +79,7 @@ const S140 = () => {
 
   const savePDF = () => {
     const element = document.getElementById('schedule_template');
-    var opt = {
+    const opt = {
       margin: [0.2, 0.5, 0.2, 0.5],
       filename: `${currentSchedule.value.replace('/', '-')}.pdf`,
       image: { type: 'jpeg', quality: 0.98 },
@@ -53,40 +87,6 @@ const S140 = () => {
       jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
     };
     html2pdf().set(opt).from(element).save();
-  };
-
-  const ScheduleHeading = () => {
-    return (
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'flex-end',
-          borderBottom: '3px solid black',
-          paddingBottom: '2px',
-          marginBottom: '20px',
-        }}
-      >
-        <Typography
-          sx={{
-            fontWeight: 'bold',
-            fontSize: '13px',
-            color: 'black',
-          }}
-        >
-          {congName !== '' && congNumber !== '' ? `${congName.toUpperCase()} (${congNumber})` : ''}
-        </Typography>
-        <Typography
-          sx={{
-            fontWeight: 'bold',
-            fontSize: '19px',
-            color: 'black',
-          }}
-        >
-          {t('schedule.midweekMeetingPrint')}
-        </Typography>
-      </Box>
-    );
   };
 
   useEffect(() => {
@@ -111,8 +111,8 @@ const S140 = () => {
       {data.length > 0 && (
         <Box>
           <Button
-            variant="contained"
-            color="primary"
+            variant='contained'
+            color='primary'
             startIcon={<SaveAltIcon />}
             sx={{ margin: '0 2px 20px 0' }}
             onClick={savePDF}
@@ -127,12 +127,16 @@ const S140 = () => {
               backgroundColor: 'white',
             }}
           >
-            <Box id="schedule_template">
+            <Box id='schedule_template'>
               {data.map((weekItem, weekIndex) => (
                 <Box key={`week-${weekItem.week}`}>
                   {(weekIndex === 0 || weekIndex === 2 || weekIndex === 4) && (
                     <Box>
-                      <ScheduleHeading />
+                      <ScheduleHeading
+                        congName={congName}
+                        congNumber={congNumber}
+                        midweekMeetingPrint={t('schedule.midweekMeetingPrint')}
+                      />
                     </Box>
                   )}
                   <Box sx={{ marginBottom: '30px' }}>
@@ -150,7 +154,7 @@ const S140 = () => {
                         {`${weekItem.sourceData.weekDate_src} | ${weekItem.sourceData.weeklyBibleReading_src}`}
                       </Typography>
                       <Typography
-                        align="right"
+                        align='right'
                         sx={{
                           color: '#424949',
                           fontSize: '9px',
@@ -183,7 +187,7 @@ const S140 = () => {
                           : ''}
                       </Typography>
                       <Typography
-                        align="right"
+                        align='right'
                         sx={{
                           color: '#424949',
                           fontSize: '9px',
@@ -203,8 +207,8 @@ const S140 = () => {
                     <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
                       <Typography sx={styles.partTime}>{weekItem.sourceData.pgmStart}</Typography>
                       <Box sx={{ lineHeight: '20px', width: '400px' }}>
-                        <ul className="ulSchedule">
-                          <li className="tgw">
+                        <ul className='ulSchedule'>
+                          <li className='tgw'>
                             <Typography
                               sx={{
                                 fontSize: '13px',
@@ -218,7 +222,7 @@ const S140 = () => {
                         </ul>
                       </Box>
                       <Typography
-                        align="right"
+                        align='right'
                         sx={{
                           color: '#424949',
                           fontSize: '9px',
@@ -236,8 +240,8 @@ const S140 = () => {
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                       <Typography sx={styles.partTime}>{weekItem.sourceData.openingComments}</Typography>
                       <Box sx={{ lineHeight: '20px', width: '400px' }}>
-                        <ul className="ulSchedule">
-                          <li className="tgw">
+                        <ul className='ulSchedule'>
+                          <li className='tgw'>
                             <Typography
                               sx={{
                                 fontSize: '13px',
@@ -246,7 +250,7 @@ const S140 = () => {
                               }}
                             >
                               {t('scheduleTemplate.openingComments')}{' '}
-                              <span className="student-part-duration">(1 min.)</span>
+                              <span className='student-part-duration'>(1 min.)</span>
                             </Typography>
                           </li>
                         </ul>
@@ -310,8 +314,8 @@ const S140 = () => {
                             }}
                           >
                             <Box sx={{ lineHeight: '20px' }}>
-                              <ul className="ulSchedule">
-                                <li className="tgw">
+                              <ul className='ulSchedule'>
+                                <li className='tgw'>
                                   <Typography
                                     sx={{
                                       fontSize: '13px',
@@ -320,7 +324,7 @@ const S140 = () => {
                                     }}
                                   >
                                     {weekItem.sourceData.tgwTalk_src}{' '}
-                                    <span className="student-part-duration">(10 min.)</span>
+                                    <span className='student-part-duration'>(10 min.)</span>
                                   </Typography>
                                 </li>
                               </ul>
@@ -341,8 +345,8 @@ const S140 = () => {
                             }}
                           >
                             <Box sx={{ lineHeight: '20px' }}>
-                              <ul className="ulSchedule">
-                                <li className="tgw">
+                              <ul className='ulSchedule'>
+                                <li className='tgw'>
                                   <Typography
                                     sx={{
                                       fontSize: '13px',
@@ -350,7 +354,7 @@ const S140 = () => {
                                       lineHeight: 1.2,
                                     }}
                                   >
-                                    {t('global.tgwGems')} <span className="student-part-duration">(10 min.)</span>
+                                    {t('global.tgwGems')} <span className='student-part-duration'>(10 min.)</span>
                                   </Typography>
                                 </li>
                               </ul>
@@ -371,8 +375,8 @@ const S140 = () => {
                             }}
                           >
                             <Box sx={{ lineHeight: '20px' }}>
-                              <ul className="ulSchedule">
-                                <li className="tgw">
+                              <ul className='ulSchedule'>
+                                <li className='tgw'>
                                   <Typography
                                     sx={{
                                       fontSize: '13px',
@@ -381,7 +385,7 @@ const S140 = () => {
                                     }}
                                   >
                                     {t('global.bibleReading')}
-                                    <span className="student-part-duration">{t('global.bibleReadingTime')}</span>
+                                    <span className='student-part-duration'>{t('global.bibleReadingTime')}</span>
                                   </Typography>
                                 </li>
                               </ul>
@@ -474,8 +478,8 @@ const S140 = () => {
                                         lineHeight: '20px',
                                       }}
                                     >
-                                      <ul className="ulSchedule">
-                                        <li className="ayf">
+                                      <ul className='ulSchedule'>
+                                        <li className='ayf'>
                                           <Typography
                                             sx={{
                                               fontSize: '13px',
@@ -486,7 +490,7 @@ const S140 = () => {
                                             {weekItem.sourceData[fldType] === 107
                                               ? weekItem.sourceData[fldSrc]
                                               : weekItem.sourceData[fldTypeName]}
-                                            <span className="student-part-duration">
+                                            <span className='student-part-duration'>
                                               {(weekItem.sourceData[fldType] === 105 ||
                                                 weekItem.sourceData[fldType] === 106 ||
                                                 weekItem.sourceData[fldType] === 107 ||
@@ -626,8 +630,8 @@ const S140 = () => {
                         <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '2px' }}>
                           <Typography sx={styles.partTime}>{weekItem.sourceData.middleSong}</Typography>
                           <Box sx={{ lineHeight: '20px', width: '400px' }}>
-                            <ul className="ulSchedule">
-                              <li className="lc">
+                            <ul className='ulSchedule'>
+                              <li className='lc'>
                                 <Typography
                                   sx={{
                                     fontSize: '13px',
@@ -641,7 +645,7 @@ const S140 = () => {
                             </ul>
                           </Box>
                           <Typography
-                            align="right"
+                            align='right'
                             sx={{
                               color: '#424949',
                               fontSize: '9px',
@@ -689,8 +693,8 @@ const S140 = () => {
                                         lineHeight: '20px',
                                       }}
                                     >
-                                      <ul className="ulSchedule">
-                                        <li className="lc">
+                                      <ul className='ulSchedule'>
+                                        <li className='lc'>
                                           <Typography
                                             sx={{
                                               fontSize: '13px',
@@ -699,7 +703,7 @@ const S140 = () => {
                                             }}
                                           >
                                             {weekItem.sourceData[fldSrc]}{' '}
-                                            <span className="student-part-duration">{`(${weekItem.sourceData[fldTime]} min.)`}</span>
+                                            <span className='student-part-duration'>{`(${weekItem.sourceData[fldTime]} min.)`}</span>
                                           </Typography>
                                         </li>
                                       </ul>
@@ -720,8 +724,8 @@ const S140 = () => {
                             <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '2px' }}>
                               <Typography sx={styles.partTime}>{weekItem.sourceData.concludingComments}</Typography>
                               <Box sx={{ lineHeight: '20px', width: '400px' }}>
-                                <ul className="ulSchedule">
-                                  <li className="lc">
+                                <ul className='ulSchedule'>
+                                  <li className='lc'>
                                     <Typography
                                       sx={{
                                         fontSize: '13px',
@@ -730,7 +734,7 @@ const S140 = () => {
                                       }}
                                     >
                                       {t('scheduleTemplate.concludingComments')}{' '}
-                                      <span className="student-part-duration">(3 min.)</span>
+                                      <span className='student-part-duration'>(3 min.)</span>
                                     </Typography>
                                   </li>
                                 </ul>
@@ -745,8 +749,8 @@ const S140 = () => {
                             <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '2px' }}>
                               <Typography sx={styles.partTime}>{weekItem.sourceData.coTalk}</Typography>
                               <Box sx={{ lineHeight: '20px', width: '400px' }}>
-                                <ul className="ulSchedule">
-                                  <li className="lc">
+                                <ul className='ulSchedule'>
+                                  <li className='lc'>
                                     <Typography
                                       sx={{
                                         fontSize: '13px',
@@ -755,7 +759,7 @@ const S140 = () => {
                                       }}
                                     >
                                       {t('scheduleTemplate.coTalk')}{' '}
-                                      <span className="student-part-duration">(30 min.)</span>
+                                      <span className='student-part-duration'>(30 min.)</span>
                                     </Typography>
                                   </li>
                                 </ul>
@@ -773,8 +777,8 @@ const S140 = () => {
                             <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '2px' }}>
                               <Typography sx={styles.partTime}>{weekItem.sourceData.cbs}</Typography>
                               <Box sx={{ lineHeight: '20px', width: '400px' }}>
-                                <ul className="ulSchedule">
-                                  <li className="lc">
+                                <ul className='ulSchedule'>
+                                  <li className='lc'>
                                     <Typography
                                       sx={{
                                         fontSize: '13px',
@@ -782,13 +786,13 @@ const S140 = () => {
                                         lineHeight: 1.2,
                                       }}
                                     >
-                                      {t('global.cbs')} <span className="student-part-duration">(30 min.)</span>
+                                      {t('global.cbs')} <span className='student-part-duration'>(30 min.)</span>
                                     </Typography>
                                   </li>
                                 </ul>
                               </Box>
                               <Typography
-                                align="right"
+                                align='right'
                                 sx={{
                                   color: '#424949',
                                   fontSize: '9px',
@@ -815,8 +819,8 @@ const S140 = () => {
                             <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '2px' }}>
                               <Typography sx={styles.partTime}>{weekItem.sourceData.concludingComments}</Typography>
                               <Box sx={{ lineHeight: '20px', width: '400px' }}>
-                                <ul className="ulSchedule">
-                                  <li className="lc">
+                                <ul className='ulSchedule'>
+                                  <li className='lc'>
                                     <Typography
                                       sx={{
                                         fontSize: '13px',
@@ -825,7 +829,7 @@ const S140 = () => {
                                       }}
                                     >
                                       {t('scheduleTemplate.concludingComments')}{' '}
-                                      <span className="student-part-duration">(3 min.)</span>
+                                      <span className='student-part-duration'>(3 min.)</span>
                                     </Typography>
                                   </li>
                                 </ul>
@@ -842,8 +846,8 @@ const S140 = () => {
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
                           <Typography sx={styles.partTime}>{weekItem.sourceData.pgmEnd}</Typography>
                           <Box sx={{ lineHeight: '20px', width: '400px' }}>
-                            <ul className="ulSchedule">
-                              <li className="lc">
+                            <ul className='ulSchedule'>
+                              <li className='lc'>
                                 <Typography
                                   sx={{
                                     fontSize: '13px',
@@ -860,7 +864,7 @@ const S140 = () => {
                             </ul>
                           </Box>
                           <Typography
-                            align="right"
+                            align='right'
                             sx={{
                               color: '#424949',
                               fontSize: '9px',
@@ -878,7 +882,7 @@ const S140 = () => {
                       </>
                     )}
                   </Box>
-                  {(weekIndex === 1 || weekIndex === 3) && <div className="html2pdf__page-break"></div>}
+                  {(weekIndex === 1 || weekIndex === 3) && <div className='html2pdf__page-break'></div>}
                 </Box>
               ))}
             </Box>

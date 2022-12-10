@@ -72,7 +72,7 @@ const StudentSelector = (props) => {
   };
 
   const handleAssignStudent = () => {
-    var obj = {};
+    const obj = {};
     obj.assID = assID;
     obj.assType = assType;
     obj.studentId = selectedStuID;
@@ -105,7 +105,7 @@ const StudentSelector = (props) => {
   useEffect(() => {
     let isSubscribed = true;
     const loadStudents = async () => {
-      var students = [];
+      const students = [];
       if (
         assID === 3 ||
         assID === 5 ||

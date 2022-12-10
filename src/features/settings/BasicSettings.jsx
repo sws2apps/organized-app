@@ -74,7 +74,7 @@ const BasicSettings = () => {
   };
 
   const saveAppSettings = async () => {
-    var obj = {};
+    const obj = {};
     obj.cong_name = tempCongName;
     obj.cong_number = tempCongNumber;
     obj.class_count = tempClassCount;

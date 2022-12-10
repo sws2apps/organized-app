@@ -38,7 +38,6 @@ export const dbSaveNotifications = async (data) => {
   notifications = await dbGetNotifications();
 
   await promiseSetRecoil(appNotificationsState, notifications);
-  return;
 };
 
 export const dbReadNotification = async (id) => {
@@ -52,5 +51,4 @@ export const dbReadNotification = async (id) => {
 
   notifications = await dbGetNotifications();
   await promiseSetRecoil(appNotificationsState, notifications);
-  return;
 };

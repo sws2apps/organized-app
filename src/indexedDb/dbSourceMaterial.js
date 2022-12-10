@@ -5,11 +5,11 @@ import { appLangState } from '../states/main';
 import { assTypeListState, assTypeLocalState } from '../states/sourceMaterial';
 
 export const dbGetListWeekType = async () => {
-  var weekType = [];
+  const weekType = [];
   const appData = await appDb.table('week_type').reverse().reverse().sortBy('id_week_type');
 
   for (let i = 0; i < appData.length; i++) {
-    var obj = {};
+    const obj = {};
     obj.id_week_type = appData[i].id_week_type;
     obj.week_type_name = appData[i].week_type_name;
     weekType.push(obj);
@@ -19,7 +19,7 @@ export const dbGetListWeekType = async () => {
 
 export const dbGetScheduleWeekInfo = async (weekOf) => {
   const appData = await appDb.table('sched_MM').get({ weekOf: weekOf });
-  var obj = {};
+  const obj = {};
   obj.week_type = appData.week_type || 1;
   obj.noMeeting = appData.noMeeting || false;
   return obj;
@@ -29,11 +29,11 @@ export const dbGetWeekTypeName = async (weekType) => {
   const appLang = (await promiseGetRecoil(appLangState)) || 'e';
   const lang = appLang.toUpperCase();
 
-  var srcWeekType = '';
+  let srcWeekType = '';
   if (weekType === '') {
     return srcWeekType;
   } else {
-    var i = parseInt(weekType, 10);
+    const i = parseInt(weekType, 10);
     const appData = await appDb.table('week_type').get(i);
     srcWeekType = appData.week_type_name[lang];
     return srcWeekType;
@@ -41,11 +41,11 @@ export const dbGetWeekTypeName = async (weekType) => {
 };
 
 export const dbGetWeekTypeNamePocket = async (weekType) => {
-  var srcWeekType = '';
+  let srcWeekType = '';
   if (weekType === '') {
     return srcWeekType;
   } else {
-    var i = parseInt(weekType, 10);
+    const i = parseInt(weekType, 10);
     const appData = await appDb.table('week_type').get(i);
     srcWeekType = appData.week_type_name;
     return srcWeekType;
@@ -166,7 +166,7 @@ export const dbGetSourceMaterialPocket = async (weekOf) => {
 
 export const dbGetSMUpdate = async (weekOf) => {
   const appData = await appDb.table('src').get({ weekOf: weekOf });
-  var obj = {};
+  const obj = {};
 
   obj.weekDate_src = appData ? appData.weekDate_src || {} : {};
   obj.weeklyBibleReading_src = appData ? appData.weeklyBibleReading_src || {} : {};
@@ -184,7 +184,7 @@ export const dbGetSMUpdate = async (weekOf) => {
 };
 
 export const dbSaveSrcData = async (srcData) => {
-  var isSuccess = false;
+  let isSuccess = false;
   const appLang = (await promiseGetRecoil(appLangState)) || 'e';
   const lang = appLang.toUpperCase();
 
@@ -282,7 +282,7 @@ export const dbSaveSrcData = async (srcData) => {
 };
 
 export const dbMigrateSrcData = async (srcData) => {
-  var isSuccess = false;
+  let isSuccess = false;
 
   await appDb
     .table('src')
@@ -328,7 +328,7 @@ export const dbMigrateSrcData = async (srcData) => {
 };
 
 const dbSaveSchedData = async (weekOf, weekType, noMeeting, isOverride) => {
-  var isSuccess = false;
+  let isSuccess = false;
   const appData = await appDb.table('sched_MM').get({ weekOf: weekOf });
   if (isOverride === false) {
     if (appData !== undefined) {
@@ -374,11 +374,11 @@ const dbSaveSchedData = async (weekOf, weekType, noMeeting, isOverride) => {
 };
 
 export const hasCurrentWeek = async () => {
-  var varBool = true;
-  var today = new Date();
-  var day = today.getDay();
-  var diff = today.getDate() - day + (day === 0 ? -6 : 1);
-  var monDay = new Date(today.setDate(diff));
+  let varBool = true;
+  const today = new Date();
+  const day = today.getDay();
+  const diff = today.getDate() - day + (day === 0 ? -6 : 1);
+  const monDay = new Date(today.setDate(diff));
   const fMonday = dateFormat(monDay, 'mm/dd/yyyy');
   const congData = await appDb.table('src').get({ weekOf: fMonday });
   if (typeof congData === 'undefined') {
@@ -388,12 +388,12 @@ export const hasCurrentWeek = async () => {
 };
 
 export const checkSrcUpdate = async () => {
-  var checkCurrentWeek = await hasCurrentWeek();
+  const checkCurrentWeek = await hasCurrentWeek();
   if (checkCurrentWeek === false) {
-    var today = new Date();
-    var day = today.getDay();
-    var diff = today.getDate() - day + (day === 0 ? -6 : 1);
-    var monDay = new Date(today.setDate(diff));
+    const today = new Date();
+    const day = today.getDay();
+    const diff = today.getDate() - day + (day === 0 ? -6 : 1);
+    const monDay = new Date(today.setDate(diff));
     const fMonday = dateFormat(monDay, 'mm/dd/yyyy');
     await dbAddWeekToSource(fMonday);
     await dbAddWeekToSchedule(fMonday);
@@ -405,8 +405,8 @@ export const dbAddWeekToSource = async (varSrcWeek) => {
 };
 
 export const dbAddWeekToSchedule = async (varSchedWeek) => {
-  var weekType = 1;
-  var noMeeting = false;
+  let weekType = 1;
+  let noMeeting = false;
   const appData = await appDb.table('sched_MM').get({ weekOf: varSchedWeek });
   if (typeof appData !== 'undefined') {
     weekType = appData.week_type;
@@ -424,7 +424,7 @@ export const dbAddWeekToSchedule = async (varSchedWeek) => {
 };
 
 export const dbGetWeekListBySched = async (scheduleIndex) => {
-  var allSchedules = [];
+  const allSchedules = [];
 
   const appData = await appDb.table('src').reverse().reverse().sortBy('weekOf');
 
@@ -434,7 +434,7 @@ export const dbGetWeekListBySched = async (scheduleIndex) => {
     const year = weekDate.split('/')[2];
     const tempMain = month + '/' + year;
     if (tempMain === scheduleIndex) {
-      var obj = {};
+      const obj = {};
       obj.weekOf = weekDate;
       obj.value = appData[i].weekOf;
       allSchedules.push(obj);
@@ -444,7 +444,7 @@ export const dbGetWeekListBySched = async (scheduleIndex) => {
 };
 
 export const dbGetYearList = async () => {
-  var allYear = [];
+  const allYear = [];
 
   const appData = await appDb.table('src').reverse().reverse().sortBy('weekOf');
 
@@ -455,7 +455,7 @@ export const dbGetYearList = async () => {
     const yearIndex = allYear.findIndex((year) => year.label === varYear);
 
     if (yearIndex < 0) {
-      var obj = {};
+      const obj = {};
       obj.label = varYear;
       obj.value = varYear;
       allYear.push(obj);
@@ -465,7 +465,7 @@ export const dbGetYearList = async () => {
 };
 
 export const dbGetScheduleListByYear = async (varYear) => {
-  var allSchedules = [];
+  const allSchedules = [];
 
   const appData = await appDb.table('src').reverse().sortBy('weekOf');
 
@@ -480,7 +480,7 @@ export const dbGetScheduleListByYear = async (varYear) => {
       const scheduleIndex = allSchedules.findIndex((schedule) => schedule.value === tempMain);
 
       if (scheduleIndex < 0) {
-        var obj = {};
+        const obj = {};
         obj.value = month + '/' + year;
         allSchedules.push(obj);
       }
@@ -490,21 +490,21 @@ export const dbGetScheduleListByYear = async (varYear) => {
 };
 
 export const dbAddManualSource = async () => {
-  var appData = [];
+  const appData = [];
   appData = await appDb.table('src').toArray();
   appData.sort((a, b) => {
-    var dateA = a.weekOf.split('/')[2] + '/' + a.weekOf.split('/')[0] + '/' + a.weekOf.split('/')[1];
-    var dateB = b.weekOf.split('/')[2] + '/' + b.weekOf.split('/')[0] + '/' + b.weekOf.split('/')[1];
+    const dateA = a.weekOf.split('/')[2] + '/' + a.weekOf.split('/')[0] + '/' + a.weekOf.split('/')[1];
+    const dateB = b.weekOf.split('/')[2] + '/' + b.weekOf.split('/')[0] + '/' + b.weekOf.split('/')[1];
     return dateA > dateB ? 1 : -1;
   });
 
-  var key = appData.length - 1;
+  const key = appData.length - 1;
   const lastWeek = appData[key].weekOf;
 
   const day = lastWeek.split('/')[1];
   const month = lastWeek.split('/')[0];
   const year = lastWeek.split('/')[2];
-  var result = new Date(year, month - 1, day);
+  const result = new Date(year, month - 1, day);
   result.setDate(result.getDate() + 7);
   const fMonday = dateFormat(result, 'mm/dd/yyyy');
   await dbAddWeekToSource(fMonday);

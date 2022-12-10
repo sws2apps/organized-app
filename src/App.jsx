@@ -50,7 +50,7 @@ const queryClient = new QueryClient();
 const WaitingPage = () => {
   return (
     <CircularProgress
-      color="primary"
+      color='primary'
       size={80}
       disableShrink={true}
       sx={{
@@ -264,12 +264,11 @@ const App = ({ updatePwa }) => {
 
   useEffect(() => {
     if (!indexedDB) {
-      if ('serviceWorker' in navigator) {
-      } else {
+      if (!('serviceWorker' in navigator)) {
         return (
-          <div className="browser-not-supported">
-            You seem to use an unsupported browser to use CPE. Make sure that you browser is up to date, or try to
-            use another browser.
+          <div className='browser-not-supported'>
+            You seem to use an unsupported browser to use CPE. Make sure that you browser is up to date, or try to use
+            another browser.
           </div>
         );
       }

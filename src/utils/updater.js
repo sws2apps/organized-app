@@ -36,10 +36,10 @@ export const runUpdater = async () => {
 const updateScheduleToId = async (step) => {
   let appSettings = await dbGetAppSettings();
   if (!appSettings.isScheduleConverted) {
-    var scheduleData = await appDb.table('sched_MM').toArray();
+    const scheduleData = await appDb.table('sched_MM').toArray();
 
     let a = step / scheduleData.length;
-    for (let c = 0; i < scheduleData.length; c++) {
+    for (let c = 0; c < scheduleData.length; c++) {
       const schedule = scheduleData[c];
       if (schedule.bRead_stu_A !== undefined) {
         const uid = await dbGetStudentUidById(schedule.bRead_stu_A);
@@ -92,7 +92,7 @@ const updateScheduleToId = async (step) => {
 
 const removeOutdatedSettings = async (step) => {
   let appSettings = await dbGetAppSettings();
-  appSettings = await dbGetAppSettings();
+
   if (appSettings.crd) {
     delete appSettings.crd;
     await dbUpdateAppSettings({ ...appSettings }, true);

@@ -3,7 +3,7 @@ import { getI18n } from 'react-i18next';
 
 export const isLightThemeState = atom({
   key: 'isLightTheme',
-  default: localStorage.getItem('theme') === 'dark' ? false : true || true,
+  default: localStorage.getItem('theme') ? (localStorage.getItem('theme') === 'dark' ? false : true) : true,
 });
 
 export const offlineOverrideState = atom({
