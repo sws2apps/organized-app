@@ -1,8 +1,9 @@
-import { useEffect } from 'react';
+import { useEffect, Suspense } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import usePwa2 from 'use-pwa2/dist/index.js';
 import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
 import About from '../features/about';
 import RootModal from './RootModal';
 import UserAutoLogin from '../features/userAutoLogin';
@@ -26,6 +27,24 @@ import { fetchNotifications } from '../utils/app';
 import { AppUpdater } from '../features/updater';
 import { UserSignOut } from '../features/userSignOut';
 import { MyAssignments } from '../features/myAssignments';
+
+const WaitingPage = () => {
+  return (
+    <CircularProgress
+      color="primary"
+      size={80}
+      disableShrink={true}
+      sx={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        margin: 'auto',
+      }}
+    />
+  );
+};
 
 const Layout = ({ updatePwa }) => {
   let location = useLocation();
@@ -82,7 +101,11 @@ const Layout = ({ updatePwa }) => {
         {isAppClosing && <UserSignOut />}
 
         {isAppLoad && <Startup />}
-        {!isAppLoad && <Outlet />}
+        {!isAppLoad && (
+          <Suspense fallback={<WaitingPage />}>
+            <Outlet />
+          </Suspense>
+        )}
       </Box>
     </RootModal>
   );

@@ -15,230 +15,29 @@ export const dbGetScheduleData = async (weekValue) => {
   const schedule = {};
   let student = {};
   schedule.weekOf = appData.weekOf;
-  if (typeof appData.chairmanMM_A === 'undefined') {
-    schedule.chairmanMM_A = '';
-    schedule.chairmanMM_A_dispName = '';
-  } else {
-    schedule.chairmanMM_A = appData.chairmanMM_A;
-    student = await dbGetStudentByUid(schedule.chairmanMM_A);
-    schedule.chairmanMM_A_dispName = student.person_displayName;
+
+  const assList = [];
+  const excludeFiles = ['weekOf', 'week_type'];
+  for (const [key, value] of Object.entries(appData)) {
+    if (excludeFiles.indexOf(key) === -1) {
+      assList.push({ assignment: key, person: value });
+    }
   }
-  if (typeof appData.chairmanMM_B === 'undefined') {
-    schedule.chairmanMM_B = '';
-    schedule.chairmanMM_B_dispName = '';
-  } else {
-    schedule.chairmanMM_B = appData.chairmanMM_B;
-    student = await dbGetStudentByUid(schedule.chairmanMM_B);
-    schedule.chairmanMM_B_dispName = student.person_displayName;
+
+  for (let a = 0; a < assList.length; a++) {
+    const item = assList[a];
+    const fldDispName = `${item.assignment}_dispName`;
+
+    if (item.person) {
+      student = await dbGetStudentByUid(item.person);
+      schedule[item.assignment] = item.person;
+      schedule[fldDispName] = student.person_displayName;
+    } else {
+      schedule[item.assignment] = '';
+      schedule[fldDispName] = '';
+    }
   }
-  if (typeof appData.opening_prayer === 'undefined') {
-    schedule.opening_prayer = '';
-    schedule.opening_prayer_dispName = '';
-  } else {
-    schedule.opening_prayer = appData.opening_prayer;
-    student = await dbGetStudentByUid(schedule.opening_prayer);
-    schedule.opening_prayer_dispName = student.person_displayName;
-  }
-  if (typeof appData.tgw_talk === 'undefined') {
-    schedule.tgw_talk = '';
-    schedule.tgw_talk_dispName = '';
-  } else {
-    schedule.tgw_talk = appData.tgw_talk;
-    student = await dbGetStudentByUid(schedule.tgw_talk);
-    schedule.tgw_talk_dispName = student.person_displayName;
-  }
-  if (typeof appData.tgw_gems === 'undefined') {
-    schedule.tgw_gems = '';
-    schedule.tgw_gems_dispName = '';
-  } else {
-    schedule.tgw_gems = appData.tgw_gems;
-    student = await dbGetStudentByUid(schedule.tgw_gems);
-    schedule.tgw_gems_dispName = student.person_displayName;
-  }
-  if (typeof appData.bRead_stu_A === 'undefined') {
-    schedule.bRead_stu_A = '';
-    schedule.bRead_stu_A_dispName = '';
-  } else {
-    schedule.bRead_stu_A = appData.bRead_stu_A;
-    student = await dbGetStudentByUid(schedule.bRead_stu_A);
-    schedule.bRead_stu_A_dispName = student.person_displayName;
-  }
-  if (typeof appData.bRead_stu_B === 'undefined') {
-    schedule.bRead_stu_B = '';
-    schedule.bRead_stu_B_dispName = '';
-  } else {
-    schedule.bRead_stu_B = appData.bRead_stu_B;
-    student = await dbGetStudentByUid(schedule.bRead_stu_B);
-    schedule.bRead_stu_B_dispName = student.person_displayName;
-  }
-  if (typeof appData.ass1_stu_A === 'undefined') {
-    schedule.ass1_stu_A = '';
-    schedule.ass1_stu_A_dispName = '';
-  } else {
-    schedule.ass1_stu_A = appData.ass1_stu_A;
-    student = await dbGetStudentByUid(schedule.ass1_stu_A);
-    schedule.ass1_stu_A_dispName = student.person_displayName;
-  }
-  if (typeof appData.ass1_ass_A === 'undefined') {
-    schedule.ass1_ass_A = '';
-    schedule.ass1_ass_A_dispName = '';
-  } else {
-    schedule.ass1_ass_A = appData.ass1_ass_A;
-    student = await dbGetStudentByUid(schedule.ass1_ass_A);
-    schedule.ass1_ass_A_dispName = student.person_displayName;
-  }
-  if (typeof appData.ass1_stu_B === 'undefined') {
-    schedule.ass1_stu_B = '';
-    schedule.ass1_stu_B_dispName = '';
-  } else {
-    schedule.ass1_stu_B = appData.ass1_stu_B;
-    student = await dbGetStudentByUid(schedule.ass1_stu_B);
-    schedule.ass1_stu_B_dispName = student.person_displayName;
-  }
-  if (typeof appData.ass1_ass_B === 'undefined') {
-    schedule.ass1_ass_B = '';
-    schedule.ass1_ass_B_dispName = '';
-  } else {
-    schedule.ass1_ass_B = appData.ass1_ass_B;
-    student = await dbGetStudentByUid(schedule.ass1_ass_B);
-    schedule.ass1_ass_B_dispName = student.person_displayName;
-  }
-  if (typeof appData.ass2_stu_A === 'undefined') {
-    schedule.ass2_stu_A = '';
-    schedule.ass2_stu_A_dispName = '';
-  } else {
-    schedule.ass2_stu_A = appData.ass2_stu_A;
-    student = await dbGetStudentByUid(schedule.ass2_stu_A);
-    schedule.ass2_stu_A_dispName = student.person_displayName;
-  }
-  if (typeof appData.ass2_ass_A === 'undefined') {
-    schedule.ass2_ass_A = '';
-    schedule.ass2_ass_A_dispName = '';
-  } else {
-    schedule.ass2_ass_A = appData.ass2_ass_A;
-    student = await dbGetStudentByUid(schedule.ass2_ass_A);
-    schedule.ass2_ass_A_dispName = student.person_displayName;
-  }
-  if (typeof appData.ass2_stu_B === 'undefined') {
-    schedule.ass2_stu_B = '';
-    schedule.ass2_stu_B_dispName = '';
-  } else {
-    schedule.ass2_stu_B = appData.ass2_stu_B;
-    student = await dbGetStudentByUid(schedule.ass2_stu_B);
-    schedule.ass2_stu_B_dispName = student.person_displayName;
-  }
-  if (typeof appData.ass2_ass_B === 'undefined') {
-    schedule.ass2_ass_B = '';
-    schedule.ass2_ass_B_dispName = '';
-  } else {
-    schedule.ass2_ass_B = appData.ass2_ass_B;
-    student = await dbGetStudentByUid(schedule.ass2_ass_B);
-    schedule.ass2_ass_B_dispName = student.person_displayName;
-  }
-  if (typeof appData.ass3_stu_A === 'undefined') {
-    schedule.ass3_stu_A = '';
-    schedule.ass3_stu_A_dispName = '';
-  } else {
-    schedule.ass3_stu_A = appData.ass3_stu_A;
-    student = await dbGetStudentByUid(schedule.ass3_stu_A);
-    schedule.ass3_stu_A_dispName = student.person_displayName;
-  }
-  if (typeof appData.ass3_ass_A === 'undefined') {
-    schedule.ass3_ass_A = '';
-    schedule.ass3_ass_A_dispName = '';
-  } else {
-    schedule.ass3_ass_A = appData.ass3_ass_A;
-    student = await dbGetStudentByUid(schedule.ass3_ass_A);
-    schedule.ass3_ass_A_dispName = student.person_displayName;
-  }
-  if (typeof appData.ass3_stu_B === 'undefined') {
-    schedule.ass3_stu_B = '';
-    schedule.ass3_stu_B_dispName = '';
-  } else {
-    schedule.ass3_stu_B = appData.ass3_stu_B;
-    student = await dbGetStudentByUid(schedule.ass3_stu_B);
-    schedule.ass3_stu_B_dispName = student.person_displayName;
-  }
-  if (typeof appData.ass3_ass_B === 'undefined') {
-    schedule.ass3_ass_B = '';
-    schedule.ass3_ass_B_dispName = '';
-  } else {
-    schedule.ass3_ass_B = appData.ass3_ass_B;
-    student = await dbGetStudentByUid(schedule.ass3_ass_B);
-    schedule.ass3_ass_B_dispName = student.person_displayName;
-  }
-  if (typeof appData.ass4_stu_A === 'undefined') {
-    schedule.ass4_stu_A = '';
-    schedule.ass4_stu_A_dispName = '';
-  } else {
-    schedule.ass4_stu_A = appData.ass4_stu_A;
-    student = await dbGetStudentByUid(schedule.ass4_stu_A);
-    schedule.ass4_stu_A_dispName = student.person_displayName;
-  }
-  if (typeof appData.ass4_ass_A === 'undefined') {
-    schedule.ass4_ass_A = '';
-    schedule.ass4_ass_A_dispName = '';
-  } else {
-    schedule.ass4_ass_A = appData.ass4_ass_A;
-    student = await dbGetStudentByUid(schedule.ass4_ass_A);
-    schedule.ass4_ass_A_dispName = student.person_displayName;
-  }
-  if (typeof appData.ass4_stu_B === 'undefined') {
-    schedule.ass4_stu_B = '';
-    schedule.ass4_stu_B_dispName = '';
-  } else {
-    schedule.ass4_stu_B = appData.ass4_stu_B;
-    student = await dbGetStudentByUid(schedule.ass4_stu_B);
-    schedule.ass4_stu_B_dispName = student.person_displayName;
-  }
-  if (typeof appData.ass4_ass_B === 'undefined') {
-    schedule.ass4_ass_B = '';
-    schedule.ass4_ass_B_dispName = '';
-  } else {
-    schedule.ass4_ass_B = appData.ass4_ass_B;
-    student = await dbGetStudentByUid(schedule.ass4_ass_B);
-    schedule.ass4_ass_B_dispName = student.person_displayName;
-  }
-  if (typeof appData.lc_part1 === 'undefined') {
-    schedule.lc_part1 = '';
-    schedule.lc_part1_dispName = '';
-  } else {
-    schedule.lc_part1 = appData.lc_part1;
-    student = await dbGetStudentByUid(schedule.lc_part1);
-    schedule.lc_part1_dispName = student.person_displayName;
-  }
-  if (typeof appData.lc_part2 === 'undefined') {
-    schedule.lc_part2 = '';
-    schedule.lc_part2_dispName = '';
-  } else {
-    schedule.lc_part2 = appData.lc_part2;
-    student = await dbGetStudentByUid(schedule.lc_part2);
-    schedule.lc_part2_dispName = student.person_displayName;
-  }
-  if (typeof appData.cbs_conductor === 'undefined') {
-    schedule.cbs_conductor = '';
-    schedule.cbs_conductor_dispName = '';
-  } else {
-    schedule.cbs_conductor = appData.cbs_conductor;
-    student = await dbGetStudentByUid(schedule.cbs_conductor);
-    schedule.cbs_conductor_dispName = student.person_displayName;
-  }
-  if (typeof appData.cbs_reader === 'undefined') {
-    schedule.cbs_reader = '';
-    schedule.cbs_reader_dispName = '';
-  } else {
-    schedule.cbs_reader = appData.cbs_reader;
-    student = await dbGetStudentByUid(schedule.cbs_reader);
-    schedule.cbs_reader_dispName = student.person_displayName;
-  }
-  if (typeof appData.closing_prayer === 'undefined') {
-    schedule.closing_prayer = '';
-    schedule.closing_prayer_dispName = '';
-  } else {
-    schedule.closing_prayer = appData.closing_prayer;
-    student = await dbGetStudentByUid(schedule.closing_prayer);
-    schedule.closing_prayer_dispName = student.person_displayName;
-  }
+
   schedule.week_type = parseInt(appData.week_type, 10) || 1;
 
   schedule.week_type_name = await dbGetWeekTypeName(schedule.week_type);
