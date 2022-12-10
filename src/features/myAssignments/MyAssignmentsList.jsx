@@ -29,7 +29,7 @@ const MyAssignmentsList = () => {
       const msInDay = 24 * 60 * 60 * 1000;
 
       const tempData = [];
-      for (let a = 0; a < tempAssignments.length; a++) {
+      for (let a = tempAssignments.length - 1; a >= 0; a--) {
         const item = tempAssignments[a];
         const weekDate = new Date(item.weekOf);
         const dayDiff = Math.round((weekDate - currentWeekDate) / msInDay);

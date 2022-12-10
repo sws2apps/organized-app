@@ -268,7 +268,7 @@ export const dbHistoryAssignment = async () => {
             person.studentName = stuDetails.person_displayName;
             person.assignmentID = 114;
             person.assignmentName = getI18n().t('global.lcPart');
-            person.assignmentSource = `(${weekData[fldTime]}) ${weekData[fldSource]}`;
+            person.assignmentSource = `(${weekData[fldTime]} min.) ${weekData[fldSource]}`;
             person.class = '';
             dbHistory.push(person);
             person = {};
