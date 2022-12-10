@@ -1,3 +1,10 @@
+# [2.9.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.8.1...v2.9.0) (2022-12-10)
+
+
+### Features
+
+* **app:** display LMM Overseer current and future assignments ([a082e5f](https://github.com/sws2apps/lmm-oa-sws/commit/a082e5f89776fcae0f371c95013a8779a3f42691))
+
 ## [2.8.1](https://github.com/sws2apps/lmm-oa-sws/compare/v2.8.0...v2.8.1) (2022-12-09)
 
 
