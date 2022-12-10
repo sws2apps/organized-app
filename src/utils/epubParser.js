@@ -37,7 +37,7 @@ const addDataToDb = async (data) => {
       let varDay;
       let varMonthName;
 
-      for (b = 0; b < dayParse.length; b++) {
+      for (let b = 0; b < dayParse.length; b++) {
         if (!varDay) {
           if (!isNaN(dayParse[b]) && dayParse[b].length < 4) {
             varDay = +dayParse[b];

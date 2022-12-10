@@ -490,8 +490,7 @@ export const dbGetScheduleListByYear = async (varYear) => {
 };
 
 export const dbAddManualSource = async () => {
-  const appData = [];
-  appData = await appDb.table('src').toArray();
+  const appData = await appDb.table('src').toArray();
   appData.sort((a, b) => {
     const dateA = a.weekOf.split('/')[2] + '/' + a.weekOf.split('/')[0] + '/' + a.weekOf.split('/')[1];
     const dateB = b.weekOf.split('/')[2] + '/' + b.weekOf.split('/')[0] + '/' + b.weekOf.split('/')[1];

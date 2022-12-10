@@ -13,7 +13,7 @@ import appDb from './mainDb';
 export const dbGetScheduleData = async (weekValue) => {
   const appData = await appDb.table('sched_MM').get({ weekOf: weekValue });
   const schedule = {};
-  const student = {};
+  let student = {};
   schedule.weekOf = appData.weekOf;
   if (typeof appData.chairmanMM_A === 'undefined') {
     schedule.chairmanMM_A = '';
@@ -249,7 +249,7 @@ export const dbGetScheduleData = async (weekValue) => {
 export const dbGetScheduleDataPocket = async (weekValue) => {
   const appData = await appDb.table('sched_MM').get({ weekOf: weekValue });
   const schedule = {};
-  const student = {};
+  let student = {};
   schedule.weekOf = appData.weekOf;
   if (typeof appData.bRead_stu_A === 'undefined') {
     schedule.bRead_stu_A = '';

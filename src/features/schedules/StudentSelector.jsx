@@ -105,7 +105,7 @@ const StudentSelector = (props) => {
   useEffect(() => {
     let isSubscribed = true;
     const loadStudents = async () => {
-      const students = [];
+      let students = [];
       if (
         assID === 3 ||
         assID === 5 ||
