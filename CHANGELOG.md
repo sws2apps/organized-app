@@ -1,3 +1,10 @@
+## [2.9.1](https://github.com/sws2apps/lmm-oa-sws/compare/v2.9.0...v2.9.1) (2022-12-10)
+
+
+### Bug Fixes
+
+* **my-assignments:** change order of the list of assignments ([6b73265](https://github.com/sws2apps/lmm-oa-sws/commit/6b73265ac1f77a0026883979f132ab6333207e9f))
+
 # [2.9.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.8.1...v2.9.0) (2022-12-10)
 
 
