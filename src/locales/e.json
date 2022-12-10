@@ -133,6 +133,7 @@
   "global.savedSuccess": "Changes saved successfully!",
   "global.update": "Update",
   "global.chairmanMidweekMeeting": "Chairman",
+  "global.chairmanMidweekMeeting2": "Midweek Meeting Chairman",
   "global.auxClassCounselor": "Auxiliary Classroom Counselor",
   "global.prayerMidweekMeeting": "Prayer",
   "global.tgwTalk": "Talk 10 min.",
@@ -145,6 +146,7 @@
   "global.song": "Song",
   "global.time": "Time",
   "global.myUserProfile": "My User Profile",
+  "global.record": "Record",
 
   "startup.welcomeTitle": "Welcome to CPE",
   "startup.welcomeDescription": "CPE (or Congregation Program for Everyone) is an application designed for the Life and Ministry Meeting Overseer.",
@@ -421,6 +423,7 @@
   "dashboard.personAdd": "Add Person",
   "dashboard.managePocket": "Manage Pocket Users",
   "dashboard.schedule": "Schedule",
+  "dashboard.viewMyAssignments": "My Assignments",
   "dashboard.viewAssignmentsSchedule": "View Weekly Assignments",
   "dashboard.editAssignmentsSchedule": "Edit Assignments",
   "dashboard.autoAssignSchedule": "Auto Assign Assignments",
@@ -434,5 +437,10 @@
   "dashboard.sourceImportJw": "Import from JW.ORG",
   "dashboard.administration": "Administration",
   "dashboard.manageAccessToApps": "Manage Access to sws2apps",
-  "dashboard.addNewAppointed": "Add New Appointed Brother"
+  "dashboard.addNewAppointed": "Add New Appointed Brother",
+
+  "assignments.setup": "Make sure first that you have your record in the Persons list. Then, click the Setup button.",
+  "assignments.btnSetup": "Setup",
+  "assignments.selectRecord": "Select your record from the list:",
+  "assignments.noMatchRecord": "No record"
 }

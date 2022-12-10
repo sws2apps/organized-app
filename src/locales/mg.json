@@ -134,6 +134,7 @@
   "global.savedSuccess": "Voatahiry soa aman-tsara ny fanovana!",
   "global.update": "Hanova",
   "global.chairmanMidweekMeeting": "Mpitari-draharaha",
+  "global.chairmanMidweekMeeting2": "Mpitari-draharaha Fivoriana Andavanandro",
   "global.auxClassCounselor": "Mpanome Torohevitra Faharoa",
   "global.prayerMidweekMeeting": "Vavaka",
   "global.tgwTalk": "Lahateny 10 min.",
@@ -146,6 +147,7 @@
   "global.song": "Hira",
   "global.time": "Ora",
   "global.myUserProfile": "Ny Kaontiko",
+  "global.record": "Firaketana",
 
   "startup.welcomeTitle": "Tongasoa eto amin’ny CPE",
   "startup.welcomeDescription": "Programa natao ho ampiasain’ny Mpiandraikitra ny Fivoriana Momba ny Fiainantsika sy ny Fanompoana ny CPE (na Congregation Program for Everyone).",
@@ -422,6 +424,7 @@
   "dashboard.personAdd": "Hanampy Olona",
   "dashboard.managePocket": "Handrindra ny Mpampiasa Pocket",
   "dashboard.schedule": "Fandaharana",
+  "dashboard.viewMyAssignments": "Anjarako",
   "dashboard.viewAssignmentsSchedule": "Hijery ny Fandaraham-pivoriana",
   "dashboard.editAssignmentsSchedule": "Hanendry Anjara",
   "dashboard.autoAssignSchedule": "Hanendry ho azy Anjara",
@@ -435,5 +438,10 @@
   "dashboard.sourceImportJw": "Haka Any Amin’ny JW.ORG",
   "dashboard.administration": "Fandrindrana",
   "dashboard.manageAccessToApps": "Handrindra ny Fampiasana Programa sws2apps",
-  "dashboard.addNewAppointed": "Hampiditra Rahalahy Vaovao"
+  "dashboard.addNewAppointed": "Hampiditra Rahalahy Vaovao",
+
+  "assignments.setup": "Ataovy azo antoka aloha hoe efa misy firaketana momba anao ao amin’ny Olona ao Amin’ny Fiangonana. Tsindrio avy eo ilay hoe Hanamboatra.",
+  "assignments.btnSetup": "Hanamboatra",
+  "assignments.selectRecord": "Safidio eo amin’ilay lisitra ny firaketana momba anao:",
+  "assignments.noMatchRecord": "Tsy misy firaketana"
 }

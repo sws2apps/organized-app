@@ -6,7 +6,7 @@ import { dbGetStudentByUid, dbGetStudentDetails, dbGetStudentsMini } from './dbP
 import { dbGetScheduleData } from './dbSchedule';
 import { dbGetSourceMaterial, dbGetWeekListBySched } from './dbSourceMaterial';
 import appDb from './mainDb';
-import { shortDateFormatState } from '../states/main';
+import { refreshMyAssignmentsState, shortDateFormatState, userLocalUidState } from '../states/main';
 import { assTypeLocalState } from '../states/sourceMaterial';
 import { allStudentsState, filteredStudentsState, studentsAssignmentHistoryState } from '../states/persons';
 import { meetingTimeState } from '../states/congregation';
@@ -70,6 +70,13 @@ export const dbSaveAss = async (weekOf, stuID, varSave) => {
   await promiseSetRecoil(studentsAssignmentHistoryState, history);
 
   await dbRefreshStudentHistory(stuPrev, stuID);
+
+  const localUid = await promiseGetRecoil(userLocalUidState);
+
+  if (stuID === localUid) {
+    const prevValue = await promiseGetRecoil(refreshMyAssignmentsState);
+    await promiseSetRecoil(refreshMyAssignmentsState, !prevValue);
+  }
 };
 
 export const dbHistoryAssignment = async () => {
@@ -102,7 +109,7 @@ export const dbHistoryAssignment = async () => {
           const stuDetails = await dbGetStudentByUid(person.studentID);
           person.studentName = stuDetails.person_displayName;
           person.assignmentID = 110;
-          person.assignmentName = getI18n().t('global.chairmanMidweekMeeting');
+          person.assignmentName = getI18n().t('global.chairmanMidweekMeeting2');
           person.class = '';
           dbHistory.push(person);
           person = {};
@@ -154,6 +161,7 @@ export const dbHistoryAssignment = async () => {
           person.studentName = stuDetails.person_displayName;
           person.assignmentID = 112;
           person.assignmentName = getI18n().t('global.tgwTalk');
+          person.assignmentSource = weekData.tgwTalk_src;
           person.class = '';
           dbHistory.push(person);
           person = {};
@@ -258,6 +266,7 @@ export const dbHistoryAssignment = async () => {
             person.studentName = stuDetails.person_displayName;
             person.assignmentID = 114;
             person.assignmentName = getI18n().t('global.lcPart');
+            person.assignmentSource = `(${weekData[`lcPart$b}_time`]}) ${weekData[`lcPart$b}_src`]}`;
             person.class = '';
             dbHistory.push(person);
             person = {};
@@ -276,6 +285,7 @@ export const dbHistoryAssignment = async () => {
           person.studentName = stuDetails.person_displayName;
           person.assignmentID = 115;
           person.assignmentName = getI18n().t('global.cbsConductor');
+          person.assignmentSource = weekData.cbs_src;
           person.class = '';
           dbHistory.push(person);
           person = {};
@@ -293,6 +303,7 @@ export const dbHistoryAssignment = async () => {
           person.studentName = stuDetails.person_displayName;
           person.assignmentID = 116;
           person.assignmentName = getI18n().t('global.cbsReader');
+          person.assignmentSource = weekData.cbs_src;
           person.class = '';
           dbHistory.push(person);
           person = {};

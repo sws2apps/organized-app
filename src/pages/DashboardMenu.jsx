@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { fileDialog } from 'file-select-dialog';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import Box from '@mui/material/Box';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
@@ -16,7 +17,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import ScheduleIcon from '@mui/icons-material/Schedule';
 import MenuCard from '../components/MenuCard';
 import { congAccountConnectedState, isAdminCongState } from '../states/congregation';
-import { appLangState, backupDbOpenState, isOnlineState, restoreDbOpenState } from '../states/main';
+import { appLangState, backupDbOpenState, isMyAssignmentOpenState, isOnlineState, restoreDbOpenState } from '../states/main';
 import { dbAddManualSource } from '../indexedDb/dbSourceMaterial';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../states/notification';
 import { epubFileState, isImportEPUBState, isImportJWOrgState } from '../states/sourceMaterial';
@@ -34,10 +35,15 @@ const DashboardMenu = () => {
   const setIsImportJWOrg = useSetRecoilState(isImportJWOrgState);
   const setIsBackupDb = useSetRecoilState(backupDbOpenState);
   const setIsRestoreDb = useSetRecoilState(restoreDbOpenState);
+  const setMyAssignmentsOpen = useSetRecoilState(isMyAssignmentOpenState);
 
   const isAdminCong = useRecoilValue(isAdminCongState);
   const isCongAccountConnected = useRecoilValue(congAccountConnectedState);
   const isOnline = useRecoilValue(isOnlineState);
+
+  const handleOpenMyAssignment = () => {
+    setMyAssignmentsOpen(true)
+  }
 
   const handleWeekAdd = async () => {
     await dbAddManualSource();
@@ -100,6 +106,13 @@ const DashboardMenu = () => {
       title: t('dashboard.schedule'),
       visible: true,
       links: [
+        {
+          title: t('dashboard.viewMyAssignments'),
+          icon: <AssignmentIndIcon />,
+          disabled: false,
+          visible: true,
+          action: handleOpenMyAssignment,
+        },
         {
           title: t('dashboard.viewAssignmentsSchedule'),
           icon: <ScheduleIcon />,

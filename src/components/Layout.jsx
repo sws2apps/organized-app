@@ -25,6 +25,7 @@ import { ImportEPUB, ImportJWOrg } from '../features/sourceMaterial';
 import { fetchNotifications } from '../utils/app';
 import { AppUpdater } from '../features/updater';
 import { UserSignOut } from '../features/userSignOut';
+import { MyAssignments } from '../features/myAssignments';
 
 const Layout = ({ updatePwa }) => {
   let location = useLocation();
@@ -67,6 +68,7 @@ const Layout = ({ updatePwa }) => {
 
       <Box sx={{ padding: '10px' }}>
         <UserAutoLogin />
+        <MyAssignments />
 
         {isOpenAbout && <About />}
         {isOpenWhatsNew && <WhatsNew />}

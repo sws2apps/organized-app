@@ -15,7 +15,7 @@ import {
   meetingTimeState,
   usernameState,
 } from '../states/congregation';
-import { apiHostState, appLangState, appNotificationsState, isOnlineState } from '../states/main';
+import { apiHostState, appLangState, appNotificationsState, isOnlineState, userLocalUidState } from '../states/main';
 import { assTypeListState, weekTypeListState, yearsListState } from '../states/sourceMaterial';
 import { allStudentsState, filteredStudentsState, studentsAssignmentHistoryState } from '../states/persons';
 
@@ -23,12 +23,16 @@ export const loadApp = async () => {
   const I18n = getI18n();
 
   await initAppDb();
-  let { username, cong_number, cong_name, class_count, meeting_day, meeting_time, liveEventClass } =
+  let { username, local_uid, cong_number, cong_name, class_count, meeting_day, meeting_time, liveEventClass } =
     await dbGetAppSettings();
 
   const app_lang = localStorage.getItem('app_lang') || 'e';
 
   await checkSrcUpdate();
+
+  if (local_uid && local_uid !== '') {
+    await promiseSetRecoil(userLocalUidState, local_uid);
+  }
 
   await promiseSetRecoil(usernameState, username || '');
   await promiseSetRecoil(congNameState, cong_name || '');

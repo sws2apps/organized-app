@@ -11,11 +11,6 @@ export const offlineOverrideState = atom({
   default: false,
 });
 
-export const settingsState = atom({
-  key: 'appSettings',
-  default: {},
-});
-
 export const isAppLoadState = atom({
   key: 'isAppLoad',
   default: true,
@@ -318,5 +313,20 @@ export const userIDState = atom({
 
 export const isReEnrollMFAState = atom({
   key: 'isReEnrollMFA',
+  default: false,
+});
+
+export const userLocalUidState = atom({
+  key: 'userLocalUid',
+  default: '',
+});
+
+export const isMyAssignmentOpenState = atom({
+  key: 'isMyAssignmentOpen',
+  default: false,
+});
+
+export const refreshMyAssignmentsState = atom({
+  key: 'refreshMyAssignments',
   default: false,
 });
