@@ -1,3 +1,10 @@
+## [2.9.2](https://github.com/sws2apps/lmm-oa-sws/compare/v2.9.1...v2.9.2) (2022-12-11)
+
+
+### Bug Fixes
+
+* **templates:** fix error when previewing S-140 ([dfe0818](https://github.com/sws2apps/lmm-oa-sws/commit/dfe0818d053ead81cade30d57f6f40d834e75102))
+
 ## [2.9.1](https://github.com/sws2apps/lmm-oa-sws/compare/v2.9.0...v2.9.1) (2022-12-10)
 
 
