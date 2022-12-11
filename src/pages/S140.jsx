@@ -29,7 +29,7 @@ const styles = {
   },
 };
 
-const ScheduleHeading = (congName, congNumber, midweekMeetingPrint) => {
+const ScheduleHeading = ({ congName, congNumber, midweekMeetingPrint }) => {
   return (
     <Box
       sx={{
