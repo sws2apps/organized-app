@@ -66,9 +66,9 @@ const StudentSelector = (props) => {
   const [isLoadingAssistantHistory, setIsLoadingAssistantHistory] = useState(true);
   const [isLoadingAssHistory, setIsLoadingAssHistory] = useState(true);
 
-  const handleSelectStudent = (selectedStudent) => {
-    setSelectedStudent(selectedStudent.innerText);
-    setSelectedStuID(selectedStudent.dataset.personId);
+  const handleSelectStudent = (value) => {
+    setSelectedStudent(value.innerText);
+    setSelectedStuID(value.dataset.personId);
   };
 
   const handleAssignStudent = () => {

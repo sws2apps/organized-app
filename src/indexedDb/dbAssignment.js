@@ -97,7 +97,7 @@ export const dbHistoryAssignment = async () => {
         const dateFormatted = dateFormat(lDate, shortDateFormat);
 
         const assList = [];
-        const excludeFiles = ['weekOf', 'week_type'];
+        const excludeFiles = ['weekOf', 'week_type', 'noMeeting', 'isReleased'];
         for (const [key, value] of Object.entries(appData[i])) {
           if (excludeFiles.indexOf(key) === -1) {
             if (value && value !== '') {
