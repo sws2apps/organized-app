@@ -1,3 +1,10 @@
+## [2.10.1](https://github.com/sws2apps/lmm-oa-sws/compare/v2.10.0...v2.10.1) (2022-12-16)
+
+
+### Bug Fixes
+
+* **schedules:** remove wrong keys being included when building assignments details ([2d30ae6](https://github.com/sws2apps/lmm-oa-sws/commit/2d30ae6ad594b7a7ece167b87ac47f6fdd4311f0))
+
 # [2.10.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.9.2...v2.10.0) (2022-12-16)
 
 
