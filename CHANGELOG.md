@@ -1,3 +1,20 @@
+# [2.10.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.9.2...v2.10.0) (2022-12-16)
+
+
+### Bug Fixes
+
+* **schedules:** fix wrong stats in schedule overview page ([ec32069](https://github.com/sws2apps/lmm-oa-sws/commit/ec3206976228bc897d50b073c42c1f8115c51268))
+
+
+### Features
+
+* **deps:** bump @mui/icons-material from 5.10.16 to 5.11.0 ([33cba76](https://github.com/sws2apps/lmm-oa-sws/commit/33cba763d99979a4e829d1fea9224c1a71d2df26))
+* **deps:** bump @mui/lab from 5.0.0-alpha.111 to 5.0.0-alpha.112 ([108baaa](https://github.com/sws2apps/lmm-oa-sws/commit/108baaaba21846bbd8cf780834fd1a3c8508f5ff))
+* **deps:** bump @mui/material from 5.10.17 to 5.11.0 ([a39af38](https://github.com/sws2apps/lmm-oa-sws/commit/a39af38ef08749c7b7b96d8cd8d156a5d901556d))
+* **deps:** bump @tanstack/react-query from 4.19.1 to 4.20.4 ([260a648](https://github.com/sws2apps/lmm-oa-sws/commit/260a6489a6652f3ccd2f2dce03153280224e43a9))
+* **deps:** bump i18next from 22.1.4 to 22.4.5 ([20e851c](https://github.com/sws2apps/lmm-oa-sws/commit/20e851c14ff563f8d4c61f6a519fdd99d8547884))
+* **deps:** bump jw-epub-parser from 1.28.0 to 1.29.0 ([a42c036](https://github.com/sws2apps/lmm-oa-sws/commit/a42c036608910cc70569dd3f8202cebeeef961ae))
+
 ## [2.9.2](https://github.com/sws2apps/lmm-oa-sws/compare/v2.9.1...v2.9.2) (2022-12-11)
 
 
