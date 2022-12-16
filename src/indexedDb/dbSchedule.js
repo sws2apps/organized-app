@@ -274,32 +274,32 @@ export const dbCountAssignmentsInfo = async (week) => {
     assTotal = assTotal + 1;
   }
 
-  if (schedData.chairmanMM_A !== '') {
+  if (schedData.chairmanMM_A && schedData.chairmanMM_A !== '') {
     assAssigned = assAssigned + 1;
   }
 
-  if (schedData.chairmanMM_B !== '') {
+  if (schedData.chairmanMM_B && schedData.chairmanMM_B !== '') {
     assAssigned = assAssigned + 1;
   }
 
   // opening prayer
   assTotal = assTotal + 1;
 
-  if (schedData.opening_prayer !== '') {
+  if (schedData.opening_prayer && schedData.opening_prayer !== '') {
     assAssigned = assAssigned + 1;
   }
 
   // TGW 10 Talk
   assTotal = assTotal + 1;
 
-  if (schedData.tgw_talk !== '') {
+  if (schedData.tgw_talk && schedData.tgw_talk !== '') {
     assAssigned = assAssigned + 1;
   }
 
   // TGW 10 Gems
   assTotal = assTotal + 1;
 
-  if (schedData.tgw_gems !== '') {
+  if (schedData.tgw_gems && schedData.tgw_gems !== '') {
     assAssigned = assAssigned + 1;
   }
 
@@ -311,16 +311,16 @@ export const dbCountAssignmentsInfo = async (week) => {
     assTotal = assTotal + 1;
   }
 
-  if (schedData.bRead_stu_A !== '') {
+  if (schedData.bRead_stu_A && schedData.bRead_stu_A !== '') {
     assAssigned = assAssigned + 1;
   }
 
-  if (schedData.bRead_stu_B !== '') {
+  if (schedData.bRead_stu_B && schedData.bRead_stu_B !== '') {
     assAssigned = assAssigned + 1;
   }
 
   // field ministry
-  for (let a = 1; a < 5; a++) {
+  for (let a = 1; a <= 4; a++) {
     const assType = `ass${a}_type`;
     const assValue = sourceData[assType];
 
@@ -349,16 +349,19 @@ export const dbCountAssignmentsInfo = async (week) => {
     const stuFieldB = `ass${a}_stu_B`;
     const assFieldB = `ass${a}_ass_B`;
 
-    if (schedData[stuFieldA] !== '') {
+    if (schedData[stuFieldA] && schedData[stuFieldA] !== '') {
       assAssigned = assAssigned + 1;
     }
-    if (schedData[assFieldA] !== '') {
+
+    if (schedData[assFieldA] && schedData[assFieldA] !== '') {
       assAssigned = assAssigned + 1;
     }
-    if (schedData[stuFieldB] !== '') {
+
+    if (schedData[stuFieldB] && schedData[stuFieldB] !== '') {
       assAssigned = assAssigned + 1;
     }
-    if (schedData[assFieldB] !== '') {
+
+    if (schedData[assFieldB] && schedData[assFieldB] !== '') {
       assAssigned = assAssigned + 1;
     }
   }
@@ -366,7 +369,7 @@ export const dbCountAssignmentsInfo = async (week) => {
   // LC Part 1
   assTotal = assTotal + 1;
 
-  if (schedData.lc_part1 !== '') {
+  if (schedData.lc_part1 && schedData.lc_part1 !== '') {
     assAssigned = assAssigned + 1;
   }
 
@@ -374,7 +377,7 @@ export const dbCountAssignmentsInfo = async (week) => {
   if (sourceData.lcCount === 2) {
     assTotal = assTotal + 1;
 
-    if (schedData.lc_part2 !== '') {
+    if (schedData.lc_part2 && schedData.lc_part2 !== '') {
       assAssigned = assAssigned + 1;
     }
   }
@@ -384,14 +387,14 @@ export const dbCountAssignmentsInfo = async (week) => {
     // Conductor
     assTotal = assTotal + 1;
 
-    if (schedData.cbs_conductor !== '') {
+    if (schedData.cbs_conductor && schedData.cbs_conductor !== '') {
       assAssigned = assAssigned + 1;
     }
 
     // Reader
     assTotal = assTotal + 1;
 
-    if (schedData.cbs_reader !== '') {
+    if (schedData.cbs_reader && schedData.cbs_reader !== '') {
       assAssigned = assAssigned + 1;
     }
   }
@@ -399,7 +402,7 @@ export const dbCountAssignmentsInfo = async (week) => {
   // Closing Prayer
   assTotal = assTotal + 1;
 
-  if (schedData.closing_prayer !== '') {
+  if (schedData.closing_prayer && schedData.closing_prayer !== '') {
     assAssigned = assAssigned + 1;
   }
 
