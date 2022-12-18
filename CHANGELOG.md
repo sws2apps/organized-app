@@ -1,3 +1,10 @@
+## [2.10.2](https://github.com/sws2apps/lmm-oa-sws/compare/v2.10.1...v2.10.2) (2022-12-18)
+
+
+### Bug Fixes
+
+* **schedules:** history for assignments in field ministry not showing ([2e15c34](https://github.com/sws2apps/lmm-oa-sws/commit/2e15c34b7a8909498980d106c01245c2738cdc7a))
+
 ## [2.10.1](https://github.com/sws2apps/lmm-oa-sws/compare/v2.10.0...v2.10.1) (2022-12-16)
 
 
