@@ -1,3 +1,10 @@
+# [2.11.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.10.2...v2.11.0) (2022-12-18)
+
+
+### Features
+
+* **congregation:** new ui to manage cpe users ([ccb41ad](https://github.com/sws2apps/lmm-oa-sws/commit/ccb41add29bfb3524983183bd5a81c67b7cb0906))
+
 ## [2.10.2](https://github.com/sws2apps/lmm-oa-sws/compare/v2.10.1...v2.10.2) (2022-12-18)
 
 
