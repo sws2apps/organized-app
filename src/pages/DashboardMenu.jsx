@@ -16,7 +16,7 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ScheduleIcon from '@mui/icons-material/Schedule';
 import MenuCard from '../components/MenuCard';
-import { congAccountConnectedState, isAdminCongState } from '../states/congregation';
+import { congAccountConnectedState } from '../states/congregation';
 import {
   appLangState,
   backupDbOpenState,
@@ -43,7 +43,6 @@ const DashboardMenu = () => {
   const setIsRestoreDb = useSetRecoilState(restoreDbOpenState);
   const setMyAssignmentsOpen = useSetRecoilState(isMyAssignmentOpenState);
 
-  const isAdminCong = useRecoilValue(isAdminCongState);
   const isCongAccountConnected = useRecoilValue(congAccountConnectedState);
   const isOnline = useRecoilValue(isOnlineState);
 
@@ -191,7 +190,7 @@ const DashboardMenu = () => {
           title: t('dashboard.manageAccessToApps'),
           icon: <AccountCircleIcon />,
           disabled: false,
-          visible: isAdminCong ? true : false,
+          visible: isCongAccountConnected ? true : false,
           navigateTo: '/administration',
         },
         {

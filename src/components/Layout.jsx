@@ -14,6 +14,7 @@ import {
   isAboutOpenState,
   isAppClosingState,
   isAppLoadState,
+  isCongPersonAddState,
   isWhatsNewOpenState,
   restoreDbOpenState,
 } from '../states/main';
@@ -27,6 +28,7 @@ import { fetchNotifications } from '../utils/app';
 import { AppUpdater } from '../features/updater';
 import { UserSignOut } from '../features/userSignOut';
 import { MyAssignments } from '../features/myAssignments';
+import { CongregationPersonAdd } from '../features/congregationPersons';
 
 const WaitingPage = () => {
   return (
@@ -62,6 +64,7 @@ const Layout = ({ updatePwa }) => {
   const isImportEPUB = useRecoilValue(isImportEPUBState);
   const isImportJWOrg = useRecoilValue(isImportJWOrgState);
   const isAppClosing = useRecoilValue(isAppClosingState);
+  const isCongPersonAdd = useRecoilValue(isCongPersonAddState);
 
   const checkPwaUpdate = () => {
     if ('serviceWorker' in navigator) {
@@ -99,6 +102,7 @@ const Layout = ({ updatePwa }) => {
         {isImportEPUB && <ImportEPUB />}
         {isImportJWOrg && <ImportJWOrg />}
         {isAppClosing && <UserSignOut />}
+        {isCongPersonAdd && <CongregationPersonAdd />}
 
         {isAppLoad && <Startup />}
         {!isAppLoad && (

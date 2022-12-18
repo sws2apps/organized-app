@@ -330,3 +330,8 @@ export const refreshMyAssignmentsState = atom({
   key: 'refreshMyAssignments',
   default: false,
 });
+
+export const isCongPersonAddState = atom({
+  key: 'isCongPersonAdd',
+  default: false,
+});

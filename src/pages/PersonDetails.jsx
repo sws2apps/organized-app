@@ -26,10 +26,9 @@ import TransferWithinAStationIcon from '@mui/icons-material/TransferWithinAStati
 import Typography from '@mui/material/Typography';
 import { dbGetStudentDetails, dbSavePersonExp } from '../indexedDb/dbPersons';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../states/notification';
-import { isOnlineState, rootModalOpenState } from '../states/main';
+import { rootModalOpenState } from '../states/main';
 import { studentsQueryState } from '../states/persons';
-import { PersonAssignments, PersonBasic, PersonHistory, PersonPocket, PersonTimeAway } from '../features/persons';
-import { congAccountConnectedState } from '../states/congregation';
+import { PersonAssignments, PersonBasic, PersonHistory, PersonTimeAway } from '../features/persons';
 
 const Accordion = styled((props) => <MuiAccordion disableGutters elevation={0} square {...props} />)(({ theme }) => ({
   border: `1px solid ${theme.palette.divider}`,
@@ -90,8 +89,6 @@ const PersonDetails = () => {
   const setRootModalOpen = useSetRecoilState(rootModalOpenState);
 
   const studentsQuery = useRecoilValue(studentsQueryState);
-  const congAccountConnected = useRecoilValue(congAccountConnectedState);
-  const isOnline = useRecoilValue(isOnlineState);
 
   const [isProcessing, setIsProcessing] = useState(true);
   const [isEdit, setIsEdit] = useState(false);
@@ -439,16 +436,6 @@ const PersonDetails = () => {
                 <PersonTimeAway timeAway={timeAway} setTimeAway={(value) => setTimeAway(value)} />
               </AccordionDetails>
             </Accordion>
-            {isOnline && congAccountConnected && id && (
-              <Accordion expanded={expanded === 'panel5'} onChange={handleChange('panel5')}>
-                <AccordionSummary aria-controls="panel5d-content" id="panel5d-header">
-                  <Typography>{t('persons.accessPocketApp')}</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <PersonPocket id={id} name={name} />
-                </AccordionDetails>
-              </Accordion>
-            )}
           </Box>
         </>
       )}

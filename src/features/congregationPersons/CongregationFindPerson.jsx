@@ -14,7 +14,7 @@ import { apiHostState, userEmailState, visitorIDState } from '../../states/main'
 import { appMessageState, appSeverityState, appSnackOpenState } from '../../states/notification';
 import { congIDState } from '../../states/congregation';
 
-const VipFindUser = ({ setMember }) => {
+const CongregationFindPerson = ({ setMember }) => {
   const cancel = useRef();
 
   const { t } = useTranslation();
@@ -165,4 +165,4 @@ const VipFindUser = ({ setMember }) => {
   );
 };
 
-export default VipFindUser;
+export default CongregationFindPerson;

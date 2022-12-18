@@ -106,11 +106,13 @@ const UserSessionItem = ({ session, setSessions }) => {
           )}
         </Box>
       </Box>
-      <Box sx={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end' }}>
-        <Button onClick={handleRevokeSession} variant="outlined" color="error" sx={{ marginBottom: '10px' }}>
-          {t('settings.sessionRevoke')}
-        </Button>
-      </Box>
+      {visitorID !== session.visitorid && (
+        <Box sx={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end' }}>
+          <Button onClick={handleRevokeSession} variant="outlined" color="error" sx={{ marginBottom: '10px' }}>
+            {t('settings.sessionRevoke')}
+          </Button>
+        </Box>
+      )}
     </Box>
   );
 };

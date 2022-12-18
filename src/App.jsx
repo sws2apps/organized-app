@@ -12,7 +12,7 @@ import DashboardMenu from './pages/DashboardMenu';
 import NotificationWrapper from './features/notificationWrapper';
 import Layout from './components/Layout';
 import PrivateRoot from './components/PrivateRoot';
-import { isAdminCongState } from './states/congregation';
+import { congAccountConnectedState } from './states/congregation';
 import WeeklyAssignments from './pages/WeeklyAssignments';
 import CongregationSettings from './pages/CongregationSettings';
 import ErrorBoundary from './components/ErrorBoundary';
@@ -29,7 +29,8 @@ const ScheduleWeekDetails = lazy(() => import('./pages/ScheduleWeekDetails'));
 const Settings = lazy(() => import('./pages/UserSettings'));
 const SourceMaterials = lazy(() => import('./pages/SourceMaterials'));
 const SourceWeekDetails = lazy(() => import('./pages/SourceWeekDetails'));
-const VipUserDetail = lazy(() => import('./pages/VipUserDetail'));
+const CongregationPersonDetail = lazy(() => import('./pages/CongregationPersonDetail'));
+const CongregationPersonDetails = lazy(() => import('./pages/CongregationPersonDetails'));
 
 // creating theme
 const lightTheme = createTheme({
@@ -53,7 +54,7 @@ const App = ({ updatePwa }) => {
   const isOnline = useRecoilValue(isOnlineState);
   const isLight = useRecoilValue(isLightThemeState);
   const appSnackOpen = useRecoilValue(appSnackOpenState);
-  const isAdminCong = useRecoilValue(isAdminCongState);
+  const isCongAccountConnected = useRecoilValue(congAccountConnectedState);
 
   const [activeTheme, setActiveTheme] = useState(darkTheme);
 
@@ -116,7 +117,7 @@ const App = ({ updatePwa }) => {
           element: <CongregationSettings />,
         },
         {
-          element: <PrivateRoot isAdminCong={isAdminCong} />,
+          element: <PrivateRoot isCongAccountConnected={isCongAccountConnected} />,
           children: [
             {
               path: '/administration',
@@ -124,11 +125,11 @@ const App = ({ updatePwa }) => {
             },
             {
               path: '/administration/members/new',
-              element: <VipUserDetail />,
+              element: <CongregationPersonDetail />,
             },
             {
               path: '/administration/members/:id',
-              element: <VipUserDetail />,
+              element: <CongregationPersonDetails />,
             },
           ],
         },

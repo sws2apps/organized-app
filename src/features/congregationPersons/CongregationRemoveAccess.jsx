@@ -7,7 +7,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Typography from '@mui/material/Typography';
 
-const VipUserDelete = ({ isDelete, setIsDelete, name, deleteUser }) => {
+const CongregationRemoveAccess = ({ isDelete, setIsDelete, name, deleteUser }) => {
   const { t } = useTranslation();
 
   const handleClose = () => {
@@ -39,4 +39,4 @@ const VipUserDelete = ({ isDelete, setIsDelete, name, deleteUser }) => {
   );
 };
 
-export default VipUserDelete;
+export default CongregationRemoveAccess;

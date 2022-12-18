@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { VipUsers } from '../features/administration';
+import { CongregationPersons } from '../features/congregationPersons';
 
 const Administration = () => {
   const { t } = useTranslation();
@@ -12,7 +12,7 @@ const Administration = () => {
         {t('administration.heading')}
       </Typography>
 
-      <VipUsers />
+      <CongregationPersons />
     </Box>
   );
 };
