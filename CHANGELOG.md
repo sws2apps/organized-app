@@ -1,6 +1,18 @@
 # [2.11.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.10.2...v2.11.0) (2022-12-18)
 
 
+### Bug Fixes
+
+* **app:** remove unused files ([616f30a](https://github.com/sws2apps/lmm-oa-sws/commit/616f30a8bcfb103e199ede5bc8702a7fcdbb2d14))
+
+
+### Features
+
+* **congregation:** new ui to manage cpe users ([ccb41ad](https://github.com/sws2apps/lmm-oa-sws/commit/ccb41add29bfb3524983183bd5a81c67b7cb0906))
+
+# [2.11.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.10.2...v2.11.0) (2022-12-18)
+
+
 ### Features
 
 * **congregation:** new ui to manage cpe users ([ccb41ad](https://github.com/sws2apps/lmm-oa-sws/commit/ccb41add29bfb3524983183bd5a81c67b7cb0906))
