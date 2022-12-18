@@ -310,7 +310,7 @@
   "schedule.s89": "Fanomezana Anjara S-89",
   "schedule.availableStudents": "Afaka manao ny anjara",
   "schedule.studentHistory": "{{ currentStudent }} (Anjara efa nataony)",
-  "schedule.assignmentHistory": "Mpianatra efa nanao io anjara io",
+  "schedule.assignmentHistory": "Efa nanao io anjara io",
   "schedule.assign": "Hanendry",
   "schedule.autoFillTitle": "Hameno ho azy fandaharana",
   "schedule.autoFillDesc": "Tianao hofenoina ho azy ve ny fandaharana {{ currentSchedule }}?",

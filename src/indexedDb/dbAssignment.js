@@ -155,7 +155,7 @@ export const dbHistoryAssignment = async () => {
           }
 
           //AYF Assigment History
-          if (item.assignment.startsWith('ass_') && item.assignment.includes('_stu_')) {
+          if (item.assignment.startsWith('ass') && item.assignment.includes('_stu_')) {
             const stuclass = item.assignment.split('_')[2];
             const weekFld = item.assignment.split('_')[0] + '_type';
             const assType = weekData[weekFld];
@@ -176,7 +176,7 @@ export const dbHistoryAssignment = async () => {
           }
 
           // AYF Assistant History
-          if (item.assignment.startsWith('ass_') && item.assignment.includes('_ass_')) {
+          if (item.assignment.startsWith('ass') && item.assignment.includes('_ass_')) {
             const stuclass = item.assignment.split('_')[2];
             person.assignmentID = 109;
             person.assignmentName = getI18n().t('global.assistant');

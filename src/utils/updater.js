@@ -282,7 +282,7 @@ const updateAssignmentType = async (step) => {
 
   await appDb.ass_type.clear();
 
-  appDb.ass_type.bulkAdd([
+  await appDb.ass_type.bulkAdd([
     {
       id_type: 8,
       code: 100,

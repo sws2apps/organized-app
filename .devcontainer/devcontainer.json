@@ -11,7 +11,8 @@
 		"vscode": {
 			"extensions": [
 				"esbenp.prettier-vscode",
-				"burkeholland.simple-react-snippets"
+				"burkeholland.simple-react-snippets",
+				"dbaeumer.vscode-eslint"
 			]
 		}
 	}

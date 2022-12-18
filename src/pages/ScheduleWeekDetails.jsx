@@ -483,8 +483,8 @@ const ScheduleWeekDetails = () => {
           height: '60vh',
         }}
       >
-        <NoMeetingRoomIcon color='error' sx={{ fontSize: '150px' }} />
-        <Typography variant='body1' align='center'>
+        <NoMeetingRoomIcon color="error" sx={{ fontSize: '150px' }} />
+        <Typography variant="body1" align="center">
           {t('global.noMidweekMeeting')}
         </Typography>
       </Container>
@@ -509,8 +509,8 @@ const ScheduleWeekDetails = () => {
         }}
       >
         {isAssign && (
-          <Dialog open={mdDown ? isDlgOpen : false} onClose={handleDlgClose} aria-labelledby='dialog-title'>
-            <DialogTitle id='dialog-title' sx={sharedStyles.pickerDlgTitleContainer}>
+          <Dialog open={mdDown ? isDlgOpen : false} onClose={handleDlgClose} aria-labelledby="dialog-title">
+            <DialogTitle id="dialog-title" sx={sharedStyles.pickerDlgTitleContainer}>
               <Box sx={sharedStyles.pickerDlgTitleSub}>
                 <Typography sx={sharedStyles.pickerDlgTitleText}>{t('schedule.assignStudent')}</Typography>
                 <IconButton onClick={() => handleDlgClose()}>
@@ -531,10 +531,18 @@ const ScheduleWeekDetails = () => {
         )}
 
         <Box sx={{ width: '100%' }}>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'flex-start',
+              flexWrap: 'wrap',
+              gap: '10px',
+            }}
+          >
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
               <Box>
-                <Typography variant='body1' sx={{ fontWeight: 'bold', fontSize: 16, marginBottom: '5px' }}>
+                <Typography variant="body1" sx={{ fontWeight: 'bold', fontSize: 16, marginBottom: '5px' }}>
                   {t('global.chairmanMidweekMeeting')}
                 </Typography>
                 <Box sx={boxStudentFldContainer}>
@@ -543,14 +551,14 @@ const ScheduleWeekDetails = () => {
                       ...typoStudentField,
                       backgroundColor: alpha(theme.palette.common[themeOptions.searchBg], 0.15),
                     }}
-                    variant='body1'
+                    variant="body1"
                   >
                     {chairmanA}
                   </Typography>
                   {isChairmanA && (
                     <CircularProgress
                       sx={sharedStyles.fieldBtnContainer}
-                      color='secondary'
+                      color="secondary"
                       size={26}
                       disableShrink={true}
                     />
@@ -574,7 +582,7 @@ const ScheduleWeekDetails = () => {
               </Box>
               {classCount === 2 && weekType === 1 && (
                 <Box>
-                  <Typography variant='body1' sx={{ fontWeight: 'bold', fontSize: 16, marginBottom: '5px' }}>
+                  <Typography variant="body1" sx={{ fontWeight: 'bold', fontSize: 16, marginBottom: '5px' }}>
                     {t('global.auxClassCounselor')}
                   </Typography>
                   <Box sx={boxStudentFldContainer}>
@@ -583,14 +591,14 @@ const ScheduleWeekDetails = () => {
                         ...typoStudentField,
                         backgroundColor: alpha(theme.palette.common[themeOptions.searchBg], 0.15),
                       }}
-                      variant='body1'
+                      variant="body1"
                     >
                       {chairmanB}
                     </Typography>
                     {isChairmanB && (
                       <CircularProgress
                         sx={sharedStyles.fieldBtnContainer}
-                        color='secondary'
+                        color="secondary"
                         size={26}
                         disableShrink={true}
                       />
@@ -615,7 +623,7 @@ const ScheduleWeekDetails = () => {
               )}
             </Box>
             <Box>
-              <Typography variant='body1' sx={{ fontWeight: 'bold', fontSize: 16, marginBottom: '5px' }}>
+              <Typography variant="body1" sx={{ fontWeight: 'bold', fontSize: 16, marginBottom: '5px' }}>
                 {t('global.prayerMidweekMeeting')}
               </Typography>
               <Box sx={boxStudentFldContainer}>
@@ -624,14 +632,14 @@ const ScheduleWeekDetails = () => {
                     ...typoStudentField,
                     backgroundColor: alpha(theme.palette.common[themeOptions.searchBg], 0.15),
                   }}
-                  variant='body1'
+                  variant="body1"
                 >
                   {openingPrayer}
                 </Typography>
                 {isOpeningPrayer && (
                   <CircularProgress
                     sx={sharedStyles.fieldBtnContainer}
-                    color='secondary'
+                    color="secondary"
                     size={26}
                     disableShrink={true}
                   />
@@ -655,7 +663,7 @@ const ScheduleWeekDetails = () => {
             </Box>
           </Box>
           <Box sx={boxMeetingPart} className={'tgwPart'}>
-            <Typography variant='h6'>{t('global.treasuresPart')}</Typography>
+            <Typography variant="h6">{t('global.treasuresPart')}</Typography>
           </Box>
           <Box
             sx={{
@@ -667,7 +675,7 @@ const ScheduleWeekDetails = () => {
             }}
           >
             <Grid item sx={sharedStyles.studentPartWrapper1}>
-              <Typography variant='body1' sx={{ fontWeight: 'bold', fontSize: 16 }}>
+              <Typography variant="body1" sx={{ fontWeight: 'bold', fontSize: 16 }}>
                 {tgwTalkSrc}
               </Typography>
             </Grid>
@@ -678,14 +686,14 @@ const ScheduleWeekDetails = () => {
                     ...typoStudentField,
                     backgroundColor: alpha(theme.palette.common[themeOptions.searchBg], 0.15),
                   }}
-                  variant='body1'
+                  variant="body1"
                 >
                   {tgwTalk}
                 </Typography>
                 {isTgwTalk && (
                   <CircularProgress
                     sx={sharedStyles.fieldBtnContainer}
-                    color='secondary'
+                    color="secondary"
                     size={26}
                     disableShrink={true}
                   />
@@ -718,7 +726,7 @@ const ScheduleWeekDetails = () => {
             }}
           >
             <Grid item sx={sharedStyles.studentPartWrapper1}>
-              <Typography variant='body1' sx={{ fontWeight: 'bold', fontSize: 16 }}>
+              <Typography variant="body1" sx={{ fontWeight: 'bold', fontSize: 16 }}>
                 {t('global.tgwGems')}
               </Typography>
             </Grid>
@@ -729,14 +737,14 @@ const ScheduleWeekDetails = () => {
                     ...typoStudentField,
                     backgroundColor: alpha(theme.palette.common[themeOptions.searchBg], 0.15),
                   }}
-                  variant='body1'
+                  variant="body1"
                 >
                   {tgwGems}
                 </Typography>
                 {isTgwGems && (
                   <CircularProgress
                     sx={sharedStyles.fieldBtnContainer}
-                    color='secondary'
+                    color="secondary"
                     size={26}
                     disableShrink={true}
                   />
@@ -769,7 +777,7 @@ const ScheduleWeekDetails = () => {
           >
             <Grid item sx={classCount === 1 ? sharedStyles.studentPartWrapper1 : sharedStyles.studentPartWrapper2}>
               <Typography
-                variant='body1'
+                variant="body1"
                 sx={{
                   fontWeight: 'bold',
                   fontSize: 16,
@@ -777,7 +785,7 @@ const ScheduleWeekDetails = () => {
               >
                 {t('global.bibleReadingText')}
               </Typography>
-              <Typography variant='body1'>{bibleReadingSrc}</Typography>
+              <Typography variant="body1">{bibleReadingSrc}</Typography>
             </Grid>
             <Grid item sx={classCount === 1 ? sharedStyles.studentContainer1 : sharedStyles.studentContainer2}>
               <Box sx={boxStudentFldContainer}>
@@ -786,14 +794,14 @@ const ScheduleWeekDetails = () => {
                     ...typoStudentField,
                     backgroundColor: alpha(theme.palette.common[themeOptions.searchBg], 0.15),
                   }}
-                  variant='body1'
+                  variant="body1"
                 >
                   {stuBReadA}
                 </Typography>
                 {isStuBReadA && (
                   <CircularProgress
                     sx={sharedStyles.fieldBtnContainer}
-                    color='secondary'
+                    color="secondary"
                     size={26}
                     disableShrink={true}
                   />
@@ -821,14 +829,14 @@ const ScheduleWeekDetails = () => {
                       ...typoStudentField,
                       backgroundColor: alpha(theme.palette.common[themeOptions.searchBg], 0.15),
                     }}
-                    variant='body1'
+                    variant="body1"
                   >
                     {stuBReadB}
                   </Typography>
                   {isStuBReadB && (
                     <CircularProgress
                       sx={sharedStyles.fieldBtnContainer}
-                      color='secondary'
+                      color="secondary"
                       size={26}
                       disableShrink={true}
                     />
@@ -852,8 +860,8 @@ const ScheduleWeekDetails = () => {
               )}
             </Grid>
           </Box>
-          <Box sx={boxMeetingPart} className='ayfPart'>
-            <Typography variant='h6'>{t('global.applyFieldMinistryPart')}</Typography>
+          <Box sx={boxMeetingPart} className="ayfPart">
+            <Typography variant="h6">{t('global.applyFieldMinistryPart')}</Typography>
           </Box>
           <ScheduleAYF
             params={{
@@ -949,8 +957,8 @@ const ScheduleWeekDetails = () => {
               loadStudentPicker={(value) => loadStudentPicker(value)}
             />
           )}
-          <Box sx={boxMeetingPart} className='lcPart'>
-            <Typography variant='h6'>{t('global.livingPart')}</Typography>
+          <Box sx={boxMeetingPart} className="lcPart">
+            <Typography variant="h6">{t('global.livingPart')}</Typography>
           </Box>
           <Box
             sx={{
@@ -962,7 +970,7 @@ const ScheduleWeekDetails = () => {
             }}
           >
             <Grid item sx={sharedStyles.studentPartWrapper1}>
-              <Typography variant='body1' sx={{ fontWeight: 'bold', fontSize: 16 }}>
+              <Typography variant="body1" sx={{ fontWeight: 'bold', fontSize: 16 }}>
                 {`(${lcPart1Time} min.) ${lcPart1Src}`}
               </Typography>
             </Grid>
@@ -973,14 +981,14 @@ const ScheduleWeekDetails = () => {
                     ...typoStudentField,
                     backgroundColor: alpha(theme.palette.common[themeOptions.searchBg], 0.15),
                   }}
-                  variant='body1'
+                  variant="body1"
                 >
                   {lcPart1}
                 </Typography>
                 {isLcPart1 && (
                   <CircularProgress
                     sx={sharedStyles.fieldBtnContainer}
-                    color='secondary'
+                    color="secondary"
                     size={26}
                     disableShrink={true}
                   />
@@ -1014,7 +1022,7 @@ const ScheduleWeekDetails = () => {
               }}
             >
               <Grid item sx={sharedStyles.studentPartWrapper1}>
-                <Typography variant='body1' sx={{ fontWeight: 'bold', fontSize: 16 }}>
+                <Typography variant="body1" sx={{ fontWeight: 'bold', fontSize: 16 }}>
                   {`(${lcPart2Time} min.) ${lcPart2Src}`}
                 </Typography>
               </Grid>
@@ -1025,14 +1033,14 @@ const ScheduleWeekDetails = () => {
                       ...typoStudentField,
                       backgroundColor: alpha(theme.palette.common[themeOptions.searchBg], 0.15),
                     }}
-                    variant='body1'
+                    variant="body1"
                   >
                     {lcPart2}
                   </Typography>
                   {isLcPart2 && (
                     <CircularProgress
                       sx={sharedStyles.fieldBtnContainer}
-                      color='secondary'
+                      color="secondary"
                       size={26}
                       disableShrink={true}
                     />
@@ -1067,7 +1075,7 @@ const ScheduleWeekDetails = () => {
             >
               <Grid item sx={classCount === 1 ? sharedStyles.studentPartWrapper1 : sharedStyles.studentPartWrapper2}>
                 <Typography
-                  variant='body1'
+                  variant="body1"
                   sx={{
                     fontWeight: 'bold',
                     fontSize: 16,
@@ -1075,7 +1083,7 @@ const ScheduleWeekDetails = () => {
                 >
                   {t('global.cbs')}
                 </Typography>
-                <Typography variant='body1'>{cbsSrc}</Typography>
+                <Typography variant="body1">{cbsSrc}</Typography>
               </Grid>
               <Grid item sx={sharedStyles.studentContainer2}>
                 <Box sx={boxStudentFldContainer}>
@@ -1084,14 +1092,14 @@ const ScheduleWeekDetails = () => {
                       ...typoStudentField,
                       backgroundColor: alpha(theme.palette.common[themeOptions.searchBg], 0.15),
                     }}
-                    variant='body1'
+                    variant="body1"
                   >
                     {cbsConductor}
                   </Typography>
                   {isCbsConductor && (
                     <CircularProgress
                       sx={sharedStyles.fieldBtnContainer}
-                      color='secondary'
+                      color="secondary"
                       size={26}
                       disableShrink={true}
                     />
@@ -1118,14 +1126,14 @@ const ScheduleWeekDetails = () => {
                       ...typoStudentField,
                       backgroundColor: alpha(theme.palette.common[themeOptions.searchBg], 0.15),
                     }}
-                    variant='body1'
+                    variant="body1"
                   >
                     {cbsReader}
                   </Typography>
                   {isCbsReader && (
                     <CircularProgress
                       sx={sharedStyles.fieldBtnContainer}
-                      color='secondary'
+                      color="secondary"
                       size={26}
                       disableShrink={true}
                     />
@@ -1149,9 +1157,9 @@ const ScheduleWeekDetails = () => {
               </Grid>
             </Box>
           )}
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px' }}>
+          <Box sx={{ display: 'flex', justifyContent: { xs: 'flex-start', sm: 'flex-end' }, marginTop: '20px' }}>
             <Box>
-              <Typography variant='body1' sx={{ fontWeight: 'bold', fontSize: 16, marginBottom: '5px' }}>
+              <Typography variant="body1" sx={{ fontWeight: 'bold', fontSize: 16, marginBottom: '5px' }}>
                 {t('global.prayerMidweekMeeting')}
               </Typography>
               <Box sx={boxStudentFldContainer}>
@@ -1160,14 +1168,14 @@ const ScheduleWeekDetails = () => {
                     ...typoStudentField,
                     backgroundColor: alpha(theme.palette.common[themeOptions.searchBg], 0.15),
                   }}
-                  variant='body1'
+                  variant="body1"
                 >
                   {closingPrayer}
                 </Typography>
                 {isClosingPrayer && (
                   <CircularProgress
                     sx={sharedStyles.fieldBtnContainer}
-                    color='secondary'
+                    color="secondary"
                     size={26}
                     disableShrink={true}
                   />

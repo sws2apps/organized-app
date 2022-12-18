@@ -79,7 +79,7 @@ const About = () => {
             </Typography>
           </Box>
           <Typography variant="body2" sx={{ marginTop: '15px' }}>
-            Copyright © {currentYear} | CPE::lmm-oa [sws2apps]
+            Copyright © {currentYear} | CPE::lmmo [sws2apps]
           </Typography>
         </Box>
       </DialogContent>

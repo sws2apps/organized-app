@@ -165,6 +165,9 @@ appDb.version(39).stores({
   app_settings:
     '++id, username, local_uid, cong_number, cong_name, class_count, meeting_day, meeting_time, userPass, isLoggedOut, isScheduleConverted, isCongVerified, isAssignmentsConverted',
 });
+appDb.version(40).stores({
+  ass_type: '&id_type, code, assignable, linkTo, type, ass_type_name',
+});
 
 appDb.on('populate', function () {
   appDb.app_settings.add({

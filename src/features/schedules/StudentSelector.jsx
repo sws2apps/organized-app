@@ -301,7 +301,7 @@ const StudentSelector = (props) => {
             <TableHead>
               <TableRow>
                 <TableCell style={{ width: '200px' }} sx={sharedStyles.tblData}>
-                  {t('global.student')}
+                  {t('global.name')}
                 </TableCell>
                 <TableCell align="center" style={{ width: '150px' }} sx={sharedStyles.tblData}>
                   {t('global.lastAssignment')}
@@ -455,7 +455,7 @@ const StudentSelector = (props) => {
                             '& .MuiTableCell-sizeSmall': sharedStyles.tblData,
                           }}
                         >
-                          {t('global.student')}
+                          {t('global.name')}
                         </TableCell>
                       </TableRow>
                     </TableHead>
@@ -502,7 +502,7 @@ const StudentSelector = (props) => {
                   {t('global.date')}
                 </TableCell>
                 <TableCell style={{ width: '250px' }} sx={{ '& .MuiTableCell-sizeSmall': sharedStyles.tblData }}>
-                  {t('global.student')}
+                  {t('global.name')}
                 </TableCell>
                 <TableCell
                   style={{ width: '20px' }}
