@@ -29,7 +29,6 @@ const ScheduleWeekDetails = lazy(() => import('./pages/ScheduleWeekDetails'));
 const Settings = lazy(() => import('./pages/UserSettings'));
 const SourceMaterials = lazy(() => import('./pages/SourceMaterials'));
 const SourceWeekDetails = lazy(() => import('./pages/SourceWeekDetails'));
-const CongregationPersonDetail = lazy(() => import('./pages/CongregationPersonDetail'));
 const CongregationPersonDetails = lazy(() => import('./pages/CongregationPersonDetails'));
 
 // creating theme
@@ -122,10 +121,6 @@ const App = ({ updatePwa }) => {
             {
               path: '/administration',
               element: <Administration />,
-            },
-            {
-              path: '/administration/members/new',
-              element: <CongregationPersonDetail />,
             },
             {
               path: '/administration/members/:id',
