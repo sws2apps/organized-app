@@ -1,3 +1,17 @@
+# [2.12.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.11.0...v2.12.0) (2022-12-21)
+
+
+### Bug Fixes
+
+* **S-89:** fix an issue where S-89 could not be generated and downloaded ([a6a51b6](https://github.com/sws2apps/lmm-oa-sws/commit/a6a51b69e1c38cb672c3034cd1e1a99e72adad89))
+
+
+### Features
+
+* **deps:** bump @mui/lab from 5.0.0-alpha.112 to 5.0.0-alpha.113 ([e6da904](https://github.com/sws2apps/lmm-oa-sws/commit/e6da90420c1c07206d2d0e8ccf1f121840d2b612))
+* **deps:** bump @mui/material from 5.11.0 to 5.11.1 ([cdd2a17](https://github.com/sws2apps/lmm-oa-sws/commit/cdd2a170be4af63a370ac494972c1957d7825d58))
+* **deps:** bump i18next from 22.4.5 to 22.4.6 ([e24aa44](https://github.com/sws2apps/lmm-oa-sws/commit/e24aa44a09b8a0c715915003150b04cd700f5722))
+
 # [2.11.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.10.2...v2.11.0) (2022-12-18)
 
 
