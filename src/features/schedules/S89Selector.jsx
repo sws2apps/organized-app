@@ -38,6 +38,10 @@ const S89Selector = ({ setIsGenerating }) => {
     }
   };
 
+  const handleSelection = (value) => {
+    setSelected(value);
+  };
+
   const handlePreviewS89 = async () => {
     setIsGenerating(true);
     const realData = selected.filter((item) => item.length > 10);
@@ -45,17 +49,38 @@ const S89Selector = ({ setIsGenerating }) => {
       return a > b ? 1 : -1;
     });
 
+    const finalList = [];
+    realData.forEach((item) => {
+      if (item.endsWith('-A') || item.endsWith('-B')) {
+        if (finalList.findIndex((value) => value === item) === -1) {
+          finalList.push(item);
+        }
+      } else {
+        ['A', 'B'].forEach((classIndex) => {
+          const week = item.split('-')[0];
+          const className = `${item}-${classIndex}`;
+
+          const findWeek = data.children.find((weekItem) => weekItem.value === week);
+          const findAss = findWeek.children.find((ass) => ass.value === item);
+          const findClass = findAss.children.find((assClass) => assClass.value === className);
+
+          if (findClass && finalList.findIndex((value) => value === className) === -1) {
+            finalList.push(className);
+          }
+        });
+      }
+    });
+
     let s89Data = [];
 
-    for (let i = 0; i < realData.length; i++) {
-      const week = realData[i].split('-')[0];
-      const assType = realData[i].split('@')[1].split('-')[0];
-      const classLabel = realData[i].split('-')[2];
-
+    for (let i = 0; i < finalList.length; i++) {
+      const week = finalList[i].split('-')[0];
+      const assType = finalList[i].split('@')[1].split('-')[0];
+      const classLabel = finalList[i].split('-')[2];
       const data = await dbGetS89ItemData(week, assType, classLabel);
 
       let obj = {};
-      obj.id = realData[i];
+      obj.id = finalList[i];
 
       s89Data.push({ ...obj, ...data });
     }
@@ -148,7 +173,7 @@ const S89Selector = ({ setIsGenerating }) => {
               <TreeViewCheckbox
                 data={data}
                 selected={selected}
-                setSelected={(value) => setSelected(value)}
+                setSelected={(value) => handleSelection(value)}
                 defaultExpanded={['S89']}
               />
               <Box

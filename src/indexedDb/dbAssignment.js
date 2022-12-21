@@ -568,15 +568,22 @@ export const dbGetS89WeekList = async (scheduleName) => {
       let assClass = {};
       let assType = {};
 
-      if (scheduleData.bRead_stu_A !== '' || scheduleData.bRead_stu_B !== '') {
+      if (
+        (scheduleData.bRead_stu_A && scheduleData.bRead_stu_A !== '') ||
+        (scheduleData.bRead_stu_B && scheduleData.bRead_stu_B !== '')
+      ) {
         assType.label = getI18n().t('global.bibleReading');
-        assType.value = week + '-0@bRead-A';
-        if (scheduleData.bRead_stu_A !== '' && scheduleData.bRead_stu_B !== '') {
-          assType.children = [];
+        assType.value = week + '-0@bRead';
+        assType.children = [];
+
+        if (scheduleData.bRead_stu_A && scheduleData.bRead_stu_A !== '') {
           assClass = {};
           assClass.value = week + '-0@bRead-A';
           assClass.label = getI18n().t('global.mainHall');
           assType.children.push(assClass);
+        }
+        if (scheduleData.bRead_stu_B && scheduleData.bRead_stu_B !== '') {
+          assClass = {};
           assClass.value = week + '-0@bRead-B';
           assClass.label = getI18n().t('global.auxClass1');
           assType.children.push(assClass);
@@ -589,25 +596,30 @@ export const dbGetS89WeekList = async (scheduleName) => {
         const fldStuA = 'ass' + i + '_stu_A';
         const fldStuB = 'ass' + i + '_stu_B';
         const fldAss = 'ass' + i + '_type';
-        if (scheduleData[fldStuA] !== undefined || scheduleData[fldStuB] !== undefined) {
-          if (scheduleData[fldStuA] !== '' || scheduleData[fldStuB] !== '') {
-            assType = {};
-            let indexType;
-            indexType = assTypeList.findIndex((type) => type.value === sourceData[fldAss]);
-            assType.label = indexType >= 0 ? assTypeList[indexType].label : '';
-            assType.value = week + '-' + i + '@ass' + i + '-A';
-            if (scheduleData[fldStuA] !== '' && scheduleData[fldStuB] !== '') {
-              assType.children = [];
-              assClass = {};
-              assClass.value = week + '-' + i + '@ass' + i + '-A';
-              assClass.label = getI18n().t('global.mainHall');
-              assType.children.push(assClass);
-              assClass.value = week + '-' + i + '@ass' + i + '-B';
-              assClass.label = getI18n().t('global.auxClass1');
-              assType.children.push(assClass);
-            }
-            parentWeek.children.push(assType);
+        if (
+          (scheduleData[fldStuA] && scheduleData[fldStuA] !== '') ||
+          (scheduleData[fldStuB] && scheduleData[fldStuB] !== '')
+        ) {
+          assType = {};
+          let indexType;
+          indexType = assTypeList.findIndex((type) => type.value === sourceData[fldAss]);
+          assType.label = indexType >= 0 ? assTypeList[indexType].label : '';
+          assType.value = week + '-' + i + '@ass' + i;
+          if (scheduleData[fldStuA] && scheduleData[fldStuA] !== '') {
+            assType.children = [];
+            assClass = {};
+            assClass.value = week + '-' + i + '@ass' + i + '-A';
+            assClass.label = getI18n().t('global.mainHall');
+            assType.children.push(assClass);
           }
+          if (scheduleData[fldStuB] && scheduleData[fldStuB] !== '') {
+            assType.children = [];
+            assClass = {};
+            assClass.value = week + '-' + i + '@ass' + i + '-B';
+            assClass.label = getI18n().t('global.auxClass1');
+            assType.children.push(assClass);
+          }
+          parentWeek.children.push(assType);
         }
       }
       if (parentWeek.children.length > 0) {
@@ -619,6 +631,7 @@ export const dbGetS89WeekList = async (scheduleName) => {
   obj.value = 'S89';
   obj.label = getI18n().t('global.allWeeks');
   obj.children = s89Data;
+
   return obj;
 };
 
