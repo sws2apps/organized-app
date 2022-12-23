@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -12,7 +12,6 @@ import MenuItem from '@mui/material/MenuItem';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import Paper from '@mui/material/Paper';
 import PrintIcon from '@mui/icons-material/Print';
-import SendIcon from '@mui/icons-material/Send';
 import Typography from '@mui/material/Typography';
 import {
   currentScheduleState,
@@ -20,10 +19,8 @@ import {
   dlgAutoFillOpenState,
   isAutoFillSchedState,
   isDeleteSchedState,
-  isPublishOpenState,
   s89DataState,
 } from '../../states/schedule';
-import { congAccountConnectedState } from '../../states/congregation';
 
 const ScheduleCard = ({ schedule }) => {
   const navigate = useNavigate();
@@ -36,9 +33,6 @@ const ScheduleCard = ({ schedule }) => {
   const setIsAutofillSched = useSetRecoilState(isAutoFillSchedState);
   const setCurrentSchedule = useSetRecoilState(currentScheduleState);
   const setS89Data = useSetRecoilState(s89DataState);
-  const setPublishPocket = useSetRecoilState(isPublishOpenState);
-
-  const isCongAccountConnected = useRecoilValue(congAccountConnectedState);
 
   const [anchorPrintEl, setAnchorPrintEl] = useState(null);
 
@@ -75,11 +69,6 @@ const ScheduleCard = ({ schedule }) => {
     navigate('/midweek-meeting-schedule');
   };
 
-  const handlePublishPocket = () => {
-    setCurrentSchedule(schedule);
-    setPublishPocket(true);
-  };
-
   const handleDeleteSchedule = () => {
     setCurrentSchedule(schedule);
     setIsDeleteSched(true);
@@ -102,11 +91,35 @@ const ScheduleCard = ({ schedule }) => {
         {schedule.label}
       </Typography>
       <Box sx={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-        <IconButton onClick={handleOpenSchedule}>
+        <IconButton
+          sx={{
+            borderRadius: '4px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '3px',
+            justifyContent: 'center',
+            padding: '5px 10px',
+            border: '1px outset',
+          }}
+          onClick={handleOpenSchedule}
+        >
           <OpenInNewIcon color="success" sx={{ fontSize: '35px' }} />
+          <Typography sx={{ fontSize: '12px' }}>{t('global.open')}</Typography>
         </IconButton>
-        <IconButton onClick={handleAssignSchedule}>
+        <IconButton
+          sx={{
+            borderRadius: '4px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '3px',
+            justifyContent: 'center',
+            padding: '5px 10px',
+            border: '1px outset',
+          }}
+          onClick={handleAssignSchedule}
+        >
           <FlashAutoIcon color="secondary" sx={{ fontSize: '35px' }} />
+          <Typography sx={{ fontSize: '12px' }}>{t('schedule.autofill')}</Typography>
         </IconButton>
         <IconButton
           id="button-print"
@@ -114,12 +127,22 @@ const ScheduleCard = ({ schedule }) => {
           aria-controls={openPrint ? 'menu-print' : undefined}
           aria-haspopup="true"
           aria-expanded={openPrint ? 'true' : undefined}
+          sx={{
+            borderRadius: '4px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '3px',
+            justifyContent: 'center',
+            padding: '5px 10px',
+            border: '1px outset',
+          }}
         >
           <PrintIcon sx={{ fontSize: '35px' }} />
+          <Typography sx={{ fontSize: '12px' }}>{t('global.export')}</Typography>
         </IconButton>
 
         <Menu
-          sx={{ marginTop: '50px' }}
+          sx={{ marginTop: '70px' }}
           id="menu-print"
           MenuListProps={{
             'aria-labelledby': 'button-print',
@@ -145,14 +168,20 @@ const ScheduleCard = ({ schedule }) => {
           </MenuItem>
         </Menu>
 
-        {isCongAccountConnected && (
-          <IconButton onClick={handlePublishPocket}>
-            <SendIcon color="info" sx={{ fontSize: '35px' }} />
-          </IconButton>
-        )}
-
-        <IconButton onClick={handleDeleteSchedule}>
+        <IconButton
+          sx={{
+            borderRadius: '4px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '3px',
+            justifyContent: 'center',
+            padding: '5px 10px',
+            border: '1px outset',
+          }}
+          onClick={handleDeleteSchedule}
+        >
           <DeleteIcon color="error" sx={{ fontSize: '35px' }} />
+          <Typography sx={{ fontSize: '12px' }}>{t('global.delete')}</Typography>
         </IconButton>
       </Box>
     </Paper>

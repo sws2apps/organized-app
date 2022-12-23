@@ -13,6 +13,7 @@ import FileCopyIcon from '@mui/icons-material/FileCopy';
 import MoreTimeIcon from '@mui/icons-material/MoreTime';
 import PeopleIcon from '@mui/icons-material/People';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import SendIcon from '@mui/icons-material/Send';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ScheduleIcon from '@mui/icons-material/Schedule';
 import MenuCard from '../components/MenuCard';
@@ -27,6 +28,7 @@ import {
 import { dbAddManualSource } from '../indexedDb/dbSourceMaterial';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../states/notification';
 import { epubFileState, isImportEPUBState, isImportJWOrgState } from '../states/sourceMaterial';
+import { isPublishOpenState } from '../states/schedule';
 
 const DashboardMenu = () => {
   const { t } = useTranslation();
@@ -42,6 +44,7 @@ const DashboardMenu = () => {
   const setIsBackupDb = useSetRecoilState(backupDbOpenState);
   const setIsRestoreDb = useSetRecoilState(restoreDbOpenState);
   const setMyAssignmentsOpen = useSetRecoilState(isMyAssignmentOpenState);
+  const setPublishPocket = useSetRecoilState(isPublishOpenState);
 
   const isCongAccountConnected = useRecoilValue(congAccountConnectedState);
   const isOnline = useRecoilValue(isOnlineState);
@@ -84,6 +87,10 @@ const DashboardMenu = () => {
 
   const handleRestoreBackup = () => {
     setIsRestoreDb(true);
+  };
+
+  const handlePublishPocket = () => {
+    setPublishPocket(true);
   };
 
   const dashboardMenus = [
@@ -131,6 +138,13 @@ const DashboardMenu = () => {
           disabled: false,
           visible: true,
           navigateTo: '/schedules',
+        },
+        {
+          title: t('schedule.pulish'),
+          icon: <SendIcon />,
+          disabled: false,
+          visible: isCongAccountConnected ? true : false,
+          action: handlePublishPocket,
         },
       ],
     },

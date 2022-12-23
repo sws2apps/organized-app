@@ -418,7 +418,6 @@ const CongregationPersonDetails = () => {
                       control={
                         <Checkbox
                           checked={member.cong_role?.includes('view_meeting_schedule') || false}
-                          disabled={member.global_role === 'vip'}
                           onChange={(e) => handleCheckViewMeetingSchedule(e.target.checked)}
                         />
                       }

@@ -314,7 +314,11 @@ const NavBar = (props) => {
                           sx={{
                             borderTop: '1px outset',
                             paddingTop: '5px',
+                            width: '100%',
                             minWidth: '200px',
+                            display: 'flex',
+                            justifyContent: 'flex-end',
+                            flexDirection: 'column',
                           }}
                         >
                           <Typography
