@@ -62,7 +62,7 @@
     "eslint-config-react-app": "^7.0.1",
     "prop-types": "^15.8.1",
     "serve": "^14.1.2",
-    "vite": "^4.0.2",
+    "vite": "^4.0.3",
     "vite-plugin-eslint": "^1.8.1"
   }
 }
