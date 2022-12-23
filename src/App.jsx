@@ -144,7 +144,7 @@ const App = ({ updatePwa }) => {
     // get visitor ID and check if there is an active connection
     const getUserID = async () => {
       const fpPromise = FingerprintJS.load({
-        apiKey: 'XwmESck7zm6PZAfspXbs',
+        apiKey: import.meta.env.VITE_FINGERPRINT_API_CLIENT_KEY,
       });
 
       let visitorId = '';
@@ -179,7 +179,7 @@ const App = ({ updatePwa }) => {
     if (!indexedDB) {
       if (!('serviceWorker' in navigator)) {
         return (
-          <div className="browser-not-supported">
+          <div className='browser-not-supported'>
             You seem to use an unsupported browser to use CPE. Make sure that you browser is up to date, or try to use
             another browser.
           </div>

@@ -10,7 +10,7 @@ This module follows semantic versioning. We release patch versions for bugfixes,
 
 ## Branch Organization
 
-We use only the main branch. But flags are used to test new features.
+We use only the `main` branch. But flags are used to test new features.
 
 ## Bugs
 
@@ -34,6 +34,7 @@ If you’re only fixing a bug, it’s fine to submit a pull request right away b
 - You will be working on one item at a time.
 - If you do not have it yet, fork the repository. Clone it if you will work locally.
 - If you have already forked and clone the repository, make sure that it is in sync with the upstream repository ([Syncing a fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork)).
+- Add VITE_FINGERPRINT_API_CLIENT_KEY as Environment Variable. This is for Fingerprint Pro Public API Key. To create this value, navigate to the [application](https://dashboard.fingerprint.com/) where you have already created the Secret API Key. In the left side navigation, click on API Keys > Create Key > Public API Key.
 - Run `npm i` to install the needed dependencies
 
 ## Sending a Pull Request (PR)
