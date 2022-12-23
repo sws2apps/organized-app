@@ -1,3 +1,11 @@
+# [2.13.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.12.0...v2.13.0) (2022-12-23)
+
+
+### Features
+
+* **deps:** bump react-router-dom from 6.5.0 to 6.6.1 ([1800bf7](https://github.com/sws2apps/lmm-oa-sws/commit/1800bf79fc352da3ae9c2c85be720108c520c290))
+* **schedules:** publish schedules combined into one action ([7e10c35](https://github.com/sws2apps/lmm-oa-sws/commit/7e10c3503848e2983e919ca7426bac01d81fae50))
+
 # [2.12.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.11.0...v2.12.0) (2022-12-21)
 
 
