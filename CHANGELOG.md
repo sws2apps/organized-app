@@ -1,3 +1,10 @@
+## [2.13.1](https://github.com/sws2apps/lmm-oa-sws/compare/v2.13.0...v2.13.1) (2022-12-24)
+
+
+### Bug Fixes
+
+* **app:** login button always disabled ([707360e](https://github.com/sws2apps/lmm-oa-sws/commit/707360ed20405dbeff05b81f2aa102623ff04cbf))
+
 # [2.13.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.12.0...v2.13.0) (2022-12-23)
 
 
