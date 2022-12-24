@@ -37,6 +37,7 @@ jobs:
         run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          VITE_FINGERPRINT_API_CLIENT_KEY: ${{ secrets.VITE_FINGERPRINT_API_CLIENT_KEY }}
 
       - name: Check if new version has been generated
         id: check_build
