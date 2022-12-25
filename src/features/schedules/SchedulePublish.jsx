@@ -67,8 +67,7 @@ const SchedulePublish = () => {
       }
 
       let dataSchedules = [];
-      for (let i = 0; i < schedules.length; i++) {
-        const schedule = schedules[i];
+      for (const schedule of schedules) {
         const temp = await dbBuildScheduleForShare(schedule);
         dataSchedules.push(temp);
       }

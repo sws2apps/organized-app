@@ -122,7 +122,7 @@ const CongregationPersonAdd = () => {
     if (selectedPocket) {
       await handleCreateCongPocketPerson();
     } else {
-      await handleCreateCongVipPerson(0);
+      await handleCreateCongVipPerson();
     }
   };
 

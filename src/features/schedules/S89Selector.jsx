@@ -73,16 +73,13 @@ const S89Selector = ({ setIsGenerating }) => {
 
     let s89Data = [];
 
-    for (let i = 0; i < finalList.length; i++) {
-      const week = finalList[i].split('-')[0];
-      const assType = finalList[i].split('@')[1].split('-')[0];
-      const classLabel = finalList[i].split('-')[2];
+    for (const item of finalList) {
+      const week = item.split('-')[0];
+      const assType = item.split('@')[1].split('-')[0];
+      const classLabel = item.split('-')[2];
       const data = await dbGetS89ItemData(week, assType, classLabel);
 
-      let obj = {};
-      obj.id = finalList[i];
-
-      s89Data.push({ ...obj, ...data });
+      s89Data.push({ id: item, ...data });
     }
 
     setS89Data(s89Data);
