@@ -1,5 +1,14 @@
 # Congregation Program for Everyone (CPE)
 
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_lmm-oa-sws&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=sws2apps_lmm-oa-sws)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_lmm-oa-sws&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=sws2apps_lmm-oa-sws)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_lmm-oa-sws&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=sws2apps_lmm-oa-sws)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_lmm-oa-sws&metric=bugs)](https://sonarcloud.io/summary/new_code?id=sws2apps_lmm-oa-sws)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_lmm-oa-sws&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=sws2apps_lmm-oa-sws)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_lmm-oa-sws&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=sws2apps_lmm-oa-sws)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_lmm-oa-sws&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=sws2apps_lmm-oa-sws)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_lmm-oa-sws&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=sws2apps_lmm-oa-sws)
+
 - This module of the CPE program will allow you to schedule the Midweek Meeting for Jehovah’s Witnesses.
 
 ## Preview
