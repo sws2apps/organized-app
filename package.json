@@ -25,7 +25,7 @@
     "@mui/icons-material": "^5.11.0",
     "@mui/lab": "^5.0.0-alpha.113",
     "@mui/material": "^5.11.1",
-    "@mui/x-date-pickers": "^5.0.10",
+    "@mui/x-date-pickers": "^5.0.12",
     "@sws2apps/react-sw-helper": "^1.9.0",
     "@tanstack/react-query": "^4.20.4",
     "date-fns": "^2.29.3",
