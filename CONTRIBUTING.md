@@ -37,6 +37,10 @@ If you’re only fixing a bug, it’s fine to submit a pull request right away b
 - Add VITE_FINGERPRINT_API_CLIENT_KEY as Environment Variable. This is for Fingerprint Pro Public API Key. To create this value, navigate to the [application](https://dashboard.fingerprint.com/) where you have already created the Secret API Key. In the left side navigation, click on API Keys > Create Key > Public API Key.
 - Run `npm i` to install the needed dependencies
 
+### Local Backend Server
+
+The API backend project is also needed before running this project. The instructions on how to setup this API locally can be found [here](https://github.com/sws2apps/sws2apps-api/blob/main/CONTRIBUTING.md).
+
 ## Sending a Pull Request (PR)
 
 We are monitoring for pull requests. We will review your pull request and either merge it, request changes to it, or close it with an explanation. We’ll do our best to provide updates and feedback throughout the process.
