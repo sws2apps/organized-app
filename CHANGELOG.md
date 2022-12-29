@@ -1,3 +1,18 @@
+# [2.14.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.13.1...v2.14.0) (2022-12-29)
+
+
+### Bug Fixes
+
+* **schedules:** fix mix of gender when assigning parts ([f676963](https://github.com/sws2apps/lmm-oa-sws/commit/f676963db959a63a065e0eadef3726f641eff612))
+
+
+### Features
+
+* **deps:** bump @mui/lab from 5.0.0-alpha.113 to 5.0.0-alpha.114 ([48ceee3](https://github.com/sws2apps/lmm-oa-sws/commit/48ceee33246ae71092195548615f58e590c99a5d))
+* **deps:** bump @mui/material from 5.11.1 to 5.11.2 ([142893e](https://github.com/sws2apps/lmm-oa-sws/commit/142893e7a466009cd2be4f06122da5249aa9fb06))
+* **deps:** bump @mui/x-date-pickers from 5.0.11 to 5.0.12 ([2cee53c](https://github.com/sws2apps/lmm-oa-sws/commit/2cee53ca8d90c2317d6ba30cac368dc2f4c4cf71))
+* **deps:** bump mui-one-time-password-input from 1.0.3 to 1.0.4 ([41713e7](https://github.com/sws2apps/lmm-oa-sws/commit/41713e7ff2cb6fdf66cedc6d153096aa0acd3034))
+
 ## [2.13.1](https://github.com/sws2apps/lmm-oa-sws/compare/v2.13.0...v2.13.1) (2022-12-24)
 
 
