@@ -186,7 +186,7 @@ const ScheduleAYF = (props) => {
                         {isAssA && (
                           <CircularProgress sx={{ padding: '1px' }} color="secondary" size={26} disableShrink={true} />
                         )}
-                        {!isAssA && (
+                        {!isAssA && stuA && (
                           <IconButton
                             sx={iconButtonContainer}
                             onClick={() =>
@@ -250,7 +250,7 @@ const ScheduleAYF = (props) => {
                               disableShrink={true}
                             />
                           )}
-                          {!isAssB && (
+                          {!isAssB && stuB && (
                             <IconButton
                               sx={iconButtonContainer}
                               onClick={() =>

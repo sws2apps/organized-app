@@ -116,7 +116,7 @@ const StudentSelector = (props) => {
         assID === 15 ||
         assID === 17
       ) {
-        students = await dbGetPersonsByAssType('isAssistant');
+        students = await dbGetPersonsByAssType('isAssistant', stuForAssistant);
       } else {
         students = await dbGetPersonsByAssType(assType);
       }
@@ -186,7 +186,7 @@ const StudentSelector = (props) => {
     return () => {
       isSubscribed = false;
     };
-  }, [currentWeek, dbHistory, isLoadingStudent, assID, assType]);
+  }, [currentWeek, dbHistory, isLoadingStudent, assID, assType, stuForAssistant]);
 
   useEffect(() => {
     let isSubscribed = true;
@@ -229,10 +229,10 @@ const StudentSelector = (props) => {
   useEffect(() => {
     const findSelectStudent = async () => {
       const tempStu = props.assInfo.currentStudent;
-      const found = await dbGetStudentByDispName(tempStu);
-
       setSelectedStudent(tempStu);
-      setSelectedStuID(found.person_uid);
+
+      const found = await dbGetStudentByDispName(tempStu);
+      setSelectedStuID(found?.person_uid || '');
     };
 
     if (props.assInfo.currentStudent !== '') {
@@ -335,7 +335,7 @@ const StudentSelector = (props) => {
           </Table>
         </TableContainer>
       )}
-      {selectedStudent !== '' && (
+      {selectedStudent !== '' && selectedStuID !== '' && (
         <>
           <Typography variant="body2" sx={sharedStyles.tableHeader}>
             {t('schedule.studentHistory', { currentStudent: selectedStudent })}

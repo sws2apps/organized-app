@@ -79,14 +79,14 @@ const DeleteSchedule = () => {
       const schedData = await dbGetScheduleData(week);
 
       // chairman
-      if (schedData.chairmanMM_A !== '') {
+      if (schedData.chairmanMM_A && schedData.chairmanMM_A !== '') {
         await dbSaveAss(week, undefined, 'chairmanMM_A');
         setDeleted((prev) => {
           return prev + 1;
         });
       }
 
-      if (schedData.chairmanMM_B !== '') {
+      if (schedData.chairmanMM_B && schedData.chairmanMM_B !== '') {
         await dbSaveAss(week, undefined, 'chairmanMM_B');
         setDeleted((prev) => {
           return prev + 1;
@@ -94,7 +94,7 @@ const DeleteSchedule = () => {
       }
 
       // opening prayer
-      if (schedData.opening_prayer !== '') {
+      if (schedData.opening_prayer && schedData.opening_prayer !== '') {
         await dbSaveAss(week, undefined, 'opening_prayer');
         setDeleted((prev) => {
           return prev + 1;
@@ -102,7 +102,7 @@ const DeleteSchedule = () => {
       }
 
       // tgw 10 min talk
-      if (schedData.tgw_talk !== '') {
+      if (schedData.tgw_talk && schedData.tgw_talk !== '') {
         await dbSaveAss(week, undefined, 'tgw_talk');
         setDeleted((prev) => {
           return prev + 1;
@@ -110,7 +110,7 @@ const DeleteSchedule = () => {
       }
 
       // tgw spiritual gems
-      if (schedData.tgw_gems !== '') {
+      if (schedData.tgw_gems && schedData.tgw_gems !== '') {
         await dbSaveAss(week, undefined, 'tgw_gems');
         setDeleted((prev) => {
           return prev + 1;
@@ -118,14 +118,14 @@ const DeleteSchedule = () => {
       }
 
       // bible reading
-      if (schedData.bRead_stu_A !== '') {
+      if (schedData.bRead_stu_A && schedData.bRead_stu_A !== '') {
         await dbSaveAss(week, undefined, 'bRead_stu_A');
         setDeleted((prev) => {
           return prev + 1;
         });
       }
 
-      if (schedData.bRead_stu_B !== '') {
+      if (schedData.bRead_stu_B && schedData.bRead_stu_B !== '') {
         await dbSaveAss(week, undefined, 'bRead_stu_B');
         setDeleted((prev) => {
           return prev + 1;
@@ -139,25 +139,25 @@ const DeleteSchedule = () => {
         const stuFieldB = `ass${a}_stu_B`;
         const assFieldB = `ass${a}_ass_B`;
 
-        if (schedData[stuFieldA] !== '') {
+        if (schedData[stuFieldA] && schedData[stuFieldA] !== '') {
           await dbSaveAss(week, undefined, stuFieldA);
           setDeleted((prev) => {
             return prev + 1;
           });
         }
-        if (schedData[assFieldA] !== '') {
+        if (schedData[assFieldA] && schedData[assFieldA] !== '') {
           await dbSaveAss(week, undefined, assFieldA);
           setDeleted((prev) => {
             return prev + 1;
           });
         }
-        if (schedData[stuFieldB] !== '') {
+        if (schedData[stuFieldB] && schedData[stuFieldB] !== '') {
           await dbSaveAss(week, undefined, stuFieldB);
           setDeleted((prev) => {
             return prev + 1;
           });
         }
-        if (schedData[assFieldB] !== '') {
+        if (schedData[assFieldB] && schedData[assFieldB] !== '') {
           await dbSaveAss(week, undefined, assFieldB);
           setDeleted((prev) => {
             return prev + 1;
@@ -166,7 +166,7 @@ const DeleteSchedule = () => {
       }
 
       // lc part 1
-      if (schedData.lc_part1 !== '') {
+      if (schedData.lc_part1 && schedData.lc_part1 !== '') {
         await dbSaveAss(week, undefined, 'lc_part1');
         setDeleted((prev) => {
           return prev + 1;
@@ -174,7 +174,7 @@ const DeleteSchedule = () => {
       }
 
       // lc part 2
-      if (schedData.lc_part2 !== '') {
+      if (schedData.lc_part2 && schedData.lc_part2 !== '') {
         await dbSaveAss(week, undefined, 'lc_part2');
         setDeleted((prev) => {
           return prev + 1;
@@ -182,7 +182,7 @@ const DeleteSchedule = () => {
       }
 
       // cbs conductor
-      if (schedData.cbs_conductor !== '') {
+      if (schedData.cbs_conductor && schedData.cbs_conductor !== '') {
         await dbSaveAss(week, undefined, 'cbs_conductor');
         setDeleted((prev) => {
           return prev + 1;
@@ -190,7 +190,7 @@ const DeleteSchedule = () => {
       }
 
       // cbs reader
-      if (schedData.cbs_reader !== '') {
+      if (schedData.cbs_reader && schedData.cbs_reader !== '') {
         await dbSaveAss(week, undefined, 'cbs_reader');
         setDeleted((prev) => {
           return prev + 1;
@@ -198,7 +198,7 @@ const DeleteSchedule = () => {
       }
 
       // closing prayer
-      if (schedData.closing_prayer !== '') {
+      if (schedData.closing_prayer && schedData.closing_prayer !== '') {
         await dbSaveAss(week, undefined, 'closing_prayer');
         setDeleted((prev) => {
           return prev + 1;

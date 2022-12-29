@@ -129,8 +129,12 @@ export const dbGetStudentByUid = async (uid) => {
 };
 
 export const dbGetStudentByDispName = async (name) => {
-  const appData = await appDb.table('persons').get({ person_displayName: name });
-  return appData;
+  if (name) {
+    const appData = await appDb.table('persons').get({ person_displayName: name });
+    return appData;
+  }
+
+  return;
 };
 
 export const dbGetStudentDetails = async (uid) => {
@@ -152,25 +156,37 @@ export const dbGetStudentDetailsMini = async (uid) => {
   return student;
 };
 
-export const dbGetPersonsByAssType = async (assType) => {
+export const dbGetPersonsByAssType = async (assType, stuForAssistant) => {
   // check is assType is linked to another type
   const assTypeList = await promiseGetRecoil(assTypeLocalNewState);
 
   const linkTo = assTypeList.find((item) => item.value === assType)?.linkTo;
-  assType = linkTo ? linkTo : assType
-  
+  assType = linkTo ? linkTo : assType;
+
   const data = await promiseGetRecoil(allStudentsState);
   // remove disqualified students
   const appData = data.filter((person) => person.isDisqualified === false);
 
   let dbPersons = [];
   if (assType === 'isAssistant') {
-    dbPersons = appData.filter(
-      (person) =>
-        person.assignments.find((assignment) => assignment.isActive === true && assignment.code === 101) ||
-        person.assignments.find((assignment) => assignment.isActive === true && assignment.code === 102) ||
-        person.assignments.find((assignment) => assignment.isActive === true && assignment.code === 103)
-    );
+    if (stuForAssistant) {
+      const main = await dbGetStudentByDispName(stuForAssistant);
+      dbPersons = appData.filter(
+        (person) =>
+          person.isMale === main.isMale &&
+          person.isFemale === main.isFemale &&
+          (person.assignments.find((assignment) => assignment.isActive === true && assignment.code === 101) ||
+            person.assignments.find((assignment) => assignment.isActive === true && assignment.code === 102) ||
+            person.assignments.find((assignment) => assignment.isActive === true && assignment.code === 103))
+      );
+    } else {
+      dbPersons = appData.filter(
+        (person) =>
+          person.assignments.find((assignment) => assignment.isActive === true && assignment.code === 101) ||
+          person.assignments.find((assignment) => assignment.isActive === true && assignment.code === 102) ||
+          person.assignments.find((assignment) => assignment.isActive === true && assignment.code === 103)
+      );
+    }
   } else {
     dbPersons = appData.filter((person) =>
       person.assignments.find((assignment) => assignment.isActive === true && assignment.code === assType)

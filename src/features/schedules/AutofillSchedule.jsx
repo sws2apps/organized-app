@@ -183,6 +183,8 @@ const AutofillSchedule = () => {
           for (let a = 1; a <= 3; a++) {
             fldType = 'ass' + a + '_type';
             const assType = sourceData[fldType];
+            let stuDispA;
+            let stuDispB;
 
             //Assign AYF A
             fldName = 'ass' + a + '_stu_A';
@@ -190,6 +192,7 @@ const AutofillSchedule = () => {
             if (assType === 101 || assType === 102 || assType === 103 || assType === 104 || assType === 108) {
               if (students.length > 0) {
                 const stuA = students[0].person_uid;
+                stuDispA = students[0].person_displayName;
                 await dbSaveAss(week, stuA, fldName);
                 setAssigned((prev) => {
                   return prev + 1;
@@ -204,6 +207,7 @@ const AutofillSchedule = () => {
               if (assType === 101 || assType === 102 || assType === 103 || assType === 104 || assType === 108) {
                 if (students.length > 0) {
                   const stuB = students[0].person_uid;
+                  stuDispB = students[0].person_displayName;
                   await dbSaveAss(week, stuB, fldName);
                   setAssigned((prev) => {
                     return prev + 1;
@@ -211,17 +215,11 @@ const AutofillSchedule = () => {
                 }
               }
             }
-          }
-
-          //Assign AYF Assistant
-          for (let a = 1; a <= 3; a++) {
-            fldType = 'ass' + a + '_type';
-            const assType = sourceData[fldType];
 
             //Assign AYF A Assistant
             if (assType === 101 || assType === 102 || assType === 103 || assType === 108) {
               fldName = 'ass' + a + '_ass_A';
-              students = await dbGetPersonsByAssType('isAssistant');
+              students = await dbGetPersonsByAssType('isAssistant', stuDispA);
               if (students.length > 0) {
                 const assA = students[0].person_uid;
                 await dbSaveAss(week, assA, fldName);
@@ -235,7 +233,7 @@ const AutofillSchedule = () => {
             if (class_count === 2 && schedData.week_type === 1) {
               if (assType === 101 || assType === 102 || assType === 103 || assType === 108) {
                 fldName = 'ass' + a + '_ass_B';
-                students = await dbGetPersonsByAssType('isAssistant');
+                students = await dbGetPersonsByAssType('isAssistant', stuDispB);
                 if (students.length > 0) {
                   const assB = students[0].person_uid;
                   await dbSaveAss(week, assB, fldName);
