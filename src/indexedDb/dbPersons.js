@@ -133,8 +133,6 @@ export const dbGetStudentByDispName = async (name) => {
     const appData = await appDb.table('persons').get({ person_displayName: name });
     return appData;
   }
-
-  return;
 };
 
 export const dbGetStudentDetails = async (uid) => {
