@@ -36,15 +36,15 @@ export const importDummyUsers = async () => {
 
     const assignments = [];
     if (user.gender === 'female') {
-      [101, 102, 103].map((code) =>
+      [101, 102, 103].forEach((code) => {
         assignments.push({
           assignmentId: window.crypto.randomUUID(),
           code,
           startDate: format(new Date(), 'MM/dd/yyyy'),
           endDate: null,
           comments: '',
-        })
-      );
+        });
+      });
     }
 
     return {
@@ -74,15 +74,15 @@ export const importDummyUsers = async () => {
       }
     } while (isMale === false);
 
-    [110, 111, 112, 113, 114, 115].map((code) =>
+    [110, 111, 112, 113, 114, 115].forEach((code) => {
       user.assignments.push({
         assignmentId: window.crypto.randomUUID(),
         code,
         startDate: format(new Date(), 'MM/dd/yyyy'),
         endDate: null,
         comments: '',
-      })
-    );
+      });
+    });
 
     formattedData.splice(random, 1, user);
   }
@@ -102,15 +102,15 @@ export const importDummyUsers = async () => {
       }
     } while (isMale === false);
 
-    [111, 112, 113, 114].map((code) =>
+    [111, 112, 113, 114].forEach((code) => {
       user.assignments.push({
         assignmentId: window.crypto.randomUUID(),
         code,
         startDate: format(new Date(), 'MM/dd/yyyy'),
         endDate: null,
         comments: '',
-      })
-    );
+      });
+    });
 
     formattedData.splice(random, 1, user);
   }
@@ -130,15 +130,15 @@ export const importDummyUsers = async () => {
       }
     } while (isMale === false);
 
-    [104, 111, 116].map((code) =>
+    [104, 111, 116].forEach((code) => {
       user.assignments.push({
         assignmentId: window.crypto.randomUUID(),
         code,
         startDate: format(new Date(), 'MM/dd/yyyy'),
         endDate: null,
         comments: '',
-      })
-    );
+      });
+    });
 
     formattedData.splice(random, 1, user);
   }
@@ -158,15 +158,15 @@ export const importDummyUsers = async () => {
       }
     } while (isMale === false);
 
-    [100, 104].map((code) =>
+    [100, 104].forEach((code) => {
       user.assignments.push({
         assignmentId: window.crypto.randomUUID(),
         code,
         startDate: format(new Date(), 'MM/dd/yyyy'),
         endDate: null,
         comments: '',
-      })
-    );
+      });
+    });
 
     formattedData.splice(random, 1, user);
   }
