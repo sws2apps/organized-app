@@ -1,3 +1,11 @@
+# [2.15.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.14.0...v2.15.0) (2022-12-31)
+
+
+### Features
+
+* **app:** separate ui language from source materials and template language ([f994de5](https://github.com/sws2apps/lmm-oa-sws/commit/f994de5a6a4853878634fff50080a55912a6506e))
+* **app:** separate ui language from source materials and template language ([7dd7c7f](https://github.com/sws2apps/lmm-oa-sws/commit/7dd7c7fd67eb17be0504d3dae7834326fcc458b3))
+
 # [2.14.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.13.1...v2.14.0) (2022-12-29)
 
 
