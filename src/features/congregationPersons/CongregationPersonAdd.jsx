@@ -187,7 +187,10 @@ const CongregationPersonAdd = () => {
             visitorid: visitorID,
             email: userEmail,
           },
-          body: JSON.stringify({ username: selectedPocket.person_name, pocket_local_id: selectedPocket.person_uid }),
+          body: JSON.stringify({
+            username: selectedPocket.person_name,
+            pocket_local_id: { person_uid: selectedPocket.person_uid, person_name: selectedPocket.person_name },
+          }),
         });
 
         const data = await res.json();

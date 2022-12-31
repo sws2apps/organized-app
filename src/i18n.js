@@ -5,24 +5,18 @@ import translationE from './locales/e.json';
 import translationMG from './locales/mg.json';
 
 const resources = {
-	e: {
-		translation: translationE,
-	},
-	mg: {
-		translation: translationMG,
-	},
+  e: { translation: translationE },
+  mg: { translation: translationMG },
 };
 
 i18n.use(initReactI18next).init({
-	resources,
-	lng: 'e',
-	fallbackLng: 'e',
+  resources,
+  lng: 'e',
+  fallbackLng: 'e',
 
-	keySeparator: true,
+  keySeparator: true,
 
-	interpolation: {
-		escapeValue: false,
-	},
+  interpolation: { escapeValue: false },
 });
 
 export default i18n;

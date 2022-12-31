@@ -1,17 +1,23 @@
+import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { useTranslation } from 'react-i18next';
+import { getI18n } from 'react-i18next';
 import { Markup } from 'interweave';
 import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
 import Typography from '@mui/material/Typography';
-import { appLangState } from '../../states/main';
+import { sourceLangState } from '../../states/main';
 import { s89DataState } from '../../states/schedule';
 
 const S89Template = () => {
-  const { t } = useTranslation();
-
-  const appLang = useRecoilValue(appLangState);
+  const sourceLang = useRecoilValue(sourceLangState);
   const s89Data = useRecoilValue(s89DataState);
+
+  const [dataLang, setDataLang] = useState({});
+
+  useEffect(() => {
+    const temp = getI18n().getDataByLanguage(sourceLang).translation;
+    setDataLang(temp);
+  }, [sourceLang]);
 
   return (
     <Box>
@@ -37,7 +43,7 @@ const S89Template = () => {
                     color: 'black',
                   }}
                 >
-                  <Markup content={t('s89.title')} />
+                  <Markup content={dataLang['s89.title']} />
                 </Typography>
 
                 {/* Student name row */}
@@ -60,7 +66,7 @@ const S89Template = () => {
                       color: 'black',
                     }}
                   >
-                    {t('global.name')}:
+                    {dataLang['global.name']}:
                   </Typography>
                   <Typography
                     sx={{
@@ -96,7 +102,7 @@ const S89Template = () => {
                       height: '20px',
                     }}
                   >
-                    {t('global.assistant')}:
+                    {dataLang['global.assistant']}:
                   </Typography>
                   <Typography
                     sx={{
@@ -132,7 +138,7 @@ const S89Template = () => {
                       height: '20px',
                     }}
                   >
-                    {t('global.date')}:
+                    {dataLang['global.date']}:
                   </Typography>
                   <Typography
                     align="center"
@@ -160,7 +166,7 @@ const S89Template = () => {
                     color: 'black',
                   }}
                 >
-                  {t('global.assignment')}:
+                  {dataLang['global.assignment']}:
                 </Typography>
 
                 {/* Assignment type */}
@@ -196,7 +202,7 @@ const S89Template = () => {
                           color: 'black',
                         }}
                       >
-                        {t('global.bibleReading')}
+                        {dataLang['global.bibleReading']}
                       </Typography>
                     </Box>
 
@@ -221,7 +227,7 @@ const S89Template = () => {
                           color: 'black',
                         }}
                       >
-                        {data.isMemorialInvite ? t('global.memorialInvite') : t('global.initialCall')}
+                        {data.isMemorialInvite ? dataLang['global.memorialInvite'] : dataLang['global.initialCall']}
                       </Typography>
                     </Box>
 
@@ -262,7 +268,7 @@ const S89Template = () => {
                           color: 'black',
                         }}
                       >
-                        {t('global.returnVisit')}
+                        {dataLang['global.returnVisit']}
                       </Typography>
                     </Box>
 
@@ -306,7 +312,7 @@ const S89Template = () => {
                           color: 'black',
                         }}
                       >
-                        {t('global.bibleStudy')}
+                        {dataLang['global.bibleStudy']}
                       </Typography>
                     </Box>
 
@@ -331,7 +337,7 @@ const S89Template = () => {
                           color: 'black',
                         }}
                       >
-                        {t('global.talk')}
+                        {dataLang['global.talk']}
                       </Typography>
                     </Box>
 
@@ -357,7 +363,7 @@ const S89Template = () => {
                             color: 'black',
                           }}
                         >
-                          {t('global.otherPart')}:
+                          {dataLang['global.otherPart']}:
                         </Typography>
                       </Box>
                       <Typography
@@ -386,7 +392,7 @@ const S89Template = () => {
                     color: 'black',
                   }}
                 >
-                  {t('s89.toBeGiven')}
+                  {dataLang['s89.toBeGiven']}
                 </Typography>
 
                 <Box sx={{ paddingLeft: '15px', display: 'flex', flexDirection: 'column', gap: '3px' }}>
@@ -411,7 +417,7 @@ const S89Template = () => {
                         color: 'black',
                       }}
                     >
-                      {t('global.mainHall')}
+                      {dataLang['global.mainHall']}
                     </Typography>
                   </Box>
 
@@ -436,7 +442,7 @@ const S89Template = () => {
                         color: 'black',
                       }}
                     >
-                      {t('global.auxClass1')}
+                      {dataLang['global.auxClass1']}
                     </Typography>
                   </Box>
 
@@ -461,7 +467,7 @@ const S89Template = () => {
                         color: 'black',
                       }}
                     >
-                      {t('global.auxClass2')}
+                      {dataLang['global.auxClass2']}
                     </Typography>
                   </Box>
                 </Box>
@@ -480,7 +486,7 @@ const S89Template = () => {
                       color: 'black',
                     }}
                   >
-                    <Markup content={t('s89.descFooter')} />
+                    <Markup content={dataLang['s89.descFooter']} />
                   </Typography>
                 </Box>
 
@@ -495,7 +501,7 @@ const S89Template = () => {
                       color: 'black',
                     }}
                   >
-                    S-89-{appLang.toUpperCase()}
+                    S-89-{sourceLang.toUpperCase()}
                   </Typography>
                   <Typography
                     sx={{

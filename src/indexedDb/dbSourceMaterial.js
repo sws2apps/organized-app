@@ -1,7 +1,7 @@
 import appDb from './mainDb';
 import { promiseGetRecoil } from 'recoil-outside';
 import dateFormat from 'dateformat';
-import { appLangState } from '../states/main';
+import { appLangState, sourceLangState } from '../states/main';
 import { assTypeListState, assTypeLocalState } from '../states/sourceMaterial';
 
 export const dbGetListWeekType = async () => {
@@ -58,7 +58,7 @@ export const dbGetAllSourceMaterials = async () => {
 };
 
 export const dbGetSourceMaterial = async (weekOf) => {
-  const appLang = (await promiseGetRecoil(appLangState)) || 'e';
+  const appLang = (await promiseGetRecoil(sourceLangState)) || 'e';
   const lang = appLang.toUpperCase();
   const assTypeList = await promiseGetRecoil(assTypeLocalState);
 
@@ -73,12 +73,14 @@ export const dbGetSourceMaterial = async (weekOf) => {
   obj.songFirst_src = appData.songFirst_src;
   obj.tgwTalk_src = appData.tgwTalk_src ? appData.tgwTalk_src[lang] || '' : '';
   obj.bibleReading_src = appData.bibleReading_src ? appData.bibleReading_src[lang] || '' : '';
+  obj.bibleReading_study = appData.bibleReading_study || '';
   obj.ayfCount = appData.ayfCount;
   obj.ass1_type = +appData.ass1_type || '';
 
   indexType = assTypeList.findIndex((type) => type.value === obj.ass1_type);
   obj.ass1_type_name = indexType >= 0 ? assTypeList[indexType].label : '';
   obj.ass1_time = appData.ass1_time || '';
+  obj.ass1_study = appData.ass1_study || '';
   obj.ass1_src = appData.ass1_src ? appData.ass1_src[lang] || '' : '';
   obj.ass2_type = +appData.ass2_type || '';
 
@@ -86,6 +88,7 @@ export const dbGetSourceMaterial = async (weekOf) => {
   obj.ass2_type_name = indexType >= 0 ? assTypeList[indexType].label : '';
 
   obj.ass2_time = appData.ass2_time || '';
+  obj.ass2_study = appData.ass2_study || '';
   obj.ass2_src = appData.ass2_src ? appData.ass2_src[lang] || '' : '';
   obj.ass3_type = +appData.ass3_type || '';
 
@@ -93,6 +96,7 @@ export const dbGetSourceMaterial = async (weekOf) => {
   obj.ass3_type_name = indexType >= 0 ? assTypeList[indexType].label : '';
 
   obj.ass3_time = appData.ass3_time || '';
+  obj.ass3_study = appData.ass3_study || '';
   obj.ass3_src = appData.ass3_src ? appData.ass3_src[lang] || '' : '';
   obj.ass4_type = +appData.ass4_type || '';
 
@@ -100,14 +104,17 @@ export const dbGetSourceMaterial = async (weekOf) => {
   obj.ass4_type_name = indexType >= 0 ? assTypeList[indexType].label : '';
 
   obj.ass4_time = appData.ass4_time ? (typeof appData.ass4_time === 'object' ? '' : appData.ass4_time) : '';
+  obj.ass4_study = appData.ass4_study || '';
   obj.ass4_src = appData.ass4_src ? appData.ass4_src[lang] || '' : '';
 
   obj.songMiddle_src = appData.songMiddle_src;
   obj.lcCount = appData.lcCount;
-  obj.lcPart1_time = appData.lcPart1_time;
+  obj.lcPart1_time = appData.lcPart1_time || '';
   obj.lcPart1_src = appData.lcPart1_src ? appData.lcPart1_src[lang] || '' : '';
-  obj.lcPart2_time = appData.lcPart2_time;
+  obj.lcPart1_content = appData.lcPart1_content ? appData.lcPart1_content[lang] || '' : '';
+  obj.lcPart2_time = appData.lcPart2_time || '';
   obj.lcPart2_src = appData.lcPart2_src ? appData.lcPart2_src[lang] || '' : '';
+  obj.lcPart2_content = appData.lcPart2_content ? appData.lcPart2_content[lang] || '' : '';
   obj.cbs_src = appData.cbs_src ? appData.cbs_src[lang] || '' : '';
   obj.songConclude_src = appData.songConclude_src;
 
@@ -129,32 +136,39 @@ export const dbGetSourceMaterialPocket = async (weekOf) => {
   obj.songFirst_src = appData.songFirst_src;
   obj.tgwTalk_src = appData.tgwTalk_src;
   obj.bibleReading_src = appData.bibleReading_src;
+  obj.bibleReading_study = appData.bibleReading_study;
   obj.ass1_type = +appData.ass1_type || '';
 
   obj.ass1_type_name = assTypeList.find((type) => type.code === obj.ass1_type).ass_type_name || '';
   obj.ass1_time = +appData.ass1_time || '';
+  obj.ass1_study = appData.ass1_study || '';
   obj.ass1_src = appData.ass1_src;
 
   obj.ass2_type = +appData.ass2_type || '';
   obj.ass2_type_name = assTypeList.find((type) => type.code === obj.ass2_type).ass_type_name || '';
   obj.ass2_time = +appData.ass2_time || '';
+  obj.ass2_study = appData.ass2_study || '';
   obj.ass2_src = appData.ass2_src;
 
   obj.ass3_type = +appData.ass3_type || '';
   obj.ass3_type_name = assTypeList.find((type) => type.code === obj.ass3_type).ass_type_name || '';
   obj.ass3_time = +appData.ass3_time || '';
+  obj.ass3_study = appData.ass3_study || '';
   obj.ass3_src = appData.ass3_src;
 
   obj.ass4_type = +appData.ass4_type || '';
   obj.ass4_type_name = assTypeList.findIndex((type) => type.code === obj.ass4_type).ass_type_name || '';
   obj.ass4_time = appData.ass4_time ? (typeof appData.ass4_time === 'object' ? '' : +appData.ass4_time) : '';
+  obj.ass4_study = appData.ass4_study || '';
   obj.ass4_src = appData.ass4_src;
 
   obj.songMiddle_src = appData.songMiddle_src;
   obj.lcPart1_time = appData.lcPart1_time;
   obj.lcPart1_src = appData.lcPart1_src;
+  obj.lcPart1_content = appData.lcPart1_content;
   obj.lcPart2_time = appData.lcPart2_time;
   obj.lcPart2_src = appData.lcPart2_src;
+  obj.lcPart2_content = appData.lcPart2_content;
   obj.cbs_src = appData.cbs_src;
   obj.songConclude_src = appData.songConclude_src;
 
@@ -177,7 +191,9 @@ export const dbGetSMUpdate = async (weekOf) => {
   obj.ass3_src = appData ? appData.ass3_src || {} : {};
   obj.ass4_src = appData ? appData.ass4_src || {} : {};
   obj.lcPart1_src = appData ? appData.lcPart1_src || {} : {};
+  obj.lcPart1_content = appData ? appData.lcPart1_content || {} : {};
   obj.lcPart2_src = appData ? appData.lcPart2_src || {} : {};
+  obj.lcPart2_content = appData ? appData.lcPart2_content || {} : {};
   obj.cbs_src = appData ? appData.cbs_src || {} : {};
 
   return obj;
@@ -185,8 +201,8 @@ export const dbGetSMUpdate = async (weekOf) => {
 
 export const dbSaveSrcData = async (srcData) => {
   let isSuccess = false;
-  const appLang = (await promiseGetRecoil(appLangState)) || 'e';
-  const lang = appLang.toUpperCase();
+  const sourceLang = (await promiseGetRecoil(sourceLangState)) || 'e';
+  const lang = sourceLang.toUpperCase();
 
   const {
     weekDate_src,
@@ -198,7 +214,9 @@ export const dbSaveSrcData = async (srcData) => {
     ass3_src,
     ass4_src,
     lcPart1_src,
+    lcPart1_content,
     lcPart2_src,
+    lcPart2_content,
     cbs_src,
   } = await dbGetSMUpdate(srcData.weekOf);
 
@@ -224,27 +242,32 @@ export const dbSaveSrcData = async (srcData) => {
           ...bibleReading_src,
           [lang]: srcData.bibleReading_src || '',
         },
+        bibleReading_study: srcData.bibleReading_study,
         ayfCount: srcData.ayfCount,
         ass1_type: srcData.ass1_type,
         ass1_time: srcData.ass1_time,
+        ass1_study: srcData.ass1_study,
         ass1_src: {
           ...ass1_src,
           [lang]: srcData.ass1_src || '',
         },
         ass2_type: srcData.ass2_type,
         ass2_time: srcData.ass2_time,
+        ass2_study: srcData.ass2_study,
         ass2_src: {
           ...ass2_src,
           [lang]: srcData.ass2_src || '',
         },
         ass3_type: srcData.ass3_type,
         ass3_time: srcData.ass3_time,
+        ass3_study: srcData.ass3_study,
         ass3_src: {
           ...ass3_src,
           [lang]: srcData.ass3_src || '',
         },
         ass4_type: srcData.ass4_type,
         ass4_time: srcData.ass4_time,
+        ass4_study: srcData.ass4_study,
         ass4_src: {
           ...ass4_src,
           [lang]: srcData.ass4_src || '',
@@ -256,10 +279,18 @@ export const dbSaveSrcData = async (srcData) => {
           ...lcPart1_src,
           [lang]: srcData.lcPart1_src || '',
         },
+        lcPart1_content: {
+          ...lcPart1_content,
+          [lang]: srcData.lcPart1_content || '',
+        },
         lcPart2_time: srcData.lcPart2_time,
         lcPart2_src: {
           ...lcPart2_src,
           [lang]: srcData.lcPart2_src || '',
+        },
+        lcPart2_content: {
+          ...lcPart2_content,
+          [lang]: srcData.lcPart2_content || '',
         },
         cbs_src: {
           ...cbs_src,
@@ -440,6 +471,7 @@ export const dbGetWeekListBySched = async (scheduleIndex) => {
       allSchedules.push(obj);
     }
   }
+
   return allSchedules;
 };
 

@@ -335,3 +335,8 @@ export const isCongPersonAddState = atom({
   key: 'isCongPersonAdd',
   default: false,
 });
+
+export const sourceLangState = atom({
+  key: 'sourceLang',
+  default: 'e',
+});

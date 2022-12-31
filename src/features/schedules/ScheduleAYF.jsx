@@ -50,6 +50,7 @@ const ScheduleAYF = (props) => {
     assType,
     assTypeName,
     assTime,
+    assStudy,
     assSrc,
     stuA,
     assA,
@@ -139,7 +140,7 @@ const ScheduleAYF = (props) => {
                 {assTypeName} ({assTime} min.)
               </Typography>
             )}
-            <Typography variant="body1">{assSrc}</Typography>
+            <Typography variant="body1">{`${assSrc}${assStudy && assStudy !== '' ? ` [${assStudy}]` : ''}`}</Typography>
           </Grid>
           {assType !== 105 && assType !== 106 && assType !== 107 && assType !== 117 && (
             <Grid item sx={classCount === 1 ? studentContainer1Styles : studentContainer2Styles}>

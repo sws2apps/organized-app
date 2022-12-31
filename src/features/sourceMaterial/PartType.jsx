@@ -47,11 +47,7 @@ const PartType = (props) => {
           size="small"
           value={type}
           onChange={(e) => handleChangeType(e)}
-          sx={{
-            minWidth: '250px',
-            marginBottom: '20px',
-            marginRight: '5px',
-          }}
+          sx={{ minWidth: '250px' }}
         >
           <MenuItem value={''}>
             <em>{t('sourceMaterial.nothing')}</em>

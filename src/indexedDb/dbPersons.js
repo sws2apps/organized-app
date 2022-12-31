@@ -208,6 +208,8 @@ export const dbGetPersonsByAssType = async (assType, stuForAssistant) => {
     }
     person.person_displayName = dbPersons[i].person_displayName;
     person.timeAway = dbPersons[i].timeAway;
+    person.isMale = dbPersons[i].isMale;
+    person.isFemale = dbPersons[i].isFemale;
     persons.push(person);
   }
 
@@ -387,11 +389,21 @@ export const dbRecentStudents = async (data) => {
   const recentStudents = data ? JSON.parse(data) : [];
 
   const dbStudents = await promiseGetRecoil(allStudentsState);
-
-  const builtStudents = recentStudents.map((recent) => {
-    const findStudent = dbStudents.find((student) => student.person_uid === recent);
-    return findStudent;
-  });
+  let builtStudents = [];
+  if (dbStudents.length === 0) {
+    localStorage.removeItem('recentStudents');
+  } else {
+    let temp = recentStudents;
+    recentStudents.forEach((recent) => {
+      const findStudent = dbStudents.find((student) => student.person_uid === recent);
+      if (findStudent) {
+        builtStudents.push(findStudent);
+      } else {
+        temp = temp.filter((tmp) => tmp !== recent);
+        localStorage.setItem('recentStudents', JSON.stringify(temp));
+      }
+    });
+  }
 
   return builtStudents;
 };

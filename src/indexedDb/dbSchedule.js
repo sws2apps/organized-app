@@ -109,6 +109,7 @@ export const dbBuildScheduleForShare = async (scheduleIndex) => {
     const weekValue = getWeeks[i].value;
     const schedData = await dbGetScheduleDataPocket(weekValue);
     const sourceData = await dbGetSourceMaterialPocket(weekValue);
+
     objSchedule.push({ ...schedData });
     objSource.push({ ...sourceData });
   }

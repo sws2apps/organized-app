@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { useTranslation } from 'react-i18next';
+import { getI18n } from 'react-i18next';
 import html2pdf from 'html2pdf.js';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import Typography from '@mui/material/Typography';
-import { monthNamesState, rootModalOpenState } from '../states/main';
+import { monthNamesState, rootModalOpenState, sourceLangState } from '../states/main';
 import { currentScheduleState } from '../states/schedule';
 import { classCountState, congNameState, congNumberState } from '../states/congregation';
 import { dbGetScheduleForPrint } from '../indexedDb/dbAssignment';
@@ -65,7 +65,6 @@ const ScheduleHeading = ({ congName, congNumber, midweekMeetingPrint }) => {
 
 const S140 = () => {
   let navigate = useNavigate();
-  const { t } = useTranslation();
 
   const setRootModalOpen = useSetRecoilState(rootModalOpenState);
 
@@ -74,8 +73,10 @@ const S140 = () => {
   const congName = useRecoilValue(congNameState);
   const congNumber = useRecoilValue(congNumberState);
   const monthNames = useRecoilValue(monthNamesState);
+  const sourceLang = useRecoilValue(sourceLangState);
 
   const [data, setData] = useState([]);
+  const [dataLang, setDataLang] = useState({});
 
   const savePDF = () => {
     const element = document.getElementById('schedule_template');
@@ -88,6 +89,15 @@ const S140 = () => {
     };
     html2pdf().set(opt).from(element).save();
   };
+
+  const formatAssTime = (text, time) => {
+    return text.replace('{{ duration }}', time);
+  };
+
+  useEffect(() => {
+    const temp = getI18n().getDataByLanguage(sourceLang).translation;
+    setDataLang(temp);
+  }, [sourceLang]);
 
   useEffect(() => {
     const getData = async () => {
@@ -111,8 +121,8 @@ const S140 = () => {
       {data.length > 0 && (
         <Box>
           <Button
-            variant='contained'
-            color='primary'
+            variant="contained"
+            color="primary"
             startIcon={<SaveAltIcon />}
             sx={{ margin: '0 2px 20px 0' }}
             onClick={savePDF}
@@ -127,7 +137,7 @@ const S140 = () => {
               backgroundColor: 'white',
             }}
           >
-            <Box id='schedule_template'>
+            <Box id="schedule_template">
               {data.map((weekItem, weekIndex) => (
                 <Box key={`week-${weekItem.week}`}>
                   {(weekIndex === 0 || weekIndex === 2 || weekIndex === 4) && (
@@ -135,7 +145,7 @@ const S140 = () => {
                       <ScheduleHeading
                         congName={congName}
                         congNumber={congNumber}
-                        midweekMeetingPrint={t('schedule.midweekMeetingPrint')}
+                        midweekMeetingPrint={dataLang['schedule.midweekMeetingPrint']}
                       />
                     </Box>
                   )}
@@ -154,7 +164,7 @@ const S140 = () => {
                         {`${weekItem.sourceData.weekDate_src} | ${weekItem.sourceData.weeklyBibleReading_src}`}
                       </Typography>
                       <Typography
-                        align='right'
+                        align="right"
                         sx={{
                           color: '#424949',
                           fontSize: '9px',
@@ -163,7 +173,7 @@ const S140 = () => {
                           lineHeight: '20px',
                         }}
                       >
-                        {`${t('global.chairmanMidweekMeeting')}:`}
+                        {`${dataLang['global.chairmanMidweekMeeting']}:`}
                       </Typography>
                       <Typography sx={styles.assignedPers}>{weekItem.scheduleData.chairmanMM_A_dispName}</Typography>
                     </Box>
@@ -181,13 +191,13 @@ const S140 = () => {
                         }}
                       >
                         {weekItem.scheduleData.noMeeting
-                          ? t('sourceMaterial.noMeeting')
+                          ? dataLang['sourceMaterial.noMeeting']
                           : weekItem.scheduleData.week_type !== 1
                           ? weekItem.scheduleData.week_type_name.toUpperCase()
                           : ''}
                       </Typography>
                       <Typography
-                        align='right'
+                        align="right"
                         sx={{
                           color: '#424949',
                           fontSize: '9px',
@@ -196,7 +206,7 @@ const S140 = () => {
                           lineHeight: '20px',
                         }}
                       >
-                        {classCount === 2 ? `${t('global.auxClassCounselor')}:` : ''}
+                        {classCount === 2 ? `${dataLang['global.auxClassCounselor']}:` : ''}
                       </Typography>
                       <Typography sx={styles.assignedPers}>
                         {classCount === 2 ? weekItem.scheduleData.chairmanMM_B_dispName : ''}
@@ -207,8 +217,8 @@ const S140 = () => {
                     <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
                       <Typography sx={styles.partTime}>{weekItem.sourceData.pgmStart}</Typography>
                       <Box sx={{ lineHeight: '20px', width: '400px' }}>
-                        <ul className='ulSchedule'>
-                          <li className='tgw'>
+                        <ul className="ulSchedule">
+                          <li className="tgw">
                             <Typography
                               sx={{
                                 fontSize: '13px',
@@ -216,13 +226,13 @@ const S140 = () => {
                                 lineHeight: 1.2,
                               }}
                             >
-                              {`${t('global.song')} ${weekItem.sourceData.songFirst_src}`}
+                              {`${dataLang['global.song']} ${weekItem.sourceData.songFirst_src}`}
                             </Typography>
                           </li>
                         </ul>
                       </Box>
                       <Typography
-                        align='right'
+                        align="right"
                         sx={{
                           color: '#424949',
                           fontSize: '9px',
@@ -231,7 +241,7 @@ const S140 = () => {
                           lineHeight: '20px',
                         }}
                       >
-                        {`${t('global.prayerMidweekMeeting')}:`}
+                        {`${dataLang['global.prayerMidweekMeeting']}:`}
                       </Typography>
                       <Typography sx={styles.assignedPers}>{weekItem.scheduleData.opening_prayer_dispName}</Typography>
                     </Box>
@@ -240,8 +250,8 @@ const S140 = () => {
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                       <Typography sx={styles.partTime}>{weekItem.sourceData.openingComments}</Typography>
                       <Box sx={{ lineHeight: '20px', width: '400px' }}>
-                        <ul className='ulSchedule'>
-                          <li className='tgw'>
+                        <ul className="ulSchedule">
+                          <li className="tgw">
                             <Typography
                               sx={{
                                 fontSize: '13px',
@@ -249,8 +259,8 @@ const S140 = () => {
                                 lineHeight: 1.2,
                               }}
                             >
-                              {t('scheduleTemplate.openingComments')}{' '}
-                              <span className='student-part-duration'>(1 min.)</span>
+                              {dataLang['scheduleTemplate.openingComments']}{' '}
+                              <span className="student-part-duration">(1 min.)</span>
                             </Typography>
                           </li>
                         </ul>
@@ -275,7 +285,7 @@ const S140 = () => {
                               textTransform: 'uppercase',
                             }}
                           >
-                            {t('global.treasuresPart')}
+                            {dataLang['global.treasuresPart']}
                           </Typography>
                           <Typography
                             sx={{
@@ -287,7 +297,7 @@ const S140 = () => {
                               lineHeight: '20px',
                             }}
                           >
-                            {classCount === 1 ? '' : t('global.auxClass')}
+                            {classCount === 1 ? '' : dataLang['global.auxClass']}
                           </Typography>
                           <Typography
                             sx={{
@@ -299,7 +309,7 @@ const S140 = () => {
                               lineHeight: '20px',
                             }}
                           >
-                            {t('global.mainHall')}
+                            {dataLang['global.mainHall']}
                           </Typography>
                         </Box>
 
@@ -314,8 +324,8 @@ const S140 = () => {
                             }}
                           >
                             <Box sx={{ lineHeight: '20px' }}>
-                              <ul className='ulSchedule'>
-                                <li className='tgw'>
+                              <ul className="ulSchedule">
+                                <li className="tgw">
                                   <Typography
                                     sx={{
                                       fontSize: '13px',
@@ -324,7 +334,7 @@ const S140 = () => {
                                     }}
                                   >
                                     {weekItem.sourceData.tgwTalk_src}{' '}
-                                    <span className='student-part-duration'>(10 min.)</span>
+                                    <span className="student-part-duration">(10 min.)</span>
                                   </Typography>
                                 </li>
                               </ul>
@@ -345,8 +355,8 @@ const S140 = () => {
                             }}
                           >
                             <Box sx={{ lineHeight: '20px' }}>
-                              <ul className='ulSchedule'>
-                                <li className='tgw'>
+                              <ul className="ulSchedule">
+                                <li className="tgw">
                                   <Typography
                                     sx={{
                                       fontSize: '13px',
@@ -354,7 +364,8 @@ const S140 = () => {
                                       lineHeight: 1.2,
                                     }}
                                   >
-                                    {t('global.tgwGems')} <span className='student-part-duration'>(10 min.)</span>
+                                    {dataLang['global.tgwGems']}{' '}
+                                    <span className="student-part-duration">(10 min.)</span>
                                   </Typography>
                                 </li>
                               </ul>
@@ -375,8 +386,8 @@ const S140 = () => {
                             }}
                           >
                             <Box sx={{ lineHeight: '20px' }}>
-                              <ul className='ulSchedule'>
-                                <li className='tgw'>
+                              <ul className="ulSchedule">
+                                <li className="tgw">
                                   <Typography
                                     sx={{
                                       fontSize: '13px',
@@ -384,8 +395,8 @@ const S140 = () => {
                                       lineHeight: 1.2,
                                     }}
                                   >
-                                    {t('global.bibleReading')}
-                                    <span className='student-part-duration'>{t('global.bibleReadingTime')}</span>
+                                    {dataLang['global.bibleReading']}
+                                    <span className="student-part-duration">{dataLang['global.bibleReadingTime']}</span>
                                   </Typography>
                                 </li>
                               </ul>
@@ -398,7 +409,7 @@ const S140 = () => {
                                 lineHeight: '20px',
                               }}
                             >
-                              {t('global.student')}:
+                              {dataLang['global.student']}:
                             </Typography>
                           </Box>
                           <Typography sx={styles.assignedPers}>
@@ -421,7 +432,7 @@ const S140 = () => {
                               textTransform: 'uppercase',
                             }}
                           >
-                            {t('global.applyFieldMinistryPart')}
+                            {dataLang['global.applyFieldMinistryPart']}
                           </Typography>
                           <Typography
                             sx={{
@@ -433,7 +444,7 @@ const S140 = () => {
                               lineHeight: '20px',
                             }}
                           >
-                            {classCount === 1 ? '' : t('global.auxClass')}
+                            {classCount === 1 ? '' : dataLang['global.auxClass']}
                           </Typography>
                           <Typography
                             sx={{
@@ -445,7 +456,7 @@ const S140 = () => {
                               lineHeight: '20px',
                             }}
                           >
-                            {t('global.mainHall')}
+                            {dataLang['global.mainHall']}
                           </Typography>
                         </Box>
 
@@ -478,8 +489,8 @@ const S140 = () => {
                                         lineHeight: '20px',
                                       }}
                                     >
-                                      <ul className='ulSchedule'>
-                                        <li className='ayf'>
+                                      <ul className="ulSchedule">
+                                        <li className="ayf">
                                           <Typography
                                             sx={{
                                               fontSize: '13px',
@@ -490,7 +501,7 @@ const S140 = () => {
                                             {weekItem.sourceData[fldType] === 107
                                               ? weekItem.sourceData[fldSrc]
                                               : weekItem.sourceData[fldTypeName]}
-                                            <span className='student-part-duration'>
+                                            <span className="student-part-duration">
                                               {(weekItem.sourceData[fldType] === 105 ||
                                                 weekItem.sourceData[fldType] === 106 ||
                                                 weekItem.sourceData[fldType] === 107 ||
@@ -503,9 +514,10 @@ const S140 = () => {
                                                 weekItem.sourceData[fldType] === 104) && (
                                                 <>
                                                   (
-                                                  {t('global.partLessTime', {
-                                                    duration: weekItem.sourceData[fldTime],
-                                                  })}
+                                                  {formatAssTime(
+                                                    dataLang['global.partLessTime'],
+                                                    weekItem.sourceData[fldTime]
+                                                  )}
                                                   )
                                                 </>
                                               )}
@@ -525,13 +537,13 @@ const S140 = () => {
                                       {weekItem.sourceData[fldType] === 101 ||
                                       weekItem.sourceData[fldType] === 102 ||
                                       weekItem.sourceData[fldType] === 103
-                                        ? t('scheduleTemplate.studentAssistant')
+                                        ? dataLang['scheduleTemplate.studentAssistant']
                                         : weekItem.sourceData[fldType] === 105 ||
                                           weekItem.sourceData[fldType] === 106 ||
                                           weekItem.sourceData[fldType] === 107 ||
                                           weekItem.sourceData[fldType] === 117
                                         ? ''
-                                        : t('global.student')}
+                                        : dataLang['global.student']}
                                     </Typography>
                                   </Box>
                                   <Typography sx={styles.assignedPers}>
@@ -543,9 +555,9 @@ const S140 = () => {
                                           weekItem.sourceData[fldType] === 104) && (
                                           <>
                                             {weekItem.scheduleData[fldStuB]}
-                                            {weekItem.scheduleData[fldAssB] === ''
-                                              ? ''
-                                              : `/${weekItem.scheduleData[fldAssB]}`}
+                                            {weekItem.scheduleData[fldAssB] && weekItem.scheduleData[fldAssB] !== ''
+                                              ? `/${weekItem.scheduleData[fldAssB]}`
+                                              : ''}
                                           </>
                                         )}
                                         {weekItem.sourceData[fldType] === 105 ||
@@ -565,9 +577,9 @@ const S140 = () => {
                                         weekItem.sourceData[fldType] === 104) && (
                                         <>
                                           {weekItem.scheduleData[fldStuA]}
-                                          {weekItem.scheduleData[fldAssA] === ''
-                                            ? ''
-                                            : `/${weekItem.scheduleData[fldAssA]}`}
+                                          {weekItem.scheduleData[fldAssA] && weekItem.scheduleData[fldAssA] !== ''
+                                            ? `/${weekItem.scheduleData[fldAssA]}`
+                                            : ''}
                                         </>
                                       )}
                                       {weekItem.sourceData[fldType] === 105 ||
@@ -598,7 +610,7 @@ const S140 = () => {
                               textTransform: 'uppercase',
                             }}
                           >
-                            {t('global.livingPart')}
+                            {dataLang['global.livingPart']}
                           </Typography>
                           <Typography
                             sx={{
@@ -630,8 +642,8 @@ const S140 = () => {
                         <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '2px' }}>
                           <Typography sx={styles.partTime}>{weekItem.sourceData.middleSong}</Typography>
                           <Box sx={{ lineHeight: '20px', width: '400px' }}>
-                            <ul className='ulSchedule'>
-                              <li className='lc'>
+                            <ul className="ulSchedule">
+                              <li className="lc">
                                 <Typography
                                   sx={{
                                     fontSize: '13px',
@@ -639,13 +651,13 @@ const S140 = () => {
                                     lineHeight: 1.2,
                                   }}
                                 >
-                                  {`${t('global.song')} ${weekItem.sourceData.songMiddle_src}`}
+                                  {`${dataLang['global.song']} ${weekItem.sourceData.songMiddle_src}`}
                                 </Typography>
                               </li>
                             </ul>
                           </Box>
                           <Typography
-                            align='right'
+                            align="right"
                             sx={{
                               color: '#424949',
                               fontSize: '9px',
@@ -693,8 +705,8 @@ const S140 = () => {
                                         lineHeight: '20px',
                                       }}
                                     >
-                                      <ul className='ulSchedule'>
-                                        <li className='lc'>
+                                      <ul className="ulSchedule">
+                                        <li className="lc">
                                           <Typography
                                             sx={{
                                               fontSize: '13px',
@@ -703,7 +715,7 @@ const S140 = () => {
                                             }}
                                           >
                                             {weekItem.sourceData[fldSrc]}{' '}
-                                            <span className='student-part-duration'>{`(${weekItem.sourceData[fldTime]} min.)`}</span>
+                                            <span className="student-part-duration">{`(${weekItem.sourceData[fldTime]} min.)`}</span>
                                           </Typography>
                                         </li>
                                       </ul>
@@ -724,8 +736,8 @@ const S140 = () => {
                             <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '2px' }}>
                               <Typography sx={styles.partTime}>{weekItem.sourceData.concludingComments}</Typography>
                               <Box sx={{ lineHeight: '20px', width: '400px' }}>
-                                <ul className='ulSchedule'>
-                                  <li className='lc'>
+                                <ul className="ulSchedule">
+                                  <li className="lc">
                                     <Typography
                                       sx={{
                                         fontSize: '13px',
@@ -733,8 +745,8 @@ const S140 = () => {
                                         lineHeight: 1.2,
                                       }}
                                     >
-                                      {t('scheduleTemplate.concludingComments')}{' '}
-                                      <span className='student-part-duration'>(3 min.)</span>
+                                      {dataLang['scheduleTemplate.concludingComments']}{' '}
+                                      <span className="student-part-duration">(3 min.)</span>
                                     </Typography>
                                   </li>
                                 </ul>
@@ -749,8 +761,8 @@ const S140 = () => {
                             <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '2px' }}>
                               <Typography sx={styles.partTime}>{weekItem.sourceData.coTalk}</Typography>
                               <Box sx={{ lineHeight: '20px', width: '400px' }}>
-                                <ul className='ulSchedule'>
-                                  <li className='lc'>
+                                <ul className="ulSchedule">
+                                  <li className="lc">
                                     <Typography
                                       sx={{
                                         fontSize: '13px',
@@ -758,8 +770,8 @@ const S140 = () => {
                                         lineHeight: 1.2,
                                       }}
                                     >
-                                      {t('scheduleTemplate.coTalk')}{' '}
-                                      <span className='student-part-duration'>(30 min.)</span>
+                                      {dataLang['scheduleTemplate.coTalk']}{' '}
+                                      <span className="student-part-duration">(30 min.)</span>
                                     </Typography>
                                   </li>
                                 </ul>
@@ -777,8 +789,8 @@ const S140 = () => {
                             <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '2px' }}>
                               <Typography sx={styles.partTime}>{weekItem.sourceData.cbs}</Typography>
                               <Box sx={{ lineHeight: '20px', width: '400px' }}>
-                                <ul className='ulSchedule'>
-                                  <li className='lc'>
+                                <ul className="ulSchedule">
+                                  <li className="lc">
                                     <Typography
                                       sx={{
                                         fontSize: '13px',
@@ -786,13 +798,13 @@ const S140 = () => {
                                         lineHeight: 1.2,
                                       }}
                                     >
-                                      {t('global.cbs')} <span className='student-part-duration'>(30 min.)</span>
+                                      {dataLang['global.cbs']} <span className="student-part-duration">(30 min.)</span>
                                     </Typography>
                                   </li>
                                 </ul>
                               </Box>
                               <Typography
-                                align='right'
+                                align="right"
                                 sx={{
                                   color: '#424949',
                                   fontSize: '9px',
@@ -801,15 +813,17 @@ const S140 = () => {
                                   lineHeight: '20px',
                                 }}
                               >
-                                {t('scheduleTemplate.cbsConductor')}
-                                {weekItem.scheduleData.cbs_reader_dispName !== ''
-                                  ? `/${t('scheduleTemplate.cbsReader')}`
+                                {dataLang['scheduleTemplate.cbsConductor']}
+                                {weekItem.scheduleData.cbs_reader_dispName &&
+                                weekItem.scheduleData.cbs_reader_dispName !== ''
+                                  ? `/${dataLang['scheduleTemplate.cbsReader']}`
                                   : ''}
                                 :
                               </Typography>
                               <Typography sx={styles.assignedPers}>
                                 {weekItem.scheduleData.cbs_conductor_dispName}
-                                {weekItem.scheduleData.cbs_reader_dispName !== ''
+                                {weekItem.scheduleData.cbs_reader_dispName &&
+                                weekItem.scheduleData.cbs_reader_dispName !== ''
                                   ? `/${weekItem.scheduleData.cbs_reader_dispName}`
                                   : ''}
                               </Typography>
@@ -819,8 +833,8 @@ const S140 = () => {
                             <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '2px' }}>
                               <Typography sx={styles.partTime}>{weekItem.sourceData.concludingComments}</Typography>
                               <Box sx={{ lineHeight: '20px', width: '400px' }}>
-                                <ul className='ulSchedule'>
-                                  <li className='lc'>
+                                <ul className="ulSchedule">
+                                  <li className="lc">
                                     <Typography
                                       sx={{
                                         fontSize: '13px',
@@ -828,8 +842,8 @@ const S140 = () => {
                                         lineHeight: 1.2,
                                       }}
                                     >
-                                      {t('scheduleTemplate.concludingComments')}{' '}
-                                      <span className='student-part-duration'>(3 min.)</span>
+                                      {dataLang['scheduleTemplate.concludingComments']}{' '}
+                                      <span className="student-part-duration">(3 min.)</span>
                                     </Typography>
                                   </li>
                                 </ul>
@@ -846,8 +860,8 @@ const S140 = () => {
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
                           <Typography sx={styles.partTime}>{weekItem.sourceData.pgmEnd}</Typography>
                           <Box sx={{ lineHeight: '20px', width: '400px' }}>
-                            <ul className='ulSchedule'>
-                              <li className='lc'>
+                            <ul className="ulSchedule">
+                              <li className="lc">
                                 <Typography
                                   sx={{
                                     fontSize: '13px',
@@ -855,7 +869,7 @@ const S140 = () => {
                                     lineHeight: 1.2,
                                   }}
                                 >
-                                  {t('global.song')}
+                                  {dataLang['global.song']}
                                   {weekItem.scheduleData.week_type === 2
                                     ? ''
                                     : ` ${weekItem.sourceData.songConclude_src}`}
@@ -864,7 +878,7 @@ const S140 = () => {
                             </ul>
                           </Box>
                           <Typography
-                            align='right'
+                            align="right"
                             sx={{
                               color: '#424949',
                               fontSize: '9px',
@@ -873,7 +887,7 @@ const S140 = () => {
                               lineHeight: '20px',
                             }}
                           >
-                            {`${t('global.prayerMidweekMeeting')}:`}
+                            {`${dataLang['global.prayerMidweekMeeting']}:`}
                           </Typography>
                           <Typography sx={styles.assignedPers}>
                             {weekItem.scheduleData.closing_prayer_dispName}
@@ -882,7 +896,7 @@ const S140 = () => {
                       </>
                     )}
                   </Box>
-                  {(weekIndex === 1 || weekIndex === 3) && <div className='html2pdf__page-break'></div>}
+                  {(weekIndex === 1 || weekIndex === 3) && <div className="html2pdf__page-break"></div>}
                 </Box>
               ))}
             </Box>

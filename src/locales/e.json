@@ -136,6 +136,8 @@
   "global.chairmanMidweekMeeting2": "Midweek Meeting Chairman",
   "global.auxClassCounselor": "Auxiliary Classroom Counselor",
   "global.prayerMidweekMeeting": "Prayer",
+  "global.openingPrayer": "Opening Prayer",
+  "global.closingPrayer": "Closing Prayer",
   "global.tgwTalk": "Talk 10 min.",
   "global.tgwGems": "Spiritual Gems",
   "global.lcPart": "Living Parts",
@@ -284,6 +286,7 @@
   "persons.recentStudents": "Viewed recently",
   "persons.clearRecents": "Clear recents",
   "persons.pocketDevices": "Devices",
+  "persons.localRecord": "Local record",
 
   "sourceMaterial.weekAdded": "New week has been added",
   "sourceMaterial.weekSaved": "Source material for this week has been saved",
@@ -302,6 +305,8 @@
   "sourceMaterial.importJw": "JW.ORG Import",
   "sourceMaterial.importJwTitle": "Import Source Material from JW.ORG",
   "sourceMaterial.importCompleted": "Source material has been imported successfully",
+  "sourceMaterial.studyPoint": "Study",
+  "sourceMaterial.lcPartDesc": "Part Description",
 
   "importEPUB.invalid": "The EPUB file selected is not a Meeting Workbook file. Please verify it again.",
   "importEPUB.inProgress": "EPUB import in progress. Please wait ...",
@@ -412,6 +417,8 @@
   "settings.sessionRevoke": "Revoke",
   "settings.lastSeen": "Last seen: {{ last_seen }}",
   "settings.currentSession": "Current session",
+  "settings.sourceTemplateLang": "SOURCE MATERIALS & FORM LANGUAGE",
+  "settings.sourceTemplateLangDesc": "Select the language you want to use for source materials, S-89 and S-140 forms",
 
   "administration.heading": "Manage Access to CPE",
   "administration.vipUsersHeading": "Baptized Brothers",

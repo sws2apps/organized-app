@@ -2,7 +2,7 @@ import { promiseSetRecoil } from 'recoil-outside';
 import { getI18n } from 'react-i18next';
 import dateFormat from 'dateformat';
 import appDb from '../indexedDb/mainDb';
-import { langList } from '../locales/langList';
+import { SOURCELANGUAGE_LIST } from '../locales/langList.js';
 import { dbGetAppSettings, dbUpdateAppSettings } from '../indexedDb/dbAppSettings';
 import { dbGetStudents, dbGetStudentUidById, dbSavePersonMigration } from '../indexedDb/dbPersons';
 import { dbSaveScheduleByAss } from '../indexedDb/dbSchedule';
@@ -28,7 +28,6 @@ export const runUpdater = async () => {
   await updateScheduleToId(step);
   await removeOutdatedSettings(step);
   await builtHistoricalAssignment(step);
-
   await loadApp();
   i = 0;
 };
@@ -252,7 +251,7 @@ const updateAssignmentType = async (step) => {
   let cbsConductorObj = {};
   let cbsReaderObj = {};
 
-  langList.forEach((lang) => {
+  SOURCELANGUAGE_LIST.forEach((lang) => {
     bReadObj[lang.code.toUpperCase()] = getI18n().getDataByLanguage(lang.code).translation['global.bibleReading'];
     initCallObj[lang.code.toUpperCase()] = getI18n().getDataByLanguage(lang.code).translation['global.initialCall'];
     rvObj[lang.code.toUpperCase()] = getI18n().getDataByLanguage(lang.code).translation['global.returnVisit'];

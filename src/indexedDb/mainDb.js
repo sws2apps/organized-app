@@ -1,6 +1,6 @@
 import Dexie from 'dexie';
 import { getI18n } from 'react-i18next';
-import { langList } from '../locales/langList';
+import { SOURCELANGUAGE_LIST } from '../locales/langList.js';
 
 let appDb = new Dexie('lmm_oa');
 appDb.version(1).stores({
@@ -168,6 +168,13 @@ appDb.version(39).stores({
 appDb.version(40).stores({
   ass_type: '&id_type, code, assignable, linkTo, type, ass_type_name',
 });
+appDb.version(41).stores({
+  app_settings:
+    '++id, username, local_uid, source_lang, cong_number, cong_name, class_count, meeting_day, meeting_time, userPass, isLoggedOut, isScheduleConverted, isCongVerified, isAssignmentsConverted',
+});
+appDb.version(42).stores({
+  src: '&weekOf, bibleReading_src, bibleReading_study, ass1_type, ass1_study, ass1_time, ass1_src, ass2_type, ass2_study, ass2_time, ass2_src, ass3_type, ass3_study, ass3_time, ass3_src, ass4_type, ass4_study, ass4_time, ass4_src, ayfCount, weekDate_src, weeklyBibleReading_src, songFirst_src, tgwTalk_src, songMiddle_src, lcCount, lcPart1_time, lcPart1_src, lcPart1_content, lcPart2_time, lcPart2_src, lcPart2_content, cbs_src, songConclude_src',
+});
 
 appDb.on('populate', function () {
   appDb.app_settings.add({
@@ -176,14 +183,14 @@ appDb.on('populate', function () {
     cong_name: '',
     class_count: 1,
     meeting_day: 1,
-    app_lang: 'e',
+    source_lang: 'e',
   });
 
   let normWeekObj = {};
   let coWeekObj = {};
   let convWeekObj = {};
 
-  langList.forEach((lang) => {
+  SOURCELANGUAGE_LIST.forEach((lang) => {
     normWeekObj[lang.code.toUpperCase()] = getI18n().getDataByLanguage(lang.code).translation['global.normalWeek'];
     coWeekObj[lang.code.toUpperCase()] = getI18n().getDataByLanguage(lang.code).translation[
       'global.circuitOverseerWeek'

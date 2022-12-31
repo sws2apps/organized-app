@@ -4,11 +4,13 @@ import { fileDialog } from 'file-select-dialog';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+import Badge from '@mui/material/Badge';
 import Box from '@mui/material/Box';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 import CloudSyncIcon from '@mui/icons-material/CloudSync';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import DownloadIcon from '@mui/icons-material/Download';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 import MoreTimeIcon from '@mui/icons-material/MoreTime';
 import PeopleIcon from '@mui/icons-material/People';
@@ -29,6 +31,9 @@ import { dbAddManualSource } from '../indexedDb/dbSourceMaterial';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../states/notification';
 import { epubFileState, isImportEPUBState, isImportJWOrgState } from '../states/sourceMaterial';
 import { isPublishOpenState } from '../states/schedule';
+import { importDummyUsers } from '../utils/dev';
+
+const isDev = process.env.NODE_ENV === 'development';
 
 const DashboardMenu = () => {
   const { t } = useTranslation();
@@ -111,6 +116,17 @@ const DashboardMenu = () => {
           disabled: false,
           visible: true,
           navigateTo: '/persons/new',
+        },
+        {
+          title: 'Dummy Import',
+          icon: (
+            <Badge badgeContent={'D'} color="error">
+              <DownloadIcon />
+            </Badge>
+          ),
+          disabled: false,
+          visible: isDev,
+          action: importDummyUsers,
         },
       ],
     },

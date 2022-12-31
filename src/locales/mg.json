@@ -137,6 +137,8 @@
   "global.chairmanMidweekMeeting2": "Mpitari-draharaha Fivoriana Andavanandro",
   "global.auxClassCounselor": "Mpanome Torohevitra Faharoa",
   "global.prayerMidweekMeeting": "Vavaka",
+  "global.openingPrayer": "Vavaka Fanokana",
+  "global.closingPrayer": "Vavaka Famaranana",
   "global.tgwTalk": "Lahateny 10 min.",
   "global.tgwGems": "Vatosoa Ara-panahy",
   "global.lcPart": "Anjara Amin’ny Fiainantsika",
@@ -285,6 +287,7 @@
   "persons.recentStudents": "Nojerena farany",
   "persons.clearRecents": "Esorina",
   "persons.pocketDevices": "Fitaovana ampiasainy",
+  "persons.localRecord": "Anarana ao Amin’ny Firaketana",
 
   "sourceMaterial.weekAdded": "Tafiditra ny herinandro vaovao",
   "sourceMaterial.weekSaved": "Vita ny fitehirizana ny loharanon-kevitra",
@@ -303,6 +306,8 @@
   "sourceMaterial.importJw": "Haka JW.ORG",
   "sourceMaterial.importJwTitle": "Hampiditra loharanon-kevitra | JW.ORG",
   "sourceMaterial.importCompleted": "Vita ny fampidirana ny loharanon-kevitra",
+  "sourceMaterial.studyPoint": "Lesona",
+  "sourceMaterial.lcPartDesc": "Toromarika Momba ny Anjara",
 
   "importEPUB.invalid": "Tsy rakitra EPUB misy ny Tari-dalana ho An’ny Fivoriana io nosafidianao io, fa hamarino indray mandeha.",
   "importEPUB.inProgress": "Mampiditra ny rakitra EPUB. Miandrasa kely ...",
@@ -413,6 +418,8 @@
   "settings.sessionRevoke": "Esorina",
   "settings.lastSeen": "Nampiasaina farany tamin’ny: {{ last_seen }}",
   "settings.currentSession": "Ampiasainao izao",
+  "settings.sourceTemplateLang": "FITENY AMIN’NY LOHARANON-KEVITRA & TARATASY HOFENOINA",
+  "settings.sourceTemplateLangDesc": "Fiteny ampiasaina amin’ny loharanon-kevitra, ny taratasy hofenoina S-89 sy S-140",
 
   "administration.heading": "Fandrindrana ny Fampiasana Programa CPE",
   "administration.vipUsersHeading": "Rahalahy Vita Batisa",

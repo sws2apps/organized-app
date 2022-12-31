@@ -36,11 +36,7 @@ const PartDuration = (props) => {
       size="small"
       value={partTime}
       onChange={(e) => handleChangeTime(e)}
-      sx={{
-        minWidth: '130px',
-        marginBottom: '10px',
-        marginRight: '5px',
-      }}
+      sx={{ minWidth: '130px' }}
     >
       <MenuItem value="">
         <em>{t('sourceMaterial.nothing')}</em>

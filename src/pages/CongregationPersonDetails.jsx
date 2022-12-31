@@ -19,6 +19,7 @@ import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
+import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import SaveIcon from '@mui/icons-material/Save';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -51,11 +52,11 @@ const CongregationPersonDetails = () => {
   const apiHost = useRecoilValue(apiHostState);
   const visitorID = useRecoilValue(visitorIDState);
   const congID = useRecoilValue(congIDState);
-  const dbStudents = useRecoilValue(allStudentsState);
+  const dbPersons = useRecoilValue(allStudentsState);
 
   const [member, setMember] = useState(person);
 
-  const pocketOptions = person ? dbStudents.filter((student) => student.person_uid !== person.pocket_local_id) : [];
+  const pocketOptions = person ? dbPersons.filter((student) => student.person_uid !== person.pocket_local_id) : [];
 
   const handleCheckAdmin = (value) => {
     let role = [];
@@ -134,6 +135,15 @@ const CongregationPersonDetails = () => {
 
     setMember((prev) => {
       return { ...prev, pocket_members: newValue };
+    });
+  };
+
+  const handleUpdatePocketLocalId = (value) => {
+    setMember((prev) => {
+      return {
+        ...prev,
+        pocket_local_id: value === null ? '' : { person_uid: value.person_uid, person_name: value.person_name },
+      };
     });
   };
 
@@ -303,9 +313,25 @@ const CongregationPersonDetails = () => {
       if (apiHost !== '' && congID !== '') {
         setRootModalOpen(true);
 
-        const reqPayload = { cong_role: member.cong_role, pocket_members: member.pocket_members };
+        let reqPayload = {};
+        let api = '';
+        if (person.global_role === 'pocket') {
+          reqPayload = {
+            cong_role: member.cong_role,
+            pocket_members: member.pocket_members,
+            pocket_local_id: member.pocket_local_id,
+          };
+          api = `${apiHost}api/congregations/${congID}/pockets/${person.id}`;
+        } else {
+          reqPayload = {
+            user_role: member.cong_role,
+            pocket_members: member.pocket_members,
+            pocket_local_id: member.pocket_local_id,
+          };
+          api = `${apiHost}api/congregations/${congID}/members/${person.id}`;
+        }
 
-        const res = await fetch(`${apiHost}api/congregations/${congID}/pockets/${person.id}`, {
+        const res = await fetch(api, {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
@@ -320,6 +346,42 @@ const CongregationPersonDetails = () => {
         if (res.status === 200) {
           setRootModalOpen(false);
           queryClient.invalidateQueries({ queryKey: ['congPersons'] });
+          return;
+        }
+
+        setRootModalOpen(false);
+        setAppMessage(data.message);
+        setAppSeverity('warning');
+        setAppSnackOpen(true);
+      }
+    } catch (err) {
+      setRootModalOpen(false);
+      setAppMessage(err.message);
+      setAppSeverity('error');
+      setAppSnackOpen(true);
+    }
+  };
+
+  const handleRemoveCongPerson = async () => {
+    try {
+      if (apiHost !== '' && congID !== '') {
+        setRootModalOpen(true);
+
+        const res = await fetch(`${apiHost}api/congregations/${congID}/members/${person.id}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            visitorid: visitorID,
+            email: userEmail,
+          },
+        });
+
+        const data = await res.json();
+
+        if (res.status === 200) {
+          setRootModalOpen(false);
+          queryClient.invalidateQueries({ queryKey: ['congPersons'] });
+          navigate('/administration');
           return;
         }
 
@@ -427,11 +489,34 @@ const CongregationPersonDetails = () => {
                 </Grid>
               </Box>
 
+              {/* Local records */}
+              {userEmail !== person.user_uid && member.cong_role?.includes('view_meeting_schedule') && (
+                <Box sx={{ marginTop: '20px' }}>
+                  <Typography
+                    sx={{ fontWeight: 'bold', marginBottom: '10px', borderBottom: '1px outset', paddingBottom: '5px' }}
+                  >
+                    {t('persons.localRecord')}
+                  </Typography>
+                  <Box maxWidth={'280px'}>
+                    <Autocomplete
+                      id="tags-standard"
+                      value={member.pocket_local_id === '' ? null : member.pocket_local_id}
+                      onChange={(e, value) => handleUpdatePocketLocalId(value)}
+                      options={dbPersons}
+                      getOptionLabel={(option) => option.person_name}
+                      isOptionEqualToValue={(option, value) => option.person_uid === value.person_uid}
+                      renderInput={(params) => <TextField {...params} variant="standard" label={t('global.record')} />}
+                      noOptionsText={t('assignments.noMatchRecord')}
+                    />
+                  </Box>
+                </Box>
+              )}
+
               {/* View Meeting Schedules for Others */}
               {member.cong_role?.includes('view_meeting_schedule') && (
                 <Box sx={{ marginTop: '20px' }}>
                   <Typography
-                    sx={{ fontWeight: 'bold', marginBottom: '20px', borderBottom: '1px outset', paddingBottom: '5px' }}
+                    sx={{ fontWeight: 'bold', marginBottom: '10px', borderBottom: '1px outset', paddingBottom: '5px' }}
                   >
                     {t('persons.viewOnBehalf')}
                   </Typography>
@@ -618,6 +703,11 @@ const CongregationPersonDetails = () => {
         </Box>
       </Box>
       <Box sx={{ '& > :not(style)': { m: 1 }, position: 'fixed', bottom: 20, right: 20 }}>
+        {person.global_role === 'vip' && (
+          <Fab aria-label="save" color="error" onClick={handleRemoveCongPerson}>
+            <PersonRemoveIcon />
+          </Fab>
+        )}
         <Fab aria-label="save" color="primary" onClick={handleSaveCongPerson}>
           <SaveIcon />
         </Fab>

@@ -1,5 +1,5 @@
 import Box from '@mui/material/Box';
-import { BasicSettings, DataStorage } from '../features/settings';
+import { BasicSettings, DataStorage, SourceLangSwitcher } from '../features/settings';
 
 const sharedStyles = {
   settingItem: {
@@ -11,6 +11,10 @@ const sharedStyles = {
 const CongregationSettings = () => {
   return (
     <Box>
+      <Box sx={sharedStyles.settingItem}>
+        <SourceLangSwitcher />
+      </Box>
+
       <Box sx={sharedStyles.settingItem}>
         <BasicSettings />
       </Box>

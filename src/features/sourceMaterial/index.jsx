@@ -6,4 +6,5 @@ export { default as PartType } from './PartType';
 export { default as SongsList } from './SongsList';
 export { default as SourceCard } from './SourceCard';
 export { default as SourcesByYear } from './SourcesByYear';
+export { default as StudyPoint } from './StudyPoint';
 export { default as WeekType } from './WeekType';

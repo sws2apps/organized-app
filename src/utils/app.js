@@ -10,12 +10,18 @@ import {
   classCountState,
   congNameState,
   congNumberState,
-  liveClassState,
   meetingDayState,
   meetingTimeState,
   usernameState,
 } from '../states/congregation';
-import { apiHostState, appLangState, appNotificationsState, isOnlineState, userLocalUidState } from '../states/main';
+import {
+  apiHostState,
+  appLangState,
+  appNotificationsState,
+  isOnlineState,
+  sourceLangState,
+  userLocalUidState,
+} from '../states/main';
 import { assTypeListState, weekTypeListState, yearsListState } from '../states/sourceMaterial';
 import { allStudentsState, filteredStudentsState, studentsAssignmentHistoryState } from '../states/persons';
 
@@ -23,7 +29,7 @@ export const loadApp = async () => {
   const I18n = getI18n();
 
   await initAppDb();
-  let { username, local_uid, cong_number, cong_name, class_count, meeting_day, meeting_time, liveEventClass } =
+  let { username, local_uid, source_lang, cong_number, cong_name, class_count, meeting_day, meeting_time } =
     await dbGetAppSettings();
 
   const app_lang = localStorage.getItem('app_lang') || 'e';
@@ -41,7 +47,7 @@ export const loadApp = async () => {
   await promiseSetRecoil(meetingDayState, meeting_day || 3);
   await promiseSetRecoil(meetingTimeState, meeting_time || new Date(Date.now()));
   await promiseSetRecoil(appLangState, app_lang || 'e');
-  await promiseSetRecoil(liveClassState, liveEventClass || false);
+  await promiseSetRecoil(sourceLangState, source_lang || 'e');
 
   I18n.changeLanguage(app_lang);
 

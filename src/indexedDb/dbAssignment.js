@@ -6,7 +6,7 @@ import { dbGetStudentByUid, dbGetStudentDetails, dbGetStudentsMini } from './dbP
 import { dbGetScheduleData } from './dbSchedule';
 import { dbGetSourceMaterial, dbGetWeekListBySched } from './dbSourceMaterial';
 import appDb from './mainDb';
-import { refreshMyAssignmentsState, shortDateFormatState, userLocalUidState } from '../states/main';
+import { refreshMyAssignmentsState, shortDateFormatState, sourceLangState, userLocalUidState } from '../states/main';
 import { assTypeLocalState } from '../states/sourceMaterial';
 import { allStudentsState, filteredStudentsState, studentsAssignmentHistoryState } from '../states/persons';
 import { meetingTimeState } from '../states/congregation';
@@ -130,7 +130,7 @@ export const dbHistoryAssignment = async () => {
           // Opening Prayer
           if (item.assignment === 'opening_prayer') {
             person.assignmentID = 111;
-            person.assignmentName = getI18n().t('global.prayerMidweekMeeting');
+            person.assignmentName = getI18n().t('global.openingPrayer');
           }
 
           // TGW Talk 10 min. History
@@ -152,13 +152,16 @@ export const dbHistoryAssignment = async () => {
             person.assignmentID = 100;
             person.assignmentName = getI18n().t('global.bibleReading');
             person.class = stuclass;
+            person.studyPoint = weekData.bibleReading_study;
           }
 
           //AYF Assigment History
           if (item.assignment.startsWith('ass') && item.assignment.includes('_stu_')) {
             const stuclass = item.assignment.split('_')[2];
             const weekFld = item.assignment.split('_')[0] + '_type';
+            const studyFld = item.assignment.split('_')[0] + '_study';
             const assType = weekData[weekFld];
+            const studyPoint = weekData[studyFld];
 
             person.assignmentID = assType;
             if (assType === 101) {
@@ -173,6 +176,7 @@ export const dbHistoryAssignment = async () => {
               person.assignmentName = getI18n().t('global.memorialInvite');
             }
             person.class = stuclass;
+            person.studyPoint = studyPoint;
           }
 
           // AYF Assistant History
@@ -188,10 +192,12 @@ export const dbHistoryAssignment = async () => {
             const lcIndex = item.assignment.slice(-1);
             const fldSource = `lcPart${lcIndex}_src`;
             const fldTime = `lcPart${lcIndex}_time`;
+            const fldContent = `lcPart${lcIndex}_content`;
 
             person.assignmentID = 114;
             person.assignmentName = getI18n().t('global.lcPart');
             person.assignmentSource = `(${weekData[fldTime]} min.) ${weekData[fldSource]}`;
+            person.assignmentContent = weekData[fldContent];
           }
 
           // CBS Conductor History
@@ -211,7 +217,7 @@ export const dbHistoryAssignment = async () => {
           // Closing Prayer History
           if (item.assignment === 'closing_prayer') {
             person.assignmentID = 111;
-            person.assignmentName = getI18n().t('global.prayerMidweekMeeting');
+            person.assignmentName = getI18n().t('global.closingPrayer');
           }
 
           dbHistory.push(person);
@@ -636,6 +642,8 @@ export const dbGetS89WeekList = async (scheduleName) => {
 };
 
 export const dbGetS89ItemData = async (week, assName, classLabel) => {
+  const sourceLang = await promiseGetRecoil(sourceLangState);
+
   let stuFld = '';
   let assFld = '';
   let assTimeFld = '';
@@ -671,7 +679,10 @@ export const dbGetS89ItemData = async (week, assName, classLabel) => {
   const [varMonth, varDay, varYear] = week.split('/');
   midDay = parseInt(varDay, 10) + midDay - 1;
   const lDate = new Date(varYear, varMonth - 1, midDay);
-  const dateFormatted = dateFormat(lDate, getI18n().t('global.shortDateFormat'));
+  const dateFormatted = dateFormat(
+    lDate,
+    getI18n().getDataByLanguage(sourceLang).translation['global.shortDateFormat']
+  );
 
   const sourceData = await dbGetSourceMaterial(week);
   const scheduleData = await dbGetScheduleData(week);
@@ -713,62 +724,62 @@ export const dbGetS89ItemData = async (week, assName, classLabel) => {
       if (assType === 108) s89Data.isMemorialInvite = true;
       if (assName === 'ass1') {
         if (ass1Type === ass2Type || ass1Type === ass3Type || ass1Type === ass4Type) {
-          s89Data.initialCallSpec = getI18n().t('schedule.assignmentPart', {
-            id: 1,
-            time: assTime,
-          });
+          let spec = getI18n().getDataByLanguage(sourceLang).translation['schedule.assignmentPart'];
+          spec = spec.replace('{{ id }}', 1);
+          spec = spec.replace('{{ time }}', assTime);
+          s89Data.initialCallSpec = spec;
         }
       } else if (assName === 'ass2') {
         if (ass2Type === ass1Type || ass2Type === ass3Type || ass2Type === ass4Type) {
-          s89Data.initialCallSpec = getI18n().t('schedule.assignmentPart', {
-            id: 2,
-            time: assTime,
-          });
+          let spec = getI18n().getDataByLanguage(sourceLang).translation['schedule.assignmentPart'];
+          spec = spec.replace('{{ id }}', 2);
+          spec = spec.replace('{{ time }}', assTime);
+          s89Data.initialCallSpec = spec;
         }
       } else if (assName === 'ass3') {
         if (ass3Type === ass1Type || ass3Type === ass2Type || ass3Type === ass4Type) {
-          s89Data.initialCallSpec = getI18n().t('schedule.assignmentPart', {
-            id: 3,
-            time: assTime,
-          });
+          let spec = getI18n().getDataByLanguage(sourceLang).translation['schedule.assignmentPart'];
+          spec = spec.replace('{{ id }}', 3);
+          spec = spec.replace('{{ time }}', assTime);
+          s89Data.initialCallSpec = spec;
         }
       } else if (assName === 'ass4') {
         if (ass4Type === ass1Type || ass4Type === ass2Type || ass4Type === ass3Type) {
-          s89Data.initialCallSpec = getI18n().t('schedule.assignmentPart', {
-            id: 4,
-            time: assTime,
-          });
+          let spec = getI18n().getDataByLanguage(sourceLang).translation['schedule.assignmentPart'];
+          spec = spec.replace('{{ id }}', 4);
+          spec = spec.replace('{{ time }}', assTime);
+          s89Data.initialCallSpec = spec;
         }
       }
     } else if (assType === 102) {
       s89Data.isReturnVisit = true;
       if (assName === 'ass1') {
         if (ass1Type === ass2Type || ass1Type === ass3Type || ass1Type === ass4Type) {
-          s89Data.returnVisitSpec = getI18n().t('schedule.assignmentPart', {
-            id: 1,
-            time: assTime,
-          });
+          let spec = getI18n().getDataByLanguage(sourceLang).translation['schedule.assignmentPart'];
+          spec = spec.replace('{{ id }}', 1);
+          spec = spec.replace('{{ time }}', assTime);
+          s89Data.initialCallSpec = spec;
         }
       } else if (assName === 'ass2') {
         if (ass2Type === ass1Type || ass2Type === ass3Type || ass2Type === ass4Type) {
-          s89Data.returnVisitSpec = getI18n().t('schedule.assignmentPart', {
-            id: 2,
-            time: assTime,
-          });
+          let spec = getI18n().getDataByLanguage(sourceLang).translation['schedule.assignmentPart'];
+          spec = spec.replace('{{ id }}', 2);
+          spec = spec.replace('{{ time }}', assTime);
+          s89Data.initialCallSpec = spec;
         }
       } else if (assName === 'ass3') {
         if (ass3Type === ass1Type || ass3Type === ass2Type || ass3Type === ass4Type) {
-          s89Data.returnVisitSpec = getI18n().t('schedule.assignmentPart', {
-            id: 3,
-            time: assTime,
-          });
+          let spec = getI18n().getDataByLanguage(sourceLang).translation['schedule.assignmentPart'];
+          spec = spec.replace('{{ id }}', 3);
+          spec = spec.replace('{{ time }}', assTime);
+          s89Data.initialCallSpec = spec;
         }
       } else if (assName === 'ass4') {
         if (ass4Type === ass1Type || ass4Type === ass2Type || ass4Type === ass3Type) {
-          s89Data.returnVisitSpec = getI18n().t('schedule.assignmentPart', {
-            id: 4,
-            time: assTime,
-          });
+          let spec = getI18n().getDataByLanguage(sourceLang).translation['schedule.assignmentPart'];
+          spec = spec.replace('{{ id }}', 4);
+          spec = spec.replace('{{ time }}', assTime);
+          s89Data.initialCallSpec = spec;
         }
       }
     } else if (assType === 103) {

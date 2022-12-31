@@ -1,5 +1,5 @@
 import { atom, selector } from 'recoil';
-import { appLangState } from './main';
+import { sourceLangState } from './main';
 
 export const isImportJWOrgState = atom({
   key: 'isImportJWOrg',
@@ -49,14 +49,14 @@ export const weekTypeListState = atom({
 export const assTypeLocalState = selector({
   key: 'assTypeLocal',
   get: ({ get }) => {
-    const appLang = get(appLangState);
+    const sourceLang = get(sourceLangState);
     const assTypeList = get(assTypeListState);
 
     let newList = [];
     for (let i = 0; i < assTypeList.length; i++) {
       let obj = {};
       obj.value = assTypeList[i].code;
-      obj.label = assTypeList[i].ass_type_name[appLang.toUpperCase()];
+      obj.label = assTypeList[i].ass_type_name[sourceLang.toUpperCase()];
       newList.push(obj);
     }
 
@@ -67,7 +67,7 @@ export const assTypeLocalState = selector({
 export const assTypeLocalNewState = selector({
   key: 'assTypeLocalNew',
   get: ({ get }) => {
-    const appLang = get(appLangState);
+    const sourceLang = get(sourceLangState);
     const assTypeList = get(assTypeListState);
 
     let newList = [];
@@ -76,7 +76,7 @@ export const assTypeLocalNewState = selector({
       obj.value = assTypeList[i].code;
       obj.assignable = assTypeList[i].assignable;
       obj.maleOnly = assTypeList[i].maleOnly;
-      obj.label = assTypeList[i].ass_type_name[appLang.toUpperCase()];
+      obj.label = assTypeList[i].ass_type_name[sourceLang.toUpperCase()];
       obj.type = assTypeList[i].type;
       obj.linkTo = assTypeList[i].linkTo;
       newList.push(obj);
@@ -108,14 +108,14 @@ export const assTypeAYFOnlyState = selector({
 export const weekTypeLocalState = selector({
   key: 'weekTypeLocal',
   get: ({ get }) => {
-    const appLang = get(appLangState);
+    const sourceLang = get(sourceLangState);
     const weekTypeList = get(weekTypeListState);
 
     let newList = [];
     for (let i = 0; i < weekTypeList.length; i++) {
       let obj = {};
       obj.value = weekTypeList[i].id_week_type;
-      obj.label = weekTypeList[i].week_type_name[appLang.toUpperCase()];
+      obj.label = weekTypeList[i].week_type_name[sourceLang.toUpperCase()];
       newList.push(obj);
     }
 

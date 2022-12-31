@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -18,6 +19,8 @@ import { grey } from '@mui/material/colors';
 import { studentsAssignmentHistoryState } from '../../states/persons';
 import { dbGetPersonsByAssType, dbGetStudentByDispName, dbHistoryAssistant } from '../../indexedDb/dbPersons';
 import { formatDateForCompare } from '../../utils/app';
+import maleIcon from '../../img/student_male.svg';
+import femaleIcon from '../../img/student_female.svg';
 
 const sharedStyles = {
   tblContainer: {
@@ -66,9 +69,9 @@ const StudentSelector = (props) => {
   const [isLoadingAssistantHistory, setIsLoadingAssistantHistory] = useState(true);
   const [isLoadingAssHistory, setIsLoadingAssHistory] = useState(true);
 
-  const handleSelectStudent = (value) => {
-    setSelectedStudent(value.innerText);
-    setSelectedStuID(value.dataset.personId);
+  const handleSelectStudent = (student) => {
+    setSelectedStudent(student.person_displayName);
+    setSelectedStuID(student.person_uid);
   };
 
   const handleAssignStudent = () => {
@@ -283,7 +286,7 @@ const StudentSelector = (props) => {
             </>
           )}
         </Box>
-        {currentStudent !== '' && (
+        {currentStudent && currentStudent !== '' && (
           <IconButton color="error" edge="start" onClick={handleDelete}>
             <DeleteIcon />
           </IconButton>
@@ -312,14 +315,23 @@ const StudentSelector = (props) => {
               {pickStudents.map((student) => (
                 <TableRow key={student.person_uid} hover role="checkbox" tabIndex={-1}>
                   <TableCell
-                    data-person-id={student.person_uid}
-                    onClick={(e) => handleSelectStudent(e.target)}
+                    onClick={(e) => handleSelectStudent(student)}
                     sx={{
                       '& .MuiTableCell-sizeSmall': sharedStyles.tblData,
                       cursor: 'pointer',
                     }}
                   >
-                    {student.person_displayName}
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <Avatar
+                        sx={{
+                          height: '25px',
+                          width: '25px',
+                        }}
+                        alt="Student icon"
+                        src={student.isMale ? maleIcon : femaleIcon}
+                      />
+                      <Typography>{student.person_displayName}</Typography>
+                    </Box>
                   </TableCell>
                   <TableCell
                     align="center"

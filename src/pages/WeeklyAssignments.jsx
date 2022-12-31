@@ -105,27 +105,34 @@ const WeeklyAssignments = () => {
 
   const [tgwTalkSrc, setTgwTalkSrc] = useState('');
   const [bibleReadingSrc, setBibleReadingSrc] = useState('');
+  const [bibleReadingStudy, setBibleReadingStudy] = useState('');
   const [ass1Type, setAss1Type] = useState('');
   const [ass1TypeName, setAss1TypeName] = useState('');
   const [ass1Time, setAss1Time] = useState('');
+  const [ass1Study, setAss1Study] = useState('');
   const [ass1Src, setAss1Src] = useState('');
   const [ass2Type, setAss2Type] = useState('');
   const [ass2TypeName, setAss2TypeName] = useState('');
   const [ass2Time, setAss2Time] = useState('');
+  const [ass2Study, setAss2Study] = useState('');
   const [ass2Src, setAss2Src] = useState('');
   const [ass3Type, setAss3Type] = useState('');
   const [ass3TypeName, setAss3TypeName] = useState('');
   const [ass3Time, setAss3Time] = useState('');
+  const [ass3Study, setAss3Study] = useState('');
   const [ass3Src, setAss3Src] = useState('');
   const [ass4Type, setAss4Type] = useState('');
   const [ass4TypeName, setAss4TypeName] = useState('');
   const [ass4Time, setAss4Time] = useState('');
+  const [ass4Study, setAss4Study] = useState('');
   const [ass4Src, setAss4Src] = useState('');
   const [lcCount, setLcCount] = useState(1);
   const [lcPart1Time, setLcPart1Time] = useState('');
   const [lcPart1Src, setLcPart1Src] = useState('');
+  const [lcPart1Content, setLcPart1Content] = useState('');
   const [lcPart2Time, setLcPart2Time] = useState('');
   const [lcPart2Src, setLcPart2Src] = useState('');
+  const [lcPart2Content, setLcPart2Content] = useState('');
   const [cbsSrc, setCbsSrc] = useState('');
   const [noMeeting, setNoMeeting] = useState(false);
   const [chairmanA, setChairmanA] = useState('');
@@ -230,11 +237,13 @@ const WeeklyAssignments = () => {
       setTgwTalk(scheduleData.tgw_talk_dispName);
       setTgwGems(scheduleData.tgw_gems_dispName);
       setBibleReadingSrc(sourceData.bibleReading_src);
+      setBibleReadingStudy(sourceData.bibleReading_study);
       setStuBReadA(scheduleData.bRead_stu_A_dispName);
       setStuBReadB(scheduleData.bRead_stu_B_dispName);
       setAss1Type(sourceData.ass1_type);
       setAss1TypeName(sourceData.ass1_type_name);
       setAss1Time(sourceData.ass1_time);
+      setAss1Study(sourceData.ass1_study);
       setAss1Src(sourceData.ass1_src);
       setStu1A(scheduleData.ass1_stu_A_dispName);
       setAss1A(scheduleData.ass1_ass_A_dispName);
@@ -243,6 +252,7 @@ const WeeklyAssignments = () => {
       setAss2Type(sourceData.ass2_type);
       setAss2TypeName(sourceData.ass2_type_name);
       setAss2Time(sourceData.ass2_time);
+      setAss2Study(sourceData.ass2_study);
       setAss2Src(sourceData.ass2_src);
       setStu2A(scheduleData.ass2_stu_A_dispName);
       setAss2A(scheduleData.ass2_ass_A_dispName);
@@ -251,6 +261,7 @@ const WeeklyAssignments = () => {
       setAss3Type(sourceData.ass3_type);
       setAss3TypeName(sourceData.ass3_type_name);
       setAss3Time(sourceData.ass3_time);
+      setAss3Study(sourceData.ass3_study);
       setAss3Src(sourceData.ass3_src);
       setStu3A(scheduleData.ass3_stu_A_dispName);
       setAss3A(scheduleData.ass3_ass_A_dispName);
@@ -259,6 +270,7 @@ const WeeklyAssignments = () => {
       setAss4Type(sourceData.ass4_type);
       setAss4TypeName(sourceData.ass4_type_name);
       setAss4Time(sourceData.ass4_time);
+      setAss4Study(sourceData.ass4_study);
       setAss4Src(sourceData.ass4_src);
       setStu4A(scheduleData.ass4_stu_A_dispName);
       setAss4A(scheduleData.ass4_ass_A_dispName);
@@ -267,9 +279,11 @@ const WeeklyAssignments = () => {
       setLcCount(sourceData.lcCount);
       setLcPart1Time(sourceData.lcPart1_time);
       setLcPart1Src(sourceData.lcPart1_src);
+      setLcPart1Content(sourceData.lcPart1_content);
       setLcPart1(scheduleData.lc_part1_dispName);
       setLcPart2Time(sourceData.lcPart2_time);
       setLcPart2Src(sourceData.lcPart2_src);
+      setLcPart2Content(sourceData.lcPart2_content);
       setLcPart2(scheduleData.lc_part2_dispName);
       setCbsSrc(sourceData.cbs_src);
       setCbsConductor(scheduleData.cbs_conductor_dispName);
@@ -351,7 +365,7 @@ const WeeklyAssignments = () => {
             >
               <NoMeetingRoomIcon color="error" sx={{ fontSize: '150px' }} />
               <Typography variant="body1" align="center">
-                Tsy misy fivoriana amin’io herinandro io.
+                {t('global.noMidweekMeeting')}
               </Typography>
             </Container>
           )}
@@ -488,7 +502,11 @@ const WeeklyAssignments = () => {
                   >
                     {t('global.bibleReadingText')}
                   </Typography>
-                  <Typography variant="body1">{bibleReadingSrc}</Typography>
+                  <Typography variant="body1">
+                    {`${bibleReadingSrc}${
+                      bibleReadingStudy && bibleReadingStudy !== '' ? ` [${bibleReadingStudy}]` : ''
+                    }`}
+                  </Typography>
                 </Grid>
                 <Grid item sx={classCount === 1 ? sharedStyles.studentContainer1 : sharedStyles.studentContainer2}>
                   <Box sx={boxStudentFldContainer}>
@@ -530,6 +548,7 @@ const WeeklyAssignments = () => {
                   assType: ass1Type,
                   assTypeName: ass1TypeName,
                   assTime: ass1Time,
+                  assStudy: ass1Study,
                   assSrc: ass1Src,
                   stuA: stu1A,
                   assA: ass1A,
@@ -549,6 +568,7 @@ const WeeklyAssignments = () => {
                     assType: ass2Type,
                     assTypeName: ass2TypeName,
                     assTime: ass2Time,
+                    assStudy: ass2Study,
                     assSrc: ass2Src,
                     stuA: stu2A,
                     assA: ass2A,
@@ -569,6 +589,7 @@ const WeeklyAssignments = () => {
                     assType: ass3Type,
                     assTypeName: ass3TypeName,
                     assTime: ass3Time,
+                    assStudy: ass3Study,
                     assSrc: ass3Src,
                     stuA: stu3A,
                     assA: ass3A,
@@ -589,6 +610,7 @@ const WeeklyAssignments = () => {
                     assType: ass4Type,
                     assTypeName: ass4TypeName,
                     assTime: ass4Time,
+                    assStudy: ass4Study,
                     assSrc: ass4Src,
                     stuA: stu4A,
                     assA: ass4A,
@@ -601,34 +623,42 @@ const WeeklyAssignments = () => {
               <Box sx={boxMeetingPart} className="lcPart">
                 <Typography variant="h6">{t('global.livingPart')}</Typography>
               </Box>
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  alignItems: 'flex-start',
-                  justifyContent: 'space-between',
-                  marginBottom: '20px',
-                }}
-              >
-                <Grid item sx={sharedStyles.studentPartWrapper1}>
-                  <Typography variant="body1" sx={{ fontWeight: 'bold', fontSize: 16 }}>
-                    {`(${lcPart1Time} min.) ${lcPart1Src}`}
-                  </Typography>
-                </Grid>
-                <Grid item sx={sharedStyles.studentContainer1}>
-                  <Box sx={boxStudentFldContainer}>
-                    <Typography
-                      sx={{
-                        ...typoStudentField,
-                        backgroundColor: alpha(theme.palette.common[themeOptions.searchBg], 0.15),
-                      }}
-                      variant="body1"
-                    >
-                      {lcPart1}
+              {lcPart1Time && (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    alignItems: 'flex-start',
+                    justifyContent: 'space-between',
+                    marginBottom: '20px',
+                  }}
+                >
+                  <Grid item sx={sharedStyles.studentPartWrapper1}>
+                    <Typography variant="body1" sx={{ fontWeight: 'bold', fontSize: 16 }}>
+                      {`(${lcPart1Time} min.) ${lcPart1Src}`}
                     </Typography>
-                  </Box>
-                </Grid>
-              </Box>
+                    {lcPart1Content && lcPart1Content !== '' && (
+                      <Typography variant="body1" sx={{ fontSize: 14 }}>
+                        {lcPart1Content}
+                      </Typography>
+                    )}
+                  </Grid>
+                  <Grid item sx={sharedStyles.studentContainer1}>
+                    <Box sx={boxStudentFldContainer}>
+                      <Typography
+                        sx={{
+                          ...typoStudentField,
+                          backgroundColor: alpha(theme.palette.common[themeOptions.searchBg], 0.15),
+                        }}
+                        variant="body1"
+                      >
+                        {lcPart1}
+                      </Typography>
+                    </Box>
+                  </Grid>
+                </Box>
+              )}
+
               {lcCount > 1 && (
                 <Box
                   sx={{
@@ -643,6 +673,11 @@ const WeeklyAssignments = () => {
                     <Typography variant="body1" sx={{ fontWeight: 'bold', fontSize: 16 }}>
                       {`(${lcPart2Time} min.) ${lcPart2Src}`}
                     </Typography>
+                    {lcPart2Content && lcPart2Content !== '' && (
+                      <Typography variant="body1" sx={{ fontSize: 14 }}>
+                        {lcPart2Content}
+                      </Typography>
+                    )}
                   </Grid>
                   <Grid item sx={sharedStyles.studentContainer1}>
                     <Box sx={boxStudentFldContainer}>

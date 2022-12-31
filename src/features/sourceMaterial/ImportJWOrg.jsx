@@ -13,7 +13,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Typography from '@mui/material/Typography';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../../states/notification';
 import { isImportJWOrgState } from '../../states/sourceMaterial';
-import { apiHostState, appLangState, isOnlineState } from '../../states/main';
+import { apiHostState, isOnlineState, sourceLangState } from '../../states/main';
 import { addJwDataToDb } from '../../utils/epubParser';
 
 const sharedStyles = {
@@ -40,7 +40,7 @@ const ImportJWOrg = () => {
 
   const [open, setOpen] = useRecoilState(isImportJWOrgState);
 
-  const appLang = useRecoilValue(appLangState);
+  const sourceLang = useRecoilValue(sourceLangState);
   const apiHost = useRecoilValue(apiHostState);
   const isOnline = useRecoilValue(isOnlineState);
 
@@ -58,7 +58,7 @@ const ImportJWOrg = () => {
       if (apiHost !== '') {
         cancel.current = false;
 
-        const res = await fetch(`${apiHost}api/public/source-material/${appLang}`, {
+        const res = await fetch(`${apiHost}api/public/source-material/${sourceLang}`, {
           method: 'GET',
         });
 
@@ -85,7 +85,7 @@ const ImportJWOrg = () => {
         setOpen(false);
       }
     }
-  }, [apiHost, appLang, cancel, setAppMessage, setAppSeverity, setAppSnackOpen, setOpen]);
+  }, [apiHost, sourceLang, cancel, setAppMessage, setAppSeverity, setAppSnackOpen, setOpen]);
 
   useEffect(() => {
     fetchSourcesJw();
