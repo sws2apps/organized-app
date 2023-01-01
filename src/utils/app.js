@@ -46,8 +46,8 @@ export const loadApp = async () => {
   await promiseSetRecoil(classCountState, class_count || 1);
   await promiseSetRecoil(meetingDayState, meeting_day || 3);
   await promiseSetRecoil(meetingTimeState, meeting_time || new Date(Date.now()));
-  await promiseSetRecoil(appLangState, app_lang || 'e');
-  await promiseSetRecoil(sourceLangState, source_lang || 'e');
+  await promiseSetRecoil(appLangState, app_lang);
+  await promiseSetRecoil(sourceLangState, source_lang || app_lang);
 
   I18n.changeLanguage(app_lang);
 
