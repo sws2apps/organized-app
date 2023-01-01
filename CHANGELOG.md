@@ -1,3 +1,10 @@
+## [2.15.1](https://github.com/sws2apps/lmm-oa-sws/compare/v2.15.0...v2.15.1) (2023-01-01)
+
+
+### Bug Fixes
+
+* **source-materials:** default to ui language if not set ([6f7ed3d](https://github.com/sws2apps/lmm-oa-sws/commit/6f7ed3d6d24b4bdddf28f05b68b4f7a561b78d55))
+
 # [2.15.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.14.0...v2.15.0) (2022-12-31)
 
 
