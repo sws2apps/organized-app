@@ -1,5 +1,6 @@
 # Congregation Program for Everyone (CPE)
 
+[![CD](https://github.com/sws2apps/lmm-oa-sws/actions/workflows/deploy.yml/badge.svg)](https://github.com/sws2apps/lmm-oa-sws/actions/workflows/deploy.yml)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_lmm-oa-sws&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=sws2apps_lmm-oa-sws)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_lmm-oa-sws&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=sws2apps_lmm-oa-sws)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_lmm-oa-sws&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=sws2apps_lmm-oa-sws)
