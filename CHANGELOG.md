@@ -1,3 +1,17 @@
+# [2.16.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.15.1...v2.16.0) (2023-01-04)
+
+
+### Bug Fixes
+
+* **schedules:** fix wrong stats when auxiliary classroom is enabled ([6d2b616](https://github.com/sws2apps/lmm-oa-sws/commit/6d2b616353f758db114b8c1a0ac194ea755e41e9))
+
+
+### Features
+
+* **deps:** bump @mui/material from 5.11.2 to 5.11.3 ([569229f](https://github.com/sws2apps/lmm-oa-sws/commit/569229f7ef2c7ada7e1853898f961047cda290ee))
+* **deps:** bump i18next from 22.4.6 to 22.4.7 ([6a2d349](https://github.com/sws2apps/lmm-oa-sws/commit/6a2d3491964e500e5c39321e08973406c82f7d4b))
+* **deps:** bump i18next from 22.4.7 to 22.4.8 ([31beadc](https://github.com/sws2apps/lmm-oa-sws/commit/31beadc10e81f5862f268a9eacab1622d9c619f7))
+
 ## [2.15.1](https://github.com/sws2apps/lmm-oa-sws/compare/v2.15.0...v2.15.1) (2023-01-01)
 
 
