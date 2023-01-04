@@ -14,7 +14,8 @@ import { themeOptionsState } from '../../states/theme';
 const boxStudentAYF = {
   display: 'flex',
   flexDirection: 'column',
-  gap: '5px',
+  gap: '3px',
+  marginBottom: '10px',
 };
 
 const typoStudentField = {
@@ -72,16 +73,16 @@ const ScheduleAYF = (props) => {
   const studentPartWrapper1Styles = {
     width: {
       xs: '100%',
-      sm: 'calc(100% - 200px)',
+      sm: 'calc(100% - 300px)',
     },
   };
 
   const studentPartWrapper2Styles = {
     width: {
       xs: '100%',
-      sm: 'calc(100% - 200px)',
-      sm800: 'calc(100% - 400px)',
-      lg: 'calc(100% - 200px)',
+      sm: 'calc(100% - 300px)',
+      sm800: 'calc(100% - 600px)',
+      lg: 'calc(100% - 300px)',
     },
     flexDirection: {
       sm800: 'row',

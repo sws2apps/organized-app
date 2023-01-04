@@ -205,21 +205,21 @@ export const dbCountAssignmentsInfo = async (week) => {
     // discussion part
     if (assValue === 101 || assValue === 102 || assValue === 103 || assValue === 108) {
       assTotal = assTotal + 2;
-    }
 
-    // aux
-    if (schedData.week_type === 1 && classCount > 1) {
-      assTotal = assTotal + 2;
+      // aux
+      if (schedData.week_type === 1 && classCount > 1) {
+        assTotal = assTotal + 2;
+      }
     }
 
     // talk part
     if (assValue === 104) {
       assTotal = assTotal + 1;
-    }
 
-    // aux
-    if (schedData.week_type === 1 && classCount > 1) {
-      assTotal = assTotal + 1;
+      // aux
+      if (schedData.week_type === 1 && classCount > 1) {
+        assTotal = assTotal + 1;
+      }
     }
 
     const stuFieldA = `ass${a}_stu_A`;

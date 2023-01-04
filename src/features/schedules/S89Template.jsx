@@ -24,13 +24,14 @@ const S89Template = () => {
       {s89Data.length > 0 && (
         <Box id="S89-wrapper" sx={{ backgroundColor: 'white' }}>
           {s89Data.map((data) => (
-            <Box key={data.id}>
-              <Box
-                sx={{
-                  width: '321.6px',
-                  height: '426.8px',
-                }}
-              >
+            <Box
+              key={data.id}
+              sx={{
+                width: '321.6px',
+                height: '426.8px',
+              }}
+            >
+              <Box>
                 {/* S-89 Header */}
                 <Typography
                   align="center"
@@ -516,7 +517,8 @@ const S89Template = () => {
                   </Typography>
                 </Box>
               </Box>
-              <div className="html2pdf__page-break"></div>
+
+              <Box className="html2pdf__page-break"></Box>
             </Box>
           ))}
         </Box>

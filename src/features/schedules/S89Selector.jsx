@@ -93,7 +93,7 @@ const S89Selector = ({ setIsGenerating }) => {
       filename: 'S-89.pdf',
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 2 },
-      jsPDF: { unit: 'in', format: [3.35, 4.45], orientation: 'portrait' },
+      jsPDF: { unit: 'px', format: [321.6, 426.8], orientation: 'portrait', precision: 2, floatPrecision: 2 },
     };
     await html2pdf().set(opt).from(element).save();
     setDlgOpen(false);
