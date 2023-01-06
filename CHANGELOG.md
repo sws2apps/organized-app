@@ -1,3 +1,12 @@
+# [2.17.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.16.0...v2.17.0) (2023-01-06)
+
+
+### Features
+
+* **app:** congregation account creation using predefined list ([d6a01ec](https://github.com/sws2apps/lmm-oa-sws/commit/d6a01ec07e18f0d406f32e31e162de179c82868b))
+* **deps:** bump @mui/x-date-pickers from 5.0.12 to 5.0.13 ([533423b](https://github.com/sws2apps/lmm-oa-sws/commit/533423b930340f1b6cfe5a1b58586977e9e376ce))
+* **deps:** bump @tanstack/react-query from 4.20.4 to 4.20.9 ([ca5c023](https://github.com/sws2apps/lmm-oa-sws/commit/ca5c0230602d7dc3586caa6e38a9210fd6f6ead2))
+
 # [2.16.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.15.1...v2.16.0) (2023-01-04)
 
 
