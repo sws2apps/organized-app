@@ -111,7 +111,7 @@ const VerifyMFA = () => {
               if (cong_name.length > 0) {
                 if (cong_role.length > 0) {
                   const settings = await dbGetAppSettings();
-                  if (settings.isCongVerified === undefined) {
+                  if (settings.isCongUpdated === undefined) {
                     setCongID(cong_id);
                     setIsProcessing(false);
                     setIsUserMfaVerify(false);

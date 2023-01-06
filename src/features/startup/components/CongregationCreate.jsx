@@ -92,7 +92,7 @@ const CongregationCreate = () => {
             // save congregation update if any
             let obj = {};
             obj.username = data.username;
-            obj.isCongVerified = true;
+            obj.isCongUpdated = true;
             obj.cong_name = cong_name;
             obj.cong_number = cong_number;
             obj.userPass = encPwd;
