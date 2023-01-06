@@ -146,7 +146,6 @@ const SetupMFA = () => {
                     // save congregation update if any
                     let obj = {};
                     obj.username = data.username;
-                    obj.isCongVerified = true;
                     obj.cong_name = cong_name;
                     obj.cong_number = cong_number;
                     obj.userPass = encPwd;
@@ -232,7 +231,7 @@ const SetupMFA = () => {
   useEffect(() => {
     const handlePaste = (e) => {
       const text = (e.clipboardData || window.clipboardData).getData('text');
-      setUserOTP(text)
+      setUserOTP(text);
     };
 
     window.addEventListener('paste', handlePaste);

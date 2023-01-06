@@ -13,8 +13,6 @@ import { runUpdater } from '../../utils/updater';
 import {
   isAppLoadState,
   isCongAccountCreateState,
-  isCongRequestSentState,
-  isCongWaitRequestState,
   isEmailBlockedState,
   isEmailNotVerifiedState,
   isSetupState,
@@ -30,9 +28,7 @@ import {
 import UnauthorizedRole from './components/UnauthorizedRole';
 import VerifyMFA from './components/VerifyMFA';
 import EmailBlocked from './components/EmailBlocked';
-import CongregationSignUp from './components/CongregationSignUp';
-import CongregationRequestSent from './components/CongregationRequestSent';
-import CongregationWait from './components/CongregationWait';
+import CongregationCreate from './components/CongregationCreate';
 
 const Startup = () => {
   const [isSetup, setIsSetup] = useRecoilState(isSetupState);
@@ -50,8 +46,6 @@ const Startup = () => {
   const isUserMfaVerify = useRecoilValue(isUserMfaVerifyState);
   const isEmailBlocked = useRecoilValue(isEmailBlockedState);
   const isCongAccountCreate = useRecoilValue(isCongAccountCreateState);
-  const isCongRequestSent = useRecoilValue(isCongRequestSentState);
-  const isCongWaitRequest = useRecoilValue(isCongWaitRequestState);
 
   useEffect(() => {
     const checkLoginState = async () => {
@@ -102,9 +96,7 @@ const Startup = () => {
             {isUnauthorizedRole && <UnauthorizedRole />}
             {isUserMfaVerify && <VerifyMFA />}
             {isEmailBlocked && <EmailBlocked />}
-            {isCongAccountCreate && <CongregationSignUp />}
-            {isCongRequestSent && <CongregationRequestSent />}
-            {isCongWaitRequest && <CongregationWait />}
+            {isCongAccountCreate && <CongregationCreate />}
           </>
         )}
       </>

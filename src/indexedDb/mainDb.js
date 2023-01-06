@@ -184,6 +184,9 @@ appDb.on('populate', function () {
     class_count: 1,
     meeting_day: 1,
     source_lang: 'e',
+    isScheduleConverted: true,
+    isCongVerified: true,
+    isAssignmentsConverted: true,
   });
 
   let normWeekObj = {};

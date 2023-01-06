@@ -79,3 +79,8 @@ export const isAdminCongState = atom({
   key: 'isAdminCong',
   default: false,
 });
+
+export const isUpdateForVerificationState = atom({
+  key: 'isUpdateForVerification',
+  default: false,
+});

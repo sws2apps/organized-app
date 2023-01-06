@@ -192,8 +192,8 @@ const DashboardMenu = () => {
         {
           title: t('dashboard.sourceImportJw'),
           icon: <CloudSyncIcon />,
-          disabled: isOnline ? false : true,
-          visible: true,
+          disabled: false,
+          visible: isOnline ? true : false,
           action: handleImportJWOrg,
         },
       ],

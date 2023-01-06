@@ -26,9 +26,14 @@ import {
   userPasswordState,
   visitorIDState,
 } from '../../../states/main';
-import { congAccountConnectedState, congIDState, isAdminCongState } from '../../../states/congregation';
+import {
+  congAccountConnectedState,
+  congIDState,
+  isAdminCongState,
+  isUpdateForVerificationState,
+} from '../../../states/congregation';
 import { encryptString } from '../../../utils/swsEncryption';
-import { dbUpdateAppSettings } from '../../../indexedDb/dbAppSettings';
+import { dbGetAppSettings, dbUpdateAppSettings } from '../../../indexedDb/dbAppSettings';
 import { loadApp } from '../../../utils/app';
 import { runUpdater } from '../../../utils/updater';
 
@@ -66,6 +71,7 @@ const VerifyMFA = () => {
   const setIsUserMfaSetup = useSetRecoilState(isUserMfaSetupState);
   const setQrCodePath = useSetRecoilState(qrCodePathState);
   const setSecretTokenPath = useSetRecoilState(secretTokenPathState);
+  const setIsUpdateCong = useSetRecoilState(isUpdateForVerificationState);
 
   const apiHost = useRecoilValue(apiHostState);
   const userEmail = useRecoilValue(userEmailState);
@@ -104,6 +110,15 @@ const VerifyMFA = () => {
 
               if (cong_name.length > 0) {
                 if (cong_role.length > 0) {
+                  const settings = await dbGetAppSettings();
+                  if (settings.isCongVerified === undefined) {
+                    setCongID(cong_id);
+                    setIsProcessing(false);
+                    setIsUserMfaVerify(false);
+                    setIsUpdateCong(true);
+                    setIsCongAccountCreate(true);
+                    return;
+                  }
                   // role admin
                   if (cong_role.includes('admin')) {
                     setIsAdminCong(true);
@@ -118,7 +133,6 @@ const VerifyMFA = () => {
                     // save congregation update if any
                     let obj = {};
                     obj.username = data.username;
-                    obj.isCongVerified = true;
                     obj.cong_name = cong_name;
                     obj.cong_number = cong_number;
                     obj.userPass = encPwd;
@@ -193,6 +207,7 @@ const VerifyMFA = () => {
     setIsUnauthorizedRole,
     setIsUserMfaSetup,
     setIsUserMfaVerify,
+    setIsUpdateCong,
     setOfflineOverride,
     setQrCodePath,
     setSecretTokenPath,
@@ -219,7 +234,7 @@ const VerifyMFA = () => {
   useEffect(() => {
     const handlePaste = (e) => {
       const text = (e.clipboardData || window.clipboardData).getData('text');
-      setUserOTP(text)
+      setUserOTP(text);
     };
 
     window.addEventListener('paste', handlePaste);

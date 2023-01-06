@@ -46,6 +46,11 @@ const TermsUse = () => {
 
   const [readComplete, setReadComplete] = useState(false);
 
+  const handleTermsUse = () => {
+    localStorage.setItem('termsUse', false);
+    setShowTermsUse(false);
+  };
+
   return (
     <Container sx={{ padding: '15px' }}>
       <Typography textAlign="center" variant="h4" sx={{ marginBottom: '15px' }}>
@@ -116,12 +121,7 @@ const TermsUse = () => {
           width: '100%',
         }}
       />
-      <Button
-        variant="contained"
-        sx={{ marginTop: '10px' }}
-        disabled={!readComplete}
-        onClick={() => setShowTermsUse(false)}
-      >
+      <Button variant="contained" sx={{ marginTop: '10px' }} disabled={!readComplete} onClick={handleTermsUse}>
         {t('startup.next')}
       </Button>
     </Container>

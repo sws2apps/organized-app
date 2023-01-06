@@ -187,24 +187,14 @@ export const isCongAccountCreateState = atom({
   default: false,
 });
 
-export const isCongRequestSentState = atom({
-  key: 'isCongRequestSent',
-  default: false,
-});
-
 export const userEmailState = atom({
   key: 'userEmail',
   default: '',
 });
 
-export const isCongWaitRequestState = atom({
-  key: 'isCongWaitRequest',
-  default: false,
-});
-
 export const isShowTermsUseState = atom({
   key: 'isShowLAG',
-  default: true,
+  default: localStorage.getItem('termsUse') === 'false' ? false : true,
 });
 
 export const visitorIDState = atom({

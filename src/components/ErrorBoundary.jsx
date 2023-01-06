@@ -5,16 +5,17 @@ import Typography from '@mui/material/Typography';
 const ErrorBoundary = () => {
   const error = useRouteError();
 
-  console.error(error);
-
   return (
-    <Box>
-      <Box>
-        <Typography>An error occured in CPE:</Typography>
-      </Box>
-      <Box>
-        <Typography>{error.data}</Typography>
-      </Box>
+    <Box
+      sx={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%,-50%)',
+      }}
+    >
+      <Typography>Ooops</Typography>
+      <Typography>{error.message || error.data}</Typography>
     </Box>
   );
 };
