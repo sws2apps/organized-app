@@ -1,3 +1,10 @@
+## [2.17.1](https://github.com/sws2apps/lmm-oa-sws/compare/v2.17.0...v2.17.1) (2023-01-06)
+
+
+### Bug Fixes
+
+* **db:** update constant name to track congregation update ([f445cd1](https://github.com/sws2apps/lmm-oa-sws/commit/f445cd106332c62685cfd1ff326e19c47ac23787))
+
 # [2.17.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.16.0...v2.17.0) (2023-01-06)
 
 
