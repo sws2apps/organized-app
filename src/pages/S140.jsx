@@ -869,10 +869,14 @@ const S140 = () => {
                                     lineHeight: 1.2,
                                   }}
                                 >
-                                  {dataLang['global.song']}
-                                  {weekItem.scheduleData.week_type === 2
-                                    ? ''
-                                    : ` ${weekItem.sourceData.songConclude_src}`}
+                                  {isNaN(weekItem.sourceData.songConclude_src)
+                                    ? weekItem.sourceData.songConclude_src
+                                    : `${dataLang['global.song']}
+                                    ${
+                                      weekItem.scheduleData.week_type === 2
+                                        ? ''
+                                        : ` ${weekItem.sourceData.songConclude_src}`
+                                    }`}
                                 </Typography>
                               </li>
                             </ul>

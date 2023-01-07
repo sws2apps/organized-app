@@ -6,15 +6,12 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import FlashAutoIcon from '@mui/icons-material/FlashAuto';
 import LinearProgress from '@mui/material/LinearProgress';
 import Typography from '@mui/material/Typography';
 import { dbCountAssignmentsInfo } from '../../indexedDb/dbSchedule';
 import {
   currentWeekSchedState,
   dlgAssDeleteOpenState,
-  dlgAutoFillOpenState,
-  isAutoFillSchedState,
   isDeleteSchedState,
   reloadWeekSummaryState,
 } from '../../states/schedule';
@@ -25,8 +22,6 @@ const WeekSummaryItem = ({ week, schedule }) => {
 
   const setDlgAssDeleteOpen = useSetRecoilState(dlgAssDeleteOpenState);
   const setIsDeleteSched = useSetRecoilState(isDeleteSchedState);
-  const setDlgAutofillOpen = useSetRecoilState(dlgAutoFillOpenState);
-  const setIsAutofillSched = useSetRecoilState(isAutoFillSchedState);
   const setCurrentWeek = useSetRecoilState(currentWeekSchedState);
 
   const reloadSummary = useRecoilValue(reloadWeekSummaryState);
@@ -43,12 +38,6 @@ const WeekSummaryItem = ({ week, schedule }) => {
 
   const handleEditAssignment = () => {
     navigate(`/schedules/${schedule}/${week.value.replaceAll('/', '-')}`);
-  };
-
-  const handleAssignWeek = () => {
-    setCurrentWeek(week);
-    setIsAutofillSched(false);
-    setDlgAutofillOpen(true);
   };
 
   const handleDeleteWeek = () => {
@@ -89,9 +78,6 @@ const WeekSummaryItem = ({ week, schedule }) => {
         <Box sx={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
           <Button variant="outlined" startIcon={<EditIcon color="success" />} onClick={handleEditAssignment}>
             {t('global.edit')}
-          </Button>
-          <Button variant="outlined" startIcon={<FlashAutoIcon color="secondary" />} onClick={handleAssignWeek}>
-            {t('schedule.autofill')}
           </Button>
           <Button variant="outlined" startIcon={<DeleteIcon color="error" />} onClick={handleDeleteWeek}>
             {t('global.delete')}

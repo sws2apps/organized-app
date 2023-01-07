@@ -21,6 +21,7 @@ import { isPublishOpenState } from '../../states/schedule';
 import { apiHostState, userEmailState, visitorIDState } from '../../states/main';
 import { congIDState } from '../../states/congregation';
 import TreeViewCheckbox from '../../components/TreeViewCheckbox';
+import { dbExportDataOnline } from '../../indexedDb/dbUtility';
 
 const SchedulePublish = () => {
   const { t } = useTranslation();
@@ -72,6 +73,8 @@ const SchedulePublish = () => {
         dataSchedules.push(temp);
       }
 
+      const { dbSettings } = await dbExportDataOnline();
+
       if (apiHost !== '') {
         setIsProcessing(true);
         abortCont.current = new AbortController();
@@ -83,7 +86,7 @@ const SchedulePublish = () => {
             visitorid: visitorID,
             email: userEmail,
           },
-          body: JSON.stringify({ schedules: dataSchedules }),
+          body: JSON.stringify({ schedules: dataSchedules, cong_settings: dbSettings }),
         });
 
         const data = await res.json();

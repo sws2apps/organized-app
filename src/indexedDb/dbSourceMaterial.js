@@ -1,7 +1,7 @@
 import appDb from './mainDb';
 import { promiseGetRecoil } from 'recoil-outside';
 import dateFormat from 'dateformat';
-import { appLangState, sourceLangState } from '../states/main';
+import { sourceLangState } from '../states/main';
 import { assTypeListState, assTypeLocalState } from '../states/sourceMaterial';
 
 export const dbGetListWeekType = async () => {
@@ -26,8 +26,8 @@ export const dbGetScheduleWeekInfo = async (weekOf) => {
 };
 
 export const dbGetWeekTypeName = async (weekType) => {
-  const appLang = (await promiseGetRecoil(appLangState)) || 'e';
-  const lang = appLang.toUpperCase();
+  const sourceLang = (await promiseGetRecoil(sourceLangState)) || 'e';
+  const lang = sourceLang.toUpperCase();
 
   let srcWeekType = '';
   if (weekType === '') {

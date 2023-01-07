@@ -76,259 +76,235 @@ const AutofillSchedule = () => {
     setIsAssigning(true);
 
     const { class_count } = await dbGetAppSettings();
+    let students = [];
+
+    // Assign Chairman
+    for (let i = 0; i < weeks.length; i++) {
+      const week = weeks[i].value;
+      const schedData = await dbGetScheduleData(week);
+
+      if (schedData.noMeeting === false) {
+        // Main Hall
+        students = await dbGetPersonsByAssType(110);
+        if (students.length > 0) {
+          const chairmanA = students[0].person_uid;
+          await dbSaveAss(week, chairmanA, 'chairmanMM_A');
+          setAssigned((prev) => {
+            return prev + 1;
+          });
+        }
+
+        // Aux Class
+        if (class_count === 2 && schedData.week_type === 1) {
+          students = await dbGetPersonsByAssType(110);
+          if (students.length > 0) {
+            const chairmanB = students[0].person_uid;
+            await dbSaveAss(week, chairmanB, 'chairmanMM_B');
+            setAssigned((prev) => {
+              return prev + 1;
+            });
+          }
+        }
+      }
+    }
+
+    // Assign CBS Conductor
+    for (let i = 0; i < weeks.length; i++) {
+      const week = weeks[i].value;
+      const schedData = await dbGetScheduleData(week);
+
+      if (schedData.noMeeting === false && schedData.week_type === 1) {
+        // Conductor
+        students = await dbGetPersonsByAssType(115);
+        if (students.length > 0) {
+          const cbsConductor = students[0].person_uid;
+          await dbSaveAss(week, cbsConductor, 'cbs_conductor');
+          setAssigned((prev) => {
+            return prev + 1;
+          });
+        }
+      }
+    }
 
     for (let i = 0; i < weeks.length; i++) {
       const week = weeks[i].value;
-
-      const schedData = await dbGetScheduleData(week);
       const sourceData = await dbGetSourceMaterial(week);
+      const schedData = await dbGetScheduleData(week);
 
       if (schedData.noMeeting === false) {
-        let students = [];
+        // Assign TGW Talk
+        students = await dbGetPersonsByAssType(112);
+        if (students.length > 0) {
+          const tgwTalk = students[0].person_uid;
+          await dbSaveAss(week, tgwTalk, 'tgw_talk');
+          setAssigned((prev) => {
+            return prev + 1;
+          });
+        }
 
-        // Assign Chairman A
-        const autoChairmanA = async () => {
-          students = await dbGetPersonsByAssType(110);
-          if (students.length > 0) {
-            const chairmanA = students[0].person_uid;
-            await dbSaveAss(week, chairmanA, 'chairmanMM_A');
-            setAssigned((prev) => {
-              return prev + 1;
-            });
-          }
-        };
-
-        // Assign Chairman B
-        const autoChairmanB = async () => {
-          if (class_count === 2 && schedData.week_type === 1) {
-            students = await dbGetPersonsByAssType(110);
-            if (students.length > 0) {
-              const chairmanB = students[0].person_uid;
-              await dbSaveAss(week, chairmanB, 'chairmanMM_B');
-              setAssigned((prev) => {
-                return prev + 1;
-              });
-            }
-          }
-        };
-
-        // Opening Prayer
-        const autoOpeningPrayer = async () => {
-          students = await dbGetPersonsByAssType(111);
-          if (students.length > 0) {
-            const openingPrayer = students[0].person_uid;
-            await dbSaveAss(week, openingPrayer, 'opening_prayer');
-            setAssigned((prev) => {
-              return prev + 1;
-            });
-          }
-        };
-
-        // TGW 10 min Talk
-        const autoTGWTalk = async () => {
-          students = await dbGetPersonsByAssType(112);
-          if (students.length > 0) {
-            const tgwTalk = students[0].person_uid;
-            await dbSaveAss(week, tgwTalk, 'tgw_talk');
-            setAssigned((prev) => {
-              return prev + 1;
-            });
-          }
-        };
-
-        // TGW Spiritual Gems
-        const autoTGWGems = async () => {
-          students = await dbGetPersonsByAssType(113);
-          if (students.length > 0) {
-            const tgwGems = students[0].person_uid;
-            await dbSaveAss(week, tgwGems, 'tgw_gems');
-            setAssigned((prev) => {
-              return prev + 1;
-            });
-          }
-        };
-
-        // Assign Bible Reading A
-        const autoBReadA = async () => {
-          students = await dbGetPersonsByAssType(100);
-          if (students.length > 0) {
-            const stuBReadA = students[0].person_uid;
-            await dbSaveAss(week, stuBReadA, 'bRead_stu_A');
-            setAssigned((prev) => {
-              return prev + 1;
-            });
-          }
-        };
-
-        // Assign Bible Reading B
-        const autoBReadB = async () => {
-          if (class_count === 2 && schedData.week_type === 1) {
-            students = await dbGetPersonsByAssType(100);
-            if (students.length > 0) {
-              const stuBReadB = students[0].person_uid;
-              await dbSaveAss(week, stuBReadB, 'bRead_stu_B');
-              setAssigned((prev) => {
-                return prev + 1;
-              });
-            }
-          }
-        };
-
-        // Assign AYF
-        const autoAYF = async () => {
-          //Assign AYF Main Student
-          let fldName = '';
-          let fldType = '';
-
-          for (let a = 1; a <= 3; a++) {
-            fldType = 'ass' + a + '_type';
-            const assType = sourceData[fldType];
-            let stuDispA;
-            let stuDispB;
-
-            //Assign AYF A
-            fldName = 'ass' + a + '_stu_A';
-            students = await dbGetPersonsByAssType(assType);
-            if (assType === 101 || assType === 102 || assType === 103 || assType === 104 || assType === 108) {
-              if (students.length > 0) {
-                const stuA = students[0].person_uid;
-                stuDispA = students[0].person_displayName;
-                await dbSaveAss(week, stuA, fldName);
-                setAssigned((prev) => {
-                  return prev + 1;
-                });
-              }
-            }
-
-            //Assign AYF B
-            if (class_count === 2 && schedData.week_type === 1) {
-              fldName = 'ass' + a + '_stu_B';
-              students = await dbGetPersonsByAssType(assType);
-              if (assType === 101 || assType === 102 || assType === 103 || assType === 104 || assType === 108) {
-                if (students.length > 0) {
-                  const stuB = students[0].person_uid;
-                  stuDispB = students[0].person_displayName;
-                  await dbSaveAss(week, stuB, fldName);
-                  setAssigned((prev) => {
-                    return prev + 1;
-                  });
-                }
-              }
-            }
-
-            //Assign AYF A Assistant
-            if (assType === 101 || assType === 102 || assType === 103 || assType === 108) {
-              fldName = 'ass' + a + '_ass_A';
-              students = await dbGetPersonsByAssType('isAssistant', stuDispA);
-              if (students.length > 0) {
-                const assA = students[0].person_uid;
-                await dbSaveAss(week, assA, fldName);
-                setAssigned((prev) => {
-                  return prev + 1;
-                });
-              }
-            }
-
-            //Assign AYF B Assistant
-            if (class_count === 2 && schedData.week_type === 1) {
-              if (assType === 101 || assType === 102 || assType === 103 || assType === 108) {
-                fldName = 'ass' + a + '_ass_B';
-                students = await dbGetPersonsByAssType('isAssistant', stuDispB);
-                if (students.length > 0) {
-                  const assB = students[0].person_uid;
-                  await dbSaveAss(week, assB, fldName);
-                  setAssigned((prev) => {
-                    return prev + 1;
-                  });
-                }
-              }
-            }
-          }
-        };
+        // Assign TGW Spiritual Gems
+        students = await dbGetPersonsByAssType(113);
+        if (students.length > 0) {
+          const tgwGems = students[0].person_uid;
+          await dbSaveAss(week, tgwGems, 'tgw_gems');
+          setAssigned((prev) => {
+            return prev + 1;
+          });
+        }
 
         // Assign LC Part 1
-        const autoLCPart1 = async () => {
+        students = await dbGetPersonsByAssType(114);
+        if (students.length > 0) {
+          const lcPart1 = students[0].person_uid;
+          await dbSaveAss(week, lcPart1, 'lc_part1');
+          setAssigned((prev) => {
+            return prev + 1;
+          });
+        }
+
+        // Assign LC Part 2
+        if (sourceData.lcCount === 2) {
           students = await dbGetPersonsByAssType(114);
           if (students.length > 0) {
-            const lcPart1 = students[0].person_uid;
-            await dbSaveAss(week, lcPart1, 'lc_part1');
+            const lcPart2 = students[0].person_uid;
+            await dbSaveAss(week, lcPart2, 'lc_part2');
             setAssigned((prev) => {
               return prev + 1;
             });
           }
-        };
+        }
 
-        // LC Part 2
-        const autoLCPart2 = async () => {
-          if (sourceData.lcCount === 2) {
-            students = await dbGetPersonsByAssType(114);
-            if (students.length > 0) {
-              const lcPart2 = students[0].person_uid;
-              await dbSaveAss(week, lcPart2, 'lc_part2');
-              setAssigned((prev) => {
-                return prev + 1;
-              });
-            }
-          }
-        };
-
-        // CBS
-        const autoCBS = async () => {
-          if (schedData.week_type === 1) {
-            // Conductor
-            students = await dbGetPersonsByAssType(115);
-            if (students.length > 0) {
-              const cbsConductor = students[0].person_uid;
-              await dbSaveAss(week, cbsConductor, 'cbs_conductor');
-              setAssigned((prev) => {
-                return prev + 1;
-              });
-            }
-
-            // Reader
-            students = await dbGetPersonsByAssType(116);
-            if (students.length > 0) {
-              const cbsReader = students[0].person_uid;
-              await dbSaveAss(week, cbsReader, 'cbs_reader');
-              setAssigned((prev) => {
-                return prev + 1;
-              });
-            }
-          }
-        };
-
-        // Closing Prayer
-        const autoClosingPrayer = async () => {
-          students = await dbGetPersonsByAssType(111);
+        // Assign CBS Reader
+        if (schedData.week_type === 1) {
+          students = await dbGetPersonsByAssType(116);
           if (students.length > 0) {
-            const closingPrayer = students[0].person_uid;
-            await dbSaveAss(week, closingPrayer, 'closing_prayer');
+            const cbsReader = students[0].person_uid;
+            await dbSaveAss(week, cbsReader, 'cbs_reader');
             setAssigned((prev) => {
               return prev + 1;
             });
           }
-        };
+        }
 
-        const autoFillActions = [
-          { name: 'chairmanA', run: autoChairmanA },
-          { name: 'chairmanB', run: autoChairmanB },
-          { name: 'openingPrayer', run: autoOpeningPrayer },
-          { name: 'tgwTalk', run: autoTGWTalk },
-          { name: 'tgwGems', run: autoTGWGems },
-          { name: 'bReadA', run: autoBReadA },
-          { name: 'bReadB', run: autoBReadB },
-          { name: 'ayf', run: autoAYF },
-          { name: 'lcPart1', run: autoLCPart1 },
-          { name: 'lcPart2', run: autoLCPart2 },
-          { name: 'cbs', run: autoCBS },
-          { name: 'closingPrayer', run: autoClosingPrayer },
-        ];
+        // Assign Opening Prayer
+        students = await dbGetPersonsByAssType(111);
+        if (students.length > 0) {
+          const openingPrayer = students[0].person_uid;
+          await dbSaveAss(week, openingPrayer, 'opening_prayer');
+          setAssigned((prev) => {
+            return prev + 1;
+          });
+        }
 
-        const shuffledActions = autoFillActions.sort(() => Math.random() - 0.5);
+        // Assign Closing Prayer
+        students = await dbGetPersonsByAssType(111);
+        if (students.length > 0) {
+          const closingPrayer = students[0].person_uid;
+          await dbSaveAss(week, closingPrayer, 'closing_prayer');
+          setAssigned((prev) => {
+            return prev + 1;
+          });
+        }
 
-        for (let z = 0; z < shuffledActions.length; z++) {
-          const action = shuffledActions[z];
-          await action.run();
+        // Assign Bible Reading Main Hall
+        students = await dbGetPersonsByAssType(100);
+        if (students.length > 0) {
+          const stuBReadA = students[0].person_uid;
+          await dbSaveAss(week, stuBReadA, 'bRead_stu_A');
+          setAssigned((prev) => {
+            return prev + 1;
+          });
+        }
+
+        // Assign Bible Reading Aux Class
+        if (class_count === 2 && schedData.week_type === 1) {
+          students = await dbGetPersonsByAssType(100);
+          if (students.length > 0) {
+            const stuBReadB = students[0].person_uid;
+            await dbSaveAss(week, stuBReadB, 'bRead_stu_B');
+            setAssigned((prev) => {
+              return prev + 1;
+            });
+          }
+        }
+
+        // Assign AYF Student
+        let fldName = '';
+        let fldType = '';
+
+        for (let a = 1; a <= 3; a++) {
+          fldType = 'ass' + a + '_type';
+          const assType = sourceData[fldType];
+
+          // Main Hall
+          if (assType === 101 || assType === 102 || assType === 103 || assType === 104 || assType === 108) {
+            fldName = 'ass' + a + '_stu_A';
+            students = await dbGetPersonsByAssType(assType);
+
+            if (students.length > 0) {
+              const stuA = students[0].person_uid;
+              await dbSaveAss(week, stuA, fldName);
+              setAssigned((prev) => {
+                return prev + 1;
+              });
+            }
+          }
+
+          // Aux Class
+          if (class_count === 2 && schedData.week_type === 1) {
+            fldName = 'ass' + a + '_stu_B';
+            students = await dbGetPersonsByAssType(assType);
+
+            if (assType === 101 || assType === 102 || assType === 103 || assType === 104 || assType === 108) {
+              if (students.length > 0) {
+                const stuB = students[0].person_uid;
+                await dbSaveAss(week, stuB, fldName);
+                setAssigned((prev) => {
+                  return prev + 1;
+                });
+              }
+            }
+          }
+        }
+
+        // Assign AYF Assistant
+        for (let a = 1; a <= 3; a++) {
+          fldType = 'ass' + a + '_type';
+          const assType = sourceData[fldType];
+
+          // Main Hall
+          if (assType === 101 || assType === 102 || assType === 103 || assType === 108) {
+            fldName = 'ass' + a + '_stu_A_dispName';
+            const stuDispA = schedData[fldName];
+
+            fldName = 'ass' + a + '_ass_A';
+            students = await dbGetPersonsByAssType('isAssistant', stuDispA);
+            if (students.length > 0) {
+              const assA = students[0].person_uid;
+              await dbSaveAss(week, assA, fldName);
+              setAssigned((prev) => {
+                return prev + 1;
+              });
+            }
+          }
+
+          // Aux Class
+          if (class_count === 2 && schedData.week_type === 1) {
+            if (assType === 101 || assType === 102 || assType === 103 || assType === 108) {
+              fldName = 'ass' + a + '_stu_B_dispName';
+              const stuDispB = schedData[fldName];
+
+              fldName = 'ass' + a + '_ass_B';
+              students = await dbGetPersonsByAssType('isAssistant', stuDispB);
+              if (students.length > 0) {
+                const assB = students[0].person_uid;
+                await dbSaveAss(week, assB, fldName);
+                setAssigned((prev) => {
+                  return prev + 1;
+                });
+              }
+            }
+          }
         }
       }
     }

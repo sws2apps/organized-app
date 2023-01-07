@@ -164,7 +164,11 @@ const App = ({ updatePwa }) => {
   }, [setVisitorID, isOnline]);
 
   useEffect(() => {
-    if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+    if (
+      !process.env.NODE_ENV ||
+      process.env.NODE_ENV === 'development' ||
+      window.location.host.indexOf('localhost') !== -1
+    ) {
       if (import.meta.env.VITE_API_REMOTE_URL) {
         setApiHost(import.meta.env.VITE_API_REMOTE_URL);
       } else {
@@ -179,7 +183,7 @@ const App = ({ updatePwa }) => {
     if (!indexedDB) {
       if (!('serviceWorker' in navigator)) {
         return (
-          <div className='browser-not-supported'>
+          <div className="browser-not-supported">
             You seem to use an unsupported browser to use CPE. Make sure that you browser is up to date, or try to use
             another browser.
           </div>
