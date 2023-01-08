@@ -1,3 +1,10 @@
+## [2.18.1](https://github.com/sws2apps/lmm-oa-sws/compare/v2.18.0...v2.18.1) (2023-01-08)
+
+
+### Bug Fixes
+
+* **assignments:** handle loading my assignments when pocket members is undefined ([8243839](https://github.com/sws2apps/lmm-oa-sws/commit/82438398dd0b9b7dd94f8d0aaa3b97e5bc3cafec))
+
 # [2.18.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.17.1...v2.18.0) (2023-01-08)
 
 
