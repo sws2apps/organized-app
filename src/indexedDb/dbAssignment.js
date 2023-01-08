@@ -963,7 +963,9 @@ export const dbMyAssignments = async () => {
     }
 
     const monthNames = await promiseGetRecoil(monthNamesState);
-    const { local_uid, pocket_members } = await dbGetAppSettings();
+
+    let { local_uid, pocket_members } = await dbGetAppSettings();
+    pocket_members = pocket_members ? pocket_members : [];
 
     const d = new Date();
     const todayDate = new Date(d.getFullYear(), d.getMonth(), d.getDate());
