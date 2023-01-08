@@ -557,7 +557,7 @@ const CongregationPersonDetails = () => {
                           variant="outlined"
                           autoComplete="off"
                           value={member.pocket_oCode}
-                          sx={{ width: '150px', input: { textAlign: 'center' } }}
+                          sx={{ width: '250px', input: { textAlign: 'center' } }}
                           InputProps={{
                             readOnly: true,
                           }}

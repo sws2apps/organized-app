@@ -15,7 +15,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import TabPanel from '../../../components/TabPanel';
+import TabPanel from '../../components/TabPanel';
 import {
   apiHostState,
   isAppLoadState,
@@ -32,14 +32,14 @@ import {
   userIDState,
   userPasswordState,
   visitorIDState,
-} from '../../../states/main';
-import { initAppDb, isDbExist } from '../../../indexedDb/dbUtility';
-import { encryptString } from '../../../utils/swsEncryption';
-import { dbUpdateAppSettings } from '../../../indexedDb/dbAppSettings';
-import { loadApp } from '../../../utils/app';
-import { runUpdater } from '../../../utils/updater';
-import { appMessageState, appSeverityState, appSnackOpenState } from '../../../states/notification';
-import { congAccountConnectedState, congIDState, isAdminCongState } from '../../../states/congregation';
+} from '../../states/main';
+import { initAppDb, isDbExist } from '../../indexedDb/dbUtility';
+import { encryptString } from '../../utils/swsEncryption';
+import { dbUpdateAppSettings } from '../../indexedDb/dbAppSettings';
+import { loadApp } from '../../utils/app';
+import { runUpdater } from '../../utils/updater';
+import { appMessageState, appSeverityState, appSnackOpenState } from '../../states/notification';
+import { congAccountConnectedState, congIDState, isAdminCongState } from '../../states/congregation';
 
 const a11yProps = (index) => {
   return {

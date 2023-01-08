@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import { appMessageState, appSeverityState, appSnackOpenState } from '../../../states/notification';
+import { appMessageState, appSeverityState, appSnackOpenState } from '../../states/notification';
 import {
   apiHostState,
   isAppLoadState,
@@ -25,17 +25,17 @@ import {
   userIDState,
   userPasswordState,
   visitorIDState,
-} from '../../../states/main';
+} from '../../states/main';
 import {
   congAccountConnectedState,
   congIDState,
   isAdminCongState,
   isUpdateForVerificationState,
-} from '../../../states/congregation';
-import { encryptString } from '../../../utils/swsEncryption';
-import { dbGetAppSettings, dbUpdateAppSettings } from '../../../indexedDb/dbAppSettings';
-import { loadApp } from '../../../utils/app';
-import { runUpdater } from '../../../utils/updater';
+} from '../../states/congregation';
+import { encryptString } from '../../utils/swsEncryption';
+import { dbGetAppSettings, dbUpdateAppSettings } from '../../indexedDb/dbAppSettings';
+import { loadApp } from '../../utils/app';
+import { runUpdater } from '../../utils/updater';
 
 const matchIsNumeric = (text) => {
   return !isNaN(Number(text));
@@ -111,7 +111,7 @@ const VerifyMFA = () => {
               if (cong_name.length > 0) {
                 if (cong_role.length > 0) {
                   const settings = await dbGetAppSettings();
-                  if (settings.isCongUpdated === undefined) {
+                  if (settings.isCongUpdated2 === undefined) {
                     setCongID(cong_id);
                     setIsProcessing(false);
                     setIsUserMfaVerify(false);

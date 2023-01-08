@@ -13,8 +13,8 @@ import InstallDesktopIcon from '@mui/icons-material/InstallDesktop';
 import ReportIcon from '@mui/icons-material/Report';
 import SecurityIcon from '@mui/icons-material/Security';
 import Typography from '@mui/material/Typography';
-import { isShowTermsUseState } from '../../../states/main';
-import { themeOptionsState } from '../../../states/theme.js';
+import { isShowTermsUseState } from '../../states/main';
+import { themeOptionsState } from '../../states/theme.js';
 
 const itemQuestion = {
   marginBottom: '10px',

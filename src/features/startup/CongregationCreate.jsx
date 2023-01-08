@@ -7,7 +7,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import CountrySelect from '../../../components/CountrySelect';
+import CountrySelect from '../../components/CountrySelect';
 import {
   isAppLoadState,
   isCongAccountCreateState,
@@ -18,20 +18,20 @@ import {
   userEmailState,
   userIDState,
   userPasswordState,
-} from '../../../states/main';
-import CongregationSelect from '../../../components/CongregationSelect';
-import { appMessageState, appSeverityState, appSnackOpenState } from '../../../states/notification';
-import { apiCreateCongregation, apiUpdateCongregation } from '../../../api/congregation';
+} from '../../states/main';
+import CongregationSelect from '../../components/CongregationSelect';
+import { appMessageState, appSeverityState, appSnackOpenState } from '../../states/notification';
+import { apiCreateCongregation, apiUpdateCongregation } from '../../api/congregation';
 import {
   congAccountConnectedState,
   congIDState,
   isAdminCongState,
   isUpdateForVerificationState,
-} from '../../../states/congregation';
-import { encryptString } from '../../../utils/swsEncryption';
-import { dbUpdateAppSettings } from '../../../indexedDb/dbAppSettings';
-import { loadApp } from '../../../utils/app';
-import { runUpdater } from '../../../utils/updater';
+} from '../../states/congregation';
+import { encryptString } from '../../utils/swsEncryption';
+import { dbUpdateAppSettings } from '../../indexedDb/dbAppSettings';
+import { loadApp } from '../../utils/app';
+import { runUpdater } from '../../utils/updater';
 
 const CongregationCreate = () => {
   const cancel = useRef();
@@ -71,8 +71,8 @@ const CongregationCreate = () => {
       setIsProcessing(true);
 
       const { status, data } = isUpdateCong
-        ? await apiUpdateCongregation(congId, congregation.congName, congregation.congNumber)
-        : await apiCreateCongregation(congregation.congName, congregation.congNumber);
+        ? await apiUpdateCongregation(congId, country.code, congregation.congName, congregation.congNumber)
+        : await apiCreateCongregation(country.code, congregation.congName, congregation.congNumber);
 
       if (status === 200) {
         const { id, cong_id, cong_name, cong_role, cong_number } = data;
@@ -92,7 +92,7 @@ const CongregationCreate = () => {
             // save congregation update if any
             let obj = {};
             obj.username = data.username;
-            obj.isCongUpdated = true;
+            obj.isCongUpdated2 = true;
             obj.cong_name = cong_name;
             obj.cong_number = cong_number;
             obj.userPass = encPwd;

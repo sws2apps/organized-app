@@ -59,7 +59,7 @@ export const apiFetchCongregations = async (country, name) => {
   }
 };
 
-export const apiCreateCongregation = async (cong_name, cong_number) => {
+export const apiCreateCongregation = async (country_code, cong_name, cong_number) => {
   const { apiHost, userEmail, visitorID } = await getProfile();
 
   try {
@@ -71,7 +71,7 @@ export const apiCreateCongregation = async (cong_name, cong_number) => {
           email: userEmail,
           visitorid: visitorID,
         },
-        body: JSON.stringify({ cong_name, cong_number, email: userEmail, app_requestor: 'lmmo' }),
+        body: JSON.stringify({ country_code, cong_name, cong_number, email: userEmail, app_requestor: 'lmmo' }),
       });
       const data = await res.json();
 
@@ -82,7 +82,7 @@ export const apiCreateCongregation = async (cong_name, cong_number) => {
   }
 };
 
-export const apiUpdateCongregation = async (cong_id, cong_name, cong_number) => {
+export const apiUpdateCongregation = async (cong_id, country_code, cong_name, cong_number) => {
   const { apiHost, userEmail, visitorID } = await getProfile();
 
   try {
@@ -94,7 +94,7 @@ export const apiUpdateCongregation = async (cong_id, cong_name, cong_number) => 
           email: userEmail,
           visitorid: visitorID,
         },
-        body: JSON.stringify({ cong_name, cong_number }),
+        body: JSON.stringify({ country_code, cong_name, cong_number }),
       });
       const data = await res.json();
 

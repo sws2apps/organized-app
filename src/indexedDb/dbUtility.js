@@ -2,7 +2,6 @@ import Dexie from 'dexie';
 import { exportDB, importDB } from 'dexie-export-import';
 import download from 'downloadjs';
 import appDb from './mainDb';
-import backupDb from './backupDb';
 import { encryptString } from '../utils/swsEncryption';
 import { dbGetAppSettings, dbUpdateAppSettings } from './dbAppSettings';
 
@@ -10,17 +9,8 @@ export const initAppDb = async () => {
   await appDb.open();
 };
 
-export const initBackupDb = async () => {
-  await backupDb.open();
-};
-
 export const deleteDbByName = async (dbName) => {
   await Dexie.delete(dbName);
-};
-
-export const deleteDbBackup = async (dbName) => {
-  await backupDb.close();
-  await backupDb.delete();
 };
 
 export const deleteDb = async () => {

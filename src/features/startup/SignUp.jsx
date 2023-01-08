@@ -10,7 +10,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { isEmailValid } from '../../../utils/emailValid';
+import { isEmailValid } from '../../utils/emailValid';
 import {
   apiHostState,
   isEmailNotVerifiedState,
@@ -18,8 +18,8 @@ import {
   isUserSignInState,
   isUserSignUpState,
   visitorIDState,
-} from '../../../states/main';
-import { appMessageState, appSeverityState, appSnackOpenState } from '../../../states/notification';
+} from '../../states/main';
+import { appMessageState, appSeverityState, appSnackOpenState } from '../../states/notification';
 
 const SignUp = () => {
   const cancel = useRef();

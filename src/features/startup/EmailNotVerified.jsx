@@ -14,7 +14,7 @@ import {
   isUserSignInState,
   userEmailState,
   visitorIDState,
-} from '../../../states/main';
+} from '../../states/main';
 
 const EmailNotVerified = () => {
   const cancel = useRef();

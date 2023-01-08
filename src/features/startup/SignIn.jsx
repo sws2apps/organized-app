@@ -10,7 +10,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { isEmailValid } from '../../../utils/emailValid';
+import { isEmailValid } from '../../utils/emailValid';
 import {
   apiHostState,
   isAppLoadState,
@@ -28,12 +28,12 @@ import {
   userEmailState,
   userPasswordState,
   visitorIDState,
-} from '../../../states/main';
-import { appMessageState, appSeverityState, appSnackOpenState } from '../../../states/notification';
-import { dbGetAppSettings, dbUpdateAppSettings } from '../../../indexedDb/dbAppSettings';
-import { decryptString } from '../../../utils/swsEncryption';
-import { loadApp } from '../../../utils/app';
-import { runUpdater } from '../../../utils/updater';
+} from '../../states/main';
+import { appMessageState, appSeverityState, appSnackOpenState } from '../../states/notification';
+import { dbGetAppSettings, dbUpdateAppSettings } from '../../indexedDb/dbAppSettings';
+import { decryptString } from '../../utils/swsEncryption';
+import { loadApp } from '../../utils/app';
+import { runUpdater } from '../../utils/updater';
 
 const SignIn = () => {
   const cancel = useRef();
@@ -145,13 +145,13 @@ const SignIn = () => {
       setHasErrorPwd(false);
       if (isEmailValid(userTmpEmail) && userTmpPwd.length >= 10) {
         setIsProcessing(true);
-        
+
         const reqPayload = {
           email: userTmpEmail,
           password: userTmpPwd,
           visitorid: visitorID,
         };
-  
+
         if (apiHost !== '') {
           const res = await fetch(`${apiHost}user-login`, {
             method: 'POST',
@@ -159,8 +159,8 @@ const SignIn = () => {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify(reqPayload),
-          })
-  
+          });
+
           if (!cancel.current) {
             const data = await res.json();
             if (res.status === 200) {
@@ -226,7 +226,6 @@ const SignIn = () => {
         setAppSeverity('error');
         setAppSnackOpen(true);
       }
-      
     }
   };
 
@@ -251,7 +250,7 @@ const SignIn = () => {
     return () => {
       cancel.current = true;
     };
-  }, [])
+  }, []);
 
   return (
     <Container sx={{ marginTop: '20px' }}>

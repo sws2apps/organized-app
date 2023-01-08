@@ -2,26 +2,26 @@ import { useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import BlockIcon from '@mui/icons-material/Block';
 import Container from '@mui/material/Container';
-import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import Typography from '@mui/material/Typography';
-import { isUnauthorizedRoleState, isUserSignInState } from '../../../states/main';
+import { isEmailBlockedState, isUserSignInState } from '../../states/main';
 
-const UnauthorizedRole = () => {
+const EmailBlocked = () => {
   const { t } = useTranslation();
 
   const setUserSignIn = useSetRecoilState(isUserSignInState);
-  const setIsUnauthorizedRole = useSetRecoilState(isUnauthorizedRoleState);
+  const setEmailBlocked = useSetRecoilState(isEmailBlockedState);
 
   const handleSignIn = () => {
     setUserSignIn(true);
-    setIsUnauthorizedRole(false);
+    setEmailBlocked(false);
   };
 
   return (
     <Container sx={{ marginTop: '20px' }}>
       <Typography variant="h4" sx={{ marginBottom: '15px' }}>
-        {t('login.unauthorized')}
+        {t('login.blockedEmailTitle')}
       </Typography>
 
       <Box
@@ -33,14 +33,14 @@ const UnauthorizedRole = () => {
           margin: '30px 0',
         }}
       >
-        <ReportProblemIcon
+        <BlockIcon
           color="error"
           sx={{
             fontSize: '60px',
             cursor: 'pointer',
           }}
         />
-        <Typography>{t('login.unauthorizedRole')}</Typography>
+        <Typography>{t('login.blockedAccount')}</Typography>
       </Box>
 
       <Button variant="contained" onClick={handleSignIn}>
@@ -50,4 +50,4 @@ const UnauthorizedRole = () => {
   );
 };
 
-export default UnauthorizedRole;
+export default EmailBlocked;

@@ -1,12 +1,16 @@
 import { useEffect } from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import Box from '@mui/material/Box';
-import EmailNotVerified from './components/EmailNotVerified';
+import EmailNotVerified from './EmailNotVerified';
 import LinearProgressWithLabel from '../../components/LinearProgressWithLabel';
-import SetupMFA from './components/SetupMFA';
-import SignIn from './components/SignIn';
-import SignUp from './components/SignUp';
-import TermsUse from './components/TermsUse';
+import SetupMFA from './SetupMFA';
+import SignIn from './SignIn';
+import SignUp from './SignUp';
+import UnauthorizedRole from './UnauthorizedRole';
+import VerifyMFA from './VerifyMFA';
+import EmailBlocked from './EmailBlocked';
+import CongregationCreate from './CongregationCreate';
+import TermsUse from './TermsUse';
 import { dbGetAppSettings } from '../../indexedDb/dbAppSettings';
 import { loadApp } from '../../utils/app';
 import { runUpdater } from '../../utils/updater';
@@ -25,10 +29,6 @@ import {
   offlineOverrideState,
   startupProgressState,
 } from '../../states/main';
-import UnauthorizedRole from './components/UnauthorizedRole';
-import VerifyMFA from './components/VerifyMFA';
-import EmailBlocked from './components/EmailBlocked';
-import CongregationCreate from './components/CongregationCreate';
 
 const Startup = () => {
   const [isSetup, setIsSetup] = useRecoilState(isSetupState);
