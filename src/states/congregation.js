@@ -84,3 +84,8 @@ export const isUpdateForVerificationState = atom({
   key: 'isUpdateForVerification',
   default: false,
 });
+
+export const pocketMembersState = atom({
+  key: 'pocketMembers',
+  default: [],
+});

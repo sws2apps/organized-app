@@ -183,6 +183,10 @@ appDb.version(44).stores({
   app_settings:
     '++id, username, local_uid, source_lang, cong_number, cong_name, class_count, meeting_day, meeting_time, userPass, isLoggedOut, isScheduleConverted, isCongVerified, isAssignmentsConverted, isCongUpdated2',
 });
+appDb.version(45).stores({
+  app_settings:
+    '++id, username, local_uid, source_lang, cong_number, cong_name, class_count, meeting_day, meeting_time, userPass, isLoggedOut, isScheduleConverted, isCongVerified, isAssignmentsConverted, isCongUpdated2, pocket_members',
+});
 
 appDb.on('populate', function () {
   appDb.app_settings.add({
@@ -196,6 +200,7 @@ appDb.on('populate', function () {
     isCongVerified: true,
     isAssignmentsConverted: true,
     isCongUpdated2: true,
+    pocket_members: [],
   });
 
   let normWeekObj = {};

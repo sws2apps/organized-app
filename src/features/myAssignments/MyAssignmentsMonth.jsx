@@ -23,7 +23,7 @@ const MyAssignmentsMonth = ({ monthData }) => {
       </Box>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
         {monthData.month_assignments.map((assignment) => (
-          <MyAssignmentsMonthItem key={`my-assignment-${assignment.ID}`} assignment={assignment} />
+          <MyAssignmentsMonthItem key={`my-assignment-${assignment.id}`} assignment={assignment} />
         ))}
       </Box>
     </Box>

@@ -31,6 +31,7 @@ import {
   congIDState,
   isAdminCongState,
   isUpdateForVerificationState,
+  pocketMembersState,
 } from '../../states/congregation';
 import { encryptString } from '../../utils/swsEncryption';
 import { dbGetAppSettings, dbUpdateAppSettings } from '../../indexedDb/dbAppSettings';
@@ -72,6 +73,7 @@ const VerifyMFA = () => {
   const setQrCodePath = useSetRecoilState(qrCodePathState);
   const setSecretTokenPath = useSetRecoilState(secretTokenPathState);
   const setIsUpdateCong = useSetRecoilState(isUpdateForVerificationState);
+  const setPocketMembers = useSetRecoilState(pocketMembersState);
 
   const apiHost = useRecoilValue(apiHostState);
   const userEmail = useRecoilValue(userEmailState);
@@ -106,7 +108,7 @@ const VerifyMFA = () => {
           if (!cancel.current) {
             const data = await res.json();
             if (res.status === 200) {
-              const { id, cong_id, cong_name, cong_role, cong_number } = data;
+              const { id, cong_id, cong_name, cong_role, cong_number, pocket_members } = data;
 
               if (cong_name.length > 0) {
                 if (cong_role.length > 0) {
@@ -137,9 +139,12 @@ const VerifyMFA = () => {
                     obj.cong_number = cong_number;
                     obj.userPass = encPwd;
                     obj.isLoggedOut = false;
-                    setUserID(id);
+                    obj.pocket_members = pocket_members;
 
                     await dbUpdateAppSettings(obj);
+
+                    setPocketMembers(pocket_members);
+                    setUserID(id);
 
                     await loadApp();
 
@@ -208,6 +213,7 @@ const VerifyMFA = () => {
     setIsUserMfaSetup,
     setIsUserMfaVerify,
     setIsUpdateCong,
+    setPocketMembers,
     setOfflineOverride,
     setQrCodePath,
     setSecretTokenPath,

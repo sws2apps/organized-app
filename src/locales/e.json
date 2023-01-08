@@ -157,6 +157,13 @@
   "global.schedules": "Schedules",
   "global.selectAll": "Select all",
   "global.publish": "Publish",
+  "global.openingPrayerMidweekMeeting": "Midweek Meeting Opening Prayer",
+  "global.tgwTalk2": "Treasures From God’s Word - Talk 10 min.",
+  "global.tgwGems2": "Treasures From God’s Word - Spiritual Gems",
+  "global.cbsConductor2": "Congregation Bible Study - Conductor",
+  "global.cbsReader2": "Congregation Bible Study - Reader",
+  "global.closingPrayerMidweekMeeting": "Midweek Meeting Closing Prayer",
+  "global.presentedBy": "Delivered by: ",
 
   "startup.welcomeTitle": "Welcome to CPE",
   "startup.welcomeDescription": "CPE (or Congregation Program for Everyone) is an application designed for the Life and Ministry Meeting Overseer.",

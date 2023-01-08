@@ -90,7 +90,6 @@ const Layout = ({ updatePwa }) => {
 
       <Box sx={{ padding: '10px' }}>
         <UserAutoLogin />
-        <MyAssignments />
 
         {isOpenAbout && <About />}
         {isOpenWhatsNew && <WhatsNew />}
@@ -107,6 +106,7 @@ const Layout = ({ updatePwa }) => {
         {isAppLoad && <Startup />}
         {!isAppLoad && (
           <Suspense fallback={<WaitingPage />}>
+            <MyAssignments />
             <Outlet />
           </Suspense>
         )}

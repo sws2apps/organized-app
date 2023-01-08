@@ -79,6 +79,10 @@ export const fetchNotifications = async () => {
     if (isOnline && apiHost !== '') {
       const res = await fetch(`${apiHost}api/users/announcement`, {
         method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          app: 'lmm-oa',
+        },
       });
 
       const data = await res.json();
@@ -100,4 +104,26 @@ export const sortHistoricalDateDesc = (data) => {
 
 export const formatDateForCompare = (date) => {
   return new Date(date);
+};
+
+export const getAssignmentName = (assType) => {
+  if (assType === 101) {
+    return getI18n().t('global.initialCall');
+  }
+
+  if (assType === 102) {
+    return getI18n().t('global.returnVisit');
+  }
+
+  if (assType === 103) {
+    return getI18n().t('global.bibleStudy');
+  }
+
+  if (assType === 104) {
+    return getI18n().t('global.talk');
+  }
+
+  if (assType === 108) {
+    return getI18n().t('global.memorialInvite');
+  }
 };

@@ -25,8 +25,9 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { apiHostState, rootModalOpenState, userEmailState, visitorIDState } from '../states/main';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../states/notification';
-import { congIDState } from '../states/congregation';
+import { congIDState, pocketMembersState } from '../states/congregation';
 import { allStudentsState } from '../states/persons';
+import { dbUpdateAppSettings } from '../indexedDb/dbAppSettings';
 
 const styles = {
   checkbox: {
@@ -47,6 +48,7 @@ const CongregationPersonDetails = () => {
   const setAppSeverity = useSetRecoilState(appSeverityState);
   const setAppMessage = useSetRecoilState(appMessageState);
   const setRootModalOpen = useSetRecoilState(rootModalOpenState);
+  const setPocketMembers = useSetRecoilState(pocketMembersState);
 
   const userEmail = useRecoilValue(userEmailState);
   const apiHost = useRecoilValue(apiHostState);
@@ -346,6 +348,11 @@ const CongregationPersonDetails = () => {
         if (res.status === 200) {
           setRootModalOpen(false);
           queryClient.invalidateQueries({ queryKey: ['congPersons'] });
+
+          if (userEmail === person.user_uid) {
+            await dbUpdateAppSettings({ pocket_members: member.pocket_members });
+            setPocketMembers(member.pocket_members);
+          }
           return;
         }
 
@@ -703,7 +710,7 @@ const CongregationPersonDetails = () => {
         </Box>
       </Box>
       <Box sx={{ '& > :not(style)': { m: 1 }, position: 'fixed', bottom: 20, right: 20 }}>
-        {person.global_role === 'vip' && (
+        {person.global_role === 'vip' && userEmail !== person.user_uid && (
           <Fab aria-label="save" color="error" onClick={handleRemoveCongPerson}>
             <PersonRemoveIcon />
           </Fab>

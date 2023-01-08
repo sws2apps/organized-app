@@ -27,6 +27,7 @@ import {
   congIDState,
   isAdminCongState,
   isUpdateForVerificationState,
+  pocketMembersState,
 } from '../../states/congregation';
 import { encryptString } from '../../utils/swsEncryption';
 import { dbUpdateAppSettings } from '../../indexedDb/dbAppSettings';
@@ -51,6 +52,7 @@ const CongregationCreate = () => {
   const setOfflineOverride = useSetRecoilState(offlineOverrideState);
   const setCongAccountConnected = useSetRecoilState(congAccountConnectedState);
   const setIsAppLoad = useSetRecoilState(isAppLoadState);
+  const setPocketMembers = useSetRecoilState(pocketMembersState);
 
   const userPwd = useRecoilValue(userPasswordState);
   const userEmail = useRecoilValue(userEmailState);
@@ -75,7 +77,7 @@ const CongregationCreate = () => {
         : await apiCreateCongregation(country.code, congregation.congName, congregation.congNumber);
 
       if (status === 200) {
-        const { id, cong_id, cong_name, cong_role, cong_number } = data;
+        const { id, cong_id, cong_name, cong_role, cong_number, pocket_members } = data;
 
         if (cong_role.length > 0) {
           // role admin
@@ -97,9 +99,11 @@ const CongregationCreate = () => {
             obj.cong_number = cong_number;
             obj.userPass = encPwd;
             obj.isLoggedOut = false;
-            setUserID(id);
-
+            obj.pocket_members = pocket_members;
             await dbUpdateAppSettings(obj);
+
+            setUserID(id);
+            setPocketMembers(pocket_members);
 
             await loadApp();
 

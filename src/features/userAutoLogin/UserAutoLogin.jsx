@@ -1,7 +1,13 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { dbUpdateAppSettings } from '../../indexedDb/dbAppSettings';
 import { deleteDb } from '../../indexedDb/dbUtility';
-import { congAccountConnectedState, congIDState, isAdminCongState } from '../../states/congregation';
+import {
+  congAccountConnectedState,
+  congIDState,
+  isAdminCongState,
+  pocketMembersState,
+} from '../../states/congregation';
 import {
   apiHostState,
   isOnlineState,
@@ -21,6 +27,7 @@ const UserAutoLogin = () => {
   const setCongID = useSetRecoilState(congIDState);
   const setUserID = useSetRecoilState(userIDState);
   const setModalOpen = useSetRecoilState(rootModalOpenState);
+  const setPocketMembers = useSetRecoilState(pocketMembersState);
 
   const isOnline = useRecoilValue(isOnlineState);
   const apiHost = useRecoilValue(apiHostState);
@@ -60,6 +67,15 @@ const UserAutoLogin = () => {
             if (data.cong_role.includes('admin')) {
               setIsAdminCong(true);
             }
+
+            const { cong_name, cong_number, pocket_members, username } = data;
+            let obj = {};
+            obj.username = username;
+            obj.cong_name = cong_name;
+            obj.cong_number = cong_number;
+            obj.pocket_members = pocket_members;
+            await dbUpdateAppSettings(obj);
+            setPocketMembers(pocket_members);
             return;
           }
 
@@ -85,6 +101,7 @@ const UserAutoLogin = () => {
     setCongAccountConnected,
     setCongID,
     setIsAdminCong,
+    setPocketMembers,
     setUserID,
   ]);
 

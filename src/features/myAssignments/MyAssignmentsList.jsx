@@ -3,14 +3,16 @@ import { useRecoilValue } from 'recoil';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import { appLangState, monthNamesState, refreshMyAssignmentsState, userLocalUidState } from '../../states/main';
-import { dbStudentAssignmentsHistory } from '../../indexedDb/dbAssignment';
+import { dbMyAssignments } from '../../indexedDb/dbAssignment';
 import MyAssignmentsMonth from './MyAssignmentsMonth';
+import { pocketMembersState } from '../../states/congregation';
 
 const MyAssignmentsList = () => {
   const localUid = useRecoilValue(userLocalUidState);
   const monthNames = useRecoilValue(monthNamesState);
   const appLang = useRecoilValue(appLangState);
   const refresh = useRecoilValue(refreshMyAssignmentsState);
+  const pocketMembers = useRecoilValue(pocketMembersState);
 
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);
@@ -18,28 +20,9 @@ const MyAssignmentsList = () => {
   useEffect(() => {
     const getMyAssignments = async () => {
       setIsLoading(true);
-      const tempAssignments = await dbStudentAssignmentsHistory(localUid);
+      const tempAssignments = await dbMyAssignments();
 
-      const d = new Date();
-      const todayDate = new Date(d.getFullYear(), d.getMonth(), d.getDate());
-      const dayValue = todayDate.getDay();
-      const diff = todayDate.getDate() - dayValue + (dayValue === 0 ? -6 : 1);
-      const currentWeekDate = new Date(todayDate.setDate(diff));
-
-      const msInDay = 24 * 60 * 60 * 1000;
-
-      const tempData = [];
-      for (let a = tempAssignments.length - 1; a >= 0; a--) {
-        const item = tempAssignments[a];
-        const weekDate = new Date(item.weekOf);
-        const dayDiff = Math.round((weekDate - currentWeekDate) / msInDay);
-
-        if (dayDiff >= 0) {
-          tempData.push(item);
-        }
-      }
-
-      const tempData2 = tempData.map((assignment) => {
+      const tempData2 = tempAssignments.map((assignment) => {
         const split = assignment.weekOf.split('/');
         const monthIndex = +split[0] - 1;
         const monthValue = `${monthNames[monthIndex]} ${split[2]}`;
@@ -68,7 +51,7 @@ const MyAssignmentsList = () => {
     };
 
     getMyAssignments();
-  }, [appLang, localUid, monthNames, refresh]);
+  }, [appLang, localUid, monthNames, refresh, pocketMembers]);
 
   return (
     <Box>
