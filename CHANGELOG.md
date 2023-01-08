@@ -1,3 +1,16 @@
+# [2.18.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.17.1...v2.18.0) (2023-01-08)
+
+
+### Bug Fixes
+
+* **startup:** update for new congregation signup ([f44280e](https://github.com/sws2apps/lmm-oa-sws/commit/f44280e9a2d46afe25b70bc84df681623caec920))
+
+
+### Features
+
+* **app:** update to handle the new sws-vip application ([9f55233](https://github.com/sws2apps/lmm-oa-sws/commit/9f552334fa0e49a1dcb247168a1fa7e2b887389d))
+* **assignments:** view another members assignments ([5692314](https://github.com/sws2apps/lmm-oa-sws/commit/569231403c29e444fe18cde7225982ad8c4d00b3))
+
 ## [2.17.1](https://github.com/sws2apps/lmm-oa-sws/compare/v2.17.0...v2.17.1) (2023-01-06)
 
 
