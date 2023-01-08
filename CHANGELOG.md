@@ -1,3 +1,10 @@
+# [2.19.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.18.1...v2.19.0) (2023-01-08)
+
+
+### Features
+
+* **app:** migrate from browserRouter to hashRouter ([9b2300a](https://github.com/sws2apps/lmm-oa-sws/commit/9b2300a6aa62b2c2ec9911df687bb65175434789))
+
 ## [2.18.1](https://github.com/sws2apps/lmm-oa-sws/compare/v2.18.0...v2.18.1) (2023-01-08)
 
 
