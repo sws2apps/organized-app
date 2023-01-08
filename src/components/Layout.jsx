@@ -15,6 +15,7 @@ import {
   isAppClosingState,
   isAppLoadState,
   isCongPersonAddState,
+  isOnlineState,
   isWhatsNewOpenState,
   restoreDbOpenState,
 } from '../states/main';
@@ -65,6 +66,7 @@ const Layout = ({ updatePwa }) => {
   const isImportJWOrg = useRecoilValue(isImportJWOrgState);
   const isAppClosing = useRecoilValue(isAppClosingState);
   const isCongPersonAdd = useRecoilValue(isCongPersonAddState);
+  const isOnline = useRecoilValue(isOnlineState);
 
   const checkPwaUpdate = () => {
     if ('serviceWorker' in navigator) {
@@ -76,12 +78,14 @@ const Layout = ({ updatePwa }) => {
   };
 
   useEffect(() => {
-    fetchNotifications();
+    if (isOnline) {
+      fetchNotifications();
+    }
 
     if (import.meta.env.PROD) {
       checkPwaUpdate();
     }
-  }, [location]);
+  }, [isOnline, location]);
 
   return (
     <RootModal>
