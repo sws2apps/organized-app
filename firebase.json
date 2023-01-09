@@ -15,7 +15,7 @@
       "headers": [{
         "source": "**",
         "headers": [
-          { "key": "Content-Security-Policy", "value": "default-src 'self'; img-src 'self' data:; script-src 'self' https://fpnpmcdn.net; connect-src 'self' data: https://sws2apps-api.onrender.com https://*.fpapi.io https://api.fpjs.io o https://*.fptls.com; prefetch-src https://*.fpapi.io https://api.fpjs.io https://*.fptls.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; base-uri 'self'; form-action 'self'; object-src 'none'; frame-ancestors 'none'" },
+          { "key": "Content-Security-Policy", "value": "default-src 'self'; img-src 'self' data:; script-src 'self' https://fpnpmcdn.net; connect-src 'self' data: https://sws2apps.onrender.com https://*.fpapi.io https://api.fpjs.io o https://*.fptls.com; prefetch-src https://*.fpapi.io https://api.fpjs.io https://*.fptls.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; base-uri 'self'; form-action 'self'; object-src 'none'; frame-ancestors 'none'" },
           { "key": "Cache-Control", "value": "no-cache" },
           { "key": "X-Content-Type-Options", "value": "nosniff" },
           { "key": "X-Frame-Options", "value": "DENY" },
