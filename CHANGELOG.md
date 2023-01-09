@@ -1,3 +1,10 @@
+## [2.20.1](https://github.com/sws2apps/lmm-oa-sws/compare/v2.20.0...v2.20.1) (2023-01-09)
+
+
+### Bug Fixes
+
+* **app:** update csp for new api endpoint ([dc81be0](https://github.com/sws2apps/lmm-oa-sws/commit/dc81be068ec4c103d26dce21e24a500174021766))
+
 # [2.20.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.19.0...v2.20.0) (2023-01-09)
 
 
