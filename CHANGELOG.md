@@ -1,3 +1,17 @@
+# [2.20.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.19.0...v2.20.0) (2023-01-09)
+
+
+### Bug Fixes
+
+* **app:** update api endpoint ([e507f7b](https://github.com/sws2apps/lmm-oa-sws/commit/e507f7b26bea64580527bddb4626d96fbd5c4fde))
+
+
+### Features
+
+* **deps:** bump @tanstack/react-query from 4.20.9 to 4.22.0 ([66ddad5](https://github.com/sws2apps/lmm-oa-sws/commit/66ddad5037e5d95ce048bca5c71ebd316f325956))
+* **deps:** bump i18next from 22.4.8 to 22.4.9 ([64f39c8](https://github.com/sws2apps/lmm-oa-sws/commit/64f39c82e0e3ba6c2955d9c9d9e402144284453a))
+* **deps:** bump react-i18next from 12.1.1 to 12.1.4 ([6ed2e38](https://github.com/sws2apps/lmm-oa-sws/commit/6ed2e38819858cdfb9140df7e7262f349086f5ea))
+
 # [2.19.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.18.1...v2.19.0) (2023-01-08)
 
 
