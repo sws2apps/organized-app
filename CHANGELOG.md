@@ -1,3 +1,17 @@
+# [2.21.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.20.1...v2.21.0) (2023-01-10)
+
+
+### Bug Fixes
+
+* **startup:** disallow some email domains, handle unset source lang ([8d2ab87](https://github.com/sws2apps/lmm-oa-sws/commit/8d2ab879f1054e3e13b4f70909c09616964e59a5))
+
+
+### Features
+
+* **deps:** bump @mui/lab from 5.0.0-alpha.114 to 5.0.0-alpha.115 ([6e90f27](https://github.com/sws2apps/lmm-oa-sws/commit/6e90f2758cfaf35cf111a32bee0b6154fb212c39))
+* **deps:** bump @mui/material from 5.11.3 to 5.11.4 ([5ba9173](https://github.com/sws2apps/lmm-oa-sws/commit/5ba9173f15eb9015a267f5cec76fa556d1474c07))
+* **deps:** bump react-router-dom from 6.6.1 to 6.6.2 ([0a84f85](https://github.com/sws2apps/lmm-oa-sws/commit/0a84f8577f227b31d881c6d315635f11c0ef959e))
+
 ## [2.20.1](https://github.com/sws2apps/lmm-oa-sws/compare/v2.20.0...v2.20.1) (2023-01-09)
 
 
