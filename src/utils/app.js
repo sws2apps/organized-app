@@ -1,6 +1,6 @@
 import { getI18n } from 'react-i18next';
 import { promiseGetRecoil, promiseSetRecoil } from 'recoil-outside';
-import { dbGetAppSettings } from '../indexedDb/dbAppSettings';
+import { dbGetAppSettings, dbUpdateAppSettings } from '../indexedDb/dbAppSettings';
 import { checkSrcUpdate, dbGetListWeekType, dbGetYearList } from '../indexedDb/dbSourceMaterial';
 import { dbGetListAssType, dbHistoryAssignment } from '../indexedDb/dbAssignment';
 import { dbGetStudentsMini } from '../indexedDb/dbPersons';
@@ -48,6 +48,8 @@ export const loadApp = async () => {
   await promiseSetRecoil(meetingTimeState, meeting_time || new Date(Date.now()));
   await promiseSetRecoil(appLangState, app_lang);
   await promiseSetRecoil(sourceLangState, source_lang || app_lang);
+
+  if (source_lang === undefined) await dbUpdateAppSettings({ source_lang: app_lang });
 
   I18n.changeLanguage(app_lang);
 

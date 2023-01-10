@@ -63,12 +63,15 @@ const SignUp = () => {
     try {
       cancel.current = false;
 
+      const { isValid: isValidEmail, isSupportedDomain: isSupportedEmail } = isEmailValid(userTmpEmail);
+
       setHasErrorEmail(false);
       setHasErrorPwd(false);
       setHasErrorConfirmPwd(false);
       if (
         userTmpFullname.length >= 3 &&
-        isEmailValid(userTmpEmail) &&
+        isValidEmail &&
+        isSupportedEmail &&
         userTmpPwd.length >= 10 &&
         userTmpPwd === userTmpConfirmPwd
       ) {
@@ -112,8 +115,13 @@ const SignUp = () => {
         if (userTmpFullname.length < 3) {
           setHasErrorFullname(true);
         }
-        if (!isEmailValid(userTmpEmail)) {
+        if (!isValidEmail || !isSupportedEmail) {
           setHasErrorEmail(true);
+        }
+        if (!isSupportedEmail) {
+          setAppMessage(t('global.emailNotSupported'));
+          setAppSeverity('warning');
+          setAppSnackOpen(true);
         }
         if (userTmpPwd.length < 10) {
           setHasErrorPwd(true);

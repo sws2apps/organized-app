@@ -164,6 +164,7 @@
   "global.cbsReader2": "Congregation Bible Study - Reader",
   "global.closingPrayerMidweekMeeting": "Midweek Meeting Closing Prayer",
   "global.presentedBy": "Delivered by: ",
+  "global.emailNotSupported": "Sorry, we do not support this email address. Please use another one.",
 
   "startup.welcomeTitle": "Welcome to CPE",
   "startup.welcomeDescription": "CPE (or Congregation Program for Everyone) is an application designed for the Life and Ministry Meeting Overseer.",
