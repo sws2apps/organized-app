@@ -852,7 +852,7 @@ const ScheduleWeekDetails = () => {
                   </IconButton>
                 )}
               </Box>
-              {classCount === 2 && (
+              {classCount === 2 && weekType === 1 && (
                 <Box sx={boxStudentFldContainer}>
                   <Typography
                     sx={{
@@ -913,6 +913,7 @@ const ScheduleWeekDetails = () => {
               isAssA: isAss1A,
               isStuB: isStu1B,
               isAssB: isAss1B,
+              weekType,
             }}
             loadStudentPicker={(value) => loadStudentPicker(value)}
           />
@@ -937,6 +938,7 @@ const ScheduleWeekDetails = () => {
                 isAssA: isAss2A,
                 isStuB: isStu2B,
                 isAssB: isAss2B,
+                weekType,
               }}
               loadStudentPicker={(value) => loadStudentPicker(value)}
             />
@@ -962,6 +964,7 @@ const ScheduleWeekDetails = () => {
                 isAssA: isAss3A,
                 isStuB: isStu3B,
                 isAssB: isAss3B,
+                weekType,
               }}
               loadStudentPicker={(value) => loadStudentPicker(value)}
             />
@@ -987,6 +990,7 @@ const ScheduleWeekDetails = () => {
                 isAssA: isAss4A,
                 isStuB: isStu4B,
                 isAssB: isAss4B,
+                weekType,
               }}
               loadStudentPicker={(value) => loadStudentPicker(value)}
             />

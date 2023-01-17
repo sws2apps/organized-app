@@ -65,6 +65,7 @@ const ScheduleAYF = (props) => {
     isAssA,
     isStuB,
     isAssB,
+    weekType,
   } = props.params;
   const { loadStudentPicker, readOnly } = props;
 
@@ -203,7 +204,7 @@ const ScheduleAYF = (props) => {
                   </Box>
                 )}
               </Box>
-              {classCount === 2 && (
+              {classCount === 2 && weekType === 1 && (
                 <Box sx={boxStudentAYF}>
                   <Box sx={boxStudentFldContainer}>
                     <Typography
