@@ -1,3 +1,15 @@
+# [2.22.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.21.0...v2.22.0) (2023-01-17)
+
+
+### Bug Fixes
+
+* **schedules:** hide auxiliary class assignments if circuit overseer visit ([94face6](https://github.com/sws2apps/lmm-oa-sws/commit/94face635106a1a9ba04d98a7b8eefd58f976ceb))
+
+
+### Features
+
+* **deps:** bump @mui/x-date-pickers from 5.0.13 to 5.0.14 ([3901edd](https://github.com/sws2apps/lmm-oa-sws/commit/3901edd0f24d1850aa2a8cd27f63df7490f6af37))
+
 # [2.21.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.20.1...v2.21.0) (2023-01-10)
 
 
