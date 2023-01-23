@@ -1,3 +1,16 @@
+# [2.23.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.22.0...v2.23.0) (2023-01-23)
+
+
+### Features
+
+* **app:** support merge when sending and restoring backup ([0fded67](https://github.com/sws2apps/lmm-oa-sws/commit/0fded679c5103e8fa85e5ef5a9140ec0d0ed900a))
+* **deps:** bump @mui/lab from 5.0.0-alpha.115 to 5.0.0-alpha.116 ([89c8741](https://github.com/sws2apps/lmm-oa-sws/commit/89c8741c988f38f2d4beb251b09f9cfd512972b2))
+* **deps:** bump @mui/material from 5.11.4 to 5.11.5 ([8f691b9](https://github.com/sws2apps/lmm-oa-sws/commit/8f691b9b11a5db5be89799bf823ce2adb71c5ea6))
+* **deps:** bump @mui/x-date-pickers from 5.0.14 to 5.0.15 ([7976968](https://github.com/sws2apps/lmm-oa-sws/commit/79769684843e095d0f35b17fc6de6c42e903a896))
+* **deps:** bump @tanstack/react-query from 4.22.0 to 4.22.4 ([b6cfb1b](https://github.com/sws2apps/lmm-oa-sws/commit/b6cfb1b0a39e7cc3aea883c40110ade5e5d25915))
+* **deps:** bump dexie-export-import from 1.0.3 to 4.0.5 ([dea9aac](https://github.com/sws2apps/lmm-oa-sws/commit/dea9aacc0ba1f57cffcd03eeef4437ebe3da964f))
+* **deps:** bump react-router-dom from 6.6.2 to 6.7.0 ([77628d5](https://github.com/sws2apps/lmm-oa-sws/commit/77628d5faed2ec8945cd4465d75798e827555247))
+
 # [2.22.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.21.0...v2.22.0) (2023-01-17)
 
 
