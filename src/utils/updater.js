@@ -279,174 +279,239 @@ const updateAssignmentType = async (step) => {
     cbsReaderObj[lang.code.toUpperCase()] = getI18n().getDataByLanguage(lang.code).translation['global.cbsReader'];
   });
 
-  await appDb.ass_type.clear();
+  await appDb.assignment.clear();
 
-  await appDb.ass_type.bulkAdd([
+  await appDb.assignment.put(
     {
-      id_type: 8,
       code: 100,
       maleOnly: true,
       assignable: true,
       type: 'tgw',
-      ass_type_name: {
+      assignment_type_name: {
         ...bReadObj,
       },
-    },
-    {
       id_type: 1,
+    },
+    1
+  );
+
+  await appDb.assignment.put(
+    {
       code: 101,
       assignable: true,
       type: 'ayf',
-      ass_type_name: {
+      assignment_type_name: {
         ...initCallObj,
       },
-    },
-    {
       id_type: 2,
+    },
+    2
+  );
+
+  await appDb.assignment.put(
+    {
       code: 102,
       assignable: true,
       type: 'ayf',
-      ass_type_name: {
+      assignment_type_name: {
         ...rvObj,
       },
-    },
-    {
       id_type: 3,
+    },
+    3
+  );
+
+  await appDb.assignment.put(
+    {
       code: 103,
       assignable: true,
       type: 'ayf',
-      ass_type_name: {
+      assignment_type_name: {
         ...bsObj,
       },
-    },
-    {
       id_type: 4,
+    },
+    4
+  );
+
+  await appDb.assignment.put(
+    {
       code: 104,
       maleOnly: true,
       assignable: true,
       type: 'ayf',
-      ass_type_name: {
+      assignment_type_name: {
         ...talkObj,
       },
-    },
-    {
       id_type: 5,
+    },
+    5
+  );
+
+  await appDb.assignment.put(
+    {
       code: 105,
       assignable: false,
       type: 'ayf',
-      ass_type_name: {
+      assignment_type_name: {
         ...icVideoObj,
       },
-    },
-    {
       id_type: 6,
+    },
+    6
+  );
+
+  await appDb.assignment.put(
+    {
       code: 106,
       assignable: false,
       type: 'ayf',
-      ass_type_name: {
+      assignment_type_name: {
         ...rvVideoObj,
       },
-    },
-    {
       id_type: 7,
+    },
+    7
+  );
+
+  await appDb.assignment.put(
+    {
       code: 107,
       assignable: false,
       type: 'ayf',
-      ass_type_name: {
+      assignment_type_name: {
         ...otherObj,
       },
+      id_type: 8,
     },
+    8
+  );
+
+  await appDb.assignment.put(
     {
-      id_type: 20,
       code: 108,
       linkTo: 101,
       assignable: false,
       type: 'ayf',
-      ass_type_name: {
+      assignment_type_name: {
         ...memorialObj,
       },
-    },
-    {
       id_type: 9,
+    },
+    9
+  );
+
+  await appDb.assignment.put(
+    {
       code: 110,
       maleOnly: true,
       assignable: true,
       type: 'mm',
-      ass_type_name: {
+      assignment_type_name: {
         ...chairmanMMObj,
       },
-    },
-    {
       id_type: 10,
+    },
+    10
+  );
+
+  await appDb.assignment.put(
+    {
       code: 111,
       maleOnly: true,
       assignable: true,
       type: 'mm',
-      ass_type_name: {
+      assignment_type_name: {
         ...prayerMMObj,
       },
-    },
-    {
       id_type: 11,
+    },
+    11
+  );
+
+  await appDb.assignment.put(
+    {
       code: 112,
       maleOnly: true,
       assignable: true,
       type: 'tgw',
-      ass_type_name: {
+      assignment_type_name: {
         ...tgwTalkObj,
       },
-    },
-    {
       id_type: 12,
+    },
+    12
+  );
+
+  await appDb.assignment.put(
+    {
       code: 113,
       maleOnly: true,
       assignable: true,
       type: 'tgw',
-      ass_type_name: {
+      assignment_type_name: {
         ...tgwGemsObj,
       },
-    },
-    {
       id_type: 13,
+    },
+    13
+  );
+
+  await appDb.assignment.put(
+    {
       code: 114,
       maleOnly: true,
       assignable: true,
       type: 'lc',
-      ass_type_name: {
+      assignment_type_name: {
         ...lcPartObj,
       },
-    },
-    {
       id_type: 14,
+    },
+    14
+  );
+
+  await appDb.assignment.put(
+    {
       code: 115,
       maleOnly: true,
       assignable: true,
       type: 'lc',
-      ass_type_name: {
+      assignment_type_name: {
         ...cbsConductorObj,
       },
-    },
-    {
       id_type: 15,
+    },
+    15
+  );
+
+  await appDb.assignment.put(
+    {
       code: 116,
       maleOnly: true,
       assignable: true,
       type: 'lc',
-      ass_type_name: {
+      assignment_type_name: {
         ...cbsReaderObj,
       },
+      id_type: 16,
     },
+    16
+  );
+
+  await appDb.assignment.put(
     {
-      id_type: 21,
       code: 117,
       linkTo: 105,
       assignable: false,
       type: 'ayf',
-      ass_type_name: {
+      assignment_type_name: {
         ...memorialVideoObj,
       },
+      id_type: 17,
     },
-  ]);
+    17
+  );
 
   i = i + step;
   promiseSetRecoil(startupProgressState, i);

@@ -187,6 +187,23 @@ appDb.version(45).stores({
   app_settings:
     '++id, username, local_uid, source_lang, cong_number, cong_name, class_count, meeting_day, meeting_time, userPass, isLoggedOut, isScheduleConverted, isCongVerified, isAssignmentsConverted, isCongUpdated2, pocket_members',
 });
+appDb.version(46).stores({
+  persons:
+    '++id, person_name, person_displayName, isMale, isFemale, isUnavailable, lastAssignment, person_uid, assignments, timeAway, isMoved, isDisqualified, isChairmanMM, isPrayerMM, isTGWTalk, isTGWGems, isLCPart, isCBSConductor, isCBSReader, changes',
+  sched_MM:
+    '&weekOf, bRead_stu_A, bRead_stu_B, ass1_stu_A, ass1_ass_A, ass1_stu_B, ass1_ass_B, ass2_stu_A, ass2_ass_A, ass2_stu_B, ass2_ass_B, ass3_stu_A, ass3_ass_A, ass3_stu_B, ass3_ass_B, ass4_stu_A, ass4_ass_A, ass4_stu_B, ass4_ass_B, week_type, noMeeting, isReleased, chairmanMM_A, chairmanMM_B, opening_prayer, tgw_talk, tgw_gems, lc_part1, lc_part2, cbs_conductor, cbs_reader, closing_prayer, changes',
+});
+appDb.version(47).stores({
+  ass_type: null,
+  assignment_type: '++id, code, assignable, linkTo, type, assignment_type_name',
+});
+appDb.version(48).stores({
+  assignment_type: null,
+  assignment: '&id_type, code, assignable, linkTo, type, assignment_type_name',
+});
+appDb.version(49).stores({
+  deleted: '++id, table, ref, date',
+});
 
 appDb.on('populate', function () {
   appDb.app_settings.add({

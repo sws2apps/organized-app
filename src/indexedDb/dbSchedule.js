@@ -21,7 +21,7 @@ export const dbGetScheduleData = async (weekValue) => {
   schedule.weekOf = appData.weekOf;
 
   const assList = [];
-  const excludeFiles = ['weekOf', 'week_type', 'noMeeting', 'isReleased'];
+  const excludeFiles = ['weekOf', 'week_type', 'noMeeting', 'isReleased', 'changes'];
   for (const [key, value] of Object.entries(appData)) {
     if (excludeFiles.indexOf(key) === -1) {
       assList.push({ assignment: key, person: value });
@@ -54,7 +54,7 @@ export const dbGetScheduleDataPocket = async (weekValue) => {
   schedule.weekOf = appData.weekOf;
 
   const assList = [];
-  const excludeFiles = ['weekOf', 'week_type', 'noMeeting', 'isReleased'];
+  const excludeFiles = ['weekOf', 'week_type', 'noMeeting', 'isReleased', 'changes'];
   for (const [key, value] of Object.entries(appData)) {
     if (excludeFiles.indexOf(key) === -1) {
       assList.push({ assignment: key, person: value });

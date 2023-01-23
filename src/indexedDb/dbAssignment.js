@@ -24,38 +24,22 @@ export const dbGetAssType = async (assType, appLang) => {
     return srcAssType;
   } else {
     const i = parseInt(assType, 10);
-    const appData = await appDb.table('ass_type').get(i);
-    srcAssType = appData.ass_type_name[appLang];
+    const appData = await appDb.table('assignment').get(i);
+    srcAssType = appData.assignment_type_name[appLang];
     return srcAssType;
-  }
-};
-
-export const dbGetAssTypeId = async (assType, appLang) => {
-  let srcAssType = '';
-  if (assType === '') {
-    return srcAssType;
-  } else {
-    const appData = await appDb.table('ass_type').get({ ass_type_name: assType });
-    if (typeof appData === 'undefined') {
-      return '';
-    } else {
-      srcAssType = appData.id_type;
-      return srcAssType;
-    }
   }
 };
 
 export const dbGetListAssType = async () => {
   const assType = [];
   let obj = {};
-  const appData = await appDb.table('ass_type').reverse().reverse().sortBy('code');
+  const appData = await appDb.table('assignment').reverse().reverse().sortBy('code');
 
   for (let i = 0; i < appData.length; i++) {
     obj = {};
-    obj.id_type = appData[i].id_type;
     obj.code = appData[i].code;
     obj.assignable = appData[i].assignable;
-    obj.ass_type_name = appData[i].ass_type_name;
+    obj.assignment_type_name = appData[i].assignment_type_name;
     obj.maleOnly = appData[i].maleOnly || false;
     obj.type = appData[i].type;
     obj.linkTo = appData[i].linkTo;
@@ -67,9 +51,15 @@ export const dbGetListAssType = async () => {
 export const dbSaveAss = async (weekOf, stuID, varSave) => {
   const appData = await appDb.table('sched_MM').get({ weekOf: weekOf });
   const stuPrev = appData[varSave];
+  const changes = appData.changes ? [...appData.changes] : [];
 
   const obj = {};
   obj[varSave] = stuID;
+
+  const findIndex = changes.findIndex((item) => item.field === varSave);
+  if (findIndex !== -1) changes.splice(findIndex, 1);
+  changes.push({ date: new Date().toISOString(), field: varSave, value: stuID });
+  obj.changes = changes;
 
   await appDb.table('sched_MM').update(weekOf, { ...obj });
 
@@ -104,7 +94,7 @@ export const dbHistoryAssignment = async () => {
         const dateFormatted = dateFormat(lDate, shortDateFormat);
 
         const assList = [];
-        const excludeFiles = ['weekOf', 'week_type', 'noMeeting', 'isReleased'];
+        const excludeFiles = ['weekOf', 'week_type', 'noMeeting', 'isReleased', 'changes'];
         for (const [key, value] of Object.entries(appData[i])) {
           if (excludeFiles.indexOf(key) === -1) {
             if (value && value !== '') {

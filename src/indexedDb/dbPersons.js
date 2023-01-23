@@ -7,6 +7,7 @@ import { allStudentsState, filteredStudentsState } from '../states/persons';
 import { sortHistoricalDateDesc } from '../utils/app';
 import { dbStudentAssignmentsHistory } from './dbAssignment';
 import { assTypeLocalNewState } from '../states/sourceMaterial';
+import { comparePerson } from '../utils/compare';
 
 export const dbGetStudents = async () => {
   let allStudents = [];
@@ -105,6 +106,14 @@ export const dbSavePersonData = async (personData) => {
 export const dbDeleteStudent = async (uid) => {
   const appData = await appDb.table('persons').get({ person_uid: uid });
   await appDb.persons.delete(appData.id);
+
+  const data = {
+    table: 'persons',
+    date: new Date().toISOString(),
+    ref: uid,
+  };
+
+  await appDb.deleted.add(data);
 };
 
 export const dbAddPersonData = async (personData) => {
@@ -322,6 +331,8 @@ export const dbSavePersonExp = async (data) => {
   if (person_name && person_displayName) {
     if (id) {
       if (data.historyAssignments) delete data.historyAssignments;
+      const person = await dbGetStudentByUid(data.person_uid);
+      data.changes = comparePerson(person, data);
       await appDb.table('persons').update(id, data);
     } else {
       let obj = {

@@ -70,8 +70,8 @@ const AssignmentType = ({ student, assignable, currentType, handleChangeType }) 
     <>
       {localList.length > 0 && (
         <Autocomplete
-          id='grouped-demo'
-          size='small'
+          id="grouped-demo"
+          size="small"
           sx={{ minWidth: '260px' }}
           options={localList}
           groupBy={(option) => option.type}

@@ -139,25 +139,25 @@ export const dbGetSourceMaterialPocket = async (weekOf) => {
   obj.bibleReading_study = appData.bibleReading_study;
   obj.ass1_type = +appData.ass1_type || '';
 
-  obj.ass1_type_name = assTypeList.find((type) => type.code === obj.ass1_type).ass_type_name || '';
+  obj.ass1_type_name = assTypeList.find((type) => type.code === obj.ass1_type).assignment_type_name || '';
   obj.ass1_time = +appData.ass1_time || '';
   obj.ass1_study = appData.ass1_study || '';
   obj.ass1_src = appData.ass1_src;
 
   obj.ass2_type = +appData.ass2_type || '';
-  obj.ass2_type_name = assTypeList.find((type) => type.code === obj.ass2_type).ass_type_name || '';
+  obj.ass2_type_name = assTypeList.find((type) => type.code === obj.ass2_type).assignment_type_name || '';
   obj.ass2_time = +appData.ass2_time || '';
   obj.ass2_study = appData.ass2_study || '';
   obj.ass2_src = appData.ass2_src;
 
   obj.ass3_type = +appData.ass3_type || '';
-  obj.ass3_type_name = assTypeList.find((type) => type.code === obj.ass3_type).ass_type_name || '';
+  obj.ass3_type_name = assTypeList.find((type) => type.code === obj.ass3_type).assignment_type_name || '';
   obj.ass3_time = +appData.ass3_time || '';
   obj.ass3_study = appData.ass3_study || '';
   obj.ass3_src = appData.ass3_src;
 
   obj.ass4_type = +appData.ass4_type || '';
-  obj.ass4_type_name = assTypeList.findIndex((type) => type.code === obj.ass4_type).ass_type_name || '';
+  obj.ass4_type_name = assTypeList.findIndex((type) => type.code === obj.ass4_type).assignment_type_name || '';
   obj.ass4_time = appData.ass4_time ? (typeof appData.ass4_time === 'object' ? '' : +appData.ass4_time) : '';
   obj.ass4_study = appData.ass4_study || '';
   obj.ass4_src = appData.ass4_src;
@@ -386,12 +386,29 @@ const dbSaveSchedData = async (weekOf, weekType, noMeeting, isOverride) => {
         isSuccess = false;
       });
   } else {
+    const changes = appData.changes ? [...appData.changes] : [];
+
+    const sourceWeekType = appData.week_type;
+    if (sourceWeekType !== weekType) {
+      const findIndex = changes.findIndex((item) => item.field === 'week_type');
+      if (findIndex !== -1) changes.splice(findIndex, 1);
+      changes.push({ date: new Date().toISOString(), field: 'week_type', value: weekType });
+    }
+
+    const sourceNoMeeting = appData.noMeeting;
+    if (sourceNoMeeting !== noMeeting) {
+      const findIndex = changes.findIndex((item) => item.field === 'noMeeting');
+      if (findIndex !== -1) changes.splice(findIndex, 1);
+      changes.push({ date: new Date().toISOString(), field: 'noMeeting', value: noMeeting });
+    }
+
     await appDb
       .table('sched_MM')
       .update(weekOf, {
         weekOf: weekOf,
         week_type: weekType,
         noMeeting: noMeeting,
+        changes: changes,
       })
       .then(() => {
         isSuccess = true;

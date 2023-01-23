@@ -56,7 +56,7 @@ export const assTypeLocalState = selector({
     for (let i = 0; i < assTypeList.length; i++) {
       let obj = {};
       obj.value = assTypeList[i].code;
-      obj.label = assTypeList[i].ass_type_name[sourceLang.toUpperCase()];
+      obj.label = assTypeList[i].assignment_type_name[sourceLang.toUpperCase()];
       newList.push(obj);
     }
 
@@ -76,7 +76,7 @@ export const assTypeLocalNewState = selector({
       obj.value = assTypeList[i].code;
       obj.assignable = assTypeList[i].assignable;
       obj.maleOnly = assTypeList[i].maleOnly;
-      obj.label = assTypeList[i].ass_type_name[sourceLang.toUpperCase()];
+      obj.label = assTypeList[i].assignment_type_name[sourceLang.toUpperCase()];
       obj.type = assTypeList[i].type;
       obj.linkTo = assTypeList[i].linkTo;
       newList.push(obj);

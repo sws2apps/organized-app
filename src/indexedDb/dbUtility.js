@@ -128,6 +128,9 @@ export const dbExportDataOnline = async () => {
   // get persons
   const dbPersons = await appDb.persons.toArray();
 
+  // get deleted items
+  const dbDeleted = await appDb.deleted.toArray();
+
   // get source materials
   const dbSourceMaterial = await appDb.src.toArray();
 
@@ -150,7 +153,7 @@ export const dbExportDataOnline = async () => {
   // restore credentials
   await dbUpdateAppSettings({ userPass: userPass, username: username });
 
-  return { dbPersons, dbSourceMaterial, dbSchedule, dbPocketTbl, dbSettings };
+  return { dbPersons, dbDeleted, dbSourceMaterial, dbSchedule, dbPocketTbl, dbSettings };
 };
 
 export const dbRestoreCongregationBackup = async (
@@ -174,10 +177,110 @@ export const dbRestoreCongregationBackup = async (
   await dbUpdateAppSettings({ userPass: userPass, username: username });
 
   // restore persons
-  await appDb.persons.clear();
-  for (let i = 0; i < cong_persons.length; i++) {
-    const person = cong_persons[i];
-    await appDb.persons.add(person, person.id);
+  const oldPersons = await appDb.persons.toArray();
+  // handle modified person record
+  for await (const oldPerson of oldPersons) {
+    const newPerson = cong_persons.find((person) => person.person_uid === oldPerson.person_uid);
+    if (newPerson) {
+      const oldChanges = oldPerson.changes;
+      const newChanges = newPerson.changes;
+
+      const arrayFields = [
+        { name: 'assignments', id: 'assignmentId' },
+        { name: 'timeAway', id: 'timeAwayId' },
+      ];
+
+      if (newChanges) {
+        // handle non-assignments and non-time away changes
+        newChanges.forEach((change) => {
+          if (arrayFields.findIndex((field) => field.name === change.field) === -1) {
+            let isChanged = false;
+
+            const oldChange = oldChanges.find((old) => old.field === change.field);
+            const originalDate = oldChange?.date || undefined;
+
+            if (!oldChange) {
+              isChanged = true;
+            }
+
+            if (originalDate) {
+              const dateA = new Date(originalDate);
+              const dateB = new Date(change.date);
+
+              if (dateB > dateA) {
+                isChanged = true;
+              }
+            }
+
+            if (isChanged) {
+              oldPerson[change.field] = change.value;
+
+              if (oldPerson.changes) {
+                const findIndex = oldPerson.changes.findIndex((item) => item.field === change.field) || -1;
+                if (findIndex !== -1) oldPerson.changes.splice(findIndex, 1);
+              }
+
+              if (!oldPerson.changes) {
+                oldPerson.changes = [];
+              }
+
+              oldPerson.changes.push(change);
+            }
+          }
+        });
+
+        // handle assignments and time away changes
+        newChanges.forEach((change) => {
+          const foundArray = arrayFields.find((field) => field.name === change.field);
+          if (foundArray) {
+            // handle deleted item
+            if (change.isDeleted) {
+              const toBeDeleted = oldPerson[change.field].findIndex(
+                (item) => item[foundArray.id] === change.value[foundArray.id]
+              );
+              if (toBeDeleted !== -1) oldPerson[change.field].splice(toBeDeleted, 1);
+            }
+
+            // handle added item
+            if (change.isAdded) {
+              oldPerson[change.field].push(change.value);
+              if (!oldPerson.changes) oldPerson.changes = [];
+              oldPerson.changes.push(change);
+            }
+
+            // handle modified item
+            if (change.isModified) {
+              const toBeModified = oldPerson[change.field].findIndex(
+                (item) => item[foundArray.id] === change.value[foundArray.id]
+              );
+
+              if (toBeModified !== -1) oldPerson[change.field].splice(toBeModified, 1);
+              oldPerson[change.field].push(change.value);
+            }
+
+            // update changes
+            if (change.isDeleted || change.isModified) {
+              if (!oldPerson.changes) oldPerson.changes = [];
+              const findIndex = oldPerson.changes.findIndex(
+                (item) => item.value[foundArray.id] === change.value[foundArray.id]
+              );
+              if (findIndex !== -1) oldPerson.changes.splice(findIndex, 1);
+              oldPerson.changes.push(change);
+            }
+          }
+        });
+      }
+
+      await appDb.table('persons').update(oldPerson.id, oldPerson);
+    }
+  }
+
+  // handle new person record
+  for await (const newPerson of cong_persons) {
+    const oldPerson = oldPersons.find((person) => person.person_uid === newPerson.person_uid);
+    if (!oldPerson) {
+      await appDb.persons.add(newPerson);
+    }
   }
 
   // restore source materials
@@ -188,10 +291,61 @@ export const dbRestoreCongregationBackup = async (
   }
 
   // restore schedule
-  await appDb.sched_MM.clear();
-  for (let i = 0; i < cong_schedule.length; i++) {
-    const schedule = cong_schedule[i];
-    await appDb.sched_MM.add(schedule, schedule.weekOf);
+  const oldSchedules = await appDb.sched_MM.toArray();
+  // handle modified schedule
+  for await (const oldSchedule of oldSchedules) {
+    const newSchedule = cong_schedule.find((schedule) => schedule.weekOf === oldSchedule.weekOf);
+    if (newSchedule) {
+      const oldChanges = oldSchedule.changes;
+      const newChanges = newSchedule.changes;
+
+      if (newChanges) {
+        newChanges.forEach((change) => {
+          let isChanged = false;
+
+          const oldChange = oldChanges.find((old) => old.field === change.field);
+          const originalDate = oldChange?.date || undefined;
+
+          if (!oldChange) {
+            isChanged = true;
+          }
+
+          if (originalDate) {
+            const dateA = new Date(originalDate);
+            const dateB = new Date(change.date);
+
+            if (dateB > dateA) {
+              isChanged = true;
+            }
+          }
+
+          if (isChanged) {
+            oldSchedule[change.field] = change.value;
+
+            if (oldSchedule.changes) {
+              const findIndex = oldSchedule.changes.findIndex((item) => item.field === change.field) || -1;
+              if (findIndex !== -1) oldSchedule.changes.splice(findIndex, 1);
+            }
+
+            if (!oldSchedule.changes) {
+              oldSchedule.changes = [];
+            }
+
+            oldSchedule.changes.push(change);
+          }
+        });
+      }
+
+      await appDb.sched_MM.put(oldSchedule, oldSchedule.weekOf);
+    }
+  }
+
+  // handle new schedule record
+  for await (const newSchedule of cong_schedule) {
+    const oldSchedule = oldSchedules.find((schedule) => schedule.weekOf === newSchedule.weekOf);
+    if (!oldSchedule) {
+      await appDb.sched_MM.put(newSchedule, newSchedule.weekOf);
+    }
   }
 
   // restore sws pocket info
