@@ -1,3 +1,10 @@
+## [2.24.2](https://github.com/sws2apps/lmm-oa-sws/compare/v2.24.1...v2.24.2) (2023-01-29)
+
+
+### Bug Fixes
+
+* **features:** override parts not shown when editing and view schedule ([4c9233d](https://github.com/sws2apps/lmm-oa-sws/commit/4c9233d160948b9cfda5c0ac4acf797075672fe4))
+
 ## [2.24.1](https://github.com/sws2apps/lmm-oa-sws/compare/v2.24.0...v2.24.1) (2023-01-29)
 
 

@@ -1,7 +1,7 @@
 {
   "name": "lmm-oa-sws",
   "private": true,
-  "version": "2.24.1",
+  "version": "2.24.2",
   "type": "module",
   "repository": {
     "type": "git",
