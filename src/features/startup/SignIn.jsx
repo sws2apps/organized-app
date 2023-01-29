@@ -283,7 +283,7 @@ const SignIn = () => {
           label={t('password')}
         />
 
-        <TogglePassword showPwd={showPwd} togglePwd={(value) => togglePwd(value)} />
+        <TogglePassword showPwd={showPwd} togglePwd={togglePwd} />
       </Box>
 
       <Box sx={loginStyles}>

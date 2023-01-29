@@ -188,7 +188,7 @@ const SignUp = () => {
           label={t('confirmPassword')}
         />
 
-        <TogglePassword showPwd={showPwd} togglePwd={(value) => togglePwd(value)} />
+        <TogglePassword showPwd={showPwd} togglePwd={togglePwd} />
       </Box>
 
       <Box sx={loginStyles}>
