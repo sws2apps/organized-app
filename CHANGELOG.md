@@ -1,3 +1,10 @@
+## [2.24.4](https://github.com/sws2apps/lmm-oa-sws/compare/v2.24.3...v2.24.4) (2023-01-29)
+
+
+### Bug Fixes
+
+* **schedules:** fix duplicated assigned persons when using autofill ([c6e2492](https://github.com/sws2apps/lmm-oa-sws/commit/c6e2492e5b6473fd4f11783316f726491c0f1b64))
+
 ## [2.24.3](https://github.com/sws2apps/lmm-oa-sws/compare/v2.24.2...v2.24.3) (2023-01-29)
 
 
