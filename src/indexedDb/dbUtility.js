@@ -284,10 +284,43 @@ export const dbRestoreCongregationBackup = async (
   }
 
   // restore source materials
+  const oldSources = await appDb.src.toArray();
   await appDb.src.clear();
-  for (let i = 0; i < cong_sourceMaterial.length; i++) {
-    const src = cong_sourceMaterial[i];
+  for await (const src of cong_sourceMaterial) {
     await appDb.src.add(src, src.weekOf);
+
+    // restore keepOverride if qualified
+    const newKeepOverride = src.keepOverride || undefined;
+    const oldSrc = oldSources.find((week) => week.weekOf === src.weekOf);
+
+    if (oldSrc) {
+      const oldKeepOverride = oldSrc.keepOverride;
+      let isRestore = false;
+
+      if (!newKeepOverride) {
+        isRestore = true;
+      }
+
+      if (newKeepOverride && oldKeepOverride) {
+        const oldDate = new Date(oldKeepOverride);
+        const newDate = new Date(newKeepOverride);
+
+        if (oldDate > newDate) {
+          isRestore = true;
+        }
+      }
+
+      if (isRestore) {
+        const obj = {};
+        for (const [key, value] of Object.entries(oldSrc)) {
+          if (key.indexOf('_override') !== -1) {
+            obj[key] = value;
+          }
+        }
+
+        await appDb.src.update(src.weekOf, obj);
+      }
+    }
   }
 
   // restore schedule

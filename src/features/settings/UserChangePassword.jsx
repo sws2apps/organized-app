@@ -18,7 +18,7 @@ const password = {
 const UserChangePassword = () => {
   const cancel = useRef();
 
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
   const setAppSnackOpen = useSetRecoilState(appSnackOpenState);
   const setAppSeverity = useSetRecoilState(appSeverityState);
@@ -38,7 +38,7 @@ const UserChangePassword = () => {
     try {
       // verify password requirements
       if (newPassword.length < 10 || newPasswordConfirm.length < 10) {
-        setAppMessage(t('settings.passwordRequirements'));
+        setAppMessage(t('passwordRequirements'));
         setAppSeverity('warning');
         setAppSnackOpen(true);
         return;
@@ -48,7 +48,7 @@ const UserChangePassword = () => {
       const { userPass } = await dbGetAppSettings();
       const crdParse = await decryptString(oldPassword, userPass);
       if (!crdParse.pwd) {
-        setAppMessage(t('settings.passwordIncorrect'));
+        setAppMessage(t('passwordIncorrect'));
         setAppSeverity('warning');
         setAppSnackOpen(true);
         return;
@@ -56,7 +56,7 @@ const UserChangePassword = () => {
 
       // validating new password
       if (newPassword !== newPasswordConfirm) {
-        setAppMessage(t('settings.passwordNotEqual'));
+        setAppMessage(t('passwordNotEqual'));
         setAppSeverity('warning');
         setAppSnackOpen(true);
         return;
@@ -82,7 +82,7 @@ const UserChangePassword = () => {
 
           if (res.status === 200) {
             setModalOpen(false);
-            setAppMessage(t('settings.passwordChanged'));
+            setAppMessage(t('passwordChanged'));
             setAppSeverity('success');
             setAppSnackOpen(true);
 
@@ -119,7 +119,7 @@ const UserChangePassword = () => {
       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
         <TextField
           id="settings-old-password"
-          label={t('settings.oldPassword')}
+          label={t('oldPassword')}
           variant="outlined"
           type="password"
           size="small"
@@ -132,7 +132,7 @@ const UserChangePassword = () => {
         <TextField
           id="settings-new-password"
           type="password"
-          label={t('settings.newPassword')}
+          label={t('newPassword')}
           variant="outlined"
           size="small"
           autoComplete="off"
@@ -144,7 +144,7 @@ const UserChangePassword = () => {
         <TextField
           id="settings-confirm-password"
           type="password"
-          label={t('settings.confirmPassword')}
+          label={t('confirmPassword')}
           variant="outlined"
           size="small"
           autoComplete="off"
@@ -155,7 +155,7 @@ const UserChangePassword = () => {
         />
       </Box>
       <Button onClick={handleUpdatePassword} variant="contained">
-        {t('global.update')}
+        {t('update')}
       </Button>
     </Box>
   );

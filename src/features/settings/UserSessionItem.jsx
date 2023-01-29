@@ -13,7 +13,7 @@ import { appMessageState, appSeverityState, appSnackOpenState } from '../../stat
 const UserSessionItem = ({ session, setSessions }) => {
   const cancel = useRef();
 
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
   const setModalOpen = useSetRecoilState(rootModalOpenState);
   const setAppSnackOpen = useSetRecoilState(appSnackOpenState);
@@ -25,7 +25,7 @@ const UserSessionItem = ({ session, setSessions }) => {
   const visitorID = useRecoilValue(visitorIDState);
   const userID = useRecoilValue(userIDState);
 
-  const lastSeen = session.last_seen ? dateFormat(new Date(session.last_seen), t('global.shortDateTimeFormat')) : '';
+  const lastSeen = session.last_seen ? dateFormat(new Date(session.last_seen), t('shortDateTimeFormat')) : '';
 
   const handleRevokeSession = async () => {
     try {
@@ -93,10 +93,10 @@ const UserSessionItem = ({ session, setSessions }) => {
           <Typography
             sx={{ fontSize: '14px' }}
           >{`${session.device.browserName} (${session.device.os} ${session.device.osVersion})`}</Typography>
-          <Typography sx={{ fontSize: '14px' }}>{t('settings.lastSeen', { last_seen: lastSeen })}</Typography>
+          <Typography sx={{ fontSize: '14px' }}>{t('lastSeen', { last_seen: lastSeen })}</Typography>
           {visitorID === session.visitorid && (
             <Chip
-              label={t('settings.currentSession')}
+              label={t('currentSession')}
               sx={{
                 backgroundColor: '#145A32',
                 color: 'white',
@@ -109,7 +109,7 @@ const UserSessionItem = ({ session, setSessions }) => {
       {visitorID !== session.visitorid && (
         <Box sx={{ display: 'flex', flexGrow: 1, justifyContent: 'flex-end' }}>
           <Button onClick={handleRevokeSession} variant="outlined" color="error" sx={{ marginBottom: '10px' }}>
-            {t('settings.sessionRevoke')}
+            {t('sessionRevoke')}
           </Button>
         </Box>
       )}

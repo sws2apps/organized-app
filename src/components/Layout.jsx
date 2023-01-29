@@ -78,13 +78,21 @@ const Layout = ({ updatePwa }) => {
   };
 
   useEffect(() => {
+    let fetchTimer;
+
     if (isOnline) {
-      fetchNotifications();
+      fetchTimer = setTimeout(() => {
+        fetchNotifications();
+      }, 2000);
     }
 
     if (import.meta.env.PROD) {
       checkPwaUpdate();
     }
+
+    return () => {
+      if (fetchTimer) clearTimeout(fetchTimer);
+    };
   }, [isOnline, location]);
 
   return (

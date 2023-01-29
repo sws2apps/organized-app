@@ -34,7 +34,7 @@ import { allStudentsState } from '../../states/persons';
 const CongregationPersonAdd = () => {
   const abortCont = useRef();
   const queryClient = useQueryClient();
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
   const congMembers = queryClient.getQueryData(['congPersons']);
 
@@ -119,78 +119,35 @@ const CongregationPersonAdd = () => {
   };
 
   const handleCreateCongPerson = async () => {
-    if (selectedPocket) {
-      await handleCreateCongPocketPerson();
-    } else {
-      await handleCreateCongVipPerson();
-    }
-  };
-
-  const handleCreateCongVipPerson = async () => {
     try {
       if (apiHost !== '') {
         abortCont.current = new AbortController();
 
         setRootModalOpen(true);
 
-        const api = `${apiHost}api/congregations/${congID}/members`;
+        let api;
+        let body;
 
-        const res = await fetch(api, {
-          method: 'PUT',
-          signal: abortCont.current.signal,
-          headers: {
-            'Content-Type': 'application/json',
-            visitorid: visitorID,
-            email: userEmail,
-          },
-          body: JSON.stringify({ user_id: foundMember.id }),
-        });
-
-        const data = await res.json();
-
-        if (res.status === 200) {
-          setRootModalOpen(false);
-          queryClient.invalidateQueries({ queryKey: ['congPersons'] });
-          setOpen(false);
-          return;
-        }
-
-        setRootModalOpen(false);
-        setAppMessage(data.message);
-        setAppSeverity('warning');
-        setAppSnackOpen(true);
-      }
-    } catch (err) {
-      if (!abortCont.current.signal.aborted) {
-        setRootModalOpen(false);
-        setAppMessage(err.message);
-        setAppSeverity('error');
-        setAppSnackOpen(true);
-      }
-    }
-  };
-
-  const handleCreateCongPocketPerson = async () => {
-    try {
-      if (apiHost !== '') {
-        abortCont.current = new AbortController();
-
-        setRootModalOpen(true);
-
-        const api = `${apiHost}api/congregations/${congID}/pockets`;
-
-        const res = await fetch(api, {
-          method: 'PUT',
-          signal: abortCont.current.signal,
-          headers: {
-            'Content-Type': 'application/json',
-            visitorid: visitorID,
-            email: userEmail,
-          },
-          body: JSON.stringify({
+        if (selectedPocket) {
+          api = `${apiHost}api/congregations/${congID}/pockets`;
+          body = JSON.stringify({
             username: selectedPocket.person_name,
             pocket_local_id: { person_uid: selectedPocket.person_uid, person_name: selectedPocket.person_name },
-          }),
+          });
+        } else {
+          api = `${apiHost}api/congregations/${congID}/members`;
+          body = JSON.stringify({ user_id: foundMember.id });
+        }
+
+        const res = await fetch(api, {
+          method: 'PUT',
+          signal: abortCont.current.signal,
+          headers: {
+            'Content-Type': 'application/json',
+            visitorid: visitorID,
+            email: userEmail,
+          },
+          body,
         });
 
         const data = await res.json();
@@ -240,7 +197,7 @@ const CongregationPersonAdd = () => {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title" sx={{ lineHeight: 1.3 }}>
-          {t('administration.addCPEUser')}
+          {t('addCPEUser')}
         </DialogTitle>
         <DialogContent>
           <Box>
@@ -252,8 +209,8 @@ const CongregationPersonAdd = () => {
                 value={value}
                 onChange={handleChange}
               >
-                <FormControlLabel value="vip" control={<Radio />} label={t('administration.vipUsersHeading')} />
-                <FormControlLabel value="pocket" control={<Radio />} label={t('administration.pocketUsersHeading')} />
+                <FormControlLabel value="vip" control={<Radio />} label={t('vipUsersHeading')} />
+                <FormControlLabel value="pocket" control={<Radio />} label={t('pocketUsersHeading')} />
               </RadioGroup>
             </FormControl>
 
@@ -263,7 +220,7 @@ const CongregationPersonAdd = () => {
                   <Box sx={{ display: 'flex', alignItems: 'flex-end', flexWrap: 'wrap', gap: '8px' }}>
                     <TextField
                       id="email-standard-basic"
-                      label={t('login.email')}
+                      label={t('email')}
                       variant="standard"
                       sx={{ minWidth: '280px' }}
                       autoComplete="off"
@@ -277,7 +234,7 @@ const CongregationPersonAdd = () => {
                         disabled={isSearching}
                         onClick={handleSearch}
                       >
-                        {t('global.search')}
+                        {t('search')}
                       </Button>
                     </Box>
                   </Box>
@@ -285,15 +242,15 @@ const CongregationPersonAdd = () => {
               )}
               {value === 'pocket' && (
                 <Box>
-                  <Typography sx={{ marginBottom: '5px' }}>{t('administration.selectPocketRecord')}</Typography>
+                  <Typography sx={{ marginBottom: '5px' }}>{t('selectPocketRecord')}</Typography>
                   <Autocomplete
                     id="tags-standard"
                     value={selectedPocket}
                     onChange={(e, value) => setSelectedPocket(value)}
                     options={filteredPersons}
                     getOptionLabel={(option) => option.person_name}
-                    renderInput={(params) => <TextField {...params} variant="standard" label={t('global.record')} />}
-                    noOptionsText={t('assignments.noMatchRecord')}
+                    renderInput={(params) => <TextField {...params} variant="standard" label={t('record')} />}
+                    noOptionsText={t('noMatchRecord')}
                   />
                 </Box>
               )}
@@ -311,19 +268,19 @@ const CongregationPersonAdd = () => {
               {notFound && (
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '20px' }}>
                   <DoNotTouchIcon color="error" sx={{ fontSize: '50px' }} />
-                  <Typography>{t('administration.accountNotFound')}</Typography>
+                  <Typography>{t('accountNotFound')}</Typography>
                 </Box>
               )}
               {isMember && (
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '20px' }}>
                   <InfoIcon color="primary" sx={{ fontSize: '50px' }} />
-                  <Typography>{t('administration.accountExist')}</Typography>
+                  <Typography>{t('accountExist')}</Typography>
                 </Box>
               )}
               {found && (
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '20px' }}>
                   <ThumbUpIcon color="success" sx={{ fontSize: '50px' }} />
-                  <Typography>{t('administration.cpeUserFound')}</Typography>
+                  <Typography>{t('cpeUserFound')}</Typography>
                 </Box>
               )}
             </Box>
@@ -332,11 +289,11 @@ const CongregationPersonAdd = () => {
         <DialogActions>
           {(selectedPocket || found) && (
             <Button onClick={handleCreateCongPerson} color="primary">
-              {t('global.create')}
+              {t('create')}
             </Button>
           )}
           <Button onClick={handleClose} color="primary">
-            {t('global.cancel')}
+            {t('cancel')}
           </Button>
         </DialogActions>
       </Dialog>

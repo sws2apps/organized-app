@@ -9,7 +9,7 @@ import { S89Selector, S89Template } from '../features/schedules';
 import { currentScheduleState, s89DataState } from '../states/schedule';
 
 const S89 = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
   const navigate = useNavigate();
 
   const currentSchedule = useRecoilValue(currentScheduleState);
@@ -26,7 +26,7 @@ const S89 = () => {
   return (
     <Box>
       <Box sx={{ marginBottom: '20px' }}>
-        <Typography sx={{ textTransform: 'uppercase', fontWeight: 'bold' }}>{t('schedule.s89')}</Typography>
+        <Typography sx={{ textTransform: 'uppercase', fontWeight: 'bold' }}>{t('s89')}</Typography>
       </Box>
 
       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>

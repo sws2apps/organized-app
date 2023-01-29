@@ -8,7 +8,7 @@ import { appNotificationsState } from '../../states/main';
 import { themeOptionsState } from '../../states/theme';
 
 const WhatsNewContent = ({ id, open, anchorEl, handleClose }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
   const notifications = useRecoilValue(appNotificationsState);
   const theme = useRecoilValue(themeOptionsState);
@@ -43,7 +43,7 @@ const WhatsNewContent = ({ id, open, anchorEl, handleClose }) => {
             ))}
           </>
         )}
-        {notifications.length === 0 && <Typography sx={{ fontSize: '14px' }}>{t('global.nothingNew')}</Typography>}
+        {notifications.length === 0 && <Typography sx={{ fontSize: '14px' }}>{t('nothingNew')}</Typography>}
       </Box>
     </Popover>
   );

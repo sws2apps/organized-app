@@ -19,7 +19,7 @@ import {
 const EmailNotVerified = () => {
   const cancel = useRef();
 
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
   const setUserSignIn = useSetRecoilState(isUserSignInState);
   const setEmailNotVerified = useSetRecoilState(isEmailNotVerifiedState);
@@ -79,7 +79,7 @@ const EmailNotVerified = () => {
   return (
     <Container sx={{ marginTop: '20px' }}>
       <Typography variant="h4" sx={{ marginBottom: '15px' }}>
-        {t('login.verifyEmail')}
+        {t('verifyEmail')}
       </Typography>
 
       {!isProcessing && (
@@ -101,7 +101,7 @@ const EmailNotVerified = () => {
                   cursor: 'pointer',
                 }}
               />
-              <Typography>{t('login.verifyAccount')}</Typography>
+              <Typography>{t('verifyAccount')}</Typography>
             </>
           )}
           {errTxt.length > 0 && (
@@ -113,7 +113,7 @@ const EmailNotVerified = () => {
                   cursor: 'pointer',
                 }}
               />
-              <Typography>{t('login.resendError', { error: errTxt })}</Typography>
+              <Typography>{t('resendError', { error: errTxt })}</Typography>
             </>
           )}
         </Box>
@@ -141,10 +141,10 @@ const EmailNotVerified = () => {
         }}
       >
         <Link component="button" underline="none" variant="body1" onClick={handleResendVerification}>
-          {t('login.resendVerify')}
+          {t('resendVerify')}
         </Link>
         <Link component="button" underline="none" variant="body1" onClick={handleSignIn}>
-          {t('login.proceedSignIn')}
+          {t('proceedSignIn')}
         </Link>
       </Box>
     </Container>

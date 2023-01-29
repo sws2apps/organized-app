@@ -5,7 +5,7 @@ import TextField from '@mui/material/TextField';
 import { weekTypeLocalState } from '../../states/sourceMaterial';
 
 const WeekType = (props) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
   const { weekType, setWeekType } = props;
 
@@ -34,7 +34,7 @@ const WeekType = (props) => {
         <TextField
           id="outlined-select-weekType"
           select
-          label={t('global.type')}
+          label={t('type')}
           size="small"
           value={weekType}
           onChange={(e) => handleTypeChange(e)}

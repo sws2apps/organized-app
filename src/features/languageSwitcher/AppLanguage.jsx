@@ -11,10 +11,10 @@ import Tooltip from '@mui/material/Tooltip';
 import TranslateIcon from '@mui/icons-material/Translate';
 import Typography from '@mui/material/Typography';
 import { appLangState } from '../../states/main';
-import { UILANGUAGE_LIST } from '../../locales/langList.js';
+import { LANGUAGE_LIST } from '../../locales/langList.js';
 
 const AppLanguage = () => {
-  const { t, i18n } = useTranslation();
+  const { t, i18n } = useTranslation('ui');
 
   const [appLang, setAppLang] = useRecoilState(appLangState);
 
@@ -28,6 +28,8 @@ const AppLanguage = () => {
   });
 
   let isMenuOpen = Boolean(anchorEl);
+
+  const listUILangs = LANGUAGE_LIST.filter((lang) => lang.isUI === true);
 
   const handleLangChange = async (e) => {
     setUserChange(true);
@@ -49,7 +51,7 @@ const AppLanguage = () => {
       if (userChange) {
         await i18n.changeLanguage(appLangLocal);
 
-        const isoLang = getI18n().getDataByLanguage(appLangLocal).translation['global.iso'];
+        const isoLang = getI18n().getDataByLanguage(appLangLocal).ui['iso'];
         document.documentElement.setAttribute('lang', isoLang);
 
         setAppLang(appLangLocal);
@@ -60,7 +62,7 @@ const AppLanguage = () => {
         let appLang = localStorage.getItem('app_lang') || 'e';
         await i18n.changeLanguage(appLang);
 
-        const isoLang = getI18n().getDataByLanguage(appLang).translation['global.iso'];
+        const isoLang = getI18n().getDataByLanguage(appLang).ui['iso'];
         document.documentElement.setAttribute('lang', isoLang);
 
         setAppLang(appLang);
@@ -72,7 +74,7 @@ const AppLanguage = () => {
 
   return (
     <>
-      <Tooltip title={largeView ? '' : t('global.changeLanguage')}>
+      <Tooltip title={largeView ? '' : t('changeLanguage')}>
         <IconButton
           color="inherit"
           edge="start"
@@ -86,7 +88,7 @@ const AppLanguage = () => {
           onClick={handleClick}
         >
           <TranslateIcon />
-          {largeView && <Typography sx={{ marginLeft: '5px' }}>{t('global.changeLanguage')}</Typography>}
+          {largeView && <Typography sx={{ marginLeft: '5px' }}>{t('changeLanguage')}</Typography>}
         </IconButton>
       </Tooltip>
       <Menu
@@ -100,7 +102,7 @@ const AppLanguage = () => {
           'aria-labelledby': 'basic-button',
         }}
       >
-        {UILANGUAGE_LIST.map((lang) => (
+        {listUILangs.map((lang) => (
           <MenuItem key={lang.code} onClick={handleLangChange} sx={{ padding: 0 }}>
             <ListItemText data-code={lang.code}>
               <Typography sx={{ padding: '6px 16px' }}>{lang.name}</Typography>

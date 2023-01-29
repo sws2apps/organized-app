@@ -11,22 +11,22 @@ const subtitles = {
 };
 
 const MyAccount = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
   return (
     <Box>
-      <Typography className={'settingHeader'}>{t('settings.myAccount')}</Typography>
+      <Typography className={'settingHeader'}>{t('myAccount')}</Typography>
       <Divider sx={{ borderWidth: '5px' }} />
       <Box sx={{ marginTop: '20px' }}>
         <UserFullname />
       </Box>
-      <Typography sx={subtitles}>{t('settings.changePassword')}</Typography>
+      <Typography sx={subtitles}>{t('changePassword')}</Typography>
       <Divider />
       <UserChangePassword />
-      <Typography sx={subtitles}>{t('settings.twoFactor')}</Typography>
+      <Typography sx={subtitles}>{t('twoFactor')}</Typography>
       <Divider />
       <User2FA />
-      <Typography sx={subtitles}>{t('settings.sessions')}</Typography>
+      <Typography sx={subtitles}>{t('sessions')}</Typography>
       <Divider />
       <UserSessions />
     </Box>

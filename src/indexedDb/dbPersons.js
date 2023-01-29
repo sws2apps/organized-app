@@ -210,7 +210,7 @@ export const dbGetPersonsByAssType = async (assType, stuForAssistant) => {
     } else {
       const [varMonth, varDay, varYear] = dbPersons[i].lastAssignment.split('/');
       const lDate = new Date(varYear, varMonth - 1, varDay);
-      const dateFormatted = dateFormat(lDate, getI18n().t('global.shortDateFormat'));
+      const dateFormatted = dateFormat(lDate, getI18n().t('shortDateFormat', { ns: 'ui' }));
       person.lastAssignmentFormat = dateFormatted;
     }
     person.person_displayName = dbPersons[i].person_displayName;

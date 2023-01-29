@@ -25,7 +25,7 @@ const datePicker = {
 };
 
 const PersonAssignmentItem = ({ student, assignment, assignments, setAssignments }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
   const { assignmentId } = assignment;
   const shortDatePickerFormat = useRecoilValue(shortDatePickerFormatState);
 
@@ -118,7 +118,7 @@ const PersonAssignmentItem = ({ student, assignment, assignments, setAssignments
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DesktopDatePicker
               id="start-date-assignment-picker"
-              label={t('global.startDate')}
+              label={t('startDate')}
               inputFormat={shortDatePickerFormat}
               value={startedDate}
               onChange={handleStartedChange}
@@ -128,7 +128,7 @@ const PersonAssignmentItem = ({ student, assignment, assignments, setAssignments
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DesktopDatePicker
               id="end-date-assignment-picker"
-              label={t('global.endDate')}
+              label={t('endDate')}
               inputFormat={shortDatePickerFormat}
               value={expiredDate}
               onChange={handleExpiredChange}
@@ -138,7 +138,7 @@ const PersonAssignmentItem = ({ student, assignment, assignments, setAssignments
           </LocalizationProvider>
         </Box>
         <TextField
-          label={t('global.comments')}
+          label={t('comments')}
           variant="outlined"
           size="small"
           autoComplete="off"
@@ -161,7 +161,7 @@ const PersonAssignmentItem = ({ student, assignment, assignments, setAssignments
         }}
       >
         <Button variant="outlined" color="error" startIcon={<ClearIcon />} onClick={handleRemoveAssignment}>
-          {t('global.delete')}
+          {t('delete')}
         </Button>
       </Box>
     </Box>

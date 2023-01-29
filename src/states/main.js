@@ -62,18 +62,18 @@ export const monthNamesState = selector({
     const appLang = get(appLangState);
 
     let months = [];
-    months.push(getI18n().getDataByLanguage(appLang).translation['global.january']);
-    months.push(getI18n().getDataByLanguage(appLang).translation['global.february']);
-    months.push(getI18n().getDataByLanguage(appLang).translation['global.march']);
-    months.push(getI18n().getDataByLanguage(appLang).translation['global.april']);
-    months.push(getI18n().getDataByLanguage(appLang).translation['global.may']);
-    months.push(getI18n().getDataByLanguage(appLang).translation['global.june']);
-    months.push(getI18n().getDataByLanguage(appLang).translation['global.july']);
-    months.push(getI18n().getDataByLanguage(appLang).translation['global.august']);
-    months.push(getI18n().getDataByLanguage(appLang).translation['global.september']);
-    months.push(getI18n().getDataByLanguage(appLang).translation['global.october']);
-    months.push(getI18n().getDataByLanguage(appLang).translation['global.november']);
-    months.push(getI18n().getDataByLanguage(appLang).translation['global.december']);
+    months.push(getI18n().getDataByLanguage(appLang).ui['january']);
+    months.push(getI18n().getDataByLanguage(appLang).ui['february']);
+    months.push(getI18n().getDataByLanguage(appLang).ui['march']);
+    months.push(getI18n().getDataByLanguage(appLang).ui['april']);
+    months.push(getI18n().getDataByLanguage(appLang).ui['may']);
+    months.push(getI18n().getDataByLanguage(appLang).ui['june']);
+    months.push(getI18n().getDataByLanguage(appLang).ui['july']);
+    months.push(getI18n().getDataByLanguage(appLang).ui['august']);
+    months.push(getI18n().getDataByLanguage(appLang).ui['september']);
+    months.push(getI18n().getDataByLanguage(appLang).ui['october']);
+    months.push(getI18n().getDataByLanguage(appLang).ui['november']);
+    months.push(getI18n().getDataByLanguage(appLang).ui['december']);
 
     return months;
   },
@@ -83,7 +83,7 @@ export const shortDateFormatState = selector({
   key: 'shortDateFormat',
   get: ({ get }) => {
     const appLang = get(appLangState);
-    const format = getI18n().getDataByLanguage(appLang).translation['global.shortDateFormat'];
+    const format = getI18n().getDataByLanguage(appLang).ui['shortDateFormat'];
     return format;
   },
 });
@@ -92,7 +92,7 @@ export const shortDatePickerFormatState = selector({
   key: 'shortDatePickerFormat',
   get: ({ get }) => {
     const appLang = get(appLangState);
-    const format = getI18n().getDataByLanguage(appLang).translation['global.shortDatePickerFormat'];
+    const format = getI18n().getDataByLanguage(appLang).ui['shortDatePickerFormat'];
     return format;
   },
 });

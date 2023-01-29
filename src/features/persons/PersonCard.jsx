@@ -52,7 +52,7 @@ const sharedStyles = {
 
 const PersonCard = ({ person }) => {
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
   const setCurrentStudent = useSetRecoilState(currentStudentState);
   const setIsStudentDelete = useSetRecoilState(isStudentDeleteState);
@@ -95,12 +95,12 @@ const PersonCard = ({ person }) => {
           }
           action={
             <>
-              <Tooltip title={t('global.edit')}>
+              <Tooltip title={t('edit')}>
                 <IconButton onClick={handleClickOpen}>
                   <EditIcon />
                 </IconButton>
               </Tooltip>
-              <Tooltip title={t('global.delete')}>
+              <Tooltip title={t('delete')}>
                 <IconButton
                   sx={{ marginRight: '5px' }}
                   onClick={() => handleDelete(person.person_uid, person.person_name)}
@@ -122,35 +122,23 @@ const PersonCard = ({ person }) => {
           }}
         >
           {person.assignments.find((assignment) => assignment.code === 100 && assignment.isActive === true) && (
-            <Chip
-              label={t('global.abbrBibleReading')}
-              size="small"
-              sx={{ ...sharedStyles.chip, ...sharedStyles.chipBRead }}
-            />
+            <Chip label={t('abbrBibleReading')} size="small" sx={{ ...sharedStyles.chip, ...sharedStyles.chipBRead }} />
           )}
           {person.assignments.find((assignment) => assignment.code === 101 && assignment.isActive === true) && (
             <Chip
-              label={t('global.abbrInitialCall')}
+              label={t('abbrInitialCall')}
               size="small"
               sx={{ ...sharedStyles.chip, ...sharedStyles.chipIniCall }}
             />
           )}
           {person.assignments.find((assignment) => assignment.code === 102 && assignment.isActive === true) && (
-            <Chip
-              label={t('global.abbrReturnVisit')}
-              size="small"
-              sx={{ ...sharedStyles.chip, ...sharedStyles.chipRV }}
-            />
+            <Chip label={t('abbrReturnVisit')} size="small" sx={{ ...sharedStyles.chip, ...sharedStyles.chipRV }} />
           )}
           {person.assignments.find((assignment) => assignment.code === 103 && assignment.isActive === true) && (
-            <Chip
-              label={t('global.abbrBibleStudy')}
-              size="small"
-              sx={{ ...sharedStyles.chip, ...sharedStyles.chipBS }}
-            />
+            <Chip label={t('abbrBibleStudy')} size="small" sx={{ ...sharedStyles.chip, ...sharedStyles.chipBS }} />
           )}
           {person.assignments.find((assignment) => assignment.code === 104 && assignment.isActive === true) && (
-            <Chip label={t('global.abbrTalk')} size="small" sx={{ ...sharedStyles.chip, ...sharedStyles.chipTalk }} />
+            <Chip label={t('abbrTalk')} size="small" sx={{ ...sharedStyles.chip, ...sharedStyles.chipTalk }} />
           )}
         </CardContent>
       </Card>

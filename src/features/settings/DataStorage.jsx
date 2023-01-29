@@ -10,7 +10,7 @@ import { DialogDbDeletion } from './';
 import { isDeleteDbOpenState } from '../../states/main';
 
 const DataStorage = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
   const setIsDeleteDb = useSetRecoilState(isDeleteDbOpenState);
 
@@ -25,23 +25,21 @@ const DataStorage = () => {
   return (
     <>
       <DialogDbDeletion />
-      <Typography className={'settingHeader'}>
-        {t('settings.offlineDataStorage')}
-      </Typography>
+      <Typography className={'settingHeader'}>{t('offlineDataStorage')}</Typography>
       <Divider sx={{ borderWidth: '5px' }} />
       <Box sx={{ padding: '20px 20px' }}>
         <Box>
-          <Typography>{t('settings.eraseDesc')}</Typography>
+          <Typography>{t('eraseDesc')}</Typography>
         </Box>
         <Button
-          variant='contained'
-          color='error'
+          variant="contained"
+          color="error"
           className={'btnSubItem'}
           startIcon={<DeleteForeverIcon />}
           onClick={() => handleDelete()}
-          sx={{ marginTop: '10px'}}
+          sx={{ marginTop: '10px' }}
         >
-          {t('global.delete')}
+          {t('delete')}
         </Button>
       </Box>
     </>

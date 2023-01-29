@@ -78,7 +78,7 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 const PersonDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
   const theme = useTheme();
   const lgUp = useMediaQuery(theme.breakpoints.up('lg'), { noSsr: true });
@@ -112,7 +112,7 @@ const PersonDetails = () => {
         ? {
             ...assignment,
             endDate: format(new Date(), 'MM/dd/yyy'),
-            comments: t('global.endMoved'),
+            comments: t('endMoved'),
           }
         : assignment
     );
@@ -128,7 +128,7 @@ const PersonDetails = () => {
       setRootModalOpen(false);
     } else {
       setRootModalOpen(false);
-      setAppMessage(t('persons.missingInfo'));
+      setAppMessage(t('missingInfo'));
       setAppSeverity('warning');
       setAppSnackOpen(true);
     }
@@ -146,7 +146,7 @@ const PersonDetails = () => {
       setRootModalOpen(false);
     } else {
       setRootModalOpen(false);
-      setAppMessage(t('persons.missingInfo'));
+      setAppMessage(t('missingInfo'));
       setAppSeverity('warning');
       setAppSnackOpen(true);
     }
@@ -158,7 +158,7 @@ const PersonDetails = () => {
         ? {
             ...assignment,
             endDate: format(new Date(), 'MM/dd/yyy'),
-            comments: t('global.disqualified'),
+            comments: t('disqualified'),
           }
         : assignment
     );
@@ -174,7 +174,7 @@ const PersonDetails = () => {
       setRootModalOpen(false);
     } else {
       setRootModalOpen(false);
-      setAppMessage(t('persons.missingInfo'));
+      setAppMessage(t('missingInfo'));
       setAppSeverity('warning');
       setAppSnackOpen(true);
     }
@@ -191,7 +191,7 @@ const PersonDetails = () => {
       setRootModalOpen(false);
     } else {
       setRootModalOpen(false);
-      setAppMessage(t('persons.missingInfo'));
+      setAppMessage(t('missingInfo'));
       setAppSeverity('warning');
       setAppSnackOpen(true);
     }
@@ -308,7 +308,7 @@ const PersonDetails = () => {
                     flexGrow: 1,
                   }}
                 >
-                  {isEdit ? t('persons.edit') : t('persons.addNew')}
+                  {isEdit ? t('edit') : t('addNew')}
                 </Typography>
               </Box>
 
@@ -320,36 +320,36 @@ const PersonDetails = () => {
                 }}
               >
                 {isEdit && student.isDisqualified === false && (
-                  <Tooltip title={lgUp ? '' : t('persons.markDisqualified')}>
+                  <Tooltip title={lgUp ? '' : t('markDisqualified')}>
                     <IconButton edge="start" color="inherit" sx={iconButtonStyles} onClick={handlePersonDisqualified}>
                       <RemoveCircleIcon color="error" />
-                      {lgUp && <Typography sx={txtButtonStyles}>{t('persons.markDisqualified')}</Typography>}
+                      {lgUp && <Typography sx={txtButtonStyles}>{t('markDisqualified')}</Typography>}
                     </IconButton>
                   </Tooltip>
                 )}
 
                 {isEdit && student.isDisqualified === true && (
-                  <Tooltip title={lgUp ? '' : t('persons.enable')}>
+                  <Tooltip title={lgUp ? '' : t('enable')}>
                     <IconButton edge="start" color="inherit" sx={iconButtonStyles} onClick={handlePersonEnabled}>
                       <HandshakeIcon color="success" />
-                      {lgUp && <Typography sx={txtButtonStyles}>{t('persons.enable')}</Typography>}
+                      {lgUp && <Typography sx={txtButtonStyles}>{t('enable')}</Typography>}
                     </IconButton>
                   </Tooltip>
                 )}
 
                 {isEdit && (
-                  <Tooltip title={lgUp ? '' : t('persons.markTransfer')}>
+                  <Tooltip title={lgUp ? '' : t('markTransfer')}>
                     <IconButton edge="start" color="inherit" sx={iconButtonStyles} onClick={handlePersonMove}>
                       <TransferWithinAStationIcon sx={{ color: '#6C3483' }} />
-                      {lgUp && <Typography sx={txtButtonStyles}>{t('persons.markTransfer')}</Typography>}
+                      {lgUp && <Typography sx={txtButtonStyles}>{t('markTransfer')}</Typography>}
                     </IconButton>
                   </Tooltip>
                 )}
 
-                <Tooltip title={lgUp ? '' : t('global.save')}>
+                <Tooltip title={lgUp ? '' : t('save')}>
                   <IconButton edge="start" color="inherit" sx={iconButtonStyles} onClick={handleSavePerson}>
                     <SaveIcon color="primary" />
-                    {lgUp && <Typography sx={txtButtonStyles}>{t('global.save')}</Typography>}
+                    {lgUp && <Typography sx={txtButtonStyles}>{t('save')}</Typography>}
                   </IconButton>
                 </Tooltip>
               </Box>
@@ -383,17 +383,13 @@ const PersonDetails = () => {
               <Box>
                 <Typography sx={{ fontWeight: 'bold', fontSize: '16px', lineHeight: 1.2 }}>{name}</Typography>
                 {student.isDisqualified && (
-                  <Chip
-                    label={t('persons.disqualifiedLabel')}
-                    size="small"
-                    sx={{ backgroundColor: 'red', color: 'white' }}
-                  />
+                  <Chip label={t('disqualifiedLabel')} size="small" sx={{ backgroundColor: 'red', color: 'white' }} />
                 )}
               </Box>
             </Box>
             <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
               <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-                <Typography>{t('persons.basicInfo')}</Typography>
+                <Typography>{t('basicInfo')}</Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <PersonBasic
@@ -410,7 +406,7 @@ const PersonDetails = () => {
             </Accordion>
             <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
               <AccordionSummary aria-controls="panel2d-content" id="panel2d-header">
-                <Typography>{t('persons.assignments')}</Typography>
+                <Typography>{t('assignments')}</Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <PersonAssignments
@@ -422,7 +418,7 @@ const PersonDetails = () => {
             </Accordion>
             <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
               <AccordionSummary aria-controls="panel3d-content" id="panel3d-header">
-                <Typography>{t('persons.assignmentsHistory')}</Typography>
+                <Typography>{t('assignmentsHistory')}</Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <PersonHistory history={historyAssignments} />
@@ -430,7 +426,7 @@ const PersonDetails = () => {
             </Accordion>
             <Accordion expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
               <AccordionSummary aria-controls="panel4d-content" id="panel4d-header">
-                <Typography>{t('persons.timeAway')}</Typography>
+                <Typography>{t('timeAway')}</Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <PersonTimeAway timeAway={timeAway} setTimeAway={(value) => setTimeAway(value)} />

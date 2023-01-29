@@ -1,23 +1,31 @@
-import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { getI18n } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { Markup } from 'interweave';
 import Box from '@mui/material/Box';
-import Checkbox from '@mui/material/Checkbox';
 import Typography from '@mui/material/Typography';
+import S89Header from './S89Header';
+import S89DetailsRow from './S89DetailsRow';
+import S89Subheading from './S89Subheading';
+import S89Assignment from './S89Assignment';
+import S89Class from './S89Class';
 import { sourceLangState } from '../../states/main';
 import { s89DataState } from '../../states/schedule';
 
+const styles = {
+  base: {
+    fontFamily: 'Segoe UI',
+    fontSize: '11px',
+    marginTop: '10px',
+    marginLeft: '10px',
+    color: 'black',
+  },
+};
+
 const S89Template = () => {
+  const { t } = useTranslation('source');
+
   const sourceLang = useRecoilValue(sourceLangState);
   const s89Data = useRecoilValue(s89DataState);
-
-  const [dataLang, setDataLang] = useState({});
-
-  useEffect(() => {
-    const temp = getI18n().getDataByLanguage(sourceLang).translation;
-    setDataLang(temp);
-  }, [sourceLang]);
 
   return (
     <Box>
@@ -33,142 +41,23 @@ const S89Template = () => {
             >
               <Box>
                 {/* S-89 Header */}
-                <Typography
-                  align="center"
-                  sx={{
-                    paddingTop: '10px',
-                    fontFamily: 'Segoe UI',
-                    fontWeight: 'bold',
-                    fontSize: '15px',
-                    lineHeight: 1.3,
-                    color: 'black',
-                  }}
-                >
-                  <Markup content={dataLang['s89.title']} />
-                </Typography>
+                <S89Header />
 
                 {/* Student name row */}
-                <Box
-                  sx={{
-                    paddingTop: '5px',
-                    paddingLeft: '10px',
-                    paddingRight: '10px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '5px',
-                  }}
-                >
-                  <Typography
-                    sx={{
-                      fontFamily: 'Segoe UI',
-                      fontWeight: 'bold',
-                      fontSize: '15px',
-                      height: '20px',
-                      color: 'black',
-                    }}
-                  >
-                    {dataLang['global.name']}:
-                  </Typography>
-                  <Typography
-                    sx={{
-                      fontFamily: 'Segoe UI',
-                      fontSize: '13px',
-                      color: 'black',
-                      height: '20px',
-                      borderBottom: '1px dotted black',
-                      width: '100%',
-                    }}
-                  >
-                    {data.studentName}
-                  </Typography>
-                </Box>
+                <S89DetailsRow leftText={t('name', { lng: sourceLang })} rightText={data.studentName} />
 
                 {/* Assistant name row */}
-                <Box
-                  sx={{
-                    paddingTop: '10px',
-                    paddingLeft: '10px',
-                    paddingRight: '10px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '5px',
-                  }}
-                >
-                  <Typography
-                    sx={{
-                      fontFamily: 'Segoe UI',
-                      fontWeight: 'bold',
-                      fontSize: '15px',
-                      color: 'black',
-                      height: '20px',
-                    }}
-                  >
-                    {dataLang['global.assistant']}:
-                  </Typography>
-                  <Typography
-                    sx={{
-                      fontFamily: 'Segoe UI',
-                      fontSize: '13px',
-                      color: 'black',
-                      width: '100%',
-                      height: '20px',
-                      borderBottom: '1px dotted black',
-                    }}
-                  >
-                    {data.assistantName}
-                  </Typography>
-                </Box>
+                <S89DetailsRow leftText={t('assistant', { lng: sourceLang })} rightText={data.assistantName} />
 
                 {/* Assignment date row */}
-                <Box
-                  sx={{
-                    paddingTop: '10px',
-                    paddingLeft: '10px',
-                    paddingRight: '10px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '5px',
-                  }}
-                >
-                  <Typography
-                    sx={{
-                      fontFamily: 'Segoe UI',
-                      fontWeight: 'bold',
-                      fontSize: '15px',
-                      color: 'black',
-                      height: '20px',
-                    }}
-                  >
-                    {dataLang['global.date']}:
-                  </Typography>
-                  <Typography
-                    align="center"
-                    sx={{
-                      fontFamily: 'Segoe UI',
-                      fontSize: '13px',
-                      color: 'black',
-                      width: '100%',
-                      height: '20px',
-                      borderBottom: '1px dotted black',
-                    }}
-                  >
-                    {data.assignmentDate}
-                  </Typography>
-                </Box>
+                <S89DetailsRow
+                  leftText={t('date', { lng: sourceLang })}
+                  rightText={data.assignmentDate}
+                  alignRight="center"
+                />
 
                 {/* Assignment label */}
-                <Typography
-                  sx={{
-                    fontFamily: 'Segoe UI',
-                    fontSize: '13px',
-                    fontWeight: 'bold',
-                    marginTop: '15px',
-                    marginLeft: '10px',
-                    color: 'black',
-                  }}
-                >
-                  {dataLang['global.assignment']}:
-                </Typography>
+                <S89Subheading subheading={t('assignment', { lng: sourceLang })} />
 
                 {/* Assignment type */}
                 <Box
@@ -183,294 +72,52 @@ const S89Template = () => {
                   {/* 1st column */}
                   <Box sx={{ width: '150px', display: 'flex', flexDirection: 'column', gap: '2px' }}>
                     {/* Bible Reading */}
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                      <Checkbox
-                        color="default"
-                        size="small"
-                        sx={{
-                          padding: 0,
-                          '& .MuiSvgIcon-root': { fontSize: 15 },
-                          color: 'black',
-                        }}
-                        checked={data.isBRead}
-                        onChange={() => {}}
-                      />
-                      <Typography
-                        sx={{
-                          fontFamily: 'Segoe UI',
-                          fontSize: '12px',
-                          lineHeight: 1,
-                          color: 'black',
-                        }}
-                      >
-                        {dataLang['global.bibleReading']}
-                      </Typography>
-                    </Box>
+                    <S89Assignment assignment={t('bibleReading', { lng: sourceLang })} checked={data.isBRead} />
 
                     {/* Initial Call or Memorial Invitation */}
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                      <Checkbox
-                        color="default"
-                        size="small"
-                        sx={{
-                          padding: 0,
-                          '& .MuiSvgIcon-root': { fontSize: 15 },
-                          color: 'black',
-                        }}
-                        checked={data.isMemorialInvite ? true : data.isInitialCall}
-                        onChange={() => {}}
-                      />
-                      <Typography
-                        sx={{
-                          fontFamily: 'Segoe UI',
-                          fontSize: '12px',
-                          lineHeight: 1,
-                          color: 'black',
-                        }}
-                      >
-                        {data.isMemorialInvite ? dataLang['global.memorialInvite'] : dataLang['global.initialCall']}
-                      </Typography>
-                    </Box>
-
-                    {/* Initial Call or Memorial Invitation Part Indice */}
-                    <Box sx={{ paddingLeft: '20px', marginTop: '-5px' }}>
-                      <Typography
-                        sx={{
-                          fontFamily: 'Segoe UI',
-                          fontSize: '11px',
-                          lineHeight: '25px',
-                          color: 'black',
-                          height: '20px',
-                          borderBottom: '1px dotted black',
-                        }}
-                      >
-                        {data.initialCallSpec}
-                      </Typography>
-                    </Box>
+                    <S89Assignment
+                      assignment={
+                        data.isMemorialInvite
+                          ? t('memorialInvite', { lng: sourceLang })
+                          : t('initialCall', { lng: sourceLang })
+                      }
+                      checked={data.isMemorialInvite ? true : data.isInitialCall}
+                      assignmentSpec={data.initialCallSpec}
+                    />
 
                     {/* Return Visit */}
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px', marginTop: '2px' }}>
-                      <Checkbox
-                        color="default"
-                        size="small"
-                        sx={{
-                          padding: 0,
-                          '& .MuiSvgIcon-root': { fontSize: 15 },
-                          color: 'black',
-                        }}
-                        checked={data.isReturnVisit}
-                        onChange={() => {}}
-                      />
-                      <Typography
-                        sx={{
-                          fontFamily: 'Segoe UI',
-                          fontSize: '12px',
-                          lineHeight: 1,
-                          color: 'black',
-                        }}
-                      >
-                        {dataLang['global.returnVisit']}
-                      </Typography>
-                    </Box>
-
-                    {/* Return Visit Part Indice */}
-                    <Box sx={{ paddingLeft: '20px', marginTop: '-5px' }}>
-                      <Typography
-                        sx={{
-                          fontFamily: 'Segoe UI',
-                          fontSize: '11px',
-                          lineHeight: '25px',
-                          color: 'black',
-                          height: '20px',
-                          borderBottom: '1px dotted black',
-                        }}
-                      >
-                        {data.returnVisitSpec}
-                      </Typography>
-                    </Box>
+                    <S89Assignment
+                      assignment={t('returnVisit', { lng: sourceLang })}
+                      checked={data.isReturnVisit}
+                      assignmentSpec={data.returnVisitSpec}
+                    />
                   </Box>
 
                   {/* 2nd column */}
                   <Box sx={{ width: '140px' }}>
                     {/* Bible Study */}
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                      <Checkbox
-                        color="default"
-                        size="small"
-                        sx={{
-                          padding: 0,
-                          '& .MuiSvgIcon-root': { fontSize: 15 },
-                          color: 'black',
-                        }}
-                        checked={data.isBibleStudy}
-                        onChange={() => {}}
-                      />
-                      <Typography
-                        sx={{
-                          fontFamily: 'Segoe UI',
-                          fontSize: '12px',
-                          lineHeight: 1,
-                          color: 'black',
-                        }}
-                      >
-                        {dataLang['global.bibleStudy']}
-                      </Typography>
-                    </Box>
+                    <S89Assignment assignment={t('bibleStudy', { lng: sourceLang })} checked={data.isBibleStudy} />
 
                     {/* Talk */}
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                      <Checkbox
-                        color="default"
-                        size="small"
-                        sx={{
-                          padding: 0,
-                          '& .MuiSvgIcon-root': { fontSize: 15 },
-                          color: 'black',
-                        }}
-                        checked={data.isTalk}
-                        onChange={() => {}}
-                      />
-                      <Typography
-                        sx={{
-                          fontFamily: 'Segoe UI',
-                          fontSize: '12px',
-                          lineHeight: 1,
-                          color: 'black',
-                        }}
-                      >
-                        {dataLang['global.talk']}
-                      </Typography>
-                    </Box>
+                    <S89Assignment assignment={t('talk', { lng: sourceLang })} checked={data.isTalk} />
 
                     {/* Other Assignment */}
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                        <Checkbox
-                          color="default"
-                          size="small"
-                          sx={{
-                            padding: 0,
-                            '& .MuiSvgIcon-root': { fontSize: 15 },
-                            color: 'black',
-                          }}
-                          checked={false}
-                          onChange={() => {}}
-                        />
-                        <Typography
-                          sx={{
-                            fontFamily: 'Segoe UI',
-                            fontSize: '12px',
-                            lineHeight: 1,
-                            color: 'black',
-                          }}
-                        >
-                          {dataLang['global.otherPart']}:
-                        </Typography>
-                      </Box>
-                      <Typography
-                        sx={{
-                          fontFamily: 'Segoe UI',
-                          fontSize: '12px',
-                          lineHeight: 1,
-                          color: 'black',
-                          height: '18px',
-                          width: '100%',
-                          borderBottom: '1px dotted black',
-                        }}
-                      ></Typography>
-                    </Box>
+                    <S89Assignment assignment={t('otherPart', { lng: sourceLang })} checked={false} otherPart={true} />
                   </Box>
                 </Box>
 
                 {/* Class label */}
-                <Typography
-                  sx={{
-                    fontFamily: 'Segoe UI',
-                    fontSize: '13px',
-                    fontWeight: 'bold',
-                    marginTop: '8px',
-                    marginLeft: '10px',
-                    color: 'black',
-                  }}
-                >
-                  {dataLang['s89.toBeGiven']}
-                </Typography>
+                <S89Subheading subheading={t('s89ToBeGiven', { lng: sourceLang })} />
 
                 <Box sx={{ paddingLeft: '15px', display: 'flex', flexDirection: 'column', gap: '3px' }}>
                   {/* 1st class */}
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                    <Checkbox
-                      color="default"
-                      size="small"
-                      sx={{
-                        padding: 0,
-                        '& .MuiSvgIcon-root': { fontSize: 15 },
-                        color: 'black',
-                      }}
-                      checked={data.isMainHall}
-                      onChange={() => {}}
-                    />
-                    <Typography
-                      sx={{
-                        fontFamily: 'Segoe UI',
-                        fontSize: '12px',
-                        lineHeight: 1.2,
-                        color: 'black',
-                      }}
-                    >
-                      {dataLang['global.mainHall']}
-                    </Typography>
-                  </Box>
+                  <S89Class checked={data.isMainHall} assignmentClass={t('mainHall', { lng: sourceLang })} />
 
                   {/* 2nd class */}
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                    <Checkbox
-                      color="default"
-                      size="small"
-                      sx={{
-                        padding: 0,
-                        '& .MuiSvgIcon-root': { fontSize: 15 },
-                        color: 'black',
-                      }}
-                      checked={data.isAuxClass}
-                      onChange={() => {}}
-                    />
-                    <Typography
-                      sx={{
-                        fontFamily: 'Segoe UI',
-                        fontSize: '12px',
-                        lineHeight: 1.2,
-                        color: 'black',
-                      }}
-                    >
-                      {dataLang['global.auxClass1']}
-                    </Typography>
-                  </Box>
+                  <S89Class checked={data.isAuxClass} assignmentClass={t('auxClass1', { lng: sourceLang })} />
 
                   {/* 3rd class */}
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                    <Checkbox
-                      color="default"
-                      size="small"
-                      sx={{
-                        padding: 0,
-                        '& .MuiSvgIcon-root': { fontSize: 15 },
-                        color: 'black',
-                      }}
-                      checked={false}
-                      onChange={() => {}}
-                    />
-                    <Typography
-                      sx={{
-                        fontFamily: 'Segoe UI',
-                        fontSize: '12px',
-                        lineHeight: 1.2,
-                        color: 'black',
-                      }}
-                    >
-                      {dataLang['global.auxClass2']}
-                    </Typography>
-                  </Box>
+                  <S89Class checked={false} assignmentClass={t('auxClass2', { lng: sourceLang })} />
                 </Box>
 
                 {/* S-89 Note */}
@@ -487,34 +134,14 @@ const S89Template = () => {
                       color: 'black',
                     }}
                   >
-                    <Markup content={dataLang['s89.descFooter']} />
+                    <Markup content={t('s89DescFooter', { lng: sourceLang })} />
                   </Typography>
                 </Box>
 
                 {/* S-89 Footer */}
                 <Box sx={{ display: 'flex' }}>
-                  <Typography
-                    sx={{
-                      fontFamily: 'Segoe UI',
-                      fontSize: '11px',
-                      marginTop: '10px',
-                      marginLeft: '10px',
-                      color: 'black',
-                    }}
-                  >
-                    S-89-{sourceLang.toUpperCase()}
-                  </Typography>
-                  <Typography
-                    sx={{
-                      fontFamily: 'Segoe UI',
-                      fontSize: '11px',
-                      marginTop: '10px',
-                      marginLeft: '10px',
-                      color: 'black',
-                    }}
-                  >
-                    11/20
-                  </Typography>
+                  <Typography sx={styles.base}>S-89-{sourceLang.toUpperCase()}</Typography>
+                  <Typography sx={styles.base}>11/20</Typography>
                 </Box>
               </Box>
 

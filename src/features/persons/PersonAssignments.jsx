@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 import { PersonAssignmentItem } from './';
 
 const PersonAssignments = ({ student, assignments, setAssignments }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
   const handleAssignmentAdd = () => {
     const obj = {
@@ -30,7 +30,7 @@ const PersonAssignments = ({ student, assignments, setAssignments }) => {
         }}
       >
         <Button variant="outlined" color="success" startIcon={<AddCircleIcon />} onClick={handleAssignmentAdd}>
-          {t('persons.addAssignment')}
+          {t('addAssignment')}
         </Button>
       </Box>
       {assignments?.length > 0 &&

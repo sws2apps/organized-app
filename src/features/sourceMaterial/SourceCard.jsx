@@ -1,44 +1,26 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import dateFormat from 'dateformat';
+import { useSetRecoilState } from 'recoil';
 import Box from '@mui/material/Box';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import { dbGetWeekListBySched } from '../../indexedDb/dbSourceMaterial';
-import { shortDateFormatState } from '../../states/main';
 import { currentWeekState } from '../../states/sourceMaterial';
+import { getWeeksBySchedule } from '../../indexedDb/dbSchedule';
 
 const SourceCard = ({ schedule }) => {
   const navigate = useNavigate();
 
   const setCurrentWeek = useSetRecoilState(currentWeekState);
 
-  const shortDateFormat = useRecoilValue(shortDateFormatState);
-
   const [weeks, setWeeks] = useState([]);
 
   const getWeekBySchedule = useCallback(async () => {
-    let data = await dbGetWeekListBySched(schedule.value);
-    let newData = [];
-    for (let i = 0; i < data.length; i++) {
-      const weekDate = data[i].weekOf;
-      const day = weekDate.split('/')[1];
-      const month = weekDate.split('/')[0];
-      const year = weekDate.split('/')[2];
-      const newDate = new Date(year, +month - 1, day);
-      const dateFormatted = dateFormat(newDate, shortDateFormat);
-      let obj = {};
-      obj.value = data[i].value;
-      obj.label = dateFormatted;
-      newData.push(obj);
-    }
-
-    setWeeks(newData);
-  }, [schedule, shortDateFormat]);
+    const data = await getWeeksBySchedule(schedule.value);
+    setWeeks(data);
+  }, [schedule]);
 
   const handleEditSource = (week) => {
     setCurrentWeek(week);

@@ -26,7 +26,7 @@ const StudentAdvancedSearch = ({
   setAssTypes,
   txtSearch,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
   const theme = useTheme();
 
   const themeOptions = useRecoilValue(themeOptionsState);
@@ -283,7 +283,7 @@ const StudentAdvancedSearch = ({
                   sx={{ padding: '5px' }}
                 />
               }
-              label={t('persons.male')}
+              label={t('male')}
             />
             <FormControlLabel
               control={
@@ -294,11 +294,11 @@ const StudentAdvancedSearch = ({
                   sx={{ padding: '5px' }}
                 />
               }
-              label={t('persons.female')}
+              label={t('female')}
             />
           </FormGroup>
           <Box sx={{ marginTop: '3px' }}>
-            <Typography sx={{ fontWeight: 'bold' }}>{t('global.assignment')}</Typography>
+            <Typography sx={{ fontWeight: 'bold' }}>{t('assignment')}</Typography>
             <FormGroup
               sx={{
                 marginRight: '30px',
@@ -315,7 +315,7 @@ const StudentAdvancedSearch = ({
                     sx={{ padding: '5px' }}
                   />
                 }
-                label={t('global.chairmanMidweekMeeting')}
+                label={t('chairmanMidweekMeeting')}
               />
               <FormControlLabel
                 control={
@@ -326,7 +326,7 @@ const StudentAdvancedSearch = ({
                     sx={{ padding: '5px' }}
                   />
                 }
-                label={t('global.prayerMidweekMeeting')}
+                label={t('prayerMidweekMeeting')}
               />
               <FormControlLabel
                 control={
@@ -337,7 +337,7 @@ const StudentAdvancedSearch = ({
                     sx={{ padding: '5px' }}
                   />
                 }
-                label={t('global.tgwTalk')}
+                label={t('tgwTalk')}
               />
               <FormControlLabel
                 control={
@@ -348,7 +348,7 @@ const StudentAdvancedSearch = ({
                     sx={{ padding: '5px' }}
                   />
                 }
-                label={t('global.tgwGems')}
+                label={t('tgwGems')}
               />
               <FormControlLabel
                 control={
@@ -359,7 +359,7 @@ const StudentAdvancedSearch = ({
                     sx={{ padding: '5px' }}
                   />
                 }
-                label={t('global.bibleReading')}
+                label={t('bibleReading')}
               />
               <FormControlLabel
                 control={
@@ -370,7 +370,7 @@ const StudentAdvancedSearch = ({
                     sx={{ padding: '5px' }}
                   />
                 }
-                label={t('global.initialCall')}
+                label={t('initialCall')}
               />
               <FormControlLabel
                 control={
@@ -381,7 +381,7 @@ const StudentAdvancedSearch = ({
                     sx={{ padding: '5px' }}
                   />
                 }
-                label={t('global.returnVisit')}
+                label={t('returnVisit')}
               />
               <FormControlLabel
                 control={
@@ -392,7 +392,7 @@ const StudentAdvancedSearch = ({
                     sx={{ padding: '5px' }}
                   />
                 }
-                label={t('global.bibleStudy')}
+                label={t('bibleStudy')}
               />
               <FormControlLabel
                 control={
@@ -403,7 +403,7 @@ const StudentAdvancedSearch = ({
                     sx={{ padding: '5px' }}
                   />
                 }
-                label={t('global.talk')}
+                label={t('talk')}
               />
               <FormControlLabel
                 control={
@@ -414,7 +414,7 @@ const StudentAdvancedSearch = ({
                     sx={{ padding: '5px' }}
                   />
                 }
-                label={t('global.lcPart')}
+                label={t('lcPart')}
               />
               <FormControlLabel
                 control={
@@ -425,7 +425,7 @@ const StudentAdvancedSearch = ({
                     sx={{ padding: '5px' }}
                   />
                 }
-                label={t('global.cbsConductor')}
+                label={t('cbsConductor')}
               />
               <FormControlLabel
                 control={
@@ -436,7 +436,7 @@ const StudentAdvancedSearch = ({
                     sx={{ padding: '5px' }}
                   />
                 }
-                label={t('global.cbsReader')}
+                label={t('cbsReader')}
               />
             </FormGroup>
           </Box>

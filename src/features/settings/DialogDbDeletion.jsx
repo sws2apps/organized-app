@@ -10,46 +10,42 @@ import { deleteDb } from '../../indexedDb/dbUtility';
 import { isDeleteDbOpenState } from '../../states/main';
 
 const DialogDbDeletion = () => {
-	const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
-	const [open, setOpen] = useRecoilState(isDeleteDbOpenState);
+  const [open, setOpen] = useRecoilState(isDeleteDbOpenState);
 
-	const handleClose = () => {
-		setOpen(false);
-	};
+  const handleClose = () => {
+    setOpen(false);
+  };
 
-	const handleDelete = async () => {
-		await deleteDb();
-		window.location.href = './';
-	};
+  const handleDelete = async () => {
+    await deleteDb();
+    window.location.href = './';
+  };
 
-	return (
-		<div>
-			<Dialog
-				open={open}
-				onClose={handleClose}
-				aria-labelledby='alert-dialog-title'
-				aria-describedby='alert-dialog-description'
-			>
-				<DialogTitle id='alert-dialog-title'>
-					{t('settings.deleteDbTitle')}
-				</DialogTitle>
-				<DialogContent>
-					<DialogContentText id='alert-dialog-description'>
-						{t('settings.deleteDbDesc')}
-					</DialogContentText>
-				</DialogContent>
-				<DialogActions>
-					<Button onClick={handleClose} color='primary'>
-						{t('global.cancel')}
-					</Button>
-					<Button onClick={handleDelete} color='primary' autoFocus>
-						{t('global.delete')}
-					</Button>
-				</DialogActions>
-			</Dialog>
-		</div>
-	);
+  return (
+    <div>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{t('deleteDbTitle')}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">{t('deleteDbDesc')}</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            {t('cancel')}
+          </Button>
+          <Button onClick={handleDelete} color="primary" autoFocus>
+            {t('delete')}
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
 };
 
 export default DialogDbDeletion;

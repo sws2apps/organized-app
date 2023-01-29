@@ -13,7 +13,7 @@ import MyAssignmentsList from './MyAssignmentsList';
 import MyAssignmentsSetup from './MyAssignmentsSetup';
 
 const MyAssignments = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
   const [drawerOpen, setDrawerOpen] = useRecoilState(isMyAssignmentOpenState);
   const setRefresh = useSetRecoilState(refreshMyAssignmentsState);
@@ -48,7 +48,7 @@ const MyAssignments = () => {
         }}
       >
         <Typography sx={{ padding: '20px', textTransform: 'uppercase', fontWeight: 'bold' }}>
-          {t('dashboard.viewMyAssignments')}
+          {t('viewMyAssignments')}
         </Typography>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px', marginRight: '20px' }}>
           {localUid !== '' && (

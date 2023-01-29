@@ -19,7 +19,7 @@ import { currentScheduleState, s89DataState } from '../../states/schedule';
 import { appLangState } from '../../states/main';
 
 const S89Selector = ({ setIsGenerating }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
   const [s89Data, setS89Data] = useRecoilState(s89DataState);
 
@@ -137,7 +137,7 @@ const S89Selector = ({ setIsGenerating }) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{t('global.pleaseWait')}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{t('pleaseWait')}</DialogTitle>
         <DialogContent>
           <Container
             sx={{
@@ -166,7 +166,7 @@ const S89Selector = ({ setIsGenerating }) => {
         <>
           {data.children.length > 0 && (
             <Box>
-              <Typography sx={{ marginBottom: '20px' }}>{t('s89.header')}</Typography>
+              <Typography sx={{ marginBottom: '20px' }}>{t('s89Header')}</Typography>
               <TreeViewCheckbox
                 data={data}
                 selected={selected}
@@ -201,7 +201,7 @@ const S89Selector = ({ setIsGenerating }) => {
                   sx={{ marginRight: '10px' }}
                   onClick={handlePreviewS89}
                 >
-                  {t('global.preview')}
+                  {t('preview')}
                 </Button>
               </Box>
             </Box>
@@ -218,7 +218,7 @@ const S89Selector = ({ setIsGenerating }) => {
             >
               <WarningIcon color="error" sx={{ fontSize: '60px' }} />
               <Typography variant="body1" align="center">
-                {t('schedule.s89NoData')}
+                {t('s89NoData')}
               </Typography>
             </Container>
           )}

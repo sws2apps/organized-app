@@ -89,3 +89,8 @@ export const pocketMembersState = atom({
   key: 'pocketMembers',
   default: [],
 });
+
+export const isProcessingBackupState = atom({
+  key: 'isProcessingBackup',
+  default: true,
+});

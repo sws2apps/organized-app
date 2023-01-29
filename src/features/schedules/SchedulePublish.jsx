@@ -24,7 +24,7 @@ import TreeViewCheckbox from '../../components/TreeViewCheckbox';
 import { dbExportDataOnline } from '../../indexedDb/dbUtility';
 
 const SchedulePublish = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
   const abortCont = useRef();
 
@@ -61,7 +61,7 @@ const SchedulePublish = () => {
     try {
       const schedules = formatSelectedSchedulesForShare(selected);
       if (schedules.length === 0) {
-        setAppMessage(t('schedule.selectSchedule'));
+        setAppMessage(t('selectSchedule'));
         setAppSeverity('warning');
         setAppSnackOpen(true);
         return;
@@ -92,7 +92,7 @@ const SchedulePublish = () => {
         const data = await res.json();
 
         if (res.status === 200) {
-          setAppMessage(t('schedule.publishSuccess'));
+          setAppMessage(t('publishSuccess'));
           setAppSeverity('success');
           setAppSnackOpen(true);
           handleClose(false);
@@ -154,9 +154,7 @@ const SchedulePublish = () => {
             />
           )}
 
-          <Typography sx={{ lineHeight: 1.3, fontSize: fullScreen ? '16px' : '20px' }}>
-            {t('schedule.publishPocket')}
-          </Typography>
+          <Typography sx={{ lineHeight: 1.3, fontSize: fullScreen ? '16px' : '20px' }}>{t('publishPocket')}</Typography>
         </DialogTitle>
         <DialogContent dividers={true}>
           {isProcessing && (
@@ -178,7 +176,7 @@ const SchedulePublish = () => {
           )}
           {!isProcessing && (
             <Box>
-              <Typography>{t('schedule.publishSelectSchedule')}</Typography>
+              <Typography>{t('publishSelectSchedule')}</Typography>
               <Box sx={{ marginTop: '20px' }}>
                 {!isLoading && Object.keys(data).length > 2 && data.children.length > 0 && (
                   <TreeViewCheckbox
@@ -194,10 +192,10 @@ const SchedulePublish = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
-            {t('global.cancel')}
+            {t('cancel')}
           </Button>
           <Button onClick={handlePublishSchedule} color="primary" autoFocus disabled={selected.length === 0}>
-            {t('global.publish')}
+            {t('publish')}
           </Button>
         </DialogActions>
       </Dialog>

@@ -1,6 +1,6 @@
 import { promiseSetRecoil } from 'recoil-outside';
 import { appNotificationsState } from '../states/main';
-import { UILANGUAGE_LIST } from '../locales/langList.js';
+import { LANGUAGE_LIST } from '../locales/langList.js';
 import appDb from './mainDb';
 
 export const dbGetNotifications = async () => {
@@ -27,7 +27,10 @@ export const dbSaveNotifications = async (data) => {
     }
     obj.notification_id = announcement.id;
     obj.content = {};
-    UILANGUAGE_LIST.forEach((lang) => {
+
+    const listUILangs = LANGUAGE_LIST.filter((lang) => lang.isUI === true);
+
+    listUILangs.forEach((lang) => {
       const code = lang.code.toUpperCase();
       obj.content[code] = announcement.data[code];
     });

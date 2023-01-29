@@ -4,7 +4,7 @@ import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 
 const SongsList = (props) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
   const [song, setSong] = useState('');
   const [songsList, setSongsList] = useState([]);
@@ -40,7 +40,7 @@ const SongsList = (props) => {
     <TextField
       id="outlined-select-song"
       select
-      label={t('global.song')}
+      label={t('song')}
       size="small"
       value={song}
       onChange={(e) => handleChangeSong(e)}

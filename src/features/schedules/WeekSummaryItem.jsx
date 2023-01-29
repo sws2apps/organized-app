@@ -17,7 +17,7 @@ import {
 } from '../../states/schedule';
 
 const WeekSummaryItem = ({ week, schedule }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
   const navigate = useNavigate();
 
   const setDlgAssDeleteOpen = useSetRecoilState(dlgAssDeleteOpenState);
@@ -64,11 +64,11 @@ const WeekSummaryItem = ({ week, schedule }) => {
       }}
     >
       <Box>
-        <Typography variant="caption">{t('global.week')}</Typography>
+        <Typography variant="caption">{t('week')}</Typography>
         <Typography variant="h6">{week.label}</Typography>
       </Box>
       <Box>
-        <Typography variant="caption">{t('schedule.assignedParts')}</Typography>
+        <Typography variant="caption">{t('assignedParts')}</Typography>
         <Box sx={{ display: 'flex', gap: '3px', alignItems: 'center', justifyContent: 'space-between' }}>
           <LinearProgress color="success" variant="determinate" value={progress} sx={{ width: '90px' }} />
           <Typography sx={{ fontWeight: 'bold' }}>{`${assInfo.assigned}/${assInfo.total}`}</Typography>
@@ -77,10 +77,10 @@ const WeekSummaryItem = ({ week, schedule }) => {
       {assInfo.total > 0 && (
         <Box sx={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
           <Button variant="outlined" startIcon={<EditIcon color="success" />} onClick={handleEditAssignment}>
-            {t('global.edit')}
+            {t('edit')}
           </Button>
           <Button variant="outlined" startIcon={<DeleteIcon color="error" />} onClick={handleDeleteWeek}>
-            {t('global.delete')}
+            {t('delete')}
           </Button>
         </Box>
       )}

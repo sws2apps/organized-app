@@ -37,7 +37,7 @@ const styles = {
 
 const CongregationPersonDetails = () => {
   const { id } = useParams();
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -154,7 +154,7 @@ const CongregationPersonDetails = () => {
   };
 
   const formatLastSeen = (last_seen) => {
-    return last_seen ? dateFormat(new Date(last_seen), t('global.shortDateTimeFormat')) : '';
+    return last_seen ? dateFormat(new Date(last_seen), t('shortDateTimeFormat')) : '';
   };
 
   const handleGenerateOCode = async () => {
@@ -414,7 +414,7 @@ const CongregationPersonDetails = () => {
           <IconButton onClick={handleBackAdmin}>
             <ArrowBackIcon sx={{ fontSize: '30px' }} />
           </IconButton>
-          <Typography sx={{ fontWeight: 'bold' }}>{t('administration.editCPEUser')}</Typography>
+          <Typography sx={{ fontWeight: 'bold' }}>{t('editCPEUser')}</Typography>
         </Box>
 
         <Box sx={{ marginTop: '20px' }}>
@@ -443,7 +443,7 @@ const CongregationPersonDetails = () => {
                 <Typography
                   sx={{ fontWeight: 'bold', marginBottom: '20px', borderBottom: '1px outset', paddingBottom: '5px' }}
                 >
-                  {t('global.roles')}
+                  {t('roles')}
                 </Typography>
                 <Grid container spacing={2}>
                   <Grid item xs={12} md={6} lg={4} sx={styles.checkbox}>
@@ -455,7 +455,7 @@ const CongregationPersonDetails = () => {
                           onChange={(e) => handleCheckAdmin(e.target.checked)}
                         />
                       }
-                      label={t('administration.roleAdmin')}
+                      label={t('roleAdmin')}
                     />
                   </Grid>
                   <Grid item xs={12} md={6} lg={4} sx={styles.checkbox}>
@@ -467,7 +467,7 @@ const CongregationPersonDetails = () => {
                           onChange={(e) => handleCheckLMMO(e.target.checked)}
                         />
                       }
-                      label={t('administration.roleLMMO')}
+                      label={t('roleLMMO')}
                     />
                   </Grid>
                   <Grid item xs={12} md={6} lg={4} sx={styles.checkbox}>
@@ -479,7 +479,7 @@ const CongregationPersonDetails = () => {
                           onChange={(e) => handleCheckLMMOAssistant(e.target.checked)}
                         />
                       }
-                      label={t('administration.roleLMMOAssistant')}
+                      label={t('roleLMMOAssistant')}
                     />
                   </Grid>
                   <Grid item xs={12} md={6} lg={4} sx={styles.checkbox}>
@@ -490,7 +490,7 @@ const CongregationPersonDetails = () => {
                           onChange={(e) => handleCheckViewMeetingSchedule(e.target.checked)}
                         />
                       }
-                      label={t('administration.roleViewMeetingSchedule')}
+                      label={t('roleViewMeetingSchedule')}
                     />
                   </Grid>
                 </Grid>
@@ -502,7 +502,7 @@ const CongregationPersonDetails = () => {
                   <Typography
                     sx={{ fontWeight: 'bold', marginBottom: '10px', borderBottom: '1px outset', paddingBottom: '5px' }}
                   >
-                    {t('persons.localRecord')}
+                    {t('localRecord')}
                   </Typography>
                   <Box maxWidth={'280px'}>
                     <Autocomplete
@@ -512,8 +512,8 @@ const CongregationPersonDetails = () => {
                       options={dbPersons}
                       getOptionLabel={(option) => option.person_name}
                       isOptionEqualToValue={(option, value) => option.person_uid === value.person_uid}
-                      renderInput={(params) => <TextField {...params} variant="standard" label={t('global.record')} />}
-                      noOptionsText={t('assignments.noMatchRecord')}
+                      renderInput={(params) => <TextField {...params} variant="standard" label={t('record')} />}
+                      noOptionsText={t('noMatchRecord')}
                     />
                   </Box>
                 </Box>
@@ -525,7 +525,7 @@ const CongregationPersonDetails = () => {
                   <Typography
                     sx={{ fontWeight: 'bold', marginBottom: '10px', borderBottom: '1px outset', paddingBottom: '5px' }}
                   >
-                    {t('persons.viewOnBehalf')}
+                    {t('viewOnBehalf')}
                   </Typography>
                   <Box>
                     <Autocomplete
@@ -536,10 +536,8 @@ const CongregationPersonDetails = () => {
                       options={pocketOptions}
                       getOptionLabel={(option) => option.person_name}
                       isOptionEqualToValue={(option, value) => option.person_uid === value.person_uid}
-                      renderInput={(params) => (
-                        <TextField {...params} variant="standard" label={t('global.students')} />
-                      )}
-                      noOptionsText={t('assignments.noMatchRecord')}
+                      renderInput={(params) => <TextField {...params} variant="standard" label={t('students')} />}
+                      noOptionsText={t('noMatchRecord')}
                     />
                   </Box>
                 </Box>
@@ -551,13 +549,13 @@ const CongregationPersonDetails = () => {
                   <Typography
                     sx={{ fontWeight: 'bold', marginBottom: '20px', borderBottom: '1px outset', paddingBottom: '5px' }}
                   >
-                    {t('administration.pocketSetupInstruction')}
+                    {t('pocketSetupInstruction')}
                   </Typography>
 
                   {member.pocket_oCode !== '' && (
                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                      <Typography>{t('administration.pocketSetupSite')}</Typography>
-                      <Typography>{t('administration.pocketSetupCode')}</Typography>
+                      <Typography>{t('pocketSetupSite')}</Typography>
+                      <Typography>{t('pocketSetupCode')}</Typography>
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
                         <TextField
                           id="outlined-token"
@@ -578,7 +576,7 @@ const CongregationPersonDetails = () => {
 
                   {member.pocket_oCode === '' && (
                     <Button variant="contained" onClick={handleGenerateOCode}>
-                      {t('administration.pocketAddDevice')}
+                      {t('pocketAddDevice')}
                     </Button>
                   )}
                 </Box>
@@ -589,7 +587,7 @@ const CongregationPersonDetails = () => {
                 <Typography
                   sx={{ fontWeight: 'bold', marginBottom: '20px', borderBottom: '1px outset', paddingBottom: '5px' }}
                 >
-                  {t('administration.sessionsDevices')}
+                  {t('sessionsDevices')}
                 </Typography>
 
                 <Grid container spacing={2}>
@@ -616,12 +614,12 @@ const CongregationPersonDetails = () => {
                                   {`${session.visitor_details.browserDetails.browserName} (${session.visitor_details.browserDetails.os} ${session.visitor_details.browserDetails.osVersion})`}
                                 </Typography>
                                 <Typography>
-                                  {t('settings.lastSeen', { last_seen: formatLastSeen(session.sws_last_seen) })}
+                                  {t('lastSeen', { last_seen: formatLastSeen(session.sws_last_seen) })}
                                 </Typography>
                                 {visitorID === session.visitorid && (
                                   <Box>
                                     <Chip
-                                      label={t('settings.currentSession')}
+                                      label={t('currentSession')}
                                       sx={{
                                         backgroundColor: '#145A32',
                                         color: 'white',
@@ -640,7 +638,7 @@ const CongregationPersonDetails = () => {
                                   sx={{ marginBottom: '10px' }}
                                   onClick={() => handleRevokeSession(session.visitorid)}
                                 >
-                                  {t('settings.sessionRevoke')}
+                                  {t('sessionRevoke')}
                                 </Button>
                               </Box>
                             )}
@@ -696,7 +694,7 @@ const CongregationPersonDetails = () => {
                                 sx={{ marginBottom: '10px' }}
                                 onClick={() => handleDeleteDevice(device.visitorid)}
                               >
-                                {t('settings.sessionRevoke')}
+                                {t('sessionRevoke')}
                               </Button>
                             </Box>
                           </Box>

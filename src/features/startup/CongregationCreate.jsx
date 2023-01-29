@@ -37,7 +37,7 @@ import { runUpdater } from '../../utils/updater';
 const CongregationCreate = () => {
   const cancel = useRef();
 
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
   const setUserSignIn = useSetRecoilState(isUserSignInState);
   const setIsCongAccountCreate = useSetRecoilState(isCongAccountCreateState);
@@ -148,7 +148,7 @@ const CongregationCreate = () => {
   return (
     <Container sx={{ marginTop: '20px' }}>
       <Typography variant="h4" sx={{ marginBottom: '15px' }}>
-        {isUpdateCong ? t('statup.updateCongregation') : t('login.createCongregationAccount')}
+        {isUpdateCong ? t('updateCongregation') : t('createCongregationAccount')}
       </Typography>
 
       {isUpdateCong && <Typography sx={{ marginBottom: '15px' }}>{t('statup.updateCongregationDesc')}</Typography>}
@@ -183,7 +183,7 @@ const CongregationCreate = () => {
       >
         {!isUpdateCong && (
           <Link component="button" underline="none" variant="body2" onClick={handleSignIn}>
-            {t('login.hasAccount')}
+            {t('hasAccount')}
           </Link>
         )}
 
@@ -193,7 +193,7 @@ const CongregationCreate = () => {
           endIcon={isProcessing ? <CircularProgress size={25} /> : null}
           onClick={handleCongregationAction}
         >
-          {isUpdateCong ? t('global.update') : t('global.create')}
+          {isUpdateCong ? t('update') : t('create')}
         </Button>
       </Box>
     </Container>

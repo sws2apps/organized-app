@@ -22,7 +22,7 @@ const GroupItems = styled('ul')({
 });
 
 const AssignmentType = ({ student, assignable, currentType, handleChangeType }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
   const assTypeList = useRecoilValue(assTypeLocalNewState);
   const [localList, setLocalList] = useState([]);
@@ -35,10 +35,10 @@ const AssignmentType = ({ student, assignable, currentType, handleChangeType }) 
   };
 
   const getHeaderLabel = (value) => {
-    if (value === 'mm') return t('global.midweekMeeting');
-    if (value === 'tgw') return t('global.treasuresPart');
-    if (value === 'ayf') return t('global.applyFieldMinistryPart');
-    if (value === 'lc') return t('global.livingPart');
+    if (value === 'mm') return t('midweekMeeting');
+    if (value === 'tgw') return t('treasuresPart');
+    if (value === 'ayf') return t('applyFieldMinistryPart');
+    if (value === 'lc') return t('livingPart');
 
     return '';
   };
@@ -80,7 +80,7 @@ const AssignmentType = ({ student, assignable, currentType, handleChangeType }) 
           value={value}
           disableClearable={true}
           isOptionEqualToValue={(option, value) => option.value === value.value}
-          renderInput={(params) => <TextField {...params} label={t('sourceMaterial.partType')} />}
+          renderInput={(params) => <TextField {...params} label={t('partType')} />}
           renderGroup={(params) => (
             <li key={`group-${params.group}`}>
               <GroupHeader>{getHeaderLabel(params.group)}</GroupHeader>

@@ -29,10 +29,10 @@ const MyAssignmentsMonthItem = ({ assignment }) => {
 
   const getStuAYF = () => {
     if (assignment.assistantDispName) {
-      return `${t('global.assistant')}: ${assignment.assistantDispName}`;
+      return `${t('assistant')}: ${assignment.assistantDispName}`;
     }
     if (assignment.studentForAssistant) {
-      return `${t('global.student')}: ${assignment.studentForAssistant}`;
+      return `${t('student')}: ${assignment.studentForAssistant}`;
     }
   };
 
@@ -60,7 +60,7 @@ const MyAssignmentsMonthItem = ({ assignment }) => {
           )}
         </Box>
         {assignment.isBehalf && (
-          <Typography sx={{ lineHeight: 1.2 }}>{`${t('global.presentedBy')}${assignment.personDispName}`}</Typography>
+          <Typography sx={{ lineHeight: 1.2 }}>{`${t('presentedBy')}${assignment.personDispName}`}</Typography>
         )}
         {assignment.assignmentType === 'ayf' && <Typography sx={{ lineHeight: 1.2 }}>{getStuAYF()}</Typography>}
         <Typography sx={{ lineHeight: 1.2 }}>{getSource()}</Typography>

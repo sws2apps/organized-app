@@ -11,7 +11,7 @@ import { allStudentsState } from '../../states/persons';
 import { userLocalUidState } from '../../states/main';
 
 const MyAssignmentsSetup = ({ overrideEdit, setOverrideEdit }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
   const setLocalUid = useSetRecoilState(userLocalUidState);
 
@@ -30,14 +30,14 @@ const MyAssignmentsSetup = ({ overrideEdit, setOverrideEdit }) => {
     <Box>
       {!isSelect && (
         <>
-          <Typography>{t('assignments.setup')}</Typography>
+          <Typography>{t('setup')}</Typography>
           <Box sx={{ marginTop: '5px', display: 'flex', gap: '5px' }}>
             <Button variant="contained" onClick={() => setIsSelect(true)}>
-              {t('assignments.btnSetup')}
+              {t('btnSetup')}
             </Button>
             {overrideEdit && (
               <Button color="error" variant="contained" onClick={() => setOverrideEdit(false)}>
-                {t('global.cancel')}
+                {t('cancel')}
               </Button>
             )}
           </Box>
@@ -45,18 +45,18 @@ const MyAssignmentsSetup = ({ overrideEdit, setOverrideEdit }) => {
       )}
       {isSelect && (
         <>
-          <Typography sx={{ marginBottom: '5px' }}>{t('assignments.selectRecord')}</Typography>
+          <Typography sx={{ marginBottom: '5px' }}>{t('selectRecord')}</Typography>
           <Autocomplete
             id="tags-standard"
             value={value}
             onChange={(e, value) => setValue(value)}
             options={dbPersons}
             getOptionLabel={(option) => option.person_name}
-            renderInput={(params) => <TextField {...params} variant="standard" label={t('global.record')} />}
-            noOptionsText={t('assignments.noMatchRecord')}
+            renderInput={(params) => <TextField {...params} variant="standard" label={t('record')} />}
+            noOptionsText={t('noMatchRecord')}
           />
           <Button variant="contained" sx={{ marginTop: '20px' }} disabled={value === null} onClick={handleSetLocalUid}>
-            {t('global.save')}
+            {t('save')}
           </Button>
         </>
       )}

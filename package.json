@@ -48,6 +48,7 @@
     "recoil-outside": "^0.1.1",
     "simple-crypto-js": "^3.0.1",
     "use-pwa2": "^0.2.0",
+    "validator": "^13.7.0",
     "workbox-cli": "^6.5.4"
   },
   "devDependencies": {

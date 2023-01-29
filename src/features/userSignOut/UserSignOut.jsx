@@ -25,7 +25,7 @@ import { congAccountConnectedState } from '../../states/congregation';
 import { dbUpdateAppSettings } from '../../indexedDb/dbAppSettings';
 
 const UserSignOut = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
   const [open, setOpen] = useRecoilState(isAppClosingState);
   const [userEmail, setUserEmail] = useRecoilState(userEmailState);
@@ -121,7 +121,7 @@ const UserSignOut = () => {
         aria-labelledby="alert-dialog-close-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-close-title">{t('global.waitSignOut')}</DialogTitle>
+        <DialogTitle id="alert-dialog-close-title">{t('waitSignOut')}</DialogTitle>
         <DialogContent>
           <CircularProgress
             color="secondary"

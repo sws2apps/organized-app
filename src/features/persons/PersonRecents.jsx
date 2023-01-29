@@ -8,7 +8,7 @@ import Grid from '@mui/material/Grid';
 import PersonCard from './PersonCard';
 
 const StudentRecents = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
   const [recentStudents, setRecentStudents] = useState([]);
 
@@ -38,7 +38,7 @@ const StudentRecents = () => {
           <Box sx={{ '& > :not(style)': { m: 1 } }}>
             <Fab variant="extended" sx={{ position: 'fixed', bottom: 16, right: 16 }} onClick={clearRecentsStudents}>
               <ClearAllIcon sx={{ mr: 1 }} />
-              {t('persons.clearRecents')}
+              {t('clearRecents')}
             </Fab>
           </Box>
         </>

@@ -19,7 +19,7 @@ import { appMessageState, appSeverityState, appSnackOpenState } from '../../stat
 const User2FA = () => {
   const cancel = useRef();
 
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
   const setModalOpen = useSetRecoilState(rootModalOpenState);
   const setAppSnackOpen = useSetRecoilState(appSnackOpenState);
@@ -102,15 +102,15 @@ const User2FA = () => {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title">{t('settings.twoFactorTitle')}</DialogTitle>
+          <DialogTitle id="alert-dialog-title">{t('twoFactorTitle')}</DialogTitle>
           <DialogContent>
             <Typography sx={{ fontSize: '14px' }}>
-              <Markup content={t('settings.twoFactorApp')} />
+              <Markup content={t('twoFactorApp')} />
             </Typography>
             <Box sx={{ display: 'flex', justifyContent: 'center', margin: '20px' }}>
               {qrCode.length > 0 && <img className="qrcode" src={qrCode} alt="QR Code 2FA" />}
             </Box>
-            <Typography sx={{ fontSize: '14px' }}>{t('settings.twoFactorToken')}</Typography>
+            <Typography sx={{ fontSize: '14px' }}>{t('twoFactorToken')}</Typography>
             <Box
               sx={{
                 width: '100%',
@@ -138,9 +138,9 @@ const User2FA = () => {
           </DialogContent>
         </Dialog>
       )}
-      <Typography>{t('settings.twoFactorDesc')}</Typography>
+      <Typography>{t('twoFactorDesc')}</Typography>
       <Button onClick={() => setViewerOpen(true)} variant="contained" sx={{ marginTop: '10px' }}>
-        {t('settings.twoFactorAddDevice')}
+        {t('twoFactorAddDevice')}
       </Button>
     </Box>
   );

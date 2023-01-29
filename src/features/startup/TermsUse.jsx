@@ -38,7 +38,7 @@ const itemParsAnswer = {
 };
 
 const TermsUse = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
   const setShowTermsUse = useSetRecoilState(isShowTermsUseState);
 

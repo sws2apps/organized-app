@@ -84,7 +84,7 @@ const a11yProps = (index) => {
 };
 
 const Persons = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
   const navigate = useNavigate();
 
   const theme = useTheme();
@@ -174,7 +174,7 @@ const Persons = () => {
 
     setAppSnackOpen(true);
     setAppSeverity('success');
-    setAppMessage(t('persons.deleteSucess'));
+    setAppMessage(t('deleteSucess'));
   };
 
   const handleTabChange = (event, newValue) => {
@@ -217,27 +217,27 @@ const Persons = () => {
         <Dialog open={isStudentDelete} onClose={handleClose}>
           <DialogTitle>
             <Box sx={{ lineHeight: 1.2 }}>
-              {t('persons.deleteTitle', {
+              {t('deleteTitle', {
                 currentStudent: currentStudent.name,
               })}
             </Box>
           </DialogTitle>
           <DialogContent>
-            <DialogContentText id="alert-dialog-description">{t('persons.deleteConfirmation')}</DialogContentText>
+            <DialogContentText id="alert-dialog-description">{t('deleteConfirmation')}</DialogContentText>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleDelete} color="primary">
-              {t('global.delete')}
+              {t('delete')}
             </Button>
             <Button onClick={handleClose} color="primary" autoFocus>
-              {t('global.cancel')}
+              {t('cancel')}
             </Button>
           </DialogActions>
         </Dialog>
       )}
 
       <Typography sx={{ margin: '0px 0px 20px 0px', textTransform: 'uppercase', fontWeight: 'bold' }}>
-        {t('dashboard.persons')}
+        {t('persons')}
       </Typography>
 
       <Box
@@ -266,7 +266,7 @@ const Persons = () => {
             <SearchIcon />
           </SearchIconWrapper>
           <StyledInputBase
-            placeholder={t('persons.search')}
+            placeholder={t('search')}
             inputProps={{ 'aria-label': 'search' }}
             value={txtSearch}
             onChange={(e) => setTxtSearch(e.target.value)}
@@ -352,19 +352,19 @@ const Persons = () => {
                     <ExpandMoreIcon sx={{ fontSize: '25px' }} />
                   )}
                 </ListItemIcon>
-                <ListItemText>{advancedOpen ? t('global.hideAvancedSearch') : t('global.advancedSearch')}</ListItemText>
+                <ListItemText>{advancedOpen ? t('hideAvancedSearch') : t('advancedSearch')}</ListItemText>
               </MenuItem>
               <MenuItem onClick={() => handleSearchStudent(txtSearch, isMale, isFemale, assTypes)}>
                 <ListItemIcon>
                   <PersonSearchIcon sx={{ fontSize: '25px' }} />
                 </ListItemIcon>
-                <ListItemText>{t('persons.search')}</ListItemText>
+                <ListItemText>{t('search')}</ListItemText>
               </MenuItem>
               <MenuItem onClick={handleAddStudent}>
                 <ListItemIcon>
                   <AddCircleIcon sx={{ fontSize: '25px' }} />
                 </ListItemIcon>
-                <ListItemText>{t('persons.addNew')}</ListItemText>
+                <ListItemText>{t('addNew')}</ListItemText>
               </MenuItem>
             </Menu>
           </>
@@ -389,8 +389,8 @@ const Persons = () => {
       <Box sx={{ marginBottom: '10px' }}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={tabValue} onChange={handleTabChange} aria-label="basic tabs example">
-            <Tab label={`${t('persons.searchResult')} (${isSearch ? 0 : persons.length})`} {...a11yProps(0)} />
-            <Tab label={t('persons.recentStudents')} {...a11yProps(1)} />
+            <Tab label={`${t('searchResult')} (${isSearch ? 0 : persons.length})`} {...a11yProps(0)} />
+            <Tab label={t('recentStudents')} {...a11yProps(1)} />
           </Tabs>
         </Box>
         <TabPanel value={tabValue} index={0}>

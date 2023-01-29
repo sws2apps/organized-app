@@ -12,7 +12,7 @@ import { appMessageState, appSeverityState, appSnackOpenState } from '../../stat
 const UserFullname = () => {
   const cancel = useRef();
 
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
   const [username, setUsername] = useRecoilState(usernameState);
 
@@ -55,7 +55,7 @@ const UserFullname = () => {
 
           if (res.status === 200) {
             setModalOpen(false);
-            setAppMessage(t('global.savedSuccess'));
+            setAppMessage(t('savedSuccess'));
             setAppSeverity('success');
             setAppSnackOpen(true);
 
@@ -107,7 +107,7 @@ const UserFullname = () => {
       >
         <TextField
           id="settings-username"
-          label={t('login.fullname')}
+          label={t('fullname')}
           variant="outlined"
           size="small"
           autoComplete="off"
@@ -123,10 +123,10 @@ const UserFullname = () => {
         {isEdit && (
           <Box sx={{ marginBottom: '5px' }}>
             <Button onClick={handleUpdateUsername} variant="contained" sx={{ marginRight: '5px' }}>
-              {t('global.save')}
+              {t('save')}
             </Button>
             <Button onClick={handleCancelChanges} variant="contained" color="secondary">
-              {t('global.cancel')}
+              {t('cancel')}
             </Button>
           </Box>
         )}
@@ -134,7 +134,7 @@ const UserFullname = () => {
       <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
         <TextField
           id="settings-email-address"
-          label={t('login.email')}
+          label={t('email')}
           variant="outlined"
           size="small"
           autoComplete="off"
@@ -149,7 +149,7 @@ const UserFullname = () => {
             readOnly: true,
           }}
         />
-        <Typography sx={{ fontSize: '12px' }}>{t('settings.emailLocked')}</Typography>
+        <Typography sx={{ fontSize: '12px' }}>{t('emailLocked')}</Typography>
       </Box>
     </Box>
   );

@@ -22,7 +22,7 @@ import {
 } from '../../states/congregation';
 
 const BasicSettings = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
   const [isErrorCongName, setIsErrorCongName] = useState(false);
   const [isErrorCongNumber, setIsErrorCongNumber] = useState(false);
@@ -90,23 +90,23 @@ const BasicSettings = () => {
 
     setAppSnackOpen(true);
     setAppSeverity('success');
-    setAppMessage(t('settings.saved'));
+    setAppMessage(t('saved'));
   };
 
   return (
     <Box sx={{ width: '100%' }}>
-      <Typography className={'settingHeader'}>{t('settings.aboutCongregation')}</Typography>
+      <Typography className={'settingHeader'}>{t('aboutCongregation')}</Typography>
       <Divider sx={{ borderWidth: '5px' }} />
       <Box sx={{ padding: '20px 20px' }}>
         <TextField
           id="outlined-basic"
-          label={t('global.congregation')}
+          label={t('congregation')}
           variant="outlined"
           size="small"
           autoComplete="off"
           required
           error={isErrorCongName ? true : false}
-          helperText={isErrorCongName ? t('settings.blankRequired') : null}
+          helperText={isErrorCongName ? t('blankRequired') : null}
           sx={{
             width: '320px',
             marginRight: '5px',
@@ -121,13 +121,13 @@ const BasicSettings = () => {
         <TextField
           id="outlined-basic"
           type="number"
-          label={t('global.number')}
+          label={t('number')}
           variant="outlined"
           size="small"
           autoComplete="off"
           required
           error={isErrorCongNumber ? true : false}
-          helperText={isErrorCongName ? t('settings.blankRequired') : null}
+          helperText={isErrorCongName ? t('blankRequired') : null}
           sx={{ width: '120px' }}
           value={tempCongNumber}
           onChange={(e) => handleCongNumberChange(e.target.value)}
@@ -156,16 +156,16 @@ const BasicSettings = () => {
               minWidth: 150,
             }}
           >
-            <MenuItem value={1}>{t('global.monday')}</MenuItem>
-            <MenuItem value={2}>{t('global.tuesday')}</MenuItem>
-            <MenuItem value={3}>{t('global.wednesday')}</MenuItem>
-            <MenuItem value={4}>{t('global.thursday')}</MenuItem>
-            <MenuItem value={5}>{t('global.friday')}</MenuItem>
-            <MenuItem value={6}>{t('global.saturday')}</MenuItem>
+            <MenuItem value={1}>{t('monday')}</MenuItem>
+            <MenuItem value={2}>{t('tuesday')}</MenuItem>
+            <MenuItem value={3}>{t('wednesday')}</MenuItem>
+            <MenuItem value={4}>{t('thursday')}</MenuItem>
+            <MenuItem value={5}>{t('friday')}</MenuItem>
+            <MenuItem value={6}>{t('saturday')}</MenuItem>
           </TextField>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <TimePicker
-              label={t('global.time')}
+              label={t('time')}
               value={tempMeetingTime}
               onChange={handleMeetingTimeChange}
               renderInput={(params) => <TextField {...params} size="small" sx={{ width: '180px' }} />}
@@ -183,8 +183,8 @@ const BasicSettings = () => {
               minWidth: 100,
             }}
           >
-            <MenuItem value={1}>{t('global.oneClass')}</MenuItem>
-            <MenuItem value={2}>{t('global.twoClass')}</MenuItem>
+            <MenuItem value={1}>{t('oneClass')}</MenuItem>
+            <MenuItem value={2}>{t('twoClass')}</MenuItem>
           </TextField>
         </Box>
 
@@ -195,7 +195,7 @@ const BasicSettings = () => {
           onClick={() => saveAppSettings()}
           sx={{ marginTop: '10px' }}
         >
-          {t('global.save')}
+          {t('save')}
         </Button>
       </Box>
     </Box>

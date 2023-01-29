@@ -8,7 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
 const PersonHistory = ({ history }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
   return (
     <Box sx={{ overflow: 'auto' }}>
@@ -23,7 +23,7 @@ const PersonHistory = ({ history }) => {
           <TableHead>
             <TableRow>
               <TableCell style={{ width: '60px' }} align="center">
-                {t('global.date')}
+                {t('date')}
               </TableCell>
               <TableCell
                 style={{ width: '250px' }}
@@ -31,10 +31,10 @@ const PersonHistory = ({ history }) => {
                   '& .MuiTableCell-sizeSmall': { padding: '6px 3px 6px 3px' },
                 }}
               >
-                {t('global.assignment')}
+                {t('assignment')}
               </TableCell>
               <TableCell style={{ width: '60px' }} align="center">
-                {t('global.class')}
+                {t('class')}
               </TableCell>
             </TableRow>
           </TableHead>

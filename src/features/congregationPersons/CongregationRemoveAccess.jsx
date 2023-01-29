@@ -8,7 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Typography from '@mui/material/Typography';
 
 const CongregationRemoveAccess = ({ isDelete, setIsDelete, name, deleteUser }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
   const handleClose = () => {
     setIsDelete(false);
@@ -22,16 +22,16 @@ const CongregationRemoveAccess = ({ isDelete, setIsDelete, name, deleteUser }) =
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{t('administration.removeBrother')}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{t('removeBrother')}</DialogTitle>
         <DialogContent>
-          <Typography>{t('administration.removeBrotherDesc', { name: name })}</Typography>
+          <Typography>{t('removeBrotherDesc', { name: name })}</Typography>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
-            {t('global.cancel')}
+            {t('cancel')}
           </Button>
           <Button onClick={deleteUser} color="primary">
-            {t('global.yes')}
+            {t('yes')}
           </Button>
         </DialogActions>
       </Dialog>

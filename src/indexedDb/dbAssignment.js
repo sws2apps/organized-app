@@ -115,39 +115,39 @@ export const dbHistoryAssignment = async () => {
           // Chairman History
           if (item.assignment === 'chairmanMM_A') {
             person.assignmentID = 110;
-            person.assignmentName = getI18n().t('global.chairmanMidweekMeeting2');
+            person.assignmentName = getI18n().t('chairmanMidweekMeeting2', { ns: 'ui' });
           }
 
           // Aux Class Counselor History
           if (item.assignment === 'chairmanMM_B') {
             person.assignmentID = 110;
-            person.assignmentName = getI18n().t('global.auxClassCounselor');
+            person.assignmentName = getI18n().t('auxClassCounselor', { ns: 'ui' });
           }
 
           // Opening Prayer
           if (item.assignment === 'opening_prayer') {
             person.assignmentID = 111;
-            person.assignmentName = getI18n().t('global.openingPrayer');
+            person.assignmentName = getI18n().t('openingPrayer', { ns: 'ui' });
           }
 
           // TGW Talk 10 min. History
           if (item.assignment === 'tgw_talk') {
             person.assignmentID = 112;
-            person.assignmentName = getI18n().t('global.tgwTalk');
+            person.assignmentName = getI18n().t('tgwTalk', { ns: 'ui' });
             person.assignmentSource = weekData.tgwTalk_src;
           }
 
           // TGW Spiritual Gems History
           if (item.assignment === 'tgw_gems') {
             person.assignmentID = 113;
-            person.assignmentName = getI18n().t('global.tgwGems');
+            person.assignmentName = getI18n().t('tgwGems', { ns: 'ui' });
           }
 
           //Bible Reading History
           if (item.assignment.startsWith('bRead_stu_')) {
             const stuclass = item.assignment.split('_')[2];
             person.assignmentID = 100;
-            person.assignmentName = getI18n().t('global.bibleReading');
+            person.assignmentName = getI18n().t('bibleReading', { ns: 'ui' });
             person.class = stuclass;
             person.studyPoint = weekData.bibleReading_study;
           }
@@ -162,15 +162,15 @@ export const dbHistoryAssignment = async () => {
 
             person.assignmentID = assType;
             if (assType === 101) {
-              person.assignmentName = getI18n().t('global.initialCall');
+              person.assignmentName = getI18n().t('initialCall', { ns: 'ui' });
             } else if (assType === 102) {
-              person.assignmentName = getI18n().t('global.returnVisit');
+              person.assignmentName = getI18n().t('returnVisit', { ns: 'ui' });
             } else if (assType === 103) {
-              person.assignmentName = getI18n().t('global.bibleStudy');
+              person.assignmentName = getI18n().t('bibleStudy', { ns: 'ui' });
             } else if (assType === 104) {
-              person.assignmentName = getI18n().t('global.talk');
+              person.assignmentName = getI18n().t('talk', { ns: 'ui' });
             } else if (assType === 108) {
-              person.assignmentName = getI18n().t('global.memorialInvite');
+              person.assignmentName = getI18n().t('memorialInvite', { ns: 'ui' });
             }
             person.class = stuclass;
             person.studyPoint = studyPoint;
@@ -180,7 +180,7 @@ export const dbHistoryAssignment = async () => {
           if (item.assignment.startsWith('ass') && item.assignment.includes('_ass_')) {
             const stuclass = item.assignment.split('_')[2];
             person.assignmentID = 109;
-            person.assignmentName = getI18n().t('global.assistant');
+            person.assignmentName = getI18n().t('assistant', { ns: 'ui' });
             person.class = stuclass;
           }
 
@@ -192,7 +192,7 @@ export const dbHistoryAssignment = async () => {
             const fldContent = `lcPart${lcIndex}_content`;
 
             person.assignmentID = 114;
-            person.assignmentName = getI18n().t('global.lcPart');
+            person.assignmentName = getI18n().t('lcPart', { ns: 'ui' });
             person.assignmentSource = `(${weekData[fldTime]} min.) ${weekData[fldSource]}`;
             person.assignmentContent = weekData[fldContent];
           }
@@ -200,21 +200,21 @@ export const dbHistoryAssignment = async () => {
           // CBS Conductor History
           if (item.assignment === 'cbs_conductor') {
             person.assignmentID = 115;
-            person.assignmentName = getI18n().t('global.cbsConductor');
+            person.assignmentName = getI18n().t('cbsConductor', { ns: 'ui' });
             person.assignmentSource = weekData.cbs_src;
           }
 
           // CBS Reader History
           if (item.assignment === 'cbs_reader') {
             person.assignmentID = 116;
-            person.assignmentName = getI18n().t('global.cbsReader');
+            person.assignmentName = getI18n().t('cbsReader', { ns: 'ui' });
             person.assignmentSource = weekData.cbs_src;
           }
 
           // Closing Prayer History
           if (item.assignment === 'closing_prayer') {
             person.assignmentID = 111;
-            person.assignmentName = getI18n().t('global.closingPrayer');
+            person.assignmentName = getI18n().t('closingPrayer', { ns: 'ui' });
           }
 
           dbHistory.push(person);
@@ -554,6 +554,7 @@ export const dbRefreshStudentHistory = async (varPrev, varNew) => {
 };
 
 export const dbGetS89WeekList = async (scheduleName) => {
+  const sourceLang = await promiseGetRecoil(sourceLangState);
   const s89Data = [];
   const allWeeks = await dbGetWeekListBySched(scheduleName);
   for (let i = 0; i < allWeeks.length; i++) {
@@ -563,7 +564,7 @@ export const dbGetS89WeekList = async (scheduleName) => {
       const parentWeek = {};
       parentWeek.value = week;
       const dateW = new Date(week);
-      const weekDateFormatted = dateFormat(dateW, getI18n().t('global.shortDateFormat'));
+      const weekDateFormatted = dateFormat(dateW, getI18n().t('shortDateFormat', { ns: 'ui' }));
       parentWeek.label = weekDateFormatted;
       parentWeek.children = [];
 
@@ -575,20 +576,20 @@ export const dbGetS89WeekList = async (scheduleName) => {
         (scheduleData.bRead_stu_A && scheduleData.bRead_stu_A !== '') ||
         (scheduleData.bRead_stu_B && scheduleData.bRead_stu_B !== '')
       ) {
-        assType.label = getI18n().t('global.bibleReading');
+        assType.label = getI18n().t('bibleReading', { ns: 'ui', lng: sourceLang });
         assType.value = week + '-0@bRead';
         assType.children = [];
 
         if (scheduleData.bRead_stu_A && scheduleData.bRead_stu_A !== '') {
           assClass = {};
           assClass.value = week + '-0@bRead-A';
-          assClass.label = getI18n().t('global.mainHall');
+          assClass.label = getI18n().t('mainHall', { ns: 'ui', lng: sourceLang });
           assType.children.push(assClass);
         }
         if (scheduleData.bRead_stu_B && scheduleData.bRead_stu_B !== '') {
           assClass = {};
           assClass.value = week + '-0@bRead-B';
-          assClass.label = getI18n().t('global.auxClass1');
+          assClass.label = getI18n().t('auxClass1', { ns: 'ui', lng: sourceLang });
           assType.children.push(assClass);
         }
         parentWeek.children.push(assType);
@@ -612,14 +613,14 @@ export const dbGetS89WeekList = async (scheduleName) => {
             assType.children = [];
             assClass = {};
             assClass.value = week + '-' + i + '@ass' + i + '-A';
-            assClass.label = getI18n().t('global.mainHall');
+            assClass.label = getI18n().t('mainHall', { ns: 'ui', lng: sourceLang });
             assType.children.push(assClass);
           }
           if (scheduleData[fldStuB] && scheduleData[fldStuB] !== '') {
             assType.children = [];
             assClass = {};
             assClass.value = week + '-' + i + '@ass' + i + '-B';
-            assClass.label = getI18n().t('global.auxClass1');
+            assClass.label = getI18n().t('auxClass1', { ns: 'ui', lng: sourceLang });
             assType.children.push(assClass);
           }
           parentWeek.children.push(assType);
@@ -632,7 +633,7 @@ export const dbGetS89WeekList = async (scheduleName) => {
   }
   const obj = {};
   obj.value = 'S89';
-  obj.label = getI18n().t('global.allWeeks');
+  obj.label = getI18n().t('allWeeks', { ns: 'ui' });
   obj.children = s89Data;
 
   return obj;
@@ -676,10 +677,7 @@ export const dbGetS89ItemData = async (week, assName, classLabel) => {
   const [varMonth, varDay, varYear] = week.split('/');
   midDay = parseInt(varDay, 10) + midDay - 1;
   const lDate = new Date(varYear, varMonth - 1, midDay);
-  const dateFormatted = dateFormat(
-    lDate,
-    getI18n().getDataByLanguage(sourceLang).translation['global.shortDateFormat']
-  );
+  const dateFormatted = dateFormat(lDate, getI18n().getDataByLanguage(sourceLang).ui['shortDateFormat']);
 
   const sourceData = await dbGetSourceMaterial(week);
   const scheduleData = await dbGetScheduleData(week);
@@ -716,67 +714,32 @@ export const dbGetS89ItemData = async (week, assName, classLabel) => {
     const ass4Type = sourceData['ass4_type'];
     const assTime = sourceData[assTimeFld];
 
-    if (assType === 101 || assType === 108) {
+    if (assType === 101 || assType === 108 || assType === 102) {
       if (assType === 101) s89Data.isInitialCall = true;
       if (assType === 108) s89Data.isMemorialInvite = true;
+      if (assType === 102) s89Data.isReturnVisit = true;
+
+      let fieldSpec = 'initialCallSpec';
+      if (assType === 102) fieldSpec = 'returnVisitSpec';
       if (assName === 'ass1') {
         if (ass1Type === ass2Type || ass1Type === ass3Type || ass1Type === ass4Type) {
-          let spec = getI18n().getDataByLanguage(sourceLang).translation['schedule.assignmentPart'];
-          spec = spec.replace('{{ id }}', 1);
-          spec = spec.replace('{{ time }}', assTime);
-          s89Data.initialCallSpec = spec;
+          const spec = getI18n().t('assignmentPart', { ns: 'ui', id: 1, time: assTime });
+          s89Data[fieldSpec] = spec;
         }
       } else if (assName === 'ass2') {
         if (ass2Type === ass1Type || ass2Type === ass3Type || ass2Type === ass4Type) {
-          let spec = getI18n().getDataByLanguage(sourceLang).translation['schedule.assignmentPart'];
-          spec = spec.replace('{{ id }}', 2);
-          spec = spec.replace('{{ time }}', assTime);
-          s89Data.initialCallSpec = spec;
+          const spec = getI18n().t('assignmentPart', { ns: 'ui', id: 2, time: assTime });
+          s89Data[fieldSpec] = spec;
         }
       } else if (assName === 'ass3') {
         if (ass3Type === ass1Type || ass3Type === ass2Type || ass3Type === ass4Type) {
-          let spec = getI18n().getDataByLanguage(sourceLang).translation['schedule.assignmentPart'];
-          spec = spec.replace('{{ id }}', 3);
-          spec = spec.replace('{{ time }}', assTime);
-          s89Data.initialCallSpec = spec;
+          const spec = getI18n().t('assignmentPart', { ns: 'ui', id: 3, time: assTime });
+          s89Data[fieldSpec] = spec;
         }
       } else if (assName === 'ass4') {
         if (ass4Type === ass1Type || ass4Type === ass2Type || ass4Type === ass3Type) {
-          let spec = getI18n().getDataByLanguage(sourceLang).translation['schedule.assignmentPart'];
-          spec = spec.replace('{{ id }}', 4);
-          spec = spec.replace('{{ time }}', assTime);
-          s89Data.initialCallSpec = spec;
-        }
-      }
-    } else if (assType === 102) {
-      s89Data.isReturnVisit = true;
-      if (assName === 'ass1') {
-        if (ass1Type === ass2Type || ass1Type === ass3Type || ass1Type === ass4Type) {
-          let spec = getI18n().getDataByLanguage(sourceLang).translation['schedule.assignmentPart'];
-          spec = spec.replace('{{ id }}', 1);
-          spec = spec.replace('{{ time }}', assTime);
-          s89Data.initialCallSpec = spec;
-        }
-      } else if (assName === 'ass2') {
-        if (ass2Type === ass1Type || ass2Type === ass3Type || ass2Type === ass4Type) {
-          let spec = getI18n().getDataByLanguage(sourceLang).translation['schedule.assignmentPart'];
-          spec = spec.replace('{{ id }}', 2);
-          spec = spec.replace('{{ time }}', assTime);
-          s89Data.initialCallSpec = spec;
-        }
-      } else if (assName === 'ass3') {
-        if (ass3Type === ass1Type || ass3Type === ass2Type || ass3Type === ass4Type) {
-          let spec = getI18n().getDataByLanguage(sourceLang).translation['schedule.assignmentPart'];
-          spec = spec.replace('{{ id }}', 3);
-          spec = spec.replace('{{ time }}', assTime);
-          s89Data.initialCallSpec = spec;
-        }
-      } else if (assName === 'ass4') {
-        if (ass4Type === ass1Type || ass4Type === ass2Type || ass4Type === ass3Type) {
-          let spec = getI18n().getDataByLanguage(sourceLang).translation['schedule.assignmentPart'];
-          spec = spec.replace('{{ id }}', 4);
-          spec = spec.replace('{{ time }}', assTime);
-          s89Data.initialCallSpec = spec;
+          const spec = getI18n().t('assignmentPart', { ns: 'ui', id: 4, time: assTime });
+          s89Data[fieldSpec] = spec;
         }
       }
     } else if (assType === 103) {
@@ -884,18 +847,30 @@ export const dbGetScheduleForPrint = async (scheduleName) => {
     time.lc1 = addMinutes(time.middleSong, 5);
 
     // lc part 2
-    time.lc2 = addMinutes(time.lc1, sourceData.lcPart1_time);
+    if (sourceData.lcPart1_time_override) {
+      time.lc2 = addMinutes(time.lc1, sourceData.lcPart1_time_override);
+    } else {
+      time.lc2 = addMinutes(time.lc1, sourceData.lcPart1_time);
+    }
 
     if (scheduleData.week_type === 1) {
       // normal - cbs
       if (sourceData.lcCount === 1) {
         time.cbs = time.lc2;
       } else {
-        time.cbs = addMinutes(time.lc2, sourceData.lcPart2_time);
+        if (sourceData.lcPart2_time_override) {
+          time.cbs = addMinutes(time.lc2, sourceData.lcPart2_time_override);
+        } else {
+          time.cbs = addMinutes(time.lc2, sourceData.lcPart2_time);
+        }
       }
 
       // normal - concluding comments
-      time.concludingComments = addMinutes(time.cbs, 30);
+      if (sourceData.cbs_time_override) {
+        time.concludingComments = addMinutes(time.cbs, sourceData.cbs_time_override);
+      } else {
+        time.concludingComments = addMinutes(time.cbs, 30);
+      }
 
       // normal - pgm end
       time.pgmEnd = addMinutes(time.concludingComments, 3);
@@ -904,7 +879,11 @@ export const dbGetScheduleForPrint = async (scheduleName) => {
       if (sourceData.lcCount === 1) {
         time.concludingComments = time.lc2;
       } else {
-        time.concludingComments = addMinutes(time.lc2, sourceData.lcPart2_time);
+        if (sourceData.lcPart2_time_override) {
+          time.concludingComments = addMinutes(time.lc2, sourceData.lcPart2_time_override);
+        } else {
+          time.concludingComments = addMinutes(time.lc2, sourceData.lcPart2_time);
+        }
       }
 
       // co - talk
@@ -938,15 +917,13 @@ const addMinutes = (prev, min) => {
   return `${newHour}:${newMinute < 10 ? `0${newMinute}` : newMinute}`;
 };
 
-export const dbBuildNewAssignmentsFormat = async () => {};
-
 export const dbMyAssignments = async () => {
   try {
     const tmpSchedules = await appDb.table('sched_MM').toArray();
 
     const schedules = [];
-    for (let i = 0; i < tmpSchedules.length; i++) {
-      const week = tmpSchedules[i].weekOf;
+    for await (const schedule of tmpSchedules) {
+      const week = schedule.weekOf;
       const details = await dbGetScheduleData(week);
       const src = await dbGetSourceMaterial(week);
       schedules.push({ ...details, ...src });
@@ -996,10 +973,8 @@ export const dbMyAssignments = async () => {
       'closing_prayer',
     ];
 
-    let myItems = [];
-    for (let a = 0; a < schedules.length; a++) {
-      const schedule = schedules[a];
-
+    const myItems = [];
+    schedules.forEach((schedule) => {
       const weekDate = new Date(schedule.weekOf);
       const dayDiff = Math.round((weekDate - currentWeekDate) / msInDay);
 
@@ -1035,34 +1010,34 @@ export const dbMyAssignments = async () => {
 
             // Chairman History
             if (fld === 'chairmanMM_A') {
-              obj.assignmentName = getI18n().t('global.chairmanMidweekMeeting2');
+              obj.assignmentName = getI18n().t('chairmanMidweekMeeting2', { ns: 'ui' });
             }
 
             // Aux Class Counselor History
             if (fld === 'chairmanMM_B') {
-              obj.assignmentName = getI18n().t('global.auxClassCounselor');
+              obj.assignmentName = getI18n().t('auxClassCounselor', { ns: 'ui' });
             }
 
             // Opening Prayer
             if (fld === 'opening_prayer') {
-              obj.assignmentName = getI18n().t('global.openingPrayerMidweekMeeting');
+              obj.assignmentName = getI18n().t('openingPrayerMidweekMeeting', { ns: 'ui' });
             }
 
             // TGW Talk 10 min. History
             if (fld === 'tgw_talk') {
-              obj.assignmentName = getI18n().t('global.tgwTalk2');
+              obj.assignmentName = getI18n().t('tgwTalk2', { ns: 'ui' });
               obj.assignmentSource = schedule.tgwTalk_src;
             }
 
             // TGW Spiritual Gems History
             if (fld === 'tgw_gems') {
-              obj.assignmentName = getI18n().t('global.tgwGems2');
+              obj.assignmentName = getI18n().t('tgwGems2', { ns: 'ui' });
             }
 
             //Bible Reading History
             if (fld.startsWith('bRead_stu_')) {
               const stuclass = fld.split('_')[2];
-              obj.assignmentName = getI18n().t('global.bibleReading');
+              obj.assignmentName = getI18n().t('bibleReading', { ns: 'ui' });
               obj.class = stuclass;
               obj.studyPoint = schedule.bibleReading_study;
               obj.assignmentSource = schedule.bibleReading_src;
@@ -1083,7 +1058,7 @@ export const dbMyAssignments = async () => {
               const assTime = schedule[timeFld];
               const assistantDispName = schedule[assistantFldDispName];
 
-              obj.assignmentName = `${getAssignmentName(assType)} - ${getI18n().t('global.student')}`;
+              obj.assignmentName = `${getAssignmentName(assType)} - ${getI18n().t('student', { ns: 'ui' })}`;
               obj.assistantDispName = assistantDispName;
               obj.assignmentTime = assTime;
               obj.assignmentSource = assSource;
@@ -1107,7 +1082,7 @@ export const dbMyAssignments = async () => {
               const studentDispName = schedule[studentFldDispName];
               const assType = schedule[weekFld];
 
-              obj.assignmentName = `${getAssignmentName(assType)} - ${getI18n().t('global.assistant')}`;
+              obj.assignmentName = `${getAssignmentName(assType)} - ${getI18n().t('assistant', { ns: 'ui' })}`;
               obj.studentForAssistant = studentDispName;
               obj.assignmentTime = assTime;
               obj.assignmentSource = assSource;
@@ -1123,7 +1098,7 @@ export const dbMyAssignments = async () => {
               const fldTime = `lcPart${lcIndex}_time`;
               const fldContent = `lcPart${lcIndex}_content`;
 
-              obj.assignmentName = getI18n().t('global.lcPart');
+              obj.assignmentName = getI18n().t('lcPart', { ns: 'ui' });
               obj.assignmentTime = schedule[fldTime];
               obj.assignmentSource = schedule[fldSource];
               obj.assignmentContent = schedule[fldContent];
@@ -1131,19 +1106,19 @@ export const dbMyAssignments = async () => {
 
             // CBS Conductor History
             if (fld === 'cbs_conductor') {
-              obj.assignmentName = getI18n().t('global.cbsConductor2');
+              obj.assignmentName = getI18n().t('cbsConductor2', { ns: 'ui' });
               obj.assignmentSource = schedule.cbs_src;
             }
 
             // CBS Reader History
             if (fld === 'cbs_reader') {
-              obj.assignmentName = getI18n().t('global.cbsReader2');
+              obj.assignmentName = getI18n().t('cbsReader2', { ns: 'ui' });
               obj.assignmentSource = schedule.cbs_src;
             }
 
             // Closing Prayer
             if (fld === 'closing_prayer') {
-              obj.assignmentName = getI18n().t('global.closingPrayerMidweekMeeting');
+              obj.assignmentName = getI18n().t('closingPrayerMidweekMeeting', { ns: 'ui' });
             }
 
             obj.isBehalf = isBehalf;
@@ -1152,7 +1127,7 @@ export const dbMyAssignments = async () => {
           }
         });
       }
-    }
+    });
 
     myItems.sort((a, b) => {
       const dateA = a.weekOf.split('/')[2] + '/' + a.weekOf.split('/')[0] + '/' + a.weekOf.split('/')[1];

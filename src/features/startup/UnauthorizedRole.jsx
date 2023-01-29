@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import { isUnauthorizedRoleState, isUserSignInState } from '../../states/main';
 
 const UnauthorizedRole = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
   const setUserSignIn = useSetRecoilState(isUserSignInState);
   const setIsUnauthorizedRole = useSetRecoilState(isUnauthorizedRoleState);
@@ -21,7 +21,7 @@ const UnauthorizedRole = () => {
   return (
     <Container sx={{ marginTop: '20px' }}>
       <Typography variant="h4" sx={{ marginBottom: '15px' }}>
-        {t('login.unauthorized')}
+        {t('unauthorized')}
       </Typography>
 
       <Box
@@ -40,7 +40,7 @@ const UnauthorizedRole = () => {
             cursor: 'pointer',
           }}
         />
-        <Typography>{t('login.unauthorizedRole')}</Typography>
+        <Typography>{t('unauthorizedRole')}</Typography>
       </Box>
 
       <Button variant="contained" onClick={handleSignIn}>

@@ -1,7 +1,8 @@
 import { promiseGetRecoil } from 'recoil-outside';
 import { getI18n } from 'react-i18next';
+import dateFormat from 'dateformat';
 import { classCountState } from '../states/congregation';
-import { monthNamesState } from '../states/main';
+import { monthNamesState, shortDateFormatState } from '../states/main';
 import { yearsListState } from '../states/sourceMaterial';
 import { dbGetStudentByUid } from './dbPersons';
 import {
@@ -14,10 +15,9 @@ import {
 } from './dbSourceMaterial';
 import appDb from './mainDb';
 
-export const dbGetScheduleData = async (weekValue) => {
+export const dbGetBaseScheduleDate = async (weekValue) => {
   const appData = await appDb.table('sched_MM').get({ weekOf: weekValue });
   const schedule = {};
-  let student = {};
   schedule.weekOf = appData.weekOf;
 
   const assList = [];
@@ -32,7 +32,7 @@ export const dbGetScheduleData = async (weekValue) => {
     const fldDispName = `${item.assignment}_dispName`;
 
     if (item.person) {
-      student = await dbGetStudentByUid(item.person);
+      const student = await dbGetStudentByUid(item.person);
       schedule[item.assignment] = item.person;
       schedule[fldDispName] = student.person_displayName;
     } else {
@@ -42,42 +42,21 @@ export const dbGetScheduleData = async (weekValue) => {
   }
 
   schedule.week_type = parseInt(appData.week_type, 10) || 1;
-
-  schedule.week_type_name = await dbGetWeekTypeName(schedule.week_type);
   schedule.noMeeting = appData.noMeeting || false;
   return schedule;
 };
 
+export const dbGetScheduleData = async (weekValue) => {
+  const baseSchedule = await dbGetBaseScheduleDate(weekValue);
+  const schedule = { ...baseSchedule };
+  schedule.week_type_name = await dbGetWeekTypeName(schedule.week_type);
+  return schedule;
+};
+
 export const dbGetScheduleDataPocket = async (weekValue) => {
-  const appData = await appDb.table('sched_MM').get({ weekOf: weekValue });
-  const schedule = {};
-  schedule.weekOf = appData.weekOf;
-
-  const assList = [];
-  const excludeFiles = ['weekOf', 'week_type', 'noMeeting', 'isReleased', 'changes'];
-  for (const [key, value] of Object.entries(appData)) {
-    if (excludeFiles.indexOf(key) === -1) {
-      assList.push({ assignment: key, person: value });
-    }
-  }
-
-  for (const item of assList) {
-    const fldDispName = `${item.assignment}_dispName`;
-
-    if (item.person) {
-      let student = {};
-      student = await dbGetStudentByUid(item.person);
-      schedule[item.assignment] = item.person;
-      schedule[fldDispName] = student.person_displayName;
-    } else {
-      schedule[item.assignment] = '';
-      schedule[fldDispName] = '';
-    }
-  }
-
-  schedule.week_type = parseInt(appData.week_type, 10) || 1;
+  const baseSchedule = await dbGetBaseScheduleDate(weekValue);
+  const schedule = { ...baseSchedule };
   schedule.week_type_name = await dbGetWeekTypeNamePocket(schedule.week_type);
-  schedule.noMeeting = appData.noMeeting || false;
   return schedule;
 };
 
@@ -295,7 +274,7 @@ export const dbBuildSchedulesListForShare = async () => {
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth();
 
-  const finalList = { label: t('global.selectAll'), value: 'sched', children: [] };
+  const finalList = { label: t('selectAll'), value: 'sched', children: [] };
   for (const year of years) {
     const yearValue = +year.value;
 
@@ -329,4 +308,49 @@ export const dbBuildSchedulesListForShare = async () => {
 export const formatSelectedSchedulesForShare = (data) => {
   const result = data.filter((item) => item.indexOf('/') >= 0) || [];
   return result;
+};
+
+export const getWeeksBySchedule = async (schedule) => {
+  const shortDateFormat = await promiseGetRecoil(shortDateFormatState);
+
+  const data = await dbGetWeekListBySched(schedule);
+  const newData = [];
+  data.forEach((week) => {
+    const weekDate = week.weekOf;
+    const day = weekDate.split('/')[1];
+    const month = weekDate.split('/')[0];
+    const year = weekDate.split('/')[2];
+    const newDate = new Date(year, +month - 1, day);
+    const dateFormatted = dateFormat(newDate, shortDateFormat);
+    newData.push({ value: week.value, label: dateFormatted });
+  });
+
+  return newData;
+};
+
+export const dbFetchScheduleInfo = async (condition, currentSchedule, currentWeek) => {
+  const newData = [];
+
+  if (condition) {
+    let data = await dbGetWeekListBySched(currentSchedule.value);
+    for (let i = 0; i < data.length; i++) {
+      const obj = {};
+      obj.value = data[i].weekOf;
+      newData.push(obj);
+    }
+  } else {
+    newData.push({ value: currentWeek.value });
+  }
+
+  let cnTotal = 0;
+  let cnAssigned = 0;
+  for await (const item of newData) {
+    const week = item.value;
+    const { total, assigned } = await dbCountAssignmentsInfo(week);
+
+    cnTotal += total;
+    cnAssigned += assigned;
+  }
+
+  return { weeks: newData, total: cnTotal, assigned: cnAssigned };
 };

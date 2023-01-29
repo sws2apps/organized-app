@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { getI18n } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import html2pdf from 'html2pdf.js';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -11,60 +11,19 @@ import { monthNamesState, rootModalOpenState, sourceLangState } from '../states/
 import { currentScheduleState } from '../states/schedule';
 import { classCountState, congNameState, congNumberState } from '../states/congregation';
 import { dbGetScheduleForPrint } from '../indexedDb/dbAssignment';
-
-const styles = {
-  partTime: {
-    fontWeight: 'bold',
-    color: '#424949',
-    fontSize: '11px',
-    lineHeight: '20px',
-    width: '40px',
-  },
-  assignedPers: {
-    color: 'black',
-    fontSize: '12px',
-    padding: '0 0 0 8px',
-    width: '180px',
-    lineHeight: '20px',
-  },
-};
-
-const ScheduleHeading = ({ congName, congNumber, midweekMeetingPrint }) => {
-  return (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'flex-end',
-        borderBottom: '3px solid black',
-        paddingBottom: '2px',
-        marginBottom: '20px',
-      }}
-    >
-      <Typography
-        sx={{
-          fontWeight: 'bold',
-          fontSize: '13px',
-          color: 'black',
-        }}
-      >
-        {congName !== '' && congNumber !== '' ? `${congName.toUpperCase()} (${congNumber})` : ''}
-      </Typography>
-      <Typography
-        sx={{
-          fontWeight: 'bold',
-          fontSize: '19px',
-          color: 'black',
-        }}
-      >
-        {midweekMeetingPrint}
-      </Typography>
-    </Box>
-  );
-};
+import {
+  S140AssignedPerson,
+  S140MeetingPartHeading,
+  S140MeetingPartText,
+  S140MeetingTime,
+  S140PartMiniLabel,
+  S140ScheduleHeading,
+} from '../features/schedules';
 
 const S140 = () => {
   let navigate = useNavigate();
+
+  const { t } = useTranslation('source');
 
   const setRootModalOpen = useSetRecoilState(rootModalOpenState);
 
@@ -76,7 +35,6 @@ const S140 = () => {
   const sourceLang = useRecoilValue(sourceLangState);
 
   const [data, setData] = useState([]);
-  const [dataLang, setDataLang] = useState({});
 
   const savePDF = () => {
     const element = document.getElementById('schedule_template');
@@ -90,14 +48,134 @@ const S140 = () => {
     html2pdf().set(opt).from(element).save();
   };
 
-  const formatAssTime = (text, time) => {
-    return text.replace('{{ duration }}', time);
+  const getWeekInfoLabel = (weekItem) => {
+    if (weekItem.scheduleData.noMeeting) return t('noMeeting', { lng: sourceLang });
+    if (weekItem.scheduleData.week_type !== 1) return weekItem.scheduleData.week_type_name.toUpperCase();
+    return '';
   };
 
-  useEffect(() => {
-    const temp = getI18n().getDataByLanguage(sourceLang).translation;
-    setDataLang(temp);
-  }, [sourceLang]);
+  const ayfLabel = (weekItem, fldType) => {
+    if (
+      weekItem.sourceData[fldType] === 101 ||
+      weekItem.sourceData[fldType] === 102 ||
+      weekItem.sourceData[fldType] === 103 ||
+      weekItem.sourceData[fldType] === 108
+    ) {
+      return t('studentAssistant', { lng: sourceLang });
+    }
+
+    if (weekItem.sourceData[fldType] === 104) {
+      return t('student', { lng: sourceLang }) + ':';
+    }
+
+    return '';
+  };
+
+  const getAssignedAYFPerson = (weekItem, fldType, fldStu, fldAss, stuClass) => {
+    if (
+      weekItem.sourceData[fldType] === 101 ||
+      weekItem.sourceData[fldType] === 102 ||
+      weekItem.sourceData[fldType] === 103 ||
+      weekItem.sourceData[fldType] === 104 ||
+      weekItem.sourceData[fldType] === 108
+    ) {
+      let src = weekItem.scheduleData[fldStu];
+      if (weekItem.scheduleData[fldAss] && weekItem.scheduleData[fldAss] !== '') {
+        src += `/${weekItem.scheduleData[fldAss]}`;
+      }
+
+      return src;
+    }
+
+    if (
+      weekItem.sourceData[fldType] === 105 ||
+      weekItem.sourceData[fldType] === 106 ||
+      weekItem.sourceData[fldType] === 107 ||
+      weekItem.sourceData[fldType] === 117
+    ) {
+      return stuClass === 'A'
+        ? weekItem.scheduleData.chairmanMM_A_dispName
+        : weekItem.scheduleData.chairmanMM_B_dispName;
+    }
+
+    return '';
+  };
+
+  const getAYFType = (weekItem, fldType, fldSrc, fldTypeName) => {
+    if (weekItem.sourceData[fldType] === 107) return weekItem.sourceData[fldSrc];
+    return weekItem.sourceData[fldTypeName];
+  };
+
+  const getAYFDuration = (weekItem, fldType, fldTime) => {
+    if (
+      weekItem.sourceData[fldType] === 105 ||
+      weekItem.sourceData[fldType] === 106 ||
+      weekItem.sourceData[fldType] === 107 ||
+      weekItem.sourceData[fldType] === 117
+    ) {
+      return `${weekItem.sourceData[fldTime]} min.`;
+    }
+
+    if (
+      weekItem.sourceData[fldType] === 101 ||
+      weekItem.sourceData[fldType] === 102 ||
+      weekItem.sourceData[fldType] === 103 ||
+      weekItem.sourceData[fldType] === 104 ||
+      weekItem.sourceData[fldType] === 108
+    ) {
+      return t('partLessTime', { duration: weekItem.sourceData[fldTime], lng: sourceLang });
+    }
+  };
+
+  const cbsLabel = (weekItem) => {
+    let src = t('cbsConductor', { lng: sourceLang });
+    if (weekItem.scheduleData.cbs_reader_dispName && weekItem.scheduleData.cbs_reader_dispName !== '') {
+      src += `/${t('cbsReader', { lng: sourceLang })}`;
+    }
+
+    return `${src}:`;
+  };
+
+  const getAssignedCBS = (weekItem) => {
+    let src = weekItem.scheduleData.cbs_conductor_dispName;
+    if (weekItem.scheduleData.cbs_reader_dispName && weekItem.scheduleData.cbs_reader_dispName !== '') {
+      src += `/${weekItem.scheduleData.cbs_reader_dispName}`;
+    }
+
+    return src;
+  };
+
+  const getConcludingSong = (weekItem) => {
+    if (isNaN(weekItem.sourceData.songConclude_src)) return weekItem.sourceData.songConclude_src;
+
+    let src = t('song', { lng: sourceLang });
+    if (weekItem.scheduleData.week_type !== 2) src += ` ${weekItem.sourceData.songConclude_src}`;
+    return src;
+  };
+
+  const getLCPartSource = (weekItem, fldSrc, fldSrcOverride) => {
+    if (weekItem.sourceData[fldSrcOverride] !== '') {
+      return weekItem.sourceData[fldSrcOverride];
+    }
+
+    return weekItem.sourceData[fldSrc];
+  };
+
+  const getLCPartTime = (weekItem, fldTime, fldTimeOverride) => {
+    if (weekItem.sourceData[fldTimeOverride] !== '') {
+      return weekItem.sourceData[fldTimeOverride];
+    }
+
+    return weekItem.sourceData[fldTime];
+  };
+
+  const getCBSTime = (weekItem) => {
+    if (weekItem.sourceData.cbs_time_override !== '') {
+      return weekItem.sourceData.cbs_time_override;
+    }
+
+    return 30;
+  };
 
   useEffect(() => {
     const getData = async () => {
@@ -142,10 +220,10 @@ const S140 = () => {
                 <Box key={`week-${weekItem.week}`}>
                   {(weekIndex === 0 || weekIndex === 2 || weekIndex === 4) && (
                     <Box>
-                      <ScheduleHeading
+                      <S140ScheduleHeading
                         congName={congName}
                         congNumber={congNumber}
-                        midweekMeetingPrint={dataLang['schedule.midweekMeetingPrint']}
+                        midweekMeetingPrint={t('midweekMeetingPrint', { lng: sourceLang })}
                       />
                     </Box>
                   )}
@@ -163,19 +241,12 @@ const S140 = () => {
                       >
                         {`${weekItem.sourceData.weekDate_src} | ${weekItem.sourceData.weeklyBibleReading_src}`}
                       </Typography>
-                      <Typography
+                      <S140PartMiniLabel
                         align="right"
-                        sx={{
-                          color: '#424949',
-                          fontSize: '9px',
-                          fontWeight: 'bold',
-                          width: '180px',
-                          lineHeight: '20px',
-                        }}
-                      >
-                        {`${dataLang['global.chairmanMidweekMeeting']}:`}
-                      </Typography>
-                      <Typography sx={styles.assignedPers}>{weekItem.scheduleData.chairmanMM_A_dispName}</Typography>
+                        label={`${t('chairmanMidweekMeeting', { lng: sourceLang })}:`}
+                        width="180px"
+                      />
+                      <S140AssignedPerson person={weekItem.scheduleData.chairmanMM_A_dispName} />
                     </Box>
 
                     {/* 2nd row for week type, auxiliary classroom counselor */}
@@ -190,275 +261,95 @@ const S140 = () => {
                           marginBottom: '5px',
                         }}
                       >
-                        {weekItem.scheduleData.noMeeting
-                          ? dataLang['sourceMaterial.noMeeting']
-                          : weekItem.scheduleData.week_type !== 1
-                          ? weekItem.scheduleData.week_type_name.toUpperCase()
-                          : ''}
+                        {getWeekInfoLabel(weekItem)}
                       </Typography>
-                      <Typography
+                      <S140PartMiniLabel
                         align="right"
-                        sx={{
-                          color: '#424949',
-                          fontSize: '9px',
-                          fontWeight: 'bold',
-                          width: '180px',
-                          lineHeight: '20px',
-                        }}
-                      >
-                        {classCount === 2 ? `${dataLang['global.auxClassCounselor']}:` : ''}
-                      </Typography>
-                      <Typography sx={styles.assignedPers}>
-                        {classCount === 2 ? weekItem.scheduleData.chairmanMM_B_dispName : ''}
-                      </Typography>
+                        label={classCount === 2 ? `${t('auxClassCounselor', { lng: sourceLang })}:` : ''}
+                        width="180px"
+                      />
+                      <S140AssignedPerson
+                        person={classCount === 2 ? weekItem.scheduleData.chairmanMM_B_dispName : ''}
+                      />
                     </Box>
 
                     {/* 3rd row for song, opening prayer */}
                     <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-                      <Typography sx={styles.partTime}>{weekItem.sourceData.pgmStart}</Typography>
-                      <Box sx={{ lineHeight: '20px', width: '400px' }}>
-                        <ul className="ulSchedule">
-                          <li className="tgw">
-                            <Typography
-                              sx={{
-                                fontSize: '13px',
-                                color: 'black',
-                                lineHeight: 1.2,
-                              }}
-                            >
-                              {`${dataLang['global.song']} ${weekItem.sourceData.songFirst_src}`}
-                            </Typography>
-                          </li>
-                        </ul>
-                      </Box>
-                      <Typography
+                      <S140MeetingTime partTime={weekItem.sourceData.pgmStart} />
+                      <S140MeetingPartText
+                        partType="tgw"
+                        partText={`${t('song', { lng: sourceLang })} ${weekItem.sourceData.songFirst_src}`}
+                      />
+                      <S140PartMiniLabel
                         align="right"
-                        sx={{
-                          color: '#424949',
-                          fontSize: '9px',
-                          fontWeight: 'bold',
-                          width: '180px',
-                          lineHeight: '20px',
-                        }}
-                      >
-                        {`${dataLang['global.prayerMidweekMeeting']}:`}
-                      </Typography>
-                      <Typography sx={styles.assignedPers}>{weekItem.scheduleData.opening_prayer_dispName}</Typography>
+                        label={`${t('prayerMidweekMeeting', { lng: sourceLang })}:`}
+                        width="180px"
+                      />
+                      <S140AssignedPerson person={weekItem.scheduleData.opening_prayer_dispName} />
                     </Box>
 
                     {/* 4th row for opening comments */}
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                      <Typography sx={styles.partTime}>{weekItem.sourceData.openingComments}</Typography>
-                      <Box sx={{ lineHeight: '20px', width: '400px' }}>
-                        <ul className="ulSchedule">
-                          <li className="tgw">
-                            <Typography
-                              sx={{
-                                fontSize: '13px',
-                                color: 'black',
-                                lineHeight: 1.2,
-                              }}
-                            >
-                              {dataLang['scheduleTemplate.openingComments']}{' '}
-                              <span className="student-part-duration">(1 min.)</span>
-                            </Typography>
-                          </li>
-                        </ul>
-                      </Box>
-                      <Typography sx={{ width: '180px' }}>{''}</Typography>
-                      <Typography sx={{ width: '180px', lineHeight: '20px' }}>{''}</Typography>
+                      <S140MeetingTime partTime={weekItem.sourceData.openingComments} />
+                      <S140MeetingPartText
+                        partType="tgw"
+                        partText={t('openingComments', { lng: sourceLang })}
+                        partDuration="1 min."
+                      />
+                      <S140PartMiniLabel width="180px" />
+                      <S140AssignedPerson person="" />
                     </Box>
 
                     {!weekItem.scheduleData.noMeeting && weekItem.scheduleData.week_type !== 3 && (
                       <>
                         {/* TGW, Classroom heading */}
-                        <Box sx={{ display: 'flex', margin: '8px 0 3px 0' }}>
-                          <Typography
-                            sx={{
-                              color: 'white',
-                              fontWeight: 'bold',
-                              fontSize: '12px',
-                              padding: '0 0 0 6px',
-                              backgroundColor: '#656164',
-                              width: '440px',
-                              lineHeight: '20px',
-                              textTransform: 'uppercase',
-                            }}
-                          >
-                            {dataLang['global.treasuresPart']}
-                          </Typography>
-                          <Typography
-                            sx={{
-                              color: '#424949',
-                              fontSize: '9px',
-                              fontWeight: 'bold',
-                              padding: '0 0 0 8px',
-                              width: '180px',
-                              lineHeight: '20px',
-                            }}
-                          >
-                            {classCount === 1 ? '' : dataLang['global.auxClass']}
-                          </Typography>
-                          <Typography
-                            sx={{
-                              color: '#424949',
-                              fontSize: '9px',
-                              fontWeight: 'bold',
-                              padding: '0 0 0 8px',
-                              width: '180px',
-                              lineHeight: '20px',
-                            }}
-                          >
-                            {dataLang['global.mainHall']}
-                          </Typography>
-                        </Box>
+                        <S140MeetingPartHeading meetingPart="treasuresPart" topLabel={true} bgColor="#656164" />
 
                         {/* TGW Talk */}
                         <Box sx={{ display: 'flex', marginBottom: '2px' }}>
-                          <Typography sx={styles.partTime}>{weekItem.sourceData.tgwTalk}</Typography>
-                          <Box
-                            sx={{
-                              width: '400px',
-                              display: 'flex',
-                              justifyContent: 'space-between',
-                            }}
-                          >
-                            <Box sx={{ lineHeight: '20px' }}>
-                              <ul className="ulSchedule">
-                                <li className="tgw">
-                                  <Typography
-                                    sx={{
-                                      fontSize: '13px',
-                                      color: 'black',
-                                      lineHeight: 1.2,
-                                    }}
-                                  >
-                                    {weekItem.sourceData.tgwTalk_src}{' '}
-                                    <span className="student-part-duration">(10 min.)</span>
-                                  </Typography>
-                                </li>
-                              </ul>
-                            </Box>
-                          </Box>
-                          <Typography sx={{ width: '180px', lineHeight: '20px' }}>{''}</Typography>
-                          <Typography sx={styles.assignedPers}>{weekItem.scheduleData.tgw_talk_dispName}</Typography>
+                          <S140MeetingTime partTime={weekItem.sourceData.tgwTalk} />
+                          <S140MeetingPartText
+                            partType="tgw"
+                            partText={weekItem.sourceData.tgwTalk_src}
+                            partDuration="10 min."
+                          />
+                          <S140PartMiniLabel width="180px" />
+                          <S140AssignedPerson person={weekItem.scheduleData.tgw_talk_dispName} />
                         </Box>
 
                         {/* TGW Gems */}
                         <Box sx={{ display: 'flex', marginBottom: '2px' }}>
-                          <Typography sx={styles.partTime}>{weekItem.sourceData.tgwGems}</Typography>
-                          <Box
-                            sx={{
-                              width: '400px',
-                              display: 'flex',
-                              justifyContent: 'space-between',
-                            }}
-                          >
-                            <Box sx={{ lineHeight: '20px' }}>
-                              <ul className="ulSchedule">
-                                <li className="tgw">
-                                  <Typography
-                                    sx={{
-                                      fontSize: '13px',
-                                      color: 'black',
-                                      lineHeight: 1.2,
-                                    }}
-                                  >
-                                    {dataLang['global.tgwGems']}{' '}
-                                    <span className="student-part-duration">(10 min.)</span>
-                                  </Typography>
-                                </li>
-                              </ul>
-                            </Box>
-                          </Box>
-                          <Typography sx={{ width: '180px', lineHeight: '20px' }}>{''}</Typography>
-                          <Typography sx={styles.assignedPers}>{weekItem.scheduleData.tgw_gems_dispName}</Typography>
+                          <S140MeetingTime partTime={weekItem.sourceData.tgwGems} />
+                          <S140MeetingPartText
+                            partType="tgw"
+                            partText={t('tgwGems', { lng: sourceLang })}
+                            partDuration="10 min."
+                          />
+                          <S140PartMiniLabel width="180px" />
+                          <S140AssignedPerson person={weekItem.scheduleData.tgw_gems_dispName} />
                         </Box>
 
                         {/* Bible Reading */}
                         <Box sx={{ display: 'flex' }}>
-                          <Typography sx={styles.partTime}>{weekItem.sourceData.bibleReading}</Typography>
-                          <Box
-                            sx={{
-                              width: '400px',
-                              display: 'flex',
-                              justifyContent: 'space-between',
-                            }}
-                          >
-                            <Box sx={{ lineHeight: '20px' }}>
-                              <ul className="ulSchedule">
-                                <li className="tgw">
-                                  <Typography
-                                    sx={{
-                                      fontSize: '13px',
-                                      color: 'black',
-                                      lineHeight: 1.2,
-                                    }}
-                                  >
-                                    {dataLang['global.bibleReading']}
-                                    <span className="student-part-duration">{dataLang['global.bibleReadingTime']}</span>
-                                  </Typography>
-                                </li>
-                              </ul>
-                            </Box>
-                            <Typography
-                              sx={{
-                                color: '#424949',
-                                fontSize: '9px',
-                                fontWeight: 'bold',
-                                lineHeight: '20px',
-                              }}
-                            >
-                              {dataLang['global.student']}:
-                            </Typography>
-                          </Box>
-                          <Typography sx={styles.assignedPers}>
-                            {classCount === 1 ? '' : weekItem.scheduleData.bRead_stu_B_dispName}
-                          </Typography>
-                          <Typography sx={styles.assignedPers}>{weekItem.scheduleData.bRead_stu_A_dispName}</Typography>
+                          <S140MeetingTime partTime={weekItem.sourceData.bibleReading} />
+                          <S140MeetingPartText
+                            partType="tgw"
+                            partText={t('bibleReading', { lng: sourceLang })}
+                            partDuration={t('bibleReadingTime', { lng: sourceLang })}
+                            partMiniLabel={`${t('student', { lng: sourceLang })}:`}
+                          />
+                          <S140AssignedPerson
+                            person={classCount === 1 ? '' : weekItem.scheduleData.bRead_stu_B_dispName}
+                          />
+                          <S140AssignedPerson person={weekItem.scheduleData.bRead_stu_A_dispName} />
                         </Box>
 
                         {/* AYF Heading */}
-                        <Box sx={{ display: 'flex', margin: '8px 0 3px 0' }}>
-                          <Typography
-                            sx={{
-                              color: 'white',
-                              fontWeight: 'bold',
-                              fontSize: '12px',
-                              padding: '0 0 0 6px',
-                              backgroundColor: '#a56803',
-                              width: '440px',
-                              lineHeight: '20px',
-                              textTransform: 'uppercase',
-                            }}
-                          >
-                            {dataLang['global.applyFieldMinistryPart']}
-                          </Typography>
-                          <Typography
-                            sx={{
-                              color: '#424949',
-                              fontSize: '9px',
-                              fontWeight: 'bold',
-                              padding: '0 0 0 8px',
-                              width: '180px',
-                              lineHeight: '20px',
-                            }}
-                          >
-                            {classCount === 1 ? '' : dataLang['global.auxClass']}
-                          </Typography>
-                          <Typography
-                            sx={{
-                              color: '#424949',
-                              fontSize: '9px',
-                              fontWeight: 'bold',
-                              padding: '0 0 0 8px',
-                              width: '180px',
-                              lineHeight: '20px',
-                            }}
-                          >
-                            {dataLang['global.mainHall']}
-                          </Typography>
-                        </Box>
+                        <S140MeetingPartHeading
+                          meetingPart="applyFieldMinistryPart"
+                          topLabel={true}
+                          bgColor="#a56803"
+                        />
 
                         {/* AYF Parts */}
                         {[1, 2, 3, 4].map((index) => {
@@ -476,120 +367,21 @@ const S140 = () => {
                             <Box key={`ayf-${index}`}>
                               {weekItem.sourceData[fldType] !== '' && (
                                 <Box sx={{ display: 'flex', marginBottom: '2px' }}>
-                                  <Typography sx={styles.partTime}>{weekItem.sourceData[fldAyfPart]}</Typography>
-                                  <Box
-                                    sx={{
-                                      width: '400px',
-                                      display: 'flex',
-                                      justifyContent: 'space-between',
-                                    }}
-                                  >
-                                    <Box
-                                      sx={{
-                                        lineHeight: '20px',
-                                      }}
-                                    >
-                                      <ul className="ulSchedule">
-                                        <li className="ayf">
-                                          <Typography
-                                            sx={{
-                                              fontSize: '13px',
-                                              color: 'black',
-                                              lineHeight: 1.3,
-                                            }}
-                                          >
-                                            {weekItem.sourceData[fldType] === 107
-                                              ? weekItem.sourceData[fldSrc]
-                                              : weekItem.sourceData[fldTypeName]}
-                                            <span className="student-part-duration">
-                                              {(weekItem.sourceData[fldType] === 105 ||
-                                                weekItem.sourceData[fldType] === 106 ||
-                                                weekItem.sourceData[fldType] === 107 ||
-                                                weekItem.sourceData[fldType] === 117) && (
-                                                <>({weekItem.sourceData[fldTime]} min.)</>
-                                              )}
-                                              {(weekItem.sourceData[fldType] === 101 ||
-                                                weekItem.sourceData[fldType] === 102 ||
-                                                weekItem.sourceData[fldType] === 103 ||
-                                                weekItem.sourceData[fldType] === 104) && (
-                                                <>
-                                                  (
-                                                  {formatAssTime(
-                                                    dataLang['global.partLessTime'],
-                                                    weekItem.sourceData[fldTime]
-                                                  )}
-                                                  )
-                                                </>
-                                              )}
-                                            </span>
-                                          </Typography>
-                                        </li>
-                                      </ul>
-                                    </Box>
-                                    <Typography
-                                      sx={{
-                                        color: '#424949',
-                                        fontSize: '9px',
-                                        fontWeight: 'bold',
-                                        lineHeight: '20px',
-                                      }}
-                                    >
-                                      {weekItem.sourceData[fldType] === 101 ||
-                                      weekItem.sourceData[fldType] === 102 ||
-                                      weekItem.sourceData[fldType] === 103
-                                        ? dataLang['scheduleTemplate.studentAssistant']
-                                        : weekItem.sourceData[fldType] === 105 ||
-                                          weekItem.sourceData[fldType] === 106 ||
-                                          weekItem.sourceData[fldType] === 107 ||
-                                          weekItem.sourceData[fldType] === 117
-                                        ? ''
-                                        : dataLang['global.student']}
-                                    </Typography>
-                                  </Box>
-                                  <Typography sx={styles.assignedPers}>
-                                    {classCount === 2 && (
-                                      <>
-                                        {(weekItem.sourceData[fldType] === 101 ||
-                                          weekItem.sourceData[fldType] === 102 ||
-                                          weekItem.sourceData[fldType] === 103 ||
-                                          weekItem.sourceData[fldType] === 104) && (
-                                          <>
-                                            {weekItem.scheduleData[fldStuB]}
-                                            {weekItem.scheduleData[fldAssB] && weekItem.scheduleData[fldAssB] !== ''
-                                              ? `/${weekItem.scheduleData[fldAssB]}`
-                                              : ''}
-                                          </>
-                                        )}
-                                        {weekItem.sourceData[fldType] === 105 ||
-                                        weekItem.sourceData[fldType] === 106 ||
-                                        weekItem.sourceData[fldType] === 107 ||
-                                        weekItem.sourceData[fldType] === 117
-                                          ? weekItem.scheduleData.chairmanMM_B_dispName
-                                          : ''}
-                                      </>
-                                    )}
-                                  </Typography>
-                                  <Typography sx={styles.assignedPers}>
-                                    <>
-                                      {(weekItem.sourceData[fldType] === 101 ||
-                                        weekItem.sourceData[fldType] === 102 ||
-                                        weekItem.sourceData[fldType] === 103 ||
-                                        weekItem.sourceData[fldType] === 104) && (
-                                        <>
-                                          {weekItem.scheduleData[fldStuA]}
-                                          {weekItem.scheduleData[fldAssA] && weekItem.scheduleData[fldAssA] !== ''
-                                            ? `/${weekItem.scheduleData[fldAssA]}`
-                                            : ''}
-                                        </>
-                                      )}
-                                      {weekItem.sourceData[fldType] === 105 ||
-                                      weekItem.sourceData[fldType] === 106 ||
-                                      weekItem.sourceData[fldType] === 107 ||
-                                      weekItem.sourceData[fldType] === 117
-                                        ? weekItem.scheduleData.chairmanMM_A_dispName
-                                        : ''}
-                                    </>
-                                  </Typography>
+                                  <S140MeetingTime partTime={weekItem.sourceData[fldAyfPart]} />
+                                  <S140MeetingPartText
+                                    partType="ayf"
+                                    partText={getAYFType(weekItem, fldType, fldSrc, fldTypeName)}
+                                    partDuration={getAYFDuration(weekItem, fldType, fldTime)}
+                                    partMiniLabel={ayfLabel(weekItem, fldType)}
+                                  />
+                                  <S140AssignedPerson
+                                    person={
+                                      classCount === 2 && getAssignedAYFPerson(weekItem, fldType, fldStuB, fldAssB, 'B')
+                                    }
+                                  />
+                                  <S140AssignedPerson
+                                    person={getAssignedAYFPerson(weekItem, fldType, fldStuA, fldAssA, 'A')}
+                                  />
                                 </Box>
                               )}
                             </Box>
@@ -597,94 +389,25 @@ const S140 = () => {
                         })}
 
                         {/* LC Heading */}
-                        <Box sx={{ display: 'flex', margin: '8px 0 3px 0' }}>
-                          <Typography
-                            sx={{
-                              color: 'white',
-                              fontWeight: 'bold',
-                              fontSize: '12px',
-                              padding: '0 0 0 6px',
-                              backgroundColor: '#942926',
-                              width: '440px',
-                              lineHeight: '20px',
-                              textTransform: 'uppercase',
-                            }}
-                          >
-                            {dataLang['global.livingPart']}
-                          </Typography>
-                          <Typography
-                            sx={{
-                              color: '#424949',
-                              fontSize: '9px',
-                              fontWeight: 'bold',
-                              padding: '0 0 0 8px',
-                              width: '180px',
-                              lineHeight: '20px',
-                            }}
-                          >
-                            {''}
-                          </Typography>
-                          <Typography
-                            sx={{
-                              color: '#424949',
-                              fontSize: '9px',
-                              fontWeight: 'bold',
-                              padding: '0 0 0 8px',
-                              width: '180px',
-                              lineHeight: '20px',
-                            }}
-                          >
-                            {''}
-                          </Typography>
-                        </Box>
+                        <S140MeetingPartHeading meetingPart="livingPart" topLabel={false} bgColor="#942926" />
 
                         {/* Middle Song */}
                         <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '2px' }}>
-                          <Typography sx={styles.partTime}>{weekItem.sourceData.middleSong}</Typography>
-                          <Box sx={{ lineHeight: '20px', width: '400px' }}>
-                            <ul className="ulSchedule">
-                              <li className="lc">
-                                <Typography
-                                  sx={{
-                                    fontSize: '13px',
-                                    color: 'black',
-                                    lineHeight: 1.2,
-                                  }}
-                                >
-                                  {`${dataLang['global.song']} ${weekItem.sourceData.songMiddle_src}`}
-                                </Typography>
-                              </li>
-                            </ul>
-                          </Box>
-                          <Typography
-                            align="right"
-                            sx={{
-                              color: '#424949',
-                              fontSize: '9px',
-                              fontWeight: 'bold',
-                              width: '180px',
-                              lineHeight: '20px',
-                            }}
-                          >
-                            {''}
-                          </Typography>
-                          <Typography
-                            sx={{
-                              color: 'black',
-                              fontSize: '12px',
-                              padding: '0 0 0 8px',
-                              width: '180px',
-                              lineHeight: '20px',
-                            }}
-                          >
-                            {''}
-                          </Typography>
+                          <S140MeetingTime partTime={weekItem.sourceData.middleSong} />
+                          <S140MeetingPartText
+                            partType="lc"
+                            partText={`${t('song', { lng: sourceLang })} ${weekItem.sourceData.songMiddle_src}`}
+                          />
+                          <S140PartMiniLabel width="180px" />
+                          <S140AssignedPerson person="" />
                         </Box>
 
                         {/* LC Parts */}
                         {[1, 2].map((index) => {
                           const fldTime = 'lcPart' + index + '_time';
+                          const fldTimeOverride = 'lcPart' + index + '_time_override';
                           const fldSrc = 'lcPart' + index + '_src';
+                          const fldSrcOverride = 'lcPart' + index + '_src_override';
                           const fldPers = 'lc_part' + index + '_dispName';
                           const fldLcPart = 'lc' + index;
 
@@ -692,37 +415,14 @@ const S140 = () => {
                             <Box key={`lc-${index}`}>
                               {weekItem.sourceData[fldSrc] !== '' && (
                                 <Box sx={{ display: 'flex', marginBottom: '2px' }}>
-                                  <Typography sx={styles.partTime}>{weekItem.sourceData[fldLcPart]}</Typography>
-                                  <Box
-                                    sx={{
-                                      width: '400px',
-                                      display: 'flex',
-                                      justifyContent: 'space-between',
-                                    }}
-                                  >
-                                    <Box
-                                      sx={{
-                                        lineHeight: '20px',
-                                      }}
-                                    >
-                                      <ul className="ulSchedule">
-                                        <li className="lc">
-                                          <Typography
-                                            sx={{
-                                              fontSize: '13px',
-                                              color: 'black',
-                                              lineHeight: 1.3,
-                                            }}
-                                          >
-                                            {weekItem.sourceData[fldSrc]}{' '}
-                                            <span className="student-part-duration">{`(${weekItem.sourceData[fldTime]} min.)`}</span>
-                                          </Typography>
-                                        </li>
-                                      </ul>
-                                    </Box>
-                                  </Box>
-                                  <Typography sx={{ width: '180px', lineHeight: '20px' }}>{''}</Typography>
-                                  <Typography sx={styles.assignedPers}>{weekItem.scheduleData[fldPers]}</Typography>
+                                  <S140MeetingTime partTime={weekItem.sourceData[fldLcPart]} />
+                                  <S140MeetingPartText
+                                    partType="lc"
+                                    partText={getLCPartSource(weekItem, fldSrc, fldSrcOverride)}
+                                    partDuration={`${getLCPartTime(weekItem, fldTime, fldTimeOverride)} min.`}
+                                  />
+                                  <S140PartMiniLabel width="180px" />
+                                  <S140AssignedPerson person={weekItem.scheduleData[fldPers]} />
                                 </Box>
                               )}
                             </Box>
@@ -734,50 +434,26 @@ const S140 = () => {
                           <>
                             {/* Concluding Comments */}
                             <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '2px' }}>
-                              <Typography sx={styles.partTime}>{weekItem.sourceData.concludingComments}</Typography>
-                              <Box sx={{ lineHeight: '20px', width: '400px' }}>
-                                <ul className="ulSchedule">
-                                  <li className="lc">
-                                    <Typography
-                                      sx={{
-                                        fontSize: '13px',
-                                        color: 'black',
-                                        lineHeight: 1.2,
-                                      }}
-                                    >
-                                      {dataLang['scheduleTemplate.concludingComments']}{' '}
-                                      <span className="student-part-duration">(3 min.)</span>
-                                    </Typography>
-                                  </li>
-                                </ul>
-                              </Box>
-                              <Typography sx={{ width: '180px', lineHeight: '20px' }}>{''}</Typography>
-                              <Typography sx={styles.assignedPers}>
-                                {weekItem.scheduleData.chairmanMM_A_dispName}
-                              </Typography>
+                              <S140MeetingTime partTime={weekItem.sourceData.concludingComments} />
+                              <S140MeetingPartText
+                                partType="lc"
+                                partText={t('concludingComments', { lng: sourceLang })}
+                                partDuration="3 min."
+                              />
+                              <S140PartMiniLabel width="180px" />
+                              <S140AssignedPerson person={weekItem.scheduleData.chairmanMM_A_dispName} />
                             </Box>
 
                             {/* Talk by CO */}
                             <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '2px' }}>
-                              <Typography sx={styles.partTime}>{weekItem.sourceData.coTalk}</Typography>
-                              <Box sx={{ lineHeight: '20px', width: '400px' }}>
-                                <ul className="ulSchedule">
-                                  <li className="lc">
-                                    <Typography
-                                      sx={{
-                                        fontSize: '13px',
-                                        color: 'black',
-                                        lineHeight: 1.2,
-                                      }}
-                                    >
-                                      {dataLang['scheduleTemplate.coTalk']}{' '}
-                                      <span className="student-part-duration">(30 min.)</span>
-                                    </Typography>
-                                  </li>
-                                </ul>
-                              </Box>
-                              <Typography sx={{ width: '180px', lineHeight: '20px' }}>{''}</Typography>
-                              <Typography sx={styles.assignedPers}>{''}</Typography>
+                              <S140MeetingTime partTime={weekItem.sourceData.coTalk} />
+                              <S140MeetingPartText
+                                partType="lc"
+                                partText={t('coTalk', { lng: sourceLang })}
+                                partDuration="30 min."
+                              />
+                              <S140PartMiniLabel width="180px" />
+                              <S140AssignedPerson person="" />
                             </Box>
                           </>
                         )}
@@ -787,115 +463,40 @@ const S140 = () => {
                           <>
                             {/* CBS */}
                             <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '2px' }}>
-                              <Typography sx={styles.partTime}>{weekItem.sourceData.cbs}</Typography>
-                              <Box sx={{ lineHeight: '20px', width: '400px' }}>
-                                <ul className="ulSchedule">
-                                  <li className="lc">
-                                    <Typography
-                                      sx={{
-                                        fontSize: '13px',
-                                        color: 'black',
-                                        lineHeight: 1.2,
-                                      }}
-                                    >
-                                      {dataLang['global.cbs']} <span className="student-part-duration">(30 min.)</span>
-                                    </Typography>
-                                  </li>
-                                </ul>
-                              </Box>
-                              <Typography
-                                align="right"
-                                sx={{
-                                  color: '#424949',
-                                  fontSize: '9px',
-                                  fontWeight: 'bold',
-                                  width: '180px',
-                                  lineHeight: '20px',
-                                }}
-                              >
-                                {dataLang['scheduleTemplate.cbsConductor']}
-                                {weekItem.scheduleData.cbs_reader_dispName &&
-                                weekItem.scheduleData.cbs_reader_dispName !== ''
-                                  ? `/${dataLang['scheduleTemplate.cbsReader']}`
-                                  : ''}
-                                :
-                              </Typography>
-                              <Typography sx={styles.assignedPers}>
-                                {weekItem.scheduleData.cbs_conductor_dispName}
-                                {weekItem.scheduleData.cbs_reader_dispName &&
-                                weekItem.scheduleData.cbs_reader_dispName !== ''
-                                  ? `/${weekItem.scheduleData.cbs_reader_dispName}`
-                                  : ''}
-                              </Typography>
+                              <S140MeetingTime partTime={weekItem.sourceData.cbs} />
+                              <S140MeetingPartText
+                                partType="lc"
+                                partText={t('cbs', { lng: sourceLang })}
+                                partDuration={`${getCBSTime(weekItem)} min.`}
+                              />
+                              <S140PartMiniLabel align="right" label={cbsLabel(weekItem)} width="180px" />
+                              <S140AssignedPerson person={getAssignedCBS(weekItem)} />
                             </Box>
 
                             {/* Concluding Comments */}
                             <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '2px' }}>
-                              <Typography sx={styles.partTime}>{weekItem.sourceData.concludingComments}</Typography>
-                              <Box sx={{ lineHeight: '20px', width: '400px' }}>
-                                <ul className="ulSchedule">
-                                  <li className="lc">
-                                    <Typography
-                                      sx={{
-                                        fontSize: '13px',
-                                        color: 'black',
-                                        lineHeight: 1.2,
-                                      }}
-                                    >
-                                      {dataLang['scheduleTemplate.concludingComments']}{' '}
-                                      <span className="student-part-duration">(3 min.)</span>
-                                    </Typography>
-                                  </li>
-                                </ul>
-                              </Box>
-                              <Typography sx={{ width: '180px', lineHeight: '20px' }}>{''}</Typography>
-                              <Typography sx={styles.assignedPers}>
-                                {weekItem.scheduleData.chairmanMM_A_dispName}
-                              </Typography>
+                              <S140MeetingTime partTime={weekItem.sourceData.concludingComments} />
+                              <S140MeetingPartText
+                                partType="lc"
+                                partText={t('concludingComments', { lng: sourceLang })}
+                                partDuration="3 min."
+                              />
+                              <S140PartMiniLabel width="180px" />
+                              <S140AssignedPerson person={weekItem.scheduleData.chairmanMM_A_dispName} />
                             </Box>
                           </>
                         )}
 
                         {/* Concluding Song, Prayer */}
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                          <Typography sx={styles.partTime}>{weekItem.sourceData.pgmEnd}</Typography>
-                          <Box sx={{ lineHeight: '20px', width: '400px' }}>
-                            <ul className="ulSchedule">
-                              <li className="lc">
-                                <Typography
-                                  sx={{
-                                    fontSize: '13px',
-                                    color: 'black',
-                                    lineHeight: 1.2,
-                                  }}
-                                >
-                                  {isNaN(weekItem.sourceData.songConclude_src)
-                                    ? weekItem.sourceData.songConclude_src
-                                    : `${dataLang['global.song']}
-                                    ${
-                                      weekItem.scheduleData.week_type === 2
-                                        ? ''
-                                        : ` ${weekItem.sourceData.songConclude_src}`
-                                    }`}
-                                </Typography>
-                              </li>
-                            </ul>
-                          </Box>
-                          <Typography
+                          <S140MeetingTime partTime={weekItem.sourceData.pgmEnd} />
+                          <S140MeetingPartText partType="lc" partText={getConcludingSong(weekItem)} />
+                          <S140PartMiniLabel
                             align="right"
-                            sx={{
-                              color: '#424949',
-                              fontSize: '9px',
-                              fontWeight: 'bold',
-                              width: '180px',
-                              lineHeight: '20px',
-                            }}
-                          >
-                            {`${dataLang['global.prayerMidweekMeeting']}:`}
-                          </Typography>
-                          <Typography sx={styles.assignedPers}>
-                            {weekItem.scheduleData.closing_prayer_dispName}
-                          </Typography>
+                            label={`${t('prayerMidweekMeeting', { lng: sourceLang })}:`}
+                            width="180px"
+                          />
+                          <S140AssignedPerson person={weekItem.scheduleData.closing_prayer_dispName} />
                         </Box>
                       </>
                     )}

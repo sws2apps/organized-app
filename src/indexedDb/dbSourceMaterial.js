@@ -70,7 +70,7 @@ export const dbGetSourceMaterial = async (weekOf) => {
   obj.weekOf = appData.weekOf;
   obj.weekDate_src = appData.weekDate_src ? appData.weekDate_src[lang] || '' : '';
   obj.weeklyBibleReading_src = appData.weeklyBibleReading_src ? appData.weeklyBibleReading_src[lang] || '' : '';
-  obj.songFirst_src = appData.songFirst_src;
+  obj.songFirst_src = appData.songFirst_src || '';
   obj.tgwTalk_src = appData.tgwTalk_src ? appData.tgwTalk_src[lang] || '' : '';
   obj.bibleReading_src = appData.bibleReading_src ? appData.bibleReading_src[lang] || '' : '';
   obj.bibleReading_study = appData.bibleReading_study || '';
@@ -107,16 +107,24 @@ export const dbGetSourceMaterial = async (weekOf) => {
   obj.ass4_study = appData.ass4_study || '';
   obj.ass4_src = appData.ass4_src ? appData.ass4_src[lang] || '' : '';
 
-  obj.songMiddle_src = appData.songMiddle_src;
+  obj.songMiddle_src = appData.songMiddle_src || '';
   obj.lcCount = appData.lcCount;
+  obj.lcCount_override = appData.lcCount_override;
   obj.lcPart1_time = appData.lcPart1_time || '';
+  obj.lcPart1_time_override = appData.lcPart1_time_override || '';
   obj.lcPart1_src = appData.lcPart1_src ? appData.lcPart1_src[lang] || '' : '';
+  obj.lcPart1_src_override = appData.lcPart1_src_override ? appData.lcPart1_src_override[lang] || '' : '';
   obj.lcPart1_content = appData.lcPart1_content ? appData.lcPart1_content[lang] || '' : '';
+  obj.lcPart1_content_override = appData.lcPart1_content_override ? appData.lcPart1_content_override[lang] || '' : '';
   obj.lcPart2_time = appData.lcPart2_time || '';
+  obj.lcPart2_time_override = appData.lcPart2_time_override || '';
   obj.lcPart2_src = appData.lcPart2_src ? appData.lcPart2_src[lang] || '' : '';
+  obj.lcPart2_src_override = appData.lcPart2_src_override ? appData.lcPart2_src_override[lang] || '' : '';
   obj.lcPart2_content = appData.lcPart2_content ? appData.lcPart2_content[lang] || '' : '';
+  obj.lcPart2_content_override = appData.lcPart2_content_override ? appData.lcPart2_content_override[lang] || '' : '';
   obj.cbs_src = appData.cbs_src ? appData.cbs_src[lang] || '' : '';
-  obj.songConclude_src = appData.songConclude_src;
+  obj.cbs_time_override = appData.cbs_time_override || '';
+  obj.songConclude_src = appData.songConclude_src || '';
 
   const weekSchedInfo = await dbGetScheduleWeekInfo(weekOf);
   obj.week_type = weekSchedInfo.week_type;
@@ -164,12 +172,19 @@ export const dbGetSourceMaterialPocket = async (weekOf) => {
 
   obj.songMiddle_src = appData.songMiddle_src;
   obj.lcPart1_time = appData.lcPart1_time;
+  obj.lcPart1_time_override = appData.lcPart1_time_override;
   obj.lcPart1_src = appData.lcPart1_src;
+  obj.lcPart1_src_override = appData.lcPart1_src_override;
   obj.lcPart1_content = appData.lcPart1_content;
+  obj.lcPart1_content_override = appData.lcPart1_content_override;
   obj.lcPart2_time = appData.lcPart2_time;
+  obj.lcPart2_time_override = appData.lcPart2_time_override;
   obj.lcPart2_src = appData.lcPart2_src;
+  obj.lcPart2_src_override = appData.lcPart2_src_override;
   obj.lcPart2_content = appData.lcPart2_content;
+  obj.lcPart2_content_override = appData.lcPart2_content_override;
   obj.cbs_src = appData.cbs_src;
+  obj.cbs_time_override = appData.cbs_time_override;
   obj.songConclude_src = appData.songConclude_src;
 
   const weekSchedInfo = await dbGetScheduleWeekInfo(weekOf);
@@ -190,16 +205,25 @@ export const dbGetSMUpdate = async (weekOf) => {
   obj.ass2_src = appData ? appData.ass2_src || {} : {};
   obj.ass3_src = appData ? appData.ass3_src || {} : {};
   obj.ass4_src = appData ? appData.ass4_src || {} : {};
+  obj.lcCount_override = appData ? appData.lcCount_override || undefined : undefined;
+  obj.lcPart1_time_override = appData ? appData.lcPart1_time_override || undefined : undefined;
+  obj.lcPart1_src_override = appData ? appData.lcPart1_src_override || {} : {};
   obj.lcPart1_src = appData ? appData.lcPart1_src || {} : {};
   obj.lcPart1_content = appData ? appData.lcPart1_content || {} : {};
+  obj.lcPart1_content_override = appData ? appData.lcPart1_content_override || {} : {};
+  obj.lcPart2_time_override = appData ? appData.lcPart2_time_override || undefined : undefined;
   obj.lcPart2_src = appData ? appData.lcPart2_src || {} : {};
+  obj.lcPart2_src_override = appData ? appData.lcPart2_src_override || {} : {};
   obj.lcPart2_content = appData ? appData.lcPart2_content || {} : {};
+  obj.lcPart2_content_override = appData ? appData.lcPart2_content_override || {} : {};
+  obj.cbs_time_override = appData ? appData.cbs_time_override || undefined : undefined;
   obj.cbs_src = appData ? appData.cbs_src || {} : {};
+  obj.keepOverride = appData ? appData.keepOverride || undefined : undefined;
 
   return obj;
 };
 
-export const dbSaveSrcData = async (srcData) => {
+export const dbSaveSrcData = async (srcData, localOverride) => {
   let isSuccess = false;
   const sourceLang = (await promiseGetRecoil(sourceLangState)) || 'e';
   const lang = sourceLang.toUpperCase();
@@ -213,11 +237,20 @@ export const dbSaveSrcData = async (srcData) => {
     ass2_src,
     ass3_src,
     ass4_src,
+    lcCount_override,
+    lcPart1_time_override,
     lcPart1_src,
+    lcPart1_src_override,
     lcPart1_content,
+    lcPart1_content_override,
+    lcPart2_time_override,
     lcPart2_src,
+    lcPart2_src_override,
     lcPart2_content,
+    lcPart2_content_override,
+    cbs_time_override,
     cbs_src,
+    keepOverride,
   } = await dbGetSMUpdate(srcData.weekOf);
 
   await appDb
@@ -274,29 +307,58 @@ export const dbSaveSrcData = async (srcData) => {
         },
         songMiddle_src: srcData.songMiddle_src,
         lcCount: srcData.lcCount,
+        lcCount_override: localOverride ? lcCount_override : srcData.lcCount_override,
         lcPart1_time: srcData.lcPart1_time,
+        lcPart1_time_override: localOverride ? lcPart1_time_override : srcData.lcPart1_time_override,
         lcPart1_src: {
           ...lcPart1_src,
           [lang]: srcData.lcPart1_src || '',
         },
+        lcPart1_src_override: localOverride
+          ? lcPart1_src_override
+          : {
+              ...lcPart1_src_override,
+              [lang]: srcData.lcPart1_src_override || '',
+            },
         lcPart1_content: {
           ...lcPart1_content,
           [lang]: srcData.lcPart1_content || '',
         },
+        lcPart1_content_override: localOverride
+          ? lcPart1_content_override
+          : {
+              ...lcPart1_content_override,
+              [lang]: srcData.lcPart1_content_override || '',
+            },
         lcPart2_time: srcData.lcPart2_time,
+        lcPart2_time_override: localOverride ? lcPart2_time_override : srcData.lcPart2_time_override,
         lcPart2_src: {
           ...lcPart2_src,
           [lang]: srcData.lcPart2_src || '',
         },
+        lcPart2_src_override: localOverride
+          ? lcPart2_src_override
+          : {
+              ...lcPart2_src_override,
+              [lang]: srcData.lcPart2_src_override || '',
+            },
         lcPart2_content: {
           ...lcPart2_content,
           [lang]: srcData.lcPart2_content || '',
         },
+        lcPart2_content_override: localOverride
+          ? lcPart2_content_override
+          : {
+              ...lcPart2_content_override,
+              [lang]: srcData.lcPart2_content_override || '',
+            },
         cbs_src: {
           ...cbs_src,
           [lang]: srcData.cbs_src || '',
         },
+        cbs_time_override: localOverride ? cbs_time_override : srcData.cbs_time_override,
         songConclude_src: srcData.songConclude_src,
+        keepOverride: localOverride ? keepOverride : new Date().toISOString(),
       },
       srcData.weekOf
     )

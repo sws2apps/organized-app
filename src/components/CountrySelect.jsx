@@ -9,7 +9,7 @@ import TextField from '@mui/material/TextField';
 import { apiFetchCountries } from '../api/congregation';
 
 const CountrySelect = ({ setCountry }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
   const queryClient = useQueryClient();
 
   const [countries, setCountries] = useState([]);
@@ -81,8 +81,8 @@ const CountrySelect = ({ setCountry }) => {
       loading={isLoading}
       value={selected}
       onChange={(e, value) => handleOnChange(value)}
-      noOptionsText={t('global.noOptions')}
-      loadingText={t('global.loading')}
+      noOptionsText={t('noOptions')}
+      loadingText={t('loading')}
       renderOption={(props, option) => (
         <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
           <EditLocationIcon sx={{ marginRight: '8px' }} />

@@ -76,7 +76,7 @@ const App = ({ updatePwa }) => {
           element: <PersonDetails />,
         },
         {
-          path: '/schedules/view',
+          path: '/schedules/view/:weekToFormat',
           element: <WeeklyAssignments />,
         },
         {

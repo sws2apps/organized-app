@@ -3,10 +3,8 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
 import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -20,11 +18,15 @@ import {
   visitorIDState,
 } from '../../states/main';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../../states/notification';
+import { loginStyles } from './sharedStyles';
+import UserEmailField from './UserEmailField';
+import UserPasswordField from './UserPasswordField';
+import TogglePassword from './TogglePassword';
 
 const SignUp = () => {
   const cancel = useRef();
 
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
   const setUserSignIn = useSetRecoilState(isUserSignInState);
   const setUserSignUp = useSetRecoilState(isUserSignUpState);
@@ -59,22 +61,21 @@ const SignUp = () => {
     setUserSignUp(false);
   };
 
+  const handleEmailChange = (value) => {
+    value = value.toLowerCase();
+    setUserTmpEmail(value);
+  };
+
   const handleSignUp = async () => {
     try {
       cancel.current = false;
 
-      const { isValid: isValidEmail, isSupportedDomain: isSupportedEmail } = isEmailValid(userTmpEmail);
+      const isValidEmail = isEmailValid(userTmpEmail);
 
       setHasErrorEmail(false);
       setHasErrorPwd(false);
       setHasErrorConfirmPwd(false);
-      if (
-        userTmpFullname.length >= 3 &&
-        isValidEmail &&
-        isSupportedEmail &&
-        userTmpPwd.length >= 10 &&
-        userTmpPwd === userTmpConfirmPwd
-      ) {
+      if (userTmpFullname.length >= 3 && isValidEmail && userTmpPwd.length >= 10 && userTmpPwd === userTmpConfirmPwd) {
         setIsProcessing(true);
         const reqPayload = {
           email: userTmpEmail,
@@ -100,7 +101,7 @@ const SignUp = () => {
             } else {
               let warnMsg = '';
               if (data.message === 'ACCOUNT_IN_USE') {
-                warnMsg = t('login.accountExist');
+                warnMsg = t('accountExist');
               } else {
                 warnMsg = data.message;
               }
@@ -115,11 +116,9 @@ const SignUp = () => {
         if (userTmpFullname.length < 3) {
           setHasErrorFullname(true);
         }
-        if (!isValidEmail || !isSupportedEmail) {
+        if (!isValidEmail) {
           setHasErrorEmail(true);
-        }
-        if (!isSupportedEmail) {
-          setAppMessage(t('global.emailNotSupported'));
+          setAppMessage(t('emailNotSupported'));
           setAppSeverity('warning');
           setAppSnackOpen(true);
         }
@@ -133,7 +132,7 @@ const SignUp = () => {
     } catch (err) {
       if (!cancel.current) {
         setIsProcessing(false);
-        setAppMessage(t('login.createFailed'));
+        setAppMessage(t('createFailed'));
         setAppSeverity('error');
         setAppSnackOpen(true);
       }
@@ -149,16 +148,16 @@ const SignUp = () => {
   return (
     <Container sx={{ marginTop: '20px' }}>
       <Typography variant="h4" sx={{ marginBottom: '15px' }}>
-        {t('login.createSwsAccount')}
+        {t('createSwsAccount')}
       </Typography>
 
-      <Typography sx={{ marginBottom: '20px' }}>{t('login.newUserAccount')}</Typography>
+      <Typography sx={{ marginBottom: '20px' }}>{t('newUserAccount')}</Typography>
 
       <Box sx={{ display: 'flex', flexDirection: 'column', maxWidth: '500px' }}>
         <TextField
           sx={{ width: '100%' }}
           id="outlined-fullname"
-          label={t('login.fullname')}
+          label={t('fullname')}
           variant="outlined"
           autoComplete="off"
           required
@@ -167,67 +166,34 @@ const SignUp = () => {
           error={hasErrorFullname ? true : false}
         />
 
-        <TextField
-          sx={{ marginTop: '20px', width: '100%' }}
-          id="outlined-email"
-          label={t('login.email')}
-          variant="outlined"
-          autoComplete="off"
-          required
-          value={userTmpEmail}
-          onChange={(e) => setUserTmpEmail(e.target.value)}
-          error={hasErrorEmail ? true : false}
+        <UserEmailField
+          userEmail={userTmpEmail}
+          setUserEmail={(value) => handleEmailChange(value)}
+          hasErrorEmail={hasErrorEmail}
         />
 
-        <TextField
-          sx={{ marginTop: '20px', width: '100%' }}
-          id="outlined-password"
-          label={t('login.password')}
-          type={showPwd ? '' : 'password'}
-          variant="outlined"
-          autoComplete="off"
-          required
-          value={userTmpPwd}
-          onChange={(e) => setUserTmpPwd(e.target.value)}
-          error={hasErrorPwd ? true : false}
+        <UserPasswordField
+          userPwd={userTmpPwd}
+          setUserPwd={(value) => setUserTmpPwd(value)}
+          hasErrorPwd={hasErrorPwd}
+          showPwd={showPwd}
+          label={t('password')}
         />
 
-        <TextField
-          sx={{ marginTop: '20px', width: '100%' }}
-          id="outlined-confirm-password"
-          label={t('login.confirmPassword')}
-          type={showPwd ? '' : 'password'}
-          variant="outlined"
-          autoComplete="off"
-          required
-          value={userTmpConfirmPwd}
-          onChange={(e) => setUserTmpConfirmPwd(e.target.value)}
-          error={hasErrorConfirmPwd ? true : false}
+        <UserPasswordField
+          userPwd={userTmpConfirmPwd}
+          setUserPwd={(value) => setUserTmpConfirmPwd(value)}
+          hasErrorPwd={hasErrorConfirmPwd}
+          showPwd={showPwd}
+          label={t('confirmPassword')}
         />
 
-        <FormControlLabel
-          control={<Checkbox id="checkShowPwd" checked={showPwd} onChange={togglePwd} />}
-          label={<Typography sx={{ lineHeight: 1.2 }}>{t('login.showPassword')}</Typography>}
-          sx={{
-            width: '100%',
-            marginTop: '15px',
-          }}
-        />
+        <TogglePassword showPwd={showPwd} togglePwd={(value) => togglePwd(value)} />
       </Box>
 
-      <Box
-        sx={{
-          marginTop: '20px',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          maxWidth: '500px',
-          flexWrap: 'wrap',
-          gap: '10px',
-        }}
-      >
+      <Box sx={loginStyles}>
         <Link component="button" underline="none" variant="body1" onClick={handleSignIn}>
-          {t('login.hasAccount')}
+          {t('hasAccount')}
         </Link>
         <Button
           variant="contained"
@@ -235,7 +201,7 @@ const SignUp = () => {
           onClick={handleSignUp}
           endIcon={isProcessing ? <CircularProgress size={25} /> : null}
         >
-          {t('login.createAccount')}
+          {t('createAccount')}
         </Button>
       </Box>
     </Container>

@@ -16,14 +16,14 @@ import {
   isAutoFillSchedState,
   reloadWeekSummaryState,
 } from '../../states/schedule';
-import { dbGetSourceMaterial, dbGetWeekListBySched } from '../../indexedDb/dbSourceMaterial';
-import { dbCountAssignmentsInfo, dbGetScheduleData } from '../../indexedDb/dbSchedule';
+import { dbGetSourceMaterial } from '../../indexedDb/dbSourceMaterial';
+import { dbFetchScheduleInfo, dbGetScheduleData } from '../../indexedDb/dbSchedule';
 import { dbSaveAss } from '../../indexedDb/dbAssignment';
 import { dbGetAppSettings } from '../../indexedDb/dbAppSettings';
 import { dbGetPersonsByAssType } from '../../indexedDb/dbPersons';
 
 const AutofillSchedule = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
   const [dlgAutofillOpen, setDlgAutofillOpen] = useRecoilState(dlgAutoFillOpenState);
 
@@ -47,29 +47,9 @@ const AutofillSchedule = () => {
   };
 
   const fetchInfoToAssign = useCallback(async () => {
-    const newData = [];
-
-    if (isAutofillSched) {
-      let data = await dbGetWeekListBySched(currentSchedule.value);
-      for (let i = 0; i < data.length; i++) {
-        const obj = {};
-        obj.value = data[i].weekOf;
-        newData.push(obj);
-      }
-    } else {
-      newData.push({ value: currentWeek.value });
-    }
-
-    setWeeks(newData);
-
-    let cn = 0;
-    for (let i = 0; i < newData.length; i++) {
-      const week = newData[i].value;
-      const { total } = await dbCountAssignmentsInfo(week);
-      cn = cn + total;
-    }
-
-    setTotalToAssign(cn);
+    const { weeks, total } = await dbFetchScheduleInfo(isAutofillSched, currentSchedule, currentWeek);
+    setWeeks(weeks);
+    setTotalToAssign(total);
   }, [currentSchedule, currentWeek, isAutofillSched]);
 
   const handleAssignSchedule = async () => {
@@ -79,8 +59,8 @@ const AutofillSchedule = () => {
     let students = [];
 
     // Assign Chairman
-    for (let i = 0; i < weeks.length; i++) {
-      const week = weeks[i].value;
+    for await (const item of weeks) {
+      const week = item.value;
       const schedData = await dbGetScheduleData(week);
 
       if (schedData.noMeeting === false) {
@@ -109,8 +89,8 @@ const AutofillSchedule = () => {
     }
 
     // Assign CBS Conductor
-    for (let i = 0; i < weeks.length; i++) {
-      const week = weeks[i].value;
+    for await (const item of weeks) {
+      const week = item.value;
       const schedData = await dbGetScheduleData(week);
 
       if (schedData.noMeeting === false && schedData.week_type === 1) {
@@ -126,8 +106,8 @@ const AutofillSchedule = () => {
       }
     }
 
-    for (let i = 0; i < weeks.length; i++) {
-      const week = weeks[i].value;
+    for await (const item of weeks) {
+      const week = item.value;
       const sourceData = await dbGetSourceMaterial(week);
       const schedData = await dbGetScheduleData(week);
 
@@ -232,7 +212,7 @@ const AutofillSchedule = () => {
         let fldName = '';
         let fldType = '';
 
-        for (let a = 1; a <= 3; a++) {
+        for await (const a of [1, 2, 3]) {
           fldType = 'ass' + a + '_type';
           const assType = sourceData[fldType];
 
@@ -268,7 +248,7 @@ const AutofillSchedule = () => {
         }
 
         // Assign AYF Assistant
-        for (let a = 1; a <= 3; a++) {
+        for await (const a of [1, 2, 3]) {
           fldType = 'ass' + a + '_type';
           const assType = sourceData[fldType];
 
@@ -333,20 +313,20 @@ const AutofillSchedule = () => {
       <Dialog open={dlgAutofillOpen} aria-labelledby="dialog-title-autofill-assignment" onClose={handleClose}>
         <DialogTitle id="dialog-title-autofill-assignment">
           <Typography variant="h6" component="p">
-            {t('schedule.autofill')}
+            {t('autofill')}
           </Typography>
         </DialogTitle>
         <DialogContent>
           {isAutofillSched && (
             <Typography>
-              {t('schedule.autofillScheduleConfirm', {
+              {t('autofillScheduleConfirm', {
                 currentSchedule: currentSchedule.label,
               })}
             </Typography>
           )}
           {!isAutofillSched && (
             <Typography>
-              {t('schedule.autofillWeekConfirm', {
+              {t('autofillWeekConfirm', {
                 currentWeek: currentWeek.label,
               })}
             </Typography>
@@ -369,10 +349,10 @@ const AutofillSchedule = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary" autoFocus disabled={isAssigning}>
-            {t('global.no')}
+            {t('no')}
           </Button>
           <Button autoFocus onClick={handleAssignSchedule} color="primary" disabled={isAssigning}>
-            {t('schedule.autofill')}
+            {t('autofill')}
           </Button>
         </DialogActions>
       </Dialog>

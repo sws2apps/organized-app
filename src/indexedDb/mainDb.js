@@ -1,6 +1,6 @@
 import Dexie from 'dexie';
 import { getI18n } from 'react-i18next';
-import { SOURCELANGUAGE_LIST } from '../locales/langList.js';
+import { LANGUAGE_LIST } from '../locales/langList.js';
 
 let appDb = new Dexie('lmm_oa');
 appDb.version(1).stores({
@@ -204,6 +204,15 @@ appDb.version(48).stores({
 appDb.version(49).stores({
   deleted: '++id, table, ref, date',
 });
+appDb.version(50).stores({
+  src: '&weekOf, bibleReading_src, bibleReading_study, ass1_type, ass1_study, ass1_time, ass1_src, ass2_type, ass2_study, ass2_time, ass2_src, ass3_type, ass3_study, ass3_time, ass3_src, ass4_type, ass4_study, ass4_time, ass4_src, ayfCount, weekDate_src, weeklyBibleReading_src, songFirst_src, tgwTalk_src, songMiddle_src, lcCount, lcCount_override, lcPart1_time, lcPart1_time_override, lcPart1_src, lcPart1_src_override, lcPart1_content, lcPart2_time, lcPart2_time_override, lcPart2_src, lcPart2_src_override, lcPart2_content, cbs_src, cbs_time_override, songConclude_src',
+});
+appDb.version(51).stores({
+  src: '&weekOf, bibleReading_src, bibleReading_study, ass1_type, ass1_study, ass1_time, ass1_src, ass2_type, ass2_study, ass2_time, ass2_src, ass3_type, ass3_study, ass3_time, ass3_src, ass4_type, ass4_study, ass4_time, ass4_src, ayfCount, weekDate_src, weeklyBibleReading_src, songFirst_src, tgwTalk_src, songMiddle_src, lcCount, lcCount_override, lcPart1_time, lcPart1_time_override, lcPart1_src, lcPart1_src_override, lcPart1_content, lcPart1_content_override, lcPart2_time, lcPart2_time_override, lcPart2_src, lcPart2_src_override, lcPart2_content, lcPart2_content_override, cbs_src, cbs_time_override, songConclude_src',
+});
+appDb.version(52).stores({
+  src: '&weekOf, bibleReading_src, bibleReading_study, ass1_type, ass1_study, ass1_time, ass1_src, ass2_type, ass2_study, ass2_time, ass2_src, ass3_type, ass3_study, ass3_time, ass3_src, ass4_type, ass4_study, ass4_time, ass4_src, ayfCount, weekDate_src, weeklyBibleReading_src, songFirst_src, tgwTalk_src, songMiddle_src, lcCount, lcCount_override, lcPart1_time, lcPart1_time_override, lcPart1_src, lcPart1_src_override, lcPart1_content, lcPart1_content_override, lcPart2_time, lcPart2_time_override, lcPart2_src, lcPart2_src_override, lcPart2_content, lcPart2_content_override, cbs_src, cbs_time_override, songConclude_src, keepOverride',
+});
 
 appDb.on('populate', function () {
   appDb.app_settings.add({
@@ -224,12 +233,12 @@ appDb.on('populate', function () {
   let coWeekObj = {};
   let convWeekObj = {};
 
-  SOURCELANGUAGE_LIST.forEach((lang) => {
-    normWeekObj[lang.code.toUpperCase()] = getI18n().getDataByLanguage(lang.code).translation['global.normalWeek'];
-    coWeekObj[lang.code.toUpperCase()] = getI18n().getDataByLanguage(lang.code).translation[
-      'global.circuitOverseerWeek'
-    ];
-    convWeekObj[lang.code.toUpperCase()] = getI18n().getDataByLanguage(lang.code).translation['global.conventionWeek'];
+  const listSourceLangs = LANGUAGE_LIST.filter((lang) => lang.isSource === true);
+
+  listSourceLangs.forEach((lang) => {
+    normWeekObj[lang.code.toUpperCase()] = getI18n().getDataByLanguage(lang.code).ui['normalWeek'];
+    coWeekObj[lang.code.toUpperCase()] = getI18n().getDataByLanguage(lang.code).ui['circuitOverseerWeek'];
+    convWeekObj[lang.code.toUpperCase()] = getI18n().getDataByLanguage(lang.code).ui['conventionWeek'];
   });
 
   appDb.week_type.bulkAdd([

@@ -12,7 +12,7 @@ const StudyPoint = ({
   setAss3Study,
   setAss4Study,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
   const handleChangeStudyPoint = async (e) => {
     if (isBRead) {
@@ -32,7 +32,7 @@ const StudyPoint = ({
     <TextField
       id="outlined-select-duration"
       select
-      label={t('sourceMaterial.studyPoint')}
+      label={t('studyPoint')}
       size="small"
       value={studyPoint}
       onChange={handleChangeStudyPoint}

@@ -10,7 +10,7 @@ import { isAboutOpenState } from '../../states/main';
 const currentYear = new Date().getFullYear();
 
 const About = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
   const [isOpen, setIsOpen] = useRecoilState(isAboutOpenState);
 

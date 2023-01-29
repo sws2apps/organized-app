@@ -9,7 +9,6 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../../states/notification';
 import {
-  apiHostState,
   isAppLoadState,
   isCongAccountCreateState,
   isReEnrollMFAState,
@@ -18,24 +17,11 @@ import {
   isUserMfaSetupState,
   isUserMfaVerifyState,
   offlineOverrideState,
-  qrCodePathState,
-  secretTokenPathState,
   startupProgressState,
-  userEmailState,
-  userIDState,
-  userPasswordState,
   visitorIDState,
 } from '../../states/main';
-import {
-  congAccountConnectedState,
-  congIDState,
-  isAdminCongState,
-  isUpdateForVerificationState,
-  pocketMembersState,
-} from '../../states/congregation';
-import { encryptString } from '../../utils/swsEncryption';
-import { dbGetAppSettings, dbUpdateAppSettings } from '../../indexedDb/dbAppSettings';
-import { loadApp } from '../../utils/app';
+import { congAccountConnectedState } from '../../states/congregation';
+import { apiHandleVerifyOTP } from '../../utils/app';
 import { runUpdater } from '../../utils/updater';
 
 const matchIsNumeric = (text) => {
@@ -49,7 +35,7 @@ const validateChar = (value, index) => {
 const VerifyMFA = () => {
   const cancel = useRef();
 
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [userOTP, setUserOTP] = useState('');
@@ -65,20 +51,10 @@ const VerifyMFA = () => {
   const setStartupProgress = useSetRecoilState(startupProgressState);
   const setCongAccountConnected = useSetRecoilState(congAccountConnectedState);
   const setOfflineOverride = useSetRecoilState(offlineOverrideState);
-  const setIsAdminCong = useSetRecoilState(isAdminCongState);
-  const setCongID = useSetRecoilState(congIDState);
-  const setUserID = useSetRecoilState(userIDState);
   const setIsReEnrollMFA = useSetRecoilState(isReEnrollMFAState);
   const setIsUserMfaSetup = useSetRecoilState(isUserMfaSetupState);
-  const setQrCodePath = useSetRecoilState(qrCodePathState);
-  const setSecretTokenPath = useSetRecoilState(secretTokenPathState);
-  const setIsUpdateCong = useSetRecoilState(isUpdateForVerificationState);
-  const setPocketMembers = useSetRecoilState(pocketMembersState);
 
-  const apiHost = useRecoilValue(apiHostState);
-  const userEmail = useRecoilValue(userEmailState);
   const visitorID = useRecoilValue(visitorIDState);
-  const userPwd = useRecoilValue(userPasswordState);
 
   const handleOtpChange = async (newValue) => {
     setUserOTP(newValue);
@@ -86,108 +62,41 @@ const VerifyMFA = () => {
 
   const handleVerifyOTP = useCallback(async () => {
     try {
+      setIsProcessing(true);
       cancel.current = false;
 
-      if (userOTP.length === 6) {
-        setIsProcessing(true);
-        const reqPayload = {
-          token: userOTP,
-        };
+      const response = await apiHandleVerifyOTP(userOTP, false);
 
-        if (apiHost !== '') {
-          const res = await fetch(`${apiHost}api/mfa/verify-token`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              visitorid: visitorID,
-              email: userEmail,
-            },
-            body: JSON.stringify(reqPayload),
-          });
+      if (!cancel.current) {
+        if (response.success) {
+          setIsSetup(false);
 
-          if (!cancel.current) {
-            const data = await res.json();
-            if (res.status === 200) {
-              const { id, cong_id, cong_name, cong_role, cong_number, pocket_members } = data;
-
-              if (cong_name.length > 0) {
-                if (cong_role.length > 0) {
-                  const settings = await dbGetAppSettings();
-                  if (settings.isCongUpdated2 === undefined) {
-                    setCongID(cong_id);
-                    setIsProcessing(false);
-                    setIsUserMfaVerify(false);
-                    setIsUpdateCong(true);
-                    setIsCongAccountCreate(true);
-                    return;
-                  }
-                  // role admin
-                  if (cong_role.includes('admin')) {
-                    setIsAdminCong(true);
-                  }
-
-                  // role approved
-                  if (cong_role.includes('lmmo') || cong_role.includes('lmmo-backup')) {
-                    setCongID(cong_id);
-                    // encrypt email & pwd
-                    const encPwd = await encryptString(userPwd, JSON.stringify({ email: userEmail, pwd: userPwd }));
-
-                    // save congregation update if any
-                    let obj = {};
-                    obj.username = data.username;
-                    obj.cong_name = cong_name;
-                    obj.cong_number = cong_number;
-                    obj.userPass = encPwd;
-                    obj.isLoggedOut = false;
-                    obj.pocket_members = pocket_members;
-
-                    await dbUpdateAppSettings(obj);
-
-                    setPocketMembers(pocket_members);
-                    setUserID(id);
-
-                    await loadApp();
-
-                    setIsSetup(false);
-
-                    await runUpdater();
-                    setTimeout(() => {
-                      setStartupProgress(0);
-                      setOfflineOverride(false);
-                      setCongAccountConnected(true);
-                      setIsAppLoad(false);
-                    }, [2000]);
-                  }
-                  return;
-                }
-
-                setIsProcessing(false);
-                setIsUserMfaVerify(false);
-                setIsUnauthorizedRole(true);
-                return;
-              }
-
-              // congregation not assigned
-              setIsProcessing(false);
-              setIsUserMfaVerify(false);
-              setIsCongAccountCreate(true);
-            } else {
-              if (data.message) {
-                setIsProcessing(false);
-                setAppMessage(data.message);
-                setAppSeverity('warning');
-                setAppSnackOpen(true);
-              } else {
-                setSecretTokenPath(data.secret);
-                setQrCodePath(data.qrCode);
-                setIsReEnrollMFA(true);
-                setIsUserMfaSetup(true);
-                setIsProcessing(false);
-                setIsUserMfaVerify(false);
-              }
-            }
-          }
+          await runUpdater();
+          setTimeout(() => {
+            setStartupProgress(0);
+            setOfflineOverride(false);
+            setCongAccountConnected(true);
+            setIsAppLoad(false);
+          }, [2000]);
         }
+
+        if (response.unauthorized) {
+          setIsUserMfaVerify(false);
+          setIsUnauthorizedRole(true);
+        }
+
+        if (response.reenroll) {
+          setIsReEnrollMFA(true);
+          setIsUserMfaSetup(true);
+          setIsUserMfaVerify(false);
+        }
+
+        if (response.createCongregation) {
+          setIsUserMfaVerify(false);
+          setIsCongAccountCreate(true);
+        }
+
+        setIsProcessing(false);
       }
     } catch (err) {
       if (!cancel.current) {
@@ -198,13 +107,10 @@ const VerifyMFA = () => {
       }
     }
   }, [
-    apiHost,
     setAppMessage,
     setAppSeverity,
     setAppSnackOpen,
     setCongAccountConnected,
-    setCongID,
-    setIsAdminCong,
     setIsAppLoad,
     setIsCongAccountCreate,
     setIsReEnrollMFA,
@@ -212,17 +118,9 @@ const VerifyMFA = () => {
     setIsUnauthorizedRole,
     setIsUserMfaSetup,
     setIsUserMfaVerify,
-    setIsUpdateCong,
-    setPocketMembers,
     setOfflineOverride,
-    setQrCodePath,
-    setSecretTokenPath,
     setStartupProgress,
-    setUserID,
-    userEmail,
     userOTP,
-    userPwd,
-    visitorID,
   ]);
 
   useEffect(() => {
@@ -253,7 +151,7 @@ const VerifyMFA = () => {
   return (
     <Container sx={{ marginTop: '20px' }}>
       <Typography variant="h4" sx={{ marginBottom: '15px' }}>
-        {t('login.mfaVerifyTitle')}
+        {t('mfaVerifyTitle')}
       </Typography>
 
       <Box sx={{ width: '100%', maxWidth: '450px', marginTop: '20px' }}>
@@ -286,7 +184,7 @@ const VerifyMFA = () => {
           onClick={handleVerifyOTP}
           endIcon={isProcessing ? <CircularProgress size={25} /> : null}
         >
-          {t('login.mfaVerify')}
+          {t('mfaVerify')}
         </Button>
       </Box>
     </Container>

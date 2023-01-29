@@ -3,12 +3,9 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
 import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Link from '@mui/material/Link';
-import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { isEmailValid } from '../../utils/emailValid';
 import {
@@ -34,11 +31,15 @@ import { dbGetAppSettings, dbUpdateAppSettings } from '../../indexedDb/dbAppSett
 import { decryptString } from '../../utils/swsEncryption';
 import { loadApp } from '../../utils/app';
 import { runUpdater } from '../../utils/updater';
+import UserEmailField from './UserEmailField';
+import UserPasswordField from './UserPasswordField';
+import TogglePassword from './TogglePassword';
+import { loginStyles } from './sharedStyles';
 
 const SignIn = () => {
   const cancel = useRef();
 
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
   const setUserMfaSetup = useSetRecoilState(isUserMfaSetupState);
   const setUserMfaVerify = useSetRecoilState(isUserMfaVerifyState);
@@ -80,6 +81,11 @@ const SignIn = () => {
     setUserSignIn(false);
   };
 
+  const handleEmailChange = (value) => {
+    value = value.toLowerCase();
+    setUserTmpEmail(value);
+  };
+
   const signInSwitch = async () => {
     if (isInternetNeeded) {
       await handleSignIn();
@@ -116,7 +122,7 @@ const SignIn = () => {
             setStartupProgress(0);
           }, [2000]);
         } else {
-          setAppMessage(t('login.incorrectInfo'));
+          setAppMessage(t('incorrectInfo'));
           setAppSeverity('warning');
           setIsProcessing(false);
           setAppSnackOpen(true);
@@ -130,7 +136,7 @@ const SignIn = () => {
         }
       }
     } catch (err) {
-      setAppMessage(t('login.incorrectInfo'));
+      setAppMessage(t('incorrectInfo'));
       setAppSeverity('warning');
       setIsProcessing(false);
       setAppSnackOpen(true);
@@ -193,15 +199,15 @@ const SignIn = () => {
                   data.message === 'INVALID_EMAIL' ||
                   data.message === 'MISSING_EMAIL'
                 ) {
-                  warnMsg = t('login.accountNotFound');
+                  warnMsg = t('accountNotFound');
                 } else if (data.message === 'INVALID_PASSWORD') {
-                  warnMsg = t('login.incorrectInfo');
+                  warnMsg = t('incorrectInfo');
                 } else if (data.message === 'USER_DISABLED') {
-                  warnMsg = t('login.accountDisabled');
+                  warnMsg = t('accountDisabled');
                 } else if (data.message === 'BLOCKED_TEMPORARILY_TRY_AGAIN' || data.message === 'BLOCKED_TEMPORARILY') {
-                  warnMsg = t('login.hostBlocked');
+                  warnMsg = t('hostBlocked');
                 } else {
-                  warnMsg = t('global.errorTryAgain');
+                  warnMsg = t('errorTryAgain');
                 }
                 setIsProcessing(false);
                 setAppMessage(warnMsg);
@@ -255,62 +261,34 @@ const SignIn = () => {
   return (
     <Container sx={{ marginTop: '20px' }}>
       <Typography variant="h4" sx={{ marginBottom: '15px' }}>
-        {t('global.signIn')}
+        {t('signIn')}
       </Typography>
 
       <Typography sx={{ marginBottom: '20px' }}>
-        {isInternetNeeded ? t('login.signInWithInternet') : t('login.signInNoInternet')}
+        {isInternetNeeded ? t('signInWithInternet') : t('signInNoInternet')}
       </Typography>
 
       <Box sx={{ display: 'flex', flexDirection: 'column', maxWidth: '500px' }}>
-        <TextField
-          sx={{ marginTop: '20px', width: '100%' }}
-          id="outlined-email"
-          label={t('login.email')}
-          variant="outlined"
-          autoComplete="off"
-          required
-          value={userTmpEmail}
-          onChange={(e) => setUserTmpEmail(e.target.value)}
-          error={hasErrorEmail ? true : false}
+        <UserEmailField
+          userEmail={userTmpEmail}
+          setUserEmail={(value) => handleEmailChange(value)}
+          hasErrorEmail={hasErrorEmail}
         />
 
-        <TextField
-          sx={{ marginTop: '20px', width: '100%' }}
-          id="outlined-password"
-          label={t('login.password')}
-          type={showPwd ? '' : 'password'}
-          variant="outlined"
-          autoComplete="off"
-          required
-          value={userTmpPwd}
-          onChange={(e) => setUserTmpPwd(e.target.value)}
-          error={hasErrorPwd ? true : false}
+        <UserPasswordField
+          userPwd={userTmpPwd}
+          setUserPwd={(value) => setUserTmpPwd(value)}
+          hasErrorPwd={hasErrorPwd}
+          showPwd={showPwd}
+          label={t('password')}
         />
 
-        <FormControlLabel
-          control={<Checkbox id="checkShowPwd" checked={showPwd} onChange={togglePwd} />}
-          label={<Typography sx={{ lineHeight: 1.2 }}>{t('login.showPassword')}</Typography>}
-          sx={{
-            width: '100%',
-            marginTop: '15px',
-          }}
-        />
+        <TogglePassword showPwd={showPwd} togglePwd={(value) => togglePwd(value)} />
       </Box>
 
-      <Box
-        sx={{
-          marginTop: '20px',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          maxWidth: '500px',
-          flexWrap: 'wrap',
-          gap: '10px',
-        }}
-      >
+      <Box sx={loginStyles}>
         <Link component="button" underline="none" variant="body1" onClick={handleSignUp}>
-          {t('login.createSwsAccount')}
+          {t('createSwsAccount')}
         </Link>
         <Button
           variant="contained"
@@ -318,7 +296,7 @@ const SignIn = () => {
           onClick={signInSwitch}
           endIcon={isProcessing ? <CircularProgress size={25} /> : null}
         >
-          {t('global.signIn')}
+          {t('signIn')}
         </Button>
       </Box>
     </Container>

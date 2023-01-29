@@ -16,12 +16,11 @@ import {
   isDeleteSchedState,
   reloadWeekSummaryState,
 } from '../../states/schedule';
-import { dbGetWeekListBySched } from '../../indexedDb/dbSourceMaterial';
-import { dbCountAssignmentsInfo, dbGetScheduleData } from '../../indexedDb/dbSchedule';
+import { dbFetchScheduleInfo, dbGetScheduleData } from '../../indexedDb/dbSchedule';
 import { dbSaveAss } from '../../indexedDb/dbAssignment';
 
 const DeleteSchedule = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
   const [dlgAssDeleteOpen, setDlgAssDeleteOpen] = useRecoilState(dlgAssDeleteOpenState);
 
@@ -45,36 +44,16 @@ const DeleteSchedule = () => {
   };
 
   const fetchInfoToDelete = useCallback(async () => {
-    const newData = [];
-
-    if (isDeleteSched) {
-      let data = await dbGetWeekListBySched(currentSchedule.value);
-      for (let i = 0; i < data.length; i++) {
-        const obj = {};
-        obj.value = data[i].weekOf;
-        newData.push(obj);
-      }
-    } else {
-      newData.push({ value: currentWeek.value });
-    }
-
-    setWeeks(newData);
-
-    let cn = 0;
-    for (let i = 0; i < newData.length; i++) {
-      const week = newData[i].value;
-      const { assigned } = await dbCountAssignmentsInfo(week);
-      cn = cn + assigned;
-    }
-
-    setTotalToDelete(cn);
+    const { weeks, assigned } = await dbFetchScheduleInfo(isDeleteSched, currentSchedule, currentWeek);
+    setWeeks(weeks);
+    setTotalToDelete(assigned);
   }, [currentSchedule, currentWeek, isDeleteSched]);
 
   const handleDeleteSchedule = async () => {
     setIsDeleting(true);
 
-    for (let i = 0; i < weeks.length; i++) {
-      const week = weeks[i].value;
+    for await (const item of weeks) {
+      const week = item.value;
 
       const schedData = await dbGetScheduleData(week);
 
@@ -133,7 +112,7 @@ const DeleteSchedule = () => {
       }
 
       // field ministry
-      for (let a = 1; a < 5; a++) {
+      for await (const a of [1, 2, 3, 4]) {
         const stuFieldA = `ass${a}_stu_A`;
         const assFieldA = `ass${a}_ass_A`;
         const stuFieldB = `ass${a}_stu_B`;
@@ -230,20 +209,20 @@ const DeleteSchedule = () => {
       <Dialog open={dlgAssDeleteOpen} aria-labelledby="dialog-title-delete-assignment" onClose={handleClose}>
         <DialogTitle id="dialog-title-delete-assignment">
           <Typography variant="h6" component="p">
-            {t('schedule.deleteAssignmentTitle')}
+            {t('deleteAssignmentTitle')}
           </Typography>
         </DialogTitle>
         <DialogContent>
           {isDeleteSched && (
             <Typography>
-              {t('schedule.deleteScheduleConfirm', {
+              {t('deleteScheduleConfirm', {
                 currentSchedule: currentSchedule.label,
               })}
             </Typography>
           )}
           {!isDeleteSched && (
             <Typography>
-              {t('schedule.deleteWeekConfirm', {
+              {t('deleteWeekConfirm', {
                 currentWeek: currentWeek.label,
               })}
             </Typography>
@@ -266,10 +245,10 @@ const DeleteSchedule = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary" autoFocus disabled={isDeleting}>
-            {t('global.no')}
+            {t('no')}
           </Button>
           <Button autoFocus onClick={handleDeleteSchedule} color="primary" disabled={isDeleting}>
-            {t('global.delete')}
+            {t('delete')}
           </Button>
         </DialogActions>
       </Dialog>

@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 import { PersonTimeAwayItem } from './';
 
 const PersonTimeAway = ({ timeAway, setTimeAway }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
   const handleTimeAwayAdd = () => {
     const obj = {
@@ -29,7 +29,7 @@ const PersonTimeAway = ({ timeAway, setTimeAway }) => {
         }}
       >
         <Button variant="outlined" color="success" startIcon={<AddCircleIcon />} onClick={handleTimeAwayAdd}>
-          {t('persons.addTimeAway')}
+          {t('addTimeAway')}
         </Button>
       </Box>
       {timeAway?.length > 0 &&

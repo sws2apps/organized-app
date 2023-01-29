@@ -6,7 +6,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import TextField from '@mui/material/TextField';
 
 const PersonBasic = ({ isMale, isFemale, name, displayName, setIsMale, setIsFemale, setName, setDisplayName }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
   const [isErrorName, setIsErrorName] = useState(false);
   const [isErrorDisplayName, setIsErrorDisplayName] = useState(false);
@@ -76,7 +76,7 @@ const PersonBasic = ({ isMale, isFemale, name, displayName, setIsMale, setIsFema
         }}
       >
         <TextField
-          label={t('global.name')}
+          label={t('name')}
           variant="outlined"
           size="small"
           autoComplete="off"
@@ -90,7 +90,7 @@ const PersonBasic = ({ isMale, isFemale, name, displayName, setIsMale, setIsFema
           onChange={(e) => handleNameChange(e.target.value)}
         />
         <TextField
-          label={t('global.displayName')}
+          label={t('displayName')}
           variant="outlined"
           size="small"
           autoComplete="off"
@@ -108,13 +108,13 @@ const PersonBasic = ({ isMale, isFemale, name, displayName, setIsMale, setIsFema
       <Box sx={{ display: 'flex' }}>
         <FormControlLabel
           control={<Checkbox checked={isMale} onChange={(e) => handleMaleCheck(e.target.checked)} color="primary" />}
-          label={t('persons.male')}
+          label={t('male')}
         />
         <FormControlLabel
           control={
             <Checkbox checked={isFemale} onChange={(e) => handleFemaleCheck(e.target.checked)} color="primary" />
           }
-          label={t('persons.female')}
+          label={t('female')}
         />
       </Box>
     </Box>

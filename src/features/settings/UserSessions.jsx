@@ -11,7 +11,7 @@ import { appMessageState, appSeverityState, appSnackOpenState } from '../../stat
 const UserSessions = () => {
   const cancel = useRef();
 
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
   const setModalOpen = useSetRecoilState(rootModalOpenState);
   const setAppSnackOpen = useSetRecoilState(appSnackOpenState);
@@ -77,7 +77,7 @@ const UserSessions = () => {
 
   return (
     <Box sx={{ marginTop: '10px', marginBottom: '20px' }}>
-      <Typography>{t('settings.sessionsDesc')}</Typography>
+      <Typography>{t('sessionsDesc')}</Typography>
       <Box
         sx={{
           maxWidth: '500px',

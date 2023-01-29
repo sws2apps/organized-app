@@ -46,7 +46,7 @@ const sharedStyles = {
 };
 
 const StudentSelector = (props) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
   const dbHistory = useRecoilValue(studentsAssignmentHistoryState);
 
@@ -281,7 +281,7 @@ const StudentSelector = (props) => {
                 {assTypeNameForAssistant}
               </Typography>
               <Typography variant="body2">
-                {t('persons.student')}: {stuForAssistant}
+                {t('student')}: {stuForAssistant}
               </Typography>
             </>
           )}
@@ -293,7 +293,7 @@ const StudentSelector = (props) => {
         )}
       </Box>
       <Typography variant="body2" sx={sharedStyles.tableHeader}>
-        {t('schedule.availableStudents')}
+        {t('availableStudents')}
       </Typography>
       {isLoadingStudent && (
         <CircularProgress color="secondary" size={30} disableShrink={true} sx={sharedStyles.tableLoader} />
@@ -304,10 +304,10 @@ const StudentSelector = (props) => {
             <TableHead>
               <TableRow>
                 <TableCell style={{ width: '200px' }} sx={sharedStyles.tblData}>
-                  {t('global.name')}
+                  {t('name')}
                 </TableCell>
                 <TableCell align="center" style={{ width: '150px' }} sx={sharedStyles.tblData}>
-                  {t('global.lastAssignment')}
+                  {t('lastAssignment')}
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -350,7 +350,7 @@ const StudentSelector = (props) => {
       {selectedStudent !== '' && selectedStuID !== '' && (
         <>
           <Typography variant="body2" sx={sharedStyles.tableHeader}>
-            {t('schedule.studentHistory', { currentStudent: selectedStudent })}
+            {t('studentHistory', { currentStudent: selectedStudent })}
           </Typography>
           {isLoadingStuHistory && (
             <CircularProgress color="secondary" size={30} disableShrink={true} sx={sharedStyles.tableLoader} />
@@ -368,7 +368,7 @@ const StudentSelector = (props) => {
                           '& .MuiTableCell-sizeSmall': sharedStyles.tblData,
                         }}
                       >
-                        {t('global.date')}
+                        {t('date')}
                       </TableCell>
                       <TableCell
                         style={{ width: '250px' }}
@@ -376,7 +376,7 @@ const StudentSelector = (props) => {
                           '& .MuiTableCell-sizeSmall': sharedStyles.tblData,
                         }}
                       >
-                        {t('global.assignment')}
+                        {t('assignment')}
                       </TableCell>
                       <TableCell
                         style={{ width: '20px' }}
@@ -385,7 +385,7 @@ const StudentSelector = (props) => {
                           '& .MuiTableCell-sizeSmall': sharedStyles.tblData,
                         }}
                       >
-                        {t('global.class')}
+                        {t('class')}
                       </TableCell>
                     </TableRow>
                   </TableHead>
@@ -427,7 +427,7 @@ const StudentSelector = (props) => {
                   onClick={() => handleAssignStudent()}
                   color="success"
                 >
-                  {t('schedule.assign')}
+                  {t('assign')}
                 </Button>
               )}
             </>
@@ -446,7 +446,7 @@ const StudentSelector = (props) => {
           {stuForAssistant !== '' && (
             <>
               <Typography variant="body2" sx={sharedStyles.tableHeader}>
-                {t('schedule.assistantHistory', {
+                {t('assistantHistory', {
                   currentStudent: stuForAssistant,
                 })}
               </Typography>
@@ -459,7 +459,7 @@ const StudentSelector = (props) => {
                     <TableHead>
                       <TableRow>
                         <TableCell style={{ width: '60px' }} align="center">
-                          {t('global.date')}
+                          {t('date')}
                         </TableCell>
                         <TableCell
                           style={{ width: '250px' }}
@@ -467,7 +467,7 @@ const StudentSelector = (props) => {
                             '& .MuiTableCell-sizeSmall': sharedStyles.tblData,
                           }}
                         >
-                          {t('global.name')}
+                          {t('name')}
                         </TableCell>
                       </TableRow>
                     </TableHead>
@@ -500,7 +500,7 @@ const StudentSelector = (props) => {
         </>
       )}
       <Typography variant="body2" sx={sharedStyles.tableHeader}>
-        {t('schedule.assignmentHistory')}
+        {t('assignmentHistory')}
       </Typography>
       {isLoadingAssHistory && (
         <CircularProgress color="secondary" size={30} disableShrink={true} sx={sharedStyles.tableLoader} />
@@ -511,17 +511,17 @@ const StudentSelector = (props) => {
             <TableHead>
               <TableRow>
                 <TableCell style={{ width: '60px' }} align="center">
-                  {t('global.date')}
+                  {t('date')}
                 </TableCell>
                 <TableCell style={{ width: '250px' }} sx={{ '& .MuiTableCell-sizeSmall': sharedStyles.tblData }}>
-                  {t('global.name')}
+                  {t('name')}
                 </TableCell>
                 <TableCell
                   style={{ width: '20px' }}
                   align="center"
                   sx={{ '& .MuiTableCell-sizeSmall': sharedStyles.tblData }}
                 >
-                  {t('global.class')}
+                  {t('class')}
                 </TableCell>
               </TableRow>
             </TableHead>

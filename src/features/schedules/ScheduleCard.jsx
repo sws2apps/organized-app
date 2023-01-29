@@ -25,7 +25,7 @@ import {
 const ScheduleCard = ({ schedule }) => {
   const navigate = useNavigate();
 
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
   const setDlgAssDeleteOpen = useSetRecoilState(dlgAssDeleteOpenState);
   const setIsDeleteSched = useSetRecoilState(isDeleteSchedState);
@@ -104,7 +104,7 @@ const ScheduleCard = ({ schedule }) => {
           onClick={handleOpenSchedule}
         >
           <OpenInNewIcon color="success" sx={{ fontSize: '35px' }} />
-          <Typography sx={{ fontSize: '12px' }}>{t('global.open')}</Typography>
+          <Typography sx={{ fontSize: '12px' }}>{t('open')}</Typography>
         </IconButton>
         <IconButton
           sx={{
@@ -119,7 +119,7 @@ const ScheduleCard = ({ schedule }) => {
           onClick={handleAssignSchedule}
         >
           <FlashAutoIcon color="secondary" sx={{ fontSize: '35px' }} />
-          <Typography sx={{ fontSize: '12px' }}>{t('schedule.autofill')}</Typography>
+          <Typography sx={{ fontSize: '12px' }}>{t('autofill')}</Typography>
         </IconButton>
         <IconButton
           id="button-print"
@@ -138,7 +138,7 @@ const ScheduleCard = ({ schedule }) => {
           }}
         >
           <PrintIcon sx={{ fontSize: '35px' }} />
-          <Typography sx={{ fontSize: '12px' }}>{t('global.export')}</Typography>
+          <Typography sx={{ fontSize: '12px' }}>{t('export')}</Typography>
         </IconButton>
 
         <Menu
@@ -161,10 +161,10 @@ const ScheduleCard = ({ schedule }) => {
           onClose={handleClosePrint}
         >
           <MenuItem onClick={handleS89Export}>
-            <ListItemText primary={t('schedule.s89')} />
+            <ListItemText primary={t('s89')} />
           </MenuItem>
           <MenuItem onClick={handleS140Export}>
-            <ListItemText primary={t('schedule.midweekMeetingPrint')} />
+            <ListItemText primary={t('midweekMeetingPrint')} />
           </MenuItem>
         </Menu>
 
@@ -181,7 +181,7 @@ const ScheduleCard = ({ schedule }) => {
           onClick={handleDeleteSchedule}
         >
           <DeleteIcon color="error" sx={{ fontSize: '35px' }} />
-          <Typography sx={{ fontSize: '12px' }}>{t('global.delete')}</Typography>
+          <Typography sx={{ fontSize: '12px' }}>{t('delete')}</Typography>
         </IconButton>
       </Box>
     </Paper>

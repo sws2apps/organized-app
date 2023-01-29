@@ -9,38 +9,30 @@ import WhatsNewDetail from './WhatsNewDetail';
 import { currentNotificationState, isWhatsNewOpenState } from '../../states/main';
 
 const WhatsNew = () => {
-	const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
-	const [isOpen, setIsOpen] = useRecoilState(isWhatsNewOpenState);
-	const [item, setItem] = useRecoilState(currentNotificationState);
+  const [isOpen, setIsOpen] = useRecoilState(isWhatsNewOpenState);
+  const [item, setItem] = useRecoilState(currentNotificationState);
 
-	const handleClose = () => {
-		setIsOpen(false);
-		setItem({});
-	};
+  const handleClose = () => {
+    setIsOpen(false);
+    setItem({});
+  };
 
-	return (
-		<Box>
-			<Dialog
-				open={isOpen}
-				aria-labelledby='dialog-title-announcement-edit'
-				onClose={handleClose}
-			>
-				<DialogTitle id='dialog-title-announcement-edit'>
-					<Typography
-						variant='h6'
-						component='p'
-						sx={{ borderBottom: '1px outset' }}
-					>
-						{t('global.whatsNew')}
-					</Typography>
-				</DialogTitle>
-				<DialogContent>
-					<WhatsNewDetail announcement={item} />
-				</DialogContent>
-			</Dialog>
-		</Box>
-	);
+  return (
+    <Box>
+      <Dialog open={isOpen} aria-labelledby="dialog-title-announcement-edit" onClose={handleClose}>
+        <DialogTitle id="dialog-title-announcement-edit">
+          <Typography variant="h6" component="p" sx={{ borderBottom: '1px outset' }}>
+            {t('whatsNew')}
+          </Typography>
+        </DialogTitle>
+        <DialogContent>
+          <WhatsNewDetail announcement={item} />
+        </DialogContent>
+      </Dialog>
+    </Box>
+  );
 };
 
 export default WhatsNew;

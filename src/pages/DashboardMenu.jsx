@@ -1,5 +1,7 @@
+import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
+import dateFormat from 'dateformat';
 import { fileDialog } from 'file-select-dialog';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AssignmentIcon from '@mui/icons-material/Assignment';
@@ -32,11 +34,13 @@ import { appMessageState, appSeverityState, appSnackOpenState } from '../states/
 import { epubFileState, isImportEPUBState, isImportJWOrgState } from '../states/sourceMaterial';
 import { isPublishOpenState } from '../states/schedule';
 import { importDummyUsers } from '../utils/dev';
+import { getCurrentWeekDate } from '../utils/app';
 
 const isDev = process.env.NODE_ENV === 'development';
 
 const DashboardMenu = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
+  const navigate = useNavigate();
 
   const appLang = useRecoilValue(appLangState);
 
@@ -62,7 +66,7 @@ const DashboardMenu = () => {
     await dbAddManualSource();
     setAppSnackOpen(true);
     setAppSeverity('success');
-    setAppMessage(t('sourceMaterial.weekAdded'));
+    setAppMessage(t('weekAdded'));
   };
 
   const handleImportEPUB = async () => {
@@ -78,7 +82,7 @@ const DashboardMenu = () => {
     } else {
       setAppSnackOpen(true);
       setAppSeverity('warning');
-      setAppMessage(t('sourceMaterial.invalidFilename'));
+      setAppMessage(t('invalidFilename'));
     }
   };
 
@@ -98,20 +102,26 @@ const DashboardMenu = () => {
     setPublishPocket(true);
   };
 
+  const handleViewCurrentAssignment = () => {
+    let weekDate = getCurrentWeekDate();
+    weekDate = dateFormat(weekDate, 'mm-dd-yyyy');
+    navigate(`/schedules/view/${weekDate}`);
+  };
+
   const dashboardMenus = [
     {
-      title: t('dashboard.persons'),
+      title: t('persons'),
       visible: true,
       links: [
         {
-          title: t('dashboard.persons'),
+          title: t('persons'),
           icon: <PeopleIcon />,
           disabled: false,
           visible: true,
           navigateTo: '/persons',
         },
         {
-          title: t('dashboard.personAdd'),
+          title: t('personAdd'),
           icon: <PersonAddIcon />,
           disabled: false,
           visible: true,
@@ -131,32 +141,32 @@ const DashboardMenu = () => {
       ],
     },
     {
-      title: t('dashboard.schedule'),
+      title: t('schedule'),
       visible: true,
       links: [
         {
-          title: t('dashboard.viewMyAssignments'),
+          title: t('viewMyAssignments'),
           icon: <AssignmentIndIcon />,
           disabled: false,
           visible: true,
           action: handleOpenMyAssignment,
         },
         {
-          title: t('dashboard.viewAssignmentsSchedule'),
+          title: t('viewAssignmentsSchedule'),
           icon: <ScheduleIcon />,
           disabled: false,
           visible: true,
-          navigateTo: '/schedules/view',
+          action: handleViewCurrentAssignment,
         },
         {
-          title: t('dashboard.editAssignmentsSchedule'),
+          title: t('editAssignmentsSchedule'),
           icon: <AssignmentIcon />,
           disabled: false,
           visible: true,
           navigateTo: '/schedules',
         },
         {
-          title: t('schedule.pulish'),
+          title: t('pulish'),
           icon: <SendIcon />,
           disabled: false,
           visible: isCongAccountConnected ? true : false,
@@ -165,32 +175,32 @@ const DashboardMenu = () => {
       ],
     },
     {
-      title: t('dashboard.sourceMaterial'),
+      title: t('sourceMaterial'),
       visible: true,
       links: [
         {
-          title: t('dashboard.viewSourceMaterial'),
+          title: t('viewSourceMaterial'),
           icon: <CalendarMonthIcon />,
           disabled: false,
           visible: true,
           navigateTo: '/source-materials',
         },
         {
-          title: t('dashboard.weekAddNew'),
+          title: t('weekAddNew'),
           icon: <MoreTimeIcon />,
           disabled: false,
           visible: true,
           action: handleWeekAdd,
         },
         {
-          title: t('dashboard.sourceImportEPUB'),
+          title: t('sourceImportEPUB'),
           icon: <FileCopyIcon />,
           disabled: false,
           visible: true,
           action: handleImportEPUB,
         },
         {
-          title: t('dashboard.sourceImportJw'),
+          title: t('sourceImportJw'),
           icon: <CloudSyncIcon />,
           disabled: false,
           visible: isOnline ? true : false,
@@ -199,32 +209,32 @@ const DashboardMenu = () => {
       ],
     },
     {
-      title: t('global.congregation'),
+      title: t('congregation'),
       visible: true,
       links: [
         {
-          title: t('global.sendBackup'),
+          title: t('sendBackup'),
           icon: <CloudUploadIcon />,
           disabled: false,
           visible: isCongAccountConnected ? true : false,
           action: handleCreateBackup,
         },
         {
-          title: t('global.restoreBackup'),
+          title: t('restoreBackup'),
           icon: <CloudDownloadIcon />,
           disabled: false,
           visible: isCongAccountConnected ? true : false,
           action: handleRestoreBackup,
         },
         {
-          title: t('dashboard.manageAccessToApps'),
+          title: t('manageAccessToApps'),
           icon: <AccountCircleIcon />,
           disabled: false,
           visible: isCongAccountConnected ? true : false,
           navigateTo: '/administration',
         },
         {
-          title: t('global.settings'),
+          title: t('settings'),
           icon: <SettingsIcon />,
           disabled: false,
           visible: true,

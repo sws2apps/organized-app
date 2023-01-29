@@ -11,7 +11,7 @@ import { apiFetchCongregations } from '../api/congregation';
 const CongregationSelect = ({ country, setCongregation }) => {
   const queryClient = useQueryClient();
 
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
   const [value, setValue] = useState(null);
   const [inputValue, setInputValue] = useState('');
@@ -70,8 +70,8 @@ const CongregationSelect = ({ country, setCongregation }) => {
       autoComplete
       includeInputInList
       value={value}
-      noOptionsText={t('global.noOptions')}
-      loadingText={t('global.loading')}
+      noOptionsText={t('noOptions')}
+      loadingText={t('loading')}
       onChange={(event, newValue) => {
         setValue(newValue);
         setCongregation(newValue);
@@ -87,7 +87,7 @@ const CongregationSelect = ({ country, setCongregation }) => {
       renderInput={(params) => (
         <TextField
           {...params}
-          label={t('global.congregation')}
+          label={t('congregation')}
           InputProps={{
             ...params.InputProps,
             startAdornment: <HomeWorkIcon color="secondary" sx={{ marginLeft: '5px' }} />,

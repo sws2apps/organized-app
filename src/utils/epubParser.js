@@ -157,7 +157,7 @@ const addDataToDb = async (data) => {
       obj.noMeeting = false;
       obj.isOverride = false;
 
-      await dbSaveSrcData(obj);
+      await dbSaveSrcData(obj, true);
     }
 
     const years = await dbGetYearList();

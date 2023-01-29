@@ -6,7 +6,7 @@ import TextField from '@mui/material/TextField';
 import { assTypeAYFOnlyState } from '../../states/sourceMaterial';
 
 const PartType = (props) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
   const [type, setType] = useState('');
 
@@ -43,14 +43,14 @@ const PartType = (props) => {
         <TextField
           id="outlined-select-type"
           select
-          label={t('sourceMaterial.partType')}
+          label={t('partType')}
           size="small"
           value={type}
           onChange={(e) => handleChangeType(e)}
           sx={{ minWidth: '250px' }}
         >
           <MenuItem value={''}>
-            <em>{t('sourceMaterial.nothing')}</em>
+            <em>{t('nothing')}</em>
           </MenuItem>
           {assTypeList.map((partType) => renderPartType(partType))}
         </TextField>

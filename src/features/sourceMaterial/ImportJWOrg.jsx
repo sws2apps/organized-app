@@ -32,7 +32,7 @@ const sharedStyles = {
 const ImportJWOrg = () => {
   const cancel = useRef();
 
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
   const setAppSnackOpen = useSetRecoilState(appSnackOpenState);
   const setAppSeverity = useSetRecoilState(appSeverityState);
@@ -102,7 +102,7 @@ const ImportJWOrg = () => {
       {open && isOnline && (
         <Dialog open={open} onClose={handleDlgClose}>
           <DialogTitle>
-            <Typography sx={{ lineHeight: 1.2, fontSize: '13px' }}>{t('sourceMaterial.importJwTitle')}</Typography>
+            <Typography sx={{ lineHeight: 1.2, fontSize: '13px' }}>{t('importJwTitle')}</Typography>
           </DialogTitle>
           <DialogContent>
             <Container sx={sharedStyles.jwLoad}>
@@ -110,7 +110,7 @@ const ImportJWOrg = () => {
                 <>
                   <CircularProgress color="secondary" size={'70px'} disableShrink />
                   <Typography variant="body1" align="center" sx={sharedStyles.textCircular}>
-                    {t('importJw.inProgress')}
+                    {t('downloadInProgress')}
                   </Typography>
                 </>
               )}
@@ -118,7 +118,7 @@ const ImportJWOrg = () => {
                 <>
                   <CheckCircleIcon color="success" sx={{ fontSize: '100px' }} />
                   <Typography variant="body1" align="center" sx={sharedStyles.textCircular}>
-                    {t('sourceMaterial.importCompleted')}
+                    {t('importCompleted')}
                   </Typography>
                 </>
               )}
@@ -126,7 +126,7 @@ const ImportJWOrg = () => {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleDlgClose} color="primary" autoFocus disabled={!isLoading}>
-              {t('global.cancel')}
+              {t('cancel')}
             </Button>
             <Button onClick={handleDlgClose} color="primary" autoFocus disabled={isLoading}>
               OK

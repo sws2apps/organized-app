@@ -12,7 +12,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import Switch from '@mui/material/Switch';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { LCPartDuration, PartDuration, PartType, SongsList, StudyPoint, WeekType } from '../features/sourceMaterial';
+import { LCPartHeading, PartDuration, PartType, SongsList, StudyPoint, WeekType } from '../features/sourceMaterial';
 import { isRerenderSourceState } from '../states/sourceMaterial';
 import { shortDateFormatState, sourceLangState } from '../states/main';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../states/notification';
@@ -49,7 +49,7 @@ const sharedStyles = {
 
 const SourceWeekDetails = () => {
   const { weekToFormat } = useParams();
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
   const navigate = useNavigate();
 
   const sourceLang = useRecoilValue(sourceLangState);
@@ -87,13 +87,22 @@ const SourceWeekDetails = () => {
   const [Ass4Src, setAss4Src] = useState('');
   const [SongMiddle, setSongMiddle] = useState('');
   const [LCPart1Time, setLCPart1Time] = useState('');
+  const [LCPart1TimeOverride, setLCPart1TimeOverride] = useState('');
   const [LCPart1Src, setLCPart1Src] = useState('');
+  const [LCPart1SrcOverride, setLCPart1SrcOverride] = useState('');
   const [LCPart1Content, setLCPart1Content] = useState('');
+  const [LCPart1ContentOverride, setLCPart1ContentOverride] = useState('');
   const [LCPart2Time, setLCPart2Time] = useState('');
+  const [LCPart2TimeOverride, setLCPart2TimeOverride] = useState('');
   const [LCPart2Src, setLCPart2Src] = useState('');
+  const [LCPart2SrcOverride, setLCPart2SrcOverride] = useState('');
   const [LCPart2Content, setLCPart2Content] = useState('');
+  const [LCPart2ContentOverride, setLCPart2ContentOverride] = useState('');
   const [CBSSrc, setCBSSrc] = useState('');
   const [SongConclude, setSongConclude] = useState('');
+  const [isOverrideLCPart1, setIsOverrideLCPart1] = useState(false);
+  const [isOverrideLCPart2, setIsOverrideLCPart2] = useState(false);
+  const [CBSTimeOverride, setCBSTimeOverride] = useState('');
 
   const week = weekToFormat.replaceAll('-', '/');
   const weekFormatted = dateFormat(new Date(week), shortDateFormat);
@@ -104,6 +113,42 @@ const SourceWeekDetails = () => {
 
   const handleSaveSource = async () => {
     const obj = {};
+
+    let lcCount = 0;
+    if (isOverrideLCPart1 || isOverrideLCPart2) {
+      // check timing first
+      const timeOverride = +LCPart1TimeOverride + +LCPart2TimeOverride + +CBSTimeOverride;
+      if (timeOverride !== 45) {
+        setAppSnackOpen(true);
+        setAppSeverity('warning');
+        setAppMessage(t('overrideSaveWarning'));
+        return;
+      }
+
+      if (LCPart1TimeOverride !== '') lcCount++;
+      if (LCPart2TimeOverride !== '') lcCount++;
+
+      obj.lcCount_override = lcCount;
+      obj.lcPart1_time_override = LCPart1TimeOverride === '' ? undefined : +LCPart1TimeOverride;
+      obj.lcPart1_src_override = LCPart1SrcOverride;
+      obj.lcPart1_content_override = LCPart1ContentOverride;
+      obj.lcPart2_time_override = LCPart2TimeOverride === '' ? undefined : +LCPart2TimeOverride;
+      obj.lcPart2_src_override = LCPart2SrcOverride;
+      obj.lcPart2_content_override = LCPart2ContentOverride;
+      obj.cbs_time_override = CBSTimeOverride === '' ? undefined : +CBSTimeOverride;
+    }
+
+    lcCount = 0;
+    if (LCPart1Time !== '') lcCount++;
+    if (LCPart2Time !== '') lcCount++;
+    obj.lcCount = lcCount;
+    obj.lcPart1_time = LCPart1Time === '' ? undefined : +LCPart1Time;
+    obj.lcPart1_src = LCPart1Src;
+    obj.lcPart1_content = LCPart1Content;
+    obj.lcPart2_time = LCPart2Time === '' ? undefined : +LCPart2Time;
+    obj.lcPart2_src = LCPart2Src;
+    obj.lcPart2_content = LCPart2Content;
+
     obj.weekOf = weekOf;
     obj.weekDate_src = WeekDate;
     obj.weeklyBibleReading_src = WeeklyBibleReading;
@@ -128,28 +173,22 @@ const SourceWeekDetails = () => {
     obj.ass4_study = Ass4Study === '' ? undefined : +Ass4Study;
     obj.ass4_src = Ass4Src;
     obj.songMiddle_src = +SongMiddle;
-    obj.lcPart1_time = LCPart1Time === '' ? undefined : +LCPart1Time;
-    obj.lcPart1_src = LCPart1Src;
-    obj.lcPart1_content = LCPart1Content;
-    obj.lcPart2_time = LCPart2Time === '' ? undefined : +LCPart2Time;
-    obj.lcPart2_src = LCPart2Src;
-    obj.lcPart2_content = LCPart2Content;
     obj.cbs_src = CBSSrc;
-    obj.songConclude_src = +SongConclude;
+    obj.songConclude_src = isNaN(SongConclude) ? SongConclude : +SongConclude;
     obj.week_type = weekType;
     obj.noMeeting = !hasMeeting;
     obj.isOverride = true;
 
-    const isSaved = await dbSaveSrcData(obj);
+    const isSaved = await dbSaveSrcData(obj, false);
 
     if (isSaved === true) {
       setAppSnackOpen(true);
       setAppSeverity('success');
-      setAppMessage(t('sourceMaterial.weekSaved'));
+      setAppMessage(t('weekSaved'));
     } else {
       setAppSnackOpen(true);
       setAppSeverity('error');
-      setAppMessage(t('sourceMaterial.saveError'));
+      setAppMessage(t('saveError'));
     }
   };
 
@@ -184,13 +223,22 @@ const SourceWeekDetails = () => {
         setAss4Study(data.ass4_study);
         setAss4Src(data.ass4_src);
         setSongMiddle(data.songMiddle_src);
+        setIsOverrideLCPart1(data.lcPart1_time_override !== '');
         setLCPart1Time(data.lcPart1_time);
+        setLCPart1TimeOverride(data.lcPart1_time_override);
         setLCPart1Src(data.lcPart1_src);
+        setLCPart1SrcOverride(data.lcPart1_src_override);
         setLCPart1Content(data.lcPart1_content);
+        setLCPart1ContentOverride(data.lcPart1_content_override);
+        setIsOverrideLCPart2(data.lcPart2_time_override !== '');
         setLCPart2Time(data.lcPart2_time);
+        setLCPart2TimeOverride(data.lcPart2_time_override);
         setLCPart2Src(data.lcPart2_src);
+        setLCPart2SrcOverride(data.lcPart2_src_override);
         setLCPart2Content(data.lcPart2_content);
+        setLCPart2ContentOverride(data.lcPart2_content_override);
         setCBSSrc(data.cbs_src);
+        setCBSTimeOverride(data.cbs_time_override);
         setSongConclude(data.songConclude_src);
       }
     };
@@ -211,7 +259,7 @@ const SourceWeekDetails = () => {
           <ArrowBackIcon sx={{ fontSize: '30px' }} />
         </IconButton>
         <Typography sx={{ textTransform: 'uppercase', fontWeight: 'bold' }}>
-          {`${t('global.sourceMaterial')} > ${weekFormatted}`}
+          {`${t('sourceMaterial')} > ${weekFormatted}`}
         </Typography>
       </Box>
 
@@ -237,13 +285,13 @@ const SourceWeekDetails = () => {
           />
           <FormControlLabel
             control={<Switch checked={hasMeeting} onChange={(e) => setHasMeeting(e.target.checked)} />}
-            label={hasMeeting ? t('sourceMaterial.hasMeeting') : t('sourceMaterial.noMeeting')}
+            label={hasMeeting ? t('hasMeeting') : t('noMeeting')}
           />
         </Box>
         <Box sx={{ margin: '20px 0', display: 'flex', flexDirection: 'column', gap: '20px', width: '280px' }}>
           <TextField
             id="outlined-week-date"
-            label={t('global.date')}
+            label={t('date')}
             variant="outlined"
             size="small"
             value={WeekDate}
@@ -251,7 +299,7 @@ const SourceWeekDetails = () => {
           />
           <TextField
             id="outlined-weekly-bible-reading"
-            label={t('global.weeklybibleReading')}
+            label={t('weeklybibleReading')}
             variant="outlined"
             size="small"
             value={WeeklyBibleReading}
@@ -262,12 +310,12 @@ const SourceWeekDetails = () => {
           <SongsList songPart={1} song={SongFirst} setSongFirst={(value) => setSongFirst(value)} />
         </Box>
         <Box className={`tgwPart meetingPart`}>
-          <Typography variant="h6">{t('global.treasuresPart')}</Typography>
+          <Typography variant="h6">{t('treasuresPart')}</Typography>
         </Box>
         <Box sx={{ margin: '20px 0', display: 'flex', flexDirection: 'column', gap: '20px' }}>
           <TextField
             id="outlined-tgw-talk-10"
-            label={t('global.tgwTalk')}
+            label={t('tgwTalk')}
             variant="outlined"
             size="small"
             sx={{ maxWidth: '800px' }}
@@ -277,7 +325,7 @@ const SourceWeekDetails = () => {
           <Box sx={{ display: 'flex', gap: '15px', flexWrap: 'wrap' }}>
             <TextField
               id="outlined-basic"
-              label={t('global.bibleReadingText')}
+              label={t('bibleReadingText')}
               variant="outlined"
               size="small"
               value={BRead}
@@ -288,20 +336,26 @@ const SourceWeekDetails = () => {
           </Box>
         </Box>
         <Box className={`ayfPart meetingPart`}>
-          <Typography variant="h6">{t('global.applyFieldMinistryPart')}</Typography>
+          <Typography variant="h6">{t('applyFieldMinistryPart')}</Typography>
         </Box>
         <Box sx={{ margin: '10px 0' }}>
           <Box sx={sharedStyles.ayfStuPart}>
             <Typography variant="body1" sx={sharedStyles.partHeader}>
-              {t('global.ayfPart1')}
+              {t('ayfPart1')}
             </Typography>
             <Box sx={sharedStyles.ayfStuPartInfo}>
-              <PartDuration ayf={1} assTime={Ass1Time} setAss1Time={(value) => setAss1Time(value)} />
+              <PartDuration
+                isAyf={true}
+                max={10}
+                ayf={1}
+                assTime={Ass1Time}
+                setAss1Time={(value) => setAss1Time(value)}
+              />
               <PartType ayf={1} assType={Ass1Type} setAss1Type={(value) => setAss1Type(value)} />
               <StudyPoint ayf={1} studyPoint={Ass1Study} setAss1Study={(value) => setAss1Study(value)} />
               <TextField
                 id="outlined-basic"
-                label={t('global.sourceMaterial')}
+                label={t('sourceMaterial')}
                 variant="outlined"
                 multiline
                 size="small"
@@ -313,15 +367,21 @@ const SourceWeekDetails = () => {
           </Box>
           <Box sx={sharedStyles.ayfStuPart}>
             <Typography variant="body1" sx={sharedStyles.partHeader}>
-              {t('global.ayfPart2')}
+              {t('ayfPart2')}
             </Typography>
             <Box sx={sharedStyles.ayfStuPartInfo}>
-              <PartDuration ayf={2} assTime={Ass2Time} setAss2Time={(value) => setAss2Time(value)} />
+              <PartDuration
+                isAyf={true}
+                max={10}
+                ayf={2}
+                assTime={Ass2Time}
+                setAss2Time={(value) => setAss2Time(value)}
+              />
               <PartType ayf={2} assType={Ass2Type} setAss2Type={(value) => setAss2Type(value)} />
               <StudyPoint ayf={2} studyPoint={Ass2Study} setAss2Study={(value) => setAss2Study(value)} />
               <TextField
                 id="outlined-basic"
-                label={t('global.sourceMaterial')}
+                label={t('sourceMaterial')}
                 variant="outlined"
                 multiline
                 size="small"
@@ -333,15 +393,21 @@ const SourceWeekDetails = () => {
           </Box>
           <Box sx={sharedStyles.ayfStuPart}>
             <Typography variant="body1" sx={sharedStyles.partHeader}>
-              {t('global.ayfPart3')}
+              {t('ayfPart3')}
             </Typography>
             <Box sx={sharedStyles.ayfStuPartInfo}>
-              <PartDuration ayf={3} assTime={Ass3Time} setAss3Time={(value) => setAss3Time(value)} />
+              <PartDuration
+                isAyf={true}
+                max={10}
+                ayf={3}
+                assTime={Ass3Time}
+                setAss3Time={(value) => setAss3Time(value)}
+              />
               <PartType ayf={3} assType={Ass3Type} setAss3Type={(value) => setAss3Type(value)} />
               <StudyPoint ayf={3} studyPoint={Ass3Study} setAss3Study={(value) => setAss3Study(value)} />
               <TextField
                 id="outlined-basic"
-                label={t('global.sourceMaterial')}
+                label={t('sourceMaterial')}
                 variant="outlined"
                 multiline
                 size="small"
@@ -353,15 +419,21 @@ const SourceWeekDetails = () => {
           </Box>
           <Box sx={sharedStyles.ayfStuPart}>
             <Typography variant="body1" sx={sharedStyles.partHeader}>
-              {t('global.ayfPart4')}
+              {t('ayfPart4')}
             </Typography>
             <Box sx={sharedStyles.ayfStuPartInfo}>
-              <PartDuration ayf={4} assTime={Ass4Time} setAss4Time={(value) => setAss4Time(value)} />
+              <PartDuration
+                isAyf={true}
+                max={10}
+                ayf={4}
+                assTime={Ass4Time}
+                setAss4Time={(value) => setAss4Time(value)}
+              />
               <PartType ayf={4} assType={Ass4Type} setAss4Type={(value) => setAss4Type(value)} />
               <StudyPoint ayf={4} studyPoint={Ass4Study} setAss4Study={(value) => setAss4Study(value)} />
               <TextField
                 id="outlined-basic"
-                label={t('global.sourceMaterial')}
+                label={t('sourceMaterial')}
                 variant="outlined"
                 multiline
                 size="small"
@@ -374,83 +446,137 @@ const SourceWeekDetails = () => {
         </Box>
 
         <Box className={`lcPart meetingPart`}>
-          <Typography variant="h6">{t('global.livingPart')}</Typography>
+          <Typography variant="h6">{t('livingPart')}</Typography>
         </Box>
         <Box sx={{ marginTop: '20px' }}>
           <SongsList songPart={2} song={SongMiddle} setSongMiddle={(value) => setSongMiddle(value)} />
         </Box>
         <Box sx={{ margin: '20px 0' }}>
           <Box sx={sharedStyles.ayfStuPart}>
-            <Typography variant="body1" sx={sharedStyles.partHeader}>
-              {t('global.ayfPart1')}
-            </Typography>
+            <LCPartHeading
+              label={t('ayfPart1')}
+              overrideChecked={isOverrideLCPart1}
+              setOverrideChecked={(value) => setIsOverrideLCPart1(value)}
+            />
+
             <Box sx={sharedStyles.lcPartInfo}>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: '15px', flexWrap: 'wrap' }}>
-                <LCPartDuration lc={1} lcTime={LCPart1Time} setLCPart1Time={(value) => setLCPart1Time(value)} />
+              <Box sx={{ display: 'flex', gap: '15px', flexWrap: 'wrap' }}>
+                <PartDuration
+                  isLc={true}
+                  max={isOverrideLCPart1 ? 30 : 15}
+                  lc={1}
+                  assTime={isOverrideLCPart1 ? LCPart1TimeOverride : LCPart1Time}
+                  setLCPart1Time={(value) =>
+                    isOverrideLCPart1 ? setLCPart1TimeOverride(value) : setLCPart1Time(value)
+                  }
+                />
                 <TextField
                   id="outlined-basic"
-                  label={t('global.sourceMaterial')}
+                  label={t('sourceMaterial')}
                   variant="outlined"
                   multiline
                   size="small"
                   sx={sharedStyles.inputLC}
-                  value={LCPart1Src}
-                  onChange={(e) => setLCPart1Src(e.target.value)}
+                  value={isOverrideLCPart1 ? LCPart1SrcOverride : LCPart1Src}
+                  onChange={(e) =>
+                    isOverrideLCPart1 ? setLCPart1SrcOverride(e.target.value) : setLCPart1Src(e.target.value)
+                  }
                 />
               </Box>
               <TextField
                 id="outlined-basic"
-                label={t('sourceMaterial.lcPartDesc')}
+                label={t('lcPartDesc')}
                 variant="outlined"
                 multiline
                 size="small"
                 sx={sharedStyles.inputLC}
-                value={LCPart1Content}
-                onChange={(e) => setLCPart1Content(e.target.value)}
+                value={isOverrideLCPart1 ? LCPart1ContentOverride : LCPart1Content}
+                onChange={(e) =>
+                  isOverrideLCPart1 ? setLCPart1ContentOverride(e.target.value) : setLCPart1Content(e.target.value)
+                }
               />
             </Box>
           </Box>
           <Box sx={sharedStyles.ayfStuPart}>
-            <Typography variant="body1" sx={sharedStyles.partHeader}>
-              {t('global.ayfPart2')}
-            </Typography>
+            <LCPartHeading
+              label={t('ayfPart2')}
+              overrideChecked={isOverrideLCPart2}
+              setOverrideChecked={(value) => setIsOverrideLCPart2(value)}
+            />
             <Box sx={sharedStyles.lcPartInfo}>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: '15px', flexWrap: 'wrap' }}>
-                <LCPartDuration lc={2} lcTime={LCPart2Time} setLCPart2Time={(value) => setLCPart2Time(value)} />
+              <Box sx={{ display: 'flex', gap: '15px', flexWrap: 'wrap' }}>
+                <PartDuration
+                  isLc={true}
+                  max={isOverrideLCPart2 ? 30 : 15}
+                  lc={2}
+                  assTime={isOverrideLCPart2 ? LCPart2TimeOverride : LCPart2Time}
+                  setLCPart2Time={(value) =>
+                    isOverrideLCPart2 ? setLCPart2TimeOverride(value) : setLCPart2Time(value)
+                  }
+                />
                 <TextField
                   id="outlined-lc-part-2"
-                  label={t('global.sourceMaterial')}
+                  label={t('sourceMaterial')}
                   variant="outlined"
                   multiline
                   size="small"
                   sx={sharedStyles.inputLC}
-                  value={LCPart2Src}
-                  onChange={(e) => setLCPart2Src(e.target.value)}
+                  value={isOverrideLCPart2 ? LCPart2SrcOverride : LCPart2Src}
+                  onChange={(e) =>
+                    isOverrideLCPart2 ? setLCPart2SrcOverride(e.target.value) : setLCPart2Src(e.target.value)
+                  }
                 />
               </Box>
               <TextField
                 id="outlined-basic"
-                label={t('sourceMaterial.lcPartDesc')}
+                label={t('lcPartDesc')}
                 variant="outlined"
                 multiline
                 size="small"
                 sx={sharedStyles.inputLC}
-                value={LCPart2Content}
-                onChange={(e) => setLCPart2Content(e.target.value)}
+                value={isOverrideLCPart2 ? LCPart2ContentOverride : LCPart2Content}
+                onChange={(e) =>
+                  isOverrideLCPart2 ? setLCPart2ContentOverride(e.target.value) : setLCPart2Content(e.target.value)
+                }
               />
             </Box>
           </Box>
-          <TextField
-            id="outlined-cbs"
-            label={t('global.cbs')}
-            variant="outlined"
-            size="small"
-            value={CBSSrc}
-            sx={{ marginTop: '20px', width: '100%' }}
-            onChange={(e) => setCBSSrc(e.target.value)}
-          />
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '15px', marginTop: '25px' }}>
+            {(isOverrideLCPart1 || isOverrideLCPart2) && (
+              <PartDuration
+                max={30}
+                cbs={true}
+                assTime={CBSTimeOverride}
+                setCBSTime={(value) => setCBSTimeOverride(value)}
+              />
+            )}
+
+            <TextField
+              id="outlined-cbs"
+              label={t('cbs')}
+              variant="outlined"
+              size="small"
+              value={CBSSrc}
+              sx={{ flexGrow: 1 }}
+              onChange={(e) => setCBSSrc(e.target.value)}
+            />
+          </Box>
+
           <Box sx={{ marginTop: '30px' }}>
-            <SongsList songPart={3} song={SongConclude} setSongConclude={(value) => setSongConclude(value)} />
+            {!isNaN(SongConclude) && (
+              <SongsList songPart={3} song={SongConclude} setSongConclude={(value) => setSongConclude(value)} />
+            )}
+            {isNaN(SongConclude) && (
+              <TextField
+                id="outlined-song-conlude"
+                label={t('song')}
+                variant="outlined"
+                size="small"
+                value={SongConclude}
+                sx={{ width: '100%' }}
+                onChange={(value) => setSongConclude(value)}
+              />
+            )}
           </Box>
         </Box>
       </Box>

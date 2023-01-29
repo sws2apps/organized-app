@@ -29,7 +29,7 @@ const sharedStyles = {
 };
 
 const ImportEPUB = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
   const [open, setOpen] = useRecoilState(isImportEPUBState);
   const [fileEPUB, setFileEPUB] = useRecoilState(epubFileState);
@@ -70,14 +70,14 @@ const ImportEPUB = () => {
       {open && (
         <Dialog open={open} onClose={handleDlgClose}>
           <DialogTitle>
-            <Typography sx={{ lineHeight: 1.2, fontSize: '13px' }}>{t('sourceMaterial.importEPUBTitle')}</Typography>
+            <Typography sx={{ lineHeight: 1.2, fontSize: '13px' }}>{t('importEPUBTitle')}</Typography>
           </DialogTitle>
           <DialogContent>
             {!isLoading && !isValid && (
               <Container sx={sharedStyles.epubLoad}>
                 <ErrorIcon color="error" sx={{ fontSize: '80px' }} />
                 <Typography variant="body1" align="center">
-                  {t('importEPUB.invalid')}
+                  {t('epubInvalid')}
                 </Typography>
               </Container>
             )}
@@ -87,7 +87,7 @@ const ImportEPUB = () => {
                   <>
                     <CircularProgress color="secondary" size={'70px'} disableShrink />
                     <Typography variant="body1" align="center" sx={sharedStyles.textCircular}>
-                      {t('global.pleaseWait')}
+                      {t('pleaseWait')}
                     </Typography>
                   </>
                 )}
@@ -95,7 +95,7 @@ const ImportEPUB = () => {
                   <>
                     <CheckCircleIcon color="success" sx={{ fontSize: '100px' }} />
                     <Typography variant="body1" align="center" sx={sharedStyles.textCircular}>
-                      {t('sourceMaterial.importCompleted')}
+                      {t('importCompleted')}
                     </Typography>
                   </>
                 )}

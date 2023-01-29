@@ -65,7 +65,7 @@ const ElevationScroll = (props) => {
 const NavBar = (props) => {
   const { enabledInstall, isLoading, installPwa } = props;
 
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
   const navigate = useNavigate();
   const theme = useTheme();
 
@@ -199,7 +199,7 @@ const NavBar = (props) => {
               {!isLoading && enabledInstall && (
                 <IconButton color="inherit" edge="start" sx={sharedStyles.menuIcon} onClick={() => installPwa()}>
                   <GetApp />
-                  {mdUp && <Typography sx={{ marginLeft: '5px' }}>{t('global.install')}</Typography>}
+                  {mdUp && <Typography sx={{ marginLeft: '5px' }}>{t('install')}</Typography>}
                 </IconButton>
               )}
 
@@ -283,7 +283,7 @@ const NavBar = (props) => {
                         <ListItemIcon>
                           <KeyIcon fontSize="medium" sx={{ color: '#DC7633' }} />
                         </ListItemIcon>
-                        <ListItemText>{t('global.useOnlineAccount')}</ListItemText>
+                        <ListItemText>{t('useOnlineAccount')}</ListItemText>
                       </MenuItem>
                     )}
 
@@ -292,7 +292,7 @@ const NavBar = (props) => {
                         <ListItemIcon>
                           <AdminPanelSettingsIcon fontSize="medium" color="primary" />
                         </ListItemIcon>
-                        <ListItemText>{t('global.myUserProfile')}</ListItemText>
+                        <ListItemText>{t('myUserProfile')}</ListItemText>
                       </MenuItem>
                     )}
 
@@ -300,13 +300,13 @@ const NavBar = (props) => {
                       <ListItemIcon>
                         <InfoIcon fontSize="medium" sx={{ color: '#3498DB' }} />
                       </ListItemIcon>
-                      <ListItemText>{t('global.about')}</ListItemText>
+                      <ListItemText>{t('about')}</ListItemText>
                     </MenuItem>
                     <MenuItem onClick={handleLogout}>
                       <ListItemIcon>
                         <PowerSettingsNewIcon fontSize="medium" sx={{ color: '#E74C3C' }} />
                       </ListItemIcon>
-                      <ListItemText>{t('global.quit')}</ListItemText>
+                      <ListItemText>{t('quit')}</ListItemText>
                     </MenuItem>
                     {!mdUp && (
                       <MenuItem disabled={true} sx={{ opacity: '1 !important' }}>

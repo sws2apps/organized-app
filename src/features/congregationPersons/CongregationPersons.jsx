@@ -12,7 +12,7 @@ import { congIDState } from '../../states/congregation';
 import CongregationPersonsGroup from './CongregationPersonsGroup';
 
 const CongregationPersons = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
   const cancel = useRef();
 
@@ -66,7 +66,7 @@ const CongregationPersons = () => {
         const obj = {
           global_role: key,
           persons: tempData1[key],
-          label: key === 'vip' ? t('administration.vipUsersHeading') : t('administration.pocketUsersHeading'),
+          label: key === 'vip' ? t('vipUsersHeading') : t('pocketUsersHeading'),
         };
 
         tempData2.push(obj);

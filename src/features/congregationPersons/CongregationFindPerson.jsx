@@ -17,7 +17,7 @@ import { congIDState } from '../../states/congregation';
 const CongregationFindPerson = ({ setMember }) => {
   const cancel = useRef();
 
-  const { t } = useTranslation();
+  const { t } = useTranslation('ui');
 
   const setAppSnackOpen = useSetRecoilState(appSnackOpenState);
   const setAppSeverity = useSetRecoilState(appSeverityState);
@@ -99,7 +99,7 @@ const CongregationFindPerson = ({ setMember }) => {
           <PersonSearchIcon color="primary" sx={{ fontSize: '40px', marginRight: '10px' }} />
           <TextField
             id="email-standard-basic"
-            label={t('login.email')}
+            label={t('email')}
             variant="standard"
             sx={{ minWidth: '350px' }}
             autoComplete="off"
@@ -142,7 +142,7 @@ const CongregationFindPerson = ({ setMember }) => {
               >
                 <DoNotTouchIcon color="error" sx={{ fontSize: '50px' }} />
               </Box>
-              <Typography align="center">{t('administration.accountNotFound')}</Typography>
+              <Typography align="center">{t('accountNotFound')}</Typography>
             </Box>
           )}
           {result.message === 'ALREADY_MEMBER' && (
@@ -156,7 +156,7 @@ const CongregationFindPerson = ({ setMember }) => {
               >
                 <AccountCircleIcon color="primary" sx={{ fontSize: '50px' }} />
               </Box>
-              <Typography align="center">{t('administration.accountExist')}</Typography>
+              <Typography align="center">{t('accountExist')}</Typography>
             </Box>
           )}
         </Box>
