@@ -230,7 +230,14 @@ const SourceWeekDetails = () => {
         setLCPart1SrcOverride(data.lcPart1_src_override);
         setLCPart1Content(data.lcPart1_content);
         setLCPart1ContentOverride(data.lcPart1_content_override);
-        setIsOverrideLCPart2(data.lcPart2_time_override !== '');
+        if (data.lcPart2_time_override) {
+          setIsOverrideLCPart2(data.lcPart2_time_override !== '');
+        } else {
+          if (data.lcCount_override < data.lcCount) {
+            setIsOverrideLCPart2(true);
+          }
+        }
+
         setLCPart2Time(data.lcPart2_time);
         setLCPart2TimeOverride(data.lcPart2_time_override);
         setLCPart2Src(data.lcPart2_src);
