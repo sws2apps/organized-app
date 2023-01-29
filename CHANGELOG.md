@@ -1,3 +1,10 @@
+## [2.24.5](https://github.com/sws2apps/lmm-oa-sws/compare/v2.24.4...v2.24.5) (2023-01-29)
+
+
+### Bug Fixes
+
+* **schedules:** update schedules to be sent to pocket and vip users ([accdff8](https://github.com/sws2apps/lmm-oa-sws/commit/accdff8ffc580ac606b00fffe3002d4ce5307fcd))
+
 ## [2.24.4](https://github.com/sws2apps/lmm-oa-sws/compare/v2.24.3...v2.24.4) (2023-01-29)
 
 
