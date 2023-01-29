@@ -855,11 +855,17 @@ export const dbGetScheduleForPrint = async (scheduleName) => {
 
     if (scheduleData.week_type === 1) {
       // normal - cbs
-      if (sourceData.lcCount === 1) {
-        time.cbs = time.lc2;
-      } else {
-        if (sourceData.lcPart2_time_override) {
+      if (sourceData.lcCount_override) {
+        if (sourceData.lcCount_override === 1) {
+          time.cbs = time.lc2;
+        } else {
           time.cbs = addMinutes(time.lc2, sourceData.lcPart2_time_override);
+        }
+      }
+
+      if (sourceData.lcCount_override === undefined) {
+        if (sourceData.lcCount === 1) {
+          time.cbs = time.lc2;
         } else {
           time.cbs = addMinutes(time.lc2, sourceData.lcPart2_time);
         }
