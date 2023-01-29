@@ -346,14 +346,24 @@ const ScheduleAssignment = ({ edit }) => {
       setAss4A(scheduleData.ass4_ass_A_dispName);
       setStu4B(scheduleData.ass4_stu_B_dispName);
       setAss4B(scheduleData.ass4_ass_B_dispName);
-      setLcCount(sourceData.lcCount);
-      setLcPart1Time(sourceData.lcPart1_time);
-      setLcPart1Src(sourceData.lcPart1_src);
-      setLcPart1Content(sourceData.lcPart1_content);
+      if (sourceData.lcCount_override) {
+        setLcCount(sourceData.lcCount_override);
+        setLcPart1Time(sourceData.lcPart1_time_override);
+        setLcPart1Src(sourceData.lcPart1_src_override);
+        setLcPart1Content(sourceData.lcPart1_content_override);
+        setLcPart2Time(sourceData.lcPart2_time_override);
+        setLcPart2Src(sourceData.lcPart2_src_override);
+        setLcPart2Content(sourceData.lcPart2_content_override);
+      } else {
+        setLcCount(sourceData.lcCount);
+        setLcPart1Time(sourceData.lcPart1_time);
+        setLcPart1Src(sourceData.lcPart1_src);
+        setLcPart1Content(sourceData.lcPart1_content);
+        setLcPart2Time(sourceData.lcPart2_time);
+        setLcPart2Src(sourceData.lcPart2_src);
+        setLcPart2Content(sourceData.lcPart2_content);
+      }
       setLcPart1(scheduleData.lc_part1_dispName);
-      setLcPart2Time(sourceData.lcPart2_time);
-      setLcPart2Src(sourceData.lcPart2_src);
-      setLcPart2Content(sourceData.lcPart2_content);
       setLcPart2(scheduleData.lc_part2_dispName);
       setCbsSrc(sourceData.cbs_src);
       setCbsConductor(scheduleData.cbs_conductor_dispName);
