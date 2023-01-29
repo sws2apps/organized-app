@@ -171,6 +171,8 @@ export const dbGetSourceMaterialPocket = async (weekOf) => {
   obj.ass4_src = appData.ass4_src;
 
   obj.songMiddle_src = appData.songMiddle_src;
+  obj.lcCount = appData.lcCount;
+  obj.lcCount_override = appData.lcCount_override;
   obj.lcPart1_time = appData.lcPart1_time;
   obj.lcPart1_time_override = appData.lcPart1_time_override;
   obj.lcPart1_src = appData.lcPart1_src;

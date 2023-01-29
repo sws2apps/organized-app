@@ -281,7 +281,7 @@ export const dbBuildSchedulesListForShare = async () => {
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth();
 
-  const finalList = { label: t('selectAll'), value: 'sched', children: [] };
+  const finalList = { label: t('selectAll', { ns: 'ui' }), value: 'sched', children: [] };
   for (const year of years) {
     const yearValue = +year.value;
 

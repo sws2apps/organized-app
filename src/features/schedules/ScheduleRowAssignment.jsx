@@ -121,35 +121,42 @@ const ScheduleRowAssignment = ({
       </Box>
       {(!assType || (assType && assType !== 105 && assType !== 106 && assType !== 107 && assType !== 117)) && (
         <Box sx={getPersonStyle()}>
-          <SingleAssignment
-            ayf={ayf}
-            edit={edit}
-            isAssign={isAssignA}
-            person={personA}
-            loadStudentPicker={loadStudentPickerA}
-            isAssignAssistant={isAssignAssistantA}
-            assistant={assistantA}
-            loadStudentAyfPicker={loadStudentAyfPicker}
-            assType={assType}
-            assTypeName={assTypeName}
-            studentID={studentAID}
-            assistantID={assistantAID}
-          />
-          {((student && classCount === 2) || cbs) && (
+          {(edit || personA) && (
             <SingleAssignment
               ayf={ayf}
               edit={edit}
-              isAssign={isAssignB}
-              person={personB}
-              loadStudentPicker={loadStudentPickerB}
-              isAssignAssistant={isAssignAssistantB}
-              assistant={assistantB}
+              isAssign={isAssignA}
+              person={personA}
+              loadStudentPicker={loadStudentPickerA}
+              isAssignAssistant={isAssignAssistantA}
+              assistant={assistantA}
               loadStudentAyfPicker={loadStudentAyfPicker}
               assType={assType}
               assTypeName={assTypeName}
-              studentID={studentBID}
-              assistantID={assistantBID}
+              studentID={studentAID}
+              assistantID={assistantAID}
             />
+          )}
+
+          {((student && classCount === 2) || cbs) && (
+            <>
+              {(edit || personB) && (
+                <SingleAssignment
+                  ayf={ayf}
+                  edit={edit}
+                  isAssign={isAssignB}
+                  person={personB}
+                  loadStudentPicker={loadStudentPickerB}
+                  isAssignAssistant={isAssignAssistantB}
+                  assistant={assistantB}
+                  loadStudentAyfPicker={loadStudentAyfPicker}
+                  assType={assType}
+                  assTypeName={assTypeName}
+                  studentID={studentBID}
+                  assistantID={assistantBID}
+                />
+              )}
+            </>
           )}
         </Box>
       )}
