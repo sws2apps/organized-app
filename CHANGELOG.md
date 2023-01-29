@@ -1,3 +1,10 @@
+## [2.24.3](https://github.com/sws2apps/lmm-oa-sws/compare/v2.24.2...v2.24.3) (2023-01-29)
+
+
+### Bug Fixes
+
+* **pages:** fix timing in S-140 when overriding parts ([543891f](https://github.com/sws2apps/lmm-oa-sws/commit/543891f25c7102220edf9e5e1001b32a315ac236))
+
 ## [2.24.2](https://github.com/sws2apps/lmm-oa-sws/compare/v2.24.1...v2.24.2) (2023-01-29)
 
 
