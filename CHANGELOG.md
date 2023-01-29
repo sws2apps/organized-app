@@ -1,3 +1,10 @@
+## [2.24.1](https://github.com/sws2apps/lmm-oa-sws/compare/v2.24.0...v2.24.1) (2023-01-29)
+
+
+### Bug Fixes
+
+* **source-material:** fix override not populated for part 2 ([f9873ec](https://github.com/sws2apps/lmm-oa-sws/commit/f9873ec482aaa8245ee68a89b917bb54b40f4af7))
+
 # [2.24.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.23.0...v2.24.0) (2023-01-29)
 
 
