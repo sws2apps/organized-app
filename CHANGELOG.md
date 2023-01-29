@@ -1,3 +1,14 @@
+# [2.24.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.23.0...v2.24.0) (2023-01-29)
+
+
+### Features
+
+* **app:** code refactoring with some minor changes ([e553447](https://github.com/sws2apps/lmm-oa-sws/commit/e55344761455ac165c0ed247fc662439bf0dcb2f))
+* **deps:** bump @mui/lab from 5.0.0-alpha.116 to 5.0.0-alpha.117 ([e16702b](https://github.com/sws2apps/lmm-oa-sws/commit/e16702b58561b261b4b89b7802d9911d591c6a94))
+* **deps:** bump @mui/material from 5.11.5 to 5.11.6 ([3ba6ea2](https://github.com/sws2apps/lmm-oa-sws/commit/3ba6ea243026402a542d4e4caa1cfd613e60351c))
+* **deps:** bump @tanstack/react-query from 4.22.4 to 4.23.0 ([a0201cc](https://github.com/sws2apps/lmm-oa-sws/commit/a0201cc58c14dff82e6f375ae094f8fce80267dc))
+* **deps:** bump dexie from 3.2.2 to 3.2.3 ([48f4f78](https://github.com/sws2apps/lmm-oa-sws/commit/48f4f7808296cf9d5da32c56a206d3bead879694))
+
 # [2.23.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.22.0...v2.23.0) (2023-01-23)
 
 
