@@ -532,14 +532,16 @@ export const dbRefreshStudentHistory = async (varPrev, varNew) => {
       varPers = varNew;
     }
 
-    if ((typeof varPers !== 'undefined') & (varPers !== '')) {
+    if (varPers) {
       const student = await dbGetStudentDetails(varPers);
-
       if (student) {
         const stuAssignment = await dbLastAssignment(varPers);
-
         const obj = {};
         obj.lastAssignment = stuAssignment;
+        obj.changes = student.changes || [];
+        const findIndex = obj.changes.findIndex((item) => item.field === 'lastAssignment');
+        if (findIndex !== -1) obj.changes.splice(findIndex, 1);
+        obj.changes.push({ date: new Date().toISOString(), field: 'lastAssignment', value: stuAssignment });
         await appDb.table('persons').update(student.id, { ...obj });
 
         const students = await dbGetStudentsMini();

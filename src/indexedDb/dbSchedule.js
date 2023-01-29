@@ -231,7 +231,14 @@ export const dbCountAssignmentsInfo = async (week) => {
   }
 
   // LC Part 2
-  if (sourceData.lcCount === 2) {
+  let cnLC2 = false;
+  if (sourceData.lcCount_override === undefined && sourceData.lcCount === 2) {
+    cnLC2 = true;
+  }
+  if (sourceData.lcCount_override !== undefined && sourceData.lcCount_override === 2) {
+    cnLC2 = true;
+  }
+  if (cnLC2) {
     assTotal = assTotal + 1;
 
     if (schedData.lc_part2 && schedData.lc_part2 !== '') {

@@ -143,7 +143,15 @@ const AutofillSchedule = () => {
         }
 
         // Assign LC Part 2
-        if (sourceData.lcCount === 2) {
+        let isAssignLC2 = false;
+        if (sourceData.lcCount_override === undefined && sourceData.lcCount === 2) {
+          isAssignLC2 = true;
+        }
+        if (sourceData.lcCount_override !== undefined && sourceData.lcCount_override === 2) {
+          isAssignLC2 = true;
+        }
+
+        if (isAssignLC2) {
           students = await dbGetPersonsByAssType(114);
           if (students.length > 0) {
             const lcPart2 = students[0].person_uid;
