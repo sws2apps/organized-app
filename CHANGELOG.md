@@ -1,3 +1,10 @@
+## [2.25.1](https://github.com/sws2apps/lmm-oa-sws/compare/v2.25.0...v2.25.1) (2023-01-30)
+
+
+### Bug Fixes
+
+* **startup:** fix wrong translation ids on app startup ([54a1ddf](https://github.com/sws2apps/lmm-oa-sws/commit/54a1ddf11efe08a50e653ea32a464ff457f31995))
+
 # [2.25.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.24.5...v2.25.0) (2023-01-30)
 
 
