@@ -1,3 +1,16 @@
+# [2.25.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.24.5...v2.25.0) (2023-01-30)
+
+
+### Bug Fixes
+
+* **source-materials:** fix issue where single override is not working ([dcd6192](https://github.com/sws2apps/lmm-oa-sws/commit/dcd61924b322f3402ec11df8fb3cf7e57e23ce48))
+
+
+### Features
+
+* **deps:** bump @mui/x-date-pickers from 5.0.15 to 5.0.16 ([e7c6df4](https://github.com/sws2apps/lmm-oa-sws/commit/e7c6df45e465c1eb244990d51835b961f41fb602))
+* **deps:** bump react-router-dom from 6.7.0 to 6.8.0 ([13925a0](https://github.com/sws2apps/lmm-oa-sws/commit/13925a009ba61ac0beadf9ade3476f7462a3b281))
+
 ## [2.24.5](https://github.com/sws2apps/lmm-oa-sws/compare/v2.24.4...v2.24.5) (2023-01-29)
 
 
