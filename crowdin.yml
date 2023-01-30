@@ -3,5 +3,5 @@
 "commit_message": "[skip ci]"
 
 files:
-  - source: /src/locales/e/*.json
+  - source: /src/locales/en/*.json
     translation: /src/locales/%locale%/%original_file_name%
