@@ -4,4 +4,4 @@
 
 files:
   - source: /src/locales/e/*.json
-    translation: /src/locales/%two_letters_code%/%original_file_name%
+    translation: /src/locales/%locale%/%original_file_name%
