@@ -46,7 +46,7 @@ const About = () => {
               marginBottom: '15px',
             }}
           >
-            {t('about.description')}
+            {t('description')}
           </Typography>
           <Box
             sx={{
