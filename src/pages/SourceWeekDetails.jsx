@@ -117,7 +117,12 @@ const SourceWeekDetails = () => {
     let lcCount = 0;
     if (isOverrideLCPart1 || isOverrideLCPart2) {
       // check timing first
-      const timeOverride = +LCPart1TimeOverride + +LCPart2TimeOverride + +CBSTimeOverride;
+      let timeOverride = 0;
+      if (isOverrideLCPart1) timeOverride += +LCPart1TimeOverride;
+      if (!isOverrideLCPart1) timeOverride += +LCPart1Time;
+      if (isOverrideLCPart2) timeOverride += +LCPart2TimeOverride;
+      if (!isOverrideLCPart2) timeOverride += +LCPart2Time;
+      timeOverride += +CBSTimeOverride;
       if (timeOverride !== 45) {
         setAppSnackOpen(true);
         setAppSeverity('warning');
@@ -125,16 +130,18 @@ const SourceWeekDetails = () => {
         return;
       }
 
-      if (LCPart1TimeOverride !== '') lcCount++;
-      if (LCPart2TimeOverride !== '') lcCount++;
+      if (isOverrideLCPart1) lcCount++;
+      if (!isOverrideLCPart1 && LCPart1Src !== '') lcCount++;
+      if (isOverrideLCPart2) lcCount++;
+      if (!isOverrideLCPart2 && LCPart2Src !== '') lcCount++;
 
       obj.lcCount_override = lcCount;
       obj.lcPart1_time_override = LCPart1TimeOverride === '' ? undefined : +LCPart1TimeOverride;
-      obj.lcPart1_src_override = LCPart1SrcOverride;
-      obj.lcPart1_content_override = LCPart1ContentOverride;
+      obj.lcPart1_src_override = LCPart1SrcOverride === '' ? undefined : LCPart1SrcOverride;
+      obj.lcPart1_content_override = LCPart1ContentOverride === '' ? undefined : LCPart1ContentOverride;
       obj.lcPart2_time_override = LCPart2TimeOverride === '' ? undefined : +LCPart2TimeOverride;
-      obj.lcPart2_src_override = LCPart2SrcOverride;
-      obj.lcPart2_content_override = LCPart2ContentOverride;
+      obj.lcPart2_src_override = LCPart2SrcOverride === '' ? undefined : LCPart2SrcOverride;
+      obj.lcPart2_content_override = LCPart2ContentOverride === '' ? undefined : LCPart2ContentOverride;
       obj.cbs_time_override = CBSTimeOverride === '' ? undefined : +CBSTimeOverride;
     }
 
