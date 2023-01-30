@@ -7,9 +7,9 @@ const resources = {};
 // programatically load all locales
 for await (const language of LANGUAGE_LIST) {
   // load ui namespace
-  const ui = await import(`./locales/ui/${language.code}.json`).then((module) => module.default);
+  const ui = await import(`./locales/${language.code}/ui.json`).then((module) => module.default);
   // load source namespace
-  const source = await import(`./locales/source/${language.code}.json`).then((module) => module.default);
+  const source = await import(`./locales/${language.code}/source.json`).then((module) => module.default);
 
   resources[language.code] = {
     ui,

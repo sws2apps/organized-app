@@ -147,7 +147,7 @@ const BasicSettings = () => {
           <TextField
             id="outlined-select-day"
             select
-            label={t('startup.meetingDay')}
+            label={t('meetingDay')}
             value={tempMeetingDay}
             defaultValue={3}
             onChange={handleMeetingDayChange}
@@ -174,7 +174,7 @@ const BasicSettings = () => {
           <TextField
             id="outlined-select-class"
             select
-            label={t('startup.classCount')}
+            label={t('classCount')}
             value={tempClassCount}
             defaultValue={1}
             onChange={handleClassChange}

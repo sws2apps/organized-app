@@ -54,39 +54,39 @@ const TermsUse = () => {
   return (
     <Container sx={{ padding: '15px' }}>
       <Typography textAlign="center" variant="h4" sx={{ marginBottom: '15px' }}>
-        {t('startup.welcome')}
+        {t('welcome')}
       </Typography>
       <Box sx={itemQuestion}>
         <HelpIcon sx={{ color: '#3498DB', fontSize: '40px' }} />
-        <Typography sx={itemTextQuestion}>{t('startup.whoUse')}</Typography>
+        <Typography sx={itemTextQuestion}>{t('whoUse')}</Typography>
       </Box>
 
       <Box sx={itemAnswer}>
-        <Typography sx={itemParsAnswer}>{t('startup.whoUseApp')}</Typography>
-        <Typography sx={itemParsAnswer}>{t('startup.disclaimerApp')}</Typography>
+        <Typography sx={itemParsAnswer}>{t('whoUseApp')}</Typography>
+        <Typography sx={itemParsAnswer}>{t('disclaimerApp')}</Typography>
       </Box>
 
       <Box sx={itemQuestion}>
         <InstallDesktopIcon sx={{ color: '#3498DB', fontSize: '40px' }} />
-        <Typography sx={itemTextQuestion}>{t('startup.appPWA')}</Typography>
+        <Typography sx={itemTextQuestion}>{t('appPWA')}</Typography>
       </Box>
 
       <Box sx={itemAnswer}>
         <Typography sx={itemParsAnswer}>
-          <Markup content={t('startup.descPWA')} />
+          <Markup content={t('descPWA')} />
         </Typography>
       </Box>
 
       <Box sx={itemQuestion}>
         <SecurityIcon sx={{ color: '#3498DB', fontSize: '40px' }} />
-        <Typography sx={itemTextQuestion}>{t('startup.appSecure')}</Typography>
+        <Typography sx={itemTextQuestion}>{t('appSecure')}</Typography>
       </Box>
 
       <Box sx={itemAnswer}>
-        <Typography sx={itemParsAnswer}>{t('startup.webChange')}</Typography>
-        <Typography sx={itemParsAnswer}>{t('startup.appStorage')}</Typography>
+        <Typography sx={itemParsAnswer}>{t('webChange')}</Typography>
+        <Typography sx={itemParsAnswer}>{t('appStorage')}</Typography>
         <Typography sx={itemParsAnswer}>
-          <Markup content={t('startup.onlineShare')} />
+          <Markup content={t('onlineShare')} />
         </Typography>
         <Box
           sx={{
@@ -97,32 +97,32 @@ const TermsUse = () => {
           }}
         >
           <ReportIcon sx={{ fontSize: '30px', color: themeOptions.reportIconColor }} />
-          <Typography sx={{ marginLeft: '10px', lineHeight: 1.2 }}>{t('startup.clearBrowserData')}</Typography>
+          <Typography sx={{ marginLeft: '10px', lineHeight: 1.2 }}>{t('clearBrowserData')}</Typography>
         </Box>
       </Box>
 
       <Box sx={itemQuestion}>
         <HttpsIcon sx={{ color: '#3498DB', fontSize: '40px' }} />
-        <Typography sx={itemTextQuestion}>{t('startup.appPrivacy')}</Typography>
+        <Typography sx={itemTextQuestion}>{t('appPrivacy')}</Typography>
       </Box>
 
       <Box sx={itemAnswer}>
         <Typography sx={itemParsAnswer}>
-          <Markup content={t('startup.dataCollection')} />
+          <Markup content={t('dataCollection')} />
         </Typography>
-        <Typography sx={itemParsAnswer}>{t('startup.adBlock')}</Typography>
+        <Typography sx={itemParsAnswer}>{t('adBlock')}</Typography>
       </Box>
       <FormControlLabel
         control={
           <Checkbox id="checkContinue" checked={readComplete} onChange={(e) => setReadComplete(e.target.checked)} />
         }
-        label={<Typography sx={{ lineHeight: 1.2 }}>{t('startup.readComplete')}</Typography>}
+        label={<Typography sx={{ lineHeight: 1.2 }}>{t('readComplete')}</Typography>}
         sx={{
           width: '100%',
         }}
       />
       <Button variant="contained" sx={{ marginTop: '10px' }} disabled={!readComplete} onClick={handleTermsUse}>
-        {t('startup.next')}
+        {t('next')}
       </Button>
     </Container>
   );

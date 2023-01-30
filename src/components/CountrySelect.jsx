@@ -92,7 +92,7 @@ const CountrySelect = ({ setCountry }) => {
       renderInput={(params) => (
         <TextField
           {...params}
-          label={t('statup.selectCountry')}
+          label={t('selectCountry')}
           InputProps={{
             ...params.InputProps,
             startAdornment: <EditLocationIcon sx={{ marginLeft: '5px' }} />,

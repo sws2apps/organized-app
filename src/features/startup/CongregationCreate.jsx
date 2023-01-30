@@ -120,7 +120,7 @@ const CongregationCreate = () => {
           return;
         }
       } else if (status === 404) {
-        setAppMessage(t('statup.congregationExists'));
+        setAppMessage(t('congregationExists'));
         setAppSeverity('warning');
         setAppSnackOpen(true);
       } else {
@@ -151,7 +151,7 @@ const CongregationCreate = () => {
         {isUpdateCong ? t('updateCongregation') : t('createCongregationAccount')}
       </Typography>
 
-      {isUpdateCong && <Typography sx={{ marginBottom: '15px' }}>{t('statup.updateCongregationDesc')}</Typography>}
+      {isUpdateCong && <Typography sx={{ marginBottom: '15px' }}>{t('updateCongregationDesc')}</Typography>}
 
       <Box
         sx={{
