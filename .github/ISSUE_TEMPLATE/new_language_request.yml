@@ -1,0 +1,15 @@
+name: Translation for CPE app
+description: Request a new language to be added to CPE app
+labels: [i18n]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Add an issue title with this format: Language - New Language Request
+  - type: textarea
+    attributes:
+      label: "Enter which type of translation you have made (ui/source/ui&source):"
+      placeholder: |
+        1. Type (ui/source,/ui&source)
+    validations:
+      required: true

@@ -1,5 +1,6 @@
 # Congregation Program for Everyone (CPE)
 
+[![Crowdin](https://badges.crowdin.net/cpe-lmmo/localized.svg)](https://crowdin.com/project/cpe-lmmo)
 [![CD](https://github.com/sws2apps/lmm-oa-sws/actions/workflows/deploy.yml/badge.svg)](https://github.com/sws2apps/lmm-oa-sws/actions/workflows/deploy.yml)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_lmm-oa-sws&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=sws2apps_lmm-oa-sws)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_lmm-oa-sws&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=sws2apps_lmm-oa-sws)
@@ -23,6 +24,10 @@ This module is designed for use by the Life and Ministry Meeting Overseer and hi
 ## What are the device requirements to open CPE?
 
 CPE is a web application, and it is also PWA capable. All devices that have up to date browser, depending on which platform it is running can use this web application.
+
+## CPE Localization
+
+The translation process for CPE app is handled on [Crowdin](https://crowdin.com/project/cpe-lmmo). To help with localization, please read the [TRANSLATION](./TRANSLATION.md) guide.
 
 ## May I contribute?
 
