@@ -1,6 +1,5 @@
-"pull_request_title": "chore(localize): updated translation fron Crowdin"
+"pull_request_title": "chore(localize): updated translation from Crowdin"
 "pull_request_labels": ["crowdin"]
-"commit_message": "[skip ci]"
 
 files:
   - source: /src/locales/en/*.json
