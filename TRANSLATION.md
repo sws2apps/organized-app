@@ -20,4 +20,4 @@ You may decide to translate the `source.json` only to begin with, and if conveni
 
 ### I can't find my language on Crowdin
 
-Please create a [new issue](https://github.com/sws2apps/lmm-oa-sws/issues/new?template=new_language_request.md) in this repo. We would be happy to add the new language so that you can start the translation on Crowdin.
+Please create a [new issue](https://github.com/sws2apps/lmm-oa-sws/issues/new?template=new_language_request.yml) in this repo. We would be happy to add the new language so that you can start the translation on Crowdin.
