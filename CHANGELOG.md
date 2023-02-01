@@ -1,3 +1,18 @@
+# [2.26.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.25.1...v2.26.0) (2023-02-01)
+
+
+### Bug Fixes
+
+* **about:** update translation ids ([ac31b38](https://github.com/sws2apps/lmm-oa-sws/commit/ac31b38cc2daf177625a987d3b97c19a97e82f79))
+* **pages:** fix bug in S-140 template when convention week ([992d30e](https://github.com/sws2apps/lmm-oa-sws/commit/992d30ee7b166570ae328f1096d6f61574d81570))
+
+
+### Features
+
+* **deps:** bump @mui/lab from 5.0.0-alpha.117 to 5.0.0-alpha.118 ([9f3db8b](https://github.com/sws2apps/lmm-oa-sws/commit/9f3db8b67d0fd2363b51ec07bf4bfcc488a774af))
+* **deps:** bump @mui/material from 5.11.6 to 5.11.7 ([3328679](https://github.com/sws2apps/lmm-oa-sws/commit/3328679ac1b2ef6ab37fc4e0bd9130e73175f36e))
+* **deps:** bump @tanstack/react-query from 4.23.0 to 4.24.4 ([fd85601](https://github.com/sws2apps/lmm-oa-sws/commit/fd85601c9a50a8c6bc096888086777df8d19d7f4))
+
 ## [2.25.1](https://github.com/sws2apps/lmm-oa-sws/compare/v2.25.0...v2.25.1) (2023-01-30)
 
 
