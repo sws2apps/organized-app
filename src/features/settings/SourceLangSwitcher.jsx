@@ -4,6 +4,10 @@ import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
+import LanguageIcon from '@mui/icons-material/Language';
+import Link from '@mui/material/Link';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
 import MenuItem from '@mui/material/MenuItem';
 import SaveIcon from '@mui/icons-material/Save';
 import TextField from '@mui/material/TextField';
@@ -26,6 +30,7 @@ const SourceLangSwitcher = () => {
   const listSourceLangs = LANGUAGE_LIST.filter((lang) => lang.isSource === true);
 
   const handleSourceLangChange = (e) => {
+    if (e.target.value === 'not_set') return;
     setTempSourceLang(e.target.value);
   };
 
@@ -64,6 +69,22 @@ const SourceLangSwitcher = () => {
                 {lang.name}
               </MenuItem>
             ))}
+            <MenuItem sx={{ padding: 0, borderTop: '1px outset', marginTop: '10px' }} value="not_set">
+              <Link
+                href="https://github.com/sws2apps/lmm-oa-sws/blob/main/TRANSLATION.md"
+                target="_blank"
+                rel="noopener"
+              >
+                <Box sx={{ padding: '10px 16px', display: 'flex', alignItems: 'center' }}>
+                  <ListItemIcon>
+                    <LanguageIcon fontSize="medium" />
+                  </ListItemIcon>
+                  <ListItemText>
+                    <Typography sx={{ fontSize: '14px' }}>{t('languageMissing')}</Typography>
+                  </ListItemText>
+                </Box>
+              </Link>
+            </MenuItem>
           </TextField>
         </Box>
 

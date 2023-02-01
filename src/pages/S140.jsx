@@ -49,8 +49,8 @@ const S140 = () => {
   };
 
   const getWeekInfoLabel = (weekItem) => {
-    if (weekItem.scheduleData.noMeeting) return t('noMeeting', { lng: sourceLang });
     if (weekItem.scheduleData.week_type !== 1) return weekItem.scheduleData.week_type_name.toUpperCase();
+    if (weekItem.scheduleData.noMeeting) return t('noMeeting', { lng: sourceLang });
     return '';
   };
 
@@ -80,7 +80,11 @@ const S140 = () => {
       weekItem.sourceData[fldType] === 108
     ) {
       let src = weekItem.scheduleData[fldStu];
-      if (weekItem.scheduleData[fldAss] && weekItem.scheduleData[fldAss] !== '') {
+      if (
+        weekItem.scheduleData[fldAss] &&
+        weekItem.scheduleData[fldAss] !== '' &&
+        weekItem.scheduleData[fldAss] !== 'undefined'
+      ) {
         src += `/${weekItem.scheduleData[fldAss]}`;
       }
 
@@ -249,12 +253,16 @@ const S140 = () => {
                         >
                           {`${weekItem.sourceData.weekDate_src} | ${weekItem.sourceData.weeklyBibleReading_src}`}
                         </Typography>
-                        <S140PartMiniLabel
-                          align="right"
-                          label={`${t('chairmanMidweekMeeting', { lng: sourceLang })}:`}
-                          width="180px"
-                        />
-                        <S140AssignedPerson person={weekItem.scheduleData.chairmanMM_A_dispName} />
+                        {!weekItem.scheduleData.noMeeting && (
+                          <>
+                            <S140PartMiniLabel
+                              align="right"
+                              label={`${t('chairmanMidweekMeeting', { lng: sourceLang })}:`}
+                              width="180px"
+                            />
+                            <S140AssignedPerson person={weekItem.scheduleData.chairmanMM_A_dispName} />
+                          </>
+                        )}
                       </Box>
 
                       {/* 2nd row for week type, auxiliary classroom counselor */}
@@ -271,242 +279,250 @@ const S140 = () => {
                         >
                           {getWeekInfoLabel(weekItem)}
                         </Typography>
-                        <S140PartMiniLabel
-                          align="right"
-                          label={classCount === 2 ? `${t('auxClassCounselor', { lng: sourceLang })}:` : ''}
-                          width="180px"
-                        />
-                        <S140AssignedPerson
-                          person={classCount === 2 ? weekItem.scheduleData.chairmanMM_B_dispName : ''}
-                        />
-                      </Box>
-
-                      {/* 3rd row for song, opening prayer */}
-                      <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-                        <S140MeetingTime partTime={weekItem.sourceData.pgmStart} />
-                        <S140MeetingPartText
-                          partType="tgw"
-                          partText={`${t('song', { lng: sourceLang })} ${weekItem.sourceData.songFirst_src}`}
-                        />
-                        <S140PartMiniLabel
-                          align="right"
-                          label={`${t('prayerMidweekMeeting', { lng: sourceLang })}:`}
-                          width="180px"
-                        />
-                        <S140AssignedPerson person={weekItem.scheduleData.opening_prayer_dispName} />
-                      </Box>
-
-                      {/* 4th row for opening comments */}
-                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <S140MeetingTime partTime={weekItem.sourceData.openingComments} />
-                        <S140MeetingPartText
-                          partType="tgw"
-                          partText={t('openingComments', { lng: sourceLang })}
-                          partDuration="1 min."
-                        />
-                        <S140PartMiniLabel width="180px" />
-                        <S140AssignedPerson person="" />
-                      </Box>
-
-                      {!weekItem.scheduleData.noMeeting && weekItem.scheduleData.week_type !== 3 && (
-                        <>
-                          {/* TGW, Classroom heading */}
-                          <S140MeetingPartHeading meetingPart="treasuresPart" topLabel={true} bgColor="#656164" />
-
-                          {/* TGW Talk */}
-                          <Box sx={{ display: 'flex', marginBottom: '2px' }}>
-                            <S140MeetingTime partTime={weekItem.sourceData.tgwTalk} />
-                            <S140MeetingPartText
-                              partType="tgw"
-                              partText={weekItem.sourceData.tgwTalk_src}
-                              partDuration="10 min."
-                            />
-                            <S140PartMiniLabel width="180px" />
-                            <S140AssignedPerson person={weekItem.scheduleData.tgw_talk_dispName} />
-                          </Box>
-
-                          {/* TGW Gems */}
-                          <Box sx={{ display: 'flex', marginBottom: '2px' }}>
-                            <S140MeetingTime partTime={weekItem.sourceData.tgwGems} />
-                            <S140MeetingPartText
-                              partType="tgw"
-                              partText={t('tgwGems', { lng: sourceLang })}
-                              partDuration="10 min."
-                            />
-                            <S140PartMiniLabel width="180px" />
-                            <S140AssignedPerson person={weekItem.scheduleData.tgw_gems_dispName} />
-                          </Box>
-
-                          {/* Bible Reading */}
-                          <Box sx={{ display: 'flex' }}>
-                            <S140MeetingTime partTime={weekItem.sourceData.bibleReading} />
-                            <S140MeetingPartText
-                              partType="tgw"
-                              partText={t('bibleReading', { lng: sourceLang })}
-                              partDuration={t('bibleReadingTime', { lng: sourceLang })}
-                              partMiniLabel={`${t('student', { lng: sourceLang })}:`}
+                        {!weekItem.scheduleData.noMeeting && (
+                          <>
+                            <S140PartMiniLabel
+                              align="right"
+                              label={classCount === 2 ? `${t('auxClassCounselor', { lng: sourceLang })}:` : ''}
+                              width="180px"
                             />
                             <S140AssignedPerson
-                              person={classCount === 1 ? '' : weekItem.scheduleData.bRead_stu_B_dispName}
+                              person={classCount === 2 ? weekItem.scheduleData.chairmanMM_B_dispName : ''}
                             />
-                            <S140AssignedPerson person={weekItem.scheduleData.bRead_stu_A_dispName} />
-                          </Box>
+                          </>
+                        )}
+                      </Box>
 
-                          {/* AYF Heading */}
-                          <S140MeetingPartHeading
-                            meetingPart="applyFieldMinistryPart"
-                            topLabel={true}
-                            bgColor="#a56803"
-                          />
-
-                          {/* AYF Parts */}
-                          {[1, 2, 3, 4].map((index) => {
-                            const fldTypeName = 'ass' + index + '_type_name';
-                            const fldType = 'ass' + index + '_type';
-                            const fldTime = 'ass' + index + '_time';
-                            const fldSrc = 'ass' + index + '_src';
-                            const fldStuA = 'ass' + index + '_stu_A_dispName';
-                            const fldAssA = 'ass' + index + '_ass_A_dispName';
-                            const fldStuB = 'ass' + index + '_stu_B_dispName';
-                            const fldAssB = 'ass' + index + '_ass_B_dispName';
-                            const fldAyfPart = 'ayf' + index;
-
-                            return (
-                              <Box key={`ayf-${index}`}>
-                                {weekItem.sourceData[fldType] !== '' && (
-                                  <Box sx={{ display: 'flex', marginBottom: '2px' }}>
-                                    <S140MeetingTime partTime={weekItem.sourceData[fldAyfPart]} />
-                                    <S140MeetingPartText
-                                      partType="ayf"
-                                      partText={getAYFType(weekItem, fldType, fldSrc, fldTypeName)}
-                                      partDuration={getAYFDuration(weekItem, fldType, fldTime)}
-                                      partMiniLabel={ayfLabel(weekItem, fldType)}
-                                    />
-                                    <S140AssignedPerson
-                                      person={
-                                        classCount === 2 &&
-                                        getAssignedAYFPerson(weekItem, fldType, fldStuB, fldAssB, 'B')
-                                      }
-                                    />
-                                    <S140AssignedPerson
-                                      person={getAssignedAYFPerson(weekItem, fldType, fldStuA, fldAssA, 'A')}
-                                    />
-                                  </Box>
-                                )}
-                              </Box>
-                            );
-                          })}
-
-                          {/* LC Heading */}
-                          <S140MeetingPartHeading meetingPart="livingPart" topLabel={false} bgColor="#942926" />
-
-                          {/* Middle Song */}
-                          <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '2px' }}>
-                            <S140MeetingTime partTime={weekItem.sourceData.middleSong} />
+                      {!weekItem.scheduleData.noMeeting && (
+                        <>
+                          {/* 3rd row for song, opening prayer */}
+                          <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
+                            <S140MeetingTime partTime={weekItem.sourceData.pgmStart} />
                             <S140MeetingPartText
-                              partType="lc"
-                              partText={`${t('song', { lng: sourceLang })} ${weekItem.sourceData.songMiddle_src}`}
+                              partType="tgw"
+                              partText={`${t('song', { lng: sourceLang })} ${weekItem.sourceData.songFirst_src}`}
                             />
-                            <S140PartMiniLabel width="180px" />
-                            <S140AssignedPerson person="" />
-                          </Box>
-
-                          {/* LC Parts */}
-                          {maxLc.map((index) => {
-                            const fldTime = 'lcPart' + index + '_time';
-                            const fldTimeOverride = 'lcPart' + index + '_time_override';
-                            const fldSrc = 'lcPart' + index + '_src';
-                            const fldSrcOverride = 'lcPart' + index + '_src_override';
-                            const fldPers = 'lc_part' + index + '_dispName';
-                            const fldLcPart = 'lc' + index;
-
-                            return (
-                              <Box key={`lc-${index}`}>
-                                {weekItem.sourceData[fldSrc] !== '' && (
-                                  <Box sx={{ display: 'flex', marginBottom: '2px' }}>
-                                    <S140MeetingTime partTime={weekItem.sourceData[fldLcPart]} />
-                                    <S140MeetingPartText
-                                      partType="lc"
-                                      partText={getLCPartSource(weekItem, fldSrc, fldSrcOverride)}
-                                      partDuration={`${getLCPartTime(weekItem, fldTime, fldTimeOverride)} min.`}
-                                    />
-                                    <S140PartMiniLabel width="180px" />
-                                    <S140AssignedPerson person={weekItem.scheduleData[fldPers]} />
-                                  </Box>
-                                )}
-                              </Box>
-                            );
-                          })}
-
-                          {/* When CO visits: Concluding Comments */}
-                          {weekItem.scheduleData.week_type === 2 && (
-                            <>
-                              {/* Concluding Comments */}
-                              <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '2px' }}>
-                                <S140MeetingTime partTime={weekItem.sourceData.concludingComments} />
-                                <S140MeetingPartText
-                                  partType="lc"
-                                  partText={t('concludingComments', { lng: sourceLang })}
-                                  partDuration="3 min."
-                                />
-                                <S140PartMiniLabel width="180px" />
-                                <S140AssignedPerson person={weekItem.scheduleData.chairmanMM_A_dispName} />
-                              </Box>
-
-                              {/* Talk by CO */}
-                              <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '2px' }}>
-                                <S140MeetingTime partTime={weekItem.sourceData.coTalk} />
-                                <S140MeetingPartText
-                                  partType="lc"
-                                  partText={t('coTalk', { lng: sourceLang })}
-                                  partDuration="30 min."
-                                />
-                                <S140PartMiniLabel width="180px" />
-                                <S140AssignedPerson person="" />
-                              </Box>
-                            </>
-                          )}
-
-                          {/* Normal Week */}
-                          {weekItem.scheduleData.week_type === 1 && (
-                            <>
-                              {/* CBS */}
-                              <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '2px' }}>
-                                <S140MeetingTime partTime={weekItem.sourceData.cbs} />
-                                <S140MeetingPartText
-                                  partType="lc"
-                                  partText={t('cbs', { lng: sourceLang })}
-                                  partDuration={`${getCBSTime(weekItem)} min.`}
-                                />
-                                <S140PartMiniLabel align="right" label={cbsLabel(weekItem)} width="180px" />
-                                <S140AssignedPerson person={getAssignedCBS(weekItem)} />
-                              </Box>
-
-                              {/* Concluding Comments */}
-                              <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '2px' }}>
-                                <S140MeetingTime partTime={weekItem.sourceData.concludingComments} />
-                                <S140MeetingPartText
-                                  partType="lc"
-                                  partText={t('concludingComments', { lng: sourceLang })}
-                                  partDuration="3 min."
-                                />
-                                <S140PartMiniLabel width="180px" />
-                                <S140AssignedPerson person={weekItem.scheduleData.chairmanMM_A_dispName} />
-                              </Box>
-                            </>
-                          )}
-
-                          {/* Concluding Song, Prayer */}
-                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            <S140MeetingTime partTime={weekItem.sourceData.pgmEnd} />
-                            <S140MeetingPartText partType="lc" partText={getConcludingSong(weekItem)} />
                             <S140PartMiniLabel
                               align="right"
                               label={`${t('prayerMidweekMeeting', { lng: sourceLang })}:`}
                               width="180px"
                             />
-                            <S140AssignedPerson person={weekItem.scheduleData.closing_prayer_dispName} />
+                            <S140AssignedPerson person={weekItem.scheduleData.opening_prayer_dispName} />
                           </Box>
+
+                          {/* 4th row for opening comments */}
+                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <S140MeetingTime partTime={weekItem.sourceData.openingComments} />
+                            <S140MeetingPartText
+                              partType="tgw"
+                              partText={t('openingComments', { lng: sourceLang })}
+                              partDuration="1 min."
+                            />
+                            <S140PartMiniLabel width="180px" />
+                            <S140AssignedPerson person="" />
+                          </Box>
+
+                          {!weekItem.scheduleData.noMeeting && weekItem.scheduleData.week_type !== 3 && (
+                            <>
+                              {/* TGW, Classroom heading */}
+                              <S140MeetingPartHeading meetingPart="treasuresPart" topLabel={true} bgColor="#656164" />
+
+                              {/* TGW Talk */}
+                              <Box sx={{ display: 'flex', marginBottom: '2px' }}>
+                                <S140MeetingTime partTime={weekItem.sourceData.tgwTalk} />
+                                <S140MeetingPartText
+                                  partType="tgw"
+                                  partText={weekItem.sourceData.tgwTalk_src}
+                                  partDuration="10 min."
+                                />
+                                <S140PartMiniLabel width="180px" />
+                                <S140AssignedPerson person={weekItem.scheduleData.tgw_talk_dispName} />
+                              </Box>
+
+                              {/* TGW Gems */}
+                              <Box sx={{ display: 'flex', marginBottom: '2px' }}>
+                                <S140MeetingTime partTime={weekItem.sourceData.tgwGems} />
+                                <S140MeetingPartText
+                                  partType="tgw"
+                                  partText={t('tgwGems', { lng: sourceLang })}
+                                  partDuration="10 min."
+                                />
+                                <S140PartMiniLabel width="180px" />
+                                <S140AssignedPerson person={weekItem.scheduleData.tgw_gems_dispName} />
+                              </Box>
+
+                              {/* Bible Reading */}
+                              <Box sx={{ display: 'flex' }}>
+                                <S140MeetingTime partTime={weekItem.sourceData.bibleReading} />
+                                <S140MeetingPartText
+                                  partType="tgw"
+                                  partText={t('bibleReading', { lng: sourceLang })}
+                                  partDuration={t('bibleReadingTime', { lng: sourceLang })}
+                                  partMiniLabel={`${t('student', { lng: sourceLang })}:`}
+                                />
+                                <S140AssignedPerson
+                                  person={classCount === 1 ? '' : weekItem.scheduleData.bRead_stu_B_dispName}
+                                />
+                                <S140AssignedPerson person={weekItem.scheduleData.bRead_stu_A_dispName} />
+                              </Box>
+
+                              {/* AYF Heading */}
+                              <S140MeetingPartHeading
+                                meetingPart="applyFieldMinistryPart"
+                                topLabel={true}
+                                bgColor="#a56803"
+                              />
+
+                              {/* AYF Parts */}
+                              {[1, 2, 3, 4].map((index) => {
+                                const fldTypeName = 'ass' + index + '_type_name';
+                                const fldType = 'ass' + index + '_type';
+                                const fldTime = 'ass' + index + '_time';
+                                const fldSrc = 'ass' + index + '_src';
+                                const fldStuA = 'ass' + index + '_stu_A_dispName';
+                                const fldAssA = 'ass' + index + '_ass_A_dispName';
+                                const fldStuB = 'ass' + index + '_stu_B_dispName';
+                                const fldAssB = 'ass' + index + '_ass_B_dispName';
+                                const fldAyfPart = 'ayf' + index;
+
+                                return (
+                                  <Box key={`ayf-${index}`}>
+                                    {weekItem.sourceData[fldType] !== '' && (
+                                      <Box sx={{ display: 'flex', marginBottom: '2px' }}>
+                                        <S140MeetingTime partTime={weekItem.sourceData[fldAyfPart]} />
+                                        <S140MeetingPartText
+                                          partType="ayf"
+                                          partText={getAYFType(weekItem, fldType, fldSrc, fldTypeName)}
+                                          partDuration={getAYFDuration(weekItem, fldType, fldTime)}
+                                          partMiniLabel={ayfLabel(weekItem, fldType)}
+                                        />
+                                        <S140AssignedPerson
+                                          person={
+                                            classCount === 2 &&
+                                            getAssignedAYFPerson(weekItem, fldType, fldStuB, fldAssB, 'B')
+                                          }
+                                        />
+                                        <S140AssignedPerson
+                                          person={getAssignedAYFPerson(weekItem, fldType, fldStuA, fldAssA, 'A')}
+                                        />
+                                      </Box>
+                                    )}
+                                  </Box>
+                                );
+                              })}
+
+                              {/* LC Heading */}
+                              <S140MeetingPartHeading meetingPart="livingPart" topLabel={false} bgColor="#942926" />
+
+                              {/* Middle Song */}
+                              <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '2px' }}>
+                                <S140MeetingTime partTime={weekItem.sourceData.middleSong} />
+                                <S140MeetingPartText
+                                  partType="lc"
+                                  partText={`${t('song', { lng: sourceLang })} ${weekItem.sourceData.songMiddle_src}`}
+                                />
+                                <S140PartMiniLabel width="180px" />
+                                <S140AssignedPerson person="" />
+                              </Box>
+
+                              {/* LC Parts */}
+                              {maxLc.map((index) => {
+                                const fldTime = 'lcPart' + index + '_time';
+                                const fldTimeOverride = 'lcPart' + index + '_time_override';
+                                const fldSrc = 'lcPart' + index + '_src';
+                                const fldSrcOverride = 'lcPart' + index + '_src_override';
+                                const fldPers = 'lc_part' + index + '_dispName';
+                                const fldLcPart = 'lc' + index;
+
+                                return (
+                                  <Box key={`lc-${index}`}>
+                                    {weekItem.sourceData[fldSrc] !== '' && (
+                                      <Box sx={{ display: 'flex', marginBottom: '2px' }}>
+                                        <S140MeetingTime partTime={weekItem.sourceData[fldLcPart]} />
+                                        <S140MeetingPartText
+                                          partType="lc"
+                                          partText={getLCPartSource(weekItem, fldSrc, fldSrcOverride)}
+                                          partDuration={`${getLCPartTime(weekItem, fldTime, fldTimeOverride)} min.`}
+                                        />
+                                        <S140PartMiniLabel width="180px" />
+                                        <S140AssignedPerson person={weekItem.scheduleData[fldPers]} />
+                                      </Box>
+                                    )}
+                                  </Box>
+                                );
+                              })}
+
+                              {/* When CO visits: Concluding Comments */}
+                              {weekItem.scheduleData.week_type === 2 && (
+                                <>
+                                  {/* Concluding Comments */}
+                                  <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '2px' }}>
+                                    <S140MeetingTime partTime={weekItem.sourceData.concludingComments} />
+                                    <S140MeetingPartText
+                                      partType="lc"
+                                      partText={t('concludingComments', { lng: sourceLang })}
+                                      partDuration="3 min."
+                                    />
+                                    <S140PartMiniLabel width="180px" />
+                                    <S140AssignedPerson person={weekItem.scheduleData.chairmanMM_A_dispName} />
+                                  </Box>
+
+                                  {/* Talk by CO */}
+                                  <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '2px' }}>
+                                    <S140MeetingTime partTime={weekItem.sourceData.coTalk} />
+                                    <S140MeetingPartText
+                                      partType="lc"
+                                      partText={t('coTalk', { lng: sourceLang })}
+                                      partDuration="30 min."
+                                    />
+                                    <S140PartMiniLabel width="180px" />
+                                    <S140AssignedPerson person="" />
+                                  </Box>
+                                </>
+                              )}
+
+                              {/* Normal Week */}
+                              {weekItem.scheduleData.week_type === 1 && (
+                                <>
+                                  {/* CBS */}
+                                  <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '2px' }}>
+                                    <S140MeetingTime partTime={weekItem.sourceData.cbs} />
+                                    <S140MeetingPartText
+                                      partType="lc"
+                                      partText={t('cbs', { lng: sourceLang })}
+                                      partDuration={`${getCBSTime(weekItem)} min.`}
+                                    />
+                                    <S140PartMiniLabel align="right" label={cbsLabel(weekItem)} width="180px" />
+                                    <S140AssignedPerson person={getAssignedCBS(weekItem)} />
+                                  </Box>
+
+                                  {/* Concluding Comments */}
+                                  <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '2px' }}>
+                                    <S140MeetingTime partTime={weekItem.sourceData.concludingComments} />
+                                    <S140MeetingPartText
+                                      partType="lc"
+                                      partText={t('concludingComments', { lng: sourceLang })}
+                                      partDuration="3 min."
+                                    />
+                                    <S140PartMiniLabel width="180px" />
+                                    <S140AssignedPerson person={weekItem.scheduleData.chairmanMM_A_dispName} />
+                                  </Box>
+                                </>
+                              )}
+
+                              {/* Concluding Song, Prayer */}
+                              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                <S140MeetingTime partTime={weekItem.sourceData.pgmEnd} />
+                                <S140MeetingPartText partType="lc" partText={getConcludingSong(weekItem)} />
+                                <S140PartMiniLabel
+                                  align="right"
+                                  label={`${t('prayerMidweekMeeting', { lng: sourceLang })}:`}
+                                  width="180px"
+                                />
+                                <S140AssignedPerson person={weekItem.scheduleData.closing_prayer_dispName} />
+                              </Box>
+                            </>
+                          )}
                         </>
                       )}
                     </Box>

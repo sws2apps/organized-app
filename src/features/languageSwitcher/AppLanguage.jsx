@@ -3,7 +3,11 @@ import { useRecoilState } from 'recoil';
 import { getI18n, useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
+import LanguageIcon from '@mui/icons-material/Language';
+import Link from '@mui/material/Link';
+import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -44,6 +48,10 @@ const AppLanguage = () => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleLocalizeOpen = () => {
+    handleClose();
   };
 
   useEffect(() => {
@@ -97,7 +105,7 @@ const AppLanguage = () => {
         anchorEl={anchorEl}
         open={isMenuOpen}
         onClose={handleClose}
-        sx={{ padding: 0 }}
+        sx={{ padding: 0, marginTop: '10px' }}
         MenuListProps={{
           'aria-labelledby': 'basic-button',
         }}
@@ -109,6 +117,18 @@ const AppLanguage = () => {
             </ListItemText>
           </MenuItem>
         ))}
+        <MenuItem sx={{ padding: 0, borderTop: '1px outset', marginTop: '10px' }} onClick={handleLocalizeOpen}>
+          <Link href="https://github.com/sws2apps/lmm-oa-sws/blob/main/TRANSLATION.md" target="_blank" rel="noopener">
+            <Box sx={{ padding: '10px 16px', display: 'flex', alignItems: 'center' }}>
+              <ListItemIcon>
+                <LanguageIcon fontSize="medium" />
+              </ListItemIcon>
+              <ListItemText>
+                <Typography sx={{ fontSize: '14px' }}>{t('languageMissing')}</Typography>
+              </ListItemText>
+            </Box>
+          </Link>
+        </MenuItem>
       </Menu>
     </>
   );
