@@ -10,6 +10,7 @@ import {
   apiHostState,
   isAppClosingState,
   isAppLoadState,
+  isCongAccountCreateState,
   isOnlineState,
   isSetupState,
   isShowTermsUseState,
@@ -39,6 +40,7 @@ const UserSignOut = () => {
   const setUserSignUp = useSetRecoilState(isUserSignUpState);
   const setShowTermsUse = useSetRecoilState(isShowTermsUseState);
   const setOfflineOverrideState = useSetRecoilState(offlineOverrideState);
+  const setIsCongAccountCreateState = useSetRecoilState(isCongAccountCreateState);
 
   const isOnline = useRecoilValue(isOnlineState);
   const apiHost = useRecoilValue(apiHostState);
@@ -82,6 +84,7 @@ const UserSignOut = () => {
       setUserMfaVerify(false);
       setShowTermsUse(false);
       setUserSignUp(false);
+      setIsCongAccountCreateState(false);
       setUserSignIn(true);
       setUserEmail('');
     };
@@ -100,6 +103,7 @@ const UserSignOut = () => {
     isOnline,
     setCongAccountConnectedState,
     setIsAppLoad,
+    setIsCongAccountCreateState,
     setIsSetup,
     setOfflineOverrideState,
     setOpen,
