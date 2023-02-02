@@ -1,3 +1,10 @@
+## [2.26.1](https://github.com/sws2apps/lmm-oa-sws/compare/v2.26.0...v2.26.1) (2023-02-02)
+
+
+### Bug Fixes
+
+* **startup:** signin and congregation create were mixed on logout ([4939e8f](https://github.com/sws2apps/lmm-oa-sws/commit/4939e8f8646bcd7912341972524211ef5e566edc))
+
 # [2.26.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.25.1...v2.26.0) (2023-02-01)
 
 
