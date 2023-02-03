@@ -1,3 +1,17 @@
+# [2.27.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.26.1...v2.27.0) (2023-02-03)
+
+
+### Bug Fixes
+
+* **features:** handle undefined changes when restoring backup ([5370cae](https://github.com/sws2apps/lmm-oa-sws/commit/5370caef827c025b123f9a697d9ec18432ab79a1))
+
+
+### Features
+
+* **deps:** bump @mui/x-date-pickers from 5.0.16 to 5.0.17 ([7f7bf68](https://github.com/sws2apps/lmm-oa-sws/commit/7f7bf68715589cbc3df1cea87eba918a693f6f83))
+* **deps:** bump react-i18next from 12.1.4 to 12.1.5 ([4f97c26](https://github.com/sws2apps/lmm-oa-sws/commit/4f97c26e4fdfd54955b8874b1e48ee4be5b9c03d))
+* **deps:** bump validator from 13.7.0 to 13.9.0 ([f4cc5c9](https://github.com/sws2apps/lmm-oa-sws/commit/f4cc5c9ebf3105795aaa741d65942726a6e37d95))
+
 ## [2.26.1](https://github.com/sws2apps/lmm-oa-sws/compare/v2.26.0...v2.26.1) (2023-02-02)
 
 
