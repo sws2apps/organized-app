@@ -42,7 +42,7 @@
     "qrcode": "^1.5.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-i18next": "^12.1.4",
+    "react-i18next": "^12.1.5",
     "react-router-dom": "^6.8.0",
     "recoil": "^0.7.6",
     "recoil-outside": "^0.1.1",
