@@ -1,3 +1,10 @@
+## [2.27.1](https://github.com/sws2apps/lmm-oa-sws/compare/v2.27.0...v2.27.1) (2023-02-03)
+
+
+### Bug Fixes
+
+* **features:** fix another undefined item when restoring backup ([f54f587](https://github.com/sws2apps/lmm-oa-sws/commit/f54f587993d47038bc4af5a023952c40e9c18fa6))
+
 # [2.27.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.26.1...v2.27.0) (2023-02-03)
 
 
