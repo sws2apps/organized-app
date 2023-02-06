@@ -73,7 +73,7 @@ const S89Selector = ({ setIsGenerating }) => {
 
     let s89Data = [];
 
-    for (const item of finalList) {
+    for await (const item of finalList) {
       const week = item.split('-')[0];
       const assType = item.split('@')[1].split('-')[0];
       const classLabel = item.split('-')[2];

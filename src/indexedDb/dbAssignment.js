@@ -103,7 +103,7 @@ export const dbHistoryAssignment = async () => {
           }
         }
 
-        for (const item of assList) {
+        for await (const item of assList) {
           person.ID = histID;
           person.weekOf = appData[i].weekOf;
           person.weekOfFormatted = dateFormatted;
