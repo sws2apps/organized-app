@@ -132,7 +132,7 @@ const SourceWeekDetails = () => {
 
       if (isOverrideLCPart1) lcCount++;
       if (!isOverrideLCPart1 && LCPart1Src !== '') lcCount++;
-      if (isOverrideLCPart2) lcCount++;
+      if (isOverrideLCPart2 && LCPart2SrcOverride !== '') lcCount++;
       if (!isOverrideLCPart2 && LCPart2Src !== '') lcCount++;
 
       obj.lcCount_override = lcCount;
