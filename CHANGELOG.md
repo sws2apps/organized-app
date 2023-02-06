@@ -1,3 +1,10 @@
+## [2.28.1](https://github.com/sws2apps/lmm-oa-sws/compare/v2.28.0...v2.28.1) (2023-02-06)
+
+
+### Bug Fixes
+
+* **app:** add await for async iteration ([148e385](https://github.com/sws2apps/lmm-oa-sws/commit/148e3857c7045a9b80395a2f4ce7bdcd9d96e9dd))
+
 # [2.28.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.27.1...v2.28.0) (2023-02-06)
 
 
