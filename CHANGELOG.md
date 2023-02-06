@@ -1,3 +1,16 @@
+# [2.28.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.27.1...v2.28.0) (2023-02-06)
+
+
+### Bug Fixes
+
+* **pages:** update count logic in source week details when overriding meeting part ([afa2aff](https://github.com/sws2apps/lmm-oa-sws/commit/afa2aff532b8970a60498ae002e26f2b25bca4b8))
+* **schedules:** add await for asynchronous iteration ([f0c5a4a](https://github.com/sws2apps/lmm-oa-sws/commit/f0c5a4a26cd4b0cfc2d12fef66b873f7b2f894ce))
+
+
+### Features
+
+* **deps:** bump @sws2apps/react-sw-helper from 1.9.0 to 1.10.0 ([fec1244](https://github.com/sws2apps/lmm-oa-sws/commit/fec12448f9fcfbab3b3010fa99600705a91cfc1a))
+
 ## [2.27.1](https://github.com/sws2apps/lmm-oa-sws/compare/v2.27.0...v2.27.1) (2023-02-03)
 
 
