@@ -6,7 +6,7 @@
   "s140StudentAssistant": "Estudante/ajudante:",
   "s140OpeningComments": "Comentários iniciais",
   "s140ConcludingComments": "Comentários finais",
-  "s140CoTalk": "Discurso fornecido pelo Superintendente de Circuito",
+  "s140CoTalk": "Esse discurso será feito pelo superintendente de circuito",
   "s140CbsConductor": "Dirigente",
   "s140CbsReader": "Leitor",
   "name": "Nome",
@@ -42,7 +42,7 @@
   "cbsConductor": "Dirigente",
   "cbsReader": "Leitor",
   "concludingComments": "Comentários finais",
-  "coTalk": "Discurso fornecido pelo Superintendente de Circuito",
+  "coTalk": "Esse discurso será feito pelo superintendente de circuito",
   "auxClass": "Sala B",
   "memorialInvite": "Convite da Celebração"
 }
