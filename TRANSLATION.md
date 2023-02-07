@@ -2,7 +2,7 @@
 
 ## Get started
 
-1. Open [cpe-lmmo](https://crowdin.com/project/cpe-lmmo) Crowdin project
+1. Open [Congregation Program for Everyone](https://crowdin.com/project/cpe-lmmo) project on Crowdin
 2. Find your locale and start translation. Find more details in [guide for volunteer translators](https://support.crowdin.com/for-volunteer-translators/)
 
 All translated and approved content will be pushed to this repo automatically. You don't need to create any PRs with translation.
