@@ -1,3 +1,14 @@
+# [2.29.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.28.1...v2.29.0) (2023-02-08)
+
+
+### Features
+
+* **app:** add support for Portuguese (Brazil) language ([67272ea](https://github.com/sws2apps/lmm-oa-sws/commit/67272eae38f20062df13c5865f7734482b993667))
+* **deps:** bump @mui/lab from 5.0.0-alpha.118 to 5.0.0-alpha.119 ([d9e8d67](https://github.com/sws2apps/lmm-oa-sws/commit/d9e8d675408b1235396b4e529385b8e97b4c0ea4))
+* **deps:** bump @mui/material from 5.11.7 to 5.11.8 ([00a8171](https://github.com/sws2apps/lmm-oa-sws/commit/00a817119e8c8c69cbee81044c64803f5f5f7dbe))
+* **deps:** bump jw-epub-parser from 1.30.0-alpha.7 to 1.30.2 ([36ff51b](https://github.com/sws2apps/lmm-oa-sws/commit/36ff51bb7c77c1da75394922d13f04e44ab512b8))
+* **deps:** bump react-router-dom from 6.8.0 to 6.8.1 ([1ce8a45](https://github.com/sws2apps/lmm-oa-sws/commit/1ce8a454fdccfbc784b4ecf5b8c7665c882aa2f7))
+
 ## [2.28.1](https://github.com/sws2apps/lmm-oa-sws/compare/v2.28.0...v2.28.1) (2023-02-06)
 
 
