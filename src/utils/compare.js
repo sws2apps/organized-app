@@ -50,7 +50,7 @@ export const comparePerson = (source, modified) => {
         });
 
         // check deleted assignment
-        source[key].forEach((original) => {
+        source[key]?.forEach((original) => {
           const findModified = value?.find((item) => item[foundArray.id] === original[foundArray.id]);
           if (!findModified) {
             const findIndex = changes.findIndex(
