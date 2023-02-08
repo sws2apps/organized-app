@@ -330,7 +330,6 @@
   "deleteWeekOnlyLabel": "{{ currentWeek }} only",
   "assistantHistory": "{{ currentStudent }} (Assistant History)",
   "s89NoData": "There is no assignment to be printed for this schedule",
-  "assignmentPart": "Part {{ id }} ({{ time }} min.)",
   "publishPocket": "Share Schedule",
   "publishSelectSchedule": "Select the schedule you want to share:",
   "publishMSC": "Publish schedule to MSC ...",
