@@ -330,7 +330,6 @@
   "deleteWeekOnlyLabel": "{{ currentWeek }} ihany",
   "assistantHistory": "{{ currentStudent }} (Mpanampy efa niaraka taminy)",
   "s89NoData": "Tsy misy anjara azo atao pirinty ao amin’io fandaharana io",
-  "assignmentPart": "Anjara {{ id }} ({{ time }} min.)",
   "publishPocket": "Hizara Fandaharana",
   "publishSelectSchedule": "Safidio ny fandaharana tianao ho alefa:",
   "publishMSC": "Handefa fandaharana -> MSC ...",
