@@ -519,7 +519,7 @@ const updateAssignmentType = async (step) => {
   // handle initial call variation (140-169)
   let codeIndice = 140;
   for (const [key, value] of Object.entries(initCallVariationsObj)) {
-    if (value !== '' && codeIndice < 170) {
+    if (value && value !== '0' && codeIndice < 170) {
       const variations = value.split('|');
       for await (const variation of variations) {
         await appDb.assignment.put(
@@ -544,7 +544,7 @@ const updateAssignmentType = async (step) => {
   // handle return call variation (170-199)
   codeIndice = 170;
   for (const [key, value] of Object.entries(rvVariationsObj)) {
-    if (value !== '' && codeIndice < 200) {
+    if (value && value !== '0' && codeIndice < 200) {
       const variations = value.split('|');
       for await (const variation of variations) {
         await appDb.assignment.put(
