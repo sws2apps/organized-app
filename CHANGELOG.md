@@ -1,3 +1,10 @@
+## [2.29.2](https://github.com/sws2apps/lmm-oa-sws/compare/v2.29.1...v2.29.2) (2023-02-08)
+
+
+### Bug Fixes
+
+* **persons:** fix infinite loading when saving some persons ([2af7a37](https://github.com/sws2apps/lmm-oa-sws/commit/2af7a37653d19c77b0a6d27bc7e986424c66e906))
+
 ## [2.29.1](https://github.com/sws2apps/lmm-oa-sws/compare/v2.29.0...v2.29.1) (2023-02-08)
 
 
