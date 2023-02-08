@@ -458,6 +458,6 @@
   "overridePart": "Substituir",
   "overrideSaveWarning": "Ajuste o tempo das partes em Nossa Vida Cristã, incluindo o Estudo Bíblico de Congregação, antes de salvar. O tempo total deve ser de 45 min.",
   "languageMissing": "Meu idioma não está aqui",
-  "initialCallVariations": "",
-  "returnVisitVariations": ""
+  "initialCallVariations": "Primeira conversa — designação 1|Primeira conversa — designação 2",
+  "returnVisitVariations": "Revisita — designação 1|Revisita — designação 2"
 }
