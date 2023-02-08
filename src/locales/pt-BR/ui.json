@@ -330,7 +330,6 @@
   "deleteWeekOnlyLabel": "Apenas {{ currentWeek }}",
   "assistantHistory": "(Histórico como ajudante) {{ currentStudent }}",
   "s89NoData": "Não existe nenhuma designação para ser impressa para essa programação",
-  "assignmentPart": "Parte {{ id }} ({{ time }} min.)",
   "publishPocket": "Compartilhar programação",
   "publishSelectSchedule": "Selecione a programação que você deseja compartilhar:",
   "publishMSC": "Enviar programação para MSC ...",
