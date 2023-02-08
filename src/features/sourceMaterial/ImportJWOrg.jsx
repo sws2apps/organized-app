@@ -15,6 +15,7 @@ import { appMessageState, appSeverityState, appSnackOpenState } from '../../stat
 import { isImportJWOrgState } from '../../states/sourceMaterial';
 import { apiHostState, isOnlineState, sourceLangState } from '../../states/main';
 import { addJwDataToDb } from '../../utils/epubParser';
+import { displayError } from '../../utils/error';
 
 const sharedStyles = {
   jwLoad: {
@@ -68,6 +69,14 @@ const ImportJWOrg = () => {
           if (res.status === 200) {
             await addJwDataToDb(data);
             setIsLoading(false);
+            return;
+          }
+
+          if (res.status === 404) {
+            setAppMessage(displayError('sourceNotFoundUnavailable'));
+            setAppSeverity('error');
+            setAppSnackOpen(true);
+            setOpen(false);
             return;
           }
 

@@ -13,7 +13,7 @@ import {
   sourceLangState,
   userLocalUidState,
 } from '../states/main';
-import { assTypeListState, assTypeLocalState } from '../states/sourceMaterial';
+import { assTypeLocalState } from '../states/sourceMaterial';
 import { allStudentsState, filteredStudentsState, studentsAssignmentHistoryState } from '../states/persons';
 import { meetingTimeState } from '../states/congregation';
 import { getAssignmentName } from '../utils/app';
@@ -643,11 +643,9 @@ export const dbGetS89WeekList = async (scheduleName) => {
 
 export const dbGetS89ItemData = async (week, assName, classLabel) => {
   const sourceLang = await promiseGetRecoil(sourceLangState);
-  const assTypeList = await promiseGetRecoil(assTypeListState);
 
   let stuFld = '';
   let assFld = '';
-  let assTimeFld = '';
   let assTypeFld = 0;
 
   if (assName === 'bRead') {
@@ -656,22 +654,18 @@ export const dbGetS89ItemData = async (week, assName, classLabel) => {
     stuFld = 'ass1_stu_' + classLabel;
     assFld = 'ass1_ass_' + classLabel;
     assTypeFld = 'ass1_type';
-    assTimeFld = 'ass1_time';
   } else if (assName === 'ass2') {
     stuFld = 'ass2_stu_' + classLabel;
     assFld = 'ass2_ass_' + classLabel;
     assTypeFld = 'ass2_type';
-    assTimeFld = 'ass2_time';
   } else if (assName === 'ass3') {
     stuFld = 'ass3_stu_' + classLabel;
     assFld = 'ass3_ass_' + classLabel;
     assTypeFld = 'ass3_type';
-    assTimeFld = 'ass3_time';
   } else if (assName === 'ass4') {
     stuFld = 'ass4_stu_' + classLabel;
     assFld = 'ass4_ass_' + classLabel;
     assTypeFld = 'ass4_type';
-    assTimeFld = 'ass4_time';
   }
 
   const appSettings = await dbGetAppSettings();
@@ -702,15 +696,11 @@ export const dbGetS89ItemData = async (week, assName, classLabel) => {
   s89Data.isMemorialInvite = false;
 
   if (assName === 'ass1' || assName === 'ass2' || assName === 'ass3' || assName === 'ass4') {
-    const assType = sourceData[assTypeFld];
-    if (
-      assType === 101 ||
-      assType === 102 ||
-      assType === 103 ||
-      assType === 108 ||
-      (assType >= 140 && assType < 170) ||
-      (assType >= 170 && assType < 200)
-    ) {
+    let assType = sourceData[assTypeFld];
+    if (assType >= 140 && assType < 170) assType = 101;
+    if (assType >= 170 && assType < 200) assType = 102;
+
+    if (assType === 101 || assType === 102 || assType === 103 || assType === 108) {
       const assID = scheduleData[assFld];
       if (typeof assID !== 'undefined' && assID !== '') {
         const assInfo = await dbGetStudentDetails(assID);
@@ -718,51 +708,52 @@ export const dbGetS89ItemData = async (week, assName, classLabel) => {
       }
     }
 
-    const ass1Type = sourceData['ass1_type'];
-    const ass2Type = sourceData['ass2_type'];
-    const ass3Type = sourceData['ass3_type'];
-    const ass4Type = sourceData['ass4_type'];
-    const assTime = sourceData[assTimeFld];
+    let ass1Type = sourceData['ass1_type'];
+    if (ass1Type >= 140 && ass1Type < 170) ass1Type = 101;
+    if (ass1Type >= 170 && ass1Type < 200) ass1Type = 102;
 
-    if (
-      assType === 101 ||
-      assType === 108 ||
-      assType === 102 ||
-      (assType >= 140 && assType < 170) ||
-      (assType >= 170 && assType < 200)
-    ) {
-      if (assType === 101 || (assType >= 140 && assType < 170)) s89Data.isInitialCall = true;
+    let ass2Type = sourceData['ass2_type'];
+    if (ass2Type >= 140 && ass2Type < 170) ass2Type = 101;
+    if (ass2Type >= 170 && ass2Type < 200) ass2Type = 102;
+
+    let ass3Type = sourceData['ass3_type'];
+    if (ass3Type >= 140 && ass3Type < 170) ass3Type = 101;
+    if (ass3Type >= 170 && ass3Type < 200) ass3Type = 102;
+
+    let ass4Type = sourceData['ass4_type'];
+    if (ass4Type >= 140 && ass4Type < 170) ass4Type = 101;
+    if (ass4Type >= 170 && ass4Type < 200) ass4Type = 102;
+
+    if (assType === 101 || assType === 108 || assType === 102) {
+      if (assType === 101) s89Data.isInitialCall = true;
       if (assType === 108) s89Data.isMemorialInvite = true;
-      if (assType === 102 || (assType >= 170 && assType < 200)) s89Data.isReturnVisit = true;
+      if (assType === 102) s89Data.isReturnVisit = true;
 
       let fieldSpec = 'initialCallSpec';
-      if (assType === 102 || (assType >= 170 && assType < 200)) fieldSpec = 'returnVisitSpec';
+      if (assType === 102) fieldSpec = 'returnVisitSpec';
+
       if (assName === 'ass1') {
-        if (ass1Type === ass2Type || ass1Type === ass3Type || ass1Type === ass4Type) {
-          const spec = getI18n().t('assignmentPart', { ns: 'ui', id: 1, time: assTime });
-          s89Data[fieldSpec] = spec;
+        if (ass1Type === ass2Type) {
+          s89Data[fieldSpec] = getI18n().t('s89Part1Label', { lng: sourceLang, ns: 'source' });
         }
       } else if (assName === 'ass2') {
-        if (ass2Type === ass1Type || ass2Type === ass3Type || ass2Type === ass4Type) {
-          const spec = getI18n().t('assignmentPart', { ns: 'ui', id: 2, time: assTime });
-          s89Data[fieldSpec] = spec;
+        if (ass2Type === ass1Type) {
+          s89Data[fieldSpec] = getI18n().t('s89Part2Label', { lng: sourceLang, ns: 'source' });
+        }
+        if (ass2Type === ass3Type) {
+          s89Data[fieldSpec] = getI18n().t('s89Part1Label', { lng: sourceLang, ns: 'source' });
         }
       } else if (assName === 'ass3') {
-        if (ass3Type === ass1Type || ass3Type === ass2Type || ass3Type === ass4Type) {
-          const spec = getI18n().t('assignmentPart', { ns: 'ui', id: 3, time: assTime });
-          s89Data[fieldSpec] = spec;
+        if (ass3Type === ass2Type) {
+          s89Data[fieldSpec] = getI18n().t('s89Part2Label', { lng: sourceLang, ns: 'source' });
+        }
+        if (ass3Type === ass4Type) {
+          s89Data[fieldSpec] = getI18n().t('s89Part1Label', { lng: sourceLang, ns: 'source' });
         }
       } else if (assName === 'ass4') {
-        if (ass4Type === ass1Type || ass4Type === ass2Type || ass4Type === ass3Type) {
-          const spec = getI18n().t('assignmentPart', { ns: 'ui', id: 4, time: assTime });
-          s89Data[fieldSpec] = spec;
+        if (ass4Type === ass3Type) {
+          s89Data[fieldSpec] = getI18n().t('s89Part2Label', { lng: sourceLang, ns: 'source' });
         }
-      }
-
-      if ((assType >= 140 && assType < 170) || (assType >= 170 && assType < 200)) {
-        const type =
-          assTypeList.find((type) => type.code === assType).assignment_type_name[sourceLang.toUpperCase()] || '';
-        s89Data[fieldSpec] = type;
       }
     } else if (assType === 103) {
       s89Data.isBibleStudy = true;
