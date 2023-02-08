@@ -1,3 +1,11 @@
+## [2.29.1](https://github.com/sws2apps/lmm-oa-sws/compare/v2.29.0...v2.29.1) (2023-02-08)
+
+
+### Bug Fixes
+
+* **S-89:** update assignment label to better support languages with long translation ([258418d](https://github.com/sws2apps/lmm-oa-sws/commit/258418de95ca4496f69cb556ce847b5077375970))
+* **startup:** always refresh week type on startup ([94424c7](https://github.com/sws2apps/lmm-oa-sws/commit/94424c7307d3ae6f7cea5651a3ab269ce4be52cd))
+
 # [2.29.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.28.1...v2.29.0) (2023-02-08)
 
 
