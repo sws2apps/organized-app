@@ -59,7 +59,9 @@ const S140 = () => {
       weekItem.sourceData[fldType] === 101 ||
       weekItem.sourceData[fldType] === 102 ||
       weekItem.sourceData[fldType] === 103 ||
-      weekItem.sourceData[fldType] === 108
+      weekItem.sourceData[fldType] === 108 ||
+      (weekItem.sourceData[fldType] >= 140 && weekItem.sourceData[fldType] < 170) ||
+      (weekItem.sourceData[fldType] >= 170 && weekItem.sourceData[fldType] < 200)
     ) {
       return t('studentAssistant', { lng: sourceLang });
     }
@@ -77,7 +79,9 @@ const S140 = () => {
       weekItem.sourceData[fldType] === 102 ||
       weekItem.sourceData[fldType] === 103 ||
       weekItem.sourceData[fldType] === 104 ||
-      weekItem.sourceData[fldType] === 108
+      weekItem.sourceData[fldType] === 108 ||
+      (weekItem.sourceData[fldType] >= 140 && weekItem.sourceData[fldType] < 170) ||
+      (weekItem.sourceData[fldType] >= 170 && weekItem.sourceData[fldType] < 200)
     ) {
       let src = weekItem.scheduleData[fldStu];
       if (
@@ -125,7 +129,9 @@ const S140 = () => {
       weekItem.sourceData[fldType] === 102 ||
       weekItem.sourceData[fldType] === 103 ||
       weekItem.sourceData[fldType] === 104 ||
-      weekItem.sourceData[fldType] === 108
+      weekItem.sourceData[fldType] === 108 ||
+      (weekItem.sourceData[fldType] >= 140 && weekItem.sourceData[fldType] < 170) ||
+      (weekItem.sourceData[fldType] >= 170 && weekItem.sourceData[fldType] < 200)
     ) {
       return t('partLessTime', { duration: weekItem.sourceData[fldTime], lng: sourceLang });
     }

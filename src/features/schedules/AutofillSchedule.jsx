@@ -225,7 +225,15 @@ const AutofillSchedule = () => {
           const assType = sourceData[fldType];
 
           // Main Hall
-          if (assType === 101 || assType === 102 || assType === 103 || assType === 104 || assType === 108) {
+          if (
+            assType === 101 ||
+            assType === 102 ||
+            assType === 103 ||
+            assType === 104 ||
+            assType === 108 ||
+            (assType >= 140 && assType < 170) ||
+            (assType >= 170 && assType < 200)
+          ) {
             fldName = 'ass' + a + '_stu_A';
             students = await dbGetPersonsByAssType(assType);
 
@@ -243,7 +251,15 @@ const AutofillSchedule = () => {
             fldName = 'ass' + a + '_stu_B';
             students = await dbGetPersonsByAssType(assType);
 
-            if (assType === 101 || assType === 102 || assType === 103 || assType === 104 || assType === 108) {
+            if (
+              assType === 101 ||
+              assType === 102 ||
+              assType === 103 ||
+              assType === 104 ||
+              assType === 108 ||
+              (assType >= 140 && assType < 170) ||
+              (assType >= 170 && assType < 200)
+            ) {
               if (students.length > 0) {
                 const stuB = students[0].person_uid;
                 await dbSaveAss(week, stuB, fldName);
@@ -261,7 +277,14 @@ const AutofillSchedule = () => {
           const assType = sourceData[fldType];
 
           // Main Hall
-          if (assType === 101 || assType === 102 || assType === 103 || assType === 108) {
+          if (
+            assType === 101 ||
+            assType === 102 ||
+            assType === 103 ||
+            assType === 108 ||
+            (assType >= 140 && assType < 170) ||
+            (assType >= 170 && assType < 200)
+          ) {
             fldName = 'ass' + a + '_stu_A_dispName';
             const stuDispA = schedData[fldName];
 
@@ -278,7 +301,14 @@ const AutofillSchedule = () => {
 
           // Aux Class
           if (class_count === 2 && schedData.week_type === 1) {
-            if (assType === 101 || assType === 102 || assType === 103 || assType === 108) {
+            if (
+              assType === 101 ||
+              assType === 102 ||
+              assType === 103 ||
+              assType === 108 ||
+              (assType >= 140 && assType < 170) ||
+              (assType >= 170 && assType < 200)
+            ) {
               fldName = 'ass' + a + '_stu_B_dispName';
               const stuDispB = schedData[fldName];
 

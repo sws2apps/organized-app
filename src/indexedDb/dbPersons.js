@@ -258,7 +258,14 @@ export const dbHistoryAssistant = async (mainStuID) => {
       let weekFld = 'ass' + cnAss[b].iAss + '_type';
       const assType = weekData[weekFld];
 
-      if (assType === 101 || assType === 102 || assType === 103 || assType === 108) {
+      if (
+        assType === 101 ||
+        assType === 102 ||
+        assType === 103 ||
+        assType === 108 ||
+        (assType >= 140 && assType < 170) ||
+        (assType >= 170 && assType < 200)
+      ) {
         for (let a = 0; a < varClasses.length; a++) {
           const fldName = 'ass' + cnAss[b].iAss + '_stu_' + varClasses[a].classLabel;
           if (typeof appData[i][fldName] !== 'undefined') {

@@ -75,14 +75,26 @@ export const dbGetSourceMaterial = async (weekOf) => {
   obj.bibleReading_src = appData.bibleReading_src ? appData.bibleReading_src[lang] || '' : '';
   obj.bibleReading_study = appData.bibleReading_study || '';
   obj.ayfCount = appData.ayfCount;
-  obj.ass1_type = +appData.ass1_type || '';
+  obj.ass1_type = appData.ass1_type
+    ? typeof appData.ass1_type === 'object'
+      ? appData.ass1_type[lang] === ''
+        ? ''
+        : +appData.ass1_type[lang]
+      : +appData.ass1_type
+    : '';
 
   indexType = assTypeList.findIndex((type) => type.value === obj.ass1_type);
   obj.ass1_type_name = indexType >= 0 ? assTypeList[indexType].label : '';
   obj.ass1_time = appData.ass1_time || '';
   obj.ass1_study = appData.ass1_study || '';
   obj.ass1_src = appData.ass1_src ? appData.ass1_src[lang] || '' : '';
-  obj.ass2_type = +appData.ass2_type || '';
+  obj.ass2_type = appData.ass2_type
+    ? typeof appData.ass2_type === 'object'
+      ? appData.ass2_type[lang] === ''
+        ? ''
+        : +appData.ass2_type[lang]
+      : +appData.ass2_type
+    : '';
 
   indexType = assTypeList.findIndex((type) => type.value === obj.ass2_type);
   obj.ass2_type_name = indexType >= 0 ? assTypeList[indexType].label : '';
@@ -90,7 +102,13 @@ export const dbGetSourceMaterial = async (weekOf) => {
   obj.ass2_time = appData.ass2_time || '';
   obj.ass2_study = appData.ass2_study || '';
   obj.ass2_src = appData.ass2_src ? appData.ass2_src[lang] || '' : '';
-  obj.ass3_type = +appData.ass3_type || '';
+  obj.ass3_type = appData.ass3_type
+    ? typeof appData.ass3_type === 'object'
+      ? appData.ass3_type[lang] === ''
+        ? ''
+        : +appData.ass3_type[lang]
+      : +appData.ass3_type
+    : '';
 
   indexType = assTypeList.findIndex((type) => type.value === obj.ass3_type);
   obj.ass3_type_name = indexType >= 0 ? assTypeList[indexType].label : '';
@@ -98,7 +116,13 @@ export const dbGetSourceMaterial = async (weekOf) => {
   obj.ass3_time = appData.ass3_time || '';
   obj.ass3_study = appData.ass3_study || '';
   obj.ass3_src = appData.ass3_src ? appData.ass3_src[lang] || '' : '';
-  obj.ass4_type = +appData.ass4_type || '';
+  obj.ass4_type = appData.ass4_type
+    ? typeof appData.ass4_type === 'object'
+      ? appData.ass4_type[lang] === ''
+        ? ''
+        : +appData.ass4_type[lang]
+      : +appData.ass4_type
+    : '';
 
   indexType = assTypeList.findIndex((type) => type.value === obj.ass4_type);
   obj.ass4_type_name = indexType >= 0 ? assTypeList[indexType].label : '';
@@ -133,6 +157,9 @@ export const dbGetSourceMaterial = async (weekOf) => {
 };
 
 export const dbGetSourceMaterialPocket = async (weekOf) => {
+  const appLang = (await promiseGetRecoil(sourceLangState)) || 'e';
+  const lang = appLang.toUpperCase();
+
   const assTypeList = await promiseGetRecoil(assTypeListState);
 
   const appData = await appDb.table('src').get({ weekOf: weekOf });
@@ -145,26 +172,53 @@ export const dbGetSourceMaterialPocket = async (weekOf) => {
   obj.tgwTalk_src = appData.tgwTalk_src;
   obj.bibleReading_src = appData.bibleReading_src;
   obj.bibleReading_study = appData.bibleReading_study;
-  obj.ass1_type = +appData.ass1_type || '';
+  obj.ass1_type = appData.ass1_type
+    ? typeof appData.ass1_type === 'object'
+      ? appData.ass1_type[lang] === ''
+        ? ''
+        : +appData.ass1_type[lang]
+      : +appData.ass1_type
+    : '';
 
   obj.ass1_type_name = assTypeList.find((type) => type.code === obj.ass1_type).assignment_type_name || '';
   obj.ass1_time = +appData.ass1_time || '';
   obj.ass1_study = appData.ass1_study || '';
   obj.ass1_src = appData.ass1_src;
 
-  obj.ass2_type = +appData.ass2_type || '';
+  obj.ass2_type = appData.ass2_type
+    ? typeof appData.ass2_type === 'object'
+      ? appData.ass2_type[lang] === ''
+        ? ''
+        : +appData.ass2_type[lang]
+      : +appData.ass2_type
+    : '';
+
   obj.ass2_type_name = assTypeList.find((type) => type.code === obj.ass2_type).assignment_type_name || '';
   obj.ass2_time = +appData.ass2_time || '';
   obj.ass2_study = appData.ass2_study || '';
   obj.ass2_src = appData.ass2_src;
 
-  obj.ass3_type = +appData.ass3_type || '';
+  obj.ass3_type = appData.ass3_type
+    ? typeof appData.ass3_type === 'object'
+      ? appData.ass3_type[lang] === ''
+        ? ''
+        : +appData.ass3_type[lang]
+      : +appData.ass3_type
+    : '';
+
   obj.ass3_type_name = assTypeList.find((type) => type.code === obj.ass3_type).assignment_type_name || '';
   obj.ass3_time = +appData.ass3_time || '';
   obj.ass3_study = appData.ass3_study || '';
   obj.ass3_src = appData.ass3_src;
 
-  obj.ass4_type = +appData.ass4_type || '';
+  obj.ass4_type = appData.ass4_type
+    ? typeof appData.ass4_type === 'object'
+      ? appData.ass4_type[lang] === ''
+        ? ''
+        : +appData.ass4_type[lang]
+      : +appData.ass4_type
+    : '';
+
   obj.ass4_type_name = assTypeList.findIndex((type) => type.code === obj.ass4_type).assignment_type_name || '';
   obj.ass4_time = appData.ass4_time ? (typeof appData.ass4_time === 'object' ? '' : +appData.ass4_time) : '';
   obj.ass4_study = appData.ass4_study || '';
@@ -204,9 +258,13 @@ export const dbGetSMUpdate = async (weekOf) => {
   obj.tgwTalk_src = appData ? appData.tgwTalk_src || {} : {};
   obj.bibleReading_src = appData ? appData.bibleReading_src || {} : {};
   obj.ass1_src = appData ? appData.ass1_src || {} : {};
+  obj.ass1_type = appData ? appData.ass1_type || {} : {};
   obj.ass2_src = appData ? appData.ass2_src || {} : {};
+  obj.ass2_type = appData ? appData.ass2_type || {} : {};
   obj.ass3_src = appData ? appData.ass3_src || {} : {};
+  obj.ass3_type = appData ? appData.ass3_type || {} : {};
   obj.ass4_src = appData ? appData.ass4_src || {} : {};
+  obj.ass4_type = appData ? appData.ass4_type || {} : {};
   obj.lcCount_override = appData ? appData.lcCount_override || undefined : undefined;
   obj.lcPart1_time_override = appData ? appData.lcPart1_time_override || undefined : undefined;
   obj.lcPart1_src_override = appData ? appData.lcPart1_src_override || {} : {};
@@ -236,9 +294,13 @@ export const dbSaveSrcData = async (srcData, localOverride) => {
     tgwTalk_src,
     bibleReading_src,
     ass1_src,
+    ass1_type,
     ass2_src,
+    ass2_type,
     ass3_src,
+    ass3_type,
     ass4_src,
+    ass4_type,
     lcCount_override,
     lcPart1_time_override,
     lcPart1_src,
@@ -279,28 +341,40 @@ export const dbSaveSrcData = async (srcData, localOverride) => {
         },
         bibleReading_study: srcData.bibleReading_study,
         ayfCount: srcData.ayfCount,
-        ass1_type: srcData.ass1_type,
+        ass1_type: {
+          ...ass1_type,
+          [lang]: srcData.ass1_type || '',
+        },
         ass1_time: srcData.ass1_time,
         ass1_study: srcData.ass1_study,
         ass1_src: {
           ...ass1_src,
           [lang]: srcData.ass1_src || '',
         },
-        ass2_type: srcData.ass2_type,
+        ass2_type: {
+          ...ass2_type,
+          [lang]: srcData.ass2_type || '',
+        },
         ass2_time: srcData.ass2_time,
         ass2_study: srcData.ass2_study,
         ass2_src: {
           ...ass2_src,
           [lang]: srcData.ass2_src || '',
         },
-        ass3_type: srcData.ass3_type,
+        ass3_type: {
+          ...ass3_type,
+          [lang]: srcData.ass3_type || '',
+        },
         ass3_time: srcData.ass3_time,
         ass3_study: srcData.ass3_study,
         ass3_src: {
           ...ass3_src,
           [lang]: srcData.ass3_src || '',
         },
-        ass4_type: srcData.ass4_type,
+        ass4_type: {
+          ...ass4_type,
+          [lang]: srcData.ass4_type || '',
+        },
         ass4_time: srcData.ass4_time,
         ass4_study: srcData.ass4_study,
         ass4_src: {

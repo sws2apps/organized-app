@@ -249,6 +249,7 @@ const StudentSelector = (props) => {
         sx={{
           display: 'flex',
           justifyContent: 'space-between',
+          alignItems: 'center',
         }}
       >
         <Box>

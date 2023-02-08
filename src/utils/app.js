@@ -120,24 +120,24 @@ export const formatDateForCompare = (date) => {
 };
 
 export const getAssignmentName = (assType) => {
-  if (assType === 101) {
-    return getI18n().t('initialCall');
+  if (assType === 101 || (assType >= 140 && assType < 170)) {
+    return getI18n().t('initialCall', { ns: 'source' });
   }
 
-  if (assType === 102) {
-    return getI18n().t('returnVisit');
+  if (assType === 102 || (assType >= 170 && assType < 200)) {
+    return getI18n().t('returnVisit', { ns: 'source' });
   }
 
   if (assType === 103) {
-    return getI18n().t('bibleStudy');
+    return getI18n().t('bibleStudy', { ns: 'source' });
   }
 
   if (assType === 104) {
-    return getI18n().t('talk');
+    return getI18n().t('talk', { ns: 'source' });
   }
 
   if (assType === 108) {
-    return getI18n().t('memorialInvite');
+    return getI18n().t('memorialInvite', { ns: 'source' });
   }
 };
 

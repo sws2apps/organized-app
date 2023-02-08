@@ -11,7 +11,7 @@ const PersonAssignments = ({ student, assignments, setAssignments }) => {
   const handleAssignmentAdd = () => {
     const obj = {
       assignmentId: window.crypto.randomUUID(),
-      code: 100,
+      code: student.isMale ? 100 : 101,
       startDate: format(new Date(), 'MM/dd/yyyy'),
       endDate: null,
       comments: '',

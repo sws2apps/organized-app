@@ -299,7 +299,6 @@ const ScheduleAssignment = ({ edit }) => {
     const loadCurrentWeekData = async () => {
       const scheduleData = await dbGetScheduleData(week);
       const sourceData = await dbGetSourceMaterial(week);
-
       setChairmanA(scheduleData.chairmanMM_A_dispName);
       setChairmanB(scheduleData.chairmanMM_B_dispName);
       setOpeningPrayer(scheduleData.opening_prayer_dispName);

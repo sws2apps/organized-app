@@ -182,7 +182,14 @@ export const dbCountAssignmentsInfo = async (week) => {
     const assValue = sourceData[assType];
 
     // discussion part
-    if (assValue === 101 || assValue === 102 || assValue === 103 || assValue === 108) {
+    if (
+      assValue === 101 ||
+      assValue === 102 ||
+      assValue === 103 ||
+      assValue === 108 ||
+      (assValue >= 140 && assValue < 170) ||
+      (assValue >= 170 && assValue < 200)
+    ) {
       assTotal = assTotal + 2;
 
       // aux

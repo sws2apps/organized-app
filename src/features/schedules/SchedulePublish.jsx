@@ -106,7 +106,7 @@ const SchedulePublish = () => {
         handleClose(false);
       }
     } catch (err) {
-      if (!abortCont.current.signal.aborted) {
+      if (abortCont.current && !abortCont.current.signal.aborted) {
         setAppMessage(err.message);
         setAppSeverity('warning');
         setIsProcessing(false);

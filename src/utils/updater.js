@@ -24,6 +24,7 @@ let i = 0;
 export const runUpdater = async () => {
   const step = 100 / 4;
 
+  await removeInvalidWeeks();
   await updateAssignmentType(step);
   await updateScheduleToId(step);
   await removeOutdatedSettings(step);
@@ -233,6 +234,8 @@ const builtHistoricalAssignment = async (step) => {
 };
 
 const updateAssignmentType = async (step) => {
+  const { t } = getI18n();
+
   let bReadObj = {};
   let initCallObj = {};
   let rvObj = {};
@@ -250,27 +253,33 @@ const updateAssignmentType = async (step) => {
   let lcPartObj = {};
   let cbsConductorObj = {};
   let cbsReaderObj = {};
+  let initCallVariationsObj = {};
+  let rvVariationsObj = {};
 
   const listSourceLangs = LANGUAGE_LIST.filter((lang) => lang.isSource === true);
 
   listSourceLangs.forEach((lang) => {
-    bReadObj[lang.code.toUpperCase()] = getI18n().getDataByLanguage(lang.code).ui['bibleReading'];
-    initCallObj[lang.code.toUpperCase()] = getI18n().getDataByLanguage(lang.code).ui['initialCall'];
-    rvObj[lang.code.toUpperCase()] = getI18n().getDataByLanguage(lang.code).ui['returnVisit'];
-    bsObj[lang.code.toUpperCase()] = getI18n().getDataByLanguage(lang.code).ui['bibleStudy'];
-    talkObj[lang.code.toUpperCase()] = getI18n().getDataByLanguage(lang.code).ui['talk'];
-    otherObj[lang.code.toUpperCase()] = getI18n().getDataByLanguage(lang.code).ui['otherPart'];
-    icVideoObj[lang.code.toUpperCase()] = getI18n().getDataByLanguage(lang.code).ui['initialCallVideo'];
-    rvVideoObj[lang.code.toUpperCase()] = getI18n().getDataByLanguage(lang.code).ui['returnVisitVideo'];
-    memorialObj[lang.code.toUpperCase()] = getI18n().getDataByLanguage(lang.code).ui['memorialInvite'];
-    memorialVideoObj[lang.code.toUpperCase()] = getI18n().getDataByLanguage(lang.code).ui['memorialInviteVideo'];
-    chairmanMMObj[lang.code.toUpperCase()] = getI18n().getDataByLanguage(lang.code).ui['chairmanMidweekMeeting'];
-    prayerMMObj[lang.code.toUpperCase()] = getI18n().getDataByLanguage(lang.code).ui['prayerMidweekMeeting'];
-    tgwTalkObj[lang.code.toUpperCase()] = getI18n().getDataByLanguage(lang.code).ui['tgwTalk'];
-    tgwGemsObj[lang.code.toUpperCase()] = getI18n().getDataByLanguage(lang.code).ui['tgwGems'];
-    lcPartObj[lang.code.toUpperCase()] = getI18n().getDataByLanguage(lang.code).ui['lcPart'];
-    cbsConductorObj[lang.code.toUpperCase()] = getI18n().getDataByLanguage(lang.code).ui['cbsConductor'];
-    cbsReaderObj[lang.code.toUpperCase()] = getI18n().getDataByLanguage(lang.code).ui['cbsReader'];
+    const langCode = lang.code.toUpperCase();
+
+    bReadObj[langCode] = t('bibleReading', { lng: lang.code, ns: 'ui' });
+    initCallObj[langCode] = t('initialCall', { lng: lang.code, ns: 'ui' });
+    rvObj[langCode] = t('returnVisit', { lng: lang.code, ns: 'ui' });
+    bsObj[langCode] = t('bibleStudy', { lng: lang.code, ns: 'ui' });
+    talkObj[langCode] = t('talk', { lng: lang.code, ns: 'ui' });
+    otherObj[langCode] = t('otherPart', { lng: lang.code, ns: 'ui' });
+    icVideoObj[langCode] = t('initialCallVideo', { lng: lang.code, ns: 'ui' });
+    rvVideoObj[langCode] = t('returnVisitVideo', { lng: lang.code, ns: 'ui' });
+    memorialObj[langCode] = t('memorialInvite', { lng: lang.code, ns: 'ui' });
+    memorialVideoObj[langCode] = t('memorialInviteVideo', { lng: lang.code, ns: 'ui' });
+    chairmanMMObj[langCode] = t('chairmanMidweekMeeting', { lng: lang.code, ns: 'ui' });
+    prayerMMObj[langCode] = t('prayerMidweekMeeting', { lng: lang.code, ns: 'ui' });
+    tgwTalkObj[langCode] = t('tgwTalk', { lng: lang.code, ns: 'ui' });
+    tgwGemsObj[langCode] = t('tgwGems', { lng: lang.code, ns: 'ui' });
+    lcPartObj[langCode] = t('lcPart', { lng: lang.code, ns: 'ui' });
+    cbsConductorObj[langCode] = t('cbsConductor', { lng: lang.code, ns: 'ui' });
+    cbsReaderObj[langCode] = t('cbsReader', { lng: lang.code, ns: 'ui' });
+    initCallVariationsObj[langCode] = t('initialCallVariations', { lng: lang.code, ns: 'ui' });
+    rvVariationsObj[langCode] = t('returnVisitVariations', { lng: lang.code, ns: 'ui' });
   });
 
   await appDb.assignment.clear();
@@ -507,6 +516,68 @@ const updateAssignmentType = async (step) => {
     17
   );
 
+  // handle initial call variation (140-169)
+  let codeIndice = 140;
+  for (const [key, value] of Object.entries(initCallVariationsObj)) {
+    if (value !== '' && codeIndice < 170) {
+      const variations = value.split('|');
+      for await (const variation of variations) {
+        await appDb.assignment.put(
+          {
+            code: codeIndice,
+            linkTo: 101,
+            assignable: false,
+            type: 'ayf',
+            assignment_type_name: {
+              [key]: variation,
+            },
+            id_type: codeIndice,
+          },
+          codeIndice
+        );
+
+        codeIndice++;
+      }
+    }
+  }
+
+  // handle return call variation (170-199)
+  codeIndice = 170;
+  for (const [key, value] of Object.entries(rvVariationsObj)) {
+    if (value !== '' && codeIndice < 200) {
+      const variations = value.split('|');
+      for await (const variation of variations) {
+        await appDb.assignment.put(
+          {
+            code: codeIndice,
+            linkTo: 102,
+            assignable: false,
+            type: 'ayf',
+            assignment_type_name: {
+              [key]: variation,
+            },
+            id_type: codeIndice,
+          },
+          codeIndice
+        );
+
+        codeIndice++;
+      }
+    }
+  }
+
   i = i + step;
   promiseSetRecoil(startupProgressState, i);
+};
+
+const removeInvalidWeeks = async () => {
+  const weekInvalids = ['07/26/2023'];
+
+  for await (const weekInvalid of weekInvalids) {
+    const srcData = await appDb.src.get({ weekOf: weekInvalid });
+    if (srcData) await appDb.src.delete(srcData.weekOf);
+
+    const schedData = await appDb.sched_MM.get({ weekOf: weekInvalid });
+    if (schedData) await appDb.src.delete(schedData.weekOf);
+  }
 };

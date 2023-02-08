@@ -13,7 +13,7 @@ import {
   sourceLangState,
   userLocalUidState,
 } from '../states/main';
-import { assTypeLocalState } from '../states/sourceMaterial';
+import { assTypeListState, assTypeLocalState } from '../states/sourceMaterial';
 import { allStudentsState, filteredStudentsState, studentsAssignmentHistoryState } from '../states/persons';
 import { meetingTimeState } from '../states/congregation';
 import { getAssignmentName } from '../utils/app';
@@ -161,9 +161,9 @@ export const dbHistoryAssignment = async () => {
             const studyPoint = weekData[studyFld];
 
             person.assignmentID = assType;
-            if (assType === 101) {
+            if (assType === 101 || (assType >= 140 && assType < 170)) {
               person.assignmentName = getI18n().t('initialCall', { ns: 'ui' });
-            } else if (assType === 102) {
+            } else if (assType === 102 || (assType >= 170 && assType < 200)) {
               person.assignmentName = getI18n().t('returnVisit', { ns: 'ui' });
             } else if (assType === 103) {
               person.assignmentName = getI18n().t('bibleStudy', { ns: 'ui' });
@@ -643,6 +643,7 @@ export const dbGetS89WeekList = async (scheduleName) => {
 
 export const dbGetS89ItemData = async (week, assName, classLabel) => {
   const sourceLang = await promiseGetRecoil(sourceLangState);
+  const assTypeList = await promiseGetRecoil(assTypeListState);
 
   let stuFld = '';
   let assFld = '';
@@ -702,7 +703,14 @@ export const dbGetS89ItemData = async (week, assName, classLabel) => {
 
   if (assName === 'ass1' || assName === 'ass2' || assName === 'ass3' || assName === 'ass4') {
     const assType = sourceData[assTypeFld];
-    if (assType === 101 || assType === 102 || assType === 103 || assType === 108) {
+    if (
+      assType === 101 ||
+      assType === 102 ||
+      assType === 103 ||
+      assType === 108 ||
+      (assType >= 140 && assType < 170) ||
+      (assType >= 170 && assType < 200)
+    ) {
       const assID = scheduleData[assFld];
       if (typeof assID !== 'undefined' && assID !== '') {
         const assInfo = await dbGetStudentDetails(assID);
@@ -716,13 +724,19 @@ export const dbGetS89ItemData = async (week, assName, classLabel) => {
     const ass4Type = sourceData['ass4_type'];
     const assTime = sourceData[assTimeFld];
 
-    if (assType === 101 || assType === 108 || assType === 102) {
-      if (assType === 101) s89Data.isInitialCall = true;
+    if (
+      assType === 101 ||
+      assType === 108 ||
+      assType === 102 ||
+      (assType >= 140 && assType < 170) ||
+      (assType >= 170 && assType < 200)
+    ) {
+      if (assType === 101 || (assType >= 140 && assType < 170)) s89Data.isInitialCall = true;
       if (assType === 108) s89Data.isMemorialInvite = true;
-      if (assType === 102) s89Data.isReturnVisit = true;
+      if (assType === 102 || (assType >= 170 && assType < 200)) s89Data.isReturnVisit = true;
 
       let fieldSpec = 'initialCallSpec';
-      if (assType === 102) fieldSpec = 'returnVisitSpec';
+      if (assType === 102 || (assType >= 170 && assType < 200)) fieldSpec = 'returnVisitSpec';
       if (assName === 'ass1') {
         if (ass1Type === ass2Type || ass1Type === ass3Type || ass1Type === ass4Type) {
           const spec = getI18n().t('assignmentPart', { ns: 'ui', id: 1, time: assTime });
@@ -743,6 +757,12 @@ export const dbGetS89ItemData = async (week, assName, classLabel) => {
           const spec = getI18n().t('assignmentPart', { ns: 'ui', id: 4, time: assTime });
           s89Data[fieldSpec] = spec;
         }
+      }
+
+      if ((assType >= 140 && assType < 170) || (assType >= 170 && assType < 200)) {
+        const type =
+          assTypeList.find((type) => type.code === assType).assignment_type_name[sourceLang.toUpperCase()] || '';
+        s89Data[fieldSpec] = type;
       }
     } else if (assType === 103) {
       s89Data.isBibleStudy = true;

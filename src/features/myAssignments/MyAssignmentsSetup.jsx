@@ -51,7 +51,7 @@ const MyAssignmentsSetup = ({ overrideEdit, setOverrideEdit }) => {
             value={value}
             onChange={(e, value) => setValue(value)}
             options={dbPersons}
-            getOptionLabel={(option) => option.person_name}
+            getOptionLabel={(option) => option.person_name || ''}
             renderInput={(params) => <TextField {...params} variant="standard" label={t('record')} />}
             noOptionsText={t('noMatchRecord')}
           />
