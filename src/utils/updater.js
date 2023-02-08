@@ -22,9 +22,10 @@ import { loadApp } from './app';
 let i = 0;
 
 export const runUpdater = async () => {
-  const step = 100 / 4;
+  const step = 100 / 5;
 
   await removeInvalidWeeks();
+  await updateWeekType(step);
   await updateAssignmentType(step);
   await updateScheduleToId(step);
   await removeOutdatedSettings(step);
@@ -231,6 +232,59 @@ const builtHistoricalAssignment = async (step) => {
     i = i + step;
     promiseSetRecoil(startupProgressState, i);
   }
+};
+
+const updateWeekType = async (step) => {
+  const { t } = getI18n();
+
+  let normWeekObj = {};
+  let coWeekObj = {};
+  let convWeekObj = {};
+
+  const listSourceLangs = LANGUAGE_LIST.filter((lang) => lang.isSource === true);
+
+  listSourceLangs.forEach((lang) => {
+    const langCode = lang.code.toUpperCase();
+
+    normWeekObj[langCode] = t('normalWeek', { lng: lang.code, ns: 'ui' });
+    coWeekObj[langCode] = t('circuitOverseerWeek', { lng: lang.code, ns: 'ui' });
+    convWeekObj[langCode] = t('conventionWeek', { lng: lang.code, ns: 'ui' });
+  });
+
+  await appDb.week_type.clear();
+
+  await appDb.week_type.put(
+    {
+      id_week_type: 1,
+      week_type_name: {
+        ...normWeekObj,
+      },
+    },
+    1
+  );
+
+  await appDb.week_type.put(
+    {
+      id_week_type: 2,
+      week_type_name: {
+        ...coWeekObj,
+      },
+    },
+    2
+  );
+
+  await appDb.week_type.put(
+    {
+      id_week_type: 3,
+      week_type_name: {
+        ...convWeekObj,
+      },
+    },
+    3
+  );
+
+  i = i + step;
+  promiseSetRecoil(startupProgressState, i);
 };
 
 const updateAssignmentType = async (step) => {

@@ -20,8 +20,8 @@ export const comparePerson = (source, modified) => {
       const foundArray = arrayFields.find((field) => field.name === key);
       if (foundArray) {
         // check added or modified assignment
-        value.forEach((updated) => {
-          const findSource = source[key].find((item) => item[foundArray.id] === updated[foundArray.id]);
+        value?.forEach((updated) => {
+          const findSource = source[key]?.find((item) => item[foundArray.id] === updated[foundArray.id]);
           // assignment modified
           if (findSource) {
             const excludeArrayFields = [foundArray.id, 'isActive'];
@@ -51,7 +51,7 @@ export const comparePerson = (source, modified) => {
 
         // check deleted assignment
         source[key].forEach((original) => {
-          const findModified = value.find((item) => item[foundArray.id] === original[foundArray.id]);
+          const findModified = value?.find((item) => item[foundArray.id] === original[foundArray.id]);
           if (!findModified) {
             const findIndex = changes.findIndex(
               (item) => item.field === key && item.value[foundArray.id] === original[foundArray.id]

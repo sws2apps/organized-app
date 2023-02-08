@@ -1,6 +1,4 @@
 import Dexie from 'dexie';
-import { getI18n } from 'react-i18next';
-import { LANGUAGE_LIST } from '../locales/langList.js';
 
 let appDb = new Dexie('lmm_oa');
 appDb.version(1).stores({
@@ -228,39 +226,6 @@ appDb.on('populate', function () {
     isCongUpdated2: true,
     pocket_members: [],
   });
-
-  let normWeekObj = {};
-  let coWeekObj = {};
-  let convWeekObj = {};
-
-  const listSourceLangs = LANGUAGE_LIST.filter((lang) => lang.isSource === true);
-
-  listSourceLangs.forEach((lang) => {
-    normWeekObj[lang.code.toUpperCase()] = getI18n().getDataByLanguage(lang.code).ui['normalWeek'];
-    coWeekObj[lang.code.toUpperCase()] = getI18n().getDataByLanguage(lang.code).ui['circuitOverseerWeek'];
-    convWeekObj[lang.code.toUpperCase()] = getI18n().getDataByLanguage(lang.code).ui['conventionWeek'];
-  });
-
-  appDb.week_type.bulkAdd([
-    {
-      id_week_type: 1,
-      week_type_name: {
-        ...normWeekObj,
-      },
-    },
-    {
-      id_week_type: 2,
-      week_type_name: {
-        ...coWeekObj,
-      },
-    },
-    {
-      id_week_type: 3,
-      week_type_name: {
-        ...convWeekObj,
-      },
-    },
-  ]);
 });
 
 export default appDb;
