@@ -459,5 +459,6 @@
   "overrideSaveWarning": "Adjust the timing of parts in Living as Christians, including Congregation Bible Study, before saving. Total timings should be 45 min.",
   "languageMissing": "My language is not here",
   "initialCallVariations": "0",
-  "returnVisitVariations": "0"
+  "returnVisitVariations": "0",
+  "sourceNotFoundUnavailable": "The source material is not available yet, or this language is not yet supported"
 }

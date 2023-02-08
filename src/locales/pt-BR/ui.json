@@ -340,7 +340,7 @@
   "deleteScheduleConfirm": "Tem certeza que deseja excluir todas as designações da programação de {{ currentSchedule }}?",
   "deleteWeekConfirm": "Tem certeza que deseja excluir todas as designações da semana de {{ currentWeek }}?",
   "midweekMeetingPrint": "Programação da reunião do meio de semana",
-  "autofillScheduleConfirm": "Tem certeza que deseja excluir todas as designações da programação de {{ currentSchedule }}?",
+  "autofillScheduleConfirm": "Tem certeza que deseja preencher automaticamente todas as designações da programação de {{ currentSchedule }}?",
   "autofillWeekConfirm": "Tem certeza que deseja excluir todas as designações da semana de {{ currentWeek }}?",
   "pulish": "Compartilhar programação",
   "selectSchedule": "Selecione pelo menos uma programação antes do envio",
@@ -459,5 +459,6 @@
   "overrideSaveWarning": "Ajuste o tempo das partes em Nossa Vida Cristã, incluindo o Estudo Bíblico de Congregação, antes de salvar. O tempo total deve ser de 45 min.",
   "languageMissing": "Meu idioma não está aqui",
   "initialCallVariations": "Primeira conversa — designação 1|Primeira conversa — designação 2",
-  "returnVisitVariations": "Revisita — designação 1|Revisita — designação 2"
+  "returnVisitVariations": "Revisita — designação 1|Revisita — designação 2",
+  "sourceNotFoundUnavailable": "A fonte de matéria não está disponível, ou não há suporte para esse idioma"
 }

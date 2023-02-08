@@ -459,5 +459,6 @@
   "overrideSaveWarning": "Amboary aloha ny faharetan’ny anjara ao amin’ny Fiainantsika Kristianina, anisan’izany ny Fianarana Baiboly. Tokony ho 45 min. ny fitambaran’izy rehetra.",
   "languageMissing": "Tsy eo ny fiteny ampiasaiko",
   "initialCallVariations": "0",
-  "returnVisitVariations": "0"
+  "returnVisitVariations": "0",
+  "sourceNotFoundUnavailable": "Tsy mbola misy ny loharanon-kevitra, na tsy mbola afaka ampiasaina ny fiteny nosafidianao"
 }
