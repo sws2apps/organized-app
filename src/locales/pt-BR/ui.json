@@ -388,7 +388,7 @@
   "restoreBackupBtn": "Restaurar",
   "noBackupFound": "Nenhum backup foi encontrado para sua congregação.",
   "myAccount": "MINHA CONTA",
-  "emailLocked": "Este email não pode mais ser alterado. Por favor, entre em contato conosco se quiser alterá-lo.",
+  "emailLocked": "Este email não pode ser alterado. Entre em contato conosco se quiser alterá-lo.",
   "changePassword": "Alterar senha",
   "oldPassword": "Senha antiga",
   "newPassword": "Nova senha",
