@@ -1,3 +1,10 @@
+## [2.31.1](https://github.com/sws2apps/lmm-oa-sws/compare/v2.31.0...v2.31.1) (2023-02-10)
+
+
+### Bug Fixes
+
+* **csp:** update base-uri value ([d889b2a](https://github.com/sws2apps/lmm-oa-sws/commit/d889b2aa26606fdedd49ca3dcea98002c1ba8e6e))
+
 # [2.31.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.30.0...v2.31.0) (2023-02-10)
 
 
