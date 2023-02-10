@@ -34,7 +34,7 @@ export const dbGetBaseScheduleDate = async (weekValue) => {
     if (item.person) {
       const student = await dbGetStudentByUid(item.person);
       schedule[item.assignment] = item.person;
-      schedule[fldDispName] = student.person_displayName;
+      schedule[fldDispName] = student?.person_displayName || '';
     } else {
       schedule[item.assignment] = '';
       schedule[fldDispName] = '';

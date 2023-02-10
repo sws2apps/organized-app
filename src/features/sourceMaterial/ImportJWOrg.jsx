@@ -62,7 +62,7 @@ const ImportJWOrg = () => {
         const data = await fetchSourceMaterial();
 
         if (!cancel.current) {
-          if (data.length > 0) {
+          if (data && data.length > 0) {
             await addJwDataToDb(data);
             setIsLoading(false);
             return;
