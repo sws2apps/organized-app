@@ -1,3 +1,12 @@
+# [2.30.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.29.2...v2.30.0) (2023-02-10)
+
+
+### Features
+
+* **deps:** bump @mui/x-date-pickers from 5.0.17 to 5.0.18 ([20008cb](https://github.com/sws2apps/lmm-oa-sws/commit/20008cbac9d0648e4c7b3dcaab9949d34bc12d00))
+* **deps:** bump jw-epub-parser from 1.30.2 to 1.30.4 ([044877d](https://github.com/sws2apps/lmm-oa-sws/commit/044877df8aaa5a45acf80fd22640d15b9f9144e4))
+* **deps:** bump jw-epub-parser from 1.30.4 to 1.30.5 ([5f23fee](https://github.com/sws2apps/lmm-oa-sws/commit/5f23fee9c7b502343ba30878d8ede47234cbdea5))
+
 ## [2.29.2](https://github.com/sws2apps/lmm-oa-sws/compare/v2.29.1...v2.29.2) (2023-02-08)
 
 
