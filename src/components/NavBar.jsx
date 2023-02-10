@@ -1,4 +1,4 @@
-import { cloneElement, useState } from 'react';
+import { cloneElement, useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
@@ -39,6 +39,8 @@ import {
   offlineOverrideState,
 } from '../states/main';
 import { congAccountConnectedState, congInfoFormattedState, usernameState } from '../states/congregation';
+
+import { workerInstance } from '../workers/action';
 
 const sharedStyles = {
   menuIcon: {
@@ -99,6 +101,10 @@ const NavBar = (props) => {
   const openPopover = Boolean(anchorPopoverEl);
   const id = openPopover ? 'notification-popover' : undefined;
 
+  const workerCall = useCallback(async () => {
+    workerInstance.getSchedules();
+  }, []);
+
   const handleWhatsNewClick = (event) => {
     setAnchorPopoverEl(event.currentTarget);
   };
@@ -116,6 +122,7 @@ const NavBar = (props) => {
   };
 
   const handleAbout = () => {
+    workerCall();
     handleClose();
     setIsAboutOpen(true);
   };
@@ -142,6 +149,8 @@ const NavBar = (props) => {
     handleClose();
     navigate('/user-settings');
   };
+
+  useEffect(() => {}, []);
 
   return (
     <>
