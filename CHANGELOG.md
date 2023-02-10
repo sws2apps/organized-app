@@ -1,3 +1,10 @@
+## [2.31.2](https://github.com/sws2apps/lmm-oa-sws/compare/v2.31.1...v2.31.2) (2023-02-10)
+
+
+### Bug Fixes
+
+* **schedule:** handle undefined person when getting schedule details ([65b0572](https://github.com/sws2apps/lmm-oa-sws/commit/65b0572ec906527a455bf0487c9d37ea0b61fcc5))
+
 ## [2.31.1](https://github.com/sws2apps/lmm-oa-sws/compare/v2.31.0...v2.31.1) (2023-02-10)
 
 
