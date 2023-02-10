@@ -1,3 +1,10 @@
+# [2.31.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.30.0...v2.31.0) (2023-02-10)
+
+
+### Features
+
+* **source-material:** add import source support for languages without epub ([4023e51](https://github.com/sws2apps/lmm-oa-sws/commit/4023e5106d86f900d322ba8f6f6c2df3d671d4a5))
+
 # [2.30.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.29.2...v2.30.0) (2023-02-10)
 
 
