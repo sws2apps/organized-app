@@ -1,14 +1,4 @@
-import { promiseGetRecoil } from 'recoil-outside';
-import { apiHostState, appLangState, userEmailState, visitorIDState } from '../states/main';
-
-const getProfile = async () => {
-  const apiHost = await promiseGetRecoil(apiHostState);
-  const userEmail = await promiseGetRecoil(userEmailState);
-  const visitorID = await promiseGetRecoil(visitorIDState);
-  const appLang = await promiseGetRecoil(appLangState);
-
-  return { apiHost, appLang, userEmail, visitorID };
-};
+import { getProfile } from './common';
 
 export const apiFetchCountries = async () => {
   const { apiHost, appLang, userEmail, visitorID } = await getProfile();
@@ -34,8 +24,7 @@ export const apiFetchCountries = async () => {
 };
 
 export const apiFetchCongregations = async (country, name) => {
-  const { apiHost, userEmail, visitorID } = await getProfile();
-  const appLang = await promiseGetRecoil(appLangState);
+  const { apiHost, userEmail, visitorID, appLang } = await getProfile();
 
   try {
     if (apiHost !== '') {
