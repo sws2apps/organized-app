@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
-import { UserChangePassword, User2FA, UserFullname, UserSessions } from './';
+import { User2FA, UserFullname, UserSessions } from './';
 
 const subtitles = {
   fontWeight: 'bold',
@@ -20,9 +20,6 @@ const MyAccount = () => {
       <Box sx={{ marginTop: '20px' }}>
         <UserFullname />
       </Box>
-      <Typography sx={subtitles}>{t('changePassword')}</Typography>
-      <Divider />
-      <UserChangePassword />
       <Typography sx={subtitles}>{t('twoFactor')}</Typography>
       <Divider />
       <User2FA />
