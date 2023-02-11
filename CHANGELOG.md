@@ -1,3 +1,10 @@
+## [2.31.3](https://github.com/sws2apps/lmm-oa-sws/compare/v2.31.2...v2.31.3) (2023-02-11)
+
+
+### Bug Fixes
+
+* **S-89:** display main hall assignment ([f7016c6](https://github.com/sws2apps/lmm-oa-sws/commit/f7016c6107c16beb5790ddf40ef487a5bfb371ee))
+
 ## [2.31.2](https://github.com/sws2apps/lmm-oa-sws/compare/v2.31.1...v2.31.2) (2023-02-10)
 
 
