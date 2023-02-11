@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { getAuth } from '@firebase/auth';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
@@ -6,7 +7,7 @@ import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import Fab from '@mui/material/Fab';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import { apiHostState, isCongPersonAddState, userEmailState, visitorIDState } from '../../states/main';
+import { apiHostState, isCongPersonAddState, visitorIDState } from '../../states/main';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../../states/notification';
 import { congIDState } from '../../states/congregation';
 import CongregationPersonsGroup from './CongregationPersonsGroup';
@@ -21,7 +22,6 @@ const CongregationPersons = () => {
   const setAppMessage = useSetRecoilState(appMessageState);
   const setIsCongPersonAdd = useSetRecoilState(isCongPersonAddState);
 
-  const userEmail = useRecoilValue(userEmailState);
   const apiHost = useRecoilValue(apiHostState);
   const visitorID = useRecoilValue(visitorIDState);
   const congID = useRecoilValue(congIDState);
@@ -37,18 +37,21 @@ const CongregationPersons = () => {
     if (apiHost !== '') {
       cancel.current = false;
 
+      const auth = await getAuth();
+      const user = auth.currentUser;
+
       const res = await fetch(`${apiHost}api/congregations/${congID}/members`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
           visitorid: visitorID,
-          email: userEmail,
+          uid: user.uid,
         },
       });
 
       return await res.json();
     }
-  }, [apiHost, congID, userEmail, visitorID]);
+  }, [apiHost, congID, visitorID]);
 
   const { isLoading, error, data } = useQuery({ queryKey: ['congPersons'], queryFn: handleFetchUsers });
 

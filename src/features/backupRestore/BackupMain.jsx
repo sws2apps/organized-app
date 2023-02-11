@@ -10,9 +10,10 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Typography from '@mui/material/Typography';
-import { apiHostState, shortDateFormatState, userEmailState, visitorIDState } from '../../states/main';
+import { apiHostState, shortDateFormatState, visitorIDState } from '../../states/main';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../../states/notification';
 import { congIDState, isProcessingBackupState } from '../../states/congregation';
+import { getAuth } from '@firebase/auth';
 
 const BackupMain = ({ handleCreateBackup, handleClose, handleRestoreBackup, open, title, action }) => {
   const cancel = useRef();
@@ -27,7 +28,6 @@ const BackupMain = ({ handleCreateBackup, handleClose, handleRestoreBackup, open
 
   const apiHost = useRecoilValue(apiHostState);
   const visitorID = useRecoilValue(visitorIDState);
-  const userEmail = useRecoilValue(userEmailState);
   const congID = useRecoilValue(congIDState);
   const shortDateFormat = useRecoilValue(shortDateFormatState);
 
@@ -39,12 +39,16 @@ const BackupMain = ({ handleCreateBackup, handleClose, handleRestoreBackup, open
       if (apiHost !== '') {
         cancel.current = false;
         setIsProcessing(true);
+
+        const auth = await getAuth();
+        const user = auth.currentUser;
+
         const res = await fetch(`${apiHost}api/congregations/${congID}/backup/last`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
             visitorid: visitorID,
-            email: userEmail,
+            uid: user.uid,
           },
         });
         if (!cancel.current) {
@@ -74,7 +78,7 @@ const BackupMain = ({ handleCreateBackup, handleClose, handleRestoreBackup, open
         setAppSnackOpen(true);
       }
     }
-  }, [apiHost, cancel, congID, setAppMessage, setAppSeverity, setAppSnackOpen, setIsProcessing, userEmail, visitorID]);
+  }, [apiHost, cancel, congID, setAppMessage, setAppSeverity, setAppSnackOpen, setIsProcessing, visitorID]);
 
   const handleAction = () => {
     if (action === 'backup') handleCreateBackup();

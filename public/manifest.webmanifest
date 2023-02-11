@@ -2,6 +2,9 @@
   "theme_color": "#2196f3",
   "background_color": "#2196f3",
   "display": "standalone",
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
   "scope": "/",
   "start_url": "/",
   "id": "/",

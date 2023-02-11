@@ -18,7 +18,7 @@ export const isAppLoadState = atom({
 
 export const isSetupState = atom({
   key: 'isSetup',
-  default: false,
+  default: true,
 });
 
 export const apiHostState = atom({
@@ -169,7 +169,7 @@ export const isUserSignInState = atom({
 
 export const isUserSignUpState = atom({
   key: 'isUserSignUp',
-  default: true,
+  default: false,
 });
 
 export const isEmailNotVerifiedState = atom({
@@ -185,11 +185,6 @@ export const isEmailBlockedState = atom({
 export const isCongAccountCreateState = atom({
   key: 'isCongAccountCreate',
   default: false,
-});
-
-export const userEmailState = atom({
-  key: 'userEmail',
-  default: '',
 });
 
 export const isShowTermsUseState = atom({
@@ -229,11 +224,6 @@ export const isUserMfaVerifyState = atom({
 
 export const isUnauthorizedRoleState = atom({
   key: 'isUnauthorizedRole',
-  default: false,
-});
-
-export const isAppClosingState = atom({
-  key: 'isAppClosing',
   default: false,
 });
 
@@ -329,4 +319,24 @@ export const isCongPersonAddState = atom({
 export const sourceLangState = atom({
   key: 'sourceLang',
   default: 'e',
+});
+
+export const isEmailAuthState = atom({
+  key: 'isEmailAuth',
+  default: false,
+});
+
+export const isAuthProcessingState = atom({
+  key: 'isAuthProcessing',
+  default: false,
+});
+
+export const avatarUrlState = atom({
+  key: 'avatarUrl',
+  default: undefined,
+});
+
+export const isOAuthAccountUpgradeState = atom({
+  key: 'isOAuthAccountUpgrade',
+  default: false,
 });

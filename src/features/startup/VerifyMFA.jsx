@@ -21,7 +21,7 @@ import {
   visitorIDState,
 } from '../../states/main';
 import { congAccountConnectedState } from '../../states/congregation';
-import { apiHandleVerifyOTP } from '../../utils/app';
+import { apiHandleVerifyOTP } from '../../api/auth';
 import { runUpdater } from '../../utils/updater';
 
 const matchIsNumeric = (text) => {
@@ -97,6 +97,7 @@ const VerifyMFA = () => {
         }
 
         setIsProcessing(false);
+        setOfflineOverride(false);
       }
     } catch (err) {
       if (!cancel.current) {
@@ -153,6 +154,8 @@ const VerifyMFA = () => {
       <Typography variant="h4" sx={{ marginBottom: '15px' }}>
         {t('mfaVerifyTitle')}
       </Typography>
+
+      <Typography sx={{ marginBottom: '15px' }}>{t('mfaVerifyDesc')}</Typography>
 
       <Box sx={{ width: '100%', maxWidth: '450px', marginTop: '20px' }}>
         <MuiOtpInput

@@ -4,44 +4,42 @@ import { dbGetAppSettings, dbUpdateAppSettings } from '../indexedDb/dbAppSetting
 import { checkSrcUpdate, dbGetListWeekType, dbGetYearList } from '../indexedDb/dbSourceMaterial';
 import { dbGetListAssType, dbHistoryAssignment } from '../indexedDb/dbAssignment';
 import { dbGetStudentsMini } from '../indexedDb/dbPersons';
-import { initAppDb, isDbExist } from '../indexedDb/dbUtility';
-import { dbGetNotifications, dbSaveNotifications } from '../indexedDb/dbNotifications';
+import { initAppDb } from '../indexedDb/dbUtility';
+import { dbGetNotifications } from '../indexedDb/dbNotifications';
 import {
   classCountState,
-  congIDState,
   congNameState,
   congNumberState,
-  isAdminCongState,
   meetingDayState,
   meetingTimeState,
-  pocketMembersState,
   usernameState,
 } from '../states/congregation';
 import {
-  apiHostState,
   appLangState,
   appNotificationsState,
+  avatarUrlState,
   isOnlineState,
-  qrCodePathState,
-  secretTokenPathState,
   sourceLangState,
-  userEmailState,
-  userIDState,
   userLocalUidState,
-  userPasswordState,
-  visitorIDState,
 } from '../states/main';
 import { assTypeListState, weekTypeListState, yearsListState } from '../states/sourceMaterial';
 import { allStudentsState, filteredStudentsState, studentsAssignmentHistoryState } from '../states/persons';
-import { appMessageState, appSeverityState, appSnackOpenState } from '../states/notification';
-import { encryptString } from './swsEncryption';
 
 export const loadApp = async () => {
   const I18n = getI18n();
 
   await initAppDb();
-  let { username, local_uid, source_lang, cong_number, cong_name, class_count, meeting_day, meeting_time } =
-    await dbGetAppSettings();
+  let {
+    username,
+    local_uid,
+    source_lang,
+    cong_number,
+    cong_name,
+    class_count,
+    meeting_day,
+    meeting_time,
+    user_avatar,
+  } = await dbGetAppSettings();
 
   const app_lang = localStorage.getItem('app_lang') || 'e';
 
@@ -49,6 +47,20 @@ export const loadApp = async () => {
 
   if (local_uid && local_uid !== '') {
     await promiseSetRecoil(userLocalUidState, local_uid);
+  }
+
+  const isOnline = await promiseGetRecoil(isOnlineState);
+
+  if (user_avatar) {
+    if (typeof user_avatar === 'string' && isOnline) {
+      await promiseSetRecoil(avatarUrlState, user_avatar);
+    }
+
+    if (typeof user_avatar === 'object') {
+      const blob = new Blob([user_avatar]);
+      const imgSrc = URL.createObjectURL(blob);
+      await promiseSetRecoil(avatarUrlState, imgSrc);
+    }
   }
 
   await promiseSetRecoil(usernameState, username || '');
@@ -82,26 +94,6 @@ export const loadApp = async () => {
 
   const notifications = await dbGetNotifications();
   await promiseSetRecoil(appNotificationsState, notifications);
-};
-
-export const fetchNotifications = async () => {
-  try {
-    const isOnline = await promiseGetRecoil(isOnlineState);
-    const apiHost = await promiseGetRecoil(apiHostState);
-
-    if (isOnline && apiHost !== '') {
-      const res = await fetch(`${apiHost}api/users/announcement`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          app: 'lmm-oa',
-        },
-      });
-
-      const data = await res.json();
-      await dbSaveNotifications(data);
-    }
-  } catch {}
 };
 
 export const sortHistoricalDateDesc = (data) => {
@@ -149,100 +141,46 @@ export const getCurrentWeekDate = () => {
   return monDay;
 };
 
-export const apiHandleVerifyOTP = async (userOTP, isSetup) => {
+export const saveProfilePic = async (url, provider) => {
   try {
-    const apiHost = await promiseGetRecoil(apiHostState);
-    const visitorID = await promiseGetRecoil(visitorIDState);
-    const userEmail = await promiseGetRecoil(userEmailState);
-    const userPwd = await promiseGetRecoil(userPasswordState);
+    if (url && url !== '' && url !== null) {
+      if (provider === 'yahoo.com') {
+        await dbUpdateAppSettings({ user_avatar: url });
+        await promiseSetRecoil(avatarUrlState, url);
 
-    if (userOTP.length === 6) {
-      const reqPayload = { token: userOTP };
+        return;
+      }
 
-      if (apiHost !== '') {
-        const res = await fetch(`${apiHost}api/mfa/verify-token`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            visitorid: visitorID,
-            email: userEmail,
-          },
-          body: JSON.stringify(reqPayload),
-        });
+      if (provider !== 'microsoft.com') {
+        const imageReceived = () => {
+          const canvas = document.createElement('canvas');
+          const context = canvas.getContext('2d');
 
-        const data = await res.json();
-        if (res.status === 200) {
-          const { id, cong_id, cong_name, cong_role, cong_number, pocket_members } = data;
+          canvas.width = downloadedImg.width;
+          canvas.height = downloadedImg.height;
+          canvas.innerText = downloadedImg.alt;
 
-          if (cong_name.length > 0) {
-            if (cong_role.length > 0) {
-              await promiseSetRecoil(congIDState, cong_id);
+          context.drawImage(downloadedImg, 0, 0);
 
-              if (!isSetup) {
-                const settings = await dbGetAppSettings();
-                if (settings.isCongUpdated2 === undefined) {
-                  return { updateCongregation: true };
-                }
-              }
+          canvas.toBlob((done) => savePic(done));
+        };
 
-              if (cong_role.includes('admin')) {
-                await promiseSetRecoil(isAdminCongState, true);
-              }
+        const downloadedImg = new Image();
+        downloadedImg.crossOrigin = 'Anonymous';
+        downloadedImg.src = url;
+        downloadedImg.addEventListener('load', imageReceived, false);
 
-              // role approved
-              if (cong_role.includes('lmmo') || cong_role.includes('lmmo-backup')) {
-                const isMainDb = await isDbExist('lmm_oa');
-                if (!isMainDb) {
-                  await initAppDb();
-                }
+        const savePic = async (profileBlob) => {
+          const profileBuffer = await profileBlob.arrayBuffer();
+          await dbUpdateAppSettings({ user_avatar: profileBuffer });
+          const imgSrc = URL.createObjectURL(profileBlob);
+          await promiseSetRecoil(avatarUrlState, imgSrc);
+        };
 
-                // encrypt email & pwd
-                const encPwd = await encryptString(userPwd, JSON.stringify({ email: userEmail, pwd: userPwd }));
-
-                // save congregation update if any
-                let obj = {};
-                obj.username = data.username;
-                obj.cong_name = cong_name;
-                obj.cong_number = cong_number;
-                obj.userPass = encPwd;
-                obj.isLoggedOut = false;
-                obj.pocket_members = pocket_members;
-                await dbUpdateAppSettings(obj);
-
-                await promiseSetRecoil(userIDState, id);
-                await promiseSetRecoil(pocketMembersState, pocket_members);
-
-                await loadApp();
-
-                return { success: true };
-              }
-
-              return { unauthorized: true };
-            }
-            return { unauthorized: true };
-          }
-
-          return { createCongregation: true };
-        } else {
-          if (data.message) {
-            await promiseSetRecoil(appMessageState, data.message);
-            await promiseSetRecoil(appSeverityState, 'warning');
-            await promiseSetRecoil(appSnackOpenState, true);
-            return {};
-          }
-
-          if (!isSetup && data.secret) {
-            await promiseSetRecoil(secretTokenPathState, data.secret);
-            await promiseSetRecoil(qrCodePathState, data.qrCode);
-            return { reenroll: true };
-          }
-        }
+        return;
       }
     }
-  } catch (err) {
-    await promiseSetRecoil(appMessageState, err.message);
-    await promiseSetRecoil(appSeverityState, 'error');
-    await promiseSetRecoil(appSnackOpenState, true);
-    return {};
-  }
+
+    await promiseSetRecoil(avatarUrlState, undefined);
+  } catch (err) {}
 };

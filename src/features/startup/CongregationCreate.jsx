@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
+import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import CountrySelect from '../../components/CountrySelect';
 import {
@@ -15,9 +16,7 @@ import {
   isUserSignInState,
   offlineOverrideState,
   startupProgressState,
-  userEmailState,
   userIDState,
-  userPasswordState,
 } from '../../states/main';
 import CongregationSelect from '../../components/CongregationSelect';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../../states/notification';
@@ -29,12 +28,14 @@ import {
   isUpdateForVerificationState,
   pocketMembersState,
 } from '../../states/congregation';
-import { encryptString } from '../../utils/swsEncryption';
 import { dbUpdateAppSettings } from '../../indexedDb/dbAppSettings';
 import { loadApp } from '../../utils/app';
 import { runUpdater } from '../../utils/updater';
+import useFirebaseAuth from '../../hooks/useFirebaseAuth';
 
 const CongregationCreate = () => {
+  const { user } = useFirebaseAuth();
+
   const cancel = useRef();
 
   const { t } = useTranslation('ui');
@@ -54,14 +55,13 @@ const CongregationCreate = () => {
   const setIsAppLoad = useSetRecoilState(isAppLoadState);
   const setPocketMembers = useSetRecoilState(pocketMembersState);
 
-  const userPwd = useRecoilValue(userPasswordState);
-  const userEmail = useRecoilValue(userEmailState);
   const isUpdateCong = useRecoilValue(isUpdateForVerificationState);
   const congId = useRecoilValue(congIDState);
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [country, setCountry] = useState(null);
   const [congregation, setCongregation] = useState(null);
+  const [userTmpFullname, setUserTmpFullname] = useState('');
 
   const handleSignIn = () => {
     setUserSignIn(true);
@@ -74,7 +74,7 @@ const CongregationCreate = () => {
 
       const { status, data } = isUpdateCong
         ? await apiUpdateCongregation(congId, country.code, congregation.congName, congregation.congNumber)
-        : await apiCreateCongregation(country.code, congregation.congName, congregation.congNumber);
+        : await apiCreateCongregation(country.code, congregation.congName, congregation.congNumber, userTmpFullname);
 
       if (status === 200) {
         const { id, cong_id, cong_name, cong_role, cong_number, pocket_members } = data;
@@ -88,16 +88,12 @@ const CongregationCreate = () => {
           // role approved
           if (cong_role.includes('lmmo') || cong_role.includes('lmmo-backup')) {
             setCongID(cong_id);
-            // encrypt email & pwd
-            const encPwd = await encryptString(userPwd, JSON.stringify({ email: userEmail, pwd: userPwd }));
-
             // save congregation update if any
             let obj = {};
             obj.username = data.username;
             obj.isCongUpdated2 = true;
             obj.cong_name = cong_name;
             obj.cong_number = cong_number;
-            obj.userPass = encPwd;
             obj.isLoggedOut = false;
             obj.pocket_members = pocket_members;
             await dbUpdateAppSettings(obj);
@@ -140,6 +136,10 @@ const CongregationCreate = () => {
   };
 
   useEffect(() => {
+    if (user) setUserTmpFullname(user.displayName || '');
+  }, [user]);
+
+  useEffect(() => {
     return () => {
       cancel.current = true;
     };
@@ -163,6 +163,19 @@ const CongregationCreate = () => {
           gap: '20px',
         }}
       >
+        {!isUpdateCong && (
+          <TextField
+            sx={{ width: '100%' }}
+            id="outlined-fullname"
+            label={t('fullname')}
+            variant="outlined"
+            autoComplete="off"
+            required
+            value={userTmpFullname}
+            onChange={(e) => setUserTmpFullname(e.target.value)}
+          />
+        )}
+
         <CountrySelect setCountry={(value) => setCountry(value)} />
         {country !== null && (
           <CongregationSelect country={country} setCongregation={(value) => setCongregation(value)} />

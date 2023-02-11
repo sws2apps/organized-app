@@ -18,10 +18,11 @@ import {
 } from '../../indexedDb/dbSchedule';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../../states/notification';
 import { isPublishOpenState } from '../../states/schedule';
-import { apiHostState, userEmailState, visitorIDState } from '../../states/main';
+import { apiHostState, visitorIDState } from '../../states/main';
 import { congIDState } from '../../states/congregation';
 import TreeViewCheckbox from '../../components/TreeViewCheckbox';
 import { dbExportDataOnline } from '../../indexedDb/dbUtility';
+import useFirebaseAuth from '../../hooks/useFirebaseAuth';
 
 const SchedulePublish = () => {
   const { t } = useTranslation('ui');
@@ -35,9 +36,10 @@ const SchedulePublish = () => {
   const setAppMessage = useSetRecoilState(appMessageState);
 
   const visitorID = useRecoilValue(visitorIDState);
-  const userEmail = useRecoilValue(userEmailState);
   const apiHost = useRecoilValue(apiHostState);
   const congID = useRecoilValue(congIDState);
+
+  const { user } = useFirebaseAuth();
 
   const [data, setData] = useState({});
   const [selected, setSelected] = useState([]);
@@ -84,7 +86,7 @@ const SchedulePublish = () => {
           headers: {
             'Content-Type': 'application/json',
             visitorid: visitorID,
-            email: userEmail,
+            uid: user.uid,
           },
           body: JSON.stringify({ schedules: dataSchedules, cong_settings: dbSettings }),
         });

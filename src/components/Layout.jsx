@@ -1,9 +1,8 @@
 import { useEffect, Suspense } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLocation, useSearchParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import usePwa2 from 'use-pwa2/dist/index.js';
 import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
 import About from '../features/about';
 import RootModal from './RootModal';
 import UserAutoLogin from '../features/userAutoLogin';
@@ -12,47 +11,33 @@ import { WhatsNew } from '../features/whatsNew';
 import {
   backupDbOpenState,
   isAboutOpenState,
-  isAppClosingState,
   isAppLoadState,
   isCongPersonAddState,
   isOnlineState,
   isWhatsNewOpenState,
   restoreDbOpenState,
 } from '../states/main';
+import EmailLinkAuthentication from '../features/startup/EmailLinkAuthentication';
 import Startup from '../features/startup';
 import NavBar from './NavBar';
 import { dlgAssDeleteOpenState, dlgAutoFillOpenState, isPublishOpenState } from '../states/schedule';
 import { AutofillSchedule, DeleteSchedule, SchedulePublish } from '../features/schedules';
 import { isImportEPUBState, isImportJWOrgState } from '../states/sourceMaterial';
 import { ImportEPUB, ImportJWOrg } from '../features/sourceMaterial';
-import { fetchNotifications } from '../utils/app';
 import { AppUpdater } from '../features/updater';
-import { UserSignOut } from '../features/userSignOut';
 import { MyAssignments } from '../features/myAssignments';
 import { CongregationPersonAdd } from '../features/congregationPersons';
-
-const WaitingPage = () => {
-  return (
-    <CircularProgress
-      color="primary"
-      size={80}
-      disableShrink={true}
-      sx={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        margin: 'auto',
-      }}
-    />
-  );
-};
+import { fetchNotifications } from '../api/notification';
+import WaitingPage from './WaitingPage';
 
 const Layout = ({ updatePwa }) => {
   let location = useLocation();
 
   const { enabledInstall, installPwa, isLoading } = usePwa2();
+
+  const [searchParams] = useSearchParams();
+
+  const isEmailAuth = searchParams.get('code') !== null;
 
   const isAppLoad = useRecoilValue(isAppLoadState);
   const isOpenAbout = useRecoilValue(isAboutOpenState);
@@ -64,7 +49,6 @@ const Layout = ({ updatePwa }) => {
   const isPublishPocket = useRecoilValue(isPublishOpenState);
   const isImportEPUB = useRecoilValue(isImportEPUBState);
   const isImportJWOrg = useRecoilValue(isImportJWOrgState);
-  const isAppClosing = useRecoilValue(isAppClosingState);
   const isCongPersonAdd = useRecoilValue(isCongPersonAddState);
   const isOnline = useRecoilValue(isOnlineState);
 
@@ -112,10 +96,10 @@ const Layout = ({ updatePwa }) => {
         {isPublishPocket && <SchedulePublish />}
         {isImportEPUB && <ImportEPUB />}
         {isImportJWOrg && <ImportJWOrg />}
-        {isAppClosing && <UserSignOut />}
         {isCongPersonAdd && <CongregationPersonAdd />}
 
-        {isAppLoad && <Startup />}
+        {isEmailAuth && <EmailLinkAuthentication />}
+        {isAppLoad && !isEmailAuth && <Startup />}
         {!isAppLoad && (
           <Suspense fallback={<WaitingPage />}>
             <MyAssignments />

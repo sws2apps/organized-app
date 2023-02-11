@@ -1,6 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import Box from '@mui/material/Box';
+import useFirebaseAuth from '../../hooks/useFirebaseAuth';
 import EmailNotVerified from './EmailNotVerified';
 import LinearProgressWithLabel from '../../components/LinearProgressWithLabel';
 import SetupMFA from './SetupMFA';
@@ -8,17 +9,20 @@ import SignIn from './SignIn';
 import SignUp from './SignUp';
 import UnauthorizedRole from './UnauthorizedRole';
 import VerifyMFA from './VerifyMFA';
+import EmailAuth from './EmailAuth';
 import EmailBlocked from './EmailBlocked';
 import CongregationCreate from './CongregationCreate';
 import TermsUse from './TermsUse';
-import { dbGetAppSettings } from '../../indexedDb/dbAppSettings';
 import { loadApp } from '../../utils/app';
 import { runUpdater } from '../../utils/updater';
 import {
   isAppLoadState,
+  isAuthProcessingState,
   isCongAccountCreateState,
+  isEmailAuthState,
   isEmailBlockedState,
   isEmailNotVerifiedState,
+  isOnlineState,
   isSetupState,
   isShowTermsUseState,
   isUnauthorizedRoleState,
@@ -28,59 +32,123 @@ import {
   isUserSignUpState,
   offlineOverrideState,
   startupProgressState,
+  visitorIDState,
 } from '../../states/main';
+import { apiSendAuthorization } from '../../api/auth';
+import WaitingPage from '../../components/WaitingPage';
+import { dbGetAppSettings } from '../../indexedDb/dbAppSettings';
+import UserAccountUpgrade from './UserAccountUpgrade';
 
 const Startup = () => {
+  const { isAuthenticated } = useFirebaseAuth();
+
   const [isSetup, setIsSetup] = useRecoilState(isSetupState);
   const [startupProgress, setStartupProgress] = useRecoilState(startupProgressState);
-  const [showTermsUse, setShowTermsUse] = useRecoilState(isShowTermsUseState);
   const [isUserSignUp, setIsUserSignUp] = useRecoilState(isUserSignUpState);
   const [isUserSignIn, setIsUserSignIn] = useRecoilState(isUserSignInState);
+  const [isUserMfaVerify, setUserMfaVerify] = useRecoilState(isUserMfaVerifyState);
+  const [isUserMfaSetup, setUserMfaSetup] = useRecoilState(isUserMfaSetupState);
+  const [isCongAccountCreate, setIsCongAccountCreate] = useRecoilState(isCongAccountCreateState);
 
   const setIsAppLoad = useSetRecoilState(isAppLoadState);
+  const setIsAuthProcessing = useSetRecoilState(isAuthProcessingState);
 
-  const offlineOverride = useRecoilValue(offlineOverrideState);
+  const showTermsUse = useRecoilValue(isShowTermsUseState);
   const isEmailNotVerified = useRecoilValue(isEmailNotVerifiedState);
-  const isUserMfaSetup = useRecoilValue(isUserMfaSetupState);
   const isUnauthorizedRole = useRecoilValue(isUnauthorizedRoleState);
-  const isUserMfaVerify = useRecoilValue(isUserMfaVerifyState);
   const isEmailBlocked = useRecoilValue(isEmailBlockedState);
-  const isCongAccountCreate = useRecoilValue(isCongAccountCreateState);
+  const isEmailAuth = useRecoilValue(isEmailAuthState);
+  const visitorID = useRecoilValue(visitorIDState);
+  const isOnline = useRecoilValue(isOnlineState);
+  const isOfflineOverride = useRecoilValue(offlineOverrideState);
+
+  const [isAuth, setIsAuth] = useState(true);
+  const [isUserAccountUpgradeV2, setIsUserAccountUpgradeV2] = useState(false);
 
   useEffect(() => {
-    const checkLoginState = async () => {
-      if (offlineOverride) {
-        setIsSetup(true);
-      } else {
-        let { isLoggedOut, userPass, username } = await dbGetAppSettings();
+    const handleNextAuth = async () => {
+      setIsAuth(true);
 
-        if (isLoggedOut === false && userPass?.length > 0 && username?.length > 0) {
+      const settings = await dbGetAppSettings();
+      const cong_name = settings.cong_name;
+      const accountVersion = settings.account_version || 'v1';
+
+      if (accountVersion === 'v1') {
+        setIsUserAccountUpgradeV2(true);
+        setIsAuth(false);
+        return;
+      } else {
+        setIsUserAccountUpgradeV2(false);
+      }
+
+      if (isOfflineOverride && !isAuthenticated) {
+        setIsUserSignIn(true);
+        setIsUserSignUp(false);
+        setIsCongAccountCreate(false);
+        setUserMfaVerify(false);
+        setUserMfaSetup(false);
+        setIsAuth(false);
+        return;
+      }
+
+      if (!isOfflineOverride) {
+        if (cong_name.length > 0) {
           await loadApp();
           await runUpdater();
           setTimeout(() => {
+            setIsSetup(false);
             setIsAppLoad(false);
             setStartupProgress(0);
           }, [1000]);
-        } else if (isLoggedOut === true) {
-          setShowTermsUse(false);
-          setIsUserSignUp(false);
-          setIsUserSignIn(true);
-          setIsSetup(true);
-        } else {
-          setIsSetup(true);
+          return;
+        }
+
+        if ((!isOnline && cong_name.length === 0) || (isOnline && cong_name.length === 0 && !isAuthenticated)) {
+          setIsUserSignUp(true);
+          setIsUserSignIn(false);
+          setIsCongAccountCreate(false);
+          setIsAuth(false);
+          return;
+        }
+      }
+
+      if (isOnline && isAuthenticated) {
+        if (isOfflineOverride || cong_name.length === 0) {
+          setIsAuthProcessing(true);
+          const result = await apiSendAuthorization();
+          if (result.isSetupMFA || result.isVerifyMFA) {
+            setIsUserSignUp(false);
+            setIsUserSignIn(false);
+
+            if (result.isVerifyMFA) {
+              setUserMfaVerify(true);
+            }
+            if (result.isSetupMFA) {
+              setUserMfaSetup(true);
+            }
+          }
+
+          setIsAuthProcessing(false);
+          setIsAuth(false);
         }
       }
     };
 
-    checkLoginState();
+    handleNextAuth();
   }, [
-    offlineOverride,
+    isAuthenticated,
+    isOnline,
+    isOfflineOverride,
     setIsAppLoad,
+    setIsAuthProcessing,
+    setIsCongAccountCreate,
     setIsSetup,
-    setStartupProgress,
-    setShowTermsUse,
-    setIsUserSignUp,
     setIsUserSignIn,
+    setIsUserSignUp,
+    setStartupProgress,
+    setUserMfaSetup,
+    setUserMfaVerify,
+    visitorID,
   ]);
 
   if (isSetup) {
@@ -89,14 +157,25 @@ const Startup = () => {
         {showTermsUse && <TermsUse />}
         {!showTermsUse && (
           <>
-            {isUserSignIn && <SignIn />}
-            {isUserSignUp && <SignUp />}
-            {isEmailNotVerified && <EmailNotVerified />}
-            {isUserMfaSetup && <SetupMFA />}
-            {isUnauthorizedRole && <UnauthorizedRole />}
-            {isUserMfaVerify && <VerifyMFA />}
-            {isEmailBlocked && <EmailBlocked />}
-            {isCongAccountCreate && <CongregationCreate />}
+            {isAuth && <WaitingPage />}
+            {!isAuth && (
+              <>
+                {isUserAccountUpgradeV2 && <UserAccountUpgrade />}
+                {!isUserAccountUpgradeV2 && (
+                  <>
+                    {isUserSignIn && <SignIn />}
+                    {isUserSignUp && <SignUp />}
+                    {isEmailNotVerified && <EmailNotVerified />}
+                    {isUserMfaSetup && <SetupMFA />}
+                    {isUnauthorizedRole && <UnauthorizedRole />}
+                    {isUserMfaVerify && <VerifyMFA />}
+                    {isEmailBlocked && <EmailBlocked />}
+                    {isCongAccountCreate && <CongregationCreate />}
+                    {isEmailAuth && <EmailAuth />}
+                  </>
+                )}
+              </>
+            )}
           </>
         )}
       </>

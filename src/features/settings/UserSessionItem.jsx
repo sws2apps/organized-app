@@ -7,8 +7,9 @@ import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import Typography from '@mui/material/Typography';
-import { apiHostState, rootModalOpenState, userEmailState, userIDState, visitorIDState } from '../../states/main';
+import { apiHostState, rootModalOpenState, userIDState, visitorIDState } from '../../states/main';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../../states/notification';
+import useFirebaseAuth from '../../hooks/useFirebaseAuth';
 
 const UserSessionItem = ({ session, setSessions }) => {
   const cancel = useRef();
@@ -20,10 +21,11 @@ const UserSessionItem = ({ session, setSessions }) => {
   const setAppSeverity = useSetRecoilState(appSeverityState);
   const setAppMessage = useSetRecoilState(appMessageState);
 
-  const userEmail = useRecoilValue(userEmailState);
   const apiHost = useRecoilValue(apiHostState);
   const visitorID = useRecoilValue(visitorIDState);
   const userID = useRecoilValue(userIDState);
+
+  const { user } = useFirebaseAuth();
 
   const lastSeen = session.last_seen ? dateFormat(new Date(session.last_seen), t('shortDateTimeFormat')) : '';
 
@@ -39,7 +41,7 @@ const UserSessionItem = ({ session, setSessions }) => {
           headers: {
             'Content-Type': 'application/json',
             visitorid: visitorID,
-            email: userEmail,
+            uid: user.uid,
           },
           body: JSON.stringify({ session: session.visitorid }),
         });

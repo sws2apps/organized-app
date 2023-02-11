@@ -29,7 +29,7 @@ import {
   startupProgressState,
   visitorIDState,
 } from '../../states/main';
-import { apiHandleVerifyOTP } from '../../utils/app';
+import { apiHandleVerifyOTP } from '../../api/auth';
 import { runUpdater } from '../../utils/updater';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../../states/notification';
 import { congAccountConnectedState } from '../../states/congregation';
@@ -243,13 +243,15 @@ const SetupMFA = () => {
           </Box>
         )}
 
-        {!isNoQR && (
-          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-            {imgPath.length > 0 && <img className="qrcode" src={imgPath} alt="QR Code 2FA" />}
-          </Box>
-        )}
+        {!isNoQR && <Box>{imgPath.length > 0 && <img className="qrcode" src={imgPath} alt="QR Code 2FA" />}</Box>}
 
-        <Link component="button" underline="none" variant="body1" onClick={() => setIsNoQR(!isNoQR)}>
+        <Link
+          component="button"
+          underline="none"
+          variant="body1"
+          onClick={() => setIsNoQR(!isNoQR)}
+          sx={{ marginTop: '15px' }}
+        >
           {isNoQR ? t('scanQR') : t('copyToken')}
         </Link>
       </TabPanel>

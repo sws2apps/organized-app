@@ -1,15 +1,19 @@
+import { getAuth } from 'firebase/auth';
 import { getProfile } from './common';
 
 export const apiFetchCountries = async () => {
-  const { apiHost, appLang, userEmail, visitorID } = await getProfile();
+  const { apiHost, appLang, visitorID } = await getProfile();
 
   try {
     if (apiHost !== '') {
+      const auth = await getAuth();
+      const user = auth.currentUser;
+
       const res = await fetch(`${apiHost}api/congregations/countries`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          email: userEmail,
+          uid: user.uid,
           visitorid: visitorID,
           language: appLang.toUpperCase(),
         },
@@ -24,15 +28,18 @@ export const apiFetchCountries = async () => {
 };
 
 export const apiFetchCongregations = async (country, name) => {
-  const { apiHost, userEmail, visitorID, appLang } = await getProfile();
+  const { appLang, apiHost, visitorID } = await getProfile();
 
   try {
     if (apiHost !== '') {
+      const auth = await getAuth();
+      const user = auth.currentUser;
+
       const res = await fetch(`${apiHost}api/congregations/list-by-country`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          email: userEmail,
+          uid: user.uid,
           visitorid: visitorID,
           language: appLang.toUpperCase(),
           country,
@@ -48,19 +55,22 @@ export const apiFetchCongregations = async (country, name) => {
   }
 };
 
-export const apiCreateCongregation = async (country_code, cong_name, cong_number) => {
-  const { apiHost, userEmail, visitorID } = await getProfile();
+export const apiCreateCongregation = async (country_code, cong_name, cong_number, fullname) => {
+  const { apiHost, visitorID } = await getProfile();
 
   try {
     if (apiHost !== '') {
+      const auth = await getAuth();
+      const user = auth.currentUser;
+
       const res = await fetch(`${apiHost}api/congregations`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          email: userEmail,
           visitorid: visitorID,
+          uid: user.uid,
         },
-        body: JSON.stringify({ country_code, cong_name, cong_number, email: userEmail, app_requestor: 'lmmo' }),
+        body: JSON.stringify({ country_code, cong_name, cong_number, app_requestor: 'lmmo', fullname }),
       });
       const data = await res.json();
 
@@ -72,15 +82,18 @@ export const apiCreateCongregation = async (country_code, cong_name, cong_number
 };
 
 export const apiUpdateCongregation = async (cong_id, country_code, cong_name, cong_number) => {
-  const { apiHost, userEmail, visitorID } = await getProfile();
+  const { apiHost, visitorID } = await getProfile();
 
   try {
     if (apiHost !== '') {
+      const auth = await getAuth();
+      const user = auth.currentUser;
+
       const res = await fetch(`${apiHost}api/congregations/${cong_id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
-          email: userEmail,
+          uid: user.uid,
           visitorid: visitorID,
         },
         body: JSON.stringify({ country_code, cong_name, cong_number }),

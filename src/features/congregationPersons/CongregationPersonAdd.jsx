@@ -20,16 +20,11 @@ import RadioGroup from '@mui/material/RadioGroup';
 import TextField from '@mui/material/TextField';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import Typography from '@mui/material/Typography';
-import {
-  apiHostState,
-  isCongPersonAddState,
-  rootModalOpenState,
-  userEmailState,
-  visitorIDState,
-} from '../../states/main';
+import { apiHostState, isCongPersonAddState, rootModalOpenState, visitorIDState } from '../../states/main';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../../states/notification';
 import { congIDState } from '../../states/congregation';
 import { allStudentsState } from '../../states/persons';
+import useFirebaseAuth from '../../hooks/useFirebaseAuth';
 
 const CongregationPersonAdd = () => {
   const abortCont = useRef();
@@ -45,11 +40,12 @@ const CongregationPersonAdd = () => {
   const setAppMessage = useSetRecoilState(appMessageState);
   const setRootModalOpen = useSetRecoilState(rootModalOpenState);
 
-  const userEmail = useRecoilValue(userEmailState);
   const apiHost = useRecoilValue(apiHostState);
   const visitorID = useRecoilValue(visitorIDState);
   const congID = useRecoilValue(congIDState);
   const dbPersons = useRecoilValue(allStudentsState);
+
+  const { user } = useFirebaseAuth();
 
   const [value, setValue] = useState('vip');
   const [search, setSearch] = useState('');
@@ -85,7 +81,7 @@ const CongregationPersonAdd = () => {
           headers: {
             'Content-Type': 'application/json',
             visitorid: visitorID,
-            email: userEmail,
+            uid: user.uid,
           },
         });
 
@@ -145,7 +141,7 @@ const CongregationPersonAdd = () => {
           headers: {
             'Content-Type': 'application/json',
             visitorid: visitorID,
-            email: userEmail,
+            uid: user.uid,
           },
           body,
         });

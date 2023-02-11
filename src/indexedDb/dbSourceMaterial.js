@@ -180,7 +180,7 @@ export const dbGetSourceMaterialPocket = async (weekOf) => {
       : +appData.ass1_type
     : '';
 
-  obj.ass1_type_name = assTypeList.find((type) => type.code === obj.ass1_type).assignment_type_name || '';
+  obj.ass1_type_name = assTypeList.find((type) => type.code === obj.ass1_type)?.assignment_type_name || '';
   obj.ass1_time = +appData.ass1_time || '';
   obj.ass1_study = appData.ass1_study || '';
   obj.ass1_src = appData.ass1_src;

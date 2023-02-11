@@ -10,9 +10,10 @@ import PageviewIcon from '@mui/icons-material/Pageview';
 import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { apiHostState, userEmailState, visitorIDState } from '../../states/main';
+import { apiHostState, visitorIDState } from '../../states/main';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../../states/notification';
 import { congIDState } from '../../states/congregation';
+import useFirebaseAuth from '../../hooks/useFirebaseAuth';
 
 const CongregationFindPerson = ({ setMember }) => {
   const cancel = useRef();
@@ -23,10 +24,11 @@ const CongregationFindPerson = ({ setMember }) => {
   const setAppSeverity = useSetRecoilState(appSeverityState);
   const setAppMessage = useSetRecoilState(appMessageState);
 
-  const userEmail = useRecoilValue(userEmailState);
   const apiHost = useRecoilValue(apiHostState);
   const visitorID = useRecoilValue(visitorIDState);
   const congID = useRecoilValue(congIDState);
+
+  const { user } = useFirebaseAuth();
 
   const [search, setSearch] = useState('');
   const [result, setResult] = useState({});
@@ -46,7 +48,7 @@ const CongregationFindPerson = ({ setMember }) => {
           headers: {
             'Content-Type': 'application/json',
             visitorid: visitorID,
-            email: userEmail,
+            uid: user.uid,
           },
         });
 

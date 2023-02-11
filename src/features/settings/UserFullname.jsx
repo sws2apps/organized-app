@@ -6,12 +6,14 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { usernameState } from '../../states/congregation';
-import { apiHostState, rootModalOpenState, userEmailState, userIDState, visitorIDState } from '../../states/main';
+import { apiHostState, rootModalOpenState, userIDState, visitorIDState } from '../../states/main';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../../states/notification';
+import useFirebaseAuth from '../../hooks/useFirebaseAuth';
 
 const UserFullname = () => {
   const cancel = useRef();
 
+  const { user } = useFirebaseAuth();
   const { t } = useTranslation('ui');
 
   const [username, setUsername] = useRecoilState(usernameState);
@@ -21,7 +23,6 @@ const UserFullname = () => {
   const setAppSeverity = useSetRecoilState(appSeverityState);
   const setAppMessage = useSetRecoilState(appMessageState);
 
-  const userEmail = useRecoilValue(userEmailState);
   const apiHost = useRecoilValue(apiHostState);
   const visitorID = useRecoilValue(visitorIDState);
   const userID = useRecoilValue(userIDState);
@@ -45,7 +46,7 @@ const UserFullname = () => {
           headers: {
             'Content-Type': 'application/json',
             visitorid: visitorID,
-            email: userEmail,
+            uid: user.uid,
           },
           body: JSON.stringify({ fullname: tmpUsername }),
         });
@@ -144,7 +145,7 @@ const UserFullname = () => {
             marginTop: '5px',
             marginBottom: '2px',
           }}
-          value={userEmail}
+          value={user?.email || ''}
           InputProps={{
             readOnly: true,
           }}

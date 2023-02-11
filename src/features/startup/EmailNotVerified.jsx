@@ -8,13 +8,8 @@ import Container from '@mui/material/Container';
 import ErrorIcon from '@mui/icons-material/Error';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import {
-  apiHostState,
-  isEmailNotVerifiedState,
-  isUserSignInState,
-  userEmailState,
-  visitorIDState,
-} from '../../states/main';
+import { apiHostState, isEmailNotVerifiedState, isUserSignInState, visitorIDState } from '../../states/main';
+import useFirebaseAuth from '../../hooks/useFirebaseAuth';
 
 const EmailNotVerified = () => {
   const cancel = useRef();
@@ -25,8 +20,9 @@ const EmailNotVerified = () => {
   const setEmailNotVerified = useSetRecoilState(isEmailNotVerifiedState);
 
   const apiHost = useRecoilValue(apiHostState);
-  const userEmail = useRecoilValue(userEmailState);
   const visitorID = useRecoilValue(visitorIDState);
+
+  const { user } = useFirebaseAuth();
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [errTxt, setErrTxt] = useState('');
@@ -49,7 +45,7 @@ const EmailNotVerified = () => {
           headers: {
             'Content-Type': 'application/json',
             visitorid: visitorID,
-            email: userEmail,
+            uid: user.uid,
           },
         });
 

@@ -23,11 +23,12 @@ import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import SaveIcon from '@mui/icons-material/Save';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { apiHostState, rootModalOpenState, userEmailState, visitorIDState } from '../states/main';
+import { apiHostState, rootModalOpenState, visitorIDState } from '../states/main';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../states/notification';
 import { congIDState, pocketMembersState } from '../states/congregation';
 import { allStudentsState } from '../states/persons';
 import { dbUpdateAppSettings } from '../indexedDb/dbAppSettings';
+import useFirebaseAuth from '../hooks/useFirebaseAuth';
 
 const styles = {
   checkbox: {
@@ -50,11 +51,12 @@ const CongregationPersonDetails = () => {
   const setRootModalOpen = useSetRecoilState(rootModalOpenState);
   const setPocketMembers = useSetRecoilState(pocketMembersState);
 
-  const userEmail = useRecoilValue(userEmailState);
   const apiHost = useRecoilValue(apiHostState);
   const visitorID = useRecoilValue(visitorIDState);
   const congID = useRecoilValue(congIDState);
   const dbPersons = useRecoilValue(allStudentsState);
+
+  const { user } = useFirebaseAuth();
 
   const [member, setMember] = useState(person);
 
@@ -166,7 +168,7 @@ const CongregationPersonDetails = () => {
           headers: {
             'Content-Type': 'application/json',
             visitorid: visitorID,
-            email: userEmail,
+            uid: user.uid,
           },
         });
 
@@ -200,7 +202,7 @@ const CongregationPersonDetails = () => {
           headers: {
             'Content-Type': 'application/json',
             visitorid: visitorID,
-            email: userEmail,
+            uid: user.uid,
           },
         });
 
@@ -238,7 +240,7 @@ const CongregationPersonDetails = () => {
           headers: {
             'Content-Type': 'application/json',
             visitorid: visitorID,
-            email: userEmail,
+            uid: user.uid,
           },
           body: JSON.stringify({ pocket_visitorid }),
         });
@@ -284,7 +286,7 @@ const CongregationPersonDetails = () => {
           headers: {
             'Content-Type': 'application/json',
             visitorid: visitorID,
-            email: userEmail,
+            uid: user.uid,
           },
           body: JSON.stringify({ session: visitorid }),
         });
@@ -338,7 +340,7 @@ const CongregationPersonDetails = () => {
           headers: {
             'Content-Type': 'application/json',
             visitorid: visitorID,
-            email: userEmail,
+            uid: user.uid,
           },
           body: JSON.stringify(reqPayload),
         });
@@ -349,7 +351,7 @@ const CongregationPersonDetails = () => {
           setRootModalOpen(false);
           queryClient.invalidateQueries({ queryKey: ['congPersons'] });
 
-          if (userEmail === person.user_uid) {
+          if (user.email === person.user_uid) {
             await dbUpdateAppSettings({ pocket_members: member.pocket_members });
             setPocketMembers(member.pocket_members);
           }
@@ -379,7 +381,7 @@ const CongregationPersonDetails = () => {
           headers: {
             'Content-Type': 'application/json',
             visitorid: visitorID,
-            email: userEmail,
+            uid: user.uid,
           },
         });
 
@@ -497,7 +499,7 @@ const CongregationPersonDetails = () => {
               </Box>
 
               {/* Local records */}
-              {userEmail !== person.user_uid && member.cong_role?.includes('view_meeting_schedule') && (
+              {user && user.email !== person.user_uid && member.cong_role?.includes('view_meeting_schedule') && (
                 <Box sx={{ marginTop: '20px' }}>
                   <Typography
                     sx={{ fontWeight: 'bold', marginBottom: '10px', borderBottom: '1px outset', paddingBottom: '5px' }}
@@ -708,7 +710,7 @@ const CongregationPersonDetails = () => {
         </Box>
       </Box>
       <Box sx={{ '& > :not(style)': { m: 1 }, position: 'fixed', bottom: 20, right: 20 }}>
-        {person.global_role === 'vip' && userEmail !== person.user_uid && (
+        {user && person.global_role === 'vip' && user.email !== person.user_uid && (
           <Fab aria-label="save" color="error" onClick={handleRemoveCongPerson}>
             <PersonRemoveIcon />
           </Fab>
