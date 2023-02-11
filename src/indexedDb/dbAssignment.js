@@ -559,6 +559,7 @@ export const dbGetS89WeekList = async (scheduleName) => {
   const sourceLang = await promiseGetRecoil(sourceLangState);
   const s89Data = [];
   const allWeeks = await dbGetWeekListBySched(scheduleName);
+
   for (let i = 0; i < allWeeks.length; i++) {
     const week = allWeeks[i].value;
     const scheduleData = await dbGetScheduleData(week);
@@ -598,10 +599,10 @@ export const dbGetS89WeekList = async (scheduleName) => {
       }
 
       const assTypeList = await promiseGetRecoil(assTypeLocalState);
-      for (let i = 1; i <= 4; i++) {
-        const fldStuA = 'ass' + i + '_stu_A';
-        const fldStuB = 'ass' + i + '_stu_B';
-        const fldAss = 'ass' + i + '_type';
+      for (let z = 1; z <= 4; z++) {
+        const fldStuA = 'ass' + z + '_stu_A';
+        const fldStuB = 'ass' + z + '_stu_B';
+        const fldAss = 'ass' + z + '_type';
         if (
           (scheduleData[fldStuA] && scheduleData[fldStuA] !== '') ||
           (scheduleData[fldStuB] && scheduleData[fldStuB] !== '')
@@ -610,21 +611,21 @@ export const dbGetS89WeekList = async (scheduleName) => {
           let indexType;
           indexType = assTypeList.findIndex((type) => type.value === sourceData[fldAss]);
           assType.label = indexType >= 0 ? assTypeList[indexType].label : '';
-          assType.value = week + '-' + i + '@ass' + i;
+          assType.value = week + '-' + z + '@ass' + z;
+          assType.children = [];
           if (scheduleData[fldStuA] && scheduleData[fldStuA] !== '') {
-            assType.children = [];
             assClass = {};
-            assClass.value = week + '-' + i + '@ass' + i + '-A';
+            assClass.value = week + '-' + z + '@ass' + z + '-A';
             assClass.label = getI18n().t('mainHall', { ns: 'ui', lng: sourceLang });
             assType.children.push(assClass);
           }
           if (scheduleData[fldStuB] && scheduleData[fldStuB] !== '') {
-            assType.children = [];
             assClass = {};
-            assClass.value = week + '-' + i + '@ass' + i + '-B';
+            assClass.value = week + '-' + z + '@ass' + z + '-B';
             assClass.label = getI18n().t('auxClass1', { ns: 'ui', lng: sourceLang });
             assType.children.push(assClass);
           }
+
           parentWeek.children.push(assType);
         }
       }
