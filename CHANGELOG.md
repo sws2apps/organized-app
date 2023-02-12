@@ -1,3 +1,10 @@
+## [2.32.8](https://github.com/sws2apps/lmm-oa-sws/compare/v2.32.7...v2.32.8) (2023-02-12)
+
+
+### Bug Fixes
+
+* **firebase:** unlink password provider on signin if exists ([b8dc48c](https://github.com/sws2apps/lmm-oa-sws/commit/b8dc48cb676300ca2ed01e9351ad61a541457e9e))
+
 ## [2.32.7](https://github.com/sws2apps/lmm-oa-sws/compare/v2.32.6...v2.32.7) (2023-02-12)
 
 
