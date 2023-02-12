@@ -61,7 +61,7 @@ const SourceWeekDetails = () => {
   const setAppMessage = useSetRecoilState(appMessageState);
 
   const [weekOf, setWeekOf] = useState('');
-  const [noMeeting, setNoMeeting] = useState(true);
+  const [noMeeting, setNoMeeting] = useState(false);
   const [weekType, setWeekType] = useState(1);
   const [WeekDate, setWeekDate] = useState('');
   const [WeeklyBibleReading, setWeeklyBibleReading] = useState('');
