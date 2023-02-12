@@ -1,3 +1,10 @@
+## [2.32.10](https://github.com/sws2apps/lmm-oa-sws/compare/v2.32.9...v2.32.10) (2023-02-12)
+
+
+### Bug Fixes
+
+* **csp:** update connect-src ([453da6f](https://github.com/sws2apps/lmm-oa-sws/commit/453da6f073e3184e9fe57d881585791765047af5))
+
 ## [2.32.9](https://github.com/sws2apps/lmm-oa-sws/compare/v2.32.8...v2.32.9) (2023-02-12)
 
 
