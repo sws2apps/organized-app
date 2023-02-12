@@ -1,3 +1,10 @@
+## [2.32.9](https://github.com/sws2apps/lmm-oa-sws/compare/v2.32.8...v2.32.9) (2023-02-12)
+
+
+### Bug Fixes
+
+* **firebase:** logout when user session ends ([f241c8d](https://github.com/sws2apps/lmm-oa-sws/commit/f241c8d38509e25046834f4851f18d6a21882c73))
+
 ## [2.32.8](https://github.com/sws2apps/lmm-oa-sws/compare/v2.32.7...v2.32.8) (2023-02-12)
 
 
