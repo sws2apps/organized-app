@@ -1,3 +1,10 @@
+## [2.32.11](https://github.com/sws2apps/lmm-oa-sws/compare/v2.32.10...v2.32.11) (2023-02-12)
+
+
+### Bug Fixes
+
+* **schedules:** fix infinite loading when assigning student ([9bfbb73](https://github.com/sws2apps/lmm-oa-sws/commit/9bfbb732be4c866f4c42985679d3d1570911efed))
+
 ## [2.32.10](https://github.com/sws2apps/lmm-oa-sws/compare/v2.32.9...v2.32.10) (2023-02-12)
 
 
