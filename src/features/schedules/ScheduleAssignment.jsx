@@ -198,10 +198,10 @@ const ScheduleAssignment = ({ edit }) => {
       setStu2B(studentName);
       setIsStu2B(false);
     } else if (assID === 9) {
-      setIsAss2B(false);
+      setIsAss2B(true);
       await dbSaveAss(week, studentID, 'ass2_ass_B');
       setAss2B(studentName);
-      setIsAss2B(true);
+      setIsAss2B(false);
     } else if (assID === 10) {
       setIsStu3A(true);
       await dbSaveAss(week, studentID, 'ass3_stu_A');
