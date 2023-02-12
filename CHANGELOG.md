@@ -1,3 +1,10 @@
+## [2.32.1](https://github.com/sws2apps/lmm-oa-sws/compare/v2.32.0...v2.32.1) (2023-02-12)
+
+
+### Bug Fixes
+
+* **csp:** update connect-src for new firebase auth ([7ba43de](https://github.com/sws2apps/lmm-oa-sws/commit/7ba43de825ca43614629584419957f05ad5e7bd9))
+
 # [2.32.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.31.3...v2.32.0) (2023-02-12)
 
 
