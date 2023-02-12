@@ -1,3 +1,10 @@
+## [2.32.6](https://github.com/sws2apps/lmm-oa-sws/compare/v2.32.5...v2.32.6) (2023-02-12)
+
+
+### Bug Fixes
+
+* **csp:** update img-src to load profile picture from google ([ca41085](https://github.com/sws2apps/lmm-oa-sws/commit/ca41085717274755f54eafbeae59eaa89131c304))
+
 ## [2.32.5](https://github.com/sws2apps/lmm-oa-sws/compare/v2.32.4...v2.32.5) (2023-02-12)
 
 
