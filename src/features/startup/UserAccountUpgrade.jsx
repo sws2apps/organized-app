@@ -70,6 +70,12 @@ const UserAccountUpgrade = () => {
         }
       }
     } catch (err) {
+      if (err.code && err.code === 'auth/wrong-password') {
+        setIsProcessing(false);
+        setIsOAuthAccountUpgrade(true);
+        setIsLogin(false);
+        return;
+      }
       if (!cancel.current) {
         setIsProcessing(false);
         setAppMessage(t('incorrectInfo'));

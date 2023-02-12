@@ -66,8 +66,20 @@ const OAuthButtonBase = ({ buttonStyles, logo, text, provider, isEmail }) => {
   const handleOAuthUpgrade = async () => {
     try {
       const auth = getAuth();
-      await linkWithPopup(auth.currentUser, provider);
-      await unlink(auth.currentUser, 'password');
+      if (auth.currentUser) {
+        await linkWithPopup(auth.currentUser, provider);
+        await unlink(auth.currentUser, 'password');
+      }
+
+      if (!auth.currentUser) {
+        const auth = getAuth();
+        await setPersistence(auth, indexedDBLocalPersistence);
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
+        const findPasswordProvider = user.providerData.find((provider) => provider.providerId === 'password');
+        if (findPasswordProvider) await unlink(auth.currentUser, 'password');
+      }
+
       await dbUpdateAppSettings({ account_version: 'v2' });
       setAppMessage(t('oauthAccountUpgradeComplete'));
       setAppSeverity('success');
