@@ -41,7 +41,7 @@ export const dbGetBaseScheduleDate = async (weekValue) => {
     }
   }
 
-  schedule.week_type = parseInt(appData.week_type, 10) || 1;
+  schedule.week_type = appData.week_type ? +appData.week_type : 1;
   schedule.noMeeting = appData.noMeeting || false;
   return schedule;
 };

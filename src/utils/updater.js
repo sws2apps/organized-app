@@ -238,17 +238,19 @@ const updateWeekType = async (step) => {
   const { t } = getI18n();
 
   let normWeekObj = {};
+  let tgWeekObj = {};
   let coWeekObj = {};
-  let convWeekObj = {};
+  let caWeekObj = {};
 
   const listSourceLangs = LANGUAGE_LIST.filter((lang) => lang.isSource === true);
 
   listSourceLangs.forEach((lang) => {
     const langCode = lang.code.toUpperCase();
 
-    normWeekObj[langCode] = t('normalWeek', { lng: lang.code, ns: 'ui' });
-    coWeekObj[langCode] = t('circuitOverseerWeek', { lng: lang.code, ns: 'ui' });
-    convWeekObj[langCode] = t('conventionWeek', { lng: lang.code, ns: 'ui' });
+    normWeekObj[langCode] = t('normalWeek', { lng: lang.code, ns: 'source' });
+    tgWeekObj[langCode] = t('circuitOverseerWeek', { lng: lang.code, ns: 'source' });
+    caWeekObj[langCode] = t('assemblyWeek', { lng: lang.code, ns: 'source' });
+    coWeekObj[langCode] = t('conventionWeek', { lng: lang.code, ns: 'source' });
   });
 
   await appDb.week_type.clear();
@@ -256,6 +258,7 @@ const updateWeekType = async (step) => {
   await appDb.week_type.put(
     {
       id_week_type: 1,
+      sort_index: 1,
       week_type_name: {
         ...normWeekObj,
       },
@@ -266,8 +269,9 @@ const updateWeekType = async (step) => {
   await appDb.week_type.put(
     {
       id_week_type: 2,
+      sort_index: 2,
       week_type_name: {
-        ...coWeekObj,
+        ...tgWeekObj,
       },
     },
     2
@@ -276,11 +280,23 @@ const updateWeekType = async (step) => {
   await appDb.week_type.put(
     {
       id_week_type: 3,
+      sort_index: 4,
       week_type_name: {
-        ...convWeekObj,
+        ...coWeekObj,
       },
     },
     3
+  );
+
+  await appDb.week_type.put(
+    {
+      id_week_type: 4,
+      sort_index: 3,
+      week_type_name: {
+        ...caWeekObj,
+      },
+    },
+    4
   );
 
   i = i + step;

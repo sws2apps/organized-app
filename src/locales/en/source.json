@@ -46,5 +46,9 @@
   "auxClass": "Auxiliary Classroom",
   "memorialInvite": "Memorial Invitation",
   "s89Part1Label": "Part 1",
-  "s89Part2Label": "Part 2"
+  "s89Part2Label": "Part 2",
+  "normalWeek": "Normal Week",
+  "circuitOverseerWeek": "Visit of Circuit Overseer",
+  "conventionWeek": "Week of Regional Convention",
+  "assemblyWeek": "Week of Circuit Assembly"
 }

@@ -219,6 +219,9 @@ appDb.version(54).stores({
   app_settings:
     '++id, username, local_uid, source_lang, cong_number, cong_name, class_count, meeting_day, meeting_time, isScheduleConverted, isCongVerified, isAssignmentsConverted, isCongUpdated2, pocket_members, user_avatar, account_version',
 });
+appDb.version(55).stores({
+  week_type: '&id_week_type, week_type_name, sort_index',
+});
 
 appDb.on('populate', function () {
   appDb.app_settings.add({

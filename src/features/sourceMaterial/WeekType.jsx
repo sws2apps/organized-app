@@ -13,10 +13,10 @@ const WeekType = (props) => {
 
   const handleTypeChange = async (e) => {
     setWeekType(e.target.value);
-    if (e.target.value === 3) {
-      props.setHasMeeting(false);
+    if (e.target.value === 3 || e.target.value === 4) {
+      props.setNoMeeting(true);
     } else {
-      props.setHasMeeting(true);
+      props.setNoMeeting(false);
     }
   };
 

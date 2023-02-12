@@ -5,11 +5,11 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import dateFormat from 'dateformat';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Box from '@mui/material/Box';
+import Checkbox from '@mui/material/Checkbox';
 import Fab from '@mui/material/Fab';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import IconButton from '@mui/material/IconButton';
 import SaveIcon from '@mui/icons-material/Save';
-import Switch from '@mui/material/Switch';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { LCPartHeading, PartDuration, PartType, SongsList, StudyPoint, WeekType } from '../features/sourceMaterial';
@@ -61,7 +61,7 @@ const SourceWeekDetails = () => {
   const setAppMessage = useSetRecoilState(appMessageState);
 
   const [weekOf, setWeekOf] = useState('');
-  const [hasMeeting, setHasMeeting] = useState(true);
+  const [noMeeting, setNoMeeting] = useState(true);
   const [weekType, setWeekType] = useState(1);
   const [WeekDate, setWeekDate] = useState('');
   const [WeeklyBibleReading, setWeeklyBibleReading] = useState('');
@@ -183,7 +183,7 @@ const SourceWeekDetails = () => {
     obj.cbs_src = CBSSrc;
     obj.songConclude_src = isNaN(SongConclude) ? SongConclude : +SongConclude;
     obj.week_type = weekType;
-    obj.noMeeting = !hasMeeting;
+    obj.noMeeting = noMeeting;
     obj.isOverride = true;
 
     const isSaved = await dbSaveSrcData(obj, false);
@@ -205,7 +205,7 @@ const SourceWeekDetails = () => {
       const data = await dbGetSourceMaterial(week);
       if (isSubscribed) {
         setWeekOf(data.weekOf);
-        setHasMeeting(!data.noMeeting);
+        setNoMeeting(data.noMeeting);
         setWeekType(data.week_type);
         setWeekDate(data.weekDate_src);
         setWeeklyBibleReading(data.weeklyBibleReading_src);
@@ -295,11 +295,12 @@ const SourceWeekDetails = () => {
           <WeekType
             weekType={weekType}
             setWeekType={(value) => setWeekType(value)}
-            setHasMeeting={(value) => setHasMeeting(value)}
+            setNoMeeting={(value) => setNoMeeting(value)}
           />
           <FormControlLabel
-            control={<Switch checked={hasMeeting} onChange={(e) => setHasMeeting(e.target.checked)} />}
-            label={hasMeeting ? t('hasMeeting') : t('noMeeting')}
+            control={<Checkbox checked={noMeeting} onChange={(e) => setNoMeeting(e.target.checked)} />}
+            label={t('noMeeting')}
+            disabled={weekType === 3 || weekType === 4}
           />
         </Box>
         <Box sx={{ margin: '20px 0', display: 'flex', flexDirection: 'column', gap: '20px', width: '280px' }}>

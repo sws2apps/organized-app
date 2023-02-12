@@ -5,16 +5,18 @@ import { sourceLangState } from '../states/main';
 import { assTypeListState, assTypeLocalState } from '../states/sourceMaterial';
 
 export const dbGetListWeekType = async () => {
-  const weekType = [];
+  const weekTypeList = [];
   const appData = await appDb.table('week_type').reverse().reverse().sortBy('id_week_type');
 
-  for (let i = 0; i < appData.length; i++) {
+  appData.forEach((weekType) => {
     const obj = {};
-    obj.id_week_type = appData[i].id_week_type;
-    obj.week_type_name = appData[i].week_type_name;
-    weekType.push(obj);
-  }
-  return weekType;
+    obj.id_week_type = weekType.id_week_type;
+    obj.week_type_name = weekType.week_type_name;
+    obj.sort_index = weekType.sort_index;
+    weekTypeList.push(obj);
+  });
+
+  return weekTypeList;
 };
 
 export const dbGetScheduleWeekInfo = async (weekOf) => {

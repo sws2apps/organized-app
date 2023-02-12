@@ -111,13 +111,18 @@ export const weekTypeLocalState = selector({
     const sourceLang = get(sourceLangState);
     const weekTypeList = get(weekTypeListState);
 
-    let newList = [];
-    for (let i = 0; i < weekTypeList.length; i++) {
-      let obj = {};
-      obj.value = weekTypeList[i].id_week_type;
-      obj.label = weekTypeList[i].week_type_name[sourceLang.toUpperCase()];
+    const newList = [];
+    weekTypeList.forEach((weekType) => {
+      const obj = {};
+      obj.value = weekType.id_week_type;
+      obj.sort_index = weekType.sort_index;
+      obj.label = weekType.week_type_name[sourceLang.toUpperCase()];
       newList.push(obj);
-    }
+    });
+
+    newList.sort((a, b) => {
+      return a.sort_index > b.sort_index ? 1 : -1;
+    });
 
     return newList;
   },
