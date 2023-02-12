@@ -23,11 +23,11 @@ import ScheduleIcon from '@mui/icons-material/Schedule';
 import MenuCard from '../components/MenuCard';
 import { congAccountConnectedState } from '../states/congregation';
 import {
-  appLangState,
   backupDbOpenState,
   isMyAssignmentOpenState,
   isOnlineState,
   restoreDbOpenState,
+  sourceLangState,
 } from '../states/main';
 import { dbAddManualSource } from '../indexedDb/dbSourceMaterial';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../states/notification';
@@ -42,7 +42,7 @@ const DashboardMenu = () => {
   const { t } = useTranslation('ui');
   const navigate = useNavigate();
 
-  const appLang = useRecoilValue(appLangState);
+  const sourceLang = useRecoilValue(sourceLangState);
 
   const setAppSnackOpen = useSetRecoilState(appSnackOpenState);
   const setAppSeverity = useSetRecoilState(appSeverityState);
@@ -76,7 +76,7 @@ const DashboardMenu = () => {
     });
 
     const epubLang = file.name.split('_')[1];
-    if (epubLang && epubLang === appLang.toUpperCase()) {
+    if (epubLang && epubLang === sourceLang.toUpperCase()) {
       setEpubFile(file);
       setIsImportEPUB(true);
     } else {
