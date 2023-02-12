@@ -1,3 +1,10 @@
+# [2.32.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.31.3...v2.32.0) (2023-02-12)
+
+
+### Features
+
+* **auth:** support for oauth for user authentication ([1051b2d](https://github.com/sws2apps/lmm-oa-sws/commit/1051b2d5c61561e05d69222df60bc3e52534b524))
+
 ## [2.31.3](https://github.com/sws2apps/lmm-oa-sws/compare/v2.31.2...v2.31.3) (2023-02-11)
 
 
