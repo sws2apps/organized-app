@@ -1,3 +1,10 @@
+## [2.32.5](https://github.com/sws2apps/lmm-oa-sws/compare/v2.32.4...v2.32.5) (2023-02-12)
+
+
+### Bug Fixes
+
+* **hooks:** update path to obtain photo url from firebase auth ([f382622](https://github.com/sws2apps/lmm-oa-sws/commit/f38262252029d2ad4d5e4708b027b370496f4452))
+
 ## [2.32.4](https://github.com/sws2apps/lmm-oa-sws/compare/v2.32.3...v2.32.4) (2023-02-12)
 
 
