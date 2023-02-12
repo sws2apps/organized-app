@@ -39,7 +39,10 @@ const OAuthButtonBase = ({ buttonStyles, logo, text, provider, isEmail }) => {
     try {
       const auth = getAuth();
       await setPersistence(auth, indexedDBLocalPersistence);
-      await signInWithPopup(auth, provider);
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      const findPasswordProvider = user.providerData.find((provider) => provider.providerId === 'password');
+      if (findPasswordProvider) await unlink(auth.currentUser, 'password');
     } catch (error) {
       if (error.code && error.code === 'auth/account-exists-with-different-credential') {
         setAppMessage(t('oauthAccountExistsWithDifferentCredential'));
