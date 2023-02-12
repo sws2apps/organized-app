@@ -1,3 +1,10 @@
+## [2.32.7](https://github.com/sws2apps/lmm-oa-sws/compare/v2.32.6...v2.32.7) (2023-02-12)
+
+
+### Bug Fixes
+
+* **csp:** add blob to img-src ([355f95c](https://github.com/sws2apps/lmm-oa-sws/commit/355f95ca4a7eb13de4b522193bcf0ee2fc26dbbd))
+
 ## [2.32.6](https://github.com/sws2apps/lmm-oa-sws/compare/v2.32.5...v2.32.6) (2023-02-12)
 
 
