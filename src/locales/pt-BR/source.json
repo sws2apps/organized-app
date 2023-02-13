@@ -46,5 +46,9 @@
   "auxClass": "Sala B",
   "memorialInvite": "Convite da Celebração",
   "s89Part1Label": "Designação 1",
-  "s89Part2Label": "Designação 2"
+  "s89Part2Label": "Designação 2",
+  "normalWeek": "Semana normal",
+  "circuitOverseerWeek": "Visita do Superintendente de Circuito",
+  "conventionWeek": "Semana do Congresso",
+  "assemblyWeek": "Semana da Assembleia de Circuito"
 }
