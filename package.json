@@ -34,7 +34,7 @@
     "dexie-export-import": "^4.0.5",
     "downloadjs": "^1.4.7",
     "file-select-dialog": "^1.5.4",
-    "firebase": "^9.17.0",
+    "firebase": "^9.17.1",
     "html2pdf.js": "^0.10.1",
     "i18next": "^22.4.9",
     "interweave": "^13.0.0",
