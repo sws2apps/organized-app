@@ -47,6 +47,7 @@ const styles = {
 };
 
 const ScheduleRowAssignment = ({
+  weekType,
   edit,
   source,
   isAssignA,
@@ -72,6 +73,7 @@ const ScheduleRowAssignment = ({
   assistantBID,
   lcPart,
   cbs,
+  co,
 }) => {
   const classCount = useRecoilValue(classCountState);
 
@@ -125,6 +127,7 @@ const ScheduleRowAssignment = ({
             <SingleAssignment
               ayf={ayf}
               edit={edit}
+              co={co}
               isAssign={isAssignA}
               person={personA}
               loadStudentPicker={loadStudentPickerA}
@@ -138,7 +141,7 @@ const ScheduleRowAssignment = ({
             />
           )}
 
-          {((student && classCount === 2) || cbs) && (
+          {((classCount === 2 && weekType === 1 && student) || cbs) && (
             <>
               {(edit || personB) && (
                 <SingleAssignment

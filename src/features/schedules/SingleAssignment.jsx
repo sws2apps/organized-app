@@ -23,6 +23,7 @@ const SingleAssignment = ({
   assType,
   assTypeName,
   assistantID,
+  co,
 }) => {
   const { t } = useTranslation('ui');
 
@@ -71,11 +72,12 @@ const SingleAssignment = ({
           {edit && (
             <>
               {isAssign && <CircularProgress color="secondary" size={26} disableShrink={true} />}
-              {!isAssign && (
+              {!co && !isAssign && (
                 <IconButton sx={{ padding: '1px' }} onClick={openPickerStudent}>
                   <EditIcon sx={{ fontSize: '24px' }} />
                 </IconButton>
               )}
+              {co && <Box sx={{ width: '26px' }}></Box>}
             </>
           )}
         </Box>

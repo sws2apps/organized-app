@@ -14,6 +14,7 @@ import {
   dbGetWeekTypeNamePocket,
 } from './dbSourceMaterial';
 import appDb from './mainDb';
+import { dbGetAppSettings } from './dbAppSettings';
 
 export const dbGetBaseScheduleDate = async (weekValue) => {
   const appData = await appDb.table('sched_MM').get({ weekOf: weekValue });
@@ -49,7 +50,12 @@ export const dbGetBaseScheduleDate = async (weekValue) => {
 export const dbGetScheduleData = async (weekValue) => {
   const baseSchedule = await dbGetBaseScheduleDate(weekValue);
   const schedule = { ...baseSchedule };
+
   schedule.week_type_name = await dbGetWeekTypeName(schedule.week_type);
+
+  const settings = await dbGetAppSettings();
+  schedule.co_displayName = settings.co_displayName || '';
+
   return schedule;
 };
 

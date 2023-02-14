@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import TextField from '@mui/material/TextField';
+import { generateDisplayName } from '../../utils/person';
 
 const PersonBasic = ({ isMale, isFemale, name, displayName, setIsMale, setIsFemale, setName, setDisplayName }) => {
   const { t } = useTranslation('ui');
@@ -19,28 +20,7 @@ const PersonBasic = ({ isMale, isFemale, name, displayName, setIsMale, setIsFema
       setIsErrorDisplayName(true);
     }
     setName(name);
-    generateDisplayName(name);
-  };
-
-  const generateDisplayName = (name) => {
-    if (name === '') {
-      setDisplayName('');
-    } else {
-      const txtArray = name.split(' ');
-      if (txtArray.length === 1) {
-        setDisplayName(name);
-      } else {
-        let varDisplay = '';
-        for (let i = 0; i < txtArray.length; i++) {
-          if (i === txtArray.length - 1) {
-            varDisplay += txtArray[i];
-          } else {
-            varDisplay += txtArray[i].substring(0, 1) + '. ';
-          }
-        }
-        setDisplayName(varDisplay);
-      }
-    }
+    setDisplayName(generateDisplayName(name));
   };
 
   const handleDisplayNameChange = (name) => {

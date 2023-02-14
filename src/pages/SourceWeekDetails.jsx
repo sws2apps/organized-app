@@ -103,6 +103,8 @@ const SourceWeekDetails = () => {
   const [isOverrideLCPart1, setIsOverrideLCPart1] = useState(false);
   const [isOverrideLCPart2, setIsOverrideLCPart2] = useState(false);
   const [CBSTimeOverride, setCBSTimeOverride] = useState('');
+  const [SongConcludeOverride, setSongConcludeOverride] = useState('');
+  const [COTalkTitle, setCOTalkTitle] = useState('');
 
   const week = weekToFormat.replaceAll('-', '/');
   const weekFormatted = dateFormat(new Date(week), shortDateFormat);
@@ -182,6 +184,8 @@ const SourceWeekDetails = () => {
     obj.songMiddle_src = +SongMiddle;
     obj.cbs_src = CBSSrc;
     obj.songConclude_src = isNaN(SongConclude) ? SongConclude : +SongConclude;
+    obj.songConclude_src_override = isNaN(SongConcludeOverride) ? SongConcludeOverride : +SongConcludeOverride;
+    obj.co_talk_title = COTalkTitle;
     obj.week_type = weekType;
     obj.noMeeting = noMeeting;
     obj.isOverride = true;
@@ -254,6 +258,8 @@ const SourceWeekDetails = () => {
         setCBSSrc(data.cbs_src);
         setCBSTimeOverride(data.cbs_time_override);
         setSongConclude(data.songConclude_src);
+        setSongConcludeOverride(data.songConclude_src_override);
+        setCOTalkTitle(data.co_talk_title);
       }
     };
 
@@ -556,32 +562,54 @@ const SourceWeekDetails = () => {
               />
             </Box>
           </Box>
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '15px', marginTop: '25px' }}>
-            {(isOverrideLCPart1 || isOverrideLCPart2) && (
-              <PartDuration
-                max={30}
-                cbs={true}
-                assTime={CBSTimeOverride}
-                setCBSTime={(value) => setCBSTimeOverride(value)}
-              />
-            )}
 
+          {weekType !== 2 && (
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '15px', marginTop: '25px' }}>
+              {(isOverrideLCPart1 || isOverrideLCPart2) && (
+                <PartDuration
+                  max={30}
+                  cbs={true}
+                  assTime={CBSTimeOverride}
+                  setCBSTime={(value) => setCBSTimeOverride(value)}
+                />
+              )}
+
+              <TextField
+                id="outlined-cbs"
+                label={t('cbs')}
+                variant="outlined"
+                size="small"
+                value={CBSSrc}
+                sx={{ flexGrow: 1 }}
+                onChange={(e) => setCBSSrc(e.target.value)}
+              />
+            </Box>
+          )}
+
+          {weekType === 2 && (
             <TextField
               id="outlined-cbs"
-              label={t('cbs')}
+              label={t('coTalk')}
               variant="outlined"
               size="small"
-              value={CBSSrc}
-              sx={{ flexGrow: 1 }}
-              onChange={(e) => setCBSSrc(e.target.value)}
+              value={COTalkTitle}
+              sx={{ width: '100%', marginTop: '25px' }}
+              onChange={(e) => setCOTalkTitle(e.target.value)}
             />
-          </Box>
+          )}
 
           <Box sx={{ marginTop: '30px' }}>
-            {!isNaN(SongConclude) && (
+            {weekType === 2 && (
+              <SongsList
+                songPart={3}
+                song={SongConcludeOverride}
+                setSongConclude={(value) => setSongConcludeOverride(value)}
+              />
+            )}
+            {weekType !== 2 && !isNaN(SongConclude) && (
               <SongsList songPart={3} song={SongConclude} setSongConclude={(value) => setSongConclude(value)} />
             )}
-            {isNaN(SongConclude) && (
+            {weekType !== 2 && isNaN(SongConclude) && (
               <TextField
                 id="outlined-song-conlude"
                 label={t('song')}

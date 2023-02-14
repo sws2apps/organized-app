@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import { sourceLangState } from '../../states/main';
 import { classCountState } from '../../states/congregation';
 
-const S140MeetingPartHeading = ({ meetingPart, topLabel, bgColor }) => {
+const S140MeetingPartHeading = ({ meetingPart, topLabel, bgColor, weekType }) => {
   const { t } = useTranslation('source');
 
   const sourceLang = useRecoilValue(sourceLangState);
@@ -37,7 +37,7 @@ const S140MeetingPartHeading = ({ meetingPart, topLabel, bgColor }) => {
           lineHeight: '20px',
         }}
       >
-        {topLabel && classCount === 2 ? t('auxClass', { lng: sourceLang }) : ''}
+        {topLabel && classCount === 2 && weekType !== 2 ? t('auxClass', { lng: sourceLang }) : ''}
       </Typography>
       <Typography
         sx={{

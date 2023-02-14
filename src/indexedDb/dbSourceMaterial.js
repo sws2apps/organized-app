@@ -151,6 +151,8 @@ export const dbGetSourceMaterial = async (weekOf) => {
   obj.cbs_src = appData.cbs_src ? appData.cbs_src[lang] || '' : '';
   obj.cbs_time_override = appData.cbs_time_override || '';
   obj.songConclude_src = appData.songConclude_src || '';
+  obj.songConclude_src_override = appData.songConclude_src_override || '';
+  obj.co_talk_title = appData.co_talk_title || '';
 
   const weekSchedInfo = await dbGetScheduleWeekInfo(weekOf);
   obj.week_type = weekSchedInfo.week_type;
@@ -244,6 +246,8 @@ export const dbGetSourceMaterialPocket = async (weekOf) => {
   obj.cbs_src = appData.cbs_src;
   obj.cbs_time_override = appData.cbs_time_override;
   obj.songConclude_src = appData.songConclude_src;
+  obj.songConclude_src_override = appData.songConclude_src_override || '';
+  obj.co_talk_title = appData.co_talk_title || '';
 
   const weekSchedInfo = await dbGetScheduleWeekInfo(weekOf);
   obj.week_type = weekSchedInfo.week_type;
@@ -436,6 +440,8 @@ export const dbSaveSrcData = async (srcData, localOverride) => {
         },
         cbs_time_override: localOverride ? cbs_time_override : srcData.cbs_time_override,
         songConclude_src: srcData.songConclude_src,
+        songConclude_src_override: srcData.songConclude_src_override,
+        co_talk_title: srcData.co_talk_title,
         keepOverride: localOverride ? keepOverride : new Date().toISOString(),
       },
       srcData.weekOf

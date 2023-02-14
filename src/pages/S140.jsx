@@ -156,10 +156,16 @@ const S140 = () => {
   };
 
   const getConcludingSong = (weekItem) => {
+    let src = t('song', { lng: sourceLang });
+
+    if (weekItem.scheduleData.week_type === 2) {
+      src += ` ${weekItem.sourceData.songConclude_src_override}`;
+      return src;
+    }
+
     if (isNaN(weekItem.sourceData.songConclude_src)) return weekItem.sourceData.songConclude_src;
 
-    let src = t('song', { lng: sourceLang });
-    if (weekItem.scheduleData.week_type !== 2) src += ` ${weekItem.sourceData.songConclude_src}`;
+    src += ` ${weekItem.sourceData.songConclude_src}`;
     return src;
   };
 
@@ -185,6 +191,14 @@ const S140 = () => {
     }
 
     return 30;
+  };
+
+  const getCOTalkTitle = (weekItem) => {
+    if (weekItem.sourceData.co_talk_title !== '') {
+      return weekItem.sourceData.co_talk_title;
+    }
+
+    return t('coTalk', { lng: sourceLang });
   };
 
   useEffect(() => {
@@ -285,7 +299,7 @@ const S140 = () => {
                         >
                           {getWeekInfoLabel(weekItem)}
                         </Typography>
-                        {!weekItem.scheduleData.noMeeting && (
+                        {!weekItem.scheduleData.noMeeting && weekItem.scheduleData.week_type !== 2 && (
                           <>
                             <S140PartMiniLabel
                               align="right"
@@ -333,7 +347,12 @@ const S140 = () => {
                             weekItem.scheduleData.week_type !== 4 && (
                               <>
                                 {/* TGW, Classroom heading */}
-                                <S140MeetingPartHeading meetingPart="treasuresPart" topLabel={true} bgColor="#656164" />
+                                <S140MeetingPartHeading
+                                  meetingPart="treasuresPart"
+                                  topLabel={true}
+                                  bgColor="#656164"
+                                  weekType={weekItem.scheduleData.week_type}
+                                />
 
                                 {/* TGW Talk */}
                                 <Box sx={{ display: 'flex', marginBottom: '2px' }}>
@@ -379,6 +398,7 @@ const S140 = () => {
                                   meetingPart="applyFieldMinistryPart"
                                   topLabel={true}
                                   bgColor="#a56803"
+                                  weekType={weekItem.scheduleData.week_type}
                                 />
 
                                 {/* AYF Parts */}
@@ -480,11 +500,11 @@ const S140 = () => {
                                       <S140MeetingTime partTime={weekItem.sourceData.coTalk} />
                                       <S140MeetingPartText
                                         partType="lc"
-                                        partText={t('coTalk', { lng: sourceLang })}
+                                        partText={getCOTalkTitle(weekItem)}
                                         partDuration="30 min."
                                       />
                                       <S140PartMiniLabel width="180px" />
-                                      <S140AssignedPerson person="" />
+                                      <S140AssignedPerson person={weekItem.scheduleData.co_displayName} />
                                     </Box>
                                   </>
                                 )}

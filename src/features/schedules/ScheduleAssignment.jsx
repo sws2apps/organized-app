@@ -19,6 +19,7 @@ import { classCountState } from '../../states/congregation';
 import { dbGetScheduleData } from '../../indexedDb/dbSchedule';
 import { dbGetSourceMaterial } from '../../indexedDb/dbSourceMaterial';
 import { dbSaveAss } from '../../indexedDb/dbAssignment';
+import { dbGetAppSettings } from '../../indexedDb/dbAppSettings';
 
 const ScheduleAssignment = ({ edit }) => {
   const { weekToFormat } = useParams();
@@ -121,6 +122,8 @@ const ScheduleAssignment = ({ edit }) => {
   const [isAssign, setIsAssign] = useState(false);
   const [assInfo, setAssInfo] = useState({});
   const [isDlgOpen, setIsDlgOpen] = useState(false);
+  const [coTalkTitle, setCoTalkTitle] = useState('');
+  const [coName, setCoName] = useState('');
 
   const week = weekToFormat.replaceAll('-', '/');
 
@@ -373,7 +376,11 @@ const ScheduleAssignment = ({ edit }) => {
       setCbsConductor(scheduleData.cbs_conductor_dispName);
       setCbsReader(scheduleData.cbs_reader_dispName);
       setClosingPrayer(scheduleData.closing_prayer_dispName);
+      setCoTalkTitle(sourceData.co_talk_title);
       setWeekType(scheduleData.week_type);
+
+      const settings = await dbGetAppSettings();
+      setCoName(settings.co_displayName || '');
     };
 
     if (week !== '') {
@@ -519,6 +526,7 @@ const ScheduleAssignment = ({ edit }) => {
 
         {/* Bible Reading */}
         <ScheduleRowAssignment
+          weekType={weekType}
           edit={edit}
           isAssignA={isStuBReadA}
           personA={stuBReadA}
@@ -552,6 +560,7 @@ const ScheduleAssignment = ({ edit }) => {
 
         {/* AYF 1 */}
         <ScheduleRowAssignment
+          weekType={weekType}
           ayf={true}
           edit={edit}
           assType={ass1Type}
@@ -578,6 +587,7 @@ const ScheduleAssignment = ({ edit }) => {
         {/* AYF 2 */}
         {ass2Type !== '' && !isNaN(ass2Type) && (
           <ScheduleRowAssignment
+            weekType={weekType}
             ayf={true}
             edit={edit}
             assType={ass2Type}
@@ -605,6 +615,7 @@ const ScheduleAssignment = ({ edit }) => {
         {/* AYF 3 */}
         {ass3Type !== '' && !isNaN(ass3Type) && (
           <ScheduleRowAssignment
+            weekType={weekType}
             ayf={true}
             edit={edit}
             assType={ass3Type}
@@ -632,6 +643,7 @@ const ScheduleAssignment = ({ edit }) => {
         {/* AYF 4 */}
         {ass4Type !== '' && !isNaN(ass4Type) && (
           <ScheduleRowAssignment
+            weekType={weekType}
             ayf={true}
             edit={edit}
             assType={ass4Type}
@@ -664,7 +676,7 @@ const ScheduleAssignment = ({ edit }) => {
           edit={edit}
           isAssignA={isLcPart1}
           personA={lcPart1}
-          source={`(${lcPart1Time} min.) ${lcPart1Src}`}
+          source={`${lcPart1Src} (${lcPart1Time} min.)`}
           lcPart={lcPart1Content}
           loadStudentPickerA={() =>
             loadStudentPicker({
@@ -682,7 +694,7 @@ const ScheduleAssignment = ({ edit }) => {
             edit={edit}
             isAssignA={isLcPart2}
             personA={lcPart2}
-            source={`(${lcPart2Time} min.) ${lcPart2Src}`}
+            source={`${lcPart2Src} (${lcPart2Time} min.)`}
             lcPart={lcPart2Content}
             loadStudentPickerA={() =>
               loadStudentPicker({
@@ -722,6 +734,17 @@ const ScheduleAssignment = ({ edit }) => {
                 currentStudent: cbsReader,
               })
             }
+          />
+        )}
+
+        {/* Talk CO */}
+        {weekType === 2 && (
+          <ScheduleRowAssignment
+            edit={true}
+            co={true}
+            source={`${t('coTalk')} (30 min.)`}
+            lcPart={coTalkTitle}
+            personA={coName}
           />
         )}
 
