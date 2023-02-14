@@ -204,12 +204,12 @@ const BasicSettings = () => {
           </TextField>
         </Box>
 
-        <Typography sx={{ marginTop: '15px', fontWeight: 'bold' }}>Circuit Overseer</Typography>
+        <Typography sx={{ marginTop: '15px', fontWeight: 'bold' }}>{t('circuitOverseer')}</Typography>
 
         <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '15px', marginTop: '10px' }}>
           <TextField
             id="outlined-basic"
-            label="Name"
+            label={t('name')}
             variant="outlined"
             size="small"
             autoComplete="off"
@@ -219,7 +219,7 @@ const BasicSettings = () => {
           />
           <TextField
             id="outlined-basic"
-            label="Display Name"
+            label={t('displayName')}
             variant="outlined"
             size="small"
             autoComplete="off"
