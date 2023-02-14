@@ -484,5 +484,6 @@
   "userAccountUpgrade": "User Account Upgrade",
   "userAccountUpgradeDesc": "CPE has been updated to use a new authentication method. Email and password login is no longer supported.  Instead, you will use a service provider, like Google, Yahoo, Microsoft, to login into your account. If   you do not have account in any of these providers, you can use the passwordless authentication. Please   note that entering verification code from an authenticator app is always required.",
   "userAccountUpgradeStart": "To begin, login into your account using your usual email address and password.",
-  "userAccountUpgradeChooseService": "Choose below which service you would like to use to upgrade your account."
+  "userAccountUpgradeChooseService": "Choose below which service you would like to use to upgrade your account.",
+  "circuitOverseer": "Circuit Overseer"
 }

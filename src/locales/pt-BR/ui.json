@@ -484,5 +484,6 @@
   "userAccountUpgrade": "Atualizar conta de usuário",
   "userAccountUpgradeDesc": "O CPE foi atualizado para usar um novo método de autenticação. O e-mail e login com senha não são mais suportados. A partir de agora, você usará um provedor de serviços, como Google, Yahoo, Microsoft, para entrar na sua conta. Se você não tiver uma conta em nenhum destes provedores, você pode usar a autenticação sem senha. Mas, sempre será necessário inserir o código de verificação de um aplicativo autenticador.",
   "userAccountUpgradeStart": "Para começar, entre na sua conta usando o seu email e senha.",
-  "userAccountUpgradeChooseService": "Escolha abaixo qual serviço você gostaria de usar para atualizar sua conta."
+  "userAccountUpgradeChooseService": "Escolha abaixo qual serviço você gostaria de usar para atualizar sua conta.",
+  "circuitOverseer": "Superintendente de Circuito"
 }
