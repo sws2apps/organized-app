@@ -1,3 +1,10 @@
+## [2.33.3](https://github.com/sws2apps/lmm-oa-sws/compare/v2.33.2...v2.33.3) (2023-02-15)
+
+
+### Bug Fixes
+
+* **whats-new:** fix invalid date error message ([c2a1825](https://github.com/sws2apps/lmm-oa-sws/commit/c2a1825a463bb7bbdc64f8e6cbeb69c18d330a9b))
+
 ## [2.33.2](https://github.com/sws2apps/lmm-oa-sws/compare/v2.33.1...v2.33.2) (2023-02-15)
 
 
