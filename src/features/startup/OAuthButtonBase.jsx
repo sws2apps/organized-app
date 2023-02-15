@@ -4,6 +4,7 @@ import {
   linkWithPopup,
   setPersistence,
   signInWithPopup,
+  signOut,
   unlink,
 } from 'firebase/auth';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
@@ -41,12 +42,22 @@ const OAuthButtonBase = ({ buttonStyles, logo, text, provider, isEmail }) => {
       await setPersistence(auth, indexedDBLocalPersistence);
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
+
       const findPasswordProvider = user.providerData.find((provider) => provider.providerId === 'password');
-      if (findPasswordProvider) await unlink(auth.currentUser, 'password');
+
+      if (user.providerData.length === 2) {
+        if (findPasswordProvider) {
+          await unlink(auth.currentUser, 'password');
+          return;
+        }
+
+        await unlink(auth.currentUser, provider.providerId);
+        await signOut(auth);
+      }
     } catch (error) {
       if (error.code && error.code === 'auth/account-exists-with-different-credential') {
         setAppMessage(t('oauthAccountExistsWithDifferentCredential'));
-        setAppSeverity('error');
+        setAppSeverity('warning');
         setAppSnackOpen(true);
         return;
       }

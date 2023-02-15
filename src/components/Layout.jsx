@@ -29,6 +29,7 @@ import { CongregationPersonAdd } from '../features/congregationPersons';
 import WaitingPage from './WaitingPage';
 import { fetchNotifications } from '../api/notification';
 import { dbSaveNotifications } from '../indexedDb/dbNotifications';
+import { WhatsNewContent } from '../features/whatsNew';
 
 const Layout = ({ updatePwa }) => {
   let location = useLocation();
@@ -81,7 +82,7 @@ const Layout = ({ updatePwa }) => {
 
       <Box sx={{ padding: '10px' }}>
         <UserAutoLogin />
-
+        <WhatsNewContent />
         {isOpenAbout && <About />}
         {isRestoreDb && <RestoreDbDialog />}
         {isBackupDb && <BackupDbDialog />}

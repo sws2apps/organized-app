@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -21,7 +21,6 @@ import {
   meetingTimeState,
 } from '../../states/congregation';
 import { generateDisplayName } from '../../utils/person';
-import { useEffect } from 'react';
 
 const BasicSettings = () => {
   const { t } = useTranslation('ui');

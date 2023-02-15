@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { getAuth, indexedDBLocalPersistence, setPersistence, signInWithCustomToken } from 'firebase/auth';
+import { useSetRecoilState } from 'recoil';
 import { useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
@@ -9,11 +10,18 @@ import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import { apiUpdatePasswordlessInfo } from '../../api/auth';
+import { appMessageState, appSeverityState, appSnackOpenState } from '../../states/notification';
+import { offlineOverrideState } from '../../states/main';
 
 const EmailLinkAuthentication = () => {
   const { t } = useTranslation('ui');
 
   const cancel = useRef();
+
+  const setAppSnackOpen = useSetRecoilState(appSnackOpenState);
+  const setAppSeverity = useSetRecoilState(appSeverityState);
+  const setAppMessage = useSetRecoilState(appMessageState);
+  const setOfflineOverride = useSetRecoilState(offlineOverrideState);
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -21,25 +29,33 @@ const EmailLinkAuthentication = () => {
   const code = searchParams.get('code');
 
   const completeEmailAuth = async () => {
-    setIsProcessing(true);
-    const auth = getAuth();
-    await setPersistence(auth, indexedDBLocalPersistence);
-    const userCredential = await signInWithCustomToken(auth, code);
-    const user = userCredential.user;
+    try {
+      setIsProcessing(true);
+      const auth = getAuth();
 
-    cancel.current = false;
+      await setPersistence(auth, indexedDBLocalPersistence);
 
-    const result = await apiUpdatePasswordlessInfo(user.uid);
-    // refetch auth after email update
-    await signInWithCustomToken(auth, code);
+      const userCredential = await signInWithCustomToken(auth, code);
+      const user = userCredential.user;
 
-    if (result.isVerifyMFA) {
-      setSearchParams('');
+      const result = await apiUpdatePasswordlessInfo(user.uid);
+
+      // refetch auth after email update
+      await signInWithCustomToken(auth, code);
+
+      if (result.isVerifyMFA || result.isSetupMFA) {
+        setSearchParams('');
+        setOfflineOverride(true);
+      }
+
+      setIsProcessing(false);
+    } catch (err) {
+      setIsProcessing(false);
+
+      setAppMessage(err.message);
+      setAppSeverity('warning');
+      setAppSnackOpen(true);
     }
-    if (result.isSetupMFA) {
-      setSearchParams('');
-    }
-    setIsProcessing(false);
   };
 
   const handleRequestNewLink = () => {

@@ -777,9 +777,11 @@ export const dbGetS89ItemData = async (week, assName, classLabel) => {
 };
 
 export const dbGetScheduleForPrint = async (scheduleName) => {
+  const { t } = getI18n();
+
   const data = [];
   const allWeeks = await dbGetWeekListBySched(scheduleName);
-  const meetingStart = dateFormat(await promiseGetRecoil(meetingTimeState), 'h:MM');
+  const meetingStart = dateFormat(await promiseGetRecoil(meetingTimeState), t('shortTimeFormat', { ns: 'source' }));
 
   for (let i = 0; i < allWeeks.length; i++) {
     const week = allWeeks[i].value;

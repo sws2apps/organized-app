@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
@@ -8,10 +8,9 @@ import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import Typography from '@mui/material/Typography';
 import WhatsNewItem from './WhatsNewItem';
 import { appLangState, appNotificationsState, isWhatsNewOpenState } from '../../states/main';
-import { useEffect } from 'react';
 import { LANGUAGE_LIST } from '../../locales/langList';
 
-const WhatsNewContent = ({ id, open, anchorEl, handleClose }) => {
+const WhatsNewContent = () => {
   const { t } = useTranslation('ui');
 
   const [drawerOpen, setDrawerOpen] = useRecoilState(isWhatsNewOpenState);
@@ -76,11 +75,7 @@ const WhatsNewContent = ({ id, open, anchorEl, handleClose }) => {
         {localAnnouncements.length > 0 && (
           <>
             {localAnnouncements.map((announcement) => (
-              <WhatsNewItem
-                key={announcement.announcement_id}
-                announcement={announcement}
-                handlePopoverClose={handleClose}
-              />
+              <WhatsNewItem key={announcement.announcement_id} announcement={announcement} />
             ))}
           </>
         )}

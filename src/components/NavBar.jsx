@@ -27,7 +27,6 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import AppLanguage from '../features/languageSwitcher';
 import ThemeSwitcher from '../features/themeSwitcher';
-import { WhatsNewContent } from '../features/whatsNew';
 import { themeOptionsState } from '../states/theme';
 import {
   apiHostState,
@@ -110,19 +109,12 @@ const NavBar = (props) => {
   });
 
   const [anchorEl, setAnchorEl] = useState(null);
-  const [anchorPopoverEl, setAnchorPopoverEl] = useState(null);
 
   const open = Boolean(anchorEl);
-  const openPopover = Boolean(anchorPopoverEl);
-  const id = openPopover ? 'notification-popover' : undefined;
 
   const handleWhatsNewClick = () => {
     setMyAssignmentOpen(false);
     setWhatsNewOpen(true);
-  };
-
-  const handleWhatsNewClose = () => {
-    setAnchorPopoverEl(null);
   };
 
   const handleMenu = (e) => {
@@ -242,23 +234,11 @@ const NavBar = (props) => {
                 </IconButton>
               )}
 
-              <IconButton
-                color="inherit"
-                edge="start"
-                sx={sharedStyles.menuIcon}
-                aria-describedby={id}
-                onClick={handleWhatsNewClick}
-              >
+              <IconButton color="inherit" edge="start" sx={sharedStyles.menuIcon} onClick={handleWhatsNewClick}>
                 <Badge badgeContent={cnNews} color="error">
                   <NotificationsIcon />
                 </Badge>
               </IconButton>
-              <WhatsNewContent
-                id={id}
-                open={openPopover}
-                anchorEl={anchorPopoverEl}
-                handleClose={handleWhatsNewClose}
-              />
 
               <ThemeSwitcher />
 

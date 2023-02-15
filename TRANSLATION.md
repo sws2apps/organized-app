@@ -18,6 +18,10 @@ The localization of this application is divided in two parts:
 
 You may decide to translate the `source.json` only to begin with, and if convenient, later you can translate the `ui.json`.
 
+### Translating What’s New contents
+
+What’s New contents displayed inside this application can also be localized. To learn more on how to do so, please read [this guide](https://github.com/sws2apps/.github/blob/main/docs/WHATSNEW.md).
+
 ### I can't find my language on Crowdin
 
 Please create a [new issue](https://github.com/sws2apps/lmm-oa-sws/issues/new?template=new_language_request.yml) in this repo. We would be happy to add the new language so that you can start the translation on Crowdin.

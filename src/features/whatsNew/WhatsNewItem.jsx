@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import { Markup } from 'interweave';
@@ -15,7 +15,6 @@ import Typography from '@mui/material/Typography';
 import { dbReadNotification } from '../../indexedDb/dbNotifications';
 import { appLangState } from '../../states/main';
 import { LANGUAGE_LIST } from '../../locales/langList';
-import { useState } from 'react';
 
 const styles = {
   announcementAction: {
