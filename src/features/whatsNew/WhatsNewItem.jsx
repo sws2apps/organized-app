@@ -67,7 +67,10 @@ const WhatsNewItem = ({ announcement }) => {
 
     if (bodyModified > titleModified) publishedDate = bodyModified;
 
-    const publishedLocale = dateFormat(new Date(new Date(publishedDate).toLocaleString()), t('shortDateTimeFormat'));
+    let publishedLocale = '';
+    if (publishedDate) {
+      publishedLocale = dateFormat(new Date(publishedDate), t('shortDateTimeFormat'));
+    }
 
     setPublishedAt(publishedLocale);
   }, [localeTitle, localeBody, t]);
