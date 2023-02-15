@@ -1,3 +1,10 @@
+## [2.33.1](https://github.com/sws2apps/lmm-oa-sws/compare/v2.33.0...v2.33.1) (2023-02-15)
+
+
+### Bug Fixes
+
+* **firebase:** remove yahoo filtering when saving profile picture ([0cc27d6](https://github.com/sws2apps/lmm-oa-sws/commit/0cc27d6552a3ca19c9aa183caaed447fc99fb29c))
+
 # [2.33.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.32.11...v2.33.0) (2023-02-15)
 
 
