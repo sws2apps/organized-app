@@ -1,3 +1,21 @@
+# [2.33.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.32.11...v2.33.0) (2023-02-15)
+
+
+### Bug Fixes
+
+* **source-material:** check epub file name based on source language ([9bf4f4e](https://github.com/sws2apps/lmm-oa-sws/commit/9bf4f4ee04fcae3cc8cd695578942a86b05264c9))
+* **source-material:** default no meeting to false ([5d3775b](https://github.com/sws2apps/lmm-oa-sws/commit/5d3775b017f2469240bdae60b2c8cfb619c6859e))
+
+
+### Features
+
+* **app:** get whats new content from Crowdin ([1851ef7](https://github.com/sws2apps/lmm-oa-sws/commit/1851ef7b5ec13803c0e6357be39dcf2e2c9a529a))
+* **deps:** bump @mui/lab from 5.0.0-alpha.119 to 5.0.0-alpha.120 ([fe64a73](https://github.com/sws2apps/lmm-oa-sws/commit/fe64a7318bb867f8d19b544151a6239e0962f137))
+* **deps:** bump @tanstack/react-query from 4.24.4 to 4.24.6 ([3512dc2](https://github.com/sws2apps/lmm-oa-sws/commit/3512dc2ee6e61dc1a94821ba2cc4d2ae15ef9e76))
+* **deps:** bump firebase from 9.17.0 to 9.17.1 ([b2f7c24](https://github.com/sws2apps/lmm-oa-sws/commit/b2f7c245b6bb9777183ab83b0e04a247310ba547))
+* **schedules:** enhancement for circuit overseer visit ([50904a3](https://github.com/sws2apps/lmm-oa-sws/commit/50904a36657a518f9e435764a96ec9af39f7a262))
+* **source-material:** add circuit assembly week type ([5d229b4](https://github.com/sws2apps/lmm-oa-sws/commit/5d229b48be73b40ec59dfb1d64d7b69f1cd49bf9))
+
 ## [2.32.11](https://github.com/sws2apps/lmm-oa-sws/compare/v2.32.10...v2.32.11) (2023-02-12)
 
 
