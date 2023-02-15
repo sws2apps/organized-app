@@ -485,5 +485,9 @@
   "userAccountUpgradeDesc": "Nohavaozina ny fomba fidirana amin’ny programa CPE. Tsy azo ampiasaina intsony izao ny adiresy email sy tenimiafina mba hidirana. Ny programa toy ny Google, na Yahoo, na Microsoft, kosa izao no ampiasaina mba hidiranao amin’ny kaontinao. Raha tsy manana kaonty any amin’ny iray amin’ireo programa ireo ianao, dia azonao ampiasaina ilay hoe hiditra amin’ny alalan’ny email fotsiny. Mbola ilaina foana kosa anefa ny kaody avy any amin’ny programa authentificateur.",
   "userAccountUpgradeStart": "Mba hanovana ny kaonty ampiasainao izao, dia midira aloha amin’ny alalan’ny adiresy email sy ny tenimiafina fampiasanao hatramin’izay.",
   "userAccountUpgradeChooseService": "Safidio eto ambany ny programa tianao ampiasaina mba hanavaozana ny kaontinao.",
-  "circuitOverseer": "Mpiandraikitra ny Faritra"
+  "circuitOverseer": "Mpiandraikitra ny Faritra",
+  "announcements": "Vaovao",
+  "markAsRead": "Voavaky",
+  "expand": "Aseho",
+  "collapse": "Afenina"
 }
