@@ -1,3 +1,10 @@
+## [2.33.2](https://github.com/sws2apps/lmm-oa-sws/compare/v2.33.1...v2.33.2) (2023-02-15)
+
+
+### Bug Fixes
+
+* **firebase:** adding yahoo restriction again - cors not solved ([fe8ca0c](https://github.com/sws2apps/lmm-oa-sws/commit/fe8ca0c71a18e8ecfc6857675d8d6d9b0c332afd))
+
 ## [2.33.1](https://github.com/sws2apps/lmm-oa-sws/compare/v2.33.0...v2.33.1) (2023-02-15)
 
 
