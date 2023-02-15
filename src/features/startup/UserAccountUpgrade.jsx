@@ -10,7 +10,13 @@ import Typography from '@mui/material/Typography';
 import TogglePassword from './TogglePassword';
 import UserEmailField from './UserEmailField';
 import UserPasswordField from './UserPasswordField';
-import { isEmailAuthState, isOAuthAccountUpgradeState, isOnlineState, visitorIDState } from '../../states/main';
+import {
+  isEmailAuthState,
+  isOAuthAccountUpgradeState,
+  isOnlineState,
+  userEmailState,
+  visitorIDState,
+} from '../../states/main';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../../states/notification';
 import { isEmailValid } from '../../utils/emailValid';
 import OAuth from './OAuth';
@@ -25,6 +31,7 @@ const UserAccountUpgrade = () => {
   const setAppSeverity = useSetRecoilState(appSeverityState);
   const setAppMessage = useSetRecoilState(appMessageState);
   const setIsOAuthAccountUpgrade = useSetRecoilState(isOAuthAccountUpgradeState);
+  const setUserEmail = useSetRecoilState(userEmailState);
 
   const visitorID = useRecoilValue(visitorIDState);
   const isOnline = useRecoilValue(isOnlineState);
@@ -71,6 +78,7 @@ const UserAccountUpgrade = () => {
       }
     } catch (err) {
       if (err.code && err.code === 'auth/wrong-password') {
+        setUserEmail(userTmpEmail);
         setIsProcessing(false);
         setIsOAuthAccountUpgrade(true);
         setIsLogin(false);
@@ -90,10 +98,10 @@ const UserAccountUpgrade = () => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         setIsLogin(false);
-        setIsOAuthAccountUpgrade(true);
       } else {
         setIsLogin(true);
       }
+      setIsOAuthAccountUpgrade(true);
     });
   }, [setIsOAuthAccountUpgrade]);
 

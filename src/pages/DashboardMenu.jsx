@@ -26,6 +26,7 @@ import {
   backupDbOpenState,
   isMyAssignmentOpenState,
   isOnlineState,
+  isWhatsNewOpenState,
   restoreDbOpenState,
   sourceLangState,
 } from '../states/main';
@@ -54,11 +55,13 @@ const DashboardMenu = () => {
   const setIsRestoreDb = useSetRecoilState(restoreDbOpenState);
   const setMyAssignmentsOpen = useSetRecoilState(isMyAssignmentOpenState);
   const setPublishPocket = useSetRecoilState(isPublishOpenState);
+  const setWhatsNewOpen = useSetRecoilState(isWhatsNewOpenState);
 
   const isCongAccountConnected = useRecoilValue(congAccountConnectedState);
   const isOnline = useRecoilValue(isOnlineState);
 
   const handleOpenMyAssignment = () => {
+    setWhatsNewOpen(false);
     setMyAssignmentsOpen(true);
   };
 

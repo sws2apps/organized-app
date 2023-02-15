@@ -35,11 +35,13 @@ import {
   countNotificationsState,
   isAboutOpenState,
   isAppLoadState,
+  isMyAssignmentOpenState,
   isOnlineState,
   isSetupState,
   isShowTermsUseState,
   isUserSignInState,
   isUserSignUpState,
+  isWhatsNewOpenState,
   offlineOverrideState,
   visitorIDState,
 } from '../states/main';
@@ -87,6 +89,8 @@ const NavBar = (props) => {
   const setAppSnackOpen = useSetRecoilState(appSnackOpenState);
   const setAppSeverity = useSetRecoilState(appSeverityState);
   const setAppMessage = useSetRecoilState(appMessageState);
+  const setWhatsNewOpen = useSetRecoilState(isWhatsNewOpenState);
+  const setMyAssignmentOpen = useSetRecoilState(isMyAssignmentOpenState);
 
   const themeOptions = useRecoilValue(themeOptionsState);
   const cnNews = useRecoilValue(countNotificationsState);
@@ -112,8 +116,9 @@ const NavBar = (props) => {
   const openPopover = Boolean(anchorPopoverEl);
   const id = openPopover ? 'notification-popover' : undefined;
 
-  const handleWhatsNewClick = (event) => {
-    setAnchorPopoverEl(event.currentTarget);
+  const handleWhatsNewClick = () => {
+    setMyAssignmentOpen(false);
+    setWhatsNewOpen(true);
   };
 
   const handleWhatsNewClose = () => {

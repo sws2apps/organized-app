@@ -1,5 +1,6 @@
 import { atom, selector } from 'recoil';
 import { getI18n } from 'react-i18next';
+import { LANGUAGE_LIST } from '../locales/langList';
 
 export const isLightThemeState = atom({
   key: 'isLightTheme',
@@ -255,9 +256,24 @@ export const appNotificationsState = atom({
 export const countNotificationsState = selector({
   key: 'countNotifications',
   get: ({ get }) => {
-    const notifications = get(appNotificationsState);
-    const unread = notifications.filter((notification) => notification.isRead !== true);
-    return unread.length;
+    const announcements = get(appNotificationsState);
+    const appLang = get(appLangState);
+    const fldKey = LANGUAGE_LIST.find((language) => language.code === appLang).locale;
+
+    let count = 0;
+    for (const announcement of announcements) {
+      const findTitleIndex = announcement.title.findIndex((item) => item.language === fldKey);
+      let isRead = announcement.title[findTitleIndex].isRead;
+
+      if (isRead) {
+        const findBodyIndex = announcement.body.findIndex((item) => item.language === fldKey);
+        isRead = announcement.body[findBodyIndex].isRead;
+      }
+
+      if (!isRead) count++;
+    }
+
+    return count;
   },
 });
 
@@ -339,4 +355,9 @@ export const avatarUrlState = atom({
 export const isOAuthAccountUpgradeState = atom({
   key: 'isOAuthAccountUpgrade',
   default: false,
+});
+
+export const userEmailState = atom({
+  key: 'userEmail',
+  default: '',
 });

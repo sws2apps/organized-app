@@ -1,5 +1,6 @@
 import { useEffect, Suspense } from 'react';
 import { Outlet, useLocation, useSearchParams } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import { useRecoilValue } from 'recoil';
 import usePwa2 from 'use-pwa2/dist/index.js';
 import Box from '@mui/material/Box';
@@ -7,14 +8,12 @@ import About from '../features/about';
 import RootModal from './RootModal';
 import UserAutoLogin from '../features/userAutoLogin';
 import { BackupDbDialog, RestoreDbDialog } from '../features/backupRestore';
-import { WhatsNew } from '../features/whatsNew';
 import {
   backupDbOpenState,
   isAboutOpenState,
   isAppLoadState,
   isCongPersonAddState,
   isOnlineState,
-  isWhatsNewOpenState,
   restoreDbOpenState,
 } from '../states/main';
 import EmailLinkAuthentication from '../features/startup/EmailLinkAuthentication';
@@ -27,11 +26,18 @@ import { ImportEPUB, ImportJWOrg } from '../features/sourceMaterial';
 import { AppUpdater } from '../features/updater';
 import { MyAssignments } from '../features/myAssignments';
 import { CongregationPersonAdd } from '../features/congregationPersons';
-import { fetchNotifications } from '../api/notification';
 import WaitingPage from './WaitingPage';
+import { fetchNotifications } from '../api/notification';
+import { dbSaveNotifications } from '../indexedDb/dbNotifications';
 
 const Layout = ({ updatePwa }) => {
   let location = useLocation();
+
+  const { data: announcements } = useQuery({
+    queryKey: ['annoucements'],
+    queryFn: fetchNotifications,
+    refetchInterval: 60000,
+  });
 
   const { enabledInstall, installPwa, isLoading } = usePwa2();
 
@@ -41,7 +47,6 @@ const Layout = ({ updatePwa }) => {
 
   const isAppLoad = useRecoilValue(isAppLoadState);
   const isOpenAbout = useRecoilValue(isAboutOpenState);
-  const isOpenWhatsNew = useRecoilValue(isWhatsNewOpenState);
   const isRestoreDb = useRecoilValue(restoreDbOpenState);
   const isBackupDb = useRecoilValue(backupDbOpenState);
   const isDeleteAssignment = useRecoilValue(dlgAssDeleteOpenState);
@@ -62,22 +67,12 @@ const Layout = ({ updatePwa }) => {
   };
 
   useEffect(() => {
-    let fetchTimer;
-
-    if (isOnline) {
-      fetchTimer = setTimeout(() => {
-        fetchNotifications();
-      }, 2000);
-    }
-
-    if (import.meta.env.PROD) {
-      checkPwaUpdate();
-    }
-
-    return () => {
-      if (fetchTimer) clearTimeout(fetchTimer);
-    };
+    if (import.meta.env.PROD && isOnline) checkPwaUpdate();
   }, [isOnline, location]);
+
+  useEffect(() => {
+    if (announcements?.data?.length >= 0) dbSaveNotifications(announcements.data);
+  }, [announcements]);
 
   return (
     <RootModal>
@@ -88,7 +83,6 @@ const Layout = ({ updatePwa }) => {
         <UserAutoLogin />
 
         {isOpenAbout && <About />}
-        {isOpenWhatsNew && <WhatsNew />}
         {isRestoreDb && <RestoreDbDialog />}
         {isBackupDb && <BackupDbDialog />}
         {isDeleteAssignment && <DeleteSchedule />}

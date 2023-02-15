@@ -234,6 +234,19 @@ appDb.version(58).stores({
     '++id, username, local_uid, source_lang, cong_number, cong_name, class_count, meeting_day, meeting_time, isScheduleConverted, isCongVerified, isAssignmentsConverted, isCongUpdated2, pocket_members, user_avatar, account_version, co_name, co_displayName',
 });
 
+appDb.version(59).stores({
+  notifications: '++id, notification_id, title, body',
+});
+
+appDb.version(60).stores({
+  notifications: null,
+  announcements: '&announcement_id, title, body',
+});
+
+appDb.version(61).stores({
+  announcements: '&announcement_id, title, body',
+});
+
 appDb.on('populate', function () {
   appDb.app_settings.add({
     id: 1,

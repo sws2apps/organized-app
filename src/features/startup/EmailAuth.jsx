@@ -9,7 +9,13 @@ import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { isEmailAuthState, isOAuthAccountUpgradeState, isUserSignInState, isUserSignUpState } from '../../states/main';
+import {
+  isEmailAuthState,
+  isOAuthAccountUpgradeState,
+  isUserSignInState,
+  isUserSignUpState,
+  userEmailState,
+} from '../../states/main';
 import { isEmailValid } from '../../utils/emailValid';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../../states/notification';
 import { apiRequestPasswordlesssLink } from '../../api/auth';
@@ -28,9 +34,10 @@ const EmailAuth = () => {
   const setAppMessage = useSetRecoilState(appMessageState);
 
   const isOAuthAccountUpgrade = useRecoilValue(isOAuthAccountUpgradeState);
+  const userEmail = useRecoilValue(userEmailState);
 
   const [isProcessing, setIsProcessing] = useState(false);
-  const [userEmail, setUserEmail] = useState('');
+  const [userTmpEmail, setUserTmpEmail] = useState('');
 
   const handleProviderSignIn = () => {
     setUserSignUp(false);
@@ -39,22 +46,27 @@ const EmailAuth = () => {
   };
 
   const handleSendLink = async () => {
-    const email = userEmail;
     cancel.current = false;
 
     setIsProcessing(true);
 
     if (isOAuthAccountUpgrade) {
       const auth = await getAuth();
-      const user = auth.currentUser;
+      if (auth) {
+        const user = auth.currentUser;
+        await apiRequestPasswordlesssLink(userTmpEmail, user.uid);
+      }
 
-      await apiRequestPasswordlesssLink(email, user.uid);
+      if (!auth) {
+        await apiRequestPasswordlesssLink(userTmpEmail);
+      }
+
       await dbUpdateAppSettings({ account_version: 'v2' });
     } else {
-      await apiRequestPasswordlesssLink(email);
+      await apiRequestPasswordlesssLink(userTmpEmail);
     }
 
-    if (!isEmailValid(email)) {
+    if (!isEmailValid(userTmpEmail)) {
       setAppMessage(t('emailNotSupported'));
       setAppSeverity('warning');
       setAppSnackOpen(true);
@@ -66,8 +78,8 @@ const EmailAuth = () => {
   useEffect(() => {
     const fillDetailsUpgrade = async () => {
       const auth = await getAuth();
-      const user = auth.currentUser;
-      setUserEmail(user.email);
+      const user = auth?.currentUser;
+      setUserTmpEmail(user?.email || userEmail);
     };
 
     if (isOAuthAccountUpgrade) fillDetailsUpgrade();
@@ -75,7 +87,7 @@ const EmailAuth = () => {
     return () => {
       cancel.current = true;
     };
-  }, [isOAuthAccountUpgrade]);
+  }, [isOAuthAccountUpgrade, userEmail]);
 
   return (
     <Container sx={{ marginTop: '20px' }}>
@@ -96,9 +108,9 @@ const EmailAuth = () => {
           variant="outlined"
           sx={{ width: '100%' }}
           type="email"
-          value={userEmail}
-          onChange={(e) => setUserEmail(e.target.value)}
-          inputProps={{ readOnly: isOAuthAccountUpgrade }}
+          value={userTmpEmail}
+          onChange={(e) => setUserTmpEmail(e.target.value)}
+          inputProps={{ readOnly: isOAuthAccountUpgrade && userTmpEmail.length > 0 }}
         />
 
         <Box

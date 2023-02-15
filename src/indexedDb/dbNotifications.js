@@ -1,10 +1,9 @@
 import { promiseSetRecoil } from 'recoil-outside';
 import { appNotificationsState } from '../states/main';
-import { LANGUAGE_LIST } from '../locales/langList.js';
 import appDb from './mainDb';
 
 export const dbGetNotifications = async () => {
-  const notifications = await appDb.table('notifications').toArray();
+  const notifications = await appDb.announcements.toArray();
 
   return notifications;
 };
@@ -12,30 +11,70 @@ export const dbGetNotifications = async () => {
 export const dbSaveNotifications = async (data) => {
   let notifications = await dbGetNotifications();
 
-  await appDb.notifications.clear();
+  await appDb.announcements.clear();
 
-  for (let i = 0; i < data.length; i++) {
-    const announcement = data[i];
+  for await (const announcement of data) {
+    const obj = {};
+    obj.announcement_id = announcement.id;
+    obj.title = [];
+    obj.body = [];
 
-    let obj = {};
-    const notification = notifications.find((item) => item.notification_id === announcement.id);
+    const oldAnnouncement = notifications.find((item) => item.announcement_id === announcement.id);
 
-    if (notification) {
-      obj.isRead = notification.isRead;
-    } else {
-      obj.isRead = false;
-    }
-    obj.notification_id = announcement.id;
-    obj.content = {};
+    // loop through title and body
+    announcement.title.forEach((languageItem) => {
+      const titleItem = { ...languageItem };
+      titleItem.isNew = false;
+      titleItem.isRead = false;
 
-    const listUILangs = LANGUAGE_LIST.filter((lang) => lang.isUI === true);
+      if (oldAnnouncement) {
+        const oldTitle = oldAnnouncement.title.find((item) => item.language === languageItem.language);
+        if (!oldTitle) {
+          titleItem.isNew = true;
+        }
 
-    listUILangs.forEach((lang) => {
-      const code = lang.code.toUpperCase();
-      obj.content[code] = announcement.data[code];
+        if (oldTitle) {
+          titleItem.isRead = oldTitle.isRead || false;
+          const dateOldISO = oldTitle.modifiedAt ? new Date(oldTitle.modifiedAt).toISOString() : undefined;
+          if (dateOldISO && dateOldISO < languageItem.modifiedAt) {
+            titleItem.isNew = true;
+            titleItem.isRead = false;
+          }
+        }
+      }
+
+      if (!oldAnnouncement) titleItem.isNew = true;
+
+      obj.title.push(titleItem);
     });
 
-    await appDb.notifications.add(obj);
+    announcement.body.forEach((languageItem) => {
+      const bodyItem = { ...languageItem };
+      bodyItem.isNew = false;
+      bodyItem.isRead = false;
+
+      if (oldAnnouncement) {
+        const oldBody = oldAnnouncement.body.find((item) => item.language === languageItem.language);
+        if (!oldBody) {
+          bodyItem.isNew = true;
+        }
+
+        if (oldBody) {
+          bodyItem.isRead = oldBody.isRead || false;
+          const dateOldISO = oldBody.modifiedAt ? new Date(oldBody.modifiedAt).toISOString() : undefined;
+          if (dateOldISO && dateOldISO < languageItem.modifiedAt) {
+            bodyItem.isNew = true;
+            bodyItem.isRead = false;
+          }
+        }
+      }
+
+      if (!oldAnnouncement) bodyItem.isNew = true;
+
+      obj.body.push(bodyItem);
+    });
+
+    await appDb.announcements.put(obj, announcement.id);
   }
 
   notifications = await dbGetNotifications();
@@ -43,15 +82,23 @@ export const dbSaveNotifications = async (data) => {
   await promiseSetRecoil(appNotificationsState, notifications);
 };
 
-export const dbReadNotification = async (id) => {
-  let notifications = await dbGetNotifications();
+export const dbReadNotification = async (id, lang) => {
+  let announcements = await dbGetNotifications();
 
-  const notification = notifications.find((item) => item.notification_id === id);
+  const announcement = announcements.find((item) => item.announcement_id === id);
 
-  if (notification) {
-    await appDb.notifications.update(notification.id, { isRead: true });
+  if (announcement) {
+    const newData = { ...announcement };
+
+    const findTitleIndex = newData.title.findIndex((title) => title.language === lang);
+    newData.title[findTitleIndex].isRead = true;
+
+    const findBodyIndex = newData.body.findIndex((body) => body.language === lang);
+    newData.body[findBodyIndex].isRead = true;
+
+    await appDb.announcements.put(announcement, id);
   }
 
-  notifications = await dbGetNotifications();
-  await promiseSetRecoil(appNotificationsState, notifications);
+  announcements = await dbGetNotifications();
+  await promiseSetRecoil(appNotificationsState, announcements);
 };
