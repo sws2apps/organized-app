@@ -486,8 +486,8 @@
   "userAccountUpgradeStart": "Para começar, entre na sua conta usando o seu email e senha.",
   "userAccountUpgradeChooseService": "Escolha abaixo qual serviço você gostaria de usar para atualizar sua conta.",
   "circuitOverseer": "Superintendente de Circuito",
-  "announcements": "What’s New",
-  "markAsRead": "Mark as read",
-  "expand": "Expand",
-  "collapse": "Collapse"
+  "announcements": "Novidades",
+  "markAsRead": "Marcar como lido",
+  "expand": "Expandir",
+  "collapse": "Ocultar"
 }
