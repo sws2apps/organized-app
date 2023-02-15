@@ -144,6 +144,13 @@ export const getCurrentWeekDate = () => {
 export const saveProfilePic = async (url, provider) => {
 	try {
 		if (url && url !== '' && url !== null) {
+			if (provider === 'yahoo.com') {
+				await dbUpdateAppSettings({ user_avatar: url });
+				await promiseSetRecoil(avatarUrlState, url);
+
+				return;
+			}
+
 			if (provider !== 'microsoft.com') {
 				const imageReceived = () => {
 					const canvas = document.createElement('canvas');
