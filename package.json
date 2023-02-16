@@ -20,7 +20,7 @@
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
-    "@fingerprintjs/fingerprintjs-pro": "^3.8.1",
+    "@fingerprintjs/fingerprintjs-pro": "^3.8.2",
     "@fontsource/roboto": "^4.5.8",
     "@mui/icons-material": "^5.11.0",
     "@mui/lab": "^5.0.0-alpha.120",
