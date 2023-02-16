@@ -191,15 +191,15 @@ const BasicSettings = () => {
           <TextField
             id="outlined-select-class"
             select
-            label={t('classCount')}
+            label={t('auxClass')}
             value={tempClassCount}
             defaultValue={1}
             onChange={handleClassChange}
             size="small"
-            sx={{ minWidth: 100 }}
+            sx={{ width: '150px' }}
           >
-            <MenuItem value={1}>{t('oneClass')}</MenuItem>
-            <MenuItem value={2}>{t('twoClass')}</MenuItem>
+            <MenuItem value={1}>{t('no')}</MenuItem>
+            <MenuItem value={2}>{t('yes')}</MenuItem>
           </TextField>
         </Box>
 
