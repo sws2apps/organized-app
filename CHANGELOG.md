@@ -1,3 +1,10 @@
+# [2.34.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.33.3...v2.34.0) (2023-02-16)
+
+
+### Features
+
+* **auth:** prevent signin using multiple providers ([61cb11e](https://github.com/sws2apps/lmm-oa-sws/commit/61cb11e8b0163b17e1515cabec957b1332fc1cb9))
+
 ## [2.33.3](https://github.com/sws2apps/lmm-oa-sws/compare/v2.33.2...v2.33.3) (2023-02-15)
 
 
