@@ -170,7 +170,6 @@
   "meetingInfoTitle": "Meeting information",
   "meetingInfoDescription": "Enter below the meeting day of the midweek meeting, and the number of student classes",
   "meetingDay": "Meeting day",
-  "classCount": "Class count",
   "setupCompleteTitle": "Setup complete",
   "setupCompleteDescription": "Initial setup of CPE is now completed. You could still change them later if needed.",
   "openApp": "Open App",
