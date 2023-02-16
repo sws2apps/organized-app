@@ -1,3 +1,14 @@
+# [2.35.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.34.0...v2.35.0) (2023-02-16)
+
+
+### Features
+
+* **deps:** bump @fingerprintjs/fingerprintjs-pro from 3.8.1 to 3.8.2 ([25c28f9](https://github.com/sws2apps/lmm-oa-sws/commit/25c28f95727e9b51ec0f30fc6eb50a5772433428))
+* **deps:** bump @mui/icons-material from 5.11.0 to 5.11.9 ([b580e2a](https://github.com/sws2apps/lmm-oa-sws/commit/b580e2a0bb4524e5d2ddd247347281a5dc35988b))
+* **deps:** bump @mui/material from 5.11.8 to 5.11.9 ([d0e194f](https://github.com/sws2apps/lmm-oa-sws/commit/d0e194fc4cdede8d9cd314c3135fac5d77a57f38))
+* **deps:** bump dexie-export-import from 4.0.5 to 4.0.6 ([c6f1d2c](https://github.com/sws2apps/lmm-oa-sws/commit/c6f1d2cff3f19f70a99cfacd8feb13e6c403d69e))
+* **settings:** update label for auxiliary classroom switcher ([d900786](https://github.com/sws2apps/lmm-oa-sws/commit/d900786b7e3bad374cdcfd4e127534297e581087))
+
 # [2.34.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.33.3...v2.34.0) (2023-02-16)
 
 
