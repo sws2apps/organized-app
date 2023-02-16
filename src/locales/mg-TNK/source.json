@@ -50,5 +50,6 @@
   "normalWeek": "Herinandro Mahazatra",
   "circuitOverseerWeek": "Fitsidihan’ny Mpiandraikitra ny Faritra",
   "conventionWeek": "Herinandron’ny Fivoriamben’ny Vondrom-paritra",
-  "assemblyWeek": "Herinandron’ny Fivoriamben’ny Faritra"
+  "assemblyWeek": "Herinandron’ny Fivoriamben’ny Faritra",
+  "shortTimeFormat": "h:MM"
 }

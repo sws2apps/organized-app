@@ -460,7 +460,7 @@
   "oauthYahoo": "Continuar com o Yahoo",
   "oauthEmail": "Continue com o Email",
   "providerNotAvailable": "Se o email que você está usando não está disponível acima, escolha a opção abaixo.",
-  "signInDesc": "Escolha abaixo qual serviço você quer usar para fazer o login.<br>ATENÇÃO: A menos que você esteja atualizando o método de autenticação para e-mail, mudar para um novo serviço pode substituir seus dados existentes e criar um novo usuário para você.",
+  "signInDesc": "Escolha abaixo qual serviço você quer usar para criar sua conta.",
   "emailAuth": "Autenticação por Email",
   "emailAuthDesc": "Insira seu email abaixo.",
   "sendLink": "Enviar link",

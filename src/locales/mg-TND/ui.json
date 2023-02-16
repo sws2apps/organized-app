@@ -460,7 +460,7 @@
   "oauthYahoo": "Hampiasa Yahoo",
   "oauthEmail": "Hampiasa Email",
   "providerNotAvailable": "Ampiasao ny safidy eto ambany raha tsy eo amin’ilay lisitra eo ambony ny email ampiasainao.",
-  "signInDesc": "Safidio eto ambany ny programa tianao ampiasaina mba hidirana<br>TANDREMO: Mety hifafa ny rakitra ampiasainao ary hanana kaonty vaovao ianao raha ovaovainao ny safidinao. Tsy mihatra kosa izany raha niditra tamin’ny alalan’ny email fotsiny ianao teo aloha.",
+  "signInDesc": "Safidio eto ambany ny programa tianao ampiasaina mba hamoronana ny kaontinao.",
   "emailAuth": "Fidirana Amin’ny Email",
   "emailAuthDesc": "Ampidiro eto ambany ny adiresy email ampiasainao.",
   "sendLink": "Handefa Rohy",

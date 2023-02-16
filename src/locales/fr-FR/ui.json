@@ -460,7 +460,7 @@
   "oauthYahoo": "Continue with Yahoo",
   "oauthEmail": "Continue with Email",
   "providerNotAvailable": "If the email you are using is not available above, choose the option below.",
-  "signInDesc": "Choose below which service you want to use for sign in.<br>ATTENTION: Unless you are upgrading from email only authentication, changing to a new service may override your existing data and create a new user for you.",
+  "signInDesc": "Choose below which service you want to use for sign in.",
   "emailAuth": "Email Authentication",
   "emailAuthDesc": "Enter your email address below.",
   "sendLink": "Send Link",

@@ -50,5 +50,6 @@
   "normalWeek": "Semana normal",
   "circuitOverseerWeek": "Visita do Superintendente de Circuito",
   "conventionWeek": "Semana do Congresso",
-  "assemblyWeek": "Semana da Assembleia de Circuito"
+  "assemblyWeek": "Semana da Assembleia de Circuito",
+  "shortTimeFormat": "H:MM"
 }
