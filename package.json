@@ -31,7 +31,7 @@
     "date-fns": "^2.29.3",
     "dateformat": "^5.0.3",
     "dexie": "^3.2.3",
-    "dexie-export-import": "^4.0.5",
+    "dexie-export-import": "^4.0.6",
     "downloadjs": "^1.4.7",
     "file-select-dialog": "^1.5.4",
     "firebase": "^9.17.1",
