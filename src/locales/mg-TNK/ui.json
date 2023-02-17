@@ -488,5 +488,7 @@
   "announcements": "Vaovao",
   "markAsRead": "Voavaky",
   "expand": "Aseho",
-  "collapse": "Afenina"
+  "collapse": "Afenina",
+  "weekDeleteConfirm": "Tianao ho esorina tsy ho ao amin’ny loharanon-kevitra ve io herinandro io?",
+  "weekDeletedSuccess": "Vita soa aman-tsara ny famafana herinandro"
 }

@@ -488,5 +488,7 @@
   "announcements": "Novidades",
   "markAsRead": "Marcar como lido",
   "expand": "Expandir",
-  "collapse": "Ocultar"
+  "collapse": "Ocultar",
+  "weekDeleteConfirm": "Are you sure to remove this week from the source materials list?",
+  "weekDeletedSuccess": "Week removed from source materials"
 }
