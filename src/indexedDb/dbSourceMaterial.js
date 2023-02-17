@@ -1,8 +1,11 @@
 import appDb from './mainDb';
-import { promiseGetRecoil } from 'recoil-outside';
+import { promiseGetRecoil, promiseSetRecoil } from 'recoil-outside';
 import dateFormat from 'dateformat';
 import { sourceLangState } from '../states/main';
 import { assTypeListState, assTypeLocalState } from '../states/sourceMaterial';
+import { dbHistoryAssignment, dbLastAssignment } from './dbAssignment';
+import { allStudentsState, filteredStudentsState, studentsAssignmentHistoryState } from '../states/persons';
+import { dbGetStudentsMini } from './dbPersons';
 
 export const dbGetListWeekType = async () => {
   const weekTypeList = [];
@@ -704,6 +707,30 @@ export const dbAddManualSource = async () => {
   await dbAddWeekToSource(fMonday);
   await dbAddWeekToSchedule(fMonday);
   return;
+};
+
+export const dbDeleteWeek = async (week) => {
+  await appDb.src.delete(week);
+  await appDb.sched_MM.delete(week);
+
+  const history = await dbHistoryAssignment();
+  await promiseSetRecoil(studentsAssignmentHistoryState, history);
+
+  const persons = await dbGetStudentsMini();
+  for await (const person of persons) {
+    const stuAssignment = await dbLastAssignment(person.person_uid);
+    const obj = {};
+    obj.lastAssignment = stuAssignment;
+    obj.changes = person.changes || [];
+    const findIndex = obj.changes.findIndex((item) => item.field === 'lastAssignment');
+    if (findIndex !== -1) obj.changes.splice(findIndex, 1);
+    obj.changes.push({ date: new Date().toISOString(), field: 'lastAssignment', value: stuAssignment });
+    await appDb.persons.update(person.id, { ...obj });
+  }
+
+  const data = await dbGetStudentsMini();
+  await promiseSetRecoil(allStudentsState, data);
+  await promiseSetRecoil(filteredStudentsState, data);
 };
 
 export const dbIsWeekExist = async (varWeek) => {

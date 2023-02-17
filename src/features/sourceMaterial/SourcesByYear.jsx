@@ -4,9 +4,11 @@ import Box from '@mui/material/Box';
 import { SourceCard } from './';
 import { dbGetScheduleListByYear } from '../../indexedDb/dbSourceMaterial';
 import { monthNamesState } from '../../states/main';
+import { refreshWeeksListState } from '../../states/sourceMaterial';
 
 const SourcesByYear = ({ year }) => {
   const monthNames = useRecoilValue(monthNamesState);
+  const refreshWeekList = useRecoilValue(refreshWeeksListState);
 
   const [sources, setSources] = useState([]);
 
@@ -25,7 +27,7 @@ const SourcesByYear = ({ year }) => {
 
   useEffect(() => {
     getMonthlySources();
-  }, [getMonthlySources]);
+  }, [getMonthlySources, refreshWeekList]);
 
   return (
     <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '15px', padding: '0 5px 10px 5px' }}>

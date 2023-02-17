@@ -29,8 +29,11 @@ import {
   isWhatsNewOpenState,
   restoreDbOpenState,
   sourceLangState,
+  userConfirmationActionState,
+  userConfirmationMessageState,
+  userConfirmationOpenState,
+  userConfirmationTitleState,
 } from '../states/main';
-import { dbAddManualSource } from '../indexedDb/dbSourceMaterial';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../states/notification';
 import { epubFileState, isImportEPUBState, isImportJWOrgState } from '../states/sourceMaterial';
 import { isPublishOpenState } from '../states/schedule';
@@ -56,6 +59,10 @@ const DashboardMenu = () => {
   const setMyAssignmentsOpen = useSetRecoilState(isMyAssignmentOpenState);
   const setPublishPocket = useSetRecoilState(isPublishOpenState);
   const setWhatsNewOpen = useSetRecoilState(isWhatsNewOpenState);
+  const setConfirmationTitle = useSetRecoilState(userConfirmationTitleState);
+  const setConfirmationMessage = useSetRecoilState(userConfirmationMessageState);
+  const setConfirmationAction = useSetRecoilState(userConfirmationActionState);
+  const setConfirmationOpen = useSetRecoilState(userConfirmationOpenState);
 
   const isCongAccountConnected = useRecoilValue(congAccountConnectedState);
   const isOnline = useRecoilValue(isOnlineState);
@@ -66,10 +73,10 @@ const DashboardMenu = () => {
   };
 
   const handleWeekAdd = async () => {
-    await dbAddManualSource();
-    setAppSnackOpen(true);
-    setAppSeverity('success');
-    setAppMessage(t('weekAdded'));
+    setConfirmationTitle(t('sourceMaterial'));
+    setConfirmationMessage(t('addWeekDesc'));
+    setConfirmationAction('manualWeekAdd');
+    setConfirmationOpen(true);
   };
 
   const handleImportEPUB = async () => {

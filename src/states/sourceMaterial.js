@@ -46,6 +46,11 @@ export const weekTypeListState = atom({
   default: [],
 });
 
+export const refreshWeeksListState = atom({
+  key: 'refreshWeeksList',
+  default: false,
+});
+
 export const assTypeLocalState = selector({
   key: 'assTypeLocal',
   get: ({ get }) => {

@@ -15,6 +15,7 @@ import {
   isCongPersonAddState,
   isOnlineState,
   restoreDbOpenState,
+  userConfirmationOpenState,
 } from '../states/main';
 import EmailLinkAuthentication from '../features/startup/EmailLinkAuthentication';
 import Startup from '../features/startup';
@@ -30,6 +31,7 @@ import WaitingPage from './WaitingPage';
 import { fetchNotifications } from '../api/notification';
 import { dbSaveNotifications } from '../indexedDb/dbNotifications';
 import { WhatsNewContent } from '../features/whatsNew';
+import UserConfirmation from './UserConfirmation';
 
 const Layout = ({ updatePwa }) => {
   let location = useLocation();
@@ -57,6 +59,7 @@ const Layout = ({ updatePwa }) => {
   const isImportJWOrg = useRecoilValue(isImportJWOrgState);
   const isCongPersonAdd = useRecoilValue(isCongPersonAddState);
   const isOnline = useRecoilValue(isOnlineState);
+  const isUserConfirm = useRecoilValue(userConfirmationOpenState);
 
   const checkPwaUpdate = () => {
     if ('serviceWorker' in navigator) {
@@ -92,6 +95,7 @@ const Layout = ({ updatePwa }) => {
         {isImportEPUB && <ImportEPUB />}
         {isImportJWOrg && <ImportJWOrg />}
         {isCongPersonAdd && <CongregationPersonAdd />}
+        {isUserConfirm && <UserConfirmation />}
 
         {isEmailAuth && <EmailLinkAuthentication />}
         {isAppLoad && !isEmailAuth && <Startup />}

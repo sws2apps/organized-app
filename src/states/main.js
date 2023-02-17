@@ -361,3 +361,23 @@ export const userEmailState = atom({
   key: 'userEmail',
   default: '',
 });
+
+export const userConfirmationOpenState = atom({
+  key: 'userConfirmationOpen',
+  default: false,
+});
+
+export const userConfirmationTitleState = atom({
+  key: 'userConfirmationTitle',
+  default: false,
+});
+
+export const userConfirmationMessageState = atom({
+  key: 'userConfirmationMessage',
+  default: false,
+});
+
+export const userConfirmationActionState = atom({
+  key: 'userConfirmationAction',
+  default: undefined,
+});
