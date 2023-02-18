@@ -138,9 +138,9 @@ const S140 = () => {
   };
 
   const cbsLabel = (weekItem) => {
-    let src = t('cbsConductor', { lng: sourceLang });
+    let src = t('cbsConductor', { lng: sourceLang, ns: 'source' });
     if (weekItem.scheduleData.cbs_reader_dispName && weekItem.scheduleData.cbs_reader_dispName !== '') {
-      src += `/${t('cbsReader', { lng: sourceLang })}`;
+      src += `/${t('cbsReader', { lng: sourceLang, ns: 'source' })}`;
     }
 
     return `${src}:`;
@@ -277,7 +277,7 @@ const S140 = () => {
                           <>
                             <S140PartMiniLabel
                               align="right"
-                              label={`${t('chairmanMidweekMeeting', { lng: sourceLang })}:`}
+                              label={`${t('chairmanMidweekMeeting', { lng: sourceLang, ns: 'source' })}:`}
                               width="180px"
                             />
                             <S140AssignedPerson person={weekItem.scheduleData.chairmanMM_A_dispName} />
@@ -324,7 +324,7 @@ const S140 = () => {
                             />
                             <S140PartMiniLabel
                               align="right"
-                              label={`${t('prayerMidweekMeeting', { lng: sourceLang })}:`}
+                              label={`${t('prayerMidweekMeeting', { lng: sourceLang, ns: 'source' })}:`}
                               width="180px"
                             />
                             <S140AssignedPerson person={weekItem.scheduleData.opening_prayer_dispName} />
@@ -371,7 +371,7 @@ const S140 = () => {
                                   <S140MeetingTime partTime={weekItem.sourceData.tgwGems} />
                                   <S140MeetingPartText
                                     partType="tgw"
-                                    partText={t('tgwGems', { lng: sourceLang })}
+                                    partText={t('tgwGems', { lng: sourceLang, ns: 'source' })}
                                     partDuration="10 min."
                                   />
                                   <S140PartMiniLabel width="180px" />
@@ -383,7 +383,7 @@ const S140 = () => {
                                   <S140MeetingTime partTime={weekItem.sourceData.bibleReading} />
                                   <S140MeetingPartText
                                     partType="tgw"
-                                    partText={t('bibleReading', { lng: sourceLang })}
+                                    partText={t('bibleReading', { lng: sourceLang, ns: 'source' })}
                                     partDuration={t('bibleReadingTime', { lng: sourceLang })}
                                     partMiniLabel={`${t('student', { lng: sourceLang })}:`}
                                   />
@@ -544,7 +544,7 @@ const S140 = () => {
                                   <S140MeetingPartText partType="lc" partText={getConcludingSong(weekItem)} />
                                   <S140PartMiniLabel
                                     align="right"
-                                    label={`${t('prayerMidweekMeeting', { lng: sourceLang })}:`}
+                                    label={`${t('prayerMidweekMeeting', { lng: sourceLang, ns: 'source' })}:`}
                                     width="180px"
                                   />
                                   <S140AssignedPerson person={weekItem.scheduleData.closing_prayer_dispName} />

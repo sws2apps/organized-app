@@ -336,7 +336,7 @@ const SourceWeekDetails = () => {
         <Box sx={{ margin: '20px 0', display: 'flex', flexDirection: 'column', gap: '20px' }}>
           <TextField
             id="outlined-tgw-talk-10"
-            label={t('tgwTalk')}
+            label={t('tgwTalk', { ns: 'source' })}
             variant="outlined"
             size="small"
             sx={{ maxWidth: '800px' }}

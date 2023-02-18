@@ -441,14 +441,14 @@ const ScheduleAssignment = ({ edit }) => {
             {/* Chairman A */}
             <SingleAssignment
               edit={edit}
-              header={t('chairmanMidweekMeeting')}
+              header={t('chairmanMidweekMeeting', { ns: 'source' })}
               isAssign={isChairmanA}
               person={chairmanA}
               loadStudentPicker={() =>
                 loadStudentPicker({
                   assID: 18,
                   assType: 110,
-                  assTypeName: t('chairmanMidweekMeeting'),
+                  assTypeName: t('chairmanMidweekMeeting', { ns: 'source' }),
                   currentStudent: chairmanA,
                 })
               }
@@ -475,14 +475,14 @@ const ScheduleAssignment = ({ edit }) => {
           {/* Opening Prayer */}
           <SingleAssignment
             edit={edit}
-            header={t('prayerMidweekMeeting')}
+            header={t('prayerMidweekMeeting', { ns: 'source' })}
             isAssign={isOpeningPrayer}
             person={openingPrayer}
             loadStudentPicker={() =>
               loadStudentPicker({
                 assID: 20,
                 assType: 111,
-                assTypeName: t('prayerMidweekMeeting'),
+                assTypeName: t('prayerMidweekMeeting', { ns: 'source' }),
                 currentStudent: openingPrayer,
               })
             }
@@ -502,7 +502,7 @@ const ScheduleAssignment = ({ edit }) => {
             loadStudentPicker({
               assID: 21,
               assType: 112,
-              assTypeName: t('tgwTalk'),
+              assTypeName: t('tgwTalk', { ns: 'source' }),
               currentStudent: tgwTalk,
             })
           }
@@ -513,7 +513,7 @@ const ScheduleAssignment = ({ edit }) => {
           edit={edit}
           isAssignA={isTgwGems}
           personA={tgwGems}
-          source={t('tgwGems')}
+          source={t('tgwGems', { ns: 'source' })}
           loadStudentPickerA={() =>
             loadStudentPicker({
               assID: 22,
@@ -541,7 +541,7 @@ const ScheduleAssignment = ({ edit }) => {
             loadStudentPicker({
               assID: 0,
               assType: 100,
-              assTypeName: t('bibleReading'),
+              assTypeName: t('bibleReading', { ns: 'source' }),
               currentStudent: stuBReadA,
             })
           }
@@ -549,7 +549,7 @@ const ScheduleAssignment = ({ edit }) => {
             loadStudentPicker({
               assID: 1,
               assType: 100,
-              assTypeName: t('bibleReading'),
+              assTypeName: t('bibleReading', { ns: 'source' }),
               currentStudent: stuBReadB,
             })
           }
@@ -682,7 +682,7 @@ const ScheduleAssignment = ({ edit }) => {
             loadStudentPicker({
               assID: 23,
               assType: 114,
-              assTypeName: t('lcPart'),
+              assTypeName: t('lcPart', { ns: 'source' }),
               currentStudent: lcPart1,
             })
           }
@@ -700,7 +700,7 @@ const ScheduleAssignment = ({ edit }) => {
               loadStudentPicker({
                 assID: 24,
                 assType: 114,
-                assTypeName: t('lcPart'),
+                assTypeName: t('lcPart', { ns: 'source' }),
                 currentStudent: lcPart2,
               })
             }
@@ -722,7 +722,7 @@ const ScheduleAssignment = ({ edit }) => {
               loadStudentPicker({
                 assID: 25,
                 assType: 115,
-                assTypeName: t('cbsConductor'),
+                assTypeName: t('cbsConductor', { ns: 'source' }),
                 currentStudent: cbsConductor,
               })
             }
@@ -730,7 +730,7 @@ const ScheduleAssignment = ({ edit }) => {
               loadStudentPicker({
                 assID: 26,
                 assType: 116,
-                assTypeName: t('cbsReader'),
+                assTypeName: t('cbsReader', { ns: 'source' }),
                 currentStudent: cbsReader,
               })
             }
@@ -752,14 +752,14 @@ const ScheduleAssignment = ({ edit }) => {
         <Box sx={{ display: 'flex', justifyContent: { xs: 'flex-start', sm: 'flex-end' }, marginTop: '20px' }}>
           <SingleAssignment
             edit={edit}
-            header={t('prayerMidweekMeeting')}
+            header={t('prayerMidweekMeeting', { ns: 'source' })}
             isAssign={isClosingPrayer}
             person={closingPrayer}
             loadStudentPicker={() =>
               loadStudentPicker({
                 assID: 27,
                 assType: 111,
-                assTypeName: t('prayerMidweekMeeting'),
+                assTypeName: t('prayerMidweekMeeting', { ns: 'source' }),
                 currentStudent: closingPrayer,
               })
             }

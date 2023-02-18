@@ -72,14 +72,17 @@ const S89Template = () => {
                   {/* 1st column */}
                   <Box sx={{ width: '150px', display: 'flex', flexDirection: 'column', gap: '2px' }}>
                     {/* Bible Reading */}
-                    <S89Assignment assignment={t('bibleReading', { lng: sourceLang })} checked={data.isBRead} />
+                    <S89Assignment
+                      assignment={t('bibleReading', { lng: sourceLang, ns: 'source' })}
+                      checked={data.isBRead}
+                    />
 
                     {/* Initial Call or Memorial Invitation */}
                     <S89Assignment
                       assignment={
                         data.isMemorialInvite
-                          ? t('memorialInvite', { lng: sourceLang })
-                          : t('initialCall', { lng: sourceLang })
+                          ? t('memorialInvite', { lng: sourceLang, ns: 'source' })
+                          : t('initialCall', { lng: sourceLang, ns: 'source' })
                       }
                       checked={data.isMemorialInvite ? true : data.isInitialCall}
                       assignmentSpec={data.initialCallSpec}
@@ -87,7 +90,7 @@ const S89Template = () => {
 
                     {/* Return Visit */}
                     <S89Assignment
-                      assignment={t('returnVisit', { lng: sourceLang })}
+                      assignment={t('returnVisit', { lng: sourceLang, ns: 'source' })}
                       checked={data.isReturnVisit}
                       assignmentSpec={data.returnVisitSpec}
                     />
@@ -96,13 +99,20 @@ const S89Template = () => {
                   {/* 2nd column */}
                   <Box sx={{ width: '140px' }}>
                     {/* Bible Study */}
-                    <S89Assignment assignment={t('bibleStudy', { lng: sourceLang })} checked={data.isBibleStudy} />
+                    <S89Assignment
+                      assignment={t('bibleStudy', { lng: sourceLang, ns: 'source' })}
+                      checked={data.isBibleStudy}
+                    />
 
                     {/* Talk */}
-                    <S89Assignment assignment={t('talk', { lng: sourceLang })} checked={data.isTalk} />
+                    <S89Assignment assignment={t('talk', { lng: sourceLang, ns: 'source' })} checked={data.isTalk} />
 
                     {/* Other Assignment */}
-                    <S89Assignment assignment={t('otherPart', { lng: sourceLang })} checked={false} otherPart={true} />
+                    <S89Assignment
+                      assignment={t('otherPart', { lng: sourceLang, ns: 'source' })}
+                      checked={false}
+                      otherPart={true}
+                    />
                   </Box>
                 </Box>
 

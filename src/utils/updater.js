@@ -308,25 +308,25 @@ const updateAssignmentType = async () => {
   listSourceLangs.forEach((lang) => {
     const langCode = lang.code.toUpperCase();
 
-    bReadObj[langCode] = t('bibleReading', { lng: lang.code, ns: 'ui' });
-    initCallObj[langCode] = t('initialCall', { lng: lang.code, ns: 'ui' });
-    rvObj[langCode] = t('returnVisit', { lng: lang.code, ns: 'ui' });
-    bsObj[langCode] = t('bibleStudy', { lng: lang.code, ns: 'ui' });
-    talkObj[langCode] = t('talk', { lng: lang.code, ns: 'ui' });
-    otherObj[langCode] = t('otherPart', { lng: lang.code, ns: 'ui' });
-    icVideoObj[langCode] = t('initialCallVideo', { lng: lang.code, ns: 'ui' });
-    rvVideoObj[langCode] = t('returnVisitVideo', { lng: lang.code, ns: 'ui' });
-    memorialObj[langCode] = t('memorialInvite', { lng: lang.code, ns: 'ui' });
-    memorialVideoObj[langCode] = t('memorialInviteVideo', { lng: lang.code, ns: 'ui' });
-    chairmanMMObj[langCode] = t('chairmanMidweekMeeting', { lng: lang.code, ns: 'ui' });
-    prayerMMObj[langCode] = t('prayerMidweekMeeting', { lng: lang.code, ns: 'ui' });
-    tgwTalkObj[langCode] = t('tgwTalk', { lng: lang.code, ns: 'ui' });
-    tgwGemsObj[langCode] = t('tgwGems', { lng: lang.code, ns: 'ui' });
-    lcPartObj[langCode] = t('lcPart', { lng: lang.code, ns: 'ui' });
-    cbsConductorObj[langCode] = t('cbsConductor', { lng: lang.code, ns: 'ui' });
-    cbsReaderObj[langCode] = t('cbsReader', { lng: lang.code, ns: 'ui' });
-    initCallVariationsObj[langCode] = t('initialCallVariations', { lng: lang.code, ns: 'ui' });
-    rvVariationsObj[langCode] = t('returnVisitVariations', { lng: lang.code, ns: 'ui' });
+    bReadObj[langCode] = t('bibleReading', { lng: lang.code, ns: 'source' });
+    initCallObj[langCode] = t('initialCall', { lng: lang.code, ns: 'source' });
+    rvObj[langCode] = t('returnVisit', { lng: lang.code, ns: 'source' });
+    bsObj[langCode] = t('bibleStudy', { lng: lang.code, ns: 'source' });
+    talkObj[langCode] = t('talk', { lng: lang.code, ns: 'source' });
+    otherObj[langCode] = t('otherPart', { lng: lang.code, ns: 'source' });
+    icVideoObj[langCode] = t('initialCallVideo', { lng: lang.code, ns: 'source' });
+    rvVideoObj[langCode] = t('returnVisitVideo', { lng: lang.code, ns: 'source' });
+    memorialObj[langCode] = t('memorialInvite', { lng: lang.code, ns: 'source' });
+    memorialVideoObj[langCode] = t('memorialInviteVideo', { lng: lang.code, ns: 'source' });
+    chairmanMMObj[langCode] = t('chairmanMidweekMeeting', { lng: lang.code, ns: 'source' });
+    prayerMMObj[langCode] = t('prayerMidweekMeeting', { lng: lang.code, ns: 'source' });
+    tgwTalkObj[langCode] = t('tgwTalk', { lng: lang.code, ns: 'source' });
+    tgwGemsObj[langCode] = t('tgwGems', { lng: lang.code, ns: 'source' });
+    lcPartObj[langCode] = t('lcPart', { lng: lang.code, ns: 'source' });
+    cbsConductorObj[langCode] = t('cbsConductor', { lng: lang.code, ns: 'source' });
+    cbsReaderObj[langCode] = t('cbsReader', { lng: lang.code, ns: 'source' });
+    initCallVariationsObj[langCode] = t('initialCallVariations', { lng: lang.code, ns: 'source' });
+    rvVariationsObj[langCode] = t('returnVisitVariations', { lng: lang.code, ns: 'source' });
   });
 
   await appDb.assignment.clear();

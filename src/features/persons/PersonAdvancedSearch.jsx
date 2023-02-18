@@ -315,7 +315,7 @@ const StudentAdvancedSearch = ({
                     sx={{ padding: '5px' }}
                   />
                 }
-                label={t('chairmanMidweekMeeting')}
+                label={t('chairmanMidweekMeeting', { ns: 'source' })}
               />
               <FormControlLabel
                 control={
@@ -326,7 +326,7 @@ const StudentAdvancedSearch = ({
                     sx={{ padding: '5px' }}
                   />
                 }
-                label={t('prayerMidweekMeeting')}
+                label={t('prayerMidweekMeeting', { ns: 'source' })}
               />
               <FormControlLabel
                 control={
@@ -337,7 +337,7 @@ const StudentAdvancedSearch = ({
                     sx={{ padding: '5px' }}
                   />
                 }
-                label={t('tgwTalk')}
+                label={t('tgwTalk', { ns: 'source' })}
               />
               <FormControlLabel
                 control={
@@ -348,7 +348,7 @@ const StudentAdvancedSearch = ({
                     sx={{ padding: '5px' }}
                   />
                 }
-                label={t('tgwGems')}
+                label={t('tgwGems', { ns: 'source' })}
               />
               <FormControlLabel
                 control={
@@ -359,7 +359,7 @@ const StudentAdvancedSearch = ({
                     sx={{ padding: '5px' }}
                   />
                 }
-                label={t('bibleReading')}
+                label={t('bibleReading', { ns: 'source' })}
               />
               <FormControlLabel
                 control={
@@ -370,7 +370,7 @@ const StudentAdvancedSearch = ({
                     sx={{ padding: '5px' }}
                   />
                 }
-                label={t('initialCall')}
+                label={t('initialCall', { ns: 'source' })}
               />
               <FormControlLabel
                 control={
@@ -381,7 +381,7 @@ const StudentAdvancedSearch = ({
                     sx={{ padding: '5px' }}
                   />
                 }
-                label={t('returnVisit')}
+                label={t('returnVisit', { ns: 'source' })}
               />
               <FormControlLabel
                 control={
@@ -392,7 +392,7 @@ const StudentAdvancedSearch = ({
                     sx={{ padding: '5px' }}
                   />
                 }
-                label={t('bibleStudy')}
+                label={t('bibleStudy', { ns: 'source' })}
               />
               <FormControlLabel
                 control={
@@ -403,7 +403,7 @@ const StudentAdvancedSearch = ({
                     sx={{ padding: '5px' }}
                   />
                 }
-                label={t('talk')}
+                label={t('talk', { ns: 'source' })}
               />
               <FormControlLabel
                 control={
@@ -414,7 +414,7 @@ const StudentAdvancedSearch = ({
                     sx={{ padding: '5px' }}
                   />
                 }
-                label={t('lcPart')}
+                label={t('lcPart', { ns: 'source' })}
               />
               <FormControlLabel
                 control={
@@ -425,7 +425,7 @@ const StudentAdvancedSearch = ({
                     sx={{ padding: '5px' }}
                   />
                 }
-                label={t('cbsConductor')}
+                label={t('cbsConductor', { ns: 'source' })}
               />
               <FormControlLabel
                 control={
@@ -436,7 +436,7 @@ const StudentAdvancedSearch = ({
                     sx={{ padding: '5px' }}
                   />
                 }
-                label={t('cbsReader')}
+                label={t('cbsReader', { ns: 'source' })}
               />
             </FormGroup>
           </Box>

@@ -133,21 +133,21 @@ export const dbHistoryAssignment = async () => {
           // TGW Talk 10 min. History
           if (item.assignment === 'tgw_talk') {
             person.assignmentID = 112;
-            person.assignmentName = getI18n().t('tgwTalk', { ns: 'ui' });
+            person.assignmentName = getI18n().t('tgwTalk', { ns: 'source' });
             person.assignmentSource = weekData.tgwTalk_src;
           }
 
           // TGW Spiritual Gems History
           if (item.assignment === 'tgw_gems') {
             person.assignmentID = 113;
-            person.assignmentName = getI18n().t('tgwGems', { ns: 'ui' });
+            person.assignmentName = getI18n().t('tgwGems', { ns: 'source' });
           }
 
           //Bible Reading History
           if (item.assignment.startsWith('bRead_stu_')) {
             const stuclass = item.assignment.split('_')[2];
             person.assignmentID = 100;
-            person.assignmentName = getI18n().t('bibleReading', { ns: 'ui' });
+            person.assignmentName = getI18n().t('bibleReading', { ns: 'source' });
             person.class = stuclass;
             person.studyPoint = weekData.bibleReading_study;
           }
@@ -162,15 +162,15 @@ export const dbHistoryAssignment = async () => {
 
             person.assignmentID = assType;
             if (assType === 101 || (assType >= 140 && assType < 170)) {
-              person.assignmentName = getI18n().t('initialCall', { ns: 'ui' });
+              person.assignmentName = getI18n().t('initialCall', { ns: 'source' });
             } else if (assType === 102 || (assType >= 170 && assType < 200)) {
-              person.assignmentName = getI18n().t('returnVisit', { ns: 'ui' });
+              person.assignmentName = getI18n().t('returnVisit', { ns: 'source' });
             } else if (assType === 103) {
-              person.assignmentName = getI18n().t('bibleStudy', { ns: 'ui' });
+              person.assignmentName = getI18n().t('bibleStudy', { ns: 'source' });
             } else if (assType === 104) {
-              person.assignmentName = getI18n().t('talk', { ns: 'ui' });
+              person.assignmentName = getI18n().t('talk', { ns: 'source' });
             } else if (assType === 108) {
-              person.assignmentName = getI18n().t('memorialInvite', { ns: 'ui' });
+              person.assignmentName = getI18n().t('memorialInvite', { ns: 'source' });
             }
             person.class = stuclass;
             person.studyPoint = studyPoint;
@@ -192,7 +192,7 @@ export const dbHistoryAssignment = async () => {
             const fldContent = `lcPart${lcIndex}_content`;
 
             person.assignmentID = 114;
-            person.assignmentName = getI18n().t('lcPart', { ns: 'ui' });
+            person.assignmentName = getI18n().t('lcPart', { ns: 'source' });
             person.assignmentSource = `(${weekData[fldTime]} min.) ${weekData[fldSource]}`;
             person.assignmentContent = weekData[fldContent];
           }
@@ -200,14 +200,14 @@ export const dbHistoryAssignment = async () => {
           // CBS Conductor History
           if (item.assignment === 'cbs_conductor') {
             person.assignmentID = 115;
-            person.assignmentName = getI18n().t('cbsConductor', { ns: 'ui' });
+            person.assignmentName = getI18n().t('cbsConductor', { ns: 'source' });
             person.assignmentSource = weekData.cbs_src;
           }
 
           // CBS Reader History
           if (item.assignment === 'cbs_reader') {
             person.assignmentID = 116;
-            person.assignmentName = getI18n().t('cbsReader', { ns: 'ui' });
+            person.assignmentName = getI18n().t('cbsReader', { ns: 'source' });
             person.assignmentSource = weekData.cbs_src;
           }
 
@@ -579,7 +579,7 @@ export const dbGetS89WeekList = async (scheduleName) => {
         (scheduleData.bRead_stu_A && scheduleData.bRead_stu_A !== '') ||
         (scheduleData.bRead_stu_B && scheduleData.bRead_stu_B !== '')
       ) {
-        assType.label = getI18n().t('bibleReading', { ns: 'ui', lng: sourceLang });
+        assType.label = getI18n().t('bibleReading', { ns: 'source', lng: sourceLang });
         assType.value = week + '-0@bRead';
         assType.children = [];
 
@@ -1059,7 +1059,7 @@ export const dbMyAssignments = async () => {
             //Bible Reading History
             if (fld.startsWith('bRead_stu_')) {
               const stuclass = fld.split('_')[2];
-              obj.assignmentName = getI18n().t('bibleReading', { ns: 'ui' });
+              obj.assignmentName = getI18n().t('bibleReading', { ns: 'source' });
               obj.class = stuclass;
               obj.studyPoint = schedule.bibleReading_study;
               obj.assignmentSource = schedule.bibleReading_src;
@@ -1120,7 +1120,7 @@ export const dbMyAssignments = async () => {
               const fldTime = `lcPart${lcIndex}_time`;
               const fldContent = `lcPart${lcIndex}_content`;
 
-              obj.assignmentName = getI18n().t('lcPart', { ns: 'ui' });
+              obj.assignmentName = getI18n().t('lcPart', { ns: 'source' });
               obj.assignmentTime = schedule[fldTime];
               obj.assignmentSource = schedule[fldSource];
               obj.assignmentContent = schedule[fldContent];
