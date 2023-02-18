@@ -1,3 +1,19 @@
+# [2.36.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.35.0...v2.36.0) (2023-02-18)
+
+
+### Bug Fixes
+
+* **source-material:** display confirmation message before adding week manually ([f5d54a4](https://github.com/sws2apps/lmm-oa-sws/commit/f5d54a401a4b04d02aad65cc2b3880381973e164))
+
+
+### Features
+
+* **deps:** bump @emotion/react from 11.10.5 to 11.10.6 ([c2babd7](https://github.com/sws2apps/lmm-oa-sws/commit/c2babd7bffb43408bc05461537cd4ff2edbb33bd))
+* **deps:** bump @emotion/styled from 11.10.5 to 11.10.6 ([467b0e1](https://github.com/sws2apps/lmm-oa-sws/commit/467b0e11daa15ef2450e3aa58b20793d6a011c0d))
+* **deps:** bump @mui/x-date-pickers from 5.0.18 to 5.0.19 ([668ecb0](https://github.com/sws2apps/lmm-oa-sws/commit/668ecb0e58407b32d94ec2747c5109f7bcfe2e48))
+* **persons:** load list on page open ([259ff56](https://github.com/sws2apps/lmm-oa-sws/commit/259ff56b5b01398c2d6dc90b8bf5696c6892f38f))
+* **persons:** update how assignments are displayed ([ed01263](https://github.com/sws2apps/lmm-oa-sws/commit/ed0126328868335b6f4d48a669c025fb16c82b8d))
+
 # [2.35.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.34.0...v2.35.0) (2023-02-16)
 
 
