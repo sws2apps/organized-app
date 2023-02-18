@@ -51,5 +51,12 @@
   "circuitOverseerWeek": "Visita do Superintendente de Circuito",
   "conventionWeek": "Semana do Congresso",
   "assemblyWeek": "Semana da Assembleia de Circuito",
-  "shortTimeFormat": "H:MM"
+  "shortTimeFormat": "H:MM",
+  "initialCallVideo": "Vídeo da primeira conversa",
+  "returnVisitVideo": "Vídeo da revisita",
+  "memorialInviteVideo": "Vídeo do convite da Celebração",
+  "tgwTalk": "Discurso de 10 min.",
+  "lcPart": "Partes da Nossa Vida Cristã",
+  "initialCallVariations": "Primeira conversa — designação 1|Primeira conversa — designação 2",
+  "returnVisitVariations": "Revisita — designação 1|Revisita — designação 2"
 }

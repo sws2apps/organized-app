@@ -51,5 +51,12 @@
   "circuitOverseerWeek": "Visit of Circuit Overseer",
   "conventionWeek": "Week of Regional Convention",
   "assemblyWeek": "Week of Circuit Assembly",
-  "shortTimeFormat": "H:MM"
+  "shortTimeFormat": "H:MM",
+  "initialCallVideo": "Initial Call Video",
+  "returnVisitVideo": "Return Visit Video",
+  "memorialInviteVideo": "Memorial Invitation Video",
+  "tgwTalk": "Talk 10 min.",
+  "lcPart": "Living Parts",
+  "initialCallVariations": "0",
+  "returnVisitVariations": "0"
 }

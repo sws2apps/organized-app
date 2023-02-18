@@ -51,5 +51,12 @@
   "circuitOverseerWeek": "Fitsidihan’ny Mpiandraikitra ny Faritra",
   "conventionWeek": "Herinandron’ny Fivoriamben’ny Vondrom-paritra",
   "assemblyWeek": "Herinandron’ny Fivoriamben’ny Faritra",
-  "shortTimeFormat": "h:MM"
+  "shortTimeFormat": "h:MM",
+  "initialCallVideo": "Video Fitoriana",
+  "returnVisitVideo": "Video Fiverenana Mitsidika",
+  "memorialInviteVideo": "Video Fanasana Fahatsiarovana",
+  "tgwTalk": "Lahateny 10 min.",
+  "lcPart": "Anjara Amin’ny Fiainantsika",
+  "initialCallVariations": "0",
+  "returnVisitVariations": "0"
 }
