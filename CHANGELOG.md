@@ -1,3 +1,11 @@
+# [2.37.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.36.0...v2.37.0) (2023-02-18)
+
+
+### Features
+
+* **app:** add support for new source languages ([b7ba922](https://github.com/sws2apps/lmm-oa-sws/commit/b7ba922a83e59d242d646f5d83c49fc9a3687b96))
+* **app:** update app to support source only languages ([560d909](https://github.com/sws2apps/lmm-oa-sws/commit/560d909631ba1f957ff0f65dba14bf4eedecdfd0))
+
 # [2.36.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.35.0...v2.36.0) (2023-02-18)
 
 
