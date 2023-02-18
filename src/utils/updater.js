@@ -16,30 +16,24 @@ import {
 } from '../indexedDb/dbAssignment';
 import { dbGetAllSourceMaterials, dbMigrateSrcData } from '../indexedDb/dbSourceMaterial';
 import { studentsAssignmentHistoryState } from '../states/persons';
-import { startupProgressState } from '../states/main';
 import { loadApp } from './app';
 
-let i = 0;
-
 export const runUpdater = async () => {
-  const step = 100 / 5;
-
   await removeInvalidWeeks();
-  await updateWeekType(step);
-  await updateAssignmentType(step);
-  await updateScheduleToId(step);
-  await removeOutdatedSettings(step);
-  await builtHistoricalAssignment(step);
+  await updateWeekType();
+  await updateAssignmentType();
+  await updateScheduleToId();
+  await removeOutdatedSettings();
+  await builtHistoricalAssignment();
+  await updatePersonAssignments();
   await loadApp();
-  i = 0;
 };
 
-const updateScheduleToId = async (step) => {
+const updateScheduleToId = async () => {
   let appSettings = await dbGetAppSettings();
   if (!appSettings.isScheduleConverted) {
     const scheduleData = await appDb.table('sched_MM').toArray();
 
-    let a = step / scheduleData.length;
     for (let c = 0; c < scheduleData.length; c++) {
       const schedule = scheduleData[c];
       if (schedule.bRead_stu_A !== undefined) {
@@ -76,9 +70,6 @@ const updateScheduleToId = async (step) => {
           await dbSaveScheduleByAss(fldNameAssB, uid, schedule.weekOf);
         }
       }
-
-      i = i + a;
-      promiseSetRecoil(startupProgressState, i);
     }
 
     // save settings
@@ -86,12 +77,10 @@ const updateScheduleToId = async (step) => {
     obj.isScheduleConverted = true;
     await dbUpdateAppSettings(obj);
   } else {
-    i = i + step;
-    promiseSetRecoil(startupProgressState, i);
   }
 };
 
-const removeOutdatedSettings = async (step) => {
+const removeOutdatedSettings = async () => {
   let appSettings = await dbGetAppSettings();
 
   if (appSettings.crd) {
@@ -106,11 +95,9 @@ const removeOutdatedSettings = async (step) => {
     delete appSettings.userMe;
     await dbUpdateAppSettings({ ...appSettings }, true);
   }
-  i = i + step;
-  promiseSetRecoil(startupProgressState, i);
 };
 
-const builtHistoricalAssignment = async (step) => {
+const builtHistoricalAssignment = async () => {
   let appSettings = await dbGetAppSettings();
   if (appSettings.isAssignmentsConverted === undefined || !appSettings.isAssignmentsConverted) {
     const allSources = await dbGetAllSourceMaterials();
@@ -146,7 +133,6 @@ const builtHistoricalAssignment = async (step) => {
 
     const students = await dbGetStudents();
     if (students.length > 0) {
-      const a = step / students.length;
       const today = dateFormat(new Date(), 'mm/dd/yyyy');
       for (let b = 0; b < students.length; b++) {
         const student = students[b];
@@ -218,9 +204,6 @@ const builtHistoricalAssignment = async (step) => {
         }
 
         await dbSavePersonMigration(student);
-
-        i = i + a;
-        promiseSetRecoil(startupProgressState, i);
       }
     }
 
@@ -228,13 +211,10 @@ const builtHistoricalAssignment = async (step) => {
     let obj = {};
     obj.isAssignmentsConverted = true;
     await dbUpdateAppSettings(obj);
-  } else {
-    i = i + step;
-    promiseSetRecoil(startupProgressState, i);
   }
 };
 
-const updateWeekType = async (step) => {
+const updateWeekType = async () => {
   const { t } = getI18n();
 
   let normWeekObj = {};
@@ -298,12 +278,9 @@ const updateWeekType = async (step) => {
     },
     4
   );
-
-  i = i + step;
-  promiseSetRecoil(startupProgressState, i);
 };
 
-const updateAssignmentType = async (step) => {
+const updateAssignmentType = async () => {
   const { t } = getI18n();
 
   let bReadObj = {};
@@ -635,9 +612,6 @@ const updateAssignmentType = async (step) => {
       }
     }
   }
-
-  i = i + step;
-  promiseSetRecoil(startupProgressState, i);
 };
 
 const removeInvalidWeeks = async () => {
@@ -649,5 +623,34 @@ const removeInvalidWeeks = async () => {
 
     const schedData = await appDb.sched_MM.get({ weekOf: weekInvalid });
     if (schedData) await appDb.src.delete(schedData.weekOf);
+  }
+};
+
+const updatePersonAssignments = async () => {
+  let appSettings = await dbGetAppSettings();
+  if (appSettings.personAssignmentsConverted === undefined || !appSettings.personAssignmentsConverted) {
+    const data = await appDb.table('persons').reverse().reverse().sortBy('person_name');
+    const persons = data.filter((student) => student.isMoved === false);
+
+    if (persons.length > 0) {
+      for await (const person of persons) {
+        const prevAssignments = person.assignments;
+        const newAssignments = [];
+
+        prevAssignments.forEach((assignment) => {
+          if (assignment.isActive === undefined || assignment.isActive) {
+            newAssignments.push({ code: assignment.code });
+          }
+        });
+
+        await appDb.persons.update(person.id, {
+          assignments: newAssignments,
+        });
+      }
+    }
+
+    // save settings
+    const obj = { personAssignmentsConverted: true };
+    await dbUpdateAppSettings(obj);
   }
 };

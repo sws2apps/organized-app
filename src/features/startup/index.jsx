@@ -3,7 +3,7 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import Box from '@mui/material/Box';
 import useFirebaseAuth from '../../hooks/useFirebaseAuth';
 import EmailNotVerified from './EmailNotVerified';
-import LinearProgressWithLabel from '../../components/LinearProgressWithLabel';
+import LinearProgress from '@mui/material/LinearProgress';
 import SetupMFA from './SetupMFA';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
@@ -31,7 +31,6 @@ import {
   isUserSignInState,
   isUserSignUpState,
   offlineOverrideState,
-  startupProgressState,
   visitorIDState,
 } from '../../states/main';
 import { apiSendAuthorization } from '../../api/auth';
@@ -43,7 +42,6 @@ const Startup = () => {
   const { isAuthenticated } = useFirebaseAuth();
 
   const [isSetup, setIsSetup] = useRecoilState(isSetupState);
-  const [startupProgress, setStartupProgress] = useRecoilState(startupProgressState);
   const [isUserSignUp, setIsUserSignUp] = useRecoilState(isUserSignUpState);
   const [isUserSignIn, setIsUserSignIn] = useRecoilState(isUserSignInState);
   const [isUserMfaVerify, setUserMfaVerify] = useRecoilState(isUserMfaVerifyState);
@@ -93,12 +91,12 @@ const Startup = () => {
 
       if (!isOfflineOverride) {
         if (cong_name.length > 0) {
+          setIsSetup(false);
           await loadApp();
           await runUpdater();
           setTimeout(() => {
             setIsSetup(false);
             setIsAppLoad(false);
-            setStartupProgress(0);
           }, [1000]);
           return;
         }
@@ -145,7 +143,6 @@ const Startup = () => {
     setIsSetup,
     setIsUserSignIn,
     setIsUserSignUp,
-    setStartupProgress,
     setUserMfaSetup,
     setUserMfaVerify,
     visitorID,
@@ -188,7 +185,7 @@ const Startup = () => {
         <img src="/img/appLogo.png" alt="App logo" className="appLogo" />
       </Box>
       <Box sx={{ width: '280px', marginTop: '10px' }}>
-        <LinearProgressWithLabel value={startupProgress} />
+        <LinearProgress />
       </Box>
     </Box>
   );

@@ -64,11 +64,7 @@ export const dbGetStudentsMini = async () => {
     person.isFemale = appData[i].isFemale;
     person.isDisqualified = appData[i].isDisqualified || false;
     person.lastAssignment = appData[i].lastAssignment;
-
-    let assignments = appData[i].assignments.map((assignment) =>
-      assignment.endDate === null ? { ...assignment, isActive: true } : { ...assignment, isActive: false }
-    );
-    person.assignments = sortHistoricalDateDesc(assignments);
+    person.assignments = appData[i].assignments;
 
     let timeAway = appData[i].timeAway || [];
     person.timeAway = sortHistoricalDateDesc(timeAway);
@@ -182,22 +178,20 @@ export const dbGetPersonsByAssType = async (assType, stuForAssistant) => {
         (person) =>
           person.isMale === main.isMale &&
           person.isFemale === main.isFemale &&
-          (person.assignments.find((assignment) => assignment.isActive === true && assignment.code === 101) ||
-            person.assignments.find((assignment) => assignment.isActive === true && assignment.code === 102) ||
-            person.assignments.find((assignment) => assignment.isActive === true && assignment.code === 103))
+          (person.assignments.find((assignment) => assignment.code === 101) ||
+            person.assignments.find((assignment) => assignment.code === 102) ||
+            person.assignments.find((assignment) => assignment.code === 103))
       );
     } else {
       dbPersons = appData.filter(
         (person) =>
-          person.assignments.find((assignment) => assignment.isActive === true && assignment.code === 101) ||
-          person.assignments.find((assignment) => assignment.isActive === true && assignment.code === 102) ||
-          person.assignments.find((assignment) => assignment.isActive === true && assignment.code === 103)
+          person.assignments.find((assignment) => assignment.code === 101) ||
+          person.assignments.find((assignment) => assignment.code === 102) ||
+          person.assignments.find((assignment) => assignment.code === 103)
       );
     }
   } else {
-    dbPersons = appData.filter((person) =>
-      person.assignments.find((assignment) => assignment.isActive === true && assignment.code === assType)
-    );
+    dbPersons = appData.filter((person) => person.assignments.find((assignment) => assignment.code === assType));
   }
   const persons = [];
 
@@ -388,7 +382,7 @@ export const dbFilterStudents = async (data) => {
     let passed = true;
 
     for (let a = 0; a < assTypes.length; a++) {
-      const found = assignments.find((assignment) => assignment.code === assTypes[a] && assignment.isActive === true);
+      const found = assignments.find((assignment) => assignment.code === assTypes[a]);
       if (!found) {
         passed = false;
         break;

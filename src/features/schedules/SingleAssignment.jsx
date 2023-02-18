@@ -7,7 +7,7 @@ import SingleAssignmentHeader from './SingleAssignmentHeader';
 import SingleAssignmentPerson from './SingleAssignmentPerson';
 
 const styles = {
-  personContainer: { display: 'flex', marginRight: '5px', alignItems: 'flex-end' },
+  personContainer: { display: 'flex', marginRight: '5px', alignItems: 'center' },
 };
 const SingleAssignment = ({
   ayf,

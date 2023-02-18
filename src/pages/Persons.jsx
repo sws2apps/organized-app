@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
@@ -87,8 +87,6 @@ const Persons = () => {
   const { t } = useTranslation('ui');
   const navigate = useNavigate();
 
-  const btnSearch = useRef();
-
   const theme = useTheme();
   const mdUp = useMediaQuery(theme.breakpoints.up('md'), { noSsr: true });
 
@@ -155,7 +153,7 @@ const Persons = () => {
 
       setIsSearch(true);
       setTimeout(async () => {
-        let obj = { txtSearch, isMale, isFemale, assTypes };
+        const obj = { txtSearch, isMale, isFemale, assTypes };
         const data = await dbFilterStudents(obj);
         setAdvancedOpen(false);
         setStudents(data);
@@ -183,6 +181,12 @@ const Persons = () => {
     setTabValue(newValue);
   };
 
+  const handleSearchEnter = (e) => {
+    if (e.key === 'Enter') {
+      handleSearchStudent(txtSearch, isMale, isFemale, assTypes);
+    }
+  };
+
   useEffect(() => {
     const getQuery = async () => {
       const search = searchParams.get('search') || '';
@@ -197,25 +201,17 @@ const Persons = () => {
 
       if (search?.length > 0 || isMale || isFemale || assTypes.length > 0) {
         await handleSearchStudent(search, isMale, isFemale, assTypes);
+      } else {
+        await handleSearchStudent('', false, false, []);
       }
     };
 
     getQuery();
   }, [handleSearchStudent, searchParams]);
 
-  const handleSearchEnter = (e) => {
-    if (e.key === 'Enter') {
-      handleSearchStudent(txtSearch, isMale, isFemale, assTypes);
-    }
-  };
-
   useEffect(() => {
     if (!mdUp) setAnchorElMenuSmall(null);
   }, [mdUp]);
-
-  useEffect(() => {
-    btnSearch.current.click();
-  }, []);
 
   return (
     <>
@@ -307,7 +303,6 @@ const Persons = () => {
                 marginTop: '-5px',
                 marginRight: '5px',
               }}
-              ref={btnSearch}
               onClick={() => handleSearchStudent(txtSearch, isMale, isFemale, assTypes)}
             >
               <PersonSearchIcon sx={{ fontSize: '25px' }} />

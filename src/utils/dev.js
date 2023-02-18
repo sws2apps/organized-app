@@ -3,6 +3,7 @@ import { format } from 'date-fns';
 import { rootModalOpenState } from '../states/main';
 import { dbSavePersonExp } from '../indexedDb/dbPersons';
 import appDb from '../indexedDb/mainDb';
+import { dbUpdateAppSettings } from '../indexedDb/dbAppSettings';
 
 const generateDisplayName = (name) => {
   const txtArray = name.split(' ');
@@ -174,6 +175,10 @@ export const importDummyUsers = async () => {
   for await (const user of formattedData) {
     await dbSavePersonExp(user);
   }
+
+  // save settings
+  const obj = { personAssignmentsConverted: false };
+  await dbUpdateAppSettings(obj);
 
   await promiseSetRecoil(rootModalOpenState, false);
 };

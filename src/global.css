@@ -51,6 +51,21 @@
   margin-bottom: 5px;
 }
 
+.meetingPart-override {
+  text-transform: none !important;
+  color: white;
+  padding: 0 10px;
+  border-radius: 5px;
+  font-size: 14px !important;
+  width: fit-content;
+  height: fit-content;
+  margin-bottom: 8px;
+}
+
+.midweerkMeeting {
+  background-color: #21618c;
+}
+
 .tgwPart {
   background-color: #656164;
   text-transform: uppercase;

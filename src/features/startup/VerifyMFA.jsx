@@ -17,7 +17,6 @@ import {
   isUserMfaSetupState,
   isUserMfaVerifyState,
   offlineOverrideState,
-  startupProgressState,
   visitorIDState,
 } from '../../states/main';
 import { congAccountConnectedState } from '../../states/congregation';
@@ -48,7 +47,6 @@ const VerifyMFA = () => {
   const setIsUnauthorizedRole = useSetRecoilState(isUnauthorizedRoleState);
   const setIsSetup = useSetRecoilState(isSetupState);
   const setIsAppLoad = useSetRecoilState(isAppLoadState);
-  const setStartupProgress = useSetRecoilState(startupProgressState);
   const setCongAccountConnected = useSetRecoilState(congAccountConnectedState);
   const setOfflineOverride = useSetRecoilState(offlineOverrideState);
   const setIsReEnrollMFA = useSetRecoilState(isReEnrollMFAState);
@@ -73,7 +71,6 @@ const VerifyMFA = () => {
 
           await runUpdater();
           setTimeout(() => {
-            setStartupProgress(0);
             setOfflineOverride(false);
             setCongAccountConnected(true);
             setIsAppLoad(false);
@@ -120,7 +117,6 @@ const VerifyMFA = () => {
     setIsUserMfaSetup,
     setIsUserMfaVerify,
     setOfflineOverride,
-    setStartupProgress,
     userOTP,
   ]);
 

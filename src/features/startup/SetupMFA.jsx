@@ -26,7 +26,6 @@ import {
   offlineOverrideState,
   qrCodePathState,
   secretTokenPathState,
-  startupProgressState,
   visitorIDState,
 } from '../../states/main';
 import { apiHandleVerifyOTP } from '../../api/auth';
@@ -68,7 +67,6 @@ const SetupMFA = () => {
   const setIsUnauthorizedRole = useSetRecoilState(isUnauthorizedRoleState);
   const setIsSetup = useSetRecoilState(isSetupState);
   const setIsAppLoad = useSetRecoilState(isAppLoadState);
-  const setStartupProgress = useSetRecoilState(startupProgressState);
   const setCongAccountConnected = useSetRecoilState(congAccountConnectedState);
   const setOfflineOverride = useSetRecoilState(offlineOverrideState);
 
@@ -97,7 +95,6 @@ const SetupMFA = () => {
 
           await runUpdater();
           setTimeout(() => {
-            setStartupProgress(0);
             setOfflineOverride(false);
             setCongAccountConnected(true);
             setIsAppLoad(false);
@@ -135,7 +132,6 @@ const SetupMFA = () => {
     setIsUnauthorizedRole,
     setIsUserMfaSetup,
     setOfflineOverride,
-    setStartupProgress,
     userOTP,
   ]);
 

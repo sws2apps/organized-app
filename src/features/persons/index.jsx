@@ -1,5 +1,4 @@
 export { default as PersonAdvancedSearch } from './PersonAdvancedSearch';
-export { default as PersonAssignmentItem } from './PersonAssignmentItem';
 export { default as PersonAssignments } from './PersonAssignments';
 export { default as PersonBasic } from './PersonBasic';
 export { default as PersonCard } from './PersonCard';

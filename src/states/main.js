@@ -282,11 +282,6 @@ export const currentNotificationState = atom({
   default: {},
 });
 
-export const startupProgressState = atom({
-  key: 'startupProgress',
-  default: 0,
-});
-
 export const rootModalOpenState = atom({
   key: 'rootModalOpen',
   default: false,

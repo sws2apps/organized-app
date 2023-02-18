@@ -15,7 +15,6 @@ import {
   isSetupState,
   isUserSignInState,
   offlineOverrideState,
-  startupProgressState,
   userIDState,
 } from '../../states/main';
 import CongregationSelect from '../../components/CongregationSelect';
@@ -49,7 +48,6 @@ const CongregationCreate = () => {
   const setCongID = useSetRecoilState(congIDState);
   const setUserID = useSetRecoilState(userIDState);
   const setIsSetup = useSetRecoilState(isSetupState);
-  const setStartupProgress = useSetRecoilState(startupProgressState);
   const setOfflineOverride = useSetRecoilState(offlineOverrideState);
   const setCongAccountConnected = useSetRecoilState(congAccountConnectedState);
   const setIsAppLoad = useSetRecoilState(isAppLoadState);
@@ -107,7 +105,6 @@ const CongregationCreate = () => {
 
             await runUpdater();
             setTimeout(() => {
-              setStartupProgress(0);
               setOfflineOverride(false);
               setCongAccountConnected(true);
               setIsAppLoad(false);

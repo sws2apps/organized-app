@@ -96,13 +96,14 @@ const PersonCard = ({ person }) => {
           action={
             <>
               <Tooltip title={t('edit')}>
-                <IconButton onClick={handleClickOpen}>
+                <IconButton onClick={handleClickOpen} color="primary">
                   <EditIcon />
                 </IconButton>
               </Tooltip>
               <Tooltip title={t('delete')}>
                 <IconButton
                   sx={{ marginRight: '5px' }}
+                  color="error"
                   onClick={() => handleDelete(person.person_uid, person.person_name)}
                 >
                   <DeleteIcon />
@@ -121,23 +122,23 @@ const PersonCard = ({ person }) => {
             },
           }}
         >
-          {person.assignments.find((assignment) => assignment.code === 100 && assignment.isActive === true) && (
+          {person.assignments.find((assignment) => assignment.code === 100) && (
             <Chip label={t('abbrBibleReading')} size="small" sx={{ ...sharedStyles.chip, ...sharedStyles.chipBRead }} />
           )}
-          {person.assignments.find((assignment) => assignment.code === 101 && assignment.isActive === true) && (
+          {person.assignments.find((assignment) => assignment.code === 101) && (
             <Chip
               label={t('abbrInitialCall')}
               size="small"
               sx={{ ...sharedStyles.chip, ...sharedStyles.chipIniCall }}
             />
           )}
-          {person.assignments.find((assignment) => assignment.code === 102 && assignment.isActive === true) && (
+          {person.assignments.find((assignment) => assignment.code === 102) && (
             <Chip label={t('abbrReturnVisit')} size="small" sx={{ ...sharedStyles.chip, ...sharedStyles.chipRV }} />
           )}
-          {person.assignments.find((assignment) => assignment.code === 103 && assignment.isActive === true) && (
+          {person.assignments.find((assignment) => assignment.code === 103) && (
             <Chip label={t('abbrBibleStudy')} size="small" sx={{ ...sharedStyles.chip, ...sharedStyles.chipBS }} />
           )}
-          {person.assignments.find((assignment) => assignment.code === 104 && assignment.isActive === true) && (
+          {person.assignments.find((assignment) => assignment.code === 104) && (
             <Chip label={t('abbrTalk')} size="small" sx={{ ...sharedStyles.chip, ...sharedStyles.chipTalk }} />
           )}
         </CardContent>
