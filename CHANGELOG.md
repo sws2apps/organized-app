@@ -1,3 +1,10 @@
+## [2.37.2](https://github.com/sws2apps/lmm-oa-sws/compare/v2.37.1...v2.37.2) (2023-02-19)
+
+
+### Bug Fixes
+
+* **auth:** display warning message when upgrading using different email address ([bc6af92](https://github.com/sws2apps/lmm-oa-sws/commit/bc6af9241d0fff1c36e2e040de6f0b77b38fc7d7))
+
 ## [2.37.1](https://github.com/sws2apps/lmm-oa-sws/compare/v2.37.0...v2.37.1) (2023-02-19)
 
 
