@@ -1,3 +1,10 @@
+## [2.37.1](https://github.com/sws2apps/lmm-oa-sws/compare/v2.37.0...v2.37.1) (2023-02-19)
+
+
+### Bug Fixes
+
+* **deps:** update jw-epub-parser from 1.31.1 to 1.32.1 ([afaeb31](https://github.com/sws2apps/lmm-oa-sws/commit/afaeb31bc30763ec4655be6fb5d3b5b81978ac90))
+
 # [2.37.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.36.0...v2.37.0) (2023-02-18)
 
 
