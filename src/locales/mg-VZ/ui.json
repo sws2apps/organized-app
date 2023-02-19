@@ -457,6 +457,7 @@
   "mfaTokenInvalidExpired": "Tsy mety io kaody io na tsy azo ampiasaina intsony. Makà kaody vaovao avy any amin’ny programa authentificateur indray",
   "oauthAccountExistsWithDifferentCredential": "Efa nampifandraisana tamin’ny programa hafa ny kaontinao. Izay no ampiasao mba hahafahanao miditra.",
   "oauthAccountUpgradeError": "Nisy olana ka tsy vita ny fanavaozana ny kaontinao. Andramo indray rehefa kelikely.",
+  "oauthAccountUpgradeEmailMismatch": "Tsy vita ny fanavaozana: midira amin’ny kaonty mampiasa ilay adiresy email fidiranao ato amin’ny programa CPE.",
   "oauthAccountUpgradeComplete": "Vita ny fanavaozana ny kaontinao. Hiverina hisokatra ity pejy ity izao.",
   "oauthAccountUpgradeEmailComplete": "Vita ny fanavaozana ny kaontinao. Nisy hafatra nalefa any amin’ny adiresy email ampiasainao mba hahafahanao miditra izao.",
   "logoutOnlineAccount": "Tsy hampiasa kaonty amin’ny internet",

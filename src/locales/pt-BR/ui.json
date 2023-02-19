@@ -457,6 +457,7 @@
   "mfaTokenInvalidExpired": "Este código expirou ou está inválido. Obtenha um novo código a partir do aplicativo autenticador que você escolheu e tente novamente",
   "oauthAccountExistsWithDifferentCredential": "Você precisa entrar na sua conta usando o código do aplicativo autenticador que você escolheu.",
   "oauthAccountUpgradeError": "Ocorreu um erro ao atualizar sua conta. Tente novamente mais tarde.",
+  "oauthAccountUpgradeEmailMismatch": "Account upgrade failed: Please login using your current email address when opening CPE.",
   "oauthAccountUpgradeComplete": "Sua conta foi atualizada. Esta página irá recarregar agora.",
   "oauthAccountUpgradeEmailComplete": "Sua conta foi atualizada. Uma mensagem foi enviada para seu endereço de email para concluir sua autenticação.",
   "logoutOnlineAccount": "Sair da conta online",
