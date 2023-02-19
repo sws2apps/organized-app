@@ -78,7 +78,23 @@ const OAuthButtonBase = ({ buttonStyles, logo, text, provider, isEmail }) => {
     try {
       const auth = getAuth();
       if (auth.currentUser) {
-        await linkWithPopup(auth.currentUser, provider);
+        const currentEmail = auth.currentUser.email;
+
+        const result = await linkWithPopup(auth.currentUser, provider);
+        const user = result.user;
+
+        const findNewProvider = user.providerData.find((tmp) => tmp.providerId === provider.providerId);
+        const newEmail = findNewProvider.email;
+
+        if (currentEmail !== newEmail) {
+          await unlink(auth.currentUser, provider.providerId);
+
+          setAppMessage(t('oauthAccountUpgradeEmailMismatch'));
+          setAppSeverity('warning');
+          setAppSnackOpen(true);
+          return;
+        }
+
         await unlink(auth.currentUser, 'password');
       }
 

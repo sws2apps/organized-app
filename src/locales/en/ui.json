@@ -457,6 +457,7 @@
   "mfaTokenInvalidExpired": "This code is invalid or has expired. Get a new code from the authenticator app and try again",
   "oauthAccountExistsWithDifferentCredential": "Your account is already linked to another service. Please login using that service instead.",
   "oauthAccountUpgradeError": "An error occured while upgrading your account. Please try again later.",
+  "oauthAccountUpgradeEmailMismatch": "Account upgrade failed: Please login using your current email address when opening CPE.",
   "oauthAccountUpgradeComplete": "Your account has been upgraded. This page will now reload.",
   "oauthAccountUpgradeEmailComplete": "Your account has been upgraded. A message has been sent to your email address to complete your authentication.",
   "logoutOnlineAccount": "Logout from online account",

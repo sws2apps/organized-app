@@ -54,6 +54,15 @@ const EmailAuth = () => {
       const auth = await getAuth();
       if (auth) {
         const user = auth.currentUser;
+        const currentEmail = user.email;
+
+        if (currentEmail !== userTmpEmail) {
+          setAppMessage(t('oauthAccountUpgradeEmailMismatch'));
+          setAppSeverity('warning');
+          setAppSnackOpen(true);
+          return;
+        }
+
         await apiRequestPasswordlesssLink(userTmpEmail, user.uid);
       }
 

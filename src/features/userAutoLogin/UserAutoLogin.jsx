@@ -12,6 +12,7 @@ import {
 import {
   apiHostState,
   isAppLoadState,
+  isOAuthAccountUpgradeState,
   isOnlineState,
   rootModalOpenState,
   userIDState,
@@ -35,6 +36,7 @@ const UserAutoLogin = () => {
   const apiHost = useRecoilValue(apiHostState);
   const visitorID = useRecoilValue(visitorIDState);
   const isAppLoad = useRecoilValue(isAppLoadState);
+  const isOAuthAccountUpgrade = useRecoilValue(isOAuthAccountUpgradeState);
 
   const handleDisapproved = useCallback(async () => {
     setModalOpen(true);
@@ -114,13 +116,21 @@ const UserAutoLogin = () => {
   ]);
 
   useEffect(() => {
-    if (!isAppLoad && isOnline && isAuthenticated) {
+    if (!isOAuthAccountUpgrade && !isAppLoad && isOnline && isAuthenticated) {
       checkLogin();
     } else {
       setCongAccountConnected(false);
       setIsAdminCong(false);
     }
-  }, [isAppLoad, isAuthenticated, checkLogin, isOnline, setCongAccountConnected, setIsAdminCong]);
+  }, [
+    isAppLoad,
+    isAuthenticated,
+    isOAuthAccountUpgrade,
+    checkLogin,
+    isOnline,
+    setCongAccountConnected,
+    setIsAdminCong,
+  ]);
 
   return <></>;
 };
