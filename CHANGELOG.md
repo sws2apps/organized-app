@@ -1,3 +1,10 @@
+## [2.38.1](https://github.com/sws2apps/lmm-oa-sws/compare/v2.38.0...v2.38.1) (2023-02-20)
+
+
+### Bug Fixes
+
+* **firebase:** update csp for google analytics ([31951e9](https://github.com/sws2apps/lmm-oa-sws/commit/31951e982fb1ea65d4d9515771d7d2d910b84fee))
+
 # [2.38.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.37.2...v2.38.0) (2023-02-20)
 
 
