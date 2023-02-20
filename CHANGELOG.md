@@ -1,3 +1,10 @@
+## [2.38.2](https://github.com/sws2apps/lmm-oa-sws/compare/v2.38.1...v2.38.2) (2023-02-20)
+
+
+### Bug Fixes
+
+* **csp:** fix csp for google analytics ([5d5057e](https://github.com/sws2apps/lmm-oa-sws/commit/5d5057ea354a53e4a8e0c682c575b5881b411b84))
+
 ## [2.38.1](https://github.com/sws2apps/lmm-oa-sws/compare/v2.38.0...v2.38.1) (2023-02-20)
 
 
