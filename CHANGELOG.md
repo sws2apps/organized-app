@@ -1,3 +1,13 @@
+# [2.38.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.37.2...v2.38.0) (2023-02-20)
+
+
+### Features
+
+* **app:** add automatic backup feature ([3ace0b5](https://github.com/sws2apps/lmm-oa-sws/commit/3ace0b55c470681ea052ac803109c3a2516808bb))
+* **app:** add firebase analytics ([03c2cbc](https://github.com/sws2apps/lmm-oa-sws/commit/03c2cbc69cad2d66832532bae3e70f85f87cba19))
+* **deps:** bump @tanstack/react-query from 4.24.6 to 4.24.9 ([9378c61](https://github.com/sws2apps/lmm-oa-sws/commit/9378c612f2d87086eba669ed82177a00f56c6e3e))
+* **deps:** bump i18next from 22.4.9 to 22.4.10 ([764a5ad](https://github.com/sws2apps/lmm-oa-sws/commit/764a5ad75b4dfc52e51cab7fd0c616ac361acbe0))
+
 ## [2.37.2](https://github.com/sws2apps/lmm-oa-sws/compare/v2.37.1...v2.37.2) (2023-02-19)
 
 
