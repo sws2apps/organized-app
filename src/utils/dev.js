@@ -1,5 +1,4 @@
 import { promiseSetRecoil } from 'recoil-outside';
-import { format } from 'date-fns';
 import { rootModalOpenState } from '../states/main';
 import { dbSavePersonExp } from '../indexedDb/dbPersons';
 import appDb from '../indexedDb/mainDb';
@@ -38,13 +37,7 @@ export const importDummyUsers = async () => {
     const assignments = [];
     if (user.gender === 'female') {
       [101, 102, 103].forEach((code) => {
-        assignments.push({
-          assignmentId: window.crypto.randomUUID(),
-          code,
-          startDate: format(new Date(), 'MM/dd/yyyy'),
-          endDate: null,
-          comments: '',
-        });
+        assignments.push({ code });
       });
     }
 
@@ -76,13 +69,7 @@ export const importDummyUsers = async () => {
     } while (isMale === false);
 
     [110, 111, 112, 113, 114, 115].forEach((code) => {
-      user.assignments.push({
-        assignmentId: window.crypto.randomUUID(),
-        code,
-        startDate: format(new Date(), 'MM/dd/yyyy'),
-        endDate: null,
-        comments: '',
-      });
+      user.assignments.push({ code });
     });
 
     formattedData.splice(random, 1, user);
@@ -104,13 +91,7 @@ export const importDummyUsers = async () => {
     } while (isMale === false);
 
     [111, 112, 113, 114].forEach((code) => {
-      user.assignments.push({
-        assignmentId: window.crypto.randomUUID(),
-        code,
-        startDate: format(new Date(), 'MM/dd/yyyy'),
-        endDate: null,
-        comments: '',
-      });
+      user.assignments.push({ code });
     });
 
     formattedData.splice(random, 1, user);
@@ -132,13 +113,7 @@ export const importDummyUsers = async () => {
     } while (isMale === false);
 
     [104, 111, 116].forEach((code) => {
-      user.assignments.push({
-        assignmentId: window.crypto.randomUUID(),
-        code,
-        startDate: format(new Date(), 'MM/dd/yyyy'),
-        endDate: null,
-        comments: '',
-      });
+      user.assignments.push({ code });
     });
 
     formattedData.splice(random, 1, user);
@@ -160,13 +135,7 @@ export const importDummyUsers = async () => {
     } while (isMale === false);
 
     [100, 104].forEach((code) => {
-      user.assignments.push({
-        assignmentId: window.crypto.randomUUID(),
-        code,
-        startDate: format(new Date(), 'MM/dd/yyyy'),
-        endDate: null,
-        comments: '',
-      });
+      user.assignments.push({ code });
     });
 
     formattedData.splice(random, 1, user);
