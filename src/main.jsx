@@ -4,6 +4,7 @@ import { RecoilRoot } from 'recoil';
 import RecoilOutside, { promiseSetRecoil } from 'recoil-outside';
 import ServiceWorkerWrapper from '@sws2apps/react-sw-helper';
 import App from './App';
+import './workers/backupWorker';
 import './i18n';
 import './config/firebase';
 import { isPrecachedState, showReloadState } from './states/main';

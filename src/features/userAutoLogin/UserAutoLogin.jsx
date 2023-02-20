@@ -19,6 +19,7 @@ import {
   visitorIDState,
 } from '../../states/main';
 import useFirebaseAuth from '../../hooks/useFirebaseAuth';
+import backupWorkerInstance from '../../workers/backupWorker';
 
 const UserAutoLogin = () => {
   let abortCont = useMemo(() => new AbortController(), []);
@@ -64,6 +65,7 @@ const UserAutoLogin = () => {
         // role approved
         if (data.cong_role.includes('lmmo') || data.cong_role.includes('lmmo-backup')) {
           setCongAccountConnected(true);
+          backupWorkerInstance.setCongID(data.cong_id);
           setCongID(data.cong_id);
           setUserID(data.id);
 

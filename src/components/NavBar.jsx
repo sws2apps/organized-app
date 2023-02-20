@@ -125,7 +125,7 @@ const NavBar = (props) => {
     setAnchorEl(null);
   };
 
-  const handleAbout = () => {
+  const handleAbout = async () => {
     handleClose();
     setIsAboutOpen(true);
   };

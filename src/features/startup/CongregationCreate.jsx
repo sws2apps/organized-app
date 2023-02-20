@@ -31,6 +31,7 @@ import { dbUpdateAppSettings } from '../../indexedDb/dbAppSettings';
 import { loadApp } from '../../utils/app';
 import { runUpdater } from '../../utils/updater';
 import useFirebaseAuth from '../../hooks/useFirebaseAuth';
+import backupWorkerInstance from '../../workers/backupWorker';
 
 const CongregationCreate = () => {
   const { user } = useFirebaseAuth();
@@ -85,6 +86,7 @@ const CongregationCreate = () => {
 
           // role approved
           if (cong_role.includes('lmmo') || cong_role.includes('lmmo-backup')) {
+            backupWorkerInstance.setCongID(cong_id);
             setCongID(cong_id);
             // save congregation update if any
             let obj = {};

@@ -8,6 +8,7 @@ import { isOAuthAccountUpgradeState, qrCodePathState, secretTokenPathState, user
 import { appMessageState, appSeverityState, appSnackOpenState } from '../states/notification';
 import { loadApp } from '../utils/app';
 import { getProfile } from './common';
+import backupWorkerInstance from '../workers/backupWorker';
 
 export const apiSendAuthorization = async () => {
   try {
@@ -78,6 +79,7 @@ export const apiHandleVerifyOTP = async (userOTP, isSetup) => {
 
           if (cong_name.length > 0) {
             if (cong_role.length > 0) {
+              backupWorkerInstance.setCongID(cong_id);
               await promiseSetRecoil(congIDState, cong_id);
 
               if (!isSetup) {

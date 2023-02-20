@@ -329,10 +329,10 @@ const PersonDetails = () => {
                 )}
 
                 {isEdit && student.isDisqualified === true && (
-                  <Tooltip title={lgUp ? '' : t('enable')}>
+                  <Tooltip title={lgUp ? '' : t('enablePerson')}>
                     <IconButton edge="start" color="inherit" sx={iconButtonStyles} onClick={handlePersonEnabled}>
                       <HandshakeIcon color="success" />
-                      {lgUp && <Typography sx={txtButtonStyles}>{t('enable')}</Typography>}
+                      {lgUp && <Typography sx={txtButtonStyles}>{t('enablePerson')}</Typography>}
                     </IconButton>
                   </Tooltip>
                 )}

@@ -16,6 +16,7 @@ import { congAccountConnectedState } from './states/congregation';
 import WeeklyAssignments from './pages/WeeklyAssignments';
 import CongregationSettings from './pages/CongregationSettings';
 import ErrorBoundary from './components/ErrorBoundary';
+import backupWorkerInstance from './workers/backupWorker';
 
 // lazy loading
 const Administration = lazy(() => import('./pages/Administration'));
@@ -156,6 +157,7 @@ const App = ({ updatePwa }) => {
       } while (visitorId.length === 0);
 
       setVisitorID(visitorId);
+      backupWorkerInstance.setVisitorID(visitorId);
     };
 
     if (isOnline) {
@@ -164,19 +166,23 @@ const App = ({ updatePwa }) => {
   }, [setVisitorID, isOnline]);
 
   useEffect(() => {
+    let apiHost;
     if (
       !process.env.NODE_ENV ||
       process.env.NODE_ENV === 'development' ||
       window.location.host.indexOf('localhost') !== -1
     ) {
       if (import.meta.env.VITE_API_REMOTE_URL) {
-        setApiHost(import.meta.env.VITE_API_REMOTE_URL);
+        apiHost = import.meta.env.VITE_API_REMOTE_URL;
       } else {
-        setApiHost('http://localhost:8000/');
+        apiHost = 'http://localhost:8000/';
       }
     } else {
-      setApiHost('https://sws2apps.onrender.com/');
+      apiHost = 'https://sws2apps.onrender.com/';
     }
+
+    setApiHost(apiHost);
+    backupWorkerInstance.setApiHost(apiHost);
   }, [setApiHost]);
 
   useEffect(() => {

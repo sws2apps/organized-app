@@ -23,6 +23,7 @@ import {
 } from '../states/main';
 import { assTypeListState, weekTypeListState, yearsListState } from '../states/sourceMaterial';
 import { allStudentsState, filteredStudentsState, studentsAssignmentHistoryState } from '../states/persons';
+import backupWorkerInstance from '../workers/backupWorker';
 
 export const loadApp = async () => {
   const I18n = getI18n();
@@ -38,7 +39,12 @@ export const loadApp = async () => {
     meeting_day,
     meeting_time,
     user_avatar,
+    autoBackup,
+    autoBackup_interval,
   } = await dbGetAppSettings();
+
+  backupWorkerInstance.setBackupInterval(autoBackup_interval);
+  backupWorkerInstance.setIsEnabled(autoBackup);
 
   const app_lang = localStorage.getItem('app_lang') || 'e';
 

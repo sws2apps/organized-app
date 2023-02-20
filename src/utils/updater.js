@@ -26,6 +26,7 @@ export const runUpdater = async () => {
   await removeOutdatedSettings();
   await builtHistoricalAssignment();
   await updatePersonAssignments();
+  await checkAutoBackup();
   await loadApp();
 };
 
@@ -651,6 +652,14 @@ const updatePersonAssignments = async () => {
 
     // save settings
     const obj = { personAssignmentsConverted: true };
+    await dbUpdateAppSettings(obj);
+  }
+};
+
+const checkAutoBackup = async () => {
+  const appSettings = await dbGetAppSettings();
+  if (appSettings.autoBackup === undefined) {
+    const obj = { autoBackup: true, autoBackup_inteval: 1 };
     await dbUpdateAppSettings(obj);
   }
 };
