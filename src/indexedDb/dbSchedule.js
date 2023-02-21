@@ -58,6 +58,7 @@ export const dbGetScheduleData = async (weekValue) => {
 
   const settings = await dbGetAppSettings();
   schedule.co_displayName = settings.co_displayName || '';
+  schedule.co_name = settings.co_name || '';
 
   return schedule;
 };

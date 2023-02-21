@@ -1,3 +1,4 @@
+import { Markup } from 'interweave';
 import Typography from '@mui/material/Typography';
 
 const S140PartMiniLabel = ({ align, label, width }) => {
@@ -12,7 +13,7 @@ const S140PartMiniLabel = ({ align, label, width }) => {
         lineHeight: '20px',
       }}
     >
-      {label}
+      <Markup content={label} />
     </Typography>
   );
 };

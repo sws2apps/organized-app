@@ -2,7 +2,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import S140PartMiniLabel from './S140PartMiniLabel';
 
-const S140MeetingPartText = ({ partType, partText, partDuration, partMiniLabel }) => {
+const S140MeetingPartText = ({ partType, partText, partDuration, partMiniLabel, align }) => {
   return (
     <Box sx={{ width: '400px', display: 'flex', justifyContent: 'space-between' }}>
       <Box sx={{ lineHeight: '20px' }}>
@@ -21,7 +21,7 @@ const S140MeetingPartText = ({ partType, partText, partDuration, partMiniLabel }
           </li>
         </ul>
       </Box>
-      {partMiniLabel && <S140PartMiniLabel label={partMiniLabel} />}
+      {partMiniLabel && <S140PartMiniLabel label={partMiniLabel} align={align} />}
     </Box>
   );
 };

@@ -55,7 +55,7 @@ const S140 = () => {
     return '';
   };
 
-  const ayfLabel = (weekItem, fldType) => {
+  const ayfLabel = (weekItem, fldType, scheduleUseFullname) => {
     if (
       weekItem.sourceData[fldType] === 101 ||
       weekItem.sourceData[fldType] === 102 ||
@@ -64,6 +64,14 @@ const S140 = () => {
       (weekItem.sourceData[fldType] >= 140 && weekItem.sourceData[fldType] < 170) ||
       (weekItem.sourceData[fldType] >= 170 && weekItem.sourceData[fldType] < 200)
     ) {
+      if (scheduleUseFullname) {
+        let label = `${t('student', { lng: sourceLang })}:`;
+        label += '<br>';
+        label += `${t('assistant', { lng: sourceLang })}:`;
+
+        return label;
+      }
+
       return t('studentAssistant', { lng: sourceLang });
     }
 
@@ -90,7 +98,7 @@ const S140 = () => {
         weekItem.scheduleData[fldAss] !== '' &&
         weekItem.scheduleData[fldAss] !== 'undefined'
       ) {
-        src += ' / ';
+        src += scheduleUseFullname ? '<br>' : '/';
         src += weekItem.scheduleData[fldAss];
       }
 
@@ -143,13 +151,14 @@ const S140 = () => {
     }
   };
 
-  const cbsLabel = (weekItem) => {
-    let src = t('cbsConductor', { lng: sourceLang, ns: 'source' });
+  const cbsLabel = (weekItem, scheduleUseFullname) => {
+    let src = `${t('cbsConductor', { lng: sourceLang, ns: 'source' })}:`;
     if (weekItem.scheduleData.cbs_reader_dispName && weekItem.scheduleData.cbs_reader_dispName !== '') {
-      src += `/${t('cbsReader', { lng: sourceLang, ns: 'source' })}`;
+      src += scheduleUseFullname ? '<br>' : '/';
+      src += `${t('cbsReader', { lng: sourceLang, ns: 'source' })}:`;
     }
 
-    return `${src}:`;
+    return src;
   };
 
   const getAssignedCBS = (weekItem, scheduleUseFullname) => {
@@ -157,7 +166,7 @@ const S140 = () => {
       ? weekItem.scheduleData.cbs_conductor_name
       : weekItem.scheduleData.cbs_conductor_dispName;
     if (weekItem.scheduleData.cbs_reader_dispName && weekItem.scheduleData.cbs_reader_dispName !== '') {
-      src += ' / ';
+      src += scheduleUseFullname ? '<br>' : '/';
       src += scheduleUseFullname ? weekItem.scheduleData.cbs_reader_name : weekItem.scheduleData.cbs_reader_dispName;
     }
 
@@ -478,10 +487,11 @@ const S140 = () => {
                                         <Box sx={{ display: 'flex', marginBottom: '2px' }}>
                                           <S140MeetingTime partTime={weekItem.sourceData[fldAyfPart]} />
                                           <S140MeetingPartText
+                                            align={scheduleUseFullname ? 'right' : ''}
                                             partType="ayf"
                                             partText={getAYFType(weekItem, fldType, fldSrc, fldTypeName)}
                                             partDuration={getAYFDuration(weekItem, fldType, fldTime)}
-                                            partMiniLabel={ayfLabel(weekItem, fldType)}
+                                            partMiniLabel={ayfLabel(weekItem, fldType, scheduleUseFullname)}
                                           />
                                           <S140AssignedPerson
                                             person={
@@ -607,7 +617,11 @@ const S140 = () => {
                                         partText={t('cbs', { lng: sourceLang })}
                                         partDuration={`${getCBSTime(weekItem)} min.`}
                                       />
-                                      <S140PartMiniLabel align="right" label={cbsLabel(weekItem)} width="180px" />
+                                      <S140PartMiniLabel
+                                        align="right"
+                                        label={cbsLabel(weekItem, scheduleUseFullname)}
+                                        width="180px"
+                                      />
                                       <S140AssignedPerson person={getAssignedCBS(weekItem, scheduleUseFullname)} />
                                     </Box>
 
