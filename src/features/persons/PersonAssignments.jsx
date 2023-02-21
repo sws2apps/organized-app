@@ -22,20 +22,24 @@ const PersonAssignments = ({ student, assignments, setAssignments }) => {
   const [isLCCBSConductor, setIsLCCBSConductor] = useState(false);
   const [isLCCBSReader, setIsLCCBSReader] = useState(false);
 
+  const updateLocalState = (code) => {
+    if (code === 100) return setIsTGWBibleReading(false);
+    if (code === 101) return setIsAYFInitialCall(false);
+    if (code === 102) return setIsAYFReturnVisit(false);
+    if (code === 103) return setIsAYFBibleStudy(false);
+    if (code === 104) return setIsAYFTalk(false);
+    if (code === 110) return setIsMidweekChairman(false);
+    if (code === 111) return setIsMidweekPrayer(false);
+    if (code === 112) return setIsTGWTalk(false);
+    if (code === 113) return setIsTGWGems(false);
+    if (code === 114) return setIsLCPart(false);
+    if (code === 115) return setIsLCCBSConductor(false);
+    if (code === 116) return setIsLCCBSReader(false);
+  };
+
   const handleAssignmentsChange = (code, value) => {
     if (!value) {
-      if (code === 100) setIsTGWBibleReading(false);
-      if (code === 101) setIsAYFInitialCall(false);
-      if (code === 102) setIsAYFReturnVisit(false);
-      if (code === 103) setIsAYFBibleStudy(false);
-      if (code === 104) setIsAYFTalk(false);
-      if (code === 110) setIsMidweekChairman(false);
-      if (code === 111) setIsMidweekPrayer(false);
-      if (code === 112) setIsTGWTalk(false);
-      if (code === 113) setIsTGWGems(false);
-      if (code === 114) setIsLCPart(false);
-      if (code === 115) setIsLCCBSConductor(false);
-      if (code === 116) setIsLCCBSReader(false);
+      updateLocalState(code);
     }
 
     setAssignments((prev) => {

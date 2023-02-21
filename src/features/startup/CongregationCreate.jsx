@@ -71,9 +71,23 @@ const CongregationCreate = () => {
     try {
       setIsProcessing(true);
 
-      const { status, data } = isUpdateCong
-        ? await apiUpdateCongregation(congId, country.code, congregation.congName, congregation.congNumber)
-        : await apiCreateCongregation(country.code, congregation.congName, congregation.congNumber, userTmpFullname);
+      let status, data;
+      if (isUpdateCong) {
+        const tmp = await apiUpdateCongregation(congId, country.code, congregation.congName, congregation.congNumber);
+        status = tmp.status;
+        data = tmp.data;
+      }
+
+      if (!isUpdateCong) {
+        const tmp = await apiCreateCongregation(
+          country.code,
+          congregation.congName,
+          congregation.congNumber,
+          userTmpFullname
+        );
+        status = tmp.status;
+        data = tmp.data;
+      }
 
       if (status === 200) {
         const { id, cong_id, cong_name, cong_role, cong_number, pocket_members } = data;
@@ -94,7 +108,6 @@ const CongregationCreate = () => {
             obj.isCongUpdated2 = true;
             obj.cong_name = cong_name;
             obj.cong_number = cong_number;
-            obj.isLoggedOut = false;
             obj.pocket_members = pocket_members;
             await dbUpdateAppSettings(obj);
 
@@ -112,17 +125,21 @@ const CongregationCreate = () => {
               setIsAppLoad(false);
             }, [2000]);
           }
-          return;
         }
-      } else if (status === 404) {
+        return;
+      }
+
+      if (status === 404) {
         setAppMessage(t('congregationExists'));
         setAppSeverity('warning');
         setAppSnackOpen(true);
-      } else {
-        setAppMessage(data.message);
-        setAppSeverity('warning');
-        setAppSnackOpen(true);
+        setIsProcessing(false);
+        return;
       }
+
+      setAppMessage(data.message);
+      setAppSeverity('warning');
+      setAppSnackOpen(true);
       setIsProcessing(false);
     } catch (err) {
       if (!cancel.current) {

@@ -201,6 +201,7 @@ export const dbHistoryAssignment = async () => {
           if (item.assignment === 'cbs_conductor') {
             person.assignmentID = 115;
             person.assignmentName = getI18n().t('cbsConductor', { ns: 'source' });
+            person.assignmentName += ` (${getI18n().t('cbs', { ns: 'source' })})`;
             person.assignmentSource = weekData.cbs_src;
           }
 
@@ -208,6 +209,7 @@ export const dbHistoryAssignment = async () => {
           if (item.assignment === 'cbs_reader') {
             person.assignmentID = 116;
             person.assignmentName = getI18n().t('cbsReader', { ns: 'source' });
+            person.assignmentName += ` (${getI18n().t('cbs', { ns: 'source' })})`;
             person.assignmentSource = weekData.cbs_src;
           }
 

@@ -160,142 +160,206 @@ const ScheduleAssignment = ({ edit }) => {
       await dbSaveAss(week, studentID, 'bRead_stu_A');
       setStuBReadA(studentName);
       setIsStuBReadA(false);
-    } else if (assID === 1) {
+    }
+
+    if (assID === 1) {
       setIsStuBReadB(true);
       await dbSaveAss(week, studentID, 'bRead_stu_B');
       setStuBReadB(studentName);
       setIsStuBReadB(false);
-    } else if (assID === 2) {
+    }
+
+    if (assID === 2) {
       setIsStu1A(true);
       await dbSaveAss(week, studentID, 'ass1_stu_A');
       setStu1A(studentName);
       setIsStu1A(false);
-    } else if (assID === 3) {
+    }
+
+    if (assID === 3) {
       setIsAss1A(true);
       await dbSaveAss(week, studentID, 'ass1_ass_A');
       setAss1A(studentName);
       setIsAss1A(false);
-    } else if (assID === 4) {
+    }
+
+    if (assID === 4) {
       setIsStu1B(true);
       await dbSaveAss(week, studentID, 'ass1_stu_B');
       setStu1B(studentName);
       setIsStu1B(false);
-    } else if (assID === 5) {
+    }
+
+    if (assID === 5) {
       setIsAss1B(true);
       await dbSaveAss(week, studentID, 'ass1_ass_B');
       setAss1B(studentName);
       setIsAss1B(false);
-    } else if (assID === 6) {
+    }
+
+    if (assID === 6) {
       setIsStu2A(true);
       await dbSaveAss(week, studentID, 'ass2_stu_A');
       setStu2A(studentName);
       setIsStu2A(false);
-    } else if (assID === 7) {
+    }
+
+    if (assID === 7) {
       setIsAss2A(true);
       await dbSaveAss(week, studentID, 'ass2_ass_A');
       setAss2A(studentName);
       setIsAss2A(false);
-    } else if (assID === 8) {
+    }
+
+    if (assID === 8) {
       setIsStu2B(true);
       await dbSaveAss(week, studentID, 'ass2_stu_B');
       setStu2B(studentName);
       setIsStu2B(false);
-    } else if (assID === 9) {
+    }
+
+    if (assID === 9) {
       setIsAss2B(true);
       await dbSaveAss(week, studentID, 'ass2_ass_B');
       setAss2B(studentName);
       setIsAss2B(false);
-    } else if (assID === 10) {
+    }
+
+    if (assID === 10) {
       setIsStu3A(true);
       await dbSaveAss(week, studentID, 'ass3_stu_A');
       setStu3A(studentName);
       setIsStu3A(false);
-    } else if (assID === 11) {
+    }
+
+    if (assID === 11) {
       setIsAss3A(true);
       await dbSaveAss(week, studentID, 'ass3_ass_A');
       setAss3A(studentName);
       setIsAss3A(false);
-    } else if (assID === 12) {
+    }
+
+    if (assID === 12) {
       setIsStu3B(true);
       await dbSaveAss(week, studentID, 'ass3_stu_B');
       setStu3B(studentName);
       setIsStu3B(false);
-    } else if (assID === 13) {
+    }
+
+    if (assID === 13) {
       setIsAss3B(true);
       await dbSaveAss(week, studentID, 'ass3_ass_B');
       setAss3B(studentName);
       setIsAss3B(false);
-    } else if (assID === 14) {
+    }
+
+    if (assID === 14) {
       setIsStu4A(true);
       await dbSaveAss(week, studentID, 'ass4_stu_A');
       setStu4A(studentName);
       setIsStu4A(false);
-    } else if (assID === 15) {
+    }
+
+    if (assID === 15) {
       setIsAss4A(true);
       await dbSaveAss(week, studentID, 'ass4_ass_A');
       setAss4A(studentName);
       setIsAss4A(false);
-    } else if (assID === 16) {
+    }
+
+    if (assID === 16) {
       setIsStu4B(true);
       await dbSaveAss(week, studentID, 'ass4_stu_B');
       setStu4B(studentName);
       setIsStu4B(false);
-    } else if (assID === 17) {
+    }
+
+    if (assID === 17) {
       setIsAss4B(true);
       await dbSaveAss(week, studentID, 'ass4_ass_B');
       setAss4B(studentName);
       setIsAss4B(false);
-    } else if (assID === 18) {
+    }
+
+    if (assID === 18) {
       setIsChairmanA(true);
       await dbSaveAss(week, studentID, 'chairmanMM_A');
       setChairmanA(studentName);
       setIsChairmanA(false);
-    } else if (assID === 19) {
+    }
+
+    if (assID === 19) {
       setIsChairmanB(true);
       await dbSaveAss(week, studentID, 'chairmanMM_B');
       setChairmanB(studentName);
       setIsChairmanB(false);
-    } else if (assID === 20) {
+    }
+
+    if (assID === 20) {
       setIsOpeningPrayer(true);
       await dbSaveAss(week, studentID, 'opening_prayer');
       setOpeningPrayer(studentName);
       setIsOpeningPrayer(false);
-    } else if (assID === 21) {
+    }
+
+    if (assID === 21) {
       setIsTgwTalk(true);
       await dbSaveAss(week, studentID, 'tgw_talk');
       setTgwTalk(studentName);
       setIsTgwTalk(false);
-    } else if (assID === 22) {
+    }
+
+    if (assID === 22) {
       setIsTgwGems(true);
       await dbSaveAss(week, studentID, 'tgw_gems');
       setTgwGems(studentName);
       setIsTgwGems(false);
-    } else if (assID === 23) {
+    }
+
+    if (assID === 23) {
       setIsLcPart1(true);
       await dbSaveAss(week, studentID, 'lc_part1');
       setLcPart1(studentName);
       setIsLcPart1(false);
-    } else if (assID === 24) {
+    }
+
+    if (assID === 24) {
       setIsLcPart2(true);
       await dbSaveAss(week, studentID, 'lc_part2');
       setLcPart2(studentName);
       setIsLcPart2(false);
-    } else if (assID === 25) {
+    }
+
+    if (assID === 25) {
       setIsCbsCondcutor(true);
       await dbSaveAss(week, studentID, 'cbs_conductor');
       setCbsConductor(studentName);
       setIsCbsCondcutor(false);
-    } else if (assID === 26) {
+    }
+
+    if (assID === 26) {
       setIsCbsReader(true);
       await dbSaveAss(week, studentID, 'cbs_reader');
       setCbsReader(studentName);
       setIsCbsReader(false);
-    } else if (assID === 27) {
+    }
+
+    if (assID === 27) {
       setIsClosingPrayer(true);
       await dbSaveAss(week, studentID, 'closing_prayer');
       setClosingPrayer(studentName);
       setIsClosingPrayer(false);
     }
+  };
+
+  const buildAssignmentDesc = (source, study) => {
+    let src = source;
+
+    if (study && study !== '') {
+      src += ` [${study}]`;
+    }
+
+    return src;
   };
 
   useEffect(() => {
@@ -534,9 +598,7 @@ const ScheduleAssignment = ({ edit }) => {
           personB={stuBReadB}
           source={t('bibleReadingText')}
           student={true}
-          studentPart={`${bibleReadingSrc}${
-            bibleReadingStudy && bibleReadingStudy !== '' ? ` [${bibleReadingStudy}]` : ''
-          }`}
+          studentPart={buildAssignmentDesc(bibleReadingSrc, bibleReadingStudy)}
           loadStudentPickerA={() =>
             loadStudentPicker({
               assID: 0,
@@ -576,7 +638,7 @@ const ScheduleAssignment = ({ edit }) => {
           assistantB={ass1B}
           source={ass1Src}
           student={true}
-          studentPart={`${ass1Src}${ass1Study && ass1Study !== '' ? ` [${ass1Study}]` : ''}`}
+          studentPart={buildAssignmentDesc(ass1Src, ass1Study)}
           loadStudentAyfPicker={(value) => loadStudentPicker(value)}
           studentAID={2}
           assistantAID={3}
@@ -603,7 +665,7 @@ const ScheduleAssignment = ({ edit }) => {
             assistantB={ass2B}
             source={ass2Src}
             student={true}
-            studentPart={`${ass2Src}${ass2Study && ass2Study !== '' ? ` [${ass2Study}]` : ''}`}
+            studentPart={buildAssignmentDesc(ass2Src, ass2Study)}
             loadStudentAyfPicker={(value) => loadStudentPicker(value)}
             studentAID={6}
             assistantAID={7}
@@ -631,7 +693,7 @@ const ScheduleAssignment = ({ edit }) => {
             assistantB={ass3B}
             source={ass3Src}
             student={true}
-            studentPart={`${ass3Src}${ass3Study && ass3Study !== '' ? ` [${ass3Study}]` : ''}`}
+            studentPart={buildAssignmentDesc(ass3Src, ass3Study)}
             loadStudentAyfPicker={(value) => loadStudentPicker(value)}
             studentAID={10}
             assistantAID={11}
@@ -659,7 +721,7 @@ const ScheduleAssignment = ({ edit }) => {
             assistantB={ass4B}
             source={ass4Src}
             student={true}
-            studentPart={`${ass4Src}${ass4Study && ass4Study !== '' ? ` [${ass4Study}]` : ''}`}
+            studentPart={buildAssignmentDesc(ass4Src, ass4Study)}
             loadStudentAyfPicker={(value) => loadStudentPicker(value)}
             studentAID={14}
             assistantAID={15}

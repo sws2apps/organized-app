@@ -75,9 +75,9 @@ const Startup = () => {
         setIsUserAccountUpgradeV2(true);
         setIsAuth(false);
         return;
-      } else {
-        setIsUserAccountUpgradeV2(false);
       }
+
+      setIsUserAccountUpgradeV2(false);
 
       if (isOfflineOverride && !isAuthenticated) {
         setIsUserSignIn(true);

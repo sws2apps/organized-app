@@ -74,54 +74,8 @@ export const apiHandleVerifyOTP = async (userOTP, isSetup) => {
         });
 
         const data = await res.json();
-        if (res.status === 200) {
-          const { id, cong_id, cong_name, cong_role, cong_number, pocket_members } = data;
 
-          if (cong_name.length > 0) {
-            if (cong_role.length > 0) {
-              backupWorkerInstance.setCongID(cong_id);
-              await promiseSetRecoil(congIDState, cong_id);
-
-              if (!isSetup) {
-                const settings = await dbGetAppSettings();
-                if (settings.isCongUpdated2 === undefined) {
-                  return { updateCongregation: true };
-                }
-              }
-
-              if (cong_role.includes('admin')) {
-                await promiseSetRecoil(isAdminCongState, true);
-              }
-
-              // role approved
-              if (cong_role.includes('lmmo') || cong_role.includes('lmmo-backup')) {
-                const isMainDb = await isDbExist('lmm_oa');
-                if (!isMainDb) await initAppDb();
-
-                // save congregation update if any
-                let obj = {};
-                obj.username = data.username;
-                obj.cong_name = cong_name;
-                obj.cong_number = cong_number;
-                obj.isLoggedOut = false;
-                obj.pocket_members = pocket_members;
-                await dbUpdateAppSettings(obj);
-
-                await promiseSetRecoil(userIDState, id);
-                await promiseSetRecoil(pocketMembersState, pocket_members);
-
-                await loadApp();
-
-                return { success: true };
-              }
-
-              return { unauthorized: true };
-            }
-            return { unauthorized: true };
-          }
-
-          return { createCongregation: true };
-        } else {
+        if (res.status !== 200) {
           if (data.message) {
             if (data.message === 'TOKEN_INVALID') data.message = t('mfaTokenInvalidExpired', { ns: 'ui' });
             await promiseSetRecoil(appMessageState, data.message);
@@ -136,6 +90,47 @@ export const apiHandleVerifyOTP = async (userOTP, isSetup) => {
             return { reenroll: true };
           }
         }
+
+        const { id, cong_id, cong_name, cong_role, cong_number, pocket_members } = data;
+
+        if (cong_name.length === 0) return { createCongregation: true };
+
+        if (cong_role.length === 0) return { unauthorized: true };
+
+        if (!cong_role.includes('lmmo') && !cong_role.includes('lmmo-backup')) return { unauthorized: true };
+
+        backupWorkerInstance.setCongID(cong_id);
+        await promiseSetRecoil(congIDState, cong_id);
+
+        if (!isSetup) {
+          const settings = await dbGetAppSettings();
+          if (settings.isCongUpdated2 === undefined) {
+            return { updateCongregation: true };
+          }
+        }
+
+        if (cong_role.includes('admin')) {
+          await promiseSetRecoil(isAdminCongState, true);
+        }
+
+        const isMainDb = await isDbExist('lmm_oa');
+        if (!isMainDb) await initAppDb();
+
+        // save congregation update if any
+        let obj = {};
+        obj.username = data.username;
+        obj.cong_name = cong_name;
+        obj.cong_number = cong_number;
+        obj.isLoggedOut = false;
+        obj.pocket_members = pocket_members;
+        await dbUpdateAppSettings(obj);
+
+        await promiseSetRecoil(userIDState, id);
+        await promiseSetRecoil(pocketMembersState, pocket_members);
+
+        await loadApp();
+
+        return { success: true };
       }
     }
   } catch (err) {
