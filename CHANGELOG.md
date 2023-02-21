@@ -1,3 +1,17 @@
+# [2.39.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.38.2...v2.39.0) (2023-02-21)
+
+
+### Bug Fixes
+
+* **settings:** autosave source materials and forms language ([a0dbd8b](https://github.com/sws2apps/lmm-oa-sws/commit/a0dbd8b7698b1a476cddfafc37da5d0985f8ab86))
+* **templates:** display assignments in two lines ([fb951e1](https://github.com/sws2apps/lmm-oa-sws/commit/fb951e101a48c2bd978792abd00bcfe561e5957c))
+
+
+### Features
+
+* **deps:** bump @mui/material from 5.11.9 to 5.11.10 ([f63a8ea](https://github.com/sws2apps/lmm-oa-sws/commit/f63a8eac43406d2ec8c5e8a154281b923a4986b7))
+* **templates:** option to use person full name in S-140 ([7e48e10](https://github.com/sws2apps/lmm-oa-sws/commit/7e48e10548d622f8fef018c2331ca7e6d7ecb042))
+
 ## [2.38.2](https://github.com/sws2apps/lmm-oa-sws/compare/v2.38.1...v2.38.2) (2023-02-20)
 
 
