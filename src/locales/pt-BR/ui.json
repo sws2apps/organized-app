@@ -380,7 +380,7 @@
   "sessionRevoke": "Remover",
   "lastSeen": "Visto por último: {{ last_seen }}",
   "currentSession": "Sessão atual",
-  "sourceTemplateLang": "IDIOMA DA FONTE DE MATÉRIA E FORMULÁRIOS",
+  "sourcesFormsSettings": "SOURCE MATERIALS & FORMS",
   "sourceTemplateLangDesc": "Selecione o idioma que você deseja usar para a fonte de matéria e formulários, S-89 e S-140",
   "heading": "Gerenciar acesso ao CPE",
   "vipUsersHeading": "Irmãos batizados",
@@ -475,5 +475,6 @@
   "weekDeletedSuccess": "Semana removida da fonte de matéria",
   "autoBackup": "Backup Automático do CPE",
   "enableLabel": "Habilitar",
-  "backupIntervalLabel": "Intervalo"
+  "backupIntervalLabel": "Intervalo",
+  "scheduleUseFullname": "Use Fullname in S-140"
 }

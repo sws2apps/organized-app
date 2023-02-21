@@ -380,7 +380,7 @@
   "sessionRevoke": "Esorina",
   "lastSeen": "Nampiasaina farany tamin’ny: {{ last_seen }}",
   "currentSession": "Ampiasainao izao",
-  "sourceTemplateLang": "FITENY AMIN’NY LOHARANON-KEVITRA & TARATASY HOFENOINA",
+  "sourcesFormsSettings": "LOHARANON-KEVITRA & TARATASY HOFENOINA",
   "sourceTemplateLangDesc": "Fiteny ampiasaina amin’ny loharanon-kevitra, ny taratasy hofenoina S-89 sy S-140",
   "heading": "Fandrindrana ny Fampiasana Programa CPE",
   "vipUsersHeading": "Rahalahy Vita Batisa",
@@ -475,5 +475,6 @@
   "weekDeletedSuccess": "Vita soa aman-tsara ny famafana herinandro",
   "autoBackup": "Rakitra Fiandry CPE Mandeha ho Azy",
   "enableLabel": "Alefa",
-  "backupIntervalLabel": "Isaky ny"
+  "backupIntervalLabel": "Isaky ny",
+  "scheduleUseFullname": "Hampiasa Anarana Feno Amin’ny S-140"
 }

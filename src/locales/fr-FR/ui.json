@@ -380,7 +380,7 @@
   "sessionRevoke": "Revoke",
   "lastSeen": "Last seen: {{ last_seen }}",
   "currentSession": "Current session",
-  "sourceTemplateLang": "SOURCE MATERIALS & FORM LANGUAGE",
+  "sourcesFormsSettings": "SOURCE MATERIALS & FORMS",
   "sourceTemplateLangDesc": "Select the language you want to use for source materials, S-89 and S-140 forms",
   "heading": "Manage Access to CPE",
   "vipUsersHeading": "Baptized Brothers",
@@ -475,5 +475,6 @@
   "weekDeletedSuccess": "Week removed from source materials",
   "autoBackup": "CPE Automatic Backup",
   "enableLabel": "Enable",
-  "backupIntervalLabel": "Interval"
+  "backupIntervalLabel": "Interval",
+  "scheduleUseFullname": "Use Fullname in S-140"
 }
