@@ -98,7 +98,7 @@ export const assTypeAYFOnlyState = selector({
   get: ({ get }) => {
     const assTypeList = get(assTypeLocalNewState);
     const newList = assTypeList
-      .filter((ass) => ass.type === 'ayf')
+      .filter((ass) => ass.type === 'ayf' && ass.label !== undefined)
       .sort((a, b) => {
         return a.code > b.code ? 1 : -1;
       });

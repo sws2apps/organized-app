@@ -55,6 +55,30 @@ const S140 = () => {
     return '';
   };
 
+  const getAssignedChairman = (weekItem, stuClass, scheduleUseFullname) => {
+    if (scheduleUseFullname) {
+      if (stuClass === 'A') return weekItem.scheduleData.chairmanMM_A_name;
+      if (stuClass !== 'A') return weekItem.scheduleData.chairmanMM_B_name;
+    }
+
+    if (!scheduleUseFullname) {
+      if (stuClass === 'A') return weekItem.scheduleData.chairmanMM_A_dispName;
+      if (stuClass !== 'A') return weekItem.scheduleData.chairmanMM_B_dispName;
+    }
+  };
+
+  const getAssignedBRead = (weekItem, stuClass, scheduleUseFullname) => {
+    if (scheduleUseFullname) {
+      if (stuClass === 'A') return weekItem.scheduleData.bRead_stu_A_name;
+      if (stuClass !== 'A') return weekItem.scheduleData.bRead_stu_B_name;
+    }
+
+    if (!scheduleUseFullname) {
+      if (stuClass === 'A') return weekItem.scheduleData.bRead_stu_A_dispName;
+      if (stuClass !== 'A') return weekItem.scheduleData.bRead_stu_B_dispName;
+    }
+  };
+
   const ayfLabel = (weekItem, fldType, scheduleUseFullname) => {
     if (
       weekItem.sourceData[fldType] === 101 ||
@@ -66,7 +90,7 @@ const S140 = () => {
     ) {
       if (scheduleUseFullname) {
         let label = `${t('student', { lng: sourceLang })}:`;
-        label += '<br>';
+        label += scheduleUseFullname ? '<br>' : '/';
         label += `${t('assistant', { lng: sourceLang })}:`;
 
         return label;
@@ -111,13 +135,15 @@ const S140 = () => {
       weekItem.sourceData[fldType] === 107 ||
       weekItem.sourceData[fldType] === 117
     ) {
-      return stuClass === 'A'
-        ? scheduleUseFullname
-          ? weekItem.scheduleData.chairmanMM_A_name
-          : weekItem.scheduleData.chairmanMM_A_dispName
-        : scheduleUseFullname
-        ? weekItem.scheduleData.chairmanMM_B_name
-        : weekItem.scheduleData.chairmanMM_B_dispName;
+      if (scheduleUseFullname) {
+        if (stuClass === 'A') return weekItem.scheduleData.chairmanMM_A_name;
+        if (stuClass !== 'A') return weekItem.scheduleData.chairmanMM_B_name;
+      }
+
+      if (!scheduleUseFullname) {
+        if (stuClass === 'A') return weekItem.scheduleData.chairmanMM_A_dispName;
+        if (stuClass !== 'A') return weekItem.scheduleData.chairmanMM_B_dispName;
+      }
     }
 
     return '';
@@ -298,13 +324,7 @@ const S140 = () => {
                               label={`${t('chairmanMidweekMeeting', { lng: sourceLang, ns: 'source' })}:`}
                               width="180px"
                             />
-                            <S140AssignedPerson
-                              person={
-                                scheduleUseFullname
-                                  ? weekItem.scheduleData.chairmanMM_A_name
-                                  : weekItem.scheduleData.chairmanMM_A_dispName
-                              }
-                            />
+                            <S140AssignedPerson person={getAssignedChairman(weekItem, 'A', scheduleUseFullname)} />
                           </>
                         )}
                       </Box>
@@ -331,13 +351,7 @@ const S140 = () => {
                               width="180px"
                             />
                             <S140AssignedPerson
-                              person={
-                                classCount === 2
-                                  ? scheduleUseFullname
-                                    ? weekItem.scheduleData.chairmanMM_B_name
-                                    : weekItem.scheduleData.chairmanMM_B_dispName
-                                  : ''
-                              }
+                              person={classCount === 2 ? getAssignedChairman(weekItem, 'B', scheduleUseFullname) : ''}
                             />
                           </>
                         )}
@@ -437,20 +451,10 @@ const S140 = () => {
                                   />
                                   <S140AssignedPerson
                                     person={
-                                      classCount === 1
-                                        ? ''
-                                        : scheduleUseFullname
-                                        ? weekItem.scheduleData.bRead_stu_B_name
-                                        : weekItem.scheduleData.bRead_stu_B_dispName
+                                      classCount === 1 ? '' : getAssignedBRead(weekItem, 'B', scheduleUseFullname)
                                     }
                                   />
-                                  <S140AssignedPerson
-                                    person={
-                                      scheduleUseFullname
-                                        ? weekItem.scheduleData.bRead_stu_A_name
-                                        : weekItem.scheduleData.bRead_stu_A_dispName
-                                    }
-                                  />
+                                  <S140AssignedPerson person={getAssignedBRead(weekItem, 'A', scheduleUseFullname)} />
                                 </Box>
 
                                 {/* AYF Heading */}

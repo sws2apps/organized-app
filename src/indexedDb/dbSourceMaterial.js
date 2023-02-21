@@ -80,26 +80,28 @@ export const dbGetSourceMaterial = async (weekOf) => {
   obj.bibleReading_src = appData.bibleReading_src ? appData.bibleReading_src[lang] || '' : '';
   obj.bibleReading_study = appData.bibleReading_study || '';
   obj.ayfCount = appData.ayfCount;
-  obj.ass1_type = appData.ass1_type
-    ? typeof appData.ass1_type === 'object'
-      ? appData.ass1_type[lang] === ''
-        ? ''
-        : +appData.ass1_type[lang]
-      : +appData.ass1_type
-    : '';
+
+  obj.ass1_type = '';
+  if (typeof appData.ass1_type === 'object') {
+    if (appData.ass1_type[lang] !== '') obj.ass1_type = +appData.ass1_type[lang];
+  }
+  if (appData.ass1_type && typeof appData.ass1_type !== 'object') {
+    obj.ass1_type = +appData.ass1_type;
+  }
 
   indexType = assTypeList.findIndex((type) => type.value === obj.ass1_type);
   obj.ass1_type_name = indexType >= 0 ? assTypeList[indexType].label : '';
   obj.ass1_time = appData.ass1_time || '';
   obj.ass1_study = appData.ass1_study || '';
   obj.ass1_src = appData.ass1_src ? appData.ass1_src[lang] || '' : '';
-  obj.ass2_type = appData.ass2_type
-    ? typeof appData.ass2_type === 'object'
-      ? appData.ass2_type[lang] === ''
-        ? ''
-        : +appData.ass2_type[lang]
-      : +appData.ass2_type
-    : '';
+
+  obj.ass2_type = '';
+  if (typeof appData.ass2_type === 'object') {
+    if (appData.ass2_type[lang] !== '') obj.ass2_type = +appData.ass2_type[lang];
+  }
+  if (appData.ass2_type && typeof appData.ass2_type !== 'object') {
+    obj.ass2_type = +appData.ass2_type;
+  }
 
   indexType = assTypeList.findIndex((type) => type.value === obj.ass2_type);
   obj.ass2_type_name = indexType >= 0 ? assTypeList[indexType].label : '';
@@ -107,13 +109,14 @@ export const dbGetSourceMaterial = async (weekOf) => {
   obj.ass2_time = appData.ass2_time || '';
   obj.ass2_study = appData.ass2_study || '';
   obj.ass2_src = appData.ass2_src ? appData.ass2_src[lang] || '' : '';
-  obj.ass3_type = appData.ass3_type
-    ? typeof appData.ass3_type === 'object'
-      ? appData.ass3_type[lang] === ''
-        ? ''
-        : +appData.ass3_type[lang]
-      : +appData.ass3_type
-    : '';
+
+  obj.ass3_type = '';
+  if (typeof appData.ass3_type === 'object') {
+    if (appData.ass3_type[lang] !== '') obj.ass3_type = +appData.ass3_type[lang];
+  }
+  if (appData.ass3_type && typeof appData.ass3_type !== 'object') {
+    obj.ass3_type = +appData.ass3_type;
+  }
 
   indexType = assTypeList.findIndex((type) => type.value === obj.ass3_type);
   obj.ass3_type_name = indexType >= 0 ? assTypeList[indexType].label : '';
@@ -121,13 +124,14 @@ export const dbGetSourceMaterial = async (weekOf) => {
   obj.ass3_time = appData.ass3_time || '';
   obj.ass3_study = appData.ass3_study || '';
   obj.ass3_src = appData.ass3_src ? appData.ass3_src[lang] || '' : '';
-  obj.ass4_type = appData.ass4_type
-    ? typeof appData.ass4_type === 'object'
-      ? appData.ass4_type[lang] === ''
-        ? ''
-        : +appData.ass4_type[lang]
-      : +appData.ass4_type
-    : '';
+
+  obj.ass4_type = '';
+  if (typeof appData.ass4_type === 'object') {
+    if (appData.ass4_type[lang] !== '') obj.ass4_type = +appData.ass4_type[lang];
+  }
+  if (appData.ass4_type && typeof appData.ass4_type !== 'object') {
+    obj.ass4_type = +appData.ass4_type;
+  }
 
   indexType = assTypeList.findIndex((type) => type.value === obj.ass4_type);
   obj.ass4_type_name = indexType >= 0 ? assTypeList[indexType].label : '';
@@ -179,52 +183,53 @@ export const dbGetSourceMaterialPocket = async (weekOf) => {
   obj.tgwTalk_src = appData.tgwTalk_src;
   obj.bibleReading_src = appData.bibleReading_src;
   obj.bibleReading_study = appData.bibleReading_study;
-  obj.ass1_type = appData.ass1_type
-    ? typeof appData.ass1_type === 'object'
-      ? appData.ass1_type[lang] === ''
-        ? ''
-        : +appData.ass1_type[lang]
-      : +appData.ass1_type
-    : '';
+
+  obj.ass1_type = '';
+  if (typeof appData.ass1_type === 'object') {
+    if (appData.ass1_type[lang] !== '') obj.ass1_type = +appData.ass1_type[lang];
+  }
+  if (appData.ass1_type && typeof appData.ass1_type !== 'object') {
+    obj.ass1_type = +appData.ass1_type;
+  }
 
   obj.ass1_type_name = assTypeList.find((type) => type.code === obj.ass1_type)?.assignment_type_name || '';
   obj.ass1_time = +appData.ass1_time || '';
   obj.ass1_study = appData.ass1_study || '';
   obj.ass1_src = appData.ass1_src;
 
-  obj.ass2_type = appData.ass2_type
-    ? typeof appData.ass2_type === 'object'
-      ? appData.ass2_type[lang] === ''
-        ? ''
-        : +appData.ass2_type[lang]
-      : +appData.ass2_type
-    : '';
+  obj.ass2_type = '';
+  if (typeof appData.ass2_type === 'object') {
+    if (appData.ass2_type[lang] !== '') obj.ass2_type = +appData.ass2_type[lang];
+  }
+  if (appData.ass2_type && typeof appData.ass2_type !== 'object') {
+    obj.ass2_type = +appData.ass2_type;
+  }
 
   obj.ass2_type_name = assTypeList.find((type) => type.code === obj.ass2_type).assignment_type_name || '';
   obj.ass2_time = +appData.ass2_time || '';
   obj.ass2_study = appData.ass2_study || '';
   obj.ass2_src = appData.ass2_src;
 
-  obj.ass3_type = appData.ass3_type
-    ? typeof appData.ass3_type === 'object'
-      ? appData.ass3_type[lang] === ''
-        ? ''
-        : +appData.ass3_type[lang]
-      : +appData.ass3_type
-    : '';
+  obj.ass3_type = '';
+  if (typeof appData.ass3_type === 'object') {
+    if (appData.ass3_type[lang] !== '') obj.ass3_type = +appData.ass3_type[lang];
+  }
+  if (appData.ass3_type && typeof appData.ass3_type !== 'object') {
+    obj.ass3_type = +appData.ass3_type;
+  }
 
   obj.ass3_type_name = assTypeList.find((type) => type.code === obj.ass3_type).assignment_type_name || '';
   obj.ass3_time = +appData.ass3_time || '';
   obj.ass3_study = appData.ass3_study || '';
   obj.ass3_src = appData.ass3_src;
 
-  obj.ass4_type = appData.ass4_type
-    ? typeof appData.ass4_type === 'object'
-      ? appData.ass4_type[lang] === ''
-        ? ''
-        : +appData.ass4_type[lang]
-      : +appData.ass4_type
-    : '';
+  obj.ass4_type = '';
+  if (typeof appData.ass4_type === 'object') {
+    if (appData.ass4_type[lang] !== '') obj.ass4_type = +appData.ass4_type[lang];
+  }
+  if (appData.ass4_type && typeof appData.ass4_type !== 'object') {
+    obj.ass4_type = +appData.ass4_type;
+  }
 
   obj.ass4_type_name = assTypeList.findIndex((type) => type.code === obj.ass4_type).assignment_type_name || '';
   obj.ass4_time = appData.ass4_time ? (typeof appData.ass4_time === 'object' ? '' : +appData.ass4_time) : '';

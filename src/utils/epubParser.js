@@ -9,9 +9,7 @@ export const addEpubDataToDb = async (fileEPUB) => {
 };
 
 export const addJwDataToDb = async (dataJw) => {
-  for (let a = 0; a < dataJw.length; a++) {
-    const data = dataJw[a];
-
+  for await (const data of dataJw) {
     await addDataToDb(data);
   }
 };

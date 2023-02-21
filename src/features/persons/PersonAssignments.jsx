@@ -267,27 +267,6 @@ const PersonAssignments = ({ student, assignments, setAssignments }) => {
           </Box>
         </Box>
       </Box>
-      {/* <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'flex-start',
-          marginBottom: '10px',
-        }}
-      >
-        <Button variant="outlined" color="success" startIcon={<AddCircleIcon />} onClick={handleAssignmentAdd}>
-          {t('addAssignment')}
-        </Button>
-      </Box>
-      {assignments?.length > 0 &&
-        assignments.map((assignment) => (
-          <PersonAssignmentItem
-            key={assignment.assignmentId}
-            student={student}
-            assignment={assignment}
-            assignments={assignments}
-            setAssignments={(value) => setAssignments(value)}
-          />
-        ))} */}
     </Box>
   );
 };

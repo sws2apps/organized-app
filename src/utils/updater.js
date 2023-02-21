@@ -77,7 +77,6 @@ const updateScheduleToId = async () => {
     let obj = {};
     obj.isScheduleConverted = true;
     await dbUpdateAppSettings(obj);
-  } else {
   }
 };
 
