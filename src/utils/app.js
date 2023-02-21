@@ -24,6 +24,7 @@ import {
 import { assTypeListState, weekTypeListState, yearsListState } from '../states/sourceMaterial';
 import { allStudentsState, filteredStudentsState, studentsAssignmentHistoryState } from '../states/persons';
 import backupWorkerInstance from '../workers/backupWorker';
+import { scheduleUseFullnameState } from '../states/schedule';
 
 export const loadApp = async () => {
   const I18n = getI18n();
@@ -41,6 +42,7 @@ export const loadApp = async () => {
     user_avatar,
     autoBackup,
     autoBackup_interval,
+    schedule_useFullname,
   } = await dbGetAppSettings();
 
   backupWorkerInstance.setBackupInterval(autoBackup_interval);
@@ -70,6 +72,7 @@ export const loadApp = async () => {
   await promiseSetRecoil(meetingTimeState, meeting_time || new Date(Date.now()));
   await promiseSetRecoil(appLangState, app_lang);
   await promiseSetRecoil(sourceLangState, source_lang || app_lang);
+  await promiseSetRecoil(scheduleUseFullnameState, schedule_useFullname || false);
 
   if (source_lang === undefined) await dbUpdateAppSettings({ source_lang: app_lang });
 

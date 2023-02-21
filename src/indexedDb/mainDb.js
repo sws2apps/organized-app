@@ -257,6 +257,11 @@ appDb.version(63).stores({
     '++id, username, local_uid, source_lang, cong_number, cong_name, class_count, meeting_day, meeting_time, isScheduleConverted, isCongVerified, isAssignmentsConverted, isCongUpdated2, pocket_members, user_avatar, account_version, co_name, co_displayName, personAssignmentsConverted, autoBackup, autoBackup_interval',
 });
 
+appDb.version(64).stores({
+  app_settings:
+    '++id, username, local_uid, source_lang, cong_number, cong_name, class_count, meeting_day, meeting_time, isScheduleConverted, isCongVerified, isAssignmentsConverted, isCongUpdated2, pocket_members, user_avatar, account_version, co_name, co_displayName, personAssignmentsConverted, autoBackup, autoBackup_interval, schedule_useFullname',
+});
+
 appDb.on('populate', function () {
   appDb.app_settings.add({
     id: 1,
@@ -272,6 +277,7 @@ appDb.on('populate', function () {
     pocket_members: [],
     account_version: 'v2',
     personAssignmentsConverted: true,
+    schedule_useFullname: false,
   });
 });
 

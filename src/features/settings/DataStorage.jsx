@@ -21,7 +21,7 @@ const DataStorage = () => {
   const setIsDeleteDb = useSetRecoilState(isDeleteDbOpenState);
 
   const [isAutoBackup, setIsAutoBackup] = useState(false);
-  const [backupInterval, setBackupInterval] = useState(1);
+  const [backupInterval, setBackupInterval] = useState(5);
 
   const handleAutoBackupChange = async (value) => {
     setIsAutoBackup(value);
@@ -47,7 +47,7 @@ const DataStorage = () => {
     const fillDetails = async () => {
       const settings = await dbGetAppSettings();
       setIsAutoBackup(settings.autoBackup);
-      setBackupInterval(settings.autoBackup_interval || 1);
+      setBackupInterval(settings.autoBackup_interval || 5);
     };
 
     fillDetails();
@@ -72,11 +72,11 @@ const DataStorage = () => {
               label={t('backupIntervalLabel')}
               size="small"
               sx={{ minWidth: '130px' }}
-              defaultValue={1}
+              defaultValue={5}
               value={backupInterval}
               onChange={(e) => handleBackupIntervalChange(e.target.value)}
             >
-              {[1, 5, 15, 30].map((time) => (
+              {[5, 15, 30, 45].map((time) => (
                 <MenuItem key={time} value={time}>
                   {time} min.
                 </MenuItem>

@@ -1,59 +1,54 @@
 import { useState } from 'react';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
+import Checkbox from '@mui/material/Checkbox';
 import Divider from '@mui/material/Divider';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import LanguageIcon from '@mui/icons-material/Language';
 import Link from '@mui/material/Link';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import MenuItem from '@mui/material/MenuItem';
-import SaveIcon from '@mui/icons-material/Save';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { dbUpdateAppSettings } from '../../indexedDb/dbAppSettings';
-import { appMessageState, appSeverityState, appSnackOpenState } from '../../states/notification';
 import { sourceLangState } from '../../states/main';
 import { LANGUAGE_LIST } from '../../locales/langList';
+import { scheduleUseFullnameState } from '../../states/schedule';
 
-const SourceLangSwitcher = () => {
+const SourcesFormsSettings = () => {
   const { t } = useTranslation('ui');
 
-  const setAppSnackOpen = useSetRecoilState(appSnackOpenState);
-  const setAppSeverity = useSetRecoilState(appSeverityState);
-  const setAppMessage = useSetRecoilState(appMessageState);
-  const [sourceLang, setSourceLang] = useRecoilState(sourceLangState);
+  const [scheduleUseFullname, setScheduleUseFullname] = useRecoilState(scheduleUseFullnameState);
+
+  const sourceLang = useRecoilValue(sourceLangState);
 
   const [tempSourceLang, setTempSourceLang] = useState(sourceLang);
+  const [useFullname, setUseFullname] = useState(scheduleUseFullname);
 
   const listSourceLangs = LANGUAGE_LIST.filter((lang) => lang.isSource === true);
 
-  const handleSourceLangChange = (e) => {
+  const handleSourceLangChange = async (e) => {
     if (e.target.value === 'not_set') return;
     setTempSourceLang(e.target.value);
+    await dbUpdateAppSettings({ source_lang: e.target.value });
   };
 
-  const saveAppSettings = async () => {
-    const obj = {};
-    obj.source_lang = tempSourceLang;
-    await dbUpdateAppSettings(obj);
-
-    setSourceLang(tempSourceLang);
-
-    setAppSnackOpen(true);
-    setAppSeverity('success');
-    setAppMessage(t('saved'));
+  const handleChangeFullnameSwitch = async (value) => {
+    setUseFullname(value);
+    setScheduleUseFullname(value);
+    await dbUpdateAppSettings({ schedule_useFullname: value });
   };
 
   return (
     <Box sx={{ width: '100%' }}>
-      <Typography className={'settingHeader'}>{t('sourceTemplateLang')}</Typography>
+      <Typography className={'settingHeader'}>{t('sourcesFormsSettings')}</Typography>
       <Divider sx={{ borderWidth: '5px' }} />
-      <Box sx={{ padding: '20px 20px' }}>
-        <Typography sx={{ marginBottom: '15px' }}>{t('sourceTemplateLangDesc')}</Typography>
-
+      <Box sx={{ padding: '20px 20px', display: 'flex', flexDirection: 'column', gap: '15px' }}>
         <Box>
+          <Typography sx={{ marginBottom: '15px' }}>{t('sourceTemplateLangDesc')}</Typography>
+
           <TextField
             id="outlined-select-class"
             select
@@ -88,18 +83,15 @@ const SourceLangSwitcher = () => {
           </TextField>
         </Box>
 
-        <Button
-          variant="contained"
-          color="primary"
-          startIcon={<SaveIcon />}
-          onClick={() => saveAppSettings()}
-          sx={{ marginTop: '10px' }}
-        >
-          {t('save')}
-        </Button>
+        <Box>
+          <FormControlLabel
+            control={<Checkbox checked={useFullname} onChange={(e) => handleChangeFullnameSwitch(e.target.checked)} />}
+            label={t('scheduleUseFullname')}
+          />
+        </Box>
       </Box>
     </Box>
   );
 };
 
-export default SourceLangSwitcher;
+export default SourcesFormsSettings;

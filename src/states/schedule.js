@@ -89,3 +89,8 @@ export const reloadWeekSummaryState = atom({
   key: 'reloadWeekSummary',
   default: false,
 });
+
+export const scheduleUseFullnameState = atom({
+  key: 'scheduleUseFullname',
+  default: false,
+});

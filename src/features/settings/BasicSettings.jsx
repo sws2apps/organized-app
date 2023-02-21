@@ -1,18 +1,15 @@
 import { useEffect, useState } from 'react';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import MenuItem from '@mui/material/MenuItem';
-import SaveIcon from '@mui/icons-material/Save';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { dbGetAppSettings, dbUpdateAppSettings } from '../../indexedDb/dbAppSettings';
-import { appMessageState, appSeverityState, appSnackOpenState } from '../../states/notification';
 import {
   classCountState,
   congNameState,
@@ -25,82 +22,52 @@ import { generateDisplayName } from '../../utils/person';
 const BasicSettings = () => {
   const { t } = useTranslation('ui');
 
-  const [isErrorCongName, setIsErrorCongName] = useState(false);
-  const [isErrorCongNumber, setIsErrorCongNumber] = useState(false);
-
-  const [congName, setCongName] = useRecoilState(congNameState);
-  const [congNumber, setCongNumber] = useRecoilState(congNumberState);
-  const [meetingDay, setMeetingDay] = useRecoilState(meetingDayState);
   const [classCount, setClassCount] = useRecoilState(classCountState);
+  const [meetingDay, setMeetingDay] = useRecoilState(meetingDayState);
   const [meetingTime, setMeetingTime] = useRecoilState(meetingTimeState);
 
-  const setAppSnackOpen = useSetRecoilState(appSnackOpenState);
-  const setAppSeverity = useSetRecoilState(appSeverityState);
-  const setAppMessage = useSetRecoilState(appMessageState);
+  const congName = useRecoilValue(congNameState);
+  const congNumber = useRecoilValue(congNumberState);
 
-  const [tempCongName, setTempCongName] = useState(congName);
-  const [tempCongNumber, setTempCongNumber] = useState(congNumber);
   const [tempMeetingDay, setTempMeetingDay] = useState(meetingDay);
   const [tempClassCount, setTempClassCount] = useState(classCount);
   const [tempMeetingTime, setTempMeetingTime] = useState(meetingTime);
   const [coName, setCoName] = useState('');
   const [coDisplayName, setCoDisplayName] = useState('');
 
-  const handleCongNameChange = (value) => {
-    if (value) {
-      setIsErrorCongName(false);
-    } else {
-      setIsErrorCongName(true);
-    }
-    setTempCongName(value);
-  };
-
-  const handleCongNumberChange = (value) => {
-    if (value) {
-      setIsErrorCongNumber(false);
-    } else {
-      setIsErrorCongNumber(true);
-    }
-    setTempCongNumber(value);
-  };
-
-  const handleMeetingDayChange = (e) => {
+  const handleMeetingDayChange = async (e) => {
     setTempMeetingDay(e.target.value);
+    await dbUpdateAppSettings({ meeting_day: e.target.value });
+    setMeetingDay(e.target.value);
   };
 
-  const handleClassChange = (e) => {
+  const handleClassChange = async (e) => {
     setTempClassCount(e.target.value);
+    await dbUpdateAppSettings({ class_count: e.target.value });
+    setClassCount(e.target.value);
   };
 
-  const handleMeetingTimeChange = (value) => {
+  const handleMeetingTimeChange = async (value) => {
     setTempMeetingTime(value);
+    await dbUpdateAppSettings({ meeting_time: value });
+    setMeetingTime(value);
   };
 
-  const handleChangeCOName = (value) => {
+  const handleChangeCOName = async (value) => {
     setCoName(value);
-    setCoDisplayName(generateDisplayName(value));
+
+    const dispName = generateDisplayName(value);
+    setCoDisplayName(dispName);
+
+    const obj = {};
+    obj.co_name = value;
+    obj.co_displayName = dispName;
+    await dbUpdateAppSettings(obj);
   };
 
-  const saveAppSettings = async () => {
-    const obj = {};
-    obj.cong_name = tempCongName;
-    obj.cong_number = tempCongNumber;
-    obj.class_count = tempClassCount;
-    obj.meeting_day = tempMeetingDay;
-    obj.meeting_time = tempMeetingTime;
-    obj.co_name = coName;
-    obj.co_displayName = coDisplayName;
-    await dbUpdateAppSettings(obj);
-
-    setCongName(tempCongName);
-    setCongNumber(tempCongNumber);
-    setClassCount(tempClassCount);
-    setMeetingDay(tempMeetingDay);
-    setMeetingTime(tempMeetingTime);
-
-    setAppSnackOpen(true);
-    setAppSeverity('success');
-    setAppMessage(t('saved'));
+  const handleChangeCODispName = async (value) => {
+    setCoDisplayName(value);
+    await dbUpdateAppSettings({ co_displayName: value });
   };
 
   useEffect(() => {
@@ -126,11 +93,8 @@ const BasicSettings = () => {
             size="small"
             autoComplete="off"
             required
-            error={isErrorCongName ? true : false}
-            helperText={isErrorCongName ? t('blankRequired') : null}
             sx={{ width: '320px' }}
-            value={tempCongName}
-            onChange={(e) => handleCongNameChange(e.target.value)}
+            value={congName}
             InputProps={{
               readOnly: true,
             }}
@@ -143,11 +107,8 @@ const BasicSettings = () => {
             size="small"
             autoComplete="off"
             required
-            error={isErrorCongNumber ? true : false}
-            helperText={isErrorCongName ? t('blankRequired') : null}
             sx={{ width: '120px' }}
-            value={tempCongNumber}
-            onChange={(e) => handleCongNumberChange(e.target.value)}
+            value={congNumber}
             InputProps={{
               readOnly: true,
             }}
@@ -224,19 +185,9 @@ const BasicSettings = () => {
             autoComplete="off"
             sx={{ width: '200px' }}
             value={coDisplayName}
-            onChange={(e) => setCoDisplayName(e.target.value)}
+            onChange={(e) => handleChangeCODispName(e.target.value)}
           />
         </Box>
-
-        <Button
-          variant="contained"
-          color="primary"
-          startIcon={<SaveIcon />}
-          onClick={() => saveAppSettings()}
-          sx={{ marginTop: '20px' }}
-        >
-          {t('save')}
-        </Button>
       </Box>
     </Box>
   );

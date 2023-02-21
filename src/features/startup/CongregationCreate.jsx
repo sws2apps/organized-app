@@ -135,7 +135,19 @@ const CongregationCreate = () => {
   };
 
   useEffect(() => {
-    if (user) setUserTmpFullname(user.displayName || '');
+    if (user) {
+      if (user.displayName !== null) {
+        setUserTmpFullname(user.displayName);
+        return;
+      }
+
+      if (user.displayName === null && user.providerData[0]?.displayName !== null) {
+        setUserTmpFullname(user.providerData[0].displayName);
+        return;
+      }
+
+      setUserTmpFullname('');
+    }
   }, [user]);
 
   useEffect(() => {

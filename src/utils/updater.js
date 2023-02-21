@@ -657,9 +657,24 @@ const updatePersonAssignments = async () => {
 };
 
 const checkAutoBackup = async () => {
-  const appSettings = await dbGetAppSettings();
+  let appSettings = await dbGetAppSettings();
   if (appSettings.autoBackup === undefined) {
-    const obj = { autoBackup: true, autoBackup_inteval: 1 };
+    const obj = { autoBackup_interval: 5 };
     await dbUpdateAppSettings(obj);
+  }
+
+  if (appSettings.autoBackup_interval === undefined) {
+    const obj = { autoBackup_interval: 5 };
+    await dbUpdateAppSettings(obj);
+  }
+
+  if (appSettings.autoBackup_interval === 1) {
+    await dbUpdateAppSettings({ autoBackup_interval: 5 });
+  }
+
+  appSettings = await dbGetAppSettings();
+  if (appSettings.autoBackup_inteval) {
+    delete appSettings.autoBackup_inteval;
+    await dbUpdateAppSettings({ ...appSettings }, true);
   }
 };

@@ -8,7 +8,7 @@ import Button from '@mui/material/Button';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import Typography from '@mui/material/Typography';
 import { monthNamesState, rootModalOpenState, sourceLangState } from '../states/main';
-import { currentScheduleState } from '../states/schedule';
+import { currentScheduleState, scheduleUseFullnameState } from '../states/schedule';
 import { classCountState, congNameState, congNumberState } from '../states/congregation';
 import { dbGetScheduleForPrint } from '../indexedDb/dbAssignment';
 import {
@@ -33,6 +33,7 @@ const S140 = () => {
   const congNumber = useRecoilValue(congNumberState);
   const monthNames = useRecoilValue(monthNamesState);
   const sourceLang = useRecoilValue(sourceLangState);
+  const scheduleUseFullname = useRecoilValue(scheduleUseFullnameState);
 
   const [data, setData] = useState([]);
 
@@ -73,7 +74,7 @@ const S140 = () => {
     return '';
   };
 
-  const getAssignedAYFPerson = (weekItem, fldType, fldStu, fldAss, stuClass) => {
+  const getAssignedAYFPerson = (weekItem, fldType, fldStu, fldAss, stuClass, scheduleUseFullname) => {
     if (
       weekItem.sourceData[fldType] === 101 ||
       weekItem.sourceData[fldType] === 102 ||
@@ -89,7 +90,8 @@ const S140 = () => {
         weekItem.scheduleData[fldAss] !== '' &&
         weekItem.scheduleData[fldAss] !== 'undefined'
       ) {
-        src += `/${weekItem.scheduleData[fldAss]}`;
+        src += ' / ';
+        src += weekItem.scheduleData[fldAss];
       }
 
       return src;
@@ -102,7 +104,11 @@ const S140 = () => {
       weekItem.sourceData[fldType] === 117
     ) {
       return stuClass === 'A'
-        ? weekItem.scheduleData.chairmanMM_A_dispName
+        ? scheduleUseFullname
+          ? weekItem.scheduleData.chairmanMM_A_name
+          : weekItem.scheduleData.chairmanMM_A_dispName
+        : scheduleUseFullname
+        ? weekItem.scheduleData.chairmanMM_B_name
         : weekItem.scheduleData.chairmanMM_B_dispName;
     }
 
@@ -146,10 +152,13 @@ const S140 = () => {
     return `${src}:`;
   };
 
-  const getAssignedCBS = (weekItem) => {
-    let src = weekItem.scheduleData.cbs_conductor_dispName;
+  const getAssignedCBS = (weekItem, scheduleUseFullname) => {
+    let src = scheduleUseFullname
+      ? weekItem.scheduleData.cbs_conductor_name
+      : weekItem.scheduleData.cbs_conductor_dispName;
     if (weekItem.scheduleData.cbs_reader_dispName && weekItem.scheduleData.cbs_reader_dispName !== '') {
-      src += `/${weekItem.scheduleData.cbs_reader_dispName}`;
+      src += ' / ';
+      src += scheduleUseFullname ? weekItem.scheduleData.cbs_reader_name : weekItem.scheduleData.cbs_reader_dispName;
     }
 
     return src;
@@ -280,7 +289,13 @@ const S140 = () => {
                               label={`${t('chairmanMidweekMeeting', { lng: sourceLang, ns: 'source' })}:`}
                               width="180px"
                             />
-                            <S140AssignedPerson person={weekItem.scheduleData.chairmanMM_A_dispName} />
+                            <S140AssignedPerson
+                              person={
+                                scheduleUseFullname
+                                  ? weekItem.scheduleData.chairmanMM_A_name
+                                  : weekItem.scheduleData.chairmanMM_A_dispName
+                              }
+                            />
                           </>
                         )}
                       </Box>
@@ -307,7 +322,13 @@ const S140 = () => {
                               width="180px"
                             />
                             <S140AssignedPerson
-                              person={classCount === 2 ? weekItem.scheduleData.chairmanMM_B_dispName : ''}
+                              person={
+                                classCount === 2
+                                  ? scheduleUseFullname
+                                    ? weekItem.scheduleData.chairmanMM_B_name
+                                    : weekItem.scheduleData.chairmanMM_B_dispName
+                                  : ''
+                              }
                             />
                           </>
                         )}
@@ -327,7 +348,13 @@ const S140 = () => {
                               label={`${t('prayerMidweekMeeting', { lng: sourceLang, ns: 'source' })}:`}
                               width="180px"
                             />
-                            <S140AssignedPerson person={weekItem.scheduleData.opening_prayer_dispName} />
+                            <S140AssignedPerson
+                              person={
+                                scheduleUseFullname
+                                  ? weekItem.scheduleData.opening_prayer_name
+                                  : weekItem.scheduleData.opening_prayer_dispName
+                              }
+                            />
                           </Box>
 
                           {/* 4th row for opening comments */}
@@ -363,7 +390,13 @@ const S140 = () => {
                                     partDuration="10 min."
                                   />
                                   <S140PartMiniLabel width="180px" />
-                                  <S140AssignedPerson person={weekItem.scheduleData.tgw_talk_dispName} />
+                                  <S140AssignedPerson
+                                    person={
+                                      scheduleUseFullname
+                                        ? weekItem.scheduleData.tgw_talk_name
+                                        : weekItem.scheduleData.tgw_talk_dispName
+                                    }
+                                  />
                                 </Box>
 
                                 {/* TGW Gems */}
@@ -375,7 +408,13 @@ const S140 = () => {
                                     partDuration="10 min."
                                   />
                                   <S140PartMiniLabel width="180px" />
-                                  <S140AssignedPerson person={weekItem.scheduleData.tgw_gems_dispName} />
+                                  <S140AssignedPerson
+                                    person={
+                                      scheduleUseFullname
+                                        ? weekItem.scheduleData.tgw_gems_name
+                                        : weekItem.scheduleData.tgw_gems_dispName
+                                    }
+                                  />
                                 </Box>
 
                                 {/* Bible Reading */}
@@ -388,9 +427,21 @@ const S140 = () => {
                                     partMiniLabel={`${t('student', { lng: sourceLang })}:`}
                                   />
                                   <S140AssignedPerson
-                                    person={classCount === 1 ? '' : weekItem.scheduleData.bRead_stu_B_dispName}
+                                    person={
+                                      classCount === 1
+                                        ? ''
+                                        : scheduleUseFullname
+                                        ? weekItem.scheduleData.bRead_stu_B_name
+                                        : weekItem.scheduleData.bRead_stu_B_dispName
+                                    }
                                   />
-                                  <S140AssignedPerson person={weekItem.scheduleData.bRead_stu_A_dispName} />
+                                  <S140AssignedPerson
+                                    person={
+                                      scheduleUseFullname
+                                        ? weekItem.scheduleData.bRead_stu_A_name
+                                        : weekItem.scheduleData.bRead_stu_A_dispName
+                                    }
+                                  />
                                 </Box>
 
                                 {/* AYF Heading */}
@@ -407,10 +458,18 @@ const S140 = () => {
                                   const fldType = 'ass' + index + '_type';
                                   const fldTime = 'ass' + index + '_time';
                                   const fldSrc = 'ass' + index + '_src';
-                                  const fldStuA = 'ass' + index + '_stu_A_dispName';
-                                  const fldAssA = 'ass' + index + '_ass_A_dispName';
-                                  const fldStuB = 'ass' + index + '_stu_B_dispName';
-                                  const fldAssB = 'ass' + index + '_ass_B_dispName';
+                                  const fldStuA = scheduleUseFullname
+                                    ? 'ass' + index + '_stu_A_name'
+                                    : 'ass' + index + '_stu_A_dispName';
+                                  const fldAssA = scheduleUseFullname
+                                    ? 'ass' + index + '_ass_A_name'
+                                    : 'ass' + index + '_ass_A_dispName';
+                                  const fldStuB = scheduleUseFullname
+                                    ? 'ass' + index + '_stu_B_name'
+                                    : 'ass' + index + '_stu_B_dispName';
+                                  const fldAssB = scheduleUseFullname
+                                    ? 'ass' + index + '_ass_B_name'
+                                    : 'ass' + index + '_ass_B_dispName';
                                   const fldAyfPart = 'ayf' + index;
 
                                   return (
@@ -427,11 +486,25 @@ const S140 = () => {
                                           <S140AssignedPerson
                                             person={
                                               classCount === 2 &&
-                                              getAssignedAYFPerson(weekItem, fldType, fldStuB, fldAssB, 'B')
+                                              getAssignedAYFPerson(
+                                                weekItem,
+                                                fldType,
+                                                fldStuB,
+                                                fldAssB,
+                                                'B',
+                                                scheduleUseFullname
+                                              )
                                             }
                                           />
                                           <S140AssignedPerson
-                                            person={getAssignedAYFPerson(weekItem, fldType, fldStuA, fldAssA, 'A')}
+                                            person={getAssignedAYFPerson(
+                                              weekItem,
+                                              fldType,
+                                              fldStuA,
+                                              fldAssA,
+                                              'A',
+                                              scheduleUseFullname
+                                            )}
                                           />
                                         </Box>
                                       )}
@@ -459,7 +532,9 @@ const S140 = () => {
                                   const fldTimeOverride = 'lcPart' + index + '_time_override';
                                   const fldSrc = 'lcPart' + index + '_src';
                                   const fldSrcOverride = 'lcPart' + index + '_src_override';
-                                  const fldPers = 'lc_part' + index + '_dispName';
+                                  const fldPers = scheduleUseFullname
+                                    ? 'lc_part' + index + '_name'
+                                    : 'lc_part' + index + '_dispName';
                                   const fldLcPart = 'lc' + index;
 
                                   return (
@@ -492,7 +567,13 @@ const S140 = () => {
                                         partDuration="3 min."
                                       />
                                       <S140PartMiniLabel width="180px" />
-                                      <S140AssignedPerson person={weekItem.scheduleData.chairmanMM_A_dispName} />
+                                      <S140AssignedPerson
+                                        person={
+                                          scheduleUseFullname
+                                            ? weekItem.scheduleData.chairmanMM_A_name
+                                            : weekItem.scheduleData.chairmanMM_A_dispName
+                                        }
+                                      />
                                     </Box>
 
                                     {/* Talk by CO */}
@@ -504,7 +585,13 @@ const S140 = () => {
                                         partDuration="30 min."
                                       />
                                       <S140PartMiniLabel width="180px" />
-                                      <S140AssignedPerson person={weekItem.scheduleData.co_displayName} />
+                                      <S140AssignedPerson
+                                        person={
+                                          scheduleUseFullname
+                                            ? weekItem.scheduleData.co_name
+                                            : weekItem.scheduleData.co_displayName
+                                        }
+                                      />
                                     </Box>
                                   </>
                                 )}
@@ -513,7 +600,7 @@ const S140 = () => {
                                 {weekItem.scheduleData.week_type === 1 && (
                                   <>
                                     {/* CBS */}
-                                    <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '2px' }}>
+                                    <Box sx={{ display: 'flex', alignItems: 'flex-start', marginBottom: '2px' }}>
                                       <S140MeetingTime partTime={weekItem.sourceData.cbs} />
                                       <S140MeetingPartText
                                         partType="lc"
@@ -521,7 +608,7 @@ const S140 = () => {
                                         partDuration={`${getCBSTime(weekItem)} min.`}
                                       />
                                       <S140PartMiniLabel align="right" label={cbsLabel(weekItem)} width="180px" />
-                                      <S140AssignedPerson person={getAssignedCBS(weekItem)} />
+                                      <S140AssignedPerson person={getAssignedCBS(weekItem, scheduleUseFullname)} />
                                     </Box>
 
                                     {/* Concluding Comments */}
@@ -533,7 +620,13 @@ const S140 = () => {
                                         partDuration="3 min."
                                       />
                                       <S140PartMiniLabel width="180px" />
-                                      <S140AssignedPerson person={weekItem.scheduleData.chairmanMM_A_dispName} />
+                                      <S140AssignedPerson
+                                        person={
+                                          scheduleUseFullname
+                                            ? weekItem.scheduleData.chairmanMM_A_name
+                                            : weekItem.scheduleData.chairmanMM_A_dispName
+                                        }
+                                      />
                                     </Box>
                                   </>
                                 )}
@@ -547,7 +640,13 @@ const S140 = () => {
                                     label={`${t('prayerMidweekMeeting', { lng: sourceLang, ns: 'source' })}:`}
                                     width="180px"
                                   />
-                                  <S140AssignedPerson person={weekItem.scheduleData.closing_prayer_dispName} />
+                                  <S140AssignedPerson
+                                    person={
+                                      scheduleUseFullname
+                                        ? weekItem.scheduleData.closing_prayer_name
+                                        : weekItem.scheduleData.closing_prayer_dispName
+                                    }
+                                  />
                                 </Box>
                               </>
                             )}

@@ -30,14 +30,17 @@ export const dbGetBaseScheduleDate = async (weekValue) => {
   }
 
   for await (const item of assList) {
+    const fldName = `${item.assignment}_name`;
     const fldDispName = `${item.assignment}_dispName`;
 
     if (item.person) {
       const student = await dbGetStudentByUid(item.person);
       schedule[item.assignment] = item.person;
+      schedule[fldName] = student?.person_name || '';
       schedule[fldDispName] = student?.person_displayName || '';
     } else {
       schedule[item.assignment] = '';
+      schedule[fldName] = '';
       schedule[fldDispName] = '';
     }
   }

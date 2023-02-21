@@ -2,7 +2,7 @@ export { default as BasicSettings } from './BasicSettings';
 export { default as DataStorage } from './DataStorage';
 export { default as DialogDbDeletion } from './DialogDbDeletion';
 export { default as MyAccount } from './MyAccount';
-export { default as SourceLangSwitcher } from './SourceLangSwitcher';
+export { default as SourcesFormsSettings } from './SourcesFormsSettings';
 export { default as User2FA } from './User2FA';
 export { default as UserFullname } from './UserFullname';
 export { default as UserSessionItem } from './UserSessionItem';
