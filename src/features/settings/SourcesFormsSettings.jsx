@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
@@ -21,8 +21,7 @@ const SourcesFormsSettings = () => {
   const { t } = useTranslation('ui');
 
   const [scheduleUseFullname, setScheduleUseFullname] = useRecoilState(scheduleUseFullnameState);
-
-  const sourceLang = useRecoilValue(sourceLangState);
+  const [sourceLang, setSourceLang] = useRecoilState(sourceLangState);
 
   const [tempSourceLang, setTempSourceLang] = useState(sourceLang);
   const [useFullname, setUseFullname] = useState(scheduleUseFullname);
@@ -33,6 +32,7 @@ const SourcesFormsSettings = () => {
     if (e.target.value === 'not_set') return;
     setTempSourceLang(e.target.value);
     await dbUpdateAppSettings({ source_lang: e.target.value });
+    setSourceLang(e.target.value);
   };
 
   const handleChangeFullnameSwitch = async (value) => {
