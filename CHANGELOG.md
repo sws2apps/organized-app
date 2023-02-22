@@ -1,3 +1,11 @@
+# [2.40.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.39.0...v2.40.0) (2023-02-22)
+
+
+### Features
+
+* **auth:** add option to set device as trusted ([614ebf3](https://github.com/sws2apps/lmm-oa-sws/commit/614ebf3cbdb12971d7d31e24485f59dec8ec0d7b))
+* **deps:** bump @tanstack/react-query from 4.24.9 to 4.24.10 ([25ca76c](https://github.com/sws2apps/lmm-oa-sws/commit/25ca76c60890f9cf28ab070bf4bbdabd8d84187b))
+
 # [2.39.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.38.2...v2.39.0) (2023-02-21)
 
 
