@@ -4,8 +4,10 @@ import { useTranslation } from 'react-i18next';
 import { MuiOtpInput } from 'mui-one-time-password-input';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import Checkbox from '@mui/material/Checkbox';
 import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import Typography from '@mui/material/Typography';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../../states/notification';
 import {
@@ -33,6 +35,7 @@ const validateChar = (value, index) => {
 
 const VerifyMFA = () => {
   const cancel = useRef();
+  const trustDevice = useRef();
 
   const { t } = useTranslation('ui');
 
@@ -63,7 +66,7 @@ const VerifyMFA = () => {
       setIsProcessing(true);
       cancel.current = false;
 
-      const response = await apiHandleVerifyOTP(userOTP, false);
+      const response = await apiHandleVerifyOTP(userOTP, false, trustDevice.current.checked);
 
       if (!cancel.current) {
         if (response.success) {
@@ -165,9 +168,13 @@ const VerifyMFA = () => {
         />
       </Box>
 
+      <Box sx={{ marginTop: '15px' }}>
+        <FormControlLabel control={<Checkbox inputRef={trustDevice} />} label={t('trustDevice')} />
+      </Box>
+
       <Box
         sx={{
-          marginTop: '20px',
+          marginTop: '15px',
           display: 'flex',
           justifyContent: 'flex-end',
           alignItems: 'center',

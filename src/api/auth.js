@@ -52,7 +52,7 @@ export const apiSendAuthorization = async () => {
   }
 };
 
-export const apiHandleVerifyOTP = async (userOTP, isSetup) => {
+export const apiHandleVerifyOTP = async (userOTP, isSetup, trustedDevice) => {
   try {
     const { t } = getI18n();
 
@@ -70,7 +70,7 @@ export const apiHandleVerifyOTP = async (userOTP, isSetup) => {
             visitorid: visitorID,
             uid: user.uid,
           },
-          body: JSON.stringify({ token: userOTP }),
+          body: JSON.stringify({ token: userOTP, trusted: trustedDevice }),
         });
 
         const data = await res.json();

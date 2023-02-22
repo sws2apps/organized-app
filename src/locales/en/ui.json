@@ -476,5 +476,6 @@
   "autoBackup": "CPE Automatic Backup",
   "enableLabel": "Enable",
   "backupIntervalLabel": "Interval",
-  "scheduleUseFullname": "Use Fullname in S-140"
+  "scheduleUseFullname": "Use Fullname in S-140",
+  "trustDevice": "Trust this device"
 }
