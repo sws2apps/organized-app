@@ -21,11 +21,13 @@ export const isStudentDetailsOpenState = selector({
     const isAdd = get(isStudentAddState);
     const isEdit = get(isStudentEditState);
 
+    let isDetailOpen = true;
+
     if (!isAdd && !isEdit) {
-      return false;
+      isDetailOpen = false;
     }
 
-    return true;
+    return isDetailOpen;
   },
 });
 

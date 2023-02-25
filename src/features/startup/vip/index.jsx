@@ -89,7 +89,6 @@ const VipStartup = () => {
           setIsSetup(false);
           setIsAppLoad(false);
         }, [1000]);
-        return;
       }
     };
 

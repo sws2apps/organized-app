@@ -35,14 +35,14 @@ export const dbGetListAssType = async () => {
   let obj = {};
   const appData = await appDb.table('assignment').reverse().reverse().sortBy('code');
 
-  for (let i = 0; i < appData.length; i++) {
+  for (const item of appData) {
     obj = {};
-    obj.code = appData[i].code;
-    obj.assignable = appData[i].assignable;
-    obj.assignment_type_name = appData[i].assignment_type_name;
-    obj.maleOnly = appData[i].maleOnly || false;
-    obj.type = appData[i].type;
-    obj.linkTo = appData[i].linkTo;
+    obj.code = item.code;
+    obj.assignable = item.assignable;
+    obj.assignment_type_name = item.assignment_type_name;
+    obj.maleOnly = item.maleOnly || false;
+    obj.type = item.type;
+    obj.linkTo = item.linkTo;
     assType.push(obj);
   }
   return assType;
@@ -84,18 +84,19 @@ export const dbHistoryAssignment = async () => {
 
     if (persons > 0) {
       let histID = 0;
-      for (let i = 0; i < appData.length; i++) {
+
+      for await (const schedule of appData) {
         let person = {};
 
-        const weekData = await dbGetSourceMaterial(appData[i].weekOf);
-        const [varMonth, varDay, varYear] = appData[i].weekOf.split('/');
+        const weekData = await dbGetSourceMaterial(schedule.weekOf);
+        const [varMonth, varDay, varYear] = schedule.weekOf.split('/');
         const lDate = new Date(varYear, varMonth - 1, varDay);
         const shortDateFormat = await promiseGetRecoil(shortDateFormatState);
         const dateFormatted = dateFormat(lDate, shortDateFormat);
 
         const assList = [];
         const excludeFiles = ['weekOf', 'week_type', 'noMeeting', 'isReleased', 'changes'];
-        for (const [key, value] of Object.entries(appData[i])) {
+        for (const [key, value] of Object.entries(schedule)) {
           if (excludeFiles.indexOf(key) === -1 && key.indexOf('_name') === -1 && key.indexOf('_dispName') === -1) {
             if (value && value !== '') {
               assList.push({ assignment: key, person: value });
@@ -105,7 +106,7 @@ export const dbHistoryAssignment = async () => {
 
         for await (const item of assList) {
           person.ID = histID;
-          person.weekOf = appData[i].weekOf;
+          person.weekOf = schedule.weekOf;
           person.weekOfFormatted = dateFormatted;
           person.studentID = item.person;
           const stuDetails = await dbGetStudentByUid(item.person);
@@ -224,6 +225,7 @@ export const dbHistoryAssignment = async () => {
           histID++;
         }
       }
+
       dbHistory.sort((a, b) => {
         const dateA = a.weekOf.split('/')[2] + '/' + a.weekOf.split('/')[0] + '/' + a.weekOf.split('/')[1];
         const dateB = b.weekOf.split('/')[2] + '/' + b.weekOf.split('/')[0] + '/' + b.weekOf.split('/')[1];
@@ -562,8 +564,8 @@ export const dbGetS89WeekList = async (scheduleName) => {
   const s89Data = [];
   const allWeeks = await dbGetWeekListBySched(scheduleName);
 
-  for (let i = 0; i < allWeeks.length; i++) {
-    const week = allWeeks[i].value;
+  for await (const item of allWeeks) {
+    const week = item.value;
     const scheduleData = await dbGetScheduleData(week);
     if (!scheduleData.noMeeting) {
       const parentWeek = {};
@@ -636,6 +638,7 @@ export const dbGetS89WeekList = async (scheduleName) => {
       }
     }
   }
+
   const obj = {};
   obj.value = 'S89';
   obj.label = getI18n().t('allWeeks', { ns: 'ui' });
