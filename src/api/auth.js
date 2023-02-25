@@ -4,7 +4,13 @@ import { promiseGetRecoil, promiseSetRecoil } from 'recoil-outside';
 import { dbGetAppSettings, dbUpdateAppSettings } from '../indexedDb/dbAppSettings';
 import { initAppDb, isDbExist } from '../indexedDb/dbUtility';
 import { congIDState, isAdminCongState, pocketMembersState } from '../states/congregation';
-import { isOAuthAccountUpgradeState, qrCodePathState, secretTokenPathState, userIDState } from '../states/main';
+import {
+  accountTypeState,
+  isOAuthAccountUpgradeState,
+  qrCodePathState,
+  secretTokenPathState,
+  userIDState,
+} from '../states/main';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../states/notification';
 import { loadApp } from '../utils/app';
 import { getProfile } from './common';
@@ -124,10 +130,12 @@ export const apiHandleVerifyOTP = async (userOTP, isSetup, trustedDevice) => {
         obj.isLoggedOut = false;
         obj.pocket_members = pocket_members;
         obj.cong_role = cong_role;
+        obj.account_type = 'vip';
         await dbUpdateAppSettings(obj);
 
         await promiseSetRecoil(userIDState, id);
         await promiseSetRecoil(pocketMembersState, pocket_members);
+        await promiseSetRecoil(accountTypeState, 'vip');
 
         await loadApp();
 

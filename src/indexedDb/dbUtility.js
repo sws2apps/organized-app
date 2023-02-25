@@ -402,9 +402,11 @@ export const dbRestoreCongregationBackup = async (
 
   // handle new schedule record
   for await (const newSchedule of cong_schedule) {
-    const oldSchedule = oldSchedules.find((schedule) => schedule.weekOf === newSchedule.weekOf);
-    if (!oldSchedule) {
-      await appDb.sched_MM.put(newSchedule, newSchedule.weekOf);
+    if (newSchedule.weekOf) {
+      const oldSchedule = oldSchedules.find((schedule) => schedule.weekOf === newSchedule.weekOf);
+      if (!oldSchedule) {
+        await appDb.sched_MM.put(newSchedule, newSchedule.weekOf);
+      }
     }
   }
 
