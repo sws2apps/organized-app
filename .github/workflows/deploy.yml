@@ -8,10 +8,10 @@ permissions: read-all
 jobs:
   dev_deploy:
     name: Build and Deploy to Production
-    if: ${{ github.repository == 'sws2apps/lmm-oa-sws' && github.ref == 'refs/heads/main' }}
+    if: ${{ github.repository == 'sws2apps/cpe-sws' && github.ref == 'refs/heads/main' }}
     environment:
       name: Prod.env
-      url: https://lmm-oa-sws.web.app
+      url: https://cpe-sws.web.app
     runs-on: ubuntu-latest
 
     permissions:
@@ -41,11 +41,8 @@ jobs:
           VITE_FIREBASE_APIKEY: ${{ secrets.VITE_FIREBASE_APIKEY }}
           VITE_FIREBASE_AUTHDOMAIN: ${{ secrets.VITE_FIREBASE_AUTHDOMAIN }}
           VITE_FIREBASE_PROJECTID: ${{ secrets.VITE_FIREBASE_PROJECTID }}
-          VITE_FIREBASE_ANALYTICS_APIKEY: ${{ secrets.VITE_FIREBASE_ANALYTICS_APIKEY }}
-          VITE_FIREBASE_ANALYTICS_AUTHDOMAIN: ${{ secrets.VITE_FIREBASE_ANALYTICS_AUTHDOMAIN }}
-          VITE_FIREBASE_ANALYTICS_PROJECTID: ${{ secrets.VITE_FIREBASE_ANALYTICS_PROJECTID }}
-          VITE_FIREBASE_ANALYTICS_APPID: ${{ secrets.VITE_FIREBASE_ANALYTICS_APPID }}
-          VITE_FIREBASE_ANALYTICS_MEASUREMENTID: ${{ secrets.VITE_FIREBASE_ANALYTICS_MEASUREMENTID }}
+          VITE_FIREBASE_APPID: ${{ secrets.VITE_FIREBASE_APPID }}
+          VITE_FIREBASE_MEASUREMENTID: ${{ secrets.VITE_FIREBASE_MEASUREMENTID }}
 
       - name: Check if new version has been generated
         id: check_build
@@ -59,4 +56,4 @@ jobs:
         with:
           workloadIdentityProvider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
           serviceAccount: ${{ secrets.SERVICE_ACCOUNT }}
-          project: lmm-oa-sws
+          project: cpe-sws

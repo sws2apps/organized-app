@@ -1,7 +1,7 @@
 {
-  "projects": {
-    "production": "lmm-oa-sws",
-    "default": "lmm-oa-sws"
-  },
-  "targets": {}
+	"projects": {
+		"production": "cpe-sws",
+		"default": "cpe-sws"
+	},
+	"targets": {}
 }
