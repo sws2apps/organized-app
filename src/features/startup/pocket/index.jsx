@@ -10,12 +10,11 @@ import {
   isUnauthorizedRoleState,
   visitorIDState,
 } from '../../../states/main';
-import { apiPocketValidate } from '../../../api';
+import { apiFetchSchedule, apiPocketValidate } from '../../../api';
 import { loadApp } from '../../../utils/app';
 import { dbUpdateUserSettings } from '../../../indexedDb/dbAppSettings';
 import { congAccountConnectedState } from '../../../states/congregation';
 import { runUpdater } from '../../../utils/updater';
-import { apiFetchSchedule } from '../../../api';
 
 // lazy loading
 const PocketSignUp = lazy(() => import('./PocketSignUp'));

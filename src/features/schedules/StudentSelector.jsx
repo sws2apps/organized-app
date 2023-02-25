@@ -126,12 +126,12 @@ const StudentSelector = (props) => {
 
       // remove unavailable students based on time away
       let available = [];
-      for (let a = 0; a < students.length; a++) {
-        const student = students[a];
+      for (const student of students) {
         if (student.timeAway.length === 0) {
           available.push(student);
         } else {
           const timeAways = student.timeAway;
+
           for (let b = 0; b < timeAways.length; b++) {
             const timeAway = timeAways[b];
 

@@ -242,9 +242,7 @@ const StudentAdvancedSearch = ({
     setIsCBSConductor(false);
     setIsCBSReader(false);
 
-    for (let i = 0; i < assTypes.length; i++) {
-      const type = assTypes[i];
-
+    for (const type of assTypes) {
       if (type === 110) setIsChairman(true);
       if (type === 111) setIsPrayer(true);
       if (type === 112) setIsTGWTalk(true);

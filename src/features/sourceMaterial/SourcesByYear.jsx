@@ -15,10 +15,10 @@ const SourcesByYear = ({ year }) => {
   const getMonthlySources = useCallback(async () => {
     const data = await dbGetScheduleListByYear(year);
     let newData = [];
-    for (let i = 0; i < data.length; i++) {
-      let obj = {};
-      obj.value = data[i].value;
-      const monthIndex = parseInt(data[i].value.split('/')[0], 10);
+    for (const item of data) {
+      const obj = {};
+      obj.value = item.value;
+      const monthIndex = parseInt(item.value.split('/')[0], 10);
       obj.label = `${monthNames[monthIndex - 1]} ${year}`;
       newData.push(obj);
     }
