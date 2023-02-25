@@ -1,3 +1,12 @@
+# [2.41.0](https://github.com/sws2apps/cpe-sws/compare/v2.40.0...v2.41.0) (2023-02-25)
+
+
+### Features
+
+* **app:** cpe app combined ([05696ee](https://github.com/sws2apps/cpe-sws/commit/05696ee5a9886db7f213de4f198c92b3b2bdb1e1))
+* **deps:** bump @mui/x-date-pickers from 5.0.19 to 5.0.20 ([5ac66c0](https://github.com/sws2apps/cpe-sws/commit/5ac66c03d3c8283ffabeacb9f5c23a9c0d3989eb))
+* **deps:** bump react-i18next from 12.1.5 to 12.2.0 ([717be09](https://github.com/sws2apps/cpe-sws/commit/717be0946f8a7442698fa241c6477b31d583def3))
+
 # [2.40.0](https://github.com/sws2apps/lmm-oa-sws/compare/v2.39.0...v2.40.0) (2023-02-22)
 
 
