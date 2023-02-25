@@ -50,7 +50,7 @@ export const isValidJSON = async (fileJSON) => {
 
   const data = await getJSON();
   if (data.formatName === 'dexie') {
-    if (data.data.databaseName === 'lmm_oa') {
+    if (data.data.databaseName === 'cpe_sws') {
       isValid = true;
     }
   }
@@ -135,7 +135,17 @@ export const dbExportDataOnline = async () => {
   const dbSourceMaterial = await appDb.src.toArray();
 
   // get schedules
-  const dbSchedule = await appDb.sched_MM.toArray();
+  const tmpSchedule = await appDb.sched_MM.toArray();
+  const dbSchedule = [];
+  for (const schedule of tmpSchedule) {
+    const obj = {};
+    for (const [key, value] of Object.entries(schedule)) {
+      if (key.indexOf('_name') === -1 && key.indexOf('_dispName') === -1) {
+        obj[key] = value;
+      }
+    }
+    dbSchedule.push(obj);
+  }
 
   // get sws-pocket schedules
   const dbPocketTbl = await appDb.sws_pocket.toArray();

@@ -5,18 +5,19 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import FingerprintJS from '@fingerprintjs/fingerprintjs-pro';
 import CssBaseline from '@mui/material/CssBaseline';
-import { apiHostState, isLightThemeState, isOnlineState, visitorIDState } from './states/main';
 import { InternetChecker } from './features/internetChecker';
-import { appSnackOpenState } from './states/notification';
 import DashboardMenu from './pages/DashboardMenu';
 import NotificationWrapper from './features/notificationWrapper';
 import Layout from './components/Layout';
-import PrivateRoot from './components/PrivateRoot';
-import { congAccountConnectedState } from './states/congregation';
+import PrivateVipConnectedRoute from './components/PrivateVipConnectedRoute';
+import PrivateVipRoute from './components/PrivateVipRoute';
 import WeeklyAssignments from './pages/WeeklyAssignments';
 import CongregationSettings from './pages/CongregationSettings';
 import ErrorBoundary from './components/ErrorBoundary';
 import backupWorkerInstance from './workers/backupWorker';
+import { accountTypeState, apiHostState, isLightThemeState, isOnlineState, visitorIDState } from './states/main';
+import { congAccountConnectedState } from './states/congregation';
+import { appSnackOpenState } from './states/notification';
 
 // lazy loading
 const Administration = lazy(() => import('./pages/Administration'));
@@ -55,6 +56,7 @@ const App = ({ updatePwa }) => {
   const isLight = useRecoilValue(isLightThemeState);
   const appSnackOpen = useRecoilValue(appSnackOpenState);
   const isCongAccountConnected = useRecoilValue(congAccountConnectedState);
+  const accountType = useRecoilValue(accountTypeState);
 
   const [activeTheme, setActiveTheme] = useState(darkTheme);
 
@@ -65,67 +67,72 @@ const App = ({ updatePwa }) => {
       children: [
         { path: '/', element: <DashboardMenu /> },
         {
-          path: '/persons',
-          element: <Persons />,
-        },
-        {
-          path: '/persons/new',
-          element: <PersonDetails />,
-        },
-        {
-          path: '/persons/:id',
-          element: <PersonDetails />,
-        },
-        {
           path: '/schedules/view/:weekToFormat',
           element: <WeeklyAssignments />,
-        },
-        {
-          path: '/schedules',
-          element: <Schedules />,
-        },
-        {
-          path: '/schedules/:schedule',
-          element: <ScheduleDetails />,
-        },
-        {
-          path: '/schedules/:schedule/:weekToFormat',
-          element: <ScheduleWeekDetails />,
-        },
-        {
-          path: '/assignment-form',
-          element: <S89 />,
-        },
-        {
-          path: '/midweek-meeting-schedule',
-          element: <S140 />,
-        },
-        {
-          path: '/source-materials',
-          element: <SourceMaterials />,
-        },
-        {
-          path: '/source-materials/:weekToFormat',
-          element: <SourceWeekDetails />,
         },
         {
           path: '/user-settings',
           element: <Settings />,
         },
         {
-          path: '/congregation-settings',
-          element: <CongregationSettings />,
-        },
-        {
-          element: <PrivateRoot isCongAccountConnected={isCongAccountConnected} />,
+          element: <PrivateVipRoute accountType={accountType} />,
           children: [
             {
-              path: '/administration',
-              element: <Administration />,
+              path: '/persons',
+              element: <Persons />,
             },
             {
-              path: '/administration/members/:id',
-              element: <CongregationPersonDetails />,
+              path: '/persons/new',
+              element: <PersonDetails />,
+            },
+            {
+              path: '/persons/:id',
+              element: <PersonDetails />,
+            },
+            {
+              path: '/schedules',
+              element: <Schedules />,
+            },
+            {
+              path: '/schedules/:schedule',
+              element: <ScheduleDetails />,
+            },
+            {
+              path: '/schedules/:schedule/:weekToFormat',
+              element: <ScheduleWeekDetails />,
+            },
+            {
+              path: '/assignment-form',
+              element: <S89 />,
+            },
+            {
+              path: '/midweek-meeting-schedule',
+              element: <S140 />,
+            },
+            {
+              path: '/source-materials',
+              element: <SourceMaterials />,
+            },
+            {
+              path: '/source-materials/:weekToFormat',
+              element: <SourceWeekDetails />,
+            },
+            {
+              path: '/congregation-settings',
+              element: <CongregationSettings />,
+            },
+            {
+              element: <PrivateVipConnectedRoute isCongAccountConnected={isCongAccountConnected} />,
+              children: [
+                {
+                  path: '/administration',
+                  element: <Administration />,
+                },
+                {
+                  path: '/administration/members/:id',
+                  element: <CongregationPersonDetails />,
+                },
+              ],
             },
           ],
         },

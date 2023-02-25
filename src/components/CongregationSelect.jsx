@@ -6,7 +6,7 @@ import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import HomeWorkIcon from '@mui/icons-material/HomeWork';
 import TextField from '@mui/material/TextField';
-import { apiFetchCongregations } from '../api/congregation';
+import { apiFetchCongregations } from '../api';
 
 const CongregationSelect = ({ country, setCongregation }) => {
   const queryClient = useQueryClient();

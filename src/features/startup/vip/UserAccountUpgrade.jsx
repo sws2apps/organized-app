@@ -16,9 +16,9 @@ import {
   isOnlineState,
   userEmailState,
   visitorIDState,
-} from '../../states/main';
-import { appMessageState, appSeverityState, appSnackOpenState } from '../../states/notification';
-import { isEmailValid } from '../../utils/emailValid';
+} from '../../../states/main';
+import { appMessageState, appSeverityState, appSnackOpenState } from '../../../states/notification';
+import { isEmailValid } from '../../../utils/emailValid';
 import OAuth from './OAuth';
 import EmailAuth from './EmailAuth';
 

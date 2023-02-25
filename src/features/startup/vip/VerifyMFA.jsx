@@ -9,7 +9,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Typography from '@mui/material/Typography';
-import { appMessageState, appSeverityState, appSnackOpenState } from '../../states/notification';
+import { appMessageState, appSeverityState, appSnackOpenState } from '../../../states/notification';
 import {
   isAppLoadState,
   isCongAccountCreateState,
@@ -20,10 +20,10 @@ import {
   isUserMfaVerifyState,
   offlineOverrideState,
   visitorIDState,
-} from '../../states/main';
-import { congAccountConnectedState } from '../../states/congregation';
-import { apiHandleVerifyOTP } from '../../api/auth';
-import { runUpdater } from '../../utils/updater';
+} from '../../../states/main';
+import { congAccountConnectedState } from '../../../states/congregation';
+import { apiHandleVerifyOTP } from '../../../api';
+import { runUpdater } from '../../../utils/updater';
 
 const matchIsNumeric = (text) => {
   return !isNaN(Number(text));

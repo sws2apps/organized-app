@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import BlockIcon from '@mui/icons-material/Block';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import { isEmailBlockedState, isUserSignInState } from '../../states/main';
+import { isEmailBlockedState, isUserSignInState } from '../../../states/main';
 
 const EmailBlocked = () => {
   const { t } = useTranslation('ui');

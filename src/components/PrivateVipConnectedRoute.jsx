@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from 'react-router-dom';
 
-function PrivateRoute({ isCongAccountConnected }) {
+function PrivateVipConnectedRoute({ isCongAccountConnected }) {
   return isCongAccountConnected ? <Outlet /> : <Navigate to="/" />;
 }
 
-export default PrivateRoute;
+export default PrivateVipConnectedRoute;

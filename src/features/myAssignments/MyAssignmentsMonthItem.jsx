@@ -1,11 +1,12 @@
+import { useTranslation } from 'react-i18next';
 import { blue, deepOrange, indigo } from '@mui/material/colors';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import { t } from 'i18next';
 
 const MyAssignmentsMonthItem = ({ assignment }) => {
+  const { t } = useTranslation('ui');
   const { weekOf, assignmentContent, assignmentName, assignmentSource, assignmentTime, studyPoint } = assignment;
 
   const dateValue = weekOf.split('/')[1];

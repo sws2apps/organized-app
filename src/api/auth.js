@@ -14,10 +14,10 @@ export const apiSendAuthorization = async () => {
   try {
     const { apiHost, isOnline, visitorID } = await getProfile();
 
-    const auth = await getAuth();
-    const user = auth.currentUser;
+    if (isOnline && apiHost !== '') {
+      const auth = await getAuth();
+      const user = auth.currentUser;
 
-    if (isOnline && apiHost !== '' && visitorID && user) {
       const res = await fetch(`${apiHost}user-login`, {
         method: 'POST',
         headers: {
@@ -113,7 +113,7 @@ export const apiHandleVerifyOTP = async (userOTP, isSetup, trustedDevice) => {
           await promiseSetRecoil(isAdminCongState, true);
         }
 
-        const isMainDb = await isDbExist('lmm_oa');
+        const isMainDb = await isDbExist('cpe_sws');
         if (!isMainDb) await initAppDb();
 
         // save congregation update if any
@@ -123,6 +123,7 @@ export const apiHandleVerifyOTP = async (userOTP, isSetup, trustedDevice) => {
         obj.cong_number = cong_number;
         obj.isLoggedOut = false;
         obj.pocket_members = pocket_members;
+        obj.cong_role = cong_role;
         await dbUpdateAppSettings(obj);
 
         await promiseSetRecoil(userIDState, id);
@@ -231,5 +232,92 @@ export const apiUpdatePasswordlessInfo = async (uid) => {
     await promiseSetRecoil(appSeverityState, 'error');
     await promiseSetRecoil(appSnackOpenState, true);
     return {};
+  }
+};
+
+export const apiPocketSignUp = async (code) => {
+  const { apiHost, visitorID } = await getProfile();
+
+  try {
+    if (apiHost !== '') {
+      const res = await fetch(`${apiHost}api/sws-pocket/signup`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ visitorid: visitorID, otp_code: code.toUpperCase() }),
+      });
+
+      const data = await res.json();
+
+      return { status: res.status, data };
+    }
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+export const apiPocketValidate = async () => {
+  const { apiHost, visitorID } = await getProfile();
+
+  try {
+    if (apiHost !== '') {
+      const res = await fetch(`${apiHost}api/sws-pocket/validate-me`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          visitorid: visitorID,
+        },
+      });
+
+      const data = await res.json();
+
+      return { status: res.status, data };
+    }
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+export const apiFetchPocketSessions = async () => {
+  const { apiHost, userID, visitorID } = await getProfile();
+
+  try {
+    if (apiHost !== '') {
+      const res = await fetch(`${apiHost}api/sws-pocket/${userID}/devices`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          visitorid: visitorID,
+        },
+      });
+
+      return res.json();
+    }
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+export const apiPocketDeviceDelete = async (pocket_visitorid) => {
+  const { apiHost, userID, visitorID } = await getProfile();
+
+  try {
+    if (apiHost !== '') {
+      const res = await fetch(`${apiHost}api/sws-pocket/${userID}/devices`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          visitorid: visitorID,
+        },
+        body: JSON.stringify({ pocket_visitorid }),
+      });
+
+      const data = await res.json();
+
+      return { status: res.status, data };
+    }
+  } catch (err) {
+    throw new Error(err);
   }
 };

@@ -1,14 +1,16 @@
 import { getProfile } from './common';
+import { dbGetAppSettings } from '../indexedDb/dbAppSettings';
 
 export const fetchNotifications = async () => {
   try {
     const { apiHost, isOnline } = await getProfile();
+    const settings = await dbGetAppSettings();
     if (isOnline && apiHost !== '') {
       const res = await fetch(`${apiHost}api/users/announcement-v2`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          app: 'lmmo',
+          cong_role: settings.cong_role,
         },
       });
 

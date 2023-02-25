@@ -1,4 +1,4 @@
-import { useEffect, Suspense } from 'react';
+import { useEffect, Suspense, lazy } from 'react';
 import { Outlet, useLocation, useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { useRecoilValue } from 'recoil';
@@ -9,6 +9,7 @@ import RootModal from './RootModal';
 import UserAutoLogin from '../features/userAutoLogin';
 import { BackupDbDialog, RestoreDbDialog } from '../features/backupRestore';
 import {
+  accountTypeState,
   backupDbOpenState,
   isAboutOpenState,
   isAppLoadState,
@@ -17,8 +18,7 @@ import {
   restoreDbOpenState,
   userConfirmationOpenState,
 } from '../states/main';
-import EmailLinkAuthentication from '../features/startup/EmailLinkAuthentication';
-import Startup from '../features/startup';
+import EmailLinkAuthentication from '../features/startup/vip/EmailLinkAuthentication';
 import NavBar from './NavBar';
 import { dlgAssDeleteOpenState, dlgAutoFillOpenState, isPublishOpenState } from '../states/schedule';
 import { AutofillSchedule, DeleteSchedule, SchedulePublish } from '../features/schedules';
@@ -28,10 +28,13 @@ import { AppUpdater } from '../features/updater';
 import { MyAssignments } from '../features/myAssignments';
 import { CongregationPersonAdd } from '../features/congregationPersons';
 import WaitingPage from './WaitingPage';
-import { fetchNotifications } from '../api/notification';
+import { fetchNotifications } from '../api';
 import { dbSaveNotifications } from '../indexedDb/dbNotifications';
 import { WhatsNewContent } from '../features/whatsNew';
 import UserConfirmation from './UserConfirmation';
+
+// lazy loading
+const Startup = lazy(() => import('../features/startup'));
 
 const Layout = ({ updatePwa }) => {
   let location = useLocation();
@@ -60,6 +63,7 @@ const Layout = ({ updatePwa }) => {
   const isCongPersonAdd = useRecoilValue(isCongPersonAddState);
   const isOnline = useRecoilValue(isOnlineState);
   const isUserConfirm = useRecoilValue(userConfirmationOpenState);
+  const accountType = useRecoilValue(accountTypeState);
 
   const checkPwaUpdate = () => {
     if ('serviceWorker' in navigator) {
@@ -84,7 +88,7 @@ const Layout = ({ updatePwa }) => {
       <AppUpdater updatePwa={updatePwa} enabledInstall={enabledInstall} />
 
       <Box sx={{ padding: '10px' }}>
-        <UserAutoLogin />
+        {accountType === 'vip' && <UserAutoLogin />}
         <WhatsNewContent />
         {isOpenAbout && <About />}
         {isRestoreDb && <RestoreDbDialog />}
@@ -98,7 +102,11 @@ const Layout = ({ updatePwa }) => {
         {isUserConfirm && <UserConfirmation />}
 
         {isEmailAuth && <EmailLinkAuthentication />}
-        {isAppLoad && !isEmailAuth && <Startup />}
+        {isAppLoad && !isEmailAuth && (
+          <Suspense fallback={<WaitingPage />}>
+            <Startup />
+          </Suspense>
+        )}
         {!isAppLoad && (
           <Suspense fallback={<WaitingPage />}>
             <MyAssignments />

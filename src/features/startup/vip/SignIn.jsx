@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import { isUserSignInState, isUserSignUpState } from '../../states/main';
+import { isUserSignInState, isUserSignUpState } from '../../../states/main';
 import OAuth from './OAuth';
 
 const SignIn = () => {

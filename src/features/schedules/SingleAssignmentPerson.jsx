@@ -10,6 +10,7 @@ import { themeOptionsState } from '../../states/theme';
 
 import maleIcon from '../../img/student_male.svg';
 import femaleIcon from '../../img/student_female.svg';
+import { dbGetAppSettings } from '../../indexedDb/dbAppSettings';
 
 const SingleAssignmentPerson = ({ person }) => {
   const theme = useTheme();
@@ -17,10 +18,14 @@ const SingleAssignmentPerson = ({ person }) => {
   const themeOptions = useRecoilValue(themeOptionsState);
 
   const [isMale, setIsMale] = useState(true);
+  const [accountType, setAccountType] = useState('pocket');
 
   useEffect(() => {
     const getPerson = async () => {
-      if (person && person !== '') {
+      const settings = await dbGetAppSettings();
+      const tmpType = settings.account_type || 'pocket';
+      setAccountType(tmpType);
+      if (tmpType === 'vip' && person && person !== '') {
         const dataPerson = await dbGetStudentByDispName(person);
         setIsMale(dataPerson.isMale);
       }
@@ -41,7 +46,7 @@ const SingleAssignmentPerson = ({ person }) => {
         gap: '8px',
       }}
     >
-      {person && person !== '' && (
+      {accountType === 'vip' && person && person !== '' && (
         <Avatar
           sx={{
             height: '25px',
@@ -56,6 +61,7 @@ const SingleAssignmentPerson = ({ person }) => {
           height: '30px',
           lineHeight: '30px',
           fontWeight: 'bold',
+          paddingLeft: accountType === 'vip' ? 'null' : '8px',
         }}
         variant="body1"
       >

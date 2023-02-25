@@ -1,28 +1,28 @@
-import { GithubAuthProvider } from 'firebase/auth';
+import { GoogleAuthProvider } from 'firebase/auth';
 import { useTranslation } from 'react-i18next';
 import OAuthButtonBase from './OAuthButtonBase';
-import githubIcon from '../../img/github.svg';
+import googleIcon from '../../../img/google.svg';
 
-const provider = new GithubAuthProvider();
+const provider = new GoogleAuthProvider();
 
-const OAuthGitHub = () => {
+const OAuthGoogle = () => {
   const { t } = useTranslation('ui');
 
   return (
     <OAuthButtonBase
       provider={provider}
-      text={t('oauthGithub')}
+      text={t('oauthGoogle')}
       buttonStyles={{
-        backgroundColor: '#2F2F2F',
+        backgroundColor: '#4285F4',
         color: '#FFFFFF',
         '&:hover': {
-          backgroundColor: '#2F2F2F',
+          backgroundColor: '#4285F4',
           color: '#FFFFFF',
         },
       }}
-      logo={githubIcon}
+      logo={googleIcon}
     />
   );
 };
 
-export default OAuthGitHub;
+export default OAuthGoogle;

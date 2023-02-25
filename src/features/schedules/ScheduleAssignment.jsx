@@ -734,24 +734,26 @@ const ScheduleAssignment = ({ edit }) => {
         <ScheduleMeetingPart type="lcPart" part={t('livingPart')} />
 
         {/* LC1 */}
-        <ScheduleRowAssignment
-          edit={edit}
-          isAssignA={isLcPart1}
-          personA={lcPart1}
-          source={`${lcPart1Src} (${lcPart1Time} min.)`}
-          lcPart={lcPart1Content}
-          loadStudentPickerA={() =>
-            loadStudentPicker({
-              assID: 23,
-              assType: 114,
-              assTypeName: t('lcPart', { ns: 'source' }),
-              currentStudent: lcPart1,
-            })
-          }
-        />
+        {lcPart1Src !== '' && (
+          <ScheduleRowAssignment
+            edit={edit}
+            isAssignA={isLcPart1}
+            personA={lcPart1}
+            source={`${lcPart1Src} (${lcPart1Time} min.)`}
+            lcPart={lcPart1Content}
+            loadStudentPickerA={() =>
+              loadStudentPicker({
+                assID: 23,
+                assType: 114,
+                assTypeName: t('lcPart', { ns: 'source' }),
+                currentStudent: lcPart1,
+              })
+            }
+          />
+        )}
 
         {/* LC2 */}
-        {lcCount > 1 && (
+        {lcCount > 1 && lcPart2Src !== '' && (
           <ScheduleRowAssignment
             edit={edit}
             isAssignA={isLcPart2}

@@ -18,9 +18,9 @@ import {
   isOAuthAccountUpgradeState,
   isUserSignInState,
   isUserSignUpState,
-} from '../../states/main';
-import { appMessageState, appSeverityState, appSnackOpenState } from '../../states/notification';
-import { dbUpdateAppSettings } from '../../indexedDb/dbAppSettings';
+} from '../../../states/main';
+import { appMessageState, appSeverityState, appSnackOpenState } from '../../../states/notification';
+import { dbUpdateAppSettings } from '../../../indexedDb/dbAppSettings';
 
 const OAuthButtonBase = ({ buttonStyles, logo, text, provider, isEmail }) => {
   const { t } = useTranslation('ui');

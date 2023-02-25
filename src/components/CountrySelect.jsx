@@ -6,7 +6,7 @@ import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import EditLocationIcon from '@mui/icons-material/EditLocation';
 import TextField from '@mui/material/TextField';
-import { apiFetchCountries } from '../api/congregation';
+import { apiFetchCountries } from '../api';
 
 const CountrySelect = ({ setCountry }) => {
   const { t } = useTranslation('ui');

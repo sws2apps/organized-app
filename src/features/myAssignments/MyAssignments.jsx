@@ -8,9 +8,15 @@ import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import Typography from '@mui/material/Typography';
-import { isMyAssignmentOpenState, refreshMyAssignmentsState, userLocalUidState } from '../../states/main';
 import MyAssignmentsList from './MyAssignmentsList';
 import MyAssignmentsSetup from './MyAssignmentsSetup';
+import {
+  accountTypeState,
+  isMyAssignmentOpenState,
+  refreshMyAssignmentsState,
+  userLocalUidState,
+} from '../../states/main';
+import { pocketLocalIDState } from '../../states/congregation';
 
 const MyAssignments = () => {
   const { t } = useTranslation('ui');
@@ -18,7 +24,9 @@ const MyAssignments = () => {
   const [drawerOpen, setDrawerOpen] = useRecoilState(isMyAssignmentOpenState);
   const setRefresh = useSetRecoilState(refreshMyAssignmentsState);
 
-  const localUid = useRecoilValue(userLocalUidState);
+  const vipLocalUid = useRecoilValue(userLocalUidState);
+  const pocketLocalUid = useRecoilValue(pocketLocalIDState);
+  const accountType = useRecoilValue(accountTypeState);
 
   const [overrideEdit, setOverrideEdit] = useState(false);
 
@@ -51,7 +59,7 @@ const MyAssignments = () => {
           {t('viewMyAssignments')}
         </Typography>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px', marginRight: '20px' }}>
-          {localUid !== '' && (
+          {accountType === 'vip' && vipLocalUid !== '' && (
             <IconButton color="primary" aria-label="close" onClick={() => setOverrideEdit(true)}>
               <EditIcon sx={{ fontSize: '30px' }} />
             </IconButton>
@@ -65,10 +73,11 @@ const MyAssignments = () => {
         </Box>
       </Box>
       <Box sx={{ minWidth: '350px', maxWidth: '650px', padding: '20px' }}>
-        {(localUid === '' || overrideEdit) && (
+        {accountType === 'vip' && (vipLocalUid === '' || overrideEdit) && (
           <MyAssignmentsSetup overrideEdit={overrideEdit} setOverrideEdit={(value) => setOverrideEdit(value)} />
         )}
-        {localUid !== '' && !overrideEdit && <MyAssignmentsList />}
+        {accountType === 'vip' && vipLocalUid !== '' && !overrideEdit && <MyAssignmentsList />}
+        {accountType === 'pocket' && pocketLocalUid !== '' && <MyAssignmentsList />}
       </Box>
     </SwipeableDrawer>
   );

@@ -8,7 +8,7 @@ import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import CountrySelect from '../../components/CountrySelect';
+import CountrySelect from '../../../components/CountrySelect';
 import {
   isAppLoadState,
   isCongAccountCreateState,
@@ -16,22 +16,22 @@ import {
   isUserSignInState,
   offlineOverrideState,
   userIDState,
-} from '../../states/main';
-import CongregationSelect from '../../components/CongregationSelect';
-import { appMessageState, appSeverityState, appSnackOpenState } from '../../states/notification';
-import { apiCreateCongregation, apiUpdateCongregation } from '../../api/congregation';
+} from '../../../states/main';
+import CongregationSelect from '../../../components/CongregationSelect';
+import { appMessageState, appSeverityState, appSnackOpenState } from '../../../states/notification';
+import { apiCreateCongregation, apiUpdateCongregation } from '../../../api';
 import {
   congAccountConnectedState,
   congIDState,
   isAdminCongState,
   isUpdateForVerificationState,
   pocketMembersState,
-} from '../../states/congregation';
-import { dbUpdateAppSettings } from '../../indexedDb/dbAppSettings';
-import { loadApp } from '../../utils/app';
-import { runUpdater } from '../../utils/updater';
-import useFirebaseAuth from '../../hooks/useFirebaseAuth';
-import backupWorkerInstance from '../../workers/backupWorker';
+} from '../../../states/congregation';
+import { dbUpdateAppSettings } from '../../../indexedDb/dbAppSettings';
+import { loadApp } from '../../../utils/app';
+import { runUpdater } from '../../../utils/updater';
+import useFirebaseAuth from '../../../hooks/useFirebaseAuth';
+import backupWorkerInstance from '../../../workers/backupWorker';
 
 const CongregationCreate = () => {
   const { user } = useFirebaseAuth();

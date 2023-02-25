@@ -2,13 +2,14 @@ import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
+import MyAssignmentsMonth from './MyAssignmentsMonth';
 import { appLangState, monthNamesState, refreshMyAssignmentsState, userLocalUidState } from '../../states/main';
 import { dbMyAssignments } from '../../indexedDb/dbAssignment';
-import MyAssignmentsMonth from './MyAssignmentsMonth';
-import { pocketMembersState } from '../../states/congregation';
+import { pocketLocalIDState, pocketMembersState } from '../../states/congregation';
 
 const MyAssignmentsList = () => {
-  const localUid = useRecoilValue(userLocalUidState);
+  const vipLocalUid = useRecoilValue(userLocalUidState);
+  const pocketLocalUid = useRecoilValue(pocketLocalIDState);
   const monthNames = useRecoilValue(monthNamesState);
   const appLang = useRecoilValue(appLangState);
   const refresh = useRecoilValue(refreshMyAssignmentsState);
@@ -51,7 +52,7 @@ const MyAssignmentsList = () => {
     };
 
     getMyAssignments();
-  }, [appLang, localUid, monthNames, refresh, pocketMembers]);
+  }, [appLang, vipLocalUid, pocketLocalUid, monthNames, refresh, pocketMembers]);
 
   return (
     <Box>

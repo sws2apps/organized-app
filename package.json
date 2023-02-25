@@ -1,11 +1,11 @@
 {
-  "name": "lmm-oa-sws",
+  "name": "cpe-sws",
   "private": true,
   "version": "2.40.0",
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sws2apps/lmm-oa-sws.git"
+    "url": "https://github.com/sws2apps/cpe-sws.git"
   },
   "scripts": {
     "dev": "vite",

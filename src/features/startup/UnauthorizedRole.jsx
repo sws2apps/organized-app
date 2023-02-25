@@ -1,22 +1,11 @@
-import { useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import Typography from '@mui/material/Typography';
-import { isUnauthorizedRoleState, isUserSignInState } from '../../states/main';
 
 const UnauthorizedRole = () => {
   const { t } = useTranslation('ui');
-
-  const setUserSignIn = useSetRecoilState(isUserSignInState);
-  const setIsUnauthorizedRole = useSetRecoilState(isUnauthorizedRoleState);
-
-  const handleSignIn = () => {
-    setUserSignIn(true);
-    setIsUnauthorizedRole(false);
-  };
 
   return (
     <Container sx={{ marginTop: '20px' }}>
@@ -42,10 +31,6 @@ const UnauthorizedRole = () => {
         />
         <Typography>{t('unauthorizedRole')}</Typography>
       </Box>
-
-      <Button variant="contained" onClick={handleSignIn}>
-        OK
-      </Button>
     </Container>
   );
 };

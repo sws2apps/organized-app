@@ -13,8 +13,8 @@ import InstallDesktopIcon from '@mui/icons-material/InstallDesktop';
 import ReportIcon from '@mui/icons-material/Report';
 import SecurityIcon from '@mui/icons-material/Security';
 import Typography from '@mui/material/Typography';
-import { isShowTermsUseState } from '../../states/main';
-import { themeOptionsState } from '../../states/theme.js';
+import { accountTypeState, isAccountChooseState, isShowTermsUseState } from '../../../states/main';
+import { themeOptionsState } from '../../../states/theme.js';
 
 const itemQuestion = {
   marginBottom: '10px',
@@ -41,6 +41,8 @@ const TermsUse = () => {
   const { t } = useTranslation('ui');
 
   const setShowTermsUse = useSetRecoilState(isShowTermsUseState);
+  const setAccountType = useSetRecoilState(accountTypeState);
+  const setIsAccountChoose = useSetRecoilState(isAccountChooseState);
 
   const themeOptions = useRecoilValue(themeOptionsState);
 
@@ -51,6 +53,11 @@ const TermsUse = () => {
     setShowTermsUse(false);
   };
 
+  const handleReturnChooser = () => {
+    setAccountType('');
+    setIsAccountChoose(true);
+  };
+
   return (
     <Container sx={{ padding: '15px' }}>
       <Typography textAlign="center" variant="h4" sx={{ marginBottom: '15px' }}>
@@ -58,12 +65,11 @@ const TermsUse = () => {
       </Typography>
       <Box sx={itemQuestion}>
         <HelpIcon sx={{ color: '#3498DB', fontSize: '40px' }} />
-        <Typography sx={itemTextQuestion}>{t('whoUse')}</Typography>
+        <Typography sx={itemTextQuestion}>{t('whatIsCPE')}</Typography>
       </Box>
 
       <Box sx={itemAnswer}>
-        <Typography sx={itemParsAnswer}>{t('whoUseApp')}</Typography>
-        <Typography sx={itemParsAnswer}>{t('disclaimerApp')}</Typography>
+        <Typography sx={itemParsAnswer}>{t('descCPE')}</Typography>
       </Box>
 
       <Box sx={itemQuestion}>
@@ -121,9 +127,22 @@ const TermsUse = () => {
           width: '100%',
         }}
       />
-      <Button variant="contained" sx={{ marginTop: '10px' }} disabled={!readComplete} onClick={handleTermsUse}>
-        {t('next')}
-      </Button>
+      <Box
+        sx={{
+          marginTop: '20px',
+          display: 'flex',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: '10px',
+        }}
+      >
+        <Button color="inherit" variant="contained" sx={{ color: 'black !important' }} onClick={handleReturnChooser}>
+          {t('back')}
+        </Button>
+        <Button variant="contained" disabled={!readComplete} onClick={handleTermsUse}>
+          {t('next')}
+        </Button>
+      </Box>
     </Container>
   );
 };

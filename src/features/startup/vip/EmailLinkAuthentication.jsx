@@ -9,9 +9,9 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import { apiUpdatePasswordlessInfo } from '../../api/auth';
-import { appMessageState, appSeverityState, appSnackOpenState } from '../../states/notification';
-import { offlineOverrideState } from '../../states/main';
+import { apiUpdatePasswordlessInfo } from '../../../api';
+import { appMessageState, appSeverityState, appSnackOpenState } from '../../../states/notification';
+import { offlineOverrideState } from '../../../states/main';
 
 const EmailLinkAuthentication = () => {
   const { t } = useTranslation('ui');

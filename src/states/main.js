@@ -4,7 +4,7 @@ import { LANGUAGE_LIST } from '../locales/langList';
 
 export const isLightThemeState = atom({
   key: 'isLightTheme',
-  default: localStorage.getItem('theme') ? (localStorage.getItem('theme') === 'dark' ? false : true) : true,
+  default: typeof window !== 'undefined' && localStorage.getItem('theme') === 'dark' ? false : true,
 });
 
 export const offlineOverrideState = atom({
@@ -39,7 +39,7 @@ export const isLoginOpenState = atom({
 
 export const appLangState = atom({
   key: 'appLang',
-  default: localStorage.getItem('app_lang') || 'e',
+  default: (typeof window !== 'undefined' && localStorage.getItem('app_lang')) || 'e',
 });
 
 export const uidUserState = atom({
@@ -190,7 +190,7 @@ export const isCongAccountCreateState = atom({
 
 export const isShowTermsUseState = atom({
   key: 'isShowLAG',
-  default: localStorage.getItem('termsUse') === 'false' ? false : true,
+  default: typeof window !== 'undefined' && localStorage.getItem('termsUse') === 'false' ? false : true,
 });
 
 export const visitorIDState = atom({
@@ -375,4 +375,19 @@ export const userConfirmationMessageState = atom({
 export const userConfirmationActionState = atom({
   key: 'userConfirmationAction',
   default: undefined,
+});
+
+export const accountTypeState = atom({
+  key: 'accountType',
+  default: '',
+});
+
+export const isAccountChooseState = atom({
+  key: 'isAccountChoose',
+  default: false,
+});
+
+export const isFetchingScheduleState = atom({
+  key: 'isFetchingSchedule',
+  default: true,
 });

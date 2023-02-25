@@ -9,12 +9,13 @@ export default defineConfig({
   plugins: [react(), comlink(), eslint(), loadVersion()],
   worker: { plugins: [comlink()] },
   server: {
-    port: 4000,
+    port: 4020,
     host: true,
   },
   preview: {
-    port: 4000,
+    port: 4020,
   },
+  minifyInternalExports: true,
   build: {
     chunkSizeWarningLimit: 2500,
     target: 'esnext',

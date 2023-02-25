@@ -74,12 +74,13 @@ const UserAutoLogin = () => {
             setIsAdminCong(true);
           }
 
-          const { cong_name, cong_number, pocket_members, username } = data;
+          const { cong_name, cong_number, cong_role, pocket_members, username } = data;
           let obj = {};
           obj.username = username;
           obj.cong_name = cong_name;
           obj.cong_number = cong_number;
           obj.pocket_members = pocket_members;
+          obj.cong_role = cong_role;
           await dbUpdateAppSettings(obj);
           setPocketMembers(pocket_members);
           return;

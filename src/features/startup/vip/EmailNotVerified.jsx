@@ -8,8 +8,8 @@ import Container from '@mui/material/Container';
 import ErrorIcon from '@mui/icons-material/Error';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import { apiHostState, isEmailNotVerifiedState, isUserSignInState, visitorIDState } from '../../states/main';
-import useFirebaseAuth from '../../hooks/useFirebaseAuth';
+import { apiHostState, isEmailNotVerifiedState, isUserSignInState, visitorIDState } from '../../../states/main';
+import useFirebaseAuth from '../../../hooks/useFirebaseAuth';
 
 const EmailNotVerified = () => {
   const cancel = useRef();

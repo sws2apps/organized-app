@@ -94,3 +94,8 @@ export const isProcessingBackupState = atom({
   key: 'isProcessingBackup',
   default: true,
 });
+
+export const pocketLocalIDState = atom({
+  key: 'pocketLocalID',
+  default: '',
+});

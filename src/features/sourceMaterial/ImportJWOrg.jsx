@@ -16,7 +16,7 @@ import { isImportJWOrgState } from '../../states/sourceMaterial';
 import { apiHostState, isOnlineState } from '../../states/main';
 import { addJwDataToDb } from '../../utils/epubParser';
 import { displayError } from '../../utils/error';
-import { fetchSourceMaterial } from '../../api/public';
+import { fetchSourceMaterial } from '../../api';
 
 const sharedStyles = {
   jwLoad: {

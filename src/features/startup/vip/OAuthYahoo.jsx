@@ -1,28 +1,28 @@
-import { GoogleAuthProvider } from 'firebase/auth';
+import { OAuthProvider } from 'firebase/auth';
 import { useTranslation } from 'react-i18next';
 import OAuthButtonBase from './OAuthButtonBase';
-import googleIcon from '../../img/google.svg';
+import yahooIcon from '../../../img/yahoo.svg';
 
-const provider = new GoogleAuthProvider();
+const provider = new OAuthProvider('yahoo.com');
 
-const OAuthGoogle = () => {
+const OAuthYahoo = () => {
   const { t } = useTranslation('ui');
 
   return (
     <OAuthButtonBase
       provider={provider}
-      text={t('oauthGoogle')}
+      text={t('oauthYahoo')}
       buttonStyles={{
-        backgroundColor: '#4285F4',
+        backgroundColor: '#7E1FFF',
         color: '#FFFFFF',
         '&:hover': {
-          backgroundColor: '#4285F4',
+          backgroundColor: '#7E1FFF',
           color: '#FFFFFF',
         },
       }}
-      logo={googleIcon}
+      logo={yahooIcon}
     />
   );
 };
 
-export default OAuthGoogle;
+export default OAuthYahoo;

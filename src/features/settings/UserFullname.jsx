@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { usernameState } from '../../states/congregation';
-import { apiHostState, rootModalOpenState, userIDState, visitorIDState } from '../../states/main';
+import { accountTypeState, apiHostState, rootModalOpenState, userIDState, visitorIDState } from '../../states/main';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../../states/notification';
 import useFirebaseAuth from '../../hooks/useFirebaseAuth';
 import { dbUpdateAppSettings } from '../../indexedDb/dbAppSettings';
@@ -27,6 +27,7 @@ const UserFullname = () => {
   const apiHost = useRecoilValue(apiHostState);
   const visitorID = useRecoilValue(visitorIDState);
   const userID = useRecoilValue(userIDState);
+  const accountType = useRecoilValue(accountTypeState);
 
   const [tmpUsername, setTempUsername] = useState(username);
   const [isEdit, setIsEdit] = useState(false);
@@ -114,12 +115,13 @@ const UserFullname = () => {
           variant="outlined"
           size="small"
           autoComplete="off"
-          required
+          required={accountType === 'vip'}
           sx={{
             width: '320px',
             marginRight: '5px',
             marginBottom: '5px',
           }}
+          InputProps={{ readOnly: accountType === 'pocket' }}
           value={tmpUsername}
           onChange={(e) => setTempUsername(e.target.value)}
         />
@@ -134,26 +136,28 @@ const UserFullname = () => {
           </Box>
         )}
       </Box>
-      <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
-        <TextField
-          id="settings-email-address"
-          label={t('email')}
-          variant="outlined"
-          size="small"
-          autoComplete="off"
-          sx={{
-            width: '320px',
-            marginRight: '5px',
-            marginTop: '5px',
-            marginBottom: '2px',
-          }}
-          value={user?.email || ''}
-          InputProps={{
-            readOnly: true,
-          }}
-        />
-        <Typography sx={{ fontSize: '12px' }}>{t('emailLocked')}</Typography>
-      </Box>
+      {accountType === 'vip' && (
+        <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
+          <TextField
+            id="settings-email-address"
+            label={t('email')}
+            variant="outlined"
+            size="small"
+            autoComplete="off"
+            sx={{
+              width: '320px',
+              marginRight: '5px',
+              marginTop: '5px',
+              marginBottom: '2px',
+            }}
+            value={user?.email || ''}
+            InputProps={{
+              readOnly: true,
+            }}
+          />
+          <Typography sx={{ fontSize: '12px' }}>{t('emailLocked')}</Typography>
+        </Box>
+      )}
     </Box>
   );
 };

@@ -11,19 +11,27 @@ import {
   dbGetSourceMaterialPocket,
   dbGetWeekListBySched,
   dbGetWeekTypeName,
-  dbGetWeekTypeNamePocket,
 } from './dbSourceMaterial';
 import appDb from './mainDb';
 import { dbGetAppSettings } from './dbAppSettings';
 
 export const dbGetBaseScheduleDate = async (weekValue) => {
+  const settings = await dbGetAppSettings();
+  const accountType = settings.account_type || 'pocket';
+
   const appData = await appDb.table('sched_MM').get({ weekOf: weekValue });
+  if (!appData) return;
+
   const schedule = {};
   schedule.weekOf = appData.weekOf;
 
   const assList = [];
   const excludeFiles = ['weekOf', 'week_type', 'noMeeting', 'isReleased', 'changes'];
   for (const [key, value] of Object.entries(appData)) {
+    if (key.indexOf('_name') !== -1 && key.indexOf('_dispName') !== -1) {
+      continue;
+    }
+
     if (excludeFiles.indexOf(key) === -1) {
       assList.push({ assignment: key, person: value });
     }
@@ -36,8 +44,14 @@ export const dbGetBaseScheduleDate = async (weekValue) => {
     if (item.person) {
       const student = await dbGetStudentByUid(item.person);
       schedule[item.assignment] = item.person;
-      schedule[fldName] = student?.person_name || '';
-      schedule[fldDispName] = student?.person_displayName || '';
+      if (accountType === 'vip') {
+        schedule[fldName] = student?.person_name || '';
+        schedule[fldDispName] = student?.person_displayName || '';
+      }
+      if (accountType === 'pocket') {
+        schedule[fldName] = appData[fldDispName];
+        schedule[fldDispName] = appData[fldDispName];
+      }
     } else {
       schedule[item.assignment] = '';
       schedule[fldName] = '';
@@ -52,6 +66,8 @@ export const dbGetBaseScheduleDate = async (weekValue) => {
 
 export const dbGetScheduleData = async (weekValue) => {
   const baseSchedule = await dbGetBaseScheduleDate(weekValue);
+  if (!baseSchedule) return;
+
   const schedule = { ...baseSchedule };
 
   schedule.week_type_name = await dbGetWeekTypeName(schedule.week_type);
@@ -65,9 +81,7 @@ export const dbGetScheduleData = async (weekValue) => {
 
 export const dbGetScheduleDataPocket = async (weekValue) => {
   const baseSchedule = await dbGetBaseScheduleDate(weekValue);
-  const schedule = { ...baseSchedule };
-  schedule.week_type_name = await dbGetWeekTypeNamePocket(schedule.week_type);
-  return schedule;
+  return baseSchedule;
 };
 
 export const dbBuildScheduleForShare = async (scheduleIndex) => {
@@ -377,4 +391,13 @@ export const dbFetchScheduleInfo = async (condition, currentSchedule, currentWee
   }
 
   return { weeks: newData, total: cnTotal, assigned: cnAssigned };
+};
+
+export const dbUpdatePocketSchedule = async (data) => {
+  for await (const monthSchedule of data.midweekMeeting) {
+    const weeks = monthSchedule.schedules;
+    for await (const week of weeks) {
+      await appDb.sched_MM.update(week.weekOf, week);
+    }
+  }
 };

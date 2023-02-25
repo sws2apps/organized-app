@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import OAuthButtonBase from './OAuthButtonBase';
-import emailIcon from '../../img/email.svg';
+import emailIcon from '../../../img/email.svg';
 
 const OAuthEmail = () => {
   const { t } = useTranslation('ui');

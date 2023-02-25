@@ -96,7 +96,7 @@ export const dbHistoryAssignment = async () => {
         const assList = [];
         const excludeFiles = ['weekOf', 'week_type', 'noMeeting', 'isReleased', 'changes'];
         for (const [key, value] of Object.entries(appData[i])) {
-          if (excludeFiles.indexOf(key) === -1) {
+          if (excludeFiles.indexOf(key) === -1 && key.indexOf('_name') === -1 && key.indexOf('_dispName') === -1) {
             if (value && value !== '') {
               assList.push({ assignment: key, person: value });
             }
@@ -960,8 +960,10 @@ export const dbMyAssignments = async () => {
 
     const monthNames = await promiseGetRecoil(monthNamesState);
 
-    let { local_uid, pocket_members } = await dbGetAppSettings();
+    let { account_type, pocket_local_id, local_uid, pocket_members } = await dbGetAppSettings();
     pocket_members = pocket_members ? pocket_members : [];
+
+    const localUid = account_type === 'vip' ? local_uid : pocket_local_id?.person_uid;
 
     const d = new Date();
     const todayDate = new Date(d.getFullYear(), d.getMonth(), d.getDate());
@@ -1016,7 +1018,7 @@ export const dbMyAssignments = async () => {
           let isFound = false;
           let isBehalf = false;
 
-          if (fldValue === local_uid) {
+          if (fldValue === localUid) {
             isFound = true;
           }
 

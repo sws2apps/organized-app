@@ -5,11 +5,11 @@ import { useTranslation } from 'react-i18next';
 import { useQuery } from '@tanstack/react-query';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { UserSessionItem } from './';
+import UserVipSessionItem from './UserVipSessionItem';
 import { apiHostState, rootModalOpenState, userIDState, visitorIDState } from '../../states/main';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../../states/notification';
 
-const UserSessions = () => {
+const UserVipSessions = () => {
   const cancel = useRef();
 
   const { t } = useTranslation('ui');
@@ -45,7 +45,10 @@ const UserSessions = () => {
     }
   };
 
-  const { isLoading, error, data } = useQuery({ queryKey: ['sessions'], queryFn: handleSessions });
+  const { isLoading, error, data } = useQuery({
+    queryKey: ['sessions'],
+    queryFn: handleSessions,
+  });
 
   useEffect(() => {
     if (data) {
@@ -90,11 +93,11 @@ const UserSessions = () => {
       >
         {sessions.length > 0 &&
           sessions.map((session) => (
-            <UserSessionItem key={session.visitorid} session={session} setSessions={(value) => setSessions(value)} />
+            <UserVipSessionItem key={session.visitorid} session={session} setSessions={(value) => setSessions(value)} />
           ))}
       </Box>
     </Box>
   );
 };
 
-export default UserSessions;
+export default UserVipSessions;

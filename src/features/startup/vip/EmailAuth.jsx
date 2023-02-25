@@ -15,11 +15,11 @@ import {
   isUserSignInState,
   isUserSignUpState,
   userEmailState,
-} from '../../states/main';
-import { isEmailValid } from '../../utils/emailValid';
-import { appMessageState, appSeverityState, appSnackOpenState } from '../../states/notification';
-import { apiRequestPasswordlesssLink } from '../../api/auth';
-import { dbUpdateAppSettings } from '../../indexedDb/dbAppSettings';
+} from '../../../states/main';
+import { isEmailValid } from '../../../utils/emailValid';
+import { appMessageState, appSeverityState, appSnackOpenState } from '../../../states/notification';
+import { apiRequestPasswordlesssLink } from '../../../api';
+import { dbUpdateAppSettings } from '../../../indexedDb/dbAppSettings';
 
 const EmailAuth = () => {
   const { t } = useTranslation('ui');

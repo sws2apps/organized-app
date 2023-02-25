@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
-import dateFormat from 'dateformat';
 import { fileDialog } from 'file-select-dialog';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AssignmentIcon from '@mui/icons-material/Assignment';
@@ -23,6 +22,7 @@ import ScheduleIcon from '@mui/icons-material/Schedule';
 import MenuCard from '../components/MenuCard';
 import { congAccountConnectedState } from '../states/congregation';
 import {
+  accountTypeState,
   backupDbOpenState,
   isMyAssignmentOpenState,
   isOnlineState,
@@ -38,7 +38,8 @@ import { appMessageState, appSeverityState, appSnackOpenState } from '../states/
 import { epubFileState, isImportEPUBState, isImportJWOrgState } from '../states/sourceMaterial';
 import { isPublishOpenState } from '../states/schedule';
 import { importDummyUsers } from '../utils/dev';
-import { getCurrentWeekDate } from '../utils/app';
+import { getCurrentExistingWeekDate } from '../utils/app';
+import { apiFetchSchedule } from '../api';
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -66,6 +67,7 @@ const DashboardMenu = () => {
 
   const isCongAccountConnected = useRecoilValue(congAccountConnectedState);
   const isOnline = useRecoilValue(isOnlineState);
+  const accountType = useRecoilValue(accountTypeState);
 
   const handleOpenMyAssignment = () => {
     setWhatsNewOpen(false);
@@ -112,16 +114,16 @@ const DashboardMenu = () => {
     setPublishPocket(true);
   };
 
-  const handleViewCurrentAssignment = () => {
-    let weekDate = getCurrentWeekDate();
-    weekDate = dateFormat(weekDate, 'mm-dd-yyyy');
+  const handleViewCurrentAssignment = async () => {
+    let weekDate = await getCurrentExistingWeekDate();
+    weekDate = weekDate.replaceAll('/', '-');
     navigate(`/schedules/view/${weekDate}`);
   };
 
   const dashboardMenus = [
     {
       title: t('persons'),
-      visible: true,
+      visible: accountType === 'vip',
       links: [
         {
           title: t('persons'),
@@ -172,21 +174,27 @@ const DashboardMenu = () => {
           title: t('editAssignmentsSchedule'),
           icon: <AssignmentIcon />,
           disabled: false,
-          visible: true,
+          visible: accountType === 'vip',
           navigateTo: '/schedules',
         },
         {
-          title: t('pulish'),
+          title: t('publishPocket'),
           icon: <SendIcon />,
           disabled: false,
-          visible: isCongAccountConnected ? true : false,
+          visible: accountType === 'vip' && isCongAccountConnected ? true : false,
           action: handlePublishPocket,
+        },
+        {
+          title: t('refreshSchedule'),
+          icon: <CloudSyncIcon />,
+          visible: isCongAccountConnected && accountType === 'pocket',
+          action: apiFetchSchedule,
         },
       ],
     },
     {
       title: t('sourceMaterial'),
-      visible: true,
+      visible: accountType === 'vip',
       links: [
         {
           title: t('viewSourceMaterial'),
@@ -220,7 +228,7 @@ const DashboardMenu = () => {
     },
     {
       title: t('congregation'),
-      visible: true,
+      visible: accountType === 'vip',
       links: [
         {
           title: t('sendBackup'),

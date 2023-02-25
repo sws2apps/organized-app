@@ -1,4 +1,5 @@
 import { getI18n } from 'react-i18next';
+import { format } from 'date-fns';
 import { promiseSetRecoil } from 'recoil-outside';
 import { dbGetAppSettings, dbUpdateAppSettings } from '../indexedDb/dbAppSettings';
 import { checkSrcUpdate, dbGetListWeekType, dbGetYearList } from '../indexedDb/dbSourceMaterial';
@@ -25,6 +26,7 @@ import { assTypeListState, weekTypeListState, yearsListState } from '../states/s
 import { allStudentsState, filteredStudentsState, studentsAssignmentHistoryState } from '../states/persons';
 import backupWorkerInstance from '../workers/backupWorker';
 import { scheduleUseFullnameState } from '../states/schedule';
+import appDb from '../indexedDb/mainDb';
 
 export const loadApp = async () => {
   const I18n = getI18n();
@@ -43,6 +45,7 @@ export const loadApp = async () => {
     autoBackup,
     autoBackup_interval,
     schedule_useFullname,
+    account_type,
   } = await dbGetAppSettings();
 
   backupWorkerInstance.setBackupInterval(autoBackup_interval);
@@ -50,7 +53,9 @@ export const loadApp = async () => {
 
   const app_lang = localStorage.getItem('app_lang') || 'e';
 
-  await checkSrcUpdate();
+  if (account_type === 'vip') {
+    await checkSrcUpdate();
+  }
 
   if (local_uid && local_uid !== '') {
     await promiseSetRecoil(userLocalUidState, local_uid);
@@ -178,4 +183,47 @@ export const saveProfilePic = async (url, provider) => {
 
     await promiseSetRecoil(avatarUrlState, undefined);
   } catch (err) {}
+};
+
+export const getErrorMessage = (msg) => {
+  const { t } = getI18n();
+
+  switch (msg) {
+    case 'DEVICE_REMOVED':
+      return t('deviceRemoved', { ns: 'ui' });
+    case 'INPUT_INVALID':
+      return t('inputInvalid', { ns: 'ui' });
+    case 'POCKET_NOT_FOUND':
+      return t('pocketNotFound', { ns: 'ui' });
+    case 'INTERNAL_ERROR':
+      return t('internalError', { ns: 'ui' });
+    default:
+      return msg;
+  }
+};
+
+export const getCurrentExistingWeekDate = async () => {
+  const schedules = await appDb.sched_MM.toArray();
+
+  const today = new Date();
+  const day = today.getDay();
+  const diff = today.getDate() - day + (day === 0 ? -6 : 1);
+  let monDay = new Date(today.setDate(diff));
+
+  let currentWeek = format(monDay, 'MM/dd/yyyy');
+  let isExist = false;
+
+  if (schedules.length > 0) {
+    do {
+      const fDate = format(monDay, 'MM/dd/yyyy');
+      const schedule = schedules.find((data) => data.weekOf === fDate);
+      if (schedule) {
+        currentWeek = fDate;
+        isExist = true;
+      }
+      monDay.setDate(monDay.getDate() + 7);
+    } while (isExist === false);
+  }
+
+  return currentWeek;
 };

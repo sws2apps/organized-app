@@ -15,7 +15,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import TabPanel from '../../components/TabPanel';
+import TabPanel from '../../../components/TabPanel';
 import {
   isAppLoadState,
   isCongAccountCreateState,
@@ -27,11 +27,11 @@ import {
   qrCodePathState,
   secretTokenPathState,
   visitorIDState,
-} from '../../states/main';
-import { apiHandleVerifyOTP } from '../../api/auth';
-import { runUpdater } from '../../utils/updater';
-import { appMessageState, appSeverityState, appSnackOpenState } from '../../states/notification';
-import { congAccountConnectedState } from '../../states/congregation';
+} from '../../../states/main';
+import { apiHandleVerifyOTP } from '../../../api';
+import { runUpdater } from '../../../utils/updater';
+import { appMessageState, appSeverityState, appSnackOpenState } from '../../../states/notification';
+import { congAccountConnectedState } from '../../../states/congregation';
 
 const a11yProps = (index) => {
   return {

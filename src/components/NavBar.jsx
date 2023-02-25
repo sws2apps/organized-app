@@ -29,6 +29,7 @@ import AppLanguage from '../features/languageSwitcher';
 import ThemeSwitcher from '../features/themeSwitcher';
 import { themeOptionsState } from '../states/theme';
 import {
+  accountTypeState,
   apiHostState,
   avatarUrlState,
   countNotificationsState,
@@ -100,6 +101,7 @@ const NavBar = (props) => {
   const userAvatar = useRecoilValue(avatarUrlState);
   const apiHost = useRecoilValue(apiHostState);
   const visitorID = useRecoilValue(visitorIDState);
+  const accountType = useRecoilValue(accountTypeState);
 
   const mdUp = useMediaQuery(theme.breakpoints.up('md'), {
     noSsr: true,
@@ -300,7 +302,7 @@ const NavBar = (props) => {
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
                   >
-                    {isOnline && !congAccountConnected && (
+                    {accountType === 'vip' && isOnline && !congAccountConnected && (
                       <MenuItem onClick={handleUseOnlineAccount}>
                         <ListItemIcon>
                           <KeyIcon fontSize="medium" sx={{ color: '#DC7633' }} />
@@ -324,7 +326,7 @@ const NavBar = (props) => {
                       </ListItemIcon>
                       <ListItemText>{t('about')}</ListItemText>
                     </MenuItem>
-                    {isOnline && congAccountConnected && (
+                    {accountType === 'vip' && isOnline && congAccountConnected && (
                       <MenuItem onClick={handleLogout}>
                         <ListItemIcon>
                           <LogoutIcon fontSize="medium" sx={{ color: '#E74C3C' }} />

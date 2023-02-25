@@ -2,7 +2,7 @@ import appDb from './mainDb';
 import { promiseGetRecoil, promiseSetRecoil } from 'recoil-outside';
 import dateFormat from 'dateformat';
 import { sourceLangState } from '../states/main';
-import { assTypeListState, assTypeLocalState } from '../states/sourceMaterial';
+import { assTypeLocalState } from '../states/sourceMaterial';
 import { dbHistoryAssignment, dbLastAssignment } from './dbAssignment';
 import { allStudentsState, filteredStudentsState, studentsAssignmentHistoryState } from '../states/persons';
 import { dbGetStudentsMini } from './dbPersons';
@@ -168,94 +168,9 @@ export const dbGetSourceMaterial = async (weekOf) => {
 };
 
 export const dbGetSourceMaterialPocket = async (weekOf) => {
-  const appLang = (await promiseGetRecoil(sourceLangState)) || 'e';
-  const lang = appLang.toUpperCase();
+  const baseSource = await dbGetSourceMaterial(weekOf);
 
-  const assTypeList = await promiseGetRecoil(assTypeListState);
-
-  const appData = await appDb.table('src').get({ weekOf: weekOf });
-  let obj = {};
-
-  obj.weekOf = appData.weekOf;
-  obj.weekDate_src = appData.weekDate_src;
-  obj.weeklyBibleReading_src = appData.weeklyBibleReading_src;
-  obj.songFirst_src = appData.songFirst_src;
-  obj.tgwTalk_src = appData.tgwTalk_src;
-  obj.bibleReading_src = appData.bibleReading_src;
-  obj.bibleReading_study = appData.bibleReading_study;
-
-  obj.ass1_type = '';
-  if (typeof appData.ass1_type === 'object') {
-    if (appData.ass1_type[lang] !== '') obj.ass1_type = +appData.ass1_type[lang];
-  }
-  if (appData.ass1_type && typeof appData.ass1_type !== 'object') {
-    obj.ass1_type = +appData.ass1_type;
-  }
-
-  obj.ass1_type_name = assTypeList.find((type) => type.code === obj.ass1_type)?.assignment_type_name || '';
-  obj.ass1_time = +appData.ass1_time || '';
-  obj.ass1_study = appData.ass1_study || '';
-  obj.ass1_src = appData.ass1_src;
-
-  obj.ass2_type = '';
-  if (typeof appData.ass2_type === 'object') {
-    if (appData.ass2_type[lang] !== '') obj.ass2_type = +appData.ass2_type[lang];
-  }
-  if (appData.ass2_type && typeof appData.ass2_type !== 'object') {
-    obj.ass2_type = +appData.ass2_type;
-  }
-
-  obj.ass2_type_name = assTypeList.find((type) => type.code === obj.ass2_type).assignment_type_name || '';
-  obj.ass2_time = +appData.ass2_time || '';
-  obj.ass2_study = appData.ass2_study || '';
-  obj.ass2_src = appData.ass2_src;
-
-  obj.ass3_type = '';
-  if (typeof appData.ass3_type === 'object') {
-    if (appData.ass3_type[lang] !== '') obj.ass3_type = +appData.ass3_type[lang];
-  }
-  if (appData.ass3_type && typeof appData.ass3_type !== 'object') {
-    obj.ass3_type = +appData.ass3_type;
-  }
-
-  obj.ass3_type_name = assTypeList.find((type) => type.code === obj.ass3_type).assignment_type_name || '';
-  obj.ass3_time = +appData.ass3_time || '';
-  obj.ass3_study = appData.ass3_study || '';
-  obj.ass3_src = appData.ass3_src;
-
-  obj.ass4_type = '';
-  if (typeof appData.ass4_type === 'object') {
-    if (appData.ass4_type[lang] !== '') obj.ass4_type = +appData.ass4_type[lang];
-  }
-  if (appData.ass4_type && typeof appData.ass4_type !== 'object') {
-    obj.ass4_type = +appData.ass4_type;
-  }
-
-  obj.ass4_type_name = assTypeList.findIndex((type) => type.code === obj.ass4_type).assignment_type_name || '';
-  obj.ass4_time = appData.ass4_time ? (typeof appData.ass4_time === 'object' ? '' : +appData.ass4_time) : '';
-  obj.ass4_study = appData.ass4_study || '';
-  obj.ass4_src = appData.ass4_src;
-
-  obj.songMiddle_src = appData.songMiddle_src;
-  obj.lcCount = appData.lcCount;
-  obj.lcCount_override = appData.lcCount_override;
-  obj.lcPart1_time = appData.lcPart1_time;
-  obj.lcPart1_time_override = appData.lcPart1_time_override;
-  obj.lcPart1_src = appData.lcPart1_src;
-  obj.lcPart1_src_override = appData.lcPart1_src_override;
-  obj.lcPart1_content = appData.lcPart1_content;
-  obj.lcPart1_content_override = appData.lcPart1_content_override;
-  obj.lcPart2_time = appData.lcPart2_time;
-  obj.lcPart2_time_override = appData.lcPart2_time_override;
-  obj.lcPart2_src = appData.lcPart2_src;
-  obj.lcPart2_src_override = appData.lcPart2_src_override;
-  obj.lcPart2_content = appData.lcPart2_content;
-  obj.lcPart2_content_override = appData.lcPart2_content_override;
-  obj.cbs_src = appData.cbs_src;
-  obj.cbs_time_override = appData.cbs_time_override;
-  obj.songConclude_src = appData.songConclude_src;
-  obj.songConclude_src_override = appData.songConclude_src_override || '';
-  obj.co_talk_title = appData.co_talk_title || '';
+  const obj = { ...baseSource };
 
   const weekSchedInfo = await dbGetScheduleWeekInfo(weekOf);
   obj.week_type = weekSchedInfo.week_type;
@@ -745,4 +660,15 @@ export const dbIsWeekExist = async (varWeek) => {
     varBool = false;
   }
   return varBool;
+};
+
+export const dbUpdatePocketSource = async (data) => {
+  for await (const monthSource of data.midweekMeeting) {
+    const weeks = monthSource.sources;
+    for await (const week of weeks) {
+      week.isOverride = false;
+
+      await dbSaveSrcData(week, true);
+    }
+  }
 };

@@ -1,20 +1,17 @@
-import { OAuthProvider } from 'firebase/auth';
+import { GithubAuthProvider } from 'firebase/auth';
 import { useTranslation } from 'react-i18next';
 import OAuthButtonBase from './OAuthButtonBase';
-import microsoftIcon from '../../img/microsoft.svg';
+import githubIcon from '../../../img/github.svg';
 
-const provider = new OAuthProvider('microsoft.com');
-provider.setCustomParameters({
-  prompt: 'consent',
-});
+const provider = new GithubAuthProvider();
 
-const OAuthMicrosoft = () => {
+const OAuthGitHub = () => {
   const { t } = useTranslation('ui');
 
   return (
     <OAuthButtonBase
       provider={provider}
-      text={t('oauthMicrosoft')}
+      text={t('oauthGithub')}
       buttonStyles={{
         backgroundColor: '#2F2F2F',
         color: '#FFFFFF',
@@ -23,9 +20,9 @@ const OAuthMicrosoft = () => {
           color: '#FFFFFF',
         },
       }}
-      logo={microsoftIcon}
+      logo={githubIcon}
     />
   );
 };
 
-export default OAuthMicrosoft;
+export default OAuthGitHub;
