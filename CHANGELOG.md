@@ -1,3 +1,10 @@
+## [2.41.1](https://github.com/sws2apps/cpe-sws/compare/v2.41.0...v2.41.1) (2023-02-25)
+
+
+### Bug Fixes
+
+* **app:** set account type for vip access ([17321e8](https://github.com/sws2apps/cpe-sws/commit/17321e873c6cb41d0f286eac591de3859b6e14fb))
+
 # [2.41.0](https://github.com/sws2apps/cpe-sws/compare/v2.40.0...v2.41.0) (2023-02-25)
 
 
