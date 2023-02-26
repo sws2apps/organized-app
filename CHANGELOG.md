@@ -1,3 +1,10 @@
+## [2.41.2](https://github.com/sws2apps/cpe-sws/compare/v2.41.1...v2.41.2) (2023-02-26)
+
+
+### Bug Fixes
+
+* **congregation:** update source material when backup instead of overwrite ([46e3bc6](https://github.com/sws2apps/cpe-sws/commit/46e3bc698251cab606f09f00e0a3047a1ac843c7))
+
 ## [2.41.1](https://github.com/sws2apps/cpe-sws/compare/v2.41.0...v2.41.1) (2023-02-25)
 
 
