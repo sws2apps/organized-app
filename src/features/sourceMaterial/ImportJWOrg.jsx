@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
@@ -32,8 +32,6 @@ const sharedStyles = {
 };
 
 const ImportJWOrg = () => {
-  const cancel = useRef();
-
   const { t } = useTranslation('ui');
 
   const setAppSnackOpen = useSetRecoilState(appSnackOpenState);
@@ -57,42 +55,30 @@ const ImportJWOrg = () => {
   const fetchSourcesJw = useCallback(async () => {
     try {
       if (apiHost !== '') {
-        cancel.current = false;
-
         const data = await fetchSourceMaterial();
 
-        if (!cancel.current) {
-          if (data && data.length > 0) {
-            await addJwDataToDb(data);
-            setIsLoading(false);
-            return;
-          }
-
-          setAppMessage(displayError('sourceNotFoundUnavailable'));
-          setAppSeverity('error');
-          setAppSnackOpen(true);
-          setOpen(false);
+        if (data && data.length > 0) {
+          await addJwDataToDb(data);
+          setIsLoading(false);
+          return;
         }
-      }
-    } catch (err) {
-      if (!cancel.current) {
-        setAppMessage(err.message);
+
+        setAppMessage(displayError('sourceNotFoundUnavailable'));
         setAppSeverity('error');
         setAppSnackOpen(true);
         setOpen(false);
       }
+    } catch (err) {
+      setAppMessage(err.message);
+      setAppSeverity('error');
+      setAppSnackOpen(true);
+      setOpen(false);
     }
-  }, [apiHost, cancel, setAppMessage, setAppSeverity, setAppSnackOpen, setOpen]);
+  }, [apiHost, setAppMessage, setAppSeverity, setAppSnackOpen, setOpen]);
 
   useEffect(() => {
     fetchSourcesJw();
   }, [fetchSourcesJw]);
-
-  useEffect(() => {
-    return () => {
-      cancel.current = true;
-    };
-  }, []);
 
   return (
     <Box>
