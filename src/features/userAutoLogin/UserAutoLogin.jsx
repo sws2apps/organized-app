@@ -81,6 +81,7 @@ const UserAutoLogin = () => {
           obj.cong_number = cong_number;
           obj.pocket_members = pocket_members;
           obj.cong_role = cong_role;
+          obj.account_type = 'vip';
           await dbUpdateAppSettings(obj);
           setPocketMembers(pocket_members);
           return;
