@@ -1,17 +1,25 @@
 import { loadEPUB } from 'jw-epub-parser';
 import { promiseGetRecoil, promiseSetRecoil } from 'recoil-outside';
+import { dbHistoryAssignment } from '../indexedDb/dbAssignment';
 import { dbSaveSrcData, dbGetYearList } from '../indexedDb/dbSourceMaterial';
+import { studentsAssignmentHistoryState } from '../states/persons';
 import { assTypeAYFOnlyState, yearsListState } from '../states/sourceMaterial';
 
 export const addEpubDataToDb = async (fileEPUB) => {
   const data = await loadEPUB(fileEPUB);
   await addDataToDb(data);
+
+  const history = await dbHistoryAssignment();
+  await promiseSetRecoil(studentsAssignmentHistoryState, history);
 };
 
 export const addJwDataToDb = async (dataJw) => {
   for await (const data of dataJw) {
     await addDataToDb(data);
   }
+
+  const history = await dbHistoryAssignment();
+  await promiseSetRecoil(studentsAssignmentHistoryState, history);
 };
 
 const addDataToDb = async (data) => {
