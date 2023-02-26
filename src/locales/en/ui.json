@@ -401,7 +401,7 @@
   "addCPEUser": "Add new CPE user",
   "cpeUserFound": "Now, click Create. Then edit the roles and priviledge of this user.",
   "selectPocketRecord": "Select the person record from the list:",
-  "description": "This program is designed for use by Jehovah’s Witnesses. Currently, it can be used to schedule midweek meeting program, and easily view your assigned parts for the meeting. Anyone in the congregation can use it. Additional features will be added to CPE in the future. Stay tuned!",
+  "description": "This program is designed for use by Jehovah’s Witnesses. Currently, it can be used to schedule midweek meeting program, and easily view your assigned parts for the meeting. Anyone in the congregation can use it. Additional features will be added to CPE in the future.",
   "persons": "Persons",
   "personAdd": "Add Person",
   "managePocket": "Manage Pocket Users",

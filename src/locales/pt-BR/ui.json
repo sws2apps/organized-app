@@ -401,7 +401,7 @@
   "addCPEUser": "Adicionar um novo usuário ao CPE",
   "cpeUserFound": "Agora, clique em Criar. Em seguida, edite as funções e o privilégio deste usuário.",
   "selectPocketRecord": "Seleciona uma pessoa cadastrada da lista:",
-  "description": "Este aplicativo foi desenvolvido para ser usado pelo Superintendente da Reunião Nossa Vida e Ministério Cristão para programar a Reunião do Meio de Semana das Testemunhas de Jeová.",
+  "description": "This program is designed for use by Jehovah’s Witnesses. Currently, it can be used to schedule midweek meeting program, and easily view your assigned parts for the meeting. Anyone in the congregation can use it. Additional features will be added to CPE in the future.",
   "persons": "Pessoas",
   "personAdd": "Adicionar pessoa",
   "managePocket": "Gerenciar usuários Pocket",
