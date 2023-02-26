@@ -546,7 +546,7 @@ export const dbRefreshStudentHistory = async (varPrev, varNew) => {
         const findIndex = obj.changes.findIndex((item) => item.field === 'lastAssignment');
         if (findIndex !== -1) obj.changes.splice(findIndex, 1);
         obj.changes.push({ date: new Date().toISOString(), field: 'lastAssignment', value: stuAssignment });
-        await appDb.table('persons').update(student.id, { ...obj });
+        await appDb.table('persons').update(student.person_uid, { ...obj });
 
         const students = await dbGetStudentsMini();
         await promiseSetRecoil(allStudentsState, students);

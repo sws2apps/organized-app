@@ -4,8 +4,7 @@ import dateFormat from 'dateformat';
 import appDb from '../indexedDb/mainDb';
 import { LANGUAGE_LIST } from '../locales/langList.js';
 import { dbGetAppSettings, dbUpdateAppSettings } from '../indexedDb/dbAppSettings';
-import { dbGetStudents, dbGetStudentUidById, dbSavePersonMigration } from '../indexedDb/dbPersons';
-import { dbSaveScheduleByAss } from '../indexedDb/dbSchedule';
+import { dbGetStudents, dbSavePersonMigration } from '../indexedDb/dbPersons';
 import {
   dbFirstBibleStudy,
   dbFirstBRead,
@@ -22,62 +21,11 @@ export const runUpdater = async () => {
   await removeInvalidWeeks();
   await updateWeekType();
   await updateAssignmentType();
-  await updateScheduleToId();
   await removeOutdatedSettings();
   await builtHistoricalAssignment();
   await updatePersonAssignments();
   await checkAutoBackup();
   await loadApp();
-};
-
-const updateScheduleToId = async () => {
-  let appSettings = await dbGetAppSettings();
-  if (!appSettings.isScheduleConverted) {
-    const scheduleData = await appDb.table('sched_MM').toArray();
-
-    for (let c = 0; c < scheduleData.length; c++) {
-      const schedule = scheduleData[c];
-      if (schedule.bRead_stu_A !== undefined) {
-        const uid = await dbGetStudentUidById(schedule.bRead_stu_A);
-
-        await dbSaveScheduleByAss('bRead_stu_A', uid, schedule.weekOf);
-      }
-      if (schedule.bRead_stu_B !== undefined) {
-        const uid = await dbGetStudentUidById(schedule.bRead_stu_B);
-        await dbSaveScheduleByAss('bRead_stu_B', uid, schedule.weekOf);
-      }
-      for (let d = 1; d <= 4; d++) {
-        const fldNameA = `ass${d}_stu_A`;
-        if (schedule[fldNameA] !== undefined) {
-          const uid = await dbGetStudentUidById(schedule[fldNameA]);
-          await dbSaveScheduleByAss(fldNameA, uid, schedule.weekOf);
-        }
-
-        const fldNameAssA = `ass${d}_ass_A`;
-        if (schedule[fldNameAssA] !== undefined) {
-          const uid = await dbGetStudentUidById(schedule[fldNameAssA]);
-          await dbSaveScheduleByAss(fldNameAssA, uid, schedule.weekOf);
-        }
-
-        const fldNameB = `ass${d}_stu_B`;
-        if (schedule[fldNameB] !== undefined) {
-          const uid = await dbGetStudentUidById(schedule[fldNameB]);
-          await dbSaveScheduleByAss(fldNameB, uid, schedule.weekOf);
-        }
-
-        const fldNameAssB = `ass${d}_ass_B`;
-        if (schedule[fldNameAssB] !== undefined) {
-          const uid = await dbGetStudentUidById(schedule[fldNameAssB]);
-          await dbSaveScheduleByAss(fldNameAssB, uid, schedule.weekOf);
-        }
-      }
-    }
-
-    // save settings
-    let obj = {};
-    obj.isScheduleConverted = true;
-    await dbUpdateAppSettings(obj);
-  }
 };
 
 const removeOutdatedSettings = async () => {
@@ -643,7 +591,7 @@ const updatePersonAssignments = async () => {
           }
         });
 
-        await appDb.persons.update(person.id, {
+        await appDb.persons.update(person.person_uid, {
           assignments: newAssignments,
         });
       }

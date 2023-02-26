@@ -45,11 +45,6 @@ export const meetingTimeState = atom({
   default: new Date(Date.now()),
 });
 
-export const liveClassState = atom({
-  key: 'liveClass',
-  default: false,
-});
-
 export const usernameState = atom({
   key: 'username',
   default: '',

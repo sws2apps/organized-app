@@ -19,6 +19,41 @@ appDb.version(2).stores({
   sched_MM:
     '&weekOf, bRead_stu_A, bRead_stu_A_name, bRead_stu_A_dispName, bRead_stu_B, bRead_stu_B_name, bRead_stu_B_dispName, ass1_stu_A, ass1_stu_A_name, ass1_stu_A_dispName, ass1_ass_A, ass1_ass_A_name, ass1_ass_A_dispName, ass1_stu_B, ass1_stu_B_name, ass1_stu_B_dispName, ass1_ass_B, ass1_ass_B_name, ass1_ass_B_dispName, ass2_stu_A, ass2_stu_A_name, ass2_stu_A_dispName, ass2_ass_A, ass2_ass_A_name, ass2_ass_A_dispName, ass2_stu_B, ass2_stu_B_name, ass2_stu_B_dispName, ass2_ass_B, ass2_ass_B_name, ass2_ass_B_dispName, ass3_stu_A, ass3_stu_A_name, ass3_stu_A_dispName, ass3_ass_A, ass3_ass_A_name, ass3_ass_A_dispName, ass3_stu_B, ass3_stu_B_name, ass3_stu_B_dispName, ass3_ass_B, ass3_ass_B_name, ass3_ass_B_dispName, ass4_stu_A, ass4_stu_A_name, ass4_stu_A_dispName, ass4_ass_A, ass4_ass_A_name, ass4_ass_A_dispName, ass4_stu_B, ass4_stu_B_name, ass4_stu_B_dispName, ass4_ass_B, ass4_ass_B_name, ass4_ass_B_dispName, week_type, noMeeting, isReleased, chairmanMM_A, chairmanMM_A_name, chairmanMM_A_dispName, chairmanMM_B, chairmanMM_B_name, chairmanMM_B_dispName, opening_prayer, opening_prayer_name, opening_prayer_dispName, tgw_talk, tgw_talk_name, tgw_talk_dispName, tgw_gems, tgw_gems_name, tgw_gems_dispName, lc_part1, lc_part1_name, lc_part1_dispName, lc_part2, lc_part2_name, lc_part2_dispName, cbs_conductor, cbs_conductor_name, cbs_conductor_dispName, cbs_reader, cbs_reader_name, cbs_reader_dispName, closing_prayer, closing_prayer_name, closing_prayer_dispName, changes',
 });
+appDb
+  .version(6)
+  .stores({
+    personsTmp:
+      '&person_uid, person_name, person_displayName, isMale, isFemale, isUnavailable, lastAssignment, assignments, timeAway, isMoved, isDisqualified, isChairmanMM, isPrayerMM, isTGWTalk, isTGWGems, isLCPart, isCBSConductor, isCBSReader, changes',
+  })
+  .upgrade(async (trans) => {
+    const oldPersons = await trans.persons.toArray();
+    for await (const person of oldPersons) {
+      delete person.id;
+      await trans.personsTmp.put(person, person.person_uid);
+    }
+  });
+appDb.version(7).stores({
+  persons: null,
+});
+appDb
+  .version(8)
+  .stores({
+    persons:
+      '&person_uid, person_name, person_displayName, isMale, isFemale, isUnavailable, lastAssignment, assignments, timeAway, isMoved, isDisqualified, isChairmanMM, isPrayerMM, isTGWTalk, isTGWGems, isLCPart, isCBSConductor, isCBSReader, changes',
+  })
+  .upgrade(async (trans) => {
+    const oldPersons = await trans.personsTmp.toArray();
+    for await (const person of oldPersons) {
+      await trans.persons.put(person, person.person_uid);
+    }
+  });
+appDb.version(9).stores({
+  personsTmp: null,
+});
+appDb.version(10).stores({
+  persons:
+    '&person_uid, person_name, person_displayName, isMale, isFemale, isUnavailable, lastAssignment, assignments, timeAway, isMoved, isDisqualified, changes',
+});
 
 appDb.on('populate', function () {
   appDb.app_settings.add({

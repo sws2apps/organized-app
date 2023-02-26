@@ -255,7 +255,7 @@ const PersonAssignments = ({ student, assignments, setAssignments }) => {
                     onChange={(e) => handleAssignmentsChange(115, e.target.checked)}
                   />
                 }
-                label={t('cbsConductor', { ns: 'source' })}
+                label={`${t('cbs', { ns: 'source' })} - ${t('cbsConductor', { ns: 'source' })}`}
               />
               <FormControlLabel
                 control={
@@ -265,7 +265,7 @@ const PersonAssignments = ({ student, assignments, setAssignments }) => {
                     onChange={(e) => handleAssignmentsChange(116, e.target.checked)}
                   />
                 }
-                label={t('cbsReader', { ns: 'source' })}
+                label={`${t('cbs', { ns: 'source' })} - ${t('cbsReader', { ns: 'source' })}`}
               />
             </FormGroup>
           </Box>

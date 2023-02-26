@@ -16,30 +16,19 @@ export const dbGetStudents = async () => {
 
   const appData = data.filter((student) => student.isMoved === undefined || student.isMoved === false);
 
-  for (let i = 0; i < appData.length; i++) {
-    let person = {};
-    person.id = appData[i].id;
-    person.person_uid = appData[i].person_uid;
-    person.person_name = appData[i].person_name;
-    person.person_displayName = appData[i].person_displayName;
-    person.isMale = appData[i].isMale;
-    person.isFemale = appData[i].isFemale;
-    person.isUnavailable = appData[i].isUnavailable;
-    person.forLivePart = appData[i].forLivePart;
-    person.viewOnlineSchedule = appData[i].viewOnlineSchedule || false;
-    person.student_PIN = appData[i].student_PIN || '';
-    person.viewStudent_Part = appData[i].viewStudent_Part || [];
-    person.lastBRead = appData[i].lastBRead || '';
-    person.lastInitialCall = appData[i].lastInitialCall || '';
-    person.lastReturnVisit = appData[i].lastReturnVisit || '';
-    person.lastBibleStudy = appData[i].lastBibleStudy || '';
-    person.lastTalk = appData[i].lastTalk || '';
-    person.isMoved = appData[i].isMoved || false;
-    person.isDisqualified = appData[i].isDisqualified || false;
-    let assignments = appData[i].assignments || [];
-    person.assignments = sortHistoricalDateDesc(assignments);
+  for (const item of appData) {
+    const person = {};
+    person.person_uid = item.person_uid;
+    person.person_name = item.person_name;
+    person.person_displayName = item.person_displayName;
+    person.isMale = item.isMale;
+    person.isFemale = item.isFemale;
+    person.isUnavailable = item.isUnavailable;
+    person.isMoved = item.isMoved || false;
+    person.isDisqualified = item.isDisqualified || false;
+    person.assignments = item.assignments || [];
 
-    let timeAway = appData[i].timeAway || [];
+    let timeAway = item.timeAway || [];
     person.timeAway = sortHistoricalDateDesc(timeAway);
 
     allStudents.push(person);
@@ -54,23 +43,23 @@ export const dbGetStudentsMini = async () => {
 
   const appData = data.filter((student) => student.isMoved === false);
 
-  for (let i = 0; i < appData.length; i++) {
-    let person = {};
-    person.id = appData[i].id;
-    person.person_uid = appData[i].person_uid;
-    person.person_name = appData[i].person_name;
-    person.person_displayName = appData[i].person_displayName;
-    person.isMale = appData[i].isMale;
-    person.isFemale = appData[i].isFemale;
-    person.isDisqualified = appData[i].isDisqualified || false;
-    person.lastAssignment = appData[i].lastAssignment;
-    person.assignments = appData[i].assignments;
+  for (const item of appData) {
+    const person = {};
+    person.person_uid = item.person_uid;
+    person.person_name = item.person_name;
+    person.person_displayName = item.person_displayName;
+    person.isMale = item.isMale;
+    person.isFemale = item.isFemale;
+    person.isDisqualified = item.isDisqualified || false;
+    person.lastAssignment = item.lastAssignment;
+    person.assignments = item.assignments;
 
-    let timeAway = appData[i].timeAway || [];
+    let timeAway = item.timeAway || [];
     person.timeAway = sortHistoricalDateDesc(timeAway);
 
     allStudents.push(person);
   }
+
   return allStudents;
 };
 
@@ -84,24 +73,18 @@ export const dbIsStudentExist = async (varName) => {
 };
 
 export const dbSavePersonData = async (personData) => {
-  const person = await dbGetStudentDetails(personData.person_uid);
-
-  await appDb.table('persons').update(person.id, {
+  await appDb.table('persons').update(personData.person_uid, {
     person_name: personData.person_name,
     person_displayName: personData.person_displayName,
     isMale: personData.isMale,
     isFemale: personData.isFemale,
     isUnavailable: personData.isUnavailable,
-    viewOnlineSchedule: personData.viewOnlineSchedule,
-    student_PIN: personData.student_PIN,
-    viewStudent_Part: personData.viewStudent_Part,
     assignments: personData.assignments,
   });
 };
 
 export const dbDeleteStudent = async (uid) => {
-  const appData = await appDb.table('persons').get({ person_uid: uid });
-  await appDb.persons.delete(appData.id);
+  await appDb.persons.delete(uid);
 
   const data = {
     table: 'persons',
@@ -121,11 +104,6 @@ export const dbAddPersonData = async (personData) => {
     isFemale: personData.isFemale,
     isUnavailable: personData.isUnavailable,
   });
-};
-
-export const dbGetStudentUidById = async (id) => {
-  const appData = await appDb.table('persons').get({ id: id });
-  return appData.person_uid;
 };
 
 export const dbGetStudentByUid = async (uid) => {
@@ -288,14 +266,13 @@ export const dbHistoryAssistant = async (mainStuID) => {
 };
 
 export const dbSavePerson = async (uid, data) => {
-  const person = await dbGetStudentDetails(uid);
-  await appDb.table('persons').update(person.id, {
+  await appDb.table('persons').update(uid, {
     ...data,
   });
 };
 
 export const dbSavePersonMigration = async (data) => {
-  await appDb.table('persons').update(data.id, {
+  await appDb.table('persons').update(data.person_uid, {
     ...data,
   });
 };
@@ -328,13 +305,13 @@ export const dbBuildPocketUsers = async () => {
 };
 
 export const dbSavePersonExp = async (data) => {
-  const { id, person_name, person_displayName } = data;
+  const { person_uid, person_name, person_displayName } = data;
   if (person_name && person_displayName) {
-    if (id) {
+    if (person_uid) {
       if (data.historyAssignments) delete data.historyAssignments;
       const person = await dbGetStudentByUid(data.person_uid);
       data.changes = comparePerson(person, data);
-      await appDb.table('persons').update(id, data);
+      await appDb.table('persons').update(person_uid, data);
     } else {
       let obj = {
         person_uid: window.crypto.randomUUID(),
