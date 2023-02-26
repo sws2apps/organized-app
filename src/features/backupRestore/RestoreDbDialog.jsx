@@ -57,6 +57,7 @@ const RestoreDbDialog = () => {
 
           if (res.status === 200) {
             const { cong_persons, cong_schedule, cong_sourceMaterial, cong_swsPocket, cong_settings } = data;
+            console.log(cong_persons);
 
             await dbRestoreCongregationBackup(
               cong_persons,

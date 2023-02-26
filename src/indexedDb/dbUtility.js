@@ -298,7 +298,8 @@ export const dbRestoreCongregationBackup = async (
         });
       }
 
-      await appDb.table('persons').update(oldPerson.id, oldPerson);
+      if (oldPerson.id) delete oldPerson.id;
+      await appDb.table('persons').update(oldPerson.person_uid, oldPerson);
     }
   }
 
@@ -306,6 +307,7 @@ export const dbRestoreCongregationBackup = async (
   for await (const newPerson of cong_persons) {
     const oldPerson = oldPersons.find((person) => person.person_uid === newPerson.person_uid);
     if (!oldPerson) {
+      if (newPerson.id) delete newPerson.id;
       await appDb.persons.add(newPerson);
     }
   }
