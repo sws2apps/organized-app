@@ -235,7 +235,7 @@ export const dbHistoryAssignment = async () => {
 
     return dbHistory;
   } catch (error) {
-    console.error(error.message);
+    console.log(`An error occured while building assignments history: ${error.message}`);
   }
 };
 
