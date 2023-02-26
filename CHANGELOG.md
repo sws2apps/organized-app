@@ -1,3 +1,10 @@
+## [2.42.2](https://github.com/sws2apps/cpe-sws/compare/v2.42.1...v2.42.2) (2023-02-26)
+
+
+### Bug Fixes
+
+* **startup:** add additional condition when switching account type ([9e4a261](https://github.com/sws2apps/cpe-sws/commit/9e4a261601ffd257e808b81645cd9f145f5ba83d))
+
 ## [2.42.1](https://github.com/sws2apps/cpe-sws/compare/v2.42.0...v2.42.1) (2023-02-26)
 
 
