@@ -312,9 +312,12 @@ export const dbRestoreCongregationBackup = async (
 
   // restore source materials
   const oldSources = await appDb.src.toArray();
-  await appDb.src.clear();
   for await (const src of cong_sourceMaterial) {
-    await appDb.src.add(src, src.weekOf);
+    const isSrcExist = oldSources.find((source) => source.weekOf === src.weekOf);
+
+    if (!isSrcExist) {
+      await appDb.src.add(src, src.weekOf);
+    }
 
     // restore keepOverride if qualified
     const newKeepOverride = src.keepOverride || undefined;

@@ -120,7 +120,7 @@ const BackupMain = ({ handleCreateBackup, handleClose, handleRestoreBackup, open
             <>
               {hasBackup && (
                 <Typography>
-                  {t('lastCongBackup', {
+                  {t(action === 'backup' ? 'lastCongBackup' : 'restoreConfirmation', {
                     backup_person: backup.by,
                     backup_date: dateFormat(new Date(backup.date), shortDateFormat),
                   })}
