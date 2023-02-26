@@ -1,3 +1,10 @@
+## [2.42.3](https://github.com/sws2apps/cpe-sws/compare/v2.42.2...v2.42.3) (2023-02-26)
+
+
+### Bug Fixes
+
+* **deps:** update jw-epub-parser to latest version ([d926706](https://github.com/sws2apps/cpe-sws/commit/d926706d23eb616780a30127ba6dacab9577a9d8))
+
 ## [2.42.2](https://github.com/sws2apps/cpe-sws/compare/v2.42.1...v2.42.2) (2023-02-26)
 
 
