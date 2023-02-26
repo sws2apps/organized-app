@@ -672,3 +672,15 @@ export const dbUpdatePocketSource = async (data) => {
     }
   }
 };
+
+export const getOldestWeek = async () => {
+  const appData = await appDb.table('sched_MM').toArray();
+
+  appData.sort((a, b) => {
+    const dateA = a.weekOf.split('/')[2] + '/' + a.weekOf.split('/')[0] + '/' + a.weekOf.split('/')[1];
+    const dateB = b.weekOf.split('/')[2] + '/' + b.weekOf.split('/')[0] + '/' + b.weekOf.split('/')[1];
+    return dateA > dateB ? 1 : -1;
+  });
+
+  return appData[0].weekOf;
+};

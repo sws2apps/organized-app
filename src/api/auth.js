@@ -46,7 +46,10 @@ export const apiSendAuthorization = async () => {
           await promiseSetRecoil(appMessageState, data.message);
           await promiseSetRecoil(appSeverityState, 'warning');
           await promiseSetRecoil(appSnackOpenState, true);
+          return {};
         }
+
+        return {};
       }
     }
 

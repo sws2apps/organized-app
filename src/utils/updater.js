@@ -563,14 +563,14 @@ const updateAssignmentType = async () => {
 };
 
 const removeInvalidWeeks = async () => {
-  const weekInvalids = ['07/26/2023'];
+  const weekInvalids = ['01/26/2022', '07/26/2023'];
 
   for await (const weekInvalid of weekInvalids) {
     const srcData = await appDb.src.get({ weekOf: weekInvalid });
     if (srcData) await appDb.src.delete(srcData.weekOf);
 
     const schedData = await appDb.sched_MM.get({ weekOf: weekInvalid });
-    if (schedData) await appDb.src.delete(schedData.weekOf);
+    if (schedData) await appDb.sched_MM.delete(schedData.weekOf);
   }
 };
 

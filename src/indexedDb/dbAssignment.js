@@ -234,7 +234,9 @@ export const dbHistoryAssignment = async () => {
     }
 
     return dbHistory;
-  } catch {}
+  } catch (error) {
+    console.error(error.message);
+  }
 };
 
 export const dbStudentAssignmentsHistory = async (stuID) => {
@@ -543,8 +545,9 @@ export const dbRefreshStudentHistory = async (varPrev, varNew) => {
         const obj = {};
         obj.lastAssignment = stuAssignment;
         obj.changes = student.changes || [];
-        const findIndex = obj.changes.findIndex((item) => item.field === 'lastAssignment');
-        if (findIndex !== -1) obj.changes.splice(findIndex, 1);
+
+        obj.changes = obj.changes.filter((item) => item.field !== 'lastAssignment');
+
         obj.changes.push({ date: new Date().toISOString(), field: 'lastAssignment', value: stuAssignment });
         await appDb.table('persons').update(student.person_uid, { ...obj });
 

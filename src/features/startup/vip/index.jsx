@@ -23,13 +23,14 @@ import {
 import { apiSendAuthorization } from '../../../api';
 import { dbGetAppSettings, dbUpdateAppSettings } from '../../../indexedDb/dbAppSettings';
 import WaitingPage from '../../../components/WaitingPage';
+import SetupMFA from './SetupMFA';
+import VerifyMFA from './VerifyMFA';
+import { appMessageState, appSeverityState, appSnackOpenState } from '../../../states/notification';
 
 // lazy loading
 const EmailNotVerified = lazy(() => import('./EmailNotVerified'));
-const SetupMFA = lazy(() => import('./SetupMFA'));
 const SignIn = lazy(() => import('./SignIn'));
 const SignUp = lazy(() => import('./SignUp'));
-const VerifyMFA = lazy(() => import('./VerifyMFA'));
 const EmailAuth = lazy(() => import('./EmailAuth'));
 const EmailBlocked = lazy(() => import('./EmailBlocked'));
 const CongregationCreate = lazy(() => import('./CongregationCreate'));
@@ -47,6 +48,9 @@ const VipStartup = () => {
 
   const setIsAppLoad = useSetRecoilState(isAppLoadState);
   const setIsSetup = useSetRecoilState(isSetupState);
+  const setAppSnackOpen = useSetRecoilState(appSnackOpenState);
+  const setAppSeverity = useSetRecoilState(appSeverityState);
+  const setAppMessage = useSetRecoilState(appMessageState);
 
   const showTermsUse = useRecoilValue(isShowTermsUseState);
   const isEmailNotVerified = useRecoilValue(isEmailNotVerifiedState);
@@ -117,52 +121,62 @@ const VipStartup = () => {
   ]);
 
   useEffect(() => {
-    if (showTermsUse) return;
+    try {
+      if (showTermsUse) return;
 
-    const runAuthenticatedStep = async () => {
-      setIsUserSignIn(false);
-      setIsAuthProcessing(true);
+      const runAuthenticatedStep = async () => {
+        setIsUserSignIn(false);
+        setIsAuthProcessing(true);
 
-      const settings = await dbGetAppSettings();
-      const cong_name = settings.cong_name;
-      const cong_role = settings.cong_role;
+        const settings = await dbGetAppSettings();
+        const cong_name = settings.cong_name || '';
+        const cong_role = settings.cong_role || [];
 
-      let approvedRole = cong_role.includes('lmmo');
-      if (!approvedRole) cong_role.includes('lmmo-backup');
+        let approvedRole = cong_role.includes('lmmo');
+        if (!approvedRole) cong_role.includes('lmmo-backup');
 
-      if (!isOfflineOverride && cong_name.length > 0 && approvedRole) {
-        setIsSetup(false);
-        await loadApp();
-        await runUpdater();
-        setTimeout(() => {
+        if (!isOfflineOverride && cong_name.length > 0 && approvedRole) {
           setIsSetup(false);
-          setIsAppLoad(false);
-        }, [1000]);
-        return;
-      }
-
-      setIsAuthProcessing(true);
-      const result = await apiSendAuthorization();
-
-      if (result.isSetupMFA || result.isVerifyMFA) {
-        if (result.isVerifyMFA) {
-          setIsUserSignUp(false);
-          setUserMfaVerify(true);
+          await loadApp();
+          await runUpdater();
+          setTimeout(() => {
+            setIsSetup(false);
+            setIsAppLoad(false);
+          }, [1000]);
+          return;
         }
-        if (result.isSetupMFA) {
-          setIsUserSignUp(false);
-          setUserMfaSetup(true);
-        }
-        await dbUpdateAppSettings({ account_type: 'vip' });
-      }
 
+        setIsAuthProcessing(true);
+        const result = await apiSendAuthorization();
+
+        if (result.isSetupMFA || result.isVerifyMFA) {
+          if (result.isVerifyMFA) {
+            setIsUserSignUp(false);
+            setUserMfaVerify(true);
+          }
+          if (result.isSetupMFA) {
+            setIsUserSignUp(false);
+            setUserMfaSetup(true);
+          }
+          await dbUpdateAppSettings({ account_type: 'vip' });
+        }
+
+        setIsAuthProcessing(false);
+      };
+
+      if (isAuthenticated && visitorID !== '') runAuthenticatedStep();
+    } catch (err) {
       setIsAuthProcessing(false);
-    };
-
-    if (isAuthenticated && visitorID !== '') runAuthenticatedStep();
+      setAppSnackOpen(true);
+      setAppSeverity('error');
+      setAppMessage(err.message);
+    }
   }, [
     isAuthenticated,
     isOfflineOverride,
+    setAppSnackOpen,
+    setAppSeverity,
+    setAppMessage,
     setIsAppLoad,
     setIsAuthProcessing,
     setIsSetup,
