@@ -1,3 +1,10 @@
+# [2.42.0](https://github.com/sws2apps/cpe-sws/compare/v2.41.2...v2.42.0) (2023-02-26)
+
+
+### Features
+
+* **persons:** use person uid as primary key in indexedDb ([7e0eb53](https://github.com/sws2apps/cpe-sws/commit/7e0eb530ad6cf7f752ab071129750ef8761e7ffc))
+
 ## [2.41.2](https://github.com/sws2apps/cpe-sws/compare/v2.41.1...v2.41.2) (2023-02-26)
 
 
