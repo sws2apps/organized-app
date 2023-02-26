@@ -1,3 +1,10 @@
+## [2.42.1](https://github.com/sws2apps/cpe-sws/compare/v2.42.0...v2.42.1) (2023-02-26)
+
+
+### Bug Fixes
+
+* **schedules:** hide modal when jw.org import is failing ([a2aa077](https://github.com/sws2apps/cpe-sws/commit/a2aa07786ee7774076c0d3490a9a266d5e7e1787))
+
 # [2.42.0](https://github.com/sws2apps/cpe-sws/compare/v2.41.2...v2.42.0) (2023-02-26)
 
 
