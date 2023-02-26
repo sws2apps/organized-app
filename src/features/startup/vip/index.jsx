@@ -70,6 +70,7 @@ const VipStartup = () => {
     const runNotAuthenticatedStep = async () => {
       const settings = await dbGetAppSettings();
       const cong_name = settings.cong_name;
+      const cong_role = settings.cong_role || [];
 
       if (isOfflineOverride) {
         showSignup();
@@ -77,6 +78,14 @@ const VipStartup = () => {
       }
 
       if (cong_name.length === 0) {
+        showSignup();
+        return;
+      }
+
+      let approvedRole = cong_role.includes('lmmo');
+      if (!approvedRole) cong_role.includes('lmmo-backup');
+
+      if (!approvedRole) {
         showSignup();
         return;
       }
@@ -116,8 +125,12 @@ const VipStartup = () => {
 
       const settings = await dbGetAppSettings();
       const cong_name = settings.cong_name;
+      const cong_role = settings.cong_role;
 
-      if (!isOfflineOverride && cong_name.length > 0) {
+      let approvedRole = cong_role.includes('lmmo');
+      if (!approvedRole) cong_role.includes('lmmo-backup');
+
+      if (!isOfflineOverride && cong_name.length > 0 && approvedRole) {
         setIsSetup(false);
         await loadApp();
         await runUpdater();
@@ -157,6 +170,7 @@ const VipStartup = () => {
     setIsUserSignUp,
     setUserMfaSetup,
     setUserMfaVerify,
+    setIsCongAccountCreate,
     showTermsUse,
     visitorID,
   ]);
