@@ -47,45 +47,40 @@ const PocketSignUp = () => {
   };
 
   const handleSignUp = async () => {
-    try {
-      if (code.length < 10) {
-        setAppMessage(getErrorMessage('INPUT_INVALID'));
-        setAppSeverity('warning');
-        setAppSnackOpen(true);
-        return;
-      }
-
-      setIsProcessing(true);
-      const { status, data } = await apiPocketSignUp(code);
-
-      if (status !== 200) {
-        setAppMessage(getErrorMessage(data.message));
-        setAppSeverity('warning');
-        setAppSnackOpen(true);
-        setIsProcessing(false);
-      }
-
-      const { cong_role } = data;
-      if (!cong_role.includes('view_meeting_schedule')) {
-        setAccountType('');
-        setIsUnauthorizedRole(true);
-        return;
-      }
-
-      await loadApp();
-      await runUpdater();
-      await dbUpdateUserSettings(data);
-      await apiFetchSchedule();
-      setIsSetup(false);
-      setTimeout(async () => {
-        setCongAccountConnected(true);
-      }, [1000]);
-    } catch (err) {
-      setIsProcessing(false);
-      setAppMessage(err.message);
-      setAppSeverity('error');
+    if (code.length < 10) {
+      setAppMessage(getErrorMessage('INPUT_INVALID'));
+      setAppSeverity('warning');
       setAppSnackOpen(true);
+      return;
     }
+
+    setIsProcessing(true);
+    const { status, data } = await apiPocketSignUp(code);
+
+    console.log(status, data);
+
+    if (status !== 200) {
+      setAppMessage(getErrorMessage(data.message));
+      setAppSeverity('warning');
+      setAppSnackOpen(true);
+      setIsProcessing(false);
+    }
+
+    const { cong_role } = data;
+    if (!cong_role.includes('view_meeting_schedule')) {
+      setAccountType('');
+      setIsUnauthorizedRole(true);
+      return;
+    }
+
+    await loadApp();
+    await runUpdater();
+    await dbUpdateUserSettings(data);
+    await apiFetchSchedule();
+    setIsSetup(false);
+    setTimeout(async () => {
+      setCongAccountConnected(true);
+    }, [1000]);
   };
 
   return (
