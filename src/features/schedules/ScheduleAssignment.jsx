@@ -582,7 +582,7 @@ const ScheduleAssignment = ({ edit }) => {
             loadStudentPicker({
               assID: 22,
               assType: 113,
-              assTypeName: t('tgwGems'),
+              assTypeName: t('tgwGems', { ns: 'source' }),
               currentStudent: tgwGems,
             })
           }
