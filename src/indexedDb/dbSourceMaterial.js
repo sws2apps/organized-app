@@ -663,12 +663,14 @@ export const dbIsWeekExist = async (varWeek) => {
 };
 
 export const dbUpdatePocketSource = async (data) => {
-  for await (const monthSource of data.midweekMeeting) {
-    const weeks = monthSource.sources;
-    for await (const week of weeks) {
-      week.isOverride = false;
+  if (data.midweekMeeting) {
+    for await (const monthSource of data.midweekMeeting) {
+      const weeks = monthSource.sources;
+      for await (const week of weeks) {
+        week.isOverride = false;
 
-      await dbSaveSrcData(week, true);
+        await dbSaveSrcData(week, true);
+      }
     }
   }
 };

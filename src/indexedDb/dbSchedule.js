@@ -394,10 +394,12 @@ export const dbFetchScheduleInfo = async (condition, currentSchedule, currentWee
 };
 
 export const dbUpdatePocketSchedule = async (data) => {
-  for await (const monthSchedule of data.midweekMeeting) {
-    const weeks = monthSchedule.schedules;
-    for await (const week of weeks) {
-      await appDb.sched_MM.update(week.weekOf, week);
+  if (data.midweekMeeting) {
+    for await (const monthSchedule of data.midweekMeeting) {
+      const weeks = monthSchedule.schedules;
+      for await (const week of weeks) {
+        await appDb.sched_MM.update(week.weekOf, week);
+      }
     }
   }
 };
