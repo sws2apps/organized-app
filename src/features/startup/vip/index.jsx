@@ -121,58 +121,56 @@ const VipStartup = () => {
   ]);
 
   useEffect(() => {
-    try {
-      if (showTermsUse) return;
+    if (showTermsUse) return;
 
-      const runAuthenticatedStep = async () => {
-        if (visitorID !== '') {
-          setIsUserSignIn(false);
-          setIsAuthProcessing(true);
+    const runAuthenticatedStep = async () => {
+      try {
+        setIsUserSignIn(false);
+        setIsAuthProcessing(true);
 
-          const settings = await dbGetAppSettings();
-          const cong_name = settings.cong_name || '';
-          const cong_role = settings.cong_role || [];
+        const settings = await dbGetAppSettings();
+        const cong_name = settings.cong_name || '';
+        const cong_role = settings.cong_role || [];
 
-          let approvedRole = cong_role.includes('lmmo');
-          if (!approvedRole) cong_role.includes('lmmo-backup');
+        let approvedRole = cong_role.includes('lmmo');
+        if (!approvedRole) cong_role.includes('lmmo-backup');
 
-          if (!isOfflineOverride && cong_name.length > 0 && approvedRole) {
+        if (!isOfflineOverride && cong_name.length > 0 && approvedRole) {
+          setIsSetup(false);
+          await loadApp();
+          await runUpdater();
+          setTimeout(() => {
             setIsSetup(false);
-            await loadApp();
-            await runUpdater();
-            setTimeout(() => {
-              setIsSetup(false);
-              setIsAppLoad(false);
-            }, [1000]);
-            return;
-          }
-
-          setIsAuthProcessing(true);
-          const result = await apiSendAuthorization();
-
-          if (result.isSetupMFA || result.isVerifyMFA) {
-            if (result.isVerifyMFA) {
-              setIsUserSignUp(false);
-              setUserMfaVerify(true);
-            }
-            if (result.isSetupMFA) {
-              setIsUserSignUp(false);
-              setUserMfaSetup(true);
-            }
-            await dbUpdateAppSettings({ account_type: 'vip' });
-          }
-
-          setIsAuthProcessing(false);
+            setIsAppLoad(false);
+          }, [1000]);
+          return;
         }
-      };
 
-      if (isAuthenticated) runAuthenticatedStep();
-    } catch (err) {
-      setIsAuthProcessing(false);
-      setAppSnackOpen(true);
-      setAppSeverity('error');
-      setAppMessage(err.message);
-    }
+        setIsAuthProcessing(true);
+        const result = await apiSendAuthorization();
+
+        if (result.isSetupMFA || result.isVerifyMFA) {
+          if (result.isVerifyMFA) {
+            setIsUserSignUp(false);
+            setUserMfaVerify(true);
+          }
+          if (result.isSetupMFA) {
+            setIsUserSignUp(false);
+            setUserMfaSetup(true);
+          }
+          await dbUpdateAppSettings({ account_type: 'vip' });
+        }
+
+        setIsAuthProcessing(false);
+      } catch (err) {
+        setIsAuthProcessing(false);
+        setAppSnackOpen(true);
+        setAppSeverity('error');
+        setAppMessage(err.message);
+      }
+    };
+
+    if (isAuthenticated && visitorID !== '') runAuthenticatedStep();
   }, [
     isAuthenticated,
     isOfflineOverride,
