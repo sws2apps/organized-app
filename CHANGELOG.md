@@ -1,3 +1,10 @@
+## [2.42.4](https://github.com/sws2apps/cpe-sws/compare/v2.42.3...v2.42.4) (2023-02-27)
+
+
+### Bug Fixes
+
+* **startup:** fix error when app does not load for some users ([934054f](https://github.com/sws2apps/cpe-sws/commit/934054f1d43e876120e73f8a6e3cf1ba95da7515))
+
 ## [2.42.3](https://github.com/sws2apps/cpe-sws/compare/v2.42.2...v2.42.3) (2023-02-26)
 
 
