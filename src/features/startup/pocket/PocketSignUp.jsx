@@ -47,45 +47,52 @@ const PocketSignUp = () => {
   };
 
   const handleSignUp = async () => {
-    if (code.length < 10) {
-      setAppMessage(getErrorMessage('INPUT_INVALID'));
-      setAppSeverity('warning');
-      setAppSnackOpen(true);
-      return;
-    }
+    try {
+      if (code.length < 10) {
+        setAppMessage(getErrorMessage('INPUT_INVALID'));
+        setAppSeverity('warning');
+        setAppSnackOpen(true);
+        return;
+      }
 
-    setIsProcessing(true);
-    const { status, data } = await apiPocketSignUp(code);
+      setIsProcessing(true);
+      const { status, data } = await apiPocketSignUp(code);
 
-    console.log(status, data);
+      console.log(status, data);
 
-    if (status !== 200) {
-      setAppMessage(getErrorMessage(data.message));
-      setAppSeverity('warning');
-      setAppSnackOpen(true);
+      if (status !== 200) {
+        setAppMessage(getErrorMessage(data.message));
+        setAppSeverity('warning');
+        setAppSnackOpen(true);
+        setIsProcessing(false);
+      }
+
+      const { cong_role } = data;
+      if (!cong_role.includes('view_meeting_schedule')) {
+        setAccountType('');
+        setIsUnauthorizedRole(true);
+        return;
+      }
+
+      await loadApp();
+      await runUpdater();
+      await dbUpdateUserSettings(data);
+      await apiFetchSchedule();
+      setIsSetup(false);
+      setTimeout(async () => {
+        setCongAccountConnected(true);
+      }, [1000]);
+    } catch (err) {
       setIsProcessing(false);
+      setAppMessage(err.message);
+      setAppSeverity('error');
+      setAppSnackOpen(true);
     }
-
-    const { cong_role } = data;
-    if (!cong_role.includes('view_meeting_schedule')) {
-      setAccountType('');
-      setIsUnauthorizedRole(true);
-      return;
-    }
-
-    await loadApp();
-    await runUpdater();
-    await dbUpdateUserSettings(data);
-    await apiFetchSchedule();
-    setIsSetup(false);
-    setTimeout(async () => {
-      setCongAccountConnected(true);
-    }, [1000]);
   };
 
   return (
     <Container sx={{ marginTop: '20px' }}>
-      <Typography variant="h4" sx={{ marginBottom: '15px' }}>
+      <Typography variant='h4' sx={{ marginBottom: '15px' }}>
         {t('welcome')}
       </Typography>
 
@@ -101,10 +108,10 @@ const PocketSignUp = () => {
               textTransform: 'uppercase',
             },
           }}
-          id="outlined-signup-code"
+          id='outlined-signup-code'
           label={t('activationCode')}
-          variant="outlined"
-          autoComplete="off"
+          variant='outlined'
+          autoComplete='off'
           required
           value={code}
           onChange={(e) => setCode(e.target.value)}
@@ -121,8 +128,8 @@ const PocketSignUp = () => {
         }}
       >
         <Button
-          color="inherit"
-          variant="contained"
+          color='inherit'
+          variant='contained'
           disabled={isProcessing}
           sx={{ color: 'black !important' }}
           onClick={handleReturnChooser}
@@ -130,7 +137,7 @@ const PocketSignUp = () => {
           {t('back')}
         </Button>
         <Button
-          variant="contained"
+          variant='contained'
           disabled={!isOnline || isProcessing || visitorID.length === 0}
           endIcon={visitorID.length === 0 || isProcessing ? <CircularProgress size={25} /> : null}
           onClick={handleSignUp}
