@@ -125,46 +125,48 @@ const VipStartup = () => {
       if (showTermsUse) return;
 
       const runAuthenticatedStep = async () => {
-        setIsUserSignIn(false);
-        setIsAuthProcessing(true);
+        if (visitorID !== '') {
+          setIsUserSignIn(false);
+          setIsAuthProcessing(true);
 
-        const settings = await dbGetAppSettings();
-        const cong_name = settings.cong_name || '';
-        const cong_role = settings.cong_role || [];
+          const settings = await dbGetAppSettings();
+          const cong_name = settings.cong_name || '';
+          const cong_role = settings.cong_role || [];
 
-        let approvedRole = cong_role.includes('lmmo');
-        if (!approvedRole) cong_role.includes('lmmo-backup');
+          let approvedRole = cong_role.includes('lmmo');
+          if (!approvedRole) cong_role.includes('lmmo-backup');
 
-        if (!isOfflineOverride && cong_name.length > 0 && approvedRole) {
-          setIsSetup(false);
-          await loadApp();
-          await runUpdater();
-          setTimeout(() => {
+          if (!isOfflineOverride && cong_name.length > 0 && approvedRole) {
             setIsSetup(false);
-            setIsAppLoad(false);
-          }, [1000]);
-          return;
-        }
-
-        setIsAuthProcessing(true);
-        const result = await apiSendAuthorization();
-
-        if (result.isSetupMFA || result.isVerifyMFA) {
-          if (result.isVerifyMFA) {
-            setIsUserSignUp(false);
-            setUserMfaVerify(true);
+            await loadApp();
+            await runUpdater();
+            setTimeout(() => {
+              setIsSetup(false);
+              setIsAppLoad(false);
+            }, [1000]);
+            return;
           }
-          if (result.isSetupMFA) {
-            setIsUserSignUp(false);
-            setUserMfaSetup(true);
-          }
-          await dbUpdateAppSettings({ account_type: 'vip' });
-        }
 
-        setIsAuthProcessing(false);
+          setIsAuthProcessing(true);
+          const result = await apiSendAuthorization();
+
+          if (result.isSetupMFA || result.isVerifyMFA) {
+            if (result.isVerifyMFA) {
+              setIsUserSignUp(false);
+              setUserMfaVerify(true);
+            }
+            if (result.isSetupMFA) {
+              setIsUserSignUp(false);
+              setUserMfaSetup(true);
+            }
+            await dbUpdateAppSettings({ account_type: 'vip' });
+          }
+
+          setIsAuthProcessing(false);
+        }
       };
 
-      if (isAuthenticated && visitorID !== '') runAuthenticatedStep();
+      if (isAuthenticated) runAuthenticatedStep();
     } catch (err) {
       setIsAuthProcessing(false);
       setAppSnackOpen(true);
