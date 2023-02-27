@@ -58,8 +58,6 @@ const PocketSignUp = () => {
       setIsProcessing(true);
       const { status, data } = await apiPocketSignUp(code);
 
-      console.log(status, data);
-
       if (status !== 200) {
         setAppMessage(getErrorMessage(data.message));
         setAppSeverity('warning');
