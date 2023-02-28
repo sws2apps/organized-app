@@ -461,5 +461,7 @@
   "pocketNotFound": "Tsy misy kaonty hita amin’io kaody io. Ataovy azo antoka hoe marina tsara ilay izy.",
   "internalError": "Nisy olana avy aty aminay. Andramo indray rehefa afaka kelikely.",
   "noSchedules": "Ilazao aloha ny anti-panahy ao amin’ny fiangonanareo mba hizara ny fandaharam-pivoriana",
-  "noSchedule": "Tsy misy fandaharana amin’io herinandro io"
+  "noSchedule": "Tsy misy fandaharana amin’io herinandro io",
+  "downloadOldSourceMaterials": "Check this option if you want to download old source materials",
+  "mwbIssueMonth": "Issue month"
 }
