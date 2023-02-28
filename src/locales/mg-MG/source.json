@@ -52,7 +52,7 @@
   "lcPart": "Anjara Amin’ny Fiainantsika",
   "initialCallVariations": "0",
   "returnVisitVariations": "0",
-  "lcNoAssignedVariations": "Organizational Accomplishments",
-  "cbsLffWithPointsVariations": "lff lesson {{ lesson }} points {{ points }}|lff lesson {{ lesson }} point {{ points }}",
-  "cbsLffSectionOnlyVariations": "lff section"
+  "lcNoAssignedVariations": "Zava-bitan’ny Fandaminana",
+  "cbsLffWithPointsVariations": "lff lesona {{ lesson }}: Hevitra {{ points }}",
+  "cbsLffSectionOnlyVariations": "lff famerenana ny fizarana"
 }
