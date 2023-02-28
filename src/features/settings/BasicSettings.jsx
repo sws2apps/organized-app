@@ -5,7 +5,9 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import Box from '@mui/material/Box';
+import Checkbox from '@mui/material/Checkbox';
 import Divider from '@mui/material/Divider';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -16,6 +18,7 @@ import {
   congNumberState,
   meetingDayState,
   meetingTimeState,
+  openingPrayerAutoAssignState,
 } from '../../states/congregation';
 import { generateDisplayName } from '../../utils/person';
 
@@ -25,6 +28,7 @@ const BasicSettings = () => {
   const [classCount, setClassCount] = useRecoilState(classCountState);
   const [meetingDay, setMeetingDay] = useRecoilState(meetingDayState);
   const [meetingTime, setMeetingTime] = useRecoilState(meetingTimeState);
+  const [autoAssignOpeningPrayer, setAutoAssignOpeningPrayer] = useRecoilState(openingPrayerAutoAssignState);
 
   const congName = useRecoilValue(congNameState);
   const congNumber = useRecoilValue(congNumberState);
@@ -34,6 +38,7 @@ const BasicSettings = () => {
   const [tempMeetingTime, setTempMeetingTime] = useState(meetingTime);
   const [coName, setCoName] = useState('');
   const [coDisplayName, setCoDisplayName] = useState('');
+  const [tmpAutoAssignOpeningPrayer, setTmpAutoAssignOpeningPrayer] = useState(autoAssignOpeningPrayer);
 
   const handleMeetingDayChange = async (e) => {
     setTempMeetingDay(e.target.value);
@@ -68,6 +73,12 @@ const BasicSettings = () => {
   const handleChangeCODispName = async (value) => {
     setCoDisplayName(value);
     await dbUpdateAppSettings({ co_displayName: value });
+  };
+
+  const handleSwitchAutoAssignPrayer = async (value) => {
+    setTmpAutoAssignOpeningPrayer(value);
+    await dbUpdateAppSettings({ opening_prayer_autoAssign: value });
+    setAutoAssignOpeningPrayer(value);
   };
 
   useEffect(() => {
@@ -164,29 +175,45 @@ const BasicSettings = () => {
           </TextField>
         </Box>
 
-        <Typography sx={{ marginTop: '15px', fontWeight: 'bold' }}>{t('circuitOverseer')}</Typography>
+        <Box sx={{ marginTop: '20px' }}>
+          <Typography sx={{ fontWeight: 'bold' }}>{t('scheduleSettings')}</Typography>
+          <Box>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={tmpAutoAssignOpeningPrayer}
+                  onChange={(e) => handleSwitchAutoAssignPrayer(e.target.checked)}
+                />
+              }
+              label={t('autoAssignOpeningPrayer')}
+            />
+          </Box>
+        </Box>
 
-        <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '15px', marginTop: '10px' }}>
-          <TextField
-            id="outlined-basic"
-            label={t('name')}
-            variant="outlined"
-            size="small"
-            autoComplete="off"
-            sx={{ width: '320px' }}
-            value={coName}
-            onChange={(e) => handleChangeCOName(e.target.value)}
-          />
-          <TextField
-            id="outlined-basic"
-            label={t('displayName')}
-            variant="outlined"
-            size="small"
-            autoComplete="off"
-            sx={{ width: '200px' }}
-            value={coDisplayName}
-            onChange={(e) => handleChangeCODispName(e.target.value)}
-          />
+        <Box sx={{ marginTop: '20px' }}>
+          <Typography sx={{ fontWeight: 'bold' }}>{t('circuitOverseer')}</Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '15px', marginTop: '10px' }}>
+            <TextField
+              id="outlined-basic"
+              label={t('name')}
+              variant="outlined"
+              size="small"
+              autoComplete="off"
+              sx={{ width: '320px' }}
+              value={coName}
+              onChange={(e) => handleChangeCOName(e.target.value)}
+            />
+            <TextField
+              id="outlined-basic"
+              label={t('displayName')}
+              variant="outlined"
+              size="small"
+              autoComplete="off"
+              sx={{ width: '200px' }}
+              value={coDisplayName}
+              onChange={(e) => handleChangeCODispName(e.target.value)}
+            />
+          </Box>
         </Box>
       </Box>
     </Box>

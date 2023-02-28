@@ -15,7 +15,7 @@ import ScheduleMeetingPart from './ScheduleMeetingPart';
 import ScheduleRowAssignment from './ScheduleRowAssignment';
 import SingleAssignment from './SingleAssignment';
 import StudentSelector from './StudentSelector';
-import { classCountState } from '../../states/congregation';
+import { classCountState, openingPrayerAutoAssignState } from '../../states/congregation';
 import { dbGetScheduleData } from '../../indexedDb/dbSchedule';
 import { dbGetSourceMaterial } from '../../indexedDb/dbSourceMaterial';
 import { dbSaveAss } from '../../indexedDb/dbAssignment';
@@ -26,10 +26,11 @@ const ScheduleAssignment = ({ edit }) => {
 
   const { t } = useTranslation('ui');
 
-  const classCount = useRecoilValue(classCountState);
-
   const theme = useTheme();
   const lgDown = useMediaQuery(theme.breakpoints.down('lg'), { noSsr: true });
+
+  const classCount = useRecoilValue(classCountState);
+  const autoAssignOpeningPrayer = useRecoilValue(openingPrayerAutoAssignState);
 
   const [tgwTalkSrc, setTgwTalkSrc] = useState('');
   const [bibleReadingSrc, setBibleReadingSrc] = useState('');
@@ -286,6 +287,13 @@ const ScheduleAssignment = ({ edit }) => {
       await dbSaveAss(week, studentID, 'chairmanMM_A');
       setChairmanA(studentName);
       setIsChairmanA(false);
+
+      if (autoAssignOpeningPrayer) {
+        setIsOpeningPrayer(true);
+        await dbSaveAss(week, studentID, 'opening_prayer');
+        setOpeningPrayer(studentName);
+        setIsOpeningPrayer(false);
+      }
     }
 
     if (assID === 19) {
@@ -736,6 +744,7 @@ const ScheduleAssignment = ({ edit }) => {
         {/* LC1 */}
         {lcPart1Src !== '' && (
           <ScheduleRowAssignment
+            isLC={true}
             edit={edit}
             isAssignA={isLcPart1}
             personA={lcPart1}
@@ -755,6 +764,7 @@ const ScheduleAssignment = ({ edit }) => {
         {/* LC2 */}
         {lcCount > 1 && lcPart2Src !== '' && (
           <ScheduleRowAssignment
+            isLC={true}
             edit={edit}
             isAssignA={isLcPart2}
             personA={lcPart2}

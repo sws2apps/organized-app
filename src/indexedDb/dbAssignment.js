@@ -554,9 +554,6 @@ export const dbRefreshStudentHistory = async (varPrev, varNew) => {
         const students = await dbGetStudentsMini();
         await promiseSetRecoil(allStudentsState, students);
         await promiseSetRecoil(filteredStudentsState, students);
-
-        const history = await dbHistoryAssignment();
-        await promiseSetRecoil(studentsAssignmentHistoryState, history);
       }
     }
   }

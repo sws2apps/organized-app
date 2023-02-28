@@ -52,6 +52,10 @@ appDb.version(6).stores({
   persons:
     '&person_uid, person_name, person_displayName, isMale, isFemale, isUnavailable, lastAssignment, assignments, timeAway, isMoved, isDisqualified, changes',
 });
+appDb.version(7).stores({
+  app_settings:
+    '++id, username, local_uid, source_lang, cong_number, cong_name, cong_role, class_count, meeting_day, meeting_time, isScheduleConverted, isCongVerified, isAssignmentsConverted, isCongUpdated2, pocket_members, user_avatar, account_version, co_name, co_displayName, personAssignmentsConverted, autoBackup, autoBackup_interval, schedule_useFullname, account_type, opening_prayer_autoAssign',
+});
 
 appDb.on('populate', function () {
   appDb.app_settings.add({
@@ -70,6 +74,7 @@ appDb.on('populate', function () {
     account_version: 'v2',
     personAssignmentsConverted: true,
     schedule_useFullname: false,
+    opening_prayer_autoAssign: false,
   });
 });
 

@@ -463,5 +463,7 @@
   "noSchedules": "Please ask your congregation elders to publish the meeting schedule first",
   "noSchedule": "There is no schedule for this week",
   "downloadOldSourceMaterials": "Check this option if you want to download old source materials",
-  "mwbIssueMonth": "Issue month"
+  "mwbIssueMonth": "Issue month",
+  "scheduleSettings": "Schedule settings",
+  "autoAssignOpeningPrayer": "Auto-assign Chairman for Opening Prayer"
 }
