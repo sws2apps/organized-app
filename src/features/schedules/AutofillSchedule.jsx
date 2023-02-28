@@ -16,11 +16,12 @@ import {
   isAutoFillSchedState,
   reloadWeekSummaryState,
 } from '../../states/schedule';
-import { dbGetSourceMaterial } from '../../indexedDb/dbSourceMaterial';
+import { checkCBSReader, checkLCAssignments, dbGetSourceMaterial } from '../../indexedDb/dbSourceMaterial';
 import { dbFetchScheduleInfo, dbGetScheduleData } from '../../indexedDb/dbSchedule';
 import { dbSaveAss } from '../../indexedDb/dbAssignment';
 import { dbGetAppSettings } from '../../indexedDb/dbAppSettings';
 import { dbGetPersonsByAssType } from '../../indexedDb/dbPersons';
+import { openingPrayerAutoAssignState } from '../../states/congregation';
 
 const AutofillSchedule = () => {
   const { t } = useTranslation('ui');
@@ -32,6 +33,7 @@ const AutofillSchedule = () => {
   const isAutofillSched = useRecoilValue(isAutoFillSchedState);
   const currentSchedule = useRecoilValue(currentScheduleState);
   const currentWeek = useRecoilValue(currentWeekSchedState);
+  const autoAssignOpeningPrayer = useRecoilValue(openingPrayerAutoAssignState);
 
   const [totalToAssign, setTotalToAssign] = useState(0);
   const [assigned, setAssigned] = useState(0);
@@ -72,6 +74,13 @@ const AutofillSchedule = () => {
           setAssigned((prev) => {
             return prev + 1;
           });
+
+          if (autoAssignOpeningPrayer) {
+            await dbSaveAss(week, chairmanA, 'opening_prayer');
+            setAssigned((prev) => {
+              return prev + 1;
+            });
+          }
         }
 
         // Aux Class
@@ -132,23 +141,28 @@ const AutofillSchedule = () => {
           });
         }
 
-        // Assign LC Part 1
-        students = await dbGetPersonsByAssType(114);
-        if (students.length > 0) {
-          const lcPart1 = students[0].person_uid;
-          await dbSaveAss(week, lcPart1, 'lc_part1');
-          setAssigned((prev) => {
-            return prev + 1;
-          });
+        const noAssignLC1 = await checkLCAssignments(sourceData.lcPart1_src);
+        if (!noAssignLC1) {
+          // Assign LC Part 1
+          students = await dbGetPersonsByAssType(114);
+          if (students.length > 0) {
+            const lcPart1 = students[0].person_uid;
+            await dbSaveAss(week, lcPart1, 'lc_part1');
+            setAssigned((prev) => {
+              return prev + 1;
+            });
+          }
         }
 
         // Assign LC Part 2
         let isAssignLC2 = false;
         if (sourceData.lcCount_override === undefined && sourceData.lcCount === 2) {
-          isAssignLC2 = true;
+          const noAssignLC2 = await checkLCAssignments(sourceData.lcPart2_src);
+          isAssignLC2 = !noAssignLC2;
         }
         if (sourceData.lcCount_override !== undefined && sourceData.lcCount_override === 2) {
-          isAssignLC2 = true;
+          const noAssignLC2 = await checkLCAssignments(sourceData.lcPart2_src_override);
+          isAssignLC2 = !noAssignLC2;
         }
 
         if (isAssignLC2) {
@@ -164,24 +178,29 @@ const AutofillSchedule = () => {
 
         // Assign CBS Reader
         if (schedData.week_type === 1) {
-          students = await dbGetPersonsByAssType(116);
+          const noAssignCBSReader = await checkCBSReader(sourceData.cbs_src);
+          if (!noAssignCBSReader) {
+            students = await dbGetPersonsByAssType(116);
+            if (students.length > 0) {
+              const cbsReader = students[0].person_uid;
+              await dbSaveAss(week, cbsReader, 'cbs_reader');
+              setAssigned((prev) => {
+                return prev + 1;
+              });
+            }
+          }
+        }
+
+        if (!autoAssignOpeningPrayer) {
+          // Assign Opening Prayer
+          students = await dbGetPersonsByAssType(111);
           if (students.length > 0) {
-            const cbsReader = students[0].person_uid;
-            await dbSaveAss(week, cbsReader, 'cbs_reader');
+            const openingPrayer = students[0].person_uid;
+            await dbSaveAss(week, openingPrayer, 'opening_prayer');
             setAssigned((prev) => {
               return prev + 1;
             });
           }
-        }
-
-        // Assign Opening Prayer
-        students = await dbGetPersonsByAssType(111);
-        if (students.length > 0) {
-          const openingPrayer = students[0].person_uid;
-          await dbSaveAss(week, openingPrayer, 'opening_prayer');
-          setAssigned((prev) => {
-            return prev + 1;
-          });
         }
 
         // Assign Closing Prayer

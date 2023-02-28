@@ -3,6 +3,8 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import SingleAssignment from './SingleAssignment';
 import { classCountState } from '../../states/congregation';
+import { useEffect, useState } from 'react';
+import { checkCBSReader, checkLCAssignments } from '../../indexedDb/dbSourceMaterial';
 
 const styles = {
   studentPartWrapper1: {
@@ -72,10 +74,15 @@ const ScheduleRowAssignment = ({
   studentBID,
   assistantBID,
   lcPart,
+  isLC,
   cbs,
   co,
 }) => {
   const classCount = useRecoilValue(classCountState);
+
+  const [isLCNoAssign, setIsLCNoAssign] = useState(false);
+  const [displayPerson, setDisplayPerson] = useState(false);
+  const [displayCBSReader, setDisplayCBSReader] = useState(true);
 
   const getContainerStyle = () => {
     if (student) {
@@ -94,6 +101,44 @@ const ScheduleRowAssignment = ({
 
     return styles.studentContainer1;
   };
+
+  useEffect(() => {
+    const verifyLCPart = async () => {
+      const noAssign = await checkLCAssignments(source);
+      setIsLCNoAssign(noAssign);
+    };
+
+    if (isLC) verifyLCPart();
+  }, [isLC, source]);
+
+  useEffect(() => {
+    if (assType) {
+      if (assType !== 105 && assType !== 106 && assType !== 107 && assType !== 117) {
+        setDisplayPerson(true);
+        return;
+      }
+
+      setDisplayPerson(false);
+    }
+
+    if (!assType) {
+      if (isLC) {
+        setDisplayPerson(!isLCNoAssign);
+        return;
+      }
+
+      setDisplayPerson(true);
+    }
+  }, [assType, isLCNoAssign, isLC, assTypeName]);
+
+  useEffect(() => {
+    const verifyCBSReader = async () => {
+      const noAssignCBSReader = await checkCBSReader(lcPart);
+      setDisplayCBSReader(!noAssignCBSReader);
+    };
+
+    if (cbs) verifyCBSReader();
+  }, [cbs, lcPart]);
 
   return (
     <Box
@@ -121,7 +166,7 @@ const ScheduleRowAssignment = ({
           </Typography>
         )}
       </Box>
-      {(!assType || (assType && assType !== 105 && assType !== 106 && assType !== 107 && assType !== 117)) && (
+      {displayPerson && (
         <Box sx={getPersonStyle()}>
           {(edit || personA) && (
             <SingleAssignment
@@ -141,7 +186,7 @@ const ScheduleRowAssignment = ({
             />
           )}
 
-          {((classCount === 2 && weekType === 1 && student) || cbs) && (
+          {((classCount === 2 && weekType === 1 && student) || (cbs && displayCBSReader)) && (
             <>
               {(edit || personB) && (
                 <SingleAssignment

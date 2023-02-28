@@ -6,6 +6,8 @@ import { monthNamesState, shortDateFormatState } from '../states/main';
 import { yearsListState } from '../states/sourceMaterial';
 import { dbGetStudentByUid } from './dbPersons';
 import {
+  checkCBSReader,
+  checkLCAssignments,
   dbGetScheduleListByYear,
   dbGetSourceMaterial,
   dbGetSourceMaterialPocket,
@@ -140,6 +142,7 @@ export const dbCountAssignmentsInfo = async (week) => {
   let assAssigned = 0;
 
   const classCount = await promiseGetRecoil(classCountState);
+
   const schedData = await dbGetScheduleData(week);
   const sourceData = await dbGetSourceMaterial(week);
 
@@ -255,7 +258,10 @@ export const dbCountAssignmentsInfo = async (week) => {
   }
 
   // LC Part 1
-  assTotal = assTotal + 1;
+  const noAssignLC1 = await checkLCAssignments(sourceData.lcPart1_src);
+  if (!noAssignLC1) {
+    assTotal = assTotal + 1;
+  }
 
   if (schedData.lc_part1 && schedData.lc_part1 !== '') {
     assAssigned = assAssigned + 1;
@@ -264,11 +270,14 @@ export const dbCountAssignmentsInfo = async (week) => {
   // LC Part 2
   let cnLC2 = false;
   if (sourceData.lcCount_override === undefined && sourceData.lcCount === 2) {
-    cnLC2 = true;
+    const noAssignLC2 = await checkLCAssignments(sourceData.lcPart2_src);
+    cnLC2 = !noAssignLC2;
   }
   if (sourceData.lcCount_override !== undefined && sourceData.lcCount_override === 2) {
-    cnLC2 = true;
+    const noAssignLC2 = await checkLCAssignments(sourceData.lcPart2_src_override);
+    cnLC2 = !noAssignLC2;
   }
+
   if (cnLC2) {
     assTotal = assTotal + 1;
 
@@ -287,7 +296,10 @@ export const dbCountAssignmentsInfo = async (week) => {
     }
 
     // Reader
-    assTotal = assTotal + 1;
+    const noAssignCBSReader = await checkCBSReader(sourceData.cbs_src);
+    if (!noAssignCBSReader) {
+      assTotal = assTotal + 1;
+    }
 
     if (schedData.cbs_reader && schedData.cbs_reader !== '') {
       assAssigned = assAssigned + 1;

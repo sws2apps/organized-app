@@ -13,6 +13,7 @@ import {
   congNumberState,
   meetingDayState,
   meetingTimeState,
+  openingPrayerAutoAssignState,
   usernameState,
 } from '../states/congregation';
 import {
@@ -49,6 +50,7 @@ export const loadApp = async () => {
     autoBackup_interval,
     schedule_useFullname,
     account_type,
+    opening_prayer_autoAssign,
   } = await dbGetAppSettings();
 
   backupWorkerInstance.setBackupInterval(autoBackup_interval);
@@ -81,6 +83,7 @@ export const loadApp = async () => {
   await promiseSetRecoil(appLangState, app_lang);
   await promiseSetRecoil(sourceLangState, source_lang || app_lang);
   await promiseSetRecoil(scheduleUseFullnameState, schedule_useFullname || false);
+  await promiseSetRecoil(openingPrayerAutoAssignState, opening_prayer_autoAssign || false);
 
   if (source_lang === undefined) await dbUpdateAppSettings({ source_lang: app_lang });
 

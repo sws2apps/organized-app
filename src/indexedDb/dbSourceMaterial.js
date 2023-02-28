@@ -6,6 +6,7 @@ import { assTypeLocalState } from '../states/sourceMaterial';
 import { dbHistoryAssignment, dbLastAssignment } from './dbAssignment';
 import { allStudentsState, filteredStudentsState, studentsAssignmentHistoryState } from '../states/persons';
 import { dbGetStudentsMini } from './dbPersons';
+import { getI18n } from 'react-i18next';
 
 export const dbGetListWeekType = async () => {
   const weekTypeList = [];
@@ -685,4 +686,46 @@ export const getOldestWeek = async () => {
   });
 
   return appData[0].weekOf;
+};
+
+export const checkLCAssignments = async (source) => {
+  const sourceLang = await promiseGetRecoil(sourceLangState);
+
+  const { t } = getI18n();
+
+  const search = `(${t('lcNoAssignedVariations', { lng: sourceLang, ns: 'source' })})`;
+  const regex = new RegExp(search.toLowerCase());
+  const array = regex.exec(source.toLowerCase());
+
+  return Array.isArray(array);
+};
+
+export const checkCBSReader = async (source) => {
+  const sourceLang = await promiseGetRecoil(sourceLangState);
+
+  const { t } = getI18n();
+
+  let search = t('cbsLffWithPointsVariations', { lng: sourceLang, ns: 'source' });
+  search = search.replaceAll('{{ lesson }}', '\\d+');
+  search = search.replaceAll('{{ points }}', '(\\d+-\\d+|\\d+)');
+
+  let regex = new RegExp(search.toLowerCase());
+  let array = regex.exec(source.toLowerCase());
+
+  if (Array.isArray(array)) {
+    let lffPoint = array[1] || array[2];
+    lffPoint = +lffPoint.charAt(0);
+
+    return lffPoint !== 1;
+  }
+
+  if (!Array.isArray(array)) {
+    search = t('cbsLffSectionOnlyVariations', { lng: sourceLang, ns: 'source' });
+    regex = new RegExp(search);
+    array = regex.exec(source);
+
+    return Array.isArray(array);
+  }
+
+  return false;
 };
