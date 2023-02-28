@@ -1,11 +1,11 @@
 import { getI18n } from 'react-i18next';
 import { format } from 'date-fns';
-import { promiseSetRecoil } from 'recoil-outside';
+import { promiseGetRecoil, promiseSetRecoil } from 'recoil-outside';
 import { dbGetAppSettings, dbUpdateAppSettings } from '../indexedDb/dbAppSettings';
 import { checkSrcUpdate, dbGetListWeekType, dbGetYearList } from '../indexedDb/dbSourceMaterial';
 import { dbGetListAssType, dbHistoryAssignment } from '../indexedDb/dbAssignment';
 import { dbGetStudentsMini } from '../indexedDb/dbPersons';
-import { initAppDb } from '../indexedDb/dbUtility';
+import { initAppDb, removeOutdatedRecords } from '../indexedDb/dbUtility';
 import { dbGetNotifications } from '../indexedDb/dbNotifications';
 import {
   classCountState,
@@ -19,6 +19,7 @@ import {
   appLangState,
   appNotificationsState,
   avatarUrlState,
+  monthNamesState,
   sourceLangState,
   userLocalUidState,
 } from '../states/main';
@@ -32,6 +33,8 @@ export const loadApp = async () => {
   const I18n = getI18n();
 
   await initAppDb();
+  await removeOutdatedRecords();
+
   let {
     username,
     local_uid,
@@ -226,4 +229,45 @@ export const getCurrentExistingWeekDate = async () => {
   }
 
   return currentWeek;
+};
+
+export const buildListOldSources = async () => {
+  const monthNames = await promiseGetRecoil(monthNamesState);
+
+  const options = [];
+
+  const today = new Date();
+  const day = today.getDay();
+  const diff = today.getDate() - day + (day === 0 ? -6 : 1);
+  const weekDate = new Date(today.setDate(diff));
+  const currentMonth = weekDate.getMonth() + 1;
+  const currentMonthOdd = currentMonth % 2 === 0 ? false : true;
+  let currentMonthMwb = currentMonthOdd ? currentMonth : currentMonth - 1;
+  let currentYear = weekDate.getFullYear();
+
+  const validDate = weekDate.setMonth(weekDate.getMonth() - 12);
+  const oldestDate = new Date(validDate);
+  const oldestMonth = oldestDate.getMonth() + 1;
+  const oldestMonthOdd = oldestMonth % 2 === 0 ? false : true;
+  let oldMonthMwb = oldestMonthOdd ? currentMonth : currentMonth - 1;
+  let oldYear = oldestDate.getFullYear();
+
+  do {
+    if ((oldYear === 2022 && oldMonthMwb > 5) || oldYear > 2022) {
+      const issueDate = oldYear + String(oldMonthMwb).padStart(2, '0');
+
+      const label = `${monthNames[oldMonthMwb - 1]} ${oldYear}`;
+      const obj = { label, value: issueDate };
+      options.push(obj);
+    }
+
+    // assigning next issue
+    oldMonthMwb = oldMonthMwb + 2;
+    if (oldMonthMwb === 13) {
+      oldMonthMwb = 1;
+      oldYear++;
+    }
+  } while (oldYear !== currentYear && oldMonthMwb !== currentMonthMwb);
+
+  return options;
 };

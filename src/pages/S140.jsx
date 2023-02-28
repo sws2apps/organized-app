@@ -491,7 +491,7 @@ const S140 = () => {
                                         <Box sx={{ display: 'flex', marginBottom: '2px' }}>
                                           <S140MeetingTime partTime={weekItem.sourceData[fldAyfPart]} />
                                           <S140MeetingPartText
-                                            align={scheduleUseFullname ? 'right' : ''}
+                                            align={scheduleUseFullname ? 'right' : 'left'}
                                             partType="ayf"
                                             partText={getAYFType(weekItem, fldType, fldSrc, fldTypeName)}
                                             partDuration={getAYFDuration(weekItem, fldType, fldTime)}
