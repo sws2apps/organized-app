@@ -463,5 +463,7 @@
   "noSchedules": "Ilazao aloha ny anti-panahy ao amin’ny fiangonanareo mba hizara ny fandaharam-pivoriana",
   "noSchedule": "Tsy misy fandaharana amin’io herinandro io",
   "downloadOldSourceMaterials": "Asio marika eto raha te haka ireo loharanon-kevitra taloha ianao",
-  "mwbIssueMonth": "Volana"
+  "mwbIssueMonth": "Volana",
+  "scheduleSettings": "Schedule settings",
+  "autoAssignOpeningPrayer": "Auto-assign Chairman for Opening Prayer"
 }
