@@ -51,8 +51,5 @@
   "tgwTalk": "Talk 10 min.",
   "lcPart": "Living Parts",
   "initialCallVariations": "0",
-  "returnVisitVariations": "0",
-  "lcNoAssignedVariations": "Organizational Accomplishments",
-  "cbsLffWithPointsVariations": "lff lesson {{ lesson }} points {{ points }}|lff lesson {{ lesson }} point {{ points }}",
-  "cbsLffSectionOnlyVariations": "lff section"
+  "returnVisitVariations": "0"
 }
