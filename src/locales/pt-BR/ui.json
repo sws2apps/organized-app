@@ -462,8 +462,8 @@
   "internalError": "Ocorreu um erro interno. Por favor, tente novamente mais tarde.",
   "noSchedules": "Por favor, peça aos anciãos para publicar a programação da reunião primeiro",
   "noSchedule": "Não há programação para esta semana",
-  "downloadOldSourceMaterials": "Check this option if you want to download old source materials",
-  "mwbIssueMonth": "Issue month",
-  "scheduleSettings": "Schedule settings",
-  "autoAssignOpeningPrayer": "Auto-assign Chairman for Opening Prayer"
+  "downloadOldSourceMaterials": "Marque esta opção se você deseja baixar a fonte de matéria de meses anteriores",
+  "mwbIssueMonth": "Mês",
+  "scheduleSettings": "Configurações da programação",
+  "autoAssignOpeningPrayer": "Designar automaticamente o presidente para oração inicial"
 }
