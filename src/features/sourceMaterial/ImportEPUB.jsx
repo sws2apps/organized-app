@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -14,6 +14,7 @@ import ErrorIcon from '@mui/icons-material/Error';
 import Typography from '@mui/material/Typography';
 import { addEpubDataToDb } from '../../utils/epubParser';
 import { epubFileState, isImportEPUBState } from '../../states/sourceMaterial';
+import { appMessageState, appSeverityState, appSnackOpenState } from '../../states/notification';
 
 const sharedStyles = {
   epubLoad: {
@@ -34,6 +35,10 @@ const ImportEPUB = () => {
   const [open, setOpen] = useRecoilState(isImportEPUBState);
   const [fileEPUB, setFileEPUB] = useRecoilState(epubFileState);
 
+  const setAppSnackOpen = useSetRecoilState(appSnackOpenState);
+  const setAppSeverity = useSetRecoilState(appSeverityState);
+  const setAppMessage = useSetRecoilState(appMessageState);
+
   const [isLoading, setIsLoading] = useState(true);
   const [isComplete, setIsComplete] = useState(false);
   const [isValid, setIsValid] = useState(true);
@@ -49,21 +54,28 @@ const ImportEPUB = () => {
 
   useEffect(() => {
     const loadEPUB = async () => {
-      setIsLoading(false);
-      const result = await addEpubDataToDb(fileEPUB);
-      if (result === 'error') {
-        setIsValid(false);
-      } else {
-        setIsComplete(true);
-        setFileEPUB(undefined);
+      try {
+        setIsLoading(false);
+        const result = await addEpubDataToDb(fileEPUB);
+        if (result === 'error') {
+          setIsValid(false);
+        } else {
+          setIsComplete(true);
+          setFileEPUB(undefined);
+        }
+        setBtnDisabled(false);
+      } catch (err) {
+        setOpen(false);
+        setAppMessage(err.message);
+        setAppSeverity('error');
+        setAppSnackOpen(true);
       }
-      setBtnDisabled(false);
     };
 
     if (open && fileEPUB) {
       loadEPUB();
     }
-  }, [open, fileEPUB, setFileEPUB]);
+  }, [open, fileEPUB, setFileEPUB, setAppMessage, setAppSeverity, setAppSnackOpen, setOpen]);
 
   return (
     <Box>

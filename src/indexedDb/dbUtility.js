@@ -422,3 +422,38 @@ export const dbRestoreCongregationBackup = async (
     await appDb.sws_pocket.add(pocket, pocket.id);
   }
 };
+
+export const getWeekDate = (weekOf) => {
+  const month = +weekOf.split('/')[0] - 1;
+  const day = +weekOf.split('/')[1];
+  const year = +weekOf.split('/')[2];
+
+  return new Date(year, month, day);
+};
+
+export const getOldestWeekDate = () => {
+  const today = new Date();
+  const day = today.getDay();
+  const diff = today.getDate() - day + (day === 0 ? -6 : 1);
+  const weekDate = new Date(today.setDate(diff));
+  const validDate = weekDate.setMonth(weekDate.getMonth() - 12);
+  return new Date(validDate);
+};
+
+export const removeOutdatedRecords = async () => {
+  const oldestWeekDate = getOldestWeekDate();
+
+  const schedules = await appDb.sched_MM.toArray();
+  const oldSchedules = schedules.filter((schedule) => getWeekDate(schedule.weekOf) < oldestWeekDate);
+  for await (const schedule of oldSchedules) {
+    const isExist = await appDb.sched_MM.get({ weekOf: schedule.weekOf });
+    if (isExist) await appDb.sched_MM.delete(schedule.weekOf);
+  }
+
+  const sources = await appDb.src.toArray();
+  const oldSources = sources.filter((source) => getWeekDate(source.weekOf) < oldestWeekDate);
+  for await (const source of oldSources) {
+    const isExist = await appDb.src.get({ weekOf: source.weekOf });
+    if (isExist) await appDb.src.delete(source.weekOf);
+  }
+};
