@@ -52,7 +52,7 @@
   "lcPart": "Anjara Amin’ny Fiainantsika",
   "initialCallVariations": "0",
   "returnVisitVariations": "0",
-  "lcNoAssignedVariations": "Zava-bitan’ny Fandaminana",
-  "cbsLffWithPointsVariations": "lff lesona {{ lesson }}: Hevitra {{ points }}",
-  "cbsLffSectionOnlyVariations": "lff famerenana ny fizarana"
+  "lcNoAssignedVariations": "Raha Vitani-Fandamina",
+  "cbsLffWithPointsVariations": "lff fianara {{ lesson }}: Lohatenikely {{ points }}",
+  "cbsLffSectionOnlyVariations": "lff famerena ty fizarà"
 }
