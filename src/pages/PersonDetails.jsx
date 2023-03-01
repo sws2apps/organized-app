@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { createSearchParams, useNavigate, useParams } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
-import { format } from 'date-fns';
 import { useTheme } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import maleIcon from '../img/student_male.svg';

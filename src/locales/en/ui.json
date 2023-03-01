@@ -465,5 +465,6 @@
   "downloadOldSourceMaterials": "Check this option if you want to download old source materials",
   "mwbIssueMonth": "Issue month",
   "scheduleSettings": "Schedule settings",
-  "autoAssignOpeningPrayer": "Auto-assign Chairman for Opening Prayer"
+  "autoAssignOpeningPrayer": "Auto-assign Chairman for Opening Prayer",
+  "personsNoAssignment": "Not assigned yet"
 }

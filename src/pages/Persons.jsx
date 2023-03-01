@@ -98,6 +98,7 @@ const Persons = () => {
   const [txtSearch, setTxtSearch] = useState('');
   const [isMale, setIsMale] = useState(false);
   const [isFemale, setIsFemale] = useState(false);
+  const [isUnassigned, setIsUnassigned] = useState(false);
   const [assTypes, setAssTypes] = useState([]);
   const [isSearch, setIsSearch] = useState(false);
   const [tabValue, setTabValue] = useState(0);
@@ -137,23 +138,23 @@ const Persons = () => {
   };
 
   const handleSearchStudent = useCallback(
-    async (txtSearch, isMale, isFemale, assTypes) => {
+    async (txtSearch, isMale, isFemale, isUnassigned, assTypes) => {
       setTabValue(0);
 
       handleCloseMenuSmall();
 
-      if (txtSearch.length === 0 && !isMale && !isFemale && assTypes.length === 0) {
+      if (txtSearch.length === 0 && !isMale && !isFemale && !isUnassigned && assTypes.length === 0) {
         setStudentsQuery({});
         setSearchParams('');
       } else {
-        const query = { search: txtSearch, isMale, isFemale, type: assTypes };
+        const query = { search: txtSearch, isMale, isFemale, isUnassigned, type: assTypes };
         setStudentsQuery(query);
         setSearchParams(query);
       }
 
       setIsSearch(true);
       setTimeout(async () => {
-        const obj = { txtSearch, isMale, isFemale, assTypes };
+        const obj = { txtSearch, isMale, isFemale, isUnassigned, assTypes };
         const data = await dbFilterStudents(obj);
         setAdvancedOpen(false);
         setStudents(data);
@@ -183,7 +184,7 @@ const Persons = () => {
 
   const handleSearchEnter = (e) => {
     if (e.key === 'Enter') {
-      handleSearchStudent(txtSearch, isMale, isFemale, assTypes);
+      handleSearchStudent(txtSearch, isMale, isFemale, isUnassigned, assTypes);
     }
   };
 
@@ -195,14 +196,16 @@ const Persons = () => {
       setIsMale(isMale);
       const isFemale = searchParams.get('isFemale') === 'true' ? true : false;
       setIsFemale(isFemale);
+      const isUnassigned = searchParams.get('isUnassigned') === 'true' ? true : false;
+      setIsUnassigned(isUnassigned);
       const types = searchParams.getAll('type') || [];
       const assTypes = types.map((type) => +type);
       setAssTypes(assTypes);
 
-      if (search?.length > 0 || isMale || isFemale || assTypes.length > 0) {
-        await handleSearchStudent(search, isMale, isFemale, assTypes);
+      if (search?.length > 0 || isMale || isFemale || isUnassigned || assTypes.length > 0) {
+        await handleSearchStudent(search, isMale, isFemale, isUnassigned, assTypes);
       } else {
-        await handleSearchStudent('', false, false, []);
+        await handleSearchStudent('', false, false, false, []);
       }
     };
 
@@ -303,7 +306,7 @@ const Persons = () => {
                 marginTop: '-5px',
                 marginRight: '5px',
               }}
-              onClick={() => handleSearchStudent(txtSearch, isMale, isFemale, assTypes)}
+              onClick={() => handleSearchStudent(txtSearch, isMale, isFemale, isUnassigned, assTypes)}
             >
               <PersonSearchIcon sx={{ fontSize: '25px' }} />
             </IconButton>
@@ -356,7 +359,7 @@ const Persons = () => {
                 </ListItemIcon>
                 <ListItemText>{advancedOpen ? t('hideAvancedSearch') : t('advancedSearch')}</ListItemText>
               </MenuItem>
-              <MenuItem onClick={() => handleSearchStudent(txtSearch, isMale, isFemale, assTypes)}>
+              <MenuItem onClick={() => handleSearchStudent(txtSearch, isMale, isFemale, isUnassigned, assTypes)}>
                 <ListItemIcon>
                   <PersonSearchIcon sx={{ fontSize: '25px' }} />
                 </ListItemIcon>
@@ -378,12 +381,14 @@ const Persons = () => {
         setAdvancedOpen={(value) => setAdvancedOpen(value)}
         isMale={isMale}
         isFemale={isFemale}
-        handleSearchStudent={(txtSearch, isMale, isFemale, assTypes) =>
-          handleSearchStudent(txtSearch, isMale, isFemale, assTypes)
+        isUnassigned={isUnassigned}
+        handleSearchStudent={(txtSearch, isMale, isFemale, isUnassigned, assTypes) =>
+          handleSearchStudent(txtSearch, isMale, isFemale, isUnassigned, assTypes)
         }
         assTypes={assTypes}
         setIsMale={(value) => setIsMale(value)}
         setIsFemale={(value) => setIsFemale(value)}
+        setIsUnassigned={(value) => setIsUnassigned(value)}
         setAssTypes={(value) => setAssTypes(value)}
         txtSearch={txtSearch}
       />
