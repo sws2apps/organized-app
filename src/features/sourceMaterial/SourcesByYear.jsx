@@ -13,7 +13,9 @@ const SourcesByYear = ({ year }) => {
   const [sources, setSources] = useState([]);
 
   const getMonthlySources = useCallback(async () => {
-    const data = await dbGetScheduleListByYear(year);
+    const userSort = localStorage.getItem('monthSort');
+
+    const data = await dbGetScheduleListByYear(year, userSort);
     let newData = [];
     for (const item of data) {
       const obj = {};

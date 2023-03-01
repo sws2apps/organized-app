@@ -4,14 +4,18 @@ import Box from '@mui/material/Box';
 import { dbGetScheduleListByYear } from '../../indexedDb/dbSourceMaterial';
 import { ScheduleCard } from './';
 import { monthNamesState } from '../../states/main';
+import { refreshWeeksListState } from '../../states/sourceMaterial';
 
 const SchedulesByYear = ({ year }) => {
   const monthNames = useRecoilValue(monthNamesState);
+  const refreshWeekList = useRecoilValue(refreshWeeksListState);
 
   const [schedules, setSchedules] = useState([]);
 
   const getMonthlySchedules = useCallback(async () => {
-    const data = await dbGetScheduleListByYear(year);
+    const userSort = localStorage.getItem('monthSort');
+
+    const data = await dbGetScheduleListByYear(year, userSort);
     let newData = [];
     for (const item of data) {
       const obj = {};
@@ -25,7 +29,7 @@ const SchedulesByYear = ({ year }) => {
 
   useEffect(() => {
     getMonthlySchedules();
-  }, [getMonthlySchedules]);
+  }, [getMonthlySchedules, refreshWeekList]);
 
   return (
     <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '15px', padding: '5px' }}>
