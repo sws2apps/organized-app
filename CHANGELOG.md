@@ -1,3 +1,17 @@
+# [2.43.0](https://github.com/sws2apps/cpe-sws/compare/v2.42.4...v2.43.0) (2023-03-01)
+
+
+### Features
+
+* **app:** add retention schedules ([44b31ed](https://github.com/sws2apps/cpe-sws/commit/44b31ed518ce4b3517438ef4313d21edf0ae823e))
+* **deps:** bump @mui/icons-material from 5.11.9 to 5.11.11 ([9e5840e](https://github.com/sws2apps/cpe-sws/commit/9e5840e9ed965c0f05eb721197b036fc6d6e0602))
+* **deps:** bump @mui/lab from 5.0.0-alpha.120 to 5.0.0-alpha.121 ([88cd1eb](https://github.com/sws2apps/cpe-sws/commit/88cd1ebcb2bf75aee25f5f6b225849f65a094ab8))
+* **deps:** bump @mui/material from 5.11.10 to 5.11.11 ([2b37b9a](https://github.com/sws2apps/cpe-sws/commit/2b37b9ae61bbb68858f8958e159129faf639e2d0))
+* **deps:** bump jw-epub-parser from 1.33.0 to 1.35.0 ([d5b7663](https://github.com/sws2apps/cpe-sws/commit/d5b7663670ce87edc8f71e51d23822887f8cd444))
+* **deps:** bump react-router-dom from 6.8.1 to 6.8.2 ([3434903](https://github.com/sws2apps/cpe-sws/commit/34349031533a3e8780465a85f57d5729a0136ee3))
+* **schedules:** fix translation not displayed when assigning spiritual gems ([6fdd6fa](https://github.com/sws2apps/cpe-sws/commit/6fdd6faa81a5a8c02fa12affd8b10d7e508e5798))
+* **schedules:** support auto assign opening prayer and hide congregation bible study reader if not needed ([2b37286](https://github.com/sws2apps/cpe-sws/commit/2b37286d3d65a11b2415345c3460ffbcaa356044))
+
 ## [2.42.4](https://github.com/sws2apps/cpe-sws/compare/v2.42.3...v2.42.4) (2023-02-27)
 
 
