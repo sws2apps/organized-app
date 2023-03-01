@@ -1,3 +1,10 @@
+## [2.43.1](https://github.com/sws2apps/cpe-sws/compare/v2.43.0...v2.43.1) (2023-03-01)
+
+
+### Bug Fixes
+
+* **persons:** fix url path after updating person’s status ([eaf2dbf](https://github.com/sws2apps/cpe-sws/commit/eaf2dbf16900c9ebc8fb5a1aed39755476696336))
+
 # [2.43.0](https://github.com/sws2apps/cpe-sws/compare/v2.42.4...v2.43.0) (2023-03-01)
 
 
