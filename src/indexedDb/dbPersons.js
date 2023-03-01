@@ -332,7 +332,7 @@ export const dbSavePersonExp = async (data) => {
 };
 
 export const dbFilterStudents = async (data) => {
-  const { txtSearch, isMale, isFemale, assTypes } = data;
+  const { txtSearch, isMale, isFemale, isUnassigned, assTypes } = data;
 
   const dbStudents = await promiseGetRecoil(allStudentsState);
 
@@ -358,11 +358,19 @@ export const dbFilterStudents = async (data) => {
 
     let passed = true;
 
-    for (let a = 0; a < assTypes.length; a++) {
-      const found = assignments.find((assignment) => assignment.code === assTypes[a]);
-      if (!found) {
+    if (isUnassigned) {
+      if (assignments.length > 0) {
         passed = false;
-        break;
+      }
+    }
+
+    if (!isUnassigned) {
+      for (let a = 0; a < assTypes.length; a++) {
+        const found = assignments.find((assignment) => assignment.code === assTypes[a]);
+        if (!found) {
+          passed = false;
+          break;
+        }
       }
     }
 
