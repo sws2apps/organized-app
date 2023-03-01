@@ -1,0 +1,20 @@
+pull_request_rules:
+  - name: automatic merge for Dependabot pull requests
+    conditions:
+      - author=dependabot[bot]
+      - check-success=Code QL
+      - check-success=dependency-review
+      - check-success=NodeJS Scan
+      - check-success=CodeQL
+      - check-success~=^SonarCloud
+      - check-success=nodejsscan
+      - check-success~=^Socket Security
+      - check-success~=^security/snyk
+      - title~=^chore\(deps\). [^\s]+ from ([\d]+)\..+ to \1\.
+      - title~=^feat\(deps\). [^\s]+ from ([\d]+)\..+ to \1\.
+    actions:
+      review:
+        type: APPROVE
+        message: Automatically approving dependabot
+      merge:
+        method: rebase
