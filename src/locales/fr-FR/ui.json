@@ -461,5 +461,9 @@
   "pocketNotFound": "Your account could not be found. Make sure the code is correct.",
   "internalError": "An internal error has occured in our side. Please try again later.",
   "noSchedules": "Please ask your congregation elders to publish the meeting schedule first",
-  "noSchedule": "There is no schedule for this week"
+  "noSchedule": "There is no schedule for this week",
+  "downloadOldSourceMaterials": "Check this option if you want to download old source materials",
+  "mwbIssueMonth": "Issue month",
+  "scheduleSettings": "Schedule settings",
+  "autoAssignOpeningPrayer": "Auto-assign Chairman for Opening Prayer"
 }

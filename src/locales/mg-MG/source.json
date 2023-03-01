@@ -51,5 +51,8 @@
   "tgwTalk": "Lahateny 10 min.",
   "lcPart": "Anjara Amin’ny Fiainantsika",
   "initialCallVariations": "0",
-  "returnVisitVariations": "0"
+  "returnVisitVariations": "0",
+  "lcNoAssignedVariations": "Zava-bitan’ny Fandaminana",
+  "cbsLffWithPointsVariations": "lff lesona {{ lesson }}: Hevitra {{ points }}",
+  "cbsLffSectionOnlyVariations": "lff famerenana ny fizarana"
 }

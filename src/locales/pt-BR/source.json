@@ -51,5 +51,8 @@
   "tgwTalk": "Discurso de 10 min.",
   "lcPart": "Partes da Nossa Vida Cristã",
   "initialCallVariations": "Primeira conversa — designação 1|Primeira conversa — designação 2",
-  "returnVisitVariations": "Revisita — designação 1|Revisita — designação 2"
+  "returnVisitVariations": "Revisita — designação 1|Revisita — designação 2",
+  "lcNoAssignedVariations": "Realizações da Organização",
+  "cbsLffWithPointsVariations": "lff lição {{ lesson }} pontos {{ points }}|lff lição {{ lesson }} ponto {{ points }}",
+  "cbsLffSectionOnlyVariations": "lff seção"
 }
