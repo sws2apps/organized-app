@@ -107,18 +107,8 @@ const PersonDetails = () => {
   };
 
   const handlePersonMove = async () => {
-    const obj = assignments.map((assignment) =>
-      assignment.endDate === null
-        ? {
-            ...assignment,
-            endDate: format(new Date(), 'MM/dd/yyy'),
-            comments: t('endMoved'),
-          }
-        : assignment
-    );
-
     setRootModalOpen(true);
-    const data = { ...student, isMoved: true, assignments: obj };
+    const data = { ...student, isMoved: true };
     const result = await dbSavePersonExp(data);
     if (result) {
       navigate({
@@ -140,7 +130,7 @@ const PersonDetails = () => {
     const result = await dbSavePersonExp(data);
     if (result) {
       navigate({
-        pathname: '/students',
+        pathname: '/persons',
         search: `${createSearchParams(studentsQuery)}`,
       });
       setRootModalOpen(false);
@@ -153,22 +143,12 @@ const PersonDetails = () => {
   };
 
   const handlePersonDisqualified = async () => {
-    const obj = assignments.map((assignment) =>
-      assignment.endDate === null
-        ? {
-            ...assignment,
-            endDate: format(new Date(), 'MM/dd/yyy'),
-            comments: t('disqualified'),
-          }
-        : assignment
-    );
-
     setRootModalOpen(true);
-    const data = { ...student, isDisqualified: true, assignments: obj };
+    const data = { ...student, isDisqualified: true };
     const result = await dbSavePersonExp(data);
     if (result) {
       navigate({
-        pathname: '/students',
+        pathname: '/persons',
         search: `${createSearchParams(studentsQuery)}`,
       });
       setRootModalOpen(false);
