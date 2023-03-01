@@ -583,10 +583,19 @@ export const dbGetYearList = async () => {
   return allYear;
 };
 
-export const dbGetScheduleListByYear = async (varYear) => {
+export const dbGetScheduleListByYear = async (varYear, userSort = 'desc') => {
   const allSchedules = [];
+  let appData = [];
 
-  const appData = await appDb.table('src').reverse().sortBy('weekOf');
+  if (userSort === null) userSort = 'desc';
+
+  if (userSort === 'asc') {
+    appData = await appDb.src.reverse().reverse().sortBy('weekOf');
+  }
+
+  if (userSort === 'desc') {
+    appData = await appDb.src.reverse().sortBy('weekOf');
+  }
 
   for (let i = 0; i < appData.length; i++) {
     const weekDate = appData[i].weekOf;
