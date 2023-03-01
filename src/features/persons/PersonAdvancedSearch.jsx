@@ -47,7 +47,7 @@ const StudentAdvancedSearch = ({
   const [isCBSReader, setIsCBSReader] = useState(false);
 
   const handleSearchAdvanced = () => {
-    handleSearchStudent(txtSearch, isMale, isFemale, assTypes);
+    handleSearchStudent(txtSearch, isMale, isFemale, isUnassigned, assTypes);
   };
 
   const handleCheckChairman = (value) => {
