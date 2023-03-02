@@ -1,3 +1,17 @@
+# [2.44.0](https://github.com/sws2apps/cpe-sws/compare/v2.43.1...v2.44.0) (2023-03-02)
+
+
+### Bug Fixes
+
+* **persons:** fix bug when searching using small device ([ad1fc60](https://github.com/sws2apps/cpe-sws/commit/ad1fc605e50e2b9388a057c66ffb78cb616b439e))
+
+
+### Features
+
+* **app:** add sort option when viewing schedules and source materials ([79a98ea](https://github.com/sws2apps/cpe-sws/commit/79a98ea2be29d7ea19f3a7a911f4b3b017fba436))
+* **deps:** bump recoil from 0.7.6 to 0.7.7 ([784089b](https://github.com/sws2apps/cpe-sws/commit/784089b2cc87251335e11ea494fd848282357f42))
+* **persons:** add not assigned filter ([8d03c55](https://github.com/sws2apps/cpe-sws/commit/8d03c556ea08a435035925f211da05fefa6635d4))
+
 ## [2.43.1](https://github.com/sws2apps/cpe-sws/compare/v2.43.0...v2.43.1) (2023-03-01)
 
 
