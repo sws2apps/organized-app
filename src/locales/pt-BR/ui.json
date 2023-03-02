@@ -465,5 +465,6 @@
   "downloadOldSourceMaterials": "Marque esta opção se você deseja baixar a fonte de matéria de meses anteriores",
   "mwbIssueMonth": "Mês",
   "scheduleSettings": "Configurações da programação",
-  "autoAssignOpeningPrayer": "Designar automaticamente o presidente para oração inicial"
+  "autoAssignOpeningPrayer": "Designar automaticamente o presidente para oração inicial",
+  "personsNoAssignment": "Não designado"
 }
