@@ -5,12 +5,13 @@ export const fetchNotifications = async () => {
   try {
     const { apiHost, isOnline } = await getProfile();
     const settings = await dbGetAppSettings();
+
     if (isOnline && apiHost !== '') {
       const res = await fetch(`${apiHost}api/users/announcement-v2`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          cong_role: settings.cong_role,
+          cong_role: JSON.stringify(settings.cong_role),
         },
       });
 
