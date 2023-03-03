@@ -1,3 +1,15 @@
+# [2.45.0](https://github.com/sws2apps/cpe-sws/compare/v2.44.0...v2.45.0) (2023-03-03)
+
+
+### Bug Fixes
+
+* **app:** fix issue when getting news for lmmo-backup role ([572669e](https://github.com/sws2apps/cpe-sws/commit/572669e6482a4d02c2e4f6e791c3903d41dce66a))
+
+
+### Features
+
+* **deps:** bump firebase from 9.17.1 to 9.17.2 ([669e50d](https://github.com/sws2apps/cpe-sws/commit/669e50d73b94fc5620c7704dbb32fbf059136f91))
+
 # [2.44.0](https://github.com/sws2apps/cpe-sws/compare/v2.43.1...v2.44.0) (2023-03-02)
 
 
