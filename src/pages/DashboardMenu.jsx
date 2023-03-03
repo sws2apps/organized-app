@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
@@ -40,6 +41,7 @@ import { isPublishOpenState } from '../states/schedule';
 import { importDummyUsers } from '../utils/dev';
 import { getCurrentExistingWeekDate } from '../utils/app';
 import { apiFetchSchedule } from '../api';
+import { dbGetAppSettings } from '../indexedDb/dbAppSettings';
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -68,6 +70,8 @@ const DashboardMenu = () => {
   const isCongAccountConnected = useRecoilValue(congAccountConnectedState);
   const isOnline = useRecoilValue(isOnlineState);
   const accountType = useRecoilValue(accountTypeState);
+
+  const [congRole, setCongRole] = useState([]);
 
   const handleOpenMyAssignment = () => {
     setWhatsNewOpen(false);
@@ -248,7 +252,7 @@ const DashboardMenu = () => {
           title: t('manageAccessToApps'),
           icon: <AccountCircleIcon />,
           disabled: false,
-          visible: isCongAccountConnected ? true : false,
+          visible: isCongAccountConnected && congRole.includes('admin') ? true : false,
           navigateTo: '/administration',
         },
         {
@@ -261,6 +265,15 @@ const DashboardMenu = () => {
       ],
     },
   ];
+
+  useEffect(() => {
+    const getRole = async () => {
+      const settings = await dbGetAppSettings();
+      setCongRole(settings.cong_role || []);
+    };
+
+    getRole();
+  }, []);
 
   return (
     <Box sx={{ padding: '20px', display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
