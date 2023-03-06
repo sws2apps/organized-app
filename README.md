@@ -27,6 +27,14 @@ CPE is a web application, and it is also PWA capable. All devices that have up t
 
 The translation process for CPE app is handled on [Crowdin](https://crowdin.com/project/cpe-sws). To help with localization, please read the [TRANSLATION](./TRANSLATION.md) guide.
 
+## [![Repography logo](https://images.repography.com/logo.svg)](https://repography.com) / Recent activity [![Time period](https://images.repography.com/34928945/sws2apps/cpe-sws/recent-activity/dJ8TLGrn5l9eWWbjSJj1aeKPxgfDBAHVIxaeEKUPNfM/-dQ2fTFbTrx2K3kcZ-43AF8lFcsGcaH8ZBhE_Noq0KY_badge.svg)](https://repography.com)
+[![Timeline graph](https://images.repography.com/34928945/sws2apps/cpe-sws/recent-activity/dJ8TLGrn5l9eWWbjSJj1aeKPxgfDBAHVIxaeEKUPNfM/-dQ2fTFbTrx2K3kcZ-43AF8lFcsGcaH8ZBhE_Noq0KY_timeline.svg)](https://github.com/sws2apps/cpe-sws/commits)
+[![Issue status graph](https://images.repography.com/34928945/sws2apps/cpe-sws/recent-activity/dJ8TLGrn5l9eWWbjSJj1aeKPxgfDBAHVIxaeEKUPNfM/-dQ2fTFbTrx2K3kcZ-43AF8lFcsGcaH8ZBhE_Noq0KY_issues.svg)](https://github.com/sws2apps/cpe-sws/issues)
+[![Pull request status graph](https://images.repography.com/34928945/sws2apps/cpe-sws/recent-activity/dJ8TLGrn5l9eWWbjSJj1aeKPxgfDBAHVIxaeEKUPNfM/-dQ2fTFbTrx2K3kcZ-43AF8lFcsGcaH8ZBhE_Noq0KY_prs.svg)](https://github.com/sws2apps/cpe-sws/pulls)
+[![Trending topics](https://images.repography.com/34928945/sws2apps/cpe-sws/recent-activity/dJ8TLGrn5l9eWWbjSJj1aeKPxgfDBAHVIxaeEKUPNfM/-dQ2fTFbTrx2K3kcZ-43AF8lFcsGcaH8ZBhE_Noq0KY_words.svg)](https://github.com/sws2apps/cpe-sws/commits)
+[![Top contributors](https://images.repography.com/34928945/sws2apps/cpe-sws/recent-activity/dJ8TLGrn5l9eWWbjSJj1aeKPxgfDBAHVIxaeEKUPNfM/-dQ2fTFbTrx2K3kcZ-43AF8lFcsGcaH8ZBhE_Noq0KY_users.svg)](https://github.com/sws2apps/cpe-sws/graphs/contributors)
+[![Activity map](https://images.repography.com/34928945/sws2apps/cpe-sws/recent-activity/dJ8TLGrn5l9eWWbjSJj1aeKPxgfDBAHVIxaeEKUPNfM/-dQ2fTFbTrx2K3kcZ-43AF8lFcsGcaH8ZBhE_Noq0KY_map.svg)](https://github.com/sws2apps/cpe-sws/commits)
+
 ## May I contribute?
 
 Of course!!! We are more than happy to receive support from you, if you are very interested to help us. Please read our contribution workflow on how to do so.
