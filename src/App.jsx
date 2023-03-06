@@ -35,187 +35,187 @@ const CongregationPersonDetails = lazy(() => import('./pages/CongregationPersonD
 
 // creating theme
 const lightTheme = createTheme({
-  palette: {
-    mode: 'light',
-  },
+	palette: {
+		mode: 'light',
+	},
 });
 
 const darkTheme = createTheme({
-  palette: {
-    mode: 'dark',
-  },
+	palette: {
+		mode: 'dark',
+	},
 });
 
 const queryClient = new QueryClient();
 
 const App = ({ updatePwa }) => {
-  const setVisitorID = useSetRecoilState(visitorIDState);
-  const setApiHost = useSetRecoilState(apiHostState);
+	const setVisitorID = useSetRecoilState(visitorIDState);
+	const setApiHost = useSetRecoilState(apiHostState);
 
-  const isOnline = useRecoilValue(isOnlineState);
-  const isLight = useRecoilValue(isLightThemeState);
-  const appSnackOpen = useRecoilValue(appSnackOpenState);
-  const isCongAccountConnected = useRecoilValue(congAccountConnectedState);
-  const accountType = useRecoilValue(accountTypeState);
+	const isOnline = useRecoilValue(isOnlineState);
+	const isLight = useRecoilValue(isLightThemeState);
+	const appSnackOpen = useRecoilValue(appSnackOpenState);
+	const isCongAccountConnected = useRecoilValue(congAccountConnectedState);
+	const accountType = useRecoilValue(accountTypeState);
 
-  const [activeTheme, setActiveTheme] = useState(darkTheme);
+	const [activeTheme, setActiveTheme] = useState(darkTheme);
 
-  const router = createHashRouter([
-    {
-      element: <Layout updatePwa={updatePwa} />,
-      errorElement: <ErrorBoundary />,
-      children: [
-        { path: '/', element: <DashboardMenu /> },
-        {
-          path: '/schedules/view/:weekToFormat',
-          element: <WeeklyAssignments />,
-        },
-        {
-          path: '/user-settings',
-          element: <Settings />,
-        },
-        {
-          element: <PrivateVipRoute accountType={accountType} />,
-          children: [
-            {
-              path: '/persons',
-              element: <Persons />,
-            },
-            {
-              path: '/persons/new',
-              element: <PersonDetails />,
-            },
-            {
-              path: '/persons/:id',
-              element: <PersonDetails />,
-            },
-            {
-              path: '/schedules',
-              element: <Schedules />,
-            },
-            {
-              path: '/schedules/:schedule',
-              element: <ScheduleDetails />,
-            },
-            {
-              path: '/schedules/:schedule/:weekToFormat',
-              element: <ScheduleWeekDetails />,
-            },
-            {
-              path: '/assignment-form',
-              element: <S89 />,
-            },
-            {
-              path: '/midweek-meeting-schedule',
-              element: <S140 />,
-            },
-            {
-              path: '/source-materials',
-              element: <SourceMaterials />,
-            },
-            {
-              path: '/source-materials/:weekToFormat',
-              element: <SourceWeekDetails />,
-            },
-            {
-              path: '/congregation-settings',
-              element: <CongregationSettings />,
-            },
-            {
-              element: <PrivateVipConnectedRoute isCongAccountConnected={isCongAccountConnected} />,
-              children: [
-                {
-                  path: '/administration',
-                  element: <Administration />,
-                },
-                {
-                  path: '/administration/members/:id',
-                  element: <CongregationPersonDetails />,
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    },
-  ]);
+	const router = createHashRouter([
+		{
+			element: <Layout updatePwa={updatePwa} />,
+			errorElement: <ErrorBoundary />,
+			children: [
+				{ path: '/', element: <DashboardMenu /> },
+				{
+					path: '/schedules/view/:weekToFormat',
+					element: <WeeklyAssignments />,
+				},
+				{
+					path: '/user-settings',
+					element: <Settings />,
+				},
+				{
+					element: <PrivateVipRoute accountType={accountType} />,
+					children: [
+						{
+							path: '/persons',
+							element: <Persons />,
+						},
+						{
+							path: '/persons/new',
+							element: <PersonDetails />,
+						},
+						{
+							path: '/persons/:id',
+							element: <PersonDetails />,
+						},
+						{
+							path: '/schedules',
+							element: <Schedules />,
+						},
+						{
+							path: '/schedules/:schedule',
+							element: <ScheduleDetails />,
+						},
+						{
+							path: '/schedules/:schedule/:weekToFormat',
+							element: <ScheduleWeekDetails />,
+						},
+						{
+							path: '/assignment-form',
+							element: <S89 />,
+						},
+						{
+							path: '/midweek-meeting-schedule',
+							element: <S140 />,
+						},
+						{
+							path: '/source-materials',
+							element: <SourceMaterials />,
+						},
+						{
+							path: '/source-materials/:weekToFormat',
+							element: <SourceWeekDetails />,
+						},
+						{
+							path: '/congregation-settings',
+							element: <CongregationSettings />,
+						},
+						{
+							element: <PrivateVipConnectedRoute isCongAccountConnected={isCongAccountConnected} />,
+							children: [
+								{
+									path: '/administration',
+									element: <Administration />,
+								},
+								{
+									path: '/administration/members/:id',
+									element: <CongregationPersonDetails />,
+								},
+							],
+						},
+					],
+				},
+			],
+		},
+	]);
 
-  useEffect(() => {
-    if (isLight) {
-      setActiveTheme(lightTheme);
-    } else {
-      setActiveTheme(darkTheme);
-    }
-  }, [isLight]);
+	useEffect(() => {
+		if (isLight) {
+			setActiveTheme(lightTheme);
+		} else {
+			setActiveTheme(darkTheme);
+		}
+	}, [isLight]);
 
-  useEffect(() => {
-    // get visitor ID and check if there is an active connection
-    const getUserID = async () => {
-      const fpPromise = FingerprintJS.load({
-        apiKey: import.meta.env.VITE_FINGERPRINT_API_CLIENT_KEY,
-      });
+	useEffect(() => {
+		// get visitor ID and check if there is an active connection
+		const getUserID = async () => {
+			const fpPromise = FingerprintJS.load({
+				apiKey: import.meta.env.VITE_FINGERPRINT_API_CLIENT_KEY,
+			});
 
-      let visitorId = '';
+			let visitorId = '';
 
-      do {
-        const fp = await fpPromise;
-        const result = await fp.get();
-        visitorId = result.visitorId;
-      } while (visitorId.length === 0);
+			do {
+				const fp = await fpPromise;
+				const result = await fp.get();
+				visitorId = result.visitorId;
+			} while (visitorId.length === 0);
 
-      setVisitorID(visitorId);
-      backupWorkerInstance.setVisitorID(visitorId);
-    };
+			setVisitorID(visitorId);
+			backupWorkerInstance.setVisitorID(visitorId);
+		};
 
-    if (isOnline) {
-      getUserID();
-    }
-  }, [setVisitorID, isOnline]);
+		if (isOnline) {
+			getUserID();
+		}
+	}, [setVisitorID, isOnline]);
 
-  useEffect(() => {
-    let apiHost;
-    if (
-      !process.env.NODE_ENV ||
-      process.env.NODE_ENV === 'development' ||
-      window.location.host.indexOf('localhost') !== -1
-    ) {
-      if (import.meta.env.VITE_API_REMOTE_URL) {
-        apiHost = import.meta.env.VITE_API_REMOTE_URL;
-      } else {
-        apiHost = 'http://localhost:8000/';
-      }
-    } else {
-      apiHost = 'https://sws2apps.onrender.com/';
-    }
+	useEffect(() => {
+		let apiHost;
+		if (
+			!process.env.NODE_ENV ||
+			process.env.NODE_ENV === 'development' ||
+			window.location.host.indexOf('localhost') !== -1
+		) {
+			if (import.meta.env.VITE_API_REMOTE_URL) {
+				apiHost = import.meta.env.VITE_API_REMOTE_URL;
+			} else {
+				apiHost = 'http://localhost:8000/';
+			}
+		} else {
+			apiHost = 'https://api.sws2apps.com/';
+		}
 
-    setApiHost(apiHost);
-    backupWorkerInstance.setApiHost(apiHost);
-  }, [setApiHost]);
+		setApiHost(apiHost);
+		backupWorkerInstance.setApiHost(apiHost);
+	}, [setApiHost]);
 
-  useEffect(() => {
-    if (!indexedDB) {
-      if (!('serviceWorker' in navigator)) {
-        return (
-          <div className="browser-not-supported">
-            You seem to use an unsupported browser to use CPE. Make sure that you browser is up to date, or try to use
-            another browser.
-          </div>
-        );
-      }
-    }
-  }, []);
+	useEffect(() => {
+		if (!indexedDB) {
+			if (!('serviceWorker' in navigator)) {
+				return (
+					<div className='browser-not-supported'>
+						You seem to use an unsupported browser to use CPE. Make sure that you browser is up to date, or try to use
+						another browser.
+					</div>
+				);
+			}
+		}
+	}, []);
 
-  return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={activeTheme}>
-        <CssBaseline />
-        <InternetChecker />
-        {appSnackOpen && <NotificationWrapper />}
+	return (
+		<QueryClientProvider client={queryClient}>
+			<ThemeProvider theme={activeTheme}>
+				<CssBaseline />
+				<InternetChecker />
+				{appSnackOpen && <NotificationWrapper />}
 
-        <RouterProvider router={router} />
-      </ThemeProvider>
-    </QueryClientProvider>
-  );
+				<RouterProvider router={router} />
+			</ThemeProvider>
+		</QueryClientProvider>
+	);
 };
 
 export default App;
