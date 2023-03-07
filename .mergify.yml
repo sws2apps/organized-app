@@ -1,10 +1,12 @@
 pull_request_rules:
   - name: automatic merge for Dependabot pull requests
     conditions:
-      - author=dependabot[bot]
-      - check-success=Code QL
-      - title~=^chore\(deps\). [^\s]+ from ([\d]+)\..+ to \1\.
-      - title~=^feat\(deps\). [^\s]+ from ([\d]+)\..+ to \1\.
+      - and:
+        - author=dependabot[bot]
+        - check-success=Code QL
+        - or:
+            - title~=^chore\(deps\). [^\s]+ from ([\d]+)\..+ to \1\.
+            - title~=^feat\(deps\). [^\s]+ from ([\d]+)\..+ to \1\.
     actions:
       review:
         type: APPROVE
