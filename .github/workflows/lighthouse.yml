@@ -2,6 +2,8 @@ name: CI
 
 on: [push]
 
+permissions: read-all
+
 jobs:
   lighthouse_ci:
     name: Lighthouse
