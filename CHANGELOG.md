@@ -1,3 +1,18 @@
+# [2.46.0](https://github.com/sws2apps/cpe-sws/compare/v2.45.0...v2.46.0) (2023-03-07)
+
+
+### Bug Fixes
+
+* **app:** update backend url ([7939a82](https://github.com/sws2apps/cpe-sws/commit/7939a829ed4f17bf1472bf8984e4d85bcf4aabfd))
+
+
+### Features
+
+* **deps:** bump @mui/lab from 5.0.0-alpha.121 to 5.0.0-alpha.122 ([5bd0b68](https://github.com/sws2apps/cpe-sws/commit/5bd0b686fcea2ff833e59a8c43bc9468c1e3afcc))
+* **deps:** bump @mui/material from 5.11.11 to 5.11.12 ([409b61a](https://github.com/sws2apps/cpe-sws/commit/409b61a0073798da6228b1876d2834ea09b4f290))
+* **deps:** bump @tanstack/react-query from 4.24.10 to 4.26.1 ([42dd597](https://github.com/sws2apps/cpe-sws/commit/42dd59733a2e2d7ba7e81be854baf95bd7b81431))
+* **deps:** bump i18next from 22.4.10 to 22.4.11 ([bfadbb7](https://github.com/sws2apps/cpe-sws/commit/bfadbb783dd03bc16624e6a70bff66315befedcf))
+
 # [2.45.0](https://github.com/sws2apps/cpe-sws/compare/v2.44.0...v2.45.0) (2023-03-03)
 
 
