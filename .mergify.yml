@@ -5,8 +5,8 @@ pull_request_rules:
         - author=dependabot[bot]
         - check-success=Code QL
         - or:
-            - title~=^chore\(deps\). [^\s]+ from ([\d]+)\..+ to \1\.
-            - title~=^feat\(deps\). [^\s]+ from ([\d]+)\..+ to \1\.
+            - title~=^chore\(deps\). [w+]|[^\s]+ from ([\d]+)\..+ to \1\.
+            - title~=^feat\(deps\). [w+]|[^\s]+ from ([\d]+)\..+ to \1\.
     actions:
       review:
         type: APPROVE
