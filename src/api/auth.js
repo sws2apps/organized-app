@@ -109,6 +109,8 @@ export const apiHandleVerifyOTP = async (userOTP, isSetup, trustedDevice) => {
         if (!cong_role.includes('lmmo') && !cong_role.includes('lmmo-backup')) return { unauthorized: true };
 
         backupWorkerInstance.setCongID(cong_id);
+        backupWorkerInstance.setIsCongAccountConnected(true);
+
         await promiseSetRecoil(congIDState, cong_id);
 
         if (!isSetup) {
@@ -197,6 +199,8 @@ export const apiHandleVerifyEmailOTP = async (userOTP) => {
         if (!cong_role.includes('lmmo') && !cong_role.includes('lmmo-backup')) return { unauthorized: true };
 
         backupWorkerInstance.setCongID(cong_id);
+        backupWorkerInstance.setIsCongAccountConnected(true);
+
         await promiseSetRecoil(congIDState, cong_id);
 
         const settings = await dbGetAppSettings();

@@ -32,84 +32,88 @@ import { scheduleUseFullnameState } from '../states/schedule';
 import appDb from '../indexedDb/mainDb';
 
 export const loadApp = async () => {
-  const I18n = getI18n();
+  try {
+    const I18n = getI18n();
 
-  await initAppDb();
-  await removeOutdatedRecords();
+    await initAppDb();
+    await removeOutdatedRecords();
 
-  let {
-    username,
-    local_uid,
-    source_lang,
-    cong_number,
-    cong_name,
-    class_count,
-    cong_role,
-    meeting_day,
-    meeting_time,
-    user_avatar,
-    autoBackup,
-    autoBackup_interval,
-    schedule_useFullname,
-    account_type,
-    opening_prayer_autoAssign,
-  } = await dbGetAppSettings();
+    let {
+      username,
+      local_uid,
+      source_lang,
+      cong_number,
+      cong_name,
+      class_count,
+      cong_role,
+      meeting_day,
+      meeting_time,
+      user_avatar,
+      autoBackup,
+      autoBackup_interval,
+      schedule_useFullname,
+      account_type,
+      opening_prayer_autoAssign,
+    } = await dbGetAppSettings();
 
-  backupWorkerInstance.setBackupInterval(autoBackup_interval);
-  backupWorkerInstance.setIsEnabled(autoBackup);
+    backupWorkerInstance.setBackupInterval(autoBackup_interval);
+    backupWorkerInstance.setIsEnabled(autoBackup);
 
-  const app_lang = localStorage.getItem('app_lang') || 'e';
+    const app_lang = localStorage.getItem('app_lang') || 'e';
 
-  if (account_type === 'vip') {
-    await checkSrcUpdate();
-  }
-
-  if (local_uid && local_uid !== '') {
-    await promiseSetRecoil(userLocalUidState, local_uid);
-  }
-
-  if (user_avatar) {
-    if (typeof user_avatar === 'object') {
-      const blob = new Blob([user_avatar]);
-      const imgSrc = URL.createObjectURL(blob);
-      await promiseSetRecoil(avatarUrlState, imgSrc);
+    if (account_type === 'vip') {
+      await checkSrcUpdate();
     }
+
+    if (local_uid && local_uid !== '') {
+      await promiseSetRecoil(userLocalUidState, local_uid);
+    }
+
+    if (user_avatar) {
+      if (typeof user_avatar === 'object') {
+        const blob = new Blob([user_avatar]);
+        const imgSrc = URL.createObjectURL(blob);
+        await promiseSetRecoil(avatarUrlState, imgSrc);
+      }
+    }
+
+    await promiseSetRecoil(usernameState, username || '');
+    await promiseSetRecoil(congNameState, cong_name || '');
+    await promiseSetRecoil(congNumberState, cong_number || '');
+    await promiseSetRecoil(congRoleState, cong_role || []);
+    await promiseSetRecoil(classCountState, class_count || 1);
+    await promiseSetRecoil(meetingDayState, meeting_day || 3);
+    await promiseSetRecoil(meetingTimeState, meeting_time || new Date(Date.now()));
+    await promiseSetRecoil(appLangState, app_lang);
+    await promiseSetRecoil(sourceLangState, source_lang || app_lang);
+    await promiseSetRecoil(scheduleUseFullnameState, schedule_useFullname || false);
+    await promiseSetRecoil(openingPrayerAutoAssignState, opening_prayer_autoAssign || false);
+
+    if (source_lang === undefined) await dbUpdateAppSettings({ source_lang: app_lang });
+
+    I18n.changeLanguage(app_lang);
+
+    const weekTypeList = await dbGetListWeekType();
+    await promiseSetRecoil(weekTypeListState, weekTypeList);
+
+    const assTypeList = await dbGetListAssType();
+    await promiseSetRecoil(assTypeListState, assTypeList);
+
+    const data = await dbGetStudentsMini();
+    await promiseSetRecoil(allStudentsState, data);
+    await promiseSetRecoil(filteredStudentsState, data);
+
+    const history = await dbHistoryAssignment();
+    await promiseSetRecoil(studentsAssignmentHistoryState, history);
+
+    const years = await dbGetYearList();
+    await promiseSetRecoil(yearsListState, years);
+
+    const notifications = await dbGetNotifications();
+    await promiseSetRecoil(appNotificationsState, notifications);
+  } catch (err) {
+    console.log(err);
   }
-
-  await promiseSetRecoil(usernameState, username || '');
-  await promiseSetRecoil(congNameState, cong_name || '');
-  await promiseSetRecoil(congNumberState, cong_number || '');
-  await promiseSetRecoil(congRoleState, cong_role || []);
-  await promiseSetRecoil(classCountState, class_count || 1);
-  await promiseSetRecoil(meetingDayState, meeting_day || 3);
-  await promiseSetRecoil(meetingTimeState, meeting_time || new Date(Date.now()));
-  await promiseSetRecoil(appLangState, app_lang);
-  await promiseSetRecoil(sourceLangState, source_lang || app_lang);
-  await promiseSetRecoil(scheduleUseFullnameState, schedule_useFullname || false);
-  await promiseSetRecoil(openingPrayerAutoAssignState, opening_prayer_autoAssign || false);
-
-  if (source_lang === undefined) await dbUpdateAppSettings({ source_lang: app_lang });
-
-  I18n.changeLanguage(app_lang);
-
-  const weekTypeList = await dbGetListWeekType();
-  await promiseSetRecoil(weekTypeListState, weekTypeList);
-
-  const assTypeList = await dbGetListAssType();
-  await promiseSetRecoil(assTypeListState, assTypeList);
-
-  const data = await dbGetStudentsMini();
-  await promiseSetRecoil(allStudentsState, data);
-  await promiseSetRecoil(filteredStudentsState, data);
-
-  const history = await dbHistoryAssignment();
-  await promiseSetRecoil(studentsAssignmentHistoryState, history);
-
-  const years = await dbGetYearList();
-  await promiseSetRecoil(yearsListState, years);
-
-  const notifications = await dbGetNotifications();
-  await promiseSetRecoil(appNotificationsState, notifications);
 };
 
 export const sortHistoricalDateDesc = (data) => {
