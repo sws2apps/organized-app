@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import { MuiOtpInput } from 'mui-one-time-password-input';
+import { Markup } from 'interweave';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -150,7 +151,9 @@ const EmailOTP = () => {
         {t('sendOTPEmail')}
       </Typography>
 
-      <Typography sx={{ marginBottom: '15px' }}>{t('sendOTPEmailDesc')}</Typography>
+      <Typography sx={{ marginBottom: '15px' }}>
+        <Markup content={t('sendOTPEmailDesc')} />
+      </Typography>
 
       <Button
         variant="contained"
@@ -192,7 +195,7 @@ const EmailOTP = () => {
         </Button>
 
         <Link component="button" underline="none" variant="body1" onClick={handleAuthenticatorApp}>
-          {t('useAuthenticatorApp')}
+          <Markup content={t('useAuthenticatorApp')} />
         </Link>
       </Box>
     </Container>
