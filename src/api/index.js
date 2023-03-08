@@ -7,6 +7,7 @@ export const {
   apiPocketValidate,
   apiFetchPocketSessions,
   apiPocketDeviceDelete,
+  apiRequestTempOTPCode,
 } = await import('./auth.js');
 
 export const { apiFetchCountries, apiFetchCongregations, apiCreateCongregation, apiUpdateCongregation } = await import(

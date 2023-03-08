@@ -1,20 +1,17 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import { MuiOtpInput } from 'mui-one-time-password-input';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
 import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import { appMessageState, appSeverityState, appSnackOpenState } from '../../../states/notification';
 import {
+  currentMFAStageState,
   isAppLoadState,
   isCongAccountCreateState,
-  isReEnrollMFAState,
   isSetupState,
   isUnauthorizedRoleState,
   isUserEmailOTPState,
@@ -23,9 +20,12 @@ import {
   offlineOverrideState,
   visitorIDState,
 } from '../../../states/main';
+import { apiHandleVerifyEmailOTP } from '../../../api/auth';
+import { appMessageState, appSeverityState, appSnackOpenState } from '../../../states/notification';
 import { congAccountConnectedState } from '../../../states/congregation';
-import { apiHandleVerifyOTP } from '../../../api';
 import { runUpdater } from '../../../utils/updater';
+import { apiRequestTempOTPCode } from '../../../api';
+import useFirebaseAuth from '../../../hooks/useFirebaseAuth';
 
 const matchIsNumeric = (text) => {
   return !isNaN(Number(text));
@@ -35,41 +35,68 @@ const validateChar = (value, index) => {
   return matchIsNumeric(value);
 };
 
-const VerifyMFA = () => {
+const EmailOTP = () => {
   const cancel = useRef();
-  const trustDevice = useRef();
 
   const { t } = useTranslation('ui');
-
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [userOTP, setUserOTP] = useState('');
 
   const setAppSnackOpen = useSetRecoilState(appSnackOpenState);
   const setAppSeverity = useSetRecoilState(appSeverityState);
   const setAppMessage = useSetRecoilState(appMessageState);
-  const setIsCongAccountCreate = useSetRecoilState(isCongAccountCreateState);
-  const setIsUserMfaVerify = useSetRecoilState(isUserMfaVerifyState);
-  const setIsUnauthorizedRole = useSetRecoilState(isUnauthorizedRoleState);
   const setIsSetup = useSetRecoilState(isSetupState);
   const setIsAppLoad = useSetRecoilState(isAppLoadState);
   const setCongAccountConnected = useSetRecoilState(congAccountConnectedState);
   const setOfflineOverride = useSetRecoilState(offlineOverrideState);
-  const setIsReEnrollMFA = useSetRecoilState(isReEnrollMFAState);
-  const setIsUserMfaSetup = useSetRecoilState(isUserMfaSetupState);
+  const setIsUnauthorizedRole = useSetRecoilState(isUnauthorizedRoleState);
+  const setIsCongAccountCreate = useSetRecoilState(isCongAccountCreateState);
   const setIsUserEmailOTP = useSetRecoilState(isUserEmailOTPState);
+  const setIsUserMfaSetup = useSetRecoilState(isUserMfaSetupState);
+  const setIsUserMfaVerify = useSetRecoilState(isUserMfaVerifyState);
 
   const visitorID = useRecoilValue(visitorIDState);
+  const currentMFAStage = useRecoilValue(currentMFAStageState);
+
+  const [userOTP, setUserOTP] = useState('');
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [isProcessingOTP, setIsProcessingOTP] = useState(false);
+
+  const { user } = useFirebaseAuth();
 
   const handleOtpChange = async (newValue) => {
     setUserOTP(newValue);
   };
 
-  const handleVerifyOTP = useCallback(async () => {
+  const handleSendEmailOTP = async () => {
+    try {
+      setIsProcessingOTP(true);
+      cancel.current = false;
+
+      const response = await apiRequestTempOTPCode(user.uid);
+
+      if (!cancel.current) {
+        if (response.success) {
+          setAppMessage(t('emailOTPCodeSent'));
+          setAppSeverity('success');
+          setAppSnackOpen(true);
+        }
+        setIsProcessingOTP(false);
+      }
+    } catch (err) {
+      if (!cancel.current) {
+        setIsProcessingOTP(false);
+        setAppMessage(err.message);
+        setAppSeverity('error');
+        setAppSnackOpen(true);
+      }
+    }
+  };
+
+  const handleVerifyEmailOTP = async () => {
     try {
       setIsProcessing(true);
       cancel.current = false;
 
-      const response = await apiHandleVerifyOTP(userOTP, false, trustDevice.current.checked);
+      const response = await apiHandleVerifyEmailOTP(userOTP);
 
       if (!cancel.current) {
         if (response.success) {
@@ -84,18 +111,12 @@ const VerifyMFA = () => {
         }
 
         if (response.unauthorized) {
-          setIsUserMfaVerify(false);
+          setIsUserEmailOTP(false);
           setIsUnauthorizedRole(true);
         }
 
-        if (response.reenroll) {
-          setIsReEnrollMFA(true);
-          setIsUserMfaSetup(true);
-          setIsUserMfaVerify(false);
-        }
-
         if (response.createCongregation) {
-          setIsUserMfaVerify(false);
+          setIsUserEmailOTP(false);
           setIsCongAccountCreate(true);
         }
 
@@ -109,32 +130,13 @@ const VerifyMFA = () => {
         setAppSnackOpen(true);
       }
     }
-  }, [
-    setAppMessage,
-    setAppSeverity,
-    setAppSnackOpen,
-    setCongAccountConnected,
-    setIsAppLoad,
-    setIsCongAccountCreate,
-    setIsReEnrollMFA,
-    setIsSetup,
-    setIsUnauthorizedRole,
-    setIsUserMfaSetup,
-    setIsUserMfaVerify,
-    setOfflineOverride,
-    userOTP,
-  ]);
-
-  const handleEmailOTP = () => {
-    setIsUserEmailOTP(true);
-    setIsUserMfaVerify(false);
   };
 
-  useEffect(() => {
-    if (userOTP.length === 6) {
-      handleVerifyOTP();
-    }
-  }, [handleVerifyOTP, userOTP]);
+  const handleAuthenticatorApp = () => {
+    setIsUserEmailOTP(false);
+    if (currentMFAStage === 'setup') setIsUserMfaSetup(true);
+    if (currentMFAStage === 'verify') setIsUserMfaVerify(true);
+  };
 
   useEffect(() => {
     return () => {
@@ -142,26 +144,22 @@ const VerifyMFA = () => {
     };
   }, []);
 
-  useEffect(() => {
-    const handlePaste = (e) => {
-      const text = (e.clipboardData || window.clipboardData).getData('text');
-      setUserOTP(text);
-    };
-
-    window.addEventListener('paste', handlePaste);
-
-    return () => {
-      window.removeEventListener('paste', handlePaste);
-    };
-  }, []);
-
   return (
     <Container sx={{ marginTop: '20px' }}>
       <Typography variant="h4" sx={{ marginBottom: '15px' }}>
-        {t('mfaVerifyTitle')}
+        {t('sendOTPEmail')}
       </Typography>
 
-      <Typography sx={{ marginBottom: '15px' }}>{t('mfaVerifyDesc')}</Typography>
+      <Typography sx={{ marginBottom: '15px' }}>{t('sendOTPEmailDesc')}</Typography>
+
+      <Button
+        variant="contained"
+        disabled={isProcessingOTP || visitorID.length === 0}
+        onClick={handleSendEmailOTP}
+        endIcon={isProcessingOTP ? <CircularProgress size={25} /> : null}
+      >
+        {t('sendOTPCode')}
+      </Button>
 
       <Box sx={{ width: '100%', maxWidth: '450px', marginTop: '20px' }}>
         <MuiOtpInput
@@ -175,34 +173,30 @@ const VerifyMFA = () => {
         />
       </Box>
 
-      <Box sx={{ marginTop: '15px' }}>
-        <FormControlLabel control={<Checkbox inputRef={trustDevice} />} label={t('trustDevice')} />
-      </Box>
-
       <Box
         sx={{
-          marginTop: '20px',
+          marginTop: '15px',
           display: 'flex',
           alignItems: 'flex-end',
-          gap: '20px',
           flexWrap: 'wrap',
+          gap: '20px',
         }}
       >
         <Button
           variant="contained"
           disabled={isProcessing || visitorID.length === 0}
-          onClick={handleVerifyOTP}
+          onClick={handleVerifyEmailOTP}
           endIcon={isProcessing ? <CircularProgress size={25} /> : null}
         >
           {t('mfaVerify')}
         </Button>
 
-        <Link component="button" underline="none" variant="body1" onClick={handleEmailOTP}>
-          {t('sendOTPEmail')}
+        <Link component="button" underline="none" variant="body1" onClick={handleAuthenticatorApp}>
+          {t('useAuthenticatorApp')}
         </Link>
       </Box>
     </Container>
   );
 };
 
-export default VerifyMFA;
+export default EmailOTP;

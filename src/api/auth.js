@@ -154,6 +154,129 @@ export const apiHandleVerifyOTP = async (userOTP, isSetup, trustedDevice) => {
   }
 };
 
+export const apiHandleVerifyEmailOTP = async (userOTP) => {
+  try {
+    const { t } = getI18n();
+
+    const { apiHost, visitorID } = await getProfile();
+
+    const auth = await getAuth();
+    const user = auth.currentUser;
+
+    if (userOTP.length === 6) {
+      if (apiHost !== '') {
+        const res = await fetch(`${apiHost}verify-otp-code`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            visitorid: visitorID,
+            uid: user.uid,
+          },
+          body: JSON.stringify({ code: userOTP }),
+        });
+
+        const data = await res.json();
+
+        if (res.status !== 200) {
+          if (data.message) {
+            if (data.message === 'TOKEN_INVALID') data.message = t('mfaTokenInvalidExpired', { ns: 'ui' });
+            if (data.message === 'EMAIL_OTP_INVALID') data.message = t('emailOTPInvalidExpired', { ns: 'ui' });
+            await promiseSetRecoil(appMessageState, data.message);
+            await promiseSetRecoil(appSeverityState, 'warning');
+            await promiseSetRecoil(appSnackOpenState, true);
+            return {};
+          }
+        }
+
+        const { id, cong_id, cong_name, cong_role, cong_number, pocket_members } = data;
+
+        if (cong_name.length === 0) return { createCongregation: true };
+
+        if (cong_role.length === 0) return { unauthorized: true };
+
+        if (!cong_role.includes('lmmo') && !cong_role.includes('lmmo-backup')) return { unauthorized: true };
+
+        backupWorkerInstance.setCongID(cong_id);
+        await promiseSetRecoil(congIDState, cong_id);
+
+        const settings = await dbGetAppSettings();
+        if (settings.isCongUpdated2 === undefined) {
+          return { updateCongregation: true };
+        }
+
+        if (cong_role.includes('admin')) {
+          await promiseSetRecoil(isAdminCongState, true);
+        }
+
+        const isMainDb = await isDbExist('cpe_sws');
+        if (!isMainDb) await initAppDb();
+
+        // save congregation update if any
+        let obj = {};
+        obj.username = data.username;
+        obj.cong_name = cong_name;
+        obj.cong_number = cong_number;
+        obj.isLoggedOut = false;
+        obj.pocket_members = pocket_members;
+        obj.cong_role = cong_role;
+        obj.account_type = 'vip';
+        await dbUpdateAppSettings(obj);
+
+        await promiseSetRecoil(userIDState, id);
+        await promiseSetRecoil(pocketMembersState, pocket_members);
+        await promiseSetRecoil(accountTypeState, 'vip');
+        await promiseSetRecoil(congRoleState, cong_role);
+
+        await loadApp();
+
+        return { success: true };
+      }
+    }
+  } catch (err) {
+    await promiseSetRecoil(appMessageState, err.message);
+    await promiseSetRecoil(appSeverityState, 'error');
+    await promiseSetRecoil(appSnackOpenState, true);
+    return {};
+  }
+};
+
+export const apiRequestTempOTPCode = async (uid) => {
+  const { t } = getI18n();
+
+  try {
+    const { apiHost, appLang, visitorID } = await getProfile();
+
+    if (apiHost !== '' && uid !== '') {
+      const res = await fetch(`${apiHost}request-otp-code`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          applanguage: appLang,
+          uid: uid,
+          visitorid: visitorID,
+        },
+      });
+
+      const data = await res.json();
+      if (res.status === 200) {
+        return { success: true };
+      } else {
+        if (data.message) {
+          await promiseSetRecoil(appMessageState, data.message);
+          await promiseSetRecoil(appSeverityState, 'warning');
+          await promiseSetRecoil(appSnackOpenState, true);
+          return {};
+        }
+      }
+    }
+  } catch (err) {
+    await promiseSetRecoil(appMessageState, t('sendEmailError', { ns: 'ui' }));
+    await promiseSetRecoil(appSeverityState, 'error');
+    await promiseSetRecoil(appSnackOpenState, true);
+    return {};
+  }
+};
+
 export const apiRequestPasswordlesssLink = async (email, uid) => {
   const { t } = getI18n();
 

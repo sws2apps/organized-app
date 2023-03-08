@@ -391,3 +391,13 @@ export const isFetchingScheduleState = atom({
   key: 'isFetchingSchedule',
   default: true,
 });
+
+export const isUserEmailOTPState = atom({
+  key: 'isUserEmailOTP',
+  default: false,
+});
+
+export const currentMFAStageState = atom({
+  key: 'currentMFAStage',
+  default: 'setup',
+});

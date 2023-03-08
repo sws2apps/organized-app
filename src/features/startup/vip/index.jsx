@@ -4,6 +4,7 @@ import useFirebaseAuth from '../../../hooks/useFirebaseAuth';
 import { loadApp } from '../../../utils/app';
 import { runUpdater } from '../../../utils/updater';
 import {
+  currentMFAStageState,
   isAppLoadState,
   isAuthProcessingState,
   isCongAccountCreateState,
@@ -13,6 +14,7 @@ import {
   isOnlineState,
   isSetupState,
   isShowTermsUseState,
+  isUserEmailOTPState,
   isUserMfaSetupState,
   isUserMfaVerifyState,
   isUserSignInState,
@@ -35,6 +37,7 @@ const EmailAuth = lazy(() => import('./EmailAuth'));
 const EmailBlocked = lazy(() => import('./EmailBlocked'));
 const CongregationCreate = lazy(() => import('./CongregationCreate'));
 const TermsUse = lazy(() => import('./TermsUse'));
+const EmailOTP = lazy(() => import('./EmailOTP'));
 
 const VipStartup = () => {
   const { isAuthenticated } = useFirebaseAuth();
@@ -43,6 +46,7 @@ const VipStartup = () => {
   const [isUserSignIn, setIsUserSignIn] = useRecoilState(isUserSignInState);
   const [isUserMfaVerify, setUserMfaVerify] = useRecoilState(isUserMfaVerifyState);
   const [isUserMfaSetup, setUserMfaSetup] = useRecoilState(isUserMfaSetupState);
+  const [isUserEmailOTP, setUserEmailOTP] = useRecoilState(isUserEmailOTPState);
   const [isCongAccountCreate, setIsCongAccountCreate] = useRecoilState(isCongAccountCreateState);
   const [isAuthProcessing, setIsAuthProcessing] = useRecoilState(isAuthProcessingState);
 
@@ -51,6 +55,7 @@ const VipStartup = () => {
   const setAppSnackOpen = useSetRecoilState(appSnackOpenState);
   const setAppSeverity = useSetRecoilState(appSeverityState);
   const setAppMessage = useSetRecoilState(appMessageState);
+  const setCurrentMFAStage = useSetRecoilState(currentMFAStageState);
 
   const showTermsUse = useRecoilValue(isShowTermsUseState);
   const isEmailNotVerified = useRecoilValue(isEmailNotVerifiedState);
@@ -69,6 +74,7 @@ const VipStartup = () => {
       setIsCongAccountCreate(false);
       setUserMfaVerify(false);
       setUserMfaSetup(false);
+      setUserEmailOTP(false);
     };
 
     const runNotAuthenticatedStep = async () => {
@@ -116,6 +122,7 @@ const VipStartup = () => {
     setIsUserSignUp,
     setUserMfaSetup,
     setUserMfaVerify,
+    setUserEmailOTP,
     showTermsUse,
   ]);
 
@@ -149,10 +156,12 @@ const VipStartup = () => {
 
         if (result.isSetupMFA || result.isVerifyMFA) {
           if (result.isVerifyMFA) {
+            setCurrentMFAStage('verify');
             setIsUserSignUp(false);
             setUserMfaVerify(true);
           }
           if (result.isSetupMFA) {
+            setCurrentMFAStage('setup');
             setIsUserSignUp(false);
             setUserMfaSetup(true);
           }
@@ -183,6 +192,7 @@ const VipStartup = () => {
     setUserMfaSetup,
     setUserMfaVerify,
     setIsCongAccountCreate,
+    setCurrentMFAStage,
     showTermsUse,
     visitorID,
   ]);
@@ -193,6 +203,7 @@ const VipStartup = () => {
       {showTermsUse && <TermsUse />}
       {isUserSignIn && <SignIn />}
       {isUserSignUp && <SignUp />}
+      {isUserEmailOTP && <EmailOTP />}
       {isEmailNotVerified && <EmailNotVerified />}
       {isUserMfaSetup && <SetupMFA />}
       {isUserMfaVerify && <VerifyMFA />}
