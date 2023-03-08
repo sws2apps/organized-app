@@ -157,7 +157,13 @@ const BasicSettings = () => {
               label={t('time')}
               value={tempMeetingTime}
               onChange={handleMeetingTimeChange}
-              renderInput={(params) => <TextField {...params} size="small" sx={{ width: '180px' }} />}
+              renderInput={(params) => <TextField {...params} />}
+              sx={{
+                '.MuiInputBase-formControl': {
+                  height: '40.5px',
+                  width: '180px',
+                },
+              }}
             />
           </LocalizationProvider>
           <TextField

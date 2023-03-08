@@ -30,8 +30,8 @@ const PersonTimeAwayItem = ({ timeAway, timeAways, setTimeAway }) => {
 
   const shortDatePickerFormat = useRecoilValue(shortDatePickerFormatState);
 
-  const [startedDate, setStartedDate] = useState(timeAway.startDate);
-  const [expiredDate, setExpiredDate] = useState(timeAway.endDate);
+  const [startedDate, setStartedDate] = useState(timeAway.startDate ? new Date(timeAway.startDate) : null);
+  const [expiredDate, setExpiredDate] = useState(timeAway.endDate ? new Date(timeAway.endDate) : null);
   const [comments, setComments] = useState('');
 
   const handleInfoChange = (startDate, endDate, comments) => {
@@ -53,7 +53,7 @@ const PersonTimeAwayItem = ({ timeAway, timeAways, setTimeAway }) => {
   const handleStartedChange = (newValue) => {
     if (newValue instanceof Date && !isNaN(newValue)) {
       const d = format(newValue, 'MM/dd/yyyy');
-      setStartedDate(d);
+      setStartedDate(newValue);
       handleInfoChange(d, expiredDate, comments);
     }
   };
@@ -61,7 +61,7 @@ const PersonTimeAwayItem = ({ timeAway, timeAways, setTimeAway }) => {
   const handleExpiredChange = (newValue) => {
     if (newValue instanceof Date && !isNaN(newValue)) {
       const d = format(newValue, 'MM/dd/yyyy');
-      setExpiredDate(d);
+      setExpiredDate(newValue);
       handleInfoChange(startedDate, d, comments);
     }
   };
@@ -91,20 +91,24 @@ const PersonTimeAwayItem = ({ timeAway, timeAways, setTimeAway }) => {
           display: 'flex',
           alignItems: 'center',
           flexWrap: 'wrap',
-          marginTop: '-5px',
+          marginTop: '15px',
+          marginLeft: '10px',
+          gap: '10px',
         }}
       >
         <Box
           sx={{
             display: 'flex',
             flexWrap: 'wrap',
+            alignItems: 'center',
+            gap: '10px',
           }}
         >
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DesktopDatePicker
               id="start-date-time-away-picker"
               label={t('startDate')}
-              inputFormat={shortDatePickerFormat}
+              format={shortDatePickerFormat}
               value={startedDate}
               onChange={handleStartedChange}
               renderInput={(params) => <TextField {...params} sx={datePicker} />}
@@ -114,24 +118,20 @@ const PersonTimeAwayItem = ({ timeAway, timeAways, setTimeAway }) => {
             <DesktopDatePicker
               id="end-date-time-away-picker"
               label={t('endDate')}
-              inputFormat={shortDatePickerFormat}
+              format={shortDatePickerFormat}
               value={expiredDate}
               onChange={handleExpiredChange}
               renderInput={(params) => <TextField {...params} sx={datePicker} />}
-              sx={{ marginTop: '15px' }}
             />
           </LocalizationProvider>
         </Box>
         <TextField
           label={t('comments')}
           variant="outlined"
-          size="small"
           autoComplete="off"
           sx={{
-            marginTop: '20px',
             flexGrow: 1,
             marginRight: '10px',
-            marginLeft: '10px',
           }}
           value={comments}
           onChange={(e) => handleCommentsChange(e.target.value)}
