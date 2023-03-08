@@ -1,3 +1,19 @@
+# [2.47.0](https://github.com/sws2apps/cpe-sws/compare/v2.46.0...v2.47.0) (2023-03-08)
+
+
+### Bug Fixes
+
+* **app:** check if week exist before deleting ([c07bce8](https://github.com/sws2apps/cpe-sws/commit/c07bce8553d8dbf57bc60832ad197a687112d9d0))
+* **app:** load cong_role to state on startup ([f8b2034](https://github.com/sws2apps/cpe-sws/commit/f8b2034b6766a8f1d6879d3ce16c910e6d9b3f6e))
+* **app:** update to support @mui/x-date-pickers v6.0.0 ([cef1e78](https://github.com/sws2apps/cpe-sws/commit/cef1e7889ae253ae7a02cde10da04beb44486b60))
+* **startup:** add interweave library for email otp ([4d29c55](https://github.com/sws2apps/cpe-sws/commit/4d29c5508c0ea4f4d624eb52554767712e46469c))
+
+
+### Features
+
+* **deps:** bump @mui/x-date-pickers from 5.0.20 to 6.0.0 ([6d1963f](https://github.com/sws2apps/cpe-sws/commit/6d1963f218a699fb0bded9af42a89b612eaadd99))
+* **startup:** send signin verification code to email ([b7c1a50](https://github.com/sws2apps/cpe-sws/commit/b7c1a500ecc8f12ef3cd1bf94591c142616bb49e))
+
 # [2.46.0](https://github.com/sws2apps/cpe-sws/compare/v2.45.0...v2.46.0) (2023-03-07)
 
 
