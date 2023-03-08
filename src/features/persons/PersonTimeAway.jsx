@@ -15,7 +15,6 @@ const PersonTimeAway = ({ timeAway, setTimeAway }) => {
       endDate: null,
       comments: '',
     };
-
     setTimeAway([obj, ...timeAway]);
   };
 
