@@ -11,6 +11,7 @@ import {
   classCountState,
   congNameState,
   congNumberState,
+  congRoleState,
   meetingDayState,
   meetingTimeState,
   openingPrayerAutoAssignState,
@@ -43,6 +44,7 @@ export const loadApp = async () => {
     cong_number,
     cong_name,
     class_count,
+    cong_role,
     meeting_day,
     meeting_time,
     user_avatar,
@@ -77,6 +79,7 @@ export const loadApp = async () => {
   await promiseSetRecoil(usernameState, username || '');
   await promiseSetRecoil(congNameState, cong_name || '');
   await promiseSetRecoil(congNumberState, cong_number || '');
+  await promiseSetRecoil(congRoleState, cong_role || []);
   await promiseSetRecoil(classCountState, class_count || 1);
   await promiseSetRecoil(meetingDayState, meeting_day || 3);
   await promiseSetRecoil(meetingTimeState, meeting_time || new Date(Date.now()));
