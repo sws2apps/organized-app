@@ -640,8 +640,17 @@ export const dbAddManualSource = async () => {
 };
 
 export const dbDeleteWeek = async (week) => {
-  await appDb.src.delete(week);
-  await appDb.sched_MM.delete(week);
+  let weekExist = false;
+  if (await appDb.table('src').get({ weekOf: week })) {
+    weekExist = true;
+  }
+  if (weekExist) await appDb.src.delete(week);
+
+  weekExist = false;
+  if (await appDb.table('sched_MM').get({ weekOf: week })) {
+    weekExist = true;
+  }
+  if (weekExist) await appDb.sched_MM.delete(week);
 
   const history = await dbHistoryAssignment();
   await promiseSetRecoil(studentsAssignmentHistoryState, history);
