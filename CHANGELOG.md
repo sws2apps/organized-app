@@ -1,3 +1,10 @@
+## [2.47.1](https://github.com/sws2apps/cpe-sws/compare/v2.47.0...v2.47.1) (2023-03-08)
+
+
+### Bug Fixes
+
+* **app:** move some code under suspense ([e111d31](https://github.com/sws2apps/cpe-sws/commit/e111d31299d0ab8eb9cca41e334d8f158c5ce8c3))
+
 # [2.47.0](https://github.com/sws2apps/cpe-sws/compare/v2.46.0...v2.47.0) (2023-03-08)
 
 
