@@ -21,11 +21,10 @@ import {
   offlineOverrideState,
   visitorIDState,
 } from '../../../states/main';
-import { apiHandleVerifyEmailOTP } from '../../../api/auth';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../../../states/notification';
 import { congAccountConnectedState } from '../../../states/congregation';
 import { runUpdater } from '../../../utils/updater';
-import { apiRequestTempOTPCode } from '../../../api';
+import { apiRequestTempOTPCode, apiHandleVerifyEmailOTP } from '../../../api';
 import useFirebaseAuth from '../../../hooks/useFirebaseAuth';
 
 const matchIsNumeric = (text) => {

@@ -68,6 +68,7 @@ const UserAutoLogin = () => {
         if (data.cong_role.includes('lmmo') || data.cong_role.includes('lmmo-backup')) {
           setCongAccountConnected(true);
           backupWorkerInstance.setCongID(data.cong_id);
+          backupWorkerInstance.setIsCongAccountConnected(true);
           setCongID(data.cong_id);
           setUserID(data.id);
           setCongRole(data.cong_role);

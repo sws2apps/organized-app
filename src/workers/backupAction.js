@@ -7,6 +7,7 @@ let apiHost;
 let congID;
 let isOnline = navigator.onLine;
 let backupInterval;
+let isCongAccountConnected;
 
 export const setIsEnabled = (value) => {
   isEnabled = value;
@@ -36,8 +37,12 @@ export const setIsOnline = (value) => {
   isOnline = value;
 };
 
+export const setIsCongAccountConnected = (value) => {
+  isCongAccountConnected = value;
+};
+
 const runBackupSchedule = async () => {
-  if (isEnabled && backupInterval && isOnline && userUID && visitorID && apiHost && congID) {
+  if (isEnabled && backupInterval && isOnline && userUID && visitorID && apiHost && congID && isCongAccountConnected) {
     const { dbPersons, dbDeleted, dbSourceMaterial, dbSchedule, dbPocketTbl, dbSettings } = await dbExportDataOnline();
 
     const reqPayload = {
