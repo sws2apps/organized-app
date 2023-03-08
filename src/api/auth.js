@@ -3,7 +3,7 @@ import { getI18n } from 'react-i18next';
 import { promiseGetRecoil, promiseSetRecoil } from 'recoil-outside';
 import { dbGetAppSettings, dbUpdateAppSettings } from '../indexedDb/dbAppSettings';
 import { initAppDb, isDbExist } from '../indexedDb/dbUtility';
-import { congIDState, isAdminCongState, pocketMembersState } from '../states/congregation';
+import { congIDState, congRoleState, isAdminCongState, pocketMembersState } from '../states/congregation';
 import {
   accountTypeState,
   isOAuthAccountUpgradeState,
@@ -139,6 +139,7 @@ export const apiHandleVerifyOTP = async (userOTP, isSetup, trustedDevice) => {
         await promiseSetRecoil(userIDState, id);
         await promiseSetRecoil(pocketMembersState, pocket_members);
         await promiseSetRecoil(accountTypeState, 'vip');
+        await promiseSetRecoil(congRoleState, cong_role);
 
         await loadApp();
 

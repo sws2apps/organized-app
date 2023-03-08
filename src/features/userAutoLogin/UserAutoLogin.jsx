@@ -6,6 +6,7 @@ import { deleteDb } from '../../indexedDb/dbUtility';
 import {
   congAccountConnectedState,
   congIDState,
+  congRoleState,
   isAdminCongState,
   pocketMembersState,
 } from '../../states/congregation';
@@ -32,6 +33,7 @@ const UserAutoLogin = () => {
   const setUserID = useSetRecoilState(userIDState);
   const setModalOpen = useSetRecoilState(rootModalOpenState);
   const setPocketMembers = useSetRecoilState(pocketMembersState);
+  const setCongRole = useSetRecoilState(congRoleState);
 
   const isOnline = useRecoilValue(isOnlineState);
   const apiHost = useRecoilValue(apiHostState);
@@ -68,6 +70,7 @@ const UserAutoLogin = () => {
           backupWorkerInstance.setCongID(data.cong_id);
           setCongID(data.cong_id);
           setUserID(data.id);
+          setCongRole(data.cong_role);
 
           // role admin
           if (data.cong_role.includes('admin')) {
@@ -116,6 +119,7 @@ const UserAutoLogin = () => {
     setIsAdminCong,
     setPocketMembers,
     setUserID,
+    setCongRole,
     user,
   ]);
 

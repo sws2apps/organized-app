@@ -99,3 +99,8 @@ export const openingPrayerAutoAssignState = atom({
   key: 'openingPrayerAutoAssign',
   default: false,
 });
+
+export const congRoleState = atom({
+  key: 'congRole',
+  default: [],
+});

@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
@@ -21,7 +20,7 @@ import SendIcon from '@mui/icons-material/Send';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ScheduleIcon from '@mui/icons-material/Schedule';
 import MenuCard from '../components/MenuCard';
-import { congAccountConnectedState } from '../states/congregation';
+import { congAccountConnectedState, congRoleState } from '../states/congregation';
 import {
   accountTypeState,
   backupDbOpenState,
@@ -41,7 +40,6 @@ import { isPublishOpenState } from '../states/schedule';
 import { importDummyUsers } from '../utils/dev';
 import { getCurrentExistingWeekDate } from '../utils/app';
 import { apiFetchSchedule } from '../api';
-import { dbGetAppSettings } from '../indexedDb/dbAppSettings';
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -70,8 +68,7 @@ const DashboardMenu = () => {
   const isCongAccountConnected = useRecoilValue(congAccountConnectedState);
   const isOnline = useRecoilValue(isOnlineState);
   const accountType = useRecoilValue(accountTypeState);
-
-  const [congRole, setCongRole] = useState([]);
+  const congRole = useRecoilValue(congRoleState);
 
   const handleOpenMyAssignment = () => {
     setWhatsNewOpen(false);
@@ -265,15 +262,6 @@ const DashboardMenu = () => {
       ],
     },
   ];
-
-  useEffect(() => {
-    const getRole = async () => {
-      const settings = await dbGetAppSettings();
-      setCongRole(settings.cong_role || []);
-    };
-
-    getRole();
-  }, []);
 
   return (
     <Box sx={{ padding: '20px', display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
