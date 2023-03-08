@@ -466,5 +466,11 @@
   "mwbIssueMonth": "Mês",
   "scheduleSettings": "Configurações da programação",
   "autoAssignOpeningPrayer": "Designar automaticamente o presidente para oração inicial",
-  "personsNoAssignment": "Não designado"
+  "personsNoAssignment": "Não designado",
+  "sendOTPEmail": "Send code to my email address",
+  "sendOTPEmailDesc": "If you are not yet able to use an authenticator app, send a temporary verification code to your email address. This code will only be valid for 5 minutes.",
+  "useAuthenticatorApp": "Use Authenticator app",
+  "sendOTPCode": "Send code",
+  "emailOTPCodeSent": "The verification code has been sent to your email address",
+  "emailOTPInvalidExpired": "This code is invalid or has expired. Send a new code and try again"
 }

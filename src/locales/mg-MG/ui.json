@@ -466,5 +466,11 @@
   "mwbIssueMonth": "Volana",
   "scheduleSettings": "Fanamboarana Fandaharana",
   "autoAssignOpeningPrayer": "Atao mitovy ny Mpitari-draharaha sy ny Vavaka Fanokafana",
-  "personsNoAssignment": "Tsy mbola manana anjara"
+  "personsNoAssignment": "Tsy mbola manana anjara",
+  "sendOTPEmail": "Alefa email ny kaody",
+  "sendOTPEmailDesc": "Raha tsy afaka mampiasa ny programa <em>authentificateur</em> ianao, dia mandefasa kaody fanamarinana vonjimaika any amin’ny adiresy email ampiasainao. Mandritra ny 5 minitra ihany ny azo ampiasaina an’io kaody io.",
+  "useAuthenticatorApp": "Hampiasa <em>Authentificateur</em>",
+  "sendOTPCode": "Handefa kaody",
+  "emailOTPCodeSent": "Nalefa any amin’ny adiresy email ampiasainao ny kaody fanamarinana",
+  "emailOTPInvalidExpired": "Misy diso io kaody io na tsy azo ampiasaina intsony. Mandefasa kaody vaovao ary andramo indray"
 }
