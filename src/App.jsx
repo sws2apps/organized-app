@@ -137,6 +137,7 @@ const App = ({ updatePwa }) => {
             },
           ],
         },
+        { path: '*', element: <DashboardMenu /> },
       ],
     },
   ]);
