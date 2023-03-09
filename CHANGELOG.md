@@ -1,3 +1,15 @@
+# [2.48.0](https://github.com/sws2apps/cpe-sws/compare/v2.47.1...v2.48.0) (2023-03-09)
+
+
+### Bug Fixes
+
+* **settings:** fix invalid time error when opening settings page ([966e5d4](https://github.com/sws2apps/cpe-sws/commit/966e5d465df10a8e5790329ccda44b3d685d003d))
+
+
+### Features
+
+* **app:** route invalid url to dashboard page ([f0cbe76](https://github.com/sws2apps/cpe-sws/commit/f0cbe763a62bb8b009ca569fffa4381aee63e3ae))
+
 ## [2.47.1](https://github.com/sws2apps/cpe-sws/compare/v2.47.0...v2.47.1) (2023-03-08)
 
 
