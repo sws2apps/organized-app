@@ -35,7 +35,7 @@ const BasicSettings = () => {
 
   const [tempMeetingDay, setTempMeetingDay] = useState(meetingDay);
   const [tempClassCount, setTempClassCount] = useState(classCount);
-  const [tempMeetingTime, setTempMeetingTime] = useState(meetingTime);
+  const [tempMeetingTime, setTempMeetingTime] = useState(meetingTime ? new Date(meetingTime) : null);
   const [coName, setCoName] = useState('');
   const [coDisplayName, setCoDisplayName] = useState('');
   const [tmpAutoAssignOpeningPrayer, setTmpAutoAssignOpeningPrayer] = useState(autoAssignOpeningPrayer);
