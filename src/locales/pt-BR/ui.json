@@ -467,10 +467,10 @@
   "scheduleSettings": "Configurações da programação",
   "autoAssignOpeningPrayer": "Designar automaticamente o presidente para oração inicial",
   "personsNoAssignment": "Não designado",
-  "sendOTPEmail": "Send code to my email address",
-  "sendOTPEmailDesc": "If you are not yet able to use an authenticator app, send a temporary verification code to your email address. This code will only be valid for 5 minutes.",
-  "useAuthenticatorApp": "Use Authenticator app",
-  "sendOTPCode": "Send code",
-  "emailOTPCodeSent": "The verification code has been sent to your email address",
-  "emailOTPInvalidExpired": "This code is invalid or has expired. Send a new code and try again"
+  "sendOTPEmail": "Enviar código para o meu email",
+  "sendOTPEmailDesc": "Se você ainda não consegue usar um aplicativo de autenticação, envie um código de verificação temporário para o seu endereço de email. Este código será válido por 5 minutos.",
+  "useAuthenticatorApp": "Utilizar um aplicativo autenticador",
+  "sendOTPCode": "Enviar código",
+  "emailOTPCodeSent": "O código de verificação foi enviado para seu email",
+  "emailOTPInvalidExpired": "O código é inválido ou expirou. Envie um novo código e tente novamente"
 }
