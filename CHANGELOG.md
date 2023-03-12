@@ -1,3 +1,16 @@
+# [2.49.0](https://github.com/sws2apps/cpe-sws/compare/v2.48.0...v2.49.0) (2023-03-12)
+
+
+### Bug Fixes
+
+* **source-material:** all previous months were not available when downloading ([d67b128](https://github.com/sws2apps/cpe-sws/commit/d67b128d8c08ff2c5ecaec1e659af6d0177eadf1))
+
+
+### Features
+
+* **deps:** bump @mui/x-date-pickers from 6.0.0 to 6.0.1 ([28082c7](https://github.com/sws2apps/cpe-sws/commit/28082c73643925da07b6c3305a8a4c7175462c5b))
+* **deps:** bump react-router-dom from 6.8.2 to 6.9.0 ([14cb205](https://github.com/sws2apps/cpe-sws/commit/14cb205fcdf5e1029e8c0b8962d718b6b48cf301))
+
 # [2.48.0](https://github.com/sws2apps/cpe-sws/compare/v2.47.1...v2.48.0) (2023-03-09)
 
 
