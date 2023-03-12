@@ -252,18 +252,25 @@ export const buildListOldSources = async () => {
   const weekDate = new Date(today.setDate(diff));
   const currentMonth = weekDate.getMonth() + 1;
   const currentMonthOdd = currentMonth % 2 === 0 ? false : true;
-  let currentMonthMwb = currentMonthOdd ? currentMonth : currentMonth - 1;
-  let currentYear = weekDate.getFullYear();
+  const currentMonthMwb = currentMonthOdd ? currentMonth : currentMonth - 1;
+  const currentYear = weekDate.getFullYear();
+  const currentIssue = `${currentYear}${currentMonthMwb}`;
 
   const validDate = weekDate.setMonth(weekDate.getMonth() - 12);
   const oldestDate = new Date(validDate);
   const oldestMonth = oldestDate.getMonth() + 1;
   const oldestMonthOdd = oldestMonth % 2 === 0 ? false : true;
-  let oldMonthMwb = oldestMonthOdd ? currentMonth : currentMonth - 1;
+  let oldMonthMwb = oldestMonthOdd ? oldestMonth : oldestMonth - 1;
   let oldYear = oldestDate.getFullYear();
+  let activeIssue = `${oldYear}${oldMonthMwb}`;
 
   do {
-    if ((oldYear === 2022 && oldMonthMwb > 5) || oldYear > 2022) {
+    let validIssue = false;
+
+    if (oldYear === 2022 && oldMonthMwb > 5) validIssue = true;
+    if (oldYear > 2022) validIssue = true;
+
+    if (validIssue) {
       const issueDate = oldYear + String(oldMonthMwb).padStart(2, '0');
 
       const label = `${monthNames[oldMonthMwb - 1]} ${oldYear}`;
@@ -277,7 +284,9 @@ export const buildListOldSources = async () => {
       oldMonthMwb = 1;
       oldYear++;
     }
-  } while (oldYear !== currentYear && oldMonthMwb !== currentMonthMwb);
+
+    activeIssue = `${oldYear}${oldMonthMwb}`;
+  } while (currentIssue !== activeIssue);
 
   return options;
 };
