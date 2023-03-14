@@ -10,7 +10,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Typography from '@mui/material/Typography';
-import { apiHostState, shortDateFormatState, visitorIDState } from '../../states/main';
+import { apiHostState, visitorIDState } from '../../states/main';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../../states/notification';
 import { congIDState, isProcessingBackupState } from '../../states/congregation';
 import { getAuth } from '@firebase/auth';
@@ -29,7 +29,6 @@ const BackupMain = ({ handleCreateBackup, handleClose, handleRestoreBackup, open
   const apiHost = useRecoilValue(apiHostState);
   const visitorID = useRecoilValue(visitorIDState);
   const congID = useRecoilValue(congIDState);
-  const shortDateFormat = useRecoilValue(shortDateFormatState);
 
   const [hasBackup, setHasBackup] = useState(false);
   const [backup, setBackup] = useState({});
