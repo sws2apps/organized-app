@@ -85,6 +85,15 @@ const BackupMain = ({ handleCreateBackup, handleClose, handleRestoreBackup, open
     if (action === 'restore') handleRestoreBackup();
   };
 
+  const getLastBackupDate = (action, backup) => {
+    const shortDateTimeFormat = t('shortDateTimeFormat');
+
+    return t(action === 'backup' ? 'lastCongBackup' : 'restoreConfirmation', {
+      backup_person: backup.by,
+      backup_date: dateFormat(new Date(backup.date), shortDateTimeFormat),
+    });
+  };
+
   useEffect(() => {
     fetchLastBackup();
   }, [fetchLastBackup]);
@@ -100,14 +109,14 @@ const BackupMain = ({ handleCreateBackup, handleClose, handleRestoreBackup, open
       <Dialog
         open={open}
         onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'
       >
-        <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
+        <DialogTitle id='alert-dialog-title'>{title}</DialogTitle>
         <DialogContent sx={{ minWidth: '380px' }}>
           {isProcessing && (
             <CircularProgress
-              color="secondary"
+              color='secondary'
               size={80}
               disableShrink={true}
               sx={{
@@ -118,26 +127,19 @@ const BackupMain = ({ handleCreateBackup, handleClose, handleRestoreBackup, open
           )}
           {!isProcessing && (
             <>
-              {hasBackup && (
-                <Typography>
-                  {t(action === 'backup' ? 'lastCongBackup' : 'restoreConfirmation', {
-                    backup_person: backup.by,
-                    backup_date: dateFormat(new Date(backup.date), shortDateFormat),
-                  })}
-                </Typography>
-              )}
+              {hasBackup && <Typography>{getLastBackupDate(action, backup)}</Typography>}
               {!hasBackup && <Typography>{t('noBackupFound')}</Typography>}
             </>
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleClose} color='primary'>
             {t('cancel')}
           </Button>
           <Button
             onClick={handleAction}
             disabled={isProcessing || (!hasBackup && action === 'restore')}
-            color="primary"
+            color='primary'
           >
             {action === 'backup' ? t('create') : t('restore')}
           </Button>
