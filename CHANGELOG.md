@@ -1,3 +1,10 @@
+## [2.50.1](https://github.com/sws2apps/cpe-sws/compare/v2.50.0...v2.50.1) (2023-03-14)
+
+
+### Bug Fixes
+
+* **startup:** fix error when sign up using email only ([4b40225](https://github.com/sws2apps/cpe-sws/commit/4b40225b0a10fc54dbf05f2d1d99d302dec227b7))
+
 # [2.50.0](https://github.com/sws2apps/cpe-sws/compare/v2.49.0...v2.50.0) (2023-03-14)
 
 
