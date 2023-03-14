@@ -153,12 +153,16 @@ const CongregationCreate = () => {
 
   useEffect(() => {
     if (user) {
-      if (user.displayName !== null) {
+      if (user.displayName && user.displayName !== null) {
         setUserTmpFullname(user.displayName);
         return;
       }
 
-      if (user.displayName === null && user.providerData[0]?.displayName !== null) {
+      if (
+        user.displayName === null &&
+        user.providerData[0]?.displayName &&
+        user.providerData[0]?.displayName !== null
+      ) {
         setUserTmpFullname(user.providerData[0].displayName);
         return;
       }
@@ -175,7 +179,7 @@ const CongregationCreate = () => {
 
   return (
     <Container sx={{ marginTop: '20px' }}>
-      <Typography variant="h4" sx={{ marginBottom: '15px' }}>
+      <Typography variant='h4' sx={{ marginBottom: '15px' }}>
         {isUpdateCong ? t('updateCongregation') : t('createCongregationAccount')}
       </Typography>
 
@@ -194,10 +198,10 @@ const CongregationCreate = () => {
         {!isUpdateCong && (
           <TextField
             sx={{ width: '100%' }}
-            id="outlined-fullname"
+            id='outlined-fullname'
             label={t('fullname')}
-            variant="outlined"
-            autoComplete="off"
+            variant='outlined'
+            autoComplete='off'
             required
             value={userTmpFullname}
             onChange={(e) => setUserTmpFullname(e.target.value)}
@@ -223,13 +227,13 @@ const CongregationCreate = () => {
         }}
       >
         {!isUpdateCong && (
-          <Link component="button" underline="none" variant="body2" onClick={handleSignIn}>
+          <Link component='button' underline='none' variant='body2' onClick={handleSignIn}>
             {t('hasAccount')}
           </Link>
         )}
 
         <Button
-          variant="contained"
+          variant='contained'
           disabled={isProcessing}
           endIcon={isProcessing ? <CircularProgress size={25} /> : null}
           onClick={handleCongregationAction}
