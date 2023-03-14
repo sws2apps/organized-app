@@ -1,3 +1,16 @@
+# [2.50.0](https://github.com/sws2apps/cpe-sws/compare/v2.49.0...v2.50.0) (2023-03-14)
+
+
+### Bug Fixes
+
+* **backup:** use long date format for last backup date ([f5f60c6](https://github.com/sws2apps/cpe-sws/commit/f5f60c6617012642b4928c33f0978f1f28993ad3))
+
+
+### Features
+
+* **deps:** bump jw-epub-parser from 1.35.0 to 1.36.0 ([74fb07b](https://github.com/sws2apps/cpe-sws/commit/74fb07b2c6079d12e0c689b8c4e4b97a224d025e))
+* **deps:** bump mui-one-time-password-input from 1.0.4 to 1.1.0 ([2d2004a](https://github.com/sws2apps/cpe-sws/commit/2d2004a67b8375c965d4e4d4ca5234a618dccda4))
+
 # [2.49.0](https://github.com/sws2apps/cpe-sws/compare/v2.48.0...v2.49.0) (2023-03-12)
 
 
