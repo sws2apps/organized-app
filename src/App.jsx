@@ -60,6 +60,8 @@ const App = ({ updatePwa }) => {
   const accountType = useRecoilValue(accountTypeState);
 
   const [activeTheme, setActiveTheme] = useState(darkTheme);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSupported, setIsSupported] = useState(true);
 
   const router = createHashRouter([
     {
@@ -195,29 +197,62 @@ const App = ({ updatePwa }) => {
   }, [setApiHost]);
 
   useEffect(() => {
-    if (!indexedDB) {
-      if (!('serviceWorker' in navigator)) {
-        return (
-          <div className="browser-not-supported">
-            You seem to use an unsupported browser to use CPE. Make sure that you browser is up to date, or try to use
-            another browser.
-          </div>
-        );
+    const checkBrowser = () => {
+      if (!('Worker' in window)) {
+        setIsSupported(false);
+        return;
       }
-    }
+
+      if (!('crypto' in window)) {
+        setIsSupported(false);
+        return;
+      }
+
+      if (!crypto.randomUUID || typeof crypto.randomUUID !== 'function') {
+        setIsSupported(false);
+        return;
+      }
+
+      if (!indexedDB) {
+        setIsSupported(false);
+        return;
+      }
+
+      if (!('serviceWorker' in navigator)) {
+        setIsSupported(false);
+        return;
+      }
+    };
+
+    checkBrowser();
+    setIsLoading(false);
   }, []);
 
+  if (isLoading) {
+    return <WaitingPage />;
+  }
+
   return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={activeTheme}>
-        <CssBaseline />
-        <InternetChecker />
-        {appSnackOpen && <NotificationWrapper />}
-        <Suspense fallback={<WaitingPage />}>
-          <RouterProvider router={router} />
-        </Suspense>
-      </ThemeProvider>
-    </QueryClientProvider>
+    <>
+      {!isSupported && (
+        <div className="browser-not-supported">
+          You are using unsupported browser for the Congregation Program for Everyone app. Make sure that your browser
+          is up to date, or try to use another browser.
+        </div>
+      )}
+      {isSupported && (
+        <QueryClientProvider client={queryClient}>
+          <ThemeProvider theme={activeTheme}>
+            <CssBaseline />
+            <InternetChecker />
+            {appSnackOpen && <NotificationWrapper />}
+            <Suspense fallback={<WaitingPage />}>
+              <RouterProvider router={router} />
+            </Suspense>
+          </ThemeProvider>
+        </QueryClientProvider>
+      )}
+    </>
   );
 };
 
