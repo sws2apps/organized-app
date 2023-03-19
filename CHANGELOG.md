@@ -1,3 +1,18 @@
+# [2.51.0](https://github.com/sws2apps/cpe-sws/compare/v2.50.1...v2.51.0) (2023-03-19)
+
+
+### Features
+
+* **app:** add additional conditions to check browser support ([336800b](https://github.com/sws2apps/cpe-sws/commit/336800be8642b0f4473727b793fae966a2f85bf5))
+* **deps:** bump @mui/lab from 5.0.0-alpha.122 to 5.0.0-alpha.123 ([ad47e8b](https://github.com/sws2apps/cpe-sws/commit/ad47e8b9ca50368f5b557585e603988e565e10f6))
+* **deps:** bump @mui/material from 5.11.12 to 5.11.13 ([2b729be](https://github.com/sws2apps/cpe-sws/commit/2b729beedaafde6e287c6a826375b62f23035628))
+* **deps:** bump @mui/x-date-pickers from 6.0.1 to 6.0.2 ([5d532cc](https://github.com/sws2apps/cpe-sws/commit/5d532cc5cde166910e4eb75d1c6001cc13035c44))
+* **deps:** bump @sws2apps/react-sw-helper from 1.10.0 to 1.11.0 ([2680736](https://github.com/sws2apps/cpe-sws/commit/2680736aba9d36de101cdde581ee376c08a25427))
+* **deps:** bump @tanstack/react-query from 4.26.1 to 4.27.0 ([16e2e66](https://github.com/sws2apps/cpe-sws/commit/16e2e6682a48568010efde5232a7cdcc796f9a99))
+* **deps:** bump firebase from 9.17.2 to 9.18.0 ([aff07e7](https://github.com/sws2apps/cpe-sws/commit/aff07e75010e29f265527eb22721b69afc794bbf))
+* **deps:** bump i18next from 22.4.11 to 22.4.12 ([c3940be](https://github.com/sws2apps/cpe-sws/commit/c3940be24c632e66a90f0c6e6401fcb76371391e))
+* **deps:** bump interweave from 13.0.0 to 13.1.0 ([14a35c8](https://github.com/sws2apps/cpe-sws/commit/14a35c84eea727111bce5add1e866623101c7438))
+
 ## [2.50.1](https://github.com/sws2apps/cpe-sws/compare/v2.50.0...v2.50.1) (2023-03-14)
 
 
