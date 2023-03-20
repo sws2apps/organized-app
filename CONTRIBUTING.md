@@ -10,7 +10,7 @@ This module follows semantic versioning. We release patch versions for bugfixes,
 
 ## Branch Organization
 
-We use only the `main` branch. But flags are used to test new features.
+We use only the `main` branch. But flags are used to test new features. (**Note**: Feature flags is in process of being developped.)
 
 ## Bugs
 

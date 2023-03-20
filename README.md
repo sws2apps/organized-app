@@ -37,4 +37,4 @@ The translation process for CPE app is handled on [Crowdin](https://crowdin.com/
 
 ## May I contribute?
 
-Of course!!! We are more than happy to receive support from you, if you are very interested to help us. Please read our contribution workflow on how to do so.
+Of course!!! We are more than happy to receive support from you, if you are very interested to help us. Please read our [contribution guide](./CONTRIBUTING.md) on how to do so.

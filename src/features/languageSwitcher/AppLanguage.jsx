@@ -84,8 +84,8 @@ const AppLanguage = () => {
     <>
       <Tooltip title={largeView ? '' : t('changeLanguage')}>
         <IconButton
-          color="inherit"
-          edge="start"
+          color='inherit'
+          edge='start'
           sx={{
             borderRadius: '8px',
             '.MuiTouchRipple-ripple .MuiTouchRipple-child': {
@@ -100,7 +100,7 @@ const AppLanguage = () => {
         </IconButton>
       </Tooltip>
       <Menu
-        id="menu-language"
+        id='menu-language'
         disableScrollLock={true}
         anchorEl={anchorEl}
         open={isMenuOpen}
@@ -118,10 +118,10 @@ const AppLanguage = () => {
           </MenuItem>
         ))}
         <MenuItem sx={{ padding: 0, borderTop: '1px outset', marginTop: '10px' }} onClick={handleLocalizeOpen}>
-          <Link href="https://github.com/sws2apps/lmm-oa-sws/blob/main/TRANSLATION.md" target="_blank" rel="noopener">
+          <Link href='https://github.com/sws2apps/cpe-sws/blob/main/TRANSLATION.md' target='_blank' rel='noopener'>
             <Box sx={{ padding: '10px 16px', display: 'flex', alignItems: 'center' }}>
               <ListItemIcon>
-                <LanguageIcon fontSize="medium" />
+                <LanguageIcon fontSize='medium' />
               </ListItemIcon>
               <ListItemText>
                 <Typography sx={{ fontSize: '14px' }}>{t('languageMissing')}</Typography>
