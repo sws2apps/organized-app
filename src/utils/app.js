@@ -93,7 +93,7 @@ export const loadApp = async () => {
     const notifications = await dbGetNotifications();
     await promiseSetRecoil(appNotificationsState, notifications);
   } catch (err) {
-    console.log(err);
+    throw new Error(err);
   }
 };
 

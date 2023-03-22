@@ -57,7 +57,7 @@ class SettingClass {
 }
 
 SettingClass.prototype.load = async function () {
-  const congData = await appDb.table('app_settings').get({ id: 1 });
+  const congData = (await appDb.app_settings.toArray())[0];
 
   this.username = congData.username;
   this.local_uid = congData.local_uid;
@@ -88,12 +88,17 @@ SettingClass.prototype.load = async function () {
 };
 
 SettingClass.prototype.update = async function (setting, overwrite) {
-  if (overwrite) {
-    await appDb.app_settings.put({ id: 1, ...setting });
-    await this.load();
-  } else {
-    await appDb.app_settings.update(1, setting);
-    await this.load();
+  try {
+    const index = (await appDb.app_settings.toArray())[0].id;
+    if (overwrite) {
+      await appDb.app_settings.put({ id: index, ...setting });
+      await this.load();
+    } else {
+      await appDb.app_settings.update(index, { id: index, ...setting });
+      await this.load();
+    }
+  } catch (err) {
+    console.log(err);
   }
 };
 
