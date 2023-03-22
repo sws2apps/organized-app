@@ -20,7 +20,7 @@ import { apiHostState, isOnlineState } from '../../states/main';
 import { addJwDataToDb } from '../../utils/epubParser';
 import { displayError } from '../../utils/error';
 import { fetchSourceMaterial } from '../../api';
-import { buildListOldSources } from '../../utils/app';
+import { Sources } from '../../classes/Sources';
 
 const sharedStyles = {
   jwLoad: {
@@ -104,13 +104,9 @@ const ImportJWOrg = () => {
   };
 
   useEffect(() => {
-    const getOldSources = async () => {
-      const options = await buildListOldSources();
-      setIssueOptions(options);
-      setDownloadIssue(options[options.length - 1].value);
-    };
-
-    getOldSources();
+    const options = Sources.oldestIssues;
+    setIssueOptions(Sources.oldestIssues);
+    setDownloadIssue(options[options.length - 1].value);
   }, []);
 
   useEffect(() => {

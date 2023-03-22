@@ -1,8 +1,8 @@
 import { promiseSetRecoil } from 'recoil-outside';
 import { rootModalOpenState } from '../states/main';
-import { dbSavePersonExp } from '../indexedDb/dbPersons';
 import appDb from '../indexedDb/mainDb';
-import { dbUpdateAppSettings } from '../indexedDb/dbAppSettings';
+import { Persons } from '../classes/Persons';
+import { Setting } from '../classes/Setting';
 
 const generateDisplayName = (name) => {
   const txtArray = name.split(' ');
@@ -25,6 +25,7 @@ export const importDummyUsers = async () => {
   await promiseSetRecoil(rootModalOpenState, true);
 
   await appDb.persons.clear();
+  Persons.list.length = 0;
 
   const url = 'https://dummyjson.com/users?limit=100';
 
@@ -142,12 +143,12 @@ export const importDummyUsers = async () => {
   }
 
   for await (const user of formattedData) {
-    await dbSavePersonExp(user);
+    await Persons.preSave(user);
   }
 
   // save settings
   const obj = { personAssignmentsConverted: false };
-  await dbUpdateAppSettings(obj);
+  await Setting.update(obj);
 
   await promiseSetRecoil(rootModalOpenState, false);
 };

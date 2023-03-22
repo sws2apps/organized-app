@@ -16,12 +16,14 @@ import {
   isAutoFillSchedState,
   reloadWeekSummaryState,
 } from '../../states/schedule';
-import { checkCBSReader, checkLCAssignments, dbGetSourceMaterial } from '../../indexedDb/dbSourceMaterial';
-import { dbFetchScheduleInfo, dbGetScheduleData } from '../../indexedDb/dbSchedule';
-import { dbSaveAss } from '../../indexedDb/dbAssignment';
-import { dbGetAppSettings } from '../../indexedDb/dbAppSettings';
-import { dbGetPersonsByAssType } from '../../indexedDb/dbPersons';
+import { checkCBSReader, checkLCAssignments } from '../../utils/sourceMaterial';
 import { openingPrayerAutoAssignState } from '../../states/congregation';
+import { Persons } from '../../classes/Persons';
+import { saveAssignment } from '../../utils/schedule';
+import { Sources } from '../../classes/Sources';
+import { Schedules } from '../../classes/Schedules';
+import { fetchScheduleInfo } from '../../utils/sourceMaterial';
+import { Setting } from '../../classes/Setting';
 
 const AutofillSchedule = () => {
   const { t } = useTranslation('ui');
@@ -48,8 +50,8 @@ const AutofillSchedule = () => {
     setDlgAutofillOpen(false);
   };
 
-  const fetchInfoToAssign = useCallback(async () => {
-    const { weeks, total } = await dbFetchScheduleInfo(isAutofillSched, currentSchedule, currentWeek);
+  const fetchInfoToAssign = useCallback(() => {
+    const { weeks, total } = fetchScheduleInfo(isAutofillSched, currentSchedule, currentWeek);
     setWeeks(weeks);
     setTotalToAssign(total);
   }, [currentSchedule, currentWeek, isAutofillSched]);
@@ -57,26 +59,25 @@ const AutofillSchedule = () => {
   const handleAssignSchedule = async () => {
     setIsAssigning(true);
 
-    const { class_count } = await dbGetAppSettings();
     let students = [];
 
     // Assign Chairman
     for await (const item of weeks) {
       const week = item.value;
-      const schedData = await dbGetScheduleData(week);
+      const schedData = Schedules.get(week);
 
       if (schedData.noMeeting === false) {
         // Main Hall
-        students = await dbGetPersonsByAssType(110);
+        students = Persons.getByAssignment(110);
         if (students.length > 0) {
           const chairmanA = students[0].person_uid;
-          await dbSaveAss(week, chairmanA, 'chairmanMM_A');
+          await saveAssignment(week, chairmanA, 'chairmanMM_A');
           setAssigned((prev) => {
             return prev + 1;
           });
 
           if (autoAssignOpeningPrayer) {
-            await dbSaveAss(week, chairmanA, 'opening_prayer');
+            await saveAssignment(week, chairmanA, 'opening_prayer');
             setAssigned((prev) => {
               return prev + 1;
             });
@@ -84,11 +85,11 @@ const AutofillSchedule = () => {
         }
 
         // Aux Class
-        if (class_count === 2 && schedData.week_type === 1) {
-          students = await dbGetPersonsByAssType(110);
+        if (Setting.class_count === 2 && schedData.week_type === 1) {
+          students = Persons.getByAssignment(110);
           if (students.length > 0) {
             const chairmanB = students[0].person_uid;
-            await dbSaveAss(week, chairmanB, 'chairmanMM_B');
+            await saveAssignment(week, chairmanB, 'chairmanMM_B');
             setAssigned((prev) => {
               return prev + 1;
             });
@@ -100,14 +101,14 @@ const AutofillSchedule = () => {
     // Assign CBS Conductor
     for await (const item of weeks) {
       const week = item.value;
-      const schedData = await dbGetScheduleData(week);
+      const schedData = Schedules.get(week);
 
       if (schedData.noMeeting === false && schedData.week_type === 1) {
         // Conductor
-        students = await dbGetPersonsByAssType(115);
+        students = Persons.getByAssignment(115);
         if (students.length > 0) {
           const cbsConductor = students[0].person_uid;
-          await dbSaveAss(week, cbsConductor, 'cbs_conductor');
+          await saveAssignment(week, cbsConductor, 'cbs_conductor');
           setAssigned((prev) => {
             return prev + 1;
           });
@@ -117,37 +118,37 @@ const AutofillSchedule = () => {
 
     for await (const item of weeks) {
       const week = item.value;
-      const sourceData = await dbGetSourceMaterial(week);
-      const schedData = await dbGetScheduleData(week);
+      const sourceData = Sources.get(week).local;
+      const schedData = Schedules.get(week);
 
       if (schedData.noMeeting === false) {
         // Assign TGW Talk
-        students = await dbGetPersonsByAssType(112);
+        students = Persons.getByAssignment(112);
         if (students.length > 0) {
           const tgwTalk = students[0].person_uid;
-          await dbSaveAss(week, tgwTalk, 'tgw_talk');
+          await saveAssignment(week, tgwTalk, 'tgw_talk');
           setAssigned((prev) => {
             return prev + 1;
           });
         }
 
         // Assign TGW Spiritual Gems
-        students = await dbGetPersonsByAssType(113);
+        students = Persons.getByAssignment(113);
         if (students.length > 0) {
           const tgwGems = students[0].person_uid;
-          await dbSaveAss(week, tgwGems, 'tgw_gems');
+          await saveAssignment(week, tgwGems, 'tgw_gems');
           setAssigned((prev) => {
             return prev + 1;
           });
         }
 
-        const noAssignLC1 = await checkLCAssignments(sourceData.lcPart1_src);
+        const noAssignLC1 = checkLCAssignments(sourceData.lcPart1_src);
         if (!noAssignLC1) {
           // Assign LC Part 1
-          students = await dbGetPersonsByAssType(114);
+          students = Persons.getByAssignment(114);
           if (students.length > 0) {
             const lcPart1 = students[0].person_uid;
-            await dbSaveAss(week, lcPart1, 'lc_part1');
+            await saveAssignment(week, lcPart1, 'lc_part1');
             setAssigned((prev) => {
               return prev + 1;
             });
@@ -156,20 +157,20 @@ const AutofillSchedule = () => {
 
         // Assign LC Part 2
         let isAssignLC2 = false;
-        if (sourceData.lcCount_override === undefined && sourceData.lcCount === 2) {
-          const noAssignLC2 = await checkLCAssignments(sourceData.lcPart2_src);
+        if (sourceData.lcCount_override === 0 && sourceData.lcCount === 2) {
+          const noAssignLC2 = checkLCAssignments(sourceData.lcPart2_src);
           isAssignLC2 = !noAssignLC2;
         }
-        if (sourceData.lcCount_override !== undefined && sourceData.lcCount_override === 2) {
-          const noAssignLC2 = await checkLCAssignments(sourceData.lcPart2_src_override);
+        if (sourceData.lcCount_override !== 0 && sourceData.lcCount_override === 2) {
+          const noAssignLC2 = checkLCAssignments(sourceData.lcPart2_src_override);
           isAssignLC2 = !noAssignLC2;
         }
 
         if (isAssignLC2) {
-          students = await dbGetPersonsByAssType(114);
+          students = Persons.getByAssignment(114);
           if (students.length > 0) {
             const lcPart2 = students[0].person_uid;
-            await dbSaveAss(week, lcPart2, 'lc_part2');
+            await saveAssignment(week, lcPart2, 'lc_part2');
             setAssigned((prev) => {
               return prev + 1;
             });
@@ -178,12 +179,12 @@ const AutofillSchedule = () => {
 
         // Assign CBS Reader
         if (schedData.week_type === 1) {
-          const noAssignCBSReader = await checkCBSReader(sourceData.cbs_src);
+          const noAssignCBSReader = checkCBSReader(sourceData.cbs_src);
           if (!noAssignCBSReader) {
-            students = await dbGetPersonsByAssType(116);
+            students = Persons.getByAssignment(116);
             if (students.length > 0) {
               const cbsReader = students[0].person_uid;
-              await dbSaveAss(week, cbsReader, 'cbs_reader');
+              await saveAssignment(week, cbsReader, 'cbs_reader');
               setAssigned((prev) => {
                 return prev + 1;
               });
@@ -193,10 +194,10 @@ const AutofillSchedule = () => {
 
         if (!autoAssignOpeningPrayer) {
           // Assign Opening Prayer
-          students = await dbGetPersonsByAssType(111);
+          students = Persons.getByAssignment(111);
           if (students.length > 0) {
             const openingPrayer = students[0].person_uid;
-            await dbSaveAss(week, openingPrayer, 'opening_prayer');
+            await saveAssignment(week, openingPrayer, 'opening_prayer');
             setAssigned((prev) => {
               return prev + 1;
             });
@@ -204,31 +205,31 @@ const AutofillSchedule = () => {
         }
 
         // Assign Closing Prayer
-        students = await dbGetPersonsByAssType(111);
+        students = Persons.getByAssignment(111);
         if (students.length > 0) {
           const closingPrayer = students[0].person_uid;
-          await dbSaveAss(week, closingPrayer, 'closing_prayer');
+          await saveAssignment(week, closingPrayer, 'closing_prayer');
           setAssigned((prev) => {
             return prev + 1;
           });
         }
 
         // Assign Bible Reading Main Hall
-        students = await dbGetPersonsByAssType(100);
+        students = Persons.getByAssignment(100);
         if (students.length > 0) {
           const stuBReadA = students[0].person_uid;
-          await dbSaveAss(week, stuBReadA, 'bRead_stu_A');
+          await saveAssignment(week, stuBReadA, 'bRead_stu_A');
           setAssigned((prev) => {
             return prev + 1;
           });
         }
 
         // Assign Bible Reading Aux Class
-        if (class_count === 2 && schedData.week_type === 1) {
-          students = await dbGetPersonsByAssType(100);
+        if (Setting.class_count === 2 && schedData.week_type === 1) {
+          students = Persons.getByAssignment(100);
           if (students.length > 0) {
             const stuBReadB = students[0].person_uid;
-            await dbSaveAss(week, stuBReadB, 'bRead_stu_B');
+            await saveAssignment(week, stuBReadB, 'bRead_stu_B');
             setAssigned((prev) => {
               return prev + 1;
             });
@@ -254,11 +255,11 @@ const AutofillSchedule = () => {
             (assType >= 170 && assType < 200)
           ) {
             fldName = 'ass' + a + '_stu_A';
-            students = await dbGetPersonsByAssType(assType);
+            students = Persons.getByAssignment(assType);
 
             if (students.length > 0) {
               const stuA = students[0].person_uid;
-              await dbSaveAss(week, stuA, fldName);
+              await saveAssignment(week, stuA, fldName);
               setAssigned((prev) => {
                 return prev + 1;
               });
@@ -266,9 +267,9 @@ const AutofillSchedule = () => {
           }
 
           // Aux Class
-          if (class_count === 2 && schedData.week_type === 1) {
+          if (Setting.class_count === 2 && schedData.week_type === 1) {
             fldName = 'ass' + a + '_stu_B';
-            students = await dbGetPersonsByAssType(assType);
+            students = Persons.getByAssignment(assType);
 
             if (
               assType === 101 ||
@@ -281,7 +282,7 @@ const AutofillSchedule = () => {
             ) {
               if (students.length > 0) {
                 const stuB = students[0].person_uid;
-                await dbSaveAss(week, stuB, fldName);
+                await saveAssignment(week, stuB, fldName);
                 setAssigned((prev) => {
                   return prev + 1;
                 });
@@ -308,10 +309,10 @@ const AutofillSchedule = () => {
             const stuDispA = schedData[fldName];
 
             fldName = 'ass' + a + '_ass_A';
-            students = await dbGetPersonsByAssType('isAssistant', stuDispA);
+            students = Persons.getByAssignment('isAssistant', stuDispA);
             if (students.length > 0) {
               const assA = students[0].person_uid;
-              await dbSaveAss(week, assA, fldName);
+              await saveAssignment(week, assA, fldName);
               setAssigned((prev) => {
                 return prev + 1;
               });
@@ -319,7 +320,7 @@ const AutofillSchedule = () => {
           }
 
           // Aux Class
-          if (class_count === 2 && schedData.week_type === 1) {
+          if (Setting.class_count === 2 && schedData.week_type === 1) {
             if (
               assType === 101 ||
               assType === 102 ||
@@ -332,10 +333,10 @@ const AutofillSchedule = () => {
               const stuDispB = schedData[fldName];
 
               fldName = 'ass' + a + '_ass_B';
-              students = await dbGetPersonsByAssType('isAssistant', stuDispB);
+              students = Persons.getByAssignment('isAssistant', stuDispB);
               if (students.length > 0) {
                 const assB = students[0].person_uid;
-                await dbSaveAss(week, assB, fldName);
+                await saveAssignment(week, assB, fldName);
                 setAssigned((prev) => {
                   return prev + 1;
                 });

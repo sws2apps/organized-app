@@ -23,8 +23,8 @@ import Typography from '@mui/material/Typography';
 import { apiHostState, isCongPersonAddState, rootModalOpenState, visitorIDState } from '../../states/main';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../../states/notification';
 import { congIDState } from '../../states/congregation';
-import { allStudentsState } from '../../states/persons';
 import useFirebaseAuth from '../../hooks/useFirebaseAuth';
+import { Persons } from '../../classes/Persons';
 
 const CongregationPersonAdd = () => {
   const abortCont = useRef();
@@ -43,7 +43,6 @@ const CongregationPersonAdd = () => {
   const apiHost = useRecoilValue(apiHostState);
   const visitorID = useRecoilValue(visitorIDState);
   const congID = useRecoilValue(congIDState);
-  const dbPersons = useRecoilValue(allStudentsState);
 
   const { user } = useFirebaseAuth();
 
@@ -171,12 +170,12 @@ const CongregationPersonAdd = () => {
   };
 
   useEffect(() => {
-    let newMembers = dbPersons;
+    let newMembers = Persons.list;
     congMembers.forEach((member) => {
       newMembers = newMembers.filter((item) => item.person_uid !== member.pocket_local_id);
     });
     setFilteredPersons(newMembers);
-  }, [congMembers, dbPersons]);
+  }, [congMembers]);
 
   useEffect(() => {
     return () => {

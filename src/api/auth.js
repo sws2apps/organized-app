@@ -1,7 +1,6 @@
 import { getAuth } from 'firebase/auth';
 import { getI18n } from 'react-i18next';
 import { promiseGetRecoil, promiseSetRecoil } from 'recoil-outside';
-import { dbGetAppSettings, dbUpdateAppSettings } from '../indexedDb/dbAppSettings';
 import { initAppDb, isDbExist } from '../indexedDb/dbUtility';
 import { congIDState, congRoleState, isAdminCongState, pocketMembersState } from '../states/congregation';
 import {
@@ -15,6 +14,7 @@ import { appMessageState, appSeverityState, appSnackOpenState } from '../states/
 import { loadApp } from '../utils/app';
 import { getProfile } from './common';
 import backupWorkerInstance from '../workers/backupWorker';
+import { Setting } from '../classes/Setting';
 
 export const apiSendAuthorization = async () => {
   try {
@@ -114,8 +114,7 @@ export const apiHandleVerifyOTP = async (userOTP, isSetup, trustedDevice) => {
         await promiseSetRecoil(congIDState, cong_id);
 
         if (!isSetup) {
-          const settings = await dbGetAppSettings();
-          if (settings.isCongUpdated2 === undefined) {
+          if (Setting.isCongUpdated2 === undefined) {
             return { updateCongregation: true };
           }
         }
@@ -136,7 +135,7 @@ export const apiHandleVerifyOTP = async (userOTP, isSetup, trustedDevice) => {
         obj.pocket_members = pocket_members;
         obj.cong_role = cong_role;
         obj.account_type = 'vip';
-        await dbUpdateAppSettings(obj);
+        await Setting.update(obj);
 
         await promiseSetRecoil(userIDState, id);
         await promiseSetRecoil(pocketMembersState, pocket_members);
@@ -203,8 +202,7 @@ export const apiHandleVerifyEmailOTP = async (userOTP) => {
 
         await promiseSetRecoil(congIDState, cong_id);
 
-        const settings = await dbGetAppSettings();
-        if (settings.isCongUpdated2 === undefined) {
+        if (Setting.isCongUpdated2 === undefined) {
           return { updateCongregation: true };
         }
 
@@ -224,7 +222,7 @@ export const apiHandleVerifyEmailOTP = async (userOTP) => {
         obj.pocket_members = pocket_members;
         obj.cong_role = cong_role;
         obj.account_type = 'vip';
-        await dbUpdateAppSettings(obj);
+        await Setting.update(obj);
 
         await promiseSetRecoil(userIDState, id);
         await promiseSetRecoil(pocketMembersState, pocket_members);

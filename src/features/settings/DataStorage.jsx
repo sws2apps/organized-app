@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import { DialogDbDeletion } from './';
 import backupWorkerInstance from '../../workers/backupWorker';
 import { isDeleteDbOpenState } from '../../states/main';
-import { dbGetAppSettings, dbUpdateAppSettings } from '../../indexedDb/dbAppSettings';
+import { Setting } from '../../classes/Setting';
 
 const DataStorage = () => {
   const { t } = useTranslation('ui');
@@ -25,13 +25,13 @@ const DataStorage = () => {
 
   const handleAutoBackupChange = async (value) => {
     setIsAutoBackup(value);
-    await dbUpdateAppSettings({ autoBackup: value });
+    await Setting.update({ autoBackup: value });
     backupWorkerInstance.setIsEnabled(value);
   };
 
   const handleBackupIntervalChange = async (value) => {
     setBackupInterval(value);
-    await dbUpdateAppSettings({ autoBackup_interval: value });
+    await Setting.update({ autoBackup_interval: value });
     backupWorkerInstance.setBackupInterval(value);
   };
 
@@ -44,13 +44,8 @@ const DataStorage = () => {
   }, [setIsDeleteDb]);
 
   useEffect(() => {
-    const fillDetails = async () => {
-      const settings = await dbGetAppSettings();
-      setIsAutoBackup(settings.autoBackup);
-      setBackupInterval(settings.autoBackup_interval || 5);
-    };
-
-    fillDetails();
+    setIsAutoBackup(Setting.autoBackup);
+    setBackupInterval(Setting.autoBackup_interval || 5);
   }, []);
 
   return (

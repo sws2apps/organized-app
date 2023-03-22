@@ -1,11 +1,7 @@
 import { getI18n } from 'react-i18next';
 import { format } from 'date-fns';
-import { promiseGetRecoil, promiseSetRecoil } from 'recoil-outside';
-import { dbGetAppSettings, dbUpdateAppSettings } from '../indexedDb/dbAppSettings';
-import { checkSrcUpdate, dbGetListWeekType, dbGetYearList } from '../indexedDb/dbSourceMaterial';
-import { dbGetListAssType, dbHistoryAssignment } from '../indexedDb/dbAssignment';
-import { dbGetStudentsMini } from '../indexedDb/dbPersons';
-import { initAppDb, removeOutdatedRecords } from '../indexedDb/dbUtility';
+import { promiseSetRecoil } from 'recoil-outside';
+import { initAppDb } from '../indexedDb/dbUtility';
 import { dbGetNotifications } from '../indexedDb/dbNotifications';
 import {
   classCountState,
@@ -15,28 +11,29 @@ import {
   meetingDayState,
   meetingTimeState,
   openingPrayerAutoAssignState,
+  pocketLocalIDState,
   usernameState,
 } from '../states/congregation';
 import {
   appLangState,
   appNotificationsState,
   avatarUrlState,
-  monthNamesState,
   sourceLangState,
+  userIDState,
   userLocalUidState,
 } from '../states/main';
-import { assTypeListState, weekTypeListState, yearsListState } from '../states/sourceMaterial';
-import { allStudentsState, filteredStudentsState, studentsAssignmentHistoryState } from '../states/persons';
 import backupWorkerInstance from '../workers/backupWorker';
 import { scheduleUseFullnameState } from '../states/schedule';
 import appDb from '../indexedDb/mainDb';
+import { Setting } from '../classes/Setting';
+import { Sources } from '../classes/Sources';
 
 export const loadApp = async () => {
   try {
     const I18n = getI18n();
 
     await initAppDb();
-    await removeOutdatedRecords();
+    await Sources.removeOutdatedRecords();
 
     let {
       username,
@@ -54,7 +51,7 @@ export const loadApp = async () => {
       schedule_useFullname,
       account_type,
       opening_prayer_autoAssign,
-    } = await dbGetAppSettings();
+    } = Setting;
 
     backupWorkerInstance.setBackupInterval(autoBackup_interval);
     backupWorkerInstance.setIsEnabled(autoBackup);
@@ -62,7 +59,7 @@ export const loadApp = async () => {
     const app_lang = localStorage.getItem('app_lang') || 'e';
 
     if (account_type === 'vip') {
-      await checkSrcUpdate();
+      await Sources.checkCurrentWeek();
     }
 
     if (local_uid && local_uid !== '') {
@@ -89,25 +86,9 @@ export const loadApp = async () => {
     await promiseSetRecoil(scheduleUseFullnameState, schedule_useFullname || false);
     await promiseSetRecoil(openingPrayerAutoAssignState, opening_prayer_autoAssign || false);
 
-    if (source_lang === undefined) await dbUpdateAppSettings({ source_lang: app_lang });
+    if (source_lang === undefined) await Setting.update({ source_lang: app_lang });
 
     I18n.changeLanguage(app_lang);
-
-    const weekTypeList = await dbGetListWeekType();
-    await promiseSetRecoil(weekTypeListState, weekTypeList);
-
-    const assTypeList = await dbGetListAssType();
-    await promiseSetRecoil(assTypeListState, assTypeList);
-
-    const data = await dbGetStudentsMini();
-    await promiseSetRecoil(allStudentsState, data);
-    await promiseSetRecoil(filteredStudentsState, data);
-
-    const history = await dbHistoryAssignment();
-    await promiseSetRecoil(studentsAssignmentHistoryState, history);
-
-    const years = await dbGetYearList();
-    await promiseSetRecoil(yearsListState, years);
 
     const notifications = await dbGetNotifications();
     await promiseSetRecoil(appNotificationsState, notifications);
@@ -185,7 +166,7 @@ export const saveProfilePic = async (url, provider) => {
 
         const savePic = async (profileBlob) => {
           const profileBuffer = await profileBlob.arrayBuffer();
-          await dbUpdateAppSettings({ user_avatar: profileBuffer });
+          await Setting.update({ user_avatar: profileBuffer });
           const imgSrc = URL.createObjectURL(profileBlob);
           await promiseSetRecoil(avatarUrlState, imgSrc);
         };
@@ -241,52 +222,23 @@ export const getCurrentExistingWeekDate = async () => {
   return currentWeek;
 };
 
-export const buildListOldSources = async () => {
-  const monthNames = await promiseGetRecoil(monthNamesState);
+export const updateUserSettings = async (data) => {
+  const obj = {
+    cong_number: data.cong_number,
+    cong_name: data.cong_name,
+    cong_role: data.cong_role,
+    username: data.username,
+    pocket_members: data.pocket_members,
+    pocket_local_id: data.pocket_local_id,
+    user_id: data.id,
+    account_type: 'pocket',
+  };
 
-  const options = [];
+  await Setting.update(obj);
 
-  const today = new Date();
-  const day = today.getDay();
-  const diff = today.getDate() - day + (day === 0 ? -6 : 1);
-  const weekDate = new Date(today.setDate(diff));
-  const currentMonth = weekDate.getMonth() + 1;
-  const currentMonthOdd = currentMonth % 2 === 0 ? false : true;
-  const currentMonthMwb = currentMonthOdd ? currentMonth : currentMonth - 1;
-  const currentYear = weekDate.getFullYear();
-  const currentIssue = `${currentYear}${currentMonthMwb}`;
-
-  const validDate = weekDate.setMonth(weekDate.getMonth() - 12);
-  const oldestDate = new Date(validDate);
-  const oldestMonth = oldestDate.getMonth() + 1;
-  const oldestMonthOdd = oldestMonth % 2 === 0 ? false : true;
-  let oldMonthMwb = oldestMonthOdd ? oldestMonth : oldestMonth - 1;
-  let oldYear = oldestDate.getFullYear();
-  let activeIssue = `${oldYear}${oldMonthMwb}`;
-
-  do {
-    let validIssue = false;
-
-    if (oldYear === 2022 && oldMonthMwb > 5) validIssue = true;
-    if (oldYear > 2022) validIssue = true;
-
-    if (validIssue) {
-      const issueDate = oldYear + String(oldMonthMwb).padStart(2, '0');
-
-      const label = `${monthNames[oldMonthMwb - 1]} ${oldYear}`;
-      const obj = { label, value: issueDate };
-      options.push(obj);
-    }
-
-    // assigning next issue
-    oldMonthMwb = oldMonthMwb + 2;
-    if (oldMonthMwb === 13) {
-      oldMonthMwb = 1;
-      oldYear++;
-    }
-
-    activeIssue = `${oldYear}${oldMonthMwb}`;
-  } while (currentIssue !== activeIssue);
-
-  return options;
+  await promiseSetRecoil(usernameState, data.username);
+  await promiseSetRecoil(congNameState, data.cong_name);
+  await promiseSetRecoil(congNumberState, data.cong_number);
+  await promiseSetRecoil(userIDState, data.id);
+  await promiseSetRecoil(pocketLocalIDState, data.pocket_local_id.person_uid);
 };

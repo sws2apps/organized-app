@@ -11,7 +11,6 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { dbGetAppSettings, dbUpdateAppSettings } from '../../indexedDb/dbAppSettings';
 import {
   classCountState,
   congNameState,
@@ -21,6 +20,7 @@ import {
   openingPrayerAutoAssignState,
 } from '../../states/congregation';
 import { generateDisplayName } from '../../utils/person';
+import { Setting } from '../../classes/Setting';
 
 const BasicSettings = () => {
   const { t } = useTranslation('ui');
@@ -42,19 +42,19 @@ const BasicSettings = () => {
 
   const handleMeetingDayChange = async (e) => {
     setTempMeetingDay(e.target.value);
-    await dbUpdateAppSettings({ meeting_day: e.target.value });
+    await Setting.update({ meeting_day: e.target.value });
     setMeetingDay(e.target.value);
   };
 
   const handleClassChange = async (e) => {
     setTempClassCount(e.target.value);
-    await dbUpdateAppSettings({ class_count: e.target.value });
+    await Setting.update({ class_count: e.target.value });
     setClassCount(e.target.value);
   };
 
   const handleMeetingTimeChange = async (value) => {
     setTempMeetingTime(value);
-    await dbUpdateAppSettings({ meeting_time: value });
+    await Setting.update({ meeting_time: value });
     setMeetingTime(value);
   };
 
@@ -67,28 +67,23 @@ const BasicSettings = () => {
     const obj = {};
     obj.co_name = value;
     obj.co_displayName = dispName;
-    await dbUpdateAppSettings(obj);
+    await Setting.update(obj);
   };
 
   const handleChangeCODispName = async (value) => {
     setCoDisplayName(value);
-    await dbUpdateAppSettings({ co_displayName: value });
+    await Setting.update({ co_displayName: value });
   };
 
   const handleSwitchAutoAssignPrayer = async (value) => {
     setTmpAutoAssignOpeningPrayer(value);
-    await dbUpdateAppSettings({ opening_prayer_autoAssign: value });
+    await Setting.update({ opening_prayer_autoAssign: value });
     setAutoAssignOpeningPrayer(value);
   };
 
   useEffect(() => {
-    const getAppSettings = async () => {
-      const settings = await dbGetAppSettings();
-      setCoName(settings.co_name || '');
-      setCoDisplayName(settings.co_displayName || '');
-    };
-
-    getAppSettings();
+    setCoName(Setting.co_name || '');
+    setCoDisplayName(Setting.co_displayName || '');
   }, []);
 
   return (
@@ -157,7 +152,6 @@ const BasicSettings = () => {
               label={t('time')}
               value={tempMeetingTime}
               onChange={handleMeetingTimeChange}
-              renderInput={(params) => <TextField {...params} />}
               sx={{
                 '.MuiInputBase-formControl': {
                   height: '40.5px',

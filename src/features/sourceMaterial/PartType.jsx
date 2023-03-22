@@ -1,16 +1,13 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
-import { assTypeAYFOnlyState } from '../../states/sourceMaterial';
+import { AssignmentType } from '../../classes/AssignmentType';
 
 const PartType = (props) => {
   const { t } = useTranslation('ui');
 
   const [type, setType] = useState('');
-
-  const assTypeList = useRecoilValue(assTypeAYFOnlyState);
 
   const handleChangeType = (e) => {
     setType(e.target.value);
@@ -39,7 +36,7 @@ const PartType = (props) => {
 
   return (
     <>
-      {assTypeList.length > 0 && (
+      {AssignmentType.ayfOnly.length > 0 && (
         <TextField
           id="outlined-select-type"
           select
@@ -52,7 +49,7 @@ const PartType = (props) => {
           <MenuItem value={''}>
             <em>{t('nothing')}</em>
           </MenuItem>
-          {assTypeList.map((partType) => renderPartType(partType))}
+          {AssignmentType.ayfOnly.map((partType) => renderPartType(partType))}
         </TextField>
       )}
     </>

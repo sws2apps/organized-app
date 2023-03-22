@@ -220,7 +220,6 @@ const App = ({ updatePwa }) => {
 
       if (!('serviceWorker' in navigator)) {
         setIsSupported(false);
-        return;
       }
     };
 

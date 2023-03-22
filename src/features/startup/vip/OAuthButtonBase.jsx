@@ -20,7 +20,7 @@ import {
   isUserSignUpState,
 } from '../../../states/main';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../../../states/notification';
-import { dbUpdateAppSettings } from '../../../indexedDb/dbAppSettings';
+import { Setting } from '../../../classes/Setting';
 
 const OAuthButtonBase = ({ buttonStyles, logo, text, provider, isEmail }) => {
   const { t } = useTranslation('ui');
@@ -107,7 +107,7 @@ const OAuthButtonBase = ({ buttonStyles, logo, text, provider, isEmail }) => {
         if (findPasswordProvider) await unlink(auth.currentUser, 'password');
       }
 
-      await dbUpdateAppSettings({ account_version: 'v2' });
+      await Setting.update({ account_version: 'v2' });
       setAppMessage(t('oauthAccountUpgradeComplete'));
       setAppSeverity('success');
       setAppSnackOpen(true);

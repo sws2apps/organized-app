@@ -5,8 +5,8 @@ import LinearProgress from '@mui/material/LinearProgress';
 import UnauthorizedRole from './UnauthorizedRole';
 import { accountTypeState, isAccountChooseState, isSetupState, isUnauthorizedRoleState } from '../../states/main';
 import WaitingPage from '../../components/WaitingPage';
-import { dbGetAppSettings } from '../../indexedDb/dbAppSettings';
 import AccountChooser from './AccountChooser';
+import { Setting } from '../../classes/Setting';
 
 // lazy loading
 const PocketStartup = lazy(() => import('./pocket'));
@@ -22,11 +22,9 @@ const Startup = () => {
   const [isAuth, setIsAuth] = useState(true);
 
   useEffect(() => {
-    const checkAccount = async () => {
-      const settings = await dbGetAppSettings();
-
-      if (settings.account_type && settings.account_type !== '') {
-        setAccountType(settings.account_type);
+    const checkAccount = () => {
+      if (Setting.account_type && Setting.account_type !== '') {
+        setAccountType(Setting.account_type);
         setIsAccountChoose(false);
         setIsAuth(false);
         return;
@@ -36,11 +34,7 @@ const Startup = () => {
       setIsAuth(false);
     };
 
-    const appStartup = async () => {
-      await checkAccount();
-    };
-
-    appStartup();
+    checkAccount();
   }, [setIsAccountChoose, setAccountType]);
 
   if (isSetup) {

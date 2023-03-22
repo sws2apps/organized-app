@@ -8,13 +8,13 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import LinearProgress from '@mui/material/LinearProgress';
 import Typography from '@mui/material/Typography';
-import { dbCountAssignmentsInfo } from '../../indexedDb/dbSchedule';
 import {
   currentWeekSchedState,
   dlgAssDeleteOpenState,
   isDeleteSchedState,
   reloadWeekSummaryState,
 } from '../../states/schedule';
+import { Sources } from '../../classes/Sources';
 
 const WeekSummaryItem = ({ week, schedule }) => {
   const { t } = useTranslation('ui');
@@ -30,7 +30,7 @@ const WeekSummaryItem = ({ week, schedule }) => {
   const [progress, setProgress] = useState(0);
 
   const getAssignmentsInfo = useCallback(async () => {
-    const data = await dbCountAssignmentsInfo(week.value);
+    const data = Sources.get(week.value).countAssignmentsInfo;
     const vPg = (data.assigned * 100) / data.total;
     setAssInfo(data);
     setProgress(vPg);

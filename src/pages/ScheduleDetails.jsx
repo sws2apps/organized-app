@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { monthNamesState } from '../states/main';
 import { WeekSummaryItem } from '../features/schedules';
-import { getWeeksBySchedule } from '../indexedDb/dbSchedule';
+import { Setting } from '../classes/Setting';
+import { Sources } from '../classes/Sources';
 
 const ScheduleDetails = () => {
   const { schedule } = useParams();
@@ -16,24 +15,19 @@ const ScheduleDetails = () => {
 
   const { t } = useTranslation('ui');
 
-  const monthNames = useRecoilValue(monthNamesState);
-
   const [weeks, setWeeks] = useState([]);
 
   const scheduleFormatted = schedule.replace('-', '/');
   const monthIndex = parseInt(scheduleFormatted.split('/')[0], 10);
-  const scheduleName = `${monthNames[monthIndex - 1]} ${scheduleFormatted.split('/')[1]}`;
+  const scheduleName = `${Setting.monthNames[monthIndex - 1]} ${scheduleFormatted.split('/')[1]}`;
 
   const handleNavigateSchedule = () => {
     navigate('/schedules');
   };
 
   useEffect(() => {
-    const getWeeks = async () => {
-      const data = await getWeeksBySchedule(scheduleFormatted);
-      setWeeks(data);
-    };
-    getWeeks();
+    const data = Sources.weekListByScheduleLocal(scheduleFormatted);
+    setWeeks(data);
   }, [scheduleFormatted]);
 
   return (

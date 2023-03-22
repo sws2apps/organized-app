@@ -34,6 +34,8 @@ import { dbSaveNotifications } from '../indexedDb/dbNotifications';
 import { WhatsNewContent } from '../features/whatsNew';
 import UserConfirmation from './UserConfirmation';
 
+import '../utils/classes';
+
 const Layout = ({ updatePwa }) => {
   let location = useLocation();
 

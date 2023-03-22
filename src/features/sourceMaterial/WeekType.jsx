@@ -1,15 +1,12 @@
-import { useRecoilValue } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
-import { weekTypeLocalState } from '../../states/sourceMaterial';
+import { WeekTypeList } from '../../classes/WeekType';
 
 const WeekType = (props) => {
   const { t } = useTranslation('ui');
 
   const { weekType, setWeekType } = props;
-
-  const weekTypeList = useRecoilValue(weekTypeLocalState);
 
   const handleTypeChange = async (e) => {
     setWeekType(e.target.value);
@@ -30,7 +27,7 @@ const WeekType = (props) => {
 
   return (
     <>
-      {weekTypeList.length > 0 && (
+      {WeekTypeList.local.length > 0 && (
         <TextField
           id="outlined-select-weekType"
           select
@@ -43,7 +40,7 @@ const WeekType = (props) => {
             margin: '5px 5px 10px 0',
           }}
         >
-          {weekTypeList.map((weekType) => renderWeekType(weekType))}
+          {WeekTypeList.local.map((weekType) => renderWeekType(weekType))}
         </TextField>
       )}
     </>

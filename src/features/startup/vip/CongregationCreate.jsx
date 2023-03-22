@@ -27,11 +27,11 @@ import {
   isUpdateForVerificationState,
   pocketMembersState,
 } from '../../../states/congregation';
-import { dbUpdateAppSettings } from '../../../indexedDb/dbAppSettings';
 import { loadApp } from '../../../utils/app';
 import { runUpdater } from '../../../utils/updater';
 import useFirebaseAuth from '../../../hooks/useFirebaseAuth';
 import backupWorkerInstance from '../../../workers/backupWorker';
+import { Setting } from '../../../classes/Setting';
 
 const CongregationCreate = () => {
   const { user } = useFirebaseAuth();
@@ -109,7 +109,7 @@ const CongregationCreate = () => {
             obj.cong_name = cong_name;
             obj.cong_number = cong_number;
             obj.pocket_members = pocket_members;
-            await dbUpdateAppSettings(obj);
+            await Setting.update(obj);
 
             setUserID(id);
             setPocketMembers(pocket_members);
@@ -179,7 +179,7 @@ const CongregationCreate = () => {
 
   return (
     <Container sx={{ marginTop: '20px' }}>
-      <Typography variant='h4' sx={{ marginBottom: '15px' }}>
+      <Typography variant="h4" sx={{ marginBottom: '15px' }}>
         {isUpdateCong ? t('updateCongregation') : t('createCongregationAccount')}
       </Typography>
 
@@ -198,10 +198,10 @@ const CongregationCreate = () => {
         {!isUpdateCong && (
           <TextField
             sx={{ width: '100%' }}
-            id='outlined-fullname'
+            id="outlined-fullname"
             label={t('fullname')}
-            variant='outlined'
-            autoComplete='off'
+            variant="outlined"
+            autoComplete="off"
             required
             value={userTmpFullname}
             onChange={(e) => setUserTmpFullname(e.target.value)}
@@ -227,13 +227,13 @@ const CongregationCreate = () => {
         }}
       >
         {!isUpdateCong && (
-          <Link component='button' underline='none' variant='body2' onClick={handleSignIn}>
+          <Link component="button" underline="none" variant="body2" onClick={handleSignIn}>
             {t('hasAccount')}
           </Link>
         )}
 
         <Button
-          variant='contained'
+          variant="contained"
           disabled={isProcessing}
           endIcon={isProcessing ? <CircularProgress size={25} /> : null}
           onClick={handleCongregationAction}

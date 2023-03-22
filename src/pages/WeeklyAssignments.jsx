@@ -14,11 +14,11 @@ import SkipNextIcon from '@mui/icons-material/SkipNext';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import Typography from '@mui/material/Typography';
 import { ScheduleAssignment } from '../features/schedules';
-import { dbIsWeekExist } from '../indexedDb/dbSourceMaterial';
-import { dbGetScheduleData } from '../indexedDb/dbSchedule';
 import { shortDateFormatState } from '../states/main';
 import { getCurrentExistingWeekDate } from '../utils/app';
 import appDb from '../indexedDb/mainDb';
+import { Schedules } from '../classes/Schedules';
+import { Sources } from '../classes/Sources';
 
 const WeeklyAssignments = () => {
   const { t } = useTranslation('ui');
@@ -55,56 +55,52 @@ const WeeklyAssignments = () => {
   };
 
   useEffect(() => {
-    const loadCurrentWeekData = async () => {
-      const week = weekToFormat.replaceAll('-', '/');
-      const currentWeek = new Date(week);
-
-      let result = new Date(currentWeek);
-      result.setDate(result.getDate() - 7);
-      let previousWeek = dateFormat(result, 'mm/dd/yyyy');
-
-      let hasPrevious = await dbIsWeekExist(previousWeek);
-
-      if (!hasPrevious) {
-        result.setDate(result.getDate() - 7);
-        previousWeek = dateFormat(result, 'mm/dd/yyyy');
-        hasPrevious = await dbIsWeekExist(previousWeek);
-      }
-      setDisablePrevious(!hasPrevious);
-      setPreviousWeek(result);
-
-      result = new Date(currentWeek);
-      result.setDate(result.getDate() + 7);
-      let nextWeek = dateFormat(result, 'mm/dd/yyyy');
-
-      let hasNext = await dbIsWeekExist(nextWeek);
-      if (!hasNext) {
-        result.setDate(result.getDate() + 7);
-        nextWeek = dateFormat(result, 'mm/dd/yyyy');
-        hasNext = await dbIsWeekExist(nextWeek);
-      }
-      setDisableNext(!hasNext);
-      setNextWeek(result);
-
-      const weekValue = dateFormat(currentWeek, 'mm/dd/yyyy');
-      const weekValueFormatted = dateFormat(weekValue, shortDateFormat);
-      setFCurrentWeek(weekValueFormatted);
-
-      const scheduleData = await dbGetScheduleData(weekValue);
-      if (scheduleData) {
-        setNoSchedule(false);
-        setNoMeeting(scheduleData.noMeeting);
-      }
-
-      if (!scheduleData) {
-        setNoSchedule(true);
-      }
-
-      setIsLoading(false);
-    };
     setIsLoading(true);
+    const week = weekToFormat.replaceAll('-', '/');
+    const currentWeek = new Date(week);
 
-    loadCurrentWeekData();
+    let result = new Date(currentWeek);
+    result.setDate(result.getDate() - 7);
+    let previousWeek = dateFormat(result, 'mm/dd/yyyy');
+
+    let hasPrevious = Sources.get(previousWeek);
+
+    if (!hasPrevious) {
+      result.setDate(result.getDate() - 7);
+      previousWeek = dateFormat(result, 'mm/dd/yyyy');
+      hasPrevious = Sources.get(previousWeek);
+    }
+    setDisablePrevious(!hasPrevious);
+    setPreviousWeek(result);
+
+    result = new Date(currentWeek);
+    result.setDate(result.getDate() + 7);
+    let nextWeek = dateFormat(result, 'mm/dd/yyyy');
+
+    let hasNext = Sources.get(nextWeek);
+    if (!hasNext) {
+      result.setDate(result.getDate() + 7);
+      nextWeek = dateFormat(result, 'mm/dd/yyyy');
+      hasNext = Sources.get(nextWeek);
+    }
+    setDisableNext(!hasNext);
+    setNextWeek(result);
+
+    const weekValue = dateFormat(currentWeek, 'mm/dd/yyyy');
+    const weekValueFormatted = dateFormat(weekValue, shortDateFormat);
+    setFCurrentWeek(weekValueFormatted);
+
+    const scheduleData = Schedules.get(weekValue);
+    if (scheduleData) {
+      setNoSchedule(false);
+      setNoMeeting(scheduleData.noMeeting);
+    }
+
+    if (!scheduleData) {
+      setNoSchedule(true);
+    }
+
+    setIsLoading(false);
   }, [shortDateFormat, weekToFormat]);
 
   useEffect(() => {

@@ -14,25 +14,23 @@ import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 import Typography from '@mui/material/Typography';
 import { themeOptionsState } from '../../states/theme';
 
-const StudentAdvancedSearch = ({
-  advancedOpen,
-  isFemale,
-  isMale,
-  isUnassigned,
-  assTypes,
-  handleSearchStudent,
-  setAdvancedOpen,
-  setIsFemale,
-  setIsMale,
-  setIsUnassigned,
-  setAssTypes,
-  txtSearch,
-}) => {
+const StudentAdvancedSearch = ({ advancedOpen, handleSearchStudent, setAdvancedOpen, txtSearch }) => {
   const { t } = useTranslation('ui');
   const theme = useTheme();
 
   const themeOptions = useRecoilValue(themeOptionsState);
 
+  let searchParams = localStorage.getItem('searchParams');
+  searchParams = searchParams ? JSON.parse(searchParams) : {};
+  const isMaleInitial = searchParams.isMale === undefined ? false : searchParams.isMale;
+  const isFemaleInitial = searchParams.isFemale === undefined ? false : searchParams.isFemale;
+  const isUnassignedInitial = searchParams.isUnassigned === undefined ? false : searchParams.isUnassigned;
+  const assTypesInitial = searchParams.assTypes || [];
+
+  const [isMale, setIsMale] = useState(isMaleInitial);
+  const [isFemale, setIsFemale] = useState(isFemaleInitial);
+  const [isUnassigned, setIsUnassigned] = useState(isUnassignedInitial);
+  const [assTypes, setAssTypes] = useState(assTypesInitial);
   const [isChairman, setIsChairman] = useState(false);
   const [isPrayer, setIsPrayer] = useState(false);
   const [isTGWTalk, setIsTGWTalk] = useState(false);
@@ -45,10 +43,6 @@ const StudentAdvancedSearch = ({
   const [isLCPart, setIsLCPart] = useState(false);
   const [isCBSConductor, setIsCBSConductor] = useState(false);
   const [isCBSReader, setIsCBSReader] = useState(false);
-
-  const handleSearchAdvanced = () => {
-    handleSearchStudent(txtSearch, isMale, isFemale, isUnassigned, assTypes);
-  };
 
   const handleCheckChairman = (value) => {
     if (value) {
@@ -259,6 +253,18 @@ const StudentAdvancedSearch = ({
       if (type === 116) setIsCBSReader(true);
     }
   }, [assTypes]);
+
+  useEffect(() => {
+    let searchParams = localStorage.getItem('searchParams');
+    searchParams = searchParams ? JSON.parse(searchParams) : {};
+
+    searchParams.isMale = isMale;
+    searchParams.isFemale = isFemale;
+    searchParams.isUnassigned = isUnassigned;
+    searchParams.assTypes = assTypes;
+
+    localStorage.setItem('searchParams', JSON.stringify(searchParams));
+  }, [isMale, isFemale, isUnassigned, assTypes]);
 
   return (
     <Collapse in={advancedOpen} timeout="auto" unmountOnExit>
@@ -500,7 +506,7 @@ const StudentAdvancedSearch = ({
                 backgroundColor: alpha(theme.palette.common[themeOptions.searchBg], 0.3),
               },
             }}
-            onClick={handleSearchAdvanced}
+            onClick={handleSearchStudent}
           >
             <PersonSearchIcon sx={{ fontSize: '25px' }} />
           </IconButton>

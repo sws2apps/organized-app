@@ -16,8 +16,9 @@ import {
   isDeleteSchedState,
   reloadWeekSummaryState,
 } from '../../states/schedule';
-import { dbFetchScheduleInfo, dbGetScheduleData } from '../../indexedDb/dbSchedule';
-import { dbSaveAss } from '../../indexedDb/dbAssignment';
+import { saveAssignment } from '../../utils/schedule';
+import { fetchScheduleInfo } from '../../utils/sourceMaterial';
+import { Schedules } from '../../classes/Schedules';
 
 const DeleteSchedule = () => {
   const { t } = useTranslation('ui');
@@ -44,7 +45,7 @@ const DeleteSchedule = () => {
   };
 
   const fetchInfoToDelete = useCallback(async () => {
-    const { weeks, assigned } = await dbFetchScheduleInfo(isDeleteSched, currentSchedule, currentWeek);
+    const { weeks, assigned } = fetchScheduleInfo(isDeleteSched, currentSchedule, currentWeek);
     setWeeks(weeks);
     setTotalToDelete(assigned);
   }, [currentSchedule, currentWeek, isDeleteSched]);
@@ -55,18 +56,18 @@ const DeleteSchedule = () => {
     for await (const item of weeks) {
       const week = item.value;
 
-      const schedData = await dbGetScheduleData(week);
+      const schedData = Schedules.get(week);
 
       // chairman
       if (schedData.chairmanMM_A && schedData.chairmanMM_A !== '') {
-        await dbSaveAss(week, undefined, 'chairmanMM_A');
+        await saveAssignment(week, undefined, 'chairmanMM_A');
         setDeleted((prev) => {
           return prev + 1;
         });
       }
 
       if (schedData.chairmanMM_B && schedData.chairmanMM_B !== '') {
-        await dbSaveAss(week, undefined, 'chairmanMM_B');
+        await saveAssignment(week, undefined, 'chairmanMM_B');
         setDeleted((prev) => {
           return prev + 1;
         });
@@ -74,7 +75,7 @@ const DeleteSchedule = () => {
 
       // opening prayer
       if (schedData.opening_prayer && schedData.opening_prayer !== '') {
-        await dbSaveAss(week, undefined, 'opening_prayer');
+        await saveAssignment(week, undefined, 'opening_prayer');
         setDeleted((prev) => {
           return prev + 1;
         });
@@ -82,7 +83,7 @@ const DeleteSchedule = () => {
 
       // tgw 10 min talk
       if (schedData.tgw_talk && schedData.tgw_talk !== '') {
-        await dbSaveAss(week, undefined, 'tgw_talk');
+        await saveAssignment(week, undefined, 'tgw_talk');
         setDeleted((prev) => {
           return prev + 1;
         });
@@ -90,7 +91,7 @@ const DeleteSchedule = () => {
 
       // tgw spiritual gems
       if (schedData.tgw_gems && schedData.tgw_gems !== '') {
-        await dbSaveAss(week, undefined, 'tgw_gems');
+        await saveAssignment(week, undefined, 'tgw_gems');
         setDeleted((prev) => {
           return prev + 1;
         });
@@ -98,14 +99,14 @@ const DeleteSchedule = () => {
 
       // bible reading
       if (schedData.bRead_stu_A && schedData.bRead_stu_A !== '') {
-        await dbSaveAss(week, undefined, 'bRead_stu_A');
+        await saveAssignment(week, undefined, 'bRead_stu_A');
         setDeleted((prev) => {
           return prev + 1;
         });
       }
 
       if (schedData.bRead_stu_B && schedData.bRead_stu_B !== '') {
-        await dbSaveAss(week, undefined, 'bRead_stu_B');
+        await saveAssignment(week, undefined, 'bRead_stu_B');
         setDeleted((prev) => {
           return prev + 1;
         });
@@ -119,25 +120,25 @@ const DeleteSchedule = () => {
         const assFieldB = `ass${a}_ass_B`;
 
         if (schedData[stuFieldA] && schedData[stuFieldA] !== '') {
-          await dbSaveAss(week, undefined, stuFieldA);
+          await saveAssignment(week, undefined, stuFieldA);
           setDeleted((prev) => {
             return prev + 1;
           });
         }
         if (schedData[assFieldA] && schedData[assFieldA] !== '') {
-          await dbSaveAss(week, undefined, assFieldA);
+          await saveAssignment(week, undefined, assFieldA);
           setDeleted((prev) => {
             return prev + 1;
           });
         }
         if (schedData[stuFieldB] && schedData[stuFieldB] !== '') {
-          await dbSaveAss(week, undefined, stuFieldB);
+          await saveAssignment(week, undefined, stuFieldB);
           setDeleted((prev) => {
             return prev + 1;
           });
         }
         if (schedData[assFieldB] && schedData[assFieldB] !== '') {
-          await dbSaveAss(week, undefined, assFieldB);
+          await saveAssignment(week, undefined, assFieldB);
           setDeleted((prev) => {
             return prev + 1;
           });
@@ -146,7 +147,7 @@ const DeleteSchedule = () => {
 
       // lc part 1
       if (schedData.lc_part1 && schedData.lc_part1 !== '') {
-        await dbSaveAss(week, undefined, 'lc_part1');
+        await saveAssignment(week, undefined, 'lc_part1');
         setDeleted((prev) => {
           return prev + 1;
         });
@@ -154,7 +155,7 @@ const DeleteSchedule = () => {
 
       // lc part 2
       if (schedData.lc_part2 && schedData.lc_part2 !== '') {
-        await dbSaveAss(week, undefined, 'lc_part2');
+        await saveAssignment(week, undefined, 'lc_part2');
         setDeleted((prev) => {
           return prev + 1;
         });
@@ -162,7 +163,7 @@ const DeleteSchedule = () => {
 
       // cbs conductor
       if (schedData.cbs_conductor && schedData.cbs_conductor !== '') {
-        await dbSaveAss(week, undefined, 'cbs_conductor');
+        await saveAssignment(week, undefined, 'cbs_conductor');
         setDeleted((prev) => {
           return prev + 1;
         });
@@ -170,7 +171,7 @@ const DeleteSchedule = () => {
 
       // cbs reader
       if (schedData.cbs_reader && schedData.cbs_reader !== '') {
-        await dbSaveAss(week, undefined, 'cbs_reader');
+        await saveAssignment(week, undefined, 'cbs_reader');
         setDeleted((prev) => {
           return prev + 1;
         });
@@ -178,7 +179,7 @@ const DeleteSchedule = () => {
 
       // closing prayer
       if (schedData.closing_prayer && schedData.closing_prayer !== '') {
-        await dbSaveAss(week, undefined, 'closing_prayer');
+        await saveAssignment(week, undefined, 'closing_prayer');
         setDeleted((prev) => {
           return prev + 1;
         });

@@ -1,4 +1,4 @@
-import { lazy, useEffect, useState } from 'react';
+import { lazy, useCallback, useEffect, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import Box from '@mui/material/Box';
 import WaitingPage from '../../../components/WaitingPage';
@@ -8,13 +8,15 @@ import {
   isOnlineState,
   isSetupState,
   isUnauthorizedRoleState,
+  rootModalOpenState,
   visitorIDState,
 } from '../../../states/main';
 import { apiFetchSchedule, apiPocketValidate } from '../../../api';
-import { loadApp } from '../../../utils/app';
-import { dbUpdateUserSettings } from '../../../indexedDb/dbAppSettings';
+import { loadApp, updateUserSettings } from '../../../utils/app';
 import { congAccountConnectedState } from '../../../states/congregation';
 import { runUpdater } from '../../../utils/updater';
+import { deleteDb } from '../../../indexedDb/dbUtility';
+import { Setting } from '../../../classes/Setting';
 
 // lazy loading
 const PocketSignUp = lazy(() => import('./PocketSignUp'));
@@ -25,19 +27,31 @@ const PocketStartup = () => {
   const setIsUnauthorizedRole = useSetRecoilState(isUnauthorizedRoleState);
   const setIsAppLoad = useSetRecoilState(isAppLoadState);
   const setAccountType = useSetRecoilState(accountTypeState);
+  const setModalOpen = useSetRecoilState(rootModalOpenState);
 
   const isOnline = useRecoilValue(isOnlineState);
   const visitorID = useRecoilValue(visitorIDState);
 
   const [isSignUp, setIsSignUp] = useState(false);
 
+  const handleDisapproved = useCallback(async () => {
+    setModalOpen(true);
+    await deleteDb();
+    window.location.href = './';
+  }, [setModalOpen]);
+
   useEffect(() => {
     const checkLoginState = async () => {
+      if (!Setting.pocket_local_id.person_uid) {
+        setIsSignUp(true);
+        return;
+      }
+
       if (isOnline && visitorID.length > 0) {
         const { data, status } = await apiPocketValidate();
 
         if (status !== 200) {
-          setIsSignUp(true);
+          await handleDisapproved();
           return;
         }
 
@@ -53,7 +67,7 @@ const PocketStartup = () => {
         setIsSetup(false);
         await loadApp();
         await runUpdater();
-        await dbUpdateUserSettings(data);
+        await updateUserSettings(data);
         await apiFetchSchedule();
         setTimeout(async () => {
           setCongAccountConnected(true);
@@ -64,7 +78,16 @@ const PocketStartup = () => {
     };
 
     checkLoginState();
-  }, [isOnline, setCongAccountConnected, setIsSetup, setIsUnauthorizedRole, setIsAppLoad, setAccountType, visitorID]);
+  }, [
+    isOnline,
+    setCongAccountConnected,
+    setIsSetup,
+    setIsUnauthorizedRole,
+    setIsAppLoad,
+    setAccountType,
+    visitorID,
+    handleDisapproved,
+  ]);
 
   return (
     <Box>

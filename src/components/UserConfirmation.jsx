@@ -15,9 +15,9 @@ import {
   userConfirmationOpenState,
   userConfirmationTitleState,
 } from '../states/main';
-import { dbAddManualSource, dbDeleteWeek } from '../indexedDb/dbSourceMaterial';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../states/notification';
 import { refreshWeeksListState } from '../states/sourceMaterial';
+import { Sources } from '../classes/Sources';
 
 const UserConfirmation = () => {
   const { t } = useTranslation('ui');
@@ -37,7 +37,7 @@ const UserConfirmation = () => {
 
   const handleWeekAddConfirm = async () => {
     setIsProcessing(true);
-    await dbAddManualSource();
+    await Sources.addWeekManually();
     setAppSnackOpen(true);
     setAppSeverity('success');
     setAppMessage(t('weekAdded'));
@@ -49,7 +49,7 @@ const UserConfirmation = () => {
     setIsProcessing(true);
     const week = action.split('-')[1];
 
-    await dbDeleteWeek(week);
+    await Sources.delete(week);
     setAppSnackOpen(true);
     setAppSeverity('success');
     setAppMessage(t('weekDeletedSuccess'));

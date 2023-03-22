@@ -1,5 +1,8 @@
 import { loadEPUB } from 'jw-epub-parser';
+import { getI18n } from 'react-i18next';
 import { getProfile } from '../api/common';
+import { Setting } from '../classes/Setting';
+import { Sources } from '../classes/Sources';
 
 const fetchIssueData = (issue) => {
   return new Promise((resolve) => {
@@ -138,12 +141,12 @@ export const fetchData = async (language, issue) => {
   }
 
   if (issues.length > 0) {
-    const fetchSource1 = fetchIssueData(issues[0]);
-    const fetchSource2 = issues.length > 1 ? fetchIssueData(issues[1]) : Promise.resolve({});
-    const fetchSource3 = issues.length > 2 ? fetchIssueData(issues[2]) : Promise.resolve({});
-    const fetchSource4 = issues.length > 3 ? fetchIssueData(issues[3]) : Promise.resolve({});
-    const fetchSource5 = issues.length > 4 ? fetchIssueData(issues[4]) : Promise.resolve({});
-    const fetchSource6 = issues.length > 5 ? fetchIssueData(issues[5]) : Promise.resolve({});
+    let fetchSource1 = fetchIssueData(issues[0]);
+    let fetchSource2 = issues.length > 1 ? fetchIssueData(issues[1]) : Promise.resolve({});
+    let fetchSource3 = issues.length > 2 ? fetchIssueData(issues[2]) : Promise.resolve({});
+    let fetchSource4 = issues.length > 3 ? fetchIssueData(issues[3]) : Promise.resolve({});
+    let fetchSource5 = issues.length > 4 ? fetchIssueData(issues[4]) : Promise.resolve({});
+    let fetchSource6 = issues.length > 5 ? fetchIssueData(issues[5]) : Promise.resolve({});
 
     const allData = await Promise.all([
       fetchSource1,
@@ -154,6 +157,13 @@ export const fetchData = async (language, issue) => {
       fetchSource6,
     ]);
 
+    fetchSource1 = null;
+    fetchSource2 = null;
+    fetchSource3 = null;
+    fetchSource4 = null;
+    fetchSource5 = null;
+    fetchSource6 = null;
+
     for (let z = 0; z < allData.length; z++) {
       const tempObj = allData[z];
       if (tempObj.issueDate) {
@@ -163,4 +173,88 @@ export const fetchData = async (language, issue) => {
   }
 
   return mergedSources;
+};
+
+export const checkLCAssignments = (source) => {
+  const { t } = getI18n();
+
+  const search = `(${t('lcNoAssignedVariations', { lng: Setting.source_lang, ns: 'source' })})`;
+  const regex = new RegExp(search.toLowerCase());
+  const array = regex.exec(source.toLowerCase());
+
+  return Array.isArray(array);
+};
+
+export const checkCBSReader = (source) => {
+  const sourceLang = Setting.source_lang;
+
+  const { t } = getI18n();
+
+  let search = t('cbsLffWithPointsVariations', { lng: sourceLang, ns: 'source' });
+  search = search.replaceAll('{{ lesson }}', '\\d+');
+  search = search.replaceAll('{{ points }}', '(\\d+-\\d+|\\d+)');
+
+  let regex = new RegExp(search.toLowerCase());
+  let array = regex.exec(source.toLowerCase());
+
+  if (Array.isArray(array)) {
+    let lffPoint = array[1] || array[2];
+    lffPoint = +lffPoint.charAt(0);
+
+    return lffPoint !== 1;
+  }
+
+  if (!Array.isArray(array)) {
+    search = t('cbsLffSectionOnlyVariations', { lng: sourceLang, ns: 'source' });
+    regex = new RegExp(search);
+    array = regex.exec(source);
+
+    return Array.isArray(array);
+  }
+
+  return false;
+};
+
+export const fetchScheduleInfo = (condition, currentSchedule, currentWeek) => {
+  const newData = [];
+
+  if (condition) {
+    const allWeeks = Sources.weekListBySchedule(currentSchedule.value);
+    for (const week of allWeeks) {
+      const obj = {};
+      obj.value = week;
+      newData.push(obj);
+    }
+  } else {
+    newData.push({ value: currentWeek.value });
+  }
+
+  let cnTotal = 0;
+  let cnAssigned = 0;
+  for (const item of newData) {
+    const week = item.value;
+    const { total, assigned } = Sources.get(week).countAssignmentsInfo;
+
+    cnTotal += total;
+    cnAssigned += assigned;
+  }
+
+  return { weeks: newData, total: cnTotal, assigned: cnAssigned };
+};
+
+export const getWeekDate = (weekOf) => {
+  const month = +weekOf.split('/')[0] - 1;
+  const day = +weekOf.split('/')[1];
+  const year = +weekOf.split('/')[2];
+
+  return new Date(year, month, day);
+};
+
+export const getOldestWeekDate = () => {
+  const today = new Date();
+  const day = today.getDay();
+  const diff = today.getDate() - day + (day === 0 ? -6 : 1);
+  const weekDate = new Date(today.setDate(diff));
+  const validDate = weekDate.setMonth(weekDate.getMonth() - 12);
+  return new Date(validDate);
 };

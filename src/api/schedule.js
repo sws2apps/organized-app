@@ -1,10 +1,15 @@
-import { promiseSetRecoil } from 'recoil-outside';
+import { promiseGetRecoil, promiseSetRecoil } from 'recoil-outside';
 import { getProfile } from './common';
-import { isFetchingScheduleState, rootModalOpenState, sourceLangState } from '../states/main';
+import {
+  isFetchingScheduleState,
+  refreshMyAssignmentsState,
+  rootModalOpenState,
+  sourceLangState,
+} from '../states/main';
 import { classCountState } from '../states/congregation';
-import { dbUpdateAppSettings } from '../indexedDb/dbAppSettings';
-import { dbUpdatePocketSource } from '../indexedDb/dbSourceMaterial';
-import { dbUpdatePocketSchedule } from '../indexedDb/dbSchedule';
+import { Schedules } from '../classes/Schedules';
+import { Sources } from '../classes/Sources';
+import { Setting } from '../classes/Setting';
 
 export const apiFetchSchedule = async () => {
   await promiseSetRecoil(rootModalOpenState, true);
@@ -22,14 +27,18 @@ export const apiFetchSchedule = async () => {
     });
 
     const { cong_schedule, cong_sourceMaterial, class_count, source_lang, co_name, co_displayName } = await res.json();
-    await dbUpdatePocketSource(cong_sourceMaterial);
-    await dbUpdatePocketSchedule(cong_schedule);
+    await Sources.updatePocketSource(cong_sourceMaterial);
+    await Schedules.updatePocketSchedule(cong_schedule);
 
-    await dbUpdateAppSettings({ class_count, source_lang, co_name, co_displayName });
+    await Setting.update({ class_count, source_lang, co_name, co_displayName });
+
+    Schedules.buildHistory();
 
     await promiseSetRecoil(classCountState, class_count);
     await promiseSetRecoil(sourceLangState, source_lang);
     await promiseSetRecoil(isFetchingScheduleState, false);
+    const prevRefresh = await promiseGetRecoil(refreshMyAssignmentsState);
+    await promiseSetRecoil(refreshMyAssignmentsState, !prevRefresh);
   }
 
   await promiseSetRecoil(rootModalOpenState, false);

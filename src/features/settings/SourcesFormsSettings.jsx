@@ -12,10 +12,10 @@ import ListItemText from '@mui/material/ListItemText';
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { dbUpdateAppSettings } from '../../indexedDb/dbAppSettings';
 import { sourceLangState } from '../../states/main';
 import { LANGUAGE_LIST } from '../../locales/langList';
 import { scheduleUseFullnameState } from '../../states/schedule';
+import { Setting } from '../../classes/Setting';
 
 const SourcesFormsSettings = () => {
   const { t } = useTranslation('ui');
@@ -31,14 +31,14 @@ const SourcesFormsSettings = () => {
   const handleSourceLangChange = async (e) => {
     if (e.target.value === 'not_set') return;
     setTempSourceLang(e.target.value);
-    await dbUpdateAppSettings({ source_lang: e.target.value });
+    await Setting.update({ source_lang: e.target.value });
     setSourceLang(e.target.value);
   };
 
   const handleChangeFullnameSwitch = async (value) => {
     setUseFullname(value);
     setScheduleUseFullname(value);
-    await dbUpdateAppSettings({ schedule_useFullname: value });
+    await Setting.update({ schedule_useFullname: value });
   };
 
   return (
