@@ -56,9 +56,13 @@ export const dbExportDataOnline = async () => {
   // get sws-pocket schedules
   const dbPocketTbl = await appDb.sws_pocket.toArray();
 
-  // remove user credentials before export
-  const appSettings = Setting;
+  // remove local user settings before export
+  const appSettings = { ...Setting };
   delete appSettings.username;
+  delete appSettings.user_avatar;
+  delete appSettings.local_uid;
+  delete appSettings.pocket_members;
+  delete appSettings.pocket_local_id;
 
   // get app settings
   const dbSettings = [appSettings];
@@ -76,10 +80,17 @@ export const dbRestoreCongregationBackup = async (
   // restore settings
   await appDb.app_settings.clear();
   for (let i = 0; i < cong_settings.length; i++) {
-    const setting = cong_settings[i];
+    const setting = {
+      ...cong_settings[i],
+      username: Setting.username,
+      user_avatar: Setting.user_avatar,
+      local_uid: Setting.local_uid,
+      pocket_members: Setting.pocket_members,
+      pocket_local_id: Setting.pocket_local_id,
+    };
+
     await appDb.app_settings.add(setting, setting.id);
   }
-  await Setting.load();
 
   // restore persons
   const oldPersons = await appDb.persons.toArray();

@@ -16,7 +16,7 @@ export const runUpdater = async () => {
 };
 
 const removeOutdatedSettings = async () => {
-  let appSettings = await appDb.app_settings.get({ id: 1 });
+  let appSettings = (await appDb.app_settings.toArray())[0];
 
   if (appSettings.crd) {
     delete appSettings.crd;
@@ -460,7 +460,9 @@ const updatePersonAssignments = async () => {
           }
         });
 
-        await person.save({ assignments: newAssignments });
+        person.assignments = newAssignments;
+
+        await person.save(person);
       }
     }
 

@@ -198,14 +198,23 @@ SourcesClass.prototype.scheduleListByYear = function (varYear, userSort = 'desc'
 };
 
 SourcesClass.prototype.addWeekManually = async function () {
-  const lastWeek = this.list[0].weekOf;
+  let weekDate;
 
-  const day = lastWeek.split('/')[1];
-  const month = lastWeek.split('/')[0];
-  const year = lastWeek.split('/')[2];
-  const result = new Date(year, month - 1, day);
-  result.setDate(result.getDate() + 7);
-  const fMonday = dateFormat(result, 'mm/dd/yyyy');
+  if (this.list.length === 0) {
+    weekDate = new Date();
+  } else {
+    const lastWeek = this.list[0].weekOf;
+    const day = lastWeek.split('/')[1];
+    const month = lastWeek.split('/')[0];
+    const year = lastWeek.split('/')[2];
+    weekDate = new Date(year, month - 1, day);
+    weekDate.setDate(weekDate.getDate() + 7);
+  }
+
+  const day = weekDate.getDay();
+  const diff = weekDate.getDate() - day + (day === 0 ? -6 : 1);
+  const monDay = new Date(weekDate.setDate(diff));
+  const fMonday = dateFormat(monDay, 'mm/dd/yyyy');
 
   if (!this.get(fMonday)) {
     await appDb.src.put({ weekOf: fMonday }, fMonday);
