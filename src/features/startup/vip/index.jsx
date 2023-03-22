@@ -23,11 +23,11 @@ import {
   visitorIDState,
 } from '../../../states/main';
 import { apiSendAuthorization } from '../../../api';
-import { dbGetAppSettings, dbUpdateAppSettings } from '../../../indexedDb/dbAppSettings';
 import WaitingPage from '../../../components/WaitingPage';
 import SetupMFA from './SetupMFA';
 import VerifyMFA from './VerifyMFA';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../../../states/notification';
+import { Setting } from '../../../classes/Setting';
 
 // lazy loading
 const EmailNotVerified = lazy(() => import('./EmailNotVerified'));
@@ -78,9 +78,8 @@ const VipStartup = () => {
     };
 
     const runNotAuthenticatedStep = async () => {
-      const settings = await dbGetAppSettings();
-      const cong_name = settings.cong_name;
-      const cong_role = settings.cong_role || [];
+      const cong_name = Setting.cong_name;
+      const cong_role = Setting.cong_role || [];
 
       if (isOfflineOverride) {
         showSignup();
@@ -134,9 +133,8 @@ const VipStartup = () => {
         setIsUserSignIn(false);
         setIsAuthProcessing(true);
 
-        const settings = await dbGetAppSettings();
-        const cong_name = settings.cong_name || '';
-        const cong_role = settings.cong_role || [];
+        const cong_name = Setting.cong_name || '';
+        const cong_role = Setting.cong_role || [];
 
         const approvedRole = cong_role.includes('lmmo') || cong_role.includes('admin');
 
@@ -165,7 +163,7 @@ const VipStartup = () => {
             setIsUserSignUp(false);
             setUserMfaSetup(true);
           }
-          await dbUpdateAppSettings({ account_type: 'vip' });
+          await Setting.update({ account_type: 'vip' });
         }
 
         setIsAuthProcessing(false);

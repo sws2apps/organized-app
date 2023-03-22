@@ -1,5 +1,5 @@
 import { cloneElement, useState } from 'react';
-import { getAuth, signOut } from '@firebase/auth';
+import { getAuth, signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';

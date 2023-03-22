@@ -10,13 +10,13 @@ import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { currentWeekState } from '../../states/sourceMaterial';
-import { getWeeksBySchedule } from '../../indexedDb/dbSchedule';
 import {
   userConfirmationActionState,
   userConfirmationMessageState,
   userConfirmationOpenState,
   userConfirmationTitleState,
 } from '../../states/main';
+import { Sources } from '../../classes/Sources';
 
 const SourceCard = ({ schedule }) => {
   const { t } = useTranslation('ui');
@@ -31,8 +31,8 @@ const SourceCard = ({ schedule }) => {
 
   const [weeks, setWeeks] = useState([]);
 
-  const getWeekBySchedule = useCallback(async () => {
-    const data = await getWeeksBySchedule(schedule.value);
+  const getWeekBySchedule = useCallback(() => {
+    const data = Sources.weekListByScheduleLocal(schedule.value);
     setWeeks(data);
   }, [schedule]);
 

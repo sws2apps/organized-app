@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import SingleAssignment from './SingleAssignment';
 import { classCountState } from '../../states/congregation';
 import { useEffect, useState } from 'react';
-import { checkCBSReader, checkLCAssignments } from '../../indexedDb/dbSourceMaterial';
+import { checkCBSReader, checkLCAssignments } from '../../utils/sourceMaterial';
 
 const styles = {
   studentPartWrapper1: {
@@ -103,12 +103,10 @@ const ScheduleRowAssignment = ({
   };
 
   useEffect(() => {
-    const verifyLCPart = async () => {
-      const noAssign = await checkLCAssignments(source);
+    if (isLC) {
+      const noAssign = checkLCAssignments(source);
       setIsLCNoAssign(noAssign);
-    };
-
-    if (isLC) verifyLCPart();
+    }
   }, [isLC, source]);
 
   useEffect(() => {
@@ -132,12 +130,10 @@ const ScheduleRowAssignment = ({
   }, [assType, isLCNoAssign, isLC, assTypeName]);
 
   useEffect(() => {
-    const verifyCBSReader = async () => {
-      const noAssignCBSReader = await checkCBSReader(lcPart);
+    if (cbs) {
+      const noAssignCBSReader = checkCBSReader(lcPart);
       setDisplayCBSReader(!noAssignCBSReader);
-    };
-
-    if (cbs) verifyCBSReader();
+    }
   }, [cbs, lcPart]);
 
   return (

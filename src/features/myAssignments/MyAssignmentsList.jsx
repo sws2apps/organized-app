@@ -4,8 +4,8 @@ import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import MyAssignmentsMonth from './MyAssignmentsMonth';
 import { appLangState, monthNamesState, refreshMyAssignmentsState, userLocalUidState } from '../../states/main';
-import { dbMyAssignments } from '../../indexedDb/dbAssignment';
 import { pocketLocalIDState, pocketMembersState } from '../../states/congregation';
+import { fetchMyAssignments } from '../../utils/schedule';
 
 const MyAssignmentsList = () => {
   const vipLocalUid = useRecoilValue(userLocalUidState);
@@ -19,39 +19,35 @@ const MyAssignmentsList = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    const getMyAssignments = async () => {
-      setIsLoading(true);
-      const tempAssignments = await dbMyAssignments();
+    setIsLoading(true);
+    const tempAssignments = fetchMyAssignments();
 
-      const tempData2 = tempAssignments.map((assignment) => {
-        const split = assignment.weekOf.split('/');
-        const monthIndex = +split[0] - 1;
-        const monthValue = `${monthNames[monthIndex]} ${split[2]}`;
-        return { ...assignment, month_value: monthValue };
-      });
+    const tempData2 = tempAssignments.map((assignment) => {
+      const split = assignment.weekOf.split('/');
+      const monthIndex = +split[0] - 1;
+      const monthValue = `${monthNames[monthIndex]} ${split[2]}`;
+      return { ...assignment, month_value: monthValue };
+    });
 
-      const tempData3 = tempData2.reduce((group, assignment) => {
-        const { month_value } = assignment;
-        group[month_value] = group[month_value] ?? [];
-        group[month_value].push(assignment);
-        return group;
-      }, {});
+    const tempData3 = tempData2.reduce((group, assignment) => {
+      const { month_value } = assignment;
+      group[month_value] = group[month_value] ?? [];
+      group[month_value].push(assignment);
+      return group;
+    }, {});
 
-      const tempData4 = [];
-      Object.keys(tempData3).forEach(function (key, index) {
-        const obj = {
-          month_value: key,
-          month_assignments: tempData3[key],
-        };
+    const tempData4 = [];
+    Object.keys(tempData3).forEach(function (key, index) {
+      const obj = {
+        month_value: key,
+        month_assignments: tempData3[key],
+      };
 
-        tempData4.push(obj);
-      });
+      tempData4.push(obj);
+    });
 
-      setData(tempData4);
-      setIsLoading(false);
-    };
-
-    getMyAssignments();
+    setData(tempData4);
+    setIsLoading(false);
   }, [appLang, vipLocalUid, pocketLocalUid, monthNames, refresh, pocketMembers]);
 
   return (

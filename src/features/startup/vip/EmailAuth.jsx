@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { getAuth } from '@firebase/auth';
+import { getAuth } from 'firebase/auth';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
@@ -19,7 +19,7 @@ import {
 import { isEmailValid } from '../../../utils/emailValid';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../../../states/notification';
 import { apiRequestPasswordlesssLink } from '../../../api';
-import { dbUpdateAppSettings } from '../../../indexedDb/dbAppSettings';
+import { Setting } from '../../../classes/Setting';
 
 const EmailAuth = () => {
   const { t } = useTranslation('ui');
@@ -70,7 +70,7 @@ const EmailAuth = () => {
         await apiRequestPasswordlesssLink(userTmpEmail);
       }
 
-      await dbUpdateAppSettings({ account_version: 'v2' });
+      await Setting.update({ account_version: 'v2' });
     } else {
       await apiRequestPasswordlesssLink(userTmpEmail);
     }

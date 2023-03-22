@@ -1,164 +1,34 @@
-import { promiseSetRecoil } from 'recoil-outside';
 import { getI18n } from 'react-i18next';
-import dateFormat from 'dateformat';
 import appDb from '../indexedDb/mainDb';
 import { LANGUAGE_LIST } from '../locales/langList.js';
-import { dbGetAppSettings, dbUpdateAppSettings } from '../indexedDb/dbAppSettings';
-import { dbGetStudents, dbSavePersonMigration } from '../indexedDb/dbPersons';
-import {
-  dbFirstBibleStudy,
-  dbFirstBRead,
-  dbFirstIniCall,
-  dbFirstRV,
-  dbFirstTalk,
-  dbHistoryAssignment,
-} from '../indexedDb/dbAssignment';
-import { dbGetAllSourceMaterials, dbMigrateSrcData } from '../indexedDb/dbSourceMaterial';
-import { studentsAssignmentHistoryState } from '../states/persons';
 import { loadApp } from './app';
+import { Setting } from '../classes/Setting';
+import { Persons } from '../classes/Persons';
 
 export const runUpdater = async () => {
   await removeInvalidWeeks();
   await updateWeekType();
   await updateAssignmentType();
   await removeOutdatedSettings();
-  await builtHistoricalAssignment();
   await updatePersonAssignments();
   await checkAutoBackup();
   await loadApp();
 };
 
 const removeOutdatedSettings = async () => {
-  let appSettings = await dbGetAppSettings();
+  let appSettings = await appDb.app_settings.get({ id: 1 });
 
   if (appSettings.crd) {
     delete appSettings.crd;
-    await dbUpdateAppSettings({ ...appSettings }, true);
+    await Setting.update(appSettings, true);
   }
   if (appSettings.pwd) {
     delete appSettings.pwd;
-    await dbUpdateAppSettings({ ...appSettings }, true);
+    await Setting.update(appSettings, true);
   }
   if (appSettings.userMe) {
     delete appSettings.userMe;
-    await dbUpdateAppSettings({ ...appSettings }, true);
-  }
-};
-
-const builtHistoricalAssignment = async () => {
-  let appSettings = await dbGetAppSettings();
-  if (appSettings.isAssignmentsConverted === undefined || !appSettings.isAssignmentsConverted) {
-    const allSources = await dbGetAllSourceMaterials();
-    for (let s = 0; s < allSources.length; s++) {
-      const source = allSources[s];
-      let obj = { ...source };
-      for (let t = 1; t < 5; t++) {
-        const fldName = `ass${t}_type`;
-        if (source[fldName] === 1) {
-          obj[fldName] = 101;
-        } else if (source[fldName] === 2) {
-          obj[fldName] = 102;
-        } else if (source[fldName] === 3) {
-          obj[fldName] = 103;
-        } else if (source[fldName] === 4) {
-          obj[fldName] = 104;
-        } else if (source[fldName] === 5) {
-          obj[fldName] = 105;
-        } else if (source[fldName] === 6) {
-          obj[fldName] = 106;
-        } else if (source[fldName] === 7) {
-          obj[fldName] = 107;
-        } else if (source[fldName] === 20) {
-          obj[fldName] = 108;
-        }
-      }
-
-      await dbMigrateSrcData(obj);
-    }
-
-    const history = await dbHistoryAssignment();
-    await promiseSetRecoil(studentsAssignmentHistoryState, history);
-
-    const students = await dbGetStudents();
-    if (students.length > 0) {
-      const today = dateFormat(new Date(), 'mm/dd/yyyy');
-      for (let b = 0; b < students.length; b++) {
-        const student = students[b];
-        const firstBRead = (await dbFirstBRead(student.person_uid)) || today;
-        const firstIniCall = (await dbFirstIniCall(student.person_uid)) || today;
-        const firstRV = (await dbFirstRV(student.person_uid)) || today;
-        const firstBibleStudy = (await dbFirstBibleStudy(student.person_uid)) || today;
-        const firstTalk = (await dbFirstTalk(student.person_uid)) || today;
-        student.assignments = [];
-
-        if (student.isBRead) {
-          const assignmentId = window.crypto.randomUUID();
-          let obj = {
-            assignmentId: assignmentId,
-            code: 100,
-            startDate: firstBRead,
-            endDate: null,
-            comments: '',
-          };
-          student.assignments.push(obj);
-        }
-
-        if (student.isInitialCall) {
-          const assignmentId = window.crypto.randomUUID();
-          let obj = {
-            assignmentId: assignmentId,
-            code: 101,
-            startDate: firstIniCall,
-            endDate: null,
-            comments: '',
-          };
-          student.assignments.push(obj);
-        }
-
-        if (student.isReturnVisit) {
-          const assignmentId = window.crypto.randomUUID();
-          let obj = {
-            assignmentId: assignmentId,
-            code: 102,
-            startDate: firstRV,
-            endDate: null,
-            comments: '',
-          };
-          student.assignments.push(obj);
-        }
-
-        if (student.isBibleStudy) {
-          const assignmentId = window.crypto.randomUUID();
-          let obj = {
-            assignmentId: assignmentId,
-            code: 103,
-            startDate: firstBibleStudy,
-            endDate: null,
-            comments: '',
-          };
-          student.assignments.push(obj);
-        }
-
-        if (student.isTalk) {
-          const assignmentId = window.crypto.randomUUID();
-          let obj = {
-            assignmentId: assignmentId,
-            code: 104,
-            startDate: firstTalk,
-            endDate: null,
-            comments: '',
-          };
-          student.assignments.push(obj);
-        }
-
-        await dbSavePersonMigration(student);
-      }
-    }
-
-    // save settings
-    let obj = {};
-    obj.isAssignmentsConverted = true;
-    await dbUpdateAppSettings(obj);
+    await Setting.update(appSettings, true);
   }
 };
 
@@ -575,9 +445,8 @@ const removeInvalidWeeks = async () => {
 };
 
 const updatePersonAssignments = async () => {
-  let appSettings = await dbGetAppSettings();
-  if (appSettings.personAssignmentsConverted === undefined || !appSettings.personAssignmentsConverted) {
-    const data = await appDb.table('persons').reverse().reverse().sortBy('person_name');
+  if (Setting.personAssignmentsConverted === undefined || !Setting.personAssignmentsConverted) {
+    const data = Persons.list;
     const persons = data.filter((student) => student.isMoved === false);
 
     if (persons.length > 0) {
@@ -591,37 +460,24 @@ const updatePersonAssignments = async () => {
           }
         });
 
-        await appDb.persons.update(person.person_uid, {
-          assignments: newAssignments,
-        });
+        await person.save({ assignments: newAssignments });
       }
     }
 
     // save settings
     const obj = { personAssignmentsConverted: true };
-    await dbUpdateAppSettings(obj);
+    await Setting.update(obj);
   }
 };
 
 const checkAutoBackup = async () => {
-  let appSettings = await dbGetAppSettings();
-  if (appSettings.autoBackup === undefined) {
+  if (Setting.autoBackup === undefined) {
     const obj = { autoBackup: true };
-    await dbUpdateAppSettings(obj);
+    await Setting.update(obj);
   }
 
-  if (appSettings.autoBackup_interval === undefined) {
+  if (Setting.autoBackup_interval === undefined) {
     const obj = { autoBackup_interval: 5 };
-    await dbUpdateAppSettings(obj);
-  }
-
-  if (appSettings.autoBackup_interval === 1) {
-    await dbUpdateAppSettings({ autoBackup_interval: 5 });
-  }
-
-  appSettings = await dbGetAppSettings();
-  if (appSettings.autoBackup_inteval) {
-    delete appSettings.autoBackup_inteval;
-    await dbUpdateAppSettings({ ...appSettings }, true);
+    await Setting.update(obj);
   }
 };

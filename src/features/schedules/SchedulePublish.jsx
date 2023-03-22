@@ -11,11 +11,6 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Typography from '@mui/material/Typography';
-import {
-  dbBuildScheduleForShare,
-  dbBuildSchedulesListForShare,
-  formatSelectedSchedulesForShare,
-} from '../../indexedDb/dbSchedule';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../../states/notification';
 import { isPublishOpenState } from '../../states/schedule';
 import { apiHostState, visitorIDState } from '../../states/main';
@@ -23,6 +18,9 @@ import { congIDState } from '../../states/congregation';
 import TreeViewCheckbox from '../../components/TreeViewCheckbox';
 import { dbExportDataOnline } from '../../indexedDb/dbUtility';
 import useFirebaseAuth from '../../hooks/useFirebaseAuth';
+import { Sources } from '../../classes/Sources';
+import { formatSelectedSchedulesForShare } from '../../utils/schedule';
+import { Schedules } from '../../classes/Schedules';
 
 const SchedulePublish = () => {
   const { t } = useTranslation('ui');
@@ -71,7 +69,7 @@ const SchedulePublish = () => {
 
       let dataSchedules = [];
       for await (const schedule of schedules) {
-        const temp = await dbBuildScheduleForShare(schedule);
+        const temp = await Schedules.buildScheduleForShare(schedule);
         dataSchedules.push(temp);
       }
 
@@ -118,14 +116,9 @@ const SchedulePublish = () => {
   };
 
   useEffect(() => {
-    const getList = async () => {
-      setIsLoading(true);
-      const temp = await dbBuildSchedulesListForShare();
-      setData(temp);
-      setIsLoading(false);
-    };
-
-    getList();
+    setIsLoading(true);
+    setData(Sources.schedulesListForShare);
+    setIsLoading(false);
   }, []);
 
   useEffect(() => {

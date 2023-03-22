@@ -9,7 +9,7 @@ import { usernameState } from '../../states/congregation';
 import { accountTypeState, apiHostState, rootModalOpenState, userIDState, visitorIDState } from '../../states/main';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../../states/notification';
 import useFirebaseAuth from '../../hooks/useFirebaseAuth';
-import { dbUpdateAppSettings } from '../../indexedDb/dbAppSettings';
+import { Setting } from '../../classes/Setting';
 
 const UserFullname = () => {
   const cancel = useRef();
@@ -57,7 +57,7 @@ const UserFullname = () => {
           const data = await res.json();
 
           if (res.status === 200) {
-            await dbUpdateAppSettings({ username: tmpUsername });
+            await Setting.update({ username: tmpUsername });
             setModalOpen(false);
             setAppMessage(t('savedSuccess'));
             setAppSeverity('success');

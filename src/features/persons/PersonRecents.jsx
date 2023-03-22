@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { dbRecentStudents } from '../../indexedDb/dbPersons';
 import Box from '@mui/material/Box';
 import ClearAllIcon from '@mui/icons-material/ClearAll';
 import Fab from '@mui/material/Fab';
 import Grid from '@mui/material/Grid';
 import PersonCard from './PersonCard';
+import { Persons } from '../../classes/Persons';
 
 const StudentRecents = () => {
   const { t } = useTranslation('ui');
@@ -19,7 +19,7 @@ const StudentRecents = () => {
 
   useEffect(() => {
     const buildRecentStudents = async () => {
-      const data = await dbRecentStudents(localStorage.getItem('recentStudents'));
+      const data = Persons.recentPersons(localStorage.getItem('recentStudents'));
       setRecentStudents(data);
     };
 

@@ -14,9 +14,10 @@ import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import TreeViewCheckbox from '../../components/TreeViewCheckbox';
 import Typography from '@mui/material/Typography';
 import WarningIcon from '@mui/icons-material/Warning';
-import { dbGetS89ItemData, dbGetS89WeekList } from '../../indexedDb/dbAssignment';
 import { currentScheduleState, s89DataState } from '../../states/schedule';
 import { appLangState } from '../../states/main';
+import { Sources } from '../../classes/Sources';
+import { Schedules } from '../../classes/Schedules';
 
 const S89Selector = ({ setIsGenerating }) => {
   const { t } = useTranslation('ui');
@@ -77,7 +78,7 @@ const S89Selector = ({ setIsGenerating }) => {
       const week = item.split('-')[0];
       const assType = item.split('@')[1].split('-')[0];
       const classLabel = item.split('-')[2];
-      const data = await dbGetS89ItemData(week, assType, classLabel);
+      const data = Schedules.S89ItemData(week, assType, classLabel);
 
       s89Data.push({ id: item, ...data });
     }
@@ -100,13 +101,10 @@ const S89Selector = ({ setIsGenerating }) => {
   };
 
   useEffect(() => {
-    const getDataS89 = async () => {
-      const data = await dbGetS89WeekList(currentSchedule.value);
+    if (currentSchedule !== '') {
+      const data = Sources.S89WeekList(currentSchedule.value);
       setData(data);
       setLoading(false);
-    };
-    if (currentSchedule !== '') {
-      getDataS89();
     }
   }, [appLang, currentSchedule]);
 

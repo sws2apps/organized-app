@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import { styled, alpha } from '@mui/material/styles';
@@ -30,11 +30,10 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import { PersonAdvancedSearch, PersonCard, PersonRecents } from '../features/persons';
-import { dbDeleteStudent, dbFilterStudents } from '../indexedDb/dbPersons';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../states/notification';
-import { allStudentsState, studentsQueryState } from '../states/persons';
 import { currentStudentState, isStudentDeleteState } from '../states/person';
 import { themeOptionsState } from '../states/theme';
+import { Persons as PersonsData } from '../classes/Persons';
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
   padding: theme.spacing(0, 2),
@@ -90,26 +89,22 @@ const Persons = () => {
   const theme = useTheme();
   const mdUp = useMediaQuery(theme.breakpoints.up('md'), { noSsr: true });
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  let searchParams = localStorage.getItem('searchParams');
+  searchParams = searchParams ? JSON.parse(searchParams) : {};
+  const txtSearchInitial = searchParams.txtSearch || '';
 
   const [advancedOpen, setAdvancedOpen] = useState(false);
-  const [persons, setStudents] = useState([]);
+  const [persons, setPersons] = useState([]);
   const [anchorElMenuSmall, setAnchorElMenuSmall] = useState(null);
-  const [txtSearch, setTxtSearch] = useState('');
-  const [isMale, setIsMale] = useState(false);
-  const [isFemale, setIsFemale] = useState(false);
-  const [isUnassigned, setIsUnassigned] = useState(false);
-  const [assTypes, setAssTypes] = useState([]);
+  const [txtSearch, setTxtSearch] = useState(txtSearchInitial);
   const [isSearch, setIsSearch] = useState(false);
   const [tabValue, setTabValue] = useState(0);
 
   const [isStudentDelete, setIsStudentDelete] = useRecoilState(isStudentDeleteState);
-  const [dbStudents, setDbStudents] = useRecoilState(allStudentsState);
 
   const setAppSnackOpen = useSetRecoilState(appSnackOpenState);
   const setAppSeverity = useSetRecoilState(appSeverityState);
   const setAppMessage = useSetRecoilState(appMessageState);
-  const setStudentsQuery = useSetRecoilState(studentsQueryState);
 
   const currentStudent = useRecoilValue(currentStudentState);
   const themeOptions = useRecoilValue(themeOptionsState);
@@ -137,41 +132,13 @@ const Persons = () => {
     setIsStudentDelete(false);
   };
 
-  const handleSearchStudent = useCallback(
-    async (txtSearch, isMale, isFemale, isUnassigned, assTypes) => {
-      setTabValue(0);
-
-      handleCloseMenuSmall();
-
-      if (txtSearch.length === 0 && !isMale && !isFemale && !isUnassigned && assTypes.length === 0) {
-        setStudentsQuery({});
-        setSearchParams('');
-      } else {
-        const query = { search: txtSearch, isMale, isFemale, isUnassigned, type: assTypes };
-        setStudentsQuery(query);
-        setSearchParams(query);
-      }
-
-      setIsSearch(true);
-      setTimeout(async () => {
-        const obj = { txtSearch, isMale, isFemale, isUnassigned, assTypes };
-        const data = await dbFilterStudents(obj);
-        setAdvancedOpen(false);
-        setStudents(data);
-        setIsSearch(false);
-      }, [1000]);
-    },
-    [setSearchParams, setStudentsQuery]
-  );
-
   const handleDelete = async () => {
     const varID = currentStudent.person_uid;
-    await dbDeleteStudent(varID);
+    await PersonsData.delete(varID);
+
     let newPersons = persons.filter((person) => person.person_uid !== varID);
-    let dbNewPersons = dbStudents.filter((person) => person.person_uid !== varID);
     setIsStudentDelete(false);
-    setStudents(newPersons);
-    setDbStudents(dbNewPersons);
+    setPersons(newPersons);
 
     setAppSnackOpen(true);
     setAppSeverity('success');
@@ -182,39 +149,49 @@ const Persons = () => {
     setTabValue(newValue);
   };
 
-  const handleSearchEnter = (e) => {
-    if (e.key === 'Enter') {
-      handleSearchStudent(txtSearch, isMale, isFemale, isUnassigned, assTypes);
-    }
+  const handleSearchChange = (value) => {
+    let searchParams = localStorage.getItem('searchParams');
+    searchParams = searchParams ? JSON.parse(searchParams) : {};
+    searchParams.txtSearch = value;
+    setTxtSearch(value);
+
+    localStorage.setItem('searchParams', JSON.stringify(searchParams));
   };
 
-  useEffect(() => {
-    const getQuery = async () => {
-      const search = searchParams.get('search') || '';
-      setTxtSearch(search);
-      const isMale = searchParams.get('isMale') === 'true' ? true : false;
-      setIsMale(isMale);
-      const isFemale = searchParams.get('isFemale') === 'true' ? true : false;
-      setIsFemale(isFemale);
-      const isUnassigned = searchParams.get('isUnassigned') === 'true' ? true : false;
-      setIsUnassigned(isUnassigned);
-      const types = searchParams.getAll('type') || [];
-      const assTypes = types.map((type) => +type);
-      setAssTypes(assTypes);
+  const handleSearchStudent = useCallback(() => {
+    setTabValue(0);
+    setAdvancedOpen(false);
 
-      if (search?.length > 0 || isMale || isFemale || isUnassigned || assTypes.length > 0) {
-        await handleSearchStudent(search, isMale, isFemale, isUnassigned, assTypes);
-      } else {
-        await handleSearchStudent('', false, false, false, []);
-      }
-    };
+    handleCloseMenuSmall();
 
-    getQuery();
-  }, [handleSearchStudent, searchParams]);
+    let searchParams = localStorage.getItem('searchParams');
+    searchParams = searchParams ? JSON.parse(searchParams) : {};
+
+    const txtSearch = searchParams.txtSearch || '';
+    const isMale = searchParams.isMale === undefined ? false : searchParams.isMale;
+    const isFemale = searchParams.isFemale === undefined ? false : searchParams.isFemale;
+    const isUnassigned = searchParams.isUnassigned === undefined ? false : searchParams.isUnassigned;
+    const assTypes = searchParams.assTypes || [];
+
+    setIsSearch(true);
+    setTimeout(async () => {
+      const result = PersonsData.filter({ txtSearch, isMale, isFemale, isUnassigned, assTypes });
+      setPersons(result);
+      setIsSearch(false);
+    }, [1000]);
+  }, []);
+
+  const handleSearchEnter = (e) => {
+    if (e.key === 'Enter') handleSearchStudent();
+  };
 
   useEffect(() => {
     if (!mdUp) setAnchorElMenuSmall(null);
   }, [mdUp]);
+
+  useEffect(() => {
+    handleSearchStudent();
+  }, [handleSearchStudent]);
 
   return (
     <>
@@ -274,7 +251,7 @@ const Persons = () => {
             placeholder={t('search')}
             inputProps={{ 'aria-label': 'search' }}
             value={txtSearch}
-            onChange={(e) => setTxtSearch(e.target.value)}
+            onChange={(e) => handleSearchChange(e.target.value)}
             onKeyUp={handleSearchEnter}
           />
         </Box>
@@ -306,7 +283,7 @@ const Persons = () => {
                 marginTop: '-5px',
                 marginRight: '5px',
               }}
-              onClick={() => handleSearchStudent(txtSearch, isMale, isFemale, isUnassigned, assTypes)}
+              onClick={handleSearchStudent}
             >
               <PersonSearchIcon sx={{ fontSize: '25px' }} />
             </IconButton>
@@ -359,7 +336,7 @@ const Persons = () => {
                 </ListItemIcon>
                 <ListItemText>{advancedOpen ? t('hideAvancedSearch') : t('advancedSearch')}</ListItemText>
               </MenuItem>
-              <MenuItem onClick={() => handleSearchStudent(txtSearch, isMale, isFemale, isUnassigned, assTypes)}>
+              <MenuItem onClick={handleSearchStudent}>
                 <ListItemIcon>
                   <PersonSearchIcon sx={{ fontSize: '25px' }} />
                 </ListItemIcon>
@@ -379,18 +356,8 @@ const Persons = () => {
       <PersonAdvancedSearch
         advancedOpen={advancedOpen}
         setAdvancedOpen={(value) => setAdvancedOpen(value)}
-        isMale={isMale}
-        isFemale={isFemale}
-        isUnassigned={isUnassigned}
-        handleSearchStudent={(txtSearch, isMale, isFemale, isUnassigned, assTypes) =>
-          handleSearchStudent(txtSearch, isMale, isFemale, isUnassigned, assTypes)
-        }
-        assTypes={assTypes}
-        setIsMale={(value) => setIsMale(value)}
-        setIsFemale={(value) => setIsFemale(value)}
-        setIsUnassigned={(value) => setIsUnassigned(value)}
-        setAssTypes={(value) => setAssTypes(value)}
         txtSearch={txtSearch}
+        handleSearchStudent={handleSearchStudent}
       />
 
       <Box sx={{ marginBottom: '10px' }}>

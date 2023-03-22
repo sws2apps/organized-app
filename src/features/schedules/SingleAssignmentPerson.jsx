@@ -5,12 +5,12 @@ import { alpha } from '@mui/material/styles';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { dbGetStudentByDispName } from '../../indexedDb/dbPersons';
 import { themeOptionsState } from '../../states/theme';
 
 import maleIcon from '../../img/student_male.svg';
 import femaleIcon from '../../img/student_female.svg';
-import { dbGetAppSettings } from '../../indexedDb/dbAppSettings';
+import { Setting } from '../../classes/Setting';
+import { Persons } from '../../classes/Persons';
 
 const SingleAssignmentPerson = ({ person }) => {
   const theme = useTheme();
@@ -21,17 +21,12 @@ const SingleAssignmentPerson = ({ person }) => {
   const [accountType, setAccountType] = useState('pocket');
 
   useEffect(() => {
-    const getPerson = async () => {
-      const settings = await dbGetAppSettings();
-      const tmpType = settings.account_type || 'pocket';
-      setAccountType(tmpType);
-      if (tmpType === 'vip' && person && person !== '') {
-        const dataPerson = await dbGetStudentByDispName(person);
-        setIsMale(dataPerson.isMale);
-      }
-    };
-
-    getPerson();
+    const tmpType = Setting.account_type || 'pocket';
+    setAccountType(tmpType);
+    if (tmpType === 'vip' && person && person !== '') {
+      const dataPerson = Persons.getByDisplayName(person);
+      setIsMale(dataPerson.isMale);
+    }
   }, [person]);
 
   return (

@@ -10,8 +10,9 @@ import IconButton from '@mui/material/IconButton';
 import NoMeetingRoomIcon from '@mui/icons-material/NoMeetingRoom';
 import Typography from '@mui/material/Typography';
 import { ScheduleAssignment } from '../features/schedules';
-import { dbGetScheduleData } from '../indexedDb/dbSchedule';
-import { monthNamesState, shortDateFormatState } from '../states/main';
+import { shortDateFormatState } from '../states/main';
+import { Setting } from '../classes/Setting';
+import { Schedules } from '../classes/Schedules';
 
 const ScheduleWeekDetails = () => {
   const { t } = useTranslation('ui');
@@ -20,12 +21,11 @@ const ScheduleWeekDetails = () => {
 
   const [noMeeting, setNoMeeting] = useState(false);
 
-  const monthNames = useRecoilValue(monthNamesState);
   const shortDateFormat = useRecoilValue(shortDateFormatState);
 
   const scheduleFormatted = schedule.replace('-', '/');
   const monthIndex = parseInt(scheduleFormatted.split('/')[0], 10);
-  const scheduleName = `${monthNames[monthIndex - 1]} ${scheduleFormatted.split('/')[1]}`;
+  const scheduleName = `${Setting.monthNames[monthIndex - 1]} ${scheduleFormatted.split('/')[1]}`;
 
   const week = weekToFormat.replaceAll('-', '/');
   const weekFormatted = dateFormat(new Date(week), shortDateFormat);
@@ -35,13 +35,9 @@ const ScheduleWeekDetails = () => {
   };
 
   useEffect(() => {
-    const loadCurrentWeekData = async () => {
-      const scheduleData = await dbGetScheduleData(week);
-      setNoMeeting(scheduleData.noMeeting);
-    };
-
     if (week !== '') {
-      loadCurrentWeekData();
+      const scheduleData = Schedules.get(week);
+      setNoMeeting(scheduleData.noMeeting);
     }
   }, [t, week]);
 

@@ -61,7 +61,7 @@ const MyAssignmentsMonthItem = ({ assignment }) => {
           )}
         </Box>
         {assignment.isBehalf && (
-          <Typography sx={{ lineHeight: 1.2 }}>{`${t('presentedBy')}${assignment.personDispName}`}</Typography>
+          <Typography sx={{ lineHeight: 1.2 }}>{`${t('presentedBy')}${assignment.studentName}`}</Typography>
         )}
         {assignment.assignmentType === 'ayf' && <Typography sx={{ lineHeight: 1.2 }}>{getStuAYF()}</Typography>}
         <Typography sx={{ lineHeight: 1.2 }}>{getSource()}</Typography>

@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import { apiHostState, visitorIDState } from '../../states/main';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../../states/notification';
 import { congIDState, isProcessingBackupState } from '../../states/congregation';
-import { getAuth } from '@firebase/auth';
+import { getAuth } from 'firebase/auth';
 
 const BackupMain = ({ handleCreateBackup, handleClose, handleRestoreBackup, open, title, action }) => {
   const cancel = useRef();
@@ -108,14 +108,14 @@ const BackupMain = ({ handleCreateBackup, handleClose, handleRestoreBackup, open
       <Dialog
         open={open}
         onClose={handleClose}
-        aria-labelledby='alert-dialog-title'
-        aria-describedby='alert-dialog-description'
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id='alert-dialog-title'>{title}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
         <DialogContent sx={{ minWidth: '380px' }}>
           {isProcessing && (
             <CircularProgress
-              color='secondary'
+              color="secondary"
               size={80}
               disableShrink={true}
               sx={{
@@ -132,13 +132,13 @@ const BackupMain = ({ handleCreateBackup, handleClose, handleRestoreBackup, open
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color='primary'>
+          <Button onClick={handleClose} color="primary">
             {t('cancel')}
           </Button>
           <Button
             onClick={handleAction}
             disabled={isProcessing || (!hasBackup && action === 'restore')}
-            color='primary'
+            color="primary"
           >
             {action === 'backup' ? t('create') : t('restore')}
           </Button>

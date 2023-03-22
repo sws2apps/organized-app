@@ -1,27 +1,25 @@
 import { useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import Autocomplete from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { dbUpdateAppSettings } from '../../indexedDb/dbAppSettings';
-import { allStudentsState } from '../../states/persons';
 import { userLocalUidState } from '../../states/main';
+import { Persons } from '../../classes/Persons';
+import { Setting } from '../../classes/Setting';
 
 const MyAssignmentsSetup = ({ overrideEdit, setOverrideEdit }) => {
   const { t } = useTranslation('ui');
 
   const setLocalUid = useSetRecoilState(userLocalUidState);
 
-  const dbPersons = useRecoilValue(allStudentsState);
-
   const [isSelect, setIsSelect] = useState(false);
   const [value, setValue] = useState(null);
 
   const handleSetLocalUid = async () => {
-    await dbUpdateAppSettings({ local_uid: value.person_uid });
+    await Setting.update({ local_uid: value.person_uid });
     setLocalUid(value.person_uid);
     setOverrideEdit(false);
   };
@@ -50,7 +48,7 @@ const MyAssignmentsSetup = ({ overrideEdit, setOverrideEdit }) => {
             id="tags-standard"
             value={value}
             onChange={(e, value) => setValue(value)}
-            options={dbPersons}
+            options={Persons.list}
             getOptionLabel={(option) => option.person_name || ''}
             renderInput={(params) => <TextField {...params} variant="standard" label={t('record')} />}
             noOptionsText={t('noMatchRecord')}

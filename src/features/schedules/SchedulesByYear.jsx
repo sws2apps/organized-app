@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import Box from '@mui/material/Box';
-import { dbGetScheduleListByYear } from '../../indexedDb/dbSourceMaterial';
 import { ScheduleCard } from './';
 import { monthNamesState } from '../../states/main';
 import { refreshWeeksListState } from '../../states/sourceMaterial';
+import { Sources } from '../../classes/Sources';
 
 const SchedulesByYear = ({ year }) => {
   const monthNames = useRecoilValue(monthNamesState);
@@ -12,10 +12,10 @@ const SchedulesByYear = ({ year }) => {
 
   const [schedules, setSchedules] = useState([]);
 
-  const getMonthlySchedules = useCallback(async () => {
+  const getMonthlySchedules = useCallback(() => {
     const userSort = localStorage.getItem('monthSort');
 
-    const data = await dbGetScheduleListByYear(year, userSort);
+    const data = Sources.scheduleListByYear(year, userSort);
     let newData = [];
     for (const item of data) {
       const obj = {};

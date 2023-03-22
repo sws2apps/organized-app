@@ -26,9 +26,9 @@ import Typography from '@mui/material/Typography';
 import { apiHostState, rootModalOpenState, visitorIDState } from '../states/main';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../states/notification';
 import { congIDState, pocketMembersState } from '../states/congregation';
-import { allStudentsState } from '../states/persons';
-import { dbUpdateAppSettings } from '../indexedDb/dbAppSettings';
 import useFirebaseAuth from '../hooks/useFirebaseAuth';
+import { Setting } from '../classes/Setting';
+import { Persons } from '../classes/Persons';
 
 const styles = {
   checkbox: {
@@ -54,13 +54,12 @@ const CongregationPersonDetails = () => {
   const apiHost = useRecoilValue(apiHostState);
   const visitorID = useRecoilValue(visitorIDState);
   const congID = useRecoilValue(congIDState);
-  const dbPersons = useRecoilValue(allStudentsState);
 
   const { user } = useFirebaseAuth();
 
   const [member, setMember] = useState(person);
 
-  const pocketOptions = person ? dbPersons.filter((student) => student.person_uid !== person.pocket_local_id) : [];
+  const pocketOptions = person ? Persons.list.filter((student) => student.person_uid !== person.pocket_local_id) : [];
 
   const handleCheckAdmin = (value) => {
     let role = [];
@@ -352,7 +351,7 @@ const CongregationPersonDetails = () => {
           queryClient.invalidateQueries({ queryKey: ['congPersons'] });
 
           if (user.email === person.user_uid) {
-            await dbUpdateAppSettings({ pocket_members: member.pocket_members });
+            await Setting.update({ pocket_members: member.pocket_members });
             setPocketMembers(member.pocket_members);
           }
           return;
@@ -511,7 +510,7 @@ const CongregationPersonDetails = () => {
                       id="tags-standard"
                       value={member.pocket_local_id === '' ? null : member.pocket_local_id}
                       onChange={(e, value) => handleUpdatePocketLocalId(value)}
-                      options={dbPersons}
+                      options={Persons.list}
                       getOptionLabel={(option) => option.person_name}
                       isOptionEqualToValue={(option, value) => option.person_uid === value.person_uid}
                       renderInput={(params) => <TextField {...params} variant="standard" label={t('record')} />}

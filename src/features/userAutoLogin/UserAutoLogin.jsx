@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo } from 'react';
-import { getAuth, signOut } from '@firebase/auth';
+import { getAuth, signOut } from 'firebase/auth';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { dbUpdateAppSettings } from '../../indexedDb/dbAppSettings';
 import { deleteDb } from '../../indexedDb/dbUtility';
 import {
   congAccountConnectedState,
@@ -21,6 +20,7 @@ import {
 } from '../../states/main';
 import useFirebaseAuth from '../../hooks/useFirebaseAuth';
 import backupWorkerInstance from '../../workers/backupWorker';
+import { Setting } from '../../classes/Setting';
 
 const UserAutoLogin = () => {
   let abortCont = useMemo(() => new AbortController(), []);
@@ -86,7 +86,7 @@ const UserAutoLogin = () => {
           obj.pocket_members = pocket_members;
           obj.cong_role = cong_role;
           obj.account_type = 'vip';
-          await dbUpdateAppSettings(obj);
+          await Setting.update(obj);
           setPocketMembers(pocket_members);
           return;
         }

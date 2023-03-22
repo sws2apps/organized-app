@@ -40,6 +40,7 @@ const AppLanguage = () => {
     const app_lang = e.target.parentElement.dataset.code;
     setAppLangLocal(app_lang);
     handleClose();
+    window.location.reload();
   };
 
   const handleClick = (event) => {

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -11,9 +11,10 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { refreshWeeksListState, yearsListState } from '../states/sourceMaterial';
+import { refreshWeeksListState } from '../states/sourceMaterial';
 import { SchedulesByYear } from '../features/schedules';
 import { SourcesByYear } from '../features/sourceMaterial';
+import { Sources } from '../classes/Sources';
 
 const iconButtonStyles = {
   borderRadius: '8px',
@@ -29,8 +30,6 @@ const PageAccordion = ({ page }) => {
   const { t } = useTranslation('ui');
 
   const setRefreshWeekList = useSetRecoilState(refreshWeeksListState);
-
-  const yearsList = useRecoilValue(yearsListState);
 
   const [yearsExpanded, setYearsExpanded] = useState([]);
 
@@ -75,7 +74,7 @@ const PageAccordion = ({ page }) => {
         {page === 'schedule' ? t('schedule') : t('sourceMaterial')}
       </Typography>
 
-      {yearsList.map((year) => (
+      {Sources.yearsList.map((year) => (
         <Accordion key={year.value} onChange={handleChange(year.value)} expanded={yearsExpanded.includes(year.value)}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}>

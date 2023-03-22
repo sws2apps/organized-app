@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Avatar from '@mui/material/Avatar';
@@ -16,11 +15,11 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import { grey } from '@mui/material/colors';
-import { studentsAssignmentHistoryState } from '../../states/persons';
-import { dbGetPersonsByAssType, dbGetStudentByDispName, dbHistoryAssistant } from '../../indexedDb/dbPersons';
 import { formatDateForCompare } from '../../utils/app';
 import maleIcon from '../../img/student_male.svg';
 import femaleIcon from '../../img/student_female.svg';
+import { Persons } from '../../classes/Persons';
+import { Schedules } from '../../classes/Schedules';
 
 const sharedStyles = {
   tblContainer: {
@@ -47,8 +46,6 @@ const sharedStyles = {
 
 const StudentSelector = (props) => {
   const { t } = useTranslation('ui');
-
-  const dbHistory = useRecoilValue(studentsAssignmentHistoryState);
 
   const { assInfo, currentWeek } = props;
 
@@ -119,9 +116,9 @@ const StudentSelector = (props) => {
         assID === 15 ||
         assID === 17
       ) {
-        students = await dbGetPersonsByAssType('isAssistant', stuForAssistant);
+        students = Persons.getByAssignment('isAssistant', stuForAssistant);
       } else {
-        students = await dbGetPersonsByAssType(assType);
+        students = Persons.getByAssignment(assType);
       }
 
       // remove unavailable students based on time away
@@ -173,9 +170,9 @@ const StudentSelector = (props) => {
         assID === 15 ||
         assID === 17
       ) {
-        filteredHistory = dbHistory.filter((item) => item.assignmentID === 109);
+        filteredHistory = Schedules.history.filter((item) => item.assignmentID === 109);
       } else {
-        filteredHistory = dbHistory.filter((item) => item.assignmentID === assType);
+        filteredHistory = Schedules.history.filter((item) => item.assignmentID === assType);
       }
       setAssHistory(filteredHistory);
       setIsLoadingAssHistory(false);
@@ -189,12 +186,12 @@ const StudentSelector = (props) => {
     return () => {
       isSubscribed = false;
     };
-  }, [currentWeek, dbHistory, isLoadingStudent, assID, assType, stuForAssistant]);
+  }, [currentWeek, isLoadingStudent, assID, assType, stuForAssistant]);
 
   useEffect(() => {
     let isSubscribed = true;
     const loadStudentHistory = async () => {
-      let dbStuHistory = dbHistory.filter((history) => history.studentID === selectedStuID);
+      let dbStuHistory = Schedules.history.filter((history) => history.studentID === selectedStuID);
       setStuHistory(dbStuHistory);
       setIsLoadingStuHistory(false);
     };
@@ -208,12 +205,13 @@ const StudentSelector = (props) => {
     return () => {
       isSubscribed = false;
     };
-  }, [dbHistory, selectedStuID]);
+  }, [selectedStuID]);
 
   useEffect(() => {
     let isSubscribed = true;
     const loadAssistantHistory = async () => {
-      const assistants = await dbHistoryAssistant(stuForAssistant);
+      const person = Persons.getByDisplayName(stuForAssistant);
+      const assistants = person?.assistantHistory();
       setAssistantHistory(assistants);
       setIsLoadingAssistantHistory(false);
     };
@@ -234,7 +232,7 @@ const StudentSelector = (props) => {
       const tempStu = props.assInfo.currentStudent;
       setSelectedStudent(tempStu);
 
-      const found = await dbGetStudentByDispName(tempStu);
+      const found = Persons.getByDisplayName(tempStu);
       setSelectedStuID(found?.person_uid || '');
     };
 

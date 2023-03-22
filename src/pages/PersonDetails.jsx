@@ -23,11 +23,11 @@ import SaveIcon from '@mui/icons-material/Save';
 import Tooltip from '@mui/material/Tooltip';
 import TransferWithinAStationIcon from '@mui/icons-material/TransferWithinAStation';
 import Typography from '@mui/material/Typography';
-import { dbGetStudentDetails, dbSavePersonExp } from '../indexedDb/dbPersons';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../states/notification';
 import { rootModalOpenState } from '../states/main';
 import { studentsQueryState } from '../states/persons';
 import { PersonAssignments, PersonBasic, PersonHistory, PersonTimeAway } from '../features/persons';
+import { Persons } from '../classes/Persons';
 
 const Accordion = styled((props) => <MuiAccordion disableGutters elevation={0} square {...props} />)(({ theme }) => ({
   border: `1px solid ${theme.palette.divider}`,
@@ -108,7 +108,7 @@ const PersonDetails = () => {
   const handlePersonMove = async () => {
     setRootModalOpen(true);
     const data = { ...student, isMoved: true };
-    const result = await dbSavePersonExp(data);
+    const result = await Persons.preSave(data);
     if (result) {
       navigate({
         pathname: '/students',
@@ -126,7 +126,7 @@ const PersonDetails = () => {
   const handlePersonEnabled = async () => {
     setRootModalOpen(true);
     const data = { ...student, isDisqualified: false };
-    const result = await dbSavePersonExp(data);
+    const result = await Persons.preSave(data);
     if (result) {
       navigate({
         pathname: '/persons',
@@ -144,7 +144,7 @@ const PersonDetails = () => {
   const handlePersonDisqualified = async () => {
     setRootModalOpen(true);
     const data = { ...student, isDisqualified: true };
-    const result = await dbSavePersonExp(data);
+    const result = await Persons.preSave(data);
     if (result) {
       navigate({
         pathname: '/persons',
@@ -161,7 +161,7 @@ const PersonDetails = () => {
 
   const handleSavePerson = async () => {
     setRootModalOpen(true);
-    const result = await dbSavePersonExp(student);
+    const result = await Persons.preSave(student);
     if (result) {
       navigate({
         pathname: '/persons',
@@ -232,7 +232,7 @@ const PersonDetails = () => {
           localStorage.setItem('recentStudents', JSON.stringify(recentStudents));
         }
 
-        const data = await dbGetStudentDetails(id);
+        const data = Persons.get(id);
         setStudent(data);
         setName(data.person_name);
         setDisplayName(data.person_displayName);

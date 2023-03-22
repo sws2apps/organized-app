@@ -7,10 +7,9 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import Typography from '@mui/material/Typography';
-import { monthNamesState, rootModalOpenState, sourceLangState } from '../states/main';
+import { rootModalOpenState, sourceLangState } from '../states/main';
 import { currentScheduleState, scheduleUseFullnameState } from '../states/schedule';
 import { classCountState, congNameState, congNumberState } from '../states/congregation';
-import { dbGetScheduleForPrint } from '../indexedDb/dbAssignment';
 import {
   S140AssignedPerson,
   S140MeetingPartHeading,
@@ -19,6 +18,7 @@ import {
   S140PartMiniLabel,
   S140ScheduleHeading,
 } from '../features/schedules';
+import { Schedules } from '../classes/Schedules';
 
 const S140 = () => {
   let navigate = useNavigate();
@@ -31,7 +31,6 @@ const S140 = () => {
   const classCount = useRecoilValue(classCountState);
   const congName = useRecoilValue(congNameState);
   const congNumber = useRecoilValue(congNumberState);
-  const monthNames = useRecoilValue(monthNamesState);
   const sourceLang = useRecoilValue(sourceLangState);
   const scheduleUseFullname = useRecoilValue(scheduleUseFullnameState);
 
@@ -246,21 +245,17 @@ const S140 = () => {
   };
 
   useEffect(() => {
-    const getData = async () => {
-      setRootModalOpen(true);
-
-      const data = await dbGetScheduleForPrint(currentSchedule.value);
-
-      setData(data);
-      setRootModalOpen(false);
-    };
-
     if (currentSchedule === '' || currentSchedule.value?.length === '') {
       navigate('/schedules');
     } else {
-      getData();
+      setRootModalOpen(true);
+
+      const data = Schedules.S140Data(currentSchedule.value);
+
+      setData(data);
+      setRootModalOpen(false);
     }
-  }, [navigate, currentSchedule, monthNames, setRootModalOpen]);
+  }, [navigate, currentSchedule, setRootModalOpen]);
 
   return (
     <>
@@ -553,7 +548,8 @@ const S140 = () => {
 
                                   return (
                                     <Box key={`lc-${index}`}>
-                                      {weekItem.sourceData[fldSrc] !== '' && (
+                                      {(weekItem.sourceData[fldSrc] !== '' ||
+                                        weekItem.sourceData[fldSrcOverride] !== '') && (
                                         <Box sx={{ display: 'flex', marginBottom: '2px' }}>
                                           <S140MeetingTime partTime={weekItem.sourceData[fldLcPart]} />
                                           <S140MeetingPartText

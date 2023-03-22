@@ -16,7 +16,8 @@ import { LCPartHeading, PartDuration, PartType, SongsList, StudyPoint, WeekType 
 import { isRerenderSourceState } from '../states/sourceMaterial';
 import { shortDateFormatState, sourceLangState } from '../states/main';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../states/notification';
-import { dbGetSourceMaterial, dbSaveSrcData } from '../indexedDb/dbSourceMaterial';
+import { Sources } from '../classes/Sources';
+import { Schedules } from '../classes/Schedules';
 
 const sharedStyles = {
   ayfStuPart: {
@@ -190,27 +191,25 @@ const SourceWeekDetails = () => {
     obj.noMeeting = noMeeting;
     obj.isOverride = true;
 
-    const isSaved = await dbSaveSrcData(obj, false);
+    const source = Sources.get(week);
+    await source.save(obj, false);
 
-    if (isSaved === true) {
-      setAppSnackOpen(true);
-      setAppSeverity('success');
-      setAppMessage(t('weekSaved'));
-    } else {
-      setAppSnackOpen(true);
-      setAppSeverity('error');
-      setAppMessage(t('saveError'));
-    }
+    setAppSnackOpen(true);
+    setAppSeverity('success');
+    setAppMessage(t('weekSaved'));
   };
 
   useEffect(() => {
     let isSubscribed = true;
-    const loadWeekData = async () => {
-      const data = await dbGetSourceMaterial(week);
+
+    if (week !== '' && isSubscribed) {
+      const data = Sources.get(week).local;
+      const schedule = Schedules.get(week);
+
       if (isSubscribed) {
         setWeekOf(data.weekOf);
-        setNoMeeting(data.noMeeting);
-        setWeekType(data.week_type);
+        setNoMeeting(schedule.noMeeting);
+        setWeekType(schedule.week_type);
         setWeekDate(data.weekDate_src);
         setWeeklyBibleReading(data.weeklyBibleReading_src);
         setSongFirst(data.songFirst_src);
@@ -241,13 +240,7 @@ const SourceWeekDetails = () => {
         setLCPart1SrcOverride(data.lcPart1_src_override);
         setLCPart1Content(data.lcPart1_content);
         setLCPart1ContentOverride(data.lcPart1_content_override);
-        if (data.lcPart2_time_override) {
-          setIsOverrideLCPart2(data.lcPart2_time_override !== '');
-        } else {
-          if (data.lcCount_override < data.lcCount) {
-            setIsOverrideLCPart2(true);
-          }
-        }
+        setIsOverrideLCPart2(data.lcCount_override === 2);
 
         setLCPart2Time(data.lcPart2_time);
         setLCPart2TimeOverride(data.lcPart2_time_override);
@@ -261,10 +254,6 @@ const SourceWeekDetails = () => {
         setSongConcludeOverride(data.songConclude_src_override);
         setCOTalkTitle(data.co_talk_title);
       }
-    };
-
-    if (week !== '' && isSubscribed) {
-      loadWeekData();
     }
 
     return () => {

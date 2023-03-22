@@ -1,16 +1,9 @@
 import Dexie from 'dexie';
-import { exportDB, importDB } from 'dexie-export-import';
-import download from 'downloadjs';
 import appDb from './mainDb';
-import { encryptString } from '../utils/swsEncryption';
-import { dbGetAppSettings, dbUpdateAppSettings } from './dbAppSettings';
+import { Setting } from '../classes/Setting';
 
 export const initAppDb = async () => {
   await appDb.open();
-};
-
-export const deleteDbByName = async (dbName) => {
-  await Dexie.delete(dbName);
 };
 
 export const deleteDb = async () => {
@@ -35,93 +28,6 @@ export const isDbExist = async (dbName) => {
         reject('error');
       });
   });
-};
-
-export const isValidJSON = async (fileJSON) => {
-  let isValid = false;
-  const getJSON = () => {
-    return new Promise((resolve, reject) => {
-      let reader = new FileReader();
-      reader.readAsText(fileJSON);
-      reader.onload = () => resolve(JSON.parse(reader.result));
-      reader.onerror = (error) => reject(error);
-    });
-  };
-
-  const data = await getJSON();
-  if (data.formatName === 'dexie') {
-    if (data.data.databaseName === 'cpe_sws') {
-      isValid = true;
-    }
-  }
-  return isValid;
-};
-
-export const dbRestoreDb = async (fileJSON) => {
-  // get user credentials before import
-  const { userPass, username } = await dbGetAppSettings();
-
-  // do restore
-  await appDb.close();
-  await appDb.delete();
-  await importDB(fileJSON);
-
-  // append saved user credentials
-  await appDb.open();
-  await dbUpdateAppSettings({ userPass: userPass, username: username });
-  await appDb.close();
-};
-
-export const dbExportDb = async (passcode) => {
-  try {
-    // remove user credentials before export
-    let appSettings = await dbGetAppSettings();
-    const { userPass, username } = appSettings;
-    delete appSettings.userPass;
-    delete appSettings.username;
-    await dbUpdateAppSettings({ ...appSettings }, true);
-
-    // export indexedDb
-    const blob = await exportDB(appDb);
-
-    // pause export and restore credentials as soon as indexedDb is exported
-    await dbUpdateAppSettings({ userPass: userPass, username: username });
-
-    // resume export function
-    const convertBase64 = () => {
-      return new Promise((resolve, reject) => {
-        let reader = new FileReader();
-        reader.readAsDataURL(blob);
-        reader.onloadend = () => resolve(reader.result);
-        reader.onerror = (error) => reject(error);
-      });
-    };
-
-    const data = await convertBase64();
-    const encryptedData = await encryptString(passcode, data);
-
-    const newBlob = new Blob([encryptedData], { type: 'text/plain' });
-
-    download(newBlob, 'lmm-oa.backup.db', 'text/plain');
-  } catch {
-    return;
-  }
-};
-
-export const dbExportJsonDb = async (passcode) => {
-  const blob = await exportDB(appDb);
-  const convertBase64 = () => {
-    return new Promise((resolve, reject) => {
-      let reader = new FileReader();
-      reader.readAsDataURL(blob);
-      reader.onloadend = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-    });
-  };
-
-  const data = await convertBase64();
-  const encryptedData = await encryptString(passcode, data);
-  return encryptedData;
 };
 
 export const dbExportDataOnline = async () => {
@@ -151,17 +57,11 @@ export const dbExportDataOnline = async () => {
   const dbPocketTbl = await appDb.sws_pocket.toArray();
 
   // remove user credentials before export
-  const appSettings = await dbGetAppSettings();
-  const { userPass, username } = appSettings;
-  delete appSettings.userPass;
+  const appSettings = Setting;
   delete appSettings.username;
-  await dbUpdateAppSettings({ ...appSettings }, true);
 
   // get app settings
-  const dbSettings = await appDb.app_settings.toArray();
-
-  // restore credentials
-  await dbUpdateAppSettings({ userPass: userPass, username: username });
+  const dbSettings = [appSettings];
 
   return { dbPersons, dbDeleted, dbSourceMaterial, dbSchedule, dbPocketTbl, dbSettings };
 };
@@ -173,18 +73,13 @@ export const dbRestoreCongregationBackup = async (
   cong_swsPocket,
   cong_settings
 ) => {
-  // get user credentials before import
-  const { userPass, username } = await dbGetAppSettings();
-
   // restore settings
   await appDb.app_settings.clear();
   for (let i = 0; i < cong_settings.length; i++) {
     const setting = cong_settings[i];
     await appDb.app_settings.add(setting, setting.id);
   }
-
-  // append saved user credentials
-  await dbUpdateAppSettings({ userPass: userPass, username: username });
+  await Setting.load();
 
   // restore persons
   const oldPersons = await appDb.persons.toArray();
@@ -420,40 +315,5 @@ export const dbRestoreCongregationBackup = async (
   for (let i = 0; i < cong_swsPocket.length; i++) {
     const pocket = cong_swsPocket[i];
     await appDb.sws_pocket.add(pocket, pocket.id);
-  }
-};
-
-export const getWeekDate = (weekOf) => {
-  const month = +weekOf.split('/')[0] - 1;
-  const day = +weekOf.split('/')[1];
-  const year = +weekOf.split('/')[2];
-
-  return new Date(year, month, day);
-};
-
-export const getOldestWeekDate = () => {
-  const today = new Date();
-  const day = today.getDay();
-  const diff = today.getDate() - day + (day === 0 ? -6 : 1);
-  const weekDate = new Date(today.setDate(diff));
-  const validDate = weekDate.setMonth(weekDate.getMonth() - 12);
-  return new Date(validDate);
-};
-
-export const removeOutdatedRecords = async () => {
-  const oldestWeekDate = getOldestWeekDate();
-
-  const schedules = await appDb.sched_MM.toArray();
-  const oldSchedules = schedules.filter((schedule) => getWeekDate(schedule.weekOf) < oldestWeekDate);
-  for await (const schedule of oldSchedules) {
-    const isExist = await appDb.sched_MM.get({ weekOf: schedule.weekOf });
-    if (isExist) await appDb.sched_MM.delete(schedule.weekOf);
-  }
-
-  const sources = await appDb.src.toArray();
-  const oldSources = sources.filter((source) => getWeekDate(source.weekOf) < oldestWeekDate);
-  for await (const source of oldSources) {
-    const isExist = await appDb.src.get({ weekOf: source.weekOf });
-    if (isExist) await appDb.src.delete(source.weekOf);
   }
 };

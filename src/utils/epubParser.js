@@ -1,35 +1,29 @@
 import { loadEPUB } from 'jw-epub-parser';
-import { promiseGetRecoil, promiseSetRecoil } from 'recoil-outside';
-import { dbHistoryAssignment } from '../indexedDb/dbAssignment';
-import { dbSaveSrcData, dbGetYearList } from '../indexedDb/dbSourceMaterial';
-import { studentsAssignmentHistoryState } from '../states/persons';
-import { assTypeAYFOnlyState, yearsListState } from '../states/sourceMaterial';
+import { AssignmentType } from '../classes/AssignmentType';
+import { ScheduleClass } from '../classes/Schedule';
+import { Schedules } from '../classes/Schedules';
+import { SourceClass } from '../classes/Source';
+import { Sources } from '../classes/Sources';
 
 export const addEpubDataToDb = async (fileEPUB) => {
   const data = await loadEPUB(fileEPUB);
   await addDataToDb(data);
-
-  const history = await dbHistoryAssignment();
-  await promiseSetRecoil(studentsAssignmentHistoryState, history);
 };
 
 export const addJwDataToDb = async (dataJw) => {
   for await (const data of dataJw) {
     await addDataToDb(data);
   }
-
-  const history = await dbHistoryAssignment();
-  await promiseSetRecoil(studentsAssignmentHistoryState, history);
 };
 
 const addDataToDb = async (data) => {
   try {
-    const assTypeList = await promiseGetRecoil(assTypeAYFOnlyState);
+    const assTypeList = AssignmentType.ayfOnly;
     for (let i = 0; i < data.weeksData.length; i++) {
       const src = data.weeksData[i];
       const cnAYF = src.ayfCount;
 
-      const obj = {};
+      let obj = {};
       let assType = '';
 
       obj.weekOf = src.weekDate;
@@ -159,15 +153,18 @@ const addDataToDb = async (data) => {
       // Concluding Song
       obj.songConclude_src = src.songConclude;
 
+      const source = Sources.get(obj.weekOf) || new SourceClass(obj.weekOf);
+      await source.save(obj, true);
+
+      // edit schedule info
+      obj = {};
+      obj.weekOf = src.weekDate;
       obj.week_type = 1;
       obj.noMeeting = false;
-      obj.isOverride = false;
 
-      await dbSaveSrcData(obj, true);
+      const schedule = Schedules.get(obj.weekOf) || new ScheduleClass(obj.weekOf);
+      await schedule.saveInfo(obj, false);
     }
-
-    const years = await dbGetYearList();
-    await promiseSetRecoil(yearsListState, years);
   } catch (err) {
     throw new Error(err);
   }

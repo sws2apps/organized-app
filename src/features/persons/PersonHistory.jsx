@@ -54,7 +54,7 @@ const PersonHistory = ({ history }) => {
                     {item.weekOfFormatted}
                   </TableCell>
                   <TableCell
-                    style={{ width: '250px' }}
+                    style={{ width: '300px' }}
                     sx={{
                       '& .MuiTableCell-sizeSmall': {
                         padding: '6px 3px 6px 3px',

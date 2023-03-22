@@ -17,9 +17,8 @@ import {
 } from '../../../states/main';
 import { congAccountConnectedState } from '../../../states/congregation';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../../../states/notification';
-import { getErrorMessage, loadApp } from '../../../utils/app';
+import { getErrorMessage, loadApp, updateUserSettings } from '../../../utils/app';
 import { apiPocketSignUp } from '../../../api/auth';
-import { dbUpdateUserSettings } from '../../../indexedDb/dbAppSettings';
 import { runUpdater } from '../../../utils/updater';
 import { apiFetchSchedule } from '../../../api';
 
@@ -74,7 +73,7 @@ const PocketSignUp = () => {
 
       await loadApp();
       await runUpdater();
-      await dbUpdateUserSettings(data);
+      await updateUserSettings(data);
       await apiFetchSchedule();
       setIsSetup(false);
       setTimeout(async () => {
@@ -90,7 +89,7 @@ const PocketSignUp = () => {
 
   return (
     <Container sx={{ marginTop: '20px' }}>
-      <Typography variant='h4' sx={{ marginBottom: '15px' }}>
+      <Typography variant="h4" sx={{ marginBottom: '15px' }}>
         {t('welcome')}
       </Typography>
 
@@ -106,10 +105,10 @@ const PocketSignUp = () => {
               textTransform: 'uppercase',
             },
           }}
-          id='outlined-signup-code'
+          id="outlined-signup-code"
           label={t('activationCode')}
-          variant='outlined'
-          autoComplete='off'
+          variant="outlined"
+          autoComplete="off"
           required
           value={code}
           onChange={(e) => setCode(e.target.value)}
@@ -126,8 +125,8 @@ const PocketSignUp = () => {
         }}
       >
         <Button
-          color='inherit'
-          variant='contained'
+          color="inherit"
+          variant="contained"
           disabled={isProcessing}
           sx={{ color: 'black !important' }}
           onClick={handleReturnChooser}
@@ -135,7 +134,7 @@ const PocketSignUp = () => {
           {t('back')}
         </Button>
         <Button
-          variant='contained'
+          variant="contained"
           disabled={!isOnline || isProcessing || visitorID.length === 0}
           endIcon={visitorID.length === 0 || isProcessing ? <CircularProgress size={25} /> : null}
           onClick={handleSignUp}
