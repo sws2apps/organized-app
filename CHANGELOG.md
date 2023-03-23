@@ -1,3 +1,20 @@
+# [2.52.0](https://github.com/sws2apps/cpe-sws/compare/v2.51.0...v2.52.0) (2023-03-23)
+
+
+### Bug Fixes
+
+* **app:** update link to point to new github repo ([076545c](https://github.com/sws2apps/cpe-sws/commit/076545c499803f57f56fbc0299b0017a702e132a))
+* **settings:** handle dynamic primary key table ([6c785bd](https://github.com/sws2apps/cpe-sws/commit/6c785bddad2e30fbecc55dd190c8a00430fcb250))
+
+
+### Features
+
+* **app:** change code structure to use object oriented programming ([a9cdce8](https://github.com/sws2apps/cpe-sws/commit/a9cdce8f8f3d0233df51d421d2dc5d1b341a7702))
+* **deps:** bump @mui/lab from 5.0.0-alpha.123 to 5.0.0-alpha.124 ([3275f3e](https://github.com/sws2apps/cpe-sws/commit/3275f3eb554afc7dd1a147b2b3e66e55ddc16c5e))
+* **deps:** bump @mui/material from 5.11.13 to 5.11.14 ([cec4a0f](https://github.com/sws2apps/cpe-sws/commit/cec4a0fe0bca59a8b95798d39a431006cd9e579a))
+* **deps:** bump @tanstack/react-query from 4.27.0 to 4.28.0 ([aa0b4d6](https://github.com/sws2apps/cpe-sws/commit/aa0b4d60972adad5ee3b28476236e81f7ac78cab))
+* **deps:** bump i18next from 22.4.12 to 22.4.13 ([c9865a2](https://github.com/sws2apps/cpe-sws/commit/c9865a22642f5a232936289fc5c9bd9fb6d00d7f))
+
 # [2.51.0](https://github.com/sws2apps/cpe-sws/compare/v2.50.1...v2.51.0) (2023-03-19)
 
 
