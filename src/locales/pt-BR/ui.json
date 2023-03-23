@@ -371,7 +371,7 @@
   "roleViewMeetingSchedule": "Ver programação da reunião",
   "sessionsDevices": "Atividade da conta/Dispositivos",
   "pocketSetupInstruction": "Instruções de configuração",
-  "pocketSetupSite": "Um novo dispositivo pode ser adicionado. Peça ao usuário para entrar no site https://sws-pocket.web.app.",
+  "pocketSetupSite": "New device can be added. Ask the user to visit https://cpe-sws.web.app.",
   "pocketSetupCode": "Então, quando solicitado, insira o seguinte código para permitir que o aplicativo CPE seja executado nesse dispositivo:",
   "pocketAddDevice": "Adicionar dispositivo",
   "addCPEUser": "Adicionar um novo usuário ao CPE",
