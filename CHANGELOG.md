@@ -1,3 +1,16 @@
+# [2.53.0](https://github.com/sws2apps/cpe-sws/compare/v2.52.0...v2.53.0) (2023-03-24)
+
+
+### Bug Fixes
+
+* **app:** remove some properties in changes field ([c18241a](https://github.com/sws2apps/cpe-sws/commit/c18241a01806e84bea4c66f4e10c7470750ab88a))
+* **backup:** remove unused properties from tracking ([e29eee0](https://github.com/sws2apps/cpe-sws/commit/e29eee0e925b9da591b7a4b890dbbaa6729e9964))
+
+
+### Features
+
+* **deps:** bump @mui/x-date-pickers from 6.0.2 to 6.0.3 ([a26f689](https://github.com/sws2apps/cpe-sws/commit/a26f6890264eb73a75abf3bc18ecfaa3ab885808))
+
 # [2.52.0](https://github.com/sws2apps/cpe-sws/compare/v2.51.0...v2.52.0) (2023-03-23)
 
 
