@@ -183,6 +183,8 @@ export const dbRestoreCongregationBackup = async (
         });
       }
 
+      oldPerson.assignments = newPerson.assignments;
+
       if (oldPerson.id) delete oldPerson.id;
       oldPerson.changes = oldPerson.changes?.filter((item) => item.field !== 'lastAssignment') || [];
       oldPerson.changes = oldPerson.changes.filter((item) => item.field !== 'assignments');
