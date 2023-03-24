@@ -1,3 +1,10 @@
+## [2.53.1](https://github.com/sws2apps/cpe-sws/compare/v2.53.0...v2.53.1) (2023-03-24)
+
+
+### Bug Fixes
+
+* **backup:** save assignments from backup ([60ef3b4](https://github.com/sws2apps/cpe-sws/commit/60ef3b4e9cd612ebac8eb601bd70d5cc1e902609))
+
 # [2.53.0](https://github.com/sws2apps/cpe-sws/compare/v2.52.0...v2.53.0) (2023-03-24)
 
 
