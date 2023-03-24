@@ -19,65 +19,6 @@ export class PersonClass {
     this.isDisqualified = false;
     this.changes = [];
   }
-
-  get lastAssignment() {
-    return Schedules.personLastAssignment(this.person_uid);
-  }
-
-  get historyAssignments() {
-    return Schedules.personAssignments(this.person_uid);
-  }
-
-  get assistantHistory() {
-    const dbHistory = [];
-
-    for (const schedule of Schedules.list) {
-      const weekData = Sources.get(schedule.weekOf).local;
-      const [varMonth, varDay, varYear] = schedule.weekOf.split('/');
-      const lDate = new Date(varYear, varMonth - 1, varDay);
-      const dateFormatted = dateFormat(lDate, 'dd/mm/yyyy');
-      const cnAss = [{ iAss: 1 }, { iAss: 2 }, { iAss: 3 }];
-      const varClasses = [{ classLabel: 'A' }, { classLabel: 'B' }];
-
-      //AYF Assigment History
-      for (let b = 0; b < cnAss.length; b++) {
-        let weekFld = 'ass' + cnAss[b].iAss + '_type';
-        const assType = weekData[weekFld];
-
-        if (
-          assType === 101 ||
-          assType === 102 ||
-          assType === 103 ||
-          assType === 108 ||
-          (assType >= 140 && assType < 170) ||
-          (assType >= 170 && assType < 200)
-        ) {
-          for (let a = 0; a < varClasses.length; a++) {
-            const fldName = 'ass' + cnAss[b].iAss + '_stu_' + varClasses[a].classLabel;
-
-            if (typeof schedule[fldName] !== 'undefined') {
-              if (schedule[fldName] === this.person_uid) {
-                const assFldName = 'ass' + cnAss[b].iAss + '_ass_' + varClasses[a].classLabel;
-                if (typeof schedule[assFldName] !== 'undefined') {
-                  let assistant = {};
-                  assistant.ID = crypto.randomUUID();
-                  assistant.weekOf = schedule.weekOf;
-                  assistant.weekOfFormatted = dateFormatted;
-                  assistant.mainStuID = schedule[fldName];
-                  assistant.assistantStuID = schedule[assFldName];
-                  const person = Persons.get(assistant.assistantStuID);
-                  assistant.assistantName = person.person_displayName;
-                  dbHistory.push(assistant);
-                  assistant = null;
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    return dbHistory;
-  }
 }
 
 PersonClass.prototype.loadDetails = async function () {
@@ -107,4 +48,63 @@ PersonClass.prototype.save = async function (personData) {
   this.assignments = personData.assignments;
   this.timeAway = personData.timeAway;
   this.changes = personData.changes;
+};
+
+PersonClass.prototype.lastAssignment = function () {
+  return Schedules.personLastAssignment(this.person_uid);
+};
+
+PersonClass.prototype.assistantHistory = function () {
+  return Schedules.personAssignments(this.person_uid);
+};
+
+PersonClass.prototype.historyAssignments = function () {
+  const dbHistory = [];
+
+  for (const schedule of Schedules.list) {
+    const weekData = Sources.get(schedule.weekOf).local();
+    const [varMonth, varDay, varYear] = schedule.weekOf.split('/');
+    const lDate = new Date(varYear, varMonth - 1, varDay);
+    const dateFormatted = dateFormat(lDate, 'dd/mm/yyyy');
+    const cnAss = [{ iAss: 1 }, { iAss: 2 }, { iAss: 3 }];
+    const varClasses = [{ classLabel: 'A' }, { classLabel: 'B' }];
+
+    //AYF Assigment History
+    for (let b = 0; b < cnAss.length; b++) {
+      let weekFld = 'ass' + cnAss[b].iAss + '_type';
+      const assType = weekData[weekFld];
+
+      if (
+        assType === 101 ||
+        assType === 102 ||
+        assType === 103 ||
+        assType === 108 ||
+        (assType >= 140 && assType < 170) ||
+        (assType >= 170 && assType < 200)
+      ) {
+        for (let a = 0; a < varClasses.length; a++) {
+          const fldName = 'ass' + cnAss[b].iAss + '_stu_' + varClasses[a].classLabel;
+
+          if (typeof schedule[fldName] !== 'undefined') {
+            if (schedule[fldName] === this.person_uid) {
+              const assFldName = 'ass' + cnAss[b].iAss + '_ass_' + varClasses[a].classLabel;
+              if (typeof schedule[assFldName] !== 'undefined') {
+                let assistant = {};
+                assistant.ID = crypto.randomUUID();
+                assistant.weekOf = schedule.weekOf;
+                assistant.weekOfFormatted = dateFormatted;
+                assistant.mainStuID = schedule[fldName];
+                assistant.assistantStuID = schedule[assFldName];
+                const person = Persons.get(assistant.assistantStuID);
+                assistant.assistantName = person.person_displayName;
+                dbHistory.push(assistant);
+                assistant = null;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  return dbHistory;
 };

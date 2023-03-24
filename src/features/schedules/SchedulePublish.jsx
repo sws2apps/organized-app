@@ -117,7 +117,7 @@ const SchedulePublish = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    setData(Sources.schedulesListForShare);
+    setData(Sources.schedulesListForShare());
     setIsLoading(false);
   }, []);
 

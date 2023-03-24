@@ -30,30 +30,6 @@ class SettingClass {
     this.opening_prayer_autoAssign = false;
     this.shortDateFormat = 'mm/dd/yyyy';
   }
-
-  get appLang() {
-    return localStorage.getItem('app_lang') || 'e';
-  }
-
-  get monthNames() {
-    const appLang = this.appLang;
-
-    let months = [];
-    months.push(getI18n().getDataByLanguage(appLang).ui['january']);
-    months.push(getI18n().getDataByLanguage(appLang).ui['february']);
-    months.push(getI18n().getDataByLanguage(appLang).ui['march']);
-    months.push(getI18n().getDataByLanguage(appLang).ui['april']);
-    months.push(getI18n().getDataByLanguage(appLang).ui['may']);
-    months.push(getI18n().getDataByLanguage(appLang).ui['june']);
-    months.push(getI18n().getDataByLanguage(appLang).ui['july']);
-    months.push(getI18n().getDataByLanguage(appLang).ui['august']);
-    months.push(getI18n().getDataByLanguage(appLang).ui['september']);
-    months.push(getI18n().getDataByLanguage(appLang).ui['october']);
-    months.push(getI18n().getDataByLanguage(appLang).ui['november']);
-    months.push(getI18n().getDataByLanguage(appLang).ui['december']);
-
-    return months;
-  }
 }
 
 SettingClass.prototype.load = async function () {
@@ -100,6 +76,30 @@ SettingClass.prototype.update = async function (setting, overwrite) {
   } catch (err) {
     console.log(err);
   }
+};
+
+SettingClass.prototype.monthNames = function () {
+  const appLang = this.appLang();
+
+  let months = [];
+  months.push(getI18n().getDataByLanguage(appLang).ui['january']);
+  months.push(getI18n().getDataByLanguage(appLang).ui['february']);
+  months.push(getI18n().getDataByLanguage(appLang).ui['march']);
+  months.push(getI18n().getDataByLanguage(appLang).ui['april']);
+  months.push(getI18n().getDataByLanguage(appLang).ui['may']);
+  months.push(getI18n().getDataByLanguage(appLang).ui['june']);
+  months.push(getI18n().getDataByLanguage(appLang).ui['july']);
+  months.push(getI18n().getDataByLanguage(appLang).ui['august']);
+  months.push(getI18n().getDataByLanguage(appLang).ui['september']);
+  months.push(getI18n().getDataByLanguage(appLang).ui['october']);
+  months.push(getI18n().getDataByLanguage(appLang).ui['november']);
+  months.push(getI18n().getDataByLanguage(appLang).ui['december']);
+
+  return months;
+};
+
+SettingClass.prototype.appLang = function () {
+  return localStorage.getItem('app_lang') || 'e';
 };
 
 export const Setting = new SettingClass();

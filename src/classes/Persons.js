@@ -151,6 +151,9 @@ PersonsClass.prototype.preSave = async function (data) {
       const person = Persons.get(data.person_uid);
       data.changes = comparePerson(person, data);
 
+      data.changes = data.changes.filter((item) => item.field !== 'lastAssignment');
+      data.changes = data.changes.filter((item) => item.field !== 'assignments');
+
       await person.save(data);
     } else {
       const obj = {
@@ -214,11 +217,11 @@ PersonsClass.prototype.getByAssignment = function (assType, stuForAssistant) {
   for (const person of dbPersons) {
     const obj = {};
     obj.person_uid = person.person_uid;
-    obj.lastAssignment = person.lastAssignment;
-    if (person.lastAssignment === '') {
+    obj.lastAssignment = person.lastAssignment();
+    if (obj.lastAssignment === '') {
       obj.lastAssignmentFormat = '';
     } else {
-      const [varMonth, varDay, varYear] = person.lastAssignment.split('/');
+      const [varMonth, varDay, varYear] = obj.lastAssignment.split('/');
       const lDate = new Date(varYear, varMonth - 1, varDay);
       const dateFormatted = dateFormat(lDate, Setting.shortDateFormat);
       obj.lastAssignmentFormat = dateFormatted;

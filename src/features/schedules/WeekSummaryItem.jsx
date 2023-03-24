@@ -30,7 +30,7 @@ const WeekSummaryItem = ({ week, schedule }) => {
   const [progress, setProgress] = useState(0);
 
   const getAssignmentsInfo = useCallback(async () => {
-    const data = Sources.get(week.value).countAssignmentsInfo;
+    const data = Sources.get(week.value).countAssignmentsInfo();
     const vPg = (data.assigned * 100) / data.total;
     setAssInfo(data);
     setProgress(vPg);

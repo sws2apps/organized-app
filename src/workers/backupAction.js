@@ -41,7 +41,11 @@ export const setIsCongAccountConnected = (value) => {
   isCongAccountConnected = value;
 };
 
+const isDev = process.env.NODE_ENV === 'development';
+
 const runBackupSchedule = async () => {
+  if (isDev) backupInterval = 20000;
+
   if (isEnabled && backupInterval && isOnline && userUID && visitorID && apiHost && congID && isCongAccountConnected) {
     const { dbPersons, dbDeleted, dbSourceMaterial, dbSchedule, dbPocketTbl, dbSettings } = await dbExportDataOnline();
 

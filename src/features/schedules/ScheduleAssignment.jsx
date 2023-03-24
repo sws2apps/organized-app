@@ -374,7 +374,7 @@ const ScheduleAssignment = ({ edit }) => {
   useEffect(() => {
     if (week !== '') {
       const scheduleData = Schedules.get(week);
-      const sourceData = Sources.get(week).local;
+      const sourceData = Sources.get(week).local();
       setChairmanA(scheduleData.chairmanMM_A_dispName);
       setChairmanB(scheduleData.chairmanMM_B_dispName);
       setOpeningPrayer(scheduleData.opening_prayer_dispName);

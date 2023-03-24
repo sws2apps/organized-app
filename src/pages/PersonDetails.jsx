@@ -239,7 +239,7 @@ const PersonDetails = () => {
         setIsMale(data.isMale);
         setIsFemale(data.isFemale);
         setAssignments(data.assignments);
-        setHistoryAssignments(data.historyAssignments);
+        setHistoryAssignments(data.historyAssignments());
         setTimeAway(data.timeAway);
         setIsEdit(true);
       } else {

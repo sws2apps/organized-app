@@ -25,7 +25,7 @@ const SingleAssignmentPerson = ({ person }) => {
     setAccountType(tmpType);
     if (tmpType === 'vip' && person && person !== '') {
       const dataPerson = Persons.getByDisplayName(person);
-      setIsMale(dataPerson.isMale);
+      setIsMale(dataPerson?.isMale || true);
     }
   }, [person]);
 

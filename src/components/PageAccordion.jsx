@@ -74,7 +74,7 @@ const PageAccordion = ({ page }) => {
         {page === 'schedule' ? t('schedule') : t('sourceMaterial')}
       </Typography>
 
-      {Sources.yearsList.map((year) => (
+      {Sources.yearsList().map((year) => (
         <Accordion key={year.value} onChange={handleChange(year.value)} expanded={yearsExpanded.includes(year.value)}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}>

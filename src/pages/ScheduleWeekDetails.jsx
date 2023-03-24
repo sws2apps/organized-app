@@ -25,7 +25,7 @@ const ScheduleWeekDetails = () => {
 
   const scheduleFormatted = schedule.replace('-', '/');
   const monthIndex = parseInt(scheduleFormatted.split('/')[0], 10);
-  const scheduleName = `${Setting.monthNames[monthIndex - 1]} ${scheduleFormatted.split('/')[1]}`;
+  const scheduleName = `${Setting.monthNames()[monthIndex - 1]} ${scheduleFormatted.split('/')[1]}`;
 
   const week = weekToFormat.replaceAll('-', '/');
   const weekFormatted = dateFormat(new Date(week), shortDateFormat);

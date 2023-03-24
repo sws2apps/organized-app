@@ -57,7 +57,7 @@ export const dbExportDataOnline = async () => {
   const dbPocketTbl = await appDb.sws_pocket.toArray();
 
   // remove local user settings before export
-  const appSettings = { ...Setting };
+  const appSettings = (await appDb.app_settings.toArray())[0];
   delete appSettings.username;
   delete appSettings.user_avatar;
   delete appSettings.local_uid;

@@ -419,8 +419,7 @@ ScheduleClass.prototype.saveAssignment = async function (personUID, field) {
   this[field] = personUID || '';
   obj[field] = personUID;
 
-  const findIndex = this.changes.findIndex((item) => item.field === field);
-  if (findIndex !== -1) this.changes.splice(findIndex, 1);
+  this.changes = this.changes.filter((item) => item.field !== field);
   this.changes.push({ date: new Date().toISOString(), field: field, value: personUID });
   obj.changes = this.changes;
 

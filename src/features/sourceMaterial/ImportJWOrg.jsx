@@ -104,8 +104,8 @@ const ImportJWOrg = () => {
   };
 
   useEffect(() => {
-    const options = Sources.oldestIssues;
-    setIssueOptions(Sources.oldestIssues);
+    const options = Sources.oldestIssues();
+    setIssueOptions(Sources.oldestIssues());
     setDownloadIssue(options[options.length - 1].value);
   }, []);
 
