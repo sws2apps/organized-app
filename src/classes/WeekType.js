@@ -5,23 +5,6 @@ class WeekTypeClass {
   constructor() {
     this.types = [];
   }
-
-  get local() {
-    const newList = [];
-    this.types.forEach((weekType) => {
-      const obj = {};
-      obj.value = weekType.id_week_type;
-      obj.sort_index = weekType.sort_index;
-      obj.label = weekType.week_type_name[Setting.source_lang.toUpperCase()];
-      newList.push(obj);
-    });
-
-    newList.sort((a, b) => {
-      return a.sort_index > b.sort_index ? 1 : -1;
-    });
-
-    return newList;
-  }
 }
 
 WeekTypeClass.prototype.loadAll = async function () {
@@ -34,6 +17,23 @@ WeekTypeClass.prototype.loadAll = async function () {
     obj.sort_index = item.sort_index;
     this.types.push(obj);
   }
+};
+
+WeekTypeClass.prototype.local = function () {
+  const newList = [];
+  this.types.forEach((weekType) => {
+    const obj = {};
+    obj.value = weekType.id_week_type;
+    obj.sort_index = weekType.sort_index;
+    obj.label = weekType.week_type_name[Setting.source_lang.toUpperCase()];
+    newList.push(obj);
+  });
+
+  newList.sort((a, b) => {
+    return a.sort_index > b.sort_index ? 1 : -1;
+  });
+
+  return newList;
 };
 
 export const WeekTypeList = new WeekTypeClass();

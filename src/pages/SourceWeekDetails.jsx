@@ -203,7 +203,7 @@ const SourceWeekDetails = () => {
     let isSubscribed = true;
 
     if (week !== '' && isSubscribed) {
-      const data = Sources.get(week).local;
+      const data = Sources.get(week).local();
       const schedule = Schedules.get(week);
 
       if (isSubscribed) {

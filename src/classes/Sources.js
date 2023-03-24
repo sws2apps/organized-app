@@ -12,124 +12,6 @@ class SourcesClass {
   constructor() {
     this.list = [];
   }
-
-  get yearsList() {
-    const allYear = [];
-
-    for (const source of this.list) {
-      const weekDate = source.weekOf;
-      const varYear = weekDate.split('/')[2];
-
-      const yearIndex = allYear.findIndex((year) => year.label === varYear);
-
-      if (yearIndex < 0) {
-        const obj = {};
-        obj.label = varYear;
-        obj.value = varYear;
-        allYear.push(obj);
-      }
-    }
-    return allYear;
-  }
-
-  get schedulesListForShare() {
-    const { t } = getI18n();
-
-    const currentYear = new Date().getFullYear();
-    const currentMonth = new Date().getMonth();
-
-    const finalList = { label: t('selectAll', { ns: 'ui' }), value: 'sched', children: [] };
-    for (const year of this.yearsList) {
-      const yearValue = +year.value;
-
-      if (yearValue >= currentYear) {
-        const obj = {};
-
-        obj.value = year.value;
-        obj.label = year.label;
-        obj.children = [];
-
-        const yearSchedules = this.scheduleListByYear(year.value);
-
-        yearSchedules.forEach((schedule) => {
-          const monthIndex = parseInt(schedule.value.split('/')[0], 10) - 1;
-
-          let passed = true;
-          if (yearValue === currentYear && monthIndex < currentMonth) passed = false;
-
-          if (passed) {
-            const scheduleName = `${Setting.monthNames[monthIndex]} ${schedule.value.split('/')[1]}`;
-            obj.children.push({ label: scheduleName, value: schedule.value });
-          }
-        });
-
-        finalList.children.push(obj);
-      }
-    }
-    return finalList;
-  }
-
-  get oldestIssues() {
-    const options = [];
-
-    const today = new Date();
-    const day = today.getDay();
-    const diff = today.getDate() - day + (day === 0 ? -6 : 1);
-    const weekDate = new Date(today.setDate(diff));
-    const currentMonth = weekDate.getMonth() + 1;
-    const currentMonthOdd = currentMonth % 2 === 0 ? false : true;
-    const currentMonthMwb = currentMonthOdd ? currentMonth : currentMonth - 1;
-    const currentYear = weekDate.getFullYear();
-    const currentIssue = `${currentYear}${currentMonthMwb}`;
-
-    const validDate = weekDate.setMonth(weekDate.getMonth() - 12);
-    const oldestDate = new Date(validDate);
-    const oldestMonth = oldestDate.getMonth() + 1;
-    const oldestMonthOdd = oldestMonth % 2 === 0 ? false : true;
-    let oldMonthMwb = oldestMonthOdd ? oldestMonth : oldestMonth - 1;
-    let oldYear = oldestDate.getFullYear();
-    let activeIssue = `${oldYear}${oldMonthMwb}`;
-
-    do {
-      let validIssue = false;
-
-      if (oldYear === 2022 && oldMonthMwb > 5) validIssue = true;
-      if (oldYear > 2022) validIssue = true;
-
-      if (validIssue) {
-        const issueDate = oldYear + String(oldMonthMwb).padStart(2, '0');
-
-        const label = `${Setting.monthNames[oldMonthMwb - 1]} ${oldYear}`;
-        const obj = { label, value: issueDate };
-        options.push(obj);
-      }
-
-      // assigning next issue
-      oldMonthMwb = oldMonthMwb + 2;
-      if (oldMonthMwb === 13) {
-        oldMonthMwb = 1;
-        oldYear++;
-      }
-
-      activeIssue = `${oldYear}${oldMonthMwb}`;
-    } while (currentIssue !== activeIssue);
-
-    return options;
-  }
-
-  get hasCurrentWeek() {
-    let varBool = true;
-    const today = new Date();
-    const day = today.getDay();
-    const diff = today.getDate() - day + (day === 0 ? -6 : 1);
-    const monDay = new Date(today.setDate(diff));
-    const fMonday = dateFormat(monDay, 'mm/dd/yyyy');
-    const congData = this.get(fMonday);
-    if (typeof congData === 'undefined') {
-      varBool = false;
-    }
-    return varBool;
-  }
 }
 
 SourcesClass.prototype.sort = function () {
@@ -283,7 +165,7 @@ SourcesClass.prototype.S89WeekList = function (scheduleName) {
       parentWeek.label = weekDateFormatted;
       parentWeek.children = [];
 
-      const sourceData = this.get(week).local;
+      const sourceData = this.get(week).local();
       let assClass = {};
       let assType = {};
 
@@ -310,7 +192,7 @@ SourcesClass.prototype.S89WeekList = function (scheduleName) {
         parentWeek.children.push(assType);
       }
 
-      const assTypeList = AssignmentType.local;
+      const assTypeList = AssignmentType.local();
       for (let z = 1; z <= 4; z++) {
         const fldStuA = 'ass' + z + '_stu_A';
         const fldStuB = 'ass' + z + '_stu_B';
@@ -369,7 +251,7 @@ SourcesClass.prototype.updatePocketSource = async function (data) {
 };
 
 SourcesClass.prototype.checkCurrentWeek = async function () {
-  if (this.hasCurrentWeek === false) await this.addWeekManually();
+  if (this.hasCurrentWeek() === false) await this.addWeekManually();
 };
 
 SourcesClass.prototype.removeOutdatedRecords = async function () {
@@ -384,6 +266,124 @@ SourcesClass.prototype.removeOutdatedRecords = async function () {
   for await (const source of oldSources) {
     await this.delete(source.weekOf);
   }
+};
+
+SourcesClass.prototype.yearsList = function () {
+  const allYear = [];
+
+  for (const source of this.list) {
+    const weekDate = source.weekOf;
+    const varYear = weekDate.split('/')[2];
+
+    const yearIndex = allYear.findIndex((year) => year.label === varYear);
+
+    if (yearIndex < 0) {
+      const obj = {};
+      obj.label = varYear;
+      obj.value = varYear;
+      allYear.push(obj);
+    }
+  }
+  return allYear;
+};
+
+SourcesClass.prototype.schedulesListForShare = function () {
+  const { t } = getI18n();
+
+  const currentYear = new Date().getFullYear();
+  const currentMonth = new Date().getMonth();
+
+  const finalList = { label: t('selectAll', { ns: 'ui' }), value: 'sched', children: [] };
+  for (const year of this.yearsList) {
+    const yearValue = +year.value;
+
+    if (yearValue >= currentYear) {
+      const obj = {};
+
+      obj.value = year.value;
+      obj.label = year.label;
+      obj.children = [];
+
+      const yearSchedules = this.scheduleListByYear(year.value);
+
+      yearSchedules.forEach((schedule) => {
+        const monthIndex = parseInt(schedule.value.split('/')[0], 10) - 1;
+
+        let passed = true;
+        if (yearValue === currentYear && monthIndex < currentMonth) passed = false;
+
+        if (passed) {
+          const scheduleName = `${Setting.monthNames()[monthIndex]} ${schedule.value.split('/')[1]}`;
+          obj.children.push({ label: scheduleName, value: schedule.value });
+        }
+      });
+
+      finalList.children.push(obj);
+    }
+  }
+  return finalList;
+};
+
+SourcesClass.prototype.oldestIssues = function () {
+  const options = [];
+
+  const today = new Date();
+  const day = today.getDay();
+  const diff = today.getDate() - day + (day === 0 ? -6 : 1);
+  const weekDate = new Date(today.setDate(diff));
+  const currentMonth = weekDate.getMonth() + 1;
+  const currentMonthOdd = currentMonth % 2 === 0 ? false : true;
+  const currentMonthMwb = currentMonthOdd ? currentMonth : currentMonth - 1;
+  const currentYear = weekDate.getFullYear();
+  const currentIssue = `${currentYear}${currentMonthMwb}`;
+
+  const validDate = weekDate.setMonth(weekDate.getMonth() - 12);
+  const oldestDate = new Date(validDate);
+  const oldestMonth = oldestDate.getMonth() + 1;
+  const oldestMonthOdd = oldestMonth % 2 === 0 ? false : true;
+  let oldMonthMwb = oldestMonthOdd ? oldestMonth : oldestMonth - 1;
+  let oldYear = oldestDate.getFullYear();
+  let activeIssue = `${oldYear}${oldMonthMwb}`;
+
+  do {
+    let validIssue = false;
+
+    if (oldYear === 2022 && oldMonthMwb > 5) validIssue = true;
+    if (oldYear > 2022) validIssue = true;
+
+    if (validIssue) {
+      const issueDate = oldYear + String(oldMonthMwb).padStart(2, '0');
+
+      const label = `${Setting.monthNames()[oldMonthMwb - 1]} ${oldYear}`;
+      const obj = { label, value: issueDate };
+      options.push(obj);
+    }
+
+    // assigning next issue
+    oldMonthMwb = oldMonthMwb + 2;
+    if (oldMonthMwb === 13) {
+      oldMonthMwb = 1;
+      oldYear++;
+    }
+
+    activeIssue = `${oldYear}${oldMonthMwb}`;
+  } while (currentIssue !== activeIssue);
+
+  return options;
+};
+
+SourcesClass.prototype.hasCurrentWeek = function () {
+  let varBool = true;
+  const today = new Date();
+  const day = today.getDay();
+  const diff = today.getDate() - day + (day === 0 ? -6 : 1);
+  const monDay = new Date(today.setDate(diff));
+  const fMonday = dateFormat(monDay, 'mm/dd/yyyy');
+  const congData = this.get(fMonday);
+  if (typeof congData === 'undefined') {
+    varBool = false;
+  }
+  return varBool;
 };
 
 export const Sources = new SourcesClass();

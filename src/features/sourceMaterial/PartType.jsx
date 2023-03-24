@@ -36,7 +36,7 @@ const PartType = (props) => {
 
   return (
     <>
-      {AssignmentType.ayfOnly.length > 0 && (
+      {AssignmentType.AYFOnly().length > 0 && (
         <TextField
           id="outlined-select-type"
           select
@@ -49,7 +49,7 @@ const PartType = (props) => {
           <MenuItem value={''}>
             <em>{t('nothing')}</em>
           </MenuItem>
-          {AssignmentType.ayfOnly.map((partType) => renderPartType(partType))}
+          {AssignmentType.AYFOnly().map((partType) => renderPartType(partType))}
         </TextField>
       )}
     </>

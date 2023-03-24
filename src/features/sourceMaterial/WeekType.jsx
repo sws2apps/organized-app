@@ -27,7 +27,7 @@ const WeekType = (props) => {
 
   return (
     <>
-      {WeekTypeList.local.length > 0 && (
+      {WeekTypeList.local().length > 0 && (
         <TextField
           id="outlined-select-weekType"
           select
@@ -40,7 +40,7 @@ const WeekType = (props) => {
             margin: '5px 5px 10px 0',
           }}
         >
-          {WeekTypeList.local.map((weekType) => renderWeekType(weekType))}
+          {WeekTypeList.local().map((weekType) => renderWeekType(weekType))}
         </TextField>
       )}
     </>

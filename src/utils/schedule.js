@@ -9,7 +9,7 @@ import { refreshMyAssignmentsState } from '../states/main';
 
 export const getHistoryInfo = (weekOf, assignment) => {
   const source = Sources.get(weekOf);
-  const weekData = source.local;
+  const weekData = source.local();
   const [varMonth, varDay, varYear] = weekOf.split('/');
   const lDate = new Date(varYear, varMonth - 1, varDay);
   const dateFormatted = dateFormat(lDate, Setting.shortDateFormat);

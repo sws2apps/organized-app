@@ -118,7 +118,7 @@ const AutofillSchedule = () => {
 
     for await (const item of weeks) {
       const week = item.value;
-      const sourceData = Sources.get(week).local;
+      const sourceData = Sources.get(week).local();
       const schedData = Schedules.get(week);
 
       if (schedData.noMeeting === false) {

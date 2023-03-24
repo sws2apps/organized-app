@@ -153,7 +153,7 @@ SchedulesClass.prototype.S89ItemData = function (week, assName, classLabel) {
   const lDate = new Date(varYear, varMonth - 1, midDay);
   const dateFormatted = dateFormat(lDate, getI18n().getDataByLanguage(sourceLang).ui['shortDateFormat']);
 
-  const sourceData = Sources.get(week).local;
+  const sourceData = Sources.get(week).local();
   const scheduleData = this.get(week);
 
   const s89Data = {};
@@ -263,7 +263,7 @@ SchedulesClass.prototype.S140Data = function (scheduleName) {
 
   for (const week of allWeeks) {
     const scheduleData = this.get(week);
-    const sourceData = Sources.get(week).local;
+    const sourceData = Sources.get(week).local();
 
     // pgm start
     const time = {};
@@ -427,7 +427,7 @@ SchedulesClass.prototype.buildScheduleForShare = async function (scheduleIndex) 
 
   for (const week of allWeeks) {
     const schedData = this.get(week);
-    const sourceData = Sources.get(week).local;
+    const sourceData = Sources.get(week).local();
 
     objSchedule.push(schedData);
     objSource.push(sourceData);

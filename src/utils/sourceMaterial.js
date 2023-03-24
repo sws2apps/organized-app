@@ -233,7 +233,7 @@ export const fetchScheduleInfo = (condition, currentSchedule, currentWeek) => {
   let cnAssigned = 0;
   for (const item of newData) {
     const week = item.value;
-    const { total, assigned } = Sources.get(week).countAssignmentsInfo;
+    const { total, assigned } = Sources.get(week).countAssignmentsInfo();
 
     cnTotal += total;
     cnAssigned += assigned;

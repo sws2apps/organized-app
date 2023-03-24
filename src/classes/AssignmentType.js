@@ -5,35 +5,6 @@ class AssignmentTypeClass {
   constructor() {
     this.types = [];
   }
-
-  get local() {
-    const newList = [];
-    for (const type of this.types) {
-      const obj = {};
-      obj.value = type.code;
-      obj.label = type.assignment_type_name[Setting.source_lang.toUpperCase()];
-      obj.assignable = type.assignable;
-      obj.maleOnly = type.maleOnly;
-      obj.type = type.type;
-      obj.linkTo = type.linkTo;
-      newList.push(obj);
-    }
-    return newList;
-  }
-
-  get ayfOnly() {
-    const newList = this.local
-      .filter((ass) => ass.type === 'ayf' && ass.label !== undefined && ass.label !== '')
-      .sort((a, b) => {
-        return a.code > b.code ? 1 : -1;
-      });
-
-    const final = newList.map((list) => {
-      return { label: list.label, value: list.value };
-    });
-
-    return final;
-  }
 }
 
 AssignmentTypeClass.prototype.loadAll = async function () {
@@ -49,6 +20,35 @@ AssignmentTypeClass.prototype.loadAll = async function () {
     obj.linkTo = item.linkTo;
     this.types.push(obj);
   }
+};
+
+AssignmentTypeClass.prototype.local = function () {
+  const newList = [];
+  for (const type of this.types) {
+    const obj = {};
+    obj.value = type.code;
+    obj.label = type.assignment_type_name[Setting.source_lang.toUpperCase()];
+    obj.assignable = type.assignable;
+    obj.maleOnly = type.maleOnly;
+    obj.type = type.type;
+    obj.linkTo = type.linkTo;
+    newList.push(obj);
+  }
+  return newList;
+};
+
+AssignmentTypeClass.prototype.AYFOnly = function () {
+  const newList = this.local()
+    .filter((ass) => ass.type === 'ayf' && ass.label !== undefined && ass.label !== '')
+    .sort((a, b) => {
+      return a.code > b.code ? 1 : -1;
+    });
+
+  const final = newList.map((list) => {
+    return { label: list.label, value: list.value };
+  });
+
+  return final;
 };
 
 export const AssignmentType = new AssignmentTypeClass();

@@ -47,7 +47,7 @@ const AssignmentType = ({ student, assignable, currentType, handleChangeType }) 
 
   useEffect(() => {
     if (assignable) {
-      let data = AssignmentTypeList.local.filter((assType) => assType.assignable === true);
+      let data = AssignmentTypeList.local().filter((assType) => assType.assignable === true);
 
       if (isFemale) {
         data = data.filter((assType) => assType.maleOnly !== true);
@@ -55,12 +55,12 @@ const AssignmentType = ({ student, assignable, currentType, handleChangeType }) 
 
       setLocalList(data);
     } else {
-      setLocalList(AssignmentTypeList.local);
+      setLocalList(AssignmentTypeList.local());
     }
   }, [assignable, isFemale]);
 
   useEffect(() => {
-    const find = AssignmentTypeList.local.find((assType) => assType.value === currentType);
+    const find = AssignmentTypeList.local().find((assType) => assType.value === currentType);
     setValue(find);
   }, [currentType]);
 
