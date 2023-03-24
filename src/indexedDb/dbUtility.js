@@ -99,12 +99,15 @@ export const dbRestoreCongregationBackup = async (
     const newPerson = cong_persons.find((person) => person.person_uid === oldPerson.person_uid);
     if (newPerson) {
       const oldChanges = oldPerson.changes;
-      const newChanges = newPerson.changes;
+      let newChanges = newPerson.changes;
 
       if (newChanges) {
+        newChanges = newChanges.filter((item) => item.field !== 'lastAssignment');
+        newChanges = newChanges.filter((item) => item.field !== 'assignments');
+
         // handle non-assignments and non-time away changes
         newChanges.forEach((change) => {
-          if (change.field !== 'timeAway' && change.field !== 'assignments') {
+          if (change.field !== 'timeAway') {
             let isChanged = false;
 
             const oldChange = oldChanges?.find((old) => old.field === change.field);
@@ -127,8 +130,7 @@ export const dbRestoreCongregationBackup = async (
               oldPerson[change.field] = change.value;
 
               if (oldPerson.changes) {
-                const findIndex = oldPerson.changes.findIndex((item) => item.field === change.field) || -1;
-                if (findIndex !== -1) oldPerson.changes.splice(findIndex, 1);
+                oldPerson.changes = oldPerson.changes.filter((item) => item.field !== change.field);
               }
 
               if (!oldPerson.changes) {
@@ -137,29 +139,6 @@ export const dbRestoreCongregationBackup = async (
 
               oldPerson.changes.push(change);
             }
-          }
-        });
-
-        // handle assignments changes
-        newChanges.forEach((change) => {
-          if (change.field === 'assignments') {
-            // handle deleted assignment
-            if (change.isDeleted) {
-              const toBeDeleted = oldPerson[change.field].findIndex((item) => item.code === change.value.code);
-              if (toBeDeleted !== -1) oldPerson[change.field].splice(toBeDeleted, 1);
-            }
-
-            // handle added item
-            if (change.isAdded) {
-              const isExist = oldPerson[change.field].findIndex((item) => item.code === change.value.code);
-              if (!isExist) oldPerson[change.field].push(change.value);
-            }
-
-            // update changes
-            if (!oldPerson.changes) oldPerson.changes = [];
-            const findIndex = oldPerson.changes.findIndex((item) => item.value.code === change.value.code);
-            if (findIndex !== -1) oldPerson.changes.splice(findIndex, 1);
-            oldPerson.changes.push(change);
           }
         });
 
@@ -205,6 +184,9 @@ export const dbRestoreCongregationBackup = async (
       }
 
       if (oldPerson.id) delete oldPerson.id;
+      oldPerson.changes = oldPerson.changes?.filter((item) => item.field !== 'lastAssignment') || [];
+      oldPerson.changes = oldPerson.changes.filter((item) => item.field !== 'assignments');
+
       await appDb.table('persons').update(oldPerson.person_uid, oldPerson);
     }
   }
@@ -214,6 +196,8 @@ export const dbRestoreCongregationBackup = async (
     const oldPerson = oldPersons.find((person) => person.person_uid === newPerson.person_uid);
     if (!oldPerson) {
       if (newPerson.id) delete newPerson.id;
+      newPerson.changes = newPerson.changes?.filter((item) => item.field !== 'lastAssignment') || [];
+      newPerson.changes = newPerson.changes.filter((item) => item.field !== 'assignments');
       await appDb.persons.add(newPerson);
     }
   }
