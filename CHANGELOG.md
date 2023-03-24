@@ -1,3 +1,10 @@
+## [2.53.2](https://github.com/sws2apps/cpe-sws/compare/v2.53.1...v2.53.2) (2023-03-24)
+
+
+### Bug Fixes
+
+* **schedule:** fix gender icon ([ca9d24a](https://github.com/sws2apps/cpe-sws/commit/ca9d24a6ad9cf23ef27f7be801dcab2ce5e4152c))
+
 ## [2.53.1](https://github.com/sws2apps/cpe-sws/compare/v2.53.0...v2.53.1) (2023-03-24)
 
 
