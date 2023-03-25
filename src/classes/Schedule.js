@@ -364,10 +364,10 @@ ScheduleClass.prototype.loadDetails = async function () {
 };
 
 ScheduleClass.prototype.saveInfo = async function (scheduleInfo, isOverride) {
-  const isWeekExist = Schedules.get(this.weekOf);
+  const week = Schedules.get(this.weekOf);
 
   // creating new record
-  if (!isWeekExist) {
+  if (!week) {
     this.changes.push({ date: new Date().toISOString(), field: 'week_type', value: scheduleInfo.week_type });
     this.changes.push({ date: new Date().toISOString(), field: 'noMeeting', value: scheduleInfo.noMeeting });
     this.week_type = scheduleInfo.week_type;
@@ -401,7 +401,7 @@ ScheduleClass.prototype.saveInfo = async function (scheduleInfo, isOverride) {
     this.changes.push({ date: new Date().toISOString(), field: 'noMeeting', value: scheduleInfo.noMeeting });
   }
 
-  await appDb.table('sched_MM').put(
+  await appDb.table('sched_MM').update(
     {
       weekOf: this.weekOf,
       week_type: isOverride ? scheduleInfo.weekType : this.week_type,
