@@ -1,3 +1,10 @@
+## [2.53.6](https://github.com/sws2apps/cpe-sws/compare/v2.53.5...v2.53.6) (2023-03-25)
+
+
+### Bug Fixes
+
+* **schedules:** fix yearsList not iterable error ([a1767d1](https://github.com/sws2apps/cpe-sws/commit/a1767d12fcbf2b07afc83b5acf431e6dce4df2f2))
+
 ## [2.53.5](https://github.com/sws2apps/cpe-sws/compare/v2.53.4...v2.53.5) (2023-03-25)
 
 
