@@ -115,7 +115,7 @@ const SourceWeekDetails = () => {
   };
 
   const handleSaveSource = async () => {
-    const obj = {};
+    let obj = {};
 
     let lcCount = 0;
     if (isOverrideLCPart1 || isOverrideLCPart2) {
@@ -187,12 +187,16 @@ const SourceWeekDetails = () => {
     obj.songConclude_src = isNaN(SongConclude) ? SongConclude : +SongConclude;
     obj.songConclude_src_override = isNaN(SongConcludeOverride) ? SongConcludeOverride : +SongConcludeOverride;
     obj.co_talk_title = COTalkTitle;
-    obj.week_type = weekType;
-    obj.noMeeting = noMeeting;
     obj.isOverride = true;
-
     const source = Sources.get(week);
     await source.save(obj, false);
+
+    obj = {};
+    obj.week_type = weekType;
+    obj.noMeeting = noMeeting;
+
+    const schedule = Schedules.get(week);
+    await schedule.saveInfo(obj, true);
 
     setAppSnackOpen(true);
     setAppSeverity('success');

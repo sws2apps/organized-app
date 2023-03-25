@@ -403,10 +403,13 @@ ScheduleClass.prototype.saveInfo = async function (scheduleInfo, isOverride) {
 
   await appDb.table('sched_MM').update(this.weekOf, {
     weekOf: this.weekOf,
-    week_type: isOverride ? scheduleInfo.weekType : this.week_type,
+    week_type: isOverride ? scheduleInfo.week_type : this.week_type,
     noMeeting: isOverride ? scheduleInfo.noMeeting : this.noMeeting,
     changes: this.changes,
   });
+
+  this.week_type = isOverride ? scheduleInfo.week_type : this.week_type;
+  this.noMeeting = isOverride ? scheduleInfo.noMeeting : this.noMeeting;
 };
 
 ScheduleClass.prototype.saveAssignment = async function (personUID, field) {
