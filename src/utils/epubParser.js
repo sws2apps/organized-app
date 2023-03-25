@@ -18,7 +18,13 @@ export const addJwDataToDb = async (dataJw) => {
 
 const addDataToDb = async (data) => {
   try {
-    const assTypeList = AssignmentType.AYFOnly();
+    let assTypeList = AssignmentType.AYFOnly();
+
+    if (assTypeList.length === 0) {
+      await AssignmentType.loadAll();
+      assTypeList = AssignmentType.AYFOnly();
+    }
+
     for (let i = 0; i < data.weeksData.length; i++) {
       const src = data.weeksData[i];
       const cnAYF = src.ayfCount;
