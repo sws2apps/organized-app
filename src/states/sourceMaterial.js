@@ -20,11 +20,6 @@ export const isRerenderSourceState = atom({
   default: false,
 });
 
-export const yearsListState = atom({
-  key: 'yearsList',
-  default: [],
-});
-
 export const currentYearState = atom({
   key: 'currentYear',
   default: '',

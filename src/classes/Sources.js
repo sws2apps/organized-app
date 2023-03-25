@@ -294,7 +294,7 @@ SourcesClass.prototype.schedulesListForShare = function () {
   const currentMonth = new Date().getMonth();
 
   const finalList = { label: t('selectAll', { ns: 'ui' }), value: 'sched', children: [] };
-  for (const year of this.yearsList) {
+  for (const year of this.yearsList()) {
     const yearValue = +year.value;
 
     if (yearValue >= currentYear) {
