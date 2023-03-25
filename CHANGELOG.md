@@ -1,3 +1,10 @@
+## [2.53.5](https://github.com/sws2apps/cpe-sws/compare/v2.53.4...v2.53.5) (2023-03-25)
+
+
+### Bug Fixes
+
+* **schedules:** schedules failed to load on circuit overseer visit ([313ade1](https://github.com/sws2apps/cpe-sws/commit/313ade1f48556ce96600723b4124a29f25b64088))
+
 ## [2.53.4](https://github.com/sws2apps/cpe-sws/compare/v2.53.3...v2.53.4) (2023-03-25)
 
 
