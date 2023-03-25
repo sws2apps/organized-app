@@ -1,3 +1,11 @@
+## [2.53.3](https://github.com/sws2apps/cpe-sws/compare/v2.53.2...v2.53.3) (2023-03-25)
+
+
+### Bug Fixes
+
+* **schedules:** fix key when updating schedule row ([8ef84bb](https://github.com/sws2apps/cpe-sws/commit/8ef84bb0a5cf882d4cc5a9cc421eaf0f46532810))
+* **schedules:** wrong year format when viewing persons ([f815e24](https://github.com/sws2apps/cpe-sws/commit/f815e24d4e63352a1bf024327e17195f4ef7c875))
+
 ## [2.53.2](https://github.com/sws2apps/cpe-sws/compare/v2.53.1...v2.53.2) (2023-03-24)
 
 
