@@ -401,15 +401,12 @@ ScheduleClass.prototype.saveInfo = async function (scheduleInfo, isOverride) {
     this.changes.push({ date: new Date().toISOString(), field: 'noMeeting', value: scheduleInfo.noMeeting });
   }
 
-  await appDb.table('sched_MM').update(
-    {
-      weekOf: this.weekOf,
-      week_type: isOverride ? scheduleInfo.weekType : this.week_type,
-      noMeeting: isOverride ? scheduleInfo.noMeeting : this.noMeeting,
-      changes: this.changes,
-    },
-    this.weekOf
-  );
+  await appDb.table('sched_MM').update(this.weekOf, {
+    weekOf: this.weekOf,
+    week_type: isOverride ? scheduleInfo.weekType : this.week_type,
+    noMeeting: isOverride ? scheduleInfo.noMeeting : this.noMeeting,
+    changes: this.changes,
+  });
 };
 
 ScheduleClass.prototype.saveAssignment = async function (personUID, field) {
