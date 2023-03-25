@@ -1,3 +1,10 @@
+## [2.53.4](https://github.com/sws2apps/cpe-sws/compare/v2.53.3...v2.53.4) (2023-03-25)
+
+
+### Bug Fixes
+
+* **source-material:** week type not saved ([e78bbbf](https://github.com/sws2apps/cpe-sws/commit/e78bbbf9bfb292678578c8fb42200002016ae86e))
+
 ## [2.53.3](https://github.com/sws2apps/cpe-sws/compare/v2.53.2...v2.53.3) (2023-03-25)
 
 
