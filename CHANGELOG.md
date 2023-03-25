@@ -1,3 +1,11 @@
+## [2.53.7](https://github.com/sws2apps/cpe-sws/compare/v2.53.6...v2.53.7) (2023-03-25)
+
+
+### Bug Fixes
+
+* **app:** allow vip users with view meeting schedule role only ([b308a72](https://github.com/sws2apps/cpe-sws/commit/b308a72dc9b3ff4fb95c6158e4b6178586e51a29))
+* **app:** update to condition to check vip users ([9197a1c](https://github.com/sws2apps/cpe-sws/commit/9197a1c434b07307be091d0510c793f8989982c0))
+
 ## [2.53.6](https://github.com/sws2apps/cpe-sws/compare/v2.53.5...v2.53.6) (2023-03-25)
 
 
