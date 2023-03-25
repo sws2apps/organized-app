@@ -290,6 +290,10 @@ export const dbRestoreCongregationBackup = async (
 
             oldSchedule.changes.push(change);
           }
+
+          if (!isChanged) {
+            if (!oldSchedule[change.field]) oldSchedule[change.field] = change.value;
+          }
         });
       }
 

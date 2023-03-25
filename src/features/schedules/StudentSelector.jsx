@@ -190,16 +190,12 @@ const StudentSelector = (props) => {
 
   useEffect(() => {
     let isSubscribed = true;
-    const loadStudentHistory = async () => {
-      let dbStuHistory = Schedules.history.filter((history) => history.studentID === selectedStuID);
-      setStuHistory(dbStuHistory);
-      setIsLoadingStuHistory(false);
-    };
-
     if (isSubscribed) {
       if (selectedStuID !== '') {
         setIsLoadingStuHistory(true);
-        loadStudentHistory();
+        const person = Persons.get(selectedStuID);
+        setStuHistory(person.historyAssignments());
+        setIsLoadingStuHistory(false);
       }
     }
     return () => {

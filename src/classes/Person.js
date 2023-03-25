@@ -54,11 +54,15 @@ PersonClass.prototype.lastAssignment = function () {
   return Schedules.personLastAssignment(this.person_uid);
 };
 
-PersonClass.prototype.assistantHistory = function () {
-  return Schedules.personAssignments(this.person_uid);
+PersonClass.prototype.lastAssignmentFormatted = function () {
+  return Schedules.personLastAssignmentFormatted(this.person_uid);
 };
 
 PersonClass.prototype.historyAssignments = function () {
+  return Schedules.personAssignments(this.person_uid);
+};
+
+PersonClass.prototype.assistantHistory = function () {
   const dbHistory = [];
 
   for (const schedule of Schedules.list) {
@@ -106,5 +110,6 @@ PersonClass.prototype.historyAssignments = function () {
       }
     }
   }
+
   return dbHistory;
 };

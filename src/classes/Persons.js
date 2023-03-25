@@ -1,9 +1,7 @@
-import dateFormat from 'dateformat';
 import appDb from '../indexedDb/mainDb';
 import { comparePerson } from '../utils/compare';
 import { AssignmentType } from './AssignmentType';
 import { PersonClass } from './Person';
-import { Setting } from './Setting';
 
 class PersonsClass {
   constructor() {
@@ -218,14 +216,7 @@ PersonsClass.prototype.getByAssignment = function (assType, stuForAssistant) {
     const obj = {};
     obj.person_uid = person.person_uid;
     obj.lastAssignment = person.lastAssignment();
-    if (obj.lastAssignment === '') {
-      obj.lastAssignmentFormat = '';
-    } else {
-      const [varMonth, varDay, varYear] = obj.lastAssignment.split('/');
-      const lDate = new Date(varYear, varMonth - 1, varDay);
-      const dateFormatted = dateFormat(lDate, Setting.shortDateFormat);
-      obj.lastAssignmentFormat = dateFormatted;
-    }
+    obj.lastAssignmentFormat = person.lastAssignmentFormatted();
     obj.person_displayName = person.person_displayName;
     obj.timeAway = person.timeAway;
     obj.isMale = person.isMale;

@@ -94,8 +94,12 @@ SchedulesClass.prototype.personAssignments = function (person) {
   return this.history.filter((history) => history.studentID === person) || [];
 };
 
-SchedulesClass.prototype.personLastAssignment = function (person) {
+SchedulesClass.prototype.personLastAssignmentFormatted = function (person) {
   return this.history.find((history) => history.studentID === person)?.weekOfFormatted || '';
+};
+
+SchedulesClass.prototype.personLastAssignment = function (person) {
+  return this.history.find((history) => history.studentID === person)?.weekOf || '';
 };
 
 SchedulesClass.prototype.delete = async function (week) {
