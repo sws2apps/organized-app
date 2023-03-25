@@ -223,7 +223,24 @@ export const fetchMyAssignments = () => {
       let isFound = false;
       let isBehalf = false;
 
-      const localUID = Setting.account_type === 'vip' ? Setting.local_uid : Setting.pocket_local_id.person_uid;
+      let localUID;
+
+      if (Setting.account_type === 'vip') {
+        if (Setting.cong_role.length === 1 && Setting.cong_role.includes('view_meeting_schedule')) {
+          localUID = Setting.pocket_local_id.person_uid;
+        }
+
+        if (
+          !Setting.cong_role.includes('view_meeting_schedule') &&
+          (Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup'))
+        ) {
+          localUID = Setting.local_uid;
+        }
+      }
+
+      if (Setting.account_type === 'pocket') {
+        localUID = Setting.pocket_local_id.person_uid;
+      }
 
       if (fldValue === localUID) {
         isFound = true;

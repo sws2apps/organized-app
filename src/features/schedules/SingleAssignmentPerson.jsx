@@ -43,7 +43,7 @@ const SingleAssignmentPerson = ({ person }) => {
         gap: '8px',
       }}
     >
-      {accountType === 'vip' && person && person !== '' && (
+      {accountType === 'vip' && !Setting.cong_role.includes('view_meeting_schedule') && person && person !== '' && (
         <Avatar
           sx={{
             height: '25px',

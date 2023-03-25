@@ -24,7 +24,7 @@ import {
   visitorIDState,
 } from '../../../states/main';
 import { congAccountConnectedState } from '../../../states/congregation';
-import { apiHandleVerifyOTP } from '../../../api';
+import { apiFetchSchedule, apiHandleVerifyOTP } from '../../../api';
 import { runUpdater } from '../../../utils/updater';
 
 const matchIsNumeric = (text) => {
@@ -76,6 +76,7 @@ const VerifyMFA = () => {
           setIsSetup(false);
 
           await runUpdater();
+          await apiFetchSchedule();
           setTimeout(() => {
             setOfflineOverride(false);
             setCongAccountConnected(true);

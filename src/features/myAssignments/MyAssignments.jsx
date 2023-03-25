@@ -17,6 +17,7 @@ import {
   userLocalUidState,
 } from '../../states/main';
 import { pocketLocalIDState } from '../../states/congregation';
+import { Setting } from '../../classes/Setting';
 
 const MyAssignments = () => {
   const { t } = useTranslation('ui');
@@ -73,10 +74,20 @@ const MyAssignments = () => {
         </Box>
       </Box>
       <Box sx={{ minWidth: '350px', maxWidth: '650px', padding: '20px' }}>
-        {accountType === 'vip' && (vipLocalUid === '' || overrideEdit) && (
-          <MyAssignmentsSetup overrideEdit={overrideEdit} setOverrideEdit={(value) => setOverrideEdit(value)} />
+        {accountType === 'vip' && (
+          <>
+            {(Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup')) && (
+              <>
+                {(vipLocalUid === '' || overrideEdit) && (
+                  <MyAssignmentsSetup overrideEdit={overrideEdit} setOverrideEdit={(value) => setOverrideEdit(value)} />
+                )}
+                {vipLocalUid !== '' && !overrideEdit && <MyAssignmentsList />}
+              </>
+            )}
+            {!Setting.cong_role.includes('lmmo') && !Setting.cong_role.includes('lmmo-backup') && <MyAssignmentsList />}
+          </>
         )}
-        {accountType === 'vip' && vipLocalUid !== '' && !overrideEdit && <MyAssignmentsList />}
+
         {accountType === 'pocket' && pocketLocalUid !== '' && <MyAssignmentsList />}
       </Box>
     </SwipeableDrawer>

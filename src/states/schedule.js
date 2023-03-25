@@ -94,3 +94,8 @@ export const scheduleUseFullnameState = atom({
   key: 'scheduleUseFullname',
   default: false,
 });
+
+export const refreshCurrentWeekState = atom({
+  key: 'refreshCurrentWeek',
+  default: false,
+});

@@ -1,4 +1,5 @@
 import { promiseGetRecoil } from 'recoil-outside';
+import { congIDState } from '../states/congregation';
 import {
   apiHostState,
   appLangState,
@@ -15,6 +16,7 @@ export const getProfile = async () => {
   const sourceLang = await promiseGetRecoil(sourceLangState);
   const isOnline = await promiseGetRecoil(isOnlineState);
   const userID = await promiseGetRecoil(userIDState);
+  const congID = await promiseGetRecoil(congIDState);
 
-  return { apiHost, appLang, visitorID, sourceLang, isOnline, userID };
+  return { apiHost, appLang, congID, visitorID, sourceLang, isOnline, userID };
 };

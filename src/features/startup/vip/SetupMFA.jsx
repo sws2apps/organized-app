@@ -29,7 +29,7 @@ import {
   secretTokenPathState,
   visitorIDState,
 } from '../../../states/main';
-import { apiHandleVerifyOTP } from '../../../api';
+import { apiFetchSchedule, apiHandleVerifyOTP } from '../../../api';
 import { runUpdater } from '../../../utils/updater';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../../../states/notification';
 import { congAccountConnectedState } from '../../../states/congregation';
@@ -96,6 +96,7 @@ const SetupMFA = () => {
           setIsSetup(false);
 
           await runUpdater();
+          await apiFetchSchedule();
           setTimeout(() => {
             setOfflineOverride(false);
             setCongAccountConnected(true);

@@ -42,7 +42,11 @@ SchedulesClass.prototype.buildHistory = function () {
     const appData = this.list;
     const personsCount = Persons.list.length;
 
-    if (personsCount > 0 || Setting.account_type === 'pocket') {
+    if (
+      personsCount > 0 ||
+      Setting.account_type === 'pocket' ||
+      (Setting.cong_role.length === 1 && Setting.cong_role.includes('view_meeting_schedule'))
+    ) {
       for (const schedule of appData) {
         const assList = [];
         const excludeFiles = ['weekOf', 'week_type', 'noMeeting', 'isReleased', 'changes'];
