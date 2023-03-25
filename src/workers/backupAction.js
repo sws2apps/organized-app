@@ -8,6 +8,11 @@ let congID;
 let isOnline = navigator.onLine;
 let backupInterval;
 let isCongAccountConnected;
+let roleApproved;
+
+export const setRoleApproved = (value) => {
+  roleApproved = value;
+};
 
 export const setIsEnabled = (value) => {
   isEnabled = value;
@@ -44,9 +49,19 @@ export const setIsCongAccountConnected = (value) => {
 const isDev = process.env.NODE_ENV === 'development';
 
 const runBackupSchedule = async () => {
-  if (isDev) backupInterval = 20000;
+  if (isDev) backupInterval = 30000;
 
-  if (isEnabled && backupInterval && isOnline && userUID && visitorID && apiHost && congID && isCongAccountConnected) {
+  if (
+    roleApproved &&
+    isEnabled &&
+    backupInterval &&
+    isOnline &&
+    userUID &&
+    visitorID &&
+    apiHost &&
+    congID &&
+    isCongAccountConnected
+  ) {
     const { dbPersons, dbDeleted, dbSourceMaterial, dbSchedule, dbPocketTbl, dbSettings } = await dbExportDataOnline();
 
     const reqPayload = {

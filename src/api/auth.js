@@ -100,13 +100,24 @@ export const apiHandleVerifyOTP = async (userOTP, isSetup, trustedDevice) => {
           }
         }
 
-        const { id, cong_id, cong_name, cong_role, cong_number, pocket_members } = data;
+        const { id, cong_id, cong_name, cong_role, cong_number, pocket_members, pocket_local_id } = data;
 
         if (cong_name.length === 0) return { createCongregation: true };
 
         if (cong_role.length === 0) return { unauthorized: true };
 
-        if (!cong_role.includes('lmmo') && !cong_role.includes('lmmo-backup')) return { unauthorized: true };
+        if (
+          !cong_role.includes('lmmo') &&
+          !cong_role.includes('lmmo-backup') &&
+          !cong_role.includes('view_meeting_schedule')
+        )
+          return { unauthorized: true };
+
+        if (cong_role.includes('lmmo') || cong_role.includes('lmmo-backup')) {
+          backupWorkerInstance.setRoleApproved(true);
+        } else {
+          backupWorkerInstance.setRoleApproved(false);
+        }
 
         backupWorkerInstance.setCongID(cong_id);
         backupWorkerInstance.setIsCongAccountConnected(true);
@@ -133,6 +144,7 @@ export const apiHandleVerifyOTP = async (userOTP, isSetup, trustedDevice) => {
         obj.cong_number = cong_number;
         obj.isLoggedOut = false;
         obj.pocket_members = pocket_members;
+        obj.pocket_local_id = pocket_local_id;
         obj.cong_role = cong_role;
         obj.account_type = 'vip';
         await Setting.update(obj);

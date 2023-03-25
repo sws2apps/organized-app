@@ -21,6 +21,7 @@ import { saveAssignment } from '../../utils/schedule';
 import { Sources } from '../../classes/Sources';
 import { Schedules } from '../../classes/Schedules';
 import { Setting } from '../../classes/Setting';
+import { refreshCurrentWeekState } from '../../states/schedule';
 
 const ScheduleAssignment = ({ edit }) => {
   const { weekToFormat } = useParams();
@@ -32,6 +33,7 @@ const ScheduleAssignment = ({ edit }) => {
 
   const classCount = useRecoilValue(classCountState);
   const autoAssignOpeningPrayer = useRecoilValue(openingPrayerAutoAssignState);
+  const refreshCurrent = useRecoilValue(refreshCurrentWeekState);
 
   const [tgwTalkSrc, setTgwTalkSrc] = useState('');
   const [bibleReadingSrc, setBibleReadingSrc] = useState('');
@@ -453,7 +455,7 @@ const ScheduleAssignment = ({ edit }) => {
       setWeekType(scheduleData.week_type);
       setCoName(Setting.co_displayName);
     }
-  }, [week]);
+  }, [refreshCurrent, week]);
 
   return (
     <Box

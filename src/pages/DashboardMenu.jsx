@@ -124,7 +124,7 @@ const DashboardMenu = () => {
   const dashboardMenus = [
     {
       title: t('persons'),
-      visible: accountType === 'vip',
+      visible: accountType === 'vip' && !congRole.includes('view_meeting_schedule'),
       links: [
         {
           title: t('persons'),
@@ -175,27 +175,30 @@ const DashboardMenu = () => {
           title: t('editAssignmentsSchedule'),
           icon: <AssignmentIcon />,
           disabled: false,
-          visible: accountType === 'vip',
+          visible: accountType === 'vip' && !congRole.includes('view_meeting_schedule'),
           navigateTo: '/schedules',
         },
         {
           title: t('publishPocket'),
           icon: <SendIcon />,
           disabled: false,
-          visible: accountType === 'vip' && isCongAccountConnected ? true : false,
+          visible:
+            accountType === 'vip' && !congRole.includes('view_meeting_schedule') && isCongAccountConnected
+              ? true
+              : false,
           action: handlePublishPocket,
         },
         {
           title: t('refreshSchedule'),
           icon: <CloudSyncIcon />,
-          visible: isCongAccountConnected && accountType === 'pocket',
+          visible: isCongAccountConnected && (accountType === 'pocket' || congRole.includes('view_meeting_schedule')),
           action: apiFetchSchedule,
         },
       ],
     },
     {
       title: t('sourceMaterial'),
-      visible: accountType === 'vip',
+      visible: accountType === 'vip' && !congRole.includes('view_meeting_schedule'),
       links: [
         {
           title: t('viewSourceMaterial'),
@@ -229,7 +232,7 @@ const DashboardMenu = () => {
     },
     {
       title: t('congregation'),
-      visible: accountType === 'vip',
+      visible: accountType === 'vip' && !congRole.includes('view_meeting_schedule'),
       links: [
         {
           title: t('sendBackup'),

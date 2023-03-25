@@ -91,7 +91,8 @@ const VipStartup = () => {
         return;
       }
 
-      const approvedRole = cong_role.includes('lmmo') || cong_role.includes('lmmo-backup');
+      const approvedRole =
+        cong_role.includes('lmmo') || cong_role.includes('lmmo-backup') || cong_role.includes('view_meeting_schedule');
 
       if (!approvedRole) {
         showSignup();
@@ -136,7 +137,8 @@ const VipStartup = () => {
         const cong_name = Setting.cong_name || '';
         const cong_role = Setting.cong_role || [];
 
-        const approvedRole = cong_role.includes('lmmo') || cong_role.includes('admin');
+        const approvedRole =
+          cong_role.includes('lmmo') || cong_role.includes('view_meeting_schedule') || cong_role.includes('admin');
 
         if (!isOfflineOverride && cong_name.length > 0 && approvedRole) {
           setIsSetup(false);

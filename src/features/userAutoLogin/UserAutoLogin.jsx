@@ -21,6 +21,7 @@ import {
 import useFirebaseAuth from '../../hooks/useFirebaseAuth';
 import backupWorkerInstance from '../../workers/backupWorker';
 import { Setting } from '../../classes/Setting';
+import { apiFetchSchedule } from '../../api';
 
 const UserAutoLogin = () => {
   let abortCont = useMemo(() => new AbortController(), []);
@@ -65,8 +66,17 @@ const UserAutoLogin = () => {
       // congregation found
       if (res.status === 200) {
         // role approved
-        if (data.cong_role.includes('lmmo') || data.cong_role.includes('lmmo-backup')) {
+        if (
+          data.cong_role.includes('lmmo') ||
+          data.cong_role.includes('lmmo-backup') ||
+          data.cong_role.includes('view_meeting_schedule')
+        ) {
           setCongAccountConnected(true);
+          if (data.cong_role.includes('lmmo') || data.cong_role.includes('lmmo-backup')) {
+            backupWorkerInstance.setRoleApproved(true);
+          } else {
+            backupWorkerInstance.setRoleApproved(false);
+          }
           backupWorkerInstance.setCongID(data.cong_id);
           backupWorkerInstance.setIsCongAccountConnected(true);
           setCongID(data.cong_id);
@@ -78,16 +88,18 @@ const UserAutoLogin = () => {
             setIsAdminCong(true);
           }
 
-          const { cong_name, cong_number, cong_role, pocket_members, username } = data;
+          const { cong_name, cong_number, cong_role, pocket_members, pocket_local_id, username } = data;
           let obj = {};
           obj.username = username;
           obj.cong_name = cong_name;
           obj.cong_number = cong_number;
           obj.pocket_members = pocket_members;
+          obj.pocket_local_id = pocket_local_id;
           obj.cong_role = cong_role;
           obj.account_type = 'vip';
           await Setting.update(obj);
           setPocketMembers(pocket_members);
+          await apiFetchSchedule();
           return;
         }
 
