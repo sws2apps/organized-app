@@ -129,7 +129,10 @@ ScheduleClass.prototype.loadDetails = async function () {
   this.cbs_reader = appData.cbs_reader || '';
   this.closing_prayer = appData.closing_prayer || '';
 
-  if (Setting.account_type === 'vip' && !Setting.cong_role.includes('view_meeting_schedule')) {
+  if (
+    Setting.account_type === 'vip' &&
+    (Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup'))
+  ) {
     if (appData.chairmanMM_A) {
       const student = Persons.get(appData.chairmanMM_A);
       this.chairmanMM_A_name = student?.person_name || '';
@@ -299,7 +302,10 @@ ScheduleClass.prototype.loadDetails = async function () {
     }
   }
 
-  if (Setting.account_type === 'pocket' || Setting.cong_role.includes('view_meeting_schedule')) {
+  if (
+    Setting.account_type === 'pocket' ||
+    (Setting.cong_role.length === 1 && Setting.cong_role.includes('view_meeting_schedule'))
+  ) {
     this.chairmanMM_A_name = appData.chairmanMM_A_name || '';
     this.chairmanMM_A_dispName = appData.chairmanMM_A_dispName || '';
     this.chairmanMM_B_name = appData.chairmanMM_B_name || '';
@@ -476,7 +482,10 @@ ScheduleClass.prototype.save = async function (appData) {
   this.cbs_reader = appData.cbs_reader;
   this.closing_prayer = appData.closing_prayer;
 
-  if (Setting.account_type === 'pocket' || Setting.cong_role.includes('view_meeting_schedule')) {
+  if (
+    Setting.account_type === 'pocket' ||
+    (Setting.cong_role.length === 1 && Setting.cong_role.includes('view_meeting_schedule'))
+  ) {
     this.chairmanMM_A_name = appData.chairmanMM_A_name;
     this.chairmanMM_A_dispName = appData.chairmanMM_A_dispName;
     this.chairmanMM_B_name = appData.chairmanMM_B_name;

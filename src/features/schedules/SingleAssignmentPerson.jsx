@@ -43,16 +43,19 @@ const SingleAssignmentPerson = ({ person }) => {
         gap: '8px',
       }}
     >
-      {accountType === 'vip' && !Setting.cong_role.includes('view_meeting_schedule') && person && person !== '' && (
-        <Avatar
-          sx={{
-            height: '25px',
-            width: '25px',
-          }}
-          alt="Student icon"
-          src={isMale ? maleIcon : femaleIcon}
-        />
-      )}
+      {accountType === 'vip' &&
+        (Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup')) &&
+        person &&
+        person !== '' && (
+          <Avatar
+            sx={{
+              height: '25px',
+              width: '25px',
+            }}
+            alt="Student icon"
+            src={isMale ? maleIcon : femaleIcon}
+          />
+        )}
       <Typography
         sx={{
           height: '30px',
