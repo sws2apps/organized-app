@@ -104,20 +104,4 @@ SettingClass.prototype.appLang = function () {
   return localStorage.getItem('app_lang') || 'e';
 };
 
-SettingClass.prototype.falseUpdate = async function () {
-  await this.update(
-    {
-      account_type: '',
-      class_count: 1,
-      co_displayName: '',
-      co_name: '',
-      cong_name: '',
-      cong_number: '',
-      cong_role: [],
-      meeting_day: 1,
-    },
-    true
-  );
-};
-
 export const Setting = new SettingClass();
