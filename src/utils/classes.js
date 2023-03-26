@@ -5,10 +5,13 @@ import { Setting } from '../classes/Setting';
 import { Sources } from '../classes/Sources';
 import { WeekTypeList } from '../classes/WeekType';
 
-await Setting.load();
-await AssignmentType.loadAll();
-await WeekTypeList.loadAll();
-await Sources.loadAll();
-await Persons.loadAll();
-await Schedules.loadAll();
-Schedules.buildHistory();
+export const classesInitialize = async () => {
+  await Setting.load();
+  await AssignmentType.loadAll();
+  await WeekTypeList.loadAll();
+  await Sources.loadAll();
+  await Persons.loadAll();
+  await Schedules.loadAll();
+  Schedules.buildHistory();
+  console.log('CPE: Classes initialized');
+};

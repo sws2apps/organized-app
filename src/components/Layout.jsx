@@ -33,8 +33,9 @@ import { fetchNotifications } from '../api';
 import { dbSaveNotifications } from '../indexedDb/dbNotifications';
 import { WhatsNewContent } from '../features/whatsNew';
 import UserConfirmation from './UserConfirmation';
+import { classesInitialize } from '../utils/classes';
 
-import '../utils/classes';
+await classesInitialize();
 
 const Layout = ({ updatePwa }) => {
   let location = useLocation();
