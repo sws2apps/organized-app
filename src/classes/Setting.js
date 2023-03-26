@@ -28,7 +28,6 @@ class SettingClass {
     this.schedule_useFullname = false;
     this.account_type = '';
     this.opening_prayer_autoAssign = false;
-    this.shortDateFormat = 'mm/dd/yyyy';
   }
 }
 
@@ -60,7 +59,6 @@ SettingClass.prototype.load = async function () {
   this.schedule_useFullname = congData.schedule_useFullname;
   this.account_type = congData.account_type;
   this.opening_prayer_autoAssign = congData.opening_prayer_autoAssign;
-  this.shortDateFormat = getI18n().getDataByLanguage(this.source_lang).ui['shortDateFormat'];
 };
 
 SettingClass.prototype.update = async function (setting, overwrite) {
@@ -76,6 +74,10 @@ SettingClass.prototype.update = async function (setting, overwrite) {
   } catch (err) {
     console.log(err);
   }
+};
+
+SettingClass.prototype.shortDateFormat = function () {
+  return getI18n().getDataByLanguage(this.source_lang).ui['shortDateFormat'];
 };
 
 SettingClass.prototype.monthNames = function () {

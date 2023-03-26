@@ -12,7 +12,7 @@ export const getHistoryInfo = (weekOf, assignment) => {
   const weekData = source.local();
   const [varMonth, varDay, varYear] = weekOf.split('/');
   const lDate = new Date(varYear, varMonth - 1, varDay);
-  const dateFormatted = dateFormat(lDate, Setting.shortDateFormat);
+  const dateFormatted = dateFormat(lDate, Setting.shortDateFormat());
 
   const schedule = Schedules.get(weekOf);
 

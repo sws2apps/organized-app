@@ -34,7 +34,11 @@ export const apiFetchSchedule = async () => {
         });
       }
 
-      if (Setting.account_type === 'vip') {
+      if (
+        Setting.account_type === 'vip' &&
+        Setting.cong_role.length === 1 &&
+        Setting.cong_role.includes('view_meeting_schedule')
+      ) {
         const auth = await getAuth();
         const user = auth.currentUser;
 

@@ -143,7 +143,7 @@ SourcesClass.prototype.weekListByScheduleLocal = function (scheduleIndex) {
     const month = week.split('/')[0];
     const year = week.split('/')[2];
     const newDate = new Date(year, +month - 1, day);
-    const dateFormatted = dateFormat(newDate, Setting.shortDateFormat);
+    const dateFormatted = dateFormat(newDate, Setting.shortDateFormat());
     newData.push({ value: week, label: dateFormatted });
   });
 
