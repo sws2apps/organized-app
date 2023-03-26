@@ -124,12 +124,6 @@ export const apiHandleVerifyOTP = async (userOTP, isSetup, trustedDevice) => {
 
         await promiseSetRecoil(congIDState, cong_id);
 
-        if (!isSetup) {
-          if (Setting.isCongUpdated2 === undefined) {
-            return { updateCongregation: true };
-          }
-        }
-
         if (cong_role.includes('admin')) {
           await promiseSetRecoil(isAdminCongState, true);
         }
@@ -213,10 +207,6 @@ export const apiHandleVerifyEmailOTP = async (userOTP) => {
         backupWorkerInstance.setIsCongAccountConnected(true);
 
         await promiseSetRecoil(congIDState, cong_id);
-
-        if (Setting.isCongUpdated2 === undefined) {
-          return { updateCongregation: true };
-        }
 
         if (cong_role.includes('admin')) {
           await promiseSetRecoil(isAdminCongState, true);
