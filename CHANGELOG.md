@@ -1,3 +1,10 @@
+## [2.53.8](https://github.com/sws2apps/cpe-sws/compare/v2.53.7...v2.53.8) (2023-03-26)
+
+
+### Bug Fixes
+
+* **app:** don’t fetch schedules on load for some roles ([166f493](https://github.com/sws2apps/cpe-sws/commit/166f4932515c7f2fdc97baf2c00a38bce8b15f5d))
+
 ## [2.53.7](https://github.com/sws2apps/cpe-sws/compare/v2.53.6...v2.53.7) (2023-03-25)
 
 
