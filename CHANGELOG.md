@@ -1,3 +1,10 @@
+## [2.53.10](https://github.com/sws2apps/cpe-sws/compare/v2.53.9...v2.53.10) (2023-03-26)
+
+
+### Bug Fixes
+
+* **app:** set class initialization as async ([f6aec61](https://github.com/sws2apps/cpe-sws/commit/f6aec6104655d45695da45c0981516aade0cd6d4))
+
 ## [2.53.9](https://github.com/sws2apps/cpe-sws/compare/v2.53.8...v2.53.9) (2023-03-26)
 
 
