@@ -1,3 +1,10 @@
+## [2.53.9](https://github.com/sws2apps/cpe-sws/compare/v2.53.8...v2.53.9) (2023-03-26)
+
+
+### Bug Fixes
+
+* **app:** otp verification freezes ([54b8edf](https://github.com/sws2apps/cpe-sws/commit/54b8edfd5fb54bdc56b72e1a2b55ca1e2443be61))
+
 ## [2.53.8](https://github.com/sws2apps/cpe-sws/compare/v2.53.7...v2.53.8) (2023-03-26)
 
 
