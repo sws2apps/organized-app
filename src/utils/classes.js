@@ -12,4 +12,3 @@ await Sources.loadAll();
 await Persons.loadAll();
 await Schedules.loadAll();
 Schedules.buildHistory();
-await Setting.falseUpdate();
