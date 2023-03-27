@@ -9,9 +9,14 @@ export const initAppDb = async () => {
 export const deleteDb = async () => {
   const databases = await Dexie.getDatabaseNames();
 
-  for (let i = 0; i < databases.length; i++) {
-    Dexie.delete(databases[i]);
+  for await (const db of databases) {
+    await Dexie.delete(db);
   }
+};
+
+export const deletePocketDb = async () => {
+  await appDb.close();
+  await Dexie.delete('cpe_sws');
 };
 
 export const isDbExist = async (dbName) => {
