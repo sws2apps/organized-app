@@ -15,8 +15,8 @@ import { apiFetchSchedule, apiPocketValidate } from '../../../api';
 import { loadApp, updateUserSettings } from '../../../utils/app';
 import { congAccountConnectedState } from '../../../states/congregation';
 import { runUpdater } from '../../../utils/updater';
-import { deleteDb } from '../../../indexedDb/dbUtility';
-import { Setting } from '../../../classes/Setting';
+import { deletePocketDb, initAppDb } from '../../../indexedDb/dbUtility';
+import { classesInitialize } from '../../../utils/classes';
 
 // lazy loading
 const PocketSignUp = lazy(() => import('./PocketSignUp'));
@@ -36,22 +36,26 @@ const PocketStartup = () => {
 
   const handleDisapproved = useCallback(async () => {
     setModalOpen(true);
-    await deleteDb();
-    window.location.href = './';
+    await deletePocketDb();
+    await initAppDb();
+    await classesInitialize();
+    await loadApp();
+    setModalOpen(false);
   }, [setModalOpen]);
 
   useEffect(() => {
     const checkLoginState = async () => {
-      if (!Setting.pocket_local_id.person_uid) {
-        setIsSignUp(true);
-        return;
-      }
+      // if (!Setting.pocket_local_id.person_uid) {
+      //   setIsSignUp(true);
+      //   return;
+      // }
 
       if (isOnline && visitorID.length > 0) {
         const { data, status } = await apiPocketValidate();
 
         if (status !== 200) {
           await handleDisapproved();
+          setIsSignUp(true);
           return;
         }
 

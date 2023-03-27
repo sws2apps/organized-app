@@ -10,6 +10,7 @@ import Typography from '@mui/material/Typography';
 import {
   accountTypeState,
   isAccountChooseState,
+  isAppLoadState,
   isOnlineState,
   isSetupState,
   isUnauthorizedRoleState,
@@ -21,6 +22,7 @@ import { getErrorMessage, loadApp, updateUserSettings } from '../../../utils/app
 import { apiPocketSignUp } from '../../../api/auth';
 import { runUpdater } from '../../../utils/updater';
 import { apiFetchSchedule } from '../../../api';
+import { classesInitialize } from '../../../utils/classes';
 
 const PocketSignUp = () => {
   const { t } = useTranslation('ui');
@@ -33,6 +35,7 @@ const PocketSignUp = () => {
   const setAppMessage = useSetRecoilState(appMessageState);
   const setIsUnauthorizedRole = useSetRecoilState(isUnauthorizedRoleState);
   const setCongAccountConnected = useSetRecoilState(congAccountConnectedState);
+  const setIsAppLoad = useSetRecoilState(isAppLoadState);
 
   const isOnline = useRecoilValue(isOnlineState);
   const visitorID = useRecoilValue(visitorIDState);
@@ -71,6 +74,7 @@ const PocketSignUp = () => {
         return;
       }
 
+      await classesInitialize();
       await loadApp();
       await runUpdater();
       await updateUserSettings(data);
@@ -78,6 +82,7 @@ const PocketSignUp = () => {
       setIsSetup(false);
       setTimeout(async () => {
         setCongAccountConnected(true);
+        setIsAppLoad(false);
       }, [1000]);
     } catch (err) {
       setIsProcessing(false);
