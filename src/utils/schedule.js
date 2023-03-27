@@ -38,39 +38,39 @@ export const getHistoryInfo = (weekOf, assignment) => {
   // Chairman History
   if (assignment === 'chairmanMM_A') {
     history.assignmentID = 110;
-    history.assignmentName = getI18n().t('chairmanMidweekMeeting2', { ns: 'ui' });
+    history.assignmentName = getI18n().t('chairmanMidweekMeeting2', { ns: 'ui', lng: Setting.appLang() });
   }
 
   // Aux Class Counselor History
   if (assignment === 'chairmanMM_B') {
     history.assignmentID = 110;
-    history.assignmentName = getI18n().t('auxClassCounselor', { ns: 'ui' });
+    history.assignmentName = getI18n().t('auxClassCounselor', { ns: 'ui', lng: Setting.appLang() });
   }
 
   // Opening Prayer
   if (assignment === 'opening_prayer') {
     history.assignmentID = 111;
-    history.assignmentName = getI18n().t('openingPrayer', { ns: 'ui' });
+    history.assignmentName = getI18n().t('openingPrayer', { ns: 'ui', lng: Setting.appLang() });
   }
 
   // TGW Talk 10 min. History
   if (assignment === 'tgw_talk') {
     history.assignmentID = 112;
-    history.assignmentName = getI18n().t('tgwTalk', { ns: 'source' });
+    history.assignmentName = getI18n().t('tgwTalk', { ns: 'source', lng: Setting.appLang() });
     history.assignmentSource = weekData.tgwTalk_src;
   }
 
   // TGW Spiritual Gems History
   if (assignment === 'tgw_gems') {
     history.assignmentID = 113;
-    history.assignmentName = getI18n().t('tgwGems', { ns: 'source' });
+    history.assignmentName = getI18n().t('tgwGems', { ns: 'source', lng: Setting.appLang() });
   }
 
   //Bible Reading History
   if (assignment.startsWith('bRead_stu_')) {
     const stuclass = assignment.split('_')[2];
     history.assignmentID = 100;
-    history.assignmentName = getI18n().t('bibleReading', { ns: 'source' });
+    history.assignmentName = getI18n().t('bibleReading', { ns: 'source', lng: Setting.appLang() });
     history.class = stuclass;
     history.studyPoint = weekData.bibleReading_study;
     history.assignmentSource = weekData.bibleReading_src;
@@ -95,15 +95,15 @@ export const getHistoryInfo = (weekOf, assignment) => {
     history.assignmentID = assType;
     history.assignmentType = 'ayf';
     if (assType === 101 || (assType >= 140 && assType < 170)) {
-      history.assignmentName = getI18n().t('initialCall', { ns: 'source' });
+      history.assignmentName = getI18n().t('initialCall', { ns: 'source', lng: Setting.appLang() });
     } else if (assType === 102 || (assType >= 170 && assType < 200)) {
-      history.assignmentName = getI18n().t('returnVisit', { ns: 'source' });
+      history.assignmentName = getI18n().t('returnVisit', { ns: 'source', lng: Setting.appLang() });
     } else if (assType === 103) {
-      history.assignmentName = getI18n().t('bibleStudy', { ns: 'source' });
+      history.assignmentName = getI18n().t('bibleStudy', { ns: 'source', lng: Setting.appLang() });
     } else if (assType === 104) {
-      history.assignmentName = getI18n().t('talk', { ns: 'source' });
+      history.assignmentName = getI18n().t('talk', { ns: 'source', lng: Setting.appLang() });
     } else if (assType === 108) {
-      history.assignmentName = getI18n().t('memorialInvite', { ns: 'source' });
+      history.assignmentName = getI18n().t('memorialInvite', { ns: 'source', lng: Setting.appLang() });
     }
     history.class = stuclass;
     history.studyPoint = studyPoint;
@@ -139,7 +139,7 @@ export const getHistoryInfo = (weekOf, assignment) => {
 
     history.assignmentID = 109;
     history.assignmentType = 'ayf';
-    history.assignmentName = getI18n().t('assistant', { ns: 'ui' });
+    history.assignmentName = getI18n().t('assistant', { ns: 'ui', lng: Setting.appLang() });
 
     const stuclass = assignment.split('_')[2];
     history.class = stuclass;
@@ -153,7 +153,7 @@ export const getHistoryInfo = (weekOf, assignment) => {
     const fldContent = `lcPart${lcIndex}_content`;
 
     history.assignmentID = 114;
-    history.assignmentName = getI18n().t('lcPart', { ns: 'source' });
+    history.assignmentName = getI18n().t('lcPart', { ns: 'source', lng: Setting.appLang() });
     history.assignmentSource = `(${weekData[fldTime]} min.) ${weekData[fldSource]}`;
     history.assignmentContent = weekData[fldContent];
   }
@@ -161,23 +161,23 @@ export const getHistoryInfo = (weekOf, assignment) => {
   // CBS Conductor History
   if (assignment === 'cbs_conductor') {
     history.assignmentID = 115;
-    history.assignmentName = getI18n().t('cbsConductor', { ns: 'source' });
-    history.assignmentName += ` (${getI18n().t('cbs', { ns: 'source' })})`;
+    history.assignmentName = getI18n().t('cbsConductor', { ns: 'source', lng: Setting.appLang() });
+    history.assignmentName += ` (${getI18n().t('cbs', { ns: 'source', lng: Setting.appLang() })})`;
     history.assignmentSource = weekData.cbs_src;
   }
 
   // CBS Reader History
   if (assignment === 'cbs_reader') {
     history.assignmentID = 116;
-    history.assignmentName = getI18n().t('cbsReader', { ns: 'source' });
-    history.assignmentName += ` (${getI18n().t('cbs', { ns: 'source' })})`;
+    history.assignmentName = getI18n().t('cbsReader', { ns: 'source', lng: Setting.appLang() });
+    history.assignmentName += ` (${getI18n().t('cbs', { ns: 'source', lng: Setting.appLang() })})`;
     history.assignmentSource = weekData.cbs_src;
   }
 
   // Closing Prayer History
   if (assignment === 'closing_prayer') {
     history.assignmentID = 111;
-    history.assignmentName = getI18n().t('closingPrayer', { ns: 'ui' });
+    history.assignmentName = getI18n().t('closingPrayer', { ns: 'ui', lng: Setting.appLang() });
   }
 
   return history;
