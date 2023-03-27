@@ -1,7 +1,7 @@
 {
   "name": "cpe-sws",
   "private": true,
-  "version": "2.53.10",
+  "version": "2.53.11",
   "type": "module",
   "repository": {
     "type": "git",

@@ -1,3 +1,11 @@
+## [2.53.11](https://github.com/sws2apps/cpe-sws/compare/v2.53.10...v2.53.11) (2023-03-27)
+
+
+### Bug Fixes
+
+* **schedules:** localize assignments name in persons history ([e7c9e5e](https://github.com/sws2apps/cpe-sws/commit/e7c9e5e36df41215ca3ce5a1721b07ba77bea5c1))
+* **startup:** fix infinite loading on first load for students users ([9d7b07e](https://github.com/sws2apps/cpe-sws/commit/9d7b07e1d396fa7f0cd34070ac687917bc22c350))
+
 ## [2.53.10](https://github.com/sws2apps/cpe-sws/compare/v2.53.9...v2.53.10) (2023-03-26)
 
 
