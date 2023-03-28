@@ -1,3 +1,10 @@
+## [2.53.13](https://github.com/sws2apps/cpe-sws/compare/v2.53.12...v2.53.13) (2023-03-28)
+
+
+### Bug Fixes
+
+* **templates:** update some spacings to fix page overflow in S-140 ([a232f23](https://github.com/sws2apps/cpe-sws/commit/a232f23c61b3cf3342536198e6efe4731a4f6ebb))
+
 ## [2.53.12](https://github.com/sws2apps/cpe-sws/compare/v2.53.11...v2.53.12) (2023-03-28)
 
 
