@@ -1,3 +1,10 @@
+## [2.53.12](https://github.com/sws2apps/cpe-sws/compare/v2.53.11...v2.53.12) (2023-03-28)
+
+
+### Bug Fixes
+
+* **app:** scope database to be deleted ([1ea94d9](https://github.com/sws2apps/cpe-sws/commit/1ea94d9273f076b3ee26f53825e3b1554f93574a))
+
 ## [2.53.11](https://github.com/sws2apps/cpe-sws/compare/v2.53.10...v2.53.11) (2023-03-27)
 
 
