@@ -298,7 +298,7 @@ const S140 = () => {
                         />
                       </Box>
                     )}
-                    <Box sx={{ marginBottom: '30px' }}>
+                    <Box sx={{ marginBottom: '20px' }}>
                       {/* First row for date, bible reading, chairman */}
                       <Box sx={{ display: 'flex', marginBottom: '3px' }}>
                         <Typography
