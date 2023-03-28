@@ -65,8 +65,7 @@ const fetchIssueData = (issue) => {
         ]);
 
         allData.then((raws) => {
-          for (let z = 0; z < raws.length; z++) {
-            const rawText = raws[z];
+          for (const rawText of raws) {
             if (rawText !== '') {
               htmlRaws.push(rawText);
             }
@@ -164,8 +163,7 @@ export const fetchData = async (language, issue) => {
     fetchSource5 = null;
     fetchSource6 = null;
 
-    for (let z = 0; z < allData.length; z++) {
-      const tempObj = allData[z];
+    for (const tempObj of allData) {
       if (tempObj.issueDate) {
         mergedSources.push(tempObj);
       }

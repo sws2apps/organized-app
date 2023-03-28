@@ -138,9 +138,7 @@ const StudentSelector = (props) => {
         } else {
           const timeAways = student.timeAway;
 
-          for (let b = 0; b < timeAways.length; b++) {
-            const timeAway = timeAways[b];
-
+          for (const timeAway of timeAways) {
             if (timeAway.endDate === null) {
               const dateA = formatDateForCompare(currentWeek);
               const dateB = formatDateForCompare(timeAway.startDate);
@@ -153,10 +151,7 @@ const StudentSelector = (props) => {
               const dateB = formatDateForCompare(timeAway.startDate);
               const dateC = formatDateForCompare(timeAway.endDate);
 
-              if (dateA < dateB) {
-                available.push(student);
-                break;
-              } else if (dateA > dateB && dateA > dateC) {
+              if (dateA < dateB || (dateA > dateB && dateA > dateC)) {
                 available.push(student);
                 break;
               }

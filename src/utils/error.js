@@ -5,12 +5,11 @@ import { appMessageState, appSeverityState, appSnackOpenState } from '../states/
 export const displayError = (type) => {
   const { t } = getI18n();
 
-  switch (type) {
-    case 'sourceNotFoundUnavailable':
-      return t('sourceNotFoundUnavailable', { ns: 'ui' });
-    default:
-      return t('errorTryAgain', { ns: 'ui' });
+  if (type === 'sourceNotFoundUnavailable') {
+    return t('sourceNotFoundUnavailable', { ns: 'ui' });
   }
+
+  return t('errorTryAgain', { ns: 'ui' });
 };
 
 export const displayMultiProviderAuthError = async () => {

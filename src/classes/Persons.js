@@ -61,8 +61,8 @@ PersonsClass.prototype.filter = function (data) {
     }
 
     if (!isUnassigned) {
-      for (let a = 0; a < assTypes.length; a++) {
-        const found = assignments.find((assignment) => assignment.code === assTypes[a]);
+      for (const type of assTypes) {
+        const found = assignments.find((assignment) => assignment.code === type);
         if (!found) {
           passed = false;
           break;

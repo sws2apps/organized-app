@@ -242,7 +242,16 @@ SourceClass.prototype.local = function () {
     indexType = assTypeList.findIndex((type) => type.value === obj.ass4_type);
     obj.ass4_type_name = indexType >= 0 ? assTypeList[indexType].label : '';
 
-    obj.ass4_time = this.ass4_time ? (typeof this.ass4_time === 'object' ? '' : this.ass4_time) : '';
+    if (this.ass4_time) {
+      if (typeof this.ass4_time === 'object') {
+        obj.ass4_time = '';
+      } else {
+        obj.ass4_time = this.ass4_time;
+      }
+    } else {
+      obj.ass4_time = '';
+    }
+
     obj.ass4_study = this.ass4_study || '';
     obj.ass4_src = this.ass4_src[lang] || '';
 
