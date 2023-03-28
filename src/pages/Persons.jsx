@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
-import { styled, alpha } from '@mui/material/styles';
+import { alpha } from '@mui/material/styles';
 import { useTheme } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -18,14 +18,12 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
-import InputBase from '@mui/material/InputBase';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import PersonSearchIcon from '@mui/icons-material/PersonSearch';
-import SearchIcon from '@mui/icons-material/Search';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
@@ -34,30 +32,7 @@ import { appMessageState, appSeverityState, appSnackOpenState } from '../states/
 import { currentStudentState, isStudentDeleteState } from '../states/person';
 import { themeOptionsState } from '../states/theme';
 import { Persons as PersonsData } from '../classes/Persons';
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(0.8, 1, 0.8, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-  },
-  '&.MuiInputBase-root': {
-    width: '100%',
-  },
-}));
+import SearchBar from '../components/SearchBar';
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
@@ -231,30 +206,7 @@ const Persons = () => {
           marginTop: '10px',
         }}
       >
-        <Box
-          sx={{
-            position: 'relative',
-            borderRadius: '5px',
-            backgroundColor: alpha(theme.palette.common[themeOptions.searchBg], 0.25),
-            '&:hover': {
-              backgroundColor: alpha(theme.palette.common[themeOptions.searchBg], 0.15),
-            },
-            marginBottom: '5px',
-            flexGrow: 1,
-            minWidth: '330px',
-          }}
-        >
-          <SearchIconWrapper>
-            <SearchIcon />
-          </SearchIconWrapper>
-          <StyledInputBase
-            placeholder={t('search')}
-            inputProps={{ 'aria-label': 'search' }}
-            value={txtSearch}
-            onChange={(e) => handleSearchChange(e.target.value)}
-            onKeyUp={handleSearchEnter}
-          />
-        </Box>
+        <SearchBar minWidth={'330px'} txtSearch={txtSearch} onChange={handleSearchChange} onKeyUp={handleSearchEnter} />
 
         {mdUp && (
           <Box>

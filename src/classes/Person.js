@@ -89,16 +89,17 @@ PersonClass.prototype.assistantHistory = function () {
         for (let a = 0; a < varClasses.length; a++) {
           const fldName = 'ass' + cnAss[b].iAss + '_stu_' + varClasses[a].classLabel;
 
-          if (typeof schedule[fldName] !== 'undefined') {
+          if (typeof schedule[fldName] !== 'undefined' && schedule[fldName] !== '') {
             if (schedule[fldName] === this.person_uid) {
               const assFldName = 'ass' + cnAss[b].iAss + '_ass_' + varClasses[a].classLabel;
-              if (typeof schedule[assFldName] !== 'undefined') {
+              if (typeof schedule[assFldName] !== 'undefined' && schedule[assFldName] !== '') {
                 let assistant = {};
                 assistant.ID = crypto.randomUUID();
                 assistant.weekOf = schedule.weekOf;
                 assistant.weekOfFormatted = dateFormatted;
                 assistant.mainStuID = schedule[fldName];
                 assistant.assistantStuID = schedule[assFldName];
+                console.log(assistant.assistantStuID);
                 const person = Persons.get(assistant.assistantStuID);
                 assistant.assistantName = person.person_displayName;
                 dbHistory.push(assistant);

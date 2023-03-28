@@ -77,6 +77,7 @@ const ScheduleRowAssignment = ({
   isLC,
   cbs,
   co,
+  setFilterEnabled,
 }) => {
   const classCount = useRecoilValue(classCountState);
 
@@ -175,6 +176,7 @@ const ScheduleRowAssignment = ({
               isAssignAssistant={isAssignAssistantA}
               assistant={assistantA}
               loadStudentAyfPicker={loadStudentAyfPicker}
+              setFilterEnabled={(value) => setFilterEnabled(value)}
               assType={assType}
               assTypeName={assTypeName}
               studentID={studentAID}
@@ -194,6 +196,7 @@ const ScheduleRowAssignment = ({
                   isAssignAssistant={isAssignAssistantB}
                   assistant={assistantB}
                   loadStudentAyfPicker={loadStudentAyfPicker}
+                  setFilterEnabled={(value) => setFilterEnabled(value)}
                   assType={assType}
                   assTypeName={assTypeName}
                   studentID={studentBID}

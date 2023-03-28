@@ -6,7 +6,10 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import DeleteIcon from '@mui/icons-material/Delete';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import IconButton from '@mui/material/IconButton';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -20,6 +23,7 @@ import maleIcon from '../../img/student_male.svg';
 import femaleIcon from '../../img/student_female.svg';
 import { Persons } from '../../classes/Persons';
 import { Schedules } from '../../classes/Schedules';
+import SearchBar from '../../components/SearchBar';
 
 const sharedStyles = {
   tblContainer: {
@@ -65,6 +69,8 @@ const StudentSelector = (props) => {
   const [isLoadingStuHistory, setIsLoadingStuHistory] = useState(true);
   const [isLoadingAssistantHistory, setIsLoadingAssistantHistory] = useState(true);
   const [isLoadingAssHistory, setIsLoadingAssHistory] = useState(true);
+  const [txtSearch, setTxtSearch] = useState('');
+  const [gender, setGender] = useState('male');
 
   const handleSelectStudent = (student) => {
     setSelectedStudent(student.person_displayName);
@@ -86,6 +92,10 @@ const StudentSelector = (props) => {
     props.setIsAssign(false);
   };
 
+  const handleSearchChange = (value) => {
+    setTxtSearch(value);
+  };
+
   useEffect(() => {
     if (assInfo.isAssign) {
       setAssID(assInfo.assID);
@@ -103,8 +113,7 @@ const StudentSelector = (props) => {
   }, [assInfo]);
 
   useEffect(() => {
-    let isSubscribed = true;
-    const loadStudents = async () => {
+    if (isLoadingStudent) {
       let students = [];
       if (
         assID === 3 ||
@@ -118,7 +127,7 @@ const StudentSelector = (props) => {
       ) {
         students = Persons.getByAssignment('isAssistant', stuForAssistant);
       } else {
-        students = Persons.getByAssignment(assType);
+        students = Persons.getByAssignment(assType, undefined, gender, txtSearch);
       }
 
       // remove unavailable students based on time away
@@ -176,66 +185,54 @@ const StudentSelector = (props) => {
       }
       setAssHistory(filteredHistory);
       setIsLoadingAssHistory(false);
-    };
-
-    if (isSubscribed) {
-      if (isLoadingStudent) {
-        loadStudents();
-      }
     }
-    return () => {
-      isSubscribed = false;
-    };
-  }, [currentWeek, isLoadingStudent, assID, assType, stuForAssistant]);
+  }, [currentWeek, isLoadingStudent, assID, assType, stuForAssistant, gender, txtSearch]);
 
   useEffect(() => {
-    let isSubscribed = true;
-    if (isSubscribed) {
-      if (selectedStuID !== '') {
-        setIsLoadingStuHistory(true);
-        const person = Persons.get(selectedStuID);
-        setStuHistory(person.historyAssignments());
-        setIsLoadingStuHistory(false);
-      }
+    if (selectedStuID !== '') {
+      setIsLoadingStuHistory(true);
+      const person = Persons.get(selectedStuID);
+      setStuHistory(person.historyAssignments());
+      setIsLoadingStuHistory(false);
     }
-    return () => {
-      isSubscribed = false;
-    };
   }, [selectedStuID]);
 
   useEffect(() => {
-    let isSubscribed = true;
-    const loadAssistantHistory = async () => {
+    if (stuForAssistant !== '') {
+      setIsLoadingAssistantHistory(true);
       const person = Persons.getByDisplayName(stuForAssistant);
       const assistants = person?.assistantHistory();
       setAssistantHistory(assistants);
       setIsLoadingAssistantHistory(false);
-    };
-
-    if (isSubscribed) {
-      if (stuForAssistant !== '') {
-        setIsLoadingAssistantHistory(true);
-        loadAssistantHistory();
-      }
     }
-    return () => {
-      isSubscribed = false;
-    };
   }, [stuForAssistant]);
 
   useEffect(() => {
-    const findSelectStudent = async () => {
+    setSelectedStudent('');
+    if (props.assInfo.currentStudent !== '') {
       const tempStu = props.assInfo.currentStudent;
       setSelectedStudent(tempStu);
 
       const found = Persons.getByDisplayName(tempStu);
       setSelectedStuID(found?.person_uid || '');
-    };
-
-    if (props.assInfo.currentStudent !== '') {
-      findSelectStudent();
     }
   }, [props.assInfo]);
+
+  useEffect(() => {
+    setIsLoadingStudent(true);
+  }, [gender]);
+
+  useEffect(() => {
+    let fetchTimer;
+
+    fetchTimer = setTimeout(() => {
+      setIsLoadingStudent(true);
+    }, 500);
+
+    return () => {
+      if (fetchTimer) clearTimeout(fetchTimer);
+    };
+  }, [txtSearch]);
 
   return (
     <Box>
@@ -290,6 +287,25 @@ const StudentSelector = (props) => {
       <Typography variant="body2" sx={sharedStyles.tableHeader}>
         {t('availableStudents')}
       </Typography>
+
+      <Box sx={{ display: 'flex', alignItems: 'center', margin: '10px 0' }}>
+        {props.filterEnabled && (
+          <RadioGroup
+            aria-labelledby="demo-radio-buttons-group-label"
+            defaultValue="male"
+            name="radio-buttons-group"
+            sx={{ flexDirection: 'row', marginLeft: '15px' }}
+            onChange={(e) => setGender(e.target.value)}
+            value={gender}
+          >
+            <FormControlLabel value="male" control={<Radio />} label={t('male')} />
+            <FormControlLabel value="female" control={<Radio />} label={t('female')} />
+          </RadioGroup>
+        )}
+
+        <SearchBar minWidth={'20px'} txtSearch={txtSearch} onChange={handleSearchChange} noSpace />
+      </Box>
+
       {isLoadingStudent && (
         <CircularProgress color="secondary" size={30} disableShrink={true} sx={sharedStyles.tableLoader} />
       )}
