@@ -54,5 +54,5 @@
   "returnVisitVariations": "Revisita — designação 1|Revisita — designação 2",
   "lcNoAssignedVariations": "Realizações da Organização",
   "cbsLffWithPointsVariations": "lff lição {{ lesson }} pontos {{ points }}|lff lição {{ lesson }} ponto {{ points }}",
-  "cbsLffSectionOnlyVariations": "lff parte"
+  "cbsLffSectionOnlyVariations": "lff parte|lff seção"
 }
