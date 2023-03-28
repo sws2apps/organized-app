@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import { getAuth, signOut } from 'firebase/auth';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { deleteDb } from '../../indexedDb/dbUtility';
+import { deleteAppDb } from '../../indexedDb/dbUtility';
 import {
   congAccountConnectedState,
   congIDState,
@@ -44,7 +44,7 @@ const UserAutoLogin = () => {
 
   const handleDisapproved = useCallback(async () => {
     setModalOpen(true);
-    await deleteDb();
+    await deleteAppDb();
     localStorage.removeItem('email');
     window.location.href = './';
   }, [setModalOpen]);

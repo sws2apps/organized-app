@@ -6,15 +6,7 @@ export const initAppDb = async () => {
   await appDb.open();
 };
 
-export const deleteDb = async () => {
-  const databases = await Dexie.getDatabaseNames();
-
-  for await (const db of databases) {
-    await Dexie.delete(db);
-  }
-};
-
-export const deletePocketDb = async () => {
+export const deleteAppDb = async () => {
   await appDb.close();
   await Dexie.delete('cpe_sws');
 };

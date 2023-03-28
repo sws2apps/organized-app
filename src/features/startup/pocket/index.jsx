@@ -15,7 +15,7 @@ import { apiFetchSchedule, apiPocketValidate } from '../../../api';
 import { loadApp, updateUserSettings } from '../../../utils/app';
 import { congAccountConnectedState } from '../../../states/congregation';
 import { runUpdater } from '../../../utils/updater';
-import { deletePocketDb, initAppDb } from '../../../indexedDb/dbUtility';
+import { deleteAppDb, initAppDb } from '../../../indexedDb/dbUtility';
 import { classesInitialize } from '../../../utils/classes';
 
 // lazy loading
@@ -36,7 +36,7 @@ const PocketStartup = () => {
 
   const handleDisapproved = useCallback(async () => {
     setModalOpen(true);
-    await deletePocketDb();
+    await deleteAppDb();
     await initAppDb();
     await classesInitialize();
     await loadApp();
