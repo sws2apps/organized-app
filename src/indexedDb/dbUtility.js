@@ -76,9 +76,9 @@ export const dbRestoreCongregationBackup = async (
 ) => {
   // restore settings
   await appDb.app_settings.clear();
-  for (let i = 0; i < cong_settings.length; i++) {
+  for await (const settingItem of cong_settings) {
     const setting = {
-      ...cong_settings[i],
+      ...settingItem,
       username: Setting.username,
       user_avatar: Setting.user_avatar,
       local_uid: Setting.local_uid,
@@ -310,8 +310,7 @@ export const dbRestoreCongregationBackup = async (
 
   // restore sws pocket info
   await appDb.sws_pocket.clear();
-  for (let i = 0; i < cong_swsPocket.length; i++) {
-    const pocket = cong_swsPocket[i];
+  for await (const pocket of cong_swsPocket) {
     await appDb.sws_pocket.add(pocket, pocket.id);
   }
 };

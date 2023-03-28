@@ -25,8 +25,7 @@ const addDataToDb = async (data) => {
       assTypeList = AssignmentType.AYFOnly();
     }
 
-    for (let i = 0; i < data.weeksData.length; i++) {
-      const src = data.weeksData[i];
+    for await (const src of data.weeksData) {
       const cnAYF = src.ayfCount;
 
       let obj = {};

@@ -74,8 +74,8 @@ PersonClass.prototype.assistantHistory = function () {
     const varClasses = [{ classLabel: 'A' }, { classLabel: 'B' }];
 
     //AYF Assigment History
-    for (let b = 0; b < cnAss.length; b++) {
-      let weekFld = 'ass' + cnAss[b].iAss + '_type';
+    for (const assignment of cnAss) {
+      let weekFld = 'ass' + assignment.iAss + '_type';
       const assType = weekData[weekFld];
 
       if (
@@ -86,12 +86,12 @@ PersonClass.prototype.assistantHistory = function () {
         (assType >= 140 && assType < 170) ||
         (assType >= 170 && assType < 200)
       ) {
-        for (let a = 0; a < varClasses.length; a++) {
-          const fldName = 'ass' + cnAss[b].iAss + '_stu_' + varClasses[a].classLabel;
+        for (const classItem of varClasses) {
+          const fldName = 'ass' + assignment.iAss + '_stu_' + classItem.classLabel;
 
           if (typeof schedule[fldName] !== 'undefined' && schedule[fldName] !== '') {
             if (schedule[fldName] === this.person_uid) {
-              const assFldName = 'ass' + cnAss[b].iAss + '_ass_' + varClasses[a].classLabel;
+              const assFldName = 'ass' + assignment.iAss + '_ass_' + classItem.classLabel;
               if (typeof schedule[assFldName] !== 'undefined' && schedule[assFldName] !== '') {
                 let assistant = {};
                 assistant.ID = crypto.randomUUID();
@@ -99,7 +99,6 @@ PersonClass.prototype.assistantHistory = function () {
                 assistant.weekOfFormatted = dateFormatted;
                 assistant.mainStuID = schedule[fldName];
                 assistant.assistantStuID = schedule[assFldName];
-                console.log(assistant.assistantStuID);
                 const person = Persons.get(assistant.assistantStuID);
                 assistant.assistantName = person.person_displayName;
                 dbHistory.push(assistant);
