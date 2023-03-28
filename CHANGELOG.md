@@ -1,3 +1,15 @@
+# [2.54.0](https://github.com/sws2apps/cpe-sws/compare/v2.53.13...v2.54.0) (2023-03-28)
+
+
+### Bug Fixes
+
+* **schedules:** display gender filter on memorial invitation part ([7a1efa9](https://github.com/sws2apps/cpe-sws/commit/7a1efa9a63f3285eceb5afa986999f39022370de))
+
+
+### Features
+
+* **schedules:** add filter and search field when assigning person ([673afa3](https://github.com/sws2apps/cpe-sws/commit/673afa3d1b5b9a35f14fb4865e96b608f732ab82))
+
 ## [2.53.13](https://github.com/sws2apps/cpe-sws/compare/v2.53.12...v2.53.13) (2023-03-28)
 
 
