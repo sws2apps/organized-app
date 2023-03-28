@@ -29,7 +29,7 @@ const TreeViewCheckbox = (props) => {
       } else if (Array.isArray(nodes.children)) {
         let result = null;
         nodes.children.forEach((node) => {
-          if (!!getNodeById(node, value)) {
+          if (getNodeById(node, value)) {
             result = getNodeById(node, value);
           }
         });
