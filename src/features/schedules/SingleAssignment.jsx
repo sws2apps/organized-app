@@ -58,6 +58,7 @@ const SingleAssignment = ({
         assType === 101 ||
         assType === 102 ||
         assType === 103 ||
+        assType === 108 ||
         (assType >= 140 && assType < 170) ||
         (assType >= 170 && assType < 200)
       ) {
