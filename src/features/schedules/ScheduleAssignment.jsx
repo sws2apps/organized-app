@@ -128,6 +128,7 @@ const ScheduleAssignment = ({ edit }) => {
   const [isDlgOpen, setIsDlgOpen] = useState(false);
   const [coTalkTitle, setCoTalkTitle] = useState('');
   const [coName, setCoName] = useState('');
+  const [filterEnabled, setFilterEnabled] = useState(false);
 
   const week = weekToFormat.replaceAll('-', '/');
 
@@ -482,6 +483,7 @@ const ScheduleAssignment = ({ edit }) => {
               setSelectedStudent={(value) => setSelectedStudent(value)}
               deleteStudent={(value) => deleteStudent(value)}
               currentWeek={week}
+              filterEnabled={filterEnabled}
             />
           </DialogContent>
         </Dialog>
@@ -521,6 +523,7 @@ const ScheduleAssignment = ({ edit }) => {
                   currentStudent: chairmanA,
                 })
               }
+              setFilterEnabled={(value) => setFilterEnabled(value)}
             />
             {/* Chairman B */}
             {classCount === 2 && weekType === 1 && (
@@ -537,6 +540,7 @@ const ScheduleAssignment = ({ edit }) => {
                     currentStudent: chairmanB,
                   })
                 }
+                setFilterEnabled={(value) => setFilterEnabled(value)}
               />
             )}
           </Box>
@@ -555,6 +559,7 @@ const ScheduleAssignment = ({ edit }) => {
                 currentStudent: openingPrayer,
               })
             }
+            setFilterEnabled={(value) => setFilterEnabled(value)}
           />
         </Box>
 
@@ -575,6 +580,7 @@ const ScheduleAssignment = ({ edit }) => {
               currentStudent: tgwTalk,
             })
           }
+          setFilterEnabled={(value) => setFilterEnabled(value)}
         />
 
         {/* TGW Gems */}
@@ -591,6 +597,7 @@ const ScheduleAssignment = ({ edit }) => {
               currentStudent: tgwGems,
             })
           }
+          setFilterEnabled={(value) => setFilterEnabled(value)}
         />
 
         {/* Bible Reading */}
@@ -620,6 +627,7 @@ const ScheduleAssignment = ({ edit }) => {
               currentStudent: stuBReadB,
             })
           }
+          setFilterEnabled={(value) => setFilterEnabled(value)}
         />
 
         {/* AYF */}
@@ -645,6 +653,7 @@ const ScheduleAssignment = ({ edit }) => {
           student={true}
           studentPart={buildAssignmentDesc(ass1Src, ass1Study)}
           loadStudentAyfPicker={(value) => loadStudentPicker(value)}
+          setFilterEnabled={(value) => setFilterEnabled(value)}
           studentAID={2}
           assistantAID={3}
           studentBID={4}
@@ -672,6 +681,7 @@ const ScheduleAssignment = ({ edit }) => {
             student={true}
             studentPart={buildAssignmentDesc(ass2Src, ass2Study)}
             loadStudentAyfPicker={(value) => loadStudentPicker(value)}
+            setFilterEnabled={(value) => setFilterEnabled(value)}
             studentAID={6}
             assistantAID={7}
             studentBID={8}
@@ -700,6 +710,7 @@ const ScheduleAssignment = ({ edit }) => {
             student={true}
             studentPart={buildAssignmentDesc(ass3Src, ass3Study)}
             loadStudentAyfPicker={(value) => loadStudentPicker(value)}
+            setFilterEnabled={(value) => setFilterEnabled(value)}
             studentAID={10}
             assistantAID={11}
             studentBID={12}
@@ -728,6 +739,7 @@ const ScheduleAssignment = ({ edit }) => {
             student={true}
             studentPart={buildAssignmentDesc(ass4Src, ass4Study)}
             loadStudentAyfPicker={(value) => loadStudentPicker(value)}
+            setFilterEnabled={(value) => setFilterEnabled(value)}
             studentAID={14}
             assistantAID={15}
             studentBID={16}
@@ -755,6 +767,7 @@ const ScheduleAssignment = ({ edit }) => {
                 currentStudent: lcPart1,
               })
             }
+            setFilterEnabled={(value) => setFilterEnabled(value)}
           />
         )}
 
@@ -775,6 +788,7 @@ const ScheduleAssignment = ({ edit }) => {
                 currentStudent: lcPart2,
               })
             }
+            setFilterEnabled={(value) => setFilterEnabled(value)}
           />
         )}
 
@@ -805,6 +819,7 @@ const ScheduleAssignment = ({ edit }) => {
                 currentStudent: cbsReader,
               })
             }
+            setFilterEnabled={(value) => setFilterEnabled(value)}
           />
         )}
 
@@ -834,6 +849,7 @@ const ScheduleAssignment = ({ edit }) => {
                 currentStudent: closingPrayer,
               })
             }
+            setFilterEnabled={(value) => setFilterEnabled(value)}
           />
         </Box>
       </Box>
@@ -855,6 +871,7 @@ const ScheduleAssignment = ({ edit }) => {
               setIsAssign={(value) => setIsAssign(value)}
               setSelectedStudent={(value) => setSelectedStudent(value)}
               deleteStudent={(value) => deleteStudent(value)}
+              filterEnabled={filterEnabled}
             />
           )}
         </Box>

@@ -173,7 +173,7 @@ PersonsClass.prototype.isExist = function (name) {
   return this.list.find((person) => person.person_name === name) ? true : false;
 };
 
-PersonsClass.prototype.getByAssignment = function (assType, stuForAssistant) {
+PersonsClass.prototype.getByAssignment = function (assType, stuForAssistant, gender, txtSearch) {
   // check is assType is linked to another type
 
   const assTypeList = AssignmentType.types;
@@ -184,7 +184,23 @@ PersonsClass.prototype.getByAssignment = function (assType, stuForAssistant) {
   const data = Persons.list;
 
   // remove disqualified students
-  const appData = data.filter((person) => person.isDisqualified === false);
+  let appData = data.filter((person) => person.isDisqualified === false);
+
+  // filter by gender
+  if (assType === 101 || assType === 102 || assType === 103) {
+    if (gender === 'male') {
+      appData = appData.filter((person) => person.isMale === true);
+    }
+
+    if (gender === 'female') {
+      appData = appData.filter((person) => person.isFemale === true);
+    }
+  }
+
+  // search
+  if (txtSearch && txtSearch.length > 0) {
+    appData = appData.filter((person) => person.person_name.toLowerCase().indexOf(txtSearch.toLowerCase()) !== -1);
+  }
 
   let dbPersons = [];
   if (assType === 'isAssistant') {

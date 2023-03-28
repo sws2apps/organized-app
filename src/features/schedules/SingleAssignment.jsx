@@ -24,6 +24,7 @@ const SingleAssignment = ({
   assTypeName,
   assistantID,
   co,
+  setFilterEnabled,
 }) => {
   const { t } = useTranslation('ui');
 
@@ -50,7 +51,19 @@ const SingleAssignment = ({
   };
 
   const openPickerStudent = () => {
+    setFilterEnabled(false);
+
     if (ayf) {
+      if (
+        assType === 101 ||
+        assType === 102 ||
+        assType === 103 ||
+        (assType >= 140 && assType < 170) ||
+        (assType >= 170 && assType < 200)
+      ) {
+        setFilterEnabled(true);
+      }
+
       loadStuPicker(studentID, assType, assTypeName, person);
     }
 
@@ -60,6 +73,7 @@ const SingleAssignment = ({
   };
 
   const openPickerAssistant = () => {
+    setFilterEnabled(false);
     loadStuPicker(assistantID, assType, t('assistant'), assistant, person, assTypeName);
   };
 
