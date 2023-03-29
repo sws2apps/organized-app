@@ -189,7 +189,7 @@ const App = ({ updatePwa }) => {
         apiHost = 'http://localhost:8000/';
       }
     } else {
-      apiHost = 'https://sws2apps.herokuapp.com/';
+      apiHost = 'https://api.sws2apps.com/';
     }
 
     setApiHost(apiHost);
