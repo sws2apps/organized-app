@@ -125,7 +125,7 @@ const StudentSelector = (props) => {
         assID === 15 ||
         assID === 17
       ) {
-        students = Persons.getByAssignment('isAssistant', stuForAssistant);
+        students = Persons.getByAssignment('isAssistant', stuForAssistant, undefined, txtSearch);
       } else {
         students = Persons.getByAssignment(assType, undefined, gender, txtSearch);
       }
