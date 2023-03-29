@@ -1,3 +1,16 @@
+# [2.55.0](https://github.com/sws2apps/cpe-sws/compare/v2.54.0...v2.55.0) (2023-03-29)
+
+
+### Bug Fixes
+
+* **schedules:** search not working when assigning assistant ([15b4ee3](https://github.com/sws2apps/cpe-sws/commit/15b4ee30b63a2d1629c08c3f97365c269083c518))
+
+
+### Features
+
+* **deps:** bump @mui/material from 5.11.14 to 5.11.15 ([335eeef](https://github.com/sws2apps/cpe-sws/commit/335eeef51ccabc270073525c380e9e0fba4410b2))
+* **deps:** bump @sws2apps/react-sw-helper from 1.11.0 to 1.12.0 ([d4c7bcd](https://github.com/sws2apps/cpe-sws/commit/d4c7bcd8552d79b4fca2416c2fde756401934e5d))
+
 # [2.54.0](https://github.com/sws2apps/cpe-sws/compare/v2.53.13...v2.54.0) (2023-03-28)
 
 
