@@ -175,7 +175,6 @@ PersonsClass.prototype.isExist = function (name) {
 
 PersonsClass.prototype.getByAssignment = function (assType, stuForAssistant, gender, txtSearch) {
   // check is assType is linked to another type
-
   const assTypeList = AssignmentType.types;
 
   const linkTo = assTypeList.find((item) => item.code === assType)?.linkTo;
@@ -206,6 +205,7 @@ PersonsClass.prototype.getByAssignment = function (assType, stuForAssistant, gen
   if (assType === 'isAssistant') {
     if (stuForAssistant) {
       const main = Persons.getByDisplayName(stuForAssistant);
+
       dbPersons = appData.filter(
         (person) =>
           person.isMale === main.isMale &&
