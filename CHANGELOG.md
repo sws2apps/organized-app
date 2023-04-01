@@ -1,3 +1,19 @@
+# [2.56.0](https://github.com/sws2apps/cpe-sws/compare/v2.55.0...v2.56.0) (2023-04-01)
+
+
+### Bug Fixes
+
+* **app:** update api endpoint url ([71926ed](https://github.com/sws2apps/cpe-sws/commit/71926ed6b662616b53669c80cda1f497b5922624))
+
+
+### Features
+
+* **deps:** bump @mui/x-date-pickers from 6.0.3 to 6.0.4 ([62c0230](https://github.com/sws2apps/cpe-sws/commit/62c0230bd72cc07a4483557788c57a064cdc41ab))
+* **deps:** bump firebase from 9.18.0 to 9.19.0 ([e34e76c](https://github.com/sws2apps/cpe-sws/commit/e34e76c8490bad5544cdb3600a0ac0c5ea5748d6))
+* **deps:** bump firebase from 9.19.0 to 9.19.1 ([354c6dd](https://github.com/sws2apps/cpe-sws/commit/354c6dd941122b0936777afa44be2fed80ffabe5))
+* **deps:** bump jw-epub-parser from 1.36.0 to 1.37.0 ([87d004c](https://github.com/sws2apps/cpe-sws/commit/87d004c1b4f414aeb80559046b5b58ae0eaeefdf))
+* **deps:** bump react-router-dom from 6.9.0 to 6.10.0 ([3569091](https://github.com/sws2apps/cpe-sws/commit/3569091b49d0d64df6e3bfc5cae845bac8e8e34c))
+
 # [2.55.0](https://github.com/sws2apps/cpe-sws/compare/v2.54.0...v2.55.0) (2023-03-29)
 
 
