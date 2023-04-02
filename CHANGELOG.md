@@ -1,3 +1,10 @@
+# [2.57.0](https://github.com/sws2apps/cpe-sws/compare/v2.56.0...v2.57.0) (2023-04-02)
+
+
+### Features
+
+* **sources:** add option to skip verification of some weeks on load ([8df7390](https://github.com/sws2apps/cpe-sws/commit/8df7390d8f0395940c3d37a0208330b44c12be2b))
+
 # [2.56.0](https://github.com/sws2apps/cpe-sws/compare/v2.55.0...v2.56.0) (2023-04-01)
 
 
