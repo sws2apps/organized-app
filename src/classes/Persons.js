@@ -150,7 +150,6 @@ PersonsClass.prototype.preSave = async function (data) {
       data.changes = comparePerson(person, data);
 
       data.changes = data.changes.filter((item) => item.field !== 'lastAssignment');
-      data.changes = data.changes.filter((item) => item.field !== 'assignments');
 
       await person.save(data);
     } else {
