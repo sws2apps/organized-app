@@ -100,11 +100,10 @@ export const dbRestoreCongregationBackup = async (
 
       if (newChanges) {
         newChanges = newChanges.filter((item) => item.field !== 'lastAssignment');
-        newChanges = newChanges.filter((item) => item.field !== 'assignments');
 
         // handle non-assignments and non-time away changes
         newChanges.forEach((change) => {
-          if (change.field !== 'timeAway') {
+          if (change.field !== 'timeAway' && change.field !== 'assignments') {
             let isChanged = false;
 
             const oldChange = oldChanges?.find((old) => old.field === change.field);
@@ -139,6 +138,35 @@ export const dbRestoreCongregationBackup = async (
           }
         });
 
+        // handle assignments changes
+        newChanges.forEach((change) => {
+          if (change.field === 'assignments') {
+            // handle deleted assignment
+            if (change.isDeleted) {
+              const toBeDeleted = oldPerson.assignments.findIndex((item) => item.code === change.value.code);
+              if (toBeDeleted !== -1) oldPerson.assignments.splice(toBeDeleted, 1);
+            }
+
+            // handle added item
+            if (change.isAdded) {
+              const isExist = oldPerson.assignments.find((item) => item.code === change.value.code);
+              if (!isExist) oldPerson.assignments.push(change.value);
+            }
+
+            // update changes
+            if (!oldPerson.changes) oldPerson.changes = [];
+            const filteredChanges = [];
+            oldPerson.changes.forEach((item) => {
+              if (item.field === 'assignments' && item.value.code === change.value.code) {
+                return;
+              }
+              filteredChanges.push(item);
+            });
+            oldPerson.changes = [...filteredChanges];
+            oldPerson.changes.push(change);
+          }
+        });
+
         // handle time away changes
         newChanges.forEach((change) => {
           if (change.field === 'timeAway') {
@@ -170,23 +198,24 @@ export const dbRestoreCongregationBackup = async (
             // update changes
             if (change.isDeleted || change.isModified) {
               if (!oldPerson.changes) oldPerson.changes = [];
-              const findIndex = oldPerson.changes.findIndex(
-                (item) => item.value.timeAwayId === change.value.timeAwayId
-              );
-              if (findIndex !== -1) oldPerson.changes.splice(findIndex, 1);
+              const filteredChanges = [];
+              oldPerson.changes.forEach((item) => {
+                if (item.field === 'timeAway' && item.value.timeAwayId === change.value.timeAwayId) {
+                  return;
+                }
+                filteredChanges.push(item);
+              });
+              oldPerson.changes = [...filteredChanges];
               oldPerson.changes.push(change);
             }
           }
         });
       }
 
-      oldPerson.assignments = newPerson.assignments;
-
       if (oldPerson.id) delete oldPerson.id;
       oldPerson.changes = oldPerson.changes?.filter((item) => item.field !== 'lastAssignment') || [];
-      oldPerson.changes = oldPerson.changes.filter((item) => item.field !== 'assignments');
 
-      await appDb.table('persons').update(oldPerson.person_uid, oldPerson);
+      await appDb.persons.update(oldPerson.person_uid, oldPerson);
     }
   }
 
@@ -195,8 +224,7 @@ export const dbRestoreCongregationBackup = async (
     const oldPerson = oldPersons.find((person) => person.person_uid === newPerson.person_uid);
     if (!oldPerson) {
       if (newPerson.id) delete newPerson.id;
-      newPerson.changes = newPerson.changes?.filter((item) => item.field !== 'lastAssignment') || [];
-      newPerson.changes = newPerson.changes.filter((item) => item.field !== 'assignments');
+      newPerson.changes = newPerson.changes.filter((item) => item.field !== 'lastAssignment');
       await appDb.persons.add(newPerson);
     }
   }

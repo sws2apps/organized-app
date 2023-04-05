@@ -1,20 +1,79 @@
+const excludeFields = ['changes', 'id', 'lastAssignment', 'person_uid'];
+
 export const comparePerson = (source, modified) => {
-  const excludeFields = ['changes', 'id', 'lastAssignment', 'person_uid', 'assignments'];
-  const changes = source.changes ? [...source.changes] : [];
+  let changes = source.changes ? [...source.changes] : [];
+
+  changes = compareNonArray(source, modified, changes);
+  changes = compareAssignments(source, modified, changes);
+  changes = compareTimeAway(source, modified, changes);
+
+  return changes;
+};
+
+const compareNonArray = (source, modified, changes) => {
+  const localExclude = [...excludeFields, 'timeAway', 'assignments'];
 
   for (const [key, value] of Object.entries(modified)) {
-    if (excludeFields.indexOf(key) === -1) {
-      if (key !== 'timeAway') {
-        if (value !== source[key]) {
-          const findIndex = changes.findIndex((item) => item.field === key);
-          if (findIndex !== -1) changes.splice(findIndex, 1);
-          changes.push({ date: new Date().toISOString(), field: key, value });
-        }
+    if (localExclude.indexOf(key) === -1) {
+      if (value !== source[key]) {
+        const findIndex = changes.findIndex((item) => item.field === key);
+        if (findIndex !== -1) changes.splice(findIndex, 1);
+        changes.push({ date: new Date().toISOString(), field: key, value });
       }
+    }
+  }
 
-      if (key === 'timeAway') {
-        // check added or modified time away
-        value?.forEach((updated) => {
+  return changes;
+};
+
+const compareAssignments = (source, modified, changes) => {
+  // check added or deleted assignment
+  console.log(source, modified);
+  if (modified.assignments) {
+    for (const updated of modified.assignments) {
+      const findSource = source.assignments?.find((item) => item.code === updated.code);
+      // new assignment
+      if (!findSource) {
+        const filteredChanges = [];
+        changes.forEach((item) => {
+          if (item.field === 'assignments' && item.value.code === updated.code) {
+            return;
+          }
+          filteredChanges.push(item);
+        });
+        changes = [...filteredChanges];
+        changes.push({ date: new Date().toISOString(), field: 'assignments', isAdded: true, value: updated });
+      }
+    }
+  }
+
+  // check deleted assignment
+  if (source.assignments) {
+    for (const original of source.assignments) {
+      const findModified = modified.assignments?.find((item) => item.code === original.code);
+      if (!findModified) {
+        const filteredChanges = [];
+        changes.forEach((item) => {
+          if (item.field === 'assignments' && item.value.code === original.code) {
+            return;
+          }
+          filteredChanges.push(item);
+        });
+        changes = [...filteredChanges];
+        changes.push({ date: new Date().toISOString(), field: 'assignments', isDeleted: true, value: original });
+      }
+    }
+  }
+
+  return changes;
+};
+
+const compareTimeAway = (source, modified, changes) => {
+  for (const [key, value] of Object.entries(modified)) {
+    if (key === 'timeAway') {
+      // check added or modified time away
+      if (value) {
+        for (const updated of value) {
           const findSource = source[key]?.find((item) => item.timeAwayId === updated.timeAwayId);
           // time away modified
           if (findSource) {
@@ -29,10 +88,14 @@ export const comparePerson = (source, modified) => {
               }
             }
             if (arrayFieldChanged) {
-              const findIndex = changes.findIndex(
-                (item) => item.field === key && item.value.timeAwayId === updated.timeAwayId
-              );
-              if (findIndex !== -1) changes.splice(findIndex, 1);
+              const filteredChanges = [];
+              changes.forEach((item) => {
+                if (item.field === key && item.value.timeAwayId === updated.timeAwayId) {
+                  return;
+                }
+                filteredChanges.push(item);
+              });
+              changes = [...filteredChanges];
               changes.push({ date: new Date().toISOString(), field: key, isModified: true, value: updated });
             }
           }
@@ -41,19 +104,25 @@ export const comparePerson = (source, modified) => {
           if (!findSource) {
             changes.push({ date: new Date().toISOString(), field: key, isAdded: true, value: updated });
           }
-        });
+        }
+      }
 
-        // check deleted timeAway
-        source[key]?.forEach((original) => {
+      // check deleted timeAway
+      if (source.timeAway) {
+        for (const original of source.timeAway) {
           const findModified = value?.find((item) => item.timeAwayId === original.timeAwayId);
           if (!findModified) {
-            const findIndex = changes.findIndex(
-              (item) => item.field === key && item.value.timeAwayId === original.timeAwayId
-            );
-            if (findIndex !== -1) changes.splice(findIndex, 1);
+            const filteredChanges = [];
+            changes.forEach((item) => {
+              if (item.field === key && item.value.timeAwayId === original.timeAwayId) {
+                return;
+              }
+              filteredChanges.push(item);
+            });
+            changes = [...filteredChanges];
             changes.push({ date: new Date().toISOString(), field: key, isDeleted: true, value: original });
           }
-        });
+        }
       }
     }
   }
