@@ -1,3 +1,14 @@
+# [2.58.0](https://github.com/sws2apps/cpe-sws/compare/v2.57.0...v2.58.0) (2023-04-05)
+
+
+### Features
+
+* **congregation:** allow multi-edit of user assignments ([ca9cd30](https://github.com/sws2apps/cpe-sws/commit/ca9cd308165817a836804b103c195aa514635020))
+* **deps:** bump @mui/icons-material from 5.11.11 to 5.11.16 ([d684123](https://github.com/sws2apps/cpe-sws/commit/d6841236ef2a4c7452ac942168fa1956c271ed9e))
+* **deps:** bump @mui/lab from 5.0.0-alpha.124 to 5.0.0-alpha.125 ([0023c30](https://github.com/sws2apps/cpe-sws/commit/0023c30f2c542dbfdcbaa35ec25a9b1d89b30389))
+* **deps:** bump @mui/material from 5.11.15 to 5.11.16 ([36922eb](https://github.com/sws2apps/cpe-sws/commit/36922eb7d844f89e30f85fa3990254077ba438fb))
+* **deps:** bump i18next from 22.4.13 to 22.4.14 ([e7eda9c](https://github.com/sws2apps/cpe-sws/commit/e7eda9c95339d8f91d267c2ef38ed7e0dd60126e))
+
 # [2.57.0](https://github.com/sws2apps/cpe-sws/compare/v2.56.0...v2.57.0) (2023-04-02)
 
 
