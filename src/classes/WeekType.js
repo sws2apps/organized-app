@@ -36,4 +36,10 @@ WeekTypeClass.prototype.local = function () {
   return newList;
 };
 
+WeekTypeClass.prototype.getLabel = function (type) {
+  const data = this.local();
+  const weekTypeName = data.find((item) => item.value === type).label;
+  return weekTypeName.toUpperCase();
+};
+
 export const WeekTypeList = new WeekTypeClass();

@@ -8,6 +8,8 @@ const WeekType = (props) => {
 
   const { weekType, setWeekType } = props;
 
+  const weekTypeList = WeekTypeList.local();
+
   const handleTypeChange = async (e) => {
     setWeekType(e.target.value);
     if (e.target.value === 3 || e.target.value === 4) {
@@ -27,7 +29,7 @@ const WeekType = (props) => {
 
   return (
     <>
-      {WeekTypeList.local().length > 0 && (
+      {weekTypeList.length > 0 && (
         <TextField
           id="outlined-select-weekType"
           select
@@ -40,7 +42,7 @@ const WeekType = (props) => {
             margin: '5px 5px 10px 0',
           }}
         >
-          {WeekTypeList.local().map((weekType) => renderWeekType(weekType))}
+          {weekTypeList.map((weekType) => renderWeekType(weekType))}
         </TextField>
       )}
     </>
