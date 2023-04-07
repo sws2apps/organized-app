@@ -1,3 +1,10 @@
+## [2.58.1](https://github.com/sws2apps/cpe-sws/compare/v2.58.0...v2.58.1) (2023-04-07)
+
+
+### Bug Fixes
+
+* **templates:** S-140 template failed to load on some weeks ([7e3c0dc](https://github.com/sws2apps/cpe-sws/commit/7e3c0dc7fc4b7a5d608dc126e4659d354af85a87))
+
 # [2.58.0](https://github.com/sws2apps/cpe-sws/compare/v2.57.0...v2.58.0) (2023-04-05)
 
 
