@@ -19,6 +19,7 @@ import {
   S140ScheduleHeading,
 } from '../features/schedules';
 import { Schedules } from '../classes/Schedules';
+import { WeekTypeList } from '../classes/WeekType';
 
 const S140 = () => {
   let navigate = useNavigate();
@@ -49,8 +50,12 @@ const S140 = () => {
   };
 
   const getWeekInfoLabel = (weekItem) => {
-    if (weekItem.scheduleData.week_type !== 1) return weekItem.scheduleData.week_type_name.toUpperCase();
+    if (weekItem.scheduleData.week_type !== 1) {
+      return WeekTypeList.getLabel(weekItem.scheduleData.week_type);
+    }
+
     if (weekItem.scheduleData.noMeeting) return t('noMeeting', { lng: sourceLang });
+
     return '';
   };
 
