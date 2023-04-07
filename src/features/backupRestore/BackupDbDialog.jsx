@@ -7,6 +7,7 @@ import { congIDState, isProcessingBackupState } from '../../states/congregation'
 import { dbExportDataOnline } from '../../indexedDb/dbUtility';
 import BackupMain from './BackupMain';
 import useFirebaseAuth from '../../hooks/useFirebaseAuth';
+import { Setting } from '../../classes/Setting';
 
 const BackupDbDialog = () => {
   const cancel = useRef();
@@ -44,14 +45,26 @@ const BackupDbDialog = () => {
         const { dbPersons, dbDeleted, dbSourceMaterial, dbSchedule, dbPocketTbl, dbSettings } =
           await dbExportDataOnline();
 
-        const reqPayload = {
-          cong_persons: dbPersons,
-          cong_deleted: dbDeleted,
-          cong_schedule: dbSchedule,
-          cong_sourceMaterial: dbSourceMaterial,
-          cong_swsPocket: dbPocketTbl,
-          cong_settings: dbSettings,
-        };
+        let reqPayload;
+
+        if (Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup')) {
+          reqPayload = {
+            cong_persons: dbPersons,
+            cong_deleted: dbDeleted,
+            cong_schedule: dbSchedule,
+            cong_sourceMaterial: dbSourceMaterial,
+            cong_swsPocket: dbPocketTbl,
+            cong_settings: dbSettings,
+          };
+        }
+
+        if (Setting.cong_role.includes('secretary')) {
+          reqPayload = {
+            cong_persons: dbPersons,
+            cong_deleted: dbDeleted,
+            cong_settings: dbSettings,
+          };
+        }
 
         const res = await fetch(`${apiHost}api/congregations/${congID}/backup`, {
           method: 'POST',

@@ -242,3 +242,12 @@ export const updateUserSettings = async (data) => {
   await promiseSetRecoil(userIDState, data.id);
   await promiseSetRecoil(pocketLocalIDState, data.pocket_local_id.person_uid);
 };
+
+export const computeYearsDiff = (date) => {
+  const userDate = new Date(date);
+  const now = new Date();
+  const oneDay = 24 * 60 * 60 * 1000;
+  const yearsDiff = ((now - userDate) / oneDay / 365).toFixed(2);
+
+  return +yearsDiff;
+};

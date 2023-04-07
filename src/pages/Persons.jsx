@@ -316,7 +316,7 @@ const Persons = () => {
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={tabValue} onChange={handleTabChange} aria-label="basic tabs example">
             <Tab label={`${t('searchResult')} (${isSearch ? 0 : persons.length})`} {...a11yProps(0)} />
-            <Tab label={t('recentStudents')} {...a11yProps(1)} />
+            <Tab label={t('recentPersons')} {...a11yProps(1)} />
           </Tabs>
         </Box>
         <TabPanel value={tabValue} index={0}>

@@ -175,7 +175,7 @@ const DashboardMenu = () => {
           title: t('editAssignmentsSchedule'),
           icon: <AssignmentIcon />,
           disabled: false,
-          visible: accountType === 'vip' && !congRole.includes('view_meeting_schedule'),
+          visible: accountType === 'vip' && (congRole.includes('lmmo') || congRole.includes('lmmo-backup')),
           navigateTo: '/schedules',
         },
         {
@@ -183,7 +183,9 @@ const DashboardMenu = () => {
           icon: <SendIcon />,
           disabled: false,
           visible:
-            accountType === 'vip' && !congRole.includes('view_meeting_schedule') && isCongAccountConnected
+            accountType === 'vip' &&
+            (congRole.includes('lmmo') || congRole.includes('lmmo-backup')) &&
+            isCongAccountConnected
               ? true
               : false,
           action: handlePublishPocket,
@@ -191,14 +193,16 @@ const DashboardMenu = () => {
         {
           title: t('refreshSchedule'),
           icon: <CloudSyncIcon />,
-          visible: isCongAccountConnected && (accountType === 'pocket' || congRole.includes('view_meeting_schedule')),
+          visible:
+            isCongAccountConnected &&
+            (accountType === 'pocket' || congRole.includes('view_meeting_schedule') || congRole.includes('secretary')),
           action: apiFetchSchedule,
         },
       ],
     },
     {
       title: t('sourceMaterial'),
-      visible: accountType === 'vip' && !congRole.includes('view_meeting_schedule'),
+      visible: accountType === 'vip' && (congRole.includes('lmmo') || congRole.includes('lmmo-backup')),
       links: [
         {
           title: t('viewSourceMaterial'),

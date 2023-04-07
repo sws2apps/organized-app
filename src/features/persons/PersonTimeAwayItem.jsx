@@ -11,18 +11,6 @@ import ClearIcon from '@mui/icons-material/Clear';
 import TextField from '@mui/material/TextField';
 import { shortDatePickerFormatState } from '../../states/main';
 
-const datePicker = {
-  marginTop: '25px',
-  marginLeft: '10px !important',
-  width: '170px !important',
-  '.MuiInputBase-inputAdornedEnd': {
-    padding: '9px !important',
-  },
-  '.MuiInputLabel-formControl': {
-    top: '-7px !important',
-  },
-};
-
 const PersonTimeAwayItem = ({ timeAway, timeAways, setTimeAway }) => {
   const { t } = useTranslation('ui');
 
@@ -111,7 +99,6 @@ const PersonTimeAwayItem = ({ timeAway, timeAways, setTimeAway }) => {
               format={shortDatePickerFormat}
               value={startedDate}
               onChange={handleStartedChange}
-              renderInput={(params) => <TextField {...params} sx={datePicker} />}
             />
           </LocalizationProvider>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -121,7 +108,6 @@ const PersonTimeAwayItem = ({ timeAway, timeAways, setTimeAway }) => {
               format={shortDatePickerFormat}
               value={expiredDate}
               onChange={handleExpiredChange}
-              renderInput={(params) => <TextField {...params} sx={datePicker} />}
             />
           </LocalizationProvider>
         </Box>

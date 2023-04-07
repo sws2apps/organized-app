@@ -35,9 +35,10 @@ export const apiFetchSchedule = async () => {
       }
 
       if (
-        Setting.account_type === 'vip' &&
-        Setting.cong_role.length === 1 &&
-        Setting.cong_role.includes('view_meeting_schedule')
+        (Setting.account_type === 'vip' &&
+          Setting.cong_role.length === 1 &&
+          Setting.cong_role.includes('view_meeting_schedule')) ||
+        Setting.cong_role.includes('secretary')
       ) {
         const auth = await getAuth();
         const user = auth.currentUser;

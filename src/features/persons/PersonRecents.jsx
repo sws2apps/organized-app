@@ -10,28 +10,28 @@ import { Persons } from '../../classes/Persons';
 const StudentRecents = () => {
   const { t } = useTranslation('ui');
 
-  const [recentStudents, setRecentStudents] = useState([]);
+  const [recentPersons, setRecentPersons] = useState([]);
 
   const clearRecentsStudents = () => {
-    localStorage.removeItem('recentStudents');
-    setRecentStudents([]);
+    localStorage.removeItem('recentPersons');
+    setRecentPersons([]);
   };
 
   useEffect(() => {
     const buildRecentStudents = async () => {
-      const data = Persons.recentPersons(localStorage.getItem('recentStudents'));
-      setRecentStudents(data);
+      const data = Persons.recentPersons(localStorage.getItem('recentPersons'));
+      setRecentPersons(data);
     };
 
     buildRecentStudents();
   }, []);
 
   return (
-    <Box sx={{ marginBottom: `${recentStudents.length > 0 ? '70px' : 0}` }}>
-      {recentStudents.length > 0 && (
+    <Box sx={{ marginBottom: `${recentPersons.length > 0 ? '70px' : 0}` }}>
+      {recentPersons.length > 0 && (
         <>
           <Grid container>
-            {recentStudents.map((person) => (
+            {recentPersons.map((person) => (
               <PersonCard key={person.person_uid} person={person} />
             ))}
           </Grid>

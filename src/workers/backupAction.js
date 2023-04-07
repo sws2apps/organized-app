@@ -8,10 +8,10 @@ let congID;
 let isOnline = navigator.onLine;
 let backupInterval;
 let isCongAccountConnected;
-let roleApproved;
+let userRole = [];
 
-export const setRoleApproved = (value) => {
-  roleApproved = value;
+export const setUserRole = (value) => {
+  userRole = value;
 };
 
 export const setIsEnabled = (value) => {
@@ -49,10 +49,10 @@ export const setIsCongAccountConnected = (value) => {
 const isDev = process.env.NODE_ENV === 'development';
 
 const runBackupSchedule = async () => {
-  if (isDev) backupInterval = 30000;
+  if (isDev) backupInterval = 60000;
 
   if (
-    roleApproved &&
+    (userRole.includes('lmmo') || userRole.includes('lmmo-backup') || userRole.includes('secretary')) &&
     isEnabled &&
     backupInterval &&
     isOnline &&
@@ -64,14 +64,26 @@ const runBackupSchedule = async () => {
   ) {
     const { dbPersons, dbDeleted, dbSourceMaterial, dbSchedule, dbPocketTbl, dbSettings } = await dbExportDataOnline();
 
-    const reqPayload = {
-      cong_persons: dbPersons,
-      cong_deleted: dbDeleted,
-      cong_schedule: dbSchedule,
-      cong_sourceMaterial: dbSourceMaterial,
-      cong_swsPocket: dbPocketTbl,
-      cong_settings: dbSettings,
-    };
+    let reqPayload;
+
+    if (userRole.includes('lmmo') || userRole.includes('lmmo-backup')) {
+      reqPayload = {
+        cong_persons: dbPersons,
+        cong_deleted: dbDeleted,
+        cong_schedule: dbSchedule,
+        cong_sourceMaterial: dbSourceMaterial,
+        cong_swsPocket: dbPocketTbl,
+        cong_settings: dbSettings,
+      };
+    }
+
+    if (userRole.includes('secretary')) {
+      reqPayload = {
+        cong_persons: dbPersons,
+        cong_deleted: dbDeleted,
+        cong_settings: dbSettings,
+      };
+    }
 
     await fetch(`${apiHost}api/congregations/${congID}/backup`, {
       method: 'POST',

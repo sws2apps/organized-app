@@ -12,11 +12,22 @@ export class PersonClass {
     this.person_displayName = '';
     this.isMale = true;
     this.isFemale = true;
+    this.birthDate = null;
+    this.isAnointed = false;
+    this.isOtherSheep = true;
+    this.isElder = false;
+    this.isMS = false;
+    this.isPublisher = false;
+    this.isBaptized = false;
+    this.immersedDate = null;
     this.isUnavailable = false;
     this.assignments = [];
     this.timeAway = [];
     this.isMoved = false;
     this.isDisqualified = false;
+    this.email = '';
+    this.address = '';
+    this.phone = '';
     this.changes = [];
   }
 }
@@ -27,12 +38,23 @@ PersonClass.prototype.loadDetails = async function () {
   this.person_displayName = appData.person_displayName || '';
   this.isMale = appData.isMale === undefined ? true : appData.isMale;
   this.isFemale = appData.isFemale === undefined ? false : appData.isFemale;
+  this.birthDate = appData.birthDate === undefined ? null : appData.birthDate;
+  this.isAnointed = appData.isAnointed === undefined ? false : appData.isAnointed;
+  this.isOtherSheep = appData.isOtherSheep === undefined ? true : appData.isOtherSheep;
+  this.isElder = appData.isElder === undefined ? false : appData.isElder;
+  this.isMS = appData.isMS === undefined ? false : appData.isMS;
+  this.isPublisher = appData.isPublisher === undefined ? false : appData.isPublisher;
+  this.isBaptized = appData.isBaptized === undefined ? false : appData.isBaptized;
+  this.immersedDate = appData.immersedDate === undefined ? null : appData.immersedDate;
   this.isUnavailable = appData.isUnavailable === undefined ? false : appData.isUnavailable;
   this.isMoved = appData.isMoved === undefined ? false : appData.isMoved;
   this.isDisqualified = appData.isDisqualified === undefined ? false : appData.isDisqualified;
   this.assignments = appData.assignments || [];
   this.timeAway = appData.timeAway ? sortHistoricalDateDesc(appData.timeAway) : [];
   this.changes = appData.changes || [];
+  this.email = appData.email || '';
+  this.address = appData.address || '';
+  this.phone = appData.phone || '';
   return this;
 };
 
@@ -42,12 +64,23 @@ PersonClass.prototype.save = async function (personData) {
   this.person_displayName = personData.person_displayName;
   this.isMale = personData.isMale;
   this.isFemale = personData.isFemale;
+  this.birthDate = personData.birthDate;
+  this.isAnointed = personData.isAnointed;
+  this.isOtherSheep = personData.isOtherSheep;
+  this.isElder = personData.isElder;
+  this.isMS = personData.isMS;
+  this.isPublisher = personData.isPublisher;
+  this.isBaptized = personData.isBaptized;
+  this.immersedDate = personData.immersedDate;
   this.isUnavailable = personData.isUnavailable;
   this.isMoved = personData.isMoved;
   this.isDisqualified = personData.isDisqualified;
   this.assignments = personData.assignments;
   this.timeAway = personData.timeAway;
   this.changes = personData.changes;
+  this.email = personData.email;
+  this.address = personData.address;
+  this.phone = personData.phone;
 };
 
 PersonClass.prototype.lastAssignment = function () {

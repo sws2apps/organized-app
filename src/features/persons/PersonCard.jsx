@@ -14,6 +14,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
+import { Setting } from '../../classes/Setting';
 import { currentStudentState, isStudentDeleteState } from '../../states/person';
 
 const sharedStyles = {
@@ -113,35 +114,41 @@ const PersonCard = ({ person }) => {
           }
           title={person.person_name}
         />
-        <CardContent
-          sx={{
-            padding: '2px',
-            marginLeft: '60px',
-            '&:last-child': {
-              paddingBottom: 0,
-            },
-          }}
-        >
-          {person.assignments.find((assignment) => assignment.code === 100) && (
-            <Chip label={t('abbrBibleReading')} size="small" sx={{ ...sharedStyles.chip, ...sharedStyles.chipBRead }} />
-          )}
-          {person.assignments.find((assignment) => assignment.code === 101) && (
-            <Chip
-              label={t('abbrInitialCall')}
-              size="small"
-              sx={{ ...sharedStyles.chip, ...sharedStyles.chipIniCall }}
-            />
-          )}
-          {person.assignments.find((assignment) => assignment.code === 102) && (
-            <Chip label={t('abbrReturnVisit')} size="small" sx={{ ...sharedStyles.chip, ...sharedStyles.chipRV }} />
-          )}
-          {person.assignments.find((assignment) => assignment.code === 103) && (
-            <Chip label={t('abbrBibleStudy')} size="small" sx={{ ...sharedStyles.chip, ...sharedStyles.chipBS }} />
-          )}
-          {person.assignments.find((assignment) => assignment.code === 104) && (
-            <Chip label={t('abbrTalk')} size="small" sx={{ ...sharedStyles.chip, ...sharedStyles.chipTalk }} />
-          )}
-        </CardContent>
+        {(Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup')) && (
+          <CardContent
+            sx={{
+              padding: '2px',
+              marginLeft: '60px',
+              '&:last-child': {
+                paddingBottom: 0,
+              },
+            }}
+          >
+            {person.assignments.find((assignment) => assignment.code === 100) && (
+              <Chip
+                label={t('abbrBibleReading')}
+                size="small"
+                sx={{ ...sharedStyles.chip, ...sharedStyles.chipBRead }}
+              />
+            )}
+            {person.assignments.find((assignment) => assignment.code === 101) && (
+              <Chip
+                label={t('abbrInitialCall')}
+                size="small"
+                sx={{ ...sharedStyles.chip, ...sharedStyles.chipIniCall }}
+              />
+            )}
+            {person.assignments.find((assignment) => assignment.code === 102) && (
+              <Chip label={t('abbrReturnVisit')} size="small" sx={{ ...sharedStyles.chip, ...sharedStyles.chipRV }} />
+            )}
+            {person.assignments.find((assignment) => assignment.code === 103) && (
+              <Chip label={t('abbrBibleStudy')} size="small" sx={{ ...sharedStyles.chip, ...sharedStyles.chipBS }} />
+            )}
+            {person.assignments.find((assignment) => assignment.code === 104) && (
+              <Chip label={t('abbrTalk')} size="small" sx={{ ...sharedStyles.chip, ...sharedStyles.chipTalk }} />
+            )}
+          </CardContent>
+        )}
       </Card>
     </Grid>
   );

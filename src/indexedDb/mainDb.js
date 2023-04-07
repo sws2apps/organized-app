@@ -60,6 +60,18 @@ appDb.version(8).stores({
   persons:
     '&person_uid, person_name, person_displayName, isMale, isFemale, isUnavailable, assignments, timeAway, isMoved, isDisqualified, changes',
 });
+appDb.version(9).stores({
+  persons:
+    '&person_uid, person_name, person_displayName, isMale, isFemale, isUnavailable, assignments, timeAway, isMoved, isDisqualified, birthDate, isAnointed, isOtherSheep, isElder, isMS, isPublisher, changes',
+});
+appDb.version(10).stores({
+  persons:
+    '&person_uid, person_name, person_displayName, isMale, isFemale, isUnavailable, assignments, timeAway, isMoved, isDisqualified, birthDate, isAnointed, isOtherSheep, isElder, isMS, isPublisher, isBaptized, immersedDate, changes',
+});
+appDb.version(11).stores({
+  persons:
+    '&person_uid, person_name, person_displayName, isMale, isFemale, isUnavailable, assignments, timeAway, isMoved, isDisqualified, birthDate, isAnointed, isOtherSheep, isElder, isMS, isPublisher, isBaptized, immersedDate, email, address, phone, changes',
+});
 
 appDb.on('populate', function () {
   appDb.app_settings.add({

@@ -230,115 +230,121 @@ export const dbRestoreCongregationBackup = async (
   }
 
   // restore source materials
-  const oldSources = await appDb.src.toArray();
-  for await (const src of cong_sourceMaterial) {
-    const isSrcExist = oldSources.find((source) => source.weekOf === src.weekOf);
+  if (cong_sourceMaterial) {
+    const oldSources = await appDb.src.toArray();
+    for await (const src of cong_sourceMaterial) {
+      const isSrcExist = oldSources.find((source) => source.weekOf === src.weekOf);
 
-    if (!isSrcExist) {
-      await appDb.src.add(src, src.weekOf);
-    }
-
-    // restore keepOverride if qualified
-    const newKeepOverride = src.keepOverride || undefined;
-    const oldSrc = oldSources.find((week) => week.weekOf === src.weekOf);
-
-    if (oldSrc) {
-      const oldKeepOverride = oldSrc.keepOverride;
-      let isRestore = false;
-
-      if (!newKeepOverride) {
-        isRestore = true;
+      if (!isSrcExist) {
+        await appDb.src.add(src, src.weekOf);
       }
 
-      if (newKeepOverride && oldKeepOverride) {
-        const oldDate = new Date(oldKeepOverride);
-        const newDate = new Date(newKeepOverride);
+      // restore keepOverride if qualified
+      const newKeepOverride = src.keepOverride || undefined;
+      const oldSrc = oldSources.find((week) => week.weekOf === src.weekOf);
 
-        if (oldDate > newDate) {
+      if (oldSrc) {
+        const oldKeepOverride = oldSrc.keepOverride;
+        let isRestore = false;
+
+        if (!newKeepOverride) {
           isRestore = true;
         }
-      }
 
-      if (isRestore) {
-        const obj = {};
-        for (const [key, value] of Object.entries(oldSrc)) {
-          if (key.indexOf('_override') !== -1) {
-            obj[key] = value;
+        if (newKeepOverride && oldKeepOverride) {
+          const oldDate = new Date(oldKeepOverride);
+          const newDate = new Date(newKeepOverride);
+
+          if (oldDate > newDate) {
+            isRestore = true;
           }
         }
 
-        await appDb.src.update(src.weekOf, obj);
+        if (isRestore) {
+          const obj = {};
+          for (const [key, value] of Object.entries(oldSrc)) {
+            if (key.indexOf('_override') !== -1) {
+              obj[key] = value;
+            }
+          }
+
+          await appDb.src.update(src.weekOf, obj);
+        }
       }
     }
   }
 
   // restore schedule
-  const oldSchedules = await appDb.sched_MM.toArray();
-  // handle modified schedule
-  for await (const oldSchedule of oldSchedules) {
-    const newSchedule = cong_schedule.find((schedule) => schedule.weekOf === oldSchedule.weekOf);
-    if (newSchedule) {
-      const oldChanges = oldSchedule.changes;
-      const newChanges = newSchedule.changes;
+  if (cong_schedule) {
+    const oldSchedules = await appDb.sched_MM.toArray();
+    // handle modified schedule
+    for await (const oldSchedule of oldSchedules) {
+      const newSchedule = cong_schedule.find((schedule) => schedule.weekOf === oldSchedule.weekOf);
+      if (newSchedule) {
+        const oldChanges = oldSchedule.changes;
+        const newChanges = newSchedule.changes;
 
-      if (newChanges) {
-        newChanges.forEach((change) => {
-          let isChanged = false;
+        if (newChanges) {
+          newChanges.forEach((change) => {
+            let isChanged = false;
 
-          const oldChange = oldChanges?.find((old) => old.field === change.field);
-          const originalDate = oldChange?.date || undefined;
+            const oldChange = oldChanges?.find((old) => old.field === change.field);
+            const originalDate = oldChange?.date || undefined;
 
-          if (!oldChange) {
-            isChanged = true;
-          }
-
-          if (originalDate) {
-            const dateA = new Date(originalDate);
-            const dateB = new Date(change.date);
-
-            if (dateB > dateA) {
+            if (!oldChange) {
               isChanged = true;
             }
-          }
 
-          if (isChanged) {
-            oldSchedule[change.field] = change.value;
+            if (originalDate) {
+              const dateA = new Date(originalDate);
+              const dateB = new Date(change.date);
 
-            if (oldSchedule.changes) {
-              const findIndex = oldSchedule.changes.findIndex((item) => item.field === change.field) || -1;
-              if (findIndex !== -1) oldSchedule.changes.splice(findIndex, 1);
+              if (dateB > dateA) {
+                isChanged = true;
+              }
             }
 
-            if (!oldSchedule.changes) {
-              oldSchedule.changes = [];
+            if (isChanged) {
+              oldSchedule[change.field] = change.value;
+
+              if (oldSchedule.changes) {
+                const findIndex = oldSchedule.changes.findIndex((item) => item.field === change.field) || -1;
+                if (findIndex !== -1) oldSchedule.changes.splice(findIndex, 1);
+              }
+
+              if (!oldSchedule.changes) {
+                oldSchedule.changes = [];
+              }
+
+              oldSchedule.changes.push(change);
             }
 
-            oldSchedule.changes.push(change);
-          }
+            if (!isChanged) {
+              if (!oldSchedule[change.field]) oldSchedule[change.field] = change.value;
+            }
+          });
+        }
 
-          if (!isChanged) {
-            if (!oldSchedule[change.field]) oldSchedule[change.field] = change.value;
-          }
-        });
+        await appDb.sched_MM.put(oldSchedule, oldSchedule.weekOf);
       }
-
-      await appDb.sched_MM.put(oldSchedule, oldSchedule.weekOf);
     }
-  }
 
-  // handle new schedule record
-  for await (const newSchedule of cong_schedule) {
-    if (newSchedule.weekOf) {
-      const oldSchedule = oldSchedules.find((schedule) => schedule.weekOf === newSchedule.weekOf);
-      if (!oldSchedule) {
-        await appDb.sched_MM.put(newSchedule, newSchedule.weekOf);
+    // handle new schedule record
+    for await (const newSchedule of cong_schedule) {
+      if (newSchedule.weekOf) {
+        const oldSchedule = oldSchedules.find((schedule) => schedule.weekOf === newSchedule.weekOf);
+        if (!oldSchedule) {
+          await appDb.sched_MM.put(newSchedule, newSchedule.weekOf);
+        }
       }
     }
   }
 
   // restore sws pocket info
-  await appDb.sws_pocket.clear();
-  for await (const pocket of cong_swsPocket) {
-    await appDb.sws_pocket.add(pocket, pocket.id);
+  if (cong_swsPocket) {
+    await appDb.sws_pocket.clear();
+    for await (const pocket of cong_swsPocket) {
+      await appDb.sws_pocket.add(pocket, pocket.id);
+    }
   }
 };
