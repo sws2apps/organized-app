@@ -15,9 +15,6 @@ export class PersonClass {
     this.birthDate = null;
     this.isAnointed = false;
     this.isOtherSheep = true;
-    this.isElder = false;
-    this.isMS = false;
-    this.isPublisher = false;
     this.isBaptized = false;
     this.immersedDate = null;
     this.isUnavailable = false;
@@ -28,6 +25,8 @@ export class PersonClass {
     this.email = '';
     this.address = '';
     this.phone = '';
+    this.spiritualStatus = [];
+    this.otherService = [];
     this.changes = [];
   }
 }
@@ -41,9 +40,6 @@ PersonClass.prototype.loadDetails = async function () {
   this.birthDate = appData.birthDate === undefined ? null : appData.birthDate;
   this.isAnointed = appData.isAnointed === undefined ? false : appData.isAnointed;
   this.isOtherSheep = appData.isOtherSheep === undefined ? true : appData.isOtherSheep;
-  this.isElder = appData.isElder === undefined ? false : appData.isElder;
-  this.isMS = appData.isMS === undefined ? false : appData.isMS;
-  this.isPublisher = appData.isPublisher === undefined ? false : appData.isPublisher;
   this.isBaptized = appData.isBaptized === undefined ? false : appData.isBaptized;
   this.immersedDate = appData.immersedDate === undefined ? null : appData.immersedDate;
   this.isUnavailable = appData.isUnavailable === undefined ? false : appData.isUnavailable;
@@ -55,6 +51,8 @@ PersonClass.prototype.loadDetails = async function () {
   this.email = appData.email || '';
   this.address = appData.address || '';
   this.phone = appData.phone || '';
+  this.spiritualStatus = appData.spiritualStatus || [];
+  this.otherService = appData.otherService || [];
   return this;
 };
 
@@ -67,9 +65,6 @@ PersonClass.prototype.save = async function (personData) {
   this.birthDate = personData.birthDate;
   this.isAnointed = personData.isAnointed;
   this.isOtherSheep = personData.isOtherSheep;
-  this.isElder = personData.isElder;
-  this.isMS = personData.isMS;
-  this.isPublisher = personData.isPublisher;
   this.isBaptized = personData.isBaptized;
   this.immersedDate = personData.immersedDate;
   this.isUnavailable = personData.isUnavailable;
@@ -81,6 +76,8 @@ PersonClass.prototype.save = async function (personData) {
   this.email = personData.email;
   this.address = personData.address;
   this.phone = personData.phone;
+  this.spiritualStatus = personData.spiritualStatus;
+  this.otherService = personData.otherService;
 };
 
 PersonClass.prototype.lastAssignment = function () {

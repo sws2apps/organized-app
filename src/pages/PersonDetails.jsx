@@ -96,9 +96,6 @@ const PersonDetails = () => {
   const [isMale, setIsMale] = useState(true);
   const [isFemale, setIsFemale] = useState(false);
   const [displayName, setDisplayName] = useState('');
-  const [isElder, setIsElder] = useState(false);
-  const [isMS, setIsMS] = useState(false);
-  const [isPublisher, setIsPublisher] = useState(false);
   const [assignments, setAssignments] = useState([]);
   const [historyAssignments, setHistoryAssignments] = useState([]);
   const [timeAway, setTimeAway] = useState([]);
@@ -112,6 +109,8 @@ const PersonDetails = () => {
   const [personEmail, setPersonEmail] = useState('');
   const [personAddress, setPersonAddress] = useState('');
   const [personPhone, setPersonPhone] = useState('');
+  const [spiritualStatus, setSpiritualStatus] = useState([]);
+  const [otherService, setOtherService] = useState([]);
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
@@ -251,24 +250,6 @@ const PersonDetails = () => {
 
   useEffect(() => {
     setPerson((prev) => {
-      return { ...prev, isPublisher };
-    });
-  }, [isPublisher]);
-
-  useEffect(() => {
-    setPerson((prev) => {
-      return { ...prev, isMS };
-    });
-  }, [isMS]);
-
-  useEffect(() => {
-    setPerson((prev) => {
-      return { ...prev, isElder };
-    });
-  }, [isElder]);
-
-  useEffect(() => {
-    setPerson((prev) => {
       return { ...prev, isOtherSheep };
     });
   }, [isOtherSheep]);
@@ -287,15 +268,27 @@ const PersonDetails = () => {
 
   useEffect(() => {
     setPerson((prev) => {
-      return { ...prev, email: personAddress };
+      return { ...prev, address: personAddress };
     });
   }, [personAddress]);
 
   useEffect(() => {
     setPerson((prev) => {
-      return { ...prev, email: personPhone };
+      return { ...prev, phone: personPhone };
     });
   }, [personPhone]);
+
+  useEffect(() => {
+    setPerson((prev) => {
+      return { ...prev, spiritualStatus };
+    });
+  }, [spiritualStatus]);
+
+  useEffect(() => {
+    setPerson((prev) => {
+      return { ...prev, otherService };
+    });
+  }, [otherService]);
 
   useEffect(() => {
     const init = async () => {
@@ -317,11 +310,8 @@ const PersonDetails = () => {
         setIsMale(data.isMale);
         setIsFemale(data.isFemale);
         setBirthDate(data.birthDate);
-        setIsPublisher(data.isPublisher);
         setIsBaptized(data.isBaptized);
         setImmersedDate(data.immersedDate);
-        setIsMS(data.isMS);
-        setIsElder(data.isElder);
         setIsOtherSheep(data.isOtherSheep);
         setIsAnointed(data.isAnointed);
         setAssignments(data.assignments);
@@ -330,6 +320,8 @@ const PersonDetails = () => {
         setPersonEmail(data.email);
         setPersonAddress(data.address);
         setPersonPhone(data.phone);
+        setSpiritualStatus(data.spiritualStatus);
+        setOtherService(data.otherService);
         setIsEdit(true);
       } else {
         setIsEdit(false);
@@ -487,12 +479,6 @@ const PersonDetails = () => {
               <AccordionDetails>
                 <PersonSpiritualStatus
                   isFemale={isFemale}
-                  isElder={isElder}
-                  setIsElder={(value) => setIsElder(value)}
-                  isMS={isMS}
-                  setIsMS={(value) => setIsMS(value)}
-                  isPublisher={isPublisher}
-                  setIsPublisher={(value) => setIsPublisher(value)}
                   immersedDate={immersedDate}
                   setImmersedDate={(value) => setImmersedDate(value)}
                   isBaptized={isBaptized}
@@ -501,6 +487,11 @@ const PersonDetails = () => {
                   setIsOtherSheep={(value) => setIsOtherSheep(value)}
                   isAnointed={isAnointed}
                   setIsAnointed={(value) => setIsAnointed(value)}
+                  birthDate={birthDate}
+                  spiritualStatus={spiritualStatus}
+                  setSpiritualStatus={(value) => setSpiritualStatus(value)}
+                  otherService={otherService}
+                  setOtherService={(value) => setOtherService(value)}
                 />
               </AccordionDetails>
             </Accordion>

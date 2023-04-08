@@ -13,9 +13,8 @@ import IconButton from '@mui/material/IconButton';
 import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 import Typography from '@mui/material/Typography';
 import { themeOptionsState } from '../../states/theme';
-import { Setting } from '../../classes/Setting';
 
-const StudentAdvancedSearch = ({ advancedOpen, handleSearchStudent, setAdvancedOpen, txtSearch }) => {
+const PersonAdvancedSearch = ({ advancedOpen, handleSearchStudent, setAdvancedOpen }) => {
   const { t } = useTranslation('ui');
   const theme = useTheme();
 
@@ -304,192 +303,188 @@ const StudentAdvancedSearch = ({ advancedOpen, handleSearchStudent, setAdvancedO
               label={t('female')}
             />
 
-            {(Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup')) && (
-              <FormControlLabel
-                sx={{ marginTop: '15px' }}
-                control={
-                  <Checkbox
-                    checked={isUnassigned}
-                    onChange={(e) => setIsUnassigned(e.target.checked)}
-                    color="primary"
-                    sx={{ padding: '5px' }}
-                  />
-                }
-                label={t('personsNoAssignment')}
-              />
-            )}
+            <FormControlLabel
+              sx={{ marginTop: '15px' }}
+              control={
+                <Checkbox
+                  checked={isUnassigned}
+                  onChange={(e) => setIsUnassigned(e.target.checked)}
+                  color="primary"
+                  sx={{ padding: '5px' }}
+                />
+              }
+              label={t('personsNoAssignment')}
+            />
           </FormGroup>
 
-          {(Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup')) && (
-            <Box sx={{ marginTop: '3px' }}>
-              <Typography sx={{ fontWeight: 'bold', marginBottom: '10px' }}>{t('assignment')}</Typography>
-              <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
-                <Box>
-                  <Typography variant="h6" className="midweerkMeeting meetingPart-override">
-                    {t('midweekMeeting')}
-                  </Typography>
-                  <FormGroup>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={isChairman}
-                          onChange={(e) => handleCheckChairman(e.target.checked)}
-                          color="primary"
-                          sx={{ padding: '5px' }}
-                        />
-                      }
-                      label={t('chairmanMidweekMeeting', { ns: 'source' })}
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={isPrayer}
-                          onChange={(e) => handleCheckPrayer(e.target.checked)}
-                          color="primary"
-                          sx={{ padding: '5px' }}
-                        />
-                      }
-                      label={t('prayerMidweekMeeting', { ns: 'source' })}
-                    />
-                  </FormGroup>
-                </Box>
+          <Box sx={{ marginTop: '3px' }}>
+            <Typography sx={{ fontWeight: 'bold', marginBottom: '10px' }}>{t('assignment')}</Typography>
+            <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
+              <Box>
+                <Typography variant="h6" className="midweerkMeeting meetingPart-override">
+                  {t('midweekMeeting')}
+                </Typography>
+                <FormGroup>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={isChairman}
+                        onChange={(e) => handleCheckChairman(e.target.checked)}
+                        color="primary"
+                        sx={{ padding: '5px' }}
+                      />
+                    }
+                    label={t('chairmanMidweekMeeting', { ns: 'source' })}
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={isPrayer}
+                        onChange={(e) => handleCheckPrayer(e.target.checked)}
+                        color="primary"
+                        sx={{ padding: '5px' }}
+                      />
+                    }
+                    label={t('prayerMidweekMeeting', { ns: 'source' })}
+                  />
+                </FormGroup>
+              </Box>
 
-                <Box>
-                  <Typography variant="h6" className="tgwPart meetingPart-override">
-                    {t('treasuresPart')}
-                  </Typography>
-                  <FormGroup>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={isTGWTalk}
-                          onChange={(e) => handleCheckTGWTalk(e.target.checked)}
-                          color="primary"
-                          sx={{ padding: '5px' }}
-                        />
-                      }
-                      label={t('tgwTalk', { ns: 'source' })}
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={isTGWGems}
-                          onChange={(e) => handleCheckTGWGems(e.target.checked)}
-                          color="primary"
-                          sx={{ padding: '5px' }}
-                        />
-                      }
-                      label={t('tgwGems', { ns: 'source' })}
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={isBRead}
-                          onChange={(e) => handleCheckBRead(e.target.checked)}
-                          color="primary"
-                          sx={{ padding: '5px' }}
-                        />
-                      }
-                      label={t('bibleReading', { ns: 'source' })}
-                    />
-                  </FormGroup>
-                </Box>
+              <Box>
+                <Typography variant="h6" className="tgwPart meetingPart-override">
+                  {t('treasuresPart')}
+                </Typography>
+                <FormGroup>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={isTGWTalk}
+                        onChange={(e) => handleCheckTGWTalk(e.target.checked)}
+                        color="primary"
+                        sx={{ padding: '5px' }}
+                      />
+                    }
+                    label={t('tgwTalk', { ns: 'source' })}
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={isTGWGems}
+                        onChange={(e) => handleCheckTGWGems(e.target.checked)}
+                        color="primary"
+                        sx={{ padding: '5px' }}
+                      />
+                    }
+                    label={t('tgwGems', { ns: 'source' })}
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={isBRead}
+                        onChange={(e) => handleCheckBRead(e.target.checked)}
+                        color="primary"
+                        sx={{ padding: '5px' }}
+                      />
+                    }
+                    label={t('bibleReading', { ns: 'source' })}
+                  />
+                </FormGroup>
+              </Box>
 
-                <Box>
-                  <Typography variant="h6" className="ayfPart meetingPart-override">
-                    {t('applyFieldMinistryPart')}
-                  </Typography>
-                  <FormGroup>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={isInitialCall}
-                          onChange={(e) => handleCheckInitialCall(e.target.checked)}
-                          color="primary"
-                          sx={{ padding: '5px' }}
-                        />
-                      }
-                      label={t('initialCall', { ns: 'source' })}
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={isReturnVisit}
-                          onChange={(e) => handleCheckReturnVisit(e.target.checked)}
-                          color="primary"
-                          sx={{ padding: '5px' }}
-                        />
-                      }
-                      label={t('returnVisit', { ns: 'source' })}
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={isBibleStudy}
-                          onChange={(e) => handleCheckBibleStudy(e.target.checked)}
-                          color="primary"
-                          sx={{ padding: '5px' }}
-                        />
-                      }
-                      label={t('bibleStudy', { ns: 'source' })}
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={isTalk}
-                          onChange={(e) => handleCheckTalk(e.target.checked)}
-                          color="primary"
-                          sx={{ padding: '5px' }}
-                        />
-                      }
-                      label={t('talk', { ns: 'source' })}
-                    />
-                  </FormGroup>
-                </Box>
+              <Box>
+                <Typography variant="h6" className="ayfPart meetingPart-override">
+                  {t('applyFieldMinistryPart')}
+                </Typography>
+                <FormGroup>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={isInitialCall}
+                        onChange={(e) => handleCheckInitialCall(e.target.checked)}
+                        color="primary"
+                        sx={{ padding: '5px' }}
+                      />
+                    }
+                    label={t('initialCall', { ns: 'source' })}
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={isReturnVisit}
+                        onChange={(e) => handleCheckReturnVisit(e.target.checked)}
+                        color="primary"
+                        sx={{ padding: '5px' }}
+                      />
+                    }
+                    label={t('returnVisit', { ns: 'source' })}
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={isBibleStudy}
+                        onChange={(e) => handleCheckBibleStudy(e.target.checked)}
+                        color="primary"
+                        sx={{ padding: '5px' }}
+                      />
+                    }
+                    label={t('bibleStudy', { ns: 'source' })}
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={isTalk}
+                        onChange={(e) => handleCheckTalk(e.target.checked)}
+                        color="primary"
+                        sx={{ padding: '5px' }}
+                      />
+                    }
+                    label={t('talk', { ns: 'source' })}
+                  />
+                </FormGroup>
+              </Box>
 
-                <Box>
-                  <Typography variant="h6" className="lcPart meetingPart-override">
-                    {t('livingPart')}
-                  </Typography>
-                  <FormGroup>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={isLCPart}
-                          onChange={(e) => handleCheckLCPart(e.target.checked)}
-                          color="primary"
-                          sx={{ padding: '5px' }}
-                        />
-                      }
-                      label={t('lcPart', { ns: 'source' })}
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={isCBSConductor}
-                          onChange={(e) => handleCheckCBSConductor(e.target.checked)}
-                          color="primary"
-                          sx={{ padding: '5px' }}
-                        />
-                      }
-                      label={`${t('cbs', { ns: 'source' })} - ${t('cbsConductor', { ns: 'source' })}`}
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={isCBSReader}
-                          onChange={(e) => handleCheckCBSReader(e.target.checked)}
-                          color="primary"
-                          sx={{ padding: '5px' }}
-                        />
-                      }
-                      label={`${t('cbs', { ns: 'source' })} - ${t('cbsReader', { ns: 'source' })}`}
-                    />
-                  </FormGroup>
-                </Box>
+              <Box>
+                <Typography variant="h6" className="lcPart meetingPart-override">
+                  {t('livingPart')}
+                </Typography>
+                <FormGroup>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={isLCPart}
+                        onChange={(e) => handleCheckLCPart(e.target.checked)}
+                        color="primary"
+                        sx={{ padding: '5px' }}
+                      />
+                    }
+                    label={t('lcPart', { ns: 'source' })}
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={isCBSConductor}
+                        onChange={(e) => handleCheckCBSConductor(e.target.checked)}
+                        color="primary"
+                        sx={{ padding: '5px' }}
+                      />
+                    }
+                    label={`${t('cbs', { ns: 'source' })} - ${t('cbsConductor', { ns: 'source' })}`}
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={isCBSReader}
+                        onChange={(e) => handleCheckCBSReader(e.target.checked)}
+                        color="primary"
+                        sx={{ padding: '5px' }}
+                      />
+                    }
+                    label={`${t('cbs', { ns: 'source' })} - ${t('cbsReader', { ns: 'source' })}`}
+                  />
+                </FormGroup>
               </Box>
             </Box>
-          )}
+          </Box>
         </Box>
         <Box sx={{ marginTop: '10px' }}>
           <IconButton
@@ -521,4 +516,4 @@ const StudentAdvancedSearch = ({ advancedOpen, handleSearchStudent, setAdvancedO
   );
 };
 
-export default StudentAdvancedSearch;
+export default PersonAdvancedSearch;

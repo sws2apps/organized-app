@@ -72,7 +72,7 @@ const PersonBasic = ({
   };
 
   useEffect(() => {
-    if (birthDate === null) {
+    if (birthDate === null || birthDate.toString() === 'Invalid Date') {
       setAge('');
       return;
     }
@@ -142,7 +142,7 @@ const PersonBasic = ({
             sx={{ width: '200px' }}
             format={shortDatePickerFormat}
             maxDate={new Date()}
-            value={birthDate}
+            value={birthDate === null ? null : new Date(birthDate)}
             onChange={(value) => setBirthDate(value)}
             readOnly={!Setting.cong_role.includes('secretary')}
           />
@@ -164,7 +164,7 @@ const PersonBasic = ({
           autoComplete="off"
           sx={{ maxWidth: '300px' }}
           value={personEmail}
-          onChange={(e) => setPersonEmail(e.target.value)}
+          onChange={roleSecretary ? (e) => setPersonEmail(e.target.value) : null}
         />
         <TextField
           label={t('Address')}
@@ -173,7 +173,7 @@ const PersonBasic = ({
           autoComplete="off"
           sx={{ width: '100%' }}
           value={personAddress}
-          onChange={(e) => setPersonAddress(e.target.value)}
+          onChange={roleSecretary ? (e) => setPersonAddress(e.target.value) : null}
         />
         <TextField
           label={t('phoneNumber')}
@@ -182,7 +182,7 @@ const PersonBasic = ({
           autoComplete="off"
           sx={{ width: '100%' }}
           value={personPhone}
-          onChange={(e) => setPersonPhone(e.target.value)}
+          onChange={roleSecretary ? (e) => setPersonPhone(e.target.value) : null}
         />
       </Box>
       {!roleSecretary && (

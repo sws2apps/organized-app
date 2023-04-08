@@ -45,6 +45,8 @@ const UserAutoLogin = () => {
   const handleDisapproved = useCallback(async () => {
     setModalOpen(true);
     await deleteAppDb();
+    const auth = getAuth();
+    await signOut(auth);
     localStorage.removeItem('email');
     window.location.href = './';
   }, [setModalOpen]);

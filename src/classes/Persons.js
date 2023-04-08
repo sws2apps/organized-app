@@ -2,6 +2,7 @@ import appDb from '../indexedDb/mainDb';
 import { comparePerson } from '../utils/compare';
 import { AssignmentType } from './AssignmentType';
 import { PersonClass } from './Person';
+import { Setting } from './Setting';
 
 class PersonsClass {
   constructor() {
@@ -31,6 +32,20 @@ PersonsClass.prototype.loadAll = async function () {
 };
 
 PersonsClass.prototype.filter = function (data) {
+  let result = [];
+
+  if (Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup')) {
+    result = this.filterLMMO(data);
+  }
+
+  if (Setting.cong_role.includes('secretary')) {
+    result = this.filterSecretary(data);
+  }
+
+  return result;
+};
+
+PersonsClass.prototype.filterLMMO = function (data) {
   const { txtSearch, isMale, isFemale, isUnassigned, assTypes } = data;
 
   const firstPassFiltered = [];
@@ -71,6 +86,50 @@ PersonsClass.prototype.filter = function (data) {
     }
 
     if (passed) secondPassFiltered.push(person);
+  }
+
+  return secondPassFiltered;
+};
+
+PersonsClass.prototype.filterSecretary = function (data) {
+  const { txtSearch, filter } = data;
+
+  let firstPassFiltered = [];
+  if (filter === 'allPersons') {
+    firstPassFiltered = [...this.list];
+  }
+
+  if (filter === 'allPublishers') {
+    for (const person of this.list) {
+      if (
+        person.spiritualStatus.find(
+          (status) =>
+            (status.status === 'elder' || status.status === 'ms' || status.status === 'publisher') &&
+            status.endDate === null
+        )
+      ) {
+        firstPassFiltered.push(person);
+      }
+    }
+  }
+
+  if (filter === 'appointedBrothers') {
+    for (const person of this.list) {
+      if (
+        person.spiritualStatus.find(
+          (status) => (status.status === 'elder' || status.status === 'ms') && status.endDate === null
+        )
+      ) {
+        firstPassFiltered.push(person);
+      }
+    }
+  }
+
+  const secondPassFiltered = [];
+  for (const person of firstPassFiltered) {
+    if (person.person_name.toLowerCase().includes(txtSearch.toLowerCase())) {
+      secondPassFiltered.push(person);
+    }
   }
 
   return secondPassFiltered;

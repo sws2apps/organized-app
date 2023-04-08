@@ -492,5 +492,21 @@
   "basicInfoSelectedNotice": "Only the Secretary can edit some information for a person in this section.",
   "address": "Address",
   "phoneNumber": "Phone number",
-  "emailAddress": "Email address"
+  "emailAddress": "Email address",
+  "newSpiritualStatus": "New Status",
+  "otherService": "Other Form of Services",
+  "auxiliaryPioneer": "Auxiliary Pioneer",
+  "regularPioneer": "Regular Pioneer",
+  "specialPionner": "Special Pioneer",
+  "bethelMember": "Bethel Family Member",
+  "constructionServant": "Construction Servant",
+  "service": "Service",
+  "abbrElder": "E",
+  "abbrMinisterialServant": "MS",
+  "abbrSpecialFullTimeServant": "SFTS",
+  "abbrPublisher": "P",
+  "abbrBaptized": "B",
+  "allPersons": "All Persons in Congregation",
+  "appointedBrothers": "All Appointed Brothers",
+  "allPublishers": "All Publishers"
 }

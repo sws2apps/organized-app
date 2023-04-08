@@ -103,7 +103,12 @@ export const dbRestoreCongregationBackup = async (
 
         // handle non-assignments and non-time away changes
         newChanges.forEach((change) => {
-          if (change.field !== 'timeAway' && change.field !== 'assignments') {
+          if (
+            change.field !== 'timeAway' &&
+            change.field !== 'assignments' &&
+            change.field !== 'spiritualStatus' &&
+            change.field !== 'otherService'
+          ) {
             let isChanged = false;
 
             const oldChange = oldChanges?.find((old) => old.field === change.field);
@@ -170,44 +175,108 @@ export const dbRestoreCongregationBackup = async (
         // handle time away changes
         newChanges.forEach((change) => {
           if (change.field === 'timeAway') {
-            // handle deleted item
-            if (change.isDeleted) {
-              const toBeDeleted = oldPerson[change.field].findIndex(
-                (item) => item.timeAwayId === change.value.timeAwayId
-              );
-              if (toBeDeleted !== -1) oldPerson[change.field].splice(toBeDeleted, 1);
-            }
+            const filteredValues = [];
+            oldPerson[change.field].forEach((item) => {
+              if (item.timeAwayId === change.value.timeAwayId) {
+                return;
+              }
+              filteredValues.push(item);
+            });
+            oldPerson[change.field] = [...filteredValues];
 
             // handle added item
             if (change.isAdded) {
               oldPerson[change.field].push(change.value);
-              if (!oldPerson.changes) oldPerson.changes = [];
-              oldPerson.changes.push(change);
             }
 
             // handle modified item
             if (change.isModified) {
-              const toBeModified = oldPerson[change.field].findIndex(
-                (item) => item.timeAwayId === change.value.timeAwayId
-              );
-
-              if (toBeModified !== -1) oldPerson[change.field].splice(toBeModified, 1);
               oldPerson[change.field].push(change.value);
             }
 
             // update changes
-            if (change.isDeleted || change.isModified) {
-              if (!oldPerson.changes) oldPerson.changes = [];
-              const filteredChanges = [];
-              oldPerson.changes.forEach((item) => {
-                if (item.field === 'timeAway' && item.value.timeAwayId === change.value.timeAwayId) {
-                  return;
-                }
-                filteredChanges.push(item);
-              });
-              oldPerson.changes = [...filteredChanges];
-              oldPerson.changes.push(change);
+            if (!oldPerson.changes) oldPerson.changes = [];
+            const filteredChanges = [];
+            oldPerson.changes.forEach((item) => {
+              if (item.field === 'timeAway' && item.value.timeAwayId === change.value.timeAwayId) {
+                return;
+              }
+              filteredChanges.push(item);
+            });
+            oldPerson.changes = [...filteredChanges];
+            oldPerson.changes.push(change);
+          }
+        });
+
+        // handle status changes
+        newChanges.forEach((change) => {
+          if (change.field === 'spiritualStatus') {
+            const filteredValues = [];
+            oldPerson[change.field].forEach((item) => {
+              if (item.statusId === change.value.statusId) {
+                return;
+              }
+              filteredValues.push(item);
+            });
+            oldPerson[change.field] = [...filteredValues];
+
+            // handle added item
+            if (change.isAdded) {
+              oldPerson[change.field].push(change.value);
             }
+
+            // handle modified item
+            if (change.isModified) {
+              oldPerson[change.field].push(change.value);
+            }
+
+            // update changes
+            if (!oldPerson.changes) oldPerson.changes = [];
+            const filteredChanges = [];
+            oldPerson.changes.forEach((item) => {
+              if (item.field === 'spiritualStatus' && item.value.statusId === change.value.statusId) {
+                return;
+              }
+              filteredChanges.push(item);
+            });
+            oldPerson.changes = [...filteredChanges];
+            oldPerson.changes.push(change);
+          }
+        });
+
+        // handle service changes
+        newChanges.forEach((change) => {
+          if (change.field === 'otherService') {
+            const filteredValues = [];
+            oldPerson[change.field].forEach((item) => {
+              if (item.serviceId === change.value.serviceId) {
+                return;
+              }
+              filteredValues.push(item);
+            });
+            oldPerson[change.field] = [...filteredValues];
+
+            // handle added item
+            if (change.isAdded) {
+              oldPerson[change.field].push(change.value);
+            }
+
+            // handle modified item
+            if (change.isModified) {
+              oldPerson[change.field].push(change.value);
+            }
+
+            // update changes
+            if (!oldPerson.changes) oldPerson.changes = [];
+            const filteredChanges = [];
+            oldPerson.changes.forEach((item) => {
+              if (item.field === 'otherService' && item.value.serviceId === change.value.serviceId) {
+                return;
+              }
+              filteredChanges.push(item);
+            });
+            oldPerson.changes = [...filteredChanges];
+            oldPerson.changes.push(change);
           }
         });
       }

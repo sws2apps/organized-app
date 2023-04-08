@@ -13,15 +13,11 @@ import { Setting } from '../../classes/Setting';
 import { shortDatePickerFormatState } from '../../states/main';
 import { useEffect } from 'react';
 import { computeYearsDiff } from '../../utils/app';
+import PersonAppointment from './PersonAppointment';
+import PersonServices from './PersonServices';
 
 const PersonSpiritualStatus = ({
   isFemale,
-  isElder,
-  setIsElder,
-  isMS,
-  setIsMS,
-  isPublisher,
-  setIsPublisher,
   isBaptized,
   setIsBaptized,
   immersedDate,
@@ -30,6 +26,11 @@ const PersonSpiritualStatus = ({
   setIsOtherSheep,
   isAnointed,
   setIsAnointed,
+  birthDate,
+  spiritualStatus,
+  setSpiritualStatus,
+  otherService,
+  setOtherService,
 }) => {
   const { t } = useTranslation('ui');
 
@@ -39,38 +40,9 @@ const PersonSpiritualStatus = ({
 
   const roleSecretary = Setting.cong_role.includes('secretary');
 
-  const handleElderCheck = (value) => {
-    setIsElder(value);
-    if (value) {
-      setIsPublisher(true);
-      setIsBaptized(true);
-      setIsMS(false);
-    }
-  };
-
-  const handlMSCheck = (value) => {
-    setIsMS(value);
-    if (value) {
-      setIsPublisher(true);
-      setIsBaptized(true);
-      setIsElder(false);
-    }
-  };
-
-  const handlePublisherCheck = (value) => {
-    setIsPublisher(value);
-    if (!value) {
-      setIsMS(false);
-      setIsElder(false);
-    }
-  };
-
   const handleBaptizedCheck = (value) => {
     setIsBaptized(value);
-    if (value) setIsPublisher(true);
     if (!value) {
-      setIsMS(false);
-      setIsElder(false);
       setImmersedDate(null);
     }
   };
@@ -97,89 +69,8 @@ const PersonSpiritualStatus = ({
 
   return (
     <Box>
-      <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <FormControlLabel
-            sx={{ width: 'fit-content' }}
-            control={
-              <Checkbox
-                checked={isPublisher}
-                onChange={roleSecretary ? (e) => handlePublisherCheck(e.target.checked) : null}
-                color="primary"
-              />
-            }
-            label={t('publisher')}
-          />
-          <FormControlLabel
-            sx={{ width: 'fit-content' }}
-            control={
-              <Checkbox
-                checked={isBaptized}
-                onChange={roleSecretary ? (e) => handleBaptizedCheck(e.target.checked) : null}
-                color="primary"
-              />
-            }
-            label={t('baptized')}
-          />
-          {isBaptized && (
-            <Box
-              sx={{
-                marginLeft: '30px',
-                marginTop: '8px',
-                display: 'flex',
-                alignItems: 'center',
-                flexWrap: 'wrap',
-                gap: '15px',
-              }}
-            >
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DatePicker
-                  id="baptism-date-picker"
-                  label={t('immersedDate')}
-                  sx={{ width: '200px' }}
-                  format={shortDatePickerFormat}
-                  maxDate={new Date()}
-                  value={immersedDate}
-                  onChange={(value) => setImmersedDate(value)}
-                  readOnly={!Setting.cong_role.includes('secretary')}
-                />
-              </LocalizationProvider>
-              <TextField
-                label={t('years')}
-                variant="outlined"
-                size="small"
-                autoComplete="off"
-                sx={{ width: '80px', '.MuiOutlinedInput-input': { textAlign: 'right' } }}
-                value={baptizedYears}
-              />
-            </Box>
-          )}
-        </Box>
-        <Box sx={{ display: 'flex', flexDirection: 'column', width: 'fit-content' }}>
-          <FormControlLabel
-            control={
-              <Checkbox
-                disabled={isFemale}
-                checked={isMS}
-                onChange={roleSecretary ? (e) => handlMSCheck(e.target.checked) : null}
-                color="primary"
-              />
-            }
-            label={t('ministerialServant')}
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                disabled={isFemale}
-                checked={isElder}
-                onChange={roleSecretary ? (e) => handleElderCheck(e.target.checked) : null}
-                color="primary"
-              />
-            }
-            label={t('elder')}
-          />
-        </Box>
-        <Box sx={{ display: 'flex', flexDirection: 'column', width: 'fit-content' }}>
+      <Box sx={{ marginLeft: '20px' }}>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
           <FormControlLabel
             control={
               <Checkbox
@@ -201,6 +92,67 @@ const PersonSpiritualStatus = ({
             label={t('anointed')}
           />
         </Box>
+        <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px', flexWrap: 'wrap', gap: '10px' }}>
+          <FormControlLabel
+            sx={{ width: 'fit-content' }}
+            control={
+              <Checkbox
+                checked={isBaptized}
+                onChange={roleSecretary ? (e) => handleBaptizedCheck(e.target.checked) : null}
+                color="primary"
+              />
+            }
+            label={t('baptized')}
+          />
+          {isBaptized && (
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                flexWrap: 'wrap',
+                gap: '15px',
+              }}
+            >
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DatePicker
+                  id="baptism-date-picker"
+                  label={t('immersedDate')}
+                  sx={{ width: '200px' }}
+                  format={shortDatePickerFormat}
+                  minDate={birthDate === null ? null : new Date(birthDate)}
+                  maxDate={new Date()}
+                  value={immersedDate === null ? null : new Date(immersedDate)}
+                  onChange={(value) => setImmersedDate(value)}
+                  readOnly={!Setting.cong_role.includes('secretary')}
+                />
+              </LocalizationProvider>
+              <TextField
+                label={t('years')}
+                variant="outlined"
+                size="small"
+                autoComplete="off"
+                sx={{ width: '80px', '.MuiOutlinedInput-input': { textAlign: 'right' } }}
+                value={baptizedYears}
+              />
+            </Box>
+          )}
+        </Box>
+      </Box>
+      <Box sx={{ marginTop: '20px' }}>
+        <Typography sx={{ marginBottom: '15px', textTransform: 'uppercase', fontWeight: 'bold' }}>
+          {t('spiritualStatus')}
+        </Typography>
+        <PersonAppointment
+          isFemale={isFemale}
+          spiritualStatus={spiritualStatus}
+          setSpiritualStatus={(value) => setSpiritualStatus(value)}
+        />
+      </Box>
+      <Box sx={{ marginTop: '30px' }}>
+        <Typography sx={{ marginBottom: '15px', textTransform: 'uppercase', fontWeight: 'bold' }}>
+          {t('otherService')}
+        </Typography>
+        <PersonServices otherService={otherService} setOtherService={(value) => setOtherService(value)} />
       </Box>
       {!roleSecretary && (
         <Typography sx={{ fontStyle: 'italic', marginTop: '20px' }} color="#FE4119">
