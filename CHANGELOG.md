@@ -1,3 +1,10 @@
+## [2.58.2](https://github.com/sws2apps/cpe-sws/compare/v2.58.1...v2.58.2) (2023-04-08)
+
+
+### Bug Fixes
+
+* **sources:** convert previous assignment type saved as number to object ([ff9ae85](https://github.com/sws2apps/cpe-sws/commit/ff9ae85e9388a0163a2fced2f77dddd0ceefd9a0))
+
 ## [2.58.1](https://github.com/sws2apps/cpe-sws/compare/v2.58.0...v2.58.1) (2023-04-07)
 
 
