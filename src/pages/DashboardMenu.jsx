@@ -13,7 +13,10 @@ import CloudSyncIcon from '@mui/icons-material/CloudSync';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import DownloadIcon from '@mui/icons-material/Download';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
+import GroupsIcon from '@mui/icons-material/Groups';
+import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 import MoreTimeIcon from '@mui/icons-material/MoreTime';
+import NoteIcon from '@mui/icons-material/Note';
 import PeopleIcon from '@mui/icons-material/People';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import SendIcon from '@mui/icons-material/Send';
@@ -40,6 +43,7 @@ import { isPublishOpenState } from '../states/schedule';
 import { importDummyUsers } from '../utils/dev';
 import { getCurrentExistingWeekDate } from '../utils/app';
 import { apiFetchSchedule } from '../api';
+import { Setting } from '../classes/Setting';
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -235,9 +239,41 @@ const DashboardMenu = () => {
       ],
     },
     {
+      title: t('reports'),
+      visible: accountType === 'vip' && congRole.includes('secretary'),
+      links: [
+        {
+          title: t('postFieldServiceReport'),
+          icon: <NoteIcon />,
+          disabled: false,
+          visible: true,
+        },
+        {
+          title: t('meetingAttendanceRecord'),
+          icon: <MeetingRoomIcon />,
+          disabled: false,
+          visible: true,
+        },
+      ],
+    },
+    {
       title: t('congregation'),
       visible: accountType === 'vip' && !congRole.includes('view_meeting_schedule'),
       links: [
+        {
+          title: t('fieldServiceGroup'),
+          icon: <GroupsIcon />,
+          disabled: false,
+          visible: Setting.cong_role.includes('secretary'),
+          navigateTo: '/field-service-group',
+        },
+        {
+          title: t('settings'),
+          icon: <SettingsIcon />,
+          disabled: false,
+          visible: true,
+          navigateTo: '/congregation-settings',
+        },
         {
           title: t('sendBackup'),
           icon: <CloudUploadIcon />,
@@ -258,13 +294,6 @@ const DashboardMenu = () => {
           disabled: false,
           visible: isCongAccountConnected && congRole.includes('admin') ? true : false,
           navigateTo: '/administration',
-        },
-        {
-          title: t('settings'),
-          icon: <SettingsIcon />,
-          disabled: false,
-          visible: true,
-          navigateTo: '/congregation-settings',
         },
       ],
     },

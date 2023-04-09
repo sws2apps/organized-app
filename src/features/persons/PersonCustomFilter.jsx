@@ -30,7 +30,7 @@ const PersonCustomFilter = () => {
   }, [filter]);
 
   return (
-    <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '5px' }}>
+    <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
       <TextField
         id="outlined-select-service"
         select
@@ -50,6 +50,8 @@ const PersonCustomFilter = () => {
       >
         <MenuItem value="allPersons">{t('allPersons')}</MenuItem>
         <MenuItem value="allPublishers">{t('allPublishers')}</MenuItem>
+        <MenuItem value="unbaptizedPublishers">{t('unbaptizedPublishers')}</MenuItem>
+        <MenuItem value="baptizedPublishers">{t('baptizedPublishers')}</MenuItem>
         <MenuItem value="appointedBrothers">{t('appointedBrothers')}</MenuItem>
       </TextField>
     </Box>

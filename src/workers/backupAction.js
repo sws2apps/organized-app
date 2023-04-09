@@ -46,11 +46,7 @@ export const setIsCongAccountConnected = (value) => {
   isCongAccountConnected = value;
 };
 
-const isDev = process.env.NODE_ENV === 'development';
-
 const runBackupSchedule = async () => {
-  if (isDev) backupInterval = 60000;
-
   if (
     (userRole.includes('lmmo') || userRole.includes('lmmo-backup') || userRole.includes('secretary')) &&
     isEnabled &&

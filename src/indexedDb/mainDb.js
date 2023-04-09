@@ -84,6 +84,9 @@ appDb.version(14).stores({
   persons:
     '&person_uid, person_name, person_displayName, isMale, isFemale, isUnavailable, assignments, timeAway, isMoved, isDisqualified, birthDate, isAnointed, isOtherSheep, isBaptized, immersedDate, email, address, phone, spiritualStatus, otherService, changes',
 });
+appDb.version(15).stores({
+  fieldServiceGroup: '&fieldServiceGroup_uid, isCurrent, groups',
+});
 
 appDb.on('populate', function () {
   appDb.app_settings.add({

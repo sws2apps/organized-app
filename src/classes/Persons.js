@@ -113,6 +113,36 @@ PersonsClass.prototype.filterSecretary = function (data) {
     }
   }
 
+  if (filter === 'baptizedPublishers') {
+    for (const person of this.list) {
+      if (
+        person.isBaptized &&
+        person.spiritualStatus.find(
+          (status) =>
+            (status.status === 'elder' || status.status === 'ms' || status.status === 'publisher') &&
+            status.endDate === null
+        )
+      ) {
+        firstPassFiltered.push(person);
+      }
+    }
+  }
+
+  if (filter === 'unbaptizedPublishers') {
+    for (const person of this.list) {
+      if (
+        !person.isBaptized &&
+        person.spiritualStatus.find(
+          (status) =>
+            (status.status === 'elder' || status.status === 'ms' || status.status === 'publisher') &&
+            status.endDate === null
+        )
+      ) {
+        firstPassFiltered.push(person);
+      }
+    }
+  }
+
   if (filter === 'appointedBrothers') {
     for (const person of this.list) {
       if (
@@ -161,6 +191,16 @@ PersonsClass.prototype.add = async function (personData) {
     assignments: personData.assignments || [],
     isMoved: personData.isMoved || false,
     isDisqualified: personData.isDisqualified || false,
+    birthDate: personData.birthDate || null,
+    isAnointed: personData.isAnointed || false,
+    isOtherSheep: personData.isOtherSheep || true,
+    isBaptized: personData.isBaptized || false,
+    immersedDate: personData.immersedDate || null,
+    email: personData.email || '',
+    address: personData.address || '',
+    phone: personData.phone || '',
+    spiritualStatus: personData.spiritualStatus || [],
+    otherService: personData.otherService || [],
   });
 
   const person = new PersonClass(personData.person_uid);

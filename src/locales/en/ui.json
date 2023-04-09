@@ -508,5 +508,22 @@
   "abbrBaptized": "B",
   "allPersons": "All Persons in Congregation",
   "appointedBrothers": "All Appointed Brothers",
-  "allPublishers": "All Publishers"
+  "allPublishers": "All Publishers",
+  "baptizedPublishers": "Baptized Publishers",
+  "unbaptizedPublishers": "Unbaptized Publishers",
+  "reports": "Reports",
+  "fieldServiceGroup": "Field Service Group",
+  "postFieldServiceReport": "Post Field Service Reports",
+  "meetingAttendanceRecord": "Meeting Attendance Record",
+  "draftFieldServiceGroupList": "Draft List {{ index }}",
+  "addNewFieldServiceGroup": "Add new group",
+  "abbrFieldService": "Group {{ index }} ({{ count }})",
+  "removeFromGroup": "Remove from this group",
+  "makeAsOverseer": "Make as Overseer",
+  "makeAsAssistant": "Make as Assistant",
+  "removeAsOverseer": "Remove as Overseer",
+  "removeAsAssistant": "Remove as Assistant",
+  "setAsCurrent": "Set as current",
+  "currentList": "Current List",
+  "moveToFieldServiceGroup": "Move to Group {{ index }}"
 }
