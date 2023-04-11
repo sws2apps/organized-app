@@ -4,8 +4,10 @@ import { Schedules } from '../classes/Schedules';
 import { Setting } from '../classes/Setting';
 import { Sources } from '../classes/Sources';
 import { WeekTypeList } from '../classes/WeekType';
+import appDb from '../indexedDb/mainDb';
 
 export const classesInitialize = async () => {
+  await appDb.open();
   await Setting.load();
   await AssignmentType.loadAll();
   await WeekTypeList.loadAll();
