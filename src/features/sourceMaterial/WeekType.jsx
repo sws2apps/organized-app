@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
@@ -8,7 +9,7 @@ const WeekType = (props) => {
 
   const { weekType, setWeekType } = props;
 
-  const weekTypeList = WeekTypeList.local();
+  const [weekTypeList, setWeekTypeList] = useState(WeekTypeList.local());
 
   const handleTypeChange = async (e) => {
     setWeekType(e.target.value);
@@ -26,6 +27,16 @@ const WeekType = (props) => {
       </MenuItem>
     );
   };
+
+  useEffect(() => {
+    const loadWeekType = async () => {
+      await WeekTypeList.loadAll();
+      const tmp = WeekTypeList.local();
+      setWeekTypeList(tmp);
+    };
+
+    if (weekTypeList.length === 0) loadWeekType();
+  }, [weekTypeList]);
 
   return (
     <>

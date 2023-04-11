@@ -8,6 +8,8 @@ class WeekTypeClass {
 }
 
 WeekTypeClass.prototype.loadAll = async function () {
+  this.types.length = 0;
+
   const appData = await appDb.week_type.reverse().reverse().sortBy('id_week_type');
 
   for (const item of appData) {
