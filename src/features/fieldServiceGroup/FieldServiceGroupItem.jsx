@@ -201,7 +201,7 @@ const FieldServiceGroupItem = ({ currentList, group_index, group, isRefresh, set
     }
 
     const finalList = [];
-    for (const person of Persons.list) {
+    for (const person of Persons.filterSecretary({ filter: 'allPublishers' })) {
       const findUsed = usedOptions.find((used) => used.person_uid === person.person_uid);
       if (!findUsed) finalList.push(person);
     }
@@ -226,13 +226,13 @@ const FieldServiceGroupItem = ({ currentList, group_index, group, isRefresh, set
         </Typography>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           {group_index > 0 && group_index <= FSGList.get(currentList).groups.length - 1 && (
-            <IconButton aria-label="left" onClick={handleMoveGroupBackward}>
+            <IconButton aria-label="left" sx={{ color: 'white' }} onClick={handleMoveGroupBackward}>
               <ArrowCircleLeftIcon />
             </IconButton>
           )}
 
           {group_index >= 0 && group_index < FSGList.get(currentList).groups.length - 1 && (
-            <IconButton aria-label="right" onClick={handleMoveGroupForward}>
+            <IconButton aria-label="right" sx={{ color: 'white' }} onClick={handleMoveGroupForward}>
               <ArrowCircleRightIcon />
             </IconButton>
           )}

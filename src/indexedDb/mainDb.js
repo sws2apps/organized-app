@@ -87,6 +87,12 @@ appDb.version(14).stores({
 appDb.version(15).stores({
   fieldServiceGroup: '&fieldServiceGroup_uid, isCurrent, groups',
 });
+appDb.version(16).stores({
+  serviceYear: '&uid, value',
+});
+appDb.version(17).stores({
+  meetingAttendance: '&uid, service_year, month_value, midweek_meeting, weekend_meeting',
+});
 
 appDb.on('populate', function () {
   appDb.app_settings.add({

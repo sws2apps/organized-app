@@ -1,15 +1,12 @@
 import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+import AddIcon from '@mui/icons-material/Add';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
 import FieldServiceGroupItem from './FieldServiceGroupItem';
 import { FSGList } from '../../classes/FSGList';
 
 const FieldServiceGroupList = ({ currentList }) => {
-  const { t } = useTranslation('ui');
-
   const currentFSG = FSGList.get(currentList);
 
   const [isRefresh, setIsRefresh] = useState(false);
@@ -45,15 +42,9 @@ const FieldServiceGroupList = ({ currentList }) => {
           height: '440px',
         }}
       >
-        <Button
-          variant="outlined"
-          color="success"
-          startIcon={<AddCircleIcon />}
-          sx={{ textTransform: 'none' }}
-          onClick={handleAddNewGroup}
-        >
-          {t('addNewFieldServiceGroup')}
-        </Button>
+        <IconButton aria-label="right" color="success" onClick={handleAddNewGroup} sx={{ border: '1px dashed' }}>
+          <AddIcon sx={{ fontSize: '100px' }} />
+        </IconButton>
       </Paper>
     </Box>
   );

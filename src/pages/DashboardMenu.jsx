@@ -253,6 +253,7 @@ const DashboardMenu = () => {
           icon: <MeetingRoomIcon />,
           disabled: false,
           visible: true,
+          navigateTo: '/meeting-attendance-record',
         },
       ],
     },

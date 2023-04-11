@@ -92,7 +92,8 @@ PersonsClass.prototype.filterLMMO = function (data) {
 };
 
 PersonsClass.prototype.filterSecretary = function (data) {
-  const { txtSearch, filter } = data;
+  const txtSearch = data.txtSearch || '';
+  const filter = data.filter;
 
   let firstPassFiltered = [];
   if (filter === 'allPersons') {

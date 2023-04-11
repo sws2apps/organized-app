@@ -525,5 +525,9 @@
   "removeAsAssistant": "Remove as Assistant",
   "setAsCurrent": "Set as current",
   "currentList": "Current List",
-  "moveToFieldServiceGroup": "Move to Group {{ index }}"
+  "moveToFieldServiceGroup": "Move to Group {{ index }}",
+  "formS3": "Report of Meeting Attendance",
+  "formS88": "Congregation Meeting Attendance Record",
+  "serviceYear": "Service Year",
+  "selectMonth": "Select a month"
 }

@@ -1,7 +1,9 @@
 import { AssignmentType } from '../classes/AssignmentType';
 import { FSGList } from '../classes/FSGList';
+import { S88s } from '../classes/S88s';
 import { Persons } from '../classes/Persons';
 import { Schedules } from '../classes/Schedules';
+import { ServiceYear } from '../classes/ServiceYear';
 import { Setting } from '../classes/Setting';
 import { Sources } from '../classes/Sources';
 import { WeekTypeList } from '../classes/WeekType';
@@ -15,5 +17,8 @@ export const classesInitialize = async () => {
   await Schedules.loadAll();
   Schedules.buildHistory();
   await FSGList.loadAll();
+  await ServiceYear.loadAll();
+  await ServiceYear.checkCurrent();
+  await S88s.loadAll();
   console.log('CPE: Classes initialized');
 };
