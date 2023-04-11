@@ -1,3 +1,16 @@
+# [2.59.0](https://github.com/sws2apps/cpe-sws/compare/v2.58.2...v2.59.0) (2023-04-11)
+
+
+### Bug Fixes
+
+* **sources:** save override to living as christians part when co visit ([bcb98d5](https://github.com/sws2apps/cpe-sws/commit/bcb98d5b4e6d7dcddeddb821a471c931b003b660))
+
+
+### Features
+
+* **deps:** bump @mui/x-date-pickers from 6.0.4 to 6.1.0 ([46f575f](https://github.com/sws2apps/cpe-sws/commit/46f575f452c1b69aef1619c9be5bf1d054a37f70))
+* **deps:** bump @tanstack/react-query from 4.28.0 to 4.29.1 ([bf8315b](https://github.com/sws2apps/cpe-sws/commit/bf8315b3767b95498061099de044cec1bf6275cc))
+
 ## [2.58.2](https://github.com/sws2apps/cpe-sws/compare/v2.58.1...v2.58.2) (2023-04-08)
 
 
