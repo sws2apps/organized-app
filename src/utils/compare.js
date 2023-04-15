@@ -28,7 +28,6 @@ const compareNonArray = (source, modified, changes) => {
 
 const compareAssignments = (source, modified, changes) => {
   // check added or deleted assignment
-  console.log(source, modified);
   if (modified.assignments) {
     for (const updated of modified.assignments) {
       const findSource = source.assignments?.find((item) => item.code === updated.code);
