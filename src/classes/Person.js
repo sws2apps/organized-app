@@ -38,6 +38,10 @@ PersonClass.prototype.loadDetails = async function () {
 
 PersonClass.prototype.save = async function (personData) {
   await appDb.table('persons').update(personData.person_uid, personData);
+  if (personData.isMoved) {
+    Persons.list = Persons.list.filter((person) => person.person_uid !== this.person_uid);
+    return;
+  }
   this.person_name = personData.person_name;
   this.person_displayName = personData.person_displayName;
   this.isMale = personData.isMale;
