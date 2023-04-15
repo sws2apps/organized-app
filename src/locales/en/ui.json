@@ -529,5 +529,13 @@
   "formS3": "Report of Meeting Attendance",
   "formS88": "Congregation Meeting Attendance Record",
   "serviceYear": "Service Year",
-  "selectMonth": "Select a month"
+  "selectMonth": "Select a month",
+  "weekendMeeting": "Weekend Meeting",
+  "1stWeekLabelS88": "1st week",
+  "2ndWeekLabelS88": "2nd week",
+  "3rdWeekLabelS88": "3rd week",
+  "4thWeekLabelS88": "4th week",
+  "5thWeekLabelS88": "5th week",
+  "total": "Total",
+  "average": "Average"
 }

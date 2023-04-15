@@ -6,7 +6,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { ServiceYear } from '../classes/ServiceYear';
 import { S88s } from '../classes/S88s';
-import { S3Large } from '../features/meetingAttendance';
+import { S3 } from '../features/meetingAttendance';
 
 const MeetingAttendance = () => {
   const { t } = useTranslation('ui');
@@ -14,6 +14,7 @@ const MeetingAttendance = () => {
   const [allMonths, setAllMonths] = useState([]);
   const [currentServiceYear, setCurrentServiceYear] = useState(ServiceYear.list[0].uid);
   const [currentMonth, setCurrentMonth] = useState('');
+  const [masterRefresh, setMasterRefresh] = useState(false);
 
   useEffect(() => {
     if (currentServiceYear !== '') {
@@ -31,6 +32,16 @@ const MeetingAttendance = () => {
       }
     }
   }, [currentServiceYear]);
+
+  useEffect(() => {
+    const handleInitialize = async () => {
+      const S88 = S88s.list.find((S88) => S88.uid === currentServiceYear);
+      await S88.initializeMonth(currentMonth);
+      setMasterRefresh((prev) => !prev);
+    };
+
+    if (currentMonth !== '') handleInitialize();
+  }, [currentMonth, currentServiceYear]);
 
   return (
     <Box>
@@ -70,7 +81,9 @@ const MeetingAttendance = () => {
           </MenuItem>
         ))}
       </TextField>
-      {currentMonth !== '' && <S3Large />}
+      {currentMonth !== '' && (
+        <S3 serviceYear={currentServiceYear} month={currentMonth} masterRefresh={masterRefresh} />
+      )}
       <Typography sx={{ textTransform: 'uppercase', fontWeight: 'bold', margin: '20px 0' }}>
         {t('formS88')} (S-88)
       </Typography>

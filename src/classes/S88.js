@@ -53,3 +53,29 @@ S88Class.prototype.getServiceYearMonths = function () {
 
   return options;
 };
+
+S88Class.prototype.initializeMonth = async function (month) {
+  const found = this.months.find((item) => item.month_value === month);
+
+  if (!found) {
+    const data = {
+      uid: window.crypto.randomUUID(),
+      service_year: this.uid,
+      month_value: month,
+      midweek_meeting: [],
+      weekend_meeting: [],
+    };
+
+    await appDb.meetingAttendance.add(data);
+
+    const S3 = new S3Class();
+    S3.uid = data.uid;
+    S3.service_year = data.service_year;
+    S3.month_value = data.month_value;
+    S3.midweek_meeting = data.midweek_meeting;
+    S3.weekend_meeting = data.weekend_meeting;
+
+    this.months.push(S3);
+    this.sort();
+  }
+};
