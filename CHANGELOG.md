@@ -1,3 +1,17 @@
+# [2.60.0](https://github.com/sws2apps/cpe-sws/compare/v2.59.0...v2.60.0) (2023-04-15)
+
+
+### Bug Fixes
+
+* **persons:** remove moved person from persons list ([5488fa6](https://github.com/sws2apps/cpe-sws/commit/5488fa6407ec738cbfdd54dd42811f50d10d7b94))
+
+
+### Features
+
+* **deps:** bump @mui/lab from 5.0.0-alpha.125 to 5.0.0-alpha.126 ([1a1ead4](https://github.com/sws2apps/cpe-sws/commit/1a1ead4a209d56980298768ae74bcb44609b8405))
+* **deps:** bump @mui/material from 5.11.16 to 5.12.0 ([5145d4a](https://github.com/sws2apps/cpe-sws/commit/5145d4a51abf902705e11cf3a388079d2782a276))
+* **deps:** bump @mui/x-date-pickers from 6.1.0 to 6.2.0 ([c8d7e85](https://github.com/sws2apps/cpe-sws/commit/c8d7e856f0eea51d00f5077c842c63d82fe62e99))
+
 # [2.59.0](https://github.com/sws2apps/cpe-sws/compare/v2.58.2...v2.59.0) (2023-04-11)
 
 
