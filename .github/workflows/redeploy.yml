@@ -10,7 +10,7 @@ jobs:
     name: Rebuild and Deploy to Production
     if: ${{ github.repository == 'sws2apps/cpe-sws' && github.ref == 'refs/heads/main' }}
     environment:
-      name: Prod.env
+      name: Production
       url: https://cpe-web.sws2apps.app
     runs-on: ubuntu-latest
 
