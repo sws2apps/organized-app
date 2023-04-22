@@ -20,6 +20,7 @@ import {
 } from '../features/schedules';
 import { Schedules } from '../classes/Schedules';
 import { WeekTypeList } from '../classes/WeekType';
+import { Setting } from '../classes/Setting';
 
 const S140 = () => {
   let navigate = useNavigate();
@@ -601,11 +602,7 @@ const S140 = () => {
                                       />
                                       <S140PartMiniLabel width="180px" />
                                       <S140AssignedPerson
-                                        person={
-                                          scheduleUseFullname
-                                            ? weekItem.scheduleData.co_name
-                                            : weekItem.scheduleData.co_displayName
-                                        }
+                                        person={scheduleUseFullname ? Setting.co_name : Setting.co_displayName}
                                       />
                                     </Box>
                                   </>
