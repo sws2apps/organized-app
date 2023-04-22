@@ -1,3 +1,24 @@
+# [2.61.0](https://github.com/sws2apps/cpe-sws/compare/v2.60.0...v2.61.0) (2023-04-22)
+
+
+### Bug Fixes
+
+* **templates:** display circuit overseer name on S-140 schedule ([3bae357](https://github.com/sws2apps/cpe-sws/commit/3bae357b13b68f9c38d32d848ad96a9db07358e2))
+
+
+### Features
+
+* **deps:** bump @fingerprintjs/fingerprintjs-pro from 3.8.2 to 3.8.3 ([559806f](https://github.com/sws2apps/cpe-sws/commit/559806fc93049b471bded3ecf566e0755ce73191))
+* **deps:** bump @mui/lab from 5.0.0-alpha.126 to 5.0.0-alpha.127 ([d3151c4](https://github.com/sws2apps/cpe-sws/commit/d3151c45c3e4347d15b51e748401e8214797f3e4))
+* **deps:** bump @mui/material from 5.12.0 to 5.12.1 ([d785d6c](https://github.com/sws2apps/cpe-sws/commit/d785d6c9a3fba02aa1a3194753905344fe7ada20))
+* **deps:** bump @mui/x-date-pickers from 6.2.0 to 6.2.1 ([e82b24c](https://github.com/sws2apps/cpe-sws/commit/e82b24cae4f2576ae9e7bfd5fff8164ac996020d))
+* **deps:** bump @sws2apps/react-sw-helper from 1.12.0 to 1.13.0 ([29c6410](https://github.com/sws2apps/cpe-sws/commit/29c6410e6ce6df91d7dfa230681281ed5db6e877))
+* **deps:** bump @tanstack/react-query from 4.29.1 to 4.29.3 ([0eb68c6](https://github.com/sws2apps/cpe-sws/commit/0eb68c62c151d0c7b4eeaccda576a48759a247e0))
+* **deps:** bump firebase from 9.19.1 to 9.20.0 ([80d1aa1](https://github.com/sws2apps/cpe-sws/commit/80d1aa1d38479259cddcc22bafc93c9102158e07))
+* **deps:** bump i18next from 22.4.14 to 22.4.15 ([56b21a7](https://github.com/sws2apps/cpe-sws/commit/56b21a74cca9e193bc783782c6619f2cc0490dc7))
+* **deps:** bump jw-epub-parser from 1.37.0 to 1.38.1 ([bd55b16](https://github.com/sws2apps/cpe-sws/commit/bd55b16ad7e6ec800a827beba1bef950866720b5))
+* **deps:** bump qrcode from 1.5.1 to 1.5.2 ([39440fe](https://github.com/sws2apps/cpe-sws/commit/39440fe275dcc78458cd884fe924f4793322c002))
+
 # [2.60.0](https://github.com/sws2apps/cpe-sws/compare/v2.59.0...v2.60.0) (2023-04-15)
 
 
