@@ -3,7 +3,6 @@ import femaleIcon from '../../img/student_female.svg';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
-import { blue, brown, green, lightGreen, orange, purple, red, teal } from '@mui/material/colors';
 import Avatar from '@mui/material/Avatar';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -28,50 +27,8 @@ const sharedStyles = {
   },
   chip: {
     margin: '2px',
-  },
-  chipBRead: {
-    backgroundColor: orange[200],
-    color: 'black',
-  },
-  chipIniCall: {
-    backgroundColor: purple[200],
-    color: 'black',
-  },
-  chipRV: {
-    backgroundColor: teal[200],
-    color: 'black',
-  },
-  chipBS: {
-    backgroundColor: green[200],
-    color: 'black',
-  },
-  chipTalk: {
-    backgroundColor: brown[200],
-    color: 'black',
-  },
-  chipBaptized: {
-    backgroundColor: blue[200],
-    color: 'black',
-  },
-  chipPublisher: {
-    backgroundColor: red[200],
-    color: 'black',
-  },
-  chipMS: {
-    backgroundColor: orange[200],
-    color: 'black',
-  },
-  chipElder: {
-    backgroundColor: lightGreen[500],
-    color: 'black',
-  },
-  chipFR: {
-    backgroundColor: teal[200],
-    color: 'black',
-  },
-  chipSFTS: {
-    backgroundColor: purple[200],
-    color: 'black',
+    backgroundColor: 'black',
+    color: 'white',
   },
 };
 
@@ -150,81 +107,41 @@ const PersonCard = ({ person }) => {
           {(Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup')) && (
             <>
               {person.assignments.find((assignment) => assignment.code === 100) && (
-                <Chip
-                  label={t('abbrBibleReading')}
-                  size="small"
-                  sx={{ ...sharedStyles.chip, ...sharedStyles.chipBRead }}
-                />
+                <Chip label={t('abbrBibleReading')} size="small" sx={sharedStyles.chip} />
               )}
               {person.assignments.find((assignment) => assignment.code === 101) && (
-                <Chip
-                  label={t('abbrInitialCall')}
-                  size="small"
-                  sx={{ ...sharedStyles.chip, ...sharedStyles.chipIniCall }}
-                />
+                <Chip label={t('abbrInitialCall')} size="small" sx={sharedStyles.chip} />
               )}
               {person.assignments.find((assignment) => assignment.code === 102) && (
-                <Chip label={t('abbrReturnVisit')} size="small" sx={{ ...sharedStyles.chip, ...sharedStyles.chipRV }} />
+                <Chip label={t('abbrReturnVisit')} size="small" sx={sharedStyles.chip} />
               )}
               {person.assignments.find((assignment) => assignment.code === 103) && (
-                <Chip label={t('abbrBibleStudy')} size="small" sx={{ ...sharedStyles.chip, ...sharedStyles.chipBS }} />
+                <Chip label={t('abbrBibleStudy')} size="small" sx={sharedStyles.chip} />
               )}
               {person.assignments.find((assignment) => assignment.code === 104) && (
-                <Chip label={t('abbrTalk')} size="small" sx={{ ...sharedStyles.chip, ...sharedStyles.chipTalk }} />
+                <Chip label={t('abbrTalk')} size="small" sx={sharedStyles.chip} />
               )}
             </>
           )}
           {Setting.cong_role.includes('secretary') && (
             <>
-              {person.spiritualStatus.find((status) => status.status === 'publisher' && status.endDate === null) && (
-                <>
-                  {person.otherService.find(
-                    (service) =>
-                      (service.service === 'auxiliaryPioneer' ||
-                        service.service === 'regularPioneer' ||
-                        service.service === 'specialPionner') &&
-                      service.endDate === null
-                  ) === undefined && (
-                    <>
-                      <Chip
-                        label={t('abbrPublisher')}
-                        size="small"
-                        sx={{ ...sharedStyles.chip, ...sharedStyles.chipPublisher }}
-                      />
-                      {person.isBaptized && (
-                        <Chip
-                          label={t('abbrBaptized')}
-                          size="small"
-                          sx={{ ...sharedStyles.chip, ...sharedStyles.chipBaptized }}
-                        />
-                      )}
-                    </>
-                  )}
-                </>
+              {person.isPublisher() &&
+                !person.isAuxiliaryPioneer() &&
+                !person.isRegularPioneer() &&
+                !person.isSpecialPioneer() && (
+                  <>
+                    <Chip label={t('abbrPublisher')} size="small" sx={sharedStyles.chip} />
+                    {person.isBaptizedDate() && <Chip label={t('abbrBaptized')} size="small" sx={sharedStyles.chip} />}
+                  </>
+                )}
+              {person.isMS() && <Chip label={t('abbrMinisterialServant')} size="small" sx={sharedStyles.chip} />}
+              {person.isElder() && <Chip label={t('abbrElder')} size="small" sx={sharedStyles.chip} />}
+              {person.isSpecialPioneer() && (
+                <Chip label={t('abbrSpecialPioneer')} size="small" sx={sharedStyles.chip} />
               )}
-              {person.spiritualStatus.find((status) => status.status === 'ms' && status.endDate === null) && (
-                <Chip
-                  label={t('abbrMinisterialServant')}
-                  size="small"
-                  sx={{ ...sharedStyles.chip, ...sharedStyles.chipMS }}
-                />
-              )}
-              {person.spiritualStatus.find((status) => status.status === 'elder' && status.endDate === null) && (
-                <Chip label={t('abbrElder')} size="small" sx={{ ...sharedStyles.chip, ...sharedStyles.chipElder }} />
-              )}
-              {person.otherService.find(
-                (service) => service.service === 'regularPioneer' && service.endDate === null
-              ) && <Chip label="FR" size="small" sx={{ ...sharedStyles.chip, ...sharedStyles.chipFR }} />}
-              {person.otherService.find(
-                (service) =>
-                  (service.service === 'bethelMember' || service.service === 'constructionServant') &&
-                  service.endDate === null
-              ) && (
-                <Chip
-                  label={t('abbrSpecialFullTimeServant')}
-                  size="small"
-                  sx={{ ...sharedStyles.chip, ...sharedStyles.chipSFTS }}
-                />
+              {person.isRegularPioneer() && <Chip label="FR" size="small" sx={sharedStyles.chip} />}
+              {person.isAuxiliaryPioneer() && (
+                <Chip label={t('abbrAuxiliaryPioneer')} size="small" sx={sharedStyles.chip} />
               )}
             </>
           )}

@@ -8,6 +8,7 @@ import { Setting } from '../classes/Setting';
 import { Sources } from '../classes/Sources';
 import { WeekTypeList } from '../classes/WeekType';
 import appDb from '../indexedDb/mainDb';
+import { S21s } from '../classes/S21s';
 
 export const classesInitialize = async () => {
   await appDb.open();
@@ -22,5 +23,6 @@ export const classesInitialize = async () => {
   await ServiceYear.loadAll();
   await ServiceYear.checkCurrent();
   await S88s.loadAll();
+  await S21s.loadAll();
   console.log('CPE: Classes initialized');
 };

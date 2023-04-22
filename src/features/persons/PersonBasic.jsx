@@ -150,7 +150,6 @@ const PersonBasic = ({
         <TextField
           label={t('age')}
           variant="outlined"
-          size="small"
           autoComplete="off"
           sx={{ width: '80px', '.MuiOutlinedInput-input': { textAlign: 'right' } }}
           value={age}

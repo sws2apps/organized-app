@@ -1,4 +1,5 @@
 import appDb from '../indexedDb/mainDb';
+import { Setting } from './Setting';
 
 class ServiceYearClass {
   constructor() {
@@ -35,8 +36,16 @@ ServiceYearClass.prototype.add = async function (startYear) {
   this.sort();
 };
 
+ServiceYearClass.prototype.first = function () {
+  return this.list[0];
+};
+
 ServiceYearClass.prototype.getByValue = function (value) {
   return this.list.find((service) => service.value === value);
+};
+
+ServiceYearClass.prototype.get = function (uid) {
+  return this.list.find((service) => service.uid === uid);
 };
 
 ServiceYearClass.prototype.getCurrent = function () {
@@ -64,6 +73,28 @@ ServiceYearClass.prototype.checkCurrent = async function () {
     const addYear = current.split('-')[0];
     await this.add(addYear);
   }
+};
+
+ServiceYearClass.prototype.getMonths = function (uid) {
+  const SY = this.get(uid);
+
+  const options = [];
+
+  let a = 8;
+  for (let i = 0; i < 12; i++) {
+    const year = a < 8 ? SY.value.split('-')[1] : SY.value.split('-')[0];
+
+    options.push({
+      index: a,
+      value: `${year}/${String(a + 1).padStart(2, 0)}/01`,
+      label: `${Setting.monthNames()[a]} ${year}`,
+    });
+
+    a++;
+    if (a === 12) a = 0;
+  }
+
+  return options;
 };
 
 export const ServiceYear = new ServiceYearClass();

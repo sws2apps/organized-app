@@ -35,6 +35,7 @@ const WeeklyAssignments = lazy(() => import('./pages/WeeklyAssignments'));
 const CongregationSettings = lazy(() => import('./pages/CongregationSettings'));
 const FieldServiceGroup = lazy(() => import('./pages/FieldServiceGroup'));
 const MeetingAttendance = lazy(() => import('./pages/MeetingAttendance'));
+const FieldServiceReport = lazy(() => import('./pages/FieldServiceReport'));
 
 // creating theme
 const lightTheme = createTheme({
@@ -133,6 +134,10 @@ const App = ({ updatePwa }) => {
             {
               path: '/meeting-attendance-record',
               element: <MeetingAttendance />,
+            },
+            {
+              path: '/field-service-report',
+              element: <FieldServiceReport />,
             },
             {
               element: <PrivateVipConnectedRoute isCongAccountConnected={isCongAccountConnected} />,

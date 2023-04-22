@@ -63,9 +63,7 @@ const PersonServiceItem = ({ currentService, otherService, setOtherService }) =>
       >
         <MenuItem value="auxiliaryPioneer">{t('auxiliaryPioneer')}</MenuItem>
         <MenuItem value="regularPioneer">{t('regularPioneer')}</MenuItem>
-        <MenuItem value="specialPionner">{t('specialPionner')}</MenuItem>
-        <MenuItem value="bethelMember">{t('bethelMember')}</MenuItem>
-        <MenuItem value="constructionServant">{t('constructionServant')}</MenuItem>
+        <MenuItem value="specialPioneer">{t('specialPioneer')}</MenuItem>
       </TextField>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <DatePicker

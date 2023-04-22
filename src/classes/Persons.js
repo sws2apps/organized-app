@@ -94,6 +94,7 @@ PersonsClass.prototype.filterLMMO = function (data) {
 PersonsClass.prototype.filterSecretary = function (data) {
   const txtSearch = data.txtSearch || '';
   const filter = data.filter;
+  const month = data.month || `${new Date().getFullYear()}/${new Date().getMonth() + 1}/01`;
 
   let firstPassFiltered = [];
   if (filter === 'allPersons') {
@@ -102,13 +103,10 @@ PersonsClass.prototype.filterSecretary = function (data) {
 
   if (filter === 'allPublishers') {
     for (const person of this.list) {
-      if (
-        person.spiritualStatus.find(
-          (status) =>
-            (status.status === 'elder' || status.status === 'ms' || status.status === 'publisher') &&
-            status.endDate === null
-        )
-      ) {
+      const isElder = person.isElder(month);
+      const isMS = person.isMS(month);
+      const isPublisher = person.isPublisher(month);
+      if (isElder || isMS || isPublisher) {
         firstPassFiltered.push(person);
       }
     }
@@ -116,14 +114,12 @@ PersonsClass.prototype.filterSecretary = function (data) {
 
   if (filter === 'baptizedPublishers') {
     for (const person of this.list) {
-      if (
-        person.isBaptized &&
-        person.spiritualStatus.find(
-          (status) =>
-            (status.status === 'elder' || status.status === 'ms' || status.status === 'publisher') &&
-            status.endDate === null
-        )
-      ) {
+      const isElder = person.isElder(month);
+      const isMS = person.isMS(month);
+      const isPublisher = person.isPublisher(month);
+      const isBaptized = person.isBaptizedDate(month);
+
+      if (isBaptized && (isElder || isMS || isPublisher)) {
         firstPassFiltered.push(person);
       }
     }
@@ -131,14 +127,10 @@ PersonsClass.prototype.filterSecretary = function (data) {
 
   if (filter === 'unbaptizedPublishers') {
     for (const person of this.list) {
-      if (
-        !person.isBaptized &&
-        person.spiritualStatus.find(
-          (status) =>
-            (status.status === 'elder' || status.status === 'ms' || status.status === 'publisher') &&
-            status.endDate === null
-        )
-      ) {
+      const isPublisher = person.isPublisher(month);
+      const isBaptized = person.isBaptizedDate(month);
+
+      if (!isBaptized && isPublisher) {
         firstPassFiltered.push(person);
       }
     }
@@ -146,11 +138,10 @@ PersonsClass.prototype.filterSecretary = function (data) {
 
   if (filter === 'appointedBrothers') {
     for (const person of this.list) {
-      if (
-        person.spiritualStatus.find(
-          (status) => (status.status === 'elder' || status.status === 'ms') && status.endDate === null
-        )
-      ) {
+      const isElder = person.isElder(month);
+      const isMS = person.isMS(month);
+
+      if (isElder || isMS) {
         firstPassFiltered.push(person);
       }
     }

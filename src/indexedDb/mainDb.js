@@ -93,6 +93,13 @@ appDb.version(16).stores({
 appDb.version(17).stores({
   meetingAttendance: '&uid, service_year, month_value, midweek_meeting, weekend_meeting',
 });
+appDb.version(18).stores({
+  fieldServiceReports:
+    '&uid, service_year, month_value, placements, videos, hours, minutes, isMinutesPosted, returnVisits, bibleStudies, comments, noReport',
+});
+appDb.version(19).stores({
+  fieldServiceReports: '&uid, service_year, person_uid, months',
+});
 
 appDb.on('populate', function () {
   appDb.app_settings.add({

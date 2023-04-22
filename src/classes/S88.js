@@ -1,6 +1,5 @@
 import appDb from '../indexedDb/mainDb';
 import { S3Class } from './S3';
-import { Setting } from './Setting';
 
 export class S88Class {
   constructor() {
@@ -34,29 +33,8 @@ S88Class.prototype.loadMonths = async function () {
   this.sort();
 };
 
-S88Class.prototype.getServiceYearMonths = function () {
-  const options = [];
-
-  let a = 8;
-  for (let i = 0; i < 12; i++) {
-    const year = a < 8 ? this.value.split('-')[1] : this.value.split('-')[0];
-
-    options.push({
-      index: a,
-      value: `${year}/${String(a + 1).padStart(2, 0)}/01`,
-      label: `${Setting.monthNames()[a]} ${year}`,
-    });
-
-    a++;
-    if (a === 12) a = 0;
-  }
-
-  return options;
-};
-
 S88Class.prototype.initializeMonth = async function (month) {
   const found = this.months.find((item) => item.month_value === month);
-
   if (!found) {
     const data = {
       uid: window.crypto.randomUUID(),

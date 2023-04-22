@@ -1,25 +1,40 @@
 import { useEffect, useState } from 'react';
+import { useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
+import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { ServiceYear } from '../classes/ServiceYear';
 import { S88s } from '../classes/S88s';
-import { S3 } from '../features/meetingAttendance';
+import { S3, S88 } from '../features/meetingAttendance';
+import { refreshReportState } from '../states/report';
 
 const MeetingAttendance = () => {
   const { t } = useTranslation('ui');
 
+  const setRefresh = useSetRecoilState(refreshReportState);
+
   const [allMonths, setAllMonths] = useState([]);
-  const [currentServiceYear, setCurrentServiceYear] = useState(ServiceYear.list[0].uid);
+  const [currentServiceYear, setCurrentServiceYear] = useState(ServiceYear.getCurrent().uid);
   const [currentMonth, setCurrentMonth] = useState('');
-  const [masterRefresh, setMasterRefresh] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleServiceYearChange = (value) => {
+    setCurrentServiceYear(value);
+    setIsLoading(true);
+    setRefresh((prev) => !prev);
+  };
+
+  const handleMonthChange = (value) => {
+    setCurrentMonth(value);
+    setIsLoading(true);
+  };
 
   useEffect(() => {
     if (currentServiceYear !== '') {
-      const S88 = S88s.get(currentServiceYear);
-      const options = S88.getServiceYearMonths();
+      const options = ServiceYear.getMonths(currentServiceYear);
       setAllMonths(options);
 
       if (currentServiceYear === ServiceYear.getCurrent().uid) {
@@ -34,14 +49,28 @@ const MeetingAttendance = () => {
   }, [currentServiceYear]);
 
   useEffect(() => {
+    let fetchTimer;
+
     const handleInitialize = async () => {
       const S88 = S88s.list.find((S88) => S88.uid === currentServiceYear);
-      await S88.initializeMonth(currentMonth);
-      setMasterRefresh((prev) => !prev);
+      if (S88) {
+        await S88.initializeMonth(currentMonth);
+        setRefresh((prev) => !prev);
+      }
+      setIsLoading(false);
     };
 
-    if (currentMonth !== '') handleInitialize();
-  }, [currentMonth, currentServiceYear]);
+    if (currentMonth !== '') {
+      fetchTimer = setTimeout(() => {
+        setIsLoading(true);
+        handleInitialize();
+      }, 1500);
+    }
+
+    return () => {
+      if (fetchTimer) clearTimeout(fetchTimer);
+    };
+  }, [currentMonth, currentServiceYear, setRefresh]);
 
   return (
     <Box>
@@ -55,7 +84,7 @@ const MeetingAttendance = () => {
         size="small"
         sx={{ minWidth: '250px' }}
         value={currentServiceYear}
-        onChange={(e) => setCurrentServiceYear(e.target.value)}
+        onChange={(e) => handleServiceYearChange(e.target.value)}
       >
         {ServiceYear.list.map((year) => (
           <MenuItem key={year.uid} value={year.uid}>
@@ -63,9 +92,14 @@ const MeetingAttendance = () => {
           </MenuItem>
         ))}
       </TextField>
-      <Typography sx={{ textTransform: 'uppercase', fontWeight: 'bold', margin: '20px 0' }}>
-        {t('formS3')} (S-3)
-      </Typography>
+
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <EditCalendarIcon fontSize="large" color="primary" />
+        <Typography sx={{ textTransform: 'uppercase', fontWeight: 'bold', margin: '20px 0' }}>
+          {t('formS3')} (S-3)
+        </Typography>
+      </Box>
+
       <TextField
         id="outlined-select-month"
         select
@@ -73,7 +107,7 @@ const MeetingAttendance = () => {
         size="small"
         sx={{ minWidth: '250px' }}
         value={currentMonth}
-        onChange={(e) => setCurrentMonth(e.target.value)}
+        onChange={(e) => handleMonthChange(e.target.value)}
       >
         {allMonths.map((month) => (
           <MenuItem key={month.value} value={month.value}>
@@ -81,12 +115,14 @@ const MeetingAttendance = () => {
           </MenuItem>
         ))}
       </TextField>
-      {currentMonth !== '' && (
-        <S3 serviceYear={currentServiceYear} month={currentMonth} masterRefresh={masterRefresh} />
-      )}
-      <Typography sx={{ textTransform: 'uppercase', fontWeight: 'bold', margin: '20px 0' }}>
-        {t('formS88')} (S-88)
-      </Typography>
+      {!isLoading && currentMonth !== '' && <S3 serviceYear={currentServiceYear} month={currentMonth} />}
+
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px', margin: '20px 0' }}>
+        <EditCalendarIcon fontSize="large" color="success" />
+        <Typography sx={{ textTransform: 'uppercase', fontWeight: 'bold' }}>{t('formS88')} (S-88)</Typography>
+      </Box>
+
+      {!isLoading && currentServiceYear !== '' && <S88 serviceYear={currentServiceYear} />}
     </Box>
   );
 };

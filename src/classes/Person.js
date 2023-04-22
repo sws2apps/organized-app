@@ -1,6 +1,6 @@
 import dateFormat from 'dateformat';
 import appDb from '../indexedDb/mainDb';
-import { sortHistoricalDateDesc } from '../utils/app';
+import { monthDiff, sortHistoricalDateDesc } from '../utils/app';
 import { Persons } from './Persons';
 import { Schedules } from './Schedules';
 import { Sources } from './Sources';
@@ -57,7 +57,7 @@ PersonClass.prototype.loadDetails = async function () {
 };
 
 PersonClass.prototype.save = async function (personData) {
-  await appDb.table('persons').update(personData.person_uid, personData);
+  await appDb.table('persons').update(this.person_uid, personData);
   if (personData.isMoved) {
     Persons.list = Persons.list.filter((person) => person.person_uid !== this.person_uid);
     return;
@@ -146,4 +146,245 @@ PersonClass.prototype.assistantHistory = function () {
   }
 
   return dbHistory;
+};
+
+PersonClass.prototype.canBeAuxiliaryPioneer = function (month) {
+  // default month to current month if undefined
+  if (!month) month = `${new Date().getFullYear()}/${new Date().getMonth() + 1}/01`;
+
+  if (this.isDisqualified) return false;
+  if (!this.isBaptized) return false;
+
+  if (this.isAuxiliaryPioneer(month)) return false;
+
+  const auxPionnerCurrent = this.otherService.find(
+    (service) => service.service === 'auxiliaryPioneer' && service.endDate === null
+  );
+
+  if (auxPionnerCurrent) return false;
+
+  const tmpDiff = monthDiff(this.immersedDate, new Date(month));
+
+  if (tmpDiff <= 0) return false;
+
+  return true;
+};
+
+PersonClass.prototype.isAuxiliaryPioneer = function (month) {
+  // default month to current month if undefined
+  if (!month) month = `${new Date().getFullYear()}/${new Date().getMonth() + 1}/01`;
+
+  let result = false;
+  const auxPionnerDates = this.otherService.filter((service) => service.service === 'auxiliaryPioneer');
+
+  for (const service of auxPionnerDates) {
+    const varDate = new Date(month);
+    const tmpStartDate = new Date(service.startDate);
+    const startDate = new Date(tmpStartDate.getFullYear(), tmpStartDate.getMonth(), 1);
+
+    if (startDate > varDate) {
+      continue;
+    }
+
+    if (service.endDate === null) {
+      result = true;
+      break;
+    }
+
+    const endDate = new Date(service.endDate);
+    if (varDate < endDate) {
+      result = true;
+      break;
+    }
+  }
+
+  return result;
+};
+
+PersonClass.prototype.isElder = function (month) {
+  // default month to current month if undefined
+  if (!month) month = `${new Date().getFullYear()}/${new Date().getMonth() + 1}/01`;
+
+  let result = false;
+  const elderDates = this.spiritualStatus.filter((status) => status.status === 'elder');
+
+  for (const service of elderDates) {
+    const varDate = new Date(month);
+    const tmpStartDate = new Date(service.startDate);
+    const startDate = new Date(tmpStartDate.getFullYear(), tmpStartDate.getMonth(), 1);
+
+    if (startDate > varDate) {
+      continue;
+    }
+
+    if (service.endDate === null) {
+      result = true;
+      break;
+    }
+
+    const endDate = new Date(service.endDate);
+    if (varDate < endDate) {
+      result = true;
+      break;
+    }
+  }
+
+  return result;
+};
+
+PersonClass.prototype.isMS = function (month) {
+  // default month to current month if undefined
+  if (!month) month = `${new Date().getFullYear()}/${new Date().getMonth() + 1}/01`;
+
+  let result = false;
+  const msDates = this.spiritualStatus.filter((status) => status.status === 'ms');
+
+  for (const service of msDates) {
+    const varDate = new Date(month);
+    const tmpStartDate = new Date(service.startDate);
+    const startDate = new Date(tmpStartDate.getFullYear(), tmpStartDate.getMonth(), 1);
+
+    if (startDate > varDate) {
+      continue;
+    }
+
+    if (service.endDate === null) {
+      result = true;
+      break;
+    }
+
+    const endDate = new Date(service.endDate);
+    if (varDate < endDate) {
+      result = true;
+      break;
+    }
+  }
+
+  return result;
+};
+
+PersonClass.prototype.isRegularPioneer = function (month) {
+  // default month to current month if undefined
+  if (!month) month = `${new Date().getFullYear()}/${new Date().getMonth() + 1}/01`;
+
+  let result = false;
+  const regPionnerDates = this.otherService.filter((service) => service.service === 'regularPioneer');
+
+  for (const service of regPionnerDates) {
+    const varDate = new Date(month);
+    const tmpStartDate = new Date(service.startDate);
+    const startDate = new Date(tmpStartDate.getFullYear(), tmpStartDate.getMonth(), 1);
+
+    if (startDate > varDate) {
+      continue;
+    }
+
+    if (service.endDate === null) {
+      result = true;
+      break;
+    }
+
+    const endDate = new Date(service.endDate);
+    if (varDate < endDate) {
+      result = true;
+      break;
+    }
+  }
+
+  return result;
+};
+
+PersonClass.prototype.isSpecialPioneer = function (month) {
+  // default month to current month if undefined
+  if (!month) month = `${new Date().getFullYear()}/${new Date().getMonth() + 1}/01`;
+
+  let result = false;
+  const specialPioneerDates = this.otherService.filter((service) => service.service === 'specialPioneer');
+
+  for (const service of specialPioneerDates) {
+    const varDate = new Date(month);
+    const tmpStartDate = new Date(service.startDate);
+    const startDate = new Date(tmpStartDate.getFullYear(), tmpStartDate.getMonth(), 1);
+
+    if (startDate > varDate) {
+      continue;
+    }
+
+    if (service.endDate === null) {
+      result = true;
+      break;
+    }
+
+    const endDate = new Date(service.endDate);
+    if (varDate < endDate) {
+      result = true;
+      break;
+    }
+  }
+
+  return result;
+};
+
+PersonClass.prototype.isPublisher = function (month) {
+  // default month to current month if undefined
+  if (!month) month = `${new Date().getFullYear()}/${new Date().getMonth() + 1}/01`;
+
+  let result = false;
+  const publisherDates = this.spiritualStatus.filter((status) => status.status === 'publisher');
+
+  for (const service of publisherDates) {
+    const varDate = new Date(month);
+    const tmpStartDate = new Date(service.startDate);
+    const startDate = new Date(tmpStartDate.getFullYear(), tmpStartDate.getMonth(), 1);
+
+    if (startDate > varDate) {
+      continue;
+    }
+
+    if (service.endDate === null) {
+      result = true;
+      break;
+    }
+
+    const endDate = new Date(service.endDate);
+    if (varDate < endDate) {
+      result = true;
+      break;
+    }
+  }
+
+  return result;
+};
+
+PersonClass.prototype.isBaptizedDate = function (month) {
+  // default month to current month if undefined
+  if (!month) month = `${new Date().getFullYear()}/${new Date().getMonth() + 1}/01`;
+
+  let result = false;
+
+  if (this.isBaptized) {
+    const varDate = new Date(month);
+    const tmpStartDate = new Date(this.immersedDate);
+    const startDate = new Date(tmpStartDate.getFullYear(), tmpStartDate.getMonth(), 1);
+
+    if (startDate <= varDate) {
+      result = true;
+    }
+  }
+
+  return result;
+};
+
+PersonClass.prototype.setAuxiliaryPioneer = async function (startDate, endDate) {
+  const obj = {
+    serviceId: window.crypto.randomUUID(),
+    service: 'auxiliaryPioneer',
+    startDate,
+    endDate: endDate ? endDate : null,
+  };
+
+  const newServices = [...this.otherService, obj];
+  const newPerson = { ...this, otherService: newServices };
+
+  await Persons.preSave(newPerson);
 };

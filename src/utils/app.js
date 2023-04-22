@@ -251,3 +251,14 @@ export const computeYearsDiff = (date) => {
 
   return +yearsDiff;
 };
+
+export const addMonths = (date, value) => {
+  const startDate = new Date(date);
+  const result = startDate.setMonth(startDate.getMonth() + value);
+
+  return new Date(result);
+};
+
+export const monthDiff = (startDate, endDate) => {
+  return endDate.getMonth() - startDate.getMonth() + 12 * (endDate.getFullYear() - startDate.getFullYear());
+};

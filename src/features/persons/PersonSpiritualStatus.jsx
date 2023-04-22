@@ -129,7 +129,6 @@ const PersonSpiritualStatus = ({
               <TextField
                 label={t('years')}
                 variant="outlined"
-                size="small"
                 autoComplete="off"
                 sx={{ width: '80px', '.MuiOutlinedInput-input': { textAlign: 'right' } }}
                 value={baptizedYears}

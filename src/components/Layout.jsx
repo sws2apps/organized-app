@@ -34,6 +34,8 @@ import { dbSaveNotifications } from '../indexedDb/dbNotifications';
 import { WhatsNewContent } from '../features/whatsNew';
 import UserConfirmation from './UserConfirmation';
 import { classesInitialize } from '../utils/classes';
+import { isAddSYOpenState } from '../states/report';
+import { AddServiceYear } from '../features/serviceYear';
 
 await classesInitialize();
 
@@ -65,6 +67,7 @@ const Layout = ({ updatePwa }) => {
   const isOnline = useRecoilValue(isOnlineState);
   const isUserConfirm = useRecoilValue(userConfirmationOpenState);
   const accountType = useRecoilValue(accountTypeState);
+  const isAddSY = useRecoilValue(isAddSYOpenState);
 
   const checkPwaUpdate = () => {
     if ('serviceWorker' in navigator) {
@@ -101,6 +104,7 @@ const Layout = ({ updatePwa }) => {
         {isImportJWOrg && <ImportJWOrg />}
         {isCongPersonAdd && <CongregationPersonAdd />}
         {isUserConfirm && <UserConfirmation />}
+        {isAddSY && <AddServiceYear />}
 
         {isEmailAuth && <EmailLinkAuthentication />}
         {isAppLoad && !isEmailAuth && <Startup />}

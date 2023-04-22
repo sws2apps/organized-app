@@ -60,6 +60,7 @@ export const dbExportDataOnline = async () => {
   delete appSettings.local_uid;
   delete appSettings.pocket_members;
   delete appSettings.pocket_local_id;
+  delete appSettings.cong_role;
 
   // get app settings
   const dbSettings = [appSettings];
@@ -84,6 +85,7 @@ export const dbRestoreCongregationBackup = async (
       local_uid: Setting.local_uid,
       pocket_members: Setting.pocket_members,
       pocket_local_id: Setting.pocket_local_id,
+      cong_role: Setting.cong_role,
     };
 
     await appDb.app_settings.add(setting, setting.id);

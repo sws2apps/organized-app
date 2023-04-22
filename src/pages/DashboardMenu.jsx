@@ -19,6 +19,7 @@ import MoreTimeIcon from '@mui/icons-material/MoreTime';
 import NoteIcon from '@mui/icons-material/Note';
 import PeopleIcon from '@mui/icons-material/People';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import PostAddIcon from '@mui/icons-material/PostAdd';
 import SendIcon from '@mui/icons-material/Send';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ScheduleIcon from '@mui/icons-material/Schedule';
@@ -44,6 +45,7 @@ import { importDummyUsers } from '../utils/dev';
 import { getCurrentExistingWeekDate } from '../utils/app';
 import { apiFetchSchedule } from '../api';
 import { Setting } from '../classes/Setting';
+import { isAddSYOpenState } from '../states/report';
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -68,6 +70,7 @@ const DashboardMenu = () => {
   const setConfirmationMessage = useSetRecoilState(userConfirmationMessageState);
   const setConfirmationAction = useSetRecoilState(userConfirmationActionState);
   const setConfirmationOpen = useSetRecoilState(userConfirmationOpenState);
+  const setIsAddSY = useSetRecoilState(isAddSYOpenState);
 
   const isCongAccountConnected = useRecoilValue(congAccountConnectedState);
   const isOnline = useRecoilValue(isOnlineState);
@@ -123,6 +126,10 @@ const DashboardMenu = () => {
     let weekDate = await getCurrentExistingWeekDate();
     weekDate = weekDate.replaceAll('/', '-');
     navigate(`/schedules/view/${weekDate}`);
+  };
+
+  const handleOpenAddSY = () => {
+    setIsAddSY(true);
   };
 
   const dashboardMenus = [
@@ -247,6 +254,7 @@ const DashboardMenu = () => {
           icon: <NoteIcon />,
           disabled: false,
           visible: true,
+          navigateTo: '/field-service-report',
         },
         {
           title: t('meetingAttendanceRecord'),
@@ -254,6 +262,13 @@ const DashboardMenu = () => {
           disabled: false,
           visible: true,
           navigateTo: '/meeting-attendance-record',
+        },
+        {
+          title: t('addPreviousServiceYear'),
+          icon: <PostAddIcon />,
+          disabled: false,
+          visible: true,
+          action: handleOpenAddSY,
         },
       ],
     },
