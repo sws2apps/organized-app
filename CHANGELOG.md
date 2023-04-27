@@ -1,3 +1,10 @@
+## [2.62.1](https://github.com/sws2apps/cpe-sws/compare/v2.62.0...v2.62.1) (2023-04-27)
+
+
+### Bug Fixes
+
+* **schedules:** persons not available for assignment even outside time away ([49de73b](https://github.com/sws2apps/cpe-sws/commit/49de73b1df990acc9720f2d13378f9c060d338b7))
+
 # [2.62.0](https://github.com/sws2apps/cpe-sws/compare/v2.61.0...v2.62.0) (2023-04-27)
 
 
