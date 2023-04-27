@@ -151,7 +151,7 @@ const StudentSelector = (props) => {
               const dateB = formatDateForCompare(timeAway.startDate);
               const dateC = formatDateForCompare(timeAway.endDate);
 
-              if (dateA < dateB || (dateA > dateB && dateA > dateC)) {
+              if (dateA < dateB || (dateA > dateC)) {
                 available.push(student);
                 break;
               }
