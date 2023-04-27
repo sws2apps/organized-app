@@ -11,6 +11,10 @@ S21sClass.prototype.get = function (service_year, person_uid) {
   return this.list.find((item) => item.service_year === service_year && item.person_uid === person_uid);
 };
 
+S21sClass.prototype.getAll = function (service_year) {
+  return this.list.filter((item) => item.service_year === service_year);
+};
+
 S21sClass.prototype.loadAll = async function () {
   this.list.length = 0;
   const appData = await appDb.fieldServiceReports.toArray();

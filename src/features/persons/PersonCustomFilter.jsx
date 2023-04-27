@@ -52,6 +52,8 @@ const PersonCustomFilter = () => {
         <MenuItem value="allPublishers">{t('allPublishers')}</MenuItem>
         <MenuItem value="unbaptizedPublishers">{t('unbaptizedPublishers')}</MenuItem>
         <MenuItem value="baptizedPublishers">{t('baptizedPublishers')}</MenuItem>
+        <MenuItem value="auxiliaryPioneers">{t('auxiliaryPioneers')}</MenuItem>
+        <MenuItem value="regularPioneers">{t('regularPioneers')}</MenuItem>
         <MenuItem value="appointedBrothers">{t('appointedBrothers')}</MenuItem>
       </TextField>
     </Box>

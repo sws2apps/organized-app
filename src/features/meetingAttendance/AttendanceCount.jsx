@@ -32,7 +32,7 @@ const AttendanceCount = ({ type, label, index, serviceYear, month, value }) => {
         }
       }
     }
-  }, [index, month, serviceYear, type, refresh]);
+  }, [index, month, serviceYear, type, refresh, value]);
 
   return (
     <TextField
@@ -42,8 +42,8 @@ const AttendanceCount = ({ type, label, index, serviceYear, month, value }) => {
       autoComplete="off"
       type="number"
       sx={{ width: '120px', '.MuiOutlinedInput-input': { textAlign: 'center' } }}
-      value={value ?? count}
-      onChange={value ? null : (e) => handleUpdateAttendance(e.target.value)}
+      value={type ? count : value}
+      onChange={type ? (e) => handleUpdateAttendance(e.target.value) : null}
     />
   );
 };

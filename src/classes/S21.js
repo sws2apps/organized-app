@@ -1,4 +1,5 @@
 import appDb from '../indexedDb/mainDb';
+import { LateReports } from './LateReports';
 import { S4Class } from './S4';
 
 export class S21Class {
@@ -29,12 +30,14 @@ S21Class.prototype.loadDetails = async function () {
     S4.placements = month.placements;
     S4.videos = month.videos;
     S4.hours = month.hours;
+    S4.hourCredit = month.hourCredit || '';
     S4.minutes = month.minutes;
     S4.isMinutesPosted = month.isMinutesPosted;
     S4.returnVisits = month.returnVisits;
     S4.bibleStudies = month.bibleStudies;
     S4.comments = month.comments;
     S4.noReport = month.noReport;
+    S4.changes = month.changes || [];
 
     this.months.push(S4);
   }
@@ -59,5 +62,38 @@ S21Class.prototype.saveMonthReport = async function (month, data) {
   const currentMonth = this.months.find((item) => item.month_value === month);
   currentMonth[data.field] = data.value;
 
+  const newChanges = [];
+  for (const record of currentMonth.changes) {
+    if (record.field === data.field) {
+      continue;
+    }
+
+    newChanges.push(record);
+  }
+
+  newChanges.push({ date: new Date(), field: data.field, value: data.value });
+  currentMonth.changes = newChanges;
+
   await appDb.fieldServiceReports.update(this.uid, { months: this.months });
+};
+
+S21Class.prototype.hasReport = function (month) {
+  const currentMonth = this.months.find((item) => item.month_value === month);
+
+  let exist = false;
+  if (currentMonth) {
+    if (currentMonth.hours !== '') {
+      return true;
+    }
+
+    if (currentMonth.minutes !== '') {
+      return true;
+    }
+  }
+
+  return exist;
+};
+
+S21Class.prototype.hasLateReport = function (month) {
+  return LateReports.find(this.person_uid, month) ? true : false;
 };

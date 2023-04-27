@@ -14,8 +14,6 @@ const PersonAppointment = ({ isFemale, spiritualStatus, setSpiritualStatus }) =>
     return a.startDate < b.startDate ? 1 : -1;
   });
 
-  const hasActive = spiritualStatus.find((status) => status.endDate === null);
-
   const handleAppointmentAdd = () => {
     const obj = {
       statusId: window.crypto.randomUUID(),
@@ -35,7 +33,7 @@ const PersonAppointment = ({ isFemale, spiritualStatus, setSpiritualStatus }) =>
           marginBottom: '20px',
         }}
       >
-        {roleSecretary && !hasActive && (
+        {roleSecretary && (
           <Button variant="outlined" color="success" startIcon={<AddCircleIcon />} onClick={handleAppointmentAdd}>
             {t('newSpiritualStatus')}
           </Button>

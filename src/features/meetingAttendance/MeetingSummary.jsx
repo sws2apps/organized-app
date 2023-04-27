@@ -45,7 +45,12 @@ const MeetingSummary = ({ month, type, serviceYear }) => {
               setMeetingCount(cnMeeting);
               setTotalAttendance(tmpTotal);
               setAverageAttendance(tmpTotal === 0 ? 0 : Math.round(tmpTotal / cnMeeting));
+              return;
             }
+
+            setMeetingCount('');
+            setTotalAttendance('');
+            setAverageAttendance('');
           }
         }
       }

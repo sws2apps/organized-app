@@ -5,12 +5,13 @@ export class S4Class {
     this.placements = '';
     this.videos = '';
     this.hours = '';
+    this.hourCredit = '';
     this.minutes = '';
     this.isMinutesPosted = false;
     this.returnVisits = '';
     this.bibleStudies = '';
     this.comments = '';
     this.noReport = false;
-    this.latePosted = '';
+    this.changes = [];
   }
 }

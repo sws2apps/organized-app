@@ -11,7 +11,9 @@ FSGListClass.prototype.loadAll = async function () {
   this.list.length = 0;
   const appData = await appDb.fieldServiceGroup.toArray();
 
-  for (const fieldServiceGroup of appData) {
+  const data = appData.filter((record) => !record.deleted);
+
+  for (const fieldServiceGroup of data) {
     const fsg = new FSGItemClass(fieldServiceGroup.fieldServiceGroup_uid);
     await fsg.loadDetails();
     this.list.push(fsg);
@@ -23,6 +25,8 @@ FSGListClass.prototype.add = async function () {
     fieldServiceGroup_uid: window.crypto.randomUUID(),
     isCurrent: false,
     groups: [],
+    deleted: false,
+    changes: [],
   };
 
   await appDb.fieldServiceGroup.add(newFsg);
@@ -46,9 +50,9 @@ FSGListClass.prototype.setCurrentList = async function (uid) {
 };
 
 FSGListClass.prototype.delete = async function (uid) {
-  const isExist = this.get(uid);
-  if (isExist) {
-    await appDb.fieldServiceGroup.delete(uid);
+  const current = this.get(uid);
+  if (current) {
+    await appDb.fieldServiceGroup.update(uid, { deleted: true });
   }
 
   this.list = this.list.filter((list) => list.fieldServiceGroup_uid !== uid);

@@ -101,19 +101,22 @@ PersonsClass.prototype.filterSecretary = function (data) {
     firstPassFiltered = [...this.list];
   }
 
-  if (filter === 'allPublishers') {
-    for (const person of this.list) {
-      const isElder = person.isElder(month);
-      const isMS = person.isMS(month);
-      const isPublisher = person.isPublisher(month);
-      if (isElder || isMS || isPublisher) {
-        firstPassFiltered.push(person);
-      }
+  const allPublishers = [];
+  for (const person of this.list) {
+    const isElder = person.isElder(month);
+    const isMS = person.isMS(month);
+    const isPublisher = person.isPublisher(month);
+    if (isElder || isMS || isPublisher) {
+      allPublishers.push(person);
     }
   }
 
+  if (filter === 'allPublishers') {
+    firstPassFiltered = [...allPublishers];
+  }
+
   if (filter === 'baptizedPublishers') {
-    for (const person of this.list) {
+    for (const person of allPublishers) {
       const isElder = person.isElder(month);
       const isMS = person.isMS(month);
       const isPublisher = person.isPublisher(month);
@@ -126,7 +129,7 @@ PersonsClass.prototype.filterSecretary = function (data) {
   }
 
   if (filter === 'unbaptizedPublishers') {
-    for (const person of this.list) {
+    for (const person of allPublishers) {
       const isPublisher = person.isPublisher(month);
       const isBaptized = person.isBaptizedDate(month);
 
@@ -137,11 +140,51 @@ PersonsClass.prototype.filterSecretary = function (data) {
   }
 
   if (filter === 'appointedBrothers') {
-    for (const person of this.list) {
+    for (const person of allPublishers) {
       const isElder = person.isElder(month);
       const isMS = person.isMS(month);
 
       if (isElder || isMS) {
+        firstPassFiltered.push(person);
+      }
+    }
+  }
+
+  if (filter === 'unpostedReports') {
+    for (const person of allPublishers) {
+      const hasReport = person.hasReport(month);
+
+      if (!hasReport) {
+        firstPassFiltered.push(person);
+      }
+    }
+  }
+
+  if (filter === 'auxiliaryPioneers') {
+    for (const person of allPublishers) {
+      const isAuxP = person.isAuxiliaryPioneer(month);
+
+      if (isAuxP) {
+        firstPassFiltered.push(person);
+      }
+    }
+  }
+
+  if (filter === 'regularPioneers') {
+    for (const person of allPublishers) {
+      const isFR = person.isRegularPioneer(month);
+
+      if (isFR) {
+        firstPassFiltered.push(person);
+      }
+    }
+  }
+
+  if (filter === 'haveReports') {
+    for (const person of allPublishers) {
+      const hasReport = person.hasReport(month);
+
+      if (hasReport) {
         firstPassFiltered.push(person);
       }
     }
@@ -208,6 +251,10 @@ PersonsClass.prototype.get = function (uid) {
 
 PersonsClass.prototype.getByDisplayName = function (displayName) {
   return this.list.find((person) => person.person_displayName === displayName);
+};
+
+PersonsClass.prototype.getByName = function (person_name) {
+  return this.list.find((person) => person.person_name === person_name);
 };
 
 PersonsClass.prototype.recentPersons = function (data) {

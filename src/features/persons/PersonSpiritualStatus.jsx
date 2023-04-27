@@ -147,12 +147,15 @@ const PersonSpiritualStatus = ({
           setSpiritualStatus={(value) => setSpiritualStatus(value)}
         />
       </Box>
-      <Box sx={{ marginTop: '30px' }}>
-        <Typography sx={{ marginBottom: '15px', textTransform: 'uppercase', fontWeight: 'bold' }}>
-          {t('otherService')}
-        </Typography>
-        <PersonServices otherService={otherService} setOtherService={(value) => setOtherService(value)} />
-      </Box>
+      {isBaptized && (
+        <Box sx={{ marginTop: '30px' }}>
+          <Typography sx={{ marginBottom: '15px', textTransform: 'uppercase', fontWeight: 'bold' }}>
+            {t('otherService')}
+          </Typography>
+          <PersonServices otherService={otherService} setOtherService={(value) => setOtherService(value)} />
+        </Box>
+      )}
+
       {!roleSecretary && (
         <Typography sx={{ fontStyle: 'italic', marginTop: '20px' }} color="#FE4119">
           {t('spiritualStatusNotice')}

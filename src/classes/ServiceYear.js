@@ -1,4 +1,5 @@
 import appDb from '../indexedDb/mainDb';
+import { addMonths } from '../utils/app';
 import { Setting } from './Setting';
 
 class ServiceYearClass {
@@ -60,6 +61,24 @@ ServiceYearClass.prototype.getCurrent = function () {
   return found;
 };
 
+ServiceYearClass.prototype.currentReportMonth = function () {
+  const currentYear = new Date().getFullYear();
+  const currentMonth = new Date().getMonth();
+  const currentDate = new Date().getDate();
+
+  let month;
+  if (currentDate > 20) {
+    month = `${currentYear}/${String(currentMonth + 1).padStart(2, '0')}/01`;
+  }
+
+  if (currentDate <= 20) {
+    const previousMonthDate = addMonths(new Date(), -1);
+    month = `${previousMonthDate.getFullYear()}/${String(previousMonthDate.getMonth() + 1).padStart(2, '0')}/01`;
+  }
+
+  return month;
+};
+
 ServiceYearClass.prototype.checkCurrent = async function () {
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth();
@@ -73,6 +92,19 @@ ServiceYearClass.prototype.checkCurrent = async function () {
     const addYear = current.split('-')[0];
     await this.add(addYear);
   }
+};
+
+ServiceYearClass.prototype.getByMonth = function (month) {
+  const currentYear = new Date(month).getFullYear();
+  const currentMonth = new Date(month).getMonth();
+  let current;
+
+  if (currentMonth < 9) current = `${+currentYear - 1}-${currentYear}`;
+  if (currentMonth >= 9) current = `${currentYear}-${+currentYear + 1}`;
+
+  const found = this.getByValue(current);
+
+  return found;
 };
 
 ServiceYearClass.prototype.getMonths = function (uid) {

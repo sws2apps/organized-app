@@ -100,6 +100,18 @@ appDb.version(18).stores({
 appDb.version(19).stores({
   fieldServiceReports: '&uid, service_year, person_uid, months',
 });
+appDb.version(20).stores({
+  branchReports: '&report_uid, report, service_year, month, details',
+});
+appDb.version(21).stores({
+  minutesReports: '&uid, person_uid, service_year, month',
+});
+appDb.version(22).stores({
+  branchReports: '&report_uid, report, service_year, month, details, updatedAt',
+});
+appDb.version(23).stores({
+  lateReports: '&uid, person_uid, service_year, month',
+});
 
 appDb.on('populate', function () {
   appDb.app_settings.add({

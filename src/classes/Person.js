@@ -4,6 +4,8 @@ import { monthDiff, sortHistoricalDateDesc } from '../utils/app';
 import { Persons } from './Persons';
 import { Schedules } from './Schedules';
 import { Sources } from './Sources';
+import { S21s } from './S21s';
+import { ServiceYear } from './ServiceYear';
 
 export class PersonClass {
   constructor(uid) {
@@ -154,6 +156,7 @@ PersonClass.prototype.canBeAuxiliaryPioneer = function (month) {
 
   if (this.isDisqualified) return false;
   if (!this.isBaptized) return false;
+  if (this.isRegularPioneer(month)) return false;
 
   if (this.isAuxiliaryPioneer(month)) return false;
 
@@ -387,4 +390,20 @@ PersonClass.prototype.setAuxiliaryPioneer = async function (startDate, endDate) 
   const newPerson = { ...this, otherService: newServices };
 
   await Persons.preSave(newPerson);
+};
+
+PersonClass.prototype.hasReport = function (month) {
+  // default month to current month if undefined
+  if (!month) month = `${new Date().getFullYear()}/${new Date().getMonth() + 1}/01`;
+
+  let result = false;
+
+  const serviceYear = ServiceYear.getByMonth(month).uid;
+
+  const currentS21 = S21s.get(serviceYear, this.person_uid);
+  if (currentS21) {
+    result = currentS21.hasReport(month);
+  }
+
+  return result;
 };

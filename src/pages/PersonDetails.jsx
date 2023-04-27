@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { createSearchParams, useNavigate, useParams } from 'react-router-dom';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -25,7 +25,6 @@ import TransferWithinAStationIcon from '@mui/icons-material/TransferWithinAStati
 import Typography from '@mui/material/Typography';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../states/notification';
 import { rootModalOpenState } from '../states/main';
-import { studentsQueryState } from '../states/persons';
 import { PersonAssignments, PersonBasic, PersonHistory, PersonTimeAway } from '../features/persons';
 import { Persons } from '../classes/Persons';
 import PersonSpiritualStatus from '../features/persons/PersonSpiritualStatus';
@@ -88,8 +87,6 @@ const PersonDetails = () => {
   const setAppMessage = useSetRecoilState(appMessageState);
   const setRootModalOpen = useSetRecoilState(rootModalOpenState);
 
-  const personsQuery = useRecoilValue(studentsQueryState);
-
   const [isProcessing, setIsProcessing] = useState(true);
   const [isEdit, setIsEdit] = useState(false);
   const [name, setName] = useState('');
@@ -121,10 +118,7 @@ const PersonDetails = () => {
     const data = { ...person, isMoved: true };
     const result = await Persons.preSave(data);
     if (result) {
-      navigate({
-        pathname: '/persons',
-        search: `${createSearchParams(personsQuery)}`,
-      });
+      navigate('/persons');
       setRootModalOpen(false);
     } else {
       setRootModalOpen(false);
@@ -139,10 +133,7 @@ const PersonDetails = () => {
     const data = { ...person, isDisqualified: false };
     const result = await Persons.preSave(data);
     if (result) {
-      navigate({
-        pathname: '/persons',
-        search: `${createSearchParams(personsQuery)}`,
-      });
+      navigate('/persons');
       setRootModalOpen(false);
     } else {
       setRootModalOpen(false);
@@ -157,10 +148,7 @@ const PersonDetails = () => {
     const data = { ...person, isDisqualified: true };
     const result = await Persons.preSave(data);
     if (result) {
-      navigate({
-        pathname: '/persons',
-        search: `${createSearchParams(personsQuery)}`,
-      });
+      navigate('/persons');
       setRootModalOpen(false);
     } else {
       setRootModalOpen(false);
@@ -174,10 +162,7 @@ const PersonDetails = () => {
     setRootModalOpen(true);
     const result = await Persons.preSave(person);
     if (result) {
-      navigate({
-        pathname: '/persons',
-        search: `${createSearchParams(personsQuery)}`,
-      });
+      navigate('/persons');
       setRootModalOpen(false);
     } else {
       setRootModalOpen(false);
@@ -188,10 +173,7 @@ const PersonDetails = () => {
   };
 
   const handleNavigateStudents = () => {
-    navigate({
-      pathname: '/persons',
-      search: `${createSearchParams(personsQuery)}`,
-    });
+    navigate('/persons');
   };
 
   useEffect(() => {

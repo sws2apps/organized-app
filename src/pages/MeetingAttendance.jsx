@@ -73,7 +73,7 @@ const MeetingAttendance = () => {
   }, [currentMonth, currentServiceYear, setRefresh]);
 
   return (
-    <Box>
+    <Box sx={{ marginBottom: '30px' }}>
       <Typography sx={{ textTransform: 'uppercase', fontWeight: 'bold', marginBottom: '20px' }}>
         {t('meetingAttendanceRecord')}
       </Typography>

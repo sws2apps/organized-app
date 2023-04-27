@@ -3,6 +3,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import { fileDialog } from 'file-select-dialog';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import ApartmentIcon from '@mui/icons-material/Apartment';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import Badge from '@mui/material/Badge';
@@ -262,6 +263,13 @@ const DashboardMenu = () => {
           disabled: false,
           visible: true,
           navigateTo: '/meeting-attendance-record',
+        },
+        {
+          title: t('branchOfficeReport'),
+          icon: <ApartmentIcon />,
+          disabled: false,
+          visible: true,
+          navigateTo: '/branch-office-reports',
         },
         {
           title: t('addPreviousServiceYear'),

@@ -510,6 +510,8 @@
   "allPublishers": "All Publishers",
   "baptizedPublishers": "Baptized Publishers",
   "unbaptizedPublishers": "Unbaptized Publishers",
+  "auxiliaryPioneers": "Auxiliary Pioneers",
+  "regularPioneers": "Regular Pioneers",
   "reports": "Reports",
   "fieldServiceGroup": "Field Service Group",
   "postFieldServiceReport": "Post Field Service Reports",
@@ -552,5 +554,17 @@
   "lessOneHour": "Less than 1 hour",
   "minuteShortLabel": "min.",
   "setAuxiliaryPioneer": "Set as Auxiliary Pioneer",
-  "lessReturnVisitsError": "Please check this publisher’s report. Return visits should not be less than bible studies"
+  "lessReturnVisitsError": "Please check this publisher’s report. Return visits should not be less than bible studies.",
+  "noSchedulesElder": "No meeting schedule has been published yet",
+  "branchOfficeReport": "Reports to Branch Office",
+  "lateReport": "Late Report",
+  "unpostedReports": "Unposted Reports",
+  "minutesAlreadySubmitted": "Already submitted",
+  "hourApprovedCredit": "* Hour credit",
+  "totalHoursInvalid": "The hour credit given to this pioneer must be invalid. The total hours should not exceed 55 hours.",
+  "prepareS1Report": "Prepare Reports for Branch Office (S-1)",
+  "selectReport": "Choose a report",
+  "S1Report": "(S-1) Congregation’s Field Service and Meeting Attendance",
+  "S1ReportNotFinalized": "Report for this month is not yet ready. Click the Generate button to finalize it.",
+  "generate": "Generate"
 }

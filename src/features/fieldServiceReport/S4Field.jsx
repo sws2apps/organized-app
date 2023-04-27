@@ -8,19 +8,16 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { S21s } from '../../classes/S21s';
 import { refreshReportState } from '../../states/report';
+import { MinutesReports } from '../../classes/MinutesReports';
 
-const S4Field = ({ field, serviceYear, month, person, initialValue, initialHourLess, errorField }) => {
+const S4Field = ({ field, serviceYear, month, person, initialValue, initialHourLess, errorField, latePossible }) => {
   const { t } = useTranslation('ui');
 
   const setRefresh = useSetRecoilState(refreshReportState);
 
   const [value, setValue] = useState('');
   const [hourLess, setHourLess] = useState(false);
-
-  useEffect(() => {
-    setValue(initialValue);
-    if (initialHourLess) setHourLess(initialHourLess);
-  }, [initialValue, initialHourLess]);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const fldName =
     field === 'placements'
@@ -44,6 +41,22 @@ const S4Field = ({ field, serviceYear, month, person, initialValue, initialHourL
 
     await currentS21.saveMonthReport(month, { field, value: value === '' ? value : +value });
 
+    if (field === 'hours' || field === 'minutes') {
+      if (value === '') {
+        await MinutesReports.remove(person, month);
+      }
+
+      if (value !== '') {
+        if (!hourLess || isSubmitted) {
+          await MinutesReports.remove(person, month);
+        }
+
+        if (hourLess && !isSubmitted) {
+          await MinutesReports.add(person, month);
+        }
+      }
+    }
+
     let otherField;
     if (field === 'hours') otherField = 'minutes';
     if (field === 'minutes') otherField = 'hours';
@@ -54,6 +67,7 @@ const S4Field = ({ field, serviceYear, month, person, initialValue, initialHourL
   };
 
   const handleValueChange = async (value) => {
+    if (value < 0) value = '';
     setValue(value);
 
     await updateDuration(hourLess, value);
@@ -70,6 +84,23 @@ const S4Field = ({ field, serviceYear, month, person, initialValue, initialHourL
     const currentS21 = S21s.get(serviceYear, person);
     await currentS21.saveMonthReport(month, { field, value });
   };
+
+  const handleAlreadySubmittedChange = async (checked) => {
+    setIsSubmitted(checked);
+
+    if (checked) {
+      await MinutesReports.remove(person, month);
+    }
+
+    if (!checked && value !== '') {
+      await MinutesReports.add(person, month);
+    }
+  };
+
+  useEffect(() => {
+    setValue(initialValue);
+    if (initialHourLess) setHourLess(initialHourLess);
+  }, [initialValue, initialHourLess]);
 
   return (
     <Box
@@ -95,12 +126,24 @@ const S4Field = ({ field, serviceYear, month, person, initialValue, initialHourL
             onChange={(e) => handleValueChange(e.target.value)}
           />
           {field === 'hours' && (
-            <FormControlLabel
-              control={<Checkbox checked={hourLess} onChange={(e) => handleMinuteSwitch(e.target.checked)} />}
-              label={t('lessOneHour')}
-              sx={{ '.MuiFormControlLabel-label': { lineHeight: 1.2 } }}
-            />
+            <Box sx={{ display: 'flex', flexDirection: 'column', marginLeft: '5px' }}>
+              <FormControlLabel
+                control={<Checkbox checked={hourLess} onChange={(e) => handleMinuteSwitch(e.target.checked)} />}
+                label={t('lessOneHour')}
+                sx={{ '.MuiButtonBase-root': { padding: '4px' }, '.MuiFormControlLabel-label': { lineHeight: 1.2 } }}
+              />
+              {hourLess && latePossible && (
+                <FormControlLabel
+                  control={
+                    <Checkbox checked={isSubmitted} onChange={(e) => handleAlreadySubmittedChange(e.target.checked)} />
+                  }
+                  label={t('minutesAlreadySubmitted')}
+                  sx={{ '.MuiButtonBase-root': { padding: '4px' }, '.MuiFormControlLabel-label': { lineHeight: 1.2 } }}
+                />
+              )}
+            </Box>
           )}
+          {field === 'hourCredit' && <Typography>{t('hourApprovedCredit')}</Typography>}
         </Box>
       )}
       {field === 'comments' && (
