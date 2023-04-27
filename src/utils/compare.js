@@ -86,6 +86,7 @@ const compareTimeAway = (source, modified, changes) => {
                 }
               }
             }
+            
             if (arrayFieldChanged) {
               const filteredChanges = [];
               changes.forEach((item) => {
