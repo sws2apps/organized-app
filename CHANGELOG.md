@@ -1,3 +1,21 @@
+# [2.62.0](https://github.com/sws2apps/cpe-sws/compare/v2.61.0...v2.62.0) (2023-04-27)
+
+
+### Bug Fixes
+
+* **backup:** handle issue with duplicate time away records ([1f6aa11](https://github.com/sws2apps/cpe-sws/commit/1f6aa11a1fb17ecc6564a0241d31d25969ba0690))
+
+
+### Features
+
+* **deps:** bump @mui/lab from 5.0.0-alpha.127 to 5.0.0-alpha.128 ([175f43c](https://github.com/sws2apps/cpe-sws/commit/175f43c88efec6053183cf60a0e7f615916c508f))
+* **deps:** bump @mui/material from 5.12.1 to 5.12.2 ([03c8ee8](https://github.com/sws2apps/cpe-sws/commit/03c8ee86450b2156fc94a887bdbfa572ad5359bc))
+* **deps:** bump @sws2apps/react-sw-helper from 1.13.0 to 1.14.0 ([a5124d9](https://github.com/sws2apps/cpe-sws/commit/a5124d97e554c7a2627350313cc3a46842a601ff))
+* **deps:** bump @tanstack/react-query from 4.29.3 to 4.29.5 ([b1b2c93](https://github.com/sws2apps/cpe-sws/commit/b1b2c9368b50bd88bc8f1232b9cfcfee23ec74b0))
+* **deps:** bump jw-epub-parser from 1.38.1 to 1.39.0 ([c9d029e](https://github.com/sws2apps/cpe-sws/commit/c9d029e99089e969d282b8152ef7ab06595f95fa))
+* **deps:** bump qrcode from 1.5.2 to 1.5.3 ([22c1fc4](https://github.com/sws2apps/cpe-sws/commit/22c1fc481c6d1197bf3b289d823ec607ddb93238))
+* **deps:** bump react-i18next from 12.2.0 to 12.2.2 ([d8cc522](https://github.com/sws2apps/cpe-sws/commit/d8cc522e07faad1aa7ab6fb83e70883e22eb81b7))
+
 # [2.61.0](https://github.com/sws2apps/cpe-sws/compare/v2.60.0...v2.61.0) (2023-04-22)
 
 
