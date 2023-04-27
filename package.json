@@ -27,7 +27,7 @@
     "@mui/lab": "^5.0.0-alpha.128",
     "@mui/material": "^5.12.2",
     "@mui/x-date-pickers": "^6.2.1",
-    "@sws2apps/react-sw-helper": "^1.13.0",
+    "@sws2apps/react-sw-helper": "^1.14.0",
     "@tanstack/react-query": "^4.29.5",
     "comlink": "^4.4.1",
     "date-fns": "^2.29.3",
