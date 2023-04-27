@@ -1,3 +1,10 @@
+## [2.62.2](https://github.com/sws2apps/cpe-sws/compare/v2.62.1...v2.62.2) (2023-04-27)
+
+
+### Bug Fixes
+
+* **app:** check duplicate time away records on startup ([f031ec7](https://github.com/sws2apps/cpe-sws/commit/f031ec7a5484075134f3cd3545ac1c93251fb36e))
+
 ## [2.62.1](https://github.com/sws2apps/cpe-sws/compare/v2.62.0...v2.62.1) (2023-04-27)
 
 
