@@ -28,30 +28,10 @@ const MeetingSummary = ({ month, type, serviceYear }) => {
         const S3 = S88.months.find((item) => item.month_value === monthValue);
 
         if (S3) {
-          const data = type === 'midweek' ? S3.midweek_meeting : S3.weekend_meeting;
-
-          if (data.length > 0) {
-            let cnMeeting = 0;
-            let tmpTotal = 0;
-
-            for (const meeting of data) {
-              if (meeting.count !== '') {
-                cnMeeting++;
-                tmpTotal += +meeting.count;
-              }
-            }
-
-            if (cnMeeting > 0) {
-              setMeetingCount(cnMeeting);
-              setTotalAttendance(tmpTotal);
-              setAverageAttendance(tmpTotal === 0 ? 0 : Math.round(tmpTotal / cnMeeting));
-              return;
-            }
-
-            setMeetingCount('');
-            setTotalAttendance('');
-            setAverageAttendance('');
-          }
+          const data = S3.summaryMeeting(type);
+          setMeetingCount(data.count);
+          setTotalAttendance(data.total);
+          setAverageAttendance(data.average);
         }
       }
     }

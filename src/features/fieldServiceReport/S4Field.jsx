@@ -10,7 +10,17 @@ import { S21s } from '../../classes/S21s';
 import { refreshReportState } from '../../states/report';
 import { MinutesReports } from '../../classes/MinutesReports';
 
-const S4Field = ({ field, serviceYear, month, person, initialValue, initialHourLess, errorField, latePossible }) => {
+const S4Field = ({
+  field,
+  serviceYear,
+  month,
+  person,
+  initialValue,
+  initialHourLess,
+  errorField,
+  latePossible,
+  isLocked,
+}) => {
   const { t } = useTranslation('ui');
 
   const setRefresh = useSetRecoilState(refreshReportState);
@@ -67,6 +77,8 @@ const S4Field = ({ field, serviceYear, month, person, initialValue, initialHourL
   };
 
   const handleValueChange = async (value) => {
+    if (isLocked) return;
+
     if (value < 0) value = '';
     setValue(value);
 
@@ -75,17 +87,23 @@ const S4Field = ({ field, serviceYear, month, person, initialValue, initialHourL
   };
 
   const handleMinuteSwitch = async (checked) => {
+    if (isLocked) return;
+
     setHourLess(checked);
     await updateDuration(checked, value);
   };
 
   const handleCommentsChange = async (value) => {
+    if (isLocked) return;
+
     setValue(value);
     const currentS21 = S21s.get(serviceYear, person);
     await currentS21.saveMonthReport(month, { field, value });
   };
 
   const handleAlreadySubmittedChange = async (checked) => {
+    if (isLocked) return;
+
     setIsSubmitted(checked);
 
     if (checked) {

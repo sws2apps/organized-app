@@ -31,6 +31,8 @@ const PersonSpiritualStatus = ({
   setSpiritualStatus,
   otherService,
   setOtherService,
+  firstMonthReport,
+  setFirstMonthReport,
 }) => {
   const { t } = useTranslation('ui');
 
@@ -55,6 +57,17 @@ const PersonSpiritualStatus = ({
   const handleAnointedCheck = (value) => {
     setIsAnointed(value);
     setIsOtherSheep(!value);
+  };
+
+  const handleFirstMonthReport = (value) => {
+    setFirstMonthReport(value);
+    if (value !== null) {
+      setTimeout(() => {
+        const date = new Date(value);
+        value = new Date(date.getFullYear(), date.getMonth(), 1);
+        setFirstMonthReport(value);
+      }, 1000);
+    }
   };
 
   useEffect(() => {
@@ -135,6 +148,22 @@ const PersonSpiritualStatus = ({
               />
             </Box>
           )}
+        </Box>
+        <Box sx={{ marginTop: '30px' }}>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <DatePicker
+              id="first-report-date-picker"
+              label={t('firstMonthReport')}
+              sx={{ width: '200px' }}
+              format={shortDatePickerFormat}
+              minDate={birthDate === null ? null : new Date(birthDate)}
+              maxDate={new Date()}
+              value={firstMonthReport === null ? null : new Date(firstMonthReport)}
+              onChange={(value) => handleFirstMonthReport(value)}
+              readOnly={!Setting.cong_role.includes('secretary')}
+            />
+          </LocalizationProvider>
+          <Typography sx={{ fontSize: '13px', marginTop: '8px' }}>* {t('firstMonthReportDesc')}</Typography>
         </Box>
       </Box>
       <Box sx={{ marginTop: '20px' }}>

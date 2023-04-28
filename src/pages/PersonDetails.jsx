@@ -28,6 +28,7 @@ import { rootModalOpenState } from '../states/main';
 import { PersonAssignments, PersonBasic, PersonHistory, PersonTimeAway } from '../features/persons';
 import { Persons } from '../classes/Persons';
 import PersonSpiritualStatus from '../features/persons/PersonSpiritualStatus';
+import { ServiceYear } from '../classes/ServiceYear';
 
 const Accordion = styled((props) => <MuiAccordion disableGutters elevation={0} square {...props} />)(({ theme }) => ({
   border: `1px solid ${theme.palette.divider}`,
@@ -108,6 +109,7 @@ const PersonDetails = () => {
   const [personPhone, setPersonPhone] = useState('');
   const [spiritualStatus, setSpiritualStatus] = useState([]);
   const [otherService, setOtherService] = useState([]);
+  const [firstMonthReport, setFirstMonthReport] = useState(ServiceYear.currentReportMonth());
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
@@ -244,6 +246,12 @@ const PersonDetails = () => {
 
   useEffect(() => {
     setPerson((prev) => {
+      return { ...prev, firstMonthReport };
+    });
+  }, [firstMonthReport]);
+
+  useEffect(() => {
+    setPerson((prev) => {
       return { ...prev, email: personEmail };
     });
   }, [personEmail]);
@@ -296,6 +304,7 @@ const PersonDetails = () => {
         setImmersedDate(data.immersedDate);
         setIsOtherSheep(data.isOtherSheep);
         setIsAnointed(data.isAnointed);
+        setFirstMonthReport(data.firstMonthReport);
         setAssignments(data.assignments);
         setHistoryAssignments(data.historyAssignments());
         setTimeAway(data.timeAway);
@@ -469,6 +478,8 @@ const PersonDetails = () => {
                   setIsOtherSheep={(value) => setIsOtherSheep(value)}
                   isAnointed={isAnointed}
                   setIsAnointed={(value) => setIsAnointed(value)}
+                  firstMonthReport={firstMonthReport}
+                  setFirstMonthReport={(value) => setFirstMonthReport(value)}
                   birthDate={birthDate}
                   spiritualStatus={spiritualStatus}
                   setSpiritualStatus={(value) => setSpiritualStatus(value)}

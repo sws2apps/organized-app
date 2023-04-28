@@ -264,10 +264,9 @@ export const monthDiff = (startDate, endDate) => {
 };
 
 export const reportsFieldSum = (array, field) => {
-  let total = 0;
   return array.reduce(
     (accumulator, currentValue) =>
       typeof currentValue[field] === 'string' ? accumulator : accumulator + currentValue[field],
-    total
+    0
   );
 };

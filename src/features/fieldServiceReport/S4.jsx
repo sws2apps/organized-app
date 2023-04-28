@@ -14,6 +14,7 @@ import { refreshReportState } from '../../states/report';
 import { Persons } from '../../classes/Persons';
 import { ServiceYear } from '../../classes/ServiceYear';
 import { LateReports } from '../../classes/LateReports';
+import { S1s } from '../../classes/S1s';
 
 const sharedStyles = {
   chip: {
@@ -49,16 +50,20 @@ const S4 = ({ serviceYear, month, person }) => {
   const [isSpecialPioneer, setIsSpecialPioneer] = useState(false);
   const [latePossible, setLatePossible] = useState(false);
   const [isLate, setIsLate] = useState(false);
+  const [isLocked, setIsLocked] = useState(false);
+  const [lockCheck, setLockCheck] = useState(false);
 
   const handleLateSwitch = async (checked) => {
     setIsLate(checked);
 
     if (checked) {
       await LateReports.add(person, month);
+      if (isLocked) setIsLocked(false);
     }
 
     if (!checked) {
       await LateReports.remove(person, month);
+      setLockCheck((prev) => !prev);
     }
   };
 
@@ -169,6 +174,16 @@ const S4 = ({ serviceYear, month, person }) => {
     }
   }, [month, person, refresh]);
 
+  useEffect(() => {
+    if (month) {
+      setIsLocked(false);
+      const currentReport = S1s.get(month);
+      if (currentReport) {
+        setIsLocked(currentReport.details.isSubmitted);
+      }
+    }
+  }, [month, lockCheck]);
+
   return (
     <Box>
       {!isLoading && (
@@ -216,8 +231,16 @@ const S4 = ({ serviceYear, month, person }) => {
               month={month}
               person={person}
               initialValue={placements}
+              isLocked={isLocked}
             />
-            <S4Field field="videos" serviceYear={serviceYear} month={month} person={person} initialValue={videos} />
+            <S4Field
+              field="videos"
+              serviceYear={serviceYear}
+              month={month}
+              person={person}
+              initialValue={videos}
+              isLocked={isLocked}
+            />
             <S4Field
               field="hours"
               serviceYear={serviceYear}
@@ -226,6 +249,7 @@ const S4 = ({ serviceYear, month, person }) => {
               initialValue={hours}
               initialHourLess={hourLess}
               latePossible={latePossible}
+              isLocked={isLocked}
             />
             {isRegPioneer && (
               <S4Field
@@ -235,6 +259,7 @@ const S4 = ({ serviceYear, month, person }) => {
                 person={person}
                 initialValue={hourCredit}
                 errorField={hourCreditInvalid}
+                isLocked={isLocked}
               />
             )}
 
@@ -251,6 +276,7 @@ const S4 = ({ serviceYear, month, person }) => {
               person={person}
               initialValue={returnVisits}
               errorField={hasError}
+              isLocked={isLocked}
             />
             <S4Field
               field="bibleStudies"
@@ -259,6 +285,7 @@ const S4 = ({ serviceYear, month, person }) => {
               person={person}
               initialValue={bibleStudies}
               errorField={hasError}
+              isLocked={isLocked}
             />
 
             {hasError && (
@@ -267,7 +294,14 @@ const S4 = ({ serviceYear, month, person }) => {
               </Typography>
             )}
 
-            <S4Field field="comments" serviceYear={serviceYear} month={month} person={person} initialValue={comments} />
+            <S4Field
+              field="comments"
+              serviceYear={serviceYear}
+              month={month}
+              person={person}
+              initialValue={comments}
+              isLocked={isLocked}
+            />
           </Box>
         </Box>
       )}

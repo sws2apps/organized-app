@@ -41,6 +41,17 @@ ServiceYearClass.prototype.first = function () {
   return this.list[0];
 };
 
+ServiceYearClass.prototype.previous = function (uid) {
+  let data;
+  if (this.list.length > 1) {
+    const prevIndex = this.list.findIndex((service) => service.uid === uid) - 1;
+    if (prevIndex >= 0) {
+      data = this.list[prevIndex];
+    }
+  }
+  return data;
+};
+
 ServiceYearClass.prototype.getByValue = function (value) {
   return this.list.find((service) => service.value === value);
 };
@@ -99,9 +110,8 @@ ServiceYearClass.prototype.getByMonth = function (month) {
   const currentMonth = new Date(month).getMonth();
   let current;
 
-  if (currentMonth < 9) current = `${+currentYear - 1}-${currentYear}`;
-  if (currentMonth >= 9) current = `${currentYear}-${+currentYear + 1}`;
-
+  if (currentMonth < 8) current = `${+currentYear - 1}-${currentYear}`;
+  if (currentMonth >= 8) current = `${currentYear}-${+currentYear + 1}`;
   const found = this.getByValue(current);
 
   return found;

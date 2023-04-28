@@ -2,6 +2,7 @@ import appDb from '../indexedDb/mainDb';
 import { reportsFieldSum } from '../utils/app';
 import { Persons } from './Persons';
 import { S21s } from './S21s';
+import { S88s } from './S88s';
 import { ServiceYear } from './ServiceYear';
 
 export class S1Class {
@@ -21,12 +22,12 @@ export class S1Class {
       totalHours: 0,
       totalReturnVisits: 0,
       totalBibleStudies: 0,
-      publihsersReports: 0,
-      publihsersPlacements: 0,
-      publihsersVideos: 0,
-      publihsersHours: 0,
-      publihsersReturnVisits: 0,
-      publihsersBibleStudies: 0,
+      publishersReports: 0,
+      publishersPlacements: 0,
+      publishersVideos: 0,
+      publishersHours: 0,
+      publishersReturnVisits: 0,
+      publishersBibleStudies: 0,
       auxPioneersReports: 0,
       auxPioneersPlacements: 0,
       auxPioneersVideos: 0,
@@ -58,12 +59,12 @@ S1Class.prototype.loadDetails = async function () {
   this.details.totalHours = appData.details.totalHours;
   this.details.totalReturnVisits = appData.details.totalReturnVisits;
   this.details.totalBibleStudies = appData.details.totalBibleStudies;
-  this.details.publihsersReports = appData.details.publihsersReports;
-  this.details.publihsersPlacements = appData.details.publihsersPlacements;
-  this.details.publihsersVideos = appData.details.publihsersVideos;
-  this.details.publihsersHours = appData.details.publihsersHours;
-  this.details.publihsersReturnVisits = appData.details.publihsersReturnVisits;
-  this.details.publihsersBibleStudies = appData.details.publihsersBibleStudies;
+  this.details.publishersReports = appData.details.publishersReports;
+  this.details.publishersPlacements = appData.details.publishersPlacements;
+  this.details.publishersVideos = appData.details.publishersVideos;
+  this.details.publishersHours = appData.details.publishersHours;
+  this.details.publishersReturnVisits = appData.details.publishersReturnVisits;
+  this.details.publishersBibleStudies = appData.details.publishersBibleStudies;
   this.details.auxPioneersReports = appData.details.auxPioneersReports;
   this.details.auxPioneersPlacements = appData.details.auxPioneersPlacements;
   this.details.auxPioneersVideos = appData.details.auxPioneersVideos;
@@ -81,6 +82,15 @@ S1Class.prototype.loadDetails = async function () {
 
 S1Class.prototype.generate = async function () {
   const reports = [];
+  const data = {};
+
+  // get active publishers
+  data.activePublishers = Persons.getActivePublishers(this.month).length;
+
+  // get average weekend meeting attendance
+  const S88 = S88s.list.find((item) => item.uid === this.service_year);
+  const S3 = S88.months.find((item) => item.month_value === this.month);
+  data.weekendMeetingAttendanceAvg = S3.summaryMeeting('weekend').average;
 
   // collect active S-4 reports
   const allS21s = S21s.getAll(this.service_year);
@@ -106,22 +116,13 @@ S1Class.prototype.generate = async function () {
     (report) => Persons.get(report.person_uid).isSpecialPioneer(this.month) === false
   );
 
-  console.log('cong');
   // congregation total
-  const totalPlacements = reportsFieldSum(reportsNoSFTS, 'placements');
-  console.log(totalPlacements);
-
-  const totalVideos = reportsFieldSum(reportsNoSFTS, 'videos');
-  console.log(totalVideos);
-
-  const totalHours = reportsFieldSum(reportsNoSFTS, 'hours');
-  console.log(totalHours);
-
-  const totalReturnVisits = reportsFieldSum(reportsNoSFTS, 'returnVisits');
-  console.log(totalReturnVisits);
-
-  const totalBibleStudies = reportsFieldSum(reportsNoSFTS, 'bibleStudies');
-  console.log(totalBibleStudies);
+  data.totalReports = reportsNoSFTS.length;
+  data.totalPlacements = reportsFieldSum(reportsNoSFTS, 'placements');
+  data.totalVideos = reportsFieldSum(reportsNoSFTS, 'videos');
+  data.totalHours = reportsFieldSum(reportsNoSFTS, 'hours');
+  data.totalReturnVisits = reportsFieldSum(reportsNoSFTS, 'returnVisits');
+  data.totalBibleStudies = reportsFieldSum(reportsNoSFTS, 'bibleStudies');
 
   // extract publishers only
   const reportsPublishers = reportsNoSFTS.filter(
@@ -129,59 +130,92 @@ S1Class.prototype.generate = async function () {
       Persons.get(report.person_uid).isAuxiliaryPioneer(this.month) === false &&
       Persons.get(report.person_uid).isRegularPioneer(this.month) === false
   );
-  console.log('publishers');
-  const publishersPlacements = reportsFieldSum(reportsPublishers, 'placements');
-  console.log(publishersPlacements);
-
-  const publishersVideos = reportsFieldSum(reportsPublishers, 'videos');
-  console.log(publishersVideos);
-
-  const publishersHours = reportsFieldSum(reportsPublishers, 'hours');
-  console.log(publishersHours);
-
-  const publishersReturnVisits = reportsFieldSum(reportsPublishers, 'returnVisits');
-  console.log(publishersReturnVisits);
-
-  const publishersBibleStudies = reportsFieldSum(reportsPublishers, 'bibleStudies');
-  console.log(publishersBibleStudies);
+  data.publishersReports = reportsPublishers.length;
+  data.publishersPlacements = reportsFieldSum(reportsPublishers, 'placements');
+  data.publishersVideos = reportsFieldSum(reportsPublishers, 'videos');
+  data.publishersHours = reportsFieldSum(reportsPublishers, 'hours');
+  data.publishersReturnVisits = reportsFieldSum(reportsPublishers, 'returnVisits');
+  data.publishersBibleStudies = reportsFieldSum(reportsPublishers, 'bibleStudies');
 
   // extract auxiliary pioneers
   const reportsAuxPioneers = reportsNoSFTS.filter(
     (report) => Persons.get(report.person_uid).isAuxiliaryPioneer(this.month) === true
   );
-  console.log('auxP');
-  const auxPioneersPlacements = reportsFieldSum(reportsAuxPioneers, 'placements');
-  console.log(auxPioneersPlacements);
-
-  const auxPioneersVideos = reportsFieldSum(reportsAuxPioneers, 'videos');
-  console.log(auxPioneersVideos);
-
-  const auxPioneersHours = reportsFieldSum(reportsAuxPioneers, 'hours');
-  console.log(auxPioneersHours);
-
-  const auxPioneersReturnVisits = reportsFieldSum(reportsAuxPioneers, 'returnVisits');
-  console.log(auxPioneersReturnVisits);
-
-  const auxPioneersBibleStudies = reportsFieldSum(reportsAuxPioneers, 'bibleStudies');
-  console.log(auxPioneersBibleStudies);
+  data.auxPioneersReports = reportsAuxPioneers.length;
+  data.auxPioneersPlacements = reportsFieldSum(reportsAuxPioneers, 'placements');
+  data.auxPioneersVideos = reportsFieldSum(reportsAuxPioneers, 'videos');
+  data.auxPioneersHours = reportsFieldSum(reportsAuxPioneers, 'hours');
+  data.auxPioneersReturnVisits = reportsFieldSum(reportsAuxPioneers, 'returnVisits');
+  data.auxPioneersBibleStudies = reportsFieldSum(reportsAuxPioneers, 'bibleStudies');
 
   // extract regular pioneers
   const reportsFRs = reportsNoSFTS.filter(
     (report) => Persons.get(report.person_uid).isRegularPioneer(this.month) === true
   );
-  console.log('FR');
-  const FRPlacements = reportsFieldSum(reportsFRs, 'placements');
-  console.log(FRPlacements);
+  data.FRReports = reportsFRs.length;
+  data.FRPlacements = reportsFieldSum(reportsFRs, 'placements');
+  data.FRVideos = reportsFieldSum(reportsFRs, 'videos');
+  data.FRHours = reportsFieldSum(reportsFRs, 'hours');
+  data.FRReturnVisits = reportsFieldSum(reportsFRs, 'returnVisits');
+  data.FRBibleStudies = reportsFieldSum(reportsFRs, 'bibleStudies');
+  data.isFinalized = true;
+  data.isSubmitted = false;
 
-  const FRVideos = reportsFieldSum(reportsFRs, 'videos');
-  console.log(FRVideos);
+  const appData = {
+    report_uid: this.report_uid,
+    report: this.report,
+    service_year: this.service_year,
+    month: this.month,
+    updatedAt: new Date(),
+    details: data,
+  };
 
-  const FRHours = reportsFieldSum(reportsFRs, 'hours');
-  console.log(FRHours);
+  await appDb.branchReports.update(this.report_uid, appData);
 
-  const FRReturnVisits = reportsFieldSum(reportsFRs, 'returnVisits');
-  console.log(FRReturnVisits);
+  this.details.isFinalized = appData.details.isFinalized;
+  this.details.isSubmitted = appData.details.isSubmitted;
+  this.details.activePublishers = appData.details.activePublishers;
+  this.details.weekendMeetingAttendanceAvg = appData.details.weekendMeetingAttendanceAvg;
+  this.details.totalReports = appData.details.totalReports;
+  this.details.totalPlacements = appData.details.totalPlacements;
+  this.details.totalVideos = appData.details.totalVideos;
+  this.details.totalHours = appData.details.totalHours;
+  this.details.totalReturnVisits = appData.details.totalReturnVisits;
+  this.details.totalBibleStudies = appData.details.totalBibleStudies;
+  this.details.publishersReports = appData.details.publishersReports;
+  this.details.publishersPlacements = appData.details.publishersPlacements;
+  this.details.publishersVideos = appData.details.publishersVideos;
+  this.details.publishersHours = appData.details.publishersHours;
+  this.details.publishersReturnVisits = appData.details.publishersReturnVisits;
+  this.details.publishersBibleStudies = appData.details.publishersBibleStudies;
+  this.details.auxPioneersReports = appData.details.auxPioneersReports;
+  this.details.auxPioneersPlacements = appData.details.auxPioneersPlacements;
+  this.details.auxPioneersVideos = appData.details.auxPioneersVideos;
+  this.details.auxPioneersHours = appData.details.auxPioneersHours;
+  this.details.auxPioneersReturnVisits = appData.details.auxPioneersReturnVisits;
+  this.details.auxPioneersBibleStudies = appData.details.auxPioneersBibleStudies;
+  this.details.FRReports = appData.details.FRReports;
+  this.details.FRPlacements = appData.details.FRPlacements;
+  this.details.FRVideos = appData.details.FRVideos;
+  this.details.FRHours = appData.details.FRHours;
+  this.details.FRReturnVisits = appData.details.FRReturnVisits;
+  this.details.FRBibleStudies = appData.details.FRBibleStudies;
+};
 
-  const FRBibleStudies = reportsFieldSum(reportsFRs, 'bibleStudies');
-  console.log(FRBibleStudies);
+S1Class.prototype.setAsSubmitted = async function () {
+  const appData = { ...this };
+  appData.details.isSubmitted = true;
+
+  await appDb.branchReports.update(this.report_uid, appData);
+
+  this.details.isSubmitted = appData.details.isSubmitted;
+};
+
+S1Class.prototype.undoSubmission = async function () {
+  const appData = { ...this };
+  appData.details.isSubmitted = false;
+
+  await appDb.branchReports.update(this.report_uid, appData);
+
+  this.details.isSubmitted = appData.details.isSubmitted;
 };

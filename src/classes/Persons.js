@@ -94,7 +94,7 @@ PersonsClass.prototype.filterLMMO = function (data) {
 PersonsClass.prototype.filterSecretary = function (data) {
   const txtSearch = data.txtSearch || '';
   const filter = data.filter;
-  const month = data.month || `${new Date().getFullYear()}/${new Date().getMonth() + 1}/01`;
+  const month = data.month || `${new Date().getFullYear()}/${String(new Date().getMonth() + 1).padStart(2, '0')}/01`;
 
   let firstPassFiltered = [];
   if (filter === 'allPersons') {
@@ -106,7 +106,9 @@ PersonsClass.prototype.filterSecretary = function (data) {
     const isElder = person.isElder(month);
     const isMS = person.isMS(month);
     const isPublisher = person.isPublisher(month);
-    if (isElder || isMS || isPublisher) {
+    const isValid = person.isValidPublisher(month);
+
+    if (isValid && (isElder || isMS || isPublisher)) {
       allPublishers.push(person);
     }
   }
@@ -388,6 +390,30 @@ PersonsClass.prototype.getByAssignment = function (assType, stuForAssistant, gen
     return dateA > dateB ? 1 : -1;
   });
   return persons;
+};
+
+PersonsClass.prototype.getActivePublishers = function (month) {
+  const activePublishers = [];
+  for (const person of this.list) {
+    const isValid = person.isValidPublisher(month);
+    const isActive = person.isActivePublisher(month);
+    if (isValid && isActive) {
+      activePublishers.push(person);
+    }
+  }
+  return activePublishers;
+};
+
+PersonsClass.prototype.getInactivePublishers = function (month) {
+  const inactivePublishers = [];
+  for (const person of this.list) {
+    const isInactive = !person.isActivePublisher(month);
+    if (isInactive) {
+      inactivePublishers.push(person);
+    }
+  }
+
+  return inactivePublishers;
 };
 
 export const Persons = new PersonsClass();

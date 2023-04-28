@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useTranslation } from 'react-i18next';
+import { orange } from '@mui/material/colors';
 import ApartmentIcon from '@mui/icons-material/Apartment';
 import Autocomplete from '@mui/material/Autocomplete';
 import Avatar from '@mui/material/Avatar';
@@ -12,6 +13,7 @@ import Link from '@mui/material/Link';
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import WarningIcon from '@mui/icons-material/Warning';
 import maleIcon from '../img/student_male.svg';
 import femaleIcon from '../img/student_female.svg';
 import { ServiceYear } from '../classes/ServiceYear';
@@ -19,6 +21,7 @@ import { Persons } from '../classes/Persons';
 import { S4 } from '../features/fieldServiceReport';
 import { S21s } from '../classes/S21s';
 import { refreshReportState } from '../states/report';
+import { S1s } from '../classes/S1s';
 
 const FieldServiceReport = () => {
   const { t } = useTranslation('ui');
@@ -34,6 +37,7 @@ const FieldServiceReport = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [haveReports, setHaveReports] = useState(0);
   const [totalPublishers, setTotalPublishers] = useState(0);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleServiceYearChange = (value) => {
     setIsLoading(true);
@@ -115,6 +119,12 @@ const FieldServiceReport = () => {
 
   useEffect(() => {
     if (currentMonth) {
+      setIsSubmitted(false);
+      const currentReport = S1s.get(currentMonth);
+      if (currentReport) {
+        setIsSubmitted(currentReport.details.isSubmitted);
+      }
+
       const persons = Persons.filterSecretary({ filter: 'allPublishers', month: currentMonth });
       setTotalPublishers(persons.length);
 
@@ -161,12 +171,30 @@ const FieldServiceReport = () => {
         </TextField>
       </Box>
 
-      <Box sx={{ marginTop: '20px', display: 'flex', gap: '8px', alignItems: 'center' }}>
-        <ApartmentIcon color="primary" />
-        <Link href="#/branch-office-reports" underline="none" sx={{ lineHeight: 1.2 }}>
-          {t('prepareS1Report')}
-        </Link>
-      </Box>
+      {isSubmitted && (
+        <Box
+          sx={{
+            maxWidth: '500px',
+            borderRadius: '8px',
+            padding: '10px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+          }}
+        >
+          <WarningIcon color="warning" />
+          <Typography sx={{ fontSize: '15px', color: orange[900] }}>{t('reportAlreadySubmitted')}</Typography>
+        </Box>
+      )}
+
+      {!isSubmitted && (
+        <Box sx={{ marginTop: '20px', display: 'flex', gap: '8px', alignItems: 'center' }}>
+          <ApartmentIcon color="primary" />
+          <Link href="#/branch-office-reports" underline="none" sx={{ lineHeight: 1.2 }}>
+            {t('prepareS1Report')}
+          </Link>
+        </Box>
+      )}
 
       <Box
         sx={{
@@ -269,7 +297,7 @@ const FieldServiceReport = () => {
         />
       )}
       {!isLoading && currentServiceYear !== '' && currentMonth !== '' && selected !== null && (
-        <S4 serviceYear={currentServiceYear} month={currentMonth} person={selected.person_uid} />
+        <S4 serviceYear={currentServiceYear} month={currentMonth} person={selected.person_uid} isLocked={isSubmitted} />
       )}
     </Box>
   );

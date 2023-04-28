@@ -1,6 +1,6 @@
 import dateFormat from 'dateformat';
 import appDb from '../indexedDb/mainDb';
-import { monthDiff, sortHistoricalDateDesc } from '../utils/app';
+import { addMonths, monthDiff, sortHistoricalDateDesc } from '../utils/app';
 import { Persons } from './Persons';
 import { Schedules } from './Schedules';
 import { Sources } from './Sources';
@@ -29,6 +29,7 @@ export class PersonClass {
     this.phone = '';
     this.spiritualStatus = [];
     this.otherService = [];
+    this.firstMonthReport = null;
     this.changes = [];
   }
 }
@@ -55,6 +56,7 @@ PersonClass.prototype.loadDetails = async function () {
   this.phone = appData.phone || '';
   this.spiritualStatus = appData.spiritualStatus || [];
   this.otherService = appData.otherService || [];
+  this.firstMonthReport = appData.firstMonthReport || null;
   return this;
 };
 
@@ -84,6 +86,7 @@ PersonClass.prototype.save = async function (personData) {
   this.phone = personData.phone;
   this.spiritualStatus = personData.spiritualStatus;
   this.otherService = personData.otherService;
+  this.firstMonthReport = personData.firstMonthReport;
 };
 
 PersonClass.prototype.lastAssignment = function () {
@@ -152,7 +155,7 @@ PersonClass.prototype.assistantHistory = function () {
 
 PersonClass.prototype.canBeAuxiliaryPioneer = function (month) {
   // default month to current month if undefined
-  if (!month) month = `${new Date().getFullYear()}/${new Date().getMonth() + 1}/01`;
+  if (!month) month = `${new Date().getFullYear()}/${String(new Date().getMonth() + 1).padStart(2, '0')}/01`;
 
   if (this.isDisqualified) return false;
   if (!this.isBaptized) return false;
@@ -175,7 +178,7 @@ PersonClass.prototype.canBeAuxiliaryPioneer = function (month) {
 
 PersonClass.prototype.isAuxiliaryPioneer = function (month) {
   // default month to current month if undefined
-  if (!month) month = `${new Date().getFullYear()}/${new Date().getMonth() + 1}/01`;
+  if (!month) month = `${new Date().getFullYear()}/${String(new Date().getMonth() + 1).padStart(2, '0')}/01`;
 
   let result = false;
   const auxPionnerDates = this.otherService.filter((service) => service.service === 'auxiliaryPioneer');
@@ -206,7 +209,7 @@ PersonClass.prototype.isAuxiliaryPioneer = function (month) {
 
 PersonClass.prototype.isElder = function (month) {
   // default month to current month if undefined
-  if (!month) month = `${new Date().getFullYear()}/${new Date().getMonth() + 1}/01`;
+  if (!month) month = `${new Date().getFullYear()}/${String(new Date().getMonth() + 1).padStart(2, '0')}/01`;
 
   let result = false;
   const elderDates = this.spiritualStatus.filter((status) => status.status === 'elder');
@@ -237,7 +240,7 @@ PersonClass.prototype.isElder = function (month) {
 
 PersonClass.prototype.isMS = function (month) {
   // default month to current month if undefined
-  if (!month) month = `${new Date().getFullYear()}/${new Date().getMonth() + 1}/01`;
+  if (!month) month = `${new Date().getFullYear()}/${String(new Date().getMonth() + 1).padStart(2, '0')}/01`;
 
   let result = false;
   const msDates = this.spiritualStatus.filter((status) => status.status === 'ms');
@@ -268,7 +271,7 @@ PersonClass.prototype.isMS = function (month) {
 
 PersonClass.prototype.isRegularPioneer = function (month) {
   // default month to current month if undefined
-  if (!month) month = `${new Date().getFullYear()}/${new Date().getMonth() + 1}/01`;
+  if (!month) month = `${new Date().getFullYear()}/${String(new Date().getMonth() + 1).padStart(2, '0')}/01`;
 
   let result = false;
   const regPionnerDates = this.otherService.filter((service) => service.service === 'regularPioneer');
@@ -299,7 +302,7 @@ PersonClass.prototype.isRegularPioneer = function (month) {
 
 PersonClass.prototype.isSpecialPioneer = function (month) {
   // default month to current month if undefined
-  if (!month) month = `${new Date().getFullYear()}/${new Date().getMonth() + 1}/01`;
+  if (!month) month = `${new Date().getFullYear()}/${String(new Date().getMonth() + 1).padStart(2, '0')}/01`;
 
   let result = false;
   const specialPioneerDates = this.otherService.filter((service) => service.service === 'specialPioneer');
@@ -328,9 +331,23 @@ PersonClass.prototype.isSpecialPioneer = function (month) {
   return result;
 };
 
+PersonClass.prototype.isValidPublisher = function (month) {
+  // default month to current month if undefined
+  if (!month) month = `${new Date().getFullYear()}/${String(new Date().getMonth() + 1).padStart(2, '0')}/01`;
+
+  let isValid = true;
+  if (this.firstMonthReport !== null) {
+    const dateCheck = new Date(month);
+    const firstReport = new Date(this.firstMonthReport);
+    if (dateCheck < firstReport) isValid = false;
+  }
+
+  return isValid;
+};
+
 PersonClass.prototype.isPublisher = function (month) {
   // default month to current month if undefined
-  if (!month) month = `${new Date().getFullYear()}/${new Date().getMonth() + 1}/01`;
+  if (!month) month = `${new Date().getFullYear()}/${String(new Date().getMonth() + 1).padStart(2, '0')}/01`;
 
   let result = false;
   const publisherDates = this.spiritualStatus.filter((status) => status.status === 'publisher');
@@ -361,7 +378,7 @@ PersonClass.prototype.isPublisher = function (month) {
 
 PersonClass.prototype.isBaptizedDate = function (month) {
   // default month to current month if undefined
-  if (!month) month = `${new Date().getFullYear()}/${new Date().getMonth() + 1}/01`;
+  if (!month) month = `${new Date().getFullYear()}/${String(new Date().getMonth() + 1).padStart(2, '0')}/01`;
 
   let result = false;
 
@@ -394,7 +411,7 @@ PersonClass.prototype.setAuxiliaryPioneer = async function (startDate, endDate) 
 
 PersonClass.prototype.hasReport = function (month) {
   // default month to current month if undefined
-  if (!month) month = `${new Date().getFullYear()}/${new Date().getMonth() + 1}/01`;
+  if (!month) month = `${new Date().getFullYear()}/${String(new Date().getMonth() + 1).padStart(2, '0')}/01`;
 
   let result = false;
 
@@ -406,4 +423,63 @@ PersonClass.prototype.hasReport = function (month) {
   }
 
   return result;
+};
+
+PersonClass.prototype.isActivePublisher = function (month) {
+  // default month to current month if undefined
+  if (!month) month = `${new Date().getFullYear()}/${String(new Date().getMonth() + 1).padStart(2, '0')}/01`;
+
+  let isActive = false;
+  let countReport = 0;
+  let SY = ServiceYear.getByMonth(month);
+  let serviceYear;
+
+  do {
+    if (SY) {
+      const isValid = this.isValidPublisher(month);
+
+      if (!isValid) {
+        isActive = true;
+        break;
+      }
+
+      serviceYear = SY.uid;
+      const currentS21 = S21s.get(serviceYear, this.person_uid);
+      if (currentS21 && currentS21.hasReport(month)) {
+        isActive = true;
+        break;
+      }
+
+      const prevMonth = addMonths(new Date(month), -1);
+      month = `${prevMonth.getFullYear()}/${String(prevMonth.getMonth() + 1).padStart(2, '0')}/01`;
+      SY = ServiceYear.getByMonth(month);
+    }
+
+    countReport++;
+  } while (countReport <= 5);
+
+  return isActive;
+};
+
+PersonClass.prototype.isRegularPublisher = function (month) {
+  // default month to current month if undefined
+  if (!month) month = `${new Date().getFullYear()}/${String(new Date().getMonth() + 1).padStart(2, '0')}/01`;
+
+  let isRegular = true;
+  let countReport = 0;
+  let serviceYear = ServiceYear.getByMonth(month).uid;
+  do {
+    const currentS21 = S21s.get(serviceYear, this.person_uid);
+    if (currentS21 && !currentS21.hasReport(month)) {
+      isRegular = false;
+      break;
+    }
+    const prevMonth = addMonths(new Date(month), -1);
+    month = `${prevMonth.getFullYear()}/${String(prevMonth.getMonth() + 1).padStart(2, '0')}/01`;
+    serviceYear = ServiceYear.getByMonth(month).uid;
+
+    countReport++;
+  } while (countReport <= 5);
+
+  return isRegular;
 };

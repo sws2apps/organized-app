@@ -54,3 +54,30 @@ S3Class.prototype.save = async function (type, meetingIndex, value) {
     await appDb.meetingAttendance.update(this.uid, { weekend_meeting: this.weekend_meeting, changes: this.changes });
   }
 };
+
+S3Class.prototype.summaryMeeting = function (type) {
+  const data = {
+    count: '',
+    total: '',
+    average: '',
+  };
+
+  const meetings = type === 'midweek' ? this.midweek_meeting : this.weekend_meeting;
+
+  let cnMeeting = 0;
+  let tmpTotal = 0;
+  for (const meeting of meetings) {
+    if (meeting.count !== '') {
+      cnMeeting++;
+      tmpTotal += +meeting.count;
+    }
+  }
+
+  if (cnMeeting > 0) {
+    data.count = cnMeeting;
+    data.total = tmpTotal;
+    data.average = tmpTotal === 0 ? 0 : Math.round(tmpTotal / cnMeeting);
+  }
+
+  return data;
+};

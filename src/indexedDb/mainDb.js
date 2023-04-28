@@ -112,6 +112,10 @@ appDb.version(22).stores({
 appDb.version(23).stores({
   lateReports: '&uid, person_uid, service_year, month',
 });
+appDb.version(24).stores({
+  persons:
+    '&person_uid, person_name, person_displayName, isMale, isFemale, isUnavailable, assignments, timeAway, isMoved, isDisqualified, birthDate, isAnointed, isOtherSheep, isBaptized, immersedDate, email, address, phone, spiritualStatus, otherService, firstMonthReport, changes',
+});
 
 appDb.on('populate', function () {
   appDb.app_settings.add({

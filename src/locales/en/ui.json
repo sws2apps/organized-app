@@ -566,5 +566,21 @@
   "selectReport": "Choose a report",
   "S1Report": "(S-1) Congregation’s Field Service and Meeting Attendance",
   "S1ReportNotFinalized": "Report for this month is not yet ready. Click the Generate button to finalize it.",
-  "generate": "Generate"
+  "generate": "Generate",
+  "firstMonthReport": "First report",
+  "firstMonthReportDesc": "This is the month where field service report is first collected for this person.",
+  "activePublishers": "Active Publishers",
+  "weekendMeetingAttendanceAvg": "Average Weekend Meeting Attendance",
+  "totals": "Totals",
+  "numberReports": "Number of Reports",
+  "placements": "Placements (Printed and Electronic)",
+  "videos": "Video Showings",
+  "hours": "Hours",
+  "returnVisits": "Return Visits",
+  "bibleStudies": "Bible Studies",
+  "publishers": "Publishers",
+  "regenerate": "Regenerate",
+  "setBranchSubmitted": "Mark as submitted",
+  "undoBranchSubmit": "Undo submission",
+  "reportAlreadySubmitted": "Report for this month was already submitted to the Branch Office. Only late reports can be added, unless you undo the submission."
 }

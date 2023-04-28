@@ -32,8 +32,15 @@ S1sClass.prototype.create = async function (service_year, month) {
   newS1.month = month;
   await appDb.branchReports.put({ ...newS1 }, newS1.report_uid);
   await newS1.loadDetails();
-
   this.reports.push(newS1);
+
+  const data = await appDb.branchReports.toArray();
+  const months = data.filter((report) => report.month === month);
+  if (months.length === 2) {
+    const uid = months[1].report_uid;
+    await appDb.branchReports.delete(uid);
+    this.reports = this.reports.filter((report) => report.report_uid !== uid);
+  }
 };
 
 export const S1s = new S1sClass();
