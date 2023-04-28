@@ -1,3 +1,10 @@
+## [2.63.1](https://github.com/sws2apps/cpe-sws/compare/v2.63.0...v2.63.1) (2023-04-28)
+
+
+### Bug Fixes
+
+* **app:** allow record update for moved persons ([0c61a1f](https://github.com/sws2apps/cpe-sws/commit/0c61a1f09d44b6f19ae1a78042ccbf2faf684194))
+
 # [2.63.0](https://github.com/sws2apps/cpe-sws/compare/v2.62.2...v2.63.0) (2023-04-28)
 
 
