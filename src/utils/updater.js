@@ -486,7 +486,9 @@ const checkAutoBackup = async () => {
 };
 
 const removeDuplicateTimeAway = async () => {
-  for await (const person of Persons.list) {
+  const persons = await appDb.persons.toArray()
+
+  for await (const person of persons) {
     if (person.timeAway && person.timeAway.length > 0) {
       const cleanTimeAways = person.timeAway.filter(
         (v, i, a) => a.findIndex((v2) => v2.timeAwayId === v.timeAwayId) === i
