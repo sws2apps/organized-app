@@ -1,3 +1,15 @@
+# [2.63.0](https://github.com/sws2apps/cpe-sws/compare/v2.62.2...v2.63.0) (2023-04-28)
+
+
+### Bug Fixes
+
+* **app:** include moved persons when cleaning time away ([85ea03e](https://github.com/sws2apps/cpe-sws/commit/85ea03e0a898b489b69a1e7da6285b0f21891f0b))
+
+
+### Features
+
+* **deps:** bump firebase from 9.20.0 to 9.21.0 ([b248826](https://github.com/sws2apps/cpe-sws/commit/b248826e1067aa837bef20924c035d12f9299832))
+
 ## [2.62.2](https://github.com/sws2apps/cpe-sws/compare/v2.62.1...v2.62.2) (2023-04-27)
 
 
