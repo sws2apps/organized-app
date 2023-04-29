@@ -6,28 +6,24 @@ import Typography from '@mui/material/Typography';
 const S1Field = ({ field, value }) => {
   const { t } = useTranslation('ui');
 
-  const fldName =
-    field === 'activePublishers'
-      ? t('activePublishers')
-      : field === 'weekendMeetingAttendanceAvg'
-      ? t('weekendMeetingAttendanceAvg')
-      : field === 'numberReports'
-      ? t('numberReports')
-      : field === 'placements'
-      ? t('placements')
-      : field === 'videos'
-      ? t('videos')
-      : field === 'hours'
-      ? t('hours')
-      : field === 'returnVisits'
-      ? t('returnVisits')
-      : field === 'bibleStudies'
-      ? t('bibleStudies')
-      : '';
+  const fldName = () => {
+    let value = '';
+
+    if (field === 'activePublishers') value = t('activePublishers');
+    if (field === 'weekendMeetingAttendanceAvg') value = t('weekendMeetingAttendanceAvg');
+    if (field === 'numberReports') value = t('numberReports');
+    if (field === 'placements') value = t('placements');
+    if (field === 'videos') value = t('videos');
+    if (field === 'hours') value = t('hours');
+    if (field === 'returnVisits') value = t('returnVisits');
+    if (field === 'bibleStudies') value = t('bibleStudies');
+
+    return value;
+  };
 
   return (
     <Box>
-      <Typography>{fldName}</Typography>
+      <Typography>{fldName()}</Typography>
       <TextField
         variant="outlined"
         size="small"

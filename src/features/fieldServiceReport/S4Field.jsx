@@ -29,20 +29,18 @@ const S4Field = ({
   const [hourLess, setHourLess] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const fldName =
-    field === 'placements'
-      ? t('S4Placements')
-      : field === 'videos'
-      ? t('S4Video')
-      : field === 'hours'
-      ? t('S4Hours')
-      : field === 'returnVisits'
-      ? t('S4ReturnVisits')
-      : field === 'bibleStudies'
-      ? t('S4BibleStudies')
-      : field === 'comments'
-      ? t('comments')
-      : '';
+  const fldName = () => {
+    let value = '';
+
+    if (field === 'placements') value = t('S4Placements');
+    if (field === 'videos') value = t('S4Video');
+    if (field === 'hours') value = t('S4Hours');
+    if (field === 'returnVisits') value = t('S4ReturnVisits');
+    if (field === 'bibleStudies') value = t('S4BibleStudies');
+    if (field === 'comments') value = t('comments');
+
+    return value;
+  };
 
   const updateDuration = async (hourLess, value) => {
     const currentS21 = S21s.get(serviceYear, person);
@@ -129,7 +127,7 @@ const S4Field = ({
         flexWrap: 'wrap',
       }}
     >
-      {field !== 'comments' && <Typography sx={{ width: '280px' }}>{fldName}</Typography>}
+      {field !== 'comments' && <Typography sx={{ width: '280px' }}>{fldName()}</Typography>}
       {field !== 'comments' && (
         <Box sx={{ display: 'flex', alignItems: 'center', width: '340px', gap: '10px', flexWrap: 'wrap' }}>
           <TextField
@@ -166,7 +164,7 @@ const S4Field = ({
       )}
       {field === 'comments' && (
         <TextField
-          label={fldName}
+          label={fldName()}
           multiline
           rows={2}
           variant="outlined"

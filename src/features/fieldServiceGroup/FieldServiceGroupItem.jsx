@@ -58,6 +58,18 @@ const FieldServiceGroupItem = ({ currentList, group_index, group, isRefresh, set
 
   const openMenu = Boolean(anchorElMenu);
 
+  const getPersonIcon = (person) => {
+    if (person.isOverseer || person.isAssistant) {
+      return null;
+    }
+
+    let icon;
+    if (person.isMale) icon = maleIcon;
+    if (person.isFemale) icon = femaleIcon;
+
+    return icon;
+  };
+
   const handleClickMenu = (event) => {
     const parent = event.currentTarget.parentElement;
     const pElement = parent.querySelector('p');
@@ -270,11 +282,7 @@ const FieldServiceGroupItem = ({ currentList, group_index, group, isRefresh, set
                 sx={{ display: 'flex', alignItems: 'center', gap: '10px', justifyContent: 'space-between' }}
               >
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <Avatar
-                    sx={{ height: '20px', width: '20px' }}
-                    alt="Student icon"
-                    src={person.isOverseer || person.isAssistant ? null : person.isMale ? maleIcon : femaleIcon}
-                  >
+                  <Avatar sx={{ height: '20px', width: '20px' }} alt="Student icon" src={getPersonIcon()}>
                     {person.isOverseer && <GroupIcon color="primary" sx={{ fontSize: '15px' }} />}
                     {person.isAssistant && <GroupIcon color="secondary" sx={{ fontSize: '15px' }} />}
                   </Avatar>

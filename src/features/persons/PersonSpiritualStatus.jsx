@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -11,7 +11,6 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { Setting } from '../../classes/Setting';
 import { shortDatePickerFormatState } from '../../states/main';
-import { useEffect } from 'react';
 import { computeYearsDiff } from '../../utils/app';
 import PersonAppointment from './PersonAppointment';
 import PersonServices from './PersonServices';

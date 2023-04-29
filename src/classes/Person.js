@@ -167,13 +167,14 @@ PersonClass.prototype.canBeAuxiliaryPioneer = function (month) {
     (service) => service.service === 'auxiliaryPioneer' && service.endDate === null
   );
 
-  if (auxPionnerCurrent) return false;
+  let result = true;
+
+  if (auxPionnerCurrent) result = false;
 
   const tmpDiff = monthDiff(this.immersedDate, new Date(month));
+  if (tmpDiff <= 0) result = false;
 
-  if (tmpDiff <= 0) return false;
-
-  return true;
+  return result;
 };
 
 PersonClass.prototype.isAuxiliaryPioneer = function (month) {

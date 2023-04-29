@@ -499,7 +499,7 @@ export const dbRestoreServiceYearFromBackup = async (cong_serviceYear) => {
       }
 
       let minutesReports = await appDb.minutesReports.toArray();
-      minutesReports = branchReports.filter((record) => record.service_year === foundSY.uid);
+      minutesReports = minutesReports.filter((record) => record.service_year === foundSY.uid);
       for await (const report of minutesReports) {
         const update = { ...report };
         update.service_year = newSY.uid;
