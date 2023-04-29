@@ -6,18 +6,20 @@ import Typography from '@mui/material/Typography';
 const SummaryField = ({ field, value = '' }) => {
   const { t } = useTranslation('ui');
 
-  const fldName =
-    field === 'totalMeetings'
-      ? t('numberOfMeetings')
-      : field === 'totalAttendance'
-      ? t('totalAttendance')
-      : field === 'average'
-      ? t('averageAttendanceWeek')
-      : '';
+  const fldName = () => {
+    let value = '';
+
+    if (field === 'totalMeetings') value = t('numberOfMeetings');
+    if (field === 'totalAttendance') value = t('totalAttendance');
+    if (field === 'average') value = t('numberOfMeetings');
+    if (field === 'totalMeetings') value = t('averageAttendanceWeek');
+
+    return value;
+  };
 
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-      <Typography sx={{ width: '180px' }}>{fldName}</Typography>
+      <Typography sx={{ width: '180px' }}>{fldName()}</Typography>
       <TextField
         variant="outlined"
         size="small"
