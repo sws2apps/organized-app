@@ -19,6 +19,8 @@ import {
   S140ScheduleHeading,
 } from '../features/schedules';
 import { Schedules } from '../classes/Schedules';
+import { WeekTypeList } from '../classes/WeekType';
+import { Setting } from '../classes/Setting';
 
 const S140 = () => {
   let navigate = useNavigate();
@@ -49,8 +51,12 @@ const S140 = () => {
   };
 
   const getWeekInfoLabel = (weekItem) => {
-    if (weekItem.scheduleData.week_type !== 1) return weekItem.scheduleData.week_type_name.toUpperCase();
+    if (weekItem.scheduleData.week_type !== 1) {
+      return WeekTypeList.getLabel(weekItem.scheduleData.week_type);
+    }
+
     if (weekItem.scheduleData.noMeeting) return t('noMeeting', { lng: sourceLang });
+
     return '';
   };
 
@@ -298,7 +304,7 @@ const S140 = () => {
                         />
                       </Box>
                     )}
-                    <Box sx={{ marginBottom: '30px' }}>
+                    <Box sx={{ marginBottom: '20px' }}>
                       {/* First row for date, bible reading, chairman */}
                       <Box sx={{ display: 'flex', marginBottom: '3px' }}>
                         <Typography
@@ -596,11 +602,7 @@ const S140 = () => {
                                       />
                                       <S140PartMiniLabel width="180px" />
                                       <S140AssignedPerson
-                                        person={
-                                          scheduleUseFullname
-                                            ? weekItem.scheduleData.co_name
-                                            : weekItem.scheduleData.co_displayName
-                                        }
+                                        person={scheduleUseFullname ? Setting.co_name : Setting.co_displayName}
                                       />
                                     </Box>
                                   </>

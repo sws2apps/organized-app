@@ -8,6 +8,8 @@ class WeekTypeClass {
 }
 
 WeekTypeClass.prototype.loadAll = async function () {
+  this.types.length = 0;
+
   const appData = await appDb.week_type.reverse().reverse().sortBy('id_week_type');
 
   for (const item of appData) {
@@ -34,6 +36,12 @@ WeekTypeClass.prototype.local = function () {
   });
 
   return newList;
+};
+
+WeekTypeClass.prototype.getLabel = function (type) {
+  const data = this.local();
+  const weekTypeName = data.find((item) => item.value === type).label;
+  return weekTypeName.toUpperCase();
 };
 
 export const WeekTypeList = new WeekTypeClass();

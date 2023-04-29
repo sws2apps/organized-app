@@ -10,7 +10,7 @@ const S140ScheduleHeading = ({ congName, congNumber, midweekMeetingPrint }) => {
         alignItems: 'flex-end',
         borderBottom: '3px solid black',
         paddingBottom: '2px',
-        marginBottom: '20px',
+        marginBottom: '12px',
       }}
     >
       <Typography

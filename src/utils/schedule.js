@@ -210,7 +210,15 @@ export const addMinutes = (prev, min) => {
     newMinute = newMinute - 60;
   }
 
-  return `${newHour}:${newMinute < 10 ? `0${newMinute}` : newMinute}`;
+  let result = `${newHour}:`;
+
+  if (newMinute < 10) {
+    result += `0${newMinute}`;
+  } else {
+    result += newMinute;
+  }
+
+  return result;
 };
 
 export const fetchMyAssignments = () => {

@@ -2,6 +2,7 @@ import appDb from '../indexedDb/mainDb';
 import { comparePerson } from '../utils/compare';
 import { AssignmentType } from './AssignmentType';
 import { PersonClass } from './Person';
+import { Setting } from './Setting';
 
 class PersonsClass {
   constructor() {
@@ -31,6 +32,20 @@ PersonsClass.prototype.loadAll = async function () {
 };
 
 PersonsClass.prototype.filter = function (data) {
+  let result = [];
+
+  if (Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup')) {
+    result = this.filterLMMO(data);
+  }
+
+  if (Setting.cong_role.includes('secretary')) {
+    result = this.filterSecretary(data);
+  }
+
+  return result;
+};
+
+PersonsClass.prototype.filterLMMO = function (data) {
   const { txtSearch, isMale, isFemale, isUnassigned, assTypes } = data;
 
   const firstPassFiltered = [];
@@ -61,8 +76,8 @@ PersonsClass.prototype.filter = function (data) {
     }
 
     if (!isUnassigned) {
-      for (let a = 0; a < assTypes.length; a++) {
-        const found = assignments.find((assignment) => assignment.code === assTypes[a]);
+      for (const type of assTypes) {
+        const found = assignments.find((assignment) => assignment.code === type);
         if (!found) {
           passed = false;
           break;
@@ -71,6 +86,140 @@ PersonsClass.prototype.filter = function (data) {
     }
 
     if (passed) secondPassFiltered.push(person);
+  }
+
+  return secondPassFiltered;
+};
+
+PersonsClass.prototype.filterSecretary = function (data) {
+  const txtSearch = data.txtSearch || '';
+  const filter = data.filter;
+  const month = data.month || `${new Date().getFullYear()}/${String(new Date().getMonth() + 1).padStart(2, '0')}/01`;
+
+  let firstPassFiltered = [];
+  if (filter === 'allPersons') {
+    firstPassFiltered = [...this.list];
+  }
+
+  const allPublishers = [];
+  for (const person of this.list) {
+    const isElder = person.isElder(month);
+    const isMS = person.isMS(month);
+    const isPublisher = person.isPublisher(month);
+    const isValid = person.isValidPublisher(month);
+
+    if (isValid && (isElder || isMS || isPublisher)) {
+      allPublishers.push(person);
+    }
+  }
+
+  if (filter === 'allPublishers') {
+    firstPassFiltered = [...allPublishers];
+  }
+
+  if (filter === 'baptizedPublishers') {
+    for (const person of allPublishers) {
+      const isElder = person.isElder(month);
+      const isMS = person.isMS(month);
+      const isPublisher = person.isPublisher(month);
+      const isBaptized = person.isBaptizedDate(month);
+
+      if (isBaptized && (isElder || isMS || isPublisher)) {
+        firstPassFiltered.push(person);
+      }
+    }
+  }
+
+  if (filter === 'unbaptizedPublishers') {
+    for (const person of allPublishers) {
+      const isPublisher = person.isPublisher(month);
+      const isBaptized = person.isBaptizedDate(month);
+
+      if (!isBaptized && isPublisher) {
+        firstPassFiltered.push(person);
+      }
+    }
+  }
+
+  if (filter === 'appointedBrothers') {
+    for (const person of allPublishers) {
+      const isElder = person.isElder(month);
+      const isMS = person.isMS(month);
+
+      if (isElder || isMS) {
+        firstPassFiltered.push(person);
+      }
+    }
+  }
+
+  if (filter === 'unpostedReports') {
+    for (const person of allPublishers) {
+      const isActive = person.isActivePublisher(month);
+      if (isActive) {
+        const hasReport = person.hasReport(month);
+
+        if (!hasReport) {
+          firstPassFiltered.push(person);
+        }
+      }
+    }
+  }
+
+  if (filter === 'auxiliaryPioneers') {
+    for (const person of allPublishers) {
+      const isAuxP = person.isAuxiliaryPioneer(month);
+
+      if (isAuxP) {
+        firstPassFiltered.push(person);
+      }
+    }
+  }
+
+  if (filter === 'regularPioneers') {
+    for (const person of allPublishers) {
+      const isFR = person.isRegularPioneer(month);
+
+      if (isFR) {
+        firstPassFiltered.push(person);
+      }
+    }
+  }
+
+  if (filter === 'haveReports') {
+    for (const person of allPublishers) {
+      const hasReport = person.hasReport(month);
+
+      if (hasReport) {
+        firstPassFiltered.push(person);
+      }
+    }
+  }
+
+  if (filter === 'inactivePublishers') {
+    for (const person of allPublishers) {
+      const isActive = person.isActivePublisher(month);
+
+      if (!isActive) {
+        firstPassFiltered.push(person);
+      }
+    }
+  }
+
+  if (filter === 'activePublishers') {
+    for (const person of allPublishers) {
+      const isActive = person.isActivePublisher(month);
+
+      if (isActive) {
+        firstPassFiltered.push(person);
+      }
+    }
+  }
+
+  const secondPassFiltered = [];
+  for (const person of firstPassFiltered) {
+    if (person.person_name.toLowerCase().includes(txtSearch.toLowerCase())) {
+      secondPassFiltered.push(person);
+    }
   }
 
   return secondPassFiltered;
@@ -102,6 +251,16 @@ PersonsClass.prototype.add = async function (personData) {
     assignments: personData.assignments || [],
     isMoved: personData.isMoved || false,
     isDisqualified: personData.isDisqualified || false,
+    birthDate: personData.birthDate || null,
+    isAnointed: personData.isAnointed || false,
+    isOtherSheep: personData.isOtherSheep || true,
+    isBaptized: personData.isBaptized || false,
+    immersedDate: personData.immersedDate || null,
+    email: personData.email || '',
+    address: personData.address || '',
+    phone: personData.phone || '',
+    spiritualStatus: personData.spiritualStatus || [],
+    otherService: personData.otherService || [],
   });
 
   const person = new PersonClass(personData.person_uid);
@@ -117,6 +276,10 @@ PersonsClass.prototype.get = function (uid) {
 
 PersonsClass.prototype.getByDisplayName = function (displayName) {
   return this.list.find((person) => person.person_displayName === displayName);
+};
+
+PersonsClass.prototype.getByName = function (person_name) {
+  return this.list.find((person) => person.person_name === person_name);
 };
 
 PersonsClass.prototype.recentPersons = function (data) {
@@ -146,13 +309,17 @@ PersonsClass.prototype.preSave = async function (data) {
   if (person_name && person_displayName) {
     if (person_uid) {
       if (data.historyAssignments) delete data.historyAssignments;
-      const person = Persons.get(data.person_uid);
-      data.changes = comparePerson(person, data);
 
-      data.changes = data.changes.filter((item) => item.field !== 'lastAssignment');
-      data.changes = data.changes.filter((item) => item.field !== 'assignments');
+      if (data.isMoved) {
+        await appDb.table('persons').update(data.person_uid, data);
+      }
 
-      await person.save(data);
+      if (!data.isMoved) {
+        const person = Persons.get(data.person_uid);
+        data.changes = comparePerson(person, data);
+        data.changes = data.changes.filter((item) => item.field !== 'lastAssignment');
+        await person.save(data);
+      }
     } else {
       const obj = {
         person_uid: window.crypto.randomUUID(),
@@ -173,9 +340,8 @@ PersonsClass.prototype.isExist = function (name) {
   return this.list.find((person) => person.person_name === name) ? true : false;
 };
 
-PersonsClass.prototype.getByAssignment = function (assType, stuForAssistant) {
+PersonsClass.prototype.getByAssignment = function (assType, stuForAssistant, gender, txtSearch) {
   // check is assType is linked to another type
-
   const assTypeList = AssignmentType.types;
 
   const linkTo = assTypeList.find((item) => item.code === assType)?.linkTo;
@@ -184,12 +350,29 @@ PersonsClass.prototype.getByAssignment = function (assType, stuForAssistant) {
   const data = Persons.list;
 
   // remove disqualified students
-  const appData = data.filter((person) => person.isDisqualified === false);
+  let appData = data.filter((person) => person.isDisqualified === false);
+
+  // filter by gender
+  if (assType === 101 || assType === 102 || assType === 103) {
+    if (gender === 'male') {
+      appData = appData.filter((person) => person.isMale === true);
+    }
+
+    if (gender === 'female') {
+      appData = appData.filter((person) => person.isFemale === true);
+    }
+  }
+
+  // search
+  if (txtSearch && txtSearch.length > 0) {
+    appData = appData.filter((person) => person.person_name.toLowerCase().indexOf(txtSearch.toLowerCase()) !== -1);
+  }
 
   let dbPersons = [];
   if (assType === 'isAssistant') {
     if (stuForAssistant) {
       const main = Persons.getByDisplayName(stuForAssistant);
+
       dbPersons = appData.filter(
         (person) =>
           person.isMale === main.isMale &&
@@ -235,6 +418,30 @@ PersonsClass.prototype.getByAssignment = function (assType, stuForAssistant) {
     return dateA > dateB ? 1 : -1;
   });
   return persons;
+};
+
+PersonsClass.prototype.getActivePublishers = function (month) {
+  const activePublishers = [];
+  for (const person of this.list) {
+    const isValid = person.isValidPublisher(month);
+    const isActive = person.isActivePublisher(month);
+    if (isValid && isActive) {
+      activePublishers.push(person);
+    }
+  }
+  return activePublishers;
+};
+
+PersonsClass.prototype.getInactivePublishers = function (month) {
+  const inactivePublishers = [];
+  for (const person of this.list) {
+    const isInactive = !person.isActivePublisher(month);
+    if (isInactive) {
+      inactivePublishers.push(person);
+    }
+  }
+
+  return inactivePublishers;
 };
 
 export const Persons = new PersonsClass();

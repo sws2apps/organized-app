@@ -10,7 +10,7 @@ jobs:
     name: Rebuild and Deploy to Production
     if: ${{ github.repository == 'sws2apps/cpe-sws' && github.ref == 'refs/heads/main' }}
     environment:
-      name: Prod.env
+      name: Production
       url: https://cpe-web.sws2apps.app
     runs-on: ubuntu-latest
 
@@ -20,7 +20,7 @@ jobs:
 
     steps:
       - name: Checkout for release preparation
-        uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
         with:
           ref: main
           persist-credentials: false
@@ -28,7 +28,7 @@ jobs:
       - name: Use Node.js current version
         uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c
         with:
-          node-version: current
+          node-version: 18.x
 
       - name: Install package dependencies
         run: npm ci
@@ -51,7 +51,7 @@ jobs:
 
       - name: Deploy to Firebase
         if: ${{ steps.check_build.outputs.files_exists == 'true' }}
-        uses: sws2apps/firebase-deployment@31c47fb8bc4e424bba835c3f29a710d1f9607ad9
+        uses: sws2apps/firebase-deployment@1351d30f4b2f51140fd421485094b63d36cdc334
         with:
           workloadIdentityProvider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
           serviceAccount: ${{ secrets.SERVICE_ACCOUNT }}

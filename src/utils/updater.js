@@ -12,6 +12,7 @@ export const runUpdater = async () => {
   await removeOutdatedSettings();
   await updatePersonAssignments();
   await checkAutoBackup();
+  await removeDuplicateTimeAway();
   await loadApp();
 };
 
@@ -481,5 +482,20 @@ const checkAutoBackup = async () => {
   if (Setting.autoBackup_interval === undefined) {
     const obj = { autoBackup_interval: 5 };
     await Setting.update(obj);
+  }
+};
+
+const removeDuplicateTimeAway = async () => {
+  const persons = await appDb.persons.toArray()
+
+  for await (const person of persons) {
+    if (person.timeAway && person.timeAway.length > 0) {
+      const cleanTimeAways = person.timeAway.filter(
+        (v, i, a) => a.findIndex((v2) => v2.timeAwayId === v.timeAwayId) === i
+      );
+
+      const newPerson = { ...person, timeAway: cleanTimeAways };
+      await Persons.preSave(newPerson);
+    }
   }
 };

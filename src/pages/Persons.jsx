@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
-import { styled, alpha } from '@mui/material/styles';
+import { alpha } from '@mui/material/styles';
 import { useTheme } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -18,46 +18,22 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
-import InputBase from '@mui/material/InputBase';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import PersonSearchIcon from '@mui/icons-material/PersonSearch';
-import SearchIcon from '@mui/icons-material/Search';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
-import { PersonAdvancedSearch, PersonCard, PersonRecents } from '../features/persons';
+import { PersonAdvancedSearch, PersonCard, PersonCustomFilter, PersonRecents } from '../features/persons';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../states/notification';
 import { currentStudentState, isStudentDeleteState } from '../states/person';
 import { themeOptionsState } from '../states/theme';
 import { Persons as PersonsData } from '../classes/Persons';
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(0.8, 1, 0.8, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-  },
-  '&.MuiInputBase-root': {
-    width: '100%',
-  },
-}));
+import SearchBar from '../components/SearchBar';
+import { Setting } from '../classes/Setting';
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
@@ -108,6 +84,9 @@ const Persons = () => {
 
   const currentStudent = useRecoilValue(currentStudentState);
   const themeOptions = useRecoilValue(themeOptionsState);
+
+  const roleLMMO = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
+  const roleSecretary = Setting.cong_role.includes('secretary');
 
   const openMenuSmall = Boolean(anchorElMenuSmall);
 
@@ -172,10 +151,18 @@ const Persons = () => {
     const isFemale = searchParams.isFemale === undefined ? false : searchParams.isFemale;
     const isUnassigned = searchParams.isUnassigned === undefined ? false : searchParams.isUnassigned;
     const assTypes = searchParams.assTypes || [];
+    const filter = searchParams.filter === undefined ? 'allPersons' : searchParams.filter;
 
     setIsSearch(true);
     setTimeout(async () => {
-      const result = PersonsData.filter({ txtSearch, isMale, isFemale, isUnassigned, assTypes });
+      const result = PersonsData.filter({
+        txtSearch,
+        isMale,
+        isFemale,
+        isUnassigned,
+        assTypes,
+        filter,
+      });
       setPersons(result);
       setIsSearch(false);
     }, [1000]);
@@ -231,49 +218,29 @@ const Persons = () => {
           marginTop: '10px',
         }}
       >
-        <Box
-          sx={{
-            position: 'relative',
-            borderRadius: '5px',
-            backgroundColor: alpha(theme.palette.common[themeOptions.searchBg], 0.25),
-            '&:hover': {
-              backgroundColor: alpha(theme.palette.common[themeOptions.searchBg], 0.15),
-            },
-            marginBottom: '5px',
-            flexGrow: 1,
-            minWidth: '330px',
-          }}
-        >
-          <SearchIconWrapper>
-            <SearchIcon />
-          </SearchIconWrapper>
-          <StyledInputBase
-            placeholder={t('search')}
-            inputProps={{ 'aria-label': 'search' }}
-            value={txtSearch}
-            onChange={(e) => handleSearchChange(e.target.value)}
-            onKeyUp={handleSearchEnter}
-          />
-        </Box>
+        <SearchBar minWidth={'330px'} txtSearch={txtSearch} onChange={handleSearchChange} onKeyUp={handleSearchEnter} />
 
         {mdUp && (
           <Box>
-            <IconButton
-              onClick={handleToggleAdvanced}
-              sx={{
-                backgroundColor: alpha(theme.palette.common[themeOptions.searchBg], 0.5),
-                '&:hover': {
-                  backgroundColor: alpha(theme.palette.common[themeOptions.searchBg], 0.3),
-                },
-                margin: '-5px 5px 0 5px',
-              }}
-            >
-              {advancedOpen ? (
-                <ExpandLessIcon sx={{ fontSize: '25px' }} />
-              ) : (
-                <ExpandMoreIcon sx={{ fontSize: '25px' }} />
-              )}
-            </IconButton>
+            {roleLMMO && (
+              <IconButton
+                onClick={handleToggleAdvanced}
+                sx={{
+                  backgroundColor: alpha(theme.palette.common[themeOptions.searchBg], 0.5),
+                  '&:hover': {
+                    backgroundColor: alpha(theme.palette.common[themeOptions.searchBg], 0.3),
+                  },
+                  margin: '-5px 5px 0 0',
+                }}
+              >
+                {advancedOpen ? (
+                  <ExpandLessIcon sx={{ fontSize: '25px' }} />
+                ) : (
+                  <ExpandMoreIcon sx={{ fontSize: '25px' }} />
+                )}
+              </IconButton>
+            )}
+
             <IconButton
               sx={{
                 backgroundColor: alpha(theme.palette.common[themeOptions.searchBg], 0.5),
@@ -326,16 +293,19 @@ const Persons = () => {
                 'aria-labelledby': 'persons-small-button',
               }}
             >
-              <MenuItem onClick={handleToggleAdvanced}>
-                <ListItemIcon>
-                  {advancedOpen ? (
-                    <ExpandLessIcon sx={{ fontSize: '25px' }} />
-                  ) : (
-                    <ExpandMoreIcon sx={{ fontSize: '25px' }} />
-                  )}
-                </ListItemIcon>
-                <ListItemText>{advancedOpen ? t('hideAvancedSearch') : t('advancedSearch')}</ListItemText>
-              </MenuItem>
+              {roleLMMO && (
+                <MenuItem onClick={handleToggleAdvanced}>
+                  <ListItemIcon>
+                    {advancedOpen ? (
+                      <ExpandLessIcon sx={{ fontSize: '25px' }} />
+                    ) : (
+                      <ExpandMoreIcon sx={{ fontSize: '25px' }} />
+                    )}
+                  </ListItemIcon>
+                  <ListItemText>{advancedOpen ? t('hideAvancedSearch') : t('advancedSearch')}</ListItemText>
+                </MenuItem>
+              )}
+
               <MenuItem onClick={handleSearchStudent}>
                 <ListItemIcon>
                   <PersonSearchIcon sx={{ fontSize: '25px' }} />
@@ -353,18 +323,21 @@ const Persons = () => {
         )}
       </Box>
 
-      <PersonAdvancedSearch
-        advancedOpen={advancedOpen}
-        setAdvancedOpen={(value) => setAdvancedOpen(value)}
-        txtSearch={txtSearch}
-        handleSearchStudent={handleSearchStudent}
-      />
+      {roleLMMO && (
+        <PersonAdvancedSearch
+          advancedOpen={advancedOpen}
+          setAdvancedOpen={(value) => setAdvancedOpen(value)}
+          handleSearchStudent={handleSearchStudent}
+        />
+      )}
+
+      {roleSecretary && <PersonCustomFilter handleSearchStudent={handleSearchStudent} />}
 
       <Box sx={{ marginBottom: '10px' }}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={tabValue} onChange={handleTabChange} aria-label="basic tabs example">
             <Tab label={`${t('searchResult')} (${isSearch ? 0 : persons.length})`} {...a11yProps(0)} />
-            <Tab label={t('recentStudents')} {...a11yProps(1)} />
+            <Tab label={t('recentPersons')} {...a11yProps(1)} />
           </Tabs>
         </Box>
         <TabPanel value={tabValue} index={0}>

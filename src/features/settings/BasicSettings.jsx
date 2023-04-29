@@ -40,6 +40,8 @@ const BasicSettings = () => {
   const [coDisplayName, setCoDisplayName] = useState('');
   const [tmpAutoAssignOpeningPrayer, setTmpAutoAssignOpeningPrayer] = useState(autoAssignOpeningPrayer);
 
+  const roleLMMO = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
+
   const handleMeetingDayChange = async (e) => {
     setTempMeetingDay(e.target.value);
     await Setting.update({ meeting_day: e.target.value });
@@ -139,6 +141,7 @@ const BasicSettings = () => {
             onChange={handleMeetingDayChange}
             size="small"
             sx={{ minWidth: 150 }}
+            InputProps={{ readOnly: !roleLMMO }}
           >
             <MenuItem value={1}>{t('monday')}</MenuItem>
             <MenuItem value={2}>{t('tuesday')}</MenuItem>
@@ -152,6 +155,7 @@ const BasicSettings = () => {
               label={t('time')}
               value={tempMeetingTime}
               onChange={handleMeetingTimeChange}
+              readOnly={!roleLMMO}
               sx={{
                 '.MuiInputBase-formControl': {
                   height: '40.5px',
@@ -167,6 +171,7 @@ const BasicSettings = () => {
             value={tempClassCount}
             defaultValue={1}
             onChange={handleClassChange}
+            InputProps={{ readOnly: !roleLMMO }}
             size="small"
             sx={{ width: '150px' }}
           >
@@ -182,7 +187,8 @@ const BasicSettings = () => {
               control={
                 <Checkbox
                   checked={tmpAutoAssignOpeningPrayer}
-                  onChange={(e) => handleSwitchAutoAssignPrayer(e.target.checked)}
+                  readOnly={!roleLMMO}
+                  onChange={roleLMMO ? (e) => handleSwitchAutoAssignPrayer(e.target.checked) : null}
                 />
               }
               label={t('autoAssignOpeningPrayer')}
@@ -216,6 +222,11 @@ const BasicSettings = () => {
           </Box>
         </Box>
       </Box>
+      {!roleLMMO && (
+        <Typography sx={{ fontStyle: 'italic', marginTop: '20px' }} color="#FE4119">
+          {t('someSettingLockedLMMO')}
+        </Typography>
+      )}
     </Box>
   );
 };

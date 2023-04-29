@@ -115,18 +115,22 @@ SourceClass.prototype.save = async function (srcData, localOverride) {
   this.bibleReading_src[source_lang] = srcData.bibleReading_src;
   this.bibleReading_study = srcData.bibleReading_study;
   this.ayfCount = srcData.ayfCount;
+  if (typeof this.ass1_type === 'number') this.ass1_type = {};
   this.ass1_type[source_lang] = srcData.ass1_type;
   this.ass1_time = srcData.ass1_time;
   this.ass1_study = srcData.ass1_study;
   this.ass1_src[source_lang] = srcData.ass1_src;
+  if (typeof this.ass2_type === 'number') this.ass2_type = {};
   this.ass2_type[source_lang] = srcData.ass2_type;
   this.ass2_time = srcData.ass2_time;
   this.ass2_study = srcData.ass2_study;
   this.ass2_src[source_lang] = srcData.ass2_src;
+  if (typeof this.ass3_type === 'number') this.ass3_type = {};
   this.ass3_type[source_lang] = srcData.ass3_type;
   this.ass3_time = srcData.ass3_time;
   this.ass3_study = srcData.ass3_study;
   this.ass3_src[source_lang] = srcData.ass3_src;
+  if (typeof this.ass4_type === 'number') this.ass4_type = {};
   this.ass4_type[source_lang] = srcData.ass4_type;
   this.ass4_time = srcData.ass4_time;
   this.ass4_study = srcData.ass4_study;
@@ -242,7 +246,16 @@ SourceClass.prototype.local = function () {
     indexType = assTypeList.findIndex((type) => type.value === obj.ass4_type);
     obj.ass4_type_name = indexType >= 0 ? assTypeList[indexType].label : '';
 
-    obj.ass4_time = this.ass4_time ? (typeof this.ass4_time === 'object' ? '' : this.ass4_time) : '';
+    if (this.ass4_time) {
+      if (typeof this.ass4_time === 'object') {
+        obj.ass4_time = '';
+      } else {
+        obj.ass4_time = this.ass4_time;
+      }
+    } else {
+      obj.ass4_time = '';
+    }
+
     obj.ass4_study = this.ass4_study || '';
     obj.ass4_src = this.ass4_src[lang] || '';
 

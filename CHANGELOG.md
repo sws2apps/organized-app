@@ -1,3 +1,182 @@
+## [2.63.1](https://github.com/sws2apps/cpe-sws/compare/v2.63.0...v2.63.1) (2023-04-28)
+
+
+### Bug Fixes
+
+* **app:** allow record update for moved persons ([0c61a1f](https://github.com/sws2apps/cpe-sws/commit/0c61a1f09d44b6f19ae1a78042ccbf2faf684194))
+
+# [2.63.0](https://github.com/sws2apps/cpe-sws/compare/v2.62.2...v2.63.0) (2023-04-28)
+
+
+### Bug Fixes
+
+* **app:** include moved persons when cleaning time away ([85ea03e](https://github.com/sws2apps/cpe-sws/commit/85ea03e0a898b489b69a1e7da6285b0f21891f0b))
+
+
+### Features
+
+* **deps:** bump firebase from 9.20.0 to 9.21.0 ([b248826](https://github.com/sws2apps/cpe-sws/commit/b248826e1067aa837bef20924c035d12f9299832))
+
+## [2.62.2](https://github.com/sws2apps/cpe-sws/compare/v2.62.1...v2.62.2) (2023-04-27)
+
+
+### Bug Fixes
+
+* **app:** check duplicate time away records on startup ([f031ec7](https://github.com/sws2apps/cpe-sws/commit/f031ec7a5484075134f3cd3545ac1c93251fb36e))
+
+## [2.62.1](https://github.com/sws2apps/cpe-sws/compare/v2.62.0...v2.62.1) (2023-04-27)
+
+
+### Bug Fixes
+
+* **schedules:** persons not available for assignment even outside time away ([49de73b](https://github.com/sws2apps/cpe-sws/commit/49de73b1df990acc9720f2d13378f9c060d338b7))
+
+# [2.62.0](https://github.com/sws2apps/cpe-sws/compare/v2.61.0...v2.62.0) (2023-04-27)
+
+
+### Bug Fixes
+
+* **backup:** handle issue with duplicate time away records ([1f6aa11](https://github.com/sws2apps/cpe-sws/commit/1f6aa11a1fb17ecc6564a0241d31d25969ba0690))
+
+
+### Features
+
+* **deps:** bump @mui/lab from 5.0.0-alpha.127 to 5.0.0-alpha.128 ([175f43c](https://github.com/sws2apps/cpe-sws/commit/175f43c88efec6053183cf60a0e7f615916c508f))
+* **deps:** bump @mui/material from 5.12.1 to 5.12.2 ([03c8ee8](https://github.com/sws2apps/cpe-sws/commit/03c8ee86450b2156fc94a887bdbfa572ad5359bc))
+* **deps:** bump @sws2apps/react-sw-helper from 1.13.0 to 1.14.0 ([a5124d9](https://github.com/sws2apps/cpe-sws/commit/a5124d97e554c7a2627350313cc3a46842a601ff))
+* **deps:** bump @tanstack/react-query from 4.29.3 to 4.29.5 ([b1b2c93](https://github.com/sws2apps/cpe-sws/commit/b1b2c9368b50bd88bc8f1232b9cfcfee23ec74b0))
+* **deps:** bump jw-epub-parser from 1.38.1 to 1.39.0 ([c9d029e](https://github.com/sws2apps/cpe-sws/commit/c9d029e99089e969d282b8152ef7ab06595f95fa))
+* **deps:** bump qrcode from 1.5.2 to 1.5.3 ([22c1fc4](https://github.com/sws2apps/cpe-sws/commit/22c1fc481c6d1197bf3b289d823ec607ddb93238))
+* **deps:** bump react-i18next from 12.2.0 to 12.2.2 ([d8cc522](https://github.com/sws2apps/cpe-sws/commit/d8cc522e07faad1aa7ab6fb83e70883e22eb81b7))
+
+# [2.61.0](https://github.com/sws2apps/cpe-sws/compare/v2.60.0...v2.61.0) (2023-04-22)
+
+
+### Bug Fixes
+
+* **templates:** display circuit overseer name on S-140 schedule ([3bae357](https://github.com/sws2apps/cpe-sws/commit/3bae357b13b68f9c38d32d848ad96a9db07358e2))
+
+
+### Features
+
+* **deps:** bump @fingerprintjs/fingerprintjs-pro from 3.8.2 to 3.8.3 ([559806f](https://github.com/sws2apps/cpe-sws/commit/559806fc93049b471bded3ecf566e0755ce73191))
+* **deps:** bump @mui/lab from 5.0.0-alpha.126 to 5.0.0-alpha.127 ([d3151c4](https://github.com/sws2apps/cpe-sws/commit/d3151c45c3e4347d15b51e748401e8214797f3e4))
+* **deps:** bump @mui/material from 5.12.0 to 5.12.1 ([d785d6c](https://github.com/sws2apps/cpe-sws/commit/d785d6c9a3fba02aa1a3194753905344fe7ada20))
+* **deps:** bump @mui/x-date-pickers from 6.2.0 to 6.2.1 ([e82b24c](https://github.com/sws2apps/cpe-sws/commit/e82b24cae4f2576ae9e7bfd5fff8164ac996020d))
+* **deps:** bump @sws2apps/react-sw-helper from 1.12.0 to 1.13.0 ([29c6410](https://github.com/sws2apps/cpe-sws/commit/29c6410e6ce6df91d7dfa230681281ed5db6e877))
+* **deps:** bump @tanstack/react-query from 4.29.1 to 4.29.3 ([0eb68c6](https://github.com/sws2apps/cpe-sws/commit/0eb68c62c151d0c7b4eeaccda576a48759a247e0))
+* **deps:** bump firebase from 9.19.1 to 9.20.0 ([80d1aa1](https://github.com/sws2apps/cpe-sws/commit/80d1aa1d38479259cddcc22bafc93c9102158e07))
+* **deps:** bump i18next from 22.4.14 to 22.4.15 ([56b21a7](https://github.com/sws2apps/cpe-sws/commit/56b21a74cca9e193bc783782c6619f2cc0490dc7))
+* **deps:** bump jw-epub-parser from 1.37.0 to 1.38.1 ([bd55b16](https://github.com/sws2apps/cpe-sws/commit/bd55b16ad7e6ec800a827beba1bef950866720b5))
+* **deps:** bump qrcode from 1.5.1 to 1.5.2 ([39440fe](https://github.com/sws2apps/cpe-sws/commit/39440fe275dcc78458cd884fe924f4793322c002))
+
+# [2.60.0](https://github.com/sws2apps/cpe-sws/compare/v2.59.0...v2.60.0) (2023-04-15)
+
+
+### Bug Fixes
+
+* **persons:** remove moved person from persons list ([5488fa6](https://github.com/sws2apps/cpe-sws/commit/5488fa6407ec738cbfdd54dd42811f50d10d7b94))
+
+
+### Features
+
+* **deps:** bump @mui/lab from 5.0.0-alpha.125 to 5.0.0-alpha.126 ([1a1ead4](https://github.com/sws2apps/cpe-sws/commit/1a1ead4a209d56980298768ae74bcb44609b8405))
+* **deps:** bump @mui/material from 5.11.16 to 5.12.0 ([5145d4a](https://github.com/sws2apps/cpe-sws/commit/5145d4a51abf902705e11cf3a388079d2782a276))
+* **deps:** bump @mui/x-date-pickers from 6.1.0 to 6.2.0 ([c8d7e85](https://github.com/sws2apps/cpe-sws/commit/c8d7e856f0eea51d00f5077c842c63d82fe62e99))
+
+# [2.59.0](https://github.com/sws2apps/cpe-sws/compare/v2.58.2...v2.59.0) (2023-04-11)
+
+
+### Bug Fixes
+
+* **sources:** save override to living as christians part when co visit ([bcb98d5](https://github.com/sws2apps/cpe-sws/commit/bcb98d5b4e6d7dcddeddb821a471c931b003b660))
+
+
+### Features
+
+* **deps:** bump @mui/x-date-pickers from 6.0.4 to 6.1.0 ([46f575f](https://github.com/sws2apps/cpe-sws/commit/46f575f452c1b69aef1619c9be5bf1d054a37f70))
+* **deps:** bump @tanstack/react-query from 4.28.0 to 4.29.1 ([bf8315b](https://github.com/sws2apps/cpe-sws/commit/bf8315b3767b95498061099de044cec1bf6275cc))
+
+## [2.58.2](https://github.com/sws2apps/cpe-sws/compare/v2.58.1...v2.58.2) (2023-04-08)
+
+
+### Bug Fixes
+
+* **sources:** convert previous assignment type saved as number to object ([ff9ae85](https://github.com/sws2apps/cpe-sws/commit/ff9ae85e9388a0163a2fced2f77dddd0ceefd9a0))
+
+## [2.58.1](https://github.com/sws2apps/cpe-sws/compare/v2.58.0...v2.58.1) (2023-04-07)
+
+
+### Bug Fixes
+
+* **templates:** S-140 template failed to load on some weeks ([7e3c0dc](https://github.com/sws2apps/cpe-sws/commit/7e3c0dc7fc4b7a5d608dc126e4659d354af85a87))
+
+# [2.58.0](https://github.com/sws2apps/cpe-sws/compare/v2.57.0...v2.58.0) (2023-04-05)
+
+
+### Features
+
+* **congregation:** allow multi-edit of user assignments ([ca9cd30](https://github.com/sws2apps/cpe-sws/commit/ca9cd308165817a836804b103c195aa514635020))
+* **deps:** bump @mui/icons-material from 5.11.11 to 5.11.16 ([d684123](https://github.com/sws2apps/cpe-sws/commit/d6841236ef2a4c7452ac942168fa1956c271ed9e))
+* **deps:** bump @mui/lab from 5.0.0-alpha.124 to 5.0.0-alpha.125 ([0023c30](https://github.com/sws2apps/cpe-sws/commit/0023c30f2c542dbfdcbaa35ec25a9b1d89b30389))
+* **deps:** bump @mui/material from 5.11.15 to 5.11.16 ([36922eb](https://github.com/sws2apps/cpe-sws/commit/36922eb7d844f89e30f85fa3990254077ba438fb))
+* **deps:** bump i18next from 22.4.13 to 22.4.14 ([e7eda9c](https://github.com/sws2apps/cpe-sws/commit/e7eda9c95339d8f91d267c2ef38ed7e0dd60126e))
+
+# [2.57.0](https://github.com/sws2apps/cpe-sws/compare/v2.56.0...v2.57.0) (2023-04-02)
+
+
+### Features
+
+* **sources:** add option to skip verification of some weeks on load ([8df7390](https://github.com/sws2apps/cpe-sws/commit/8df7390d8f0395940c3d37a0208330b44c12be2b))
+
+# [2.56.0](https://github.com/sws2apps/cpe-sws/compare/v2.55.0...v2.56.0) (2023-04-01)
+
+
+### Bug Fixes
+
+* **app:** update api endpoint url ([71926ed](https://github.com/sws2apps/cpe-sws/commit/71926ed6b662616b53669c80cda1f497b5922624))
+
+
+### Features
+
+* **deps:** bump @mui/x-date-pickers from 6.0.3 to 6.0.4 ([62c0230](https://github.com/sws2apps/cpe-sws/commit/62c0230bd72cc07a4483557788c57a064cdc41ab))
+* **deps:** bump firebase from 9.18.0 to 9.19.0 ([e34e76c](https://github.com/sws2apps/cpe-sws/commit/e34e76c8490bad5544cdb3600a0ac0c5ea5748d6))
+* **deps:** bump firebase from 9.19.0 to 9.19.1 ([354c6dd](https://github.com/sws2apps/cpe-sws/commit/354c6dd941122b0936777afa44be2fed80ffabe5))
+* **deps:** bump jw-epub-parser from 1.36.0 to 1.37.0 ([87d004c](https://github.com/sws2apps/cpe-sws/commit/87d004c1b4f414aeb80559046b5b58ae0eaeefdf))
+* **deps:** bump react-router-dom from 6.9.0 to 6.10.0 ([3569091](https://github.com/sws2apps/cpe-sws/commit/3569091b49d0d64df6e3bfc5cae845bac8e8e34c))
+
+# [2.55.0](https://github.com/sws2apps/cpe-sws/compare/v2.54.0...v2.55.0) (2023-03-29)
+
+
+### Bug Fixes
+
+* **schedules:** search not working when assigning assistant ([15b4ee3](https://github.com/sws2apps/cpe-sws/commit/15b4ee30b63a2d1629c08c3f97365c269083c518))
+
+
+### Features
+
+* **deps:** bump @mui/material from 5.11.14 to 5.11.15 ([335eeef](https://github.com/sws2apps/cpe-sws/commit/335eeef51ccabc270073525c380e9e0fba4410b2))
+* **deps:** bump @sws2apps/react-sw-helper from 1.11.0 to 1.12.0 ([d4c7bcd](https://github.com/sws2apps/cpe-sws/commit/d4c7bcd8552d79b4fca2416c2fde756401934e5d))
+
+# [2.54.0](https://github.com/sws2apps/cpe-sws/compare/v2.53.13...v2.54.0) (2023-03-28)
+
+
+### Bug Fixes
+
+* **schedules:** display gender filter on memorial invitation part ([7a1efa9](https://github.com/sws2apps/cpe-sws/commit/7a1efa9a63f3285eceb5afa986999f39022370de))
+
+
+### Features
+
+* **schedules:** add filter and search field when assigning person ([673afa3](https://github.com/sws2apps/cpe-sws/commit/673afa3d1b5b9a35f14fb4865e96b608f732ab82))
+
+## [2.53.13](https://github.com/sws2apps/cpe-sws/compare/v2.53.12...v2.53.13) (2023-03-28)
+
+
+### Bug Fixes
+
+* **templates:** update some spacings to fix page overflow in S-140 ([a232f23](https://github.com/sws2apps/cpe-sws/commit/a232f23c61b3cf3342536198e6efe4731a4f6ebb))
+
 ## [2.53.12](https://github.com/sws2apps/cpe-sws/compare/v2.53.11...v2.53.12) (2023-03-28)
 
 

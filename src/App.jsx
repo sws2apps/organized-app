@@ -33,6 +33,10 @@ const SourceWeekDetails = lazy(() => import('./pages/SourceWeekDetails'));
 const CongregationPersonDetails = lazy(() => import('./pages/CongregationPersonDetails'));
 const WeeklyAssignments = lazy(() => import('./pages/WeeklyAssignments'));
 const CongregationSettings = lazy(() => import('./pages/CongregationSettings'));
+const FieldServiceGroup = lazy(() => import('./pages/FieldServiceGroup'));
+const MeetingAttendance = lazy(() => import('./pages/MeetingAttendance'));
+const FieldServiceReport = lazy(() => import('./pages/FieldServiceReport'));
+const BranchOfficeReports = lazy(() => import('./pages/BranchOfficeReports'));
 
 // creating theme
 const lightTheme = createTheme({
@@ -125,6 +129,22 @@ const App = ({ updatePwa }) => {
               element: <CongregationSettings />,
             },
             {
+              path: '/field-service-group',
+              element: <FieldServiceGroup />,
+            },
+            {
+              path: '/meeting-attendance-record',
+              element: <MeetingAttendance />,
+            },
+            {
+              path: '/field-service-report',
+              element: <FieldServiceReport />,
+            },
+            {
+              path: '/branch-office-reports',
+              element: <BranchOfficeReports />,
+            },
+            {
               element: <PrivateVipConnectedRoute isCongAccountConnected={isCongAccountConnected} />,
               children: [
                 {
@@ -189,7 +209,7 @@ const App = ({ updatePwa }) => {
         apiHost = 'http://localhost:8000/';
       }
     } else {
-      apiHost = 'https://sws2apps.herokuapp.com/';
+      apiHost = 'https://api.sws2apps.com/';
     }
 
     setApiHost(apiHost);

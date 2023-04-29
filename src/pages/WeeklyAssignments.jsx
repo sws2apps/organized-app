@@ -19,6 +19,7 @@ import { getCurrentExistingWeekDate } from '../utils/app';
 import appDb from '../indexedDb/mainDb';
 import { Schedules } from '../classes/Schedules';
 import { Sources } from '../classes/Sources';
+import { Setting } from '../classes/Setting';
 
 const WeeklyAssignments = () => {
   const { t } = useTranslation('ui');
@@ -126,7 +127,7 @@ const WeeklyAssignments = () => {
         >
           <InfoIcon color="warning" sx={{ fontSize: '80px' }} />
           <Typography variant="body1" align="center">
-            {t('noSchedules')}
+            {Setting.cong_role.includes('secretary') ? t('noSchedulesElder') : t('noSchedules')}
           </Typography>
         </Container>
       )}

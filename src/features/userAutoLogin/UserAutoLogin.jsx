@@ -45,6 +45,8 @@ const UserAutoLogin = () => {
   const handleDisapproved = useCallback(async () => {
     setModalOpen(true);
     await deleteAppDb();
+    const auth = getAuth();
+    await signOut(auth);
     localStorage.removeItem('email');
     window.location.href = './';
   }, [setModalOpen]);
@@ -69,14 +71,12 @@ const UserAutoLogin = () => {
         if (
           data.cong_role.includes('lmmo') ||
           data.cong_role.includes('lmmo-backup') ||
-          data.cong_role.includes('view_meeting_schedule')
+          data.cong_role.includes('view_meeting_schedule') ||
+          data.cong_role.includes('secretary')
         ) {
           setCongAccountConnected(true);
-          if (data.cong_role.includes('lmmo') || data.cong_role.includes('lmmo-backup')) {
-            backupWorkerInstance.setRoleApproved(true);
-          } else {
-            backupWorkerInstance.setRoleApproved(false);
-          }
+
+          backupWorkerInstance.setUserRole(data.cong_role);
           backupWorkerInstance.setCongID(data.cong_id);
           backupWorkerInstance.setIsCongAccountConnected(true);
           setCongID(data.cong_id);

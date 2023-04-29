@@ -126,7 +126,7 @@ const SourceWeekDetails = () => {
       if (isOverrideLCPart2) timeOverride += +LCPart2TimeOverride;
       if (!isOverrideLCPart2) timeOverride += +LCPart2Time;
       timeOverride += +CBSTimeOverride;
-      if (timeOverride !== 45) {
+      if (weekType !== 2 && timeOverride !== 45) {
         setAppSnackOpen(true);
         setAppSeverity('warning');
         setAppMessage(t('overrideSaveWarning'));

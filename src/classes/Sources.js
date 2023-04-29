@@ -373,12 +373,19 @@ SourcesClass.prototype.oldestIssues = function () {
 };
 
 SourcesClass.prototype.hasCurrentWeek = function () {
+  const weeksIgnore = ['04/03/2023'];
+
   let varBool = true;
   const today = new Date();
   const day = today.getDay();
   const diff = today.getDate() - day + (day === 0 ? -6 : 1);
   const monDay = new Date(today.setDate(diff));
   const fMonday = dateFormat(monDay, 'mm/dd/yyyy');
+
+  if (weeksIgnore.includes(fMonday)) {
+    return true;
+  }
+
   const congData = this.get(fMonday);
   if (typeof congData === 'undefined') {
     varBool = false;

@@ -7,6 +7,11 @@ import { congIDState, isProcessingBackupState } from '../../states/congregation'
 import { dbExportDataOnline } from '../../indexedDb/dbUtility';
 import BackupMain from './BackupMain';
 import useFirebaseAuth from '../../hooks/useFirebaseAuth';
+import { Setting } from '../../classes/Setting';
+import { displayError } from '../../utils/error';
+import { LateReports } from '../../classes/LateReports';
+import { MinutesReports } from '../../classes/MinutesReports';
+import { FSGList } from '../../classes/FSGList';
 
 const BackupDbDialog = () => {
   const cancel = useRef();
@@ -41,17 +46,52 @@ const BackupDbDialog = () => {
         setIsProcessing(true);
         cancel.current = false;
 
-        const { dbPersons, dbDeleted, dbSourceMaterial, dbSchedule, dbPocketTbl, dbSettings } =
-          await dbExportDataOnline();
+        const dbData = await dbExportDataOnline();
+        const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
+        const secretaryRole = Setting.cong_role.includes('secretary');
 
-        const reqPayload = {
-          cong_persons: dbPersons,
-          cong_deleted: dbDeleted,
-          cong_schedule: dbSchedule,
-          cong_sourceMaterial: dbSourceMaterial,
-          cong_swsPocket: dbPocketTbl,
-          cong_settings: dbSettings,
-        };
+        let reqPayload;
+
+        if (lmmoRole) {
+          const { dbPersons, dbDeleted, dbSourceMaterial, dbSchedule, dbPocketTbl, dbSettings } = dbData;
+
+          reqPayload = {
+            cong_persons: dbPersons,
+            cong_deleted: dbDeleted,
+            cong_schedule: dbSchedule,
+            cong_sourceMaterial: dbSourceMaterial,
+            cong_swsPocket: dbPocketTbl,
+            cong_settings: dbSettings,
+          };
+        }
+
+        if (secretaryRole) {
+          const {
+            dbPersons,
+            dbDeleted,
+            dbSettings,
+            dbBranchReportsTbl,
+            dbFieldServiceGroupTbl,
+            dbFieldServiceReportsTbl,
+            dbLateReportsTbl,
+            dbMeetingAttendanceTbl,
+            dbMinutesReportsTbl,
+            dbServiceYearTbl,
+          } = dbData;
+
+          reqPayload = {
+            cong_persons: dbPersons,
+            cong_deleted: dbDeleted,
+            cong_settings: dbSettings,
+            cong_branchReports: dbBranchReportsTbl,
+            cong_fieldServiceGroup: dbFieldServiceGroupTbl,
+            cong_fieldServiceReports: dbFieldServiceReportsTbl,
+            cong_lateReports: dbLateReportsTbl,
+            cong_meetingAttendance: dbMeetingAttendanceTbl,
+            cong_minutesReports: dbMinutesReportsTbl,
+            cong_serviceYear: dbServiceYearTbl,
+          };
+        }
 
         const res = await fetch(`${apiHost}api/congregations/${congID}/backup`, {
           method: 'POST',
@@ -67,15 +107,22 @@ const BackupDbDialog = () => {
           const data = await res.json();
 
           if (res.status === 200) {
+            if (secretaryRole) {
+              await LateReports.cleanDeleted();
+              await MinutesReports.cleanDeleted();
+              await FSGList.cleanDeleted();
+            }
+
             setAppMessage(t('backupSuccess'));
             setAppSeverity('success');
             setAppSnackOpen(true);
             setOpen(false);
+
             return;
           }
 
-          setAppMessage(data.message);
-          setAppSeverity('error');
+          setAppMessage(displayError(data.message));
+          setAppSeverity('warning');
           setAppSnackOpen(true);
           setOpen(false);
         }
@@ -83,7 +130,7 @@ const BackupDbDialog = () => {
     } catch (err) {
       if (!cancel.current) {
         setIsProcessing(false);
-        setAppMessage(err.message);
+        setAppMessage(displayError(err.message));
         setAppSeverity('error');
         setAppSnackOpen(true);
         setOpen(false);

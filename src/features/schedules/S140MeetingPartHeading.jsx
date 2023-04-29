@@ -12,7 +12,7 @@ const S140MeetingPartHeading = ({ meetingPart, topLabel, bgColor, weekType }) =>
   const classCount = useRecoilValue(classCountState);
 
   return (
-    <Box sx={{ display: 'flex', margin: '8px 0 3px 0' }}>
+    <Box sx={{ display: 'flex', margin: '4px 0 3px 0' }}>
       <Typography
         sx={{
           color: 'white',

@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
@@ -7,6 +8,8 @@ const WeekType = (props) => {
   const { t } = useTranslation('ui');
 
   const { weekType, setWeekType } = props;
+
+  const [weekTypeList, setWeekTypeList] = useState(WeekTypeList.local());
 
   const handleTypeChange = async (e) => {
     setWeekType(e.target.value);
@@ -25,9 +28,19 @@ const WeekType = (props) => {
     );
   };
 
+  useEffect(() => {
+    const loadWeekType = async () => {
+      await WeekTypeList.loadAll();
+      const tmp = WeekTypeList.local();
+      setWeekTypeList(tmp);
+    };
+
+    if (weekTypeList.length === 0) loadWeekType();
+  }, [weekTypeList]);
+
   return (
     <>
-      {WeekTypeList.local().length > 0 && (
+      {weekTypeList.length > 0 && (
         <TextField
           id="outlined-select-weekType"
           select
@@ -40,7 +53,7 @@ const WeekType = (props) => {
             margin: '5px 5px 10px 0',
           }}
         >
-          {WeekTypeList.local().map((weekType) => renderWeekType(weekType))}
+          {weekTypeList.map((weekType) => renderWeekType(weekType))}
         </TextField>
       )}
     </>

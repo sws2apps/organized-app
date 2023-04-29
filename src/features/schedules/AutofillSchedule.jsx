@@ -16,13 +16,12 @@ import {
   isAutoFillSchedState,
   reloadWeekSummaryState,
 } from '../../states/schedule';
-import { checkCBSReader, checkLCAssignments } from '../../utils/sourceMaterial';
+import { checkCBSReader, checkLCAssignments, fetchScheduleInfo } from '../../utils/sourceMaterial';
 import { openingPrayerAutoAssignState } from '../../states/congregation';
 import { Persons } from '../../classes/Persons';
 import { saveAssignment } from '../../utils/schedule';
 import { Sources } from '../../classes/Sources';
 import { Schedules } from '../../classes/Schedules';
-import { fetchScheduleInfo } from '../../utils/sourceMaterial';
 import { Setting } from '../../classes/Setting';
 
 const AutofillSchedule = () => {
