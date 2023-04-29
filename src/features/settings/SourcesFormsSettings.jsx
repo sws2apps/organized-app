@@ -26,6 +26,7 @@ const SourcesFormsSettings = () => {
   const [tempSourceLang, setTempSourceLang] = useState(sourceLang);
   const [useFullname, setUseFullname] = useState(scheduleUseFullname);
 
+  const roleLMMO = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
   const listSourceLangs = LANGUAGE_LIST.filter((lang) => lang.isSource === true);
 
   const handleSourceLangChange = async (e) => {
@@ -50,13 +51,14 @@ const SourcesFormsSettings = () => {
           <Typography sx={{ marginBottom: '15px' }}>{t('sourceTemplateLangDesc')}</Typography>
 
           <TextField
-            id='outlined-select-class'
+            id="outlined-select-class"
             select
             label={t('changeLanguage')}
             value={tempSourceLang}
             defaultValue={'e'}
             onChange={handleSourceLangChange}
-            size='small'
+            InputProps={{ readOnly: !roleLMMO }}
+            size="small"
             sx={{ minWidth: 100 }}
           >
             {listSourceLangs.map((lang) => (
@@ -64,11 +66,11 @@ const SourcesFormsSettings = () => {
                 {lang.name}
               </MenuItem>
             ))}
-            <MenuItem sx={{ padding: 0, borderTop: '1px outset', marginTop: '10px' }} value='not_set'>
-              <Link href='https://github.com/sws2apps/cpe-sws/blob/main/TRANSLATION.md' target='_blank' rel='noopener'>
+            <MenuItem sx={{ padding: 0, borderTop: '1px outset', marginTop: '10px' }} value="not_set">
+              <Link href="https://github.com/sws2apps/cpe-sws/blob/main/TRANSLATION.md" target="_blank" rel="noopener">
                 <Box sx={{ padding: '10px 16px', display: 'flex', alignItems: 'center' }}>
                   <ListItemIcon>
-                    <LanguageIcon fontSize='medium' />
+                    <LanguageIcon fontSize="medium" />
                   </ListItemIcon>
                   <ListItemText>
                     <Typography sx={{ fontSize: '14px' }}>{t('languageMissing')}</Typography>
@@ -81,11 +83,22 @@ const SourcesFormsSettings = () => {
 
         <Box>
           <FormControlLabel
-            control={<Checkbox checked={useFullname} onChange={(e) => handleChangeFullnameSwitch(e.target.checked)} />}
+            control={
+              <Checkbox
+                checked={useFullname}
+                readOnly={!roleLMMO}
+                onChange={roleLMMO ? (e) => handleChangeFullnameSwitch(e.target.checked) : null}
+              />
+            }
             label={t('scheduleUseFullname')}
           />
         </Box>
       </Box>
+      {!roleLMMO && (
+        <Typography sx={{ fontStyle: 'italic' }} color="#FE4119">
+          {t('settingLockedLMMO')}
+        </Typography>
+      )}
     </Box>
   );
 };

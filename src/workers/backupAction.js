@@ -8,10 +8,10 @@ let congID;
 let isOnline = navigator.onLine;
 let backupInterval;
 let isCongAccountConnected;
-let roleApproved;
+let userRole = [];
 
-export const setRoleApproved = (value) => {
-  roleApproved = value;
+export const setUserRole = (value) => {
+  userRole = value;
 };
 
 export const setIsEnabled = (value) => {
@@ -46,13 +46,12 @@ export const setIsCongAccountConnected = (value) => {
   isCongAccountConnected = value;
 };
 
-const isDev = process.env.NODE_ENV === 'development';
-
 const runBackupSchedule = async () => {
-  if (isDev) backupInterval = 30000;
+  const lmmoRole = userRole.includes('lmmo') || userRole.includes('lmmo-backup');
+  const secretaryRole = userRole.includes('secretary');
 
   if (
-    roleApproved &&
+    (lmmoRole || secretaryRole) &&
     isEnabled &&
     backupInterval &&
     isOnline &&
@@ -62,16 +61,52 @@ const runBackupSchedule = async () => {
     congID &&
     isCongAccountConnected
   ) {
-    const { dbPersons, dbDeleted, dbSourceMaterial, dbSchedule, dbPocketTbl, dbSettings } = await dbExportDataOnline();
+    const dbData = await dbExportDataOnline();
+    const lmmoRole = userRole.includes('lmmo') || userRole.includes('lmmo-backup');
+    const secretaryRole = userRole.includes('secretary');
 
-    const reqPayload = {
-      cong_persons: dbPersons,
-      cong_deleted: dbDeleted,
-      cong_schedule: dbSchedule,
-      cong_sourceMaterial: dbSourceMaterial,
-      cong_swsPocket: dbPocketTbl,
-      cong_settings: dbSettings,
-    };
+    let reqPayload;
+
+    if (lmmoRole) {
+      const { dbPersons, dbDeleted, dbSourceMaterial, dbSchedule, dbPocketTbl, dbSettings } = dbData;
+
+      reqPayload = {
+        cong_persons: dbPersons,
+        cong_deleted: dbDeleted,
+        cong_schedule: dbSchedule,
+        cong_sourceMaterial: dbSourceMaterial,
+        cong_swsPocket: dbPocketTbl,
+        cong_settings: dbSettings,
+      };
+    }
+
+    if (secretaryRole) {
+      const {
+        dbPersons,
+        dbDeleted,
+        dbSettings,
+        dbBranchReportsTbl,
+        dbFieldServiceGroupTbl,
+        dbFieldServiceReportsTbl,
+        dbLateReportsTbl,
+        dbMeetingAttendanceTbl,
+        dbMinutesReportsTbl,
+        dbServiceYearTbl,
+      } = dbData;
+
+      reqPayload = {
+        cong_persons: dbPersons,
+        cong_deleted: dbDeleted,
+        cong_settings: dbSettings,
+        cong_branchReports: dbBranchReportsTbl,
+        cong_fieldServiceGroup: dbFieldServiceGroupTbl,
+        cong_fieldServiceReports: dbFieldServiceReportsTbl,
+        cong_lateReports: dbLateReportsTbl,
+        cong_meetingAttendance: dbMeetingAttendanceTbl,
+        cong_minutesReports: dbMinutesReportsTbl,
+        cong_serviceYear: dbServiceYearTbl,
+      };
+    }
 
     await fetch(`${apiHost}api/congregations/${congID}/backup`, {
       method: 'POST',

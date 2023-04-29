@@ -60,6 +60,73 @@ appDb.version(8).stores({
   persons:
     '&person_uid, person_name, person_displayName, isMale, isFemale, isUnavailable, assignments, timeAway, isMoved, isDisqualified, changes',
 });
+appDb.version(9).stores({
+  persons:
+    '&person_uid, person_name, person_displayName, isMale, isFemale, isUnavailable, assignments, timeAway, isMoved, isDisqualified, birthDate, isAnointed, isOtherSheep, isElder, isMS, isPublisher, changes',
+});
+appDb.version(10).stores({
+  persons:
+    '&person_uid, person_name, person_displayName, isMale, isFemale, isUnavailable, assignments, timeAway, isMoved, isDisqualified, birthDate, isAnointed, isOtherSheep, isElder, isMS, isPublisher, isBaptized, immersedDate, changes',
+});
+appDb.version(11).stores({
+  persons:
+    '&person_uid, person_name, person_displayName, isMale, isFemale, isUnavailable, assignments, timeAway, isMoved, isDisqualified, birthDate, isAnointed, isOtherSheep, isElder, isMS, isPublisher, isBaptized, immersedDate, email, address, phone, changes',
+});
+appDb.version(12).stores({
+  persons:
+    '&person_uid, person_name, person_displayName, isMale, isFemale, isUnavailable, assignments, timeAway, isMoved, isDisqualified, birthDate, isAnointed, isOtherSheep, isElder, isMS, isPublisher, isBaptized, immersedDate, email, address, phone, spiritualStatus, otherService, changes',
+});
+appDb.version(13).stores({
+  persons:
+    '&person_uid, person_name, person_displayName, isMale, isFemale, isUnavailable, assignments, timeAway, isMoved, isDisqualified, birthDate, isAnointed, isOtherSheep, isElder, isMS, isPublisher, isBaptized, immersedDate, email, address, phone, spiritualStatus, otherService, changes',
+});
+appDb.version(14).stores({
+  persons:
+    '&person_uid, person_name, person_displayName, isMale, isFemale, isUnavailable, assignments, timeAway, isMoved, isDisqualified, birthDate, isAnointed, isOtherSheep, isBaptized, immersedDate, email, address, phone, spiritualStatus, otherService, changes',
+});
+appDb.version(15).stores({
+  fieldServiceGroup: '&fieldServiceGroup_uid, isCurrent, groups',
+});
+appDb.version(16).stores({
+  serviceYear: '&uid, value',
+});
+appDb.version(17).stores({
+  meetingAttendance: '&uid, service_year, month_value, midweek_meeting, weekend_meeting',
+});
+appDb.version(18).stores({
+  fieldServiceReports:
+    '&uid, service_year, month_value, placements, videos, hours, minutes, isMinutesPosted, returnVisits, bibleStudies, comments, noReport',
+});
+appDb.version(19).stores({
+  fieldServiceReports: '&uid, service_year, person_uid, months',
+});
+appDb.version(20).stores({
+  branchReports: '&report_uid, report, service_year, month, details',
+});
+appDb.version(21).stores({
+  minutesReports: '&uid, person_uid, service_year, month',
+});
+appDb.version(22).stores({
+  branchReports: '&report_uid, report, service_year, month, details, updatedAt',
+});
+appDb.version(23).stores({
+  lateReports: '&uid, person_uid, service_year, month',
+});
+appDb.version(24).stores({
+  persons:
+    '&person_uid, person_name, person_displayName, isMale, isFemale, isUnavailable, assignments, timeAway, isMoved, isDisqualified, birthDate, isAnointed, isOtherSheep, isBaptized, immersedDate, email, address, phone, spiritualStatus, otherService, firstMonthReport, changes',
+});
+appDb.version(25).stores({
+  lateReports: '&uid, person_uid, service_year, month, deleted',
+  minutesReports: '&uid, person_uid, service_year, month, deleted',
+});
+appDb.version(26).stores({
+  fieldServiceReports:
+    '&uid, service_year, month_value, placements, videos, hours, minutes, returnVisits, bibleStudies, comments',
+});
+appDb.version(27).stores({
+  fieldServiceReports: '&uid, service_year, person_uid, months',
+});
 
 appDb.on('populate', function () {
   appDb.app_settings.add({

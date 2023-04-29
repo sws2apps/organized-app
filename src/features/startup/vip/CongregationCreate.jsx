@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
+import InfoIcon from '@mui/icons-material/Info';
 import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -32,6 +33,7 @@ import { runUpdater } from '../../../utils/updater';
 import useFirebaseAuth from '../../../hooks/useFirebaseAuth';
 import backupWorkerInstance from '../../../workers/backupWorker';
 import { Setting } from '../../../classes/Setting';
+import CongregationRole from './CongregationRole';
 
 const CongregationCreate = () => {
   const { user } = useFirebaseAuth();
@@ -60,7 +62,9 @@ const CongregationCreate = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [country, setCountry] = useState(null);
   const [congregation, setCongregation] = useState(null);
+  const [role, setRole] = useState('');
   const [userTmpFullname, setUserTmpFullname] = useState('');
+  const [isCreate, setIsCreate] = useState(false);
 
   const handleSignIn = () => {
     setUserSignIn(true);
@@ -69,6 +73,14 @@ const CongregationCreate = () => {
 
   const handleCongregationAction = async () => {
     try {
+      if (userTmpFullname.length === 0 || country === null || congregation === null || role.length === 0) {
+        setAppMessage(t('missingInfo'));
+        setAppSeverity('warning');
+        setAppSnackOpen(true);
+        setIsProcessing(false);
+        return;
+      }
+
       setIsProcessing(true);
 
       let status, data;
@@ -83,6 +95,7 @@ const CongregationCreate = () => {
           country.code,
           congregation.congName,
           congregation.congNumber,
+          role,
           userTmpFullname
         );
         status = tmp.status;
@@ -99,7 +112,7 @@ const CongregationCreate = () => {
           }
 
           // role approved
-          if (cong_role.includes('lmmo') || cong_role.includes('lmmo-backup')) {
+          if (cong_role.includes('lmmo') || cong_role.includes('lmmo-backup') || cong_role.includes('secretary')) {
             backupWorkerInstance.setCongID(cong_id);
             setCongID(cong_id);
             // save congregation update if any
@@ -179,68 +192,110 @@ const CongregationCreate = () => {
 
   return (
     <Container sx={{ marginTop: '20px' }}>
-      <Typography variant="h4" sx={{ marginBottom: '15px' }}>
-        {isUpdateCong ? t('updateCongregation') : t('createCongregationAccount')}
-      </Typography>
+      {!isCreate && (
+        <Box>
+          <Box
+            sx={{
+              display: 'flex',
+              gap: '20px',
+              margin: '30px 0',
+              maxWidth: '480px',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <InfoIcon color="info" sx={{ fontSize: '60px' }} />
+            <Typography>{t('accountCreated')}</Typography>
+          </Box>
+          <Box
+            sx={{
+              marginTop: '20px',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              maxWidth: '480px',
+              width: '100%',
+              flexWrap: 'wrap',
+              gap: '10px',
+            }}
+          >
+            <Link component="button" underline="none" variant="body2" onClick={() => window.location.reload()}>
+              {t('reloadApp')}
+            </Link>
 
-      {isUpdateCong && <Typography sx={{ marginBottom: '15px' }}>{t('updateCongregationDesc')}</Typography>}
+            <Button variant="contained" onClick={() => setIsCreate(true)}>
+              {t('create')}
+            </Button>
+          </Box>
+        </Box>
+      )}
+      {isCreate && (
+        <Box>
+          <Typography variant="h4" sx={{ marginBottom: '15px' }}>
+            {isUpdateCong ? t('updateCongregation') : t('createCongregationAccount')}
+          </Typography>
 
-      <Box
-        sx={{
-          width: '100%',
-          maxWidth: '500px',
-          margin: '30px 0',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '20px',
-        }}
-      >
-        {!isUpdateCong && (
-          <TextField
-            sx={{ width: '100%' }}
-            id="outlined-fullname"
-            label={t('fullname')}
-            variant="outlined"
-            autoComplete="off"
-            required
-            value={userTmpFullname}
-            onChange={(e) => setUserTmpFullname(e.target.value)}
-          />
-        )}
+          {isUpdateCong && <Typography sx={{ marginBottom: '15px' }}>{t('updateCongregationDesc')}</Typography>}
 
-        <CountrySelect setCountry={(value) => setCountry(value)} />
-        {country !== null && (
-          <CongregationSelect country={country} setCongregation={(value) => setCongregation(value)} />
-        )}
-      </Box>
+          <Box
+            sx={{
+              width: '100%',
+              maxWidth: '500px',
+              margin: '30px 0',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '20px',
+            }}
+          >
+            {!isUpdateCong && (
+              <TextField
+                sx={{ width: '100%' }}
+                id="outlined-fullname"
+                label={t('fullname')}
+                variant="outlined"
+                autoComplete="off"
+                required
+                value={userTmpFullname}
+                onChange={(e) => setUserTmpFullname(e.target.value)}
+              />
+            )}
 
-      <Box
-        sx={{
-          marginTop: '20px',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          maxWidth: '500px',
-          width: '100%',
-          flexWrap: 'wrap',
-          gap: '10px',
-        }}
-      >
-        {!isUpdateCong && (
-          <Link component="button" underline="none" variant="body2" onClick={handleSignIn}>
-            {t('hasAccount')}
-          </Link>
-        )}
+            <CountrySelect setCountry={(value) => setCountry(value)} />
+            {country !== null && (
+              <CongregationSelect country={country} setCongregation={(value) => setCongregation(value)} />
+            )}
+            {congregation !== null && <CongregationRole role={role} setRole={(value) => setRole(value)} />}
+          </Box>
 
-        <Button
-          variant="contained"
-          disabled={isProcessing}
-          endIcon={isProcessing ? <CircularProgress size={25} /> : null}
-          onClick={handleCongregationAction}
-        >
-          {isUpdateCong ? t('update') : t('create')}
-        </Button>
-      </Box>
+          <Box
+            sx={{
+              marginTop: '20px',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              maxWidth: '500px',
+              width: '100%',
+              flexWrap: 'wrap',
+              gap: '10px',
+            }}
+          >
+            {!isUpdateCong && (
+              <Link component="button" underline="none" variant="body2" onClick={handleSignIn}>
+                {t('hasAccount')}
+              </Link>
+            )}
+
+            <Button
+              variant="contained"
+              disabled={isProcessing}
+              endIcon={isProcessing ? <CircularProgress size={25} /> : null}
+              onClick={handleCongregationAction}
+            >
+              {isUpdateCong ? t('update') : t('create')}
+            </Button>
+          </Box>
+        </Box>
+      )}
     </Container>
   );
 };

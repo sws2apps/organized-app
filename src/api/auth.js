@@ -109,16 +109,12 @@ export const apiHandleVerifyOTP = async (userOTP, isSetup, trustedDevice) => {
         if (
           !cong_role.includes('lmmo') &&
           !cong_role.includes('lmmo-backup') &&
-          !cong_role.includes('view_meeting_schedule')
+          !cong_role.includes('view_meeting_schedule') &&
+          !cong_role.includes('secretary')
         )
           return { unauthorized: true };
 
-        if (cong_role.includes('lmmo') || cong_role.includes('lmmo-backup')) {
-          backupWorkerInstance.setRoleApproved(true);
-        } else {
-          backupWorkerInstance.setRoleApproved(false);
-        }
-
+        backupWorkerInstance.setUserRole(cong_role);
         backupWorkerInstance.setCongID(cong_id);
         backupWorkerInstance.setIsCongAccountConnected(true);
 
