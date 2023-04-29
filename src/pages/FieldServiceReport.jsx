@@ -33,7 +33,7 @@ const FieldServiceReport = () => {
   const [allMonths, setAllMonths] = useState([]);
   const [options, setOptions] = useState([]);
   const [selected, setSelected] = useState(null);
-  const [filter, setFilter] = useState('allPublishers');
+  const [filter, setFilter] = useState('activePublishers');
   const [isLoading, setIsLoading] = useState(true);
   const [haveReports, setHaveReports] = useState(0);
   const [totalPublishers, setTotalPublishers] = useState(0);
@@ -125,7 +125,7 @@ const FieldServiceReport = () => {
         setIsSubmitted(currentReport.details.isSubmitted);
       }
 
-      const persons = Persons.filterSecretary({ filter: 'allPublishers', month: currentMonth });
+      const persons = Persons.filterSecretary({ filter: 'activePublishers', month: currentMonth });
       setTotalPublishers(persons.length);
 
       const reports = Persons.filterSecretary({ filter: 'haveReports', month: currentMonth });
@@ -223,13 +223,15 @@ const FieldServiceReport = () => {
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
         >
-          <MenuItem value="allPublishers">{t('allPublishers')}</MenuItem>
+          <MenuItem value="activePublishers">{t('activePublishers')}</MenuItem>
           <MenuItem value="unbaptizedPublishers">{t('unbaptizedPublishers')}</MenuItem>
           <MenuItem value="baptizedPublishers">{t('baptizedPublishers')}</MenuItem>
           <MenuItem value="auxiliaryPioneers">{t('auxiliaryPioneers')}</MenuItem>
           <MenuItem value="regularPioneers">{t('regularPioneers')}</MenuItem>
           <MenuItem value="appointedBrothers">{t('appointedBrothers')}</MenuItem>
           <MenuItem value="unpostedReports">{t('unpostedReports')}</MenuItem>
+          <Divider />
+          <MenuItem value="inactivePublishers">{t('inactivePublishers')}</MenuItem>
         </TextField>
         <Autocomplete
           disablePortal

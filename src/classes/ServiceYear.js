@@ -139,4 +139,11 @@ ServiceYearClass.prototype.getMonths = function (uid) {
   return options;
 };
 
+ServiceYearClass.prototype.isExpired = function (value) {
+  const current = ServiceYear.getCurrent();
+  const isExpired = +value.split('-')[0] < +current.value.split('-')[0] - 2;
+
+  return isExpired;
+};
+
 export const ServiceYear = new ServiceYearClass();

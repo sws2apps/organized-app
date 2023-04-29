@@ -47,8 +47,11 @@ export const setIsCongAccountConnected = (value) => {
 };
 
 const runBackupSchedule = async () => {
+  const lmmoRole = userRole.includes('lmmo') || userRole.includes('lmmo-backup');
+  const secretaryRole = userRole.includes('secretary');
+
   if (
-    (userRole.includes('lmmo') || userRole.includes('lmmo-backup') || userRole.includes('secretary')) &&
+    (lmmoRole || secretaryRole) &&
     isEnabled &&
     backupInterval &&
     isOnline &&
@@ -58,11 +61,15 @@ const runBackupSchedule = async () => {
     congID &&
     isCongAccountConnected
   ) {
-    const { dbPersons, dbDeleted, dbSourceMaterial, dbSchedule, dbPocketTbl, dbSettings } = await dbExportDataOnline();
+    const dbData = await dbExportDataOnline();
+    const lmmoRole = userRole.includes('lmmo') || userRole.includes('lmmo-backup');
+    const secretaryRole = userRole.includes('secretary');
 
     let reqPayload;
 
-    if (userRole.includes('lmmo') || userRole.includes('lmmo-backup')) {
+    if (lmmoRole) {
+      const { dbPersons, dbDeleted, dbSourceMaterial, dbSchedule, dbPocketTbl, dbSettings } = dbData;
+
       reqPayload = {
         cong_persons: dbPersons,
         cong_deleted: dbDeleted,
@@ -73,11 +80,31 @@ const runBackupSchedule = async () => {
       };
     }
 
-    if (userRole.includes('secretary')) {
+    if (secretaryRole) {
+      const {
+        dbPersons,
+        dbDeleted,
+        dbSettings,
+        dbBranchReportsTbl,
+        dbFieldServiceGroupTbl,
+        dbFieldServiceReportsTbl,
+        dbLateReportsTbl,
+        dbMeetingAttendanceTbl,
+        dbMinutesReportsTbl,
+        dbServiceYearTbl,
+      } = dbData;
+
       reqPayload = {
         cong_persons: dbPersons,
         cong_deleted: dbDeleted,
         cong_settings: dbSettings,
+        cong_branchReports: dbBranchReportsTbl,
+        cong_fieldServiceGroup: dbFieldServiceGroupTbl,
+        cong_fieldServiceReports: dbFieldServiceReportsTbl,
+        cong_lateReports: dbLateReportsTbl,
+        cong_meetingAttendance: dbMeetingAttendanceTbl,
+        cong_minutesReports: dbMinutesReportsTbl,
+        cong_serviceYear: dbServiceYearTbl,
       };
     }
 

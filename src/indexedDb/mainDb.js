@@ -116,6 +116,17 @@ appDb.version(24).stores({
   persons:
     '&person_uid, person_name, person_displayName, isMale, isFemale, isUnavailable, assignments, timeAway, isMoved, isDisqualified, birthDate, isAnointed, isOtherSheep, isBaptized, immersedDate, email, address, phone, spiritualStatus, otherService, firstMonthReport, changes',
 });
+appDb.version(25).stores({
+  lateReports: '&uid, person_uid, service_year, month, deleted',
+  minutesReports: '&uid, person_uid, service_year, month, deleted',
+});
+appDb.version(26).stores({
+  fieldServiceReports:
+    '&uid, service_year, month_value, placements, videos, hours, minutes, returnVisits, bibleStudies, comments',
+});
+appDb.version(27).stores({
+  fieldServiceReports: '&uid, service_year, person_uid, months',
+});
 
 appDb.on('populate', function () {
   appDb.app_settings.add({

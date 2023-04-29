@@ -106,6 +106,7 @@ const S1 = ({ serviceYear, month }) => {
                     target="_blank"
                     rel="noopener"
                     href="https://hub.jw.org/congregation-reports"
+                    sx={{ textTransform: 'none' }}
                   >
                     JW HuB
                   </Button>

@@ -582,5 +582,9 @@
   "regenerate": "Regenerate",
   "setBranchSubmitted": "Mark as submitted",
   "undoBranchSubmit": "Undo submission",
-  "reportAlreadySubmitted": "Report for this month was already submitted to the Branch Office. Only late reports can be added, unless you undo the submission."
+  "reportAlreadySubmitted": "Report for this month was already submitted to the Branch Office. Only late reports can be added, unless you undo the submission.",
+  "inactivePublishers": "Inactive Publishers",
+  "backupDiscrepancy": "The backup could not be sent. Please restore the latest backup first.",
+  "settingLockedLMMO": "These settings can only be changed by the Life and Ministry Meeting Overseer or his assistant.",
+  "someSettingLockedLMMO": "Some settings can only be changed by the Life and Ministry Meeting Overseer or his assistant."
 }

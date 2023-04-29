@@ -204,6 +204,7 @@ S1Class.prototype.generate = async function () {
 
 S1Class.prototype.setAsSubmitted = async function () {
   const appData = { ...this };
+  appData.updatedAt = new Date();
   appData.details.isSubmitted = true;
 
   await appDb.branchReports.update(this.report_uid, appData);
@@ -213,6 +214,7 @@ S1Class.prototype.setAsSubmitted = async function () {
 
 S1Class.prototype.undoSubmission = async function () {
   const appData = { ...this };
+  appData.updatedAt = new Date();
   appData.details.isSubmitted = false;
 
   await appDb.branchReports.update(this.report_uid, appData);

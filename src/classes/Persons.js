@@ -154,10 +154,13 @@ PersonsClass.prototype.filterSecretary = function (data) {
 
   if (filter === 'unpostedReports') {
     for (const person of allPublishers) {
-      const hasReport = person.hasReport(month);
+      const isActive = person.isActivePublisher(month);
+      if (isActive) {
+        const hasReport = person.hasReport(month);
 
-      if (!hasReport) {
-        firstPassFiltered.push(person);
+        if (!hasReport) {
+          firstPassFiltered.push(person);
+        }
       }
     }
   }
@@ -187,6 +190,26 @@ PersonsClass.prototype.filterSecretary = function (data) {
       const hasReport = person.hasReport(month);
 
       if (hasReport) {
+        firstPassFiltered.push(person);
+      }
+    }
+  }
+
+  if (filter === 'inactivePublishers') {
+    for (const person of allPublishers) {
+      const isActive = person.isActivePublisher(month);
+
+      if (!isActive) {
+        firstPassFiltered.push(person);
+      }
+    }
+  }
+
+  if (filter === 'activePublishers') {
+    for (const person of allPublishers) {
+      const isActive = person.isActivePublisher(month);
+
+      if (isActive) {
         firstPassFiltered.push(person);
       }
     }

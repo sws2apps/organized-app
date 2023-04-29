@@ -32,11 +32,9 @@ S21Class.prototype.loadDetails = async function () {
     S4.hours = month.hours;
     S4.hourCredit = month.hourCredit || '';
     S4.minutes = month.minutes;
-    S4.isMinutesPosted = month.isMinutesPosted;
     S4.returnVisits = month.returnVisits;
     S4.bibleStudies = month.bibleStudies;
     S4.comments = month.comments;
-    S4.noReport = month.noReport;
     S4.changes = month.changes || [];
 
     this.months.push(S4);

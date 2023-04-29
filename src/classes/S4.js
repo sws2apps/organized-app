@@ -7,11 +7,9 @@ export class S4Class {
     this.hours = '';
     this.hourCredit = '';
     this.minutes = '';
-    this.isMinutesPosted = false;
     this.returnVisits = '';
     this.bibleStudies = '';
     this.comments = '';
-    this.noReport = false;
     this.changes = [];
   }
 }

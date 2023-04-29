@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { alpha } from '@mui/material/styles';
 import { useTheme } from '@mui/material';
 import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 import { themeOptionsState } from '../../states/theme';
@@ -49,12 +50,15 @@ const PersonCustomFilter = () => {
         onChange={(e) => setFilter(e.target.value)}
       >
         <MenuItem value="allPersons">{t('allPersons')}</MenuItem>
+        <Divider />
         <MenuItem value="allPublishers">{t('allPublishers')}</MenuItem>
         <MenuItem value="unbaptizedPublishers">{t('unbaptizedPublishers')}</MenuItem>
         <MenuItem value="baptizedPublishers">{t('baptizedPublishers')}</MenuItem>
         <MenuItem value="auxiliaryPioneers">{t('auxiliaryPioneers')}</MenuItem>
         <MenuItem value="regularPioneers">{t('regularPioneers')}</MenuItem>
         <MenuItem value="appointedBrothers">{t('appointedBrothers')}</MenuItem>
+        <Divider />
+        <MenuItem value="inactivePublishers">{t('inactivePublishers')}</MenuItem>
       </TextField>
     </Box>
   );

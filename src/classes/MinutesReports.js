@@ -10,7 +10,9 @@ class MinutesReportsClass {
 
 MinutesReportsClass.prototype.loadAll = async function () {
   this.reports.length = 0;
-  const appData = await appDb.minutesReports.toArray();
+  const allData = await appDb.minutesReports.toArray();
+
+  const appData = allData.filter((record) => record.deleted !== true);
 
   for (const report of appData) {
     const MinutesReport = new MinutesReportClass();
@@ -18,6 +20,7 @@ MinutesReportsClass.prototype.loadAll = async function () {
     MinutesReport.person_uid = report.person_uid;
     MinutesReport.service_year = report.service_year;
     MinutesReport.month = report.month;
+    MinutesReport.deleted = report.deleted || false;
     this.reports.push(MinutesReport);
   }
 };
@@ -35,6 +38,7 @@ MinutesReportsClass.prototype.add = async function (person_uid, month) {
   newMinutes.month = month;
   newMinutes.service_year = ServiceYear.getByMonth(month).uid;
   newMinutes.person_uid = person_uid;
+  newMinutes.deleted = false;
 
   await appDb.minutesReports.put({ ...newMinutes }, newMinutes.uid);
   this.reports.push(newMinutes);
@@ -45,7 +49,8 @@ MinutesReportsClass.prototype.remove = async function (person_uid, month) {
 
   if (!report) return;
 
-  await appDb.minutesReports.delete(report.uid);
+  const update = { ...report, deleted: true };
+  await appDb.minutesReports.put({ ...update }, report.uid);
 
   const newReports = [];
   for (const report of this.reports) {
@@ -58,6 +63,15 @@ MinutesReportsClass.prototype.remove = async function (person_uid, month) {
 
   this.reports.length = 0;
   this.reports = newReports;
+};
+
+MinutesReportsClass.prototype.cleanDeleted = async function () {
+  const allData = await appDb.minutesReports.toArray();
+  const appData = allData.filter((record) => record.deleted === true);
+
+  for await (const report of appData) {
+    await appDb.minutesReports.delete(report.uid);
+  }
 };
 
 export const MinutesReports = new MinutesReportsClass();

@@ -58,4 +58,13 @@ FSGListClass.prototype.delete = async function (uid) {
   this.list = this.list.filter((list) => list.fieldServiceGroup_uid !== uid);
 };
 
+FSGListClass.prototype.cleanDeleted = async function () {
+  const allData = await appDb.fieldServiceGroup.toArray();
+  const appData = allData.filter((record) => record.deleted === true);
+
+  for await (const record of appData) {
+    await appDb.fieldServiceGroup.delete(record.fieldServiceGroup_uid);
+  }
+};
+
 export const FSGList = new FSGListClass();
