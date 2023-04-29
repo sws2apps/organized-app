@@ -48,6 +48,7 @@ const SearchBar = ({ minWidth, txtSearch, onChange, onKeyUp, noSpace }) => {
           backgroundColor: alpha(theme.palette.common[themeOptions.searchBg], 0.15),
         },
         marginBottom: noSpace ? null : '5px',
+        marginRight: '5px',
         flexGrow: 1,
         minWidth: minWidth,
       }}

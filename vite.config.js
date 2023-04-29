@@ -9,11 +9,11 @@ export default defineConfig({
   plugins: [react(), comlink(), eslint(), loadVersion()],
   worker: { plugins: [comlink()] },
   server: {
-    port: 4020,
+    port: 4050,
     host: true,
   },
   preview: {
-    port: 4020,
+    port: 4050,
   },
   minifyInternalExports: true,
   build: {

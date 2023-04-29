@@ -74,6 +74,19 @@ const CongregationPersonDetails = () => {
     });
   };
 
+  const handleCheckSecretary = (value) => {
+    let role = [];
+    if (value) {
+      role = [...member.cong_role, 'secretary'];
+    } else {
+      role = member.cong_role.filter((role) => role !== 'secretary');
+    }
+
+    setMember((prev) => {
+      return { ...prev, cong_role: role };
+    });
+  };
+
   const handleCheckLMMO = (value) => {
     let role = [];
     if (value) {
@@ -457,6 +470,18 @@ const CongregationPersonDetails = () => {
                         />
                       }
                       label={t('roleAdmin')}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={6} lg={4} sx={styles.checkbox}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={member.cong_role?.includes('secretary') || false}
+                          disabled={member.global_role === 'pocket'}
+                          onChange={(e) => handleCheckSecretary(e.target.checked)}
+                        />
+                      }
+                      label={t('roleSecretary')}
                     />
                   </Grid>
                   <Grid item xs={12} md={6} lg={4} sx={styles.checkbox}>

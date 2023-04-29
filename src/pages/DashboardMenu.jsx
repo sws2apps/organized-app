@@ -3,6 +3,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import { fileDialog } from 'file-select-dialog';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import ApartmentIcon from '@mui/icons-material/Apartment';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import Badge from '@mui/material/Badge';
@@ -13,9 +14,13 @@ import CloudSyncIcon from '@mui/icons-material/CloudSync';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import DownloadIcon from '@mui/icons-material/Download';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
+import GroupsIcon from '@mui/icons-material/Groups';
+import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 import MoreTimeIcon from '@mui/icons-material/MoreTime';
+import NoteIcon from '@mui/icons-material/Note';
 import PeopleIcon from '@mui/icons-material/People';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import PostAddIcon from '@mui/icons-material/PostAdd';
 import SendIcon from '@mui/icons-material/Send';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ScheduleIcon from '@mui/icons-material/Schedule';
@@ -40,6 +45,8 @@ import { isPublishOpenState } from '../states/schedule';
 import { importDummyUsers } from '../utils/dev';
 import { getCurrentExistingWeekDate } from '../utils/app';
 import { apiFetchSchedule } from '../api';
+import { Setting } from '../classes/Setting';
+import { isAddSYOpenState } from '../states/report';
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -64,6 +71,7 @@ const DashboardMenu = () => {
   const setConfirmationMessage = useSetRecoilState(userConfirmationMessageState);
   const setConfirmationAction = useSetRecoilState(userConfirmationActionState);
   const setConfirmationOpen = useSetRecoilState(userConfirmationOpenState);
+  const setIsAddSY = useSetRecoilState(isAddSYOpenState);
 
   const isCongAccountConnected = useRecoilValue(congAccountConnectedState);
   const isOnline = useRecoilValue(isOnlineState);
@@ -121,6 +129,10 @@ const DashboardMenu = () => {
     navigate(`/schedules/view/${weekDate}`);
   };
 
+  const handleOpenAddSY = () => {
+    setIsAddSY(true);
+  };
+
   const dashboardMenus = [
     {
       title: t('persons'),
@@ -175,7 +187,7 @@ const DashboardMenu = () => {
           title: t('editAssignmentsSchedule'),
           icon: <AssignmentIcon />,
           disabled: false,
-          visible: accountType === 'vip' && !congRole.includes('view_meeting_schedule'),
+          visible: accountType === 'vip' && (congRole.includes('lmmo') || congRole.includes('lmmo-backup')),
           navigateTo: '/schedules',
         },
         {
@@ -183,7 +195,9 @@ const DashboardMenu = () => {
           icon: <SendIcon />,
           disabled: false,
           visible:
-            accountType === 'vip' && !congRole.includes('view_meeting_schedule') && isCongAccountConnected
+            accountType === 'vip' &&
+            (congRole.includes('lmmo') || congRole.includes('lmmo-backup')) &&
+            isCongAccountConnected
               ? true
               : false,
           action: handlePublishPocket,
@@ -191,14 +205,16 @@ const DashboardMenu = () => {
         {
           title: t('refreshSchedule'),
           icon: <CloudSyncIcon />,
-          visible: isCongAccountConnected && (accountType === 'pocket' || congRole.includes('view_meeting_schedule')),
+          visible:
+            isCongAccountConnected &&
+            (accountType === 'pocket' || congRole.includes('view_meeting_schedule') || congRole.includes('secretary')),
           action: apiFetchSchedule,
         },
       ],
     },
     {
       title: t('sourceMaterial'),
-      visible: accountType === 'vip' && !congRole.includes('view_meeting_schedule'),
+      visible: accountType === 'vip' && (congRole.includes('lmmo') || congRole.includes('lmmo-backup')),
       links: [
         {
           title: t('viewSourceMaterial'),
@@ -231,9 +247,57 @@ const DashboardMenu = () => {
       ],
     },
     {
+      title: t('reports'),
+      visible: accountType === 'vip' && congRole.includes('secretary'),
+      links: [
+        {
+          title: t('postFieldServiceReport'),
+          icon: <NoteIcon />,
+          disabled: false,
+          visible: true,
+          navigateTo: '/field-service-report',
+        },
+        {
+          title: t('meetingAttendanceRecord'),
+          icon: <MeetingRoomIcon />,
+          disabled: false,
+          visible: true,
+          navigateTo: '/meeting-attendance-record',
+        },
+        {
+          title: t('branchOfficeReport'),
+          icon: <ApartmentIcon />,
+          disabled: false,
+          visible: true,
+          navigateTo: '/branch-office-reports',
+        },
+        {
+          title: t('addPreviousServiceYear'),
+          icon: <PostAddIcon />,
+          disabled: false,
+          visible: true,
+          action: handleOpenAddSY,
+        },
+      ],
+    },
+    {
       title: t('congregation'),
       visible: accountType === 'vip' && !congRole.includes('view_meeting_schedule'),
       links: [
+        {
+          title: t('fieldServiceGroup'),
+          icon: <GroupsIcon />,
+          disabled: false,
+          visible: Setting.cong_role.includes('secretary'),
+          navigateTo: '/field-service-group',
+        },
+        {
+          title: t('settings'),
+          icon: <SettingsIcon />,
+          disabled: false,
+          visible: true,
+          navigateTo: '/congregation-settings',
+        },
         {
           title: t('sendBackup'),
           icon: <CloudUploadIcon />,
@@ -254,13 +318,6 @@ const DashboardMenu = () => {
           disabled: false,
           visible: isCongAccountConnected && congRole.includes('admin') ? true : false,
           navigateTo: '/administration',
-        },
-        {
-          title: t('settings'),
-          icon: <SettingsIcon />,
-          disabled: false,
-          visible: true,
-          navigateTo: '/congregation-settings',
         },
       ],
     },

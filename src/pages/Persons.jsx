@@ -27,12 +27,13 @@ import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
-import { PersonAdvancedSearch, PersonCard, PersonRecents } from '../features/persons';
+import { PersonAdvancedSearch, PersonCard, PersonCustomFilter, PersonRecents } from '../features/persons';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../states/notification';
 import { currentStudentState, isStudentDeleteState } from '../states/person';
 import { themeOptionsState } from '../states/theme';
 import { Persons as PersonsData } from '../classes/Persons';
 import SearchBar from '../components/SearchBar';
+import { Setting } from '../classes/Setting';
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
@@ -83,6 +84,9 @@ const Persons = () => {
 
   const currentStudent = useRecoilValue(currentStudentState);
   const themeOptions = useRecoilValue(themeOptionsState);
+
+  const roleLMMO = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
+  const roleSecretary = Setting.cong_role.includes('secretary');
 
   const openMenuSmall = Boolean(anchorElMenuSmall);
 
@@ -147,10 +151,18 @@ const Persons = () => {
     const isFemale = searchParams.isFemale === undefined ? false : searchParams.isFemale;
     const isUnassigned = searchParams.isUnassigned === undefined ? false : searchParams.isUnassigned;
     const assTypes = searchParams.assTypes || [];
+    const filter = searchParams.filter === undefined ? 'allPersons' : searchParams.filter;
 
     setIsSearch(true);
     setTimeout(async () => {
-      const result = PersonsData.filter({ txtSearch, isMale, isFemale, isUnassigned, assTypes });
+      const result = PersonsData.filter({
+        txtSearch,
+        isMale,
+        isFemale,
+        isUnassigned,
+        assTypes,
+        filter,
+      });
       setPersons(result);
       setIsSearch(false);
     }, [1000]);
@@ -210,22 +222,25 @@ const Persons = () => {
 
         {mdUp && (
           <Box>
-            <IconButton
-              onClick={handleToggleAdvanced}
-              sx={{
-                backgroundColor: alpha(theme.palette.common[themeOptions.searchBg], 0.5),
-                '&:hover': {
-                  backgroundColor: alpha(theme.palette.common[themeOptions.searchBg], 0.3),
-                },
-                margin: '-5px 5px 0 5px',
-              }}
-            >
-              {advancedOpen ? (
-                <ExpandLessIcon sx={{ fontSize: '25px' }} />
-              ) : (
-                <ExpandMoreIcon sx={{ fontSize: '25px' }} />
-              )}
-            </IconButton>
+            {roleLMMO && (
+              <IconButton
+                onClick={handleToggleAdvanced}
+                sx={{
+                  backgroundColor: alpha(theme.palette.common[themeOptions.searchBg], 0.5),
+                  '&:hover': {
+                    backgroundColor: alpha(theme.palette.common[themeOptions.searchBg], 0.3),
+                  },
+                  margin: '-5px 5px 0 0',
+                }}
+              >
+                {advancedOpen ? (
+                  <ExpandLessIcon sx={{ fontSize: '25px' }} />
+                ) : (
+                  <ExpandMoreIcon sx={{ fontSize: '25px' }} />
+                )}
+              </IconButton>
+            )}
+
             <IconButton
               sx={{
                 backgroundColor: alpha(theme.palette.common[themeOptions.searchBg], 0.5),
@@ -278,16 +293,19 @@ const Persons = () => {
                 'aria-labelledby': 'persons-small-button',
               }}
             >
-              <MenuItem onClick={handleToggleAdvanced}>
-                <ListItemIcon>
-                  {advancedOpen ? (
-                    <ExpandLessIcon sx={{ fontSize: '25px' }} />
-                  ) : (
-                    <ExpandMoreIcon sx={{ fontSize: '25px' }} />
-                  )}
-                </ListItemIcon>
-                <ListItemText>{advancedOpen ? t('hideAvancedSearch') : t('advancedSearch')}</ListItemText>
-              </MenuItem>
+              {roleLMMO && (
+                <MenuItem onClick={handleToggleAdvanced}>
+                  <ListItemIcon>
+                    {advancedOpen ? (
+                      <ExpandLessIcon sx={{ fontSize: '25px' }} />
+                    ) : (
+                      <ExpandMoreIcon sx={{ fontSize: '25px' }} />
+                    )}
+                  </ListItemIcon>
+                  <ListItemText>{advancedOpen ? t('hideAvancedSearch') : t('advancedSearch')}</ListItemText>
+                </MenuItem>
+              )}
+
               <MenuItem onClick={handleSearchStudent}>
                 <ListItemIcon>
                   <PersonSearchIcon sx={{ fontSize: '25px' }} />
@@ -305,18 +323,21 @@ const Persons = () => {
         )}
       </Box>
 
-      <PersonAdvancedSearch
-        advancedOpen={advancedOpen}
-        setAdvancedOpen={(value) => setAdvancedOpen(value)}
-        txtSearch={txtSearch}
-        handleSearchStudent={handleSearchStudent}
-      />
+      {roleLMMO && (
+        <PersonAdvancedSearch
+          advancedOpen={advancedOpen}
+          setAdvancedOpen={(value) => setAdvancedOpen(value)}
+          handleSearchStudent={handleSearchStudent}
+        />
+      )}
+
+      {roleSecretary && <PersonCustomFilter handleSearchStudent={handleSearchStudent} />}
 
       <Box sx={{ marginBottom: '10px' }}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={tabValue} onChange={handleTabChange} aria-label="basic tabs example">
             <Tab label={`${t('searchResult')} (${isSearch ? 0 : persons.length})`} {...a11yProps(0)} />
-            <Tab label={t('recentStudents')} {...a11yProps(1)} />
+            <Tab label={t('recentPersons')} {...a11yProps(1)} />
           </Tabs>
         </Box>
         <TabPanel value={tabValue} index={0}>

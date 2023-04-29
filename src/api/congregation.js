@@ -55,7 +55,7 @@ export const apiFetchCongregations = async (country, name) => {
   }
 };
 
-export const apiCreateCongregation = async (country_code, cong_name, cong_number, fullname) => {
+export const apiCreateCongregation = async (country_code, cong_name, cong_number, role, fullname) => {
   const { apiHost, visitorID } = await getProfile();
 
   try {
@@ -70,7 +70,7 @@ export const apiCreateCongregation = async (country_code, cong_name, cong_number
           visitorid: visitorID,
           uid: user.uid,
         },
-        body: JSON.stringify({ country_code, cong_name, cong_number, app_requestor: 'lmmo', fullname }),
+        body: JSON.stringify({ country_code, cong_name, cong_number, app_requestor: role, fullname }),
       });
       const data = await res.json();
 

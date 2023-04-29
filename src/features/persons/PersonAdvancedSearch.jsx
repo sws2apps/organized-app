@@ -14,7 +14,7 @@ import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 import Typography from '@mui/material/Typography';
 import { themeOptionsState } from '../../states/theme';
 
-const StudentAdvancedSearch = ({ advancedOpen, handleSearchStudent, setAdvancedOpen, txtSearch }) => {
+const PersonAdvancedSearch = ({ advancedOpen, handleSearchStudent, setAdvancedOpen }) => {
   const { t } = useTranslation('ui');
   const theme = useTheme();
 
@@ -516,4 +516,4 @@ const StudentAdvancedSearch = ({ advancedOpen, handleSearchStudent, setAdvancedO
   );
 };
 
-export default StudentAdvancedSearch;
+export default PersonAdvancedSearch;

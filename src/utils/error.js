@@ -9,7 +9,15 @@ export const displayError = (type) => {
     return t('sourceNotFoundUnavailable', { ns: 'ui' });
   }
 
-  return t('errorTryAgain', { ns: 'ui' });
+  if (type === 'INTERNAL_ERROR') {
+    return t('internalError', { ns: 'ui' });
+  }
+
+  if (type === 'BACKUP_DISCREPANCY') {
+    return t('backupDiscrepancy', { ns: 'ui' });
+  }
+
+  return type;
 };
 
 export const displayMultiProviderAuthError = async () => {

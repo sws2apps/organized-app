@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { createSearchParams, useNavigate, useParams } from 'react-router-dom';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -25,9 +25,10 @@ import TransferWithinAStationIcon from '@mui/icons-material/TransferWithinAStati
 import Typography from '@mui/material/Typography';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../states/notification';
 import { rootModalOpenState } from '../states/main';
-import { studentsQueryState } from '../states/persons';
 import { PersonAssignments, PersonBasic, PersonHistory, PersonTimeAway } from '../features/persons';
 import { Persons } from '../classes/Persons';
+import PersonSpiritualStatus from '../features/persons/PersonSpiritualStatus';
+import { ServiceYear } from '../classes/ServiceYear';
 
 const Accordion = styled((props) => <MuiAccordion disableGutters elevation={0} square {...props} />)(({ theme }) => ({
   border: `1px solid ${theme.palette.divider}`,
@@ -87,8 +88,6 @@ const PersonDetails = () => {
   const setAppMessage = useSetRecoilState(appMessageState);
   const setRootModalOpen = useSetRecoilState(rootModalOpenState);
 
-  const studentsQuery = useRecoilValue(studentsQueryState);
-
   const [isProcessing, setIsProcessing] = useState(true);
   const [isEdit, setIsEdit] = useState(false);
   const [name, setName] = useState('');
@@ -99,7 +98,18 @@ const PersonDetails = () => {
   const [historyAssignments, setHistoryAssignments] = useState([]);
   const [timeAway, setTimeAway] = useState([]);
   const [expanded, setExpanded] = useState('panel1');
-  const [student, setStudent] = useState({});
+  const [person, setPerson] = useState({});
+  const [birthDate, setBirthDate] = useState(null);
+  const [immersedDate, setImmersedDate] = useState(null);
+  const [isBaptized, setIsBaptized] = useState(false);
+  const [isAnointed, setIsAnointed] = useState(false);
+  const [isOtherSheep, setIsOtherSheep] = useState(true);
+  const [personEmail, setPersonEmail] = useState('');
+  const [personAddress, setPersonAddress] = useState('');
+  const [personPhone, setPersonPhone] = useState('');
+  const [spiritualStatus, setSpiritualStatus] = useState([]);
+  const [otherService, setOtherService] = useState([]);
+  const [firstMonthReport, setFirstMonthReport] = useState(ServiceYear.currentReportMonth());
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
@@ -107,13 +117,10 @@ const PersonDetails = () => {
 
   const handlePersonMove = async () => {
     setRootModalOpen(true);
-    const data = { ...student, isMoved: true };
+    const data = { ...person, isMoved: true };
     const result = await Persons.preSave(data);
     if (result) {
-      navigate({
-        pathname: '/students',
-        search: `${createSearchParams(studentsQuery)}`,
-      });
+      navigate('/persons');
       setRootModalOpen(false);
     } else {
       setRootModalOpen(false);
@@ -125,13 +132,10 @@ const PersonDetails = () => {
 
   const handlePersonEnabled = async () => {
     setRootModalOpen(true);
-    const data = { ...student, isDisqualified: false };
+    const data = { ...person, isDisqualified: false };
     const result = await Persons.preSave(data);
     if (result) {
-      navigate({
-        pathname: '/persons',
-        search: `${createSearchParams(studentsQuery)}`,
-      });
+      navigate('/persons');
       setRootModalOpen(false);
     } else {
       setRootModalOpen(false);
@@ -143,13 +147,10 @@ const PersonDetails = () => {
 
   const handlePersonDisqualified = async () => {
     setRootModalOpen(true);
-    const data = { ...student, isDisqualified: true };
+    const data = { ...person, isDisqualified: true };
     const result = await Persons.preSave(data);
     if (result) {
-      navigate({
-        pathname: '/persons',
-        search: `${createSearchParams(studentsQuery)}`,
-      });
+      navigate('/persons');
       setRootModalOpen(false);
     } else {
       setRootModalOpen(false);
@@ -161,12 +162,9 @@ const PersonDetails = () => {
 
   const handleSavePerson = async () => {
     setRootModalOpen(true);
-    const result = await Persons.preSave(student);
+    const result = await Persons.preSave(person);
     if (result) {
-      navigate({
-        pathname: '/persons',
-        search: `${createSearchParams(studentsQuery)}`,
-      });
+      navigate('/persons');
       setRootModalOpen(false);
     } else {
       setRootModalOpen(false);
@@ -177,70 +175,144 @@ const PersonDetails = () => {
   };
 
   const handleNavigateStudents = () => {
-    navigate({
-      pathname: '/persons',
-      search: `${createSearchParams(studentsQuery)}`,
-    });
+    navigate('/persons');
   };
 
   useEffect(() => {
-    setStudent((prev) => {
+    setPerson((prev) => {
       return { ...prev, person_name: name };
     });
   }, [name]);
 
   useEffect(() => {
-    setStudent((prev) => {
+    setPerson((prev) => {
       return { ...prev, person_displayName: displayName };
     });
   }, [displayName]);
 
   useEffect(() => {
-    setStudent((prev) => {
-      return { ...prev, isMale: isMale };
+    setPerson((prev) => {
+      return { ...prev, isMale };
     });
   }, [isMale]);
 
   useEffect(() => {
-    setStudent((prev) => {
-      return { ...prev, isFemale: isFemale };
+    setPerson((prev) => {
+      return { ...prev, isFemale };
     });
   }, [isFemale]);
 
   useEffect(() => {
-    setStudent((prev) => {
-      return { ...prev, assignments: assignments };
+    setPerson((prev) => {
+      return { ...prev, assignments };
     });
   }, [assignments]);
 
   useEffect(() => {
-    setStudent((prev) => {
-      return { ...prev, timeAway: timeAway };
+    setPerson((prev) => {
+      return { ...prev, timeAway };
     });
   }, [timeAway]);
 
   useEffect(() => {
+    setPerson((prev) => {
+      return { ...prev, birthDate };
+    });
+  }, [birthDate]);
+
+  useEffect(() => {
+    setPerson((prev) => {
+      return { ...prev, isBaptized };
+    });
+  }, [isBaptized]);
+
+  useEffect(() => {
+    setPerson((prev) => {
+      return { ...prev, immersedDate };
+    });
+  }, [immersedDate]);
+
+  useEffect(() => {
+    setPerson((prev) => {
+      return { ...prev, isOtherSheep };
+    });
+  }, [isOtherSheep]);
+
+  useEffect(() => {
+    setPerson((prev) => {
+      return { ...prev, isAnointed };
+    });
+  }, [isAnointed]);
+
+  useEffect(() => {
+    setPerson((prev) => {
+      return { ...prev, firstMonthReport };
+    });
+  }, [firstMonthReport]);
+
+  useEffect(() => {
+    setPerson((prev) => {
+      return { ...prev, email: personEmail };
+    });
+  }, [personEmail]);
+
+  useEffect(() => {
+    setPerson((prev) => {
+      return { ...prev, address: personAddress };
+    });
+  }, [personAddress]);
+
+  useEffect(() => {
+    setPerson((prev) => {
+      return { ...prev, phone: personPhone };
+    });
+  }, [personPhone]);
+
+  useEffect(() => {
+    setPerson((prev) => {
+      return { ...prev, spiritualStatus };
+    });
+  }, [spiritualStatus]);
+
+  useEffect(() => {
+    setPerson((prev) => {
+      return { ...prev, otherService };
+    });
+  }, [otherService]);
+
+  useEffect(() => {
     const init = async () => {
       if (id) {
-        const recentStudents = localStorage.getItem('recentStudents')
-          ? JSON.parse(localStorage.getItem('recentStudents'))
+        const recentPersons = localStorage.getItem('recentPersons')
+          ? JSON.parse(localStorage.getItem('recentPersons'))
           : [];
-        const isExistRecent = recentStudents.find((student) => student === id) ? true : false;
+        const isExistRecent = recentPersons.find((person) => person === id) ? true : false;
 
         if (!isExistRecent) {
-          recentStudents.push(id);
-          localStorage.setItem('recentStudents', JSON.stringify(recentStudents));
+          recentPersons.push(id);
+          localStorage.setItem('recentPersons', JSON.stringify(recentPersons));
         }
 
         const data = Persons.get(id);
-        setStudent(data);
+        setPerson(data);
         setName(data.person_name);
         setDisplayName(data.person_displayName);
         setIsMale(data.isMale);
         setIsFemale(data.isFemale);
+        setBirthDate(data.birthDate);
+        setIsBaptized(data.isBaptized);
+        setImmersedDate(data.immersedDate);
+        setIsOtherSheep(data.isOtherSheep);
+        setIsAnointed(data.isAnointed);
+        setFirstMonthReport(data.firstMonthReport);
         setAssignments(data.assignments);
         setHistoryAssignments(data.historyAssignments());
         setTimeAway(data.timeAway);
+        setPersonEmail(data.email);
+        setPersonAddress(data.address);
+        setPersonPhone(data.phone);
+        setSpiritualStatus(data.spiritualStatus);
+        setOtherService(data.otherService);
         setIsEdit(true);
       } else {
         setIsEdit(false);
@@ -266,7 +338,7 @@ const PersonDetails = () => {
       )}
       {!isProcessing && (
         <>
-          <Box id="student-details-header">
+          <Box id="person-details-header">
             <Box
               sx={{
                 display: 'flex',
@@ -298,7 +370,7 @@ const PersonDetails = () => {
                   justifyContent: 'flex-end',
                 }}
               >
-                {isEdit && student.isDisqualified === false && (
+                {isEdit && person.isDisqualified === false && (
                   <Tooltip title={lgUp ? '' : t('markDisqualified')}>
                     <IconButton edge="start" color="inherit" sx={iconButtonStyles} onClick={handlePersonDisqualified}>
                       <RemoveCircleIcon color="error" />
@@ -307,7 +379,7 @@ const PersonDetails = () => {
                   </Tooltip>
                 )}
 
-                {isEdit && student.isDisqualified === true && (
+                {isEdit && person.isDisqualified === true && (
                   <Tooltip title={lgUp ? '' : t('enablePerson')}>
                     <IconButton edge="start" color="inherit" sx={iconButtonStyles} onClick={handlePersonEnabled}>
                       <HandshakeIcon color="success" />
@@ -335,7 +407,7 @@ const PersonDetails = () => {
             </Box>
           </Box>
           <Box
-            id="student-details-content"
+            id="person-details-content"
             sx={{
               marginTop: '10px',
               border: '1px outset',
@@ -361,7 +433,7 @@ const PersonDetails = () => {
               />
               <Box>
                 <Typography sx={{ fontWeight: 'bold', fontSize: '16px', lineHeight: 1.2 }}>{name}</Typography>
-                {student.isDisqualified && (
+                {person.isDisqualified && (
                   <Chip label={t('disqualifiedLabel')} size="small" sx={{ backgroundColor: 'red', color: 'white' }} />
                 )}
               </Box>
@@ -380,6 +452,39 @@ const PersonDetails = () => {
                   setName={(value) => setName(value)}
                   displayName={displayName}
                   setDisplayName={(value) => setDisplayName(value)}
+                  birthDate={birthDate}
+                  setBirthDate={(value) => setBirthDate(value)}
+                  personEmail={personEmail}
+                  setPersonEmail={(value) => setPersonEmail(value)}
+                  personAddress={personAddress}
+                  setPersonAddress={(value) => setPersonAddress(value)}
+                  personPhone={personPhone}
+                  setPersonPhone={(value) => setPersonPhone(value)}
+                />
+              </AccordionDetails>
+            </Accordion>
+            <Accordion expanded={expanded === 'panelSpiritualStatus'} onChange={handleChange('panelSpiritualStatus')}>
+              <AccordionSummary aria-controls="panelSpiritualStatus-content" id="panelSpiritualStatus-header">
+                <Typography>{t('spiritualStatus')}</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <PersonSpiritualStatus
+                  isFemale={isFemale}
+                  immersedDate={immersedDate}
+                  setImmersedDate={(value) => setImmersedDate(value)}
+                  isBaptized={isBaptized}
+                  setIsBaptized={(value) => setIsBaptized(value)}
+                  isOtherSheep={isOtherSheep}
+                  setIsOtherSheep={(value) => setIsOtherSheep(value)}
+                  isAnointed={isAnointed}
+                  setIsAnointed={(value) => setIsAnointed(value)}
+                  firstMonthReport={firstMonthReport}
+                  setFirstMonthReport={(value) => setFirstMonthReport(value)}
+                  birthDate={birthDate}
+                  spiritualStatus={spiritualStatus}
+                  setSpiritualStatus={(value) => setSpiritualStatus(value)}
+                  otherService={otherService}
+                  setOtherService={(value) => setOtherService(value)}
                 />
               </AccordionDetails>
             </Accordion>
@@ -389,7 +494,7 @@ const PersonDetails = () => {
               </AccordionSummary>
               <AccordionDetails>
                 <PersonAssignments
-                  student={student}
+                  person={person}
                   assignments={assignments}
                   setAssignments={(value) => setAssignments(value)}
                 />

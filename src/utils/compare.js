@@ -6,12 +6,14 @@ export const comparePerson = (source, modified) => {
   changes = compareNonArray(source, modified, changes);
   changes = compareAssignments(source, modified, changes);
   changes = compareTimeAway(source, modified, changes);
+  changes = compareSpiritualStatus(source, modified, changes);
+  changes = compareOtherService(source, modified, changes);
 
   return changes;
 };
 
 const compareNonArray = (source, modified, changes) => {
-  const localExclude = [...excludeFields, 'timeAway', 'assignments'];
+  const localExclude = [...excludeFields, 'timeAway', 'assignments', 'spiritualStatus', 'otherService'];
 
   for (const [key, value] of Object.entries(modified)) {
     if (localExclude.indexOf(key) === -1) {
@@ -68,61 +70,173 @@ const compareAssignments = (source, modified, changes) => {
 };
 
 const compareTimeAway = (source, modified, changes) => {
-  for (const [key, value] of Object.entries(modified)) {
-    if (key === 'timeAway') {
-      // check added or modified time away
-      if (value) {
-        for (const updated of value) {
-          const findSource = source[key]?.find((item) => item.timeAwayId === updated.timeAwayId);
-          // time away modified
-          if (findSource) {
-            const excludeArrayFields = ['timeAwayId', 'isActive'];
-            let arrayFieldChanged = false;
-            for (const [arrayKey, arrayValue] of Object.entries(updated)) {
-              if (excludeArrayFields.indexOf(arrayKey) === -1) {
-                if (arrayValue !== findSource[arrayKey]) {
-                  arrayFieldChanged = true;
-                  break;
-                }
-              }
-            }
-            
-            if (arrayFieldChanged) {
-              const filteredChanges = [];
-              changes.forEach((item) => {
-                if (item.field === key && item.value.timeAwayId === updated.timeAwayId) {
-                  return;
-                }
-                filteredChanges.push(item);
-              });
-              changes = [...filteredChanges];
-              changes.push({ date: new Date().toISOString(), field: key, isModified: true, value: updated });
+  // check added or modified time away
+  if (modified.timeAway) {
+    for (const updated of modified.timeAway) {
+      const findSource = source.timeAway?.find((item) => item.timeAwayId === updated.timeAwayId);
+      // time away modified
+      if (findSource) {
+        const excludeArrayFields = ['timeAwayId', 'isActive'];
+        let arrayFieldChanged = false;
+        for (const [arrayKey, arrayValue] of Object.entries(updated)) {
+          if (excludeArrayFields.indexOf(arrayKey) === -1) {
+            if (arrayValue !== findSource[arrayKey]) {
+              arrayFieldChanged = true;
+              break;
             }
           }
+        }
 
-          // new time away
-          if (!findSource) {
-            changes.push({ date: new Date().toISOString(), field: key, isAdded: true, value: updated });
-          }
+        if (arrayFieldChanged) {
+          const filteredChanges = [];
+          changes.forEach((item) => {
+            if (item.field === 'timeAway' && item.value.timeAwayId === updated.timeAwayId) {
+              return;
+            }
+            filteredChanges.push(item);
+          });
+          changes = [...filteredChanges];
+          changes.push({ date: new Date().toISOString(), field: 'timeAway', isModified: true, value: updated });
         }
       }
 
-      // check deleted timeAway
-      if (source.timeAway) {
-        for (const original of source.timeAway) {
-          const findModified = value?.find((item) => item.timeAwayId === original.timeAwayId);
-          if (!findModified) {
-            const filteredChanges = [];
-            changes.forEach((item) => {
-              if (item.field === key && item.value.timeAwayId === original.timeAwayId) {
-                return;
-              }
-              filteredChanges.push(item);
-            });
-            changes = [...filteredChanges];
-            changes.push({ date: new Date().toISOString(), field: key, isDeleted: true, value: original });
+      // new time away
+      if (!findSource) {
+        changes.push({ date: new Date().toISOString(), field: 'timeAway', isAdded: true, value: updated });
+      }
+    }
+  }
+
+  // check deleted timeAway
+  if (source.timeAway) {
+    for (const original of source.timeAway) {
+      const findModified = modified.timeAway?.find((item) => item.timeAwayId === original.timeAwayId);
+      if (!findModified) {
+        const filteredChanges = [];
+        changes.forEach((item) => {
+          if (item.field === 'timeAway' && item.value.timeAwayId === original.timeAwayId) {
+            return;
+          }
+          filteredChanges.push(item);
+        });
+        changes = [...filteredChanges];
+        changes.push({ date: new Date().toISOString(), field: 'timeAway', isDeleted: true, value: original });
+      }
+    }
+  }
+
+  return changes;
+};
+
+const compareSpiritualStatus = (source, modified, changes) => {
+  // check added or modified status
+  if (modified.spiritualStatus) {
+    for (const updated of modified.spiritualStatus) {
+      const findSource = source.spiritualStatus?.find((item) => item.statusId === updated.statusId);
+      // status modified
+      if (findSource) {
+        const excludeArrayFields = ['statusId', 'isActive'];
+        let arrayFieldChanged = false;
+        for (const [arrayKey, arrayValue] of Object.entries(updated)) {
+          if (excludeArrayFields.indexOf(arrayKey) === -1) {
+            if (arrayValue !== findSource[arrayKey]) {
+              arrayFieldChanged = true;
+              break;
+            }
           }
         }
+        if (arrayFieldChanged) {
+          const filteredChanges = [];
+          changes.forEach((item) => {
+            if (item.field === 'spiritualStatus' && item.value.statusId === updated.statusId) {
+              return;
+            }
+            filteredChanges.push(item);
+          });
+          changes = [...filteredChanges];
+          changes.push({ date: new Date().toISOString(), field: 'spiritualStatus', isModified: true, value: updated });
+        }
+      }
+
+      // new status
+      if (!findSource) {
+        changes.push({ date: new Date().toISOString(), field: 'spiritualStatus', isAdded: true, value: updated });
+      }
+    }
+  }
+
+  // check deleted spiritualStatus
+  if (source.spiritualStatus) {
+    for (const original of source.spiritualStatus) {
+      const findModified = modified.spiritualStatus?.find((item) => item.statusId === original.statusId);
+      if (!findModified) {
+        const filteredChanges = [];
+        changes.forEach((item) => {
+          if (item.field === 'spiritualStatus' && item.value.statusId === original.statusId) {
+            return;
+          }
+          filteredChanges.push(item);
+        });
+        changes = [...filteredChanges];
+        changes.push({ date: new Date().toISOString(), field: 'spiritualStatus', isDeleted: true, value: original });
+      }
+    }
+  }
+
+  return changes;
+};
+
+const compareOtherService = (source, modified, changes) => {
+  // check added or modified service
+  if (modified.otherService) {
+    for (const updated of modified.otherService) {
+      const findSource = source.otherService?.find((item) => item.serviceId === updated.serviceId);
+      // service modified
+      if (findSource) {
+        const excludeArrayFields = ['serviceId', 'isActive'];
+        let arrayFieldChanged = false;
+        for (const [arrayKey, arrayValue] of Object.entries(updated)) {
+          if (excludeArrayFields.indexOf(arrayKey) === -1) {
+            if (arrayValue !== findSource[arrayKey]) {
+              arrayFieldChanged = true;
+              break;
+            }
+          }
+        }
+        if (arrayFieldChanged) {
+          const filteredChanges = [];
+          changes.forEach((item) => {
+            if (item.field === 'otherService' && item.value.serviceId === updated.serviceId) {
+              return;
+            }
+            filteredChanges.push(item);
+          });
+          changes = [...filteredChanges];
+          changes.push({ date: new Date().toISOString(), field: 'otherService', isModified: true, value: updated });
+        }
+      }
+
+      // new service
+      if (!findSource) {
+        changes.push({ date: new Date().toISOString(), field: 'otherService', isAdded: true, value: updated });
+      }
+    }
+  }
+
+  // check deleted otherService
+  if (source.otherService) {
+    for (const original of source.otherService) {
+      const findModified = modified.otherService?.find((item) => item.serviceId === original.serviceId);
+      if (!findModified) {
+        const filteredChanges = [];
+        changes.forEach((item) => {
+          if (item.field === 'otherService' && item.value.serviceId === original.serviceId) {
+            return;
+          }
+          filteredChanges.push(item);
+        });
+        changes = [...filteredChanges];
+        changes.push({ date: new Date().toISOString(), field: 'otherService', isDeleted: true, value: original });
       }
     }
   }

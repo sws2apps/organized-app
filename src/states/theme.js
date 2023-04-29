@@ -15,6 +15,7 @@ export const themeOptionsState = selector({
       whatsNewBgSecondary: isLight ? '#F4F6F6' : '#1C2833',
       btnProgress: isLight ? '#212F3D' : '#FBFCFC',
       searchBg: isLight ? 'black' : 'white',
+      fsgHeadingColor: '#004d40 !important',
     };
   },
 });

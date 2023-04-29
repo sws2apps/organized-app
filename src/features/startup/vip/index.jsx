@@ -14,6 +14,7 @@ import {
   isOnlineState,
   isSetupState,
   isShowTermsUseState,
+  isUnauthorizedRoleState,
   isUserEmailOTPState,
   isUserMfaSetupState,
   isUserMfaVerifyState,
@@ -50,6 +51,7 @@ const VipStartup = () => {
   const [isCongAccountCreate, setIsCongAccountCreate] = useRecoilState(isCongAccountCreateState);
   const [isAuthProcessing, setIsAuthProcessing] = useRecoilState(isAuthProcessingState);
 
+  const setIsUnauthorizedRole = useSetRecoilState(isUnauthorizedRoleState);
   const setIsAppLoad = useSetRecoilState(isAppLoadState);
   const setIsSetup = useSetRecoilState(isSetupState);
   const setAppSnackOpen = useSetRecoilState(appSnackOpenState);
@@ -92,7 +94,10 @@ const VipStartup = () => {
       }
 
       const approvedRole =
-        cong_role.includes('lmmo') || cong_role.includes('lmmo-backup') || cong_role.includes('view_meeting_schedule');
+        cong_role.includes('lmmo') ||
+        cong_role.includes('lmmo-backup') ||
+        cong_role.includes('view_meeting_schedule') ||
+        cong_role.includes('secretary');
 
       if (!approvedRole) {
         showSignup();
@@ -138,7 +143,10 @@ const VipStartup = () => {
         const cong_role = Setting.cong_role || [];
 
         const approvedRole =
-          cong_role.includes('lmmo') || cong_role.includes('view_meeting_schedule') || cong_role.includes('admin');
+          cong_role.includes('lmmo') ||
+          cong_role.includes('view_meeting_schedule') ||
+          cong_role.includes('admin') ||
+          cong_role.includes('secretary');
 
         if (!isOfflineOverride && cong_name.length > 0 && approvedRole) {
           setIsSetup(false);
@@ -159,11 +167,15 @@ const VipStartup = () => {
             setCurrentMFAStage('verify');
             setIsUserSignUp(false);
             setUserMfaVerify(true);
+            setIsCongAccountCreate(false);
+            setIsUnauthorizedRole(false);
           }
           if (result.isSetupMFA) {
             setCurrentMFAStage('setup');
             setIsUserSignUp(false);
             setUserMfaSetup(true);
+            setIsCongAccountCreate(false);
+            setIsUnauthorizedRole(false);
           }
           await Setting.update({ account_type: 'vip' });
         }
@@ -195,6 +207,7 @@ const VipStartup = () => {
     setCurrentMFAStage,
     showTermsUse,
     visitorID,
+    setIsUnauthorizedRole,
   ]);
 
   return (
