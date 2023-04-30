@@ -54,9 +54,7 @@ PersonClass.prototype.loadDetails = async function () {
 	this.email = appData.email || '';
 	this.address = appData.address || '';
 	this.phone = appData.phone || '';
-	console.log(appData.spiritualStatus);
 	this.spiritualStatus = appData.spiritualStatus || [];
-	console.log(this.spiritualStatus);
 	this.otherService = appData.otherService || [];
 	this.firstMonthReport = appData.firstMonthReport || null;
 	return this;
@@ -215,6 +213,7 @@ PersonClass.prototype.isElder = function (month) {
 	if (!month) month = `${new Date().getFullYear()}/${String(new Date().getMonth() + 1).padStart(2, '0')}/01`;
 
 	let result = false;
+	console.log(this.spiritualStatus);
 	const elderDates = this.spiritualStatus.filter((status) => status.status === 'elder');
 
 	for (const service of elderDates) {
