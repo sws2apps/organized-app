@@ -587,7 +587,7 @@
   "backupDiscrepancy": "Tsy mbola afaka mandefa rakitra fiandry ianao. Mamerena rakitra fiandry aloha.",
   "settingLockedLMMO": "Ny Mpiandraikitra ny Fivoriana Momba ny Fiainantsika sy ny Fanompoana na ny mpanampy azy ihany no afaka manova an’ireo fanamboarana ireo.",
   "someSettingLockedLMMO": "Ny Mpiandraikitra ny Fivoriana Momba ny Fiainantsika sy ny Fanompoana na ny mpanampy azy ihany no afaka manova ny fanamboarana sasany.",
-  "reportSubmitConfirm": "<p>You are about to mark this report as submitted to the Branch Office.</p><p>All records about late reports which were submitted with this month will be deleted. If it is necessary to undo the submission, you need to find the publishers’ reports and mark them as late again.</p><p>If all publishers’ reports which were approved to report 15-minute increments adds up to a full hour, these records will be deleted. If it is necessary to undo the submission, you need to find the publishers’ report and mark them as less than 1 hour again.</p>",
-  "continueConfirmMessage": "Are you sure to continue?",
-  "reportSubmittedBranchTitle": "Submit Report to the Branch Office"
+  "reportSubmitConfirm": "<p>Ho marihina hoe nalefa tany amin’ny Biraon’ny Sampana izao ity tatitra ity.</p><p>Hiala ny fitehirizana momba an’ireo tatitra tara rehetra ka nalefa tamin’ity volana ity. Mila karohina ireo tatitra ireo ka averina hoe tara indray, raha homarihina hoe tsy mbola nalefa Biraon’ny Sampana indray ity tatitra ity.</p><p>Hiala ny fitehirizana momba an’ireo tatitra latsaka ny adiny 1 rehetra, raha toa ka feno adiny 1 ny fitambaran’izy rehetra. Mila karohina ireo tatitra ireo ka averina hoe latsaka ny adiny 1 indray, raha homarihina hoe tsy mbola nalefa Biraon’ny Sampana indray ity tatitra ity.</p>",
+  "continueConfirmMessage": "Hanohy ve?",
+  "reportSubmittedBranchTitle": "Handefa Tatitra any Amin’ny Biraon’ny Sampana"
 }
