@@ -1,5 +1,7 @@
 import appDb from '../indexedDb/mainDb';
+import { reportsFieldSum } from '../utils/app';
 import { MinutesReportClass } from './MinutesReport';
+import { S21s } from './S21s';
 import { ServiceYear } from './ServiceYear';
 
 class MinutesReportsClass {
@@ -72,6 +74,26 @@ MinutesReportsClass.prototype.cleanDeleted = async function () {
   for await (const report of appData) {
     await appDb.minutesReports.delete(report.uid);
   }
+};
+
+MinutesReportsClass.prototype.countTotal = function () {
+  const reports = [];
+  for (const minutesReport of this.reports) {
+    const S21 = S21s.get(minutesReport.service_year, minutesReport.person_uid);
+    if (S21.hasReport(minutesReport.month)) {
+      const currentMonth = S21.months.find((item) => item.month_value === minutesReport.month);
+      reports.push({
+        person_uid: S21.person_uid,
+        service_year: minutesReport.service_year,
+        ...currentMonth,
+      });
+    }
+  }
+
+  const minutesTotal = reportsFieldSum(reports, 'minutes');
+  const hoursTotal = Math.round(minutesTotal / 60);
+
+  return hoursTotal;
 };
 
 export const MinutesReports = new MinutesReportsClass();

@@ -263,10 +263,10 @@ export const monthDiff = (startDate, endDate) => {
   return endDate.getMonth() - startDate.getMonth() + 12 * (endDate.getFullYear() - startDate.getFullYear());
 };
 
-export const reportsFieldSum = (array, field) => {
+export const reportsFieldSum = (array, field, initial = 0) => {
   return array.reduce(
     (accumulator, currentValue) =>
       typeof currentValue[field] === 'string' ? accumulator : accumulator + currentValue[field],
-    0
+    initial
   );
 };
