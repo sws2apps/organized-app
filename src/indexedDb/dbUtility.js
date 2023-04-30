@@ -27,10 +27,11 @@ export const isDbExist = async (dbName) => {
   });
 };
 
-export const dbExportDataOnline = async () => {
+export const dbExportDataOnline = async (cong_role = Setting.cong_role) => {
   const data = {};
-  const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
-  const secretaryRole = Setting.cong_role.includes('secretary');
+
+  const lmmoRole = cong_role.includes('lmmo') || cong_role.includes('lmmo-backup');
+  const secretaryRole = cong_role.includes('secretary');
 
   // get persons
   data.dbPersons = await appDb.persons.toArray();

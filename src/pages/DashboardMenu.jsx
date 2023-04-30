@@ -25,7 +25,7 @@ import SendIcon from '@mui/icons-material/Send';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ScheduleIcon from '@mui/icons-material/Schedule';
 import MenuCard from '../components/MenuCard';
-import { congAccountConnectedState, congRoleState } from '../states/congregation';
+import { congAccountConnectedState } from '../states/congregation';
 import {
   accountTypeState,
   backupDbOpenState,
@@ -76,7 +76,11 @@ const DashboardMenu = () => {
   const isCongAccountConnected = useRecoilValue(congAccountConnectedState);
   const isOnline = useRecoilValue(isOnlineState);
   const accountType = useRecoilValue(accountTypeState);
-  const congRole = useRecoilValue(congRoleState);
+
+  const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
+  const secretaryRole = Setting.cong_role.includes('secretary');
+  const adminRole = Setting.cong_role.includes('admin');
+  const viewMeetingScheduleRole = Setting.cong_role.includes('view_meeting_schedule');
 
   const handleOpenMyAssignment = () => {
     setWhatsNewOpen(false);
@@ -136,7 +140,7 @@ const DashboardMenu = () => {
   const dashboardMenus = [
     {
       title: t('persons'),
-      visible: accountType === 'vip' && !congRole.includes('view_meeting_schedule'),
+      visible: accountType === 'vip' && !viewMeetingScheduleRole,
       links: [
         {
           title: t('persons'),
@@ -181,18 +185,13 @@ const DashboardMenu = () => {
         {
           title: t('editAssignmentsSchedule'),
           icon: <AssignmentIcon />,
-          visible: accountType === 'vip' && (congRole.includes('lmmo') || congRole.includes('lmmo-backup')),
+          visible: accountType === 'vip' && lmmoRole,
           navigateTo: '/schedules',
         },
         {
           title: t('publishPocket'),
           icon: <SendIcon />,
-          visible:
-            accountType === 'vip' &&
-            (congRole.includes('lmmo') || congRole.includes('lmmo-backup')) &&
-            isCongAccountConnected
-              ? true
-              : false,
+          visible: accountType === 'vip' && lmmoRole && isCongAccountConnected ? true : false,
           action: handlePublishPocket,
         },
         {
@@ -200,14 +199,14 @@ const DashboardMenu = () => {
           icon: <CloudSyncIcon />,
           visible:
             isCongAccountConnected &&
-            (accountType === 'pocket' || congRole.includes('view_meeting_schedule') || congRole.includes('secretary')),
+            (accountType === 'pocket' || viewMeetingScheduleRole || (secretaryRole && !lmmoRole)),
           action: apiFetchSchedule,
         },
       ],
     },
     {
       title: t('sourceMaterial'),
-      visible: accountType === 'vip' && (congRole.includes('lmmo') || congRole.includes('lmmo-backup')),
+      visible: accountType === 'vip' && lmmoRole,
       links: [
         {
           title: t('viewSourceMaterial'),
@@ -237,7 +236,7 @@ const DashboardMenu = () => {
     },
     {
       title: t('reports'),
-      visible: accountType === 'vip' && congRole.includes('secretary'),
+      visible: accountType === 'vip' && secretaryRole,
       links: [
         {
           title: t('postFieldServiceReport'),
@@ -267,12 +266,12 @@ const DashboardMenu = () => {
     },
     {
       title: t('congregation'),
-      visible: accountType === 'vip' && !congRole.includes('view_meeting_schedule'),
+      visible: accountType === 'vip' && !viewMeetingScheduleRole,
       links: [
         {
           title: t('fieldServiceGroup'),
           icon: <GroupsIcon />,
-          visible: Setting.cong_role.includes('secretary'),
+          visible: secretaryRole,
           navigateTo: '/field-service-group',
         },
         {
@@ -296,7 +295,7 @@ const DashboardMenu = () => {
         {
           title: t('manageAccessToApps'),
           icon: <AccountCircleIcon />,
-          visible: isCongAccountConnected && congRole.includes('admin') ? true : false,
+          visible: isCongAccountConnected && adminRole ? true : false,
           navigateTo: '/administration',
         },
       ],
