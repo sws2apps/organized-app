@@ -510,8 +510,8 @@
   "allPublishers": "Mpitory rehetra",
   "baptizedPublishers": "Mpitory Vita Batisa",
   "unbaptizedPublishers": "Mpitory Tsy Vita Batisa",
-  "auxiliaryPioneers": "Mpisava Lalana Mpanampy rehetra",
-  "regularPioneers": "Mpisava Lalana Maharitra rehetra",
+  "auxiliaryPioneers": "Mpisava Lalana Mpanampy",
+  "regularPioneers": "Mpisava Lalana Maharitra",
   "reports": "Tatitra",
   "fieldServiceGroup": "Andiam-pitory",
   "postFieldServiceReport": "Hampiditra Tatitra Momba ny Fanompoana",
@@ -586,5 +586,8 @@
   "inactivePublishers": "Tsy Mitory Intsony",
   "backupDiscrepancy": "Tsy mbola afaka mandefa rakitra fiandry ianao. Mamerena rakitra fiandry aloha.",
   "settingLockedLMMO": "Ny Mpiandraikitra ny Fivoriana Momba ny Fiainantsika sy ny Fanompoana na ny mpanampy azy ihany no afaka manova an’ireo fanamboarana ireo.",
-  "someSettingLockedLMMO": "Ny Mpiandraikitra ny Fivoriana Momba ny Fiainantsika sy ny Fanompoana na ny mpanampy azy ihany no afaka manova ny fanamboarana sasany."
+  "someSettingLockedLMMO": "Ny Mpiandraikitra ny Fivoriana Momba ny Fiainantsika sy ny Fanompoana na ny mpanampy azy ihany no afaka manova ny fanamboarana sasany.",
+  "reportSubmitConfirm": "<p>You are about to mark this report as submitted to the Branch Office.</p><p>All records about late reports which were submitted with this month will be deleted. If it is necessary to undo the submission, you need to find the publishers’ reports and mark them as late again.</p><p>If all publishers’ reports which were approved to report 15-minute increments adds up to a full hour, these records will be deleted. If it is necessary to undo the submission, you need to find the publishers’ report and mark them as less than 1 hour again.</p>",
+  "continueConfirmMessage": "Are you sure to continue?",
+  "reportSubmittedBranchTitle": "Submit Report to the Branch Office"
 }
