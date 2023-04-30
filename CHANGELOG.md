@@ -1,3 +1,10 @@
+## [2.64.2](https://github.com/sws2apps/cpe-sws/compare/v2.64.1...v2.64.2) (2023-04-30)
+
+
+### Bug Fixes
+
+* **persons:** attempt to fix infinite loading on some mobile devices ([0ab713c](https://github.com/sws2apps/cpe-sws/commit/0ab713ccaf1013d952a63ba9f98ddccc7d04534d))
+
 ## [2.64.1](https://github.com/sws2apps/cpe-sws/compare/v2.64.0...v2.64.1) (2023-04-30)
 
 
