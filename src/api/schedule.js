@@ -34,11 +34,13 @@ export const apiFetchSchedule = async () => {
         });
       }
 
+      const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
+      const secretaryRole = Setting.cong_role.includes('secretary');
+      const viewMeetingScheduleRole = Setting.cong_role.includes('view_meeting_schedule');
+
       if (
-        (Setting.account_type === 'vip' &&
-          Setting.cong_role.length === 1 &&
-          Setting.cong_role.includes('view_meeting_schedule')) ||
-        Setting.cong_role.includes('secretary')
+        (Setting.account_type === 'vip' && Setting.cong_role.length === 1 && viewMeetingScheduleRole) ||
+        (secretaryRole && !lmmoRole)
       ) {
         const auth = await getAuth();
         const user = auth.currentUser;

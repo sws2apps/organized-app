@@ -50,48 +50,21 @@ const BackupDbDialog = () => {
         const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
         const secretaryRole = Setting.cong_role.includes('secretary');
 
-        let reqPayload;
-
-        if (lmmoRole) {
-          const { dbPersons, dbDeleted, dbSourceMaterial, dbSchedule, dbPocketTbl, dbSettings } = dbData;
-
-          reqPayload = {
-            cong_persons: dbPersons,
-            cong_deleted: dbDeleted,
-            cong_schedule: dbSchedule,
-            cong_sourceMaterial: dbSourceMaterial,
-            cong_swsPocket: dbPocketTbl,
-            cong_settings: dbSettings,
-          };
-        }
-
-        if (secretaryRole) {
-          const {
-            dbPersons,
-            dbDeleted,
-            dbSettings,
-            dbBranchReportsTbl,
-            dbFieldServiceGroupTbl,
-            dbFieldServiceReportsTbl,
-            dbLateReportsTbl,
-            dbMeetingAttendanceTbl,
-            dbMinutesReportsTbl,
-            dbServiceYearTbl,
-          } = dbData;
-
-          reqPayload = {
-            cong_persons: dbPersons,
-            cong_deleted: dbDeleted,
-            cong_settings: dbSettings,
-            cong_branchReports: dbBranchReportsTbl,
-            cong_fieldServiceGroup: dbFieldServiceGroupTbl,
-            cong_fieldServiceReports: dbFieldServiceReportsTbl,
-            cong_lateReports: dbLateReportsTbl,
-            cong_meetingAttendance: dbMeetingAttendanceTbl,
-            cong_minutesReports: dbMinutesReportsTbl,
-            cong_serviceYear: dbServiceYearTbl,
-          };
-        }
+        const reqPayload = {
+          cong_persons: dbData.dbPersons,
+          cong_deleted: dbData.dbDeleted,
+          cong_settings: dbData.dbSettings,
+          cong_schedule: lmmoRole ? dbData.dbSchedule : undefined,
+          cong_sourceMaterial: lmmoRole ? dbData.dbSourceMaterial : undefined,
+          cong_swsPocket: lmmoRole ? dbData.dbPocketTbl : undefined,
+          cong_branchReports: secretaryRole ? dbData.dbBranchReportsTbl : undefined,
+          cong_fieldServiceGroup: secretaryRole ? dbData.dbFieldServiceGroupTbl : undefined,
+          cong_fieldServiceReports: secretaryRole ? dbData.dbFieldServiceReportsTbl : undefined,
+          cong_lateReports: secretaryRole ? dbData.dbLateReportsTbl : undefined,
+          cong_meetingAttendance: secretaryRole ? dbData.dbMeetingAttendanceTbl : undefined,
+          cong_minutesReports: secretaryRole ? dbData.dbMinutesReportsTbl : undefined,
+          cong_serviceYear: secretaryRole ? dbData.dbServiceYearTbl : undefined,
+        };
 
         const res = await fetch(`${apiHost}api/congregations/${congID}/backup`, {
           method: 'POST',
