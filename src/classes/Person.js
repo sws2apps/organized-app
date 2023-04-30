@@ -182,7 +182,7 @@ PersonClass.prototype.isAuxiliaryPioneer = function (month) {
 	if (!month) month = `${new Date().getFullYear()}/${String(new Date().getMonth() + 1).padStart(2, '0')}/01`;
 
 	let result = false;
-	const auxPionnerDates = this.otherService.filter((service) => service.service === 'auxiliaryPioneer');
+	const auxPionnerDates = this.otherService?.filter((service) => service.service === 'auxiliaryPioneer') || [];
 
 	for (const service of auxPionnerDates) {
 		const varDate = new Date(month);
@@ -213,8 +213,7 @@ PersonClass.prototype.isElder = function (month) {
 	if (!month) month = `${new Date().getFullYear()}/${String(new Date().getMonth() + 1).padStart(2, '0')}/01`;
 
 	let result = false;
-	console.log(this.spiritualStatus);
-	const elderDates = this.spiritualStatus.filter((status) => status.status === 'elder');
+	const elderDates = this.spiritualStatus?.filter((status) => status.status === 'elder') || [];
 
 	for (const service of elderDates) {
 		const varDate = new Date(month);
@@ -245,7 +244,7 @@ PersonClass.prototype.isMS = function (month) {
 	if (!month) month = `${new Date().getFullYear()}/${String(new Date().getMonth() + 1).padStart(2, '0')}/01`;
 
 	let result = false;
-	const msDates = this.spiritualStatus.filter((status) => status.status === 'ms');
+	const msDates = this.spiritualStatus?.filter((status) => status.status === 'ms') || [];
 
 	for (const service of msDates) {
 		const varDate = new Date(month);
@@ -276,7 +275,7 @@ PersonClass.prototype.isRegularPioneer = function (month) {
 	if (!month) month = `${new Date().getFullYear()}/${String(new Date().getMonth() + 1).padStart(2, '0')}/01`;
 
 	let result = false;
-	const regPionnerDates = this.otherService.filter((service) => service.service === 'regularPioneer');
+	const regPionnerDates = this.otherService?.filter((service) => service.service === 'regularPioneer') || [];
 
 	for (const service of regPionnerDates) {
 		const varDate = new Date(month);
@@ -307,7 +306,7 @@ PersonClass.prototype.isSpecialPioneer = function (month) {
 	if (!month) month = `${new Date().getFullYear()}/${String(new Date().getMonth() + 1).padStart(2, '0')}/01`;
 
 	let result = false;
-	const specialPioneerDates = this.otherService.filter((service) => service.service === 'specialPioneer');
+	const specialPioneerDates = this.otherService?.filter((service) => service.service === 'specialPioneer') || [];
 
 	for (const service of specialPioneerDates) {
 		const varDate = new Date(month);
@@ -352,7 +351,7 @@ PersonClass.prototype.isPublisher = function (month) {
 	if (!month) month = `${new Date().getFullYear()}/${String(new Date().getMonth() + 1).padStart(2, '0')}/01`;
 
 	let result = false;
-	const publisherDates = this.spiritualStatus.filter((status) => status.status === 'publisher');
+	const publisherDates = this.spiritualStatus?.filter((status) => status.status === 'publisher') || [];
 
 	for (const service of publisherDates) {
 		const varDate = new Date(month);
@@ -405,6 +404,7 @@ PersonClass.prototype.setAuxiliaryPioneer = async function (startDate, endDate) 
 		endDate: endDate ? endDate : null,
 	};
 
+	if (this.otherService === undefined) this.otherService = []
 	const newServices = [...this.otherService, obj];
 	const newPerson = { ...this, otherService: newServices };
 
