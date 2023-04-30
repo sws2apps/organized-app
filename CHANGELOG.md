@@ -1,3 +1,15 @@
+# [2.64.0](https://github.com/sws2apps/cpe-sws/compare/v2.63.1...v2.64.0) (2023-04-30)
+
+
+### Features
+
+* **app:** add initial support for congregation secretary role ([a2a370f](https://github.com/sws2apps/cpe-sws/commit/a2a370f64e3edc5983bfdfa609b15e6f035e18b2))
+* **deps:** bump @emotion/react from 11.10.6 to 11.10.8 ([ec1f0a2](https://github.com/sws2apps/cpe-sws/commit/ec1f0a29e0c78bbf4e9ad945fd2871dbd61c7a0f))
+* **deps:** bump @emotion/styled from 11.10.6 to 11.10.8 ([758ad60](https://github.com/sws2apps/cpe-sws/commit/758ad6010c25d7c3b6ffd0c0944ad7a54d0b348f))
+* **deps:** bump @mui/x-date-pickers from 6.2.1 to 6.3.0 ([a82c54c](https://github.com/sws2apps/cpe-sws/commit/a82c54ce586fd7970e174ef418de6346df180c95))
+* **deps:** bump react-router-dom from 6.10.0 to 6.11.0 ([40e7ef7](https://github.com/sws2apps/cpe-sws/commit/40e7ef7d90a72625ea4042a6b0c7b96f0ba2c8d3))
+* **reports:** only select 15 minutes increment values when entering report less than 1 hour ([7bc1a89](https://github.com/sws2apps/cpe-sws/commit/7bc1a892ea7e2ec042203482567dd31b83729bee))
+
 ## [2.63.1](https://github.com/sws2apps/cpe-sws/compare/v2.63.0...v2.63.1) (2023-04-28)
 
 
