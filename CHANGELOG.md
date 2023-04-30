@@ -1,3 +1,10 @@
+## [2.64.1](https://github.com/sws2apps/cpe-sws/compare/v2.64.0...v2.64.1) (2023-04-30)
+
+
+### Bug Fixes
+
+* **backup:** fix auto backup error when role includes secretary ([b2b9ca5](https://github.com/sws2apps/cpe-sws/commit/b2b9ca5f5239d7d5f451d41c86a6339278f9b3dc))
+
 # [2.64.0](https://github.com/sws2apps/cpe-sws/compare/v2.63.1...v2.64.0) (2023-04-30)
 
 
