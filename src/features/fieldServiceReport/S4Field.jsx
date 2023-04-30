@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { S21s } from '../../classes/S21s';
@@ -140,7 +141,13 @@ const S4Field = ({
             error={errorField ? errorField : null}
             value={value}
             onChange={(e) => handleValueChange(e.target.value)}
-          />
+            select={hourLess}
+            InputProps={{ readOnly: isLocked }}
+          >
+            {hourLess && <MenuItem value={15}>15</MenuItem>}
+            {hourLess && <MenuItem value={30}>30</MenuItem>}
+            {hourLess && <MenuItem value={45}>45</MenuItem>}
+          </TextField>
           {field === 'hours' && (
             <Box sx={{ display: 'flex', flexDirection: 'column', marginLeft: '5px' }}>
               <FormControlLabel

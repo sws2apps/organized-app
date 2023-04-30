@@ -141,14 +141,12 @@ const DashboardMenu = () => {
         {
           title: t('persons'),
           icon: <PeopleIcon />,
-          disabled: false,
           visible: true,
           navigateTo: '/persons',
         },
         {
           title: t('personAdd'),
           icon: <PersonAddIcon />,
-          disabled: false,
           visible: true,
           navigateTo: '/persons/new',
         },
@@ -159,7 +157,6 @@ const DashboardMenu = () => {
               <DownloadIcon />
             </Badge>
           ),
-          disabled: false,
           visible: isDev,
           action: importDummyUsers,
         },
@@ -172,28 +169,24 @@ const DashboardMenu = () => {
         {
           title: t('viewMyAssignments'),
           icon: <AssignmentIndIcon />,
-          disabled: false,
           visible: true,
           action: handleOpenMyAssignment,
         },
         {
           title: t('viewAssignmentsSchedule'),
           icon: <ScheduleIcon />,
-          disabled: false,
           visible: true,
           action: handleViewCurrentAssignment,
         },
         {
           title: t('editAssignmentsSchedule'),
           icon: <AssignmentIcon />,
-          disabled: false,
           visible: accountType === 'vip' && (congRole.includes('lmmo') || congRole.includes('lmmo-backup')),
           navigateTo: '/schedules',
         },
         {
           title: t('publishPocket'),
           icon: <SendIcon />,
-          disabled: false,
           visible:
             accountType === 'vip' &&
             (congRole.includes('lmmo') || congRole.includes('lmmo-backup')) &&
@@ -219,28 +212,24 @@ const DashboardMenu = () => {
         {
           title: t('viewSourceMaterial'),
           icon: <CalendarMonthIcon />,
-          disabled: false,
           visible: true,
           navigateTo: '/source-materials',
         },
         {
           title: t('weekAddNew'),
           icon: <MoreTimeIcon />,
-          disabled: false,
           visible: true,
           action: handleWeekAdd,
         },
         {
           title: t('sourceImportEPUB'),
           icon: <FileCopyIcon />,
-          disabled: false,
           visible: true,
           action: handleImportEPUB,
         },
         {
           title: t('sourceImportJw'),
           icon: <CloudSyncIcon />,
-          disabled: false,
           visible: isOnline ? true : false,
           action: handleImportJWOrg,
         },
@@ -253,28 +242,24 @@ const DashboardMenu = () => {
         {
           title: t('postFieldServiceReport'),
           icon: <NoteIcon />,
-          disabled: false,
           visible: true,
           navigateTo: '/field-service-report',
         },
         {
           title: t('meetingAttendanceRecord'),
           icon: <MeetingRoomIcon />,
-          disabled: false,
           visible: true,
           navigateTo: '/meeting-attendance-record',
         },
         {
           title: t('branchOfficeReport'),
           icon: <ApartmentIcon />,
-          disabled: false,
           visible: true,
           navigateTo: '/branch-office-reports',
         },
         {
           title: t('addPreviousServiceYear'),
           icon: <PostAddIcon />,
-          disabled: false,
           visible: true,
           action: handleOpenAddSY,
         },
@@ -287,35 +272,30 @@ const DashboardMenu = () => {
         {
           title: t('fieldServiceGroup'),
           icon: <GroupsIcon />,
-          disabled: false,
           visible: Setting.cong_role.includes('secretary'),
           navigateTo: '/field-service-group',
         },
         {
           title: t('settings'),
           icon: <SettingsIcon />,
-          disabled: false,
           visible: true,
           navigateTo: '/congregation-settings',
         },
         {
           title: t('sendBackup'),
           icon: <CloudUploadIcon />,
-          disabled: false,
           visible: isCongAccountConnected ? true : false,
           action: handleCreateBackup,
         },
         {
           title: t('restoreBackup'),
           icon: <CloudDownloadIcon />,
-          disabled: false,
           visible: isCongAccountConnected ? true : false,
           action: handleRestoreBackup,
         },
         {
           title: t('manageAccessToApps'),
           icon: <AccountCircleIcon />,
-          disabled: false,
           visible: isCongAccountConnected && congRole.includes('admin') ? true : false,
           navigateTo: '/administration',
         },

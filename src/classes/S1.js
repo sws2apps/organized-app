@@ -1,5 +1,7 @@
 import appDb from '../indexedDb/mainDb';
 import { reportsFieldSum } from '../utils/app';
+import { LateReports } from './LateReports';
+import { MinutesReports } from './MinutesReports';
 import { Persons } from './Persons';
 import { S21s } from './S21s';
 import { S88s } from './S88s';
@@ -106,9 +108,26 @@ S1Class.prototype.generate = async function () {
   }
 
   const isCurrentReport = ServiceYear.currentReportMonth() === this.month;
+
+  // collect late reports if current month
   if (isCurrentReport) {
-    // collect late reports if current month
-    // check minutes reports if current month
+    for (const lateReport of LateReports.reports) {
+      const S21 = S21s.get(lateReport.service_year, lateReport.person_uid);
+      if (S21.hasReport(lateReport.month)) {
+        const currentMonth = S21.months.find((item) => item.month_value === lateReport.month);
+        reports.push({
+          person_uid: S21.person_uid,
+          service_year: lateReport.service_year,
+          ...currentMonth,
+        });
+      }
+    }
+  }
+
+  // check minutes reports if current month
+  let minutesReports = 0;
+  if (isCurrentReport) {
+    minutesReports = MinutesReports.countTotal();
   }
 
   // remove special pioneer
@@ -120,7 +139,7 @@ S1Class.prototype.generate = async function () {
   data.totalReports = reportsNoSFTS.length;
   data.totalPlacements = reportsFieldSum(reportsNoSFTS, 'placements');
   data.totalVideos = reportsFieldSum(reportsNoSFTS, 'videos');
-  data.totalHours = reportsFieldSum(reportsNoSFTS, 'hours');
+  data.totalHours = reportsFieldSum(reportsNoSFTS, 'hours', minutesReports);
   data.totalReturnVisits = reportsFieldSum(reportsNoSFTS, 'returnVisits');
   data.totalBibleStudies = reportsFieldSum(reportsNoSFTS, 'bibleStudies');
 
@@ -133,7 +152,7 @@ S1Class.prototype.generate = async function () {
   data.publishersReports = reportsPublishers.length;
   data.publishersPlacements = reportsFieldSum(reportsPublishers, 'placements');
   data.publishersVideos = reportsFieldSum(reportsPublishers, 'videos');
-  data.publishersHours = reportsFieldSum(reportsPublishers, 'hours');
+  data.publishersHours = reportsFieldSum(reportsPublishers, 'hours', minutesReports);
   data.publishersReturnVisits = reportsFieldSum(reportsPublishers, 'returnVisits');
   data.publishersBibleStudies = reportsFieldSum(reportsPublishers, 'bibleStudies');
 
@@ -208,6 +227,19 @@ S1Class.prototype.setAsSubmitted = async function () {
   appData.details.isSubmitted = true;
 
   await appDb.branchReports.update(this.report_uid, appData);
+
+  // remove late reports records
+  for await (const lateReport of LateReports.reports) {
+    await LateReports.remove(lateReport.person_uid, lateReport.month);
+  }
+
+  // remove minutes records if round up to 1 hour
+  const minutesReports = MinutesReports.countTotal();
+  if (minutesReports > 0) {
+    for await (const minutesReport of MinutesReports.reports) {
+      await MinutesReports.remove(minutesReport.person_uid, minutesReport.month);
+    }
+  }
 
   this.details.isSubmitted = appData.details.isSubmitted;
 };

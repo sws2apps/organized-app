@@ -586,5 +586,8 @@
   "inactivePublishers": "Inactive Publishers",
   "backupDiscrepancy": "The backup could not be sent. Please restore the latest backup first.",
   "settingLockedLMMO": "These settings can only be changed by the Life and Ministry Meeting Overseer or his assistant.",
-  "someSettingLockedLMMO": "Some settings can only be changed by the Life and Ministry Meeting Overseer or his assistant."
+  "someSettingLockedLMMO": "Some settings can only be changed by the Life and Ministry Meeting Overseer or his assistant.",
+  "reportSubmitConfirm": "<p>You are about to mark this report as submitted to the Branch Office.</p><p>All records about late reports which were submitted with this month will be deleted. If it is necessary to undo the submission, you need to find the publishers’ reports and mark them as late again.</p><p>If all publishers’ reports which were approved to report 15-minute increments adds up to a full hour, these records will be deleted. If it is necessary to undo the submission, you need to find the publishers’ report and mark them as less than 1 hour again.</p>",
+  "continueConfirmMessage": "Are you sure to continue?",
+  "reportSubmittedBranchTitle": "Submit Report to the Branch Office"
 }

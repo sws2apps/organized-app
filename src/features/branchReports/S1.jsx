@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Markup } from 'interweave';
+import { useTheme } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -14,6 +17,7 @@ import S1Publishers from './S1Publishers';
 import S1AuxiliaryPioneers from './S1AuxiliaryPioneers';
 import S1RegularPioneers from './S1RegularPioneers';
 import { S1s } from '../../classes/S1s';
+import UserModal from '../../components/UserModal';
 
 const S1 = ({ serviceYear, month }) => {
   const { t } = useTranslation('ui');
@@ -23,6 +27,10 @@ const S1 = ({ serviceYear, month }) => {
   const [details, setDetails] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [isRefresh, setIsRefresh] = useState(false);
+  const [isConfirm, setIsConfirm] = useState(false);
+
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleGenerateS1 = async () => {
     setIsLoading(true);
@@ -35,6 +43,7 @@ const S1 = ({ serviceYear, month }) => {
   const handleMarkSubmitted = async () => {
     const currentReport = S1s.get(month);
     await currentReport.setAsSubmitted();
+    setIsConfirm(false);
     setIsRefresh((prev) => !prev);
   };
 
@@ -64,6 +73,19 @@ const S1 = ({ serviceYear, month }) => {
 
   return (
     <Box>
+      {isConfirm && (
+        <UserModal
+          fullScreen={fullScreen}
+          title={t('reportSubmittedBranchTitle')}
+          open={isConfirm}
+          setOpen={(value) => setIsConfirm(value)}
+          action={handleMarkSubmitted}
+        >
+          <Markup content={t('reportSubmitConfirm')} />
+          <Typography>{t('continueConfirmMessage')}</Typography>
+        </UserModal>
+      )}
+
       {isLoading && (
         <CircularProgress
           color="secondary"
@@ -108,12 +130,17 @@ const S1 = ({ serviceYear, month }) => {
                     href="https://hub.jw.org/congregation-reports"
                     sx={{ textTransform: 'none' }}
                   >
-                    JW HuB
+                    JW Hub
                   </Button>
                 )}
 
                 {!isSubmitted && (
-                  <Button variant="outlined" color="success" startIcon={<OutboundIcon />} onClick={handleMarkSubmitted}>
+                  <Button
+                    variant="outlined"
+                    color="success"
+                    startIcon={<OutboundIcon />}
+                    onClick={() => setIsConfirm(true)}
+                  >
                     {t('setBranchSubmitted')}
                   </Button>
                 )}
