@@ -1,3 +1,10 @@
+## [2.64.4](https://github.com/sws2apps/cpe-sws/compare/v2.64.3...v2.64.4) (2023-05-01)
+
+
+### Bug Fixes
+
+* **app:** handle undefined start date when sorting time away ([40c1e33](https://github.com/sws2apps/cpe-sws/commit/40c1e33881895359ffe741cdc2ae9e9faf5fda68))
+
 ## [2.64.3](https://github.com/sws2apps/cpe-sws/compare/v2.64.2...v2.64.3) (2023-05-01)
 
 
