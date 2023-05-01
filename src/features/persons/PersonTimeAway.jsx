@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next';
-import { format } from 'date-fns';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -11,7 +10,7 @@ const PersonTimeAway = ({ timeAway, setTimeAway }) => {
   const handleTimeAwayAdd = () => {
     const obj = {
       timeAwayId: window.crypto.randomUUID(),
-      startDate: format(new Date(), 'MM/dd/yyyy'),
+      startDate: new Date(),
       endDate: null,
       comments: '',
     };

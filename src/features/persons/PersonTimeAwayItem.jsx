@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { format } from 'date-fns';
 import { useTranslation } from 'react-i18next';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
@@ -40,17 +39,15 @@ const PersonTimeAwayItem = ({ timeAway, timeAways, setTimeAway }) => {
 
   const handleStartedChange = (newValue) => {
     if (newValue instanceof Date && !isNaN(newValue)) {
-      const d = format(newValue, 'MM/dd/yyyy');
       setStartedDate(newValue);
-      handleInfoChange(d, expiredDate, comments);
+      handleInfoChange(newValue, expiredDate, comments);
     }
   };
 
   const handleExpiredChange = (newValue) => {
     if (newValue instanceof Date && !isNaN(newValue)) {
-      const d = format(newValue, 'MM/dd/yyyy');
       setExpiredDate(newValue);
-      handleInfoChange(startedDate, d, comments);
+      handleInfoChange(startedDate, newValue, comments);
     }
   };
 
