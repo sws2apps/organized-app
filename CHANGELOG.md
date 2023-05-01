@@ -1,3 +1,10 @@
+## [2.64.3](https://github.com/sws2apps/cpe-sws/compare/v2.64.2...v2.64.3) (2023-05-01)
+
+
+### Bug Fixes
+
+* **persons:** error when viewing some persons ([f2c6df3](https://github.com/sws2apps/cpe-sws/commit/f2c6df338975d10d57ca0166e25227be648951c9))
+
 ## [2.64.2](https://github.com/sws2apps/cpe-sws/compare/v2.64.1...v2.64.2) (2023-04-30)
 
 
