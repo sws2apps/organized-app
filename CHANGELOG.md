@@ -1,3 +1,10 @@
+# [2.65.0](https://github.com/sws2apps/cpe-sws/compare/v2.64.5...v2.65.0) (2023-05-01)
+
+
+### Features
+
+* **persons:** use date object for time away start and  end date ([5467b53](https://github.com/sws2apps/cpe-sws/commit/5467b534ff9a96cd50fda580b5df40602d75a068))
+
 ## [2.64.5](https://github.com/sws2apps/cpe-sws/compare/v2.64.4...v2.64.5) (2023-05-01)
 
 
