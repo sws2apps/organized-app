@@ -98,17 +98,21 @@ export const loadApp = async () => {
 };
 
 export const sortHistoricalDateDesc = (data) => {
-	console.log(data);
 	data.sort((a, b) => {
-		if (a.startDate === b.startDate) return 0;
+		const dateA = new Date(
+			new Date(a.startDate).getFullYear(),
+			new Date(a.startDate).getMonth(),
+			new Date(a.startDate).getDate()
+		);
+		const dateB = new Date(
+			new Date(b.startDate).getFullYear(),
+			new Date(b.startDate).getMonth(),
+			new Date(b.startDate).getDate()
+		);
 
-		if (a.startDate || a.startDate !== null) {
-			const dateA = a.startDate.split('/')[2] + '/' + a.startDate.split('/')[0] + '/' + a.startDate.split('/')[1];
-			const dateB = b.startDate.split('/')[2] + '/' + b.startDate.split('/')[0] + '/' + b.startDate.split('/')[1];
-			return dateA > dateB ? 1 : -1;
-		}
+		if (dateA === dateB) return 0;
 
-		return 0;
+		return dateA > dateB ? 1 : -1;
 	});
 
 	return data;
