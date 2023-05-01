@@ -98,6 +98,7 @@ export const loadApp = async () => {
 };
 
 export const sortHistoricalDateDesc = (data) => {
+	console.log(data);
 	data.sort((a, b) => {
 		if (a.startDate === b.startDate) return 0;
 
