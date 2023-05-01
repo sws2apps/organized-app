@@ -1,3 +1,10 @@
+## [2.64.5](https://github.com/sws2apps/cpe-sws/compare/v2.64.4...v2.64.5) (2023-05-01)
+
+
+### Bug Fixes
+
+* **app:** an error preventing CPE from loading ([7f4e77f](https://github.com/sws2apps/cpe-sws/commit/7f4e77fa147a96fd9903f938b431b56b66979e1b))
+
 ## [2.64.4](https://github.com/sws2apps/cpe-sws/compare/v2.64.3...v2.64.4) (2023-05-01)
 
 
