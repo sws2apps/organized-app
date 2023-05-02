@@ -13,7 +13,7 @@
 
 ## Preview
 
-![cpe_lmmo_home png](https://user-images.githubusercontent.com/99427273/206681843-4bf8d5e9-a611-4bde-af69-8ce29542357c.jpg)
+![cpe_home](https://user-images.githubusercontent.com/26148770/235731032-a533fc84-3516-4f21-b1a7-a82ccc3ee88e.png)
 
 ## Who should use this app?
 
