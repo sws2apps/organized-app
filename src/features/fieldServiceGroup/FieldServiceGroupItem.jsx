@@ -59,6 +59,8 @@ const FieldServiceGroupItem = ({ currentList, group_index, group, isRefresh, set
   const openMenu = Boolean(anchorElMenu);
 
   const getPersonIcon = (person) => {
+    if (!person) return null;
+
     if (person.isOverseer || person.isAssistant) {
       return null;
     }
@@ -282,7 +284,7 @@ const FieldServiceGroupItem = ({ currentList, group_index, group, isRefresh, set
                 sx={{ display: 'flex', alignItems: 'center', gap: '10px', justifyContent: 'space-between' }}
               >
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <Avatar sx={{ height: '20px', width: '20px' }} alt="Student icon" src={getPersonIcon()}>
+                  <Avatar sx={{ height: '20px', width: '20px' }} alt="Student icon" src={getPersonIcon(person)}>
                     {person.isOverseer && <GroupIcon color="primary" sx={{ fontSize: '15px' }} />}
                     {person.isAssistant && <GroupIcon color="secondary" sx={{ fontSize: '15px' }} />}
                   </Avatar>
