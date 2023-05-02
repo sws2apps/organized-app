@@ -21,6 +21,7 @@ import {
 import { Schedules } from '../classes/Schedules';
 import { WeekTypeList } from '../classes/WeekType';
 import { Setting } from '../classes/Setting';
+import { checkLCAssignments } from '../utils/sourceMaterial';
 
 const S140 = () => {
   let navigate = useNavigate();
@@ -248,6 +249,14 @@ const S140 = () => {
     }
 
     return t('coTalk', { lng: sourceLang });
+  };
+
+  const getAssignedLCPerson = (weekItem, fldPers, fldSrc) => {
+    const noAssign = checkLCAssignments(weekItem.sourceData[fldSrc]);
+
+    if (!noAssign) return weekItem.scheduleData[fldPers];
+
+    return scheduleUseFullname ? weekItem.scheduleData.chairmanMM_A_name : weekItem.scheduleData.chairmanMM_A_dispName;
   };
 
   useEffect(() => {
@@ -564,7 +573,7 @@ const S140 = () => {
                                             partDuration={`${getLCPartTime(weekItem, fldTime, fldTimeOverride)} min.`}
                                           />
                                           <S140PartMiniLabel width="180px" />
-                                          <S140AssignedPerson person={weekItem.scheduleData[fldPers]} />
+                                          <S140AssignedPerson person={getAssignedLCPerson(weekItem, fldPers, fldSrc)} />
                                         </Box>
                                       )}
                                     </Box>
