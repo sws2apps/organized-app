@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
@@ -33,6 +34,7 @@ import {
   isOnlineState,
   isWhatsNewOpenState,
   restoreDbOpenState,
+  roleReloadState,
   sourceLangState,
   userConfirmationActionState,
   userConfirmationMessageState,
@@ -76,6 +78,7 @@ const DashboardMenu = () => {
   const isCongAccountConnected = useRecoilValue(congAccountConnectedState);
   const isOnline = useRecoilValue(isOnlineState);
   const accountType = useRecoilValue(accountTypeState);
+  const roleReload = useRecoilValue(roleReloadState);
 
   const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
   const secretaryRole = Setting.cong_role.includes('secretary');
@@ -301,6 +304,10 @@ const DashboardMenu = () => {
       ],
     },
   ];
+
+  useEffect(() => {
+    //reload on role refreshed
+  }, [roleReload]);
 
   return (
     <Box sx={{ padding: '20px', display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
