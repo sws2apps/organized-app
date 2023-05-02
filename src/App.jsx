@@ -11,10 +11,13 @@ import PrivateVipConnectedRoute from './components/PrivateVipConnectedRoute';
 import PrivateVipRoute from './components/PrivateVipRoute';
 import ErrorBoundary from './components/ErrorBoundary';
 import backupWorkerInstance from './workers/backupWorker';
-import { accountTypeState, apiHostState, isLightThemeState, isOnlineState, visitorIDState } from './states/main';
+import { apiHostState, isLightThemeState, isOnlineState, roleReloadState, visitorIDState } from './states/main';
 import { congAccountConnectedState } from './states/congregation';
 import { appSnackOpenState } from './states/notification';
 import WaitingPage from './components/WaitingPage';
+import { Setting } from './classes/Setting';
+import PrivateSecretaryRoute from './components/PrivateSecretaryRoute';
+import PrivateLMMORoute from './components/PrivateLMMORoute';
 
 // lazy loading
 const Layout = lazy(() => import('./components/Layout'));
@@ -61,11 +64,15 @@ const App = ({ updatePwa }) => {
   const isLight = useRecoilValue(isLightThemeState);
   const appSnackOpen = useRecoilValue(appSnackOpenState);
   const isCongAccountConnected = useRecoilValue(congAccountConnectedState);
-  const accountType = useRecoilValue(accountTypeState);
+  const roleReload = useRecoilValue(roleReloadState);
 
   const [activeTheme, setActiveTheme] = useState(darkTheme);
   const [isLoading, setIsLoading] = useState(true);
   const [isSupported, setIsSupported] = useState(true);
+
+  const secretaryRole = Setting.cong_role.includes('secretary');
+  const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
+  const adminRole = Setting.cong_role.includes('admin');
 
   const router = createHashRouter([
     {
@@ -82,7 +89,7 @@ const App = ({ updatePwa }) => {
           element: <Settings />,
         },
         {
-          element: <PrivateVipRoute accountType={accountType} />,
+          element: <PrivateVipRoute isLMMO={lmmoRole} isSecretary={secretaryRole} />,
           children: [
             {
               path: '/persons',
@@ -97,55 +104,66 @@ const App = ({ updatePwa }) => {
               element: <PersonDetails />,
             },
             {
-              path: '/schedules',
-              element: <Schedules />,
+              element: <PrivateLMMORoute isLMMO={lmmoRole} />,
+              children: [
+                {
+                  path: '/schedules',
+                  element: <Schedules />,
+                },
+                {
+                  path: '/schedules/:schedule',
+                  element: <ScheduleDetails />,
+                },
+                {
+                  path: '/schedules/:schedule/:weekToFormat',
+                  element: <ScheduleWeekDetails />,
+                },
+                {
+                  path: '/assignment-form',
+                  element: <S89 />,
+                },
+                {
+                  path: '/midweek-meeting-schedule',
+                  element: <S140 />,
+                },
+                {
+                  path: '/source-materials',
+                  element: <SourceMaterials />,
+                },
+                {
+                  path: '/source-materials/:weekToFormat',
+                  element: <SourceWeekDetails />,
+                },
+              ],
             },
             {
-              path: '/schedules/:schedule',
-              element: <ScheduleDetails />,
-            },
-            {
-              path: '/schedules/:schedule/:weekToFormat',
-              element: <ScheduleWeekDetails />,
-            },
-            {
-              path: '/assignment-form',
-              element: <S89 />,
-            },
-            {
-              path: '/midweek-meeting-schedule',
-              element: <S140 />,
-            },
-            {
-              path: '/source-materials',
-              element: <SourceMaterials />,
-            },
-            {
-              path: '/source-materials/:weekToFormat',
-              element: <SourceWeekDetails />,
+              element: <PrivateSecretaryRoute isSecretary={secretaryRole} />,
+              children: [
+                {
+                  path: '/field-service-group',
+                  element: <FieldServiceGroup />,
+                },
+                {
+                  path: '/meeting-attendance-record',
+                  element: <MeetingAttendance />,
+                },
+                {
+                  path: '/field-service-report',
+                  element: <FieldServiceReport />,
+                },
+                {
+                  path: '/branch-office-reports',
+                  element: <BranchOfficeReports />,
+                },
+              ],
             },
             {
               path: '/congregation-settings',
               element: <CongregationSettings />,
             },
+
             {
-              path: '/field-service-group',
-              element: <FieldServiceGroup />,
-            },
-            {
-              path: '/meeting-attendance-record',
-              element: <MeetingAttendance />,
-            },
-            {
-              path: '/field-service-report',
-              element: <FieldServiceReport />,
-            },
-            {
-              path: '/branch-office-reports',
-              element: <BranchOfficeReports />,
-            },
-            {
-              element: <PrivateVipConnectedRoute isCongAccountConnected={isCongAccountConnected} />,
+              element: <PrivateVipConnectedRoute isCongAccountConnected={isCongAccountConnected} isAdmin={adminRole} />,
               children: [
                 {
                   path: '/administration',
@@ -246,6 +264,8 @@ const App = ({ updatePwa }) => {
     checkBrowser();
     setIsLoading(false);
   }, []);
+
+  useEffect(() => {}, [roleReload]);
 
   if (isLoading) {
     return <WaitingPage />;
