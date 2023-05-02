@@ -401,3 +401,8 @@ export const currentMFAStageState = atom({
   key: 'currentMFAStage',
   default: 'setup',
 });
+
+export const roleReloadState = atom({
+  key: 'roleReload',
+  default: false,
+});
