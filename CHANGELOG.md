@@ -1,3 +1,18 @@
+# [2.66.0](https://github.com/sws2apps/cpe-sws/compare/v2.65.0...v2.66.0) (2023-05-02)
+
+
+### Bug Fixes
+
+* **app:** refresh dashboard page on user role change ([d43f773](https://github.com/sws2apps/cpe-sws/commit/d43f7731a747135776af6b03fb699f880c5a04b5))
+* **congregation:** params not passed when checking person icon in field service group ([834cc1f](https://github.com/sws2apps/cpe-sws/commit/834cc1f520f01e8952fdd4a40e6fb0bb0f79cfc3))
+
+
+### Features
+
+* **app:** protect routes according to user role ([1bea77b](https://github.com/sws2apps/cpe-sws/commit/1bea77b055529dfd750d2ea7e82f8c201cc010ed))
+* **deps:** bump date-fns from 2.29.3 to 2.30.0 ([f02cead](https://github.com/sws2apps/cpe-sws/commit/f02cead6d31440bddf1ed501e5fe155ed31a2ee1))
+* **pages:** display chairman on S-140 if organizational accomplishments part ([905e701](https://github.com/sws2apps/cpe-sws/commit/905e7013feef26233f56c5165af9d9f2485eef26))
+
 # [2.65.0](https://github.com/sws2apps/cpe-sws/compare/v2.64.5...v2.65.0) (2023-05-01)
 
 
