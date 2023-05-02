@@ -92,7 +92,7 @@ const SingleAssignment = ({
                   <EditIcon sx={{ fontSize: '24px' }} />
                 </IconButton>
               )}
-              {co && <Box sx={{ width: '26px' }}></Box>}
+              {co && edit && <Box sx={{ width: '26px' }}></Box>}
             </>
           )}
         </Box>

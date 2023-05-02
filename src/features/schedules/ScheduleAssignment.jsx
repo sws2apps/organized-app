@@ -826,7 +826,7 @@ const ScheduleAssignment = ({ edit }) => {
         {/* Talk CO */}
         {weekType === 2 && (
           <ScheduleRowAssignment
-            edit={true}
+            edit={edit}
             co={true}
             source={`${t('coTalk')} (30 min.)`}
             lcPart={coTalkTitle}
