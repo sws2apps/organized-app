@@ -59,7 +59,7 @@
     "@semantic-release/git": "^10.0.1",
     "@sws2apps/vite-plugin-package-version": "^1.1.0",
     "@types/react": "^18.2.2",
-    "@types/react-dom": "^18.2.1",
+    "@types/react-dom": "^18.2.3",
     "@vitejs/plugin-react": "^4.0.0",
     "eslint": "^8.39.0",
     "eslint-config-react-app": "^7.0.1",
