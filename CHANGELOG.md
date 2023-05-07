@@ -1,3 +1,19 @@
+# [2.67.0](https://github.com/sws2apps/cpe-sws/compare/v2.66.0...v2.67.0) (2023-05-07)
+
+
+### Bug Fixes
+
+* **schedules:** align circuit overseer name when viewing only schedule ([27aacef](https://github.com/sws2apps/cpe-sws/commit/27aacefc362601f1b50e202eefc310f91ae7d2b9))
+
+
+### Features
+
+* **deps:** bump @mui/lab from 5.0.0-alpha.128 to 5.0.0-alpha.129 ([acbd4e1](https://github.com/sws2apps/cpe-sws/commit/acbd4e1714616eaf47735b5e7de6dc1eb790feb1))
+* **deps:** bump @mui/material from 5.12.2 to 5.12.3 ([e3c28cc](https://github.com/sws2apps/cpe-sws/commit/e3c28cc88405f913c85c92c281bdaab8ae57c1f1))
+* **deps:** bump @mui/x-date-pickers from 6.3.0 to 6.3.1 ([47fb133](https://github.com/sws2apps/cpe-sws/commit/47fb133d44944a1b9328d6da6939c819cb22d454))
+* **deps:** bump react-router-dom from 6.11.0 to 6.11.1 ([63d1c79](https://github.com/sws2apps/cpe-sws/commit/63d1c79d0852ac6575a1b61a47d298f3bf5ac749))
+* **schedules:** enhance PDF creation with react-pdf library ([5c859d7](https://github.com/sws2apps/cpe-sws/commit/5c859d7be31792443f664decbab63d615235358b))
+
 # [2.66.0](https://github.com/sws2apps/cpe-sws/compare/v2.65.0...v2.66.0) (2023-05-02)
 
 
