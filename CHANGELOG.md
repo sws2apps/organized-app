@@ -1,3 +1,10 @@
+## [2.67.2](https://github.com/sws2apps/cpe-sws/compare/v2.67.1...v2.67.2) (2023-05-07)
+
+
+### Bug Fixes
+
+* **schedules:** omit preview for S-140 template ([b5ba6bf](https://github.com/sws2apps/cpe-sws/commit/b5ba6bf48d0166e5e823c75a6f516edde8b054fd))
+
 ## [2.67.1](https://github.com/sws2apps/cpe-sws/compare/v2.67.0...v2.67.1) (2023-05-07)
 
 
