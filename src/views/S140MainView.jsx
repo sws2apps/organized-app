@@ -1,6 +1,11 @@
+import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
-import { Document, Font, PDFViewer, Page, StyleSheet, Text, View } from '@react-pdf/renderer';
+import { Document, Font, Page, StyleSheet, Text, View, usePDF } from '@react-pdf/renderer';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import SaveAltIcon from '@mui/icons-material/SaveAlt';
+import Typography from '@mui/material/Typography';
+import WaitingPage from '../components/WaitingPage';
 import { Setting } from '../classes/Setting';
 import RobotoBold from '../fonts/Roboto-Bold.ttf';
 import RobotoRegular from '../fonts/Roboto-Regular.ttf';
@@ -828,12 +833,44 @@ const S140MainView = ({ data, currentSchedule }) => {
   );
 };
 
-const S140Previewer = ({ data, currentSchedule }) => {
+const S140Downloader = ({ url, currentSchedule }) => {
+  const navigate = useNavigate();
+
+  const { t } = useTranslation('ui');
+
+  const downloadFile = () => {
+    const link = document.createElement('a');
+    link.download = currentSchedule.value.replace('/', '-');
+    link.href = url;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    navigate('/schedules');
+  };
+
   return (
-    <Box sx={{ height: '85vh' }}>
-      <PDFViewer width={'100%'} height={'100%'}>
-        <S140MainView data={data} currentSchedule={currentSchedule} />
-      </PDFViewer>
+    <Box>
+      <Typography>{t('pdfGenerationComplete')}</Typography>
+      <Button
+        variant="contained"
+        color="primary"
+        startIcon={<SaveAltIcon />}
+        sx={{ margin: '10px 2px 2px 0' }}
+        onClick={downloadFile}
+      >
+        PDF
+      </Button>
+    </Box>
+  );
+};
+
+const S140Previewer = ({ data, currentSchedule }) => {
+  const [instance] = usePDF({ document: <S140MainView data={data} currentSchedule={currentSchedule} /> });
+
+  return (
+    <Box>
+      {(instance.url === null || instance.loading) && <WaitingPage />}
+      {!instance.loading && <S140Downloader url={instance?.url} currentSchedule={currentSchedule} />}
     </Box>
   );
 };
