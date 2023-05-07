@@ -1,3 +1,10 @@
+## [2.67.1](https://github.com/sws2apps/cpe-sws/compare/v2.67.0...v2.67.1) (2023-05-07)
+
+
+### Bug Fixes
+
+* **app:** update website default-src csp ([48117ea](https://github.com/sws2apps/cpe-sws/commit/48117ea130e2ea31e37f6c4bcaf92ef5291e92bb))
+
 # [2.67.0](https://github.com/sws2apps/cpe-sws/compare/v2.66.0...v2.67.0) (2023-05-07)
 
 
