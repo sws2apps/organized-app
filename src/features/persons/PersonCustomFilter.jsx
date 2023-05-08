@@ -8,6 +8,7 @@ import Divider from '@mui/material/Divider';
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 import { themeOptionsState } from '../../states/theme';
+import { FSGList } from '../../classes/FSGList';
 
 const PersonCustomFilter = () => {
   const { t } = useTranslation('ui');
@@ -21,25 +22,40 @@ const PersonCustomFilter = () => {
   const filterInitial = searchParams.filter === undefined ? 'allPersons' : searchParams.filter;
 
   const [filter, setFilter] = useState(filterInitial);
+  const [FSGOptions, setFSGOptions] = useState([]);
+  const [currentFSG, setCurrentFSG] = useState('');
 
   useEffect(() => {
     let searchParams = localStorage.getItem('searchParams');
     searchParams = searchParams ? JSON.parse(searchParams) : {};
     searchParams.filter = filter;
+    searchParams.fsg = currentFSG;
 
     localStorage.setItem('searchParams', JSON.stringify(searchParams));
-  }, [filter]);
+  }, [filter, currentFSG]);
+
+  useEffect(() => {
+    const FSGCurrent = FSGList.getCurrent();
+    if (FSGCurrent) {
+      let options = [];
+
+      for (const group of FSGCurrent.groups) {
+        options.push(group.group_uid);
+      }
+
+      setFSGOptions(options);
+    }
+  }, []);
 
   return (
-    <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+    <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
       <TextField
         id="outlined-select-service"
         select
         size="small"
         sx={{
           borderRadius: '5px',
-          flexGrow: 1,
-          maxWidth: '350px',
+          width: '350px',
           backgroundColor: alpha(theme.palette.common[themeOptions.searchBg], 0.25),
           '&:hover': {
             backgroundColor: alpha(theme.palette.common[themeOptions.searchBg], 0.15),
@@ -52,6 +68,7 @@ const PersonCustomFilter = () => {
         <MenuItem value="allPersons">{t('allPersons')}</MenuItem>
         <Divider />
         <MenuItem value="allPublishers">{t('allPublishers')}</MenuItem>
+        <MenuItem value="fieldServiceGroup">{t('fieldServiceGroup')}</MenuItem>
         <MenuItem value="unbaptizedPublishers">{t('unbaptizedPublishers')}</MenuItem>
         <MenuItem value="baptizedPublishers">{t('baptizedPublishers')}</MenuItem>
         <MenuItem value="auxiliaryPioneers">{t('auxiliaryPioneers')}</MenuItem>
@@ -60,6 +77,29 @@ const PersonCustomFilter = () => {
         <Divider />
         <MenuItem value="inactivePublishers">{t('inactivePublishers')}</MenuItem>
       </TextField>
+      {filter === 'fieldServiceGroup' && (
+        <TextField
+          id="outlined-select-field-service-group"
+          select
+          size="small"
+          sx={{
+            borderRadius: '5px',
+            width: '280px',
+            backgroundColor: alpha(theme.palette.common[themeOptions.searchBg], 0.25),
+            '&:hover': {
+              backgroundColor: alpha(theme.palette.common[themeOptions.searchBg], 0.15),
+            },
+          }}
+          value={currentFSG}
+          onChange={(e) => setCurrentFSG(e.target.value)}
+        >
+          {FSGOptions.map((group, index) => (
+            <MenuItem key={group} value={group}>
+              {`${t('fieldServiceGroup')} ${index + 1}`}
+            </MenuItem>
+          ))}
+        </TextField>
+      )}
     </Box>
   );
 };

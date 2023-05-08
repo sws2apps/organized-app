@@ -40,6 +40,10 @@ FSGListClass.prototype.get = function (uid) {
   return this.list.find((fsg) => fsg.fieldServiceGroup_uid === uid);
 };
 
+FSGListClass.prototype.getCurrent = function () {
+  return this.list.find((fsg) => fsg.isCurrent === true);
+};
+
 FSGListClass.prototype.setCurrentList = async function (uid) {
   for await (const fsgItem of this.list) {
     await fsgItem.setAsDraft();
