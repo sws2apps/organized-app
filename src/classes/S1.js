@@ -92,7 +92,7 @@ S1Class.prototype.generate = async function () {
   // get average weekend meeting attendance
   const S88 = S88s.list.find((item) => item.uid === this.service_year);
   const S3 = S88.months.find((item) => item.month_value === this.month);
-  data.weekendMeetingAttendanceAvg = S3.summaryMeeting('weekend').average;
+  data.weekendMeetingAttendanceAvg = S3?.summaryMeeting('weekend').average || 0;
 
   // collect active S-4 reports
   const allS21s = S21s.getAll(this.service_year);
@@ -252,4 +252,8 @@ S1Class.prototype.undoSubmission = async function () {
   await appDb.branchReports.update(this.report_uid, appData);
 
   this.details.isSubmitted = appData.details.isSubmitted;
+};
+
+S1Class.prototype.isSubmitted = function () {
+  return this.details.isSubmitted || false;
 };

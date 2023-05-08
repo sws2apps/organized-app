@@ -1,6 +1,7 @@
 import appDb from '../indexedDb/mainDb';
 import { comparePerson } from '../utils/compare';
 import { AssignmentType } from './AssignmentType';
+import { FSGList } from './FSGList';
 import { PersonClass } from './Person';
 import { Setting } from './Setting';
 
@@ -94,6 +95,7 @@ PersonsClass.prototype.filterLMMO = function (data) {
 PersonsClass.prototype.filterSecretary = function (data) {
   const txtSearch = data.txtSearch || '';
   const filter = data.filter;
+  const fsg = data.fsg || '';
   const month = data.month || `${new Date().getFullYear()}/${String(new Date().getMonth() + 1).padStart(2, '0')}/01`;
 
   let firstPassFiltered = [];
@@ -211,6 +213,21 @@ PersonsClass.prototype.filterSecretary = function (data) {
 
       if (isActive) {
         firstPassFiltered.push(person);
+      }
+    }
+  }
+
+  if (filter === 'fieldServiceGroup') {
+    const currentFSG = FSGList.getCurrent();
+    const currentGroup = currentFSG.groups.find((group) => group.group_uid === fsg);
+
+    if (currentGroup) {
+      for (const person of allPublishers) {
+        const isFound = currentGroup.persons.find((record) => record.person_uid === person.person_uid);
+
+        if (isFound) {
+          firstPassFiltered.push(person);
+        }
       }
     }
   }

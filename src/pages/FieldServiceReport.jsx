@@ -22,6 +22,7 @@ import { S4 } from '../features/fieldServiceReport';
 import { S21s } from '../classes/S21s';
 import { refreshReportState } from '../states/report';
 import { S1s } from '../classes/S1s';
+import { FSGList } from '../classes/FSGList';
 
 const FieldServiceReport = () => {
   const { t } = useTranslation('ui');
@@ -38,6 +39,8 @@ const FieldServiceReport = () => {
   const [haveReports, setHaveReports] = useState(0);
   const [totalPublishers, setTotalPublishers] = useState(0);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [FSGOptions, setFSGOptions] = useState([]);
+  const [currentFSG, setCurrentFSG] = useState('');
 
   const handleServiceYearChange = (value) => {
     setIsLoading(true);
@@ -82,9 +85,9 @@ const FieldServiceReport = () => {
   useEffect(() => {
     if (currentMonth && filter !== '') {
       setSelected(null);
-      setOptions(Persons.filterSecretary({ filter, month: currentMonth }));
+      setOptions(Persons.filterSecretary({ filter, month: currentMonth, fsg: currentFSG }));
     }
-  }, [filter, currentMonth]);
+  }, [filter, currentMonth, currentFSG]);
 
   useEffect(() => {
     let fetchTimer;
@@ -132,6 +135,19 @@ const FieldServiceReport = () => {
       setHaveReports(reports.length);
     }
   }, [currentMonth, refresh]);
+
+  useEffect(() => {
+    const FSGCurrent = FSGList.getCurrent();
+    if (FSGCurrent) {
+      let options = [];
+
+      for (const group of FSGCurrent.groups) {
+        options.push(group.group_uid);
+      }
+
+      setFSGOptions(options);
+    }
+  }, []);
 
   return (
     <Box sx={{ marginBottom: '30px' }}>
@@ -215,7 +231,7 @@ const FieldServiceReport = () => {
         <Typography sx={{ fontWeight: 'bold', marginLeft: '10px' }}>{`${haveReports}/${totalPublishers}`}</Typography>
       </Box>
 
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: '15px', flexWrap: 'wrap' }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: '15px', flexWrap: 'wrap', maxWidth: '500px' }}>
         <TextField
           id="outlined-select-filter"
           select
@@ -224,6 +240,7 @@ const FieldServiceReport = () => {
           onChange={(e) => setFilter(e.target.value)}
         >
           <MenuItem value="activePublishers">{t('activePublishers')}</MenuItem>
+          <MenuItem value="fieldServiceGroup">{t('fieldServiceGroup')}</MenuItem>
           <MenuItem value="unbaptizedPublishers">{t('unbaptizedPublishers')}</MenuItem>
           <MenuItem value="baptizedPublishers">{t('baptizedPublishers')}</MenuItem>
           <MenuItem value="auxiliaryPioneers">{t('auxiliaryPioneers')}</MenuItem>
@@ -233,6 +250,22 @@ const FieldServiceReport = () => {
           <Divider />
           <MenuItem value="inactivePublishers">{t('inactivePublishers')}</MenuItem>
         </TextField>
+        {filter === 'fieldServiceGroup' && (
+          <TextField
+            id="outlined-select-field-service-group"
+            select
+            size="small"
+            sx={{ width: '280px' }}
+            value={currentFSG}
+            onChange={(e) => setCurrentFSG(e.target.value)}
+          >
+            {FSGOptions.map((group, index) => (
+              <MenuItem key={group} value={group}>
+                {`${t('fieldServiceGroup')} ${index + 1}`}
+              </MenuItem>
+            ))}
+          </TextField>
+        )}
         <Autocomplete
           disablePortal
           id="combo-box-persons"

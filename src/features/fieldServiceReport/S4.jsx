@@ -83,16 +83,26 @@ const S4 = ({ serviceYear, month, person }) => {
     }
 
     if (serviceYear === ServiceYear.getCurrent().uid) {
-      const currentMonth = `${new Date().getFullYear()}/${String(new Date().getMonth() + 1).padStart(2, '0')}/01`;
+      const currentMonth = ServiceYear.currentReportMonth();
+
       if (month !== currentMonth) {
         setLatePossible(true);
         return;
       }
 
+      const S1 = S1s.get(month);
+
+      if (S1) {
+        if (S1.isSubmitted()) {
+          setLatePossible(true);
+          return;
+        }
+      }
+
       if (new Date().getDate() > 20) {
-        setLatePossible(false);
-      } else {
         setLatePossible(true);
+      } else {
+        setLatePossible(false);
       }
     }
   }, [serviceYear, month]);

@@ -152,6 +152,7 @@ const Persons = () => {
     const isUnassigned = searchParams.isUnassigned === undefined ? false : searchParams.isUnassigned;
     const assTypes = searchParams.assTypes || [];
     const filter = searchParams.filter === undefined ? 'allPersons' : searchParams.filter;
+    const fsg = searchParams.fsg === undefined ? '' : searchParams.fsg;
 
     setIsSearch(true);
     setTimeout(async () => {
@@ -162,6 +163,7 @@ const Persons = () => {
         isUnassigned,
         assTypes,
         filter,
+        fsg,
       });
       setPersons(result);
       setIsSearch(false);
