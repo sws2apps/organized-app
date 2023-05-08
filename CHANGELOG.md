@@ -1,3 +1,10 @@
+## [2.68.2](https://github.com/sws2apps/cpe-sws/compare/v2.68.1...v2.68.2) (2023-05-08)
+
+
+### Bug Fixes
+
+* **schedules:** update translation key for no meeting ([551713d](https://github.com/sws2apps/cpe-sws/commit/551713d68507a61e9cdd9ff45e1f80d4e729c44a))
+
 ## [2.68.1](https://github.com/sws2apps/cpe-sws/compare/v2.68.0...v2.68.1) (2023-05-08)
 
 
