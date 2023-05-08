@@ -1,3 +1,10 @@
+## [2.68.1](https://github.com/sws2apps/cpe-sws/compare/v2.68.0...v2.68.1) (2023-05-08)
+
+
+### Bug Fixes
+
+* **persons:** save selected field service group for next search ([8fad882](https://github.com/sws2apps/cpe-sws/commit/8fad882ddb66f75d23880bc5ac11d8612663a302))
+
 # [2.68.0](https://github.com/sws2apps/cpe-sws/compare/v2.67.2...v2.68.0) (2023-05-08)
 
 
