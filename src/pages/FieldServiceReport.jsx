@@ -24,6 +24,19 @@ import { refreshReportState } from '../states/report';
 import { S1s } from '../classes/S1s';
 import { FSGList } from '../classes/FSGList';
 
+const FSGOptions = () => {
+  let options = [];
+
+  const FSGCurrent = FSGList.getCurrent();
+  if (FSGCurrent) {
+    for (const group of FSGCurrent.groups) {
+      options.push(group.group_uid);
+    }
+  }
+
+  return options;
+};
+
 const FieldServiceReport = () => {
   const { t } = useTranslation('ui');
 
@@ -39,7 +52,6 @@ const FieldServiceReport = () => {
   const [haveReports, setHaveReports] = useState(0);
   const [totalPublishers, setTotalPublishers] = useState(0);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [FSGOptions, setFSGOptions] = useState([]);
   const [currentFSG, setCurrentFSG] = useState('');
 
   const handleServiceYearChange = (value) => {
@@ -135,19 +147,6 @@ const FieldServiceReport = () => {
       setHaveReports(reports.length);
     }
   }, [currentMonth, refresh]);
-
-  useEffect(() => {
-    const FSGCurrent = FSGList.getCurrent();
-    if (FSGCurrent) {
-      let options = [];
-
-      for (const group of FSGCurrent.groups) {
-        options.push(group.group_uid);
-      }
-
-      setFSGOptions(options);
-    }
-  }, []);
 
   return (
     <Box sx={{ marginBottom: '30px' }}>
@@ -259,7 +258,7 @@ const FieldServiceReport = () => {
             value={currentFSG}
             onChange={(e) => setCurrentFSG(e.target.value)}
           >
-            {FSGOptions.map((group, index) => (
+            {FSGOptions().map((group, index) => (
               <MenuItem key={group} value={group}>
                 {`${t('fieldServiceGroup')} ${index + 1}`}
               </MenuItem>
