@@ -15,65 +15,65 @@ import { Setting } from '../classes/Setting';
 import { Schedules } from '../classes/Schedules';
 
 const ScheduleWeekDetails = () => {
-  const { t } = useTranslation('ui');
-  const navigate = useNavigate();
-  const { schedule, weekToFormat } = useParams();
+	const { t } = useTranslation('ui');
+	const navigate = useNavigate();
+	const { schedule, weekToFormat } = useParams();
 
-  const [noMeeting, setNoMeeting] = useState(false);
+	const [noMeeting, setNoMeeting] = useState(false);
 
-  const shortDateFormat = useRecoilValue(shortDateFormatState);
+	const shortDateFormat = useRecoilValue(shortDateFormatState);
 
-  const scheduleFormatted = schedule.replace('-', '/');
-  const monthIndex = parseInt(scheduleFormatted.split('/')[0], 10);
-  const scheduleName = `${Setting.monthNames()[monthIndex - 1]} ${scheduleFormatted.split('/')[1]}`;
+	const scheduleFormatted = schedule.replace('-', '/');
+	const monthIndex = parseInt(scheduleFormatted.split('/')[0], 10);
+	const scheduleName = `${Setting.monthNames()[monthIndex - 1]} ${scheduleFormatted.split('/')[1]}`;
 
-  const week = weekToFormat.replaceAll('-', '/');
-  const weekFormatted = dateFormat(new Date(week), shortDateFormat);
+	const week = weekToFormat.replaceAll('-', '/');
+	const weekFormatted = dateFormat(new Date(week), shortDateFormat);
 
-  const handleNavigateSchedule = () => {
-    navigate(`/schedules/${schedule}`);
-  };
+	const handleNavigateSchedule = () => {
+		navigate(`/schedules/${schedule}`);
+	};
 
-  useEffect(() => {
-    if (week !== '') {
-      const scheduleData = Schedules.get(week);
-      setNoMeeting(scheduleData.noMeeting);
-    }
-  }, [t, week]);
+	useEffect(() => {
+		if (week !== '') {
+			const scheduleData = Schedules.get(week);
+			setNoMeeting(scheduleData.noMeeting);
+		}
+	}, [t, week]);
 
-  if (noMeeting) {
-    return (
-      <Container
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          height: '60vh',
-        }}
-      >
-        <NoMeetingRoomIcon color="error" sx={{ fontSize: '150px' }} />
-        <Typography variant="body1" align="center">
-          {t('noMidweekMeeting')}
-        </Typography>
-      </Container>
-    );
-  }
+	if (noMeeting) {
+		return (
+			<Container
+				sx={{
+					display: 'flex',
+					flexDirection: 'column',
+					alignItems: 'center',
+					justifyContent: 'center',
+					height: '60vh',
+				}}
+			>
+				<NoMeetingRoomIcon color='error' sx={{ fontSize: '150px' }} />
+				<Typography variant='body1' align='center'>
+					{t('noMeeting')}
+				</Typography>
+			</Container>
+		);
+	}
 
-  return (
-    <Box>
-      <Box sx={{ display: 'flex', gap: '10px', alignItems: 'center', marginBottom: '20px' }}>
-        <IconButton onClick={handleNavigateSchedule}>
-          <ArrowBackIcon sx={{ fontSize: '30px' }} />
-        </IconButton>
-        <Typography sx={{ textTransform: 'uppercase', fontWeight: 'bold' }}>
-          {`${t('schedule')} > ${scheduleName} > ${weekFormatted}`}
-        </Typography>
-      </Box>
+	return (
+		<Box>
+			<Box sx={{ display: 'flex', gap: '10px', alignItems: 'center', marginBottom: '20px' }}>
+				<IconButton onClick={handleNavigateSchedule}>
+					<ArrowBackIcon sx={{ fontSize: '30px' }} />
+				</IconButton>
+				<Typography sx={{ textTransform: 'uppercase', fontWeight: 'bold' }}>
+					{`${t('schedule')} > ${scheduleName} > ${weekFormatted}`}
+				</Typography>
+			</Box>
 
-      <ScheduleAssignment edit={true} />
-    </Box>
-  );
+			<ScheduleAssignment edit={true} />
+		</Box>
+	);
 };
 
 export default ScheduleWeekDetails;
