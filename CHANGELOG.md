@@ -1,3 +1,10 @@
+# [2.68.0](https://github.com/sws2apps/cpe-sws/compare/v2.67.2...v2.68.0) (2023-05-08)
+
+
+### Features
+
+* **app:** add filter by person field service group ([324ebeb](https://github.com/sws2apps/cpe-sws/commit/324ebeb6ef233bab545bf77a2525c24324824d57))
+
 ## [2.67.2](https://github.com/sws2apps/cpe-sws/compare/v2.67.1...v2.67.2) (2023-05-07)
 
 
