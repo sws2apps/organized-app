@@ -10,6 +10,19 @@ import TextField from '@mui/material/TextField';
 import { themeOptionsState } from '../../states/theme';
 import { FSGList } from '../../classes/FSGList';
 
+const FSGOptions = () => {
+  let options = [];
+
+  const FSGCurrent = FSGList.getCurrent();
+  if (FSGCurrent) {
+    for (const group of FSGCurrent.groups) {
+      options.push(group.group_uid);
+    }
+  }
+
+  return options;
+};
+
 const PersonCustomFilter = () => {
   const { t } = useTranslation('ui');
 
@@ -20,10 +33,10 @@ const PersonCustomFilter = () => {
   let searchParams = localStorage.getItem('searchParams');
   searchParams = searchParams ? JSON.parse(searchParams) : {};
   const filterInitial = searchParams.filter === undefined ? 'allPersons' : searchParams.filter;
+  const fsgInitial = searchParams.fsg === undefined ? '' : searchParams.fsg;
 
   const [filter, setFilter] = useState(filterInitial);
-  const [FSGOptions, setFSGOptions] = useState([]);
-  const [currentFSG, setCurrentFSG] = useState('');
+  const [currentFSG, setCurrentFSG] = useState(fsgInitial);
 
   useEffect(() => {
     let searchParams = localStorage.getItem('searchParams');
@@ -33,19 +46,6 @@ const PersonCustomFilter = () => {
 
     localStorage.setItem('searchParams', JSON.stringify(searchParams));
   }, [filter, currentFSG]);
-
-  useEffect(() => {
-    const FSGCurrent = FSGList.getCurrent();
-    if (FSGCurrent) {
-      let options = [];
-
-      for (const group of FSGCurrent.groups) {
-        options.push(group.group_uid);
-      }
-
-      setFSGOptions(options);
-    }
-  }, []);
 
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
@@ -93,7 +93,7 @@ const PersonCustomFilter = () => {
           value={currentFSG}
           onChange={(e) => setCurrentFSG(e.target.value)}
         >
-          {FSGOptions.map((group, index) => (
+          {FSGOptions().map((group, index) => (
             <MenuItem key={group} value={group}>
               {`${t('fieldServiceGroup')} ${index + 1}`}
             </MenuItem>
