@@ -1,3 +1,16 @@
+# [2.69.0](https://github.com/sws2apps/cpe-sws/compare/v2.68.2...v2.69.0) (2023-05-09)
+
+
+### Bug Fixes
+
+* **field-service-report:** undefined date when posting publisher report ([132d86d](https://github.com/sws2apps/cpe-sws/commit/132d86d66489562eb2fb13af05c1c8169f5a6c24))
+
+
+### Features
+
+* **deps:** bump @emotion/react from 11.10.8 to 11.11.0 ([26812e8](https://github.com/sws2apps/cpe-sws/commit/26812e8ae077a8620e6788ab23bdd2056e21ba19))
+* **deps:** bump @emotion/styled from 11.10.8 to 11.11.0 ([500d003](https://github.com/sws2apps/cpe-sws/commit/500d0036808038ad9f36723003c6e954ebb8b957))
+
 ## [2.68.2](https://github.com/sws2apps/cpe-sws/compare/v2.68.1...v2.68.2) (2023-05-08)
 
 
