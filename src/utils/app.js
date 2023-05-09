@@ -270,6 +270,9 @@ export const addMonths = (date, value) => {
 };
 
 export const monthDiff = (startDate, endDate) => {
+	startDate = new Date(startDate)
+	endDate = new Date(endDate)
+	
 	return endDate.getMonth() - startDate.getMonth() + 12 * (endDate.getFullYear() - startDate.getFullYear());
 };
 

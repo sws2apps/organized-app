@@ -171,7 +171,7 @@ PersonClass.prototype.canBeAuxiliaryPioneer = function (month) {
 
   if (auxPionnerCurrent) result = false;
 
-  const tmpDiff = monthDiff(this.immersedDate, new Date(month));
+  const tmpDiff = monthDiff(this.immersedDate, month);
   if (tmpDiff <= 0) result = false;
 
   return result;
