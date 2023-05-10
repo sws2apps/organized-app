@@ -1,3 +1,10 @@
+## [2.69.1](https://github.com/sws2apps/cpe-sws/compare/v2.69.0...v2.69.1) (2023-05-10)
+
+
+### Bug Fixes
+
+* **app:** refresh dashboard page on setting loaded ([7698baa](https://github.com/sws2apps/cpe-sws/commit/7698baa574510024526e86d5f2034187c6e8e064))
+
 # [2.69.0](https://github.com/sws2apps/cpe-sws/compare/v2.68.2...v2.69.0) (2023-05-09)
 
 
