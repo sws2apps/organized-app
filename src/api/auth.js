@@ -134,7 +134,11 @@ export const apiHandleVerifyOTP = async (userOTP, isSetup, trustedDevice) => {
         obj.cong_number = cong_number;
         obj.isLoggedOut = false;
         obj.user_members_delegate = user_members_delegate;
-        obj.user_local_uid = user_local_uid;
+
+        if (user_local_uid && user_local_uid !== null) {
+          obj.user_local_uid = user_local_uid;
+        }
+
         obj.cong_role = cong_role;
         obj.account_type = 'vip';
         await Setting.update(obj);
