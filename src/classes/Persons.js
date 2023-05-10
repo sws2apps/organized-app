@@ -219,14 +219,16 @@ PersonsClass.prototype.filterSecretary = function (data) {
 
   if (filter === 'fieldServiceGroup') {
     const currentFSG = FSGList.getCurrent();
-    const currentGroup = currentFSG.groups.find((group) => group.group_uid === fsg);
+    if (currentFSG) {
+      const currentGroup = currentFSG.groups.find((group) => group.group_uid === fsg);
 
-    if (currentGroup) {
-      for (const person of allPublishers) {
-        const isFound = currentGroup.persons.find((record) => record.person_uid === person.person_uid);
+      if (currentGroup) {
+        for (const person of allPublishers) {
+          const isFound = currentGroup.persons.find((record) => record.person_uid === person.person_uid);
 
-        if (isFound) {
-          firstPassFiltered.push(person);
+          if (isFound) {
+            firstPassFiltered.push(person);
+          }
         }
       }
     }
