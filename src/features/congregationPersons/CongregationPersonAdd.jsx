@@ -127,7 +127,7 @@ const CongregationPersonAdd = () => {
           api = `${apiHost}api/congregations/${congID}/pockets`;
           body = JSON.stringify({
             username: selectedPocket.person_name,
-            pocket_local_id: { person_uid: selectedPocket.person_uid, person_name: selectedPocket.person_name },
+            user_local_uid: selectedPocket.person_uid,
           });
         } else {
           api = `${apiHost}api/congregations/${congID}/members`;
@@ -172,7 +172,7 @@ const CongregationPersonAdd = () => {
   useEffect(() => {
     let newMembers = Persons.list;
     congMembers.forEach((member) => {
-      newMembers = newMembers.filter((item) => item.person_uid !== member.pocket_local_id);
+      newMembers = newMembers.filter((item) => item.person_uid !== member.user_local_uid);
     });
     setFilteredPersons(newMembers);
   }, [congMembers]);

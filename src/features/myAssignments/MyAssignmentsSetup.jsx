@@ -19,7 +19,7 @@ const MyAssignmentsSetup = ({ overrideEdit, setOverrideEdit }) => {
   const [value, setValue] = useState(null);
 
   const handleSetLocalUid = async () => {
-    await Setting.update({ local_uid: value.person_uid });
+    await Setting.update({ user_local_uid: value.person_uid });
     setLocalUid(value.person_uid);
     setOverrideEdit(false);
   };

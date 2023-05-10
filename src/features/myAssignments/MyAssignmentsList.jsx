@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import MyAssignmentsMonth from './MyAssignmentsMonth';
 import { appLangState, monthNamesState, refreshMyAssignmentsState, userLocalUidState } from '../../states/main';
-import { pocketLocalIDState, pocketMembersState } from '../../states/congregation';
+import { pocketLocalIDState, userMembersDelegateState } from '../../states/congregation';
 import { fetchMyAssignments } from '../../utils/schedule';
 
 const MyAssignmentsList = () => {
@@ -13,7 +13,7 @@ const MyAssignmentsList = () => {
   const monthNames = useRecoilValue(monthNamesState);
   const appLang = useRecoilValue(appLangState);
   const refresh = useRecoilValue(refreshMyAssignmentsState);
-  const pocketMembers = useRecoilValue(pocketMembersState);
+  const userDelegate = useRecoilValue(userMembersDelegateState);
 
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);
@@ -48,7 +48,7 @@ const MyAssignmentsList = () => {
 
     setData(tempData4);
     setIsLoading(false);
-  }, [appLang, vipLocalUid, pocketLocalUid, monthNames, refresh, pocketMembers]);
+  }, [appLang, vipLocalUid, pocketLocalUid, monthNames, refresh, userDelegate]);
 
   return (
     <Box>

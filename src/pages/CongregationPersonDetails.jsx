@@ -25,7 +25,7 @@ import {
 import { Setting } from '../classes/Setting';
 import { apiHostState, rootModalOpenState, visitorIDState } from '../states/main';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../states/notification';
-import { congIDState, pocketMembersState } from '../states/congregation';
+import { congIDState, userMembersDelegateState } from '../states/congregation';
 
 const CongregationPersonDetails = () => {
   const { id } = useParams();
@@ -40,7 +40,7 @@ const CongregationPersonDetails = () => {
   const setAppSeverity = useSetRecoilState(appSeverityState);
   const setAppMessage = useSetRecoilState(appMessageState);
   const setRootModalOpen = useSetRecoilState(rootModalOpenState);
-  const setPocketMembers = useSetRecoilState(pocketMembersState);
+  const setUserDelegate = useSetRecoilState(userMembersDelegateState);
 
   const apiHost = useRecoilValue(apiHostState);
   const visitorID = useRecoilValue(visitorIDState);
@@ -133,13 +133,13 @@ const CongregationPersonDetails = () => {
     });
   };
 
-  const handleUpdatePocketMembers = (value) => {
+  const handleUpdateUserDelegate = (value) => {
     const newValue = value.map((selected) => {
       return { person_uid: selected.person_uid, person_name: selected.person_name };
     });
 
     setMember((prev) => {
-      return { ...prev, pocket_members: newValue };
+      return { ...prev, user_members_delegate: newValue };
     });
   };
 
@@ -147,7 +147,7 @@ const CongregationPersonDetails = () => {
     setMember((prev) => {
       return {
         ...prev,
-        pocket_local_id: value === null ? '' : { person_uid: value.person_uid, person_name: value.person_name },
+        user_local_uid: value === null ? '' : value.person_uid,
       };
     });
   };
@@ -314,21 +314,16 @@ const CongregationPersonDetails = () => {
       if (apiHost !== '' && congID !== '') {
         setRootModalOpen(true);
 
-        let reqPayload = {};
+        const reqPayload = {
+          user_role: member.cong_role,
+          user_members_delegate: member.user_members_delegate,
+          user_local_uid: member.user_local_uid,
+        };
+
         let api = '';
         if (person.global_role === 'pocket') {
-          reqPayload = {
-            cong_role: member.cong_role,
-            pocket_members: member.pocket_members,
-            pocket_local_id: member.pocket_local_id,
-          };
           api = `${apiHost}api/congregations/${congID}/pockets/${person.id}`;
         } else {
-          reqPayload = {
-            user_role: member.cong_role,
-            pocket_members: member.pocket_members,
-            pocket_local_id: member.pocket_local_id,
-          };
           api = `${apiHost}api/congregations/${congID}/members/${person.id}`;
         }
 
@@ -349,8 +344,8 @@ const CongregationPersonDetails = () => {
           queryClient.invalidateQueries({ queryKey: ['congPersons'] });
 
           if (user.email === person.user_uid) {
-            await Setting.update({ pocket_members: member.pocket_members });
-            setPocketMembers(member.pocket_members);
+            await Setting.update({ user_members_delegate: member.user_members_delegate });
+            setUserDelegate(member.user_members_delegate);
           }
           return;
         }
@@ -431,71 +426,69 @@ const CongregationPersonDetails = () => {
             <Box sx={{ flexGrow: 1 }}>
               {/* Name and Email */}
               <CongregationPersonBasic person={person} />
+            </Box>
+          </Box>
 
-              {/* Roles */}
-              <CongregationPersonRoles
+          <Box sx={{ padding: '0 10px' }}>
+            {/* Roles */}
+            <CongregationPersonRoles
+              member={member}
+              handleCheckAdmin={(value) => handleCheckAdmin(value)}
+              handleCheckLMMO={(value) => handleCheckLMMO(value)}
+              handleCheckLMMOAssistant={(value) => handleCheckLMMOAssistant(value)}
+              handleCheckSecretary={(value) => handleCheckSecretary(value)}
+              handleCheckViewMeetingSchedule={(value) => handleCheckViewMeetingSchedule(value)}
+            />
+
+            {/* Local records */}
+            <CongregationPersonLocalRecord
+              member={member}
+              handleUpdatePocketLocalId={(value) => handleUpdatePocketLocalId(value)}
+            />
+
+            {/* View Meeting Schedules for Others */}
+            <CongregationPersonDelegates
+              member={member}
+              person={person}
+              handleUpdateUserDelegate={(value) => handleUpdateUserDelegate(value)}
+            />
+
+            {/* Pocket Setup */}
+            {member.global_role === 'pocket' && (
+              <CongregationPersonPocketSetup
                 member={member}
-                handleCheckAdmin={(value) => handleCheckAdmin(value)}
-                handleCheckLMMO={(value) => handleCheckLMMO(value)}
-                handleCheckLMMOAssistant={(value) => handleCheckLMMOAssistant(value)}
-                handleCheckSecretary={(value) => handleCheckSecretary(value)}
-                handleCheckViewMeetingSchedule={(value) => handleCheckViewMeetingSchedule(value)}
+                handleDeleteOCode={handleDeleteOCode}
+                handleGenerateOCode={handleGenerateOCode}
               />
+            )}
 
-              {/* Local records */}
-              {user && user.email !== person.user_uid && member.cong_role?.includes('view_meeting_schedule') && (
-                <CongregationPersonLocalRecord
-                  member={member}
-                  handleUpdatePocketLocalId={(value) => handleUpdatePocketLocalId(value)}
-                />
-              )}
+            {/* Sessions or Devices */}
+            <Box sx={{ marginTop: '20px' }}>
+              <Typography
+                sx={{ fontWeight: 'bold', marginBottom: '20px', borderBottom: '1px outset', paddingBottom: '5px' }}
+              >
+                {t('sessionsDevices')}
+              </Typography>
 
-              {/* View Meeting Schedules for Others */}
-              {member.cong_role?.includes('view_meeting_schedule') && (
-                <CongregationPersonDelegates
-                  member={member}
-                  person={person}
-                  handleUpdatePocketMembers={(value) => handleUpdatePocketMembers(value)}
-                />
-              )}
+              <Grid container spacing={2}>
+                {person.global_role === 'vip' &&
+                  person.sessions.map((session) => (
+                    <CongregationPersonVipDevice
+                      key={session.visitorID}
+                      session={session}
+                      handleRevokeSession={(value) => handleRevokeSession(value)}
+                    />
+                  ))}
 
-              {/* Pocket Setup */}
-              {member.global_role === 'pocket' && (
-                <CongregationPersonPocketSetup
-                  member={member}
-                  handleDeleteOCode={handleDeleteOCode}
-                  handleGenerateOCode={handleGenerateOCode}
-                />
-              )}
-
-              {/* Sessions or Devices */}
-              <Box sx={{ marginTop: '20px' }}>
-                <Typography
-                  sx={{ fontWeight: 'bold', marginBottom: '20px', borderBottom: '1px outset', paddingBottom: '5px' }}
-                >
-                  {t('sessionsDevices')}
-                </Typography>
-
-                <Grid container spacing={2}>
-                  {person.global_role === 'vip' &&
-                    person.sessions.map((session) => (
-                      <CongregationPersonVipDevice
-                        key={session.visitorID}
-                        session={session}
-                        handleRevokeSession={(value) => handleRevokeSession(value)}
-                      />
-                    ))}
-
-                  {person.global_role === 'pocket' &&
-                    person.pocket_devices.map((device) => (
-                      <CongregationPersonPocketDevice
-                        key={device.visitorid}
-                        device={device}
-                        handleDeleteDevice={(value) => handleDeleteDevice(value)}
-                      />
-                    ))}
-                </Grid>
-              </Box>
+                {person.global_role === 'pocket' &&
+                  person.pocket_devices.map((device) => (
+                    <CongregationPersonPocketDevice
+                      key={device.visitorid}
+                      device={device}
+                      handleDeleteDevice={(value) => handleDeleteDevice(value)}
+                    />
+                  ))}
+              </Grid>
             </Box>
           </Box>
         </Box>

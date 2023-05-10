@@ -8,6 +8,8 @@ import { Persons } from '../../classes/Persons';
 const CongregationPersonLocalRecord = ({ member, handleUpdatePocketLocalId }) => {
   const { t } = useTranslation('ui');
 
+  const value = Persons.get(member.user_local_uid) || null;
+
   return (
     <Box sx={{ marginTop: '20px' }}>
       <Typography sx={{ fontWeight: 'bold', marginBottom: '10px', borderBottom: '1px outset', paddingBottom: '5px' }}>
@@ -16,7 +18,7 @@ const CongregationPersonLocalRecord = ({ member, handleUpdatePocketLocalId }) =>
       <Box maxWidth={'280px'}>
         <Autocomplete
           id="tags-standard"
-          value={member.pocket_local_id === '' ? null : member.pocket_local_id}
+          value={value}
           onChange={(e, value) => handleUpdatePocketLocalId(value)}
           options={Persons.list}
           getOptionLabel={(option) => option.person_name}

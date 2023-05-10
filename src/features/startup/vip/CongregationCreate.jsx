@@ -26,7 +26,7 @@ import {
   congIDState,
   isAdminCongState,
   isUpdateForVerificationState,
-  pocketMembersState,
+  userMembersDelegateState,
 } from '../../../states/congregation';
 import { loadApp } from '../../../utils/app';
 import { runUpdater } from '../../../utils/updater';
@@ -54,7 +54,7 @@ const CongregationCreate = () => {
   const setOfflineOverride = useSetRecoilState(offlineOverrideState);
   const setCongAccountConnected = useSetRecoilState(congAccountConnectedState);
   const setIsAppLoad = useSetRecoilState(isAppLoadState);
-  const setPocketMembers = useSetRecoilState(pocketMembersState);
+  const setUserDelegate = useSetRecoilState(userMembersDelegateState);
 
   const isUpdateCong = useRecoilValue(isUpdateForVerificationState);
   const congId = useRecoilValue(congIDState);
@@ -103,7 +103,7 @@ const CongregationCreate = () => {
       }
 
       if (status === 200) {
-        const { id, cong_id, cong_name, cong_role, cong_number, pocket_members } = data;
+        const { id, cong_id, cong_name, cong_role, cong_number, user_members_delegate } = data;
 
         if (cong_role.length > 0) {
           // role admin
@@ -121,11 +121,11 @@ const CongregationCreate = () => {
             obj.isCongUpdated2 = true;
             obj.cong_name = cong_name;
             obj.cong_number = cong_number;
-            obj.pocket_members = pocket_members;
+            obj.user_members_delegate = user_members_delegate;
             await Setting.update(obj);
 
             setUserID(id);
-            setPocketMembers(pocket_members);
+            setUserDelegate(user_members_delegate);
 
             await loadApp();
 

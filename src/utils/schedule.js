@@ -14,6 +14,10 @@ export const getHistoryInfo = (weekOf, assignment) => {
   const lDate = new Date(varYear, varMonth - 1, varDay);
   const dateFormatted = dateFormat(lDate, Setting.shortDateFormat());
 
+  const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
+  const secretaryRole = Setting.cong_role.includes('secretary');
+  const viewMeetingScheduleRole = Setting.cong_role.includes('view_meeting_schedule');
+
   const schedule = Schedules.get(weekOf);
 
   const history = {};
@@ -22,12 +26,12 @@ export const getHistoryInfo = (weekOf, assignment) => {
   history.weekOfFormatted = dateFormatted;
   history.studentID = schedule[assignment];
 
-  if (Setting.account_type === 'vip') {
+  if (lmmoRole || secretaryRole) {
     const person = Persons.get(history.studentID);
     history.studentName = person?.person_displayName || '';
   }
 
-  if (Setting.account_type === 'pocket') {
+  if (viewMeetingScheduleRole) {
     const fldDispName = `${assignment}_dispName`;
     history.studentName = schedule[fldDispName];
   }
@@ -111,12 +115,12 @@ export const getHistoryInfo = (weekOf, assignment) => {
     const fldStudent = assignment.replace('_stu_', '_ass_');
     const fldValue = schedule[fldStudent];
 
-    if (Setting.account_type === 'vip') {
+    if (lmmoRole || secretaryRole) {
       const person = Persons.get(fldValue);
       history.assistantDispName = person?.person_displayName || '';
     }
 
-    if (Setting.account_type === 'pocket') {
+    if (viewMeetingScheduleRole) {
       const fldDispName = `${fldStudent}_dispName`;
       history.assistantDispName = schedule[fldDispName];
     }
@@ -126,20 +130,36 @@ export const getHistoryInfo = (weekOf, assignment) => {
   if (assignment.startsWith('ass') && assignment.includes('_ass_')) {
     const fldStudent = assignment.replace('_ass_', '_stu_');
     const fldValue = schedule[fldStudent];
+    const weekFld = assignment.split('_')[0] + '_type';
+    const assType = weekData[weekFld];
 
-    if (Setting.account_type === 'vip') {
+    if (lmmoRole || secretaryRole) {
       const person = Persons.get(fldValue);
       history.studentForAssistant = person?.person_displayName || '';
     }
 
-    if (Setting.account_type === 'pocket') {
+    if (viewMeetingScheduleRole) {
       const fldDispName = `${fldStudent}_dispName`;
       history.studentForAssistant = schedule[fldDispName];
     }
 
     history.assignmentID = 109;
     history.assignmentType = 'ayf';
-    history.assignmentName = getI18n().t('assistant', { ns: 'ui', lng: Setting.appLang() });
+
+    const assistantStr = getI18n().t('assistant', { ns: 'ui', lng: Setting.appLang() });
+
+    let mainPart;
+    if (assType === 101 || (assType >= 140 && assType < 170)) {
+      mainPart = getI18n().t('initialCall', { ns: 'source', lng: Setting.appLang() });
+    } else if (assType === 102 || (assType >= 170 && assType < 200)) {
+      mainPart = getI18n().t('returnVisit', { ns: 'source', lng: Setting.appLang() });
+    } else if (assType === 103) {
+      mainPart = getI18n().t('bibleStudy', { ns: 'source', lng: Setting.appLang() });
+    } else if (assType === 108) {
+      mainPart = getI18n().t('memorialInvite', { ns: 'source', lng: Setting.appLang() });
+    }
+
+    history.assignmentName = `${assistantStr} (${mainPart})`;
 
     const stuclass = assignment.split('_')[2];
     history.class = stuclass;
@@ -187,7 +207,7 @@ export const saveAssignment = async (weekOf, stuID, varSave) => {
   const schedule = Schedules.get(weekOf);
   const tmpPerson = await schedule.saveAssignment(stuID, varSave);
 
-  if (tmpPerson === Setting.local_uid) {
+  if (tmpPerson === Setting.user_local_uid) {
     const prevValue = await promiseGetRecoil(refreshMyAssignmentsState);
     await promiseSetRecoil(refreshMyAssignmentsState, !prevValue);
   }
@@ -231,30 +251,13 @@ export const fetchMyAssignments = () => {
       let isFound = false;
       let isBehalf = false;
 
-      let localUID;
-
-      if (Setting.account_type === 'vip') {
-        if (Setting.cong_role.length === 1 && Setting.cong_role.includes('view_meeting_schedule')) {
-          localUID = Setting.pocket_local_id.person_uid;
-        }
-
-        if (
-          !Setting.cong_role.includes('view_meeting_schedule') &&
-          (Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup'))
-        ) {
-          localUID = Setting.local_uid;
-        }
-      }
-
-      if (Setting.account_type === 'pocket') {
-        localUID = Setting.pocket_local_id.person_uid;
-      }
+      const localUID = Setting.user_local_uid;
 
       if (fldValue === localUID) {
         isFound = true;
       }
 
-      if (Setting.pocket_members.some((member) => member.person_uid === fldValue)) {
+      if (Setting.user_members_delegate.some((member) => member.person_uid === fldValue)) {
         isFound = true;
         isBehalf = true;
       }

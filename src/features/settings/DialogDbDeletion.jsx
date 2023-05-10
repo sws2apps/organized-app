@@ -1,3 +1,4 @@
+import { getAuth, signOut } from 'firebase/auth';
 import { useRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import Button from '@mui/material/Button';
@@ -8,18 +9,26 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { deleteAppDb } from '../../indexedDb/dbUtility';
 import { isDeleteDbOpenState } from '../../states/main';
+import { Setting } from '../../classes/Setting';
 
 const DialogDbDeletion = () => {
   const { t } = useTranslation('ui');
 
   const [open, setOpen] = useRecoilState(isDeleteDbOpenState);
 
+  const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
+  const secretaryRole = Setting.cong_role.includes('secretary');
+
   const handleClose = () => {
     setOpen(false);
   };
 
   const handleDelete = async () => {
+    const auth = await getAuth();
+
     await deleteAppDb();
+    await signOut(auth);
+
     window.location.href = './';
   };
 
@@ -33,7 +42,9 @@ const DialogDbDeletion = () => {
       >
         <DialogTitle id="alert-dialog-title">{t('deleteDbTitle')}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">{t('deleteDbDesc')}</DialogContentText>
+          <DialogContentText id="alert-dialog-description">
+            {lmmoRole || secretaryRole ? t('deleteDbDesc') : t('deleteDbNoRecordDesc')}
+          </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
