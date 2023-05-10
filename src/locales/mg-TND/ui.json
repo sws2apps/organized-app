@@ -590,5 +590,8 @@
   "reportSubmitConfirm": "<p>Ho marihina hoe nalefa tany amin’ny Biraon’ny Sampana izao ity tatitra ity.</p><p>Hiala ny fitehirizana momba an’ireo tatitra tara rehetra ka nalefa tamin’ity volana ity. Mila karohina ireo tatitra ireo ka averina hoe tara indray, raha homarihina hoe tsy mbola nalefa Biraon’ny Sampana indray ity tatitra ity.</p><p>Hiala ny fitehirizana momba an’ireo tatitra latsaka ny adiny 1 rehetra, raha toa ka feno adiny 1 ny fitambaran’izy rehetra. Mila karohina ireo tatitra ireo ka averina hoe latsaka ny adiny 1 indray, raha homarihina hoe tsy mbola nalefa Biraon’ny Sampana indray ity tatitra ity.</p>",
   "continueConfirmMessage": "Hanohy ve?",
   "reportSubmittedBranchTitle": "Handefa Tatitra any Amin’ny Biraon’ny Sampana",
-  "pdfGenerationComplete": "Efa azo alaina izao ilay rakitra PDF. Tsindrio ilay sary PDF eo ambany."
+  "pdfGenerationComplete": "Efa azo alaina izao ilay rakitra PDF. Tsindrio ilay sary PDF eo ambany.",
+  "delegatePersons": "Hisolo tena an’ireto olona ireto",
+  "delegatePersonsDesc": "Afaka mijery ny anjaran’izy ireo amin’ny fivoriana ianao, sady afaka mandefa ny tatitra momba ny fanompoana koa.",
+  "deleteDbNoRecordDesc": "Ho voafafa daholo ny rakitra ampiasain’ny CPE amin’ity fitaovana ity. Tsindrio ilay hoe Hamafa raha hanohy."
 }
