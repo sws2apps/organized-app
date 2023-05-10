@@ -590,5 +590,8 @@
   "reportSubmitConfirm": "<p>You are about to mark this report as submitted to the Branch Office.</p><p>All records about late reports which were submitted with this month will be deleted. If it is necessary to undo the submission, you need to find the publishers’ reports and mark them as late again.</p><p>If all publishers’ reports which were approved to report 15-minute increments adds up to a full hour, these records will be deleted. If it is necessary to undo the submission, you need to find the publishers’ report and mark them as less than 1 hour again.</p>",
   "continueConfirmMessage": "Are you sure to continue?",
   "reportSubmittedBranchTitle": "Submit Report to the Branch Office",
-  "pdfGenerationComplete": "Your file is ready to be downloaded. Click the button below."
+  "pdfGenerationComplete": "Your file is ready to be downloaded. Click the button below.",
+  "delegatePersons": "Delegate these persons",
+  "delegatePersonsDesc": "You will have access to view their meeting parts, and post their field service reports.",
+  "deleteDbNoRecordDesc": "All local data used by CPE will be deleted. Click Delete to continue."
 }
