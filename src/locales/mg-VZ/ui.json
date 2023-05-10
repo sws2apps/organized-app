@@ -591,7 +591,7 @@
   "continueConfirmMessage": "Hanohy ve?",
   "reportSubmittedBranchTitle": "Handefa Tatitra any Amin’ny Biraon’ny Sampana",
   "pdfGenerationComplete": "Efa azo alaina izao ilay rakitra PDF. Tsindrio ilay sary PDF eo ambany.",
-  "delegatePersons": "Delegate these persons",
-  "delegatePersonsDesc": "You will have access to view their meeting parts, and post their field service reports.",
-  "deleteDbNoRecordDesc": "All local data used by CPE will be deleted. Click Delete to continue."
+  "delegatePersons": "Hisolo tena an’ireto olona ireto",
+  "delegatePersonsDesc": "Afaka mijery ny anjaran’izy ireo amin’ny fivoriana ianao, sady afaka mandefa ny tatitra momba ny fanompoana koa.",
+  "deleteDbNoRecordDesc": "Ho voafafa daholo ny rakitra ampiasain’ny CPE amin’ity fitaovana ity. Tsindrio ilay hoe Hamafa raha hanohy."
 }
