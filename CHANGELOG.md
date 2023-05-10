@@ -1,3 +1,11 @@
+## [2.69.2](https://github.com/sws2apps/cpe-sws/compare/v2.69.1...v2.69.2) (2023-05-10)
+
+
+### Bug Fixes
+
+* **auth:** don’t override local record if backup is null ([248b42c](https://github.com/sws2apps/cpe-sws/commit/248b42ccca0e1a1534fcc881ff093c727ee79c05))
+* **persons:** save local person record and delegates when sending backup ([1b9e722](https://github.com/sws2apps/cpe-sws/commit/1b9e722a30bd6acc5bfa026a7acdd8689d4814c2))
+
 ## [2.69.1](https://github.com/sws2apps/cpe-sws/compare/v2.69.0...v2.69.1) (2023-05-10)
 
 
