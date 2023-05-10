@@ -37,10 +37,12 @@ const PocketStartup = () => {
   const handleDisapproved = useCallback(async () => {
     setModalOpen(true);
     await deleteAppDb();
-    await initAppDb();
-    await classesInitialize();
-    await loadApp();
-    setModalOpen(false);
+    setTimeout(async () => {
+      await initAppDb();
+      await classesInitialize();
+      await loadApp();
+      setModalOpen(false);
+    }, 3000);
   }, [setModalOpen]);
 
   useEffect(() => {

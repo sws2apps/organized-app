@@ -87,9 +87,6 @@ export const dbExportDataOnline = async (cong_role = Setting.cong_role) => {
   const appSettings = (await appDb.app_settings.toArray())[0];
   delete appSettings.username;
   delete appSettings.user_avatar;
-  delete appSettings.local_uid;
-  delete appSettings.pocket_members;
-  delete appSettings.pocket_local_id;
   delete appSettings.cong_role;
 
   // get app settings
@@ -105,9 +102,8 @@ export const dbRestoreSettingFromBackup = async (cong_settings) => {
       ...settingItem,
       username: Setting.username,
       user_avatar: Setting.user_avatar,
-      local_uid: Setting.local_uid,
-      pocket_members: Setting.pocket_members,
-      pocket_local_id: Setting.pocket_local_id,
+      user_local_uid: Setting.user_local_uid,
+      user_members_delegate: Setting.user_members_delegate,
       cong_role: Setting.cong_role,
     };
 

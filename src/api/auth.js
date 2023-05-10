@@ -2,7 +2,7 @@ import { getAuth } from 'firebase/auth';
 import { getI18n } from 'react-i18next';
 import { promiseGetRecoil, promiseSetRecoil } from 'recoil-outside';
 import { initAppDb, isDbExist } from '../indexedDb/dbUtility';
-import { congIDState, congRoleState, isAdminCongState, pocketMembersState } from '../states/congregation';
+import { congIDState, congRoleState, isAdminCongState, userMembersDelegateState } from '../states/congregation';
 import {
   accountTypeState,
   isOAuthAccountUpgradeState,
@@ -100,7 +100,7 @@ export const apiHandleVerifyOTP = async (userOTP, isSetup, trustedDevice) => {
           }
         }
 
-        const { id, cong_id, cong_name, cong_role, cong_number, pocket_members, pocket_local_id } = data;
+        const { id, cong_id, cong_name, cong_role, cong_number, user_members_delegate, user_local_uid } = data;
 
         if (cong_name.length === 0) return { createCongregation: true };
 
@@ -133,14 +133,14 @@ export const apiHandleVerifyOTP = async (userOTP, isSetup, trustedDevice) => {
         obj.cong_name = cong_name;
         obj.cong_number = cong_number;
         obj.isLoggedOut = false;
-        obj.pocket_members = pocket_members;
-        obj.pocket_local_id = pocket_local_id;
+        obj.user_members_delegate = user_members_delegate;
+        obj.user_local_uid = user_local_uid;
         obj.cong_role = cong_role;
         obj.account_type = 'vip';
         await Setting.update(obj);
 
         await promiseSetRecoil(userIDState, id);
-        await promiseSetRecoil(pocketMembersState, pocket_members);
+        await promiseSetRecoil(userMembersDelegateState, user_members_delegate);
         await promiseSetRecoil(accountTypeState, 'vip');
         await promiseSetRecoil(congRoleState, cong_role);
 
@@ -191,7 +191,7 @@ export const apiHandleVerifyEmailOTP = async (userOTP) => {
           }
         }
 
-        const { id, cong_id, cong_name, cong_role, cong_number, pocket_members } = data;
+        const { id, cong_id, cong_name, cong_role, cong_number, user_members_delegate } = data;
 
         if (cong_name.length === 0) return { createCongregation: true };
 
@@ -217,13 +217,13 @@ export const apiHandleVerifyEmailOTP = async (userOTP) => {
         obj.cong_name = cong_name;
         obj.cong_number = cong_number;
         obj.isLoggedOut = false;
-        obj.pocket_members = pocket_members;
+        obj.user_members_delegate = user_members_delegate;
         obj.cong_role = cong_role;
         obj.account_type = 'vip';
         await Setting.update(obj);
 
         await promiseSetRecoil(userIDState, id);
-        await promiseSetRecoil(pocketMembersState, pocket_members);
+        await promiseSetRecoil(userMembersDelegateState, user_members_delegate);
         await promiseSetRecoil(accountTypeState, 'vip');
         await promiseSetRecoil(congRoleState, cong_role);
 

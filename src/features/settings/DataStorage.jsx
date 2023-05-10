@@ -23,6 +23,9 @@ const DataStorage = () => {
   const [isAutoBackup, setIsAutoBackup] = useState(false);
   const [backupInterval, setBackupInterval] = useState(5);
 
+  const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
+  const secretaryRole = Setting.cong_role.includes('secretary');
+
   const handleAutoBackupChange = async (value) => {
     setIsAutoBackup(value);
     await Setting.update({ autoBackup: value });
@@ -54,31 +57,34 @@ const DataStorage = () => {
       <Typography className={'settingHeader'}>{t('dataStorage')}</Typography>
       <Divider sx={{ borderWidth: '5px' }} />
       <Box sx={{ padding: '20px 20px' }}>
-        <Box sx={{ marginBottom: '20px' }}>
-          <Typography sx={{ fontWeight: 'bold' }}>{t('autoBackup')}</Typography>
-          <Box sx={{ marginTop: '20px', display: 'flex', alignItems: 'center', gap: '15px', flexWrap: 'wrap' }}>
-            <FormControlLabel
-              control={<Checkbox checked={isAutoBackup} onChange={(e) => handleAutoBackupChange(e.target.checked)} />}
-              label={t('enableLabel')}
-            />
-            <TextField
-              id="outlined-select-backup-time"
-              select
-              label={t('backupIntervalLabel')}
-              size="small"
-              sx={{ minWidth: '130px' }}
-              defaultValue={5}
-              value={backupInterval}
-              onChange={(e) => handleBackupIntervalChange(e.target.value)}
-            >
-              {[5, 15, 30, 45].map((time) => (
-                <MenuItem key={time} value={time}>
-                  {time} min.
-                </MenuItem>
-              ))}
-            </TextField>
+        {(lmmoRole || secretaryRole) && (
+          <Box sx={{ marginBottom: '20px' }}>
+            <Typography sx={{ fontWeight: 'bold' }}>{t('autoBackup')}</Typography>
+            <Box sx={{ marginTop: '20px', display: 'flex', alignItems: 'center', gap: '15px', flexWrap: 'wrap' }}>
+              <FormControlLabel
+                control={<Checkbox checked={isAutoBackup} onChange={(e) => handleAutoBackupChange(e.target.checked)} />}
+                label={t('enableLabel')}
+              />
+              <TextField
+                id="outlined-select-backup-time"
+                select
+                label={t('backupIntervalLabel')}
+                size="small"
+                sx={{ minWidth: '130px' }}
+                defaultValue={5}
+                value={backupInterval}
+                onChange={(e) => handleBackupIntervalChange(e.target.value)}
+              >
+                {[5, 15, 30, 45].map((time) => (
+                  <MenuItem key={time} value={time}>
+                    {time} min.
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Box>
           </Box>
-        </Box>
+        )}
+
         <Box>
           <Typography>{t('eraseDesc')}</Typography>
           <Button

@@ -7,7 +7,7 @@ import {
   congIDState,
   congRoleState,
   isAdminCongState,
-  pocketMembersState,
+  userMembersDelegateState,
 } from '../../states/congregation';
 import {
   apiHostState,
@@ -34,7 +34,7 @@ const UserAutoLogin = () => {
   const setCongID = useSetRecoilState(congIDState);
   const setUserID = useSetRecoilState(userIDState);
   const setModalOpen = useSetRecoilState(rootModalOpenState);
-  const setPocketMembers = useSetRecoilState(pocketMembersState);
+  const setUserDelegate = useSetRecoilState(userMembersDelegateState);
   const setCongRole = useSetRecoilState(congRoleState);
   const setRoleReload = useSetRecoilState(roleReloadState);
 
@@ -90,17 +90,21 @@ const UserAutoLogin = () => {
             setIsAdminCong(true);
           }
 
-          const { cong_name, cong_number, cong_role, pocket_members, pocket_local_id, username } = data;
+          const { cong_name, cong_number, cong_role, user_members_delegate, user_local_uid, username } = data;
           let obj = {};
           obj.username = username;
           obj.cong_name = cong_name;
           obj.cong_number = cong_number;
-          obj.pocket_members = pocket_members;
-          obj.pocket_local_id = pocket_local_id;
+          obj.user_members_delegate = user_members_delegate;
+
+          if (user_local_uid && user_local_uid !== null) {
+            obj.user_local_uid = user_local_uid;
+          }
+
           obj.cong_role = cong_role;
           obj.account_type = 'vip';
           await Setting.update(obj);
-          setPocketMembers(pocket_members);
+          setUserDelegate(user_members_delegate);
           setRoleReload((prev) => !prev);
           await apiFetchSchedule();
           return;
@@ -133,7 +137,7 @@ const UserAutoLogin = () => {
     setCongAccountConnected,
     setCongID,
     setIsAdminCong,
-    setPocketMembers,
+    setUserDelegate,
     setUserID,
     setCongRole,
     user,

@@ -1,7 +1,6 @@
 import { useRecoilValue } from 'recoil';
-import { Navigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
-import { MyAccount } from '../features/settings';
+import { DataStorage, MyAccount } from '../features/settings';
 import { congAccountConnectedState } from '../states/congregation';
 import { isOnlineState } from '../states/main';
 
@@ -16,10 +15,6 @@ const UserSettings = () => {
   const congAccountConnected = useRecoilValue(congAccountConnectedState);
   const isOnline = useRecoilValue(isOnlineState);
 
-  if (!isOnline || !congAccountConnected) {
-    return <Navigate to="/" />;
-  }
-
   return (
     <Box>
       {isOnline && congAccountConnected && (
@@ -27,6 +22,10 @@ const UserSettings = () => {
           <MyAccount />
         </Box>
       )}
+
+      <Box sx={sharedStyles.settingItem}>
+        <DataStorage />
+      </Box>
     </Box>
   );
 };

@@ -42,11 +42,9 @@ SchedulesClass.prototype.buildHistory = function () {
     const appData = this.list;
     const personsCount = Persons.list.length;
 
-    if (
-      personsCount > 0 ||
-      Setting.account_type === 'pocket' ||
-      (Setting.cong_role.length === 1 && Setting.cong_role.includes('view_meeting_schedule'))
-    ) {
+    const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
+
+    if (personsCount > 0 || !lmmoRole) {
       for (const schedule of appData) {
         const assList = [];
         const excludeFiles = ['weekOf', 'week_type', 'noMeeting', 'isReleased', 'changes'];

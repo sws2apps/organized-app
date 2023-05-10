@@ -311,14 +311,12 @@ const NavBar = (props) => {
                       </MenuItem>
                     )}
 
-                    {isOnline && congAccountConnected && (
-                      <MenuItem onClick={handleGoSettings}>
-                        <ListItemIcon>
-                          <AdminPanelSettingsIcon fontSize="medium" color="primary" />
-                        </ListItemIcon>
-                        <ListItemText>{t('myUserProfile')}</ListItemText>
-                      </MenuItem>
-                    )}
+                    <MenuItem onClick={handleGoSettings}>
+                      <ListItemIcon>
+                        <AdminPanelSettingsIcon fontSize="medium" color="primary" />
+                      </ListItemIcon>
+                      <ListItemText>{t('myUserProfile')}</ListItemText>
+                    </MenuItem>
 
                     <MenuItem onClick={handleAbout}>
                       <ListItemIcon>

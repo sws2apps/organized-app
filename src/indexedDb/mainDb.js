@@ -127,6 +127,14 @@ appDb.version(26).stores({
 appDb.version(27).stores({
   fieldServiceReports: '&uid, service_year, person_uid, months',
 });
+appDb.version(28).stores({
+  app_settings:
+    '++id, username, local_uid, source_lang, cong_number, cong_name, cong_role, class_count, meeting_day, meeting_time, isScheduleConverted, isCongVerified, isAssignmentsConverted, isCongUpdated2, pocket_members, user_avatar, account_version, co_name, co_displayName, personAssignmentsConverted, autoBackup, autoBackup_interval, schedule_useFullname, account_type, opening_prayer_autoAssign, user_local_uid, user_members_delegate',
+});
+appDb.version(29).stores({
+  app_settings:
+    '++id, username, source_lang, cong_number, cong_name, cong_role, class_count, meeting_day, meeting_time, isScheduleConverted, isCongVerified, isAssignmentsConverted, isCongUpdated2, user_avatar, account_version, co_name, co_displayName, personAssignmentsConverted, autoBackup, autoBackup_interval, schedule_useFullname, account_type, opening_prayer_autoAssign, user_local_uid, user_members_delegate',
+});
 
 appDb.on('populate', function () {
   appDb.app_settings.add({
@@ -141,7 +149,8 @@ appDb.on('populate', function () {
     isCongVerified: true,
     isAssignmentsConverted: true,
     isCongUpdated2: true,
-    pocket_members: [],
+    user_members_delegate: [],
+    user_local_uid: '',
     account_version: 'v2',
     personAssignmentsConverted: true,
     schedule_useFullname: false,
