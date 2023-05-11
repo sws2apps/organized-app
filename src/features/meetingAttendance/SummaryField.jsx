@@ -11,8 +11,7 @@ const SummaryField = ({ field, value = '' }) => {
 
     if (field === 'totalMeetings') value = t('numberOfMeetings');
     if (field === 'totalAttendance') value = t('totalAttendance');
-    if (field === 'average') value = t('numberOfMeetings');
-    if (field === 'totalMeetings') value = t('averageAttendanceWeek');
+    if (field === 'average') value = t('averageAttendanceWeek');
 
     return value;
   };
