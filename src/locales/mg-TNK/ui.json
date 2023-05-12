@@ -592,6 +592,8 @@
   "reportSubmittedBranchTitle": "Handefa Tatitra any Amin’ny Biraon’ny Sampana",
   "pdfGenerationComplete": "Efa azo alaina izao ilay rakitra PDF. Tsindrio ilay sary PDF eo ambany.",
   "delegatePersons": "Hisolo tena an’ireto olona ireto",
-  "delegatePersonsDesc": "Access to view their meeting parts, and post their field service reports.",
-  "deleteDbNoRecordDesc": "Ho voafafa daholo ny rakitra ampiasain’ny CPE amin’ity fitaovana ity. Tsindrio ilay hoe Hamafa raha hanohy."
+  "delegatePersonsDesc": "Afaka mijery ny anjaran’izy ireo amin’ny fivoriana, sady afaka mandefa ny tatitra momba ny fanompoana.",
+  "deleteDbNoRecordDesc": "Ho voafafa daholo ny rakitra ampiasain’ny CPE amin’ity fitaovana ity. Tsindrio ilay hoe Hamafa raha hanohy.",
+  "reminders": "Reminders",
+  "reminderS1Report": "Your Field Service and Meeting Attendance (S-1) report is not yet ready. It should be submitted to the branch office no later than the 20th day of the month."
 }
