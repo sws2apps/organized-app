@@ -8,13 +8,13 @@ import ApartmentIcon from '@mui/icons-material/Apartment';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import Badge from '@mui/material/Badge';
-import Box from '@mui/material/Box';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 import CloudSyncIcon from '@mui/icons-material/CloudSync';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import DownloadIcon from '@mui/icons-material/Download';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
+import Grid from '@mui/material/Grid';
 import GroupsIcon from '@mui/icons-material/Groups';
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 import MoreTimeIcon from '@mui/icons-material/MoreTime';
@@ -310,11 +310,11 @@ const DashboardMenu = () => {
   }, [roleReload]);
 
   return (
-    <Box sx={{ padding: '20px', display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
+    <Grid container spacing={2}>
       {dashboardMenus.map((menu) => (
         <MenuCard key={`menu-item-${menu.title}`} menu={menu} />
       ))}
-    </Box>
+    </Grid>
   );
 };
 
