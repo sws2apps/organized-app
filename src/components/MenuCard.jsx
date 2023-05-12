@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -29,37 +30,39 @@ const MenuCard = ({ menu }) => {
   return (
     <>
       {visible && (
-        <Paper elevation={8} sx={{ width: '350px' }}>
-          <Box sx={{ padding: '10px', backgroundColor: theme.mainColor, borderRadius: '10px 10px 0 0' }}>
-            <Typography textAlign="center" sx={{ color: 'white', fontSize: '20px' }}>
-              {title}
-            </Typography>
-          </Box>
-          <Box
-            sx={{
-              padding: '10px',
-              height: '280px',
-              maxHeight: '280px',
-              overflow: 'auto',
-              borderTop: 'none',
-            }}
-          >
-            <List>
-              {links.map((link) => (
-                <Box key={`menu-child-${link.title}`}>
-                  {link.visible && (
-                    <ListItem disablePadding>
-                      <ListItemButton onClick={() => handleAction(link)}>
-                        <ListItemIcon>{link.icon}</ListItemIcon>
-                        <ListItemText primary={link.title} />
-                      </ListItemButton>
-                    </ListItem>
-                  )}
-                </Box>
-              ))}
-            </List>
-          </Box>
-        </Paper>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <Paper elevation={8}>
+            <Box sx={{ padding: '10px', backgroundColor: theme.mainColor, borderRadius: '10px 10px 0 0' }}>
+              <Typography textAlign="center" sx={{ color: 'white', fontSize: '20px' }}>
+                {title}
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                padding: '10px',
+                height: '280px',
+                maxHeight: '280px',
+                overflow: 'auto',
+                borderTop: 'none',
+              }}
+            >
+              <List>
+                {links.map((link) => (
+                  <Box key={`menu-child-${link.title}`}>
+                    {link.visible && (
+                      <ListItem disablePadding>
+                        <ListItemButton onClick={() => handleAction(link)}>
+                          <ListItemIcon>{link.icon}</ListItemIcon>
+                          <ListItemText primary={link.title} />
+                        </ListItemButton>
+                      </ListItem>
+                    )}
+                  </Box>
+                ))}
+              </List>
+            </Box>
+          </Paper>
+        </Grid>
       )}
     </>
   );

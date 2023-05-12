@@ -45,6 +45,7 @@ import { AddServiceYear } from '../features/serviceYear';
 await classesInitialize();
 
 const S140DownloadPDF = lazy(() => import('../features/pdfDownload/S140DownloadPDF'));
+const S1Reminder = lazy(() => import('../features/branchReports/S1Reminder'));
 
 const Layout = ({ updatePwa }) => {
   let location = useLocation();
@@ -100,6 +101,7 @@ const Layout = ({ updatePwa }) => {
       <AppUpdater updatePwa={updatePwa} enabledInstall={enabledInstall} />
 
       <Box sx={{ padding: '10px' }}>
+        <S1Reminder />
         {accountType === 'vip' && <UserAutoLogin />}
         <WhatsNewContent />
         {isOpenAbout && <About />}
