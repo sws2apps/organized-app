@@ -593,5 +593,7 @@
   "pdfGenerationComplete": "Efa azo alaina izao ilay rakitra PDF. Tsindrio ilay sary PDF eo ambany.",
   "delegatePersons": "Hisolo tena an’ireto olona ireto",
   "delegatePersonsDesc": "Afaka mijery ny anjaran’izy ireo amin’ny fivoriana, sady afaka mandefa ny tatitra momba ny fanompoana.",
-  "deleteDbNoRecordDesc": "Ho voafafa daholo ny rakitra ampiasain’ny CPE amin’ity fitaovana ity. Tsindrio ilay hoe Hamafa raha hanohy."
+  "deleteDbNoRecordDesc": "Ho voafafa daholo ny rakitra ampiasain’ny CPE amin’ity fitaovana ity. Tsindrio ilay hoe Hamafa raha hanohy.",
+  "reminders": "Fampahatsiahivana",
+  "reminderS1Report": "Tsy mbola vonona ny Tatitra Momba ny Fanompoana sy Mpanatrika Fivoriana (S-1). Tokony halefa any amin’ny biraon’ny sampana izy io alohan’ny faharoapolon’ny volana."
 }
