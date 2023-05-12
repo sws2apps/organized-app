@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { lazy, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
@@ -8,6 +8,7 @@ import ApartmentIcon from '@mui/icons-material/Apartment';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import Badge from '@mui/material/Badge';
+import Box from '@mui/material/Box';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 import CloudSyncIcon from '@mui/icons-material/CloudSync';
@@ -51,6 +52,8 @@ import { Setting } from '../classes/Setting';
 import { isAddSYOpenState } from '../states/report';
 
 const isDev = process.env.NODE_ENV === 'development';
+
+const AppReminder = lazy(() => import('../features/reminders/AppReminder'));
 
 const DashboardMenu = () => {
   const { t } = useTranslation('ui');
@@ -310,11 +313,14 @@ const DashboardMenu = () => {
   }, [roleReload]);
 
   return (
-    <Grid container spacing={2}>
-      {dashboardMenus.map((menu) => (
-        <MenuCard key={`menu-item-${menu.title}`} menu={menu} />
-      ))}
-    </Grid>
+    <Box>
+      <AppReminder />
+      <Grid container spacing={2}>
+        {dashboardMenus.map((menu) => (
+          <MenuCard key={`menu-item-${menu.title}`} menu={menu} />
+        ))}
+      </Grid>
+    </Box>
   );
 };
 
