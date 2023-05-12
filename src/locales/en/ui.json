@@ -593,5 +593,7 @@
   "pdfGenerationComplete": "Your file is ready to be downloaded. Click the button below.",
   "delegatePersons": "Delegate these persons",
   "delegatePersonsDesc": "Access to view their meeting parts, and post their field service reports.",
-  "deleteDbNoRecordDesc": "All local data used by CPE will be deleted. Click Delete to continue."
+  "deleteDbNoRecordDesc": "All local data used by CPE will be deleted. Click Delete to continue.",
+  "reminders": "Reminders",
+  "reminderS1Report": "Your Field Service and Meeting Attendance (S-1) report is not yet ready. It should be submitted to the branch office no later than the 20th day of the month."
 }
