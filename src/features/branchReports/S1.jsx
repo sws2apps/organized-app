@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import FlashOnIcon from '@mui/icons-material/FlashOn';
+import Grid from '@mui/material/Grid';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import OutboundIcon from '@mui/icons-material/Outbound';
 import ReplayIcon from '@mui/icons-material/Replay';
@@ -18,6 +19,13 @@ import S1AuxiliaryPioneers from './S1AuxiliaryPioneers';
 import S1RegularPioneers from './S1RegularPioneers';
 import { S1s } from '../../classes/S1s';
 import UserModal from '../../components/UserModal';
+
+const gridViews = {
+  xs: 12,
+  sm: 6,
+  md: 4,
+  lg: 3,
+};
 
 const S1 = ({ serviceYear, month }) => {
   const { t } = useTranslation('ui');
@@ -151,43 +159,52 @@ const S1 = ({ serviceYear, month }) => {
                   </Button>
                 )}
               </Box>
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '25px', padding: '0 10px', maxWidth: '600px' }}>
-                <S1Summary
-                  activePublishers={details.activePublishers}
-                  weekendMeetingAttendanceAvg={details.weekendMeetingAttendanceAvg}
-                />
-                <S1Total
-                  totalReports={details.totalReports}
-                  totalPlacements={details.totalPlacements}
-                  totalVideos={details.totalVideos}
-                  totalHours={details.totalHours}
-                  totalReturnVisits={details.totalReturnVisits}
-                  totalBibleStudies={details.totalBibleStudies}
-                />
-                <S1Publishers
-                  publishersReports={details.publishersReports}
-                  publishersPlacements={details.publishersPlacements}
-                  publishersVideos={details.publishersVideos}
-                  publishersHours={details.publishersHours}
-                  publishersReturnVisits={details.publishersReturnVisits}
-                  publishersBibleStudies={details.publishersBibleStudies}
-                />
-                <S1AuxiliaryPioneers
-                  auxPioneersReports={details.auxPioneersReports}
-                  auxPioneersPlacements={details.auxPioneersPlacements}
-                  auxPioneersVideos={details.auxPioneersVideos}
-                  auxPioneersHours={details.auxPioneersHours}
-                  auxPioneersReturnVisits={details.auxPioneersReturnVisits}
-                  auxPioneersBibleStudies={details.auxPioneersBibleStudies}
-                />
-                <S1RegularPioneers
-                  FRReports={details.FRReports}
-                  FRPlacements={details.FRPlacements}
-                  FRVideos={details.FRVideos}
-                  FRHours={details.FRHours}
-                  FRReturnVisits={details.FRReturnVisits}
-                  FRBibleStudies={details.FRBibleStudies}
-                />
+              <Box sx={{ padding: '0 10px' }}>
+                <Grid container spacing={2}>
+                  <S1Summary
+                    activePublishers={details.activePublishers}
+                    weekendMeetingAttendanceAvg={details.weekendMeetingAttendanceAvg}
+                    gridViews={gridViews}
+                  />
+                  <Grid container spacing={2} sx={{ paddingLeft: '15px' }}>
+                    <S1Total
+                      totalReports={details.totalReports}
+                      totalPlacements={details.totalPlacements}
+                      totalVideos={details.totalVideos}
+                      totalHours={details.totalHours}
+                      totalReturnVisits={details.totalReturnVisits}
+                      totalBibleStudies={details.totalBibleStudies}
+                      gridViews={gridViews}
+                    />
+                    <S1Publishers
+                      publishersReports={details.publishersReports}
+                      publishersPlacements={details.publishersPlacements}
+                      publishersVideos={details.publishersVideos}
+                      publishersHours={details.publishersHours}
+                      publishersReturnVisits={details.publishersReturnVisits}
+                      publishersBibleStudies={details.publishersBibleStudies}
+                      gridViews={gridViews}
+                    />
+                    <S1AuxiliaryPioneers
+                      auxPioneersReports={details.auxPioneersReports}
+                      auxPioneersPlacements={details.auxPioneersPlacements}
+                      auxPioneersVideos={details.auxPioneersVideos}
+                      auxPioneersHours={details.auxPioneersHours}
+                      auxPioneersReturnVisits={details.auxPioneersReturnVisits}
+                      auxPioneersBibleStudies={details.auxPioneersBibleStudies}
+                      gridViews={gridViews}
+                    />
+                    <S1RegularPioneers
+                      FRReports={details.FRReports}
+                      FRPlacements={details.FRPlacements}
+                      FRVideos={details.FRVideos}
+                      FRHours={details.FRHours}
+                      FRReturnVisits={details.FRReturnVisits}
+                      FRBibleStudies={details.FRBibleStudies}
+                      gridViews={gridViews}
+                    />
+                  </Grid>
+                </Grid>
               </Box>
             </Box>
           )}
