@@ -1,3 +1,19 @@
+# [2.70.0](https://github.com/sws2apps/cpe-sws/compare/v2.69.2...v2.70.0) (2023-05-12)
+
+
+### Bug Fixes
+
+* **reports:** update wrong translation on S-88 report ([f7efffc](https://github.com/sws2apps/cpe-sws/commit/f7efffc87aa92d7943891a9bd14e7844f38e20a3))
+
+
+### Features
+
+* **app:** add reminder component ([ddbae45](https://github.com/sws2apps/cpe-sws/commit/ddbae451fc630e906a665d22e5616f4b1b9a898d))
+* **app:** change dashboard card to use grid component ([42f0c23](https://github.com/sws2apps/cpe-sws/commit/42f0c237a8e021f3c787ec4decabd656c527528c))
+* **deps:** bump @mui/material from 5.12.3 to 5.13.0 ([a7fa6b9](https://github.com/sws2apps/cpe-sws/commit/a7fa6b98dfad9f2bedca08b20b09e4a0c8fa9282))
+* **reports:** change layout of S1 report ([4a2b060](https://github.com/sws2apps/cpe-sws/commit/4a2b060f78a67361e831392a362c2b2efe28975a))
+* **schedules:** download S140 schedule in a modal ([b7b8613](https://github.com/sws2apps/cpe-sws/commit/b7b8613e7f11de7f07a424da7c3738624b07213d))
+
 ## [2.69.2](https://github.com/sws2apps/cpe-sws/compare/v2.69.1...v2.69.2) (2023-05-10)
 
 
