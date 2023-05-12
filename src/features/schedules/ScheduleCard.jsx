@@ -14,6 +14,8 @@ import Paper from '@mui/material/Paper';
 import PrintIcon from '@mui/icons-material/Print';
 import Typography from '@mui/material/Typography';
 import {
+  S140DataState,
+  S140DownloadOpenState,
   currentScheduleState,
   dlgAssDeleteOpenState,
   dlgAutoFillOpenState,
@@ -21,6 +23,7 @@ import {
   isDeleteSchedState,
   s89DataState,
 } from '../../states/schedule';
+import { Schedules } from '../../classes/Schedules';
 
 const ScheduleCard = ({ schedule }) => {
   const navigate = useNavigate();
@@ -33,6 +36,8 @@ const ScheduleCard = ({ schedule }) => {
   const setIsAutofillSched = useSetRecoilState(isAutoFillSchedState);
   const setCurrentSchedule = useSetRecoilState(currentScheduleState);
   const setS89Data = useSetRecoilState(s89DataState);
+  const setS140Data = useSetRecoilState(S140DataState);
+  const setIsS140Download = useSetRecoilState(S140DownloadOpenState);
 
   const [anchorPrintEl, setAnchorPrintEl] = useState(null);
 
@@ -63,10 +68,20 @@ const ScheduleCard = ({ schedule }) => {
     navigate('/assignment-form');
   };
 
+  // const handleS140Export = async () => {
+  //   handleClosePrint();
+  //   setCurrentSchedule(schedule);
+  //   navigate('/midweek-meeting-schedule');
+  // };
+
   const handleS140Export = async () => {
     handleClosePrint();
-    setCurrentSchedule(schedule);
-    navigate('/midweek-meeting-schedule');
+    setTimeout(() => {
+      setIsS140Download(true);
+      const data = Schedules.S140Data(schedule.value);
+      setS140Data(data);
+      setCurrentSchedule(schedule);
+    }, 1500);
   };
 
   const handleDeleteSchedule = () => {

@@ -1,4 +1,4 @@
-import { useEffect, Suspense } from 'react';
+import { useEffect, Suspense, lazy } from 'react';
 import { Outlet, useLocation, useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { useRecoilValue } from 'recoil';
@@ -20,7 +20,12 @@ import {
 } from '../states/main';
 import EmailLinkAuthentication from '../features/startup/vip/EmailLinkAuthentication';
 import NavBar from './NavBar';
-import { dlgAssDeleteOpenState, dlgAutoFillOpenState, isPublishOpenState } from '../states/schedule';
+import {
+  S140DownloadOpenState,
+  dlgAssDeleteOpenState,
+  dlgAutoFillOpenState,
+  isPublishOpenState,
+} from '../states/schedule';
 import { AutofillSchedule, DeleteSchedule, SchedulePublish } from '../features/schedules';
 import { isImportEPUBState, isImportJWOrgState } from '../states/sourceMaterial';
 import { ImportEPUB, ImportJWOrg } from '../features/sourceMaterial';
@@ -38,6 +43,8 @@ import { isAddSYOpenState } from '../states/report';
 import { AddServiceYear } from '../features/serviceYear';
 
 await classesInitialize();
+
+const S140DownloadPDF = lazy(() => import('../features/pdfDownload/S140DownloadPDF'));
 
 const Layout = ({ updatePwa }) => {
   let location = useLocation();
@@ -68,6 +75,7 @@ const Layout = ({ updatePwa }) => {
   const isUserConfirm = useRecoilValue(userConfirmationOpenState);
   const accountType = useRecoilValue(accountTypeState);
   const isAddSY = useRecoilValue(isAddSYOpenState);
+  const isS140DownloadPDF = useRecoilValue(S140DownloadOpenState);
 
   const checkPwaUpdate = () => {
     if ('serviceWorker' in navigator) {
@@ -105,6 +113,7 @@ const Layout = ({ updatePwa }) => {
         {isCongPersonAdd && <CongregationPersonAdd />}
         {isUserConfirm && <UserConfirmation />}
         {isAddSY && <AddServiceYear />}
+        {isS140DownloadPDF && <S140DownloadPDF />}
 
         {isEmailAuth && <EmailLinkAuthentication />}
         {isAppLoad && !isEmailAuth && <Startup />}

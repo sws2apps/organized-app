@@ -28,7 +28,6 @@ const PersonDetails = lazy(() => import('./pages/PersonDetails'));
 const Schedules = lazy(() => import('./pages/Schedules'));
 const ScheduleDetails = lazy(() => import('./pages/ScheduleDetails'));
 const S89 = lazy(() => import('./pages/S89'));
-const S140 = lazy(() => import('./pages/S140'));
 const ScheduleWeekDetails = lazy(() => import('./pages/ScheduleWeekDetails'));
 const Settings = lazy(() => import('./pages/UserSettings'));
 const SourceMaterials = lazy(() => import('./pages/SourceMaterials'));
@@ -121,10 +120,6 @@ const App = ({ updatePwa }) => {
                 {
                   path: '/assignment-form',
                   element: <S89 />,
-                },
-                {
-                  path: '/midweek-meeting-schedule',
-                  element: <S140 />,
                 },
                 {
                   path: '/source-materials',

@@ -99,3 +99,13 @@ export const refreshCurrentWeekState = atom({
   key: 'refreshCurrentWeek',
   default: false,
 });
+
+export const S140DataState = atom({
+  key: 'S140Data',
+  default: [],
+});
+
+export const S140DownloadOpenState = atom({
+  key: 'S140DownloadOpen',
+  default: false,
+});

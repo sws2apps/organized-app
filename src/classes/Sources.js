@@ -251,6 +251,8 @@ SourcesClass.prototype.updatePocketSource = async function (data) {
 };
 
 SourcesClass.prototype.checkCurrentWeek = async function () {
+  if (this.list.length === 0) await this.loadAll();
+
   if (this.hasCurrentWeek() === false) await this.addWeekManually();
 };
 
