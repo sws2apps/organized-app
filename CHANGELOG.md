@@ -1,3 +1,19 @@
+# [2.71.0](https://github.com/sws2apps/cpe-sws/compare/v2.70.0...v2.71.0) (2023-05-14)
+
+
+### Bug Fixes
+
+* **app:** offline mode when using CPE for some users is not working ([cf1065f](https://github.com/sws2apps/cpe-sws/commit/cf1065fa33ab527633f10906c13d8d9a0ec2c9e1))
+
+
+### Features
+
+* **app:** add logging on app loading ([e89886c](https://github.com/sws2apps/cpe-sws/commit/e89886cf6434c3145c6b7ac8850a3d85b0f6db34))
+* **app:** block login requests if visitor id is empty ([694d29e](https://github.com/sws2apps/cpe-sws/commit/694d29e4764473e2f8ae9cc8e5a4df044ffdb4ba))
+* **deps:** bump @mui/x-date-pickers from 6.3.1 to 6.4.0 ([3c4cae0](https://github.com/sws2apps/cpe-sws/commit/3c4cae08c94070a7b814ebfadaabc9ecb269d277))
+* **deps:** bump firebase from 9.21.0 to 9.22.0 ([b67a701](https://github.com/sws2apps/cpe-sws/commit/b67a701e7dc993733ce9ddc704a3f80b9cd3449b))
+* **manifest:** add url_handlers property ([d609049](https://github.com/sws2apps/cpe-sws/commit/d609049b710651ab92269f9662b42c50c62fcb93))
+
 # [2.70.0](https://github.com/sws2apps/cpe-sws/compare/v2.69.2...v2.70.0) (2023-05-12)
 
 
