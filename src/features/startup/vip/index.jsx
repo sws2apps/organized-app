@@ -133,6 +133,7 @@ const VipStartup = () => {
 
   useEffect(() => {
     if (showTermsUse) return;
+    if (visitorID.length === 0) return;
 
     const runAuthenticatedStep = async () => {
       try {

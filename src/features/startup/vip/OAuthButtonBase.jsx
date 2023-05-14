@@ -18,6 +18,7 @@ import {
   isOAuthAccountUpgradeState,
   isUserSignInState,
   isUserSignUpState,
+  visitorIDState,
 } from '../../../states/main';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../../../states/notification';
 import { Setting } from '../../../classes/Setting';
@@ -35,6 +36,7 @@ const OAuthButtonBase = ({ buttonStyles, logo, text, provider, isEmail }) => {
 
   const isAuthProcessing = useRecoilValue(isAuthProcessingState);
   const isOAuthAccountUpgrade = useRecoilValue(isOAuthAccountUpgradeState);
+  const visitorID = useRecoilValue(visitorIDState);
 
   const handleOAuthAction = async () => {
     try {
@@ -140,7 +142,7 @@ const OAuthButtonBase = ({ buttonStyles, logo, text, provider, isEmail }) => {
       variant="contained"
       sx={{ ...buttonStyles, height: '41px', padding: 0, width: '320px', justifyContent: 'flex-start' }}
       onClick={handleAction}
-      disabled={isAuthProcessing}
+      disabled={visitorID.length === 0 || isAuthProcessing}
     >
       <Box sx={{ width: '50px', display: 'flex', alignItems: 'center' }}>
         <Box

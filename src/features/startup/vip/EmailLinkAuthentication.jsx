@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { getAuth, indexedDBLocalPersistence, setPersistence, signInWithCustomToken } from 'firebase/auth';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
@@ -11,7 +11,7 @@ import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import { apiUpdatePasswordlessInfo } from '../../../api';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../../../states/notification';
-import { offlineOverrideState } from '../../../states/main';
+import { offlineOverrideState, visitorIDState } from '../../../states/main';
 
 const EmailLinkAuthentication = () => {
   const { t } = useTranslation('ui');
@@ -22,6 +22,8 @@ const EmailLinkAuthentication = () => {
   const setAppSeverity = useSetRecoilState(appSeverityState);
   const setAppMessage = useSetRecoilState(appMessageState);
   const setOfflineOverride = useSetRecoilState(offlineOverrideState);
+
+  const visitorID = useRecoilValue(visitorIDState);
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -93,7 +95,7 @@ const EmailLinkAuthentication = () => {
           </Link>
           <Button
             variant="contained"
-            disabled={isProcessing}
+            disabled={isProcessing || visitorID.length === 0}
             endIcon={isProcessing ? <CircularProgress size={25} /> : null}
             onClick={completeEmailAuth}
           >
