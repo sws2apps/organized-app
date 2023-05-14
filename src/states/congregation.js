@@ -90,11 +90,6 @@ export const isProcessingBackupState = atom({
   default: true,
 });
 
-export const pocketLocalIDState = atom({
-  key: 'pocketLocalID',
-  default: '',
-});
-
 export const openingPrayerAutoAssignState = atom({
   key: 'openingPrayerAutoAssign',
   default: false,

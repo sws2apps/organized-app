@@ -16,7 +16,6 @@ import {
   refreshMyAssignmentsState,
   userLocalUidState,
 } from '../../states/main';
-import { pocketLocalIDState } from '../../states/congregation';
 import { Setting } from '../../classes/Setting';
 
 const MyAssignments = () => {
@@ -25,8 +24,7 @@ const MyAssignments = () => {
   const [drawerOpen, setDrawerOpen] = useRecoilState(isMyAssignmentOpenState);
   const setRefresh = useSetRecoilState(refreshMyAssignmentsState);
 
-  const vipLocalUid = useRecoilValue(userLocalUidState);
-  const pocketLocalUid = useRecoilValue(pocketLocalIDState);
+  const userLocalUid = useRecoilValue(userLocalUidState);
   const accountType = useRecoilValue(accountTypeState);
 
   const [overrideEdit, setOverrideEdit] = useState(false);
@@ -60,7 +58,7 @@ const MyAssignments = () => {
           {t('viewMyAssignments')}
         </Typography>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px', marginRight: '20px' }}>
-          {accountType === 'vip' && vipLocalUid !== '' && (
+          {accountType === 'vip' && userLocalUid !== '' && (
             <IconButton color="primary" aria-label="close" onClick={() => setOverrideEdit(true)}>
               <EditIcon sx={{ fontSize: '30px' }} />
             </IconButton>
@@ -78,17 +76,17 @@ const MyAssignments = () => {
           <>
             {(Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup')) && (
               <>
-                {(vipLocalUid === '' || overrideEdit) && (
+                {(userLocalUid === '' || overrideEdit) && (
                   <MyAssignmentsSetup overrideEdit={overrideEdit} setOverrideEdit={(value) => setOverrideEdit(value)} />
                 )}
-                {vipLocalUid !== '' && !overrideEdit && <MyAssignmentsList />}
+                {userLocalUid !== '' && !overrideEdit && <MyAssignmentsList />}
               </>
             )}
             {!Setting.cong_role.includes('lmmo') && !Setting.cong_role.includes('lmmo-backup') && <MyAssignmentsList />}
           </>
         )}
 
-        {accountType === 'pocket' && pocketLocalUid !== '' && <MyAssignmentsList />}
+        {accountType === 'pocket' && userLocalUid !== '' && <MyAssignmentsList />}
       </Box>
     </SwipeableDrawer>
   );
