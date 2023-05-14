@@ -47,6 +47,16 @@ const PocketStartup = () => {
 
   useEffect(() => {
     const checkLoginState = async () => {
+      if (!isOnline) {
+        setIsSetup(false);
+        await loadApp();
+        await runUpdater();
+        setTimeout(async () => {
+          setIsAppLoad(false);
+        }, [1000]);
+        return;
+      }
+
       if (isOnline && visitorID.length > 0) {
         const { data, status } = await apiPocketValidate();
 

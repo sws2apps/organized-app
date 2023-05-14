@@ -11,7 +11,6 @@ import {
   meetingDayState,
   meetingTimeState,
   openingPrayerAutoAssignState,
-  pocketLocalIDState,
   usernameState,
 } from '../states/congregation';
 import {
@@ -250,7 +249,7 @@ export const updateUserSettings = async (data) => {
   await promiseSetRecoil(congNameState, data.cong_name);
   await promiseSetRecoil(congNumberState, data.cong_number);
   await promiseSetRecoil(userIDState, data.id);
-  await promiseSetRecoil(pocketLocalIDState, data.user_local_uid);
+  await promiseSetRecoil(userLocalUidState, data.user_local_uid);
 };
 
 export const computeYearsDiff = (date) => {
