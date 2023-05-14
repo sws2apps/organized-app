@@ -188,20 +188,23 @@ const App = ({ updatePwa }) => {
   useEffect(() => {
     // get visitor ID and check if there is an active connection
     const getUserID = async () => {
-      const fpPromise = FingerprintJS.load({
-        apiKey: import.meta.env.VITE_FINGERPRINT_API_CLIENT_KEY,
-      });
+      try {
+        const fpPromise = FingerprintJS.load({
+          apiKey: import.meta.env.VITE_FINGERPRINT_API_CLIENT_KEY,
+        });
 
-      let visitorId = '';
+        let visitorId = '';
 
-      do {
         const fp = await fpPromise;
         const result = await fp.get();
         visitorId = result.visitorId;
-      } while (visitorId.length === 0);
+        console.info('CPE: Fingerprint: Device visitor id has been set');
 
-      setVisitorID(visitorId);
-      backupWorkerInstance.setVisitorID(visitorId);
+        setVisitorID(visitorId);
+        backupWorkerInstance.setVisitorID(visitorId);
+      } catch (error) {
+        console.error(`CPE: Fingerprint: ${error}`);
+      }
     };
 
     if (isOnline) {
@@ -227,32 +230,39 @@ const App = ({ updatePwa }) => {
 
     setApiHost(apiHost);
     backupWorkerInstance.setApiHost(apiHost);
+
+    console.info(`CPE: API: The client API is set to: ${apiHost}`);
   }, [setApiHost]);
 
   useEffect(() => {
     const checkBrowser = () => {
       if (!('Worker' in window)) {
         setIsSupported(false);
+        console.error(`CPE: Browser Not Supported: Web Worker is not supported in this device`);
         return;
       }
 
       if (!('crypto' in window)) {
         setIsSupported(false);
+        console.error(`CPE: Browser Not Supported: Web Crypto is not supported in this device`);
         return;
       }
 
       if (!crypto.randomUUID || typeof crypto.randomUUID !== 'function') {
         setIsSupported(false);
+        console.error(`CPE: Browser Not Supported: Web Crypto RandomUUID is not supported in this device`);
         return;
       }
 
       if (!indexedDB) {
         setIsSupported(false);
+        console.error(`CPE: Browser Not Supported: IndexedDb is not supported in this device`);
         return;
       }
 
       if (!('serviceWorker' in navigator)) {
         setIsSupported(false);
+        console.error(`CPE: Browser Not Supported: Service Worker is not supported in this device`);
       }
     };
 

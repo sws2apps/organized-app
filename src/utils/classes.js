@@ -30,5 +30,5 @@ export const classesInitialize = async () => {
   await MinutesReports.loadAll();
   await LateReports.loadAll();
   await S1s.loadAll();
-  console.log('CPE: Classes initialized');
+  console.info('CPE: classes initialized');
 };

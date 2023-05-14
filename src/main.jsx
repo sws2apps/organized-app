@@ -14,6 +14,8 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import './global.css';
 
+console.info(`CPE: version ${import.meta.env.PACKAGE_VERSION}`);
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <RecoilRoot>
@@ -33,10 +35,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 
 const onSWInstalled = () => {
   promiseSetRecoil(isPrecachedState, true);
-  console.log('[Exp] Service worker installed');
+  console.info('CPE: Service Worker: installed');
 };
 
 const onSWUpdated = () => {
   promiseSetRecoil(showReloadState, true);
-  console.log('[Exp] Service worker updated');
+  console.info('CPE: Service Worker:  updated');
 };
