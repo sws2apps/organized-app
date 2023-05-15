@@ -1,3 +1,10 @@
+## [2.71.1](https://github.com/sws2apps/cpe-sws/compare/v2.71.0...v2.71.1) (2023-05-15)
+
+
+### Bug Fixes
+
+* **app:** override parts in living as christians part not visible for some users ([fda847f](https://github.com/sws2apps/cpe-sws/commit/fda847f04c3045e7d0e782b3c785189547e134d3))
+
 # [2.71.0](https://github.com/sws2apps/cpe-sws/compare/v2.70.0...v2.71.0) (2023-05-14)
 
 
