@@ -345,44 +345,56 @@ export const dbRestorePersonsFromBackup = async (cong_persons) => {
 export const dbRestoreSourceMaterialFromBackup = async (cong_sourceMaterial) => {
   const oldSources = await appDb.src.toArray();
   for await (const src of cong_sourceMaterial) {
-    const isSrcExist = oldSources.find((source) => source.weekOf === src.weekOf);
+    const oldSrc = oldSources.find((source) => source.weekOf === src.weekOf);
 
-    if (!isSrcExist) {
+    if (!oldSrc) {
       await appDb.src.add(src, src.weekOf);
+      continue;
+    }
+
+    // restore standard field
+    const obj = {};
+    for (const [key, value] of Object.entries(src)) {
+      if (key.indexOf('_override') === -1) {
+        obj[key] = value;
+      }
     }
 
     // restore keepOverride if qualified
     const newKeepOverride = src.keepOverride || undefined;
-    const oldSrc = oldSources.find((week) => week.weekOf === src.weekOf);
+    const oldKeepOverride = oldSrc.keepOverride;
+    let isRestore = false;
 
-    if (oldSrc) {
-      const oldKeepOverride = oldSrc.keepOverride;
-      let isRestore = false;
+    if (!newKeepOverride) {
+      isRestore = true;
+    }
 
-      if (!newKeepOverride) {
+    if (newKeepOverride && oldKeepOverride) {
+      const oldDate = new Date(oldKeepOverride);
+      const newDate = new Date(newKeepOverride);
+
+      if (oldDate > newDate) {
         isRestore = true;
       }
+    }
 
-      if (newKeepOverride && oldKeepOverride) {
-        const oldDate = new Date(oldKeepOverride);
-        const newDate = new Date(newKeepOverride);
-
-        if (oldDate > newDate) {
-          isRestore = true;
+    if (isRestore) {
+      for (const [key, value] of Object.entries(oldSrc)) {
+        if (key.indexOf('_override') !== -1) {
+          obj[key] = value;
         }
-      }
-
-      if (isRestore) {
-        const obj = {};
-        for (const [key, value] of Object.entries(oldSrc)) {
-          if (key.indexOf('_override') !== -1) {
-            obj[key] = value;
-          }
-        }
-
-        await appDb.src.update(src.weekOf, obj);
       }
     }
+
+    if (!isRestore) {
+      for (const [key, value] of Object.entries(src)) {
+        if (key.indexOf('_override') !== -1) {
+          obj[key] = value;
+        }
+      }
+    }
+
+    await appDb.src.update(src.weekOf, obj);
   }
 };
 
