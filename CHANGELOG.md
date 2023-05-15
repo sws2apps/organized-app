@@ -1,3 +1,10 @@
+## [2.71.2](https://github.com/sws2apps/cpe-sws/compare/v2.71.1...v2.71.2) (2023-05-15)
+
+
+### Bug Fixes
+
+* **backup:** override parts not restored from backup ([716dc98](https://github.com/sws2apps/cpe-sws/commit/716dc984f5c20ba4c6c8953f523da43c11b99a8f))
+
 ## [2.71.1](https://github.com/sws2apps/cpe-sws/compare/v2.71.0...v2.71.1) (2023-05-15)
 
 
