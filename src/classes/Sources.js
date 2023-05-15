@@ -244,7 +244,7 @@ SourcesClass.prototype.updatePocketSource = async function (data) {
 
       for await (const week of weeks) {
         const source = this.get(week.weekOf) || new SourceClass(week.weekOf);
-        await source.save(week, true);
+        await source.save(week, false);
       }
     }
   }
