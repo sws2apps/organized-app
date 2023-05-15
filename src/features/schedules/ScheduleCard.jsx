@@ -68,12 +68,6 @@ const ScheduleCard = ({ schedule }) => {
     navigate('/assignment-form');
   };
 
-  // const handleS140Export = async () => {
-  //   handleClosePrint();
-  //   setCurrentSchedule(schedule);
-  //   navigate('/midweek-meeting-schedule');
-  // };
-
   const handleS140Export = async () => {
     handleClosePrint();
     setTimeout(() => {
