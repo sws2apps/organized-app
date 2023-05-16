@@ -1,3 +1,15 @@
+# [2.72.0](https://github.com/sws2apps/cpe-sws/compare/v2.71.2...v2.72.0) (2023-05-16)
+
+
+### Bug Fixes
+
+* **app:** attempt to block browser translate feature ([21a7ea9](https://github.com/sws2apps/cpe-sws/commit/21a7ea9ba414ba095f54f49b87e725888cbd83ad))
+
+
+### Features
+
+* **deps:** bump @tanstack/react-query from 4.29.5 to 4.29.7 ([9e15c8d](https://github.com/sws2apps/cpe-sws/commit/9e15c8d9180bd2260d25d44324a7bc31d9299071))
+
 ## [2.71.2](https://github.com/sws2apps/cpe-sws/compare/v2.71.1...v2.71.2) (2023-05-15)
 
 
