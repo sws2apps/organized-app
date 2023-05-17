@@ -1,4 +1,4 @@
-import { lazy, useEffect } from 'react';
+import { lazy, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
@@ -27,7 +27,7 @@ import SendIcon from '@mui/icons-material/Send';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ScheduleIcon from '@mui/icons-material/Schedule';
 import MenuCard from '../components/MenuCard';
-import { congAccountConnectedState } from '../states/congregation';
+import { congAccountConnectedState, congRoleState } from '../states/congregation';
 import {
   accountTypeState,
   backupDbOpenState,
@@ -35,7 +35,6 @@ import {
   isOnlineState,
   isWhatsNewOpenState,
   restoreDbOpenState,
-  roleReloadState,
   sourceLangState,
   userConfirmationActionState,
   userConfirmationMessageState,
@@ -48,7 +47,6 @@ import { isPublishOpenState } from '../states/schedule';
 import { importDummyUsers } from '../utils/dev';
 import { getCurrentExistingWeekDate } from '../utils/app';
 import { apiFetchSchedule } from '../api';
-import { Setting } from '../classes/Setting';
 import { isAddSYOpenState } from '../states/report';
 
 const isDev = process.env.NODE_ENV === 'development';
@@ -81,26 +79,26 @@ const DashboardMenu = () => {
   const isCongAccountConnected = useRecoilValue(congAccountConnectedState);
   const isOnline = useRecoilValue(isOnlineState);
   const accountType = useRecoilValue(accountTypeState);
-  const roleReload = useRecoilValue(roleReloadState);
+  const congRole = useRecoilValue(congRoleState);
 
-  const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
-  const secretaryRole = Setting.cong_role.includes('secretary');
-  const adminRole = Setting.cong_role.includes('admin');
-  const viewMeetingScheduleRole = Setting.cong_role.includes('view_meeting_schedule');
+  const lmmoRole = congRole.includes('lmmo') || congRole.includes('lmmo-backup');
+  const secretaryRole = congRole.includes('secretary');
+  const adminRole = congRole.includes('admin');
+  const viewMeetingScheduleRole = congRole.includes('view_meeting_schedule');
 
-  const handleOpenMyAssignment = () => {
+  const handleOpenMyAssignment = useCallback(() => {
     setWhatsNewOpen(false);
     setMyAssignmentsOpen(true);
-  };
+  }, [setWhatsNewOpen, setMyAssignmentsOpen]);
 
-  const handleWeekAdd = async () => {
+  const handleWeekAdd = useCallback(async () => {
     setConfirmationTitle(t('sourceMaterial'));
     setConfirmationMessage(t('addWeekDesc'));
     setConfirmationAction('manualWeekAdd');
     setConfirmationOpen(true);
-  };
+  }, [setConfirmationTitle, setConfirmationMessage, setConfirmationAction, setConfirmationOpen, t]);
 
-  const handleImportEPUB = async () => {
+  const handleImportEPUB = useCallback(async () => {
     const file = await fileDialog({
       accept: '.epub',
       strict: true,
@@ -115,202 +113,218 @@ const DashboardMenu = () => {
       setAppSeverity('warning');
       setAppMessage(t('invalidFilename'));
     }
-  };
+  }, [t, setAppSnackOpen, setAppSeverity, setAppMessage, setEpubFile, setIsImportEPUB, sourceLang]);
 
-  const handleImportJWOrg = () => {
+  const handleImportJWOrg = useCallback(() => {
     setIsImportJWOrg(true);
-  };
+  }, [setIsImportJWOrg]);
 
-  const handleCreateBackup = () => {
+  const handleCreateBackup = useCallback(() => {
     setIsBackupDb(true);
-  };
+  }, [setIsBackupDb]);
 
-  const handleRestoreBackup = () => {
+  const handleRestoreBackup = useCallback(() => {
     setIsRestoreDb(true);
-  };
+  }, [setIsRestoreDb]);
 
-  const handlePublishPocket = () => {
+  const handlePublishPocket = useCallback(() => {
     setPublishPocket(true);
-  };
+  }, [setPublishPocket]);
 
-  const handleViewCurrentAssignment = async () => {
+  const handleViewCurrentAssignment = useCallback(async () => {
     let weekDate = await getCurrentExistingWeekDate();
     weekDate = weekDate.replaceAll('/', '-');
     navigate(`/schedules/view/${weekDate}`);
-  };
+  }, [navigate]);
 
-  const handleOpenAddSY = () => {
+  const handleOpenAddSY = useCallback(() => {
     setIsAddSY(true);
-  };
+  }, [setIsAddSY]);
 
-  const dashboardMenus = [
-    {
-      title: t('persons'),
-      visible: accountType === 'vip' && !viewMeetingScheduleRole,
-      links: [
-        {
-          title: t('persons'),
-          icon: <PeopleIcon />,
-          visible: true,
-          navigateTo: '/persons',
-        },
-        {
-          title: t('personAdd'),
-          icon: <PersonAddIcon />,
-          visible: true,
-          navigateTo: '/persons/new',
-        },
-        {
-          title: 'Dummy Import',
-          icon: (
-            <Badge badgeContent={'D'} color="error">
-              <DownloadIcon />
-            </Badge>
-          ),
-          visible: isDev,
-          action: importDummyUsers,
-        },
-      ],
-    },
-    {
-      title: t('schedule'),
-      visible: true,
-      links: [
-        {
-          title: t('viewMyAssignments'),
-          icon: <AssignmentIndIcon />,
-          visible: true,
-          action: handleOpenMyAssignment,
-        },
-        {
-          title: t('viewAssignmentsSchedule'),
-          icon: <ScheduleIcon />,
-          visible: true,
-          action: handleViewCurrentAssignment,
-        },
-        {
-          title: t('editAssignmentsSchedule'),
-          icon: <AssignmentIcon />,
-          visible: accountType === 'vip' && lmmoRole,
-          navigateTo: '/schedules',
-        },
-        {
-          title: t('publishPocket'),
-          icon: <SendIcon />,
-          visible: accountType === 'vip' && lmmoRole && isCongAccountConnected ? true : false,
-          action: handlePublishPocket,
-        },
-        {
-          title: t('refreshSchedule'),
-          icon: <CloudSyncIcon />,
-          visible:
-            isCongAccountConnected &&
-            (accountType === 'pocket' || viewMeetingScheduleRole || (secretaryRole && !lmmoRole)),
-          action: apiFetchSchedule,
-        },
-      ],
-    },
-    {
-      title: t('sourceMaterial'),
-      visible: accountType === 'vip' && lmmoRole,
-      links: [
-        {
-          title: t('viewSourceMaterial'),
-          icon: <CalendarMonthIcon />,
-          visible: true,
-          navigateTo: '/source-materials',
-        },
-        {
-          title: t('weekAddNew'),
-          icon: <MoreTimeIcon />,
-          visible: true,
-          action: handleWeekAdd,
-        },
-        {
-          title: t('sourceImportEPUB'),
-          icon: <FileCopyIcon />,
-          visible: true,
-          action: handleImportEPUB,
-        },
-        {
-          title: t('sourceImportJw'),
-          icon: <CloudSyncIcon />,
-          visible: isOnline ? true : false,
-          action: handleImportJWOrg,
-        },
-      ],
-    },
-    {
-      title: t('reports'),
-      visible: accountType === 'vip' && secretaryRole,
-      links: [
-        {
-          title: t('postFieldServiceReport'),
-          icon: <NoteIcon />,
-          visible: true,
-          navigateTo: '/field-service-report',
-        },
-        {
-          title: t('meetingAttendanceRecord'),
-          icon: <MeetingRoomIcon />,
-          visible: true,
-          navigateTo: '/meeting-attendance-record',
-        },
-        {
-          title: t('branchOfficeReport'),
-          icon: <ApartmentIcon />,
-          visible: true,
-          navigateTo: '/branch-office-reports',
-        },
-        {
-          title: t('addPreviousServiceYear'),
-          icon: <PostAddIcon />,
-          visible: true,
-          action: handleOpenAddSY,
-        },
-      ],
-    },
-    {
-      title: t('congregation'),
-      visible: accountType === 'vip' && !viewMeetingScheduleRole,
-      links: [
-        {
-          title: t('fieldServiceGroup'),
-          icon: <GroupsIcon />,
-          visible: secretaryRole,
-          navigateTo: '/field-service-group',
-        },
-        {
-          title: t('settings'),
-          icon: <SettingsIcon />,
-          visible: true,
-          navigateTo: '/congregation-settings',
-        },
-        {
-          title: t('sendBackup'),
-          icon: <CloudUploadIcon />,
-          visible: isCongAccountConnected ? true : false,
-          action: handleCreateBackup,
-        },
-        {
-          title: t('restoreBackup'),
-          icon: <CloudDownloadIcon />,
-          visible: isCongAccountConnected ? true : false,
-          action: handleRestoreBackup,
-        },
-        {
-          title: t('manageAccessToApps'),
-          icon: <AccountCircleIcon />,
-          visible: isCongAccountConnected && adminRole ? true : false,
-          navigateTo: '/administration',
-        },
-      ],
-    },
-  ];
-
-  useEffect(() => {
-    //reload on role refreshed
-  }, [roleReload]);
+  const dashboardMenus = useMemo(() => {
+    return [
+      {
+        title: t('persons'),
+        visible: accountType === 'vip' && !viewMeetingScheduleRole,
+        links: [
+          {
+            title: t('persons'),
+            icon: <PeopleIcon />,
+            visible: true,
+            navigateTo: '/persons',
+          },
+          {
+            title: t('personAdd'),
+            icon: <PersonAddIcon />,
+            visible: true,
+            navigateTo: '/persons/new',
+          },
+          {
+            title: 'Dummy Import',
+            icon: (
+              <Badge badgeContent={'D'} color="error">
+                <DownloadIcon />
+              </Badge>
+            ),
+            visible: isDev,
+            action: importDummyUsers,
+          },
+        ],
+      },
+      {
+        title: t('schedule'),
+        visible: true,
+        links: [
+          {
+            title: t('viewMyAssignments'),
+            icon: <AssignmentIndIcon />,
+            visible: true,
+            action: handleOpenMyAssignment,
+          },
+          {
+            title: t('viewAssignmentsSchedule'),
+            icon: <ScheduleIcon />,
+            visible: true,
+            action: handleViewCurrentAssignment,
+          },
+          {
+            title: t('editAssignmentsSchedule'),
+            icon: <AssignmentIcon />,
+            visible: accountType === 'vip' && lmmoRole,
+            navigateTo: '/schedules',
+          },
+          {
+            title: t('publishPocket'),
+            icon: <SendIcon />,
+            visible: accountType === 'vip' && lmmoRole && isCongAccountConnected ? true : false,
+            action: handlePublishPocket,
+          },
+          {
+            title: t('refreshSchedule'),
+            icon: <CloudSyncIcon />,
+            visible:
+              isCongAccountConnected &&
+              (accountType === 'pocket' || viewMeetingScheduleRole || (secretaryRole && !lmmoRole)),
+            action: apiFetchSchedule,
+          },
+        ],
+      },
+      {
+        title: t('sourceMaterial'),
+        visible: accountType === 'vip' && lmmoRole,
+        links: [
+          {
+            title: t('viewSourceMaterial'),
+            icon: <CalendarMonthIcon />,
+            visible: true,
+            navigateTo: '/source-materials',
+          },
+          {
+            title: t('weekAddNew'),
+            icon: <MoreTimeIcon />,
+            visible: true,
+            action: handleWeekAdd,
+          },
+          {
+            title: t('sourceImportEPUB'),
+            icon: <FileCopyIcon />,
+            visible: true,
+            action: handleImportEPUB,
+          },
+          {
+            title: t('sourceImportJw'),
+            icon: <CloudSyncIcon />,
+            visible: isOnline ? true : false,
+            action: handleImportJWOrg,
+          },
+        ],
+      },
+      {
+        title: t('reports'),
+        visible: accountType === 'vip' && secretaryRole,
+        links: [
+          {
+            title: t('postFieldServiceReport'),
+            icon: <NoteIcon />,
+            visible: true,
+            navigateTo: '/field-service-report',
+          },
+          {
+            title: t('meetingAttendanceRecord'),
+            icon: <MeetingRoomIcon />,
+            visible: true,
+            navigateTo: '/meeting-attendance-record',
+          },
+          {
+            title: t('branchOfficeReport'),
+            icon: <ApartmentIcon />,
+            visible: true,
+            navigateTo: '/branch-office-reports',
+          },
+          {
+            title: t('addPreviousServiceYear'),
+            icon: <PostAddIcon />,
+            visible: true,
+            action: handleOpenAddSY,
+          },
+        ],
+      },
+      {
+        title: t('congregation'),
+        visible: accountType === 'vip' && !viewMeetingScheduleRole,
+        links: [
+          {
+            title: t('fieldServiceGroup'),
+            icon: <GroupsIcon />,
+            visible: secretaryRole,
+            navigateTo: '/field-service-group',
+          },
+          {
+            title: t('settings'),
+            icon: <SettingsIcon />,
+            visible: true,
+            navigateTo: '/congregation-settings',
+          },
+          {
+            title: t('sendBackup'),
+            icon: <CloudUploadIcon />,
+            visible: isCongAccountConnected ? true : false,
+            action: handleCreateBackup,
+          },
+          {
+            title: t('restoreBackup'),
+            icon: <CloudDownloadIcon />,
+            visible: isCongAccountConnected ? true : false,
+            action: handleRestoreBackup,
+          },
+          {
+            title: t('manageAccessToApps'),
+            icon: <AccountCircleIcon />,
+            visible: isCongAccountConnected && adminRole ? true : false,
+            navigateTo: '/administration',
+          },
+        ],
+      },
+    ];
+  }, [
+    accountType,
+    adminRole,
+    handleCreateBackup,
+    handleImportEPUB,
+    handleImportJWOrg,
+    handleOpenAddSY,
+    handleOpenMyAssignment,
+    handlePublishPocket,
+    handleRestoreBackup,
+    handleViewCurrentAssignment,
+    handleWeekAdd,
+    isCongAccountConnected,
+    isOnline,
+    lmmoRole,
+    secretaryRole,
+    t,
+    viewMeetingScheduleRole,
+  ]);
 
   return (
     <Box>

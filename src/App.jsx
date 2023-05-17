@@ -11,11 +11,10 @@ import PrivateVipConnectedRoute from './components/PrivateVipConnectedRoute';
 import PrivateVipRoute from './components/PrivateVipRoute';
 import ErrorBoundary from './components/ErrorBoundary';
 import backupWorkerInstance from './workers/backupWorker';
-import { apiHostState, isLightThemeState, isOnlineState, roleReloadState, visitorIDState } from './states/main';
-import { congAccountConnectedState } from './states/congregation';
+import { apiHostState, isLightThemeState, isOnlineState, visitorIDState } from './states/main';
+import { congAccountConnectedState, congRoleState } from './states/congregation';
 import { appSnackOpenState } from './states/notification';
 import WaitingPage from './components/WaitingPage';
-import { Setting } from './classes/Setting';
 import PrivateSecretaryRoute from './components/PrivateSecretaryRoute';
 import PrivateLMMORoute from './components/PrivateLMMORoute';
 
@@ -63,15 +62,15 @@ const App = ({ updatePwa }) => {
   const isLight = useRecoilValue(isLightThemeState);
   const appSnackOpen = useRecoilValue(appSnackOpenState);
   const isCongAccountConnected = useRecoilValue(congAccountConnectedState);
-  const roleReload = useRecoilValue(roleReloadState);
+  const congRole = useRecoilValue(congRoleState);
 
   const [activeTheme, setActiveTheme] = useState(darkTheme);
   const [isLoading, setIsLoading] = useState(true);
   const [isSupported, setIsSupported] = useState(true);
 
-  const secretaryRole = Setting.cong_role.includes('secretary');
-  const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
-  const adminRole = Setting.cong_role.includes('admin');
+  const secretaryRole = congRole.includes('secretary');
+  const lmmoRole = congRole.includes('lmmo') || congRole.includes('lmmo-backup');
+  const adminRole = congRole.includes('admin');
 
   const router = createHashRouter([
     {
@@ -269,8 +268,6 @@ const App = ({ updatePwa }) => {
     checkBrowser();
     setIsLoading(false);
   }, []);
-
-  useEffect(() => {}, [roleReload]);
 
   if (isLoading) {
     return <WaitingPage />;
