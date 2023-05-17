@@ -1,7 +1,5 @@
-import { promiseGetRecoil, promiseSetRecoil } from 'recoil-outside';
 import { getI18n } from 'react-i18next';
 import appDb from '../indexedDb/mainDb';
-import { roleReloadState } from '../states/main';
 
 class SettingClass {
   constructor() {
@@ -60,9 +58,6 @@ SettingClass.prototype.load = async function () {
   this.opening_prayer_autoAssign = congData.opening_prayer_autoAssign;
   this.user_local_uid = congData.user_local_uid || '';
   this.user_members_delegate = congData.user_members_delegate || [];
-
-  const prevRole = await promiseGetRecoil(roleReloadState);
-  await promiseSetRecoil(roleReloadState, !prevRole);
 };
 
 SettingClass.prototype.update = async function (setting, overwrite) {

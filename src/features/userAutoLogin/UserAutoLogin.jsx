@@ -14,7 +14,6 @@ import {
   isAppLoadState,
   isOAuthAccountUpgradeState,
   isOnlineState,
-  roleReloadState,
   rootModalOpenState,
   userIDState,
   visitorIDState,
@@ -36,7 +35,6 @@ const UserAutoLogin = () => {
   const setModalOpen = useSetRecoilState(rootModalOpenState);
   const setUserDelegate = useSetRecoilState(userMembersDelegateState);
   const setCongRole = useSetRecoilState(congRoleState);
-  const setRoleReload = useSetRecoilState(roleReloadState);
 
   const isOnline = useRecoilValue(isOnlineState);
   const apiHost = useRecoilValue(apiHostState);
@@ -105,7 +103,6 @@ const UserAutoLogin = () => {
           obj.account_type = 'vip';
           await Setting.update(obj);
           setUserDelegate(user_members_delegate);
-          setRoleReload((prev) => !prev);
           await apiFetchSchedule();
           return;
         }
@@ -141,7 +138,6 @@ const UserAutoLogin = () => {
     setUserID,
     setCongRole,
     user,
-    setRoleReload,
   ]);
 
   useEffect(() => {

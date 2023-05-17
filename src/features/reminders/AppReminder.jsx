@@ -10,19 +10,19 @@ import ListItemText from '@mui/material/ListItemText';
 import { S1s } from '../../classes/S1s';
 import { ServiceYear } from '../../classes/ServiceYear';
 import { Setting } from '../../classes/Setting';
-import { roleReloadState } from '../../states/main';
+import { congRoleState } from '../../states/congregation';
 
 const AppReminder = () => {
   const { t } = useTranslation('ui');
   const [hasReminder, setHasReminder] = useState(false);
   const [lateS1, setLateS1] = useState(false);
 
-  const roleReload = useRecoilValue(roleReloadState);
+  const congRole = useRecoilValue(congRoleState);
 
   const checkCurrentReport = useCallback(async () => {
     await Setting.load();
 
-    const secretaryRole = Setting.cong_role.includes('secretary');
+    const secretaryRole = congRole.includes('secretary');
 
     if (secretaryRole) {
       const date = new Date().getDate();
@@ -44,7 +44,7 @@ const AppReminder = () => {
         }
       }
     }
-  }, []);
+  }, [congRole]);
 
   useEffect(() => {
     const checkReminders = setTimeout(() => {
@@ -55,8 +55,6 @@ const AppReminder = () => {
       clearTimeout(checkReminders);
     };
   }, [checkCurrentReport]);
-
-  useEffect(() => {}, [roleReload]);
 
   return (
     <>
