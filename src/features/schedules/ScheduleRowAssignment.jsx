@@ -52,15 +52,10 @@ const ScheduleRowAssignment = ({
   weekType,
   edit,
   source,
-  isAssignA,
+  currentWeek,
   personA,
-  loadStudentPickerA,
-  isAssignAssistantA,
   assistantA,
-  isAssignB,
   personB,
-  loadStudentPickerB,
-  isAssignAssistantB,
   assistantB,
   student,
   studentPart,
@@ -68,7 +63,6 @@ const ScheduleRowAssignment = ({
   assTypeName,
   assTime,
   ayf,
-  loadStudentAyfPicker,
   studentAID,
   assistantAID,
   studentBID,
@@ -77,7 +71,11 @@ const ScheduleRowAssignment = ({
   isLC,
   cbs,
   co,
-  setFilterEnabled,
+  setSelectedStudent,
+  assType2,
+  loadStudentAyfPicker,
+  loadPersonHistoryA,
+  loadPersonHistoryB,
 }) => {
   const classCount = useRecoilValue(classCountState);
 
@@ -111,23 +109,17 @@ const ScheduleRowAssignment = ({
   }, [isLC, source]);
 
   useEffect(() => {
-    if (assType) {
-      if (assType !== 105 && assType !== 106 && assType !== 107 && assType !== 117) {
-        setDisplayPerson(true);
-        return;
-      }
-
+    if (assType === 105 || assType === 106 || assType === 107 || assType === 117) {
       setDisplayPerson(false);
+      return;
     }
 
-    if (!assType) {
-      if (isLC) {
-        setDisplayPerson(!isLCNoAssign);
-        return;
-      }
-
-      setDisplayPerson(true);
+    if (isLC) {
+      setDisplayPerson(!isLCNoAssign);
+      return;
     }
+
+    setDisplayPerson(true);
   }, [assType, isLCNoAssign, isLC, assTypeName]);
 
   useEffect(() => {
@@ -149,8 +141,8 @@ const ScheduleRowAssignment = ({
     >
       <Box sx={getContainerStyle()}>
         <Typography variant="body1" sx={{ fontWeight: 'bold', fontSize: 16 }}>
-          {!assType && <>{source}</>}
-          {assType && assType !== 107 && (
+          {!ayf && <>{source}</>}
+          {ayf && assType !== 107 && (
             <>
               {assTypeName} ({assTime} min.)
             </>
@@ -170,17 +162,16 @@ const ScheduleRowAssignment = ({
               ayf={ayf}
               edit={edit}
               co={co}
-              isAssign={isAssignA}
               person={personA}
-              loadStudentPicker={loadStudentPickerA}
-              isAssignAssistant={isAssignAssistantA}
               assistant={assistantA}
-              loadStudentAyfPicker={loadStudentAyfPicker}
-              setFilterEnabled={(value) => setFilterEnabled(value)}
               assType={assType}
               assTypeName={assTypeName}
               studentID={studentAID}
               assistantID={assistantAID}
+              currentWeek={currentWeek}
+              setSelectedStudent={(value) => setSelectedStudent(value)}
+              loadPersonHistory={loadPersonHistoryA}
+              loadStudentAyfPicker={loadStudentAyfPicker}
             />
           )}
 
@@ -190,17 +181,16 @@ const ScheduleRowAssignment = ({
                 <SingleAssignment
                   ayf={ayf}
                   edit={edit}
-                  isAssign={isAssignB}
                   person={personB}
-                  loadStudentPicker={loadStudentPickerB}
-                  isAssignAssistant={isAssignAssistantB}
                   assistant={assistantB}
-                  loadStudentAyfPicker={loadStudentAyfPicker}
-                  setFilterEnabled={(value) => setFilterEnabled(value)}
-                  assType={assType}
+                  assType={assType2 || assType}
                   assTypeName={assTypeName}
                   studentID={studentBID}
                   assistantID={assistantBID}
+                  currentWeek={currentWeek}
+                  setSelectedStudent={(value) => setSelectedStudent(value)}
+                  loadPersonHistory={loadPersonHistoryB}
+                  loadStudentAyfPicker={loadStudentAyfPicker}
                 />
               )}
             </>

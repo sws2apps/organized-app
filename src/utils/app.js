@@ -268,6 +268,13 @@ export const addMonths = (date, value) => {
   return new Date(result);
 };
 
+export const addWeeks = (date, value) => {
+  const startDate = new Date(date);
+  const result = startDate.setDate(startDate.getDate() + value * 7);
+
+  return new Date(result);
+};
+
 export const monthDiff = (startDate, endDate) => {
   startDate = new Date(startDate);
   endDate = new Date(endDate);
