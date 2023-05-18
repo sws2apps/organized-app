@@ -1,10 +1,9 @@
 import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
-import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
+import ListAltIcon from '@mui/icons-material/ListAlt';
 import SingleAssignmentHeader from './SingleAssignmentHeader';
-import SingleAssignmentPerson from './SingleAssignmentPerson';
+import PersonSelect from './PersonSelect';
 
 const styles = {
   personContainer: { display: 'flex', marginRight: '5px', alignItems: 'center' },
@@ -12,19 +11,18 @@ const styles = {
 const SingleAssignment = ({
   ayf,
   header,
-  isAssign,
   person,
-  loadStudentPicker,
-  isAssignAssistant,
   assistant,
   edit,
-  loadStudentAyfPicker,
   studentID,
   assType,
   assTypeName,
   assistantID,
   co,
-  setFilterEnabled,
+  setSelectedStudent,
+  currentWeek,
+  loadPersonHistory,
+  loadStudentAyfPicker,
 }) => {
   const { t } = useTranslation('ui');
 
@@ -39,7 +37,7 @@ const SingleAssignment = ({
     return {};
   };
 
-  const loadStuPicker = (assID, assType, assTypeName, currentStudent, stuForAssistant, assTypeNameForAssistant) => {
+  const loadHistory = (assID, assType, assTypeName, currentStudent, stuForAssistant, assTypeNameForAssistant) => {
     const obj = {};
     obj.assID = assID;
     obj.assType = assType;
@@ -50,32 +48,18 @@ const SingleAssignment = ({
     loadStudentAyfPicker(obj);
   };
 
-  const openPickerStudent = () => {
-    setFilterEnabled(false);
-
+  const openPersonHistory = () => {
     if (ayf) {
-      if (
-        assType === 101 ||
-        assType === 102 ||
-        assType === 103 ||
-        assType === 108 ||
-        (assType >= 140 && assType < 170) ||
-        (assType >= 170 && assType < 200)
-      ) {
-        setFilterEnabled(true);
-      }
-
-      loadStuPicker(studentID, assType, assTypeName, person);
+      loadHistory(studentID, assType, assTypeName, person);
     }
 
     if (!ayf) {
-      loadStudentPicker();
+      loadPersonHistory();
     }
   };
 
-  const openPickerAssistant = () => {
-    setFilterEnabled(false);
-    loadStuPicker(assistantID, assType, t('assistant'), assistant, person, assTypeName);
+  const openHistoryAssistant = () => {
+    loadHistory(assistantID, assType, t('assistant'), assistant, person, assTypeName);
   };
 
   return (
@@ -83,28 +67,52 @@ const SingleAssignment = ({
       {header && <SingleAssignmentHeader assignmentHeader={header} />}
       <Box sx={getPersonStyle()}>
         <Box sx={styles.personContainer}>
-          <SingleAssignmentPerson person={person} />
+          <PersonSelect
+            edit={edit}
+            ayf={ayf}
+            assID={studentID}
+            assType={assType}
+            handleSave={(value) => setSelectedStudent(value)}
+            co={co}
+            person={person}
+            currentWeek={currentWeek}
+          />
           {edit && (
             <>
-              {isAssign && <CircularProgress color="secondary" size={26} disableShrink={true} />}
-              {!co && !isAssign && (
-                <IconButton sx={{ padding: '1px' }} onClick={openPickerStudent}>
-                  <EditIcon sx={{ fontSize: '24px' }} />
+              {!co && (
+                <IconButton
+                  sx={{ marginLeft: '3px', padding: '5px' }}
+                  onClick={openPersonHistory}
+                  disabled={person === ''}
+                >
+                  <ListAltIcon sx={{ fontSize: '24px' }} />
                 </IconButton>
               )}
-              {co && edit && <Box sx={{ width: '26px' }}></Box>}
+              {co && edit && <Box sx={{ width: '36px' }}></Box>}
             </>
           )}
         </Box>
         {ayf && assType !== 104 && (
           <Box sx={styles.personContainer}>
-            <SingleAssignmentPerson person={assistant} />
+            <PersonSelect
+              edit={edit}
+              ayf={ayf}
+              assID={assistantID}
+              assType={assType}
+              handleSave={(value) => setSelectedStudent(value)}
+              person={assistant}
+              stuForAssistant={person}
+              currentWeek={currentWeek}
+            />
             {edit && (
               <>
-                {isAssignAssistant && <CircularProgress color="secondary" size={26} disableShrink={true} />}
-                {person && !isAssignAssistant && (
-                  <IconButton sx={{ padding: '1px' }} onClick={openPickerAssistant}>
-                    <EditIcon sx={{ fontSize: '24px' }} />
+                {person && (
+                  <IconButton
+                    sx={{ marginLeft: '3px', padding: '5px' }}
+                    onClick={openHistoryAssistant}
+                    disabled={person === ''}
+                  >
+                    <ListAltIcon sx={{ fontSize: '24px' }} />
                   </IconButton>
                 )}
               </>

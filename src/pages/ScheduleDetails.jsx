@@ -32,7 +32,14 @@ const ScheduleDetails = () => {
 
   return (
     <Box>
-      <Box sx={{ display: 'flex', gap: '10px', alignItems: 'center', marginBottom: '20px' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          gap: '10px',
+          alignItems: 'center',
+          marginBottom: '20px',
+        }}
+      >
         <IconButton onClick={handleNavigateSchedule}>
           <ArrowBackIcon sx={{ fontSize: '30px' }} />
         </IconButton>

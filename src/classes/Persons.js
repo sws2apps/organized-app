@@ -3,6 +3,7 @@ import { comparePerson } from '../utils/compare';
 import { AssignmentType } from './AssignmentType';
 import { FSGList } from './FSGList';
 import { PersonClass } from './Person';
+import { Schedules } from './Schedules';
 import { Setting } from './Setting';
 
 class PersonsClass {
@@ -390,7 +391,7 @@ PersonsClass.prototype.getByAssignment = function (assType, stuForAssistant, gen
   let dbPersons = [];
   if (assType === 'isAssistant') {
     if (stuForAssistant) {
-      const main = Persons.getByDisplayName(stuForAssistant);
+      const main = Persons.get(stuForAssistant);
 
       dbPersons = appData.filter(
         (person) =>
@@ -400,25 +401,71 @@ PersonsClass.prototype.getByAssignment = function (assType, stuForAssistant, gen
             person.assignments.find((assignment) => assignment.code === 102) ||
             person.assignments.find((assignment) => assignment.code === 103))
       );
-    } else {
-      dbPersons = appData.filter(
-        (person) =>
-          person.assignments.find((assignment) => assignment.code === 101) ||
-          person.assignments.find((assignment) => assignment.code === 102) ||
-          person.assignments.find((assignment) => assignment.code === 103)
-      );
     }
   } else {
     dbPersons = appData.filter((person) => person.assignments.find((assignment) => assignment.code === assType));
   }
 
   const persons = [];
+  const uniqueAssignment = [100, 104, 110, 111, 112, 113, 114, 115, 116];
+  const isUnique = uniqueAssignment.find((item) => item === assType);
+  const studentAssignment =
+    assType === 101 ||
+    (assType >= 140 && assType < 170) ||
+    assType === 102 ||
+    (assType >= 170 && assType < 200) ||
+    assType === 103 ||
+    assType === 108;
 
   for (const person of dbPersons) {
     const obj = {};
     obj.person_uid = person.person_uid;
-    obj.lastAssignment = person.lastAssignment();
-    obj.lastAssignmentFormat = person.lastAssignmentFormatted();
+
+    obj.lastAssignmentAll = person.lastAssignment();
+    obj.lastAssignmentAllFormat = person.lastAssignmentFormatted();
+
+    obj.lastAssignment = '';
+    obj.lastAssignmentFormat = '';
+    obj.lastAssistant = '';
+    obj.lastAssistantFormat = '';
+
+    if (assType) {
+      let history;
+
+      if (isUnique) {
+        history = Schedules.history.find(
+          (item) => item.studentID === person.person_uid && item.assignmentID === assType
+        );
+      }
+
+      if (studentAssignment || assType === 'isAssistant') {
+        history = Schedules.history.find(
+          (item) =>
+            item.studentID === person.person_uid &&
+            (item.assignmentID === 101 ||
+              (item.assignmentID >= 140 && item.assignmentID < 170) ||
+              item.assignmentID === 102 ||
+              (item.assignmentID >= 170 && item.assignmentID < 200) ||
+              item.assignmentID === 103 ||
+              item.assignmentID === 108)
+        );
+
+        const assistantHistory = Schedules.history.find(
+          (item) => item.studentID === person.person_uid && item.assignmentID === 109
+        );
+
+        if (assistantHistory) {
+          obj.lastAssistant = assistantHistory.weekOf;
+          obj.lastAssistantFormat = assistantHistory.weekOfFormatted;
+        }
+      }
+
+      if (history) {
+        obj.lastAssignment = history.weekOf;
+        obj.lastAssignmentFormat = history.weekOfFormatted;
+      }
+    }
+
     obj.person_displayName = person.person_displayName;
     obj.timeAway = person.timeAway;
     obj.isMale = person.isMale;
@@ -427,13 +474,14 @@ PersonsClass.prototype.getByAssignment = function (assType, stuForAssistant, gen
   }
 
   persons.sort((a, b) => {
-    if (a.lastAssignment === '') return -1;
-    if (b.lastAssignment === '') return 1;
-    if (a.lastAssignment === b.lastAssignment) return 0;
-    const dateA =
-      a.lastAssignment.split('/')[2] + '/' + a.lastAssignment.split('/')[0] + '/' + a.lastAssignment.split('/')[1];
-    const dateB =
-      b.lastAssignment.split('/')[2] + '/' + b.lastAssignment.split('/')[0] + '/' + b.lastAssignment.split('/')[1];
+    let fldFilter = 'lastAssignment';
+    if (assType === 'isAssistant') fldFilter = 'lastAssistant';
+
+    if (a[fldFilter] === '') return -1;
+    if (b[fldFilter] === '') return 1;
+    if (a[fldFilter] === b[fldFilter]) return 0;
+    const dateA = a[fldFilter].split('/')[2] + '/' + a[fldFilter].split('/')[0] + '/' + a[fldFilter].split('/')[1];
+    const dateB = b[fldFilter].split('/')[2] + '/' + b[fldFilter].split('/')[0] + '/' + b[fldFilter].split('/')[1];
     return dateA > dateB ? 1 : -1;
   });
   return persons;

@@ -372,7 +372,7 @@
   "roleSecretary": "Secretary",
   "sessionsDevices": "Sessions/Devices",
   "pocketSetupInstruction": "Setup Instructions",
-  "pocketSetupSite": "New device can be added. Ask the user to visit https://cpe-sws.web.app.",
+  "pocketSetupSite": "New device can be added. Ask the user to visit https://cpe-web.sws2apps.com",
   "pocketSetupCode": "Then, when prompted, enter the following code to allow CPE app to be run on that device:",
   "pocketAddDevice": "Add Device",
   "addCPEUser": "Add new CPE user",
@@ -595,5 +595,6 @@
   "delegatePersonsDesc": "Access to view their meeting parts, and post their field service reports.",
   "deleteDbNoRecordDesc": "All local data used by CPE will be deleted. Click Delete to continue.",
   "reminders": "Reminders",
-  "reminderS1Report": "Your Field Service and Meeting Attendance (S-1) report is not yet ready. It should be submitted to the branch office no later than the 20th day of the month."
+  "reminderS1Report": "Your Field Service and Meeting Attendance (S-1) report is not yet ready. It should be submitted to the branch office no later than the 20th day of the month.",
+  "scheduleAlreadyAssignedWarning": "This person already has an assignment this week"
 }

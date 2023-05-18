@@ -18,8 +18,7 @@ import {
 } from '../../states/schedule';
 import { checkCBSReader, checkLCAssignments, fetchScheduleInfo } from '../../utils/sourceMaterial';
 import { openingPrayerAutoAssignState } from '../../states/congregation';
-import { Persons } from '../../classes/Persons';
-import { saveAssignment } from '../../utils/schedule';
+import { selectRandomPerson, saveAssignment } from '../../utils/schedule';
 import { Sources } from '../../classes/Sources';
 import { Schedules } from '../../classes/Schedules';
 import { Setting } from '../../classes/Setting';
@@ -58,8 +57,6 @@ const AutofillSchedule = () => {
   const handleAssignSchedule = async () => {
     setIsAssigning(true);
 
-    let students = [];
-
     // Assign Chairman
     for await (const item of weeks) {
       const week = item.value;
@@ -67,16 +64,15 @@ const AutofillSchedule = () => {
 
       if (schedData.noMeeting === false) {
         // Main Hall
-        students = Persons.getByAssignment(110);
-        if (students.length > 0) {
-          const chairmanA = students[0].person_uid;
-          await saveAssignment(week, chairmanA, 'chairmanMM_A');
+        const selected = selectRandomPerson(110, week);
+        if (selected) {
+          await saveAssignment(week, selected, 'chairmanMM_A');
           setAssigned((prev) => {
             return prev + 1;
           });
 
           if (autoAssignOpeningPrayer) {
-            await saveAssignment(week, chairmanA, 'opening_prayer');
+            await saveAssignment(week, selected, 'opening_prayer');
             setAssigned((prev) => {
               return prev + 1;
             });
@@ -85,10 +81,9 @@ const AutofillSchedule = () => {
 
         // Aux Class
         if (Setting.class_count === 2 && schedData.week_type === 1) {
-          students = Persons.getByAssignment(110);
-          if (students.length > 0) {
-            const chairmanB = students[0].person_uid;
-            await saveAssignment(week, chairmanB, 'chairmanMM_B');
+          const selected = selectRandomPerson(110, week);
+          if (selected) {
+            await saveAssignment(week, selected, 'chairmanMM_B');
             setAssigned((prev) => {
               return prev + 1;
             });
@@ -104,10 +99,9 @@ const AutofillSchedule = () => {
 
       if (schedData.noMeeting === false && schedData.week_type === 1) {
         // Conductor
-        students = Persons.getByAssignment(115);
-        if (students.length > 0) {
-          const cbsConductor = students[0].person_uid;
-          await saveAssignment(week, cbsConductor, 'cbs_conductor');
+        const selected = selectRandomPerson(115, week);
+        if (selected) {
+          await saveAssignment(week, selected, 'cbs_conductor');
           setAssigned((prev) => {
             return prev + 1;
           });
@@ -122,20 +116,18 @@ const AutofillSchedule = () => {
 
       if (schedData.noMeeting === false) {
         // Assign TGW Talk
-        students = Persons.getByAssignment(112);
-        if (students.length > 0) {
-          const tgwTalk = students[0].person_uid;
-          await saveAssignment(week, tgwTalk, 'tgw_talk');
+        const selected = selectRandomPerson(112, week);
+        if (selected) {
+          await saveAssignment(week, selected, 'tgw_talk');
           setAssigned((prev) => {
             return prev + 1;
           });
         }
 
         // Assign TGW Spiritual Gems
-        students = Persons.getByAssignment(113);
-        if (students.length > 0) {
-          const tgwGems = students[0].person_uid;
-          await saveAssignment(week, tgwGems, 'tgw_gems');
+        const selected2 = selectRandomPerson(113, week);
+        if (selected2) {
+          await saveAssignment(week, selected2, 'tgw_gems');
           setAssigned((prev) => {
             return prev + 1;
           });
@@ -144,10 +136,9 @@ const AutofillSchedule = () => {
         const noAssignLC1 = checkLCAssignments(sourceData.lcPart1_src);
         if (!noAssignLC1) {
           // Assign LC Part 1
-          students = Persons.getByAssignment(114);
-          if (students.length > 0) {
-            const lcPart1 = students[0].person_uid;
-            await saveAssignment(week, lcPart1, 'lc_part1');
+          const selected = selectRandomPerson(114, week);
+          if (selected) {
+            await saveAssignment(week, selected, 'lc_part1');
             setAssigned((prev) => {
               return prev + 1;
             });
@@ -166,10 +157,9 @@ const AutofillSchedule = () => {
         }
 
         if (isAssignLC2) {
-          students = Persons.getByAssignment(114);
-          if (students.length > 0) {
-            const lcPart2 = students[0].person_uid;
-            await saveAssignment(week, lcPart2, 'lc_part2');
+          const selected = selectRandomPerson(114, week);
+          if (selected) {
+            await saveAssignment(week, selected, 'lc_part2');
             setAssigned((prev) => {
               return prev + 1;
             });
@@ -180,10 +170,9 @@ const AutofillSchedule = () => {
         if (schedData.week_type === 1) {
           const noAssignCBSReader = checkCBSReader(sourceData.cbs_src);
           if (!noAssignCBSReader) {
-            students = Persons.getByAssignment(116);
-            if (students.length > 0) {
-              const cbsReader = students[0].person_uid;
-              await saveAssignment(week, cbsReader, 'cbs_reader');
+            const selected = selectRandomPerson(116, week);
+            if (selected) {
+              await saveAssignment(week, selected, 'cbs_reader');
               setAssigned((prev) => {
                 return prev + 1;
               });
@@ -193,10 +182,9 @@ const AutofillSchedule = () => {
 
         if (!autoAssignOpeningPrayer) {
           // Assign Opening Prayer
-          students = Persons.getByAssignment(111);
-          if (students.length > 0) {
-            const openingPrayer = students[0].person_uid;
-            await saveAssignment(week, openingPrayer, 'opening_prayer');
+          const selected = selectRandomPerson(111, week);
+          if (selected) {
+            await saveAssignment(week, selected, 'opening_prayer');
             setAssigned((prev) => {
               return prev + 1;
             });
@@ -204,20 +192,18 @@ const AutofillSchedule = () => {
         }
 
         // Assign Closing Prayer
-        students = Persons.getByAssignment(111);
-        if (students.length > 0) {
-          const closingPrayer = students[0].person_uid;
-          await saveAssignment(week, closingPrayer, 'closing_prayer');
+        const selected3 = selectRandomPerson(111, week);
+        if (selected3) {
+          await saveAssignment(week, selected3, 'closing_prayer');
           setAssigned((prev) => {
             return prev + 1;
           });
         }
 
         // Assign Bible Reading Main Hall
-        students = Persons.getByAssignment(100);
-        if (students.length > 0) {
-          const stuBReadA = students[0].person_uid;
-          await saveAssignment(week, stuBReadA, 'bRead_stu_A');
+        const selected4 = selectRandomPerson(100, week, undefined, 'A');
+        if (selected4) {
+          await saveAssignment(week, selected4, 'bRead_stu_A');
           setAssigned((prev) => {
             return prev + 1;
           });
@@ -225,10 +211,9 @@ const AutofillSchedule = () => {
 
         // Assign Bible Reading Aux Class
         if (Setting.class_count === 2 && schedData.week_type === 1) {
-          students = Persons.getByAssignment(100);
-          if (students.length > 0) {
-            const stuBReadB = students[0].person_uid;
-            await saveAssignment(week, stuBReadB, 'bRead_stu_B');
+          const selected = selectRandomPerson(100, week, undefined, 'B');
+          if (selected) {
+            await saveAssignment(week, selected, 'bRead_stu_B');
             setAssigned((prev) => {
               return prev + 1;
             });
@@ -254,11 +239,10 @@ const AutofillSchedule = () => {
             (assType >= 170 && assType < 200)
           ) {
             fldName = 'ass' + a + '_stu_A';
-            students = Persons.getByAssignment(assType);
 
-            if (students.length > 0) {
-              const stuA = students[0].person_uid;
-              await saveAssignment(week, stuA, fldName);
+            const selected = selectRandomPerson(assType, week, undefined, 'A');
+            if (selected) {
+              await saveAssignment(week, selected, fldName);
               setAssigned((prev) => {
                 return prev + 1;
               });
@@ -267,9 +251,6 @@ const AutofillSchedule = () => {
 
           // Aux Class
           if (Setting.class_count === 2 && schedData.week_type === 1) {
-            fldName = 'ass' + a + '_stu_B';
-            students = Persons.getByAssignment(assType);
-
             if (
               assType === 101 ||
               assType === 102 ||
@@ -279,9 +260,11 @@ const AutofillSchedule = () => {
               (assType >= 140 && assType < 170) ||
               (assType >= 170 && assType < 200)
             ) {
-              if (students.length > 0) {
-                const stuB = students[0].person_uid;
-                await saveAssignment(week, stuB, fldName);
+              fldName = 'ass' + a + '_stu_B';
+
+              const selected = selectRandomPerson(assType, week, undefined, 'B');
+              if (selected) {
+                await saveAssignment(week, selected, fldName);
                 setAssigned((prev) => {
                   return prev + 1;
                 });
@@ -304,14 +287,14 @@ const AutofillSchedule = () => {
             (assType >= 140 && assType < 170) ||
             (assType >= 170 && assType < 200)
           ) {
-            fldName = 'ass' + a + '_stu_A_dispName';
-            const stuDispA = schedData[fldName];
+            fldName = 'ass' + a + '_stu_A';
+            const stuA = schedData[fldName];
 
             fldName = 'ass' + a + '_ass_A';
-            students = Persons.getByAssignment('isAssistant', stuDispA);
-            if (students.length > 0) {
-              const assA = students[0].person_uid;
-              await saveAssignment(week, assA, fldName);
+
+            const selected = selectRandomPerson('isAssistant', week, stuA, 'A');
+            if (selected) {
+              await saveAssignment(week, selected, fldName);
               setAssigned((prev) => {
                 return prev + 1;
               });
@@ -328,14 +311,13 @@ const AutofillSchedule = () => {
               (assType >= 140 && assType < 170) ||
               (assType >= 170 && assType < 200)
             ) {
-              fldName = 'ass' + a + '_stu_B_dispName';
-              const stuDispB = schedData[fldName];
+              fldName = 'ass' + a + '_stu_B';
+              const stuB = schedData[fldName];
 
               fldName = 'ass' + a + '_ass_B';
-              students = Persons.getByAssignment('isAssistant', stuDispB);
-              if (students.length > 0) {
-                const assB = students[0].person_uid;
-                await saveAssignment(week, assB, fldName);
+              const selected = selectRandomPerson('isAssistant', week, stuB, 'B');
+              if (selected) {
+                await saveAssignment(week, selected, fldName);
                 setAssigned((prev) => {
                   return prev + 1;
                 });

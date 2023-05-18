@@ -6,6 +6,7 @@ import { Schedules } from '../classes/Schedules';
 import { Setting } from '../classes/Setting';
 import { Sources } from '../classes/Sources';
 import { refreshMyAssignmentsState } from '../states/main';
+import { addMonths, addWeeks } from './app';
 
 export const getHistoryInfo = (weekOf, assignment) => {
   const source = Sources.get(weekOf);
@@ -290,4 +291,166 @@ export const fetchMyAssignments = () => {
   } catch (err) {
     throw new Error(err);
   }
+};
+
+export const getPersonAutofillNoPart = (persons) => {
+  let selected;
+
+  for (const person of persons) {
+    const assignments = Schedules.history.filter((record) => record.studentID === person.person_uid);
+    if (assignments.length === 0) {
+      selected = person.person_uid;
+      break;
+    }
+  }
+
+  return selected;
+};
+
+export const getPersonAutofillNoPartWithinMonth = (persons, week, assClass, assType) => {
+  let selected;
+
+  const currentDate = new Date(`${week.split('/')[2]}/${week.split('/')[0]}/${week.split('/')[1]}`);
+  const lastMonth = addMonths(currentDate, -1);
+  const nextMonth = addMonths(currentDate, 1);
+
+  for (const person of persons) {
+    const assignments = Schedules.history.filter((record) => {
+      const tmpDate = new Date(
+        `${record.weekOf.split('/')[2]}/${record.weekOf.split('/')[0]}/${record.weekOf.split('/')[1]}`
+      );
+
+      return tmpDate > lastMonth && tmpDate < nextMonth && record.studentID === person.person_uid;
+    });
+
+    if (assignments.length === 0) {
+      if (assClass) {
+        const lastAssignment = Schedules.history.find((record) => {
+          const tmpDate = new Date(
+            `${record.weekOf.split('/')[2]}/${record.weekOf.split('/')[0]}/${record.weekOf.split('/')[1]}`
+          );
+
+          return tmpDate < currentDate && record.studentID === person.person_uid;
+        });
+
+        const lastAssignmentClass = lastAssignment?.class;
+        const lastAssignmentType = lastAssignment?.assignmentID;
+        const hasAux = Setting.class_count === 2;
+
+        if (lastAssignmentType !== assType && (!hasAux || (hasAux && lastAssignmentClass !== assClass))) {
+          selected = person.person_uid;
+          break;
+        }
+      }
+
+      if (!assClass) {
+        selected = person.person_uid;
+        break;
+      }
+    }
+  }
+
+  return selected;
+};
+
+export const getPersonAutofillNoPartWithin2Weeks = (persons, week, assClass, assType) => {
+  let selected;
+
+  const currentDate = new Date(`${week.split('/')[2]}/${week.split('/')[0]}/${week.split('/')[1]}`);
+  const lastMonth = addWeeks(currentDate, -2);
+  const nextMonth = addWeeks(currentDate, 2);
+
+  for (const person of persons) {
+    const assignments = Schedules.history.filter((record) => {
+      const tmpDate = new Date(
+        `${record.weekOf.split('/')[2]}/${record.weekOf.split('/')[0]}/${record.weekOf.split('/')[1]}`
+      );
+
+      return tmpDate > lastMonth && tmpDate < nextMonth && record.studentID === person.person_uid;
+    });
+
+    if (assignments.length === 0) {
+      if (assClass) {
+        const lastAssignment = Schedules.history.find((record) => {
+          const tmpDate = new Date(
+            `${record.weekOf.split('/')[2]}/${record.weekOf.split('/')[0]}/${record.weekOf.split('/')[1]}`
+          );
+
+          return tmpDate < currentDate && record.studentID === person.person_uid;
+        });
+
+        const lastAssignmentClass = lastAssignment?.class;
+        const lastAssignmentType = lastAssignment?.assignmentID;
+        const hasAux = Setting.class_count === 2;
+
+        if (lastAssignmentType !== assType && (!hasAux || (hasAux && lastAssignmentClass !== assClass))) {
+          selected = person.person_uid;
+          break;
+        }
+      }
+
+      if (!assClass) {
+        selected = person.person_uid;
+        break;
+      }
+    }
+  }
+
+  return selected;
+};
+
+export const getPersonAutofillSibling = (persons, assType, assClass) => {
+  let selected;
+
+  for (const person of persons) {
+    const lastAssignment = Schedules.history.find((record) => record.studentID === person.person_uid);
+
+    if (lastAssignment.assignmentID !== assType) {
+      if (assClass) {
+        const hasAux = Setting.class_count === 2;
+
+        if (!hasAux || (hasAux && lastAssignment.class !== assClass)) {
+          selected = person.person_uid;
+          break;
+        }
+      }
+
+      if (!assClass) {
+        selected = person.person_uid;
+        break;
+      }
+    }
+  }
+
+  return selected;
+};
+
+export const selectRandomPerson = (assType, week, mainStudent, assClass) => {
+  let selected;
+
+  const persons = Persons.getByAssignment(assType, mainStudent);
+
+  assType = assType === 'isAssistant' ? 109 : assType;
+
+  if (persons.length === 0) return selected;
+
+  // 1st rule: no part
+  selected = getPersonAutofillNoPart(persons);
+
+  // 2nd rule: no part within one month
+  if (!selected) {
+    selected = getPersonAutofillNoPartWithinMonth(persons, week, assClass, assType);
+  }
+
+  // 3rd rule: no part within two weeks
+  if (!selected) {
+    selected = getPersonAutofillNoPartWithin2Weeks(persons, week, assClass, assType);
+  }
+
+  // 4th rule: no same part consecutively
+  if (!selected) {
+    selected = getPersonAutofillSibling(persons, assType, assClass);
+  }
+
+  return selected;
 };
