@@ -372,7 +372,7 @@
   "roleSecretary": "Mpitan-tsoratra",
   "sessionsDevices": "Fitaovana Mampiasa ny Kaonty",
   "pocketSetupInstruction": "Fomba hidirana",
-  "pocketSetupSite": "New device can be added. Ask the user to visit https://cpe-web.sws2apps.com",
+  "pocketSetupSite": "Azo atao ny manampy fitaovana vaovao. Asaivo miditra ao amin’ny https://cpe-web.sws2apps.com ilay olona",
   "pocketSetupCode": "Avy eo dia asaivo ampidiriny ilay kaody eto ambany mba ho afaka hampiasa ny programa CPE izy amin’ilay fitaovana:",
   "pocketAddDevice": "Hanampy Fitaovana",
   "addCPEUser": "Hanampy olona afaka mampiasa CPE",
@@ -596,5 +596,5 @@
   "deleteDbNoRecordDesc": "Ho voafafa daholo ny rakitra ampiasain’ny CPE amin’ity fitaovana ity. Tsindrio ilay hoe Hamafa raha hanohy.",
   "reminders": "Fampahatsiahivana",
   "reminderS1Report": "Tsy mbola vonona ny Tatitra Momba ny Fanompoana sy Mpanatrika Fivoriana (S-1). Tokony halefa any amin’ny biraon’ny sampana izy io alohan’ny faharoapolon’ny volana.",
-  "scheduleAlreadyAssignedWarning": "This person already has an assignment this week"
+  "scheduleAlreadyAssignedWarning": "Efa manana anjara io olona io amin’ity herinandro ity"
 }
