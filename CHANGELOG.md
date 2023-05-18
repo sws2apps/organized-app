@@ -1,3 +1,13 @@
+# [2.73.0](https://github.com/sws2apps/cpe-sws/compare/v2.72.0...v2.73.0) (2023-05-18)
+
+
+### Features
+
+* **deps:** bump @mui/lab from 5.0.0-alpha.129 to 5.0.0-alpha.130 ([477bc51](https://github.com/sws2apps/cpe-sws/commit/477bc51ac075ea591e7a6233a65844b5f02af7d0))
+* **deps:** bump @mui/material from 5.13.0 to 5.13.1 ([f0deecd](https://github.com/sws2apps/cpe-sws/commit/f0deecd137e1baee8b9760a7a8572f9485c2ef25))
+* **deps:** bump react-router-dom from 6.11.1 to 6.11.2 ([6422bde](https://github.com/sws2apps/cpe-sws/commit/6422bde2b2b6db82187941bd93125d9b7dbae479))
+* **schedules:** autofill logic update and new person dropdown selector ([979db31](https://github.com/sws2apps/cpe-sws/commit/979db310f0bffc064a51ef9947c9099c643c9f0a))
+
 # [2.72.0](https://github.com/sws2apps/cpe-sws/compare/v2.71.2...v2.72.0) (2023-05-16)
 
 
