@@ -1,3 +1,4 @@
+[![Board Status](https://dev.azure.com/sws2apps/0379acb2-e19b-4d25-8666-8ebfa90b3505/264aee05-5cb6-45ed-9965-cf430ad96ec0/_apis/work/boardbadge/87f39c52-7aec-4c13-ad7c-48deb66d77a8)](https://dev.azure.com/sws2apps/0379acb2-e19b-4d25-8666-8ebfa90b3505/_boards/board/t/264aee05-5cb6-45ed-9965-cf430ad96ec0/Microsoft.RequirementCategory)
 # Congregation Program for Everyone (CPE)
 
 [![Crowdin](https://badges.crowdin.net/cpe-sws/localized.svg)](https://crowdin.com/project/cpe-sws)
