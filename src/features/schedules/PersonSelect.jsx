@@ -174,7 +174,8 @@ const PersonSelect = ({ ayf, assID, assType, currentWeek, stuForAssistant, handl
           right: option ? 20 : 0,
           left: 0,
           zIndex: '1000',
-          backgroundColor: isLightTheme ? 'white' : 'black',
+          backgroundColor: 'black',
+          color: 'white',
         }}
       >
         <Box
