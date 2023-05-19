@@ -19,9 +19,10 @@ import { formatDateForCompare } from '../../utils/app';
 import { refreshCurrentWeekState } from '../../states/schedule';
 import { Setting } from '../../classes/Setting';
 import { Schedules } from '../../classes/Schedules';
+import { isLightThemeState } from '../../states/main';
 
 const PersonsOption = (props) => {
-  return <Popper {...props} style={{ minWidth: 320, overflow: 'auto' }} placement="bottom-start" />;
+  return <Popper {...props} style={{ minWidth: 320 }} placement="bottom-start" />;
 };
 
 const HtmlTooltip = styled(({ className, ...props }) => <Tooltip {...props} classes={{ popper: className }} />)(() => ({
@@ -39,6 +40,8 @@ const PersonSelect = ({ ayf, assID, assType, currentWeek, stuForAssistant, handl
   const currentPerson = Persons.get(person);
 
   const refreshCurrent = useRecoilValue(refreshCurrentWeekState);
+  const isLightTheme = useRecoilValue(isLightThemeState);
+
   const [options, setOptions] = useState([]);
   const [selectedPerson, setSelectedPerson] = useState(null);
   const [gender, setGender] = useState(currentPerson ? (currentPerson.isMale ? 'male' : 'female') : 'female');
@@ -159,6 +162,52 @@ const PersonSelect = ({ ayf, assID, assType, currentWeek, stuForAssistant, handl
     }
   }, [assID, selectedPerson, currentWeek, refreshCurrent]);
 
+  const OptionHeader = ({ option }) => {
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          padding: '2px 12px 3px 15px',
+          position: 'fixed',
+          top: 0,
+          right: option ? 20 : 0,
+          left: 0,
+          zIndex: '1000',
+          backgroundColor: isLightTheme ? 'white' : 'black',
+        }}
+      >
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
+          <Typography sx={{ width: '180px' }}>{t('name')}</Typography>
+          {option && (
+            <>
+              <Typography sx={{ width: '140px', textAlign: 'center' }}>{t('lastAssignment')}</Typography>
+              {ayf && <Typography sx={{ width: '140px', textAlign: 'center' }}>{t('assistant')}</Typography>}
+            </>
+          )}
+        </Box>
+        {!isAssistant && filterEnabled && (
+          <RadioGroup
+            key={`radio-${option ? option.person_uid : 'no-option'}`}
+            aria-labelledby="demo-radio-buttons-group-label"
+            value={gender}
+            name="radio-buttons-group"
+            sx={{ flexDirection: 'row', margin: '5px 0', paddingTop: '5px', borderTop: '2px outset' }}
+            onChange={(e) => setGender(e.target.value)}
+          >
+            <FormControlLabel color="secondary" value="male" control={<Radio />} label={t('male')} />
+            <FormControlLabel value="female" control={<Radio />} label={t('female')} />
+          </RadioGroup>
+        )}
+      </Box>
+    );
+  };
+
   return (
     <HtmlTooltip
       title={
@@ -199,21 +248,11 @@ const PersonSelect = ({ ayf, assID, assType, currentWeek, stuForAssistant, handl
           />
         )}
         PopperComponent={PersonsOption}
+        ListboxProps={{ margin: '120px' }}
         noOptionsText={
           <Box>
-            {!isAssistant && filterEnabled && (
-              <RadioGroup
-                aria-labelledby="demo-radio-buttons-group-label"
-                value={gender}
-                name="radio-buttons-group"
-                sx={{ flexDirection: 'row', margin: '0 0 8px 0', padding: 0 }}
-                onChange={(e) => setGender(e.target.value)}
-              >
-                <FormControlLabel value="male" control={<Radio />} label={t('male')} />
-                <FormControlLabel value="female" control={<Radio />} label={t('female')} />
-              </RadioGroup>
-            )}
-
+            <OptionHeader key="header-no-option" />
+            <Box sx={{ height: filterEnabled ? '80px' : '20px' }}></Box>
             <Typography>{t('noOptions')}</Typography>
           </Box>
         }
@@ -221,39 +260,27 @@ const PersonSelect = ({ ayf, assID, assType, currentWeek, stuForAssistant, handl
           const currentIndex = options.findIndex((item) => item.person_uid === option.person_uid);
           return (
             <>
-              {currentIndex === 0 && (
+              {currentIndex === 0 && <OptionHeader key={`header-${option.person_uid}`} option={option} />}
+
+              {currentIndex === 0 && <Box sx={{ height: filterEnabled ? '80px' : '20px' }}></Box>}
+
+              <Box
+                key={`root-option-${option.person_uid}`}
+                component="li"
+                {...props}
+                sx={{
+                  backgroundColor: '#D5D8DC !important',
+                  color: 'black',
+                }}
+              >
                 <Box
-                  key={`header-${option.person_uid}`}
+                  key={`option-${option.person_uid}`}
                   sx={{
                     display: 'flex',
                     alignItems: 'center',
-                    padding: '0 12px 0 8px',
-                    margin: '0 10px',
-                    borderBottom: '2px outset',
+                    width: '100%',
                   }}
                 >
-                  <Typography sx={{ width: '180px' }}>{t('name')}</Typography>
-                  <Typography sx={{ width: '140px', textAlign: 'center' }}>{t('lastAssignment')}</Typography>
-                  {ayf && <Typography sx={{ width: '140px', textAlign: 'center' }}>{t('assistant')}</Typography>}
-                </Box>
-              )}
-
-              {!isAssistant && filterEnabled && currentIndex === 0 && (
-                <RadioGroup
-                  key={`radio-${option.person_uid}`}
-                  aria-labelledby="demo-radio-buttons-group-label"
-                  value={gender}
-                  name="radio-buttons-group"
-                  sx={{ flexDirection: 'row', margin: '0 0 5px 15px' }}
-                  onChange={(e) => setGender(e.target.value)}
-                >
-                  <FormControlLabel value="male" control={<Radio />} label={t('male')} />
-                  <FormControlLabel value="female" control={<Radio />} label={t('female')} />
-                </RadioGroup>
-              )}
-
-              <Box key={`root-option-${option.person_uid}`} component="li" {...props}>
-                <Box key={`option-${option.person_uid}`} sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', width: '180px' }}>
                     <Avatar
                       sx={{ height: '20px', width: '20px', marginRight: '10px' }}
