@@ -19,7 +19,6 @@ import { formatDateForCompare } from '../../utils/app';
 import { refreshCurrentWeekState } from '../../states/schedule';
 import { Setting } from '../../classes/Setting';
 import { Schedules } from '../../classes/Schedules';
-import { isLightThemeState } from '../../states/main';
 
 const PersonsOption = (props) => {
   return <Popper {...props} style={{ minWidth: 320 }} placement="bottom-start" />;
@@ -40,7 +39,6 @@ const PersonSelect = ({ ayf, assID, assType, currentWeek, stuForAssistant, handl
   const currentPerson = Persons.get(person);
 
   const refreshCurrent = useRecoilValue(refreshCurrentWeekState);
-  const isLightTheme = useRecoilValue(isLightThemeState);
 
   const [options, setOptions] = useState([]);
   const [selectedPerson, setSelectedPerson] = useState(null);
