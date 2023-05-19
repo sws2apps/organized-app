@@ -1,3 +1,10 @@
+## [2.74.1](https://github.com/sws2apps/cpe-sws/compare/v2.74.0...v2.74.1) (2023-05-19)
+
+
+### Bug Fixes
+
+* **schedules:** fix person selector header height in assistant parts ([bd7ddf7](https://github.com/sws2apps/cpe-sws/commit/bd7ddf753cd2bfc4ca45878560815643dc45ab43))
+
 # [2.74.0](https://github.com/sws2apps/cpe-sws/compare/v2.73.0...v2.74.0) (2023-05-19)
 
 

@@ -1,7 +1,7 @@
 {
   "name": "cpe-sws",
   "private": true,
-  "version": "2.74.0",
+  "version": "2.74.1",
   "license": "MIT",
   "type": "module",
   "repository": {
