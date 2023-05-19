@@ -262,7 +262,7 @@ const PersonSelect = ({ ayf, assID, assType, currentWeek, stuForAssistant, handl
             <>
               {currentIndex === 0 && <OptionHeader key={`header-${option.person_uid}`} option={option} />}
 
-              {currentIndex === 0 && <Box sx={{ height: filterEnabled ? '80px' : '20px' }}></Box>}
+              {currentIndex === 0 && <Box sx={{ height: !isAssistant && filterEnabled ? '80px' : '20px' }}></Box>}
 
               <Box
                 key={`root-option-${option.person_uid}`}
