@@ -1,3 +1,19 @@
+# [2.74.0](https://github.com/sws2apps/cpe-sws/compare/v2.73.0...v2.74.0) (2023-05-19)
+
+
+### Bug Fixes
+
+* **schedules:** change header background color in person selector ([dfbd4fa](https://github.com/sws2apps/cpe-sws/commit/dfbd4fa922c6455bb34762f9bd93ce78f98d805f))
+* **schedules:** change header background color in person selector ([3d8f3b5](https://github.com/sws2apps/cpe-sws/commit/3d8f3b5f2714069997baaed14324ec97a4a53450))
+* **schedules:** don’t include auto assigned opening prayer in history ([3820f15](https://github.com/sws2apps/cpe-sws/commit/3820f1505ea22497f3d837152496cb721642b756))
+* **schedules:** header position in person selector set as fixed ([e500cc8](https://github.com/sws2apps/cpe-sws/commit/e500cc883cebac72549f2fda1cdd8e4a36112e45))
+
+
+### Features
+
+* **deps:** bump i18next from 22.4.15 to 22.5.0 ([3e19920](https://github.com/sws2apps/cpe-sws/commit/3e1992049a5ca3c0774b93b1cb2a0686e3d22f7b))
+* **deps:** bump react-i18next from 12.2.2 to 12.3.1 ([06f00ba](https://github.com/sws2apps/cpe-sws/commit/06f00ba69e39a45e805d320c92ae5f900648dc81))
+
 # [2.73.0](https://github.com/sws2apps/cpe-sws/compare/v2.72.0...v2.73.0) (2023-05-18)
 
 
