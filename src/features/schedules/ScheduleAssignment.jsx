@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -14,8 +14,6 @@ import ScheduleMeetingPart from './ScheduleMeetingPart';
 import ScheduleRowAssignment from './ScheduleRowAssignment';
 import SingleAssignment from './SingleAssignment';
 import PersonAssignmentHistory from './PersonAssignmentHistory';
-import { classCountState, openingPrayerAutoAssignState } from '../../states/congregation';
-
 import { saveAssignment } from '../../utils/schedule';
 import { Sources } from '../../classes/Sources';
 import { Schedules } from '../../classes/Schedules';
@@ -32,8 +30,7 @@ const ScheduleAssignment = ({ edit }) => {
 
   const [refreshCurrent, setRefreshCurrent] = useRecoilState(refreshCurrentWeekState);
 
-  const classCount = useRecoilValue(classCountState);
-  const autoAssignOpeningPrayer = useRecoilValue(openingPrayerAutoAssignState);
+  const { class_count, opening_prayer_autoAssign } = Setting;
 
   const [tgwTalkSrc, setTgwTalkSrc] = useState('');
   const [bibleReadingSrc, setBibleReadingSrc] = useState('');
@@ -212,7 +209,7 @@ const ScheduleAssignment = ({ edit }) => {
       await saveAssignment(week, studentID, 'chairmanMM_A');
       setChairmanA(studentValue);
 
-      if (autoAssignOpeningPrayer) {
+      if (opening_prayer_autoAssign) {
         await saveAssignment(week, studentID, 'opening_prayer');
         setOpeningPrayer(studentValue);
       }
@@ -429,7 +426,7 @@ const ScheduleAssignment = ({ edit }) => {
               }
             />
             {/* Chairman B */}
-            {classCount === 2 && weekType === 1 && (
+            {class_count === 2 && weekType === 1 && (
               <SingleAssignment
                 edit={edit}
                 header={t('auxClassCounselor')}
@@ -451,23 +448,25 @@ const ScheduleAssignment = ({ edit }) => {
           </Box>
 
           {/* Opening Prayer */}
-          <SingleAssignment
-            edit={edit}
-            header={t('prayerMidweekMeeting', { ns: 'source' })}
-            person={openingPrayer}
-            studentID={20}
-            assType={111}
-            currentWeek={week}
-            setSelectedStudent={(value) => setSelectedStudent(value)}
-            loadPersonHistory={() =>
-              loadPersonHistory({
-                assID: 20,
-                assType: 111,
-                assTypeName: t('prayerMidweekMeeting', { ns: 'source' }),
-                currentStudent: openingPrayer,
-              })
-            }
-          />
+          {!opening_prayer_autoAssign && (
+            <SingleAssignment
+              edit={edit}
+              header={t('prayerMidweekMeeting', { ns: 'source' })}
+              person={openingPrayer}
+              studentID={20}
+              assType={111}
+              currentWeek={week}
+              setSelectedStudent={(value) => setSelectedStudent(value)}
+              loadPersonHistory={() =>
+                loadPersonHistory({
+                  assID: 20,
+                  assType: 111,
+                  assTypeName: t('prayerMidweekMeeting', { ns: 'source' }),
+                  currentStudent: openingPrayer,
+                })
+              }
+            />
+          )}
         </Box>
 
         {/* TGW */}

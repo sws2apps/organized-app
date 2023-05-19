@@ -1,10 +1,20 @@
 import { useTranslation } from 'react-i18next';
-import { Document, Font, Page, StyleSheet, Text, View } from '@react-pdf/renderer';
+import { Document, Font, Page, StyleSheet, View } from '@react-pdf/renderer';
 import { Setting } from '../classes/Setting';
 import RobotoBold from '../fonts/Roboto-Bold.ttf';
 import RobotoRegular from '../fonts/Roboto-Regular.ttf';
 import { WeekTypeList } from '../classes/WeekType';
 import { checkLCAssignments } from '../utils/sourceMaterial';
+import S140Header from './S140/S140Header';
+import S140MeetingPartHeading from './S140/S140MeetingPartHeading';
+import S140Person from './S140/S140Person';
+import S140PartMiniLabel from './S140/S140PartMiniLabel';
+import S140WeekTitle from './S140/S140WeekTitle';
+import S140WeekInfoLabel from './S140/S140WeekInfoLabel';
+import S140Time from './S140/S140Time';
+import S140SourceSimple from './S140/S140SourceSimple';
+import S140SourceExtended from './S140/S140SourceExtended';
+import S140SourceComplex from './S140/S140SourceComplex';
 
 Font.register({
   family: 'Roboto',
@@ -89,9 +99,7 @@ const styles = StyleSheet.create({
 const S140 = ({ data, currentSchedule }) => {
   const { t } = useTranslation('source');
 
-  const { cong_name, cong_number, source_lang, schedule_useFullname, class_count } = Setting;
-
-  const midweekMeetingPrint = t('midweekMeetingPrint', { lng: source_lang });
+  const { source_lang, schedule_useFullname, class_count, opening_prayer_autoAssign } = Setting;
 
   const getAssignedChairman = (weekItem, stuClass, scheduleUseFullname) => {
     if (scheduleUseFullname) {
@@ -102,6 +110,20 @@ const S140 = ({ data, currentSchedule }) => {
     if (!scheduleUseFullname) {
       if (stuClass === 'A') return weekItem.scheduleData.chairmanMM_A_dispName;
       if (stuClass !== 'A') return weekItem.scheduleData.chairmanMM_B_dispName;
+    }
+  };
+
+  const getAssignedOpeningPrayer = (weekItem) => {
+    if (schedule_useFullname) {
+      return opening_prayer_autoAssign
+        ? weekItem.scheduleData.chairmanMM_A_name
+        : weekItem.scheduleData.opening_prayer_name;
+    }
+
+    if (!schedule_useFullname) {
+      return opening_prayer_autoAssign
+        ? weekItem.scheduleData.chairmanMM_A_dispName
+        : weekItem.scheduleData.opening_prayer_dispName;
     }
   };
 
@@ -312,10 +334,7 @@ const S140 = ({ data, currentSchedule }) => {
         >
           <Page size="A4" style={styles.body}>
             {/* S-140 Header */}
-            <View style={styles.header} fixed>
-              <Text>{`${cong_name.toUpperCase()} (${cong_number})`}</Text>
-              <Text style={styles.headerMidweekMeeting}>{midweekMeetingPrint}</Text>
-            </View>
+            <S140Header />
 
             {data.map((weekItem, weekIndex) => {
               let maxLc = [];
@@ -332,41 +351,31 @@ const S140 = ({ data, currentSchedule }) => {
                   break={weekIndex === 2 || weekIndex === 4}
                 >
                   <View style={styles.rowBase}>
-                    <Text
-                      style={{
-                        fontWeight: 'bold',
-                        fontSize: '11px',
-                        color: 'black',
-                        textTransform: 'uppercase',
-                        width: '295px',
-                      }}
-                    >
-                      {`${weekItem.sourceData.weekDate_src} | ${weekItem.sourceData.weeklyBibleReading_src}`}
-                    </Text>
+                    <S140WeekTitle
+                      title={`${weekItem.sourceData.weekDate_src} | ${weekItem.sourceData.weeklyBibleReading_src}`}
+                    />
                     {!weekItem.scheduleData.noMeeting && (
                       <>
-                        <Text style={{ ...styles.miniLabelBase, textAlign: 'right', width: '130px' }}>
-                          {`${t('chairmanMidweekMeeting', {
+                        <S140PartMiniLabel
+                          part={`${t('chairmanMidweekMeeting', {
                             lng: source_lang,
                             ns: 'source',
                           })}:`}
-                        </Text>
-                        <Text style={styles.personLabel}>
-                          {getAssignedChairman(weekItem, 'A', schedule_useFullname)}
-                        </Text>
+                        />
+                        <S140Person person={getAssignedChairman(weekItem, 'A', schedule_useFullname)} />
                       </>
                     )}
                   </View>
                   <View style={{ ...styles.rowBase, marginBottom: '10px' }}>
-                    <Text style={styles.weekInfoLabel}>{getWeekInfoLabel(weekItem)}</Text>
+                    <S140WeekInfoLabel weekLabel={getWeekInfoLabel(weekItem)} />
                     {!weekItem.scheduleData.noMeeting && (
                       <>
-                        <Text style={{ ...styles.miniLabelBase, textAlign: 'right', width: '130px' }}>
-                          {class_count === 2 ? `${t('auxClassCounselor', { lng: source_lang })}:` : ''}
-                        </Text>
-                        <Text style={styles.personLabel}>
-                          {class_count === 2 ? getAssignedChairman(weekItem, 'B', schedule_useFullname) : ''}
-                        </Text>
+                        <S140PartMiniLabel
+                          part={class_count === 2 ? `${t('auxClassCounselor', { lng: source_lang })}:` : ''}
+                        />
+                        <S140Person
+                          person={class_count === 2 ? getAssignedChairman(weekItem, 'B', schedule_useFullname) : ''}
+                        />
                       </>
                     )}
                   </View>
@@ -374,39 +383,25 @@ const S140 = ({ data, currentSchedule }) => {
                     <>
                       {/* 3rd row for song, opening prayer */}
                       <View style={styles.rowBase}>
-                        <Text style={styles.meetingTimeLabel}>{weekItem.sourceData.pgmStart}</Text>
-                        <View
-                          style={{ width: '270px', flexDirection: 'row', alignItems: 'flex-start', marginTop: '-1px' }}
-                        >
-                          <Text style={{ ...styles.bulletPoint, color: '#656164' }}>{'\u2022'}</Text>
-                          <Text style={styles.meetingPartText}>{`${t('song', { lng: source_lang })} ${
-                            weekItem.sourceData.songFirst_src
-                          }`}</Text>
-                        </View>
-                        <Text style={{ ...styles.miniLabelBase, textAlign: 'right', width: '130px' }}>
-                          {`${t('prayerMidweekMeeting', { lng: source_lang })}:`}
-                        </Text>
-                        <Text style={styles.personLabel}>
-                          {schedule_useFullname
-                            ? weekItem.scheduleData.opening_prayer_name
-                            : weekItem.scheduleData.opening_prayer_dispName}
-                        </Text>
+                        <S140Time time={weekItem.sourceData.pgmStart} />
+                        <S140SourceSimple
+                          source={`${t('song', { lng: source_lang })} ${weekItem.sourceData.songFirst_src}`}
+                          bulletColor={'#656164'}
+                        />
+                        <S140PartMiniLabel part={`${t('prayerMidweekMeeting', { lng: source_lang })}:`} />
+                        <S140Person person={getAssignedOpeningPrayer(weekItem)} />
                       </View>
 
                       {/* 4th row for opening comments */}
                       <View style={styles.rowBase}>
-                        <Text style={styles.meetingTimeLabel}>{weekItem.sourceData.openingComments}</Text>
-                        <View
-                          style={{ width: '270px', flexDirection: 'row', alignItems: 'flex-start', marginTop: '-1px' }}
-                        >
-                          <Text style={{ ...styles.bulletPoint, color: '#656164' }}>{'\u2022'}</Text>
-                          <Text style={styles.meetingPartText}>
-                            {t('openingComments', { lng: source_lang })}{' '}
-                            <Text style={{ fontSize: '8px' }}>(1 min.)</Text>
-                          </Text>
-                        </View>
-                        <Text style={{ ...styles.miniLabelBase, width: '130px' }}></Text>
-                        <Text style={styles.personLabel}></Text>
+                        <S140Time time={weekItem.sourceData.openingComments} />
+                        <S140SourceExtended
+                          source={t('openingComments', { lng: source_lang })}
+                          time={'1 min.'}
+                          bulletColor={'#656164'}
+                        />
+                        <S140PartMiniLabel part="" />
+                        <S140Person person="" />
                       </View>
 
                       {!weekItem.scheduleData.noMeeting &&
@@ -414,128 +409,71 @@ const S140 = ({ data, currentSchedule }) => {
                         weekItem.scheduleData.week_type !== 4 && (
                           <>
                             {/* TGW, Classroom heading */}
-                            <View
-                              style={{
-                                ...styles.rowBase,
-                                alignItems: 'flex-end',
-                                justifyContent: 'flex-start',
-                                marginBottom: '5px',
-                              }}
-                            >
-                              <Text style={{ ...styles.meetingSectionText, backgroundColor: '#656164' }}>
-                                {t('treasuresPart', { lng: source_lang })}
-                              </Text>
-                              <Text style={{ ...styles.miniLabelBase, width: '130px', padding: '0 10px' }}>
-                                {class_count === 2 && weekItem.scheduleData.week_type !== 2
-                                  ? t('auxClass', { lng: source_lang })
-                                  : ''}
-                              </Text>
-                              <Text style={{ ...styles.miniLabelBase, width: '130px', padding: '0 10px' }}>
-                                {t('mainHall', { lng: source_lang })}
-                              </Text>
-                            </View>
+                            <S140MeetingPartHeading
+                              meetingPart={'treasuresPart'}
+                              backgroundColor={'#656164'}
+                              classroomHeading={true}
+                              weekItem={weekItem}
+                            />
 
                             {/* TGW Talk */}
                             <View style={styles.rowBase}>
-                              <Text style={styles.meetingTimeLabel}>{weekItem.sourceData.tgwTalk}</Text>
-                              <View
-                                style={{
-                                  width: '270px',
-                                  flexDirection: 'row',
-                                  alignItems: 'flex-start',
-                                  marginTop: '-1px',
-                                }}
-                              >
-                                <Text style={{ ...styles.bulletPoint, color: '#656164' }}>{'\u2022'}</Text>
-                                <Text style={styles.meetingPartText}>
-                                  {weekItem.sourceData.tgwTalk_src} <Text style={{ fontSize: '8px' }}>(10 min.)</Text>
-                                </Text>
-                              </View>
-                              <Text style={{ ...styles.miniLabelBase, width: '130px' }}></Text>
-                              <Text style={styles.personLabel}>
-                                {schedule_useFullname
-                                  ? weekItem.scheduleData.tgw_talk_name
-                                  : weekItem.scheduleData.tgw_talk_dispName}
-                              </Text>
+                              <S140Time time={weekItem.sourceData.tgwTalk} />
+                              <S140SourceExtended
+                                source={weekItem.sourceData.tgwTalk_src}
+                                time="10 min."
+                                bulletColor="#656164"
+                              />
+                              <S140PartMiniLabel part="" />
+                              <S140Person
+                                person={
+                                  schedule_useFullname
+                                    ? weekItem.scheduleData.tgw_talk_name
+                                    : weekItem.scheduleData.tgw_talk_dispName
+                                }
+                              />
                             </View>
 
                             {/* TGW Gems */}
                             <View style={styles.rowBase}>
-                              <Text style={styles.meetingTimeLabel}>{weekItem.sourceData.tgwGems}</Text>
-                              <View
-                                style={{
-                                  width: '270px',
-                                  flexDirection: 'row',
-                                  alignItems: 'flex-start',
-                                  marginTop: '-1px',
-                                }}
-                              >
-                                <Text style={{ ...styles.bulletPoint, color: '#656164' }}>{'\u2022'}</Text>
-                                <Text style={styles.meetingPartText}>
-                                  {t('tgwGems', { lng: source_lang, ns: 'source' })}{' '}
-                                  <Text style={{ fontSize: '8px' }}>(10 min.)</Text>
-                                </Text>
-                              </View>
-                              <Text style={{ ...styles.miniLabelBase, width: '130px' }}></Text>
-                              <Text style={styles.personLabel}>
-                                {schedule_useFullname
-                                  ? weekItem.scheduleData.tgw_gems_name
-                                  : weekItem.scheduleData.tgw_gems_dispName}
-                              </Text>
+                              <S140Time time={weekItem.sourceData.tgwGems} />
+                              <S140SourceExtended
+                                source={t('tgwGems', { lng: source_lang, ns: 'source' })}
+                                time="10 min."
+                                bulletColor="#656164"
+                              />
+                              <S140PartMiniLabel part="" />
+                              <S140Person
+                                person={
+                                  schedule_useFullname
+                                    ? weekItem.scheduleData.tgw_gems_name
+                                    : weekItem.scheduleData.tgw_gems_dispName
+                                }
+                              />
                             </View>
 
                             {/* Bible Reading */}
                             <View style={styles.rowBase}>
-                              <Text style={styles.meetingTimeLabel}>{weekItem.sourceData.bibleReading}</Text>
-                              <View
-                                style={{
-                                  width: '270px',
-                                  flexDirection: 'row',
-                                  alignItems: 'flex-start',
-                                  marginTop: '-1px',
-                                  justifyContent: 'space-between',
-                                }}
-                              >
-                                <View style={{ flexDirection: 'row' }}>
-                                  <Text style={{ ...styles.bulletPoint, color: '#656164' }}>{'\u2022'}</Text>
-                                  <Text style={styles.meetingPartText}>
-                                    {t('bibleReading', { lng: source_lang, ns: 'source' })}{' '}
-                                    <Text style={{ fontSize: '8px' }}>(4 min.)</Text>
-                                  </Text>
-                                </View>
-                                <Text style={{ ...styles.miniLabelBase, marginTop: '3px', textAlign: 'right' }}>
-                                  {`${t('student', { lng: source_lang })}:`}
-                                </Text>
-                              </View>
-                              <Text style={styles.personLabel}>
-                                {class_count === 1 ? '' : getAssignedBRead(weekItem, 'B', schedule_useFullname)}
-                              </Text>
-                              <Text style={styles.personLabel}>
-                                {getAssignedBRead(weekItem, 'A', schedule_useFullname)}
-                              </Text>
+                              <S140Time time={weekItem.sourceData.bibleReading} />
+                              <S140SourceComplex
+                                source={t('bibleReading', { lng: source_lang, ns: 'source' })}
+                                time="4 min."
+                                bulletColor="#656164"
+                                partLabel={`${t('student', { lng: source_lang })}:`}
+                              />
+                              <S140Person
+                                person={class_count === 1 ? '' : getAssignedBRead(weekItem, 'B', schedule_useFullname)}
+                              />
+                              <S140Person person={getAssignedBRead(weekItem, 'A', schedule_useFullname)} />
                             </View>
 
                             {/* AYF Heading */}
-                            <View
-                              style={{
-                                ...styles.rowBase,
-                                alignItems: 'flex-end',
-                                justifyContent: 'flex-start',
-                                marginBottom: '5px',
-                              }}
-                            >
-                              <Text style={{ ...styles.meetingSectionText, backgroundColor: '#a56803' }}>
-                                {t('applyFieldMinistryPart', { lng: source_lang })}
-                              </Text>
-                              <Text style={{ ...styles.miniLabelBase, width: '130px', padding: '0 10px' }}>
-                                {class_count === 2 && weekItem.scheduleData.week_type !== 2
-                                  ? t('auxClass', { lng: source_lang })
-                                  : ''}
-                              </Text>
-                              <Text style={{ ...styles.miniLabelBase, width: '130px', padding: '0 10px' }}>
-                                {t('mainHall', { lng: source_lang })}
-                              </Text>
-                            </View>
+                            <S140MeetingPartHeading
+                              meetingPart={'applyFieldMinistryPart'}
+                              backgroundColor={'#a56803'}
+                              classroomHeading={true}
+                              weekItem={weekItem}
+                            />
 
                             {/* AYF Parts */}
                             {[1, 2, 3, 4].map((index) => {
@@ -561,44 +499,29 @@ const S140 = ({ data, currentSchedule }) => {
                                 <View key={`ayf-${index}`}>
                                   {weekItem.sourceData[fldType] !== '' && (
                                     <View style={{ ...styles.rowBase, marginBottom: '2px' }}>
-                                      <Text style={styles.meetingTimeLabel}>{weekItem.sourceData[fldAyfPart]}</Text>
-                                      <View
-                                        style={{
-                                          width: '270px',
-                                          flexDirection: 'row',
-                                          alignItems: 'flex-start',
-                                          marginTop: '-1px',
-                                          justifyContent: 'space-between',
-                                        }}
-                                      >
-                                        <View style={{ flexDirection: 'row' }}>
-                                          <Text style={{ ...styles.bulletPoint, color: '#a56803' }}>{'\u2022'}</Text>
-                                          <Text style={styles.meetingPartText}>
-                                            {getAYFType(weekItem, fldType, fldSrc, fldTypeName)}{' '}
-                                            <Text style={{ fontSize: '8px' }}>{`(${getAYFDuration(
-                                              weekItem,
-                                              fldType,
-                                              fldTime
-                                            )})`}</Text>
-                                          </Text>
-                                        </View>
-                                        <Text style={{ ...styles.miniLabelBase, marginTop: '3px', textAlign: 'right' }}>
-                                          {ayfLabel(weekItem, fldType, schedule_useFullname)}
-                                        </Text>
-                                      </View>
-                                      <Text style={styles.personLabel}>
-                                        {class_count === 2 &&
-                                          getAssignedAYFPerson(
-                                            weekItem,
-                                            fldType,
-                                            fldStuB,
-                                            fldAssB,
-                                            'B',
-                                            schedule_useFullname
-                                          )}
-                                      </Text>
-                                      <Text style={styles.personLabel}>
-                                        {getAssignedAYFPerson(
+                                      <S140Time time={weekItem.sourceData[fldAyfPart]} />
+                                      <S140SourceComplex
+                                        source={getAYFType(weekItem, fldType, fldSrc, fldTypeName)}
+                                        time={getAYFDuration(weekItem, fldType, fldTime)}
+                                        bulletColor="#a56803"
+                                        partLabel={ayfLabel(weekItem, fldType, schedule_useFullname)}
+                                      />
+                                      <S140Person
+                                        person={
+                                          class_count === 1
+                                            ? ''
+                                            : getAssignedAYFPerson(
+                                                weekItem,
+                                                fldType,
+                                                fldStuB,
+                                                fldAssB,
+                                                'B',
+                                                schedule_useFullname
+                                              )
+                                        }
+                                      />
+                                      <S140Person
+                                        person={getAssignedAYFPerson(
                                           weekItem,
                                           fldType,
                                           fldStuA,
@@ -606,7 +529,7 @@ const S140 = ({ data, currentSchedule }) => {
                                           'A',
                                           schedule_useFullname
                                         )}
-                                      </Text>
+                                      />
                                     </View>
                                   )}
                                 </View>
@@ -614,39 +537,22 @@ const S140 = ({ data, currentSchedule }) => {
                             })}
 
                             {/* LC Heading */}
-                            <View
-                              style={{
-                                ...styles.rowBase,
-                                alignItems: 'flex-end',
-                                justifyContent: 'flex-start',
-                                marginBottom: '5px',
-                              }}
-                            >
-                              <Text style={{ ...styles.meetingSectionText, backgroundColor: '#942926' }}>
-                                {t('livingPart', { lng: source_lang })}
-                              </Text>
-                              <Text style={{ ...styles.miniLabelBase, width: '130px' }}></Text>
-                              <Text style={{ ...styles.miniLabelBase, width: '130px' }}></Text>
-                            </View>
+                            <S140MeetingPartHeading
+                              meetingPart={'livingPart'}
+                              backgroundColor={'#942926'}
+                              classroomHeading={false}
+                              weekItem={weekItem}
+                            />
 
                             {/* Middle Song */}
                             <View style={styles.rowBase}>
-                              <Text style={styles.meetingTimeLabel}>{weekItem.sourceData.middleSong}</Text>
-                              <View
-                                style={{
-                                  width: '270px',
-                                  flexDirection: 'row',
-                                  alignItems: 'flex-start',
-                                  marginTop: '-1px',
-                                }}
-                              >
-                                <Text style={{ ...styles.bulletPoint, color: '#942926' }}>{'\u2022'}</Text>
-                                <Text style={styles.meetingPartText}>
-                                  {`${t('song', { lng: source_lang })} ${weekItem.sourceData.songMiddle_src}`}
-                                </Text>
-                              </View>
-                              <Text style={{ ...styles.miniLabelBase, width: '130px' }}></Text>
-                              <Text style={styles.personLabel}></Text>
+                              <S140Time time={weekItem.sourceData.middleSong} />
+                              <S140SourceSimple
+                                source={`${t('song', { lng: source_lang })} ${weekItem.sourceData.songMiddle_src}`}
+                                bulletColor="#942926"
+                              />
+                              <S140PartMiniLabel part="" />
+                              <S140Person person="" />
                             </View>
 
                             {/* LC Parts */}
@@ -665,29 +571,14 @@ const S140 = ({ data, currentSchedule }) => {
                                   {(weekItem.sourceData[fldSrc] !== '' ||
                                     weekItem.sourceData[fldSrcOverride] !== '') && (
                                     <View style={styles.rowBase}>
-                                      <Text style={styles.meetingTimeLabel}>{weekItem.sourceData[fldLcPart]}</Text>
-                                      <View
-                                        style={{
-                                          width: '270px',
-                                          flexDirection: 'row',
-                                          alignItems: 'flex-start',
-                                          marginTop: '-1px',
-                                        }}
-                                      >
-                                        <Text style={{ ...styles.bulletPoint, color: '#942926' }}>{'\u2022'}</Text>
-                                        <Text style={styles.meetingPartText}>
-                                          {getLCPartSource(weekItem, fldSrc, fldSrcOverride)}{' '}
-                                          <Text style={{ fontSize: '8px' }}>{`(${getLCPartTime(
-                                            weekItem,
-                                            fldTime,
-                                            fldTimeOverride
-                                          )} min.)`}</Text>
-                                        </Text>
-                                      </View>
-                                      <Text style={styles.personLabel}></Text>
-                                      <Text style={styles.personLabel}>
-                                        {getAssignedLCPerson(weekItem, fldPers, fldSrc)}
-                                      </Text>
+                                      <S140Time time={weekItem.sourceData[fldLcPart]} />
+                                      <S140SourceExtended
+                                        source={getLCPartSource(weekItem, fldSrc, fldSrcOverride)}
+                                        time={getLCPartTime(weekItem, fldTime, fldTimeOverride)}
+                                        bulletColor="#942926"
+                                      />
+                                      <S140PartMiniLabel part="" />
+                                      <S140Person person={getAssignedLCPerson(weekItem, fldPers, fldSrc)} />
                                     </View>
                                   )}
                                 </View>
@@ -699,49 +590,34 @@ const S140 = ({ data, currentSchedule }) => {
                               <>
                                 {/* Concluding Comments */}
                                 <View style={styles.rowBase}>
-                                  <Text style={styles.meetingTimeLabel}>{weekItem.sourceData.concludingComments}</Text>
-                                  <View
-                                    style={{
-                                      width: '270px',
-                                      flexDirection: 'row',
-                                      alignItems: 'flex-start',
-                                      marginTop: '-1px',
-                                    }}
-                                  >
-                                    <Text style={{ ...styles.bulletPoint, color: '#942926' }}>{'\u2022'}</Text>
-                                    <Text style={styles.meetingPartText}>
-                                      {t('concludingComments', { lng: source_lang })}{' '}
-                                      <Text style={{ fontSize: '8px' }}>(3 min.)</Text>
-                                    </Text>
-                                  </View>
-                                  <Text style={styles.personLabel}></Text>
-                                  <Text style={styles.personLabel}>
-                                    {schedule_useFullname
-                                      ? weekItem.scheduleData.chairmanMM_A_name
-                                      : weekItem.scheduleData.chairmanMM_A_dispName}
-                                  </Text>
+                                  <S140Time time={weekItem.sourceData.concludingComments} />
+                                  <S140SourceExtended
+                                    source={t('concludingComments', { lng: source_lang })}
+                                    time="3 min."
+                                    bulletColor="#942926"
+                                  />
+                                  <S140PartMiniLabel part="" />
+                                  <S140Person
+                                    person={
+                                      schedule_useFullname
+                                        ? weekItem.scheduleData.chairmanMM_A_name
+                                        : weekItem.scheduleData.chairmanMM_A_dispName
+                                    }
+                                  />
                                 </View>
 
                                 {/* Talk by CO */}
                                 <View style={styles.rowBase}>
-                                  <Text style={styles.meetingTimeLabel}>{weekItem.sourceData.coTalk}</Text>
-                                  <View
-                                    style={{
-                                      width: '270px',
-                                      flexDirection: 'row',
-                                      alignItems: 'flex-start',
-                                      marginTop: '-1px',
-                                    }}
-                                  >
-                                    <Text style={{ ...styles.bulletPoint, color: '#942926' }}>{'\u2022'}</Text>
-                                    <Text style={styles.meetingPartText}>
-                                      {getCOTalkTitle(weekItem)} <Text style={{ fontSize: '8px' }}>(30 min.)</Text>
-                                    </Text>
-                                  </View>
-                                  <Text style={styles.personLabel}></Text>
-                                  <Text style={styles.personLabel}>
-                                    {schedule_useFullname ? Setting.co_name : Setting.co_displayName}
-                                  </Text>
+                                  <S140Time time={weekItem.sourceData.coTalk} />
+                                  <S140SourceExtended
+                                    source={getCOTalkTitle(weekItem)}
+                                    time="30 min."
+                                    bulletColor="#942926"
+                                  />
+                                  <S140PartMiniLabel part="" />
+                                  <S140Person
+                                    person={schedule_useFullname ? Setting.co_name : Setting.co_displayName}
+                                  />
                                 </View>
                               </>
                             )}
@@ -751,85 +627,48 @@ const S140 = ({ data, currentSchedule }) => {
                               <>
                                 {/* CBS */}
                                 <View style={{ ...styles.rowBase, marginBottom: '3px' }}>
-                                  <Text style={styles.meetingTimeLabel}>{weekItem.sourceData.cbs}</Text>
-                                  <View
-                                    style={{
-                                      width: '270px',
-                                      flexDirection: 'row',
-                                      alignItems: 'flex-start',
-                                      marginTop: '-1px',
-                                    }}
-                                  >
-                                    <Text style={{ ...styles.bulletPoint, color: '#942926' }}>{'\u2022'}</Text>
-                                    <Text style={styles.meetingPartText}>
-                                      {t('cbs', { lng: source_lang })}{' '}
-                                      <Text style={{ fontSize: '8px' }}>{`(${getCBSTime(weekItem)} min.)`}</Text>
-                                    </Text>
-                                  </View>
-                                  <Text
-                                    style={{
-                                      ...styles.miniLabelBase,
-                                      width: '130px',
-                                      marginTop: '3px',
-                                      textAlign: 'right',
-                                    }}
-                                  >
-                                    {cbsLabel(weekItem, schedule_useFullname)}
-                                  </Text>
-                                  <Text style={styles.personLabel}>
-                                    {getAssignedCBS(weekItem, schedule_useFullname)}
-                                  </Text>
+                                  <S140Time time={weekItem.sourceData.cbs} />
+                                  <S140SourceExtended
+                                    source={t('cbs', { lng: source_lang })}
+                                    time={`${getCBSTime(weekItem)} min.`}
+                                    bulletColor="#942926"
+                                  />
+                                  <S140PartMiniLabel part={cbsLabel(weekItem, schedule_useFullname)} />
+                                  <S140Person person={getAssignedCBS(weekItem, schedule_useFullname)} />
                                 </View>
 
                                 {/* Concluding Comments */}
                                 <View style={styles.rowBase}>
-                                  <Text style={styles.meetingTimeLabel}>{weekItem.sourceData.concludingComments}</Text>
-                                  <View
-                                    style={{
-                                      width: '270px',
-                                      flexDirection: 'row',
-                                      alignItems: 'flex-start',
-                                      marginTop: '-1px',
-                                    }}
-                                  >
-                                    <Text style={{ ...styles.bulletPoint, color: '#942926' }}>{'\u2022'}</Text>
-                                    <Text style={styles.meetingPartText}>
-                                      {t('concludingComments', { lng: source_lang })}{' '}
-                                      <Text style={{ fontSize: '8px' }}>(3 min.)</Text>
-                                    </Text>
-                                  </View>
-                                  <Text style={styles.personLabel}></Text>
-                                  <Text style={styles.personLabel}>
-                                    {schedule_useFullname
-                                      ? weekItem.scheduleData.chairmanMM_A_name
-                                      : weekItem.scheduleData.chairmanMM_A_dispName}
-                                  </Text>
+                                  <S140Time time={weekItem.sourceData.concludingComments} />
+                                  <S140SourceExtended
+                                    source={t('concludingComments', { lng: source_lang })}
+                                    time="3 min."
+                                    bulletColor="#942926"
+                                  />
+                                  <S140PartMiniLabel part="" />
+                                  <S140Person
+                                    person={
+                                      schedule_useFullname
+                                        ? weekItem.scheduleData.chairmanMM_A_name
+                                        : weekItem.scheduleData.chairmanMM_A_dispName
+                                    }
+                                  />
                                 </View>
                               </>
                             )}
 
                             {/* Concluding Song, Prayer */}
                             <View style={styles.rowBase}>
-                              <Text style={styles.meetingTimeLabel}>{weekItem.sourceData.pgmEnd}</Text>
-                              <View
-                                style={{
-                                  width: '270px',
-                                  flexDirection: 'row',
-                                  alignItems: 'flex-start',
-                                  marginTop: '-1px',
-                                }}
-                              >
-                                <Text style={{ ...styles.bulletPoint, color: '#942926' }}>{'\u2022'}</Text>
-                                <Text style={styles.meetingPartText}>{getConcludingSong(weekItem)}</Text>
-                              </View>
-                              <Text style={{ ...styles.miniLabelBase, textAlign: 'right', width: '130px' }}>
-                                {`${t('prayerMidweekMeeting', { lng: source_lang })}:`}
-                              </Text>
-                              <Text style={styles.personLabel}>
-                                {schedule_useFullname
-                                  ? weekItem.scheduleData.closing_prayer_name
-                                  : weekItem.scheduleData.closing_prayer_dispName}
-                              </Text>
+                              <S140Time time={weekItem.sourceData.pgmEnd} />
+                              <S140SourceSimple source={getConcludingSong(weekItem)} bulletColor="#942926" />
+                              <S140PartMiniLabel part={`${t('prayerMidweekMeeting', { lng: source_lang })}:`} />
+                              <S140Person
+                                person={
+                                  schedule_useFullname
+                                    ? weekItem.scheduleData.closing_prayer_name
+                                    : weekItem.scheduleData.closing_prayer_dispName
+                                }
+                              />
                             </View>
                           </>
                         )}

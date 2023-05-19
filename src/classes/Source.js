@@ -290,6 +290,7 @@ SourceClass.prototype.countAssignmentsInfo = function () {
   let assAssigned = 0;
 
   const classCount = Setting.class_count;
+  const openingPrayerAutoAssign = Setting.opening_prayer_autoAssign;
 
   const schedData = Schedules.get(this.weekOf);
   const sourceData = this.local();
@@ -315,9 +316,11 @@ SourceClass.prototype.countAssignmentsInfo = function () {
   }
 
   // opening prayer
-  assTotal = assTotal + 1;
+  if (!openingPrayerAutoAssign) {
+    assTotal = assTotal + 1;
+  }
 
-  if (schedData.opening_prayer && schedData.opening_prayer !== '') {
+  if (!openingPrayerAutoAssign && schedData.opening_prayer && schedData.opening_prayer !== '') {
     assAssigned = assAssigned + 1;
   }
 
