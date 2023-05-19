@@ -17,7 +17,6 @@ import {
   reloadWeekSummaryState,
 } from '../../states/schedule';
 import { checkCBSReader, checkLCAssignments, fetchScheduleInfo } from '../../utils/sourceMaterial';
-import { openingPrayerAutoAssignState } from '../../states/congregation';
 import { selectRandomPerson, saveAssignment } from '../../utils/schedule';
 import { Sources } from '../../classes/Sources';
 import { Schedules } from '../../classes/Schedules';
@@ -33,7 +32,6 @@ const AutofillSchedule = () => {
   const isAutofillSched = useRecoilValue(isAutoFillSchedState);
   const currentSchedule = useRecoilValue(currentScheduleState);
   const currentWeek = useRecoilValue(currentWeekSchedState);
-  const autoAssignOpeningPrayer = useRecoilValue(openingPrayerAutoAssignState);
 
   const [totalToAssign, setTotalToAssign] = useState(0);
   const [assigned, setAssigned] = useState(0);
@@ -57,6 +55,8 @@ const AutofillSchedule = () => {
   const handleAssignSchedule = async () => {
     setIsAssigning(true);
 
+    const { class_count, opening_prayer_autoAssign } = Setting;
+
     // Assign Chairman
     for await (const item of weeks) {
       const week = item.value;
@@ -70,17 +70,10 @@ const AutofillSchedule = () => {
           setAssigned((prev) => {
             return prev + 1;
           });
-
-          if (autoAssignOpeningPrayer) {
-            await saveAssignment(week, selected, 'opening_prayer');
-            setAssigned((prev) => {
-              return prev + 1;
-            });
-          }
         }
 
         // Aux Class
-        if (Setting.class_count === 2 && schedData.week_type === 1) {
+        if (class_count === 2 && schedData.week_type === 1) {
           const selected = selectRandomPerson(110, week);
           if (selected) {
             await saveAssignment(week, selected, 'chairmanMM_B');
@@ -180,7 +173,7 @@ const AutofillSchedule = () => {
           }
         }
 
-        if (!autoAssignOpeningPrayer) {
+        if (!opening_prayer_autoAssign) {
           // Assign Opening Prayer
           const selected = selectRandomPerson(111, week);
           if (selected) {
@@ -210,7 +203,7 @@ const AutofillSchedule = () => {
         }
 
         // Assign Bible Reading Aux Class
-        if (Setting.class_count === 2 && schedData.week_type === 1) {
+        if (class_count === 2 && schedData.week_type === 1) {
           const selected = selectRandomPerson(100, week, undefined, 'B');
           if (selected) {
             await saveAssignment(week, selected, 'bRead_stu_B');
@@ -250,7 +243,7 @@ const AutofillSchedule = () => {
           }
 
           // Aux Class
-          if (Setting.class_count === 2 && schedData.week_type === 1) {
+          if (class_count === 2 && schedData.week_type === 1) {
             if (
               assType === 101 ||
               assType === 102 ||
@@ -302,7 +295,7 @@ const AutofillSchedule = () => {
           }
 
           // Aux Class
-          if (Setting.class_count === 2 && schedData.week_type === 1) {
+          if (class_count === 2 && schedData.week_type === 1) {
             if (
               assType === 101 ||
               assType === 102 ||
