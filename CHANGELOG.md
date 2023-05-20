@@ -1,3 +1,15 @@
+# [2.75.0](https://github.com/sws2apps/cpe-sws/compare/v2.74.1...v2.75.0) (2023-05-20)
+
+
+### Bug Fixes
+
+* **schedules:** minute text is missing on S-140 in living parts ([8329b83](https://github.com/sws2apps/cpe-sws/commit/8329b8364b1870cacbc81221e38a80991d429424))
+
+
+### Features
+
+* **deps:** bump @mui/x-date-pickers from 6.4.0 to 6.5.0 ([2d43907](https://github.com/sws2apps/cpe-sws/commit/2d439071b1da047ed66ad036f0a92d0e21a22fc7))
+
 ## [2.74.1](https://github.com/sws2apps/cpe-sws/compare/v2.74.0...v2.74.1) (2023-05-19)
 
 
