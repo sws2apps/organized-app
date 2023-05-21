@@ -176,7 +176,7 @@ SourceClass.prototype.save = async function (srcData, localOverride) {
 SourceClass.prototype.local = function () {
   try {
     const { source_lang } = Setting;
-    const lang = source_lang.toUpperCase();
+    const lang = source_lang?.toUpperCase() || 'E';
     const assTypeList = AssignmentType.local();
 
     let obj = {};
