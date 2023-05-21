@@ -4,6 +4,8 @@ import { LANGUAGE_LIST } from '../locales/langList.js';
 import { loadApp } from './app';
 import { Setting } from '../classes/Setting';
 import { Persons } from '../classes/Persons';
+import { Schedules } from '../classes/Schedules';
+import { saveAssignment } from './schedule';
 
 export const runUpdater = async () => {
   await removeInvalidWeeks();
@@ -13,6 +15,7 @@ export const runUpdater = async () => {
   await updatePersonAssignments();
   await checkAutoBackup();
   await removeDuplicateTimeAway();
+  await removeAutoAssignedOpeningPrayer();
   await loadApp();
 };
 
@@ -515,6 +518,16 @@ const removeDuplicateTimeAway = async () => {
       if (!classPerson) newPerson = { ...person, timeAway: cleanTimeAways };
 
       await Persons.preSave(newPerson);
+    }
+  }
+};
+
+const removeAutoAssignedOpeningPrayer = async () => {
+  if (Setting.opening_prayer_autoAssign) {
+    for await (const schedule of Schedules.list) {
+      if (schedule.chairmanMM_A === schedule.opening_prayer) {
+        await saveAssignment(schedule.weekOf, undefined, 'opening_prayer');
+      }
     }
   }
 };
