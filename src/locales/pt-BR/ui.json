@@ -597,6 +597,6 @@
   "reminders": "Lembretes",
   "reminderS1Report": "Seu relatório de congregação (S-1) ainda não está pronto. Deverá ser enviado a filial, até no máximo no dia 20 do mês.",
   "scheduleAlreadyAssignedWarning": "Esta pessoa já tem uma designação nesta semana",
-  "errorResetData": "ATTENTION: If you want to reset CPE, click the button below. All your local data will be deleted.",
-  "reset": "Reset"
+  "errorResetData": "ATENÇÃO: Se você deseja resetar o CPE, clique no botão abaixo. Todos os seus dados locais serão excluídos.",
+  "reset": "Resetar"
 }
