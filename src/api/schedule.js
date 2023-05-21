@@ -36,12 +36,12 @@ export const apiFetchSchedule = async () => {
 
       const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
       const secretaryRole = Setting.cong_role.includes('secretary');
-      const viewMeetingScheduleRole = Setting.cong_role.includes('view_meeting_schedule');
+      const viewMeetingScheduleRole =
+        Setting.account_type === 'vip' &&
+        Setting.cong_role.length === 1 &&
+        Setting.cong_role.includes('view_meeting_schedule');
 
-      if (
-        (Setting.account_type === 'vip' && Setting.cong_role.length === 1 && viewMeetingScheduleRole) ||
-        (secretaryRole && !lmmoRole)
-      ) {
+      if (viewMeetingScheduleRole || (secretaryRole && !lmmoRole)) {
         const auth = await getAuth();
         const user = auth.currentUser;
 
@@ -55,12 +55,14 @@ export const apiFetchSchedule = async () => {
         });
       }
 
-      const { cong_schedule, cong_sourceMaterial, class_count, source_lang, co_name, co_displayName } =
-        await res.json();
+      const { cong_schedule, cong_sourceMaterial, cong_settings } = await res.json();
+
       await Sources.updatePocketSource(cong_sourceMaterial);
       await Schedules.updatePocketSchedule(cong_schedule);
 
-      await Setting.update({ class_count, source_lang, co_name, co_displayName });
+      const { class_count, source_lang, co_name, co_displayName, opening_prayer_autoAssign } = cong_settings;
+
+      await Setting.update({ class_count, source_lang, co_name, co_displayName, opening_prayer_autoAssign });
 
       Schedules.buildHistory();
 
