@@ -10,6 +10,8 @@ export const fetchNotifications = async () => {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
+          appclient: 'cpe',
+          appversion: import.meta.env.PACKAGE_VERSION,
           cong_role: JSON.stringify(Setting.cong_role),
         },
       });

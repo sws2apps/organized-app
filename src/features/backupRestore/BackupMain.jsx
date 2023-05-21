@@ -46,6 +46,8 @@ const BackupMain = ({ handleCreateBackup, handleClose, handleRestoreBackup, open
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
+            appclient: 'cpe',
+            appversion: import.meta.env.PACKAGE_VERSION,
             visitorid: visitorID,
             uid: user.uid,
           },

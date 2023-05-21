@@ -164,6 +164,8 @@ const CongregationPersonDetails = () => {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
+            appclient: 'cpe',
+            appversion: import.meta.env.PACKAGE_VERSION,
             visitorid: visitorID,
             uid: user.uid,
           },
@@ -198,6 +200,8 @@ const CongregationPersonDetails = () => {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
+            appclient: 'cpe',
+            appversion: import.meta.env.PACKAGE_VERSION,
             visitorid: visitorID,
             uid: user.uid,
           },
@@ -236,6 +240,8 @@ const CongregationPersonDetails = () => {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
+            appclient: 'cpe',
+            appversion: import.meta.env.PACKAGE_VERSION,
             visitorid: visitorID,
             uid: user.uid,
           },
@@ -282,6 +288,8 @@ const CongregationPersonDetails = () => {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
+            appclient: 'cpe',
+            appversion: import.meta.env.PACKAGE_VERSION,
             visitorid: visitorID,
             uid: user.uid,
           },
@@ -331,6 +339,8 @@ const CongregationPersonDetails = () => {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
+            appclient: 'cpe',
+            appversion: import.meta.env.PACKAGE_VERSION,
             visitorid: visitorID,
             uid: user.uid,
           },
@@ -372,6 +382,8 @@ const CongregationPersonDetails = () => {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
+            appclient: 'cpe',
+            appversion: import.meta.env.PACKAGE_VERSION,
             visitorid: visitorID,
             uid: user.uid,
           },
