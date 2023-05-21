@@ -1,3 +1,16 @@
+# [2.76.0](https://github.com/sws2apps/cpe-sws/compare/v2.75.0...v2.76.0) (2023-05-21)
+
+
+### Bug Fixes
+
+* **schedules:** don’t auto assign opening prayer for manual assignment ([f101dbb](https://github.com/sws2apps/cpe-sws/commit/f101dbb90887e54bc00bf9aa59ab8500278a9378))
+* **schedules:** remove auto assigned opening prayer from schedules history ([9d30142](https://github.com/sws2apps/cpe-sws/commit/9d30142a1fe9f91eaf2fefebd6f9c412852fefc7))
+
+
+### Features
+
+* **settings:** use icon button for username save and cancel actions ([d1bed46](https://github.com/sws2apps/cpe-sws/commit/d1bed46e57ba413b92377ff15913a1add266b7b3))
+
 # [2.75.0](https://github.com/sws2apps/cpe-sws/compare/v2.74.1...v2.75.0) (2023-05-20)
 
 
