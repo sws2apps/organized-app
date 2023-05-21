@@ -208,11 +208,6 @@ const ScheduleAssignment = ({ edit }) => {
     if (assID === 18) {
       await saveAssignment(week, studentID, 'chairmanMM_A');
       setChairmanA(studentValue);
-
-      if (opening_prayer_autoAssign) {
-        await saveAssignment(week, studentID, 'opening_prayer');
-        setOpeningPrayer(studentValue);
-      }
     }
 
     if (assID === 19) {
