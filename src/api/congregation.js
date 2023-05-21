@@ -13,6 +13,8 @@ export const apiFetchCountries = async () => {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
+          appclient: 'cpe',
+          appversion: import.meta.env.PACKAGE_VERSION,
           uid: user.uid,
           visitorid: visitorID,
           language: appLang.toUpperCase(),
@@ -39,6 +41,8 @@ export const apiFetchCongregations = async (country, name) => {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
+          appclient: 'cpe',
+          appversion: import.meta.env.PACKAGE_VERSION,
           uid: user.uid,
           visitorid: visitorID,
           language: appLang.toUpperCase(),
@@ -67,6 +71,8 @@ export const apiCreateCongregation = async (country_code, cong_name, cong_number
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          appclient: 'cpe',
+          appversion: import.meta.env.PACKAGE_VERSION,
           visitorid: visitorID,
           uid: user.uid,
         },
@@ -93,6 +99,8 @@ export const apiUpdateCongregation = async (cong_id, country_code, cong_name, co
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
+          appclient: 'cpe',
+          appversion: import.meta.env.PACKAGE_VERSION,
           uid: user.uid,
           visitorid: visitorID,
         },

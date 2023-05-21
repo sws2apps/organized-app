@@ -28,6 +28,8 @@ export const apiSendAuthorization = async () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          appclient: 'cpe',
+          appversion: import.meta.env.PACKAGE_VERSION,
           uid: user.uid,
         },
         body: JSON.stringify({ visitorid: visitorID }),
@@ -76,6 +78,8 @@ export const apiHandleVerifyOTP = async (userOTP, isSetup, trustedDevice) => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            appclient: 'cpe',
+            appversion: import.meta.env.PACKAGE_VERSION,
             visitorid: visitorID,
             uid: user.uid,
           },
@@ -176,6 +180,8 @@ export const apiHandleVerifyEmailOTP = async (userOTP) => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            appclient: 'cpe',
+            appversion: import.meta.env.PACKAGE_VERSION,
             visitorid: visitorID,
             uid: user.uid,
           },
@@ -255,6 +261,8 @@ export const apiRequestTempOTPCode = async (uid) => {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
+          appclient: 'cpe',
+          appversion: import.meta.env.PACKAGE_VERSION,
           applanguage: appLang,
           uid: uid,
           visitorid: visitorID,
@@ -294,6 +302,8 @@ export const apiRequestPasswordlesssLink = async (email, uid) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          appclient: 'cpe',
+          appversion: import.meta.env.PACKAGE_VERSION,
           applanguage: appLang,
         },
         body: JSON.stringify({ email, uid }),
@@ -341,6 +351,8 @@ export const apiUpdatePasswordlessInfo = async (uid) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          appclient: 'cpe',
+          appversion: import.meta.env.PACKAGE_VERSION,
           uid,
         },
         body: JSON.stringify({ email: tmpEmail, visitorid: visitorID }),
@@ -383,6 +395,8 @@ export const apiPocketSignUp = async (code) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          appclient: 'cpe',
+          appversion: import.meta.env.PACKAGE_VERSION,
         },
         body: JSON.stringify({ visitorid: visitorID, otp_code: code.toUpperCase() }),
       });
@@ -405,6 +419,8 @@ export const apiPocketValidate = async () => {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
+          appclient: 'cpe',
+          appversion: import.meta.env.PACKAGE_VERSION,
           visitorid: visitorID,
         },
       });
@@ -427,6 +443,8 @@ export const apiFetchPocketSessions = async () => {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
+          appclient: 'cpe',
+          appversion: import.meta.env.PACKAGE_VERSION,
           visitorid: visitorID,
         },
       });
@@ -447,6 +465,8 @@ export const apiPocketDeviceDelete = async (pocket_visitorid) => {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
+          appclient: 'cpe',
+          appversion: import.meta.env.PACKAGE_VERSION,
           visitorid: visitorID,
         },
         body: JSON.stringify({ pocket_visitorid }),

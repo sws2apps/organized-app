@@ -29,6 +29,8 @@ export const apiFetchSchedule = async () => {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
+            appclient: 'cpe',
+            appversion: import.meta.env.PACKAGE_VERSION,
             visitorid: visitorID,
           },
         });
@@ -49,6 +51,8 @@ export const apiFetchSchedule = async () => {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
+            appclient: 'cpe',
+            appversion: import.meta.env.PACKAGE_VERSION,
             uid: user.uid,
             visitorid: visitorID,
           },
