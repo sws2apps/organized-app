@@ -1,3 +1,10 @@
+# [2.78.0](https://github.com/sws2apps/cpe-sws/compare/v2.77.0...v2.78.0) (2023-05-21)
+
+
+### Features
+
+* **app:** send app name and version on each request ([c169574](https://github.com/sws2apps/cpe-sws/commit/c169574c92d60199dc6807a747b8c4c39b5b3046))
+
 # [2.77.0](https://github.com/sws2apps/cpe-sws/compare/v2.76.1...v2.77.0) (2023-05-21)
 
 
