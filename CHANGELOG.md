@@ -1,3 +1,10 @@
+# [2.77.0](https://github.com/sws2apps/cpe-sws/compare/v2.76.1...v2.77.0) (2023-05-21)
+
+
+### Features
+
+* **app:** add option to reset CPE data on error ([c5a82d6](https://github.com/sws2apps/cpe-sws/commit/c5a82d6a4995900bd0d59fd5553d884301ced29e))
+
 ## [2.76.1](https://github.com/sws2apps/cpe-sws/compare/v2.76.0...v2.76.1) (2023-05-21)
 
 
