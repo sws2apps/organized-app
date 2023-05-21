@@ -1,3 +1,10 @@
+## [2.76.1](https://github.com/sws2apps/cpe-sws/compare/v2.76.0...v2.76.1) (2023-05-21)
+
+
+### Bug Fixes
+
+* **app:** application won’t open on some users ([b8e8a53](https://github.com/sws2apps/cpe-sws/commit/b8e8a53aeb59b288c412dd08a0395decb8dab1da))
+
 # [2.76.0](https://github.com/sws2apps/cpe-sws/compare/v2.75.0...v2.76.0) (2023-05-21)
 
 
