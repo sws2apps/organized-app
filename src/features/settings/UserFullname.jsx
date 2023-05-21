@@ -2,7 +2,9 @@ import { useEffect, useRef, useState } from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
+import CancelIcon from '@mui/icons-material/Cancel';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import IconButton from '@mui/material/IconButton';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { usernameState } from '../../states/congregation';
@@ -127,12 +129,12 @@ const UserFullname = () => {
         />
         {isEdit && (
           <Box sx={{ marginBottom: '5px' }}>
-            <Button onClick={handleUpdateUsername} variant="contained" sx={{ marginRight: '5px' }}>
-              {t('save')}
-            </Button>
-            <Button onClick={handleCancelChanges} variant="contained" color="secondary">
-              {t('cancel')}
-            </Button>
+            <IconButton aria-label="save" color="success" sx={{ marginRight: '5px' }} onClick={handleUpdateUsername}>
+              <CheckCircleIcon />
+            </IconButton>
+            <IconButton aria-label="cancel" color="error" sx={{ marginRight: '5px' }} onClick={handleCancelChanges}>
+              <CancelIcon />
+            </IconButton>
           </Box>
         )}
       </Box>
