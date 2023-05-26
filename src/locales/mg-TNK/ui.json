@@ -597,6 +597,7 @@
   "reminders": "Fampahatsiahivana",
   "reminderS1Report": "Tsy mbola vonona ny Tatitra Momba ny Fanompoana sy Mpanatrika Fivoriana (S-1). Tokony halefa any amin’ny biraon’ny sampana izy io alohan’ny faharoapolon’ny volana.",
   "scheduleAlreadyAssignedWarning": "Efa manana anjara io olona io amin’ity herinandro ity",
-  "errorResetData": "TANDREMO: Tsindrio ny bokotra eto ambany raha tianao averina hatramin’ny voloahany indray ny CPE. Ho voafafa daholo ny rakitra rehetra ampiasainao ato amin’ity fitaovana ity.",
-  "reset": "Averina"
+  "errorResetData": "ATTENTION: If the above action failed, you can reset CPE app. But please note that all your local data WILL BE DELETED.",
+  "reset": "Averina",
+  "errorReloadCPE": "An error occured and CPE cannot be started. Try to reload first by clicking the button below."
 }
