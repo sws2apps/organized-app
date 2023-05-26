@@ -12,6 +12,10 @@ const ErrorBoundary = () => {
 
   const { t } = useTranslation('ui');
 
+  const handleReload = () => {
+    window.location.href = './';
+  };
+
   const handleDelete = async () => {
     const auth = await getAuth();
 
@@ -26,14 +30,18 @@ const ErrorBoundary = () => {
       <NavBar />
       <Box
         sx={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%,-50%)',
+          margin: '0 auto',
+          maxWidth: '750px',
+          padding: '10px',
+          marginTop: '60px',
         }}
       >
         <Typography>Ooops</Typography>
         <Typography>{error.message || error.data}</Typography>
+        <Typography sx={{ marginTop: '15px' }}>{t('errorReloadCPE')}</Typography>
+        <Button variant="contained" color="info" sx={{ marginTop: '10px' }} onClick={handleReload}>
+          {t('reloadApp')}
+        </Button>
         <Typography sx={{ marginTop: '15px' }} color="error">
           {t('errorResetData')}
         </Typography>

@@ -34,10 +34,7 @@ const RootModal = ({ children }) => {
               color="secondary"
               size={80}
               disableShrink={true}
-              sx={{
-                display: 'flex',
-                margin: '10px auto',
-              }}
+              sx={{ display: 'flex', margin: '10px auto' }}
             />
           </DialogContent>
         </Dialog>
