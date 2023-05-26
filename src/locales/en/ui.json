@@ -597,6 +597,7 @@
   "reminders": "Reminders",
   "reminderS1Report": "Your Field Service and Meeting Attendance (S-1) report is not yet ready. It should be submitted to the branch office no later than the 20th day of the month.",
   "scheduleAlreadyAssignedWarning": "This person already has an assignment this week",
-  "errorResetData": "ATTENTION: If you want to reset CPE, click the button below. All your local data will be deleted.",
-  "reset": "Reset"
+  "errorResetData": "ATTENTION: If the above action failed, you can reset CPE app. But please note that all your local data WILL BE DELETED.",
+  "reset": "Reset",
+  "errorReloadCPE": "An error occured and CPE cannot be started. Try to reload first by clicking the button below."
 }
