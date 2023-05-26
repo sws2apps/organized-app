@@ -1,3 +1,18 @@
+# [2.79.0](https://github.com/sws2apps/cpe-sws/compare/v2.78.0...v2.79.0) (2023-05-26)
+
+
+### Bug Fixes
+
+* **app:** add reload option when CPE crashes ([ac63592](https://github.com/sws2apps/cpe-sws/commit/ac63592f6d53a8176ea62a6f2c68e58d33223e43))
+
+
+### Features
+
+* **deps:** bump @fontsource/roboto from 4.5.8 to 5.0.1 ([0a135bb](https://github.com/sws2apps/cpe-sws/commit/0a135bbbaf59670e4b6b3628e2e4340b81eae2f7))
+* **deps:** bump @mui/lab from 5.0.0-alpha.130 to 5.0.0-alpha.131 ([b504e01](https://github.com/sws2apps/cpe-sws/commit/b504e0111517856a4d6bb92675c1d5559b95b69c))
+* **deps:** bump @mui/material from 5.13.1 to 5.13.2 ([e857189](https://github.com/sws2apps/cpe-sws/commit/e85718997ffacfa71d064f19bf0de69d85760ca1))
+* **deps:** bump firebase from 9.22.0 to 9.22.1 ([742a6b1](https://github.com/sws2apps/cpe-sws/commit/742a6b1f4d0f96ef3195384b56d95acc3e31da0f))
+
 # [2.78.0](https://github.com/sws2apps/cpe-sws/compare/v2.77.0...v2.78.0) (2023-05-21)
 
 
