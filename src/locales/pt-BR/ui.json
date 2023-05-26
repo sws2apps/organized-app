@@ -597,6 +597,7 @@
   "reminders": "Lembretes",
   "reminderS1Report": "Seu relatório de congregação (S-1) ainda não está pronto. Deverá ser enviado a filial, até no máximo no dia 20 do mês.",
   "scheduleAlreadyAssignedWarning": "Esta pessoa já tem uma designação nesta semana",
-  "errorResetData": "ATENÇÃO: Se você deseja resetar o CPE, clique no botão abaixo. Todos os seus dados locais serão excluídos.",
-  "reset": "Resetar"
+  "errorResetData": "ATTENTION: If the above action failed, you can reset CPE app. But please note that all your local data WILL BE DELETED.",
+  "reset": "Resetar",
+  "errorReloadCPE": "An error occured and CPE cannot be started. Try to reload first by clicking the button below."
 }

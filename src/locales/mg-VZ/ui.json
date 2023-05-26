@@ -597,6 +597,7 @@
   "reminders": "Fampahatsiahivana",
   "reminderS1Report": "Tsy mbola vonona ny Tatitra Momba ny Fanompoana sy Mpanatrika Fivoriana (S-1). Tokony halefa any amin’ny biraon’ny sampana izy io alohan’ny faharoapolon’ny volana.",
   "scheduleAlreadyAssignedWarning": "Efa manana anjara io olona io amin’ity herinandro ity",
-  "errorResetData": "TANDREMO: Tsindrio ny bokotra eto ambany raha tianao averina hatramin’ny voloahany indray ny CPE. Ho voafafa daholo ny rakitra rehetra ampiasainao ato amin’ity fitaovana ity.",
-  "reset": "Averina"
+  "errorResetData": "TANDREMO: Raha tsy mbola nivaha ilay olana, dia azonao atao ny mamerina hatramin’ny voalohany ny programa CPE. Tadidio anefa fa HO VOAFAFA daholo ny rakitra rehetra ampiasainao ato amin’ity fitaovana ity.",
+  "reset": "Averina",
+  "errorReloadCPE": "Nisy olana nitranga ka tsy afaka misokatra ny CPE. Tsindrio ilay bokotra eto ambany raha tianao averina sokafana fotsiny aloha ny CPE."
 }
