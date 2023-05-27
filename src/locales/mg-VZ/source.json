@@ -54,5 +54,7 @@
   "returnVisitVariations": "0",
   "lcNoAssignedVariations": "Raha Vitani-Fandamina",
   "cbsLffWithPointsVariations": "lff fianara {{ lesson }}: Lohatenikely {{ points }}",
-  "cbsLffSectionOnlyVariations": "lff famerena ty fizarà"
+  "cbsLffSectionOnlyVariations": "lff famerena ty fizarà",
+  "lcSourceElderVariations": "Local Needs",
+  "lcContentElderVariations": "To be handled by an elder"
 }
