@@ -99,13 +99,15 @@ PersonsClass.prototype.filterSecretary = function (data) {
   const fsg = data.fsg || '';
   const month = data.month || `${new Date().getFullYear()}/${String(new Date().getMonth() + 1).padStart(2, '0')}/01`;
 
+  const initialData = this.filterLMMO(data);
+
   let firstPassFiltered = [];
   if (filter === 'allPersons') {
-    firstPassFiltered = [...this.list];
+    firstPassFiltered = [...initialData];
   }
 
   const allPublishers = [];
-  for (const person of this.list) {
+  for (const person of initialData) {
     const isElder = person.isElder(month);
     const isMS = person.isMS(month);
     const isPublisher = person.isPublisher(month);
