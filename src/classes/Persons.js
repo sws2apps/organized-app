@@ -157,6 +157,16 @@ PersonsClass.prototype.filterSecretary = function (data) {
     }
   }
 
+  if (filter === 'elders') {
+    for (const person of allPublishers) {
+      const isElder = person.isElder(month);
+
+      if (isElder) {
+        firstPassFiltered.push(person);
+      }
+    }
+  }
+
   if (filter === 'unpostedReports') {
     for (const person of allPublishers) {
       const isActive = person.isActivePublisher(month);
@@ -362,7 +372,14 @@ PersonsClass.prototype.isExist = function (name) {
   return this.list.find((person) => person.person_name === name) ? true : false;
 };
 
-PersonsClass.prototype.getByAssignment = function (assType, stuForAssistant, gender, txtSearch) {
+PersonsClass.prototype.getByAssignment = function (payload) {
+  let assType = payload.assType;
+  const stuForAssistant = payload.stuForAssistant;
+  const gender = payload.gender;
+  const txtSearch = payload.txtSearch;
+  const isLC = payload.isLC;
+  const isElderPart = payload.isElderPart;
+
   // check is assType is linked to another type
   const assTypeList = AssignmentType.types;
 
@@ -418,6 +435,25 @@ PersonsClass.prototype.getByAssignment = function (assType, stuForAssistant, gen
     (assType >= 170 && assType < 200) ||
     assType === 103 ||
     assType === 108;
+
+  // get elders only if applied
+  let filteredElders = [];
+  if (isLC && isElderPart) {
+    const allElders = Persons.filterSecretary({ txtSearch: '', assTypes: [], filter: 'elders' });
+
+    if (allElders.length > 0) {
+      for (const person of dbPersons) {
+        const currentPerson = Persons.get(person.person_uid);
+        const isElder = currentPerson.isElder();
+
+        if (isElder) {
+          filteredElders.push(person);
+        }
+      }
+
+      dbPersons = filteredElders;
+    }
+  }
 
   for (const person of dbPersons) {
     const obj = {};
@@ -486,6 +522,7 @@ PersonsClass.prototype.getByAssignment = function (assType, stuForAssistant, gen
     const dateB = b[fldFilter].split('/')[2] + '/' + b[fldFilter].split('/')[0] + '/' + b[fldFilter].split('/')[1];
     return dateA > dateB ? 1 : -1;
   });
+
   return persons;
 };
 

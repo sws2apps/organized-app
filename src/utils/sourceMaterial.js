@@ -183,6 +183,26 @@ export const checkLCAssignments = (source) => {
   return Array.isArray(array);
 };
 
+export const checkLCElderAssignments = (source, content) => {
+  let isElderPart = false;
+
+  const { t } = getI18n();
+
+  const search = `(${t('lcSourceElderVariations', { lng: Setting.source_lang, ns: 'source' })})`;
+  const regex = new RegExp(search.toLowerCase());
+  const array = regex.exec(source.toLowerCase());
+  isElderPart = Array.isArray(array);
+
+  if (!isElderPart) {
+    const search = `(${t('lcContentElderVariations', { lng: Setting.source_lang, ns: 'source' })})`;
+    const regex = new RegExp(search.toLowerCase());
+    const array = regex.exec(content.toLowerCase());
+    isElderPart = Array.isArray(array);
+  }
+
+  return isElderPart;
+};
+
 export const checkCBSReader = (source) => {
   const sourceLang = Setting.source_lang;
 

@@ -425,10 +425,17 @@ export const getPersonAutofillSibling = (persons, assType, assClass) => {
   return selected;
 };
 
-export const selectRandomPerson = (assType, week, mainStudent, assClass) => {
+export const selectRandomPerson = (data) => {
+  let assType = data.assType;
+  const week = data.week;
+  const mainStudent = data.mainStudent;
+  const assClass = data.assClass;
+  const isLC = data.isLC;
+  const isElderPart = data.isElderPart;
+
   let selected;
 
-  const persons = Persons.getByAssignment(assType, mainStudent);
+  const persons = Persons.getByAssignment({ assType, stuForAssistant: mainStudent, isLC, isElderPart });
 
   assType = assType === 'isAssistant' ? 109 : assType;
 

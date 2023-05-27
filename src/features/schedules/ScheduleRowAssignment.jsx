@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import SingleAssignment from './SingleAssignment';
 import { classCountState } from '../../states/congregation';
 import { useEffect, useState } from 'react';
-import { checkCBSReader, checkLCAssignments } from '../../utils/sourceMaterial';
+import { checkCBSReader } from '../../utils/sourceMaterial';
 
 const styles = {
   studentPartWrapper1: {
@@ -76,10 +76,11 @@ const ScheduleRowAssignment = ({
   loadStudentAyfPicker,
   loadPersonHistoryA,
   loadPersonHistoryB,
+  isLCNoAssign,
+  isLCElder,
 }) => {
   const classCount = useRecoilValue(classCountState);
 
-  const [isLCNoAssign, setIsLCNoAssign] = useState(false);
   const [displayPerson, setDisplayPerson] = useState(false);
   const [displayCBSReader, setDisplayCBSReader] = useState(true);
 
@@ -100,13 +101,6 @@ const ScheduleRowAssignment = ({
 
     return styles.studentContainer1;
   };
-
-  useEffect(() => {
-    if (isLC) {
-      const noAssign = checkLCAssignments(source);
-      setIsLCNoAssign(noAssign);
-    }
-  }, [isLC, source]);
 
   useEffect(() => {
     if (assType === 105 || assType === 106 || assType === 107 || assType === 117) {
@@ -172,6 +166,8 @@ const ScheduleRowAssignment = ({
               setSelectedStudent={(value) => setSelectedStudent(value)}
               loadPersonHistory={loadPersonHistoryA}
               loadStudentAyfPicker={loadStudentAyfPicker}
+              isLC={isLC}
+              isElderPart={isLCElder}
             />
           )}
 

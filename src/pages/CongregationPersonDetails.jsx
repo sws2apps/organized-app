@@ -486,7 +486,7 @@ const CongregationPersonDetails = () => {
                 {person.global_role === 'vip' &&
                   person.sessions.map((session) => (
                     <CongregationPersonVipDevice
-                      key={session.visitorID}
+                      key={session.visitorid}
                       session={session}
                       handleRevokeSession={(value) => handleRevokeSession(value)}
                     />

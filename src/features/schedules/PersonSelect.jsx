@@ -34,7 +34,19 @@ const HtmlTooltip = styled(({ className, ...props }) => <Tooltip {...props} clas
   },
 }));
 
-const PersonSelect = ({ ayf, assID, assType, currentWeek, stuForAssistant, handleSave, edit, co, person }) => {
+const PersonSelect = ({
+  ayf,
+  assID,
+  assType,
+  currentWeek,
+  stuForAssistant,
+  handleSave,
+  edit,
+  co,
+  person,
+  isLC,
+  isElderPart,
+}) => {
   const { t } = useTranslation('ui');
 
   const currentPerson = Persons.get(person);
@@ -82,7 +94,7 @@ const PersonSelect = ({ ayf, assID, assType, currentWeek, stuForAssistant, handl
   }, [ayf, assType]);
 
   useEffect(() => {
-    let students = [];
+    let persons = [];
 
     if (co) {
       const coName = Setting.co_displayName;
@@ -100,14 +112,14 @@ const PersonSelect = ({ ayf, assID, assType, currentWeek, stuForAssistant, handl
     }
 
     if (isAssistant) {
-      students = Persons.getByAssignment('isAssistant', stuForAssistant, undefined);
+      persons = Persons.getByAssignment({ assType: 'isAssistant', stuForAssistant });
     } else {
-      students = Persons.getByAssignment(assType, undefined, gender);
+      persons = Persons.getByAssignment({ assType, gender, isLC, isElderPart });
     }
 
-    // remove unavailable students based on time away
+    // remove unavailable persons based on time away
     let available = [];
-    for (const student of students) {
+    for (const student of persons) {
       if (student.timeAway.length === 0) {
         available.push(student);
       } else {
@@ -149,6 +161,8 @@ const PersonSelect = ({ ayf, assID, assType, currentWeek, stuForAssistant, handl
     person,
     refreshCurrent,
     pocketRole,
+    isLC,
+    isElderPart,
   ]);
 
   useEffect(() => {
@@ -259,7 +273,7 @@ const PersonSelect = ({ ayf, assID, assType, currentWeek, stuForAssistant, handl
         renderOption={(props, option) => {
           const currentIndex = options.findIndex((item) => item.person_uid === option.person_uid);
           return (
-            <>
+            <Box key={`header-${option.person_uid}`}>
               {currentIndex === 0 && <OptionHeader key={`header-${option.person_uid}`} option={option} />}
 
               {currentIndex === 0 && <Box sx={{ height: !isAssistant && filterEnabled ? '80px' : '20px' }}></Box>}
@@ -297,7 +311,7 @@ const PersonSelect = ({ ayf, assID, assType, currentWeek, stuForAssistant, handl
                   )}
                 </Box>
               </Box>
-            </>
+            </Box>
           );
         }}
       />
