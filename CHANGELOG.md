@@ -1,3 +1,17 @@
+# [2.80.0](https://github.com/sws2apps/cpe-sws/compare/v2.79.0...v2.80.0) (2023-05-27)
+
+
+### Bug Fixes
+
+* **persons:** allow filters mixes ([5bc79be](https://github.com/sws2apps/cpe-sws/commit/5bc79bef3ecc446fad8b36590528c04e95074dec))
+* **persons:** update person address translation key ([e3057e9](https://github.com/sws2apps/cpe-sws/commit/e3057e98f81fd4ce6ca3bc7ada97346002ae7624))
+
+
+### Features
+
+* **deps:** bump workbox-cli from 6.5.4 to 6.6.0 ([aab8b54](https://github.com/sws2apps/cpe-sws/commit/aab8b546f4a2893630fd57171e8a1cd12293598a))
+* **schedules:** allow for filtering elders part ([20b2fca](https://github.com/sws2apps/cpe-sws/commit/20b2fcab35a8220f7a880c9fad69fcdbb6cd3e17))
+
 # [2.79.0](https://github.com/sws2apps/cpe-sws/compare/v2.78.0...v2.79.0) (2023-05-26)
 
 
