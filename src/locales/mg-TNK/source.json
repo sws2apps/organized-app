@@ -54,5 +54,7 @@
   "returnVisitVariations": "0",
   "lcNoAssignedVariations": "Raha Vitany Fandaminan̈a",
   "cbsLffWithPointsVariations": "lff leson {{ lesson }}: Hevitry {{ points }}",
-  "cbsLffSectionOnlyVariations": "lff fizaran̈a"
+  "cbsLffSectionOnlyVariations": "lff fizaran̈a",
+  "lcSourceElderVariations": "Local Needs",
+  "lcContentElderVariations": "To be handled by an elder"
 }
