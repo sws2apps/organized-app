@@ -166,7 +166,7 @@ const PersonBasic = ({
           onChange={roleSecretary ? (e) => setPersonEmail(e.target.value) : null}
         />
         <TextField
-          label={t('Address')}
+          label={t('address')}
           variant="outlined"
           size="small"
           autoComplete="off"
