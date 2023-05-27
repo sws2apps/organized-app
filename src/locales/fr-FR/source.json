@@ -52,7 +52,9 @@
   "lcPart": "Living Parts",
   "initialCallVariations": "0",
   "returnVisitVariations": "0",
-  "lcNoAssignedVariations": "Organizational Accomplishments",
+  "lcNoAssignedVariations": "Organizational Accomplishments|Governing Body Update",
   "cbsLffWithPointsVariations": "lff lesson {{ lesson }} points {{ points }}|lff lesson {{ lesson }} point {{ points }}",
-  "cbsLffSectionOnlyVariations": "lff section"
+  "cbsLffSectionOnlyVariations": "lff section",
+  "lcSourceElderVariations": "Local Needs",
+  "lcContentElderVariations": "To be handled by an elder"
 }

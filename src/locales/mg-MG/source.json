@@ -52,7 +52,9 @@
   "lcPart": "Anjara Amin’ny Fiainantsika",
   "initialCallVariations": "0",
   "returnVisitVariations": "0",
-  "lcNoAssignedVariations": "Zava-bitan’ny Fandaminana",
+  "lcNoAssignedVariations": "Zava-bitan’ny Fandaminana|Vaovao Farany avy Amin’ny Filan-kevi-pitantanana",
   "cbsLffWithPointsVariations": "lff lesona {{ lesson }}: Hevitra {{ points }}",
-  "cbsLffSectionOnlyVariations": "lff famerenana ny fizarana"
+  "cbsLffSectionOnlyVariations": "lff famerenana ny fizarana",
+  "lcSourceElderVariations": "Zavatra Ilain’ny Fiangonana",
+  "lcContentElderVariations": "Ataon’ny anti-panahy"
 }
