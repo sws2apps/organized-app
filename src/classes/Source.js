@@ -1,5 +1,5 @@
 import appDb from '../indexedDb/mainDb';
-import { checkCBSReader, checkLCAssignments } from '../utils/sourceMaterial';
+import { checkCBSReader, checkLCAssignments, checkLCElderAssignments } from '../utils/sourceMaterial';
 import { AssignmentType } from './AssignmentType';
 import { Schedules } from './Schedules';
 import { Setting } from './Setting';
@@ -465,4 +465,71 @@ SourceClass.prototype.countAssignmentsInfo = function () {
   }
 
   return { total: assTotal, assigned: assAssigned };
+};
+
+SourceClass.prototype.isElderPartLC1 = function () {
+  const localSrc = this.local();
+
+  let source = '';
+  let content = '';
+  if (localSrc.lcPart1_time_override) {
+    source = localSrc.lcPart1_src_override;
+    content = localSrc.lcPart1_content_override;
+  }
+  if (!localSrc.lcPart1_time_override) {
+    source = localSrc.lcPart1_src;
+    content = localSrc.lcPart1_content;
+  }
+
+  const isElderPart = checkLCElderAssignments(source, content);
+  return isElderPart;
+};
+
+SourceClass.prototype.isElderPartLC2 = function () {
+  const localSrc = this.local();
+
+  let source = '';
+  let content = '';
+
+  if (localSrc.lcCount_override !== 0 && localSrc.lcCount_override === 2 && localSrc.lcPart2_time_override) {
+    source = localSrc.lcPart2_src_override;
+    content = localSrc.lcPart2_content_override;
+  }
+  if (localSrc.lcCount_override === 0 && localSrc.lcCount === 2 && !localSrc.lcPart2_time_override) {
+    source = localSrc.lcPart2_src;
+    content = localSrc.lcPart2_content;
+  }
+
+  const isElderPart = checkLCElderAssignments(source, content);
+  return isElderPart;
+};
+
+SourceClass.prototype.noAssignLC1 = function () {
+  const localSrc = this.local();
+
+  let src = '';
+  if (localSrc.lcPart1_time_override) {
+    src = localSrc.lcPart1_src_override;
+  }
+  if (!localSrc.lcPart1_time_override) {
+    src = localSrc.lcPart1_src;
+  }
+
+  const noAssign = checkLCAssignments(src);
+  return noAssign;
+};
+
+SourceClass.prototype.noAssignLC2 = function () {
+  const localSrc = this.local();
+
+  let src = '';
+  if (localSrc.lcCount_override !== 0 && localSrc.lcCount_override === 2 && localSrc.lcPart2_time_override) {
+    src = localSrc.lcPart2_src_override;
+  }
+  if (localSrc.lcCount_override === 0 && localSrc.lcCount === 2 && !localSrc.lcPart2_time_override) {
+    src = localSrc.lcPart2_src;
+  }
+
+  const noAssign = checkLCAssignments(src);
+  return noAssign;
 };

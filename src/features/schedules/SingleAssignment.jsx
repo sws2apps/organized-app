@@ -23,6 +23,8 @@ const SingleAssignment = ({
   currentWeek,
   loadPersonHistory,
   loadStudentAyfPicker,
+  isLC,
+  isElderPart,
 }) => {
   const { t } = useTranslation('ui');
 
@@ -76,6 +78,8 @@ const SingleAssignment = ({
             co={co}
             person={person}
             currentWeek={currentWeek}
+            isLC={isLC}
+            isElderPart={isElderPart}
           />
           {edit && (
             <>

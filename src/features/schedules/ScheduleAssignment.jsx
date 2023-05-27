@@ -97,6 +97,10 @@ const ScheduleAssignment = ({ edit }) => {
   const [isDlgOpen, setIsDlgOpen] = useState(false);
   const [coTalkTitle, setCoTalkTitle] = useState('');
   const [coName, setCoName] = useState('');
+  const [isLC1NoAssign, setIsLC1NoAssign] = useState(false);
+  const [isLC2NoAssign, setIsLC2NoAssign] = useState(false);
+  const [isElderLC1, setIsElderLC1] = useState(false);
+  const [isElderLC2, setIsElderLC2] = useState(false);
 
   const week = weekToFormat.replaceAll('-', '/');
 
@@ -273,8 +277,10 @@ const ScheduleAssignment = ({ edit }) => {
     if (week !== '') {
       const pocketRole = Setting.cong_role.length === 1 && Setting.cong_role.includes('view_meeting_schedule');
 
+      const currentSource = Sources.get(week);
+
       const scheduleData = Schedules.get(week);
-      const sourceData = Sources.get(week).local();
+      const sourceData = currentSource.local();
       setChairmanA(pocketRole ? scheduleData.chairmanMM_A_dispName : scheduleData.chairmanMM_A);
       setChairmanB(pocketRole ? scheduleData.chairmanMM_B_dispName : scheduleData.chairmanMM_B);
       setOpeningPrayer(pocketRole ? scheduleData.opening_prayer_dispName : scheduleData.opening_prayer);
@@ -345,6 +351,10 @@ const ScheduleAssignment = ({ edit }) => {
       }
       setLcPart1(pocketRole ? scheduleData.lc_part1_dispName : scheduleData.lc_part1);
       setLcPart2(pocketRole ? scheduleData.lc_part2_dispName : scheduleData.lc_part2);
+      setIsLC1NoAssign(currentSource.noAssignLC1());
+      setIsLC2NoAssign(currentSource.noAssignLC2());
+      setIsElderLC1(currentSource.isElderPartLC1());
+      setIsElderLC2(currentSource.isElderPartLC2());
       setCbsSrc(sourceData.cbs_src);
       setCbsConductor(pocketRole ? scheduleData.cbs_conductor_dispName : scheduleData.cbs_conductor);
       setCbsReader(pocketRole ? scheduleData.cbs_reader_dispName : scheduleData.cbs_reader);
@@ -656,6 +666,8 @@ const ScheduleAssignment = ({ edit }) => {
             studentAID={23}
             assType={114}
             currentWeek={week}
+            isLCNoAssign={isLC1NoAssign}
+            isLCElder={isElderLC1}
             setSelectedStudent={(value) => setSelectedStudent(value)}
             loadPersonHistoryA={() =>
               loadPersonHistory({
@@ -679,6 +691,8 @@ const ScheduleAssignment = ({ edit }) => {
             studentAID={24}
             assType={114}
             currentWeek={week}
+            isLCNoAssign={isLC2NoAssign}
+            isLCElder={isElderLC2}
             setSelectedStudent={(value) => setSelectedStudent(value)}
             loadPersonHistoryA={() =>
               loadPersonHistory({
