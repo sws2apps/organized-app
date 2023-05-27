@@ -54,5 +54,7 @@
   "returnVisitVariations": "0",
   "lcNoAssignedVariations": "Zava-bitan’ny Fandaminana",
   "cbsLffWithPointsVariations": "lff lesona {{ lesson }}: Hevitra {{ points }}",
-  "cbsLffSectionOnlyVariations": "lff famerenana ny fizarana"
+  "cbsLffSectionOnlyVariations": "lff famerenana ny fizarana",
+  "lcSourceElderVariations": "Local Needs",
+  "lcContentElderVariations": "To be handled by an elder"
 }
