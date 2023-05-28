@@ -48,7 +48,11 @@ PersonsClass.prototype.filter = function (data) {
 };
 
 PersonsClass.prototype.filterLMMO = function (data) {
-  const { txtSearch, isMale, isFemale, isUnassigned, assTypes } = data;
+  const txtSearch = data.txtSearch || '';
+  const isMale = data.isMale || false;
+  const isFemale = data.isFemale || false;
+  const isUnassigned = data.isUnassigned || false;
+  const assTypes = data.assTypes || [];
 
   const firstPassFiltered = [];
   for (const person of this.list) {
