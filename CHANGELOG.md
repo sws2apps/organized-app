@@ -1,3 +1,10 @@
+## [2.80.1](https://github.com/sws2apps/cpe-sws/compare/v2.80.0...v2.80.1) (2023-05-28)
+
+
+### Bug Fixes
+
+* **reports:** cpe crashes when posting monthly reports ([90b0a8b](https://github.com/sws2apps/cpe-sws/commit/90b0a8b89a419c30ed62282adcf0e8a5e23ea4e1))
+
 # [2.80.0](https://github.com/sws2apps/cpe-sws/compare/v2.79.0...v2.80.0) (2023-05-27)
 
 
