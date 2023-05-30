@@ -44,7 +44,6 @@ const S4HourField = ({ month, currentDate, value, setValue, timeStart, setTimeSt
     await currentReport.save();
 
     setTimeStart(durationStart);
-    return;
   };
 
   const handlePauseTimer = async () => {
@@ -92,7 +91,7 @@ const S4HourField = ({ month, currentDate, value, setValue, timeStart, setTimeSt
       runClock.current = setInterval(() => {
         const startTime = new Date(timeStart).getTime();
         const endTime = new Date().getTime();
-        const diff = new Date(endTime - startTime);
+        const diff = endTime - startTime;
 
         const totalSecs = Math.floor(Math.abs(diff) / 1000);
         const totalMins = Math.floor(totalSecs / 60);

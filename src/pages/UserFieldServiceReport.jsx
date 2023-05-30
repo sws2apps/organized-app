@@ -216,18 +216,17 @@ const UserFieldServiceReport = () => {
 
       {!isSubmitted && (
         <Box sx={{ marginTop: '20px', display: 'flex', flexWrap: 'wrap', gap: '30px' }}>
-          {dailyRecords &&
-            dailyRecords.map((report) => {
-              return (
-                <Box key={report.report_uid}>
-                  {(report.placements > 0 ||
-                    report.videos > 0 ||
-                    report.duration !== 0 ||
-                    report.returnVisits > 0 ||
-                    report.bibleStudies.length > 0) && <S4DailyRecordItem report={report} />}
-                </Box>
-              );
-            })}
+          {dailyRecords?.map((report) => {
+            return (
+              <Box key={report.report_uid}>
+                {(report.placements > 0 ||
+                  report.videos > 0 ||
+                  report.duration !== 0 ||
+                  report.returnVisits > 0 ||
+                  report.bibleStudies.length > 0) && <S4DailyRecordItem report={report} />}
+              </Box>
+            );
+          })}
         </Box>
       )}
     </Box>
