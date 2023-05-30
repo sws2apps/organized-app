@@ -17,8 +17,9 @@ const PendingFieldServiceReports = () => {
       </Typography>
 
       <Box sx={{ display: 'flex', gap: '30px', flexWrap: 'wrap', marginBottom: '30px' }}>
-        {pendingFieldServiceReports &&
-          pendingFieldServiceReports.map((report) => <UserPendingS4Report key={report.report_uid} report={report} />)}
+        {pendingFieldServiceReports?.map((report) => (
+          <UserPendingS4Report key={report.report_uid} report={report} />
+        ))}
       </Box>
     </Box>
   );

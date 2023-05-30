@@ -38,18 +38,17 @@ const S4GenericField = ({ fldType, month, currentDate, value = 0, setValue }) =>
     setRefreshScreen((prev) => !prev);
   };
 
-  const handleIncreaseCount = () => {
+  const handleIncreaseCount = async () => {
     const tmp = value + 1;
-    handleRecordUpdate(tmp);
+    await handleRecordUpdate(tmp);
   };
 
-  const handleDecreaseCount = () => {
+  const handleDecreaseCount = async () => {
     let tmp = 0;
 
-    if (value === 0) tmp = 0;
     if (value > 0) tmp = value - 1;
 
-    handleRecordUpdate(tmp);
+    await handleRecordUpdate(tmp);
   };
 
   return (
