@@ -1,7 +1,7 @@
 import { useEffect, Suspense, lazy } from 'react';
 import { Outlet, useLocation, useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import usePwa2 from 'use-pwa2/dist/index.js';
 import Box from '@mui/material/Box';
 import About from '../features/about';
@@ -34,13 +34,15 @@ import { MyAssignments } from '../features/myAssignments';
 import { CongregationPersonAdd } from '../features/congregationPersons';
 import WaitingPage from './WaitingPage';
 import Startup from '../features/startup';
-import { fetchNotifications } from '../api';
+import { fetchNotifications, apiGetPendingFieldServiceReports } from '../api';
 import { dbSaveNotifications } from '../indexedDb/dbNotifications';
 import { WhatsNewContent } from '../features/whatsNew';
 import UserConfirmation from './UserConfirmation';
 import { classesInitialize } from '../utils/classes';
-import { isAddSYOpenState } from '../states/report';
+import { isAddSYOpenState, pendingFieldServiceReportsState } from '../states/report';
 import { AddServiceYear } from '../features/serviceYear';
+import { Setting } from '../classes/Setting';
+import { congIDState } from '../states/congregation';
 
 await classesInitialize();
 
@@ -49,17 +51,11 @@ const S140DownloadPDF = lazy(() => import('../features/pdfDownload/S140DownloadP
 const Layout = ({ updatePwa }) => {
   let location = useLocation();
 
-  const { data: announcements } = useQuery({
-    queryKey: ['annoucements'],
-    queryFn: fetchNotifications,
-    refetchInterval: 60000,
-  });
-
   const { enabledInstall, installPwa, isLoading } = usePwa2();
 
   const [searchParams] = useSearchParams();
 
-  const isEmailAuth = searchParams.get('code') !== null;
+  const setPendingFieldServiceReports = useSetRecoilState(pendingFieldServiceReportsState);
 
   const isAppLoad = useRecoilValue(isAppLoadState);
   const isOpenAbout = useRecoilValue(isAboutOpenState);
@@ -76,6 +72,24 @@ const Layout = ({ updatePwa }) => {
   const accountType = useRecoilValue(accountTypeState);
   const isAddSY = useRecoilValue(isAddSYOpenState);
   const isS140DownloadPDF = useRecoilValue(S140DownloadOpenState);
+  const congID = useRecoilValue(congIDState);
+
+  const secretaryRole = Setting.cong_role.includes('secretary');
+
+  const { data: announcements } = useQuery({
+    queryKey: ['annoucements'],
+    queryFn: fetchNotifications,
+    refetchInterval: 60000,
+  });
+
+  const { data: pending_fieldServiceReports } = useQuery({
+    enabled: secretaryRole && congID !== '',
+    queryKey: ['pendingFieldServiceReports'],
+    queryFn: apiGetPendingFieldServiceReports,
+    refetchInterval: 60000,
+  });
+
+  const isEmailAuth = searchParams.get('code') !== null;
 
   const checkPwaUpdate = () => {
     if ('serviceWorker' in navigator) {
@@ -93,6 +107,18 @@ const Layout = ({ updatePwa }) => {
   useEffect(() => {
     if (announcements?.data?.length >= 0) dbSaveNotifications(announcements.data);
   }, [announcements]);
+
+  useEffect(() => {
+    if (
+      secretaryRole &&
+      pending_fieldServiceReports &&
+      pending_fieldServiceReports.status === 200 &&
+      pending_fieldServiceReports.data
+    ) {
+      const pendingReports = pending_fieldServiceReports.data;
+      setPendingFieldServiceReports(pendingReports);
+    }
+  }, [secretaryRole, pending_fieldServiceReports, setPendingFieldServiceReports]);
 
   return (
     <RootModal>

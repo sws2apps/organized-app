@@ -39,7 +39,9 @@ const PersonSpiritualStatus = ({
 
   const [baptizedYears, setBaptizedYears] = useState('');
 
-  const roleSecretary = Setting.cong_role.includes('secretary');
+  const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
+  const secretaryRole = Setting.cong_role.includes('secretary');
+  const isEditAllowed = lmmoRole || secretaryRole;
 
   const handleBaptizedCheck = (value) => {
     setIsBaptized(value);
@@ -87,7 +89,7 @@ const PersonSpiritualStatus = ({
             control={
               <Checkbox
                 checked={isOtherSheep}
-                onChange={roleSecretary ? (e) => handleOtherSheepCheck(e.target.checked) : null}
+                onChange={secretaryRole ? (e) => handleOtherSheepCheck(e.target.checked) : null}
                 color="primary"
               />
             }
@@ -97,7 +99,7 @@ const PersonSpiritualStatus = ({
             control={
               <Checkbox
                 checked={isAnointed}
-                onChange={roleSecretary ? (e) => handleAnointedCheck(e.target.checked) : null}
+                onChange={secretaryRole ? (e) => handleAnointedCheck(e.target.checked) : null}
                 color="primary"
               />
             }
@@ -110,7 +112,7 @@ const PersonSpiritualStatus = ({
             control={
               <Checkbox
                 checked={isBaptized}
-                onChange={roleSecretary ? (e) => handleBaptizedCheck(e.target.checked) : null}
+                onChange={secretaryRole ? (e) => handleBaptizedCheck(e.target.checked) : null}
                 color="primary"
               />
             }
@@ -135,7 +137,7 @@ const PersonSpiritualStatus = ({
                   maxDate={new Date()}
                   value={immersedDate === null ? null : new Date(immersedDate)}
                   onChange={(value) => setImmersedDate(value)}
-                  readOnly={!Setting.cong_role.includes('secretary')}
+                  readOnly={!secretaryRole}
                 />
               </LocalizationProvider>
               <TextField
@@ -143,6 +145,7 @@ const PersonSpiritualStatus = ({
                 variant="outlined"
                 autoComplete="off"
                 sx={{ width: '80px', '.MuiOutlinedInput-input': { textAlign: 'right' } }}
+                InputProps={{ readOnly: true }}
                 value={baptizedYears}
               />
             </Box>
@@ -159,7 +162,7 @@ const PersonSpiritualStatus = ({
               maxDate={new Date()}
               value={firstMonthReport === null ? null : new Date(firstMonthReport)}
               onChange={(value) => handleFirstMonthReport(value)}
-              readOnly={!Setting.cong_role.includes('secretary')}
+              readOnly={!secretaryRole}
             />
           </LocalizationProvider>
           <Typography sx={{ fontSize: '13px', marginTop: '8px' }}>* {t('firstMonthReportDesc')}</Typography>
@@ -184,7 +187,7 @@ const PersonSpiritualStatus = ({
         </Box>
       )}
 
-      {!roleSecretary && (
+      {isEditAllowed && !secretaryRole && (
         <Typography sx={{ fontStyle: 'italic', marginTop: '20px' }} color="#FE4119">
           {t('spiritualStatusNotice')}
         </Typography>

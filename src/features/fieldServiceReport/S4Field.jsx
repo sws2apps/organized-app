@@ -17,7 +17,8 @@ const S4Field = ({
   month,
   person,
   initialValue,
-  initialHourLess,
+  hourLess,
+  setHourLess,
   errorField,
   latePossible,
   isLocked,
@@ -27,7 +28,6 @@ const S4Field = ({
   const setRefresh = useSetRecoilState(refreshReportState);
 
   const [value, setValue] = useState('');
-  const [hourLess, setHourLess] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const fldName = () => {
@@ -116,8 +116,7 @@ const S4Field = ({
 
   useEffect(() => {
     setValue(initialValue);
-    if (initialHourLess) setHourLess(initialHourLess);
-  }, [initialValue, initialHourLess]);
+  }, [initialValue]);
 
   return (
     <Box

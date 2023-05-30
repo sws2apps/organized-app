@@ -97,7 +97,11 @@ const VipStartup = () => {
         cong_role.includes('lmmo') ||
         cong_role.includes('lmmo-backup') ||
         cong_role.includes('view_meeting_schedule') ||
-        cong_role.includes('secretary');
+        cong_role.includes('admin') ||
+        cong_role.includes('secretary') ||
+        cong_role.includes('elder') ||
+        cong_role.includes('publisher') ||
+        cong_role.includes('ms');
 
       if (!approvedRole) {
         showSignup();
@@ -145,9 +149,13 @@ const VipStartup = () => {
 
         const approvedRole =
           cong_role.includes('lmmo') ||
+          cong_role.includes('lmmo-backup') ||
           cong_role.includes('view_meeting_schedule') ||
           cong_role.includes('admin') ||
-          cong_role.includes('secretary');
+          cong_role.includes('secretary') ||
+          cong_role.includes('elder') ||
+          cong_role.includes('publisher') ||
+          cong_role.includes('ms');
 
         if (!isOfflineOverride && cong_name.length > 0 && approvedRole) {
           setIsSetup(false);

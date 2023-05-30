@@ -29,6 +29,7 @@ import { PersonAssignments, PersonBasic, PersonHistory, PersonTimeAway } from '.
 import { Persons } from '../classes/Persons';
 import PersonSpiritualStatus from '../features/persons/PersonSpiritualStatus';
 import { ServiceYear } from '../classes/ServiceYear';
+import { Setting } from '../classes/Setting';
 
 const Accordion = styled((props) => <MuiAccordion disableGutters elevation={0} square {...props} />)(({ theme }) => ({
   border: `1px solid ${theme.palette.divider}`,
@@ -110,6 +111,10 @@ const PersonDetails = () => {
   const [spiritualStatus, setSpiritualStatus] = useState([]);
   const [otherService, setOtherService] = useState([]);
   const [firstMonthReport, setFirstMonthReport] = useState(ServiceYear.currentReportMonth());
+
+  const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
+  const secretaryRole = Setting.cong_role.includes('secretary');
+  const isEditAllowed = lmmoRole || secretaryRole;
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
@@ -359,51 +364,53 @@ const PersonDetails = () => {
                     flexGrow: 1,
                   }}
                 >
-                  {isEdit ? t('edit') : t('addNew')}
+                  {isEdit ? t(isEditAllowed ? 'edit' : 'details') : t('addNew')}
                 </Typography>
               </Box>
 
-              <Box
-                sx={{
-                  flexGrow: 1,
-                  display: 'flex',
-                  justifyContent: 'flex-end',
-                }}
-              >
-                {isEdit && person.isDisqualified === false && (
-                  <Tooltip title={lgUp ? '' : t('markDisqualified')}>
-                    <IconButton edge="start" color="inherit" sx={iconButtonStyles} onClick={handlePersonDisqualified}>
-                      <RemoveCircleIcon color="error" />
-                      {lgUp && <Typography sx={txtButtonStyles}>{t('markDisqualified')}</Typography>}
+              {isEditAllowed && (
+                <Box
+                  sx={{
+                    flexGrow: 1,
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                  }}
+                >
+                  {isEdit && person.isDisqualified === false && (
+                    <Tooltip title={lgUp ? '' : t('markDisqualified')}>
+                      <IconButton edge="start" color="inherit" sx={iconButtonStyles} onClick={handlePersonDisqualified}>
+                        <RemoveCircleIcon color="error" />
+                        {lgUp && <Typography sx={txtButtonStyles}>{t('markDisqualified')}</Typography>}
+                      </IconButton>
+                    </Tooltip>
+                  )}
+
+                  {isEdit && person.isDisqualified === true && (
+                    <Tooltip title={lgUp ? '' : t('enablePerson')}>
+                      <IconButton edge="start" color="inherit" sx={iconButtonStyles} onClick={handlePersonEnabled}>
+                        <HandshakeIcon color="success" />
+                        {lgUp && <Typography sx={txtButtonStyles}>{t('enablePerson')}</Typography>}
+                      </IconButton>
+                    </Tooltip>
+                  )}
+
+                  {isEdit && (
+                    <Tooltip title={lgUp ? '' : t('markTransfer')}>
+                      <IconButton edge="start" color="inherit" sx={iconButtonStyles} onClick={handlePersonMove}>
+                        <TransferWithinAStationIcon sx={{ color: '#6C3483' }} />
+                        {lgUp && <Typography sx={txtButtonStyles}>{t('markTransfer')}</Typography>}
+                      </IconButton>
+                    </Tooltip>
+                  )}
+
+                  <Tooltip title={lgUp ? '' : t('save')}>
+                    <IconButton edge="start" color="inherit" sx={iconButtonStyles} onClick={handleSavePerson}>
+                      <SaveIcon color="primary" />
+                      {lgUp && <Typography sx={txtButtonStyles}>{t('save')}</Typography>}
                     </IconButton>
                   </Tooltip>
-                )}
-
-                {isEdit && person.isDisqualified === true && (
-                  <Tooltip title={lgUp ? '' : t('enablePerson')}>
-                    <IconButton edge="start" color="inherit" sx={iconButtonStyles} onClick={handlePersonEnabled}>
-                      <HandshakeIcon color="success" />
-                      {lgUp && <Typography sx={txtButtonStyles}>{t('enablePerson')}</Typography>}
-                    </IconButton>
-                  </Tooltip>
-                )}
-
-                {isEdit && (
-                  <Tooltip title={lgUp ? '' : t('markTransfer')}>
-                    <IconButton edge="start" color="inherit" sx={iconButtonStyles} onClick={handlePersonMove}>
-                      <TransferWithinAStationIcon sx={{ color: '#6C3483' }} />
-                      {lgUp && <Typography sx={txtButtonStyles}>{t('markTransfer')}</Typography>}
-                    </IconButton>
-                  </Tooltip>
-                )}
-
-                <Tooltip title={lgUp ? '' : t('save')}>
-                  <IconButton edge="start" color="inherit" sx={iconButtonStyles} onClick={handleSavePerson}>
-                    <SaveIcon color="primary" />
-                    {lgUp && <Typography sx={txtButtonStyles}>{t('save')}</Typography>}
-                  </IconButton>
-                </Tooltip>
-              </Box>
+                </Box>
+              )}
             </Box>
           </Box>
           <Box

@@ -85,8 +85,8 @@ const Persons = () => {
   const currentStudent = useRecoilValue(currentStudentState);
   const themeOptions = useRecoilValue(themeOptionsState);
 
-  const roleLMMO = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
-  const roleSecretary = Setting.cong_role.includes('secretary');
+  const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
+  const secretaryRole = Setting.cong_role.includes('secretary');
 
   const openMenuSmall = Boolean(anchorElMenuSmall);
 
@@ -220,11 +220,11 @@ const Persons = () => {
           marginTop: '10px',
         }}
       >
-        <SearchBar minWidth={'330px'} txtSearch={txtSearch} onChange={handleSearchChange} onKeyUp={handleSearchEnter} />
+        <SearchBar minWidth={'280px'} txtSearch={txtSearch} onChange={handleSearchChange} onKeyUp={handleSearchEnter} />
 
         {mdUp && (
           <Box>
-            {roleLMMO && (
+            {lmmoRole && (
               <IconButton
                 onClick={handleToggleAdvanced}
                 sx={{
@@ -256,76 +256,101 @@ const Persons = () => {
             >
               <PersonSearchIcon sx={{ fontSize: '25px' }} />
             </IconButton>
-            <IconButton
-              sx={{
-                backgroundColor: alpha(theme.palette.common[themeOptions.searchBg], 0.5),
-                '&:hover': {
-                  backgroundColor: alpha(theme.palette.common[themeOptions.searchBg], 0.3),
-                },
-                marginTop: '-5px',
-              }}
-              onClick={handleAddStudent}
-            >
-              <AddCircleIcon sx={{ fontSize: '25px' }} />
-            </IconButton>
+
+            {(lmmoRole || secretaryRole) && (
+              <IconButton
+                sx={{
+                  backgroundColor: alpha(theme.palette.common[themeOptions.searchBg], 0.5),
+                  '&:hover': {
+                    backgroundColor: alpha(theme.palette.common[themeOptions.searchBg], 0.3),
+                  },
+                  marginTop: '-5px',
+                }}
+                onClick={handleAddStudent}
+              >
+                <AddCircleIcon sx={{ fontSize: '25px' }} />
+              </IconButton>
+            )}
           </Box>
         )}
+
         {!mdUp && (
           <>
-            <IconButton
-              sx={{
-                backgroundColor: '#ABB2B9',
-                margin: '-5px 5px 0 5px',
-              }}
-              aria-label="more"
-              id="persons-small-button"
-              aria-controls={openMenuSmall ? 'persons-small-menu' : undefined}
-              aria-expanded={openMenuSmall ? 'true' : undefined}
-              aria-haspopup="true"
-              onClick={handleClickMenuSmall}
-            >
-              <MoreVertIcon />
-            </IconButton>
-            <Menu
-              id="persons-small-menu"
-              anchorEl={anchorElMenuSmall}
-              open={!mdUp && openMenuSmall}
-              onClose={handleCloseMenuSmall}
-              MenuListProps={{
-                'aria-labelledby': 'persons-small-button',
-              }}
-            >
-              {roleLMMO && (
-                <MenuItem onClick={handleToggleAdvanced}>
-                  <ListItemIcon>
-                    {advancedOpen ? (
-                      <ExpandLessIcon sx={{ fontSize: '25px' }} />
-                    ) : (
-                      <ExpandMoreIcon sx={{ fontSize: '25px' }} />
-                    )}
-                  </ListItemIcon>
-                  <ListItemText>{advancedOpen ? t('hideAvancedSearch') : t('advancedSearch')}</ListItemText>
-                </MenuItem>
-              )}
+            {!lmmoRole && !secretaryRole && (
+              <IconButton
+                sx={{
+                  backgroundColor: alpha(theme.palette.common[themeOptions.searchBg], 0.5),
+                  '&:hover': {
+                    backgroundColor: alpha(theme.palette.common[themeOptions.searchBg], 0.3),
+                  },
+                  marginTop: '-5px',
+                  marginRight: '5px',
+                }}
+                onClick={handleSearchStudent}
+              >
+                <PersonSearchIcon sx={{ fontSize: '25px' }} />
+              </IconButton>
+            )}
 
-              <MenuItem onClick={handleSearchStudent}>
-                <ListItemIcon>
-                  <PersonSearchIcon sx={{ fontSize: '25px' }} />
-                </ListItemIcon>
-                <ListItemText>{t('search')}</ListItemText>
-              </MenuItem>
-              <MenuItem onClick={handleAddStudent}>
-                <ListItemIcon>
-                  <AddCircleIcon sx={{ fontSize: '25px' }} />
-                </ListItemIcon>
-                <ListItemText>{t('addNew')}</ListItemText>
-              </MenuItem>
-            </Menu>
+            {(lmmoRole || secretaryRole) && (
+              <IconButton
+                sx={{
+                  backgroundColor: '#ABB2B9',
+                  margin: '-5px 5px 0 5px',
+                }}
+                aria-label="more"
+                id="persons-small-button"
+                aria-controls={openMenuSmall ? 'persons-small-menu' : undefined}
+                aria-expanded={openMenuSmall ? 'true' : undefined}
+                aria-haspopup="true"
+                onClick={handleClickMenuSmall}
+              >
+                <MoreVertIcon />
+              </IconButton>
+            )}
+
+            {(lmmoRole || secretaryRole) && (
+              <Menu
+                id="persons-small-menu"
+                anchorEl={anchorElMenuSmall}
+                open={!mdUp && openMenuSmall}
+                onClose={handleCloseMenuSmall}
+                MenuListProps={{
+                  'aria-labelledby': 'persons-small-button',
+                }}
+              >
+                {lmmoRole && (
+                  <MenuItem onClick={handleToggleAdvanced}>
+                    <ListItemIcon>
+                      {advancedOpen ? (
+                        <ExpandLessIcon sx={{ fontSize: '25px' }} />
+                      ) : (
+                        <ExpandMoreIcon sx={{ fontSize: '25px' }} />
+                      )}
+                    </ListItemIcon>
+                    <ListItemText>{advancedOpen ? t('hideAvancedSearch') : t('advancedSearch')}</ListItemText>
+                  </MenuItem>
+                )}
+
+                <MenuItem onClick={handleSearchStudent}>
+                  <ListItemIcon>
+                    <PersonSearchIcon sx={{ fontSize: '25px' }} />
+                  </ListItemIcon>
+                  <ListItemText>{t('search')}</ListItemText>
+                </MenuItem>
+                <MenuItem onClick={handleAddStudent}>
+                  <ListItemIcon>
+                    <AddCircleIcon sx={{ fontSize: '25px' }} />
+                  </ListItemIcon>
+                  <ListItemText>{t('addNew')}</ListItemText>
+                </MenuItem>
+              </Menu>
+            )}
           </>
         )}
       </Box>
 
-      {roleLMMO && (
+      {lmmoRole && (
         <PersonAdvancedSearch
           advancedOpen={advancedOpen}
           setAdvancedOpen={(value) => setAdvancedOpen(value)}
@@ -333,7 +358,7 @@ const Persons = () => {
         />
       )}
 
-      {roleSecretary && <PersonCustomFilter handleSearchStudent={handleSearchStudent} />}
+      {secretaryRole && <PersonCustomFilter handleSearchStudent={handleSearchStudent} />}
 
       <Box sx={{ marginBottom: '10px' }}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>

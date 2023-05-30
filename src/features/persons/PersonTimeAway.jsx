@@ -3,9 +3,14 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { PersonTimeAwayItem } from './';
+import { Setting } from '../../classes/Setting';
 
 const PersonTimeAway = ({ timeAway, setTimeAway }) => {
   const { t } = useTranslation('ui');
+
+  const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
+  const secretaryRole = Setting.cong_role.includes('secretary');
+  const isEditAllowed = lmmoRole || secretaryRole;
 
   const handleTimeAwayAdd = () => {
     const obj = {
@@ -26,9 +31,11 @@ const PersonTimeAway = ({ timeAway, setTimeAway }) => {
           marginBottom: '10px',
         }}
       >
-        <Button variant="outlined" color="success" startIcon={<AddCircleIcon />} onClick={handleTimeAwayAdd}>
-          {t('addTimeAway')}
-        </Button>
+        {isEditAllowed && (
+          <Button variant="outlined" color="success" startIcon={<AddCircleIcon />} onClick={handleTimeAwayAdd}>
+            {t('addTimeAway')}
+          </Button>
+        )}
       </Box>
       {timeAway?.length > 0 &&
         timeAway.map((item) => (

@@ -10,12 +10,7 @@ import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import Typography from '@mui/material/Typography';
 import MyAssignmentsList from './MyAssignmentsList';
 import MyAssignmentsSetup from './MyAssignmentsSetup';
-import {
-  accountTypeState,
-  isMyAssignmentOpenState,
-  refreshMyAssignmentsState,
-  userLocalUidState,
-} from '../../states/main';
+import { isMyAssignmentOpenState, refreshMyAssignmentsState, userLocalUidState } from '../../states/main';
 import { Setting } from '../../classes/Setting';
 
 const MyAssignments = () => {
@@ -25,9 +20,13 @@ const MyAssignments = () => {
   const setRefresh = useSetRecoilState(refreshMyAssignmentsState);
 
   const userLocalUid = useRecoilValue(userLocalUidState);
-  const accountType = useRecoilValue(accountTypeState);
 
   const [overrideEdit, setOverrideEdit] = useState(false);
+
+  const accountType = Setting.account_type;
+  const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
+  const secretaryRole = Setting.cong_role.includes('secretary');
+  const isEditAllowed = lmmoRole || secretaryRole;
 
   const handleRefresh = () => {
     setRefresh((prev) => {
@@ -58,7 +57,7 @@ const MyAssignments = () => {
           {t('viewMyAssignments')}
         </Typography>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px', marginRight: '20px' }}>
-          {accountType === 'vip' && userLocalUid !== '' && (
+          {isEditAllowed && userLocalUid !== '' && (
             <IconButton color="primary" aria-label="close" onClick={() => setOverrideEdit(true)}>
               <EditIcon sx={{ fontSize: '30px' }} />
             </IconButton>
@@ -74,7 +73,7 @@ const MyAssignments = () => {
       <Box sx={{ minWidth: '350px', maxWidth: '650px', padding: '20px' }}>
         {accountType === 'vip' && (
           <>
-            {(Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup')) && (
+            {isEditAllowed && (
               <>
                 {(userLocalUid === '' || overrideEdit) && (
                   <MyAssignmentsSetup overrideEdit={overrideEdit} setOverrideEdit={(value) => setOverrideEdit(value)} />
@@ -82,7 +81,7 @@ const MyAssignments = () => {
                 {userLocalUid !== '' && !overrideEdit && <MyAssignmentsList />}
               </>
             )}
-            {!Setting.cong_role.includes('lmmo') && !Setting.cong_role.includes('lmmo-backup') && <MyAssignmentsList />}
+            {!isEditAllowed && userLocalUid !== '' && <MyAssignmentsList />}
           </>
         )}
 

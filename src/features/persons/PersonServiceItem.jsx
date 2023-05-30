@@ -16,7 +16,7 @@ const PersonServiceItem = ({ currentService, otherService, setOtherService }) =>
 
   const shortDatePickerFormat = useRecoilValue(shortDatePickerFormatState);
 
-  const roleSecretary = Setting.cong_role.includes('secretary');
+  const secretaryRole = Setting.cong_role.includes('secretary');
 
   const handleRemoveStatus = () => {
     const obj = otherService.filter((item) => item.serviceId !== currentService.serviceId);
@@ -58,8 +58,9 @@ const PersonServiceItem = ({ currentService, otherService, setOtherService }) =>
         size="medium"
         sx={{ minWidth: '250px' }}
         defaultValue=""
+        InputProps={{ readOnly: !secretaryRole }}
         value={currentService.service}
-        onChange={roleSecretary ? (e) => handleStatusChange(e.target.value) : null}
+        onChange={secretaryRole ? (e) => handleStatusChange(e.target.value) : null}
       >
         <MenuItem value="auxiliaryPioneer">{t('auxiliaryPioneer')}</MenuItem>
         <MenuItem value="regularPioneer">{t('regularPioneer')}</MenuItem>
@@ -73,7 +74,7 @@ const PersonServiceItem = ({ currentService, otherService, setOtherService }) =>
           format={shortDatePickerFormat}
           value={currentService.startDate === null ? null : new Date(currentService.startDate)}
           onChange={(value) => handleStartDateChange(value)}
-          readOnly={!roleSecretary}
+          readOnly={!secretaryRole}
         />
       </LocalizationProvider>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -85,10 +86,10 @@ const PersonServiceItem = ({ currentService, otherService, setOtherService }) =>
             format={shortDatePickerFormat}
             value={currentService.endDate === null ? null : new Date(currentService.endDate)}
             onChange={(value) => handleEndDateChange(value)}
-            readOnly={!roleSecretary}
+            readOnly={!secretaryRole}
           />
         </LocalizationProvider>
-        {roleSecretary && (
+        {secretaryRole && (
           <IconButton aria-label="delete" color="error" size="large" onClick={handleRemoveStatus}>
             <DeleteIcon />
           </IconButton>

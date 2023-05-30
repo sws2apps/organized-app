@@ -17,7 +17,13 @@ export const getHistoryInfo = (weekOf, assignment) => {
 
   const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
   const secretaryRole = Setting.cong_role.includes('secretary');
-  const viewMeetingScheduleRole = Setting.cong_role.includes('view_meeting_schedule');
+  const viewMeetingScheduleRole =
+    !lmmoRole &&
+    !secretaryRole &&
+    (Setting.cong_role.includes('view_meeting_schedule') ||
+      Setting.cong_role.includes('elder') ||
+      Setting.cong_role.includes('publisher') ||
+      Setting.cong_role.includes('ms'));
 
   const schedule = Schedules.get(weekOf);
 

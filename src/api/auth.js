@@ -9,6 +9,7 @@ import {
   qrCodePathState,
   secretTokenPathState,
   userIDState,
+  userLocalUidState,
 } from '../states/main';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../states/notification';
 import { loadApp } from '../utils/app';
@@ -110,17 +111,22 @@ export const apiHandleVerifyOTP = async (userOTP, isSetup, trustedDevice) => {
 
         if (cong_role.length === 0) return { unauthorized: true };
 
-        if (
-          !cong_role.includes('lmmo') &&
-          !cong_role.includes('lmmo-backup') &&
-          !cong_role.includes('view_meeting_schedule') &&
-          !cong_role.includes('secretary')
-        )
-          return { unauthorized: true };
+        const approvedRole =
+          cong_role.includes('lmmo') ||
+          cong_role.includes('lmmo-backup') ||
+          cong_role.includes('view_meeting_schedule') ||
+          cong_role.includes('admin') ||
+          cong_role.includes('secretary') ||
+          cong_role.includes('elder') ||
+          cong_role.includes('publisher') ||
+          cong_role.includes('ms');
+
+        if (!approvedRole) return { unauthorized: true };
 
         backupWorkerInstance.setUserRole(cong_role);
         backupWorkerInstance.setCongID(cong_id);
         backupWorkerInstance.setIsCongAccountConnected(true);
+        backupWorkerInstance.setAccountType('vip');
 
         await promiseSetRecoil(congIDState, cong_id);
 
@@ -141,6 +147,7 @@ export const apiHandleVerifyOTP = async (userOTP, isSetup, trustedDevice) => {
 
         if (user_local_uid && user_local_uid !== null) {
           obj.user_local_uid = user_local_uid;
+          await promiseSetRecoil(userLocalUidState, user_local_uid);
         }
 
         obj.cong_role = cong_role;
@@ -211,6 +218,7 @@ export const apiHandleVerifyEmailOTP = async (userOTP) => {
 
         backupWorkerInstance.setCongID(cong_id);
         backupWorkerInstance.setIsCongAccountConnected(true);
+        backupWorkerInstance.setAccountType('vip');
 
         await promiseSetRecoil(congIDState, cong_id);
 

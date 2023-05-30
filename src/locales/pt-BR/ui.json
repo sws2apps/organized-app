@@ -581,7 +581,7 @@
   "publishers": "Publicadores",
   "regenerate": "Gerar novamente",
   "setBranchSubmitted": "Marcar como enviado",
-  "undoBranchSubmit": "Cancelar o envio",
+  "undoSubmit": "Cancelar o envio",
   "reportAlreadySubmitted": "O relatório para este mês já foi enviado a filial. Somente relatórios em atraso podem ser adicionados, a menos que você desfaça o envio.",
   "inactivePublishers": "Publicadores inativos",
   "backupDiscrepancy": "O backup não pode ser enviado. Por favor, restaure o backup mais recente primeiro.",

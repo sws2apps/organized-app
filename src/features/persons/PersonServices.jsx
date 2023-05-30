@@ -8,7 +8,7 @@ import { Setting } from '../../classes/Setting';
 const PersonServices = ({ otherService, setOtherService }) => {
   const { t } = useTranslation('ui');
 
-  const roleSecretary = Setting.cong_role.includes('secretary');
+  const secretaryRole = Setting.cong_role.includes('secretary');
 
   const sortedService = otherService.sort((a, b) => {
     return a.startDate < b.startDate ? 1 : -1;
@@ -33,7 +33,7 @@ const PersonServices = ({ otherService, setOtherService }) => {
           marginBottom: '20px',
         }}
       >
-        {roleSecretary && (
+        {secretaryRole && (
           <Button variant="outlined" color="success" startIcon={<AddCircleIcon />} onClick={handleAppointmentAdd}>
             {t('add')}
           </Button>

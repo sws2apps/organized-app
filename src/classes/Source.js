@@ -409,7 +409,7 @@ SourceClass.prototype.countAssignmentsInfo = function () {
   }
 
   // LC Part 1
-  const noAssignLC1 = checkLCAssignments(sourceData.lcPart1_src);
+  const noAssignLC1 = this.noAssignLC1();
   if (!noAssignLC1) {
     assTotal = assTotal + 1;
   }
@@ -420,12 +420,11 @@ SourceClass.prototype.countAssignmentsInfo = function () {
 
   // LC Part 2
   let cnLC2 = false;
+  const noAssignLC2 = this.noAssignLC2();
   if (sourceData.lcCount_override === 0 && sourceData.lcCount === 2) {
-    const noAssignLC2 = checkLCAssignments(sourceData.lcPart2_src);
     cnLC2 = !noAssignLC2;
   }
   if (sourceData.lcCount_override !== 0 && sourceData.lcCount_override === 2) {
-    const noAssignLC2 = checkLCAssignments(sourceData.lcPart2_src_override);
     cnLC2 = !noAssignLC2;
   }
 

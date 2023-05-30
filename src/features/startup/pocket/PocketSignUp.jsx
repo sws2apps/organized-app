@@ -68,7 +68,14 @@ const PocketSignUp = () => {
       }
 
       const { cong_role } = data;
-      if (!cong_role.includes('view_meeting_schedule')) {
+
+      const approvedRole =
+        cong_role.includes('view_meeting_schedule') ||
+        cong_role.includes('elder') ||
+        cong_role.includes('publisher') ||
+        cong_role.includes('ms');
+
+      if (!approvedRole) {
         setAccountType('');
         setIsUnauthorizedRole(true);
         return;

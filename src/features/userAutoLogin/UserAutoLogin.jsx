@@ -16,12 +16,14 @@ import {
   isOnlineState,
   rootModalOpenState,
   userIDState,
+  userLocalUidState,
   visitorIDState,
 } from '../../states/main';
 import useFirebaseAuth from '../../hooks/useFirebaseAuth';
 import backupWorkerInstance from '../../workers/backupWorker';
 import { Setting } from '../../classes/Setting';
 import { apiFetchSchedule } from '../../api';
+import { Persons } from '../../classes/Persons';
 
 const UserAutoLogin = () => {
   let abortCont = useMemo(() => new AbortController(), []);
@@ -35,6 +37,7 @@ const UserAutoLogin = () => {
   const setModalOpen = useSetRecoilState(rootModalOpenState);
   const setUserDelegate = useSetRecoilState(userMembersDelegateState);
   const setCongRole = useSetRecoilState(congRoleState);
+  const setUserLocalUid = useSetRecoilState(userLocalUidState);
 
   const isOnline = useRecoilValue(isOnlineState);
   const apiHost = useRecoilValue(apiHostState);
@@ -69,18 +72,25 @@ const UserAutoLogin = () => {
 
       // congregation found
       if (res.status === 200) {
-        // role approved
-        if (
+        const approvedRole =
           data.cong_role.includes('lmmo') ||
           data.cong_role.includes('lmmo-backup') ||
           data.cong_role.includes('view_meeting_schedule') ||
-          data.cong_role.includes('secretary')
-        ) {
+          data.cong_role.includes('admin') ||
+          data.cong_role.includes('secretary') ||
+          data.cong_role.includes('elder') ||
+          data.cong_role.includes('publisher') ||
+          data.cong_role.includes('ms');
+
+        // role approved
+        if (approvedRole) {
           setCongAccountConnected(true);
 
           backupWorkerInstance.setUserRole(data.cong_role);
           backupWorkerInstance.setCongID(data.cong_id);
           backupWorkerInstance.setIsCongAccountConnected(true);
+          backupWorkerInstance.setAccountType('vip');
+
           setCongID(data.cong_id);
           setUserID(data.id);
           setCongRole(data.cong_role);
@@ -99,12 +109,24 @@ const UserAutoLogin = () => {
 
           if (user_local_uid && user_local_uid !== null) {
             obj.user_local_uid = user_local_uid;
+            setUserLocalUid(user_local_uid);
           }
 
           obj.cong_role = cong_role;
           obj.account_type = 'vip';
           await Setting.update(obj);
           setUserDelegate(user_members_delegate);
+
+          // update persons if exists
+          if (data.cong_persons) {
+            await Persons.reset();
+
+            for await (const person of data.cong_persons) {
+              await Persons.cleanAdd(person);
+            }
+          }
+
+          // update schedule
           await apiFetchSchedule();
           return;
         }
@@ -140,6 +162,7 @@ const UserAutoLogin = () => {
     setUserID,
     setCongRole,
     user,
+    setUserLocalUid,
   ]);
 
   useEffect(() => {

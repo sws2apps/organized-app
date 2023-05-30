@@ -2,13 +2,14 @@ import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import ClearIcon from '@mui/icons-material/Clear';
 import TextField from '@mui/material/TextField';
 import { shortDatePickerFormatState } from '../../states/main';
+import { Setting } from '../../classes/Setting';
 
 const PersonTimeAwayItem = ({ timeAway, timeAways, setTimeAway }) => {
   const { t } = useTranslation('ui');
@@ -17,13 +18,15 @@ const PersonTimeAwayItem = ({ timeAway, timeAways, setTimeAway }) => {
 
   const shortDatePickerFormat = useRecoilValue(shortDatePickerFormatState);
 
-  const [startedDate, setStartedDate] = useState(timeAway.startDate ? new Date(timeAway.startDate) : null);
-  const [expiredDate, setExpiredDate] = useState(timeAway.endDate ? new Date(timeAway.endDate) : null);
   const [comments, setComments] = useState('');
+
+  const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
+  const secretaryRole = Setting.cong_role.includes('secretary');
+  const isEditAllowed = lmmoRole || secretaryRole;
 
   const handleInfoChange = (startDate, endDate, comments) => {
     if (timeAwayId) {
-      let obj = timeAways.map((timeAway) =>
+      const obj = timeAways.map((timeAway) =>
         timeAway.timeAwayId === timeAwayId
           ? {
               timeAwayId: timeAwayId,
@@ -38,22 +41,16 @@ const PersonTimeAwayItem = ({ timeAway, timeAways, setTimeAway }) => {
   };
 
   const handleStartedChange = (newValue) => {
-    if (newValue instanceof Date && !isNaN(newValue)) {
-      setStartedDate(newValue);
-      handleInfoChange(newValue, expiredDate, comments);
-    }
+    handleInfoChange(newValue, timeAway.endDate, comments);
   };
 
   const handleExpiredChange = (newValue) => {
-    if (newValue instanceof Date && !isNaN(newValue)) {
-      setExpiredDate(newValue);
-      handleInfoChange(startedDate, newValue, comments);
-    }
+    handleInfoChange(timeAway.startDate, newValue, comments);
   };
 
   const handleCommentsChange = (value) => {
     setComments(value);
-    handleInfoChange(startedDate, expiredDate, value);
+    handleInfoChange(timeAway.startDate, timeAway.endDate, value);
   };
 
   const handleRemoveTimeAway = () => {
@@ -90,21 +87,23 @@ const PersonTimeAwayItem = ({ timeAway, timeAways, setTimeAway }) => {
           }}
         >
           <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <DesktopDatePicker
+            <DatePicker
               id="start-date-time-away-picker"
               label={t('startDate')}
               format={shortDatePickerFormat}
-              value={startedDate}
-              onChange={handleStartedChange}
+              value={timeAway.startDate === null ? null : new Date(timeAway.startDate)}
+              onChange={(value) => handleStartedChange(value)}
+              readOnly={!isEditAllowed}
             />
           </LocalizationProvider>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <DesktopDatePicker
+            <DatePicker
               id="end-date-time-away-picker"
               label={t('endDate')}
               format={shortDatePickerFormat}
-              value={expiredDate}
-              onChange={handleExpiredChange}
+              value={timeAway.endDate === null ? null : new Date(timeAway.endDate)}
+              onChange={(value) => handleExpiredChange(value)}
+              readOnly={!isEditAllowed}
             />
           </LocalizationProvider>
         </Box>
@@ -112,10 +111,7 @@ const PersonTimeAwayItem = ({ timeAway, timeAways, setTimeAway }) => {
           label={t('comments')}
           variant="outlined"
           autoComplete="off"
-          sx={{
-            flexGrow: 1,
-            marginRight: '10px',
-          }}
+          sx={{ flexGrow: 1, marginRight: '10px' }}
           value={comments}
           onChange={(e) => handleCommentsChange(e.target.value)}
         />

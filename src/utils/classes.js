@@ -12,6 +12,8 @@ import { S21s } from '../classes/S21s';
 import { MinutesReports } from '../classes/MinutesReports';
 import { S1s } from '../classes/S1s';
 import { LateReports } from '../classes/LateReports';
+import { BibleStudies } from '../classes/BibleStudies';
+import { UserS4Records } from '../classes/UserS4Records';
 
 export const classesInitialize = async () => {
   await appDb.open();
@@ -30,5 +32,7 @@ export const classesInitialize = async () => {
   await MinutesReports.loadAll();
   await LateReports.loadAll();
   await S1s.loadAll();
+  await BibleStudies.loadAll();
+  await UserS4Records.loadAll();
   console.info('CPE: classes initialized');
 };

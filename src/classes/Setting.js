@@ -34,7 +34,6 @@ SettingClass.prototype.load = async function () {
   const congData = (await appDb.app_settings.toArray())[0];
 
   this.username = congData.username;
-  this.local_uid = congData.local_uid;
   this.source_lang = congData.source_lang;
   this.cong_number = congData.cong_number;
   this.cong_name = congData.cong_name;

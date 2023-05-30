@@ -1,9 +1,11 @@
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
+import { Persons } from '../../classes/Persons';
 
 const styles = {
   checkbox: {
@@ -20,6 +22,28 @@ const CongregationPersonRoles = ({
   handleCheckViewMeetingSchedule,
 }) => {
   const { t } = useTranslation('ui');
+
+  const [disableViewMeetingRole, setDisableViewMeetingRole] = useState(false);
+
+  const currentPerson = Persons.get(member.user_local_uid);
+
+  const isElder = currentPerson.isElder();
+  const isMS = currentPerson.isMS();
+  const isPublisher = currentPerson.isPublisher();
+
+  useEffect(() => {
+    setDisableViewMeetingRole(false);
+
+    if (member.cong_role) {
+      const secretaryRole = member.cong_role.includes('secretary');
+      const lmmoRole = member.cong_role.includes('lmmo') || member.cong_role.includes('lmmo-backup');
+
+      if (secretaryRole || lmmoRole || isElder || isMS || isPublisher) {
+        handleCheckViewMeetingSchedule(false);
+        setDisableViewMeetingRole(true);
+      }
+    }
+  }, [member.cong_role, handleCheckViewMeetingSchedule, isElder, isMS, isPublisher]);
 
   return (
     <Box sx={{ marginTop: '20px' }}>
@@ -79,6 +103,7 @@ const CongregationPersonRoles = ({
           <FormControlLabel
             control={
               <Checkbox
+                disabled={disableViewMeetingRole}
                 checked={member.cong_role?.includes('view_meeting_schedule') || false}
                 onChange={(e) => handleCheckViewMeetingSchedule(e.target.checked)}
               />
