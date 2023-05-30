@@ -26,7 +26,7 @@ const styles = {
   },
 };
 
-const WhatsNewItem = ({ announcement }) => {
+const AnnouncementItem = ({ announcement }) => {
   const { t } = useTranslation('ui');
 
   const appLang = useRecoilValue(appLangState);
@@ -147,4 +147,4 @@ const WhatsNewItem = ({ announcement }) => {
   );
 };
 
-export default WhatsNewItem;
+export default AnnouncementItem;

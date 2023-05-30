@@ -85,6 +85,14 @@ const S4 = ({ serviceYear, month, person }) => {
     if (serviceYear === ServiceYear.getCurrent().uid) {
       const currentMonth = ServiceYear.currentReportMonth();
 
+      const currentDate = new Date(currentMonth);
+      const selectedDate = new Date(month);
+
+      if (selectedDate > currentDate) {
+        setLatePossible(false);
+        return;
+      }
+
       if (month !== currentMonth) {
         setLatePossible(true);
         return;
@@ -100,9 +108,9 @@ const S4 = ({ serviceYear, month, person }) => {
       }
 
       if (new Date().getDate() > 20) {
-        setLatePossible(true);
-      } else {
         setLatePossible(false);
+      } else {
+        setLatePossible(true);
       }
     }
   }, [serviceYear, month]);
@@ -257,7 +265,8 @@ const S4 = ({ serviceYear, month, person }) => {
               month={month}
               person={person}
               initialValue={hours}
-              initialHourLess={hourLess}
+              hourLess={hourLess}
+              setHourLess={(value) => setHourLess(value)}
               latePossible={latePossible}
               isLocked={isLocked}
             />

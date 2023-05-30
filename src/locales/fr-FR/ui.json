@@ -581,7 +581,7 @@
   "publishers": "Publishers",
   "regenerate": "Regenerate",
   "setBranchSubmitted": "Mark as submitted",
-  "undoBranchSubmit": "Undo submission",
+  "undoSubmit": "Undo submission",
   "reportAlreadySubmitted": "Report for this month was already submitted to the Branch Office. Only late reports can be added, unless you undo the submission.",
   "inactivePublishers": "Inactive Publishers",
   "backupDiscrepancy": "The backup could not be sent. Please restore the latest backup first.",

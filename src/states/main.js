@@ -47,11 +47,6 @@ export const uidUserState = atom({
   default: '',
 });
 
-export const isCongConnectedState = atom({
-  key: 'isCongConnected',
-  default: false,
-});
-
 export const userPasswordState = atom({
   key: 'userPassowrd',
   default: '',

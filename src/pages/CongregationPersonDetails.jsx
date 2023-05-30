@@ -135,7 +135,7 @@ const CongregationPersonDetails = () => {
 
   const handleUpdateUserDelegate = (value) => {
     const newValue = value.map((selected) => {
-      return { person_uid: selected.person_uid, person_name: selected.person_name };
+      return { person_uid: selected.user_local_uid };
     });
 
     setMember((prev) => {
@@ -484,6 +484,7 @@ const CongregationPersonDetails = () => {
 
               <Grid container spacing={2}>
                 {person.global_role === 'vip' &&
+                  person.sessions &&
                   person.sessions.map((session) => (
                     <CongregationPersonVipDevice
                       key={session.visitorid}

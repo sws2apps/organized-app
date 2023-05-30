@@ -5,6 +5,7 @@ import { initAppDb } from '../indexedDb/dbUtility';
 import { dbGetNotifications } from '../indexedDb/dbNotifications';
 import {
   classCountState,
+  congIDState,
   congNameState,
   congNumberState,
   congRoleState,
@@ -239,7 +240,6 @@ export const updateUserSettings = async (data) => {
     username: data.username,
     user_members_delegate: data.user_members_delegate,
     user_local_uid: data.user_local_uid,
-    user_id: data.id,
     account_type: 'pocket',
   };
 
@@ -250,6 +250,14 @@ export const updateUserSettings = async (data) => {
   await promiseSetRecoil(congNumberState, data.cong_number);
   await promiseSetRecoil(userIDState, data.id);
   await promiseSetRecoil(userLocalUidState, data.user_local_uid);
+  await promiseSetRecoil(congRoleState, data.cong_role);
+  await promiseSetRecoil(congIDState, data.cong_id);
+
+  backupWorkerInstance.setUserRole(data.cong_role);
+  backupWorkerInstance.setAccountType('pocket');
+  backupWorkerInstance.setUserID(data.id);
+  backupWorkerInstance.setCongID(data.cong_id);
+  backupWorkerInstance.setIsCongAccountConnected(true);
 };
 
 export const computeYearsDiff = (date) => {
@@ -288,4 +296,13 @@ export const reportsFieldSum = (array, field, initial = 0) => {
       typeof currentValue[field] === 'string' ? accumulator : accumulator + currentValue[field],
     initial
   );
+};
+
+export const getMonthName = (date) => {
+  const year = +date.split('/')[0];
+  const month = +date.split('/')[1] - 1;
+
+  const monthName = Setting.monthNames()[month];
+
+  return `${monthName} ${year}`;
 };

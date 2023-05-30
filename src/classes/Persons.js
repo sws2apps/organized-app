@@ -36,11 +36,15 @@ PersonsClass.prototype.loadAll = async function () {
 PersonsClass.prototype.filter = function (data) {
   let result = [];
 
-  if (Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup')) {
+  const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
+  const secretaryRole = Setting.cong_role.includes('secretary');
+  const elderRole = Setting.cong_role.includes('elder');
+
+  if (lmmoRole || elderRole) {
     result = this.filterLMMO(data);
   }
 
-  if (Setting.cong_role.includes('secretary')) {
+  if (secretaryRole) {
     result = this.filterSecretary(data);
   }
 
@@ -552,6 +556,15 @@ PersonsClass.prototype.getInactivePublishers = function (month) {
   }
 
   return inactivePublishers;
+};
+
+PersonsClass.prototype.reset = async function () {
+  await appDb.persons.clear();
+  this.list.length = 0;
+};
+
+PersonsClass.prototype.cleanAdd = async function (data) {
+  await this.add(data);
 };
 
 export const Persons = new PersonsClass();

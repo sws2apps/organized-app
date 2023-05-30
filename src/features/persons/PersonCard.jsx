@@ -13,6 +13,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Setting } from '../../classes/Setting';
 import { currentStudentState, isStudentDeleteState } from '../../states/person';
 
@@ -38,6 +39,9 @@ const PersonCard = ({ person }) => {
 
   const setCurrentStudent = useSetRecoilState(currentStudentState);
   const setIsStudentDelete = useSetRecoilState(isStudentDeleteState);
+
+  const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
+  const secretaryRole = Setting.cong_role.includes('secretary');
 
   const handleClickOpen = () => {
     navigate(`/persons/${person.person_uid}`);
@@ -78,19 +82,26 @@ const PersonCard = ({ person }) => {
           action={
             <>
               <Tooltip title={t('edit')}>
-                <IconButton onClick={handleClickOpen} color="primary">
-                  <EditIcon />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title={t('delete')}>
                 <IconButton
-                  sx={{ marginRight: '5px' }}
-                  color="error"
-                  onClick={() => handleDelete(person.person_uid, person.person_name)}
+                  onClick={handleClickOpen}
+                  color="primary"
+                  sx={{ marginRight: !lmmoRole && !secretaryRole ? '10px' : null }}
                 >
-                  <DeleteIcon />
+                  {(lmmoRole || secretaryRole) && <EditIcon />}
+                  {!lmmoRole && !secretaryRole && <VisibilityIcon />}
                 </IconButton>
               </Tooltip>
+              {(lmmoRole || secretaryRole) && (
+                <Tooltip title={t('delete')}>
+                  <IconButton
+                    sx={{ marginRight: '5px' }}
+                    color="error"
+                    onClick={() => handleDelete(person.person_uid, person.person_name)}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </Tooltip>
+              )}
             </>
           }
           title={person.person_name}

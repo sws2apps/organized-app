@@ -155,7 +155,7 @@ const S1 = ({ serviceYear, month }) => {
 
                 {isSubmitted && (
                   <Button variant="outlined" color="warning" startIcon={<ReplayIcon />} onClick={handleUndoSubmission}>
-                    {t('undoBranchSubmit')}
+                    {t('undoSubmit')}
                   </Button>
                 )}
               </Box>

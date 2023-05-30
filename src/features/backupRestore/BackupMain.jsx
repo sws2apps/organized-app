@@ -10,10 +10,11 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Typography from '@mui/material/Typography';
-import { apiHostState, visitorIDState } from '../../states/main';
+import { apiHostState } from '../../states/main';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../../states/notification';
-import { congIDState, isProcessingBackupState } from '../../states/congregation';
-import { getAuth } from 'firebase/auth';
+import { isProcessingBackupState } from '../../states/congregation';
+import { Setting } from '../../classes/Setting';
+import { apiFetchCongregationLastBackup, apiFetchUserLastBackup } from '../../api';
 
 const BackupMain = ({ handleCreateBackup, handleClose, handleRestoreBackup, open, title, action }) => {
   const cancel = useRef();
@@ -27,11 +28,19 @@ const BackupMain = ({ handleCreateBackup, handleClose, handleRestoreBackup, open
   const setAppMessage = useSetRecoilState(appMessageState);
 
   const apiHost = useRecoilValue(apiHostState);
-  const visitorID = useRecoilValue(visitorIDState);
-  const congID = useRecoilValue(congIDState);
 
   const [hasBackup, setHasBackup] = useState(false);
   const [backup, setBackup] = useState({});
+
+  const accountType = Setting.account_type;
+  const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
+  const secretaryRole = Setting.cong_role.includes('secretary');
+  const publisherRole =
+    !lmmoRole &&
+    !secretaryRole &&
+    (Setting.cong_role.includes('publisher') ||
+      Setting.cong_role.includes('ms') ||
+      Setting.cong_role.includes('elder'));
 
   const fetchLastBackup = useCallback(async () => {
     try {
@@ -39,27 +48,38 @@ const BackupMain = ({ handleCreateBackup, handleClose, handleRestoreBackup, open
         cancel.current = false;
         setIsProcessing(true);
 
-        const auth = await getAuth();
-        const user = auth.currentUser;
+        let status;
+        let data;
 
-        const res = await fetch(`${apiHost}api/congregations/${congID}/backup/last`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            appclient: 'cpe',
-            appversion: import.meta.env.PACKAGE_VERSION,
-            visitorid: visitorID,
-            uid: user.uid,
-          },
-        });
+        if (accountType === 'vip') {
+          const result = await apiFetchCongregationLastBackup();
+          status = result.status;
+          data = result.data;
+        }
+
+        if (accountType === 'pocket') {
+          const result = await apiFetchUserLastBackup();
+          status = result.status;
+          data = result.data;
+        }
+
         if (!cancel.current) {
-          const data = await res.json();
-          if (res.status === 200) {
-            if (data.message) {
+          if (status === 200) {
+            let backupInfo;
+
+            if (lmmoRole || secretaryRole) {
+              backupInfo = 'cong_last_backup';
+            }
+
+            if (publisherRole && !lmmoRole && !secretaryRole) {
+              backupInfo = 'user_last_backup';
+            }
+
+            if (data[backupInfo] === 'NO_BACKUP') {
               setHasBackup(false);
               setIsProcessing(false);
             } else {
-              setBackup(data);
+              setBackup(data[backupInfo]);
               setHasBackup(true);
               setIsProcessing(false);
             }
@@ -79,7 +99,18 @@ const BackupMain = ({ handleCreateBackup, handleClose, handleRestoreBackup, open
         setAppSnackOpen(true);
       }
     }
-  }, [apiHost, cancel, congID, setAppMessage, setAppSeverity, setAppSnackOpen, setIsProcessing, visitorID]);
+  }, [
+    apiHost,
+    cancel,
+    setAppMessage,
+    setAppSeverity,
+    setAppSnackOpen,
+    setIsProcessing,
+    accountType,
+    lmmoRole,
+    secretaryRole,
+    publisherRole,
+  ]);
 
   const handleAction = () => {
     if (action === 'backup') handleCreateBackup();
@@ -89,10 +120,19 @@ const BackupMain = ({ handleCreateBackup, handleClose, handleRestoreBackup, open
   const getLastBackupDate = (action, backup) => {
     const shortDateTimeFormat = t('shortDateTimeFormat');
 
-    return t(action === 'backup' ? 'lastCongBackup' : 'restoreConfirmation', {
-      backup_person: backup.by,
-      backup_date: dateFormat(new Date(backup.date), shortDateTimeFormat),
-    });
+    return t(
+      action === 'backup'
+        ? publisherRole
+          ? 'lastUserBackup'
+          : 'lastCongBackup'
+        : publisherRole
+        ? 'restoreUserConfirmation'
+        : 'restoreConfirmation',
+      {
+        backup_person: backup.by,
+        backup_date: dateFormat(new Date(backup.date), shortDateTimeFormat),
+      }
+    );
   };
 
   useEffect(() => {
@@ -129,7 +169,7 @@ const BackupMain = ({ handleCreateBackup, handleClose, handleRestoreBackup, open
           {!isProcessing && (
             <>
               {hasBackup && <Typography>{getLastBackupDate(action, backup)}</Typography>}
-              {!hasBackup && <Typography>{t('noBackupFound')}</Typography>}
+              {!hasBackup && <Typography>{publisherRole ? t('noUserBackupFound') : t('noBackupFound')}</Typography>}
             </>
           )}
         </DialogContent>

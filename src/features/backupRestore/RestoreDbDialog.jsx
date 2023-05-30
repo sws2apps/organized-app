@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
-import { apiHostState, restoreDbOpenState, visitorIDState } from '../../states/main';
+import { apiHostState, restoreDbOpenState } from '../../states/main';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../../states/notification';
-import { congIDState, isProcessingBackupState } from '../../states/congregation';
+import { isProcessingBackupState } from '../../states/congregation';
 import { dbRestoreCongregationBackup } from '../../indexedDb/dbUtility';
 import BackupMain from './BackupMain';
-import useFirebaseAuth from '../../hooks/useFirebaseAuth';
+import { Setting } from '../../classes/Setting';
+import { apiRestoreCongregationBackup, apiRestoreUserBackup } from '../../api';
 
 const RestoreDbDialog = () => {
   const cancel = useRef();
@@ -21,10 +22,6 @@ const RestoreDbDialog = () => {
   const setIsProcessing = useSetRecoilState(isProcessingBackupState);
 
   const apiHost = useRecoilValue(apiHostState);
-  const visitorID = useRecoilValue(visitorIDState);
-  const congID = useRecoilValue(congIDState);
-
-  const { user } = useFirebaseAuth();
 
   const handleClose = useCallback(
     (event, reason) => {
@@ -43,21 +40,25 @@ const RestoreDbDialog = () => {
 
         setIsProcessing(true);
 
-        const res = await fetch(`${apiHost}api/congregations/${congID}/backup`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            appclient: 'cpe',
-            appversion: import.meta.env.PACKAGE_VERSION,
-            visitorid: visitorID,
-            uid: user.uid,
-          },
-        });
+        const accountType = Setting.account_type;
+
+        let status;
+        let data;
+
+        if (accountType === 'vip') {
+          const result = await apiRestoreCongregationBackup();
+          status = result.status;
+          data = result.data;
+        }
+
+        if (accountType === 'pocket') {
+          const result = await apiRestoreUserBackup();
+          status = result.status;
+          data = result.data;
+        }
 
         if (!cancel.current) {
-          const data = await res.json();
-
-          if (res.status === 200) {
+          if (status === 200) {
             await dbRestoreCongregationBackup(data);
 
             window.location.reload();

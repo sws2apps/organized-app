@@ -38,12 +38,20 @@ export const apiFetchSchedule = async () => {
 
       const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
       const secretaryRole = Setting.cong_role.includes('secretary');
+      const elderRole = Setting.cong_role.includes('elder');
+      const msRole = Setting.cong_role.includes('ms');
+      const publisherRole =
+        Setting.account_type === 'vip' &&
+        !lmmoRole &&
+        !secretaryRole &&
+        (Setting.cong_role.includes('publisher') || msRole || elderRole);
       const viewMeetingScheduleRole =
         Setting.account_type === 'vip' &&
-        Setting.cong_role.length === 1 &&
+        !lmmoRole &&
+        !secretaryRole &&
         Setting.cong_role.includes('view_meeting_schedule');
 
-      if (viewMeetingScheduleRole || (secretaryRole && !lmmoRole)) {
+      if (viewMeetingScheduleRole || (secretaryRole && !lmmoRole) || publisherRole) {
         const auth = await getAuth();
         const user = auth.currentUser;
 
@@ -63,7 +71,6 @@ export const apiFetchSchedule = async () => {
 
       await Sources.updatePocketSource(cong_sourceMaterial);
       await Schedules.updatePocketSchedule(cong_schedule);
-
       const { class_count, source_lang, co_name, co_displayName, opening_prayer_autoAssign } = cong_settings;
 
       await Setting.update({ class_count, source_lang, co_name, co_displayName, opening_prayer_autoAssign });

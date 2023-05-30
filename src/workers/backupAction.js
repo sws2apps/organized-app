@@ -1,7 +1,6 @@
 import { dbExportDataOnline } from '../indexedDb/dbUtility';
 
 let isEnabled;
-let userUID;
 let visitorID;
 let apiHost;
 let congID;
@@ -9,9 +8,16 @@ let isOnline = navigator.onLine;
 let backupInterval;
 let isCongAccountConnected;
 let userRole = [];
+let accountType;
+let userUID;
+let userID;
 
 export const setUserRole = (value) => {
   userRole = value;
+};
+
+export const setAccountType = (value) => {
+  accountType = value;
 };
 
 export const setIsEnabled = (value) => {
@@ -22,12 +28,16 @@ export const setBackupInterval = (value = 1) => {
   backupInterval = value * 60000;
 };
 
+export const setVisitorID = (visitorId) => {
+  visitorID = visitorId;
+};
+
 export const setUserUID = (uid) => {
   userUID = uid;
 };
 
-export const setVisitorID = (visitorId) => {
-  visitorID = visitorId;
+export const setUserID = (userId) => {
+  userID = userId;
 };
 
 export const setApiHost = (host) => {
@@ -49,13 +59,13 @@ export const setIsCongAccountConnected = (value) => {
 const runBackupSchedule = async () => {
   const lmmoRole = userRole.includes('lmmo') || userRole.includes('lmmo-backup');
   const secretaryRole = userRole.includes('secretary');
+  const publisherRole = userRole.includes('publisher') || userRole.includes('ms') || userRole.includes('elder');
 
   if (
-    (lmmoRole || secretaryRole) &&
+    (lmmoRole || secretaryRole || publisherRole) &&
     isEnabled &&
     backupInterval &&
     isOnline &&
-    userUID &&
     visitorID &&
     apiHost &&
     congID &&
@@ -77,19 +87,36 @@ const runBackupSchedule = async () => {
       cong_meetingAttendance: secretaryRole ? dbData.dbMeetingAttendanceTbl : undefined,
       cong_minutesReports: secretaryRole ? dbData.dbMinutesReportsTbl : undefined,
       cong_serviceYear: secretaryRole ? dbData.dbServiceYearTbl : undefined,
+      user_bibleStudies: publisherRole ? dbData.dbUserBibleStudiesTbl : undefined,
+      user_fieldServiceReports: publisherRole ? dbData.dbUserFieldServiceReportsTbl : undefined,
     };
 
-    await fetch(`${apiHost}api/congregations/${congID}/backup`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        appclient: 'cpe',
-        appversion: import.meta.env.PACKAGE_VERSION,
-        visitorid: visitorID,
-        uid: userUID,
-      },
-      body: JSON.stringify(reqPayload),
-    });
+    if (accountType === 'vip' && userUID) {
+      await fetch(`${apiHost}api/congregations/${congID}/backup`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          appclient: 'cpe',
+          appversion: import.meta.env.PACKAGE_VERSION,
+          visitorid: visitorID,
+          uid: userUID,
+        },
+        body: JSON.stringify(reqPayload),
+      });
+    }
+
+    if (accountType === 'pocket' && userID) {
+      await fetch(`${apiHost}api/sws-pocket/${userID}/backup`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          appclient: 'cpe',
+          appversion: import.meta.env.PACKAGE_VERSION,
+          visitorid: visitorID,
+        },
+        body: JSON.stringify(reqPayload),
+      });
+    }
   }
 
   setTimeout(runBackupSchedule, backupInterval);

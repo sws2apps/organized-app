@@ -275,7 +275,11 @@ const ScheduleAssignment = ({ edit }) => {
 
   useEffect(() => {
     if (week !== '') {
-      const pocketRole = Setting.cong_role.length === 1 && Setting.cong_role.includes('view_meeting_schedule');
+      const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
+      const secretaryRole = Setting.cong_role.includes('secretary');
+      const viewMeetingScheduleRole =
+        !lmmoRole && !secretaryRole && Setting.cong_role.includes('view_meeting_schedule');
+      const pocketRole = Setting.account_type === 'pocket' || viewMeetingScheduleRole;
 
       const currentSource = Sources.get(week);
 
@@ -430,6 +434,7 @@ const ScheduleAssignment = ({ edit }) => {
                 })
               }
             />
+
             {/* Chairman B */}
             {class_count === 2 && weekType === 1 && (
               <SingleAssignment

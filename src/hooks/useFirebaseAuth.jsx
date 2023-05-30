@@ -11,8 +11,8 @@ const useFirebaseAuth = () => {
   useEffect(() => {
     const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
-      backupWorkerInstance.setUserUID(user?.uid || undefined);
       setUser(user);
+      backupWorkerInstance.setUserUID(user?.uid || undefined);
       if (user) {
         if (user.providerData.length > 1) {
           displayMultiProviderAuthError();

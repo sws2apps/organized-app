@@ -40,7 +40,9 @@ const PersonBasic = ({
   const [isErrorDisplayName, setIsErrorDisplayName] = useState(false);
   const [age, setAge] = useState('');
 
-  const roleSecretary = Setting.cong_role.includes('secretary');
+  const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
+  const secretaryRole = Setting.cong_role.includes('secretary');
+  const isEditAllowed = lmmoRole || secretaryRole;
 
   const handleNameChange = (name) => {
     setIsErrorName(false);
@@ -106,7 +108,8 @@ const PersonBasic = ({
             error={isErrorName ? true : false}
             sx={{ width: '320px', flexGrow: 1 }}
             value={name}
-            onChange={(e) => handleNameChange(e.target.value)}
+            InputProps={{ readOnly: !isEditAllowed }}
+            onChange={isEditAllowed ? (e) => handleNameChange(e.target.value) : null}
           />
           <TextField
             label={t('displayName')}
@@ -118,17 +121,28 @@ const PersonBasic = ({
             helperText={isErrorDisplayName ? 'Mila fenoina' : null}
             sx={{ width: '210px' }}
             value={displayName}
-            onChange={(e) => handleDisplayNameChange(e.target.value)}
+            InputProps={{ readOnly: !isEditAllowed }}
+            onChange={isEditAllowed ? (e) => handleDisplayNameChange(e.target.value) : null}
           />
         </Box>
         <Box sx={{ display: 'flex' }}>
           <FormControlLabel
-            control={<Checkbox checked={isMale} onChange={(e) => handleMaleCheck(e.target.checked)} color="primary" />}
+            control={
+              <Checkbox
+                checked={isMale}
+                onChange={isEditAllowed ? (e) => handleMaleCheck(e.target.checked) : null}
+                color="primary"
+              />
+            }
             label={t('male')}
           />
           <FormControlLabel
             control={
-              <Checkbox checked={isFemale} onChange={(e) => handleFemaleCheck(e.target.checked)} color="primary" />
+              <Checkbox
+                checked={isFemale}
+                onChange={isEditAllowed ? (e) => handleFemaleCheck(e.target.checked) : null}
+                color="primary"
+              />
             }
             label={t('female')}
           />
@@ -144,7 +158,7 @@ const PersonBasic = ({
             maxDate={new Date()}
             value={birthDate === null ? null : new Date(birthDate)}
             onChange={(value) => setBirthDate(value)}
-            readOnly={!Setting.cong_role.includes('secretary')}
+            readOnly={!secretaryRole || !isEditAllowed}
           />
         </LocalizationProvider>
         <TextField
@@ -152,6 +166,7 @@ const PersonBasic = ({
           variant="outlined"
           autoComplete="off"
           sx={{ width: '80px', '.MuiOutlinedInput-input': { textAlign: 'right' } }}
+          InputProps={{ readOnly: true }}
           value={age}
         />
       </Box>
@@ -162,8 +177,9 @@ const PersonBasic = ({
           size="small"
           autoComplete="off"
           sx={{ maxWidth: '300px' }}
+          InputProps={{ readOnly: !secretaryRole || !isEditAllowed }}
           value={personEmail}
-          onChange={roleSecretary ? (e) => setPersonEmail(e.target.value) : null}
+          onChange={secretaryRole ? (e) => setPersonEmail(e.target.value) : null}
         />
         <TextField
           label={t('address')}
@@ -171,8 +187,9 @@ const PersonBasic = ({
           size="small"
           autoComplete="off"
           sx={{ width: '100%' }}
+          InputProps={{ readOnly: !secretaryRole || !isEditAllowed }}
           value={personAddress}
-          onChange={roleSecretary ? (e) => setPersonAddress(e.target.value) : null}
+          onChange={secretaryRole ? (e) => setPersonAddress(e.target.value) : null}
         />
         <TextField
           label={t('phoneNumber')}
@@ -180,11 +197,12 @@ const PersonBasic = ({
           size="small"
           autoComplete="off"
           sx={{ width: '100%' }}
+          InputProps={{ readOnly: !secretaryRole || !isEditAllowed }}
           value={personPhone}
-          onChange={roleSecretary ? (e) => setPersonPhone(e.target.value) : null}
+          onChange={secretaryRole ? (e) => setPersonPhone(e.target.value) : null}
         />
       </Box>
-      {!roleSecretary && (
+      {isEditAllowed && !secretaryRole && (
         <Typography sx={{ fontStyle: 'italic', marginTop: '20px' }} color="#FE4119">
           {t('basicInfoSelectedNotice')}
         </Typography>

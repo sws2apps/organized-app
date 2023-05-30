@@ -135,6 +135,13 @@ appDb.version(29).stores({
   app_settings:
     '++id, username, source_lang, cong_number, cong_name, cong_role, class_count, meeting_day, meeting_time, isScheduleConverted, isCongVerified, isAssignmentsConverted, isCongUpdated2, user_avatar, account_version, co_name, co_displayName, personAssignmentsConverted, autoBackup, autoBackup_interval, schedule_useFullname, account_type, opening_prayer_autoAssign, user_local_uid, user_members_delegate',
 });
+appDb.version(32).stores({
+  user_bible_studies: '&uid, person_name, person_active, person_addresses, person_contact, changes, isDeleted',
+});
+appDb.version(41).stores({
+  user_field_service_reports:
+    '&report_uid, month, month_date, placements, videos, duration, duration_start, returnVisits, bibleStudies, comments, changes, isDeleted, isSubmitted, isPending, isS4, isS21',
+});
 
 appDb.on('populate', function () {
   appDb.app_settings.add({

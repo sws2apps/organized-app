@@ -102,7 +102,12 @@ ScheduleClass.prototype.loadDetails = async function () {
 
   const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
   const secretaryRole = Setting.cong_role.includes('secretary');
-  const viewMeetingScheduleRole = Setting.cong_role.length === 1 && Setting.cong_role.includes('view_meeting_schedule');
+  const elderRole = Setting.cong_role.includes('elder');
+  const msRole = Setting.cong_role.includes('ms');
+  const publisherRole = Setting.cong_role.includes('publisher');
+  const hasPersonAccess = lmmoRole || secretaryRole || elderRole;
+  const viewMeetingScheduleRole =
+    !hasPersonAccess && (Setting.cong_role.includes('view_meeting_schedule') || msRole || publisherRole);
 
   this.chairmanMM_A = appData.chairmanMM_A || '';
   this.chairmanMM_B = appData.chairmanMM_B || '';
@@ -133,7 +138,7 @@ ScheduleClass.prototype.loadDetails = async function () {
   this.cbs_reader = appData.cbs_reader || '';
   this.closing_prayer = appData.closing_prayer || '';
 
-  if (lmmoRole || secretaryRole) {
+  if (hasPersonAccess) {
     if (appData.chairmanMM_A) {
       const student = Persons.get(appData.chairmanMM_A);
       this.chairmanMM_A_name = student?.person_name || '';
@@ -451,6 +456,12 @@ ScheduleClass.prototype.saveAssignment = async function (personUID, field) {
 };
 
 ScheduleClass.prototype.save = async function (appData) {
+  const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
+  const secretaryRole = Setting.cong_role.includes('secretary');
+  const elderRole = Setting.cong_role.includes('elder');
+  const hasPersonAccess = lmmoRole || secretaryRole || elderRole;
+  const viewMeetingScheduleRole = !hasPersonAccess && Setting.cong_role.includes('view_meeting_schedule');
+
   this.chairmanMM_A = appData.chairmanMM_A;
   this.chairmanMM_B = appData.chairmanMM_B;
   this.opening_prayer = appData.opening_prayer;
@@ -480,10 +491,7 @@ ScheduleClass.prototype.save = async function (appData) {
   this.cbs_reader = appData.cbs_reader;
   this.closing_prayer = appData.closing_prayer;
 
-  if (
-    Setting.account_type === 'pocket' ||
-    (Setting.cong_role.length === 1 && Setting.cong_role.includes('view_meeting_schedule'))
-  ) {
+  if (Setting.account_type === 'pocket' || viewMeetingScheduleRole) {
     this.chairmanMM_A_name = appData.chairmanMM_A_name;
     this.chairmanMM_A_dispName = appData.chairmanMM_A_dispName;
     this.chairmanMM_B_name = appData.chairmanMM_B_name;

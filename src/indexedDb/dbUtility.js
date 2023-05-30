@@ -32,12 +32,15 @@ export const dbExportDataOnline = async (cong_role = Setting.cong_role) => {
 
   const lmmoRole = cong_role.includes('lmmo') || cong_role.includes('lmmo-backup');
   const secretaryRole = cong_role.includes('secretary');
+  const publisherRole = cong_role.includes('publisher') || cong_role.includes('ms') || cong_role.includes('elder');
 
-  // get persons
-  data.dbPersons = await appDb.persons.toArray();
+  if (lmmoRole || secretaryRole) {
+    // get persons
+    data.dbPersons = await appDb.persons.toArray();
 
-  // get deleted items
-  data.dbDeleted = await appDb.deleted.toArray();
+    // get deleted items
+    data.dbDeleted = await appDb.deleted.toArray();
+  }
 
   if (lmmoRole) {
     // get source materials
@@ -83,16 +86,26 @@ export const dbExportDataOnline = async (cong_role = Setting.cong_role) => {
     data.dbServiceYearTbl = await appDb.serviceYear.toArray();
   }
 
-  // remove local user settings before export
-  const appSettings = (await appDb.app_settings.toArray())[0];
-  delete appSettings.username;
-  delete appSettings.user_avatar;
-  delete appSettings.cong_role;
+  if (publisherRole) {
+    // get user bible studies
+    data.dbUserBibleStudiesTbl = await appDb.user_bible_studies.toArray();
 
-  // get app settings
-  data.dbSettings = [appSettings];
+    // get user field service reports
+    data.dbUserFieldServiceReportsTbl = await appDb.user_field_service_reports.toArray();
+  }
 
-  return { ...data };
+  if (lmmoRole || secretaryRole) {
+    // remove local user settings before export
+    const appSettings = (await appDb.app_settings.toArray())[0];
+    delete appSettings.username;
+    delete appSettings.user_avatar;
+    delete appSettings.cong_role;
+
+    // get app settings
+    data.dbSettings = [appSettings];
+  }
+
+  return data;
 };
 
 export const dbRestoreSettingFromBackup = async (cong_settings) => {
@@ -808,6 +821,135 @@ export const dbRestoreFieldServiceGroupFromBackup = async (cong_fieldServiceGrou
   }
 };
 
+export const dbRestoreUserBibleStudiesFromBackup = async (user_bibleStudies) => {
+  const oldBibleStudies = await appDb.user_bible_studies.toArray();
+
+  for await (const bibleStudy of user_bibleStudies) {
+    // delete record and continue
+    if (bibleStudy.isDeleted) {
+      const isExist = await appDb.user_bible_studies.get(bibleStudy.uid);
+      if (isExist) {
+        await appDb.user_bible_studies.delete(bibleStudy.uid);
+      }
+
+      continue;
+    }
+
+    const oldRecord = oldBibleStudies.find((item) => item.uid === bibleStudy.uid);
+
+    // add new record and continue loop
+    if (!oldRecord) {
+      await appDb.user_bible_studies.add(bibleStudy);
+      continue;
+    }
+
+    // update existing
+    if (oldRecord) {
+      const newChanges = bibleStudy.changes || [];
+      const oldChanges = oldRecord.changes || [];
+
+      for (const change of newChanges) {
+        const oldChange = oldChanges.find((item) => item.field === change.field);
+
+        if (!oldChange) {
+          oldRecord[change.field] = change.value;
+          if (!oldRecord.changes) oldRecord.changes = [];
+          oldRecord.changes.push(change);
+        }
+
+        if (oldChange) {
+          const oldDate = new Date(oldChange.date);
+          const newDate = new Date(change.date);
+
+          if (newDate > oldDate) {
+            oldRecord[change.field] = change.value;
+            oldRecord.changes = oldRecord.changes.filter((item) => item.field !== change.field);
+            oldRecord.changes.push(change);
+          }
+        }
+      }
+
+      await appDb.user_bible_studies.update(oldRecord.uid, { ...oldRecord });
+    }
+  }
+};
+
+export const dbRestoreUserFieldServiceReportsFromBackup = async (user_fieldServiceReports) => {
+  const oldReports = await appDb.user_field_service_reports.toArray();
+
+  for await (const report of user_fieldServiceReports) {
+    // delete record and continue
+    if (report.isDeleted) {
+      const isExist = await appDb.user_field_service_reports.get(report.report_uid);
+      if (isExist) {
+        await appDb.user_field_service_reports.delete(report.report_uid);
+      }
+
+      continue;
+    }
+
+    const oldRecord = oldReports.find((item) => item.report_uid === report.report_uid);
+
+    // add new record and continue loop
+    if (!oldRecord) {
+      await appDb.user_field_service_reports.add(report);
+      continue;
+    }
+
+    // update existing
+    if (oldRecord) {
+      const newChanges = report.changes || [];
+      const oldChanges = oldRecord.changes || [];
+
+      for (const change of newChanges) {
+        // update S4 and S21 records
+        if (report.isS4 || report.isS21) {
+          const oldDate = oldChanges[0] ? new Date(oldChanges[0].date) : undefined;
+          const newDate = new Date(change.date);
+
+          let isUpdate = false;
+
+          if (!oldDate) isUpdate = true;
+          if (oldDate && oldDate < newDate) isUpdate = true;
+
+          if (isUpdate) {
+            oldRecord.changes = [];
+            oldRecord.changes.push(change);
+
+            for (const [key, value] of Object.entries(report)) {
+              if (key !== 'changes') oldRecord[key] = value;
+            }
+          }
+        }
+
+        // update daily records
+        if (!report.isS4 && !report.isS21) {
+          const oldChange = oldChanges.find((item) => item.field === change.field);
+
+          if (!oldChange) {
+            oldRecord[change.field] = change.value;
+            if (!oldRecord.changes) oldRecord.changes = [];
+            oldRecord.changes.push(change);
+          }
+
+          if (oldChange) {
+            const oldDate = new Date(oldChange.date);
+            const newDate = new Date(change.date);
+
+            if (newDate > oldDate) {
+              oldRecord[change.field] = change.value;
+              oldRecord.changes = oldRecord.changes.filter((item) => item.field !== change.field);
+              oldRecord.changes.push(change);
+            }
+          }
+        }
+      }
+
+      await appDb.user_field_service_reports.update(report.report_uid, { ...oldRecord });
+    }
+  }
+};
+
 export const dbRestoreCongregationBackup = async (payload) => {
   const cong_persons = payload.cong_persons;
   const cong_schedule = payload.cong_schedule;
@@ -821,15 +963,21 @@ export const dbRestoreCongregationBackup = async (payload) => {
   const cong_meetingAttendance = payload.cong_meetingAttendance;
   const cong_minutesReports = payload.cong_minutesReports;
   const cong_serviceYear = payload.cong_serviceYear;
+  const user_bibleStudies = payload.user_bibleStudies;
+  const user_fieldServiceReports = payload.user_fieldServiceReports;
 
   const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
   const secretaryRole = Setting.cong_role.includes('secretary');
+  const publisherRole =
+    Setting.cong_role.includes('publisher') || Setting.cong_role.includes('ms') || Setting.cong_role.includes('elder');
 
-  // restore settings
-  await dbRestoreSettingFromBackup(cong_settings);
+  if (lmmoRole || secretaryRole) {
+    // restore settings
+    await dbRestoreSettingFromBackup(cong_settings);
 
-  // restore persons
-  await dbRestorePersonsFromBackup(cong_persons);
+    // restore persons
+    await dbRestorePersonsFromBackup(cong_persons);
+  }
 
   // restore source materials
   if (lmmoRole && cong_sourceMaterial) {
@@ -879,5 +1027,15 @@ export const dbRestoreCongregationBackup = async (payload) => {
   // restore cong_fieldServiceGroup data
   if (secretaryRole && cong_fieldServiceGroup) {
     await dbRestoreFieldServiceGroupFromBackup(cong_fieldServiceGroup);
+  }
+
+  // restore user_bibleStudies data
+  if (publisherRole && user_bibleStudies) {
+    await dbRestoreUserBibleStudiesFromBackup(user_bibleStudies);
+  }
+
+  // restore user_fieldServiceReports data
+  if (publisherRole && user_fieldServiceReports) {
+    await dbRestoreUserFieldServiceReportsFromBackup(user_fieldServiceReports);
   }
 };

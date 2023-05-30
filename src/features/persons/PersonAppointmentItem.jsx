@@ -16,7 +16,7 @@ const PersonAppointmentItem = ({ isFemale, currentStatus, spiritualStatus, setSp
 
   const shortDatePickerFormat = useRecoilValue(shortDatePickerFormatState);
 
-  const roleSecretary = Setting.cong_role.includes('secretary');
+  const secretaryRole = Setting.cong_role.includes('secretary');
 
   const handleRemoveStatus = () => {
     const obj = spiritualStatus.filter((item) => item.statusId !== currentStatus.statusId);
@@ -58,8 +58,9 @@ const PersonAppointmentItem = ({ isFemale, currentStatus, spiritualStatus, setSp
         size="medium"
         sx={{ minWidth: '250px' }}
         defaultValue=""
+        InputProps={{ readOnly: !secretaryRole }}
         value={currentStatus.status}
-        onChange={roleSecretary ? (e) => handleStatusChange(e.target.value) : null}
+        onChange={secretaryRole ? (e) => handleStatusChange(e.target.value) : null}
       >
         <MenuItem value="publisher">{t('publisher')}</MenuItem>
         {!isFemale && <MenuItem value="ms">{t('ministerialServant')}</MenuItem>}
@@ -73,7 +74,7 @@ const PersonAppointmentItem = ({ isFemale, currentStatus, spiritualStatus, setSp
           format={shortDatePickerFormat}
           value={currentStatus.startDate === null ? null : new Date(currentStatus.startDate)}
           onChange={(value) => handleStartDateChange(value)}
-          readOnly={!roleSecretary}
+          readOnly={!secretaryRole}
         />
       </LocalizationProvider>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -85,10 +86,10 @@ const PersonAppointmentItem = ({ isFemale, currentStatus, spiritualStatus, setSp
             format={shortDatePickerFormat}
             value={currentStatus.endDate === null ? null : new Date(currentStatus.endDate)}
             onChange={(value) => handleEndDateChange(value)}
-            readOnly={!roleSecretary}
+            readOnly={!secretaryRole}
           />
         </LocalizationProvider>
-        {roleSecretary && (
+        {secretaryRole && (
           <IconButton aria-label="delete" color="error" size="large" onClick={handleRemoveStatus}>
             <DeleteIcon />
           </IconButton>

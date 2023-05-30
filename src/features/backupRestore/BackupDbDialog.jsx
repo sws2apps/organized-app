@@ -1,23 +1,24 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
-import { apiHostState, backupDbOpenState, visitorIDState } from '../../states/main';
+import { apiHostState, backupDbOpenState } from '../../states/main';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../../states/notification';
-import { congIDState, isProcessingBackupState } from '../../states/congregation';
+import { isProcessingBackupState } from '../../states/congregation';
 import { dbExportDataOnline } from '../../indexedDb/dbUtility';
 import BackupMain from './BackupMain';
-import useFirebaseAuth from '../../hooks/useFirebaseAuth';
 import { Setting } from '../../classes/Setting';
 import { displayError } from '../../utils/error';
 import { LateReports } from '../../classes/LateReports';
 import { MinutesReports } from '../../classes/MinutesReports';
 import { FSGList } from '../../classes/FSGList';
+import { BibleStudies } from '../../classes/BibleStudies';
+import { UserS4Records } from '../../classes/UserS4Records';
+import { apiSendCongregationBackup, apiSendUserBackup } from '../../api';
 
 const BackupDbDialog = () => {
   const cancel = useRef();
 
   const { t } = useTranslation('ui');
-  const { user } = useFirebaseAuth();
 
   const [open, setOpen] = useRecoilState(backupDbOpenState);
 
@@ -27,8 +28,6 @@ const BackupDbDialog = () => {
   const setIsProcessing = useSetRecoilState(isProcessingBackupState);
 
   const apiHost = useRecoilValue(apiHostState);
-  const visitorID = useRecoilValue(visitorIDState);
-  const congID = useRecoilValue(congIDState);
 
   const handleClose = useCallback(
     (event, reason) => {
@@ -47,8 +46,14 @@ const BackupDbDialog = () => {
         cancel.current = false;
 
         const dbData = await dbExportDataOnline();
+
+        const accountType = Setting.account_type;
         const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
         const secretaryRole = Setting.cong_role.includes('secretary');
+        const publisherRole =
+          Setting.cong_role.includes('publisher') ||
+          Setting.cong_role.includes('ms') ||
+          Setting.cong_role.includes('elder');
 
         const reqPayload = {
           cong_persons: dbData.dbPersons,
@@ -64,28 +69,36 @@ const BackupDbDialog = () => {
           cong_meetingAttendance: secretaryRole ? dbData.dbMeetingAttendanceTbl : undefined,
           cong_minutesReports: secretaryRole ? dbData.dbMinutesReportsTbl : undefined,
           cong_serviceYear: secretaryRole ? dbData.dbServiceYearTbl : undefined,
+          user_bibleStudies: publisherRole ? dbData.dbUserBibleStudiesTbl : undefined,
+          user_fieldServiceReports: publisherRole ? dbData.dbUserFieldServiceReportsTbl : undefined,
         };
 
-        const res = await fetch(`${apiHost}api/congregations/${congID}/backup`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            appclient: 'cpe',
-            appversion: import.meta.env.PACKAGE_VERSION,
-            visitorid: visitorID,
-            uid: user.uid,
-          },
-          body: JSON.stringify(reqPayload),
-        });
+        let status;
+        let data;
+
+        if (accountType === 'vip') {
+          const result = await apiSendCongregationBackup(reqPayload);
+          status = result.status;
+          data = result.data;
+        }
+
+        if (accountType === 'pocket') {
+          const result = await apiSendUserBackup(reqPayload);
+          status = result.status;
+          data = result.data;
+        }
 
         if (!cancel.current) {
-          const data = await res.json();
-
-          if (res.status === 200) {
+          if (status === 200) {
             if (secretaryRole) {
               await LateReports.cleanDeleted();
               await MinutesReports.cleanDeleted();
               await FSGList.cleanDeleted();
+            }
+
+            if (publisherRole) {
+              await BibleStudies.cleanDeleted();
+              await UserS4Records.cleanDeleted();
             }
 
             setAppMessage(t('backupSuccess'));

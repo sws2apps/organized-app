@@ -7,6 +7,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ApartmentIcon from '@mui/icons-material/Apartment';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import Badge from '@mui/material/Badge';
 import Box from '@mui/material/Box';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
@@ -17,6 +18,7 @@ import DownloadIcon from '@mui/icons-material/Download';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 import Grid from '@mui/material/Grid';
 import GroupsIcon from '@mui/icons-material/Groups';
+import ListAltIcon from '@mui/icons-material/ListAlt';
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 import MoreTimeIcon from '@mui/icons-material/MoreTime';
 import NoteIcon from '@mui/icons-material/Note';
@@ -85,6 +87,9 @@ const DashboardMenu = () => {
   const secretaryRole = congRole.includes('secretary');
   const adminRole = congRole.includes('admin');
   const viewMeetingScheduleRole = congRole.includes('view_meeting_schedule');
+  const elderRole = congRole.includes('elder');
+  const msRole = congRole.includes('ms');
+  const publisherRole = congRole.includes('publisher') || msRole || elderRole;
 
   const handleOpenMyAssignment = useCallback(() => {
     setWhatsNewOpen(false);
@@ -145,7 +150,7 @@ const DashboardMenu = () => {
     return [
       {
         title: t('persons'),
-        visible: accountType === 'vip' && !viewMeetingScheduleRole,
+        visible: accountType === 'vip' && (lmmoRole || secretaryRole || elderRole),
         links: [
           {
             title: t('persons'),
@@ -156,7 +161,7 @@ const DashboardMenu = () => {
           {
             title: t('personAdd'),
             icon: <PersonAddIcon />,
-            visible: true,
+            visible: lmmoRole || secretaryRole,
             navigateTo: '/persons/new',
           },
           {
@@ -166,7 +171,7 @@ const DashboardMenu = () => {
                 <DownloadIcon />
               </Badge>
             ),
-            visible: isDev,
+            visible: isDev && (lmmoRole || secretaryRole),
             action: importDummyUsers,
           },
         ],
@@ -204,7 +209,10 @@ const DashboardMenu = () => {
             icon: <CloudSyncIcon />,
             visible:
               isCongAccountConnected &&
-              (accountType === 'pocket' || viewMeetingScheduleRole || (secretaryRole && !lmmoRole)),
+              (accountType === 'pocket' ||
+                viewMeetingScheduleRole ||
+                (secretaryRole && !lmmoRole) ||
+                (elderRole && !secretaryRole && !lmmoRole)),
             action: apiFetchSchedule,
           },
         ],
@@ -241,37 +249,49 @@ const DashboardMenu = () => {
       },
       {
         title: t('reports'),
-        visible: accountType === 'vip' && secretaryRole,
+        visible: secretaryRole || publisherRole,
         links: [
+          {
+            title: t('myReports'),
+            icon: <ListAltIcon />,
+            visible: publisherRole,
+            navigateTo: '/user-field-service-reports',
+          },
+          {
+            title: t('myBibleStudies'),
+            icon: <AutoStoriesIcon />,
+            visible: publisherRole,
+            navigateTo: '/user-bible-studies',
+          },
           {
             title: t('postFieldServiceReport'),
             icon: <NoteIcon />,
-            visible: true,
+            visible: accountType === 'vip' && secretaryRole,
             navigateTo: '/field-service-report',
           },
           {
             title: t('meetingAttendanceRecord'),
             icon: <MeetingRoomIcon />,
-            visible: true,
+            visible: accountType === 'vip' && secretaryRole,
             navigateTo: '/meeting-attendance-record',
           },
           {
             title: t('branchOfficeReport'),
             icon: <ApartmentIcon />,
-            visible: true,
+            visible: accountType === 'vip' && secretaryRole,
             navigateTo: '/branch-office-reports',
           },
           {
             title: t('addPreviousServiceYear'),
             icon: <PostAddIcon />,
-            visible: true,
+            visible: accountType === 'vip' && secretaryRole,
             action: handleOpenAddSY,
           },
         ],
       },
       {
         title: t('congregation'),
-        visible: accountType === 'vip' && !viewMeetingScheduleRole,
+        visible: lmmoRole || secretaryRole || (publisherRole && isCongAccountConnected),
         links: [
           {
             title: t('fieldServiceGroup'),
@@ -282,7 +302,7 @@ const DashboardMenu = () => {
           {
             title: t('settings'),
             icon: <SettingsIcon />,
-            visible: true,
+            visible: lmmoRole || secretaryRole,
             navigateTo: '/congregation-settings',
           },
           {
@@ -324,6 +344,8 @@ const DashboardMenu = () => {
     secretaryRole,
     t,
     viewMeetingScheduleRole,
+    publisherRole,
+    elderRole,
   ]);
 
   return (

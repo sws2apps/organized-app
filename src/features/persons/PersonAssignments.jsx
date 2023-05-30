@@ -23,7 +23,9 @@ const PersonAssignments = ({ person, assignments, setAssignments }) => {
   const [isLCCBSConductor, setIsLCCBSConductor] = useState(false);
   const [isLCCBSReader, setIsLCCBSReader] = useState(false);
 
-  const roleLMMO = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
+  const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
+  const secretaryRole = Setting.cong_role.includes('secretary');
+  const isEditAllowed = lmmoRole || secretaryRole;
 
   const updateLocalState = (code) => {
     if (code === 100) return setIsTGWBibleReading(false);
@@ -125,7 +127,7 @@ const PersonAssignments = ({ person, assignments, setAssignments }) => {
                 <Checkbox
                   disabled={person.isFemale}
                   checked={person.isFemale ? false : isMidweekChairman}
-                  onChange={roleLMMO ? (e) => handleAssignmentsChange(110, e.target.checked) : null}
+                  onChange={lmmoRole ? (e) => handleAssignmentsChange(110, e.target.checked) : null}
                 />
               }
               label={t('chairmanMidweekMeeting', { ns: 'source' })}
@@ -135,7 +137,7 @@ const PersonAssignments = ({ person, assignments, setAssignments }) => {
                 <Checkbox
                   disabled={person.isFemale}
                   checked={person.isFemale ? false : isMidweekPrayer}
-                  onChange={roleLMMO ? (e) => handleAssignmentsChange(111, e.target.checked) : null}
+                  onChange={lmmoRole ? (e) => handleAssignmentsChange(111, e.target.checked) : null}
                 />
               }
               label={t('prayerMidweekMeeting', { ns: 'source' })}
@@ -161,7 +163,7 @@ const PersonAssignments = ({ person, assignments, setAssignments }) => {
                   <Checkbox
                     disabled={person.isFemale}
                     checked={person.isFemale ? false : isTGWTalk}
-                    onChange={roleLMMO ? (e) => handleAssignmentsChange(112, e.target.checked) : null}
+                    onChange={lmmoRole ? (e) => handleAssignmentsChange(112, e.target.checked) : null}
                   />
                 }
                 label={t('tgwTalk', { ns: 'source' })}
@@ -171,7 +173,7 @@ const PersonAssignments = ({ person, assignments, setAssignments }) => {
                   <Checkbox
                     disabled={person.isFemale}
                     checked={person.isFemale ? false : isTGWGems}
-                    onChange={roleLMMO ? (e) => handleAssignmentsChange(113, e.target.checked) : null}
+                    onChange={lmmoRole ? (e) => handleAssignmentsChange(113, e.target.checked) : null}
                   />
                 }
                 label={t('tgwGems', { ns: 'source' })}
@@ -181,7 +183,7 @@ const PersonAssignments = ({ person, assignments, setAssignments }) => {
                   <Checkbox
                     disabled={person.isFemale}
                     checked={person.isFemale ? false : isTGWBibleReading}
-                    onChange={roleLMMO ? (e) => handleAssignmentsChange(100, e.target.checked) : null}
+                    onChange={lmmoRole ? (e) => handleAssignmentsChange(100, e.target.checked) : null}
                   />
                 }
                 label={t('bibleReading', { ns: 'source' })}
@@ -198,7 +200,7 @@ const PersonAssignments = ({ person, assignments, setAssignments }) => {
                 control={
                   <Checkbox
                     checked={isAYFInitialCall}
-                    onChange={roleLMMO ? (e) => handleAssignmentsChange(101, e.target.checked) : null}
+                    onChange={lmmoRole ? (e) => handleAssignmentsChange(101, e.target.checked) : null}
                   />
                 }
                 label={t('initialCall', { ns: 'source' })}
@@ -207,7 +209,7 @@ const PersonAssignments = ({ person, assignments, setAssignments }) => {
                 control={
                   <Checkbox
                     checked={isAYFReturnVisit}
-                    onChange={roleLMMO ? (e) => handleAssignmentsChange(102, e.target.checked) : null}
+                    onChange={lmmoRole ? (e) => handleAssignmentsChange(102, e.target.checked) : null}
                   />
                 }
                 label={t('returnVisit', { ns: 'source' })}
@@ -216,7 +218,7 @@ const PersonAssignments = ({ person, assignments, setAssignments }) => {
                 control={
                   <Checkbox
                     checked={isAYFBibleStudy}
-                    onChange={roleLMMO ? (e) => handleAssignmentsChange(103, e.target.checked) : null}
+                    onChange={lmmoRole ? (e) => handleAssignmentsChange(103, e.target.checked) : null}
                   />
                 }
                 label={t('bibleStudy', { ns: 'source' })}
@@ -226,7 +228,7 @@ const PersonAssignments = ({ person, assignments, setAssignments }) => {
                   <Checkbox
                     disabled={person.isFemale}
                     checked={person.isFemale ? false : isAYFTalk}
-                    onChange={roleLMMO ? (e) => handleAssignmentsChange(104, e.target.checked) : null}
+                    onChange={lmmoRole ? (e) => handleAssignmentsChange(104, e.target.checked) : null}
                   />
                 }
                 label={t('talk', { ns: 'source' })}
@@ -244,7 +246,7 @@ const PersonAssignments = ({ person, assignments, setAssignments }) => {
                   <Checkbox
                     disabled={person.isFemale}
                     checked={person.isFemale ? false : isLCPart}
-                    onChange={roleLMMO ? (e) => handleAssignmentsChange(114, e.target.checked) : null}
+                    onChange={lmmoRole ? (e) => handleAssignmentsChange(114, e.target.checked) : null}
                   />
                 }
                 label={t('lcPart', { ns: 'source' })}
@@ -254,7 +256,7 @@ const PersonAssignments = ({ person, assignments, setAssignments }) => {
                   <Checkbox
                     disabled={person.isFemale}
                     checked={person.isFemale ? false : isLCCBSConductor}
-                    onChange={roleLMMO ? (e) => handleAssignmentsChange(115, e.target.checked) : null}
+                    onChange={lmmoRole ? (e) => handleAssignmentsChange(115, e.target.checked) : null}
                   />
                 }
                 label={`${t('cbs', { ns: 'source' })} - ${t('cbsConductor', { ns: 'source' })}`}
@@ -264,7 +266,7 @@ const PersonAssignments = ({ person, assignments, setAssignments }) => {
                   <Checkbox
                     disabled={person.isFemale}
                     checked={person.isFemale ? false : isLCCBSReader}
-                    onChange={roleLMMO ? (e) => handleAssignmentsChange(116, e.target.checked) : null}
+                    onChange={lmmoRole ? (e) => handleAssignmentsChange(116, e.target.checked) : null}
                   />
                 }
                 label={`${t('cbs', { ns: 'source' })} - ${t('cbsReader', { ns: 'source' })}`}
@@ -273,7 +275,7 @@ const PersonAssignments = ({ person, assignments, setAssignments }) => {
           </Box>
         </Box>
       </Box>
-      {!roleLMMO && (
+      {isEditAllowed && !lmmoRole && (
         <Typography sx={{ fontStyle: 'italic', marginTop: '20px' }} color="#FE4119">
           {t('midweekMeetingAssignmentsNotice')}
         </Typography>
