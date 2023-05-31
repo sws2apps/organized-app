@@ -22,7 +22,7 @@
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
     "@fingerprintjs/fingerprintjs-pro": "^3.8.3",
-    "@fontsource/roboto": "^5.0.1",
+    "@fontsource/roboto": "^5.0.2",
     "@mui/icons-material": "^5.11.16",
     "@mui/lab": "^5.0.0-alpha.132",
     "@mui/material": "^5.13.3",
