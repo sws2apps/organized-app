@@ -1,3 +1,17 @@
+# [2.81.0](https://github.com/sws2apps/cpe-sws/compare/v2.80.1...v2.81.0) (2023-05-31)
+
+
+### Features
+
+* **app:** support user field service reports submission ([5e3e514](https://github.com/sws2apps/cpe-sws/commit/5e3e514c1fcc2d61fa4377758f1b1799347d71ec))
+* **deps:** bump @fontsource/roboto from 5.0.1 to 5.0.2 ([e0f5e9e](https://github.com/sws2apps/cpe-sws/commit/e0f5e9e228adea6ff474dce96438ba3a813f39c5))
+* **deps:** bump @mui/lab from 5.0.0-alpha.131 to 5.0.0-alpha.132 ([3d0e441](https://github.com/sws2apps/cpe-sws/commit/3d0e44181d923aacd9bd3e422d27f57228a4bf6c))
+* **deps:** bump @mui/material from 5.13.2 to 5.13.3 ([0e50f2b](https://github.com/sws2apps/cpe-sws/commit/0e50f2b8e8652f822ea6eafb87b7485c72a6cf01))
+* **deps:** bump @tanstack/react-query from 4.29.7 to 4.29.12 ([a286c7e](https://github.com/sws2apps/cpe-sws/commit/a286c7ed13d3b9a12b5dda014f313eff2e506b52))
+* **deps:** bump jw-epub-parser from 1.39.0 to 1.40.0 ([3abd8dd](https://github.com/sws2apps/cpe-sws/commit/3abd8dd59127599672856122ab55a8586b46e888))
+* **deps:** bump mui-one-time-password-input from 1.1.0 to 1.1.1 ([9f8e3f4](https://github.com/sws2apps/cpe-sws/commit/9f8e3f47706eeb54e0d6624970d459cee37ffbcc))
+* **deps:** bump workbox-cli from 6.6.0 to 6.6.1 ([a569d07](https://github.com/sws2apps/cpe-sws/commit/a569d07662b9d9e016aa2a8301acf1f0c71034cc))
+
 ## [2.80.1](https://github.com/sws2apps/cpe-sws/compare/v2.80.0...v2.80.1) (2023-05-28)
 
 
