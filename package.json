@@ -52,7 +52,7 @@
     "use-pwa2": "^0.2.0",
     "validator": "^13.9.0",
     "vite-plugin-comlink": "^3.0.5",
-    "workbox-cli": "^6.6.1"
+    "workbox-cli": "^7.0.0"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.3",
