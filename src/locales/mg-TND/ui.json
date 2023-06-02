@@ -595,7 +595,7 @@
   "delegatePersonsDesc": "Afaka mijery ny anjaran’izy ireo amin’ny fivoriana, sady afaka mandefa ny tatitra momba ny fanompoana.",
   "deleteDbNoRecordDesc": "Ho voafafa daholo ny rakitra ampiasain’ny CPE amin’ity fitaovana ity. Tsindrio ilay hoe Hamafa raha hanohy.",
   "reminders": "Fampahatsiahivana",
-  "reminderS1Report": "The Congregation Field Service and Meeting Attendance (S-1) report is not yet ready. It should be submitted to the branch office no later than the 20th day of the month.",
+  "reminderS1Report": "Tsy mbola vonona ny Tatitra Momba ny Fanompoana sy Mpanatrika Fivoriana (S-1). Tokony halefa any amin’ny biraon’ny sampana izy io alohan’ny faharoapolon’ny volana.",
   "scheduleAlreadyAssignedWarning": "Efa manana anjara io olona io amin’ity herinandro ity",
   "myReports": "Tatitra Momba ny Fanompoako",
   "myBibleStudies": "Fampianarana Baiboliko",
@@ -624,5 +624,5 @@
   "cpeElderAutoAssignedRole": "<strong>Anti-panahy</strong> ity olona ity, ka mahazo alalana hanokatra CPE avy hatrany. Afaka mijery ny lisitry ny olona ao amin’ny fiangonana izy, mijery ny fandaharam-pivoriana, ary mandefa tatitra momba ny fanompoana. Safidio eo ambany ny andraikitra sy tombontsoa fanampiny mila omena azy.",
   "cpeMSAutoAssignedRole": "<strong>Mpikarakara Fiangonana</strong> ity olona ity, ka mahazo alalana hanokatra CPE avy hatrany. Afaka mijery ny fandaharam-pivoriana, ary mandefa tatitra momba ny fanompoana. Safidio eo ambany ny andraikitra sy tombontsoa fanampiny mila omena azy.",
   "cpePublisherAutoAssignedRole": "<strong>Mpitory</strong> ity olona ity, ka mahazo alalana hanokatra CPE avy hatrany. Afaka mijery ny fandaharam-pivoriana, ary mandefa tatitra momba ny fanompoana. Safidio eo ambany ny andraikitra sy tombontsoa fanampiny mila omena azy.",
-  "reminderS4Report": "Your Field Service Report (S-4) is not yet ready. It should be submitted to the secretary no later than the 6th day of the month."
+  "reminderS4Report": "Tsy mbola vonona ny Tatitra Momba ny Fanompoana (S-4). Tokony halefa any amin’ny mpitan-tsoratra izy io alohan’ny fahaeninan’ny volana."
 }
