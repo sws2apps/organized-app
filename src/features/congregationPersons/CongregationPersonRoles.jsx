@@ -27,9 +27,9 @@ const CongregationPersonRoles = ({
 
   const currentPerson = Persons.get(member.user_local_uid);
 
-  const isElder = currentPerson.isElder();
-  const isMS = currentPerson.isMS();
-  const isPublisher = currentPerson.isPublisher();
+  const isElder = currentPerson?.isElder();
+  const isMS = currentPerson?.isMS();
+  const isPublisher = currentPerson?.isPublisher();
 
   useEffect(() => {
     setDisableViewMeetingRole(false);
