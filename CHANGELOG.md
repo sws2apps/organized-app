@@ -1,3 +1,18 @@
+# [2.82.0](https://github.com/sws2apps/cpe-sws/compare/v2.81.0...v2.82.0) (2023-06-02)
+
+
+### Bug Fixes
+
+* **admin:** update handler when user is not found in local records ([c287476](https://github.com/sws2apps/cpe-sws/commit/c287476abc95435c2f188e052de305154b9d9f88))
+
+
+### Features
+
+* **deps:** bump @mui/x-date-pickers from 6.5.0 to 6.6.0 ([aa54a40](https://github.com/sws2apps/cpe-sws/commit/aa54a40f16a033cc957c20306e3a0a3015a8688c))
+* **deps:** bump @react-pdf/renderer from 3.1.9 to 3.1.10 ([591fa49](https://github.com/sws2apps/cpe-sws/commit/591fa49979bac3f43aceb168ee82033ed78afae3))
+* **deps:** bump dexie from 3.2.3 to 3.2.4 ([397282c](https://github.com/sws2apps/cpe-sws/commit/397282c03b3b9c0bbfe9fcc6647c8b600395b919))
+* **deps:** bump workbox-cli from 6.6.1 to 7.0.0 ([d66a5e7](https://github.com/sws2apps/cpe-sws/commit/d66a5e7cb78d00a7d0cd2fe63edc13b914ac49e5))
+
 # [2.81.0](https://github.com/sws2apps/cpe-sws/compare/v2.80.1...v2.81.0) (2023-05-31)
 
 
