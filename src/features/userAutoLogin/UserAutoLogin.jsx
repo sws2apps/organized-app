@@ -24,6 +24,7 @@ import backupWorkerInstance from '../../workers/backupWorker';
 import { Setting } from '../../classes/Setting';
 import { apiFetchSchedule } from '../../api';
 import { Persons } from '../../classes/Persons';
+import { UserS4Records } from '../../classes/UserS4Records';
 
 const UserAutoLogin = () => {
   let abortCont = useMemo(() => new AbortController(), []);
@@ -124,6 +125,11 @@ const UserAutoLogin = () => {
             for await (const person of data.cong_persons) {
               await Persons.cleanAdd(person);
             }
+          }
+
+          // update user field service reports if exists
+          if (data.user_fieldServiceReports) {
+            await UserS4Records.mergeFromBackup(data.user_fieldServiceReports);
           }
 
           // update schedule
