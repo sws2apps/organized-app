@@ -16,6 +16,8 @@ import { loadApp } from '../utils/app';
 import { getProfile } from './common';
 import backupWorkerInstance from '../workers/backupWorker';
 import { Setting } from '../classes/Setting';
+import { Persons } from '../classes/Persons';
+import { UserS4Records } from '../classes/UserS4Records';
 
 export const apiSendAuthorization = async () => {
   try {
@@ -158,6 +160,20 @@ export const apiHandleVerifyOTP = async (userOTP, isSetup, trustedDevice) => {
         await promiseSetRecoil(userMembersDelegateState, user_members_delegate);
         await promiseSetRecoil(accountTypeState, 'vip');
         await promiseSetRecoil(congRoleState, cong_role);
+
+        // update persons if exists
+        if (data.cong_persons) {
+          await Persons.reset();
+
+          for await (const person of data.cong_persons) {
+            await Persons.cleanAdd(person);
+          }
+        }
+
+        // update user field service reports if exists
+        if (data.user_fieldServiceReports) {
+          await UserS4Records.mergeFromBackup(data.user_fieldServiceReports);
+        }
 
         await loadApp();
 
