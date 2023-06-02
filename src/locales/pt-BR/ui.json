@@ -595,7 +595,7 @@
   "delegatePersonsDesc": "Acesse para ver suas partes de reunião e enviar seus relatórios de serviço de campo.",
   "deleteDbNoRecordDesc": "Todos os dados locais usados pelo CPE serão excluídos. Clique em Excluir para continuar.",
   "reminders": "Lembretes",
-  "reminderS1Report": "The Congregation Field Service and Meeting Attendance (S-1) report is not yet ready. It should be submitted to the branch office no later than the 20th day of the month.",
+  "reminderS1Report": "Seu relatório de congregação (S-1) ainda não está pronto. Deverá ser enviado a filial, até o dia 20 do mês.",
   "scheduleAlreadyAssignedWarning": "Esta pessoa já tem uma designação nesta semana",
   "myReports": "Meus relatórios",
   "myBibleStudies": "Meus estudos bíblicos",
@@ -624,5 +624,5 @@
   "cpeElderAutoAssignedRole": "Esta pessoa é um <strong>ancião</strong>. O acesso ao CPE foi concedido automaticamente. Ele pode ver o cadastro das pessoas da congregação, ver a programação das reuniões e enviar seu relatório de serviço de campo. Você também pode conceder privilégios e funções para ele abaixo.",
   "cpeMSAutoAssignedRole": "Esta pessoa é um <strong>servo ministerial</strong>. O acesso ao CPE foi concedido automaticamente. Ele pode visualizar a programação das reuniões e enviar seu relatório de serviço de campo. Você também pode conceder outras funções ou privilégios abaixo.",
   "cpePublisherAutoAssignedRole": "Esta pessoa é um <strong>publicador</strong>. O acesso ao CPE foi concedido automaticamente. Ele pode visualizar a programação das reuniões e enviar seu relatório de serviço de campo. Você também pode conceder outras funções ou privilégios abaixo.",
-  "reminderS4Report": "Your Field Service Report (S-4) is not yet ready. It should be submitted to the secretary no later than the 6th day of the month."
+  "reminderS4Report": "O seu relatório de serviço de campo (S-4) ainda não está pronto. Ele deverá ser enviado ao secretário, até o dia 6 do mês."
 }
