@@ -595,7 +595,7 @@
   "delegatePersonsDesc": "Access to view their meeting parts, and post their field service reports.",
   "deleteDbNoRecordDesc": "All local data used by CPE will be deleted. Click Delete to continue.",
   "reminders": "Reminders",
-  "reminderS1Report": "Your Field Service and Meeting Attendance (S-1) report is not yet ready. It should be submitted to the branch office no later than the 20th day of the month.",
+  "reminderS1Report": "The Congregation Field Service and Meeting Attendance (S-1) report is not yet ready. It should be submitted to the branch office no later than the 20th day of the month.",
   "scheduleAlreadyAssignedWarning": "This person already has an assignment this week",
   "myReports": "My Reports",
   "myBibleStudies": "My Bible Studies",
@@ -623,5 +623,6 @@
   "inactiveBibleStudyWarning": "Record set as inactive. You can try deleting it later.",
   "cpeElderAutoAssignedRole": "This person is an <strong>elder</strong>. Therefore, access to open CPE was automatically granted. He can view the congregation persons records, view the meeting schedules and post field service reports. You can also grant any additional roles and priviledges below.",
   "cpeMSAutoAssignedRole": "This person is a <strong>ministerial servant</strong>. Therefore, access to open CPE was automatically granted. He can view view the meeting schedules and post field service reports. You can also grant any additional roles and priviledges below.",
-  "cpePublisherAutoAssignedRole": "This person is a <strong>publisher</strong>. Therefore, access to open CPE was automatically granted. He can view view the meeting schedules and post field service reports. You can also grant any additional roles and priviledges below."
+  "cpePublisherAutoAssignedRole": "This person is a <strong>publisher</strong>. Therefore, access to open CPE was automatically granted. He can view view the meeting schedules and post field service reports. You can also grant any additional roles and priviledges below.",
+  "reminderS4Report": "Your Field Service Report (S-4) is not yet ready. It should be submitted to the secretary no later than the 6th day of the month."
 }
