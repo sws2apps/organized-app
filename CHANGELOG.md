@@ -1,3 +1,11 @@
+# [2.83.0](https://github.com/sws2apps/cpe-sws/compare/v2.82.0...v2.83.0) (2023-06-04)
+
+
+### Features
+
+* **app:** get user latest field service reports update on login ([c30d7e2](https://github.com/sws2apps/cpe-sws/commit/c30d7e248568ea052f012225037ac97df344b495))
+* **deps:** bump @react-pdf/renderer from 3.1.10 to 3.1.11 ([3dafb89](https://github.com/sws2apps/cpe-sws/commit/3dafb89c1bf1a0d382c6fe719b95733241e3b1a7))
+
 # [2.82.0](https://github.com/sws2apps/cpe-sws/compare/v2.81.0...v2.82.0) (2023-06-02)
 
 
