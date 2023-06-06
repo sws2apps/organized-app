@@ -39,7 +39,7 @@
     "html2pdf.js": "^0.10.1",
     "i18next": "^22.5.0",
     "interweave": "^13.1.0",
-    "jw-epub-parser": "^1.40.0",
+    "jw-epub-parser": "^1.40.1",
     "mui-one-time-password-input": "^1.1.1",
     "qrcode": "^1.5.3",
     "react": "^18.2.0",
