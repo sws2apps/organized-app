@@ -6,10 +6,13 @@ import HomeWorkIcon from '@mui/icons-material/HomeWork';
 import TextField from '@mui/material/TextField';
 import useCongregationSelect from './useCongregationSelect';
 
-const CongregationSelect = ({ country, setCongregation }) => {
+const CongregationSelect = ({ country, setCongregation, fetchCongregations }) => {
   const { t } = useTranslation('ui');
 
-  const { options, value, setValue, setInputValue, isLoading } = useCongregationSelect({ country });
+  const { options, value, setValue, setInputValue, isLoading } = useCongregationSelect({
+    country,
+    fetcher: fetchCongregations,
+  });
 
   return (
     <Autocomplete

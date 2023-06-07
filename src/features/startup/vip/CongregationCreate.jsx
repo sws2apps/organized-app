@@ -20,7 +20,7 @@ import {
 } from '../../../states/main';
 import CongregationSelect from '../../../components/CongregationSelect';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../../../states/notification';
-import { apiCreateCongregation, apiUpdateCongregation } from '../../../api';
+import { apiCreateCongregation, apiFetchCongregations, apiUpdateCongregation } from '../../../api';
 import {
   congAccountConnectedState,
   congIDState,
@@ -262,7 +262,11 @@ const CongregationCreate = () => {
 
             <CountrySelect setCountry={(value) => setCountry(value)} />
             {country !== null && (
-              <CongregationSelect country={country} setCongregation={(value) => setCongregation(value)} />
+              <CongregationSelect
+                country={country}
+                setCongregation={(value) => setCongregation(value)}
+                fetchCongregations={apiFetchCongregations}
+              />
             )}
             {congregation !== null && <CongregationRole role={role} setRole={(value) => setRole(value)} />}
           </Box>

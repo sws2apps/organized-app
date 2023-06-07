@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
-import { apiFetchCongregations } from '../../api';
 
-const useCongregationSelect = ({ country }) => {
+const useCongregationSelect = ({ country, fetcher }) => {
   const queryClient = useQueryClient();
 
   const [value, setValue] = useState(null);
@@ -21,17 +20,25 @@ const useCongregationSelect = ({ country }) => {
       }
 
       const fetchCongregations = async (name) => {
-        setIsLoading(true);
-        await queryClient.prefetchQuery({
-          queryKey: ['congregations_by_country'],
-          queryFn: () => apiFetchCongregations(country.code, name),
-        });
-        const tmpCongregations = queryClient.getQueryData(['congregations_by_country']);
-        if (active) {
-          setOptions(tmpCongregations.data);
-        }
+        try {
+          setIsLoading(true);
 
-        setIsLoading(false);
+          await queryClient.prefetchQuery({
+            queryKey: ['congregations_by_country'],
+            queryFn: () => fetcher(country.code, name),
+          });
+
+          const tmpCongregations = queryClient.getQueryData(['congregations_by_country']);
+
+          if (active) {
+            setOptions(tmpCongregations.data);
+          }
+
+          setIsLoading(false);
+        } catch (err) {
+          setIsLoading(false);
+          throw new Error(err);
+        }
       };
 
       const testValue = value ? `(${value.congNumber}) ${value.congName}` : '';
@@ -48,7 +55,7 @@ const useCongregationSelect = ({ country }) => {
       active = false;
       if (fetchTimer) clearTimeout(fetchTimer);
     };
-  }, [country, value, inputValue, queryClient]);
+  }, [country, value, inputValue, queryClient, fetcher]);
 
   return { options, value, setValue, setInputValue, isLoading };
 };
