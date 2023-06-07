@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+  workflow_dispatch:
+
+permissions: read-all
+
+jobs:
+  cypress-ci:
+    name: CPE Cypress CI
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+      - name: Checkout for testing
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
+        with:
+          ref: main
+          persist-credentials: false
+
+      - name: Use Node.js LTS version
+        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c
+        with:
+          node-version: lts/Hydrogen
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Cypress run component testing
+        uses: cypress-io/github-action@db1693016f23ccf9043f4b2428f9b04e5d502a73
+        with:
+          install: false
+          component: true
+          browser: chrome
+          record: true
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_CPE_SWS_RECORD_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CYPRESS_PROJECT_ID: vwwffz
