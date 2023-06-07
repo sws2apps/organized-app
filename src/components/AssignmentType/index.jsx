@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { styled, lighten, darken } from '@mui/system';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-import { AssignmentType as AssignmentTypeList } from '../classes/AssignmentType';
+import useAssignmentType from './useAssignmentType';
 
 const GroupHeader = styled('div')(({ theme }) => ({
   position: 'sticky',
@@ -23,46 +22,12 @@ const GroupItems = styled('ul')({
 const AssignmentType = ({ student, assignable, currentType, handleChangeType }) => {
   const { t } = useTranslation('ui');
 
-  const [localList, setLocalList] = useState([]);
-  const [isFemale, setIsFemale] = useState(false);
-  const [value, setValue] = useState(null);
-
-  const handleChange = (newVal) => {
-    setValue(newVal);
-    handleChangeType(newVal.value);
-  };
-
-  const getHeaderLabel = (value) => {
-    if (value === 'mm') return t('midweekMeeting');
-    if (value === 'tgw') return t('treasuresPart');
-    if (value === 'ayf') return t('applyFieldMinistryPart');
-    if (value === 'lc') return t('livingPart');
-
-    return '';
-  };
-
-  useEffect(() => {
-    setIsFemale(student.isFemale);
-  }, [student.isFemale]);
-
-  useEffect(() => {
-    if (assignable) {
-      let data = AssignmentTypeList.local().filter((assType) => assType.assignable === true);
-
-      if (isFemale) {
-        data = data.filter((assType) => assType.maleOnly !== true);
-      }
-
-      setLocalList(data);
-    } else {
-      setLocalList(AssignmentTypeList.local());
-    }
-  }, [assignable, isFemale]);
-
-  useEffect(() => {
-    const find = AssignmentTypeList.local().find((assType) => assType.value === currentType);
-    setValue(find);
-  }, [currentType]);
+  const { localList, handleChange, value, getHeaderLabel } = useAssignmentType({
+    person: student,
+    assignable,
+    currentType,
+    handleChangeType,
+  });
 
   return (
     <>

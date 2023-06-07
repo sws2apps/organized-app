@@ -1,0 +1,34 @@
+name: Cypress Tests (PR)
+
+on:
+  pull_request:
+  push:
+
+permissions: read-all
+
+jobs:
+  cypress-run:
+    name: Test application
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+      - name: Checkout for testing
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
+        with:
+          ref: main
+          persist-credentials: false
+
+      - name: Use Node.js LTS version
+        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c
+        with:
+          node-version: lts/Hydrogen
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Cypress run component testing
+        run: npm run test

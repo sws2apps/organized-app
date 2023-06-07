@@ -1,62 +1,18 @@
-import { useEffect, useState } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import Autocomplete from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import HomeWorkIcon from '@mui/icons-material/HomeWork';
 import TextField from '@mui/material/TextField';
-import { apiFetchCongregations } from '../api';
+import useCongregationSelect from './useCongregationSelect';
 
-const CongregationSelect = ({ country, setCongregation }) => {
-  const queryClient = useQueryClient();
-
+const CongregationSelect = ({ country, setCongregation, fetchCongregations }) => {
   const { t } = useTranslation('ui');
 
-  const [value, setValue] = useState(null);
-  const [inputValue, setInputValue] = useState('');
-  const [options, setOptions] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    let active = true;
-    let fetchTimer;
-
-    try {
-      if (inputValue.length < 2) {
-        setOptions(value ? [value] : []);
-        return undefined;
-      }
-
-      const fetchCongregations = async (name) => {
-        setIsLoading(true);
-        await queryClient.prefetchQuery({
-          queryKey: ['congregations_by_country'],
-          queryFn: () => apiFetchCongregations(country.code, name),
-        });
-        const tmpCongregations = queryClient.getQueryData(['congregations_by_country']);
-        if (active) {
-          setOptions(tmpCongregations.data);
-        }
-
-        setIsLoading(false);
-      };
-
-      const testValue = value ? `(${value.congNumber}) ${value.congName}` : '';
-      if (inputValue !== testValue) {
-        fetchTimer = setTimeout(() => {
-          fetchCongregations(inputValue);
-        }, 2000);
-      }
-    } catch (err) {
-      setIsLoading(false);
-    }
-
-    return () => {
-      active = false;
-      if (fetchTimer) clearTimeout(fetchTimer);
-    };
-  }, [country, value, inputValue, queryClient]);
+  const { options, value, setValue, setInputValue, isLoading } = useCongregationSelect({
+    country,
+    fetcher: fetchCongregations,
+  });
 
   return (
     <Autocomplete
