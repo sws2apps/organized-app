@@ -31,4 +31,4 @@ jobs:
         run: npm ci
 
       - name: Cypress run component testing
-        run: npm run cypress:component-test
+        run: npm run test
