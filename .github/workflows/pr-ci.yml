@@ -2,7 +2,6 @@ name: Cypress Tests (PR)
 
 on:
   pull_request:
-  push:
 
 permissions: read-all
 
@@ -31,4 +30,8 @@ jobs:
         run: npm ci
 
       - name: Cypress run component testing
-        run: npm run test
+        uses: cypress-io/github-action@db1693016f23ccf9043f4b2428f9b04e5d502a73
+        with:
+          install: false
+          component: true
+          browser: chrome
