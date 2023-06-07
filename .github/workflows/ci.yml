@@ -8,7 +8,6 @@ permissions: read-all
 jobs:
   cypress-run:
     name: Test application
-    if: ${{ github.repository == 'sws2apps/cpe-sws' }}
     runs-on: ubuntu-latest
 
     permissions:
@@ -35,3 +34,4 @@ jobs:
         with:
           component: true
           browser: chrome
+          config-file: cypress.config.js
