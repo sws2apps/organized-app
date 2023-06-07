@@ -32,6 +32,7 @@ jobs:
       - name: Cypress run component testing
         uses: cypress-io/github-action@db1693016f23ccf9043f4b2428f9b04e5d502a73
         with:
+          command-prefix: "--"
           install: false
           component: true
           browser: chrome
