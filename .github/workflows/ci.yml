@@ -15,7 +15,7 @@ jobs:
       id-token: 'write'
 
     steps:
-      - name: Checkout for release preparation
+      - name: Checkout for testing
         uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
         with:
           ref: main
@@ -26,12 +26,8 @@ jobs:
         with:
           node-version: lts/Hydrogen
 
-      - name: Install Cypress
-        run: npm install -D cypress
+      - name: Install Dependencies
+        run: npm ci
 
       - name: Cypress run component testing
-        uses: cypress-io/github-action@db1693016f23ccf9043f4b2428f9b04e5d502a73
-        with:
-          component: true
-          browser: chrome
-          config-file: cypress.config.js
+        run: npm run cypress:component-test
