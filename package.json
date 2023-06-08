@@ -23,7 +23,7 @@
     ]
   },
   "dependencies": {
-    "@emotion/react": "^11.11.0",
+    "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@fingerprintjs/fingerprintjs-pro": "^3.8.3",
     "@fontsource/roboto": "^5.0.2",
