@@ -4,6 +4,7 @@ pull_request_rules:
       - and:
         - author=dependabot[bot]
         - check-success=Code QL
+        - check-success=Test application
         - or:
             - title~=^chore\(deps\). [w+]|[^\s]+ from ([\d]+)\..+ to \1\.
             - title~=^feat\(deps\). [w+]|[^\s]+ from ([\d]+)\..+ to \1\.
