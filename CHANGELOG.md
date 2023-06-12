@@ -1,3 +1,25 @@
+# [2.84.0](https://github.com/sws2apps/cpe-sws/compare/v2.83.0...v2.84.0) (2023-06-12)
+
+
+### Bug Fixes
+
+* **administration:** infinite rerenders break page navigation ([36ab8d9](https://github.com/sws2apps/cpe-sws/commit/36ab8d94fa25c996ac8cda07d781dfef7ba12172))
+
+
+### Features
+
+* **deps:** bump @emotion/react from 11.11.0 to 11.11.1 ([4b3aeb0](https://github.com/sws2apps/cpe-sws/commit/4b3aeb06c0b2cdbd3a5b42d1f47195fbe486b80a))
+* **deps:** bump @mui/lab from 5.0.0-alpha.132 to 5.0.0-alpha.133 ([772d72e](https://github.com/sws2apps/cpe-sws/commit/772d72e6c305fdad181652606273cd3cb8658351))
+* **deps:** bump @mui/material from 5.13.3 to 5.13.4 ([85912f3](https://github.com/sws2apps/cpe-sws/commit/85912f38818c945a2adf151db9146bfdc7e07e56))
+* **deps:** bump @mui/x-date-pickers from 6.6.0 to 6.7.0 ([d8a6148](https://github.com/sws2apps/cpe-sws/commit/d8a6148c1f608e8fcdd6672e8cff89c0ec2c9a3e))
+* **deps:** bump @react-pdf/renderer from 3.1.11 to 3.1.12 ([429b257](https://github.com/sws2apps/cpe-sws/commit/429b2570f56ec985db4bed406ced5bffb0aab917))
+* **deps:** bump firebase from 9.22.1 to 9.22.2 ([1e76b06](https://github.com/sws2apps/cpe-sws/commit/1e76b06ef30416f8ed0fcf7761216a1d5f47d294))
+* **deps:** bump i18next from 22.5.0 to 22.5.1 ([76d99d9](https://github.com/sws2apps/cpe-sws/commit/76d99d9a34c4269a8c4a743e9b981ccf3093b637))
+* **deps:** bump jw-epub-parser from 1.40.0 to 1.40.1 ([443cefd](https://github.com/sws2apps/cpe-sws/commit/443cefd420f8d605978660dd48299bd934731ebd))
+* **deps:** bump react-router-dom from 6.11.2 to 6.12.0 ([f0ee523](https://github.com/sws2apps/cpe-sws/commit/f0ee523c47318b1c76d5bd914111f03e10b26b86))
+* **deps:** bump react-router-dom from 6.12.0 to 6.12.1 ([69f120c](https://github.com/sws2apps/cpe-sws/commit/69f120cf1ddf732fcb08bf2dd67cfa50e8814e55))
+* **reports:** add delete button to delete daily report ([af9bba3](https://github.com/sws2apps/cpe-sws/commit/af9bba31cd822df4b841b12641ff005284f7e0d5))
+
 # [2.83.0](https://github.com/sws2apps/cpe-sws/compare/v2.82.0...v2.83.0) (2023-06-04)
 
 
