@@ -13,14 +13,13 @@ import S4BibleStudiesField from './S4BibleStudiesField';
 import { UserS4Records } from '../../classes/UserS4Records';
 import { shortDatePickerFormatState } from '../../states/main';
 
-const S4DailyRecord = ({ isOpen, month }) => {
+const S4DailyRecord = ({ isOpen, month, date, setDate }) => {
   const { t } = useTranslation('ui');
 
   const lastDate = new Date(new Date(month).getFullYear(), new Date(month).getMonth() + 1, 0);
 
   const shortDatePickerFormat = useRecoilValue(shortDatePickerFormatState);
 
-  const [date, setDate] = useState(null);
   const [placements, setPlacements] = useState(0);
   const [videos, setVideos] = useState(0);
   const [returnVisits, setReturnVisits] = useState(0);
@@ -48,7 +47,7 @@ const S4DailyRecord = ({ isOpen, month }) => {
 
   useEffect(() => {
     setDate(null);
-  }, [month]);
+  }, [month, setDate]);
 
   return (
     <Collapse

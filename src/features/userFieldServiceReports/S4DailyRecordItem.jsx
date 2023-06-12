@@ -1,5 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
+import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { BibleStudies } from '../../classes/BibleStudies';
 
@@ -14,7 +16,7 @@ const styles = {
   },
 };
 
-const S4DailyRecord = ({ report }) => {
+const S4DailyRecord = ({ report, handleDeleteDailyRecord }) => {
   const { t } = useTranslation('ui');
 
   const date = new Date(report.month_date).getDate();
@@ -24,23 +26,32 @@ const S4DailyRecord = ({ report }) => {
     return bs.person_name;
   });
 
+  const handleDeleteRecord = async () => {
+    await handleDeleteDailyRecord(report.month_date);
+  };
+
   return (
     <Box sx={{ width: '300px', display: 'flex', gap: '8px' }}>
-      <Typography
-        sx={{
-          backgroundColor: '#3f51b5',
-          color: 'white',
-          width: '50px',
-          height: '50px',
-          padding: '10px',
-          textAlign: 'center',
-          borderRadius: '5px',
-          fontSize: '18px',
-          fontWeight: 'bold',
-        }}
-      >
-        {date}
-      </Typography>
+      <Box sx={{ display: 'flex', gap: '8px', flexDirection: 'column', alignItems: 'center' }}>
+        <Typography
+          sx={{
+            backgroundColor: '#3f51b5',
+            color: 'white',
+            width: '50px',
+            height: '50px',
+            padding: '10px',
+            textAlign: 'center',
+            borderRadius: '5px',
+            fontSize: '18px',
+            fontWeight: 'bold',
+          }}
+        >
+          {date}
+        </Typography>
+        <IconButton aria-label="delete" color="error" onClick={handleDeleteRecord}>
+          <DeleteIcon sx={{ fontSize: '35px' }} />
+        </IconButton>
+      </Box>
 
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px', marginBottom: '25px' }}>
         <Box>

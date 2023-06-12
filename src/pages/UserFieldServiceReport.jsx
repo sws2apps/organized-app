@@ -35,6 +35,7 @@ const UserFieldServiceReport = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isPending, setIsPending] = useState(true);
   const [isLocked, setIsLocked] = useState(false);
+  const [date, setDate] = useState(null);
 
   const secretaryRole = Setting.cong_role.includes('secretary');
 
@@ -67,6 +68,15 @@ const UserFieldServiceReport = () => {
     await currentS4.undoSubmit();
 
     setIsSubmitted(currentS4.isSubmitted);
+  };
+
+  const handleDeleteDailyRecord = async (report_date) => {
+    const currentReport = await UserS4Records.get(report_date);
+    await UserS4Records.delete(currentReport.report_uid);
+    setDate(null);
+
+    const currentS4 = await UserS4MonthlyReport.get(currentMonth);
+    setDailyRecords(currentS4.reports);
   };
 
   useEffect(() => {
@@ -209,7 +219,7 @@ const UserFieldServiceReport = () => {
           )}
         </Box>
 
-        <S4DailyRecord isOpen={openDailyRecord} month={currentMonth} />
+        <S4DailyRecord isOpen={openDailyRecord} month={currentMonth} date={date} setDate={setDate} />
       </Box>
 
       <UserS4 isOpen={showS4 || isLocked || isSubmitted} isSubmitted={isSubmitted} month={currentMonth} />
@@ -223,7 +233,9 @@ const UserFieldServiceReport = () => {
                   report.videos > 0 ||
                   report.duration !== 0 ||
                   report.returnVisits > 0 ||
-                  report.bibleStudies.length > 0) && <S4DailyRecordItem report={report} />}
+                  report.bibleStudies.length > 0) && (
+                  <S4DailyRecordItem report={report} handleDeleteDailyRecord={handleDeleteDailyRecord} />
+                )}
               </Box>
             );
           })}
