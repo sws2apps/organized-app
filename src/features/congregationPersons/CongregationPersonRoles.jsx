@@ -13,6 +13,8 @@ const styles = {
   },
 };
 
+let isRoleCheckerRan = false;
+
 const CongregationPersonRoles = ({
   member,
   handleCheckAdmin,
@@ -25,25 +27,28 @@ const CongregationPersonRoles = ({
 
   const [disableViewMeetingRole, setDisableViewMeetingRole] = useState(false);
 
-  const currentPerson = Persons.get(member.user_local_uid);
-
-  const isElder = currentPerson?.isElder();
-  const isMS = currentPerson?.isMS();
-  const isPublisher = currentPerson?.isPublisher();
-
   useEffect(() => {
-    setDisableViewMeetingRole(false);
+    if (!isRoleCheckerRan) {
+      setDisableViewMeetingRole(false);
 
-    if (member.cong_role) {
-      const secretaryRole = member.cong_role.includes('secretary');
-      const lmmoRole = member.cong_role.includes('lmmo') || member.cong_role.includes('lmmo-backup');
+      if (member.cong_role) {
+        const secretaryRole = member.cong_role.includes('secretary');
+        const lmmoRole = member.cong_role.includes('lmmo') || member.cong_role.includes('lmmo-backup');
 
-      if (secretaryRole || lmmoRole || isElder || isMS || isPublisher) {
-        handleCheckViewMeetingSchedule(false);
-        setDisableViewMeetingRole(true);
+        const currentPerson = Persons.get(member.user_local_uid);
+        const isElder = currentPerson?.isElder();
+        const isMS = currentPerson?.isMS();
+        const isPublisher = currentPerson?.isPublisher();
+
+        if (secretaryRole || lmmoRole || isElder || isMS || isPublisher) {
+          handleCheckViewMeetingSchedule(false);
+          setDisableViewMeetingRole(true);
+        }
+
+        isRoleCheckerRan = true;
       }
     }
-  }, [member.cong_role, handleCheckViewMeetingSchedule, isElder, isMS, isPublisher]);
+  }, [member.cong_role, member.user_local_uid, handleCheckViewMeetingSchedule]);
 
   return (
     <Box sx={{ marginTop: '20px' }}>
