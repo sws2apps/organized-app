@@ -28,7 +28,7 @@
     "@fingerprintjs/fingerprintjs-pro": "^3.8.3",
     "@fontsource/roboto": "^5.0.2",
     "@mui/icons-material": "^5.11.16",
-    "@mui/lab": "^5.0.0-alpha.133",
+    "@mui/lab": "^5.0.0-alpha.134",
     "@mui/material": "^5.13.4",
     "@mui/x-date-pickers": "^6.7.0",
     "@react-pdf/renderer": "^3.1.12",
