@@ -30,7 +30,7 @@ jobs:
         run: npm ci
 
       - name: Cypress run component testing
-        uses: cypress-io/github-action@db1693016f23ccf9043f4b2428f9b04e5d502a73
+        uses: cypress-io/github-action@e08da4966cec4d8f99cf72b09d3362aae2c5391c
         with:
           command-prefix: "--"
           install: false
