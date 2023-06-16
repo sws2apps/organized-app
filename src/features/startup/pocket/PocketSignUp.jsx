@@ -147,8 +147,8 @@ const PocketSignUp = () => {
         </Button>
         <Button
           variant="contained"
-          disabled={!isOnline || isProcessing || visitorID.length === 0}
-          endIcon={visitorID.length === 0 || isProcessing ? <CircularProgress size={25} /> : null}
+          disabled={!isOnline || isProcessing || visitorID.toString().length === 0}
+          endIcon={visitorID.toString().length === 0 || isProcessing ? <CircularProgress size={25} /> : null}
           onClick={handleSignUp}
         >
           {t('activate')}

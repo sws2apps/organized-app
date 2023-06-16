@@ -285,7 +285,7 @@ const SetupMFA = () => {
       >
         <Button
           variant="contained"
-          disabled={isProcessing || visitorID.length === 0}
+          disabled={isProcessing || visitorID.toString().length === 0}
           onClick={handleVerifyOTP}
           endIcon={isProcessing ? <CircularProgress size={25} /> : null}
         >

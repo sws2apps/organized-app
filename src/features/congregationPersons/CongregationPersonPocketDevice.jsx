@@ -41,7 +41,9 @@ const CongregationPersonPocketDevice = ({ device, handleDeleteDevice }) => {
               }}
             />
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-              <Typography sx={{ fontSize: '14px' }}>{device.name}</Typography>
+              <Typography
+                sx={{ fontSize: '14px' }}
+              >{`IP: ${device.visitor_details.ip} - ${device.visitor_details.ipLocation.country_name}`}</Typography>
               <Box>
                 <Chip
                   label={formatLastSeen(device.sws_last_seen)}

@@ -57,7 +57,7 @@ const PocketStartup = () => {
         return;
       }
 
-      if (isOnline && visitorID.length > 0) {
+      if (isOnline && visitorID.toString().length > 0) {
         const { data, status } = await apiPocketValidate();
 
         if (status !== 200) {

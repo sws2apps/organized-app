@@ -52,7 +52,7 @@ const AccountChooser = () => {
           </RadioGroup>
         </FormControl>
       </Box>
-      <Button variant="contained" disabled={visitorID.length === 0} onClick={handleConfirmOption}>
+      <Button variant="contained" disabled={visitorID.toString().length === 0} onClick={handleConfirmOption}>
         {t('next')}
       </Button>
     </Container>

@@ -35,11 +35,9 @@ const CongregationPersonVipDevice = ({ session, handleRevokeSession }) => {
             <GpsFixedIcon sx={{ fontSize: '60px', marginRight: '10px', color: '#1976d2' }} />
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
               <Typography sx={{ fontSize: '18px', fontWeight: 'bold' }}>
-                {`IP: ${session.visitor_details.ip} - ${session.visitor_details.ipLocation.country.name}`}
+                {`IP: ${session.visitor_details.ip} - ${session.visitor_details.ipLocation.country_name}`}
               </Typography>
-              <Typography>
-                {`${session.visitor_details.browserDetails.browserName} (${session.visitor_details.browserDetails.os} ${session.visitor_details.browserDetails.osVersion})`}
-              </Typography>
+              <Typography>{session.visitor_details.browser}</Typography>
               <Typography>{t('lastSeen', { last_seen: formatLastSeen(session.sws_last_seen) })}</Typography>
               {visitorID === session.visitorid && (
                 <Box>

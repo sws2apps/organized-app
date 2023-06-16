@@ -136,7 +136,7 @@ const UserAccountUpgrade = () => {
             <Box sx={{ marginTop: '10px', display: 'flex', justifyContent: 'flex-end' }}>
               <Button
                 variant="contained"
-                disabled={!isOnline || isProcessing || visitorID.length === 0}
+                disabled={!isOnline || isProcessing || visitorID.toString().length === 0}
                 endIcon={isProcessing ? <CircularProgress size={25} /> : null}
                 onClick={handleAuthSignIn}
               >
