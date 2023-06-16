@@ -3,8 +3,8 @@ import { RouterProvider, createHashRouter } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { ClientJS } from 'clientjs';
 import CssBaseline from '@mui/material/CssBaseline';
-import FingerprintJS from '@fingerprintjs/fingerprintjs-pro';
 import PrivateVipConnectedRoute from './components/PrivateVipConnectedRoute';
 import PrivateElderRoute from './components/PrivateElderRoute';
 import PrivateSecretaryRoute from './components/PrivateSecretaryRoute';
@@ -207,18 +207,11 @@ const App = ({ updatePwa }) => {
   }, [isLight]);
 
   useEffect(() => {
-    // get visitor ID and check if there is an active connection
     const getUserID = async () => {
       try {
-        const fpPromise = FingerprintJS.load({
-          apiKey: import.meta.env.VITE_FINGERPRINT_API_CLIENT_KEY,
-        });
+        const client = new ClientJS();
+        const visitorId = client.getFingerprint();
 
-        let visitorId = '';
-
-        const fp = await fpPromise;
-        const result = await fp.get();
-        visitorId = result.visitorId;
         console.info('CPE: Fingerprint: Device visitor id has been set');
 
         setVisitorID(visitorId);
@@ -228,9 +221,7 @@ const App = ({ updatePwa }) => {
       }
     };
 
-    if (isOnline) {
-      getUserID();
-    }
+    getUserID();
   }, [setVisitorID, isOnline]);
 
   useEffect(() => {

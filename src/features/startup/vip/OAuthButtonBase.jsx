@@ -142,7 +142,7 @@ const OAuthButtonBase = ({ buttonStyles, logo, text, provider, isEmail }) => {
       variant="contained"
       sx={{ ...buttonStyles, height: '41px', padding: 0, width: '320px', justifyContent: 'flex-start' }}
       onClick={handleAction}
-      disabled={visitorID.length === 0 || isAuthProcessing}
+      disabled={visitorID.toString().length === 0 || isAuthProcessing}
     >
       <Box sx={{ width: '50px', display: 'flex', alignItems: 'center' }}>
         <Box

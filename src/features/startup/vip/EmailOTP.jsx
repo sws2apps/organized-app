@@ -156,7 +156,7 @@ const EmailOTP = () => {
 
       <Button
         variant="contained"
-        disabled={isProcessingOTP || visitorID.length === 0}
+        disabled={isProcessingOTP || visitorID.toString().length === 0}
         onClick={handleSendEmailOTP}
         endIcon={isProcessingOTP ? <CircularProgress size={25} /> : null}
       >
@@ -186,7 +186,7 @@ const EmailOTP = () => {
       >
         <Button
           variant="contained"
-          disabled={isProcessing || visitorID.length === 0}
+          disabled={isProcessing || visitorID.toString().length === 0}
           onClick={handleVerifyEmailOTP}
           endIcon={isProcessing ? <CircularProgress size={25} /> : null}
         >

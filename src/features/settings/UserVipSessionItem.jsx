@@ -94,9 +94,7 @@ const UserSessionItem = ({ session, setSessions }) => {
         <GpsFixedIcon sx={{ fontSize: '60px', marginRight: '10px', color: '#1976d2' }} />
         <Box>
           <Typography sx={{ fontSize: '14px' }}>{`${session.ip} - ${session.country_name}`}</Typography>
-          <Typography sx={{ fontSize: '14px' }}>
-            {`${session.device.browserName} (${session.device.os} ${session.device.osVersion})`}
-          </Typography>
+          <Typography sx={{ fontSize: '14px' }}>{`${session.device.browserName} - ${session.device.os}`}</Typography>
           <Typography sx={{ fontSize: '14px' }}>{t('lastSeen', { last_seen: lastSeen })}</Typography>
           {visitorID === session.visitorid && (
             <Chip
