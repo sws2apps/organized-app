@@ -1,3 +1,20 @@
+# [2.85.0](https://github.com/sws2apps/cpe-sws/compare/v2.84.0...v2.85.0) (2023-06-17)
+
+
+### Features
+
+* **app:** remove dependency from fingerprintjs ([928e6b8](https://github.com/sws2apps/cpe-sws/commit/928e6b87f8f9cc248955a607877179c90daa9361))
+* **deps:** bump @fontsource/roboto from 5.0.2 to 5.0.3 ([5d07c5e](https://github.com/sws2apps/cpe-sws/commit/5d07c5ec127ef13f7869fb8f9c671b761ba28e5d))
+* **deps:** bump @mui/lab from 5.0.0-alpha.133 to 5.0.0-alpha.134 ([42990f5](https://github.com/sws2apps/cpe-sws/commit/42990f5e35f82517913b0d2202ed50f69795cc92))
+* **deps:** bump @mui/material from 5.13.4 to 5.13.5 ([ab19386](https://github.com/sws2apps/cpe-sws/commit/ab193866079ba368ee805b3e4b91c79270254fb4))
+* **deps:** bump @mui/x-date-pickers from 6.7.0 to 6.8.0 ([4b223d3](https://github.com/sws2apps/cpe-sws/commit/4b223d310658dd8fe6c5046673961ffb1566cf99))
+* **deps:** bump @tanstack/react-query from 4.29.12 to 4.29.13 ([ab62467](https://github.com/sws2apps/cpe-sws/commit/ab624677f4845f7604971493e446bd6455ddfc06))
+* **deps:** bump @tanstack/react-query from 4.29.13 to 4.29.14 ([b16ebaa](https://github.com/sws2apps/cpe-sws/commit/b16ebaaa5a4402dd4edecc96dd32e7d44c987bc5))
+* **deps:** bump i18next from 22.5.1 to 23.0.2 ([fa7ca8a](https://github.com/sws2apps/cpe-sws/commit/fa7ca8a699b45961f8d5f979ab68fe53e84086f8))
+* **deps:** bump i18next from 23.0.2 to 23.1.0 ([fa5df92](https://github.com/sws2apps/cpe-sws/commit/fa5df92b9cd128c12f5e115f88c39e0d40d37e88))
+* **deps:** bump react-i18next from 12.3.1 to 13.0.0 ([1f91d36](https://github.com/sws2apps/cpe-sws/commit/1f91d3618208978faf8e34452832013e41d4725c))
+* **deps:** bump react-router-dom from 6.12.1 to 6.13.0 ([9d69d91](https://github.com/sws2apps/cpe-sws/commit/9d69d910211a9a5213f09ab87081668c4fe0e0df))
+
 # [2.84.0](https://github.com/sws2apps/cpe-sws/compare/v2.83.0...v2.84.0) (2023-06-12)
 
 
