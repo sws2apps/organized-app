@@ -1,3 +1,10 @@
+## [2.85.2](https://github.com/sws2apps/cpe-sws/compare/v2.85.1...v2.85.2) (2023-06-17)
+
+
+### Bug Fixes
+
+* **administration:** cpe crashes when viewing some user details ([f01da28](https://github.com/sws2apps/cpe-sws/commit/f01da28dd278e7ac11c99f48bbaff3a872915666))
+
 ## [2.85.1](https://github.com/sws2apps/cpe-sws/compare/v2.85.0...v2.85.1) (2023-06-17)
 
 
