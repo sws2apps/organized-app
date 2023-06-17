@@ -1,3 +1,10 @@
+## [2.85.1](https://github.com/sws2apps/cpe-sws/compare/v2.85.0...v2.85.1) (2023-06-17)
+
+
+### Bug Fixes
+
+* **administration:** handle outdated records ([a08ac18](https://github.com/sws2apps/cpe-sws/commit/a08ac1816497a205d7b62c8b01500fb217d9040a))
+
 # [2.85.0](https://github.com/sws2apps/cpe-sws/compare/v2.84.0...v2.85.0) (2023-06-17)
 
 
