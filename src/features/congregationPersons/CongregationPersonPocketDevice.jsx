@@ -15,6 +15,18 @@ const CongregationPersonPocketDevice = ({ device, handleDeleteDevice }) => {
     return last_seen ? dateFormat(new Date(last_seen), t('shortDateTimeFormat')) : '';
   };
 
+  const getInfoIP = () => {
+    if (!device.visitor_details) return '';
+
+    let result = device.visitor_details.ip;
+
+    if (device.visitor_details.ipLocation?.country_name) {
+      result += ` - ${device.visitor_details.ipLocation.country_name}`;
+    }
+
+    return result;
+  };
+
   return (
     <Grid item key={device.visitorid} xs={12} md={6}>
       <Paper elevation={8} sx={{ padding: '10px' }}>
@@ -41,9 +53,8 @@ const CongregationPersonPocketDevice = ({ device, handleDeleteDevice }) => {
               }}
             />
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-              <Typography
-                sx={{ fontSize: '14px' }}
-              >{`IP: ${device.visitor_details.ip} - ${device.visitor_details.ipLocation.country_name}`}</Typography>
+              <Typography sx={{ fontSize: '18px', fontWeight: 'bold' }}>{`IP: ${getInfoIP()}`}</Typography>
+              <Typography>{device.visitor_details.browser || ''}</Typography>
               <Box>
                 <Chip
                   label={formatLastSeen(device.sws_last_seen)}

@@ -19,6 +19,16 @@ const CongregationPersonVipDevice = ({ session, handleRevokeSession }) => {
     return last_seen ? dateFormat(new Date(last_seen), t('shortDateTimeFormat')) : '';
   };
 
+  const getInfoIP = () => {
+    let result = session.visitor_details.ip;
+
+    if (session.visitor_details.ipLocation?.country_name) {
+      result += ` - ${session.visitor_details.ipLocation.country_name}`;
+    }
+
+    return result;
+  };
+
   return (
     <Grid item xs={12} lg={6}>
       <Paper elevation={8} sx={{ padding: '10px' }}>
@@ -34,10 +44,8 @@ const CongregationPersonVipDevice = ({ session, handleRevokeSession }) => {
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <GpsFixedIcon sx={{ fontSize: '60px', marginRight: '10px', color: '#1976d2' }} />
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-              <Typography sx={{ fontSize: '18px', fontWeight: 'bold' }}>
-                {`IP: ${session.visitor_details.ip} - ${session.visitor_details.ipLocation.country_name}`}
-              </Typography>
-              <Typography>{session.visitor_details.browser}</Typography>
+              <Typography sx={{ fontSize: '18px', fontWeight: 'bold' }}>{`IP: ${getInfoIP()}`}</Typography>
+              <Typography>{session.visitor_details.browser || ''}</Typography>
               <Typography>{t('lastSeen', { last_seen: formatLastSeen(session.sws_last_seen) })}</Typography>
               {visitorID === session.visitorid && (
                 <Box>
