@@ -1,3 +1,11 @@
+# [2.86.0](https://github.com/sws2apps/cpe-sws/compare/v2.85.2...v2.86.0) (2023-06-20)
+
+
+### Features
+
+* **app:** use fingerprintjs open-source ([1479fd6](https://github.com/sws2apps/cpe-sws/commit/1479fd6d7fad86b7f710e862738463ad9649a714))
+* **deps:** bump i18next from 23.1.0 to 23.2.0 ([445d77a](https://github.com/sws2apps/cpe-sws/commit/445d77ab565b3c7b8c76b2f5bdb1e30e289c0b2b))
+
 ## [2.85.2](https://github.com/sws2apps/cpe-sws/compare/v2.85.1...v2.85.2) (2023-06-17)
 
 
