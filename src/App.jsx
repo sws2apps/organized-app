@@ -3,7 +3,7 @@ import { RouterProvider, createHashRouter } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { ClientJS } from 'clientjs';
+import FingerprintJS from '@fingerprintjs/fingerprintjs';
 import CssBaseline from '@mui/material/CssBaseline';
 import PrivateVipConnectedRoute from './components/PrivateVipConnectedRoute';
 import PrivateElderRoute from './components/PrivateElderRoute';
@@ -209,19 +209,20 @@ const App = ({ updatePwa }) => {
   useEffect(() => {
     const getUserID = async () => {
       try {
-        const client = new ClientJS();
-        const visitorId = client.getFingerprint();
+        const fp = await FingerprintJS.load();
+        const result = await fp.get();
 
-        console.info('CPE: Fingerprint: Device visitor id has been set');
-
+        const visitorId = result.visitorId;
         setVisitorID(visitorId);
         backupWorkerInstance.setVisitorID(visitorId);
+
+        console.info('CPE: Fingerprint: Device visitor id has been set');
       } catch (error) {
         console.error(`CPE: Fingerprint: ${error}`);
       }
     };
 
-    getUserID();
+    if (isOnline) getUserID();
   }, [setVisitorID, isOnline]);
 
   useEffect(() => {
