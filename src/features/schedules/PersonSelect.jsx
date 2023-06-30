@@ -279,7 +279,7 @@ const PersonSelect = ({
               isLightTheme={isLightTheme}
               isAssistant={isAssistant}
             />
-            <Box sx={{ height: filterEnabled ? '80px' : '20px' }}></Box>
+            <Box sx={{ height: filterEnabled && !isAssistant ? '80px' : '20px' }}></Box>
             <Typography>{t('noOptions')}</Typography>
           </Box>
         }
