@@ -1,3 +1,27 @@
+# [2.87.0](https://github.com/sws2apps/cpe-sws/compare/v2.86.0...v2.87.0) (2023-06-30)
+
+
+### Bug Fixes
+
+* **schedules:** update person selector style when there is no assistant ([32d5d8f](https://github.com/sws2apps/cpe-sws/commit/32d5d8f722ab03ea3a2570b5a36a4bb00b887fcc))
+
+
+### Features
+
+* **deps:** bump @mui/material from 5.13.5 to 5.13.6 ([72c211f](https://github.com/sws2apps/cpe-sws/commit/72c211f4866f2dec95c2e4c755468d3e08fea10a))
+* **deps:** bump @mui/x-date-pickers from 6.8.0 to 6.9.0 ([7c4e4d4](https://github.com/sws2apps/cpe-sws/commit/7c4e4d45e41ff14fe2ac73aace48cf147fd6c8a1))
+* **deps:** bump @sws2apps/react-sw-helper from 1.14.0 to 1.15.0 ([37c0c3c](https://github.com/sws2apps/cpe-sws/commit/37c0c3cd1901a7cc90cc66f525be9caf82affae6))
+* **deps:** bump @tanstack/react-query from 4.29.14 to 4.29.15 ([2a0e8e1](https://github.com/sws2apps/cpe-sws/commit/2a0e8e174faccf77614837af885a0858c029fff7))
+* **deps:** bump @tanstack/react-query from 4.29.15 to 4.29.17 ([c1174b8](https://github.com/sws2apps/cpe-sws/commit/c1174b8fa31c19150cd271ea105e0f9e048a3522))
+* **deps:** bump @tanstack/react-query from 4.29.17 to 4.29.19 ([d319f6c](https://github.com/sws2apps/cpe-sws/commit/d319f6cadcb6ab979fbbc5120017d1ffbc185c1f))
+* **deps:** bump firebase from 9.22.2 to 9.23.0 ([e754b86](https://github.com/sws2apps/cpe-sws/commit/e754b86c02659153020dd39f618f1d8a100ba764))
+* **deps:** bump i18next from 23.2.0 to 23.2.1 ([f9d9baa](https://github.com/sws2apps/cpe-sws/commit/f9d9baa1ee803abd1657aee3fbf650d2632ce8fe))
+* **deps:** bump i18next from 23.2.1 to 23.2.2 ([02b363e](https://github.com/sws2apps/cpe-sws/commit/02b363e5fd17a26581d9cb8e8897ae288b806bf5))
+* **deps:** bump i18next from 23.2.3 to 23.2.6 ([45dd64a](https://github.com/sws2apps/cpe-sws/commit/45dd64a647d8cafd93e0c8ce394536bc6a9e518c))
+* **deps:** bump mui-one-time-password-input from 1.1.1 to 1.1.2 ([c366181](https://github.com/sws2apps/cpe-sws/commit/c366181b545ee7e9a314c79e9f9dcc06902fb09a))
+* **deps:** bump react-i18next from 13.0.0 to 13.0.1 ([bf6a5e1](https://github.com/sws2apps/cpe-sws/commit/bf6a5e1d8eff8ee9d02e77bb234155f028c6235e))
+* **deps:** bump react-router-dom from 6.13.0 to 6.14.0 ([8ed791d](https://github.com/sws2apps/cpe-sws/commit/8ed791d8c4d8f6f08225b01997438caee3246d32))
+
 # [2.86.0](https://github.com/sws2apps/cpe-sws/compare/v2.85.2...v2.86.0) (2023-06-20)
 
 
