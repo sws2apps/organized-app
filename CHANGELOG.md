@@ -1,3 +1,35 @@
+# [2.88.0](https://github.com/sws2apps/cpe-sws/compare/v2.87.0...v2.88.0) (2023-07-17)
+
+
+### Features
+
+* **deps:** bump @fingerprintjs/fingerprintjs from 3.4.1 to 3.4.2 ([730524d](https://github.com/sws2apps/cpe-sws/commit/730524d35d5752e4c661816d018dd8ce19b4ab03))
+* **deps:** bump @fontsource/roboto from 5.0.3 to 5.0.4 ([4187f53](https://github.com/sws2apps/cpe-sws/commit/4187f5336f4f9231b60cd114dd1169581bb9845d))
+* **deps:** bump @fontsource/roboto from 5.0.4 to 5.0.5 ([6a17e96](https://github.com/sws2apps/cpe-sws/commit/6a17e96141a99ed9b32884f121ea45911836192f))
+* **deps:** bump @mui/icons-material from 5.11.16 to 5.13.7 ([4e91402](https://github.com/sws2apps/cpe-sws/commit/4e91402e44e2f0fb52029e08908dd64327217078))
+* **deps:** bump @mui/icons-material from 5.13.7 to 5.14.0 ([5ad8f86](https://github.com/sws2apps/cpe-sws/commit/5ad8f862c76f54c1005e486bcfe94aabcbe5f443))
+* **deps:** bump @mui/lab from 5.0.0-alpha.134 to 5.0.0-alpha.135 ([50f3183](https://github.com/sws2apps/cpe-sws/commit/50f318352689250037420888fa0bfee646972095))
+* **deps:** bump @mui/lab from 5.0.0-alpha.135 to 5.0.0-alpha.136 ([184c9c7](https://github.com/sws2apps/cpe-sws/commit/184c9c7fb01a868f9699478a2134f53185bee6df))
+* **deps:** bump @mui/material from 5.13.6 to 5.13.7 ([4537bad](https://github.com/sws2apps/cpe-sws/commit/4537badc39e0f49d1427ceed4b4df5a41c98e1a1))
+* **deps:** bump @mui/material from 5.13.7 to 5.14.0 ([882e1ad](https://github.com/sws2apps/cpe-sws/commit/882e1ade7a62781c85a3b84ed7bc621d3b3bad92))
+* **deps:** bump @mui/x-date-pickers from 6.9.0 to 6.9.1 ([27117ba](https://github.com/sws2apps/cpe-sws/commit/27117ba796898fcf4fe0d42db5ea01e26ad4aee1))
+* **deps:** bump @mui/x-date-pickers from 6.9.1 to 6.9.2 ([bde392e](https://github.com/sws2apps/cpe-sws/commit/bde392e1af81c411d44bdb3e69b494bb2e6b2fdf))
+* **deps:** bump @mui/x-date-pickers from 6.9.2 to 6.10.0 ([6eac38c](https://github.com/sws2apps/cpe-sws/commit/6eac38c2dac23d9c42b06d7b38c9a9ac058547c1))
+* **deps:** bump @sws2apps/react-sw-helper from 1.15.0 to 1.16.0 ([89d67d0](https://github.com/sws2apps/cpe-sws/commit/89d67d0a2535a573399db1d7b394d4cc87533e7d))
+* **deps:** bump @tanstack/react-query from 4.29.19 to 4.29.23 ([2c4efe0](https://github.com/sws2apps/cpe-sws/commit/2c4efe045466a6b10ab23932985aaaaa2c6ecc85))
+* **deps:** bump firebase from 9.23.0 to 10.0.0 ([efbde9e](https://github.com/sws2apps/cpe-sws/commit/efbde9e57939ccfb5cf408d83ead88815d22e260))
+* **deps:** bump i18next from 23.2.6 to 23.2.7 ([63aca99](https://github.com/sws2apps/cpe-sws/commit/63aca9944c73990e9446203e8d93c4d54bf65438))
+* **deps:** bump i18next from 23.2.7 to 23.2.8 ([c5dec3f](https://github.com/sws2apps/cpe-sws/commit/c5dec3f542d983efe0d6e5ecd96c848e69ae6fac))
+* **deps:** bump i18next from 23.2.8 to 23.2.9 ([2e1d751](https://github.com/sws2apps/cpe-sws/commit/2e1d751e4d903d9e2ff03d994edc0d5db2cde389))
+* **deps:** bump i18next from 23.2.9 to 23.2.11 ([5cb5c60](https://github.com/sws2apps/cpe-sws/commit/5cb5c60b6677615601fbeb99f56c07f7042d920b))
+* **deps:** bump react-i18next from 13.0.1 to 13.0.2 ([4adb061](https://github.com/sws2apps/cpe-sws/commit/4adb0617c3a699bd9bd48de453ddbc0ecfbfd2e7))
+* **deps:** bump react-router-dom from 6.14.0 to 6.14.1 ([696517e](https://github.com/sws2apps/cpe-sws/commit/696517eaf8eb1c2c1cb16def019dd7bb41787b64))
+* **deps:** bump semver from 5.7.1 to 5.7.2 ([0ba96ab](https://github.com/sws2apps/cpe-sws/commit/0ba96abf1d4b2333221ec91494dd214234035eff))
+* **deps:** bump vite from 4.3.9 to 4.4.1 ([15b3ea2](https://github.com/sws2apps/cpe-sws/commit/15b3ea2cb537f8de92d080714161108ecbef90cb))
+* **deps:** bump vite from 4.4.1 to 4.4.2 ([5cbbe51](https://github.com/sws2apps/cpe-sws/commit/5cbbe51169b2f81b00aed8f3303a65bd7d7b9d1b))
+* **deps:** bump vite from 4.4.2 to 4.4.3 ([0ebc7a9](https://github.com/sws2apps/cpe-sws/commit/0ebc7a96734d295862bcf4aaf726a3917da203f5))
+* **deps:** bump vite from 4.4.3 to 4.4.4 ([c449d50](https://github.com/sws2apps/cpe-sws/commit/c449d50adc328cb6e8d6b1cb57056fec90d442dc))
+
 # [2.87.0](https://github.com/sws2apps/cpe-sws/compare/v2.86.0...v2.87.0) (2023-06-30)
 
 
