@@ -69,7 +69,7 @@
     "cypress": "^12.17.3",
     "eslint": "^8.46.0",
     "eslint-config-react-app": "^7.0.1",
-    "eslint-plugin-cypress": "^2.13.3",
+    "eslint-plugin-cypress": "^2.14.0",
     "prop-types": "^15.8.1",
     "serve": "^14.2.0",
     "vite-plugin-eslint": "^1.8.1"
