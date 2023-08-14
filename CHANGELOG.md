@@ -1,3 +1,56 @@
+# [2.89.0](https://github.com/sws2apps/cpe-sws/compare/v2.88.0...v2.89.0) (2023-08-14)
+
+
+### Bug Fixes
+
+* **workbox:** add tff file to be cached offline by service worker ([015c66e](https://github.com/sws2apps/cpe-sws/commit/015c66eeb2ac02a83cab65e5543847395adb3f62))
+
+
+### Features
+
+* **deps:** bump @fingerprintjs/fingerprintjs from 3.4.2 to 4.0.0 ([d6303cc](https://github.com/sws2apps/cpe-sws/commit/d6303cca860e62a61bae2c8b14524a9516a2e3c6))
+* **deps:** bump @fontsource/roboto from 5.0.5 to 5.0.6 ([07ac141](https://github.com/sws2apps/cpe-sws/commit/07ac1418bb27aa5f3d33cd9ea7a857422c2e94ce))
+* **deps:** bump @fontsource/roboto from 5.0.6 to 5.0.7 ([726c29f](https://github.com/sws2apps/cpe-sws/commit/726c29f653d4db8bc8200ee701413c449f3e7ffd))
+* **deps:** bump @fontsource/roboto from 5.0.7 to 5.0.8 ([fab00d7](https://github.com/sws2apps/cpe-sws/commit/fab00d7ca9d20af05968f6623bcb015d041a0566))
+* **deps:** bump @mui/icons-material from 5.14.0 to 5.14.1 ([c2380ec](https://github.com/sws2apps/cpe-sws/commit/c2380ec3970604bc4d04157cd225570b227085fe))
+* **deps:** bump @mui/icons-material from 5.14.1 to 5.14.3 ([1fba9b7](https://github.com/sws2apps/cpe-sws/commit/1fba9b74eb9da088b0673e869c47c8dea8408c72))
+* **deps:** bump @mui/lab from 5.0.0-alpha.136 to 5.0.0-alpha.137 ([a6465ef](https://github.com/sws2apps/cpe-sws/commit/a6465efa1d3d81643e4c79d288add9e7a19abb69))
+* **deps:** bump @mui/lab from 5.0.0-alpha.137 to 5.0.0-alpha.138 ([4b8b8f7](https://github.com/sws2apps/cpe-sws/commit/4b8b8f70f32aaac6a64e2a099c55c983b46ebe4c))
+* **deps:** bump @mui/lab from 5.0.0-alpha.138 to 5.0.0-alpha.139 ([044ea4f](https://github.com/sws2apps/cpe-sws/commit/044ea4f38ae0fa2040ce4c056d103df0180608aa))
+* **deps:** bump @mui/material from 5.14.0 to 5.14.1 ([d3c7325](https://github.com/sws2apps/cpe-sws/commit/d3c7325d684c570dbe243b22eafd1f47912324da))
+* **deps:** bump @mui/material from 5.14.1 to 5.14.2 ([f6b7687](https://github.com/sws2apps/cpe-sws/commit/f6b7687a56e0219466999b10cc01d49baaa96170))
+* **deps:** bump @mui/material from 5.14.2 to 5.14.3 ([2c34d05](https://github.com/sws2apps/cpe-sws/commit/2c34d05f0d55b115783a4d5240fa13daf24b485c))
+* **deps:** bump @mui/material from 5.14.3 to 5.14.4 ([a7d09c9](https://github.com/sws2apps/cpe-sws/commit/a7d09c918be525eacb909d9c081a4890d1de4fdf))
+* **deps:** bump @mui/x-date-pickers from 6.10.0 to 6.10.1 ([c427f83](https://github.com/sws2apps/cpe-sws/commit/c427f839c773b89999d6ea75d1c6f6b020147880))
+* **deps:** bump @mui/x-date-pickers from 6.10.1 to 6.10.2 ([0724972](https://github.com/sws2apps/cpe-sws/commit/072497288da7f62c64b9b4c1940b37d107fe7731))
+* **deps:** bump @mui/x-date-pickers from 6.10.2 to 6.11.0 ([dff10e9](https://github.com/sws2apps/cpe-sws/commit/dff10e99965b56d56d2a9f4920319bae2510acb6))
+* **deps:** bump @mui/x-date-pickers from 6.11.0 to 6.11.1 ([1dff257](https://github.com/sws2apps/cpe-sws/commit/1dff257d6d8fcb21a395581af6418840fdb533cd))
+* **deps:** bump @tanstack/react-query from 4.29.23 to 4.29.25 ([81057ec](https://github.com/sws2apps/cpe-sws/commit/81057ec5cae27b80b2bd3a9e91668958a24584a3))
+* **deps:** bump @tanstack/react-query from 4.29.25 to 4.32.0 ([e85c8e9](https://github.com/sws2apps/cpe-sws/commit/e85c8e9feea75fea1bad1d045dc5580b592944b2))
+* **deps:** bump @tanstack/react-query from 4.32.0 to 4.32.1 ([8466230](https://github.com/sws2apps/cpe-sws/commit/846623011078152a0b339ce581b3ed84d4343628))
+* **deps:** bump @tanstack/react-query from 4.32.1 to 4.32.5 ([6ae20e6](https://github.com/sws2apps/cpe-sws/commit/6ae20e69246c5f9f86b4389e96bcf90e99623e61))
+* **deps:** bump @tanstack/react-query from 4.32.5 to 4.32.6 ([aaab749](https://github.com/sws2apps/cpe-sws/commit/aaab749e6bfb00f8a170f74487c1a21e6790ebce))
+* **deps:** bump firebase from 10.0.0 to 10.1.0 ([4ade209](https://github.com/sws2apps/cpe-sws/commit/4ade209839b0e841c0984e5bf968cb25cd5b842f))
+* **deps:** bump i18next from 23.2.11 to 23.3.0 ([9cec5dd](https://github.com/sws2apps/cpe-sws/commit/9cec5dd648b6388c82e26470af01e83dd4387c7f))
+* **deps:** bump i18next from 23.3.0 to 23.4.1 ([89546a0](https://github.com/sws2apps/cpe-sws/commit/89546a0cbf1f120172c5f58e86e3fb00bc6cf061))
+* **deps:** bump i18next from 23.4.1 to 23.4.2 ([fa61bfc](https://github.com/sws2apps/cpe-sws/commit/fa61bfc7f74d1d43aa7395c477f233354f246db9))
+* **deps:** bump i18next from 23.4.2 to 23.4.3 ([220a864](https://github.com/sws2apps/cpe-sws/commit/220a864877f103501be487d2c619f649871a326a))
+* **deps:** bump i18next from 23.4.3 to 23.4.4 ([7431a00](https://github.com/sws2apps/cpe-sws/commit/7431a00016e950b150b84278dcec52072d27aa65))
+* **deps:** bump mui-one-time-password-input from 1.1.2 to 1.2.5 ([d6b5eb0](https://github.com/sws2apps/cpe-sws/commit/d6b5eb0c12f8279df482746b7b9272d485d56cef))
+* **deps:** bump mui-one-time-password-input from 1.2.5 to 2.0.0 ([8b1cc0d](https://github.com/sws2apps/cpe-sws/commit/8b1cc0d8d952fafc9e4364b1d4fcc021ebe14fa1))
+* **deps:** bump react-i18next from 13.0.2 to 13.0.3 ([a1c2afd](https://github.com/sws2apps/cpe-sws/commit/a1c2afdf82f5ec3af37ba9c5d1cd3fbfdfc99887))
+* **deps:** bump react-i18next from 13.0.3 to 13.1.1 ([00f4cbf](https://github.com/sws2apps/cpe-sws/commit/00f4cbfa9289b340b13c072568f4d1ba92dbc853))
+* **deps:** bump react-i18next from 13.1.1 to 13.1.2 ([429687c](https://github.com/sws2apps/cpe-sws/commit/429687c807339cfa83f60670cb60f34cebf4f554))
+* **deps:** bump react-router-dom from 6.14.1 to 6.14.2 ([3c74607](https://github.com/sws2apps/cpe-sws/commit/3c74607d5cd8266a4fe32f699ac91e46135e6bad))
+* **deps:** bump react-router-dom from 6.14.2 to 6.15.0 ([bd8fa8d](https://github.com/sws2apps/cpe-sws/commit/bd8fa8d086c0ab6f968acf0568e3b5c6abf52e10))
+* **deps:** bump tough-cookie and @cypress/request ([81ba81b](https://github.com/sws2apps/cpe-sws/commit/81ba81b30ba8e43b374f7426c31ce9f59dd16b89))
+* **deps:** bump validator from 13.9.0 to 13.11.0 ([b6da747](https://github.com/sws2apps/cpe-sws/commit/b6da747bc35f6063183a0a5c67100675fa9e9d7a))
+* **deps:** bump vite from 4.4.4 to 4.4.5 ([f8266c2](https://github.com/sws2apps/cpe-sws/commit/f8266c2111062745805835636876bc39a57ed31a))
+* **deps:** bump vite from 4.4.5 to 4.4.6 ([05bd9a7](https://github.com/sws2apps/cpe-sws/commit/05bd9a780fdf3e4e21a3b2311be7c1f5ecf814f8))
+* **deps:** bump vite from 4.4.6 to 4.4.7 ([b23b1d4](https://github.com/sws2apps/cpe-sws/commit/b23b1d45e8a4d2c38acb259f9834f86d767cad2a))
+* **deps:** bump vite from 4.4.7 to 4.4.8 ([3c70c2c](https://github.com/sws2apps/cpe-sws/commit/3c70c2cd593e59c555405c8a6eef28d14327c2ef))
+* **deps:** bump vite from 4.4.8 to 4.4.9 ([5a4b734](https://github.com/sws2apps/cpe-sws/commit/5a4b734c6a60578dcef65506412b8a13bb7d53ea))
+
 # [2.88.0](https://github.com/sws2apps/cpe-sws/compare/v2.87.0...v2.88.0) (2023-07-17)
 
 
