@@ -1,3 +1,10 @@
+## [2.89.1](https://github.com/sws2apps/cpe-sws/compare/v2.89.0...v2.89.1) (2023-08-14)
+
+
+### Bug Fixes
+
+* **workbox:** adjust extension for font file ([d362944](https://github.com/sws2apps/cpe-sws/commit/d362944a35661d60dc7abdfbc6df0ba90fab9bf5))
+
 # [2.89.0](https://github.com/sws2apps/cpe-sws/compare/v2.88.0...v2.89.0) (2023-08-14)
 
 
