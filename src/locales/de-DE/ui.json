@@ -286,7 +286,7 @@
   "s89NoData": "There is no assignment to be printed for this schedule",
   "publishPocket": "Share Schedule",
   "publishSelectSchedule": "Select the schedule you want to share:",
-  "publishSuccess": "Scheduled sucessfully published",
+  "publishSuccess": "Schedules published successfully",
   "weeksList": "Weeks List",
   "assignedParts": "Assigned Parts",
   "deleteScheduleConfirm": "Are you sure to delete all the assignments for the {{ currentSchedule }} schedule?",
@@ -622,7 +622,7 @@
   "approvedLessOneHourReport": "Approved for less than 1 hour report",
   "inactiveBibleStudyWarning": "Record set as inactive. You can try deleting it later.",
   "cpeElderAutoAssignedRole": "This person is an <strong>elder</strong>. Therefore, access to open CPE was automatically granted. He can view the congregation persons records, view the meeting schedules and post field service reports. You can also grant any additional roles and priviledges below.",
-  "cpeMSAutoAssignedRole": "This person is a <strong>ministerial servant</strong>. Therefore, access to open CPE was automatically granted. He can view view the meeting schedules and post field service reports. You can also grant any additional roles and priviledges below.",
-  "cpePublisherAutoAssignedRole": "This person is a <strong>publisher</strong>. Therefore, access to open CPE was automatically granted. He can view view the meeting schedules and post field service reports. You can also grant any additional roles and priviledges below.",
+  "cpeMSAutoAssignedRole": "This person is a <strong>ministerial servant</strong>. Therefore, access to open CPE was automatically granted. He can view the meeting schedules and post field service reports. You can also grant any additional roles and privileges below.",
+  "cpePublisherAutoAssignedRole": "This person is a <strong>publisher</strong>. Therefore, access to open CPE was automatically granted. He can view the meeting schedules and post field service reports. You can also grant any additional roles and privileges below.",
   "reminderS4Report": "Your Field Service Report (S-4) is not yet ready. It should be submitted to the secretary no later than the 6th day of the month."
 }
