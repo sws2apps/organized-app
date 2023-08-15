@@ -102,6 +102,7 @@ const ScheduleAssignment = ({ edit }) => {
   const [isElderLC1, setIsElderLC1] = useState(false);
   const [isElderLC2, setIsElderLC2] = useState(false);
 
+  const minLabel = t('minuteShortLabel');
   const week = weekToFormat.replaceAll('-', '/');
 
   const loadPersonHistory = (obj) => {
@@ -666,7 +667,7 @@ const ScheduleAssignment = ({ edit }) => {
             isLC={true}
             edit={edit}
             personA={lcPart1}
-            source={`${lcPart1Src} (${lcPart1Time} min.)`}
+            source={`${lcPart1Src} (${lcPart1Time} ${minLabel})`}
             lcPart={lcPart1Content}
             studentAID={23}
             assType={114}
@@ -691,7 +692,7 @@ const ScheduleAssignment = ({ edit }) => {
             isLC={true}
             edit={edit}
             personA={lcPart2}
-            source={`${lcPart2Src} (${lcPart2Time} min.)`}
+            source={`${lcPart2Src} (${lcPart2Time} ${minLabel})`}
             lcPart={lcPart2Content}
             studentAID={24}
             assType={114}
@@ -749,7 +750,7 @@ const ScheduleAssignment = ({ edit }) => {
           <ScheduleRowAssignment
             edit={edit}
             co={true}
-            source={`${t('coTalk')} (30 min.)`}
+            source={`${t('coTalk')} (30 ${minLabel})`}
             lcPart={coTalkTitle}
             personA={coName}
             currentWeek={week}

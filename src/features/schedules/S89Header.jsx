@@ -8,6 +8,7 @@ const S89Header = () => {
   const { t } = useTranslation('source');
 
   const sourceLang = useRecoilValue(sourceLangState);
+  const isLargeHeader = sourceLang === 'k';
 
   return (
     <Typography
@@ -16,7 +17,7 @@ const S89Header = () => {
         paddingTop: '10px',
         fontFamily: 'Segoe UI',
         fontWeight: 'bold',
-        fontSize: '15px',
+        fontSize: isLargeHeader ? '14px' : '15px',
         lineHeight: 1.3,
         color: 'black',
       }}

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { useRecoilValue } from 'recoil';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -79,10 +80,14 @@ const ScheduleRowAssignment = ({
   isLCNoAssign,
   isLCElder,
 }) => {
+  const { t } = useTranslation('ui');
+
   const classCount = useRecoilValue(classCountState);
 
   const [displayPerson, setDisplayPerson] = useState(false);
   const [displayCBSReader, setDisplayCBSReader] = useState(true);
+
+  const minLabel = t('minuteShortLabel');
 
   const getContainerStyle = () => {
     if (student) {
@@ -136,11 +141,7 @@ const ScheduleRowAssignment = ({
       <Box sx={getContainerStyle()}>
         <Typography variant="body1" sx={{ fontWeight: 'bold', fontSize: 16 }}>
           {!ayf && <>{source}</>}
-          {ayf && assType !== 107 && (
-            <>
-              {assTypeName} ({assTime} min.)
-            </>
-          )}
+          {ayf && assType !== 107 && <>{`${assTypeName} (${assTime} ${minLabel})`}</>}
         </Typography>
         {student && <Typography variant="body1">{studentPart}</Typography>}
         {lcPart && (
