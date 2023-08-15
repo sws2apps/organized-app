@@ -286,7 +286,7 @@
   "s89NoData": "Tsy misy anjara azo atao pirinty ao amin’io fandaharana io",
   "publishPocket": "Hizara Fandaharana",
   "publishSelectSchedule": "Safidio ny fandaharana tianao ho alefa:",
-  "publishSuccess": "Lasa soa aman-tsara ny fandaharana",
+  "publishSuccess": "Scheduled sucessfully published",
   "weeksList": "Lisitr’ireo Herinandro",
   "assignedParts": "Anjara Efa Notendrena",
   "deleteScheduleConfirm": "Tianao hofafana ve ny fanendrena rehetra ao amin’ny fandaharana {{ currentSchedule }}?",
@@ -622,7 +622,7 @@
   "approvedLessOneHourReport": "Ekena hamerina ora latsaky ny adiny 1",
   "inactiveBibleStudyWarning": "Nomarihina hoe tsy ampiasaina intsony io firaketana io. Andramo fafana indray amin’ny manaraka.",
   "cpeElderAutoAssignedRole": "<strong>Anti-panahy</strong> ity olona ity, ka mahazo alalana hanokatra CPE avy hatrany. Afaka mijery ny lisitry ny olona ao amin’ny fiangonana izy, mijery ny fandaharam-pivoriana, ary mandefa tatitra momba ny fanompoana. Safidio eo ambany ny andraikitra sy tombontsoa fanampiny mila omena azy.",
-  "cpeMSAutoAssignedRole": "<strong>Mpikarakara Fiangonana</strong> ity olona ity, ka mahazo alalana hanokatra CPE avy hatrany. Afaka mijery ny fandaharam-pivoriana, ary mandefa tatitra momba ny fanompoana. Safidio eo ambany ny andraikitra sy tombontsoa fanampiny mila omena azy.",
-  "cpePublisherAutoAssignedRole": "<strong>Mpitory</strong> ity olona ity, ka mahazo alalana hanokatra CPE avy hatrany. Afaka mijery ny fandaharam-pivoriana, ary mandefa tatitra momba ny fanompoana. Safidio eo ambany ny andraikitra sy tombontsoa fanampiny mila omena azy.",
+  "cpeMSAutoAssignedRole": "This person is a <strong>ministerial servant</strong>. Therefore, access to open CPE was automatically granted. He can view view the meeting schedules and post field service reports. You can also grant any additional roles and priviledges below.",
+  "cpePublisherAutoAssignedRole": "This person is a <strong>publisher</strong>. Therefore, access to open CPE was automatically granted. He can view view the meeting schedules and post field service reports. You can also grant any additional roles and priviledges below.",
   "reminderS4Report": "Tsy mbola vonona ny Tatitra Momba ny Fanompoana (S-4). Tokony halefa any amin’ny mpitan-tsoratra izy io alohan’ny fahaeninan’ny volana."
 }
