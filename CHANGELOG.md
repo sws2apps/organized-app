@@ -1,3 +1,13 @@
+# [2.90.0](https://github.com/sws2apps/cpe-sws/compare/v2.89.1...v2.90.0) (2023-08-15)
+
+
+### Features
+
+* **app:** add support for Ukrainian language ([258dd3c](https://github.com/sws2apps/cpe-sws/commit/258dd3cee1673e38a6a4860b5e4664b55e9e5fda))
+* **deps:** bump @mui/lab from 5.0.0-alpha.139 to 5.0.0-alpha.140 ([c159b21](https://github.com/sws2apps/cpe-sws/commit/c159b21f3a78440593cd9bfee03325bac05f59f0))
+* **deps:** bump @mui/material from 5.14.4 to 5.14.5 ([4f6b26d](https://github.com/sws2apps/cpe-sws/commit/4f6b26d100ae6f381e2e69bc6f9d48ff5c1a26fd))
+* **deps:** bump jw-epub-parser from 1.40.1 to 1.41.0 ([cdcdd36](https://github.com/sws2apps/cpe-sws/commit/cdcdd36f6ce9912858b77061125bba494cc970b2))
+
 ## [2.89.1](https://github.com/sws2apps/cpe-sws/compare/v2.89.0...v2.89.1) (2023-08-14)
 
 
