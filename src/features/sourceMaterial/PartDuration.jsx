@@ -7,6 +7,9 @@ const PartDuration = (props) => {
   const { t } = useTranslation('ui');
 
   const [partTime, setPartTime] = useState('');
+
+  const minLabel = t('minuteShortLabel');
+
   const maxTime = Array.from({ length: props.max }, (a, b) => b + 1);
 
   const handleChangeTime = async (e) => {
@@ -47,7 +50,7 @@ const PartDuration = (props) => {
       </MenuItem>
       {maxTime.map((time) => (
         <MenuItem key={time} value={time}>
-          {time} min.
+          {`${time} ${minLabel}`}
         </MenuItem>
       ))}
     </TextField>

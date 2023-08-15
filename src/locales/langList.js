@@ -5,4 +5,5 @@ export const LANGUAGE_LIST = [
   { code: 'tnd', locale: 'mg-TND', name: 'Tandroy', isUI: false, isSource: true, hasEPUB: true },
   { code: 'tnk', locale: 'mg-TNK', name: 'Tankarana', isUI: false, isSource: true, hasEPUB: true },
   { code: 'vz', locale: 'mg-VZ', name: 'Vezo', isUI: false, isSource: true, hasEPUB: true },
+  { code: 'k', locale: 'uk-UA', name: 'українська', isUI: true, isSource: true, hasEPUB: true },
 ];

@@ -10,6 +10,7 @@ const MyAssignmentsMonthItem = ({ assignment }) => {
   const { weekOf, assignmentContent, assignmentName, assignmentSource, assignmentTime, studyPoint } = assignment;
 
   const dateValue = weekOf.split('/')[1];
+  const minLabel = t('minuteShortLabel');
 
   const getSource = () => {
     let src = '';
@@ -17,7 +18,7 @@ const MyAssignmentsMonthItem = ({ assignment }) => {
       src = assignmentSource;
 
       if (assignmentTime) {
-        src = `(${assignmentTime} min.) ${src}`;
+        src = `(${assignmentTime} ${minLabel}) ${src}`;
       }
 
       if (studyPoint) {

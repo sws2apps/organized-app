@@ -23,6 +23,8 @@ const DataStorage = () => {
   const [isAutoBackup, setIsAutoBackup] = useState(false);
   const [backupInterval, setBackupInterval] = useState(5);
 
+  const minLabel = t('minuteShortLabel');
+
   const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
   const secretaryRole = Setting.cong_role.includes('secretary');
   const publisherRole =
@@ -79,7 +81,7 @@ const DataStorage = () => {
               >
                 {[5, 15, 30, 45].map((time) => (
                   <MenuItem key={time} value={time}>
-                    {time} min.
+                    {`${time} ${minLabel}`}
                   </MenuItem>
                 ))}
               </TextField>
