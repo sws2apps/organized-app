@@ -286,7 +286,7 @@
   "s89NoData": "Não existe nenhuma designação para ser impressa nessa programação",
   "publishPocket": "Compartilhar programação",
   "publishSelectSchedule": "Selecione a programação que você deseja compartilhar:",
-  "publishSuccess": "Scheduled sucessfully published",
+  "publishSuccess": "Programação enviada",
   "weeksList": "Semanas",
   "assignedParts": "Partes designadas",
   "deleteScheduleConfirm": "Tem certeza que deseja excluir todas as designações da programação de {{ currentSchedule }}?",
@@ -622,7 +622,7 @@
   "approvedLessOneHourReport": "Aprovado para relatório menor que 1 hora",
   "inactiveBibleStudyWarning": "Cadastro definido como inativo. Você pode tentar excluí-lo mais tarde.",
   "cpeElderAutoAssignedRole": "Esta pessoa é um <strong>ancião</strong>. O acesso ao CPE foi concedido automaticamente. Ele pode ver o cadastro das pessoas da congregação, ver a programação das reuniões e enviar seu relatório de serviço de campo. Você também pode conceder privilégios e funções para ele abaixo.",
-  "cpeMSAutoAssignedRole": "This person is a <strong>ministerial servant</strong>. Therefore, access to open CPE was automatically granted. He can view view the meeting schedules and post field service reports. You can also grant any additional roles and priviledges below.",
-  "cpePublisherAutoAssignedRole": "This person is a <strong>publisher</strong>. Therefore, access to open CPE was automatically granted. He can view view the meeting schedules and post field service reports. You can also grant any additional roles and priviledges below.",
+  "cpeMSAutoAssignedRole": "Esta pessoa é um <strong>servo ministerial</strong>. O acesso ao CPE foi concedido automaticamente. Ele pode visualizar a programação das reuniões e enviar seu relatório de serviço de campo. Você também pode conceder outras funções ou privilégios abaixo.",
+  "cpePublisherAutoAssignedRole": "Esta pessoa é um <strong>publicador</strong>. O acesso ao CPE foi concedido automaticamente. Ele pode visualizar a programação das reuniões e enviar seu relatório de serviço de campo. Você também pode conceder outras funções ou privilégios abaixo.",
   "reminderS4Report": "O seu relatório de serviço de campo (S-4) ainda não está pronto. Ele deverá ser enviado ao secretário, até o dia 6 do mês."
 }
