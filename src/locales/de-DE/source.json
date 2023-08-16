@@ -32,7 +32,7 @@
   "partLessTime": "{{ duration }} min. oder weniger",
   "studentAssistant": "Student/Partner:",
   "cbs": "Versammlungs­bibelstudium",
-  "cbsConductor": "Conductor",
+  "cbsConductor": "Leiter",
   "cbsReader": "Leser",
   "concludingComments": "Schlussworte",
   "coTalk": "Vortrag des Kreisaufsehers",
@@ -53,8 +53,8 @@
   "initialCallVariations": "0",
   "returnVisitVariations": "0",
   "lcNoAssignedVariations": "Ergebnisse unserer organisierten Tätigkeit|Aktueller Lagebericht der Leitenden Körperschaft",
-  "cbsLffWithPointsVariations": "lff lesson {{ lesson }} points {{ points }}|lff lesson {{ lesson }} point {{ points }}",
-  "cbsLffSectionOnlyVariations": "lff section",
+  "cbsLffWithPointsVariations": "lff Lektion {{ lesson }} Punkte {{ points }}|lff Lektion {{ lesson }} Punkt {{ points }}",
+  "cbsLffSectionOnlyVariations": "lff Abschnitt",
   "lcSourceElderVariations": "Aktuelles",
   "lcContentElderVariations": "Um von einem Ältesten zu behandeln"
 }

@@ -624,5 +624,7 @@
   "cpeElderAutoAssignedRole": "Esta pessoa é um <strong>ancião</strong>. O acesso ao CPE foi concedido automaticamente. Ele pode ver o cadastro das pessoas da congregação, ver a programação das reuniões e enviar seu relatório de serviço de campo. Você também pode conceder privilégios e funções para ele abaixo.",
   "cpeMSAutoAssignedRole": "Esta pessoa é um <strong>servo ministerial</strong>. O acesso ao CPE foi concedido automaticamente. Ele pode visualizar a programação das reuniões e enviar seu relatório de serviço de campo. Você também pode conceder outras funções ou privilégios abaixo.",
   "cpePublisherAutoAssignedRole": "Esta pessoa é um <strong>publicador</strong>. O acesso ao CPE foi concedido automaticamente. Ele pode visualizar a programação das reuniões e enviar seu relatório de serviço de campo. Você também pode conceder outras funções ou privilégios abaixo.",
-  "reminderS4Report": "O seu relatório de serviço de campo (S-4) ainda não está pronto. Ele deverá ser enviado ao secretário, até o dia 6 do mês."
+  "reminderS4Report": "O seu relatório de serviço de campo (S-4) ainda não está pronto. Ele deverá ser enviado ao secretário, até o dia 6 do mês.",
+  "appFullName": "Congregation Program for Everyone",
+  "appShortName": "CPE App"
 }
