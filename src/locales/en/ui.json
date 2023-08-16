@@ -624,7 +624,5 @@
   "cpeElderAutoAssignedRole": "This person is an <strong>elder</strong>. Therefore, access to open CPE was automatically granted. He can view the congregation persons records, view the meeting schedules and post field service reports. You can also grant any additional roles and priviledges below.",
   "cpeMSAutoAssignedRole": "This person is a <strong>ministerial servant</strong>. Therefore, access to open CPE was automatically granted. He can view view the meeting schedules and post field service reports. You can also grant any additional roles and priviledges below.",
   "cpePublisherAutoAssignedRole": "This person is a <strong>publisher</strong>. Therefore, access to open CPE was automatically granted. He can view view the meeting schedules and post field service reports. You can also grant any additional roles and priviledges below.",
-  "reminderS4Report": "Your Field Service Report (S-4) is not yet ready. It should be submitted to the secretary no later than the 6th day of the month.",
-  "appFullName": "Congregation Program for Everyone",
-  "appShortName": "CPE App"
+  "reminderS4Report": "Your Field Service Report (S-4) is not yet ready. It should be submitted to the secretary no later than the 6th day of the month."
 }
