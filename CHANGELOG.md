@@ -1,3 +1,17 @@
+# [2.91.0](https://github.com/sws2apps/cpe-sws/compare/v2.90.0...v2.91.0) (2023-08-16)
+
+
+### Bug Fixes
+
+* **locales:** capitalize ukrainian language name ([a896e7b](https://github.com/sws2apps/cpe-sws/commit/a896e7bc5def776f30cbf78c846aae4480881455))
+
+
+### Features
+
+* **app:** sync source and template language with ui ([885d0a5](https://github.com/sws2apps/cpe-sws/commit/885d0a5ca7aca2b55cda29276d9a433ea5924859))
+* **deps:** bump @fingerprintjs/fingerprintjs from 4.0.0 to 4.0.1 ([105c6fb](https://github.com/sws2apps/cpe-sws/commit/105c6fb69b1cd05a310c8a2c87784479d4481339))
+* **deps:** bump protobufjs from 6.11.3 to 6.11.4 ([91fdda3](https://github.com/sws2apps/cpe-sws/commit/91fdda3ab6e7cdb78f8fe6b1652815d462c32ede))
+
 # [2.90.0](https://github.com/sws2apps/cpe-sws/compare/v2.89.1...v2.90.0) (2023-08-15)
 
 
