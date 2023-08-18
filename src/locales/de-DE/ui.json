@@ -33,7 +33,7 @@
   "partLessTime": "{{ duration }} min. oder weniger",
   "shortDateFormat": "mm/tt/jjjj",
   "shortDatePickerFormat": "MM/tt/jjjj",
-  "shortDateTimeFormat": "mm/tt/jjjjjjj: HH:MM",
+  "shortDateTimeFormat": "mm/dd/yyyy: HH:MM",
   "treasuresPart": "Schätze Aus Gottes Wort",
   "applyFieldMinistryPart": "Uns im Dienst verbessern",
   "livingPart": "Unser Leben als Christ",
