@@ -39,7 +39,7 @@
     "dateformat": "^5.0.3",
     "dexie": "^3.2.4",
     "file-select-dialog": "^1.5.4",
-    "firebase": "^10.1.0",
+    "firebase": "^10.2.0",
     "html2pdf.js": "^0.10.1",
     "i18next": "^23.4.4",
     "interweave": "^13.1.0",
