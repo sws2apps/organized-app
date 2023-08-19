@@ -1,3 +1,10 @@
+## [2.92.1](https://github.com/sws2apps/cpe-sws/compare/v2.92.0...v2.92.1) (2023-08-19)
+
+
+### Bug Fixes
+
+* **locales:** update German language name ([0abfcd4](https://github.com/sws2apps/cpe-sws/commit/0abfcd4f8bd757508bb0f8b9e75cbce63e78a133))
+
 # [2.92.0](https://github.com/sws2apps/cpe-sws/compare/v2.91.0...v2.92.0) (2023-08-18)
 
 
