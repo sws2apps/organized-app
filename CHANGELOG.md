@@ -1,3 +1,12 @@
+# [2.92.0](https://github.com/sws2apps/cpe-sws/compare/v2.91.0...v2.92.0) (2023-08-18)
+
+
+### Features
+
+* **deps:** bump @mui/x-date-pickers from 6.11.1 to 6.11.2 ([d965022](https://github.com/sws2apps/cpe-sws/commit/d965022274cfe8fc40b9c56671022174a64ba97e))
+* **deps:** bump firebase from 10.1.0 to 10.2.0 ([7fc716e](https://github.com/sws2apps/cpe-sws/commit/7fc716e848771314165531a3a2d6194349833a42))
+* **locales:** support German language ([1954dfa](https://github.com/sws2apps/cpe-sws/commit/1954dfa112b85f17545773b7c039eb83cc7570ff))
+
 # [2.91.0](https://github.com/sws2apps/cpe-sws/compare/v2.90.0...v2.91.0) (2023-08-16)
 
 
