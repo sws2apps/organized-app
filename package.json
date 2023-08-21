@@ -33,7 +33,7 @@
     "@mui/x-date-pickers": "^6.11.2",
     "@react-pdf/renderer": "^3.1.12",
     "@sws2apps/react-sw-helper": "^1.16.0",
-    "@tanstack/react-query": "^4.32.6",
+    "@tanstack/react-query": "^4.33.0",
     "comlink": "^4.4.1",
     "date-fns": "^2.30.0",
     "dateformat": "^5.0.3",
