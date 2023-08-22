@@ -1,3 +1,15 @@
+# [2.93.0](https://github.com/sws2apps/cpe-sws/compare/v2.92.1...v2.93.0) (2023-08-22)
+
+
+### Bug Fixes
+
+* **app:** localize app full name and short name ([aa7efaa](https://github.com/sws2apps/cpe-sws/commit/aa7efaa7aa125a26b39db44ae2e230fa62990263))
+
+
+### Features
+
+* **deps:** bump @tanstack/react-query from 4.32.6 to 4.33.0 ([6784a9b](https://github.com/sws2apps/cpe-sws/commit/6784a9b40e63acec1903cebbe859aeacbe8bc92d))
+
 ## [2.92.1](https://github.com/sws2apps/cpe-sws/compare/v2.92.0...v2.92.1) (2023-08-19)
 
 
