@@ -27,7 +27,7 @@
     "@emotion/styled": "^11.11.0",
     "@fingerprintjs/fingerprintjs": "^4.0.1",
     "@fontsource/roboto": "^5.0.8",
-    "@mui/icons-material": "^5.14.3",
+    "@mui/icons-material": "^5.14.6",
     "@mui/lab": "^5.0.0-alpha.140",
     "@mui/material": "^5.14.5",
     "@mui/x-date-pickers": "^6.11.2",
