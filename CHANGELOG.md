@@ -1,3 +1,23 @@
+# [2.94.0](https://github.com/sws2apps/cpe-sws/compare/v2.93.0...v2.94.0) (2023-09-03)
+
+
+### Features
+
+* **deps:** bump @mui/icons-material from 5.14.3 to 5.14.6 ([99ad2a8](https://github.com/sws2apps/cpe-sws/commit/99ad2a89893cab7f6fe8d40f7be647694dea95b7))
+* **deps:** bump @mui/icons-material from 5.14.6 to 5.14.7 ([f303314](https://github.com/sws2apps/cpe-sws/commit/f3033148b89ee1d95abf6b3c2ecbe8cce5703d37))
+* **deps:** bump @mui/lab from 5.0.0-alpha.140 to 5.0.0-alpha.141 ([7d242b3](https://github.com/sws2apps/cpe-sws/commit/7d242b3356a7d5b6d19cb760455ef7a4c9fb9182))
+* **deps:** bump @mui/lab from 5.0.0-alpha.141 to 5.0.0-alpha.142 ([be6a281](https://github.com/sws2apps/cpe-sws/commit/be6a281359e32cb35b016d94a57e5bdcc34e3def))
+* **deps:** bump @mui/material from 5.14.5 to 5.14.6 ([8daf0bd](https://github.com/sws2apps/cpe-sws/commit/8daf0bd5a2120aba25c472f0344bec44ed516128))
+* **deps:** bump @mui/material from 5.14.6 to 5.14.7 ([219b7ea](https://github.com/sws2apps/cpe-sws/commit/219b7ea58d45358591819879f7dae58f34193183))
+* **deps:** bump @mui/x-date-pickers from 6.11.2 to 6.12.0 ([c2481b4](https://github.com/sws2apps/cpe-sws/commit/c2481b45caf6cdded18bb0c46a7e9116f579c5ed))
+* **deps:** bump @mui/x-date-pickers from 6.12.0 to 6.12.1 ([1b54db7](https://github.com/sws2apps/cpe-sws/commit/1b54db701b374468187a1dd3fc9213d55c0d1016))
+* **deps:** bump firebase from 10.2.0 to 10.3.0 ([10ba647](https://github.com/sws2apps/cpe-sws/commit/10ba647d3c3cd6db310ec72069f33774e8b2eda5))
+* **deps:** bump firebase from 10.3.0 to 10.3.1 ([ff547a2](https://github.com/sws2apps/cpe-sws/commit/ff547a2ee7e12d985be1bfba1d9cff34b3cb7b83))
+* **deps:** bump i18next from 23.4.4 to 23.4.5 ([07a114d](https://github.com/sws2apps/cpe-sws/commit/07a114d9671ab0c4cb20fc878394fc27a5e2192e))
+* **deps:** bump i18next from 23.4.5 to 23.4.6 ([171fc38](https://github.com/sws2apps/cpe-sws/commit/171fc3805d103b4e2a8cc10c0d52c281aaa81fd4))
+* **deps:** bump react-i18next from 13.1.2 to 13.2.0 ([50e5f2a](https://github.com/sws2apps/cpe-sws/commit/50e5f2aca1e510d983fcf0f3b93aa32474ef211b))
+* **deps:** bump react-i18next from 13.2.0 to 13.2.1 ([da52c4f](https://github.com/sws2apps/cpe-sws/commit/da52c4fba52f4bc711cf62a3027f9fad5eb3b0e2))
+
 # [2.93.0](https://github.com/sws2apps/cpe-sws/compare/v2.92.1...v2.93.0) (2023-08-22)
 
 
