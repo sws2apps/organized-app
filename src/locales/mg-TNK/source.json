@@ -17,10 +17,12 @@
   "otherPart": "Hafa",
   "midweekMeetingPrint": "Programony Fivorian̈a Andavanandra",
   "chairmanMidweekMeeting": "Pitaridraharaha",
-  "noMeeting": "Tsisy fivorian̈a",
+  "chairmanWeekendMeeting": "Chairman",
+  "noMMeeting": "There is no midweek meeting for this week",
   "auxClassCounselor": "Pan̈amia Torohevitry amy Kilasy",
   "song": "Hira",
   "prayerMidweekMeeting": "Vavaka",
+  "prayerWeekendMeeting": "Prayer",
   "openingComments": "Fampidiran̈a",
   "treasuresPart": "Valera Baka amy Volan̈a Zan̈ahary",
   "applyFieldMinistryPart": "Fampiofan̈ana amy Fanompoan̈a",
@@ -56,5 +58,13 @@
   "cbsLffWithPointsVariations": "lff leson {{ lesson }}: Hevitry {{ points }}",
   "cbsLffSectionOnlyVariations": "lff fizaran̈a",
   "lcSourceElderVariations": "Zavatra Ilain’ny Fiangonana",
-  "lcContentElderVariations": "Ataon’ny anti-panahy"
+  "lcContentElderVariations": "Ataon’ny anti-panahy",
+  "speaker": "Speaker",
+  "speakerSymposium": "Speaker (Symposium)",
+  "wtStudyReader": "Watchtower Study Reader",
+  "weekendMeetingPrint": "Weekend Meeting Schedule",
+  "publicTalk": "Public Talk",
+  "openingPrayerWeekendMeeting": "Opening Prayer",
+  "noWMeeting": "There is no weekend meeting for this week",
+  "noMeeting": "There is no meeting for this week"
 }
