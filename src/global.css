@@ -62,8 +62,12 @@
   margin-bottom: 8px;
 }
 
-.midweerkMeeting {
+.midweekMeeting {
   background-color: #21618c;
+}
+
+.weekendMeeting {
+  background-color: #196f3d;
 }
 
 .tgwPart {
@@ -136,4 +140,8 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.hardcoded_link a {
+  color: #78b1d7;
 }

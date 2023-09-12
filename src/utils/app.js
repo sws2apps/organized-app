@@ -9,10 +9,12 @@ import {
   congNameState,
   congNumberState,
   congRoleState,
-  meetingDayState,
+  midweekMeetingDayState,
   meetingTimeState,
-  openingPrayerAutoAssignState,
+  openingPrayerMMAutoAssignState,
   usernameState,
+  openingPrayerWMAutoAssignState,
+  weekendMeetingDayState,
 } from '../states/congregation';
 import {
   appLangState,
@@ -27,6 +29,8 @@ import { scheduleUseFullnameState } from '../states/schedule';
 import appDb from '../indexedDb/mainDb';
 import { Setting } from '../classes/Setting';
 import { Sources } from '../classes/Sources';
+import { publicTalksState } from '../states/sourceMaterial';
+import { S34s } from '../classes/S34s';
 
 export const loadApp = async () => {
   try {
@@ -43,14 +47,16 @@ export const loadApp = async () => {
       cong_name,
       class_count,
       cong_role,
-      meeting_day,
+      midweek_meeting_day,
       meeting_time,
       user_avatar,
       autoBackup,
       autoBackup_interval,
       schedule_useFullname,
       account_type,
-      opening_prayer_autoAssign,
+      opening_prayer_MM_autoAssign,
+      opening_prayer_WM_autoAssign,
+      weekend_meeting_day,
     } = Setting;
 
     backupWorkerInstance.setBackupInterval(autoBackup_interval);
@@ -79,12 +85,14 @@ export const loadApp = async () => {
     await promiseSetRecoil(congNumberState, cong_number || '');
     await promiseSetRecoil(congRoleState, cong_role || []);
     await promiseSetRecoil(classCountState, class_count || 1);
-    await promiseSetRecoil(meetingDayState, meeting_day || 3);
+    await promiseSetRecoil(midweekMeetingDayState, midweek_meeting_day || 3);
     await promiseSetRecoil(meetingTimeState, meeting_time || new Date(Date.now()));
     await promiseSetRecoil(appLangState, app_lang);
     await promiseSetRecoil(sourceLangState, source_lang || app_lang);
     await promiseSetRecoil(scheduleUseFullnameState, schedule_useFullname || false);
-    await promiseSetRecoil(openingPrayerAutoAssignState, opening_prayer_autoAssign || false);
+    await promiseSetRecoil(openingPrayerMMAutoAssignState, opening_prayer_MM_autoAssign || false);
+    await promiseSetRecoil(openingPrayerWMAutoAssignState, opening_prayer_WM_autoAssign || false);
+    await promiseSetRecoil(weekendMeetingDayState, weekend_meeting_day || 6);
 
     if (source_lang === undefined) await Setting.update({ source_lang: app_lang });
 
@@ -92,6 +100,7 @@ export const loadApp = async () => {
 
     const notifications = await dbGetNotifications();
     await promiseSetRecoil(appNotificationsState, notifications);
+    await promiseSetRecoil(publicTalksState, S34s.getLocal());
   } catch (err) {
     throw new Error(err);
   }
@@ -207,7 +216,7 @@ export const getErrorMessage = (msg) => {
 };
 
 export const getCurrentExistingWeekDate = async () => {
-  const schedules = await appDb.sched_MM.toArray();
+  const schedules = await appDb.sched.toArray();
 
   const today = new Date();
   const day = today.getDay();

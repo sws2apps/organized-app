@@ -215,7 +215,7 @@ const FieldServiceGroupItem = ({ currentList, group_index, group, isRefresh, set
     }
 
     const finalList = [];
-    for (const person of Persons.filterSecretary({ filter: 'allPublishers' })) {
+    for (const person of Persons.filterAdvanced({ filter: 'allPublishers' })) {
       const findUsed = usedOptions.find((used) => used.person_uid === person.person_uid);
       if (!findUsed) finalList.push(person);
     }

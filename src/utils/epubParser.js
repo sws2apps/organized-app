@@ -11,161 +11,174 @@ export const addEpubDataToDb = async (fileEPUB) => {
 };
 
 export const addJwDataToDb = async (dataJw) => {
-  for await (const data of dataJw) {
-    await addDataToDb(data);
-  }
+  await addDataToDb(dataJw);
 };
 
 const addDataToDb = async (data) => {
   try {
-    let assTypeList = AssignmentType.AYFOnly();
-
-    if (assTypeList.length === 0) {
-      await AssignmentType.loadAll();
-      assTypeList = AssignmentType.AYFOnly();
-    }
-
-    for await (const src of data.weeksData) {
-      const cnAYF = src.ayfCount;
-
+    for await (const src of data) {
       let obj = {};
-      let assType = '';
 
-      obj.weekOf = src.weekDate;
-      obj.weekDate_src = src.weekDateLocale;
+      let isMWB = false;
+      let isW = false;
 
-      // Weekly Bible Reading
-      obj.weeklyBibleReading_src = src.weeklyBibleReading;
+      for (const [key] of Object.entries(src)) {
+        if (key === 'mwb_week_date_locale') {
+          isMWB = true;
+        }
 
-      // Opening Song
-      obj.songFirst_src = src.songFirst;
-
-      // TGW Talk 10 min
-      obj.tgwTalk_src = src.tgw10Talk;
-
-      //Bible Reading Source
-      obj.bibleReading_src = src.tgwBRead;
-      obj.bibleReading_study = src.tgwBReadStudy;
-
-      // AYF Count
-      obj.ayfCount = src.ayfCount;
-
-      //AYF1 Assignment Type
-      assType = assTypeList.find((type) => type.label === src.ayfPart1Type).value;
-      obj.ass1_type = assType;
-
-      //AYF1 Assignment Time
-      obj.ass1_time = src.ayfPart1Time;
-
-      //AYF1 Assignment Study
-      obj.ass1_study = src.ayfPart1Study;
-
-      //AYF1 Assignment Source
-      obj.ass1_src = src.ayfPart1;
-
-      obj.ass2_type = '';
-      obj.ass2_time = '';
-      obj.ass2_study = '';
-      obj.ass2_src = '';
-      obj.ass3_type = '';
-      obj.ass3_time = '';
-      obj.ass3_study = '';
-      obj.ass3_src = '';
-      obj.ass4_type = '';
-      obj.ass4_time = '';
-      obj.ass4_study = '';
-      obj.ass4_src = '';
-
-      if (cnAYF > 1) {
-        //AYF2 Assignment Type
-        assType = assTypeList.find((type) => type.label === src.ayfPart2Type).value;
-        obj.ass2_type = assType;
-
-        //AYF2 Assignment Time
-        obj.ass2_time = src.ayfPart2Time;
-
-        //AYF2 Assignment Study
-        obj.ass2_study = src.ayfPart2Study;
-
-        //AYF2 Assignment Source
-        obj.ass2_src = src.ayfPart2;
+        if (key === 'w_study_date_locale') {
+          isW = true;
+        }
       }
 
-      if (cnAYF > 2) {
-        //AYF3 Assignment Type
-        assType = assTypeList.find((type) => type.label === src.ayfPart3Type).value;
-        obj.ass3_type = assType;
+      if (isMWB) {
+        let assTypeList = AssignmentType.AYFOnly();
 
-        //AYF3 Assignment Time
-        obj.ass3_time = src.ayfPart3Time;
+        if (assTypeList.length === 0) {
+          await AssignmentType.loadAll();
+          assTypeList = AssignmentType.AYFOnly();
+        }
 
-        //AYF3 Assignment Study
-        obj.ass3_study = src.ayfPart3Study;
+        let assType = '';
 
-        //AYF3 Assignment Source
-        obj.ass3_src = src.ayfPart3;
+        obj.weekOf = src.mwb_week_date || src.week_date;
+        obj.mwb_week_date_locale = src.mwb_week_date_locale;
+
+        // Weekly Bible Reading
+        obj.mwb_weekly_bible_reading = src.mwb_weekly_bible_reading;
+
+        // Opening Song
+        obj.mwb_song_first = src.mwb_song_first;
+
+        // TGW Talk 10 min
+        obj.mwb_tgw_talk = src.mwb_tgw_talk;
+
+        //Bible Reading Source
+        obj.mwb_tgw_bread = src.mwb_tgw_bread;
+
+        // AYF Count
+        const cnAYF = src.mwb_ayf_count;
+        obj.mwb_ayf_count = src.mwb_ayf_count;
+
+        //AYF1 Assignment Type
+        assType = assTypeList.find((type) => type.label === src.mwb_ayf_part1_type).value;
+        obj.mwb_ayf_part1_type = assType;
+
+        //AYF1 Assignment Time
+        obj.mwb_ayf_part1_time = src.mwb_ayf_part1_time;
+
+        //AYF1 Assignment Source
+        obj.mwb_ayf_part1 = src.mwb_ayf_part1;
+
+        obj.mwb_ayf_part2_type = '';
+        obj.mwb_ayf_part2_time = '';
+        obj.mwb_ayf_part2 = '';
+        obj.mwb_ayf_part3_type = '';
+        obj.mwb_ayf_part3_time = '';
+        obj.mwb_ayf_part3 = '';
+        obj.mwb_ayf_part4_type = '';
+        obj.mwb_ayf_part4_time = '';
+        obj.mwb_ayf_part4 = '';
+
+        if (cnAYF > 1) {
+          //AYF2 Assignment Type
+          assType = assTypeList.find((type) => type.label === src.mwb_ayf_part2_type).value;
+          obj.mwb_ayf_part2_type = assType;
+
+          //AYF2 Assignment Time
+          obj.mwb_ayf_part2_time = src.mwb_ayf_part2_time;
+
+          //AYF2 Assignment Source
+          obj.mwb_ayf_part2 = src.mwb_ayf_part2;
+        }
+
+        if (cnAYF > 2) {
+          //AYF3 Assignment Type
+          assType = assTypeList.find((type) => type.label === src.mwb_ayf_part3_type).value;
+          obj.mwb_ayf_part3_type = assType;
+
+          //AYF3 Assignment Time
+          obj.mwb_ayf_part3_time = src.mwb_ayf_part3_time;
+
+          //AYF3 Assignment Source
+          obj.mwb_ayf_part3 = src.mwb_ayf_part3;
+        }
+
+        if (cnAYF > 3) {
+          //AYF4 Assignment Type
+          assType = assTypeList.find((type) => type.label === src.mwb_ayf_part4_type).value;
+          obj.mwb_ayf_part4_type = assType;
+
+          //AYF4 Assignment Time
+          obj.mwb_ayf_part4_time = src.mwb_ayf_part4_time;
+
+          //AYF3 Assignment Source
+          obj.mwb_ayf_part2 = src.mwb_ayf_part2;
+        }
+
+        // Middle Song
+        obj.mwb_song_middle = src.mwb_song_middle;
+
+        // LC Count
+        obj.mwb_lc_count = src.mwb_lc_count;
+
+        // LC Part 1 Time
+        obj.mwb_lc_part1_time = src.mwb_lc_part1_time;
+
+        // LC Part 1 Source
+        obj.mwb_lc_part1 = src.mwb_lc_part1;
+
+        // LC Part 1 Content
+        obj.mwb_lc_part1_content = src.mwb_lc_part1_content;
+
+        obj.mwb_lc_part2 = '';
+        obj.mwb_lc_part2_content = '';
+        obj.mwb_lc_part2_time = '';
+
+        // LC Part 2
+        if (src.mwb_lc_count > 1) {
+          // LC Part 2 Time
+          obj.mwb_lc_part2_time = src.mwb_lc_part2_time;
+
+          // LC Part 2 Source
+          obj.mwb_lc_part2 = src.mwb_lc_part2;
+
+          // LC Part 2 Content
+          obj.mwb_lc_part2_content = src.mwb_lc_part2_content;
+        }
+
+        // CBS Source
+        obj.mwb_lc_cbs = src.mwb_lc_cbs;
+
+        // Concluding Song
+        obj.mwb_song_conclude = src.mwb_song_conclude;
       }
 
-      if (cnAYF > 3) {
-        //AYF4 Assignment Type
-        assType = assTypeList.find((type) => type.label === src.ayfPart4Type).value;
-        obj.ass4_type = assType;
-
-        //AYF4 Assignment Time
-        obj.ass4_time = src.ayfPart4Time;
-
-        //AYF4 Assignment Study
-        obj.ass4_study = src.ayfPart4Study;
-
-        //AYF3 Assignment Source
-        obj.ass4_src = src.ayfPart2;
+      if (isW) {
+        obj.weekOf = src.w_study_date || src.week_date;
+        obj.w_study_date_locale = src.w_study_date_locale;
+        obj.w_study_title = src.w_study_title;
+        obj.w_study_opening_song = src.w_study_opening_song;
+        obj.w_study_concluding_song = src.w_study_concluding_song;
       }
-
-      // Middle Song
-      obj.songMiddle_src = src.songMiddle;
-
-      // LC Count
-      obj.lcCount = src.lcCount;
-
-      // LC Part 1 Time
-      obj.lcPart1_time = src.lcPart1Time;
-
-      // LC Part 1 Source
-      obj.lcPart1_src = src.lcPart1;
-
-      // LC Part 1 Content
-      obj.lcPart1_content = src.lcPart1Content;
-
-      obj.lcPart2_time = '';
-      obj.lcPart2_src = '';
-      obj.lcPart2_content = '';
-
-      // LC Part 2
-      if (src.lcCount > 1) {
-        // LC Part 2 Time
-        obj.lcPart2_time = src.lcPart2Time;
-
-        // LC Part 2 Source
-        obj.lcPart2_src = src.lcPart2;
-
-        // LC Part 2 Content
-        obj.lcPart2_content = src.lcPart2Content;
-      }
-
-      // CBS Source
-      obj.cbs_src = src.lcCBS;
-
-      // Concluding Song
-      obj.songConclude_src = src.songConclude;
 
       const source = Sources.get(obj.weekOf) || new SourceClass(obj.weekOf);
       await source.save(obj, true);
 
       // edit schedule info
       obj = {};
-      obj.weekOf = src.weekDate;
       obj.week_type = 1;
-      obj.noMeeting = false;
+      obj.noMMeeting = false;
+      obj.noWMeeting = false;
+
+      if (isMWB) {
+        obj.weekOf = src.mwb_week_date || src.week_date;
+      }
+
+      if (isW) {
+        obj.weekOf = src.w_study_date || src.week_date;
+      }
 
       const schedule = Schedules.get(obj.weekOf) || new ScheduleClass(obj.weekOf);
       await schedule.saveInfo(obj, false);

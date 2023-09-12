@@ -30,7 +30,7 @@ const ScheduleAssignment = ({ edit }) => {
 
   const [refreshCurrent, setRefreshCurrent] = useRecoilState(refreshCurrentWeekState);
 
-  const { class_count, opening_prayer_autoAssign } = Setting;
+  const { class_count, opening_prayer_MM_autoAssign } = Setting;
 
   const [tgwTalkSrc, setTgwTalkSrc] = useState('');
   const [bibleReadingSrc, setBibleReadingSrc] = useState('');
@@ -221,7 +221,7 @@ const ScheduleAssignment = ({ edit }) => {
     }
 
     if (assID === 20) {
-      await saveAssignment(week, studentID, 'opening_prayer');
+      await saveAssignment(week, studentID, 'opening_prayerMM');
       setOpeningPrayer(studentValue);
     }
 
@@ -256,7 +256,7 @@ const ScheduleAssignment = ({ edit }) => {
     }
 
     if (assID === 27) {
-      await saveAssignment(week, studentID, 'closing_prayer');
+      await saveAssignment(week, studentID, 'closing_prayerMM');
       setClosingPrayer(studentValue);
     }
 
@@ -278,81 +278,91 @@ const ScheduleAssignment = ({ edit }) => {
     if (week !== '') {
       const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
       const secretaryRole = Setting.cong_role.includes('secretary');
+      const coordinatorRole = Setting.cong_role.includes('coordinator');
+      const publicTalkCoordinatorRole = Setting.cong_role.includes('public_talk_coordinator');
+      const elderRole = Setting.cong_role.includes('elder');
+      const msRole = Setting.cong_role.includes('ms');
+      const publisherRole = Setting.cong_role.includes('publisher');
       const viewMeetingScheduleRole =
-        !lmmoRole && !secretaryRole && Setting.cong_role.includes('view_meeting_schedule');
+        !lmmoRole &&
+        !secretaryRole &&
+        !coordinatorRole &&
+        !publicTalkCoordinatorRole &&
+        !elderRole &&
+        (Setting.cong_role.includes('view_meeting_schedule') || msRole || publisherRole);
       const pocketRole = Setting.account_type === 'pocket' || viewMeetingScheduleRole;
 
       const currentSource = Sources.get(week);
-
       const scheduleData = Schedules.get(week);
       const sourceData = currentSource.local();
+
       setChairmanA(pocketRole ? scheduleData.chairmanMM_A_dispName : scheduleData.chairmanMM_A);
       setChairmanB(pocketRole ? scheduleData.chairmanMM_B_dispName : scheduleData.chairmanMM_B);
-      setOpeningPrayer(pocketRole ? scheduleData.opening_prayer_dispName : scheduleData.opening_prayer);
-      setTgwTalkSrc(sourceData.tgwTalk_src);
+      setOpeningPrayer(pocketRole ? scheduleData.opening_prayerMM_dispName : scheduleData.opening_prayerMM);
+      setTgwTalkSrc(sourceData.mwb_tgw_talk);
       setTgwTalk(pocketRole ? scheduleData.tgw_talk_dispName : scheduleData.tgw_talk);
       setTgwGems(pocketRole ? scheduleData.tgw_gems_dispName : scheduleData.tgw_gems);
-      setBibleReadingSrc(sourceData.bibleReading_src);
+      setBibleReadingSrc(sourceData.mwb_tgw_bread);
       setBibleReadingStudy(sourceData.bibleReading_study);
       setStuBReadA(pocketRole ? scheduleData.bRead_stu_A_dispName : scheduleData.bRead_stu_A);
       setStuBReadB(pocketRole ? scheduleData.bRead_stu_B_dispName : scheduleData.bRead_stu_B);
-      setAss1Type(sourceData.ass1_type);
-      setAss1TypeName(sourceData.ass1_type_name);
-      setAss1Time(sourceData.ass1_time);
+      setAss1Type(sourceData.mwb_ayf_part1_type);
+      setAss1TypeName(sourceData.mwb_ayf_part1_type_name);
+      setAss1Time(sourceData.mwb_ayf_part1_time);
       setAss1Study(sourceData.ass1_study);
-      setAss1Src(sourceData.ass1_src);
+      setAss1Src(sourceData.mwb_ayf_part1);
       setStu1A(pocketRole ? scheduleData.ass1_stu_A_dispName : scheduleData.ass1_stu_A);
       setAss1A(pocketRole ? scheduleData.ass1_ass_A_dispName : scheduleData.ass1_ass_A);
       setStu1B(pocketRole ? scheduleData.ass1_stu_B_dispName : scheduleData.ass1_stu_B);
       setAss1B(pocketRole ? scheduleData.ass1_ass_B_dispName : scheduleData.ass1_ass_B);
-      setAss2Type(sourceData.ass2_type);
-      setAss2TypeName(sourceData.ass2_type_name);
-      setAss2Time(sourceData.ass2_time);
+      setAss2Type(sourceData.mwb_ayf_part2_type);
+      setAss2TypeName(sourceData.mwb_ayf_part2_type_name);
+      setAss2Time(sourceData.mwb_ayf_part2_time);
       setAss2Study(sourceData.ass2_study);
-      setAss2Src(sourceData.ass2_src);
+      setAss2Src(sourceData.mwb_ayf_part2);
       setStu2A(pocketRole ? scheduleData.ass2_stu_A_dispName : scheduleData.ass2_stu_A);
       setAss2A(pocketRole ? scheduleData.ass2_ass_A_dispName : scheduleData.ass2_ass_A);
       setStu2B(pocketRole ? scheduleData.ass2_stu_B_dispName : scheduleData.ass2_stu_B);
       setAss2B(pocketRole ? scheduleData.ass2_ass_B_dispName : scheduleData.ass2_ass_B);
-      setAss3Type(sourceData.ass3_type);
-      setAss3TypeName(sourceData.ass3_type_name);
-      setAss3Time(sourceData.ass3_time);
+      setAss3Type(sourceData.mwb_ayf_part3_type);
+      setAss3TypeName(sourceData.mwb_ayf_part3_type_name);
+      setAss3Time(sourceData.mwb_ayf_part3_time);
       setAss3Study(sourceData.ass3_study);
-      setAss3Src(sourceData.ass3_src);
+      setAss3Src(sourceData.mwb_ayf_part3);
       setStu3A(pocketRole ? scheduleData.ass3_stu_A_dispName : scheduleData.ass3_stu_A);
       setAss3A(pocketRole ? scheduleData.ass3_ass_A_dispName : scheduleData.ass3_ass_A);
       setStu3B(pocketRole ? scheduleData.ass3_stu_B_dispName : scheduleData.ass3_stu_B);
       setAss3B(pocketRole ? scheduleData.ass3_ass_B_dispName : scheduleData.ass3_ass_B);
-      setAss4Type(sourceData.ass4_type);
-      setAss4TypeName(sourceData.ass4_type_name);
-      setAss4Time(sourceData.ass4_time);
+      setAss4Type(sourceData.mwb_ayf_part4_type);
+      setAss4TypeName(sourceData.mwb_ayf_part4_type_name);
+      setAss4Time(sourceData.mwb_ayf_part4_time);
       setAss4Study(sourceData.ass4_study);
-      setAss4Src(sourceData.ass4_src);
+      setAss4Src(sourceData.mwb_ayf_part4);
       setStu4A(pocketRole ? scheduleData.ass4_stu_A_dispName : scheduleData.ass4_stu_A);
       setAss4A(pocketRole ? scheduleData.ass4_ass_A_dispName : scheduleData.ass4_ass_A);
       setStu4B(pocketRole ? scheduleData.ass4_stu_B_dispName : scheduleData.ass4_stu_B);
       setAss4B(pocketRole ? scheduleData.ass4_ass_B_dispName : scheduleData.ass4_ass_B);
-      if (sourceData.lcCount_override) setLcCount(sourceData.lcCount_override);
-      if (!sourceData.lcCount_override) setLcCount(sourceData.lcCount);
-      if (sourceData.lcPart1_time_override) {
-        setLcPart1Time(sourceData.lcPart1_time_override);
-        setLcPart1Src(sourceData.lcPart1_src_override);
-        setLcPart1Content(sourceData.lcPart1_content_override);
+      if (sourceData.mwb_lc_count_override) setLcCount(sourceData.mwb_lc_count_override);
+      if (!sourceData.mwb_lc_count_override) setLcCount(sourceData.lcCount);
+      if (sourceData.mwb_lc_part1_time_override) {
+        setLcPart1Time(sourceData.mwb_lc_part1_time_override);
+        setLcPart1Src(sourceData.mwb_lc_part1_override);
+        setLcPart1Content(sourceData.mwb_lc_part1_content_override);
       }
-      if (!sourceData.lcPart1_time_override) {
-        setLcPart1Time(sourceData.lcPart1_time);
-        setLcPart1Src(sourceData.lcPart1_src);
-        setLcPart1Content(sourceData.lcPart1_content);
+      if (!sourceData.mwb_lc_part1_time_override) {
+        setLcPart1Time(sourceData.mwb_lc_part1_time);
+        setLcPart1Src(sourceData.mwb_lc_part1);
+        setLcPart1Content(sourceData.mwb_lc_part1_content);
       }
-      if (sourceData.lcPart2_time_override) {
-        setLcPart2Time(sourceData.lcPart2_time_override);
-        setLcPart2Src(sourceData.lcPart2_src_override);
-        setLcPart2Content(sourceData.lcPart2_content_override);
+      if (sourceData.mwb_lc_part2_time_override) {
+        setLcPart2Time(sourceData.mwb_lc_part2_time_override);
+        setLcPart2Src(sourceData.mwb_lc_part2_override);
+        setLcPart2Content(sourceData.mwb_lc_part2_content_override);
       }
-      if (!sourceData.lcPart2_time_override) {
-        setLcPart2Time(sourceData.lcPart2_time);
-        setLcPart2Src(sourceData.lcPart2_src);
-        setLcPart2Content(sourceData.lcPart2_content);
+      if (!sourceData.mwb_lc_part2_time_override) {
+        setLcPart2Time(sourceData.mwb_lc_part2_time);
+        setLcPart2Src(sourceData.mwb_lc_part2);
+        setLcPart2Content(sourceData.mwb_lc_part2_content);
       }
       setLcPart1(pocketRole ? scheduleData.lc_part1_dispName : scheduleData.lc_part1);
       setLcPart2(pocketRole ? scheduleData.lc_part2_dispName : scheduleData.lc_part2);
@@ -360,11 +370,11 @@ const ScheduleAssignment = ({ edit }) => {
       setIsLC2NoAssign(currentSource.noAssignLC2());
       setIsElderLC1(currentSource.isElderPartLC1());
       setIsElderLC2(currentSource.isElderPartLC2());
-      setCbsSrc(sourceData.cbs_src);
+      setCbsSrc(sourceData.mwb_lc_cbs);
       setCbsConductor(pocketRole ? scheduleData.cbs_conductor_dispName : scheduleData.cbs_conductor);
       setCbsReader(pocketRole ? scheduleData.cbs_reader_dispName : scheduleData.cbs_reader);
-      setClosingPrayer(pocketRole ? scheduleData.closing_prayer_dispName : scheduleData.closing_prayer);
-      setCoTalkTitle(sourceData.co_talk_title);
+      setClosingPrayer(pocketRole ? scheduleData.closing_prayerMM_dispName : scheduleData.closing_prayerMM);
+      setCoTalkTitle(sourceData.mwb_co_talk_title);
       setWeekType(scheduleData.week_type);
       setCoName(Setting.co_displayName);
     }
@@ -459,7 +469,7 @@ const ScheduleAssignment = ({ edit }) => {
           </Box>
 
           {/* Opening Prayer */}
-          {!opening_prayer_autoAssign && (
+          {!opening_prayer_MM_autoAssign && (
             <SingleAssignment
               edit={edit}
               header={t('prayerMidweekMeeting', { ns: 'source' })}

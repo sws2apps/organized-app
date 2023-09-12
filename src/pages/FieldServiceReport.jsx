@@ -97,7 +97,7 @@ const FieldServiceReport = () => {
   useEffect(() => {
     if (currentMonth && filter !== '') {
       setSelected(null);
-      setOptions(Persons.filterSecretary({ filter, month: currentMonth, fsg: currentFSG }));
+      setOptions(Persons.filterAdvanced({ filter, month: currentMonth, fsg: currentFSG }));
     }
   }, [filter, currentMonth, currentFSG]);
 
@@ -140,10 +140,10 @@ const FieldServiceReport = () => {
         setIsSubmitted(currentReport.details.isSubmitted);
       }
 
-      const persons = Persons.filterSecretary({ filter: 'activePublishers', month: currentMonth });
+      const persons = Persons.filterAdvanced({ filter: 'activePublishers', month: currentMonth });
       setTotalPublishers(persons.length);
 
-      const reports = Persons.filterSecretary({ filter: 'haveReports', month: currentMonth });
+      const reports = Persons.filterAdvanced({ filter: 'haveReports', month: currentMonth });
       setHaveReports(reports.length);
     }
   }, [currentMonth, refresh]);

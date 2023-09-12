@@ -55,25 +55,27 @@ const AutofillSchedule = () => {
   const handleAssignSchedule = async () => {
     setIsAssigning(true);
 
-    const { class_count, opening_prayer_autoAssign } = Setting;
+    const { class_count, opening_prayer_MM_autoAssign } = Setting;
 
     // Assign Chairman
     for await (const item of weeks) {
       const week = item.value;
       const schedData = Schedules.get(week);
 
-      if (schedData.noMeeting === false) {
+      if (schedData.noMMeeting === false) {
         // Main Hall
-        const selected = selectRandomPerson({ assType: 110, week });
-        if (selected) {
-          await saveAssignment(week, selected, 'chairmanMM_A');
-          setAssigned((prev) => {
-            return prev + 1;
-          });
+        if (schedData.chairmanMM_A === '') {
+          const selected = selectRandomPerson({ assType: 110, week });
+          if (selected) {
+            await saveAssignment(week, selected, 'chairmanMM_A');
+            setAssigned((prev) => {
+              return prev + 1;
+            });
+          }
         }
 
         // Aux Class
-        if (class_count === 2 && schedData.week_type === 1) {
+        if (class_count === 2 && schedData.week_type === 1 && schedData.chairmanMM_B === '') {
           const selected = selectRandomPerson({ assType: 110, week });
           if (selected) {
             await saveAssignment(week, selected, 'chairmanMM_B');
@@ -90,7 +92,7 @@ const AutofillSchedule = () => {
       const week = item.value;
       const schedData = Schedules.get(week);
 
-      if (schedData.noMeeting === false && schedData.week_type === 1) {
+      if (schedData.noMMeeting === false && schedData.week_type === 1 && schedData.cbs_conductor === '') {
         // Conductor
         const selected = selectRandomPerson({ assType: 115, week });
         if (selected) {
@@ -108,29 +110,33 @@ const AutofillSchedule = () => {
       const sourceData = currentSource.local();
       const schedData = Schedules.get(week);
 
-      if (schedData.noMeeting === false) {
+      if (schedData.noMMeeting === false) {
         // Assign TGW Talk
-        const selected = selectRandomPerson({ assType: 112, week });
-        if (selected) {
-          await saveAssignment(week, selected, 'tgw_talk');
-          setAssigned((prev) => {
-            return prev + 1;
-          });
+        if (schedData.tgw_talk === '') {
+          const selected = selectRandomPerson({ assType: 112, week });
+          if (selected) {
+            await saveAssignment(week, selected, 'tgw_talk');
+            setAssigned((prev) => {
+              return prev + 1;
+            });
+          }
         }
 
         // Assign TGW Spiritual Gems
-        const selected2 = selectRandomPerson({ assType: 113, week });
-        if (selected2) {
-          await saveAssignment(week, selected2, 'tgw_gems');
-          setAssigned((prev) => {
-            return prev + 1;
-          });
+        if (schedData.tgw_gems === '') {
+          const selected2 = selectRandomPerson({ assType: 113, week });
+          if (selected2) {
+            await saveAssignment(week, selected2, 'tgw_gems');
+            setAssigned((prev) => {
+              return prev + 1;
+            });
+          }
         }
 
         const noAssignLC1 = currentSource.noAssignLC1();
         const isElderPartLC1 = currentSource.isElderPartLC1();
 
-        if (!noAssignLC1) {
+        if (!noAssignLC1 && schedData.lc_part1 === '') {
           // Assign LC Part 1
           const selected = selectRandomPerson({ assType: 114, week, isLC: true, isElderPart: isElderPartLC1 });
           if (selected) {
@@ -146,14 +152,14 @@ const AutofillSchedule = () => {
         const noAssignLC2 = currentSource.noAssignLC2();
         const isElderPartLC2 = currentSource.isElderPartLC2();
 
-        if (sourceData.lcCount_override === 0 && sourceData.lcCount === 2) {
+        if (sourceData.mwb_lc_count_override === 0 && sourceData.mwb_lc_count === 2) {
           isAssignLC2 = !noAssignLC2;
         }
-        if (sourceData.lcCount_override !== 0 && sourceData.lcCount_override === 2) {
+        if (sourceData.mwb_lc_count_override !== 0 && sourceData.mwb_lc_count_override === 2) {
           isAssignLC2 = !noAssignLC2;
         }
 
-        if (isAssignLC2) {
+        if (isAssignLC2 && schedData.lc_part2 === '') {
           const selected = selectRandomPerson({ assType: 114, week, isLC: true, isElderPart: isElderPartLC2 });
           if (selected) {
             await saveAssignment(week, selected, 'lc_part2');
@@ -165,8 +171,8 @@ const AutofillSchedule = () => {
 
         // Assign CBS Reader
         if (schedData.week_type === 1) {
-          const noAssignCBSReader = checkCBSReader(sourceData.cbs_src);
-          if (!noAssignCBSReader) {
+          const noAssignCBSReader = checkCBSReader(sourceData.mwb_lc_cbs);
+          if (!noAssignCBSReader && schedData.cbs_reader === '') {
             const selected = selectRandomPerson({ assType: 116, week });
             if (selected) {
               await saveAssignment(week, selected, 'cbs_reader');
@@ -177,11 +183,11 @@ const AutofillSchedule = () => {
           }
         }
 
-        if (!opening_prayer_autoAssign) {
+        if (!opening_prayer_MM_autoAssign && schedData.opening_prayerMM === '') {
           // Assign Opening Prayer
           const selected = selectRandomPerson({ assType: 111, week });
           if (selected) {
-            await saveAssignment(week, selected, 'opening_prayer');
+            await saveAssignment(week, selected, 'opening_prayerMM');
             setAssigned((prev) => {
               return prev + 1;
             });
@@ -189,25 +195,29 @@ const AutofillSchedule = () => {
         }
 
         // Assign Closing Prayer
-        const selected3 = selectRandomPerson({ assType: 111, week });
-        if (selected3) {
-          await saveAssignment(week, selected3, 'closing_prayer');
-          setAssigned((prev) => {
-            return prev + 1;
-          });
+        if (schedData.closing_prayerMM === '') {
+          const selected3 = selectRandomPerson({ assType: 111, week });
+          if (selected3) {
+            await saveAssignment(week, selected3, 'closing_prayerMM');
+            setAssigned((prev) => {
+              return prev + 1;
+            });
+          }
         }
 
         // Assign Bible Reading Main Hall
-        const selected4 = selectRandomPerson({ assType: 100, week, assClass: 'A' });
-        if (selected4) {
-          await saveAssignment(week, selected4, 'bRead_stu_A');
-          setAssigned((prev) => {
-            return prev + 1;
-          });
+        if (schedData.bRead_stu_A === '') {
+          const selected4 = selectRandomPerson({ assType: 100, week, assClass: 'A' });
+          if (selected4) {
+            await saveAssignment(week, selected4, 'bRead_stu_A');
+            setAssigned((prev) => {
+              return prev + 1;
+            });
+          }
         }
 
         // Assign Bible Reading Aux Class
-        if (class_count === 2 && schedData.week_type === 1) {
+        if (class_count === 2 && schedData.week_type === 1 && schedData.bRead_stu_B === '') {
           const selected = selectRandomPerson({ assType: 100, week, assClass: 'B' });
           if (selected) {
             await saveAssignment(week, selected, 'bRead_stu_B');
@@ -222,7 +232,7 @@ const AutofillSchedule = () => {
         let fldType = '';
 
         for await (const a of [1, 2, 3]) {
-          fldType = 'ass' + a + '_type';
+          fldType = 'mwb_ayf_part' + a + '_type';
           const assType = sourceData[fldType];
 
           // Main Hall
@@ -237,12 +247,14 @@ const AutofillSchedule = () => {
           ) {
             fldName = 'ass' + a + '_stu_A';
 
-            const selected = selectRandomPerson({ assType, week, assClass: 'A' });
-            if (selected) {
-              await saveAssignment(week, selected, fldName);
-              setAssigned((prev) => {
-                return prev + 1;
-              });
+            if (schedData[fldName] === '') {
+              const selected = selectRandomPerson({ assType, week, assClass: 'A' });
+              if (selected) {
+                await saveAssignment(week, selected, fldName);
+                setAssigned((prev) => {
+                  return prev + 1;
+                });
+              }
             }
           }
 
@@ -259,12 +271,14 @@ const AutofillSchedule = () => {
             ) {
               fldName = 'ass' + a + '_stu_B';
 
-              const selected = selectRandomPerson({ assType, week, assClass: 'B' });
-              if (selected) {
-                await saveAssignment(week, selected, fldName);
-                setAssigned((prev) => {
-                  return prev + 1;
-                });
+              if (schedData[fldName] === '') {
+                const selected = selectRandomPerson({ assType, week, assClass: 'B' });
+                if (selected) {
+                  await saveAssignment(week, selected, fldName);
+                  setAssigned((prev) => {
+                    return prev + 1;
+                  });
+                }
               }
             }
           }
@@ -272,7 +286,7 @@ const AutofillSchedule = () => {
 
         // Assign AYF Assistant
         for await (const a of [1, 2, 3]) {
-          fldType = 'ass' + a + '_type';
+          fldType = 'mwb_ayf_part' + a + '_type';
           const assType = sourceData[fldType];
 
           // Main Hall
@@ -289,12 +303,14 @@ const AutofillSchedule = () => {
 
             fldName = 'ass' + a + '_ass_A';
 
-            const selected = selectRandomPerson({ assType: 'isAssistant', week, mainStudent: stuA, assClass: 'A' });
-            if (selected) {
-              await saveAssignment(week, selected, fldName);
-              setAssigned((prev) => {
-                return prev + 1;
-              });
+            if (schedData[fldName] === '') {
+              const selected = selectRandomPerson({ assType: 'isAssistant', week, mainStudent: stuA, assClass: 'A' });
+              if (selected) {
+                await saveAssignment(week, selected, fldName);
+                setAssigned((prev) => {
+                  return prev + 1;
+                });
+              }
             }
           }
 
@@ -312,12 +328,15 @@ const AutofillSchedule = () => {
               const stuB = schedData[fldName];
 
               fldName = 'ass' + a + '_ass_B';
-              const selected = selectRandomPerson({ assType: 'isAssistant', week, mainStudent: stuB, assClass: 'B' });
-              if (selected) {
-                await saveAssignment(week, selected, fldName);
-                setAssigned((prev) => {
-                  return prev + 1;
-                });
+
+              if (schedData[fldName] === '') {
+                const selected = selectRandomPerson({ assType: 'isAssistant', week, mainStudent: stuB, assClass: 'B' });
+                if (selected) {
+                  await saveAssignment(week, selected, fldName);
+                  setAssigned((prev) => {
+                    return prev + 1;
+                  });
+                }
               }
             }
           }

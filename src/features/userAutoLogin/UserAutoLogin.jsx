@@ -80,6 +80,8 @@ const UserAutoLogin = () => {
             data.cong_role.includes('view_meeting_schedule') ||
             data.cong_role.includes('admin') ||
             data.cong_role.includes('secretary') ||
+            data.cong_role.includes('coordinator') ||
+            data.cong_role.includes('public_talk_coordinator') ||
             data.cong_role.includes('elder') ||
             data.cong_role.includes('publisher') ||
             data.cong_role.includes('ms');

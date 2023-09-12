@@ -74,8 +74,8 @@ const DeleteSchedule = () => {
       }
 
       // opening prayer
-      if (schedData.opening_prayer && schedData.opening_prayer !== '') {
-        await saveAssignment(week, undefined, 'opening_prayer');
+      if (schedData.opening_prayerMM && schedData.opening_prayerMM !== '') {
+        await saveAssignment(week, undefined, 'opening_prayerMM');
         setDeleted((prev) => {
           return prev + 1;
         });
@@ -178,8 +178,8 @@ const DeleteSchedule = () => {
       }
 
       // closing prayer
-      if (schedData.closing_prayer && schedData.closing_prayer !== '') {
-        await saveAssignment(week, undefined, 'closing_prayer');
+      if (schedData.closing_prayerMM && schedData.closing_prayerMM !== '') {
+        await saveAssignment(week, undefined, 'closing_prayerMM');
         setDeleted((prev) => {
           return prev + 1;
         });

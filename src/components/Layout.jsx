@@ -22,6 +22,7 @@ import EmailLinkAuthentication from '../features/startup/vip/EmailLinkAuthentica
 import NavBar from './NavBar';
 import {
   S140DownloadOpenState,
+  weekendMeetingDownloadOpenState,
   dlgAssDeleteOpenState,
   dlgAutoFillOpenState,
   isPublishOpenState,
@@ -34,7 +35,12 @@ import { MyAssignments } from '../features/myAssignments';
 import { CongregationPersonAdd } from '../features/congregationPersons';
 import WaitingPage from './WaitingPage';
 import Startup from '../features/startup';
-import { fetchNotifications, apiGetPendingFieldServiceReports } from '../api';
+import {
+  fetchNotifications,
+  apiGetPendingFieldServiceReports,
+  apiGetCongregationSpeakersRequestsStatus,
+  apiGetCongregationSpeakersRequests,
+} from '../api';
 import { dbSaveNotifications } from '../indexedDb/dbNotifications';
 import { WhatsNewContent } from '../features/whatsNew';
 import UserConfirmation from './UserConfirmation';
@@ -42,11 +48,13 @@ import { classesInitialize } from '../utils/classes';
 import { isAddSYOpenState, pendingFieldServiceReportsState } from '../states/report';
 import { AddServiceYear } from '../features/serviceYear';
 import { Setting } from '../classes/Setting';
-import { congIDState } from '../states/congregation';
+import { congAccountConnectedState, congIDState, congSpeakersRequestsState } from '../states/congregation';
+import { saveCongregationsSpeakersRequests } from '../utils/visiting_speakers_utils';
 
 await classesInitialize();
 
 const S140DownloadPDF = lazy(() => import('../features/pdfDownload/S140DownloadPDF'));
+const WeekendMeetingDownloadPDF = lazy(() => import('../features/pdfDownload/WeekendMeetingDownloadPDF'));
 
 const Layout = ({ updatePwa }) => {
   let location = useLocation();
@@ -56,6 +64,7 @@ const Layout = ({ updatePwa }) => {
   const [searchParams] = useSearchParams();
 
   const setPendingFieldServiceReports = useSetRecoilState(pendingFieldServiceReportsState);
+  const setCongSpeakersRequests = useSetRecoilState(congSpeakersRequestsState);
 
   const isAppLoad = useRecoilValue(isAppLoadState);
   const isOpenAbout = useRecoilValue(isAboutOpenState);
@@ -72,21 +81,42 @@ const Layout = ({ updatePwa }) => {
   const accountType = useRecoilValue(accountTypeState);
   const isAddSY = useRecoilValue(isAddSYOpenState);
   const isS140DownloadPDF = useRecoilValue(S140DownloadOpenState);
+  const isWeekendMeetingDownloadPDF = useRecoilValue(weekendMeetingDownloadOpenState);
   const congID = useRecoilValue(congIDState);
+  const congAccountConnected = useRecoilValue(congAccountConnectedState);
 
   const secretaryRole = Setting.cong_role.includes('secretary');
+  const publicTalkCoordinatorRole = Setting.cong_role.includes('public_talk_coordinator');
 
   const { data: announcements } = useQuery({
     queryKey: ['annoucements'],
     queryFn: fetchNotifications,
-    refetchInterval: 60000,
+    refetchInterval: 30 * 60 * 1000,
+    staleTime: 30 * 60 * 1000,
   });
 
   const { data: pending_fieldServiceReports } = useQuery({
-    enabled: secretaryRole && congID !== '',
+    enabled: congAccountConnected && secretaryRole && congID !== '',
     queryKey: ['pendingFieldServiceReports'],
     queryFn: apiGetPendingFieldServiceReports,
-    refetchInterval: 60000,
+    refetchInterval: 1 * 60 * 1000,
+    staleTime: 1 * 60 * 1000,
+  });
+
+  const { data: cong_speakers_requests } = useQuery({
+    enabled: congAccountConnected && publicTalkCoordinatorRole && congID !== '',
+    queryKey: ['congregationSpeakersRequests'],
+    queryFn: apiGetCongregationSpeakersRequests,
+    refetchInterval: 15000,
+    staleTime: 15000,
+  });
+
+  const { data: cong_speakers_requests_status } = useQuery({
+    enabled: congAccountConnected && publicTalkCoordinatorRole && congID !== '',
+    queryKey: ['congregationSpeakersRequestsStatus'],
+    queryFn: apiGetCongregationSpeakersRequestsStatus,
+    refetchInterval: 25000,
+    staleTime: 25000,
   });
 
   const isEmailAuth = searchParams.get('code') !== null;
@@ -120,6 +150,30 @@ const Layout = ({ updatePwa }) => {
     }
   }, [secretaryRole, pending_fieldServiceReports, setPendingFieldServiceReports]);
 
+  useEffect(() => {
+    if (
+      publicTalkCoordinatorRole &&
+      cong_speakers_requests &&
+      cong_speakers_requests.status === 200 &&
+      cong_speakers_requests.data
+    ) {
+      const congSpeakersRequests = cong_speakers_requests.data;
+      setCongSpeakersRequests(congSpeakersRequests);
+    }
+  }, [publicTalkCoordinatorRole, cong_speakers_requests, setCongSpeakersRequests]);
+
+  useEffect(() => {
+    if (
+      publicTalkCoordinatorRole &&
+      cong_speakers_requests_status &&
+      cong_speakers_requests_status.status === 200 &&
+      cong_speakers_requests_status.data
+    ) {
+      const congSpeakersRequestsStatus = cong_speakers_requests_status.data;
+      saveCongregationsSpeakersRequests(congSpeakersRequestsStatus);
+    }
+  }, [publicTalkCoordinatorRole, cong_speakers_requests_status]);
+
   return (
     <RootModal>
       <NavBar enabledInstall={enabledInstall} isLoading={isLoading} installPwa={installPwa} />
@@ -140,6 +194,7 @@ const Layout = ({ updatePwa }) => {
         {isUserConfirm && <UserConfirmation />}
         {isAddSY && <AddServiceYear />}
         {isS140DownloadPDF && <S140DownloadPDF />}
+        {isWeekendMeetingDownloadPDF && <WeekendMeetingDownloadPDF />}
 
         {isEmailAuth && <EmailLinkAuthentication />}
         {isAppLoad && !isEmailAuth && <Startup />}

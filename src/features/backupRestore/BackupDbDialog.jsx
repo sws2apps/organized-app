@@ -50,6 +50,9 @@ const BackupDbDialog = () => {
         const accountType = Setting.account_type;
         const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
         const secretaryRole = Setting.cong_role.includes('secretary');
+        const weekendEditorRole =
+          Setting.cong_role.includes('coordinator') || Setting.cong_role.includes('public_talk_coordinator');
+        const publicTalkCoordinatorRole = Setting.cong_role.includes('public_talk_coordinator');
         const publisherRole =
           Setting.cong_role.includes('publisher') ||
           Setting.cong_role.includes('ms') ||
@@ -59,15 +62,16 @@ const BackupDbDialog = () => {
           cong_persons: dbData.dbPersons,
           cong_deleted: dbData.dbDeleted,
           cong_settings: dbData.dbSettings,
-          cong_schedule: lmmoRole ? dbData.dbSchedule : undefined,
-          cong_sourceMaterial: lmmoRole ? dbData.dbSourceMaterial : undefined,
-          cong_swsPocket: lmmoRole ? dbData.dbPocketTbl : undefined,
+          cong_schedule: lmmoRole || weekendEditorRole ? dbData.dbSchedule : undefined,
+          cong_sourceMaterial: lmmoRole || weekendEditorRole ? dbData.dbSourceMaterial : undefined,
           cong_branchReports: secretaryRole ? dbData.dbBranchReportsTbl : undefined,
           cong_fieldServiceGroup: secretaryRole ? dbData.dbFieldServiceGroupTbl : undefined,
           cong_fieldServiceReports: secretaryRole ? dbData.dbFieldServiceReportsTbl : undefined,
           cong_lateReports: secretaryRole ? dbData.dbLateReportsTbl : undefined,
           cong_meetingAttendance: secretaryRole ? dbData.dbMeetingAttendanceTbl : undefined,
           cong_minutesReports: secretaryRole ? dbData.dbMinutesReportsTbl : undefined,
+          cong_publicTalks: publicTalkCoordinatorRole ? dbData.dbPublicTalks : undefined,
+          cong_visitingSpeakers: publicTalkCoordinatorRole ? dbData.dbVisitingSpeakers : undefined,
           cong_serviceYear: secretaryRole ? dbData.dbServiceYearTbl : undefined,
           user_bibleStudies: publisherRole ? dbData.dbUserBibleStudiesTbl : undefined,
           user_fieldServiceReports: publisherRole ? dbData.dbUserFieldServiceReportsTbl : undefined,

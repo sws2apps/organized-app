@@ -20,7 +20,7 @@ jobs:
 
     steps:
       - name: Checkout for release preparation
-        uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744
+        uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac
         with:
           ref: main
           persist-credentials: false
@@ -52,7 +52,7 @@ jobs:
 
       - name: Deploy to Firebase
         if: ${{ steps.check_build.outputs.files_exists == 'true' }}
-        uses: sws2apps/firebase-deployment@1351d30f4b2f51140fd421485094b63d36cdc334
+        uses: sws2apps/firebase-deployment@11da74219abba8bc5bc318d8cd403115181e4534
         with:
           workloadIdentityProvider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
           serviceAccount: ${{ secrets.SERVICE_ACCOUNT }}

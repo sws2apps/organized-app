@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
 const S140 = ({ data, currentSchedule }) => {
   const { t } = useTranslation('source');
 
-  const { source_lang, schedule_useFullname, class_count, opening_prayer_autoAssign } = Setting;
+  const { source_lang, schedule_useFullname, class_count, opening_prayer_MM_autoAssign } = Setting;
 
   const minLabel = t('minuteShortLabel', { lng: source_lang, ns: 'ui' });
 
@@ -117,15 +117,15 @@ const S140 = ({ data, currentSchedule }) => {
 
   const getAssignedOpeningPrayer = (weekItem) => {
     if (schedule_useFullname) {
-      return opening_prayer_autoAssign
+      return opening_prayer_MM_autoAssign
         ? weekItem.scheduleData.chairmanMM_A_name
-        : weekItem.scheduleData.opening_prayer_name;
+        : weekItem.scheduleData.opening_prayerMM_name;
     }
 
     if (!schedule_useFullname) {
-      return opening_prayer_autoAssign
+      return opening_prayer_MM_autoAssign
         ? weekItem.scheduleData.chairmanMM_A_dispName
-        : weekItem.scheduleData.opening_prayer_dispName;
+        : weekItem.scheduleData.opening_prayerMM_dispName;
     }
   };
 
@@ -134,7 +134,7 @@ const S140 = ({ data, currentSchedule }) => {
       return WeekTypeList.getLabel(weekItem.scheduleData.week_type);
     }
 
-    if (weekItem.scheduleData.noMeeting) return t('noMeeting', { lng: source_lang });
+    if (weekItem.scheduleData.noMMeeting) return t('noMMeeting', { lng: source_lang });
 
     return '';
   };
@@ -274,16 +274,16 @@ const S140 = ({ data, currentSchedule }) => {
   };
 
   const getCBSTime = (weekItem) => {
-    if (weekItem.sourceData.cbs_time_override !== '') {
-      return weekItem.sourceData.cbs_time_override;
+    if (weekItem.sourceData.mwb_lc_cbs_time_override !== '') {
+      return weekItem.sourceData.mwb_lc_cbs_time_override;
     }
 
     return 30;
   };
 
   const getCOTalkTitle = (weekItem) => {
-    if (weekItem.sourceData.co_talk_title !== '') {
-      return weekItem.sourceData.co_talk_title;
+    if (weekItem.sourceData.mwb_co_talk_title !== '') {
+      return weekItem.sourceData.mwb_co_talk_title;
     }
 
     return t('coTalk', { lng: source_lang });
@@ -315,13 +315,13 @@ const S140 = ({ data, currentSchedule }) => {
     let src = t('song', { lng: source_lang });
 
     if (weekItem.scheduleData.week_type === 2) {
-      src += ` ${weekItem.sourceData.songConclude_src_override}`;
+      src += ` ${weekItem.sourceData.mwb_song_conclude_override}`;
       return src;
     }
 
-    if (isNaN(weekItem.sourceData.songConclude_src)) return weekItem.sourceData.songConclude_src;
+    if (isNaN(weekItem.sourceData.mwb_song_conclude)) return weekItem.sourceData.mwb_song_conclude;
 
-    src += ` ${weekItem.sourceData.songConclude_src}`;
+    src += ` ${weekItem.sourceData.mwb_song_conclude}`;
     return src;
   };
 
@@ -340,10 +340,10 @@ const S140 = ({ data, currentSchedule }) => {
 
             {data.map((weekItem, weekIndex) => {
               let maxLc = [];
-              if (weekItem.sourceData.lcCount_override) {
-                maxLc = Array.from({ length: weekItem.sourceData.lcCount_override }, (a, b) => b + 1);
+              if (weekItem.sourceData.mwb_lc_count_override) {
+                maxLc = Array.from({ length: weekItem.sourceData.mwb_lc_count_override }, (a, b) => b + 1);
               } else {
-                maxLc = Array.from({ length: weekItem.sourceData.lcCount }, (a, b) => b + 1);
+                maxLc = Array.from({ length: weekItem.sourceData.mwb_lc_count }, (a, b) => b + 1);
               }
 
               return (
@@ -354,9 +354,9 @@ const S140 = ({ data, currentSchedule }) => {
                 >
                   <View style={styles.rowBase}>
                     <S140WeekTitle
-                      title={`${weekItem.sourceData.weekDate_src} | ${weekItem.sourceData.weeklyBibleReading_src}`}
+                      title={`${weekItem.sourceData.mwb_week_date_locale} | ${weekItem.sourceData.mwb_weekly_bible_reading}`}
                     />
-                    {!weekItem.scheduleData.noMeeting && (
+                    {!weekItem.scheduleData.noMMeeting && (
                       <>
                         <S140PartMiniLabel
                           part={`${t('chairmanMidweekMeeting', {
@@ -370,7 +370,7 @@ const S140 = ({ data, currentSchedule }) => {
                   </View>
                   <View style={{ ...styles.rowBase, marginBottom: '10px' }}>
                     <S140WeekInfoLabel weekLabel={getWeekInfoLabel(weekItem)} />
-                    {!weekItem.scheduleData.noMeeting && (
+                    {!weekItem.scheduleData.noMMeeting && (
                       <>
                         <S140PartMiniLabel
                           part={class_count === 2 ? `${t('auxClassCounselor', { lng: source_lang })}:` : ''}
@@ -381,13 +381,13 @@ const S140 = ({ data, currentSchedule }) => {
                       </>
                     )}
                   </View>
-                  {!weekItem.scheduleData.noMeeting && (
+                  {!weekItem.scheduleData.noMMeeting && (
                     <>
                       {/* 3rd row for song, opening prayer */}
                       <View style={styles.rowBase}>
                         <S140Time time={weekItem.sourceData.pgmStart} />
                         <S140SourceSimple
-                          source={`${t('song', { lng: source_lang })} ${weekItem.sourceData.songFirst_src}`}
+                          source={`${t('song', { lng: source_lang })} ${weekItem.sourceData.mwb_song_first}`}
                           bulletColor={'#656164'}
                         />
                         <S140PartMiniLabel part={`${t('prayerMidweekMeeting', { lng: source_lang })}:`} />
@@ -406,7 +406,7 @@ const S140 = ({ data, currentSchedule }) => {
                         <S140Person person="" />
                       </View>
 
-                      {!weekItem.scheduleData.noMeeting &&
+                      {!weekItem.scheduleData.noMMeeting &&
                         weekItem.scheduleData.week_type !== 3 &&
                         weekItem.scheduleData.week_type !== 4 && (
                           <>
@@ -422,7 +422,7 @@ const S140 = ({ data, currentSchedule }) => {
                             <View style={styles.rowBase}>
                               <S140Time time={weekItem.sourceData.tgwTalk} />
                               <S140SourceExtended
-                                source={weekItem.sourceData.tgwTalk_src}
+                                source={weekItem.sourceData.mwb_tgw_talk}
                                 time={`10 ${minLabel}`}
                                 bulletColor="#656164"
                               />
@@ -479,10 +479,10 @@ const S140 = ({ data, currentSchedule }) => {
 
                             {/* AYF Parts */}
                             {[1, 2, 3, 4].map((index) => {
-                              const fldTypeName = 'ass' + index + '_type_name';
-                              const fldType = 'ass' + index + '_type';
-                              const fldTime = 'ass' + index + '_time';
-                              const fldSrc = 'ass' + index + '_src';
+                              const fldTypeName = 'mwb_ayf_part' + index + '_type_name';
+                              const fldType = 'mwb_ayf_part' + index + '_type';
+                              const fldTime = 'mwb_ayf_part' + index + '_time';
+                              const fldSrc = 'mwb_ayf_part' + index + '_src';
                               const fldStuA = schedule_useFullname
                                 ? 'ass' + index + '_stu_A_name'
                                 : 'ass' + index + '_stu_A_dispName';
@@ -550,7 +550,7 @@ const S140 = ({ data, currentSchedule }) => {
                             <View style={styles.rowBase}>
                               <S140Time time={weekItem.sourceData.middleSong} />
                               <S140SourceSimple
-                                source={`${t('song', { lng: source_lang })} ${weekItem.sourceData.songMiddle_src}`}
+                                source={`${t('song', { lng: source_lang })} ${weekItem.sourceData.mwb_song_middle}`}
                                 bulletColor="#942926"
                               />
                               <S140PartMiniLabel part="" />
@@ -559,10 +559,10 @@ const S140 = ({ data, currentSchedule }) => {
 
                             {/* LC Parts */}
                             {maxLc.map((index) => {
-                              const fldTime = 'lcPart' + index + '_time';
-                              const fldTimeOverride = 'lcPart' + index + '_time_override';
-                              const fldSrc = 'lcPart' + index + '_src';
-                              const fldSrcOverride = 'lcPart' + index + '_src_override';
+                              const fldTime = 'mwb_lc_part' + index + '_time';
+                              const fldTimeOverride = 'mwb_lc_part' + index + '_time_override';
+                              const fldSrc = 'mwb_lc_part' + index;
+                              const fldSrcOverride = 'mwb_lc_part' + index + '_override';
                               const fldPers = schedule_useFullname
                                 ? 'lc_part' + index + '_name'
                                 : 'lc_part' + index + '_dispName';
@@ -667,8 +667,8 @@ const S140 = ({ data, currentSchedule }) => {
                               <S140Person
                                 person={
                                   schedule_useFullname
-                                    ? weekItem.scheduleData.closing_prayer_name
-                                    : weekItem.scheduleData.closing_prayer_dispName
+                                    ? weekItem.scheduleData.closing_prayerMM_name
+                                    : weekItem.scheduleData.closing_prayerMM_dispName
                                 }
                               />
                             </View>

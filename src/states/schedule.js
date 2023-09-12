@@ -109,3 +109,13 @@ export const S140DownloadOpenState = atom({
   key: 'S140DownloadOpen',
   default: false,
 });
+
+export const weekendMeetingDownloadOpenState = atom({
+  key: 'WeekendMeetingDownloadOpen',
+  default: false,
+});
+
+export const weekendMeetingDataState = atom({
+  key: 'weekendMeetingData',
+  default: [],
+});

@@ -11,6 +11,7 @@ import PrivateSecretaryRoute from './components/PrivateSecretaryRoute';
 import PrivateLMMORoute from './components/PrivateLMMORoute';
 import PrivatePublisherRoute from './components/PrivatePublisherRoute';
 import PrivateVipRoute from './components/PrivateVipRoute';
+import PrivatePublicTalkCoordinatorRoute from './components/PrivatePublicTalkCoordinatorRoute';
 import ErrorBoundary from './components/ErrorBoundary';
 import { apiHostState, isLightThemeState, isOnlineState, visitorIDState } from './states/main';
 import { congAccountConnectedState, congRoleState } from './states/congregation';
@@ -19,6 +20,7 @@ import { InternetChecker } from './features/internetChecker';
 import NotificationWrapper from './features/notificationWrapper';
 import WaitingPage from './components/WaitingPage';
 import backupWorkerInstance from './workers/backupWorker';
+import PrivateMeetingEditorRoute from './components/PrivateMeetingEditorRoute';
 
 // lazy loading
 const Layout = lazy(() => import('./components/Layout'));
@@ -43,6 +45,9 @@ const BranchOfficeReports = lazy(() => import('./pages/BranchOfficeReports'));
 const UserFieldServiceReport = lazy(() => import('./pages/UserFieldServiceReport'));
 const UserBibleStudies = lazy(() => import('./pages/UserBibleStudies'));
 const PendingFieldServiceReports = lazy(() => import('./pages/PendingFieldServiceReports'));
+const PublicTalksList = lazy(() => import('./pages/PublicTalksList'));
+const WeekendMeetingSchedule = lazy(() => import('./pages/WeekendMeetingSchedule'));
+const VisitingSpeakers = lazy(() => import('./pages/VisitingSpeakers'));
 
 const queryClient = new QueryClient();
 
@@ -72,10 +77,14 @@ const App = ({ updatePwa }) => {
   const [activeTheme, setActiveTheme] = useState(darkTheme);
   const [isLoading, setIsLoading] = useState(true);
   const [isSupported, setIsSupported] = useState(true);
+
   const secretaryRole = congRole.includes('secretary');
   const lmmoRole = congRole.includes('lmmo') || congRole.includes('lmmo-backup');
+  const publicTalkCoordinatorRole = congRole.includes('public_talk_coordinator');
+  const coordinatorRole = congRole.includes('coordinator');
   const adminRole = congRole.includes('admin');
-  const elderRole = congRole.includes('elder') || secretaryRole || lmmoRole;
+  const elderRole =
+    congRole.includes('elder') || secretaryRole || lmmoRole || coordinatorRole || publicTalkCoordinatorRole;
   const msRole = congRole.includes('ms');
   const publisherRole = congRole.includes('publisher') || msRole || elderRole;
 
@@ -112,7 +121,14 @@ const App = ({ updatePwa }) => {
               element: <PersonDetails />,
             },
             {
-              element: <PrivateVipRoute isLMMO={lmmoRole} isSecretary={secretaryRole} />,
+              element: (
+                <PrivateVipRoute
+                  isLMMO={lmmoRole}
+                  isSecretary={secretaryRole}
+                  isCoordinator={coordinatorRole}
+                  isPublicTalkCoordinator={publicTalkCoordinatorRole}
+                />
+              ),
               children: [
                 {
                   path: '/persons/new',
@@ -137,6 +153,15 @@ const App = ({ updatePwa }) => {
                       path: '/assignment-form',
                       element: <S89 />,
                     },
+                  ],
+                },
+                {
+                  element: (
+                    <PrivateMeetingEditorRoute
+                      isMeetingEditor={lmmoRole || coordinatorRole || publicTalkCoordinatorRole}
+                    />
+                  ),
+                  children: [
                     {
                       path: '/source-materials',
                       element: <SourceMaterials />,
@@ -169,6 +194,27 @@ const App = ({ updatePwa }) => {
                     {
                       path: '/pending-field-service-reports',
                       element: <PendingFieldServiceReports />,
+                    },
+                  ],
+                },
+                {
+                  element: (
+                    <PrivatePublicTalkCoordinatorRoute
+                      isPublicTalkCoordinator={publicTalkCoordinatorRole || coordinatorRole}
+                    />
+                  ),
+                  children: [
+                    {
+                      path: '/public-talks',
+                      element: <PublicTalksList />,
+                    },
+                    {
+                      path: '/weekend-schedules',
+                      element: <WeekendMeetingSchedule />,
+                    },
+                    {
+                      path: '/visiting-speakers',
+                      element: <VisitingSpeakers />,
                     },
                   ],
                 },
@@ -227,13 +273,9 @@ const App = ({ updatePwa }) => {
 
   useEffect(() => {
     let apiHost;
-    if (
-      !process.env.NODE_ENV ||
-      process.env.NODE_ENV === 'development' ||
-      window.location.host.indexOf('localhost') !== -1
-    ) {
-      if (import.meta.env.VITE_API_REMOTE_URL) {
-        apiHost = import.meta.env.VITE_API_REMOTE_URL;
+    if (import.meta.env.DEV || window.location.host.indexOf('localhost') !== -1) {
+      if (import.meta.env.VITE_BACKEND_API) {
+        apiHost = import.meta.env.VITE_BACKEND_API;
       } else {
         apiHost = 'http://localhost:8000/';
       }

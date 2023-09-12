@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import { styled } from '@mui/material/styles';
@@ -20,6 +21,7 @@ import { refreshCurrentWeekState } from '../../states/schedule';
 import { Setting } from '../../classes/Setting';
 import { Schedules } from '../../classes/Schedules';
 import { isLightThemeState } from '../../states/main';
+import { VisitingSpeakers } from '../../classes/VisitingSpeakers';
 
 const PersonsOption = (props) => {
   return <Popper {...props} style={{ minWidth: 320 }} placement="bottom-start" />;
@@ -94,8 +96,10 @@ const PersonSelect = ({
   person,
   isLC,
   isElderPart,
+  visitingSpeaker,
 }) => {
   const { t } = useTranslation('ui');
+  const location = useLocation();
 
   const currentPerson = Persons.get(person);
 
@@ -110,7 +114,14 @@ const PersonSelect = ({
 
   const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
   const secretaryRole = Setting.cong_role.includes('secretary');
-  const viewMeetingScheduleRole = !lmmoRole && !secretaryRole && Setting.cong_role.includes('view_meeting_schedule');
+  const coordinatorRole = Setting.cong_role.includes('coordinator');
+  const publicTalkCoordinatorRole = Setting.cong_role.includes('public_talk_coordinator');
+  const viewMeetingScheduleRole =
+    !lmmoRole &&
+    !secretaryRole &&
+    !coordinatorRole &&
+    !publicTalkCoordinatorRole &&
+    Setting.cong_role.includes('view_meeting_schedule');
   const pocketRole = Setting.account_type === 'pocket' || viewMeetingScheduleRole;
 
   const isAssistant =
@@ -123,8 +134,16 @@ const PersonSelect = ({
     assID === 15 ||
     assID === 17;
 
+  const isScheduleView = location.pathname.includes('schedules/view/');
+
   const handleSaveAssignment = (value) => {
     handleSave({ ...value, assID });
+  };
+
+  const getPersonIcon = () => {
+    if (pocketRole || selectedPerson === null || (visitingSpeaker && !person)) return null;
+    if (selectedPerson.isMale || (visitingSpeaker && person)) return maleIcon;
+    return femaleIcon;
   };
 
   useEffect(() => {
@@ -157,6 +176,16 @@ const PersonSelect = ({
 
     if (pocketRole) {
       const value = { person_uid: window.crypto.randomUUID(), person_displayName: person };
+      setOptions([value]);
+      setSelectedPerson(value);
+      return;
+    }
+
+    if (visitingSpeaker) {
+      const value = {
+        person_uid: person,
+        person_displayName: VisitingSpeakers.getSpeakerByUid(person)?.person_displayName || '',
+      };
       setOptions([value]);
       setSelectedPerson(value);
       return;
@@ -214,6 +243,7 @@ const PersonSelect = ({
     pocketRole,
     isLC,
     isElderPart,
+    visitingSpeaker,
   ]);
 
   useEffect(() => {
@@ -240,6 +270,7 @@ const PersonSelect = ({
       }
     >
       <Autocomplete
+        key={isScheduleView ? crypto.randomUUID() : undefined}
         id="person-select"
         size="small"
         sx={{ width: '220px' }}
@@ -256,13 +287,7 @@ const PersonSelect = ({
             sx={{ border: hasWarning ? '1px solid red' : null }}
             InputProps={{
               ...params.InputProps,
-              startAdornment: (
-                <Avatar
-                  sx={{ height: '20px', width: '20px' }}
-                  alt="Person icon"
-                  src={pocketRole || selectedPerson === null ? null : selectedPerson.isMale ? maleIcon : femaleIcon}
-                />
-              ),
+              startAdornment: <Avatar sx={{ height: '20px', width: '20px' }} alt="Person icon" src={getPersonIcon()} />,
             }}
           />
         )}
@@ -323,7 +348,7 @@ const PersonSelect = ({
                     <Avatar
                       sx={{ height: '20px', width: '20px', marginRight: '10px' }}
                       alt="Person icon"
-                      src={option.isMale ? maleIcon : femaleIcon}
+                      src={option.isMale || visitingSpeaker ? maleIcon : femaleIcon}
                     />
                     <Typography>{option.person_displayName}</Typography>
                   </Box>

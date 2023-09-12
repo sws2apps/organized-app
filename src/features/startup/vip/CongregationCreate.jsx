@@ -112,7 +112,13 @@ const CongregationCreate = () => {
           }
 
           // role approved
-          if (cong_role.includes('lmmo') || cong_role.includes('lmmo-backup') || cong_role.includes('secretary')) {
+          if (
+            cong_role.includes('lmmo') ||
+            cong_role.includes('lmmo-backup') ||
+            cong_role.includes('secretary') ||
+            cong_role.includes('coordinator') ||
+            cong_role.includes('public_talk_coordinator')
+          ) {
             backupWorkerInstance.setCongID(cong_id);
             setCongID(cong_id);
             // save congregation update if any

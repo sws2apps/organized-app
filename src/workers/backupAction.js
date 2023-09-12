@@ -59,10 +59,12 @@ export const setIsCongAccountConnected = (value) => {
 const runBackupSchedule = async () => {
   const lmmoRole = userRole.includes('lmmo') || userRole.includes('lmmo-backup');
   const secretaryRole = userRole.includes('secretary');
+  const weekendEditorRole = userRole.includes('coordinator') || userRole.includes('public_talk_coordinator');
+  const publicTalkCoordinatorRole = userRole.includes('public_talk_coordinator');
   const publisherRole = userRole.includes('publisher') || userRole.includes('ms') || userRole.includes('elder');
 
   if (
-    (lmmoRole || secretaryRole || publisherRole) &&
+    (lmmoRole || secretaryRole || weekendEditorRole || publisherRole) &&
     isEnabled &&
     backupInterval &&
     isOnline &&
@@ -77,9 +79,8 @@ const runBackupSchedule = async () => {
       cong_persons: dbData.dbPersons,
       cong_deleted: dbData.dbDeleted,
       cong_settings: dbData.dbSettings,
-      cong_schedule: lmmoRole ? dbData.dbSchedule : undefined,
-      cong_sourceMaterial: lmmoRole ? dbData.dbSourceMaterial : undefined,
-      cong_swsPocket: lmmoRole ? dbData.dbPocketTbl : undefined,
+      cong_schedule: lmmoRole || weekendEditorRole ? dbData.dbSchedule : undefined,
+      cong_sourceMaterial: lmmoRole || weekendEditorRole ? dbData.dbSourceMaterial : undefined,
       cong_branchReports: secretaryRole ? dbData.dbBranchReportsTbl : undefined,
       cong_fieldServiceGroup: secretaryRole ? dbData.dbFieldServiceGroupTbl : undefined,
       cong_fieldServiceReports: secretaryRole ? dbData.dbFieldServiceReportsTbl : undefined,
@@ -89,6 +90,8 @@ const runBackupSchedule = async () => {
       cong_serviceYear: secretaryRole ? dbData.dbServiceYearTbl : undefined,
       user_bibleStudies: publisherRole ? dbData.dbUserBibleStudiesTbl : undefined,
       user_fieldServiceReports: publisherRole ? dbData.dbUserFieldServiceReportsTbl : undefined,
+      cong_publicTalks: publicTalkCoordinatorRole ? dbData.dbPublicTalks : undefined,
+      cong_visitingSpeakers: publicTalkCoordinatorRole ? dbData.dbVisitingSpeakers : undefined,
     };
 
     if (accountType === 'vip' && userUID) {
