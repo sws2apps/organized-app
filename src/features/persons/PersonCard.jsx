@@ -42,6 +42,10 @@ const PersonCard = ({ person }) => {
 
   const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
   const secretaryRole = Setting.cong_role.includes('secretary');
+  const coordinatorRole = Setting.cong_role.includes('coordinator');
+  const publicTalkCoordinatorRole = Setting.cong_role.includes('public_talk_coordinator');
+
+  const isPersonEditor = lmmoRole || secretaryRole || coordinatorRole || publicTalkCoordinatorRole;
 
   const handleClickOpen = () => {
     navigate(`/persons/${person.person_uid}`);
@@ -87,8 +91,8 @@ const PersonCard = ({ person }) => {
                   color="primary"
                   sx={{ marginRight: !lmmoRole && !secretaryRole ? '10px' : null }}
                 >
-                  {(lmmoRole || secretaryRole) && <EditIcon />}
-                  {!lmmoRole && !secretaryRole && <VisibilityIcon />}
+                  {isPersonEditor && <EditIcon />}
+                  {!isPersonEditor && <VisibilityIcon />}
                 </IconButton>
               </Tooltip>
               {(lmmoRole || secretaryRole) && (

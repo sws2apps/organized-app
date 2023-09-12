@@ -22,6 +22,8 @@ const CongregationPersonRoles = ({
   handleCheckLMMO,
   handleCheckLMMOAssistant,
   handleCheckViewMeetingSchedule,
+  handleCheckPublicTalkCoordinator,
+  handleCheckCoordinator,
 }) => {
   const { t } = useTranslation('ui');
 
@@ -72,6 +74,18 @@ const CongregationPersonRoles = ({
           <FormControlLabel
             control={
               <Checkbox
+                checked={member.cong_role?.includes('coordinator') || false}
+                disabled={member.global_role === 'pocket'}
+                onChange={(e) => handleCheckCoordinator(e.target.checked)}
+              />
+            }
+            label={t('roleCoordinator')}
+          />
+        </Grid>
+        <Grid item xs={12} md={6} lg={4} sx={styles.checkbox}>
+          <FormControlLabel
+            control={
+              <Checkbox
                 checked={member.cong_role?.includes('secretary') || false}
                 disabled={member.global_role === 'pocket'}
                 onChange={(e) => handleCheckSecretary(e.target.checked)}
@@ -102,6 +116,18 @@ const CongregationPersonRoles = ({
               />
             }
             label={t('roleLMMOAssistant')}
+          />
+        </Grid>
+        <Grid item xs={12} md={6} lg={4} sx={styles.checkbox}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={member.cong_role?.includes('public_talk_coordinator') || false}
+                disabled={member.global_role === 'pocket'}
+                onChange={(e) => handleCheckPublicTalkCoordinator(e.target.checked)}
+              />
+            }
+            label={t('rolePublicTalkCoordinator')}
           />
         </Grid>
         <Grid item xs={12} md={6} lg={4} sx={styles.checkbox}>

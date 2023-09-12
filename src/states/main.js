@@ -396,3 +396,8 @@ export const currentMFAStageState = atom({
   key: 'currentMFAStage',
   default: 'setup',
 });
+
+export const refreshScreenState = atom({
+  key: 'refreshScreen',
+  default: false,
+});

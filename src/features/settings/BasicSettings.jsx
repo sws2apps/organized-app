@@ -15,10 +15,13 @@ import {
   classCountState,
   congNameState,
   congNumberState,
-  meetingDayState,
+  midweekMeetingDayState,
   meetingTimeState,
-  openingPrayerAutoAssignState,
+  openingPrayerMMAutoAssignState,
+  openingPrayerWMAutoAssignState,
+  weekendMeetingDayState,
 } from '../../states/congregation';
+import { scheduleUseFullnameState } from '../../states/schedule';
 import { generateDisplayName } from '../../utils/person';
 import { Setting } from '../../classes/Setting';
 
@@ -26,26 +29,33 @@ const BasicSettings = () => {
   const { t } = useTranslation('ui');
 
   const [classCount, setClassCount] = useRecoilState(classCountState);
-  const [meetingDay, setMeetingDay] = useRecoilState(meetingDayState);
+  const [midweekMeetingDay, setMidweekMeetingDay] = useRecoilState(midweekMeetingDayState);
   const [meetingTime, setMeetingTime] = useRecoilState(meetingTimeState);
-  const [autoAssignOpeningPrayer, setAutoAssignOpeningPrayer] = useRecoilState(openingPrayerAutoAssignState);
+  const [autoAssignMMOpeningPrayer, setAutoAssignMMOpeningPrayer] = useRecoilState(openingPrayerMMAutoAssignState);
+  const [autoAssignWMOpeningPrayer, setAutoAssignWMOpeningPrayer] = useRecoilState(openingPrayerWMAutoAssignState);
+  const [scheduleUseFullname, setScheduleUseFullname] = useRecoilState(scheduleUseFullnameState);
+  const [weekendMeetingDay, setWeekendMeetingDay] = useRecoilState(weekendMeetingDayState);
 
   const congName = useRecoilValue(congNameState);
   const congNumber = useRecoilValue(congNumberState);
 
-  const [tempMeetingDay, setTempMeetingDay] = useState(meetingDay);
+  const [tempMidweekMeetingDay, setTempMidweekMeetingDay] = useState(midweekMeetingDay);
   const [tempClassCount, setTempClassCount] = useState(classCount);
   const [tempMeetingTime, setTempMeetingTime] = useState(meetingTime ? new Date(meetingTime) : null);
   const [coName, setCoName] = useState('');
   const [coDisplayName, setCoDisplayName] = useState('');
-  const [tmpAutoAssignOpeningPrayer, setTmpAutoAssignOpeningPrayer] = useState(autoAssignOpeningPrayer);
+  const [tmpautoAssignMMOpeningPrayer, setTmpautoAssignMMOpeningPrayer] = useState(autoAssignMMOpeningPrayer);
+  const [tmpautoAssignWMOpeningPrayer, setTmpautoAssignWMOpeningPrayer] = useState(autoAssignWMOpeningPrayer);
+  const [useFullname, setUseFullname] = useState(scheduleUseFullname);
+  const [tempWeekendMeetingDay, setTempWeekendMeetingDay] = useState(weekendMeetingDay);
 
   const roleLMMO = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
+  const coordinatorRole = Setting.cong_role.includes('coordinator');
 
-  const handleMeetingDayChange = async (e) => {
-    setTempMeetingDay(e.target.value);
-    await Setting.update({ meeting_day: e.target.value });
-    setMeetingDay(e.target.value);
+  const handleMidweekMeetingDayChange = async (e) => {
+    setTempMidweekMeetingDay(e.target.value);
+    await Setting.update({ midweek_meeting_day: e.target.value });
+    setMidweekMeetingDay(e.target.value);
   };
 
   const handleClassChange = async (e) => {
@@ -77,10 +87,28 @@ const BasicSettings = () => {
     await Setting.update({ co_displayName: value });
   };
 
-  const handleSwitchAutoAssignPrayer = async (value) => {
-    setTmpAutoAssignOpeningPrayer(value);
-    await Setting.update({ opening_prayer_autoAssign: value });
-    setAutoAssignOpeningPrayer(value);
+  const handleSwitchMMAutoAssignPrayer = async (value) => {
+    setTmpautoAssignMMOpeningPrayer(value);
+    await Setting.update({ opening_prayer_MM_autoAssign: value });
+    setAutoAssignMMOpeningPrayer(value);
+  };
+
+  const handleSwitchWMAutoAssignPrayer = async (value) => {
+    setTmpautoAssignWMOpeningPrayer(value);
+    await Setting.update({ opening_prayer_WM_autoAssign: value });
+    setAutoAssignWMOpeningPrayer(value);
+  };
+
+  const handleChangeFullnameSwitch = async (value) => {
+    setUseFullname(value);
+    setScheduleUseFullname(value);
+    await Setting.update({ schedule_useFullname: value });
+  };
+
+  const handleWeekendMeetingDayChange = async (e) => {
+    setTempWeekendMeetingDay(e.target.value);
+    await Setting.update({ weekend_meeting_day: e.target.value });
+    setWeekendMeetingDay(e.target.value);
   };
 
   useEffect(() => {
@@ -126,72 +154,118 @@ const BasicSettings = () => {
         <Box
           sx={{
             display: 'flex',
-            flexDirection: 'row',
-            flexWrap: 'wrap',
+            flexDirection: 'column',
             marginTop: '20px',
-            gap: '15px',
           }}
         >
-          <TextField
-            id="outlined-select-day"
-            select
-            label={t('meetingDay')}
-            value={tempMeetingDay}
-            defaultValue={3}
-            onChange={handleMeetingDayChange}
-            size="small"
-            sx={{ minWidth: 150 }}
-            InputProps={{ readOnly: !roleLMMO }}
+          <Typography sx={{ fontWeight: 'bold' }}>{t('midweekMeeting')}</Typography>
+
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              gap: '15px',
+              margin: '15px 0',
+            }}
           >
-            <MenuItem value={1}>{t('monday')}</MenuItem>
-            <MenuItem value={2}>{t('tuesday')}</MenuItem>
-            <MenuItem value={3}>{t('wednesday')}</MenuItem>
-            <MenuItem value={4}>{t('thursday')}</MenuItem>
-            <MenuItem value={5}>{t('friday')}</MenuItem>
-            <MenuItem value={6}>{t('saturday')}</MenuItem>
-          </TextField>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <TimePicker
-              label={t('time')}
-              value={tempMeetingTime}
-              onChange={handleMeetingTimeChange}
-              readOnly={!roleLMMO}
-              sx={{
-                '.MuiInputBase-formControl': {
-                  height: '40.5px',
-                  width: '180px',
-                },
-              }}
-            />
-          </LocalizationProvider>
-          <TextField
-            id="outlined-select-class"
-            select
-            label={t('auxClass')}
-            value={tempClassCount}
-            defaultValue={1}
-            onChange={handleClassChange}
-            InputProps={{ readOnly: !roleLMMO }}
-            size="small"
-            sx={{ width: '150px' }}
-          >
-            <MenuItem value={1}>{t('no')}</MenuItem>
-            <MenuItem value={2}>{t('yes')}</MenuItem>
-          </TextField>
+            <TextField
+              id="outlined-select-day"
+              select
+              label={t('meetingDay')}
+              value={tempMidweekMeetingDay}
+              defaultValue={3}
+              onChange={handleMidweekMeetingDayChange}
+              size="small"
+              sx={{ minWidth: 150 }}
+              InputProps={{ readOnly: !roleLMMO }}
+            >
+              <MenuItem value={1}>{t('monday')}</MenuItem>
+              <MenuItem value={2}>{t('tuesday')}</MenuItem>
+              <MenuItem value={3}>{t('wednesday')}</MenuItem>
+              <MenuItem value={4}>{t('thursday')}</MenuItem>
+              <MenuItem value={5}>{t('friday')}</MenuItem>
+              <MenuItem value={6}>{t('saturday')}</MenuItem>
+            </TextField>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <TimePicker
+                label={t('time')}
+                value={tempMeetingTime}
+                onChange={handleMeetingTimeChange}
+                readOnly={!roleLMMO}
+                sx={{
+                  '.MuiInputBase-formControl': {
+                    height: '40.5px',
+                    width: '180px',
+                  },
+                }}
+              />
+            </LocalizationProvider>
+            <TextField
+              id="outlined-select-class"
+              select
+              label={t('auxClass')}
+              value={tempClassCount}
+              defaultValue={1}
+              onChange={handleClassChange}
+              InputProps={{ readOnly: !roleLMMO }}
+              size="small"
+              sx={{ width: '150px' }}
+            >
+              <MenuItem value={1}>{t('no')}</MenuItem>
+              <MenuItem value={2}>{t('yes')}</MenuItem>
+            </TextField>
+          </Box>
+
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={useFullname}
+                readOnly={!roleLMMO}
+                onChange={roleLMMO ? (e) => handleChangeFullnameSwitch(e.target.checked) : null}
+              />
+            }
+            label={t('scheduleUseFullname')}
+          />
+
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={tmpautoAssignMMOpeningPrayer}
+                readOnly={!roleLMMO}
+                onChange={roleLMMO ? (e) => handleSwitchMMAutoAssignPrayer(e.target.checked) : null}
+              />
+            }
+            label={t('autoAssignMMOpeningPrayer')}
+          />
         </Box>
 
         <Box sx={{ marginTop: '20px' }}>
-          <Typography sx={{ fontWeight: 'bold' }}>{t('scheduleSettings')}</Typography>
-          <Box>
+          <Typography sx={{ fontWeight: 'bold' }}>{t('weekendMeeting')}</Typography>
+          <Box sx={{ marginTop: '15px', display: 'flex', flexDirection: 'column' }}>
+            <TextField
+              id="outlined-select-day"
+              select
+              label={t('meetingDay')}
+              value={tempWeekendMeetingDay}
+              defaultValue={6}
+              onChange={handleWeekendMeetingDayChange}
+              size="small"
+              sx={{ minWidth: 150, width: 'fit-content', marginBottom: '15px' }}
+              InputProps={{ readOnly: !coordinatorRole }}
+            >
+              <MenuItem value={6}>{t('saturday')}</MenuItem>
+              <MenuItem value={7}>{t('sunday')}</MenuItem>
+            </TextField>
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={tmpAutoAssignOpeningPrayer}
-                  readOnly={!roleLMMO}
-                  onChange={roleLMMO ? (e) => handleSwitchAutoAssignPrayer(e.target.checked) : null}
+                  checked={tmpautoAssignWMOpeningPrayer}
+                  readOnly={!coordinatorRole}
+                  onChange={coordinatorRole ? (e) => handleSwitchWMAutoAssignPrayer(e.target.checked) : null}
                 />
               }
-              label={t('autoAssignOpeningPrayer')}
+              label={t('autoAssignWMOpeningPrayer')}
             />
           </Box>
         </Box>
@@ -225,6 +299,11 @@ const BasicSettings = () => {
       {!roleLMMO && (
         <Typography sx={{ fontStyle: 'italic', marginTop: '20px' }} color="#FE4119">
           {t('someSettingLockedLMMO')}
+        </Typography>
+      )}
+      {!coordinatorRole && (
+        <Typography sx={{ fontStyle: 'italic', marginTop: '20px' }} color="#FE4119">
+          {t('someSettingLockedCoordinator')}
         </Typography>
       )}
     </Box>

@@ -1,4 +1,5 @@
 import { atom, selector } from 'recoil';
+import { VisitingSpeakers } from '../classes/VisitingSpeakers';
 
 export const congNameState = atom({
   key: 'congName',
@@ -30,8 +31,8 @@ export const isErrorCongNumberState = atom({
   default: false,
 });
 
-export const meetingDayState = atom({
-  key: 'meetingDay',
+export const midweekMeetingDayState = atom({
+  key: 'midweekMeetingDay',
   default: 3,
 });
 
@@ -90,12 +91,73 @@ export const isProcessingBackupState = atom({
   default: true,
 });
 
-export const openingPrayerAutoAssignState = atom({
-  key: 'openingPrayerAutoAssign',
+export const openingPrayerMMAutoAssignState = atom({
+  key: 'openingPrayerMMAutoAssign',
   default: false,
 });
 
 export const congRoleState = atom({
   key: 'congRole',
   default: [],
+});
+
+export const openingPrayerWMAutoAssignState = atom({
+  key: 'openingPrayerWMAutoAssign',
+  default: false,
+});
+
+export const weekendMeetingDayState = atom({
+  key: 'weekendMeetingDay',
+  default: 6,
+});
+
+export const congSpeakersRequestsState = atom({
+  key: 'congSpeakersRequests',
+  default: [],
+});
+
+export const congSpeakersRequestsStateCountState = selector({
+  key: 'congSpeakersRequestsStateCount',
+  get: ({ get }) => {
+    const requests = get(congSpeakersRequestsState);
+    return requests.length;
+  },
+});
+
+export const congSpeakersRequestsStatusState = atom({
+  key: 'congSpeakersRequestsStatus',
+  default: [],
+});
+
+export const congSpeakersRequestsUpdateState = atom({
+  key: 'congSpeakersRequestsUpdate',
+  default: [],
+});
+
+export const congSpeakersRequestsUpdateCountState = selector({
+  key: 'congSpeakersRequestsUpdateCount',
+  get: ({ get }) => {
+    const requests = get(congSpeakersRequestsUpdateState);
+    return requests.length;
+  },
+});
+
+export const congSpeakersRequestsDisapprovedState = selector({
+  key: 'congSpeakersRequestsDisapproved',
+  get: ({ get }) => {
+    const requests = get(congSpeakersRequestsStatusState);
+    const result = [];
+
+    for (const request of requests) {
+      if (request.request_status === 'disapproved') {
+        const cong = VisitingSpeakers.getCongregation(request.cong_number);
+
+        if (!cong.notif_dismissed) {
+          result.push(request);
+        }
+      }
+    }
+
+    return result;
+  },
 });

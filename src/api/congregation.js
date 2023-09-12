@@ -1,5 +1,6 @@
 import { getAuth } from 'firebase/auth';
 import { getProfile } from './common';
+import { VisitingSpeakers } from '../classes/VisitingSpeakers';
 
 export const apiFetchCountries = async () => {
   const { apiHost, appLang, visitorID } = await getProfile();
@@ -335,6 +336,306 @@ export const apiDisapprovePendingFieldServiceReports = async (user_local_uid, mo
           uid: user.uid,
         },
         body: JSON.stringify({ user_local_uid, month }),
+      });
+
+      const data = await res.json();
+
+      return { status: res.status, data };
+    }
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+export const apiUploadVisitingSpeakers = async (speakers) => {
+  const { apiHost, visitorID, congID } = await getProfile();
+
+  try {
+    if (apiHost !== '') {
+      const auth = await getAuth();
+      const user = auth.currentUser;
+
+      const res = await fetch(`${apiHost}api/congregations/${congID}/visiting-speakers`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          appclient: 'cpe',
+          appversion: import.meta.env.PACKAGE_VERSION,
+          visitorid: visitorID,
+          uid: user.uid,
+        },
+        body: JSON.stringify({ speakers }),
+      });
+
+      const data = await res.json();
+
+      return { status: res.status, data };
+    }
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+export const apiFindCongregationSpeakers = async (name) => {
+  const { apiHost, visitorID, congID } = await getProfile();
+
+  try {
+    if (apiHost !== '') {
+      const auth = await getAuth();
+      const user = auth.currentUser;
+
+      const res = await fetch(`${apiHost}api/congregations/${congID}/visiting-speakers-congregations`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          appclient: 'cpe',
+          appversion: import.meta.env.PACKAGE_VERSION,
+          visitorid: visitorID,
+          uid: user.uid,
+          name: name,
+        },
+      });
+
+      const data = await res.json();
+
+      return { status: res.status, data };
+    }
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+export const apiRequestAccessCongregationSpeakers = async (cong_id) => {
+  const { apiHost, visitorID, congID } = await getProfile();
+
+  try {
+    if (apiHost !== '') {
+      const auth = await getAuth();
+      const user = auth.currentUser;
+
+      const res = await fetch(`${apiHost}api/congregations/${congID}/request-speakers`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          appclient: 'cpe',
+          appversion: import.meta.env.PACKAGE_VERSION,
+          visitorid: visitorID,
+          uid: user.uid,
+        },
+        body: JSON.stringify({ cong_id }),
+      });
+
+      const data = await res.json();
+
+      return { status: res.status, data };
+    }
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+export const apiGetCongregationSpeakersRequests = async () => {
+  const { apiHost, visitorID, congID } = await getProfile();
+
+  try {
+    if (apiHost !== '') {
+      const auth = await getAuth();
+      const user = auth.currentUser;
+
+      const res = await fetch(`${apiHost}api/congregations/${congID}/request-speakers`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          appclient: 'cpe',
+          appversion: import.meta.env.PACKAGE_VERSION,
+          visitorid: visitorID,
+          uid: user.uid,
+        },
+      });
+
+      const data = await res.json();
+
+      return { status: res.status, data };
+    }
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+export const apiGetCongregationSpeakersRequestsStatus = async () => {
+  const { apiHost, visitorID, congID } = await getProfile();
+
+  try {
+    if (apiHost !== '') {
+      const auth = await getAuth();
+      const user = auth.currentUser;
+
+      const tmpList = VisitingSpeakers.getRemoteCongregations();
+      const congs = tmpList.join(';');
+
+      const res = await fetch(`${apiHost}api/congregations/${congID}/request-speakers-status`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          appclient: 'cpe',
+          appversion: import.meta.env.PACKAGE_VERSION,
+          visitorid: visitorID,
+          uid: user.uid,
+          congs,
+        },
+      });
+
+      const data = await res.json();
+
+      return { status: res.status, data };
+    }
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+export const apiApproveCongregationSpeakersRequest = async (cong_id) => {
+  const { apiHost, visitorID, congID } = await getProfile();
+
+  try {
+    if (apiHost !== '') {
+      const auth = await getAuth();
+      const user = auth.currentUser;
+
+      const res = await fetch(`${apiHost}api/congregations/${congID}/request-speakers/approve`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          appclient: 'cpe',
+          appversion: import.meta.env.PACKAGE_VERSION,
+          visitorid: visitorID,
+          uid: user.uid,
+          cong_id,
+        },
+      });
+
+      const data = await res.json();
+
+      return { status: res.status, data };
+    }
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+export const apiDisapproveCongregationSpeakersRequest = async (cong_id) => {
+  const { apiHost, visitorID, congID } = await getProfile();
+
+  try {
+    if (apiHost !== '') {
+      const auth = await getAuth();
+      const user = auth.currentUser;
+
+      const res = await fetch(`${apiHost}api/congregations/${congID}/request-speakers/disapprove`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          appclient: 'cpe',
+          appversion: import.meta.env.PACKAGE_VERSION,
+          visitorid: visitorID,
+          uid: user.uid,
+          cong_id,
+        },
+      });
+
+      const data = await res.json();
+
+      return { status: res.status, data };
+    }
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+export const apiGetCongregationSpeakersList = async (congs) => {
+  const { apiHost, visitorID, congID } = await getProfile();
+
+  try {
+    if (apiHost !== '') {
+      const auth = await getAuth();
+      const user = auth.currentUser;
+
+      if (!congs) {
+        const tmpList = VisitingSpeakers.visitingSpeakersCongregations();
+        congs = tmpList.join(';');
+      }
+
+      if (congs) {
+        congs = [congs];
+      }
+
+      const res = await fetch(`${apiHost}api/congregations/${congID}/visiting-speakers`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          appclient: 'cpe',
+          appversion: import.meta.env.PACKAGE_VERSION,
+          visitorid: visitorID,
+          uid: user.uid,
+          congs,
+        },
+      });
+
+      const data = await res.json();
+
+      return { status: res.status, data };
+    }
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+export const apiGetApprovedVisitingSpeakersAccess = async () => {
+  const { apiHost, visitorID, congID } = await getProfile();
+
+  try {
+    if (apiHost !== '') {
+      const auth = await getAuth();
+      const user = auth.currentUser;
+
+      const res = await fetch(`${apiHost}api/congregations/${congID}/visiting-speakers-access`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          appclient: 'cpe',
+          appversion: import.meta.env.PACKAGE_VERSION,
+          visitorid: visitorID,
+          uid: user.uid,
+        },
+      });
+
+      const data = await res.json();
+
+      return { status: res.status, data };
+    }
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+export const apiUpdateVisitingSpeakersAccess = async (congs) => {
+  const { apiHost, visitorID, congID } = await getProfile();
+
+  try {
+    if (apiHost !== '') {
+      const auth = await getAuth();
+      const user = auth.currentUser;
+
+      const res = await fetch(`${apiHost}api/congregations/${congID}/visiting-speakers-access`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          appclient: 'cpe',
+          appversion: import.meta.env.PACKAGE_VERSION,
+          visitorid: visitorID,
+          uid: user.uid,
+        },
+        body: JSON.stringify({ congs }),
       });
 
       const data = await res.json();

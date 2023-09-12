@@ -25,7 +25,7 @@ import {
 import { Setting } from '../classes/Setting';
 import { apiHostState, rootModalOpenState, visitorIDState } from '../states/main';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../states/notification';
-import { congIDState, userMembersDelegateState } from '../states/congregation';
+import { congIDState } from '../states/congregation';
 
 const CongregationPersonDetails = () => {
   const { id } = useParams();
@@ -40,7 +40,6 @@ const CongregationPersonDetails = () => {
   const setAppSeverity = useSetRecoilState(appSeverityState);
   const setAppMessage = useSetRecoilState(appMessageState);
   const setRootModalOpen = useSetRecoilState(rootModalOpenState);
-  const setUserDelegate = useSetRecoilState(userMembersDelegateState);
 
   const apiHost = useRecoilValue(apiHostState);
   const visitorID = useRecoilValue(visitorIDState);
@@ -95,6 +94,32 @@ const CongregationPersonDetails = () => {
       role = [...member.cong_role, 'lmmo-backup'];
     } else {
       role = member.cong_role.filter((role) => role !== 'lmmo-backup');
+    }
+
+    setMember((prev) => {
+      return { ...prev, cong_role: role };
+    });
+  };
+
+  const handleCheckPublicTalkCoordinator = (value) => {
+    let role = [];
+    if (value) {
+      role = [...member.cong_role, 'public_talk_coordinator'];
+    } else {
+      role = member.cong_role.filter((role) => role !== 'public_talk_coordinator');
+    }
+
+    setMember((prev) => {
+      return { ...prev, cong_role: role };
+    });
+  };
+
+  const handleCheckCoordinator = (value) => {
+    let role = [];
+    if (value) {
+      role = [...member.cong_role, 'coordinator'];
+    } else {
+      role = member.cong_role.filter((role) => role !== 'coordinator');
     }
 
     setMember((prev) => {
@@ -354,8 +379,8 @@ const CongregationPersonDetails = () => {
           queryClient.invalidateQueries({ queryKey: ['congPersons'] });
 
           if (user.email === person.user_uid) {
-            await Setting.update({ user_members_delegate: member.user_members_delegate });
-            setUserDelegate(member.user_members_delegate);
+            await Setting.update({ user_members_delegate: member.user_members_delegate, cong_role: member.cong_role });
+            window.location.reload();
           }
           return;
         }
@@ -450,6 +475,8 @@ const CongregationPersonDetails = () => {
               handleCheckLMMOAssistant={(value) => handleCheckLMMOAssistant(value)}
               handleCheckSecretary={(value) => handleCheckSecretary(value)}
               handleCheckViewMeetingSchedule={(value) => handleCheckViewMeetingSchedule(value)}
+              handleCheckPublicTalkCoordinator={handleCheckPublicTalkCoordinator}
+              handleCheckCoordinator={handleCheckCoordinator}
             />
 
             {/* Local records */}

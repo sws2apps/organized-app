@@ -321,7 +321,7 @@ const PersonAdvancedSearch = ({ advancedOpen, handleSearchStudent, setAdvancedOp
             <Typography sx={{ fontWeight: 'bold', marginBottom: '10px' }}>{t('assignment')}</Typography>
             <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
               <Box>
-                <Typography variant="h6" className="midweerkMeeting meetingPart-override">
+                <Typography variant="h6" className="midweekMeeting meetingPart-override">
                   {t('midweekMeeting')}
                 </Typography>
                 <FormGroup>

@@ -5,10 +5,13 @@ import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import Typography from '@mui/material/Typography';
+import Announcements from './Announcements';
+import CongregationSpeakersRequests from './CongregationSpeakersRequests';
+import CongregationSpeakersRequestApproved from './CongregationSpeakersRequestApproved';
+import FieldServiceReport from './FieldServiceReport';
 import { countNotificationsState, isWhatsNewOpenState } from '../../states/main';
 import { pendingFieldServiceReportsCountState } from '../../states/report';
-import Announcements from './Announcements';
-import FieldServiceReport from './FieldServiceReport';
+import { congSpeakersRequestsStateCountState, congSpeakersRequestsUpdateCountState } from '../../states/congregation';
 
 const WhatsNewContent = () => {
   const { t } = useTranslation('ui');
@@ -17,6 +20,8 @@ const WhatsNewContent = () => {
 
   const cnNews = useRecoilValue(countNotificationsState);
   const cnPendingReports = useRecoilValue(pendingFieldServiceReportsCountState);
+  const cnSpeakersRequests = useRecoilValue(congSpeakersRequestsStateCountState);
+  const cnSpeakersRequestsApproved = useRecoilValue(congSpeakersRequestsUpdateCountState);
 
   const toggleDrawer = (open) => (event) => {
     if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -47,9 +52,13 @@ const WhatsNewContent = () => {
         </Box>
       </Box>
       <Box sx={{ minWidth: '350px', maxWidth: '650px', padding: '20px' }}>
-        {cnNews + cnPendingReports === 0 && <Typography>{t('nothingNew')}</Typography>}
+        {cnNews + cnPendingReports + cnSpeakersRequests + cnSpeakersRequestsApproved === 0 && (
+          <Typography>{t('nothingNew')}</Typography>
+        )}
         <Announcements />
         {cnPendingReports > 0 && <FieldServiceReport />}
+        {cnSpeakersRequests > 0 && <CongregationSpeakersRequests />}
+        {cnSpeakersRequestsApproved > 0 && <CongregationSpeakersRequestApproved />}
       </Box>
     </SwipeableDrawer>
   );

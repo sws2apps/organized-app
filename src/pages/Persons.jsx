@@ -87,6 +87,8 @@ const Persons = () => {
 
   const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
   const secretaryRole = Setting.cong_role.includes('secretary');
+  const coordinatorRole = Setting.cong_role.includes('coordinator');
+  const publicTalkCoordinatorRole = Setting.cong_role.includes('public_talk_coordinator');
 
   const openMenuSmall = Boolean(anchorElMenuSmall);
 
@@ -257,7 +259,7 @@ const Persons = () => {
               <PersonSearchIcon sx={{ fontSize: '25px' }} />
             </IconButton>
 
-            {(lmmoRole || secretaryRole) && (
+            {(lmmoRole || secretaryRole || coordinatorRole || publicTalkCoordinatorRole) && (
               <IconButton
                 sx={{
                   backgroundColor: alpha(theme.palette.common[themeOptions.searchBg], 0.5),
@@ -276,7 +278,7 @@ const Persons = () => {
 
         {!mdUp && (
           <>
-            {!lmmoRole && !secretaryRole && (
+            {!lmmoRole && !secretaryRole && !coordinatorRole && !publicTalkCoordinatorRole && (
               <IconButton
                 sx={{
                   backgroundColor: alpha(theme.palette.common[themeOptions.searchBg], 0.5),
@@ -292,7 +294,7 @@ const Persons = () => {
               </IconButton>
             )}
 
-            {(lmmoRole || secretaryRole) && (
+            {(lmmoRole || secretaryRole || coordinatorRole || publicTalkCoordinatorRole) && (
               <IconButton
                 sx={{
                   backgroundColor: '#ABB2B9',
@@ -309,7 +311,7 @@ const Persons = () => {
               </IconButton>
             )}
 
-            {(lmmoRole || secretaryRole) && (
+            {(lmmoRole || secretaryRole || coordinatorRole || publicTalkCoordinatorRole) && (
               <Menu
                 id="persons-small-menu"
                 anchorEl={anchorElMenuSmall}
@@ -358,7 +360,9 @@ const Persons = () => {
         />
       )}
 
-      {secretaryRole && <PersonCustomFilter handleSearchStudent={handleSearchStudent} />}
+      {(secretaryRole || coordinatorRole || publicTalkCoordinatorRole) && (
+        <PersonCustomFilter handleSearchStudent={handleSearchStudent} />
+      )}
 
       <Box sx={{ marginBottom: '10px' }}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>

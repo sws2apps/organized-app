@@ -79,6 +79,11 @@ const ScheduleRowAssignment = ({
   loadPersonHistoryB,
   isLCNoAssign,
   isLCElder,
+  talk,
+  publicTalk,
+  header,
+  ws,
+  wsArticle,
 }) => {
   const { t } = useTranslation('ui');
 
@@ -99,7 +104,7 @@ const ScheduleRowAssignment = ({
   };
 
   const getPersonStyle = () => {
-    if (student || cbs) {
+    if (student || cbs || talk) {
       if (classCount === 1 && student) return styles.studentContainer1;
       return styles.studentContainer2;
     }
@@ -140,15 +145,19 @@ const ScheduleRowAssignment = ({
     >
       <Box sx={getContainerStyle()}>
         <Typography variant="body1" sx={{ fontWeight: 'bold', fontSize: 16 }}>
-          {!ayf && <>{source}</>}
+          {!ayf && !talk && !ws && <>{source}</>}
+          {talk && <>{t('publicTalk')}</>}
           {ayf && assType !== 107 && <>{`${assTypeName} (${assTime} ${minLabel})`}</>}
+          {ws && <>{t('watchtowerStudyHeading')}</>}
         </Typography>
         {student && <Typography variant="body1">{studentPart}</Typography>}
+        {talk && <Typography variant="body1">{publicTalk}</Typography>}
         {lcPart && (
           <Typography variant="body1" sx={{ fontSize: 14 }}>
             {lcPart}
           </Typography>
         )}
+        {ws && wsArticle && <Typography variant="body1">{wsArticle}</Typography>}
       </Box>
       {displayPerson && (
         <Box sx={getPersonStyle()}>
@@ -157,6 +166,8 @@ const ScheduleRowAssignment = ({
               ayf={ayf}
               edit={edit}
               co={co}
+              ws={ws}
+              header={header}
               person={personA}
               assistant={assistantA}
               assType={assType}
@@ -172,7 +183,7 @@ const ScheduleRowAssignment = ({
             />
           )}
 
-          {((classCount === 2 && weekType === 1 && student) || (cbs && displayCBSReader)) && (
+          {((classCount === 2 && weekType === 1 && student) || (cbs && displayCBSReader) || talk) && (
             <>
               {(edit || personB) && (
                 <SingleAssignment

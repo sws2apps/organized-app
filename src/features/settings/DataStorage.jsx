@@ -23,12 +23,16 @@ const DataStorage = () => {
   const [isAutoBackup, setIsAutoBackup] = useState(false);
   const [backupInterval, setBackupInterval] = useState(5);
 
+  const approvedRole =
+    Setting.cong_role.includes('lmmo') ||
+    Setting.cong_role.includes('lmmo-backup') ||
+    Setting.cong_role.includes('secretary') ||
+    Setting.cong_role.includes('coordinator') ||
+    Setting.cong_role.includes('public_talk_coordinator') ||
+    Setting.cong_role.includes('publisher') ||
+    Setting.cong_role.includes('ms') ||
+    Setting.cong_role.includes('elder');
   const minLabel = t('minuteShortLabel');
-
-  const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
-  const secretaryRole = Setting.cong_role.includes('secretary');
-  const publisherRole =
-    Setting.cong_role.includes('publisher') || Setting.cong_role.includes('ms') || Setting.cong_role.includes('elder');
 
   const handleAutoBackupChange = async (value) => {
     setIsAutoBackup(value);
@@ -61,7 +65,7 @@ const DataStorage = () => {
       <Typography className={'settingHeader'}>{t('dataStorage')}</Typography>
       <Divider sx={{ borderWidth: '5px' }} />
       <Box sx={{ padding: '20px 20px' }}>
-        {(lmmoRole || secretaryRole || publisherRole) && (
+        {approvedRole && (
           <Box sx={{ marginBottom: '20px' }}>
             <Typography sx={{ fontWeight: 'bold' }}>{t('autoBackup')}</Typography>
             <Box sx={{ marginTop: '20px', display: 'flex', alignItems: 'center', gap: '15px', flexWrap: 'wrap' }}>

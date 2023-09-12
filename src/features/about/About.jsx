@@ -1,8 +1,11 @@
 import { useRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
+import { Markup } from 'interweave';
 import Box from '@mui/material/Box';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import IconButton from '@mui/material/IconButton';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import { isAboutOpenState } from '../../states/main';
@@ -47,7 +50,7 @@ const About = () => {
               marginBottom: '15px',
             }}
           >
-            {t('description')}
+            <Markup className="hardcoded_link" content={t('description')} />
           </Typography>
           <Box
             sx={{
@@ -79,9 +82,22 @@ const About = () => {
               Check this project on GitHub if you want to help us improve it.
             </Typography>
           </Box>
-          <Typography variant="body2" sx={{ marginTop: '15px' }}>
-            Copyright © {currentYear} | CPE [sws2apps]
-          </Typography>
+          <Box
+            sx={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              justifyContent: 'space-between',
+              marginTop: '20px',
+              alignItems: 'center',
+            }}
+          >
+            <Typography variant="body2">Copyright © {currentYear} | CPE [sws2apps]</Typography>
+            <Link href="https://www.buymeacoffee.com/sws2apps/e/146059" target="_blank" rel="noopener">
+              <IconButton color="error">
+                <FavoriteIcon />
+              </IconButton>
+            </Link>
+          </Box>
         </Box>
       </DialogContent>
     </Dialog>

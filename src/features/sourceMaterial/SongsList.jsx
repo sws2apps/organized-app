@@ -3,22 +3,10 @@ import { useTranslation } from 'react-i18next';
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 
-const SongsList = (props) => {
+const SongsList = ({ song, setSong, readOnly }) => {
   const { t } = useTranslation('ui');
 
-  const [song, setSong] = useState('');
   const [songsList, setSongsList] = useState([]);
-
-  const handleChangeSong = async (e) => {
-    setSong(e.target.value);
-    if (props.songPart === 1) {
-      props.setSongFirst(e.target.value);
-    } else if (props.songPart === 2) {
-      props.setSongMiddle(e.target.value);
-    } else if (props.songPart === 3) {
-      props.setSongConclude(e.target.value);
-    }
-  };
 
   useEffect(() => {
     const N = 151;
@@ -29,21 +17,15 @@ const SongsList = (props) => {
     setSongsList(a);
   }, []);
 
-  useEffect(() => {
-    setSong(props.song);
-    return () => {
-      //clean
-    };
-  }, [props.song]);
-
   return (
     <TextField
       id="outlined-select-song"
       select
       label={t('song')}
       size="small"
-      value={song}
-      onChange={(e) => handleChangeSong(e)}
+      InputProps={{ readOnly }}
+      value={songsList.length === 0 ? '' : song}
+      onChange={(e) => setSong(e.target.value)}
       sx={{ width: '100px' }}
     >
       <MenuItem value=""></MenuItem>

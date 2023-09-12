@@ -5,7 +5,9 @@ import { useTranslation } from 'react-i18next';
 import dateFormat from 'dateformat';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
+import Chip from '@mui/material/Chip';
 import Container from '@mui/material/Container';
+import Divider from '@mui/material/Divider';
 import HomeIcon from '@mui/icons-material/Home';
 import IconButton from '@mui/material/IconButton';
 import InfoIcon from '@mui/icons-material/Info';
@@ -13,7 +15,7 @@ import NoMeetingRoomIcon from '@mui/icons-material/NoMeetingRoom';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import Typography from '@mui/material/Typography';
-import { ScheduleAssignment } from '../features/schedules';
+import { ScheduleAssignment, WeekendAssignments } from '../features/schedules';
 import { shortDateFormatState } from '../states/main';
 import { getCurrentExistingWeekDate } from '../utils/app';
 import appDb from '../indexedDb/mainDb';
@@ -27,7 +29,8 @@ const WeeklyAssignments = () => {
   const navigate = useNavigate();
   const { weekToFormat } = useParams();
 
-  const [noMeeting, setNoMeeting] = useState(false);
+  const [noMMeeting, setNoMMeeting] = useState(false);
+  const [noWMeeting, setNoWMeeting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [fCurrentWeek, setFCurrentWeek] = useState('');
   const [previousWeek, setPreviousWeek] = useState('');
@@ -94,7 +97,8 @@ const WeeklyAssignments = () => {
     const scheduleData = Schedules.get(weekValue);
     if (scheduleData) {
       setNoSchedule(false);
-      setNoMeeting(scheduleData.noMeeting);
+      setNoMMeeting(scheduleData.noMMeeting);
+      setNoWMeeting(scheduleData.noWMeeting);
     }
 
     if (!scheduleData) {
@@ -106,7 +110,7 @@ const WeeklyAssignments = () => {
 
   useEffect(() => {
     const getSchedulesCount = async () => {
-      const data = await appDb.sched_MM.toArray();
+      const data = await appDb.sched.toArray();
       setSchedules(data.length);
     };
 
@@ -114,7 +118,7 @@ const WeeklyAssignments = () => {
   }, []);
 
   return (
-    <Box>
+    <Box sx={{ marginBottom: '40px', maxWidth: '850px' }}>
       {!isLoading && schedules === 0 && (
         <Container
           sx={{
@@ -184,23 +188,83 @@ const WeeklyAssignments = () => {
                   </Typography>
                 </Container>
               )}
-              {!noSchedule && noMeeting && (
-                <Container
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    height: '60vh',
-                  }}
-                >
-                  <NoMeetingRoomIcon color="error" sx={{ fontSize: '150px' }} />
-                  <Typography variant="body1" align="center">
-                    {t('noMeeting')}
-                  </Typography>
-                </Container>
+              {!noSchedule && (
+                <>
+                  {noMMeeting && noWMeeting ? (
+                    <Container
+                      sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        height: '60vh',
+                      }}
+                    >
+                      <NoMeetingRoomIcon color="error" sx={{ fontSize: '150px' }} />
+                      <Typography variant="body1" align="center">
+                        {t('noMeeting')}
+                      </Typography>
+                    </Container>
+                  ) : (
+                    <>
+                      <Divider sx={{ margin: '20px 0' }}>
+                        <Chip
+                          label={t('midweekMeeting')}
+                          sx={{
+                            backgroundColor: '#21618c',
+                            textTransform: 'uppercase',
+                            color: 'white',
+                            fontWeight: 'bold',
+                          }}
+                        />
+                      </Divider>
+                      {noMMeeting && (
+                        <Container
+                          sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            padding: '60px 0',
+                          }}
+                        >
+                          <NoMeetingRoomIcon color="error" sx={{ fontSize: '150px' }} />
+                          <Typography variant="body1" align="center">
+                            {t('noMMeeting', { ns: 'source' })}
+                          </Typography>
+                        </Container>
+                      )}
+                      {!noMMeeting && <ScheduleAssignment edit={false} />}
+                      <Divider sx={{ margin: '20px 0' }}>
+                        <Chip
+                          label={t('weekendMeeting')}
+                          sx={{
+                            backgroundColor: '#196f3d',
+                            textTransform: 'uppercase',
+                            color: 'white',
+                            fontWeight: 'bold',
+                          }}
+                        />
+                      </Divider>
+                      {noWMeeting && (
+                        <Container
+                          sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            padding: '30px 0',
+                          }}
+                        >
+                          <NoMeetingRoomIcon color="error" sx={{ fontSize: '80px' }} />
+                          <Typography align="center">{t('noWMeeting', { ns: 'source' })}</Typography>
+                        </Container>
+                      )}
+                      {!noWMeeting && <WeekendAssignments />}
+                    </>
+                  )}
+                </>
               )}
-              {!noSchedule && !noMeeting && <ScheduleAssignment edit={false} />}
             </>
           )}
         </>

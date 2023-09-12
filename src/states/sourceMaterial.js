@@ -34,3 +34,8 @@ export const refreshWeeksListState = atom({
   key: 'refreshWeeksList',
   default: false,
 });
+
+export const publicTalksState = atom({
+  key: 'publicTalks',
+  default: [],
+});

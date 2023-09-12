@@ -35,9 +35,12 @@ const BackupMain = ({ handleCreateBackup, handleClose, handleRestoreBackup, open
   const accountType = Setting.account_type;
   const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
   const secretaryRole = Setting.cong_role.includes('secretary');
+  const weekendEditorRole =
+    Setting.cong_role.includes('coordinator') || Setting.cong_role.includes('public_talk_coordinator');
   const publisherRole =
     !lmmoRole &&
     !secretaryRole &&
+    !weekendEditorRole &&
     (Setting.cong_role.includes('publisher') ||
       Setting.cong_role.includes('ms') ||
       Setting.cong_role.includes('elder'));
@@ -67,11 +70,11 @@ const BackupMain = ({ handleCreateBackup, handleClose, handleRestoreBackup, open
           if (status === 200) {
             let backupInfo;
 
-            if (lmmoRole || secretaryRole) {
+            if (lmmoRole || secretaryRole || weekendEditorRole) {
               backupInfo = 'cong_last_backup';
             }
 
-            if (publisherRole && !lmmoRole && !secretaryRole) {
+            if (publisherRole && !lmmoRole && !secretaryRole && !weekendEditorRole) {
               backupInfo = 'user_last_backup';
             }
 
@@ -110,6 +113,7 @@ const BackupMain = ({ handleCreateBackup, handleClose, handleRestoreBackup, open
     lmmoRole,
     secretaryRole,
     publisherRole,
+    weekendEditorRole,
   ]);
 
   const handleAction = () => {

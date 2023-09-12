@@ -12,6 +12,8 @@ const PartDuration = (props) => {
 
   const maxTime = Array.from({ length: props.max }, (a, b) => b + 1);
 
+  const readOnly = props.readOnly;
+
   const handleChangeTime = async (e) => {
     setPartTime(e.target.value);
     if (props.ayf === 1) {
@@ -41,6 +43,7 @@ const PartDuration = (props) => {
       select
       label={t('partDuration')}
       size="small"
+      InputProps={{ readOnly }}
       value={partTime}
       onChange={(e) => handleChangeTime(e)}
       sx={{ minWidth: '130px' }}

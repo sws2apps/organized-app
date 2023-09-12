@@ -7,6 +7,7 @@ import { Setting } from '../classes/Setting';
 import { Sources } from '../classes/Sources';
 import { refreshMyAssignmentsState } from '../states/main';
 import { addMonths, addWeeks } from './app';
+import { VisitingSpeakers } from '../classes/VisitingSpeakers';
 
 export const getHistoryInfo = (weekOf, assignment) => {
   const source = Sources.get(weekOf);
@@ -17,9 +18,14 @@ export const getHistoryInfo = (weekOf, assignment) => {
 
   const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
   const secretaryRole = Setting.cong_role.includes('secretary');
+  const coordinatorRole = Setting.cong_role.includes('coordinator');
+  const publicTalkCoordinatorRole = Setting.cong_role.includes('public_talk_coordinator');
+
   const viewMeetingScheduleRole =
     !lmmoRole &&
     !secretaryRole &&
+    !coordinatorRole &&
+    !publicTalkCoordinatorRole &&
     (Setting.cong_role.includes('view_meeting_schedule') ||
       Setting.cong_role.includes('elder') ||
       Setting.cong_role.includes('publisher') ||
@@ -33,7 +39,7 @@ export const getHistoryInfo = (weekOf, assignment) => {
   history.weekOfFormatted = dateFormatted;
   history.studentID = schedule[assignment];
 
-  if (lmmoRole || secretaryRole) {
+  if (lmmoRole || secretaryRole || coordinatorRole || publicTalkCoordinatorRole) {
     const person = Persons.get(history.studentID);
     history.studentName = person?.person_displayName || '';
   }
@@ -59,16 +65,16 @@ export const getHistoryInfo = (weekOf, assignment) => {
   }
 
   // Opening Prayer
-  if (assignment === 'opening_prayer') {
+  if (assignment === 'opening_prayerMM') {
     history.assignmentID = 111;
-    history.assignmentName = getI18n().t('openingPrayer', { ns: 'ui', lng: Setting.appLang() });
+    history.assignmentName = getI18n().t('openingPrayerMidweekMeeting', { ns: 'ui', lng: Setting.appLang() });
   }
 
   // TGW Talk 10 min. History
   if (assignment === 'tgw_talk') {
     history.assignmentID = 112;
     history.assignmentName = getI18n().t('tgwTalk', { ns: 'source', lng: Setting.appLang() });
-    history.assignmentSource = weekData.tgwTalk_src;
+    history.assignmentSource = weekData.mwb_tgw_talk;
   }
 
   // TGW Spiritual Gems History
@@ -83,14 +89,13 @@ export const getHistoryInfo = (weekOf, assignment) => {
     history.assignmentID = 100;
     history.assignmentName = getI18n().t('bibleReading', { ns: 'source', lng: Setting.appLang() });
     history.class = stuclass;
-    history.studyPoint = weekData.bibleReading_study;
-    history.assignmentSource = weekData.bibleReading_src;
+    history.assignmentSource = weekData.mwb_tgw_bread;
   }
 
   //AYF
   if (assignment.startsWith('ass')) {
-    const srcFld = assignment.split('_')[0] + '_src';
-    const timeFld = assignment.split('_')[0] + '_time';
+    const srcFld = 'mwb_ayf_' + assignment.split('_')[0].replace('ass', 'part');
+    const timeFld = 'mwb_ayf_' + assignment.split('_')[0].replace('ass', 'part') + '_time';
     history.assignmentSource = weekData[srcFld];
     history.assignmentTime = weekData[timeFld];
   }
@@ -98,10 +103,8 @@ export const getHistoryInfo = (weekOf, assignment) => {
   //AYF Assigment History
   if (assignment.startsWith('ass') && assignment.includes('_stu_')) {
     const stuclass = assignment.split('_')[2];
-    const weekFld = assignment.split('_')[0] + '_type';
-    const studyFld = assignment.split('_')[0] + '_study';
+    const weekFld = 'mwb_ayf_' + assignment.split('_')[0].replace('ass', 'part') + '_type';
     const assType = weekData[weekFld];
-    const studyPoint = weekData[studyFld];
 
     history.assignmentID = assType;
     history.assignmentType = 'ayf';
@@ -117,12 +120,11 @@ export const getHistoryInfo = (weekOf, assignment) => {
       history.assignmentName = getI18n().t('memorialInvite', { ns: 'source', lng: Setting.appLang() });
     }
     history.class = stuclass;
-    history.studyPoint = studyPoint;
 
     const fldStudent = assignment.replace('_stu_', '_ass_');
     const fldValue = schedule[fldStudent];
 
-    if (lmmoRole || secretaryRole) {
+    if (lmmoRole || secretaryRole || coordinatorRole || publicTalkCoordinatorRole) {
       const person = Persons.get(fldValue);
       history.assistantDispName = person?.person_displayName || '';
     }
@@ -137,10 +139,10 @@ export const getHistoryInfo = (weekOf, assignment) => {
   if (assignment.startsWith('ass') && assignment.includes('_ass_')) {
     const fldStudent = assignment.replace('_ass_', '_stu_');
     const fldValue = schedule[fldStudent];
-    const weekFld = assignment.split('_')[0] + '_type';
+    const weekFld = 'mwb_ayf_' + assignment.split('_')[0].replace('ass', 'part') + '_type';
     const assType = weekData[weekFld];
 
-    if (lmmoRole || secretaryRole) {
+    if (lmmoRole || secretaryRole || coordinatorRole || publicTalkCoordinatorRole) {
       const person = Persons.get(fldValue);
       history.studentForAssistant = person?.person_displayName || '';
     }
@@ -175,9 +177,9 @@ export const getHistoryInfo = (weekOf, assignment) => {
   // LC Assignment History
   if (assignment.startsWith('lc_part')) {
     const lcIndex = assignment.slice(-1);
-    const fldSource = `lcPart${lcIndex}_src`;
-    const fldTime = `lcPart${lcIndex}_time`;
-    const fldContent = `lcPart${lcIndex}_content`;
+    const fldSource = `mwb_lc_part${lcIndex}`;
+    const fldTime = `mwb_lc_part${lcIndex}_time`;
+    const fldContent = `mwb_lc_part${lcIndex}_content`;
 
     history.assignmentID = 114;
     history.assignmentName = getI18n().t('lcPart', { ns: 'source', lng: Setting.appLang() });
@@ -190,7 +192,7 @@ export const getHistoryInfo = (weekOf, assignment) => {
     history.assignmentID = 115;
     history.assignmentName = getI18n().t('cbsConductor', { ns: 'source', lng: Setting.appLang() });
     history.assignmentName += ` (${getI18n().t('cbs', { ns: 'source', lng: Setting.appLang() })})`;
-    history.assignmentSource = weekData.cbs_src;
+    history.assignmentSource = weekData.mwb_lc_cbs;
   }
 
   // CBS Reader History
@@ -198,13 +200,77 @@ export const getHistoryInfo = (weekOf, assignment) => {
     history.assignmentID = 116;
     history.assignmentName = getI18n().t('cbsReader', { ns: 'source', lng: Setting.appLang() });
     history.assignmentName += ` (${getI18n().t('cbs', { ns: 'source', lng: Setting.appLang() })})`;
-    history.assignmentSource = weekData.cbs_src;
+    history.assignmentSource = weekData.mwb_lc_cbs;
   }
 
   // Closing Prayer History
-  if (assignment === 'closing_prayer') {
+  if (assignment === 'closing_prayerMM') {
     history.assignmentID = 111;
     history.assignmentName = getI18n().t('closingPrayer', { ns: 'ui', lng: Setting.appLang() });
+  }
+
+  // Weekend Meeting Chairman
+  if (assignment === 'chairman_WM') {
+    history.assignmentID = 118;
+    history.assignmentName = getI18n().t('chairmanWeekendMeeting', { ns: 'ui', lng: Setting.appLang() });
+  }
+
+  // Weekend Meeting Opening Prayer
+  if (assignment === 'opening_prayerWM') {
+    history.assignmentID = 119;
+    history.assignmentName = getI18n().t('openingPrayerWeekendMeeting', { ns: 'ui', lng: Setting.appLang() });
+  }
+
+  // Weekend Meeting Speaker 1
+  if (assignment === 'speaker_1') {
+    if (!viewMeetingScheduleRole && schedule.is_visiting_speaker) {
+      const person = VisitingSpeakers.getSpeakerByUid(history.studentID);
+      history.studentName = person?.person_displayName || '';
+    }
+
+    history.assignmentSource = schedule.public_talk_title;
+    history.assignmentID = 121;
+
+    if (schedule.speaker_2 === '') {
+      history.assignmentName = getI18n().t('speaker', { ns: 'ui', lng: Setting.appLang() });
+    }
+
+    if (schedule.speaker_2 !== '') {
+      if (!viewMeetingScheduleRole) {
+        const person = Persons.get(schedule.speaker_2);
+        history.speaker2DispName = person?.person_displayName || '';
+      }
+
+      if (viewMeetingScheduleRole) {
+        history.speaker2DispName = schedule.speaker_2_dispName;
+      }
+
+      history.assignmentName = getI18n().t('speakerSymposiumPart1', { ns: 'ui', lng: Setting.appLang() });
+    }
+  }
+
+  // Weekend Meeting Speaker 2
+  if (assignment === 'speaker_2') {
+    history.assignmentSource = schedule.public_talk_title;
+    history.assignmentID = 120;
+
+    if (!viewMeetingScheduleRole) {
+      const person = Persons.get(schedule.speaker_1);
+      history.speaker1DispName = person?.person_displayName || '';
+    }
+
+    if (viewMeetingScheduleRole) {
+      history.speaker1DispName = schedule.speaker_1_dispName;
+    }
+
+    history.assignmentName = getI18n().t('speakerSymposiumPart2', { ns: 'ui', lng: Setting.appLang() });
+  }
+
+  // Watchtower Study Reader
+  if (assignment === 'wtstudy_reader') {
+    history.assignmentSource = weekData.w_study_title;
+    history.assignmentID = 122;
+    history.assignmentName = getI18n().t('wtStudyReader', { ns: 'ui', lng: Setting.appLang() });
   }
 
   return history;
@@ -466,4 +532,127 @@ export const selectRandomPerson = (data) => {
   }
 
   return selected;
+};
+
+export const weekendMeetingAutofill = async (startWeek, endWeek) => {
+  const coordinatorRole = Setting.cong_role.includes('coordinator');
+  const publicTalkCoordinatorRole = Setting.cong_role.includes('public_talk_coordinator');
+
+  let currentWeek = startWeek;
+
+  do {
+    // launching autofill
+    const schedule = Schedules.get(currentWeek);
+
+    if (schedule.noWMeeting === false) {
+      let selected;
+
+      if (
+        publicTalkCoordinatorRole &&
+        !schedule.is_visiting_speaker &&
+        schedule.week_type === 1 &&
+        schedule.speaker_1 === ''
+      ) {
+        // Assign Speaker 1
+        selected = selectRandomPerson({ assType: 121, week: currentWeek });
+        if (selected) {
+          await saveAssignment(currentWeek, selected, 'speaker_1');
+        }
+
+        // Assign Speaker 2
+        if (selected) {
+          const tmpPerson = Persons.get(selected);
+          const isSpeakerHalf = tmpPerson.assignments.find((assignment) => assignment.code === 121);
+          if (isSpeakerHalf) {
+            selected = selectRandomPerson({ assType: 120, week: currentWeek });
+            if (selected) {
+              await saveAssignment(currentWeek, selected, 'speaker_2');
+            }
+          }
+        }
+      }
+
+      // Assign Chairman
+      if (coordinatorRole && schedule.chairman_WM === '') {
+        selected = selectRandomPerson({ assType: 118, week: currentWeek });
+        if (selected) {
+          await saveAssignment(currentWeek, selected, 'chairman_WM');
+        }
+      }
+
+      // Assign Opening Prayer
+      if (coordinatorRole && !Setting.opening_prayer_WM_autoAssign && schedule.opening_prayerWM === '') {
+        selected = selectRandomPerson({ assType: 119, week: currentWeek });
+        if (selected) {
+          await saveAssignment(currentWeek, selected, 'opening_prayerWM');
+        }
+      }
+
+      // Assign Watchtower Study Reader
+      if (coordinatorRole && schedule.wtstudy_reader === '') {
+        selected = selectRandomPerson({ assType: 122, week: currentWeek });
+        if (selected) {
+          await saveAssignment(currentWeek, selected, 'wtstudy_reader');
+        }
+      }
+    }
+
+    // assigning next week
+    let nextWeek = new Date(currentWeek);
+    nextWeek = nextWeek.setDate(nextWeek.getDate() + 7);
+
+    currentWeek = dateFormat(nextWeek, Setting.shortDateFormat());
+  } while (currentWeek <= endWeek);
+};
+
+export const weekendMeetingDelete = async (startWeek, endWeek) => {
+  const coordinatorRole = Setting.cong_role.includes('coordinator');
+  const publicTalkCoordinatorRole = Setting.cong_role.includes('public_talk_coordinator');
+
+  let currentWeek = startWeek;
+
+  do {
+    if (coordinatorRole) {
+      // Delete Chairman
+      await saveAssignment(currentWeek, undefined, 'chairman_WM');
+
+      // Delete Opening Prayer
+      await saveAssignment(currentWeek, undefined, 'opening_prayerWM');
+
+      // Delete Watchtower Study Reader
+      await saveAssignment(currentWeek, undefined, 'wtstudy_reader');
+    }
+
+    if (publicTalkCoordinatorRole) {
+      // Delete Speaker 1
+      await saveAssignment(currentWeek, undefined, 'speaker_1');
+
+      // Delete Speaker 2
+      await saveAssignment(currentWeek, undefined, 'speaker_2');
+    }
+
+    // assigning next week
+    let nextWeek = new Date(currentWeek);
+    nextWeek = nextWeek.setDate(nextWeek.getDate() + 7);
+
+    currentWeek = dateFormat(nextWeek, Setting.shortDateFormat());
+  } while (currentWeek <= endWeek);
+};
+
+export const buildArrayWeeks = (startWeek, endWeek) => {
+  const result = [];
+
+  let currentWeek = startWeek;
+
+  do {
+    result.push(currentWeek);
+
+    // assigning next week
+    let nextWeek = new Date(currentWeek);
+    nextWeek = nextWeek.setDate(nextWeek.getDate() + 7);
+
+    currentWeek = dateFormat(nextWeek, Setting.shortDateFormat());
+  } while (currentWeek <= endWeek);
+
+  return result;
 };

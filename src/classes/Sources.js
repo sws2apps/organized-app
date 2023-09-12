@@ -24,7 +24,7 @@ SourcesClass.prototype.sort = function () {
 
 SourcesClass.prototype.loadAll = async function () {
   this.list.length = 0;
-  const appData = await appDb.src.toArray();
+  const appData = await appDb.sources.toArray();
 
   for (const source of appData) {
     const week = new SourceClass(source.weekOf);
@@ -99,19 +99,19 @@ SourcesClass.prototype.addWeekManually = async function () {
   const fMonday = dateFormat(monDay, 'mm/dd/yyyy');
 
   if (!this.get(fMonday)) {
-    await appDb.src.put({ weekOf: fMonday }, fMonday);
+    await appDb.sources.put({ weekOf: fMonday }, fMonday);
     await this.add(fMonday);
   }
 
   if (!Schedules.get(fMonday)) {
-    await appDb.sched_MM.put({ weekOf: fMonday }, fMonday);
+    await appDb.sched.put({ weekOf: fMonday }, fMonday);
     await Schedules.add(fMonday);
   }
 };
 
 SourcesClass.prototype.delete = async function (week) {
   if (this.get(week)) {
-    await appDb.src.delete(week);
+    await appDb.sources.delete(week);
     this.list = this.list.filter((source) => source.weekOf !== week);
   }
 
@@ -157,7 +157,7 @@ SourcesClass.prototype.S89WeekList = function (scheduleName) {
 
   for (const week of allWeeks) {
     const scheduleData = Schedules.get(week);
-    if (!scheduleData.noMeeting) {
+    if (!scheduleData.noMMeeting) {
       const parentWeek = {};
       parentWeek.value = week;
       const dateW = new Date(week);
@@ -238,15 +238,9 @@ SourcesClass.prototype.S89WeekList = function (scheduleName) {
 };
 
 SourcesClass.prototype.updatePocketSource = async function (data) {
-  if (data.midweekMeeting) {
-    for await (const monthSource of data.midweekMeeting) {
-      const weeks = monthSource.sources;
-
-      for await (const week of weeks) {
-        const source = this.get(week.weekOf) || new SourceClass(week.weekOf);
-        await source.save(week, false);
-      }
-    }
+  for await (const week of data) {
+    const source = this.get(week.weekOf) || new SourceClass(week.weekOf);
+    await source.save(week, false, true);
   }
 };
 
@@ -329,47 +323,93 @@ SourcesClass.prototype.schedulesListForShare = function () {
 SourcesClass.prototype.oldestIssues = function () {
   const options = [];
 
-  const today = new Date();
-  const day = today.getDay();
-  const diff = today.getDate() - day + (day === 0 ? -6 : 1);
-  const weekDate = new Date(today.setDate(diff));
-  const currentMonth = weekDate.getMonth() + 1;
-  const currentMonthOdd = currentMonth % 2 === 0 ? false : true;
-  const currentMonthMwb = currentMonthOdd ? currentMonth : currentMonth - 1;
-  const currentYear = weekDate.getFullYear();
-  const currentIssue = `${currentYear}${currentMonthMwb}`;
+  const getMWB = () => {
+    const today = new Date();
+    const day = today.getDay();
+    const diff = today.getDate() - day + (day === 0 ? -6 : 1);
+    const weekDate = new Date(today.setDate(diff));
+    const currentMonth = weekDate.getMonth() + 1;
+    const currentMonthOdd = currentMonth % 2 === 0 ? false : true;
+    const currentMonthMwb = currentMonthOdd ? currentMonth : currentMonth - 1;
+    const currentYear = weekDate.getFullYear();
+    const currentIssue = `${currentYear}${currentMonthMwb}`;
 
-  const validDate = weekDate.setMonth(weekDate.getMonth() - 12);
-  const oldestDate = new Date(validDate);
-  const oldestMonth = oldestDate.getMonth() + 1;
-  const oldestMonthOdd = oldestMonth % 2 === 0 ? false : true;
-  let oldMonthMwb = oldestMonthOdd ? oldestMonth : oldestMonth - 1;
-  let oldYear = oldestDate.getFullYear();
-  let activeIssue = `${oldYear}${oldMonthMwb}`;
+    const validDate = weekDate.setMonth(weekDate.getMonth() - 12);
+    const oldestDate = new Date(validDate);
+    const oldestMonth = oldestDate.getMonth() + 1;
+    const oldestMonthOdd = oldestMonth % 2 === 0 ? false : true;
+    let oldMonthMwb = oldestMonthOdd ? oldestMonth : oldestMonth - 1;
+    let oldYear = oldestDate.getFullYear();
+    let activeIssue = `${oldYear}${oldMonthMwb}`;
 
-  do {
-    let validIssue = false;
+    do {
+      let validIssue = false;
 
-    if (oldYear === 2022 && oldMonthMwb > 5) validIssue = true;
-    if (oldYear > 2022) validIssue = true;
+      if (oldYear === 2022 && oldMonthMwb > 5) validIssue = true;
+      if (oldYear > 2022) validIssue = true;
 
-    if (validIssue) {
-      const issueDate = oldYear + String(oldMonthMwb).padStart(2, '0');
+      if (validIssue) {
+        const issueDate = oldYear + String(oldMonthMwb).padStart(2, '0');
 
-      const label = `${Setting.monthNames()[oldMonthMwb - 1]} ${oldYear}`;
-      const obj = { label, value: issueDate };
-      options.push(obj);
-    }
+        const label = `(mwb) ${Setting.monthNames()[oldMonthMwb - 1]} ${oldYear}`;
+        const obj = { label, value: `pub-mwb_${issueDate}` };
+        options.push(obj);
+      }
 
-    // assigning next issue
-    oldMonthMwb = oldMonthMwb + 2;
-    if (oldMonthMwb === 13) {
-      oldMonthMwb = 1;
-      oldYear++;
-    }
+      // assigning next issue
+      oldMonthMwb = oldMonthMwb + 2;
+      if (oldMonthMwb === 13) {
+        oldMonthMwb = 1;
+        oldYear++;
+      }
 
-    activeIssue = `${oldYear}${oldMonthMwb}`;
-  } while (currentIssue !== activeIssue);
+      activeIssue = `${oldYear}${oldMonthMwb}`;
+    } while (currentIssue !== activeIssue);
+  };
+
+  const getW = () => {
+    const today = new Date();
+    const day = today.getDay();
+    const diff = today.getDate() - day + (day === 0 ? -6 : 1);
+    const weekDate = new Date(today.setDate(diff));
+    const currentW = new Date(weekDate.setMonth(weekDate.getMonth() - 2));
+    const currentMonthW = currentW.getMonth() + 1;
+    const currentYear = currentW.getFullYear();
+    const currentIssue = `${currentYear}${currentMonthW}`;
+
+    const validDate = weekDate.setMonth(currentW.getMonth() - 12);
+    const oldestDate = new Date(validDate);
+    let oldestMonthW = oldestDate.getMonth() + 1;
+    let oldYear = oldestDate.getFullYear();
+    let activeIssue = `${oldYear}${oldestMonthW}`;
+
+    do {
+      let validIssue = false;
+
+      if (oldYear === 2023 && oldestMonthW > 4) validIssue = true;
+      if (oldYear > 2023) validIssue = true;
+
+      if (validIssue) {
+        const issueDate = oldYear + String(oldestMonthW).padStart(2, '0');
+
+        const label = `(w) ${Setting.monthNames()[oldestMonthW - 1]} ${oldYear}`;
+        const obj = { label, value: `pub-w_${issueDate}` };
+        options.push(obj);
+      }
+
+      // assigning next issue
+      oldestMonthW = oldestMonthW + 1;
+      if (oldestMonthW === 13) {
+        oldestMonthW = 1;
+        oldYear++;
+      }
+
+      activeIssue = `${oldYear}${oldestMonthW}`;
+    } while (currentIssue !== activeIssue);
+  };
+
+  getMWB();
+  getW();
 
   return options;
 };

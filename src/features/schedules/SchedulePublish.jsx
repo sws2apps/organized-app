@@ -60,6 +60,7 @@ const SchedulePublish = () => {
   const handlePublishSchedule = async () => {
     try {
       const schedules = formatSelectedSchedulesForShare(selected);
+
       if (schedules.length === 0) {
         setAppMessage(t('selectSchedule'));
         setAppSeverity('warning');
@@ -67,10 +68,18 @@ const SchedulePublish = () => {
         return;
       }
 
-      let dataSchedules = [];
+      let dataSchedules = { sources: [], schedules: [] };
+
       for await (const schedule of schedules) {
         const temp = await Schedules.buildScheduleForShare(schedule);
-        dataSchedules.push(temp);
+
+        for (const record of temp.sources) {
+          dataSchedules.sources.push(record);
+        }
+
+        for (const record of temp.schedules) {
+          dataSchedules.schedules.push(record);
+        }
       }
 
       const { dbSettings } = await dbExportDataOnline();
