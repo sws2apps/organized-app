@@ -42,7 +42,10 @@ const PersonBasic = ({
 
   const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
   const secretaryRole = Setting.cong_role.includes('secretary');
-  const isEditAllowed = lmmoRole || secretaryRole;
+  const coordinatorRole = Setting.cong_role.includes('coordinator');
+  const publicTalkCoordinatorRole = Setting.cong_role.includes('public_talk_coordinator');
+
+  const isPersonEditor = lmmoRole || secretaryRole || coordinatorRole || publicTalkCoordinatorRole;
 
   const handleNameChange = (name) => {
     setIsErrorName(false);
@@ -108,8 +111,8 @@ const PersonBasic = ({
             error={isErrorName ? true : false}
             sx={{ width: '320px', flexGrow: 1 }}
             value={name}
-            InputProps={{ readOnly: !isEditAllowed }}
-            onChange={isEditAllowed ? (e) => handleNameChange(e.target.value) : null}
+            InputProps={{ readOnly: !isPersonEditor }}
+            onChange={isPersonEditor ? (e) => handleNameChange(e.target.value) : null}
           />
           <TextField
             label={t('displayName')}
@@ -121,8 +124,8 @@ const PersonBasic = ({
             helperText={isErrorDisplayName ? 'Mila fenoina' : null}
             sx={{ width: '210px' }}
             value={displayName}
-            InputProps={{ readOnly: !isEditAllowed }}
-            onChange={isEditAllowed ? (e) => handleDisplayNameChange(e.target.value) : null}
+            InputProps={{ readOnly: !isPersonEditor }}
+            onChange={isPersonEditor ? (e) => handleDisplayNameChange(e.target.value) : null}
           />
         </Box>
         <Box sx={{ display: 'flex' }}>
@@ -130,7 +133,7 @@ const PersonBasic = ({
             control={
               <Checkbox
                 checked={isMale}
-                onChange={isEditAllowed ? (e) => handleMaleCheck(e.target.checked) : null}
+                onChange={isPersonEditor ? (e) => handleMaleCheck(e.target.checked) : null}
                 color="primary"
               />
             }
@@ -140,7 +143,7 @@ const PersonBasic = ({
             control={
               <Checkbox
                 checked={isFemale}
-                onChange={isEditAllowed ? (e) => handleFemaleCheck(e.target.checked) : null}
+                onChange={isPersonEditor ? (e) => handleFemaleCheck(e.target.checked) : null}
                 color="primary"
               />
             }
@@ -158,7 +161,7 @@ const PersonBasic = ({
             maxDate={new Date()}
             value={birthDate === null ? null : new Date(birthDate)}
             onChange={(value) => setBirthDate(value)}
-            readOnly={!secretaryRole || !isEditAllowed}
+            readOnly={!secretaryRole || !isPersonEditor}
           />
         </LocalizationProvider>
         <TextField
@@ -177,7 +180,7 @@ const PersonBasic = ({
           size="small"
           autoComplete="off"
           sx={{ maxWidth: '300px' }}
-          InputProps={{ readOnly: !secretaryRole || !isEditAllowed }}
+          InputProps={{ readOnly: !secretaryRole || !isPersonEditor }}
           value={personEmail}
           onChange={secretaryRole ? (e) => setPersonEmail(e.target.value) : null}
         />
@@ -187,7 +190,7 @@ const PersonBasic = ({
           size="small"
           autoComplete="off"
           sx={{ width: '100%' }}
-          InputProps={{ readOnly: !secretaryRole || !isEditAllowed }}
+          InputProps={{ readOnly: !secretaryRole || !isPersonEditor }}
           value={personAddress}
           onChange={secretaryRole ? (e) => setPersonAddress(e.target.value) : null}
         />
@@ -197,12 +200,12 @@ const PersonBasic = ({
           size="small"
           autoComplete="off"
           sx={{ width: '100%' }}
-          InputProps={{ readOnly: !secretaryRole || !isEditAllowed }}
+          InputProps={{ readOnly: !secretaryRole || !isPersonEditor }}
           value={personPhone}
           onChange={secretaryRole ? (e) => setPersonPhone(e.target.value) : null}
         />
       </Box>
-      {isEditAllowed && !secretaryRole && (
+      {isPersonEditor && !secretaryRole && (
         <Typography sx={{ fontStyle: 'italic', marginTop: '20px' }} color="#FE4119">
           {t('basicInfoSelectedNotice')}
         </Typography>

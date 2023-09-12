@@ -14,6 +14,8 @@ import { S1s } from '../classes/S1s';
 import { LateReports } from '../classes/LateReports';
 import { BibleStudies } from '../classes/BibleStudies';
 import { UserS4Records } from '../classes/UserS4Records';
+import { S34s } from '../classes/S34s';
+import { VisitingSpeakers } from '../classes/VisitingSpeakers';
 
 export const classesInitialize = async () => {
   await appDb.open();
@@ -22,8 +24,9 @@ export const classesInitialize = async () => {
   await WeekTypeList.loadAll();
   await Sources.loadAll();
   await Persons.loadAll();
+  await VisitingSpeakers.loadAll();
+  await S34s.loadAll();
   await Schedules.loadAll();
-  Schedules.buildHistory();
   await FSGList.loadAll();
   await ServiceYear.loadAll();
   await ServiceYear.checkCurrent();
@@ -34,5 +37,8 @@ export const classesInitialize = async () => {
   await S1s.loadAll();
   await BibleStudies.loadAll();
   await UserS4Records.loadAll();
+  Schedules.buildTalkHistory();
+  Schedules.buildHistory();
+
   console.info('CPE: classes initialized');
 };

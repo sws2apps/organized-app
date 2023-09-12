@@ -2,9 +2,7 @@ import { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
-import Checkbox from '@mui/material/Checkbox';
 import Divider from '@mui/material/Divider';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import LanguageIcon from '@mui/icons-material/Language';
 import Link from '@mui/material/Link';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -14,19 +12,21 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { sourceLangState } from '../../states/main';
 import { LANGUAGE_LIST } from '../../locales/langList';
-import { scheduleUseFullnameState } from '../../states/schedule';
+
 import { Setting } from '../../classes/Setting';
 
 const SourcesFormsSettings = () => {
   const { t } = useTranslation('ui');
 
-  const [scheduleUseFullname, setScheduleUseFullname] = useRecoilState(scheduleUseFullnameState);
   const [sourceLang, setSourceLang] = useRecoilState(sourceLangState);
 
   const [tempSourceLang, setTempSourceLang] = useState(sourceLang);
-  const [useFullname, setUseFullname] = useState(scheduleUseFullname);
 
-  const roleLMMO = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
+  const isEditor =
+    Setting.cong_role.includes('lmmo') ||
+    Setting.cong_role.includes('lmmo-backup') ||
+    Setting.cong_role.includes('coordinator');
+
   const listSourceLangs = LANGUAGE_LIST.filter((lang) => lang.isSource === true);
 
   const handleSourceLangChange = async (e) => {
@@ -34,12 +34,6 @@ const SourcesFormsSettings = () => {
     setTempSourceLang(e.target.value);
     await Setting.update({ source_lang: e.target.value });
     setSourceLang(e.target.value);
-  };
-
-  const handleChangeFullnameSwitch = async (value) => {
-    setUseFullname(value);
-    setScheduleUseFullname(value);
-    await Setting.update({ schedule_useFullname: value });
   };
 
   return (
@@ -57,7 +51,7 @@ const SourcesFormsSettings = () => {
             value={tempSourceLang}
             defaultValue={'e'}
             onChange={handleSourceLangChange}
-            InputProps={{ readOnly: !roleLMMO }}
+            InputProps={{ readOnly: !isEditor }}
             size="small"
             sx={{ minWidth: 100 }}
           >
@@ -80,23 +74,10 @@ const SourcesFormsSettings = () => {
             </MenuItem>
           </TextField>
         </Box>
-
-        <Box>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={useFullname}
-                readOnly={!roleLMMO}
-                onChange={roleLMMO ? (e) => handleChangeFullnameSwitch(e.target.checked) : null}
-              />
-            }
-            label={t('scheduleUseFullname')}
-          />
-        </Box>
       </Box>
-      {!roleLMMO && (
+      {!isEditor && (
         <Typography sx={{ fontStyle: 'italic' }} color="#FE4119">
-          {t('settingLockedLMMO')}
+          {t('settingLockedMeetingEditor')}
         </Typography>
       )}
     </Box>

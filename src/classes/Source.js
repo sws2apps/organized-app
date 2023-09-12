@@ -8,164 +8,177 @@ import { Sources } from './Sources';
 export class SourceClass {
   constructor(weekOf) {
     this.weekOf = weekOf;
-    this.weekDate_src = {};
-    this.weeklyBibleReading_src = {};
-    this.songFirst_src = '';
-    this.tgwTalk_src = {};
-    this.bibleReading_src = {};
-    this.bibleReading_study = '';
-    this.ayfCount = 0;
-    this.ass1_type = {};
-    this.ass1_study = '';
-    this.ass1_time = '';
-    this.ass1_src = {};
-    this.ass2_type = {};
-    this.ass2_study = '';
-    this.ass2_time = '';
-    this.ass2_src = {};
-    this.ass3_type = {};
-    this.ass3_study = '';
-    this.ass3_time = '';
-    this.ass3_src = {};
-    this.ass4_type = {};
-    this.ass4_study = '';
-    this.ass4_time = '';
-    this.ass4_src = {};
-    this.songMiddle_src = '';
-    this.lcCount = 0;
-    this.lcCount_override = 0;
-    this.lcPart1_time = '';
-    this.lcPart1_src = {};
-    this.lcPart1_content = {};
-    this.lcPart1_time_override = '';
-    this.lcPart1_src_override = {};
-    this.lcPart1_content_override = {};
-    this.lcPart2_time = '';
-    this.lcPart2_src = {};
-    this.lcPart2_content = {};
-    this.lcPart2_time_override = '';
-    this.lcPart2_src_override = {};
-    this.lcPart2_content_override = {};
-    this.cbs_src = {};
-    this.cbs_time_override = '';
-    this.co_talk_title = '';
-    this.songConclude_src = '';
-    this.songConclude_src_override = '';
+    this.mwb_week_date_locale = {};
+    this.mwb_weekly_bible_reading = {};
+    this.mwb_song_first = '';
+    this.mwb_tgw_talk = {};
+    this.mwb_tgw_bread = {};
+    this.mwb_ayf_count = 0;
+    this.mwb_ayf_part1_type = {};
+    this.mwb_ayf_part1_time = '';
+    this.mwb_ayf_part1 = {};
+    this.mwb_ayf_part2_type = {};
+    this.mwb_ayf_part2_time = '';
+    this.mwb_ayf_part2 = {};
+    this.mwb_ayf_part3_type = {};
+    this.mwb_ayf_part3_time = '';
+    this.mwb_ayf_part3 = {};
+    this.mwb_ayf_part4_type = {};
+    this.mwb_ayf_part4_time = '';
+    this.mwb_ayf_part4 = {};
+    this.mwb_song_middle = '';
+    this.mwb_lc_count = 0;
+    this.mwb_lc_count_override = 0;
+    this.mwb_lc_part1_time = '';
+    this.mwb_lc_part1 = {};
+    this.mwb_lc_part1_content = {};
+    this.mwb_lc_part1_time_override = '';
+    this.mwb_lc_part1_override = {};
+    this.mwb_lc_part1_content_override = {};
+    this.mwb_lc_part2_time = '';
+    this.mwb_lc_part2 = {};
+    this.mwb_lc_part2_content = {};
+    this.mwb_lc_part2_time_override = '';
+    this.mwb_lc_part2_override = {};
+    this.mwb_lc_part2_content_override = {};
+    this.mwb_lc_cbs = {};
+    this.mwb_lc_cbs_time_override = '';
+    this.mwb_co_talk_title = '';
+    this.mwb_song_conclude = '';
+    this.mwb_song_conclude_override = '';
+    this.w_study_date_locale = {};
+    this.w_co_talk_title = '';
+    this.w_study_title = {};
+    this.w_study_opening_song = '';
+    this.w_study_concluding_song = '';
     this.keepOverride = undefined;
   }
 }
 
 SourceClass.prototype.loadDetails = async function () {
-  const appData = await appDb.src.get({ weekOf: this.weekOf });
+  const appData = await appDb.sources.get({ weekOf: this.weekOf });
   if (!appData) return;
 
-  this.weekDate_src = appData.weekDate_src || {};
-  this.weeklyBibleReading_src = appData.weeklyBibleReading_src || {};
-  this.songFirst_src = appData.songFirst_src || '';
-  this.tgwTalk_src = appData.tgwTalk_src || {};
-  this.bibleReading_src = appData.bibleReading_src || {};
-  this.bibleReading_study = appData.bibleReading_study || '';
-  this.ayfCount = appData.ayfCount || 0;
-  this.ass1_type = appData.ass1_type || {};
-  this.ass1_time = appData.ass1_time;
-  this.ass1_study = appData.ass1_study;
-  this.ass1_src = appData.ass1_src || {};
-  this.ass2_type = appData.ass2_type || {};
-  this.ass2_time = appData.ass2_time;
-  this.ass2_study = appData.ass2_study;
-  this.ass2_src = appData.ass2_src || {};
-  this.ass3_type = appData.ass3_type || {};
-  this.ass3_time = appData.ass3_time;
-  this.ass3_study = appData.ass3_study;
-  this.ass3_src = appData.ass3_src || {};
-  this.ass4_type = appData.ass4_type || {};
-  this.ass4_time = appData.ass4_time;
-  this.ass4_study = appData.ass4_study;
-  this.ass4_src = appData.ass4_src || {};
-  this.songMiddle_src = appData.songMiddle_src || '';
-  this.lcCount = appData.lcCount || 0;
-  this.lcCount_override = appData.lcCount_override || 0;
-  this.lcPart1_time = appData.lcPart1_time;
-  this.lcPart1_src = appData.lcPart1_src || {};
-  this.lcPart1_content = appData.lcPart1_content || {};
-  this.lcPart1_time_override = appData.lcPart1_time_override || 0;
-  this.lcPart1_src_override = appData.lcPart1_src_override || {};
-  this.lcPart1_content_override = appData.lcPart1_content_override || {};
-  this.lcPart2_time = appData.lcPart2_time;
-  this.lcPart2_src = appData.lcPart2_src || {};
-  this.lcPart2_content = appData.lcPart2_content || {};
-  this.lcPart2_time_override = appData.lcPart2_time_override || '';
-  this.lcPart2_src_override = appData.lcPart2_src_override || {};
-  this.lcPart2_content_override = appData.lcPart2_content_override || {};
-  this.cbs_src = appData.cbs_src || {};
-  this.cbs_time_override = appData.cbs_time_override;
-  this.songConclude_src = appData.songConclude_src || '';
-  this.songConclude_src_override = appData.songConclude_src_override || '';
-  this.co_talk_title = appData.co_talk_title || '';
+  this.mwb_week_date_locale = appData.mwb_week_date_locale || {};
+  this.mwb_weekly_bible_reading = appData.mwb_weekly_bible_reading || {};
+  this.mwb_song_first = appData.mwb_song_first || '';
+  this.mwb_tgw_talk = appData.mwb_tgw_talk || {};
+  this.mwb_tgw_bread = appData.mwb_tgw_bread || {};
+  this.mwb_ayf_count = appData.mwb_ayf_count || 0;
+  this.mwb_ayf_part1_type = appData.mwb_ayf_part1_type || {};
+  this.mwb_ayf_part1_time = appData.mwb_ayf_part1_time;
+  this.mwb_ayf_part1 = appData.mwb_ayf_part1 || {};
+  this.mwb_ayf_part2_type = appData.mwb_ayf_part2_type || {};
+  this.mwb_ayf_part2_time = appData.mwb_ayf_part2_time;
+  this.mwb_ayf_part2 = appData.mwb_ayf_part2 || {};
+  this.mwb_ayf_part3_type = appData.mwb_ayf_part3_type || {};
+  this.mwb_ayf_part3_time = appData.mwb_ayf_part3_time;
+  this.mwb_ayf_part3 = appData.mwb_ayf_part3 || {};
+  this.mwb_ayf_part4_type = appData.mwb_ayf_part4_type || {};
+  this.mwb_ayf_part4_time = appData.mwb_ayf_part4_time;
+  this.mwb_ayf_part4 = appData.mwb_ayf_part4 || {};
+  this.mwb_song_middle = appData.mwb_song_middle || '';
+  this.mwb_lc_count = appData.mwb_lc_count || 0;
+  this.mwb_lc_count_override = appData.mwb_lc_count_override || 0;
+  this.mwb_lc_part1_time = appData.mwb_lc_part1_time;
+  this.mwb_lc_part1 = appData.mwb_lc_part1 || {};
+  this.mwb_lc_part1_content = appData.mwb_lc_part1_content || {};
+  this.mwb_lc_part1_time_override = appData.mwb_lc_part1_time_override || 0;
+  this.mwb_lc_part1_override = appData.mwb_lc_part1_override || {};
+  this.mwb_lc_part1_content_override = appData.mwb_lc_part1_content_override || {};
+  this.mwb_lc_part2_time = appData.mwb_lc_part2_time;
+  this.mwb_lc_part2 = appData.mwb_lc_part2 || {};
+  this.mwb_lc_part2_content = appData.mwb_lc_part2_content || {};
+  this.mwb_lc_part2_time_override = appData.mwb_lc_part2_time_override || '';
+  this.mwb_lc_part2_override = appData.mwb_lc_part2_override || {};
+  this.mwb_lc_part2_content_override = appData.mwb_lc_part2_content_override || {};
+  this.mwb_lc_cbs = appData.mwb_lc_cbs || {};
+  this.mwb_lc_cbs_time_override = appData.mwb_lc_cbs_time_override;
+  this.mwb_song_conclude = appData.mwb_song_conclude || '';
+  this.mwb_song_conclude_override = appData.mwb_song_conclude_override || '';
+  this.w_study_date_locale = appData.w_study_date_locale || {};
+  this.w_study_title = appData.w_study_title || {};
+  this.w_study_opening_song = appData.w_study_opening_song;
+  this.w_study_concluding_song = appData.w_study_concluding_song;
+  this.mwb_co_talk_title = appData.mwb_co_talk_title || '';
+  this.w_co_talk_title = appData.w_co_talk_title || '';
 };
 
-SourceClass.prototype.save = async function (srcData, localOverride) {
+SourceClass.prototype.save = async function (srcData, localOverride, forPocket) {
   let { source_lang } = Setting;
   source_lang = source_lang.toUpperCase();
 
-  this.weekDate_src[source_lang] = srcData.weekDate_src;
-  this.weeklyBibleReading_src[source_lang] = srcData.weeklyBibleReading_src;
-  this.songFirst_src = srcData.songFirst_src;
-  this.tgwTalk_src[source_lang] = srcData.tgwTalk_src;
-  this.bibleReading_src[source_lang] = srcData.bibleReading_src;
-  this.bibleReading_study = srcData.bibleReading_study;
-  this.ayfCount = srcData.ayfCount;
-  if (typeof this.ass1_type === 'number') this.ass1_type = {};
-  this.ass1_type[source_lang] = srcData.ass1_type;
-  this.ass1_time = srcData.ass1_time;
-  this.ass1_study = srcData.ass1_study;
-  this.ass1_src[source_lang] = srcData.ass1_src;
-  if (typeof this.ass2_type === 'number') this.ass2_type = {};
-  this.ass2_type[source_lang] = srcData.ass2_type;
-  this.ass2_time = srcData.ass2_time;
-  this.ass2_study = srcData.ass2_study;
-  this.ass2_src[source_lang] = srcData.ass2_src;
-  if (typeof this.ass3_type === 'number') this.ass3_type = {};
-  this.ass3_type[source_lang] = srcData.ass3_type;
-  this.ass3_time = srcData.ass3_time;
-  this.ass3_study = srcData.ass3_study;
-  this.ass3_src[source_lang] = srcData.ass3_src;
-  if (typeof this.ass4_type === 'number') this.ass4_type = {};
-  this.ass4_type[source_lang] = srcData.ass4_type;
-  this.ass4_time = srcData.ass4_time;
-  this.ass4_study = srcData.ass4_study;
-  this.ass4_src[source_lang] = srcData.ass4_src;
-  this.songMiddle_src = srcData.songMiddle_src;
-  this.lcCount = srcData.lcCount;
-  this.lcCount_override = localOverride ? this.lcCount_override : srcData.lcCount_override;
-  this.lcPart1_time = srcData.lcPart1_time;
-  this.lcPart1_time_override = localOverride ? this.lcPart1_time_override : srcData.lcPart1_time_override;
-  this.lcPart1_src[source_lang] = srcData.lcPart1_src;
-  this.lcPart1_src_override[source_lang] = localOverride
-    ? this.lcPart1_src_override[source_lang]
-    : srcData.lcPart1_src_override;
-  this.lcPart1_content[source_lang] = srcData.lcPart1_content;
-  this.lcPart1_content_override[source_lang] = localOverride
-    ? this.lcPart1_content_override[source_lang]
-    : srcData.lcPart1_content_override;
-  this.lcPart2_time = srcData.lcPart2_time;
-  this.lcPart2_time_override = localOverride ? this.lcPart2_time_override : srcData.lcPart2_time_override;
-  this.lcPart2_src[source_lang] = srcData.lcPart2_src;
-  this.lcPart2_src_override[source_lang] = localOverride
-    ? this.lcPart2_src_override[source_lang]
-    : srcData.lcPart2_src_override;
-  this.lcPart2_content[source_lang] = srcData.lcPart2_content;
-  this.lcPart2_content_override[source_lang] = localOverride
-    ? this.lcPart2_content_override[source_lang]
-    : srcData.lcPart2_content_override;
-  this.cbs_src[source_lang] = srcData.cbs_src;
-  this.cbs_time_override = localOverride ? this.cbs_time_override : srcData.cbs_time_override;
-  this.songConclude_src = srcData.songConclude_src;
-  this.songConclude_src_override = srcData.songConclude_src_override;
-  this.co_talk_title = srcData.co_talk_title;
+  const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
+  const coordinatorRole = Setting.cong_role.includes('coordinator');
+
+  if (!forPocket || (forPocket && !lmmoRole)) {
+    this.mwb_week_date_locale[source_lang] = srcData.mwb_week_date_locale || '';
+    this.mwb_weekly_bible_reading[source_lang] = srcData.mwb_weekly_bible_reading || '';
+    this.mwb_song_first = srcData.mwb_song_first || '';
+    this.mwb_tgw_talk[source_lang] = srcData.mwb_tgw_talk || '';
+    this.mwb_tgw_bread[source_lang] = srcData.mwb_tgw_bread || '';
+    this.mwb_ayf_count = srcData.mwb_ayf_count || 1;
+    if (typeof this.mwb_ayf_part1_type === 'number') this.mwb_ayf_part1_type = {};
+    this.mwb_ayf_part1_type[source_lang] = srcData.mwb_ayf_part1_type || '';
+    this.mwb_ayf_part1_time = srcData.mwb_ayf_part1_time || '';
+    this.mwb_ayf_part1[source_lang] = srcData.mwb_ayf_part1 || '';
+    if (typeof this.mwb_ayf_part2_type === 'number') this.mwb_ayf_part2_type = {};
+    this.mwb_ayf_part2_type[source_lang] = srcData.mwb_ayf_part2_type || '';
+    this.mwb_ayf_part2_time = srcData.mwb_ayf_part2_time || '';
+    this.mwb_ayf_part2[source_lang] = srcData.mwb_ayf_part2 || '';
+    if (typeof this.mwb_ayf_part3_type === 'number') this.mwb_ayf_part3_type = {};
+    this.mwb_ayf_part3_type[source_lang] = srcData.mwb_ayf_part3_type || '';
+    this.mwb_ayf_part3_time = srcData.mwb_ayf_part3_time || '';
+    this.mwb_ayf_part3[source_lang] = srcData.mwb_ayf_part3 || '';
+    if (typeof this.mwb_ayf_part4_type === 'number') this.mwb_ayf_part4_type = {};
+    this.mwb_ayf_part4_type[source_lang] = srcData.mwb_ayf_part4_type || '';
+    this.mwb_ayf_part4_time = srcData.mwb_ayf_part4_time || '';
+    this.mwb_ayf_part4[source_lang] = srcData.mwb_ayf_part4 || '';
+    this.mwb_song_middle = srcData.mwb_song_middle || '';
+    this.mwb_lc_count = srcData.mwb_lc_count || 1;
+    this.mwb_lc_count_override = localOverride ? this.mwb_lc_count_override : srcData.mwb_lc_count_override;
+    this.mwb_lc_part1_time = srcData.mwb_lc_part1_time || '';
+    this.mwb_lc_part1_time_override = localOverride
+      ? this.mwb_lc_part1_time_override
+      : srcData.mwb_lc_part1_time_override;
+    this.mwb_lc_part1[source_lang] = srcData.mwb_lc_part1 || '';
+    this.mwb_lc_part1_override[source_lang] = localOverride
+      ? this.mwb_lc_part1_override[source_lang]
+      : srcData.mwb_lc_part1_override;
+    this.mwb_lc_part1_content[source_lang] = srcData.mwb_lc_part1_content || '';
+    this.mwb_lc_part1_content_override[source_lang] = localOverride
+      ? this.mwb_lc_part1_content_override[source_lang]
+      : srcData.mwb_lc_part1_content_override;
+    this.mwb_lc_part2_time = srcData.mwb_lc_part2_time || '';
+    this.mwb_lc_part2_time_override = localOverride
+      ? this.mwb_lc_part2_time_override
+      : srcData.mwb_lc_part2_time_override;
+    this.mwb_lc_part2[source_lang] = srcData.mwb_lc_part2 || '';
+    this.mwb_lc_part2_override[source_lang] = localOverride
+      ? this.mwb_lc_part2_override[source_lang]
+      : srcData.mwb_lc_part2_override;
+    this.mwb_lc_part2_content[source_lang] = srcData.mwb_lc_part2_content || '';
+    this.mwb_lc_part2_content_override[source_lang] = localOverride
+      ? this.mwb_lc_part2_content_override[source_lang]
+      : srcData.mwb_lc_part2_content_override;
+    this.mwb_lc_cbs[source_lang] = srcData.mwb_lc_cbs || '';
+    this.mwb_lc_cbs_time_override = localOverride ? this.mwb_lc_cbs_time_override : srcData.mwb_lc_cbs_time_override;
+    this.mwb_song_conclude = srcData.mwb_song_conclude || '';
+    this.mwb_song_conclude_override = srcData.mwb_song_conclude_override;
+    this.mwb_co_talk_title = srcData.mwb_co_talk_title || '';
+  }
+
+  if (!forPocket || (forPocket && !coordinatorRole)) {
+    this.w_co_talk_title = srcData.w_co_talk_title || '';
+    this.w_study_date_locale[source_lang] = srcData.w_study_date_locale || '';
+    this.w_study_title[source_lang] = srcData.w_study_title || '';
+    this.w_study_opening_song = srcData.w_study_opening_song || '';
+    this.w_study_concluding_song = srcData.w_study_concluding_song || '';
+  }
+
   this.keepOverride = localOverride ? this.keepOverride : new Date().toISOString();
 
-  await appDb.src.put(this, this.weekOf);
+  await appDb.sources.put(this, this.weekOf);
   const weekExist = Sources.get(this.weekOf);
 
   if (!weekExist) {
@@ -183,102 +196,107 @@ SourceClass.prototype.local = function () {
     let indexType;
 
     obj.weekOf = this.weekOf;
-    obj.weekDate_src = this.weekDate_src[lang] || '';
-    obj.weeklyBibleReading_src = this.weeklyBibleReading_src[lang] || '';
-    obj.songFirst_src = this.songFirst_src;
-    obj.tgwTalk_src = this.tgwTalk_src[lang] || '';
-    obj.bibleReading_src = this.bibleReading_src[lang] || '';
-    obj.bibleReading_study = this.bibleReading_study;
-    obj.ayfCount = this.ayfCount;
+    obj.mwb_week_date_locale = this.mwb_week_date_locale[lang] || '';
+    obj.mwb_weekly_bible_reading = this.mwb_weekly_bible_reading[lang] || '';
+    obj.mwb_song_first = this.mwb_song_first || '';
+    obj.mwb_tgw_talk = this.mwb_tgw_talk[lang] || '';
+    obj.mwb_tgw_bread = this.mwb_tgw_bread[lang] || '';
+    obj.mwb_ayf_count = this.mwb_ayf_count || 0;
 
-    obj.ass1_type = '';
-    if (typeof this.ass1_type === 'object') {
-      if (this.ass1_type[lang] && this.ass1_type[lang] !== '') obj.ass1_type = +this.ass1_type[lang];
+    obj.mwb_ayf_part1_type = '';
+    if (typeof this.mwb_ayf_part1_type === 'object') {
+      if (this.mwb_ayf_part1_type[lang] && this.mwb_ayf_part1_type[lang] !== '')
+        obj.mwb_ayf_part1_type = +this.mwb_ayf_part1_type[lang];
     }
-    if (this.ass1_type && typeof this.ass1_type !== 'object') {
-      obj.ass1_type = +this.ass1_type;
-    }
-
-    indexType = assTypeList.findIndex((type) => type.value === obj.ass1_type);
-    obj.ass1_type_name = indexType >= 0 ? assTypeList[indexType].label : '';
-    obj.ass1_time = this.ass1_time || '';
-    obj.ass1_study = this.ass1_study || '';
-    obj.ass1_src = this.ass1_src[lang] || '';
-
-    obj.ass2_type = '';
-    if (typeof this.ass2_type === 'object') {
-      if (this.ass2_type[lang] && this.ass2_type[lang] !== '') obj.ass2_type = +this.ass2_type[lang];
-    }
-    if (this.ass2_type && typeof this.ass2_type !== 'object') {
-      obj.ass2_type = +this.ass2_type;
+    if (this.mwb_ayf_part1_type && typeof this.mwb_ayf_part1_type !== 'object') {
+      obj.mwb_ayf_part1_type = +this.mwb_ayf_part1_type;
     }
 
-    indexType = assTypeList.findIndex((type) => type.value === obj.ass2_type);
-    obj.ass2_type_name = indexType >= 0 ? assTypeList[indexType].label : '';
+    indexType = assTypeList.findIndex((type) => type.value === obj.mwb_ayf_part1_type);
+    obj.mwb_ayf_part1_type_name = indexType >= 0 ? assTypeList[indexType].label : '';
+    obj.mwb_ayf_part1_time = this.mwb_ayf_part1_time || '';
+    obj.mwb_ayf_part1 = this.mwb_ayf_part1[lang] || '';
 
-    obj.ass2_time = this.ass2_time || '';
-    obj.ass2_study = this.ass2_study || '';
-    obj.ass2_src = this.ass2_src[lang] || '';
-
-    obj.ass3_type = '';
-    if (typeof this.ass3_type === 'object') {
-      if (this.ass3_type[lang] && this.ass3_type[lang] !== '') obj.ass3_type = +this.ass3_type[lang];
+    obj.mwb_ayf_part2_type = '';
+    if (typeof this.mwb_ayf_part2_type === 'object') {
+      if (this.mwb_ayf_part2_type[lang] && this.mwb_ayf_part2_type[lang] !== '')
+        obj.mwb_ayf_part2_type = +this.mwb_ayf_part2_type[lang];
     }
-    if (this.ass3_type && typeof this.ass3_type !== 'object') {
-      obj.ass3_type = +this.ass3_type;
-    }
-
-    indexType = assTypeList.findIndex((type) => type.value === obj.ass3_type);
-    obj.ass3_type_name = indexType >= 0 ? assTypeList[indexType].label : '';
-
-    obj.ass3_time = this.ass3_time || '';
-    obj.ass3_study = this.ass3_study || '';
-    obj.ass3_src = this.ass3_src[lang] || '';
-
-    obj.ass4_type = '';
-    if (typeof this.ass4_type === 'object') {
-      if (this.ass4_type[lang] && this.ass4_type[lang] !== '') obj.ass4_type = +this.ass4_type[lang];
-    }
-    if (this.ass4_type && typeof this.ass4_type !== 'object') {
-      obj.ass4_type = +this.ass4_type;
+    if (this.mwb_ayf_part2_type && typeof this.mwb_ayf_part2_type !== 'object') {
+      obj.mwb_ayf_part2_type = +this.mwb_ayf_part2_type;
     }
 
-    indexType = assTypeList.findIndex((type) => type.value === obj.ass4_type);
-    obj.ass4_type_name = indexType >= 0 ? assTypeList[indexType].label : '';
+    indexType = assTypeList.findIndex((type) => type.value === obj.mwb_ayf_part2_type);
+    obj.mwb_ayf_part2_type_name = indexType >= 0 ? assTypeList[indexType].label : '';
 
-    if (this.ass4_time) {
-      if (typeof this.ass4_time === 'object') {
-        obj.ass4_time = '';
+    obj.mwb_ayf_part2_time = this.mwb_ayf_part2_time || '';
+    obj.mwb_ayf_part2 = this.mwb_ayf_part2[lang] || '';
+
+    obj.mwb_ayf_part3_type = '';
+    if (typeof this.mwb_ayf_part3_type === 'object') {
+      if (this.mwb_ayf_part3_type[lang] && this.mwb_ayf_part3_type[lang] !== '')
+        obj.mwb_ayf_part3_type = +this.mwb_ayf_part3_type[lang];
+    }
+    if (this.mwb_ayf_part3_type && typeof this.mwb_ayf_part3_type !== 'object') {
+      obj.mwb_ayf_part3_type = +this.mwb_ayf_part3_type;
+    }
+
+    indexType = assTypeList.findIndex((type) => type.value === obj.mwb_ayf_part3_type);
+    obj.mwb_ayf_part3_type_name = indexType >= 0 ? assTypeList[indexType].label : '';
+
+    obj.mwb_ayf_part3_time = this.mwb_ayf_part3_time || '';
+    obj.mwb_ayf_part3 = this.mwb_ayf_part3[lang] || '';
+
+    obj.mwb_ayf_part4_type = '';
+    if (typeof this.mwb_ayf_part4_type === 'object') {
+      if (this.mwb_ayf_part4_type[lang] && this.mwb_ayf_part4_type[lang] !== '')
+        obj.mwb_ayf_part4_type = +this.mwb_ayf_part4_type[lang];
+    }
+    if (this.mwb_ayf_part4_type && typeof this.mwb_ayf_part4_type !== 'object') {
+      obj.mwb_ayf_part4_type = +this.mwb_ayf_part4_type;
+    }
+
+    indexType = assTypeList.findIndex((type) => type.value === obj.mwb_ayf_part4_type);
+    obj.mwb_ayf_part4_type_name = indexType >= 0 ? assTypeList[indexType].label : '';
+
+    if (this.mwb_ayf_part4_time) {
+      if (typeof this.mwb_ayf_part4_time === 'object') {
+        obj.mwb_ayf_part4_time = '';
       } else {
-        obj.ass4_time = this.ass4_time;
+        obj.mwb_ayf_part4_time = this.mwb_ayf_part4_time;
       }
     } else {
-      obj.ass4_time = '';
+      obj.mwb_ayf_part4_time = '';
     }
 
-    obj.ass4_study = this.ass4_study || '';
-    obj.ass4_src = this.ass4_src[lang] || '';
+    obj.mwb_ayf_part4 = this.mwb_ayf_part4[lang] || '';
 
-    obj.songMiddle_src = this.songMiddle_src;
-    obj.lcCount = this.lcCount;
-    obj.lcCount_override = this.lcCount_override;
-    obj.lcPart1_time = this.lcPart1_time || '';
-    obj.lcPart1_time_override = this.lcPart1_time_override || '';
-    obj.lcPart1_src = this.lcPart1_src[lang] || '';
-    obj.lcPart1_src_override = this.lcPart1_src_override[lang] || '';
-    obj.lcPart1_content = this.lcPart1_content[lang] || '';
-    obj.lcPart1_content_override = this.lcPart1_content_override[lang] || '';
-    obj.lcPart2_time = this.lcPart2_time || '';
-    obj.lcPart2_time_override = this.lcPart2_time_override || '';
-    obj.lcPart2_src = this.lcPart2_src[lang] || '';
-    obj.lcPart2_src_override = this.lcPart2_src_override[lang] || '';
-    obj.lcPart2_content = this.lcPart2_content[lang] || '';
-    obj.lcPart2_content_override = this.lcPart2_content_override[lang] || '';
-    obj.cbs_src = this.cbs_src[lang] || '';
-    obj.cbs_time_override = this.cbs_time_override || '';
-    obj.songConclude_src = this.songConclude_src || '';
-    obj.songConclude_src_override = this.songConclude_src_override || '';
-    obj.co_talk_title = this.co_talk_title || '';
+    obj.mwb_song_middle = this.mwb_song_middle || '';
+    obj.mwb_lc_count = this.mwb_lc_count || 0;
+    obj.mwb_lc_count_override = this.mwb_lc_count_override;
+    obj.mwb_lc_part1_time = this.mwb_lc_part1_time || '';
+    obj.mwb_lc_part1_time_override = this.mwb_lc_part1_time_override || '';
+    obj.mwb_lc_part1 = this.mwb_lc_part1[lang] || '';
+    obj.mwb_lc_part1_override = this.mwb_lc_part1_override[lang] || '';
+    obj.mwb_lc_part1_content = this.mwb_lc_part1_content[lang] || '';
+    obj.mwb_lc_part1_content_override = this.mwb_lc_part1_content_override[lang] || '';
+    obj.mwb_lc_part2_time = this.mwb_lc_part2_time || '';
+    obj.mwb_lc_part2_time_override = this.mwb_lc_part2_time_override || '';
+    obj.mwb_lc_part2 = this.mwb_lc_part2[lang] || '';
+    obj.mwb_lc_part2_override = this.mwb_lc_part2_override[lang] || '';
+    obj.mwb_lc_part2_content = this.mwb_lc_part2_content[lang] || '';
+    obj.mwb_lc_part2_content_override = this.mwb_lc_part2_content_override[lang] || '';
+    obj.mwb_lc_cbs = this.mwb_lc_cbs[lang] || '';
+    obj.mwb_lc_cbs_time_override = this.mwb_lc_cbs_time_override || '';
+    obj.mwb_song_conclude = this.mwb_song_conclude || '';
+    obj.mwb_song_conclude_override = this.mwb_song_conclude_override || '';
+    obj.mwb_co_talk_title = this.mwb_co_talk_title || '';
+    obj.w_co_talk_title = this.w_co_talk_title || '';
+    obj.w_study_date_locale = this.w_study_date_locale[lang] || '';
+    obj.w_study_title = this.w_study_title[lang] || '';
+    obj.w_study_opening_song = this.w_study_opening_song || '';
+    obj.w_study_concluding_song = this.w_study_concluding_song || '';
+
     return obj;
   } catch (err) {
     throw new Error(err);
@@ -290,12 +308,12 @@ SourceClass.prototype.countAssignmentsInfo = function () {
   let assAssigned = 0;
 
   const classCount = Setting.class_count;
-  const openingPrayerAutoAssign = Setting.opening_prayer_autoAssign;
+  const openingPrayerAutoAssign = Setting.opening_prayer_MM_autoAssign;
 
   const schedData = Schedules.get(this.weekOf);
   const sourceData = this.local();
 
-  if (schedData.noMeeting) {
+  if (schedData.noMMeeting) {
     return { total: 0, assigned: 0 };
   }
 
@@ -320,7 +338,7 @@ SourceClass.prototype.countAssignmentsInfo = function () {
     assTotal = assTotal + 1;
   }
 
-  if (!openingPrayerAutoAssign && schedData.opening_prayer && schedData.opening_prayer !== '') {
+  if (!openingPrayerAutoAssign && schedData.opening_prayerMM && schedData.opening_prayerMM !== '') {
     assAssigned = assAssigned + 1;
   }
 
@@ -356,7 +374,7 @@ SourceClass.prototype.countAssignmentsInfo = function () {
 
   // field ministry
   for (let a = 1; a <= 4; a++) {
-    const assType = `ass${a}_type`;
+    const assType = `mwb_ayf_part${a}_type`;
     const assValue = sourceData[assType];
 
     // discussion part
@@ -421,10 +439,10 @@ SourceClass.prototype.countAssignmentsInfo = function () {
   // LC Part 2
   let cnLC2 = false;
   const noAssignLC2 = this.noAssignLC2();
-  if (sourceData.lcCount_override === 0 && sourceData.lcCount === 2) {
+  if (sourceData.mwb_lc_count_override === 0 && sourceData.mwb_lc_count === 2) {
     cnLC2 = !noAssignLC2;
   }
-  if (sourceData.lcCount_override !== 0 && sourceData.lcCount_override === 2) {
+  if (sourceData.mwb_lc_count_override !== 0 && sourceData.mwb_lc_count_override === 2) {
     cnLC2 = !noAssignLC2;
   }
 
@@ -446,7 +464,7 @@ SourceClass.prototype.countAssignmentsInfo = function () {
     }
 
     // Reader
-    const noAssignCBSReader = checkCBSReader(sourceData.cbs_src);
+    const noAssignCBSReader = checkCBSReader(sourceData.mwb_lc_cbs);
     if (!noAssignCBSReader) {
       assTotal = assTotal + 1;
     }
@@ -459,7 +477,7 @@ SourceClass.prototype.countAssignmentsInfo = function () {
   // Closing Prayer
   assTotal = assTotal + 1;
 
-  if (schedData.closing_prayer && schedData.closing_prayer !== '') {
+  if (schedData.closing_prayerMM && schedData.closing_prayerMM !== '') {
     assAssigned = assAssigned + 1;
   }
 
@@ -471,13 +489,13 @@ SourceClass.prototype.isElderPartLC1 = function () {
 
   let source = '';
   let content = '';
-  if (localSrc.lcPart1_time_override) {
-    source = localSrc.lcPart1_src_override;
-    content = localSrc.lcPart1_content_override;
+  if (localSrc.mwb_lc_part1_time_override) {
+    source = localSrc.mwb_lc_part1_override;
+    content = localSrc.mwb_lc_part1_content_override;
   }
-  if (!localSrc.lcPart1_time_override) {
-    source = localSrc.lcPart1_src;
-    content = localSrc.lcPart1_content;
+  if (!localSrc.mwb_lc_part1_time_override) {
+    source = localSrc.mwb_lc_part1;
+    content = localSrc.mwb_lc_part1_content;
   }
 
   const isElderPart = checkLCElderAssignments(source, content);
@@ -490,13 +508,17 @@ SourceClass.prototype.isElderPartLC2 = function () {
   let source = '';
   let content = '';
 
-  if (localSrc.lcCount_override !== 0 && localSrc.lcCount_override === 2 && localSrc.lcPart2_time_override) {
-    source = localSrc.lcPart2_src_override;
-    content = localSrc.lcPart2_content_override;
+  if (
+    localSrc.mwb_lc_count_override !== 0 &&
+    localSrc.mwb_lc_count_override === 2 &&
+    localSrc.mwb_lc_part2_time_override
+  ) {
+    source = localSrc.mwb_lc_part2_override;
+    content = localSrc.mwb_lc_part2_content_override;
   }
-  if (localSrc.lcCount_override === 0 && localSrc.lcCount === 2 && !localSrc.lcPart2_time_override) {
-    source = localSrc.lcPart2_src;
-    content = localSrc.lcPart2_content;
+  if (localSrc.mwb_lc_count_override === 0 && localSrc.mwb_lc_count === 2 && !localSrc.mwb_lc_part2_time_override) {
+    source = localSrc.mwb_lc_part2;
+    content = localSrc.mwb_lc_part2_content;
   }
 
   const isElderPart = checkLCElderAssignments(source, content);
@@ -507,11 +529,11 @@ SourceClass.prototype.noAssignLC1 = function () {
   const localSrc = this.local();
 
   let src = '';
-  if (localSrc.lcPart1_time_override) {
-    src = localSrc.lcPart1_src_override;
+  if (localSrc.mwb_lc_part1_time_override) {
+    src = localSrc.mwb_lc_part1_override;
   }
-  if (!localSrc.lcPart1_time_override) {
-    src = localSrc.lcPart1_src;
+  if (!localSrc.mwb_lc_part1_time_override) {
+    src = localSrc.mwb_lc_part1;
   }
 
   const noAssign = checkLCAssignments(src);
@@ -522,11 +544,15 @@ SourceClass.prototype.noAssignLC2 = function () {
   const localSrc = this.local();
 
   let src = '';
-  if (localSrc.lcCount_override !== 0 && localSrc.lcCount_override === 2 && localSrc.lcPart2_time_override) {
-    src = localSrc.lcPart2_src_override;
+  if (
+    localSrc.mwb_lc_count_override !== 0 &&
+    localSrc.mwb_lc_count_override === 2 &&
+    localSrc.mwb_lc_part2_time_override
+  ) {
+    src = localSrc.mwb_lc_part2_override;
   }
-  if (localSrc.lcCount_override === 0 && localSrc.lcCount === 2 && !localSrc.lcPart2_time_override) {
-    src = localSrc.lcPart2_src;
+  if (localSrc.mwb_lc_count_override === 0 && localSrc.mwb_lc_count === 2 && !localSrc.mwb_lc_part2_time_override) {
+    src = localSrc.mwb_lc_part2;
   }
 
   const noAssign = checkLCAssignments(src);

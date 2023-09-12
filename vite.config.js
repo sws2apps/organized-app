@@ -4,7 +4,6 @@ import eslint from 'vite-plugin-eslint';
 import { loadVersion } from '@sws2apps/vite-plugin-package-version';
 import { comlink } from 'vite-plugin-comlink';
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), comlink(), eslint(), loadVersion()],
   worker: { plugins: [comlink()] },

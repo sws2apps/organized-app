@@ -27,14 +27,21 @@ export const isDbExist = async (dbName) => {
   });
 };
 
+export const dbExportTable = async (table_name) => {
+  const result = await appDb.table(table_name).toArray();
+  return result;
+};
+
 export const dbExportDataOnline = async (cong_role = Setting.cong_role) => {
   const data = {};
 
   const lmmoRole = cong_role.includes('lmmo') || cong_role.includes('lmmo-backup');
   const secretaryRole = cong_role.includes('secretary');
+  const weekendEditorRole = cong_role.includes('coordinator') || cong_role.includes('public_talk_coordinator');
+  const publicTalkCoordinatorRole = cong_role.includes('public_talk_coordinator');
   const publisherRole = cong_role.includes('publisher') || cong_role.includes('ms') || cong_role.includes('elder');
 
-  if (lmmoRole || secretaryRole) {
+  if (lmmoRole || secretaryRole || weekendEditorRole) {
     // get persons
     data.dbPersons = await appDb.persons.toArray();
 
@@ -42,12 +49,12 @@ export const dbExportDataOnline = async (cong_role = Setting.cong_role) => {
     data.dbDeleted = await appDb.deleted.toArray();
   }
 
-  if (lmmoRole) {
+  if (lmmoRole || weekendEditorRole) {
     // get source materials
-    data.dbSourceMaterial = await appDb.src.toArray();
+    data.dbSourceMaterial = await appDb.sources.toArray();
 
     // get schedules
-    const tmpSchedule = await appDb.sched_MM.toArray();
+    const tmpSchedule = await appDb.sched.toArray();
     data.dbSchedule = [];
     for (const schedule of tmpSchedule) {
       const obj = {};
@@ -58,9 +65,14 @@ export const dbExportDataOnline = async (cong_role = Setting.cong_role) => {
       }
       data.dbSchedule.push(obj);
     }
+  }
 
-    // get sws-pocket schedules
-    data.dbPocketTbl = await appDb.sws_pocket.toArray();
+  if (publicTalkCoordinatorRole) {
+    // get public talks
+    data.dbPublicTalks = await appDb.public_talks.toArray();
+
+    // get visiting speakers
+    data.dbVisitingSpeakers = await appDb.visiting_speakers.toArray();
   }
 
   if (secretaryRole) {
@@ -94,7 +106,7 @@ export const dbExportDataOnline = async (cong_role = Setting.cong_role) => {
     data.dbUserFieldServiceReportsTbl = await appDb.user_field_service_reports.toArray();
   }
 
-  if (lmmoRole || secretaryRole) {
+  if (lmmoRole || secretaryRole || weekendEditorRole) {
     // remove local user settings before export
     const appSettings = (await appDb.app_settings.toArray())[0];
     delete appSettings.username;
@@ -356,12 +368,12 @@ export const dbRestorePersonsFromBackup = async (cong_persons) => {
 };
 
 export const dbRestoreSourceMaterialFromBackup = async (cong_sourceMaterial) => {
-  const oldSources = await appDb.src.toArray();
+  const oldSources = await appDb.sources.toArray();
   for await (const src of cong_sourceMaterial) {
     const oldSrc = oldSources.find((source) => source.weekOf === src.weekOf);
 
     if (!oldSrc) {
-      await appDb.src.add(src, src.weekOf);
+      await appDb.sources.add(src, src.weekOf);
       continue;
     }
 
@@ -407,12 +419,12 @@ export const dbRestoreSourceMaterialFromBackup = async (cong_sourceMaterial) => 
       }
     }
 
-    await appDb.src.update(src.weekOf, obj);
+    await appDb.sources.update(src.weekOf, obj);
   }
 };
 
 export const dbRestoreScheduleFromBackup = async (cong_schedule) => {
-  const oldSchedules = await appDb.sched_MM.toArray();
+  const oldSchedules = await appDb.sched.toArray();
   // handle modified schedule
   for await (const oldSchedule of oldSchedules) {
     const newSchedule = cong_schedule.find((schedule) => schedule.weekOf === oldSchedule.weekOf);
@@ -461,7 +473,7 @@ export const dbRestoreScheduleFromBackup = async (cong_schedule) => {
         });
       }
 
-      await appDb.sched_MM.put(oldSchedule, oldSchedule.weekOf);
+      await appDb.sched.put(oldSchedule, oldSchedule.weekOf);
     }
   }
 
@@ -470,7 +482,7 @@ export const dbRestoreScheduleFromBackup = async (cong_schedule) => {
     if (newSchedule.weekOf) {
       const oldSchedule = oldSchedules.find((schedule) => schedule.weekOf === newSchedule.weekOf);
       if (!oldSchedule) {
-        await appDb.sched_MM.put(newSchedule, newSchedule.weekOf);
+        await appDb.sched.put(newSchedule, newSchedule.weekOf);
       }
     }
   }
@@ -950,11 +962,118 @@ export const dbRestoreUserFieldServiceReportsFromBackup = async (user_fieldServi
   }
 };
 
+export const dbRestorePublicTalksFromBackup = async (cong_publicTalks) => {
+  await appDb.public_talks.clear();
+  for await (const public_talk of cong_publicTalks) {
+    await appDb.public_talks.add(public_talk, public_talk.talk_number);
+  }
+};
+
+export const dbRestoreVisitingSpeakersFromBackup = async (cong_visitingSpeakers) => {
+  const deletedCongregations = cong_visitingSpeakers.filter((record) => record.is_deleted);
+  const activeCongregations = cong_visitingSpeakers.filter((record) => !record.is_deleted);
+
+  // remove deleted congregations
+  for await (const cong of deletedCongregations) {
+    const isExist = await appDb.visiting_speakers.get(cong.cong_number);
+    if (isExist) {
+      await appDb.visiting_speakers.delete(cong.cong_number);
+    }
+  }
+
+  for await (const cong of activeCongregations) {
+    const oldCong = await appDb.visiting_speakers.get(cong.cong_number);
+
+    // handle new congregations
+    if (!oldCong) {
+      await appDb.visiting_speakers.add(cong);
+      continue;
+    }
+
+    // handle congregation update
+    if (oldCong) {
+      if (!oldCong.changes) oldCong.changes = [];
+
+      // handle outer changes
+      const newChanges = cong.changes || [];
+      const oldChanges = oldCong.changes;
+
+      for (const newChange of newChanges) {
+        const oldChange = oldChanges.find((item) => item.field === newChange.field);
+
+        if (!oldChange) {
+          oldCong[newChange.field] = newChange.value;
+          oldCong.changes.push(newChange);
+        }
+
+        if (oldChange) {
+          const oldDate = new Date(oldChange.date);
+          const newDate = new Date(newChange.date);
+
+          if (newDate > oldDate) {
+            oldCong[newChange.field] = newChange.value;
+            oldCong.changes = oldCong.changes.filter((item) => item.field !== newChange.field);
+            oldCong.changes.push(newChange);
+          }
+        }
+      }
+
+      // handle cong_speakers changes
+      const deletedSpeakers = cong.cong_speakers.filter((record) => record.is_deleted);
+      const activeSpeakers = cong.cong_speakers.filter((record) => !record.is_deleted);
+
+      // remove deleted speakers
+      for await (const speaker of deletedSpeakers) {
+        oldCong.cong_speakers = oldCong.cong_speakers.filter((record) => record.person_uid !== speaker.person_uid);
+      }
+
+      for await (const speaker of activeSpeakers) {
+        const oldSpeaker = oldCong.cong_speakers.find((record) => record.person_uid === speaker.person_uid);
+
+        // add new speakers
+        if (!oldSpeaker) {
+          oldCong.cong_speakers.push(speaker);
+          continue;
+        }
+
+        // handle speaker changes
+        if (oldSpeaker) {
+          if (!oldSpeaker.changes) oldSpeaker.changes = [];
+
+          const newChanges = speaker.changes || [];
+          const oldChanges = oldSpeaker.changes;
+
+          for (const newChange of newChanges) {
+            const oldChange = oldChanges.find((item) => item.field === newChange.field);
+
+            if (!oldChange) {
+              oldSpeaker[newChange.field] = newChange.value;
+              oldSpeaker.changes.push(newChange);
+            }
+
+            if (oldChange) {
+              const oldDate = new Date(oldChange.date);
+              const newDate = new Date(newChange.date);
+
+              if (newDate > oldDate) {
+                oldSpeaker[newChange.field] = newChange.value;
+                oldSpeaker.changes = oldSpeaker.changes.filter((item) => item.field !== newChange.field);
+                oldSpeaker.changes.push(newChange);
+              }
+            }
+          }
+        }
+      }
+
+      await appDb.visiting_speakers.update(cong.cong_number, { ...oldCong });
+    }
+  }
+};
+
 export const dbRestoreCongregationBackup = async (payload) => {
   const cong_persons = payload.cong_persons;
   const cong_schedule = payload.cong_schedule;
   const cong_sourceMaterial = payload.cong_sourceMaterial;
-  const cong_swsPocket = payload.cong_swsPocket;
   const cong_settings = payload.cong_settings;
   const cong_branchReports = payload.cong_branchReports;
   const cong_fieldServiceGroup = payload.cong_fieldServiceGroup;
@@ -965,13 +1084,17 @@ export const dbRestoreCongregationBackup = async (payload) => {
   const cong_serviceYear = payload.cong_serviceYear;
   const user_bibleStudies = payload.user_bibleStudies;
   const user_fieldServiceReports = payload.user_fieldServiceReports;
+  const cong_publicTalks = payload.cong_publicTalks;
+  const cong_visitingSpeakers = payload.cong_visitingSpeakers;
 
   const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
   const secretaryRole = Setting.cong_role.includes('secretary');
+  const weekendEditorRole =
+    Setting.cong_role.includes('coordinator') || Setting.cong_role.includes('public_talk_coordinator');
   const publisherRole =
     Setting.cong_role.includes('publisher') || Setting.cong_role.includes('ms') || Setting.cong_role.includes('elder');
 
-  if (lmmoRole || secretaryRole) {
+  if (lmmoRole || secretaryRole || weekendEditorRole) {
     // restore settings
     await dbRestoreSettingFromBackup(cong_settings);
 
@@ -980,18 +1103,13 @@ export const dbRestoreCongregationBackup = async (payload) => {
   }
 
   // restore source materials
-  if (lmmoRole && cong_sourceMaterial) {
+  if ((lmmoRole || weekendEditorRole) && cong_sourceMaterial) {
     await dbRestoreSourceMaterialFromBackup(cong_sourceMaterial);
   }
 
   // restore schedule
-  if (lmmoRole && cong_schedule) {
+  if ((lmmoRole || weekendEditorRole) && cong_schedule) {
     await dbRestoreScheduleFromBackup(cong_schedule);
-  }
-
-  // restore sws pocket info
-  if (lmmoRole && cong_swsPocket) {
-    await dbRestorePocketFromBackup(cong_swsPocket);
   }
 
   // restore cong_serviceYear data
@@ -1027,6 +1145,16 @@ export const dbRestoreCongregationBackup = async (payload) => {
   // restore cong_fieldServiceGroup data
   if (secretaryRole && cong_fieldServiceGroup) {
     await dbRestoreFieldServiceGroupFromBackup(cong_fieldServiceGroup);
+  }
+
+  // restore cong_publicTalks data
+  if (weekendEditorRole && cong_publicTalks) {
+    await dbRestorePublicTalksFromBackup(cong_publicTalks);
+  }
+
+  // restore cong_visitingSpeakers data
+  if (weekendEditorRole && cong_visitingSpeakers) {
+    await dbRestoreVisitingSpeakersFromBackup(cong_visitingSpeakers);
   }
 
   // restore user_bibleStudies data

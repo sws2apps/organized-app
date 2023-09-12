@@ -37,21 +37,19 @@ PersonsClass.prototype.filter = function (data) {
   let result = [];
 
   const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
-  const secretaryRole = Setting.cong_role.includes('secretary');
-  const elderRole = Setting.cong_role.includes('elder');
 
-  if (lmmoRole || elderRole) {
-    result = this.filterLMMO(data);
+  if (lmmoRole) {
+    result = this.filterBasic(data);
   }
 
-  if (secretaryRole) {
-    result = this.filterSecretary(data);
+  if (!lmmoRole) {
+    result = this.filterAdvanced(data);
   }
 
   return result;
 };
 
-PersonsClass.prototype.filterLMMO = function (data) {
+PersonsClass.prototype.filterBasic = function (data) {
   const txtSearch = data.txtSearch || '';
   const isMale = data.isMale || false;
   const isFemale = data.isFemale || false;
@@ -101,13 +99,13 @@ PersonsClass.prototype.filterLMMO = function (data) {
   return secondPassFiltered;
 };
 
-PersonsClass.prototype.filterSecretary = function (data) {
+PersonsClass.prototype.filterAdvanced = function (data) {
   const txtSearch = data.txtSearch || '';
-  const filter = data.filter;
+  const filter = data.filter || 'allPersons';
   const fsg = data.fsg || '';
   const month = data.month || `${new Date().getFullYear()}/${String(new Date().getMonth() + 1).padStart(2, '0')}/01`;
 
-  const initialData = this.filterLMMO(data);
+  const initialData = this.filterBasic(data);
 
   let firstPassFiltered = [];
   if (filter === 'allPersons') {
@@ -430,11 +428,17 @@ PersonsClass.prototype.getByAssignment = function (payload) {
       );
     }
   } else {
-    dbPersons = appData.filter((person) => person.assignments.find((assignment) => assignment.code === assType));
+    if (assType === 121) {
+      dbPersons = appData.filter((person) =>
+        person.assignments.find((assignment) => assignment.code === 120 || assignment.code === 121)
+      );
+    } else {
+      dbPersons = appData.filter((person) => person.assignments.find((assignment) => assignment.code === assType));
+    }
   }
 
   const persons = [];
-  const uniqueAssignment = [100, 104, 110, 111, 112, 113, 114, 115, 116];
+  const uniqueAssignment = [100, 104, 110, 111, 112, 113, 114, 115, 116, 118, 119, 120, 121, 122];
   const isUnique = uniqueAssignment.find((item) => item === assType);
   const studentAssignment =
     assType === 101 ||
@@ -447,7 +451,7 @@ PersonsClass.prototype.getByAssignment = function (payload) {
   // get elders only if applied
   let filteredElders = [];
   if (isLC && isElderPart) {
-    const allElders = Persons.filterSecretary({ txtSearch: '', assTypes: [], filter: 'elders' });
+    const allElders = Persons.filterAdvanced({ txtSearch: '', assTypes: [], filter: 'elders' });
 
     if (allElders.length > 0) {
       for (const person of dbPersons) {

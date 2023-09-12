@@ -114,7 +114,10 @@ const PersonDetails = () => {
 
   const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
   const secretaryRole = Setting.cong_role.includes('secretary');
-  const isEditAllowed = lmmoRole || secretaryRole;
+  const coordinatorRole = Setting.cong_role.includes('coordinator');
+  const publicTalkCoordinatorRole = Setting.cong_role.includes('public_talk_coordinator');
+
+  const isPersonEditor = lmmoRole || secretaryRole || coordinatorRole || publicTalkCoordinatorRole;
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
@@ -364,11 +367,11 @@ const PersonDetails = () => {
                     flexGrow: 1,
                   }}
                 >
-                  {isEdit ? t(isEditAllowed ? 'edit' : 'details') : t('addNew')}
+                  {isEdit ? t(isPersonEditor ? 'edit' : 'details') : t('addNew')}
                 </Typography>
               </Box>
 
-              {isEditAllowed && (
+              {isPersonEditor && (
                 <Box
                   sx={{
                     flexGrow: 1,

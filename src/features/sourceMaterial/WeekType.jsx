@@ -13,10 +13,15 @@ const WeekType = (props) => {
 
   const handleTypeChange = async (e) => {
     setWeekType(e.target.value);
+    if (e.target.value === 2) {
+      props.setPublicTalk('');
+    }
     if (e.target.value === 3 || e.target.value === 4) {
-      props.setNoMeeting(true);
+      props.setNoMMeeting(true);
+      props.setNoWMeeting(true);
     } else {
-      props.setNoMeeting(false);
+      props.setNoMMeeting(false);
+      props.setNoWMeeting(false);
     }
   };
 

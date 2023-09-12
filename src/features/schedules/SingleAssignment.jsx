@@ -25,6 +25,7 @@ const SingleAssignment = ({
   loadStudentAyfPicker,
   isLC,
   isElderPart,
+  visitingSpeaker,
 }) => {
   const { t } = useTranslation('ui');
 
@@ -71,6 +72,7 @@ const SingleAssignment = ({
         <Box sx={styles.personContainer}>
           <PersonSelect
             edit={edit}
+            visitingSpeaker={visitingSpeaker}
             ayf={ayf}
             assID={studentID}
             assType={assType}
@@ -87,7 +89,7 @@ const SingleAssignment = ({
                 <IconButton
                   sx={{ marginLeft: '3px', padding: '5px' }}
                   onClick={openPersonHistory}
-                  disabled={person === ''}
+                  disabled={!person || person === ''}
                 >
                   <ListAltIcon sx={{ fontSize: '24px' }} />
                 </IconButton>

@@ -9,6 +9,8 @@ const PartType = (props) => {
 
   const [type, setType] = useState('');
 
+  const readOnly = props.readOnly;
+
   const handleChangeType = (e) => {
     setType(e.target.value);
     if (props.ayf === 1) {
@@ -42,6 +44,7 @@ const PartType = (props) => {
           select
           label={t('partType')}
           size="small"
+          InputProps={{ readOnly }}
           value={type}
           onChange={(e) => handleChangeType(e)}
           sx={{ minWidth: '250px' }}

@@ -97,7 +97,7 @@ export const importDummyUsers = async () => {
       };
     });
 
-    const cnChairman = 13;
+    const cnChairman = 8;
     for (let i = 0; i < cnChairman; i++) {
       let isPassed = false;
       let user;
@@ -113,7 +113,7 @@ export const importDummyUsers = async () => {
         }
       } while (isPassed === false);
 
-      [110, 111, 112, 113, 114, 115].forEach((code) => {
+      [110, 111, 112, 113, 114, 115, 118, 119, 120].forEach((code) => {
         user.assignments.push({ code });
       });
 
@@ -136,7 +136,7 @@ export const importDummyUsers = async () => {
       formattedData.splice(random, 1, user);
     }
 
-    const cnBro = 6;
+    const cnBro = 11;
     for (let i = 0; i < cnBro; i++) {
       let isPassed = false;
       let user;
@@ -152,9 +152,16 @@ export const importDummyUsers = async () => {
         }
       } while (isPassed === false);
 
-      [111, 112, 113, 114].forEach((code) => {
+      [111, 112, 113, 114, 118, 119].forEach((code) => {
         user.assignments.push({ code });
       });
+
+      const assignmentAdd = [120, 121, undefined];
+      const selected = assignmentAdd[Math.floor(Math.random() * assignmentAdd.length)];
+
+      if (!selected) {
+        user.assignments.push({ selected });
+      }
 
       const msStartDate = new Date(new Date(user.birthDate).setFullYear(new Date(user.birthDate).getFullYear() + 17));
 
@@ -222,7 +229,7 @@ export const importDummyUsers = async () => {
         }
       } while (isMale === false);
 
-      [100, 104].forEach((code) => {
+      [100, 104, 122].forEach((code) => {
         user.assignments.push({ code });
       });
 

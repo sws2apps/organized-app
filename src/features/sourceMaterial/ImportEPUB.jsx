@@ -29,6 +29,8 @@ const sharedStyles = {
   },
 };
 
+let importRan = false;
+
 const ImportEPUB = () => {
   const { t } = useTranslation('ui');
 
@@ -63,6 +65,7 @@ const ImportEPUB = () => {
           setIsComplete(true);
           setFileEPUB(undefined);
         }
+        importRan = false;
         setBtnDisabled(false);
       } catch (err) {
         setOpen(false);
@@ -72,8 +75,9 @@ const ImportEPUB = () => {
       }
     };
 
-    if (open && fileEPUB) {
+    if (!importRan && open && fileEPUB) {
       loadEPUB();
+      importRan = true;
     }
   }, [open, fileEPUB, setFileEPUB, setAppMessage, setAppSeverity, setAppSnackOpen, setOpen]);
 

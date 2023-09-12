@@ -13,4 +13,6 @@ export { default as ScheduleAssignment } from './ScheduleAssignment';
 export { default as SchedulesByYear } from './SchedulesByYear';
 export { default as ScheduleCard } from './ScheduleCard';
 export { default as SchedulePublish } from './SchedulePublish';
+export { default as WeekendAssignments } from './WeekendAssignments';
+export { default as WeekendMeetingContainer } from './WeekendMeetingContainer';
 export { default as WeekSummaryItem } from './WeekSummaryItem';

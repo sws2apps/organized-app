@@ -18,6 +18,7 @@ import DownloadIcon from '@mui/icons-material/Download';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 import Grid from '@mui/material/Grid';
 import GroupsIcon from '@mui/icons-material/Groups';
+import HailIcon from '@mui/icons-material/Hail';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 import MoreTimeIcon from '@mui/icons-material/MoreTime';
@@ -85,11 +86,19 @@ const DashboardMenu = () => {
 
   const lmmoRole = congRole.includes('lmmo') || congRole.includes('lmmo-backup');
   const secretaryRole = congRole.includes('secretary');
+  const publicTalkCoordinatorRole = congRole.includes('public_talk_coordinator');
+  const coordinatorRole = congRole.includes('coordinator');
   const adminRole = congRole.includes('admin');
-  const viewMeetingScheduleRole = congRole.includes('view_meeting_schedule');
   const elderRole = congRole.includes('elder');
   const msRole = congRole.includes('ms');
-  const publisherRole = congRole.includes('publisher') || msRole || elderRole;
+  const publisherRole =
+    congRole.includes('publisher') ||
+    msRole ||
+    elderRole ||
+    lmmoRole ||
+    secretaryRole ||
+    coordinatorRole ||
+    publicTalkCoordinatorRole;
 
   const handleOpenMyAssignment = useCallback(() => {
     setWhatsNewOpen(false);
@@ -150,7 +159,9 @@ const DashboardMenu = () => {
     return [
       {
         title: t('persons'),
-        visible: accountType === 'vip' && (lmmoRole || secretaryRole || elderRole),
+        visible:
+          accountType === 'vip' &&
+          (lmmoRole || secretaryRole || elderRole || coordinatorRole || publicTalkCoordinatorRole),
         links: [
           {
             title: t('persons'),
@@ -161,8 +172,14 @@ const DashboardMenu = () => {
           {
             title: t('personAdd'),
             icon: <PersonAddIcon />,
-            visible: lmmoRole || secretaryRole,
+            visible: lmmoRole || secretaryRole || coordinatorRole || publicTalkCoordinatorRole,
             navigateTo: '/persons/new',
+          },
+          {
+            title: t('visitingSpeakers'),
+            icon: <HailIcon />,
+            visible: coordinatorRole || publicTalkCoordinatorRole,
+            navigateTo: '/visiting-speakers',
           },
           {
             title: 'Dummy Import',
@@ -171,7 +188,7 @@ const DashboardMenu = () => {
                 <DownloadIcon />
               </Badge>
             ),
-            visible: isDev && (lmmoRole || secretaryRole),
+            visible: isDev && (lmmoRole || secretaryRole || coordinatorRole || publicTalkCoordinatorRole),
             action: importDummyUsers,
           },
         ],
@@ -193,39 +210,49 @@ const DashboardMenu = () => {
             action: handleViewCurrentAssignment,
           },
           {
-            title: t('editAssignmentsSchedule'),
+            title: t('midweekMeeting'),
             icon: <AssignmentIcon />,
             visible: accountType === 'vip' && lmmoRole,
             navigateTo: '/schedules',
           },
           {
+            title: t('weekendMeeting'),
+            icon: <CalendarMonthIcon />,
+            visible: accountType === 'vip' && (coordinatorRole || publicTalkCoordinatorRole),
+            navigateTo: '/weekend-schedules',
+          },
+          {
             title: t('publishPocket'),
             icon: <SendIcon />,
-            visible: accountType === 'vip' && lmmoRole && isCongAccountConnected ? true : false,
+            visible:
+              accountType === 'vip' &&
+              (lmmoRole || coordinatorRole || publicTalkCoordinatorRole) &&
+              isCongAccountConnected,
             action: handlePublishPocket,
           },
           {
             title: t('refreshSchedule'),
             icon: <CloudSyncIcon />,
-            visible:
-              isCongAccountConnected &&
-              (accountType === 'pocket' ||
-                viewMeetingScheduleRole ||
-                (secretaryRole && !lmmoRole) ||
-                (elderRole && !secretaryRole && !lmmoRole)),
+            visible: isCongAccountConnected && !lmmoRole && !coordinatorRole && !publicTalkCoordinatorRole,
             action: apiFetchSchedule,
           },
         ],
       },
       {
         title: t('sourceMaterial'),
-        visible: accountType === 'vip' && lmmoRole,
+        visible: accountType === 'vip' && (lmmoRole || coordinatorRole || publicTalkCoordinatorRole),
         links: [
           {
             title: t('viewSourceMaterial'),
             icon: <CalendarMonthIcon />,
             visible: true,
             navigateTo: '/source-materials',
+          },
+          {
+            title: t('publicTalksList'),
+            icon: <ListAltIcon />,
+            visible: publicTalkCoordinatorRole || coordinatorRole,
+            navigateTo: '/public-talks',
           },
           {
             title: t('weekAddNew'),
@@ -291,7 +318,13 @@ const DashboardMenu = () => {
       },
       {
         title: t('congregation'),
-        visible: lmmoRole || secretaryRole || (publisherRole && isCongAccountConnected),
+        visible:
+          adminRole ||
+          lmmoRole ||
+          secretaryRole ||
+          coordinatorRole ||
+          publicTalkCoordinatorRole ||
+          (publisherRole && isCongAccountConnected),
         links: [
           {
             title: t('fieldServiceGroup'),
@@ -302,7 +335,7 @@ const DashboardMenu = () => {
           {
             title: t('settings'),
             icon: <SettingsIcon />,
-            visible: lmmoRole || secretaryRole,
+            visible: lmmoRole || secretaryRole || coordinatorRole || publicTalkCoordinatorRole,
             navigateTo: '/congregation-settings',
           },
           {
@@ -320,7 +353,7 @@ const DashboardMenu = () => {
           {
             title: t('manageAccessToApps'),
             icon: <AccountCircleIcon />,
-            visible: isCongAccountConnected && adminRole ? true : false,
+            visible: isCongAccountConnected && adminRole,
             navigateTo: '/administration',
           },
         ],
@@ -343,9 +376,10 @@ const DashboardMenu = () => {
     lmmoRole,
     secretaryRole,
     t,
-    viewMeetingScheduleRole,
     publisherRole,
     elderRole,
+    publicTalkCoordinatorRole,
+    coordinatorRole,
   ]);
 
   return (

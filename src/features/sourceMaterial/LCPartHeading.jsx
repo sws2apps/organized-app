@@ -4,7 +4,7 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Typography from '@mui/material/Typography';
 
-const LCPartHeading = ({ overrideChecked, setOverrideChecked, label }) => {
+const LCPartHeading = ({ overrideChecked, setOverrideChecked, label, readOnly }) => {
   const { t } = useTranslation('ui');
 
   return (
@@ -13,7 +13,12 @@ const LCPartHeading = ({ overrideChecked, setOverrideChecked, label }) => {
         {label}
       </Typography>
       <FormControlLabel
-        control={<Checkbox checked={overrideChecked} onChange={(e) => setOverrideChecked(e.target.checked)} />}
+        control={
+          <Checkbox
+            checked={overrideChecked}
+            onChange={readOnly ? null : (e) => setOverrideChecked(e.target.checked)}
+          />
+        }
         label={t('overridePart')}
       />
     </Box>

@@ -9,7 +9,7 @@ class SettingClass {
     this.cong_name = '';
     this.cong_role = [];
     this.class_count = 1;
-    this.meeting_day = 1;
+    this.midweek_meeting_day = 1;
     this.meeting_time = undefined;
     this.isScheduleConverted = undefined;
     this.isCongVerified = undefined;
@@ -24,9 +24,11 @@ class SettingClass {
     this.autoBackup_interval = 5;
     this.schedule_useFullname = false;
     this.account_type = '';
-    this.opening_prayer_autoAssign = false;
+    this.opening_prayer_MM_autoAssign = false;
     this.user_local_uid = '';
+    this.opening_prayer_WM_autoAssign = false;
     this.user_members_delegate = [];
+    this.weekend_meeting_day = 6;
   }
 }
 
@@ -39,7 +41,7 @@ SettingClass.prototype.load = async function () {
   this.cong_name = congData.cong_name;
   this.cong_role = congData.cong_role;
   this.class_count = congData.class_count;
-  this.meeting_day = congData.meeting_day;
+  this.midweek_meeting_day = congData.midweek_meeting_day;
   this.meeting_time = congData.meeting_time;
   this.isScheduleConverted = congData.isScheduleConverted;
   this.isCongVerified = congData.isCongVerified;
@@ -54,9 +56,11 @@ SettingClass.prototype.load = async function () {
   this.autoBackup_interval = congData.autoBackup_interval;
   this.schedule_useFullname = congData.schedule_useFullname;
   this.account_type = congData.account_type;
-  this.opening_prayer_autoAssign = congData.opening_prayer_autoAssign;
+  this.opening_prayer_MM_autoAssign = congData.opening_prayer_MM_autoAssign;
   this.user_local_uid = congData.user_local_uid || '';
   this.user_members_delegate = congData.user_members_delegate || [];
+  this.opening_prayer_WM_autoAssign = congData.opening_prayer_WM_autoAssign;
+  this.weekend_meeting_day = congData.weekend_meeting_day;
 };
 
 SettingClass.prototype.update = async function (setting, overwrite) {

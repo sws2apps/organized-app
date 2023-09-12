@@ -139,6 +139,11 @@ const updateAssignmentType = async () => {
   let cbsReaderObj = {};
   let initCallVariationsObj = {};
   let rvVariationsObj = {};
+  const chairmanWMObj = {};
+  const prayerWMObj = {};
+  const speakerObj = {};
+  const speakerSymposiumObj = {};
+  const wtStudyReaderObj = {};
 
   const listSourceLangs = LANGUAGE_LIST.filter((lang) => lang.isSource === true);
 
@@ -164,6 +169,11 @@ const updateAssignmentType = async () => {
     cbsReaderObj[langCode] = t('cbsReader', { lng: lang.code, ns: 'source' });
     initCallVariationsObj[langCode] = t('initialCallVariations', { lng: lang.code, ns: 'source' });
     rvVariationsObj[langCode] = t('returnVisitVariations', { lng: lang.code, ns: 'source' });
+    chairmanWMObj[langCode] = t('chairmanWeekendMeeting', { lng: lang.code, ns: 'source' });
+    prayerWMObj[langCode] = t('prayerWeekendMeeting', { lng: lang.code, ns: 'source' });
+    speakerObj[langCode] = t('speaker', { lng: lang.code, ns: 'source' });
+    speakerSymposiumObj[langCode] = t('speakerSymposium', { lng: lang.code, ns: 'source' });
+    wtStudyReaderObj[langCode] = t('wtStudyReader', { lng: lang.code, ns: 'source' });
   });
 
   await appDb.assignment.clear();
@@ -400,6 +410,61 @@ const updateAssignmentType = async () => {
     17
   );
 
+  await appDb.assignment.put(
+    {
+      code: 118,
+      assignment_type_name: {
+        ...chairmanWMObj,
+      },
+      id_type: 18,
+    },
+    18
+  );
+
+  await appDb.assignment.put(
+    {
+      code: 119,
+      assignment_type_name: {
+        ...prayerWMObj,
+      },
+      id_type: 19,
+    },
+    19
+  );
+
+  await appDb.assignment.put(
+    {
+      code: 120,
+      assignment_type_name: {
+        ...speakerObj,
+      },
+      id_type: 20,
+    },
+    20
+  );
+
+  await appDb.assignment.put(
+    {
+      code: 121,
+      assignment_type_name: {
+        ...speakerSymposiumObj,
+      },
+      id_type: 21,
+    },
+    21
+  );
+
+  await appDb.assignment.put(
+    {
+      code: 122,
+      assignment_type_name: {
+        ...wtStudyReaderObj,
+      },
+      id_type: 22,
+    },
+    22
+  );
+
   // handle initial call variation (140-169)
   let codeIndice = 140;
   for (const [key, value] of Object.entries(initCallVariationsObj)) {
@@ -455,11 +520,11 @@ const removeInvalidWeeks = async () => {
   const weekInvalids = ['01/26/2022', '07/26/2023'];
 
   for await (const weekInvalid of weekInvalids) {
-    const srcData = await appDb.src.get({ weekOf: weekInvalid });
-    if (srcData) await appDb.src.delete(srcData.weekOf);
+    const srcData = await appDb.sources.get({ weekOf: weekInvalid });
+    if (srcData) await appDb.sources.delete(srcData.weekOf);
 
-    const schedData = await appDb.sched_MM.get({ weekOf: weekInvalid });
-    if (schedData) await appDb.sched_MM.delete(schedData.weekOf);
+    const schedData = await appDb.sched.get({ weekOf: weekInvalid });
+    if (schedData) await appDb.sched.delete(schedData.weekOf);
   }
 };
 
@@ -523,10 +588,10 @@ const removeDuplicateTimeAway = async () => {
 };
 
 const removeAutoAssignedOpeningPrayer = async () => {
-  if (Setting.opening_prayer_autoAssign) {
+  if (Setting.opening_prayer_MM_autoAssign) {
     for await (const schedule of Schedules.list) {
-      if (schedule.chairmanMM_A === schedule.opening_prayer) {
-        await saveAssignment(schedule.weekOf, undefined, 'opening_prayer');
+      if (schedule.chairmanMM_A === schedule.opening_prayerMM) {
+        await saveAssignment(schedule.weekOf, undefined, 'opening_prayerMM');
       }
     }
   }

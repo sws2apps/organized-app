@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 
 const MyAssignmentsMonthItem = ({ assignment }) => {
   const { t } = useTranslation('ui');
-  const { weekOf, assignmentContent, assignmentName, assignmentSource, assignmentTime, studyPoint } = assignment;
+  const { weekOf, assignmentContent, assignmentName, assignmentSource, assignmentTime } = assignment;
 
   const dateValue = weekOf.split('/')[1];
   const minLabel = t('minuteShortLabel');
@@ -19,10 +19,6 @@ const MyAssignmentsMonthItem = ({ assignment }) => {
 
       if (assignmentTime) {
         src = `(${assignmentTime} ${minLabel}) ${src}`;
-      }
-
-      if (studyPoint) {
-        src = `${src} [${studyPoint}]`;
       }
     }
 
@@ -66,6 +62,16 @@ const MyAssignmentsMonthItem = ({ assignment }) => {
         )}
         {assignment.assignmentType === 'ayf' && <Typography sx={{ lineHeight: 1.2 }}>{getStuAYF()}</Typography>}
         <Typography sx={{ lineHeight: 1.2 }}>{getSource()}</Typography>
+        {assignment.speaker1DispName && (
+          <Typography sx={{ lineHeight: 1.2 }}>
+            {t('speakerPart1')}: {assignment.speaker1DispName}
+          </Typography>
+        )}
+        {assignment.speaker2DispName && (
+          <Typography sx={{ lineHeight: 1.2 }}>
+            {t('speakerPart2')}: {assignment.speaker2DispName}
+          </Typography>
+        )}
         {assignmentContent && assignmentContent !== '' && (
           <Typography sx={{ lineHeight: 1.2, fontSize: '14px' }}>{assignmentContent}</Typography>
         )}

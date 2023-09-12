@@ -22,10 +22,17 @@ const PersonAssignments = ({ person, assignments, setAssignments }) => {
   const [isLCPart, setIsLCPart] = useState(false);
   const [isLCCBSConductor, setIsLCCBSConductor] = useState(false);
   const [isLCCBSReader, setIsLCCBSReader] = useState(false);
+  const [isWeekendChairman, setIsWeekendChairman] = useState(false);
+  const [isWeekendPrayer, setIsWeekendPrayer] = useState(false);
+  const [isSpeaker, setIsSpeaker] = useState(false);
+  const [isSpeakerSymposium, setIsSpeakerSymposium] = useState(false);
+  const [isWTStudyReader, setIsWTStudyReader] = useState(false);
 
   const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
   const secretaryRole = Setting.cong_role.includes('secretary');
-  const isEditAllowed = lmmoRole || secretaryRole;
+  const coordinatorRole = Setting.cong_role.includes('coordinator');
+  const publicTalkCoordinatorRole = Setting.cong_role.includes('public_talk_coordinator');
+  const isEditAllowed = coordinatorRole || lmmoRole || secretaryRole || publicTalkCoordinatorRole;
 
   const updateLocalState = (code) => {
     if (code === 100) return setIsTGWBibleReading(false);
@@ -40,6 +47,11 @@ const PersonAssignments = ({ person, assignments, setAssignments }) => {
     if (code === 114) return setIsLCPart(false);
     if (code === 115) return setIsLCCBSConductor(false);
     if (code === 116) return setIsLCCBSReader(false);
+    if (code === 118) return setIsWeekendChairman(false);
+    if (code === 119) return setIsWeekendPrayer(false);
+    if (code === 120) return setIsSpeaker(false);
+    if (code === 121) return setIsSpeakerSymposium(false);
+    if (code === 122) return setIsWTStudyReader(false);
   };
 
   const handleAssignmentsChange = (code, value) => {
@@ -102,6 +114,21 @@ const PersonAssignments = ({ person, assignments, setAssignments }) => {
         case 116:
           setIsLCCBSReader(true);
           break;
+        case 118:
+          setIsWeekendChairman(true);
+          break;
+        case 119:
+          setIsWeekendPrayer(true);
+          break;
+        case 120:
+          setIsSpeaker(true);
+          break;
+        case 121:
+          setIsSpeakerSymposium(true);
+          break;
+        case 122:
+          setIsWTStudyReader(true);
+          break;
         default:
           break;
       }
@@ -118,7 +145,7 @@ const PersonAssignments = ({ person, assignments, setAssignments }) => {
         }}
       >
         <Box>
-          <Typography variant="h6" className="midweerkMeeting meetingPart-override">
+          <Typography variant="h6" className="midweekMeeting meetingPart-override">
             {t('midweekMeeting')}
           </Typography>
           <FormGroup sx={{ width: 'fit-content' }}>
@@ -278,6 +305,103 @@ const PersonAssignments = ({ person, assignments, setAssignments }) => {
       {isEditAllowed && !lmmoRole && (
         <Typography sx={{ fontStyle: 'italic', marginTop: '20px' }} color="#FE4119">
           {t('midweekMeetingAssignmentsNotice')}
+        </Typography>
+      )}
+
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          marginTop: '20px',
+        }}
+      >
+        <Box>
+          <Typography variant="h6" className="weekendMeeting meetingPart-override">
+            {t('weekendMeeting')}
+          </Typography>
+        </Box>
+
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'flex-start',
+            gap: '15px',
+            flexWrap: 'wrap',
+          }}
+        >
+          <Box sx={{ minWidth: '180px' }}>
+            <FormGroup sx={{ width: 'fit-content' }}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    disabled={person.isFemale}
+                    checked={person.isFemale ? false : isWeekendChairman}
+                    onChange={coordinatorRole ? (e) => handleAssignmentsChange(118, e.target.checked) : null}
+                  />
+                }
+                label={t('chairmanWeekendMeeting', { ns: 'source' })}
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    disabled={person.isFemale}
+                    checked={person.isFemale ? false : isWeekendPrayer}
+                    onChange={coordinatorRole ? (e) => handleAssignmentsChange(119, e.target.checked) : null}
+                  />
+                }
+                label={t('prayerWeekendMeeting', { ns: 'source' })}
+              />
+            </FormGroup>
+          </Box>
+
+          <Box>
+            <FormGroup sx={{ width: 'fit-content' }}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    disabled={person.isFemale}
+                    checked={person.isFemale ? false : isSpeaker}
+                    onChange={
+                      coordinatorRole || publicTalkCoordinatorRole
+                        ? (e) => handleAssignmentsChange(120, e.target.checked)
+                        : null
+                    }
+                  />
+                }
+                label={t('speaker', { ns: 'source' })}
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    disabled={person.isFemale}
+                    checked={person.isFemale ? false : isSpeakerSymposium}
+                    onChange={
+                      coordinatorRole || publicTalkCoordinatorRole
+                        ? (e) => handleAssignmentsChange(121, e.target.checked)
+                        : null
+                    }
+                  />
+                }
+                label={t('speakerSymposium', { ns: 'source' })}
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    disabled={person.isFemale}
+                    checked={person.isFemale ? false : isWTStudyReader}
+                    onChange={coordinatorRole ? (e) => handleAssignmentsChange(122, e.target.checked) : null}
+                  />
+                }
+                label={t('wtStudyReader', { ns: 'source' })}
+              />
+            </FormGroup>
+          </Box>
+        </Box>
+      </Box>
+      {isEditAllowed && (
+        <Typography sx={{ fontStyle: 'italic', marginTop: '20px' }} color="#FE4119">
+          {!coordinatorRole && !publicTalkCoordinatorRole && t('weekendMeetingAssignmentsNotice')}
+          {!coordinatorRole && publicTalkCoordinatorRole && t('weekendMeetingAssignmentsPublicTalkCoordinatorNotice')}
         </Typography>
       )}
     </Box>
