@@ -64,7 +64,13 @@ export const loadApp = async () => {
 
     const app_lang = localStorage.getItem('app_lang') || 'e';
 
-    if (account_type === 'vip' && (cong_role.includes('lmmo') || cong_role.includes('lmmo-backup'))) {
+    const isMeetingEditor =
+      cong_role.includes('lmmo') ||
+      cong_role.includes('lmmo-backup') ||
+      cong_role.includes('coordinator') ||
+      cong_role.includes('public_talk_coordinator');
+
+    if (account_type === 'vip' && isMeetingEditor) {
       await Sources.checkCurrentWeek();
     }
 
