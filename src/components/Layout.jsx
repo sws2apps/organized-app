@@ -1,7 +1,7 @@
 import { useEffect, Suspense, lazy } from 'react';
 import { Outlet, useLocation, useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import usePwa2 from 'use-pwa2/dist/index.js';
 import Box from '@mui/material/Box';
 import About from '../features/about';
@@ -14,6 +14,7 @@ import {
   isAboutOpenState,
   isAppLoadState,
   isCongPersonAddState,
+  isEmailLinkAuthenticateState,
   isOnlineState,
   restoreDbOpenState,
   userConfirmationOpenState,
@@ -62,6 +63,8 @@ const Layout = ({ updatePwa }) => {
   const { enabledInstall, installPwa, isLoading } = usePwa2();
 
   const [searchParams] = useSearchParams();
+
+  const [isEmailAuth, setIsEmailAuth] = useRecoilState(isEmailLinkAuthenticateState);
 
   const setPendingFieldServiceReports = useSetRecoilState(pendingFieldServiceReportsState);
   const setCongSpeakersRequests = useSetRecoilState(congSpeakersRequestsState);
@@ -119,8 +122,6 @@ const Layout = ({ updatePwa }) => {
     staleTime: 25000,
   });
 
-  const isEmailAuth = searchParams.get('code') !== null;
-
   const checkPwaUpdate = () => {
     if ('serviceWorker' in navigator) {
       const swUrl = `${import.meta.env.BASE_URL}service-worker.js`;
@@ -129,6 +130,11 @@ const Layout = ({ updatePwa }) => {
       });
     }
   };
+
+  useEffect(() => {
+    const value = searchParams.get('code') !== null;
+    setIsEmailAuth(value);
+  }, [setIsEmailAuth, searchParams]);
 
   useEffect(() => {
     if (import.meta.env.PROD && isOnline) checkPwaUpdate();
@@ -196,7 +202,7 @@ const Layout = ({ updatePwa }) => {
         {isS140DownloadPDF && <S140DownloadPDF />}
         {isWeekendMeetingDownloadPDF && <WeekendMeetingDownloadPDF />}
 
-        {isEmailAuth && <EmailLinkAuthentication />}
+        {isAppLoad && isEmailAuth && <EmailLinkAuthentication />}
         {isAppLoad && !isEmailAuth && <Startup />}
         {!isAppLoad && (
           <Suspense fallback={<WaitingPage />}>

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from '@tanstack/react-query';
 import Autocomplete from '@mui/material/Autocomplete';
@@ -6,11 +7,16 @@ import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import EditLocationIcon from '@mui/icons-material/EditLocation';
 import TextField from '@mui/material/TextField';
+import { appMessageState, appSeverityState, appSnackOpenState } from '../states/notification';
 import { apiFetchCountries } from '../api';
 
 const CountrySelect = ({ setCountry }) => {
   const { t } = useTranslation('ui');
   const queryClient = useQueryClient();
+
+  const setAppSnackOpen = useSetRecoilState(appSnackOpenState);
+  const setAppSeverity = useSetRecoilState(appSeverityState);
+  const setAppMessage = useSetRecoilState(appMessageState);
 
   const [countries, setCountries] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -39,10 +45,16 @@ const CountrySelect = ({ setCountry }) => {
         queryKey: ['countries'],
         queryFn: apiFetchCountries,
       });
-      const tmpCountries = queryClient.getQueryData(['countries']);
+      const result = queryClient.getQueryData(['countries']);
 
-      if (active) {
-        setCountries(tmpCountries.data);
+      if (active && result.status === 200) {
+        if (Array.isArray(result.data)) setCountries(result.data);
+      }
+
+      if (result.status !== 200) {
+        setAppSeverity('warning');
+        setAppMessage(t('countriesFetchError'));
+        setAppSnackOpen(true);
       }
 
       setIsLoading(false);
@@ -53,7 +65,7 @@ const CountrySelect = ({ setCountry }) => {
     return () => {
       active = false;
     };
-  }, [isLoading, queryClient]);
+  }, [isLoading, queryClient, t, setAppSeverity, setAppMessage, setAppSnackOpen]);
 
   useEffect(() => {
     if (openPicker && countries.length === 0) {

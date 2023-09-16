@@ -1,8 +1,17 @@
 import { useEffect, useState } from 'react';
+import { useSetRecoilState } from 'recoil';
+import { useTranslation } from 'react-i18next';
 import { useQueryClient } from '@tanstack/react-query';
+import { appMessageState, appSeverityState, appSnackOpenState } from '../../states/notification';
 
 const useCongregationSelect = ({ country, fetcher }) => {
+  const { t } = useTranslation('ui');
+
   const queryClient = useQueryClient();
+
+  const setAppSnackOpen = useSetRecoilState(appSnackOpenState);
+  const setAppSeverity = useSetRecoilState(appSeverityState);
+  const setAppMessage = useSetRecoilState(appMessageState);
 
   const [value, setValue] = useState(null);
   const [inputValue, setInputValue] = useState('');
@@ -28,10 +37,16 @@ const useCongregationSelect = ({ country, fetcher }) => {
             queryFn: () => fetcher(country.code, name),
           });
 
-          const tmpCongregations = queryClient.getQueryData(['congregations_by_country']);
+          const result = queryClient.getQueryData(['congregations_by_country']);
 
-          if (active) {
-            setOptions(tmpCongregations.data);
+          if (active && result.status === 200) {
+            if (Array.isArray(result.data)) setOptions(result.data);
+          }
+
+          if (result.status !== 200) {
+            setAppSeverity('warning');
+            setAppMessage(t('congregationsFetchError'));
+            setAppSnackOpen(true);
           }
 
           setIsLoading(false);
@@ -55,7 +70,7 @@ const useCongregationSelect = ({ country, fetcher }) => {
       active = false;
       if (fetchTimer) clearTimeout(fetchTimer);
     };
-  }, [country, value, inputValue, queryClient, fetcher]);
+  }, [country, value, inputValue, queryClient, fetcher, t, setAppSeverity, setAppMessage, setAppSnackOpen]);
 
   return { options, value, setValue, setInputValue, isLoading };
 };

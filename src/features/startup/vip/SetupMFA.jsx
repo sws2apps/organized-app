@@ -22,7 +22,6 @@ import {
   isReEnrollMFAState,
   isSetupState,
   isUnauthorizedRoleState,
-  isUserEmailOTPState,
   isUserMfaSetupState,
   offlineOverrideState,
   qrCodePathState,
@@ -70,7 +69,6 @@ const SetupMFA = () => {
   const setIsAppLoad = useSetRecoilState(isAppLoadState);
   const setCongAccountConnected = useSetRecoilState(congAccountConnectedState);
   const setOfflineOverride = useSetRecoilState(offlineOverrideState);
-  const setIsUserEmailOTP = useSetRecoilState(isUserEmailOTPState);
 
   const qrCodePath = useRecoilValue(qrCodePathState);
   const token = useRecoilValue(secretTokenPathState);
@@ -140,11 +138,6 @@ const SetupMFA = () => {
 
   const handleOtpChange = async (newValue) => {
     setUserOTP(newValue);
-  };
-
-  const handleEmailOTP = () => {
-    setIsUserEmailOTP(true);
-    setIsUserMfaSetup(false);
   };
 
   useEffect(() => {
@@ -291,10 +284,6 @@ const SetupMFA = () => {
         >
           {t('mfaVerify')}
         </Button>
-
-        <Link component="button" underline="none" variant="body1" onClick={handleEmailOTP}>
-          {t('sendOTPEmail')}
-        </Link>
       </Box>
     </Container>
   );

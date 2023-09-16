@@ -40,7 +40,83 @@ export const apiSendAuthorization = async () => {
       const data = await res.json();
 
       if (res.status === 200) {
-        return { isVerifyMFA: true };
+        const { id, cong_id, cong_name, cong_role, cong_number, user_members_delegate, user_local_uid, mfa } = data;
+
+        if (mfa === 'not_enabled') {
+          if (cong_name.length === 0) return { createCongregation: true };
+
+          if (cong_role.length === 0) return { unauthorized: true };
+
+          const approvedRole =
+            cong_role.includes('lmmo') ||
+            cong_role.includes('lmmo-backup') ||
+            cong_role.includes('view_meeting_schedule') ||
+            cong_role.includes('admin') ||
+            cong_role.includes('secretary') ||
+            cong_role.includes('coordinator') ||
+            cong_role.includes('public_talk_coordinator') ||
+            cong_role.includes('elder') ||
+            cong_role.includes('publisher') ||
+            cong_role.includes('ms');
+
+          if (!approvedRole) return { unauthorized: true };
+
+          backupWorkerInstance.setUserRole(cong_role);
+          backupWorkerInstance.setCongID(cong_id);
+          backupWorkerInstance.setIsCongAccountConnected(true);
+          backupWorkerInstance.setAccountType('vip');
+
+          await promiseSetRecoil(congIDState, cong_id);
+
+          if (cong_role.includes('admin')) {
+            await promiseSetRecoil(isAdminCongState, true);
+          }
+
+          const isMainDb = await isDbExist('cpe_sws');
+          if (!isMainDb) await initAppDb();
+
+          // save congregation update if any
+          let obj = {};
+          obj.username = data.username;
+          obj.cong_name = cong_name;
+          obj.cong_number = cong_number;
+          obj.isLoggedOut = false;
+          obj.user_members_delegate = user_members_delegate;
+
+          if (user_local_uid && user_local_uid !== null) {
+            obj.user_local_uid = user_local_uid;
+            await promiseSetRecoil(userLocalUidState, user_local_uid);
+          }
+
+          obj.cong_role = cong_role;
+          obj.account_type = 'vip';
+          await Setting.update(obj);
+
+          await promiseSetRecoil(userIDState, id);
+          await promiseSetRecoil(userMembersDelegateState, user_members_delegate);
+          await promiseSetRecoil(accountTypeState, 'vip');
+          await promiseSetRecoil(congRoleState, cong_role);
+
+          // update persons if exists
+          if (data.cong_persons) {
+            await Persons.reset();
+
+            for await (const person of data.cong_persons) {
+              await Persons.cleanAdd(person);
+            }
+          }
+
+          // update user field service reports if exists
+          if (data.user_fieldServiceReports) {
+            await UserS4Records.mergeFromBackup(data.user_fieldServiceReports);
+          }
+
+          await loadApp();
+
+          return { success: true };
+        } else {
+          return { isVerifyMFA: true };
+        }
       } else {
         if (data.secret && data.qrCode) {
           await promiseSetRecoil(secretTokenPathState, data.secret);
@@ -119,6 +195,8 @@ export const apiHandleVerifyOTP = async (userOTP, isSetup, trustedDevice) => {
           cong_role.includes('view_meeting_schedule') ||
           cong_role.includes('admin') ||
           cong_role.includes('secretary') ||
+          cong_role.includes('coordinator') ||
+          cong_role.includes('public_talk_coordinator') ||
           cong_role.includes('elder') ||
           cong_role.includes('publisher') ||
           cong_role.includes('ms');
@@ -182,131 +260,6 @@ export const apiHandleVerifyOTP = async (userOTP, isSetup, trustedDevice) => {
     }
   } catch (err) {
     await promiseSetRecoil(appMessageState, err.message);
-    await promiseSetRecoil(appSeverityState, 'error');
-    await promiseSetRecoil(appSnackOpenState, true);
-    return {};
-  }
-};
-
-export const apiHandleVerifyEmailOTP = async (userOTP) => {
-  try {
-    const { t } = getI18n();
-
-    const { apiHost, visitorID } = await getProfile();
-
-    const auth = await getAuth();
-    const user = auth.currentUser;
-
-    if (userOTP.length === 6) {
-      if (apiHost !== '') {
-        const res = await fetch(`${apiHost}verify-otp-code`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            appclient: 'cpe',
-            appversion: import.meta.env.PACKAGE_VERSION,
-            visitorid: visitorID,
-            uid: user.uid,
-          },
-          body: JSON.stringify({ code: userOTP }),
-        });
-
-        const data = await res.json();
-
-        if (res.status !== 200) {
-          if (data.message) {
-            if (data.message === 'TOKEN_INVALID') data.message = t('mfaTokenInvalidExpired', { ns: 'ui' });
-            if (data.message === 'EMAIL_OTP_INVALID') data.message = t('emailOTPInvalidExpired', { ns: 'ui' });
-            await promiseSetRecoil(appMessageState, data.message);
-            await promiseSetRecoil(appSeverityState, 'warning');
-            await promiseSetRecoil(appSnackOpenState, true);
-            return {};
-          }
-        }
-
-        const { id, cong_id, cong_name, cong_role, cong_number, user_members_delegate } = data;
-
-        if (cong_name.length === 0) return { createCongregation: true };
-
-        if (cong_role.length === 0) return { unauthorized: true };
-
-        if (!cong_role.includes('lmmo') && !cong_role.includes('lmmo-backup')) return { unauthorized: true };
-
-        backupWorkerInstance.setCongID(cong_id);
-        backupWorkerInstance.setIsCongAccountConnected(true);
-        backupWorkerInstance.setAccountType('vip');
-
-        await promiseSetRecoil(congIDState, cong_id);
-
-        if (cong_role.includes('admin')) {
-          await promiseSetRecoil(isAdminCongState, true);
-        }
-
-        const isMainDb = await isDbExist('cpe_sws');
-        if (!isMainDb) await initAppDb();
-
-        // save congregation update if any
-        let obj = {};
-        obj.username = data.username;
-        obj.cong_name = cong_name;
-        obj.cong_number = cong_number;
-        obj.isLoggedOut = false;
-        obj.user_members_delegate = user_members_delegate;
-        obj.cong_role = cong_role;
-        obj.account_type = 'vip';
-        await Setting.update(obj);
-
-        await promiseSetRecoil(userIDState, id);
-        await promiseSetRecoil(userMembersDelegateState, user_members_delegate);
-        await promiseSetRecoil(accountTypeState, 'vip');
-        await promiseSetRecoil(congRoleState, cong_role);
-
-        await loadApp();
-
-        return { success: true };
-      }
-    }
-  } catch (err) {
-    await promiseSetRecoil(appMessageState, err.message);
-    await promiseSetRecoil(appSeverityState, 'error');
-    await promiseSetRecoil(appSnackOpenState, true);
-    return {};
-  }
-};
-
-export const apiRequestTempOTPCode = async (uid) => {
-  const { t } = getI18n();
-
-  try {
-    const { apiHost, appLang, visitorID } = await getProfile();
-
-    if (apiHost !== '' && uid !== '') {
-      const res = await fetch(`${apiHost}request-otp-code`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          appclient: 'cpe',
-          appversion: import.meta.env.PACKAGE_VERSION,
-          applanguage: appLang,
-          uid: uid,
-          visitorid: visitorID,
-        },
-      });
-
-      const data = await res.json();
-      if (res.status === 200) {
-        return { success: true };
-      } else {
-        if (data.message) {
-          await promiseSetRecoil(appMessageState, data.message);
-          await promiseSetRecoil(appSeverityState, 'warning');
-          await promiseSetRecoil(appSnackOpenState, true);
-          return {};
-        }
-      }
-    }
-  } catch (err) {
-    await promiseSetRecoil(appMessageState, t('sendEmailError', { ns: 'ui' }));
     await promiseSetRecoil(appSeverityState, 'error');
     await promiseSetRecoil(appSnackOpenState, true);
     return {};
@@ -386,7 +339,84 @@ export const apiUpdatePasswordlessInfo = async (uid) => {
 
       if (res.status === 200) {
         localStorage.removeItem('emailForSignIn');
-        return { isVerifyMFA: true, tmpEmail };
+
+        const { id, cong_id, cong_name, cong_role, cong_number, user_members_delegate, user_local_uid, mfa } = data;
+
+        if (mfa === 'not_enabled') {
+          if (cong_name.length === 0) return { createCongregation: true };
+
+          if (cong_role.length === 0) return { unauthorized: true };
+
+          const approvedRole =
+            cong_role.includes('lmmo') ||
+            cong_role.includes('lmmo-backup') ||
+            cong_role.includes('view_meeting_schedule') ||
+            cong_role.includes('admin') ||
+            cong_role.includes('secretary') ||
+            cong_role.includes('coordinator') ||
+            cong_role.includes('public_talk_coordinator') ||
+            cong_role.includes('elder') ||
+            cong_role.includes('publisher') ||
+            cong_role.includes('ms');
+
+          if (!approvedRole) return { unauthorized: true };
+
+          backupWorkerInstance.setUserRole(cong_role);
+          backupWorkerInstance.setCongID(cong_id);
+          backupWorkerInstance.setIsCongAccountConnected(true);
+          backupWorkerInstance.setAccountType('vip');
+
+          await promiseSetRecoil(congIDState, cong_id);
+
+          if (cong_role.includes('admin')) {
+            await promiseSetRecoil(isAdminCongState, true);
+          }
+
+          const isMainDb = await isDbExist('cpe_sws');
+          if (!isMainDb) await initAppDb();
+
+          // save congregation update if any
+          let obj = {};
+          obj.username = data.username;
+          obj.cong_name = cong_name;
+          obj.cong_number = cong_number;
+          obj.isLoggedOut = false;
+          obj.user_members_delegate = user_members_delegate;
+
+          if (user_local_uid && user_local_uid !== null) {
+            obj.user_local_uid = user_local_uid;
+            await promiseSetRecoil(userLocalUidState, user_local_uid);
+          }
+
+          obj.cong_role = cong_role;
+          obj.account_type = 'vip';
+          await Setting.update(obj);
+
+          await promiseSetRecoil(userIDState, id);
+          await promiseSetRecoil(userMembersDelegateState, user_members_delegate);
+          await promiseSetRecoil(accountTypeState, 'vip');
+          await promiseSetRecoil(congRoleState, cong_role);
+
+          // update persons if exists
+          if (data.cong_persons) {
+            await Persons.reset();
+
+            for await (const person of data.cong_persons) {
+              await Persons.cleanAdd(person);
+            }
+          }
+
+          // update user field service reports if exists
+          if (data.user_fieldServiceReports) {
+            await UserS4Records.mergeFromBackup(data.user_fieldServiceReports);
+          }
+
+          await loadApp();
+
+          return { success: true };
+        } else {
+          return { isVerifyMFA: true, tmpEmail };
+        }
       } else {
         if (data.secret && data.qrCode) {
           localStorage.removeItem('emailForSignIn');
