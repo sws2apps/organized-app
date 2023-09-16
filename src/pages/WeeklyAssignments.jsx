@@ -42,6 +42,14 @@ const WeeklyAssignments = () => {
 
   const shortDateFormat = useRecoilValue(shortDateFormatState);
 
+  const isElder =
+    Setting.cong_role.includes('secretary') ||
+    Setting.cong_role.includes('lmmo') ||
+    Setting.cong_role.includes('lmmo-backup') ||
+    Setting.cong_role.includes('coordinator') ||
+    Setting.cong_role.includes('public_talk_coordinator') ||
+    Setting.cong_role.includes('elder');
+
   const handleActiveWeek = async () => {
     let monDay = await getCurrentExistingWeekDate();
     monDay = monDay.replaceAll('/', '-');
@@ -131,7 +139,7 @@ const WeeklyAssignments = () => {
         >
           <InfoIcon color="warning" sx={{ fontSize: '80px' }} />
           <Typography variant="body1" align="center">
-            {Setting.cong_role.includes('secretary') ? t('noSchedulesElder') : t('noSchedules')}
+            {isElder ? t('noSchedulesElder') : t('noSchedules')}
           </Typography>
         </Container>
       )}

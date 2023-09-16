@@ -8,7 +8,6 @@ import Checkbox from '@mui/material/Checkbox';
 import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../../../states/notification';
 import {
@@ -17,7 +16,6 @@ import {
   isReEnrollMFAState,
   isSetupState,
   isUnauthorizedRoleState,
-  isUserEmailOTPState,
   isUserMfaSetupState,
   isUserMfaVerifyState,
   offlineOverrideState,
@@ -56,7 +54,6 @@ const VerifyMFA = () => {
   const setOfflineOverride = useSetRecoilState(offlineOverrideState);
   const setIsReEnrollMFA = useSetRecoilState(isReEnrollMFAState);
   const setIsUserMfaSetup = useSetRecoilState(isUserMfaSetupState);
-  const setIsUserEmailOTP = useSetRecoilState(isUserEmailOTPState);
 
   const visitorID = useRecoilValue(visitorIDState);
 
@@ -126,11 +123,6 @@ const VerifyMFA = () => {
     userOTP,
   ]);
 
-  const handleEmailOTP = () => {
-    setIsUserEmailOTP(true);
-    setIsUserMfaVerify(false);
-  };
-
   useEffect(() => {
     if (userOTP.length === 6) {
       handleVerifyOTP();
@@ -197,10 +189,6 @@ const VerifyMFA = () => {
         >
           {t('mfaVerify')}
         </Button>
-
-        <Link component="button" underline="none" variant="body1" onClick={handleEmailOTP}>
-          {t('sendOTPEmail')}
-        </Link>
       </Box>
     </Container>
   );

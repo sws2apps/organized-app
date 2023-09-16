@@ -9,9 +9,17 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import { apiUpdatePasswordlessInfo } from '../../../api';
+import { apiFetchSchedule, apiUpdatePasswordlessInfo } from '../../../api';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../../../states/notification';
-import { offlineOverrideState, visitorIDState } from '../../../states/main';
+import {
+  isAppLoadState,
+  isEmailLinkAuthenticateState,
+  isSetupState,
+  offlineOverrideState,
+  visitorIDState,
+} from '../../../states/main';
+import { runUpdater } from '../../../utils/updater';
+import { congAccountConnectedState } from '../../../states/congregation';
 
 const EmailLinkAuthentication = () => {
   const { t } = useTranslation('ui');
@@ -22,6 +30,10 @@ const EmailLinkAuthentication = () => {
   const setAppSeverity = useSetRecoilState(appSeverityState);
   const setAppMessage = useSetRecoilState(appMessageState);
   const setOfflineOverride = useSetRecoilState(offlineOverrideState);
+  const setIsSetup = useSetRecoilState(isSetupState);
+  const setCongAccountConnected = useSetRecoilState(congAccountConnectedState);
+  const setIsAppLoad = useSetRecoilState(isAppLoadState);
+  const setIsEmailLink = useSetRecoilState(isEmailLinkAuthenticateState);
 
   const visitorID = useRecoilValue(visitorIDState);
 
@@ -45,9 +57,21 @@ const EmailLinkAuthentication = () => {
       // refetch auth after email update
       await signInWithCustomToken(auth, code);
 
-      if (result.isVerifyMFA || result.isSetupMFA) {
+      if (result.isVerifyMFA || result.isSetupMFA || result.success) {
         setSearchParams('');
         setOfflineOverride(true);
+
+        if (result.success) {
+          setIsSetup(false);
+          setIsEmailLink(false);
+
+          await runUpdater();
+          await apiFetchSchedule();
+          setTimeout(() => {
+            setCongAccountConnected(true);
+            setIsAppLoad(false);
+          }, [2000]);
+        }
       }
 
       setIsProcessing(false);

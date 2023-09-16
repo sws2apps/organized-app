@@ -16,6 +16,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { apiHostState, rootModalOpenState, userIDState, visitorIDState } from '../../states/main';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../../states/notification';
+import UserOptInMFA from './UserOptInMFA';
 
 const User2FA = () => {
   const cancel = useRef();
@@ -34,6 +35,7 @@ const User2FA = () => {
   const [qrCode, setQrCode] = useState('');
   const [token, setToken] = useState('');
   const [viewerOpen, setViewerOpen] = useState(false);
+  const [openOptIn, setOpenOptIn] = useState(false);
 
   const handleFecth = async () => {
     if (apiHost !== '') {
@@ -66,6 +68,10 @@ const User2FA = () => {
   const handleClose = useCallback(() => {
     setViewerOpen(false);
   }, []);
+
+  const handleOptInMFA = () => {
+    setOpenOptIn(true);
+  };
 
   useEffect(() => {
     setModalOpen(isLoading);
@@ -143,10 +149,22 @@ const User2FA = () => {
           </DialogContent>
         </Dialog>
       )}
+
+      {openOptIn && (
+        <UserOptInMFA open={openOptIn} setOpen={(value) => setOpenOptIn(value)} qrCodePath={qrCode} token={token} />
+      )}
+
       <Typography>{t('twoFactorDesc')}</Typography>
-      <Button onClick={() => setViewerOpen(true)} variant="contained" sx={{ marginTop: '10px' }}>
-        {t('twoFactorAddDevice')}
-      </Button>
+      {data && !data.mfaEnabled && (
+        <Button onClick={handleOptInMFA} variant="contained" sx={{ marginTop: '10px' }}>
+          {t('enableLabel')}
+        </Button>
+      )}
+      {data && data.mfaEnabled && (
+        <Button onClick={() => setViewerOpen(true)} variant="contained" sx={{ marginTop: '10px' }}>
+          {t('twoFactorAddDevice')}
+        </Button>
+      )}
     </Box>
   );
 };

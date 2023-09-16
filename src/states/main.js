@@ -387,11 +387,6 @@ export const isFetchingScheduleState = atom({
   default: true,
 });
 
-export const isUserEmailOTPState = atom({
-  key: 'isUserEmailOTP',
-  default: false,
-});
-
 export const currentMFAStageState = atom({
   key: 'currentMFAStage',
   default: 'setup',
@@ -399,5 +394,10 @@ export const currentMFAStageState = atom({
 
 export const refreshScreenState = atom({
   key: 'refreshScreen',
+  default: false,
+});
+
+export const isEmailLinkAuthenticateState = atom({
+  key: 'isEmailLinkAuthenticate',
   default: false,
 });

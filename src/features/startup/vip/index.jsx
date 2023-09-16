@@ -15,7 +15,6 @@ import {
   isSetupState,
   isShowTermsUseState,
   isUnauthorizedRoleState,
-  isUserEmailOTPState,
   isUserMfaSetupState,
   isUserMfaVerifyState,
   isUserSignInState,
@@ -23,12 +22,13 @@ import {
   offlineOverrideState,
   visitorIDState,
 } from '../../../states/main';
-import { apiSendAuthorization } from '../../../api';
+import { apiFetchSchedule, apiSendAuthorization } from '../../../api';
 import WaitingPage from '../../../components/WaitingPage';
 import SetupMFA from './SetupMFA';
 import VerifyMFA from './VerifyMFA';
 import { appMessageState, appSeverityState, appSnackOpenState } from '../../../states/notification';
 import { Setting } from '../../../classes/Setting';
+import { congAccountConnectedState } from '../../../states/congregation';
 
 // lazy loading
 const EmailNotVerified = lazy(() => import('./EmailNotVerified'));
@@ -38,7 +38,6 @@ const EmailAuth = lazy(() => import('./EmailAuth'));
 const EmailBlocked = lazy(() => import('./EmailBlocked'));
 const CongregationCreate = lazy(() => import('./CongregationCreate'));
 const TermsUse = lazy(() => import('./TermsUse'));
-const EmailOTP = lazy(() => import('./EmailOTP'));
 
 const VipStartup = () => {
   const { isAuthenticated } = useFirebaseAuth();
@@ -47,9 +46,9 @@ const VipStartup = () => {
   const [isUserSignIn, setIsUserSignIn] = useRecoilState(isUserSignInState);
   const [isUserMfaVerify, setUserMfaVerify] = useRecoilState(isUserMfaVerifyState);
   const [isUserMfaSetup, setUserMfaSetup] = useRecoilState(isUserMfaSetupState);
-  const [isUserEmailOTP, setUserEmailOTP] = useRecoilState(isUserEmailOTPState);
   const [isCongAccountCreate, setIsCongAccountCreate] = useRecoilState(isCongAccountCreateState);
   const [isAuthProcessing, setIsAuthProcessing] = useRecoilState(isAuthProcessingState);
+  const [isOfflineOverride, setOfflineOverride] = useRecoilState(offlineOverrideState);
 
   const setIsUnauthorizedRole = useSetRecoilState(isUnauthorizedRoleState);
   const setIsAppLoad = useSetRecoilState(isAppLoadState);
@@ -58,13 +57,13 @@ const VipStartup = () => {
   const setAppSeverity = useSetRecoilState(appSeverityState);
   const setAppMessage = useSetRecoilState(appMessageState);
   const setCurrentMFAStage = useSetRecoilState(currentMFAStageState);
+  const setCongAccountConnected = useSetRecoilState(congAccountConnectedState);
 
   const showTermsUse = useRecoilValue(isShowTermsUseState);
   const isEmailNotVerified = useRecoilValue(isEmailNotVerifiedState);
   const isEmailBlocked = useRecoilValue(isEmailBlockedState);
   const isEmailAuth = useRecoilValue(isEmailAuthState);
   const isOnline = useRecoilValue(isOnlineState);
-  const isOfflineOverride = useRecoilValue(offlineOverrideState);
   const visitorID = useRecoilValue(visitorIDState);
 
   useEffect(() => {
@@ -76,7 +75,6 @@ const VipStartup = () => {
       setIsCongAccountCreate(false);
       setUserMfaVerify(false);
       setUserMfaSetup(false);
-      setUserEmailOTP(false);
     };
 
     const runNotAuthenticatedStep = async () => {
@@ -99,6 +97,8 @@ const VipStartup = () => {
         cong_role.includes('view_meeting_schedule') ||
         cong_role.includes('admin') ||
         cong_role.includes('secretary') ||
+        cong_role.includes('coordinator') ||
+        cong_role.includes('public_talk_coordinator') ||
         cong_role.includes('elder') ||
         cong_role.includes('publisher') ||
         cong_role.includes('ms');
@@ -131,7 +131,6 @@ const VipStartup = () => {
     setIsUserSignUp,
     setUserMfaSetup,
     setUserMfaVerify,
-    setUserEmailOTP,
     showTermsUse,
   ]);
 
@@ -153,6 +152,8 @@ const VipStartup = () => {
           cong_role.includes('view_meeting_schedule') ||
           cong_role.includes('admin') ||
           cong_role.includes('secretary') ||
+          cong_role.includes('coordinator') ||
+          cong_role.includes('public_talk_coordinator') ||
           cong_role.includes('elder') ||
           cong_role.includes('publisher') ||
           cong_role.includes('ms');
@@ -171,7 +172,9 @@ const VipStartup = () => {
         setIsAuthProcessing(true);
         const result = await apiSendAuthorization();
 
-        if (result.isSetupMFA || result.isVerifyMFA) {
+        if (result.isSetupMFA || result.isVerifyMFA || result.success || result.createCongregation) {
+          await Setting.update({ account_type: 'vip' });
+
           if (result.isVerifyMFA) {
             setCurrentMFAStage('verify');
             setIsUserSignUp(false);
@@ -186,7 +189,23 @@ const VipStartup = () => {
             setIsCongAccountCreate(false);
             setIsUnauthorizedRole(false);
           }
-          await Setting.update({ account_type: 'vip' });
+
+          if (result.success) {
+            setIsSetup(false);
+
+            await runUpdater();
+            await apiFetchSchedule();
+            setTimeout(() => {
+              setOfflineOverride(false);
+              setCongAccountConnected(true);
+              setIsAppLoad(false);
+            }, [2000]);
+          }
+          if (result.createCongregation) {
+            setIsUserSignUp(false);
+            setIsUserSignIn(false);
+            setIsCongAccountCreate(true);
+          }
         }
 
         setIsAuthProcessing(false);
@@ -217,6 +236,8 @@ const VipStartup = () => {
     showTermsUse,
     visitorID,
     setIsUnauthorizedRole,
+    setCongAccountConnected,
+    setOfflineOverride,
   ]);
 
   return (
@@ -225,7 +246,6 @@ const VipStartup = () => {
       {showTermsUse && <TermsUse />}
       {isUserSignIn && <SignIn />}
       {isUserSignUp && <SignUp />}
-      {isUserEmailOTP && <EmailOTP />}
       {isEmailNotVerified && <EmailNotVerified />}
       {isUserMfaSetup && <SetupMFA />}
       {isUserMfaVerify && <VerifyMFA />}
