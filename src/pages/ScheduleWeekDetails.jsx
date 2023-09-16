@@ -8,11 +8,25 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
 import NoMeetingRoomIcon from '@mui/icons-material/NoMeetingRoom';
+import SkipNextIcon from '@mui/icons-material/SkipNext';
+import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import Typography from '@mui/material/Typography';
 import { ScheduleAssignment } from '../features/schedules';
 import { shortDateFormatState } from '../states/main';
 import { Setting } from '../classes/Setting';
 import { Schedules } from '../classes/Schedules';
+import { Sources } from '../classes/Sources';
+
+const iconButtonStyles = {
+  fontSize: '30px',
+  borderRadius: '8px',
+  '.MuiTouchRipple-ripple .MuiTouchRipple-child': {
+    borderRadius: 0,
+    backgroundColor: 'rgba(23, 32, 42, .3)',
+  },
+  border: '1px outset',
+  width: '60px',
+};
 
 const ScheduleWeekDetails = () => {
   const { t } = useTranslation('ui');
@@ -32,6 +46,30 @@ const ScheduleWeekDetails = () => {
 
   const handleNavigateSchedule = () => {
     navigate(`/schedules/${schedule}`);
+  };
+
+  const handleWeekTimeline = (type) => {
+    const currentDate = new Date(week);
+    if (type === 'forward') {
+      currentDate.setDate(currentDate.getDate() + 7);
+    }
+    if (type === 'backward') {
+      currentDate.setDate(currentDate.getDate() - 7);
+    }
+
+    const dateFormatted = dateFormat(currentDate, 'mm/dd/yyyy');
+    if (Sources.get(dateFormatted)) {
+      const newUrl = `/schedules/${schedule}/${dateFormatted.replaceAll('/', '-')}`;
+      navigate(newUrl);
+    }
+  };
+
+  const handleMoveNext = () => {
+    handleWeekTimeline('forward');
+  };
+
+  const handleMovePrevious = () => {
+    handleWeekTimeline('backward');
   };
 
   useEffect(() => {
@@ -62,13 +100,40 @@ const ScheduleWeekDetails = () => {
 
   return (
     <Box>
-      <Box sx={{ display: 'flex', gap: '10px', alignItems: 'center', marginBottom: '20px' }}>
-        <IconButton onClick={handleNavigateSchedule}>
-          <ArrowBackIcon sx={{ fontSize: '30px' }} />
-        </IconButton>
-        <Typography sx={{ textTransform: 'uppercase', fontWeight: 'bold' }}>
-          {`${t('schedule')} > ${scheduleName} > ${weekFormatted}`}
-        </Typography>
+      <Box
+        sx={{
+          display: 'flex',
+          gap: '10px',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          marginBottom: '20px',
+          width: { xs: '100%', lg: 'calc(100% - 530px)' },
+          flexWrap: 'wrap',
+        }}
+      >
+        <Box sx={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+          <IconButton onClick={handleNavigateSchedule}>
+            <ArrowBackIcon sx={{ fontSize: '30px' }} />
+          </IconButton>
+          <Typography sx={{ textTransform: 'uppercase', fontWeight: 'bold' }}>
+            {`${t('schedule')} > ${scheduleName} > ${weekFormatted}`}
+          </Typography>
+        </Box>
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'nowrap',
+            alignItems: 'center',
+            gap: '8px',
+          }}
+        >
+          <IconButton sx={iconButtonStyles} onClick={handleMovePrevious}>
+            <SkipPreviousIcon />
+          </IconButton>
+          <IconButton sx={iconButtonStyles} onClick={handleMoveNext}>
+            <SkipNextIcon />
+          </IconButton>
+        </Box>
       </Box>
 
       <ScheduleAssignment edit={true} />
