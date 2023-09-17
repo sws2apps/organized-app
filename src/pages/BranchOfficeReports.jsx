@@ -14,7 +14,9 @@ const BranchOfficeReports = () => {
 
   const [currentReport, setCurrentReport] = useState(null);
   const [options, setOptions] = useState([]);
-  const [currentServiceYear, setCurrentServiceYear] = useState(ServiceYear.getCurrent().uid);
+  const [currentServiceYear, setCurrentServiceYear] = useState(
+    ServiceYear.getByMonth(ServiceYear.currentReportMonth()).uid
+  );
   const [allMonths, setAllMonths] = useState([]);
   const [currentMonth, setCurrentMonth] = useState('');
 
@@ -31,7 +33,7 @@ const BranchOfficeReports = () => {
       const options = ServiceYear.getMonths(currentServiceYear);
       setAllMonths(options);
 
-      if (currentServiceYear === ServiceYear.getCurrent().uid) {
+      if (currentServiceYear === ServiceYear.getByMonth(ServiceYear.currentReportMonth()).uid) {
         let currentMonth;
 
         if (new Date().getDate() > 20) {
