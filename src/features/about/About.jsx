@@ -44,13 +44,8 @@ const About = () => {
           <Typography variant="body1">{import.meta.env.PACKAGE_VERSION}</Typography>
         </Box>
         <Box>
-          <Typography
-            sx={{
-              marginTop: '10px',
-              marginBottom: '15px',
-            }}
-          >
-            <Markup className="hardcoded_link" content={t('description')} />
+          <Typography sx={{ marginTop: '10px', marginBottom: '15px' }}>
+            <Markup content={t('description')} />
           </Typography>
           <Box
             sx={{
