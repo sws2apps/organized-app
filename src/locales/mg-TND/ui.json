@@ -377,7 +377,7 @@
   "addCPEUser": "Hanampy olona afaka mampiasa CPE",
   "cpeUserFound": "Tsindrio izao ilay hoe Hamorona, ary amboary ny andraikitra sy tombontsoa an’ilay olona avy eo.",
   "selectPocketRecord": "Safidio eo amin’ilay lisitra ilay olona:",
-  "description": "Natao ho an’ny Vavolombelon’i Jehovah ity programa ity. Afaka mandamina ny fandaharam-pivoriana andavanandro sy faran’ny herinandro ianao rehefa mampiasa CPE. Azo ampiasaina koa izy ity mba handrindrana ny tatitra momba ny fanompoana ataonao sy ny tatitra momba ny fanompoan’ny fiangonana. Midira ao amin’ny <a href='https://sws2apps.com/docs/category/congregation-program-for-everyone' title='CPE' target='_blank'>https://sws2apps.com</a> raha te hahazo fanazavana bebe kokoa momba ny CPE.",
+  "description": "This web application is designed for use by Jehovah’s Witnesses. CPE can be used to create the midweek and weekend meeting schedules. It can be used also to manage your personal field service activities and the congregation field service reports. To learn more about all CPE features, visit <a class='hardcoded_link' href='https://sws2apps.com/docs/category/congregation-program-for-everyone' title='CPE' target='_blank'>https://sws2apps.com</a>.",
   "persons": "Olona ao Amin’ny Fiangonana",
   "personAdd": "Hanampy Olona",
   "viewMyAssignments": "Anjarako",
