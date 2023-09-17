@@ -161,6 +161,14 @@ const IncomingSpeaker = ({ isNew, speaker, cong_number }) => {
     setScreenRefresh((prev) => !prev);
   };
 
+  const handleDeleteSpeaker = async () => {
+    await VisitingSpeakers.deleteSpeaker({
+      person_uid: speaker.person_uid,
+      cong_number: speaker.cong_number,
+    });
+    setScreenRefresh((prev) => !prev);
+  };
+
   useEffect(() => {
     if (speaker) {
       setSpeakerName(speaker.person_name);
@@ -238,6 +246,16 @@ const IncomingSpeaker = ({ isNew, speaker, cong_number }) => {
       {!isNew && (
         <Box sx={{ marginTop: '15px' }}>
           <SpeakerTalk speaker={speaker} readOnly={readOnly} />
+
+          <Button
+            sx={{ marginTop: '15px' }}
+            variant="outlined"
+            color="error"
+            startIcon={<CancelIcon />}
+            onClick={handleDeleteSpeaker}
+          >
+            {t('delete')}
+          </Button>
         </Box>
       )}
 
