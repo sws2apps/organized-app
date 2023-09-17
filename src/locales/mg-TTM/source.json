@@ -17,10 +17,12 @@
   "otherPart": "Hafa",
   "midweekMeetingPrint": "Fandaharam-pivoriana Andavanandro",
   "chairmanMidweekMeeting": "Mpitari-draharaha",
-  "noMMeeting": "Tsy misy fivoriana",
+  "chairmanWeekendMeeting": "Mpitari-draharaha",
+  "noMMeeting": "Tsy misy fivoriana andavanandro",
   "auxClassCounselor": "Mpanome Torohevitra Faharoa",
   "song": "Hira",
   "prayerMidweekMeeting": "Vavaka",
+  "prayerWeekendMeeting": "Vavaka",
   "openingComments": "Teny Fampidirana",
   "treasuresPart": "Harena avy ao Amin’ny Tenin’Andriamanitra",
   "applyFieldMinistryPart": "Fampiofanana Amin’ny Fanompoana",
@@ -56,5 +58,13 @@
   "cbsLffWithPointsVariations": "lff lesona {{ lesson }}: Hevitra {{ points }}",
   "cbsLffSectionOnlyVariations": "lff famerenana ny fizarana",
   "lcSourceElderVariations": "Zavatra Ilain’ny Fiangonana",
-  "lcContentElderVariations": "Ataon’ny anti-panahy"
+  "lcContentElderVariations": "Ataon’ny anti-panahy",
+  "speaker": "Mpandahan-teny",
+  "speakerSymposium": "Mpandahan-teny (Lahateny Mifampitohy)",
+  "wtStudyReader": "Mpamaky Fehintsoratra",
+  "weekendMeetingPrint": "Fandaharam-pivoriana Faran’ny Herinandro",
+  "publicTalk": "Lahateny ho An’ny Besinimaro",
+  "openingPrayerWeekendMeeting": "Vavaka Fanokafana",
+  "noWMeeting": "Tsy misy fivoriana faran’ny herinandro",
+  "noMeeting": "Tsy misy fivoriana"
 }
