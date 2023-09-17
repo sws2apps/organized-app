@@ -4,7 +4,6 @@ import { AssignmentType } from './AssignmentType';
 import { FSGList } from './FSGList';
 import { PersonClass } from './Person';
 import { Schedules } from './Schedules';
-import { Setting } from './Setting';
 
 class PersonsClass {
   constructor() {
@@ -34,18 +33,7 @@ PersonsClass.prototype.loadAll = async function () {
 };
 
 PersonsClass.prototype.filter = function (data) {
-  let result = [];
-
-  const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
-
-  if (lmmoRole) {
-    result = this.filterBasic(data);
-  }
-
-  if (!lmmoRole) {
-    result = this.filterAdvanced(data);
-  }
-
+  const result = this.filterAdvanced(data);
   return result;
 };
 

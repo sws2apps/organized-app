@@ -127,7 +127,7 @@ const WeekendMeetingWeekSelect = ({ actionType, open, setOpen }) => {
                   select
                   label={t('startLabel')}
                   size="small"
-                  sx={{ width: '150px' }}
+                  sx={{ width: '180px' }}
                   value={startWeek}
                   onChange={(e) => setStartWeek(e.target.value)}
                 >
@@ -142,7 +142,7 @@ const WeekendMeetingWeekSelect = ({ actionType, open, setOpen }) => {
                   select
                   label={t('endLabel')}
                   size="small"
-                  sx={{ width: '150px' }}
+                  sx={{ width: '180px' }}
                   value={endWeek}
                   onChange={(e) => setEndWeek(e.target.value)}
                 >

@@ -190,6 +190,10 @@ const WeekendMeetingItem = ({ weekOf }) => {
             </Dialog>
           )}
 
+          {WeekType === 2 && (
+            <Typography sx={{ color: 'orangered' }}>{t('circuitOverseerWeek', { ns: 'source' })}</Typography>
+          )}
+
           <Box sx={{ display: 'flex', flexWrap: 'wrap', margin: '10px 0 25px 0', gap: '5px' }}>
             {/* Chairman*/}
             <SingleAssignment
