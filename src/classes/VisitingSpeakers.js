@@ -175,6 +175,9 @@ VisitingSpeakersClass.prototype.add = async function ({
   Speaker.email = is_self ? '' : email;
   Speaker.phone = is_self ? '' : phone;
 
+  // remove sibling record
+  cong.cong_speakers = cong.cong_speakers.filter((speaker) => speaker.person_uid !== person_uid);
+
   // add record to db
   const newSpeakers = cong.cong_speakers.concat({
     person_uid: Speaker.person_uid,
@@ -501,6 +504,38 @@ VisitingSpeakersClass.prototype.getCongregationsApprovedNew = async function () 
   }
 
   return result;
+};
+
+VisitingSpeakersClass.prototype.deleteSpeaker = async function ({ person_uid, cong_number }) {
+  const currentCong = this.getCongregation(cong_number);
+  const speaker = currentCong.cong_speakers.find((record) => record.person_uid === person_uid);
+  speaker.is_deleted = true;
+
+  const isSelf = currentCong.cong_number === +Setting.cong_number;
+
+  const newSpeakers = currentCong.cong_speakers.map((speaker) => {
+    const tmp = structuredClone(speaker);
+
+    delete tmp.cong_name;
+    delete tmp.cong_number;
+    delete tmp.cong_id;
+    delete tmp.is_local;
+
+    if (isSelf) {
+      tmp.person_displayName = '';
+      tmp.person_name = '';
+      tmp.is_elder = false;
+      tmp.is_ms = false;
+      tmp.email = '';
+      tmp.phone = '';
+    }
+
+    return tmp;
+  });
+
+  await appDb.visiting_speakers.update(cong_number, {
+    cong_speakers: newSpeakers,
+  });
 };
 
 export const VisitingSpeakers = new VisitingSpeakersClass();
