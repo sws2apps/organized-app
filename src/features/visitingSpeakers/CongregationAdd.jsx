@@ -49,7 +49,7 @@ const CongregationAdd = ({ isOpen, setOpen }) => {
   const handleCreateCongreation = async () => {
     try {
       // check if cong exist
-      const tmpNumber = selectedCong.cong_number || congNumber;
+      const tmpNumber = selectedCong?.cong_number || congNumber;
       const isExist = VisitingSpeakers.getCongregation(tmpNumber);
 
       if (isExist) {
