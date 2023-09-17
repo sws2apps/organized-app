@@ -94,8 +94,8 @@ const Layout = ({ updatePwa }) => {
   const { data: announcements } = useQuery({
     queryKey: ['annoucements'],
     queryFn: fetchNotifications,
-    refetchInterval: 30 * 60 * 1000,
-    staleTime: 30 * 60 * 1000,
+    refetchInterval: 30000,
+    staleTime: 30000,
   });
 
   const { data: pending_fieldServiceReports } = useQuery({

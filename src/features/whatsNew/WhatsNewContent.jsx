@@ -53,7 +53,9 @@ const WhatsNewContent = () => {
       </Box>
       <Box sx={{ minWidth: '350px', maxWidth: '650px', padding: '20px' }}>
         {cnNews + cnPendingReports + cnSpeakersRequests + cnSpeakersRequestsApproved === 0 && (
-          <Typography>{t('nothingNew')}</Typography>
+          <Typography sx={{ marginBottom: '15px', borderBottom: '1px outset', paddingBottom: '15px' }}>
+            {t('nothingNew')}
+          </Typography>
         )}
         <Announcements />
         {cnPendingReports > 0 && <FieldServiceReport />}
