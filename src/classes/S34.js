@@ -17,7 +17,11 @@ S34Class.prototype.loadDetails = async function () {
 S34Class.prototype.save = async function (talk_title) {
   const sourceLang = Setting.source_lang.toUpperCase();
 
-  const hasChange = talk_title !== this.talk_title[sourceLang].title;
+  let hasChange = true;
+
+  if (this.talk_title[sourceLang] && this.talk_title[sourceLang].title) {
+    hasChange = talk_title !== this.talk_title[sourceLang].title;
+  }
 
   if (hasChange) {
     const talkTitle = { ...this.talk_title, [sourceLang]: { title: talk_title, modified: new Date().toISOString() } };

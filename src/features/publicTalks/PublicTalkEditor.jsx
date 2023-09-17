@@ -65,7 +65,7 @@ const PublicTalkEditor = ({ public_talk, readOnly, setPublicTalk }) => {
 
           <PublicTalkHistory talk_number={public_talk.talk_number} />
 
-          {publicTalkCoordinatorRole && !readOnly && (
+          {publicTalkCoordinatorRole && !readOnly && public_talk.talk_modified !== '' && (
             <Typography
               align="right"
               sx={{ fontSize: '14px', marginTop: '8px', fontStyle: 'italic', marginRight: '10px' }}

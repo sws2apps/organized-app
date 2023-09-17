@@ -30,21 +30,41 @@ S34sClass.prototype.loadAll = async function () {
 };
 
 S34sClass.prototype.reset = async function (talks) {
-  this.talks.length = 0;
-
-  await appDb.public_talks.clear();
-
   for (const talk of talks) {
-    const S34 = new S34Class(talk.talk_number);
+    let S34;
 
-    const titles = structuredClone(talk);
-    delete titles.id;
-    delete titles.talk_number;
+    S34 = this.get(talk.talk_number);
 
-    S34.talk_title = titles;
+    if (!S34) {
+      S34 = new S34Class(talk.talk_number);
+    }
 
-    await appDb.public_talks.add(S34);
-    this.talks.push(S34);
+    delete talk.id;
+    delete talk.talk_number;
+
+    for (const [language, value] of Object.entries(talk)) {
+      const incomingTitle = value.title;
+      const incomingModified = value.modified;
+
+      let hasChange = false;
+      const currentModified = S34.talk_title[language]?.modified || '';
+
+      if (currentModified === '') hasChange = true;
+      if (currentModified !== '') {
+        const incomingDate = new Date(incomingModified);
+        const currentDate = new Date(currentModified);
+
+        if (incomingDate > currentDate) hasChange = true;
+      }
+
+      if (hasChange) {
+        S34.talk_title = { ...S34.talk_title, [language]: { title: incomingTitle, modified: incomingModified } };
+        await appDb.public_talks.update(this.talk_number, { ...S34 });
+
+        this.talks = this.talks.filter((talk) => talk.talk_number !== S34.talk_number);
+        this.talks.push(S34);
+      }
+    }
   }
 
   this.sort();
@@ -58,8 +78,8 @@ S34sClass.prototype.getLocal = function () {
   for (const talk of this.talks) {
     result.push({
       talk_number: talk.talk_number,
-      talk_title: talk.talk_title[lang].title,
-      talk_modified: talk.talk_title[lang].modified,
+      talk_title: talk.talk_title[lang]?.title || '',
+      talk_modified: talk.talk_title[lang]?.modified || '',
     });
   }
 
