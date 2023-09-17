@@ -62,7 +62,7 @@ ServiceYearClass.prototype.get = function (uid) {
 
 ServiceYearClass.prototype.getCurrent = function () {
   const currentYear = new Date().getFullYear();
-  const currentMonth = new Date().getMonth();
+  const currentMonth = new Date().getMonth() + 1;
   let current;
 
   if (currentMonth < 9) current = `${+currentYear - 1}-${currentYear}`;
@@ -74,7 +74,7 @@ ServiceYearClass.prototype.getCurrent = function () {
 
 ServiceYearClass.prototype.currentReportMonth = function () {
   const currentYear = new Date().getFullYear();
-  const currentMonth = new Date().getMonth();
+  const currentMonth = new Date().getMonth() + 1;
   const currentDate = new Date().getDate();
 
   let month;
@@ -92,7 +92,7 @@ ServiceYearClass.prototype.currentReportMonth = function () {
 
 ServiceYearClass.prototype.checkCurrent = async function () {
   const currentYear = new Date().getFullYear();
-  const currentMonth = new Date().getMonth();
+  const currentMonth = new Date().getMonth() + 1;
   let current;
 
   if (currentMonth < 9) current = `${+currentYear - 1}-${currentYear}`;
@@ -107,11 +107,12 @@ ServiceYearClass.prototype.checkCurrent = async function () {
 
 ServiceYearClass.prototype.getByMonth = function (month) {
   const currentYear = new Date(month).getFullYear();
-  const currentMonth = new Date(month).getMonth();
+  const currentMonth = new Date(month).getMonth() + 1;
   let current;
 
-  if (currentMonth < 8) current = `${+currentYear - 1}-${currentYear}`;
-  if (currentMonth >= 8) current = `${currentYear}-${+currentYear + 1}`;
+  if (currentMonth < 9) current = `${+currentYear - 1}-${currentYear}`;
+  if (currentMonth >= 9) current = `${currentYear}-${+currentYear + 1}`;
+
   const found = this.getByValue(current);
 
   return found;

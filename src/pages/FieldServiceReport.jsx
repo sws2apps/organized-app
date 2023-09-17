@@ -42,7 +42,9 @@ const FieldServiceReport = () => {
 
   const refresh = useRecoilValue(refreshReportState);
 
-  const [currentServiceYear, setCurrentServiceYear] = useState(ServiceYear.getCurrent().uid);
+  const [currentServiceYear, setCurrentServiceYear] = useState(
+    ServiceYear.getByMonth(ServiceYear.currentReportMonth()).uid
+  );
   const [currentMonth, setCurrentMonth] = useState('');
   const [allMonths, setAllMonths] = useState([]);
   const [options, setOptions] = useState([]);
@@ -76,7 +78,7 @@ const FieldServiceReport = () => {
       const options = ServiceYear.getMonths(currentServiceYear);
       setAllMonths(options);
 
-      if (currentServiceYear === ServiceYear.getCurrent().uid) {
+      if (currentServiceYear === ServiceYear.getByMonth(ServiceYear.currentReportMonth()).uid) {
         let currentMonth;
 
         if (new Date().getDate() > 20) {
