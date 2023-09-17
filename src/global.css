@@ -142,6 +142,6 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-.hardcoded_link a {
+.hardcoded_link {
   color: #78b1d7;
 }
