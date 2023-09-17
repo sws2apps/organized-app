@@ -59,7 +59,7 @@ S34sClass.prototype.reset = async function (talks) {
 
       if (hasChange) {
         S34.talk_title = { ...S34.talk_title, [language]: { title: incomingTitle, modified: incomingModified } };
-        await appDb.public_talks.update(this.talk_number, { ...S34 });
+        await appDb.public_talks.put({ ...S34 }, S34.talk_number);
 
         this.talks = this.talks.filter((talk) => talk.talk_number !== S34.talk_number);
         this.talks.push(S34);
