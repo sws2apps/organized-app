@@ -247,15 +247,17 @@ const IncomingSpeaker = ({ isNew, speaker, cong_number }) => {
         <Box sx={{ marginTop: '15px' }}>
           <SpeakerTalk speaker={speaker} readOnly={readOnly} />
 
-          <Button
-            sx={{ marginTop: '15px' }}
-            variant="outlined"
-            color="error"
-            startIcon={<CancelIcon />}
-            onClick={handleDeleteSpeaker}
-          >
-            {t('delete')}
-          </Button>
+          {!readOnly && (
+            <Button
+              sx={{ marginTop: '15px' }}
+              variant="outlined"
+              color="error"
+              startIcon={<CancelIcon />}
+              onClick={handleDeleteSpeaker}
+            >
+              {t('delete')}
+            </Button>
+          )}
         </Box>
       )}
 

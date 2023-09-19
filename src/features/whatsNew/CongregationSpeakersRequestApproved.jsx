@@ -31,7 +31,7 @@ const CongregationSpeakersRequestApproved = () => {
   };
 
   return (
-    <Box>
+    <Box sx={{ marginBottom: '15px', borderBottom: '1px outset', paddingBottom: '15px' }}>
       <Box sx={{ marginBottom: '15px', display: 'flex', flexDirection: 'column', gap: '15px' }}>
         {speakersRequests.map((request) => (
           <Box
