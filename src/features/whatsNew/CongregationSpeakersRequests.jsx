@@ -58,7 +58,7 @@ const CongregationSpeakersRequests = () => {
   };
 
   return (
-    <Box>
+    <Box sx={{ marginBottom: '15px', borderBottom: '1px outset', paddingBottom: '15px' }}>
       <Typography>{t('visitingSpeakersRequestHeading')}</Typography>
       <Box sx={{ marginTop: '15px', display: 'flex', flexDirection: 'column', gap: '15px' }}>
         {speakersRequests.map((request) => (
