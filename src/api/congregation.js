@@ -63,7 +63,7 @@ export const apiFetchCongregations = async (country, name) => {
 };
 
 export const apiCreateCongregation = async (country_code, cong_name, cong_number, role, fullname) => {
-  const { apiHost, visitorID } = await getProfile();
+  const { appLang, apiHost, visitorID } = await getProfile();
 
   try {
     if (apiHost !== '') {
@@ -78,6 +78,7 @@ export const apiCreateCongregation = async (country_code, cong_name, cong_number
           appversion: import.meta.env.PACKAGE_VERSION,
           visitorid: visitorID,
           uid: user.uid,
+          language: appLang.toUpperCase(),
         },
         body: JSON.stringify({ country_code, cong_name, cong_number, app_requestor: role, fullname }),
       });
