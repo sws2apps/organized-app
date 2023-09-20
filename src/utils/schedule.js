@@ -471,6 +471,46 @@ export const getPersonAutofillNoPartWithin2Weeks = (persons, week, assClass, ass
   return selected;
 };
 
+export const getPersonAutofillNoPartSameWeek = (persons, week, assClass, assType) => {
+  let selected;
+
+  const currentDate = new Date(`${week.split('/')[2]}/${week.split('/')[0]}/${week.split('/')[1]}`);
+
+  for (const person of persons) {
+    const assignments = Schedules.history.filter(
+      (record) => record.weekOf === week && record.studentID === person.person_uid
+    );
+
+    if (assignments.length === 0) {
+      if (assClass) {
+        const lastAssignment = Schedules.history.find((record) => {
+          const tmpDate = new Date(
+            `${record.weekOf.split('/')[2]}/${record.weekOf.split('/')[0]}/${record.weekOf.split('/')[1]}`
+          );
+
+          return tmpDate < currentDate && record.studentID === person.person_uid;
+        });
+
+        const lastAssignmentClass = lastAssignment?.class;
+        const lastAssignmentType = lastAssignment?.assignmentID;
+        const hasAux = Setting.class_count === 2;
+
+        if (lastAssignmentType !== assType && (!hasAux || (hasAux && lastAssignmentClass !== assClass))) {
+          selected = person.person_uid;
+          break;
+        }
+      }
+
+      if (!assClass) {
+        selected = person.person_uid;
+        break;
+      }
+    }
+  }
+
+  return selected;
+};
+
 export const getPersonAutofillSibling = (persons, assType, assClass) => {
   let selected;
 
@@ -526,7 +566,12 @@ export const selectRandomPerson = (data) => {
     selected = getPersonAutofillNoPartWithin2Weeks(persons, week, assClass, assType);
   }
 
-  // 4th rule: no same part consecutively
+  // 4th rule: no part within same meeting
+  if (!selected) {
+    selected = getPersonAutofillNoPartSameWeek(persons, week, assClass, assType);
+  }
+
+  // 5th rule: no same part consecutively
   if (!selected) {
     selected = getPersonAutofillSibling(persons, assType, assClass);
   }

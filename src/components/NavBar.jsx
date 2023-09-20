@@ -14,9 +14,11 @@ import Badge from '@mui/material/Badge';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import GetApp from '@mui/icons-material/GetApp';
+import HelpIcon from '@mui/icons-material/Help';
 import IconButton from '@mui/material/IconButton';
 import InfoIcon from '@mui/icons-material/Info';
 import KeyIcon from '@mui/icons-material/Key';
+import Link from '@mui/material/Link';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -327,11 +329,28 @@ const NavBar = (props) => {
                 {!isAppLoad && (
                   <MenuItem onClick={handleGoSettings}>
                     <ListItemIcon>
-                      <AdminPanelSettingsIcon fontSize="medium" color="primary" />
+                      <AdminPanelSettingsIcon fontSize="medium" color="warning" />
                     </ListItemIcon>
                     <ListItemText>{t('myUserProfile')}</ListItemText>
                   </MenuItem>
                 )}
+
+                <Link
+                  href="https://sws2apps.com/docs/category/congregation-program-for-everyone"
+                  target="_blank"
+                  rel="noopener"
+                  underline="none"
+                  color="inherit"
+                >
+                  <MenuItem>
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                      <ListItemIcon>
+                        <HelpIcon fontSize="medium" color="primary" />
+                      </ListItemIcon>
+                      <ListItemText>{t('navMenuHelp')}</ListItemText>
+                    </Box>
+                  </MenuItem>
+                </Link>
 
                 <MenuItem onClick={handleAbout}>
                   <ListItemIcon>
@@ -339,6 +358,7 @@ const NavBar = (props) => {
                   </ListItemIcon>
                   <ListItemText>{t('about')}</ListItemText>
                 </MenuItem>
+
                 {!isAppLoad && accountType === 'vip' && isOnline && congAccountConnected && (
                   <MenuItem onClick={handleLogout}>
                     <ListItemIcon>

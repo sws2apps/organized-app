@@ -6,6 +6,7 @@ import { Schedules } from './Schedules';
 import { Sources } from './Sources';
 import { S21s } from './S21s';
 import { ServiceYear } from './ServiceYear';
+import { Setting } from './Setting';
 
 export class PersonClass {
   constructor(uid) {
@@ -108,13 +109,13 @@ PersonClass.prototype.assistantHistory = function () {
     const weekData = Sources.get(schedule.weekOf).local();
     const [varMonth, varDay, varYear] = schedule.weekOf.split('/');
     const lDate = new Date(varYear, varMonth - 1, varDay);
-    const dateFormatted = dateFormat(lDate, 'dd/mm/yyyy');
+    const dateFormatted = dateFormat(lDate, Setting.shortDateFormat());
     const cnAss = [{ iAss: 1 }, { iAss: 2 }, { iAss: 3 }];
     const varClasses = [{ classLabel: 'A' }, { classLabel: 'B' }];
 
     //AYF Assigment History
     for (const assignment of cnAss) {
-      let weekFld = 'ass' + assignment.iAss + '_type';
+      let weekFld = 'mwb_ayf_part' + assignment.iAss + '_type';
       const assType = weekData[weekFld];
 
       if (
