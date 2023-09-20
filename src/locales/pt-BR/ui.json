@@ -676,5 +676,6 @@
   "talksListEmpty": "Baixe a lista de discursos primeiro.",
   "countriesFetchError": "Falha ao buscar países",
   "congregationsFetchError": "Falha ao buscar as congregações",
-  "navMenuHelp": "Help"
+  "navMenuHelp": "Help",
+  "docsUrlCode": "docs"
 }
