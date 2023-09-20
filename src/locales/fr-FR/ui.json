@@ -676,5 +676,6 @@
   "talksListEmpty": "Please download the talks list first.",
   "countriesFetchError": "Failed to fetch countries",
   "congregationsFetchError": "Failed to fetch congregations",
-  "navMenuHelp": "Help"
+  "navMenuHelp": "Help",
+  "docsUrlCode": "docs"
 }
