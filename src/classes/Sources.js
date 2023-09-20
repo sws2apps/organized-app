@@ -196,7 +196,7 @@ SourcesClass.prototype.S89WeekList = function (scheduleName) {
       for (let z = 1; z <= 4; z++) {
         const fldStuA = 'ass' + z + '_stu_A';
         const fldStuB = 'ass' + z + '_stu_B';
-        const fldAss = 'ass' + z + '_type';
+        const fldAss = 'mwb_ayf_part' + z + '_type';
         if (
           (scheduleData[fldStuA] && scheduleData[fldStuA] !== '') ||
           (scheduleData[fldStuB] && scheduleData[fldStuB] !== '')

@@ -75,8 +75,11 @@ const PersonAssignmentHistory = ({ assInfo }) => {
     if (stuForAssistant !== '') {
       setIsLoadingAssistantHistory(true);
       const person = Persons.get(stuForAssistant);
-      const assistants = person?.assistantHistory();
-      setAssistantHistory(assistants);
+      if (person) {
+        const assistants = person.assistantHistory();
+        setAssistantHistory(assistants);
+      }
+
       setIsLoadingAssistantHistory(false);
     }
   }, [stuForAssistant]);
