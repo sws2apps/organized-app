@@ -675,5 +675,6 @@
   "reader": "Mpamaky Fehintsoratra",
   "talksListEmpty": "Alaivo aloha ny lisitry ny lahateny ho an’ny besinimaro.",
   "countriesFetchError": "Nisy olana ka tsy azo ny lisitry ny firenena",
-  "congregationsFetchError": "Nisy olana ka tsy azo ny lisitry ny fiangonana"
+  "congregationsFetchError": "Nisy olana ka tsy azo ny lisitry ny fiangonana",
+  "navMenuHelp": "Help"
 }
