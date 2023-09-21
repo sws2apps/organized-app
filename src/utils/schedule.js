@@ -578,10 +578,15 @@ export const weekendMeetingAutofill = async (startWeek, endWeek) => {
   const coordinatorRole = Setting.cong_role.includes('coordinator');
   const publicTalkCoordinatorRole = Setting.cong_role.includes('public_talk_coordinator');
 
-  let currentWeek = startWeek;
+  const tmpArrayEnd = endWeek.split('/');
+  endWeek = new Date(tmpArrayEnd[2], +tmpArrayEnd[0] - 1, tmpArrayEnd[2]);
+
+  const tmpArrayStart = startWeek.split('/');
+  let currentWeek = new Date(tmpArrayStart[2], +tmpArrayStart[0] - 1, tmpArrayStart[2]);
 
   do {
     // launching autofill
+    currentWeek = dateFormat(currentWeek, 'mm/dd/yyyy');
     const schedule = Schedules.get(currentWeek);
 
     if (schedule.noWMeeting === false) {
@@ -638,10 +643,9 @@ export const weekendMeetingAutofill = async (startWeek, endWeek) => {
     }
 
     // assigning next week
-    let nextWeek = new Date(currentWeek);
-    nextWeek = nextWeek.setDate(nextWeek.getDate() + 7);
-
-    currentWeek = dateFormat(nextWeek, Setting.shortDateFormat());
+    const tmpArrayCurrent = currentWeek.split('/');
+    currentWeek = new Date(tmpArrayCurrent[2], +tmpArrayCurrent[0] - 1, tmpArrayCurrent[2]);
+    currentWeek = currentWeek.setDate(currentWeek.getDate() + 7);
   } while (currentWeek <= endWeek);
 };
 
@@ -649,7 +653,11 @@ export const weekendMeetingDelete = async (startWeek, endWeek) => {
   const coordinatorRole = Setting.cong_role.includes('coordinator');
   const publicTalkCoordinatorRole = Setting.cong_role.includes('public_talk_coordinator');
 
-  let currentWeek = startWeek;
+  const tmpArrayEnd = endWeek.split('/');
+  endWeek = new Date(tmpArrayEnd[2], +tmpArrayEnd[0] - 1, tmpArrayEnd[2]);
+
+  const tmpArrayStart = startWeek.split('/');
+  let currentWeek = new Date(tmpArrayStart[2], +tmpArrayStart[0] - 1, tmpArrayStart[2]);
 
   do {
     if (coordinatorRole) {
@@ -672,10 +680,9 @@ export const weekendMeetingDelete = async (startWeek, endWeek) => {
     }
 
     // assigning next week
-    let nextWeek = new Date(currentWeek);
-    nextWeek = nextWeek.setDate(nextWeek.getDate() + 7);
-
-    currentWeek = dateFormat(nextWeek, Setting.shortDateFormat());
+    const tmpArrayCurrent = currentWeek.split('/');
+    currentWeek = new Date(tmpArrayCurrent[2], +tmpArrayCurrent[0] - 1, tmpArrayCurrent[2]);
+    currentWeek = currentWeek.setDate(currentWeek.getDate() + 7);
   } while (currentWeek <= endWeek);
 };
 

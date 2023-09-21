@@ -22,7 +22,13 @@ const WeekendMeetingContainer = () => {
   const schedules = useMemo(
     () =>
       Schedules.list
-        .filter((record) => record.weekOf >= '06/05/2023')
+        .filter((record) => {
+          const startDate = new Date(2023, 5, 6);
+          const tmp = record.weekOf.split('/');
+          const recordDate = new Date(tmp[2], +tmp[0] - 1, tmp[1]);
+
+          return recordDate >= startDate;
+        })
         .sort((a, b) => {
           const dateA = a.weekOf.split('/')[2] + '/' + a.weekOf.split('/')[0] + '/' + a.weekOf.split('/')[1];
           const dateB = b.weekOf.split('/')[2] + '/' + b.weekOf.split('/')[0] + '/' + b.weekOf.split('/')[1];
