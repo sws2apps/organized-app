@@ -675,5 +675,7 @@
   "reader": "Leitor",
   "talksListEmpty": "Baixe a lista de discursos primeiro.",
   "countriesFetchError": "Falha ao buscar países",
-  "congregationsFetchError": "Falha ao buscar as congregações"
+  "congregationsFetchError": "Falha ao buscar as congregações",
+  "navMenuHelp": "Help",
+  "docsUrlCode": "docs"
 }
