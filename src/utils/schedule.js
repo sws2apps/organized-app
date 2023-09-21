@@ -579,10 +579,10 @@ export const weekendMeetingAutofill = async (startWeek, endWeek) => {
   const publicTalkCoordinatorRole = Setting.cong_role.includes('public_talk_coordinator');
 
   const tmpArrayEnd = endWeek.split('/');
-  endWeek = new Date(tmpArrayEnd[2], +tmpArrayEnd[0] - 1, tmpArrayEnd[2]);
+  endWeek = new Date(tmpArrayEnd[2], +tmpArrayEnd[0] - 1, tmpArrayEnd[1]);
 
   const tmpArrayStart = startWeek.split('/');
-  let currentWeek = new Date(tmpArrayStart[2], +tmpArrayStart[0] - 1, tmpArrayStart[2]);
+  let currentWeek = new Date(tmpArrayStart[2], +tmpArrayStart[0] - 1, tmpArrayStart[1]);
 
   do {
     // launching autofill
@@ -644,7 +644,7 @@ export const weekendMeetingAutofill = async (startWeek, endWeek) => {
 
     // assigning next week
     const tmpArrayCurrent = currentWeek.split('/');
-    currentWeek = new Date(tmpArrayCurrent[2], +tmpArrayCurrent[0] - 1, tmpArrayCurrent[2]);
+    currentWeek = new Date(tmpArrayCurrent[2], +tmpArrayCurrent[0] - 1, tmpArrayCurrent[1]);
     currentWeek = currentWeek.setDate(currentWeek.getDate() + 7);
   } while (currentWeek <= endWeek);
 };
@@ -654,12 +654,14 @@ export const weekendMeetingDelete = async (startWeek, endWeek) => {
   const publicTalkCoordinatorRole = Setting.cong_role.includes('public_talk_coordinator');
 
   const tmpArrayEnd = endWeek.split('/');
-  endWeek = new Date(tmpArrayEnd[2], +tmpArrayEnd[0] - 1, tmpArrayEnd[2]);
+  endWeek = new Date(tmpArrayEnd[2], +tmpArrayEnd[0] - 1, tmpArrayEnd[1]);
 
   const tmpArrayStart = startWeek.split('/');
-  let currentWeek = new Date(tmpArrayStart[2], +tmpArrayStart[0] - 1, tmpArrayStart[2]);
+  let currentWeek = new Date(tmpArrayStart[2], +tmpArrayStart[0] - 1, tmpArrayStart[1]);
 
   do {
+    currentWeek = dateFormat(currentWeek, 'mm/dd/yyyy');
+
     if (coordinatorRole) {
       // Delete Chairman
       await saveAssignment(currentWeek, undefined, 'chairman_WM');
@@ -681,7 +683,7 @@ export const weekendMeetingDelete = async (startWeek, endWeek) => {
 
     // assigning next week
     const tmpArrayCurrent = currentWeek.split('/');
-    currentWeek = new Date(tmpArrayCurrent[2], +tmpArrayCurrent[0] - 1, tmpArrayCurrent[2]);
+    currentWeek = new Date(tmpArrayCurrent[2], +tmpArrayCurrent[0] - 1, tmpArrayCurrent[1]);
     currentWeek = currentWeek.setDate(currentWeek.getDate() + 7);
   } while (currentWeek <= endWeek);
 };
