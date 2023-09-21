@@ -389,7 +389,7 @@ export const getPersonAutofillNoPartWithinMonth = (persons, week, assClass, assT
   for (const person of persons) {
     const assignments = Schedules.history.filter((record) => {
       const tmpArray = record.weekOf.split('/');
-      const tmpDate = new Date(`${tmpArray[2]}/${tmpArray('/')[0]}/${tmpArray('/')[1]}`);
+      const tmpDate = new Date(`${tmpArray[2]}/${tmpArray[0]}/${tmpArray[1]}`);
 
       return tmpDate > lastMonth && tmpDate < nextMonth && record.studentID === person.person_uid;
     });
@@ -398,7 +398,7 @@ export const getPersonAutofillNoPartWithinMonth = (persons, week, assClass, assT
       if (assClass) {
         const lastAssignment = Schedules.history.find((record) => {
           const tmpArray = record.weekOf.split('/');
-          const tmpDate = new Date(`${tmpArray[2]}/${tmpArray('/')[0]}/${tmpArray('/')[1]}`);
+          const tmpDate = new Date(`${tmpArray[2]}/${tmpArray[0]}/${tmpArray[1]}`);
 
           return tmpDate < currentDate && record.studentID === person.person_uid;
         });
@@ -433,7 +433,7 @@ export const getPersonAutofillNoPartWithin2Weeks = (persons, week, assClass, ass
   for (const person of persons) {
     const assignments = Schedules.history.filter((record) => {
       const tmpArray = record.weekOf.split('/');
-      const tmpDate = new Date(`${tmpArray[2]}/${tmpArray('/')[0]}/${tmpArray('/')[1]}`);
+      const tmpDate = new Date(`${tmpArray[2]}/${tmpArray[0]}/${tmpArray[1]}`);
 
       return tmpDate > lastMonth && tmpDate < nextMonth && record.studentID === person.person_uid;
     });
@@ -442,7 +442,7 @@ export const getPersonAutofillNoPartWithin2Weeks = (persons, week, assClass, ass
       if (assClass) {
         const lastAssignment = Schedules.history.find((record) => {
           const tmpArray = record.weekOf.split('/');
-          const tmpDate = new Date(`${tmpArray[2]}/${tmpArray('/')[0]}/${tmpArray('/')[1]}`);
+          const tmpDate = new Date(`${tmpArray[2]}/${tmpArray[0]}/${tmpArray[1]}`);
 
           return tmpDate < currentDate && record.studentID === person.person_uid;
         });
@@ -481,7 +481,7 @@ export const getPersonAutofillNoPartSameWeek = (persons, week, assClass, assType
       if (assClass) {
         const lastAssignment = Schedules.history.find((record) => {
           const tmpArray = record.weekOf.split('/');
-          const tmpDate = new Date(`${tmpArray[2]}/${tmpArray('/')[0]}/${tmpArray('/')[1]}`);
+          const tmpDate = new Date(`${tmpArray[2]}/${tmpArray[0]}/${tmpArray[1]}`);
 
           return tmpDate < currentDate && record.studentID === person.person_uid;
         });
