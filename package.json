@@ -30,7 +30,7 @@
     "@mui/icons-material": "^5.14.9",
     "@mui/material": "^5.14.10",
     "@mui/x-date-pickers": "^6.14.0",
-    "@mui/x-tree-view": "^6.0.0-alpha.3",
+    "@mui/x-tree-view": "^6.0.0-alpha.4",
     "@react-pdf/renderer": "^3.1.12",
     "@sws2apps/react-sw-helper": "^1.17.0",
     "@tanstack/react-query": "^4.35.3",
