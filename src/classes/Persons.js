@@ -287,6 +287,7 @@ PersonsClass.prototype.add = async function (personData) {
     phone: personData.phone || '',
     spiritualStatus: personData.spiritualStatus || [],
     otherService: personData.otherService || [],
+    firstMonthReport: personData.firstMonthReport || null,
   });
 
   const person = new PersonClass(personData.person_uid);

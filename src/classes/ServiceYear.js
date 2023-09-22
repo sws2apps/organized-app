@@ -79,7 +79,7 @@ ServiceYearClass.prototype.currentReportMonth = function () {
 
   let month;
   if (currentDate > 20) {
-    month = `${currentYear}/${String(currentMonth + 1).padStart(2, '0')}/01`;
+    month = `${currentYear}/${String(currentMonth).padStart(2, '0')}/01`;
   }
 
   if (currentDate <= 20) {
