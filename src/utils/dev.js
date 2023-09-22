@@ -4,6 +4,7 @@ import appDb from '../indexedDb/mainDb';
 import { Persons } from '../classes/Persons';
 import { Setting } from '../classes/Setting';
 import { computeYearsDiff } from './app';
+import { ServiceYear } from '../classes/ServiceYear';
 
 const generateDisplayName = (name) => {
   const txtArray = name.split(' ');
@@ -41,6 +42,9 @@ export const importDummyUsers = async () => {
     const res = await fetch(url);
     const data = await res.json();
 
+    const currentMonthReportStr = ServiceYear.currentReportMonth();
+    const currentMonthReportDate = new Date(currentMonthReportStr);
+
     let formattedData = data.users.map((user) => {
       const fullname = `${user.lastName} ${user.firstName}`;
 
@@ -48,6 +52,7 @@ export const importDummyUsers = async () => {
       let spiritualStatus = [];
       let isBaptized = false;
       let immersedDate = null;
+      let firstMonthReport = null;
       const birthDate = getRandomDate(undefined, new Date(2006, 11, 31));
 
       if (user.gender === 'female') {
@@ -64,6 +69,7 @@ export const importDummyUsers = async () => {
           spiritualStatus = [
             { statusId: window.crypto.randomUUID(), status: 'publisher', startDate: pubStartDate, endDate: null },
           ];
+          firstMonthReport = currentMonthReportDate;
         }
 
         if (status === 'baptized') {
@@ -75,6 +81,7 @@ export const importDummyUsers = async () => {
           spiritualStatus = [
             { statusId: window.crypto.randomUUID(), status: 'publisher', startDate: pubStartDate, endDate: null },
           ];
+          firstMonthReport = currentMonthReportDate;
         }
       }
 
@@ -94,6 +101,7 @@ export const importDummyUsers = async () => {
         spiritualStatus,
         isBaptized,
         immersedDate,
+        firstMonthReport,
       };
     });
 
@@ -132,6 +140,7 @@ export const importDummyUsers = async () => {
 
       user.isBaptized = true;
       user.immersedDate = getRandomDate(baptismStartDate, baptismEndDate);
+      user.firstMonthReport = currentMonthReportDate;
 
       formattedData.splice(random, 1, user);
     }
@@ -176,6 +185,7 @@ export const importDummyUsers = async () => {
 
       user.isBaptized = true;
       user.immersedDate = getRandomDate(baptismStartDate, baptismEndDate);
+      user.firstMonthReport = currentMonthReportDate;
 
       formattedData.splice(random, 1, user);
     }
@@ -205,6 +215,7 @@ export const importDummyUsers = async () => {
       );
       user.isBaptized = true;
       user.immersedDate = getRandomDate(baptismStartDate);
+      user.firstMonthReport = currentMonthReportDate;
 
       const pubStartDate = getRandomDate(user.birthDate, baptismStartDate);
       user.spiritualStatus = [
@@ -244,6 +255,7 @@ export const importDummyUsers = async () => {
         user.spiritualStatus = [
           { statusId: window.crypto.randomUUID(), status: 'publisher', startDate: pubStartDate, endDate: null },
         ];
+        user.firstMonthReport = currentMonthReportDate;
       }
 
       if (status === 'baptized') {
@@ -252,6 +264,7 @@ export const importDummyUsers = async () => {
         );
         user.isBaptized = true;
         user.immersedDate = getRandomDate(baptismStartDate);
+        user.firstMonthReport = currentMonthReportDate;
 
         const pubStartDate = getRandomDate(user.birthDate, baptismStartDate);
         user.spiritualStatus = [
