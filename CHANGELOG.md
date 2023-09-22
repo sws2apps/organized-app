@@ -1,3 +1,54 @@
+# [2.95.0](https://github.com/sws2apps/cpe-sws/compare/v2.94.0...v2.95.0) (2023-09-22)
+
+
+### Bug Fixes
+
+* **app:** get the current month to report field service ([6288ab1](https://github.com/sws2apps/cpe-sws/commit/6288ab18f86d09a47167244acbf17036325acbd6))
+* **app:** style of congregation requests approval notifications ([c89336c](https://github.com/sws2apps/cpe-sws/commit/c89336c4a5a5674b090d1a57bd7dd4f4deca96cb))
+* **app:** update roles approved to check current source on startup ([97dcb80](https://github.com/sws2apps/cpe-sws/commit/97dcb80bc057c3fe8d160cb75b01662cfa1bf3b6))
+* **app:** update styles in about page ([8f467cf](https://github.com/sws2apps/cpe-sws/commit/8f467cf6a914eea46bee86c15ac2fb4a05479ab9))
+* **classes:** do not overwrite local recent changes when fetching public talks ([274094f](https://github.com/sws2apps/cpe-sws/commit/274094f193db0d99b95ae4fddb0c058492582274))
+* **classes:** update db method to update public talks downloaded ([5db6479](https://github.com/sws2apps/cpe-sws/commit/5db6479eca6b88c23ec093faaef8bda7d9d1aa90))
+* **persons:** check if adding deleted visiting speaker ([d997285](https://github.com/sws2apps/cpe-sws/commit/d9972853f41b1b952227fefb8b149114b690ebed))
+* **persons:** display delete button for visiting speakers from local congregation ([1487c06](https://github.com/sws2apps/cpe-sws/commit/1487c065e034ab0640c08ccd9a0cf25fca2bd083))
+* **schedules:** date formatting issues ([1134ff2](https://github.com/sws2apps/cpe-sws/commit/1134ff2bf8cabab714caafb7240b6fd31b63e5c5))
+* **schedules:** some dates not showing on weekend meeting actions ([0f8d781](https://github.com/sws2apps/cpe-sws/commit/0f8d7815df46c72c6fdbaf3116d3caa01e722da5))
+* **schedules:** update autofill to check assignments between the same meeting ([83746a7](https://github.com/sws2apps/cpe-sws/commit/83746a71c9ed0d7e2c5b26775aa754a928c85038))
+* **sources:** date formatting issues ([e66f6b1](https://github.com/sws2apps/cpe-sws/commit/e66f6b12b597d4690235ef507645abe21851cfe7))
+* **utils:** update invalid array function ([43fff80](https://github.com/sws2apps/cpe-sws/commit/43fff808a9fbfa75b7f9ceb60355727405f0a93b))
+
+
+### Features
+
+* **api:** send app language when creating congregation account ([bf370fd](https://github.com/sws2apps/cpe-sws/commit/bf370fdcc5824b43be9d5df59342a178e7d23697))
+* **app:** disable mfa requirements on signup ([c1ea514](https://github.com/sws2apps/cpe-sws/commit/c1ea514183dfb40a5fb95c36627a024fbcd2cfa5))
+* **app:** update global.css ([ade1a0c](https://github.com/sws2apps/cpe-sws/commit/ade1a0c6332d6fe7794cdf410edfddb5a2c88544))
+* **app:** weekend meeting scheduler features ([4441821](https://github.com/sws2apps/cpe-sws/commit/44418215fbca46015154607f884b956587b5b273))
+* **deps:** bump @fingerprintjs/fingerprintjs from 4.0.1 to 4.1.0 ([8da66bc](https://github.com/sws2apps/cpe-sws/commit/8da66bcf0d3b075fbc804c6588abdbb658e5c427))
+* **deps:** bump @mui/icons-material from 5.14.7 to 5.14.8 ([945b6b1](https://github.com/sws2apps/cpe-sws/commit/945b6b18cec2985416f0d3b6440d2acee8b30c94))
+* **deps:** bump @mui/icons-material from 5.14.8 to 5.14.9 ([facc232](https://github.com/sws2apps/cpe-sws/commit/facc232cf65bcfa571051c54437148e6afe0d720))
+* **deps:** bump @mui/lab from 5.0.0-alpha.142 to 5.0.0-alpha.143 ([98374bb](https://github.com/sws2apps/cpe-sws/commit/98374bbf13bfd295b2094c230df46f7373e6e608))
+* **deps:** bump @mui/material from 5.14.7 to 5.14.8 ([7fcd01d](https://github.com/sws2apps/cpe-sws/commit/7fcd01dfb6d55a05d7ecfe6c08d3f940d174f75c))
+* **deps:** bump @mui/material from 5.14.8 to 5.14.9 ([bcad3f3](https://github.com/sws2apps/cpe-sws/commit/bcad3f320c3d8146c1c8fc603910a4ea62c86b1c))
+* **deps:** bump @mui/material from 5.14.9 to 5.14.10 ([a154a0d](https://github.com/sws2apps/cpe-sws/commit/a154a0df0b53119268ad9df80780ff606c076e18))
+* **deps:** bump @mui/x-date-pickers from 6.12.1 to 6.13.0 ([4737154](https://github.com/sws2apps/cpe-sws/commit/47371548a50f005f69a98a66266d7bc2ae0234ec))
+* **deps:** bump @mui/x-date-pickers from 6.13.0 to 6.14.0 ([e82a3a9](https://github.com/sws2apps/cpe-sws/commit/e82a3a9ba0a4ff8f27777a108a67a1ab706f5b5c))
+* **deps:** bump @mui/x-tree-view from 6.0.0-alpha.2 to 6.0.0-alpha.3 ([9d857be](https://github.com/sws2apps/cpe-sws/commit/9d857be215da6bd5231d03e746ad63ef3b718f6d))
+* **deps:** bump @sws2apps/react-sw-helper from 1.16.0 to 1.17.0 ([256cdfc](https://github.com/sws2apps/cpe-sws/commit/256cdfcf0e2d113910d1f3b13f00c0853f055ba0))
+* **deps:** bump @tanstack/react-query from 4.33.0 to 4.35.0 ([275547e](https://github.com/sws2apps/cpe-sws/commit/275547e4de90233d9a4e080e864de3abee5641bb))
+* **deps:** bump @tanstack/react-query from 4.35.0 to 4.35.3 ([79993eb](https://github.com/sws2apps/cpe-sws/commit/79993eb59cc14c8314ee69e47ef1b71f1b2c8e59))
+* **deps:** bump firebase from 10.3.1 to 10.4.0 ([ac6d115](https://github.com/sws2apps/cpe-sws/commit/ac6d115434238db9f29c654b71256e244d43a292))
+* **deps:** bump i18next from 23.4.6 to 23.4.9 ([0a8f281](https://github.com/sws2apps/cpe-sws/commit/0a8f281e9a8f24a1bfc7ec1a601f8820b8cff51a))
+* **deps:** bump i18next from 23.4.9 to 23.5.0 ([53381ef](https://github.com/sws2apps/cpe-sws/commit/53381ef9b583d8ee1bdb3845a358e81bba4ca0b3))
+* **deps:** bump i18next from 23.5.0 to 23.5.1 ([035d991](https://github.com/sws2apps/cpe-sws/commit/035d9916dd3737d2eb731327af61e0cb80f9ccab))
+* **deps:** bump jw-epub-parser from 1.41.0 to 2.0.0 ([e380574](https://github.com/sws2apps/cpe-sws/commit/e3805749eb4bc49533192ca7786a464900f07e88))
+* **deps:** bump react-i18next from 13.2.1 to 13.2.2 ([7c11673](https://github.com/sws2apps/cpe-sws/commit/7c11673ac04a3a8a854d336f6c57305ec4b493aa))
+* **deps:** bump react-router-dom from 6.15.0 to 6.16.0 ([c5adce3](https://github.com/sws2apps/cpe-sws/commit/c5adce3987f05fc6e3d0c8b1797ceb8116f23431))
+* **locales:** add docs code to localize docs url ([e983c88](https://github.com/sws2apps/cpe-sws/commit/e983c8820b6d19ff23e975f0c8c831a9107ad65b))
+* **schedules:** add buttons to navigate forward and backward between weeks ([0b790f3](https://github.com/sws2apps/cpe-sws/commit/0b790f351f89373d5e2ea1f42ee8cbbd15be94ee))
+* **schedules:** display note in weekend schedule if co visit ([f0fda38](https://github.com/sws2apps/cpe-sws/commit/f0fda38c74398dec4d188a87392fb2e318d85c26))
+* **whatsnew:** update visual style when no news with old announcements ([b5ebe85](https://github.com/sws2apps/cpe-sws/commit/b5ebe85219bfd65a690836bc29c4365d9b867d86))
+
 # [2.94.0](https://github.com/sws2apps/cpe-sws/compare/v2.93.0...v2.94.0) (2023-09-03)
 
 
