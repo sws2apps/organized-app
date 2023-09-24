@@ -212,7 +212,7 @@ export const apiSendUserFieldServiceReports = async (reqPayload) => {
       const auth = await getAuth();
       const user = auth.currentUser;
 
-      const res = await fetch(`${apiHost}api/congregations/${congID}/field-service-reports`, {
+      const res = await fetch(`${apiHost}api/congregations/secretary/${congID}/field-service-reports`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -241,7 +241,7 @@ export const apiUnpostUserFieldServiceReports = async (month) => {
       const auth = await getAuth();
       const user = auth.currentUser;
 
-      const res = await fetch(`${apiHost}api/congregations/${congID}/field-service-reports`, {
+      const res = await fetch(`${apiHost}api/congregations/secretary/${congID}/field-service-reports`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -270,7 +270,7 @@ export const apiGetPendingFieldServiceReports = async () => {
       const auth = await getAuth();
       const user = auth.currentUser;
 
-      const res = await fetch(`${apiHost}api/congregations/${congID}/field-service-reports`, {
+      const res = await fetch(`${apiHost}api/congregations/secretary/${congID}/field-service-reports`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -298,7 +298,7 @@ export const apiApprovePendingFieldServiceReports = async (user_local_uid, month
       const auth = await getAuth();
       const user = auth.currentUser;
 
-      const res = await fetch(`${apiHost}api/congregations/${congID}/field-service-reports/approve`, {
+      const res = await fetch(`${apiHost}api/congregations/secretary/${congID}/field-service-reports/approve`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -327,7 +327,7 @@ export const apiDisapprovePendingFieldServiceReports = async (user_local_uid, mo
       const auth = await getAuth();
       const user = auth.currentUser;
 
-      const res = await fetch(`${apiHost}api/congregations/${congID}/field-service-reports/disapprove`, {
+      const res = await fetch(`${apiHost}api/congregations/secretary/${congID}/field-service-reports/disapprove`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -356,7 +356,7 @@ export const apiUploadVisitingSpeakers = async (speakers) => {
       const auth = await getAuth();
       const user = auth.currentUser;
 
-      const res = await fetch(`${apiHost}api/congregations/${congID}/visiting-speakers`, {
+      const res = await fetch(`${apiHost}api/congregations/secretary/${congID}/visiting-speakers`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -385,7 +385,7 @@ export const apiFindCongregationSpeakers = async (name) => {
       const auth = await getAuth();
       const user = auth.currentUser;
 
-      const res = await fetch(`${apiHost}api/congregations/${congID}/visiting-speakers-congregations`, {
+      const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/visiting-speakers-congregations`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -414,7 +414,7 @@ export const apiRequestAccessCongregationSpeakers = async (cong_id) => {
       const auth = await getAuth();
       const user = auth.currentUser;
 
-      const res = await fetch(`${apiHost}api/congregations/${congID}/request-speakers`, {
+      const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/request-speakers`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -443,7 +443,7 @@ export const apiGetCongregationSpeakersRequests = async () => {
       const auth = await getAuth();
       const user = auth.currentUser;
 
-      const res = await fetch(`${apiHost}api/congregations/${congID}/request-speakers`, {
+      const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/request-speakers`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -474,7 +474,7 @@ export const apiGetCongregationSpeakersRequestsStatus = async () => {
       const tmpList = VisitingSpeakers.getRemoteCongregations();
       const congs = tmpList.join(';');
 
-      const res = await fetch(`${apiHost}api/congregations/${congID}/request-speakers-status`, {
+      const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/request-speakers-status`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -503,7 +503,7 @@ export const apiApproveCongregationSpeakersRequest = async (cong_id) => {
       const auth = await getAuth();
       const user = auth.currentUser;
 
-      const res = await fetch(`${apiHost}api/congregations/${congID}/request-speakers/approve`, {
+      const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/request-speakers/approve`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -532,7 +532,7 @@ export const apiDisapproveCongregationSpeakersRequest = async (cong_id) => {
       const auth = await getAuth();
       const user = auth.currentUser;
 
-      const res = await fetch(`${apiHost}api/congregations/${congID}/request-speakers/disapprove`, {
+      const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/request-speakers/disapprove`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -570,7 +570,7 @@ export const apiGetCongregationSpeakersList = async (congs) => {
         congs = [congs];
       }
 
-      const res = await fetch(`${apiHost}api/congregations/${congID}/visiting-speakers`, {
+      const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/visiting-speakers`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -599,7 +599,7 @@ export const apiGetApprovedVisitingSpeakersAccess = async () => {
       const auth = await getAuth();
       const user = auth.currentUser;
 
-      const res = await fetch(`${apiHost}api/congregations/${congID}/visiting-speakers-access`, {
+      const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/visiting-speakers-access`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -627,7 +627,7 @@ export const apiUpdateVisitingSpeakersAccess = async (congs) => {
       const auth = await getAuth();
       const user = auth.currentUser;
 
-      const res = await fetch(`${apiHost}api/congregations/${congID}/visiting-speakers-access`, {
+      const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/visiting-speakers-access`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
