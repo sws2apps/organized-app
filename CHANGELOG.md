@@ -1,3 +1,18 @@
+# [2.96.0](https://github.com/sws2apps/cpe-sws/compare/v2.95.0...v2.96.0) (2023-09-24)
+
+
+### Bug Fixes
+
+* **app:** update route path to latest version ([e8f7c78](https://github.com/sws2apps/cpe-sws/commit/e8f7c78b944f8319a4835721031757dd9dea0bd6))
+* **app:** update route path to latest version ([0a69012](https://github.com/sws2apps/cpe-sws/commit/0a69012c28e9c6dc1babbc5c4aa0f8a07cf22d22))
+* **persons:** inactive publishers count update ([5b75d93](https://github.com/sws2apps/cpe-sws/commit/5b75d93eb49fa4010780ce89b180f71983e08dc6))
+
+
+### Features
+
+* **deps:** bump @mui/x-date-pickers from 6.14.0 to 6.15.0 ([1008e85](https://github.com/sws2apps/cpe-sws/commit/1008e8569b9a6b43f140dbadda62da140255e092))
+* **deps:** bump @mui/x-tree-view from 6.0.0-alpha.3 to 6.0.0-alpha.4 ([33242d6](https://github.com/sws2apps/cpe-sws/commit/33242d6a75740e153c85fd5d150e4dcb0ce8658f))
+
 # [2.95.0](https://github.com/sws2apps/cpe-sws/compare/v2.94.0...v2.95.0) (2023-09-22)
 
 
