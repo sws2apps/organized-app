@@ -99,6 +99,7 @@ const DashboardMenu = () => {
     secretaryRole ||
     coordinatorRole ||
     publicTalkCoordinatorRole;
+  const fullMeetingEditor = lmmoRole && publicTalkCoordinatorRole && coordinatorRole;
 
   const handleOpenMyAssignment = useCallback(() => {
     setWhatsNewOpen(false);
@@ -233,7 +234,7 @@ const DashboardMenu = () => {
           {
             title: t('refreshSchedule'),
             icon: <CloudSyncIcon />,
-            visible: isCongAccountConnected && !lmmoRole && !coordinatorRole && !publicTalkCoordinatorRole,
+            visible: isCongAccountConnected && !fullMeetingEditor,
             action: apiFetchSchedule,
           },
         ],
@@ -380,6 +381,7 @@ const DashboardMenu = () => {
     elderRole,
     publicTalkCoordinatorRole,
     coordinatorRole,
+    fullMeetingEditor,
   ]);
 
   return (
