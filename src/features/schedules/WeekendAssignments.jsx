@@ -22,6 +22,8 @@ const WeekendAssignments = () => {
   const [wsReader, setWsReader] = useState('');
   const [wsArticle, setWsArticle] = useState('');
 
+  const { opening_prayer_WM_autoAssign } = Setting;
+
   useEffect(() => {
     if (week !== '') {
       const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
@@ -77,14 +79,16 @@ const WeekendAssignments = () => {
         />
 
         {/* Opening Prayer*/}
-        <SingleAssignment
-          edit={false}
-          header={t('prayerWeekendMeeting', { ns: 'source' })}
-          person={prayer}
-          studentID={29}
-          assType={119}
-          currentWeek={week}
-        />
+        {!opening_prayer_WM_autoAssign && (
+          <SingleAssignment
+            edit={false}
+            header={t('prayerWeekendMeeting', { ns: 'source' })}
+            person={prayer}
+            studentID={29}
+            assType={119}
+            currentWeek={week}
+          />
+        )}
       </Box>
 
       <Box sx={{ margin: '20px 0' }}>
