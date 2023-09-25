@@ -1,3 +1,15 @@
+## [2.96.1](https://github.com/sws2apps/cpe-sws/compare/v2.96.0...v2.96.1) (2023-09-25)
+
+
+### Bug Fixes
+
+* **app:** app crash on some users ([8e2fdf0](https://github.com/sws2apps/cpe-sws/commit/8e2fdf02b9b686381c2aef5a4f3266b39c18aae5))
+* **app:** display refresh schedule if not full meeting editor role ([f5a7334](https://github.com/sws2apps/cpe-sws/commit/f5a73349ad2d9f8fa7f18515307d8374d19d578a))
+* **app:** use merge when restoring public talks backup ([7f4b2f8](https://github.com/sws2apps/cpe-sws/commit/7f4b2f88e13358a7b667423936d38b622223e9d6))
+* **schedules:** 2nd assignment not showing in living as christians part ([e0961f3](https://github.com/sws2apps/cpe-sws/commit/e0961f35b3f2a0a542b6d4820d07ff289cca818f))
+* **schedules:** hide opening prayer in weekend meeting if enabled ([4379c78](https://github.com/sws2apps/cpe-sws/commit/4379c7896239339f46318b5c2877b3ee9d441c80))
+* **schedules:** weekend meeting export fails for some languages ([a180425](https://github.com/sws2apps/cpe-sws/commit/a1804259d2f7ca0dc7648c8bbe70dd9fe5028c7f))
+
 # [2.96.0](https://github.com/sws2apps/cpe-sws/compare/v2.95.0...v2.96.0) (2023-09-24)
 
 
