@@ -963,9 +963,39 @@ export const dbRestoreUserFieldServiceReportsFromBackup = async (user_fieldServi
 };
 
 export const dbRestorePublicTalksFromBackup = async (cong_publicTalks) => {
-  await appDb.public_talks.clear();
-  for await (const public_talk of cong_publicTalks) {
-    await appDb.public_talks.add(public_talk, public_talk.talk_number);
+  const dbPublicTalks = await appDb.public_talks.toArray();
+
+  // new record
+  if (dbPublicTalks.length === 0) {
+    for await (const public_talk of cong_publicTalks) {
+      await appDb.public_talks.add(public_talk, public_talk.talk_number);
+    }
+    return;
+  }
+
+  // update record
+  for (const incomingTalk of cong_publicTalks) {
+    const currentTalk = dbPublicTalks.find((talk) => talk.talk_number === incomingTalk.talk_number);
+
+    for (const [talkLanguage] of Object.entries(incomingTalk.talk_title)) {
+      const incomingModified = incomingTalk.talk_title[talkLanguage].modified;
+      const currentModified = currentTalk.talk_title[talkLanguage]?.modified;
+      let isUpdated = false;
+
+      if (!currentModified) {
+        currentTalk.talk_title[talkLanguage] = incomingTalk.talk_title[talkLanguage];
+        isUpdated = true;
+      }
+
+      if (currentModified && incomingModified > currentModified) {
+        currentTalk.talk_title[talkLanguage] = incomingTalk.talk_title[talkLanguage];
+        isUpdated = true;
+      }
+
+      if (isUpdated) {
+        await appDb.public_talks.update(currentTalk.talk_number, currentTalk);
+      }
+    }
   }
 };
 
@@ -1148,7 +1178,7 @@ export const dbRestoreCongregationBackup = async (payload) => {
   }
 
   // restore cong_publicTalks data
-  if (weekendEditorRole && cong_publicTalks) {
+  if ((lmmoRole || weekendEditorRole) && cong_publicTalks) {
     await dbRestorePublicTalksFromBackup(cong_publicTalks);
   }
 
