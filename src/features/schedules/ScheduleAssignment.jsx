@@ -343,7 +343,7 @@ const ScheduleAssignment = ({ edit }) => {
       setStu4B(pocketRole ? scheduleData.ass4_stu_B_dispName : scheduleData.ass4_stu_B);
       setAss4B(pocketRole ? scheduleData.ass4_ass_B_dispName : scheduleData.ass4_ass_B);
       if (sourceData.mwb_lc_count_override) setLcCount(sourceData.mwb_lc_count_override);
-      if (!sourceData.mwb_lc_count_override) setLcCount(sourceData.lcCount);
+      if (!sourceData.mwb_lc_count_override) setLcCount(sourceData.mwb_lc_count);
       if (sourceData.mwb_lc_part1_time_override) {
         setLcPart1Time(sourceData.mwb_lc_part1_time_override);
         setLcPart1Src(sourceData.mwb_lc_part1_override);
