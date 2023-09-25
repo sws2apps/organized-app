@@ -700,7 +700,7 @@ export const buildArrayWeeks = (startWeek, endWeek) => {
     let nextWeek = new Date(currentWeek);
     nextWeek = nextWeek.setDate(nextWeek.getDate() + 7);
 
-    currentWeek = dateFormat(nextWeek, Setting.shortDateFormat());
+    currentWeek = dateFormat(nextWeek, 'mm/dd/yyyy');
   } while (currentWeek <= endWeek);
 
   return result;
