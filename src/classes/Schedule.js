@@ -448,8 +448,10 @@ ScheduleClass.prototype.loadDetails = async function () {
   this.is_visiting_speaker = appData.is_visiting_speaker || false;
 
   this.public_talk = appData.public_talk || '';
-  if (this.public_talk !== '' && (lmmoRole || secretaryRole || coordinatorRole || publicTalkCoordinatorRole)) {
+  if (this.public_talk !== '' && S34s.talks.length > 0) {
     this.public_talk_title = `(${this.public_talk}) ${S34s.findLocal(this.public_talk)}`;
+  } else {
+    this.public_talk_title = appData.public_talk_title || '';
   }
   this.event_name = appData.event_name || '';
   this.noWMeeting = appData.noWMeeting || false;
