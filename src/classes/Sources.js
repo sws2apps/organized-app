@@ -16,9 +16,7 @@ class SourcesClass {
 
 SourcesClass.prototype.sort = function () {
   this.list.sort((a, b) => {
-    const dateA = a.weekOf.split('/')[2] + '/' + a.weekOf.split('/')[0] + '/' + a.weekOf.split('/')[1];
-    const dateB = b.weekOf.split('/')[2] + '/' + b.weekOf.split('/')[0] + '/' + b.weekOf.split('/')[1];
-    return dateA < dateB ? 1 : -1;
+    return a.weekOf < b.weekOf ? 1 : -1;
   });
 };
 
@@ -60,10 +58,10 @@ SourcesClass.prototype.scheduleListByYear = function (varYear, userSort = 'desc'
 
   for (const source of appData) {
     const weekDate = source.weekOf;
-    const year = weekDate.split('/')[2];
+    const year = weekDate.split('/')[0];
 
     if (year === varYear) {
-      const month = weekDate.split('/')[0];
+      const month = weekDate.split('/')[1];
 
       const tempMain = month + '/' + year;
       const scheduleIndex = allSchedules.findIndex((schedule) => schedule.value === tempMain);
@@ -86,9 +84,9 @@ SourcesClass.prototype.addWeekManually = async function () {
     weekDate = new Date();
   } else {
     const lastWeek = this.list[0].weekOf;
-    const day = lastWeek.split('/')[1];
-    const month = lastWeek.split('/')[0];
-    const year = lastWeek.split('/')[2];
+    const day = lastWeek.split('/')[2];
+    const month = lastWeek.split('/')[1];
+    const year = lastWeek.split('/')[0];
     weekDate = new Date(year, month - 1, day);
     weekDate.setDate(weekDate.getDate() + 7);
   }
@@ -96,7 +94,7 @@ SourcesClass.prototype.addWeekManually = async function () {
   const day = weekDate.getDay();
   const diff = weekDate.getDate() - day + (day === 0 ? -6 : 1);
   const monDay = new Date(weekDate.setDate(diff));
-  const fMonday = dateFormat(monDay, 'mm/dd/yyyy');
+  const fMonday = dateFormat(monDay, 'yyyy/mm/dd');
 
   if (!this.get(fMonday)) {
     await appDb.sources.put({ weekOf: fMonday }, fMonday);
@@ -123,8 +121,8 @@ SourcesClass.prototype.weekListBySchedule = function (scheduleIndex) {
 
   for (const source of this.list) {
     const weekDate = source.weekOf;
-    const month = weekDate.split('/')[0];
-    const year = weekDate.split('/')[2];
+    const month = weekDate.split('/')[1];
+    const year = weekDate.split('/')[0];
     const tempMain = month + '/' + year;
     if (tempMain === scheduleIndex) {
       allWeeks.push(weekDate);
@@ -139,9 +137,9 @@ SourcesClass.prototype.weekListByScheduleLocal = function (scheduleIndex) {
 
   const newData = [];
   data.forEach((week) => {
-    const day = week.split('/')[1];
-    const month = week.split('/')[0];
-    const year = week.split('/')[2];
+    const day = week.split('/')[2];
+    const month = week.split('/')[1];
+    const year = week.split('/')[0];
     const newDate = new Date(year, +month - 1, day);
     const dateFormatted = dateFormat(newDate, Setting.shortDateFormat());
     newData.push({ value: week, label: dateFormatted });
@@ -269,7 +267,7 @@ SourcesClass.prototype.yearsList = function () {
 
   for (const source of this.list) {
     const weekDate = source.weekOf;
-    const varYear = weekDate.split('/')[2];
+    const varYear = weekDate.split('/')[0];
 
     const yearIndex = allYear.findIndex((year) => year.label === varYear);
 
@@ -422,7 +420,7 @@ SourcesClass.prototype.hasCurrentWeek = function () {
   const day = today.getDay();
   const diff = today.getDate() - day + (day === 0 ? -6 : 1);
   const monDay = new Date(today.setDate(diff));
-  const fMonday = dateFormat(monDay, 'mm/dd/yyyy');
+  const fMonday = dateFormat(monDay, 'yyyy/mm/dd');
 
   if (weeksIgnore.includes(fMonday)) {
     return true;

@@ -23,8 +23,8 @@ const MyAssignmentsList = () => {
 
     const tempData2 = tempAssignments.map((assignment) => {
       const split = assignment.weekOf.split('/');
-      const monthIndex = +split[0] - 1;
-      const monthValue = `${monthNames[monthIndex]} ${split[2]}`;
+      const monthIndex = +split[1] - 1;
+      const monthValue = `${monthNames[monthIndex]} ${split[0]}`;
       return { ...assignment, month_value: monthValue };
     });
 

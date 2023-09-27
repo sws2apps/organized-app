@@ -107,7 +107,7 @@ PersonClass.prototype.assistantHistory = function () {
 
   for (const schedule of Schedules.list) {
     const weekData = Sources.get(schedule.weekOf).local();
-    const [varMonth, varDay, varYear] = schedule.weekOf.split('/');
+    const [varYear, varMonth, varDay] = schedule.weekOf.split('/');
     const lDate = new Date(varYear, varMonth - 1, varDay);
     const dateFormatted = dateFormat(lDate, Setting.shortDateFormat());
     const cnAss = [{ iAss: 1 }, { iAss: 2 }, { iAss: 3 }];

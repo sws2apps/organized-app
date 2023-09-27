@@ -9,7 +9,7 @@ const MyAssignmentsMonthItem = ({ assignment }) => {
   const { t } = useTranslation('ui');
   const { weekOf, assignmentContent, assignmentName, assignmentSource, assignmentTime } = assignment;
 
-  const dateValue = weekOf.split('/')[1];
+  const dateValue = weekOf.split('/')[2];
   const minLabel = t('minuteShortLabel');
 
   const getSource = () => {

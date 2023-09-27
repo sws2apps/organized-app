@@ -12,7 +12,7 @@ import { VisitingSpeakers } from '../classes/VisitingSpeakers';
 export const getHistoryInfo = (weekOf, assignment) => {
   const source = Sources.get(weekOf);
   const weekData = source.local();
-  const [varMonth, varDay, varYear] = weekOf.split('/');
+  const [varYear, varMonth, varDay] = weekOf.split('/');
   const lDate = new Date(varYear, varMonth - 1, varDay);
   const dateFormatted = dateFormat(lDate, Setting.shortDateFormat());
 
@@ -354,9 +354,7 @@ export const fetchMyAssignments = () => {
     }
 
     myItems.sort((a, b) => {
-      const dateA = a.weekOf.split('/')[2] + '/' + a.weekOf.split('/')[0] + '/' + a.weekOf.split('/')[1];
-      const dateB = b.weekOf.split('/')[2] + '/' + b.weekOf.split('/')[0] + '/' + b.weekOf.split('/')[1];
-      return dateA > dateB ? 1 : -1;
+      return a.weekOf > b.weekOf ? 1 : -1;
     });
 
     return myItems;
@@ -382,14 +380,15 @@ export const getPersonAutofillNoPart = (persons) => {
 export const getPersonAutofillNoPartWithinMonth = (persons, week, assClass, assType) => {
   let selected;
 
-  const currentDate = new Date(`${week.split('/')[2]}/${week.split('/')[0]}/${week.split('/')[1]}`);
+  const str = week.split('/');
+  const currentDate = new Date(`${str('/')[0]}/${str[1]}/${str[2]}`);
   const lastMonth = addMonths(currentDate, -1);
   const nextMonth = addMonths(currentDate, 1);
 
   for (const person of persons) {
     const assignments = Schedules.history.filter((record) => {
       const tmpArray = record.weekOf.split('/');
-      const tmpDate = new Date(`${tmpArray[2]}/${tmpArray[0]}/${tmpArray[1]}`);
+      const tmpDate = new Date(`${tmpArray[0]}/${tmpArray[1]}/${tmpArray[2]}`);
 
       return tmpDate > lastMonth && tmpDate < nextMonth && record.studentID === person.person_uid;
     });
@@ -398,7 +397,7 @@ export const getPersonAutofillNoPartWithinMonth = (persons, week, assClass, assT
       if (assClass) {
         const lastAssignment = Schedules.history.find((record) => {
           const tmpArray = record.weekOf.split('/');
-          const tmpDate = new Date(`${tmpArray[2]}/${tmpArray[0]}/${tmpArray[1]}`);
+          const tmpDate = new Date(`${tmpArray[0]}/${tmpArray[1]}/${tmpArray[2]}`);
 
           return tmpDate < currentDate && record.studentID === person.person_uid;
         });
@@ -426,14 +425,15 @@ export const getPersonAutofillNoPartWithinMonth = (persons, week, assClass, assT
 export const getPersonAutofillNoPartWithin2Weeks = (persons, week, assClass, assType) => {
   let selected;
 
-  const currentDate = new Date(`${week.split('/')[2]}/${week.split('/')[0]}/${week.split('/')[1]}`);
+  const str = week.split('/');
+  const currentDate = new Date(`${str('/')[0]}/${str[1]}/${str[2]}`);
   const lastMonth = addWeeks(currentDate, -2);
   const nextMonth = addWeeks(currentDate, 2);
 
   for (const person of persons) {
     const assignments = Schedules.history.filter((record) => {
       const tmpArray = record.weekOf.split('/');
-      const tmpDate = new Date(`${tmpArray[2]}/${tmpArray[0]}/${tmpArray[1]}`);
+      const tmpDate = new Date(`${tmpArray[0]}/${tmpArray[1]}/${tmpArray[2]}`);
 
       return tmpDate > lastMonth && tmpDate < nextMonth && record.studentID === person.person_uid;
     });
@@ -442,7 +442,7 @@ export const getPersonAutofillNoPartWithin2Weeks = (persons, week, assClass, ass
       if (assClass) {
         const lastAssignment = Schedules.history.find((record) => {
           const tmpArray = record.weekOf.split('/');
-          const tmpDate = new Date(`${tmpArray[2]}/${tmpArray[0]}/${tmpArray[1]}`);
+          const tmpDate = new Date(`${tmpArray[0]}/${tmpArray[1]}/${tmpArray[2]}`);
 
           return tmpDate < currentDate && record.studentID === person.person_uid;
         });
@@ -470,7 +470,8 @@ export const getPersonAutofillNoPartWithin2Weeks = (persons, week, assClass, ass
 export const getPersonAutofillNoPartSameWeek = (persons, week, assClass, assType) => {
   let selected;
 
-  const currentDate = new Date(`${week.split('/')[2]}/${week.split('/')[0]}/${week.split('/')[1]}`);
+  const str = week.split('/');
+  const currentDate = new Date(`${str[0]}/${str[1]}/${str[2]}`);
 
   for (const person of persons) {
     const assignments = Schedules.history.filter(
@@ -481,7 +482,7 @@ export const getPersonAutofillNoPartSameWeek = (persons, week, assClass, assType
       if (assClass) {
         const lastAssignment = Schedules.history.find((record) => {
           const tmpArray = record.weekOf.split('/');
-          const tmpDate = new Date(`${tmpArray[2]}/${tmpArray[0]}/${tmpArray[1]}`);
+          const tmpDate = new Date(`${tmpArray[0]}/${tmpArray[1]}/${tmpArray[2]}`);
 
           return tmpDate < currentDate && record.studentID === person.person_uid;
         });
@@ -579,14 +580,14 @@ export const weekendMeetingAutofill = async (startWeek, endWeek) => {
   const publicTalkCoordinatorRole = Setting.cong_role.includes('public_talk_coordinator');
 
   const tmpArrayEnd = endWeek.split('/');
-  endWeek = new Date(tmpArrayEnd[2], +tmpArrayEnd[0] - 1, tmpArrayEnd[1]);
+  endWeek = new Date(tmpArrayEnd[0], +tmpArrayEnd[1] - 1, tmpArrayEnd[2]);
 
   const tmpArrayStart = startWeek.split('/');
-  let currentWeek = new Date(tmpArrayStart[2], +tmpArrayStart[0] - 1, tmpArrayStart[1]);
+  let currentWeek = new Date(tmpArrayStart[0], +tmpArrayStart[1] - 1, tmpArrayStart[2]);
 
   do {
     // launching autofill
-    currentWeek = dateFormat(currentWeek, 'mm/dd/yyyy');
+    currentWeek = dateFormat(currentWeek, 'yyyy/mm/dd');
     const schedule = Schedules.get(currentWeek);
 
     if (schedule.noWMeeting === false) {
@@ -644,7 +645,7 @@ export const weekendMeetingAutofill = async (startWeek, endWeek) => {
 
     // assigning next week
     const tmpArrayCurrent = currentWeek.split('/');
-    currentWeek = new Date(tmpArrayCurrent[2], +tmpArrayCurrent[0] - 1, tmpArrayCurrent[1]);
+    currentWeek = new Date(tmpArrayCurrent[0], +tmpArrayCurrent[1] - 1, tmpArrayCurrent[2]);
     currentWeek = currentWeek.setDate(currentWeek.getDate() + 7);
   } while (currentWeek <= endWeek);
 };
@@ -654,13 +655,13 @@ export const weekendMeetingDelete = async (startWeek, endWeek) => {
   const publicTalkCoordinatorRole = Setting.cong_role.includes('public_talk_coordinator');
 
   const tmpArrayEnd = endWeek.split('/');
-  endWeek = new Date(tmpArrayEnd[2], +tmpArrayEnd[0] - 1, tmpArrayEnd[1]);
+  endWeek = new Date(tmpArrayEnd[0], +tmpArrayEnd[1] - 1, tmpArrayEnd[2]);
 
   const tmpArrayStart = startWeek.split('/');
-  let currentWeek = new Date(tmpArrayStart[2], +tmpArrayStart[0] - 1, tmpArrayStart[1]);
+  let currentWeek = new Date(tmpArrayStart[0], +tmpArrayStart[1] - 1, tmpArrayStart[2]);
 
   do {
-    currentWeek = dateFormat(currentWeek, 'mm/dd/yyyy');
+    currentWeek = dateFormat(currentWeek, 'yyyy/mm/dd');
 
     if (coordinatorRole) {
       // Delete Chairman
@@ -683,7 +684,7 @@ export const weekendMeetingDelete = async (startWeek, endWeek) => {
 
     // assigning next week
     const tmpArrayCurrent = currentWeek.split('/');
-    currentWeek = new Date(tmpArrayCurrent[2], +tmpArrayCurrent[0] - 1, tmpArrayCurrent[1]);
+    currentWeek = new Date(tmpArrayCurrent[0], +tmpArrayCurrent[1] - 1, tmpArrayCurrent[2]);
     currentWeek = currentWeek.setDate(currentWeek.getDate() + 7);
   } while (currentWeek <= endWeek);
 };
@@ -700,7 +701,7 @@ export const buildArrayWeeks = (startWeek, endWeek) => {
     let nextWeek = new Date(currentWeek);
     nextWeek = nextWeek.setDate(nextWeek.getDate() + 7);
 
-    currentWeek = dateFormat(nextWeek, 'mm/dd/yyyy');
+    currentWeek = dateFormat(nextWeek, 'yyyy/mm/dd');
   } while (currentWeek <= endWeek);
 
   return result;
