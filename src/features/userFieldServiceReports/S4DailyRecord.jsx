@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useTranslation } from 'react-i18next';
-import { format } from 'date-fns';
+import dateFormat from 'dateformat';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -29,7 +29,7 @@ const S4DailyRecord = ({ isOpen, month, date, setDate }) => {
 
   useEffect(() => {
     const handleInitializeReportDate = async () => {
-      const tmpDate = format(date, 'yyyy/MM/dd');
+      const tmpDate = dateFormat(date, 'yyyy/mm/dd');
 
       const data = await UserS4Records.get(tmpDate);
       setPlacements(data.placements);

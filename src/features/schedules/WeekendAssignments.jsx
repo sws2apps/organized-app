@@ -14,6 +14,7 @@ const WeekendAssignments = () => {
   const { weekToFormat } = useParams();
   const week = weekToFormat.replaceAll('-', '/');
 
+  const [weekType, setWeekType] = useState(1);
   const [chairman, setChairman] = useState('');
   const [prayer, setPrayer] = useState('');
   const [publicTalk, setPublicTalk] = useState('');
@@ -21,6 +22,7 @@ const WeekendAssignments = () => {
   const [speaker2, setSpeaker2] = useState('');
   const [wsReader, setWsReader] = useState('');
   const [wsArticle, setWsArticle] = useState('');
+  const [coTalkTitle, setCoTalkTitle] = useState('');
 
   const { opening_prayer_WM_autoAssign } = Setting;
 
@@ -47,9 +49,11 @@ const WeekendAssignments = () => {
 
       setChairman('');
 
+      setWeekType(scheduleData.week_type);
       setChairman(pocketRole ? scheduleData.chairman_WM_dispName : scheduleData.chairman_WM);
       setPrayer(pocketRole ? scheduleData.opening_prayerWM_dispName : scheduleData.opening_prayerWM);
       setPublicTalk(scheduleData.public_talk_title);
+      setCoTalkTitle(sourceData.w_co_talk_title);
       setSpeaker1(pocketRole ? scheduleData.speaker_1_dispName : scheduleData.speaker_1);
       setSpeaker2(pocketRole ? scheduleData.speaker_2_dispName : scheduleData.speaker_2);
       setWsArticle(sourceData.w_study_title);
@@ -93,18 +97,36 @@ const WeekendAssignments = () => {
 
       <Box sx={{ margin: '20px 0' }}>
         {/* Public Talk */}
-        <ScheduleRowAssignment
-          edit={false}
-          talk={true}
-          personA={speaker1}
-          personB={speaker2}
-          publicTalk={publicTalk}
-          studentAID={30}
-          studentBID={31}
-          assType={121}
-          assType2={120}
-          currentWeek={week}
-        />
+        {weekType !== 2 && (
+          <ScheduleRowAssignment
+            edit={false}
+            talk={true}
+            personA={speaker1}
+            personB={speaker2}
+            publicTalk={publicTalk}
+            studentAID={30}
+            studentBID={31}
+            assType={121}
+            assType2={120}
+            currentWeek={week}
+          />
+        )}
+
+        {/* CO Talk */}
+        {weekType === 2 && (
+          <ScheduleRowAssignment
+            co={true}
+            edit={false}
+            talk={true}
+            personA={Setting.co_displayName}
+            publicTalk={coTalkTitle}
+            studentAID={30}
+            studentBID={31}
+            assType={121}
+            assType2={120}
+            currentWeek={week}
+          />
+        )}
       </Box>
 
       {/* Watchtower Study */}

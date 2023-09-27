@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { format } from 'date-fns';
+import dateFormat from 'dateformat';
 import { useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import Autocomplete from '@mui/material/Autocomplete';
@@ -26,7 +26,7 @@ const S4BibleStudiesField = ({ month, currentDate, value, setValue }) => {
       return record.person_uid;
     });
 
-    const tmpDate = format(new Date(currentDate), 'yyyy/MM/dd');
+    const tmpDate = dateFormat(new Date(currentDate), 'yyyy/mm/dd');
 
     const currentReport = await UserS4Records.get(tmpDate);
     currentReport.bibleStudies = values;

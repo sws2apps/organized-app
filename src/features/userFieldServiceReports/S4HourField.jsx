@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { format } from 'date-fns';
+import dateFormat from 'dateformat';
 import { useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -37,7 +37,7 @@ const S4HourField = ({ month, currentDate, value, setValue, timeStart, setTimeSt
       newTimer = new Date(newTimer);
     }
 
-    const tmpDate = format(new Date(currentDate), 'yyyy/MM/dd');
+    const tmpDate = dateFormat(new Date(currentDate), 'yyyy/mm/dd');
     const durationStart = newTimer;
     const currentReport = await UserS4Records.get(tmpDate);
     currentReport.duration_start = durationStart;
@@ -49,7 +49,7 @@ const S4HourField = ({ month, currentDate, value, setValue, timeStart, setTimeSt
   const handlePauseTimer = async () => {
     clearInterval(runClock.current);
 
-    const tmpDate = format(new Date(currentDate), 'yyyy/MM/dd');
+    const tmpDate = dateFormat(new Date(currentDate), 'yyyy/mm/dd');
 
     const currentReport = await UserS4Records.get(tmpDate);
     currentReport.duration = value;
@@ -70,9 +70,9 @@ const S4HourField = ({ month, currentDate, value, setValue, timeStart, setTimeSt
     const isValid = value === null || !isNaN(timestamp);
 
     if (isValid) {
-      const durationValue = format(new Date(value), 'HH:mm:ss');
+      const durationValue = dateFormat(new Date(value), 'HH:MM:ss');
 
-      const tmpDate = format(new Date(currentDate), 'yyyy/MM/dd');
+      const tmpDate = dateFormat(new Date(currentDate), 'yyyy/mm/dd');
 
       const currentReport = await UserS4Records.get(tmpDate);
       currentReport.duration = durationValue;
