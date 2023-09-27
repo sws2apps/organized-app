@@ -57,7 +57,7 @@ const ScheduleWeekDetails = () => {
       currentDate.setDate(currentDate.getDate() - 7);
     }
 
-    const dateFormatted = dateFormat(currentDate, 'mm/dd/yyyy');
+    const dateFormatted = dateFormat(currentDate, 'yyyy/mm/dd');
     if (Sources.get(dateFormatted)) {
       const newUrl = `/schedules/${schedule}/${dateFormatted.replaceAll('/', '-')}`;
       navigate(newUrl);

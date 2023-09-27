@@ -229,12 +229,12 @@ export const getCurrentExistingWeekDate = async () => {
   const diff = today.getDate() - day + (day === 0 ? -6 : 1);
   let monDay = new Date(today.setDate(diff));
 
-  let currentWeek = format(monDay, 'MM/dd/yyyy');
+  let currentWeek = format(monDay, 'yyyy/mm/dd');
   let isExist = false;
 
   if (schedules.length > 0) {
     do {
-      const fDate = format(monDay, 'MM/dd/yyyy');
+      const fDate = format(monDay, 'yyyy/mm/dd');
       const schedule = schedules.find((data) => data.weekOf === fDate);
       if (schedule) {
         currentWeek = fDate;

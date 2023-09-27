@@ -25,8 +25,8 @@ const WeekendMeetingTemplate = ({ data }) => {
     const firstSplit = firstWeek.weekend_meeting_date.split('/');
     const lastSplit = lastWeek.weekend_meeting_date.split('/');
 
-    const firstMonth = `${Setting.monthNames()[+firstSplit[0] - 1]} ${firstSplit[2]}`;
-    const lastMonth = `${Setting.monthNames()[+lastSplit[0] - 1]} ${firstSplit[2]}`;
+    const firstMonth = `${Setting.monthNames()[+firstSplit[1] - 1]} ${firstSplit[0]}`;
+    const lastMonth = `${Setting.monthNames()[+lastSplit[1] - 1]} ${firstSplit[0]}`;
 
     title += `: ${firstMonth}`;
 

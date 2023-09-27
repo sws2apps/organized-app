@@ -519,9 +519,8 @@ PersonsClass.prototype.getByAssignment = function (payload) {
     if (a[fldFilter] === '') return -1;
     if (b[fldFilter] === '') return 1;
     if (a[fldFilter] === b[fldFilter]) return 0;
-    const dateA = a[fldFilter].split('/')[2] + '/' + a[fldFilter].split('/')[0] + '/' + a[fldFilter].split('/')[1];
-    const dateB = b[fldFilter].split('/')[2] + '/' + b[fldFilter].split('/')[0] + '/' + b[fldFilter].split('/')[1];
-    return dateA > dateB ? 1 : -1;
+
+    return a[fldFilter] > b[fldFilter] ? 1 : -1;
   });
 
   return persons;

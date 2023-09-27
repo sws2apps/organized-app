@@ -261,9 +261,9 @@ export const fetchScheduleInfo = (condition, currentSchedule, currentWeek) => {
 };
 
 export const getWeekDate = (weekOf) => {
-  const month = +weekOf.split('/')[0] - 1;
-  const day = +weekOf.split('/')[1];
-  const year = +weekOf.split('/')[2];
+  const month = +weekOf.split('/')[1] - 1;
+  const day = +weekOf.split('/')[2];
+  const year = +weekOf.split('/')[0];
 
   return new Date(year, month, day);
 };
