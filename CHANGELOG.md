@@ -1,3 +1,17 @@
+# [2.97.0](https://github.com/sws2apps/cpe-sws/compare/v2.96.1...v2.97.0) (2023-09-27)
+
+
+### Bug Fixes
+
+* **schedules:** display weekend public talk by circuit overseer ([4ae467e](https://github.com/sws2apps/cpe-sws/commit/4ae467e8345ae0e1bee4805795dde462018c04d7))
+
+
+### Features
+
+* **deps:** bump @mui/icons-material from 5.14.9 to 5.14.11 ([35bd75a](https://github.com/sws2apps/cpe-sws/commit/35bd75a8e887ca38f2c9fc4ceb375438446bc00d))
+* **deps:** bump @mui/material from 5.14.10 to 5.14.11 ([77b594c](https://github.com/sws2apps/cpe-sws/commit/77b594cfd77cce6f3df163c7061623517a7099e0))
+* **deps:** bump jw-epub-parser from 2.0.0 to 3.0.0 ([17ea0bb](https://github.com/sws2apps/cpe-sws/commit/17ea0bb0748e6b5d323ec9b59d95f4ec5b32cec4))
+
 ## [2.96.1](https://github.com/sws2apps/cpe-sws/compare/v2.96.0...v2.96.1) (2023-09-25)
 
 
