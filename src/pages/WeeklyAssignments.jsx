@@ -57,12 +57,12 @@ const WeeklyAssignments = () => {
   };
 
   const handlePreviousWeek = () => {
-    const weekDate = dateFormat(previousWeek, 'mm-dd-yyyy');
+    const weekDate = dateFormat(previousWeek, 'yyyy-mm-dd');
     navigate(`/schedules/view/${weekDate}`);
   };
 
   const handleNextWeek = () => {
-    const weekDate = dateFormat(nextWeek, 'mm-dd-yyyy');
+    const weekDate = dateFormat(nextWeek, 'yyyy-mm-dd');
     navigate(`/schedules/view/${weekDate}`);
   };
 

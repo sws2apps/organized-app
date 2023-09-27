@@ -1,5 +1,5 @@
 import { useSetRecoilState } from 'recoil';
-import { format } from 'date-fns';
+import dateFormat from 'dateformat';
 import { useTranslation } from 'react-i18next';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Box from '@mui/material/Box';
@@ -25,7 +25,7 @@ const S4GenericField = ({ fldType, month, currentDate, value = 0, setValue }) =>
 
   const handleRecordUpdate = async (value) => {
     const classField = getClassField();
-    const tmpDate = format(new Date(currentDate), 'yyyy/MM/dd');
+    const tmpDate = dateFormat(new Date(currentDate), 'yyyy/mm/dd');
 
     const currentReport = await UserS4Records.get(tmpDate);
     currentReport[classField] = value;

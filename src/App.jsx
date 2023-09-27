@@ -12,6 +12,7 @@ import PrivateLMMORoute from './components/PrivateLMMORoute';
 import PrivatePublisherRoute from './components/PrivatePublisherRoute';
 import PrivateVipRoute from './components/PrivateVipRoute';
 import PrivatePublicTalkCoordinatorRoute from './components/PrivatePublicTalkCoordinatorRoute';
+import PrivateWeekendMeetingRoute from './components/PrivateWeekendMeetingRoute';
 import ErrorBoundary from './components/ErrorBoundary';
 import { apiHostState, isLightThemeState, isOnlineState, visitorIDState } from './states/main';
 import { congAccountConnectedState, congRoleState } from './states/congregation';
@@ -198,23 +199,26 @@ const App = ({ updatePwa }) => {
                   ],
                 },
                 {
-                  element: (
-                    <PrivatePublicTalkCoordinatorRoute
-                      isPublicTalkCoordinator={publicTalkCoordinatorRole || coordinatorRole}
-                    />
-                  ),
+                  element: <PrivatePublicTalkCoordinatorRoute isPublicTalkCoordinator={publicTalkCoordinatorRole} />,
                   children: [
                     {
                       path: '/public-talks',
                       element: <PublicTalksList />,
                     },
                     {
-                      path: '/weekend-schedules',
-                      element: <WeekendMeetingSchedule />,
-                    },
-                    {
                       path: '/visiting-speakers',
                       element: <VisitingSpeakers />,
+                    },
+                  ],
+                },
+                {
+                  element: (
+                    <PrivateWeekendMeetingRoute isWeekendMeetingRole={publicTalkCoordinatorRole || coordinatorRole} />
+                  ),
+                  children: [
+                    {
+                      path: '/weekend-schedules',
+                      element: <WeekendMeetingSchedule />,
                     },
                   ],
                 },

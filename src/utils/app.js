@@ -1,5 +1,5 @@
 import { getI18n } from 'react-i18next';
-import { format } from 'date-fns';
+import dateFormat from 'dateformat';
 import { promiseSetRecoil } from 'recoil-outside';
 import { initAppDb } from '../indexedDb/dbUtility';
 import { dbGetNotifications } from '../indexedDb/dbNotifications';
@@ -229,12 +229,12 @@ export const getCurrentExistingWeekDate = async () => {
   const diff = today.getDate() - day + (day === 0 ? -6 : 1);
   let monDay = new Date(today.setDate(diff));
 
-  let currentWeek = format(monDay, 'yyyy/mm/dd');
+  let currentWeek = dateFormat(monDay, 'yyyy/mm/dd');
   let isExist = false;
 
   if (schedules.length > 0) {
     do {
-      const fDate = format(monDay, 'yyyy/mm/dd');
+      const fDate = dateFormat(monDay, 'yyyy/mm/dd');
       const schedule = schedules.find((data) => data.weekOf === fDate);
       if (schedule) {
         currentWeek = fDate;
