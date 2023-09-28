@@ -1,3 +1,10 @@
+## [2.97.2](https://github.com/sws2apps/cpe-sws/compare/v2.97.1...v2.97.2) (2023-09-28)
+
+
+### Bug Fixes
+
+* **app:** update table name ([6f9e263](https://github.com/sws2apps/cpe-sws/commit/6f9e263a7a2ff5addd6eda995cbdd201f6869a04))
+
 ## [2.97.1](https://github.com/sws2apps/cpe-sws/compare/v2.97.0...v2.97.1) (2023-09-28)
 
 
