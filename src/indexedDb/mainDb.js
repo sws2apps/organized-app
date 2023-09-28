@@ -306,7 +306,7 @@ appDb.version(64).stores({
 		'&cong_number, cong_id, cong_name, cong_speakers, is_local, request_status, notif_dismissed, changes',
 });
 appDb
-	.version(68)
+	.version(72)
 	.stores({
 		sources_temp:
 			'&weekOf, mwb_week_date_locale, mwb_weekly_bible_reading, mwb_song_first, mwb_tgw_talk, mwb_tgw_bread, mwb_ayf_count, mwb_ayf_part1, mwb_ayf_part1_time, mwb_ayf_part1_type, mwb_ayf_part2, mwb_ayf_part2_time, mwb_ayf_part2_type, mwb_ayf_part3, mwb_ayf_part3_time, mwb_ayf_part3_type, mwb_ayf_part4, mwb_ayf_part4_time, mwb_ayf_part4_type, mwb_song_middle, mwb_lc_count, mwb_lc_count_override, mwb_lc_part1, mwb_lc_part1_override, mwb_lc_part1_time, mwb_lc_part1_time_override, mwb_lc_part1_content, mwb_lc_part1_content_override, mwb_lc_part2, mwb_lc_part2_override, mwb_lc_part2_time, mwb_lc_part2_time_override, mwb_lc_part2_content, mwb_lc_part2_content_override, mwb_lc_cbs, mwb_lc_cbs_time_override, mwb_song_conclude, mwb_song_conclude_override, mwb_co_talk_title, w_study_date_locale, w_study_title, w_study_opening_song, w_study_concluding_song, w_co_talk_title, keepOverride',
@@ -333,15 +333,15 @@ appDb
 
 			const data = { ...schedule, weekOf: newWeekOf };
 
-			await trans.sources_temp.put(data, oldWeekOf);
+			await trans.sched_temp.put(data, oldWeekOf);
 		}
 	});
-appDb.version(69).stores({
+appDb.version(73).stores({
 	sources: null,
 	sched: null,
 });
 appDb
-	.version(70)
+	.version(74)
 	.stores({
 		sources:
 			'&weekOf, mwb_week_date_locale, mwb_weekly_bible_reading, mwb_song_first, mwb_tgw_talk, mwb_tgw_bread, mwb_ayf_count, mwb_ayf_part1, mwb_ayf_part1_time, mwb_ayf_part1_type, mwb_ayf_part2, mwb_ayf_part2_time, mwb_ayf_part2_type, mwb_ayf_part3, mwb_ayf_part3_time, mwb_ayf_part3_type, mwb_ayf_part4, mwb_ayf_part4_time, mwb_ayf_part4_type, mwb_song_middle, mwb_lc_count, mwb_lc_count_override, mwb_lc_part1, mwb_lc_part1_override, mwb_lc_part1_time, mwb_lc_part1_time_override, mwb_lc_part1_content, mwb_lc_part1_content_override, mwb_lc_part2, mwb_lc_part2_override, mwb_lc_part2_time, mwb_lc_part2_time_override, mwb_lc_part2_content, mwb_lc_part2_content_override, mwb_lc_cbs, mwb_lc_cbs_time_override, mwb_song_conclude, mwb_song_conclude_override, mwb_co_talk_title, w_study_date_locale, w_study_title, w_study_opening_song, w_study_concluding_song, w_co_talk_title, keepOverride',
@@ -356,10 +356,10 @@ appDb
 
 		const schedules = await trans.sched_temp.toArray();
 		for await (const schedule of schedules) {
-			await trans.sources.put(schedule, schedule.weekOf);
+			await trans.sched.put(schedule, schedule.weekOf);
 		}
 	});
-appDb.version(71).stores({
+appDb.version(75).stores({
 	sources_temp: null,
 	sched_temp: null,
 });
