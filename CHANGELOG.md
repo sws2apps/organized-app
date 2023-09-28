@@ -1,3 +1,10 @@
+## [2.97.1](https://github.com/sws2apps/cpe-sws/compare/v2.97.0...v2.97.1) (2023-09-28)
+
+
+### Bug Fixes
+
+* **app:** sources and schedules erased after update ([de88920](https://github.com/sws2apps/cpe-sws/commit/de88920ed53e9d6f170a0ea9058879dfc8b0220b))
+
 # [2.97.0](https://github.com/sws2apps/cpe-sws/compare/v2.96.1...v2.97.0) (2023-09-27)
 
 
