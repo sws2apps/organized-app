@@ -249,13 +249,13 @@ const PersonSelect = ({
   useEffect(() => {
     setHasWarning(false);
 
-    if (selectedPerson !== null) {
+    if (selectedPerson !== null && edit) {
       const activeRecords = Schedules.history.filter(
         (record) => record.weekOf === currentWeek && record.studentID === selectedPerson.person_uid
       );
       setHasWarning(activeRecords.length > 1);
     }
-  }, [assID, selectedPerson, currentWeek, refreshCurrent]);
+  }, [assID, selectedPerson, currentWeek, refreshCurrent, edit]);
 
   return (
     <HtmlTooltip
