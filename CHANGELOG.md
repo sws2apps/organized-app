@@ -1,3 +1,10 @@
+## [2.97.3](https://github.com/sws2apps/cpe-sws/compare/v2.97.2...v2.97.3) (2023-09-29)
+
+
+### Bug Fixes
+
+* **schedules:** don’t display warning when viewing only schedule ([73a9990](https://github.com/sws2apps/cpe-sws/commit/73a9990ca15c3ff4f09af31031b83c33023f03ce))
+
 ## [2.97.2](https://github.com/sws2apps/cpe-sws/compare/v2.97.1...v2.97.2) (2023-09-28)
 
 
