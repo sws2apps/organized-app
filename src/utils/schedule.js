@@ -381,7 +381,7 @@ export const getPersonAutofillNoPartWithinMonth = (persons, week, assClass, assT
   let selected;
 
   const str = week.split('/');
-  const currentDate = new Date(`${str('/')[0]}/${str[1]}/${str[2]}`);
+  const currentDate = new Date(`${str[0]}/${str[1]}/${str[2]}`);
   const lastMonth = addMonths(currentDate, -1);
   const nextMonth = addMonths(currentDate, 1);
 
@@ -426,7 +426,7 @@ export const getPersonAutofillNoPartWithin2Weeks = (persons, week, assClass, ass
   let selected;
 
   const str = week.split('/');
-  const currentDate = new Date(`${str('/')[0]}/${str[1]}/${str[2]}`);
+  const currentDate = new Date(`${str[0]}/${str[1]}/${str[2]}`);
   const lastMonth = addWeeks(currentDate, -2);
   const nextMonth = addWeeks(currentDate, 2);
 
