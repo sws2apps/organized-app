@@ -1,3 +1,16 @@
+# [2.98.0](https://github.com/sws2apps/cpe-sws/compare/v2.97.3...v2.98.0) (2023-10-02)
+
+
+### Bug Fixes
+
+* **schedules:** autofill schedule stuck ([de91624](https://github.com/sws2apps/cpe-sws/commit/de916241590d4ecafc027aa23598023972eba348))
+
+
+### Features
+
+* **deps:** bump @mui/x-date-pickers from 6.15.0 to 6.16.0 ([69a6736](https://github.com/sws2apps/cpe-sws/commit/69a6736e99d71134ca83ce440e164bcbd1dd4c38))
+* **deps:** bump @mui/x-tree-view from 6.0.0-alpha.4 to 6.0.0-beta.0 ([8ddff07](https://github.com/sws2apps/cpe-sws/commit/8ddff07468a8cada34ecf02e4ee80eeb642d1326))
+
 ## [2.97.3](https://github.com/sws2apps/cpe-sws/compare/v2.97.2...v2.97.3) (2023-09-29)
 
 
