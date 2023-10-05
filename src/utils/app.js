@@ -1,5 +1,5 @@
 import { getI18n } from 'react-i18next';
-import { format } from 'date-fns';
+import dateFormat from 'dateformat';
 import { promiseSetRecoil } from 'recoil-outside';
 import { initAppDb } from '../indexedDb/dbUtility';
 import { dbGetNotifications } from '../indexedDb/dbNotifications';
@@ -15,6 +15,8 @@ import {
   usernameState,
   openingPrayerWMAutoAssignState,
   weekendMeetingDayState,
+  midweekMeetingExactDateState,
+  weekendMeetingSubstituteSpeakerState,
 } from '../states/congregation';
 import {
   appLangState,
@@ -57,6 +59,8 @@ export const loadApp = async () => {
       opening_prayer_MM_autoAssign,
       opening_prayer_WM_autoAssign,
       weekend_meeting_day,
+      midweek_meeting_useExactDate,
+      weekend_meeting_useSubstituteSpeaker,
     } = Setting;
 
     backupWorkerInstance.setBackupInterval(autoBackup_interval);
@@ -99,6 +103,8 @@ export const loadApp = async () => {
     await promiseSetRecoil(openingPrayerMMAutoAssignState, opening_prayer_MM_autoAssign || false);
     await promiseSetRecoil(openingPrayerWMAutoAssignState, opening_prayer_WM_autoAssign || false);
     await promiseSetRecoil(weekendMeetingDayState, weekend_meeting_day || 6);
+    await promiseSetRecoil(midweekMeetingExactDateState, midweek_meeting_useExactDate || false);
+    await promiseSetRecoil(weekendMeetingSubstituteSpeakerState, weekend_meeting_useSubstituteSpeaker || false);
 
     if (source_lang === undefined) await Setting.update({ source_lang: app_lang });
 
@@ -229,12 +235,12 @@ export const getCurrentExistingWeekDate = async () => {
   const diff = today.getDate() - day + (day === 0 ? -6 : 1);
   let monDay = new Date(today.setDate(diff));
 
-  let currentWeek = format(monDay, 'MM/dd/yyyy');
+  let currentWeek = dateFormat(monDay, 'yyyy/mm/dd');
   let isExist = false;
 
   if (schedules.length > 0) {
     do {
-      const fDate = format(monDay, 'MM/dd/yyyy');
+      const fDate = dateFormat(monDay, 'yyyy/mm/dd');
       const schedule = schedules.find((data) => data.weekOf === fDate);
       if (schedule) {
         currentWeek = fDate;

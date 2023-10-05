@@ -185,7 +185,7 @@ const CongregationPersonDetails = () => {
     try {
       if (apiHost !== '' && congID !== '') {
         setRootModalOpen(true);
-        const res = await fetch(`${apiHost}api/congregations/${congID}/pockets/${id}/code`, {
+        const res = await fetch(`${apiHost}api/congregations/admin/${congID}/pockets/${id}/code`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -221,7 +221,7 @@ const CongregationPersonDetails = () => {
     try {
       if (apiHost !== '' && congID !== '') {
         setRootModalOpen(true);
-        const res = await fetch(`${apiHost}api/congregations/${congID}/pockets/${id}/code`, {
+        const res = await fetch(`${apiHost}api/congregations/admin/${congID}/pockets/${id}/code`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
@@ -261,7 +261,7 @@ const CongregationPersonDetails = () => {
     try {
       if (apiHost !== '' && congID !== '') {
         setRootModalOpen(true);
-        const res = await fetch(`${apiHost}api/congregations/${congID}/pockets/${id}`, {
+        const res = await fetch(`${apiHost}api/congregations/admin/${congID}/pockets/${id}`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
@@ -355,9 +355,9 @@ const CongregationPersonDetails = () => {
 
         let api = '';
         if (person.global_role === 'pocket') {
-          api = `${apiHost}api/congregations/${congID}/pockets/${person.id}`;
+          api = `${apiHost}api/congregations/admin/${congID}/pockets/${person.id}`;
         } else {
-          api = `${apiHost}api/congregations/${congID}/members/${person.id}`;
+          api = `${apiHost}api/congregations/admin/${congID}/members/${person.id}`;
         }
 
         const res = await fetch(api, {
@@ -403,7 +403,7 @@ const CongregationPersonDetails = () => {
       if (apiHost !== '' && congID !== '') {
         setRootModalOpen(true);
 
-        const res = await fetch(`${apiHost}api/congregations/${congID}/members/${person.id}`, {
+        const res = await fetch(`${apiHost}api/congregations/admin/${congID}/members/${person.id}`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',

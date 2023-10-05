@@ -26,7 +26,7 @@ export const apiFetchPublicTalks = async () => {
       const auth = await getAuth();
       const user = auth.currentUser;
 
-      const res = await fetch(`${apiHost}api/congregations/${congID}/public-talks`, {
+      const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/public-talks`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

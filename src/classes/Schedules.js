@@ -19,9 +19,7 @@ class SchedulesClass {
 
 SchedulesClass.prototype.sort = function (arrayName) {
   this[arrayName].sort((a, b) => {
-    const dateA = a.weekOf.split('/')[2] + '/' + a.weekOf.split('/')[0] + '/' + a.weekOf.split('/')[1];
-    const dateB = b.weekOf.split('/')[2] + '/' + b.weekOf.split('/')[0] + '/' + b.weekOf.split('/')[1];
-    return dateA < dateB ? 1 : -1;
+    return a.weekOf < b.weekOf ? 1 : -1;
   });
 };
 
@@ -162,7 +160,7 @@ SchedulesClass.prototype.S89ItemData = function (week, assName, classLabel) {
 
   let midDay = parseInt(Setting.midweek_meeting_day, 10);
 
-  const [varMonth, varDay, varYear] = week.split('/');
+  const [varYear, varMonth, varDay] = week.split('/');
   midDay = parseInt(varDay, 10) + midDay - 1;
   const lDate = new Date(varYear, varMonth - 1, midDay);
   const dateFormatted = dateFormat(lDate, getI18n().getDataByLanguage(sourceLang).ui['shortDateFormat']);
@@ -278,6 +276,19 @@ SchedulesClass.prototype.S140Data = function (scheduleName) {
   for (const week of allWeeks) {
     const scheduleData = this.get(week);
     const sourceData = Sources.get(week).local();
+
+    let midDay = +Setting.midweek_meeting_day;
+    const [varYear, varMonth, varDay] = week.split('/');
+    midDay = parseInt(varDay, 10) + midDay - 1;
+    const lDate = new Date(varYear, varMonth - 1, midDay);
+
+    const meetingDate = t('longDateFormat', {
+      lng: sourceLang,
+      ns: 'source',
+      month: Setting.monthNames()[lDate.getMonth()],
+      date: lDate.getDate(),
+      year: lDate.getFullYear(),
+    });
 
     // pgm start
     const time = {};
@@ -409,7 +420,7 @@ SchedulesClass.prototype.S140Data = function (scheduleName) {
     const obj = {};
     obj.week = week;
     obj.scheduleData = scheduleData;
-    obj.sourceData = { ...sourceData, ...time };
+    obj.sourceData = { ...sourceData, ...time, meeting_date: meetingDate };
     data.push(obj);
   }
 
@@ -485,6 +496,12 @@ SchedulesClass.prototype.buildScheduleForShare = async function (scheduleIndex) 
       if (publicTalkCoordinatorRole) {
         if (key.indexOf('speaker') >= 0) {
           cleanSched[key] = value;
+          if (schedData.is_visiting_speaker && key === 'speaker_1_name') {
+            cleanSched[key] = VisitingSpeakers.getSpeakerByUid(value)?.person_name || '';
+          }
+          if (schedData.is_visiting_speaker && key === 'speaker_1_dispName') {
+            cleanSched[key] = VisitingSpeakers.getSpeakerByUid(value)?.person_displayName || '';
+          }
         }
         if (key === 'is_visiting_speaker') {
           cleanSrc[key] = value;
@@ -588,9 +605,7 @@ SchedulesClass.prototype.updateTalkHistory = function ({ talk_number, weekOf, de
     currentTalk.history.push(obj);
 
     currentTalk.history.sort((a, b) => {
-      const dateA = a.weekOf.split('/')[2] + '/' + a.weekOf.split('/')[0] + '/' + a.weekOf.split('/')[1];
-      const dateB = b.weekOf.split('/')[2] + '/' + b.weekOf.split('/')[0] + '/' + b.weekOf.split('/')[1];
-      return dateA < dateB ? 1 : -1;
+      return a.weekOf < b.weekOf ? 1 : -1;
     });
 
     currentTalk.last_delivered = weekOf;
@@ -609,7 +624,7 @@ SchedulesClass.prototype.WeekendMeetingData = function (startWeek, endWeek) {
     const WMDay = Setting.weekend_meeting_day - 1;
     const tmpDate = new Date(schedule.weekOf);
     const tmpWMDate = tmpDate.setDate(tmpDate.getDate() + WMDay);
-    const WMDate = dateFormat(tmpWMDate, 'mm/dd/yyyy');
+    const WMDate = dateFormat(tmpWMDate, 'yyyy/mm/dd');
     const WMDateFormatted = dateFormat(tmpWMDate, Setting.shortDateFormat());
 
     schedule.weekend_meeting_date = WMDate;

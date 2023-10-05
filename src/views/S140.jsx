@@ -99,7 +99,8 @@ const styles = StyleSheet.create({
 const S140 = ({ data, currentSchedule }) => {
   const { t } = useTranslation('source');
 
-  const { source_lang, schedule_useFullname, class_count, opening_prayer_MM_autoAssign } = Setting;
+  const { source_lang, schedule_useFullname, class_count, opening_prayer_MM_autoAssign, midweek_meeting_useExactDate } =
+    Setting;
 
   const minLabel = t('minuteShortLabel', { lng: source_lang, ns: 'ui' });
 
@@ -325,6 +326,20 @@ const S140 = ({ data, currentSchedule }) => {
     return src;
   };
 
+  const getWeekDate = (weekItem) => {
+    let value = '';
+
+    if (midweek_meeting_useExactDate) {
+      value = weekItem.sourceData.meeting_date;
+    }
+
+    if (!midweek_meeting_useExactDate) {
+      value = weekItem.sourceData.mwb_week_date_locale;
+    }
+
+    return value;
+  };
+
   return (
     <>
       {data.length > 0 && currentSchedule.value !== '' && (
@@ -354,7 +369,7 @@ const S140 = ({ data, currentSchedule }) => {
                 >
                   <View style={styles.rowBase}>
                     <S140WeekTitle
-                      title={`${weekItem.sourceData.mwb_week_date_locale} | ${weekItem.sourceData.mwb_weekly_bible_reading}`}
+                      title={`${getWeekDate(weekItem)} | ${weekItem.sourceData.mwb_weekly_bible_reading}`}
                     />
                     {!weekItem.scheduleData.noMMeeting && (
                       <>

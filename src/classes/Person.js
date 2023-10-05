@@ -107,7 +107,7 @@ PersonClass.prototype.assistantHistory = function () {
 
   for (const schedule of Schedules.list) {
     const weekData = Sources.get(schedule.weekOf).local();
-    const [varMonth, varDay, varYear] = schedule.weekOf.split('/');
+    const [varYear, varMonth, varDay] = schedule.weekOf.split('/');
     const lDate = new Date(varYear, varMonth - 1, varDay);
     const dateFormatted = dateFormat(lDate, Setting.shortDateFormat());
     const cnAss = [{ iAss: 1 }, { iAss: 2 }, { iAss: 3 }];
@@ -335,7 +335,8 @@ PersonClass.prototype.isSpecialPioneer = function (month) {
 
 PersonClass.prototype.isValidPublisher = function (month) {
   // default month to current month if undefined
-  if (!month) month = `${new Date().getFullYear()}/${String(new Date().getMonth() + 1).padStart(2, '0')}/01`;
+  const currentDate = new Date();
+  if (!month) month = `${currentDate.getFullYear()}/${String(currentDate.getMonth() + 1).padStart(2, '0')}/01`;
 
   let isValid = true;
   if (this.firstMonthReport !== null) {
@@ -430,7 +431,8 @@ PersonClass.prototype.hasReport = function (month) {
 
 PersonClass.prototype.isActivePublisher = function (month) {
   // default month to current month if undefined
-  if (!month) month = `${new Date().getFullYear()}/${String(new Date().getMonth() + 1).padStart(2, '0')}/01`;
+  const currentDate = new Date();
+  if (!month) month = `${currentDate.getFullYear()}/${String(currentDate.getMonth() + 1).padStart(2, '0')}/01`;
 
   let isActive = false;
   let countReport = 0;
@@ -458,6 +460,11 @@ PersonClass.prototype.isActivePublisher = function (month) {
       const prevMonth = addMonths(new Date(month), -1);
       month = `${prevMonth.getFullYear()}/${String(prevMonth.getMonth() + 1).padStart(2, '0')}/01`;
       SY = ServiceYear.getByMonth(month);
+    }
+
+    if (!SY) {
+      isActive = true;
+      break;
     }
 
     countReport++;

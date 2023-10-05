@@ -40,14 +40,12 @@ const WeekendMeetingWeekSelect = ({ actionType, open, setOpen }) => {
         .filter((record) => {
           const startDate = new Date(2023, 5, 6);
           const tmp = record.weekOf.split('/');
-          const recordDate = new Date(tmp[2], +tmp[0] - 1, tmp[1]);
+          const recordDate = new Date(tmp[0], +tmp[1] - 1, tmp[2]);
 
           return recordDate >= startDate;
         })
         .sort((a, b) => {
-          const dateA = a.weekOf.split('/')[2] + '/' + a.weekOf.split('/')[0] + '/' + a.weekOf.split('/')[1];
-          const dateB = b.weekOf.split('/')[2] + '/' + b.weekOf.split('/')[0] + '/' + b.weekOf.split('/')[1];
-          return dateA > dateB ? 1 : -1;
+          return a.weekOf > b.weekOf ? 1 : -1;
         }),
     []
   );
@@ -107,9 +105,9 @@ const WeekendMeetingWeekSelect = ({ actionType, open, setOpen }) => {
       setEndWeekOptions(
         schedules.filter((record) => {
           const tmpStart = startWeek.split('/');
-          const startDate = new Date(tmpStart[2], +tmpStart[0] - 1, tmpStart[1]);
+          const startDate = new Date(tmpStart[0], +tmpStart[1] - 1, tmpStart[2]);
           const tmpEnd = record.weekOf.split('/');
-          const recordDate = new Date(tmpEnd[2], +tmpEnd[0] - 1, tmpEnd[1]);
+          const recordDate = new Date(tmpEnd[0], +tmpEnd[1] - 1, tmpEnd[2]);
 
           return recordDate >= startDate;
         })

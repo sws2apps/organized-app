@@ -57,12 +57,12 @@ const WeeklyAssignments = () => {
   };
 
   const handlePreviousWeek = () => {
-    const weekDate = dateFormat(previousWeek, 'mm-dd-yyyy');
+    const weekDate = dateFormat(previousWeek, 'yyyy-mm-dd');
     navigate(`/schedules/view/${weekDate}`);
   };
 
   const handleNextWeek = () => {
-    const weekDate = dateFormat(nextWeek, 'mm-dd-yyyy');
+    const weekDate = dateFormat(nextWeek, 'yyyy-mm-dd');
     navigate(`/schedules/view/${weekDate}`);
   };
 
@@ -73,13 +73,13 @@ const WeeklyAssignments = () => {
 
     let result = new Date(currentWeek);
     result.setDate(result.getDate() - 7);
-    let previousWeek = dateFormat(result, 'mm/dd/yyyy');
+    let previousWeek = dateFormat(result, 'yyyy/mm/dd');
 
     let hasPrevious = Sources.get(previousWeek);
 
     if (!hasPrevious) {
       result.setDate(result.getDate() - 7);
-      previousWeek = dateFormat(result, 'mm/dd/yyyy');
+      previousWeek = dateFormat(result, 'yyyy/mm/dd');
       hasPrevious = Sources.get(previousWeek);
     }
     setDisablePrevious(!hasPrevious);
@@ -87,18 +87,18 @@ const WeeklyAssignments = () => {
 
     result = new Date(currentWeek);
     result.setDate(result.getDate() + 7);
-    let nextWeek = dateFormat(result, 'mm/dd/yyyy');
+    let nextWeek = dateFormat(result, 'yyyy/mm/dd');
 
     let hasNext = Sources.get(nextWeek);
     if (!hasNext) {
       result.setDate(result.getDate() + 7);
-      nextWeek = dateFormat(result, 'mm/dd/yyyy');
+      nextWeek = dateFormat(result, 'yyyy/mm/dd');
       hasNext = Sources.get(nextWeek);
     }
     setDisableNext(!hasNext);
     setNextWeek(result);
 
-    const weekValue = dateFormat(currentWeek, 'mm/dd/yyyy');
+    const weekValue = dateFormat(currentWeek, 'yyyy/mm/dd');
     const weekValueFormatted = dateFormat(weekValue, shortDateFormat);
     setFCurrentWeek(weekValueFormatted);
 
