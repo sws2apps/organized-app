@@ -66,5 +66,7 @@
   "publicTalk": "Tema do discurso público",
   "openingPrayerWeekendMeeting": "Oração inicial",
   "noWMeeting": "Não há nenhuma reunião de fim de semana para esta semana",
-  "noMeeting": "Não existe reunião para esta semana"
+  "noMeeting": "Não existe reunião para esta semana",
+  "longDateFormat": "{{ month }} {{ date }}, {{ year }}",
+  "substituteSpeaker": "Substitute Speaker"
 }
