@@ -161,3 +161,8 @@ export const congSpeakersRequestsDisapprovedState = selector({
     return result;
   },
 });
+
+export const midweekMeetingExactDateState = atom({
+  key: 'midweekMeetingExactDate',
+  default: false,
+});

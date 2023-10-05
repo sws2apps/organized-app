@@ -20,6 +20,7 @@ import {
   openingPrayerMMAutoAssignState,
   openingPrayerWMAutoAssignState,
   weekendMeetingDayState,
+  midweekMeetingExactDateState,
 } from '../../states/congregation';
 import { scheduleUseFullnameState } from '../../states/schedule';
 import { generateDisplayName } from '../../utils/person';
@@ -35,6 +36,7 @@ const BasicSettings = () => {
   const [autoAssignWMOpeningPrayer, setAutoAssignWMOpeningPrayer] = useRecoilState(openingPrayerWMAutoAssignState);
   const [scheduleUseFullname, setScheduleUseFullname] = useRecoilState(scheduleUseFullnameState);
   const [weekendMeetingDay, setWeekendMeetingDay] = useRecoilState(weekendMeetingDayState);
+  const [midweekMeetingExactDate, setMidweekMeetingExactDate] = useRecoilState(midweekMeetingExactDateState);
 
   const congName = useRecoilValue(congNameState);
   const congNumber = useRecoilValue(congNumberState);
@@ -48,6 +50,7 @@ const BasicSettings = () => {
   const [tmpautoAssignWMOpeningPrayer, setTmpautoAssignWMOpeningPrayer] = useState(autoAssignWMOpeningPrayer);
   const [useFullname, setUseFullname] = useState(scheduleUseFullname);
   const [tempWeekendMeetingDay, setTempWeekendMeetingDay] = useState(weekendMeetingDay);
+  const [tmpMidweekMeetingExactDate, setTmpMidweekMeetingExactDate] = useState(midweekMeetingExactDate);
 
   const roleLMMO = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
   const coordinatorRole = Setting.cong_role.includes('coordinator');
@@ -109,6 +112,12 @@ const BasicSettings = () => {
     setTempWeekendMeetingDay(e.target.value);
     await Setting.update({ weekend_meeting_day: e.target.value });
     setWeekendMeetingDay(e.target.value);
+  };
+
+  const handleSwitchMMExactDate = async (value) => {
+    setTmpMidweekMeetingExactDate(value);
+    await Setting.update({ midweek_meeting_useExactDate: value });
+    setMidweekMeetingExactDate(value);
   };
 
   useEffect(() => {
@@ -220,6 +229,17 @@ const BasicSettings = () => {
           <FormControlLabel
             control={
               <Checkbox
+                checked={tmpautoAssignMMOpeningPrayer}
+                readOnly={!roleLMMO}
+                onChange={roleLMMO ? (e) => handleSwitchMMAutoAssignPrayer(e.target.checked) : null}
+              />
+            }
+            label={t('autoAssignMMOpeningPrayer')}
+          />
+
+          <FormControlLabel
+            control={
+              <Checkbox
                 checked={useFullname}
                 readOnly={!roleLMMO}
                 onChange={roleLMMO ? (e) => handleChangeFullnameSwitch(e.target.checked) : null}
@@ -231,12 +251,12 @@ const BasicSettings = () => {
           <FormControlLabel
             control={
               <Checkbox
-                checked={tmpautoAssignMMOpeningPrayer}
+                checked={tmpMidweekMeetingExactDate}
                 readOnly={!roleLMMO}
-                onChange={roleLMMO ? (e) => handleSwitchMMAutoAssignPrayer(e.target.checked) : null}
+                onChange={roleLMMO ? (e) => handleSwitchMMExactDate(e.target.checked) : null}
               />
             }
-            label={t('autoAssignMMOpeningPrayer')}
+            label={t('useExactMidweekMeetingDate')}
           />
         </Box>
 
