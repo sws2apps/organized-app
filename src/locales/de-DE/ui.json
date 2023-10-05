@@ -677,5 +677,7 @@
   "countriesFetchError": "Failed to fetch countries",
   "congregationsFetchError": "Failed to fetch congregations",
   "navMenuHelp": "Help",
-  "docsUrlCode": "docs"
+  "docsUrlCode": "docs",
+  "useExactMidweekMeetingDate": "Use exact meeting date in S-140",
+  "useSubtituteSpeaker": "Assign substitute for a visiting speaker"
 }
