@@ -677,5 +677,7 @@
   "countriesFetchError": "Falha ao buscar países",
   "congregationsFetchError": "Falha ao buscar as congregações",
   "navMenuHelp": "Help",
-  "docsUrlCode": "docs"
+  "docsUrlCode": "docs",
+  "useExactMidweekMeetingDate": "Use exact meeting date in S-140",
+  "useSubtituteSpeaker": "Assign substitute for a visiting speaker"
 }
