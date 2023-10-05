@@ -678,5 +678,6 @@
   "congregationsFetchError": "Failed to fetch congregations",
   "navMenuHelp": "Help",
   "docsUrlCode": "docs",
-  "useExactMidweekMeetingDate": "Use exact meeting date in S-140"
+  "useExactMidweekMeetingDate": "Use exact meeting date in S-140",
+  "useSubtituteSpeaker": "Assign substitute for a visiting speaker"
 }

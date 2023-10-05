@@ -43,6 +43,7 @@ const WeekendMeetingItem = ({ weekOf }) => {
   const [isSymposium, setIsSymposium] = useState(false);
   const [speaker1, setSpeaker1] = useState('');
   const [speaker2, setSpeaker2] = useState('');
+  const [speakerSubstitute, setSpeakerSubstitute] = useState('');
   const [wtStudy, setWtStudy] = useState('');
   const [wtStudyArticle, setWtStudyArticle] = useState('');
   const [wtReader, setWtReader] = useState('');
@@ -51,7 +52,7 @@ const WeekendMeetingItem = ({ weekOf }) => {
   const [isVisitingSpeakerOpen, setIsVisitingSpeakerOpen] = useState(false);
   const [noWMeeting, setNoWMeeting] = useState(false);
 
-  const { opening_prayer_WM_autoAssign, cong_role } = Setting;
+  const { opening_prayer_WM_autoAssign, cong_role, weekend_meeting_useSubstituteSpeaker } = Setting;
   const coordinatorRole = cong_role.includes('coordinator');
   const publicTalkCoordinatorRole = cong_role.includes('public_talk_coordinator');
 
@@ -131,6 +132,11 @@ const WeekendMeetingItem = ({ weekOf }) => {
       await saveAssignment(weekOf, personID, 'wtstudy_reader');
       setWtReader(personValue);
     }
+
+    if (assID === 33) {
+      await saveAssignment(weekOf, personID, 'substitute_speaker');
+      setSpeakerSubstitute(personValue);
+    }
   };
 
   const removeSpeaker = async () => {
@@ -164,6 +170,7 @@ const WeekendMeetingItem = ({ weekOf }) => {
     setPublicTalk(schedule.public_talk);
     setSpeaker1(schedule.speaker_1);
     setSpeaker2(schedule.speaker_2);
+    setSpeakerSubstitute(schedule.substitute_speaker);
     setWtStudy(source.w_study_date_locale);
     setWtStudyArticle(source.w_study_title);
     setWtReader(schedule.wtstudy_reader);
@@ -350,6 +357,30 @@ const WeekendMeetingItem = ({ weekOf }) => {
                   public_talk={PublicTalk}
                   speaker={speaker1}
                 />
+              )}
+
+              {/* Substitute Speaker */}
+              {isVisitingSpeaker && weekend_meeting_useSubstituteSpeaker && (
+                <Box sx={{ marginTop: '20px' }}>
+                  <SingleAssignment
+                    key={crypto.randomUUID()}
+                    edit={publicTalkCoordinatorRole}
+                    header={t('substituteSpeaker', { ns: 'source' })}
+                    person={speakerSubstitute}
+                    studentID={33}
+                    assType={120}
+                    setSelectedStudent={(value) => setSelectedStudent(value)}
+                    currentWeek={weekOf}
+                    loadPersonHistory={() =>
+                      loadPersonHistory({
+                        assID: 33,
+                        assType: 120,
+                        assTypeName: t('substituteSpeaker', { ns: 'source' }),
+                        currentStudent: speakerSubstitute,
+                      })
+                    }
+                  />
+                </Box>
               )}
             </Box>
           )}

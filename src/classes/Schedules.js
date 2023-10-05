@@ -496,6 +496,12 @@ SchedulesClass.prototype.buildScheduleForShare = async function (scheduleIndex) 
       if (publicTalkCoordinatorRole) {
         if (key.indexOf('speaker') >= 0) {
           cleanSched[key] = value;
+          if (schedData.is_visiting_speaker && key === 'speaker_1_name') {
+            cleanSched[key] = VisitingSpeakers.getSpeakerByUid(value)?.person_name || '';
+          }
+          if (schedData.is_visiting_speaker && key === 'speaker_1_dispName') {
+            cleanSched[key] = VisitingSpeakers.getSpeakerByUid(value)?.person_displayName || '';
+          }
         }
         if (key === 'is_visiting_speaker') {
           cleanSrc[key] = value;

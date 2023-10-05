@@ -266,6 +266,12 @@ export const getHistoryInfo = (weekOf, assignment) => {
     history.assignmentName = getI18n().t('speakerSymposiumPart2', { ns: 'ui', lng: Setting.appLang() });
   }
 
+  // Substitute Speaker
+  if (assignment === 'substitute_speaker') {
+    history.assignmentID = 120;
+    history.assignmentName = getI18n().t('substituteSpeaker', { ns: 'source', lng: Setting.appLang() });
+  }
+
   // Watchtower Study Reader
   if (assignment === 'wtstudy_reader') {
     history.assignmentSource = weekData.w_study_title;
