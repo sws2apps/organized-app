@@ -66,5 +66,7 @@
   "publicTalk": "Lahateny ho An’ny Besinimaro",
   "openingPrayerWeekendMeeting": "Vavaka Fanokafana",
   "noWMeeting": "Tsy misy fivoriana faran’ny herinandro",
-  "noMeeting": "Tsy misy fivoriana"
+  "noMeeting": "Tsy misy fivoriana",
+  "longDateFormat": "{{ month }} {{ date }}, {{ year }}",
+  "substituteSpeaker": "Substitute Speaker"
 }
