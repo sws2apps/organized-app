@@ -277,6 +277,19 @@ SchedulesClass.prototype.S140Data = function (scheduleName) {
     const scheduleData = this.get(week);
     const sourceData = Sources.get(week).local();
 
+    let midDay = +Setting.midweek_meeting_day;
+    const [varYear, varMonth, varDay] = week.split('/');
+    midDay = parseInt(varDay, 10) + midDay - 1;
+    const lDate = new Date(varYear, varMonth - 1, midDay);
+
+    const meetingDate = t('longDateFormat', {
+      lng: sourceLang,
+      ns: 'source',
+      month: Setting.monthNames()[lDate.getMonth()],
+      date: lDate.getDate(),
+      year: lDate.getFullYear(),
+    });
+
     // pgm start
     const time = {};
     time.pgmStart = meetingStart;
@@ -407,7 +420,7 @@ SchedulesClass.prototype.S140Data = function (scheduleName) {
     const obj = {};
     obj.week = week;
     obj.scheduleData = scheduleData;
-    obj.sourceData = { ...sourceData, ...time };
+    obj.sourceData = { ...sourceData, ...time, meeting_date: meetingDate };
     data.push(obj);
   }
 
