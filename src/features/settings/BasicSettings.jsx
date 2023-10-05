@@ -21,6 +21,7 @@ import {
   openingPrayerWMAutoAssignState,
   weekendMeetingDayState,
   midweekMeetingExactDateState,
+  weekendMeetingSubstituteSpeakerState,
 } from '../../states/congregation';
 import { scheduleUseFullnameState } from '../../states/schedule';
 import { generateDisplayName } from '../../utils/person';
@@ -37,6 +38,9 @@ const BasicSettings = () => {
   const [scheduleUseFullname, setScheduleUseFullname] = useRecoilState(scheduleUseFullnameState);
   const [weekendMeetingDay, setWeekendMeetingDay] = useRecoilState(weekendMeetingDayState);
   const [midweekMeetingExactDate, setMidweekMeetingExactDate] = useRecoilState(midweekMeetingExactDateState);
+  const [weekendMeetingSubstituteSpeaker, setWeekendMeetingSubstituteSpeaker] = useRecoilState(
+    weekendMeetingSubstituteSpeakerState
+  );
 
   const congName = useRecoilValue(congNameState);
   const congNumber = useRecoilValue(congNumberState);
@@ -51,9 +55,13 @@ const BasicSettings = () => {
   const [useFullname, setUseFullname] = useState(scheduleUseFullname);
   const [tempWeekendMeetingDay, setTempWeekendMeetingDay] = useState(weekendMeetingDay);
   const [tmpMidweekMeetingExactDate, setTmpMidweekMeetingExactDate] = useState(midweekMeetingExactDate);
+  const [tmpWeekendMeetingSubstituteSpeaker, setTmpWeekendMeetingSubstituteSpeaker] = useState(
+    weekendMeetingSubstituteSpeaker
+  );
 
   const roleLMMO = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
   const coordinatorRole = Setting.cong_role.includes('coordinator');
+  const publicTalkCoordinatorRole = Setting.cong_role.includes('public_talk_coordinator');
 
   const handleMidweekMeetingDayChange = async (e) => {
     setTempMidweekMeetingDay(e.target.value);
@@ -118,6 +126,12 @@ const BasicSettings = () => {
     setTmpMidweekMeetingExactDate(value);
     await Setting.update({ midweek_meeting_useExactDate: value });
     setMidweekMeetingExactDate(value);
+  };
+
+  const handleSwitchWMSubstituteSpeaker = async (value) => {
+    setTmpWeekendMeetingSubstituteSpeaker(value);
+    await Setting.update({ weekend_meeting_useSubstituteSpeaker: value });
+    setWeekendMeetingSubstituteSpeaker(value);
   };
 
   useEffect(() => {
@@ -277,6 +291,7 @@ const BasicSettings = () => {
               <MenuItem value={6}>{t('saturday')}</MenuItem>
               <MenuItem value={7}>{t('sunday')}</MenuItem>
             </TextField>
+
             <FormControlLabel
               control={
                 <Checkbox
@@ -286,6 +301,17 @@ const BasicSettings = () => {
                 />
               }
               label={t('autoAssignWMOpeningPrayer')}
+            />
+
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={tmpWeekendMeetingSubstituteSpeaker}
+                  readOnly={!publicTalkCoordinatorRole}
+                  onChange={publicTalkCoordinatorRole ? (e) => handleSwitchWMSubstituteSpeaker(e.target.checked) : null}
+                />
+              }
+              label={t('useSubtituteSpeaker')}
             />
           </Box>
         </Box>

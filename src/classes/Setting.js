@@ -30,6 +30,7 @@ class SettingClass {
     this.user_members_delegate = [];
     this.weekend_meeting_day = 6;
     this.midweek_meeting_useExactDate = false;
+    this.weekend_meeting_useSubstituteSpeaker = false;
   }
 }
 
@@ -63,6 +64,7 @@ SettingClass.prototype.load = async function () {
   this.opening_prayer_WM_autoAssign = congData.opening_prayer_WM_autoAssign;
   this.weekend_meeting_day = congData.weekend_meeting_day;
   this.midweek_meeting_useExactDate = congData.midweek_meeting_useExactDate;
+  this.weekend_meeting_useSubstituteSpeaker = congData.weekend_meeting_useSubstituteSpeaker;
 };
 
 SettingClass.prototype.update = async function (setting, overwrite) {

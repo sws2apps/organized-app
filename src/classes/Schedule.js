@@ -108,6 +108,9 @@ export class ScheduleClass {
     this.speaker_2_name = '';
     this.speaker_2_dispName = '';
     this.is_visiting_speaker = false;
+    this.substitute_speaker = '';
+    this.substitute_speaker_name = '';
+    this.substitute_speaker_dispName = '';
     this.public_talk = '';
     this.public_talk_title = '';
     this.event_name = '';
@@ -165,6 +168,7 @@ ScheduleClass.prototype.loadDetails = async function () {
   this.opening_prayerWM = appData.opening_prayerWM || '';
   this.speaker_1 = appData.speaker_1 || '';
   this.speaker_2 = appData.speaker_2 || '';
+  this.substitute_speaker = appData.substitute_speaker || '';
   this.wtstudy_reader = appData.wtstudy_reader || '';
 
   if (hasPersonAccess) {
@@ -366,6 +370,12 @@ ScheduleClass.prototype.loadDetails = async function () {
       this.speaker_2_dispName = student?.person_displayName || '';
     }
 
+    if (appData.substitute_speaker) {
+      const student = Persons.get(appData.substitute_speaker);
+      this.substitute_speaker_name = student?.person_name || '';
+      this.substitute_speaker_dispName = student?.person_displayName || '';
+    }
+
     if (appData.wtstudy_reader) {
       const student = Persons.get(appData.wtstudy_reader);
       this.wtstudy_reader_name = student?.person_name || '';
@@ -438,6 +448,8 @@ ScheduleClass.prototype.loadDetails = async function () {
     this.speaker_1_dispName = appData.speaker_1_dispName || '';
     this.speaker_2_name = appData.speaker_2_name || '';
     this.speaker_2_dispName = appData.speaker_2_dispName || '';
+    this.substitute_speaker_name = appData.substitute_speaker_name || '';
+    this.substitute_speaker_dispName = appData.substitute_speaker_dispName || '';
     this.wtstudy_reader_name = appData.wtstudy_reader_name || '';
     this.wtstudy_reader_dispName = appData.wtstudy_reader_dispName || '';
   }
@@ -690,6 +702,7 @@ ScheduleClass.prototype.save = async function (appData) {
   if (!publicTalkCoordinatorRole) {
     this.speaker_1 = appData.speaker_1 || '';
     this.speaker_2 = appData.speaker_2 || '';
+    this.substitute_speaker = appData.substitute_speaker || '';
     this.public_talk = appData.public_talk || '';
     if (hasPersonAccess && this.public_talk !== '') {
       this.public_talk_title = `(${this.public_talk}) ${S34s.findLocal(this.public_talk)}`;
@@ -773,6 +786,8 @@ ScheduleClass.prototype.save = async function (appData) {
       this.speaker_1_dispName = appData.speaker_1_dispName || '';
       this.speaker_2_name = appData.speaker_2_name || '';
       this.speaker_2_dispName = appData.speaker_2_dispName || '';
+      this.substitute_speaker_name = appData.substitute_speaker_name || '';
+      this.substitute_speaker_dispName = appData.substitute_speaker_dispName || '';
     }
   }
 

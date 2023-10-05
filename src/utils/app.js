@@ -16,6 +16,7 @@ import {
   openingPrayerWMAutoAssignState,
   weekendMeetingDayState,
   midweekMeetingExactDateState,
+  weekendMeetingSubstituteSpeakerState,
 } from '../states/congregation';
 import {
   appLangState,
@@ -59,6 +60,7 @@ export const loadApp = async () => {
       opening_prayer_WM_autoAssign,
       weekend_meeting_day,
       midweek_meeting_useExactDate,
+      weekend_meeting_useSubstituteSpeaker,
     } = Setting;
 
     backupWorkerInstance.setBackupInterval(autoBackup_interval);
@@ -102,6 +104,7 @@ export const loadApp = async () => {
     await promiseSetRecoil(openingPrayerWMAutoAssignState, opening_prayer_WM_autoAssign || false);
     await promiseSetRecoil(weekendMeetingDayState, weekend_meeting_day || 6);
     await promiseSetRecoil(midweekMeetingExactDateState, midweek_meeting_useExactDate || false);
+    await promiseSetRecoil(weekendMeetingSubstituteSpeakerState, weekend_meeting_useSubstituteSpeaker || false);
 
     if (source_lang === undefined) await Setting.update({ source_lang: app_lang });
 
