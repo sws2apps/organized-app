@@ -677,5 +677,7 @@
   "countriesFetchError": "Nisy olana ka tsy azo ny lisitry ny firenena",
   "congregationsFetchError": "Nisy olana ka tsy azo ny lisitry ny fiangonana",
   "navMenuHelp": "Fanampiana",
-  "docsUrlCode": "mg/docs"
+  "docsUrlCode": "mg/docs",
+  "useExactMidweekMeetingDate": "Use exact meeting date in S-140",
+  "useSubtituteSpeaker": "Assign substitute for a visiting speaker"
 }
