@@ -446,7 +446,7 @@
   "autoBackup": "Rakitra Fiandry CPE Mandeha ho Azy",
   "enableLabel": "Alefa",
   "backupIntervalLabel": "Isaky ny",
-  "scheduleUseFullname": "Hampiasa Anarana Feno Amin’ny S-140",
+  "scheduleUseFullname": "Hampiasa anarana feno amin’ny S-140",
   "trustDevice": "Azo antoka tsara ity fitaovana ity",
   "chooseAccount": "Safidio ny kaonty tianao ho ampiasaina.",
   "choosePocketAccount": "Safidio eto raha mpianatra amin’ny fivoriana andavanandro ianao, na mpitory",
@@ -678,6 +678,6 @@
   "congregationsFetchError": "Nisy olana ka tsy azo ny lisitry ny fiangonana",
   "navMenuHelp": "Fanampiana",
   "docsUrlCode": "mg/docs",
-  "useExactMidweekMeetingDate": "Use exact meeting date in S-140",
-  "useSubtituteSpeaker": "Assign substitute for a visiting speaker"
+  "useExactMidweekMeetingDate": "Hampiasa ny daty hivoriana amin’ny S-140",
+  "useSubtituteSpeaker": "Hanendry mpandahateny mpisolo toerana rehefa mpandahateny mpitsidika"
 }
