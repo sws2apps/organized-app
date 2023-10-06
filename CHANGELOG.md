@@ -1,3 +1,18 @@
+# [2.99.0](https://github.com/sws2apps/cpe-sws/compare/v2.98.0...v2.99.0) (2023-10-06)
+
+
+### Features
+
+* **deps:** bump @mui/icons-material from 5.14.11 to 5.14.12 ([3ce586b](https://github.com/sws2apps/cpe-sws/commit/3ce586bda22b1ec8f5d52e6f49ec9dd0b130cf38))
+* **deps:** bump @mui/material from 5.14.11 to 5.14.12 ([debc652](https://github.com/sws2apps/cpe-sws/commit/debc652597055492698c2628162709afa4f3df9e))
+* **deps:** bump @sws2apps/react-sw-helper from 1.17.0 to 1.18.0 ([64caf9e](https://github.com/sws2apps/cpe-sws/commit/64caf9ef2373d0b65be31eb6be9768fb0ed36d37))
+* **deps:** bump @tanstack/react-query from 4.35.3 to 4.35.7 ([306d68b](https://github.com/sws2apps/cpe-sws/commit/306d68ba2f962543143ec97cf2bb4b04fcdfc5d5))
+* **deps:** bump postcss from 8.4.29 to 8.4.31 ([8266af7](https://github.com/sws2apps/cpe-sws/commit/8266af7b2335b6a4c32a5b6ca7830ada6e2bafd3))
+* **deps:** bump vite from 4.4.10 to 4.4.11 ([0115969](https://github.com/sws2apps/cpe-sws/commit/0115969858045784ae14c32e0bf292a25c35c6dd))
+* **deps:** bump vite from 4.4.9 to 4.4.10 ([ee92d81](https://github.com/sws2apps/cpe-sws/commit/ee92d81fe090a595dfb2ee9d2cb9f09300082939))
+* **schedules:** support for assigning visiting speakers ([33f6efc](https://github.com/sws2apps/cpe-sws/commit/33f6efc7b9149ef1ea790407f70e7cc3dd02f97a))
+* **settings:** add new option to choose the exact meeting date on S-140 ([a7918fd](https://github.com/sws2apps/cpe-sws/commit/a7918fd176a6f12260e93490844d1d968aa567a6))
+
 # [2.98.0](https://github.com/sws2apps/cpe-sws/compare/v2.97.3...v2.98.0) (2023-10-02)
 
 
