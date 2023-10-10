@@ -1,3 +1,12 @@
+# [2.100.0](https://github.com/sws2apps/cpe-sws/compare/v2.99.0...v2.100.0) (2023-10-10)
+
+
+### Features
+
+* **deps:** bump @mui/x-date-pickers from 6.16.0 to 6.16.1 ([26ffd50](https://github.com/sws2apps/cpe-sws/commit/26ffd50e4b3da2054307548ec2ddb1c13e407383))
+* **deps:** bump @tanstack/react-query from 4.35.7 to 4.36.1 ([b3c8aa1](https://github.com/sws2apps/cpe-sws/commit/b3c8aa14be8564aea9f41418fa5b5e599edd3f33))
+* **deps:** bump jw-epub-parser from 3.0.0 to 3.0.1 ([e3d88c0](https://github.com/sws2apps/cpe-sws/commit/e3d88c025bd193defef1acbc9b03f4f9a8f1c404))
+
 # [2.99.0](https://github.com/sws2apps/cpe-sws/compare/v2.98.0...v2.99.0) (2023-10-06)
 
 
