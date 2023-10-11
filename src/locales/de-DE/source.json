@@ -15,7 +15,7 @@
   "auxClass1": "Nebenraum 1",
   "auxClass2": "Nebenraum 2",
   "otherPart": "Andere",
-  "midweekMeetingPrint": "Zusammenkunft-Zeitplan für Mitwochen",
+  "midweekMeetingPrint": "Plan für die Leben-und-Dienst Zusammenkunft",
   "chairmanMidweekMeeting": "Vorsitz",
   "chairmanWeekendMeeting": "Vorsitz",
   "noMMeeting": "In dieser Woche findet keine Zusammenkunft unter der Woche statt",
@@ -66,7 +66,7 @@
   "publicTalk": "Öffentlicher Vortrag",
   "openingPrayerWeekendMeeting": "Erstes Gebet",
   "noWMeeting": "In dieser Woche findet keine Zusammenkunft am Wochenende statt",
-  "noMeeting": "Woche sind keine Versammlung geplant",
+  "noMeeting": "In dieser Woche findet keine Zusammenkunft statt",
   "longDateFormat": "{{ month }} {{ date }}, {{ year }}",
   "substituteSpeaker": "Ersatzredner"
 }
