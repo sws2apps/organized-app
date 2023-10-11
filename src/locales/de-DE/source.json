@@ -18,7 +18,7 @@
   "midweekMeetingPrint": "Zusammenkunft-Zeitplan für Mitwochen",
   "chairmanMidweekMeeting": "Vorsitz",
   "chairmanWeekendMeeting": "Vorsitz",
-  "noMMeeting": "In dieser Woche findet keine Zusammenkunft zur Wochenmitte statt",
+  "noMMeeting": "In dieser Woche findet keine Zusammenkunft unter der Woche statt",
   "auxClassCounselor": "Nebenraum Vorsitz",
   "song": "Lied",
   "prayerMidweekMeeting": "Gebet",
@@ -65,7 +65,7 @@
   "weekendMeetingPrint": "Zusammenkunft am Wochenende",
   "publicTalk": "Öffentlicher Vortrag",
   "openingPrayerWeekendMeeting": "Erstes Gebet",
-  "noWMeeting": "Für diese Woche gibt es keine Wochenend-Zusammenkunft",
+  "noWMeeting": "In dieser Woche findet keine Zusammenkunft am Wochenende statt",
   "noMeeting": "Woche sind keine Versammlung geplant",
   "longDateFormat": "{{ month }} {{ date }}, {{ year }}",
   "substituteSpeaker": "Ersatzredner"
