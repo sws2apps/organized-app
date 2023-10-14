@@ -1,3 +1,16 @@
+# [2.101.0](https://github.com/sws2apps/cpe-sws/compare/v2.100.0...v2.101.0) (2023-10-14)
+
+
+### Features
+
+* **deps:** bump @mui/icons-material from 5.14.12 to 5.14.13 ([cc81fde](https://github.com/sws2apps/cpe-sws/commit/cc81fde519aaafa22d6f155a36ccec3f1c1e7802))
+* **deps:** bump @mui/material from 5.14.12 to 5.14.13 ([7dacd8f](https://github.com/sws2apps/cpe-sws/commit/7dacd8f30f91a1d5f23f343f54b52327925f1ef7))
+* **deps:** bump @mui/x-date-pickers from 6.16.1 to 6.16.2 ([13c4320](https://github.com/sws2apps/cpe-sws/commit/13c43202d4525ae0bada95476d845b48a36278c2))
+* **deps:** bump @react-pdf/renderer from 3.1.12 to 3.1.13 ([9d67233](https://github.com/sws2apps/cpe-sws/commit/9d6723397ff2f6f456578015044b6f068ec44d5e))
+* **deps:** bump firebase from 10.4.0 to 10.5.0 ([524a109](https://github.com/sws2apps/cpe-sws/commit/524a1098e1dc403ef8dc179f0ae2e4af6979d54d))
+* **deps:** bump jw-epub-parser from 3.0.1 to 3.1.0 ([5bf662a](https://github.com/sws2apps/cpe-sws/commit/5bf662ab05443c0b640776afcf5e3db5f2f0a647))
+* **deps:** bump react-i18next from 13.2.2 to 13.3.0 ([df754b2](https://github.com/sws2apps/cpe-sws/commit/df754b29481c0f53e940ecc4528008e8a0b90c4d))
+
 # [2.100.0](https://github.com/sws2apps/cpe-sws/compare/v2.99.0...v2.100.0) (2023-10-10)
 
 
