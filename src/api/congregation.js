@@ -356,7 +356,7 @@ export const apiUploadVisitingSpeakers = async (speakers) => {
       const auth = await getAuth();
       const user = auth.currentUser;
 
-      const res = await fetch(`${apiHost}api/congregations/secretary/${congID}/visiting-speakers`, {
+      const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/visiting-speakers`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
