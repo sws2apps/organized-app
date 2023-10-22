@@ -1,3 +1,25 @@
+# [2.102.0](https://github.com/sws2apps/cpe-sws/compare/v2.101.0...v2.102.0) (2023-10-22)
+
+
+### Bug Fixes
+
+* **api:** update route for sharing speakers list ([a2df568](https://github.com/sws2apps/cpe-sws/commit/a2df568cd57e8f17071a333599a002f9b445a7ac))
+
+
+### Features
+
+* **deps:** bump @babel/traverse from 7.23.0 to 7.23.2 ([c187123](https://github.com/sws2apps/cpe-sws/commit/c18712326e156faff96866ebe658c01835f72bd4))
+* **deps:** bump @mui/icons-material from 5.14.13 to 5.14.14 ([1c74adc](https://github.com/sws2apps/cpe-sws/commit/1c74adce61c5c59c613d1d7fbb948655f98758ca))
+* **deps:** bump @mui/material from 5.14.13 to 5.14.14 ([e187d60](https://github.com/sws2apps/cpe-sws/commit/e187d604086de63e13c16a5249ebb8f237cb3390))
+* **deps:** bump @mui/x-date-pickers from 6.16.2 to 6.16.3 ([6a96c12](https://github.com/sws2apps/cpe-sws/commit/6a96c126aec6f05b1f309d3a5dea9fab656bdcff))
+* **deps:** bump @sws2apps/react-sw-helper from 1.18.0 to 1.19.0 ([49f50fe](https://github.com/sws2apps/cpe-sws/commit/49f50fe107325611fbd05b4d53f84e844110bf7e))
+* **deps:** bump i18next from 23.5.1 to 23.6.0 ([eef683f](https://github.com/sws2apps/cpe-sws/commit/eef683f97fd9221b59d83f35e2fd9602190d1be4))
+* **deps:** bump jw-epub-parser from 3.1.0 to 3.2.0 ([fb5495a](https://github.com/sws2apps/cpe-sws/commit/fb5495a90a7e44ed6c2d556e4b29ad9e09f05444))
+* **deps:** bump mui-one-time-password-input from 2.0.0 to 2.0.1 ([b78d56d](https://github.com/sws2apps/cpe-sws/commit/b78d56d0f7e2744ff0d4203a522214eedb146eea))
+* **deps:** bump react-i18next from 13.3.0 to 13.3.1 ([7f8c5d2](https://github.com/sws2apps/cpe-sws/commit/7f8c5d2168506efd255ed108f09e79dd8ca7f776))
+* **deps:** bump react-router-dom from 6.16.0 to 6.17.0 ([3287d81](https://github.com/sws2apps/cpe-sws/commit/3287d810ec50d506ca8e0e0ed26822111fb76367))
+* **deps:** bump vite from 4.4.11 to 4.5.0 ([def0157](https://github.com/sws2apps/cpe-sws/commit/def0157ce16b7e5baecdf3eb6a54544ea917a941))
+
 # [2.101.0](https://github.com/sws2apps/cpe-sws/compare/v2.100.0...v2.101.0) (2023-10-14)
 
 
