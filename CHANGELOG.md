@@ -1,3 +1,14 @@
+# [2.103.0](https://github.com/sws2apps/cpe-sws/compare/v2.102.0...v2.103.0) (2023-10-25)
+
+
+### Features
+
+* **deps:** bump @mui/icons-material from 5.14.14 to 5.14.15 ([fbadd3d](https://github.com/sws2apps/cpe-sws/commit/fbadd3d60ccf51e18a659c5b300b5d17dca8296d))
+* **deps:** bump @mui/material from 5.14.14 to 5.14.15 ([2593dd7](https://github.com/sws2apps/cpe-sws/commit/2593dd7b01a01c254106ef9b4a073144401cf088))
+* **deps:** bump @tanstack/react-query from 4.36.1 to 5.0.0 ([b6a5567](https://github.com/sws2apps/cpe-sws/commit/b6a5567a951cd70833311cee142482d69aa3ccfc))
+* **deps:** bump @tanstack/react-query from 5.0.0 to 5.0.5 ([a7756d4](https://github.com/sws2apps/cpe-sws/commit/a7756d4615cbf8e97593d4830c9d59403d964c34))
+* **deps:** bump jw-epub-parser from 3.2.0 to 3.3.0 ([715a773](https://github.com/sws2apps/cpe-sws/commit/715a773b12a798ace3b4bfb43a925b741fa39361))
+
 # [2.102.0](https://github.com/sws2apps/cpe-sws/compare/v2.101.0...v2.102.0) (2023-10-22)
 
 
