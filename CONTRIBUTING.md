@@ -34,12 +34,22 @@ If you’re only fixing a bug, it’s fine to submit a pull request right away b
 - You will be working on one item at a time.
 - If you do not have it yet, fork the repository. Clone it if you will work locally.
 - If you have already forked and clone the repository, make sure that it is in sync with the upstream repository ([Syncing a fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork)).
-- Add VITE_FINGERPRINT_API_CLIENT_KEY as Environment Variable. This is for Fingerprint Pro Public API Key. To create this value, navigate to the [application](https://dashboard.fingerprint.com/) where you have already created the Secret API Key. In the left side navigation, click on API Keys > Create Key > Public API Key.
+- Local backend server already setup and running. (This API backend is needed before running this project. The instructions on how to setup this API locally can be found [here](https://github.com/sws2apps/sws2apps-api/blob/main/CONTRIBUTING.md).)
 - Run `npm i` to install the needed dependencies
 
-### Local Backend Server
+### Setup Environment Variables
 
-The API backend project is also needed before running this project. The instructions on how to setup this API locally can be found [here](https://github.com/sws2apps/sws2apps-api/blob/main/CONTRIBUTING.md).
+You will get the values for the following environment from the Firebase project you created when you set up the local backend server.
+
+- VITE_FIREBASE_APIKEY: your Firebase apiKey defined in the Firebase Console.
+- VITE_FIREBASE_AUTHDOMAIN: your Firebase authDomain defined in the Firebase Console.
+- VITE_FIREBASE_PROJECTID: your Firebase projectId defined in the Firebase Console.
+- VITE_FIREBASE_APPID: your Firebase appId defined in the Firebase Console.
+- VITE_FIREBASE_MEASUREMENTID: your Firebase measurementId defined in the Firebase Console.
+
+### Starting the Development Server
+
+Open a terminal and run `npm run dev` to start the development server, and start using the local version of CPE.
 
 ## Sending a Pull Request (PR)
 
