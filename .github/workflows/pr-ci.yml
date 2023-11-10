@@ -2,6 +2,7 @@ name: Cypress Tests (PR)
 
 on:
   pull_request:
+    branches: [main]
 
 permissions: read-all
 
@@ -32,7 +33,7 @@ jobs:
       - name: Cypress run component testing
         uses: cypress-io/github-action@ebe8b24c4428922d0f793a5c4c96853a633180e3
         with:
-          command-prefix: "--"
+          command-prefix: '--'
           install: false
           component: true
           browser: chrome
