@@ -1,11 +1,18 @@
-import { defineConfig } from 'vite';
+import { defineConfig, splitVendorChunkPlugin } from 'vite';
 import react from '@vitejs/plugin-react';
 import eslint from 'vite-plugin-eslint';
 import { loadVersion } from '@sws2apps/vite-plugin-package-version';
 import { comlink } from 'vite-plugin-comlink';
+import { resolve } from 'path';
 
 export default defineConfig({
-  plugins: [react(), comlink(), eslint(), loadVersion()],
+  plugins: [react(), splitVendorChunkPlugin(), comlink(), eslint(), loadVersion()],
+  resolve: {
+    alias: [
+      { find: '@assets', replacement: resolve(__dirname, 'src/v3/assets') },
+      { find: '@components', replacement: resolve(__dirname, 'src/v3/components') },
+    ],
+  },
   worker: { plugins: [comlink()] },
   server: {
     port: 4050,
