@@ -6,8 +6,6 @@ const CPEButton = ({ className = 'button-caps', children, onClick, disabled = fa
   if (variant === 'secondary') variant = 'text';
   if (variant === 'tertiary') variant = 'outlined';
 
-  console.log(variant);
-
   return (
     <Button
       variant={variant}
