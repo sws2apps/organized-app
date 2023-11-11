@@ -13,6 +13,11 @@
   "description": "An application for Jehovah’s Witnesses congregation",
   "icons": [
     {
+      "src": "/img/icon-180x180.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
       "src": "/img/icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png"
@@ -20,6 +25,11 @@
     {
       "src": "/img/icon-256x256.png",
       "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "/img/icon-270x270.png",
+      "sizes": "270x270",
       "type": "image/png"
     },
     {
@@ -31,6 +41,52 @@
       "src": "/img/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
+    },
+    {
+      "src": "/img/logo.svg",
+      "sizes": "any"
+    },
+    {
+      "src": "/img/icon-android-adaptive-108x108.png",
+      "sizes": "108x108",
+      "type": "image/png",
+      "purpose": "monochrome"
+    },
+    {
+      "src": "/img/icon-monochrome-180x180.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "monochrome"
+    },
+    {
+      "src": "/img/icon-monochrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "monochrome"
+    },
+    {
+      "src": "/img/icon-monochrome-256x256.png",
+      "sizes": "256x256",
+      "type": "image/png",
+      "purpose": "monochrome"
+    },
+    {
+      "src": "/img/icon-monochrome-270x270.png",
+      "sizes": "270x270",
+      "type": "image/png",
+      "purpose": "monochrome"
+    },
+    {
+      "src": "/img/icon-monochrome-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "monochrome"
+    },
+    {
+      "src": "/img/icon-monochrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "monochrome"
     }
   ],
   "url_handlers": [
