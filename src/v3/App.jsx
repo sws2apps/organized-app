@@ -97,22 +97,49 @@ const App = () => {
 
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
         <Box sx={{ display: 'flex', gap: '8px' }}>
-          <Button variant="main">Variant: main</Button>
+          <Button variant="main">button-caps: main</Button>
           <Button disabled variant="main">
             Disabled
           </Button>
         </Box>
 
         <Box sx={{ display: 'flex', gap: '8px' }}>
-          <Button variant="secondary">Variant: secondary</Button>
+          <Button variant="secondary">button-caps: secondary</Button>
           <Button disabled variant="secondary">
             Disabled
           </Button>
         </Box>
 
         <Box sx={{ display: 'flex', gap: '8px' }}>
-          <Button variant="tertiary">Variant: tertiary</Button>
+          <Button variant="tertiary">button-caps: tertiary</Button>
           <Button disabled variant="tertiary">
+            Disabled
+          </Button>
+        </Box>
+
+        <Box sx={{ display: 'flex', gap: '8px' }}>
+          <Button variant="main" className="button-small-caps">
+            button-small-caps: main
+          </Button>
+          <Button disabled variant="main" className="button-small-caps">
+            Disabled
+          </Button>
+        </Box>
+
+        <Box sx={{ display: 'flex', gap: '8px' }}>
+          <Button variant="secondary" className="button-small-caps">
+            button-small-caps: secondary
+          </Button>
+          <Button disabled variant="secondary" className="button-small-caps">
+            Disabled
+          </Button>
+        </Box>
+
+        <Box sx={{ display: 'flex', gap: '8px' }}>
+          <Button variant="tertiary" className="button-small-caps">
+            button-small-caps: tertiary
+          </Button>
+          <Button disabled variant="tertiary" className="button-small-caps">
             Disabled
           </Button>
         </Box>
