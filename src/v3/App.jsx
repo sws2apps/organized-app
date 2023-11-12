@@ -1,5 +1,5 @@
-import { Box, Container, MenuItem, TextField, Typography } from '@mui/material';
-import { Button } from '@components';
+import { Box, Container, MenuItem, TextField } from '@mui/material';
+import { Button, Typography } from '@components';
 import { useState } from 'react';
 
 const themes = [
@@ -21,6 +21,9 @@ const App = () => {
     setCurrentTheme(current);
 
     document.documentElement.setAttribute('data-theme', current);
+
+    const themeColor = getComputedStyle(document.documentElement).getPropertyValue('--accent-100');
+    document.querySelector("meta[name='theme-color']").setAttribute('content', themeColor);
   };
 
   return (
@@ -67,33 +70,60 @@ const App = () => {
         ))}
       </TextField>
 
-      <Typography className="h1" sx={{ color: 'var(--accent-400)', margin: '20px 0px !important' }}>
-        Typography variant h1
-      </Typography>
-      <Typography className="h2" sx={{ color: 'var(--accent-400)', margin: '20px 0px !important' }}>
-        Typography variant h2
-      </Typography>
-      <Typography className="h2-caps" sx={{ color: 'var(--accent-400)', margin: '20px 0px !important' }}>
-        Typography variant h2-caps
-      </Typography>
-      <Typography className="h3" sx={{ color: 'var(--accent-400)', margin: '20px 0px !important' }}>
-        Typography variant h3
-      </Typography>
-      <Typography className="h4" sx={{ color: 'var(--accent-400)', margin: '20px 0px !important' }}>
-        Typography variant h4
-      </Typography>
-      <Typography className="button-caps" sx={{ color: 'var(--accent-400)', margin: '20px 0px !important' }}>
-        Typography variant button-caps
-      </Typography>
-      <Typography className="body-regular" sx={{ color: 'var(--accent-400)', margin: '20px 0px !important' }}>
-        Typography variant body-regular
-      </Typography>
-      <Typography className="body-small-semibold" sx={{ color: 'var(--accent-400)', margin: '20px 0px !important' }}>
-        Typography variant body-small-semibold
-      </Typography>
-      <Typography className="body-small-regular" sx={{ color: 'var(--accent-400)', margin: '20px 0px !important' }}>
-        Typography variant body-small-regular
-      </Typography>
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px', margin: '20px 0px' }}>
+        <Box>
+          <Typography variant="label-small-regular">Typography variant huge-numbers</Typography>
+          <Typography variant="huge-numbers">16</Typography>
+        </Box>
+        <Box>
+          <Typography variant="label-small-regular">Typography variant big-numbers</Typography>
+          <Typography variant="big-numbers">16</Typography>
+        </Box>
+        <Box>
+          <Typography variant="label-small-regular">Typography variant h1</Typography>
+          <Typography variant="h1">Hello World</Typography>
+        </Box>
+        <Box>
+          <Typography variant="label-small-regular">Typography variant h2</Typography>
+          <Typography variant="h2">Hello World</Typography>
+        </Box>
+        <Box>
+          <Typography variant="label-small-regular">Typography variant h2-caps</Typography>
+          <Typography variant="h2-caps">Hello World</Typography>
+        </Box>
+        <Box>
+          <Typography variant="label-small-regular">Typography variant h3</Typography>
+          <Typography variant="h3">Hello World</Typography>
+        </Box>
+        <Box>
+          <Typography variant="label-small-regular">Typography variant h4</Typography>
+          <Typography variant="h4">Hello World</Typography>
+        </Box>
+        <Box>
+          <Typography variant="label-small-regular">Typography variant button-caps</Typography>
+          <Typography variant="button-caps">Hello World</Typography>
+        </Box>
+        <Box>
+          <Typography variant="label-small-regular">Typography variant button-regular</Typography>
+          <Typography variant="button-regular">Hello World</Typography>
+        </Box>
+        <Box>
+          <Typography variant="label-small-regular">Typography variant button-small-semibold</Typography>
+          <Typography variant="button-small-semibold">Hello World</Typography>
+        </Box>
+        <Box>
+          <Typography variant="label-small-regular">Typography variant button-small-regular</Typography>
+          <Typography variant="button-small-regular">Hello World</Typography>
+        </Box>
+        <Box>
+          <Typography variant="label-small-regular">Typography variant label-small-medium</Typography>
+          <Typography variant="label-small-medium">Hello World</Typography>
+        </Box>
+        <Box>
+          <Typography variant="label-small-regular">Typography variant label-small-regular</Typography>
+          <Typography variant="label-small-regular">Hello World</Typography>
+        </Box>
+      </Box>
 
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
         <Box sx={{ display: 'flex', gap: '8px' }}>
@@ -113,33 +143,6 @@ const App = () => {
         <Box sx={{ display: 'flex', gap: '8px' }}>
           <Button variant="tertiary">button-caps: tertiary</Button>
           <Button disabled variant="tertiary">
-            Disabled
-          </Button>
-        </Box>
-
-        <Box sx={{ display: 'flex', gap: '8px' }}>
-          <Button variant="main" className="button-small-caps">
-            button-small-caps: main
-          </Button>
-          <Button disabled variant="main" className="button-small-caps">
-            Disabled
-          </Button>
-        </Box>
-
-        <Box sx={{ display: 'flex', gap: '8px' }}>
-          <Button variant="secondary" className="button-small-caps">
-            button-small-caps: secondary
-          </Button>
-          <Button disabled variant="secondary" className="button-small-caps">
-            Disabled
-          </Button>
-        </Box>
-
-        <Box sx={{ display: 'flex', gap: '8px' }}>
-          <Button variant="tertiary" className="button-small-caps">
-            button-small-caps: tertiary
-          </Button>
-          <Button disabled variant="tertiary" className="button-small-caps">
             Disabled
           </Button>
         </Box>

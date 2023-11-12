@@ -1,6 +1,6 @@
 /**
 * Do not edit directly
-* Generated on 11/11/2023, 5:17:02 PM
+* Generated on 11/12/2023, 1:52:46 PM
 */
 
 :root {
@@ -16,12 +16,26 @@
 
   /* global meeting-colors variables */
   --midweek-meeting: #587dc4ff;
-  --treasures-from-gods-word: #396774ff;
-  --apply-yourself-to-the-field-ministry: #bc873fff;
-  --living-as-christians: #8a332aff;
+  --treasures-from-gods-word: #3c7f8bff;
+  --apply-yourself-to-the-field-ministry: #c28200ff;
+  --living-as-christians: #b82b10ff;
   --weekend-meeting: #498457ff;
-  --watchtower-study: #6c57a9ff;
-  --ministry: #856241ff;
+  --watchtower-study: #848383ff;
+  --ministry: #7b57b5ff;
+  --text-treasures-from-gods-word: #2a6b77ff;
+  --text-apply-yourself-to-the-field-ministry: #956711ff;
+
+  /* global group-colors variables */
+  --group-1: #458a43ff;
+  --group-2: #d64d4dff;
+  --group-3: #5f69bcff;
+  --group-4: #ea8135ff;
+  --group-5: #a47a62ff;
+  --group-6: #944cb5ff;
+  --group-7: #25a9a9ff;
+  --group-8: #518accff;
+  --group-9: #a8b93eff;
+  --group-10: #e46badff;
 }
 
 /* colors for blue-light theme */
@@ -35,7 +49,7 @@
   --grey-200: #dadadaff;
   --white: #fefefeff;
   --orange-secondary: #fbf5eeff;
-  --orange-main: #d6903cff;
+  --orange-dark: #c5720eff;
   --accent-200: #d5dffdff;
   --green-main: #3e9321ff;
   --green-secondary: #f2f8f0ff;
@@ -50,8 +64,11 @@
   --grey-100: #f5f5f5ff;
   --accent-400: #606d93ff;
   --always-white: #fefefeff;
-  --white-semi-transparent: #ffffff29;
-  --accent-hover: #475ab9ff;
+  --white-semi-16: #ffffff29;
+  --accent-click: #6c80e2ff;
+  --white-semi-32: #ffffff52;
+  --white-semi-48: #ffffff7a;
+  --orange-main: #dd8c2cff;
 }
 
 /* colors for blue-dark theme */
@@ -65,11 +82,11 @@
   --grey-200: #444444ff;
   --white: #222222ff;
   --orange-secondary: #362e24ff;
-  --orange-main: #d2852aff;
+  --orange-dark: #c5720eff;
   --accent-200: #3d4049ff;
   --green-main: #3a8820ff;
   --green-secondary: #283324ff;
-  --accent-100: #151516ff;
+  --accent-100: #151519ff;
   --grey-300: #aaaaaaff;
   --accent-main: #5770e5ff;
   --accent-dark-overlay: #3f4146eb;
@@ -80,8 +97,11 @@
   --grey-100: #2c2c2cff;
   --accent-400: #9da5beff;
   --always-white: #fefefeff;
-  --white-semi-transparent: #ffffff29;
-  --accent-hover: #5269d4ff;
+  --white-semi-16: #ffffff29;
+  --accent-click: #4c63cdff;
+  --white-semi-32: #ffffff52;
+  --white-semi-48: #ffffff7a;
+  --orange-main: #dd8c2cff;
 }
 
 /* colors for green-light theme */
@@ -95,7 +115,7 @@
   --grey-200: #dadadaff;
   --white: #fefefeff;
   --orange-secondary: #fbf5eeff;
-  --orange-main: #de9641ff;
+  --orange-dark: #c5720eff;
   --accent-200: #def0daff;
   --green-main: #3e9321ff;
   --green-secondary: #f2f8f0ff;
@@ -108,10 +128,13 @@
   --accent-350: #8eac86ff;
   --accent-150: #f0f9eeff;
   --grey-100: #f5f5f5ff;
-  --accent-400: #739d6cff;
+  --accent-400: #6c9865ff;
   --always-white: #fefefeff;
-  --white-semi-transparent: #ffffff29;
-  --accent-hover: #397f28ff;
+  --white-semi-16: #ffffff29;
+  --accent-click: #6bac5aff;
+  --white-semi-32: #ffffff52;
+  --white-semi-48: #ffffff7a;
+  --orange-main: #dd8c2cff;
 }
 
 /* colors for green-dark theme */
@@ -119,17 +142,17 @@
   --grey-350: #817e7eff;
   --red-main: #ca2626ff;
   --red-secondary: #3a2828ff;
-  --accent-dark: #528745ff;
+  --accent-dark: #61a650ff;
   --black: #f4f4f4ff;
   --grey-150: #171718ff;
   --grey-200: #444444ff;
   --white: #222222ff;
   --orange-secondary: #362e24ff;
-  --orange-main: #de9641ff;
+  --orange-dark: #c5720eff;
   --accent-200: #374537ff;
   --green-main: #3e9321ff;
   --green-secondary: #283324ff;
-  --accent-100: #131413ff;
+  --accent-100: #141814ff;
   --grey-300: #aaaaaaff;
   --accent-main: #538348ff;
   --accent-dark-overlay: #3c3f3ceb;
@@ -140,8 +163,11 @@
   --grey-100: #2c2c2cff;
   --accent-400: #a5bba5ff;
   --always-white: #fefefeff;
-  --white-semi-transparent: #ffffff29;
-  --accent-hover: #90c783ff;
+  --white-semi-16: #ffffff29;
+  --accent-click: #49783fff;
+  --white-semi-32: #ffffff52;
+  --white-semi-48: #ffffff7a;
+  --orange-main: #dd8c2cff;
 }
 
 /* colors for purple-dark theme */
@@ -155,7 +181,7 @@
   --grey-200: #444444ff;
   --white: #222222ff;
   --orange-secondary: #362e24ff;
-  --orange-main: #d2852aff;
+  --orange-dark: #c5720eff;
   --accent-200: #3c3743ff;
   --green-main: #3a8820ff;
   --green-secondary: #283324ff;
@@ -170,8 +196,11 @@
   --grey-100: #2c2c2cff;
   --accent-400: #bbb0c9ff;
   --always-white: #fefefeff;
-  --white-semi-transparent: #ffffff29;
-  --accent-hover: #624587ff;
+  --white-semi-16: #ffffff29;
+  --accent-click: #624587ff;
+  --white-semi-32: #ffffff52;
+  --white-semi-48: #ffffff7a;
+  --orange-main: #dd8c2cff;
 }
 
 /* colors for purple-light theme */
@@ -185,8 +214,8 @@
   --grey-200: #dadadaff;
   --white: #fefefeff;
   --orange-secondary: #fbf5eeff;
-  --orange-main: #de9641ff;
-  --accent-200: #e9e3fbff;
+  --orange-dark: #c5720eff;
+  --accent-200: #ece7fcff;
   --green-main: #3e9321ff;
   --green-secondary: #f2f8f0ff;
   --accent-100: #f8f6ffff;
@@ -200,8 +229,11 @@
   --grey-100: #f5f5f5ff;
   --accent-400: #766ca0ff;
   --always-white: #fefefeff;
-  --white-semi-transparent: #ffffff29;
-  --accent-hover: #7053acff;
+  --white-semi-16: #ffffff29;
+  --accent-click: #7053acff;
+  --white-semi-32: #ffffff52;
+  --white-semi-48: #ffffff7a;
+  --orange-main: #dd8c2cff;
 }
 
 /* colors for orange-dark theme */
@@ -214,8 +246,8 @@
   --grey-150: #171718ff;
   --grey-200: #444444ff;
   --white: #222222ff;
-  --orange-secondary: #32333dff;
-  --orange-main: #606acaff;
+  --orange-secondary: #362e24ff;
+  --orange-dark: #c5720eff;
   --accent-200: #433d37ff;
   --green-main: #3a8820ff;
   --green-secondary: #283324ff;
@@ -230,8 +262,11 @@
   --grey-100: #2c2c2cff;
   --accent-400: #c9beb0ff;
   --always-white: #fefefeff;
-  --white-semi-transparent: #ffffff29;
-  --accent-hover: #af8127ff;
+  --white-semi-16: #ffffff29;
+  --accent-click: #af8127ff;
+  --white-semi-32: #ffffff52;
+  --white-semi-48: #ffffff7a;
+  --orange-main: #dd8c2cff;
 }
 
 /* colors for orange-light theme */
@@ -239,44 +274,61 @@
   --grey-350: #757575ff;
   --red-main: #b73b3bff;
   --red-secondary: #fdefefff;
-  --accent-dark: #bb6c0fff;
+  --accent-dark: #bb7f0cff;
   --black: #222222ff;
   --grey-150: #f0f0f0ff;
   --grey-200: #dadadaff;
   --white: #fefefeff;
   --orange-secondary: #eaebfbff;
-  --orange-main: #4551bcff;
-  --accent-200: #fbf3e3ff;
+  --orange-dark: #c5720eff;
+  --accent-200: #fcf0d9ff;
   --green-main: #3a8820ff;
   --green-secondary: #f2f8f0ff;
-  --accent-100: #faf6efff;
+  --accent-100: #fefbf5ff;
   --grey-300: #aaaaaaff;
-  --accent-main: #db9817ff;
+  --accent-main: #e59c0fff;
   --accent-dark-overlay: #160e077a;
-  --accent-300: #f8e9cbff;
+  --accent-300: #fceccdff;
   --grey-400: #505050ff;
-  --accent-350: #d5bc97ff;
-  --accent-150: #fdf8efff;
+  --accent-350: #ddc096ff;
+  --accent-150: #fdf7ecff;
   --grey-100: #f5f5f5ff;
-  --accent-400: #cbb189ff;
+  --accent-400: #d1a96dff;
   --always-white: #fefefeff;
-  --white-semi-transparent: #ffffff29;
-  --accent-hover: #c69028ff;
+  --white-semi-16: #ffffff29;
+  --accent-click: #c69028ff;
+  --white-semi-32: #ffffff52;
+  --white-semi-48: #ffffff7a;
+  --orange-main: #dd8c2cff;
 }
 
 /* font styles generic */
-.button-small-caps {
-  font-size: 14px;
+.huge-numbers {
+  font-size: 64px;
   text-decoration: none;
   font-family: Inter;
-  font-weight: 550;
+  font-weight: 500;
   font-style: normal;
   font-stretch: normal;
-  letter-spacing: 0.28px;
-  line-height: 20px;
+  letter-spacing: 0px;
+  line-height: 72px;
   text-indent: 0px;
   margin: 0px 0px;
-  text-transform: uppercase;
+  text-transform: none;
+}
+
+.big-numbers {
+  font-size: 48px;
+  text-decoration: none;
+  font-family: Inter;
+  font-weight: 400;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  line-height: 56px;
+  text-indent: 0px;
+  margin: 0px 0px;
+  text-transform: none;
 }
 
 .label-small-medium {
