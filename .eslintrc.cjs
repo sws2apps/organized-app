@@ -22,7 +22,8 @@ module.exports = {
         extensions: ['.js', '.jsx'],
         map: [
           ['@assets', './src/v3/assets'],
-          ['@components', './src/v3/components'],
+          ['@components', './src/v3/components/index.js'],
+          ['@icons', './src/v3/components/icons/index.js'],
         ],
       },
     },

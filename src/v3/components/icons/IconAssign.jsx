@@ -1,20 +1,20 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-const IconAssign = ({ color = '#222222', width = 24, height = 24 }) => {
+const IconAssign = ({ color = "#222222", width = 24, height = 24 }) => {
   width = width.toString();
   height = height.toString();
 
   return (
     <svg
-      xmlns="http://www.w3.org/2000/svg"
       width={width}
       height={height}
       viewBox={`0 0 ${width} ${height}`}
       fill="none"
+      xmlns="http://www.w3.org/2000/svg"
     >
       <mask
         id="mask0_2457_21225"
-        style={{ maskType: 'alpha' }}
+        style={{ maskType: "alpha" }}
         maskUnits="userSpaceOnUse"
         x="0"
         y="0"

@@ -10,7 +10,8 @@ export default defineConfig({
   resolve: {
     alias: [
       { find: '@assets', replacement: resolve(__dirname, 'src/v3/assets') },
-      { find: '@components', replacement: resolve(__dirname, 'src/v3/components') },
+      { find: '@components', replacement: resolve(__dirname, 'src/v3/components/index.js') },
+      { find: '@icons', replacement: resolve(__dirname, 'src/v3/components/icons/index.js') },
     ],
   },
   worker: { plugins: [comlink()] },

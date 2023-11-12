@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "@assets/*": ["v3/assets/*"],
+      "@components": ["v3/components/index.js"],
+      "@icons": ["v3/components/icons/index.js"]
+    }
+  },
+  "exclude": ["node_modules"]
+}

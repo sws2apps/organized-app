@@ -1,8 +1,35 @@
 import { Box, Container, MenuItem, TextField } from '@mui/material';
 import { Button, Typography } from '@components';
-import { IconAdd, IconAssign, IconReturn, IconUpdate } from '@components/icons';
 import { useState } from 'react';
-import {} from './components/icons';
+import {
+  IconAdd,
+  IconArrowDown,
+  IconAssign,
+  IconAssigned,
+  IconCalendar,
+  IconCancelFilled,
+  IconCheck,
+  IconCheckboxEmpty,
+  IconCheckboxFilled,
+  IconCheckboxMultiple,
+  IconClose,
+  IconCreate,
+  IconDelete,
+  IconEncryption,
+  IconExpanded,
+  IconExport,
+  IconHistory,
+  IconMap,
+  IconParticipants,
+  IconProfileSettings,
+  IconReminder,
+  IconRemove,
+  IconRequest,
+  IconReturn,
+  IconStats,
+  IconStudy,
+  IconUpdate,
+} from '@icons';
 
 const themes = [
   'blue-light',
@@ -203,15 +230,39 @@ const App = () => {
           sx={{
             display: 'flex',
             flexWrap: 'wrap',
-            gap: '8px',
+            gap: '13px',
             border: '1px solid var(--black)',
             padding: '15px',
             borderRadius: '10px',
+            width: '835px',
           }}
         >
           <IconAdd color="var(--black)" />
+          <IconArrowDown color="var(--black)" />
           <IconAssign color="var(--black)" />
+          <IconAssigned color="var(--black)" />
+          <IconCalendar color="var(--black)" />
+          <IconCancelFilled color="var(--black)" />
+          <IconCheck color="var(--black)" />
+          <IconCheckboxEmpty color="var(--black)" />
+          <IconCheckboxFilled color="var(--accent-main)" />
+          <IconCheckboxMultiple color="var(--accent-main)" />
+          <IconClose color="var(--black)" />
+          <IconCreate color="var(--black)" />
+          <IconDelete color="var(--black)" />
+          <IconEncryption color="var(--black)" />
+          <IconExpanded color="var(--black)" />
+          <IconExport color="var(--black)" />
+          <IconHistory color="var(--black)" />
+          <IconMap color="var(--black)" />
+          <IconParticipants color="var(--black)" />
+          <IconProfileSettings color="var(--black)" />
+          <IconReminder color="var(--black)" />
+          <IconRemove color="var(--black)" />
+          <IconRequest color="var(--black)" />
           <IconReturn color="var(--black)" />
+          <IconStats color="var(--black)" />
+          <IconStudy color="var(--black)" />
           <IconUpdate color="var(--black)" />
         </Box>
       </Box>
