@@ -21,12 +21,12 @@ const CPEButton = ({ className = 'button-caps', children, onClick, disabled = fa
         boxShadow: 'none',
         borderRadius: 'var(--radius-l)',
         '&:hover': {
-          backgroundColor: variant === 'contained' ? 'var(--accent-dark)' : 'var(--accent-150)',
+          backgroundColor: variant === 'contained' ? 'var(--accent-dark)' : 'var(--accent-200)',
           border: variant === 'outlined' ? '1px solid var(--accent-dark)' : 'none',
           boxShadow: 'none',
         },
         '&:active': {
-          backgroundColor: variant === 'contained' ? 'var(--accent-hover)' : 'var(--accent-200)',
+          backgroundColor: variant === 'contained' ? 'var(--accent-click)' : 'var(--accent-150)',
           border: variant === 'outlined' ? '1px solid var(--accent-dark)' : 'none',
           boxShadow: 'none',
         },

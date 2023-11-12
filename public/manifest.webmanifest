@@ -1,6 +1,6 @@
 {
-  "theme_color": "#2196f3",
-  "background_color": "#2196f3",
+  "theme_color": "#f2f5ffff",
+  "background_color": "#f8f9ffff",
   "display": "standalone",
   "launch_handler": {
     "client_mode": "navigate-existing"
