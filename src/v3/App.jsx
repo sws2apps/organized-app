@@ -218,7 +218,7 @@ const App = () => {
           </Box>
         </Box>
 
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '30px' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '10px' }}>
           <Typography variant="label-small-regular">radio</Typography>
           <Box sx={{ display: 'flex', gap: '8px' }}>
             <Radio checked={false} />
