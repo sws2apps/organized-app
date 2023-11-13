@@ -1,5 +1,5 @@
 import { Box, Container, MenuItem, TextField } from '@mui/material';
-import { Button, Typography } from '@components';
+import { Button, Checkbox, Typography } from '@components';
 import { useState } from 'react';
 import { IconAdd, IconAssign, IconClose, IconReturn, IconUndo, IconUpdate } from '@icons';
 
@@ -16,6 +16,7 @@ const themes = [
 
 const App = () => {
   const [currentTheme, setCurrentTheme] = useState('blue-light');
+  const [checked, setChecked] = useState(false);
 
   const handleChange = (e) => {
     const current = e.target.value;
@@ -204,6 +205,15 @@ const App = () => {
             <Button variant="semi-white" startIcon={<IconUpdate />}>
               Update
             </Button>
+          </Box>
+        </Box>
+
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '30px' }}>
+          <Typography variant="label-small-regular">checkbox</Typography>
+          <Box sx={{ display: 'flex', gap: '8px' }}>
+            <Checkbox checked={checked} onChange={(e) => setChecked(e.target.checked)} />
+            <Checkbox indeterminate={true} />
+            <Checkbox checked={true} disabled={true} />
           </Box>
         </Box>
       </Box>
