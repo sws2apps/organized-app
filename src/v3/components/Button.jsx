@@ -19,6 +19,166 @@ const CPEButton = ({
 
   if (variant === 'small') className = 'body-small-semibold';
 
+  const getBackgroundColor = () => {
+    let result = '';
+
+    if (variant === 'semi-white') {
+      result = 'var(--white-semi-16)';
+    }
+
+    if (variant !== 'semi-white') {
+      if (internalVariant !== 'contained') {
+        result = 'unset';
+      }
+
+      if (internalVariant === 'contained') {
+        if (color) {
+          result = `var(--${color}-main)`;
+        }
+
+        if (!color) {
+          result = 'var(--accent-main)';
+        }
+      }
+    }
+
+    return result;
+  };
+
+  const getColor = () => {
+    let result = '';
+
+    if (internalVariant === 'contained') {
+      result = 'var(--always-white)';
+    }
+
+    if (internalVariant !== 'contained') {
+      if (!color) {
+        result = 'var(--accent-dark)';
+      }
+
+      if (color) {
+        if (variant === 'small') {
+          result = `var(--${color}-dark)`;
+        }
+
+        if (variant !== 'small') {
+          result = `var(--${color}-main)`;
+        }
+      }
+    }
+
+    return result;
+  };
+
+  const getBackgroundColorHover = () => {
+    let result = '';
+
+    if (variant === 'semi-white') {
+      result = 'var(--white-semi-48)';
+    }
+
+    if (variant !== 'semi-white') {
+      if (internalVariant === 'contained') {
+        if (color) {
+          result = `var(--${color}-dark)`;
+        }
+
+        if (!color) {
+          result = 'var(--accent-dark)';
+        }
+      }
+
+      if (internalVariant !== 'contained') {
+        if (color) {
+          result = `var(--${color}-secondary)`;
+        }
+
+        if (!color) {
+          result = 'var(--accent-200)';
+        }
+      }
+    }
+
+    return result;
+  };
+
+  const getBackgroundColorClick = () => {
+    let result = '';
+
+    if (variant === 'semi-white') {
+      result = 'var(--white-semi-32)';
+    }
+
+    if (variant !== 'semi-white') {
+      if (variant === 'small') {
+        result = 'var(--accent-200)';
+      }
+
+      if (variant !== 'small') {
+        if (internalVariant === 'contained') {
+          if (color) {
+            result = `var(--${color}-dark)`;
+          }
+
+          if (!color) {
+            result = 'var(--accent-click)';
+          }
+        }
+
+        if (internalVariant !== 'contained') {
+          if (color) {
+            result = `var(--${color}-secondary)`;
+          }
+
+          if (!color) {
+            result = 'var(--accent-150)';
+          }
+        }
+      }
+    }
+
+    return result;
+  };
+
+  const getSvgColor = () => {
+    let result = '';
+
+    if (disabled) {
+      result = 'var(--accent-350)';
+    }
+
+    if (!disabled) {
+      if (internalVariant === 'contained') {
+        result = 'var(--always-white)';
+      }
+
+      if (internalVariant !== 'contained') {
+        if (color) {
+          if (variant === 'small') {
+            result = `var(--${color}-dark)`;
+          }
+
+          if (variant !== 'small') {
+            result = `var(--${color}-main)`;
+          }
+        }
+
+        if (!color) {
+          if (internalVariant === 'contained') {
+            result = 'var(--always-white)';
+          }
+
+          if (internalVariant !== 'contained') {
+            result = 'var(--accent-dark)';
+          }
+        }
+      }
+    }
+
+    return result;
+  };
+
   return (
     <Button
       startIcon={startIcon}
@@ -30,48 +190,25 @@ const CPEButton = ({
       disabled={disabled}
       sx={{
         padding: variant === 'small' ? '4px 8px' : '8px 16px',
-        backgroundColor:
-          variant === 'semi-white'
-            ? 'var(--white-semi-16)'
-            : internalVariant === 'contained'
-            ? 'var(--accent-main)'
-            : 'unset',
+        backgroundColor: getBackgroundColor(),
         border: internalVariant === 'outlined' ? '1px solid var(--accent-dark)' : 'none',
-        color: color
-          ? `var(--${color}-dark)`
-          : internalVariant === 'contained'
-          ? 'var(--always-white)'
-          : 'var(--accent-dark)',
+        color: getColor(),
         boxShadow: 'none',
         borderRadius: variant === 'small' || variant === 'semi-white' ? 'var(--radius-m)' : 'var(--radius-l)',
         '&:hover': {
-          backgroundColor: color
-            ? `var(--${color}-secondary)`
-            : variant === 'semi-white'
-            ? 'var(--white-semi-48)'
-            : internalVariant === 'contained'
-            ? 'var(--accent-dark)'
-            : 'var(--accent-200)',
+          backgroundColor: getBackgroundColorHover(),
           border: internalVariant === 'outlined' ? '1px solid var(--accent-dark)' : 'none',
           boxShadow: 'none',
           borderRadius:
             variant === 'small' ? 'var(--radius-s)' : variant === 'semi-white' ? 'var(--radius-m)' : 'var(--radius-l)',
         },
         '&:active': {
-          backgroundColor: color
-            ? `var(--${color}-secondary)`
-            : variant === 'semi-white'
-            ? 'var(--white-semi-32)'
-            : variant === 'small'
-            ? 'var(--accent-200)'
-            : internalVariant === 'contained'
-            ? 'var(--accent-click)'
-            : 'var(--accent-150)',
+          backgroundColor: getBackgroundColorClick(),
           border: internalVariant === 'outlined' ? '1px solid var(--accent-dark)' : 'none',
           boxShadow: 'none',
           borderRadius:
             variant === 'small' ? 'var(--radius-s)' : variant === 'semi-white' ? 'var(--radius-m)' : 'var(--radius-l)',
-          opacity: variant === 'small' ? 0.8 : 1,
+          opacity: variant === 'small' || color ? 0.8 : 1,
         },
         '&:disabled': {
           backgroundColor: internalVariant === 'contained' ? 'var(--accent-150)' : 'unset',
@@ -83,13 +220,7 @@ const CPEButton = ({
           width: variant === 'small' ? '20px' : '22px',
         },
         '& svg, & svg g, & svg g path': {
-          fill: color
-            ? `var(--${color}-dark)`
-            : disabled
-            ? 'var(--accent-350)'
-            : internalVariant === 'contained'
-            ? 'var(--always-white)'
-            : 'var(--accent-dark)',
+          fill: getSvgColor(),
         },
       }}
     >
