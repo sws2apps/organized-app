@@ -14,6 +14,8 @@ const MiniChip = ({ label, edit = false, onDelete }) => {
         borderRadius: 'var(--radius-max)',
         border: '1px solid var(--accent-dark)',
         background: 'var(--accent-150)',
+        minHeight: '26px',
+        height: 'auto',
         '.MuiChip-label': {
           padding: edit ? '0px 2px 0px 0px' : 0,
         },

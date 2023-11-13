@@ -5,7 +5,7 @@ const CPEFilterChip = ({ label, onClick, selected = false }) => {
   return (
     <Button
       disableRipple
-      onClick={onClick}
+      onClick={selected ? null : onClick}
       className={selected ? 'body-small-semibold' : 'body-small-regular'}
       sx={{
         padding: '8px 16px',
@@ -13,9 +13,11 @@ const CPEFilterChip = ({ label, onClick, selected = false }) => {
         borderRadius: 'var(--radius-l)',
         border: selected ? '1px solid var(--accent-dark)' : '1px solid var(--accent-400)',
         background: selected ? 'var(--accent-200)' : 'unset',
+        cursor: selected ? 'initial' : 'pointer',
+        minHeight: '34px',
         '&:hover': {
-          color: 'var(--accent-400)',
-          background: 'var(--accent-150)',
+          color: selected ? 'var(--accent-dark)' : 'var(--accent-400)',
+          background: selected ? 'var(--accent-200)' : 'var(--accent-150)',
         },
       }}
     >
