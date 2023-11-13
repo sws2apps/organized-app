@@ -213,6 +213,7 @@ const App = () => {
           <Box sx={{ display: 'flex', gap: '8px' }}>
             <Checkbox checked={checked} onChange={(e) => setChecked(e.target.checked)} />
             <Checkbox indeterminate={true} />
+            <Checkbox checked={false} disabled={true} />
             <Checkbox checked={true} disabled={true} />
           </Box>
         </Box>
