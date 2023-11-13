@@ -139,11 +139,8 @@ const App = () => {
             <Button variant="main" color="red" startIcon={<IconUndo />}>
               Unpublish
             </Button>
-            <Button disabled variant="main" startIcon={<IconAdd />}>
-              Save
-            </Button>
             <Button disabled variant="main" color="orange" startIcon={<IconUndo />}>
-              Unpublish
+              Disabled
             </Button>
           </Box>
         </Box>
@@ -160,11 +157,8 @@ const App = () => {
             <Button variant="secondary" color="green" startIcon={<IconClose />}>
               Terminate
             </Button>
-            <Button disabled variant="secondary" startIcon={<IconAdd />}>
-              Save
-            </Button>
             <Button disabled variant="secondary" color="red" startIcon={<IconClose />}>
-              Terminate
+              Disabled
             </Button>
           </Box>
         </Box>

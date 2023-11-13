@@ -23,7 +23,7 @@ const CPEButton = ({
     let result = '';
 
     if (variant === 'semi-white') {
-      result = 'var(--white-semi-16)';
+      result = 'var(--white-semi-s)';
     }
 
     if (variant !== 'semi-white') {
@@ -75,7 +75,7 @@ const CPEButton = ({
     let result = '';
 
     if (variant === 'semi-white') {
-      result = 'var(--white-semi-48)';
+      result = 'var(--white-semi-l)';
     }
 
     if (variant !== 'semi-white') {
@@ -107,7 +107,7 @@ const CPEButton = ({
     let result = '';
 
     if (variant === 'semi-white') {
-      result = 'var(--white-semi-32)';
+      result = 'var(--white-semi-m)';
     }
 
     if (variant !== 'semi-white') {
