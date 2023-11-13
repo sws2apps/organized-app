@@ -1,5 +1,5 @@
 import { Box, Container, MenuItem, TextField } from '@mui/material';
-import { Button, Checkbox, MinusButton, PlusButton, Radio, Typography } from '@components';
+import { Button, Checkbox, FilterChip, MiniChip, MinusButton, PlusButton, Radio, Typography } from '@components';
 import { useState } from 'react';
 import { IconAdd, IconAssign, IconClose, IconReturn, IconUndo, IconUpdate } from '@icons';
 
@@ -17,6 +17,7 @@ const themes = [
 const App = () => {
   const [currentTheme, setCurrentTheme] = useState('blue-light');
   const [checked, setChecked] = useState(false);
+  const [filterEnabled, setFilterEnabled] = useState(false);
 
   const handleChange = (e) => {
     const current = e.target.value;
@@ -143,7 +144,7 @@ const App = () => {
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             <Typography variant="label-small-regular">btn-main</Typography>
-            <Box sx={{ display: 'flex', gap: '8px' }}>
+            <Box sx={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
               <Button variant="main" startIcon={<IconAdd />}>
                 Save
               </Button>
@@ -161,7 +162,7 @@ const App = () => {
 
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             <Typography variant="label-small-regular">btn-secondary</Typography>
-            <Box sx={{ display: 'flex', gap: '8px' }}>
+            <Box sx={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
               <Button variant="secondary" startIcon={<IconAdd />}>
                 Save
               </Button>
@@ -254,6 +255,23 @@ const App = () => {
               <Typography variant="label-small-regular">plus</Typography>
               <Box sx={{ display: 'flex', gap: '8px' }}>
                 <PlusButton />
+              </Box>
+            </Box>
+          </Box>
+
+          <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap', marginTop: '10px' }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <Typography variant="label-small-regular">filter-chip</Typography>
+              <Box sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                <FilterChip label="Chip" selected={filterEnabled} onClick={() => setFilterEnabled((prev) => !prev)} />
+              </Box>
+            </Box>
+
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <Typography variant="label-small-regular">mini-chip</Typography>
+              <Box sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                <MiniChip label="Ilya" edit={true} onDelete={() => {}} />
+                <MiniChip label="Ilya" />
               </Box>
             </Box>
           </Box>

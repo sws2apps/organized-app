@@ -1,6 +1,6 @@
 /**
 * Do not edit directly
-* Generated on 11/13/2023, 6:41:45 AM
+* Generated on 11/13/2023, 11:33:31 PM
 */
 
 :root {
@@ -39,7 +39,7 @@
 }
 
 /* colors for blue-light theme */
-[data-theme="blue-light"] {
+[data-theme='blue-light'] {
   --grey-350: #757575ff;
   --red-main: #ca2626ff;
   --red-secondary: #fdefefff;
@@ -73,7 +73,7 @@
 }
 
 /* colors for blue-dark theme */
-[data-theme="blue-dark"] {
+[data-theme='blue-dark'] {
   --grey-350: #817e7eff;
   --red-main: #b73b3bff;
   --red-secondary: #3a2828ff;
@@ -107,7 +107,7 @@
 }
 
 /* colors for green-light theme */
-[data-theme="green-light"] {
+[data-theme='green-light'] {
   --grey-350: #757575ff;
   --red-main: #ca2626ff;
   --red-secondary: #fdefefff;
@@ -141,7 +141,7 @@
 }
 
 /* colors for green-dark theme */
-[data-theme="green-dark"] {
+[data-theme='green-dark'] {
   --grey-350: #817e7eff;
   --red-main: #ca2626ff;
   --red-secondary: #3a2828ff;
@@ -175,7 +175,7 @@
 }
 
 /* colors for purple-dark theme */
-[data-theme="purple-dark"] {
+[data-theme='purple-dark'] {
   --grey-350: #817e7eff;
   --red-main: #b73b3bff;
   --red-secondary: #3a2828ff;
@@ -209,7 +209,7 @@
 }
 
 /* colors for purple-light theme */
-[data-theme="purple-light"] {
+[data-theme='purple-light'] {
   --grey-350: #757575ff;
   --red-main: #ca2626ff;
   --red-secondary: #fdefefff;
@@ -243,7 +243,7 @@
 }
 
 /* colors for orange-dark theme */
-[data-theme="orange-dark"] {
+[data-theme='orange-dark'] {
   --grey-350: #817e7eff;
   --red-main: #b73b3bff;
   --red-secondary: #3a2828ff;
@@ -277,7 +277,7 @@
 }
 
 /* colors for orange-light theme */
-[data-theme="orange-light"] {
+[data-theme='orange-light'] {
   --grey-350: #757575ff;
   --red-main: #b73b3bff;
   --red-secondary: #fdefefff;
@@ -321,7 +321,6 @@
   letter-spacing: 0px;
   line-height: 72px;
   text-indent: 0px;
-  margin: 0px 0px;
   text-transform: none;
 }
 
@@ -335,7 +334,6 @@
   letter-spacing: 0px;
   line-height: 56px;
   text-indent: 0px;
-  margin: 0px 0px;
   text-transform: none;
 }
 
@@ -349,7 +347,6 @@
   letter-spacing: -0.12px;
   line-height: 16px;
   text-indent: 0px;
-  margin: 0px 0px;
   text-transform: none;
 }
 
@@ -363,7 +360,6 @@
   letter-spacing: 0px;
   line-height: 16px;
   text-indent: 0px;
-  margin: 0px 0px;
   text-transform: none;
 }
 
@@ -379,7 +375,6 @@
     letter-spacing: 0px;
     line-height: 24px;
     text-indent: 0px;
-    margin: 0px 0px;
     text-transform: none;
   }
 
@@ -393,7 +388,6 @@
     letter-spacing: 0px;
     line-height: 22px;
     text-indent: 0px;
-    margin: 0px 0px;
     text-transform: none;
   }
 
@@ -407,7 +401,6 @@
     letter-spacing: 0.36px;
     line-height: 22px;
     text-indent: 0px;
-    margin: 0px 0px;
     text-transform: none;
   }
 
@@ -421,7 +414,6 @@
     letter-spacing: 0px;
     line-height: 20px;
     text-indent: 0px;
-    margin: 8px 0px;
     text-transform: none;
   }
 
@@ -435,7 +427,6 @@
     letter-spacing: -0.3px;
     line-height: 20px;
     text-indent: 0px;
-    margin: 0px 0px;
     text-transform: none;
   }
 
@@ -449,7 +440,6 @@
     letter-spacing: 0.28px;
     line-height: 24px;
     text-indent: 0px;
-    margin: 0px 0px;
     text-transform: none;
   }
 
@@ -463,7 +453,6 @@
     letter-spacing: -0.15px;
     line-height: 20px;
     text-indent: 0px;
-    margin: 8px 0px;
     text-transform: none;
   }
 
@@ -477,7 +466,6 @@
     letter-spacing: -0.26px;
     line-height: 16px;
     text-indent: 0px;
-    margin: 0px 0px;
     text-transform: none;
   }
 
@@ -491,7 +479,6 @@
     letter-spacing: 0.065px;
     line-height: 16px;
     text-indent: 0px;
-    margin: 0px 0px;
     text-transform: none;
   }
 }
@@ -508,7 +495,6 @@
     letter-spacing: 0.24px;
     line-height: 28px;
     text-indent: 0px;
-    margin: 0px 0px;
     text-transform: none;
   }
 
@@ -522,7 +508,6 @@
     letter-spacing: 0px;
     line-height: 24px;
     text-indent: 0px;
-    margin: 0px 0px;
     text-transform: none;
   }
 
@@ -536,7 +521,6 @@
     letter-spacing: 0.2px;
     line-height: 24px;
     text-indent: 0px;
-    margin: 0px 0px;
     text-transform: uppercase;
   }
 
@@ -550,7 +534,6 @@
     letter-spacing: 0.18px;
     line-height: 24px;
     text-indent: 0px;
-    margin: 0px 0px;
     text-transform: none;
   }
 
@@ -564,7 +547,6 @@
     letter-spacing: 0px;
     line-height: 20px;
     text-indent: 0px;
-    margin: 8px 0px;
     text-transform: none;
   }
 
@@ -578,7 +560,6 @@
     letter-spacing: 0.3px;
     line-height: 20px;
     text-indent: 0px;
-    margin: 0px 0px;
     text-transform: uppercase;
   }
 
@@ -592,7 +573,6 @@
     letter-spacing: 0.16px;
     line-height: 20px;
     text-indent: 0px;
-    margin: 8px 0px;
     text-transform: none;
   }
 
@@ -606,7 +586,6 @@
     letter-spacing: 0px;
     line-height: 20px;
     text-indent: 0px;
-    margin: 0px 0px;
     text-transform: none;
   }
 
@@ -620,7 +599,6 @@
     letter-spacing: -0.14px;
     line-height: 18px;
     text-indent: 0px;
-    margin: 8px 0px;
     text-transform: none;
   }
 }
@@ -671,7 +649,7 @@
 }
 
 /* some dark effect styles */
-[data-theme$="dark"] {
+[data-theme$='dark'] {
   .big-card-shadow {
     box-shadow:
       0px 8px 12px 0px #00000052,

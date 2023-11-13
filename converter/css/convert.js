@@ -91,19 +91,19 @@ if (Object.keys(common).length > 0) {
     data += `.${className} {\n`;
 
     for (let [key, value] of Object.entries(details.value)) {
-      if (key === 'paragraphIndent') key = 'text-indent';
-      if (key === 'paragraphSpacing') key = 'margin';
-      if (key === 'textCase') key = 'text-transform';
+      if (key !== 'paragraphSpacing') {
+        if (key === 'paragraphIndent') key = 'text-indent';
+        if (key === 'textCase') key = 'text-transform';
 
-      let property = key
-        .split(/(?=[A-Z])/g)
-        .map((text) => text.toLocaleLowerCase())
-        .join('-');
+        let property = key
+          .split(/(?=[A-Z])/g)
+          .map((text) => text.toLocaleLowerCase())
+          .join('-');
 
-      if (key === 'margin') value = `${value}px 0px`;
-      if (typeof value === 'number' && key !== 'fontWeight') value = `${value}px`;
+        if (typeof value === 'number' && key !== 'fontWeight') value = `${value}px`;
 
-      data += `${property}: ${value};\n`;
+        data += `${property}: ${value};\n`;
+      }
     }
 
     data += '}\n\n';
@@ -118,19 +118,19 @@ for (const [font, details] of Object.entries(tokens.font.mobile)) {
   data += `.${className} {\n`;
 
   for (let [key, value] of Object.entries(details.value)) {
-    if (key === 'paragraphIndent') key = 'text-indent';
-    if (key === 'paragraphSpacing') key = 'margin';
-    if (key === 'textCase') key = 'text-transform';
+    if (key !== 'paragraphSpacing') {
+      if (key === 'paragraphIndent') key = 'text-indent';
+      if (key === 'textCase') key = 'text-transform';
 
-    let property = key
-      .split(/(?=[A-Z])/g)
-      .map((text) => text.toLocaleLowerCase())
-      .join('-');
+      let property = key
+        .split(/(?=[A-Z])/g)
+        .map((text) => text.toLocaleLowerCase())
+        .join('-');
 
-    if (key === 'margin') value = `${value}px 0px`;
-    if (typeof value === 'number' && key !== 'fontWeight') value = `${value}px`;
+      if (typeof value === 'number' && key !== 'fontWeight') value = `${value}px`;
 
-    data += `${property}: ${value};\n`;
+      data += `${property}: ${value};\n`;
+    }
   }
 
   data += '}\n\n';
@@ -145,19 +145,20 @@ for (const [className, details] of Object.entries(tokens.font)) {
     data += `.${className} {\n`;
 
     for (let [key, value] of Object.entries(details.value)) {
-      if (key === 'paragraphIndent') key = 'text-indent';
-      if (key === 'paragraphSpacing') key = 'margin';
-      if (key === 'textCase') key = 'text-transform';
+      if (key !== 'paragraphSpacing') {
+        if (key === 'paragraphIndent') key = 'text-indent';
+        if (key === 'textCase') key = 'text-transform';
 
-      let property = key
-        .split(/(?=[A-Z])/g)
-        .map((text) => text.toLocaleLowerCase())
-        .join('-');
+        let property = key
+          .split(/(?=[A-Z])/g)
+          .map((text) => text.toLocaleLowerCase())
+          .join('-');
 
-      if (key === 'margin') value = `${value}px 0px`;
-      if (typeof value === 'number' && key !== 'fontWeight') value = `${value}px`;
+        if (key === 'margin') value = `${value}px 0px`;
+        if (typeof value === 'number' && key !== 'fontWeight') value = `${value}px`;
 
-      data += `${property}: ${value};\n`;
+        data += `${property}: ${value};\n`;
+      }
     }
 
     data += '}\n\n';
