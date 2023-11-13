@@ -1,5 +1,5 @@
 import { Box, Container, MenuItem, TextField } from '@mui/material';
-import { Button, Checkbox, Radio, Typography } from '@components';
+import { Button, Checkbox, MinusButton, PlusButton, Radio, Typography } from '@components';
 import { useState } from 'react';
 import { IconAdd, IconAssign, IconClose, IconReturn, IconUndo, IconUpdate } from '@icons';
 
@@ -208,23 +208,40 @@ const App = () => {
           </Box>
         </Box>
 
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '30px' }}>
-          <Typography variant="label-small-regular">checkbox</Typography>
-          <Box sx={{ display: 'flex', gap: '8px' }}>
-            <Checkbox checked={checked} onChange={(e) => setChecked(e.target.checked)} />
-            <Checkbox indeterminate={true} />
-            <Checkbox checked={false} disabled={true} />
-            <Checkbox checked={true} disabled={true} />
+        <Box sx={{ display: 'flex', gap: '20px', marginTop: '30px', flexWrap: 'wrap' }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <Typography variant="label-small-regular">checkbox</Typography>
+            <Box sx={{ display: 'flex', gap: '8px' }}>
+              <Checkbox checked={checked} onChange={(e) => setChecked(e.target.checked)} />
+              <Checkbox indeterminate={true} />
+              <Checkbox checked={false} disabled={true} />
+              <Checkbox checked={true} disabled={true} />
+            </Box>
+          </Box>
+
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <Typography variant="label-small-regular">radio</Typography>
+            <Box sx={{ display: 'flex', gap: '8px' }}>
+              <Radio checked={false} />
+              <Radio checked={true} />
+              <Radio checked={false} disabled={true} />
+              <Radio checked={true} disabled={true} />
+            </Box>
           </Box>
         </Box>
 
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '10px' }}>
-          <Typography variant="label-small-regular">radio</Typography>
-          <Box sx={{ display: 'flex', gap: '8px' }}>
-            <Radio checked={false} />
-            <Radio checked={true} />
-            <Radio checked={false} disabled={true} />
-            <Radio checked={true} disabled={true} />
+        <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap', marginTop: '10px' }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <Typography variant="label-small-regular">minus</Typography>
+            <Box sx={{ display: 'flex', gap: '8px' }}>
+              <MinusButton />
+            </Box>
+          </Box>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <Typography variant="label-small-regular">plus</Typography>
+            <Box sx={{ display: 'flex', gap: '8px' }}>
+              <PlusButton />
+            </Box>
           </Box>
         </Box>
       </Box>
