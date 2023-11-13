@@ -17,7 +17,7 @@ const themes = [
 const App = () => {
   const [currentTheme, setCurrentTheme] = useState('blue-light');
   const [checked, setChecked] = useState(false);
-  const [filterEnabled, setFilterEnabled] = useState(false);
+  const [filterEnabled, setFilterEnabled] = useState(true);
 
   const handleChange = (e) => {
     const current = e.target.value;
@@ -263,7 +263,12 @@ const App = () => {
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               <Typography variant="label-small-regular">filter-chip</Typography>
               <Box sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                <FilterChip label="Chip" selected={filterEnabled} onClick={() => setFilterEnabled((prev) => !prev)} />
+                <FilterChip label="Normal" selected={false} />
+                <FilterChip
+                  label="Selected"
+                  selected={filterEnabled}
+                  onClick={() => setFilterEnabled((prev) => !prev)}
+                />
               </Box>
             </Box>
 
