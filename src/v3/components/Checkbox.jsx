@@ -5,7 +5,6 @@ import { IconCheckboxEmpty, IconCheckboxFilled, IconCheckboxMultiple } from '@ic
 const CPECheckbox = ({ checked = false, indeterminate = false, disabled = false, onChange }) => {
   return (
     <Checkbox
-      disableRipple
       checked={checked}
       indeterminate={indeterminate}
       disabled={disabled}
