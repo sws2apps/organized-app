@@ -1,6 +1,6 @@
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-const IconBrother = ({ color = "#222222", width = 24, height = 24 }) => {
+const IconBrother = ({ color = '#222222', width = 24, height = 24 }) => {
   width = width.toString();
   height = height.toString();
 
@@ -14,7 +14,7 @@ const IconBrother = ({ color = "#222222", width = 24, height = 24 }) => {
     >
       <mask
         id="mask0_2673_26610"
-        style={{ maskType: "alpha" }}
+        style={{ maskType: 'alpha' }}
         maskUnits="userSpaceOnUse"
         x="0"
         y="0"
@@ -24,10 +24,7 @@ const IconBrother = ({ color = "#222222", width = 24, height = 24 }) => {
         <rect width={width} height={height} fill="#D9D9D9" />
       </mask>
       <g mask="url(#mask0_2673_26610)">
-        <path
-          d="M12.0938 17.2707L15 16.5L15 19.5L12.0937 18.6279L9 19.5L9 16.5L12.0938 17.2707Z"
-          fill={color}
-        />
+        <path d="M12.0938 17.2707L15 16.5L15 19.5L12.0937 18.6279L9 19.5L9 16.5L12.0938 17.2707Z" fill={color} />
         <path
           fillRule="evenodd"
           clipRule="evenodd"

@@ -1,10 +1,6 @@
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-const IconRefreshSchedule = ({
-  color = "#222222",
-  width = 24,
-  height = 24,
-}) => {
+const IconRefreshSchedule = ({ color = '#222222', width = 24, height = 24 }) => {
   width = width.toString();
   height = height.toString();
 
@@ -18,7 +14,7 @@ const IconRefreshSchedule = ({
     >
       <mask
         id="mask0_3175_70025"
-        style={{ maskType: "alpha" }}
+        style={{ maskType: 'alpha' }}
         maskUnits="userSpaceOnUse"
         x="0"
         y="0"

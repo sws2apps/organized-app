@@ -1,6 +1,6 @@
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-const IconCart = ({ color = "#222222", width = 24, height = 24 }) => {
+const IconCart = ({ color = '#222222', width = 24, height = 24 }) => {
   width = width.toString();
   height = height.toString();
 
@@ -78,13 +78,7 @@ const IconCart = ({ color = "#222222", width = 24, height = 24 }) => {
         d="M15.8472 10.8093L17.0453 18.261L15.8607 18.409L14.6626 10.9573L15.8472 10.8093Z"
         fill={color}
       />
-      <ellipse
-        cx="17.0453"
-        cy="21.1447"
-        rx="1.7284"
-        ry="2.25088"
-        fill={color}
-      />
+      <ellipse cx="17.0453" cy="21.1447" rx="1.7284" ry="2.25088" fill={color} />
     </svg>
   );
 };

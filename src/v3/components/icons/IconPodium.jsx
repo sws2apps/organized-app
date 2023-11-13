@@ -1,6 +1,6 @@
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-const IconPodium = ({ color = "#222222", width = 24, height = 24 }) => {
+const IconPodium = ({ color = '#222222', width = 24, height = 24 }) => {
   width = width.toString();
   height = height.toString();
 
@@ -14,7 +14,7 @@ const IconPodium = ({ color = "#222222", width = 24, height = 24 }) => {
     >
       <mask
         id="mask0_2515_25731"
-        style={{ maskType: "alpha" }}
+        style={{ maskType: 'alpha' }}
         maskUnits="userSpaceOnUse"
         x="0"
         y="0"

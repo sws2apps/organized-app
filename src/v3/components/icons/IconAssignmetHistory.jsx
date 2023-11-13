@@ -1,10 +1,6 @@
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-const IconAssignmetHistory = ({
-  color = "#222222",
-  width = 24,
-  height = 24,
-}) => {
+const IconAssignmetHistory = ({ color = '#222222', width = 24, height = 24 }) => {
   width = width.toString();
   height = height.toString();
 
@@ -18,7 +14,7 @@ const IconAssignmetHistory = ({
     >
       <mask
         id="mask0_2557_86002"
-        style={{ maskType: "alpha" }}
+        style={{ maskType: 'alpha' }}
         maskUnits="userSpaceOnUse"
         x="0"
         y="0"
@@ -30,7 +26,7 @@ const IconAssignmetHistory = ({
       <g mask="url(#mask0_2557_86002)"></g>
       <mask
         id="mask1_2557_86002"
-        style={{ maskType: "alpha" }}
+        style={{ maskType: 'alpha' }}
         maskUnits="userSpaceOnUse"
         x="-2"
         y="0"
@@ -46,7 +42,7 @@ const IconAssignmetHistory = ({
         />
         <mask
           id="mask2_2557_86002"
-          style={{ maskType: "alpha" }}
+          style={{ maskType: 'alpha' }}
           maskUnits="userSpaceOnUse"
           x="8"
           y="9"

@@ -1,10 +1,6 @@
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-const IconAuxiliaryPioneer = ({
-  color = "#222222",
-  width = 24,
-  height = 24,
-}) => {
+const IconAuxiliaryPioneer = ({ color = '#222222', width = 24, height = 24 }) => {
   width = width.toString();
   height = height.toString();
 
@@ -18,7 +14,7 @@ const IconAuxiliaryPioneer = ({
     >
       <mask
         id="mask0_3298_119083"
-        style={{ maskType: "alpha" }}
+        style={{ maskType: 'alpha' }}
         maskUnits="userSpaceOnUse"
         x="0"
         y="0"

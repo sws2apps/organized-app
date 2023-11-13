@@ -1,6 +1,6 @@
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-const IconCloudDone = ({ color = "#222222", width = 24, height = 24 }) => {
+const IconCloudDone = ({ color = '#222222', width = 24, height = 24 }) => {
   width = width.toString();
   height = height.toString();
 
@@ -14,7 +14,7 @@ const IconCloudDone = ({ color = "#222222", width = 24, height = 24 }) => {
     >
       <mask
         id="mask0_2621_40479"
-        style={{ maskType: "alpha" }}
+        style={{ maskType: 'alpha' }}
         maskUnits="userSpaceOnUse"
         x="0"
         y="0"

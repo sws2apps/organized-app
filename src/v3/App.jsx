@@ -1,5 +1,5 @@
 import { Box, Container, MenuItem, TextField } from '@mui/material';
-import { Button, Checkbox, Typography } from '@components';
+import { Button, Checkbox, Radio, Typography } from '@components';
 import { useState } from 'react';
 import { IconAdd, IconAssign, IconClose, IconReturn, IconUndo, IconUpdate } from '@icons';
 
@@ -215,6 +215,16 @@ const App = () => {
             <Checkbox indeterminate={true} />
             <Checkbox checked={false} disabled={true} />
             <Checkbox checked={true} disabled={true} />
+          </Box>
+        </Box>
+
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '30px' }}>
+          <Typography variant="label-small-regular">radio</Typography>
+          <Box sx={{ display: 'flex', gap: '8px' }}>
+            <Radio checked={false} />
+            <Radio checked={true} />
+            <Radio checked={false} disabled={true} />
+            <Radio checked={true} disabled={true} />
           </Box>
         </Box>
       </Box>

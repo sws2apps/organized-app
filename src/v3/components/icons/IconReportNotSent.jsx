@@ -1,6 +1,6 @@
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-const IconReportNotSent = ({ color = "#222222", width = 24, height = 24 }) => {
+const IconReportNotSent = ({ color = '#222222', width = 24, height = 24 }) => {
   width = width.toString();
   height = height.toString();
 
@@ -14,7 +14,7 @@ const IconReportNotSent = ({ color = "#222222", width = 24, height = 24 }) => {
     >
       <mask
         id="mask0_3463_286010"
-        style={{ maskType: "alpha" }}
+        style={{ maskType: 'alpha' }}
         maskUnits="userSpaceOnUse"
         x="0"
         y="0"
@@ -26,20 +26,14 @@ const IconReportNotSent = ({ color = "#222222", width = 24, height = 24 }) => {
       <g mask="url(#mask0_3463_286010)">
         <mask
           id="mask1_3463_286010"
-          style={{ maskType: "alpha" }}
+          style={{ maskType: 'alpha' }}
           maskUnits="userSpaceOnUse"
           x="7"
           y="8"
           width="19"
           height="20"
         >
-          <rect
-            x="7.30151"
-            y="8.43433"
-            width="18.6859"
-            height="18.6859"
-            fill="#D9D9D9"
-          />
+          <rect x="7.30151" y="8.43433" width="18.6859" height="18.6859" fill="#D9D9D9" />
         </mask>
         <g mask="url(#mask1_3463_286010)">
           <path

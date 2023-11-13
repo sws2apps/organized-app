@@ -1,6 +1,6 @@
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-const IconJwOrg = ({ color = "#222222", width = 24, height = 24 }) => {
+const IconJwOrg = ({ color = '#222222', width = 24, height = 24 }) => {
   width = width.toString();
   height = height.toString();
 
@@ -14,7 +14,7 @@ const IconJwOrg = ({ color = "#222222", width = 24, height = 24 }) => {
     >
       <mask
         id="mask0_2513_2768"
-        style={{ maskType: "alpha" }}
+        style={{ maskType: 'alpha' }}
         maskUnits="userSpaceOnUse"
         x="0"
         y="0"
@@ -30,20 +30,14 @@ const IconJwOrg = ({ color = "#222222", width = 24, height = 24 }) => {
         />
         <mask
           id="mask1_2513_2768"
-          style={{ maskType: "alpha" }}
+          style={{ maskType: 'alpha' }}
           maskUnits="userSpaceOnUse"
           x="10"
           y="-1"
           width="15"
           height="14"
         >
-          <rect
-            x="10.5225"
-            y="-0.876465"
-            width="13.8765"
-            height="13.8765"
-            fill="#D9D9D9"
-          />
+          <rect x="10.5225" y="-0.876465" width="13.8765" height="13.8765" fill="#D9D9D9" />
         </mask>
         <g mask="url(#mask1_2513_2768)">
           <path
