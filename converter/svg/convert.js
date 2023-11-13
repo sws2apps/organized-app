@@ -3,7 +3,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 
-const ROOT_FOLDER = './svg/sources';
+const ROOT_FOLDER = './converter/svg/sources';
 
 const svgFiles = await fs.readdir(ROOT_FOLDER);
 

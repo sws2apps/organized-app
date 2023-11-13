@@ -3,7 +3,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 
-const ROOT_FOLDER = './css/sources';
+const ROOT_FOLDER = './converter/css/sources';
 
 const files = await fs.readdir(ROOT_FOLDER);
 const jsonFiles = files.filter(
