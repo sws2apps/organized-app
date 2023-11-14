@@ -208,7 +208,11 @@ const CPEButton = ({
           boxShadow: 'none',
           borderRadius:
             variant === 'small' ? 'var(--radius-s)' : variant === 'semi-white' ? 'var(--radius-m)' : 'var(--radius-l)',
+          '@media (hover: none)': {
+            backgroundColor: getBackgroundColor(),
+          },
         },
+
         '&:active': {
           backgroundColor: getBackgroundColorClick(),
           border: internalVariant === 'outlined' ? '1px solid var(--accent-dark)' : 'none',

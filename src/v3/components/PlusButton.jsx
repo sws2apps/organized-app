@@ -9,14 +9,21 @@ const CPEPlusButton = () => {
         border: '1px solid var(--accent-350)',
         borderRadius: 'var(--radius-m)',
         '&:hover': {
-          background: 'var(--accent-200)',
+          backgroundColor: 'var(--accent-200)',
           border: '1px solid var(--accent-dark)',
           '& svg, & svg g, & svg g path': {
             fill: 'var(--accent-dark)',
           },
+          '@media (hover: none)': {
+            backgroundColor: 'transparent',
+            border: '1px solid var(--accent-350)',
+            '& svg, & svg g, & svg g path': {
+              fill: 'var(--accent-350)',
+            },
+          },
         },
         '&:active': {
-          background: 'var(--accent-150)',
+          backgroundColor: 'var(--accent-150)',
         },
         '& svg, & svg g, & svg g path': {
           fill: 'var(--accent-350)',
