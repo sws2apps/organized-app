@@ -6,25 +6,26 @@ import { comlink } from 'vite-plugin-comlink';
 import { resolve } from 'path';
 
 export default defineConfig({
-  plugins: [react(), splitVendorChunkPlugin(), comlink(), eslint(), loadVersion()],
-  resolve: {
-    alias: [
-      { find: '@assets', replacement: resolve(__dirname, 'src/v3/assets') },
-      { find: '@components', replacement: resolve(__dirname, 'src/v3/components/index.js') },
-      { find: '@icons', replacement: resolve(__dirname, 'src/v3/components/icons/index.js') },
-    ],
-  },
-  worker: { plugins: [comlink()] },
-  server: {
-    port: 4050,
-    host: true,
-  },
-  preview: {
-    port: 4050,
-  },
-  minifyInternalExports: true,
-  build: {
-    chunkSizeWarningLimit: 2500,
-    target: 'esnext',
-  },
+	baseUrl: './',
+	plugins: [react(), splitVendorChunkPlugin(), comlink(), eslint(), loadVersion()],
+	resolve: {
+		alias: [
+			{ find: '@assets', replacement: resolve(__dirname, 'src/v3/assets') },
+			{ find: '@components', replacement: resolve(__dirname, 'src/v3/components/index.js') },
+			{ find: '@icons', replacement: resolve(__dirname, 'src/v3/components/icons/index.js') },
+		],
+	},
+	worker: { plugins: [comlink()] },
+	server: {
+		port: 4050,
+		host: true,
+	},
+	preview: {
+		port: 4050,
+	},
+	minifyInternalExports: true,
+	build: {
+		chunkSizeWarningLimit: 2500,
+		target: 'esnext',
+	},
 });
