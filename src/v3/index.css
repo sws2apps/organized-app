@@ -1,3 +1,14 @@
+html {
+	font-family: 'Inter', sans-serif;
+	font-feature-settings: "cv05";
+}
+
+@supports (font-variation-settings: normal) {
+	html {
+		font-family: 'Inter var', sans-serif;
+	}
+}
+
 body {
-  background-color: var(--accent-100) !important;
+	background-color: var(--accent-100) !important;
 }

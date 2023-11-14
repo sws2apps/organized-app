@@ -7,5 +7,8 @@
   },
   "prettier.printWidth": 120,
   "prettier.jsxSingleQuote": true,
-  "prettier.singleQuote": true
+  "prettier.singleQuote": true,
+  "[css]": {
+    "editor.defaultFormatter": "vscode.css-language-features"
+  }
 }
