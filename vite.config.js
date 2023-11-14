@@ -6,7 +6,7 @@ import { comlink } from 'vite-plugin-comlink';
 import { resolve } from 'path';
 
 export default defineConfig({
-	baseUrl: './',
+	base: './',
 	plugins: [react(), splitVendorChunkPlugin(), comlink(), eslint(), loadVersion()],
 	resolve: {
 		alias: [
