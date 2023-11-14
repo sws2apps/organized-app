@@ -8,6 +8,7 @@ const CPEFilterChip = ({ label, onClick, selected = false }) => {
       onClick={selected ? null : onClick}
       className={selected ? 'body-small-semibold' : 'body-small-regular'}
       sx={{
+        fontFeatureSettings: '"cv05"',
         padding: '8px 16px',
         color: selected ? 'var(--accent-dark)' : 'var(--accent-400)',
         borderRadius: 'var(--radius-l)',
