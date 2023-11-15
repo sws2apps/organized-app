@@ -37,10 +37,11 @@ for await (const svgFile of svgFiles) {
   svgContent = svgContent.replaceAll('width="24"', `width={width}`);
   svgContent = svgContent.replaceAll('height="24"', `height={height}`);
   svgContent = svgContent.replaceAll('viewBox="0 0 24 24"', 'viewBox={`0 0 ${width} ${height}`}');
-  svgContent = svgContent.replace(/fill=(?!"#D9D9D9"|"none")".*?"(?=\s|\/)/g, 'fill={color}');
+  svgContent = svgContent.replace(/fill=(?!"#D9D9D9"|"none"|"white")".*?"(?=\s|\/)/g, 'fill={color}');
   svgContent = svgContent.replaceAll('style="mask-type:alpha"', 'style={{maskType:"alpha"}}');
   svgContent = svgContent.replaceAll('fill-rule', 'fillRule');
   svgContent = svgContent.replaceAll('clip-rule', 'clipRule');
+  svgContent = svgContent.replaceAll('clip-path', 'clipPath');
   data += svgContent;
 
   data += `);

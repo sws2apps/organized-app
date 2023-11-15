@@ -99,6 +99,8 @@ export { default as IconNext } from './IconNext';
 export { default as IconNoConnection } from './IconNoConnection';
 export { default as IconNoSchedule } from './IconNoSchedule';
 export { default as IconNotifications } from './IconNotifications';
+export { default as IconOffCircle } from './IconOffCircle';
+export { default as IconOnCircle } from './IconOnCircle';
 export { default as IconParticipants } from './IconParticipants';
 export { default as IconParticipate } from './IconParticipate';
 export { default as IconPause } from './IconPause';

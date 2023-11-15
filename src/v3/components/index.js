@@ -5,4 +5,5 @@ export { default as MiniChip } from './MiniChip';
 export { default as MinusButton } from './MinusButton';
 export { default as PlusButton } from './PlusButton';
 export { default as Radio } from './Radio';
+export { default as Switch } from './Switch';
 export { default as Typography } from './Typography';

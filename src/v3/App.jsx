@@ -1,5 +1,15 @@
 import { Box, Container, MenuItem, TextField } from '@mui/material';
-import { Button, Checkbox, FilterChip, MiniChip, MinusButton, PlusButton, Radio, Typography } from '@components';
+import {
+  Button,
+  Checkbox,
+  FilterChip,
+  MiniChip,
+  MinusButton,
+  PlusButton,
+  Radio,
+  Switch,
+  Typography,
+} from '@components';
 import { useState } from 'react';
 import { IconAdd, IconAssign, IconClose, IconReturn, IconUndo, IconUpdate } from '@icons';
 
@@ -278,6 +288,13 @@ const App = () => {
                 <MiniChip label="Ilya" edit={true} onDelete={() => {}} />
                 <MiniChip label="Ilya" />
               </Box>
+            </Box>
+          </Box>
+
+          <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap', marginTop: '10px' }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <Typography variant="label-small-regular">switch</Typography>
+              <Switch checked={checked} onChange={(e) => setChecked(e.target.checked)} />
             </Box>
           </Box>
         </Box>
