@@ -1,3 +1,42 @@
+# [2.104.0](https://github.com/sws2apps/cpe-sws/compare/v2.103.0...v2.104.0) (2023-11-16)
+
+
+### Features
+
+* **deps:** bump @fingerprintjs/fingerprintjs from 4.1.0 to 4.2.0 ([63eded8](https://github.com/sws2apps/cpe-sws/commit/63eded8a4cafad51ce9fe7453bfb66063f343158))
+* **deps:** bump @fingerprintjs/fingerprintjs from 4.2.0 to 4.2.1 ([c3bd538](https://github.com/sws2apps/cpe-sws/commit/c3bd5381599b0d039e912f3e8cc6bb6d0bba71ef))
+* **deps:** bump @mui/icons-material from 5.14.15 to 5.14.16 ([e81b03a](https://github.com/sws2apps/cpe-sws/commit/e81b03a4dac0d03522fedd9364c1a2f8bad73b2e))
+* **deps:** bump @mui/icons-material from 5.14.16 to 5.14.18 ([b53ca1c](https://github.com/sws2apps/cpe-sws/commit/b53ca1ca7a41ffc4705c24a148262df337a4beb2))
+* **deps:** bump @mui/material from 5.14.15 to 5.14.16 ([92bbafa](https://github.com/sws2apps/cpe-sws/commit/92bbafad2242cb4768e2d54b191c6dc6b8a454c4))
+* **deps:** bump @mui/material from 5.14.16 to 5.14.17 ([389de83](https://github.com/sws2apps/cpe-sws/commit/389de832a8adbca8c00c7a120d55031a42cb902e))
+* **deps:** bump @mui/material from 5.14.17 to 5.14.18 ([80b3850](https://github.com/sws2apps/cpe-sws/commit/80b3850412c2f17f63e8e10aede7d694574bf8b5))
+* **deps:** bump @mui/x-date-pickers from 6.16.3 to 6.17.0 ([38419c3](https://github.com/sws2apps/cpe-sws/commit/38419c3ea3064b2801bc47ece4b1813d0af42783))
+* **deps:** bump @mui/x-date-pickers from 6.17.0 to 6.18.0 ([6a1b5ff](https://github.com/sws2apps/cpe-sws/commit/6a1b5ff2fbac76af7ee0f0834afd6c3ba1e8f537))
+* **deps:** bump @mui/x-date-pickers from 6.18.0 to 6.18.1 ([c4d4e92](https://github.com/sws2apps/cpe-sws/commit/c4d4e925f7dabeeacf3dcc643e677c326ef2050f))
+* **deps:** bump @mui/x-tree-view from 6.0.0-beta.0 to 6.17.0 ([dd9634b](https://github.com/sws2apps/cpe-sws/commit/dd9634b10d9f0ff87ebd1cd3ef569e57a2f6033b))
+* **deps:** bump @react-pdf/renderer from 3.1.13 to 3.1.14 ([c43ba68](https://github.com/sws2apps/cpe-sws/commit/c43ba6867ffff940494644e32ff000cc3cd06d33))
+* **deps:** bump @tanstack/react-query from 5.0.5 to 5.4.3 ([bcf0c0e](https://github.com/sws2apps/cpe-sws/commit/bcf0c0e74f2e6cdebb7212cd7f209f24fbe3d1ed))
+* **deps:** bump @tanstack/react-query from 5.4.3 to 5.7.2 ([1ff9ccf](https://github.com/sws2apps/cpe-sws/commit/1ff9ccf3ceb8cca61c0d2bc0c1a6f1c1faaba398))
+* **deps:** bump @tanstack/react-query from 5.7.2 to 5.8.1 ([2145f25](https://github.com/sws2apps/cpe-sws/commit/2145f25816fda74a701ae6a7f856006dde7ee0b9))
+* **deps:** bump @tanstack/react-query from 5.8.1 to 5.8.3 ([59dfe4f](https://github.com/sws2apps/cpe-sws/commit/59dfe4f71b6f33eddef08b1df877707b3c6f6e20))
+* **deps:** bump @tanstack/react-query from 5.8.3 to 5.8.4 ([da1a93f](https://github.com/sws2apps/cpe-sws/commit/da1a93fa9e42d1e30f3723413a62cdd724982bc2))
+* **deps:** bump crypto-js from 4.1.1 to 4.2.0 ([aadf65a](https://github.com/sws2apps/cpe-sws/commit/aadf65ae73a5ce5eda5504f9f6720b0d8de9722b))
+* **deps:** bump firebase from 10.5.0 to 10.5.1 ([f8d40b3](https://github.com/sws2apps/cpe-sws/commit/f8d40b3c4cbdfb70629af458a7f98601b6577263))
+* **deps:** bump firebase from 10.5.1 to 10.5.2 ([2a7b1a9](https://github.com/sws2apps/cpe-sws/commit/2a7b1a9567bfdb644a8bd32a5ff982910fba94b8))
+* **deps:** bump firebase from 10.5.2 to 10.6.0 ([fa0e3a1](https://github.com/sws2apps/cpe-sws/commit/fa0e3a16f402320fbb71fa45dc612b00bcfd262b))
+* **deps:** bump i18next from 23.6.0 to 23.7.2 ([9934f56](https://github.com/sws2apps/cpe-sws/commit/9934f5612583380d6608eaf4366f9b5de63598b0))
+* **deps:** bump i18next from 23.7.2 to 23.7.6 ([a397291](https://github.com/sws2apps/cpe-sws/commit/a3972914258754b879d9824bbc75c274dfc37788))
+* **deps:** bump jw-epub-parser from 3.3.0 to 3.4.0 ([467a3a9](https://github.com/sws2apps/cpe-sws/commit/467a3a982f7bafc5448ffdbc2d4bfc7c0d4eb681))
+* **deps:** bump jw-epub-parser from 3.4.0 to 3.5.0 ([9a628b1](https://github.com/sws2apps/cpe-sws/commit/9a628b10caf003fa8c1479a34c17fc4baf7ab582))
+* **deps:** bump jw-epub-parser from 3.4.0 to 3.6.0 ([c25a878](https://github.com/sws2apps/cpe-sws/commit/c25a87827d2ce2760ee8ff386a3a4b330b6a5615))
+* **deps:** bump jw-epub-parser from 3.5.0 to 3.6.0 ([db5a199](https://github.com/sws2apps/cpe-sws/commit/db5a1995de481e5505670714298cbf424b6f4d3a))
+* **deps:** bump react-i18next from 13.3.1 to 13.4.0 ([dd22649](https://github.com/sws2apps/cpe-sws/commit/dd22649d02923a413a3562b79c5f8f6370483fe1))
+* **deps:** bump react-i18next from 13.4.0 to 13.4.1 ([eb89c01](https://github.com/sws2apps/cpe-sws/commit/eb89c01d4c592140feeab7151b78c7f86e05549d))
+* **deps:** bump react-i18next from 13.4.1 to 13.5.0 ([9fd6a42](https://github.com/sws2apps/cpe-sws/commit/9fd6a429d607d9414272a31d69c5d005db18afb9))
+* **deps:** bump react-router-dom from 6.17.0 to 6.18.0 ([4ee304f](https://github.com/sws2apps/cpe-sws/commit/4ee304f8c4497277c9c08c5ce3e516817937428e))
+* **deps:** freeze jw-epub-parser to 3.4.0 ([34a812b](https://github.com/sws2apps/cpe-sws/commit/34a812b1cc5c00f843dcd1602e9a358fcb9e29ec))
+* **localize:** updated translation from Crowdin ([dc00d63](https://github.com/sws2apps/cpe-sws/commit/dc00d6366f6b870905d4ce6ec20360035bcd13a5))
+
 # [2.103.0](https://github.com/sws2apps/cpe-sws/compare/v2.102.0...v2.103.0) (2023-10-25)
 
 

@@ -15,7 +15,7 @@
   "auxClass1": "Додатковий клас 1",
   "auxClass2": "Додатковий клас 2",
   "otherPart": "Інше",
-  "midweekMeetingPrint": "Розклад зібрань серед тижня",
+  "midweekMeetingPrint": "Розклад зібрань S-140",
   "chairmanMidweekMeeting": "Ведучий",
   "chairmanWeekendMeeting": "Ведучий",
   "noMMeeting": "Цього тижня немає зібрання серед тижня",
@@ -33,7 +33,7 @@
   "student": "Учень",
   "partLessTime": "{{ duration }} хв або менше",
   "studentAssistant": "Учень/Партнер:",
-  "cbs": "Вивчення Біблії в зборі",
+  "cbs": "Вивчення Біблії у зборі",
   "cbsConductor": "Ведучий",
   "cbsReader": "Читець",
   "concludingComments": "Повторення і анонс наступного зібрання",
@@ -67,6 +67,6 @@
   "openingPrayerWeekendMeeting": "Всупна молитва",
   "noWMeeting": "Цього тижня немає зібрання серед тижня",
   "noMeeting": "Цього тижня немає зібрання серед тижня",
-  "longDateFormat": "{{ month }} {{ date }}, {{ year }}",
+  "longDateFormat": "{{ date }} {{ month }} {{ year }}",
   "substituteSpeaker": "Запасний промовець"
 }
