@@ -164,6 +164,7 @@ export { default as IconSync } from './IconSync';
 export { default as IconSynced } from './IconSynced';
 export { default as IconTalk } from './IconTalk';
 export { default as IconTimeChange } from './IconTimeChange';
+export { default as IconToggle } from './IconToggle';
 export { default as IconUndo } from './IconUndo';
 export { default as IconUnpublish } from './IconUnpublish';
 export { default as IconUpdate } from './IconUpdate';

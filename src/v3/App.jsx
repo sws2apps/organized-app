@@ -8,6 +8,7 @@ import {
   PlusButton,
   Radio,
   Switch,
+  ThemeSwitch,
   Typography,
 } from '@components';
 import { useState } from 'react';
@@ -295,6 +296,11 @@ const App = () => {
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               <Typography variant="label-small-regular">switch</Typography>
               <Switch checked={checked} onChange={(e) => setChecked(e.target.checked)} />
+            </Box>
+
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <Typography variant="label-small-regular">dark-theme-animated-switch</Typography>
+              <ThemeSwitch checked={checked} onChange={(e) => setChecked(e.target.checked)} />
             </Box>
           </Box>
         </Box>
