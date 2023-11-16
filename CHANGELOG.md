@@ -1,3 +1,49 @@
+# [2.103.0](https://github.com/sws2apps/cpe-sws/compare/v2.102.0...v2.103.0) (2023-10-25)
+
+
+### Features
+
+* **deps:** bump @mui/icons-material from 5.14.14 to 5.14.15 ([fbadd3d](https://github.com/sws2apps/cpe-sws/commit/fbadd3d60ccf51e18a659c5b300b5d17dca8296d))
+* **deps:** bump @mui/material from 5.14.14 to 5.14.15 ([2593dd7](https://github.com/sws2apps/cpe-sws/commit/2593dd7b01a01c254106ef9b4a073144401cf088))
+* **deps:** bump @tanstack/react-query from 4.36.1 to 5.0.0 ([b6a5567](https://github.com/sws2apps/cpe-sws/commit/b6a5567a951cd70833311cee142482d69aa3ccfc))
+* **deps:** bump @tanstack/react-query from 5.0.0 to 5.0.5 ([a7756d4](https://github.com/sws2apps/cpe-sws/commit/a7756d4615cbf8e97593d4830c9d59403d964c34))
+* **deps:** bump jw-epub-parser from 3.2.0 to 3.3.0 ([715a773](https://github.com/sws2apps/cpe-sws/commit/715a773b12a798ace3b4bfb43a925b741fa39361))
+
+# [2.102.0](https://github.com/sws2apps/cpe-sws/compare/v2.101.0...v2.102.0) (2023-10-22)
+
+
+### Bug Fixes
+
+* **api:** update route for sharing speakers list ([a2df568](https://github.com/sws2apps/cpe-sws/commit/a2df568cd57e8f17071a333599a002f9b445a7ac))
+
+
+### Features
+
+* **deps:** bump @babel/traverse from 7.23.0 to 7.23.2 ([c187123](https://github.com/sws2apps/cpe-sws/commit/c18712326e156faff96866ebe658c01835f72bd4))
+* **deps:** bump @mui/icons-material from 5.14.13 to 5.14.14 ([1c74adc](https://github.com/sws2apps/cpe-sws/commit/1c74adce61c5c59c613d1d7fbb948655f98758ca))
+* **deps:** bump @mui/material from 5.14.13 to 5.14.14 ([e187d60](https://github.com/sws2apps/cpe-sws/commit/e187d604086de63e13c16a5249ebb8f237cb3390))
+* **deps:** bump @mui/x-date-pickers from 6.16.2 to 6.16.3 ([6a96c12](https://github.com/sws2apps/cpe-sws/commit/6a96c126aec6f05b1f309d3a5dea9fab656bdcff))
+* **deps:** bump @sws2apps/react-sw-helper from 1.18.0 to 1.19.0 ([49f50fe](https://github.com/sws2apps/cpe-sws/commit/49f50fe107325611fbd05b4d53f84e844110bf7e))
+* **deps:** bump i18next from 23.5.1 to 23.6.0 ([eef683f](https://github.com/sws2apps/cpe-sws/commit/eef683f97fd9221b59d83f35e2fd9602190d1be4))
+* **deps:** bump jw-epub-parser from 3.1.0 to 3.2.0 ([fb5495a](https://github.com/sws2apps/cpe-sws/commit/fb5495a90a7e44ed6c2d556e4b29ad9e09f05444))
+* **deps:** bump mui-one-time-password-input from 2.0.0 to 2.0.1 ([b78d56d](https://github.com/sws2apps/cpe-sws/commit/b78d56d0f7e2744ff0d4203a522214eedb146eea))
+* **deps:** bump react-i18next from 13.3.0 to 13.3.1 ([7f8c5d2](https://github.com/sws2apps/cpe-sws/commit/7f8c5d2168506efd255ed108f09e79dd8ca7f776))
+* **deps:** bump react-router-dom from 6.16.0 to 6.17.0 ([3287d81](https://github.com/sws2apps/cpe-sws/commit/3287d810ec50d506ca8e0e0ed26822111fb76367))
+* **deps:** bump vite from 4.4.11 to 4.5.0 ([def0157](https://github.com/sws2apps/cpe-sws/commit/def0157ce16b7e5baecdf3eb6a54544ea917a941))
+
+# [2.101.0](https://github.com/sws2apps/cpe-sws/compare/v2.100.0...v2.101.0) (2023-10-14)
+
+
+### Features
+
+* **deps:** bump @mui/icons-material from 5.14.12 to 5.14.13 ([cc81fde](https://github.com/sws2apps/cpe-sws/commit/cc81fde519aaafa22d6f155a36ccec3f1c1e7802))
+* **deps:** bump @mui/material from 5.14.12 to 5.14.13 ([7dacd8f](https://github.com/sws2apps/cpe-sws/commit/7dacd8f30f91a1d5f23f343f54b52327925f1ef7))
+* **deps:** bump @mui/x-date-pickers from 6.16.1 to 6.16.2 ([13c4320](https://github.com/sws2apps/cpe-sws/commit/13c43202d4525ae0bada95476d845b48a36278c2))
+* **deps:** bump @react-pdf/renderer from 3.1.12 to 3.1.13 ([9d67233](https://github.com/sws2apps/cpe-sws/commit/9d6723397ff2f6f456578015044b6f068ec44d5e))
+* **deps:** bump firebase from 10.4.0 to 10.5.0 ([524a109](https://github.com/sws2apps/cpe-sws/commit/524a1098e1dc403ef8dc179f0ae2e4af6979d54d))
+* **deps:** bump jw-epub-parser from 3.0.1 to 3.1.0 ([5bf662a](https://github.com/sws2apps/cpe-sws/commit/5bf662ab05443c0b640776afcf5e3db5f2f0a647))
+* **deps:** bump react-i18next from 13.2.2 to 13.3.0 ([df754b2](https://github.com/sws2apps/cpe-sws/commit/df754b29481c0f53e940ecc4528008e8a0b90c4d))
+
 # [2.100.0](https://github.com/sws2apps/cpe-sws/compare/v2.99.0...v2.100.0) (2023-10-10)
 
 

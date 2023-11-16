@@ -16,13 +16,13 @@ jobs:
 
     steps:
       - name: Checkout for testing
-        uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
         with:
           ref: main
           persist-credentials: false
 
       - name: Use Node.js LTS version
-        uses: actions/setup-node@5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d
+        uses: actions/setup-node@8f152de45cc393bb48ce5d89d36b731f54556e65
         with:
           node-version: lts/Hydrogen
 
@@ -30,7 +30,7 @@ jobs:
         run: npm ci
 
       - name: Cypress run component testing
-        uses: cypress-io/github-action@59810ebfa5a5ac6fcfdcfdf036d1cd4d083a88f2
+        uses: cypress-io/github-action@ebe8b24c4428922d0f793a5c4c96853a633180e3
         with:
           command-prefix: "--"
           install: false
