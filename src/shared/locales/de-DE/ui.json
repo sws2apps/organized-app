@@ -377,7 +377,7 @@
   "addCPEUser": "Neuen CPE Benutzer hinzufügen",
   "cpeUserFound": "Klicken Sie nun auf Erstellen. Dann bearbeiten Sie die Rollen und Privilegien dieses Benutzers.",
   "selectPocketRecord": "Wählen Sie den Persondatensatz aus der Liste:",
-  "description": "This web application is designed for use by Jehovah’s Witnesses. CPE can be used to create the midweek and weekend meeting schedules. It can be used also to manage your personal field service activities and the congregation field service reports. To learn more about all CPE features, visit <a class='hardcoded_link' href='https://sws2apps.com/docs/category/congregation-program-for-everyone' title='CPE' target='_blank'>https://sws2apps.com</a>.",
+  "description": "Diese Webanwendung ist für die Nutzung von Jehovas Zeugen gedacht. CPE kann verwendet werden, um die Zusammenkunft unter der Woche und am Wochenende schnell und einfach zu planen. Du kannst damit auch deinen persönlichen Predigtdienst und die Berichte der Versammlung verwalten. Um mehr über alle Funktionen von CPE zu erfahren, besuchen Sie <a class='hardcoded_link' href='https://sws2apps.com/docs/category/congregation-program-for-everyone' title='CPE' target='_blank'>https://sws2apps.com</a>.",
   "persons": "Personen",
   "personAdd": "Person hinzufügen",
   "viewMyAssignments": "Meine Aufgaben",
