@@ -1,6 +1,6 @@
 import { getI18n } from 'react-i18next';
 import appDb from '../../shared/indexedDb/mainDb';
-import { LANGUAGE_LIST } from '../locales/langList.js';
+import { LANGUAGE_LIST } from '../../shared/locales/langList.js';
 import { loadApp } from './app';
 import { Setting } from '../classes/Setting';
 import { Persons } from '../classes/Persons';
