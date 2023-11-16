@@ -12,3 +12,51 @@ html {
 body {
 	background-color: var(--accent-100) !important;
 }
+
+@keyframes fade-out-top {
+	from {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	to {
+		opacity: 0;
+		transform: translateY(-100%);
+	}
+}
+
+@keyframes fade-in-top {
+	from {
+		opacity: 0;
+		transform: translateY(-100%);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes fade-out-bottom {
+	from {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	to {
+		opacity: 0;
+		transform: translateY(100%);
+	}
+}
+
+@keyframes fade-in-bottom {
+	from {
+		opacity: 0;
+		transform: translateY(100%);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}

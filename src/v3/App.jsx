@@ -11,34 +11,37 @@ import {
   ThemeSwitch,
   Typography,
 } from '@components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IconAdd, IconAssign, IconClose, IconReturn, IconUndo, IconUpdate } from '@icons';
 
-const themes = [
-  'blue-light',
-  'blue-dark',
-  'green-light',
-  'green-dark',
-  'orange-light',
-  'orange-dark',
-  'purple-light',
-  'purple-dark',
-];
+const themes = ['blue', 'green', 'orange', 'purple'];
 
 const App = () => {
-  const [currentTheme, setCurrentTheme] = useState('blue-light');
+  const [currentTheme, setCurrentTheme] = useState('blue');
   const [checked, setChecked] = useState(false);
   const [filterEnabled, setFilterEnabled] = useState(true);
+  const [isDark, setIsDark] = useState(false);
 
   const handleChange = (e) => {
-    const current = e.target.value;
-    setCurrentTheme(current);
+    setCurrentTheme(e.target.value);
+  };
+
+  useEffect(() => {
+    let current = currentTheme;
+
+    if (isDark) {
+      current = `${current}-dark`;
+    }
+
+    if (!isDark) {
+      current = `${current}-light`;
+    }
 
     document.documentElement.setAttribute('data-theme', current);
 
     const themeColor = getComputedStyle(document.documentElement).getPropertyValue('--accent-100');
     document.querySelector("meta[name='theme-color']").setAttribute('content', themeColor);
-  };
+  }, [currentTheme, isDark]);
 
   return (
     <Container sx={{ margin: '20px 0' }}>
@@ -50,6 +53,9 @@ const App = () => {
           zIndex: 999,
           width: '100%',
           padding: '20px 0',
+          display: 'flex',
+          gap: '20px',
+          flexWrap: 'wrap',
         }}
         className="big-card-shadow"
       >
@@ -60,6 +66,7 @@ const App = () => {
           value={currentTheme}
           onChange={handleChange}
           sx={{
+            width: '120px',
             '.MuiOutlinedInput-root': {
               borderRadius: 'var(--radius-l)',
               paddingRight: '8px',
@@ -94,6 +101,11 @@ const App = () => {
             </MenuItem>
           ))}
         </TextField>
+
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <Typography variant="label-small-regular">dark-theme-animated-switch</Typography>
+          <ThemeSwitch checked={isDark} onChange={(value) => setIsDark(value)} />
+        </Box>
       </Box>
 
       <Box sx={{ marginTop: '120px' }}>
@@ -296,11 +308,6 @@ const App = () => {
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               <Typography variant="label-small-regular">switch</Typography>
               <Switch checked={checked} onChange={(e) => setChecked(e.target.checked)} />
-            </Box>
-
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <Typography variant="label-small-regular">dark-theme-animated-switch</Typography>
-              <ThemeSwitch checked={checked} onChange={(e) => setChecked(e.target.checked)} />
             </Box>
           </Box>
         </Box>
