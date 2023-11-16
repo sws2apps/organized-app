@@ -2,5 +2,5 @@
 "pull_request_labels": ["crowdin"]
 
 files:
-  - source: /src/locales/en/*.json
-    translation: /src/locales/%locale%/%original_file_name%
+  - source: /src/current/locales/en/*.json
+    translation: /src/current/locales/%locale%/%original_file_name%
