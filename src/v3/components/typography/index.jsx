@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import { Typography } from '@mui/material';
 
-const CPETypography = ({ variant, margin = '0px', children }) => {
+const CPETypography = ({ variant, margin = '0px', children, color = 'var(--accent-400)' }) => {
   return (
-    <Typography className={variant} sx={{ color: 'var(--accent-400)', margin: margin }}>
+    <Typography className={variant} sx={{ color: color, margin: margin }}>
       {children}
     </Typography>
   );
@@ -27,6 +27,7 @@ CPETypography.propTypes = {
     'body-small-regular',
   ]),
   margin: PropTypes.string,
+  color: PropTypes.string,
 };
 
 export default CPETypography;

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { Box, Switch } from '@mui/material';
 import { IconNight, IconSun, IconToggle } from '@icons';
 
-const CPEThemeSwitch = ({ checked, onChange }) => {
+const CPEThemeSwitch = ({ checked, onChange = () => {} }) => {
   return (
     <Box
       sx={{
@@ -64,6 +64,7 @@ const CPEThemeSwitch = ({ checked, onChange }) => {
           },
         }}
       />
+
       <Box
         sx={{
           position: 'absolute',

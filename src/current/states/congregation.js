@@ -1,6 +1,8 @@
 import { atom, selector } from 'recoil';
 import { VisitingSpeakers } from '../classes/VisitingSpeakers';
 
+console.log('hrere');
+
 export const congNameState = atom({
   key: 'congName',
   default: '',

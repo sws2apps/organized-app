@@ -4,7 +4,18 @@
     "paths": {
       "@assets/*": ["v3/assets/*"],
       "@components": ["v3/components/index.js"],
-      "@icons": ["v3/components/icons/index.js"]
+      "@icons": ["v3/components/icons/index.js"],
+      "@constants/*": ["v3/constants/*"],
+      "@features/*": ["v3/features/*"],
+      "@hooks/*": ["v3/hooks/*"],
+      "@layouts/*": ["v3/layouts/*"],
+      "@pages/*": ["v3/pages/*"],
+      "@routes/*": ["v3/routes/*"],
+      "@services/*": ["v3/services/*"],
+      "@states/*": ["v3/states/*"],
+      "@utils/*": ["v3/utils/*"],
+      "@wrapper/*": ["v3/wrapper/*"],
+      "@locales/*": ["shared/locales/*"]
     }
   },
   "exclude": ["node_modules"]

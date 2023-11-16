@@ -13,6 +13,16 @@ body {
 	background-color: var(--accent-100) !important;
 }
 
+.browser-not-supported {
+	color: var(--red-main);
+	font-weight: bold;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	padding: 50px;
+}
+
 @keyframes fade-out-top {
 	from {
 		opacity: 1;
