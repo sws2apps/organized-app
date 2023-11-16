@@ -67,6 +67,6 @@
   "openingPrayerWeekendMeeting": "Всупна молитва",
   "noWMeeting": "Цього тижня немає зібрання серед тижня",
   "noMeeting": "Цього тижня немає зібрання серед тижня",
-  "longDateFormat": "{{ month }} {{ date }}, {{ year }}",
+  "longDateFormat": "{{ date }} {{ month }} {{ year }}",
   "substituteSpeaker": "Запасний промовець"
 }
