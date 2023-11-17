@@ -3,12 +3,13 @@ import { Outlet } from 'react-router-dom';
 import { NavBar } from '@layouts';
 import { AppModalWrapper } from '@wrapper/index';
 import { Container } from '@mui/material';
+import { AppUpdater } from '@features/index';
 
 const RootLayout = ({ updatePwa }) => {
-  console.log(updatePwa);
   return (
     <AppModalWrapper>
       <NavBar />
+      <AppUpdater updatePwa={updatePwa} />
 
       <Container
         maxWidth={false}

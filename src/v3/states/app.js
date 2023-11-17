@@ -150,11 +150,6 @@ export const isUnauthorizedRoleState = atom({
   default: false,
 });
 
-export const isPrecachedState = atom({
-  key: 'isPrecached',
-  default: false,
-});
-
 export const showReloadState = atom({
   key: 'showReload',
   default: false,

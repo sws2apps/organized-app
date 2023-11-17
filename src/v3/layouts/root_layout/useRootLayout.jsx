@@ -15,7 +15,7 @@ import { isImportEPUBState, isImportJWOrgState } from '@states/sources';
 import logger from '@services/logger';
 
 const useRootLayout = () => {
-  const { enabledInstall, installPwa, isLoading } = usePwa2();
+  const { installPwa, isLoading } = usePwa2();
 
   const [searchParams] = useSearchParams();
 
@@ -43,7 +43,6 @@ const useRootLayout = () => {
   }, [autoLoginStatus]);
 
   return {
-    enabledInstall,
     installPwa,
     isLoading,
     isAppLoad,

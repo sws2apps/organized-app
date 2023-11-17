@@ -21,7 +21,6 @@ import {
   rootModalOpenState,
   userIDState,
   visitorIDState,
-  isPrecachedState,
   secretTokenPathState,
   qrCodePathState,
   isEmailLinkAuthenticateState,
@@ -44,7 +43,6 @@ import {
 } from '@states/app';
 
 export const handleSWOnInstalled = async () => {
-  await promiseSetRecoil(isPrecachedState, true);
   logger.info('service-worker', 'the service worker was installed and ready for use');
 };
 
@@ -73,10 +71,6 @@ export const setVisitorID = async (value) => {
 
 export const setIsOnline = async (value) => {
   await promiseSetRecoil(isOnlineState, value);
-};
-
-export const setIsPrecached = async () => {
-  await promiseSetRecoil(isPrecachedState, false);
 };
 
 export const setIsAccountChoose = async (value) => {

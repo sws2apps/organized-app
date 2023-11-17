@@ -47,7 +47,7 @@ const ComponentPreview = () => {
           zIndex: 999,
           maxWidth: '1440px',
           width: '100%',
-          padding: '20px 0',
+          padding: '20px',
           display: 'flex',
           gap: '20px',
           flexWrap: 'wrap',

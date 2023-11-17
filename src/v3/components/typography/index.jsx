@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import { Typography } from '@mui/material';
 
-const CPETypography = ({ variant, margin = '0px', children, color = 'var(--accent-400)' }) => {
+const CPETypography = ({ variant, children, color = 'var(--accent-400)', sx = {} }) => {
   return (
-    <Typography className={variant} sx={{ color: color, margin: margin }}>
+    <Typography className={variant} sx={{ color: color, ...sx }}>
       {children}
     </Typography>
   );
@@ -11,6 +11,7 @@ const CPETypography = ({ variant, margin = '0px', children, color = 'var(--accen
 
 CPETypography.propTypes = {
   children: PropTypes.node,
+  sx: PropTypes.object,
   variant: PropTypes.oneOf([
     'huge-numbers',
     'big-numbers',
@@ -26,7 +27,6 @@ CPETypography.propTypes = {
     'body-small-semibold',
     'body-small-regular',
   ]),
-  margin: PropTypes.string,
   color: PropTypes.string,
 };
 

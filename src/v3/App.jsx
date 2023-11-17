@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { Suspense } from 'react';
 import { CssBaseline } from '@mui/material';
 import { RouterProvider, createHashRouter } from 'react-router-dom';
@@ -9,7 +10,7 @@ import createCache from '@emotion/cache';
 import { ErrorBoundary, WaitingCircular } from '@components';
 import { useGlobal } from '@hooks';
 import { RootLayout } from '@layouts';
-// import ComponentPreview from './ComponentsPreview';
+import ComponentPreview from './ComponentsPreview';
 
 const cache = createCache({
   key: 'css',
@@ -35,14 +36,14 @@ const theme = createTheme({
 
 const queryClient = new QueryClient();
 
-const App = () => {
+const App = ({ updatePwa }) => {
   const { isSupported } = useGlobal();
 
   const router = createHashRouter([
     {
-      element: <RootLayout />,
+      element: <RootLayout updatePwa={updatePwa} />,
       errorElement: <ErrorBoundary />,
-      children: [{ path: '*', element: <ErrorBoundary /> }],
+      children: [{ path: '*', element: <ComponentPreview /> }],
     },
   ]);
 
@@ -69,6 +70,10 @@ const App = () => {
       )}
     </>
   );
+};
+
+App.propTypes = {
+  updatePwa: PropTypes.func,
 };
 
 export default App;
