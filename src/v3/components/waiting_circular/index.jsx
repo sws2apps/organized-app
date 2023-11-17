@@ -3,10 +3,10 @@ import { CircularProgress } from '@mui/material';
 const WaitingCircular = () => {
   return (
     <CircularProgress
-      color="primary"
       size={80}
       disableShrink={true}
       sx={{
+        color: 'var(--accent-dark)',
         position: 'absolute',
         top: 0,
         left: 0,

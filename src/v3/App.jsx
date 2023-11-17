@@ -6,10 +6,10 @@ import { ThemeProvider } from '@mui/material/styles';
 import createTheme from '@mui/material/styles/createTheme';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
-import { WaitingCircular } from '@components';
+import { ErrorBoundary, WaitingCircular } from '@components';
 import { useGlobal } from '@hooks';
 import { RootLayout } from '@layouts';
-import ComponentPreview from './ComponentsPreview';
+// import ComponentPreview from './ComponentsPreview';
 
 const cache = createCache({
   key: 'css',
@@ -41,7 +41,8 @@ const App = () => {
   const router = createHashRouter([
     {
       element: <RootLayout />,
-      children: [{ path: '*', element: <ComponentPreview /> }],
+      errorElement: <ErrorBoundary />,
+      children: [{ path: '*', element: <ErrorBoundary /> }],
     },
   ]);
 
