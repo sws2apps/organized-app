@@ -7,6 +7,7 @@ import App from './App';
 import './inter.css';
 import './global.css';
 import './index.css';
+import 'animate.css';
 import { handleSWOnInstalled, handleSWOnUpdated } from '@services/recoil/app';
 import { initializeFirebaseApp } from '@services/firebase/index.js';
 import i18n from '@services/i18n/index.js';

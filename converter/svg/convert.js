@@ -24,19 +24,21 @@ for await (const svgFile of svgFiles) {
   componentName = `Icon${componentName}`;
 
   let data = `import PropTypes from 'prop-types';
+  import { SvgIcon } from '@mui/material';
 
   const ${componentName} = ({ color = '#222222', width = 24, height = 24 }) => {
     width = width.toString();
     height = height.toString();
   
-    return (`;
+    return (
+      <SvgIcon sx={{ width: widthPx, height: heightPx }}>`;
+
+  data = data.replace('widthPx', '`${width}px`');
+  data = data.replace('heightPx', '`${height}px`');
 
   const filePath = path.join(ROOT_FOLDER, svgFile);
   let svgContent = await fs.readFile(filePath, 'utf-8');
 
-  svgContent = svgContent.replaceAll('width="24"', `width={width}`);
-  svgContent = svgContent.replaceAll('height="24"', `height={height}`);
-  svgContent = svgContent.replaceAll('viewBox="0 0 24 24"', 'viewBox={`0 0 ${width} ${height}`}');
   svgContent = svgContent.replace(/fill=(?!"#D9D9D9"|"none"|"white")".*?"(?=\s|\/)/g, 'fill={color}');
   svgContent = svgContent.replaceAll('style="mask-type:alpha"', 'style={{maskType:"alpha"}}');
   svgContent = svgContent.replaceAll('fill-rule', 'fillRule');
@@ -44,7 +46,8 @@ for await (const svgFile of svgFiles) {
   svgContent = svgContent.replaceAll('clip-path', 'clipPath');
   data += svgContent;
 
-  data += `);
+  data += `
+  </SvgIcon>);
   };
   
   

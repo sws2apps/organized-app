@@ -3,9 +3,12 @@ import { Outlet } from 'react-router-dom';
 import { NavBar } from '@layouts';
 import { AppModalWrapper } from '@wrapper/index';
 import { Container } from '@mui/material';
-import { AppUpdater } from '@features/index';
+import { AppUpdater, Startup } from '@features/index';
+import useRootLayout from './useRootLayout';
 
 const RootLayout = ({ updatePwa }) => {
+  const { isAppLoad, isEmailAuth } = useRootLayout();
+
   return (
     <AppModalWrapper>
       <NavBar />
@@ -16,9 +19,12 @@ const RootLayout = ({ updatePwa }) => {
         sx={{
           maxWidth: '1440px',
           padding: { mobile: '16px', tablet: '24px' },
+          marginTop: '50px',
         }}
       >
-        <Outlet />
+        {isAppLoad && !isEmailAuth && <Startup />}
+
+        {!isAppLoad && <Outlet />}
       </Container>
     </AppModalWrapper>
   );

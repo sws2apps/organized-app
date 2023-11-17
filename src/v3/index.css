@@ -13,6 +13,12 @@ body {
 	background-color: var(--accent-100) !important;
 }
 
+#root {
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+}
+
 .browser-not-supported {
 	color: var(--red-main);
 	font-weight: bold;
@@ -69,4 +75,38 @@ body {
 		opacity: 1;
 		transform: translateY(0);
 	}
+}
+
+@keyframes fade-in-right {
+	from {
+		opacity: 0;
+		transform: translateX(100%);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+@keyframes fade-out-left {
+	from {
+		opacity: 1;
+		transform: translateX(0);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateX(-120%);
+	}
+}
+
+.illustration-active {
+	display: flex;
+	animation: fade-in-right 0.5s ease-in-out forwards;
+}
+
+.illustration-inactive {
+	display: flex;
+	animation: fade-out-left 1s ease-in-out forwards;
 }

@@ -56,3 +56,5 @@ export const generateDisplayName = (name) => {
     return varDisplay;
   }
 };
+
+export const createArray = (n) => Array.from({ length: n }, (a, b) => b + 1);

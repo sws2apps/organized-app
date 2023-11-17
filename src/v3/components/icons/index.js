@@ -56,6 +56,7 @@ export { default as IconDragHandle } from './IconDragHandle';
 export { default as IconDutiesDistribution } from './IconDutiesDistribution';
 export { default as IconDuties } from './IconDuties';
 export { default as IconEdit } from './IconEdit';
+export { default as IconEllipse } from './IconEllipse';
 export { default as IconEncryption } from './IconEncryption';
 export { default as IconError } from './IconError';
 export { default as IconExpand } from './IconExpand';
