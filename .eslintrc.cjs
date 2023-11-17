@@ -35,6 +35,7 @@ module.exports = {
           ['@utils', './src/v3/utils'],
           ['@wrapper', './src/v3/wrapper'],
           ['@locales', './src/shared/locales'],
+          ['@shared', './src/shared'],
         ],
       },
     },

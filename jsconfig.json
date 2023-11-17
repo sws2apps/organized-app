@@ -15,7 +15,8 @@
       "@states/*": ["v3/states/*"],
       "@utils/*": ["v3/utils/*"],
       "@wrapper/*": ["v3/wrapper/*"],
-      "@locales/*": ["shared/locales/*"]
+      "@locales/*": ["shared/locales/*"],
+      "@shared/*": ["shared/*"]
     }
   },
   "exclude": ["node_modules"]

@@ -23,6 +23,7 @@ export default defineConfig({
       { find: '@utils', replacement: resolve(__dirname, 'src/v3/utils') },
       { find: '@wrapper', replacement: resolve(__dirname, 'src/v3/wrapper') },
       { find: '@locales', replacement: resolve(__dirname, 'src/shared/locales') },
+      { find: '@shared', replacement: resolve(__dirname, 'src/shared') },
     ],
   },
   worker: { plugins: [comlink()] },

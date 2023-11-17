@@ -37,20 +37,16 @@ const ComponentPreview = () => {
   }, [currentTheme]);
 
   return (
-    <Container
-      maxWidth={false}
-      sx={{
-        maxWidth: '1440px',
-      }}
-    >
+    <Box>
       <Container
         maxWidth={false}
         sx={{
-          position: 'fixed',
+          position: 'sticky',
           top: 56,
           backgroundColor: 'var(--accent-100)',
           zIndex: 999,
           maxWidth: '1440px',
+          width: '100%',
           padding: '20px 0',
           display: 'flex',
           gap: '20px',
@@ -102,7 +98,7 @@ const ComponentPreview = () => {
         </TextField>
       </Container>
 
-      <Box sx={{ marginTop: '190px' }}>
+      <Box sx={{ marginTop: '60px' }}>
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '25px', margin: '20px 0px' }}>
           <Box>
             <Typography variant="label-small-regular">variant huge-numbers</Typography>
@@ -306,7 +302,7 @@ const ComponentPreview = () => {
           </Box>
         </Box>
       </Box>
-    </Container>
+    </Box>
   );
 };
 

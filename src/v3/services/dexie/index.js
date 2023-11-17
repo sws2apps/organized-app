@@ -1,1 +1,1 @@
-export { default as appDb } from './db';
+export { default as appDb } from '@shared/indexedDb/mainDb';
