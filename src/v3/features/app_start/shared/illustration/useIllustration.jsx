@@ -15,11 +15,6 @@ const useIllustration = () => {
 
   const dotSize = laptopUp ? { active: 16, inactive: 12 } : { active: 12, inactive: 8 };
 
-  const handleClickDot = (newIndex) => {
-    setPrevIndex(index);
-    setIndex(newIndex);
-  };
-
   useEffect(() => {
     sliderRef.current = setInterval(() => {
       setIndex((prev) => {
@@ -63,7 +58,7 @@ const useIllustration = () => {
     }, 1000);
   }, [index, prevIndex]);
 
-  return { index, dotSize, handleClickDot };
+  return { index, dotSize };
 };
 
 export default useIllustration;
