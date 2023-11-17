@@ -46,10 +46,16 @@ const ErrorBoundary = () => {
             flexDirection: { mobile: 'column-reverse', tablet: 'row' },
           }}
         >
-          <Button variant="secondary" color="red" onClick={handleDelete} startIcon={<IconRestart />}>
+          <Button
+            variant="secondary"
+            color="red"
+            className="button-caps"
+            onClick={handleDelete}
+            startIcon={<IconRestart />}
+          >
             {t('restart')}
           </Button>
-          <Button variant="main" onClick={handleReload} startIcon={<IconRefresh />}>
+          <Button variant="main" className="button-caps" onClick={handleReload} startIcon={<IconRefresh />}>
             {t('refreshPage')}
           </Button>
         </Box>
