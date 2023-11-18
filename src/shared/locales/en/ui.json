@@ -697,5 +697,7 @@
   "welcomeCPE": "Welcome to CPE – your tool to organize congregation tasks",
   "selectAccount": "To start using Congregation Program for Everyone, choose which option applies to you:",
   "accountPublisherStudent": "Publisher or a student of midweek meeting",
-  "accountBaptizedBrother": "Baptized brother"
+  "accountBaptizedBrother": "Baptized brother",
+  "connectCongregation": "Connect to congregation",
+  "invitationCode": "Invitation code"
 }

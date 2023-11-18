@@ -14,14 +14,13 @@ const styles = {
   justifyContent: 'space-between',
   height: '100%',
   gap: '24px',
-  opacity: 0,
   display: 'none',
 };
 
 const StartupIllustration = () => {
   const { t } = useAppTranslation();
 
-  const { index, dotSize } = useIllustration();
+  const { index, dotSize, handleSetImage } = useIllustration();
 
   return (
     <Box
@@ -29,12 +28,12 @@ const StartupIllustration = () => {
         flex: 1,
         background: '#5065D0',
         borderRadius: 'var(--radius-xxl)',
-        padding: { mobile: '24px', laptop: '48px' },
+        padding: { mobile: '24px 0px', laptop: '48px 0px' },
       }}
     >
       <Box sx={{ overflow: 'hidden', display: 'flex', height: 'calc(100% - 34.25px)' }}>
         <Box sx={styles} id="illustration1">
-          <Box>
+          <Box sx={{ padding: { mobile: '0px 24px', laptop: '0px 48px' } }}>
             <Typography variant="h1" color="var(--always-white)" sx={{ marginBottom: '24px' }}>
               {t('illustrationMinistryAssignmentsHeader')}
             </Typography>
@@ -46,7 +45,7 @@ const StartupIllustration = () => {
         </Box>
 
         <Box sx={styles} id="illustration2">
-          <Box>
+          <Box sx={{ padding: { mobile: '0px 24px', laptop: '0px 48px' } }}>
             <Typography variant="h1" color="var(--always-white)" sx={{ marginBottom: '24px' }}>
               {t('illustrationMultiPlattformHeader')}
             </Typography>
@@ -58,7 +57,7 @@ const StartupIllustration = () => {
         </Box>
 
         <Box sx={styles} id="illustration3">
-          <Box>
+          <Box sx={{ padding: { mobile: '0px 24px', laptop: '0px 48px' } }}>
             <Typography variant="h1" color="var(--always-white)" sx={{ marginBottom: '24px' }}>
               {t('illustrationMeetingSchedulesHeader')}
             </Typography>
@@ -70,7 +69,7 @@ const StartupIllustration = () => {
         </Box>
 
         <Box sx={styles} id="illustration4">
-          <Box>
+          <Box sx={{ padding: { mobile: '0px 24px', laptop: '0px 48px' } }}>
             <Typography variant="h1" color="var(--always-white)" sx={{ marginBottom: '24px' }}>
               {t('illustrationSecretaryHeader')}
             </Typography>
@@ -94,7 +93,8 @@ const StartupIllustration = () => {
           <IconButton
             key={n}
             disableRipple
-            sx={{ opacity: n === index ? 1 : 0.48, padding: 0, margin: 0, cursor: 'unset' }}
+            sx={{ opacity: n === index ? 1 : 0.48, padding: 0, margin: 0 }}
+            onClick={() => handleSetImage(n)}
           >
             <IconEllipse
               color="var(--always-white)"

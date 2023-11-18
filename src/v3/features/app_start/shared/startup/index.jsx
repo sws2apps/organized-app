@@ -1,11 +1,11 @@
 import { Box } from '@mui/material';
-import AccountChooser from '../account_chooser';
-import StartupIllustration from '../illustration';
 import { WaitingCircular } from '@components';
+import { AccountChooser, PocketStartup } from '@features/app_start';
+import StartupIllustration from '../illustration';
 import useStartup from './useStartup';
 
 const Startup = () => {
-  const { isSetup, isAuth, isAccountChoose } = useStartup();
+  const { isSetup, isAuth, isAccountChoose, accountType } = useStartup();
 
   if (isSetup) {
     return (
@@ -30,16 +30,17 @@ const Startup = () => {
                 borderRadius: 'var(--radius-xxl)',
                 border: '1px solid var(--accent-300)',
                 background: 'var(--white)',
+                height: '100%',
               }}
             >
               {isAccountChoose && <AccountChooser />}
-              {/* {!isAccountChoose && (
+              {!isAccountChoose && (
                 <>
-                  {accountType === 'vip' && <VipStartup />}
+                  {/* {accountType === 'vip' && <VipStartup />} */}
                   {accountType === 'pocket' && <PocketStartup />}
-                  {isUnauthorizedRole && <UnauthorizedRole />}
+                  {/* {isUnauthorizedRole && <UnauthorizedRole />} */}
                 </>
-              )} */}
+              )}
             </Box>
 
             <StartupIllustration />
