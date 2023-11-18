@@ -85,7 +85,6 @@ const CPEInfoMessage = ({
               alignItems: variant === 'message-with-button' ? 'center' : 'flex-start',
               gap: '4px',
               justifyContent: 'space-between',
-              flexWrap: 'wrap',
             }}
           >
             <Box>
@@ -100,7 +99,7 @@ const CPEInfoMessage = ({
             </Box>
 
             {variant === 'message-with-button' && (
-              <Button variant="semi-white" onClick={actionClick} startIcon={actionIcon} sx={{ minHeight: '44px' }}>
+              <Button variant="semi-white" onClick={actionClick} startIcon={actionIcon} sx={{ minHeight: '44px' }} disableAutoStretch>
                 {actionText}
               </Button>
             )}

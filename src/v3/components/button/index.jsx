@@ -10,6 +10,7 @@ const CPEButton = ({
   startIcon,
   endIcon,
   color,
+  disableAutoStretch = false,
   sx = {},
 }) => {
   let internalVariant = 'contained';
@@ -234,7 +235,7 @@ const CPEButton = ({
         '& svg, & svg g, & svg g path': {
           fill: getSvgColor(),
         },
-        width: { mobile: '100%', tablet: 'auto' },
+        width: { mobile: disableAutoStretch ? 'auto' : '100%', tablet: 'auto' },
         ...sx,
       }}
     >
@@ -253,6 +254,7 @@ CPEButton.propTypes = {
   endIcon: PropTypes.node,
   color: PropTypes.string,
   sx: PropTypes.object,
+  disableAutoStretch: PropTypes.bool,
 };
 
 export default CPEButton;
