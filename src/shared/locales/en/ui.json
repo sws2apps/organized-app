@@ -685,7 +685,7 @@
   "restart": "Restart",
   "refreshPage": "Refresh the page",
   "updateAvailable": "Update available",
-  "updateDescription": "A new improved version of CPE is available",
+  "updateDescription": "A new version of CPE is available",
   "illustrationMinistryAssignmentsHeader": "All your ministry and assignments",
   "illustrationMinistryAssignmentsDescription": "View all your upcoming assignments and get notification about new ones. Get new territory from available list. Submit an auxiliary pioneer application in a few clicks and access pioneer features like time tracker, detailed monthly and yearly report.",
   "illustrationMultiPlattformHeader": "On all your devices",
@@ -693,5 +693,9 @@
   "illustrationMeetingSchedulesHeader": "Create meeting schedules easily",
   "illustrationMeetingSchedulesDescription": "Import meeting plans from jw.org in just a click and auto-fill assignments. Share your list of outgoing speakers and browse other congregations’ lists to better collaborate. Publish the schedules for publishers and participants to see their assignments.",
   "illustrationSecretaryHeader": "All the secretary reports",
-  "illustrationSecretaryDescription": "Track meeting attendance record for all meetings, both monthly and annually. View publisher reports and easily send all necessary reports directly to your local branch. Receive and review auxiliary pioneer applications."
+  "illustrationSecretaryDescription": "Track meeting attendance record for all meetings, both monthly and annually. View publisher reports and easily send all necessary reports directly to your local branch. Receive and review auxiliary pioneer applications.",
+  "welcomeCPE": "Welcome to CPE – your tool to organize congregation tasks",
+  "selectAccount": "To start using Congregation Program for Everyone, choose which option applies to you:",
+  "accountPublisherStudent": "Publisher or a student of midweek meeting",
+  "accountBaptizedBrother": "Baptized brother"
 }

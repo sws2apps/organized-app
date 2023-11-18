@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
 import { SvgIcon } from '@mui/material';
 
-const IconSun = ({ color = '#222222', width = 24, height = 24 }) => {
+const IconSun = ({ color = '#222222', width = 24, height = 24, sx = {} }) => {
   width = width.toString();
   height = height.toString();
 
   return (
-    <SvgIcon sx={{ width: `${width}px`, height: `${height}px` }}>
+    <SvgIcon sx={{ width: `${width}px`, height: `${height}px`, ...sx }}>
       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
         <mask
           id="mask0_2895_91279"
@@ -34,6 +34,7 @@ IconSun.propTypes = {
   color: PropTypes.string,
   width: PropTypes.number,
   height: PropTypes.number,
+  sx: PropTypes.object,
 };
 
 export default IconSun;

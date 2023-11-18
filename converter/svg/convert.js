@@ -26,12 +26,12 @@ for await (const svgFile of svgFiles) {
   let data = `import PropTypes from 'prop-types';
   import { SvgIcon } from '@mui/material';
 
-  const ${componentName} = ({ color = '#222222', width = 24, height = 24 }) => {
+  const ${componentName} = ({ color = '#222222', width = 24, height = 24, sx = {} }) => {
     width = width.toString();
     height = height.toString();
   
     return (
-      <SvgIcon sx={{ width: widthPx, height: heightPx }}>`;
+      <SvgIcon sx={{ width: widthPx, height: heightPx, ...sx }}>`;
 
   data = data.replace('widthPx', '`${width}px`');
   data = data.replace('heightPx', '`${height}px`');
@@ -55,6 +55,7 @@ for await (const svgFile of svgFiles) {
     color: PropTypes.string,
     width: PropTypes.number,
     height: PropTypes.number,
+    sx: PropTypes.object,
   };
 
   export default ${componentName};`;

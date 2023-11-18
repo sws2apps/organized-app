@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
 import { SvgIcon } from '@mui/material';
 
-const IconOffCircle = ({ color = '#222222', width = 24, height = 24 }) => {
+const IconOffCircle = ({ color = '#222222', width = 24, height = 24, sx = {} }) => {
   width = width.toString();
   height = height.toString();
 
   return (
-    <SvgIcon sx={{ width: `${width}px`, height: `${height}px` }}>
+    <SvgIcon sx={{ width: `${width}px`, height: `${height}px`, ...sx }}>
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
         <g clipPath="url(#clip0_4449_152851)">
           <path
@@ -28,6 +28,7 @@ IconOffCircle.propTypes = {
   color: PropTypes.string,
   width: PropTypes.number,
   height: PropTypes.number,
+  sx: PropTypes.object,
 };
 
 export default IconOffCircle;

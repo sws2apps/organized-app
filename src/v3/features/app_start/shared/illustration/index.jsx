@@ -27,7 +27,7 @@ const StartupIllustration = () => {
     <Box
       sx={{
         flex: 1,
-        background: 'var(--accent-main)',
+        background: '#5065D0',
         borderRadius: 'var(--radius-xxl)',
         padding: { mobile: '24px', laptop: '48px' },
       }}

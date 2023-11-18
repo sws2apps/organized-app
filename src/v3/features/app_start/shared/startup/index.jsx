@@ -1,10 +1,11 @@
 import { Box } from '@mui/material';
-import useStartup from './useStartup';
-import { Typography, WaitingCircular } from '@components';
+import AccountChooser from '../account_chooser';
 import StartupIllustration from '../illustration';
+import { WaitingCircular } from '@components';
+import useStartup from './useStartup';
 
 const Startup = () => {
-  const { isSetup, isAuth } = useStartup();
+  const { isSetup, isAuth, isAccountChoose } = useStartup();
 
   if (isSetup) {
     return (
@@ -21,26 +22,26 @@ const Startup = () => {
               height: { tablet: 'auto', laptop: 'calc(100vh - 104px)', desktop: 'calc(100vh - 112px)' },
             }}
           >
-            <Box sx={{ maxWidth: { mobile: '100%', laptop: '552px' }, flex: 1 }}>
-              <Typography>
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iste ullam odit qui aspernatur labore
-                inventore, blanditiis ducimus alias minus sint sunt hic culpa animi fugiat aut quas quia illo magni.
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iste ullam odit qui aspernatur labore
-                inventore, blanditiis ducimus alias minus sint sunt hic culpa animi fugiat aut quas quia illo magni.
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iste ullam odit qui aspernatur labore
-                inventore, blanditiis ducimus alias minus sint sunt hic culpa animi fugiat aut quas quia illo magni.
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iste ullam odit qui aspernatur labore
-                inventore, blanditiis ducimus alias minus sint sunt hic culpa animi fugiat aut quas quia illo magni.
-              </Typography>
+            <Box
+              sx={{
+                maxWidth: { mobile: '100%', laptop: '552px' },
+                flex: '1 0 0',
+                padding: { mobile: '16px', laptop: '32px' },
+                borderRadius: 'var(--radius-xxl)',
+                border: '1px solid var(--accent-300)',
+                background: 'var(--white)',
+              }}
+            >
+              {isAccountChoose && <AccountChooser />}
+              {/* {!isAccountChoose && (
+                <>
+                  {accountType === 'vip' && <VipStartup />}
+                  {accountType === 'pocket' && <PocketStartup />}
+                  {isUnauthorizedRole && <UnauthorizedRole />}
+                </>
+              )} */}
             </Box>
-            {/* {isAccountChoose && <AccountChooser />}
-            {!isAccountChoose && (
-              <>
-                {accountType === 'vip' && <VipStartup />}
-                {accountType === 'pocket' && <PocketStartup />}
-                {isUnauthorizedRole && <UnauthorizedRole />}
-              </>
-            )} */}
+
             <StartupIllustration />
           </Box>
         )}
