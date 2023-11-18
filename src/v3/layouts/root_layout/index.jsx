@@ -18,8 +18,8 @@ const RootLayout = ({ updatePwa }) => {
         maxWidth={false}
         sx={{
           maxWidth: '1440px',
-          padding: { mobile: '16px', tablet: '24px' },
-          marginTop: '50px',
+          padding: { mobile: '0 16px 16px 16px', tablet: '0 24px 24px 24px', desktop: '0 32px 32px 32px' },
+          marginTop: '80px', // header 56px + 24px
         }}
       >
         {isAppLoad && !isEmailAuth && <Startup />}

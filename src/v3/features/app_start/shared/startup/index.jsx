@@ -18,7 +18,7 @@ const Startup = () => {
               flexWrap: 'wrap',
               flexDirection: { mobile: 'column', laptop: 'row' },
               gap: { mobile: '16px', laptop: '24px' },
-              height: { tablet: 'auto', laptop: 'calc(100vh - 112px)' },
+              height: { tablet: 'auto', laptop: 'calc(100vh - 104px)', desktop: 'calc(100vh - 112px)' },
             }}
           >
             <Box sx={{ maxWidth: { mobile: '100%', laptop: '552px' }, flex: 1 }}>
