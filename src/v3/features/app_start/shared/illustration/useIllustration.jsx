@@ -25,7 +25,7 @@ const useIllustration = () => {
 
         return tmp;
       });
-    }, 20000);
+    }, 5000);
 
     return () => {
       if (sliderRef.current) {
@@ -38,23 +38,23 @@ const useIllustration = () => {
     for (let i = 1; i < 4; i++) {
       if (i !== prevIndex || i !== index) {
         const div = document.querySelector(`#illustration${i}`);
-        div.classList.remove('illustration-inactive');
         div.classList.remove('illustration-active');
+        div.classList.remove('illustration-inactive');
       }
     }
 
     const prevDiv = document.querySelector(`#illustration${prevIndex}`);
     const div = document.querySelector(`#illustration${index}`);
 
-    prevDiv.classList.add('illustration-inactive');
     prevDiv.classList.remove('illustration-active');
-
-    setTimeout(() => {
-      prevDiv.classList.remove('illustration-inactive');
-    }, 1000);
+    prevDiv.classList.add('illustration-inactive');
 
     setTimeout(() => {
       div.classList.add('illustration-active');
+    }, 1000);
+
+    setTimeout(() => {
+      prevDiv.classList.remove('illustration-inactive');
     }, 1000);
   }, [index, prevIndex]);
 

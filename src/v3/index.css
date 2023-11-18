@@ -103,7 +103,7 @@ body {
 
 .illustration-active {
 	display: flex;
-	animation: fade-in-right 0.5s ease-in-out forwards;
+	animation: fade-in-right 0.7s ease-in-out forwards;
 }
 
 .illustration-inactive {
