@@ -25,7 +25,7 @@ const useIllustration = () => {
 
         return tmp;
       });
-    }, 5000);
+    }, 10000);
 
     return () => {
       if (sliderRef.current) {
