@@ -31,9 +31,16 @@ const StartupIllustration = () => {
         padding: { mobile: '24px 0px', laptop: '48px 0px' },
       }}
     >
-      <Box sx={{ overflow: 'hidden', display: 'flex', height: 'calc(100% - 34.25px)' }}>
+      <Box
+        sx={{
+          overflow: 'hidden',
+          display: 'flex',
+          height: 'calc(100% - 34.25px)',
+          padding: { mobile: '0px 24px', laptop: '0px 48px' },
+        }}
+      >
         <Box sx={styles} id="illustration1">
-          <Box sx={{ padding: { mobile: '0px 24px', laptop: '0px 48px' } }}>
+          <Box>
             <Typography variant="h1" color="var(--always-white)" sx={{ marginBottom: '24px' }}>
               {t('illustrationMinistryAssignmentsHeader')}
             </Typography>
@@ -45,7 +52,7 @@ const StartupIllustration = () => {
         </Box>
 
         <Box sx={styles} id="illustration2">
-          <Box sx={{ padding: { mobile: '0px 24px', laptop: '0px 48px' } }}>
+          <Box>
             <Typography variant="h1" color="var(--always-white)" sx={{ marginBottom: '24px' }}>
               {t('illustrationMultiPlattformHeader')}
             </Typography>
@@ -57,7 +64,7 @@ const StartupIllustration = () => {
         </Box>
 
         <Box sx={styles} id="illustration3">
-          <Box sx={{ padding: { mobile: '0px 24px', laptop: '0px 48px' } }}>
+          <Box>
             <Typography variant="h1" color="var(--always-white)" sx={{ marginBottom: '24px' }}>
               {t('illustrationMeetingSchedulesHeader')}
             </Typography>
@@ -69,7 +76,7 @@ const StartupIllustration = () => {
         </Box>
 
         <Box sx={styles} id="illustration4">
-          <Box sx={{ padding: { mobile: '0px 24px', laptop: '0px 48px' } }}>
+          <Box>
             <Typography variant="h1" color="var(--always-white)" sx={{ marginBottom: '24px' }}>
               {t('illustrationSecretaryHeader')}
             </Typography>
@@ -80,6 +87,7 @@ const StartupIllustration = () => {
           <img src={Secretary} alt="Secretary" style={{ width: '100%' }} />
         </Box>
       </Box>
+
       <Box
         sx={{
           display: 'flex',
