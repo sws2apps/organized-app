@@ -77,9 +77,9 @@ body {
 	}
 }
 
-@keyframes slide-in-left {
+@keyframes slide-in-right {
 	from {
-		transform: translateX(-120%);
+		transform: translateX(120%);
 	}
 
 	to {
@@ -87,22 +87,22 @@ body {
 	}
 }
 
-@keyframes slide-out-right {
+@keyframes slide-out-left {
 	from {
 		transform: translateX(0);
 	}
 
 	to {
-		transform: translateX(120%);
+		transform: translateX(-120%);
 	}
 }
 
 .illustration-active {
 	display: flex;
-	animation: slide-in-left 0.7s ease-in-out;
+	animation: slide-in-right 0.7s ease-in-out;
 }
 
 .illustration-inactive {
 	display: flex;
-	animation: slide-out-right 1s ease-in-out;
+	animation: slide-out-left 1s ease-in-out;
 }
