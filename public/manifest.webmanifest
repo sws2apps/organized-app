@@ -13,38 +13,40 @@
   "description": "An application for Jehovah’s Witnesses congregation",
   "icons": [
     {
-      "src": "/img/icon-180x180.png",
+      "src": "/img/icon-maskable-180x180.png",
       "sizes": "180x180",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
-      "src": "/img/icon-192x192.png",
+      "src": "/img/icon-maskable-192x192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
-      "src": "/img/icon-256x256.png",
+      "src": "/img/icon-maskable-256x256.png",
       "sizes": "256x256",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
-      "src": "/img/icon-270x270.png",
+      "src": "/img/icon-maskable-270x270.png",
       "sizes": "270x270",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
-      "src": "/img/icon-384x384.png",
+      "src": "/img/icon-maskable-384x384.png",
       "sizes": "384x384",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
-      "src": "/img/icon-512x512.png",
+      "src": "/img/icon-maskable-512x512.png",
       "sizes": "512x512",
-      "type": "image/png"
-    },
-    {
-      "src": "/img/logo.svg",
-      "sizes": "any"
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
       "src": "/img/icon-android-adaptive-108x108.png",
