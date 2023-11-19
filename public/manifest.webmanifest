@@ -49,6 +49,10 @@
       "purpose": "maskable"
     },
     {
+      "src": "/img/logo.svg",
+      "sizes": "any"
+    },
+    {
       "src": "/img/icon-android-adaptive-108x108.png",
       "sizes": "108x108",
       "type": "image/png",
