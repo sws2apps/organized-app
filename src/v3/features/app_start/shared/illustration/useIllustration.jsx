@@ -15,7 +15,7 @@ const useIllustration = () => {
 
   const handleSlide = (n) => {
     if (swiperRef.current) {
-      swiperRef.current.swiper.slideTo(n);
+      swiperRef.current.swiper.slideToLoop(n);
     }
   };
 
