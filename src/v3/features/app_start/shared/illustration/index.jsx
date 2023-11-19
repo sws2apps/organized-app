@@ -5,22 +5,27 @@ import MinistryAssignments from '@assets/illustration_ministryAssignments.svg';
 import MultiPlattform from '@assets/illustration_multiPlattform.svg';
 import MeetingSchedules from '@assets/illustration_meetingSchedules.svg';
 import Secretary from '@assets/illustration_secretary.svg';
+import useIllustration from './useIllustration';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Pagination } from 'swiper/modules';
 import { createArray } from '@utils/common';
 import { IconEllipse } from '@icons';
-import useIllustration from './useIllustration';
+import 'swiper/css';
+import 'swiper/css/pagination';
 
 const styles = {
+  display: 'flex',
+  padding: { mobile: '0px 24px', laptop: '0px 48px' },
   flexDirection: 'column',
   justifyContent: 'space-between',
   height: '100%',
   gap: '24px',
-  display: 'none',
 };
 
 const StartupIllustration = () => {
   const { t } = useAppTranslation();
 
-  const { index, dotSize, handleSetImage } = useIllustration();
+  const { index, setIndex, dotSize, handleSlide, swiperRef } = useIllustration();
 
   return (
     <Box
@@ -29,63 +34,86 @@ const StartupIllustration = () => {
         background: '#5065D0',
         borderRadius: 'var(--radius-xxl)',
         padding: { mobile: '24px 0px', laptop: '48px 0px' },
+        minWidth: '0px',
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        gap: '32px',
       }}
     >
-      <Box
-        sx={{
-          overflow: 'hidden',
-          display: 'flex',
-          height: 'calc(100% - 34.25px)',
-          padding: { mobile: '0px 24px', laptop: '0px 48px' },
-        }}
-      >
-        <Box sx={styles} id="illustration1">
-          <Box>
-            <Typography variant="h1" color="var(--always-white)" sx={{ marginBottom: '24px' }}>
-              {t('illustrationMinistryAssignmentsHeader')}
-            </Typography>
-            <Typography variant="body-regular" color="var(--always-white)">
-              {t('illustrationMinistryAssignmentsDescription')}
-            </Typography>
-          </Box>
-          <img src={MinistryAssignments} alt="Ministry Assignments" style={{ width: '100%' }} />
-        </Box>
+      <Box sx={{ flex: '1 0 0' }}>
+        <Swiper
+          ref={swiperRef}
+          slidesPerView="auto"
+          spaceBetween={0}
+          centeredSlides={true}
+          autoplay={{
+            delay: 10000,
+            disableOnInteraction: false,
+          }}
+          loop={true}
+          modules={[Autoplay, Pagination]}
+          className="mySwiper"
+          style={{ height: '100%' }}
+          onRealIndexChange={(swiper) => setIndex(swiper.realIndex)}
+        >
+          <SwiperSlide>
+            <Box sx={styles}>
+              <Box>
+                <Typography variant="h1" color="var(--always-white)" sx={{ marginBottom: '24px' }}>
+                  {t('illustrationMinistryAssignmentsHeader')}
+                </Typography>
+                <Typography variant="body-regular" color="var(--always-white)">
+                  {t('illustrationMinistryAssignmentsDescription')}
+                </Typography>
+              </Box>
+              <img src={MinistryAssignments} alt="Ministry Assignments" style={{ width: '100%' }} />
+            </Box>
+          </SwiperSlide>
 
-        <Box sx={styles} id="illustration2">
-          <Box>
-            <Typography variant="h1" color="var(--always-white)" sx={{ marginBottom: '24px' }}>
-              {t('illustrationMultiPlattformHeader')}
-            </Typography>
-            <Typography variant="body-regular" color="var(--always-white)">
-              {t('illustrationMultiPlattformDescription')}
-            </Typography>
-          </Box>
-          <img src={MultiPlattform} alt="Multi Plattform" style={{ width: '100%' }} />
-        </Box>
+          <SwiperSlide>
+            <Box sx={styles}>
+              <Box>
+                <Typography variant="h1" color="var(--always-white)" sx={{ marginBottom: '24px' }}>
+                  {t('illustrationMultiPlattformHeader')}
+                </Typography>
+                <Typography variant="body-regular" color="var(--always-white)">
+                  {t('illustrationMultiPlattformDescription')}
+                </Typography>
+              </Box>
+              <img src={MultiPlattform} alt="Multi Plattform" style={{ width: '100%' }} />
+            </Box>
+          </SwiperSlide>
 
-        <Box sx={styles} id="illustration3">
-          <Box>
-            <Typography variant="h1" color="var(--always-white)" sx={{ marginBottom: '24px' }}>
-              {t('illustrationMeetingSchedulesHeader')}
-            </Typography>
-            <Typography variant="body-regular" color="var(--always-white)">
-              {t('illustrationMeetingSchedulesDescription')}
-            </Typography>
-          </Box>
-          <img src={MeetingSchedules} alt="Meeting Schedules" style={{ width: '100%' }} />
-        </Box>
+          <SwiperSlide>
+            <Box sx={styles}>
+              <Box>
+                <Typography variant="h1" color="var(--always-white)" sx={{ marginBottom: '24px' }}>
+                  {t('illustrationMeetingSchedulesHeader')}
+                </Typography>
+                <Typography variant="body-regular" color="var(--always-white)">
+                  {t('illustrationMeetingSchedulesDescription')}
+                </Typography>
+              </Box>
+              <img src={MeetingSchedules} alt="Meeting Schedules" style={{ width: '100%' }} />
+            </Box>
+          </SwiperSlide>
 
-        <Box sx={styles} id="illustration4">
-          <Box>
-            <Typography variant="h1" color="var(--always-white)" sx={{ marginBottom: '24px' }}>
-              {t('illustrationSecretaryHeader')}
-            </Typography>
-            <Typography variant="body-regular" color="var(--always-white)">
-              {t('illustrationSecretaryDescription')}
-            </Typography>
-          </Box>
-          <img src={Secretary} alt="Secretary" style={{ width: '100%' }} />
-        </Box>
+          <SwiperSlide>
+            <Box sx={styles}>
+              <Box>
+                <Typography variant="h1" color="var(--always-white)" sx={{ marginBottom: '24px' }}>
+                  {t('illustrationSecretaryHeader')}
+                </Typography>
+                <Typography variant="body-regular" color="var(--always-white)">
+                  {t('illustrationSecretaryDescription')}
+                </Typography>
+              </Box>
+              <img src={Secretary} alt="Secretary" style={{ width: '100%' }} />
+            </Box>
+          </SwiperSlide>
+        </Swiper>
       </Box>
 
       <Box
@@ -93,7 +121,6 @@ const StartupIllustration = () => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          marginTop: '34.25px',
           gap: { mobile: '12px', laptop: '16px' },
         }}
       >
@@ -102,7 +129,7 @@ const StartupIllustration = () => {
             key={n}
             disableRipple
             sx={{ opacity: n === index ? 1 : 0.48, padding: 0, margin: 0 }}
-            onClick={() => handleSetImage(n)}
+            onClick={() => handleSlide(n)}
           >
             <IconEllipse
               color="var(--always-white)"
