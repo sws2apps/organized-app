@@ -16,16 +16,41 @@ for await (const jsonFile of jsonFiles) {
   const filePath = path.join(ROOT_FOLDER, jsonFile);
   const data = JSON.parse(await fs.readFile(filePath, 'utf-8'));
 
-  for (const [key, value] of Object.entries(data)) {
-    if (!tokens[key]) {
-      tokens[key] = value;
-    }
+  for (let [key, value] of Object.entries(data)) {
+    if (key !== 'colors' && key !== 'version' && key !== 'metadata') {
+      let tmpValue = data[key];
 
-    if (tokens[key]) {
-      tokens[key] = { ...tokens[key], ...data[key] };
+      if (key === 'collections') {
+        key = 'colors';
+        const modes = value.find((collection) => collection.name === 'Colors').modes;
+
+        value = {};
+
+        for (const mode of modes) {
+          const obj = { [mode.name]: {} };
+
+          for (const variable of mode.variables) {
+            obj[mode.name] = { ...obj[mode.name], [variable.name]: { value: variable.value } };
+          }
+
+          Object.assign(value, obj);
+        }
+
+        tmpValue = value;
+      }
+
+      if (!tokens[key]) {
+        tokens[key] = value;
+      }
+
+      if (tokens[key]) {
+        tokens[key] = { ...tokens[key], ...tmpValue };
+      }
     }
   }
 }
+
+fs.writeFile('./converter/css/tokens.json', JSON.stringify(tokens));
 
 let data = '';
 
@@ -63,7 +88,8 @@ for (const [theme, details] of Object.entries(tokens.colors)) {
   data += `[data-theme='${theme}'] {\n`;
 
   for (const [color, props] of Object.entries(details)) {
-    data += `--${color}: ${props.value};\n`;
+    data += `--${color}-base: ${props.value.r}, ${props.value.g}, ${props.value.b};\n`;
+    data += `--${color}: rgba(var(--${color}-base), ${props.value.a});\n`;
   }
 
   data += '}\n\n';
@@ -187,7 +213,7 @@ for (const [effectName, details] of Object.entries(tokens.effect)) {
 
         tmp += `${effect.spread}px `;
 
-        const colorShadow = effectName === 'message-glow' ? `var(--accent-main)` : effect.color;
+        const colorShadow = effectName === 'message-glow' ? `rgba(var(--accent-main-base), 0.24)` : effect.color;
 
         tmp += colorShadow;
 
