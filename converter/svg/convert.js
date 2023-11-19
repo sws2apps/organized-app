@@ -44,6 +44,22 @@ for await (const svgFile of svgFiles) {
   svgContent = svgContent.replaceAll('fill-rule', 'fillRule');
   svgContent = svgContent.replaceAll('clip-rule', 'clipRule');
   svgContent = svgContent.replaceAll('clip-path', 'clipPath');
+
+  if (componentName === 'IconLoading') {
+    svgContent = svgContent.replace(
+      '</g>',
+      `<animateTransform
+          attributeName="transform"
+          type="rotate"
+          from="0 12 12"
+          to="360 12 12"
+          dur="2s"
+          repeatCount="indefinite"
+        />
+      </g>`
+    );
+  }
+
   data += svgContent;
 
   data += `

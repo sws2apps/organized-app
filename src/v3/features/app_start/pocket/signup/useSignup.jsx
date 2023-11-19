@@ -31,6 +31,8 @@ const useSignup = () => {
   };
 
   const handleSignUp = async () => {
+    if (isProcessing) return;
+
     try {
       if (code.length < 10) {
         await displaySnackNotification({ message: getMessageByCode('INPUT_INVALID'), severity: 'warning' });

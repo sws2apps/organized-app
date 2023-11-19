@@ -1,6 +1,7 @@
 import { Box } from '@mui/material';
 import { Button, TextField } from '@components';
 import { PageHeader } from '@features/app_start';
+import { IconLoading } from '@icons';
 import useAppTranslation from '@hooks/useAppTranslation';
 import useSignup from './useSignup';
 
@@ -23,9 +24,10 @@ const PocketSignUp = () => {
         />
         <Button
           variant="main"
-          disabled={code.length === 0 || !isOnline || isProcessing || visitorID.toString().length === 0}
+          disabled={code.length === 0 || !isOnline || visitorID.toString().length === 0}
           onClick={handleSignUp}
           sx={{ padding: '8px 32px', minHeight: '44px' }}
+          startIcon={isProcessing ? <IconLoading width={22} height={22} /> : null}
         >
           {t('activate')}
         </Button>

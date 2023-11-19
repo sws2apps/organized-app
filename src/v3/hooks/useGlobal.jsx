@@ -93,14 +93,14 @@ const useGlobal = () => {
     const loadApi = async () => {
       let apiHost;
 
-      if (import.meta.env.DEV || window.location.host.indexOf('localhost') !== -1) {
-        if (import.meta.env.VITE_BACKEND_API) {
-          apiHost = import.meta.env.VITE_BACKEND_API;
-        } else {
-          apiHost = 'http://localhost:8000/';
-        }
+      if (import.meta.env.VITE_BACKEND_API) {
+        apiHost = import.meta.env.VITE_BACKEND_API;
       } else {
-        apiHost = 'https://api.sws2apps.com/';
+        if (import.meta.env.DEV || window.location.host.indexOf('localhost') !== -1) {
+          apiHost = 'http://localhost:8000/';
+        } else {
+          apiHost = 'https://api.sws2apps.com/';
+        }
       }
 
       await setApiHost(apiHost);
