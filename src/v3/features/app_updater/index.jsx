@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { InfoMessage } from '@components';
+import { SnackBar } from '@components';
 import { IconUpdate } from '@icons';
 import useUpdater from './useUpdater';
 import useAppTranslation from '@hooks/useAppTranslation';
@@ -10,7 +10,7 @@ const AppUpdater = ({ updatePwa }) => {
   const { handleAppUpdated, showReload } = useUpdater({ updatePwa });
 
   return (
-    <InfoMessage
+    <SnackBar
       open={showReload}
       position="top-center"
       variant="message-with-button"
