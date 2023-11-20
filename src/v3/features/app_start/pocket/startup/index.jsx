@@ -5,7 +5,7 @@ import useStartup from './useStartup';
 const PocketStartup = () => {
   const { isSignUp } = useStartup();
 
-  return <Box>{isSignUp && <PocketSignUp />}</Box>;
+  return <Box sx={{ display: 'flex' }}>{isSignUp && <PocketSignUp />}</Box>;
 };
 
 export default PocketStartup;

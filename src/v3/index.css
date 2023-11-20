@@ -77,32 +77,27 @@ body {
 	}
 }
 
-@keyframes slide-in-right {
-	from {
-		transform: translateX(120%);
+@keyframes fade-in {
+	0% {
+		opacity: 0;
+		visibility: visible;
+		display: block;
 	}
 
-	to {
-		transform: translateX(0);
-	}
-}
-
-@keyframes slide-out-left {
-	from {
-		transform: translateX(0);
-	}
-
-	to {
-		transform: translateX(-120%);
+	100% {
+		opacity: 1;
 	}
 }
 
-.illustration-active {
-	display: flex;
-	animation: slide-in-right 0.7s ease-in-out;
-}
+@keyframes fade-out {
+	0% {
+		opacity: 1;
+		visibility: visible;
+	}
 
-.illustration-inactive {
-	display: flex;
-	animation: slide-out-left 1s ease-in-out;
+	100% {
+		opacity: 0;
+		visibility: hidden;
+		display: none;
+	}
 }

@@ -44,10 +44,10 @@ const CPEInfoMessage = ({
           fill: 'var(--always-white)',
         },
         width: '100%',
-        maxWidth: '544px',
+        maxWidth: { mobile: '100%', laptop: '544px' },
         minHeight: '78px',
         background: getBackground(),
-        padding: '16px 16px 16px 24px',
+        padding: variant === 'message-with-button' ? '16px 16px 16px 24px' : '16px 24px',
         borderRadius: 'var(--radius-xl)',
       }}
       className={getEffect()}

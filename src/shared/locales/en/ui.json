@@ -699,5 +699,7 @@
   "accountPublisherStudent": "Publisher or a student of midweek meeting",
   "accountBaptizedBrother": "Baptized brother",
   "connectCongregation": "Connect to congregation",
-  "invitationCode": "Invitation code"
+  "invitationCode": "Invitation code",
+  "wrongInvitationCode": "Wrong invitation code",
+  "checkInvitationCode": "Please double check the code you provided"
 }

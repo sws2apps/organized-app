@@ -1,8 +1,7 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { isOnlineState, visitorIDState } from '@states/app';
 import {
-  displaySnackNotification,
   setCongAccountConnected,
   setIsAccountChoose,
   setIsAppLoad,
@@ -22,20 +21,44 @@ const useSignup = () => {
   const isOnline = useRecoilValue(isOnlineState);
   const visitorID = useRecoilValue(visitorIDState);
 
+  const feedbackRef = useRef();
+
   const [code, setCode] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [hasError, setHasError] = useState(false);
+  const [wrongCode, setWrongCode] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleReturnChooser = async () => {
     await handleUpdateSetting({ account_type: '' });
     await setIsAccountChoose(true);
   };
 
+  const hideMessage = () => {
+    feedbackRef.current.style.animation = 'fade-out 1s forwards';
+
+    setTimeout(() => {
+      setHasError(false);
+      setWrongCode(false);
+      setErrorMessage('');
+    }, 1000);
+  };
+
   const handleSignUp = async () => {
     if (isProcessing) return;
 
+    setHasError(false);
+    setWrongCode(false);
+    setErrorMessage('');
+
     try {
       if (code.length < 10) {
-        await displaySnackNotification({ message: getMessageByCode('INPUT_INVALID'), severity: 'warning' });
+        setWrongCode(true);
+
+        feedbackRef.current.style.opacity = 0;
+        feedbackRef.current.style.display = 'block';
+        feedbackRef.current.style.animation = 'fade-in 1s forwards';
+
         return;
       }
 
@@ -43,7 +66,8 @@ const useSignup = () => {
       const { status, data } = await apiPocketSignup(code);
 
       if (status !== 200) {
-        await displaySnackNotification({ message: getMessageByCode(data.message), severity: 'warning' });
+        setErrorMessage(getMessageByCode(data.message));
+        setHasError(true);
         setIsProcessing(false);
       }
 
@@ -73,11 +97,25 @@ const useSignup = () => {
       }, [1000]);
     } catch (err) {
       setIsProcessing(false);
-      await displaySnackNotification({ message: err.message, severity: 'error' });
+      setErrorMessage(getMessageByCode(err.message));
+      setHasError(true);
     }
   };
 
-  return { isOnline, visitorID, handleReturnChooser, isProcessing, setCode, handleSignUp, code };
+  return {
+    isOnline,
+    visitorID,
+    handleReturnChooser,
+    isProcessing,
+    setCode,
+    handleSignUp,
+    code,
+    hasError,
+    wrongCode,
+    errorMessage,
+    hideMessage,
+    feedbackRef,
+  };
 };
 
 export default useSignup;
