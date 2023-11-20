@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import { WaitingCircular } from '@components';
-import { AccountChooser, PocketStartup } from '@features/app_start';
+import { AccountChooser, PocketStartup, VipStartup } from '@features/app_start';
 import StartupIllustration from '../illustration';
 import useStartup from './useStartup';
 
@@ -37,7 +37,7 @@ const Startup = () => {
               {isAccountChoose && <AccountChooser />}
               {!isAccountChoose && (
                 <>
-                  {/* {accountType === 'vip' && <VipStartup />} */}
+                  {accountType === 'vip' && <VipStartup />}
                   {accountType === 'pocket' && <PocketStartup />}
                   {/* {isUnauthorizedRole && <UnauthorizedRole />} */}
                 </>

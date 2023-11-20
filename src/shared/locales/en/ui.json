@@ -7,7 +7,7 @@
   "sourceMaterial": "Source Material",
   "settings": "Settings",
   "administration": "Administration",
-  "login": "Login",
+  "login": "Log in",
   "logout": "Logout",
   "changeLanguage": "Language",
   "edit": "Edit",
@@ -167,7 +167,7 @@
   "updateCongregation": "Update congregation information",
   "updateCongregationDesc": "An update has been made to improve congregation account creation in CPE. Therefore, all existing account needs to be updated.",
   "email": "Email address",
-  "createSwsAccount": "Create sws2apps account",
+  "createSwsAccount": "Create new account",
   "hasAccount": "I have an account",
   "signInNoInternet": "Sign in to your account",
   "signInWithInternet": "Sign in to your account. An internet connection is required.",
@@ -401,7 +401,7 @@
   "overrideSaveWarning": "Adjust the timing of parts in Living as Christians, including Congregation Bible Study, before saving. Total timings should be 45 min.",
   "languageMissing": "My language is not here",
   "sourceNotFoundUnavailable": "The source material is not available yet, or this language is not yet supported",
-  "oauthAccept": "By continuing, you are indicating that you accept our Terms of Use and Privacy Policy.",
+  "oauthAccept": "By continuing, you are indicating that you accept our <a href='https://sws2apps.com/terms/' title='Terms of Use' target='_blank' rel='noopener'>Terms of Use</a> and <a href='https://sws2apps.com/privacy/' title='Privacy Policy' target='_blank' rel='noopener'>Privacy Policy</a>.",
   "termsUse": "Terms of Use",
   "privacyPolicy": "Privacy Policy",
   "oauthGoogle": "Continue with Google",
@@ -410,7 +410,7 @@
   "oauthYahoo": "Continue with Yahoo",
   "oauthEmail": "Continue with Email",
   "providerNotAvailable": "If the email you are using is not available above, choose the option below.",
-  "signInDesc": "Choose below which service you want to use for sign in.",
+  "signInDesc": "Choose which service you want to use to log in",
   "emailAuth": "Email Authentication",
   "emailAuthDesc": "Enter your email address below.",
   "sendLink": "Send Link",
@@ -701,5 +701,6 @@
   "connectCongregation": "Connect to congregation",
   "invitationCode": "Invitation code",
   "wrongInvitationCode": "Wrong invitation code",
-  "checkInvitationCode": "Please double check the code you provided"
+  "checkInvitationCode": "Please double check the code you provided",
+  "orLabel": "or"
 }

@@ -51,56 +51,61 @@ const useSignup = () => {
   };
 
   const handleSignUp = async () => {
-    if (isProcessing) return;
-
-    setHasError(false);
-    setWrongCode(false);
-    setErrorMessage('');
-
     try {
-      if (code.length < 10) {
-        setWrongCode(true);
-        showMessage();
+      if (isProcessing) return;
 
-        return;
-      }
+      setHasError(false);
+      setWrongCode(false);
+      setErrorMessage('');
+
+      hideMessage();
 
       setIsProcessing(true);
-      const { status, data } = await apiPocketSignup(code);
 
-      if (status !== 200) {
-        setErrorMessage(getMessageByCode(data.message));
-        setHasError(true);
-
-        showMessage();
-        setIsProcessing(false);
-        return;
-      }
-
-      const approvedRole = data.cong_role.some((role) => POCKET_ROLES.includes(role));
-
-      if (!approvedRole) {
-        await handleUpdateSetting({ account_type: '' });
-        await setIsUnauthorizedRole(true);
-        return;
-      }
-
-      await loadApp();
-      await runUpdater();
-      await handleUpdateSettingFromRemote(data);
-
-      await setRootModalOpen(true);
-      const { status: scheduleStatus, data: scheduleData } = await apiFetchSchedule();
-      if (scheduleStatus === 200) {
-        await handleUpdateScheduleFromRemote(scheduleData);
-      }
-      await setRootModalOpen(false);
-
-      setIsSetup(false);
       setTimeout(async () => {
-        setCongAccountConnected(true);
-        setIsAppLoad(false);
-      }, [1000]);
+        if (code.length < 10) {
+          setWrongCode(true);
+          showMessage();
+
+          return;
+        }
+
+        const { status, data } = await apiPocketSignup(code);
+
+        if (status !== 200) {
+          setErrorMessage(getMessageByCode(data.message));
+          setHasError(true);
+
+          showMessage();
+          setIsProcessing(false);
+          return;
+        }
+
+        const approvedRole = data.cong_role.some((role) => POCKET_ROLES.includes(role));
+
+        if (!approvedRole) {
+          await handleUpdateSetting({ account_type: '' });
+          await setIsUnauthorizedRole(true);
+          return;
+        }
+
+        await loadApp();
+        await runUpdater();
+        await handleUpdateSettingFromRemote(data);
+
+        await setRootModalOpen(true);
+        const { status: scheduleStatus, data: scheduleData } = await apiFetchSchedule();
+        if (scheduleStatus === 200) {
+          await handleUpdateScheduleFromRemote(scheduleData);
+        }
+        await setRootModalOpen(false);
+
+        setIsSetup(false);
+        setTimeout(async () => {
+          setCongAccountConnected(true);
+          setIsAppLoad(false);
+        }, [1000]);
+      }, 1000);
     } catch (err) {
       setIsProcessing(false);
       setErrorMessage(getMessageByCode(err.message));

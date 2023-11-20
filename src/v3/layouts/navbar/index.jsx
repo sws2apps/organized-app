@@ -1,5 +1,5 @@
 import { Box, Container } from '@mui/material';
-import logo from '@assets/logo.svg';
+import logo from '@assets/img/logo.svg';
 import { Typography } from '@components';
 import { LanguageSwitcher, ThemeSwitcher } from '@features/index';
 import { useAppTranslation } from '@hooks/index';

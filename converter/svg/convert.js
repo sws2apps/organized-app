@@ -26,7 +26,11 @@ for await (const svgFile of svgFiles) {
   let data = `import PropTypes from 'prop-types';
   import { SvgIcon } from '@mui/material';
 
-  const ${componentName} = ({ color = '#222222', width = 24, height = 24, sx = {} }) => {
+  const ${componentName} = ({ ${
+    componentName !== 'IconGoogle' && componentName !== 'IconMicrosoft' && componentName !== 'IconYahoo'
+      ? `color = '#222222', `
+      : ''
+  }width = 24, height = 24, sx = {} }) => {
     width = width.toString();
     height = height.toString();
   
@@ -39,7 +43,9 @@ for await (const svgFile of svgFiles) {
   const filePath = path.join(ROOT_FOLDER, svgFile);
   let svgContent = await fs.readFile(filePath, 'utf-8');
 
-  svgContent = svgContent.replace(/fill=(?!"#D9D9D9"|"none"|"white")".*?"(?=\s|\/)/g, 'fill={color}');
+  if (componentName !== 'IconGoogle' && componentName !== 'IconMicrosoft' && componentName !== 'IconYahoo') {
+    svgContent = svgContent.replace(/fill=(?!"#D9D9D9"|"none"|"white")".*?"(?=\s|\/)/g, 'fill={color}');
+  }
   svgContent = svgContent.replaceAll('style="mask-type:alpha"', 'style={{maskType:"alpha"}}');
   svgContent = svgContent.replaceAll('fill-rule', 'fillRule');
   svgContent = svgContent.replaceAll('clip-rule', 'clipRule');

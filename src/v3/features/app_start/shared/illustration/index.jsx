@@ -1,10 +1,10 @@
 import { Box, IconButton } from '@mui/material';
 import { Typography } from '@components';
 import { useAppTranslation } from '@hooks/index';
-import MinistryAssignments from '@assets/illustration_ministryAssignments.svg';
-import MultiPlattform from '@assets/illustration_multiPlattform.svg';
-import MeetingSchedules from '@assets/illustration_meetingSchedules.svg';
-import Secretary from '@assets/illustration_secretary.svg';
+import MinistryAssignments from '@assets/img/illustration_ministryAssignments.svg';
+import MultiPlattform from '@assets/img/illustration_multiPlattform.svg';
+import MeetingSchedules from '@assets/img/illustration_meetingSchedules.svg';
+import Secretary from '@assets/img/illustration_secretary.svg';
 import useIllustration from './useIllustration';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper/modules';

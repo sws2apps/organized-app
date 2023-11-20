@@ -11,6 +11,7 @@ html {
 
 body {
 	background-color: var(--accent-100) !important;
+	margin: 0
 }
 
 #root {
