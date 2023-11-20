@@ -38,6 +38,7 @@ export const getShortDatePickerFormat = () => {
 };
 
 export const getMessageByCode = (code) => {
+  console.log(code);
   switch (code) {
     case 'DEVICE_REMOVED':
       return getTranslation({ key: 'deviceRemoved' });

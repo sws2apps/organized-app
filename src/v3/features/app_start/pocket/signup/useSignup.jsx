@@ -44,6 +44,12 @@ const useSignup = () => {
     }, 1000);
   };
 
+  const showMessage = () => {
+    feedbackRef.current.style.opacity = 0;
+    feedbackRef.current.style.display = 'block';
+    feedbackRef.current.style.animation = 'fade-in 1s forwards';
+  };
+
   const handleSignUp = async () => {
     if (isProcessing) return;
 
@@ -54,10 +60,7 @@ const useSignup = () => {
     try {
       if (code.length < 10) {
         setWrongCode(true);
-
-        feedbackRef.current.style.opacity = 0;
-        feedbackRef.current.style.display = 'block';
-        feedbackRef.current.style.animation = 'fade-in 1s forwards';
+        showMessage();
 
         return;
       }
@@ -68,7 +71,10 @@ const useSignup = () => {
       if (status !== 200) {
         setErrorMessage(getMessageByCode(data.message));
         setHasError(true);
+
+        showMessage();
         setIsProcessing(false);
+        return;
       }
 
       const approvedRole = data.cong_role.some((role) => POCKET_ROLES.includes(role));

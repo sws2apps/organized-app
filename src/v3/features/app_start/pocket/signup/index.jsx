@@ -19,6 +19,8 @@ const PocketSignUp = () => {
     hideMessage,
     feedbackRef,
     wrongCode,
+    errorMessage,
+    hasError,
   } = useSignup();
 
   return (
@@ -52,6 +54,15 @@ const PocketSignUp = () => {
               messageIcon={<IconError />}
               messageHeader={t('wrongInvitationCode')}
               message={t('checkInvitationCode')}
+              onClose={hideMessage}
+            />
+          )}
+          {hasError && (
+            <InfoMessage
+              variant="error"
+              messageIcon={<IconError />}
+              messageHeader={t('errorTryAgain')}
+              message={errorMessage}
               onClose={hideMessage}
             />
           )}
