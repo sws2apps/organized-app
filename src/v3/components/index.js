@@ -10,6 +10,7 @@ export { default as Radio } from './radio';
 export { default as SnackBar } from './snackbar';
 export { default as Switch } from './switch';
 export { default as TextField } from './textfield';
+export { default as TextMarkup } from './text_markup';
 export { default as ThemeSwitch } from './theme_switch';
 export { default as Typography } from './typography';
 export { default as WaitingCircular } from './waiting_circular';

@@ -1,6 +1,7 @@
 // import CongregationCreate from '../congregation_create';
 // import EmailAuth from '../email_auth';
 import Signin from '../signin';
+import TermsUse from '../terms_use';
 // import Signup from '../signup';
 // import TermsUse from '../terms_use';
 // import VerifyMFA from '../verify_mfa';
@@ -20,8 +21,8 @@ const VipStartup = () => {
 
   return (
     <>
-      {/* {isAuthProcessing && <WaitingCircular />}
-      {showTermsUse && <TermsUse />} */}
+      {/* {isAuthProcessing && <WaitingCircular />} */}
+      <TermsUse />
       {isUserSignIn && <Signin />}
       {/* {isUserSignUp && <Signup />}
       {isUserMfaVerify && <VerifyMFA />}
