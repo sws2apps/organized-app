@@ -29,12 +29,7 @@ const CPECheckbox = ({ checked = false, indeterminate = false, disabled = false,
         />
       }
       label={
-        <Typography
-          variant="body-regular"
-          color="var(--black)"
-          sx={{ cursor: 'pointer' }}
-          onClick={() => checkBoxRef.current.click()}
-        >
+        <Typography variant="body-regular" color="var(--black)">
           {label}
         </Typography>
       }
