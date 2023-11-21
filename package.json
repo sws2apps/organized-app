@@ -31,7 +31,6 @@
     "@fontsource/inter": "^5.0.15",
     "@fontsource/poppins": "^5.0.8",
     "@fontsource/roboto": "^5.0.8",
-    "@material/web": "^1.0.1",
     "@mui/icons-material": "^5.14.18",
     "@mui/material": "^5.14.18",
     "@mui/x-date-pickers": "^6.18.1",

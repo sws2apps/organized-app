@@ -680,7 +680,7 @@
     letter-spacing: 0.28px;
     line-height: 24px;
     text-indent: 0px;
-    text-transform: none;
+    text-transform: uppercase;
   }
 
   .body-regular {

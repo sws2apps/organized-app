@@ -419,7 +419,7 @@
           "lineHeight": 24,
           "paragraphIndent": 0,
           "paragraphSpacing": 0,
-          "textCase": "none"
+          "textCase": "uppercase"
         },
         "extensions": {
           "org.lukasoppermann.figmaDesignTokens": {

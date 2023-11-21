@@ -1,38 +1,11 @@
 import PropTypes from 'prop-types';
 import { Suspense } from 'react';
-import { CssBaseline } from '@mui/material';
 import { RouterProvider, createHashRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ThemeProvider } from '@mui/material/styles';
-import createTheme from '@mui/material/styles/createTheme';
-import { CacheProvider } from '@emotion/react';
-import createCache from '@emotion/cache';
 import { ErrorBoundary, WaitingCircular } from '@components';
 import { useGlobal } from '@hooks';
 import { RootLayout } from '@layouts';
 import ComponentPreview from './ComponentsPreview';
-
-const cache = createCache({
-  key: 'css',
-  prepend: true,
-});
-
-const theme = createTheme({
-  typography: {
-    allVariants: {
-      fontFamily: 'Inter',
-    },
-  },
-  breakpoints: {
-    values: {
-      mobile: 0,
-      tablet: 480,
-      tablet600: 600,
-      laptop: 768,
-      desktop: 1200,
-    },
-  },
-});
 
 const queryClient = new QueryClient();
 
@@ -58,14 +31,9 @@ const App = ({ updatePwa }) => {
 
       {isSupported && (
         <QueryClientProvider client={queryClient}>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <CacheProvider value={cache}>
-              <Suspense fallback={<WaitingCircular />}>
-                <RouterProvider router={router} />
-              </Suspense>
-            </CacheProvider>
-          </ThemeProvider>
+          <Suspense fallback={<WaitingCircular />}>
+            <RouterProvider router={router} />
+          </Suspense>
         </QueryClientProvider>
       )}
     </>

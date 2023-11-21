@@ -76,7 +76,6 @@ const useStartup = () => {
 
   const runAuthenticatedStep = useCallback(async () => {
     try {
-      setIsUserSignIn(false);
       setIsAuthProcessing(true);
 
       const approvedRole = congRole.some((role) => CPE_ROLES.includes(role));

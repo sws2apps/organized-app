@@ -347,3 +347,8 @@ export const congIDState = atom({
   key: 'congID',
   default: '',
 });
+
+export const currentProviderState = atom({
+  key: 'currentProvider',
+  default: '',
+});

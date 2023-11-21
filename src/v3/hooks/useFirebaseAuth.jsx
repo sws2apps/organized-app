@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import backupWorkerInstance from '@services/worker/backupWorker';
 import { saveProfilePic } from '@services/cpe/settings';
-import { displaySnackNotification } from '@services/recoil/app';
+import { displaySnackNotification, setCurrentProvider } from '@services/recoil/app';
 import { getTranslation } from '@services/i18n/translation';
 
 const useFirebaseAuth = () => {
@@ -28,6 +28,8 @@ const useFirebaseAuth = () => {
         }
 
         const provider = user.providerData[0]?.providerId || 'none';
+        await setCurrentProvider(provider);
+
         const photoURL = user.providerData[0]?.photoURL;
         saveProfilePic(photoURL, provider);
         setIsAuthenticated(true);

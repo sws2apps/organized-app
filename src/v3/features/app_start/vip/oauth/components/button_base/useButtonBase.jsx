@@ -1,5 +1,5 @@
 import { useRecoilValue } from 'recoil';
-import { isAuthProcessingState, isUserSignInState, isUserSignUpState, visitorIDState } from '@states/app';
+import { currentProviderState, isAuthProcessingState, isUserSignInState, isUserSignUpState } from '@states/app';
 import { setAuthPersistence, userSignInPopup } from '@services/firebase/auth';
 import { displaySnackNotification, setIsEmailAuth, setIsUserSignIn, setIsUserSignUp } from '@services/recoil/app';
 import useAppTranslation from '@hooks/useAppTranslation';
@@ -8,11 +8,13 @@ const useButtonBase = ({ provider, isEmail }) => {
   const { t } = useAppTranslation();
 
   const isAuthProcessing = useRecoilValue(isAuthProcessingState);
-  const visitorID = useRecoilValue(visitorIDState);
   const isUserSignIn = useRecoilValue(isUserSignInState);
   const isUserSignUp = useRecoilValue(isUserSignUpState);
+  const currentProvider = useRecoilValue(currentProviderState);
 
   const handleOAuthAction = async () => {
+    if (isAuthProcessing) return;
+
     try {
       await setAuthPersistence();
       await userSignInPopup(provider);
@@ -45,7 +47,7 @@ const useButtonBase = ({ provider, isEmail }) => {
     if (!isEmail) handleOAuthAction();
   };
 
-  return { handleAction, isAuthProcessing, visitorID };
+  return { handleAction, isAuthProcessing, currentProvider };
 };
 
 export default useButtonBase;

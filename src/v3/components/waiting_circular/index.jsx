@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
-import { CircularProgress } from '@mui/material';
+import { Box, CircularProgress } from '@mui/material';
 
 const WaitingCircular = ({ variant = 'fixed' }) => {
-  let style = {};
+  let sx = {};
 
   if (variant === 'fixed') {
-    style = {
+    sx = {
       position: 'absolute',
       top: 0,
       left: 0,
@@ -16,14 +16,25 @@ const WaitingCircular = ({ variant = 'fixed' }) => {
   }
 
   return (
-    <CircularProgress
-      size={80}
-      disableShrink={true}
+    <Box
       sx={{
-        color: 'var(--accent-dark)',
-        ...style,
+        display: 'flex',
+        height: '100%',
+        width: '100%',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}
-    />
+    >
+      <CircularProgress
+        size={80}
+        disableShrink={true}
+        sx={{
+          color: 'var(--accent-dark)',
+          ...sx,
+        }}
+      />
+    </Box>
   );
 };
 

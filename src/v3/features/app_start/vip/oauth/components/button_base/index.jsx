@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
-// import useButtonBase from './useButtonBase';
 import { Box } from '@mui/material';
 import { Typography } from '@components';
+import useButtonBase from './useButtonBase';
+import { IconLoading } from '@icons';
 
-// { logo, text, provider, isEmail }
-const OAuthButtonBase = ({ logo, text }) => {
-  // const { handleAction, isAuthProcessing, visitorID } = useButtonBase({ provider, isEmail });
+const OAuthButtonBase = ({ logo, text, provider, isEmail }) => {
+  const { handleAction, isAuthProcessing, currentProvider } = useButtonBase({ provider, isEmail });
 
   return (
     <Box
@@ -33,11 +33,17 @@ const OAuthButtonBase = ({ logo, text }) => {
           boxSizing: 'content-box',
         },
       }}
+      onClick={handleAction}
     >
       {logo}
-      <Typography variant="h4" color="var(--black)" sx={{ padding: '4px 8px', flex: '1 0 0' }}>
-        {text}
-      </Typography>
+      <Box sx={{ display: 'flex', flex: '1 0 0', padding: '4px 8px', alignItems: 'center' }}>
+        <Typography variant="h4" color="var(--black)">
+          {text}
+        </Typography>
+        {isAuthProcessing && currentProvider === provider?.providerId && (
+          <IconLoading width={22} height={22} color="var(--black)" />
+        )}
+      </Box>
     </Box>
   );
 };
