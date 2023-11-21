@@ -19,9 +19,14 @@ const OAuthButtonBase = ({ logo, text }) => {
         borderRadius: 'var(--radius-l)',
         width: '100%',
         cursor: 'pointer',
+        userSelect: 'none',
         '&:hover': {
           border: '1px solid var(--accent-main)',
           background: 'var(--accent-100)',
+          '@media (hover: none)': {
+            border: '1px solid var(--accent-350)',
+            background: 'unset',
+          },
         },
         '& svg': {
           padding: '0px 8px',
