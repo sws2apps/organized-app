@@ -128,7 +128,7 @@ const StartupIllustration = () => {
           <IconButton
             key={n}
             disableRipple
-            sx={{ opacity: n === index ? 1 : 0.48, padding: 0, margin: 0 }}
+            sx={{ opacity: n === index ? 1 : 0.48, padding: 0, margin: 0, width: { mobile: '12px', laptop: '16px' } }}
             onClick={() => handleSlide(n)}
           >
             <IconEllipse
