@@ -41,8 +41,8 @@ const NavBar = () => {
           </Typography>
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: { mobile: '0px', tablet: '8px' } }}>
-          <LanguageSwitcher />
           <ThemeSwitcher />
+          <LanguageSwitcher />
         </Box>
       </Container>
     </Box>

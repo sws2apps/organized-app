@@ -1,7 +1,7 @@
 import { useRecoilValue } from 'recoil';
 import { currentProviderState, isAuthProcessingState, isUserSignInState, isUserSignUpState } from '@states/app';
 import { setAuthPersistence, userSignInPopup } from '@services/firebase/auth';
-import { displayOnboardingError, setIsEmailAuth, setIsUserSignIn, setIsUserSignUp } from '@services/recoil/app';
+import { displayOnboardingFeedback, setIsEmailAuth, setIsUserSignIn, setIsUserSignUp } from '@services/recoil/app';
 import useAppTranslation from '@hooks/useAppTranslation';
 import { useFeedback } from '@features/app_start';
 import { getMessageByCode } from '@services/i18n/translation';
@@ -25,7 +25,7 @@ const useButtonBase = ({ provider, isEmail }) => {
       await setAuthPersistence();
       await userSignInPopup(provider);
     } catch (error) {
-      await displayOnboardingError({
+      await displayOnboardingFeedback({
         title: t('errorTitle'),
         message: getMessageByCode(error.code || t('errorGeneric')),
       });

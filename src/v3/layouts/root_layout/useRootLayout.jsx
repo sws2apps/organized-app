@@ -1,11 +1,9 @@
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { useSearchParams } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import usePwa2 from 'use-pwa2';
 import {
   backupDbOpenState,
   isAboutOpenState,
   isAppLoadState,
-  isEmailLinkAuthenticateState,
   restoreDbOpenState,
   userConfirmationOpenState,
 } from '@states/app';
@@ -17,11 +15,7 @@ import logger from '@services/logger';
 const useRootLayout = () => {
   const { installPwa, isLoading } = usePwa2();
 
-  const [searchParams] = useSearchParams();
-
   const { autoLoginStatus } = useUserAutoLogin();
-
-  const [isEmailAuth, setIsEmailAuth] = useRecoilState(isEmailLinkAuthenticateState);
 
   const isAppLoad = useRecoilValue(isAppLoadState);
   const isOpenAbout = useRecoilValue(isAboutOpenState);
@@ -30,11 +24,6 @@ const useRootLayout = () => {
   const isUserConfirm = useRecoilValue(userConfirmationOpenState);
   const isBackupDb = useRecoilValue(backupDbOpenState);
   const isRestoreDb = useRecoilValue(restoreDbOpenState);
-
-  useEffect(() => {
-    const value = searchParams.get('code') !== null;
-    setIsEmailAuth(value);
-  }, [setIsEmailAuth, searchParams]);
 
   useEffect(() => {
     if (autoLoginStatus !== '') {
@@ -46,7 +35,6 @@ const useRootLayout = () => {
     installPwa,
     isLoading,
     isAppLoad,
-    isEmailAuth,
     isOpenAbout,
     isImportJWOrg,
     isImportEPUB,

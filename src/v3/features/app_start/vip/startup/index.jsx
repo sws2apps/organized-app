@@ -1,32 +1,28 @@
 import CongregationCreate from '../congregation_create';
-// import EmailAuth from '../email_auth';
+import EmailAuth from '../email_auth';
+import EmailLinkAuthentication from '../email_link_authentication';
 import Signin from '../signin';
 import TermsUse from '../terms_use';
-// import Signup from '../signup';
 // import VerifyMFA from '../verify_mfa';
 import useStartup from './useStartup';
 
 const VipStartup = () => {
   const {
-    // isUserSignUp,
     isUserSignIn,
-    // isAuthProcessing,
-    // showTermsUse,
     // isUserMfaVerify,
     isCongAccountCreate,
-    // isEmailAuth,
+    isEmailAuth,
+    isEmailLinkAuth,
   } = useStartup();
 
   return (
     <>
-      {/* {isAuthProcessing && <WaitingCircular variant="standard" />} */}
-      {/* <WaitingCircular variant="standard" /> */}
       <TermsUse />
       {isUserSignIn && <Signin />}
-      {/* {isUserSignUp && <Signup />} */}
       {/* {isUserMfaVerify && <VerifyMFA />} */}
       {isCongAccountCreate && <CongregationCreate />}
-      {/* {isEmailAuth && <EmailAuth />} */}
+      {isEmailAuth && <EmailAuth />}
+      {isEmailLinkAuth && <EmailLinkAuthentication />}
     </>
   );
 };

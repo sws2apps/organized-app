@@ -363,7 +363,7 @@ export const onboardingMessageState = atom({
   default: '',
 });
 
-export const onboardingErrorOpenState = atom({
-  key: 'onboardingErrorOpen',
-  default: false,
+export const onboardingVariantState = atom({
+  key: 'onboardingVariant',
+  default: 'error',
 });

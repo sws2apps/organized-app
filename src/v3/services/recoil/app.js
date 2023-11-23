@@ -43,6 +43,7 @@ import {
   currentProviderState,
   onboardingTitleState,
   onboardingMessageState,
+  onboardingVariantState,
 } from '@states/app';
 
 export const handleSWOnInstalled = async () => {
@@ -64,7 +65,8 @@ export const displaySnackNotification = async ({ message, severity }) => {
   await promiseSetRecoil(appSnackOpenState, true);
 };
 
-export const displayOnboardingError = async ({ title, message }) => {
+export const displayOnboardingFeedback = async ({ title, message, variant = 'error' }) => {
+  await promiseSetRecoil(onboardingVariantState, variant);
   await promiseSetRecoil(onboardingTitleState, title);
   await promiseSetRecoil(onboardingMessageState, message);
 };

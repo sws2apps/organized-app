@@ -1,12 +1,12 @@
 import { useCallback, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { useFirebaseAuth } from '@hooks/index';
 import {
-  isAuthProcessingState,
   isCongAccountCreateState,
   isEmailAuthState,
+  isEmailLinkAuthenticateState,
   isOnlineState,
-  isShowTermsUseState,
   isUserMfaVerifyState,
   isUserSignInState,
   isUserSignUpState,
@@ -20,6 +20,7 @@ import {
   setIsAppLoad,
   setIsAuthProcessing,
   setIsCongAccountCreate,
+  setIsEmailLinkAuthenticate,
   setIsSetup,
   setIsUnauthorizedRole,
   setIsUserSignIn,
@@ -45,7 +46,9 @@ window.userLoginRan = false;
 const useStartup = () => {
   const { isAuthenticated } = useFirebaseAuth();
 
-  const showTermsUse = useRecoilValue(isShowTermsUseState);
+  const [searchParams] = useSearchParams();
+
+  const isEmailLinkAuth = useRecoilValue(isEmailLinkAuthenticateState);
   const isEmailAuth = useRecoilValue(isEmailAuthState);
   const isOnline = useRecoilValue(isOnlineState);
   const visitorID = useRecoilValue(visitorIDState);
@@ -53,18 +56,9 @@ const useStartup = () => {
   const isUserSignIn = useRecoilValue(isUserSignInState);
   const isUserMfaVerify = useRecoilValue(isUserMfaVerifyState);
   const isCongAccountCreate = useRecoilValue(isCongAccountCreateState);
-  const isAuthProcessing = useRecoilValue(isAuthProcessingState);
   const isOfflineOverride = useRecoilValue(offlineOverrideState);
   const congName = useRecoilValue(congNameState);
   const congRole = useRecoilValue(congRoleState);
-
-  // const showSignup = useCallback(() => {
-  //   setIsUserSignUp(true);
-  //   setIsUserSignIn(false);
-  //   setIsCongAccountCreate(false);
-  //   setUserMfaVerify(false);
-  //   setUserMfaSetup(false);
-  // }, []);
 
   const showSignin = useCallback(() => {
     setIsUserSignUp(false);
@@ -221,8 +215,17 @@ const useStartup = () => {
   }, [isOfflineOverride, congName, congRole, showSignin]);
 
   useEffect(() => {
+    const checkLink = async () => {
+      const value = searchParams.get('code') !== null;
+      await setIsEmailLinkAuthenticate(value);
+    };
+
+    checkLink();
+  }, [searchParams]);
+
+  useEffect(() => {
     if (!isAuthenticated) runNotAuthenticatedStep();
-  }, [isAuthenticated, runNotAuthenticatedStep, showTermsUse]);
+  }, [isAuthenticated, runNotAuthenticatedStep]);
 
   useEffect(() => {
     if (visitorID.toString().length === 0) return;
@@ -232,7 +235,7 @@ const useStartup = () => {
         runAuthenticatedStep();
       }
     }
-  }, [isUserSignUp, isUserSignIn, runAuthenticatedStep, visitorID, isAuthenticated, showTermsUse, isOnline]);
+  }, [isUserSignUp, isUserSignIn, runAuthenticatedStep, visitorID, isAuthenticated, isOnline]);
 
   useEffect(() => {
     const checkTermsUseStatus = async () => {
@@ -244,13 +247,11 @@ const useStartup = () => {
   }, []);
 
   return {
-    showTermsUse,
     isEmailAuth,
-    isUserSignUp,
     isUserSignIn,
     isUserMfaVerify,
     isCongAccountCreate,
-    isAuthProcessing,
+    isEmailLinkAuth,
   };
 };
 

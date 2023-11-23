@@ -76,6 +76,9 @@ const CPEAutoComplete = ({
         '.MuiInputBase-adornedEnd': {
           paddingRight: '14px !important',
         },
+        '.MuiAutocomplete-input': {
+          padding: '0px !important',
+        },
       }}
       autoComplete={autoComplete}
       includeInputInList={includeInputInList}

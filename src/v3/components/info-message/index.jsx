@@ -85,7 +85,7 @@ const CPEInfoMessage = ({
           </Button>
         )}
         {variant !== 'message-with-button' && (
-          <IconButton onClick={onClose}>
+          <IconButton onClick={onClose} sx={{ padding: 0 }}>
             <IconClose color="var(--always-white)" />
           </IconButton>
         )}

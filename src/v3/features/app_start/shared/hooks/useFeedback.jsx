@@ -1,9 +1,10 @@
-import { onboardingMessageState, onboardingTitleState } from '@states/app';
+import { onboardingMessageState, onboardingTitleState, onboardingVariantState } from '@states/app';
 import { useRecoilValue } from 'recoil';
 
 const useFeedback = () => {
   const title = useRecoilValue(onboardingTitleState);
   const message = useRecoilValue(onboardingMessageState);
+  const variant = useRecoilValue(onboardingVariantState);
 
   const onboardingError = document.querySelector('#onboarding-error');
 
@@ -17,7 +18,7 @@ const useFeedback = () => {
     onboardingError.style.animation = 'fade-in 1s forwards';
   };
 
-  return { title, message, hideMessage, showMessage };
+  return { title, message, variant, hideMessage, showMessage };
 };
 
 export default useFeedback;

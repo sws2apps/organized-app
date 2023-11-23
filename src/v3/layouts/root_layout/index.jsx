@@ -7,7 +7,7 @@ import { AppUpdater, Startup } from '@features/index';
 import useRootLayout from './useRootLayout';
 
 const RootLayout = ({ updatePwa }) => {
-  const { isAppLoad, isEmailAuth } = useRootLayout();
+  const { isAppLoad } = useRootLayout();
 
   return (
     <AppModalWrapper>
@@ -22,7 +22,7 @@ const RootLayout = ({ updatePwa }) => {
           marginTop: '80px', // header 56px + 24px
         }}
       >
-        {isAppLoad && !isEmailAuth && <Startup />}
+        {isAppLoad && <Startup />}
 
         {!isAppLoad && <Outlet />}
       </Container>

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { isOnlineState, visitorIDState } from '@states/app';
 import {
-  displayOnboardingError,
+  displayOnboardingFeedback,
   setCongAccountConnected,
   setIsAccountChoose,
   setIsAppLoad,
@@ -26,7 +26,7 @@ const useSignup = () => {
   const isOnline = useRecoilValue(isOnlineState);
   const visitorID = useRecoilValue(visitorIDState);
 
-  const { feedbackRef, hideMessage, message, showMessage, title } = useFeedback();
+  const { hideMessage, message, showMessage, title, variant } = useFeedback();
 
   const [code, setCode] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
@@ -46,7 +46,7 @@ const useSignup = () => {
 
       setTimeout(async () => {
         if (code.length < 10) {
-          await displayOnboardingError({
+          await displayOnboardingFeedback({
             title: t('wrongInvitationCode'),
             message: t('checkInvitationCode'),
           });
@@ -58,7 +58,7 @@ const useSignup = () => {
         const { status, data } = await apiPocketSignup(code);
 
         if (status !== 200) {
-          await displayOnboardingError({
+          await displayOnboardingFeedback({
             title: t('errorTryAgain'),
             message: getMessageByCode(data.message),
           });
@@ -95,7 +95,7 @@ const useSignup = () => {
       }, 1000);
     } catch (err) {
       setIsProcessing(false);
-      await displayOnboardingError({
+      await displayOnboardingFeedback({
         title: t('errorTryAgain'),
         message: getMessageByCode(err.message),
       });
@@ -112,9 +112,9 @@ const useSignup = () => {
     handleSignUp,
     code,
     hideMessage,
-    feedbackRef,
     title,
     message,
+    variant,
   };
 };
 

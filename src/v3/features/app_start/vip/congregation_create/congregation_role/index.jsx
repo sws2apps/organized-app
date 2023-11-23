@@ -8,6 +8,7 @@ const CongregationRole = ({ role, setRole }) => {
   const { t } = useAppTranslation();
 
   const roles = [
+    { value: 'admin', label: t('roleAdmin') },
     { value: 'coordinator', label: t('roleCoordinator') },
     { value: 'secretary', label: t('roleSecretary') },
     { value: 'lmmo', label: t('roleLMMO') },

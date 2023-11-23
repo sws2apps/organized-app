@@ -16,6 +16,8 @@ const LanguageSwitcher = () => {
         color="inherit"
         edge="start"
         sx={{
+          padding: '8px',
+          marginLeft: '0px',
           borderRadius: '8px',
           '.MuiTouchRipple-ripple .MuiTouchRipple-child': {
             borderRadius: 0,
@@ -45,12 +47,14 @@ const LanguageSwitcher = () => {
         MenuListProps={{
           'aria-labelledby': 'basic-button',
         }}
-        PaperProps={{
-          className: 'small-card-shadow',
-          style: {
-            borderRadius: 'var(--radius-l)',
-            border: '1px solid var(--accent-200)',
-            backgroundColor: 'var(--white)',
+        slotProps={{
+          paper: {
+            className: 'small-card-shadow',
+            style: {
+              borderRadius: 'var(--radius-l)',
+              border: '1px solid var(--accent-200)',
+              backgroundColor: 'var(--white)',
+            },
           },
         }}
       >

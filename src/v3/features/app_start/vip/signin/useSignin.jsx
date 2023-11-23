@@ -3,14 +3,14 @@ import { setIsAccountChoose } from '@services/recoil/app';
 import { useFeedback } from '@features/app_start';
 
 const useSignin = () => {
-  const { message, title, hideMessage } = useFeedback();
+  const { message, title, hideMessage, variant } = useFeedback();
 
   const handleReturnChooser = async () => {
     await handleUpdateSetting({ account_type: '' });
     await setIsAccountChoose(true);
   };
 
-  return { handleReturnChooser, hideMessage, title, message };
+  return { handleReturnChooser, hideMessage, title, message, variant };
 };
 
 export default useSignin;

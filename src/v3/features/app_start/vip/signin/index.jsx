@@ -9,7 +9,7 @@ import { IconError } from '@icons';
 const Signin = () => {
   const { t } = useAppTranslation();
 
-  const { handleReturnChooser, hideMessage, message, title } = useSignin();
+  const { handleReturnChooser, hideMessage, message, title, variant } = useSignin();
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
@@ -26,7 +26,7 @@ const Signin = () => {
 
         <Box id="onboarding-error" sx={{ display: 'none' }}>
           <InfoMessage
-            variant="error"
+            variant={variant}
             messageIcon={<IconError />}
             messageHeader={title}
             message={message}

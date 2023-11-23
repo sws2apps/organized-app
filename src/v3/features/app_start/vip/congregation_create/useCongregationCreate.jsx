@@ -2,25 +2,27 @@ import { useEffect, useRef, useState } from 'react';
 import backupWorkerInstance from '@services/worker/backupWorker';
 import { useAppTranslation, useFirebaseAuth } from '@hooks';
 import {
-  displaySnackNotification,
   setCongAccountConnected,
   setCongID,
   setIsAppLoad,
   setIsSetup,
   setOfflineOverride,
   setUserID,
-  setIsUserSignIn,
-  setIsCongAccountCreate,
+  displayOnboardingFeedback,
 } from '@services/recoil/app';
 import { apiCreateCongregation } from '@services/api/congregation';
 import { handleUpdateSetting } from '@services/dexie/settings';
 import { loadApp, runUpdater } from '@services/cpe';
+import { useFeedback } from '@features/app_start';
+import { getMessageByCode } from '@services/i18n/translation';
 
 const useCongregationCreate = () => {
   const cancel = useRef();
   const { user } = useFirebaseAuth();
 
   const { t } = useAppTranslation();
+
+  const { hideMessage, message, showMessage, title, variant } = useFeedback();
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [country, setCountry] = useState(null);
@@ -30,12 +32,19 @@ const useCongregationCreate = () => {
   const [isCreate, setIsCreate] = useState(false);
 
   const handleCongregationAction = async () => {
+    if (isProcessing) return;
+
+    hideMessage();
+
+    setIsProcessing(true);
+
     try {
       if (userTmpFullname.length === 0 || country === null || congregation === null || role.length === 0) {
-        await displaySnackNotification({
-          message: t('missingInfo'),
-          severity: 'warning',
+        await displayOnboardingFeedback({
+          title: t('missingInfo'),
+          message: t('incompleteCongregationInfo'),
         });
+        showMessage();
 
         setIsProcessing(false);
         return;
@@ -52,20 +61,22 @@ const useCongregationCreate = () => {
       );
 
       if (status !== 200 && status !== 404) {
-        await displaySnackNotification({
-          message: data.message,
-          severity: 'warning',
+        await displayOnboardingFeedback({
+          title: t('errorGeneric'),
+          message: getMessageByCode(data.message),
         });
+        showMessage();
 
         setIsProcessing(false);
         return;
       }
 
       if (status === 404) {
-        await displaySnackNotification({
+        await displayOnboardingFeedback({
+          title: t('errorGeneric'),
           message: t('congregationExists'),
-          severity: 'warning',
         });
+        showMessage();
 
         setIsProcessing(false);
         return;
@@ -101,20 +112,15 @@ const useCongregationCreate = () => {
       }
     } catch (err) {
       if (!cancel.current) {
-        await displaySnackNotification({
-          message: err.message,
-          severity: 'error',
+        await displayOnboardingFeedback({
+          title: t('errorGeneric'),
+          message: getMessageByCode(err.message),
         });
+        showMessage();
 
         setIsProcessing(false);
       }
     }
-  };
-
-  const handleSignIn = async () => {
-    await setIsUserSignIn(true);
-    await setIsCongAccountCreate(false);
-    await setCongAccountConnected(false);
   };
 
   useEffect(() => {
@@ -144,7 +150,6 @@ const useCongregationCreate = () => {
   }, []);
 
   return {
-    handleSignIn,
     country,
     congregation,
     role,
@@ -157,6 +162,10 @@ const useCongregationCreate = () => {
     setCongregation,
     setCountry,
     setUserTmpFullname,
+    message,
+    title,
+    hideMessage,
+    variant,
   };
 };
 

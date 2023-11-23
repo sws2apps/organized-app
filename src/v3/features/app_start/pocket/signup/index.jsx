@@ -19,6 +19,7 @@ const PocketSignUp = () => {
     hideMessage,
     title,
     message,
+    variant,
   } = useSignup();
 
   return (
@@ -47,7 +48,7 @@ const PocketSignUp = () => {
 
         <Box id="onboarding-error" sx={{ display: 'none' }}>
           <InfoMessage
-            variant="error"
+            variant={variant}
             messageIcon={<IconError />}
             messageHeader={title}
             message={message}

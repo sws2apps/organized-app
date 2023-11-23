@@ -39,6 +39,9 @@ const CPESelect = ({
           flex: '1 0 0',
           marginRight: '32px',
         },
+        '.MuiSelect-select': {
+          minHeight: 'unset',
+        },
         '.MuiOutlinedInput-root': {
           borderRadius: 'var(--radius-l)',
           color: 'var(--black)',
