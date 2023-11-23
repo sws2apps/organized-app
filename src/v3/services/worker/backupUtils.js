@@ -1,6 +1,6 @@
 // to minimize the size of the worker file, we recreate all its needed functions in this file
 
-import appDb from '@services/dexie/db';
+import appDb from '@shared/indexedDb/mainDb';
 
 export const apiSendCongregationBackup = async ({ apiHost, congID, visitorID, userUID, reqPayload }) => {
   await fetch(`${apiHost}api/congregations/${congID}/backup`, {
