@@ -1,25 +1,51 @@
 import PropTypes from 'prop-types';
+import { MenuItem } from '@mui/material';
+import { Select, Typography } from '@components';
+import { IconRole } from '@icons';
 import { useAppTranslation } from '@hooks';
-import { MenuItem, TextField } from '@mui/material';
 
 const CongregationRole = ({ role, setRole }) => {
   const { t } = useAppTranslation();
 
+  const roles = [
+    { value: 'coordinator', label: t('roleCoordinator') },
+    { value: 'secretary', label: t('roleSecretary') },
+    { value: 'lmmo', label: t('roleLMMO') },
+    { value: 'public_talk_coordinator', label: t('rolePublicTalkCoordinator') },
+  ];
+
   return (
-    <TextField
-      id="outlined-select-type"
-      select
+    <Select
       label={t('mainRoleLabel')}
-      size="medium"
       value={role}
       onChange={(e) => setRole(e.target.value)}
-      sx={{ minWidth: '250px' }}
+      height={48}
+      startIcon={<IconRole color="var(--black)" />}
     >
-      <MenuItem value="coordinator">{t('roleCoordinator')}</MenuItem>
-      <MenuItem value="secretary">{t('roleSecretary')}</MenuItem>
-      <MenuItem value="lmmo">{t('roleLMMO')}</MenuItem>
-      <MenuItem value="public_talk_coordinator">{t('rolePublicTalkCoordinator')}</MenuItem>
-    </TextField>
+      {roles.map((role) => (
+        <MenuItem
+          key={role.value}
+          sx={{
+            padding: '8px 12px 8px 16px !important',
+            minHeight: '36px !important',
+            backgroundColor: 'unset',
+            borderBottom: '1px solid var(--accent-200)',
+            '&:hover': {
+              backgroundColor: 'var(--accent-100)',
+              '& p': {
+                color: 'var(--accent-dark)',
+              },
+            },
+            '&:last-child': {
+              borderBottom: 'none',
+            },
+          }}
+          value={role.value}
+        >
+          <Typography>{role.label}</Typography>
+        </MenuItem>
+      ))}
+    </Select>
   );
 };
 

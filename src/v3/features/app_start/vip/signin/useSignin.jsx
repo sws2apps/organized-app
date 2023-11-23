@@ -1,18 +1,16 @@
 import { handleUpdateSetting } from '@services/dexie/settings';
-import { setIsAccountChoose, setIsUserSignIn, setIsUserSignUp } from '@services/recoil/app';
+import { setIsAccountChoose } from '@services/recoil/app';
+import { useFeedback } from '@features/app_start';
 
 const useSignin = () => {
+  const { message, title, hideMessage } = useFeedback();
+
   const handleReturnChooser = async () => {
     await handleUpdateSetting({ account_type: '' });
     await setIsAccountChoose(true);
   };
 
-  const handleSignUp = () => {
-    setIsUserSignUp(true);
-    setIsUserSignIn(false);
-  };
-
-  return { handleSignUp, handleReturnChooser };
+  return { handleReturnChooser, hideMessage, title, message };
 };
 
 export default useSignin;

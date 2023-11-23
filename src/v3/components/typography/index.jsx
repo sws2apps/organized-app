@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
 import { Typography } from '@mui/material';
 
-const CPETypography = ({ variant, children, color = 'var(--black)', sx = {} }) => {
+const CPETypography = ({ autoProps, variant = 'body-regular', children, color = 'var(--black)', sx = {} }) => {
   return (
     <Typography
+      {...autoProps}
       className={variant}
       sx={{
         color: color,
@@ -34,6 +35,7 @@ CPETypography.propTypes = {
     'body-small-regular',
   ]),
   color: PropTypes.string,
+  autoProps: PropTypes.any,
 };
 
 export default CPETypography;

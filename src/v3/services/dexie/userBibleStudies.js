@@ -1,4 +1,4 @@
-import appDb from './db';
+import { appDb } from '.';
 
 export const cleanUserBibleStudiesDeleted = async () => {
   const allData = await appDb.user_bible_studies.toArray();

@@ -1,7 +1,8 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { isOnlineState, visitorIDState } from '@states/app';
 import {
+  displayOnboardingError,
   setCongAccountConnected,
   setIsAccountChoose,
   setIsAppLoad,
@@ -16,47 +17,28 @@ import { handleUpdateSetting, handleUpdateSettingFromRemote } from '@services/de
 import { loadApp, runUpdater } from '@services/cpe';
 import { apiFetchSchedule } from '@services/api/schedule';
 import { handleUpdateScheduleFromRemote } from '@services/cpe/schedules';
+import { useAppTranslation } from '@hooks/index';
+import { useFeedback } from '@features/app_start';
 
 const useSignup = () => {
+  const { t } = useAppTranslation();
+
   const isOnline = useRecoilValue(isOnlineState);
   const visitorID = useRecoilValue(visitorIDState);
 
-  const feedbackRef = useRef();
+  const { feedbackRef, hideMessage, message, showMessage, title } = useFeedback();
 
   const [code, setCode] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
-  const [hasError, setHasError] = useState(false);
-  const [wrongCode, setWrongCode] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
 
   const handleReturnChooser = async () => {
     await handleUpdateSetting({ account_type: '' });
     await setIsAccountChoose(true);
   };
 
-  const hideMessage = () => {
-    feedbackRef.current.style.animation = 'fade-out 1s forwards';
-
-    setTimeout(() => {
-      setHasError(false);
-      setWrongCode(false);
-      setErrorMessage('');
-    }, 1000);
-  };
-
-  const showMessage = () => {
-    feedbackRef.current.style.opacity = 0;
-    feedbackRef.current.style.display = 'block';
-    feedbackRef.current.style.animation = 'fade-in 1s forwards';
-  };
-
   const handleSignUp = async () => {
     try {
       if (isProcessing) return;
-
-      setHasError(false);
-      setWrongCode(false);
-      setErrorMessage('');
 
       hideMessage();
 
@@ -64,17 +46,22 @@ const useSignup = () => {
 
       setTimeout(async () => {
         if (code.length < 10) {
-          setWrongCode(true);
+          await displayOnboardingError({
+            title: t('wrongInvitationCode'),
+            message: t('checkInvitationCode'),
+          });
           showMessage();
-
+          setIsProcessing(false);
           return;
         }
 
         const { status, data } = await apiPocketSignup(code);
 
         if (status !== 200) {
-          setErrorMessage(getMessageByCode(data.message));
-          setHasError(true);
+          await displayOnboardingError({
+            title: t('errorTryAgain'),
+            message: getMessageByCode(data.message),
+          });
 
           showMessage();
           setIsProcessing(false);
@@ -108,8 +95,11 @@ const useSignup = () => {
       }, 1000);
     } catch (err) {
       setIsProcessing(false);
-      setErrorMessage(getMessageByCode(err.message));
-      setHasError(true);
+      await displayOnboardingError({
+        title: t('errorTryAgain'),
+        message: getMessageByCode(err.message),
+      });
+      showMessage();
     }
   };
 
@@ -121,11 +111,10 @@ const useSignup = () => {
     setCode,
     handleSignUp,
     code,
-    hasError,
-    wrongCode,
-    errorMessage,
     hideMessage,
     feedbackRef,
+    title,
+    message,
   };
 };
 

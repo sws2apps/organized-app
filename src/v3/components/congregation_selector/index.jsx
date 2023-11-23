@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
-import { Autocomplete, Box, CircularProgress, TextField } from '@mui/material';
-import HomeWorkIcon from '@mui/icons-material/HomeWork';
+import { Box } from '@mui/material';
+import { AutoComplete, Typography } from '@components';
+import { IconCongregation, IconSearch } from '@icons';
 import useCongregation from './useCongregation';
 import { useAppTranslation } from '@hooks';
 
@@ -10,44 +11,29 @@ const CongregationSelector = ({ country, setCongregation }) => {
   const { t } = useAppTranslation();
 
   return (
-    <Autocomplete
-      id="select-congregation"
-      fullWidth={true}
-      sx={{ maxWidth: '900px' }}
+    <AutoComplete
       isOptionEqualToValue={(option, value) => option.congNumber === value.congNumber}
-      getOptionLabel={(option) => `(${option.congNumber}) ${option.congName}`}
+      getOptionLabel={(option) => `${option.congName}, ${option.congNumber}`}
       filterOptions={(x) => x}
       options={options}
-      autoComplete
-      includeInputInList
+      autoComplete={true}
+      includeInputInList={true}
       value={value}
-      noOptionsText={t('noOptions')}
-      loadingText={t('loading')}
       onChange={(event, newValue) => {
         setValue(newValue);
         setCongregation(newValue);
       }}
       onInputChange={(event, newInputValue) => setInputValue(newInputValue)}
+      loading={isLoading}
+      label={t('yourCongregation')}
+      startIcon={<IconCongregation color="var(--black)" />}
+      endIcon={<IconSearch color="var(--accent-350)" />}
       renderOption={(props, option) => (
-        <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
-          <HomeWorkIcon color="secondary" sx={{ marginRight: '8px' }} />({option.congNumber}) {option.congName}
+        <Box component="li" {...props} sx={{ margin: 0, padding: 0 }}>
+          <Typography variant="body-regular">
+            {option.congName}, {option.congNumber}
+          </Typography>
         </Box>
-      )}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          label={t('congregation')}
-          InputProps={{
-            ...params.InputProps,
-            startAdornment: <HomeWorkIcon color="secondary" sx={{ marginLeft: '5px' }} />,
-            endAdornment: (
-              <>
-                {isLoading ? <CircularProgress color="inherit" size={20} /> : null}
-                {params.InputProps.endAdornment}
-              </>
-            ),
-          }}
-        />
       )}
     />
   );

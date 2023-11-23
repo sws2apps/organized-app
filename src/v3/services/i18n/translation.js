@@ -55,6 +55,8 @@ export const getMessageByCode = (code) => {
       return getTranslation({ key: 'sourceNotFoundUnavailable' });
     case 'BACKUP_DISCREPANCY':
       return getTranslation({ key: 'backupDiscrepancy' });
+    case 'auth/account-exists-with-different-credential':
+      return getTranslation({ key: 'oauthAccountExistsWithDifferentCredential' });
     default:
       return code;
   }

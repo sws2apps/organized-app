@@ -1,4 +1,4 @@
-import appDb from './db';
+import { appDb } from '.';
 
 export const cleanFieldServiceGroupDeleted = async () => {
   const allData = await appDb.fieldServiceGroup.toArray();

@@ -1,19 +1,18 @@
-import { Box, Button, CircularProgress, Container, Link, TextField, Typography } from '@mui/material';
-import InfoIcon from '@mui/icons-material/Info';
-import { CountrySelector, CongregationSelector } from '@components';
+import { Box } from '@mui/material';
+import { CountrySelector, CongregationSelector, Typography, Button, TextField } from '@components';
+import { PageHeader } from '@features/app_start';
 import CongregationRole from './congregation_role';
 import useCongregationCreate from './useCongregationCreate';
 import { useAppTranslation } from '@hooks';
+import { IconAccount } from '@icons';
 
 const CongregationCreate = () => {
   const {
-    handleSignIn,
     country,
     congregation,
     role,
     userTmpFullname,
     isCreate,
-    isProcessing,
     handleCongregationAction,
     setIsCreate,
     setRole,
@@ -25,104 +24,55 @@ const CongregationCreate = () => {
   const { t } = useAppTranslation();
 
   return (
-    <Container sx={{ marginTop: '20px' }}>
+    <>
       {!isCreate && (
-        <Box>
-          <Box
-            sx={{
-              display: 'flex',
-              gap: '20px',
-              margin: '30px 0',
-              maxWidth: '480px',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
-          >
-            <InfoIcon color="info" sx={{ fontSize: '60px' }} />
-            <Typography>{t('accountCreated')}</Typography>
-          </Box>
-          <Box
-            sx={{
-              marginTop: '20px',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              maxWidth: '480px',
-              width: '100%',
-              flexWrap: 'wrap',
-              gap: '10px',
-            }}
-          >
-            <Link component="button" underline="none" variant="body2" onClick={() => window.location.reload()}>
-              {t('reloadApp')}
-            </Link>
+        <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
+          <PageHeader title={t('registrationSuccess')} description={t('accountCreated')} />
 
-            <Button variant="contained" onClick={() => setIsCreate(true)}>
-              {t('create')}
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px', width: '100%' }}>
+            <Typography variant="body-regular">{t('congregationCreateLabel')}</Typography>
+            <Button variant="secondary" onClick={() => setIsCreate(true)}>
+              {t('createCongregation')}
             </Button>
           </Box>
         </Box>
       )}
       {isCreate && (
-        <Box>
-          <Typography variant="h4" sx={{ marginBottom: '15px' }}>
-            {t('createCongregationAccount')}
-          </Typography>
+        <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', width: '100%' }}>
+          <PageHeader title={t('createCongregationAccount')} onClick={() => setIsCreate(false)} />
 
           <Box
             sx={{
-              width: '100%',
-              maxWidth: '500px',
-              margin: '30px 0',
               display: 'flex',
               flexDirection: 'column',
-              gap: '20px',
+              gap: '24px',
+              alignItems: 'flex-start',
+              alignSelf: 'stretch',
+              width: '100%',
             }}
           >
             <TextField
-              sx={{ width: '100%' }}
-              id="outlined-fullname"
               label={t('fullname')}
               variant="outlined"
               autoComplete="off"
-              required
+              required={true}
               value={userTmpFullname}
               onChange={(e) => setUserTmpFullname(e.target.value)}
+              sx={{ width: '100%' }}
+              startIcon={<IconAccount color="var(--accent-350)" />}
             />
 
             <CountrySelector handleCountryChange={setCountry} />
             {country !== null && <CongregationSelector country={country} setCongregation={setCongregation} />}
             {congregation !== null && <CongregationRole role={role} setRole={setRole} />}
-          </Box>
 
-          <Box
-            sx={{
-              marginTop: '20px',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              maxWidth: '500px',
-              width: '100%',
-              flexWrap: 'wrap',
-              gap: '10px',
-            }}
-          >
-            <Link component="button" underline="none" variant="body2" onClick={handleSignIn}>
-              {t('hasAccount')}
-            </Link>
-
-            <Button
-              variant="contained"
-              disabled={isProcessing}
-              endIcon={isProcessing ? <CircularProgress size={25} /> : null}
-              onClick={handleCongregationAction}
-            >
-              {t('create')}
+            <Button variant="main" onClick={handleCongregationAction} sx={{ width: '100%' }} disabled={true}>
+              {t('createCongregation')}
             </Button>
           </Box>
         </Box>
       )}
-    </Container>
+    </>
   );
 };
 

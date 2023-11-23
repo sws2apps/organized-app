@@ -1,8 +1,10 @@
 import { useRecoilValue } from 'recoil';
 import { currentProviderState, isAuthProcessingState, isUserSignInState, isUserSignUpState } from '@states/app';
 import { setAuthPersistence, userSignInPopup } from '@services/firebase/auth';
-import { displaySnackNotification, setIsEmailAuth, setIsUserSignIn, setIsUserSignUp } from '@services/recoil/app';
+import { displayOnboardingError, setIsEmailAuth, setIsUserSignIn, setIsUserSignUp } from '@services/recoil/app';
 import useAppTranslation from '@hooks/useAppTranslation';
+import { useFeedback } from '@features/app_start';
+import { getMessageByCode } from '@services/i18n/translation';
 
 const useButtonBase = ({ provider, isEmail }) => {
   const { t } = useAppTranslation();
@@ -12,26 +14,23 @@ const useButtonBase = ({ provider, isEmail }) => {
   const isUserSignUp = useRecoilValue(isUserSignUpState);
   const currentProvider = useRecoilValue(currentProviderState);
 
+  const { showMessage, hideMessage } = useFeedback();
+
   const handleOAuthAction = async () => {
     if (isAuthProcessing) return;
+
+    hideMessage();
 
     try {
       await setAuthPersistence();
       await userSignInPopup(provider);
     } catch (error) {
-      if (error.code && error.code === 'auth/account-exists-with-different-credential') {
-        await displaySnackNotification({
-          message: t('oauthAccountExistsWithDifferentCredential'),
-          severity: 'warning',
-        });
-
-        return;
-      }
-
-      await displaySnackNotification({
-        message: t('oauthError'),
-        severity: 'error',
+      await displayOnboardingError({
+        title: t('errorTitle'),
+        message: getMessageByCode(error.code || t('errorGeneric')),
       });
+
+      showMessage();
     }
   };
 

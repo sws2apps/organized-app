@@ -1,4 +1,4 @@
-import appDb from './db';
+import { appDb } from '.';
 
 export const cleanLateReportsDeleted = async () => {
   const allData = await appDb.lateReports.toArray();

@@ -15,7 +15,7 @@
   "save": "Save",
   "cancel": "Cancel",
   "undo": "Undo",
-  "errorTryAgain": "An error occured. Try again later.",
+  "errorTitle": "An error occured",
   "password": "Password",
   "passphrase": "Passphrase",
   "confirmPwd": "Confirm your input",
@@ -182,7 +182,7 @@
   "accountExist": "That person is already in your congregation.",
   "accountDisabled": "The account that you are trying to access is currently disabled.",
   "createFailed": "An error occured and your account could not be created",
-  "accountCreated": "Your user account was created. Inform your congregation administrator to give you the necessary permissions and click Reload this app. If your congregation does not already have an account, click the CREATE button.",
+  "accountCreated": "Your Organized account has been created. Inform your congregation administrator to give you the necessary permissions and then refresh the page.",
   "accountCreatedNoLink": "Your account is created, but we failed to send the verification email",
   "accountNotVerified": "This account is valid, but it is not yet verified. Please check your email address to verify it",
   "accountResendLink": "Resend verification email",
@@ -193,7 +193,7 @@
   "blockedEmailTitle": "Email address blocked",
   "blockedAccount": "This email address is blocked. Please verify that the information you provided are correct.",
   "resendVerify": "Resend verification email",
-  "createCongregationAccount": "Create a congregation account",
+  "createCongregationAccount": "Create a congregation",
   "congregationName": "Congregation name",
   "congregationNumber": "Congregation number",
   "requestAccount": "Request",
@@ -706,5 +706,10 @@
   "wrongInvitationCode": "Wrong invitation code",
   "checkInvitationCode": "Please double check the code you provided",
   "orLabel": "or",
-  "importantNotice": "Important notice"
+  "importantNotice": "Important notice",
+  "registrationSuccess": "Thanks for registration",
+  "congregationCreateLabel": "Your congregation does not exist in Organized yet?",
+  "createCongregation": "Create Congregation",
+  "errorGeneric": "Something went wrong. Try again later.",
+  "yourCongregation": "Your congregation"
 }

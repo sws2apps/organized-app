@@ -11,7 +11,7 @@ import { publicTalkFindLocal } from '../cpe/publicTalks';
 import { formatDate } from '@services/dateformat';
 import { scheduleSchema } from '@services/dexie/schema';
 import { publicTalksLocaleState } from '@states/publicTalks';
-import appDb from './db';
+import { appDb } from '.';
 
 export const saveSchedule = async (appData) => {
   const lmmoRole = await promiseGetRecoil(lmmoRoleState);

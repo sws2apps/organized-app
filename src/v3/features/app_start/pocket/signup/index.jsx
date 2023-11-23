@@ -17,10 +17,8 @@ const PocketSignUp = () => {
     visitorID,
     code,
     hideMessage,
-    feedbackRef,
-    wrongCode,
-    errorMessage,
-    hasError,
+    title,
+    message,
   } = useSignup();
 
   return (
@@ -47,25 +45,14 @@ const PocketSignUp = () => {
           </Button>
         </Box>
 
-        <Box sx={{ display: 'none' }} ref={feedbackRef}>
-          {wrongCode && (
-            <InfoMessage
-              variant="error"
-              messageIcon={<IconError />}
-              messageHeader={t('wrongInvitationCode')}
-              message={t('checkInvitationCode')}
-              onClose={hideMessage}
-            />
-          )}
-          {hasError && (
-            <InfoMessage
-              variant="error"
-              messageIcon={<IconError />}
-              messageHeader={t('errorTryAgain')}
-              message={errorMessage}
-              onClose={hideMessage}
-            />
-          )}
+        <Box id="onboarding-error" sx={{ display: 'none' }}>
+          <InfoMessage
+            variant="error"
+            messageIcon={<IconError />}
+            messageHeader={title}
+            message={message}
+            onClose={hideMessage}
+          />
         </Box>
       </Box>
     </Box>

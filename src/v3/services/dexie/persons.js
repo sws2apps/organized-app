@@ -1,5 +1,5 @@
 import { promiseGetRecoil } from 'recoil-outside';
-import appDb from './db';
+import { appDb } from '.';
 import { comparePerson, getPerson } from '@services/cpe/persons';
 import { personsState } from '@states/persons';
 

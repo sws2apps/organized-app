@@ -1,5 +1,5 @@
 import { getCongregation, getCongregationByID, getSpeaker } from '@services/cpe/visitingSpeakers';
-import appDb from './db';
+import { appDb } from '.';
 import { promiseGetRecoil } from 'recoil-outside';
 import { congNameState, congNumberState } from '@states/settings';
 import { visitingSpeakerSchema } from './schema';

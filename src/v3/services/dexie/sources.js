@@ -3,7 +3,7 @@ import { schedulesState } from '@states/schedules';
 import { getWeekDate, getOldestWeekDate } from '@utils/date';
 import { sourcesState } from '@states/sources';
 import { formatDate } from '@services/dateformat';
-import appDb from './db';
+import { appDb } from '.';
 import { coordinatorRoleState, lmmoRoleState, sourceLangState } from '@states/settings';
 import { saveScheduleInfo } from './schedules';
 import { assignmentTypeAYFOnlyState } from '@states/assignment';

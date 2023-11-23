@@ -1,7 +1,7 @@
 import { promiseGetRecoil } from 'recoil-outside';
 import { sourceLangState } from '@states/settings';
 import { getS34 } from '@services/cpe/publicTalks';
-import appDb from './db';
+import { appDb } from '.';
 import { S34Schema } from './schema';
 
 export const saveS34 = async (talk_number, talk_title) => {

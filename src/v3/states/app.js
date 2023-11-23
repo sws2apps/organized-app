@@ -352,3 +352,18 @@ export const currentProviderState = atom({
   key: 'currentProvider',
   default: '',
 });
+
+export const onboardingTitleState = atom({
+  key: 'onboardingTitle',
+  default: '',
+});
+
+export const onboardingMessageState = atom({
+  key: 'onboardingMessage',
+  default: '',
+});
+
+export const onboardingErrorOpenState = atom({
+  key: 'onboardingErrorOpen',
+  default: false,
+});

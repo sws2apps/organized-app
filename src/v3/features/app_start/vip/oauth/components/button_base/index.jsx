@@ -28,6 +28,9 @@ const OAuthButtonBase = ({ logo, text, provider, isEmail }) => {
             background: 'unset',
           },
         },
+        '&:active': {
+          background: 'var(--accent-200)',
+        },
         '& svg': {
           padding: '0px 8px',
           boxSizing: 'content-box',

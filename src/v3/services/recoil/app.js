@@ -41,6 +41,8 @@ import {
   restoreDbOpenState,
   isCongPersonAddState,
   currentProviderState,
+  onboardingTitleState,
+  onboardingMessageState,
 } from '@states/app';
 
 export const handleSWOnInstalled = async () => {
@@ -60,6 +62,11 @@ export const displaySnackNotification = async ({ message, severity }) => {
   await promiseSetRecoil(appMessageState, message);
   await promiseSetRecoil(appSeverityState, severity);
   await promiseSetRecoil(appSnackOpenState, true);
+};
+
+export const displayOnboardingError = async ({ title, message }) => {
+  await promiseSetRecoil(onboardingTitleState, title);
+  await promiseSetRecoil(onboardingMessageState, message);
 };
 
 export const setApiHost = async (value) => {

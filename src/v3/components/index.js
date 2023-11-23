@@ -1,3 +1,4 @@
+export { default as AutoComplete } from './autocomplete';
 export { default as Button } from './button';
 export { default as Checkbox } from './checkbox';
 export { default as CongregationSelector } from './congregation_selector';
@@ -9,6 +10,7 @@ export { default as MiniChip } from './mini_chip';
 export { default as MinusButton } from './minus_button';
 export { default as PlusButton } from './plus_button';
 export { default as Radio } from './radio';
+export { default as Select } from './select';
 export { default as SnackBar } from './snackbar';
 export { default as Switch } from './switch';
 export { default as TextField } from './textfield';

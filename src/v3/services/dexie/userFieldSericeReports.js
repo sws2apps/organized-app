@@ -1,6 +1,6 @@
 import { promiseGetRecoil } from 'recoil-outside';
 import { userFieldServiceReportsState } from '@states/userFieldServiceReports';
-import appDb from './db';
+import { appDb } from '.';
 
 export const mergeUserFieldServiceReportsFromBackup = async (reportsBackup) => {
   const userFieldServiceReports = await promiseGetRecoil(userFieldServiceReportsState);

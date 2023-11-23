@@ -1,6 +1,6 @@
 import { promiseGetRecoil } from 'recoil-outside';
 import { announcementsState } from '@states/announcements';
-import appDb from './db';
+import { appDb } from '.';
 
 export const markNotificationRead = async (id, lang) => {
   const announcements = await promiseGetRecoil(announcementsState);
