@@ -1,7 +1,15 @@
 import PropTypes from 'prop-types';
 import { Markup } from 'interweave';
 
-const CPETextMarkup = ({ content = '', className = '', color = 'var(--black)', style = {} }) => {
+const CPETextMarkup = ({
+  content = '',
+  className = '',
+  color = 'var(--black)',
+  style = {},
+  anchorClassName = 'body-small-semibold',
+  anchorColor = 'var(--accent-main)',
+  anchorRef,
+}) => {
   const transformText = (node, children) => {
     if (node.tagName.toLowerCase() === 'p') {
       return (
@@ -14,10 +22,12 @@ const CPETextMarkup = ({ content = '', className = '', color = 'var(--black)', s
     if (node.tagName.toLowerCase() === 'a') {
       return (
         <a
-          className="body-small-semibold"
-          style={{ color: 'var(--accent-main)' }}
+          className={anchorClassName}
+          style={{ color: anchorColor }}
           href={node.getAttribute('href')}
           title={node.getAttribute('title')}
+          id={node.getAttribute('id')}
+          ref={anchorRef}
         >
           {children}
         </a>
@@ -33,6 +43,9 @@ CPETextMarkup.propTypes = {
   className: PropTypes.string,
   color: PropTypes.string,
   style: PropTypes.object,
+  anchorClassName: PropTypes.string,
+  anchorColor: PropTypes.string,
+  anchorRef: PropTypes.any,
 };
 
 export default CPETextMarkup;

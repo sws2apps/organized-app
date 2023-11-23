@@ -208,7 +208,7 @@
   "scanQR": "Scan QR Code instead",
   "copyToken": "I cannot scan this QR Code",
   "unauthorized": "Unauthorized account",
-  "unauthorizedRole": "You do not have yet the required role to use this application. Please contact your congregation elders to confirm your role. They may send us an email if they need further support.",
+  "unauthorizedRole": "<p>You do not have yet the role to use this application. Please contact your congregation elders to confirm your role and after 5 minutes <a href='#'>try again</a>. They may send us an email if they need further support.</p>",
   "showPassword": "Show password",
   "verifyEmail": "Email address verification",
   "proceedSignIn": "Proceed to sign in",
