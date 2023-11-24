@@ -98,7 +98,7 @@ const ComponentPreview = () => {
         </TextField>
       </Container>
 
-      <Box sx={{ marginTop: '60px' }}>
+      <Box sx={{ margin: '60px' }}>
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '25px', margin: '20px 0px' }}>
           <Box>
             <Typography variant="label-small-regular">variant huge-numbers</Typography>
