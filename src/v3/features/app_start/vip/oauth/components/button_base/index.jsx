@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { Typography } from '@components';
 import useButtonBase from './useButtonBase';
 import { IconLoading } from '@icons';
@@ -8,7 +8,8 @@ const OAuthButtonBase = ({ logo, text, provider, isEmail }) => {
   const { handleAction, isAuthProcessing, currentProvider } = useButtonBase({ provider, isEmail });
 
   return (
-    <Box
+    <Button
+      disableRipple
       sx={{
         display: 'flex',
         minHeight: '44px',
@@ -18,8 +19,7 @@ const OAuthButtonBase = ({ logo, text, provider, isEmail }) => {
         border: '1px solid var(--accent-350)',
         borderRadius: 'var(--radius-l)',
         width: '100%',
-        cursor: 'pointer',
-        userSelect: 'none',
+        textAlign: 'left',
         '&:hover': {
           border: '1px solid var(--accent-main)',
           background: 'var(--accent-100)',
@@ -47,7 +47,7 @@ const OAuthButtonBase = ({ logo, text, provider, isEmail }) => {
           <IconLoading width={22} height={22} color="var(--black)" />
         )}
       </Box>
-    </Box>
+    </Button>
   );
 };
 

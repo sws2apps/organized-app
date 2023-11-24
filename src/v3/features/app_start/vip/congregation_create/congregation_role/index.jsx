@@ -29,7 +29,7 @@ const CongregationRole = ({ role, setRole }) => {
           sx={{
             padding: '8px 12px 8px 16px !important',
             minHeight: '36px !important',
-            backgroundColor: 'unset',
+            backgroundColor: 'transparent',
             borderBottom: '1px solid var(--accent-200)',
             '&:hover': {
               backgroundColor: 'var(--accent-100)',
@@ -39,6 +39,18 @@ const CongregationRole = ({ role, setRole }) => {
             },
             '&:last-child': {
               borderBottom: 'none',
+            },
+            '&.Mui-selected': {
+              backgroundColor: 'var(--accent-100)',
+              '& p': {
+                color: 'var(--accent-dark)',
+              },
+            },
+            '&.Mui-selected:focus': {
+              backgroundColor: 'var(--accent-100)',
+            },
+            '&.Mui-selected:hover': {
+              backgroundColor: 'var(--accent-100)',
             },
           }}
           value={role.value}

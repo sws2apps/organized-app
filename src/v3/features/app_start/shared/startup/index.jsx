@@ -20,12 +20,8 @@ const Startup = () => {
               flexWrap: 'wrap',
               flexDirection: { mobile: 'column', laptop: isUnauthorizedRole ? 'column' : 'row' },
               gap: { mobile: '16px', laptop: '24px' },
-              height: {
-                mobile: isUnauthorizedRole ? '100%' : 'auto',
-                tablet: isUnauthorizedRole ? '100%' : 'auto',
-                laptop: 'calc(100vh - 104px)',
-                desktop: 'calc(100vh - 112px)',
-              },
+              marginBottom: '32px',
+              overflow: 'auto',
             }}
           >
             {!isUnauthorizedRole && (
@@ -33,13 +29,12 @@ const Startup = () => {
                 <Box
                   sx={{
                     maxWidth: { mobile: '100%', laptop: '552px' },
-                    flex: '1 0 0',
                     padding: { mobile: '16px', laptop: '32px' },
                     borderRadius: 'var(--radius-xxl)',
                     border: '1px solid var(--accent-300)',
                     background: 'var(--white)',
-                    height: '100%',
                     display: 'flex',
+                    minHeight: '250px',
                   }}
                 >
                   {isAccountChoose && <AccountChooser />}

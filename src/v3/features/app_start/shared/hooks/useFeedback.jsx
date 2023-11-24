@@ -9,13 +9,13 @@ const useFeedback = () => {
   const onboardingError = document.querySelector('#onboarding-error');
 
   const hideMessage = () => {
-    onboardingError.style.animation = 'fade-out 1s forwards';
+    onboardingError.style.animation = 'fade-out 0.15s forwards';
   };
 
   const showMessage = () => {
     onboardingError.style.opacity = 0;
     onboardingError.style.display = 'block';
-    onboardingError.style.animation = 'fade-in 1s forwards';
+    onboardingError.style.animation = 'fade-in 0.15s forwards';
   };
 
   return { title, message, variant, hideMessage, showMessage };

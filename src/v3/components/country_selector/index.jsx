@@ -29,8 +29,8 @@ const CountrySelector = ({ handleCountryChange }) => {
       value={selected}
       onChange={(e, value) => handleOnChange(value)}
       label={t('selectCountry')}
-      startIcon={<IconFindCountry color="var(--black)" />}
-      endIcon={<IconSearch color="var(--accent-350)" />}
+      startIcon={<IconFindCountry color={selected ? 'var(--black)' : 'var(--accent-350)'} />}
+      endIcon={<IconSearch color={selected ? 'var(--black)' : 'var(--accent-350)'} />}
     />
   );
 };

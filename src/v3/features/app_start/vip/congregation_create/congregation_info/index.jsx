@@ -59,7 +59,7 @@ const CongregationInfo = ({ setIsCreate }) => {
             value={userTmpFullname}
             onChange={(e) => setUserTmpFullname(e.target.value)}
             sx={{ width: '100%' }}
-            startIcon={<IconAccount color="var(--accent-350)" />}
+            startIcon={<IconAccount />}
           />
 
           <CountrySelector handleCountryChange={setCountry} />

@@ -26,12 +26,6 @@ span .text-markup:last-child {
 	margin-bottom: 0;
 }
 
-#root {
-	display: flex;
-	flex-direction: column;
-	height: 100vh;
-}
-
 .browser-not-supported {
 	color: var(--red-main);
 	font-weight: bold;

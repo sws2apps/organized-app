@@ -13,7 +13,7 @@ const CongregationSelector = ({ country, setCongregation }) => {
   return (
     <AutoComplete
       isOptionEqualToValue={(option, value) => option.congNumber === value.congNumber}
-      getOptionLabel={(option) => `${option.congName}, ${option.congNumber}`}
+      getOptionLabel={(option) => `${option.congName.trim()}, ${option.congNumber}`}
       filterOptions={(x) => x}
       options={options}
       autoComplete={true}
@@ -26,12 +26,12 @@ const CongregationSelector = ({ country, setCongregation }) => {
       onInputChange={(event, newInputValue) => setInputValue(newInputValue)}
       loading={isLoading}
       label={t('yourCongregation')}
-      startIcon={<IconCongregation color="var(--black)" />}
-      endIcon={<IconSearch color="var(--accent-350)" />}
+      startIcon={<IconCongregation color={value ? 'var(--black)' : 'var(--accent-350)'} />}
+      endIcon={<IconSearch color={value ? 'var(--black)' : 'var(--accent-350)'} />}
       renderOption={(props, option) => (
         <Box component="li" {...props} sx={{ margin: 0, padding: 0 }}>
           <Typography variant="body-regular">
-            {option.congName}, {option.congNumber}
+            {option.congName.trim()}, {option.congNumber}
           </Typography>
         </Box>
       )}

@@ -18,9 +18,9 @@ const RootLayout = ({ updatePwa }) => {
         maxWidth={false}
         sx={{
           maxWidth: '1440px',
-          padding: { mobile: '0 16px 16px 16px', tablet: '0 24px 24px 24px', desktop: '0 32px 32px 32px' },
+          paddingLeft: { mobile: '16px', tablet: '24px', desktop: '32px' },
+          paddingRight: { mobile: '16px', tablet: '24px', desktop: '32px' },
           marginTop: '80px', // header 56px + 24px
-          height: '100%',
         }}
       >
         {isAppLoad && <Startup />}

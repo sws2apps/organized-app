@@ -27,6 +27,9 @@ const CPESelect = ({
       onChange={onChange}
       select
       sx={{
+        '& .MuiSelect-icon': {
+          color: 'var(--black) !important', // change the color of the dropdown icon
+        },
         '.MuiInputBase-root': {
           height: `${height}px`,
           display: 'flex',
@@ -38,9 +41,9 @@ const CPESelect = ({
           paddingBottom: `calc(14.5px - ${varHeight}px)`,
           flex: '1 0 0',
           marginRight: '32px',
-        },
-        '.MuiSelect-select': {
-          minHeight: 'unset',
+          '&.MuiSelect-select': {
+            minHeight: 'unset',
+          },
         },
         '.MuiOutlinedInput-root': {
           borderRadius: 'var(--radius-l)',

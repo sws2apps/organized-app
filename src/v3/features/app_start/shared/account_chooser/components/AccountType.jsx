@@ -1,20 +1,22 @@
 import PropTypes from 'prop-types';
+import { Button } from '@mui/material';
 import { Typography } from '@components';
 import { IconArrowBack } from '@icons';
-import { Box } from '@mui/material';
 
 const AccountType = ({ startIcon, text, onClick }) => {
   return (
-    <Box
+    <Button
+      disableRipple
       sx={{
         display: 'flex',
-        padding: '24px',
-        justifyContent: 'center',
         alignItems: 'center',
+        justifyContent: 'flex-start',
+        textTransform: 'none',
+        padding: '24px',
         gap: '16px',
         borderRadius: 'var(--radius-l)',
         border: '1px solid var(--accent-300)',
-        cursor: 'pointer',
+        textAlign: 'left',
         '&:hover': {
           border: '1px solid var(--accent-main)',
           background: 'var(--accent-150)',
@@ -23,6 +25,16 @@ const AccountType = ({ startIcon, text, onClick }) => {
           },
           '& p': {
             color: 'var(--accent-main)',
+          },
+          '@media (hover: none)': {
+            border: '1px solid var(--accent-300)',
+            background: 'unset',
+            '& svg, & svg g, & svg g path': {
+              fill: 'var(--accent-400)',
+            },
+            '& p': {
+              color: 'var(--accent-400)',
+            },
           },
         },
       }}
@@ -33,7 +45,7 @@ const AccountType = ({ startIcon, text, onClick }) => {
         {text}
       </Typography>
       <IconArrowBack width={24} height={24} color="var(--accent-400)" sx={{ rotate: '180deg' }} />
-    </Box>
+    </Button>
   );
 };
 

@@ -57,7 +57,7 @@ const useCongregation = ({ country }) => {
       if (inputValue !== testValue) {
         fetchTimer = setTimeout(() => {
           fetchCongregations(inputValue);
-        }, 2000);
+        }, 250);
       }
     } catch (err) {
       setIsLoading(false);

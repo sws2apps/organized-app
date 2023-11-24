@@ -27,7 +27,7 @@ const useCongregationCreate = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [country, setCountry] = useState(null);
   const [congregation, setCongregation] = useState(null);
-  const [role, setRole] = useState('');
+  const [role, setRole] = useState('admin');
   const [userTmpFullname, setUserTmpFullname] = useState('');
   const [isCreate, setIsCreate] = useState(false);
 

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { TextField } from '@mui/material';
+import { InputAdornment, TextField } from '@mui/material';
 
 const CPETextField = ({
   value,
@@ -42,11 +42,7 @@ const CPETextField = ({
           borderRadius: 'var(--radius-l)',
           color: 'var(--black)',
           '& svg': {
-            color: 'var(--accent-350)',
             boxSizing: 'content-box',
-          },
-          '&.Mui-focused svg': {
-            color: 'var(--black)',
           },
           '& fieldset': {
             border: '1px solid var(--accent-350)',
@@ -70,8 +66,36 @@ const CPETextField = ({
       InputProps={{
         ...InputProps,
         className: className,
-        startAdornment: startIcon,
-        endAdornment: endIcon,
+        startAdornment: startIcon ? (
+          <InputAdornment
+            position="start"
+            sx={{
+              height: 0,
+              maxHeight: 0,
+              marginRight: 0,
+              '& svg, & svg g, & svg g path': {
+                fill: startIcon.props.color ? startIcon.props.color : value ? 'var(--black)' : 'var(--accent-350)',
+              },
+            }}
+          >
+            {startIcon}
+          </InputAdornment>
+        ) : null,
+        endAdornment: endIcon ? (
+          <InputAdornment
+            position="end"
+            sx={{
+              height: 0,
+              maxHeight: 0,
+              marginRight: 0,
+              '& svg, & svg g, & svg g path': {
+                fill: endIcon.props.color ? endIcon.props.color : value ? 'var(--black)' : 'var(--accent-350)',
+              },
+            }}
+          >
+            {endIcon}
+          </InputAdornment>
+        ) : null,
       }}
     />
   );
