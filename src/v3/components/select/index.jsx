@@ -85,7 +85,6 @@ const CPESelect = ({
           PaperProps: {
             sx: {
               background: 'var(--white)',
-              marginTop: '10px',
               backgroundColor: 'var(--white)',
               borderRadius: 'var(--radius-l)',
               border: '1px solid var(--accent-200)',

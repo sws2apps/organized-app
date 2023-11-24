@@ -12,7 +12,6 @@ const CustomPaper = (props) => {
         backgroundColor: 'var(--white)',
         borderRadius: 'var(--radius-l)',
         border: '1px solid var(--accent-200)',
-        marginTop: '10px',
       }}
       className="small-card-shadow"
     />

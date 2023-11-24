@@ -44,6 +44,9 @@ const CPESnackbar = ({
           display: 'flex',
           justifyContent: 'center',
           padding: 0,
+          '& > div:first-of-type': {
+            border: '1px solid var(--accent-300)',
+          },
         },
         '.MuiSnackbarContent-root': {
           padding: 0,
