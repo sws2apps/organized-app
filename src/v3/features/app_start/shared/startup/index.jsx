@@ -34,7 +34,7 @@ const Startup = () => {
                     border: '1px solid var(--accent-300)',
                     background: 'var(--white)',
                     display: 'flex',
-                    flex: '1 0 0',
+                    flex: { mobile: '1 0 250px', laptop: '1 0 0' },
                   }}
                 >
                   {isAccountChoose && <AccountChooser />}
