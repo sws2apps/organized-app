@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { Box, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { Typography } from '@components';
 
-const DashboardMenu = ({ icon, primaryText = '', secondaryText = '' }) => {
+const DashboardMenu = ({ icon, primaryText = '', badgeText = '' }) => {
   return (
     <ListItemButton
       disableRipple
@@ -35,13 +35,13 @@ const DashboardMenu = ({ icon, primaryText = '', secondaryText = '' }) => {
             <Typography variant="body-regular" color="var(--black)">
               {primaryText}
             </Typography>
-            {secondaryText.length > 0 && (
+            {badgeText.length > 0 && (
               <Box
                 className="menu-secondary"
                 sx={{ padding: '4px 12px', borderRadius: 'var(--radius-xxl)', background: 'var(--accent-150)' }}
               >
                 <Typography variant="body-small-semibold" color="var(--accent-dark)" sx={{ textAlign: 'center' }}>
-                  {secondaryText}
+                  {badgeText}
                 </Typography>
               </Box>
             )}
@@ -55,7 +55,7 @@ const DashboardMenu = ({ icon, primaryText = '', secondaryText = '' }) => {
 DashboardMenu.propTypes = {
   icon: PropTypes.element,
   primaryText: PropTypes.string,
-  secondaryText: PropTypes.string,
+  badgeText: PropTypes.string,
 };
 
 export default DashboardMenu;

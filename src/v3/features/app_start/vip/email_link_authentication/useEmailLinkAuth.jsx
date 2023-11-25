@@ -161,6 +161,7 @@ const useEmailLinkAuth = () => {
   useEffect(() => {
     setIsEmailAuth(false);
     setIsUserSignIn(false);
+    setIsCongAccountCreate(false);
 
     return () => {
       cancel.current = true;

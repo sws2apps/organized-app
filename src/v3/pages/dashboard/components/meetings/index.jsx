@@ -1,6 +1,6 @@
 import { ListItem } from '@mui/material';
 import { DashboardCard, DashboardMenu } from '@features/index';
-import { IconAssignment, IconCalendarWeek, IconTalk } from '@icons';
+import { IconAssignment, IconCalendarWeek, IconDiamond, IconRefreshSchedule, IconTalk } from '@icons';
 import { useAppTranslation } from '@hooks/index';
 
 const MeetingsCard = () => {
@@ -12,17 +12,20 @@ const MeetingsCard = () => {
         <DashboardMenu
           icon={<IconAssignment color="var(--black)" />}
           primaryText={t('viewMyAssignments')}
-          secondaryText="3"
+          badgeText="3"
         />
       </ListItem>
       <ListItem disablePadding>
         <DashboardMenu icon={<IconCalendarWeek color="var(--black)" />} primaryText={t('viewAssignmentsSchedule')} />
       </ListItem>
       <ListItem disablePadding>
-        <DashboardMenu icon={<IconCalendarWeek color="var(--black)" />} primaryText={t('midweekMeeting')} />
+        <DashboardMenu icon={<IconDiamond color="var(--black)" />} primaryText={t('midweekMeeting')} />
       </ListItem>
       <ListItem disablePadding>
         <DashboardMenu icon={<IconTalk color="var(--black)" />} primaryText={t('weekendMeeting')} />
+      </ListItem>
+      <ListItem disablePadding>
+        <DashboardMenu icon={<IconRefreshSchedule color="var(--black)" />} primaryText={t('refreshSchedule')} />
       </ListItem>
     </DashboardCard>
   );

@@ -9,11 +9,7 @@ const MinistryCard = () => {
   return (
     <DashboardCard header={t('ministry')}>
       <ListItem disablePadding>
-        <DashboardMenu
-          icon={<IconMinistryReport color="var(--black)" />}
-          primaryText={t('report')}
-          secondaryText="24:56"
-        />
+        <DashboardMenu icon={<IconMinistryReport color="var(--black)" />} primaryText={t('report')} badgeText="24:56" />
       </ListItem>
       <ListItem disablePadding>
         <DashboardMenu icon={<IconStatsYear color="var(--black)" />} primaryText={t('serviceYear')} />
