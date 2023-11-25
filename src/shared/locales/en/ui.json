@@ -724,5 +724,10 @@
   "lastSyncAppData": "Synced 1 min ago",
   "lastSyncAppDataPlural": "Synced {{ duration }} mins ago",
   "dashboardGreeting": "Hello, {{ firstName }}",
-  "dashboardMeetingAssignments": "<p>You have <a href='#' title='Meeting Assignment'>{{ assignment }} meeting assignments</a> at the moment.</p>"
+  "dashboardMeetingAssignments": "<p>You have <a href='#' title='Meeting Assignment'>{{ assignment }} meeting assignments</a> at the moment.</p>",
+  "timerLabelTime": "Time",
+  "timerLabelStart": "Start",
+  "timerLabelPause": "Pause",
+  "timerLabelStop": "Stop",
+  "timerLabelResume": "Resume"
 }

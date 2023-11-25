@@ -162,6 +162,7 @@ export { default as IconSong } from './IconSong';
 export { default as IconSourceMaterial } from './IconSourceMaterial';
 export { default as IconSpecialPioneer } from './IconSpecialPioneer';
 export { default as IconSpreadsheet } from './IconSpreadsheet';
+export { default as IconStart } from './IconStart';
 export { default as IconStatsYear } from './IconStatsYear';
 export { default as IconStats } from './IconStats';
 export { default as IconStop } from './IconStop';
