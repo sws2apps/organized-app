@@ -720,5 +720,9 @@
   "report": "Report",
   "personsAll": "All persons",
   "pioneerApplications": "Pioneer applications",
-  "syncAppData": "Sync Organized data"
+  "syncAppData": "Sync Organized data",
+  "lastSyncAppData": "Synced 1 min ago",
+  "lastSyncAppDataPlural": "Synced {{ duration }} mins ago",
+  "dashboardGreeting": "Hello, {{ firstName }}",
+  "dashboardMeetingAssignments": "<p>You have <a href='#' title='Meeting Assignment'>{{ assignment }} meeting assignments</a> at the moment.</p>"
 }

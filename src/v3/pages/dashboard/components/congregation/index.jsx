@@ -18,7 +18,11 @@ const CongregationCard = () => {
         <DashboardMenu icon={<IconSettings color="var(--black)" />} primaryText={t('congregationSettings')} />
       </ListItem>
       <ListItem disablePadding>
-        <DashboardMenu icon={<IconSync color="var(--black)" />} primaryText={t('syncAppData')} />
+        <DashboardMenu
+          icon={<IconSync color="var(--black)" />}
+          primaryText={t('syncAppData')}
+          secondaryText={t('lastSyncAppData')}
+        />
       </ListItem>
     </DashboardCard>
   );

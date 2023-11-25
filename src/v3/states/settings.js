@@ -19,6 +19,25 @@ export const usernameState = selector({
   },
 });
 
+export const firstNameState = selector({
+  key: 'firstName',
+  get: ({ get }) => {
+    const username = get(usernameState);
+
+    const names = username.split(/,\s|\s/);
+
+    let result = '';
+
+    if (names.length > 0) {
+      result = names[1];
+    } else {
+      result = names[0];
+    }
+
+    return result;
+  },
+});
+
 export const sourceLangState = selector({
   key: 'sourceLang',
   get: ({ get }) => {
