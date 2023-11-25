@@ -73,7 +73,7 @@ const NavBar = () => {
             {tablet600Up ? t('appFullName') : t('appShortName')}
           </Typography>
         </Box>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: { mobile: '0px', tablet: '8px' } }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: { mobile: '4px', tablet: '8px' } }}>
           <ThemeSwitcher />
           <AppNotification />
           <LanguageSwitcher />
