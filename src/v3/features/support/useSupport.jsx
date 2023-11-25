@@ -11,11 +11,15 @@ const useSupport = () => {
     setIsOpen(false);
   };
 
+  const handleOpenDonate = () => {
+    window.open(`https://www.buymeacoffee.com/sws2apps/e/146059`, '_blank');
+  };
+
   const handleOpenDoc = () => {
     window.open(`https://sws2apps.com/${t('docsUrlCode')}/category/congregation-program-for-everyone`, '_blank');
   };
 
-  return { isOpen, handleClose, handleOpenDoc };
+  return { isOpen, handleClose, handleOpenDoc, handleOpenDonate };
 };
 
 export default useSupport;

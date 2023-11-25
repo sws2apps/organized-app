@@ -1,4 +1,5 @@
-import { Box, Container, IconButton, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import { Avatar, Box, Container, IconButton, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material';
 import { Typography } from '@components';
 import { AppNotification, LanguageSwitcher, ThemeSwitcher } from '@features/index';
 import { IconDonate, IconHelp, IconInfo, IconLogo, IconMenu } from '@icons';
@@ -33,6 +34,10 @@ const NavBar = () => {
     handleOpenAbout,
     handleOpenSupport,
     handleOpenDoc,
+    isAppLoad,
+    username,
+    congName,
+    userAvatar,
   } = useNavbar();
 
   return (
@@ -73,7 +78,7 @@ const NavBar = () => {
             color="inherit"
             edge="start"
             sx={{
-              padding: '8px',
+              padding: '0px 8px',
               marginLeft: '0px',
               borderRadius: '8px',
               '.MuiTouchRipple-ripple .MuiTouchRipple-child': {
@@ -83,7 +88,31 @@ const NavBar = () => {
             }}
             onClick={handleOpenMoreMenu}
           >
-            <IconMenu color="var(--black)" />
+            {isAppLoad && <IconMenu color="var(--black)" />}
+            {!isAppLoad && (
+              <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Box
+                  sx={{
+                    width: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '2px',
+                    justifyContent: 'center',
+                    alignItems: 'flex-end',
+                  }}
+                >
+                  <Typography variant="body-small-semibold" sx={{ textAlign: 'right' }}>
+                    {username}
+                  </Typography>
+                  <Typography variant="label-small-regular" sx={{ textAlign: 'right' }}>
+                    {congName}
+                  </Typography>
+                </Box>
+
+                {userAvatar && <Avatar alt="Avatar" src={userAvatar} sx={{ width: 32, height: 32 }} />}
+                {!userAvatar && <AccountCircle sx={{ fontSize: '40px' }} />}
+              </Box>
+            )}
           </IconButton>
           <Menu
             id="menu-language"

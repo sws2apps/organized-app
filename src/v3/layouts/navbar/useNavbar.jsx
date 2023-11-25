@@ -1,12 +1,20 @@
 import { useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import { useMediaQuery, useTheme } from '@mui/material';
 import { setIsAboutOpen, setIsSupportOpen } from '@services/recoil/app';
 import { useAppTranslation } from '@hooks/index';
+import { isAppLoadState } from '@states/app';
+import { avatarUrlState, congNameState, usernameState } from '@states/settings';
 
 const useNavbar = () => {
   const { t } = useAppTranslation();
 
   const theme = useTheme();
+
+  const isAppLoad = useRecoilValue(isAppLoadState);
+  const username = useRecoilValue(usernameState);
+  const congName = useRecoilValue(congNameState);
+  const userAvatar = useRecoilValue(avatarUrlState);
 
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -48,6 +56,10 @@ const useNavbar = () => {
     handleOpenAbout,
     handleOpenSupport,
     handleOpenDoc,
+    isAppLoad,
+    username,
+    congName,
+    userAvatar,
   };
 };
 

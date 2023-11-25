@@ -5,9 +5,9 @@ import { useAppTranslation } from '@hooks';
 import useAbout from './useSupport';
 
 const Support = () => {
-  const { handleClose, isOpen } = useAbout();
-
   const { t } = useAppTranslation();
+
+  const { handleClose, isOpen, handleOpenDonate } = useAbout();
 
   return (
     <Box>
@@ -51,7 +51,7 @@ const Support = () => {
               <Typography variant="h4">{t('supportAppOption1')}</Typography>
               <TextMarkup content={t('supportAppOption1Desc')} className="body-regular" />
             </Box>
-            <Button variant="tertiary" startIcon={<IconDonate />}>
+            <Button variant="tertiary" startIcon={<IconDonate />} onClick={handleOpenDonate}>
               {t('makeDonation')}
             </Button>
           </Box>
