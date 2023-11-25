@@ -18,7 +18,19 @@ const useNavbar = () => {
 
   const [anchorEl, setAnchorEl] = useState(null);
 
-  const tabletUp = useMediaQuery(theme.breakpoints.up('tablet600'), {
+  const tablet600Up = useMediaQuery(theme.breakpoints.up('tablet600'), {
+    noSsr: true,
+  });
+
+  const mobileUp = useMediaQuery(theme.breakpoints.up('mobile'), {
+    noSsr: true,
+  });
+
+  const tabletUp = useMediaQuery(theme.breakpoints.up('tablet'), {
+    noSsr: true,
+  });
+
+  const laptopUp = useMediaQuery(theme.breakpoints.up('laptop'), {
     noSsr: true,
   });
 
@@ -48,7 +60,7 @@ const useNavbar = () => {
   };
 
   return {
-    tabletUp,
+    tablet600Up,
     openMore,
     handleOpenMoreMenu,
     handleCloseMore,
@@ -60,6 +72,9 @@ const useNavbar = () => {
     username,
     congName,
     userAvatar,
+    mobileUp,
+    tabletUp,
+    laptopUp,
   };
 };
 

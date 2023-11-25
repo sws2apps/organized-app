@@ -26,7 +26,7 @@ const NavBar = () => {
   const { t } = useAppTranslation();
 
   const {
-    tabletUp,
+    tablet600Up,
     anchorEl,
     handleCloseMore,
     handleOpenMoreMenu,
@@ -38,6 +38,9 @@ const NavBar = () => {
     username,
     congName,
     userAvatar,
+    mobileUp,
+    tabletUp,
+    laptopUp,
   } = useNavbar();
 
   return (
@@ -67,7 +70,7 @@ const NavBar = () => {
         <Box sx={{ display: 'flex', alignItems: 'center', gap: { mobile: '8px', tablet: '16px' } }}>
           <IconLogo width={40} height={40} />
           <Typography variant="h3" color="var(--black)">
-            {tabletUp ? t('appFullName') : t('appShortName')}
+            {tablet600Up ? t('appFullName') : t('appShortName')}
           </Typography>
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: { mobile: '0px', tablet: '8px' } }}>
@@ -88,26 +91,28 @@ const NavBar = () => {
             }}
             onClick={handleOpenMoreMenu}
           >
-            {isAppLoad && <IconMenu color="var(--black)" />}
-            {!isAppLoad && (
+            {(isAppLoad || mobileUp) && !tabletUp && !laptopUp && <IconMenu color="var(--black)" />}
+            {!isAppLoad && (tabletUp || laptopUp) && (
               <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <Box
-                  sx={{
-                    width: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '2px',
-                    justifyContent: 'center',
-                    alignItems: 'flex-end',
-                  }}
-                >
-                  <Typography variant="body-small-semibold" sx={{ textAlign: 'right' }}>
-                    {username}
-                  </Typography>
-                  <Typography variant="label-small-regular" sx={{ textAlign: 'right' }}>
-                    {congName}
-                  </Typography>
-                </Box>
+                {laptopUp && (
+                  <Box
+                    sx={{
+                      width: '100%',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '2px',
+                      justifyContent: 'center',
+                      alignItems: 'flex-end',
+                    }}
+                  >
+                    <Typography variant="body-small-semibold" sx={{ textAlign: 'right' }}>
+                      {username}
+                    </Typography>
+                    <Typography variant="label-small-regular" sx={{ textAlign: 'right' }}>
+                      {congName}
+                    </Typography>
+                  </Box>
+                )}
 
                 {userAvatar && <Avatar alt="Avatar" src={userAvatar} sx={{ width: 32, height: 32 }} />}
                 {!userAvatar && <AccountCircle sx={{ fontSize: '40px' }} />}
