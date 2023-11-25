@@ -36,7 +36,7 @@ const LanguageSwitcher = () => {
         onClose={handleClose}
         sx={{
           padding: '8px 0',
-          marginTop: '12px',
+          marginTop: '7px',
           '& li': {
             borderBottom: '1px solid var(--accent-200)',
           },
@@ -60,6 +60,7 @@ const LanguageSwitcher = () => {
       >
         {listUILangs.map((lang) => (
           <MenuItem
+            disableRipple
             key={lang.code}
             onClick={handleLangChange}
             sx={{
@@ -81,7 +82,11 @@ const LanguageSwitcher = () => {
             </ListItemText>
           </MenuItem>
         ))}
-        <MenuItem sx={{ padding: '8px 12px 8px 16px', minHeight: '40px', height: '40px' }} onClick={handleLocalizeOpen}>
+        <MenuItem
+          disableRipple
+          sx={{ padding: '8px 12px 8px 16px', minHeight: '40px', height: '40px' }}
+          onClick={handleLocalizeOpen}
+        >
           <Link
             href="https://github.com/sws2apps/cpe-sws/blob/main/TRANSLATION.md"
             target="_blank"

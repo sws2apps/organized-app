@@ -4,6 +4,7 @@ import {
   backupDbOpenState,
   isAboutOpenState,
   isAppLoadState,
+  isSupportOpenState,
   restoreDbOpenState,
   userConfirmationOpenState,
 } from '@states/app';
@@ -24,6 +25,7 @@ const useRootLayout = () => {
   const isUserConfirm = useRecoilValue(userConfirmationOpenState);
   const isBackupDb = useRecoilValue(backupDbOpenState);
   const isRestoreDb = useRecoilValue(restoreDbOpenState);
+  const isOpenSupport = useRecoilValue(isSupportOpenState);
 
   useEffect(() => {
     if (autoLoginStatus !== '') {
@@ -41,6 +43,7 @@ const useRootLayout = () => {
     isUserConfirm,
     isBackupDb,
     isRestoreDb,
+    isOpenSupport,
   };
 };
 

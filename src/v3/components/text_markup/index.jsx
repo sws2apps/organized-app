@@ -33,6 +33,10 @@ const CPETextMarkup = ({
         </a>
       );
     }
+
+    if (node.tagName.toLowerCase() === 'ul') {
+      return <ul style={{ paddingInlineStart: '32px' }}>{children}</ul>;
+    }
   };
 
   return <Markup content={content} transform={transformText} />;

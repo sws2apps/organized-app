@@ -54,7 +54,7 @@ const DashboardMenu = ({ icon, primaryText = '', secondaryText = '', badgeText =
             )}
           </Box>
         }
-      ></ListItemText>
+      />
     </ListItemButton>
   );
 };

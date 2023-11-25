@@ -3,11 +3,11 @@ import { Outlet } from 'react-router-dom';
 import { NavBar } from '@layouts';
 import { AppModalWrapper } from '@wrapper/index';
 import { Box, Container } from '@mui/material';
-import { AppUpdater, Startup } from '@features/index';
+import { About, AppUpdater, Startup, Support } from '@features/index';
 import useRootLayout from './useRootLayout';
 
 const RootLayout = ({ updatePwa }) => {
-  const { isAppLoad } = useRootLayout();
+  const { isAppLoad, isOpenAbout, isOpenSupport } = useRootLayout();
 
   return (
     <AppModalWrapper>
@@ -24,6 +24,9 @@ const RootLayout = ({ updatePwa }) => {
           marginTop: '80px', // header 56px + 24px
         }}
       >
+        {isOpenAbout && <About />}
+        {isOpenSupport && <Support />}
+
         {isAppLoad && <Startup />}
 
         {!isAppLoad && (

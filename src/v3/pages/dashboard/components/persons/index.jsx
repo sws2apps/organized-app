@@ -15,7 +15,11 @@ const PersonsCard = () => {
         <DashboardMenu icon={<IconAddPerson color="var(--black)" />} primaryText={t('personAdd')} />
       </ListItem>
       <ListItem disablePadding>
-        <DashboardMenu icon={<IconApplications color="var(--black)" />} primaryText={t('pioneerApplications')} />
+        <DashboardMenu
+          icon={<IconApplications color="var(--black)" />}
+          primaryText={t('pioneerApplications')}
+          badgeText="11"
+        />
       </ListItem>
       <ListItem disablePadding>
         <DashboardMenu icon={<IconVisitingSpeaker color="var(--black)" />} primaryText={t('visitingSpeakers')} />

@@ -44,6 +44,7 @@ import {
   onboardingTitleState,
   onboardingMessageState,
   onboardingVariantState,
+  isSupportOpenState,
 } from '@states/app';
 
 export const handleSWOnInstalled = async () => {
@@ -208,4 +209,8 @@ export const setIsCongPersonAdd = async (value) => {
 
 export const setCurrentProvider = async (value) => {
   await promiseSetRecoil(currentProviderState, value);
+};
+
+export const setIsSupportOpen = async (value) => {
+  await promiseSetRecoil(isSupportOpenState, value);
 };

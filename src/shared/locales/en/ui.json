@@ -97,7 +97,7 @@
   "cacheCompleted": "CPE can be used offline now",
   "signIn": "Sign in",
   "waitSignOut": "Please wait! Don’t close your browser ...",
-  "about": "About",
+  "about": "About the app",
   "quit": "Quit",
   "install": "Install",
   "whatsNew": "What’s new",
@@ -729,5 +729,16 @@
   "timerLabelStart": "Start",
   "timerLabelPause": "Pause",
   "timerLabelStop": "Stop",
-  "timerLabelResume": "Resume"
+  "timerLabelResume": "Resume",
+  "supportApp": "Support the app",
+  "howToUseApp": "How to use Organized",
+  "appAboutDesc": "<p>Organized is designed for use by Jehovah’s Witnesses congregations. Its goal is to simplify and speed up all congregation planning tasks and improving assignment tracking for everyone in your congregation.</p><p>Plan midweek and weekend meetings effortlessly, send reports, and view your assigned parts with just a few clicks. This app is designed for anyone in the congregation to use and benefit from.</p><p>We're actively enhancing the Organized to release even more features in the future. You can help us bring these exciting features sooner! You're welcome to contribute your ideas through freewill donations or development assistance for the new versions of the Organized.</p>",
+  "wantSupportApp": "Want to support Organized?",
+  "supportAppDesc": "<p>Organized is a free app, and we're happy to develop and share it with you. While we handle the development with a smile, keeping things up and running comes with costs. If you feel like spreading some love, your support would mean a lot!</p>",
+  "supportAppOption1": "Option 1: Donate",
+  "supportAppOption1Desc": "<p>Your donations power Organized’ development and keep the app free for every congregation. Currently covering server costs, they ensure the best experience. In the future, they'll aid in expanding capabilities and adding new features. Your generosity fuels ongoing improvements for many congregations all over the world.</p>",
+  "makeDonation": "Make a donation",
+  "supportAppOption2": "Option 2: Contribute",
+  "supportAppOption2Desc": "<p>We’ll be happy if you can help us with the following areas:</p><ul><li>React development</li><li>UI/UX Design</li><li>App translation</li></ul><p>If you can help a hand in any of these areas, please contact us. Let's work together to make Organized better!</p><p>Also, recommending Organized to others helps expand its reach and benefits congregations. Your contribution, in any form, is invaluable in enhancing the app and transforming it into a better tool for everyone.</p>",
+  "howToContribute": "How to contribute"
 }

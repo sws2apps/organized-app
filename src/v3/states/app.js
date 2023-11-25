@@ -367,3 +367,8 @@ export const onboardingVariantState = atom({
   key: 'onboardingVariant',
   default: 'error',
 });
+
+export const isSupportOpenState = atom({
+  key: 'isSupportOpen',
+  default: false,
+});

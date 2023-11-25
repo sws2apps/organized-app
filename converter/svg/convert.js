@@ -27,7 +27,10 @@ for await (const svgFile of svgFiles) {
   import { SvgIcon } from '@mui/material';
 
   const ${componentName} = ({ ${
-    componentName !== 'IconGoogle' && componentName !== 'IconMicrosoft' && componentName !== 'IconYahoo'
+    componentName !== 'IconGoogle' &&
+    componentName !== 'IconMicrosoft' &&
+    componentName !== 'IconYahoo' &&
+    componentName !== 'IconLogo'
       ? `color = '#222222', `
       : ''
   }width = 24, height = 24, sx = {} }) => {
@@ -43,13 +46,19 @@ for await (const svgFile of svgFiles) {
   const filePath = path.join(ROOT_FOLDER, svgFile);
   let svgContent = await fs.readFile(filePath, 'utf-8');
 
-  if (componentName !== 'IconGoogle' && componentName !== 'IconMicrosoft' && componentName !== 'IconYahoo') {
+  if (
+    componentName !== 'IconGoogle' &&
+    componentName !== 'IconMicrosoft' &&
+    componentName !== 'IconYahoo' &&
+    componentName !== 'IconLogo'
+  ) {
     svgContent = svgContent.replace(/fill=(?!"#D9D9D9"|"none"|"white")".*?"(?=\s|\/)/g, 'fill={color}');
   }
   svgContent = svgContent.replaceAll('style="mask-type:alpha"', 'style={{maskType:"alpha"}}');
   svgContent = svgContent.replaceAll('fill-rule', 'fillRule');
   svgContent = svgContent.replaceAll('clip-rule', 'clipRule');
   svgContent = svgContent.replaceAll('clip-path', 'clipPath');
+  svgContent = svgContent.replaceAll('stop-color', 'stopColor');
 
   if (componentName === 'IconLoading') {
     svgContent = svgContent.replace(
