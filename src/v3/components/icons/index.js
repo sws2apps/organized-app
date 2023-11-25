@@ -16,6 +16,7 @@ export { default as IconAssistant } from './IconAssistant';
 export { default as IconAuxiliaryPioneer } from './IconAuxiliaryPioneer';
 export { default as IconBack } from './IconBack';
 export { default as IconBrother } from './IconBrother';
+export { default as IconCalendarWeek } from './IconCalendarWeek';
 export { default as IconCalendar } from './IconCalendar';
 export { default as IconCall } from './IconCall';
 export { default as IconCancelCicle } from './IconCancelCicle';

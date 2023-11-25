@@ -1,0 +1,25 @@
+import { ListItem } from '@mui/material';
+import { DashboardCard, DashboardMenu } from '@features/index';
+import { IconMinistryReport, IconStatsYear } from '@icons';
+import { useAppTranslation } from '@hooks/index';
+
+const MinistryCard = () => {
+  const { t } = useAppTranslation();
+
+  return (
+    <DashboardCard header={t('ministry')}>
+      <ListItem disablePadding>
+        <DashboardMenu
+          icon={<IconMinistryReport color="var(--black)" />}
+          primaryText={t('report')}
+          secondaryText="24:56"
+        />
+      </ListItem>
+      <ListItem disablePadding>
+        <DashboardMenu icon={<IconStatsYear color="var(--black)" />} primaryText={t('serviceYear')} />
+      </ListItem>
+    </DashboardCard>
+  );
+};
+
+export default MinistryCard;

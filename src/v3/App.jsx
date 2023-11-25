@@ -1,11 +1,13 @@
 import PropTypes from 'prop-types';
-import { Suspense } from 'react';
+import { Suspense, lazy } from 'react';
 import { RouterProvider, createHashRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary, WaitingCircular } from '@components';
 import { useGlobal } from '@hooks';
 import { RootLayout } from '@layouts';
-import ComponentPreview from './ComponentsPreview';
+
+// lazy loading
+const Dashboard = lazy(() => import('@pages/dashboard'));
 
 const queryClient = new QueryClient();
 
@@ -16,7 +18,7 @@ const App = ({ updatePwa }) => {
     {
       element: <RootLayout updatePwa={updatePwa} />,
       errorElement: <ErrorBoundary />,
-      children: [{ path: '*', element: <ComponentPreview /> }],
+      children: [{ path: '*', element: <Dashboard /> }],
     },
   ]);
 
