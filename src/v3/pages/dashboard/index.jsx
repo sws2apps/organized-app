@@ -17,7 +17,7 @@ const Dashboard = () => {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
       <Box>
-        <Typography variant="h1">{t('dashboardGreeting', { firstName })}</Typography>
+        <Typography variant="h1">{t('dashboardGreeting', { firstName })} &#128075;</Typography>
         <TextMarkup
           content={t('dashboardMeetingAssignments', { assignment: 3 })}
           className="h3"

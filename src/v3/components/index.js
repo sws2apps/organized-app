@@ -3,6 +3,7 @@ export { default as Button } from './button';
 export { default as Checkbox } from './checkbox';
 export { default as CongregationSelector } from './congregation_selector';
 export { default as CountrySelector } from './country_selector';
+export { default as Dialog } from './dialog';
 export { default as ErrorBoundary } from '../features/dashboard/card';
 export { default as FilterChip } from './filter_chip';
 export { default as InfoMessage } from './info-message';
