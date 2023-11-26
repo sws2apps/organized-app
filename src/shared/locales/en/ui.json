@@ -198,7 +198,7 @@
   "congregationNumber": "Congregation number",
   "requestAccount": "Request",
   "requestAccountSent": "Your congregation account request has been successfully sent. Please allow up to 24 hours for it to be processed. You will receive an email address when it will be ready for use.",
-  "fullname": "Fullname",
+  "fullname": "Last and first name",
   "congregationRequestExist": "You already sent a congregation request for this email address. We will send you a message when the request has been processed.",
   "mfaSetupTitle": "Two-factor authentication from the program <em>Microsoft Authenticator</em> or <em>Google Authenticator</em> is required. Then choose on which device do you want to do the setup.",
   "mfaThisDevice": "You may continue the setup when one of the two programs above has been installed on your device.",

@@ -34,6 +34,8 @@ const MinistryTimer = ({ duration = '0:00' }) => {
           '&:active': {
             color: duration === '0:00' ? 'var(--accent-400)' : 'var(--accent-click)',
           },
+          cursor: 'pointer',
+          userSelect: 'none',
         }}
       >
         {duration}

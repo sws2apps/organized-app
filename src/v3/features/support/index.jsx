@@ -10,66 +10,64 @@ const Support = () => {
   const { handleClose, isOpen, handleOpenDonate } = useAbout();
 
   return (
-    <Box>
-      <Dialog
-        open={isOpen}
-        onClose={handleClose}
-        sx={{
-          '.MuiPaper-root': {
-            margin: { mobile: '16px', tablet: '24px', desktop: '32px' },
-          },
-        }}
-        PaperProps={{
-          className: 'pop-up-shadow',
+    <Dialog
+      open={isOpen}
+      onClose={handleClose}
+      sx={{
+        '.MuiPaper-root': {
+          margin: { mobile: '16px', tablet: '24px', desktop: '32px' },
+        },
+      }}
+      PaperProps={{
+        className: 'pop-up-shadow',
+        style: {
+          maxWidth: '560px',
+          borderRadius: 'var(--radius-xxl)',
+          backgroundColor: 'var(--white)',
+        },
+      }}
+      slotProps={{
+        backdrop: {
           style: {
-            maxWidth: '560px',
-            borderRadius: 'var(--radius-xxl)',
-            backgroundColor: 'var(--white)',
+            backgroundColor: 'var(--accent-dark-overlay)',
           },
-        }}
-        slotProps={{
-          backdrop: {
-            style: {
-              backgroundColor: 'var(--accent-dark-overlay)',
-            },
-          },
-        }}
+        },
+      }}
+    >
+      <DialogContent
+        sx={{ padding: '32px', display: 'flex', flexDirection: 'column', gap: '24px', alignItems: 'flex-start' }}
       >
-        <DialogContent
-          sx={{ padding: '32px', display: 'flex', flexDirection: 'column', gap: '24px', alignItems: 'flex-start' }}
-        >
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
+            <IconDonate color="var(--black)" />
+            <Typography variant="h2">{t('supportApp')}</Typography>
+          </Box>
+          <TextMarkup content={t('supportAppDesc')} className="body-regular" />
+        </Box>
+
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
-              <IconDonate color="var(--black)" />
-              <Typography variant="h2">{t('supportApp')}</Typography>
-            </Box>
-            <TextMarkup content={t('supportAppDesc')} className="body-regular" />
+            <Typography variant="h4">{t('supportAppOption1')}</Typography>
+            <TextMarkup content={t('supportAppOption1Desc')} className="body-regular" />
           </Box>
+          <Button variant="tertiary" startIcon={<IconDonate />} onClick={handleOpenDonate}>
+            {t('makeDonation')}
+          </Button>
+        </Box>
 
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <Typography variant="h4">{t('supportAppOption1')}</Typography>
-              <TextMarkup content={t('supportAppOption1Desc')} className="body-regular" />
-            </Box>
-            <Button variant="tertiary" startIcon={<IconDonate />} onClick={handleOpenDonate}>
-              {t('makeDonation')}
-            </Button>
+        <Divider sx={{ borderColor: 'var(--accent-200)', borderWidth: '1px', width: '100%' }} />
+
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <Typography variant="h4">{t('supportAppOption2')}</Typography>
+            <TextMarkup content={t('supportAppOption2Desc')} className="body-regular" />
           </Box>
-
-          <Divider sx={{ borderColor: 'var(--accent-200)', borderWidth: '1px', width: '100%' }} />
-
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <Typography variant="h4">{t('supportAppOption2')}</Typography>
-              <TextMarkup content={t('supportAppOption2Desc')} className="body-regular" />
-            </Box>
-            <Button variant="tertiary" startIcon={<IconDonate />}>
-              {t('howToContribute')}
-            </Button>
-          </Box>
-        </DialogContent>
-      </Dialog>
-    </Box>
+          <Button variant="tertiary" startIcon={<IconDonate />}>
+            {t('howToContribute')}
+          </Button>
+        </Box>
+      </DialogContent>
+    </Dialog>
   );
 };
 

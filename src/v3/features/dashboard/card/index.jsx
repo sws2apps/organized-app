@@ -7,7 +7,7 @@ const DashboardCard = ({ header, children }) => {
     <Box
       sx={{
         display: 'flex',
-        height: '336px',
+        height: { mobile: 'auto', tablet688: '336px' },
         minWidth: '300px',
         width: '100%',
         flexDirection: 'column',
@@ -16,6 +16,12 @@ const DashboardCard = ({ header, children }) => {
         border: '1px solid var(--accent-200)',
         background: 'var(--white)',
         padding: '8px',
+        '& li': {
+          borderBottom: '1px solid var(--accent-200)',
+        },
+        '& li:last-child': {
+          borderBottom: 'none',
+        },
       }}
       className="big-card-shadow"
     >
