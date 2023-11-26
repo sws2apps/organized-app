@@ -12,6 +12,7 @@ const DashboardMenu = ({ icon, primaryText = '', secondaryText = '', badgeText =
         alignItems: 'center',
         gap: '16px',
         minHeight: '50px',
+        transition: 'background 0.1s ease',
         '&:hover': {
           background: 'var(--accent-150)',
           '& .menu-secondary': {
