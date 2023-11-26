@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary, WaitingCircular } from '@components';
 import { useGlobal } from '@hooks';
 import { RootLayout } from '@layouts';
+import ComponentsPreview from './ComponentsPreview';
 
 // lazy loading
 const Dashboard = lazy(() => import('@pages/dashboard'));
@@ -16,9 +17,14 @@ const App = ({ updatePwa }) => {
 
   const router = createHashRouter([
     {
-      element: <RootLayout updatePwa={updatePwa} />,
       errorElement: <ErrorBoundary />,
-      children: [{ path: '*', element: <Dashboard /> }],
+      children: [
+        { path: '/components-preview', element: <ComponentsPreview /> },
+        {
+          element: <RootLayout updatePwa={updatePwa} />,
+          children: [{ path: '*', element: <Dashboard /> }],
+        },
+      ],
     },
   ]);
 

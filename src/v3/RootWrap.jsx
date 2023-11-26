@@ -1,6 +1,6 @@
 import { RecoilRoot } from 'recoil';
 import RecoilOutside from 'recoil-outside';
-import { CssBaseline } from '@mui/material';
+import CssBaseline from '@mui/material/CssBaseline';
 import ServiceWorkerWrapper from '@sws2apps/react-sw-helper';
 import { ThemeProvider } from '@mui/material/styles';
 import createTheme from '@mui/material/styles/createTheme';
