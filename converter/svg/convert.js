@@ -10,60 +10,66 @@ const svgFiles = await fs.readdir(ROOT_FOLDER);
 let strImport = '';
 
 for await (const svgFile of svgFiles) {
-  let componentName = svgFile.replace('name=', '').replace('.svg', '');
-  componentName = componentName.replace(/-(\w)/g, (match, p1) => {
-    return p1.toUpperCase();
-  });
-  componentName = componentName.replace(/_(\w)/g, (match, p1) => {
-    return p1.toUpperCase();
-  });
-  componentName = componentName.replace(/^(.)/, function (match) {
-    return match.toUpperCase();
-  });
+	let componentName = svgFile.replace('name=', '').replace('.svg', '');
+	componentName = componentName.replace(/-(\w)/g, (match, p1) => {
+		return p1.toUpperCase();
+	});
+	componentName = componentName.replace(/_(\w)/g, (match, p1) => {
+		return p1.toUpperCase();
+	});
+	componentName = componentName.replace(/^(.)/, function (match) {
+		return match.toUpperCase();
+	});
 
-  componentName = `Icon${componentName}`;
+	componentName = `Icon${componentName}`;
 
-  let data = `import PropTypes from 'prop-types';
+	let data = `import PropTypes from 'prop-types';
   import { SvgIcon } from '@mui/material';
 
   const ${componentName} = ({ ${
-    componentName !== 'IconGoogle' &&
-    componentName !== 'IconMicrosoft' &&
-    componentName !== 'IconYahoo' &&
-    componentName !== 'IconLogo'
-      ? `color = '#222222', `
-      : ''
-  }width = 24, height = 24, sx = {} }) => {
+		componentName !== 'IconGoogle' &&
+		componentName !== 'IconMicrosoft' &&
+		componentName !== 'IconYahoo' &&
+		componentName !== 'IconLogo'
+			? `color = '#222222', `
+			: ''
+	}width = 24, height = 24, sx = {} }) => {
     width = width.toString();
     height = height.toString();
   
     return (
       <SvgIcon sx={{ width: widthPx, height: heightPx, ...sx }}>`;
 
-  data = data.replace('widthPx', '`${width}px`');
-  data = data.replace('heightPx', '`${height}px`');
+	data = data.replace('widthPx', '`${width}px`');
+	data = data.replace('heightPx', '`${height}px`');
 
-  const filePath = path.join(ROOT_FOLDER, svgFile);
-  let svgContent = await fs.readFile(filePath, 'utf-8');
+	const filePath = path.join(ROOT_FOLDER, svgFile);
+	let svgContent = await fs.readFile(filePath, 'utf-8');
 
-  if (
-    componentName !== 'IconGoogle' &&
-    componentName !== 'IconMicrosoft' &&
-    componentName !== 'IconYahoo' &&
-    componentName !== 'IconLogo'
-  ) {
-    svgContent = svgContent.replace(/fill=(?!"#D9D9D9"|"none"|"white")".*?"(?=\s|\/)/g, 'fill={color}');
-  }
-  svgContent = svgContent.replaceAll('style="mask-type:alpha"', 'style={{maskType:"alpha"}}');
-  svgContent = svgContent.replaceAll('fill-rule', 'fillRule');
-  svgContent = svgContent.replaceAll('clip-rule', 'clipRule');
-  svgContent = svgContent.replaceAll('clip-path', 'clipPath');
-  svgContent = svgContent.replaceAll('stop-color', 'stopColor');
+	if (
+		componentName !== 'IconGoogle' &&
+		componentName !== 'IconMicrosoft' &&
+		componentName !== 'IconYahoo' &&
+		componentName !== 'IconLogo'
+	) {
+		if (componentName === 'IconOnCircle') {
+			svgContent = svgContent.replace(/fill=(?!"#D9D9D9"|"none"|"white"|"#FEFEFE")".*?"(?=\s|\/)/g, 'fill={color}');
+		}
+		if (componentName !== 'IconOnCircle') {
+			svgContent = svgContent.replace(/fill=(?!"#D9D9D9"|"none"|"white")".*?"(?=\s|\/)/g, 'fill={color}');
+		}
+	}
 
-  if (componentName === 'IconLoading') {
-    svgContent = svgContent.replace(
-      '</g>',
-      `<animateTransform
+	svgContent = svgContent.replaceAll('style="mask-type:alpha"', 'style={{maskType:"alpha"}}');
+	svgContent = svgContent.replaceAll('fill-rule', 'fillRule');
+	svgContent = svgContent.replaceAll('clip-rule', 'clipRule');
+	svgContent = svgContent.replaceAll('clip-path', 'clipPath');
+	svgContent = svgContent.replaceAll('stop-color', 'stopColor');
+
+	if (componentName === 'IconLoading') {
+		svgContent = svgContent.replace(
+			'</g>',
+			`<animateTransform
           attributeName="transform"
           type="rotate"
           from="0 12 12"
@@ -72,12 +78,12 @@ for await (const svgFile of svgFiles) {
           repeatCount="indefinite"
         />
       </g>`
-    );
-  }
+		);
+	}
 
-  data += svgContent;
+	data += svgContent;
 
-  data += `
+	data += `
   </SvgIcon>);
   };
   
@@ -91,10 +97,10 @@ for await (const svgFile of svgFiles) {
 
   export default ${componentName};`;
 
-  const jsxFile = path.join('./src/v3/components/icons', `${componentName}.jsx`);
-  fs.writeFile(jsxFile, data);
+	const jsxFile = path.join('./src/v3/components/icons', `${componentName}.jsx`);
+	fs.writeFile(jsxFile, data);
 
-  strImport += `export { default as ${componentName}} from './${componentName}';`;
+	strImport += `export { default as ${componentName}} from './${componentName}';`;
 }
 
 const jsFile = path.join('./src/v3/components/icons', `index.js`);
