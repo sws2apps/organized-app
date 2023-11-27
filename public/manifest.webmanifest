@@ -43,6 +43,18 @@
     {
       "src": "/img/logo.svg",
       "sizes": "any"
+    },
+    {
+      "src": "/img/icon-monochrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "monochrome"
+    },
+    {
+      "src": "/img/icon-monochrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "monochrome"
     }
   ],
   "url_handlers": [
