@@ -9,6 +9,7 @@ import {
   setOfflineOverride,
   setUserID,
   displayOnboardingFeedback,
+  setIsNewCongregation,
 } from '@services/recoil/app';
 import { apiCreateCongregation } from '@services/api/congregation';
 import { handleUpdateSetting } from '@services/dexie/settings';
@@ -96,6 +97,7 @@ const useCongregationCreate = () => {
         obj.cong_role = cong_role;
 
         await handleUpdateSetting(obj);
+        await setIsNewCongregation(true);
 
         setUserID(id);
 

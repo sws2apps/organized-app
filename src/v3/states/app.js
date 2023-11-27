@@ -372,3 +372,8 @@ export const isSupportOpenState = atom({
   key: 'isSupportOpen',
   default: false,
 });
+
+export const isNewCongregationState = atom({
+  key: 'isNewCongregation',
+  default: false,
+});
