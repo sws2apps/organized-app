@@ -70,18 +70,6 @@
       "sizes": "any"
     },
     {
-      "src": "/img/icon-monochrome-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "monochrome"
-    },
-    {
-      "src": "/img/icon-monochrome-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "monochrome"
-    },
-    {
       "src": "/img/icon-android-adaptive-108x108.png",
       "sizes": "108x108",
       "type": "image/png"
