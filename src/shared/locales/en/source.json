@@ -68,5 +68,11 @@
   "noWMeeting": "There is no weekend meeting for this week",
   "noMeeting": "There is no meeting for this week",
   "longDateFormat": "{{ month }} {{ date }}, {{ year }}",
-  "substituteSpeaker": "Substitute Speaker"
+  "substituteSpeaker": "Substitute Speaker",
+  "startingConversation": "Starting a Conversation",
+  "followingUp": "Following Up",
+  "makingDisciples": "Making Disciples",
+  "explainingBeliefs": "Explaining Your Beliefs",
+  "discussion": "Discussion",
+  "demonstration": "Demonstration"
 }
