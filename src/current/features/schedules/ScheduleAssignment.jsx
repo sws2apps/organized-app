@@ -104,6 +104,7 @@ const ScheduleAssignment = ({ edit }) => {
 
   const minLabel = t('minuteShortLabel');
   const week = weekToFormat.replaceAll('-', '/');
+  const schedYear = week.split('/')[0];
 
   const loadPersonHistory = (obj) => {
     setAssInfo(obj);
@@ -491,7 +492,7 @@ const ScheduleAssignment = ({ edit }) => {
         </Box>
 
         {/* TGW */}
-        <ScheduleMeetingPart type="tgwPart" part={t('treasuresPart')} />
+        <ScheduleMeetingPart type={schedYear < 2024 ? 'tgwPart' : 'tgwPart-2024'} part={t('treasuresPart')} />
 
         {/* TGW Talk */}
         <ScheduleRowAssignment
