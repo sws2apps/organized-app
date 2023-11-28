@@ -68,5 +68,11 @@
   "noWMeeting": "Tsy misy fivoriana faran’ny herinandro",
   "noMeeting": "Tsy misy fivoriana",
   "longDateFormat": "{{ date }} {{ month }} {{ year }}",
-  "substituteSpeaker": "Mpandahateny Mpisolo Toerana"
+  "substituteSpeaker": "Mpandahateny Mpisolo Toerana",
+  "startingConversation": "Starting a Conversation",
+  "followingUp": "Following Up",
+  "makingDisciples": "Making Disciples",
+  "explainingBeliefs": "Explaining Your Beliefs",
+  "discussion": "Discussion",
+  "demonstration": "Demonstration"
 }
