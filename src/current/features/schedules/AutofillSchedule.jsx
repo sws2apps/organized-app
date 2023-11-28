@@ -16,7 +16,7 @@ import {
   isAutoFillSchedState,
   reloadWeekSummaryState,
 } from '../../states/schedule';
-import { checkCBSReader, fetchScheduleInfo } from '../../utils/sourceMaterial';
+import { checkAYFExplainingBeliefsAssignment, checkCBSReader, fetchScheduleInfo } from '../../utils/sourceMaterial';
 import { selectRandomPerson, saveAssignment } from '../../utils/schedule';
 import { Sources } from '../../classes/Sources';
 import { Schedules } from '../../classes/Schedules';
@@ -243,7 +243,12 @@ const AutofillSchedule = () => {
             assType === 104 ||
             assType === 108 ||
             (assType >= 140 && assType < 170) ||
-            (assType >= 170 && assType < 200)
+            (assType >= 170 && assType < 200) ||
+            assType === 123 ||
+            assType === 124 ||
+            assType === 125 ||
+            assType === 126 ||
+            assType === 127
           ) {
             fldName = 'ass' + a + '_stu_A';
 
@@ -267,7 +272,12 @@ const AutofillSchedule = () => {
               assType === 104 ||
               assType === 108 ||
               (assType >= 140 && assType < 170) ||
-              (assType >= 170 && assType < 200)
+              (assType >= 170 && assType < 200) ||
+              assType === 123 ||
+              assType === 124 ||
+              assType === 125 ||
+              assType === 126 ||
+              assType === 127
             ) {
               fldName = 'ass' + a + '_stu_B';
 
@@ -289,6 +299,14 @@ const AutofillSchedule = () => {
           fldType = 'mwb_ayf_part' + a + '_type';
           const assType = sourceData[fldType];
 
+          const fldSrc = 'mwb_ayf_part' + a;
+          const assSrc = sourceData[fldSrc];
+          let isAYFExplainTalk = false;
+
+          if (assType === 126) {
+            isAYFExplainTalk = checkAYFExplainingBeliefsAssignment(assSrc);
+          }
+
           // Main Hall
           if (
             assType === 101 ||
@@ -296,7 +314,11 @@ const AutofillSchedule = () => {
             assType === 103 ||
             assType === 108 ||
             (assType >= 140 && assType < 170) ||
-            (assType >= 170 && assType < 200)
+            (assType >= 170 && assType < 200) ||
+            assType === 123 ||
+            assType === 124 ||
+            assType === 125 ||
+            (assType === 126 && !isAYFExplainTalk)
           ) {
             fldName = 'ass' + a + '_stu_A';
             const stuA = schedData[fldName];
@@ -322,7 +344,11 @@ const AutofillSchedule = () => {
               assType === 103 ||
               assType === 108 ||
               (assType >= 140 && assType < 170) ||
-              (assType >= 170 && assType < 200)
+              (assType >= 170 && assType < 200) ||
+              assType === 123 ||
+              assType === 124 ||
+              assType === 125 ||
+              (assType === 126 && !isAYFExplainTalk)
             ) {
               fldName = 'ass' + a + '_stu_B';
               const stuB = schedData[fldName];

@@ -173,6 +173,20 @@ export const fetchData = async (language, issue) => {
   return mergedSources;
 };
 
+export const checkAYFExplainingBeliefsAssignment = (source) => {
+  const { t } = getI18n();
+
+  const talk = t('talk', { lng: Setting.source_lang, ns: 'source' });
+  const demonstration = t('demonstration', { lng: Setting.source_lang, ns: 'source' });
+  const searchKey = `\\b(${talk}|${demonstration})`;
+  const regex = new RegExp(searchKey, 'i');
+  const result = source.match(regex);
+
+  const isTalk = result[0].toLowerCase() === talk.toLowerCase();
+
+  return isTalk;
+};
+
 export const checkLCAssignments = (source) => {
   const { t } = getI18n();
 

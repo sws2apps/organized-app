@@ -97,6 +97,7 @@ const PersonSelect = ({
   isLC,
   isElderPart,
   visitingSpeaker,
+  isAYFExplainTalk,
 }) => {
   const { t } = useTranslation('ui');
   const location = useLocation();
@@ -155,13 +156,17 @@ const PersonSelect = ({
         assType === 102 ||
         assType === 103 ||
         assType === 108 ||
+        assType === 123 ||
+        assType === 124 ||
+        assType === 125 ||
+        (assType === 126 && !isAYFExplainTalk) ||
         (assType >= 140 && assType < 170) ||
         (assType >= 170 && assType < 200)
       ) {
         setFilterEnabled(true);
       }
     }
-  }, [ayf, assType]);
+  }, [ayf, assType, isAYFExplainTalk]);
 
   useEffect(() => {
     let persons = [];
@@ -194,7 +199,7 @@ const PersonSelect = ({
     if (isAssistant) {
       persons = Persons.getByAssignment({ assType: 'isAssistant', stuForAssistant });
     } else {
-      persons = Persons.getByAssignment({ assType, gender, isLC, isElderPart });
+      persons = Persons.getByAssignment({ assType, gender, isLC, isElderPart, isAYFExplainTalk });
     }
 
     // remove unavailable persons based on time away
@@ -244,6 +249,7 @@ const PersonSelect = ({
     isLC,
     isElderPart,
     visitingSpeaker,
+    isAYFExplainTalk,
   ]);
 
   useEffect(() => {

@@ -102,6 +102,8 @@ const S140 = ({ data, currentSchedule }) => {
   const { source_lang, schedule_useFullname, class_count, opening_prayer_MM_autoAssign, midweek_meeting_useExactDate } =
     Setting;
 
+  const schedYear = +currentSchedule.value.split('/')[1];
+
   const minLabel = t('minuteShortLabel', { lng: source_lang, ns: 'ui' });
 
   const getAssignedChairman = (weekItem, stuClass, scheduleUseFullname) => {
@@ -160,7 +162,12 @@ const S140 = ({ data, currentSchedule }) => {
       weekItem.sourceData[fldType] === 104 ||
       weekItem.sourceData[fldType] === 108 ||
       (weekItem.sourceData[fldType] >= 140 && weekItem.sourceData[fldType] < 170) ||
-      (weekItem.sourceData[fldType] >= 170 && weekItem.sourceData[fldType] < 200)
+      (weekItem.sourceData[fldType] >= 170 && weekItem.sourceData[fldType] < 200) ||
+      weekItem.sourceData[fldType] === 123 ||
+      weekItem.sourceData[fldType] === 124 ||
+      weekItem.sourceData[fldType] === 125 ||
+      weekItem.sourceData[fldType] === 126 ||
+      weekItem.sourceData[fldType] === 127
     ) {
       let src = weekItem.scheduleData[fldStu];
       if (
@@ -197,6 +204,7 @@ const S140 = ({ data, currentSchedule }) => {
 
   const getAYFType = (weekItem, fldType, fldSrc, fldTypeName) => {
     if (weekItem.sourceData[fldType] === 107) return weekItem.sourceData[fldSrc];
+    if (weekItem.sourceData[fldType] === 127) return weekItem.sourceData[fldSrc];
     return weekItem.sourceData[fldTypeName];
   };
 
@@ -205,7 +213,8 @@ const S140 = ({ data, currentSchedule }) => {
       weekItem.sourceData[fldType] === 105 ||
       weekItem.sourceData[fldType] === 106 ||
       weekItem.sourceData[fldType] === 107 ||
-      weekItem.sourceData[fldType] === 117
+      weekItem.sourceData[fldType] === 117 ||
+      weekItem.sourceData[fldType] === 127
     ) {
       return `${weekItem.sourceData[fldTime]} ${minLabel}`;
     }
@@ -217,20 +226,28 @@ const S140 = ({ data, currentSchedule }) => {
       weekItem.sourceData[fldType] === 104 ||
       weekItem.sourceData[fldType] === 108 ||
       (weekItem.sourceData[fldType] >= 140 && weekItem.sourceData[fldType] < 170) ||
-      (weekItem.sourceData[fldType] >= 170 && weekItem.sourceData[fldType] < 200)
+      (weekItem.sourceData[fldType] >= 170 && weekItem.sourceData[fldType] < 200) ||
+      weekItem.sourceData[fldType] === 123 ||
+      weekItem.sourceData[fldType] === 124 ||
+      weekItem.sourceData[fldType] === 125 ||
+      weekItem.sourceData[fldType] === 126
     ) {
       return t('partLessTime', { duration: weekItem.sourceData[fldTime], lng: source_lang });
     }
   };
 
-  const ayfLabel = (weekItem, fldType, scheduleUseFullname) => {
+  const ayfLabel = (weekItem, fldType, scheduleUseFullname, fldExplain) => {
     if (
       weekItem.sourceData[fldType] === 101 ||
       weekItem.sourceData[fldType] === 102 ||
       weekItem.sourceData[fldType] === 103 ||
       weekItem.sourceData[fldType] === 108 ||
       (weekItem.sourceData[fldType] >= 140 && weekItem.sourceData[fldType] < 170) ||
-      (weekItem.sourceData[fldType] >= 170 && weekItem.sourceData[fldType] < 200)
+      (weekItem.sourceData[fldType] >= 170 && weekItem.sourceData[fldType] < 200) ||
+      weekItem.sourceData[fldType] === 123 ||
+      weekItem.sourceData[fldType] === 124 ||
+      weekItem.sourceData[fldType] === 125 ||
+      (weekItem.sourceData[fldType] === 126 && !weekItem.sourceData[fldExplain])
     ) {
       if (scheduleUseFullname) {
         let label = `${t('student', { lng: source_lang })}:`;
@@ -243,7 +260,10 @@ const S140 = ({ data, currentSchedule }) => {
       return t('studentAssistant', { lng: source_lang });
     }
 
-    if (weekItem.sourceData[fldType] === 104) {
+    if (
+      weekItem.sourceData[fldType] === 104 ||
+      (weekItem.sourceData[fldType] === 126 && weekItem.sourceData[fldExplain])
+    ) {
       return t('student', { lng: source_lang }) + ':';
     }
 
@@ -403,7 +423,7 @@ const S140 = ({ data, currentSchedule }) => {
                         <S140Time time={weekItem.sourceData.pgmStart} />
                         <S140SourceSimple
                           source={`${t('song', { lng: source_lang })} ${weekItem.sourceData.mwb_song_first}`}
-                          bulletColor={'#656164'}
+                          bulletColor={schedYear < 2024 ? '#656164' : '#2a6b77'}
                         />
                         <S140PartMiniLabel part={`${t('prayerMidweekMeeting', { lng: source_lang })}:`} />
                         <S140Person person={getAssignedOpeningPrayer(weekItem)} />
@@ -415,7 +435,7 @@ const S140 = ({ data, currentSchedule }) => {
                         <S140SourceExtended
                           source={t('openingComments', { lng: source_lang })}
                           time={`1 ${minLabel}`}
-                          bulletColor={'#656164'}
+                          bulletColor={schedYear < 2024 ? '#656164' : '#2a6b77'}
                         />
                         <S140PartMiniLabel part="" />
                         <S140Person person="" />
@@ -428,7 +448,7 @@ const S140 = ({ data, currentSchedule }) => {
                             {/* TGW, Classroom heading */}
                             <S140MeetingPartHeading
                               meetingPart={'treasuresPart'}
-                              backgroundColor={'#656164'}
+                              backgroundColor={schedYear < 2024 ? '#656164' : '#2a6b77'}
                               classroomHeading={true}
                               weekItem={weekItem}
                             />
@@ -439,7 +459,7 @@ const S140 = ({ data, currentSchedule }) => {
                               <S140SourceExtended
                                 source={weekItem.sourceData.mwb_tgw_talk}
                                 time={`10 ${minLabel}`}
-                                bulletColor="#656164"
+                                bulletColor={schedYear < 2024 ? '#656164' : '#2a6b77'}
                               />
                               <S140PartMiniLabel part="" />
                               <S140Person
@@ -457,7 +477,7 @@ const S140 = ({ data, currentSchedule }) => {
                               <S140SourceExtended
                                 source={t('tgwGems', { lng: source_lang, ns: 'source' })}
                                 time={`10 ${minLabel}`}
-                                bulletColor="#656164"
+                                bulletColor={schedYear < 2024 ? '#656164' : '#2a6b77'}
                               />
                               <S140PartMiniLabel part="" />
                               <S140Person
@@ -475,7 +495,7 @@ const S140 = ({ data, currentSchedule }) => {
                               <S140SourceComplex
                                 source={t('bibleReading', { lng: source_lang, ns: 'source' })}
                                 time={`4 ${minLabel}`}
-                                bulletColor="#656164"
+                                bulletColor={schedYear < 2024 ? '#656164' : '#2a6b77'}
                                 partLabel={`${t('student', { lng: source_lang })}:`}
                               />
                               <S140Person
@@ -497,7 +517,8 @@ const S140 = ({ data, currentSchedule }) => {
                               const fldTypeName = 'mwb_ayf_part' + index + '_type_name';
                               const fldType = 'mwb_ayf_part' + index + '_type';
                               const fldTime = 'mwb_ayf_part' + index + '_time';
-                              const fldSrc = 'mwb_ayf_part' + index + '_src';
+                              const fldSrc = 'mwb_ayf_part' + index;
+                              const fldExplain = 'mwb_ayf_part' + index + '_explainTalk';
                               const fldStuA = schedule_useFullname
                                 ? 'ass' + index + '_stu_A_name'
                                 : 'ass' + index + '_stu_A_dispName';
@@ -521,7 +542,7 @@ const S140 = ({ data, currentSchedule }) => {
                                         source={getAYFType(weekItem, fldType, fldSrc, fldTypeName)}
                                         time={getAYFDuration(weekItem, fldType, fldTime)}
                                         bulletColor="#a56803"
-                                        partLabel={ayfLabel(weekItem, fldType, schedule_useFullname)}
+                                        partLabel={ayfLabel(weekItem, fldType, schedule_useFullname, fldExplain)}
                                       />
                                       <S140Person
                                         person={

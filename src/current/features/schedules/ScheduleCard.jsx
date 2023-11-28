@@ -27,6 +27,7 @@ import { Schedules } from '../../classes/Schedules';
 
 const ScheduleCard = ({ schedule }) => {
   const navigate = useNavigate();
+  const schedYear = +schedule.value.split('/')[1];
 
   const { t } = useTranslation('ui');
 
@@ -169,9 +170,12 @@ const ScheduleCard = ({ schedule }) => {
           open={openPrint}
           onClose={handleClosePrint}
         >
-          <MenuItem onClick={handleS89Export}>
-            <ListItemText primary={t('s89')} />
-          </MenuItem>
+          {schedYear < 2024 && (
+            <MenuItem onClick={handleS89Export}>
+              <ListItemText primary={t('s89')} />
+            </MenuItem>
+          )}
+
           <MenuItem onClick={handleS140Export}>
             <ListItemText primary={t('midweekMeetingPrint')} />
           </MenuItem>

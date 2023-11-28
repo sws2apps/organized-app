@@ -122,6 +122,7 @@ const SourceWeekDetails = () => {
 
   const week = weekToFormat.replaceAll('-', '/');
   const weekFormatted = dateFormat(new Date(week), shortDateFormat);
+  const schedYear = week.split('/')[0];
 
   const handleNavigateSource = () => {
     navigate(`/source-materials`);
@@ -362,7 +363,7 @@ const SourceWeekDetails = () => {
           <Box sx={{ marginBottom: '20px' }}>
             <SongsList song={SongFirst} setSong={setSongFirst} readOnly={!lmmoRole} />
           </Box>
-          <Box className={`tgwPart meetingPart`}>
+          <Box className={`${schedYear < 2024 ? 'tgwPart' : 'tgwPart-2024'} meetingPart`}>
             <Typography variant="h6">{t('treasuresPart')}</Typography>
           </Box>
           <Box sx={{ margin: '20px 0', display: 'flex', flexDirection: 'column', gap: '20px' }}>

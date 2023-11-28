@@ -118,6 +118,16 @@ export const getHistoryInfo = (weekOf, assignment) => {
       history.assignmentName = getI18n().t('talk', { ns: 'source', lng: Setting.appLang() });
     } else if (assType === 108) {
       history.assignmentName = getI18n().t('memorialInvite', { ns: 'source', lng: Setting.appLang() });
+    } else if (assType === 123) {
+      history.assignmentName = getI18n().t('startingConversation', { ns: 'source', lng: Setting.appLang() });
+    } else if (assType === 124) {
+      history.assignmentName = getI18n().t('followingUp', { ns: 'source', lng: Setting.appLang() });
+    } else if (assType === 125) {
+      history.assignmentName = getI18n().t('makingDisciples', { ns: 'source', lng: Setting.appLang() });
+    } else if (assType === 126) {
+      history.assignmentName = getI18n().t('explainingBeliefs', { ns: 'source', lng: Setting.appLang() });
+    } else if (assType === 127) {
+      history.assignmentName = getI18n().t('discussion', { ns: 'source', lng: Setting.appLang() });
     }
     history.class = stuclass;
 
@@ -166,6 +176,14 @@ export const getHistoryInfo = (weekOf, assignment) => {
       mainPart = getI18n().t('bibleStudy', { ns: 'source', lng: Setting.appLang() });
     } else if (assType === 108) {
       mainPart = getI18n().t('memorialInvite', { ns: 'source', lng: Setting.appLang() });
+    } else if (assType === 123) {
+      mainPart = getI18n().t('startingConversation', { ns: 'source', lng: Setting.appLang() });
+    } else if (assType === 124) {
+      mainPart = getI18n().t('followingUp', { ns: 'source', lng: Setting.appLang() });
+    } else if (assType === 125) {
+      mainPart = getI18n().t('makingDisciples', { ns: 'source', lng: Setting.appLang() });
+    } else if (assType === 126) {
+      mainPart = getI18n().t('explainingBeliefs', { ns: 'source', lng: Setting.appLang() });
     }
 
     history.assignmentName = `${assistantStr} (${mainPart})`;
