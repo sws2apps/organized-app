@@ -26,7 +26,7 @@ export default defineConfig({
       { find: '@shared', replacement: resolve(__dirname, 'src/shared') },
     ],
   },
-  worker: { plugins: [comlink()] },
+  worker: { plugins: () => [comlink()] },
   server: {
     port: 4050,
     host: true,
