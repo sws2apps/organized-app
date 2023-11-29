@@ -180,6 +180,7 @@ const ScheduleRowAssignment = ({
               loadStudentAyfPicker={loadStudentAyfPicker}
               isLC={isLC}
               isElderPart={isLCElder}
+              source={student ? studentPart : ''}
             />
           )}
 
@@ -199,6 +200,7 @@ const ScheduleRowAssignment = ({
                   setSelectedStudent={(value) => setSelectedStudent(value)}
                   loadPersonHistory={loadPersonHistoryB}
                   loadStudentAyfPicker={loadStudentAyfPicker}
+                  source={student ? studentPart : ''}
                 />
               )}
             </>

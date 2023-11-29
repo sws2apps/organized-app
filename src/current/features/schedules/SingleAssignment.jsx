@@ -4,6 +4,7 @@ import IconButton from '@mui/material/IconButton';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import SingleAssignmentHeader from './SingleAssignmentHeader';
 import PersonSelect from './PersonSelect';
+import { checkAYFExplainingBeliefsAssignment } from '../../utils/sourceMaterial';
 
 const styles = {
   personContainer: { display: 'flex', marginRight: '5px', alignItems: 'center' },
@@ -26,6 +27,7 @@ const SingleAssignment = ({
   isLC,
   isElderPart,
   visitingSpeaker,
+  source,
 }) => {
   const { t } = useTranslation('ui');
 
@@ -65,6 +67,9 @@ const SingleAssignment = ({
     loadHistory(assistantID, assType, t('assistant'), assistant, person, assTypeName);
   };
 
+  const isAYFExplainTalk =
+    ayf && source && source.length > 0 && assType === 126 ? checkAYFExplainingBeliefsAssignment(source) : false;
+
   return (
     <Box>
       {header && <SingleAssignmentHeader assignmentHeader={header} />}
@@ -82,6 +87,7 @@ const SingleAssignment = ({
             currentWeek={currentWeek}
             isLC={isLC}
             isElderPart={isElderPart}
+            isAYFExplainTalk={isAYFExplainTalk}
           />
           {edit && (
             <>
@@ -98,7 +104,7 @@ const SingleAssignment = ({
             </>
           )}
         </Box>
-        {ayf && assType !== 104 && (
+        {ayf && assType !== 104 && assType !== 127 && !isAYFExplainTalk && (
           <Box sx={styles.personContainer}>
             <PersonSelect
               edit={edit}
@@ -109,6 +115,7 @@ const SingleAssignment = ({
               person={assistant}
               stuForAssistant={person}
               currentWeek={currentWeek}
+              isAYFExplainTalk={isAYFExplainTalk}
             />
             {edit && (
               <>

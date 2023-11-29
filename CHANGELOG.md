@@ -1,3 +1,22 @@
+# [2.105.0](https://github.com/sws2apps/cpe-sws/compare/v2.104.0...v2.105.0) (2023-11-29)
+
+
+### Features
+
+* **app:** support new meeting 2024 format ([4d30350](https://github.com/sws2apps/cpe-sws/commit/4d30350f735a0334ea5b4f3c4ca13534ef855c5c))
+* **deps:** bump @mui/x-date-pickers from 6.18.1 to 6.18.2 ([b0d1421](https://github.com/sws2apps/cpe-sws/commit/b0d1421603f5b3164f19ea0642e87e535aafaae9))
+* **deps:** bump @tanstack/react-query from 5.8.4 to 5.8.7 ([4258587](https://github.com/sws2apps/cpe-sws/commit/4258587f4d572b90fffc9ac4e63af3ef83d06c33))
+* **deps:** bump @tanstack/react-query from 5.8.7 to 5.8.9 ([dea7cfd](https://github.com/sws2apps/cpe-sws/commit/dea7cfd31024426fbc5bde71ad6f0becf03c58f1))
+* **deps:** bump firebase from 10.6.0 to 10.7.0 ([3fe7156](https://github.com/sws2apps/cpe-sws/commit/3fe7156e09114314f2ca73c567cbe5222972ad08))
+* **deps:** bump i18next from 23.7.6 to 23.7.7 ([ccd78e5](https://github.com/sws2apps/cpe-sws/commit/ccd78e5d9ef661a29048abf42e0dbfffbcd8000f))
+* **deps:** bump react-router-dom from 6.18.0 to 6.19.0 ([42d6da6](https://github.com/sws2apps/cpe-sws/commit/42d6da68533c948b6d06e4b74d616949a1ff1a28))
+* **deps:** bump react-router-dom from 6.19.0 to 6.20.0 ([aced073](https://github.com/sws2apps/cpe-sws/commit/aced0730916c4c587cec90ee6a710cf29ef2323b))
+* **deps:** bump vite from 4.5.0 to 5.0.0 ([a2d6010](https://github.com/sws2apps/cpe-sws/commit/a2d6010f541ce641340078e4e9d416e279f7c8f7))
+* **deps:** bump vite from 5.0.0 to 5.0.2 ([c48075c](https://github.com/sws2apps/cpe-sws/commit/c48075c3ea4fb38794985aa40b795c8d6fe87f7f))
+* **deps:** bump vite from 5.0.2 to 5.0.3 ([406362c](https://github.com/sws2apps/cpe-sws/commit/406362c0004acf4cd7814f551095569096db95fe))
+* **localize:** updated translation from Crowdin ([3fc7e6c](https://github.com/sws2apps/cpe-sws/commit/3fc7e6c47327ce36d414c004a83e2bd468f77c52))
+* **localize:** updated translation from Crowdin ([8f974db](https://github.com/sws2apps/cpe-sws/commit/8f974dbf1796dac6c655da2e148e69d5c0467939))
+
 # [2.104.0](https://github.com/sws2apps/cpe-sws/compare/v2.103.0...v2.104.0) (2023-11-16)
 
 

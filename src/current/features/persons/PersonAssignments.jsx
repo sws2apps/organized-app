@@ -27,6 +27,11 @@ const PersonAssignments = ({ person, assignments, setAssignments }) => {
   const [isSpeaker, setIsSpeaker] = useState(false);
   const [isSpeakerSymposium, setIsSpeakerSymposium] = useState(false);
   const [isWTStudyReader, setIsWTStudyReader] = useState(false);
+  const [isAYFStartingConversation, setIsAYFStartingConversation] = useState(false);
+  const [isAYFFollowingUp, setIsAYFFollowingUp] = useState(false);
+  const [isAYFMakingDisciples, setIsAYFMakingDisciples] = useState(false);
+  const [isAYFExplainingBeliefs, setIsAYFExplainingBeliefs] = useState(false);
+  const [isAYFDiscussion, setIsAYFDiscussion] = useState(false);
 
   const lmmoRole = Setting.cong_role.includes('lmmo') || Setting.cong_role.includes('lmmo-backup');
   const secretaryRole = Setting.cong_role.includes('secretary');
@@ -52,6 +57,11 @@ const PersonAssignments = ({ person, assignments, setAssignments }) => {
     if (code === 120) return setIsSpeaker(false);
     if (code === 121) return setIsSpeakerSymposium(false);
     if (code === 122) return setIsWTStudyReader(false);
+    if (code === 123) return setIsAYFStartingConversation(false);
+    if (code === 124) return setIsAYFFollowingUp(false);
+    if (code === 125) return setIsAYFMakingDisciples(false);
+    if (code === 126) return setIsAYFExplainingBeliefs(false);
+    if (code === 127) return setIsAYFDiscussion(false);
   };
 
   const handleAssignmentsChange = (code, value) => {
@@ -128,6 +138,21 @@ const PersonAssignments = ({ person, assignments, setAssignments }) => {
           break;
         case 122:
           setIsWTStudyReader(true);
+          break;
+        case 123:
+          setIsAYFStartingConversation(true);
+          break;
+        case 124:
+          setIsAYFFollowingUp(true);
+          break;
+        case 125:
+          setIsAYFMakingDisciples(true);
+          break;
+        case 126:
+          setIsAYFExplainingBeliefs(true);
+          break;
+        case 127:
+          setIsAYFDiscussion(true);
           break;
         default:
           break;
@@ -226,11 +251,30 @@ const PersonAssignments = ({ person, assignments, setAssignments }) => {
               <FormControlLabel
                 control={
                   <Checkbox
+                    disabled={person.isFemale}
+                    checked={person.isFemale ? false : isAYFDiscussion}
+                    onChange={lmmoRole ? (e) => handleAssignmentsChange(127, e.target.checked) : null}
+                  />
+                }
+                label={t('discussion', { ns: 'source' })}
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
                     checked={isAYFInitialCall}
                     onChange={lmmoRole ? (e) => handleAssignmentsChange(101, e.target.checked) : null}
                   />
                 }
                 label={t('initialCall', { ns: 'source' })}
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={isAYFStartingConversation}
+                    onChange={lmmoRole ? (e) => handleAssignmentsChange(123, e.target.checked) : null}
+                  />
+                }
+                label={t('startingConversation', { ns: 'source' })}
               />
               <FormControlLabel
                 control={
@@ -244,11 +288,38 @@ const PersonAssignments = ({ person, assignments, setAssignments }) => {
               <FormControlLabel
                 control={
                   <Checkbox
+                    checked={isAYFFollowingUp}
+                    onChange={lmmoRole ? (e) => handleAssignmentsChange(124, e.target.checked) : null}
+                  />
+                }
+                label={t('followingUp', { ns: 'source' })}
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
                     checked={isAYFBibleStudy}
                     onChange={lmmoRole ? (e) => handleAssignmentsChange(103, e.target.checked) : null}
                   />
                 }
                 label={t('bibleStudy', { ns: 'source' })}
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={isAYFMakingDisciples}
+                    onChange={lmmoRole ? (e) => handleAssignmentsChange(125, e.target.checked) : null}
+                  />
+                }
+                label={t('makingDisciples', { ns: 'source' })}
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={isAYFExplainingBeliefs}
+                    onChange={lmmoRole ? (e) => handleAssignmentsChange(126, e.target.checked) : null}
+                  />
+                }
+                label={t('explainingBeliefs', { ns: 'source' })}
               />
               <FormControlLabel
                 control={

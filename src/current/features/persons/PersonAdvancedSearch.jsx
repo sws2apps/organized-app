@@ -43,6 +43,11 @@ const PersonAdvancedSearch = ({ advancedOpen, handleSearchStudent, setAdvancedOp
   const [isLCPart, setIsLCPart] = useState(false);
   const [isCBSConductor, setIsCBSConductor] = useState(false);
   const [isCBSReader, setIsCBSReader] = useState(false);
+  const [isStartingConversation, setIsStartingConversation] = useState(false);
+  const [isFollowingUp, setIsFollowingUp] = useState(false);
+  const [isMakingDisciples, setIsMakingDisciples] = useState(false);
+  const [isExplainBeliefs, setIsExplainBeliefs] = useState(false);
+  const [isDiscussion, setIsDiscussion] = useState(false);
 
   const handleCheckChairman = (value) => {
     if (value) {
@@ -224,6 +229,81 @@ const PersonAdvancedSearch = ({ advancedOpen, handleSearchStudent, setAdvancedOp
     }
   };
 
+  const handleCheckStartingConversation = (value) => {
+    if (value) {
+      if (assTypes.findIndex((assType) => assType === 123) === -1) {
+        setAssTypes((prev) => {
+          return [...prev, 123];
+        });
+      }
+    } else {
+      setAssTypes((prev) => {
+        const obj = prev.filter((assType) => assType !== 123);
+        return obj;
+      });
+    }
+  };
+
+  const handleCheckFollowingUp = (value) => {
+    if (value) {
+      if (assTypes.findIndex((assType) => assType === 124) === -1) {
+        setAssTypes((prev) => {
+          return [...prev, 124];
+        });
+      }
+    } else {
+      setAssTypes((prev) => {
+        const obj = prev.filter((assType) => assType !== 124);
+        return obj;
+      });
+    }
+  };
+
+  const handleCheckMakingDisciples = (value) => {
+    if (value) {
+      if (assTypes.findIndex((assType) => assType === 125) === -1) {
+        setAssTypes((prev) => {
+          return [...prev, 125];
+        });
+      }
+    } else {
+      setAssTypes((prev) => {
+        const obj = prev.filter((assType) => assType !== 125);
+        return obj;
+      });
+    }
+  };
+
+  const handleCheckExplainBeliefs = (value) => {
+    if (value) {
+      if (assTypes.findIndex((assType) => assType === 126) === -1) {
+        setAssTypes((prev) => {
+          return [...prev, 126];
+        });
+      }
+    } else {
+      setAssTypes((prev) => {
+        const obj = prev.filter((assType) => assType !== 126);
+        return obj;
+      });
+    }
+  };
+
+  const handleCheckDiscussion = (value) => {
+    if (value) {
+      if (assTypes.findIndex((assType) => assType === 127) === -1) {
+        setAssTypes((prev) => {
+          return [...prev, 127];
+        });
+      }
+    } else {
+      setAssTypes((prev) => {
+        const obj = prev.filter((assType) => assType !== 127);
+        return obj;
+      });
+    }
+  };
+
   useEffect(() => {
     setIsChairman(false);
     setIsPrayer(false);
@@ -237,6 +317,11 @@ const PersonAdvancedSearch = ({ advancedOpen, handleSearchStudent, setAdvancedOp
     setIsLCPart(false);
     setIsCBSConductor(false);
     setIsCBSReader(false);
+    setIsDiscussion(false);
+    setIsStartingConversation(false);
+    setIsFollowingUp(false);
+    setIsMakingDisciples(false);
+    setIsExplainBeliefs(false);
 
     for (const type of assTypes) {
       if (type === 110) setIsChairman(true);
@@ -251,6 +336,11 @@ const PersonAdvancedSearch = ({ advancedOpen, handleSearchStudent, setAdvancedOp
       if (type === 114) setIsLCPart(true);
       if (type === 115) setIsCBSConductor(true);
       if (type === 116) setIsCBSReader(true);
+      if (type === 123) setIsStartingConversation(true);
+      if (type === 124) setIsFollowingUp(true);
+      if (type === 125) setIsMakingDisciples(true);
+      if (type === 126) setIsExplainBeliefs(true);
+      if (type === 127) setIsDiscussion(true);
     }
   }, [assTypes]);
 
@@ -399,6 +489,17 @@ const PersonAdvancedSearch = ({ advancedOpen, handleSearchStudent, setAdvancedOp
                   <FormControlLabel
                     control={
                       <Checkbox
+                        checked={isDiscussion}
+                        onChange={(e) => handleCheckDiscussion(e.target.checked)}
+                        color="primary"
+                        sx={{ padding: '5px' }}
+                      />
+                    }
+                    label={t('discussion', { ns: 'source' })}
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
                         checked={isInitialCall}
                         onChange={(e) => handleCheckInitialCall(e.target.checked)}
                         color="primary"
@@ -406,6 +507,17 @@ const PersonAdvancedSearch = ({ advancedOpen, handleSearchStudent, setAdvancedOp
                       />
                     }
                     label={t('initialCall', { ns: 'source' })}
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={isStartingConversation}
+                        onChange={(e) => handleCheckStartingConversation(e.target.checked)}
+                        color="primary"
+                        sx={{ padding: '5px' }}
+                      />
+                    }
+                    label={t('startingConversation', { ns: 'source' })}
                   />
                   <FormControlLabel
                     control={
@@ -421,6 +533,17 @@ const PersonAdvancedSearch = ({ advancedOpen, handleSearchStudent, setAdvancedOp
                   <FormControlLabel
                     control={
                       <Checkbox
+                        checked={isFollowingUp}
+                        onChange={(e) => handleCheckFollowingUp(e.target.checked)}
+                        color="primary"
+                        sx={{ padding: '5px' }}
+                      />
+                    }
+                    label={t('followingUp', { ns: 'source' })}
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
                         checked={isBibleStudy}
                         onChange={(e) => handleCheckBibleStudy(e.target.checked)}
                         color="primary"
@@ -428,6 +551,28 @@ const PersonAdvancedSearch = ({ advancedOpen, handleSearchStudent, setAdvancedOp
                       />
                     }
                     label={t('bibleStudy', { ns: 'source' })}
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={isMakingDisciples}
+                        onChange={(e) => handleCheckMakingDisciples(e.target.checked)}
+                        color="primary"
+                        sx={{ padding: '5px' }}
+                      />
+                    }
+                    label={t('makingDisciples', { ns: 'source' })}
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={isExplainBeliefs}
+                        onChange={(e) => handleCheckExplainBeliefs(e.target.checked)}
+                        color="primary"
+                        sx={{ padding: '5px' }}
+                      />
+                    }
+                    label={t('explainingBeliefs', { ns: 'source' })}
                   />
                   <FormControlLabel
                     control={
