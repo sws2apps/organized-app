@@ -68,5 +68,11 @@
   "noWMeeting": "Цього тижня немає зібрання серед тижня",
   "noMeeting": "Цього тижня немає зібрання серед тижня",
   "longDateFormat": "{{ date }} {{ month }} {{ year }}",
-  "substituteSpeaker": "Запасний промовець"
+  "substituteSpeaker": "Запасний промовець",
+  "startingConversation": "Starting a Conversation",
+  "followingUp": "Following Up",
+  "makingDisciples": "Making Disciples",
+  "explainingBeliefs": "Explaining Your Beliefs",
+  "discussion": "Discussion",
+  "demonstration": "Demonstration"
 }
