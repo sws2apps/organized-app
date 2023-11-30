@@ -6,7 +6,7 @@ import { comlink } from 'vite-plugin-comlink';
 
 export default defineConfig({
   plugins: [react(), comlink(), eslint(), loadVersion()],
-  worker: { plugins: [comlink()] },
+  worker: { plugins: () => [comlink()] },
   server: {
     port: 4050,
     host: true,
