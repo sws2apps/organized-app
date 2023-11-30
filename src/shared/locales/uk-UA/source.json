@@ -69,10 +69,10 @@
   "noMeeting": "Цього тижня немає зібрання серед тижня",
   "longDateFormat": "{{ date }} {{ month }} {{ year }}",
   "substituteSpeaker": "Запасний промовець",
-  "startingConversation": "Starting a Conversation",
-  "followingUp": "Following Up",
-  "makingDisciples": "Making Disciples",
-  "explainingBeliefs": "Explaining Your Beliefs",
-  "discussion": "Discussion",
-  "demonstration": "Demonstration"
+  "startingConversation": "Починаємо розмову",
+  "followingUp": "Розвиваємо інтерес",
+  "makingDisciples": "Підготовка учнів",
+  "explainingBeliefs": "Пояснюємо свої переконання",
+  "discussion": "Обговорення",
+  "demonstration": "Демонстрація"
 }
