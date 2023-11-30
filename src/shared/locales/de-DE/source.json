@@ -69,10 +69,10 @@
   "noMeeting": "In dieser Woche findet keine Zusammenkunft statt",
   "longDateFormat": "{{ month }} {{ date }}, {{ year }}",
   "substituteSpeaker": "Ersatzredner",
-  "startingConversation": "Starting a Conversation",
-  "followingUp": "Following Up",
-  "makingDisciples": "Making Disciples",
-  "explainingBeliefs": "Explaining Your Beliefs",
-  "discussion": "Discussion",
+  "startingConversation": "Gespräche beginnen",
+  "followingUp": "Interesse fördern",
+  "makingDisciples": "Menschen zu Jüngern machen",
+  "explainingBeliefs": "Unsere Glaubens­ansichten erklären",
+  "discussion": "Diskussion",
   "demonstration": "Demonstration"
 }
