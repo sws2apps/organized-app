@@ -90,9 +90,40 @@
       "type": "image/png"
     },
     {
+      "src": "/img/screenshot/one_app_for_everyone.png",
+      "sizes": "1125x2000",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "/img/screenshot/way_less_stress.png",
+      "sizes": "1125x2000",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "/img/screenshot/hundreds_of_hours_saved.png",
+      "sizes": "1125x2000",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "/img/screenshot/trully_multi_platform.png",
+      "sizes": "1125x2000",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "/img/screenshot/instant_reports.png",
+      "sizes": "1125x2000",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
       "src": "/img/screenshot/light_and_dark_themes.png",
       "sizes": "1125x2000",
-      "type": "image/png"
+      "type": "image/png",
+      "form_factor": "wide"
     }
   ],
   "url_handlers": [
