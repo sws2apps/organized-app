@@ -2,9 +2,9 @@
   "s89Title": "DESIGNAÇÃO PARA A REUNIÃO<br />NOSSA VIDA E MINISTÉRIO CRISTÃO",
   "s89ToBeGiven": "Local",
   "s89DescFooter": "<strong>Observação para o estudante:</strong> A lição da brochura <em>Melhore</em> e a fonte de matéria para a sua designação estão na <em>Apostila da Reunião Vida e Ministério</em>. Estude a lição da brochura para saber como aplicar o ponto que você vai considerar.",
-  "name": "Nome",
-  "assistant": "Ajudante",
-  "date": "Data",
+  "name": "Name:",
+  "assistant": "Assistant:",
+  "date": "Date:",
   "assignment": "Designação",
   "bibleReading": "Leitura da Bíblia",
   "initialCall": "Primeira conversa",
@@ -74,5 +74,6 @@
   "makingDisciples": "Making Disciples",
   "explainingBeliefs": "Explaining Your Beliefs",
   "discussion": "Discussion",
-  "demonstration": "Demonstration"
+  "demonstration": "Demonstration",
+  "partNo": "Part no.:"
 }
