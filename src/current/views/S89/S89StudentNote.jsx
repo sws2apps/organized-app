@@ -11,7 +11,9 @@ const S89StudentNote = () => {
 
   return (
     <View style={styles.studentNote}>
-      <Html style={{ fontSize: styles.studentNote.fontSize }}>{t('s89DescFooter', { lng: source_lang })}</Html>
+      <Html style={{ fontSize: styles.studentNote.fontSize, lineHeight: styles.studentNote.lineHeight }}>
+        {t('s89DescFooter', { lng: source_lang })}
+      </Html>
     </View>
   );
 };

@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
   },
   header: {
     fontWeight: 'bold',
-    marginBottom: '10px',
+    marginBottom: '8px',
     lineHeight: 1.2,
     textAlign: 'center',
     fontSize: '12px',
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     fontSize: '11px',
   },
   toBeGiven: {
-    marginTop: '15px',
+    marginTop: '12px',
     fontSize: '12px',
     fontWeight: 'bold',
   },
@@ -69,7 +69,8 @@ const styles = StyleSheet.create({
   studentNote: {
     fontSize: '9px',
     textAlign: 'justify',
-    marginTop: '15px',
+    marginTop: '12px',
+    lineHeight: 1.1,
   },
   footer: {
     fontSize: '8px',
