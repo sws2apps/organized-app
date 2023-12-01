@@ -2,7 +2,6 @@ export { default as AutofillSchedule } from './AutofillSchedule';
 export { default as DeleteSchedule } from './DeleteSchedule';
 export { default as PersonAssignmentHistory } from './PersonAssignmentHistory';
 export { default as S89Selector } from './S89Selector';
-export { default as S89Template } from './S89Template';
 export { default as S140AssignedPerson } from './S140AssignedPerson';
 export { default as S140MeetingPartHeading } from './S140MeetingPartHeading';
 export { default as S140MeetingPartText } from './S140MeetingPartText';

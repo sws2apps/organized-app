@@ -139,24 +139,31 @@ SchedulesClass.prototype.S89ItemData = function (week, assName, classLabel) {
   let assFld = '';
   let assTypeFld = 0;
 
+  const s89Data = {};
+
   if (assName === 'bRead') {
     stuFld = 'bRead_stu_' + classLabel;
+    s89Data.partNo = 3;
   } else if (assName === 'ass1') {
     stuFld = 'ass1_stu_' + classLabel;
     assFld = 'ass1_ass_' + classLabel;
     assTypeFld = 'mwb_ayf_part1_type';
+    s89Data.partNo = 4;
   } else if (assName === 'ass2') {
     stuFld = 'ass2_stu_' + classLabel;
     assFld = 'ass2_ass_' + classLabel;
     assTypeFld = 'mwb_ayf_part2_type';
+    s89Data.partNo = 5;
   } else if (assName === 'ass3') {
     stuFld = 'ass3_stu_' + classLabel;
     assFld = 'ass3_ass_' + classLabel;
     assTypeFld = 'mwb_ayf_part3_type';
+    s89Data.partNo = 6;
   } else if (assName === 'ass4') {
     stuFld = 'ass4_stu_' + classLabel;
     assFld = 'ass4_ass_' + classLabel;
     assTypeFld = 'mwb_ayf_part4_type';
+    s89Data.partNo = 7;
   }
 
   let midDay = parseInt(Setting.midweek_meeting_day, 10);
@@ -169,89 +176,33 @@ SchedulesClass.prototype.S89ItemData = function (week, assName, classLabel) {
   const sourceData = Sources.get(week).local();
   const scheduleData = this.get(week);
 
-  const s89Data = {};
   const stuID = scheduleData[stuFld];
   const { person_name } = Persons.get(stuID);
   s89Data.studentName = person_name;
   s89Data.assistantName = '';
-  s89Data.isBRead = false;
-  s89Data.isInitialCall = false;
-  s89Data.initialCallSpec = '';
-  s89Data.isReturnVisit = false;
-  s89Data.returnVisitSpec = '';
-  s89Data.isBibleStudy = false;
-  s89Data.bibleStudySpec = '';
-  s89Data.isTalk = false;
   s89Data.assignmentDate = dateFormatted;
-  s89Data.isMemorialInvite = false;
 
   if (assName === 'ass1' || assName === 'ass2' || assName === 'ass3' || assName === 'ass4') {
     let assType = sourceData[assTypeFld];
     if (assType >= 140 && assType < 170) assType = 101;
     if (assType >= 170 && assType < 200) assType = 102;
 
-    if (assType === 101 || assType === 102 || assType === 103 || assType === 108) {
+    if (
+      assType === 101 ||
+      assType === 102 ||
+      assType === 103 ||
+      assType === 108 ||
+      assType === 123 ||
+      assType === 124 ||
+      assType === 125 ||
+      assType === 126
+    ) {
       const assID = scheduleData[assFld];
       if (typeof assID !== 'undefined' && assID !== '') {
         const assInfo = Persons.get(assID);
         s89Data.assistantName = assInfo.person_name;
       }
     }
-
-    let ass1Type = sourceData['mwb_ayf_part1_type'];
-    if (ass1Type >= 140 && ass1Type < 170) ass1Type = 101;
-    if (ass1Type >= 170 && ass1Type < 200) ass1Type = 102;
-
-    let ass2Type = sourceData['mwb_ayf_part2_type'];
-    if (ass2Type >= 140 && ass2Type < 170) ass2Type = 101;
-    if (ass2Type >= 170 && ass2Type < 200) ass2Type = 102;
-
-    let ass3Type = sourceData['mwb_ayf_part3_type'];
-    if (ass3Type >= 140 && ass3Type < 170) ass3Type = 101;
-    if (ass3Type >= 170 && ass3Type < 200) ass3Type = 102;
-
-    let ass4Type = sourceData['mwb_ayf_part4_type'];
-    if (ass4Type >= 140 && ass4Type < 170) ass4Type = 101;
-    if (ass4Type >= 170 && ass4Type < 200) ass4Type = 102;
-
-    if (assType === 101 || assType === 108 || assType === 102) {
-      if (assType === 101) s89Data.isInitialCall = true;
-      if (assType === 108) s89Data.isMemorialInvite = true;
-      if (assType === 102) s89Data.isReturnVisit = true;
-
-      let fieldSpec = 'initialCallSpec';
-      if (assType === 102) fieldSpec = 'returnVisitSpec';
-
-      if (assName === 'ass1') {
-        if (ass1Type === ass2Type) {
-          s89Data[fieldSpec] = getI18n().t('s89Part1Label', { lng: sourceLang, ns: 'source' });
-        }
-      } else if (assName === 'ass2') {
-        if (ass2Type === ass1Type) {
-          s89Data[fieldSpec] = getI18n().t('s89Part2Label', { lng: sourceLang, ns: 'source' });
-        }
-        if (ass2Type === ass3Type) {
-          s89Data[fieldSpec] = getI18n().t('s89Part1Label', { lng: sourceLang, ns: 'source' });
-        }
-      } else if (assName === 'ass3') {
-        if (ass3Type === ass2Type) {
-          s89Data[fieldSpec] = getI18n().t('s89Part2Label', { lng: sourceLang, ns: 'source' });
-        }
-        if (ass3Type === ass4Type) {
-          s89Data[fieldSpec] = getI18n().t('s89Part1Label', { lng: sourceLang, ns: 'source' });
-        }
-      } else if (assName === 'ass4') {
-        if (ass4Type === ass3Type) {
-          s89Data[fieldSpec] = getI18n().t('s89Part2Label', { lng: sourceLang, ns: 'source' });
-        }
-      }
-    } else if (assType === 103) {
-      s89Data.isBibleStudy = true;
-    } else if (assType === 104) {
-      s89Data.isTalk = true;
-    }
-  } else {
-    s89Data.isBRead = true;
   }
 
   if (classLabel === 'A') {

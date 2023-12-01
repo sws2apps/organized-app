@@ -27,6 +27,7 @@ import {
   dlgAssDeleteOpenState,
   dlgAutoFillOpenState,
   isPublishOpenState,
+  S89DownloadOpenState,
 } from '../states/schedule';
 import { AutofillSchedule, DeleteSchedule, SchedulePublish } from '../features/schedules';
 import { isImportEPUBState, isImportJWOrgState } from '../states/sourceMaterial';
@@ -56,6 +57,7 @@ await classesInitialize();
 
 const S140DownloadPDF = lazy(() => import('../features/pdfDownload/S140DownloadPDF'));
 const WeekendMeetingDownloadPDF = lazy(() => import('../features/pdfDownload/WeekendMeetingDownloadPDF'));
+const S89DownloadPDF = lazy(() => import('../features/pdfDownload/S89DownloadPDF'));
 
 const Layout = ({ updatePwa }) => {
   let location = useLocation();
@@ -87,6 +89,7 @@ const Layout = ({ updatePwa }) => {
   const isWeekendMeetingDownloadPDF = useRecoilValue(weekendMeetingDownloadOpenState);
   const congID = useRecoilValue(congIDState);
   const congAccountConnected = useRecoilValue(congAccountConnectedState);
+  const isS89DownloadPDF = useRecoilValue(S89DownloadOpenState);
 
   const secretaryRole = Setting.cong_role.includes('secretary');
   const publicTalkCoordinatorRole = Setting.cong_role.includes('public_talk_coordinator');
@@ -201,6 +204,7 @@ const Layout = ({ updatePwa }) => {
         {isAddSY && <AddServiceYear />}
         {isS140DownloadPDF && <S140DownloadPDF />}
         {isWeekendMeetingDownloadPDF && <WeekendMeetingDownloadPDF />}
+        {isS89DownloadPDF && <S89DownloadPDF />}
 
         {isAppLoad && isEmailAuth && <EmailLinkAuthentication />}
         {isAppLoad && !isEmailAuth && <Startup />}
