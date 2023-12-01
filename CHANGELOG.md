@@ -1,3 +1,10 @@
+## [2.106.1](https://github.com/sws2apps/cpe-sws/compare/v2.106.0...v2.106.1) (2023-12-01)
+
+
+### Bug Fixes
+
+* **schedules:** update S-89 to handle language with long translation ([9c3cad5](https://github.com/sws2apps/cpe-sws/commit/9c3cad52e12ced5b05b0f0602b9c57281ef6fd17))
+
 # [2.106.0](https://github.com/sws2apps/cpe-sws/compare/v2.105.0...v2.106.0) (2023-12-01)
 
 
