@@ -2,9 +2,9 @@
   "s89Title": "UNSER LEBEN UND DIENST ALS CHRIST<br />AUFGABENZUWEISUNG",
   "s89ToBeGiven": "Im",
   "s89DescFooter": "<strong>Hinweis:</strong> Das Quellenmaterial und die Lektion für deine Aufgabe stehen im <em>Arbeitsheft der Leben-und-Dienst-Zusammenkunft</em>. Achte bitte auf die im Arbeitsheft angegebene Lektion, die in der <em>Lesen-und-Lehren- Broschüre </em> behandelt wird.",
-  "name": "Name",
-  "assistant": "Partner",
-  "date": "Datum",
+  "name": "Name:",
+  "assistant": "Assistant:",
+  "date": "Date:",
   "assignment": "Aufgabe",
   "bibleReading": "Bibellesung",
   "initialCall": "Erstes Gespräch",
@@ -74,5 +74,6 @@
   "makingDisciples": "Menschen zu Jüngern machen",
   "explainingBeliefs": "Unsere Glaubens­ansichten erklären",
   "discussion": "Diskussion",
-  "demonstration": "Demonstration"
+  "demonstration": "Gespielte Szene",
+  "partNo": "Part no.:"
 }
