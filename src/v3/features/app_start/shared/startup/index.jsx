@@ -4,6 +4,7 @@ import { AccountChooser, PocketStartup, VipStartup } from '@features/app_start';
 import StartupIllustration from '../illustration';
 import UnauthorizedRole from '../unauthorized_role';
 import useStartup from './useStartup';
+import { IconLogo } from '@icons';
 
 const Startup = () => {
   const { isSetup, isAuth, isAccountChoose, accountType, isUnauthorizedRole } = useStartup();
@@ -58,7 +59,7 @@ const Startup = () => {
 
   return (
     <Box className="loader-waiting-js">
-      <img src="/img/logo.svg" />
+      <IconLogo />
       <Box className="progress-bar">
         <Box className="progress-bar-value" />
       </Box>
