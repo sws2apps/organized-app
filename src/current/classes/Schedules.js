@@ -143,27 +143,27 @@ SchedulesClass.prototype.S89ItemData = function (week, assName, classLabel) {
 
   if (assName === 'bRead') {
     stuFld = 'bRead_stu_' + classLabel;
-    s89Data.partNo = 4;
+    s89Data.partNo = 3;
   } else if (assName === 'ass1') {
     stuFld = 'ass1_stu_' + classLabel;
     assFld = 'ass1_ass_' + classLabel;
     assTypeFld = 'mwb_ayf_part1_type';
-    s89Data.partNo = 5;
+    s89Data.partNo = 4;
   } else if (assName === 'ass2') {
     stuFld = 'ass2_stu_' + classLabel;
     assFld = 'ass2_ass_' + classLabel;
     assTypeFld = 'mwb_ayf_part2_type';
-    s89Data.partNo = 6;
+    s89Data.partNo = 5;
   } else if (assName === 'ass3') {
     stuFld = 'ass3_stu_' + classLabel;
     assFld = 'ass3_ass_' + classLabel;
     assTypeFld = 'mwb_ayf_part3_type';
-    s89Data.partNo = 7;
+    s89Data.partNo = 6;
   } else if (assName === 'ass4') {
     stuFld = 'ass4_stu_' + classLabel;
     assFld = 'ass4_ass_' + classLabel;
     assTypeFld = 'mwb_ayf_part4_type';
-    s89Data.partNo = 8;
+    s89Data.partNo = 7;
   }
 
   let midDay = parseInt(Setting.midweek_meeting_day, 10);
