@@ -1,28 +1,30 @@
 import { useEffect, useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useTranslation } from 'react-i18next';
-import html2pdf from 'html2pdf.js';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
-import Dialog from '@mui/material/Dialog';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import TreeViewCheckbox from '../../components/TreeViewCheckbox';
 import Typography from '@mui/material/Typography';
 import WarningIcon from '@mui/icons-material/Warning';
-import { currentScheduleState, s89DataState } from '../../states/schedule';
+import {
+  S89DownloadLoadingState,
+  S89DownloadOpenState,
+  currentScheduleState,
+  s89DataState,
+} from '../../states/schedule';
 import { appLangState } from '../../states/main';
 import { Sources } from '../../classes/Sources';
 import { Schedules } from '../../classes/Schedules';
 
-const S89Selector = ({ setIsGenerating }) => {
+const S89Selector = () => {
   const { t } = useTranslation('ui');
 
-  const [s89Data, setS89Data] = useRecoilState(s89DataState);
+  const setS89Data = useSetRecoilState(s89DataState);
+  const setIsS89Download = useSetRecoilState(S89DownloadOpenState);
+  const setIsS89DownloadLoading = useSetRecoilState(S89DownloadLoadingState);
 
   const currentSchedule = useRecoilValue(currentScheduleState);
   const appLang = useRecoilValue(appLangState);
@@ -31,20 +33,14 @@ const S89Selector = ({ setIsGenerating }) => {
   const [data, setData] = useState({});
   const [selected, setSelected] = useState([]);
   const [disablePDF, setDisablePDF] = useState(true);
-  const [dlgOpen, setDlgOpen] = useState(false);
-
-  const handleClose = (event, reason) => {
-    if (reason === 'backdropClick' || reason === 'escapeKeyDown') {
-      return;
-    }
-  };
 
   const handleSelection = (value) => {
     setSelected(value);
   };
 
   const handlePreviewS89 = async () => {
-    setIsGenerating(true);
+    setIsS89DownloadLoading(true);
+    setIsS89Download(true);
     const realData = selected.filter((item) => item.length > 10);
     realData.sort((a, b) => {
       return a > b ? 1 : -1;
@@ -84,20 +80,7 @@ const S89Selector = ({ setIsGenerating }) => {
     }
 
     setS89Data(s89Data);
-    setIsGenerating(false);
-  };
-
-  const savePDF = async () => {
-    setDlgOpen(true);
-    const element = document.getElementById('S89-wrapper');
-    const opt = {
-      filename: 'S-89.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: 'px', format: [321.6, 426.8], orientation: 'portrait', precision: 2, floatPrecision: 2 },
-    };
-    await html2pdf().set(opt).from(element).save();
-    setDlgOpen(false);
+    setIsS89DownloadLoading(false);
   };
 
   useEffect(() => {
@@ -121,34 +104,12 @@ const S89Selector = ({ setIsGenerating }) => {
     <Box
       sx={{
         maxWidth: '500px',
-        border: '1px outset',
         borderRadius: '10px',
-        maxHeight: '500px',
         overflow: 'auto',
         padding: '20px',
         marginBottom: '20px',
       }}
     >
-      <Dialog
-        open={dlgOpen}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">{t('pleaseWait')}</DialogTitle>
-        <DialogContent>
-          <Container
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              padding: '15px',
-            }}
-          >
-            <CircularProgress disableShrink color="secondary" size={'60px'} />
-          </Container>
-        </DialogContent>
-      </Dialog>
-
       {loading && (
         <CircularProgress
           color="secondary"
@@ -180,26 +141,14 @@ const S89Selector = ({ setIsGenerating }) => {
                   gap: '10px',
                 }}
               >
-                {s89Data.length > 0 && (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    startIcon={<SaveAltIcon />}
-                    sx={{ margin: '0 2px 2px 0' }}
-                    onClick={savePDF}
-                  >
-                    PDF
-                  </Button>
-                )}
-
                 <Button
                   variant="contained"
-                  startIcon={<PlayArrowIcon />}
+                  startIcon={<SaveAltIcon />}
                   disabled={disablePDF}
                   sx={{ marginRight: '10px' }}
                   onClick={handlePreviewS89}
                 >
-                  {t('preview')}
+                  PDF
                 </Button>
               </Box>
             </Box>

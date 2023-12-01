@@ -119,3 +119,13 @@ export const weekendMeetingDataState = atom({
   key: 'weekendMeetingData',
   default: [],
 });
+
+export const S89DownloadOpenState = atom({
+  key: 'S89DownloadOpen',
+  default: false,
+});
+
+export const S89DownloadLoadingState = atom({
+  key: 'S89DownloadLoading',
+  default: true,
+});
