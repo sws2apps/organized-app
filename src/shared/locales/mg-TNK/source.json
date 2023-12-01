@@ -2,9 +2,9 @@
   "s89Title": "ANJARA AMY FIVORIAN̈A MOMBA<br />FIAIN̈ANANTSIKA NDREKY FANOMPOAN̈A",
   "s89ToBeGiven": "Hatao amy",
   "s89DescFooter": "<strong>Koran̈a handeha amy pianatra:</strong> Hita amy <em>Boky Fianaran̈a amy Fivorian̈a Momba Fiain̈anantsika Ndreky Fanompoan̈a</em> ao loharanonkevitry ndreky leson aminy anjaranao io. Omàn̈a mifan̈araka amindro leson amy bokikely <em>Mifen̈a</em> ao izio.",
-  "name": "An̈aran̈a",
-  "assistant": "Pan̈ampy",
-  "date": "Daty",
+  "name": "Name:",
+  "assistant": "Assistant:",
+  "date": "Date:",
   "assignment": "Raha hatao",
   "bibleReading": "Vaky Baiboly",
   "initialCall": "Fitorian̈a",
@@ -74,5 +74,6 @@
   "makingDisciples": "Rehefa Mampianatra",
   "explainingBeliefs": "Hazavao ny Zavatra Inoanao",
   "discussion": "Fiaraha-midinika",
-  "demonstration": "Fampisehoana"
+  "demonstration": "Fampisehoana",
+  "partNo": "Part no.:"
 }
