@@ -1,10 +1,10 @@
 {
   "s89Title": "НАШЕ ХРИСТИЯНСЬКЕ ЖИТТЯ І СЛУЖІННЯ<br />РОЗКЛАД ЗІБРАННЯ",
   "s89ToBeGiven": "Призначено в",
-  "s89DescFooter": "<strong>Note to student:</strong> The source material and study point for your assignment can be found in the  <em>Life and Ministry Meeting Workbook</em>. Please review the instructions for the part as outlined in <em>Instructions for Our Christian Life and Ministry Meeting</em> (S-38).",
+  "s89DescFooter": "<strong>До уваги учня:</strong> Матеріал для твого завдання та номер уроку можна знайти в посібнику <em> \"Наше християнське життя та служіння\"</em>. Будь ласка, ознайомся з вказівками до завдання у <em>Вказівках до зібрання «Наше християнське життя і служіння»</em>(S-38).",
   "name": "Імʼя:",
-  "assistant": "Assistant:",
-  "date": "Date:",
+  "assistant": "Партнер:",
+  "date": "Дата:",
   "assignment": "Завдання",
   "bibleReading": "Читання Біблії",
   "initialCall": "Перша розмова",
@@ -75,5 +75,5 @@
   "explainingBeliefs": "Пояснюємо свої переконання",
   "discussion": "Обговорення",
   "demonstration": "Діалог",
-  "partNo": "Part no.:"
+  "partNo": "Завдання №:"
 }
