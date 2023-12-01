@@ -1,3 +1,10 @@
+# [2.107.0](https://github.com/sws2apps/cpe-sws/compare/v2.106.1...v2.107.0) (2023-12-01)
+
+
+### Features
+
+* **localize:** updated translation from Crowdin ([71d087f](https://github.com/sws2apps/cpe-sws/commit/71d087fa2718db4583153a71f55c2c8f72ada4e0))
+
 ## [2.106.1](https://github.com/sws2apps/cpe-sws/compare/v2.106.0...v2.106.1) (2023-12-01)
 
 
