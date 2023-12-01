@@ -1,3 +1,22 @@
+# [2.106.0](https://github.com/sws2apps/cpe-sws/compare/v2.105.0...v2.106.0) (2023-12-01)
+
+
+### Bug Fixes
+
+* **schedules:** part number ordering ([fe5742f](https://github.com/sws2apps/cpe-sws/commit/fe5742f2ffc78479da6b18b9948edf73c314dd71))
+
+
+### Features
+
+* **deps:** bump @mui/icons-material from 5.14.18 to 5.14.19 ([618dd1e](https://github.com/sws2apps/cpe-sws/commit/618dd1e5a610948bc6dcb540bcf7515c1e3dd326))
+* **deps:** bump @mui/material from 5.14.18 to 5.14.19 ([532a126](https://github.com/sws2apps/cpe-sws/commit/532a126eb8217cbd6c25abca280f28736e195de5))
+* **deps:** bump @tanstack/react-query from 5.8.9 to 5.10.0 ([f27417f](https://github.com/sws2apps/cpe-sws/commit/f27417f213c4925b14551d36a36a7cd16e57ec2d))
+* **deps:** bump vite from 5.0.3 to 5.0.4 ([d5da60b](https://github.com/sws2apps/cpe-sws/commit/d5da60b21d8110dd0a326244393bbcba36923299))
+* **localize:** update source text ([79dbbd1](https://github.com/sws2apps/cpe-sws/commit/79dbbd1662b568b0cf9ef1610d84154800f8d1d5))
+* **localize:** updated translation from Crowdin ([8ba50f6](https://github.com/sws2apps/cpe-sws/commit/8ba50f6d8c30784e9f0b5905d32ba0a75cb25c3d))
+* **localize:** updated translation from Crowdin ([d137fd1](https://github.com/sws2apps/cpe-sws/commit/d137fd117d43378bc7e401fae5119f8d552ef019))
+* **schedules:** update S-89 template to latest format ([c7d304b](https://github.com/sws2apps/cpe-sws/commit/c7d304b43d8e137cda370915dae54a979990509b))
+
 # [2.105.0](https://github.com/sws2apps/cpe-sws/compare/v2.104.0...v2.105.0) (2023-11-29)
 
 
