@@ -11,6 +11,8 @@
   "name": "Organized",
   "short_name": "Organized",
   "description": "An application for Jehovah’s Witnesses congregation",
+  "lang": "en",
+  "orientation": "any",
   "icons": [
     {
       "src": "/img/icon/icon-512x512.png",
@@ -26,7 +28,7 @@
       "src": "/img/icon/icon-maskable-1024x1024.png",
       "sizes": "1024x1024",
       "type": "image/png",
-      "purpose": "maskable"
+      "purpose": "maskable any"
     },
     {
       "src": "/img/icon/icon-maskable-512x512.png",
@@ -67,63 +69,9 @@
     {
       "src": "/img/screenshot/one_app_for_everyone.png",
       "sizes": "1125x2000",
-      "type": "image/png"
-    },
-    {
-      "src": "/img/screenshot/way_less_stress.png",
-      "sizes": "1125x2000",
-      "type": "image/png"
-    },
-    {
-      "src": "/img/screenshot/hundreds_of_hours_saved.png",
-      "sizes": "1125x2000",
-      "type": "image/png"
-    },
-    {
-      "src": "/img/screenshot/trully_multi_platform.png",
-      "sizes": "1125x2000",
-      "type": "image/png"
-    },
-    {
-      "src": "/img/screenshot/instant_reports.png",
-      "sizes": "1125x2000",
-      "type": "image/png"
-    },
-    {
-      "src": "/img/screenshot/one_app_for_everyone.png",
-      "sizes": "1125x2000",
       "type": "image/png",
-      "form_factor": "wide"
-    },
-    {
-      "src": "/img/screenshot/way_less_stress.png",
-      "sizes": "1125x2000",
-      "type": "image/png",
-      "form_factor": "wide"
-    },
-    {
-      "src": "/img/screenshot/hundreds_of_hours_saved.png",
-      "sizes": "1125x2000",
-      "type": "image/png",
-      "form_factor": "wide"
-    },
-    {
-      "src": "/img/screenshot/trully_multi_platform.png",
-      "sizes": "1125x2000",
-      "type": "image/png",
-      "form_factor": "wide"
-    },
-    {
-      "src": "/img/screenshot/instant_reports.png",
-      "sizes": "1125x2000",
-      "type": "image/png",
-      "form_factor": "wide"
-    },
-    {
-      "src": "/img/screenshot/light_and_dark_themes.png",
-      "sizes": "1125x2000",
-      "type": "image/png",
-      "form_factor": "wide"
+      "form_factor": "wide",
+      "label": "one_app_for_everyone"
     }
   ],
   "url_handlers": [
