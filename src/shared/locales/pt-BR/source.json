@@ -67,7 +67,7 @@
   "openingPrayerWeekendMeeting": "Oração inicial",
   "noWMeeting": "Não há nenhuma reunião de fim de semana para esta semana",
   "noMeeting": "Não existe reunião para esta semana",
-  "longDateFormat": "{{ dia }} {{ mês }}, {{ ano }}",
+  "longDateFormat": "{{ date }} {{ month }}, {{ year }}",
   "substituteSpeaker": "Orador substituto",
   "startingConversation": "Iniciando conversas",
   "followingUp": "Cultivando o interesse",
