@@ -1,3 +1,12 @@
+# [2.108.0](https://github.com/sws2apps/cpe-sws/compare/v2.107.0...v2.108.0) (2023-12-04)
+
+
+### Features
+
+* **deps:** bump @tanstack/react-query from 5.10.0 to 5.12.1 ([f0f218b](https://github.com/sws2apps/cpe-sws/commit/f0f218b3589c68bd7f0d0bf97c087eaaf61e6caf))
+* **deps:** bump react-router-dom from 6.20.0 to 6.20.1 ([ba3a210](https://github.com/sws2apps/cpe-sws/commit/ba3a21043c982a71638b5648bd8354a4000c5386))
+* **localize:** updated translation from Crowdin ([036aee8](https://github.com/sws2apps/cpe-sws/commit/036aee8ff66f08145022a5a0471ab7c7c9fa3427))
+
 # [2.107.0](https://github.com/sws2apps/cpe-sws/compare/v2.106.1...v2.107.0) (2023-12-01)
 
 

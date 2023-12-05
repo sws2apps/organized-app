@@ -676,8 +676,8 @@
   "talksListEmpty": "Baixe a lista de discursos primeiro.",
   "countriesFetchError": "Falha ao buscar países",
   "congregationsFetchError": "Falha ao buscar as congregações",
-  "navMenuHelp": "Help",
-  "docsUrlCode": "docs",
-  "useExactMidweekMeetingDate": "Use exact meeting date in S-140",
-  "useSubtituteSpeaker": "Assign substitute for a visiting speaker"
+  "navMenuHelp": "Ajuda",
+  "docsUrlCode": "documentação",
+  "useExactMidweekMeetingDate": "Usar a data exata da reunião no S-140",
+  "useSubtituteSpeaker": "Designar um substituto para o orador visitante"
 }
