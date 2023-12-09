@@ -18,9 +18,11 @@ const DashboardCard = ({ header, children }) => {
         padding: '8px',
         '& li': {
           borderBottom: '1px solid var(--accent-200)',
+          padding: '4px 0px',
         },
         '& li:last-child': {
           borderBottom: 'none',
+          padding: '4px 0px 0px 0px',
         },
       }}
       className="big-card-shadow"
@@ -37,7 +39,7 @@ const DashboardCard = ({ header, children }) => {
           {header}
         </Typography>
       </Box>
-      <Box sx={{ marginTop: '8px', width: '100%' }}>
+      <Box sx={{ marginTop: '8px', width: '100%', overflow: 'auto' }}>
         <List sx={{ paddingTop: 0, paddingBottom: 0 }}>{children}</List>
       </Box>
     </Box>
