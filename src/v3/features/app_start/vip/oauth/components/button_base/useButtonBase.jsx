@@ -1,37 +1,29 @@
 import { useRecoilValue } from 'recoil';
-import { currentProviderState, isAuthProcessingState, isUserSignInState, isUserSignUpState } from '@states/app';
+import { currentProviderState, isAuthProcessingState, isUserSignInState } from '@states/app';
 import { setAuthPersistence, userSignInPopup } from '@services/firebase/auth';
 import {
   displayOnboardingFeedback,
-  setCongAccountConnected,
   setCurrentMFAStage,
-  setIsAppLoad,
   setIsAuthProcessing,
   setIsCongAccountCreate,
   setIsEmailAuth,
-  setIsSetup,
+  setIsEncryptionCodeOpen,
   setIsUnauthorizedRole,
   setIsUserSignIn,
-  setIsUserSignUp,
-  setRootModalOpen,
   setUserMfaVerify,
 } from '@services/recoil/app';
 import useAppTranslation from '@hooks/useAppTranslation';
 import { useFeedback } from '@features/app_start';
 import { getMessageByCode } from '@services/i18n/translation';
 import { apiSendAuthorization } from '@services/api/user';
-import { CPE_ROLES } from '@constants/index';
-import { runUpdater, updateUserInfoAfterLogin } from '@services/cpe';
 import { handleUpdateSetting } from '@services/dexie/settings';
-import { apiFetchSchedule } from '@services/api/schedule';
-import { handleUpdateScheduleFromRemote } from '@services/cpe/schedules';
+import { CPE_ROLES } from '@constants/index';
 
 const useButtonBase = ({ provider, isEmail }) => {
   const { t } = useAppTranslation();
 
   const isAuthProcessing = useRecoilValue(isAuthProcessingState);
   const isUserSignIn = useRecoilValue(isUserSignInState);
-  const isUserSignUp = useRecoilValue(isUserSignUpState);
   const currentProvider = useRecoilValue(currentProviderState);
 
   const { showMessage, hideMessage } = useFeedback();
@@ -82,53 +74,35 @@ const useButtonBase = ({ provider, isEmail }) => {
             }
 
             if (approvedRole) {
-              await updateUserInfoAfterLogin(data);
-
-              result.success = true;
+              result.encryption = true;
             }
           }
         } else {
           result.isVerifyMFA = true;
         }
 
-        if (result.isVerifyMFA || result.success || result.createCongregation) {
+        if (result.isVerifyMFA || result.encryption || result.createCongregation) {
           await handleUpdateSetting({ account_type: 'vip' });
 
           if (result.isVerifyMFA) {
             setCurrentMFAStage('verify');
-            setIsUserSignUp(false);
             setUserMfaVerify(true);
             setIsCongAccountCreate(false);
             setIsUnauthorizedRole(false);
           }
 
-          if (result.success) {
-            setIsSetup(false);
-
-            await runUpdater();
-
-            await setRootModalOpen(true);
-            const { status: scheduleStatus, data: scheduleData } = await apiFetchSchedule();
-            if (scheduleStatus === 200) {
-              await handleUpdateScheduleFromRemote(scheduleData);
-            }
-            await setRootModalOpen(false);
-
-            setTimeout(() => {
-              setCongAccountConnected(true);
-              setIsAppLoad(false);
-            }, [2000]);
-          }
-
           if (result.createCongregation) {
-            setIsUserSignUp(false);
             setIsUserSignIn(false);
             setIsCongAccountCreate(true);
+          }
+
+          if (result.encryption) {
+            setIsUserSignIn(false);
+            setIsEncryptionCodeOpen(true);
           }
         }
 
         if (result.unauthorized) {
-          setIsUserSignUp(false);
           setUserMfaVerify(true);
           setIsCongAccountCreate(false);
           setIsUnauthorizedRole(true);
@@ -137,6 +111,7 @@ const useButtonBase = ({ provider, isEmail }) => {
         setIsAuthProcessing(false);
       }
     } catch (error) {
+      console.log(error);
       await displayOnboardingFeedback({
         title: t('errorTitle'),
         message: getMessageByCode(error.code || t('errorGeneric')),
@@ -151,7 +126,6 @@ const useButtonBase = ({ provider, isEmail }) => {
   const handleEmailAuth = () => {
     setIsEmailAuth(true);
     if (isUserSignIn) setIsUserSignIn(false);
-    if (isUserSignUp) setIsUserSignUp(false);
   };
 
   const handleAction = () => {

@@ -6,6 +6,7 @@ import {
   isCongAccountCreateState,
   isEmailAuthState,
   isEmailLinkAuthenticateState,
+  isEncryptionCodeOpenState,
   isUserMfaVerifyState,
   isUserSignInState,
   offlineOverrideState,
@@ -14,14 +15,14 @@ import {
   setIsAppLoad,
   setIsCongAccountCreate,
   setIsEmailLinkAuthenticate,
+  setIsEncryptionCodeOpen,
   setIsSetup,
   setIsUserSignIn,
-  setIsUserSignUp,
   setShowTermsUse,
   setUserMfaSetup,
   setUserMfaVerify,
 } from '@services/recoil/app';
-import { congNameState, congRoleState } from '@states/settings';
+import { congEncryptionCodeState, congNameState, congRoleState } from '@states/settings';
 import { CPE_ROLES } from '@constants/index';
 import { loadApp, runUpdater } from '@services/cpe';
 import { convertStringToBoolean } from '@utils/common';
@@ -39,9 +40,10 @@ const useStartup = () => {
   const isOfflineOverride = useRecoilValue(offlineOverrideState);
   const congName = useRecoilValue(congNameState);
   const congRole = useRecoilValue(congRoleState);
+  const isEncryptionCodeOpen = useRecoilValue(isEncryptionCodeOpenState);
+  const congEncryption = useRecoilValue(congEncryptionCodeState);
 
   const showSignin = useCallback(() => {
-    setIsUserSignUp(false);
     setIsUserSignIn(true);
     setIsCongAccountCreate(false);
     setUserMfaVerify(false);
@@ -66,7 +68,12 @@ const useStartup = () => {
       return;
     }
 
-    if (congName.length > 0) {
+    if (congName.length > 0 && congEncryption.length === 0) {
+      setIsEncryptionCodeOpen(true);
+      return;
+    }
+
+    if (congName.length > 0 && congEncryption.length > 0) {
       setIsSetup(false);
       await loadApp();
       await runUpdater();
@@ -75,7 +82,7 @@ const useStartup = () => {
         setIsAppLoad(false);
       }, [1000]);
     }
-  }, [isOfflineOverride, congName, congRole, showSignin]);
+  }, [isOfflineOverride, congName, congRole, showSignin, congEncryption]);
 
   useEffect(() => {
     const checkLink = async () => {
@@ -105,6 +112,7 @@ const useStartup = () => {
     isUserMfaVerify,
     isCongAccountCreate,
     isEmailLinkAuth,
+    isEncryptionCodeOpen,
   };
 };
 

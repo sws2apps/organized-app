@@ -90,11 +90,6 @@ export const isUserSignInState = atom({
   default: false,
 });
 
-export const isUserSignUpState = atom({
-  key: 'isUserSignUp',
-  default: false,
-});
-
 export const isEmailNotVerifiedState = atom({
   key: 'isEmailNotVerified',
   default: false,
@@ -375,5 +370,10 @@ export const isSupportOpenState = atom({
 
 export const isNewCongregationState = atom({
   key: 'isNewCongregation',
+  default: false,
+});
+
+export const isEncryptionCodeOpenState = atom({
+  key: 'isEncryptionCodeOpen',
   default: false,
 });

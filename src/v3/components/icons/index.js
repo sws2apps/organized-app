@@ -58,7 +58,7 @@ export { default as IconDutiesDistribution } from './IconDutiesDistribution';
 export { default as IconDuties } from './IconDuties';
 export { default as IconEdit } from './IconEdit';
 export { default as IconEllipse } from './IconEllipse';
-export { default as IconEncryption } from './IconEncryption';
+export { default as IconEncryptionKey } from './IconEncryptionKey';
 export { default as IconError } from './IconError';
 export { default as IconExpand } from './IconExpand';
 export { default as IconExport } from './IconExport';

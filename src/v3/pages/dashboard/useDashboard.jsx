@@ -1,8 +1,8 @@
-import { firstNameState } from '@states/settings';
+import { firstnameState } from '@states/settings';
 import { useRecoilValue } from 'recoil';
 
 const useDashboard = () => {
-  const firstName = useRecoilValue(firstNameState);
+  const firstName = useRecoilValue(firstnameState);
 
   return { firstName };
 };

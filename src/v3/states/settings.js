@@ -10,31 +10,21 @@ export const settingsState = atom({
   default: {},
 });
 
-export const usernameState = selector({
-  key: 'username',
+export const firstnameState = selector({
+  key: 'firstname',
   get: ({ get }) => {
     const settings = get(settingsState);
 
-    return settings.username || '';
+    return settings.firstname || '';
   },
 });
 
-export const firstNameState = selector({
-  key: 'firstName',
+export const lastnameState = selector({
+  key: 'lastname',
   get: ({ get }) => {
-    const username = get(usernameState);
+    const settings = get(settingsState);
 
-    const names = username.split(/,\s|\s/);
-
-    let result = '';
-
-    if (names.length > 0) {
-      result = names[1];
-    } else {
-      result = names[0];
-    }
-
-    return result;
+    return settings.lastname || '';
   },
 });
 
@@ -62,6 +52,15 @@ export const congNameState = selector({
     const settings = get(settingsState);
 
     return settings.cong_name || '';
+  },
+});
+
+export const congEncryptionCodeState = selector({
+  key: 'congEncryptionCode',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+
+    return settings.cong_code || '';
   },
 });
 

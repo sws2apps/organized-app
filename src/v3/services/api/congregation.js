@@ -45,7 +45,7 @@ export const apiFetchCongregations = async (country, name) => {
   return { status: res.status, data };
 };
 
-export const apiCreateCongregation = async (country_code, cong_name, cong_number, role, fullname) => {
+export const apiCreateCongregation = async (country_code, cong_name, cong_number, firstname, lastname) => {
   const { apiHost, appVersion: appversion, visitorID: visitorid, userUID: uid, appLang } = await apiDefault();
 
   const res = await fetch(`${apiHost}api/congregations`, {
@@ -58,7 +58,7 @@ export const apiCreateCongregation = async (country_code, cong_name, cong_number
       uid,
       language: appLang.toUpperCase(),
     },
-    body: JSON.stringify({ country_code, cong_name, cong_number, app_requestor: role, fullname }),
+    body: JSON.stringify({ country_code, cong_name, cong_number, firstname, lastname }),
   });
 
   const data = await res.json();
@@ -248,6 +248,20 @@ export const apiRestoreCongregationBackup = async () => {
   const res = await fetch(`${apiHost}api/congregations/${congID}/backup`, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, visitorid, uid },
+  });
+
+  const data = await res.json();
+
+  return { status: res.status, data };
+};
+
+export const apiSetCongregationEncryption = async (key) => {
+  const { apiHost, appVersion: appversion, visitorID: visitorid, userUID: uid, congID } = await apiDefault();
+
+  const res = await fetch(`${apiHost}api/congregations/admin/${congID}/encryption`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, visitorid, uid },
+    body: JSON.stringify({ encryption_code: key }),
   });
 
   const data = await res.json();

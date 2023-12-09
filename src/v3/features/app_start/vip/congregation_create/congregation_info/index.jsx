@@ -3,7 +3,6 @@ import { Box } from '@mui/material';
 import { Button, CongregationSelector, CountrySelector, InfoMessage, TextField } from '@components';
 import { PageHeader } from '@features/app_start';
 import { IconAccount, IconError, IconLoading } from '@icons';
-import CongregationRole from '../congregation_role';
 import { useAppTranslation } from '@hooks/index';
 import useCongregationCreate from '../useCongregationCreate';
 
@@ -12,19 +11,18 @@ const CongregationInfo = ({ setIsCreate }) => {
 
   const {
     country,
-    congregation,
-    role,
-    userTmpFullname,
     handleCongregationAction,
-    setRole,
     setCongregation,
     setCountry,
-    setUserTmpFullname,
     isProcessing,
     title,
     message,
     hideMessage,
     variant,
+    setUserTmpFirstName,
+    setUserTmpLastName,
+    userTmpFirstName,
+    userTmpLastName,
   } = useCongregationCreate();
 
   return (
@@ -51,20 +49,37 @@ const CongregationInfo = ({ setIsCreate }) => {
             width: '100%',
           }}
         >
-          <TextField
-            label={t('fullname')}
-            variant="outlined"
-            autoComplete="off"
-            required={true}
-            value={userTmpFullname}
-            onChange={(e) => setUserTmpFullname(e.target.value)}
-            sx={{ width: '100%' }}
-            startIcon={<IconAccount />}
-          />
+          <Box
+            sx={{
+              display: 'flex',
+              gap: '16px',
+              alignItems: 'center',
+              width: '100%',
+              flexWrap: 'wrap',
+            }}
+          >
+            <TextField
+              label={t('firstname')}
+              variant="outlined"
+              autoComplete="off"
+              required={true}
+              value={userTmpFirstName}
+              onChange={(e) => setUserTmpFirstName(e.target.value)}
+              sx={{ flex: '1 0 200px' }}
+              startIcon={<IconAccount />}
+            />
+            <TextField
+              label={t('lastname')}
+              variant="outlined"
+              autoComplete="off"
+              value={userTmpLastName}
+              onChange={(e) => setUserTmpLastName(e.target.value)}
+              sx={{ flex: '1 0 200px' }}
+            />
+          </Box>
 
           <CountrySelector handleCountryChange={setCountry} />
           {country !== null && <CongregationSelector country={country} setCongregation={setCongregation} />}
-          {congregation !== null && <CongregationRole role={role} setRole={setRole} />}
 
           <Button
             variant="main"

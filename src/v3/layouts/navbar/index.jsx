@@ -35,7 +35,7 @@ const NavBar = () => {
     handleOpenSupport,
     handleOpenDoc,
     isAppLoad,
-    username,
+    firstname,
     congName,
     userAvatar,
     mobileUp,
@@ -106,7 +106,7 @@ const NavBar = () => {
                     }}
                   >
                     <Typography variant="body-small-semibold" sx={{ textAlign: 'right' }}>
-                      {username}
+                      {firstname}
                     </Typography>
                     <Typography variant="label-small-regular" sx={{ textAlign: 'right' }}>
                       {congName}

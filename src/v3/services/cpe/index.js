@@ -54,7 +54,8 @@ export const updateUserInfoAfterLogin = async (data) => {
 
   // save congregation update if any
   const obj = {};
-  obj.username = data.username;
+  obj.firstname = data.firstname;
+  obj.lastname = data.lastname;
   obj.cong_name = cong_name;
   obj.cong_number = cong_number;
   obj.user_members_delegate = user_members_delegate;

@@ -14,6 +14,8 @@ const CPETextField = ({
   height = 44,
   autoProps,
   InputProps,
+  helperText = null,
+  resetHelperPadding = false,
 }) => {
   const varHeight = (56 - height) / 2;
 
@@ -97,6 +99,14 @@ const CPETextField = ({
           </InputAdornment>
         ) : null,
       }}
+      FormHelperTextProps={{
+        component: 'div',
+        style: {
+          margin: 0,
+          padding: resetHelperPadding ? 0 : '4px 16px 0px 16px',
+        },
+      }}
+      helperText={helperText}
     />
   );
 };
@@ -114,6 +124,8 @@ CPETextField.propTypes = {
   required: PropTypes.bool,
   height: PropTypes.number,
   autoProps: PropTypes.any,
+  helperText: PropTypes.node,
+  resetHelperPadding: PropTypes.bool,
 };
 
 export default CPETextField;

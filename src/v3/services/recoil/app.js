@@ -16,7 +16,6 @@ import {
   isSetupState,
   isUnauthorizedRoleState,
   isUserSignInState,
-  isUserSignUpState,
   offlineOverrideState,
   rootModalOpenState,
   userIDState,
@@ -46,6 +45,7 @@ import {
   onboardingVariantState,
   isSupportOpenState,
   isNewCongregationState,
+  isEncryptionCodeOpenState,
 } from '@states/app';
 
 export const handleSWOnInstalled = async () => {
@@ -123,10 +123,6 @@ export const setUserID = async (value) => {
 
 export const setOfflineOverride = async (value) => {
   await promiseSetRecoil(offlineOverrideState, value);
-};
-
-export const setIsUserSignUp = async (value) => {
-  await promiseSetRecoil(isUserSignUpState, value);
 };
 
 export const setIsEmailAuth = async (value) => {
@@ -218,4 +214,8 @@ export const setIsSupportOpen = async (value) => {
 
 export const setIsNewCongregation = async (value) => {
   await promiseSetRecoil(isNewCongregationState, value);
+};
+
+export const setIsEncryptionCodeOpen = async (value) => {
+  await promiseSetRecoil(isEncryptionCodeOpenState, value);
 };
