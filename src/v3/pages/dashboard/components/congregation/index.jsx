@@ -1,10 +1,13 @@
 import { ListItem } from '@mui/material';
 import { DashboardCard, DashboardMenu } from '@features/index';
-import { IconGroups, IconManageAccess, IconSettings, IconSync } from '@icons';
+import { IconGroups, IconManageAccess, IconSettings, IconSynced } from '@icons';
 import { useAppTranslation } from '@hooks/index';
+import useCongregation from './useCongregation';
 
 const CongregationCard = () => {
   const { t } = useAppTranslation();
+
+  const { handleSyncData } = useCongregation();
 
   return (
     <DashboardCard header={t('congregation')}>
@@ -19,9 +22,10 @@ const CongregationCard = () => {
       </ListItem>
       <ListItem disablePadding>
         <DashboardMenu
-          icon={<IconSync color="var(--black)" />}
+          icon={<IconSynced color="var(--black)" />}
           primaryText={t('syncAppData')}
           secondaryText={t('lastSyncAppData')}
+          onClick={handleSyncData}
         />
       </ListItem>
     </DashboardCard>

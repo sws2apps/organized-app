@@ -6,7 +6,7 @@ const IconEncryptionKey = ({ color = '#222222', width = 24, height = 24, sx = {}
   height = height.toString();
 
   return (
-    <SvgIcon sx={{ width: `${width}px`, height: `${height}px`, ...sx }}>
+    <SvgIcon id="organized-icon-encryption-key" sx={{ width: `${width}px`, height: `${height}px`, ...sx }}>
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
         <mask
           id="mask0_5073_181170"

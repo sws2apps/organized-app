@@ -6,7 +6,7 @@ const IconYahoo = ({ width = 24, height = 24, sx = {} }) => {
   height = height.toString();
 
   return (
-    <SvgIcon sx={{ width: `${width}px`, height: `${height}px`, ...sx }}>
+    <SvgIcon id="organized-icon-yahoo" sx={{ width: `${width}px`, height: `${height}px`, ...sx }}>
       <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g clipPath="url(#clip0_2633_30348)">
           <path

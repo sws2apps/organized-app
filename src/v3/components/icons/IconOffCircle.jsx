@@ -6,7 +6,7 @@ const IconOffCircle = ({ color = '#222222', width = 24, height = 24, sx = {} }) 
   height = height.toString();
 
   return (
-    <SvgIcon sx={{ width: `${width}px`, height: `${height}px`, ...sx }}>
+    <SvgIcon id="organized-icon-off-circle" sx={{ width: `${width}px`, height: `${height}px`, ...sx }}>
       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
         <g clipPath="url(#clip0_4449_151635)">
           <path

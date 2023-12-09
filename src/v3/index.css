@@ -109,3 +109,13 @@ span .text-markup:last-child {
 		display: none;
 	}
 }
+
+@keyframes rotate {
+	from {
+		transform: rotate(0deg);
+	}
+
+	to {
+		transform: rotate(360deg);
+	}
+}

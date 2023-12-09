@@ -6,7 +6,7 @@ const IconMap = ({ color = '#222222', width = 24, height = 24, sx = {} }) => {
   height = height.toString();
 
   return (
-    <SvgIcon sx={{ width: `${width}px`, height: `${height}px`, ...sx }}>
+    <SvgIcon id="organized-icon-map" sx={{ width: `${width}px`, height: `${height}px`, ...sx }}>
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <mask
           id="mask0_2457_20497"

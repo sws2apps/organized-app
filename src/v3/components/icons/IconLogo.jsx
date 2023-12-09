@@ -6,7 +6,7 @@ const IconLogo = ({ width = 24, height = 24, sx = {} }) => {
   height = height.toString();
 
   return (
-    <SvgIcon sx={{ width: `${width}px`, height: `${height}px`, ...sx }}>
+    <SvgIcon id="organized-icon-logo" sx={{ width: `${width}px`, height: `${height}px`, ...sx }}>
       <svg width="154" height="154" viewBox="0 0 154 154" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g clipPath="url(#clip0_4686_167575)">
           <rect x="21.5804" y="21.4773" width="110.839" height="111.045" fill="#FEFEFE" />

@@ -2,10 +2,11 @@ import PropTypes from 'prop-types';
 import { Box, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { Typography } from '@components';
 
-const DashboardMenu = ({ icon, primaryText = '', secondaryText = '', badgeText = '' }) => {
+const DashboardMenu = ({ icon, primaryText = '', secondaryText = '', badgeText = '', onClick }) => {
   return (
     <ListItemButton
       disableRipple
+      onClick={onClick}
       sx={{
         padding: '8px 8px 8px 16px',
         minHeight: '40px',
@@ -65,6 +66,7 @@ DashboardMenu.propTypes = {
   primaryText: PropTypes.string,
   secondaryText: PropTypes.string,
   badgeText: PropTypes.string,
+  onClick: PropTypes.func,
 };
 
 export default DashboardMenu;

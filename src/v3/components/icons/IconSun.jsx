@@ -6,7 +6,7 @@ const IconSun = ({ color = '#222222', width = 24, height = 24, sx = {} }) => {
   height = height.toString();
 
   return (
-    <SvgIcon sx={{ width: `${width}px`, height: `${height}px`, ...sx }}>
+    <SvgIcon id="organized-icon-sun" sx={{ width: `${width}px`, height: `${height}px`, ...sx }}>
       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
         <mask
           id="mask0_2895_91279"

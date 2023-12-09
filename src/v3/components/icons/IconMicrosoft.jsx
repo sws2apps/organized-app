@@ -6,7 +6,7 @@ const IconMicrosoft = ({ width = 24, height = 24, sx = {} }) => {
   height = height.toString();
 
   return (
-    <SvgIcon sx={{ width: `${width}px`, height: `${height}px`, ...sx }}>
+    <SvgIcon id="organized-icon-microsoft" sx={{ width: `${width}px`, height: `${height}px`, ...sx }}>
       <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g clipPath="url(#clip0_2633_30355)">
           <path d="M12.7935 11.25H24.0435V0.75C24.0435 0.336 23.7075 0 23.2935 0H12.7935V11.25Z" fill="#4CAF50" />
