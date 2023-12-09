@@ -756,5 +756,7 @@
   "encryptionCodeSet": "Set encryption code",
   "encryptionCodeAsk": "Enter encryption code",
   "encryptionCodeValidate": "Validate",
-  "encryptionCodeInvalid": "The encryption code you entered is not correct"
+  "encryptionCodeInvalid": "The encryption code you entered is not correct",
+  "welcomeCongregationTitle": "Welcome to your congregation",
+  "welcomeCongregationDesc": "<p>Welcome to the app! Learn all the power of the app on the <a href='https://sws2apps.com/docs/category/congregation-program-for-everyone' title='Organized' target='_blank'>How to use Organized</a> page</p>"
 }

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { Box, IconButton } from '@mui/material';
-import { Button, Typography } from '@components';
+import { Button, TextMarkup, Typography } from '@components';
 import { IconClose } from '@icons';
 
 const CPEInfoMessage = ({
@@ -68,9 +68,14 @@ const CPEInfoMessage = ({
               {messageHeader}
             </Typography>
           )}
-          <Typography variant="body-small-regular" color="var(--always-white)">
-            {message}
-          </Typography>
+          <TextMarkup
+            content={message}
+            className="body-small-regular"
+            color="var(--always-white)"
+            anchorClassName="body-small-regular"
+            anchorColor="var(--always-white)"
+            anchorStyle={{ textDecoration: 'underline' }}
+          />
         </Box>
 
         {variant === 'message-with-button' && (

@@ -4,7 +4,7 @@ import { Button, CongregationSelector, CountrySelector, InfoMessage, TextField }
 import { PageHeader } from '@features/app_start';
 import { IconAccount, IconError, IconLoading } from '@icons';
 import { useAppTranslation } from '@hooks/index';
-import useCongregationCreate from '../useCongregationCreate';
+import useCongregationInfo from './useCongregationInfo';
 
 const CongregationInfo = ({ setIsCreate }) => {
   const { t } = useAppTranslation();
@@ -23,7 +23,7 @@ const CongregationInfo = ({ setIsCreate }) => {
     setUserTmpLastName,
     userTmpFirstName,
     userTmpLastName,
-  } = useCongregationCreate();
+  } = useCongregationInfo();
 
   return (
     <Box

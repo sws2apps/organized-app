@@ -9,7 +9,10 @@ const CPETextMarkup = ({
   anchorClassName = 'body-small-semibold',
   anchorColor = 'var(--accent-main)',
   anchorRef,
+  anchorStyle = {},
 }) => {
+  content = content.startsWith('<') ? content : `<p>${content}</p>`;
+
   const transformText = (node, children) => {
     if (node.tagName.toLowerCase() === 'p') {
       return (
@@ -23,10 +26,11 @@ const CPETextMarkup = ({
       return (
         <a
           className={anchorClassName}
-          style={{ color: anchorColor }}
+          style={{ color: anchorColor, ...anchorStyle }}
           href={node.getAttribute('href')}
           title={node.getAttribute('title')}
           id={node.getAttribute('id')}
+          target={node.getAttribute('target')}
           ref={anchorRef}
         >
           {children}
@@ -47,6 +51,7 @@ CPETextMarkup.propTypes = {
   className: PropTypes.string,
   color: PropTypes.string,
   style: PropTypes.object,
+  anchorStyle: PropTypes.object,
   anchorClassName: PropTypes.string,
   anchorColor: PropTypes.string,
   anchorRef: PropTypes.any,

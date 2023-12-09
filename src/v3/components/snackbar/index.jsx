@@ -38,7 +38,8 @@ const CPESnackbar = ({
       autoHideDuration={variant === 'message-with-button' ? null : 5000}
       sx={{
         padding: 0,
-        top: '80px',
+        top: position === 'top-center' ? '80px' : 'unset',
+        bottom: position === 'bottom-center' ? '24px' : 'unset',
         '.MuiSnackbarContent-message': {
           width: '100%',
           display: 'flex',

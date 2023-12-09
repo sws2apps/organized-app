@@ -5,14 +5,15 @@ import MeetingsCard from './components/meetings';
 import MeetingsMaterialsCard from './components/meeting_materials';
 import PersonsCard from './components/persons';
 import ReportsCard from './components/reports';
-import { TextMarkup, Typography } from '@components';
+import { SnackBar, TextMarkup, Typography } from '@components';
 import { useAppTranslation } from '@hooks/index';
 import useDashboard from './useDashboard';
+import { IconCheckCircle } from '@icons';
 
 const Dashboard = () => {
   const { t } = useAppTranslation();
 
-  const { firstName } = useDashboard();
+  const { firstName, isCongNew, handleCloseNewCongNotice } = useDashboard();
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -39,6 +40,17 @@ const Dashboard = () => {
         <ReportsCard />
         <CongregationCard />
       </Box>
+
+      {isCongNew && (
+        <SnackBar
+          open={isCongNew}
+          variant="success"
+          messageIcon={<IconCheckCircle color="var(--always-white)" />}
+          messageHeader={t('welcomeCongregationTitle')}
+          message={t('welcomeCongregationDesc')}
+          onClose={handleCloseNewCongNotice}
+        />
+      )}
     </Box>
   );
 };

@@ -64,6 +64,15 @@ export const congEncryptionCodeState = selector({
   },
 });
 
+export const congNewState = selector({
+  key: 'congNew',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+
+    return settings.cong_new || false;
+  },
+});
+
 export const congRoleState = selector({
   key: 'congRole',
   get: ({ get }) => {
