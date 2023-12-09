@@ -1,8 +1,7 @@
-import AccountCircle from '@mui/icons-material/AccountCircle';
 import { Avatar, Box, Container, IconButton, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material';
 import { Typography } from '@components';
 import { AppNotification, LanguageSwitcher, ThemeSwitcher } from '@features/index';
-import { IconDonate, IconHelp, IconInfo, IconLogo, IconMenu } from '@icons';
+import { IconAccount, IconDonate, IconHelp, IconInfo, IconLogo, IconMenu } from '@icons';
 import { useAppTranslation } from '@hooks/index';
 import useNavbar from './useNavbar';
 
@@ -34,7 +33,6 @@ const NavBar = () => {
     handleOpenAbout,
     handleOpenSupport,
     handleOpenDoc,
-    isAppLoad,
     firstname,
     congName,
     userAvatar,
@@ -90,10 +88,10 @@ const NavBar = () => {
             }}
             onClick={handleOpenMoreMenu}
           >
-            {(isAppLoad || mobileUp) && !tabletUp && !laptopUp && <IconMenu color="var(--black)" />}
-            {!isAppLoad && (tabletUp || laptopUp) && (
+            {mobileUp && !tabletUp && !laptopUp && <IconMenu color="var(--black)" />}
+            {(tabletUp || laptopUp) && (
               <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                {laptopUp && (
+                {laptopUp && firstname && congName && (
                   <Box
                     sx={{
                       width: '100%',
@@ -114,7 +112,7 @@ const NavBar = () => {
                 )}
 
                 {userAvatar && <Avatar alt="Avatar" src={userAvatar} sx={{ width: 32, height: 32 }} />}
-                {!userAvatar && <AccountCircle sx={{ fontSize: '40px' }} />}
+                {!userAvatar && <IconAccount width={35} height={35} color="var(--black)" />}
               </Box>
             )}
           </IconButton>
