@@ -1,3 +1,19 @@
+# [2.109.0](https://github.com/sws2apps/cpe-sws/compare/v2.108.0...v2.109.0) (2023-12-09)
+
+
+### Features
+
+* **deps:** bump @mui/material from 5.14.19 to 5.14.20 ([a4feacf](https://github.com/sws2apps/cpe-sws/commit/a4feacffd6f3878aaf39afaef8c93c929b7bc29c))
+* **deps:** bump @mui/x-date-pickers from 6.18.2 to 6.18.3 ([ab54ff6](https://github.com/sws2apps/cpe-sws/commit/ab54ff61fa2c63bf0c42bbd2cc6f6c1070861d03))
+* **deps:** bump @mui/x-date-pickers from 6.18.3 to 6.18.4 ([9758dc2](https://github.com/sws2apps/cpe-sws/commit/9758dc26e7ff6c787bdb6748659d19d1a5900d32))
+* **deps:** bump @tanstack/react-query from 5.12.1 to 5.12.2 ([5d583c6](https://github.com/sws2apps/cpe-sws/commit/5d583c6d6f3dcbebe5cf5d662cf8a1c5fd699aeb))
+* **deps:** bump firebase from 10.7.0 to 10.7.1 ([e4958fa](https://github.com/sws2apps/cpe-sws/commit/e4958faa742fd9e8f71f2d64506e032a87053e16))
+* **deps:** bump i18next from 23.7.7 to 23.7.8 ([55c2700](https://github.com/sws2apps/cpe-sws/commit/55c2700c4e44b05475bfde9ec8e22af6b1201bf8))
+* **deps:** bump vite from 5.0.4 to 5.0.5 ([8113e8b](https://github.com/sws2apps/cpe-sws/commit/8113e8b4892939d0ae32e24e409d1773587b6aed))
+* **deps:** bump vite from 5.0.5 to 5.0.6 ([f6b6f81](https://github.com/sws2apps/cpe-sws/commit/f6b6f811829046d7773d8c3ab66226b42c4b3819))
+* **deps:** bump vite from 5.0.6 to 5.0.7 ([7e6bdd6](https://github.com/sws2apps/cpe-sws/commit/7e6bdd6944cd67c0a50b51eee602bd2f7d14aa4f))
+* **localize:** updated translation from Crowdin ([3c99b67](https://github.com/sws2apps/cpe-sws/commit/3c99b67445aa0a91568b87d2a6b9dcbd3ce0df48))
+
 # [2.108.0](https://github.com/sws2apps/cpe-sws/compare/v2.107.0...v2.108.0) (2023-12-04)
 
 
