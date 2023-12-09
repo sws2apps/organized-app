@@ -111,7 +111,6 @@ const useButtonBase = ({ provider, isEmail }) => {
         setIsAuthProcessing(false);
       }
     } catch (error) {
-      console.log(error);
       await displayOnboardingFeedback({
         title: t('errorTitle'),
         message: getMessageByCode(error.code || t('errorGeneric')),
