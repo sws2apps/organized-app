@@ -1,10 +1,11 @@
-import { IconButton, Link, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material';
+import PropTypes from 'prop-types';
+import { Link, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material';
 import { IconGlobe, IconLanguage } from '@icons';
 import { Typography } from '@components';
 import useAppTranslation from '@hooks/useAppTranslation';
 import useLanguage from './useLanguage';
 
-const LanguageSwitcher = () => {
+const LanguageSwitcher = ({ menuStyle }) => {
   const { t } = useAppTranslation();
 
   const { handleClick, anchorEl, isMenuOpen, handleClose, listUILangs, handleLocalizeOpen, handleLangChange } =
@@ -12,22 +13,14 @@ const LanguageSwitcher = () => {
 
   return (
     <>
-      <IconButton
-        color="inherit"
-        edge="start"
-        sx={{
-          padding: '8px',
-          marginLeft: '0px',
-          borderRadius: '8px',
-          '.MuiTouchRipple-ripple .MuiTouchRipple-child': {
-            borderRadius: 0,
-            backgroundColor: 'rgba(23, 32, 42, .3)',
-          },
-        }}
-        onClick={handleClick}
-      >
-        <IconLanguage color="var(--black)" />
-      </IconButton>
+      <MenuItem disableRipple sx={menuStyle} onClick={handleClick}>
+        <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px' } }}>
+          <IconLanguage color="var(--black)" />
+        </ListItemIcon>
+        <ListItemText>
+          <Typography variant="body-regular">{t('changeLanguage')}</Typography>
+        </ListItemText>
+      </MenuItem>
       <Menu
         id="menu-language"
         disableScrollLock={true}
@@ -107,6 +100,10 @@ const LanguageSwitcher = () => {
       </Menu>
     </>
   );
+};
+
+LanguageSwitcher.propTypes = {
+  menuStyle: PropTypes.object,
 };
 
 export default LanguageSwitcher;

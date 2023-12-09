@@ -74,9 +74,8 @@ const NavBar = () => {
           </Typography>
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: { mobile: '4px', tablet: '8px' } }}>
-          <ThemeSwitcher />
           <AppNotification />
-          <LanguageSwitcher />
+          <ThemeSwitcher />
           <IconButton
             color="inherit"
             edge="start"
@@ -150,6 +149,7 @@ const NavBar = () => {
               },
             }}
           >
+            <LanguageSwitcher menuStyle={menuStyle} />
             <MenuItem disableRipple sx={menuStyle} onClick={handleOpenSupport}>
               <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px' } }}>
                 <IconDonate color="var(--black)" />
