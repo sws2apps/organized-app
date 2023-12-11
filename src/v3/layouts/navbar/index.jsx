@@ -33,7 +33,7 @@ const NavBar = () => {
     handleOpenAbout,
     handleOpenSupport,
     handleOpenDoc,
-    firstname,
+    fullname,
     congName,
     userAvatar,
     mobileUp,
@@ -91,7 +91,7 @@ const NavBar = () => {
             {mobileUp && !tabletUp && !laptopUp && <IconMenu color="var(--black)" />}
             {(tabletUp || laptopUp) && (
               <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                {laptopUp && firstname && congName && (
+                {laptopUp && fullname && congName && (
                   <Box
                     sx={{
                       width: '100%',
@@ -103,7 +103,7 @@ const NavBar = () => {
                     }}
                   >
                     <Typography variant="body-small-semibold" sx={{ textAlign: 'right' }}>
-                      {firstname}
+                      {fullname}
                     </Typography>
                     <Typography variant="label-small-regular" sx={{ textAlign: 'right' }}>
                       {congName}

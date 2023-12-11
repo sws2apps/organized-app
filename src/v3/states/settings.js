@@ -28,6 +28,18 @@ export const lastnameState = selector({
   },
 });
 
+export const fullnameState = selector({
+  key: 'fullname',
+  get: ({ get }) => {
+    const firstname = get(firstnameState);
+    const lastname = get(lastnameState);
+
+    return `${lastname ? `${lastname} ` : ''}${firstname}`;
+  },
+});
+
+
+
 export const sourceLangState = selector({
   key: 'sourceLang',
   get: ({ get }) => {

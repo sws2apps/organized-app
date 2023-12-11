@@ -746,7 +746,7 @@
   "encryptionCode": "Encryption code",
   "encryptionCodeSetupDesc": "Create your own encryption code for the congregation.",
   "encryptionCodeLostDesc": "Your code has been locally deleted. Enter your own encryption code for the congregation",
-  "encryptionCodeNotice": "Please note the code and to keep it safe. If you lose it, you might lose all your congregation data.",
+  "encryptionCodeNotice": "Please note the code and to keep it safe. If you lose it, you will lose all your congregation data.",
   "encryptionCodeCreate": "Create encryption code",
   "encryptionCodeNoticeLength": "At least 16 characters",
   "encryptionCodeNoticeNumber": "Number",
