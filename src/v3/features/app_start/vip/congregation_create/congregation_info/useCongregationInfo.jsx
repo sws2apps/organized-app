@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import backupWorkerInstance from '@services/worker/backupWorker';
+import worker from '@services/worker/backupWorker';
 import { useAppTranslation, useFirebaseAuth } from '@hooks';
 import {
   setCongID,
@@ -81,7 +81,7 @@ const useCongregationInfo = () => {
 
       if (status === 200) {
         setCongID(data.cong_id);
-        backupWorkerInstance.setCongID(data.cong_id);
+        worker.postMessage({ field: 'congID', value: data.cong_id });
 
         let obj = {};
         obj.username = data.username;

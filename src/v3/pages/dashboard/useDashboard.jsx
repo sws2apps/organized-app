@@ -1,6 +1,6 @@
+import { useRecoilValue } from 'recoil';
 import { handleUpdateSetting } from '@services/dexie/settings';
 import { congNewState, firstnameState } from '@states/settings';
-import { useRecoilValue } from 'recoil';
 
 const useDashboard = () => {
   const firstName = useRecoilValue(firstnameState);

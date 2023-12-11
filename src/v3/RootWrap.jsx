@@ -7,7 +7,7 @@ import createTheme from '@mui/material/styles/createTheme';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import logger from '@services/logger';
-import { DatabaseWrapper } from '@wrapper';
+import { DatabaseWrapper, WebWorkerWrapper } from '@wrapper';
 import App from './App';
 import './inter.css';
 import './global.css';
@@ -58,9 +58,11 @@ const RootWrap = () => {
             onWaiting={handleSWOnUpdated}
           >
             {({ update }) => (
-              <DatabaseWrapper>
-                <App updatePwa={update} />
-              </DatabaseWrapper>
+              <WebWorkerWrapper>
+                <DatabaseWrapper>
+                  <App updatePwa={update} />
+                </DatabaseWrapper>
+              </WebWorkerWrapper>
             )}
           </ServiceWorkerWrapper>
         </CacheProvider>

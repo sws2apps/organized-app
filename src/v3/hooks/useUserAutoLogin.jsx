@@ -11,6 +11,8 @@ import { setCongAccountConnected, setRootModalOpen } from '@services/recoil/app'
 import { apiFetchSchedule } from '@services/api/schedule';
 import { handleUpdateScheduleFromRemote } from '@services/cpe/schedules';
 import { accountTypeState } from '@states/settings';
+import { apiFetchCongregationLastBackup } from '@services/api/congregation';
+import worker from '@services/worker/backupWorker';
 
 const useUserAutoLogin = () => {
   const { isAuthenticated } = useFirebaseAuth();
@@ -57,7 +59,20 @@ const useUserAutoLogin = () => {
             if (scheduleStatus === 200) {
               await handleUpdateScheduleFromRemote(scheduleData);
             }
+
+            const { status, data: backup } = await apiFetchCongregationLastBackup();
+            if (status === 200) {
+              if (backup.cong_last_backup !== 'NO_BACKUP' || backup.user_last_backup !== 'NO_BACKUP') {
+                const lastDate =
+                  backup.cong_last_backup !== 'NO_BACKUP' ? backup.cong_last_backup : backup.user_last_backup;
+
+                worker.postMessage({ field: 'lastBackup', value: lastDate });
+              }
+            }
+
             await setRootModalOpen(false);
+
+            worker.postMessage('startWorker');
           }
         }
       }

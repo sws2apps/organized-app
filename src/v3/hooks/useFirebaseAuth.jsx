@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import backupWorkerInstance from '@services/worker/backupWorker';
+import worker from '@services/worker/backupWorker';
 import { saveProfilePic } from '@services/cpe/settings';
 import { displaySnackNotification, setCurrentProvider } from '@services/recoil/app';
 import { getTranslation } from '@services/i18n/translation';
@@ -14,7 +14,7 @@ const useFirebaseAuth = () => {
 
     onAuthStateChanged(auth, async (user) => {
       setUser(user);
-      backupWorkerInstance.setUserUID(user?.uid || undefined);
+      worker.postMessage({ field: 'userUID', value: user?.uid });
 
       if (user) {
         if (user.providerData.length > 1) {

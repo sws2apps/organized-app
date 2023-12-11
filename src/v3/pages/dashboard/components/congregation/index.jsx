@@ -7,7 +7,7 @@ import useCongregation from './useCongregation';
 const CongregationCard = () => {
   const { t } = useAppTranslation();
 
-  const { handleSyncData } = useCongregation();
+  const { secondaryText, handleManualSync } = useCongregation();
 
   return (
     <DashboardCard header={t('congregation')}>
@@ -24,8 +24,8 @@ const CongregationCard = () => {
         <DashboardMenu
           icon={<IconSynced color="var(--black)" />}
           primaryText={t('syncAppData')}
-          secondaryText={t('lastSyncAppData')}
-          onClick={handleSyncData}
+          secondaryText={secondaryText}
+          onClick={handleManualSync}
         />
       </ListItem>
     </DashboardCard>

@@ -6,7 +6,6 @@ import { appSnackOpenState, congAccountConnectedState, isDarkThemeState, isOnlin
 import logger from '@services/logger';
 import { disconnectCongAccount, setApiHost, setIsOnline, setVisitorID } from '@services/recoil/app';
 import { useInternetChecker } from '@hooks';
-import backupWorkerInstance from '@services/worker/backupWorker';
 import {
   adminRoleState,
   coordinatorRoleState,
@@ -16,6 +15,7 @@ import {
   publisherRoleState,
   secretaryRoleState,
 } from '@states/settings';
+import worker from '@services/worker/backupWorker';
 
 // creating theme
 const lightTheme = createTheme({
@@ -43,6 +43,7 @@ const useGlobal = () => {
   const publicTalkCoordinatorRole = useRecoilValue(publicTalkCoordinatorRoleState);
   const publisherRole = useRecoilValue(publisherRoleState);
   const secretaryRole = useRecoilValue(secretaryRoleState);
+  const weekendEditorRole = coordinatorRole || publicTalkCoordinatorRole;
   const isCongAccountConnected = useRecoilValue(congAccountConnectedState);
 
   const [activeTheme, setActiveTheme] = useState(darkTheme);
@@ -52,7 +53,7 @@ const useGlobal = () => {
   useEffect(() => {
     const updateNetworkStatus = async () => {
       await setIsOnline(isNavigatorOnline);
-      backupWorkerInstance.setIsOnline(isNavigatorOnline);
+      worker.postMessage({ field: 'isOnline', value: isNavigatorOnline });
 
       if (!isNavigatorOnline) {
         await disconnectCongAccount();
@@ -78,7 +79,7 @@ const useGlobal = () => {
         const visitorId = result.visitorId;
 
         await setVisitorID(visitorId);
-        backupWorkerInstance.setVisitorID(visitorId);
+        worker.postMessage({ field: 'visitorID', value: visitorId });
 
         logger.info('app', 'device fingerprint visitor id has been set');
       } catch (error) {
@@ -104,7 +105,7 @@ const useGlobal = () => {
       }
 
       await setApiHost(apiHost);
-      backupWorkerInstance.setApiHost(apiHost);
+      worker.postMessage({ field: 'apiHost', value: apiHost });
 
       logger.info('app', `the client API is set to: ${apiHost}`);
     };
@@ -161,6 +162,7 @@ const useGlobal = () => {
     publisherRole,
     secretaryRole,
     isCongAccountConnected,
+    weekendEditorRole,
   };
 };
 

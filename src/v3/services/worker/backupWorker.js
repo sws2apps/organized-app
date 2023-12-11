@@ -1,3 +1,3 @@
-// eslint-disable-next-line no-undef
-const backupWorker = new ComlinkWorker(new URL('./backupAction', import.meta.url));
-export default backupWorker;
+const worker = new Worker(new URL('./backupAction.js', import.meta.url), { type: 'module' });
+
+export default worker;

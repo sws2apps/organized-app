@@ -17,7 +17,7 @@ import { handleUpdateSetting } from '@services/dexie/settings';
 import { resetPersons } from '@services/dexie/persons';
 import { mergeUserFieldServiceReportsFromBackup } from '@services/dexie/userFieldSericeReports';
 import { deleteAppDb } from '@services/dexie/app';
-import backupWorkerInstance from '@services/worker/backupWorker';
+import worker from '@services/worker/backupWorker';
 
 export const loadApp = async () => {
   const isMeetingEditor = await promiseGetRecoil(isMeetingEditorRoleState);
@@ -49,8 +49,8 @@ export const userLogoutSuccess = async () => {
 export const updateUserInfoAfterLogin = async (data) => {
   const { id, cong_id, cong_name, cong_role, cong_number, user_members_delegate, user_local_uid } = data;
 
-  await setCongAccountConnected(true);
   await setCongID(cong_id);
+  await setCongAccountConnected(true);
 
   // save congregation update if any
   const obj = {};
@@ -81,10 +81,11 @@ export const updateUserInfoAfterLogin = async (data) => {
     await mergeUserFieldServiceReportsFromBackup(data.user_fieldServiceReports);
   }
 
-  backupWorkerInstance.setUserRole(cong_role);
-  backupWorkerInstance.setCongID(cong_id);
-  backupWorkerInstance.setIsCongAccountConnected(true);
-  backupWorkerInstance.setAccountType('vip');
+  worker.postMessage({ field: 'userRole', value: cong_role });
+  worker.postMessage({ field: 'userID', value: id });
+  worker.postMessage({ field: 'congID', value: cong_id });
+  worker.postMessage({ field: 'isCongAccountConnected', value: true });
+  worker.postMessage({ field: 'accountType', value: 'vip' });
 };
 
 export const handleDeleteDatabase = async () => {

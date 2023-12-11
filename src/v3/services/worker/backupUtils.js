@@ -3,7 +3,7 @@
 import appDb from '@shared/indexedDb/mainDb';
 
 export const apiSendCongregationBackup = async ({ apiHost, congID, visitorID, userUID, reqPayload }) => {
-  await fetch(`${apiHost}api/congregations/${congID}/backup`, {
+  const res = await fetch(`${apiHost}api/congregations/${congID}/backup`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -14,10 +14,14 @@ export const apiSendCongregationBackup = async ({ apiHost, congID, visitorID, us
     },
     body: JSON.stringify(reqPayload),
   });
+
+  const data = await res.json();
+
+  return data;
 };
 
 export const apiSendUserBackup = async ({ apiHost, visitorID, userID, reqPayload }) => {
-  await fetch(`${apiHost}api/sws-pocket/${userID}/backup`, {
+  const res = await fetch(`${apiHost}api/sws-pocket/${userID}/backup`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -27,6 +31,27 @@ export const apiSendUserBackup = async ({ apiHost, visitorID, userID, reqPayload
     },
     body: JSON.stringify(reqPayload),
   });
+
+  const data = await res.json();
+
+  return data;
+};
+
+export const apiFetchCongregationLastBackup = async ({ apiHost, visitorID, userUID, congID }) => {
+  const res = await fetch(`${apiHost}api/congregations/${congID}/backup/last`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      appclient: 'cpe',
+      appversion: import.meta.env.PACKAGE_VERSION,
+      visitorid: visitorID,
+      uid: userUID,
+    },
+  });
+
+  const data = await res.json();
+
+  return data;
 };
 
 export const dbExportDataOnline = async ({ cong_role }) => {

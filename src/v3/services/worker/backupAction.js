@@ -1,69 +1,55 @@
-import { apiSendCongregationBackup, apiSendUserBackup, dbExportDataOnline } from './backupUtils';
+import { delay } from '@utils/dev.js';
+import { dbExportDataOnline, apiSendCongregationBackup, apiSendUserBackup } from './backupUtils.js';
 
-let isEnabled;
-let visitorID;
-let apiHost;
-let congID;
-let isOnline = navigator.onLine;
-let backupInterval;
-let isCongAccountConnected;
-let userRole = [];
-let accountType;
-let userUID;
-let userID;
-
-export const setUserRole = (value) => {
-  userRole = value;
+const setting = {
+  isEnabled: true,
+  visitorID: undefined,
+  apiHost: undefined,
+  congID: undefined,
+  isOnline: navigator.onLine,
+  backupInterval: 300000,
+  isCongAccountConnected: undefined,
+  userRole: [],
+  accountType: undefined,
+  userUID: undefined,
+  userID: undefined,
+  lastBackup: undefined,
 };
 
-export const setAccountType = (value) => {
-  accountType = value;
-};
+self.onmessage = function (event) {
+  if (event.data.field) {
+    setting[event.data.field] = event.data.value;
+  }
 
-export const setIsEnabled = (value) => {
-  isEnabled = value;
-};
-
-export const setBackupInterval = (value = 1) => {
-  backupInterval = value * 60000;
-};
-
-export const setVisitorID = (visitorId) => {
-  visitorID = visitorId;
-};
-
-export const setUserUID = (uid) => {
-  userUID = uid;
-};
-
-export const setUserID = (userId) => {
-  userID = userId;
-};
-
-export const setApiHost = (host) => {
-  apiHost = host;
-};
-
-export const setCongID = (id) => {
-  congID = id;
-};
-
-export const setIsOnline = (value) => {
-  isOnline = value;
-};
-
-export const setIsCongAccountConnected = (value) => {
-  isCongAccountConnected = value;
+  if (event.data === 'startWorker') {
+    runBackupSchedule();
+    checkLastSync();
+  }
 };
 
 const runBackupSchedule = async () => {
+  const {
+    backupInterval,
+    accountType,
+    apiHost,
+    congID,
+    isCongAccountConnected,
+    isEnabled,
+    isOnline,
+    userID,
+    userRole,
+    userUID,
+    visitorID,
+  } = setting;
+
+  const adminRole = userRole.includes('admin');
   const lmmoRole = userRole.includes('lmmo') || userRole.includes('lmmo-backup');
   const secretaryRole = userRole.includes('secretary');
   const weekendEditorRole = userRole.includes('coordinator') || userRole.includes('public_talk_coordinator');
   const publicTalkCoordinatorRole = userRole.includes('public_talk_coordinator');
   const publisherRole = userRole.includes('publisher') || userRole.includes('ms') || userRole.includes('elder');
 
-  const canBackup = lmmoRole || secretaryRole || weekendEditorRole || publisherRole;
+  const canBackup = adminRole || lmmoRole || secretaryRole || weekendEditorRole || publisherRole;
 
   if (
     canBackup &&
@@ -75,6 +61,10 @@ const runBackupSchedule = async () => {
     congID &&
     isCongAccountConnected
   ) {
+    self.postMessage('Syncing');
+
+    await delay(5000);
+
     const dbData = await dbExportDataOnline({ cong_role: userRole });
 
     const reqPayload = {
@@ -97,15 +87,54 @@ const runBackupSchedule = async () => {
     };
 
     if (accountType === 'vip' && userUID) {
-      await apiSendCongregationBackup({ apiHost, congID, reqPayload, userUID, visitorID });
+      const data = await apiSendCongregationBackup({ apiHost, congID, reqPayload, userUID, visitorID });
+
+      if (data && data.message === 'BACKUP_SENT') {
+        setting.lastBackup = new Date().toISOString();
+      }
     }
 
     if (accountType === 'pocket' && userID) {
-      await apiSendUserBackup({ apiHost, reqPayload, userID, visitorID });
+      const data = await apiSendUserBackup({ apiHost, reqPayload, userID, visitorID });
+
+      if (data && data.message === 'BACKUP_SENT') {
+        setting.lastBackup = new Date().toISOString();
+      }
     }
   }
+
+  self.postMessage('Done');
 
   setTimeout(runBackupSchedule, backupInterval);
 };
 
-runBackupSchedule();
+const checkLastSync = () => {
+  const { isOnline, lastBackup } = setting;
+
+  if (isOnline && lastBackup) {
+    let result = 0;
+
+    let lastDate = new Date(lastBackup);
+    let currentDate = new Date();
+
+    let msDifference = currentDate - lastDate;
+    const resultS = Math.floor(msDifference / 1000);
+    const resultM = Math.floor(resultS / 60);
+
+    if (resultS <= 30) {
+      result = 'now';
+    }
+
+    if (resultS > 30 && result < 60) {
+      result = 'recently';
+    }
+
+    if (resultS >= 60) {
+      result = resultM;
+    }
+
+    self.postMessage({ lastBackup: result });
+  }
+
+  setTimeout(checkLastSync, [500]);
+};

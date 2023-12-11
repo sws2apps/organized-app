@@ -1,7 +1,7 @@
 import { promiseGetRecoil } from 'recoil-outside';
-import backupWorkerInstance from '@services/worker/backupWorker';
 import { settingsState } from '@states/settings';
 import { appDb } from '.';
+import worker from '@services/worker/backupWorker';
 
 export const handleUpdateSetting = async (setting) => {
   const current = await promiseGetRecoil(settingsState);
@@ -28,9 +28,9 @@ export const handleUpdateSettingFromRemote = async (data) => {
 
   await appDb.app_settings.put(newSettings);
 
-  backupWorkerInstance.setUserRole(data.cong_role);
-  backupWorkerInstance.setAccountType('pocket');
-  backupWorkerInstance.setUserID(data.id);
-  backupWorkerInstance.setCongID(data.cong_id);
-  backupWorkerInstance.setIsCongAccountConnected(true);
+  worker.postMessage({ field: 'userRole', value: data.cong_role });
+  worker.postMessage({ field: 'accountType', value: 'pocket' });
+  worker.postMessage({ field: 'userID', value: data.id });
+  worker.postMessage({ field: 'congID', value: data.cong_id });
+  worker.postMessage({ field: 'isCongAccountConnected', value: true });
 };

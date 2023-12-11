@@ -377,3 +377,13 @@ export const isEncryptionCodeOpenState = atom({
   key: 'isEncryptionCodeOpen',
   default: false,
 });
+
+export const isAppDataSyncingState = atom({
+  key: 'isAppDataSyncing',
+  default: false,
+});
+
+export const lastAppDataSyncState = atom({
+  key: 'lastAppDataSync',
+  default: undefined,
+});

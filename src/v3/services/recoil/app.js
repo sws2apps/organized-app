@@ -46,6 +46,8 @@ import {
   isSupportOpenState,
   isNewCongregationState,
   isEncryptionCodeOpenState,
+  isAppDataSyncingState,
+  lastAppDataSyncState,
 } from '@states/app';
 
 export const handleSWOnInstalled = async () => {
@@ -218,4 +220,12 @@ export const setIsNewCongregation = async (value) => {
 
 export const setIsEncryptionCodeOpen = async (value) => {
   await promiseSetRecoil(isEncryptionCodeOpenState, value);
+};
+
+export const setIsAppDataSyncing = async (value) => {
+  await promiseSetRecoil(isAppDataSyncingState, value);
+};
+
+export const setLastAppDataSync = async (value) => {
+  await promiseSetRecoil(lastAppDataSyncState, value);
 };
