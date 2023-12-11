@@ -23,3 +23,4 @@ export { default as Typography } from './typography';
 export { default as WaitingCircular } from './waiting_circular';
 export { default as InfoTip } from './info_tip';
 export { default as Loading} from './loading';
+export { default as PageTitle} from './page_title/index';

@@ -12,6 +12,7 @@ import {
   Typography,
   InfoTip,
   Loading,
+  PageTitle,
 } from '@components';
 import { useEffect, useState } from 'react';
 import { IconAdd, IconAssign, IconClose, IconReturn, IconUndo, IconUpdate, IconInfo, IconVisitors } from '@icons';
@@ -410,8 +411,26 @@ const ComponentPreview = () => {
           </Box>
         </Box>
         <Box>
-          <Loading/>
-        </Box>
+          <Typography variant="label-small-regular">loading</Typography>
+          <Box sx={{gap:'20px', marginBottom:'20px'}}>
+            <Loading/>
+          </Box>
+        </Box>      
+        <Box>
+        <Typography variant="label-small-regular"> page-title</Typography>
+          <Box sx={{gap:'8px', marginBottom: '20px'}}>
+            <Typography variant="label-small-regular">with-btn</Typography>
+            <PageTitle type="with-btn"/>
+          </Box>
+          <Box sx={{gap:'8px', marginBottom: '20px'}}>
+            <Typography variant="label-small-regular">two-buttons</Typography>
+            <PageTitle type="two-buttons"/>
+          </Box>
+          <Box sx={{gap:'8px', marginBottom: '20px'}}>
+            <Typography variant="label-small-regular">no-btn</Typography>
+            <PageTitle type="no-btn"/>
+          </Box>  
+        </Box>      
       </Container>
     </Box>
   );
