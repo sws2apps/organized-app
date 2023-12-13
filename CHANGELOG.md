@@ -1,3 +1,21 @@
+# [2.110.0](https://github.com/sws2apps/cpe-sws/compare/v2.109.0...v2.110.0) (2023-12-13)
+
+
+### Bug Fixes
+
+* **app:** support non-ASCII characters for word boundary ([1db478b](https://github.com/sws2apps/cpe-sws/commit/1db478b31d845c520ae8106d26e0fa1f53fce4b0))
+
+
+### Features
+
+* **deps:** bump @mui/icons-material from 5.14.19 to 5.15.0 ([bb1d55f](https://github.com/sws2apps/cpe-sws/commit/bb1d55fc5d63eb209d97d0ccc333f913b5a96b97))
+* **deps:** bump @mui/material from 5.14.20 to 5.15.0 ([4c5c80b](https://github.com/sws2apps/cpe-sws/commit/4c5c80b759f8841872bb696cc58fd2b34d7479e7))
+* **deps:** bump @tanstack/react-query from 5.12.2 to 5.13.4 ([4a6b048](https://github.com/sws2apps/cpe-sws/commit/4a6b0481964cdd48a152b84071e712e922c6c0ce))
+* **deps:** bump i18next from 23.7.8 to 23.7.9 ([aecf1bc](https://github.com/sws2apps/cpe-sws/commit/aecf1bc8c4975ddde4079531ec194f13f7e10605))
+* **deps:** bump jw-epub-parser from 3.6.0 to 3.7.0 ([2112018](https://github.com/sws2apps/cpe-sws/commit/21120181b1850684026dd4db566cf2957dc044df))
+* **deps:** bump vite from 5.0.7 to 5.0.8 ([db0f1df](https://github.com/sws2apps/cpe-sws/commit/db0f1dfd936564d4a546bc489ac8cc89816da4c7))
+* **localize:** updated translation from Crowdin ([30a05b2](https://github.com/sws2apps/cpe-sws/commit/30a05b2132ef1f4ecc5feed1e3690cba26b3572a))
+
 # [2.109.0](https://github.com/sws2apps/cpe-sws/compare/v2.108.0...v2.109.0) (2023-12-09)
 
 
