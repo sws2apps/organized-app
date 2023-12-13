@@ -1,3 +1,10 @@
+## [2.110.1](https://github.com/sws2apps/cpe-sws/compare/v2.110.0...v2.110.1) (2023-12-13)
+
+
+### Bug Fixes
+
+* **utils:** fix word boundaries position ([bb81986](https://github.com/sws2apps/cpe-sws/commit/bb81986cb0cedacc262567275eb5b4f348ca4ac9))
+
 # [2.110.0](https://github.com/sws2apps/cpe-sws/compare/v2.109.0...v2.110.0) (2023-12-13)
 
 
