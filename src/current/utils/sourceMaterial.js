@@ -179,7 +179,7 @@ export const checkAYFExplainingBeliefsAssignment = (source) => {
   const boundary = '(?:^|\\s|$)';
   const talk = t('talk', { lng: Setting.source_lang, ns: 'source' });
   const demonstration = t('demonstration', { lng: Setting.source_lang, ns: 'source' });
-  const searchKey = boundary + `${talk}|${demonstration}` + boundary;
+  const searchKey = `${boundary}${talk}|${boundary}${demonstration}`;
   const regex = new RegExp(searchKey, 'i');
   const result = source.match(regex);
 
