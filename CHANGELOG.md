@@ -1,3 +1,72 @@
+## [2.111.1](https://github.com/sws2apps/cpe-sws/compare/v2.111.0...v2.111.1) (2023-12-16)
+
+
+### Bug Fixes
+
+* **schedules:** remove log ([201065d](https://github.com/sws2apps/cpe-sws/commit/201065d4aa2aacf17dc8cf9edcff4282f7bf1536))
+
+# [2.111.0](https://github.com/sws2apps/cpe-sws/compare/v2.110.1...v2.111.0) (2023-12-16)
+
+
+### Bug Fixes
+
+* **schedules:** 4th not assigned when using autofill ([22747f0](https://github.com/sws2apps/cpe-sws/commit/22747f0fe31a3575e7a4a9fd9980ccff65d1224d))
+* **schedules:** do not display dropwdown if student cannot be found ([67aed73](https://github.com/sws2apps/cpe-sws/commit/67aed7334c0ecd5374f3008d5a108ada86e3012e))
+* **schedules:** latest changes not appearing on weekend meeting schedules ([e32b33b](https://github.com/sws2apps/cpe-sws/commit/e32b33b800d7873a3711363997d84d1388e41035))
+* **template:** printing S-89 second time is failing ([79b3ba3](https://github.com/sws2apps/cpe-sws/commit/79b3ba31749ab8deba7ee76ccabe473983239064))
+
+
+### Features
+
+* **deps:** bump @mui/x-date-pickers from 6.18.4 to 6.18.5 ([4382a25](https://github.com/sws2apps/cpe-sws/commit/4382a25df276ea35cba5f0cc58d76627daca8d86))
+* **deps:** bump @tanstack/react-query from 5.13.4 to 5.14.0 ([131cd09](https://github.com/sws2apps/cpe-sws/commit/131cd09ef91415f39ec311c00612a4981076bf57))
+* **deps:** bump i18next from 23.7.9 to 23.7.11 ([2e7c712](https://github.com/sws2apps/cpe-sws/commit/2e7c712a1b5e1f759c6cf8428a7b80f43e9b4ebd))
+* **deps:** bump jw-epub-parser from 3.7.0 to 3.7.1 ([386acde](https://github.com/sws2apps/cpe-sws/commit/386acdea94275f374a7084e0d425dcd9e3c240ed))
+* **deps:** bump react-router-dom from 6.20.1 to 6.21.0 ([629f193](https://github.com/sws2apps/cpe-sws/commit/629f19328633a99b9ea13e2cff99a581adfd9d7d))
+* **deps:** bump vite from 5.0.8 to 5.0.9 ([cbac7ae](https://github.com/sws2apps/cpe-sws/commit/cbac7ae19f13881b307c021c4b9ca8ae216e4c91))
+* **deps:** bump vite from 5.0.9 to 5.0.10 ([2ae1ca2](https://github.com/sws2apps/cpe-sws/commit/2ae1ca27201d531494d0e20538c9daa222c1d7c6))
+
+## [2.110.1](https://github.com/sws2apps/cpe-sws/compare/v2.110.0...v2.110.1) (2023-12-13)
+
+
+### Bug Fixes
+
+* **utils:** fix word boundaries position ([bb81986](https://github.com/sws2apps/cpe-sws/commit/bb81986cb0cedacc262567275eb5b4f348ca4ac9))
+
+# [2.110.0](https://github.com/sws2apps/cpe-sws/compare/v2.109.0...v2.110.0) (2023-12-13)
+
+
+### Bug Fixes
+
+* **app:** support non-ASCII characters for word boundary ([1db478b](https://github.com/sws2apps/cpe-sws/commit/1db478b31d845c520ae8106d26e0fa1f53fce4b0))
+
+
+### Features
+
+* **deps:** bump @mui/icons-material from 5.14.19 to 5.15.0 ([bb1d55f](https://github.com/sws2apps/cpe-sws/commit/bb1d55fc5d63eb209d97d0ccc333f913b5a96b97))
+* **deps:** bump @mui/material from 5.14.20 to 5.15.0 ([4c5c80b](https://github.com/sws2apps/cpe-sws/commit/4c5c80b759f8841872bb696cc58fd2b34d7479e7))
+* **deps:** bump @tanstack/react-query from 5.12.2 to 5.13.4 ([4a6b048](https://github.com/sws2apps/cpe-sws/commit/4a6b0481964cdd48a152b84071e712e922c6c0ce))
+* **deps:** bump i18next from 23.7.8 to 23.7.9 ([aecf1bc](https://github.com/sws2apps/cpe-sws/commit/aecf1bc8c4975ddde4079531ec194f13f7e10605))
+* **deps:** bump jw-epub-parser from 3.6.0 to 3.7.0 ([2112018](https://github.com/sws2apps/cpe-sws/commit/21120181b1850684026dd4db566cf2957dc044df))
+* **deps:** bump vite from 5.0.7 to 5.0.8 ([db0f1df](https://github.com/sws2apps/cpe-sws/commit/db0f1dfd936564d4a546bc489ac8cc89816da4c7))
+* **localize:** updated translation from Crowdin ([30a05b2](https://github.com/sws2apps/cpe-sws/commit/30a05b2132ef1f4ecc5feed1e3690cba26b3572a))
+
+# [2.109.0](https://github.com/sws2apps/cpe-sws/compare/v2.108.0...v2.109.0) (2023-12-09)
+
+
+### Features
+
+* **deps:** bump @mui/material from 5.14.19 to 5.14.20 ([a4feacf](https://github.com/sws2apps/cpe-sws/commit/a4feacffd6f3878aaf39afaef8c93c929b7bc29c))
+* **deps:** bump @mui/x-date-pickers from 6.18.2 to 6.18.3 ([ab54ff6](https://github.com/sws2apps/cpe-sws/commit/ab54ff61fa2c63bf0c42bbd2cc6f6c1070861d03))
+* **deps:** bump @mui/x-date-pickers from 6.18.3 to 6.18.4 ([9758dc2](https://github.com/sws2apps/cpe-sws/commit/9758dc26e7ff6c787bdb6748659d19d1a5900d32))
+* **deps:** bump @tanstack/react-query from 5.12.1 to 5.12.2 ([5d583c6](https://github.com/sws2apps/cpe-sws/commit/5d583c6d6f3dcbebe5cf5d662cf8a1c5fd699aeb))
+* **deps:** bump firebase from 10.7.0 to 10.7.1 ([e4958fa](https://github.com/sws2apps/cpe-sws/commit/e4958faa742fd9e8f71f2d64506e032a87053e16))
+* **deps:** bump i18next from 23.7.7 to 23.7.8 ([55c2700](https://github.com/sws2apps/cpe-sws/commit/55c2700c4e44b05475bfde9ec8e22af6b1201bf8))
+* **deps:** bump vite from 5.0.4 to 5.0.5 ([8113e8b](https://github.com/sws2apps/cpe-sws/commit/8113e8b4892939d0ae32e24e409d1773587b6aed))
+* **deps:** bump vite from 5.0.5 to 5.0.6 ([f6b6f81](https://github.com/sws2apps/cpe-sws/commit/f6b6f811829046d7773d8c3ab66226b42c4b3819))
+* **deps:** bump vite from 5.0.6 to 5.0.7 ([7e6bdd6](https://github.com/sws2apps/cpe-sws/commit/7e6bdd6944cd67c0a50b51eee602bd2f7d14aa4f))
+* **localize:** updated translation from Crowdin ([3c99b67](https://github.com/sws2apps/cpe-sws/commit/3c99b67445aa0a91568b87d2a6b9dcbd3ce0df48))
+
 # [2.108.0](https://github.com/sws2apps/cpe-sws/compare/v2.107.0...v2.108.0) (2023-12-04)
 
 
