@@ -16,6 +16,8 @@ Font.registerHyphenationCallback((word) => [word]);
 const WeekendMeetingTemplate = ({ data }) => {
   const { t } = useTranslation('source');
 
+  console.log(data);
+
   const generateDocumentTitle = () => {
     let title = t('weekendMeetingPrint');
 
