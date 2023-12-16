@@ -1,3 +1,10 @@
+## [2.111.1](https://github.com/sws2apps/cpe-sws/compare/v2.111.0...v2.111.1) (2023-12-16)
+
+
+### Bug Fixes
+
+* **schedules:** remove log ([201065d](https://github.com/sws2apps/cpe-sws/commit/201065d4aa2aacf17dc8cf9edcff4282f7bf1536))
+
 # [2.111.0](https://github.com/sws2apps/cpe-sws/compare/v2.110.1...v2.111.0) (2023-12-16)
 
 
