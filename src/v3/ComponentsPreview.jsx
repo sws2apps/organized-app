@@ -5,6 +5,7 @@ import {
   FilterChip,
   MiniChip,
   MinusButton,
+  BadgeSmall,
   PlusButton,
   Radio,
   Switch,
@@ -302,6 +303,15 @@ const ComponentPreview = () => {
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 <Typography variant="label-small-regular">switch</Typography>
                 <Switch checked={checked} onChange={(e) => setChecked(e.target.checked)} />
+              </Box>
+            </Box>
+
+            <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap', marginTop: '10px' }}>
+              badge-small
+              <Box sx={{ display: 'flex', flexDirection: 'row', gap: '8px' }}>
+                <BadgeSmall text="Michael Walth" color="grey" />
+                <BadgeSmall text="Michael Walth" color="green" />
+                <BadgeSmall text="Michael Walth" color="orange" />
               </Box>
             </Box>
           </Box>
