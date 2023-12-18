@@ -40,7 +40,7 @@ const CPEBadgeSmall = ({ color, text, sx = {} }) => {
       sx={{
         border: '2px',
         height: '20px',
-        background: getBackgroundColor(color),
+        background: getBackgroundColor(),
         display: 'flex',
         flexDirection: 'row',
         borderRadius: 'var(--radius-xs, 2px)',
@@ -60,7 +60,7 @@ const CPEBadgeSmall = ({ color, text, sx = {} }) => {
           paddingLeft: '6px',
           paddingRight: '6px',
           letterSpacing: '-0.12px',
-          color: getColor(color),
+          color: getColor(),
         }}
       >
         {text}
