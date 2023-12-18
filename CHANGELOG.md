@@ -1,3 +1,31 @@
+## [2.111.1](https://github.com/sws2apps/cpe-sws/compare/v2.111.0...v2.111.1) (2023-12-16)
+
+
+### Bug Fixes
+
+* **schedules:** remove log ([201065d](https://github.com/sws2apps/cpe-sws/commit/201065d4aa2aacf17dc8cf9edcff4282f7bf1536))
+
+# [2.111.0](https://github.com/sws2apps/cpe-sws/compare/v2.110.1...v2.111.0) (2023-12-16)
+
+
+### Bug Fixes
+
+* **schedules:** 4th not assigned when using autofill ([22747f0](https://github.com/sws2apps/cpe-sws/commit/22747f0fe31a3575e7a4a9fd9980ccff65d1224d))
+* **schedules:** do not display dropwdown if student cannot be found ([67aed73](https://github.com/sws2apps/cpe-sws/commit/67aed7334c0ecd5374f3008d5a108ada86e3012e))
+* **schedules:** latest changes not appearing on weekend meeting schedules ([e32b33b](https://github.com/sws2apps/cpe-sws/commit/e32b33b800d7873a3711363997d84d1388e41035))
+* **template:** printing S-89 second time is failing ([79b3ba3](https://github.com/sws2apps/cpe-sws/commit/79b3ba31749ab8deba7ee76ccabe473983239064))
+
+
+### Features
+
+* **deps:** bump @mui/x-date-pickers from 6.18.4 to 6.18.5 ([4382a25](https://github.com/sws2apps/cpe-sws/commit/4382a25df276ea35cba5f0cc58d76627daca8d86))
+* **deps:** bump @tanstack/react-query from 5.13.4 to 5.14.0 ([131cd09](https://github.com/sws2apps/cpe-sws/commit/131cd09ef91415f39ec311c00612a4981076bf57))
+* **deps:** bump i18next from 23.7.9 to 23.7.11 ([2e7c712](https://github.com/sws2apps/cpe-sws/commit/2e7c712a1b5e1f759c6cf8428a7b80f43e9b4ebd))
+* **deps:** bump jw-epub-parser from 3.7.0 to 3.7.1 ([386acde](https://github.com/sws2apps/cpe-sws/commit/386acdea94275f374a7084e0d425dcd9e3c240ed))
+* **deps:** bump react-router-dom from 6.20.1 to 6.21.0 ([629f193](https://github.com/sws2apps/cpe-sws/commit/629f19328633a99b9ea13e2cff99a581adfd9d7d))
+* **deps:** bump vite from 5.0.8 to 5.0.9 ([cbac7ae](https://github.com/sws2apps/cpe-sws/commit/cbac7ae19f13881b307c021c4b9ca8ae216e4c91))
+* **deps:** bump vite from 5.0.9 to 5.0.10 ([2ae1ca2](https://github.com/sws2apps/cpe-sws/commit/2ae1ca27201d531494d0e20538c9daa222c1d7c6))
+
 ## [2.110.1](https://github.com/sws2apps/cpe-sws/compare/v2.110.0...v2.110.1) (2023-12-13)
 
 

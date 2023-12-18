@@ -68,9 +68,7 @@ const AutofillSchedule = () => {
           const selected = selectRandomPerson({ assType: 110, week });
           if (selected) {
             await saveAssignment(week, selected, 'chairmanMM_A');
-            setAssigned((prev) => {
-              return prev + 1;
-            });
+            setAssigned((prev) => prev + 1);
           }
         }
 
@@ -79,9 +77,7 @@ const AutofillSchedule = () => {
           const selected = selectRandomPerson({ assType: 110, week });
           if (selected) {
             await saveAssignment(week, selected, 'chairmanMM_B');
-            setAssigned((prev) => {
-              return prev + 1;
-            });
+            setAssigned((prev) => prev + 1);
           }
         }
       }
@@ -97,9 +93,7 @@ const AutofillSchedule = () => {
         const selected = selectRandomPerson({ assType: 115, week });
         if (selected) {
           await saveAssignment(week, selected, 'cbs_conductor');
-          setAssigned((prev) => {
-            return prev + 1;
-          });
+          setAssigned((prev) => prev + 1);
         }
       }
     }
@@ -116,9 +110,7 @@ const AutofillSchedule = () => {
           const selected = selectRandomPerson({ assType: 112, week });
           if (selected) {
             await saveAssignment(week, selected, 'tgw_talk');
-            setAssigned((prev) => {
-              return prev + 1;
-            });
+            setAssigned((prev) => prev + 1);
           }
         }
 
@@ -127,9 +119,7 @@ const AutofillSchedule = () => {
           const selected2 = selectRandomPerson({ assType: 113, week });
           if (selected2) {
             await saveAssignment(week, selected2, 'tgw_gems');
-            setAssigned((prev) => {
-              return prev + 1;
-            });
+            setAssigned((prev) => prev + 1);
           }
         }
 
@@ -141,9 +131,7 @@ const AutofillSchedule = () => {
           const selected = selectRandomPerson({ assType: 114, week, isLC: true, isElderPart: isElderPartLC1 });
           if (selected) {
             await saveAssignment(week, selected, 'lc_part1');
-            setAssigned((prev) => {
-              return prev + 1;
-            });
+            setAssigned((prev) => prev + 1);
           }
         }
 
@@ -163,9 +151,7 @@ const AutofillSchedule = () => {
           const selected = selectRandomPerson({ assType: 114, week, isLC: true, isElderPart: isElderPartLC2 });
           if (selected) {
             await saveAssignment(week, selected, 'lc_part2');
-            setAssigned((prev) => {
-              return prev + 1;
-            });
+            setAssigned((prev) => prev + 1);
           }
         }
 
@@ -176,9 +162,7 @@ const AutofillSchedule = () => {
             const selected = selectRandomPerson({ assType: 116, week });
             if (selected) {
               await saveAssignment(week, selected, 'cbs_reader');
-              setAssigned((prev) => {
-                return prev + 1;
-              });
+              setAssigned((prev) => prev + 1);
             }
           }
         }
@@ -188,9 +172,7 @@ const AutofillSchedule = () => {
           const selected = selectRandomPerson({ assType: 111, week });
           if (selected) {
             await saveAssignment(week, selected, 'opening_prayerMM');
-            setAssigned((prev) => {
-              return prev + 1;
-            });
+            setAssigned((prev) => prev + 1);
           }
         }
 
@@ -199,9 +181,7 @@ const AutofillSchedule = () => {
           const selected3 = selectRandomPerson({ assType: 111, week });
           if (selected3) {
             await saveAssignment(week, selected3, 'closing_prayerMM');
-            setAssigned((prev) => {
-              return prev + 1;
-            });
+            setAssigned((prev) => prev + 1);
           }
         }
 
@@ -210,9 +190,7 @@ const AutofillSchedule = () => {
           const selected4 = selectRandomPerson({ assType: 100, week, assClass: 'A' });
           if (selected4) {
             await saveAssignment(week, selected4, 'bRead_stu_A');
-            setAssigned((prev) => {
-              return prev + 1;
-            });
+            setAssigned((prev) => prev + 1);
           }
         }
 
@@ -221,9 +199,7 @@ const AutofillSchedule = () => {
           const selected = selectRandomPerson({ assType: 100, week, assClass: 'B' });
           if (selected) {
             await saveAssignment(week, selected, 'bRead_stu_B');
-            setAssigned((prev) => {
-              return prev + 1;
-            });
+            setAssigned((prev) => prev + 1);
           }
         }
 
@@ -231,11 +207,12 @@ const AutofillSchedule = () => {
         let fldName = '';
         let fldType = '';
 
-        for await (const a of [1, 2, 3]) {
+        for await (const a of [1, 2, 3, 4]) {
           fldType = 'mwb_ayf_part' + a + '_type';
           const assType = sourceData[fldType];
 
           // Main Hall
+
           if (
             assType === 101 ||
             assType === 102 ||
@@ -256,9 +233,7 @@ const AutofillSchedule = () => {
               const selected = selectRandomPerson({ assType, week, assClass: 'A' });
               if (selected) {
                 await saveAssignment(week, selected, fldName);
-                setAssigned((prev) => {
-                  return prev + 1;
-                });
+                setAssigned((prev) => prev + 1);
               }
             }
           }
@@ -285,9 +260,7 @@ const AutofillSchedule = () => {
                 const selected = selectRandomPerson({ assType, week, assClass: 'B' });
                 if (selected) {
                   await saveAssignment(week, selected, fldName);
-                  setAssigned((prev) => {
-                    return prev + 1;
-                  });
+                  setAssigned((prev) => prev + 1);
                 }
               }
             }
@@ -295,7 +268,7 @@ const AutofillSchedule = () => {
         }
 
         // Assign AYF Assistant
-        for await (const a of [1, 2, 3]) {
+        for await (const a of [1, 2, 3, 4]) {
           fldType = 'mwb_ayf_part' + a + '_type';
           const assType = sourceData[fldType];
 
@@ -329,9 +302,7 @@ const AutofillSchedule = () => {
               const selected = selectRandomPerson({ assType: 'isAssistant', week, mainStudent: stuA, assClass: 'A' });
               if (selected) {
                 await saveAssignment(week, selected, fldName);
-                setAssigned((prev) => {
-                  return prev + 1;
-                });
+                setAssigned((prev) => prev + 1);
               }
             }
           }
@@ -359,9 +330,7 @@ const AutofillSchedule = () => {
                 const selected = selectRandomPerson({ assType: 'isAssistant', week, mainStudent: stuB, assClass: 'B' });
                 if (selected) {
                   await saveAssignment(week, selected, fldName);
-                  setAssigned((prev) => {
-                    return prev + 1;
-                  });
+                  setAssigned((prev) => prev + 1);
                 }
               }
             }
