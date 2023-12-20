@@ -18,7 +18,7 @@ const BadgeContent = ({ icon, iconHeight, iconWidth, children, color }) => (
         paddingRight: '4px',
       }}
     >
-      {icon && icon}
+      {icon != null && icon}
     </Box>
     {children}
   </Box>
@@ -58,41 +58,19 @@ const CPEBadge = ({ icon, size, filled, color, text, sx = {} }) => {
 
     if (filled) return `var(--always-white)`;
 
-    if (size == 'small') {
-      if (color == 'grey') {
+    if (size === 'small' || size === 'medium' || size === 'big') {
+      if (color === 'grey') {
         result = `var(--${color}-400)`;
-      } else if (color == 'green') {
+      } else if (color === 'green') {
         result = `var(--${color}-main)`;
-      } else if (color == 'orange') {
-        result = `var(--${color}-dark)`;
-      } else if (color == 'red') {
-        result = `var(--${color}-dark)`;
-      } else if (color == 'accent') {
+      } else if (color === 'orange' || color === 'red' || color === 'accent') {
         result = `var(--${color}-dark)`;
       }
-    } else if (size == 'medium') {
-      if (color == 'grey') {
-        result = `var(--${color}-400)`;
-      } else if (color == 'green') {
+    }
+
+    if (size === 'big') {
+      if (color === 'red') {
         result = `var(--${color}-main)`;
-      } else if (color == 'orange') {
-        result = `var(--${color}-dark)`;
-      } else if (color == 'red') {
-        result = `var(--${color}-dark)`;
-      } else if (color == 'accent') {
-        result = `var(--${color}-dark)`;
-      }
-    } else if (size == 'big') {
-      if (color == 'grey') {
-        result = `var(--${color}-400)`;
-      } else if (color == 'green') {
-        result = `var(--${color}-main)`;
-      } else if (color == 'orange') {
-        result = `var(--${color}-dark)`;
-      } else if (color == 'red') {
-        result = `var(--${color}-main)`;
-      } else if (color == 'accent') {
-        result = `var(--${color}-dark)`;
       }
     }
 
@@ -103,55 +81,37 @@ const CPEBadge = ({ icon, size, filled, color, text, sx = {} }) => {
     let result = '';
 
     if (filled) {
-      if (color == 'grey') {
-        result = `var(--${color}-400)`;
-      } else if (color == 'green') {
-        result = `var(--${color}-main)`;
-      } else if (color == 'orange') {
-        result = `var(--${color}-main)`;
-      } else if (color == 'red') {
-        result = `var(--${color}-main)`;
-      } else if (color == 'accent') {
-        result = `var(--${color}-main)`;
+      switch (color) {
+        case 'grey':
+          result = `var(--${color}-400)`;
+          break;
+        case 'green':
+        case 'orange':
+        case 'red':
+        case 'accent':
+          result = `var(--${color}-main)`;
+          break;
+        default:
+          break;
       }
       return result;
     }
 
-    if (size == 'small') {
-      if (color == 'grey') {
-        result = `var(--${color}-150)`;
-      } else if (color == 'green') {
-        result = `var(--${color}-secondary)`;
-      } else if (color == 'orange') {
-        result = `var(--${color}-secondary)`;
-      } else if (color == 'red') {
-        result = `var(--${color}-secondary)`;
-      } else if (color == 'accent') {
-        result = `var(--${color}-200)`;
-      }
-    } else if (size == 'medium') {
-      if (color == 'grey') {
-        result = `var(--${color}-150)`;
-      } else if (color == 'green') {
-        result = `var(--${color}-secondary)`;
-      } else if (color == 'orange') {
-        result = `var(--${color}-secondary)`;
-      } else if (color == 'red') {
-        result = `var(--${color}-secondary)`;
-      } else if (color == 'accent') {
-        result = `var(--${color}-200)`;
-      }
-    } else if (size == 'big') {
-      if (color == 'grey') {
-        result = `var(--${color}-150)`;
-      } else if (color == 'green') {
-        result = `var(--${color}-secondary)`;
-      } else if (color == 'orange') {
-        result = `var(--${color}-secondary)`;
-      } else if (color == 'red') {
-        result = `var(--${color}-secondary)`;
-      } else if (color == 'accent') {
-        result = `var(--${color}-200)`;
+    if (size === 'small' || size === 'medium' || size === 'big') {
+      switch (color) {
+        case 'grey':
+          result = `var(--${color}-150)`;
+          break;
+        case 'green':
+        case 'orange':
+        case 'red':
+          result = `var(--${color}-secondary)`;
+          break;
+        case 'accent':
+          result = `var(--${color}-200)`;
+          break;
+        default:
+          break;
       }
     }
 

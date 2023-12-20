@@ -12,9 +12,8 @@ import {
   Typography,
 } from '@components';
 import { useEffect, useState } from 'react';
-import { IconAdd, IconAssign, IconClose, IconReturn, IconUndo, IconUpdate } from '@icons';
+import { IconAdd, IconAssign, IconClose, IconReturn, IconUndo, IconUpdate, IconVisitors } from '@icons';
 import { NavBar } from './layouts';
-import { IconVisitors } from '@icons';
 
 const themes = ['blue', 'green', 'orange', 'purple'];
 
