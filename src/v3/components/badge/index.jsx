@@ -1,28 +1,33 @@
 import { Box, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 
-const BadgeContent = ({ icon, iconHeight, iconWidth, children, color }) => (
-  <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-    <Box
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        flexShrink: '0',
-        '& svg': {
-          height: iconHeight,
-          width: iconWidth,
-        },
-        '& svg, & svg g, & svg g path': {
-          fill: color,
-        },
-        paddingRight: '4px',
-      }}
-    >
-      {icon != null && icon}
+const BadgeContent = ({ icon, iconHeight, iconWidth, children, color }) => {
+  if (!icon) {
+    return children;
+  }
+
+  return (
+    <Box sx={{ display: 'flex', flexDirection: 'row', gap: '4px' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          flexShrink: '0',
+          '& svg': {
+            height: iconHeight,
+            width: iconWidth,
+          },
+          '& svg, & svg g, & svg g path': {
+            fill: color,
+          },
+        }}
+      >
+        {icon}
+      </Box>
+      {children}
     </Box>
-    {children}
-  </Box>
-);
+  );
+};
 
 BadgeContent.propTypes = {
   color: PropTypes.string.isRequired,
