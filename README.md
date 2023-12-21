@@ -75,12 +75,21 @@ The translation process for CPE app is handled on [Crowdin](https://crowdin.com/
 There are so many features we want to implement:
 
 • Territories management 
+
 • Meeting duties scheduling
+
 • Field service meeting scheduling and viewing
+
 • Hall cleadning scheduling
+
 • Congregation activities
+
 • More printed schedules and form (like S-13 and more)
 
 ## Want to contribute?
 
-We really appreciate your volunteer spirit! You can contribute to the app in a few ways – 1. by telling others about Organized app, 2. supporting the app by donating, or 3. helping with React development, UI design or translation. Please read our [contribution guide](./CONTRIBUTING.md) on how to do so.
+We really appreciate your volunteer spirit! You can contribute to the app in a few ways:
+
+1. by telling others about Organized app,
+2. supporting the app by donating, or
+3. helping with React development, UI design or translation. Please read our [contribution guide](./CONTRIBUTING.md) on how to do so.
