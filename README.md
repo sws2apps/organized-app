@@ -1,11 +1,26 @@
 # ![Organized-logo-22](https://github.com/ux-git/Organized-app/assets/80993061/4c3b5775-fadb-4252-a4bf-656cafb8286a) Organized: app for everyone in the congregation
 
-A free tool for Jehovah’s Witnesses congregations, helping with assignments and responsibilities, making things easier, and freeing up time for other important things! Create schedules, view your upcoming assignments, submit service reports,  generate congregation reports and much more!
+A free tool for Jehovah’s Witnesses congregations, helping with assignments and responsibilities, making things easier, and freeing up time for other important things! Create schedules, view your upcoming assignments, submit service reports,  generate congregation reports, and much more! It's:
+• Multi-platform
+• Open source
+• Modern design
+• Easy to use. 
 
 
 ![Organized-no-bg](https://github.com/ux-git/Organized-app/assets/80993061/34623b1b-19e7-45ff-9291-2c567b90eb52)
 
 
+## Best features in Organized?
+• Schedules
+• Reports
+• Groups
+
+## What we are currently working on
+Migrating to Typescript. 
+Then:
+• Territories
+• Duties
+• etc
 
 ## Who can use Organized?
 
