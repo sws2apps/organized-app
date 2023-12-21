@@ -97,5 +97,5 @@ We're so excited to bring all these features into life! Of course, it takes time
 We really appreciate your volunteer spirit! You can contribute to the app in a few ways:
 
 1. by telling others about Organized app,
-2. supporting the app by donating, or
+2. supporting the app by donating!
 3. helping with React development, UI design or translation. Please read our [contribution guide](./CONTRIBUTING.md) on how to do so.
