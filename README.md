@@ -1,32 +1,27 @@
 # ![Organized-logo-22](https://github.com/ux-git/Organized-app/assets/80993061/4c3b5775-fadb-4252-a4bf-656cafb8286a) Organized: app for everyone in the congregation
 
-A free tool for Jehovah’s Witnesses congregations, helping with assignments and responsibilities, making things easier, and freeing up time for other important things! Create schedules, view your upcoming assignments, submit service reports,  generate congregation reports, and much more! It's:
+A free web-app for Jehovah’s Witnesses congregations, helping with assignments and responsibilities, making things easier, and freeing up time for other important things! Create schedules, view your upcoming assignments, submit service reports,  generate congregation reports, and much more! Organized is:
+
 • Multi-platform
+• Secure 
+• Well designed
+• Easy to use
 • Open source
-• Modern design
-• Easy to use. 
 
 
 ![Organized-no-bg](https://github.com/ux-git/Organized-app/assets/80993061/34623b1b-19e7-45ff-9291-2c567b90eb52)
 
 
-## Best features in Organized?
-• Schedules
-• Reports
-• Groups
+## Best Organized features
+• Schedules: Midweek and weekend meetings – automatic data fetch from jw.org with intelligent assignment autofill.
+• Reports: Field service reports for publishers; Attendance and congregation service reports for secretary – instant generation with accurate calculations.
+• Upcoming assignments:
 
-## What we are currently working on
-Migrating to Typescript. 
-Then:
-• Territories
-• Duties
-• etc
-
-## Who can use Organized?
+## Who Organized is made for?
 
 The app is available for all congregation members, including elders, ministerial servants, pioneers, publishers, and even midweek meeting students – everyone will see its benefits. However, we kindly suggest discussing its use with your body of elders, as local circumstances and directions may vary.
 
-## What are the real benefits of using the app?
+## Real-world benefits of using the app
 
 😌 Less stress – Publishers always know when they have assignments, where to find all schedules and events. Appointed brothers have so much help with their duties, that they complete their tasks easier, therefore with more joy.
 
@@ -55,7 +50,7 @@ All app data is stored just on your device initially. If you want to share your 
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_cpe-sws&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=sws2apps_cpe-sws)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_cpe-sws&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=sws2apps_cpe-sws)
 
-## Does it have my language?
+## Multiple languages support
 
 Currently, the app supports nearly 15 languages. If you'd like to contribute by translating Organized into a language close to your heart, you're very welcome to do so!
 The translation process for CPE app is handled on [Crowdin](https://crowdin.com/project/cpe-sws), and is really easy. The whole app can be translated just in a few days. To learn more how help with localization, please read the [translation](./TRANSLATION.md) guide.
@@ -68,6 +63,16 @@ The translation process for CPE app is handled on [Crowdin](https://crowdin.com/
 [![Top contributors](https://images.repography.com/34928945/sws2apps/cpe-sws/recent-activity/dJ8TLGrn5l9eWWbjSJj1aeKPxgfDBAHVIxaeEKUPNfM/-dQ2fTFbTrx2K3kcZ-43AF8lFcsGcaH8ZBhE_Noq0KY_users.svg)](https://github.com/sws2apps/cpe-sws/graphs/contributors)
 [![Activity map](https://images.repography.com/34928945/sws2apps/cpe-sws/recent-activity/dJ8TLGrn5l9eWWbjSJj1aeKPxgfDBAHVIxaeEKUPNfM/-dQ2fTFbTrx2K3kcZ-43AF8lFcsGcaH8ZBhE_Noq0KY_map.svg)](https://github.com/sws2apps/cpe-sws/commits)
 
-## How can I contribute?
+## New features in development 
+There are so many features we want to implement:
 
-We really appreciate your volunteer spirit! You can contribute to the app in a few ways – 1. by telling others about Organized, 2. supporting the app by donating, or 3. helping with development, design or translation process. Please read our [contribution guide](./CONTRIBUTING.md) on how to do so.
+• Territories management 
+• Meeting duties scheduling
+• Field service meeting scheduling and viewing
+• Hall cleadning scheduling
+• Congregation activities
+• 
+
+## Want to contribute?
+
+We really appreciate your volunteer spirit! You can contribute to the app in a few ways – 1. by telling others about Organized app, 2. supporting the app by donating, or 3. helping with React development, UI design or translation. Please read our [contribution guide](./CONTRIBUTING.md) on how to do so.
