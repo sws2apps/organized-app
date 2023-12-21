@@ -2,20 +2,23 @@
 
 A free web-app for Jehovah’s Witnesses congregations, helping with assignments and responsibilities, making things easier, and freeing up time for other important things! Create schedules, view your upcoming assignments, submit service reports,  generate congregation reports, and much more! Organized is:
 
-• Multi-platform
-• Secure 
+• Multi-platform (Windows, MacOS, Linux, ChromeOS, iPadOS, iOS, Android)
+• Secure: End-to-end encrypted
 • Well designed
-• Easy to use
 • Open source
+• Easy to use
 
 
 ![Organized-no-bg](https://github.com/ux-git/Organized-app/assets/80993061/34623b1b-19e7-45ff-9291-2c567b90eb52)
 
 
 ## Best Organized features
-• Schedules: Midweek and weekend meetings – automatic data fetch from jw.org with intelligent assignment autofill.
-• Reports: Field service reports for publishers; Attendance and congregation service reports for secretary – instant generation with accurate calculations.
-• Upcoming assignments:
+📃 Schedules: Midweek and weekend meetings – automatic data fetch from jw.org with intelligent assignment autofill.
+🗓️ Reports: Field service reports for publishers; Attendance and congregation service reports for secretary – instant generation with accurate calculations.
+📅 Upcoming assignments: Publishers and appointed brother see their next assignments – student assignments, public talks, midweek meeting parts, etc.
+⚡ Autofill: Automatically create assignments for any meeting in a matter of seconds. 
+🖨️ Print templates: Export and print schedules that are visually pleasing and easy to read. Export Assignment Form (S-89) right away.
+
 
 ## Who Organized is made for?
 
@@ -52,7 +55,7 @@ All app data is stored just on your device initially. If you want to share your 
 
 ## Multiple languages support
 
-Currently, the app supports nearly 15 languages. If you'd like to contribute by translating Organized into a language close to your heart, you're very welcome to do so!
+Currently, the app supports nearly 15 languages and more to come. If you'd like to contribute by translating Organized into a language close to your heart, you're very welcome to do so!
 The translation process for CPE app is handled on [Crowdin](https://crowdin.com/project/cpe-sws), and is really easy. The whole app can be translated just in a few days. To learn more how help with localization, please read the [translation](./TRANSLATION.md) guide.
 
 ## [![Repography logo](https://images.repography.com/logo.svg)](https://repography.com) / Recent activity [![Time period](https://images.repography.com/34928945/sws2apps/cpe-sws/recent-activity/dJ8TLGrn5l9eWWbjSJj1aeKPxgfDBAHVIxaeEKUPNfM/-dQ2fTFbTrx2K3kcZ-43AF8lFcsGcaH8ZBhE_Noq0KY_badge.svg)](https://repography.com)
@@ -71,7 +74,7 @@ There are so many features we want to implement:
 • Field service meeting scheduling and viewing
 • Hall cleadning scheduling
 • Congregation activities
-• 
+• More printed schedules and form (like S-13 and more)
 
 ## Want to contribute?
 
