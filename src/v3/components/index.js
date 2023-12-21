@@ -20,3 +20,4 @@ export { default as TextMarkup } from './text_markup';
 export { default as ThemeSwitch } from './theme_switch';
 export { default as Typography } from './typography';
 export { default as WaitingCircular } from './waiting_circular';
+export * from './test';

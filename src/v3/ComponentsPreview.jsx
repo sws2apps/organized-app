@@ -10,6 +10,7 @@ import {
   Radio,
   Switch,
   Typography,
+  TestTS,
 } from '@components';
 import { useEffect, useState } from 'react';
 import { IconAdd, IconAssign, IconClose, IconReturn, IconUndo, IconUpdate, IconVisitors } from '@icons';
@@ -366,6 +367,7 @@ const ComponentPreview = () => {
                 <Badge text="Michael Walth" color="red" size="big" filled icon={<IconVisitors />} />
               </Box>
             </Box>
+            <TestTS />
           </Box>
         </Box>
       </Container>
