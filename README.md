@@ -90,6 +90,8 @@ There are so many features we want to implement:
 
 • More printed schedules and form (like S-13 and more)
 
+We're so excited to bring all these features into life! Of course, it takes time to work on all of them... So if you would like to start using these features sooner (and if you have proframming skills) – you can help us with the development. Together we can create a better app for the whole brotherhood!
+
 ## Want to contribute?
 
 We really appreciate your volunteer spirit! You can contribute to the app in a few ways:
