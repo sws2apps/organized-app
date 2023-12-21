@@ -39,12 +39,10 @@ BadgeContent.propTypes = {
 
 const BadgeTypography = ({ children, sx = {} }) => (
   <Typography
+    variant="label-small-medium"
     sx={{
       display: 'flex',
       alignItems: 'center',
-      fontFamily: 'Inter',
-      fontStyle: 'normal',
-      letterSpacing: '-0.12px',
       ...sx,
     }}
   >
