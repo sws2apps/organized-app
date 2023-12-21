@@ -3,63 +3,51 @@ import {IconInfo} from '@icons';
 import { Box } from '@mui/material';
 import {  Typography } from '@components';
 
-const InfoTip = ({isBig, text, isWhite, title, icon})  => {
-
-const getColor = () => {
-        let result = '';
-
-        if(isWhite){
-            result = 'var(--grey-350)';
-        }
-
-        if(!isWhite){
-            result = 'var(--accent-400)';
-        }
-    
-        if (isWhite&&isBig) {
-          result = 'var(--grey-400)';
-        }
-    
-        return result;
-      };
+const InfoTip = ({isBig, text, title, icon, colors})  => {
 
 return(<>
-
 <Box sx={{
     padding: '16px',
     width: '600px',
-    borderRadius: '12px',
-    border: isWhite? '1px solid var(--accent-300)': '1px dashed var(--accent-300)',
-    bgcolor: isWhite? 'var(--white)': ' var(--accent-150)',
+    borderRadius: 'var(--radius-xl)',
+    border: colors.border,
+    bgcolor:colors.background
 }}> 
 
 {isBig && <Typography variant="h2" sx={{
-    color: isWhite? 'var(--black)': ' var(--accent-400)',
-    marginBottom: '12px'}}> {title} 
-    </Typography>}
+    color: colors.title,
+    marginBottom: '12px'}}> 
+    {title} 
+ </Typography>}
+
 <Box sx={{
     display:'flex',
     alignItems:'center',
-    gap:'8px'
-}}>
-{icon && <IconInfo color={getColor()}/>}
+    gap:'8px'}}>
+
+{icon && <IconInfo color={colors.text}/>}
+
 <Typography variant='body-regular'
-sx={{color: getColor(),}}>{text}
+sx={{color: colors.text}}>
+{text}
 </Typography>
 </Box>
 
 </Box>
-
-</>)
-  }
+</>)}
 
 
   InfoTip.propTypes = {
     isBig: PropTypes.bool.isRequired,
     text:PropTypes.string.isRequired,
-    isWhite: PropTypes.bool.isRequired,
     title:PropTypes.string,
-    icon:PropTypes.bool.isRequired
+    icon:PropTypes.bool.isRequired,
+    colors: PropTypes.shape({
+          border: PropTypes.string.isRequired,
+          background: PropTypes.string.isRequired,
+          text: PropTypes.string.isRequired,
+          title: PropTypes.string,
+        }).isRequired,
   };
 
-  export default InfoTip;
+export default InfoTip;

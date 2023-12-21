@@ -311,18 +311,42 @@ const ComponentPreview = () => {
                 <Typography variant="label-small-regular">info-tip:</Typography>
                
                 <Typography variant="label-small-regular">info</Typography>
-                <InfoTip isBig={false} isWhite={true} icon={true} text='Select a territory to see detailed assignment history'/>
+                <InfoTip isBig={false}  icon={true} 
+                colors={{
+                  border: '1px solid var(--accent-300)',
+                  background: 'var(--white)',
+                  text: 'var(--grey-350)',
+                  }}
+                
+                text='Select a territory to see detailed assignment history'/>
                 
                 <Typography variant="label-small-regular">info-big</Typography>
-                <InfoTip isBig={true} isWhite={true}  icon={false} title="You don’t have any territories yet" 
+                <InfoTip isBig={true}   icon={false} title="You don’t have any territories yet"
+                colors={{
+                  border: '1px solid var(--accent-300)',
+                  background: 'var(--white)',
+                  text: 'var(--grey-400)',
+                  title: 'var(--black)',
+                  }}
                 text='Do you want to have one? Click “Get new territory” to see the list of available territories and pick one that you want to work on.'/>
                 
                 <Typography variant="label-small-regular">info-alt</Typography>
-                <InfoTip isBig={false} isWhite={false} icon={true}
+                <InfoTip isBig={false}  icon={true}
+                colors={{
+                  border: '1px dashed var(--accent-300)',
+                  background: 'var(--accent-150)',
+                  text: 'var(--accent-400)',
+                  }}
                 text='You don’t have any other congregations yet. Add one here to see their speakers list and use it in schedules.'/>
                 
                 <Typography variant="label-small-regular">info-alt-big</Typography>
-                <InfoTip isBig={true} isWhite={false} icon={true} title="My previous territories"
+                <InfoTip isBig={true}  icon={true} title="My previous territories"
+                 colors={{
+                 border: '1px dashed var(--accent-300)',
+                 background: 'var(--accent-150)',
+                 text: 'var(--accent-400)',
+                 title: 'var(--accent-400)',
+                 }}
                 text='You don’t have any territories in the history. New territories will appear here after you cover and return them.'/>
               </Box>
 
