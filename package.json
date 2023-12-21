@@ -48,7 +48,7 @@
     "qrcode": "^1.5.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-i18next": "^13.5.0",
+    "react-i18next": "^14.0.0",
     "react-pdf-html": "^1.1.18",
     "react-router-dom": "^6.21.1",
     "recoil": "^0.7.7",
