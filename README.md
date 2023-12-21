@@ -1,4 +1,4 @@
-# ![Organized-logo-24](https://github.com/ux-git/Organized-app/assets/80993061/482cd306-e37e-49e2-aa99-5f88623d6c54) Organized – app for everyone in the congregation
+# ![Organized-logo-20](https://github.com/ux-git/Organized-app/assets/80993061/5d7d4e96-eea4-4547-9a2f-7221054fee23) Organized – app for everyone in the congregation
 
 A free tool for Jehovah’s Witnesses congregations, helping with assignments and responsibilities, making things easier, and freeing up time for other important things! Create schedules, view your upcoming assignments, submit service reports,  generate congregation reports and much more!
 
