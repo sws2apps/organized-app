@@ -1,4 +1,32 @@
-# Congregation Program for Everyone (CPE)
+# ![Organized-logo-24](https://github.com/ux-git/Organized-app/assets/80993061/482cd306-e37e-49e2-aa99-5f88623d6c54) Organized – app for everyone in the congregation
+
+A free tool for Jehovah’s Witnesses congregations, helping with assignments and responsibilities, making things easier, and freeing up time for other important things! Create schedules, view your upcoming assignments, submit service reports,  generate congregation reports and much more!
+
+
+![Organized-no-bg](https://github.com/ux-git/Organized-app/assets/80993061/34623b1b-19e7-45ff-9291-2c567b90eb52)
+
+
+
+## Who can use Organized?
+
+The app is available for all congregation members, including elders, ministerial servants, pioneers, publishers, and even midweek meeting students – everyone will see its benefits. However, we kindly suggest discussing its use with your body of elders, as local circumstances and directions may vary.
+
+## What are the real benefits of using the app?
+
+😌 Less stress – Publishers always know when they have assignments, where to find all schedules and events. Appointed brothers have so much help with their duties, that they complete their tasks easier, therefore with more joy.
+
+⏳ Hundreds of saved hours – Significantly reduce time commitment for appointed brothers through automated features for reports, schedules and more! Don’t spend much time on a routine work that the program can do.
+
+🌳 Digitalization – Less paper and ink waste for publishers and appointed brothers. Quicker updates of information for the whole congregation, more precise calculations and less dependancy on a specific appointed brothers.
+
+📱️ Convenience – Enjoy full functionality seamlessly on any device – whether it's mobile or desktop. Organized allows publishers and appointed brothers to use the app on any device, anywhere. You can access the app either from a web browser or install it for the best experience.
+
+
+## What are the device requirements to open CPE?
+
+CPE is a web application, and it is also PWA capable. All devices that have up to date browser, depending on which platform it is running can use this web application.
+
+## We're open source 
 
 [![Crowdin](https://badges.crowdin.net/cpe-sws/localized.svg)](https://crowdin.com/project/cpe-sws)
 [![CD](https://github.com/sws2apps/cpe-sws/actions/workflows/deploy.yml/badge.svg)](https://github.com/sws2apps/cpe-sws/actions/workflows/deploy.yml)
@@ -10,18 +38,6 @@
 [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_cpe-sws&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=sws2apps_cpe-sws)
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_cpe-sws&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=sws2apps_cpe-sws)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_cpe-sws&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=sws2apps_cpe-sws)
-
-## Preview
-
-![cpe_home](https://user-images.githubusercontent.com/26148770/235731032-a533fc84-3516-4f21-b1a7-a82ccc3ee88e.png)
-
-## Who should use this app?
-
-Everyone in the congregation may use this application, after its use has been approved.
-
-## What are the device requirements to open CPE?
-
-CPE is a web application, and it is also PWA capable. All devices that have up to date browser, depending on which platform it is running can use this web application.
 
 ## CPE Localization
 
