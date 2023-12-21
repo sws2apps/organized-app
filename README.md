@@ -2,11 +2,15 @@
 
 A free web-app for Jehovah’s Witnesses congregations, helping with assignments and responsibilities, making things easier, and freeing up time for other important things! Create schedules, view your upcoming assignments, submit service reports,  generate congregation reports, and much more! Organized is:
 
-• Multi-platform (Windows, MacOS, Linux, ChromeOS, iPadOS, iOS, Android)
-• Secure: End-to-end encrypted
-• Well designed
-• Open source
-• Easy to use
+🔵 Multi-platform (Windows, MacOS, Linux, ChromeOS, iPadOS, iOS, Android)
+
+🔵 Secure: End-to-end encrypted
+
+🔵 Well designed
+
+🔵 Open source
+
+🔵 Easy to use
 
 
 ![Organized-no-bg](https://github.com/ux-git/Organized-app/assets/80993061/34623b1b-19e7-45ff-9291-2c567b90eb52)
