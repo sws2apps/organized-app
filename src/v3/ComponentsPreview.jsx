@@ -9,6 +9,7 @@ import {
   Radio,
   Switch,
   Typography,
+  TestTS,
 } from '@components';
 import { useEffect, useState } from 'react';
 import { IconAdd, IconAssign, IconClose, IconReturn, IconUndo, IconUpdate } from '@icons';
@@ -304,6 +305,7 @@ const ComponentPreview = () => {
                 <Switch checked={checked} onChange={(e) => setChecked(e.target.checked)} />
               </Box>
             </Box>
+            <TestTS />
           </Box>
         </Box>
       </Container>
