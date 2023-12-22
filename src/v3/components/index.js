@@ -1,4 +1,5 @@
 export { default as AutoComplete } from './autocomplete';
+export { default as Badge } from './badge';
 export { default as Button } from './button';
 export { default as Checkbox } from './checkbox';
 export { default as CongregationSelector } from './congregation_selector';
@@ -19,3 +20,4 @@ export { default as TextMarkup } from './text_markup';
 export { default as ThemeSwitch } from './theme_switch';
 export { default as Typography } from './typography';
 export { default as WaitingCircular } from './waiting_circular';
+export * from './test';

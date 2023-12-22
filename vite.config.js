@@ -4,9 +4,10 @@ import eslint from 'vite-plugin-eslint';
 import { loadVersion } from '@sws2apps/vite-plugin-package-version';
 import { comlink } from 'vite-plugin-comlink';
 import { resolve } from 'path';
+import svgx from '@svgx/vite-plugin-react';
 
 export default defineConfig({
-  plugins: [react(), splitVendorChunkPlugin(), comlink(), eslint(), loadVersion()],
+  plugins: [react(), splitVendorChunkPlugin(), comlink(), eslint(), loadVersion(), svgx()],
   resolve: {
     alias: [
       { find: '@assets', replacement: resolve(__dirname, 'src/v3/assets') },

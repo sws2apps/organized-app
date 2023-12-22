@@ -9,6 +9,8 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:react/jsx-runtime',
     'plugin:react-hooks/recommended',
+    'plugin:@typescript-eslint/eslint-recommended',
+    'plugin:@typescript-eslint/recommended',
   ],
   ignorePatterns: ['dist', '.eslintrc.cjs', 'src/current'],
   parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
@@ -40,8 +42,10 @@ module.exports = {
       },
     },
   },
-  plugins: ['react-refresh'],
+  plugins: ['react', 'react-refresh'],
   rules: {
     'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+    'react/jsx-uses-react': 'error',
+    'react/jsx-uses-vars': 'error',
   },
 };
