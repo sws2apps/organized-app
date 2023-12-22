@@ -294,7 +294,7 @@ const ComponentPreview = () => {
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 <Typography variant="label-small-regular">mini-chip</Typography>
                 <Box sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                  <MiniChip label="Ilya" edit={true} onDelete={() => {}} />
+                  <MiniChip label="Ilya" edit={true} />
                   <MiniChip label="Ilya" />
                 </Box>
               </Box>
