@@ -85,7 +85,7 @@ The translation process for CPE app is handled on [Crowdin](https://crowdin.com/
 [![Activity map](https://images.repography.com/34928945/sws2apps/cpe-sws/recent-activity/dJ8TLGrn5l9eWWbjSJj1aeKPxgfDBAHVIxaeEKUPNfM/-dQ2fTFbTrx2K3kcZ-43AF8lFcsGcaH8ZBhE_Noq0KY_map.svg)](https://github.com/sws2apps/cpe-sws/commits)
 
 ## New features in development 
-There are so many features we want to implement:
+We're working hard on the new redesigned release in the new branch _(current main one contains old, but fully functional version of the app)_. And there are so many features we want to implement:
 
 • Territories management 
 
