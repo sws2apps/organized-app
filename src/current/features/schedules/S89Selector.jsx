@@ -41,10 +41,7 @@ const S89Selector = () => {
   const handlePreviewS89 = async () => {
     setIsS89DownloadLoading(true);
     setIsS89Download(true);
-<<<<<<< HEAD
-=======
 
->>>>>>> main
     const realData = selected.filter((item) => item.length > 10);
     realData.sort((a, b) => {
       return a > b ? 1 : -1;
