@@ -76,13 +76,8 @@ All app data is stored just on your device initially. If you want to share your 
 Currently, the app supports nearly 15 languages and more to come. If you'd like to contribute by translating Organized into a language close to your heart, you're very welcome to do so!
 The translation process for CPE app is handled on [Crowdin](https://crowdin.com/project/cpe-sws), and is really easy. The whole app can be translated just in a few days. To learn more how help with localization, please read the [translation](./TRANSLATION.md) guide.
 
-## [![Repography logo](https://images.repography.com/logo.svg)](https://repography.com) Recent project activity [![Time period](https://images.repography.com/34928945/sws2apps/cpe-sws/recent-activity/dJ8TLGrn5l9eWWbjSJj1aeKPxgfDBAHVIxaeEKUPNfM/-dQ2fTFbTrx2K3kcZ-43AF8lFcsGcaH8ZBhE_Noq0KY_badge.svg)](https://repography.com)
-[![Timeline graph](https://images.repography.com/34928945/sws2apps/cpe-sws/recent-activity/dJ8TLGrn5l9eWWbjSJj1aeKPxgfDBAHVIxaeEKUPNfM/-dQ2fTFbTrx2K3kcZ-43AF8lFcsGcaH8ZBhE_Noq0KY_timeline.svg)](https://github.com/sws2apps/cpe-sws/commits)
-[![Issue status graph](https://images.repography.com/34928945/sws2apps/cpe-sws/recent-activity/dJ8TLGrn5l9eWWbjSJj1aeKPxgfDBAHVIxaeEKUPNfM/-dQ2fTFbTrx2K3kcZ-43AF8lFcsGcaH8ZBhE_Noq0KY_issues.svg)](https://github.com/sws2apps/cpe-sws/issues)
-[![Pull request status graph](https://images.repography.com/34928945/sws2apps/cpe-sws/recent-activity/dJ8TLGrn5l9eWWbjSJj1aeKPxgfDBAHVIxaeEKUPNfM/-dQ2fTFbTrx2K3kcZ-43AF8lFcsGcaH8ZBhE_Noq0KY_prs.svg)](https://github.com/sws2apps/cpe-sws/pulls)
-[![Trending topics](https://images.repography.com/34928945/sws2apps/cpe-sws/recent-activity/dJ8TLGrn5l9eWWbjSJj1aeKPxgfDBAHVIxaeEKUPNfM/-dQ2fTFbTrx2K3kcZ-43AF8lFcsGcaH8ZBhE_Noq0KY_words.svg)](https://github.com/sws2apps/cpe-sws/commits)
-[![Top contributors](https://images.repography.com/34928945/sws2apps/cpe-sws/recent-activity/dJ8TLGrn5l9eWWbjSJj1aeKPxgfDBAHVIxaeEKUPNfM/-dQ2fTFbTrx2K3kcZ-43AF8lFcsGcaH8ZBhE_Noq0KY_users.svg)](https://github.com/sws2apps/cpe-sws/graphs/contributors)
-[![Activity map](https://images.repography.com/34928945/sws2apps/cpe-sws/recent-activity/dJ8TLGrn5l9eWWbjSJj1aeKPxgfDBAHVIxaeEKUPNfM/-dQ2fTFbTrx2K3kcZ-43AF8lFcsGcaH8ZBhE_Noq0KY_map.svg)](https://github.com/sws2apps/cpe-sws/commits)
+## [![Repography logo](https://images.repography.com/logo.svg)](https://repography.com) / Top contributors
+[![Top contributors](https://images.repography.com/34928945/sws2apps/cpe-sws/top-contributors/dJ8TLGrn5l9eWWbjSJj1aeKPxgfDBAHVIxaeEKUPNfM/-dQ2fTFbTrx2K3kcZ-43AF8lFcsGcaH8ZBhE_Noq0KY_table.svg)](https://github.com/sws2apps/cpe-sws/graphs/contributors)
 
 ## New features in development 
 We're working hard on the new redesigned release in the new branch _(current main one contains old, but fully functional version of the app)_. And there are so many features we want to implement:
