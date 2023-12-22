@@ -416,18 +416,20 @@ PersonsClass.prototype.getByAssignment = function (payload) {
     if (stuForAssistant) {
       const main = Persons.get(stuForAssistant);
 
-      dbPersons = appData.filter(
-        (person) =>
-          person.isMale === main.isMale &&
-          person.isFemale === main.isFemale &&
-          (person.assignments.find((assignment) => assignment.code === 101) ||
-            person.assignments.find((assignment) => assignment.code === 102) ||
-            person.assignments.find((assignment) => assignment.code === 103) ||
-            person.assignments.find((assignment) => assignment.code === 123) ||
-            person.assignments.find((assignment) => assignment.code === 124) ||
-            person.assignments.find((assignment) => assignment.code === 125) ||
-            person.assignments.find((assignment) => assignment.code === 126))
-      );
+      if (main) {
+        dbPersons = appData.filter(
+          (person) =>
+            person.isMale === main.isMale &&
+            person.isFemale === main.isFemale &&
+            (person.assignments.find((assignment) => assignment.code === 101) ||
+              person.assignments.find((assignment) => assignment.code === 102) ||
+              person.assignments.find((assignment) => assignment.code === 103) ||
+              person.assignments.find((assignment) => assignment.code === 123) ||
+              person.assignments.find((assignment) => assignment.code === 124) ||
+              person.assignments.find((assignment) => assignment.code === 125) ||
+              person.assignments.find((assignment) => assignment.code === 126))
+        );
+      }
     }
   } else {
     if (assType === 121) {

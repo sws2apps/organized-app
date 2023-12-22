@@ -68,7 +68,7 @@ const StartupIllustration = () => {
                   {t('illustrationMinistryAssignmentsDescription')}
                 </Typography>
               </Box>
-              <img src={MinistryAssignments} alt="Ministry Assignments" style={{ width: '100%' }} />
+              <MinistryAssignments alt="Ministry Assignments" style={{ width: '100%' }} />
             </Box>
           </SwiperSlide>
 
@@ -82,7 +82,7 @@ const StartupIllustration = () => {
                   {t('illustrationMultiPlattformDescription')}
                 </Typography>
               </Box>
-              <img src={MultiPlattform} alt="Multi Plattform" style={{ width: '100%' }} />
+              <MultiPlattform alt="Multi Plattform" style={{ width: '100%' }} />
             </Box>
           </SwiperSlide>
 
@@ -96,7 +96,7 @@ const StartupIllustration = () => {
                   {t('illustrationMeetingSchedulesDescription')}
                 </Typography>
               </Box>
-              <img src={MeetingSchedules} alt="Meeting Schedules" style={{ width: '100%' }} />
+              <MeetingSchedules alt="Meeting Schedules" style={{ width: '100%' }} />
             </Box>
           </SwiperSlide>
 
@@ -110,7 +110,7 @@ const StartupIllustration = () => {
                   {t('illustrationSecretaryDescription')}
                 </Typography>
               </Box>
-              <img src={Secretary} alt="Secretary" style={{ width: '100%' }} />
+              <Secretary alt="Secretary" style={{ width: '100%' }} />
             </Box>
           </SwiperSlide>
         </Swiper>
