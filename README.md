@@ -18,13 +18,13 @@ A free web-app for Jehovah’s Witnesses congregations, helping with assignments
 
 ## Best Organized features
 
-📃 **Schedules:** Midweek and weekend meetings – automatic data fetch from jw.org with intelligent assignment autofill.
+📃 **Schedules:** Midweek and weekend meetings – automatic data fetch from jw.org with assignment autofill.
 
 🗓️ **Reports:** Field service reports for publishers; Attendance and congregation service reports for secretary – instant generation with accurate calculations.
 
 📅 **Upcoming assignments:** Publishers and appointed brother see their next assignments – student assignments, public talks, midweek meeting parts, etc.
 
-⚡ **Autofill:** Automatically create assignments for any meeting in a matter of seconds. 
+⚡ **Autofill:** Automatically create assignments for any meeting in a matter of seconds. Organized takes into account person's previous assignments, past partners and creates balanced meeting assignments.
 
 🖨️ **Print templates:** Export and print schedules that are visually pleasing and easy to read. Export Assignment Form (S-89) right away.
 
