@@ -2,7 +2,7 @@
 
 ![Organized-no-bg](https://github.com/ux-git/Organized-app/assets/80993061/34623b1b-19e7-45ff-9291-2c567b90eb52)
 
-A free web-app for Jehovah’s Witnesses congregations, helping with assignments and responsibilities, making things easier, and freeing up time for other important things! Create schedules, view your upcoming assignments, submit service reports,  generate congregation reports, and much more! In a nutschell, Organized app is:
+A free web-app for Jehovah’s Witnesses congregations, helping with assignments and responsibilities, making things easier, and freeing up time for other important things! Create schedules, view your upcoming assignments, submit service reports, generate congregation reports, and much more! In a nutschell, Organized app is:
 
 🔵 Multi-platform: Windows, MacOS, Linux, ChromeOS, iPadOS, iOS, Android
 
@@ -13,8 +13,6 @@ A free web-app for Jehovah’s Witnesses congregations, helping with assignments
 🔵 Open source
 
 🔵 Easy to use
-
-
 
 ## Best Organized features
 
@@ -31,7 +29,6 @@ A free web-app for Jehovah’s Witnesses congregations, helping with assignments
 🎨 **Modern user-focused design:** Featuring dark and light modes, as well as four color themes.
 
 <img width="1110" alt="Features-gridv2" src="https://github.com/ux-git/Organized-app/assets/80993061/93136396-fd69-413f-b7ff-050789aab84d">
-
 
 ## Who Organized is made for?
 
@@ -51,13 +48,13 @@ Organized is a Progressive Web Application (PWA), meaning that it can function i
 
 📱️ **Convenience** – Enjoy full functionality seamlessly on any device – whether it's mobile or desktop. Organized allows publishers and appointed brothers to use the app on any device, anywhere. You can access the app either from a web browser or install it for the best experience.
 
+##
 
-## 
->
 > ![schedules](https://github.com/ux-git/Organized-app/assets/80993061/c229d5ec-805c-4f85-ae52-273f09eb6f2d)
 > Example of printed schedules, automatically generated in Organized
 
 ## The app is open source and secure
+
 All app data is stored just on your device initially. If you want to share your schedules with your congregation or use Organized on multiple devices, the data will be synced via a secure cloud connection. The app doesn't store any confidential information, so it's never sent to the Internet. The data required for synchronization is end-to-end encrypted, ensuring that **neither the Organized app team nor anyone on the Internet can't access it**.
 
 [![Crowdin](https://badges.crowdin.net/cpe-sws/localized.svg)](https://crowdin.com/project/cpe-sws)
@@ -76,18 +73,15 @@ All app data is stored just on your device initially. If you want to share your 
 Currently, the app supports nearly 15 languages and more to come. If you'd like to contribute by translating Organized into a language close to your heart, you're very welcome to do so!
 The translation process for CPE app is handled on [Crowdin](https://crowdin.com/project/cpe-sws), and is really easy. The whole app can be translated just in a few days. To learn more how help with localization, please read the [translation](./TRANSLATION.md) guide.
 
-## [![Repography logo](https://images.repography.com/logo.svg)](https://repography.com) Recent project activity [![Time period](https://images.repography.com/34928945/sws2apps/cpe-sws/recent-activity/dJ8TLGrn5l9eWWbjSJj1aeKPxgfDBAHVIxaeEKUPNfM/-dQ2fTFbTrx2K3kcZ-43AF8lFcsGcaH8ZBhE_Noq0KY_badge.svg)](https://repography.com)
-[![Timeline graph](https://images.repography.com/34928945/sws2apps/cpe-sws/recent-activity/dJ8TLGrn5l9eWWbjSJj1aeKPxgfDBAHVIxaeEKUPNfM/-dQ2fTFbTrx2K3kcZ-43AF8lFcsGcaH8ZBhE_Noq0KY_timeline.svg)](https://github.com/sws2apps/cpe-sws/commits)
-[![Issue status graph](https://images.repography.com/34928945/sws2apps/cpe-sws/recent-activity/dJ8TLGrn5l9eWWbjSJj1aeKPxgfDBAHVIxaeEKUPNfM/-dQ2fTFbTrx2K3kcZ-43AF8lFcsGcaH8ZBhE_Noq0KY_issues.svg)](https://github.com/sws2apps/cpe-sws/issues)
-[![Pull request status graph](https://images.repography.com/34928945/sws2apps/cpe-sws/recent-activity/dJ8TLGrn5l9eWWbjSJj1aeKPxgfDBAHVIxaeEKUPNfM/-dQ2fTFbTrx2K3kcZ-43AF8lFcsGcaH8ZBhE_Noq0KY_prs.svg)](https://github.com/sws2apps/cpe-sws/pulls)
-[![Trending topics](https://images.repography.com/34928945/sws2apps/cpe-sws/recent-activity/dJ8TLGrn5l9eWWbjSJj1aeKPxgfDBAHVIxaeEKUPNfM/-dQ2fTFbTrx2K3kcZ-43AF8lFcsGcaH8ZBhE_Noq0KY_words.svg)](https://github.com/sws2apps/cpe-sws/commits)
-[![Top contributors](https://images.repography.com/34928945/sws2apps/cpe-sws/recent-activity/dJ8TLGrn5l9eWWbjSJj1aeKPxgfDBAHVIxaeEKUPNfM/-dQ2fTFbTrx2K3kcZ-43AF8lFcsGcaH8ZBhE_Noq0KY_users.svg)](https://github.com/sws2apps/cpe-sws/graphs/contributors)
-[![Activity map](https://images.repography.com/34928945/sws2apps/cpe-sws/recent-activity/dJ8TLGrn5l9eWWbjSJj1aeKPxgfDBAHVIxaeEKUPNfM/-dQ2fTFbTrx2K3kcZ-43AF8lFcsGcaH8ZBhE_Noq0KY_map.svg)](https://github.com/sws2apps/cpe-sws/commits)
+## [![Repography logo](https://images.repography.com/logo.svg)](https://repography.com) / Top contributors
 
-## New features in development 
+[![Top contributors](https://images.repography.com/34928945/sws2apps/cpe-sws/top-contributors/dJ8TLGrn5l9eWWbjSJj1aeKPxgfDBAHVIxaeEKUPNfM/-dQ2fTFbTrx2K3kcZ-43AF8lFcsGcaH8ZBhE_Noq0KY_table.svg)](https://github.com/sws2apps/cpe-sws/graphs/contributors)
+
+## New features in development
+
 We're working hard on the new redesigned release in the new branch _(current main one contains old, but fully functional version of the app)_. And there are so many features we want to implement:
 
-• Territories management 
+• Territories management
 
 • Meeting duties scheduling
 
@@ -110,4 +104,3 @@ We really appreciate your volunteer spirit! You can contribute to the app in a f
 1. by **telling others** about Organized app,
 2. supporting the app by **donating**!
 3. helping with **React development**, **UI design** or **translation**. Please read our [contribution guide](./CONTRIBUTING.md) on how to do so.
-
