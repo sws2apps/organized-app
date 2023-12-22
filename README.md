@@ -30,7 +30,8 @@ A free web-app for Jehovah’s Witnesses congregations, helping with assignments
 
 🎨 **Modern user-focused design:** Featuring dark and light modes, as well as four color themes.
 
-<img width="1110" alt="features-grid" src="https://github.com/ux-git/Organized-app/assets/80993061/00cb605a-96a6-4059-85a4-68b6ed3eb806">
+<img width="1110" alt="Features-gridv2" src="https://github.com/ux-git/Organized-app/assets/80993061/93136396-fd69-413f-b7ff-050789aab84d">
+
 
 ## Who Organized is made for?
 
