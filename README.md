@@ -1,4 +1,4 @@
-# ![Organized-logo-22](https://github.com/ux-git/Organized-app/assets/80993061/4c3b5775-fadb-4252-a4bf-656cafb8286a) Organized: app for everyone in the congregation
+# <img src="https://github.com/sws2apps/cpe-sws/assets/26148770/f86c0643-b6aa-44f3-93ee-8c5fb68caad5" alt="image" width="auto" height="25"> Organized: app for everyone in the congregation
 
 ![Organized-no-bg](https://github.com/ux-git/Organized-app/assets/80993061/34623b1b-19e7-45ff-9291-2c567b90eb52)
 
