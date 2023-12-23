@@ -38,8 +38,6 @@ export const fullnameState = selector({
   },
 });
 
-
-
 export const sourceLangState = selector({
   key: 'sourceLang',
   get: ({ get }) => {

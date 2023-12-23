@@ -13,7 +13,7 @@ import {
   setIsUserSignIn,
 } from '@services/recoil/app';
 import { CPE_ROLES } from '@constants/index';
-import {  updateUserInfoAfterLogin } from '@services/cpe';
+import { updateUserInfoAfterLogin } from '@services/cpe';
 import { useFeedback } from '@features/app_start';
 import { useAppTranslation } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
