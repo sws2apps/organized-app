@@ -16,7 +16,8 @@
     "cypress:open": "cypress open",
     "cypress:component-test": "cypress run --component --browser chrome",
     "generate:css": "node converter/css/convert.js && prettier src/v3/global.css --write",
-    "generate:icons": "node converter/svg/convert.js && prettier src/v3/components/icons --write"
+    "generate:icons": "node converter/svg/convert.js && prettier src/v3/components/icons --write",
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": [
@@ -84,6 +85,8 @@
     "eslint-plugin-cypress": "^2.15.1",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-refresh": "^0.4.4",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0",
     "prettier": "^3.1.0",
     "prop-types": "^15.8.1",
     "rollup": "^4.7.0",
@@ -93,5 +96,9 @@
   "engines": {
     "node": ">18 <21",
     "npm": ">=9"
+  },
+  "lint-staged": {
+    "*.js": "eslint --cache --fix",
+    "*.{js,css,md}": "prettier --write"
   }
 }
