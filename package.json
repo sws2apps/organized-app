@@ -98,7 +98,6 @@
     "npm": ">=9"
   },
   "lint-staged": {
-    "*.js": "eslint --cache --fix",
     "*.{js,jsx,ts,tsx,css,md}": "prettier --write"
   }
 }
