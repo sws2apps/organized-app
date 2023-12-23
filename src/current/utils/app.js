@@ -39,7 +39,6 @@ export const loadApp = async () => {
     const I18n = getI18n();
 
     await initAppDb();
-    await Sources.removeOutdatedRecords();
 
     let {
       username,
