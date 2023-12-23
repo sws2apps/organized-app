@@ -251,8 +251,7 @@ const AutofillSchedule = () => {
               assType === 123 ||
               assType === 124 ||
               assType === 125 ||
-              assType === 126 ||
-              assType === 127
+              assType === 126
             ) {
               fldName = 'ass' + a + '_stu_B';
 

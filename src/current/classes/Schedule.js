@@ -629,7 +629,7 @@ ScheduleClass.prototype.saveAssignment = async function (personUID, field) {
       person = VisitingSpeakers.getSpeakerByUid(personUID);
     }
 
-    if (field !== 'speaker_1' && this.is_visiting_speaker) {
+    if (field !== 'speaker_1') {
       person = Persons.get(personUID);
     }
 
