@@ -1,3 +1,25 @@
+# [2.112.0](https://github.com/sws2apps/cpe-sws/compare/v2.111.1...v2.112.0) (2023-12-23)
+
+
+### Bug Fixes
+
+* **schedules:** fix assignments for brothers part discussion ([2800dad](https://github.com/sws2apps/cpe-sws/commit/2800dad89dfd1da74c19fd400c4dbfccb26d26ad))
+
+
+### Features
+
+* **deps:** bump @mui/icons-material from 5.15.0 to 5.15.1 ([baea026](https://github.com/sws2apps/cpe-sws/commit/baea026043556581e57e8307d23336e0c43be279))
+* **deps:** bump @mui/material from 5.15.0 to 5.15.1 ([5c0e010](https://github.com/sws2apps/cpe-sws/commit/5c0e010f95d64c2327dafb33572c30f6771e7d6d))
+* **deps:** bump @mui/x-date-pickers from 6.18.5 to 6.18.6 ([424dfa7](https://github.com/sws2apps/cpe-sws/commit/424dfa79ffa062632299b00947e94cc83a24f3e2))
+* **deps:** bump @tanstack/react-query from 5.14.0 to 5.14.1 ([b573e72](https://github.com/sws2apps/cpe-sws/commit/b573e72da976812b770a10189a16a58bb8fba5ac))
+* **deps:** bump @tanstack/react-query from 5.14.1 to 5.14.2 ([0c12c52](https://github.com/sws2apps/cpe-sws/commit/0c12c52a23d63c2a1b6ad31c19cab1387117b4a0))
+* **deps:** bump jw-epub-parser from 3.7.1 to 3.8.0 ([d8d1017](https://github.com/sws2apps/cpe-sws/commit/d8d1017915854a30a8d7811dca1e56302d2955f4))
+* **deps:** bump jw-epub-parser from 3.8.0 to 3.8.1 ([7d04a38](https://github.com/sws2apps/cpe-sws/commit/7d04a38f0b49ee5d2f9e45c2feb0e00f6e046820))
+* **deps:** bump jw-epub-parser from 3.8.1 to 3.9.0 ([bff9635](https://github.com/sws2apps/cpe-sws/commit/bff9635f1fa018f70e7c09f6acfca4fc4907b08a))
+* **deps:** bump react-i18next from 13.5.0 to 14.0.0 ([b8c1ebc](https://github.com/sws2apps/cpe-sws/commit/b8c1ebcb3555df338d5e1fc964d2c9375babbf60))
+* **deps:** bump react-router-dom from 6.21.0 to 6.21.1 ([91520ea](https://github.com/sws2apps/cpe-sws/commit/91520eab83b351a8ff03d15873577816d9455936))
+* **localize:** updated translation from Crowdin ([bb6a812](https://github.com/sws2apps/cpe-sws/commit/bb6a812aca024e4220829590fff94e92a656c387))
+
 ## [2.111.1](https://github.com/sws2apps/cpe-sws/compare/v2.111.0...v2.111.1) (2023-12-16)
 
 
