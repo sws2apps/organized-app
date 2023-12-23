@@ -98,6 +98,6 @@
     "npm": ">=9"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,css,md}": "prettier --write"
+    "*.{js,jsx,ts,tsx,css,md,json,html,svg}": "prettier --write"
   }
 }
