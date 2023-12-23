@@ -4,7 +4,7 @@ import { Badge, IconButton } from '@mui/material';
 const AppNotification = () => {
   return (
     <IconButton
-      color="inherit"
+      color="blue"
       edge="start"
       sx={{
         padding: '8px',
