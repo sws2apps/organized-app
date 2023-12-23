@@ -1,6 +1,6 @@
 # <img src="https://github.com/sws2apps/cpe-sws/assets/26148770/f86c0643-b6aa-44f3-93ee-8c5fb68caad5" alt="image" width="auto" height="25"> Organized: app for everyone in the congregation
 
-![Organized-no-bg](https://github.com/ux-git/Organized-app/assets/80993061/34623b1b-19e7-45ff-9291-2c567b90eb52)
+![Organized-devices](https://github.com/sws2apps/organized-app/assets/26148770/9526daa0-ad34-4a1b-8611-c50f0d3375b7)
 
 A free web-app for Jehovah’s Witnesses congregations, helping with assignments and responsibilities, making things easier, and freeing up time for other important things! Create schedules, view your upcoming assignments, submit service reports, generate congregation reports, and much more! In a nutschell, Organized app is:
 
@@ -28,7 +28,7 @@ A free web-app for Jehovah’s Witnesses congregations, helping with assignments
 
 🎨 **Modern user-focused design:** Featuring dark and light modes, as well as four color themes.
 
-<img width="1110" alt="Features-gridv2" src="https://github.com/ux-git/Organized-app/assets/80993061/93136396-fd69-413f-b7ff-050789aab84d">
+<img width="1110" alt="Features-gridv2" src="https://github.com/sws2apps/organized-app/assets/26148770/041d0b7a-0e59-446b-a735-0e978f3df9a5">
 
 ## Who Organized is made for?
 
@@ -50,7 +50,7 @@ Organized is a Progressive Web Application (PWA), meaning that it can function i
 
 ##
 
-> ![schedules](https://github.com/ux-git/Organized-app/assets/80993061/c229d5ec-805c-4f85-ae52-273f09eb6f2d)
+> ![organized-schedules](https://github.com/sws2apps/organized-app/assets/26148770/eb4fa1a8-e3b3-4b57-b889-9c1f91fa9ed1)
 > Example of printed schedules, automatically generated in Organized
 
 ## The app is open source and secure
