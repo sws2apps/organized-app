@@ -70,7 +70,7 @@ All app data is stored just on your device initially. If you want to share your 
 ## Multiple languages support
 
 Currently, the app supports nearly 15 languages and more to come. If you'd like to contribute by translating Organized into a language close to your heart, you're very welcome to do so!
-The translation process for CPE app is handled on [Crowdin](https://crowdin.com/project/cpe-sws), and is really easy. The whole app can be translated just in a few days. To learn more how help with localization, please read the [translation](./TRANSLATION.md) guide.
+The translation process for Organized app is handled on [Crowdin](https://crowdin.com/project/cpe-sws), and is really easy. The whole app can be translated just in a few days. To learn more how help with localization, please read the [translation](./TRANSLATION.md) guide.
 
 ## [![Repography logo](https://images.repography.com/logo.svg)](https://repography.com) / Top contributors
 [![Top contributors](https://images.repography.com/34928945/sws2apps/cpe-sws/top-contributors/dJ8TLGrn5l9eWWbjSJj1aeKPxgfDBAHVIxaeEKUPNfM/-dQ2fTFbTrx2K3kcZ-43AF8lFcsGcaH8ZBhE_Noq0KY_table.svg)](https://github.com/sws2apps/cpe-sws/graphs/contributors)
