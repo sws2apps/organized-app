@@ -19,5 +19,6 @@ export { default as TextField } from './textfield';
 export { default as TextMarkup } from './text_markup';
 export { default as ThemeSwitch } from './theme_switch';
 export { default as Typography } from './typography';
+export * from './user_card';
 export { default as WaitingCircular } from './waiting_circular';
 export * from './test';

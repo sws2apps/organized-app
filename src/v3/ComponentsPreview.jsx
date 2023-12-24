@@ -11,6 +11,7 @@ import {
   Switch,
   Typography,
   TestTS,
+  UserCard,
 } from '@components';
 import { useEffect, useState } from 'react';
 import { IconAdd, IconAssign, IconClose, IconReturn, IconUndo, IconUpdate, IconVisitors } from '@icons';
@@ -365,6 +366,27 @@ const ComponentPreview = () => {
                 <Badge text="Michael Walth" color="orange" size="big" filled icon={<IconVisitors />} />
                 <Badge text="Michael Walth" color="accent" size="big" filled icon={<IconVisitors />} />
                 <Badge text="Michael Walth" color="red" size="big" filled icon={<IconVisitors />} />
+              </Box>
+            </Box>
+
+            <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap', marginTop: '10px' }}>
+              user-card
+              <Box sx={{ display: 'flex', flexDirection: 'row', gap: '8px' }}>
+                <UserCard
+                  name={'Leslie Alexander sgs gsd gs dg f fd'}
+                  onDelete={() => {
+                    console.log('delete');
+                  }}
+                  onEdit={() => {
+                    console.log('edit');
+                  }}
+                  type="personal"
+                  chipLabels={['Ilya', 'Ilya', 'Ilya', 'Ilya', 'Ilya', 'Ilya', 'Ilya']}
+                >
+                  <Badge text="Michael Walth" color="grey" size="small" filled={false} />
+                  <Badge text="Michael Walth" color="green" size="small" filled={false} />
+                  <Badge text="Michael Walth" color="orange" size="small" filled={false} />
+                </UserCard>
               </Box>
             </Box>
             <TestTS />
