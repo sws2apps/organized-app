@@ -18,10 +18,10 @@ module.exports = {
     react: { version: '18.2' },
     'import/resolver': {
       node: {
-        extensions: ['.js', '.jsx'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
       },
       alias: {
-        extensions: ['.js', '.jsx'],
+        extensions:  ['.js', '.jsx', '.ts', '.tsx'],
         map: [
           ['@assets', './src/v3/assets'],
           ['@components', './src/v3/components/index.js'],

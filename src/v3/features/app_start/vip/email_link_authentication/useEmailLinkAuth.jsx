@@ -4,22 +4,16 @@ import { setAuthPersistence, userSignInCustomToken } from '@services/firebase/au
 import { apiUpdatePasswordlessInfo } from '@services/api/user';
 import {
   displayOnboardingFeedback,
-  setCongAccountConnected,
   setCurrentMFAStage,
-  setIsAppLoad,
   setIsCongAccountCreate,
   setIsEmailAuth,
   setIsEmailLinkAuthenticate,
-  setIsSetup,
+  setIsEncryptionCodeOpen,
   setIsUnauthorizedRole,
   setIsUserSignIn,
-  setOfflineOverride,
-  setRootModalOpen,
 } from '@services/recoil/app';
 import { CPE_ROLES } from '@constants/index';
-import { loadApp, runUpdater, updateUserInfoAfterLogin } from '@services/cpe';
-import { apiFetchSchedule } from '@services/api/schedule';
-import { handleUpdateScheduleFromRemote } from '@services/cpe/schedules';
+import { updateUserInfoAfterLogin } from '@services/cpe';
 import { useFeedback } from '@features/app_start';
 import { useAppTranslation } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
@@ -95,34 +89,17 @@ const useEmailLinkAuth = () => {
             // refetch auth after email update
             await userSignInCustomToken(code);
 
-            result.success = true;
+            result.encryption = true;
           }
         }
       } else {
         result.isVerifyMFA = true;
       }
 
-      if (result.success) {
+      if (result.encryption) {
         setSearchParams('');
-        setOfflineOverride(true);
-
-        setIsSetup(false);
         setIsEmailLinkAuthenticate(false);
-
-        await loadApp();
-        await runUpdater();
-
-        await setRootModalOpen(true);
-        const { status: scheduleStatus, data: scheduleData } = await apiFetchSchedule();
-        if (scheduleStatus === 200) {
-          await handleUpdateScheduleFromRemote(scheduleData);
-        }
-        await setRootModalOpen(false);
-
-        setTimeout(() => {
-          setCongAccountConnected(true);
-          setIsAppLoad(false);
-        }, [2000]);
+        setIsEncryptionCodeOpen(true);
       }
 
       if (result.isVerifyMFA) {
