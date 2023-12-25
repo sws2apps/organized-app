@@ -9,6 +9,7 @@ import {
   Radio,
   Switch,
   Typography,
+  Loading,
 } from '@components';
 import { useEffect, useState } from 'react';
 import { IconAdd, IconAssign, IconClose, IconReturn, IconUndo, IconUpdate } from '@icons';
@@ -305,6 +306,9 @@ const ComponentPreview = () => {
               </Box>
             </Box>
           </Box>
+        </Box>
+        <Box>
+          <Loading/>
         </Box>
       </Container>
     </Box>
