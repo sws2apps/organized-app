@@ -80,11 +80,11 @@ const useCongregation = () => {
 
       if (status === 200) {
         worker.postMessage({ field: 'lastBackup', value: new Date().toISOString() });
-
-        await setIsAppDataSyncing(false);
       }
+
+      await setIsAppDataSyncing(false);
     } catch (err) {
-      console.error(err);
+      await setIsAppDataSyncing(false);
     }
   };
 
