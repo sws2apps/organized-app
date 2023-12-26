@@ -4,7 +4,7 @@ import { useMediaQuery, useTheme } from '@mui/material';
 import { setIsAboutOpen, setIsSupportOpen } from '@services/recoil/app';
 import { useAppTranslation } from '@hooks/index';
 import { isAppLoadState } from '@states/app';
-import { avatarUrlState, congNameState, fullnameState } from '@states/settings';
+import { congNameState, fullnameState } from '@states/settings';
 
 const useNavbar = () => {
   const { t } = useAppTranslation();
@@ -14,7 +14,6 @@ const useNavbar = () => {
   const isAppLoad = useRecoilValue(isAppLoadState);
   const fullname = useRecoilValue(fullnameState);
   const congName = useRecoilValue(congNameState);
-  const userAvatar = useRecoilValue(avatarUrlState);
 
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -71,7 +70,6 @@ const useNavbar = () => {
     isAppLoad,
     fullname,
     congName,
-    userAvatar,
     mobileUp,
     tabletUp,
     laptopUp,

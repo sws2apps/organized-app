@@ -1,7 +1,7 @@
-import { Avatar, Box, Container, IconButton, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material';
-import { Typography } from '@components';
+import { Box, Container, IconButton, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material';
+import { AccountHeaderIcon, Typography } from '@components';
 import { AppNotification, LanguageSwitcher, ThemeSwitcher } from '@features/index';
-import { IconAccount, IconDonate, IconHelp, IconInfo, IconLogo, IconMenu } from '@icons';
+import { IconDonate, IconHelp, IconInfo, IconLogo, IconMenu } from '@icons';
 import { useAppTranslation } from '@hooks/index';
 import useNavbar from './useNavbar';
 
@@ -35,7 +35,6 @@ const NavBar = () => {
     handleOpenDoc,
     fullname,
     congName,
-    userAvatar,
     mobileUp,
     tabletUp,
     laptopUp,
@@ -111,8 +110,7 @@ const NavBar = () => {
                   </Box>
                 )}
 
-                {userAvatar && <Avatar alt="Avatar" src={userAvatar} sx={{ width: 32, height: 32 }} />}
-                {!userAvatar && <IconAccount width={35} height={35} color="var(--black)" />}
+                <AccountHeaderIcon />
               </Box>
             )}
           </IconButton>
