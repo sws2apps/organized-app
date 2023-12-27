@@ -14,7 +14,8 @@
     "preview": "serve -l 5000 -s dist",
     "test": "npm run cypress:component-test",
     "cypress:open": "cypress open",
-    "cypress:component-test": "cypress run --component --browser chrome"
+    "cypress:component-test": "cypress run --component --browser chrome",
+    "locales:unused": "node unused-i18n-keys.js"
   },
   "eslintConfig": {
     "extends": [
