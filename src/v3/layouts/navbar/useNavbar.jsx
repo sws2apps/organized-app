@@ -55,7 +55,7 @@ const useNavbar = () => {
 
   const handleOpenDoc = () => {
     handleCloseMore();
-    window.open(`https://sws2apps.com/${t('docsUrlCode')}/category/congregation-program-for-everyone`, '_blank');
+    window.open(`https://sws2apps.com/${t('trans_docsUrlCode')}/category/congregation-program-for-everyone`, '_blank');
   };
 
   return {

@@ -37,7 +37,7 @@ const CongregationInfo = ({ setIsCreate }) => {
       }}
     >
       <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', width: '100%' }}>
-        <PageHeader title={t('createCongregationAccount')} onClick={() => setIsCreate(false)} />
+        <PageHeader title={t('trans_createCongregationAccount')} onClick={() => setIsCreate(false)} />
 
         <Box
           sx={{
@@ -59,7 +59,7 @@ const CongregationInfo = ({ setIsCreate }) => {
             }}
           >
             <TextField
-              label={t('firstname')}
+              label={t('trans_firstname')}
               variant="outlined"
               autoComplete="off"
               required={true}
@@ -69,7 +69,7 @@ const CongregationInfo = ({ setIsCreate }) => {
               startIcon={<IconAccount />}
             />
             <TextField
-              label={t('lastname')}
+              label={t('trans_lastname')}
               variant="outlined"
               autoComplete="off"
               value={userTmpLastName}
@@ -87,7 +87,7 @@ const CongregationInfo = ({ setIsCreate }) => {
             sx={{ width: '100%' }}
             startIcon={isProcessing ? <IconLoading width={22} height={22} /> : null}
           >
-            {t('createCongregation')}
+            {t('trans_createCongregation')}
           </Button>
         </Box>
       </Box>

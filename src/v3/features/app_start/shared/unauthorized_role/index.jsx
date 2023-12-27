@@ -30,9 +30,9 @@ const UnauthorizedRole = () => {
             flexDirection: 'column',
           }}
         >
-          <Typography variant="h1">{t('unauthorized')}</Typography>
+          <Typography variant="h1">{t('trans_unauthorized')}</Typography>
           <TextMarkup
-            content={t('unauthorizedRole')}
+            content={t('trans_unauthorizedRole')}
             className="body-regular"
             color="var(--grey-400)"
             anchorClassName="h4"

@@ -38,8 +38,8 @@ const useCongregationInfo = () => {
     try {
       if (userTmpFirstName.length === 0 || country === null || congregation === null) {
         await displayOnboardingFeedback({
-          title: t('missingInfo'),
-          message: t('incompleteCongregationInfo'),
+          title: t('trans_missingInfo'),
+          message: t('trans_incompleteCongregationInfo'),
         });
         showMessage();
 
@@ -59,7 +59,7 @@ const useCongregationInfo = () => {
 
       if (status !== 200 && status !== 404) {
         await displayOnboardingFeedback({
-          title: t('errorGeneric'),
+          title: t('trans_errorGeneric'),
           message: getMessageByCode(data.message),
         });
         showMessage();
@@ -70,8 +70,8 @@ const useCongregationInfo = () => {
 
       if (status === 404) {
         await displayOnboardingFeedback({
-          title: t('errorGeneric'),
-          message: t('congregationExists'),
+          title: t('trans_errorGeneric'),
+          message: t('trans_congregationExists'),
         });
         showMessage();
 
@@ -101,7 +101,7 @@ const useCongregationInfo = () => {
     } catch (err) {
       if (!cancel.current) {
         await displayOnboardingFeedback({
-          title: t('errorGeneric'),
+          title: t('trans_errorGeneric'),
           message: getMessageByCode(err.message),
         });
         showMessage();

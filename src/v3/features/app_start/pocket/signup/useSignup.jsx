@@ -47,8 +47,8 @@ const useSignup = () => {
       setTimeout(async () => {
         if (code.length < 10) {
           await displayOnboardingFeedback({
-            title: t('wrongInvitationCode'),
-            message: t('checkInvitationCode'),
+            title: t('trans_wrongInvitationCode'),
+            message: t('trans_checkInvitationCode'),
           });
           showMessage();
           setIsProcessing(false);
@@ -59,7 +59,7 @@ const useSignup = () => {
 
         if (status !== 200) {
           await displayOnboardingFeedback({
-            title: t('errorTryAgain'),
+            title: t('trans_errorTryAgain'),
             message: getMessageByCode(data.message),
           });
 
@@ -96,7 +96,7 @@ const useSignup = () => {
     } catch (err) {
       setIsProcessing(false);
       await displayOnboardingFeedback({
-        title: t('errorTryAgain'),
+        title: t('trans_errorTryAgain'),
         message: getMessageByCode(err.message),
       });
       showMessage();

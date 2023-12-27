@@ -95,12 +95,12 @@ const CPEAutoComplete = ({
       onInputChange={onInputChange}
       noOptionsText={
         <Box sx={{ backgroundColor: 'var(--white)' }}>
-          <Typography variant="body-regular">{t('noOptions')}</Typography>
+          <Typography variant="body-regular">{t('trans_noOptions')}</Typography>
         </Box>
       }
       loadingText={
         <Box sx={{ backgroundColor: 'var(--white)' }}>
-          <Typography variant="body-regular">{t('loading')}</Typography>
+          <Typography variant="body-regular">{t('trans_loading')}</Typography>
         </Box>
       }
       renderOption={renderOption}

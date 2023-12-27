@@ -12,7 +12,7 @@ const EmailLinkAuthentication = () => {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-      <PageHeader title={t('emailAuth')} description={t('emailAuthDescComplete')} onClick={handleReturn} />
+      <PageHeader title={t('trans_emailAuth')} description={t('trans_emailAuthDescComplete')} onClick={handleReturn} />
 
       <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '24px' }}>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
@@ -22,7 +22,7 @@ const EmailLinkAuthentication = () => {
             sx={{ padding: '8px 32px', minHeight: '44px' }}
             startIcon={isProcessing ? <IconLoading width={22} height={22} /> : null}
           >
-            {t('login')}
+            {t('trans_login')}
           </Button>
         </Box>
 

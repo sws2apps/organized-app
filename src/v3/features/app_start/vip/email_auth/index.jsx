@@ -23,12 +23,12 @@ const EmailAuth = () => {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-      <PageHeader title={t('emailAuth')} description={t('emailAuthDesc')} onClick={handleProviderSignIn} />
+      <PageHeader title={t('trans_emailAuth')} description={t('trans_emailAuthDesc')} onClick={handleProviderSignIn} />
 
       <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '24px' }}>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
           <TextField
-            label={t('email')}
+            label={t('trans_email')}
             value={userTmpEmail}
             onChange={(e) => setUserTmpEmail(e.target.value)}
             sx={{ width: '100%', color: 'var(--black)' }}
@@ -41,7 +41,7 @@ const EmailAuth = () => {
             sx={{ padding: '8px 32px', minHeight: '44px' }}
             startIcon={isProcessing ? <IconLoading width={22} height={22} /> : null}
           >
-            {t('sendLink')}
+            {t('trans_sendLink')}
           </Button>
           {devLink.length > 0 && (
             <Box sx={{ display: 'flex', gap: '20px' }}>

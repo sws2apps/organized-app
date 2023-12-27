@@ -7,15 +7,15 @@ const MeetingsMaterialsCard = () => {
   const { t } = useAppTranslation();
 
   return (
-    <DashboardCard header={t('meetingMaterials')}>
+    <DashboardCard header={t('trans_meetingMaterials')}>
       <ListItem disablePadding>
-        <DashboardMenu icon={<IconPodium color="var(--black)" />} primaryText={t('publicTalksList')} />
+        <DashboardMenu icon={<IconPodium color="var(--black)" />} primaryText={t('trans_publicTalksList')} />
       </ListItem>
       <ListItem disablePadding>
-        <DashboardMenu icon={<IconJwOrg color="var(--black)" />} primaryText={t('sourceImportJw')} />
+        <DashboardMenu icon={<IconJwOrg color="var(--black)" />} primaryText={t('trans_sourceImportJw')} />
       </ListItem>
       <ListItem disablePadding>
-        <DashboardMenu icon={<IconImportFile color="var(--black)" />} primaryText={t('sourceImportEPUB')} />
+        <DashboardMenu icon={<IconImportFile color="var(--black)" />} primaryText={t('trans_sourceImportEPUB')} />
       </ListItem>
     </DashboardCard>
   );
