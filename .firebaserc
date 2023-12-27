@@ -1,7 +1,0 @@
-{
-	"projects": {
-		"production": "cpe-sws",
-		"default": "cpe-sws"
-	},
-	"targets": {}
-}
