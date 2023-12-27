@@ -1,7 +1,5 @@
 {
   "trans_errorTitle": "An error occured",
-  "trans_newVersion": "A new version of Organized is available",
-  "trans_cacheCompleted": "Organized can be used offline now",
   "trans_about": "About the app",
   "trans_appFullName": "Organized",
   "trans_appShortName": "Organized",
@@ -21,6 +19,12 @@
   "trans_supportAppOption1Desc": "<p>Your donations power Organized’ development and keep the app free for every congregation. Currently covering server costs, they ensure the best experience. In the future, they'll aid in expanding capabilities and adding new features. Your generosity fuels ongoing improvements for many congregations all over the world.</p>",
   "trans_makeDonation": "Make a donation",
   "trans_supportAppOption2": "Option 2: Contribute",
-  "trans_trans_supportAppOption2Desc": "<p>We’ll be happy if you can help us with the following areas:</p><ul><li>React development</li><li>UI/UX Design</li><li>App translation</li></ul><p>If you can help a hand in any of these areas, please <a href='mailto:sws2apps.notification@gmail.com'>contact us</a>. Let's work together to make Organized better!</p><p>Also, recommending Organized to others helps expand its reach and benefits congregations. Your contribution, in any form, is invaluable in enhancing the app and transforming it into a better tool for everyone.</p>",
-  "trans_howToContribute": "How to contribute"
+  "trans_supportAppOption2Desc": "<p>We’ll be happy if you can help us with the following areas:</p><ul><li>React development</li><li>UI/UX Design</li><li>App translation</li></ul><p>If you can help a hand in any of these areas, please <a href='mailto:sws2apps.notification@gmail.com'>contact us</a>. Let's work together to make Organized better!</p><p>Also, recommending Organized to others helps expand its reach and benefits congregations. Your contribution, in any form, is invaluable in enhancing the app and transforming it into a better tool for everyone.</p>",
+  "trans_howToContribute": "How to contribute",
+  "trans_changeLanguage": "Language",
+  "trans_languageMissing": "My language is not here",
+  "trans_internalError": "An internal error has occured in our side. Please try again later.",
+  "trans_loading": "Loading...",
+  "trans_noOptions": "No options",
+  "trans_pleaseWait": "Please wait ..."
 }
