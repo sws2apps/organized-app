@@ -21,10 +21,10 @@
   "trans_supportAppOption2": "Option 2: Contribute",
   "trans_supportAppOption2Desc": "<p>We’ll be happy if you can help us with the following areas:</p><ul><li>React development</li><li>UI/UX Design</li><li>App translation</li></ul><p>If you can help a hand in any of these areas, please <a href='mailto:sws2apps.notification@gmail.com'>contact us</a>. Let's work together to make Organized better!</p><p>Also, recommending Organized to others helps expand its reach and benefits congregations. Your contribution, in any form, is invaluable in enhancing the app and transforming it into a better tool for everyone.</p>",
   "trans_howToContribute": "How to contribute",
-  "trans_changeLanguage": "Language",
-  "trans_languageMissing": "My language is not here",
-  "trans_internalError": "An internal error has occured in our side. Please try again later.",
-  "trans_loading": "Loading...",
-  "trans_noOptions": "No options",
-  "trans_pleaseWait": "Please wait ..."
+  "trans_changeLanguage": "Мова",
+  "trans_languageMissing": "Тут немає моєї мови",
+  "trans_internalError": "З нашої сторони сталася внутрішня помилка. Будь ласка, спробуйте ще раз пізніше.",
+  "trans_loading": "Завантаження...",
+  "trans_noOptions": "Немає",
+  "trans_pleaseWait": "Будь ласка, зачекайте ..."
 }
