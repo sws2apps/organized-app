@@ -21,7 +21,7 @@ const AppModalWrapper = ({ children }) => {
           aria-labelledby="alert-dialog-close-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-close-title">{t('pleaseWait')}</DialogTitle>
+          <DialogTitle id="alert-dialog-close-title">{t('trans_pleaseWait')}</DialogTitle>
           <DialogContent>
             <CircularProgress
               color="secondary"

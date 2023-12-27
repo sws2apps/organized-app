@@ -7,15 +7,18 @@ const ReportsCard = () => {
   const { t } = useAppTranslation();
 
   return (
-    <DashboardCard header={t('reports')}>
+    <DashboardCard header={t('trans_reports')}>
       <ListItem disablePadding>
-        <DashboardMenu icon={<IconVisitors color="var(--black)" />} primaryText={t('meetingAttendanceRecord')} />
+        <DashboardMenu icon={<IconVisitors color="var(--black)" />} primaryText={t('trans_meetingAttendanceRecord')} />
       </ListItem>
       <ListItem disablePadding>
-        <DashboardMenu icon={<IconPublishersReports color="var(--black)" />} primaryText={t('fieldServiceReports')} />
+        <DashboardMenu
+          icon={<IconPublishersReports color="var(--black)" />}
+          primaryText={t('trans_fieldServiceReports')}
+        />
       </ListItem>
       <ListItem disablePadding>
-        <DashboardMenu icon={<IconReportToBranch color="var(--black)" />} primaryText={t('branchOfficeReport')} />
+        <DashboardMenu icon={<IconReportToBranch color="var(--black)" />} primaryText={t('trans_branchOfficeReport')} />
       </ListItem>
     </DashboardCard>
   );

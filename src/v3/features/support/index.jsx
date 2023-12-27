@@ -23,22 +23,22 @@ const Support = () => {
               flex: '1 0 0',
             }}
           >
-            <Typography variant="h2">{t('supportApp')}</Typography>
+            <Typography variant="h2">{t('trans_supportApp')}</Typography>
             <IconButton disableRipple sx={{ padding: 0, margin: 0 }} onClick={handleClose}>
               <IconClose color="var(--black)" />
             </IconButton>
           </Box>
         </Box>
-        <TextMarkup content={t('supportAppDesc')} className="body-regular" />
+        <TextMarkup content={t('trans_supportAppDesc')} className="body-regular" />
       </Box>
 
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          <Typography variant="h4">{t('supportAppOption1')}</Typography>
-          <TextMarkup content={t('supportAppOption1Desc')} className="body-regular" />
+          <Typography variant="h4">{t('trans_supportAppOption1')}</Typography>
+          <TextMarkup content={t('trans_supportAppOption1Desc')} className="body-regular" />
         </Box>
         <Button variant="tertiary" startIcon={<IconDonate />} onClick={handleOpenDonate}>
-          {t('makeDonation')}
+          {t('trans_makeDonation')}
         </Button>
       </Box>
 
@@ -46,11 +46,11 @@ const Support = () => {
 
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          <Typography variant="h4">{t('supportAppOption2')}</Typography>
-          <TextMarkup content={t('supportAppOption2Desc')} className="body-regular" anchorClassName="h4" />
+          <Typography variant="h4">{t('trans_supportAppOption2')}</Typography>
+          <TextMarkup content={t('trans_supportAppOption2Desc')} className="body-regular" anchorClassName="h4" />
         </Box>
         <Button variant="tertiary" startIcon={<IconDutiesDistribution />} onClick={handleOpenDoc}>
-          {t('howToContribute')}
+          {t('trans_howToContribute')}
         </Button>
       </Box>
     </Dialog>

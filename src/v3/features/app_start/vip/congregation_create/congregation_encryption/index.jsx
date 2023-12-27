@@ -43,8 +43,8 @@ const CongregationEncryption = () => {
         <>
           <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', width: '100%' }}>
             <PageHeader
-              title={t('encryptionCode')}
-              description={t(isSetupCode ? 'encryptionCodeSetupDesc' : 'encryptionCodeLostDesc')}
+              title={t('trans_encryptionCode')}
+              description={t(isSetupCode ? 'trans_encryptionCodeSetupDesc' : 'trans_encryptionCodeLostDesc')}
             />
 
             {isSetupCode && (
@@ -61,7 +61,7 @@ const CongregationEncryption = () => {
               >
                 <IconError color="var(--red-main)" />
                 <Typography variant="body-regular" color="var(--red-main)">
-                  {t('encryptionCodeNotice')}
+                  {t('trans_encryptionCodeNotice')}
                 </Typography>
               </Box>
             )}
@@ -77,7 +77,7 @@ const CongregationEncryption = () => {
               }}
             >
               <TextField
-                label={t(isSetupCode ? 'encryptionCodeCreate' : 'encryptionCodeAsk')}
+                label={t(isSetupCode ? 'trans_encryptionCodeCreate' : 'trans_encryptionCodeAsk')}
                 variant="outlined"
                 autoComplete="off"
                 value={tmpEncryptionCode}
@@ -87,11 +87,14 @@ const CongregationEncryption = () => {
                 helperText={
                   isSetupCode ? (
                     <Box sx={{ padding: '8px 0px 0px 16px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                      <Criteria criteria={t('encryptionCodeNoticeLength')} passed={isLengthPassed} />
-                      <Criteria criteria={t('encryptionCodeNoticeNumber')} passed={isNumberPassed} />
-                      <Criteria criteria={t('encryptionCodeNoticeLowerCase')} passed={isLowerCasePassed} />
-                      <Criteria criteria={t('encryptionCodeNoticeUpperCase')} passed={isUpperCasePassed} />
-                      <Criteria criteria={t('encryptionCodeNoticeSpecialSymbol')} passed={isSpecialSymbolPassed} />
+                      <Criteria criteria={t('trans_encryptionCodeNoticeLength')} passed={isLengthPassed} />
+                      <Criteria criteria={t('trans_encryptionCodeNoticeNumber')} passed={isNumberPassed} />
+                      <Criteria criteria={t('trans_encryptionCodeNoticeLowerCase')} passed={isLowerCasePassed} />
+                      <Criteria criteria={t('trans_encryptionCodeNoticeUpperCase')} passed={isUpperCasePassed} />
+                      <Criteria
+                        criteria={t('trans_encryptionCodeNoticeSpecialSymbol')}
+                        passed={isSpecialSymbolPassed}
+                      />
                     </Box>
                   ) : null
                 }
@@ -110,7 +113,7 @@ const CongregationEncryption = () => {
                   !isSpecialSymbolPassed
                 }
               >
-                {t(isSetupCode ? 'encryptionCodeSet' : 'encryptionCodeValidate')}
+                {t(isSetupCode ? 'trans_encryptionCodeSet' : 'trans_encryptionCodeValidate')}
               </Button>
             </Box>
           </Box>

@@ -18,7 +18,7 @@ const LanguageSwitcher = ({ menuStyle }) => {
           <IconLanguage color="var(--black)" />
         </ListItemIcon>
         <ListItemText>
-          <Typography variant="body-regular">{t('changeLanguage')}</Typography>
+          <Typography variant="body-regular">{t('trans_changeLanguage')}</Typography>
         </ListItemText>
       </MenuItem>
       <Menu
@@ -92,7 +92,7 @@ const LanguageSwitcher = ({ menuStyle }) => {
             </ListItemIcon>
             <ListItemText>
               <Typography variant="body-small-semibold" color="var(--accent-dark)">
-                {t('languageMissing')}
+                {t('trans_languageMissing')}
               </Typography>
             </ListItemText>
           </Link>
