@@ -49,7 +49,7 @@
   "trans_lastname": "Прізвище",
   "trans_encryptionCode": "Код шифрування",
   "trans_encryptionCodeSetupDesc": "Створіть свій власний код шифрування для збору.",
-  "trans_encryptionCodeLostDesc": "Your code has been locally deleted. Enter your own encryption code for the congregation",
+  "trans_encryptionCodeLostDesc": "Код є дуже важливим для забезпечення повного захисту інформації про ваш збір. Будь ласка, введи його, щоб перейти до твого збору.",
   "trans_encryptionCodeNotice": "Запиши цей код і зберігай його в безпеці. Якщо ти втратиш його, ти втратиш всі дані твого збору.",
   "trans_encryptionCodeCreate": "Створити код шифрування",
   "trans_encryptionCodeNoticeLength": "Мінімум 16 символів",
