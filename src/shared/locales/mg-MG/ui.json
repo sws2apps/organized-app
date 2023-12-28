@@ -225,7 +225,7 @@
   "s89NoData": "Tsy misy anjara azo atao pirinty ao amin’io fandaharana io",
   "publishPocket": "Hizara Fandaharana",
   "publishSelectSchedule": "Safidio ny fandaharana tianao ho alefa:",
-  "publishSuccess": "Schedule published sucessfully",
+  "publishSuccess": "Lasa soa aman-tsara ny fandaharana",
   "weeksList": "Lisitr’ireo Herinandro",
   "assignedParts": "Anjara Efa Notendrena",
   "deleteScheduleConfirm": "Tianao hofafana ve ny fanendrena rehetra ao amin’ny fandaharana {{ currentSchedule }}?",
