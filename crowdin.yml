@@ -1,0 +1,6 @@
+pull_request_title: 'feat(localize): updated translation from Crowdin'
+pull_request_labels:
+  - crowdin
+files:
+  - source: /src/shared/locales/en/*.json
+    translation: /src/shared/locales/%locale%/%original_file_name%

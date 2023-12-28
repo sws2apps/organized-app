@@ -1,0 +1,10 @@
+export { default as CongregationFindPerson } from './CongregationFindPerson';
+export { default as CongregationPersonAdd } from './CongregationPersonAdd';
+export { default as CongregationPersonBasic } from './CongregationPersonBasic';
+export { default as CongregationPersonDelegates } from './CongregationPersonDelegates';
+export { default as CongregationPersonLocalRecord } from './CongregationPersonLocalRecord';
+export { default as CongregationPersonPocketDevice } from './CongregationPersonPocketDevice';
+export { default as CongregationPersonPocketSetup } from './CongregationPersonPocketSetup';
+export { default as CongregationPersonRoles } from './CongregationPersonRoles';
+export { default as CongregationPersons } from './CongregationPersons';
+export { default as CongregationPersonVipDevice } from './CongregationPersonVipDevice';

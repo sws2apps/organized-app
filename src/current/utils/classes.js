@@ -1,0 +1,44 @@
+import appDb from '../../shared/indexedDb/mainDb';
+import { AssignmentType } from '../classes/AssignmentType';
+import { FSGList } from '../classes/FSGList';
+import { S88s } from '../classes/S88s';
+import { Persons } from '../classes/Persons';
+import { Schedules } from '../classes/Schedules';
+import { ServiceYear } from '../classes/ServiceYear';
+import { Setting } from '../classes/Setting';
+import { Sources } from '../classes/Sources';
+import { WeekTypeList } from '../classes/WeekType';
+import { S21s } from '../classes/S21s';
+import { MinutesReports } from '../classes/MinutesReports';
+import { S1s } from '../classes/S1s';
+import { LateReports } from '../classes/LateReports';
+import { BibleStudies } from '../classes/BibleStudies';
+import { UserS4Records } from '../classes/UserS4Records';
+import { S34s } from '../classes/S34s';
+import { VisitingSpeakers } from '../classes/VisitingSpeakers';
+
+export const classesInitialize = async () => {
+	await appDb.open();
+	await Setting.load();
+	await AssignmentType.loadAll();
+	await WeekTypeList.loadAll();
+	await Sources.loadAll();
+	await Persons.loadAll();
+	await VisitingSpeakers.loadAll();
+	await S34s.loadAll();
+	await Schedules.loadAll();
+	await FSGList.loadAll();
+	await ServiceYear.loadAll();
+	await ServiceYear.checkCurrent();
+	await S88s.loadAll();
+	await S21s.loadAll();
+	await MinutesReports.loadAll();
+	await LateReports.loadAll();
+	await S1s.loadAll();
+	await BibleStudies.loadAll();
+	await UserS4Records.loadAll();
+	Schedules.buildTalkHistory();
+	Schedules.buildHistory();
+
+	console.info('CPE: classes initialized');
+};
