@@ -32,7 +32,7 @@
     "@fontsource/poppins": "^5.0.8",
     "@fontsource/roboto": "^5.0.8",
     "@mui/icons-material": "^5.14.19",
-    "@mui/material": "^5.15.2",
+    "@mui/material": "^5.14.19",
     "@mui/x-date-pickers": "^6.18.3",
     "@mui/x-tree-view": "^6.17.0",
     "@react-pdf/renderer": "^3.1.14",
