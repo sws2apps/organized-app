@@ -225,7 +225,7 @@
   "s89NoData": "Es gibt keine Aufgabe für diesen Plan zu drucken",
   "publishPocket": "Plan teilen",
   "publishSelectSchedule": "Wählen Sie den Plan aus, den Sie teilen möchten:",
-  "publishSuccess": "Schedule published sucessfully",
+  "publishSuccess": "Plan erfolgreich veröffentlicht",
   "weeksList": "Wochenliste",
   "assignedParts": "Zugewiesene Teile",
   "deleteScheduleConfirm": "Sind Sie sicher, dass Sie alle Aufgaben für den {{ currentSchedule }} Plan löschen möchten?",
