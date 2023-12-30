@@ -23,20 +23,12 @@ const Loading = () => {
     width: '72px',
     height: '72px',
   }
-  const textStyle={
-    color: 'var(--accent-main)',
-    textAlign: 'center',
-    fontFamily: 'Inter',
-    fontSize: '16px',
-    fontStyle: 'normal',
-    fontWeight: '550',
-    lineHeight: '20px'
-  }
+
 
   return (
     <Box sx={boxStyles}>
       <IconLoading sx={circleLoading} color='var(--accent-main)'/>
-      <Typography  sx={textStyle} mt={2}>{t('Loading...')}</Typography>
+      <Typography  variant='H4'color={'var(--accent-main, #5065D0)'} textAlign={'center'}>{t('Loading...')}</Typography>
     </Box>
   );
 };
