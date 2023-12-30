@@ -15,10 +15,10 @@ const AppUpdater = ({ updatePwa }) => {
       position="top-center"
       variant="message-with-button"
       actionIcon={<IconUpdate />}
-      actionText={t('updateApp')}
+      actionText={t('trans_updateApp')}
       actionClick={handleAppUpdated}
-      messageHeader={t('updateAvailable')}
-      message={t('updateDescription')}
+      messageHeader={t('trans_updateAvailable')}
+      message={t('trans_updateDescription')}
     />
   );
 };

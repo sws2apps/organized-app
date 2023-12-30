@@ -8,7 +8,9 @@ const provider = authProvider.GitHub;
 const OAuthGitHub = () => {
   const { t } = useAppTranslation();
 
-  return <OAuthButtonBase provider={provider} text={t('oauthGithub')} logo={<IconGithub color="var(--black)" />} />;
+  return (
+    <OAuthButtonBase provider={provider} text={t('trans_oauthGithub')} logo={<IconGithub color="var(--black)" />} />
+  );
 };
 
 export default OAuthGitHub;

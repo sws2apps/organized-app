@@ -5,6 +5,7 @@ import {
   FilterChip,
   MiniChip,
   MinusButton,
+  Badge,
   PlusButton,
   Radio,
   Switch,
@@ -12,7 +13,8 @@ import {
   InfoTip,
 } from '@components';
 import { useEffect, useState } from 'react';
-import { IconAdd, IconAssign, IconClose, IconReturn, IconUndo, IconUpdate } from '@icons';
+import { IconAdd, IconAssign, IconClose, IconReturn, IconUndo, IconUpdate, IconInfo, IconVisitors } from '@icons';
+
 import { NavBar } from './layouts';
 
 const themes = ['blue', 'green', 'orange', 'purple'];
@@ -293,7 +295,7 @@ const ComponentPreview = () => {
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 <Typography variant="label-small-regular">mini-chip</Typography>
                 <Box sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                  <MiniChip label="Ilya" edit={true} onDelete={() => {}} />
+                  <MiniChip label="Ilya" edit={true} />
                   <MiniChip label="Ilya" />
                 </Box>
               </Box>
@@ -303,6 +305,105 @@ const ComponentPreview = () => {
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 <Typography variant="label-small-regular">switch</Typography>
                 <Switch checked={checked} onChange={(e) => setChecked(e.target.checked)} />
+              </Box>
+            </Box>
+
+            <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap', marginTop: '10px' }}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <Typography variant="label-small-regular">info-tip:</Typography>
+
+                <Typography variant="label-small-regular">info</Typography>
+                <InfoTip
+                  isBig={false}
+                  icon={<IconInfo />}
+                  color="white"
+                  text="Select a territory to see detailed assignment history"
+                />
+
+                <Typography variant="label-small-regular">info-big</Typography>
+                <InfoTip
+                  isBig={true}
+                  title="You don’t have any territories yet"
+                  color="white"
+                  text="Do you want to have one? Click “Get new territory” to see the list of available territories and pick one that you want to work on."
+                />
+
+                <Typography variant="label-small-regular">info-alt</Typography>
+                <InfoTip
+                  isBig={false}
+                  icon={<IconInfo />}
+                  color="blue"
+                  text="You don’t have any other congregations yet. Add one here to see their speakers list and use it in schedules."
+                />
+
+                <Typography variant="label-small-regular">info-alt-big</Typography>
+                <InfoTip
+                  isBig={true}
+                  icon={<IconInfo />}
+                  title="My previous territories"
+                  color="blue"
+                  text="You don’t have any territories in the history. New territories will appear here after you cover and return them."
+                />
+              </Box>
+            </Box>
+            <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap', marginTop: '10px' }}>
+              badge-small
+              <Box sx={{ display: 'flex', flexDirection: 'row', gap: '8px' }}>
+                <Badge text="Michael Walth" color="grey" size="small" filled={false} />
+                <Badge text="Michael Walth" color="green" size="small" filled={false} icon={<IconVisitors />} />
+                <Badge text="Michael Walth" color="orange" size="small" filled={false} icon={<IconVisitors />} />
+                <Badge text="Michael Walth" color="accent" size="small" filled={false} icon={<IconVisitors />} />
+                <Badge text="Michael Walth" color="red" size="small" filled={false} icon={<IconVisitors />} />
+              </Box>
+            </Box>
+            <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap', marginTop: '10px' }}>
+              badge-small-filled
+              <Box sx={{ display: 'flex', flexDirection: 'row', gap: '8px' }}>
+                <Badge text="Michael Walth" color="grey" size="small" filled icon={<IconVisitors />} />
+                <Badge text="Michael Walth" color="green" size="small" filled icon={<IconVisitors />} />
+                <Badge text="Michael Walth" color="orange" size="small" filled icon={<IconVisitors />} />
+                <Badge text="Michael Walth" color="accent" size="small" filled icon={<IconVisitors />} />
+                <Badge text="Michael Walth" color="red" size="small" filled icon={<IconVisitors />} />
+              </Box>
+            </Box>
+            <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap', marginTop: '10px' }}>
+              badge-medium
+              <Box sx={{ display: 'flex', flexDirection: 'row', gap: '8px' }}>
+                <Badge text="Michael Walth" color="grey" size="medium" filled={false} icon={<IconVisitors />} />
+                <Badge text="Michael Walth" color="green" size="medium" filled={false} icon={<IconVisitors />} />
+                <Badge text="Michael Walth" color="orange" size="medium" filled={false} icon={<IconVisitors />} />
+                <Badge text="Michael Walth" color="accent" size="medium" filled={false} icon={<IconVisitors />} />
+                <Badge text="Michael Walth" color="red" size="medium" filled={false} icon={<IconVisitors />} />
+              </Box>
+            </Box>
+            <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap', marginTop: '10px' }}>
+              badge-medium-filled
+              <Box sx={{ display: 'flex', flexDirection: 'row', gap: '8px' }}>
+                <Badge text="Michael Walth" color="grey" size="medium" filled icon={<IconVisitors />} />
+                <Badge text="Michael Walth" color="green" size="medium" filled icon={<IconVisitors />} />
+                <Badge text="Michael Walth" color="orange" size="medium" filled icon={<IconVisitors />} />
+                <Badge text="Michael Walth" color="accent" size="medium" filled icon={<IconVisitors />} />
+                <Badge text="Michael Walth" color="red" size="medium" filled icon={<IconVisitors />} />
+              </Box>
+            </Box>
+            <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap', marginTop: '10px' }}>
+              badge-big
+              <Box sx={{ display: 'flex', flexDirection: 'row', gap: '8px' }}>
+                <Badge text="Michael Walth" color="grey" size="big" filled={false} icon={<IconVisitors />} />
+                <Badge text="Michael Walth" color="green" size="big" filled={false} icon={<IconVisitors />} />
+                <Badge text="Michael Walth" color="orange" size="big" filled={false} icon={<IconVisitors />} />
+                <Badge text="Michael Walth" color="accent" size="big" filled={false} icon={<IconVisitors />} />
+                <Badge text="Michael Walth" color="red" size="big" filled={false} icon={<IconVisitors />} />
+              </Box>
+            </Box>
+            <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap', marginTop: '10px' }}>
+              badge-big-filled
+              <Box sx={{ display: 'flex', flexDirection: 'row', gap: '8px' }}>
+                <Badge text="Disqualified" color="grey" size="big" filled icon={<IconVisitors />} />
+                <Badge text="Michael Walth" color="green" size="big" filled icon={<IconVisitors />} />
+                <Badge text="Michael Walth" color="orange" size="big" filled icon={<IconVisitors />} />
+                <Badge text="Michael Walth" color="accent" size="big" filled icon={<IconVisitors />} />
+                <Badge text="Michael Walth" color="red" size="big" filled icon={<IconVisitors />} />
               </Box>
             </Box>
           </Box>

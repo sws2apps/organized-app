@@ -18,9 +18,9 @@ const Dashboard = () => {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
       <Box>
-        <Typography variant="h1">{t('dashboardGreeting', { firstName })} &#128075;</Typography>
+        <Typography variant="h1">{t('trans_greeting', { firstName })} &#128075;</Typography>
         <TextMarkup
-          content={t('dashboardMeetingAssignments', { assignment: 3 })}
+          content={t('trans_meetingAssignments', { assignment: 3 })}
           className="h3"
           anchorClassName="h3"
           anchorColor="var(--accent-main)"
@@ -46,8 +46,8 @@ const Dashboard = () => {
           open={isCongNew}
           variant="success"
           messageIcon={<IconCheckCircle color="var(--always-white)" />}
-          messageHeader={t('welcomeCongregationTitle')}
-          message={t('welcomeCongregationDesc')}
+          messageHeader={t('trans_welcomeCongregationTitle')}
+          message={t('trans_welcomeCongregationDesc')}
           onClose={handleCloseNewCongNotice}
         />
       )}

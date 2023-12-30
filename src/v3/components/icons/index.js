@@ -70,6 +70,7 @@ export { default as IconGoogle } from './IconGoogle';
 export { default as IconGroupMeetingsSchedules } from './IconGroupMeetingsSchedules';
 export { default as IconGroupOverseer } from './IconGroupOverseer';
 export { default as IconGroups } from './IconGroups';
+export { default as IconHeaderAccount } from './IconHeaderAccount';
 export { default as IconHelp } from './IconHelp';
 export { default as IconHistory } from './IconHistory';
 export { default as IconHome } from './IconHome';

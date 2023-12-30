@@ -4,7 +4,7 @@ import { useMediaQuery, useTheme } from '@mui/material';
 import { setIsAboutOpen, setIsSupportOpen } from '@services/recoil/app';
 import { useAppTranslation } from '@hooks/index';
 import { isAppLoadState } from '@states/app';
-import { avatarUrlState, congNameState, fullnameState } from '@states/settings';
+import { congNameState, fullnameState } from '@states/settings';
 
 const useNavbar = () => {
   const { t } = useAppTranslation();
@@ -14,7 +14,6 @@ const useNavbar = () => {
   const isAppLoad = useRecoilValue(isAppLoadState);
   const fullname = useRecoilValue(fullnameState);
   const congName = useRecoilValue(congNameState);
-  const userAvatar = useRecoilValue(avatarUrlState);
 
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -56,7 +55,7 @@ const useNavbar = () => {
 
   const handleOpenDoc = () => {
     handleCloseMore();
-    window.open(`https://sws2apps.com/${t('docsUrlCode')}/category/congregation-program-for-everyone`, '_blank');
+    window.open(`https://sws2apps.com/${t('trans_docsUrlCode')}/category/congregation-program-for-everyone`, '_blank');
   };
 
   return {
@@ -71,7 +70,6 @@ const useNavbar = () => {
     isAppLoad,
     fullname,
     congName,
-    userAvatar,
     mobileUp,
     tabletUp,
     laptopUp,

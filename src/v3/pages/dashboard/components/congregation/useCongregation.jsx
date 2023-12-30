@@ -20,19 +20,19 @@ const useCongregation = () => {
   const accountType = useRecoilValue(accountTypeState);
 
   const getSecondaryText = () => {
-    let label = t('syncAppDataInProgress');
+    let label = t('trans_syncAppDataInProgress');
 
     if (!isSyncing) {
       if (lastSync === 'now') {
-        label = t('lastSyncAppDataNow');
+        label = t('trans_lastSyncAppDataNow');
       }
 
       if (lastSync === 'recently') {
-        label = t('lastSyncAppDataRecently');
+        label = t('trans_lastSyncAppDataRecently');
       }
 
       if (lastSync >= 1) {
-        label = t('lastSyncAppData', { duration: lastSync });
+        label = t('trans_lastSyncAppData', { duration: lastSync });
       }
     }
 
@@ -80,11 +80,11 @@ const useCongregation = () => {
 
       if (status === 200) {
         worker.postMessage({ field: 'lastBackup', value: new Date().toISOString() });
-
-        await setIsAppDataSyncing(false);
       }
+
+      await setIsAppDataSyncing(false);
     } catch (err) {
-      console.error(err);
+      await setIsAppDataSyncing(false);
     }
   };
 

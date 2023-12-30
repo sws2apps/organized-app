@@ -62,13 +62,13 @@ const StartupIllustration = () => {
             <Box sx={styles}>
               <Box>
                 <Typography variant="h1" color="var(--always-white)" sx={{ marginBottom: '24px' }}>
-                  {t('illustrationMinistryAssignmentsHeader')}
+                  {t('trans_illustrationMinistryAssignmentsHeader')}
                 </Typography>
                 <Typography variant="body-regular" color="var(--always-white)">
-                  {t('illustrationMinistryAssignmentsDescription')}
+                  {t('trans_illustrationMinistryAssignmentsDescription')}
                 </Typography>
               </Box>
-              <img src={MinistryAssignments} alt="Ministry Assignments" style={{ width: '100%' }} />
+              <MinistryAssignments viewBox="0 0 748 457" style={{ width: '100%', height: 'auto' }} />
             </Box>
           </SwiperSlide>
 
@@ -76,13 +76,13 @@ const StartupIllustration = () => {
             <Box sx={styles}>
               <Box>
                 <Typography variant="h1" color="var(--always-white)" sx={{ marginBottom: '24px' }}>
-                  {t('illustrationMultiPlattformHeader')}
+                  {t('trans_illustrationMultiPlattformHeader')}
                 </Typography>
                 <Typography variant="body-regular" color="var(--always-white)">
-                  {t('illustrationMultiPlattformDescription')}
+                  {t('trans_illustrationMultiPlattformDescription')}
                 </Typography>
               </Box>
-              <img src={MultiPlattform} alt="Multi Plattform" style={{ width: '100%' }} />
+              <MultiPlattform viewBox="0 0 748 457" style={{ width: '100%', height: 'auto' }} />
             </Box>
           </SwiperSlide>
 
@@ -90,13 +90,13 @@ const StartupIllustration = () => {
             <Box sx={styles}>
               <Box>
                 <Typography variant="h1" color="var(--always-white)" sx={{ marginBottom: '24px' }}>
-                  {t('illustrationMeetingSchedulesHeader')}
+                  {t('trans_illustrationMeetingSchedulesHeader')}
                 </Typography>
                 <Typography variant="body-regular" color="var(--always-white)">
-                  {t('illustrationMeetingSchedulesDescription')}
+                  {t('trans_illustrationMeetingSchedulesDescription')}
                 </Typography>
               </Box>
-              <img src={MeetingSchedules} alt="Meeting Schedules" style={{ width: '100%' }} />
+              <MeetingSchedules viewBox="0 0 748 457" style={{ width: '100%', height: 'auto' }} />
             </Box>
           </SwiperSlide>
 
@@ -104,13 +104,14 @@ const StartupIllustration = () => {
             <Box sx={styles}>
               <Box>
                 <Typography variant="h1" color="var(--always-white)" sx={{ marginBottom: '24px' }}>
-                  {t('illustrationSecretaryHeader')}
+                  {t('trans_illustrationSecretaryHeader')}
                 </Typography>
                 <Typography variant="body-regular" color="var(--always-white)">
-                  {t('illustrationSecretaryDescription')}
+                  {t('trans_illustrationSecretaryDescription')}
                 </Typography>
               </Box>
-              <img src={Secretary} alt="Secretary" style={{ width: '100%' }} />
+
+              <Secretary viewBox="0 0 748 457" style={{ width: '100%', height: 'auto' }} />
             </Box>
           </SwiperSlide>
         </Swiper>

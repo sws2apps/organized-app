@@ -8,7 +8,7 @@ permissions: read-all
 jobs:
   dev_deploy:
     name: Build and Deploy to Production
-    if: ${{ github.repository == 'sws2apps/cpe-sws' && github.ref == 'refs/heads/main' }}
+    if: ${{ github.repository == 'sws2apps/organized-app' && github.ref == 'refs/heads/main' }}
     environment:
       name: Production
       url: https://cpe-web.sws2apps.app
@@ -26,7 +26,7 @@ jobs:
           persist-credentials: false
 
       - name: Use Node.js LTS version
-        uses: actions/setup-node@8f152de45cc393bb48ce5d89d36b731f54556e65
+        uses: actions/setup-node@b39b52d1213e96004bfcb1c61a8a6fa8ab84f3e8
         with:
           node-version: lts/Hydrogen
 

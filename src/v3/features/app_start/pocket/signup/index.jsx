@@ -24,12 +24,16 @@ const PocketSignUp = () => {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-      <PageHeader title={t('connectCongregation')} description={t('accountSetup')} onClick={handleReturnChooser} />
+      <PageHeader
+        title={t('trans_connectCongregation')}
+        description={t('trans_accountSetup')}
+        onClick={handleReturnChooser}
+      />
 
       <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '24px' }}>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
           <TextField
-            label={t('invitationCode')}
+            label={t('trans_invitationCode')}
             value={code}
             onChange={(e) => setCode(e.target.value)}
             sx={{ width: '100%', color: 'var(--black)' }}
@@ -42,7 +46,7 @@ const PocketSignUp = () => {
             sx={{ padding: '8px 32px', minHeight: '44px' }}
             startIcon={isProcessing ? <IconLoading width={22} height={22} /> : null}
           >
-            {t('activate')}
+            {t('trans_activate')}
           </Button>
         </Box>
 

@@ -1,7 +1,7 @@
 {
   "s89Title": "DESIGNAÇÃO PARA A REUNIÃO<br />NOSSA VIDA E MINISTÉRIO CRISTÃO",
   "s89ToBeGiven": "Local",
-  "s89DescFooter": "<strong>Note to student:</strong> The source material and study point for your assignment can be found in the  <em>Life and Ministry Meeting Workbook</em>. Please review the instructions for the part as outlined in <em>Instructions for Our Christian Life and Ministry Meeting</em> (S-38).",
+  "s89DescFooter": "<strong>Observação para o estudante:</strong> A lição e a fonte de matéria para a sua designação estão na <em>Apostila da Reunião Vida e Ministério</em>. Veja as instruções para a parte que estão nas <em>Instruções para a Reunião Nossa Vida e Ministério Cristão</em> (S-38).",
   "name": "Nome:",
   "assistant": "Ajudante:",
   "date": "Data:",
@@ -29,7 +29,6 @@
   "livingPart": "Nossa Vida Cristã",
   "bibleReadingText": "Leitura da Bíblia (4 min.)",
   "tgwGems": "Joias espirituais",
-  "bibleReadingTime": "4 min. ou menos",
   "student": "Estudante",
   "partLessTime": "{{ duration }} min. ou menos",
   "studentAssistant": "Estudante/ajudante:",
@@ -40,8 +39,6 @@
   "coTalk": "Esse discurso será feito pelo superintendente de circuito",
   "auxClass": "Sala B",
   "memorialInvite": "Convite da Celebração",
-  "s89Part1Label": "Designação 1",
-  "s89Part2Label": "Designação 2",
   "normalWeek": "Semana normal",
   "circuitOverseerWeek": "Visita do Superintendente de Circuito",
   "conventionWeek": "Semana do Congresso",
@@ -75,5 +72,5 @@
   "explainingBeliefs": "Explicando suas crenças",
   "discussion": "Consideração",
   "demonstration": "Demonstração",
-  "partNo": "Part no.:"
+  "partNo": "Número da parte:"
 }

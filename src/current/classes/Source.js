@@ -385,11 +385,6 @@ SourceClass.prototype.countAssignmentsInfo = function () {
     // bro discussion part
     if (assValue === 127) {
       assTotal = assTotal + 1;
-
-      // aux
-      if (schedData.week_type === 1 && classCount > 1) {
-        assTotal = assTotal + 1;
-      }
     }
 
     // student discussion part

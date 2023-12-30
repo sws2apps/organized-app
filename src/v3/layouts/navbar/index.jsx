@@ -1,7 +1,7 @@
-import { Avatar, Box, Container, IconButton, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material';
-import { Typography } from '@components';
+import { Box, Container, IconButton, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material';
+import { AccountHeaderIcon, Typography } from '@components';
 import { AppNotification, LanguageSwitcher, ThemeSwitcher } from '@features/index';
-import { IconAccount, IconDonate, IconHelp, IconInfo, IconLogo, IconMenu } from '@icons';
+import { IconDonate, IconHelp, IconInfo, IconLogo, IconMenu } from '@icons';
 import { useAppTranslation } from '@hooks/index';
 import useNavbar from './useNavbar';
 
@@ -35,7 +35,6 @@ const NavBar = () => {
     handleOpenDoc,
     fullname,
     congName,
-    userAvatar,
     mobileUp,
     tabletUp,
     laptopUp,
@@ -68,7 +67,7 @@ const NavBar = () => {
         <Box sx={{ display: 'flex', alignItems: 'center', gap: { mobile: '8px', tablet: '16px' } }}>
           <IconLogo width={40} height={40} />
           <Typography variant="h3" color="var(--black)">
-            {tablet600Up ? t('appFullName') : t('appShortName')}
+            {tablet600Up ? t('trans_appFullName') : t('trans_appShortName')}
           </Typography>
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: { mobile: '4px', tablet: '8px' } }}>
@@ -111,8 +110,7 @@ const NavBar = () => {
                   </Box>
                 )}
 
-                {userAvatar && <Avatar alt="Avatar" src={userAvatar} sx={{ width: 32, height: 32 }} />}
-                {!userAvatar && <IconAccount width={35} height={35} color="var(--black)" />}
+                <AccountHeaderIcon />
               </Box>
             )}
           </IconButton>
@@ -153,7 +151,7 @@ const NavBar = () => {
                 <IconDonate color="var(--black)" />
               </ListItemIcon>
               <ListItemText>
-                <Typography variant="body-regular">{t('supportApp')}</Typography>
+                <Typography variant="body-regular">{t('trans_supportApp')}</Typography>
               </ListItemText>
             </MenuItem>
             <MenuItem disableRipple sx={menuStyle} onClick={handleOpenDoc}>
@@ -161,7 +159,7 @@ const NavBar = () => {
                 <IconHelp color="var(--black)" />
               </ListItemIcon>
               <ListItemText>
-                <Typography variant="body-regular">{t('howToUseApp')}</Typography>
+                <Typography variant="body-regular">{t('trans_howToUseApp')}</Typography>
               </ListItemText>
             </MenuItem>
             <MenuItem disableRipple sx={menuStyle} onClick={handleOpenAbout}>
@@ -169,7 +167,7 @@ const NavBar = () => {
                 <IconInfo color="var(--black)" />
               </ListItemIcon>
               <ListItemText>
-                <Typography variant="body-regular">{t('about')}</Typography>
+                <Typography variant="body-regular">{t('trans_about')}</Typography>
               </ListItemText>
             </MenuItem>
           </Menu>
