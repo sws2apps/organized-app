@@ -47,7 +47,7 @@ const CPEInfoMessage = (props: InfoMessagePropsType) => {
       }}
       className={getEffect()}
     >
-      {props.messageIcon && props.messageIcon}
+      {props.messageIcon}
       <Box
         sx={{
           width: '100%',
