@@ -11,6 +11,7 @@ import {
   Switch,
   Typography,
   InfoTip,
+  Loading,
 } from '@components';
 import { useEffect, useState } from 'react';
 import { IconAdd, IconAssign, IconClose, IconReturn, IconUndo, IconUpdate, IconInfo, IconVisitors } from '@icons';
@@ -407,6 +408,9 @@ const ComponentPreview = () => {
               </Box>
             </Box>
           </Box>
+        </Box>
+        <Box>
+          <Loading/>
         </Box>
       </Container>
     </Box>
