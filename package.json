@@ -18,7 +18,8 @@
     "generate:css": "node converter/css/convert.js && prettier src/v3/global.css --write",
     "generate:icons": "node converter/svg/convert.js && prettier src/v3/components/icons --write",
     "prepare": "husky install",
-    "locales:unused": "node unused-i18n-keys.js"
+    "locales:unused": "node unused-i18n-keys.js",
+    "eslint": "eslint --ext ts,tsx src"
   },
   "eslintConfig": {
     "extends": [
@@ -46,6 +47,7 @@
     "dateformat": "^5.0.3",
     "dexie": "^3.2.4",
     "dexie-react-hooks": "^1.1.7",
+    "eslint-config-prettier": "^9.1.0",
     "fast-memoize": "^2.5.2",
     "file-select-dialog": "^1.5.4",
     "firebase": "^10.7.1",
