@@ -11,8 +11,8 @@ export default defineConfig({
   resolve: {
     alias: [
       { find: '@assets', replacement: resolve(__dirname, 'src/v3/assets') },
-      { find: '@components', replacement: resolve(__dirname, 'src/v3/components/index.js') },
-      { find: '@icons', replacement: resolve(__dirname, 'src/v3/components/icons/index.js') },
+      { find: '@components', replacement: resolve(__dirname, 'src/v3/components/index.ts') },
+      { find: '@icons', replacement: resolve(__dirname, 'src/v3/components/icons/index.ts') },
       { find: '@constants', replacement: resolve(__dirname, 'src/v3/constants') },
       { find: '@features', replacement: resolve(__dirname, 'src/v3/features') },
       { find: '@hooks', replacement: resolve(__dirname, 'src/v3/hooks') },
@@ -25,6 +25,7 @@ export default defineConfig({
       { find: '@wrapper', replacement: resolve(__dirname, 'src/v3/wrapper') },
       { find: '@locales', replacement: resolve(__dirname, 'src/shared/locales') },
       { find: '@shared', replacement: resolve(__dirname, 'src/shared') },
+      { find: '@definition', replacement: resolve(__dirname, 'src/v3/definition') },
     ],
   },
   worker: { plugins: () => [comlink()] },

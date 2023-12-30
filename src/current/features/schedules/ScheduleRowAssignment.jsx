@@ -112,6 +112,16 @@ const ScheduleRowAssignment = ({
     return styles.studentContainer1;
   };
 
+  const displaySecondRow = () => {
+    if (assType === 127) return false;
+
+    if (classCount === 2 && weekType === 1 && student) return true;
+
+    if (cbs && displayCBSReader) return true;
+
+    if (talk) return true;
+  };
+
   useEffect(() => {
     if (assType === 105 || assType === 106 || assType === 107 || assType === 117) {
       setDisplayPerson(false);
@@ -184,7 +194,7 @@ const ScheduleRowAssignment = ({
             />
           )}
 
-          {((classCount === 2 && weekType === 1 && student) || (cbs && displayCBSReader) || talk) && (
+          {displaySecondRow() && (
             <>
               {(edit || personB) && (
                 <SingleAssignment
