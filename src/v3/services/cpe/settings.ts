@@ -13,7 +13,7 @@ export const saveProfilePic = async (url: string, provider: string) => {
 
         context.drawImage(downloadedImg, 0, 0);
 
-        canvas.toBlob(async (done) => await savePic(done));
+        canvas.toBlob((done) => savePic(done));
       };
 
       const downloadedImg = new Image();
@@ -21,9 +21,10 @@ export const saveProfilePic = async (url: string, provider: string) => {
       downloadedImg.src = url;
       downloadedImg.addEventListener('load', imageReceived, false);
 
-      const savePic = async (profileBlob) => {
-        const profileBuffer = await profileBlob.arrayBuffer();
-        await handleUpdateSetting({ user_avatar: profileBuffer });
+      const savePic = (profileBlob) => {
+        profileBlob.arrayBuffer().then((profileBuffer) => {
+          handleUpdateSetting({ user_avatar: profileBuffer });
+        });
       };
 
       return;
