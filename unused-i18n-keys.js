@@ -20,7 +20,7 @@ translationFiles.forEach((file) => {
 let usedKeys = [];
 
 // Use glob to get all .js and .jsx files in the project directory
-const files = glob.sync('src/v3/**/*.+(js|jsx)');
+const files = glob.sync('src/v3/**/*.+(js|jsx|ts|tsx)');
 
 files.forEach((file) => {
   const sourceCode = fs.readFileSync(file, 'utf-8');

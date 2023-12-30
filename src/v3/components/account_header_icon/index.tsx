@@ -1,4 +1,3 @@
-import React from 'react';
 import { Avatar, Box } from '@mui/material';
 import { IconHeaderAccount, IconNoConnection } from '@icons';
 import { useAccountHeaderIcon } from './useAccountHeaderIcon';
