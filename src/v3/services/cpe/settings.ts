@@ -13,7 +13,7 @@ export const saveProfilePic = async (url: string, provider: string) => {
 
         context.drawImage(downloadedImg, 0, 0);
 
-        canvas.toBlob(async (done) => await savePic(done));
+        canvas.toBlob((done) => savePic(done));
       };
 
       const downloadedImg = new Image();
