@@ -9,7 +9,7 @@ import {
   Radio,
   Switch,
   Typography,
- 
+  InfoTip,
 } from '@components';
 import { useEffect, useState } from 'react';
 import { IconAdd, IconAssign, IconClose, IconReturn, IconUndo, IconUpdate } from '@icons';
@@ -307,7 +307,7 @@ const ComponentPreview = () => {
             </Box>
           </Box>
         </Box>
-       
+        
       </Container>
     </Box>
   );
