@@ -91,8 +91,8 @@ const CPEBadge = ({ icon, size, filled, color, text, sx = {} }) => {
         case 'green':
         case 'orange':
         case 'red':
-        case 'accent':
-          result = `var(--${color}-main)`;
+        case 'blue':
+          result = `var(--accent-main)`;
           break;
         default:
           break;
@@ -110,8 +110,8 @@ const CPEBadge = ({ icon, size, filled, color, text, sx = {} }) => {
         case 'red':
           result = `var(--${color}-secondary)`;
           break;
-        case 'accent':
-          result = `var(--${color}-200)`;
+        case 'blue':
+          result = `var(--accent-200)`;
           break;
         default:
           break;

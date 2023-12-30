@@ -1,11 +1,24 @@
 import { Box, Card, CardContent } from '@mui/material';
 import { styled } from '@mui/system';
+import { CPEUserCardTypes } from './user_card.types';
+
+export const StyledCardBox = styled(Box)<{ type: CPEUserCardTypes }>(({ type }) => ({
+  '.MuiCard-root': {
+    borderRadius: '8px',
+    boxShadow: 'none',
+    border: '1px solid var(--accent-300, #A5B3DD)',
+    '&:hover': {
+      background: 'var(--accent-100)',
+      border: '1px solid var(--accent-350, #8391BD)',
+      boxShadow: '0px 2px 8px 0px rgba(28, 28, 28, 0.12)',
+      cursor: 'pointer',
+    },
+  },
+}));
 
 export const StyledCard = styled(Card)({
   minWidth: 432,
   maxWidth: 432,
-  borderRadius: 'var(--radius-l, 8px)',
-  border: 'var(--radius-none, 1px) solid var(--accent-300, #A5B3DD)',
   background: 'var(--white, #FEFEFE); }}',
 });
 
@@ -26,11 +39,14 @@ export const StyledIconWrapper = styled(Box)<{ hoverBackgrColor: string; iconCol
     '& svg g, & svg g path': {
       fill: iconColor,
     },
+    width: '24px',
+    height: '24px',
   })
 );
 
 export const StyledBoxSpaceBetween = styled(Box)<{ flexDirection: 'row' | 'column' }>(({ flexDirection }) => ({
   display: 'flex',
+  width: '100%',
   flexDirection: flexDirection,
   justifyContent: 'space-between',
 }));
@@ -42,3 +58,8 @@ export const StyledBox = styled(Box)<{ flexDirection?: 'row' | 'column'; gap?: s
     gap: gap || '0px',
   })
 );
+
+export const StyledImgContainer = styled(Box)({
+  width: '48px',
+  height: '48px',
+});
