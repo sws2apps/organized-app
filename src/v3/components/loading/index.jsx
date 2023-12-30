@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import IconLoading from '../icons/IconLoading';
-import { Typography } from '@mui/material';
+import { Typography } from '@components';
 import { useTranslation } from 'react-i18next';
 
 const Loading = () => {
@@ -28,7 +28,7 @@ const Loading = () => {
   return (
     <Box sx={boxStyles}>
       <IconLoading sx={circleLoading} color='var(--accent-main)'/>
-      <Typography  variant='H4'color={'var(--accent-main, #5065D0)'} textAlign={'center'}>{t('Loading...')}</Typography>
+      <Typography  variant='h4'color={'var(--accent-main)'} textAlign={'center'}>{t('Loading...')}</Typography>
     </Box>
   );
 };
