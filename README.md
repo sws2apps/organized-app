@@ -2,7 +2,7 @@
 
 ![Organized-devices](https://github.com/sws2apps/organized-app/assets/26148770/9526daa0-ad34-4a1b-8611-c50f0d3375b7)
 
-A free web-app for Jehovah’s Witnesses congregations, helping with assignments and responsibilities, making things easier, and freeing up time for other important things! Create schedules, view your upcoming assignments, submit service reports,  generate congregation reports, and much more! In a nutschell, Organized app is:
+A free web app for Jehovah’s Witnesses congregations, helping with assignments and responsibilities, making things easier, and freeing up time for other important things! Create schedules, view your upcoming assignments, submit service reports,  generate congregation reports, and much more! In a nutshell, the Organized app is:
 
 🔵 Multi-platform: Windows, MacOS, Linux, ChromeOS, iPadOS, iOS, Android
 
@@ -22,7 +22,7 @@ A free web-app for Jehovah’s Witnesses congregations, helping with assignments
 
 📅 **Upcoming assignments:** Publishers and appointed brother see their next assignments – student assignments, public talks, midweek meeting parts, etc.
 
-⚡ **Autofill:** Automatically create assignments for any meeting in a matter of seconds. Organized takes into account person's previous assignments, past partners and creates balanced meeting assignments.
+⚡ **Autofill:** Automatically create assignments for any meeting in a matter of seconds. Organized takes into account a person's previous assignments, and past partners and creates balanced meeting assignments.
 
 🖨️ **Print templates:** Export and print schedules that are visually pleasing and easy to read. Export Assignment Form (S-89) right away.
 
@@ -36,15 +36,15 @@ The app is available for all congregation members, including elders, ministerial
 
 ## What are the device requirements to open Organized?
 
-Organized is a Progressive Web Application (PWA), meaning that it can function in any modern browser. Additionally, the app can be 'installed' to your home screen, providing quicker access and a better user experience.
+Organized is a Progressive Web Application (PWA), meaning that it can function in any modern browser. Additionally, the app can be 'installed' on your home screen, providing quicker access and a better user experience.
 
 ## Real-world benefits of using the app
 
-😌 **Less stress** – Publishers always know when they have assignments, where to find all schedules and events. Appointed brothers have so much help with their duties, that they complete their tasks easier, therefore with more joy.
+😌 **Less stress** – Publishers always know when they have assignments, and where to find all schedules and events. Appointed brothers have so much help with their duties, that they complete their tasks easier, therefore with more joy.
 
-⏳ **Hundreds of saved hours** – Significantly reduce time commitment for appointed brothers through automated features for reports, schedules and more! Don’t spend much time on a routine work that the program can do.
+⏳ **Hundreds of saved hours** – Significantly reduce time commitment for appointed brothers through automated features for reports, schedules, and more! Don’t spend much time on routine work that the program can do.
 
-🌳 **Digitalization** – Less paper and ink waste for publishers and appointed brothers. Quicker updates of information for the whole congregation, more precise calculations and less dependancy on a specific appointed brothers.
+🌳 **Digitalization** – Less paper and ink waste for publishers and appointed brothers. Quicker updates of information for the whole congregation, more precise calculations, and less dependence on specific appointed brothers.
 
 📱️ **Convenience** – Enjoy full functionality seamlessly on any device – whether it's mobile or desktop. Organized allows publishers and appointed brothers to use the app on any device, anywhere. You can access the app either from a web browser or install it for the best experience.
 
@@ -53,7 +53,7 @@ Organized is a Progressive Web Application (PWA), meaning that it can function i
 > ![organized-schedules](https://github.com/sws2apps/organized-app/assets/26148770/eb4fa1a8-e3b3-4b57-b889-9c1f91fa9ed1)
 > Example of printed schedules, automatically generated in Organized
 
-## The app is open source and secure
+## The app is open-source and secure
 All app data is stored just on your device initially. If you want to share your schedules with your congregation or use Organized on multiple devices, the data will be synced via a secure cloud connection. The app doesn't store any confidential information, so it's never sent to the Internet. The data required for synchronization is end-to-end encrypted, ensuring that **neither the Organized app team nor anyone on the Internet can't access it**.
 
 [![Crowdin](https://badges.crowdin.net/cpe-sws/localized.svg)](https://crowdin.com/project/cpe-sws)
@@ -69,14 +69,18 @@ All app data is stored just on your device initially. If you want to share your 
 
 ## Multiple languages support
 
-Currently, the app supports nearly 15 languages and more to come. If you'd like to contribute by translating Organized into a language close to your heart, you're very welcome to do so!
-The translation process for Organized app is handled on [Crowdin](https://crowdin.com/project/cpe-sws), and is really easy. The whole app can be translated just in a few days. To learn more how help with localization, please read the [translation](./TRANSLATION.md) guide.
+Currently, the app is fully or partially available in almost 20 languages, and more to come. If you'd like to contribute by translating Organized into a language close to your heart, you're very welcome to do so!
+The translation process for the Organized app is handled on [Crowdin](https://crowdin.com/project/cpe-sws) and is really easy. The whole app can be translated just in a few days. To learn more about how to help with localization, please read the [translation](./TRANSLATION.md) guide.
 
-## [![Repography logo](https://images.repography.com/logo.svg)](https://repography.com) / Top contributors
-[![Top contributors](https://images.repography.com/34928945/sws2apps/cpe-sws/top-contributors/dJ8TLGrn5l9eWWbjSJj1aeKPxgfDBAHVIxaeEKUPNfM/-dQ2fTFbTrx2K3kcZ-43AF8lFcsGcaH8ZBhE_Noq0KY_table.svg)](https://github.com/sws2apps/cpe-sws/graphs/contributors)
+
+## [![Repography logo](https://images.repography.com/logo.svg)](https://repography.com) / Recent activity [![Time period](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/zEy-tNjjhZ4mjzDxRyop_AU02VXPybbiMR3D0WAtwM4/UfwYuRgvhnzNJ-f6gkDgaqYGZNGUNEO8BrI64mNokFA_badge.svg)](https://repography.com)
+[![Timeline graph](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/zEy-tNjjhZ4mjzDxRyop_AU02VXPybbiMR3D0WAtwM4/UfwYuRgvhnzNJ-f6gkDgaqYGZNGUNEO8BrI64mNokFA_timeline.svg)](https://github.com/sws2apps/organized-app/commits)
+[![Activity map](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/zEy-tNjjhZ4mjzDxRyop_AU02VXPybbiMR3D0WAtwM4/UfwYuRgvhnzNJ-f6gkDgaqYGZNGUNEO8BrI64mNokFA_map.svg)](https://github.com/sws2apps/organized-app/commits)
+[![Top contributors](https://images.repography.com/34928945/sws2apps/organized-app/top-contributors/zEy-tNjjhZ4mjzDxRyop_AU02VXPybbiMR3D0WAtwM4/UfwYuRgvhnzNJ-f6gkDgaqYGZNGUNEO8BrI64mNokFA_table.svg)](https://github.com/sws2apps/organized-app/graphs/contributors)
+
 
 ## New features in development 
-We're working hard on the new redesigned release in the new branch _(current main one contains old, but fully functional version of the app)_. And there are so many features we want to implement:
+We're working hard on the new redesigned release in the new branch _(the current main one contains an old one, but a fully functional version of the app)_. And there are so many features we want to implement:
 
 • Territories management 
 
@@ -86,19 +90,19 @@ We're working hard on the new redesigned release in the new branch _(current mai
 
 • Upcoming events
 
-• Hall cleadning scheduling
+• Hall cleaning scheduling
 
 • Congregation activities
 
-• More printed schedules and forms (like S-13 and more)
+• More printed schedules and forms (like S-12, S-13, and more)
 
-We're excited about adding these and more other new features! Naturally, it takes time to develop them... If you know programming and want to help, we'd really appreciate it! Together we can create a better app for the brotherhood across the whole globe!
+We're excited about adding these and many more new features! Naturally, it takes time to develop them... If you know programming and want to help, we'd really appreciate it! Together we can create a better app for the brotherhood across the whole globe!
 
 ## Want to contribute?
 
 We really appreciate your volunteer spirit! You can contribute to the app in a few ways:
 
 1. by **telling others** about Organized app,
-2. supporting the app by **donating**!
+2. supporting the app by **donating**,
 3. helping with **React development**, **UI design** or **translation**. Please read our [contribution guide](./CONTRIBUTING.md) on how to do so.
 
