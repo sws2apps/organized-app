@@ -10,6 +10,7 @@ import {
   Radio,
   Switch,
   Typography,
+  UserCard,
   InfoTip,
   Loading,
 } from '@components';
@@ -324,6 +325,7 @@ const ComponentPreview = () => {
                 <Typography className="label-small-regular">info-big</Typography>
                 <InfoTip
                   isBig={true}
+                  icon={<IconInfo />}
                   title="You don’t have any territories yet"
                   color="white"
                   text="Do you want to have one? Click “Get new territory” to see the list of available territories and pick one that you want to work on."
@@ -405,6 +407,38 @@ const ComponentPreview = () => {
                 <Badge text="Michael Walth" color="orange" size="big" filled icon={<IconVisitors />} />
                 <Badge text="Michael Walth" color="accent" size="big" filled icon={<IconVisitors />} />
                 <Badge text="Michael Walth" color="red" size="big" filled icon={<IconVisitors />} />
+              </Box>
+            </Box>
+
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px', flexWrap: 'wrap', marginTop: '10px' }}>
+              user-card
+              <Box sx={{ display: 'flex', flexDirection: 'row', gap: '8px' }}>
+                <UserCard
+                  name={'Leslie Alexander'}
+                  onDelete={() => {
+                    console.log('delete');
+                  }}
+                  onClick={() => console.log('click')}
+                  type="personal"
+                  chipLabels={['Ilya', 'Ilya', 'Ilya', 'Ilya', 'Ilya']}
+                  female
+                >
+                  <Badge text="Michael Walth" color="grey" size="small" filled={false} />
+                  <Badge text="Michael Walth" color="green" size="small" filled={false} />
+                  <Badge text="Michael Walth" color="orange" size="small" filled={false} />
+                </UserCard>
+              </Box>
+              <Box sx={{ display: 'flex', flexDirection: 'row', gap: '8px' }}>
+                <UserCard name={'Leslie Alexander'} type="pioneer" onClick={() => console.log('click')} female={false}>
+                  <Badge text="Submitted on 13.10.2023" color="grey" size="small" filled={false} />
+                  <Badge text="15h" color="accent" size="small" filled={false} />
+                </UserCard>
+              </Box>
+              <Box sx={{ display: 'flex', flexDirection: 'row', gap: '8px' }} onClick={() => console.log('click')}>
+                <UserCard name={'Leslie Alexander'} type="publisher" female>
+                  <Badge text="Michael Walth" color="grey" size="small" filled={false} />
+                  <Badge text="Michael Walth" color="green" size="small" filled={false} />
+                </UserCard>
               </Box>
             </Box>
           </Box>
