@@ -12,7 +12,7 @@
   "trans_report": "Report",
   "trans_personsAll": "All persons",
   "trans_pioneerApplications": "Pioneer applications",
-  "trans_syncAppData": "Sync Organized data",
+  "trans_syncAppData": "Синхронизация данных Organized",
   "trans_lastSyncAppDataNow": "Last synced just now",
   "trans_lastSyncAppDataRecently": "Last synced recently",
   "trans_lastSyncAppData": "Synced {{ duration }} min ago",
