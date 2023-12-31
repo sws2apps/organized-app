@@ -10,7 +10,6 @@ import {
   Radio,
   Switch,
   Typography,
-  TestTS,
   UserCard,
   InfoTip,
   Loading,
@@ -440,7 +439,6 @@ const ComponentPreview = () => {
                 </UserCard>
               </Box>
             </Box>
-            <TestTS />
           </Box>
         </Box>
         <Box>
