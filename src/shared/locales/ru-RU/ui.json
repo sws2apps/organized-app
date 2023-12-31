@@ -1,11 +1,11 @@
 {
-  "iso": "en",
+  "iso": "ru",
   "student": "Student",
   "students": "Students",
   "schedule": "Schedule",
   "sourceMaterial": "Source Material",
   "settings": "Settings",
-  "administration": "Administration",
+  "administration": "Администрирование",
   "login": "Login",
   "logout": "Logout",
   "changeLanguage": "Language",
