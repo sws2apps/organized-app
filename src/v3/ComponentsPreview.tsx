@@ -354,7 +354,7 @@ const ComponentPreview = () => {
                 <Badge text="Michael Walth" color="grey" size="small" filled={false} />
                 <Badge text="Michael Walth" color="green" size="small" filled={false} icon={<IconVisitors />} />
                 <Badge text="Michael Walth" color="orange" size="small" filled={false} icon={<IconVisitors />} />
-                <Badge text="Michael Walth" color="blue" size="small" filled={false} icon={<IconVisitors />} />
+                <Badge text="Michael Walth" color="accent" size="small" filled={false} icon={<IconVisitors />} />
                 <Badge text="Michael Walth" color="red" size="small" filled={false} icon={<IconVisitors />} />
               </Box>
             </Box>
@@ -364,7 +364,7 @@ const ComponentPreview = () => {
                 <Badge text="Michael Walth" color="grey" size="small" filled icon={<IconVisitors />} />
                 <Badge text="Michael Walth" color="green" size="small" filled icon={<IconVisitors />} />
                 <Badge text="Michael Walth" color="orange" size="small" filled icon={<IconVisitors />} />
-                <Badge text="Michael Walth" color="blue" size="small" filled icon={<IconVisitors />} />
+                <Badge text="Michael Walth" color="accent" size="small" filled icon={<IconVisitors />} />
                 <Badge text="Michael Walth" color="red" size="small" filled icon={<IconVisitors />} />
               </Box>
             </Box>
@@ -374,7 +374,7 @@ const ComponentPreview = () => {
                 <Badge text="Michael Walth" color="grey" size="medium" filled={false} icon={<IconVisitors />} />
                 <Badge text="Michael Walth" color="green" size="medium" filled={false} icon={<IconVisitors />} />
                 <Badge text="Michael Walth" color="orange" size="medium" filled={false} icon={<IconVisitors />} />
-                <Badge text="Michael Walth" color="blue" size="medium" filled={false} icon={<IconVisitors />} />
+                <Badge text="Michael Walth" color="accent" size="medium" filled={false} icon={<IconVisitors />} />
                 <Badge text="Michael Walth" color="red" size="medium" filled={false} icon={<IconVisitors />} />
               </Box>
             </Box>
@@ -384,7 +384,7 @@ const ComponentPreview = () => {
                 <Badge text="Michael Walth" color="grey" size="medium" filled icon={<IconVisitors />} />
                 <Badge text="Michael Walth" color="green" size="medium" filled icon={<IconVisitors />} />
                 <Badge text="Michael Walth" color="orange" size="medium" filled icon={<IconVisitors />} />
-                <Badge text="Michael Walth" color="blue" size="medium" filled icon={<IconVisitors />} />
+                <Badge text="Michael Walth" color="accent" size="medium" filled icon={<IconVisitors />} />
                 <Badge text="Michael Walth" color="red" size="medium" filled icon={<IconVisitors />} />
               </Box>
             </Box>
@@ -394,7 +394,7 @@ const ComponentPreview = () => {
                 <Badge text="Michael Walth" color="grey" size="big" filled={false} icon={<IconVisitors />} />
                 <Badge text="Michael Walth" color="green" size="big" filled={false} icon={<IconVisitors />} />
                 <Badge text="Michael Walth" color="orange" size="big" filled={false} icon={<IconVisitors />} />
-                <Badge text="Michael Walth" color="blue" size="big" filled={false} icon={<IconVisitors />} />
+                <Badge text="Michael Walth" color="accent" size="big" filled={false} icon={<IconVisitors />} />
                 <Badge text="Michael Walth" color="red" size="big" filled={false} icon={<IconVisitors />} />
               </Box>
             </Box>
@@ -404,7 +404,7 @@ const ComponentPreview = () => {
                 <Badge text="Disqualified" color="grey" size="big" filled icon={<IconVisitors />} />
                 <Badge text="Michael Walth" color="green" size="big" filled icon={<IconVisitors />} />
                 <Badge text="Michael Walth" color="orange" size="big" filled icon={<IconVisitors />} />
-                <Badge text="Michael Walth" color="blue" size="big" filled icon={<IconVisitors />} />
+                <Badge text="Michael Walth" color="accent" size="big" filled icon={<IconVisitors />} />
                 <Badge text="Michael Walth" color="red" size="big" filled icon={<IconVisitors />} />
               </Box>
             </Box>
@@ -420,6 +420,7 @@ const ComponentPreview = () => {
                   onClick={() => console.log('click')}
                   type="personal"
                   chipLabels={['Ilya', 'Ilya', 'Ilya', 'Ilya', 'Ilya']}
+                  female
                 >
                   <Badge text="Michael Walth" color="grey" size="small" filled={false} />
                   <Badge text="Michael Walth" color="green" size="small" filled={false} />
@@ -427,13 +428,13 @@ const ComponentPreview = () => {
                 </UserCard>
               </Box>
               <Box sx={{ display: 'flex', flexDirection: 'row', gap: '8px' }}>
-                <UserCard name={'Leslie Alexander'} type="pioneer" onClick={() => console.log('click')}>
+                <UserCard name={'Leslie Alexander'} type="pioneer" onClick={() => console.log('click')} female={false}>
                   <Badge text="Submitted on 13.10.2023" color="grey" size="small" filled={false} />
-                  <Badge text="15h" color="blue" size="small" filled={false} />
+                  <Badge text="15h" color="accent" size="small" filled={false} />
                 </UserCard>
               </Box>
               <Box sx={{ display: 'flex', flexDirection: 'row', gap: '8px' }} onClick={() => console.log('click')}>
-                <UserCard name={'Leslie Alexander'} type="publisher">
+                <UserCard name={'Leslie Alexander'} type="publisher" female>
                   <Badge text="Michael Walth" color="grey" size="small" filled={false} />
                   <Badge text="Michael Walth" color="green" size="small" filled={false} />
                 </UserCard>

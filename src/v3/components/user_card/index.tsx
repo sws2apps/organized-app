@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import type { CPEUserCardProps } from './user_card.types';
 import UserCardImg from '@assets/img/illustration_userCard.svg?component';
-import UserCardPioneerImg from '@assets/img/illustration_userCard1.svg?component';
+import UserCardFemaleImg from '@assets/img/illustration_userCard1.svg?component';
 import IconDelete from '../icons/IconDelete';
 import IconArrowLink from '../icons/IconArrowLink';
 import MiniChip from '../mini_chip';
@@ -17,14 +17,14 @@ import {
   StyledCardBox,
 } from './user_card.styles';
 
-export const CPEUserCard = ({ name, type, onClick, onDelete, chipLabels = [], children }: CPEUserCardProps) => {
+export const CPEUserCard = ({ name, type, female, onClick, onDelete, chipLabels = [], children }: CPEUserCardProps) => {
   return (
     <StyledCardBox type={type}>
       <StyledCard onClick={() => onClick && onClick()}>
         <StyledCardContent>
           <StyledBox gap="13px" sx={{ flexWrap: 'nowrap' }}>
             <StyledBox gap="12px" sx={{ width: '100%' }}>
-              <StyledImgContainer>{type == 'pioneer' ? <UserCardPioneerImg /> : <UserCardImg />}</StyledImgContainer>
+              <StyledImgContainer>{female ? <UserCardFemaleImg /> : <UserCardImg />}</StyledImgContainer>
               <StyledBoxSpaceBetween flexDirection="column">
                 <StyledBoxSpaceBetween flexDirection="row">
                   <StyledBoxSpaceBetween flexDirection="column">
@@ -48,7 +48,9 @@ export const CPEUserCard = ({ name, type, onClick, onDelete, chipLabels = [], ch
               </StyledBoxSpaceBetween>
               {type != 'personal' && (
                 <StyledBox gap="8px" sx={{ flexGrow: '1', flexDirection: 'row-reverse', alignItems: 'center' }}>
-                  <IconArrowLink />
+                  <StyledIconWrapper hoverBackgrColor="none" iconColor="var(--black)">
+                    <IconArrowLink />
+                  </StyledIconWrapper>
                 </StyledBox>
               )}
             </StyledBox>

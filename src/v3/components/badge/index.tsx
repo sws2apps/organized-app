@@ -57,14 +57,12 @@ const CPEBadge = (props: BadgePropsType) => {
 
     if (filled) return `var(--always-white)`;
 
-    if (size === 'small' || size === 'medium' || size === 'big') {
-      if (color === 'grey') {
-        result = `var(--${color}-400)`;
-      } else if (color === 'green') {
-        result = `var(--${color}-main)`;
-      } else if (color === 'orange' || color === 'red' || color === 'accent') {
-        result = `var(--${color}-dark)`;
-      }
+    if (color === 'grey') {
+      result = `var(--${color}-400)`;
+    } else if (color === 'green') {
+      result = `var(--${color}-main)`;
+    } else if (color === 'orange' || color === 'red' || color === 'accent') {
+      result = `var(--${color}-dark)`;
     }
 
     if (size === 'big') {
@@ -87,7 +85,7 @@ const CPEBadge = (props: BadgePropsType) => {
         case 'green':
         case 'orange':
         case 'red':
-        case 'blue':
+        case 'accent':
           result = `var(--accent-main)`;
           break;
         default:
@@ -106,7 +104,7 @@ const CPEBadge = (props: BadgePropsType) => {
         case 'red':
           result = `var(--${color}-secondary)`;
           break;
-        case 'blue':
+        case 'accent':
           result = `var(--accent-200)`;
           break;
         default:
