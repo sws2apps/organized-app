@@ -54,9 +54,7 @@ Organized is a Progressive Web Application (PWA), meaning that it can function i
 > Example of printed schedules, automatically generated in Organized
 
 ## The app is open-source and secure
-All app data is stored just on your device initially. If you want to share your schedules with your congregation or use Organized on multiple devices, the data will be synced via a secure cloud connection. The app doesn't store any confidential information, so it's never sent to the Internet. The data required for synchronization is end-to-end encrypted, ensuring that **neither the Organized app team nor anyone on the Internet can't access it**.
 
-[![Crowdin](https://badges.crowdin.net/cpe-sws/localized.svg)](https://crowdin.com/project/cpe-sws)
 [![CD](https://github.com/sws2apps/cpe-sws/actions/workflows/deploy.yml/badge.svg)](https://github.com/sws2apps/cpe-sws/actions/workflows/deploy.yml)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_cpe-sws&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=sws2apps_cpe-sws)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_cpe-sws&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=sws2apps_cpe-sws)
@@ -67,17 +65,26 @@ All app data is stored just on your device initially. If you want to share your 
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_cpe-sws&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=sws2apps_cpe-sws)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=sws2apps_cpe-sws&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=sws2apps_cpe-sws)
 
+All app data is stored just on your device initially. If you want to share your schedules with your congregation or use Organized on multiple devices, the data will be synced via a secure cloud connection. The app doesn't store any confidential information, so it's never sent to the Internet. The data required for synchronization is end-to-end encrypted, ensuring that **neither the Organized app team nor anyone on the Internet can't access it**.
+
 ## Multiple languages support
+[![Crowdin](https://badges.crowdin.net/cpe-sws/localized.svg)](https://crowdin.com/project/cpe-sws)
 
 Currently, the app is fully or partially available in almost 20 languages, and more to come. If you'd like to contribute by translating Organized into a language close to your heart, you're very welcome to do so!
 The translation process for the Organized app is handled on [Crowdin](https://crowdin.com/project/cpe-sws) and is really easy. The whole app can be translated just in a few days. To learn more about how to help with localization, please read the [translation](./TRANSLATION.md) guide.
 
+## Want to contribute?
+
+We really appreciate your volunteer spirit! You can contribute to the app in a few ways:
+
+1. by **telling others** about Organized app,
+2. by supporting the app with a **donation**,
+3. by helping with **React development**, **UI design** or **translation**. Please read our [contribution guide](./CONTRIBUTING.md) on how to do so.
 
 ## [![Repography logo](https://images.repography.com/logo.svg)](https://repography.com) / Recent activity [![Time period](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/zEy-tNjjhZ4mjzDxRyop_AU02VXPybbiMR3D0WAtwM4/UfwYuRgvhnzNJ-f6gkDgaqYGZNGUNEO8BrI64mNokFA_badge.svg)](https://repography.com)
 [![Timeline graph](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/zEy-tNjjhZ4mjzDxRyop_AU02VXPybbiMR3D0WAtwM4/UfwYuRgvhnzNJ-f6gkDgaqYGZNGUNEO8BrI64mNokFA_timeline.svg)](https://github.com/sws2apps/organized-app/commits)
 [![Activity map](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/zEy-tNjjhZ4mjzDxRyop_AU02VXPybbiMR3D0WAtwM4/UfwYuRgvhnzNJ-f6gkDgaqYGZNGUNEO8BrI64mNokFA_map.svg)](https://github.com/sws2apps/organized-app/commits)
 [![Top contributors](https://images.repography.com/34928945/sws2apps/organized-app/top-contributors/zEy-tNjjhZ4mjzDxRyop_AU02VXPybbiMR3D0WAtwM4/UfwYuRgvhnzNJ-f6gkDgaqYGZNGUNEO8BrI64mNokFA_table.svg)](https://github.com/sws2apps/organized-app/graphs/contributors)
-
 
 ## New features in development 
 We're working hard on the new redesigned release in the new branch _(the current main one contains an old one, but a fully functional version of the app)_. And there are so many features we want to implement:
@@ -97,12 +104,3 @@ We're working hard on the new redesigned release in the new branch _(the current
 • More printed schedules and forms (like S-12, S-13, and more)
 
 We're excited about adding these and many more new features! Naturally, it takes time to develop them... If you know programming and want to help, we'd really appreciate it! Together we can create a better app for the brotherhood across the whole globe!
-
-## Want to contribute?
-
-We really appreciate your volunteer spirit! You can contribute to the app in a few ways:
-
-1. by **telling others** about Organized app,
-2. supporting the app by **donating**,
-3. helping with **React development**, **UI design** or **translation**. Please read our [contribution guide](./CONTRIBUTING.md) on how to do so.
-
