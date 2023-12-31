@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
-    "skipLibCheck": true,
     "jsx": "react",
+    "skipLibCheck": true,
     "baseUrl": "./src",
     "paths": {
+      "@mui/styled-engine": ["./node_modules/@mui/styled-engine-sc"],
       "@assets/*": ["v3/assets/*"],
       "@components": ["v3/components/index.ts"],
       "@icons": ["v3/components/icons/index.ts"],
