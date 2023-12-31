@@ -1,5 +1,5 @@
 {
-  "trans_congregationSettings": "Congrgation settings",
+  "trans_congregationSettings": "Congregation settings",
   "trans_midweekMeeting": "Plan midweek meeting",
   "trans_fieldServiceGroups": "Field service groups",
   "trans_meetingAttendanceRecord": "Meeting attendance record",
@@ -27,8 +27,8 @@
   "trans_welcomeCongregationTitle": "Welcome to your congregation",
   "trans_welcomeCongregationDesc": "<p>Welcome to the app! Learn all the power of the app on the <a href='https://sws2apps.com/docs/category/congregation-program-for-everyone' title='Organized' target='_blank'>How to use Organized</a> page</p>",
   "trans_viewMyAssignments": "My assignments",
-  "trans_viewAssignmentsSchedule": "View weekly schedules",
-  "trans_refreshSchedule": "Refresh the schedules",
+  "trans_viewAssignmentsSchedule": "Weekly schedules",
+  "trans_refreshSchedule": "Refresh schedules",
   "trans_personAdd": "Add person",
   "trans_visitingSpeakers": "Visiting speakers",
   "trans_publicTalksList": "Public talks list",
