@@ -325,6 +325,7 @@ const ComponentPreview = () => {
                 <Typography className="label-small-regular">info-big</Typography>
                 <InfoTip
                   isBig={true}
+                  icon={<IconInfo />}
                   title="You don’t have any territories yet"
                   color="white"
                   text="Do you want to have one? Click “Get new territory” to see the list of available territories and pick one that you want to work on."

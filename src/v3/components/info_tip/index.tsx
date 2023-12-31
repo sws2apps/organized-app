@@ -26,7 +26,7 @@ const InfoTip = ({
     if (color === 'white') {
       result.border = '1px solid var(--accent-300)';
       result.background = 'var(--white)';
-      result.text = isBig ? 'var(--grey-400)' : 'var(--grey-350)';
+      result.text = 'var(--grey-400)';
       result.title = isBig ? 'var(--black)' : '';
     } else if (color === 'blue') {
       result.border = '1px dashed var(--accent-300)';
@@ -53,7 +53,7 @@ const InfoTip = ({
       >
         {isBig && (
           <Typography
-            variant="h2"
+            className="h2"
             sx={{
               color: style.title,
               marginBottom: '12px',
@@ -77,6 +77,8 @@ const InfoTip = ({
                   fill: style.text,
                 },
               },
+              width: '24px',
+              height: '24px',
             }}
           >
             {icon}
