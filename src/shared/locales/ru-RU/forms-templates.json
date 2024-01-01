@@ -55,7 +55,7 @@
   "trans_cbsLffWithPointsVariations": "lff lesson {{ lesson }} points {{ points }}|lff lesson {{ lesson }} point {{ points }}",
   "trans_cbsLffSectionOnlyVariations": "lff section",
   "trans_lcSourceElderVariations": "Local Needs",
-  "trans_lcContentElderVariations": "To be handled by an elder",
+  "trans_lcContentElderVariations": "Проводит старейшина",
   "trans_speaker": "Speaker",
   "trans_speakerSymposium": "Speaker (Symposium)",
   "trans_wtStudyReader": "Watchtower Study Reader",
