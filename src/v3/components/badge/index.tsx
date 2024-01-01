@@ -53,66 +53,37 @@ const CPEBadge = (props: BadgePropsType) => {
   const { icon, size, filled, color, text, sx = {} } = props;
 
   const getColor = () => {
-    let result = '';
-
     if (filled) return `var(--always-white)`;
 
     if (color === 'grey') {
-      result = `var(--${color}-400)`;
+      return `var(--${color}-400)`;
     } else if (color === 'green') {
-      result = `var(--${color}-main)`;
-    } else if (color === 'orange' || color === 'red' || color === 'accent') {
-      result = `var(--${color}-dark)`;
-    }
-
-    if (size === 'big') {
-      if (color === 'red') {
-        result = `var(--${color}-main)`;
+      return `var(--${color}-main)`;
+    } else {
+      if (size === 'big' && color === 'red') {
+        return `var(--${color}-main)`;
+      } else {
+        return `var(--${color}-dark)`;
       }
     }
-
-    return result;
   };
 
   const getBackgroundColor = () => {
-    let result = '';
-
     if (filled) {
-      switch (color) {
-        case 'grey':
-          result = `var(--${color}-400)`;
-          break;
-        case 'green':
-        case 'orange':
-        case 'red':
-        case 'accent':
-          result = `var(--accent-main)`;
-          break;
-        default:
-          break;
+      if (color == 'grey') {
+        return `var(--${color}-400)`;
+      } else {
+        return `var(--${color}-main)`;
       }
-      return result;
-    }
-
-    if (size === 'small' || size === 'medium' || size === 'big') {
-      switch (color) {
-        case 'grey':
-          result = `var(--${color}-150)`;
-          break;
-        case 'green':
-        case 'orange':
-        case 'red':
-          result = `var(--${color}-secondary)`;
-          break;
-        case 'accent':
-          result = `var(--accent-200)`;
-          break;
-        default:
-          break;
+    } else {
+      if (color == 'grey') {
+        return `var(--${color}-150)`;
+      } else if (color == 'accent') {
+        return `var(--accent-200)`;
+      } else {
+        return `var(--${color}-secondary)`;
       }
     }
-
-    return result;
   };
 
   return (
