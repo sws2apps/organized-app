@@ -1,5 +1,5 @@
 {
-  "trans_errorTitle": "An error occurred",
+  "trans_errorTitle": "Сталася помилка",
   "trans_about": "Про програму",
   "trans_appFullName": "Organized",
   "trans_appShortName": "Organized",
@@ -12,19 +12,19 @@
   "trans_errorGeneric": "Щось пішло не так",
   "trans_supportApp": "Підтримати програму",
   "trans_howToUseApp": "Як користуватися Organized",
-  "trans_appAboutDesc": "<p>Organized is designed for use by Jehovah’s Witnesses congregations. Its goal is to simplify and speed up all congregation planning tasks and improve assignment tracking for everyone in your congregation.</p><p>Plan midweek and weekend meetings effortlessly, send reports, and view your assigned parts with just a few clicks. This app is designed for anyone in the congregation to use and benefit from.</p><p>We're actively enhancing Organized to release even more features in the future. You can help us bring these exciting features sooner! You're welcome to contribute your ideas through freewill donations or development assistance for the new versions of Organized.</p>",
+  "trans_appAboutDesc": "<p>Organized розроблено для використання в зборах Свідків Єгови. Мета програми – спростити та прискорити всі задачі з планування в зборі та покращити відстеження своїх завдань для кожного у вашому зборі.</p><p>Легко плануй зібрання серед тижня і на вихідних, відправляй звіти та переглядай твої призначені частини лише в кілька кліків. Цей додаток розроблено так, щоб будь-хто у зібранні міг його використовувати та мати з цього користь.</p><p>Ми активно покращуємо Organized, щоб в майбутньому додати ще більше функцій! Ти також можеш допомогти нам швидше втілити ці захоплюючі функції в життя! Ласкаво просимо долучитися через добровільну пожертву або допомогу в розробці нових версій Organized.</p>",
   "trans_wantSupportApp": "Хочеш підтримати Organized?",
   "trans_supportAppDesc": "<p> Organized – це безкоштовна програма, і ми раді поділитися нею з усіма вами. Хоча ми розробляємо її з ентузіазмом, але підтримка програми потребує коштів. Якщо им відчуваєш, що хочеш з любові допомогти, твоя підтримка буде дуже багато для нас значити!</p>",
   "trans_supportAppOption1": "Варіант 1: Пожертва",
   "trans_supportAppOption1Desc": "<p>Твої пожертви забезпечують розвиток Organized і дозволяють програмі залишатись безкоштовною для кожного збору. Зараз ці пожертви компенсують вартість сервера, що забезпечує найкращий досвід користування. У майбутньому вони допоможуть розширювати можливості програми та вносити нові функції. Твоя щедрість підтримує постійні покращення для багатьох зборів по всьому світі.</p>",
   "trans_makeDonation": "Зробити пожертву",
   "trans_supportAppOption2": "Варіант 2: Допомога",
-  "trans_supportAppOption2Desc": "<p>We’ll be happy if you can help us with the following areas:</p><ul><li>React development</li><li>UI/UX Design</li><li>App translation</li></ul><p>If you can help a hand in any of these areas, please <a href='mailto:sws2apps.notification@gmail.com'>contact us</a>. Let's work together to improve Organized!</p><p>Also, recommending Organized to others helps expand its reach and benefits congregations. Your contribution, in any form, is invaluable in enhancing the app and transforming it into a better tool for everyone.</p>",
+  "trans_supportAppOption2Desc": "<p>Ми будемо раді, якщо ти зможеш допомогти нам у таких напрямках:</p><ul><li>Розробка на React</li><li>UI/UX Дизайн </li><li>Переклад програми</li></ul><p>Якщо ти можеш допомогти в якомусь з цих напрямків, будь ласка, <a href='mailto:sws2apps.notification@gmail.com'>звертайся до нас</a>. Давай співпрацювати, щоб зробити Organized кращим!</p><p>Також, рекомендуючи програму Organized іншим, ти допомагаєш збільшувати її поширеність та користь для зборів. Твій внесок у будь-якій формі є безцінним у покращенні програми і перетворенні його на кращий інструмент для всіх.</p>",
   "trans_howToContribute": "Як допомогти",
   "trans_changeLanguage": "Мова",
   "trans_languageMissing": "Тут немає моєї мови",
-  "trans_internalError": "An internal error has occurred on our side. Please try again later.",
+  "trans_internalError": "Сталася внутрішня помилка з нашого боку. Будь ласка, спробуй ще раз пізніше.",
   "trans_loading": "Завантаження...",
   "trans_noOptions": "Немає",
-  "trans_pleaseWait": "Будь ласка, зачекайте ..."
+  "trans_pleaseWait": "Будь ласка, зачекай ..."
 }
