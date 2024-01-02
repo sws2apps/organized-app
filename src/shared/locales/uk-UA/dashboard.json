@@ -12,12 +12,12 @@
   "trans_report": "Звіт",
   "trans_personsAll": "Всі особи",
   "trans_pioneerApplications": "Піонерські заяви",
-  "trans_syncAppData": "Синхронізувати дані Organized",
+  "trans_syncAppData": "Синхронізувати Organized",
   "trans_lastSyncAppDataNow": "Остання синхронізація щойно",
   "trans_lastSyncAppDataRecently": "Остання синхронізація недавно",
   "trans_lastSyncAppData": "Синхронізовано {{ duration }} хв тому",
   "trans_greeting": "Привіт, {{ firstName }}",
-  "trans_meetingAssignments": "<p>У тебе<a href='#' title='Meeting Assignment'>{{ assignment }} завдань на зібрання</a> на даний момент.</p>",
+  "trans_meetingAssignments": "<p>У тебе <a href='#' title='Meeting Assignment'>{{ assignment }} завдань на зібрання</a> на даний момент.</p>",
   "trans_timerLabelTime": "Час",
   "trans_timerLabelStart": "Старт",
   "trans_timerLabelPause": "Пауза",
@@ -35,5 +35,5 @@
   "trans_sourceImportEPUB": "Імпортувати з файлу .epub",
   "trans_sourceImportJw": "Імпортувати з jw.org",
   "trans_fieldServiceReports": "Звіти про служіння",
-  "trans_manageAccessToApps": "Керувати доступом до Organized"
+  "trans_manageAccessToApps": "Керування доступом"
 }

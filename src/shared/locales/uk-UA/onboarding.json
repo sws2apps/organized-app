@@ -59,7 +59,7 @@
   "trans_encryptionCodeNoticeSpecialSymbol": "Спецсимвол",
   "trans_encryptionCodeSet": "Встановити код шифрування",
   "trans_encryptionCodeAsk": "Введи код шифрування збору",
-  "trans_encryptionCodeValidate": "Перевірити",
+  "trans_encryptionCodeValidate": "Підтвердити",
   "trans_encryptionCodeInvalid": "Введено неправильний код шифрування",
   "trans_activate": "Активувати",
   "trans_next": "Далі",
