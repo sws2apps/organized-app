@@ -19,7 +19,7 @@ import {
 
 export const CPEUserCard = ({ name, type, female, onClick, onDelete, chipLabels = [], children }: CPEUserCardProps) => {
   return (
-    <StyledCardBox type={type}>
+    <StyledCardBox>
       <StyledCard onClick={() => onClick && onClick()}>
         <StyledCardContent>
           <StyledBox gap="13px" sx={{ flexWrap: 'nowrap' }}>

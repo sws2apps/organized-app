@@ -1,8 +1,7 @@
 import { Box, Card, CardContent } from '@mui/material';
 import { styled } from '@mui/system';
-import { CPEUserCardTypes } from './user_card.types';
 
-export const StyledCardBox = styled(Box)<{ type: CPEUserCardTypes }>(({ type }) => ({
+export const StyledCardBox = styled(Box)({
   '.MuiCard-root': {
     borderRadius: '8px',
     boxShadow: 'none',
@@ -14,7 +13,7 @@ export const StyledCardBox = styled(Box)<{ type: CPEUserCardTypes }>(({ type }) 
       cursor: 'pointer',
     },
   },
-}));
+});
 
 export const StyledCard = styled(Card)({
   minWidth: 432,

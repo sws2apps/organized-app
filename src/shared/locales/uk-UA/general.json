@@ -23,8 +23,8 @@
   "trans_howToContribute": "Як допомогти",
   "trans_changeLanguage": "Мова",
   "trans_languageMissing": "Тут немає моєї мови",
-  "trans_internalError": "З нашої сторони сталася внутрішня помилка. Будь ласка, спробуйте ще раз пізніше.",
+  "trans_internalError": "Сталася внутрішня помилка з нашого боку. Будь ласка, спробуй ще раз пізніше.",
   "trans_loading": "Завантаження...",
   "trans_noOptions": "Немає",
-  "trans_pleaseWait": "Будь ласка, зачекайте ..."
+  "trans_pleaseWait": "Будь ласка, зачекай ..."
 }
