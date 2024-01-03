@@ -22,7 +22,7 @@
   "trans_supportAppOption2Desc": "<p>We'd appreciate your help in the following areas:</p><ul><li>React development</li><li>UI/UX Design</li><li>App translation</li></ul><p>If you can help a hand in any of these areas, please <a href='mailto:sws2apps.notification@gmail.com'>contact us</a>. Let's work together to improve Organized!</p><p>Also, recommending Organized to others extends its reach and benefits congregations. Any way you contribute truly enhances the app, making it better for everyone.</p>",
   "trans_howToContribute": "Як допомогти",
   "trans_changeLanguage": "Мова",
-  "trans_languageMissing": "Add my language",
+  "trans_languageMissing": "Додати мою мову",
   "trans_internalError": "Сталася внутрішня помилка з нашого боку. Будь ласка, спробуй ще раз пізніше.",
   "trans_loading": "Завантаження...",
   "trans_noOptions": "Немає",
