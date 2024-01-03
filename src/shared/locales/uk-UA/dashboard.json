@@ -1,10 +1,10 @@
 {
   "trans_congregationSettings": "Налаштування збору",
-  "trans_midweekMeeting": "Створити зібрання серед тижня",
+  "trans_midweekMeeting": "Midweek meeting",
   "trans_fieldServiceGroups": "Групи до проповідування",
   "trans_meetingAttendanceRecord": "Відвідуваність зібрань",
   "trans_serviceYear": "Службовий рік",
-  "trans_weekendMeeting": "Створити зібрання на вихідних",
+  "trans_weekendMeeting": "Weekend meeting",
   "trans_branchOfficeReport": "Звіти до філіалу",
   "trans_ministry": "Служіння",
   "trans_meetings": "Зібрання",
@@ -12,7 +12,7 @@
   "trans_report": "Звіт",
   "trans_personsAll": "Всі особи",
   "trans_pioneerApplications": "Піонерські заяви",
-  "trans_syncAppData": "Синхронізувати Organized",
+  "trans_syncAppData": "Sync data",
   "trans_lastSyncAppDataNow": "Остання синхронізація щойно",
   "trans_lastSyncAppDataRecently": "Остання синхронізація недавно",
   "trans_lastSyncAppData": "Синхронізовано {{ duration }} хв тому",
@@ -35,5 +35,5 @@
   "trans_sourceImportEPUB": "Імпортувати з файлу .epub",
   "trans_sourceImportJw": "Імпортувати з jw.org",
   "trans_fieldServiceReports": "Звіти про служіння",
-  "trans_manageAccessToApps": "Керування доступом"
+  "trans_manageAccessToApps": "Manage access"
 }
