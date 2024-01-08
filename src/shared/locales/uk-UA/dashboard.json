@@ -17,7 +17,7 @@
   "trans_lastSyncAppDataRecently": "Остання синхронізація недавно",
   "trans_lastSyncAppData": "Синхронізовано {{ duration }} хв тому",
   "trans_greeting": "Привіт, {{ firstName }}",
-  "trans_meetingAssignments": "<p>Переглянь свої <a href='#' title='Meeting Assignment'>наступні завдання</a>. {{ assignment }} на разі.</p>",
+  "trans_meetingAssignments": "<p>Переглянь свої наступні завдання. <a href='#' title='Meeting Assignment'>{{ assignment }} на разі</a>.</p>",
   "trans_timerLabelTime": "Час",
   "trans_timerLabelStart": "Старт",
   "trans_timerLabelPause": "Пауза",
