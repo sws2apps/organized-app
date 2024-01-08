@@ -127,7 +127,7 @@
   "meetingDay": "Meeting day",
   "whatIsCPE": "Is CPE an official application for Jehovah’s Witnesses?",
   "descCPE": "No, it is not. You are free to choose whether to use it or not. We recommend that its use has been approved by all the congregation elders. Also, we are aware that there are many similar applications currently available to help you to accomplish the same tasks. We are not here to say what is the best and what is not. We believe all of these applications are good and have their own methods on how to do things, but still share the same goal.",
-  "appPWA": "CPE is a PWA application. What does it means?",
+  "appPWA": "CPEはPWAアプリです。どういう意味ですか？",
   "descPWA": "As a PWA, or progressive web application, CPE is a type of application software delivered through the web. It is intended to work on any platform that uses a standards-compliant browser, including both desktop and mobile devices. Also, you can <strong>install</strong> it on your device, and it will <strong>work offline</strong> after you have finished the initial setup.",
   "appSecure": "How secure is your data when you use CPE?",
   "webChange": "We are committed to providing you with a secure application that should allow you to carry your responsabilities in the congregation. In web development, technologies are changing rapidly, and we will do our best to keep the pace with those changes.",
