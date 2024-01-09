@@ -24,3 +24,5 @@ export { default as Typography } from './typography/index';
 export { default as UserCard } from './user_card/index';
 export { default as WaitingCircular } from './waiting_circular/index';
 export { default as InfoTip } from './info_tip/index';
+export { default as Reminders } from './reminders/index';
+export { default as ReminderItem } from './reminderItem/index';
