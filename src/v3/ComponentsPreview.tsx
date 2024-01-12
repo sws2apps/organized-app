@@ -13,11 +13,14 @@ import {
   UserCard,
   InfoTip,
   Loading,
+  PageTitle,
 } from '@components';
 import { useEffect, useState } from 'react';
 import { IconAdd, IconAssign, IconClose, IconReturn, IconUndo, IconUpdate, IconInfo, IconVisitors } from '@icons';
 
 import { NavBar } from './layouts';
+import { Types } from './components/page_title/index.types';
+import { display } from '@mui/system';
 
 const themes = ['blue', 'green', 'orange', 'purple'];
 
@@ -444,7 +447,23 @@ const ComponentPreview = () => {
           </Box>
         </Box>
         <Box>
+          <Typography className="label-small-regular">loading</Typography>
           <Loading />
+        </Box>
+        <Box sx={{display:'flex', flexDirection:'column', gap:'10px'}}>
+          <Typography className="label-small-regular">page-title</Typography>
+          <Box>
+            <Typography className="label-small-regular">with-btn</Typography>
+            < PageTitle type={Types.WITH_BTN}/>
+          </Box>
+          <Box>
+            <Typography className="label-small-regular">two-buttons</Typography>
+            < PageTitle type={Types.TWO_BUTTONS}/>
+          </Box>
+          <Box>
+            <Typography className="label-small-regular">no-btn</Typography>
+            < PageTitle type={Types.NO_BTN}/>
+          </Box>
         </Box>
       </Container>
     </Box>
