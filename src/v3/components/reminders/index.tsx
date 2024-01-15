@@ -1,9 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Typography } from '@components';
+import { Box } from '@mui/material';
 import IconReminder from '../icons/IconReminder';
 import { Button } from '@components';
 import { RemindersProps, ReminderItemProps } from './reminders.types';
-import { RemindersCard, RemindersTitle, RemindersList, RemindersFooter } from './reminders.styled';
+import {
+  StyledRemindersCard,
+  StyledRemindersTitle,
+  StyledRemindersList,
+  StyledRemindersFooter,
+  StyledReminderLi,
+  StyledReminderBox,
+  StyledPoint,
+} from './reminders.styled';
 
 const Reminders = ({ children }: RemindersProps) => {
   const [reminderDate, setReminderDate] = useState<string | null>(null);
@@ -43,26 +52,48 @@ const Reminders = ({ children }: RemindersProps) => {
   };
 
   return (
-    <RemindersCard>
-      <RemindersTitle>
+    <StyledRemindersCard>
+      <StyledRemindersTitle>
         <IconReminder color="var(--always-white)" />
         <Typography className="h4" color="var(--always-white)">
           Reminders
         </Typography>
-      </RemindersTitle>
+      </StyledRemindersTitle>
 
-      <RemindersList>{children}</RemindersList>
+      <StyledRemindersList>{children}</StyledRemindersList>
 
-      <RemindersFooter>
+      <StyledRemindersFooter>
         <Button variant="main" color="orange" onClick={onRemind}>
           remind me tomorrow
         </Button>
         <Button variant="semi-white" onClick={onGoTo}>
           Go to reports
         </Button>
-      </RemindersFooter>
-    </RemindersCard>
+      </StyledRemindersFooter>
+    </StyledRemindersCard>
   );
 };
 
-export default Reminders;
+const ReminderItem = (props: ReminderItemProps) => {
+  const { title, description, link } = props;
+
+  return (
+    <>
+      <StyledReminderLi>
+        <StyledReminderBox>
+          <StyledPoint>•</StyledPoint>
+          <Box>
+            <Typography className="h4" color="var(--always-white)">
+              {title}
+            </Typography>
+            <Typography className="body-small-regular" color="var(--always-white)">
+              {description}
+            </Typography>
+          </Box>
+        </StyledReminderBox>
+      </StyledReminderLi>
+    </>
+  );
+};
+
+export { ReminderItem, Reminders };
