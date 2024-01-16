@@ -13,6 +13,8 @@ import {
   UserCard,
   InfoTip,
   Loading,
+  Reminders,
+  ReminderItem,
 } from '@components';
 import { useEffect, useState } from 'react';
 import { IconAdd, IconAssign, IconClose, IconReturn, IconUndo, IconUpdate, IconInfo, IconVisitors } from '@icons';
@@ -445,6 +447,25 @@ const ComponentPreview = () => {
         </Box>
         <Box>
           <Loading />
+        </Box>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '40px', marginBottom: '40px' }}>
+          Reminders:
+          <Reminders>
+            {[
+              <ReminderItem
+                title="The Congregation Field Service and Meeting Attendance (S-1) report is not yet ready."
+                description="It should be submitted to the branch office no later than the 20th day of the month."
+                link="/some-link1"
+                key={1}
+              />,
+              <ReminderItem
+                title="Your Field Service Report (S-4) is not yet ready."
+                description="It should be submitted to the secretary no later than the 6th day of the month."
+                link="/some-link2"
+                key={2}
+              />,
+            ]}
+          </Reminders>
         </Box>
       </Container>
     </Box>
