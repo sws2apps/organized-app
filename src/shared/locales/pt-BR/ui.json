@@ -225,7 +225,7 @@
   "s89NoData": "Não existe nenhuma designação para ser impressa nessa programação",
   "publishPocket": "Compartilhar programação",
   "publishSelectSchedule": "Selecione a programação que você deseja compartilhar:",
-  "publishSuccess": "Schedule published sucessfully",
+  "publishSuccess": "Programação enviada",
   "weeksList": "Semanas",
   "assignedParts": "Partes designadas",
   "deleteScheduleConfirm": "Tem certeza que deseja excluir todas as designações da programação de {{ currentSchedule }}?",
