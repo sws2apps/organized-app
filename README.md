@@ -26,7 +26,10 @@ A free web app for Jehovah’s Witnesses congregations, helping with assignments
 
 🖨️ **Print templates:** Export and print schedules that are visually pleasing and easy to read. Export Assignment Form (S-89) right away.
 
-🎨 **Modern user-focused design:** Featuring dark and light modes, as well as four color themes.
+🎨 **Modern user-focused design:** Thoughtful user experience, featuring dark and light modes, as well as four color themes.
+
+🛜 **Offline-use convenience:** You can use the app even offline; data will be synced with your devices and congregation once the connection is restored.
+
 
 <img width="1110" alt="Features-gridv2" src="https://github.com/sws2apps/organized-app/assets/26148770/041d0b7a-0e59-446b-a735-0e978f3df9a5">
 
