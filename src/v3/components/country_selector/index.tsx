@@ -29,7 +29,7 @@ const CountrySelector = ({ handleCountryChange }: { handleCountryChange: (value:
       loading={isLoading}
       value={selected}
       onChange={(e, value) => handleOnChange(value)}
-      label={t('trans_selectCountry')}
+      label={t('tr_selectCountry')}
       startIcon={<IconFindCountry color={selected ? 'var(--black)' : 'var(--accent-350)'} />}
       endIcon={<IconSearch color={selected ? 'var(--black)' : 'var(--accent-350)'} />}
     />

@@ -67,7 +67,7 @@ const NavBar = () => {
         <Box sx={{ display: 'flex', alignItems: 'center', gap: { mobile: '8px', tablet: '16px' } }}>
           <IconLogo width={40} height={40} />
           <Typography className="h3" color="var(--black)">
-            {tablet600Up ? t('trans_appFullName') : t('trans_appShortName')}
+            {tablet600Up ? t('tr_appFullName') : t('tr_appShortName')}
           </Typography>
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: { mobile: '4px', tablet: '8px' } }}>
@@ -151,7 +151,7 @@ const NavBar = () => {
                 <IconDonate color="var(--black)" />
               </ListItemIcon>
               <ListItemText>
-                <Typography className="body-regular">{t('trans_supportApp')}</Typography>
+                <Typography className="body-regular">{t('tr_supportApp')}</Typography>
               </ListItemText>
             </MenuItem>
             <MenuItem disableRipple sx={menuStyle} onClick={handleOpenDoc}>
@@ -159,7 +159,7 @@ const NavBar = () => {
                 <IconHelp color="var(--black)" />
               </ListItemIcon>
               <ListItemText>
-                <Typography className="body-regular">{t('trans_howToUseApp')}</Typography>
+                <Typography className="body-regular">{t('tr_howToUseApp')}</Typography>
               </ListItemText>
             </MenuItem>
             <MenuItem disableRipple sx={menuStyle} onClick={handleOpenAbout}>
@@ -167,7 +167,7 @@ const NavBar = () => {
                 <IconInfo color="var(--black)" />
               </ListItemIcon>
               <ListItemText>
-                <Typography className="body-regular">{t('trans_about')}</Typography>
+                <Typography className="body-regular">{t('tr_about')}</Typography>
               </ListItemText>
             </MenuItem>
           </Menu>

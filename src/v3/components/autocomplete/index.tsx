@@ -80,12 +80,12 @@ const CPEAutoComplete = (props: AutocompletePropsType) => {
       ListboxComponent={CustomListBoxComponent}
       noOptionsText={
         <Box sx={{ backgroundColor: 'var(--white)' }}>
-          <Typography className="body-regular">{t('trans_noOptions')}</Typography>
+          <Typography className="body-regular">{t('tr_noOptions')}</Typography>
         </Box>
       }
       loadingText={
         <Box sx={{ backgroundColor: 'var(--white)' }}>
-          <Typography className="body-regular">{t('trans_loading')}</Typography>
+          <Typography className="body-regular">{t('tr_loading')}</Typography>
         </Box>
       }
       renderInput={(params) => (

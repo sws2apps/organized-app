@@ -10,20 +10,20 @@ const CongregationCard = () => {
   const { secondaryText, handleManualSync } = useCongregation();
 
   return (
-    <DashboardCard header={t('trans_congregation')}>
+    <DashboardCard header={t('tr_congregation')}>
       <ListItem disablePadding>
-        <DashboardMenu icon={<IconGroups color="var(--black)" />} primaryText={t('trans_fieldServiceGroups')} />
+        <DashboardMenu icon={<IconGroups color="var(--black)" />} primaryText={t('tr_fieldServiceGroups')} />
       </ListItem>
       <ListItem disablePadding>
-        <DashboardMenu icon={<IconManageAccess color="var(--black)" />} primaryText={t('trans_manageAccessToApps')} />
+        <DashboardMenu icon={<IconManageAccess color="var(--black)" />} primaryText={t('tr_manageAccessToApps')} />
       </ListItem>
       <ListItem disablePadding>
-        <DashboardMenu icon={<IconSettings color="var(--black)" />} primaryText={t('trans_congregationSettings')} />
+        <DashboardMenu icon={<IconSettings color="var(--black)" />} primaryText={t('tr_congregationSettings')} />
       </ListItem>
       <ListItem disablePadding>
         <DashboardMenu
           icon={<IconSynced color="var(--black)" />}
-          primaryText={t('trans_syncAppData')}
+          primaryText={t('tr_syncAppData')}
           secondaryText={secondaryText}
           onClick={handleManualSync}
         />

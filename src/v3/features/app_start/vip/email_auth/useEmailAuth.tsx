@@ -34,8 +34,8 @@ const useEmailAuth = () => {
 
     if (!isEmailValid(userTmpEmail)) {
       await displayOnboardingFeedback({
-        title: t('trans_errorGeneric'),
-        message: t('trans_emailNotSupported'),
+        title: t('tr_errorGeneric'),
+        message: t('tr_emailNotSupported'),
       });
       showMessage();
 
@@ -47,7 +47,7 @@ const useEmailAuth = () => {
 
     if (status !== 200) {
       await displayOnboardingFeedback({
-        title: t('trans_errorGeneric'),
+        title: t('tr_errorGeneric'),
         message: getMessageByCode(data.message),
       });
       showMessage();
@@ -62,8 +62,8 @@ const useEmailAuth = () => {
     }
 
     await displayOnboardingFeedback({
-      title: t('trans_emailAuthSentHeader'),
-      message: t('trans_emailAuthSent'),
+      title: t('tr_emailAuthSentHeader'),
+      message: t('tr_emailAuthSent'),
       variant: 'success',
     });
     showMessage();
