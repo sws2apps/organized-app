@@ -8,7 +8,6 @@ export const StyledRemindersCard = styled(Box)({
   background: 'var(--orange-main)',
   gap: '8px',
   color: 'var(--always-white)',
-  boxShadow: '0px 8px 24px 0px rgba(226, 151, 62, 0.24)',
 });
 
 export const StyledRemindersTitle = styled(Box)({
