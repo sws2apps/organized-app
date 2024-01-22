@@ -15,6 +15,7 @@ import {
   Loading,
   Reminders,
   ReminderItem,
+  SearchBar,
 } from '@components';
 import { useEffect, useState } from 'react';
 import { IconAdd, IconAssign, IconClose, IconReturn, IconUndo, IconUpdate, IconInfo, IconVisitors } from '@icons';
@@ -466,6 +467,10 @@ const ComponentPreview = () => {
               />,
             ]}
           </Reminders>
+        </Box>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '40px', marginBottom: '40px' }}>
+          Search_bar:
+          <SearchBar></SearchBar>
         </Box>
       </Container>
     </Box>
