@@ -1,13 +1,24 @@
 import { styled } from '@mui/system';
-import { Input, Box } from '@mui/material';
+import { Box, Input, Button } from '@mui/material';
 
 export const StyledBox = styled(Box)({
   display: 'flex',
+  width: '728px',
+  height: '48px',
   alignItems: 'center',
+  flexShrink: '0',
+  borderRadius: 'var(--radius-m)',
+  background: 'var(--grey-100)',
+  color: 'var(--grey-350)',
+  padding: '4px',
   gap: '4px',
   flex: '1 0 0',
   alignSelf: 'stretch',
-  borderRadius: 'var(--radius-none, 0px)',
+});
+
+export const StyledButton = styled(Button)({
+  minWidth: '0px',
+  padding: '8px',
 });
 
 export const StyledInput = styled(Input)({
@@ -16,13 +27,18 @@ export const StyledInput = styled(Input)({
   gap: '8px',
   flex: '1 0 0',
   alignSelf: 'stretch',
-  borderRadius: 'var(--radius-none, 0px)',
+  borderRadius: 'var(--radius-none)',
+  fontFamily: 'Inter',
+  fontSize: '16px',
+  fontStyle: 'normal',
+  fontWeight: '420',
+  lineHeight: '20px',
+
   '&::placeholder': {
     color: 'var(--grey-350)',
-    fontFamily: 'Inter',
-    fontSize: '16px',
-    fontStyle: 'normal',
-    fontWeight: '420',
-    lineHeight: '20px',
+  },
+
+  '&::input': {
+    color: 'var(--black)',
   },
 });
