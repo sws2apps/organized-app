@@ -20,6 +20,7 @@ import { useEffect, useState } from 'react';
 import { IconAdd, IconAssign, IconClose, IconReturn, IconUndo, IconUpdate, IconInfo, IconVisitors } from '@icons';
 
 import { NavBar } from './layouts';
+import CPETimePicker from './components/time_picek';
 
 const themes = ['blue', 'green', 'orange', 'purple'];
 
@@ -110,6 +111,8 @@ const ComponentPreview = () => {
 
       <Container maxWidth={false} sx={{ maxWidth: '1440px' }}>
         <Box sx={{ margin: '80px 0px' }}>
+          <CPETimePicker ampm={true} label={'Time'} />
+          <CPETimePicker ampm={false} label={'Time'} />
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '25px', margin: '20px 0px' }}>
             <Box>
               <Typography className="label-small-regular">variant huge-numbers</Typography>
