@@ -5,4 +5,6 @@ export interface CPEDatePickerProps {
   label?: string;
   limitYear?: boolean;
   disablePast?: boolean;
+  toolbarInputViewFormat?: string;
+  buttonViewFormat?: string;
 }

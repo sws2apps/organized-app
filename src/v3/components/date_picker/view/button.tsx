@@ -10,7 +10,8 @@ const ButtonField = ({
   disabled,
   InputProps: { ref } = {},
   inputProps: { 'aria-label': ariaLabel } = {},
-}: { setOpen?: React.Dispatch<React.SetStateAction<boolean>> } & BaseSingleInputFieldProps<
+  formatView,
+}: { setOpen?: React.Dispatch<React.SetStateAction<boolean>>; formatView: string } & BaseSingleInputFieldProps<
   any,
   any,
   FieldSection,
@@ -35,7 +36,7 @@ const ButtonField = ({
         padding: '4px 8px',
       }}
     >
-      {value ? `${format(value, 'dd MMM yyyy')}` : 'Pick a date'}
+      {value ? `${format(value, formatView)}` : 'Pick a date'}
     </Button>
   );
 };

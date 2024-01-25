@@ -1,7 +1,7 @@
-import { uk } from 'date-fns/locale';
+import { enUS } from 'date-fns/locale';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, useTransition } from 'react';
 import { addYears, getWeeksInMonth, startOfYear, subYears } from 'date-fns';
 import Stack from '@mui/material/Stack';
 import { format } from 'date-fns';
@@ -21,8 +21,18 @@ import {
   StyleDatePickerPopper,
   StyleDatePickerToolbar,
 } from './date_picker.style';
+import { useTranslation } from 'react-i18next';
 
-const CPEDatePicker = ({ initDate = null, view, label, disablePast, limitYear = false }: CPEDatePickerProps) => {
+const CPEDatePicker = ({
+  initDate = null,
+  view,
+  label,
+  disablePast,
+  limitYear = false,
+  buttonViewFormat = 'dd MMM yyyy',
+  toolbarInputViewFormat = 'EEE, dd MMM yyyy',
+}: CPEDatePickerProps) => {
+  const { t } = useTranslation('ui');
   const [open, setOpen] = useState<boolean>(false);
   const [value, setValue] = useState<Date | null>(null);
   const [innerValue, setInnerValue] = useState<Date | null>(initDate);
@@ -30,7 +40,7 @@ const CPEDatePicker = ({ initDate = null, view, label, disablePast, limitYear = 
   const [height, setHeight] = useState('300px'); // Initial height
 
   const changeHeight = useCallback((event) => {
-    if (getWeeksInMonth(new Date(event), { locale: uk, weekStartsOn: 1 }) === 6) setHeight('340px');
+    if (getWeeksInMonth(new Date(event), { locale: enUS, weekStartsOn: 1 }) === 6) setHeight('340px');
     else setHeight('300px');
   }, []);
 
@@ -47,7 +57,7 @@ const CPEDatePicker = ({ initDate = null, view, label, disablePast, limitYear = 
   return (
     <ClickAwayListener onClickAway={handleClickAway}>
       <div>
-        <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={uk}>
+        <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={enUS}>
           <DesktopDatePicker
             slots={{
               ...viewProps,
@@ -60,7 +70,7 @@ const CPEDatePicker = ({ initDate = null, view, label, disablePast, limitYear = 
                       setValue(initDate);
                     }}
                   >
-                    Cancel
+                    {t('cancel')}
                   </Button>
                   <Button
                     variant="main"
@@ -69,7 +79,7 @@ const CPEDatePicker = ({ initDate = null, view, label, disablePast, limitYear = 
                       setOpen(false);
                     }}
                   >
-                    Save
+                    {t('save')}
                   </Button>
                 </Stack>
               ),
@@ -84,7 +94,7 @@ const CPEDatePicker = ({ initDate = null, view, label, disablePast, limitYear = 
                   <Typography className="body-small-semibold" color={'var(--grey-400)'}>
                     Select date
                   </Typography>
-                  <Typography className="h2">{`${format(innerValue, 'EEE, dd MMM yyyy')}`}</Typography>
+                  <Typography className="h2">{`${format(innerValue, toolbarInputViewFormat)}`}</Typography>
                 </Stack>
               ),
             }}
@@ -103,7 +113,10 @@ const CPEDatePicker = ({ initDate = null, view, label, disablePast, limitYear = 
                 label: label,
                 value: value,
               } as any,
-              field: { setOpen } as any,
+              field: {
+                setOpen,
+                formatView: buttonViewFormat,
+              } as any,
               popper: {
                 sx: {
                   ...StyleDatePickerPopper,
