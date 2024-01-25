@@ -1,7 +1,5 @@
 {  
   "tr_logOut": "Log out",
-  "tr_firstName": "First name",
-  "tr_firstName": "Last name",
   "tr_emailAddress": "Email address",
   "tr_emailAddressDesc": "The email address can’t be changed. Please contact us if you want to change it.",
   "tr_name": "Name",
