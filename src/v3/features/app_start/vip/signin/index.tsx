@@ -13,14 +13,14 @@ const Signin = () => {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-      <PageHeader title={t('trans_login')} description={t('trans_signInDesc')} onClick={handleReturnChooser} />
+      <PageHeader title={t('tr_login')} description={t('tr_signInDesc')} onClick={handleReturnChooser} />
 
       <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '24px' }}>
         <Box>
           <OAuth />
 
           <Box sx={{ marginTop: { mobile: '16px', laptop: '32px' } }}>
-            <TextMarkup content={t('trans_oauthAccept')} className="body-small-regular" color="var(--grey-400)" />
+            <TextMarkup content={t('tr_oauthAccept')} className="body-small-regular" color="var(--grey-400)" />
           </Box>
         </Box>
 

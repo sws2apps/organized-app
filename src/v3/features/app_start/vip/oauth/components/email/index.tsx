@@ -16,8 +16,8 @@ const OAuthEmail = () => {
         gap: { mobile: '16px', laptop: '32px' },
       }}
     >
-      <Typography sx={{ textAlign: 'center' }}>{t('trans_orLabel')}</Typography>
-      <OAuthButtonBase isEmail={true} text={t('trans_oauthEmail')} logo={<IconMail color="var(--black)" />} />
+      <Typography sx={{ textAlign: 'center' }}>{t('tr_orLabel')}</Typography>
+      <OAuthButtonBase isEmail={true} text={t('tr_oauthEmail')} logo={<IconMail color="var(--black)" />} />
     </Box>
   );
 };

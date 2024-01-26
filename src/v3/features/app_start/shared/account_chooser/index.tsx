@@ -13,20 +13,20 @@ const AccountChooser = () => {
   return (
     <Box>
       <Typography className="h1" color="var(--black)" sx={{ marginBottom: '16px' }}>
-        {t('trans_welcomeApp')}
+        {t('tr_welcomeApp')}
       </Typography>
       <Typography className="body-regular" color="var(--grey-400)" sx={{ marginBottom: '32px' }}>
-        {t('trans_selectAccount')}
+        {t('tr_selectAccount')}
       </Typography>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
         <AccountType
           startIcon={<IconPublishers width={32} height={32} color="var(--accent-400)" />}
-          text={t('trans_accountPublisherStudent')}
+          text={t('tr_accountPublisherStudent')}
           onClick={handleChoosePocket}
         />
         <AccountType
           startIcon={<IconBrother width={32} height={32} color="var(--accent-400)" />}
-          text={t('trans_accountBaptizedBrother')}
+          text={t('tr_accountBaptizedBrother')}
           onClick={handleChooseVIP}
         />
       </Box>

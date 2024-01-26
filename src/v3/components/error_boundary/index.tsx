@@ -28,13 +28,13 @@ const ErrorBoundary = () => {
         }}
       >
         <Typography className="h1" color="var(--black)">
-          {t('trans_errorHeaderText')}
+          {t('tr_errorHeaderText')}
         </Typography>
         <Typography className="button-caps" color="var(--grey-400)">
           {error.message || error.data}
         </Typography>
         <Typography className="body-regular" color="var(--grey-400)">
-          {t('trans_errorActionText')}
+          {t('tr_errorActionText')}
         </Typography>
         <Box
           sx={{
@@ -53,10 +53,10 @@ const ErrorBoundary = () => {
             onClick={handleDelete}
             startIcon={<IconRestart />}
           >
-            {t('trans_restart')}
+            {t('tr_restart')}
           </Button>
           <Button variant="main" className="button-caps" onClick={handleReload} startIcon={<IconRefresh />}>
-            {t('trans_refreshPage')}
+            {t('tr_refreshPage')}
           </Button>
         </Box>
       </Container>
