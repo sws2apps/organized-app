@@ -78,5 +78,5 @@
   "tr_changePIN": "Змінити PIN",
   "tr_lockAfter": "Блокувати через",
   "tr_editTimeAway": "Редагувати час відсутності",
-  "tr_appPreferences": "Налаштування додатку"
+  "tr_lastSeen": "Востаннє онлайн: {{ last_seen }}"
 }
