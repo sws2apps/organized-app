@@ -64,7 +64,7 @@
   "openingPrayerWeekendMeeting": "Opening Prayer",
   "noWMeeting": "There is no weekend meeting for this week",
   "noMeeting": "There is no meeting for this week",
-  "longDateFormat": "{{ month }} {{ date }}, {{ year }}",
+  "longDateFormat": "{{ date }} {{ month }} {{ year }}",
   "substituteSpeaker": "Substitute Speaker",
   "startingConversation": "Starting a Conversation",
   "followingUp": "Following Up",
