@@ -1,3 +1,18 @@
+# [2.115.0](https://github.com/sws2apps/cpe-sws/compare/v2.114.0...v2.115.0) (2024-01-25)
+
+
+### Bug Fixes
+
+* **app:** pdf export stuck on loading ([719584a](https://github.com/sws2apps/cpe-sws/commit/719584ab90273f16e57eb99d57b7711cfdf53933))
+
+
+### Features
+
+* **deps:** bump @mui/icons-material from 5.15.5 to 5.15.6 ([0b9e1ae](https://github.com/sws2apps/cpe-sws/commit/0b9e1ae9144076f06465b8259a2f7dd5d566db9a))
+* **deps:** bump @mui/material from 5.15.5 to 5.15.6 ([46beb16](https://github.com/sws2apps/cpe-sws/commit/46beb16ce912ab0c08d7e6d6bb2c57c980fc59fe))
+* **deps:** bump @react-pdf/renderer from 3.3.3 to 3.3.4 ([ee15b5f](https://github.com/sws2apps/cpe-sws/commit/ee15b5f463ceb4be35143a6e0a3bd85096edbe49))
+* **deps:** bump i18next from 23.7.18 to 23.7.19 ([238fa68](https://github.com/sws2apps/cpe-sws/commit/238fa6837c2474f115041905863b0e34a1d9da0c))
+
 # [2.114.0](https://github.com/sws2apps/cpe-sws/compare/v2.113.0...v2.114.0) (2024-01-23)
 
 
