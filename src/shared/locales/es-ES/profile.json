@@ -78,5 +78,5 @@
   "tr_changePIN": "Change PIN",
   "tr_lockAfter": "Lock after",
   "tr_editTimeAway": "Edit time away",
-  "tr_appPreferences": "App preferences"
+  "tr_lastSeen": "Last seen: {{ last_seen }}"
 }
