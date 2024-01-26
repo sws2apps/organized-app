@@ -71,12 +71,12 @@
   "tr_sendLink": "Надіслати посилання",
   "tr_emailNotSupported": "На жаль, ця адреса електронної пошти недійсна або не підтримується",
   "tr_selectCountry": "Країна",
-  "tr_2FA": "Let’s make sure it's you",
-  "tr_2FADesc": "Enter a code from your authenticator app",
-  "tr_2FAIncorrect": "Incorrect 2FA code",
-  "tr_2FAIncorrectDesc": "The code might be incorrect or expired. Try again.",
-  "tr_unauthorizedAccount": "Your access permissions need to be adjusted",
-  "tr_unauthorizedAccountDesc": "Contact your congregation app administrator to confirm your role, then try again in 5 minutes. For any further assistance, elders can contact us via email.",
-  "tr_noSchedulesYet": "No schedules yet",
-  "tr_noSchedulesYetDesc": "Please ask your congregation elders to publish the meeting schedule first."
+  "tr_2FA": "Давайте переконаємось, що це ви",
+  "tr_2FADesc": "Введи код зі своєї програми-аутентифікатора",
+  "tr_2FAIncorrect": "Неправильний код двоетапної перевірки",
+  "tr_2FAIncorrectDesc": "Можливо, код невірний або вже не дійсний. Спробуй ще раз.",
+  "tr_unauthorizedAccount": "Твої права доступу мають бути налаштовані",
+  "tr_unauthorizedAccountDesc": "Звернися до адміністратора Organized у твоєму зборі для підтвердження своєї ролі, а потім повтори спробу через 5 хвилин. Для отримання додаткової допомоги старійшини можуть зв'язатися з нами через електронну пошту.",
+  "tr_noSchedulesYet": "Ще немає розкладів",
+  "tr_noSchedulesYetDesc": "Будь ласка, спочатку попроси старійшин твого збору опублікувати графік зібрання."
 }
