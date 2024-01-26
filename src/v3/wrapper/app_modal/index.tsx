@@ -21,7 +21,7 @@ const AppModalWrapper = ({ children }: { children: ReactNode }) => {
           aria-labelledby="alert-dialog-close-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-close-title">{t('trans_pleaseWait')}</DialogTitle>
+          <DialogTitle id="alert-dialog-close-title">{t('tr_pleaseWait')}</DialogTitle>
           <DialogContent>
             <CircularProgress
               color="secondary"

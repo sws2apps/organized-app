@@ -23,22 +23,22 @@ const Support = () => {
               flex: '1 0 0',
             }}
           >
-            <Typography className="h2">{t('trans_supportApp')}</Typography>
+            <Typography className="h2">{t('tr_supportApp')}</Typography>
             <IconButton disableRipple sx={{ padding: 0, margin: 0 }} onClick={handleClose}>
               <IconClose color="var(--black)" />
             </IconButton>
           </Box>
         </Box>
-        <TextMarkup content={t('trans_supportAppDesc')} className="body-regular" />
+        <TextMarkup content={t('tr_supportAppDesc')} className="body-regular" />
       </Box>
 
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          <Typography className="h4">{t('trans_supportAppOption1')}</Typography>
-          <TextMarkup content={t('trans_supportAppOption1Desc')} className="body-regular" />
+          <Typography className="h4">{t('tr_supportAppOption1')}</Typography>
+          <TextMarkup content={t('tr_supportAppOption1Desc')} className="body-regular" />
         </Box>
         <Button variant="tertiary" startIcon={<IconDonate />} onClick={handleOpenDonate}>
-          {t('trans_makeDonation')}
+          {t('tr_makeDonation')}
         </Button>
       </Box>
 
@@ -46,11 +46,11 @@ const Support = () => {
 
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          <Typography className="h4">{t('trans_supportAppOption2')}</Typography>
-          <TextMarkup content={t('trans_supportAppOption2Desc')} className="body-regular" anchorClassName="h4" />
+          <Typography className="h4">{t('tr_supportAppOption2')}</Typography>
+          <TextMarkup content={t('tr_supportAppOption2Desc')} className="body-regular" anchorClassName="h4" />
         </Box>
         <Button variant="tertiary" startIcon={<IconDutiesDistribution />} onClick={handleOpenDoc}>
-          {t('trans_howToContribute')}
+          {t('tr_howToContribute')}
         </Button>
       </Box>
     </Dialog>

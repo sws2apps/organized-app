@@ -45,7 +45,7 @@ const useButtonBase = ({ provider, isEmail }) => {
 
         if (status !== 200) {
           await displayOnboardingFeedback({
-            title: t('trans_errorTitle'),
+            title: t('tr_errorTitle'),
             message: getMessageByCode(data.message),
           });
 
@@ -114,8 +114,8 @@ const useButtonBase = ({ provider, isEmail }) => {
       }
     } catch (error) {
       await displayOnboardingFeedback({
-        title: t('trans_errorTitle'),
-        message: getMessageByCode(error.code || t('trans_errorGeneric')),
+        title: t('tr_errorTitle'),
+        message: getMessageByCode(error.code || t('tr_errorGeneric')),
       });
 
       showMessage();
