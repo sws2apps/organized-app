@@ -19,7 +19,6 @@
   "tr_reportReminderDesc": "Receive reminders on the last day of each month, and if you forget, you'll get one more reminder in a few days",
   "tr_collabActivities": "New collaborative activities",
   "tr_collabActivitiesDesc": "Receive notifications about activities where assistance is needed, such as garden work or preparing halls for theocratic schools or circuit assembly",
-  "tr_myAssignments": "My assignments",
   "tr_myAssignmentsDesc": "Get instant notifications about all your new assignments.",
   "tr_infoBoardAnnouncements": "New information board announcements",
   "tr_infoBoardAnnouncementsDesc": "If turned off, you won't receive notifications for new announcements, unless elders choose to notify the entire congregation about something important",
@@ -77,5 +76,7 @@
   "tr_useBiometrics": "Use biometrics to unlock",
   "tr_useBiometricsDecs": "Unlock app with your face or fingerprint",
   "tr_changePIN": "Change PIN",
-  "tr_lockAfter": "Lock after"
+  "tr_lockAfter": "Lock after",
+  "tr_editTimeAway": "Edit time away",
+  "tr_appPreferences": "App preferences"
 }
