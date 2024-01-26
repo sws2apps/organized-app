@@ -64,7 +64,7 @@
   "tr_noInternetConnection": "No internet connection",
   "tr_noInternetConnectionDesc": "Organized is in offline mode; all the newly entered data will be synced across devices after the connection is restored.",
   "tr_done": "Done",
-  "tr_doneDesc": "Your {{ReportMonth}} report has been submitted",
+  "tr_doneDesc": "Your {{ report_month }} report has been submitted",
   "tr_notifications": "Notifications",
   "tr_reject": "Reject",
   "tr_accept": "Accept",
