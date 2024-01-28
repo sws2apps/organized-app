@@ -250,7 +250,7 @@
   "deleteDbDesc": "CPE tarafından kullanılan tüm yerel veriler silinecek. Bu, kişiler listesini, programları ve tüm cemaat detaylarını içerir. Ancak, cemaatiniz yedeğini silmez. Devam etmek için \"Sil\" 'e tıklayın.",
   "backupSuccess": "Yedeğiniz başarıyla kaydedildi",
   "lastCongBackup": "{{ backup_person }} tarafından yapılan son yedek, {{ backup_date }} tarihinde yapıldı. Yeni bir yedek oluşturmak istiyorsanız  'OLUŞTUR' a  lütfen tıklayın.",
-  "restoreConfirmation": "Last backup made by {{ backup_person }}, on {{ backup_date }}. Please click RESTORE if you want to get this backup.",
+  "restoreConfirmation": "{{ backup_person }} tarafından yapılan son yedek, {{ backup_date }} tarihinde yapıldı. Bu yedeği almak istiyorsanız 'GERİ GETİR'e  lütfen tıklayın.",
   "noBackupFound": "Cemaatiniz için henüz bir yedek bulunamadı.",
   "myAccount": "HESABIM",
   "emailLocked": "Bu e-posta adresi artık değiştirilemez. Değiştirmek isterseniz lütfen bizimle iletişime geçin.",
