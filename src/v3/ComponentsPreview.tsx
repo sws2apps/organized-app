@@ -13,6 +13,7 @@ import {
   UserCard,
   InfoTip,
   Loading,
+  DatePicker,
   Reminders,
   ReminderItem,
 } from '@components';
@@ -110,6 +111,13 @@ const ComponentPreview = () => {
 
       <Container maxWidth={false} sx={{ maxWidth: '1440px' }}>
         <Box sx={{ margin: '80px 0px' }}>
+          <Box sx={{ display: 'flex', flexDirection: 'row', gap: '25px' }}>
+            <DatePicker view={'input'} label={'Start date'} />
+            <DatePicker view={'input'} label={'End date'} />
+            <DatePicker view={'input'} label={'Limit year'} limitYear={true} />
+            <DatePicker view={'button'} />
+          </Box>
+
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '25px', margin: '20px 0px' }}>
             <Box>
               <Typography className="label-small-regular">variant huge-numbers</Typography>
