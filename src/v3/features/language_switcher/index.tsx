@@ -17,7 +17,7 @@ const LanguageSwitcher = ({ menuStyle }: { menuStyle: SxProps }) => {
           <IconLanguage color="var(--black)" />
         </ListItemIcon>
         <ListItemText>
-          <Typography className="body-regular">{t('trans_changeLanguage')}</Typography>
+          <Typography className="body-regular">{t('tr_changeLanguage')}</Typography>
         </ListItemText>
       </MenuItem>
       <Menu
@@ -91,7 +91,7 @@ const LanguageSwitcher = ({ menuStyle }: { menuStyle: SxProps }) => {
             </ListItemIcon>
             <ListItemText>
               <Typography className="body-small-semibold" color="var(--accent-dark)">
-                {t('trans_languageMissing')}
+                {t('tr_languageMissing')}
               </Typography>
             </ListItemText>
           </Link>

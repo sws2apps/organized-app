@@ -32,7 +32,7 @@ const CongregationSelector = ({
       }}
       onInputChange={(event, newInputValue) => setInputValue(newInputValue)}
       loading={isLoading}
-      label={t('trans_yourCongregation')}
+      label={t('tr_yourCongregation')}
       startIcon={<IconCongregation color={value ? 'var(--black)' : 'var(--accent-350)'} />}
       endIcon={<IconSearch color={value ? 'var(--black)' : 'var(--accent-350)'} />}
       renderOption={(props, option) => (

@@ -50,23 +50,23 @@ export const getShortDatePickerFormat = () => {
 export const getMessageByCode = (code) => {
   switch (code) {
     case 'DEVICE_REMOVED':
-      return getTranslation({ key: 'trans_deviceRemoved' });
+      return getTranslation({ key: 'tr_deviceRemoved' });
     case 'INPUT_INVALID':
-      return getTranslation({ key: 'trans_inputInvalid' });
+      return getTranslation({ key: 'tr_inputInvalid' });
     case 'POCKET_NOT_FOUND':
-      return getTranslation({ key: 'trans_pocketNotFound' });
+      return getTranslation({ key: 'tr_pocketNotFound' });
     case 'TOKEN_INVALID':
-      return getTranslation({ key: 'trans_mfaTokenInvalidExpired' });
+      return getTranslation({ key: 'tr_mfaTokenInvalidExpired' });
     case 'INTERNAL_ERROR':
-      return getTranslation({ key: 'trans_internalError' });
+      return getTranslation({ key: 'tr_internalError' });
     case 'Failed to fetch':
-      return getTranslation({ key: 'trans_oauthError' });
+      return getTranslation({ key: 'tr_oauthError' });
     case 'sourceNotFoundUnavailable':
-      return getTranslation({ key: 'trans_sourceNotFoundUnavailable' });
+      return getTranslation({ key: 'tr_sourceNotFoundUnavailable' });
     case 'BACKUP_DISCREPANCY':
-      return getTranslation({ key: 'trans_backupDiscrepancy' });
+      return getTranslation({ key: 'tr_backupDiscrepancy' });
     case 'auth/account-exists-with-different-credential':
-      return getTranslation({ key: 'trans_oauthAccountExistsWithDifferentCredential' });
+      return getTranslation({ key: 'tr_oauthAccountExistsWithDifferentCredential' });
     default:
       return code;
   }
