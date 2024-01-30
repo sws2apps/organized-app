@@ -70,5 +70,13 @@
   "tr_oauthEmail": "E-posta ile devam et",
   "tr_sendLink": "Bağlantıyı paylaş",
   "tr_emailNotSupported": "Üzgünüz, bu e-posta geçersiz veya desteklenmiyor",
-  "tr_selectCountry": "Ülke"
+  "tr_selectCountry": "Ülke",
+  "tr_2FA": "Let’s make sure it's you",
+  "tr_2FADesc": "Enter a code from your authenticator app",
+  "tr_2FAIncorrect": "Incorrect 2FA code",
+  "tr_2FAIncorrectDesc": "The code might be incorrect or expired. Try again.",
+  "tr_unauthorizedAccount": "Your access permissions need to be adjusted",
+  "tr_unauthorizedAccountDesc": "Contact your congregation Organized administrator to confirm your role, then try again in 5 minutes. For any further assistance, elders can contact us via email.",
+  "tr_noSchedulesYet": "No schedules yet",
+  "tr_noSchedulesYetDesc": "Please ask your congregation elders to publish the meeting schedule first."
 }

@@ -52,7 +52,7 @@ const Reminders = ({ children }: RemindersProps) => {
   };
 
   return (
-    <StyledRemindersCard>
+    <StyledRemindersCard className="warning-glow">
       <StyledRemindersTitle>
         <IconReminder color="var(--always-white)" />
         <Typography className="h4" color="var(--always-white)">
