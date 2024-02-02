@@ -1,10 +1,9 @@
 ---
 name: Major change request
 about: Suggest a major update for this project
-title: "[BREAK] "
+title: '[BREAK] '
 labels: ''
 assignees: ''
-
 ---
 
 **Is your major update related to a problem? Please describe.**

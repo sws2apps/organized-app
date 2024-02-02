@@ -1,11 +1,11 @@
-import { Box, SxProps } from "@mui/system";
-import { ReactElement } from "react";
-import { IconAdd, IconArrowBack } from "../icons";
-import { Typography, Button } from "@components";
+import { Box, SxProps } from '@mui/system';
+import { ReactElement } from 'react';
+import { IconAdd, IconArrowBack } from '../icons';
+import { Typography, Button } from '@components';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { Types } from "./index.types";
-import React from "react";
+import { Types } from './page_title.types';
+import React from 'react';
 
 interface PageTitleProps {
   pageTitle?: string;
@@ -36,7 +36,7 @@ const PageTitle = ({
     padding: 'var(--radius-none, 0px)',
     justifyContent: 'space-between',
     alignItems: 'center',
-    borderRadius: 'var(--radius-none, 0px)'
+    borderRadius: 'var(--radius-none, 0px)',
   };
 
   const titleBoxStyle: SxProps = {
@@ -46,7 +46,7 @@ const PageTitle = ({
   };
 
   const titleTextStyle: SxProps = {
-    color: 'var(--black, #222)'
+    color: 'var(--black, #222)',
   };
 
   const buttonBoxStyle: SxProps = {
@@ -57,7 +57,7 @@ const PageTitle = ({
     alignItems: 'center',
     gap: '8px',
     borderRadius: 'var(--radius-l, 8px)',
-    alignContent:'center'
+    alignContent: 'center',
   };
 
   const buttonTextStyle: SxProps = {
@@ -68,14 +68,10 @@ const PageTitle = ({
     switch (type) {
       case Types.WITH_BTN:
         return (
-          <Button
-            sx={buttonBoxStyle}
-            variant="main"
-            onClick={actionClick}
-            startIcon={actionIcon}
-            disableAutoStretch
-          >
-            <Typography className="button-caps" sx={buttonTextStyle}>{actionText}</Typography>
+          <Button sx={buttonBoxStyle} variant="main" onClick={actionClick} startIcon={actionIcon} disableAutoStretch>
+            <Typography className="button-caps" sx={buttonTextStyle}>
+              {actionText}
+            </Typography>
           </Button>
         );
       case Types.TWO_BUTTONS:
@@ -88,16 +84,14 @@ const PageTitle = ({
               startIcon={secondaryActionIcon}
               disableAutoStretch
             >
-              <Typography className="button-caps" sx={{ ...buttonTextStyle, color: "var(--accent-main, #5065D0)" }}>{secondaryActionText}</Typography>
+              <Typography className="button-caps" sx={{ ...buttonTextStyle, color: 'var(--accent-main, #5065D0)' }}>
+                {secondaryActionText}
+              </Typography>
             </Button>
-            <Button
-              sx={buttonBoxStyle}
-              variant="main"
-              onClick={actionClick}
-              startIcon={actionIcon}
-              disableAutoStretch
-            >
-              <Typography className="button-caps" sx={buttonTextStyle}>{actionText}</Typography>
+            <Button sx={buttonBoxStyle} variant="main" onClick={actionClick} startIcon={actionIcon} disableAutoStretch>
+              <Typography className="button-caps" sx={buttonTextStyle}>
+                {actionText}
+              </Typography>
             </Button>
           </Box>
         );
@@ -112,11 +106,11 @@ const PageTitle = ({
     <Box sx={mainBoxStyle}>
       <Box sx={titleBoxStyle}>
         <IconArrowBack />
-        <Typography variant="h1" sx={titleTextStyle}>{t(pageTitle)}</Typography>
+        <Typography variant="h1" sx={titleTextStyle}>
+          {t(pageTitle)}
+        </Typography>
       </Box>
-      <Box>
-        {getTypePageTitle()}
-      </Box>
+      <Box>{getTypePageTitle()}</Box>
     </Box>
   );
 };

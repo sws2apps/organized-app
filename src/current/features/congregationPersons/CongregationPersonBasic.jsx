@@ -30,10 +30,10 @@ const CongregationPersonBasic = ({ person }) => {
                 isElder
                   ? 'cpeElderAutoAssignedRole'
                   : isMS
-                  ? 'cpeMSAutoAssignedRole'
-                  : isPublisher
-                  ? 'cpePublisherAutoAssignedRole'
-                  : ''
+                    ? 'cpeMSAutoAssignedRole'
+                    : isPublisher
+                      ? 'cpePublisherAutoAssignedRole'
+                      : ''
               )}
             />
           </Typography>

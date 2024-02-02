@@ -3,401 +3,401 @@ import { getI18n } from 'react-i18next';
 import { LANGUAGE_LIST } from '../../shared/locales/langList';
 
 export const isLightThemeState = atom({
-	key: 'isLightTheme',
-	default: typeof window !== 'undefined' && localStorage.getItem('theme') === 'dark' ? false : true,
+  key: 'isLightTheme',
+  default: typeof window !== 'undefined' && localStorage.getItem('theme') === 'dark' ? false : true,
 });
 
 export const offlineOverrideState = atom({
-	key: 'offlineOverride',
-	default: false,
+  key: 'offlineOverride',
+  default: false,
 });
 
 export const isAppLoadState = atom({
-	key: 'isAppLoad',
-	default: true,
+  key: 'isAppLoad',
+  default: true,
 });
 
 export const isSetupState = atom({
-	key: 'isSetup',
-	default: true,
+  key: 'isSetup',
+  default: true,
 });
 
 export const apiHostState = atom({
-	key: 'apiHost',
-	default: '',
+  key: 'apiHost',
+  default: '',
 });
 
 export const isAboutOpenState = atom({
-	key: 'isAboutOpen',
-	default: false,
+  key: 'isAboutOpen',
+  default: false,
 });
 
 export const isLoginOpenState = atom({
-	key: 'isLoginOpen',
-	default: false,
+  key: 'isLoginOpen',
+  default: false,
 });
 
 export const appLangState = atom({
-	key: 'appLang',
-	default: (typeof window !== 'undefined' && localStorage.getItem('app_lang')) || 'e',
+  key: 'appLang',
+  default: (typeof window !== 'undefined' && localStorage.getItem('app_lang')) || 'e',
 });
 
 export const uidUserState = atom({
-	key: 'uidUser',
-	default: '',
+  key: 'uidUser',
+  default: '',
 });
 
 export const userPasswordState = atom({
-	key: 'userPassowrd',
-	default: '',
+  key: 'userPassowrd',
+  default: '',
 });
 
 export const monthNamesState = selector({
-	key: 'monthNames',
-	get: ({ get }) => {
-		const appLang = get(appLangState);
+  key: 'monthNames',
+  get: ({ get }) => {
+    const appLang = get(appLangState);
 
-		let months = [];
-		months.push(getI18n().getDataByLanguage(appLang).ui['january']);
-		months.push(getI18n().getDataByLanguage(appLang).ui['february']);
-		months.push(getI18n().getDataByLanguage(appLang).ui['march']);
-		months.push(getI18n().getDataByLanguage(appLang).ui['april']);
-		months.push(getI18n().getDataByLanguage(appLang).ui['may']);
-		months.push(getI18n().getDataByLanguage(appLang).ui['june']);
-		months.push(getI18n().getDataByLanguage(appLang).ui['july']);
-		months.push(getI18n().getDataByLanguage(appLang).ui['august']);
-		months.push(getI18n().getDataByLanguage(appLang).ui['september']);
-		months.push(getI18n().getDataByLanguage(appLang).ui['october']);
-		months.push(getI18n().getDataByLanguage(appLang).ui['november']);
-		months.push(getI18n().getDataByLanguage(appLang).ui['december']);
+    let months = [];
+    months.push(getI18n().getDataByLanguage(appLang).ui['january']);
+    months.push(getI18n().getDataByLanguage(appLang).ui['february']);
+    months.push(getI18n().getDataByLanguage(appLang).ui['march']);
+    months.push(getI18n().getDataByLanguage(appLang).ui['april']);
+    months.push(getI18n().getDataByLanguage(appLang).ui['may']);
+    months.push(getI18n().getDataByLanguage(appLang).ui['june']);
+    months.push(getI18n().getDataByLanguage(appLang).ui['july']);
+    months.push(getI18n().getDataByLanguage(appLang).ui['august']);
+    months.push(getI18n().getDataByLanguage(appLang).ui['september']);
+    months.push(getI18n().getDataByLanguage(appLang).ui['october']);
+    months.push(getI18n().getDataByLanguage(appLang).ui['november']);
+    months.push(getI18n().getDataByLanguage(appLang).ui['december']);
 
-		return months;
-	},
+    return months;
+  },
 });
 
 export const shortDateFormatState = selector({
-	key: 'shortDateFormat',
-	get: ({ get }) => {
-		const appLang = get(appLangState);
-		const format = getI18n().getDataByLanguage(appLang).ui['shortDateFormat'];
-		return format;
-	},
+  key: 'shortDateFormat',
+  get: ({ get }) => {
+    const appLang = get(appLangState);
+    const format = getI18n().getDataByLanguage(appLang).ui['shortDateFormat'];
+    return format;
+  },
 });
 
 export const shortDatePickerFormatState = selector({
-	key: 'shortDatePickerFormat',
-	get: ({ get }) => {
-		const appLang = get(appLangState);
-		const format = getI18n().getDataByLanguage(appLang).ui['shortDatePickerFormat'];
-		return format;
-	},
+  key: 'shortDatePickerFormat',
+  get: ({ get }) => {
+    const appLang = get(appLangState);
+    const format = getI18n().getDataByLanguage(appLang).ui['shortDatePickerFormat'];
+    return format;
+  },
 });
 
 export const isDeleteDbOpenState = atom({
-	key: 'isDeleteDbOpen',
-	default: false,
+  key: 'isDeleteDbOpen',
+  default: false,
 });
 
 export const isBackupDbOpenState = atom({
-	key: 'isBackupDbOpen',
-	default: false,
+  key: 'isBackupDbOpen',
+  default: false,
 });
 
 export const isBackupOfflineState = atom({
-	key: 'isBackupOffline',
-	default: false,
+  key: 'isBackupOffline',
+  default: false,
 });
 
 export const isBackupOnlineState = atom({
-	key: 'isBackupOnline',
-	default: false,
+  key: 'isBackupOnline',
+  default: false,
 });
 
 export const isRestoreOfflineState = atom({
-	key: 'isRestoreOffline',
-	default: false,
+  key: 'isRestoreOffline',
+  default: false,
 });
 
 export const isRestoreOnlineState = atom({
-	key: 'isRestoreOnline',
-	default: false,
+  key: 'isRestoreOnline',
+  default: false,
 });
 
 export const backupEncryptedState = atom({
-	key: 'backupEncrypted',
-	default: {},
+  key: 'backupEncrypted',
+  default: {},
 });
 
 export const backupJsonDataState = atom({
-	key: 'backupJsonData',
-	default: undefined,
+  key: 'backupJsonData',
+  default: undefined,
 });
 
 export const isUserLoggedState = atom({
-	key: 'isUserLogged',
-	default: false,
+  key: 'isUserLogged',
+  default: false,
 });
 
 export const isCongLoginOpenState = atom({
-	key: 'isCongLoginOpen',
-	default: false,
+  key: 'isCongLoginOpen',
+  default: false,
 });
 
 export const isCongCreateAccountState = atom({
-	key: 'isCongCreateAccount',
-	default: false,
+  key: 'isCongCreateAccount',
+  default: false,
 });
 
 export const isCongSignInState = atom({
-	key: 'isCongSignIn',
-	default: false,
+  key: 'isCongSignIn',
+  default: false,
 });
 
 export const isCongUpdateAccountState = atom({
-	key: 'isCongUpdateAccount',
-	default: false,
+  key: 'isCongUpdateAccount',
+  default: false,
 });
 
 export const isUserSignInState = atom({
-	key: 'isUserSignIn',
-	default: false,
+  key: 'isUserSignIn',
+  default: false,
 });
 
 export const isUserSignUpState = atom({
-	key: 'isUserSignUp',
-	default: false,
+  key: 'isUserSignUp',
+  default: false,
 });
 
 export const isEmailNotVerifiedState = atom({
-	key: 'isEmailNotVerified',
-	default: false,
+  key: 'isEmailNotVerified',
+  default: false,
 });
 
 export const isEmailBlockedState = atom({
-	key: 'isEmailBlocked',
-	default: false,
+  key: 'isEmailBlocked',
+  default: false,
 });
 
 export const isCongAccountCreateState = atom({
-	key: 'isCongAccountCreate',
-	default: false,
+  key: 'isCongAccountCreate',
+  default: false,
 });
 
 export const isShowTermsUseState = atom({
-	key: 'isShowLAG',
-	default: typeof window !== 'undefined' && localStorage.getItem('termsUse') === 'false' ? false : true,
+  key: 'isShowLAG',
+  default: typeof window !== 'undefined' && localStorage.getItem('termsUse') === 'false' ? false : true,
 });
 
 export const visitorIDState = atom({
-	key: 'visitorID',
-	default: '',
+  key: 'visitorID',
+  default: '',
 });
 
 export const qrCodePathState = atom({
-	key: 'qrCodePath',
-	default: '',
+  key: 'qrCodePath',
+  default: '',
 });
 
 export const secretTokenPathState = atom({
-	key: 'secretTokenPath',
-	default: '',
+  key: 'secretTokenPath',
+  default: '',
 });
 
 export const isOnlineState = atom({
-	key: 'isOnline',
-	default: navigator.onLine,
+  key: 'isOnline',
+  default: navigator.onLine,
 });
 
 export const isUserMfaSetupState = atom({
-	key: 'isUserMfaSetup',
-	default: false,
+  key: 'isUserMfaSetup',
+  default: false,
 });
 
 export const isUserMfaVerifyState = atom({
-	key: 'isUserMfaVerify',
-	default: false,
+  key: 'isUserMfaVerify',
+  default: false,
 });
 
 export const isUnauthorizedRoleState = atom({
-	key: 'isUnauthorizedRole',
-	default: false,
+  key: 'isUnauthorizedRole',
+  default: false,
 });
 
 export const isPrecachedState = atom({
-	key: 'isPrecached',
-	default: false,
+  key: 'isPrecached',
+  default: false,
 });
 
 export const showReloadState = atom({
-	key: 'showReload',
-	default: false,
+  key: 'showReload',
+  default: false,
 });
 
 export const waitingWorkerState = atom({
-	key: 'waitingWorker',
-	default: null,
+  key: 'waitingWorker',
+  default: null,
 });
 
 export const isWhatsNewOpenState = atom({
-	key: 'isWhatsNewOpen',
-	default: false,
+  key: 'isWhatsNewOpen',
+  default: false,
 });
 
 export const appNotificationsState = atom({
-	key: 'appNotifications',
-	default: [],
+  key: 'appNotifications',
+  default: [],
 });
 
 export const countNotificationsState = selector({
-	key: 'countNotifications',
-	get: ({ get }) => {
-		const announcements = get(appNotificationsState);
-		const appLang = get(appLangState);
-		const fldKey = LANGUAGE_LIST.find((language) => language.code === appLang).locale;
+  key: 'countNotifications',
+  get: ({ get }) => {
+    const announcements = get(appNotificationsState);
+    const appLang = get(appLangState);
+    const fldKey = LANGUAGE_LIST.find((language) => language.code === appLang).locale;
 
-		let count = 0;
-		for (const announcement of announcements) {
-			const findTitleIndex = announcement.title.findIndex((item) => item.language === fldKey);
-			let isRead = announcement.title[findTitleIndex].isRead;
+    let count = 0;
+    for (const announcement of announcements) {
+      const findTitleIndex = announcement.title.findIndex((item) => item.language === fldKey);
+      let isRead = announcement.title[findTitleIndex].isRead;
 
-			if (isRead) {
-				const findBodyIndex = announcement.body.findIndex((item) => item.language === fldKey);
-				isRead = announcement.body[findBodyIndex].isRead;
-			}
+      if (isRead) {
+        const findBodyIndex = announcement.body.findIndex((item) => item.language === fldKey);
+        isRead = announcement.body[findBodyIndex].isRead;
+      }
 
-			if (!isRead) count++;
-		}
+      if (!isRead) count++;
+    }
 
-		return count;
-	},
+    return count;
+  },
 });
 
 export const currentNotificationState = atom({
-	key: 'currentNotification',
-	default: {},
+  key: 'currentNotification',
+  default: {},
 });
 
 export const rootModalOpenState = atom({
-	key: 'rootModalOpen',
-	default: false,
+  key: 'rootModalOpen',
+  default: false,
 });
 
 export const backupDbOpenState = atom({
-	key: 'backupDbOpen',
-	default: false,
+  key: 'backupDbOpen',
+  default: false,
 });
 
 export const restoreDbOpenState = atom({
-	key: 'restoreDbOpen',
-	default: false,
+  key: 'restoreDbOpen',
+  default: false,
 });
 
 export const userIDState = atom({
-	key: 'userID',
-	default: '',
+  key: 'userID',
+  default: '',
 });
 
 export const isReEnrollMFAState = atom({
-	key: 'isReEnrollMFA',
-	default: false,
+  key: 'isReEnrollMFA',
+  default: false,
 });
 
 export const userLocalUidState = atom({
-	key: 'userLocalUid',
-	default: '',
+  key: 'userLocalUid',
+  default: '',
 });
 
 export const isMyAssignmentOpenState = atom({
-	key: 'isMyAssignmentOpen',
-	default: false,
+  key: 'isMyAssignmentOpen',
+  default: false,
 });
 
 export const refreshMyAssignmentsState = atom({
-	key: 'refreshMyAssignments',
-	default: false,
+  key: 'refreshMyAssignments',
+  default: false,
 });
 
 export const isCongPersonAddState = atom({
-	key: 'isCongPersonAdd',
-	default: false,
+  key: 'isCongPersonAdd',
+  default: false,
 });
 
 export const sourceLangState = atom({
-	key: 'sourceLang',
-	default: 'e',
+  key: 'sourceLang',
+  default: 'e',
 });
 
 export const isEmailAuthState = atom({
-	key: 'isEmailAuth',
-	default: false,
+  key: 'isEmailAuth',
+  default: false,
 });
 
 export const isAuthProcessingState = atom({
-	key: 'isAuthProcessing',
-	default: false,
+  key: 'isAuthProcessing',
+  default: false,
 });
 
 export const avatarUrlState = atom({
-	key: 'avatarUrl',
-	default: undefined,
+  key: 'avatarUrl',
+  default: undefined,
 });
 
 export const isOAuthAccountUpgradeState = atom({
-	key: 'isOAuthAccountUpgrade',
-	default: false,
+  key: 'isOAuthAccountUpgrade',
+  default: false,
 });
 
 export const userEmailState = atom({
-	key: 'userEmail',
-	default: '',
+  key: 'userEmail',
+  default: '',
 });
 
 export const userConfirmationOpenState = atom({
-	key: 'userConfirmationOpen',
-	default: false,
+  key: 'userConfirmationOpen',
+  default: false,
 });
 
 export const userConfirmationTitleState = atom({
-	key: 'userConfirmationTitle',
-	default: false,
+  key: 'userConfirmationTitle',
+  default: false,
 });
 
 export const userConfirmationMessageState = atom({
-	key: 'userConfirmationMessage',
-	default: false,
+  key: 'userConfirmationMessage',
+  default: false,
 });
 
 export const userConfirmationActionState = atom({
-	key: 'userConfirmationAction',
-	default: undefined,
+  key: 'userConfirmationAction',
+  default: undefined,
 });
 
 export const accountTypeState = atom({
-	key: 'accountType',
-	default: '',
+  key: 'accountType',
+  default: '',
 });
 
 export const isAccountChooseState = atom({
-	key: 'isAccountChoose',
-	default: false,
+  key: 'isAccountChoose',
+  default: false,
 });
 
 export const isFetchingScheduleState = atom({
-	key: 'isFetchingSchedule',
-	default: true,
+  key: 'isFetchingSchedule',
+  default: true,
 });
 
 export const currentMFAStageState = atom({
-	key: 'currentMFAStage',
-	default: 'setup',
+  key: 'currentMFAStage',
+  default: 'setup',
 });
 
 export const refreshScreenState = atom({
-	key: 'refreshScreen',
-	default: false,
+  key: 'refreshScreen',
+  default: false,
 });
 
 export const isEmailLinkAuthenticateState = atom({
-	key: 'isEmailLinkAuthenticate',
-	default: false,
+  key: 'isEmailLinkAuthenticate',
+  default: false,
 });

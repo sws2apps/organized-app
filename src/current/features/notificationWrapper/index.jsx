@@ -1,3 +1,3 @@
-import NotificationWrapper from './NotificationWrapper'
+import NotificationWrapper from './NotificationWrapper';
 
 export default NotificationWrapper;

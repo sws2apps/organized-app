@@ -130,8 +130,8 @@ const BackupMain = ({ handleCreateBackup, handleClose, handleRestoreBackup, open
           ? 'lastUserBackup'
           : 'lastCongBackup'
         : publisherRole
-        ? 'restoreUserConfirmation'
-        : 'restoreConfirmation',
+          ? 'restoreUserConfirmation'
+          : 'restoreConfirmation',
       {
         backup_person: backup.by,
         backup_date: dateFormat(new Date(backup.date), shortDateTimeFormat),
