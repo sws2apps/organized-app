@@ -6,6 +6,8 @@ module.exports = {
   },
   extends: [
     'eslint:recommended',
+    'eslint-config-prettier',
+    'prettier',
     'plugin:react/recommended',
     'plugin:react/jsx-runtime',
     'plugin:react-hooks/recommended',
@@ -21,11 +23,11 @@ module.exports = {
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
       },
       alias: {
-        extensions:  ['.js', '.jsx', '.ts', '.tsx'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
         map: [
           ['@assets', './src/v3/assets'],
-          ['@components', './src/v3/components/index.js'],
-          ['@icons', './src/v3/components/icons/index.js'],
+          ['@components', './src/v3/components/index.ts'],
+          ['@icons', './src/v3/components/icons/index.ts'],
           ['@constants', './src/v3/constants'],
           ['@features', './src/v3/features'],
           ['@hooks', './src/v3/hooks'],

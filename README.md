@@ -2,7 +2,7 @@
 
 ![Organized-devices](https://github.com/sws2apps/organized-app/assets/26148770/9526daa0-ad34-4a1b-8611-c50f0d3375b7)
 
-A free web-app for Jehovah’s Witnesses congregations, helping with assignments and responsibilities, making things easier, and freeing up time for other important things! Create schedules, view your upcoming assignments, submit service reports, generate congregation reports, and much more! In a nutschell, Organized app is:
+A free web app for Jehovah’s Witnesses congregations, helping with assignments and responsibilities, making things easier, and freeing up time for other important things! Create schedules, view your upcoming assignments, submit service reports, generate congregation reports, and much more! In a nutschell, Organized app is:
 
 🔵 Multi-platform: Windows, MacOS, Linux, ChromeOS, iPadOS, iOS, Android
 
@@ -34,7 +34,7 @@ A free web-app for Jehovah’s Witnesses congregations, helping with assignments
 
 The app is available for all congregation members, including elders, ministerial servants, pioneers, publishers, and even midweek meeting students – everyone will see its benefits. However, we kindly suggest discussing its use with your body of elders, as local circumstances and directions may vary.
 
-## What are the device requirements to open CPE?
+## What are the device requirements to open Organized?
 
 Organized is a Progressive Web Application (PWA), meaning that it can function in any modern browser. Additionally, the app can be 'installed' to your home screen, providing quicker access and a better user experience.
 

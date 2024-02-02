@@ -4,6 +4,12 @@ import fs from 'fs/promises';
 import path from 'path';
 
 const ROOT_FOLDER = './converter/svg/sources';
+const OUTPUT_FOLDER = './src/v3/components/icons';
+
+const currentFiles = await fs.readdir(OUTPUT_FOLDER);
+for await (const file of currentFiles) {
+  await fs.unlink(path.join(OUTPUT_FOLDER, file));
+}
 
 const svgFiles = await fs.readdir(ROOT_FOLDER);
 
@@ -23,8 +29,14 @@ for await (const svgFile of svgFiles) {
 
   componentName = `Icon${componentName}`;
 
-  let data = `import PropTypes from 'prop-types';
-  import { SvgIcon } from '@mui/material';
+  let data = `import { SvgIcon, SxProps, Theme } from '@mui/material';
+
+  type IconProps = {
+    color?: string;
+    width?: number;
+    height?: number;
+    sx?: SxProps<Theme>;
+  };
 
   const ${componentName} = ({ ${
     componentName !== 'IconGoogle' &&
@@ -33,10 +45,7 @@ for await (const svgFile of svgFiles) {
     componentName !== 'IconLogo'
       ? `color = '#222222', `
       : ''
-  }width = 24, height = 24, sx = {} }) => {
-    width = width.toString();
-    height = height.toString();
-  
+  }width = 24, height = 24, sx = {} }: IconProps) => {
     return (
       <SvgIcon id="organized-icon-${originalName}" sx={{ width: widthPx, height: heightPx, ...sx }}>`;
 
@@ -86,22 +95,14 @@ for await (const svgFile of svgFiles) {
   data += `
   </SvgIcon>);
   };
-  
-  
-  ${componentName}.propTypes = {
-    color: PropTypes.string,
-    width: PropTypes.number,
-    height: PropTypes.number,
-    sx: PropTypes.object,
-  };
 
   export default ${componentName};`;
 
-  const jsxFile = path.join('./src/v3/components/icons', `${componentName}.jsx`);
+  const jsxFile = path.join('./src/v3/components/icons', `${componentName}.tsx`);
   fs.writeFile(jsxFile, data);
 
   strImport += `export { default as ${componentName}} from './${componentName}';`;
 }
 
-const jsFile = path.join('./src/v3/components/icons', `index.js`);
+const jsFile = path.join('./src/v3/components/icons', `index.ts`);
 fs.writeFile(jsFile, strImport);

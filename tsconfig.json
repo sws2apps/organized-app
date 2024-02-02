@@ -1,11 +1,13 @@
 {
   "compilerOptions": {
     "jsx": "react",
+    "skipLibCheck": true,
     "baseUrl": "./src",
     "paths": {
+      "@mui/styled-engine": ["./node_modules/@mui/styled-engine-sc"],
       "@assets/*": ["v3/assets/*"],
-      "@components": ["v3/components/index.js"],
-      "@icons": ["v3/components/icons/index.js"],
+      "@components": ["v3/components/index.ts"],
+      "@icons": ["v3/components/icons/index.ts"],
       "@constants/*": ["v3/constants/*"],
       "@features/*": ["v3/features/*"],
       "@hooks/*": ["v3/hooks/*"],
@@ -17,9 +19,15 @@
       "@utils/*": ["v3/utils/*"],
       "@wrapper/*": ["v3/wrapper/*"],
       "@locales/*": ["shared/locales/*"],
-      "@shared/*": ["shared/*"]
+      "@shared/*": ["shared/*"],
+      "@definition/*": ["v3/definition/*"]
     },
     "esModuleInterop": true,
-    "moduleResolution": "Node"
-  }
+    "moduleResolution": "Node",
+    "module": "ESNext",
+    "types": ["@svgx/vite-plugin-react", "node", "vite/client"],
+    "lib": ["ESNext", "DOM"],
+    "target": "ESNext"
+  },
+  "include": ["src/**/*", "types/**/*"]
 }
