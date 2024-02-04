@@ -78,5 +78,5 @@
   "tr_changePIN": "PIN'i Değiştir",
   "tr_lockAfter": "Lock after",
   "tr_editTimeAway": "Edit time away",
-  "tr_lastSeen": "Last seen: {{ last_seen }}"
+  "tr_lastSeen": "Son görülme: {{ last_seen }}"
 }
