@@ -73,15 +73,15 @@
   "tr_publicMinistryRequest": "Public ministry request",
   "tr_publicMinistryRequestDesc": "Please review the requests to serve in public ministry:",
   "tr_markAsRead": "Gelesen",
-  "tr_whatsNew": "What’s new in Organized",
+  "tr_whatsNew": "Was ist neu in Organized",
   "tr_shareFeeback": "Share feeback",
   "tr_shareFeebackDesc": "Have a brilliant idea? Share it with us! If possible, we encourage you to use our <a href='https://github.com/sws2apps/organized-app/discussions'>GitHub Discussions</a> for everyone to see and discuss, too.",
   "tr_feedback": "Feedback",
-  "tr_subject": "Subject",
+  "tr_subject": "Thema",
   "tr_sendFeedback": "Send feedback",
   "tr_cancel": "Abbrechen",
   "tr_successfullyDesc": "Your feedback has been successfully submitted",
-  "tr_territoryCardRequest": "Territory card request",
+  "tr_territoryCardRequest": "Gebietskarte Anfrage",
   "tr_territoryCardRequestDesc": "Please review the requests to get a territory card:",
   "tr_successfullySumbitted": "Successfully submitted"
 }
