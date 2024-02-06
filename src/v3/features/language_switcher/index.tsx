@@ -64,7 +64,7 @@ const LanguageSwitcher = ({ menuStyle }: { menuStyle: SxProps }) => {
         {listUILangs.map((lang) => (
           <MenuItem
             disableRipple
-            key={lang.code}
+            key={lang.locale}
             onClick={handleLangChange}
             sx={{
               padding: '8px 12px 8px 16px',
