@@ -27,5 +27,16 @@
   "tr_internalError": "Wystąpił błąd po naszej stronie. Spróbuj ponownie później.",
   "tr_loading": "Wczytywanie...",
   "tr_noOptions": "Brak opcji",
-  "tr_pleaseWait": "Proszę czekać ..."
+  "tr_pleaseWait": "Proszę czekać ...",
+  "tr_january": "January",
+  "tr_february": "February",
+  "tr_april": "April",
+  "tr_may": "May",
+  "tr_june": "June",
+  "tr_july": "July",
+  "tr_august": "August",
+  "tr_september": "September",
+  "tr_october": "October",
+  "tr_november": "November",
+  "tr_december": "December"
 }
