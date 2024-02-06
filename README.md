@@ -84,10 +84,13 @@ We really appreciate your volunteer spirit! You can contribute to the app in a f
 2. by supporting the app with a [**donation**]([https://crowdin.com/project/cpe-sws](https://www.buymeacoffee.com/sws2apps));
 3. by helping with **React development**, **UI design** or **translation**. Please read our [contribution guide](./CONTRIBUTING.md) on how to do so.
 
-## [![Repography logo](https://images.repography.com/logo.svg)](https://repography.com) / Recent activity [![Time period](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/zEy-tNjjhZ4mjzDxRyop_AU02VXPybbiMR3D0WAtwM4/UfwYuRgvhnzNJ-f6gkDgaqYGZNGUNEO8BrI64mNokFA_badge.svg)](https://repography.com)
-[![Timeline graph](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/zEy-tNjjhZ4mjzDxRyop_AU02VXPybbiMR3D0WAtwM4/UfwYuRgvhnzNJ-f6gkDgaqYGZNGUNEO8BrI64mNokFA_timeline.svg)](https://github.com/sws2apps/organized-app/commits)
-[![Activity map](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/zEy-tNjjhZ4mjzDxRyop_AU02VXPybbiMR3D0WAtwM4/UfwYuRgvhnzNJ-f6gkDgaqYGZNGUNEO8BrI64mNokFA_map.svg)](https://github.com/sws2apps/organized-app/commits)
-[![Top contributors](https://images.repography.com/34928945/sws2apps/organized-app/top-contributors/zEy-tNjjhZ4mjzDxRyop_AU02VXPybbiMR3D0WAtwM4/UfwYuRgvhnzNJ-f6gkDgaqYGZNGUNEO8BrI64mNokFA_table.svg)](https://github.com/sws2apps/organized-app/graphs/contributors)
+
+## [![Repography logo](https://images.repography.com/logo.svg)](https://repography.com) / Recent activity [![Time period](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/Ask2bindJP2tA2ytag1oKaSCKxxydBkXJbnd2Stwc0k/-Xc8_VTMWwDRjkyqwRmlzGGUMGGJKiMmPu7NSd3ztjg_badge.svg)](https://repography.com)
+[![Timeline graph](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/Ask2bindJP2tA2ytag1oKaSCKxxydBkXJbnd2Stwc0k/-Xc8_VTMWwDRjkyqwRmlzGGUMGGJKiMmPu7NSd3ztjg_timeline.svg)](https://github.com/sws2apps/organized-app/commits)
+[![Activity map](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/Ask2bindJP2tA2ytag1oKaSCKxxydBkXJbnd2Stwc0k/-Xc8_VTMWwDRjkyqwRmlzGGUMGGJKiMmPu7NSd3ztjg_map.svg)](https://github.com/sws2apps/organized-app/commits)
+[![Top contributors](https://images.repography.com/34928945/sws2apps/organized-app/top-contributors/Ask2bindJP2tA2ytag1oKaSCKxxydBkXJbnd2Stwc0k/-Xc8_VTMWwDRjkyqwRmlzGGUMGGJKiMmPu7NSd3ztjg_table.svg)](https://github.com/sws2apps/organized-app/graphs/contributors)
+
+
 
 ## New features in development 
 We're working hard on the new redesigned release in the new branch _(the current main branch contains an old, but a fully functional version of the app)_. And there are so many features we want to implement:
