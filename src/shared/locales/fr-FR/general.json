@@ -27,5 +27,16 @@
   "tr_internalError": "Une erreur interne est survenue de notre côté. Veuillez réessayer plus tard.",
   "tr_loading": "Chargement ...",
   "tr_noOptions": "Pas d’option",
-  "tr_pleaseWait": "Veuillez patienter..."
+  "tr_pleaseWait": "Veuillez patienter...",
+  "tr_january": "January",
+  "tr_february": "February",
+  "tr_april": "April",
+  "tr_may": "May",
+  "tr_june": "June",
+  "tr_july": "July",
+  "tr_august": "August",
+  "tr_september": "September",
+  "tr_october": "October",
+  "tr_november": "November",
+  "tr_december": "December"
 }

@@ -27,5 +27,16 @@
   "tr_internalError": "Ayɔnkofa a wɔpɛ sɛ yɛbɔɔ kwan so yi. Ma yɛn sɛ wobisabisani anaa wɔkwan nkyerɛase.",
   "tr_loading": "Retwɔn",
   "tr_noOptions": "Nni nhwɛso",
-  "tr_pleaseWait": "Nyame bɛyɛ"
+  "tr_pleaseWait": "Nyame bɛyɛ",
+  "tr_january": "January",
+  "tr_february": "February",
+  "tr_april": "April",
+  "tr_may": "May",
+  "tr_june": "June",
+  "tr_july": "July",
+  "tr_august": "August",
+  "tr_september": "September",
+  "tr_october": "October",
+  "tr_november": "November",
+  "tr_december": "December"
 }
