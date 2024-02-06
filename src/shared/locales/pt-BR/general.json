@@ -27,5 +27,16 @@
   "tr_internalError": "Ocorreu um erro interno. Por favor, tente novamente mais tarde.",
   "tr_loading": "Carregando...",
   "tr_noOptions": "Sem opções",
-  "tr_pleaseWait": "Por favor, aguarde ..."
+  "tr_pleaseWait": "Por favor, aguarde ...",
+  "tr_january": "January",
+  "tr_february": "February",
+  "tr_april": "April",
+  "tr_may": "May",
+  "tr_june": "June",
+  "tr_july": "July",
+  "tr_august": "August",
+  "tr_september": "September",
+  "tr_october": "October",
+  "tr_november": "November",
+  "tr_december": "December"
 }
