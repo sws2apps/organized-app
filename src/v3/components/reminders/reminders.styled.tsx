@@ -3,7 +3,6 @@ import { Box, List, ListItem } from '@mui/material';
 
 export const StyledRemindersCard = styled(Box)({
   padding: '16px',
-  width: '512px',
   borderRadius: 'var(--radius-xl)',
   background: 'var(--orange-main)',
   gap: '8px',
