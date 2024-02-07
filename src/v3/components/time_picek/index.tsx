@@ -7,6 +7,7 @@ import { CPETimePickerProps } from './time_picker.types';
 import { StyledIconWrapper } from '../user_card/user_card.styles';
 import { IconClock } from '@icons';
 import { StyleTimePickerPaper, StyleTimePickerPopper, StyleTimePickerToolbar } from './time_picker.style';
+import { useTranslation } from 'react-i18next';
 
 const TimePickerInputField = (props: TextFieldProps & { setOpen?: Dispatch<SetStateAction<boolean>> }) => {
   return (
@@ -25,6 +26,7 @@ const TimePickerInputField = (props: TextFieldProps & { setOpen?: Dispatch<SetSt
 };
 
 const CPETimePicker = ({ ampm, label, initTime = null }: CPETimePickerProps) => {
+  const { t } = useTranslation('ui');
   const [value, setValue] = useState<Date | null>(null);
   const [innerValue, setInnerValue] = useState<Date | null>(null);
   const [open, setOpen] = useState<boolean>(false);
@@ -75,7 +77,7 @@ const CPETimePicker = ({ ampm, label, initTime = null }: CPETimePickerProps) => 
                       setValue(initTime);
                     }}
                   >
-                    Cancel
+                    {t('cancel')}
                   </Button>
                   <Button
                     variant="main"
@@ -84,7 +86,7 @@ const CPETimePicker = ({ ampm, label, initTime = null }: CPETimePickerProps) => 
                       setOpen(false);
                     }}
                   >
-                    Save
+                    {t('save')}
                   </Button>
                 </Stack>
               ),
