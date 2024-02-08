@@ -27,5 +27,16 @@
   "tr_internalError": "Сталася внутрішня помилка з нашого боку. Будь ласка, спробуй ще раз пізніше.",
   "tr_loading": "Завантаження...",
   "tr_noOptions": "Немає",
-  "tr_pleaseWait": "Будь ласка, зачекай ..."
+  "tr_pleaseWait": "Будь ласка, зачекай ...",
+  "tr_january": "January",
+  "tr_february": "February",
+  "tr_april": "April",
+  "tr_may": "May",
+  "tr_june": "June",
+  "tr_july": "July",
+  "tr_august": "August",
+  "tr_september": "September",
+  "tr_october": "October",
+  "tr_november": "November",
+  "tr_december": "December"
 }

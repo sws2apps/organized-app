@@ -27,5 +27,16 @@
   "tr_internalError": "Произошла внутренняя ошибка с нашей стороны. Пожалуйста, повторите попытку позже.",
   "tr_loading": "Загрузка...",
   "tr_noOptions": "Нет вариантов",
-  "tr_pleaseWait": "Подожди..."
+  "tr_pleaseWait": "Подожди...",
+  "tr_january": "January",
+  "tr_february": "February",
+  "tr_april": "April",
+  "tr_may": "May",
+  "tr_june": "June",
+  "tr_july": "July",
+  "tr_august": "August",
+  "tr_september": "September",
+  "tr_october": "October",
+  "tr_november": "November",
+  "tr_december": "December"
 }

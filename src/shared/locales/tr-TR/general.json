@@ -27,5 +27,16 @@
   "tr_internalError": "İçsel bir hata oluştu. Lütfen daha sonra tekrar deneyin.",
   "tr_loading": "Yükleniyor...",
   "tr_noOptions": "Seçenek yok",
-  "tr_pleaseWait": "Lütfen bekleyin..."
+  "tr_pleaseWait": "Lütfen bekleyin...",
+  "tr_january": "January",
+  "tr_february": "February",
+  "tr_april": "April",
+  "tr_may": "May",
+  "tr_june": "June",
+  "tr_july": "July",
+  "tr_august": "August",
+  "tr_september": "September",
+  "tr_october": "October",
+  "tr_november": "November",
+  "tr_december": "December"
 }

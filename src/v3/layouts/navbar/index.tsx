@@ -35,9 +35,9 @@ const NavBar = () => {
     handleOpenDoc,
     fullname,
     congName,
-    mobileUp,
     tabletUp,
     laptopUp,
+    tabletDown,
   } = useNavbar();
 
   return (
@@ -73,6 +73,9 @@ const NavBar = () => {
         <Box sx={{ display: 'flex', alignItems: 'center', gap: { mobile: '4px', tablet: '8px' } }}>
           <AppNotification />
           <ThemeSwitcher />
+
+          {tabletUp && <LanguageSwitcher menuStyle={menuStyle} />}
+
           <IconButton
             color="inherit"
             edge="start"
@@ -87,7 +90,7 @@ const NavBar = () => {
             }}
             onClick={handleOpenMoreMenu}
           >
-            {mobileUp && !tabletUp && !laptopUp && <IconMenu color="var(--black)" />}
+            {tabletDown && <IconMenu color="var(--black)" />}
             {(tabletUp || laptopUp) && (
               <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', gap: '8px' }}>
                 {laptopUp && fullname && congName && (
@@ -145,7 +148,8 @@ const NavBar = () => {
               },
             }}
           >
-            <LanguageSwitcher menuStyle={menuStyle} />
+            {tabletDown && <LanguageSwitcher menuStyle={menuStyle} />}
+
             <MenuItem disableRipple sx={menuStyle} onClick={handleOpenSupport}>
               <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px' } }}>
                 <IconDonate color="var(--black)" />
