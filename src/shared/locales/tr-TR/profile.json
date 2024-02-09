@@ -28,7 +28,7 @@
   "tr_autoSync": "Auto sync",
   "tr_autoSyncDesc": "Automatically sync data between congregation and my devices logged in the Organized",
   "tr_syncInterval": "Sync interval",
-  "tr_syncIntervalMin": "5 min.",
+  "tr_syncIntervalMin": "5 dk.",
   "tr_customLinkInMobilePanel": "Custom link in the mobile navigation panel",
   "tr_customLinkInMobilePanelDesc": "Replace the “Info board” icon with another feature for quick access from Home page",
   "tr_selectFeature": "Select feature",
@@ -65,12 +65,12 @@
   "tr_disable": "Disable",
   "tr_2FADisabled": "Two-factor authentication is disabled",
   "tr_2FADisabledDesc": "You can enable it back in settings",
-  "tr_PINCreate": "Create a PIN",
+  "tr_PINCreate": "PIN oluştur",
   "tr_PINCreateDesc": "Create a strong PIN for better protection. Avoid using simple codes.",
   "tr_continue": "Devam",
   "tr_PINConfirm": "PIN'inizi onaylayın",
   "tr_PINConfirmDesc": "Confirm your PIN to complete the setup.",
   "tr_PINSet": "Set pin",
-  "tr_PINNewSet": "New PIN set",
+  "tr_PINNewSet": "Yeni PIN ayarlandı",
   "tr_PINNewSetDesc": "You can now use it to unlock the Organized app"
 }
