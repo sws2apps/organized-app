@@ -24,10 +24,19 @@ import { NavBar } from './layouts';
 
 const themes = ['blue', 'green', 'orange', 'purple'];
 
+const names = [
+  { name: 'Michael', color: 'grey', size: 'small' },
+  { name: 'Alex', color: 'green', size: 'small' },
+  { name: 'Eleonor', color: 'orange', size: 'small' },
+  { name: 'Olga', color: 'accent', size: 'small' },
+  { name: 'Marcus', color: 'red', size: 'small' },
+];
+
 const ComponentPreview = () => {
   const [currentTheme, setCurrentTheme] = useState('blue');
   const [checked, setChecked] = useState(false);
   const [filterEnabled, setFilterEnabled] = useState(true);
+  const [filteredNames, setFilteredNames] = useState(names);
 
   const handleChange = (e) => {
     setCurrentTheme(e.target.value);
@@ -44,6 +53,16 @@ const ComponentPreview = () => {
     const themeColor = getComputedStyle(document.documentElement).getPropertyValue('--accent-100');
     document.querySelector("meta[name='theme-color']").setAttribute('content', themeColor);
   }, [currentTheme]);
+
+  const onSearch = (query) => {
+    // Write logic for filtration here
+    if (!query) {
+      setFilteredNames(names);
+    } else {
+      const filteredNames = names.filter((item) => item.name.toLowerCase().includes(query.toLowerCase()));
+      setFilteredNames(filteredNames);
+    }
+  };
 
   return (
     <Box>
@@ -470,7 +489,13 @@ const ComponentPreview = () => {
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '40px', marginBottom: '40px' }}>
           Search_bar:
-          <SearchBar></SearchBar>
+          {/* The onSearch function handles the search functionality. It filters the list  on the search query. */}
+          <SearchBar placeholder={'Search by number, name or city'} onSearch={onSearch} />
+          <Box sx={{ display: 'flex', flexDirection: 'column;', gap: '8px', width: '150px' }}>
+            {filteredNames.map((item, index) => (
+              <Badge key={index} text={item.name} color="green" size="small" filled icon={<IconVisitors />} />
+            ))}
+          </Box>
         </Box>
       </Container>
     </Box>
