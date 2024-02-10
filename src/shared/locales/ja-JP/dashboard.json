@@ -12,7 +12,7 @@
   "tr_report": "報告",
   "tr_personsAll": "すべての成員",
   "tr_pioneerApplications": "開拓奉仕の申込書",
-  "tr_syncAppData": "同期する",
+  "tr_syncAppData": "同期",
   "tr_lastSyncAppDataNow": "たった今",
   "tr_lastSyncAppDataRecently": "最近同期しました",
   "tr_lastSyncAppData": "{{ duration }}分前に同期",
