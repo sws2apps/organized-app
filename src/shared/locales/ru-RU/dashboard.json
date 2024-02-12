@@ -17,7 +17,7 @@
   "tr_lastSyncAppDataRecently": "Синхронизировано недавно",
   "tr_lastSyncAppData": "Синхронизировано {{ duration }} мин. назад",
   "tr_greeting": "Привет, {{ firstName }}",
-  "tr_meetingAssignments": "<p>У тебя сейчас есть<a href='#' title='Meeting Assignment'>{{ assignment }} заданий </a> для встреч</p>",
+  "tr_meetingAssignments": "<p>У тебя сейчас есть <a href='#' title='Meeting Assignment'>{{ assignment }} заданий </a> для встреч</p>",
   "tr_timerLabelTime": "Время",
   "tr_timerLabelStart": "Старт",
   "tr_timerLabelPause": "Пауза",
