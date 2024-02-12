@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { appLangState } from '@states/app';
 import { LANGUAGE_LIST } from '@constants/index';
 import { handleUpdateSetting } from '@services/dexie/settings';
@@ -8,6 +8,8 @@ import { getTranslation } from '@services/i18n/translation';
 
 const useLanguage = () => {
   const { i18n } = useAppTranslation();
+
+  const { laptopUp, tabletDown } = useBreakpoints();
 
   const [appLang, setAppLang] = useRecoilState(appLangState);
 
@@ -76,6 +78,8 @@ const useLanguage = () => {
     listUILangs,
     handleLocalizeOpen,
     handleLangChange,
+    laptopUp,
+    tabletDown,
   };
 };
 

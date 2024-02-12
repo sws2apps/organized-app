@@ -99,6 +99,7 @@ const CPEBadge = (props: BadgePropsType) => {
             borderRadius: 'var(--radius-xs, 2px)',
             gap: '4px',
             padding: '2px 6px',
+            flexShrink: '0',
             ...sx,
           }}
         >
@@ -127,6 +128,7 @@ const CPEBadge = (props: BadgePropsType) => {
             borderRadius: 'var(--radius-xs, 2px)',
             padding: '2px 8px',
             gap: '4px',
+            flexShrink: '0',
             ...sx,
           }}
         >
@@ -155,6 +157,7 @@ const CPEBadge = (props: BadgePropsType) => {
             borderRadius: 'var(--radius-xs, 2px)',
             gap: filled ? '10px' : '8px',
             padding: filled ? '2px 6px' : '4px 8px',
+            flexShrink: '0',
             ...sx,
           }}
         >

@@ -7,8 +7,17 @@ import useLanguage from './useLanguage';
 const LanguageSwitcher = ({ menuStyle }: { menuStyle: SxProps }) => {
   const { t } = useAppTranslation();
 
-  const { handleClick, anchorEl, isMenuOpen, handleClose, listUILangs, handleLocalizeOpen, handleLangChange } =
-    useLanguage();
+  const {
+    handleClick,
+    anchorEl,
+    isMenuOpen,
+    handleClose,
+    listUILangs,
+    handleLocalizeOpen,
+    handleLangChange,
+    laptopUp,
+    tabletDown,
+  } = useLanguage();
 
   return (
     <>
@@ -16,9 +25,11 @@ const LanguageSwitcher = ({ menuStyle }: { menuStyle: SxProps }) => {
         <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px' } }}>
           <IconLanguage color="var(--black)" />
         </ListItemIcon>
-        <ListItemText>
-          <Typography className="body-regular">{t('trans_changeLanguage')}</Typography>
-        </ListItemText>
+        {(laptopUp || tabletDown) && (
+          <ListItemText>
+            <Typography className="body-regular">{t('tr_changeLanguage')}</Typography>
+          </ListItemText>
+        )}
       </MenuItem>
       <Menu
         id="menu-language"
@@ -53,7 +64,7 @@ const LanguageSwitcher = ({ menuStyle }: { menuStyle: SxProps }) => {
         {listUILangs.map((lang) => (
           <MenuItem
             disableRipple
-            key={lang.code}
+            key={lang.locale}
             onClick={handleLangChange}
             sx={{
               padding: '8px 12px 8px 16px',
@@ -91,7 +102,7 @@ const LanguageSwitcher = ({ menuStyle }: { menuStyle: SxProps }) => {
             </ListItemIcon>
             <ListItemText>
               <Typography className="body-small-semibold" color="var(--accent-dark)">
-                {t('trans_languageMissing')}
+                {t('tr_languageMissing')}
               </Typography>
             </ListItemText>
           </Link>

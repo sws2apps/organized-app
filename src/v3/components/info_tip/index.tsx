@@ -45,7 +45,6 @@ const InfoTip = ({
       <Box
         sx={{
           padding: '16px',
-          width: '600px',
           borderRadius: 'var(--radius-xl)',
           border: style.border,
           bgcolor: style.background,

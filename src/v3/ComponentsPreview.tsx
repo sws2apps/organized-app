@@ -13,6 +13,7 @@ import {
   UserCard,
   InfoTip,
   Loading,
+  DatePicker,
   Reminders,
   ReminderItem,
   SearchBar,
@@ -130,6 +131,13 @@ const ComponentPreview = () => {
 
       <Container maxWidth={false} sx={{ maxWidth: '1440px' }}>
         <Box sx={{ margin: '80px 0px' }}>
+          <Box sx={{ display: 'flex', flexDirection: 'row', gap: '25px' }}>
+            <DatePicker view={'input'} label={'Start date'} />
+            <DatePicker view={'input'} label={'End date'} />
+            <DatePicker view={'input'} label={'Limit year'} limitYear={true} />
+            <DatePicker view={'button'} />
+          </Box>
+
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '25px', margin: '20px 0px' }}>
             <Box>
               <Typography className="label-small-regular">variant huge-numbers</Typography>
@@ -337,38 +345,45 @@ const ComponentPreview = () => {
                 <Typography className="label-small-regular">info-tip:</Typography>
 
                 <Typography className="label-small-regular">info</Typography>
-                <InfoTip
-                  isBig={false}
-                  icon={<IconInfo />}
-                  color="white"
-                  text="Select a territory to see detailed assignment history"
-                />
+                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                  <InfoTip
+                    isBig={false}
+                    icon={<IconInfo />}
+                    color="white"
+                    text="Select a territory to see detailed assignment history"
+                  />
+                </Box>
 
                 <Typography className="label-small-regular">info-big</Typography>
-                <InfoTip
-                  isBig={true}
-                  icon={<IconInfo />}
-                  title="You don’t have any territories yet"
-                  color="white"
-                  text="Do you want to have one? Click “Get new territory” to see the list of available territories and pick one that you want to work on."
-                />
+                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                  <InfoTip
+                    isBig={true}
+                    icon={<IconInfo />}
+                    title="You don’t have any territories yet"
+                    color="white"
+                    text="Do you want to have one? Click “Get new territory” to see the list of available territories and pick one that you want to work on."
+                  />
+                </Box>
 
                 <Typography className="label-small-regular">info-alt</Typography>
-                <InfoTip
-                  isBig={false}
-                  icon={<IconInfo />}
-                  color="blue"
-                  text="You don’t have any other congregations yet. Add one here to see their speakers list and use it in schedules."
-                />
-
+                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                  <InfoTip
+                    isBig={false}
+                    icon={<IconInfo />}
+                    color="blue"
+                    text="You don’t have any other congregations yet. Add one here to see their speakers list and use it in schedules."
+                  />
+                </Box>
                 <Typography className="label-small-regular">info-alt-big</Typography>
-                <InfoTip
-                  isBig={true}
-                  icon={<IconInfo />}
-                  title="My previous territories"
-                  color="blue"
-                  text="You don’t have any territories in the history. New territories will appear here after you cover and return them."
-                />
+                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                  <InfoTip
+                    isBig={true}
+                    icon={<IconInfo />}
+                    title="My previous territories"
+                    color="blue"
+                    text="You don’t have any territories in the history. New territories will appear here after you cover and return them."
+                  />
+                </Box>
               </Box>
             </Box>
             <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap', marginTop: '10px' }}>

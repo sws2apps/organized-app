@@ -8,7 +8,7 @@ const provider = authProvider.Microsoft;
 const OAuthMicrosoft = () => {
   const { t } = useAppTranslation();
 
-  return <OAuthButtonBase provider={provider} text={t('trans_oauthMicrosoft')} logo={<IconMicrosoft />} />;
+  return <OAuthButtonBase provider={provider} text={t('tr_oauthMicrosoft')} logo={<IconMicrosoft />} />;
 };
 
 export default OAuthMicrosoft;

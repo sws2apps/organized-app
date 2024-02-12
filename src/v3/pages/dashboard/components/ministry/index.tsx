@@ -7,19 +7,19 @@ const MinistryCard = () => {
   const { t } = useAppTranslation();
 
   return (
-    <DashboardCard header={t('trans_ministry')}>
+    <DashboardCard header={t('tr_ministry')}>
       <ListItem disablePadding>
         <MinistryTimer />
       </ListItem>
       <ListItem disablePadding>
         <DashboardMenu
           icon={<IconMinistryReport color="var(--black)" />}
-          primaryText={t('trans_report')}
+          primaryText={t('tr_report')}
           badgeText="24:56"
         />
       </ListItem>
       <ListItem disablePadding>
-        <DashboardMenu icon={<IconStatsYear color="var(--black)" />} primaryText={t('trans_serviceYear')} />
+        <DashboardMenu icon={<IconStatsYear color="var(--black)" />} primaryText={t('tr_serviceYear')} />
       </ListItem>
     </DashboardCard>
   );
