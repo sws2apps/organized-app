@@ -73,16 +73,16 @@ All app data is stored just on your device initially. If you want to share your 
 ## Multiple languages support
 [![Crowdin](https://badges.crowdin.net/cpe-sws/localized.svg)](https://crowdin.com/project/cpe-sws)
 
-Currently, the app is fully or partially available in almost 20 languages, including English, Portueguese, French, German, Italian, Polish, Japanese, Russian, Ukrainian, Malagasy, and more to come. If you'd like to contribute by translating Organized into a language close to your heart, you're very welcome to do so!
-The translation process for the Organized app is handled on [Crowdin](https://crowdin.com/project/cpe-sws) and is really easy. The whole app can be translated just in a few days. To learn more about how to help with localization, please read the [translation](./TRANSLATION.md) guide.
+Currently, the app is fully or partially available in almost 20 languages, including English, Portuguese, French, German, Italian, Polish, Japanese, Russian, Ukrainian, Malagasy, and more to come. If you'd like to contribute by translating Organized into a language close to your heart, you're very welcome to do so!
+The translation process for the Organized app is handled on our [Crowdin project page](https://crowdin.com/project/cpe-sws) and is easy. The whole app can be translated just in a few days. To learn a bit more about how to help with localization, please read the [translation](./TRANSLATION.md) guide.
 
 ## Want to contribute?
 
 We really appreciate your volunteer spirit! You can contribute to the app in a few ways:
 
 1. by **telling others** about Organized app;
-2. by supporting the app with a [**donation**]([https://crowdin.com/project/cpe-sws](https://www.buymeacoffee.com/sws2apps));
-3. by helping with **React development**, **UI design** or **translation**. Please read our [contribution guide](./CONTRIBUTING.md) on how to do so.
+2. by supporting the app with a [**donation**](https://www.buymeacoffee.com/sws2apps);
+3. by helping with **React development**, **UI design**, **motion design** or **translation**. Please read our [contribution guide](./CONTRIBUTING.md) on how to do so.
 
 
 ## [![Repography logo](https://images.repography.com/logo.svg)](https://repography.com) / Recent activity [![Time period](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/Ask2bindJP2tA2ytag1oKaSCKxxydBkXJbnd2Stwc0k/-Xc8_VTMWwDRjkyqwRmlzGGUMGGJKiMmPu7NSd3ztjg_badge.svg)](https://repography.com)
@@ -93,7 +93,7 @@ We really appreciate your volunteer spirit! You can contribute to the app in a f
 
 
 ## New features in development 
-We're working hard on the new redesigned release in the new branch _(the current main branch contains an old, but a fully functional version of the app)_. And there are so many features we want to implement:
+We're working hard on the new redesigned release in the new branch _(the current main branch contains an old, but fully functional version of the app)_. And there are so many features we want to implement:
 
 • Territories management 
 
