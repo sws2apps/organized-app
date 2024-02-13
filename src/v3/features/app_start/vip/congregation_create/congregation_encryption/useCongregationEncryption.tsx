@@ -53,7 +53,7 @@ const useCongregationEncryption = () => {
 
       if (status !== 200) {
         await displayOnboardingFeedback({
-          title: t('trans_errorGeneric'),
+          title: t('tr_errorGeneric'),
           message: getMessageByCode(data.message),
         });
         showMessage();
@@ -76,7 +76,7 @@ const useCongregationEncryption = () => {
       }, 2000);
     } catch (err) {
       await displayOnboardingFeedback({
-        title: t('trans_errorGeneric'),
+        title: t('tr_errorGeneric'),
         message: getMessageByCode(err.message),
       });
       showMessage();
@@ -107,8 +107,8 @@ const useCongregationEncryption = () => {
       }, 2000);
     } catch (err) {
       await displayOnboardingFeedback({
-        title: t('trans_errorGeneric'),
-        message: t('trans_encryptionCodeInvalid'),
+        title: t('tr_errorGeneric'),
+        message: t('tr_encryptionCodeInvalid'),
       });
       showMessage();
 

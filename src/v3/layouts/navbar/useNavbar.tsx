@@ -1,37 +1,20 @@
 import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { useMediaQuery, useTheme } from '@mui/material';
 import { setIsAboutOpen, setIsSupportOpen } from '@services/recoil/app';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { isAppLoadState } from '@states/app';
 import { congNameState, fullnameState } from '@states/settings';
 
 const useNavbar = () => {
   const { t } = useAppTranslation();
 
-  const theme = useTheme();
+  const { laptopUp, tablet600Up, tabletDown, tabletUp } = useBreakpoints();
 
   const isAppLoad = useRecoilValue(isAppLoadState);
   const fullname = useRecoilValue(fullnameState);
   const congName = useRecoilValue(congNameState);
 
   const [anchorEl, setAnchorEl] = useState(null);
-
-  const tablet600Up = useMediaQuery(theme.breakpoints.up('tablet600'), {
-    noSsr: true,
-  });
-
-  const mobileUp = useMediaQuery(theme.breakpoints.up('mobile'), {
-    noSsr: true,
-  });
-
-  const tabletUp = useMediaQuery(theme.breakpoints.up('tablet'), {
-    noSsr: true,
-  });
-
-  const laptopUp = useMediaQuery(theme.breakpoints.up('laptop'), {
-    noSsr: true,
-  });
 
   const openMore = Boolean(anchorEl);
 
@@ -55,7 +38,7 @@ const useNavbar = () => {
 
   const handleOpenDoc = () => {
     handleCloseMore();
-    window.open(`https://sws2apps.com/${t('trans_docsUrlCode')}/category/congregation-program-for-everyone`, '_blank');
+    window.open(`https://sws2apps.com/${t('tr_docsUrlCode')}/category/congregation-program-for-everyone`, '_blank');
   };
 
   return {
@@ -70,9 +53,9 @@ const useNavbar = () => {
     isAppLoad,
     fullname,
     congName,
-    mobileUp,
     tabletUp,
     laptopUp,
+    tabletDown,
   };
 };
 

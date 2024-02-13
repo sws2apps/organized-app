@@ -42,48 +42,48 @@ const TermsUse = () => {
       }}
     >
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '16px' }}>
-        <Typography className="h1">{t('trans_importantNotice')}</Typography>
+        <Typography className="h1">{t('tr_importantNotice')}</Typography>
 
         <Box sx={itemQuestion}>
           <IconHelp color="var(--black)" />
-          <Typography className="h3">{t('trans_whatIsApp')}</Typography>
+          <Typography className="h3">{t('tr_whatIsApp')}</Typography>
         </Box>
 
-        <TextMarkup className="body-small-regular" color="var(--grey-400)" content={t('trans_descApp')} />
+        <TextMarkup className="body-small-regular" color="var(--grey-400)" content={t('tr_descApp')} />
 
         <Box sx={itemQuestion}>
           <IconDownload color="var(--black)" />
-          <Typography className="h3">{t('trans_appPWA')}</Typography>
+          <Typography className="h3">{t('tr_appPWA')}</Typography>
         </Box>
 
-        <TextMarkup className="body-small-regular" color="var(--grey-400)" content={t('trans_appPWADesc')} />
+        <TextMarkup className="body-small-regular" color="var(--grey-400)" content={t('tr_appPWADesc')} />
 
         <Box sx={itemQuestion}>
           <IconManageAccess color="var(--black)" />
-          <Typography className="h3">{t('trans_appSecure')}</Typography>
+          <Typography className="h3">{t('tr_appSecure')}</Typography>
         </Box>
 
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          <TextMarkup className="body-small-regular" color="var(--grey-400)" content={t('trans_appSecureDesc')} />
+          <TextMarkup className="body-small-regular" color="var(--grey-400)" content={t('tr_appSecureDesc')} />
 
           <Box
             sx={{ flex: '1 0 0', padding: '8px', borderRadius: 'var(--radius-s)', background: 'var(--red-secondary)' }}
           >
-            <TextMarkup className="body-small-regular" color="var(--red-main)" content={t('trans_clearBrowserData')} />
+            <TextMarkup className="body-small-regular" color="var(--red-main)" content={t('tr_clearBrowserData')} />
           </Box>
         </Box>
 
         <Box sx={itemQuestion}>
           <IconLock color="var(--black)" />
-          <Typography className="h3">{t('trans_appPrivacy')}</Typography>
+          <Typography className="h3">{t('tr_appPrivacy')}</Typography>
         </Box>
 
-        <TextMarkup className="body-small-regular" color="var(--grey-400)" content={t('trans_appPrivacyDesc')} />
+        <TextMarkup className="body-small-regular" color="var(--grey-400)" content={t('tr_appPrivacyDesc')} />
 
         <Checkbox
           checked={readComplete}
           onChange={(e) => setReadComplete(e.target.checked)}
-          label={t('trans_readComplete')}
+          label={t('tr_readComplete')}
         />
 
         <Box
@@ -96,7 +96,7 @@ const TermsUse = () => {
           }}
         >
           <Button variant="main" disabled={!readComplete} onClick={handleTermsUse} sx={{ flex: '1 0 0' }}>
-            {t('trans_next')}
+            {t('tr_next')}
           </Button>
         </Box>
       </Box>

@@ -22,7 +22,7 @@ const About = () => {
             flex: '1 0 0',
           }}
         >
-          <Typography className="h2">{t('trans_about')}</Typography>
+          <Typography className="h2">{t('tr_about')}</Typography>
           <IconButton disableRipple sx={{ padding: 0, margin: 0 }} onClick={handleClose}>
             <IconClose color="var(--black)" />
           </IconButton>
@@ -32,14 +32,14 @@ const About = () => {
       <Box sx={{ display: 'flex', padding: 'var(--radius-none)', alignItems: 'center', gap: '16px' }}>
         <IconLogo width={40} height={40} />
         <Box>
-          <Typography className="h3">{t('trans_appFullName')}</Typography>
+          <Typography className="h3">{t('tr_appFullName')}</Typography>
           <Typography className="body-regular" color="var(--grey-350)">
             {import.meta.env.PACKAGE_VERSION}
           </Typography>
         </Box>
       </Box>
 
-      <TextMarkup content={t('trans_appAboutDesc')} className="body-regular" />
+      <TextMarkup content={t('tr_appAboutDesc')} className="body-regular" />
 
       <Box
         sx={{
@@ -51,10 +51,10 @@ const About = () => {
         }}
       >
         <Button variant="main" onClick={handleOpenSupport}>
-          {t('trans_wantSupportApp')}
+          {t('tr_wantSupportApp')}
         </Button>
         <Button variant="secondary" onClick={handleOpenDoc}>
-          {t('trans_howToUseApp')}
+          {t('tr_howToUseApp')}
         </Button>
       </Box>
 

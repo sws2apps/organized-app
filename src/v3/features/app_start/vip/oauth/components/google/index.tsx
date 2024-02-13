@@ -8,7 +8,7 @@ const provider = authProvider.Google;
 const OAuthGoogle = () => {
   const { t } = useAppTranslation();
 
-  return <OAuthButtonBase provider={provider} text={t('trans_oauthGoogle')} logo={<IconGoogle />} />;
+  return <OAuthButtonBase provider={provider} text={t('tr_oauthGoogle')} logo={<IconGoogle />} />;
 };
 
 export default OAuthGoogle;
