@@ -26,11 +26,11 @@ import { NavBar } from './layouts';
 const themes = ['blue', 'green', 'orange', 'purple'];
 
 const names = [
-  { name: 'Michael', color: 'grey', size: 'small' },
-  { name: 'Alex', color: 'green', size: 'small' },
-  { name: 'Eleonor', color: 'orange', size: 'small' },
-  { name: 'Olga', color: 'accent', size: 'small' },
-  { name: 'Marcus', color: 'red', size: 'small' },
+  { name: 'Michael', color: 'grey' as const, size: 'small' as const },
+  { name: 'Alex', color: 'green' as const, size: 'small' as const },
+  { name: 'Eleonor', color: 'orange' as const, size: 'small' as const },
+  { name: 'Olga', color: 'accent' as const, size: 'small' as const },
+  { name: 'Marcus', color: 'red' as const, size: 'small' as const },
 ];
 
 const ComponentPreview = () => {
@@ -507,8 +507,15 @@ const ComponentPreview = () => {
           {/* The onSearch function handles the search functionality. It filters the list  on the search query. */}
           <SearchBar placeholder={'Search by number, name or city'} onSearch={onSearch} />
           <Box sx={{ display: 'flex', flexDirection: 'column;', gap: '8px', width: '150px' }}>
-            {filteredNames.map((item, index) => (
-              <Badge key={index} text={item.name} color="green" size="small" filled icon={<IconVisitors />} />
+            {filteredNames.map((item) => (
+              <Badge
+                key={item.name}
+                text={item.name}
+                color={item.color}
+                size={item.size}
+                filled
+                icon={<IconVisitors />}
+              />
             ))}
           </Box>
         </Box>

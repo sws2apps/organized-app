@@ -41,30 +41,28 @@ const SearchBar = ({ placeholder, onSearch }: SearchBarProps) => {
   };
 
   return (
-    <>
-      <StyledBox>
-        <StyledButton onClick={handelSearchClick}>
-          <IconSearch color="var(--grey-350)" />
-        </StyledButton>
-        <StyledInput
-          placeholder={placeholder}
-          disableUnderline={true}
-          className="body-regular"
-          value={value}
-          onChange={handleChange}
-          onKeyDown={handleKeyDown}
-          endAdornment={
-            value && (
-              <InputAdornment position="end">
-                <StyledButton onClick={handleClear}>
-                  <IconClose width={20} height={20} color="var(--grey-350)" />
-                </StyledButton>
-              </InputAdornment>
-            )
-          }
-        />
-      </StyledBox>
-    </>
+    <StyledBox>
+      <StyledButton onClick={handelSearchClick}>
+        <IconSearch color="var(--grey-350)" />
+      </StyledButton>
+      <StyledInput
+        placeholder={placeholder}
+        disableUnderline={true}
+        className="body-regular"
+        value={value}
+        onChange={handleChange}
+        onKeyDown={handleKeyDown}
+        endAdornment={
+          value && (
+            <InputAdornment position="end">
+              <StyledButton onClick={handleClear}>
+                <IconClose width={20} height={20} color="var(--grey-350)" />
+              </StyledButton>
+            </InputAdornment>
+          )
+        }
+      />
+    </StyledBox>
   );
 };
 
