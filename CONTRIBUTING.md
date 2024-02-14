@@ -1,6 +1,6 @@
 # How to Contribute
 
-CPE is a program for Jehovah’s Witnesses congregation, developped by the [Scheduling Workbox System (SWS)](https://github.com/sws2apps) team. But we are also more than happy to receive support from those who are very intersted to assist us. Hopefully this document makes the process for contributing clear and answers some questions that you may have.
+Organized (formerly CPE) is a program for Jehovah’s Witnesses congregation, developped by the [Scheduling Workbox System (SWS2APPS)](https://github.com/sws2apps) team. We are more than happy to receive support from those who are very intersted to collaborate. This document makes the process for contributing clearer and answers some questions that you may have.
 
 Please make sure that you have read the [code of conduct](https://github.com/sws2apps/cpe-sws/blob/main/CODE_OF_CONDUCT.md) before continuing.
 
@@ -10,7 +10,8 @@ This module follows semantic versioning. We release patch versions for bugfixes,
 
 ## Branch Organization
 
-We use only the `main` branch. But flags are used to test new features. (**Note**: Feature flags is in process of being developped.)
+We use the `main` branch for the current version (CPE), but for the new Organized version it's important to use `main-next` branch. 
+Flags are used to test new features. (**Note**: Feature flags is in process of being developped.)
 
 ## Bugs
 
@@ -28,18 +29,18 @@ If you intend to add new features or suggest major changes to this module, check
 
 If you’re only fixing a bug, it’s fine to submit a pull request right away but we still recommend to file an issue detailing what you’re fixing. This is helpful in case we don’t accept that specific fix but want to keep track of the issue.
 
-## Contribution Prerequisites
+## Contribution Requirements
 
-- You have the latest version of [Node](https://nodejs.org) and [Git](https://git-scm.com) installed
+- You have the latest version of [Node](https://nodejs.org), [Git](https://git-scm.com), and installed.
 - You will be working on one item at a time.
 - If you do not have it yet, fork the repository. Clone it if you will work locally.
 - If you have already forked and clone the repository, make sure that it is in sync with the upstream repository ([Syncing a fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork)).
-- Local backend server already setup and running. (This API backend is needed before running this project. The instructions on how to setup this API locally can be found [here](https://github.com/sws2apps/sws2apps-api/blob/main/CONTRIBUTING.md).)
+- Local [API backend]([url](https://github.com/sws2apps/sws2apps-api)) server already setup and running. The backend is used mainly for login and sync functionality. See our [backend local setup guide](https://github.com/sws2apps/sws2apps-api/blob/main/CONTRIBUTING.md).)
 - Run `npm i` to install the needed dependencies
 
 ### Setup Environment Variables
 
-You will get the values for the following environment from the Firebase project you created when you set up the local backend server.
+Create your own Firebase project and get the values for the local environment. They will also be used for the [backend server](https://github.com/sws2apps/sws2apps-api/blob/main/CONTRIBUTING.md#setup-environment-variables).
 
 - VITE_FIREBASE_APIKEY: your Firebase apiKey defined in the Firebase Console.
 - VITE_FIREBASE_AUTHDOMAIN: your Firebase authDomain defined in the Firebase Console.
