@@ -12,6 +12,9 @@ export const StyleDatePickerDay = {
     ':hover': {
       backgroundColor: 'rgba(var(--accent-main-base), 0.1)',
     },
+    ':focus': {
+      backgroundColor: 'rgba(var(--accent-main-base), 0.1)',
+    },
     '.MuiPickersYear-yearButton:hover': {
       backgroundColor: 'red',
     },
