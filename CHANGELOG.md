@@ -1,3 +1,53 @@
+# [2.116.0](https://github.com/sws2apps/cpe-sws/compare/v2.115.0...v2.116.0) (2024-02-15)
+
+
+### Bug Fixes
+
+* **features:** update donation link in about dialog ([c682f5a](https://github.com/sws2apps/cpe-sws/commit/c682f5a6613c6bb235cded761bd1ba867cb925a6))
+
+
+### Features
+
+* **deps:** bump @fingerprintjs/fingerprintjs from 4.2.1 to 4.2.2 ([263b532](https://github.com/sws2apps/cpe-sws/commit/263b532324347a6c3b1b7a1c6359a95657da3a06))
+* **deps:** bump @mui/icons-material from 5.15.6 to 5.15.7 ([53a6dcc](https://github.com/sws2apps/cpe-sws/commit/53a6dccaa4270def8b7308b48ddb8fd6b696eae4))
+* **deps:** bump @mui/icons-material from 5.15.7 to 5.15.8 ([7fe97b8](https://github.com/sws2apps/cpe-sws/commit/7fe97b8d01400d365c79a4ec54d8572d28e7d797))
+* **deps:** bump @mui/icons-material from 5.15.8 to 5.15.9 ([67d2194](https://github.com/sws2apps/cpe-sws/commit/67d21940a3eb187f561fc20b86ba00ceb70e3323))
+* **deps:** bump @mui/icons-material from 5.15.9 to 5.15.10 ([0ade1d1](https://github.com/sws2apps/cpe-sws/commit/0ade1d1b5019bad62439573f9e1eb3b460961cf6))
+* **deps:** bump @mui/material from 5.15.6 to 5.15.7 ([4a4f9f0](https://github.com/sws2apps/cpe-sws/commit/4a4f9f09c7a899bcd61b88d19e7db5232c51bd8d))
+* **deps:** bump @mui/material from 5.15.7 to 5.15.9 ([6a79281](https://github.com/sws2apps/cpe-sws/commit/6a79281d5770e5afa9b6c023be7befbe2cefb15f))
+* **deps:** bump @mui/material from 5.15.9 to 5.15.10 ([0b1e318](https://github.com/sws2apps/cpe-sws/commit/0b1e318d629249f1918b2352023fa0922d848b54))
+* **deps:** bump @mui/x-date-pickers from 6.19.0 to 6.19.2 ([69bfecc](https://github.com/sws2apps/cpe-sws/commit/69bfecc0471ef2225b47a596f253d5c8857e9623))
+* **deps:** bump @mui/x-date-pickers from 6.19.2 to 6.19.3 ([1ec35ef](https://github.com/sws2apps/cpe-sws/commit/1ec35efd49b63ed3eff4e7e021305207f5560af2))
+* **deps:** bump @mui/x-date-pickers from 6.19.3 to 6.19.4 ([606980d](https://github.com/sws2apps/cpe-sws/commit/606980d2dac20678fe7a19f6372ea1caf5f63052))
+* **deps:** bump @react-pdf/renderer from 3.3.4 to 3.3.5 ([c11dc10](https://github.com/sws2apps/cpe-sws/commit/c11dc10232767d99792b447399375ccda8446fd3))
+* **deps:** bump @react-pdf/renderer from 3.3.5 to 3.3.7 ([9892f1a](https://github.com/sws2apps/cpe-sws/commit/9892f1a1f5e6b38b65eac3dd4bf3469fca7754cf))
+* **deps:** bump @react-pdf/renderer from 3.3.7 to 3.3.8 ([0245f01](https://github.com/sws2apps/cpe-sws/commit/0245f01e57c6430ad2da8f09ae8b913e0544767f))
+* **deps:** bump @tanstack/react-query from 5.17.19 to 5.18.0 ([7de32bb](https://github.com/sws2apps/cpe-sws/commit/7de32bba5f546580792fb55a0b88da4be6ee2b7c))
+* **deps:** bump @tanstack/react-query from 5.18.0 to 5.18.1 ([2ab5ea6](https://github.com/sws2apps/cpe-sws/commit/2ab5ea640414f34594f93e18f5fe7464726cf476))
+* **deps:** bump @tanstack/react-query from 5.18.1 to 5.20.2 ([fa95790](https://github.com/sws2apps/cpe-sws/commit/fa95790625ab5fbe7272b07d3aa4295f6e909a8c))
+* **deps:** bump @tanstack/react-query from 5.20.2 to 5.20.5 ([e9ac33e](https://github.com/sws2apps/cpe-sws/commit/e9ac33efe2fd911e23c278b00f3c7e0ba0bb8cfa))
+* **deps:** bump dexie from 3.2.4 to 3.2.5 ([246a6d3](https://github.com/sws2apps/cpe-sws/commit/246a6d3458542e8246ba4c455bfe21e8b64ed3b2))
+* **deps:** bump firebase from 10.7.2 to 10.8.0 ([dce925e](https://github.com/sws2apps/cpe-sws/commit/dce925ed1dec18ca9e942065e9c13ca66d4ec25b))
+* **deps:** bump i18next from 23.7.19 to 23.7.20 ([8ae7be6](https://github.com/sws2apps/cpe-sws/commit/8ae7be6c7c5cafee3d22002b4496f9cc866a02c6))
+* **deps:** bump i18next from 23.7.20 to 23.8.1 ([9f5cd5c](https://github.com/sws2apps/cpe-sws/commit/9f5cd5c76cbeea19696fdfd582401f51ff4d5d23))
+* **deps:** bump i18next from 23.8.1 to 23.8.2 ([d5dbb6c](https://github.com/sws2apps/cpe-sws/commit/d5dbb6c3646ddcb3d76b31baafd2ecaea6d63e7d))
+* **deps:** bump jw-epub-parser from 3.11.0 to 3.12.1 ([c347392](https://github.com/sws2apps/cpe-sws/commit/c34739269932cd3a52ffaa4b17193a1b3ceea85d))
+* **deps:** bump mui-one-time-password-input from 2.0.1 to 2.0.2 ([d1ba72a](https://github.com/sws2apps/cpe-sws/commit/d1ba72ac3269617381786aaffd6bb2bc67b86939))
+* **deps:** bump react-i18next from 14.0.1 to 14.0.3 ([0b80e34](https://github.com/sws2apps/cpe-sws/commit/0b80e3486c0cf2e340c009076d2ca4e77ff41f6f))
+* **deps:** bump react-i18next from 14.0.3 to 14.0.5 ([a42206e](https://github.com/sws2apps/cpe-sws/commit/a42206ea4ac5e7c9fa82b3f19ec99dac49e92cb0))
+* **deps:** bump react-router-dom from 6.21.3 to 6.22.0 ([e6b8ae4](https://github.com/sws2apps/cpe-sws/commit/e6b8ae4e61e1454544d6205039b3e1be2b6b975f))
+* **deps:** bump vite from 5.0.12 to 5.1.0 ([633dc5e](https://github.com/sws2apps/cpe-sws/commit/633dc5e71780b95f38a5ffe77e6942e72ea64ffc))
+* **deps:** bump vite from 5.1.0 to 5.1.1 ([823a0b9](https://github.com/sws2apps/cpe-sws/commit/823a0b9bba8e039ec7206b63822d4108d0f83c25))
+* **deps:** bump vite from 5.1.1 to 5.1.2 ([e4b5a1f](https://github.com/sws2apps/cpe-sws/commit/e4b5a1f35b58966e6842e70c6f1a718ba421dc3b))
+* **localize:** add support for Russian language ([fe55515](https://github.com/sws2apps/cpe-sws/commit/fe55515e87519f14192c6baf3c3ba00e4f33e45e))
+* **localize:** updated translation from Crowdin ([d97e184](https://github.com/sws2apps/cpe-sws/commit/d97e184d24fa1d659ae1c60080a5a38ae9f32c21))
+* **localize:** updated translation from Crowdin ([c760b88](https://github.com/sws2apps/cpe-sws/commit/c760b884b1e4be828c5f15495fa150920ca5b0bb))
+* **localize:** updated translation from Crowdin ([c60cf2c](https://github.com/sws2apps/cpe-sws/commit/c60cf2cf15ca83aae324e1055edc8064c6f3a0cc))
+* **localize:** updated translation from Crowdin ([81b9cae](https://github.com/sws2apps/cpe-sws/commit/81b9caeb5bf9db7ec83878834b96f2d0370676b5))
+* **localize:** updated translation from Crowdin ([aec56be](https://github.com/sws2apps/cpe-sws/commit/aec56be3c7c05217a15fb7ff91c308c7046e55e5))
+* **localize:** updated translation from Crowdin ([0e08fb9](https://github.com/sws2apps/cpe-sws/commit/0e08fb92f552a6b8b6eb1e50b1bdc7ebd02a71c0))
+* **localize:** updated translation from Crowdin ([43a0040](https://github.com/sws2apps/cpe-sws/commit/43a0040014105c3214659f4686b974a54b86be6b))
+
 # [2.115.0](https://github.com/sws2apps/cpe-sws/compare/v2.114.0...v2.115.0) (2024-01-25)
 
 
