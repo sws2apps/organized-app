@@ -26,3 +26,4 @@ export { default as WaitingCircular } from './waiting_circular/index';
 export { default as InfoTip } from './info_tip/index';
 export { default as DatePicker } from './date_picker';
 export { Reminders, ReminderItem } from './reminders/index';
+export { default as SearchBar } from './search_bar/index';
