@@ -6,3 +6,10 @@ body:
     attributes:
       value: |
         Add an issue title with this format: [Language] - New Language Request
+  - type: textarea
+    attributes:
+      label: 'Enter the jw.org url to access this language:'
+      placeholder: |
+        https://www.jw.org
+    validations:
+      required: true
