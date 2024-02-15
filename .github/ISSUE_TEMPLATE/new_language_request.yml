@@ -1,5 +1,5 @@
-name: Translation for CPE app
-description: Request a new language to be added to CPE app
+name: New translation language for the Organized app
+description: Request a new language to be added to Crowdin platform
 labels: [i18n]
 body:
   - type: markdown
@@ -8,8 +8,8 @@ body:
         Add an issue title with this format: [Language] - New Language Request
   - type: textarea
     attributes:
-      label: 'Enter which type of translation you will made (ui/source/ui&source):'
+      label: 'Enter the jw.org url to access this language:'
       placeholder: |
-        Type (ui/source,/ui&source)
+        https://www.jw.org
     validations:
       required: true
