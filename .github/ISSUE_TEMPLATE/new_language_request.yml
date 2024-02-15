@@ -1,5 +1,5 @@
-name: Translation for CPE app
-description: Request a new language to be added to CPE app
+name: New translation language for the Organized app
+description: Request a new language to be added to Crowdin platform
 labels: [i18n]
 body:
   - type: markdown
