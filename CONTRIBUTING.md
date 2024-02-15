@@ -31,11 +31,11 @@ If you’re only fixing a bug, it’s fine to submit a pull request right away b
 
 ## Contribution Requirements
 
-- You have the latest version of [Node](https://nodejs.org), [Git](https://git-scm.com), and installed.
+- You have the latest version of [Node](https://nodejs.org) and [Git](https://git-scm.com) installed.
 - You will be working on one item at a time.
 - If you do not have it yet, fork the repository. Clone it if you will work locally.
 - If you have already forked and clone the repository, make sure that it is in sync with the upstream repository ([Syncing a fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork)).
-- Local [API backend]([url](https://github.com/sws2apps/sws2apps-api)) server already setup and running. The backend is used mainly for login and sync functionality. See our [backend local setup guide](https://github.com/sws2apps/sws2apps-api/blob/main/CONTRIBUTING.md).)
+- Local [API backend](https://github.com/sws2apps/sws2apps-api) server already setup and running. The backend is used mainly for login and sync functionality. See our [API backend local setup guide](https://github.com/sws2apps/sws2apps-api/blob/main/CONTRIBUTING.md).)
 - Run `npm i` to install the needed dependencies
 
 ### Setup Environment Variables
