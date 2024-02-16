@@ -484,7 +484,7 @@ const ComponentPreview = () => {
           <Loading />
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '40px', marginBottom: '40px' }}>
-          Reminders:
+          <Typography className="body-regular">Reminders:</Typography>
           <Reminders>
             {[
               <ReminderItem
@@ -503,7 +503,7 @@ const ComponentPreview = () => {
           </Reminders>
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '40px', marginBottom: '40px' }}>
-          Search_bar:
+          <Typography className="body-regular">Search_bar:</Typography>
           {/* The onSearch function handles the search functionality. It filters the list  on the search query. */}
           <SearchBar placeholder={'Search by number, name or city'} onSearch={onSearch} />
           <Box sx={{ display: 'flex', flexDirection: 'column;', gap: '8px', width: '150px' }}>

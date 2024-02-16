@@ -18,6 +18,12 @@ export const StyledBox = styled(Box)({
 export const StyledButton = styled(Button)({
   minWidth: '0px',
   padding: '8px',
+  '&:hover': {
+    color: 'var(--accent-100)',
+  },
+  '&:active': {
+    color: 'var(--accent-300)',
+  },
 });
 
 export const StyledInput = styled(Input)({
