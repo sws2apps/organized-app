@@ -191,7 +191,7 @@ const SourceWeekDetails = () => {
     obj.mwb_ayf_part4_type = Ass4Type === '' ? undefined : +Ass4Type;
     obj.mwb_ayf_part4_time = Ass4Time === '' ? undefined : +Ass4Time;
     obj.mwb_ayf_part4 = Ass4Src;
-    obj.mwb_song_middle = +SongMiddle;
+    obj.mwb_song_middle = isNaN(SongMiddle) ? SongMiddle : +SongMiddle;
     obj.mwb_lc_cbs = CBSSrc;
     obj.mwb_song_conclude = isNaN(SongConclude) ? SongConclude : +SongConclude;
     obj.mwb_song_conclude_override = isNaN(SongConcludeOverride) ? SongConcludeOverride : +SongConcludeOverride;
