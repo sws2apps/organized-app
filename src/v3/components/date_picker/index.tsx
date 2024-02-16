@@ -1,7 +1,7 @@
 import { enUS } from 'date-fns/locale';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { useCallback, useEffect, useState, useTransition } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { addYears, getWeeksInMonth, startOfYear, subYears } from 'date-fns';
 import Stack from '@mui/material/Stack';
 import { format } from 'date-fns';
@@ -50,7 +50,7 @@ const CPEDatePicker = ({
 
   useEffect(() => {
     if (initDate === null && open) setInnerValue(new Date());
-  }, [open]);
+  }, [initDate, open]);
 
   const viewProps = view === 'button' ? { field: ButtonField } : { textField: DatePickerInputField };
 
@@ -109,14 +109,14 @@ const CPEDatePicker = ({
             onOpen={() => setOpen(true)}
             slotProps={{
               textField: {
-                setOpen: setOpen as any,
+                setOpen: setOpen as never,
                 label: label,
                 value: value,
-              } as any,
+              } as never,
               field: {
                 setOpen,
                 formatView: buttonViewFormat,
-              } as any,
+              } as never,
               popper: {
                 sx: {
                   ...StyleDatePickerPopper,

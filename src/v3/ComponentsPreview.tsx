@@ -17,6 +17,7 @@ import {
   Reminders,
   ReminderItem,
   Tabs,
+  SearchBar,
 } from '@components';
 import { useEffect, useState } from 'react';
 import { IconAdd, IconAssign, IconClose, IconReturn, IconUndo, IconUpdate, IconInfo, IconVisitors } from '@icons';
@@ -25,10 +26,19 @@ import { NavBar } from './layouts';
 
 const themes = ['blue', 'green', 'orange', 'purple'];
 
+const names = [
+  { name: 'Michael', color: 'grey' as const, size: 'small' as const },
+  { name: 'Alex', color: 'green' as const, size: 'small' as const },
+  { name: 'Eleonor', color: 'orange' as const, size: 'small' as const },
+  { name: 'Olga', color: 'accent' as const, size: 'small' as const },
+  { name: 'Marcus', color: 'red' as const, size: 'small' as const },
+];
+
 const ComponentPreview = () => {
   const [currentTheme, setCurrentTheme] = useState('blue');
   const [checked, setChecked] = useState(false);
   const [filterEnabled, setFilterEnabled] = useState(true);
+  const [filteredNames, setFilteredNames] = useState(names);
 
   const handleChange = (e) => {
     setCurrentTheme(e.target.value);
@@ -45,6 +55,16 @@ const ComponentPreview = () => {
     const themeColor = getComputedStyle(document.documentElement).getPropertyValue('--accent-100');
     document.querySelector("meta[name='theme-color']").setAttribute('content', themeColor);
   }, [currentTheme]);
+
+  const onSearch = (query) => {
+    // Write logic for filtration here
+    if (!query) {
+      setFilteredNames(names);
+    } else {
+      const filteredNames = names.filter((item) => item.name.toLowerCase().includes(query.toLowerCase()));
+      setFilteredNames(filteredNames);
+    }
+  };
 
   return (
     <Box>
@@ -486,6 +506,23 @@ const ComponentPreview = () => {
         <Box sx={{ mb: 5 }}>
           Tabs:
           <Tabs></Tabs>
+        </Box>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '40px', marginBottom: '40px' }}>
+          Search_bar:
+          {/* The onSearch function handles the search functionality. It filters the list  on the search query. */}
+          <SearchBar placeholder={'Search by number, name or city'} onSearch={onSearch} />
+          <Box sx={{ display: 'flex', flexDirection: 'column;', gap: '8px', width: '150px' }}>
+            {filteredNames.map((item) => (
+              <Badge
+                key={item.name}
+                text={item.name}
+                color={item.color}
+                size={item.size}
+                filled
+                icon={<IconVisitors />}
+              />
+            ))}
+          </Box>
         </Box>
       </Container>
     </Box>
