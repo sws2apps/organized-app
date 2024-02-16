@@ -508,7 +508,19 @@ const SourceWeekDetails = () => {
             <Typography variant="h6">{t('livingPart')}</Typography>
           </Box>
           <Box sx={{ marginTop: '20px' }}>
-            <SongsList song={SongMiddle} setSong={setSongMiddle} readOnly={!lmmoRole} />
+            {!isNaN(SongMiddle) && <SongsList song={SongMiddle} setSong={setSongMiddle} readOnly={!lmmoRole} />}
+            {isNaN(SongMiddle) && (
+              <TextField
+                id="outlined-song-middle"
+                label={t('song')}
+                variant="outlined"
+                size="small"
+                InputProps={{ readOnly: !lmmoRole }}
+                value={SongMiddle}
+                sx={{ width: '100%' }}
+                onChange={(value) => setSongMiddle(value)}
+              />
+            )}
           </Box>
           <Box sx={{ margin: '20px 0' }}>
             <Box sx={sharedStyles.ayfStuPart}>
