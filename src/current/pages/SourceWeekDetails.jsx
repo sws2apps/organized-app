@@ -191,7 +191,7 @@ const SourceWeekDetails = () => {
     obj.mwb_ayf_part4_type = Ass4Type === '' ? undefined : +Ass4Type;
     obj.mwb_ayf_part4_time = Ass4Time === '' ? undefined : +Ass4Time;
     obj.mwb_ayf_part4 = Ass4Src;
-    obj.mwb_song_middle = +SongMiddle;
+    obj.mwb_song_middle = isNaN(SongMiddle) ? SongMiddle : +SongMiddle;
     obj.mwb_lc_cbs = CBSSrc;
     obj.mwb_song_conclude = isNaN(SongConclude) ? SongConclude : +SongConclude;
     obj.mwb_song_conclude_override = isNaN(SongConcludeOverride) ? SongConcludeOverride : +SongConcludeOverride;
@@ -508,7 +508,19 @@ const SourceWeekDetails = () => {
             <Typography variant="h6">{t('livingPart')}</Typography>
           </Box>
           <Box sx={{ marginTop: '20px' }}>
-            <SongsList song={SongMiddle} setSong={setSongMiddle} readOnly={!lmmoRole} />
+            {!isNaN(SongMiddle) && <SongsList song={SongMiddle} setSong={setSongMiddle} readOnly={!lmmoRole} />}
+            {isNaN(SongMiddle) && (
+              <TextField
+                id="outlined-song-middle"
+                label={t('song')}
+                variant="outlined"
+                size="small"
+                InputProps={{ readOnly: !lmmoRole }}
+                value={SongMiddle}
+                sx={{ width: '100%' }}
+                onChange={(value) => setSongMiddle(value)}
+              />
+            )}
           </Box>
           <Box sx={{ margin: '20px 0' }}>
             <Box sx={sharedStyles.ayfStuPart}>

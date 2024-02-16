@@ -332,6 +332,15 @@ const S140 = ({ data, currentSchedule }) => {
     return src;
   };
 
+  const getMiddleSong = (weekItem) => {
+    let src = t('song', { lng: source_lang });
+
+    if (isNaN(weekItem.sourceData.mwb_song_middle)) return weekItem.sourceData.mwb_song_middle;
+
+    src += ` ${weekItem.sourceData.mwb_song_middle}`;
+    return src;
+  };
+
   const getConcludingSong = (weekItem) => {
     let src = t('song', { lng: source_lang });
 
@@ -585,10 +594,7 @@ const S140 = ({ data, currentSchedule }) => {
                             {/* Middle Song */}
                             <View style={styles.rowBase}>
                               <S140Time time={weekItem.sourceData.middleSong} />
-                              <S140SourceSimple
-                                source={`${t('song', { lng: source_lang })} ${weekItem.sourceData.mwb_song_middle}`}
-                                bulletColor="#942926"
-                              />
+                              <S140SourceSimple source={getMiddleSong(weekItem)} bulletColor="#942926" />
                               <S140PartMiniLabel part="" />
                               <S140Person person="" />
                             </View>
