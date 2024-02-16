@@ -1,3 +1,15 @@
+# [2.117.0](https://github.com/sws2apps/cpe-sws/compare/v2.116.0...v2.117.0) (2024-02-16)
+
+
+### Bug Fixes
+
+* **schedules:** support custom middle song for midweek meeting ([67aad23](https://github.com/sws2apps/cpe-sws/commit/67aad233fa06e84a97f18195806770a4fed61fdd))
+
+
+### Features
+
+* **deps:** bump vite from 5.1.2 to 5.1.3 ([6caaa5a](https://github.com/sws2apps/cpe-sws/commit/6caaa5acc9875f833bf12bcf62dd1f2e93292c52))
+
 # [2.116.0](https://github.com/sws2apps/cpe-sws/compare/v2.115.0...v2.116.0) (2024-02-15)
 
 
