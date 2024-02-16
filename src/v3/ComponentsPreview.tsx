@@ -16,6 +16,7 @@ import {
   DatePicker,
   Reminders,
   ReminderItem,
+  Tabs,
 } from '@components';
 import { useEffect, useState } from 'react';
 import { IconAdd, IconAssign, IconClose, IconReturn, IconUndo, IconUpdate, IconInfo, IconVisitors } from '@icons';
@@ -481,6 +482,10 @@ const ComponentPreview = () => {
               />,
             ]}
           </Reminders>
+        </Box>
+        <Box sx={{ mb: 5 }}>
+          Tabs:
+          <Tabs></Tabs>
         </Box>
       </Container>
     </Box>
