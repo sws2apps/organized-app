@@ -104,6 +104,7 @@ const CPETimePicker = ({ ampm, label, initTime = null }: CPETimePickerProps) => 
                   maxWidth: isMobile ? 'none' : '250px',
                   '.MuiTimePickerToolbar-hourMinuteLabel': {
                     width: '100%',
+                    height: isMobile ? '100%' : null,
                     marginTop: ampm ? 'auto' : 'unset',
                     span: {
                       color: 'var(--black)',

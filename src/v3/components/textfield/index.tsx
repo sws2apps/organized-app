@@ -87,7 +87,7 @@ const CPETextField = (props: TextFieldTypeProps) => {
               maxHeight: 0,
               marginRight: 0,
               '& svg, & svg g, & svg g path': {
-                fill: endIcon.props.color ? endIcon.props.color : props.value ? 'var(--black)' : 'var(--accent-350)',
+                fill: endIcon.props.color ? endIcon.props.color : 'var(--accent-350)',
               },
             }}
           >

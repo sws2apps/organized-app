@@ -19,6 +19,7 @@ export const StyleTimePickerPopper = {
     backgroundColor: 'var(--accent-200)',
     height: '225px',
     width: '225px',
+    padding: '2px 0 0 2px',
     transform: 'scale(1.1)',
   },
   button: {
@@ -45,7 +46,6 @@ export const StyleTimePickerPaper = {
 };
 export const StyleTimePickerToolbar = {
   '& > *:first-of-type': {
-    // className: '.h3',
     color: 'var(--black)',
     fontSize: '16px',
     textDecoration: 'none',
@@ -59,7 +59,6 @@ export const StyleTimePickerToolbar = {
     textTransform: 'none',
     marginBottom: '20px',
   },
-
   '.MuiTimePickerToolbar-ampmLandscape': {
     '& > *:first-of-type': {
       borderTopRightRadius: '0',
@@ -75,20 +74,24 @@ export const StyleTimePickerToolbar = {
       span: { color: 'var(--accent-400)' },
     },
   },
-  // '& > *:first-of-type': {
-  //   fontSize: '18px',
-  //   fontWeight: 570,
-  //   alignItems: 'center',
-  // },
+  '.MuiTimePickerToolbar-separator': {
+    height: '105%',
+    margin: '0 4px 0 4px',
+  },
   button: {
     width: '100%',
+    height: '100%',
     borderRadius: 'var(--radius-l)',
     backgroundColor: 'var(--accent-150)',
+    ':hover': {
+      backgroundColor: 'var(--accent-300)',
+    },
     '.Mui-selected': {
       borderRadius: 'inherit',
       backgroundColor: 'var(--accent-200)',
       color: 'var(--accent-dark) !important',
       width: '100%',
+      height: '100%',
     },
   },
 };

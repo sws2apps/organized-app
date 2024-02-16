@@ -111,8 +111,6 @@ const ComponentPreview = () => {
 
       <Container maxWidth={false} sx={{ maxWidth: '1440px' }}>
         <Box sx={{ margin: '80px 0px' }}>
-          <CPETimePicker ampm={true} label={'Time'} />
-          <CPETimePicker ampm={false} label={'Time'} />
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '25px', margin: '20px 0px' }}>
             <Box>
               <Typography className="label-small-regular">variant huge-numbers</Typography>
@@ -469,6 +467,10 @@ const ComponentPreview = () => {
               />,
             ]}
           </Reminders>
+        </Box>
+        <Box sx={{ display: 'flex', flexDirection: 'row', gap: '20px', marginTop: '40px', marginBottom: '40px' }}>
+          <CPETimePicker ampm={true} label={'Time'} />
+          <CPETimePicker ampm={false} label={'Time'} />
         </Box>
       </Container>
     </Box>
