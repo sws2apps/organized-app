@@ -15,30 +15,25 @@
   "orientation": "any",
   "icons": [
     {
-      "src": "/img/icon/icon-512x512.png",
-      "sizes": "512x512",
+      "src": "/img/icon/pwa-64x64.png",
+      "sizes": "64x64",
       "type": "image/png"
     },
     {
-      "src": "/img/icon/icon-192x192.png",
+      "src": "/img/icon/pwa-192x192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/img/icon/icon-maskable-512x512.png",
+      "src": "/img/icon/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/img/icon/maskable-icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
-    },
-    {
-      "src": "/img/icon/icon-maskable-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "/img/icon/logo.svg",
-      "sizes": "any"
     },
     {
       "src": "/img/icon/icon-android-adaptive-108x108.png",
@@ -61,11 +56,88 @@
   ],
   "screenshots": [
     {
-      "src": "/img/screenshot/one_app_for_everyone.png",
-      "sizes": "1125x2000",
+      "src": "/img/screenshot/one_app_for_everyone_desktop.png",
+      "sizes": "2917x2000",
       "type": "image/png",
       "form_factor": "wide",
-      "label": "one_app_for_everyone"
+      "label": "one_app_for_everyone_desktop"
+    },
+    {
+      "src": "/img/screenshot/collaborate_with_ease_desktop.png",
+      "sizes": "2917x2000",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "collaborate_with_ease_desktop"
+    },
+    {
+      "src": "/img/screenshot/instant_reports_desktop.png",
+      "sizes": "2917x2000",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "instant_reports_desktop"
+    },
+    {
+      "src": "/img/screenshot/light_and_dark_themes_desktop.png",
+      "sizes": "2917x2000",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "light_and_dark_themes_desktop"
+    },
+    {
+      "src": "/img/screenshot/truly_multi_platform_desktop.png",
+      "sizes": "2917x2000",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "truly_multi_platform_desktop"
+    },
+    {
+      "src": "/img/screenshot/way_less_stress_desktop.png",
+      "sizes": "2917x2000",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "way_less_stress_desktop"
+    },
+    {
+      "src": "/img/screenshot/one_app_for_everyone_mobile.png",
+      "sizes": "1125x2001",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "one_app_for_everyone_mobile"
+    },
+    {
+      "src": "/img/screenshot/collaborate_with_ease_mobile.png",
+      "sizes": "1125x2001",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "collaborate_with_ease_mobile"
+    },
+    {
+      "src": "/img/screenshot/instant_reports_mobile.png",
+      "sizes": "1125x2001",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "instant_reports_mobile"
+    },
+    {
+      "src": "/img/screenshot/light_and_dark_themes_mobile.png",
+      "sizes": "1125x2001",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "light_and_dark_themes_mobile"
+    },
+    {
+      "src": "/img/screenshot/truly_multi_platform_mobile.png",
+      "sizes": "1125x2001",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "truly_multi_platform_mobile"
+    },
+    {
+      "src": "/img/screenshot/way_less_stress_mobile.png",
+      "sizes": "1125x2001",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "way_less_stress_mobile"
     }
   ],
   "url_handlers": [
