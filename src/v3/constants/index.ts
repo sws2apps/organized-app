@@ -2,7 +2,7 @@ export const LANGUAGE_LIST = [
   { code: 'x', locale: 'de-DE', name: 'Deutsch' },
   { code: 'e', locale: 'en', name: 'English' },
   { code: 's', locale: 'es-ES', name: 'español' },
-  { code: 's', locale: 'es-MX', name: 'español (Mexico)' },
+  { code: 's', locale: 'es-SSP', name: 'español (de España)' },
   { code: 'f', locale: 'fr-FR', name: 'Français' },
   { code: 'i', locale: 'it-IT', name: 'Italiano' },
   { code: 'mg', locale: 'mg-MG', name: 'Malagasy' },
