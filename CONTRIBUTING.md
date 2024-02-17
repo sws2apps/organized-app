@@ -2,11 +2,11 @@
 
 Organized (formerly CPE) is a program for Jehovah’s Witnesses congregation, developped by the [Scheduling Workbox System (SWS2APPS)](https://github.com/sws2apps) team. We are more than happy to receive support from those who are very intersted to collaborate. This document makes the process for contributing clearer and answers some questions that you may have.
 
-Please make sure that you have read the [code of conduct](https://github.com/sws2apps/cpe-sws/blob/main/CODE_OF_CONDUCT.md) before continuing.
+Please make sure that you have read the [code of conduct](https://github.com/sws2apps/organized-app/blob/main/CODE_OF_CONDUCT.md) before continuing.
 
 ## Semantic Versioning
 
-This module follows semantic versioning. We release patch versions for bugfixes, minor versions for new features or non-essential changes, and major versions for any breaking changes. Every significant change is documented in the [changelog](https://github.com/sws2apps/cpe-sws/blob/main/CHANGELOG.md) file.
+This module follows semantic versioning. We release patch versions for bugfixes, minor versions for new features or non-essential changes, and major versions for any breaking changes. Every significant change is documented in the [changelog](https://github.com/sws2apps/organized-app/blob/main/CHANGELOG.md) file.
 
 ## Branch Organization
 
@@ -17,15 +17,15 @@ Flags are used to test new features. (**Note**: Feature flags is in process of b
 
 ### Known Issues and Report
 
-We are using [GitHub Issues](https://github.com/sws2apps/cpe-sws/issues) to keep track of bugs fix, and changes to be made to the application. We keep a close eye on this and try to make it clear when we have an internal fix in progress. Before filing a new task, try to make sure your problem doesn’t already exist.
+We are using [GitHub Issues](https://github.com/sws2apps/organized-app/issues) to keep track of bugs fix, and changes to be made to the application. We keep a close eye on this and try to make it clear when we have an internal fix in progress. Before filing a new task, try to make sure your problem doesn’t already exist.
 
 ### Security Bugs
 
-Please do not report security bugs in the public issues; go through the process outlined on the [Security Policy](https://github.com/sws2apps/cpe-sws/blob/main/SECURITY.md).
+Please do not report security bugs in the public issues; go through the process outlined on the [Security Policy](https://github.com/sws2apps/organized-app/blob/main/SECURITY.md).
 
 ## Proposing a Change
 
-If you intend to add new features or suggest major changes to this module, check first that your idea is not yet in our tracking issues list. If not, we recommend creating a new [discussion first](https://github.com/sws2apps/cpe-sws/discussions/categories/ideas). This lets us reach an agreement on your proposal before you put significant effort into it. After it has been approved, please create [new issue](https://github.com/sws2apps/cpe-sws/issues), and choose the correct template.
+If you intend to add new features or suggest major changes to this module, check first that your idea is not yet in our tracking issues list. If not, we recommend creating a new [discussion first](https://github.com/sws2apps/organized-app/discussions/categories/ideas). This lets us reach an agreement on your proposal before you put significant effort into it. After it has been approved, please create [new issue](https://github.com/sws2apps/organized-app/issues), and choose the correct template.
 
 If you’re only fixing a bug, it’s fine to submit a pull request right away but we still recommend to file an issue detailing what you’re fixing. This is helpful in case we don’t accept that specific fix but want to keep track of the issue.
 

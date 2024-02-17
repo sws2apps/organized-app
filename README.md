@@ -77,7 +77,7 @@ We really appreciate your volunteer spirit! You can contribute to the app in a f
 1. ⭐️ by **starring the repository**. This makes it easier for others enthusiasts to find the app.;
 2. 💬 by **telling others** about the Organized app;
 3. 💰 by supporting the app with a [**donation**](https://www.buymeacoffee.com/sws2apps);
-4. 🌐 by **[translating](https://crowdin.com/project/cpe-sws)** the app to your language; 
+4. 🌐 by **[translating](https://crowdin.com/project/organized)** the app to your language; 
 5. 👨‍💻 by collaborating on development: **Frontend and backend**, **UI/UX design**, or **motion design**. Please read our [contribution guide](./CONTRIBUTING.md) on how to do so.
 
 
@@ -87,12 +87,12 @@ We really appreciate your volunteer spirit! You can contribute to the app in a f
 [![Top contributors](https://images.repography.com/34928945/sws2apps/organized-app/top-contributors/Ask2bindJP2tA2ytag1oKaSCKxxydBkXJbnd2Stwc0k/-Xc8_VTMWwDRjkyqwRmlzGGUMGGJKiMmPu7NSd3ztjg_table.svg)](https://github.com/sws2apps/organized-app/graphs/contributors)
 
 ## Available in many languages
-[![Crowdin](https://badges.crowdin.net/cpe-sws/localized.svg)](https://crowdin.com/project/cpe-sws)
+[![Crowdin](https://badges.crowdin.net/organized/localized.svg)](https://crowdin.com/project/organized)
 
 Currently, the app is fully or partially available in **20 languages**, including English, Spanish, Portuguese, French, German, Italian, Polish, Japanese, Russian, Ukrainian, Malagasy, and even more to come. If you'd like to contribute by translating Organized into the language of your heart, you're very welcome to do so!
 
 
-The translation for the Organized app is handled at our [Crowdin project page](https://crowdin.com/project/cpe-sws) and is pretty easy. The whole app can be translated just in a few days. To learn a  more about how to help with localization, please read the [translation guide](./TRANSLATION.md). If your language hasn't been added to Crowdin yet, feel free to [create a new issue](https://github.com/sws2apps/organized-app/issues/new?assignees=&labels=i18n&projects=&template=new_language_request.yml) to include your specific language.
+The translation for the Organized app is handled at our [Crowdin project page](https://crowdin.com/project/organized) and is pretty easy. The whole app can be translated just in a few days. To learn a  more about how to help with localization, please read the [translation guide](./TRANSLATION.md). If your language hasn't been added to Crowdin yet, feel free to [create a new issue](https://github.com/sws2apps/organized-app/issues/new?assignees=&labels=i18n&projects=&template=new_language_request.yml) to include your specific language.
 
 ## New features in development 
 We're working hard on the new redesigned release in the new branch _(the current main branch contains an old, but fully functional version of the app)_. And there are so many features we want to implement:
