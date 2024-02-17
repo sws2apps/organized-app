@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Tabs, Tab, Typography, Box } from '@mui/material';
-import { TabsPanelProps } from './index.types';
+import { TabsPanelProps, CustomTabProps } from './index.types';
 
 const CustomTabPanel = (props: TabsPanelProps) => {
   const { children, value, index, ...other } = props;
@@ -29,8 +29,7 @@ const a11yProps = (index: number) => {
   };
 };
 
-// eslint-disable-next-line react/prop-types
-const CPETabs = ({ tabs }) => {
+const CPETabs = ({ tabs }: CustomTabProps) => {
   const [valueOfActivePanel, setValueOfActivePanel] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -58,29 +57,25 @@ const CPETabs = ({ tabs }) => {
             '& span.MuiTouchRipple-rippleVisible': { color: 'var(--accent-main)' },
           }}
         >
-          {
-            // eslint-disable-next-line react/prop-types
-            tabs.map(
-              ({ label }, index: number): React.ReactNode => (
-                <Tab
-                  label={label}
-                  key={label}
-                  className={`${valueOfActivePanel === index ? 'h4' : 'body-regular'}`}
-                  {...a11yProps(index)}
-                />
-              )
+          {tabs.map(
+            ({ label }, index: number): React.ReactNode => (
+              <Tab
+                label={label}
+                key={label}
+                className={`${valueOfActivePanel === index ? 'h4' : 'body-regular'}`}
+                {...a11yProps(index)}
+              />
             )
-          }
+          )}
         </Tabs>
       </Box>
-      {
-        // eslint-disable-next-line react/prop-types
-        tabs.map((tab, i: number) => (
+      {tabs.map(
+        (tab, i: number): React.ReactNode => (
           <CustomTabPanel value={valueOfActivePanel} index={i} key={tab.label}>
             {tab.Component}
           </CustomTabPanel>
-        ))
-      }
+        )
+      )}
     </Box>
   );
 };
