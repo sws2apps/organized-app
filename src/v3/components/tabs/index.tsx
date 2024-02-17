@@ -69,13 +69,15 @@ const CPETabs = ({ tabs }: CustomTabProps) => {
           )}
         </Tabs>
       </Box>
-      {tabs.map(
-        (tab, i: number): React.ReactNode => (
-          <CustomTabPanel value={valueOfActivePanel} index={i} key={tab.label}>
-            {tab.Component}
-          </CustomTabPanel>
-        )
-      )}
+      <Box display="flex" justifyContent="center">
+        {tabs.map(
+          (tab, i: number): React.ReactNode => (
+            <CustomTabPanel value={valueOfActivePanel} index={i} key={tab.label}>
+              {tab.Component}
+            </CustomTabPanel>
+          )
+        )}
+      </Box>
     </Box>
   );
 };
