@@ -17,7 +17,7 @@ const MinistryTimer = ({ duration = '0:00' }: { duration: string }) => {
         gap: '12px',
       }}
     >
-      <TimerButton text={t('trans_timerLabelTime')} icon={<IconAddTime color="var(--accent-dark)" />} />
+      <TimerButton text={t('tr_timerLabelTime')} icon={<IconAddTime color="var(--accent-dark)" />} />
       <Typography
         variant="h2"
         color={duration === '0:00' ? 'var(--accent-300)' : 'var(--accent-dark)'}
@@ -39,7 +39,7 @@ const MinistryTimer = ({ duration = '0:00' }: { duration: string }) => {
       >
         {duration}
       </Typography>
-      <TimerButton text={t('trans_timerLabelStart')} icon={<IconStart color="var(--accent-dark)" />} />
+      <TimerButton text={t('tr_timerLabelStart')} icon={<IconStart color="var(--accent-dark)" />} />
     </Box>
   );
 };

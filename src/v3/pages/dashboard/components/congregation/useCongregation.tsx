@@ -20,19 +20,19 @@ const useCongregation = () => {
   const accountType = useRecoilValue(accountTypeState);
 
   const getSecondaryText = () => {
-    let label = t('trans_syncAppDataInProgress');
+    let label = t('tr_syncAppDataInProgress');
 
     if (!isSyncing) {
       if (lastSync === 'now') {
-        label = t('trans_lastSyncAppDataNow');
+        label = t('tr_lastSyncAppDataNow');
       }
 
       if (lastSync === 'recently') {
-        label = t('trans_lastSyncAppDataRecently');
+        label = t('tr_lastSyncAppDataRecently');
       }
 
       if (lastSync >= 1) {
-        label = t('trans_lastSyncAppData', { duration: lastSync });
+        label = t('tr_lastSyncAppData', { duration: lastSync });
       }
     }
 

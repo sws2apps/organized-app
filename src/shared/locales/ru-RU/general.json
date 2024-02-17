@@ -9,6 +9,7 @@
   "tr_refreshPage": "Обновить страницу",
   "tr_updateAvailable": "Доступно обновление",
   "tr_updateDescription": "Доступна новая версия Organized",
+  "tr_update": "Обновить",
   "tr_errorGeneric": "Что-то пошло не так",
   "tr_supportApp": "Поддержать приложение",
   "tr_howToUseApp": "Как использовать Organized",
@@ -26,5 +27,16 @@
   "tr_internalError": "Произошла внутренняя ошибка с нашей стороны. Пожалуйста, повторите попытку позже.",
   "tr_loading": "Загрузка...",
   "tr_noOptions": "Нет вариантов",
-  "tr_pleaseWait": "Подожди..."
+  "tr_pleaseWait": "Подожди...",
+  "tr_january": "Январь",
+  "tr_february": "Февраль",
+  "tr_april": "Апрель",
+  "tr_may": "Май",
+  "tr_june": "Июнь",
+  "tr_july": "Июль",
+  "tr_august": "Август",
+  "tr_september": "Сентябрь",
+  "tr_october": "Октябрь",
+  "tr_november": "Ноябрь",
+  "tr_december": "Декабрь"
 }

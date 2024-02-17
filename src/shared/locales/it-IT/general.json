@@ -9,6 +9,7 @@
   "tr_refreshPage": "Refresh the page",
   "tr_updateAvailable": "Update available",
   "tr_updateDescription": "A new version of Organized is available",
+  "tr_update": "Update",
   "tr_errorGeneric": "Something went wrong",
   "tr_supportApp": "Support the app",
   "tr_howToUseApp": "How to use Organized",
@@ -26,5 +27,16 @@
   "tr_internalError": "An internal error has occurred on our side. Please try again later.",
   "tr_loading": "Loading...",
   "tr_noOptions": "No options",
-  "tr_pleaseWait": "Please wait ..."
+  "tr_pleaseWait": "Please wait ...",
+  "tr_january": "January",
+  "tr_february": "February",
+  "tr_april": "April",
+  "tr_may": "May",
+  "tr_june": "June",
+  "tr_july": "July",
+  "tr_august": "August",
+  "tr_september": "September",
+  "tr_october": "October",
+  "tr_november": "November",
+  "tr_december": "December"
 }

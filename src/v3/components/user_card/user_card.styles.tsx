@@ -2,6 +2,7 @@ import { Box, Card, CardContent } from '@mui/material';
 import { styled } from '@mui/system';
 
 export const StyledCardBox = styled(Box)({
+  width: '100%',
   '.MuiCard-root': {
     borderRadius: '8px',
     boxShadow: 'none',
@@ -16,8 +17,6 @@ export const StyledCardBox = styled(Box)({
 });
 
 export const StyledCard = styled(Card)({
-  minWidth: 432,
-  maxWidth: 432,
   background: 'var(--white, #FEFEFE); }}',
 });
 

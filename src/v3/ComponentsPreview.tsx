@@ -13,8 +13,10 @@ import {
   UserCard,
   InfoTip,
   Loading,
+  DatePicker,
   Reminders,
   ReminderItem,
+  SearchBar,
 } from '@components';
 import { useEffect, useState } from 'react';
 import { IconAdd, IconAssign, IconClose, IconReturn, IconUndo, IconUpdate, IconInfo, IconVisitors } from '@icons';
@@ -24,10 +26,19 @@ import CPETimePicker from './components/time_picek';
 
 const themes = ['blue', 'green', 'orange', 'purple'];
 
+const names = [
+  { name: 'Michael', color: 'grey' as const, size: 'small' as const },
+  { name: 'Alex', color: 'green' as const, size: 'small' as const },
+  { name: 'Eleonor', color: 'orange' as const, size: 'small' as const },
+  { name: 'Olga', color: 'accent' as const, size: 'small' as const },
+  { name: 'Marcus', color: 'red' as const, size: 'small' as const },
+];
+
 const ComponentPreview = () => {
   const [currentTheme, setCurrentTheme] = useState('blue');
   const [checked, setChecked] = useState(false);
   const [filterEnabled, setFilterEnabled] = useState(true);
+  const [filteredNames, setFilteredNames] = useState(names);
 
   const handleChange = (e) => {
     setCurrentTheme(e.target.value);
@@ -44,6 +55,16 @@ const ComponentPreview = () => {
     const themeColor = getComputedStyle(document.documentElement).getPropertyValue('--accent-100');
     document.querySelector("meta[name='theme-color']").setAttribute('content', themeColor);
   }, [currentTheme]);
+
+  const onSearch = (query) => {
+    // Write logic for filtration here
+    if (!query) {
+      setFilteredNames(names);
+    } else {
+      const filteredNames = names.filter((item) => item.name.toLowerCase().includes(query.toLowerCase()));
+      setFilteredNames(filteredNames);
+    }
+  };
 
   return (
     <Box>
@@ -111,6 +132,13 @@ const ComponentPreview = () => {
 
       <Container maxWidth={false} sx={{ maxWidth: '1440px' }}>
         <Box sx={{ margin: '80px 0px' }}>
+          <Box sx={{ display: 'flex', flexDirection: 'row', gap: '25px' }}>
+            <DatePicker view={'input'} label={'Start date'} />
+            <DatePicker view={'input'} label={'End date'} />
+            <DatePicker view={'input'} label={'Limit year'} limitYear={true} />
+            <DatePicker view={'button'} />
+          </Box>
+
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '25px', margin: '20px 0px' }}>
             <Box>
               <Typography className="label-small-regular">variant huge-numbers</Typography>
@@ -318,38 +346,45 @@ const ComponentPreview = () => {
                 <Typography className="label-small-regular">info-tip:</Typography>
 
                 <Typography className="label-small-regular">info</Typography>
-                <InfoTip
-                  isBig={false}
-                  icon={<IconInfo />}
-                  color="white"
-                  text="Select a territory to see detailed assignment history"
-                />
+                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                  <InfoTip
+                    isBig={false}
+                    icon={<IconInfo />}
+                    color="white"
+                    text="Select a territory to see detailed assignment history"
+                  />
+                </Box>
 
                 <Typography className="label-small-regular">info-big</Typography>
-                <InfoTip
-                  isBig={true}
-                  icon={<IconInfo />}
-                  title="You don’t have any territories yet"
-                  color="white"
-                  text="Do you want to have one? Click “Get new territory” to see the list of available territories and pick one that you want to work on."
-                />
+                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                  <InfoTip
+                    isBig={true}
+                    icon={<IconInfo />}
+                    title="You don’t have any territories yet"
+                    color="white"
+                    text="Do you want to have one? Click “Get new territory” to see the list of available territories and pick one that you want to work on."
+                  />
+                </Box>
 
                 <Typography className="label-small-regular">info-alt</Typography>
-                <InfoTip
-                  isBig={false}
-                  icon={<IconInfo />}
-                  color="blue"
-                  text="You don’t have any other congregations yet. Add one here to see their speakers list and use it in schedules."
-                />
-
+                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                  <InfoTip
+                    isBig={false}
+                    icon={<IconInfo />}
+                    color="blue"
+                    text="You don’t have any other congregations yet. Add one here to see their speakers list and use it in schedules."
+                  />
+                </Box>
                 <Typography className="label-small-regular">info-alt-big</Typography>
-                <InfoTip
-                  isBig={true}
-                  icon={<IconInfo />}
-                  title="My previous territories"
-                  color="blue"
-                  text="You don’t have any territories in the history. New territories will appear here after you cover and return them."
-                />
+                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                  <InfoTip
+                    isBig={true}
+                    icon={<IconInfo />}
+                    title="My previous territories"
+                    color="blue"
+                    text="You don’t have any territories in the history. New territories will appear here after you cover and return them."
+                  />
+                </Box>
               </Box>
             </Box>
             <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap', marginTop: '10px' }}>
@@ -450,7 +485,7 @@ const ComponentPreview = () => {
           <Loading />
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '40px', marginBottom: '40px' }}>
-          Reminders:
+          <Typography className="body-regular">Reminders:</Typography>
           <Reminders>
             {[
               <ReminderItem
@@ -471,6 +506,23 @@ const ComponentPreview = () => {
         <Box sx={{ display: 'flex', flexDirection: 'row', gap: '20px', marginTop: '40px', marginBottom: '40px' }}>
           <CPETimePicker ampm={true} label={'Time'} />
           <CPETimePicker ampm={false} label={'Time'} />
+        </Box>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '40px', marginBottom: '40px' }}>
+          <Typography className="body-regular">Search_bar:</Typography>
+          {/* The onSearch function handles the search functionality. It filters the list  on the search query. */}
+          <SearchBar placeholder={'Search by number, name or city'} onSearch={onSearch} />
+          <Box sx={{ display: 'flex', flexDirection: 'column;', gap: '8px', width: '150px' }}>
+            {filteredNames.map((item) => (
+              <Badge
+                key={item.name}
+                text={item.name}
+                color={item.color}
+                size={item.size}
+                filled
+                icon={<IconVisitors />}
+              />
+            ))}
+          </Box>
         </Box>
       </Container>
     </Box>
