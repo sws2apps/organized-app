@@ -2,8 +2,6 @@ import * as React from 'react';
 import { Tabs, Tab, Typography, Box } from '@mui/material';
 import { TabsPanelProps } from './index.types';
 
-const tabsLabels: string[] = ['Midweek meeting', 'Weekend meeting', 'Another one...'];
-
 const CustomTabPanel = (props: TabsPanelProps) => {
   const { children, value, index, ...other } = props;
 
@@ -31,7 +29,8 @@ const a11yProps = (index: number) => {
   };
 };
 
-const CPETabs = () => {
+// eslint-disable-next-line react/prop-types
+const CPETabs = ({ tabs }) => {
   const [valueOfActivePanel, setValueOfActivePanel] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -59,25 +58,29 @@ const CPETabs = () => {
             '& span.MuiTouchRipple-rippleVisible': { color: 'var(--accent-main)' },
           }}
         >
-          {tabsLabels.map((label, index) => (
-            <Tab
-              key={label}
-              label={label}
-              className={`${valueOfActivePanel === index ? 'h4' : 'body-regular'}`}
-              {...a11yProps(index)}
-            ></Tab>
-          ))}
+          {
+            // eslint-disable-next-line react/prop-types
+            tabs.map(
+              ({ label }, index: number): React.ReactNode => (
+                <Tab
+                  label={label}
+                  key={label}
+                  className={`${valueOfActivePanel === index ? 'h4' : 'body-regular'}`}
+                  {...a11yProps(index)}
+                />
+              )
+            )
+          }
         </Tabs>
       </Box>
-      <CustomTabPanel value={valueOfActivePanel} index={0}>
-        Content of midweek meeting
-      </CustomTabPanel>
-      <CustomTabPanel value={valueOfActivePanel} index={1}>
-        Content of weekend meeting
-      </CustomTabPanel>
-      <CustomTabPanel value={valueOfActivePanel} index={2}>
-        Content of other meeting
-      </CustomTabPanel>
+      {
+        // eslint-disable-next-line react/prop-types
+        tabs.map((tab, i: number) => (
+          <CustomTabPanel value={valueOfActivePanel} index={i} key={tab.label}>
+            {tab.Component}
+          </CustomTabPanel>
+        ))
+      }
     </Box>
   );
 };

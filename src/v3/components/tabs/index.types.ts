@@ -3,3 +3,8 @@ export type TabsPanelProps = {
   index: number;
   value: number;
 };
+
+export type TabCustomProps = {
+  label: string;
+  Component: React.ReactNode;
+}[];

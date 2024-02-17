@@ -34,6 +34,26 @@ const names = [
   { name: 'Marcus', color: 'red' as const, size: 'small' as const },
 ];
 
+const tabs = [
+  {
+    label: 'Tab 1',
+    Component: (
+      <div>
+        <h1>Hello, Here is a content of Midweek meeting</h1>
+        <span>So just pass an array of Components to Tabs and you will see them here.</span>
+      </div>
+    ),
+  },
+  {
+    label: 'Tab 2',
+    Component: <div>Hello, Here is a content of Weekend meeting</div>,
+  },
+  {
+    label: 'Tab 3',
+    Component: <div>Hello, Here is a content of another one meeting</div>,
+  },
+];
+
 const ComponentPreview = () => {
   const [currentTheme, setCurrentTheme] = useState('blue');
   const [checked, setChecked] = useState(false);
@@ -505,7 +525,7 @@ const ComponentPreview = () => {
         </Box>
         <Box sx={{ mb: 5 }}>
           Tabs:
-          <Tabs></Tabs>
+          <Tabs tabs={tabs} />
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '40px', marginBottom: '40px' }}>
           <Typography className="body-regular">Search_bar:</Typography>
