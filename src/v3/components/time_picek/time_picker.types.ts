@@ -1,5 +1,5 @@
 export interface CPETimePickerProps {
-  initTime?: Date;
+  initTime?: Date | null;
   ampm: boolean;
   label?: string;
 }

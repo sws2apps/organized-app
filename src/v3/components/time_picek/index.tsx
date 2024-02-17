@@ -4,7 +4,6 @@ import { Box, ClickAwayListener, Stack, TextFieldProps, useMediaQuery } from '@m
 import { Button, TextField } from '@components';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { CPETimePickerProps } from './time_picker.types';
-import { StyledIconWrapper } from '../user_card/user_card.styles';
 import { IconClock } from '@icons';
 import { StyleTimePickerPaper, StyleTimePickerPopper, StyleTimePickerToolbar } from './time_picker.style';
 import { useTranslation } from 'react-i18next';
@@ -15,11 +14,14 @@ const TimePickerInputField = (props: TextFieldProps & { setOpen?: Dispatch<SetSt
       {...props}
       className={'body-regular'}
       endIcon={
-        <StyledIconWrapper hoverBackgrColor="var(--accent-350-base)" iconColor="var(--accent-350)">
-          <Box onClick={() => props.setOpen && props.setOpen((prev) => !prev)}>
-            <IconClock />
-          </Box>
-        </StyledIconWrapper>
+        <Box
+          onClick={() => props.setOpen && props.setOpen((prev) => !prev)}
+          display={'flex'}
+          alignItems={'center'}
+          style={{ cursor: 'pointer' }}
+        >
+          <IconClock />
+        </Box>
       }
     />
   );
@@ -35,7 +37,7 @@ const CPETimePicker = ({ ampm, label, initTime = null }: CPETimePickerProps) => 
 
   useEffect(() => {
     if (initTime === null && open) setValue(new Date());
-  }, [open]);
+  }, [open, initTime]);
 
   const handleClickAway = () => {
     if (open) setOpen(false);
@@ -96,7 +98,7 @@ const CPETimePicker = ({ ampm, label, initTime = null }: CPETimePickerProps) => 
                 setOpen: setOpen,
                 label: label,
                 value: value,
-              } as any,
+              } as never,
               toolbar: {
                 hidden: false,
                 sx: {
