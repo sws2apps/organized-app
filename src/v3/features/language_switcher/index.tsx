@@ -12,7 +12,7 @@ const LanguageSwitcher = ({ menuStyle }: { menuStyle: SxProps }) => {
     anchorEl,
     isMenuOpen,
     handleClose,
-    listUILangs,
+    LANGUAGE_LIST,
     handleLocalizeOpen,
     handleLangChange,
     laptopUp,
@@ -61,7 +61,7 @@ const LanguageSwitcher = ({ menuStyle }: { menuStyle: SxProps }) => {
           },
         }}
       >
-        {listUILangs.map((lang) => (
+        {LANGUAGE_LIST.map((lang) => (
           <MenuItem
             disableRipple
             key={lang.locale}
