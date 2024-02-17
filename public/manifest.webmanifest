@@ -61,11 +61,88 @@
   ],
   "screenshots": [
     {
-      "src": "/img/screenshot/one_app_for_everyone.png",
-      "sizes": "1125x2000",
+      "src": "/img/screenshot/one_app_for_everyone_desktop.jpg",
+      "sizes": "2917x2000",
       "type": "image/png",
       "form_factor": "wide",
-      "label": "one_app_for_everyone"
+      "label": "one_app_for_everyone_desktop"
+    },
+    {
+      "src": "/img/screenshot/collaborate_with_ease_desktop.jpg",
+      "sizes": "2917x2000",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "collaborate_with_ease_desktop"
+    },
+    {
+      "src": "/img/screenshot/instant_reports_desktop.jpg",
+      "sizes": "2917x2000",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "instant_reports_desktop"
+    },
+    {
+      "src": "/img/screenshot/light_and_dark_themes_desktop.jpg",
+      "sizes": "2917x2000",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "light_and_dark_themes_desktop"
+    },
+    {
+      "src": "/img/screenshot/truly_multi_platform_desktop.jpg",
+      "sizes": "2917x2000",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "truly_multi_platform_desktop"
+    },
+    {
+      "src": "/img/screenshot/way_less_stress_desktop.jpg",
+      "sizes": "2917x2000",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "way_less_stress_desktop"
+    },
+    {
+      "src": "/img/screenshot/one_app_for_everyone_mobile.jpg",
+      "sizes": "1125x2001",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "one_app_for_everyone_mobile"
+    },
+    {
+      "src": "/img/screenshot/collaborate_with_ease_mobile.jpg",
+      "sizes": "1125x2001",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "collaborate_with_ease_mobile"
+    },
+    {
+      "src": "/img/screenshot/instant_reports_mobile.jpg",
+      "sizes": "1125x2001",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "instant_reports_mobile"
+    },
+    {
+      "src": "/img/screenshot/light_and_dark_themes_mobile.jpg",
+      "sizes": "1125x2001",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "light_and_dark_themes_mobile"
+    },
+    {
+      "src": "/img/screenshot/truly_multi_platform_mobile.jpg",
+      "sizes": "1125x2001",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "truly_multi_platform_mobile"
+    },
+    {
+      "src": "/img/screenshot/way_less_stress_mobile.jpg",
+      "sizes": "1125x2001",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "way_less_stress_mobile"
     }
   ],
   "url_handlers": [
