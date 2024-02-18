@@ -9,11 +9,11 @@ const useSupport = () => {
   };
 
   const handleOpenDonate = () => {
-    window.open(`https://www.buymeacoffee.com/sws2apps/e/146059`, '_blank');
+    window.open(`https://www.buymeacoffee.com/sws2apps`, '_blank');
   };
 
   const handleOpenDoc = () => {
-    window.open(`https://github.com/sws2apps/cpe-sws/blob/main/CONTRIBUTING.md`, '_blank');
+    window.open(`https://github.com/sws2apps/organized-app/blob/main/CONTRIBUTING.md`, '_blank');
   };
 
   return { isOpen, handleClose, handleOpenDoc, handleOpenDonate };
