@@ -63,5 +63,5 @@
   "tr_applicationSubmitted": "The application has been submitted",
   "tr_applicationSubmittedDesc": "Service committee of your congregation will review it and if it’s approved, you will get notified by them",
   "tr_auxiliaryPioneer": "Auxiliary pioneer",
-  "tr_comments": "Comments"
+  "tr_bibleStudy": "Bible studies: {{ number }}"
 }
