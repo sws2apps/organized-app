@@ -19,8 +19,6 @@ const useLanguage = () => {
 
   const isMenuOpen = Boolean(anchorEl);
 
-  const listUILangs = LANGUAGE_LIST.filter((lang) => lang.isUI === true);
-
   const handleLangChange = async (e) => {
     setUserChange(true);
     const app_lang = e.target.parentElement.parentElement.dataset.code;
@@ -75,7 +73,7 @@ const useLanguage = () => {
     anchorEl,
     isMenuOpen,
     handleClose,
-    listUILangs,
+    LANGUAGE_LIST,
     handleLocalizeOpen,
     handleLangChange,
     laptopUp,
