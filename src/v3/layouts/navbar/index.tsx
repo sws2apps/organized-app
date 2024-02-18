@@ -5,11 +5,15 @@ import { IconDonate, IconHelp, IconInfo, IconLogo, IconMenu } from '@icons';
 import { useAppTranslation } from '@hooks/index';
 import useNavbar from './useNavbar';
 
-const menuStyle = {
+const baseMenuStyle = {
   padding: '8px 12px 8px 16px',
   minHeight: '40px',
   height: '40px',
   gap: '8px',
+};
+
+const menuStyle = {
+  ...baseMenuStyle,
   '&:hover': {
     backgroundColor: 'var(--accent-100)',
     '& p': {
@@ -74,7 +78,7 @@ const NavBar = () => {
           <AppNotification />
           <ThemeSwitcher />
 
-          {tabletUp && <LanguageSwitcher menuStyle={menuStyle} />}
+          {tabletUp && <LanguageSwitcher menuStyle={baseMenuStyle} />}
 
           <IconButton
             color="inherit"
