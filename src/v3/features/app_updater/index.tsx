@@ -14,7 +14,7 @@ const AppUpdater = ({ updatePwa }: { updatePwa: VoidFunction }) => {
       position="top-center"
       variant="message-with-button"
       actionIcon={<IconUpdate />}
-      actionText={t('tr_updateApp')}
+      actionText={t('tr_update')}
       actionClick={handleAppUpdated}
       messageHeader={t('tr_updateAvailable')}
       message={t('tr_updateDescription')}
