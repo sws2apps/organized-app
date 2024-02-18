@@ -1,7 +1,7 @@
 import { Box, Container, IconButton, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material';
 import { AccountHeaderIcon, Typography } from '@components';
 import { AppNotification, LanguageSwitcher, ThemeSwitcher } from '@features/index';
-import { IconDonate, IconHelp, IconInfo, IconLogo, IconMenu } from '@icons';
+import { IconAccount, IconDonate, IconHelp, IconInfo, IconLogo, IconMenu } from '@icons';
 import { useAppTranslation } from '@hooks/index';
 import useNavbar from './useNavbar';
 
@@ -42,6 +42,9 @@ const NavBar = () => {
     tabletUp,
     laptopUp,
     tabletDown,
+    isCongAccountConnected,
+    handleOpenMyProfile,
+    handleGoDashboard,
   } = useNavbar();
 
   return (
@@ -68,7 +71,10 @@ const NavBar = () => {
           justifyContent: 'space-between',
         }}
       >
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: { mobile: '8px', tablet: '16px' } }}>
+        <Box
+          sx={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: { mobile: '8px', tablet: '16px' } }}
+          onClick={handleGoDashboard}
+        >
           <IconLogo width={40} height={40} />
           <Typography className="h3" color="var(--black)">
             {tablet600Up ? t('tr_appFullName') : t('tr_appShortName')}
@@ -154,6 +160,16 @@ const NavBar = () => {
           >
             {tabletDown && <LanguageSwitcher menuStyle={menuStyle} />}
 
+            {isCongAccountConnected && (
+              <MenuItem disableRipple sx={menuStyle} onClick={handleOpenMyProfile}>
+                <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px' } }}>
+                  <IconAccount color="var(--black)" />
+                </ListItemIcon>
+                <ListItemText>
+                  <Typography className="body-regular">{t('tr_myProfile')}</Typography>
+                </ListItemText>
+              </MenuItem>
+            )}
             <MenuItem disableRipple sx={menuStyle} onClick={handleOpenSupport}>
               <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px' } }}>
                 <IconDonate color="var(--black)" />

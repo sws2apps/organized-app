@@ -12,6 +12,7 @@ export { default as InfoMessage } from './info-message';
 export { default as Loading } from './loading';
 export { default as MiniChip } from './mini_chip';
 export { default as MinusButton } from './minus_button';
+export { default as PageTitle } from './page_title';
 export { default as PlusButton } from './plus_button/index';
 export { default as Radio } from './radio/index';
 export { default as Select } from './select/index';

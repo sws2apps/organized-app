@@ -8,6 +8,7 @@ import ComponentsPreview from './ComponentsPreview';
 
 // lazy loading
 const Dashboard = lazy(() => import('@pages/dashboard'));
+const MyProfile = lazy(() => import('@pages/my_profile'));
 
 const queryClient = new QueryClient();
 
@@ -21,7 +22,11 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
         { path: '/components-preview', element: <ComponentsPreview /> },
         {
           element: <RootLayout updatePwa={updatePwa} />,
-          children: [{ path: '*', element: <Dashboard /> }],
+          children: [
+            { path: '/', element: <Dashboard /> },
+            { path: '/my-profile', element: <MyProfile /> },
+            { path: '*', element: <Dashboard /> },
+          ],
         },
       ],
     },
