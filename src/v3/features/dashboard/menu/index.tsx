@@ -11,9 +11,9 @@ const DashboardMenu = ({
 }: {
   icon: ReactElement;
   primaryText: string;
-  secondaryText: string;
-  badgeText: string;
-  onClick: VoidFunction;
+  secondaryText?: string;
+  badgeText?: string;
+  onClick?: VoidFunction;
 }) => {
   return (
     <ListItemButton
@@ -26,6 +26,12 @@ const DashboardMenu = ({
         transition: 'background 0.1s ease',
         '&:hover': {
           background: 'var(--accent-150)',
+          '& p': {
+            color: 'var(--accent-dark)',
+          },
+          '& svg, & svg g, & svg g path': {
+            fill: 'var(--accent-dark)',
+          },
           '& .menu-secondary': {
             background: 'var(--accent-200)',
           },
