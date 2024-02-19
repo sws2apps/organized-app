@@ -123,11 +123,11 @@ _Once you have created the Firebase project, go to the **Console.** You should s
 Now, take some more steps to prepare this project for use by the backend project:
 
 1. First, navigate to **Project Settings** and select **Service Accounts.** From here, we’ll generate a key that will allow our API to access this project.
-2. Click **‘Generate new private key’,** which will export and download a new JSON file to your computer. We will need this file later, but for now, we can leave it as is.
-3. Next, navigate to **Build** and select **Authentication,** then click **‘Get Started’** to enable Authentication for the project.
+2. Click **Generate new private key,** which will export and download a new JSON file to your computer. We will need this file later, but for now, we can leave it as is.
+3. Next, navigate to **Build** and select **Authentication,** then click **Get Started** to enable Authentication for the project.
 4. Enable the **Email/Password** sign-in provider, which includes Passwordless sign-in. This sign-in method is necessary for our local environment.
 5. You can also enable the **Google sign-in** provider if you wish to use a Google Account during development. Feel free to choose the providers that best suit your development needs.
-6. Once you’ve made your selections, click **‘Save’.**
+6. Once you’ve made your selections, click **Save.**
 
 _Now, we have two providers ready for Authentication in the Firebase console. Remember, this is the only one Firebase Product that we’ll be using from the Firebase Console during development._
 
@@ -146,14 +146,14 @@ Now, let’s assign values to these variables:
 1. Starting with the **USER_PARSER_API_KEY,** go to [userparser.com](https://www.userparser.com). This API helps us better authorize users by collecting the user agent data of their devices. Log in to your account if you already have one, or create a new one if you don’t. It’s completely free.
 2. After completing the authentication, navigate to **Dashboard,** where you should see the API key at the top of the page. Copy that API key to the **USER_PARSER_API_KEY** variable.
 3. Next, we have three environment variables: **GMAIL_ADDRESS, GMAIL_APP_PASSWORD,** and **GMAIL_SENDER_NAME.** We won’t use these during local development, so we can skip them for now.
-4. Let’s move on to the Firebase environment variables. For **FIREBASE_APP_NAME,** use **‘organized-api’,** which is the name we created in the Firebase Console.
+4. Let’s move on to the Firebase environment variables. For **FIREBASE_APP_NAME,** use **organized-api,** which is the name we created in the Firebase Console.
 5. We’ll come back to the value of **GOOGLE_CONFIG_BASE64** later.
 6. But first, let’s get our Crowdin environment variables, as these are also required for the API to work. Go to [crowdin.com](https://crowdin.com), log in to your account if you already have one, or create a new free account.
-7. After completing the authentication, under your user profile icon, navigate to **Settings.** Open **API,** and click **‘New token’.**
-8. We only need the **Project permission,** as well as the **Source files and strings,** and **Translations.** Give a name for that token and click **‘Create’.**
+7. After completing the authentication, under your user profile icon, navigate to **Settings.** Open **API,** and click **New token.**
+8. We only need the **Project permission,** as well as the **Source files and strings,** and **Translations.** Give a name for that token and click **Create.**
 9. Copy the access token that was generated to the **CROWDIN_API_KEY** environment variable.
-10. Now we need to create a Crowdin project. Click **‘Create a new project’** from the sidebar on the left navigation menu.
-11. Give a name for the project. Let’s make it public, and choose one target language. Then click **‘Save’.**
+10. Now we need to create a Crowdin project. Click **Create a new project** from the sidebar on the left navigation menu.
+11. Give a name for the project. Let’s make it public, and choose one target language. Then click **Save.**
 12. To get the project name, you can get it from the URL. It should be the same as the one that you just wrote when creating the project. Alternatively, you can go to **Settings,** then **General,** and find the Project name.
 13. That’s our Crowdin project name, let’s paste it to the **CROWDIN_PROJECT_NAME** variable.
 14. And now for the **GOOGLE_CONFIG_BASE64,** there are many approaches to get this base64 string of the private key. We’re just showing one way of getting it.
