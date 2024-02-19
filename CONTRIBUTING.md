@@ -10,7 +10,7 @@ This module follows semantic versioning. We release patch versions for bugfixes,
 
 ## Branch Organization
 
-We use the `main` branch for the current version (CPE), but for the new Organized version it's important to use `main-next` branch. 
+We use the `main` branch for the current version (CPE), but for the new Organized version it's important to use `main-next` branch.
 Flags are used to test new features. (**Note**: Feature flags is in process of being developped.)
 
 ## Bugs
@@ -37,6 +37,8 @@ If you’re only fixing a bug, it’s fine to submit a pull request right away b
 - If you have already forked and clone the repository, make sure that it is in sync with the upstream repository ([Syncing a fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork)).
 - Local [API backend](https://github.com/sws2apps/sws2apps-api) server already setup and running. The backend is used mainly for login and sync functionality. See our [API backend local setup guide](https://github.com/sws2apps/sws2apps-api/blob/main/CONTRIBUTING.md).)
 - Run `npm i` to install the needed dependencies
+
+Check [this page](./LOCAL_ENVIRONMENT_SETUP.md) for step-by-step guide on how to setup the local environment for Organized.
 
 ### Setup Environment Variables
 
