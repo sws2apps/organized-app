@@ -84,7 +84,7 @@ Next, let's proceed to run the local backend API server. This server handles log
 4. Let’s start by cloning the API project. This should be a quick process as the sws2apps-api repository is relatively small.
 5. With the API project cloned, let’s move on to the frontend project, the Organized app itself. Please note that this repository is quite large so the cloning process may take more time.
 6. Great! Both repositories have been successfully cloned.
-7. Next, open the sws2apps-API folder, right-click within it, and select `Open with Code`. This is a VS Code shortcut that we enabled during the VS Code installation.
+7. Next, open the sws2apps-API folder, right-click within it, and select **Open with Code.** This is a VS Code shortcut that we enabled during the VS Code installation.
 
 _When you open it for the first time, you'll need to trust yourself as the author of the files in this folder. There might be a prompt to install a Dev Containers extension, but it's not necessary for local development, so feel free to ignore it._
 
@@ -199,7 +199,7 @@ _Now, let’s shift our focus to the last part – frontend application._
 _Now, let’s add the required environment variables for the frontend application._
 
 1. Create an `.env` file for this frontend project.
-2. Write all the required variables. We need the **VITE_FIREBASE_APIKEY, VITE_FIREBASE_AUTHDOMAIN, VITE_FIREBASE_PROJECTID, VITE_FIREBASE_APPID,** and **VITE_FIREBASE_MEASUREMENTID.**You can copy them from the text version of this tutorial and in the GitHub documentation.
+2. Write all the required variables. We need the **VITE_FIREBASE_APIKEY, VITE_FIREBASE_AUTHDOMAIN, VITE_FIREBASE_PROJECTID, VITE_FIREBASE_APPID,** and **VITE_FIREBASE_MEASUREMENTID.** You can copy them from the text version of this tutorial and in the GitHub documentation.
 3. To get these values, go back to the Firebase Console and open your project.
 4. Navigate to **Project Settings.** Find “Your apps” or “Add an app” area and hit the “Web” button. Then create and register a new Web App.
 5. Give a nickname for the web app. For example, ‘Organized web app’.
