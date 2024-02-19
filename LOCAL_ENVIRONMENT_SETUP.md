@@ -159,7 +159,7 @@ Now, let’s assign values to these variables:
 14. And now for the **GOOGLE_CONFIG_BASE64,** there are many approaches to get this base64 string of the private key. We’re just showing one way of getting it.
 15. In this example, we’ll use Node directly in the Terminal window by typing `node`.
 16. Let’s create a variable to store our private key JSON contents. Open the JSON file we downloaded earlier and copy its contents. Then, type `const firebaseConfig =` and right after this paste all the JSON content into the Terminal. Press Enter. Remember, it’s just the JSON data saved in this newly defined variable.
-17. To convert it to a base64 string, we use the command `Buffer.from(JSON.stringify(firebaseConfig)).toString(‘base64’)`. Please, note that we recommend using the local converting command rather than online base64 converter tools, because of security reasons. Then, press **Enter.**
+17. To convert it to a base64 string, we use the command `Buffer.from(JSON.stringify(firebaseConfig)).toString('base64')`. Please, note that we recommend using the local converting command rather than online base64 converter tools, because of security reasons. Then, press **Enter.**
 18. You should now have the base64 encoded string of your Firebase private key. Copy that text to the **GOOGLE_CONFIG_BASE64** variable.
 19. Additionally, you have to go to the firebase rc file and update the Firebase project name from the default dev-sws2apps one to ‘organized-api’ or the name of your Firebase project.
 
