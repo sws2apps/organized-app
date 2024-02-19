@@ -4,7 +4,7 @@ import { IconAddTime, IconStart } from '@icons';
 import TimerButton from './components/TimerButton';
 import { useAppTranslation } from '@hooks/index';
 
-const MinistryTimer = ({ duration = '0:00' }: { duration: string }) => {
+const MinistryTimer = ({ duration = '0:00' }: { duration?: string }) => {
   const { t } = useAppTranslation();
   return (
     <Box

@@ -9,7 +9,7 @@ const TimerButton = ({
 }: {
   text: string;
   icon: ReactElement;
-  onClick: VoidFunction;
+  onClick?: VoidFunction;
 }) => {
   return (
     <Button
