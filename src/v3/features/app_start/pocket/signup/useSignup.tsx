@@ -18,7 +18,7 @@ import { loadApp, runUpdater } from '@services/cpe';
 import { apiFetchSchedule } from '@services/api/schedule';
 import { handleUpdateScheduleFromRemote } from '@services/cpe/schedules';
 import { useAppTranslation } from '@hooks/index';
-import { useFeedback } from '@features/app_start';
+import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 
 const useSignup = () => {
   const { t } = useAppTranslation();

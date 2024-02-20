@@ -1,7 +1,11 @@
 import { Box } from '@mui/material';
-import { Button, CongregationSelector, CountrySelector, InfoMessage, TextField } from '@components';
-import { PageHeader } from '@features/app_start';
-import { IconAccount, IconError, IconLoading } from '@icons';
+import Button from '@components/button';
+import CongregationSelector from '@components/congregation_selector';
+import CountrySelector from '@components/country_selector';
+import InfoMessage from '@components/info-message';
+import TextField from '@components/textfield';
+import PageHeader from '@features/app_start/shared/page_header';
+import { IconAccount, IconError, IconLoading } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
 import useCongregationInfo from './useCongregationInfo';
 

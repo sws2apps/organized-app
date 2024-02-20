@@ -1,5 +1,5 @@
 import { Box, IconButton } from '@mui/material';
-import { Typography } from '@components';
+import Typography from '@components/typography';
 import { useAppTranslation } from '@hooks/index';
 import MinistryAssignments from '@assets/img/illustration_ministryAssignments.svg?component';
 import MultiPlattform from '@assets/img/illustration_multiPlattform.svg?component';
@@ -9,7 +9,7 @@ import useIllustration from './useIllustration';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper/modules';
 import { createArray } from '@utils/common';
-import { IconEllipse } from '@icons';
+import { IconEllipse } from '@icons/index';
 import 'swiper/css';
 import 'swiper/css/pagination';
 

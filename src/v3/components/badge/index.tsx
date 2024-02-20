@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { Typography } from '@components';
+import Typography from '@components/typography';
 import { BadgeContentPropsType, BadgePropsType, BadgeTypographyPropsType } from './index.types';
 
 const BadgeContent = (props: BadgeContentPropsType) => {

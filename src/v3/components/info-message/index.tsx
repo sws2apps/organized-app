@@ -1,6 +1,8 @@
 import { Box, IconButton } from '@mui/material';
-import { Button, TextMarkup, Typography } from '@components';
-import { IconClose } from '@icons';
+import Button from '@components/button';
+import TextMarkup from '@components/text_markup';
+import Typography from '@components/typography';
+import { IconClose } from '@icons/index';
 import { InfoMessagePropsType } from './index.types';
 
 const CPEInfoMessage = (props: InfoMessagePropsType) => {

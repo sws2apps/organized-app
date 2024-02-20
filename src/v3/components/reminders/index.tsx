@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Typography } from '@components';
 import { Box } from '@mui/material';
-import IconReminder from '../icons/IconReminder';
-import { Button } from '@components';
+import Typography from '@components/typography';
+import { IconReminder } from '@icons/index';
+import Button from '@components/button';
 import { RemindersProps, ReminderItemProps } from './reminders.types';
 import {
   StyledRemindersCard,

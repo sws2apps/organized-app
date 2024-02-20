@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
-import { Typography } from '@components';
-import { IconMail } from '@icons';
+import { IconMail } from '@icons/index';
+import Typography from '@components/typography';
 import OAuthButtonBase from '../button_base';
 import { useAppTranslation } from '@hooks/index';
 

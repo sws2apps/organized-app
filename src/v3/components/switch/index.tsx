@@ -1,6 +1,6 @@
 import { ChangeEvent } from 'react';
 import { Switch } from '@mui/material';
-import { IconOffCircle, IconOnCircle } from '@icons';
+import { IconOffCircle, IconOnCircle } from '@icons/index';
 
 const CPESwitch = ({
   checked,

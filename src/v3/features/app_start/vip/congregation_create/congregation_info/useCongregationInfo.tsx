@@ -11,7 +11,7 @@ import {
 } from '@services/recoil/app';
 import { apiCreateCongregation } from '@services/api/congregation';
 import { handleUpdateSetting } from '@services/dexie/settings';
-import { useFeedback } from '@features/app_start';
+import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 import { getMessageByCode } from '@services/i18n/translation';
 import { UserInfoType } from './index.types';
 

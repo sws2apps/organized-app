@@ -1,6 +1,9 @@
 import { Box, Divider, IconButton } from '@mui/material';
-import { Button, Dialog, TextMarkup, Typography } from '@components';
-import { IconClose, IconDonate, IconDutiesDistribution } from '@icons';
+import Button from '@components/button';
+import Dialog from '@components/dialog';
+import TextMarkup from '@components/text_markup';
+import Typography from '@components/typography';
+import { IconClose, IconDonate, IconDutiesDistribution } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
 import useSupport from './useSupport';
 

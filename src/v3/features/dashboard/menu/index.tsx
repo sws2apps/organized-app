@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 import { Box, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
-import { Typography } from '@components';
+import Typography from '@components/typography';
 
 const DashboardMenu = ({
   icon,

@@ -1,4 +1,4 @@
-{  
+{
   "tr_logOut": "Log out",
   "tr_emailAddress": "Email address",
   "tr_emailAddressDesc": "The email address can’t be changed. Please contact us if you want to change it.",
@@ -28,7 +28,7 @@
   "tr_autoSync": "Auto sync",
   "tr_autoSyncDesc": "Automatically sync data between congregation and my devices logged in the Organized",
   "tr_syncInterval": "Sync interval",
-  "tr_syncIntervalMin": "5 min.",
+  "tr_syncIntervalMinLabel": "min.",
   "tr_customLinkInMobilePanel": "Custom link in the mobile navigation panel",
   "tr_customLinkInMobilePanelDesc": "Replace the “Info board” icon with another feature for quick access from Home page",
   "tr_selectFeature": "Select feature",

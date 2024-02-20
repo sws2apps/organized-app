@@ -1,6 +1,6 @@
 import { ChangeEvent } from 'react';
 import { Radio } from '@mui/material';
-import { IconRadioButtonChecked, IconRadioButtonUnchecked } from '@icons';
+import { IconRadioButtonChecked, IconRadioButtonUnchecked } from '@icons/index';
 
 const CPERadio = ({
   checked = false,

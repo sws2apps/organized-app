@@ -1,7 +1,8 @@
 import { Box } from '@mui/material';
-import { TextMarkup, Typography } from '@components';
+import TextMarkup from '@components/text_markup';
+import Typography from '@components/typography';
 import { useAppTranslation } from '@hooks/index';
-import { IconError } from '@icons';
+import { IconError } from '@icons/index';
 import useUnauthorizedRole from './useUnauthorizedRole';
 
 const UnauthorizedRole = () => {

@@ -1,6 +1,6 @@
 import { handleUpdateSetting } from '@services/dexie/settings';
 import { setIsAccountChoose } from '@services/recoil/app';
-import { useFeedback } from '@features/app_start';
+import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 
 const useSignin = () => {
   const { message, title, hideMessage, variant } = useFeedback();

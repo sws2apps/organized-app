@@ -1,8 +1,12 @@
 import { Box } from '@mui/material';
-import { PageHeader } from '@features/app_start';
-import { Button, InfoMessage, TextField, Typography, WaitingCircular } from '@components';
+import PageHeader from '@features/app_start/shared/page_header';
+import Button from '@components/button';
+import InfoMessage from '@components/info-message';
+import TextField from '@components/textfield';
+import Typography from '@components/typography';
+import WaitingCircular from '@components/waiting_circular';
 import Criteria from './components/Criteria';
-import { IconEncryptionKey, IconError, IconLoading } from '@icons';
+import { IconEncryptionKey, IconError, IconLoading } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
 import useCongregationEncryption from './useCongregationEncryption';
 

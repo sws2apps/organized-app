@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 import { Button } from '@mui/material';
-import { Typography } from '@components';
+import Typography from '@components/typography';
 
 const TimerButton = ({
   text = '',

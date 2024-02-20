@@ -1,6 +1,9 @@
 import { Box, Dialog } from '@mui/material';
-import { Button, Checkbox, TextMarkup, Typography } from '@components';
-import { IconDownload, IconHelp, IconLock, IconManageAccess } from '@icons';
+import { IconDownload, IconHelp, IconLock, IconManageAccess } from '@icons/index';
+import Button from '@components/button';
+import Checkbox from '@components/checkbox';
+import TextMarkup from '@components/text_markup';
+import Typography from '@components/typography';
 import { useAppTranslation } from '@hooks/index';
 import useTermsUse from './useTermsUse';
 

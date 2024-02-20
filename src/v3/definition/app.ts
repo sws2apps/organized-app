@@ -1,7 +1,7 @@
 export type SettingsType = {
   id: number;
-  firstname: string;
-  lastname: string;
+  firstname: { value: string; updatedAt: string };
+  lastname: { value: string; updatedAt: string };
   source_lang: string;
   cong_number: string;
   cong_name: string;
@@ -14,8 +14,8 @@ export type SettingsType = {
   user_avatar: Blob;
   co_name: string;
   co_displayName: string;
-  autoBackup: false;
-  autoBackup_interval: number;
+  autoBackup: { value: boolean; updatedAt: string };
+  autoBackup_interval: { value: number; updatedAt: string };
   schedule_useFullname: boolean;
   account_type: string;
   opening_prayer_MM_autoAssign: boolean;
