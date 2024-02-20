@@ -67,11 +67,11 @@ export const updateUserInfoAfterLogin = async (data) => {
 
   const settings: SettingsType = await promiseGetRecoil(settingsState);
 
-  if (settings.firstname.updatedAt < data.firstname.updatedAt) {
+  if (!settings.firstname || settings.firstname.updatedAt < data.firstname.updatedAt) {
     obj.firstname = data.firstname;
   }
 
-  if (settings.lastname.updatedAt < data.lastname.updatedAt) {
+  if (!settings.lastname || settings.lastname.updatedAt < data.lastname.updatedAt) {
     obj.lastname = data.lastname;
   }
 
