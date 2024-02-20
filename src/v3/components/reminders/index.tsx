@@ -15,7 +15,7 @@ import {
 } from './reminders.styled';
 
 const Reminders = ({ children }: RemindersProps) => {
-  const [reminderDate, setReminderDate] = useState<string | null>(null);
+  const [, setReminderDate] = useState<string | null>(null);
 
   useEffect(() => {
     const storedReminderDate = localStorage.getItem('reminderDate');
@@ -75,7 +75,7 @@ const Reminders = ({ children }: RemindersProps) => {
 };
 
 const ReminderItem = (props: ReminderItemProps) => {
-  const { title, description, link } = props;
+  const { title, description } = props;
 
   return (
     <>
