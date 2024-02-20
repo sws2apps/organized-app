@@ -67,7 +67,7 @@
     "@semantic-release/exec": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
     "@sws2apps/vite-plugin-package-version": "^1.4.0",
-    "@types/react": "^18.2.56",
+    "@types/react": "^18.2.57",
     "@types/react-dom": "^18.2.19",
     "@vitejs/plugin-react": "^4.2.1",
     "cypress": "^13.6.4",
