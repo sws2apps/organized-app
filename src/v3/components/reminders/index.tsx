@@ -15,7 +15,7 @@ import {
 } from './reminders.styled';
 
 const Reminders = ({ children }: RemindersProps) => {
-  const [, setReminderDate] = useState<string | null>(null);
+  const [reminderDate, setReminderDate] = useState<string | null>(null);
 
   useEffect(() => {
     const storedReminderDate = localStorage.getItem('reminderDate');
@@ -63,9 +63,11 @@ const Reminders = ({ children }: RemindersProps) => {
       <StyledRemindersList>{children}</StyledRemindersList>
 
       <StyledRemindersFooter>
-        <Button variant="main" color="orange" onClick={onRemind}>
-          remind me tomorrow
-        </Button>
+        {reminderDate && (
+          <Button variant="main" color="orange" onClick={onRemind}>
+            remind me tomorrow
+          </Button>
+        )}
         <Button variant="semi-white" onClick={onGoTo}>
           Go to reports
         </Button>
