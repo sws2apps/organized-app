@@ -76,7 +76,8 @@
   "tr_2FAIncorrect": "Неправильний код двоетапної перевірки",
   "tr_2FAIncorrectDesc": "Можливо, код невірний або вже не дійсний. Спробуй ще раз.",
   "tr_unauthorizedAccount": "Твої права доступу мають бути налаштовані",
-  "tr_unauthorizedAccountDesc": "Звернися до адміністратора Organized у твоєму зборі для підтвердження своєї ролі, а потім повтори спробу через 5 хвилин. Для отримання додаткової допомоги старійшини можуть зв'язатися з нами через електронну пошту.",
+  "tr_unauthorizedAccountDesc": "Contact your congregation app administrator to confirm your role, then try again in 5 minutes. For any further assistance, elders can contact us via email.",
   "tr_noSchedulesYet": "Ще немає розкладів",
-  "tr_noSchedulesYetDesc": "Будь ласка, спочатку попроси старійшин твого збору опублікувати графік зібрання."
+  "tr_noSchedulesYetDesc": "Будь ласка, спочатку попроси старійшин твого збору опублікувати графік зібрання.",
+  "tr_reconnectAccount": "Reconnect my account"
 }
