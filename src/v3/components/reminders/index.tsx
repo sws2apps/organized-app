@@ -63,9 +63,11 @@ const Reminders = ({ children }: RemindersProps) => {
       <StyledRemindersList>{children}</StyledRemindersList>
 
       <StyledRemindersFooter>
-        <Button variant="main" color="orange" onClick={onRemind}>
-          remind me tomorrow
-        </Button>
+        {reminderDate && (
+          <Button variant="main" color="orange" onClick={onRemind}>
+            remind me tomorrow
+          </Button>
+        )}
         <Button variant="semi-white" onClick={onGoTo}>
           Go to reports
         </Button>
@@ -75,7 +77,7 @@ const Reminders = ({ children }: RemindersProps) => {
 };
 
 const ReminderItem = (props: ReminderItemProps) => {
-  const { title, description, link } = props;
+  const { title, description } = props;
 
   return (
     <>
