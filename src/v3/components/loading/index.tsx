@@ -1,10 +1,10 @@
 import Box from '@mui/material/Box';
 import IconLoading from '../icons/IconLoading';
-import { Typography } from '@components';
-import { useTranslation } from 'react-i18next';
+import Typography from '@components/typography';
+import { useAppTranslation } from '@hooks/index';
 
 const Loading = () => {
-  const { t } = useTranslation();
+  const { t } = useAppTranslation();
 
   const boxStyles = {
     height: '156px',

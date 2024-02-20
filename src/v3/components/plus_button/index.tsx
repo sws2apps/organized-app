@@ -1,5 +1,5 @@
 import { IconButton } from '@mui/material';
-import { IconAdd } from '@icons';
+import { IconAdd } from '@icons/index';
 
 const CPEPlusButton = () => {
   return (

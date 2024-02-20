@@ -1,14 +1,14 @@
 import { Box } from '@mui/material';
+import { SnackBar, TextMarkup, Typography } from '@components/index';
+import { IconCheckCircle } from '@icons/index';
 import CongregationCard from './components/congregation';
 import MinistryCard from './components/ministry';
 import MeetingsCard from './components/meetings';
 import MeetingsMaterialsCard from './components/meeting_materials';
 import PersonsCard from './components/persons';
 import ReportsCard from './components/reports';
-import { SnackBar, TextMarkup, Typography } from '@components';
 import { useAppTranslation } from '@hooks/index';
 import useDashboard from './useDashboard';
-import { IconCheckCircle } from '@icons';
 
 const Dashboard = () => {
   const { t } = useAppTranslation();

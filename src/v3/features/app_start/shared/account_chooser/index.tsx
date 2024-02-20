@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
-import { Typography } from '@components';
-import { IconBrother, IconPublishers } from '@icons';
+import Typography from '@components/typography';
+import { IconBrother, IconPublishers } from '@icons/index';
 import AccountType from './components/AccountType';
 import { useAppTranslation } from '@hooks/index';
 import useAccountChooser from './useAccountChooser';

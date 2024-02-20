@@ -6,8 +6,8 @@
     "paths": {
       "@mui/styled-engine": ["./node_modules/@mui/styled-engine-sc"],
       "@assets/*": ["v3/assets/*"],
-      "@components": ["v3/components/index.ts"],
-      "@icons": ["v3/components/icons/index.ts"],
+      "@components/*": ["v3/components/*"],
+      "@icons/*": ["v3/components/icons/*"],
       "@constants/*": ["v3/constants/*"],
       "@features/*": ["v3/features/*"],
       "@hooks/*": ["v3/hooks/*"],

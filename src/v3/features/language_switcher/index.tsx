@@ -1,6 +1,6 @@
 import { Link, ListItemIcon, ListItemText, Menu, MenuItem, SxProps } from '@mui/material';
-import { IconGlobe, IconLanguage } from '@icons';
-import { Typography } from '@components';
+import { IconGlobe, IconLanguage } from '@icons/index';
+import Typography from '@components/typography';
 import useAppTranslation from '@hooks/useAppTranslation';
 import useLanguage from './useLanguage';
 

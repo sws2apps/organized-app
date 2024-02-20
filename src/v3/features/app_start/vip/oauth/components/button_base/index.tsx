@@ -1,9 +1,9 @@
 import { ReactElement } from 'react';
 import { AuthProvider } from 'firebase/auth';
 import { Box, Button } from '@mui/material';
-import { Typography } from '@components';
+import { IconLoading } from '@icons/index';
+import Typography from '@components/typography';
 import useButtonBase from './useButtonBase';
-import { IconLoading } from '@icons';
 
 const OAuthButtonBase = ({
   logo,

@@ -1,4 +1,4 @@
-import { ThemeSwitch } from '@components';
+import ThemeSwitch from '@components/theme_switch';
 import useThemeSwitcher from './useThemeSwitcher';
 
 const ThemeSwitcher = () => {

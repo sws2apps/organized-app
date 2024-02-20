@@ -1,5 +1,5 @@
-import { SnackBar } from '@components';
-import { IconUpdate } from '@icons';
+import SnackBar from '@components/snackbar';
+import { IconUpdate } from '@icons/index';
 import useUpdater from './useUpdater';
 import useAppTranslation from '@hooks/useAppTranslation';
 

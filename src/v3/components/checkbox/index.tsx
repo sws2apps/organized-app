@@ -1,6 +1,6 @@
 import { Checkbox, FormControlLabel } from '@mui/material';
-import { Typography } from '@components';
-import { IconCheckboxEmpty, IconCheckboxFilled, IconCheckboxMultiple } from '@icons';
+import Typography from '@components/typography';
+import { IconCheckboxEmpty, IconCheckboxFilled, IconCheckboxMultiple } from '@icons/index';
 import { CheckboxPropsType } from './index.types';
 
 const CPECheckbox = (props: CheckboxPropsType) => {

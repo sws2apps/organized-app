@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { handleDeleteDatabase, loadApp, runUpdater } from '@services/cpe';
 import { useAppTranslation, useFirebaseAuth } from '@hooks/index';
 import { userSignOut } from '@services/firebase/auth';
-import { useFeedback } from '@features/app_start';
+import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 import { decryptData, encryptData, generateKey } from '@services/encryption/index';
 import { apiValidateMe } from '@services/api/user';
 import {

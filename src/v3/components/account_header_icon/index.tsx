@@ -1,9 +1,9 @@
 import { Avatar, Box } from '@mui/material';
-import { IconHeaderAccount, IconNoConnection } from '@icons';
+import { IconHeaderAccount, IconNoConnection } from '@icons/index';
 import { useAccountHeaderIcon } from './useAccountHeaderIcon';
 
-export const AccountHeaderIcon = () => {
-  const { userAvatar, isOnline } = useAccountHeaderIcon();
+const AccountHeaderIcon = () => {
+  const { userAvatar, isOffline } = useAccountHeaderIcon();
 
   return (
     <Box sx={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
@@ -11,7 +11,7 @@ export const AccountHeaderIcon = () => {
         <Avatar
           alt="Avatar"
           src={userAvatar}
-          sx={{ width: 32, height: 32, border: isOnline ? 'none' : '2px solid var(--red-main)' }}
+          sx={{ width: 32, height: 32, border: isOffline ? '2px solid var(--red-main)' : 'none' }}
         />
       )}
       {!userAvatar && (
@@ -19,10 +19,10 @@ export const AccountHeaderIcon = () => {
           width={32}
           height={32}
           color="#5065D0"
-          sx={{ border: isOnline ? 'none' : '2px solid var(--red-main)', borderRadius: 'var(--radius-xxl)' }}
+          sx={{ border: isOffline ? '2px solid var(--red-main)' : 'none', borderRadius: 'var(--radius-xxl)' }}
         />
       )}
-      {!isOnline && (
+      {isOffline && (
         <IconNoConnection
           width={12}
           height={12}
@@ -40,3 +40,5 @@ export const AccountHeaderIcon = () => {
     </Box>
   );
 };
+
+export default AccountHeaderIcon;

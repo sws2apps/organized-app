@@ -1,16 +1,17 @@
+import { Dispatch } from 'react';
 import { Box, TextFieldProps } from '@mui/material';
-import React from '@services/react';
-import { TextField } from '@components';
-import { StyledIconWrapper } from '../../user_card/user_card.styles';
-import { IconDate } from '@icons';
+import TextField from '@components/textfield';
+import { IconDate } from '@icons/index';
+import { StyledIconWrapper } from '../date_picker.style';
 
-const DatePickerInputField = (props: TextFieldProps & { setOpen?: React.Dispatch<React.SetStateAction<boolean>> }) => {
+const DatePickerInputField = (props: TextFieldProps & { setOpen?: Dispatch<React.SetStateAction<boolean>> }) => {
   return (
     <TextField
       {...props}
       className={'body-regular'}
+      height={48}
       endIcon={
-        <StyledIconWrapper hoverBackgrColor="var(--accent-350-base)" iconColor="var(--accent-350)">
+        <StyledIconWrapper>
           <Box onClick={() => props.setOpen && props.setOpen((prev) => !prev)}>
             <IconDate />
           </Box>

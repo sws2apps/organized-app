@@ -1,7 +1,8 @@
 import { Box, Container, IconButton, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material';
-import { AccountHeaderIcon, Typography } from '@components';
+import AccountHeaderIcon from '@components/account_header_icon';
+import Typography from '@components/typography';
 import { AppNotification, LanguageSwitcher, ThemeSwitcher } from '@features/index';
-import { IconAccount, IconDonate, IconHelp, IconInfo, IconLogo, IconMenu } from '@icons';
+import { IconAccount, IconDonate, IconHelp, IconInfo, IconLogin, IconLogo, IconMenu } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
 import useNavbar from './useNavbar';
 
@@ -45,6 +46,8 @@ const NavBar = () => {
     isCongAccountConnected,
     handleOpenMyProfile,
     handleGoDashboard,
+    isAppLoad,
+    handleReconnectAccount,
   } = useNavbar();
 
   return (
@@ -127,6 +130,7 @@ const NavBar = () => {
               </Box>
             )}
           </IconButton>
+
           <Menu
             id="menu-language"
             disableScrollLock={true}
@@ -167,6 +171,16 @@ const NavBar = () => {
                 </ListItemIcon>
                 <ListItemText>
                   <Typography className="body-regular">{t('tr_myProfile')}</Typography>
+                </ListItemText>
+              </MenuItem>
+            )}
+            {!isAppLoad && !isCongAccountConnected && (
+              <MenuItem disableRipple sx={menuStyle} onClick={handleReconnectAccount}>
+                <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px' } }}>
+                  <IconLogin color="var(--black)" />
+                </ListItemIcon>
+                <ListItemText>
+                  <Typography className="body-regular">{t('tr_reconnectAccount')}</Typography>
                 </ListItemText>
               </MenuItem>
             )}

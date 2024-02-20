@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
-import { Typography } from '@components';
 import { Box, List } from '@mui/material';
+import Typography from '@components/typography';
 
 const DashboardCard = ({ header, children }: { header: string; children: ReactNode }) => {
   return (

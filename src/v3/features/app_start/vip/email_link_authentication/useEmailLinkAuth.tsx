@@ -14,7 +14,7 @@ import {
 } from '@services/recoil/app';
 import { CPE_ROLES } from '@constants/index';
 import { updateUserInfoAfterLogin } from '@services/cpe';
-import { useFeedback } from '@features/app_start';
+import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 import { useAppTranslation } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
 import { NextStepType } from './index.types';

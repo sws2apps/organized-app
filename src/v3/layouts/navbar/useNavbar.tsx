@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { setIsAboutOpen, setIsSupportOpen } from '@services/recoil/app';
+import { setIsAboutOpen, setIsAppLoad, setIsSetup, setIsSupportOpen, setOfflineOverride } from '@services/recoil/app';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
-import { congAccountConnectedState } from '@states/app';
+import { congAccountConnectedState, isAppLoadState } from '@states/app';
 import { congNameState, fullnameState } from '@states/settings';
 
 const useNavbar = () => {
@@ -16,6 +16,7 @@ const useNavbar = () => {
   const fullname = useRecoilValue(fullnameState);
   const congName = useRecoilValue(congNameState);
   const isCongAccountConnected = useRecoilValue(congAccountConnectedState);
+  const isAppLoad = useRecoilValue(isAppLoadState);
 
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -39,6 +40,14 @@ const useNavbar = () => {
     setTimeout(() => {
       navigate(`/my-profile`);
     }, 500);
+  };
+
+  const handleReconnectAccount = async () => {
+    handleCloseMore();
+
+    await setOfflineOverride(true);
+    await setIsSetup(true);
+    await setIsAppLoad(true);
   };
 
   const handleOpenAbout = async () => {
@@ -73,6 +82,8 @@ const useNavbar = () => {
     isCongAccountConnected,
     handleOpenMyProfile,
     handleGoDashboard,
+    isAppLoad,
+    handleReconnectAccount,
   };
 };
 

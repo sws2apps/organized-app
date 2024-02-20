@@ -1,6 +1,6 @@
 import { Box, IconButton } from '@mui/material';
-import { IconArrowBack } from '@icons';
-import { Typography } from '@components';
+import { IconArrowBack } from '@icons/index';
+import Typography from '@components/typography';
 
 const PageHeader = ({
   title,

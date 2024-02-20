@@ -1,6 +1,6 @@
 import { promiseGetRecoil } from 'recoil-outside';
 import { checkCurrentWeek, removeSourcesOutdatedRecords } from '@services/dexie/sources';
-import { accountTypeState, isMeetingEditorRoleState } from '@states/settings';
+import { accountTypeState, isMeetingEditorRoleState, settingsState } from '@states/settings';
 import { getTranslation, handleAppChangeLanguage } from '@services/i18n/translation';
 import { appLangState } from '@states/app';
 import { userSignOut } from '@services/firebase/auth';
@@ -14,10 +14,9 @@ import {
 } from '@services/recoil/app';
 import { updateAssignmentType, updateWeekType } from './updater';
 import { handleUpdateSetting } from '@services/dexie/settings';
-import { resetPersons } from '@services/dexie/persons';
-import { mergeUserFieldServiceReportsFromBackup } from '@services/dexie/userFieldSericeReports';
 import { deleteAppDb } from '@services/dexie/app';
 import worker from '@services/worker/backupWorker';
+import { SettingsType } from '@definition/app';
 
 export const loadApp = async () => {
   const isMeetingEditor = await promiseGetRecoil(isMeetingEditorRoleState);
@@ -55,8 +54,8 @@ export const updateUserInfoAfterLogin = async (data) => {
   // save congregation update if any
   const obj = <
     {
-      firstname: string;
-      lastname: string;
+      firstname?: string;
+      lastname?: string;
       cong_name: string;
       cong_number: string;
       user_members_delegate: [];
@@ -66,8 +65,16 @@ export const updateUserInfoAfterLogin = async (data) => {
     }
   >{};
 
-  obj.firstname = data.firstname;
-  obj.lastname = data.lastname;
+  const settings: SettingsType = await promiseGetRecoil(settingsState);
+
+  if (settings.firstname.updatedAt < data.firstname.updatedAt) {
+    obj.firstname = data.firstname;
+  }
+
+  if (settings.lastname.updatedAt < data.lastname.updatedAt) {
+    obj.lastname = data.lastname;
+  }
+
   obj.cong_name = cong_name;
   obj.cong_number = cong_number;
   obj.user_members_delegate = user_members_delegate;
@@ -82,16 +89,6 @@ export const updateUserInfoAfterLogin = async (data) => {
   await handleUpdateSetting(obj);
 
   await setUserID(id);
-
-  // update persons if exists
-  if (data.cong_persons) {
-    await resetPersons(data.cong_persons);
-  }
-
-  // update user field service reports if exists
-  if (data.user_fieldServiceReports) {
-    await mergeUserFieldServiceReportsFromBackup(data.user_fieldServiceReports);
-  }
 
   worker.postMessage({ field: 'userRole', value: cong_role });
   worker.postMessage({ field: 'userID', value: id });

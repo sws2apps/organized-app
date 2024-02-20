@@ -1,4 +1,4 @@
-export { AccountHeaderIcon } from './account_header_icon';
+export { default as AccountHeaderIcon } from './account_header_icon';
 export { default as AutoComplete } from './autocomplete';
 export { default as Badge } from './badge';
 export { default as Button } from './button';
@@ -8,6 +8,7 @@ export { default as CountrySelector } from './country_selector';
 export { default as Dialog } from './dialog';
 export { default as ErrorBoundary } from './error_boundary';
 export { default as FilterChip } from './filter_chip';
+export * from './global';
 export { default as InfoMessage } from './info-message';
 export { default as Loading } from './loading';
 export { default as MiniChip } from './mini_chip';
