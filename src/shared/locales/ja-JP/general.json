@@ -38,5 +38,9 @@
   "tr_september": "9月",
   "tr_october": "10月",
   "tr_november": "11月",
-  "tr_december": "12月"
+  "tr_december": "12月",
+  "tr_shortDateFormat": "MM/dd/yyyy",
+  "tr_longDateFormat": "EEE, MMM, dd yyyy",
+  "tr_delete": "Delete",
+  "tr_add": "Add"
 }
