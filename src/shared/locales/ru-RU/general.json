@@ -38,5 +38,9 @@
   "tr_september": "Сентябрь",
   "tr_october": "Октябрь",
   "tr_november": "Ноябрь",
-  "tr_december": "Декабрь"
+  "tr_december": "Декабрь",
+  "tr_shortDateFormat": "MM/dd/yyyy",
+  "tr_longDateFormat": "EEE, MMM, dd yyyy",
+  "tr_delete": "Delete",
+  "tr_add": "Add"
 }

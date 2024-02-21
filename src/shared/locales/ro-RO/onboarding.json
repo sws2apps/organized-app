@@ -76,7 +76,8 @@
   "tr_2FAIncorrect": "Cod 2FA incorect",
   "tr_2FAIncorrectDesc": "Codul ar putea fi incorect sau expirat. Încearcă din nou.",
   "tr_unauthorizedAccount": "Permisiunile tale trebuie modificate",
-  "tr_unauthorizedAccountDesc": "Contactați administratorul Organized din congregația ta pentru a confirma rolul, apoi încearcă din nou în 5 minute. Pentru asistență suplimentară, bătrânii de congregație ne pot contacta prin e-mail.",
+  "tr_unauthorizedAccountDesc": "Contact your congregation app administrator to confirm your role, then try again in 5 minutes. For any further assistance, elders can contact us via email.",
   "tr_noSchedulesYet": "Încă nici-o planificare",
-  "tr_noSchedulesYetDesc": "Vă rugăm să solicitați bătrânilor congregației să publice mai întâi planificarea întrunirii."
+  "tr_noSchedulesYetDesc": "Vă rugăm să solicitați bătrânilor congregației să publice mai întâi planificarea întrunirii.",
+  "tr_reconnectAccount": "Reconnect my account"
 }
