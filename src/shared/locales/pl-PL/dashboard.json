@@ -80,7 +80,7 @@
 	"tr_subject": "Subject",
 	"tr_sendFeedback": "Send feedback",
 	"tr_cancel": "Cancel",
-	"tr_successfully": "Successfully",
 	"tr_successfullyDesc": "Your feedback has been successfully submitted",
-	"tr_manageAccess": "Zarządzaj dostępem do aplikacji"
+	"tr_manageAccess": "Zarządzaj dostępem do aplikacji",
+	"tr_submitted": "Successfully submitted"
 }
