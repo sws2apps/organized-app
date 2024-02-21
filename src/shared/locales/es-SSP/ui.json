@@ -230,7 +230,7 @@
   "assignedParts": "Assigned Parts",
   "deleteScheduleConfirm": "Are you sure to delete all the assignments for the {{ currentSchedule }} schedule?",
   "deleteWeekConfirm": "Are you sure to delete all the assignments for the week of {{ currentWeek }}?",
-  "midweekMeetingPrint": "Horario de reunión entre semana",
+  "midweekMeetingPrint": "Midweek Meeting Schedule",
   "autofillScheduleConfirm": "Are you sure to autofill all the assignments for the {{ currentSchedule }} schedule?",
   "autofillWeekConfirm": "Are you sure to autofill all the assignments for the week of {{ currentWeek }}?",
   "selectSchedule": "Select at least one schedule before publishing",
