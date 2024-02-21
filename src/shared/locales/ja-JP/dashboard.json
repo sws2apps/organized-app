@@ -80,7 +80,7 @@
 	"tr_subject": "Subject",
 	"tr_sendFeedback": "Send feedback",
 	"tr_cancel": "キャンセル",
-	"tr_successfully": "Successfully",
 	"tr_successfullyDesc": "あなたのフィードバックが正常に送信されました",
-	"tr_manageAccess": "アクセス管理"
+	"tr_manageAccess": "アクセス管理",
+	"tr_submitted": "Successfully submitted"
 }
