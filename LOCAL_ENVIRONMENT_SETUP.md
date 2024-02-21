@@ -23,7 +23,7 @@ _Now, let’s proceed with the installation of Git._
 
 ### Install Node.js
 
-_There are two valid options for installing Node.js on your system. You can either use an application called [Node Version Manager for Windows (NVM)](https://github.com/coreybutler/nvm-windows), or directly download ([https://nodejs.org/en](https://nodejs.org/en/download) Node.js from the official website, especially if you’re using Linux or macOS. Both methods are acceptable, so you can choose the one that suits you best._
+_There are two valid options for installing Node.js on your system. You can either use an application called [Node Version Manager for Windows (NVM)](https://github.com/coreybutler/nvm-windows), or directly [download Node.js](https://nodejs.org/en), especially if you’re using Linux or macOS. Both methods are acceptable, so you can choose the one that suits you best._
 
 1. Download the NVM
 2. Install it using all the default options for the installation.
