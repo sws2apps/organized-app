@@ -5,12 +5,16 @@ updates:
     directory: '/'
     schedule:
       interval: 'daily'
+    commit-message:
+      prefix: 'chore(actions)'
 
   - package-ecosystem: 'github-actions'
     target-branch: 'main-next'
     directory: '/'
     schedule:
       interval: 'daily'
+    commit-message:
+      prefix: 'chore(actions)'
 
   # Maintain dependencies for npm
   - package-ecosystem: 'npm'
