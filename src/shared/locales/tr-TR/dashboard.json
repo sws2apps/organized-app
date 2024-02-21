@@ -80,7 +80,7 @@
 	"tr_subject": "Konu",
 	"tr_sendFeedback": "Geri bildirimi gönder",
 	"tr_cancel": "İptal",
-	"tr_successfully": "Successfully",
 	"tr_successfullyDesc": "Geri bildiriminiz başarıyla gönderildi",
-	"tr_manageAccess": "Erişim yönetimi"
+	"tr_manageAccess": "Erişim yönetimi",
+	"tr_submitted": "Successfully submitted"
 }
