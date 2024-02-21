@@ -80,7 +80,7 @@
 	"tr_subject": "Тема",
 	"tr_sendFeedback": "Надіслати відгук",
 	"tr_cancel": "Скасувати",
-	"tr_successfully": "Successfully",
 	"tr_successfullyDesc": "Ваш відгук успішно надіслано",
-	"tr_manageAccess": "Керування доступом"
+	"tr_manageAccess": "Керування доступом",
+	"tr_submitted": "Successfully submitted"
 }
