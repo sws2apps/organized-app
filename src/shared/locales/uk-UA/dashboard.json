@@ -35,7 +35,6 @@
 	"tr_sourceImportEPUB": "Імпортувати з файлу .epub",
 	"tr_sourceImportJw": "Імпортувати з jw.org",
 	"tr_fieldServiceReports": "Звіти про служіння",
-	"tr_manageAccessToApps": "Керування доступом",
 	"tr_myTerritories": "Мої території",
 	"tr_planMidweekMeeting": "Створити зібрання серед тижня",
 	"tr_planWeekendMeeting": "Створити зібрання на вихідних",
@@ -50,8 +49,6 @@
 	"tr_reports": "Звіти",
 	"tr_congregation": "Збір",
 	"tr_publishersRecords": "Картки вісників",
-	"tr_organizedManageAccess": "Manage access to Organized",
-	"tr_syncOrganizedData": "Sync Organized data",
 	"tr_lastSynced": "Синхронізовано {{ durationt }} хв тому",
 	"tr_myProfile": "Мій профіль",
 	"tr_shareFeedback": "Share your feedback",
@@ -63,7 +60,7 @@
 	"tr_remindMeTomorrow": "Нагадати завтра",
 	"tr_goToReports": "До звітів",
 	"tr_noInternetConnection": "No internet connection.",
-	"tr_noInternetConnectionDesc": "Organized is working in offline mode; all the newly entered data will be synced across devices after the connection is restored.",
+	"tr_noInternetConnectionDesc": "Organized is working offline right now. When you're back online, any new data you entered will be able to sync.",
 	"tr_done": "Готово",
 	"tr_doneDesc": "Your {{ month }} report has been submitted",
 	"tr_notifications": "Сповіщення",
@@ -84,5 +81,6 @@
 	"tr_sendFeedback": "Надіслати відгук",
 	"tr_cancel": "Скасувати",
 	"tr_successfully": "Successfully",
-	"tr_successfullyDesc": "Ваш відгук успішно надіслано"
+	"tr_successfullyDesc": "Ваш відгук успішно надіслано",
+	"tr_manageAccess": "Керування доступом"
 }
