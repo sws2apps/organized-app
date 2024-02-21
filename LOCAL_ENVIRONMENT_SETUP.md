@@ -1,5 +1,7 @@
 # How to run Organized local environment – dependencies, backend, and frontend.
 
+**We also have a [video version of this guide](https://www.youtube.com/watch?v=duw2TPJg0wY). It's easy to follow and relatively short.**
+
 Hello everyone! Thank you so much for your support in developing the Organized application. In this tutorial, we will guide you through the steps to set up the local environment to run the application locally. This video covers many steps, but by following along, you'll successfully set up everything and will be ready to start coding.
 
 ## Part 1: Dependencies
