@@ -23,9 +23,9 @@ import {
   setUserMfaVerify,
 } from '@services/recoil/app';
 import { congEncryptionCodeState, congNameState, congRoleState } from '@states/settings';
-import { CPE_ROLES } from '@constants/index.ts';
+import { CPE_ROLES } from '@constants/index';
 import { loadApp, runUpdater } from '@services/cpe';
-import { convertStringToBoolean } from '@utils/common.ts';
+import { convertStringToBoolean } from '@utils/common';
 
 const useStartup = () => {
   const { isAuthenticated } = useFirebaseAuth();
@@ -80,7 +80,7 @@ const useStartup = () => {
       setTimeout(() => {
         setIsSetup(false);
         setIsAppLoad(false);
-      }, [1000]);
+      }, 1000);
     }
   }, [isOfflineOverride, congName, congRole, showSignin, congEncryption]);
 

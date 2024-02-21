@@ -1,10 +1,13 @@
 import { useRecoilValue } from 'recoil';
-import { isOnlineState } from '@states/app';
+import { congAccountConnectedState, isAppLoadState } from '@states/app';
 import { avatarUrlState } from '@states/settings';
 
 export const useAccountHeaderIcon = () => {
-  const userAvatar: string = useRecoilValue(avatarUrlState);
-  const isOnline: boolean = useRecoilValue(isOnlineState);
+  const userAvatar = useRecoilValue(avatarUrlState);
+  const congAccountConnected = useRecoilValue(congAccountConnectedState);
+  const isAppLoad = useRecoilValue(isAppLoadState);
 
-  return { userAvatar, isOnline };
+  const isOffline = isAppLoad ? false : !congAccountConnected;
+
+  return { userAvatar, isOffline };
 };

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { Chip } from '@mui/material';
-import { IconCancelFilled } from '@icons';
+import { IconCancelFilled } from '@icons/index';
 
 const MiniChip = ({ label, edit = false, onDelete }: { label: string; edit?: boolean; onDelete?: VoidFunction }) => {
   return (

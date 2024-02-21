@@ -1,10 +1,11 @@
 import { Box } from '@mui/material';
-import { InfoMessage, TextMarkup } from '@components';
-import { PageHeader } from '@features/app_start';
+import InfoMessage from '@components/info-message';
+import TextMarkup from '@components/text_markup';
+import PageHeader from '@features/app_start/shared/page_header';
 import OAuth from '../oauth';
 import { useAppTranslation } from '@hooks/index';
 import useSignin from './useSignin';
-import { IconError } from '@icons';
+import { IconError } from '@icons/index';
 
 const Signin = () => {
   const { t } = useAppTranslation();

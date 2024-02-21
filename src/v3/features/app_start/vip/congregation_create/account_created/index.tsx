@@ -1,6 +1,7 @@
 import { Box } from '@mui/material';
-import { Button, Typography } from '@components';
-import { PageHeader } from '@features/app_start';
+import Button from '@components/button';
+import Typography from '@components/typography';
+import PageHeader from '@features/app_start/shared/page_header';
 import { useAppTranslation } from '@hooks/index';
 
 const UserAccountCreated = ({ setIsCreate }: { setIsCreate: (value: boolean) => void }) => {

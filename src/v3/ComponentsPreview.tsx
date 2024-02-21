@@ -17,9 +17,9 @@ import {
   Reminders,
   ReminderItem,
   SearchBar,
-} from '@components';
+} from '@components/index';
 import { useEffect, useState } from 'react';
-import { IconAdd, IconAssign, IconClose, IconReturn, IconUndo, IconUpdate, IconInfo, IconVisitors } from '@icons';
+import { IconAdd, IconAssign, IconClose, IconReturn, IconUndo, IconUpdate, IconInfo, IconVisitors } from '@icons/index';
 
 import { NavBar } from './layouts';
 

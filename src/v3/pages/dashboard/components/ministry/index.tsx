@@ -1,6 +1,6 @@
 import { ListItem } from '@mui/material';
 import { DashboardCard, DashboardMenu, MinistryTimer } from '@features/index';
-import { IconMinistryReport, IconStatsYear } from '@icons';
+import { IconMinistryReport, IconStatsYear } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
 
 const MinistryCard = () => {

@@ -1,4 +1,4 @@
-import { IconNotifications } from '@icons';
+import { IconNotifications } from '@icons/index';
 import { Badge, IconButton } from '@mui/material';
 
 const AppNotification = () => {

@@ -1,6 +1,6 @@
 import { ListItem } from '@mui/material';
 import { DashboardCard, DashboardMenu } from '@features/index';
-import { IconPublishersReports, IconReportToBranch, IconVisitors } from '@icons';
+import { IconPublishersReports, IconReportToBranch, IconVisitors } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
 
 const ReportsCard = () => {

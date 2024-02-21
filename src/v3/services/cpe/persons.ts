@@ -281,7 +281,7 @@ export const getPerson = async (uid) => {
   return person;
 };
 
-export const personIsPublisher = async (uid, month) => {
+export const personIsPublisher = async (uid: string, month?: string) => {
   const persons = await promiseGetRecoil(personsState);
   const person = persons.find((p) => p.person_uid === uid);
 
@@ -315,7 +315,7 @@ export const personIsPublisher = async (uid, month) => {
   return result;
 };
 
-export const personIsAuxiliaryPioneer = async (uid, month) => {
+export const personIsAuxiliaryPioneer = async (uid: string, month?: string) => {
   const persons = await promiseGetRecoil(personsState);
   const person = persons.find((p) => p.person_uid === uid);
 
@@ -349,7 +349,7 @@ export const personIsAuxiliaryPioneer = async (uid, month) => {
   return result;
 };
 
-export const personIsElder = async (uid, month) => {
+export const personIsElder = async (uid: string, month?: string) => {
   const persons = await promiseGetRecoil(personsState);
   const person = persons.find((p) => p.person_uid === uid);
 
@@ -383,7 +383,7 @@ export const personIsElder = async (uid, month) => {
   return result;
 };
 
-export const personIsMS = async (uid, month) => {
+export const personIsMS = async (uid: string, month?: string) => {
   const persons = await promiseGetRecoil(personsState);
   const person = persons.find((p) => p.person_uid === uid);
 
@@ -417,7 +417,7 @@ export const personIsMS = async (uid, month) => {
   return result;
 };
 
-export const personIsRegularPioneer = async (uid, month) => {
+export const personIsRegularPioneer = async (uid: string, month?: string) => {
   const persons = await promiseGetRecoil(personsState);
   const person = persons.find((p) => p.person_uid === uid);
 
@@ -451,7 +451,7 @@ export const personIsRegularPioneer = async (uid, month) => {
   return result;
 };
 
-export const personIsSpecialPioneer = async (uid, month) => {
+export const personIsSpecialPioneer = async (uid: string, month?: string) => {
   const persons = await promiseGetRecoil(personsState);
   const person = persons.find((p) => p.person_uid === uid);
 
@@ -485,7 +485,7 @@ export const personIsSpecialPioneer = async (uid, month) => {
   return result;
 };
 
-export const personIsBaptized = async (uid, month) => {
+export const personIsBaptized = async (uid: string, month?: string) => {
   const persons = await promiseGetRecoil(personsState);
   const person = persons.find((p) => p.person_uid === uid);
 
@@ -507,7 +507,7 @@ export const personIsBaptized = async (uid, month) => {
   return result;
 };
 
-export const personIsValidPublisher = async (uid, month) => {
+export const personIsValidPublisher = async (uid: string, month?: string) => {
   const persons = await promiseGetRecoil(personsState);
   const person = persons.find((p) => p.person_uid === uid);
 
@@ -525,7 +525,7 @@ export const personIsValidPublisher = async (uid, month) => {
   return isValid;
 };
 
-export const personIsActivePublisher = async (uid, month) => {
+export const personIsActivePublisher = async (uid: string, month?: string) => {
   const persons = await promiseGetRecoil(personsState);
   const person = persons.find((p) => p.person_uid === uid);
 
@@ -577,7 +577,7 @@ export const personIsActivePublisher = async (uid, month) => {
   return isActive;
 };
 
-export const personsFilter = async (persons, data) => {
+export const personsFilter = async ({ persons, data }) => {
   const txtSearch = data.txtSearch || '';
   const filter = data.filter || 'allPersons';
   const assTypes = data.assTypes || [];

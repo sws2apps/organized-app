@@ -1,4 +1,4 @@
-import { CSSProperties, LegacyRef } from 'react';
+import { CSSProperties, LegacyRef, MutableRefObject } from 'react';
 
 export type TextMarkupTypeProps = {
   content: string;
@@ -20,6 +20,6 @@ export type TextMarkupTypeProps = {
     | 'body-small-semibold'
     | 'body-small-regular';
   anchorColor?: string;
-  anchorRef?: LegacyRef<HTMLAnchorElement>;
+  anchorRef?: MutableRefObject<HTMLElement> | LegacyRef<HTMLAnchorElement>;
   anchorStyle?: CSSProperties;
 };

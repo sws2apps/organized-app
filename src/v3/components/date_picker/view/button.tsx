@@ -1,6 +1,5 @@
-import React from '@services/react';
 import { BaseSingleInputFieldProps, FieldSection } from '@mui/x-date-pickers';
-import { IconDate } from '@icons';
+import { IconDate } from '@icons/index';
 import { format } from 'date-fns';
 import { Button } from '@mui/material';
 import { FC } from 'react';
@@ -19,7 +18,6 @@ const ButtonField: FC<ButtonFieldProps> = ({
   inputProps: { 'aria-label': ariaLabel } = {},
   formatView,
 }) => {
-
   return (
     <Button
       variant="text"

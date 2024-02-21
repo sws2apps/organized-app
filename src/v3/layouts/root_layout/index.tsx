@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom';
-import { NavBar } from '@layouts/index';
+import NavBar from '@layouts/navbar';
 import { AppModalWrapper } from '@wrapper/index';
 import { Box, Container } from '@mui/material';
 import { About, AppUpdater, Startup, Support } from '@features/index';

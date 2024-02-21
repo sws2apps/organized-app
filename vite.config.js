@@ -11,8 +11,8 @@ export default defineConfig({
   resolve: {
     alias: [
       { find: '@assets', replacement: resolve(__dirname, 'src/v3/assets') },
-      { find: '@components', replacement: resolve(__dirname, 'src/v3/components/index.ts') },
-      { find: '@icons', replacement: resolve(__dirname, 'src/v3/components/icons/index.ts') },
+      { find: '@components', replacement: resolve(__dirname, 'src/v3/components') },
+      { find: '@icons', replacement: resolve(__dirname, 'src/v3/components/icons') },
       { find: '@constants', replacement: resolve(__dirname, 'src/v3/constants') },
       { find: '@features', replacement: resolve(__dirname, 'src/v3/features') },
       { find: '@hooks', replacement: resolve(__dirname, 'src/v3/hooks') },

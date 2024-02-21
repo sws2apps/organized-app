@@ -1,6 +1,6 @@
 import { ListItem } from '@mui/material';
 import { DashboardCard, DashboardMenu } from '@features/index';
-import { IconGroups, IconManageAccess, IconSettings, IconSynced } from '@icons';
+import { IconGroups, IconManageAccess, IconSettings, IconSynced } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
 import useCongregation from './useCongregation';
 

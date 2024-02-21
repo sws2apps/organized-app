@@ -1,7 +1,7 @@
 import { ReactElement } from 'react';
 import { Button } from '@mui/material';
-import { Typography } from '@components';
-import { IconArrowBack } from '@icons';
+import Typography from '@components/typography';
+import { IconArrowBack } from '@icons/index';
 
 const AccountType = ({
   startIcon,
