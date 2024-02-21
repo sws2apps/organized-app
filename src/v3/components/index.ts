@@ -19,6 +19,7 @@ export { default as Radio } from './radio/index';
 export { default as Select } from './select/index';
 export { default as SnackBar } from './snackbar/index';
 export { default as Switch } from './switch/index';
+export { default as Tabs } from './tabs/index';
 export { default as TextField } from './textfield/index';
 export { default as TextMarkup } from './text_markup/index';
 export { default as ThemeSwitch } from './theme_switch/index';

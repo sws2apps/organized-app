@@ -16,6 +16,7 @@ import {
   DatePicker,
   Reminders,
   ReminderItem,
+  Tabs,
   SearchBar,
 } from '@components/index';
 import { useEffect, useState } from 'react';
@@ -31,6 +32,26 @@ const names = [
   { name: 'Eleonor', color: 'orange' as const, size: 'small' as const },
   { name: 'Olga', color: 'accent' as const, size: 'small' as const },
   { name: 'Marcus', color: 'red' as const, size: 'small' as const },
+];
+
+const tabs = [
+  {
+    label: 'Midweek meeting',
+    Component: (
+      <div>
+        <h1>Hello, Here is a content of Midweek meeting</h1>
+        <span>So just pass an array of Components to Tabs and you will see them here</span>
+      </div>
+    ),
+  },
+  {
+    label: 'Weekend meeting',
+    Component: <div>Hello, Here is a content of Weekend meeting</div>,
+  },
+  {
+    label: 'Another one meeting...',
+    Component: <div>Hello, Here is a content of another one meeting</div>,
+  },
 ];
 
 const ComponentPreview = () => {
@@ -502,6 +523,12 @@ const ComponentPreview = () => {
             ]}
           </Reminders>
         </Box>
+
+        <Box sx={{ mb: 5 }}>
+          Tabs:
+          <Tabs tabs={tabs} />
+        </Box>
+
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '40px', marginBottom: '40px' }}>
           <Typography className="body-regular">Search_bar:</Typography>
           {/* The onSearch function handles the search functionality. It filters the list  on the search query. */}
