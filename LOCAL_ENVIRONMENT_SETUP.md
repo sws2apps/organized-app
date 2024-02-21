@@ -1,6 +1,6 @@
 # How to run Organized local environment – dependencies, backend, and frontend.
 
-Hello everyone! Thank you so much for your support in developing the Organized application. In this tutorial, we will guide you through the steps to set up the local environment to run the application locally. This video covers many steps, but by following along, you'll successfully set up everything and will be ready to start coding.
+Hello everyone! Thank you so much for your support in developing the Organized application. In this guide, we will guide you through the steps to set up the local environment to run the application locally. This video covers many steps, but by following along, you'll successfully set up everything and will be ready to start coding.
 
 ## Part 1: Dependencies
 
@@ -10,7 +10,7 @@ Let's start by looking at what you need to set up the environment. We'll begin c
 
 _The first dependency is Git, our version control system. You can download it from [git-scm.com](https://git-scm.com/download)._
 
-1. Visit the Git website and select the version suitable for your operating system. For this tutorial, we'll demonstrate on Windows, but you can adapt the instructions for your OS.
+1. Visit the Git website and select the version suitable for your operating system. For this guide, we'll demonstrate on Windows, but you can adapt the instructions for your OS.
 2. Now, download Git. Once the download is finished, we’re ready to install it.
 
 _Now, let’s proceed with the installation of Git._
@@ -19,25 +19,17 @@ _Now, let’s proceed with the installation of Git._
 2. Please wait while the installation completes.
 3. Excellent, Git is now installed.
 
-### Install Node Version Manager
+### Install Node.js
 
-_Now, let's move on to the next dependency: Node.js._
-
-_There are two valid options for installing Node.js on your system. You can either use an application called [Node Version Manager for Windows (NVM)](https://github.com/coreybutler/nvm-windows), which we will demonstrate in this tutorial, or directly download Node.js from the official website, especially if you’re using Linux or macOS. Both methods are acceptable, so you can choose the one that suits you best._
-
-_The link to download NVM is on the screen, and you can also find it in the video description below or in the text version of this tutorial._
+_There are two valid options for installing Node.js on your system. You can either use an application called [Node Version Manager for Windows (NVM)](https://github.com/coreybutler/nvm-windows), or directly download ([https://nodejs.org/en](https://nodejs.org/en/download) Node.js from the official website, especially if you’re using Linux or macOS. Both methods are acceptable, so you can choose the one that suits you best._
 
 1. Download the NVM
 2. Install it using all the default options for the installation.
 
-_With NVM installed, we can now move on to the next step – installing Node.js._
-
-### Install Node.js
-
-_Open a Terminal or Command Prompt - we will be using Command Prompt for this tutorial._
+### Install Node Version Manager
 
 1. Before installing, let’s check the current Long Term Support (LTS), version of Node.js on the [official Node.js website](https://nodejs.org/en). As of now, the LTS version is `20.11.0`.
-2. Back in the Command Prompt, type `nvm install 20.11.0` to start downloading that version of Node.js from the official website. We will also install npm, the package manager for Node.js.
+2. Back in the Command Prompt, type `nvm install 20.11.0`(or the latest version avaible at the time you are reading this) to start downloading that version of Node.js from the official website. We will also install npm, the package manager for Node.js.
 3. After installation, open Command Prompt and type `nvm use 20.11.0` to use the installed version. Make sure you have admin privileges for setup.
 
 And that’s it! Node.js is now installed on our computer.
@@ -47,7 +39,7 @@ And that’s it! Node.js is now installed on our computer.
 _Next, we’ll move on to our code editor. We use Visual Studio Code, or VS Code, as Integrated Development Environment (IDE), but feel free to use any IDE you’re comfortable with._
 
 1. To download VS Code, visit the [official VS Code website](https://code.visualstudio.com/download) and select the installer that suits your needs.
-2. For this tutorial, we’ll be downloading the System Installer.
+2. For this guide, we’ll be downloading the System Installer.
 3. Let’s install it. Please make sure to check the following "Open with Code" Additional Tasks to make it easier to open folders in the VS Code. But even without doing so, you will be able to open the folders directly from VS Code.
 4. Open the VS Code.
 
@@ -57,11 +49,9 @@ _When you open VS Code for the first time, you'll be asked to personalize its ap
 
 _Finally, our last dependency for this initial setup is Java. We specifically need the OpenJDK version, as it’s required by the Firebase Emulators._
 
-1. Go to the [OpenJDK download page](https://www.oracle.com/java/technologies/downloads/) and select the version you prefer. As of now, versions 21 and 17 are available. We'll choose version 21 in this tutorial, but version 17 will work equally well, as Firebase Emulators need at least version 11.
+1. Go to the [OpenJDK download page](https://www.oracle.com/java/technologies/downloads/) and select the version you prefer. As of now, versions 21 and 17 are available. We'll choose version 21 in this guide, but version 17 will work equally well, as Firebase Emulators need at least version 11.
 2. Now, proceed to download OpenJDK, version 21.
 3. Let's go ahead with the installation using the default options.
-
-_Excellent, the installation is complete._
 
 ### Double-check all dependencies
 
@@ -80,11 +70,11 @@ Next, let's proceed to run the local backend API server. This server handles log
 
 1. First thing first, let’s create a new folder in your file system to store both the backend and frontend projects.
 2. Once you’ve created the folder, right-click within it and select ‘Open Git Bash’. You can also use Terminal or Command Prompt if you prefer.
-3. The next step is to clone each of these projects using the `git clone` command. For this tutorial, we’ll be using the direct GitHub repository URL from the sws2apps organization, but you can also clone from your own fork if you already have one.
-4. Let’s start by cloning the API project. This should be a quick process as the sws2apps-api repository is relatively small.
-5. With the API project cloned, let’s move on to the frontend project, the Organized app itself. Please note that this repository is quite large so the cloning process may take more time.
-6. Great! Both repositories have been successfully cloned.
-7. Next, open the sws2apps-API folder, right-click within it, and select **Open with Code.** This is a VS Code shortcut that we enabled during the VS Code installation.
+3. The next step is to clone each of these projects using the `git clone` command. Using the direct GitHub repository URL from the sws2apps organization, or you can also clone from your own fork if you already have one.
+5. Let’s start by cloning the API project. This should be a quick process as the sws2apps-api repository is relatively small.
+6. With the API project cloned, let’s move on to the frontend project, the Organized app itself. Please note that this repository is quite large so the cloning process may take more time.
+7. Great! Both repositories have been successfully cloned.
+8. Next, open the sws2apps-API folder, right-click within it, and select **Open with Code.** This is a VS Code shortcut that we enabled during the VS Code installation.
 
 _When you open it for the first time, you'll need to trust yourself as the author of the files in this folder. There might be a prompt to install a Dev Containers extension, but it's not necessary for local development, so feel free to ignore it._
 
@@ -105,12 +95,12 @@ _Before booting up the API server, let’s prepare our environment._
 4. To check if the Firebase CLI was installed correctly, use the command `firebase --version`. It should display the version of Firebase you just installed. For now, it’s 14.2.1.
 5. Next, let’s authenticate our Firebase Account with the CLI. Type `firebase login`, and you’ll be prompted to complete the authentication in your browser. Ensure that you’re logged into your Google Account and that you have an account on the Firebase Console website.
 6. Once you’ve completed the authentication, the Firebase CLI will be connected to your account.
-7. Back in VS Code. In VS Code, switch to the `main-e2e` branch for the new Organized app using the `git checkout main-e2e` command. Keep in mind that during the development of the next Organized app release, we still have the current Congregation Program for Everyone app with the `main` branch. After the Organized app release, we'll close the “Congregation Program for Everyone” version, resulting in only one main app and one main branch.
+7. In VS Code, switch to the `main-e2e` branch for the new Organized app using the `git checkout main-e2e` command.
+>Keep in mind that during the development of the next Organized app release, we still have the current Congregation Program for Everyone app with the `main` branch. After the Organized app release, we'll close the “Congregation Program for Everyone” version, resulting in only one main app and one main branch.
 8. After checking out the correct branch, install the dependencies using the `npm i` command. This will start the installation of all the project’s dependencies.
 
 #### Create a new Firebase project
 
-_Now, let’s create a new project in the Firebase Console._
 _You need to create your own Firebase project on [their website](https://console.firebase.google.com/). This project will be needed during development._
 
 1. We don’t need Analytics for this project, but enabling it won’t cause any issues.
@@ -135,11 +125,10 @@ _Now the installations of these dependencies are completed._
 
 #### Set up environment variables for the backend API
 
-Firebase Emulators require a storage rule file to set up Firebase Storage locally. To get this file, use the command `cp storage.rules.example storage.rules`.
+Firebase Emulators require a storage rule file to set up Firebase Storage locally. 
 
-That’s done! Now we have our own storage rules for Firebase.
-
-Let’s also make a copy of the environment file example, using the command `cp .env.example .env`.
+1. To get this file, use the command `cp storage.rules.example storage.rules`. That’s done! Now we have our own storage rules for Firebase.
+2. Let’s also make a copy of the environment file example, using the command `cp .env.example .env`.
 
 Now, let’s assign values to these variables:
 
@@ -165,8 +154,6 @@ Now, let’s assign values to these variables:
 
 #### Setup the Firebase emulators
 
-_Now, we’re ready to start the Firebase Emulators._
-
 1. Type `npm run setup:emulators`. This is the command we use to set up the emulators. Let’s wait for this to start. It may take a few seconds, especially the first time you install all these dependencies.
 2. The CLI will ask if we’re ready to proceed with initializing the emulators. Type `Y` to proceed with the setup to initialize the emulators.
 3. When you’re asked “Which Firebase emulators do you want to set up”, just hit Enter, because all the emulators that we need are already defined.
@@ -187,8 +174,6 @@ _That completes the setup of the backend project for the local environment. The 
 
 ## Part 3: Frontend
 
-_Now, let’s shift our focus to the last part – frontend application._
-
 1. Open the frontend project folder in VS Code and open a new Terminal.
 2. Switch to the `main-next` branch using the `git checkout main-next` command. This branch contains the new Organized application.
 3. After checking out the correct branch, install the dependencies by typing `npm i`.
@@ -199,14 +184,14 @@ _Now, let’s shift our focus to the last part – frontend application._
 _Now, let’s add the required environment variables for the frontend application._
 
 1. Create an `.env` file for this frontend project.
-2. Write all the required variables. We need the **VITE_FIREBASE_APIKEY, VITE_FIREBASE_AUTHDOMAIN, VITE_FIREBASE_PROJECTID, VITE_FIREBASE_APPID,** and **VITE_FIREBASE_MEASUREMENTID.** You can copy them from the text version of this tutorial and in the GitHub documentation.
+2. Write all the required variables. We need the **VITE_FIREBASE_APIKEY, VITE_FIREBASE_AUTHDOMAIN, VITE_FIREBASE_PROJECTID, VITE_FIREBASE_APPID,** and **VITE_FIREBASE_MEASUREMENTID.**
 3. To get these values, go back to the Firebase Console and open your project.
 4. Navigate to **Project Settings.** Find “Your apps” or “Add an app” area and hit the “Web” button. Then create and register a new Web App.
 5. Give a nickname for the web app. For example, ‘Organized web app’.
 6. We don’t need to set up Firebase Hosting for this app, so continue.
 7. In this section, we get all the required values for our environment variables like **apiKey, authDomain, projectId, appId,** and **measurementId.** Copy these values from the Firebase console to our `.env` file.
 
-_Perfect, all set! All the dependencies were installed, and the environment variables are all ready. We can now start the frontend application._
+_All the dependencies were installed, and the environment variables are all ready. We can now start the frontend application._
 
 ### Run the frontend app
 
@@ -229,6 +214,6 @@ Let’s proceed on this journey as if we were a new user:
 
 This is the ‘Organized’ Dashboard page. From this page, you can access various features of the app as they are developed by our team.
 
-#### Congratulations and happy coding!
+### Congratulations and happy coding!
 
-Thanks for watching! If you have more questions or face any problems not covered in this video, head to our GitHub repository Discussions to ask! Your contributions and support for the Organized app are highly appreciated!
+If you have more questions or face any problems not covered in this guide, head to our GitHub repository Discussions to ask! Your contributions and support for the Organized app are highly appreciated!
