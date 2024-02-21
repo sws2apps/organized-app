@@ -61,7 +61,7 @@
     "react-dom": "^18.2.0",
     "react-i18next": "^14.0.5",
     "react-pdf-html": "^1.2.0",
-    "react-router-dom": "^6.22.0",
+    "react-router-dom": "^6.22.1",
     "recoil": "^0.7.7",
     "recoil-outside": "^0.1.1",
     "swiper": "^11.0.4",
