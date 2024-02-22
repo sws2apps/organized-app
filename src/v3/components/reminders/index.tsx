@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, Children, isValidElement, ReactElement } from 'react';
 import { Box } from '@mui/material';
 import Typography from '@components/typography';
 import { IconReminder } from '@icons/index';
@@ -26,8 +26,8 @@ const Reminders = ({ children }: RemindersProps) => {
   }, []);
 
   const LinkTo = () => {
-    if (React.Children.count(children) > 0 && React.isValidElement(children[0])) {
-      const firstChild = children[0] as React.ReactElement<ReminderItemProps>;
+    if (Children.count(children) > 0 && isValidElement(children[0])) {
+      const firstChild = children[0] as ReactElement<ReminderItemProps>;
       const firstChildLink = firstChild.props.link;
       return firstChildLink;
     }

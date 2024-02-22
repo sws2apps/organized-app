@@ -19,7 +19,7 @@
     "generate:icons": "node converter/svg/convert.js && prettier src/v3/components/icons --write",
     "prepare": "husky install",
     "locales:unused": "node unused-i18n-keys.js",
-    "eslint": "eslint --ext ts,tsx src"
+    "lint": "eslint src/v3"
   },
   "eslintConfig": {
     "extends": [
@@ -86,7 +86,10 @@
     "cypress": "^13.6.5",
     "eslint": "^8.56.0",
     "eslint-config-react-app": "^7.0.1",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-cypress": "^2.15.1",
+    "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-refresh": "^0.4.4",
     "husky": "^9.0.11",
