@@ -35,7 +35,6 @@
 	"tr_sourceImportEPUB": "EPUBファイルからインポート",
 	"tr_sourceImportJw": "jw.orgからインポート",
 	"tr_fieldServiceReports": "野外奉仕報告",
-	"tr_manageAccessToApps": "アクセス管理",
 	"tr_myTerritories": "My territories",
 	"tr_planMidweekMeeting": "Plan midweek meeting",
 	"tr_planWeekendMeeting": "Plan weekend meeting",
@@ -50,8 +49,6 @@
 	"tr_reports": "Reports",
 	"tr_congregation": "会衆",
 	"tr_publishersRecords": "伝道者の記録",
-	"tr_organizedManageAccess": "Manage access to Organized",
-	"tr_syncOrganizedData": "Sync Organized data",
 	"tr_lastSynced": "{{ durationt }}分前に同期",
 	"tr_myProfile": "My profile",
 	"tr_shareFeedback": "Share your feedback",
@@ -63,7 +60,7 @@
 	"tr_remindMeTomorrow": "また明日確認する",
 	"tr_goToReports": "Go to reports",
 	"tr_noInternetConnection": "インターネット接続がありません",
-	"tr_noInternetConnectionDesc": "Organized is working in offline mode; all the newly entered data will be synced across devices after the connection is restored.",
+	"tr_noInternetConnectionDesc": "Organized is working offline right now. When you're back online, any new data you entered will be able to sync.",
 	"tr_done": "完了",
 	"tr_doneDesc": "Your {{ month }} report has been submitted",
 	"tr_notifications": "通知",
@@ -83,6 +80,7 @@
 	"tr_subject": "Subject",
 	"tr_sendFeedback": "Send feedback",
 	"tr_cancel": "キャンセル",
-	"tr_successfully": "Successfully",
-	"tr_successfullyDesc": "あなたのフィードバックが正常に送信されました"
+	"tr_successfullyDesc": "あなたのフィードバックが正常に送信されました",
+	"tr_manageAccess": "アクセス管理",
+	"tr_submitted": "Successfully submitted"
 }
