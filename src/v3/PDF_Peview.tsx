@@ -1,13 +1,11 @@
 import { WeekendMeeting } from './views/index';
-import { Box } from '@mui/material';
-import { Typography } from '@components/index';
+import { PDFViewer } from '@react-pdf/renderer';
 
 const PdfPreview = () => {
   return (
-    <Box>
-      <Typography>PDF</Typography>
+    <PDFViewer width={'100%'} height={1500}>
       <WeekendMeeting />
-    </Box>
+    </PDFViewer>
   );
 };
 

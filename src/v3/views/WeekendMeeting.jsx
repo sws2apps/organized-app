@@ -6,12 +6,14 @@ const styles = StyleSheet.create({
   page: {
     flexDirection: 'row',
     backgroundColor: '#E4E4E4',
+    height: '100%',
+    width: '100%',
   },
 });
 
 // Create Document Component
 const WeekendMeeting = () => (
-  <Document>
+  <Document style={{ width: '100%', height: '100%' }}>
     <Page size="A4" style={styles.page}>
       <WeekendMeetingHeder />
     </Page>

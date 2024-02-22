@@ -5,8 +5,7 @@ import { ErrorBoundary, WaitingCircular } from '@components/index';
 import { useGlobal } from '@hooks/index';
 import { RootLayout } from '@layouts/index';
 import ComponentsPreview from './ComponentsPreview';
-// import PdfPreview from './PDF_Peview';
-// import { PDFViewer } from '@react-pdf/renderer';
+import PdfPreview from './PDF_Peview';
 
 // lazy loading
 const Dashboard = lazy(() => import('@pages/dashboard'));
@@ -22,14 +21,10 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
       errorElement: <ErrorBoundary />,
       children: [
         { path: '/components-preview', element: <ComponentsPreview /> },
-        // {
-        //   path: '/pdf-document',
-        //   element: (
-        //     <PDFViewer>
-        //       <PdfPreview />
-        //     </PDFViewer>
-        //   ),
-        // },
+        {
+          path: '/pdf-document',
+          element: <PdfPreview />,
+        },
         {
           element: <RootLayout updatePwa={updatePwa} />,
           children: [
