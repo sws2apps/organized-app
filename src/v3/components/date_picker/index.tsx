@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
-import { enUS } from 'date-fns/locale';
+/* eslint-disable import/no-duplicates */
 import { addYears, getWeeksInMonth, startOfYear, subYears, format } from 'date-fns';
+import { enUS } from 'date-fns/locale';
+/* eslint-enable import/no-duplicates */
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { Box, ClickAwayListener, Stack } from '@mui/material';
