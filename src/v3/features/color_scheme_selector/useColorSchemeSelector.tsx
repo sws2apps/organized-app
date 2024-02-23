@@ -2,7 +2,9 @@ import { ChangeEvent, useState } from 'react';
 import { ColorSchemeType } from '@definition/app';
 
 const useColorSchemeSelector = () => {
-  const [colorScheme, setColorScheme] = useState<ColorSchemeType>('blue');
+  const savedColor = localStorage.getItem('color') as ColorSchemeType;
+
+  const [colorScheme, setColorScheme] = useState(savedColor);
 
   const handleChangeColor = (e: ChangeEvent<HTMLInputElement>) => {
     const selectedColor = e.target.value as ColorSchemeType;
