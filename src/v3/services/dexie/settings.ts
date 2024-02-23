@@ -2,9 +2,10 @@ import { promiseGetRecoil } from 'recoil-outside';
 import { settingsState } from '@states/settings';
 import { appDb } from '.';
 import worker from '@services/worker/backupWorker';
+import { SettingsType } from '@definition/app';
 
-export const handleUpdateSetting = async (setting) => {
-  const current = await promiseGetRecoil(settingsState);
+export const handleUpdateSetting = async (setting: SettingsType) => {
+  const current: SettingsType = await promiseGetRecoil(settingsState);
 
   if (current.id === 1) {
     const newSettings = { ...current, ...setting };

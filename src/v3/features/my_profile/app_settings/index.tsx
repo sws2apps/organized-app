@@ -1,4 +1,5 @@
 import { Box, MenuItem } from '@mui/material';
+import ColorSchemeSwitcher from '@features/color_scheme_selector';
 import Select from '@components/select';
 import Switch from '@components/switch';
 import { SwitcherItem } from '@components/global';
@@ -78,6 +79,12 @@ const AppSettings = () => {
             </Typography>
           </Box>
         </SwitcherItem>
+
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          <Typography className="h4">{t('tr_colorScheme')}</Typography>
+
+          <ColorSchemeSwitcher />
+        </Box>
       </Box>
     </ProfileItemContainer>
   );

@@ -382,3 +382,12 @@ export const weekendMeetingSubstituteSpeakerState = selector({
     return settings.weekend_meeting_useSubstituteSpeaker || false;
   },
 });
+
+export const followOSThemeState = selector({
+  key: 'followOSTheme',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+
+    return settings?.follow_os_theme?.value || false;
+  },
+});

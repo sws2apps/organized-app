@@ -48,6 +48,7 @@ import {
   isEncryptionCodeOpenState,
   isAppDataSyncingState,
   lastAppDataSyncState,
+  isDarkThemeState,
 } from '@states/app';
 
 export const handleSWOnInstalled = async () => {
@@ -228,4 +229,8 @@ export const setIsAppDataSyncing = async (value) => {
 
 export const setLastAppDataSync = async (value) => {
   await promiseSetRecoil(lastAppDataSyncState, value);
+};
+
+export const setIsDarkTheme = async (value) => {
+  await promiseSetRecoil(isDarkThemeState, value);
 };
