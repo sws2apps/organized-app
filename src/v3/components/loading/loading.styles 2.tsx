@@ -11,5 +11,6 @@ export const StyledCircleBox = styled(Box)({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
+    boxShadow: '0px 16px 24px 0px rgba(28, 28, 28, 0.16)',
     gap: '16px',
 });

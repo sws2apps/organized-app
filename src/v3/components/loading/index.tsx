@@ -1,17 +1,17 @@
-import { useTranslation } from 'react-i18next';
+import { useAppTranslation } from '@hooks/index';
 import React from 'react';
 import IconLoading from '../icons/IconLoading';
-import {StyledCircleBox} from './loading.styles';
+import { StyledCircleBox } from './loading.styles';
 import { Typography } from '@components';
 
 export const Loading = () => {
-  const { t } = useTranslation();
+  const { t } = useAppTranslation();
 
   return (
-    <StyledCircleBox>
+    <StyledCircleBox className='pop-up-shadow'>
       <IconLoading color='var(--accent-main)' width={72} height={72}/>
         <Typography className='h4' color='var(--accent-main)'>
-          {t('Loading...')}
+          {t('tr_loading')}
         </Typography>
     </StyledCircleBox>
   );
