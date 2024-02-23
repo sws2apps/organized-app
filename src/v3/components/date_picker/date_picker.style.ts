@@ -1,3 +1,6 @@
+import { Box } from '@mui/material';
+import { styled } from '@mui/system';
+
 export const StyleDatePickerDay = {
   sx: {
     height: 'auto',
@@ -12,11 +15,15 @@ export const StyleDatePickerDay = {
     ':hover': {
       backgroundColor: 'rgba(var(--accent-main-base), 0.1)',
     },
+    ':focus': {
+      backgroundColor: 'rgba(var(--accent-main-base), 0.1)',
+    },
     '.MuiPickersYear-yearButton:hover': {
       backgroundColor: 'red',
     },
   },
 };
+
 export const StyleDatePickerDesktopPaper = {
   sx: {
     borderRadius: 'var(--radius-xxl)',
@@ -24,24 +31,25 @@ export const StyleDatePickerDesktopPaper = {
     backgroundColor: 'var(--white)',
   },
 };
+
 export const StyleDatePickerToolbar = {
   hidden: false,
-  toolbarFormat: 'EEE, dd MMM yyyy',
   sx: {
     padding: '16px 12px 12px 24px',
     borderBottom: '1px solid var(--accent-200)',
     gap: '8px',
     '.MuiDatePickerToolbar-title': {
       color: 'var(--black)',
-      textTransform: 'capitalize',
     },
   },
 };
+
 export const StyleDatePickerActionBar = {
   sx: {
     justifyContent: 'space-between',
   },
 };
+
 export const StyleDatePickerLayout = {
   sx: {
     '.MuiPickersCalendarHeader-label': {
@@ -54,6 +62,7 @@ export const StyleDatePickerLayout = {
     },
   },
 };
+
 export const StyleDatePickerPopper = {
   width: '360px',
   '.MuiPickersLayout-root': {
@@ -108,3 +117,14 @@ export const StyleDatePickerPopper = {
     color: 'var(--grey-400)',
   },
 };
+
+export const StyledIconWrapper = styled(Box)({
+  '& svg:hover': {
+    background: 'var(--accent-350-base)',
+    borderRadius: 'var(--radius-xl, 8px)',
+    cursor: 'pointer',
+  },
+  '& svg g, & svg g path': {
+    fill: 'var(--accent-350)',
+  },
+});

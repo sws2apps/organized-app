@@ -1,5 +1,5 @@
 import { Box, Switch } from '@mui/material';
-import { IconNight, IconSun, IconToggle } from '@icons';
+import { IconNight, IconSun, IconToggle } from '@icons/index';
 
 const CPEThemeSwitch = ({
   checked,

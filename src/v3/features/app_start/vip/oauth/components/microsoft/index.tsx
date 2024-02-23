@@ -1,6 +1,6 @@
 import OAuthButtonBase from '../button_base';
 import { useAppTranslation } from '@hooks/index';
-import { IconMicrosoft } from '@icons';
+import { IconMicrosoft } from '@icons/index';
 import { authProvider } from '@services/firebase/auth';
 
 const provider = authProvider.Microsoft;

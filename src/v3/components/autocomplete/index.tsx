@@ -1,6 +1,7 @@
 import { forwardRef } from 'react';
 import { Autocomplete, Box, BoxProps, Paper, PaperProps } from '@mui/material';
-import { TextField, Typography } from '@components';
+import TextField from '@components/textfield';
+import Typography from '@components/typography';
 import { useAppTranslation } from '@hooks/index';
 import { AutocompletePropsType } from './index.types';
 
@@ -49,7 +50,7 @@ const CustomListBoxComponent = forwardRef((props: BoxProps, ref) => {
 
 CustomListBoxComponent.displayName = 'CustomListBoxComponent';
 
-const CPEAutoComplete = (props: AutocompletePropsType) => {
+const CPEAutoComplete = <T,>(props: AutocompletePropsType<T>) => {
   const { t } = useAppTranslation();
 
   const startIcon = props.startIcon;

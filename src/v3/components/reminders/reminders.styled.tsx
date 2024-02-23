@@ -21,7 +21,7 @@ export const StyledRemindersList = styled(List)({
   '> *:not(:last-child)::after': {
     content: '""',
     display: 'block',
-    width: '480px',
+    width: '100%',
     height: '1px',
     opacity: '0.32',
     background: 'var(--always-white)',

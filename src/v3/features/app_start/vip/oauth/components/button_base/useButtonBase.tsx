@@ -13,7 +13,7 @@ import {
   setUserMfaVerify,
 } from '@services/recoil/app';
 import useAppTranslation from '@hooks/useAppTranslation';
-import { useFeedback } from '@features/app_start';
+import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 import { getMessageByCode } from '@services/i18n/translation';
 import { apiSendAuthorization } from '@services/api/user';
 import { handleUpdateSetting } from '@services/dexie/settings';

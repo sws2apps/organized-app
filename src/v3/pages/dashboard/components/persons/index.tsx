@@ -1,6 +1,6 @@
 import { ListItem } from '@mui/material';
 import { DashboardCard, DashboardMenu } from '@features/index';
-import { IconAddPerson, IconApplications, IconParticipants, IconVisitingSpeaker } from '@icons';
+import { IconAddPerson, IconApplications, IconParticipants, IconVisitingSpeaker } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
 
 const PersonsCard = () => {

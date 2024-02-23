@@ -1,10 +1,11 @@
 export type CPEDatePickerView = 'button' | 'input';
 export interface CPEDatePickerProps {
-  initDate?: Date;
-  view: CPEDatePickerView;
+  value?: Date;
+  view?: CPEDatePickerView;
   label?: string;
   limitYear?: boolean;
   disablePast?: boolean;
-  toolbarInputViewFormat?: string;
-  buttonViewFormat?: string;
+  longDateFormat?: string;
+  shortDateFormat?: string;
+  onChange?: (value: Date) => VoidFunction;
 }

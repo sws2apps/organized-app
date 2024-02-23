@@ -1,3 +1,4 @@
+import { LegacyRef } from 'react';
 import { Markup } from 'interweave';
 import { TextMarkupTypeProps } from './index.types';
 
@@ -27,7 +28,7 @@ const CPETextMarkup = (props: TextMarkupTypeProps) => {
           title={node.getAttribute('title')}
           id={node.getAttribute('id')}
           target={node.getAttribute('target')}
-          ref={props.anchorRef}
+          ref={props.anchorRef as LegacyRef<HTMLAnchorElement>}
         >
           {children}
         </a>

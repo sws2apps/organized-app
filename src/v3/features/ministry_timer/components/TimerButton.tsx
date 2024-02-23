@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 import { Button } from '@mui/material';
-import { Typography } from '@components';
+import Typography from '@components/typography';
 
 const TimerButton = ({
   text = '',
@@ -9,7 +9,7 @@ const TimerButton = ({
 }: {
   text: string;
   icon: ReactElement;
-  onClick: VoidFunction;
+  onClick?: VoidFunction;
 }) => {
   return (
     <Button

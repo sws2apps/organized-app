@@ -1,7 +1,9 @@
 import { Box } from '@mui/material';
-import { Button, InfoMessage, TextField } from '@components';
-import { PageHeader } from '@features/app_start';
-import { IconError, IconLoading } from '@icons';
+import Button from '@components/button';
+import InfoMessage from '@components/info-message';
+import TextField from '@components/textfield';
+import PageHeader from '@features/app_start/shared/page_header';
+import { IconError, IconLoading } from '@icons/index';
 import useAppTranslation from '@hooks/useAppTranslation';
 import useSignup from './useSignup';
 

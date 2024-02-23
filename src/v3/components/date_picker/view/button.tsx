@@ -1,9 +1,15 @@
-import React from '@services/react';
 import { BaseSingleInputFieldProps, FieldSection } from '@mui/x-date-pickers';
-import { IconDate } from '@icons';
+import { IconDate } from '@icons/index';
 import { format } from 'date-fns';
 import { Button } from '@mui/material';
-const ButtonField = ({
+import { FC } from 'react';
+
+interface ButtonFieldProps extends BaseSingleInputFieldProps<never, never, FieldSection, never> {
+  setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+  formatView: string;
+}
+
+const ButtonField: FC<ButtonFieldProps> = ({
   setOpen,
   id,
   value,
@@ -11,12 +17,7 @@ const ButtonField = ({
   InputProps: { ref } = {},
   inputProps: { 'aria-label': ariaLabel } = {},
   formatView,
-}: { setOpen?: React.Dispatch<React.SetStateAction<boolean>>; formatView: string } & BaseSingleInputFieldProps<
-  any,
-  any,
-  FieldSection,
-  any
->) => {
+}) => {
   return (
     <Button
       variant="text"

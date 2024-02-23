@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Typography } from '@components';
+import { useState, useEffect, Children, isValidElement, ReactElement } from 'react';
 import { Box } from '@mui/material';
-import IconReminder from '../icons/IconReminder';
-import { Button } from '@components';
+import Typography from '@components/typography';
+import { IconReminder } from '@icons/index';
+import Button from '@components/button';
 import { RemindersProps, ReminderItemProps } from './reminders.types';
 import {
   StyledRemindersCard,
@@ -26,8 +26,8 @@ const Reminders = ({ children }: RemindersProps) => {
   }, []);
 
   const LinkTo = () => {
-    if (React.Children.count(children) > 0 && React.isValidElement(children[0])) {
-      const firstChild = children[0] as React.ReactElement<ReminderItemProps>;
+    if (Children.count(children) > 0 && isValidElement(children[0])) {
+      const firstChild = children[0] as ReactElement<ReminderItemProps>;
       const firstChildLink = firstChild.props.link;
       return firstChildLink;
     }
@@ -63,9 +63,11 @@ const Reminders = ({ children }: RemindersProps) => {
       <StyledRemindersList>{children}</StyledRemindersList>
 
       <StyledRemindersFooter>
-        <Button variant="main" color="orange" onClick={onRemind}>
-          remind me tomorrow
-        </Button>
+        {reminderDate && (
+          <Button variant="main" color="orange" onClick={onRemind}>
+            remind me tomorrow
+          </Button>
+        )}
         <Button variant="semi-white" onClick={onGoTo}>
           Go to reports
         </Button>
@@ -75,7 +77,7 @@ const Reminders = ({ children }: RemindersProps) => {
 };
 
 const ReminderItem = (props: ReminderItemProps) => {
-  const { title, description, link } = props;
+  const { title, description } = props;
 
   return (
     <>

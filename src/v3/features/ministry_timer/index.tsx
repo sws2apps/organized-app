@@ -1,10 +1,10 @@
 import { Box } from '@mui/material';
-import { Typography } from '@components';
-import { IconAddTime, IconStart } from '@icons';
+import { IconAddTime, IconStart } from '@icons/index';
+import Typography from '@components/typography';
 import TimerButton from './components/TimerButton';
 import { useAppTranslation } from '@hooks/index';
 
-const MinistryTimer = ({ duration = '0:00' }: { duration: string }) => {
+const MinistryTimer = ({ duration = '0:00' }: { duration?: string }) => {
   const { t } = useAppTranslation();
   return (
     <Box

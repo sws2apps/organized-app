@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import logger from '@services/logger/index';
-import { useFirebaseAuth } from '.';
+import useFirebaseAuth from '@hooks/useFirebaseAuth';
 import { apiHostState, isAppLoadState, isOnlineState, visitorIDState } from '@states/app';
 import { apiValidateMe } from '@services/api/user';
 import { userSignOut } from '@services/firebase/auth';
