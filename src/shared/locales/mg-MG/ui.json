@@ -563,5 +563,6 @@
   "navMenuHelp": "Fanampiana",
   "docsUrlCode": "mg/docs",
   "useExactMidweekMeetingDate": "Hampiasa ny daty hivoriana amin’ny S-140",
-  "useSubtituteSpeaker": "Hanendry mpandahateny mpisolo toerana rehefa mpandahateny mpitsidika"
+  "useSubtituteSpeaker": "Hanendry mpandahateny mpisolo toerana rehefa mpandahateny mpitsidika",
+  "customTalk": "Lahateny hafa"
 }
