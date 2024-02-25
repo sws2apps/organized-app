@@ -40,7 +40,7 @@
   "tr_november": "November",
   "tr_december": "December",
   "tr_shortDateFormat": "MM/dd/yyyy",
-  "tr_longDateFormat": "EEE, MMM, dd yyyy",
+  "tr_longDateFormat": "EEE, MMM dd, yyyy",
   "tr_delete": "Delete",
   "tr_add": "Add"
 }
