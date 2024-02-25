@@ -12,10 +12,11 @@ const ScheduleRow = ({
   wtReaderText,
   weekType,
   eventName,
+  noMeeting,
 }) => {
   const { t } = useTranslation('source');
   const noOpeningPrayer = Setting.opening_prayer_WM_autoAssign;
-  const noAssignment = weekType === 3 || weekType === 4;
+  const noAssignment = noMeeting || weekType === 3 || weekType === 4;
 
   const personStyles = () => {
     const result = structuredClone(styles.tableColumn);
@@ -51,8 +52,11 @@ const ScheduleRow = ({
     if (weekType === 3) result = t('conventionWeek');
     if (weekType === 4) result = t('assemblyWeek');
 
-    if (eventName && eventName !== '') {
+    if (result.length > 0) {
       result += '\u000A';
+    }
+
+    if (eventName && eventName !== '') {
       result += eventName;
     }
 
