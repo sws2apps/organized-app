@@ -1,3 +1,30 @@
+# [2.118.0](https://github.com/sws2apps/cpe-sws/compare/v2.117.0...v2.118.0) (2024-02-25)
+
+
+### Bug Fixes
+
+* **views:** display event name if there is no weekend meeting ([1084e2b](https://github.com/sws2apps/cpe-sws/commit/1084e2b64f56e2c8f9904f584b87b3c41398356f))
+
+
+### Features
+
+* **deps:** bump @mui/x-date-pickers from 6.19.4 to 6.19.5 ([49ec9fa](https://github.com/sws2apps/cpe-sws/commit/49ec9fa55e7e757b020647b015123c0524f05321))
+* **deps:** bump @tanstack/react-query from 5.20.5 to 5.21.4 ([525fd92](https://github.com/sws2apps/cpe-sws/commit/525fd92034dfc6c90fbb1ad009b64f83fa5f2a13))
+* **deps:** bump @tanstack/react-query from 5.21.4 to 5.22.2 ([7464a94](https://github.com/sws2apps/cpe-sws/commit/7464a94d8802e0ef894520dd416f36cfb23bbd22))
+* **deps:** bump i18next from 23.8.2 to 23.8.3 ([a26be3e](https://github.com/sws2apps/cpe-sws/commit/a26be3eb5ce7ccce4537d3f7ba51526427a3f065))
+* **deps:** bump i18next from 23.8.3 to 23.9.0 ([d7db217](https://github.com/sws2apps/cpe-sws/commit/d7db217dda42aacd6deda699d9d4548e439a91fe))
+* **deps:** bump i18next from 23.9.0 to 23.10.0 ([d530fe3](https://github.com/sws2apps/cpe-sws/commit/d530fe3d22d2c2c204d4fa9f6e794edb32773f4e))
+* **deps:** bump react-router-dom from 6.22.0 to 6.22.1 ([f0ddd99](https://github.com/sws2apps/cpe-sws/commit/f0ddd9938b90aa797c788229424f1e52b20a8dba))
+* **deps:** bump vite from 5.1.3 to 5.1.4 ([43b8f38](https://github.com/sws2apps/cpe-sws/commit/43b8f38a461d69e39c23e53e487972156f5d2778))
+* **localize:** updated translation from Crowdin ([c6fc137](https://github.com/sws2apps/cpe-sws/commit/c6fc1373820dd7a8b47068542c74017deaac7526))
+* **localize:** updated translation from Crowdin ([741a9a6](https://github.com/sws2apps/cpe-sws/commit/741a9a617fccb4e335f4f323029775e17879a0ba))
+* **localize:** updated translation from Crowdin ([cd1ec7f](https://github.com/sws2apps/cpe-sws/commit/cd1ec7fb14308ffa41834b34b1f67ad6ea586da8))
+* **localize:** updated translation from Crowdin ([d4fb19b](https://github.com/sws2apps/cpe-sws/commit/d4fb19bd053ebdd6b6ba3220ea25c55cd74c130b))
+* **localize:** updated translation from Crowdin ([46cd0e4](https://github.com/sws2apps/cpe-sws/commit/46cd0e4ed3af2b5c8a12ce3b67e20fb705cc0355))
+* **localize:** updated translation from Crowdin ([50a859e](https://github.com/sws2apps/cpe-sws/commit/50a859e3944cfccdd0cb3793460ffe3b6a8f1400))
+* **localize:** updated translation from Crowdin ([61aaec7](https://github.com/sws2apps/cpe-sws/commit/61aaec7129293b2419d36443e448fcb9573b4c1c))
+* **schedules:** add new option to set a custom public talk ([81ed908](https://github.com/sws2apps/cpe-sws/commit/81ed908b2fc637c67adc5725f9b7df605d28249d))
+
 # [2.117.0](https://github.com/sws2apps/cpe-sws/compare/v2.116.0...v2.117.0) (2024-02-16)
 
 
