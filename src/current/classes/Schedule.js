@@ -108,6 +108,7 @@ export class ScheduleClass {
     this.speaker_2_name = '';
     this.speaker_2_dispName = '';
     this.is_visiting_speaker = false;
+    this.is_custom_talk = false;
     this.substitute_speaker = '';
     this.substitute_speaker_name = '';
     this.substitute_speaker_dispName = '';
@@ -458,6 +459,7 @@ ScheduleClass.prototype.loadDetails = async function () {
   this.week_type = appData.week_type ? +appData.week_type : 1;
   this.noMMeeting = appData.noMMeeting || false;
   this.is_visiting_speaker = appData.is_visiting_speaker || false;
+  this.is_custom_talk = appData.is_custom_talk || false;
 
   this.public_talk = appData.public_talk || '';
   if (this.public_talk !== '' && S34s.talks.length > 0) {
@@ -836,6 +838,24 @@ ScheduleClass.prototype.updateVisitingSpeaker = async function (value) {
       speaker_2: this.speaker_2,
     });
   }
+};
+
+ScheduleClass.prototype.toggleCustomTalk = async function (value) {
+  this.changes = this.changes.filter((record) => record.field !== 'is_custom_talk');
+  this.changes.push({ date: new Date().toISOString(), field: 'is_custom_talk', value });
+
+  const data = {
+    weekOf: this.weekOf,
+    is_custom_talk: value,
+    changes: this.changes,
+  };
+
+  await appDb.table('sched').update(this.weekOf, data);
+
+  this.is_custom_talk = value;
+
+  // remove talk
+  await this.savePublicTalk('');
 };
 
 ScheduleClass.prototype.saveEventName = async function (event) {

@@ -47,10 +47,12 @@ const WeekendMeetingItem = ({ weekOf }) => {
   const [wtStudy, setWtStudy] = useState('');
   const [wtStudyArticle, setWtStudyArticle] = useState('');
   const [wtReader, setWtReader] = useState('');
+  const [customTalkTitle, setCustomTalkTitle] = useState('');
   const [isVisitingSpeaker, setIsVisitingSpeaker] = useState(false);
   const [WeekType, setWeekType] = useState(1);
   const [isVisitingSpeakerOpen, setIsVisitingSpeakerOpen] = useState(false);
   const [noWMeeting, setNoWMeeting] = useState(false);
+  const [isCustomTalk, setIsCustomTalk] = useState(false);
 
   const { opening_prayer_WM_autoAssign, cong_role, weekend_meeting_useSubstituteSpeaker } = Setting;
   const coordinatorRole = cong_role.includes('coordinator');
@@ -90,6 +92,15 @@ const WeekendMeetingItem = ({ weekOf }) => {
 
     setIsVisitingSpeakerOpen(false);
     setIsVisitingSpeaker(value);
+
+    setRefreshScreen((prev) => !prev);
+  };
+
+  const handleToogleCustomTalk = async (value) => {
+    const schedule = Schedules.get(weekOf);
+    await schedule.toggleCustomTalk(value);
+
+    setIsCustomTalk(value);
 
     setRefreshScreen((prev) => !prev);
   };
@@ -144,6 +155,12 @@ const WeekendMeetingItem = ({ weekOf }) => {
     await setSelectedStudent(obj);
   };
 
+  const handleSaveCustomTalk = async (value) => {
+    setCustomTalkTitle(value);
+    const source = Sources.get(weekOf);
+    await source.saveCustomTalk(value);
+  };
+
   useEffect(() => {
     if (speaker1 === null || speaker1 === '') {
       setIsSymposium(false);
@@ -174,6 +191,8 @@ const WeekendMeetingItem = ({ weekOf }) => {
     setWtStudy(source.w_study_date_locale);
     setWtStudyArticle(source.w_study_title);
     setWtReader(schedule.wtstudy_reader);
+    setIsCustomTalk(schedule.is_custom_talk);
+    setCustomTalkTitle(source.w_talk_title_override);
   }, [weekOf, refreshScreen]);
 
   return (
@@ -258,18 +277,28 @@ const WeekendMeetingItem = ({ weekOf }) => {
                     minWidth: '320px',
                   }}
                 >
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={isVisitingSpeaker}
-                        onChange={
-                          publicTalkCoordinatorRole ? (e) => handleToggleVisitingSpeaker(e.target.checked) : null
-                        }
-                      />
-                    }
-                    sx={{ width: 'fit-content' }}
-                    label={t('talkDeliveredVisitingSpeaker')}
-                  />
+                  <Box>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={isVisitingSpeaker}
+                          onChange={
+                            publicTalkCoordinatorRole ? (e) => handleToggleVisitingSpeaker(e.target.checked) : null
+                          }
+                        />
+                      }
+                      label={t('talkDeliveredVisitingSpeaker')}
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={isCustomTalk}
+                          onChange={publicTalkCoordinatorRole ? (e) => handleToogleCustomTalk(e.target.checked) : null}
+                        />
+                      }
+                      label={t('customTalk')}
+                    />
+                  </Box>
                   <Box
                     sx={{
                       flexGrow: 1,
@@ -278,18 +307,33 @@ const WeekendMeetingItem = ({ weekOf }) => {
                       gap: '5px',
                     }}
                   >
-                    <PublicTalkSelector
-                      PublicTalk={PublicTalk}
-                      setPublicTalk={handleUpdateTalk}
-                      isVisitingSpeaker={isVisitingSpeaker}
-                      closeVisitingSpeaker={() => setIsVisitingSpeakerOpen(false)}
-                      removeSpeaker={removeSpeaker}
-                    />
-                    {publicTalkCoordinatorRole && (
-                      <IconButton onClick={handleToogleAdvancedTalkSelect}>
-                        {isTalkSelectorAdvanced && <ExpandLessIcon />}
-                        {!isTalkSelectorAdvanced && <ExpandMoreIcon />}
-                      </IconButton>
+                    {!isCustomTalk && (
+                      <>
+                        <PublicTalkSelector
+                          PublicTalk={PublicTalk}
+                          setPublicTalk={handleUpdateTalk}
+                          isVisitingSpeaker={isVisitingSpeaker}
+                          closeVisitingSpeaker={() => setIsVisitingSpeakerOpen(false)}
+                          removeSpeaker={removeSpeaker}
+                        />
+                        {publicTalkCoordinatorRole && (
+                          <IconButton onClick={handleToogleAdvancedTalkSelect}>
+                            {isTalkSelectorAdvanced && <ExpandLessIcon />}
+                            {!isTalkSelectorAdvanced && <ExpandMoreIcon />}
+                          </IconButton>
+                        )}
+                      </>
+                    )}
+
+                    {isCustomTalk && (
+                      <TextField
+                        label={t('publicTalk')}
+                        variant="outlined"
+                        fullWidth
+                        size="small"
+                        value={customTalkTitle}
+                        onChange={(e) => handleSaveCustomTalk(e.target.value)}
+                      />
                     )}
                   </Box>
                 </Box>

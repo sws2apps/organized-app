@@ -606,6 +606,7 @@ SchedulesClass.prototype.WeekendMeetingData = function (startWeek, endWeek) {
     schedule.public_talk_title = currentTalk ? currentTalk.talk_title : '';
 
     schedule.w_co_talk_title = source.w_co_talk_title;
+    schedule.w_talk_title_override = source.w_talk_title_override;
 
     schedule.speakers = schedule.speaker_1_name;
 
