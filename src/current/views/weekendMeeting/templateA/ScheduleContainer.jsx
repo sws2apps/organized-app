@@ -36,6 +36,7 @@ const ScheduleContainer = ({ data }) => {
           wtReaderText={schedule.week_type === 2 ? '' : schedule.wtstudy_reader_name}
           weekType={schedule.week_type}
           eventName={schedule.event_name}
+          noMeeting={schedule.noWMeeting}
         />
       ))}
     </Page>
