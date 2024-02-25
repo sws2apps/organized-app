@@ -31,7 +31,13 @@ const ScheduleContainer = ({ data }) => {
           weekText={schedule.weekend_meeting_date_formatted}
           chairmanText={schedule.chairman_WM_name}
           openingPrayerText={schedule.opening_prayerWM_name}
-          publicTalkText={schedule.week_type === 2 ? schedule.w_co_talk_title : schedule.public_talk_title}
+          publicTalkText={
+            schedule.is_custom_talk
+              ? schedule.w_talk_title_override
+              : schedule.week_type === 2
+              ? schedule.w_co_talk_title
+              : schedule.public_talk_title
+          }
           speakerText={schedule.week_type === 2 ? Setting.co_name : schedule.speakers}
           wtReaderText={schedule.week_type === 2 ? '' : schedule.wtstudy_reader_name}
           weekType={schedule.week_type}

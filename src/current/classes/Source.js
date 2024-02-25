@@ -53,6 +53,7 @@ export class SourceClass {
     this.mwb_song_conclude_override = '';
     this.w_study_date_locale = {};
     this.w_co_talk_title = '';
+    this.w_talk_title_override = '';
     this.w_study_title = {};
     this.w_study_opening_song = '';
     this.w_study_concluding_song = '';
@@ -107,6 +108,7 @@ SourceClass.prototype.loadDetails = async function () {
   this.w_study_concluding_song = appData.w_study_concluding_song;
   this.mwb_co_talk_title = appData.mwb_co_talk_title || '';
   this.w_co_talk_title = appData.w_co_talk_title || '';
+  this.w_talk_title_override = appData.w_talk_title_override || '';
 };
 
 SourceClass.prototype.save = async function (srcData, localOverride, forPocket) {
@@ -175,6 +177,7 @@ SourceClass.prototype.save = async function (srcData, localOverride, forPocket) 
 
   if (!forPocket || (forPocket && !coordinatorRole)) {
     this.w_co_talk_title = srcData.w_co_talk_title || '';
+    this.w_talk_title_override = srcData.w_talk_title_override || '';
     this.w_study_date_locale[source_lang] = srcData.w_study_date_locale || '';
     this.w_study_title[source_lang] = srcData.w_study_title || '';
     this.w_study_opening_song = srcData.w_study_opening_song || '';
@@ -189,6 +192,13 @@ SourceClass.prototype.save = async function (srcData, localOverride, forPocket) 
   if (!weekExist) {
     await Sources.add(this.weekOf);
   }
+};
+
+SourceClass.prototype.saveCustomTalk = async function (title, localOverride) {
+  this.w_talk_title_override = title;
+  this.keepOverride = new Date().toISOString();
+
+  await appDb.sources.put(this, this.weekOf);
 };
 
 SourceClass.prototype.local = function () {
@@ -297,6 +307,7 @@ SourceClass.prototype.local = function () {
     obj.mwb_song_conclude_override = this.mwb_song_conclude_override || '';
     obj.mwb_co_talk_title = this.mwb_co_talk_title || '';
     obj.w_co_talk_title = this.w_co_talk_title || '';
+    obj.w_talk_title_override = this.w_talk_title_override || '';
     obj.w_study_date_locale = this.w_study_date_locale[lang] || '';
     obj.w_study_title = this.w_study_title[lang] || '';
     obj.w_study_opening_song = this.w_study_opening_song || '';
