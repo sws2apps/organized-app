@@ -15,8 +15,8 @@ const LanguageSwitcher = ({ menuStyle }: { menuStyle: SxProps }) => {
     LANGUAGE_LIST,
     handleLocalizeOpen,
     handleLangChange,
-    laptopUp,
     tabletDown,
+    isAppLoad,
   } = useLanguage();
 
   return (
@@ -25,7 +25,7 @@ const LanguageSwitcher = ({ menuStyle }: { menuStyle: SxProps }) => {
         <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px' } }}>
           <IconLanguage color="var(--black)" />
         </ListItemIcon>
-        {(laptopUp || tabletDown) && (
+        {(tabletDown || !isAppLoad) && (
           <ListItemText>
             <Typography className="body-regular">{t('tr_changeLanguage')}</Typography>
           </ListItemText>
