@@ -78,7 +78,5 @@
   "tr_subject": "Subject",
   "tr_sendFeedback": "Send feedback",
   "tr_cancel": "Cancel",
-  "tr_successfullyDesc": "Your feedback has been successfully submitted",
-  "tr_manageAccess": "Manage access",
-  "tr_submitted": "Successfully submitted"
+  "tr_successfullyDesc": "Your feedback has been successfully submitted"
 }
