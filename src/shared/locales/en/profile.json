@@ -54,7 +54,7 @@
   "tr_doneDesc": "The session is terminated",
   "tr_2FAEnable": "Enable two-factor authentication",
   "tr_2FAEnableDesc": "Use the Google Authenticator or Microsoft Authenticator app on your mobile device to scan the QR code and complete the setup. ",
-  "tr_authenticationTokenDesc": "If you are unable to scan the QR code, please use the following token:",
+  "tr_authenticationTokenDesc": "If you are unable to scan the QR code, please use the following setup key:",
   "tr_authenticationToken": "Authentication token",
   "tr_codeCopied": "The code has been copied",
   "tr_codeCopiedDesc": "Paste it into your authenticator app",
