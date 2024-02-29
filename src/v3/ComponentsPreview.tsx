@@ -22,7 +22,7 @@ import { useEffect, useState } from 'react';
 import { IconAdd, IconAssign, IconClose, IconReturn, IconUndo, IconUpdate, IconInfo, IconVisitors } from '@icons';
 
 import { NavBar } from './layouts';
-import CPETimePicker from './components/time_picek';
+import CPETimePicker from './components/time_picker';
 
 const themes = ['blue', 'green', 'orange', 'purple'];
 

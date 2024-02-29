@@ -1,3 +1,5 @@
+import '../../global.css'; // Import the CSS file
+
 export const StyleTimePickerPopper = {
   '.MuiClockPointer-root': {
     backgroundColor: 'var(--accent-main)',
@@ -38,25 +40,30 @@ export const StyleTimePickerPopper = {
   },
 };
 
-export const StyleTimePickerPaper = {
-  sx: {
-    backgroundColor: 'var(--white)',
-    borderRadius: 'var(--radius-xxl)',
+const h3 = {
+  textDecoration: 'none',
+  fontFamily: 'Inter',
+  fontWeight: '570',
+  fontStyle: 'normal',
+  fontStretch: 'normal',
+  textIndent: '0px',
+  textTransform: 'none',
+  '@media (max-width: 768px)': {
+    fontSize: '16px',
+    letterSpacing: '0',
+    lineHeight: '20px',
+  },
+  '@media (min-width:768px)': {
+    fontSize: '18px',
+    letterSpacing: '0.18px',
+    lineHeight: '24px',
   },
 };
+
 export const StyleTimePickerToolbar = {
   '& > *:first-of-type': {
     color: 'var(--black)',
-    fontSize: '16px',
-    textDecoration: 'none',
-    fontFamily: 'Inter',
-    fontWeight: 570,
-    fontStyle: 'normal',
-    fontStretch: 'normal',
-    letterSpacing: '0px',
-    lineHeight: '20px',
-    textIndent: '0px',
-    textTransform: 'none',
+    ...h3,
     marginBottom: '20px',
   },
   '.MuiTimePickerToolbar-ampmLandscape': {

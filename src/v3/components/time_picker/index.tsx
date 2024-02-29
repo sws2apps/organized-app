@@ -5,7 +5,7 @@ import { Button, TextField } from '@components';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { CPETimePickerProps } from './time_picker.types';
 import { IconClock } from '@icons';
-import { StyleTimePickerPaper, StyleTimePickerPopper, StyleTimePickerToolbar } from './time_picker.style';
+import { StyleTimePickerPopper, StyleTimePickerToolbar } from './time_picker.style';
 import { useTranslation } from 'react-i18next';
 
 const TimePickerInputField = (props: TextFieldProps & { setOpen?: Dispatch<SetStateAction<boolean>> }) => {
@@ -27,17 +27,17 @@ const TimePickerInputField = (props: TextFieldProps & { setOpen?: Dispatch<SetSt
   );
 };
 
-const CPETimePicker = ({ ampm, label, initTime = null }: CPETimePickerProps) => {
+const CPETimePicker = ({ ampm, label, value, onChange }: CPETimePickerProps) => {
   const { t } = useTranslation('ui');
-  const [value, setValue] = useState<Date | null>(null);
+  const [currentValue, setCurrentValue] = useState<Date | null>(null);
   const [innerValue, setInnerValue] = useState<Date | null>(null);
   const [open, setOpen] = useState<boolean>(false);
 
   const isMobile = useMediaQuery('(max-width:600px)');
 
   useEffect(() => {
-    if (initTime === null && open) setValue(new Date());
-  }, [open, initTime]);
+    if (value === null && open) setCurrentValue(new Date());
+  }, [open, value]);
 
   const handleClickAway = () => {
     if (open) setOpen(false);
@@ -48,13 +48,17 @@ const CPETimePicker = ({ ampm, label, initTime = null }: CPETimePickerProps) => 
       <div>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <DesktopTimePicker
+            localeText={{ toolbarTitle: 'Select time' }}
             open={open}
             label={label}
             views={['hours', 'minutes']}
             orientation={isMobile ? 'portrait' : 'landscape'}
-            value={value}
+            value={currentValue}
             ampm={ampm}
-            onChange={setInnerValue}
+            onChange={(value) => {
+              setInnerValue(value);
+              if (onChange) onChange();
+            }}
             onOpen={() => setOpen(true)}
             viewRenderers={{
               hours: renderTimeViewClock,
@@ -76,7 +80,7 @@ const CPETimePicker = ({ ampm, label, initTime = null }: CPETimePickerProps) => 
                     variant="secondary"
                     onClick={() => {
                       setOpen(false);
-                      setValue(initTime);
+                      setCurrentValue(value);
                     }}
                   >
                     {t('cancel')}
@@ -84,7 +88,7 @@ const CPETimePicker = ({ ampm, label, initTime = null }: CPETimePickerProps) => 
                   <Button
                     variant="main"
                     onClick={() => {
-                      setValue(innerValue);
+                      setCurrentValue(innerValue);
                       setOpen(false);
                     }}
                   >
@@ -97,7 +101,7 @@ const CPETimePicker = ({ ampm, label, initTime = null }: CPETimePickerProps) => 
               textField: {
                 setOpen: setOpen,
                 label: label,
-                value: value,
+                value: currentValue,
               } as never,
               toolbar: {
                 hidden: false,
@@ -141,7 +145,9 @@ const CPETimePicker = ({ ampm, label, initTime = null }: CPETimePickerProps) => 
                   },
                 },
               },
-              desktopPaper: StyleTimePickerPaper,
+              desktopPaper: {
+                className: 'pop-up pop-up-shadow',
+              },
               popper: {
                 sx: {
                   ...StyleTimePickerPopper,

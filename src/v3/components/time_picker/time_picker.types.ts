@@ -1,5 +1,6 @@
 export interface CPETimePickerProps {
-  initTime?: Date | null;
   ampm: boolean;
+  value?: Date | null;
   label?: string;
+  onChange?: () => void;
 }
