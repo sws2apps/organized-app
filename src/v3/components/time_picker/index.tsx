@@ -1,12 +1,12 @@
 import { DesktopTimePicker, LocalizationProvider, renderTimeViewClock } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { Box, ClickAwayListener, Stack, TextFieldProps, useMediaQuery } from '@mui/material';
-import { Button, TextField } from '@components';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { CPETimePickerProps } from './time_picker.types';
-import { IconClock } from '@icons';
 import { StyleTimePickerPopper, StyleTimePickerToolbar } from './time_picker.style';
-import { useTranslation } from 'react-i18next';
+import { IconClock } from '@components/icons';
+import { TextField, Button } from '@components/index';
+import { useAppTranslation } from '@hooks/index';
 
 const TimePickerInputField = (props: TextFieldProps & { setOpen?: Dispatch<SetStateAction<boolean>> }) => {
   return (
@@ -28,7 +28,7 @@ const TimePickerInputField = (props: TextFieldProps & { setOpen?: Dispatch<SetSt
 };
 
 const CPETimePicker = ({ ampm, label, value, onChange }: CPETimePickerProps) => {
-  const { t } = useTranslation('ui');
+  const { t } = useAppTranslation();
   const [currentValue, setCurrentValue] = useState<Date | null>(null);
   const [innerValue, setInnerValue] = useState<Date | null>(null);
   const [open, setOpen] = useState<boolean>(false);
@@ -48,7 +48,7 @@ const CPETimePicker = ({ ampm, label, value, onChange }: CPETimePickerProps) => 
       <div>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <DesktopTimePicker
-            localeText={{ toolbarTitle: 'Select time' }}
+            localeText={{ toolbarTitle: t('tr_pickerSelectTime') }}
             open={open}
             label={label}
             views={['hours', 'minutes']}
@@ -83,7 +83,7 @@ const CPETimePicker = ({ ampm, label, value, onChange }: CPETimePickerProps) => 
                       setCurrentValue(value);
                     }}
                   >
-                    {t('cancel')}
+                    {t('tr_cancel')}
                   </Button>
                   <Button
                     variant="main"
@@ -92,7 +92,7 @@ const CPETimePicker = ({ ampm, label, value, onChange }: CPETimePickerProps) => 
                       setOpen(false);
                     }}
                   >
-                    {t('save')}
+                    {t('tr_save')}
                   </Button>
                 </Stack>
               ),

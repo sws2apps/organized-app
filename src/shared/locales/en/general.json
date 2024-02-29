@@ -42,5 +42,7 @@
   "tr_shortDateFormat": "MM/dd/yyyy",
   "tr_longDateFormat": "EEE, MMM dd, yyyy",
   "tr_delete": "Delete",
-  "tr_add": "Add"
+  "tr_add": "Add",
+  "tr_pickerSelectTime": "Select time",
+  "tr_pickerSelectDate": "Select date"
 }
