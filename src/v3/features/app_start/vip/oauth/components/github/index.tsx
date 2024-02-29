@@ -1,6 +1,6 @@
 import OAuthButtonBase from '../button_base';
 import { useAppTranslation } from '@hooks/index';
-import { IconGithub } from '@icons';
+import { IconGithub } from '@icons/index';
 import { authProvider } from '@services/firebase/auth';
 
 const provider = authProvider.GitHub;

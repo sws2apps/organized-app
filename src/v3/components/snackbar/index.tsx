@@ -1,5 +1,5 @@
 import { Snackbar, SnackbarOrigin } from '@mui/material';
-import { InfoMessage } from '@components';
+import InfoMessage from '@components/info-message';
 import { SnackbarPropsType } from './index.types';
 
 const CPESnackbar = (props: SnackbarPropsType) => {

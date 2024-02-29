@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { displayOnboardingFeedback, setIsEmailAuth, setIsUserSignIn } from '@services/recoil/app';
-import { useFeedback } from '@features/app_start';
+import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 import { useAppTranslation } from '@hooks/index';
 import { isEmailValid } from '@services/validator/index';
 import { apiRequestPasswordlesssLink } from '@services/api/user';

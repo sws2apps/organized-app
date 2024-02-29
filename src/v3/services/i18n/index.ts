@@ -1,3 +1,5 @@
+/* eslint-disable import/no-named-as-default-member */
+/* eslint-disable import/no-named-as-default */
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import { LANGUAGE_LIST } from '@constants/index';
@@ -17,6 +19,12 @@ for await (const language of LANGUAGE_LIST) {
   const onboarding = await import(`../../../shared/locales/${language.locale}/onboarding.json`).then(
     (module) => module.default
   );
+  const profile = await import(`../../../shared/locales/${language.locale}/profile.json`).then(
+    (module) => module.default
+  );
+  const ministry = await import(`../../../shared/locales/${language.locale}/ministry.json`).then(
+    (module) => module.default
+  );
 
   // load source namespace
   const source = await import(`../../../shared/locales/${language.locale}/forms-templates.json`).then(
@@ -24,7 +32,7 @@ for await (const language of LANGUAGE_LIST) {
   );
 
   resources[language.code] = {
-    ui: { ...dashboard, ...general, ...onboarding },
+    ui: { ...dashboard, ...general, ...onboarding, ...profile, ...ministry },
     source,
   };
 }

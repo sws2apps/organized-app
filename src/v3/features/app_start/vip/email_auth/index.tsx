@@ -1,9 +1,12 @@
 import { Badge, Box, Link } from '@mui/material';
-import { Button, InfoMessage, TextField, Typography } from '@components';
-import { PageHeader } from '@features/app_start';
+import Button from '@components/button';
+import InfoMessage from '@components/info-message';
+import TextField from '@components/textfield';
+import Typography from '@components/typography';
+import PageHeader from '@features/app_start/shared/page_header';
 import useAppTranslation from '@hooks/useAppTranslation';
 import useEmailAuth from './useEmailAuth';
-import { IconError, IconLoading } from '@icons';
+import { IconError, IconLoading } from '@icons/index';
 
 const EmailAuth = () => {
   const { t } = useAppTranslation();

@@ -1,6 +1,7 @@
 import { Box } from '@mui/material';
-import { AutoComplete, Typography } from '@components';
-import { IconCongregation, IconSearch } from '@icons';
+import AutoComplete from '@components/autocomplete';
+import Typography from '@components/typography';
+import { IconCongregation, IconSearch } from '@icons/index';
 import useCongregation from './useCongregation';
 import { useAppTranslation } from '@hooks/index';
 import { CountryType } from '../country_selector/index.types';
@@ -20,15 +21,15 @@ const CongregationSelector = ({
   return (
     <AutoComplete
       isOptionEqualToValue={(option, value) => option.congNumber === value.congNumber}
-      getOptionLabel={(option) => `${option.congName.trim()}, ${option.congNumber}`}
+      getOptionLabel={(option: CongregationResponseType) => `${option.congName.trim()}, ${option.congNumber}`}
       filterOptions={(x) => x}
       options={options}
       autoComplete={true}
       includeInputInList={true}
       value={value}
       onChange={(event, newValue) => {
-        setValue(newValue);
-        setCongregation(newValue);
+        setValue(newValue as CongregationResponseType);
+        setCongregation(newValue as CongregationResponseType);
       }}
       onInputChange={(event, newInputValue) => setInputValue(newInputValue)}
       loading={isLoading}

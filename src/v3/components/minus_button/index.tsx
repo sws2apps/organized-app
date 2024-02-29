@@ -1,5 +1,5 @@
 import { IconButton } from '@mui/material';
-import { IconRemove } from '@icons';
+import { IconRemove } from '@icons/index';
 
 const CPEMinusButton = () => {
   return (

@@ -76,7 +76,8 @@
   "tr_2FAIncorrect": "Falscher 2FA-Code",
   "tr_2FAIncorrectDesc": "The code might be incorrect or expired. Try again.",
   "tr_unauthorizedAccount": "Your access permissions need to be adjusted",
-  "tr_unauthorizedAccountDesc": "Contact your congregation Organized administrator to confirm your role, then try again in 5 minutes. For any further assistance, elders can contact us via email.",
+  "tr_unauthorizedAccountDesc": "Contact your congregation app administrator to confirm your role, then try again in 5 minutes. For any further assistance, elders can contact us via email.",
   "tr_noSchedulesYet": "Zurzeit kein Zeitplan vorhanden",
-  "tr_noSchedulesYetDesc": "Please ask your congregation elders to publish the meeting schedule first."
+  "tr_noSchedulesYetDesc": "Please ask your congregation elders to publish the meeting schedule first.",
+  "tr_reconnectAccount": "Reconnect my account"
 }

@@ -35,7 +35,6 @@
 	"tr_sourceImportEPUB": ".epub dosyasından içe aktar",
 	"tr_sourceImportJw": "jw.org'dan indir",
 	"tr_fieldServiceReports": "Hizmet raporu",
-	"tr_manageAccessToApps": "Erişim yönetimi",
 	"tr_myTerritories": "Benim sahalarım",
 	"tr_planMidweekMeeting": "Hafta içi toplantısını planla",
 	"tr_planWeekendMeeting": "Hafta sonu toplantısını planla",
@@ -50,8 +49,6 @@
 	"tr_reports": "Raporlar",
 	"tr_congregation": "Cemaat",
 	"tr_publishersRecords": " Müjdecilerin Kayıt Kartları",
-	"tr_organizedManageAccess": "Manage access to Organized",
-	"tr_syncOrganizedData": "Sync Organized data",
 	"tr_lastSynced": "{{ durationt }} dakika önce senkronize edildi",
 	"tr_myProfile": "Profilim",
 	"tr_shareFeedback": "Share your feedback",
@@ -63,7 +60,7 @@
 	"tr_remindMeTomorrow": "Beni yarın hatırlat",
 	"tr_goToReports": "Raporlara git",
 	"tr_noInternetConnection": "No internet connection.",
-	"tr_noInternetConnectionDesc": "Organized is working in offline mode; all the newly entered data will be synced across devices after the connection is restored.",
+	"tr_noInternetConnectionDesc": "Organized is working offline right now. When you're back online, any new data you entered will be able to sync.",
 	"tr_done": "Tamamlandı",
 	"tr_doneDesc": "Your {{ month }} report has been submitted",
 	"tr_notifications": "Bildirimler",
@@ -83,6 +80,7 @@
 	"tr_subject": "Konu",
 	"tr_sendFeedback": "Geri bildirimi gönder",
 	"tr_cancel": "İptal",
-	"tr_successfully": "Successfully",
-	"tr_successfullyDesc": "Geri bildiriminiz başarıyla gönderildi"
+	"tr_successfullyDesc": "Geri bildiriminiz başarıyla gönderildi",
+	"tr_manageAccess": "Erişim yönetimi",
+	"tr_submitted": "Successfully submitted"
 }

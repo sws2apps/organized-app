@@ -90,6 +90,7 @@ export { default as IconLoadingHourglass } from './IconLoadingHourglass';
 export { default as IconLoading } from './IconLoading';
 export { default as IconLocation } from './IconLocation';
 export { default as IconLock } from './IconLock';
+export { default as IconLogin } from './IconLogin';
 export { default as IconLogo } from './IconLogo';
 export { default as IconLogout } from './IconLogout';
 export { default as IconMail } from './IconMail';

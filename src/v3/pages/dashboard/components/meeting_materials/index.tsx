@@ -1,6 +1,6 @@
 import { ListItem } from '@mui/material';
 import { DashboardCard, DashboardMenu } from '@features/index';
-import { IconImportFile, IconJwOrg, IconPodium } from '@icons';
+import { IconImportFile, IconJwOrg, IconPodium } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
 
 const MeetingsMaterialsCard = () => {

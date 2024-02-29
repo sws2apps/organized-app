@@ -1,18 +1,22 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { setIsAboutOpen, setIsSupportOpen } from '@services/recoil/app';
+import { setIsAboutOpen, setIsAppLoad, setIsSetup, setIsSupportOpen, setOfflineOverride } from '@services/recoil/app';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
-import { isAppLoadState } from '@states/app';
+import { congAccountConnectedState, isAppLoadState } from '@states/app';
 import { congNameState, fullnameState } from '@states/settings';
 
 const useNavbar = () => {
+  const navigate = useNavigate();
+
   const { t } = useAppTranslation();
 
   const { laptopUp, tablet600Up, tabletDown, tabletUp } = useBreakpoints();
 
-  const isAppLoad = useRecoilValue(isAppLoadState);
   const fullname = useRecoilValue(fullnameState);
   const congName = useRecoilValue(congNameState);
+  const isCongAccountConnected = useRecoilValue(congAccountConnectedState);
+  const isAppLoad = useRecoilValue(isAppLoadState);
 
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -24,6 +28,26 @@ const useNavbar = () => {
 
   const handleCloseMore = () => {
     setAnchorEl(null);
+  };
+
+  const handleGoDashboard = () => {
+    navigate('/');
+  };
+
+  const handleOpenMyProfile = () => {
+    handleCloseMore();
+
+    setTimeout(() => {
+      navigate(`/my-profile`);
+    }, 500);
+  };
+
+  const handleReconnectAccount = async () => {
+    handleCloseMore();
+
+    await setOfflineOverride(true);
+    await setIsSetup(true);
+    await setIsAppLoad(true);
   };
 
   const handleOpenAbout = async () => {
@@ -50,12 +74,16 @@ const useNavbar = () => {
     handleOpenAbout,
     handleOpenSupport,
     handleOpenDoc,
-    isAppLoad,
     fullname,
     congName,
     tabletUp,
     laptopUp,
     tabletDown,
+    isCongAccountConnected,
+    handleOpenMyProfile,
+    handleGoDashboard,
+    isAppLoad,
+    handleReconnectAccount,
   };
 };
 

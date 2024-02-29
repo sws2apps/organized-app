@@ -1,6 +1,6 @@
 import OAuthButtonBase from '../button_base';
 import { useAppTranslation } from '@hooks/index';
-import { IconYahoo } from '@icons';
+import { IconYahoo } from '@icons/index';
 import { authProvider } from '@services/firebase/auth';
 
 const provider = authProvider.Yahoo;

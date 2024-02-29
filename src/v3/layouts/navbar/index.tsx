@@ -1,15 +1,20 @@
 import { Box, Container, IconButton, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material';
-import { AccountHeaderIcon, Typography } from '@components';
+import AccountHeaderIcon from '@components/account_header_icon';
+import Typography from '@components/typography';
 import { AppNotification, LanguageSwitcher, ThemeSwitcher } from '@features/index';
-import { IconDonate, IconHelp, IconInfo, IconLogo, IconMenu } from '@icons';
+import { IconAccount, IconDonate, IconHelp, IconInfo, IconLogin, IconLogo, IconMenu } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
 import useNavbar from './useNavbar';
 
-const menuStyle = {
+const baseMenuStyle = {
   padding: '8px 12px 8px 16px',
   minHeight: '40px',
   height: '40px',
   gap: '8px',
+};
+
+const menuStyle = {
+  ...baseMenuStyle,
   '&:hover': {
     backgroundColor: 'var(--accent-100)',
     '& p': {
@@ -38,6 +43,11 @@ const NavBar = () => {
     tabletUp,
     laptopUp,
     tabletDown,
+    isCongAccountConnected,
+    handleOpenMyProfile,
+    handleGoDashboard,
+    isAppLoad,
+    handleReconnectAccount,
   } = useNavbar();
 
   return (
@@ -64,7 +74,10 @@ const NavBar = () => {
           justifyContent: 'space-between',
         }}
       >
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: { mobile: '8px', tablet: '16px' } }}>
+        <Box
+          sx={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: { mobile: '8px', tablet: '16px' } }}
+          onClick={handleGoDashboard}
+        >
           <IconLogo width={40} height={40} />
           <Typography className="h3" color="var(--black)">
             {tablet600Up ? t('tr_appFullName') : t('tr_appShortName')}
@@ -74,7 +87,7 @@ const NavBar = () => {
           <AppNotification />
           <ThemeSwitcher />
 
-          {tabletUp && <LanguageSwitcher menuStyle={menuStyle} />}
+          {tabletUp && <LanguageSwitcher menuStyle={baseMenuStyle} />}
 
           <IconButton
             color="inherit"
@@ -117,6 +130,7 @@ const NavBar = () => {
               </Box>
             )}
           </IconButton>
+
           <Menu
             id="menu-language"
             disableScrollLock={true}
@@ -150,6 +164,26 @@ const NavBar = () => {
           >
             {tabletDown && <LanguageSwitcher menuStyle={menuStyle} />}
 
+            {isCongAccountConnected && (
+              <MenuItem disableRipple sx={menuStyle} onClick={handleOpenMyProfile}>
+                <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px' } }}>
+                  <IconAccount color="var(--black)" />
+                </ListItemIcon>
+                <ListItemText>
+                  <Typography className="body-regular">{t('tr_myProfile')}</Typography>
+                </ListItemText>
+              </MenuItem>
+            )}
+            {!isAppLoad && !isCongAccountConnected && (
+              <MenuItem disableRipple sx={menuStyle} onClick={handleReconnectAccount}>
+                <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px' } }}>
+                  <IconLogin color="var(--black)" />
+                </ListItemIcon>
+                <ListItemText>
+                  <Typography className="body-regular">{t('tr_reconnectAccount')}</Typography>
+                </ListItemText>
+              </MenuItem>
+            )}
             <MenuItem disableRipple sx={menuStyle} onClick={handleOpenSupport}>
               <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px' } }}>
                 <IconDonate color="var(--black)" />

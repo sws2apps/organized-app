@@ -35,7 +35,6 @@
 	"tr_sourceImportEPUB": "Aus .epub Datei importieren",
 	"tr_sourceImportJw": "Aus jw.org importieren",
 	"tr_fieldServiceReports": "Predigtdienstberichte",
-	"tr_manageAccessToApps": "Zugriff verwalten",
 	"tr_myTerritories": "Meine Gebiete",
 	"tr_planMidweekMeeting": "Plan midweek meeting",
 	"tr_planWeekendMeeting": "Plan weekend meeting",
@@ -50,8 +49,6 @@
 	"tr_reports": "Berichte",
 	"tr_congregation": "Versammlung",
 	"tr_publishersRecords": "Publishers records",
-	"tr_organizedManageAccess": "Manage access to Organized",
-	"tr_syncOrganizedData": "Sync Organized data",
 	"tr_lastSynced": "Synchronisiert vor {{ durationt }} Minuten",
 	"tr_myProfile": "Mein Profil",
 	"tr_shareFeedback": "Share your feedback",
@@ -63,7 +60,7 @@
 	"tr_remindMeTomorrow": "Remind me tomorrow",
 	"tr_goToReports": "Zu Berichten",
 	"tr_noInternetConnection": "No internet connection.",
-	"tr_noInternetConnectionDesc": "Organized is working in offline mode; all the newly entered data will be synced across devices after the connection is restored.",
+	"tr_noInternetConnectionDesc": "Organized is working offline right now. When you're back online, any new data you entered will be able to sync.",
 	"tr_done": "Done",
 	"tr_doneDesc": "Your {{ month }} report has been submitted",
 	"tr_notifications": "Notifications",
@@ -83,6 +80,7 @@
 	"tr_subject": "Thema",
 	"tr_sendFeedback": "Send feedback",
 	"tr_cancel": "Abbrechen",
-	"tr_successfully": "Successfully",
-	"tr_successfullyDesc": "Your feedback has been successfully submitted"
+	"tr_successfullyDesc": "Your feedback has been successfully submitted",
+	"tr_manageAccess": "Zugriff verwalten",
+	"tr_submitted": "Successfully submitted"
 }

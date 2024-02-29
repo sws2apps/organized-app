@@ -16,7 +16,7 @@ export const firstnameState = selector({
   get: ({ get }) => {
     const settings = get(settingsState);
 
-    return settings.firstname || '';
+    return settings?.firstname?.value || '';
   },
 });
 
@@ -25,7 +25,7 @@ export const lastnameState = selector({
   get: ({ get }) => {
     const settings = get(settingsState);
 
-    return settings.lastname || '';
+    return settings?.lastname?.value || '';
   },
 });
 
@@ -152,7 +152,7 @@ export const autoBackupState = selector({
   get: ({ get }) => {
     const settings = get(settingsState);
 
-    return settings.autoBackup || false;
+    return settings?.autoBackup?.value || false;
   },
 });
 
@@ -161,7 +161,7 @@ export const autoBackupIntervalState = selector({
   get: ({ get }) => {
     const settings = get(settingsState);
 
-    return settings.autoBackup_interval || 5;
+    return settings?.autoBackup_interval?.value || 5;
   },
 });
 

@@ -10,5 +10,5 @@ export type SnackbarPropsType = {
   actionClick?: VoidFunction;
   actionText?: string;
   position?: 'bottom-center' | 'top-center';
-  onClose: VoidFunction;
+  onClose?: VoidFunction;
 };

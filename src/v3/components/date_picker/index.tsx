@@ -1,17 +1,16 @@
+import { useCallback, useEffect, useState } from 'react';
+/* eslint-disable import/no-duplicates */
+import { addYears, getWeeksInMonth, startOfYear, subYears, format } from 'date-fns';
 import { enUS } from 'date-fns/locale';
+/* eslint-enable import/no-duplicates */
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { useCallback, useEffect, useState } from 'react';
-import { addYears, getWeeksInMonth, startOfYear, subYears } from 'date-fns';
-import Stack from '@mui/material/Stack';
-import { format } from 'date-fns';
-import { ClickAwayListener } from '@mui/material';
-import { Button, Typography } from '@components';
+import { Box, ClickAwayListener, Stack } from '@mui/material';
+import Button from '@components/button';
+import Typography from '@components/typography';
 import { DesktopDatePicker } from '@mui/x-date-pickers';
-import '../../global.css';
-import React from '@services/react';
-import ButtonField from './view/button';
 import { CPEDatePickerProps } from './date_picker.types';
+import ButtonField from './view/button';
 import DatePickerInputField from './view/input';
 import {
   StyleDatePickerActionBar,
@@ -21,21 +20,26 @@ import {
   StyleDatePickerPopper,
   StyleDatePickerToolbar,
 } from './date_picker.style';
-import { useTranslation } from 'react-i18next';
+import { useAppTranslation } from '@hooks/index';
 
 const CPEDatePicker = ({
-  initDate = null,
-  view,
+  value = null,
+  onChange,
+  view = 'input',
   label,
   disablePast,
   limitYear = false,
-  buttonViewFormat = 'dd MMM yyyy',
-  toolbarInputViewFormat = 'EEE, dd MMM yyyy',
+  shortDateFormat,
+  longDateFormat,
 }: CPEDatePickerProps) => {
-  const { t } = useTranslation('ui');
+  const { t } = useAppTranslation();
+
+  const shortDateFormatLocale = shortDateFormat || t('tr_shortDateFormat');
+  const longDateFormatLocale = longDateFormat || t('tr_longDateFormat');
+
   const [open, setOpen] = useState<boolean>(false);
-  const [value, setValue] = useState<Date | null>(null);
-  const [innerValue, setInnerValue] = useState<Date | null>(initDate);
+  const [valueTmp, setValueTmp] = useState<Date | null>(value);
+  const [innerValue, setInnerValue] = useState<Date | null>(value);
 
   const [height, setHeight] = useState('300px'); // Initial height
 
@@ -49,15 +53,26 @@ const CPEDatePicker = ({
   };
 
   useEffect(() => {
-    if (initDate === null && open) setInnerValue(new Date());
-  }, [initDate, open]);
+    if (value === null && open) setInnerValue(new Date());
+  }, [value, open]);
 
   const viewProps = view === 'button' ? { field: ButtonField } : { textField: DatePickerInputField };
 
+  const handleFormatSelected = (value) => {
+    if (isNaN(Date.parse(value))) return '***';
+
+    return format(value, longDateFormatLocale);
+  };
+
+  const handleValueChange = (value) => {
+    setInnerValue(value);
+    onChange && onChange(value);
+  };
+
   return (
     <ClickAwayListener onClickAway={handleClickAway}>
-      <div>
-        <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={enUS}>
+      <Box sx={{ width: '100%' }}>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
           <DesktopDatePicker
             slots={{
               ...viewProps,
@@ -67,7 +82,8 @@ const CPEDatePicker = ({
                     variant="secondary"
                     onClick={() => {
                       setOpen(false);
-                      setValue(initDate);
+                      setValueTmp(value);
+                      onChange && onChange(value);
                     }}
                   >
                     {t('cancel')}
@@ -75,7 +91,7 @@ const CPEDatePicker = ({
                   <Button
                     variant="main"
                     onClick={() => {
-                      setValue(innerValue);
+                      setValueTmp(innerValue);
                       setOpen(false);
                     }}
                   >
@@ -92,9 +108,9 @@ const CPEDatePicker = ({
                   }}
                 >
                   <Typography className="body-small-semibold" color={'var(--grey-400)'}>
-                    Select date
+                    {t('tr_selectDate')}
                   </Typography>
-                  <Typography className="h2">{`${format(innerValue, toolbarInputViewFormat)}`}</Typography>
+                  <Typography className="h2">{`${handleFormatSelected(innerValue)}`}</Typography>
                 </Stack>
               ),
             }}
@@ -105,18 +121,15 @@ const CPEDatePicker = ({
             yearsPerRow={3}
             showDaysOutsideCurrentMonth={true}
             onMonthChange={changeHeight}
-            onChange={setInnerValue}
+            onChange={handleValueChange}
             onOpen={() => setOpen(true)}
             slotProps={{
               textField: {
-                setOpen: setOpen as never,
+                onClick: () => setOpen(true),
                 label: label,
-                value: value,
-              } as never,
-              field: {
-                setOpen,
-                formatView: buttonViewFormat,
-              } as never,
+                value: valueTmp,
+              },
+              field: { format: shortDateFormatLocale },
               popper: {
                 sx: {
                   ...StyleDatePickerPopper,
@@ -146,7 +159,7 @@ const CPEDatePicker = ({
             }}
           />
         </LocalizationProvider>
-      </div>
+      </Box>
     </ClickAwayListener>
   );
 };

@@ -1,7 +1,7 @@
-import PropTypes from 'prop-types';
 import { Box } from '@mui/material';
-import { AutoComplete, Typography } from '@components';
-import { IconFindCountry, IconSearch } from '@icons';
+import AutoComplete from '@components/autocomplete';
+import Typography from '@components/typography';
+import { IconFindCountry, IconSearch } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
 import useCountry from './useCountry';
 import { CountryType } from './index.types';
@@ -19,7 +19,7 @@ const CountrySelector = ({ handleCountryChange }: { handleCountryChange: (value:
       onOpen={() => setOpenPicker(true)}
       onClose={() => setOpenPicker(false)}
       isOptionEqualToValue={(option, value) => option.code === value.code}
-      getOptionLabel={(option) => option.name}
+      getOptionLabel={(option: CountryType) => option.name}
       options={options}
       renderOption={(props, option) => (
         <Box component="li" {...props} sx={{ margin: 0, padding: 0 }}>
@@ -28,16 +28,12 @@ const CountrySelector = ({ handleCountryChange }: { handleCountryChange: (value:
       )}
       loading={isLoading}
       value={selected}
-      onChange={(e, value) => handleOnChange(value)}
+      onChange={(e, value: CountryType) => handleOnChange(value)}
       label={t('tr_selectCountry')}
       startIcon={<IconFindCountry color={selected ? 'var(--black)' : 'var(--accent-350)'} />}
       endIcon={<IconSearch color={selected ? 'var(--black)' : 'var(--accent-350)'} />}
     />
   );
-};
-
-CountrySelector.propTypes = {
-  handleCountryChange: PropTypes.func.isRequired,
 };
 
 export default CountrySelector;
