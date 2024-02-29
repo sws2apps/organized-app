@@ -54,8 +54,6 @@
   "tr_doneDesc": "The session is terminated",
   "tr_2FAEnable": "Enable two-factor authentication",
   "tr_2FAEnableDesc": "Use the Google Authenticator or Microsoft Authenticator app on your mobile device to scan the QR code and complete the setup. ",
-  "tr_authenticationTokenDesc": "If you are unable to scan the QR code, please use the following token:",
-  "tr_authenticationToken": "Authentication token",
   "tr_codeCopied": "The code has been copied",
   "tr_codeCopiedDesc": "Paste it into your authenticator app",
   "tr_2FAEnabled": "Two-factor authentication is enabled",
@@ -72,5 +70,7 @@
   "tr_PINConfirmDesc": "Confirm your PIN to complete the setup.",
   "tr_PINSet": "Set pin",
   "tr_PINNewSet": "New PIN set",
-  "tr_PINNewSetDesc": "You can now use it to unlock the Organized app"
+  "tr_PINNewSetDesc": "You can now use it to unlock the Organized app",
+  "tr_setupKey": "Setup key",
+  "tr_tr_setupKeyDesc": "If you are unable to scan the QR code, please use the following setup key:"
 }
