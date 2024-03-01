@@ -303,6 +303,12 @@ const ComponentPreview = () => {
                   <Checkbox indeterminate={true} />
                   <Checkbox checked={false} disabled={true} />
                   <Checkbox checked={true} disabled={true} />
+                  <Checkbox
+                    isBorder={true}
+                    checked={checked}
+                    label={'Monday'}
+                    onChange={(e) => setChecked(e.target.checked)}
+                  />
                 </Box>
               </Box>
 
