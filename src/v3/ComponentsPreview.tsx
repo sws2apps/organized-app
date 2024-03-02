@@ -18,6 +18,8 @@ import {
   ReminderItem,
   Tabs,
   SearchBar,
+  Accordion,
+  PublicWitnessingAccordion,
 } from '@components/index';
 import { useEffect, useState } from 'react';
 import { IconAdd, IconAssign, IconClose, IconReturn, IconUndo, IconUpdate, IconInfo, IconVisitors } from '@icons/index';
@@ -152,6 +154,25 @@ const ComponentPreview = () => {
 
       <Container maxWidth={false} sx={{ maxWidth: '1440px' }}>
         <Box sx={{ margin: '80px 0px' }}>
+          <Box marginBottom={2} sx={{ display: 'flex', flexDirection: 'row', gap: '25px' }}>
+            <Box>
+              <PublicWitnessingAccordion label={'11:00 - 12:00'} witnesses={['Ruben Curtis', 'Cooper Donin']} />
+            </Box>
+            <Box>
+              <PublicWitnessingAccordion label={'11:00 - 12:00'} witnesses={['Ruben Curtis']} />
+            </Box>
+            <Box>
+              <PublicWitnessingAccordion label={'11:00 - 12:00'} />
+            </Box>
+            <Box>
+              <PublicWitnessingAccordion label={'11:00 - 12:00'} disabled />
+            </Box>
+          </Box>
+          <Box marginBottom={2} sx={{ display: 'flex', flexDirection: 'row', gap: '8px', width: '100px' }}>
+            <Badge text="1 available" color="accent" size="medium" filled fullWidth centerContent />
+            <Badge text="0 available" color="red" size="medium" filled />
+            <Badge text="8 available" color="transparent" size="medium" centerContent fullWidth borderStyle="dashed" />
+          </Box>
           <Box sx={{ display: 'flex', flexDirection: 'row', gap: '25px' }}>
             <DatePicker view={'input'} label={'Start date'} />
             <DatePicker view={'input'} label={'End date'} />

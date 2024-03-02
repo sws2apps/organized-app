@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Stack } from '@mui/material';
 import { styled } from '@mui/system';
 
 export const StyleDatePickerDay = {
@@ -118,13 +118,13 @@ export const StyleDatePickerPopper = {
   },
 };
 
-export const StyledIconWrapper = styled(Box)({
+export const StyledIconWrapper = styled(Stack)({
   '& svg:hover': {
     background: 'var(--accent-350-base)',
     borderRadius: 'var(--radius-xl, 8px)',
     cursor: 'pointer',
   },
   '& svg g, & svg g path': {
-    fill: 'var(--accent-350)',
+    fill: 'var(--accent-350) !important',
   },
 });

@@ -125,11 +125,14 @@ const CPEDatePicker = ({
             onOpen={() => setOpen(true)}
             slotProps={{
               textField: {
-                onClick: () => setOpen(true),
+                // onClick: () => setOpen(true),
                 label: label,
                 value: valueTmp,
               },
-              field: { format: shortDateFormatLocale },
+              field: {
+                format: shortDateFormatLocale,
+                setOpen: setOpen,
+              } as never,
               popper: {
                 sx: {
                   ...StyleDatePickerPopper,
