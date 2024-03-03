@@ -13,19 +13,27 @@ const CPEPublicWitnessingPlaceCard = ({
   disabled,
 }: PublicWitnessingPlaceCardProps) => {
   return (
-    <CardWrapper view={'default'} component="div" style={{ borderRadius: 'var(--radius-l)' }} disabled={disabled}>
-      <Stack style={{ width: '100%' }} direction={'row'} justifyContent={'space-between'}>
-        <Stack direction={'row'} spacing={1}>
+    <CardWrapper view={'default'} component="div" disabled={disabled}>
+      <Stack style={{ width: '100%' }} direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
+        <Stack direction={'row'} spacing={1} alignItems={'center'}>
           <IconPin color={'var(--black)'} />
           <Typography className={'h2'}>{label}</Typography>
         </Stack>
         <>
           {isEdit ? (
             <Stack direction={'row'} spacing={1}>
-              <StyledIconWrapper onClick={onEditClick && onEditClick}>
+              <StyledIconWrapper
+                onClick={() => {
+                  onEditClick && onEditClick();
+                }}
+              >
                 <IconDelete color={'var(--red-main)'} />
               </StyledIconWrapper>
-              <StyledIconWrapper onClick={onDeleteClick && onDeleteClick}>
+              <StyledIconWrapper
+                onClick={() => {
+                  onDeleteClick && onDeleteClick();
+                }}
+              >
                 <IconEdit color={'var(--accent-dark)'} />
               </StyledIconWrapper>
             </Stack>

@@ -6,7 +6,7 @@ import { PublicWitnessingViewProps } from '../public_witnessing_card.types';
 const PublicWitnessingDayView = (props: PublicWitnessingViewProps) => {
   const { witnesses, needWitnesses, disabled, isContent, ...rest } = props;
   return (
-    <Stack style={{ width: '100%' }} direction={'row'}>
+    <Stack style={{ width: '100%' }} direction={'row'} justifyContent={'space-between'}>
       <Typography
         sx={{ marginRight: '15px', textWrap: 'nowrap' }}
         className={'body-small-semibold'}

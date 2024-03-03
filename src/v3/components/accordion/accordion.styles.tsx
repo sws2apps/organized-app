@@ -10,6 +10,7 @@ export const Accordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
 ))(() => ({
   backgroundColor: 'inherit',
+  width: '100%',
   '&.Mui-disabled': {
     backgroundColor: 'inherit',
   },
@@ -19,7 +20,11 @@ export const AccordionSummary = styled((props: AccordionSummaryProps & Accordion
   <MuiAccordionSummary
     expandIcon={
       props.view !== 'default' ? (
-        <Stack onClick={props.onIconClick && props.onIconClick}>
+        <Stack
+          onClick={() => {
+            props.onIconClick && props.onIconClick();
+          }}
+        >
           <IconExpand color={props.view === 'searching' ? 'var(--orange-main)' : 'var(--accent-400)'} />
         </Stack>
       ) : null
