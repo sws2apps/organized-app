@@ -11,6 +11,9 @@ export interface CPEAccordionProps {
   children?: ReactNode;
   disabled?: boolean;
 }
-export interface PublicWitnessingAccordionProps {
-  witnesses?: string[];
+
+export interface AccordionViewProps {
+  view: CPEAccordionVariant;
+  onIconClick?: () => void;
+  isDesktopExpanded?: boolean;
 }

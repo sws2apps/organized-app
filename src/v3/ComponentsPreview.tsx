@@ -1,4 +1,4 @@
-import { Box, Container, MenuItem, TextField } from '@mui/material';
+import { Box, Container, MenuItem, Stack, TextField } from '@mui/material';
 import {
   Button,
   Checkbox,
@@ -18,8 +18,8 @@ import {
   ReminderItem,
   Tabs,
   SearchBar,
-  Accordion,
-  PublicWitnessingAccordion,
+  PublicWitnessingTimeCard,
+  PublicWitnessingPlaceCard,
 } from '@components/index';
 import { useEffect, useState } from 'react';
 import { IconAdd, IconAssign, IconClose, IconReturn, IconUndo, IconUpdate, IconInfo, IconVisitors } from '@icons/index';
@@ -155,19 +155,47 @@ const ComponentPreview = () => {
       <Container maxWidth={false} sx={{ maxWidth: '1440px' }}>
         <Box sx={{ margin: '80px 0px' }}>
           <Box marginBottom={2} sx={{ display: 'flex', flexDirection: 'row', gap: '25px' }}>
+            <PublicWitnessingPlaceCard label={'Time Square'} />
+            <PublicWitnessingPlaceCard label={'Time Square'} isEdit={true} />
+          </Box>
+          <Box marginBottom={2} sx={{ display: 'flex', flexDirection: 'row', gap: '25px' }}>
             <Box>
-              <PublicWitnessingAccordion label={'11:00 - 12:00'} witnesses={['Ruben Curtis', 'Cooper Donin']} />
+              <PublicWitnessingTimeCard
+                label={'11:00 - 12:00'}
+                witnesses={['Ruben Curtis', 'Cooper Donin']}
+                needWitnesses={2}
+              />
             </Box>
             <Box>
-              <PublicWitnessingAccordion label={'11:00 - 12:00'} witnesses={['Ruben Curtis']} />
+              <PublicWitnessingTimeCard
+                label={'11:00 - 12:00'}
+                witnesses={['Ruben Curtis', 'Cooper Donin']}
+                needWitnesses={3}
+              />
             </Box>
             <Box>
-              <PublicWitnessingAccordion label={'11:00 - 12:00'} />
+              <PublicWitnessingTimeCard label={'11:00 - 12:00'} />
             </Box>
             <Box>
-              <PublicWitnessingAccordion label={'11:00 - 12:00'} disabled />
+              <PublicWitnessingTimeCard label={'11:00 - 12:00'} disabled />
             </Box>
           </Box>
+          <Stack marginBottom={2} spacing={2} direction={'column'}>
+            <PublicWitnessingTimeCard
+              isDay={true}
+              label={'11:00 - 12:00'}
+              witnesses={['Ruben Curtis', 'Cooper Donin']}
+              needWitnesses={2}
+            />
+            <PublicWitnessingTimeCard
+              isDay={true}
+              label={'11:00 - 12:00'}
+              witnesses={['Ruben Curtis', 'Cooper Donin']}
+              needWitnesses={4}
+            />
+            <PublicWitnessingTimeCard label={'11:00 - 12:00'} isDay={true} />
+            <PublicWitnessingTimeCard label={'11:00 - 12:00'} isDay={true} disabled />
+          </Stack>
           <Box marginBottom={2} sx={{ display: 'flex', flexDirection: 'row', gap: '8px', width: '100px' }}>
             <Badge text="1 available" color="accent" size="medium" filled fullWidth centerContent />
             <Badge text="0 available" color="red" size="medium" filled />
@@ -175,8 +203,6 @@ const ComponentPreview = () => {
           </Box>
           <Box sx={{ display: 'flex', flexDirection: 'row', gap: '25px' }}>
             <DatePicker view={'input'} label={'Start date'} />
-            <DatePicker view={'input'} label={'End date'} />
-            <DatePicker view={'input'} label={'Limit year'} limitYear={true} />
             <DatePicker view={'button'} />
           </Box>
 

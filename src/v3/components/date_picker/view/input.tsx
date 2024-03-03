@@ -1,12 +1,10 @@
 import { Dispatch, SetStateAction } from 'react';
-import { Box, Stack, TextFieldProps } from '@mui/material';
+import { TextFieldProps } from '@mui/material';
 import TextField from '@components/textfield';
 import { IconDate } from '@icons/index';
-import { StyledIconWrapper } from '../date_picker.style';
+import { StyledIconWrapper } from '../date_picker.styles';
 
 const DatePickerInputField = (props: TextFieldProps & { setOpen?: Dispatch<SetStateAction<boolean>> }) => {
-  console.log(props.setOpen);
-
   return (
     <TextField
       {...props}

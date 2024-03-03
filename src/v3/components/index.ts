@@ -31,4 +31,7 @@ export { default as DatePicker } from './date_picker';
 export { Reminders, ReminderItem } from './reminders/index';
 export { default as SearchBar } from './search_bar/index';
 export { default as Accordion } from './accordion/index';
-export { default as PublicWitnessingAccordion } from './accordion/public_witnessing_accordion';
+export {
+  CPEPublicWitnessingPlaceCard as PublicWitnessingPlaceCard,
+  CPEPublicWitnessingTimeCard as PublicWitnessingTimeCard,
+} from './public_witnessing_card/index';

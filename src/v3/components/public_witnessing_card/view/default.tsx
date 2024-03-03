@@ -1,15 +1,21 @@
-import Accordion from '.';
+import Accordion from '@components/accordion';
 import { Stack } from '@mui/material';
 import Typography from '@components/typography';
 import { IconPerson } from '@icons/index';
-import { CPEAccordionProps, PublicWitnessingAccordionProps } from '@components/accordion/accordion.types';
+import { PublicWitnessingViewProps } from '../public_witnessing_card.types';
 
-const PublicWitnessingAccordion = (props: CPEAccordionProps & PublicWitnessingAccordionProps) => {
-  const { witnesses, ...rest } = props;
+const PublicWitnessingDefaultView = (props: PublicWitnessingViewProps) => {
+  const { witnesses, needWitnesses, isContent, ...rest } = props;
   return (
     <Accordion
       {...rest}
-      variant={witnesses && witnesses.length === 1 ? 'searching' : witnesses && witnesses.length ? 'dashed' : 'default'}
+      variant={
+        isContent && witnesses.length < needWitnesses
+          ? 'searching'
+          : isContent && witnesses.length
+            ? 'dashed'
+            : 'default'
+      }
     >
       {witnesses ? (
         <Stack direction={'column'}>
@@ -18,18 +24,18 @@ const PublicWitnessingAccordion = (props: CPEAccordionProps & PublicWitnessingAc
                 <Typography
                   key={index}
                   className={'body-small-semibold'}
-                  color={witnesses.length === 1 ? 'var(--orange-dark)' : 'var(--accent-400)'}
+                  color={witnesses.length < needWitnesses ? 'var(--orange-dark)' : 'var(--accent-400)'}
                 >
                   {x}
                 </Typography>
               ))
             : null}
-          {witnesses && witnesses.length === 1 ? (
+          {isContent && witnesses.length < needWitnesses ? (
             <Stack direction={'row'} alignItems={'center'}>
               <IconPerson color={'var(--orange-dark)'} width={20} height={20} />
               <Typography
                 className={'label-small-medium'}
-                color={witnesses.length === 1 ? 'var(--orange-dark)' : 'var(--accent-400)'}
+                color={isContent && witnesses.length < needWitnesses ? 'var(--orange-dark)' : 'var(--accent-400)'}
               >
                 Partner needed
               </Typography>
@@ -41,4 +47,4 @@ const PublicWitnessingAccordion = (props: CPEAccordionProps & PublicWitnessingAc
   );
 };
 
-export default PublicWitnessingAccordion;
+export default PublicWitnessingDefaultView;

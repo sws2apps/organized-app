@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 /* eslint-disable import/no-duplicates */
 import { addYears, getWeeksInMonth, startOfYear, subYears, format } from 'date-fns';
 import { enUS } from 'date-fns/locale';
@@ -19,7 +19,7 @@ import {
   StyleDatePickerLayout,
   StyleDatePickerPopper,
   StyleDatePickerToolbar,
-} from './date_picker.style';
+} from './date_picker.styles';
 import { useAppTranslation } from '@hooks/index';
 
 const CPEDatePicker = ({
@@ -41,12 +41,16 @@ const CPEDatePicker = ({
   const [valueTmp, setValueTmp] = useState<Date | null>(value);
   const [innerValue, setInnerValue] = useState<Date | null>(value);
 
-  const [height, setHeight] = useState('300px'); // Initial height
+  const [height, setHeight] = useState<number>(240); // Initial height
 
-  const changeHeight = useCallback((event) => {
-    if (getWeeksInMonth(new Date(event), { locale: enUS, weekStartsOn: 1 }) === 6) setHeight('340px');
-    else setHeight('300px');
+  useEffect(() => {
+    if (getWeeksInMonth(new Date(), { locale: enUS, weekStartsOn: 0 }) === 6) setHeight(290);
   }, []);
+
+  const changeHeight = (event) => {
+    if (getWeeksInMonth(new Date(event), { locale: enUS, weekStartsOn: 0 }) === 6) setHeight(290);
+    else setHeight(240);
+  };
 
   const handleClickAway = () => {
     if (open) setOpen(false);
@@ -77,7 +81,7 @@ const CPEDatePicker = ({
             slots={{
               ...viewProps,
               actionBar: () => (
-                <Stack direction={'row'} justifyContent={'space-between'} p={'12px'}>
+                <Stack direction={'row'} justifyContent={'space-between'} p={'12px'} gap={'12px'}>
                   <Button
                     variant="secondary"
                     onClick={() => {
@@ -125,32 +129,43 @@ const CPEDatePicker = ({
             onOpen={() => setOpen(true)}
             slotProps={{
               textField: {
-                // onClick: () => setOpen(true),
+                setOpen,
                 label: label,
                 value: valueTmp,
-              },
+              } as never,
               field: {
-                format: shortDateFormatLocale,
-                setOpen: setOpen,
+                value: valueTmp,
+                formatView: shortDateFormatLocale,
+                setOpen,
               } as never,
               popper: {
                 sx: {
                   ...StyleDatePickerPopper,
                   '.MuiDateCalendar-viewTransitionContainer': {
                     overflow: 'hidden',
-                    height: height,
-                    minHeight: height,
-                    transition: 'min-height 0.5s ease',
+                    // height: 'auto',
+                    // height: height,
+                    // minHeight: height,
+                    // height: height,
+                    // transition: 'min-height 0.5s ease',
                   },
                   '.MuiYearCalendar-root': {
-                    width: 'inherit',
-                    minHeight: height,
-                    height: height,
+                    // width: 'inherit',
+                    // height: 'auto',
+                    // minHeight: 'unset',
+                    // minHeight: height,
+                    // height: height,
                   },
                   '.MuiDayCalendar-slideTransition': {
-                    minHeight: height,
-                    height: height,
-                    overflowY: 'hidden',
+                    minHeight: `${height}px`,
+                    // height: height,
+                    // height: 'auto',
+                    // minHeight: 'auto',
+                    // overflowY: 'hidden',
+                    // transition: 'min-height 0.5s ease',
+                    '@media (max-width:322px)': {
+                      minHeight: `${height - 38}px`,
+                    },
                   },
                 },
               },

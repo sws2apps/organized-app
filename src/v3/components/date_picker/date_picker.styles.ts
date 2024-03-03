@@ -21,6 +21,10 @@ export const StyleDatePickerDay = {
     '.MuiPickersYear-yearButton:hover': {
       backgroundColor: 'red',
     },
+    '@media (max-width:430px)': {
+      // width: 'calc(100vw / 7)',
+      height: '100%',
+    },
   },
 };
 
@@ -65,6 +69,9 @@ export const StyleDatePickerLayout = {
 
 export const StyleDatePickerPopper = {
   width: '360px',
+  '@media (max-width:430px)': {
+    width: '90vw',
+  },
   '.MuiPickersLayout-root': {
     display: 'flex',
     flexDirection: 'column',
@@ -94,11 +101,17 @@ export const StyleDatePickerPopper = {
     overflowY: 'hidden',
     maxHeight: 'unset',
     height: 'auto',
+    '@media (max-width:376px)': {
+      padding: '0 5px',
+    },
   },
   '.MuiDayCalendar-weekContainer': {
     height: '48px',
     padding: '4px 0',
     margin: 'unset',
+    '@media (max-width:374px)': {
+      height: '41px',
+    },
   },
   '.MuiDayCalendar-header': {
     height: '48px',
@@ -119,10 +132,20 @@ export const StyleDatePickerPopper = {
 };
 
 export const StyledIconWrapper = styled(Stack)({
+  ':hover': {
+    // background: 'var(--accent-200)',
+    // borderRadius: 'var(--radius-xl, 8px)',
+    cursor: 'pointer',
+  },
+
   '& svg:hover': {
     background: 'var(--accent-350-base)',
-    borderRadius: 'var(--radius-xl, 8px)',
-    cursor: 'pointer',
+    // borderRadius: 'var(--radius-xl, 8px)',
+    // cursor: 'pointer',
+
+    '& g, & g path': {
+      fill: 'var(--accent-400) !important',
+    },
   },
   '& svg g, & svg g path': {
     fill: 'var(--accent-350) !important',
