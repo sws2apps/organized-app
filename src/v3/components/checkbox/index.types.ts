@@ -6,4 +6,5 @@ export type CheckboxPropsType = {
   disabled?: boolean;
   onChange?: (event: ChangeEvent<HTMLInputElement>, checked: boolean) => void;
   label?: string;
+  isBorder?: boolean;
 };
