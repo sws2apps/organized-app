@@ -20,10 +20,10 @@ const IconDragHandle = ({ color = '#222222', width = 24, height = 24, sx = {} }:
           width="24"
           height="24"
         >
-          <rect width="24" height="24" fill="#D9D9D9" />
+          <rect y="0.500488" width="24" height="24" fill="#D9D9D9" />
         </mask>
         <g mask="url(#mask0_3106_64887)">
-          <path d="M4.5 14.75V13.25H19.5V14.75H4.5ZM4.5 10.75V9.25H19.5V10.75H4.5Z" fill={color} />
+          <path d="M4.5 15.2504V13.7505H19.5V15.2504H4.5ZM4.5 11.2504V9.75049H19.5V11.2504H4.5Z" fill={color} />
         </g>
       </svg>
     </SvgIcon>
