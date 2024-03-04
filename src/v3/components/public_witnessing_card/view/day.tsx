@@ -1,6 +1,6 @@
 import { Stack } from '@mui/material';
 import Typography from '@components/typography';
-import { IconPerson } from '@icons/index';
+import { IconPersonSearch } from '@icons/index';
 import { PublicWitnessingViewProps } from '../public_witnessing_card.types';
 
 const PublicWitnessingDayView = (props: PublicWitnessingViewProps) => {
@@ -8,7 +8,7 @@ const PublicWitnessingDayView = (props: PublicWitnessingViewProps) => {
   return (
     <Stack style={{ width: '100%' }} direction={'row'} justifyContent={'space-between'}>
       <Typography
-        sx={{ marginRight: '15px', textWrap: 'nowrap' }}
+        sx={{ marginRight: '15px', whiteSpace: 'nowrap' }}
         className={'body-small-semibold'}
         color={
           disabled
@@ -39,7 +39,7 @@ const PublicWitnessingDayView = (props: PublicWitnessingViewProps) => {
           </Stack>
           {isContent && witnesses.length < needWitnesses ? (
             <Stack direction={'row'} alignItems={'center'}>
-              <IconPerson color={'var(--orange-dark)'} width={20} height={20} />
+              <IconPersonSearch color={'var(--orange-dark)'} width={20} height={20} />
               <Typography
                 className={'label-small-medium'}
                 color={witnesses.length < needWitnesses ? 'var(--orange-dark)' : 'var(--accent-400)'}

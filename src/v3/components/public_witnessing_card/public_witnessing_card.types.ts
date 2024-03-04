@@ -2,9 +2,6 @@ import { CPEAccordionProps } from '@components/accordion/accordion.types';
 
 export interface PublicWitnessingPlaceCardProps {
   label: string;
-  isEdit?: boolean;
-  onEditClick?: () => void;
-  onDeleteClick?: () => void;
   onClick?: () => void;
   disabled?: boolean;
 }

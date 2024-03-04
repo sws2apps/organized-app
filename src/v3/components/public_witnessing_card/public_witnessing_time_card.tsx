@@ -11,13 +11,7 @@ const CPEPublicWitnessingTimeCard = (props: PublicWitnessingCardProps) => {
 
   return (
     <CardWrapper
-      view={
-        isContent && witnesses.length < needWitnesses
-          ? 'searching'
-          : isContent && witnesses.length === needWitnesses
-            ? 'dashed'
-            : 'default'
-      }
+      view={isContent ? (witnesses.length < needWitnesses ? 'searching' : 'dashed') : 'default'}
       component="div"
       style={{ borderRadius: 'var(--radius-l)' }}
       disabled={rest.disabled}

@@ -1,7 +1,7 @@
 import Accordion from '@components/accordion';
 import { Stack } from '@mui/material';
 import Typography from '@components/typography';
-import { IconPerson } from '@icons/index';
+import { IconPersonSearch } from '@icons/index';
 import { PublicWitnessingViewProps } from '../public_witnessing_card.types';
 
 const PublicWitnessingDefaultView = (props: PublicWitnessingViewProps) => {
@@ -32,7 +32,7 @@ const PublicWitnessingDefaultView = (props: PublicWitnessingViewProps) => {
             : null}
           {isContent && witnesses.length < needWitnesses ? (
             <Stack direction={'row'} alignItems={'center'}>
-              <IconPerson color={'var(--orange-dark)'} width={20} height={20} />
+              <IconPersonSearch color={'var(--orange-dark)'} width={20} height={20} />
               <Typography
                 className={'label-small-medium'}
                 color={isContent && witnesses.length < needWitnesses ? 'var(--orange-dark)' : 'var(--accent-400)'}

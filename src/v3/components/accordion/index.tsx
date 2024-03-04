@@ -25,20 +25,12 @@ const CPEAccordion = ({ variant = 'default', label, onClick, onChange, children,
           children && setExpanded(!expanded);
         }}
         onClick={() => {
-          onClick && onClick();
+          variant === 'dashed' && setExpanded(!expanded);
+          variant !== 'dashed' && onClick && onClick();
         }}
       >
         <Typography
           className={'body-small-semibold'}
-          // color={
-          //   disabled
-          //     ? 'var(--grey-300)'
-          //     : variant === 'searching'
-          //       ? 'var(--orange-dark)'
-          //       : variant === 'dashed'
-          //         ? 'var(--accent-400)'
-          //         : 'var(--accent-dark)'
-          // }
           color={disabled ? 'var(--grey-300)' : variantColors[variant] || 'var(--accent-dark)'}
         >
           {label}

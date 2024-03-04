@@ -156,7 +156,6 @@ const ComponentPreview = () => {
         <Box sx={{ margin: '80px 0px' }}>
           <Box marginBottom={2} sx={{ display: 'flex', flexDirection: 'row', gap: '25px' }}>
             <PublicWitnessingPlaceCard label={'Time Square'} />
-            <PublicWitnessingPlaceCard label={'Time Square'} isEdit={true} />
           </Box>
           <Box marginBottom={2} sx={{ display: 'flex', flexDirection: 'row', gap: '25px' }}>
             <Box>

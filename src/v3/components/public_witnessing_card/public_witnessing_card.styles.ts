@@ -20,7 +20,7 @@ export const CardWrapper = styled(ButtonBase)<ButtonBaseProps & { view: CPEAccor
     border: '1px var(--grey-150)',
   },
   '&:hover': {
-    backgroundColor: view === 'default' ? 'var(--accent-200)' : null,
+    backgroundColor: view === 'default' ? 'var(--accent-150)' : view === 'searching' ? 'var(--orange-tertiary)' : null,
   },
   color: view === 'searching' ? 'var(--orange-main)' : 'var(--accent-dark)',
 }));
