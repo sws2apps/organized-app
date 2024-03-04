@@ -10,7 +10,7 @@ type IconProps = {
 const IconCheck = ({ color = '#222222', width = 24, height = 24, sx = {} }: IconProps) => {
   return (
     <SvgIcon id="organized-icon-check" sx={{ width: `${width}px`, height: `${height}px`, ...sx }}>
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
         <mask
           id="mask0_2352_13021"
           style={{ maskType: 'alpha' }}
@@ -18,13 +18,13 @@ const IconCheck = ({ color = '#222222', width = 24, height = 24, sx = {} }: Icon
           x="0"
           y="0"
           width="24"
-          height="24"
+          height="25"
         >
-          <rect width="24" height="24" fill="#D9D9D9" />
+          <rect y="0.500488" width="24" height="24" fill="#D9D9D9" />
         </mask>
         <g mask="url(#mask0_2352_13021)">
           <path
-            d="M9.5501 18L3.8501 12.3L5.2751 10.875L9.5501 15.15L18.7251 5.97498L20.1501 7.39998L9.5501 18Z"
+            d="M9.5501 18.5006L3.8501 12.8006L5.2751 11.3756L9.5501 15.6506L18.7251 6.47559L20.1501 7.90059L9.5501 18.5006Z"
             fill={color}
           />
         </g>

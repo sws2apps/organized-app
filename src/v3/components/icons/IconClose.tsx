@@ -10,7 +10,7 @@ type IconProps = {
 const IconClose = ({ color = '#222222', width = 24, height = 24, sx = {} }: IconProps) => {
   return (
     <SvgIcon id="organized-icon-close" sx={{ width: `${width}px`, height: `${height}px`, ...sx }}>
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
         <mask
           id="mask0_2417_11959"
           style={{ maskType: 'alpha' }}
@@ -18,13 +18,13 @@ const IconClose = ({ color = '#222222', width = 24, height = 24, sx = {} }: Icon
           x="0"
           y="0"
           width="24"
-          height="24"
+          height="25"
         >
-          <rect width="24" height="24" fill="#D9D9D9" />
+          <rect y="0.500488" width="24" height="24" fill="#D9D9D9" />
         </mask>
         <g mask="url(#mask0_2417_11959)">
           <path
-            d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
+            d="M6.4 19.5005L5 18.1005L10.6 12.5005L5 6.90049L6.4 5.50049L12 11.1005L17.6 5.50049L19 6.90049L13.4 12.5005L19 18.1005L17.6 19.5005L12 13.9005L6.4 19.5005Z"
             fill={color}
           />
         </g>
