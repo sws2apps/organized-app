@@ -20,10 +20,10 @@ const IconArrowDown = ({ color = '#222222', width = 24, height = 24, sx = {} }: 
           width="24"
           height="24"
         >
-          <rect width="24" height="24" fill="#D9D9D9" />
+          <rect y="0.500488" width="24" height="24" fill="#D9D9D9" />
         </mask>
         <g mask="url(#mask0_2417_11578)">
-          <path d="M12 15L7 10H17L12 15Z" fill={color} />
+          <path d="M12 15.5005L7 10.5005H17L12 15.5005Z" fill={color} />
         </g>
       </svg>
     </SvgIcon>
