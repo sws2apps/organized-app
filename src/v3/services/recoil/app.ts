@@ -49,7 +49,10 @@ import {
   isAppDataSyncingState,
   lastAppDataSyncState,
   isDarkThemeState,
+  appMessageHeaderState,
+  isMFAEnabledState,
 } from '@states/app';
+import { SnackBarSeverityType } from '@definition/app';
 
 export const handleSWOnInstalled = async () => {
   logger.info('service-worker', 'the service worker was installed and ready for use');
@@ -64,7 +67,16 @@ export const disconnectCongAccount = async () => {
   await promiseSetRecoil(congAccountConnectedState, false);
 };
 
-export const displaySnackNotification = async ({ message, severity }: { message: string; severity?: string }) => {
+export const displaySnackNotification = async ({
+  header,
+  message,
+  severity,
+}: {
+  header: string;
+  message: string;
+  severity?: SnackBarSeverityType;
+}) => {
+  await promiseSetRecoil(appMessageHeaderState, header);
   await promiseSetRecoil(appMessageState, message);
   await promiseSetRecoil(appSeverityState, severity);
   await promiseSetRecoil(appSnackOpenState, true);
@@ -233,4 +245,24 @@ export const setLastAppDataSync = async (value) => {
 
 export const setIsDarkTheme = async (value) => {
   await promiseSetRecoil(isDarkThemeState, value);
+};
+
+export const setAppSnackOpen = async (value) => {
+  await promiseSetRecoil(appSnackOpenState, value);
+};
+
+export const setAppSnackSeverity = async (value: SnackBarSeverityType) => {
+  await promiseSetRecoil(appSeverityState, value);
+};
+
+export const setAppSnackMessage = async (value) => {
+  await promiseSetRecoil(appMessageState, value);
+};
+
+export const setAppSnackMessageHeader = async (value) => {
+  await promiseSetRecoil(appMessageHeaderState, value);
+};
+
+export const setIsMFAEnabled = async (value) => {
+  await promiseSetRecoil(isMFAEnabledState, value);
 };

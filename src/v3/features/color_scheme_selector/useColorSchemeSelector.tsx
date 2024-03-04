@@ -4,7 +4,7 @@ import { ColorSchemeType } from '@definition/app';
 const useColorSchemeSelector = () => {
   const savedColor = localStorage.getItem('color') as ColorSchemeType;
 
-  const [colorScheme, setColorScheme] = useState(savedColor);
+  const [colorScheme, setColorScheme] = useState(savedColor || 'blue');
 
   const handleChangeColor = (e: ChangeEvent<HTMLInputElement>) => {
     const selectedColor = e.target.value as ColorSchemeType;

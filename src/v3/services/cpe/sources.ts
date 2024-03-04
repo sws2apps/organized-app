@@ -24,6 +24,7 @@ export const handleWeekAddConfirm = async () => {
   await sourcesAddWeekManually();
 
   await displaySnackNotification({
+    header: getTranslation({ key: 'tr_appFullName' }),
     message: getTranslation({ key: 'weekAdded' }),
     severity: 'success',
   });
@@ -35,6 +36,7 @@ export const handleWeekDeleteConfirm = async (action) => {
   await deleteSource(week);
 
   await displaySnackNotification({
+    header: getTranslation({ key: 'tr_appFullName' }),
     message: getTranslation({ key: 'weekDeletedSuccess' }),
     severity: 'success',
   });

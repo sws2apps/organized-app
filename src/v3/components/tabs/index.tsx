@@ -13,11 +13,7 @@ const CustomTabPanel = (props: TabsPanelProps) => {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Box>{children}</Box>
-        </Box>
-      )}
+      {value === index && <Box sx={{ padding: '24px 0' }}>{children}</Box>}
     </div>
   );
 };
@@ -69,15 +65,14 @@ const CPETabs = ({ tabs }: CustomTabProps) => {
           )}
         </Tabs>
       </Box>
-      <Box display="flex" justifyContent="center">
-        {tabs.map(
-          (tab, i: number): React.ReactNode => (
-            <CustomTabPanel value={valueOfActivePanel} index={i} key={tab.label}>
-              {tab.Component}
-            </CustomTabPanel>
-          )
-        )}
-      </Box>
+
+      {tabs.map(
+        (tab, i: number): React.ReactNode => (
+          <CustomTabPanel value={valueOfActivePanel} index={i} key={tab.label}>
+            {tab.Component}
+          </CustomTabPanel>
+        )
+      )}
     </Box>
   );
 };

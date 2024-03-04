@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { handleUpdateSetting } from '@services/dexie/settings';
 import { autoBackupIntervalState, autoBackupState, followOSThemeState } from '@states/settings';
 import { useBreakpoints } from '@hooks/index';
 import { ColorSchemeType } from '@definition/app';
+import worker from '@services/worker/backupWorker';
 
 const useAppSettings = () => {
   const { laptopUp } = useBreakpoints();
@@ -24,12 +25,16 @@ const useAppSettings = () => {
     setAutoSync(value);
 
     await handleUpdateSetting({ autoBackup: { value, updatedAt: new Date().toISOString() } });
+
+    worker.postMessage({ field: 'isEnabled', value });
   };
 
   const handleUpdateSyncInterval = async (value) => {
     setAutoSyncInterval(value);
 
     await handleUpdateSetting({ autoBackup_interval: { value, updatedAt: new Date().toISOString() } });
+
+    worker.postMessage({ field: 'backupInterval', value: value * 60 * 1000 });
   };
 
   const handleUpdateSyncTheme = async (value) => {
@@ -64,6 +69,10 @@ const useAppSettings = () => {
       setIsPurple(true);
     }
   };
+
+  useEffect(() => {
+    setSyncTheme(followOSTheme);
+  }, [followOSTheme]);
 
   return {
     autoSync,

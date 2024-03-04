@@ -9,6 +9,7 @@ import {
   displaySnackNotification,
   setCongAccountConnected,
   setCongID,
+  setIsMFAEnabled,
   setRootModalOpen,
   setUserID,
 } from '@services/recoil/app';
@@ -41,21 +42,24 @@ export const userLogoutSuccess = async () => {
   await userSignOut();
   await disconnectCongAccount();
   await displaySnackNotification({
+    header: getTranslation({ key: 'tr_errorTitle' }),
     message: getTranslation({ key: 'logoutSuccess' }),
+    severity: 'success',
   });
 };
 
 export const updateUserInfoAfterLogin = async (data) => {
-  const { id, cong_id, cong_name, cong_role, cong_number, user_members_delegate, user_local_uid } = data;
+  const { id, cong_id, cong_name, cong_role, cong_number, user_members_delegate, user_local_uid, mfaEnabled } = data;
 
+  await setIsMFAEnabled(mfaEnabled);
   await setCongID(cong_id);
   await setCongAccountConnected(true);
 
   // save congregation update if any
   const obj = <
     {
-      firstname?: string;
-      lastname?: string;
+      firstname?: { value: string; updatedAt: string };
+      lastname?: { value: string; updatedAt: string };
       cong_name: string;
       cong_number: string;
       user_members_delegate: [];
@@ -90,6 +94,7 @@ export const updateUserInfoAfterLogin = async (data) => {
 
   await setUserID(id);
 
+  worker.postMessage({ field: 'isEnabled', value: settings.autoBackup });
   worker.postMessage({ field: 'userRole', value: cong_role });
   worker.postMessage({ field: 'userID', value: id });
   worker.postMessage({ field: 'congID', value: cong_id });

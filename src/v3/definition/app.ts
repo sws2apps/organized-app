@@ -1,3 +1,15 @@
+export type TimeAwayType = {
+  id: string;
+  startDate: string;
+  endDate: string | null;
+  comments: string;
+};
+
+export type TimeAwayRecordsType = {
+  data: TimeAwayType[];
+  changes: { date: string; id: string; type: 'add' | 'modify' | 'deleted'; value: TimeAwayType }[];
+};
+
 export type SettingsType = {
   id?: number;
   firstname?: { value: string; updatedAt: string };
@@ -26,6 +38,8 @@ export type SettingsType = {
   midweek_meeting_useExactDate?: boolean;
   weekend_meeting_useSubstituteSpeaker?: boolean;
   follow_os_theme?: { value: boolean; updatedAt: string };
+  enable_hour_credits?: { value: boolean; updatedAt: string };
+  user_time_away?: TimeAwayRecordsType;
 };
 
 export type BackupDataType = {
@@ -48,3 +62,5 @@ export type BackupDataType = {
 };
 
 export type ColorSchemeType = 'blue' | 'green' | 'purple' | 'orange';
+
+export type SnackBarSeverityType = 'success' | 'error';

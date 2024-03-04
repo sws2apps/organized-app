@@ -1,5 +1,6 @@
 export { Startup } from './app_start';
 export { default as About } from './about';
+export { default as AppFeedback } from './app_feedback';
 export { default as AppNotification } from './app_notification';
 export { default as AppUpdater } from './app_updater';
 export { default as ColorSchemeSelector } from './color_scheme_selector';
@@ -10,6 +11,8 @@ export { default as MinistryPreferences } from './my_profile/ministry_preference
 export { default as MinistryTimer } from './ministry_timer';
 export { default as Support } from './support';
 export { default as ThemeSwitcher } from './theme_switcher';
+export { default as UserAccountSecurity } from './my_profile/security';
 export { default as UserAppSettings } from './my_profile/app_settings';
 export { default as UserProfileDetails } from './my_profile/user_profile_details';
+export { default as UserSessions } from './my_profile/sessions';
 export { default as UserTimeAway } from './my_profile/time_away';

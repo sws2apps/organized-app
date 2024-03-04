@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode } from 'react';
+import { HTMLAttributeAnchorTarget, ReactElement, ReactNode } from 'react';
 import { SxProps, Theme } from '@mui/material';
 
 export type ButtonPropsType = {
@@ -12,4 +12,7 @@ export type ButtonPropsType = {
   color?: string;
   sx?: SxProps<Theme>;
   disableAutoStretch?: boolean;
+  target?: HTMLAttributeAnchorTarget | undefined;
+  rel?: string | undefined;
+  href?: string;
 };

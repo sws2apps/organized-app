@@ -1,15 +1,35 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { isDarkThemeState } from '@states/app';
 import { setIsDarkTheme } from '@services/recoil/app';
 import { followOSThemeState } from '@states/settings';
+import { handleUpdateSetting } from '@services/dexie/settings';
 
 const useThemeSwitcher = () => {
   const isDark = useRecoilValue(isDarkThemeState);
   const followOSTheme = useRecoilValue(followOSThemeState);
 
+  const [isOpenConfirm, setIsOpenConfirm] = useState(false);
+
   const handleChangeTheme = async (value) => {
+    if (followOSTheme) {
+      setIsOpenConfirm(true);
+      return;
+    }
+
     await setIsDarkTheme(value);
+  };
+
+  const handleCloseConfirm = () => {
+    setIsOpenConfirm(false);
+  };
+
+  const handleOverrideThemeAuto = async () => {
+    await setIsDarkTheme(!isDark);
+
+    await handleUpdateSetting({ follow_os_theme: { value: false, updatedAt: new Date().toISOString() } });
+
+    setIsOpenConfirm(false);
   };
 
   useEffect(() => {
@@ -48,11 +68,11 @@ const useThemeSwitcher = () => {
     handleDarkModeChange(darkModeMediaQuery);
 
     return () => {
-      darkModeMediaQuery.removeEventListener('change', handleChangeTheme);
+      darkModeMediaQuery.removeEventListener('change', handleDarkModeChange);
     };
   }, [followOSTheme]);
 
-  return { isDark, handleChangeTheme };
+  return { isDark, handleChangeTheme, isOpenConfirm, handleCloseConfirm, handleOverrideThemeAuto };
 };
 
 export default useThemeSwitcher;
