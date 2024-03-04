@@ -10,7 +10,7 @@ type IconProps = {
 const IconMapOverview = ({ color = '#222222', width = 24, height = 24, sx = {} }: IconProps) => {
   return (
     <SvgIcon id="organized-icon-map-overview" sx={{ width: `${width}px`, height: `${height}px`, ...sx }}>
-      <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <mask
           id="mask0_4944_2979466"
           style={{ maskType: 'alpha' }}
@@ -35,7 +35,7 @@ const IconMapOverview = ({ color = '#222222', width = 24, height = 24, sx = {} }
           x="0"
           y="0"
           width="24"
-          height="25"
+          height="24"
         >
           <rect y="0.500488" width="24" height="24" fill="#D9D9D9" />
         </mask>

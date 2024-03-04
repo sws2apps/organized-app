@@ -10,7 +10,7 @@ type IconProps = {
 const IconSparkles = ({ color = '#222222', width = 24, height = 24, sx = {} }: IconProps) => {
   return (
     <SvgIcon id="organized-icon-sparkles" sx={{ width: `${width}px`, height: `${height}px`, ...sx }}>
-      <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g clipPath="url(#clip0_4307_175589)">
           <path
             fillRule="evenodd"
