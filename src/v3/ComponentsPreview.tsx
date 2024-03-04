@@ -202,6 +202,7 @@ const ComponentPreview = () => {
           </Box>
           <Box sx={{ display: 'flex', flexDirection: 'row', gap: '25px' }}>
             <DatePicker view={'input'} label={'Start date'} />
+            <DatePicker view={'input'} label={'Start date'} isValueOnOpen />
             <DatePicker view={'button'} />
           </Box>
 

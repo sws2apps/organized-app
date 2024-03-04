@@ -8,4 +8,5 @@ export interface CPEDatePickerProps {
   longDateFormat?: string;
   shortDateFormat?: string;
   onChange?: (value: Date) => VoidFunction;
+  isValueOnOpen?: boolean;
 }

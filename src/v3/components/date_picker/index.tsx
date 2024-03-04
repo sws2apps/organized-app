@@ -31,6 +31,7 @@ const CPEDatePicker = ({
   limitYear = false,
   shortDateFormat,
   longDateFormat,
+  isValueOnOpen = false,
 }: CPEDatePickerProps) => {
   const { t } = useAppTranslation();
 
@@ -57,8 +58,11 @@ const CPEDatePicker = ({
   };
 
   useEffect(() => {
-    if (value === null && open) setInnerValue(new Date());
-  }, [value, open]);
+    if (value === null && open) {
+      setInnerValue(new Date());
+      if (valueTmp === null && isValueOnOpen) setValueTmp(new Date());
+    }
+  }, [value, open, valueTmp, isValueOnOpen]);
 
   const viewProps = view === 'button' ? { field: ButtonField } : { textField: DatePickerInputField };
 
@@ -129,10 +133,10 @@ const CPEDatePicker = ({
             onOpen={() => setOpen(true)}
             slotProps={{
               textField: {
-                setOpen,
+                onClick: () => setOpen(!open),
                 label: label,
                 value: valueTmp,
-              } as never,
+              },
               field: {
                 value: valueTmp,
                 formatView: shortDateFormatLocale,
