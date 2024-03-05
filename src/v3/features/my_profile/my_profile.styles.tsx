@@ -8,6 +8,7 @@ export const ProfileItemContainer = styled(Box)({
   display: 'flex',
   gap: '16px',
   flexDirection: 'column',
+  backgroundColor: 'var(--white)',
 });
 
 export const SettingWithBorderContainer = styled(Box)({
