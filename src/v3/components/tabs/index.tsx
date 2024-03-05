@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Tabs, Tab, Typography, Box } from '@mui/material';
+import { Tabs, Tab, Box } from '@mui/material';
 import { TabsPanelProps, CustomTabProps } from './index.types';
 
 const CustomTabPanel = (props: TabsPanelProps) => {
