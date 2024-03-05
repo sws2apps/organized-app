@@ -31,7 +31,7 @@
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.0",
     "@fingerprintjs/fingerprintjs": "^4.2.2",
-    "@fontsource/inter": "^5.0.15",
+    "@fontsource/inter": "^5.0.17",
     "@fontsource/poppins": "^5.0.12",
     "@fontsource/roboto": "^5.0.8",
     "@mui/icons-material": "^5.15.11",
