@@ -10,7 +10,11 @@ const validateChar = (value) => {
   return matchIsNumeric(value);
 };
 
-const OTPInput: FC<MuiOtpInputProps> = (props) => {
+type OTPInputProps = MuiOtpInputProps & {
+  hasError?: boolean;
+};
+
+const OTPInput: FC<OTPInputProps> = ({ hasError, ...props }) => {
   return (
     <Box sx={{ width: '100%', maxWidth: '352px' }}>
       <MuiOtpInput
@@ -29,7 +33,7 @@ const OTPInput: FC<MuiOtpInputProps> = (props) => {
             height: 52,
             padding: 0,
             borderRadius: 'var(--radius-l)',
-            border: '1px solid var(--accent-main)',
+            border: `1px solid var(${hasError ? '--red-dark' : '--accent-main'})`,
           },
         }}
       />

@@ -26,6 +26,8 @@ const MFAEnable = ({ open, onClose }: MFAEnableType) => {
     userOTP,
     handleVerifyOTP,
     isProcessing,
+    imgSrc,
+    codeError,
   } = useMFAEnable(onClose);
 
   return (
@@ -69,7 +71,7 @@ const MFAEnable = ({ open, onClose }: MFAEnableType) => {
                         {t('tr_2FAQRCodeDesc')}
                       </Typography>
 
-                      <img className="qrcode" src={qrCode} alt="QR Code 2FA" style={{ alignSelf: 'center' }} />
+                      <img className="qrcode" src={imgSrc} alt="QR Code 2FA" style={{ alignSelf: 'center' }} />
                     </Box>
                   ),
                 },
@@ -100,8 +102,13 @@ const MFAEnable = ({ open, onClose }: MFAEnableType) => {
 
           <Typography className="h2">{t('tr_2FAStep2')}</Typography>
 
-          <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-            <OTPInput value={userOTP} onChange={handleOtpChange} />
+          <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', gap: '8px', flexDirection: 'column' }}>
+            <OTPInput value={userOTP} onChange={handleOtpChange} hasError={codeError} />
+            {codeError && (
+              <Typography className="body-small-regular" color="var(--red-dark)">
+                {t('tr_2FATokenInvalidExpired')}
+              </Typography>
+            )}
           </Box>
 
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%' }}>

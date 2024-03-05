@@ -80,6 +80,5 @@
   "tr_2FAQRCodeDesc": "Scan the QR code with your authenticator app to set up Two-Factor Authentication.",
   "tr_2FASetupKey": "Setup key",
   "tr_2FASetupKeyDesc": "Copy the setup key and paste it into your authenticator app to set up Two-Factor Authentication.",
-  "tr_2FAStep2": "Step 2: Enter the 2FA code",
-  "tr_2FATokenInvalidExpired": "This code is incorrect, or has already expired"
+  "tr_2FAStep2": "Step 2: Enter the 2FA code"
 }

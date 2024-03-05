@@ -6,17 +6,19 @@ import useSecurity from './useSecurity';
 import { ProfileItemContainer, SettingWithBorderContainer } from '../my_profile.styles';
 import { useAppTranslation } from '@hooks/index';
 import MFAEnable from './components/mfaEnable/index';
+import MFADisable from './components/mfaDisable';
 
 const Security = () => {
   const { t } = useAppTranslation();
 
-  const { handleToggleMFA, isMFAEnabled, isOpenMFAEnable, handleCloseDialog } = useSecurity();
+  const { handleToggleMFA, isMFAEnabled, isOpenMFAEnable, handleCloseDialog, isOpenMFADisable } = useSecurity();
 
   return (
     <ProfileItemContainer>
       <Typography className="h2">{t('tr_security')}</Typography>
 
       {isOpenMFAEnable && <MFAEnable open={isOpenMFAEnable} onClose={handleCloseDialog} />}
+      {isOpenMFADisable && <MFADisable open={isOpenMFADisable} onClose={handleCloseDialog} />}
 
       <SettingWithBorderContainer>
         <SwitcherContainer>

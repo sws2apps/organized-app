@@ -121,6 +121,19 @@ export const apiGetUser2FA = async () => {
   return { status: res.status, data };
 };
 
+export const apiDisableUser2FA = async () => {
+  const { apiHost, appVersion: appversion, visitorID: visitorid, userUID: uid, userID } = await apiDefault();
+
+  const res = await fetch(`${apiHost}api/users/${userID}/2fa/disable`, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, visitorid, uid },
+  });
+
+  const data = await res.json();
+
+  return { status: res.status, data };
+};
+
 export const apiRevokeVIPSession = async (id) => {
   const { apiHost, appVersion: appversion, visitorID: visitorid, userUID: uid, userID } = await apiDefault();
 

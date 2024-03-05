@@ -5,14 +5,16 @@ import { displaySnackNotification, setIsMFAEnabled } from '@services/recoil/app'
 import { getMessageByCode } from '@services/i18n/translation';
 import { apiGetUser2FA, apiHandleVerifyOTP } from '@services/api/user';
 
-const useMFAEnable = (closeDialog) => {
+const useMFAEnable = (closeDialog: VoidFunction) => {
   const { t } = useAppTranslation();
 
   const [isLoading, setIsLoading] = useState(true);
   const [isProcessing, setIsProcessing] = useState(false);
   const [qrCode, setQrCode] = useState('');
+  const [imgSrc, setImgSrc] = useState('');
   const [token, setToken] = useState('');
   const [userOTP, setUserOTP] = useState('');
+  const [codeError, setCodeError] = useState(false);
 
   const handleCopyTokenClipboard = async () => {
     await navigator.clipboard.writeText(token);
@@ -32,6 +34,7 @@ const useMFAEnable = (closeDialog) => {
     if (isProcessing) return;
 
     try {
+      setCodeError(false);
       setIsProcessing(true);
 
       const result = await apiHandleVerifyOTP(userOTP);
@@ -40,15 +43,18 @@ const useMFAEnable = (closeDialog) => {
         await setIsMFAEnabled(true);
         setIsProcessing(false);
         closeDialog();
+
+        await displaySnackNotification({
+          header: t('tr_2FAEnabled'),
+          message: t('tr_2FAEnabledDesc'),
+          severity: 'success',
+        });
+
         return;
       }
 
       setIsProcessing(false);
-      await displaySnackNotification({
-        header: t('tr_errorTitle'),
-        message: getMessageByCode(result.data.message),
-        severity: 'error',
-      });
+      setCodeError(true);
     } catch (error) {
       setIsProcessing(false);
 
@@ -83,10 +89,11 @@ const useMFAEnable = (closeDialog) => {
         if (result.status === 200) {
           const { qrCode, secret } = result.data;
 
+          setQrCode(qrCode);
           setToken(secret);
 
           const qrImg = await QRCode.toDataURL(qrCode);
-          setQrCode(qrImg);
+          setImgSrc(qrImg);
 
           setIsLoading(false);
           return;
@@ -121,6 +128,8 @@ const useMFAEnable = (closeDialog) => {
     handleOtpChange,
     handleVerifyOTP,
     isProcessing,
+    imgSrc,
+    codeError,
   };
 };
 

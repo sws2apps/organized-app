@@ -70,8 +70,8 @@ const useSessionItem = (session: SessionResponseType) => {
       setBrowser((prev) => `${prev} - ${session.device.os}`);
     }
 
-    const tmpDate = formatDate(new Date(session.last_seen), t('tr_longDateTimeFormat'));
-    setLastSeen(t('tr_lastSeen', { date: tmpDate }));
+    const tmpDate = session.last_seen ? formatDate(new Date(session.last_seen), t('tr_longDateTimeFormat')) : '';
+    setLastSeen(tmpDate.length > 0 ? t('tr_lastSeen', { date: tmpDate }) : '');
   }, [session, t, visitorID]);
 
   return { isProcessing, handleTerminate, isCurrent, location, browser, lastSeen };

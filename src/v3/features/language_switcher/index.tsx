@@ -97,7 +97,7 @@ const LanguageSwitcher = ({ menuStyle }: { menuStyle: SxProps }) => {
             sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}
             underline="none"
           >
-            <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px' } }}>
+            <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px !important' } }}>
               <IconGlobe color="var(--accent-dark)" />
             </ListItemIcon>
             <ListItemText>
