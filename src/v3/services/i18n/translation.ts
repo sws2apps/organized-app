@@ -56,7 +56,7 @@ export const getMessageByCode = (code) => {
     case 'POCKET_NOT_FOUND':
       return getTranslation({ key: 'tr_pocketNotFound' });
     case 'TOKEN_INVALID':
-      return getTranslation({ key: 'tr_mfaTokenInvalidExpired' });
+      return getTranslation({ key: 'tr_2FATokenInvalidExpired' });
     case 'INTERNAL_ERROR':
       return getTranslation({ key: 'tr_internalError' });
     case 'Failed to fetch':

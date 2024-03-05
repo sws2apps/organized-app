@@ -24,7 +24,7 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
           element: <RootLayout updatePwa={updatePwa} />,
           children: [
             { path: '/', element: <Dashboard /> },
-            { path: '/my-profile', element: <MyProfile /> },
+            { path: '/user-profile', element: <MyProfile /> },
             { path: '*', element: <Dashboard /> },
           ],
         },

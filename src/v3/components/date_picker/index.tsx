@@ -65,8 +65,7 @@ const CPEDatePicker = ({
   };
 
   const handleValueChange = (value) => {
-    setInnerValue(value);
-    onChange && onChange(value);
+    setValueTmp(value);
   };
 
   return (
@@ -81,9 +80,8 @@ const CPEDatePicker = ({
                   <Button
                     variant="secondary"
                     onClick={() => {
-                      setOpen(false);
                       setValueTmp(value);
-                      onChange && onChange(value);
+                      setOpen(false);
                     }}
                   >
                     {t('cancel')}
@@ -91,7 +89,8 @@ const CPEDatePicker = ({
                   <Button
                     variant="main"
                     onClick={() => {
-                      setValueTmp(innerValue);
+                      setInnerValue(innerValue);
+                      onChange && onChange(valueTmp);
                       setOpen(false);
                     }}
                   >

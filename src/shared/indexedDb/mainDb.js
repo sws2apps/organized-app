@@ -387,6 +387,18 @@ appDb.version(81).stores({
   app_settings:
     '++id, username, source_lang, cong_number, cong_name, cong_role, class_count, meeting_day, meeting_time, isScheduleConverted, isCongVerified, isAssignmentsConverted, isCongUpdated2, user_avatar, account_version, co_name, co_displayName, personAssignmentsConverted, autoBackup, autoBackup_interval, schedule_useFullname, account_type, opening_prayer_MM_autoAssign, user_local_uid, user_members_delegate, opening_prayer_WM_autoAssign, midweek_meeting_day, weekend_meeting_day, midweek_meeting_useExactDate, weekend_meeting_useSubstituteSpeaker, assignment_updated2024, user_firstname, user_lastname, cong_code, cong_new',
 });
+appDb.version(82).stores({
+  app_settings:
+    '++id, username, source_lang, cong_number, cong_name, cong_role, class_count, meeting_day, meeting_time, isScheduleConverted, isCongVerified, isAssignmentsConverted, isCongUpdated2, user_avatar, account_version, co_name, co_displayName, personAssignmentsConverted, autoBackup, autoBackup_interval, schedule_useFullname, account_type, opening_prayer_MM_autoAssign, user_local_uid, user_members_delegate, opening_prayer_WM_autoAssign, midweek_meeting_day, weekend_meeting_day, midweek_meeting_useExactDate, weekend_meeting_useSubstituteSpeaker, assignment_updated2024, user_firstname, user_lastname, cong_code, cong_new, follow_os_theme',
+});
+appDb.version(83).stores({
+  app_settings:
+    '++id, username, source_lang, cong_number, cong_name, cong_role, class_count, meeting_day, meeting_time, isScheduleConverted, isCongVerified, isAssignmentsConverted, isCongUpdated2, user_avatar, account_version, co_name, co_displayName, personAssignmentsConverted, autoBackup, autoBackup_interval, schedule_useFullname, account_type, opening_prayer_MM_autoAssign, user_local_uid, user_members_delegate, opening_prayer_WM_autoAssign, midweek_meeting_day, weekend_meeting_day, midweek_meeting_useExactDate, weekend_meeting_useSubstituteSpeaker, assignment_updated2024, user_firstname, user_lastname, cong_code, cong_new, follow_os_theme, enable_hour_credits',
+});
+appDb.version(84).stores({
+  app_settings:
+    '++id, username, source_lang, cong_number, cong_name, cong_role, class_count, meeting_day, meeting_time, isScheduleConverted, isCongVerified, isAssignmentsConverted, isCongUpdated2, user_avatar, account_version, co_name, co_displayName, personAssignmentsConverted, autoBackup, autoBackup_interval, schedule_useFullname, account_type, opening_prayer_MM_autoAssign, user_local_uid, user_members_delegate, opening_prayer_WM_autoAssign, midweek_meeting_day, weekend_meeting_day, midweek_meeting_useExactDate, weekend_meeting_useSubstituteSpeaker, assignment_updated2024, user_firstname, user_lastname, cong_code, cong_new, follow_os_theme, enable_hour_credits, user_time_away',
+});
 
 appDb.on('populate', function () {
   appDb.app_settings.add({
@@ -411,6 +423,10 @@ appDb.on('populate', function () {
     midweek_meeting_useExactDate: false,
     weekend_meeting_useSubstituteSpeaker: false,
     cong_new: true,
+    autoBackup: { value: true, updatedAt: new Date().toISOString() },
+    autoBackup_interval: { value: 5, updatedAt: new Date().toISOString() },
+    follow_os_theme: { value: true, updatedAt: new Date().toISOString() },
+    user_time_away: { data: [], changes: [] },
   });
 });
 

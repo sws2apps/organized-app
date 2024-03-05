@@ -38,7 +38,7 @@ const useNavbar = () => {
     handleCloseMore();
 
     setTimeout(() => {
-      navigate(`/my-profile`);
+      navigate(`/user-profile`);
     }, 500);
   };
 
