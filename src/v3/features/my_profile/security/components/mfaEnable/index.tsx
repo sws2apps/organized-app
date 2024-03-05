@@ -84,7 +84,7 @@ const MFAEnable = ({ open, onClose }: MFAEnableType) => {
                       </Typography>
 
                       <TextField
-                        label={t('tr_authenticationToken')}
+                        label={t('tr_2FASetupKey')}
                         value={token}
                         InputProps={{ readOnly: true }}
                         endIcon={
