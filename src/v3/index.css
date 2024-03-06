@@ -119,3 +119,7 @@ span .text-markup:last-child {
     transform: rotate(360deg);
   }
 }
+
+.MuiOtpInput-TextField {
+  outline: none;
+}
