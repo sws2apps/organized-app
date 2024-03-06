@@ -43,6 +43,7 @@ module.exports = {
           ['@wrapper', './src/v3/wrapper'],
           ['@locales', './src/shared/locales'],
           ['@shared', './src/shared'],
+          ['@definition', './src/v3/definition'],
         ],
       },
     },

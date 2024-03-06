@@ -87,7 +87,7 @@ const NavBar = () => {
           <AppNotification />
           <ThemeSwitcher />
 
-          {tabletUp && <LanguageSwitcher menuStyle={baseMenuStyle} />}
+          {tabletUp && isAppLoad && <LanguageSwitcher menuStyle={baseMenuStyle} />}
 
           <IconButton
             color="inherit"
@@ -162,7 +162,7 @@ const NavBar = () => {
               },
             }}
           >
-            {tabletDown && <LanguageSwitcher menuStyle={menuStyle} />}
+            {(tabletDown || !isAppLoad) && <LanguageSwitcher menuStyle={menuStyle} />}
 
             {isCongAccountConnected && (
               <MenuItem disableRipple sx={menuStyle} onClick={handleOpenMyProfile}>

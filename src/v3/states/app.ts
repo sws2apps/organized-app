@@ -1,6 +1,7 @@
 import { atom, selector } from 'recoil';
 import { getShortDatePickerFormat, getTranslation } from '@services/i18n/translation';
 import { convertStringToBoolean } from '@utils/common';
+import { SnackBarSeverityType } from '@definition/app';
 
 export const isDarkThemeState = atom({
   key: 'isDarkTheme',
@@ -265,13 +266,18 @@ export const appSnackOpenState = atom({
   default: false,
 });
 
-export const appSeverityState = atom({
+export const appSeverityState = atom<SnackBarSeverityType>({
   key: 'appSeverity',
   default: 'success',
 });
 
 export const appMessageState = atom({
   key: 'appMessage',
+  default: '',
+});
+
+export const appMessageHeaderState = atom({
+  key: 'appMessageHeader',
   default: '',
 });
 
@@ -386,4 +392,9 @@ export const isAppDataSyncingState = atom({
 export const lastAppDataSyncState = atom({
   key: 'lastAppDataSync',
   default: undefined,
+});
+
+export const isMFAEnabledState = atom({
+  key: 'isMFAEnabled',
+  default: false,
 });

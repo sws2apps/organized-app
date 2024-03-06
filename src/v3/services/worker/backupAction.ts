@@ -2,7 +2,7 @@ import { delay } from '@utils/dev';
 import { dbExportDataOnline, apiSendCongregationBackup, apiSendUserBackup } from './backupUtils';
 
 const setting = {
-  isEnabled: true,
+  isEnabled: false,
   visitorID: undefined,
   apiHost: undefined,
   congID: undefined,
