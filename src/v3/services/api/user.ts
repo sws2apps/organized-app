@@ -67,13 +67,13 @@ export const apiSendAuthorization = async () => {
   return { status: res.status, data };
 };
 
-export const apiHandleVerifyOTP = async (userOTP, trustedDevice) => {
+export const apiHandleVerifyOTP = async (userOTP) => {
   const { apiHost, appVersion: appversion, visitorID: visitorid, userUID: uid } = await apiDefault();
 
   const res = await fetch(`${apiHost}api/mfa/verify-token`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, visitorid, uid },
-    body: JSON.stringify({ token: userOTP, trusted: trustedDevice }),
+    body: JSON.stringify({ token: userOTP }),
   });
 
   const data = await res.json();
@@ -112,6 +112,19 @@ export const apiGetUser2FA = async () => {
   const { apiHost, appVersion: appversion, visitorID: visitorid, userUID: uid, userID } = await apiDefault();
 
   const res = await fetch(`${apiHost}api/users/${userID}/2fa`, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, visitorid, uid },
+  });
+
+  const data = await res.json();
+
+  return { status: res.status, data };
+};
+
+export const apiDisableUser2FA = async () => {
+  const { apiHost, appVersion: appversion, visitorID: visitorid, userUID: uid, userID } = await apiDefault();
+
+  const res = await fetch(`${apiHost}api/users/${userID}/2fa/disable`, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, visitorid, uid },
   });

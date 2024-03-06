@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import Switch from '@components/switch';
-import { SwitcherItem } from '@components/global';
+import SwitcherContainer from '@components/switcher_container';
 import Typography from '@components/typography';
 import { ProfileItemContainer } from '../my_profile.styles';
 import { useAppTranslation } from '@hooks/index';
@@ -9,13 +9,13 @@ import useMinistryPreferences from './useMinistryPreferences';
 const MinistryPreferences = () => {
   const { t } = useAppTranslation();
 
-  const { addCredits, handleAddCreditsChange, laptopUp } = useMinistryPreferences();
+  const { addCredits, handleAddCreditsChange } = useMinistryPreferences();
 
   return (
     <ProfileItemContainer>
       <Typography className="h2">{t('tr_ministryPreferences')}</Typography>
 
-      <SwitcherItem laptopUp={laptopUp}>
+      <SwitcherContainer>
         <Switch checked={addCredits} onChange={(e) => handleAddCreditsChange(e.target.checked)} />
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
           <Typography>{t('tr_theocraticAssignmentsField')}</Typography>
@@ -23,7 +23,7 @@ const MinistryPreferences = () => {
             {t('tr_theocraticAssignmentsFieldDesc')}
           </Typography>
         </Box>
-      </SwitcherItem>
+      </SwitcherContainer>
     </ProfileItemContainer>
   );
 };

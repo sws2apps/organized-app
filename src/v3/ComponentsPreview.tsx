@@ -20,6 +20,7 @@ import {
   SearchBar,
   PublicWitnessingTimeCard,
   PublicWitnessingPlaceCard,
+  ProgressBarSmall,
 } from '@components/index';
 import { useEffect, useState } from 'react';
 import { IconAdd, IconAssign, IconClose, IconReturn, IconUndo, IconUpdate, IconInfo, IconVisitors } from '@icons/index';
@@ -61,7 +62,12 @@ const ComponentPreview = () => {
   const [checked, setChecked] = useState(false);
   const [filterEnabled, setFilterEnabled] = useState(true);
   const [filteredNames, setFilteredNames] = useState(names);
+  const [inputField, setInputField] = useState(0);
 
+  const handleInput = (e) => {
+    setInputField(e.target.value);
+    console.log(e.target.value);
+  };
   const handleChange = (e) => {
     setCurrentTheme(e.target.value);
   };
@@ -636,6 +642,14 @@ const ComponentPreview = () => {
               />
             ))}
           </Box>
+        </Box>
+        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+          <Typography className="label-small-regular">input for testing progressbar</Typography>
+          <TextField type="number" onChange={handleInput} value={inputField}></TextField>
+          <Typography className="label-small-regular">progress-bar-small</Typography>
+          <ProgressBarSmall value={inputField} maxValue={100} />
+          <ProgressBarSmall value={60} maxValue={135} />
+          <ProgressBarSmall value={100} maxValue={120} />
         </Box>
       </Container>
     </Box>

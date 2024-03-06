@@ -185,6 +185,9 @@ const CPEButton = (props: ButtonPropsType) => {
       disableRipple
       className={className}
       disabled={disabled}
+      target={props.target}
+      rel={props.rel}
+      href={props.href}
       sx={{
         minHeight: '44px',
         fontFeatureSettings: '"cv05"',
