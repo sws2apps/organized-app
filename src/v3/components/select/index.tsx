@@ -84,6 +84,12 @@ const CPESelect = (props: SelectPropsType) => {
               border: '1px solid var(--accent-200)',
               padding: '8px 0px',
               '& ul': { paddingTop: 0, paddingBottom: 0 },
+              '& li': {
+                borderBottom: '1px solid var(--accent-200)',
+              },
+              '& li:last-child': {
+                borderBottom: 'none',
+              },
             },
             className: 'small-card-shadow',
           },
