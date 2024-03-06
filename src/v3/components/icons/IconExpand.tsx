@@ -18,12 +18,12 @@ const IconExpand = ({ color = '#222222', width = 24, height = 24, sx = {} }: Ico
           x="0"
           y="0"
           width="24"
-          height="24"
+          height="25"
         >
-          <rect y="0.500488" width="24" height="24" fill="#D9D9D9" />
+          <rect y="0.000488281" width="24" height="24" fill="#D9D9D9" />
         </mask>
         <g mask="url(#mask0_2442_13650)">
-          <path d="M12 15.8756L6 9.87559L7.4 8.47559L12 13.0756L16.6 8.47559L18 9.87559L12 15.8756Z" fill={color} />
+          <path d="M12 15.3756L6 9.37559L7.4 7.97559L12 12.5756L16.6 7.97559L18 9.37559L12 15.3756Z" fill={color} />
         </g>
       </svg>
     </SvgIcon>
