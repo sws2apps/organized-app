@@ -1,12 +1,28 @@
 import { Stack } from '@mui/material';
-import { IconArrowLink, IconNormalPin } from '@icons/index';
+import { IconArrowLink, IconNormalPin, IconDelete } from '@icons/index';
 import Typography from '@components/typography';
 import { PublicWitnessingPlaceCardProps } from './public_witnessing_card.types';
 import { CardWrapper, StyledIconWrapper } from './public_witnessing_card.styles';
 
-const CPEPublicWitnessingPlaceCard = ({ label, onClick, disabled }: PublicWitnessingPlaceCardProps) => {
+const CPEPublicWitnessingPlaceCard = ({
+  label,
+  onClick,
+  disabled,
+  isDelete = false,
+  onDelete,
+}: PublicWitnessingPlaceCardProps) => {
   return (
-    <CardWrapper style={{ height: '72px' }} view={'default'} component="div" disabled={disabled}>
+    <CardWrapper
+      style={{
+        height: '72px',
+        backgroundColor: 'var(--white)',
+        borderColor: 'var(--accent-300)',
+        padding: '10px 15px',
+      }}
+      view={'accent'}
+      component="div"
+      disabled={disabled}
+    >
       <Stack
         style={{
           width: '100%',
@@ -21,10 +37,11 @@ const CPEPublicWitnessingPlaceCard = ({ label, onClick, disabled }: PublicWitnes
         </Stack>
         <StyledIconWrapper
           onClick={() => {
+            isDelete && onDelete && onDelete();
             onClick && onClick();
           }}
         >
-          <IconArrowLink color={'var(--accent-main)'} />
+          {isDelete ? <IconDelete color={'var(--red-main)'} /> : <IconArrowLink color={'var(--accent-main)'} />}
         </StyledIconWrapper>
       </Stack>
     </CardWrapper>

@@ -10,6 +10,7 @@ export const Accordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
 ))(() => ({
   backgroundColor: 'inherit',
+  color: 'inherit',
   width: '100%',
   '&.Mui-disabled': {
     backgroundColor: 'inherit',
@@ -19,13 +20,21 @@ export const Accordion = styled((props: AccordionProps) => (
 export const AccordionSummary = styled((props: AccordionSummaryProps & AccordionViewProps) => (
   <MuiAccordionSummary
     expandIcon={
-      props.view !== 'default' ? (
+      props.view !== 'accent' && props.view !== 'disabled' ? (
         <Stack
           onClick={() => {
-            props.onIconClick && props.onIconClick();
+            props.onIconClick?.();
           }}
         >
-          <IconExpand color={props.view === 'searching' ? 'var(--orange-main)' : 'var(--accent-400)'} />
+          <IconExpand
+            color={
+              props.view === 'orange'
+                ? 'var(--orange-main)'
+                : props.view === 'silver'
+                  ? 'var(--grey-300)'
+                  : 'var(--accent-400)'
+            }
+          />
         </Stack>
       ) : null
     }
@@ -35,10 +44,13 @@ export const AccordionSummary = styled((props: AccordionSummaryProps & Accordion
   flexDirection: 'row',
   padding: '0',
   minHeight: '26px',
-  color: props.view === 'searching' ? 'var(--orange-main)' : 'var(--accent-dark)',
+  color: props.view === 'orange' ? 'var(--orange-main)' : 'var(--accent-dark)',
   '& .MuiAccordionSummary-content': {
     margin: '0 10px 0 0px',
     minWidth: '152px',
+  },
+  '&.Mui-disabled': {
+    opacity: '1',
   },
 }));
 
@@ -48,6 +60,7 @@ export const AccordionDetails = styled((props: AccordionDetailsProps & Accordion
   padding: '8px 0 0 0',
   marginTop: '8px',
   borderTop: '1px solid',
-  borderColor: props.view === 'searching' ? 'var(--orange-main)' : 'var(--accent-200)',
-  color: props.view === 'searching' ? 'var(--orange-dark)' : 'var(--accent-400)',
+  borderColor:
+    props.view === 'orange' ? 'var(--orange-main)' : props.view === 'silver' ? 'var(--grey-200)' : 'var(--accent-200)',
+  // color: props.view === 'orange' ? 'var(--orange-dark)' : 'var(--accent-400)',
 }));

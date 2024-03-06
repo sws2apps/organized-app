@@ -4,6 +4,8 @@ export interface PublicWitnessingPlaceCardProps {
   label: string;
   onClick?: () => void;
   disabled?: boolean;
+  isDelete?: boolean;
+  onDelete?: () => void;
 }
 
 export interface PublicWitnessingTimeCardProps {
@@ -13,7 +15,12 @@ export interface PublicWitnessingTimeCardProps {
   isDay?: boolean;
 }
 
-export interface PublicWitnessingCardProps extends CPEAccordionProps, PublicWitnessingTimeCardProps {}
-export interface PublicWitnessingViewProps extends CPEAccordionProps, PublicWitnessingTimeCardProps {
+export interface PublicWitnessingCardProps
+  extends Omit<CPEAccordionProps, 'disabled' | 'variant'>,
+    PublicWitnessingTimeCardProps {
+  isPast?: boolean;
+}
+export interface PublicWitnessingViewProps extends Omit<CPEAccordionProps, 'disabled'>, PublicWitnessingTimeCardProps {
   isContent: boolean;
+  isPast?: boolean;
 }

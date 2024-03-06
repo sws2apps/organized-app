@@ -156,8 +156,20 @@ const ComponentPreview = () => {
         <Box sx={{ margin: '80px 0px' }}>
           <Box marginBottom={2} sx={{ display: 'flex', flexDirection: 'row', gap: '25px' }}>
             <PublicWitnessingPlaceCard label={'Time Square'} />
+            <PublicWitnessingPlaceCard label={'Time Square'} isDelete />
           </Box>
-          <Box marginBottom={2} sx={{ display: 'flex', flexDirection: 'row', gap: '25px' }}>
+          <Box
+            marginBottom={2}
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              gap: '25px',
+              backgroundColor: 'var(--white)',
+              padding: '15px',
+              border: '1px solid var(--accent-300)',
+              borderRadius: 'var(--radius-l)',
+            }}
+          >
             <Box>
               <PublicWitnessingTimeCard
                 label={'11:00 - 12:00'}
@@ -176,10 +188,29 @@ const ComponentPreview = () => {
               <PublicWitnessingTimeCard label={'11:00 - 12:00'} />
             </Box>
             <Box>
-              <PublicWitnessingTimeCard label={'11:00 - 12:00'} disabled />
+              <PublicWitnessingTimeCard
+                label={'11:00 - 12:00'}
+                witnesses={['Ruben Curtis', 'Cooper Donin']}
+                needWitnesses={2}
+                isPast
+              />
+            </Box>
+            <Box>
+              <PublicWitnessingTimeCard label={'11:00 - 12:00'} isPast />
             </Box>
           </Box>
-          <Stack marginBottom={2} spacing={2} direction={'column'}>
+          <Stack
+            marginBottom={2}
+            spacing={2}
+            direction={'column'}
+            sx={{
+              display: 'flex',
+              backgroundColor: 'var(--white)',
+              padding: '15px',
+              border: '1px solid var(--accent-300)',
+              borderRadius: 'var(--radius-l)',
+            }}
+          >
             <PublicWitnessingTimeCard
               isDay={true}
               label={'11:00 - 12:00'}
@@ -192,8 +223,15 @@ const ComponentPreview = () => {
               witnesses={['Ruben Curtis', 'Cooper Donin']}
               needWitnesses={4}
             />
-            <PublicWitnessingTimeCard label={'11:00 - 12:00'} isDay={true} />
-            <PublicWitnessingTimeCard label={'11:00 - 12:00'} isDay={true} disabled />
+            <PublicWitnessingTimeCard label={'11:00 - 12:00'} isDay />
+            <PublicWitnessingTimeCard label={'11:00 - 12:00'} isDay isPast />
+            <PublicWitnessingTimeCard
+              label={'11:00 - 12:00'}
+              isDay
+              witnesses={['Ruben Curtis', 'Cooper Donin']}
+              needWitnesses={2}
+              isPast
+            />
           </Stack>
           <Box marginBottom={2} sx={{ display: 'flex', flexDirection: 'row', gap: '8px', width: '100px' }}>
             <Badge text="1 available" color="accent" size="medium" filled fullWidth centerContent />

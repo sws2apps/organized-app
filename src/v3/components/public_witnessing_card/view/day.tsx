@@ -3,35 +3,32 @@ import Typography from '@components/typography';
 import { IconPersonSearch } from '@icons/index';
 import { PublicWitnessingViewProps } from '../public_witnessing_card.types';
 
+const variantColors = {
+  orange: 'var(--orange-dark)',
+  dashed: 'var(--accent-400)',
+  silver: 'var(--grey-300)',
+  accent: 'var(--accent-dark)',
+  disabled: 'var(--grey-300)',
+};
+
 const PublicWitnessingDayView = (props: PublicWitnessingViewProps) => {
-  const { witnesses, needWitnesses, disabled, isContent, ...rest } = props;
+  const { witnesses, needWitnesses, isContent, variant, label } = props;
+
   return (
     <Stack style={{ width: '100%' }} direction={'row'} justifyContent={'space-between'}>
       <Typography
         sx={{ marginRight: '15px', whiteSpace: 'nowrap' }}
         className={'body-small-semibold'}
-        color={
-          disabled
-            ? 'var(--grey-300)'
-            : isContent && witnesses.length < needWitnesses
-              ? 'var(--orange-dark)'
-              : isContent && witnesses.length === needWitnesses
-                ? 'var(--accent-400)'
-                : 'var(--accent-dark)'
-        }
+        color={variantColors[variant]}
       >
-        {rest.label}
+        {label}
       </Typography>
       {witnesses ? (
         <Stack direction={'row'} justifyContent={'space-between'} style={{ width: '100%' }}>
           <Stack direction={'row'} spacing={1}>
             {witnesses
               ? witnesses.map((x, index) => (
-                  <Typography
-                    key={index}
-                    className={'body-small-semibold'}
-                    color={witnesses.length < needWitnesses ? 'var(--orange-dark)' : 'var(--accent-400)'}
-                  >
+                  <Typography key={index} className={'body-small-semibold'} color={variantColors[variant]}>
                     {index + 1 < witnesses.length ? `${x},` : x}
                   </Typography>
                 ))

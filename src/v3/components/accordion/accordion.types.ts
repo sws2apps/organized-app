@@ -1,10 +1,10 @@
 import { ReactNode } from 'react';
 
-export type CPEAccordionVariant = 'default' | 'searching' | 'dashed';
+export type CPEAccordionVariant = 'accent' | 'orange' | 'dashed' | 'silver' | 'disabled';
 
 export interface CPEAccordionProps {
   value?: string;
-  variant?: CPEAccordionVariant;
+  variant: CPEAccordionVariant;
   label: string;
   onChange?: () => void;
   onClick?: () => void;

@@ -7,20 +7,46 @@ export const StyledIconWrapper = styled(ButtonBase)({
   padding: '2.5px',
 });
 
+const borderViews = {
+  orange: 'var(--orange-dark)',
+  dashed: 'var(--accent-400)',
+  silver: 'var(--grey-200)',
+  disabled: 'var(--grey-200)',
+  accent: 'var(--accent-main)',
+};
+
+const bgColorView = {
+  orange: 'var(--orange-secondary)',
+  dashed: 'var(--white)',
+  silver: 'var(--white)',
+  disabled: 'var(--grey-100)',
+  accent: 'var(--white)',
+};
+
+const hoverColorView = {
+  orange: 'var(--orange-tertiary)',
+  dashed: 'transparent',
+  silver: 'transparent',
+  disabled: 'transparent',
+  accent: 'var(--accent-150)',
+};
 export const CardWrapper = styled(ButtonBase)<ButtonBaseProps & { view: CPEAccordionVariant }>(({ view }) => ({
   minHeight: '48px',
   width: '100%',
-  border: `${view === 'searching' ? '1px var(--orange-dark)' : '1px var(--accent-300)'} `,
-  borderStyle: `${view === 'dashed' ? 'dashed' : 'solid'}`,
+  borderWidth: '1px',
+  borderColor: borderViews[view],
+  borderStyle: view === 'dashed' || view === 'silver' ? 'dashed' : 'solid',
   borderRadius: 'var(--radius-l)',
   padding: '10px',
-  backgroundColor: view === 'searching' ? 'var(--orange-secondary)' : 'var(--accent-100)',
-  '&.Mui-disabled': {
-    backgroundColor: 'var(--grey-100)',
-    border: '1px var(--grey-150)',
-  },
+  backgroundColor: bgColorView[view],
+  pointerEvents: view === 'disabled' ? 'none' : null,
+  // '&.Mui-disabled': {
+  //   backgroundColor: 'var(--grey-100)',
+  //   border: '1px solid var(--grey-200)',
+  //   color: 'var(--grey-300)',
+  // },
   '&:hover': {
-    backgroundColor: view === 'default' ? 'var(--accent-150)' : view === 'searching' ? 'var(--orange-tertiary)' : null,
+    backgroundColor: hoverColorView[view],
   },
-  color: view === 'searching' ? 'var(--orange-main)' : 'var(--accent-dark)',
+  color: view === 'orange' ? 'var(--orange-main)' : 'var(--accent-dark)',
 }));

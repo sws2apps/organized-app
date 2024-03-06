@@ -104,7 +104,7 @@ const CPEBadge = (props: BadgePropsType) => {
             flexShrink: '0',
             width: fullWidth ? '100%' : 'auto',
             justifyContent: centerContent ? 'center' : 'flex-start',
-            borderStyle: borderStyle ? borderStyle : 'none',
+            borderStyle: borderStyle || 'none',
             ...sx,
           }}
         >
@@ -137,7 +137,7 @@ const CPEBadge = (props: BadgePropsType) => {
             flexShrink: '0',
             width: fullWidth ? '100%' : 'auto',
             justifyContent: centerContent ? 'center' : 'flex-start',
-            borderStyle: borderStyle ? borderStyle : 'none',
+            borderStyle: borderStyle || 'none',
             ...sx,
           }}
         >
@@ -169,7 +169,7 @@ const CPEBadge = (props: BadgePropsType) => {
             flexShrink: '0',
             width: fullWidth ? '100%' : 'auto',
             justifyContent: centerContent ? 'center' : 'flex-start',
-            borderStyle: borderStyle ? borderStyle : 'none',
+            borderStyle: borderStyle || 'none',
             ...sx,
           }}
         >
