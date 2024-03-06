@@ -18,7 +18,7 @@ const MyProfile = () => {
 
   const { desktopUp } = useBreakpoints();
 
-  const { isLogoutConfirm, handleCloseConfirm, handleOpenLogoutConfirm } = useMyProfile();
+  const { isLogoutConfirm, handleCloseConfirm, handleOpenLogoutConfirm, isConnected } = useMyProfile();
 
   return (
     <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
@@ -46,8 +46,12 @@ const MyProfile = () => {
         {/* right-column */}
         <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column', width: '100%', flexGrow: 1 }}>
           <UserAppSettings />
-          <UserAccountSecurity />
-          <UserSessions />
+          {isConnected && (
+            <>
+              <UserAccountSecurity />
+              <UserSessions />
+            </>
+          )}
         </Box>
       </Box>
     </Box>

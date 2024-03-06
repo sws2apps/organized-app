@@ -10,6 +10,7 @@ export { default as ErrorBoundary } from './error_boundary';
 export { default as FilterChip } from './filter_chip';
 export { default as InfoMessage } from './info-message';
 export { default as Loading } from './loading';
+export { default as MenuItem } from './menuitem';
 export { default as MiniChip } from './mini_chip';
 export { default as MinusButton } from './minus_button';
 export { default as OTPInput } from './otp_input';

@@ -18,12 +18,12 @@ const IconCollapse = ({ color = '#222222', width = 24, height = 24, sx = {} }: I
           x="0"
           y="0"
           width="24"
-          height="24"
+          height="25"
         >
-          <rect y="0.500488" width="24" height="24" fill="#D9D9D9" />
+          <rect y="0.000488281" width="24" height="24" fill="#D9D9D9" />
         </mask>
         <g mask="url(#mask0_4307_181293)">
-          <path d="M12 8.47549L18 14.4755L16.6 15.8755L12 11.2755L7.4 15.8755L6 14.4755L12 8.47549Z" fill={color} />
+          <path d="M12 7.97549L18 13.9755L16.6 15.3755L12 10.7755L7.4 15.3755L6 13.9755L12 7.97549Z" fill={color} />
         </g>
       </svg>
     </SvgIcon>
