@@ -918,9 +918,3 @@
     box-shadow: 0px 2px 8px 0px #0e1227a3;
   }
 }
-
-
-.pop-up{
-  background-color: var(--white);
-  border-radius: var(--radius-xxl)
-}

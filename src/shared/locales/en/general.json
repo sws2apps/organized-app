@@ -45,7 +45,7 @@
   "tr_delete": "Delete",
   "tr_add": "Add",
   "tr_pickerSelectTime": "Select time",
-  "tr_pickerSelectDate": "Select date"
+  "tr_pickerSelectDate": "Select date",
   "tr_longDateTimeFormat": "mm/dd/yyyy HH:MM",
   "tr_yes": "Yes",
   "tr_themeFollowOSDisable": "Turn off automatic theme change?",

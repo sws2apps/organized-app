@@ -1,25 +1,29 @@
-import { DesktopTimePicker, LocalizationProvider, renderTimeViewClock } from '@mui/x-date-pickers';
+import {
+  DesktopTimePicker,
+  LocalizationProvider,
+  PickersActionBarProps,
+  renderTimeViewClock,
+} from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { Box, ClickAwayListener, Stack, TextFieldProps, useMediaQuery } from '@mui/material';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
 import { CPETimePickerProps } from './time_picker.types';
-import { StyleTimePickerPopper, StyleTimePickerToolbar } from './time_picker.style';
+import { StyleTimePickerPopper, StyleTimePickerToolbar } from './time_picker.styles';
 import { IconClock } from '@components/icons';
 import { TextField, Button } from '@components/index';
 import { useAppTranslation } from '@hooks/index';
 
 const TimePickerInputField = (props: TextFieldProps & { setOpen?: Dispatch<SetStateAction<boolean>> }) => {
+  const handleClick = useCallback(() => {
+    if (props.setOpen) props.setOpen((prev) => !prev);
+  }, [props]);
+
   return (
     <TextField
       {...props}
       className={'body-regular'}
       endIcon={
-        <Box
-          onClick={() => props.setOpen && props.setOpen((prev) => !prev)}
-          display={'flex'}
-          alignItems={'center'}
-          style={{ cursor: 'pointer' }}
-        >
+        <Box onClick={handleClick} display={'flex'} alignItems={'center'} style={{ cursor: 'pointer' }}>
           <IconClock />
         </Box>
       }
@@ -27,7 +31,31 @@ const TimePickerInputField = (props: TextFieldProps & { setOpen?: Dispatch<SetSt
   );
 };
 
-const CPETimePicker = ({ ampm, label, value, onChange }: CPETimePickerProps) => {
+const TimePickerActionBar = (props: PickersActionBarProps & { onClear: VoidFunction; onSave: VoidFunction }) => {
+  const { onSave, onClear } = props;
+  const { t } = useAppTranslation();
+
+  return (
+    <Stack
+      direction={'row'}
+      justifyContent={'space-between'}
+      p={'12px'}
+      style={{
+        gridRow: '3',
+        gridColumn: '1 / 3',
+      }}
+    >
+      <Button variant="secondary" onClick={onClear}>
+        {t('tr_cancel')}
+      </Button>
+      <Button variant="main" onClick={onSave}>
+        {t('tr_save')}
+      </Button>
+    </Stack>
+  );
+};
+
+const CPETimePicker = ({ ampm, label, value = null, onChange, isValueOnOpen = false }: CPETimePickerProps) => {
   const { t } = useAppTranslation();
   const [currentValue, setCurrentValue] = useState<Date | null>(null);
   const [innerValue, setInnerValue] = useState<Date | null>(null);
@@ -36,8 +64,11 @@ const CPETimePicker = ({ ampm, label, value, onChange }: CPETimePickerProps) => 
   const isMobile = useMediaQuery('(max-width:600px)');
 
   useEffect(() => {
-    if (value === null && open) setCurrentValue(new Date());
-  }, [open, value]);
+    if (value === null && isValueOnOpen && open && innerValue === null) {
+      setCurrentValue(new Date());
+      setInnerValue(new Date());
+    }
+  }, [value, open, isValueOnOpen, innerValue]);
 
   const handleClickAway = () => {
     if (open) setOpen(false);
@@ -53,7 +84,7 @@ const CPETimePicker = ({ ampm, label, value, onChange }: CPETimePickerProps) => 
             label={label}
             views={['hours', 'minutes']}
             orientation={isMobile ? 'portrait' : 'landscape'}
-            value={currentValue}
+            value={innerValue}
             ampm={ampm}
             onChange={(value) => {
               setInnerValue(value);
@@ -66,42 +97,25 @@ const CPETimePicker = ({ ampm, label, value, onChange }: CPETimePickerProps) => 
             }}
             slots={{
               textField: TimePickerInputField,
-              actionBar: () => (
-                <Stack
-                  direction={'row'}
-                  justifyContent={'space-between'}
-                  p={'12px'}
-                  style={{
-                    gridRow: '3',
-                    gridColumn: '1 / 3',
-                  }}
-                >
-                  <Button
-                    variant="secondary"
-                    onClick={() => {
-                      setOpen(false);
-                      setCurrentValue(value);
-                    }}
-                  >
-                    {t('tr_cancel')}
-                  </Button>
-                  <Button
-                    variant="main"
-                    onClick={() => {
-                      setCurrentValue(innerValue);
-                      setOpen(false);
-                    }}
-                  >
-                    {t('tr_save')}
-                  </Button>
-                </Stack>
-              ),
+              actionBar: TimePickerActionBar,
             }}
             slotProps={{
+              actionBar: {
+                onSave: () => {
+                  setCurrentValue(innerValue);
+                  setOpen(false);
+                },
+                onClear: () => {
+                  setOpen(false);
+                  setCurrentValue(value);
+                  setInnerValue(value);
+                },
+              } as never,
               textField: {
                 setOpen: setOpen,
                 label: label,
                 value: currentValue,
+                onClick: () => setOpen(!open),
               } as never,
               toolbar: {
                 hidden: false,

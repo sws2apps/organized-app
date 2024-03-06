@@ -538,7 +538,9 @@ const ComponentPreview = () => {
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'row', gap: '20px', marginTop: '40px', marginBottom: '40px' }}>
           <CPETimePicker ampm={true} label={'Time'} />
+          <CPETimePicker ampm={true} label={'Time'} isValueOnOpen />
           <CPETimePicker ampm={false} label={'Time'} />
+          <CPETimePicker ampm={false} label={'Time'} isValueOnOpen />
         </Box>
         <Box sx={{ mb: 5 }}>
           Tabs:

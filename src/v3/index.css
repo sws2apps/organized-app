@@ -37,6 +37,11 @@ span .text-markup:last-child {
   padding: 50px;
 }
 
+.pop-up {
+  background-color: var(--white);
+  border-radius: var(--radius-xxl);
+}
+
 @keyframes fade-out-top {
   from {
     opacity: 1;
@@ -119,7 +124,6 @@ span .text-markup:last-child {
     transform: rotate(360deg);
   }
 }
-
 
 /* width */
 ::-webkit-scrollbar {
