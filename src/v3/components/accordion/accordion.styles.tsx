@@ -5,6 +5,7 @@ import { Stack } from '@mui/material';
 import { IconExpand } from '@icons/index';
 import MuiAccordionDetails, { AccordionDetailsProps } from '@mui/material/AccordionDetails';
 import { AccordionViewProps } from './accordion.types';
+import { colorVariants } from '@components/public_witnessing_card/public_witnessing_card.styles';
 
 export const Accordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -26,15 +27,7 @@ export const AccordionSummary = styled((props: AccordionSummaryProps & Accordion
             props.onIconClick?.();
           }}
         >
-          <IconExpand
-            color={
-              props.view === 'orange'
-                ? 'var(--orange-main)'
-                : props.view === 'silver'
-                  ? 'var(--grey-300)'
-                  : 'var(--accent-400)'
-            }
-          />
+          <IconExpand color={colorVariants[props.view] || colorVariants.dashed} />
         </Stack>
       ) : null
     }
@@ -54,13 +47,17 @@ export const AccordionSummary = styled((props: AccordionSummaryProps & Accordion
   },
 }));
 
+const colorBorder = {
+  orange: 'var(--orange-main)',
+  silver: 'var(--grey-200)',
+  default: 'var(--accent-200)',
+};
+
 export const AccordionDetails = styled((props: AccordionDetailsProps & AccordionViewProps) => (
   <MuiAccordionDetails {...props} />
 ))((props) => ({
   padding: '8px 0 0 0',
   marginTop: '8px',
   borderTop: '1px solid',
-  borderColor:
-    props.view === 'orange' ? 'var(--orange-main)' : props.view === 'silver' ? 'var(--grey-200)' : 'var(--accent-200)',
-  // color: props.view === 'orange' ? 'var(--orange-dark)' : 'var(--accent-400)',
+  borderColor: colorBorder[props.view] || colorBorder.default,
 }));

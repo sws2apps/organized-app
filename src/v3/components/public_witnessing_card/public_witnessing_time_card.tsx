@@ -10,10 +10,6 @@ const CPEPublicWitnessingTimeCard = (props: PublicWitnessingCardProps) => {
   const isContent = !!witnesses && !!needWitnesses;
 
   const getVariant = () => {
-    // if (isPast) return isContent ? 'silver' : 'disabled';
-    // if (isContent && witnesses.length < needWitnesses) return 'orange';
-    // if (isContent && witnesses.length === needWitnesses) return 'dashed';
-    // return 'accent';
     if (isPast) return isContent ? 'silver' : 'disabled';
     if (!isContent) return 'accent';
     if (witnesses.length < needWitnesses) return 'orange';

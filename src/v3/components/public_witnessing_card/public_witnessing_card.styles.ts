@@ -30,6 +30,14 @@ const hoverColorView = {
   disabled: 'transparent',
   accent: 'var(--accent-150)',
 };
+
+export const colorVariants = {
+  orange: 'var(--orange-dark)',
+  dashed: 'var(--accent-400)',
+  silver: 'var(--grey-300)',
+  accent: 'var(--accent-dark)',
+  disabled: 'var(--grey-300)',
+};
 export const CardWrapper = styled(ButtonBase)<ButtonBaseProps & { view: CPEAccordionVariant }>(({ view }) => ({
   minHeight: '48px',
   width: '100%',
@@ -40,11 +48,6 @@ export const CardWrapper = styled(ButtonBase)<ButtonBaseProps & { view: CPEAccor
   padding: '10px',
   backgroundColor: bgColorView[view],
   pointerEvents: view === 'disabled' ? 'none' : null,
-  // '&.Mui-disabled': {
-  //   backgroundColor: 'var(--grey-100)',
-  //   border: '1px solid var(--grey-200)',
-  //   color: 'var(--grey-300)',
-  // },
   '&:hover': {
     backgroundColor: hoverColorView[view],
   },
