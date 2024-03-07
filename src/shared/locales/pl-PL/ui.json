@@ -563,5 +563,6 @@
   "navMenuHelp": "Pomoc",
   "docsUrlCode": "dokumenty",
   "useExactMidweekMeetingDate": "Użyj dokładnej daty spotkania w S-140",
-  "useSubtituteSpeaker": "Przypisz zastępcę za mówcę"
+  "useSubtituteSpeaker": "Przypisz zastępcę za mówcę",
+  "customTalk": "Custom public talk"
 }

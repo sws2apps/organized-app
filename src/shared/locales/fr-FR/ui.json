@@ -563,5 +563,6 @@
   "navMenuHelp": "Aide",
   "docsUrlCode": "docs",
   "useExactMidweekMeetingDate": "Use exact meeting date in S-140",
-  "useSubtituteSpeaker": "Assign substitute for a visiting speaker"
+  "useSubtituteSpeaker": "Assign substitute for a visiting speaker",
+  "customTalk": "Custom public talk"
 }

@@ -563,5 +563,6 @@
   "navMenuHelp": "Помощь",
   "docsUrlCode": "docs",
   "useExactMidweekMeetingDate": "Использовать точную дату встречи в S-140",
-  "useSubtituteSpeaker": "Назначать замену приглашенному докладчику"
+  "useSubtituteSpeaker": "Назначать замену приглашенному докладчику",
+  "customTalk": "Custom public talk"
 }
