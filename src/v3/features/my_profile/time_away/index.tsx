@@ -1,8 +1,7 @@
-import { Box } from '@mui/material';
 import { IconAdd } from '@icons/index';
 import Button from '@components/button';
 import Typography from '@components/typography';
-import { ProfileItemContainer } from '../my_profile.styles';
+import { ProfileItemContainer, SettingWithBorderContainer } from '../my_profile.styles';
 import { useAppTranslation } from '@hooks/index';
 import useTimeAway from './useTimeAway';
 import TimeAwayItem from './components/TimeAwayItem';
@@ -27,7 +26,7 @@ const UserTimeAway = () => {
         </Button>
       )}
 
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+      <SettingWithBorderContainer>
         {timeAwayList.data.map((timeAwayItem, index) => (
           <TimeAwayItem
             key={timeAwayItem.id}
@@ -38,7 +37,7 @@ const UserTimeAway = () => {
             tabletDown={tabletDown}
           />
         ))}
-      </Box>
+      </SettingWithBorderContainer>
     </ProfileItemContainer>
   );
 };

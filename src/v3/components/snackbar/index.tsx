@@ -1,6 +1,10 @@
-import { Snackbar, SnackbarOrigin } from '@mui/material';
+import { Fade, FadeProps, Snackbar, SnackbarOrigin } from '@mui/material';
 import InfoMessage from '@components/info-message';
 import { SnackbarPropsType } from './index.types';
+
+const FadeTransition = (props: FadeProps) => {
+  return <Fade {...props} />;
+};
 
 const CPESnackbar = (props: SnackbarPropsType) => {
   const open = props.open || false;
@@ -27,6 +31,7 @@ const CPESnackbar = (props: SnackbarPropsType) => {
 
   return (
     <Snackbar
+      TransitionComponent={FadeTransition}
       open={open}
       onClose={props.onClose}
       anchorOrigin={getAnchorOrigin()}

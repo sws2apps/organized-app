@@ -12,7 +12,15 @@ const SessionItem = (props: { session: SessionResponseType }) => {
 
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', justifyContent: 'space-between' }}>
-      <Box sx={{ padding: '8px' }}>
+      <Box
+        sx={{
+          padding: '8px',
+          borderRadius: 'var(--radius-l)',
+          backgroundColor: 'var(--accent-150)',
+          display: 'flex',
+          boxSizing: 'content-box',
+        }}
+      >
         {session.device.isMobile && <IconPhone height={40} width={40} color="var(--accent-dark)" />}
         {!session.device.isMobile && <IconComputer height={40} width={40} color="var(--accent-dark)" />}
       </Box>

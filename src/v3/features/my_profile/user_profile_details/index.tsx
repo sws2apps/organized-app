@@ -8,7 +8,7 @@ import { ProfileItemContainer } from '../my_profile.styles';
 const UserProfileDetails = () => {
   const { t } = useAppTranslation();
 
-  const { tabletDown, firstNameTmp, handleChangeFirstName, handleChangeLastName, lastNameTmp, userEmail } =
+  const { tabletDown, firstNameTmp, handleChangeFirstName, handleChangeLastName, lastNameTmp, userEmail, isConnected } =
     useUserProfileDetails();
 
   return (
@@ -43,16 +43,18 @@ const UserProfileDetails = () => {
             onChange={(e) => handleChangeLastName(e.target.value)}
           />
         </Box>
-        <TextField
-          label={t('tr_emailAddress')}
-          value={userEmail}
-          InputProps={{ readOnly: true }}
-          helperText={
-            <Typography className="label-small-regular" color="var(--grey-350)">
-              {t('tr_emailAddressDesc')}
-            </Typography>
-          }
-        />
+        {isConnected && (
+          <TextField
+            label={t('tr_emailAddress')}
+            value={userEmail}
+            InputProps={{ readOnly: true }}
+            helperText={
+              <Typography className="label-small-regular" color="var(--grey-350)">
+                {t('tr_emailAddressDesc')}
+              </Typography>
+            }
+          />
+        )}
       </Box>
     </ProfileItemContainer>
   );

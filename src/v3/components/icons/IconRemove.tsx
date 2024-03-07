@@ -18,12 +18,12 @@ const IconRemove = ({ color = '#222222', width = 24, height = 24, sx = {} }: Ico
           x="0"
           y="0"
           width="24"
-          height="24"
+          height="25"
         >
-          <rect y="0.500488" width="24" height="24" fill="#D9D9D9" />
+          <rect y="0.000488281" width="24" height="24" fill="#D9D9D9" />
         </mask>
         <g mask="url(#mask0_2533_9224)">
-          <path d="M5 13.5005V11.5005H19V13.5005H5Z" fill={color} />
+          <path d="M5 13.0005V11.0005H19V13.0005H5Z" fill={color} />
         </g>
       </svg>
     </SvgIcon>

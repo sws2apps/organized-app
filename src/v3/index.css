@@ -141,4 +141,8 @@ span .text-markup:last-child {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: var(--grey-350);
+
+  
+.MuiOtpInput-TextField {
+  outline: none;
 }

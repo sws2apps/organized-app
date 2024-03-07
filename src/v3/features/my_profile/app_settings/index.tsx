@@ -1,5 +1,6 @@
-import { Box, MenuItem } from '@mui/material';
+import { Box } from '@mui/material';
 import ColorSchemeSwitcher from '@features/color_scheme_selector';
+import MenuItem from '@components/menuitem';
 import Select from '@components/select';
 import Switch from '@components/switch';
 import SwitcherContainer from '@components/switcher_container';
@@ -53,7 +54,9 @@ const AppSettings = () => {
             >
               {[5, 15, 30, 45].map((time) => (
                 <MenuItem key={time} value={time}>
-                  {`${time} ${t('tr_syncIntervalMinLabel')}`}
+                  <Typography className="body-regular" color="var(--black)">
+                    {`${time} ${t('tr_syncIntervalMinLabel')}`}
+                  </Typography>
                 </MenuItem>
               ))}
             </Select>
