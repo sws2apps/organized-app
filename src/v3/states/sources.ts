@@ -16,7 +16,7 @@ export const epubFileState = atom({
 
 export const isImportJWOrgState = atom({
   key: 'isImportJWOrg',
-  default: true,
+  default: false,
 });
 
 export const isImportEPUBState = atom({

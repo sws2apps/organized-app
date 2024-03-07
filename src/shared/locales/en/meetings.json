@@ -91,5 +91,7 @@
   "tr_speakers": "{{ speakersCount }} speakers",
   "tr_addLocation": "Add location",
   "tr_JWImport": "Importing materials from jw.org",
-  "tr_JWImportDesc": "Downloading meeting materials, please wait"
+  "tr_JWImportDesc": "Downloading meeting materials, please wait",
+  "tr_successfullyImported": "Successfully imported",
+  "tr_successfullyImportedDesc": "New materials are now available on the midweek and weekend meeting materials pages"
 }

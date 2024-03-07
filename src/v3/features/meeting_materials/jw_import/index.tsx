@@ -1,20 +1,23 @@
 import SnackBar from '@components/snackbar';
 import useJWMaterialsImport from './useJWMaterialsImport';
 import { useAppTranslation } from '@hooks/index';
-import { IconLoading } from '@components/icons';
+import { IconCheckCircle, IconLoading } from '@components/icons';
 
 const JWMaterialsImport = () => {
   const { t } = useAppTranslation();
 
-  const { isOpen } = useJWMaterialsImport();
+  const { isOpen, handleAbort, isCompleted } = useJWMaterialsImport();
 
   return (
     <SnackBar
       open={isOpen}
-      messageHeader={t('tr_JWImport')}
-      message={t('tr_JWImportDesc')}
-      messageIcon={<IconLoading color="var(--always-white)" />}
-      variant="message-with-button"
+      onClose={isCompleted ? handleAbort : null}
+      messageHeader={isCompleted ? t('tr_successfullyImported') : t('tr_JWImport')}
+      message={isCompleted ? t('tr_successfullyImportedDesc') : t('tr_JWImportDesc')}
+      messageIcon={
+        isCompleted ? <IconCheckCircle color="var(--always-white)" /> : <IconLoading color="var(--always-white)" />
+      }
+      variant={isCompleted ? 'success' : 'message-with-button'}
     />
   );
 };
