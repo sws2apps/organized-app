@@ -166,7 +166,7 @@ const NavBar = () => {
 
             {isCongAccountConnected && (
               <MenuItem disableRipple sx={menuStyle} onClick={handleOpenMyProfile}>
-                <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px' } }}>
+                <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px !important' } }}>
                   <IconAccount color="var(--black)" />
                 </ListItemIcon>
                 <ListItemText>
@@ -176,7 +176,7 @@ const NavBar = () => {
             )}
             {!isAppLoad && !isCongAccountConnected && (
               <MenuItem disableRipple sx={menuStyle} onClick={handleReconnectAccount}>
-                <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px' } }}>
+                <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px !important' } }}>
                   <IconLogin color="var(--black)" />
                 </ListItemIcon>
                 <ListItemText>
@@ -185,7 +185,7 @@ const NavBar = () => {
               </MenuItem>
             )}
             <MenuItem disableRipple sx={menuStyle} onClick={handleOpenSupport}>
-              <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px' } }}>
+              <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px !important' } }}>
                 <IconDonate color="var(--black)" />
               </ListItemIcon>
               <ListItemText>
@@ -193,7 +193,7 @@ const NavBar = () => {
               </ListItemText>
             </MenuItem>
             <MenuItem disableRipple sx={menuStyle} onClick={handleOpenDoc}>
-              <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px' } }}>
+              <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px !important' } }}>
                 <IconHelp color="var(--black)" />
               </ListItemIcon>
               <ListItemText>
@@ -201,7 +201,7 @@ const NavBar = () => {
               </ListItemText>
             </MenuItem>
             <MenuItem disableRipple sx={menuStyle} onClick={handleOpenAbout}>
-              <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px' } }}>
+              <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px !important' } }}>
                 <IconInfo color="var(--black)" />
               </ListItemIcon>
               <ListItemText>

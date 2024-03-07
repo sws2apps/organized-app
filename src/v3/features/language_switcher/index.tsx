@@ -23,7 +23,7 @@ const LanguageSwitcher = ({ menuStyle }: { menuStyle: SxProps }) => {
   return (
     <>
       <MenuItem disableRipple sx={menuStyle} onClick={handleClick}>
-        <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px' } }}>
+        <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px !important' } }}>
           <IconLanguage color="var(--black)" />
         </ListItemIcon>
         {(tabletDown || !isAppLoad) && (
