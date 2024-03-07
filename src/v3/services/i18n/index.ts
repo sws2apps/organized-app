@@ -25,6 +25,9 @@ for await (const language of LANGUAGE_LIST) {
   const ministry = await import(`../../../shared/locales/${language.locale}/ministry.json`).then(
     (module) => module.default
   );
+  const meetings = await import(`../../../shared/locales/${language.locale}/meetings.json`).then(
+    (module) => module.default
+  );
 
   // load source namespace
   const source = await import(`../../../shared/locales/${language.locale}/forms-templates.json`).then(
@@ -32,7 +35,7 @@ for await (const language of LANGUAGE_LIST) {
   );
 
   resources[language.code] = {
-    ui: { ...dashboard, ...general, ...onboarding, ...profile, ...ministry },
+    ui: { ...dashboard, ...general, ...onboarding, ...profile, ...ministry, ...meetings },
     source,
   };
 }
