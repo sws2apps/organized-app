@@ -1,12 +1,12 @@
 {
-  "name": "cpe-sws",
+  "name": "organized",
   "private": true,
   "version": "2.115.0",
   "license": "MIT",
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sws2apps/cpe-sws.git"
+    "url": "https://github.com/sws2apps/organized-app.git"
   },
   "scripts": {
     "dev": "vite",
