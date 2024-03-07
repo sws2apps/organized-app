@@ -563,5 +563,6 @@
   "navMenuHelp": "Aiduro",
   "docsUrlCode": "docs",
   "useExactMidweekMeetingDate": "Fa CPE S-140 no wɔ nnidi nkwa asɛm so",
-  "useSubtituteSpeaker": "Aha ɛtumi nsɔ Ewɔ nea ɛwɔ hɔ no"
+  "useSubtituteSpeaker": "Aha ɛtumi nsɔ Ewɔ nea ɛwɔ hɔ no",
+  "customTalk": "Custom public talk"
 }
