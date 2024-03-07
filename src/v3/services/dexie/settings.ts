@@ -53,7 +53,7 @@ export const handleUserTimeAwayAdd = async () => {
     value: obj,
   };
 
-  const currentTimeAways = current.user_time_away;
+  const currentTimeAways = current?.user_time_away || { data: [], changes: [] };
   const currentData = currentTimeAways.data || [];
   const currentChanges = currentTimeAways.changes || [];
 
