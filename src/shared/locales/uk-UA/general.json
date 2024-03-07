@@ -1,4 +1,5 @@
 {
+  "tr_iso": "en",
   "tr_errorTitle": "Сталася помилка",
   "tr_about": "Про додаток",
   "tr_appFullName": "Organized",
@@ -40,7 +41,14 @@
   "tr_november": "November",
   "tr_december": "December",
   "tr_shortDateFormat": "MM/dd/yyyy",
-  "tr_longDateFormat": "EEE, MMM, dd yyyy",
+  "tr_longDateFormat": "EEE, MMM dd, yyyy",
   "tr_delete": "Delete",
-  "tr_add": "Add"
+  "tr_add": "Add",
+  "tr_longDateTimeFormat": "mm/dd/yyyy HH:MM",
+  "tr_yes": "Yes",
+  "tr_themeFollowOSDisable": "Turn off automatic theme change?",
+  "tr_themeFollowOSDisableDesc": "If you want to switch the theme back to automatic, you can do this in your profile settings",
+  "tr_setup": "Setup",
+  "tr_verify": "Verify",
+  "tr_2FATokenInvalidExpired": "The code is invalid or expired. Please try again."
 }
