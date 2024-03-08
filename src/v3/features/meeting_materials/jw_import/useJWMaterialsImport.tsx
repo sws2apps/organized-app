@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useAppTranslation } from '@hooks/index';
 import { isImportJWOrgState } from '@states/sources';
@@ -11,40 +11,33 @@ import { addJwDataToDb } from '@services/cpe/sources';
 const useJWMaterialsImport = () => {
   const { t } = useAppTranslation();
 
-  const cancel = useRef<boolean>();
-
   const isOpen = useRecoilValue(isImportJWOrgState);
 
   const [isCompleted, setIsCompleted] = useState(false);
 
-  const handleAbort = async () => {
-    cancel.current = true;
+  const handleClose = async () => {
     await setIsImportJWOrg(false);
   };
 
   useEffect(() => {
     const handleRunImport = async () => {
       try {
-        cancel.current = false;
-
         const { data, status } = await apiFetchSources();
 
-        if (!cancel.current) {
-          if (status === 200) {
-            if (data && data.length > 0) {
-              await addJwDataToDb(data);
-            }
-
-            setIsCompleted(true);
-            return;
+        if (status === 200) {
+          if (data && data.length > 0) {
+            await addJwDataToDb(data);
           }
 
-          await displaySnackNotification({
-            header: t('tr_errorTitle'),
-            message: getMessageByCode(data.message),
-            severity: 'error',
-          });
+          setIsCompleted(true);
+          return;
         }
+
+        await displaySnackNotification({
+          header: t('tr_errorTitle'),
+          message: getMessageByCode(data.message),
+          severity: 'error',
+        });
       } catch (error) {
         await setIsImportJWOrg(false);
 
@@ -59,7 +52,7 @@ const useJWMaterialsImport = () => {
     handleRunImport();
   }, [t]);
 
-  return { isOpen, handleAbort, isCompleted };
+  return { isOpen, handleClose, isCompleted };
 };
 
 export default useJWMaterialsImport;

@@ -2,11 +2,19 @@ import { Outlet } from 'react-router-dom';
 import NavBar from '@layouts/navbar';
 import { AppModalWrapper } from '@wrapper/index';
 import { Box, Container } from '@mui/material';
-import { About, AppFeedback, AppUpdater, JWMaterialsImport, Startup, Support } from '@features/index';
+import {
+  About,
+  AppFeedback,
+  AppUpdater,
+  EPUBMaterialsImport,
+  JWMaterialsImport,
+  Startup,
+  Support,
+} from '@features/index';
 import useRootLayout from './useRootLayout';
 
 const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
-  const { isAppLoad, isOpenAbout, isOpenSupport, appSnackOpen, isImportJWOrg } = useRootLayout();
+  const { isAppLoad, isOpenAbout, isOpenSupport, appSnackOpen, isImportJWOrg, isImportEPUB } = useRootLayout();
 
   return (
     <AppModalWrapper>
@@ -15,6 +23,7 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
 
       {appSnackOpen && <AppFeedback />}
       {isImportJWOrg && <JWMaterialsImport />}
+      {isImportEPUB && <EPUBMaterialsImport />}
 
       <Container
         maxWidth={false}

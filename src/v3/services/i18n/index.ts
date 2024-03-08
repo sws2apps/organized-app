@@ -34,7 +34,7 @@ for await (const language of LANGUAGE_LIST) {
     (module) => module.default
   );
 
-  resources[language.code] = {
+  resources[language.locale] = {
     ui: { ...dashboard, ...general, ...onboarding, ...profile, ...ministry, ...meetings },
     source,
   };
@@ -43,8 +43,8 @@ for await (const language of LANGUAGE_LIST) {
 i18n.use(initReactI18next).init({
   resources,
   defaultNS,
-  lng: 'e',
-  fallbackLng: 'e',
+  lng: 'en',
+  fallbackLng: 'en',
   interpolation: { escapeValue: false },
 });
 
