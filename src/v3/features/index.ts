@@ -6,6 +6,8 @@ export { default as AppUpdater } from './app_updater';
 export { default as ColorSchemeSelector } from './color_scheme_selector';
 export { default as DashboardCard } from './dashboard/card';
 export { default as DashboardMenu } from './dashboard/menu';
+export { default as EPUBMaterialsImport } from './meeting_materials/epub_import';
+export { default as JWMaterialsImport } from './meeting_materials/jw_import';
 export { default as LanguageSwitcher } from './language_switcher';
 export { default as MinistryPreferences } from './my_profile/ministry_preferences';
 export { default as MinistryTimer } from './ministry_timer';

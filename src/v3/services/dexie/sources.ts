@@ -200,7 +200,7 @@ export const epubSaveSource = async (data: SourceWeekIncomingType[]) => {
 
       let assType: number;
 
-      obj.weekOf = src.mwb_week_date;
+      obj.weekOf = src.mwb_week_date || src.week_date;
       obj.mwb_week_date_locale = src.mwb_week_date_locale;
 
       // Weekly Bible Reading
@@ -220,14 +220,14 @@ export const epubSaveSource = async (data: SourceWeekIncomingType[]) => {
       obj.mwb_ayf_count = src.mwb_ayf_count;
 
       //AYF1 Assignment Type
-      assType = assTypeList.find((type) => type.label === src.mwb_ayf_part1_type).value;
+      assType = assTypeList.find((type) => type.label === src.mwb_ayf_part1_type)?.value || 127;
       obj.mwb_ayf_part1_type = assType;
 
       //AYF1 Assignment Time
       obj.mwb_ayf_part1_time = src.mwb_ayf_part1_time;
 
       //AYF1 Assignment Source
-      obj.mwb_ayf_part1 = src.mwb_ayf_part1;
+      obj.mwb_ayf_part1 = assType === 127 ? src.mwb_ayf_part1_type : src.mwb_ayf_part1;
 
       obj.mwb_ayf_part2_type = '';
       obj.mwb_ayf_part2_time = '';
@@ -241,38 +241,38 @@ export const epubSaveSource = async (data: SourceWeekIncomingType[]) => {
 
       if (cnAYF > 1) {
         //AYF2 Assignment Type
-        assType = assTypeList.find((type) => type.label === src.mwb_ayf_part2_type).value;
+        assType = assTypeList.find((type) => type.label === src.mwb_ayf_part2_type)?.value || 127;
         obj.mwb_ayf_part2_type = assType;
 
         //AYF2 Assignment Time
         obj.mwb_ayf_part2_time = src.mwb_ayf_part2_time;
 
         //AYF2 Assignment Source
-        obj.mwb_ayf_part2 = src.mwb_ayf_part2;
+        obj.mwb_ayf_part2 = assType === 127 ? src.mwb_ayf_part2_type : src.mwb_ayf_part2;
       }
 
       if (cnAYF > 2) {
         //AYF3 Assignment Type
-        assType = assTypeList.find((type) => type.label === src.mwb_ayf_part3_type).value;
+        assType = assTypeList.find((type) => type.label === src.mwb_ayf_part3_type)?.value || 127;
         obj.mwb_ayf_part3_type = assType;
 
         //AYF3 Assignment Time
         obj.mwb_ayf_part3_time = src.mwb_ayf_part3_time;
 
         //AYF3 Assignment Source
-        obj.mwb_ayf_part3 = src.mwb_ayf_part3;
+        obj.mwb_ayf_part3 = assType === 127 ? src.mwb_ayf_part3_type : src.mwb_ayf_part3;
       }
 
       if (cnAYF > 3) {
         //AYF4 Assignment Type
-        assType = assTypeList.find((type) => type.label === src.mwb_ayf_part4_type).value;
+        assType = assTypeList.find((type) => type.label === src.mwb_ayf_part4_type)?.value || 127;
         obj.mwb_ayf_part4_type = assType;
 
         //AYF4 Assignment Time
         obj.mwb_ayf_part4_time = src.mwb_ayf_part4_time;
 
         //AYF3 Assignment Source
-        obj.mwb_ayf_part2 = src.mwb_ayf_part2;
+        obj.mwb_ayf_part4 = assType === 127 ? src.mwb_ayf_part4_type : src.mwb_ayf_part4;
       }
 
       // Middle Song
@@ -314,7 +314,7 @@ export const epubSaveSource = async (data: SourceWeekIncomingType[]) => {
     }
 
     if (isW) {
-      obj.weekOf = src.w_study_date;
+      obj.weekOf = src.w_study_date || src.week_date;
       obj.w_study_date_locale = src.w_study_date_locale;
       obj.w_study_title = src.w_study_title;
       obj.w_study_opening_song = src.w_study_opening_song;
@@ -330,14 +330,14 @@ export const epubSaveSource = async (data: SourceWeekIncomingType[]) => {
     schedObj.noWMeeting = false;
 
     if (isMWB) {
-      schedObj.weekOf = src.mwb_week_date;
+      schedObj.weekOf = src.mwb_week_date || src.week_date;
     }
 
     if (isW) {
-      schedObj.weekOf = src.w_study_date;
+      schedObj.weekOf = src.w_study_date || src.week_date;
     }
 
-    await saveScheduleInfo({ scheduleInfo: obj, isOverride: false });
+    await saveScheduleInfo({ scheduleInfo: schedObj, isOverride: false });
   }
 };
 

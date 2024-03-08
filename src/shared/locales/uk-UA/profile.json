@@ -54,8 +54,6 @@
   "tr_doneDesc": "Сесія припинена",
   "tr_2FAEnable": "Включити двоетапну авторизацію",
   "tr_2FAEnableDesc": "Use the Google Authenticator or Microsoft Authenticator app on your mobile device to scan the QR code and complete the setup. ",
-  "tr_authenticationTokenDesc": "Якщо ти не можеш відсканувати QR-код, будь ласка, скористайся наведеним нижче ключем:",
-  "tr_authenticationToken": "Токен аутентифікації",
   "tr_codeCopied": "Код скопійовано",
   "tr_codeCopiedDesc": "Встав його у твій додаток для аутентифікації",
   "tr_2FAEnabled": "Двоетапна авториація активована",
@@ -72,5 +70,15 @@
   "tr_PINConfirmDesc": "Підтверди свій PIN-код для завершення налаштування.",
   "tr_PINSet": "Set pin",
   "tr_PINNewSet": "Новий PIN-код встановлено",
-  "tr_PINNewSetDesc": "Ти можеш використовувати його для розблокування додатку Organized"
+  "tr_PINNewSetDesc": "Ти можеш використовувати його для розблокування додатку Organized",
+  "tr_lastSeen": "Last seen: {{ date }}",
+  "tr_2FAStep1": "Step 1: Set up 2FA on your device",
+  "tr_2FAStep1Desc": "Use one of the methods below to link your authentication app. We suggest using the Google Authenticator or Microsoft Authenticator.",
+  "tr_2FAQuickSetup": "Quick setup",
+  "tr_2FAQuickSetupDesc": "If you have any of the mentioned authenticator apps above, use this button to quickly set it up on your device.",
+  "tr_2FAQRCode": "QR code",
+  "tr_2FAQRCodeDesc": "Scan the QR code with your authenticator app to set up Two-Factor Authentication.",
+  "tr_2FASetupKey": "Setup key",
+  "tr_2FASetupKeyDesc": "Copy the setup key and paste it into your authenticator app to set up Two-Factor Authentication.",
+  "tr_2FAStep2": "Step 2: Enter the 2FA code"
 }

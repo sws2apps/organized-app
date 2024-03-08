@@ -2,6 +2,7 @@ import { atom, selector } from 'recoil';
 import { getShortDatePickerFormat, getTranslation } from '@services/i18n/translation';
 import { convertStringToBoolean } from '@utils/common';
 import { SnackBarSeverityType } from '@definition/app';
+import { ReactElement } from 'react';
 
 export const isDarkThemeState = atom({
   key: 'isDarkTheme',
@@ -40,7 +41,7 @@ export const isLoginOpenState = atom({
 
 export const appLangState = atom({
   key: 'appLang',
-  default: (typeof window !== 'undefined' && localStorage.getItem('app_lang')) || 'e',
+  default: (typeof window !== 'undefined' && localStorage.getItem('app_lang')) || 'en',
 });
 
 export const monthNamesState = selector({
@@ -279,6 +280,11 @@ export const appMessageState = atom({
 export const appMessageHeaderState = atom({
   key: 'appMessageHeader',
   default: '',
+});
+
+export const appMessageIconState = atom<ReactElement | null>({
+  key: 'appMessageIcon',
+  default: null,
 });
 
 export const congAccountConnectedState = atom({

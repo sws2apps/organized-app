@@ -54,8 +54,6 @@
   "tr_doneDesc": "The session is terminated",
   "tr_2FAEnable": "Enable two-factor authentication",
   "tr_2FAEnableDesc": "Use the Google Authenticator or Microsoft Authenticator app on your mobile device to scan the QR code and complete the setup. ",
-  "tr_authenticationTokenDesc": "If you are unable to scan the QR code, please use the following token:",
-  "tr_authenticationToken": "Authentication token",
   "tr_codeCopied": "The code has been copied",
   "tr_codeCopiedDesc": "Paste it into your authenticator app",
   "tr_2FAEnabled": "Two-factor authentication is enabled",
@@ -72,5 +70,15 @@
   "tr_PINConfirmDesc": "Confirm your PIN to complete the setup.",
   "tr_PINSet": "Set pin",
   "tr_PINNewSet": "New PIN set",
-  "tr_PINNewSetDesc": "You can now use it to unlock the Organized app"
+  "tr_PINNewSetDesc": "You can now use it to unlock the Organized app",
+  "tr_lastSeen": "Last seen: {{ date }}",
+  "tr_2FAStep1": "Step 1: Set up 2FA on your device",
+  "tr_2FAStep1Desc": "Use one of the methods below to link your authentication app. We suggest using the Google Authenticator or Microsoft Authenticator.",
+  "tr_2FAQuickSetup": "Quick setup",
+  "tr_2FAQuickSetupDesc": "If you have any of the mentioned authenticator apps above, use this button to quickly set it up on your device.",
+  "tr_2FAQRCode": "QR code",
+  "tr_2FAQRCodeDesc": "Scan the QR code with your authenticator app to set up Two-Factor Authentication.",
+  "tr_2FASetupKey": "Setup key",
+  "tr_2FASetupKeyDesc": "Copy the setup key and paste it into your authenticator app to set up Two-Factor Authentication.",
+  "tr_2FAStep2": "Step 2: Enter the 2FA code"
 }

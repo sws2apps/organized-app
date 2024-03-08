@@ -1,12 +1,12 @@
 {
-  "name": "cpe-sws",
+  "name": "organized",
   "private": true,
-  "version": "2.115.0",
+  "version": "3.0.0",
   "license": "MIT",
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sws2apps/cpe-sws.git"
+    "url": "https://github.com/sws2apps/organized-app.git"
   },
   "scripts": {
     "dev": "vite",
@@ -33,9 +33,9 @@
     "@fingerprintjs/fingerprintjs": "^4.2.2",
     "@fontsource/inter": "^5.0.17",
     "@fontsource/poppins": "^5.0.12",
-    "@fontsource/roboto": "^5.0.8",
+    "@fontsource/roboto": "^5.0.12",
     "@mui/icons-material": "^5.15.12",
-    "@mui/material": "^5.15.11",
+    "@mui/material": "^5.15.12",
     "@mui/x-date-pickers": "^6.19.6",
     "@mui/x-tree-view": "^6.17.0",
     "@react-pdf/renderer": "^3.3.8",
@@ -59,9 +59,9 @@
     "qrcode": "^1.5.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-i18next": "^14.0.8",
+    "react-i18next": "^14.1.0",
     "react-pdf-html": "^1.2.0",
-    "react-router-dom": "^6.22.2",
+    "react-router-dom": "^6.22.3",
     "recoil": "^0.7.7",
     "recoil-outside": "^0.1.1",
     "swiper": "^11.0.7",
@@ -80,7 +80,7 @@
     "@svgr/plugin-prettier": "^8.1.0",
     "@svgx/vite-plugin-react": "^1.0.1",
     "@sws2apps/vite-plugin-package-version": "^1.4.0",
-    "@types/react": "^18.2.62",
+    "@types/react": "^18.2.64",
     "@types/react-dom": "^18.2.21",
     "@vitejs/plugin-react": "^4.2.1",
     "cypress": "^13.6.6",
