@@ -7,7 +7,7 @@ import useMeetingMaterials from './useMeetingMaterials';
 const MeetingsMaterialsCard = () => {
   const { t } = useAppTranslation();
 
-  const { handleOpenJWImport, isNavigatorOnline } = useMeetingMaterials();
+  const { handleOpenJWImport, isNavigatorOnline, handleOpenEPUBFile } = useMeetingMaterials();
 
   return (
     <DashboardCard header={t('tr_meetingMaterials')}>
@@ -26,7 +26,11 @@ const MeetingsMaterialsCard = () => {
       )}
 
       <ListItem disablePadding>
-        <DashboardMenu icon={<IconImportFile color="var(--black)" />} primaryText={t('tr_sourceImportEPUB')} />
+        <DashboardMenu
+          icon={<IconImportFile color="var(--black)" />}
+          primaryText={t('tr_sourceImportEPUB')}
+          onClick={handleOpenEPUBFile}
+        />
       </ListItem>
     </DashboardCard>
   );

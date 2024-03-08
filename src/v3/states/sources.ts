@@ -9,9 +9,9 @@ export const sourcesState = atom({
   default: [],
 });
 
-export const epubFileState = atom({
+export const epubFileState = atom<File>({
   key: 'epubFile',
-  default: {},
+  default: null,
 });
 
 export const isImportJWOrgState = atom({
