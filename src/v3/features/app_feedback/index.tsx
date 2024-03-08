@@ -3,7 +3,7 @@ import useAppFeedback from './useAppFeedback';
 import { IconCheckCircle } from '@components/icons';
 
 const AppFeedback = () => {
-  const { appMessage, appSeverity, handleClose, snackOpen, appMessageHeader } = useAppFeedback();
+  const { appMessage, appSeverity, handleClose, snackOpen, appMessageHeader, appMessageIcon } = useAppFeedback();
 
   return (
     <>
@@ -15,7 +15,13 @@ const AppFeedback = () => {
           messageHeader={appMessageHeader}
           message={appMessage}
           onClose={handleClose}
-          messageIcon={appSeverity === 'success' ? <IconCheckCircle color="var(--always-white)" /> : null}
+          messageIcon={
+            appMessageIcon ? (
+              appMessageIcon
+            ) : appSeverity === 'success' ? (
+              <IconCheckCircle color="var(--always-white)" />
+            ) : null
+          }
         />
       )}
     </>
