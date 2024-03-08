@@ -57,7 +57,7 @@ const useLanguage = () => {
         localStorage.setItem('app_lang', appLangLocal);
         setUserChange(false);
       } else {
-        const appLang = localStorage.getItem('app_lang') || 'e';
+        const appLang = localStorage.getItem('app_lang') || 'en';
         await i18n.changeLanguage(appLang);
 
         const isoLang = getTranslation({ key: 'tr_iso' });

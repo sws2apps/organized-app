@@ -41,7 +41,7 @@ export const isLoginOpenState = atom({
 
 export const appLangState = atom({
   key: 'appLang',
-  default: (typeof window !== 'undefined' && localStorage.getItem('app_lang')) || 'e',
+  default: (typeof window !== 'undefined' && localStorage.getItem('app_lang')) || 'en',
 });
 
 export const monthNamesState = selector({

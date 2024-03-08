@@ -45,7 +45,7 @@ export const sourceLangState = selector({
   get: ({ get }) => {
     const settings = get(settingsState);
 
-    return settings.source_lang || 'e';
+    return settings.source_lang || 'en';
   },
 });
 
