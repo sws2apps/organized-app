@@ -26,6 +26,7 @@ export { default as TextField } from './textfield/index';
 export { default as TextMarkup } from './text_markup/index';
 export { default as ThemeSwitch } from './theme_switch/index';
 export { default as Typography } from './typography/index';
+export { default as ScrollableTabs } from './scrollable_tabs/index';
 export { default as UserCard } from './user_card/index';
 export { default as WaitingCircular } from './waiting_circular/index';
 export { default as InfoTip } from './info_tip/index';

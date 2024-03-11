@@ -18,6 +18,7 @@ import {
   ReminderItem,
   Tabs,
   SearchBar,
+  ScrollableTabs,
   ProgressBarSmall,
 } from '@components/index';
 import { useEffect, useState } from 'react';
@@ -55,6 +56,93 @@ const tabs = [
     Component: <div>Hello, Here is a content of another one meeting</div>,
   },
 ];
+
+const scrollableTabs = {
+  years: [
+    {
+      label: '2020',
+      Component: <></>,
+    },
+    {
+      label: '2021',
+      Component: <></>,
+    },
+    {
+      label: '2022',
+      Component: <></>,
+    },
+    {
+      label: '2023',
+      Component: <></>,
+    },
+    {
+      label: '2024',
+      Component: <></>,
+    },
+    {
+      label: '2025',
+      Component: <></>,
+    },
+    {
+      label: '2026',
+      Component: <></>,
+    },
+    {
+      label: '2027',
+      Component: <></>,
+    },
+  ],
+  months: [
+    {
+      label: 'January',
+      Component: <></>,
+    },
+    {
+      label: 'February',
+      Component: <></>,
+    },
+    {
+      label: 'March',
+      Component: <></>,
+    },
+    {
+      label: 'April',
+      Component: <></>,
+    },
+    {
+      label: 'May',
+      Component: <></>,
+    },
+    {
+      label: 'June',
+      Component: <></>,
+    },
+    {
+      label: 'July',
+      Component: <></>,
+    },
+    {
+      label: 'August',
+      Component: <></>,
+    },
+    {
+      label: 'September',
+      Component: <></>,
+    },
+    {
+      label: 'October',
+      Component: <></>,
+    },
+    {
+      label: 'November',
+      Component: <></>,
+    },
+    {
+      label: 'December',
+      Component: <></>,
+    },
+  ],
+};
 
 const ComponentPreview = () => {
   const [currentTheme, setCurrentTheme] = useState('blue');
@@ -546,6 +634,12 @@ const ComponentPreview = () => {
           Tabs:
           <Tabs tabs={tabs} />
         </Box>
+
+        <Box sx={{ mb: 5, display: 'flex', flexDirection: 'column', gap: 3 }}>
+          <ScrollableTabs tabs={scrollableTabs.years}></ScrollableTabs>
+          <ScrollableTabs tabs={scrollableTabs.months}></ScrollableTabs>
+        </Box>
+
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '40px', marginBottom: '40px' }}>
           <Typography className="body-regular">Search_bar:</Typography>
           {/* The onSearch function handles the search functionality. It filters the list  on the search query. */}
