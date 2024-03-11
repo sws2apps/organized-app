@@ -25,6 +25,7 @@ import { useEffect, useState } from 'react';
 import { IconAdd, IconAssign, IconClose, IconReturn, IconUndo, IconUpdate, IconInfo, IconVisitors } from '@icons/index';
 
 import { NavBar } from './layouts';
+import CPETimePicker from './components/time_picker';
 
 const themes = ['blue', 'green', 'orange', 'purple'];
 
@@ -623,7 +624,12 @@ const ComponentPreview = () => {
             ]}
           </Reminders>
         </Box>
-
+        <Box sx={{ display: 'flex', flexDirection: 'row', gap: '20px', marginTop: '40px', marginBottom: '40px' }}>
+          <CPETimePicker ampm={true} label={'Time'} />
+          <CPETimePicker ampm={true} label={'Time'} isValueOnOpen />
+          <CPETimePicker ampm={false} label={'Time'} />
+          <CPETimePicker ampm={false} label={'Time'} isValueOnOpen />
+        </Box>
         <Box sx={{ mb: 5 }}>
           Tabs:
           <Tabs tabs={tabs} />
