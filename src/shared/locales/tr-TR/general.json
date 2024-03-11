@@ -44,6 +44,8 @@
   "tr_longDateFormat": "EEE, MMM dd, yyyy",
   "tr_delete": "Sil",
   "tr_add": "Ekle",
+  "tr_pickerSelectTime": "Select time",
+  "tr_pickerSelectDate": "Select date",
   "tr_longDateTimeFormat": "gün/ay/yıl   Saat:Dk",
   "tr_yes": "Evet",
   "tr_themeFollowOSDisable": "Otomatik tema değişikliği kapatılsın mı?",
