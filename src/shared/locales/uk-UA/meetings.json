@@ -96,5 +96,8 @@
   "tr_successfullyImportedDesc": "New materials now available on related scheduling pages",
   "tr_EPUBImportFailed": "Вибраний .epub не вдалося імпортувати",
   "tr_EPUBImportFailedDesc": "Переконайся, що мова додатку збігається з мовою .epub файлу і повтори спробу.",
-  "tr_EPUBImport": "Importing materials from the .epub file"
+  "tr_EPUBImport": "Importing materials from the .epub file",
+  "tr_offline": "You are offline",
+  "tr_publicTalkOfflineDesc": "<p>You will be able to get the public talks list as soon as you have internet connection. Once you are back online, <a href='#'>reload the page</a>.</a>",
+  "tr_syncTalksList": "Sync talks list"
 }
