@@ -3,6 +3,7 @@ import { getShortDatePickerFormat, getTranslation } from '@services/i18n/transla
 import { convertStringToBoolean } from '@utils/common';
 import { SnackBarSeverityType } from '@definition/app';
 import { ReactElement } from 'react';
+import { LANGUAGE_LIST } from '@constants/index';
 
 export const isDarkThemeState = atom({
   key: 'isDarkTheme',
@@ -403,4 +404,15 @@ export const lastAppDataSyncState = atom({
 export const isMFAEnabledState = atom({
   key: 'isMFAEnabled',
   default: false,
+});
+
+export const JWLangState = selector({
+  key: 'JWLang',
+  get: ({ get }) => {
+    const appLang = get(appLangState);
+
+    const currentLang = LANGUAGE_LIST.find((lang) => lang.locale === appLang);
+
+    return currentLang.code || 'e';
+  },
 });

@@ -4,11 +4,12 @@ import { getWeekDate, getOldestWeekDate } from '@utils/date';
 import { sourcesState } from '@states/sources';
 import { formatDate } from '@services/dateformat';
 import { appDb } from '.';
-import { coordinatorRoleState, lmmoRoleState, sourceLangState } from '@states/settings';
+import { coordinatorRoleState, lmmoRoleState } from '@states/settings';
 import { saveScheduleInfo } from './schedules';
 import { assignmentTypeAYFOnlyState } from '@states/assignment';
 import { sourceSchema } from '@services/dexie/schema';
 import { SourceWeekIncomingType, SourceWeekLocaleType, SourceWeekType } from '@definition/sources';
+import { JWLangState } from '@states/app';
 
 export const removeSourcesOutdatedRecords = async () => {
   const oldestWeekDate = getOldestWeekDate();
@@ -90,12 +91,12 @@ export const saveSource = async ({
   localOverride: boolean;
   forPocket?: boolean;
 }) => {
-  const sourceLang = await promiseGetRecoil(sourceLangState);
+  const JWLang = await promiseGetRecoil(JWLangState);
   const lmmoRole = await promiseGetRecoil(lmmoRoleState);
   const coordinatorRole = await promiseGetRecoil(coordinatorRoleState);
   const sources = await promiseGetRecoil(sourcesState);
 
-  const source_lang = sourceLang.toUpperCase();
+  const source_lang = JWLang.toUpperCase();
   const isUpdateMidweek = !forPocket || (forPocket && !lmmoRole);
   const isUpdateWeekend = !forPocket || (forPocket && !coordinatorRole);
 

@@ -12,7 +12,11 @@ const MeetingsMaterialsCard = () => {
   return (
     <DashboardCard header={t('tr_meetingMaterials')}>
       <ListItem disablePadding>
-        <DashboardMenu icon={<IconPodium color="var(--black)" />} primaryText={t('tr_publicTalksList')} />
+        <DashboardMenu
+          icon={<IconPodium color="var(--black)" />}
+          primaryText={t('tr_publicTalksList')}
+          path="/public-talks-list"
+        />
       </ListItem>
 
       {isNavigatorOnline && (

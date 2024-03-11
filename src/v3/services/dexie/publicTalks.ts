@@ -1,23 +1,23 @@
 import { promiseGetRecoil } from 'recoil-outside';
-import { sourceLangState } from '@states/settings';
 import { getS34 } from '@services/cpe/publicTalks';
 import { appDb } from '.';
 import { S34Schema } from './schema';
 import { TalkType } from '@definition/sources';
+import { JWLangState } from '@states/app';
 
 export const saveS34 = async (talk_number: number, talk_title: string) => {
-  let sourceLang: string = await promiseGetRecoil(sourceLangState);
+  let JWLang: string = await promiseGetRecoil(JWLangState);
   const talk = await getS34(talk_number);
 
   let hasChange = true;
-  sourceLang = sourceLang.toUpperCase();
+  JWLang = JWLang.toUpperCase();
 
-  if (talk.talk_title[sourceLang]?.title) {
-    hasChange = talk_title !== talk.talk_title[sourceLang].title;
+  if (talk.talk_title[JWLang]?.title) {
+    hasChange = talk_title !== talk.talk_title[JWLang].title;
   }
 
   if (hasChange) {
-    const talkTitle = { ...talk.talk_title, [sourceLang]: { title: talk_title, modified: new Date().toISOString() } };
+    const talkTitle = { ...talk.talk_title, [JWLang]: { title: talk_title, modified: new Date().toISOString() } };
     await appDb.public_talks.update(talk.talk_number, { ...talk, talk_title: talkTitle });
   }
 };

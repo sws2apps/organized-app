@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary, WaitingCircular } from '@components/index';
 import { useGlobal } from '@hooks/index';
 import { RootLayout } from '@layouts/index';
+import { PublicTalksList } from './pages';
 import ComponentsPreview from './ComponentsPreview';
 
 // lazy loading
@@ -25,6 +26,7 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
           children: [
             { path: '/', element: <Dashboard /> },
             { path: '/user-profile', element: <MyProfile /> },
+            { path: '/public-talks-list', element: <PublicTalksList /> },
             { path: '*', element: <Dashboard /> },
           ],
         },

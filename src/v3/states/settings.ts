@@ -40,15 +40,6 @@ export const fullnameState = selector({
   },
 });
 
-export const sourceLangState = selector({
-  key: 'sourceLang',
-  get: ({ get }) => {
-    const settings = get(settingsState);
-
-    return settings.source_lang || 'en';
-  },
-});
-
 export const congNumberState = selector({
   key: 'congNumber',
   get: ({ get }) => {
