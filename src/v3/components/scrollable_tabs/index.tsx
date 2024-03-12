@@ -35,12 +35,12 @@ function ScrollableTabs({ tabs }: CustomTabProps) {
           '& button.Mui-selected': {
             color: 'var(--accent-main)',
             background: 'var(--accent-150)',
-            borderRadius: '25px',
+            borderRadius: 'var(--radius-max)',
           },
           '& button:not(.Mui-selected)': { color: 'var(--grey-350)' },
           // Programatically changing color of ripple (wave) when click happens:
           '& span.MuiTouchRipple-rippleVisible': { color: 'var(--accent-main)' },
-          '& span.MuiTouchRipple-root': { borderRadius: '25px' },
+          '& span.MuiTouchRipple-root': { borderRadius: 'var(--radius-max)' },
         }}
       >
         {tabs.map(
