@@ -32,7 +32,11 @@ function ScrollableTabs({ tabs }: CustomTabProps) {
             color: 'var(--accent-main)',
             '&.Mui-disabled': { opacity: 0.3 },
           },
-          '& button.Mui-selected': { color: 'var(--accent-main)' },
+          '& button.Mui-selected': {
+            color: 'var(--accent-main)',
+            background: 'var(--accent-150)',
+            borderRadius: '25px',
+          },
           '& button:not(.Mui-selected)': { color: 'var(--grey-350)' },
           // Programatically changing color of ripple (wave) when click happens:
           '& span.MuiTouchRipple-rippleVisible': { color: 'var(--accent-main)' },

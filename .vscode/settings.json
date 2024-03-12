@@ -10,5 +10,6 @@
   "prettier.singleQuote": true,
   "[css]": {
     "editor.defaultFormatter": "vscode.css-language-features"
-  }
+  },
+  "conventionalCommits.scopes": ["components"]
 }
