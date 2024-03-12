@@ -48,7 +48,7 @@
   "tr_theMonthsOf": "For the month(s) of",
   "tr_hoursGoal": "Hours goal",
   "tr_continuousAPS": "I desire to serve continuously as an auxiliary pioneer until further notice.",
-  "tr_pioneerApplicationMoral": "I am of good moral standing and habits. I have made plans that will enable me to meet the hour requirement. - See the June 2013 Our Kingdom Ministry, p. 2.",
+  "tr_pioneerApplicationMoral": "I am of good moral standing and habits. I have made plans that will enable me to meet the hour requirement. – See the <a href=\"https://wol.jw.org/en/wol/d/r1/lp-e/202013206\">June 2013 Our Kingdom Ministry, p. 2</a>.",
   "tr_nameAPSApplication": "Name, serves as a signature",
   "tr_noteAPSApplication": "NOTE: If possible, please submit this application at least a week before you desire to begin your auxilary pioneer service. This application is not to be sent to the branch office but, rather, will be kept by the congregation for its files.",
   "tr_attentionServiceCommittee": "<p>Attention Congregation Service committee:</p><p>1. Is the applicant a good example in Christian living, being of good moral character? </p><p>2. Persons reproved or reinstated during the past year or those who still have restrictions on them do not qualify.</p><p>3. Have you consulted with the appropriate group overseer?</p>",
@@ -73,7 +73,7 @@
   "tr_locationName": "Location name",
   "tr_GeneralTimeRules": "General time rules",
   "tr_maxPublisherLabel": "Max. publishers per shift",
-  "tr_whereGetCart": "Where to get a cart",
+  "tr_whereGetCart": "Storage location for Cart/Table",
   "tr_PWShifts": "Public witnessing shifts",
   "tr_selectDays": "Select days",
   "tr_everyDay": "Every day",
@@ -84,12 +84,13 @@
   "tr_havePartnerDesc": "Select your partner from the list or enter their name",
   "tr_arrangementWith": "With: {{ publisherName }}",
   "tr_addToCalendar": "Add to your calendar",
-  "tr_addToCalendarDesc": "Do you want to add this event to your personal calendar? You should have a calendar app installed.",
+  "tr_addToCalendarDesc": "Do you want to add this event to your personal calendar? You should have a calendar app installed on your device.",
   "tr_forMyself": "For myself",
   "tr_forOthers": "For others",
   "tr_publisherWithNumber": "Publisher {{ publisherNumber }}",
   "tr_occupied": "{{ number }} occupied",
   "tr_available": "{{ number }} available",
   "tr_deletePWLocation": "Delete the public witnessing location",
-  "tr_deletePWLocationDesc": "Deleting this location permanently removes all its data and arrangements. This action cannot be undone."
+  "tr_deletePWLocationDesc": "Deleting this location permanently removes all its data and arrangements. This action cannot be undone.",
+  "tr_serveContinuously": "I wish to serve continuously as an auxiliary pioneer until further notice."
 }
