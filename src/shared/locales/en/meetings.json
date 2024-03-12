@@ -8,7 +8,7 @@
   "tr_publish": "Publish",
   "tr_infoPlanMidweekMeeting": "Select a week to start adding assignments and editing the program parts if needed. You can also use the Autofill feature and Organized will fill in assignments based on user qualifications.",
   "tr_infoSecondPlanMidweekMeeting": "Select a week to schedule it manually, or allow Organized to auto-generate assignments with the Autofill feature, considering user qualifications and past assignments. You can modify them as needed.",
-  "tr_clearMultipleWeeks": "Clear multiple weeks",
+  "tr_clearMultipleWeeks": "Clear multiple",
   "tr_addWeek": "Add week",
   "tr_noMeeting": "No meeting",
   "tr_weekType": "Week type",
@@ -40,7 +40,6 @@
   "tr_assignmentFormS89": "Assignment form (S-89)",
   "tr_clearMultipleWM": "Clear multiple weekend meetings",
   "tr_clearMultipleWMDesc": "Choose the schedules you want to clear. Assignments within the selected date range will be removed, but the weeks themselves will remain.",
-  "tr_clearSelectedWeeks": "Clear selected weeks",
   "tr_addWeekManually": "Add a week manually",
   "tr_addWeekManuallyDesc": "<p>It is recommended to add a new week only if you have no opportunity to import the meeting materials from .epub file or from jw.org. Otherwise, the added week will be empty and you will have to fill in all the meeting parts manually.</p><p>The new week will be added as the newest week in your list.</p>",
   "tr_unsavedChanges": "You have unsaved changes",
@@ -51,7 +50,7 @@
   "tr_autofillMMDesc": "Choose schedules to autofill with qualified persons.",
   "tr_startWeek": "Start week",
   "tr_endWeek": "End week",
-  "tr_talkByVisitingSpeaker": "Delivered by visiting speaker",
+  "tr_talkByVisitingSpeaker": "Talk by visiting speaker",
   "tr_openingSong": "Opening song",
   "tr_secondSong": "Second song",
   "tr_closingSong": "Closing song",
@@ -99,5 +98,6 @@
   "tr_EPUBImport": "Importing materials from the .epub file",
   "tr_offline": "You are offline",
   "tr_publicTalkOfflineDesc": "<p>You will be able to get the public talks list as soon as you have internet connection. Once you are back online, <a href='#'>reload the page</a>.</a>",
-  "tr_syncTalksList": "Sync talks list"
+  "tr_syncTalksList": "Sync talks list",
+  "tr_meetingWeeks": "Meeting weeks"
 }
