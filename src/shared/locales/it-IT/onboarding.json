@@ -13,7 +13,7 @@
   "tr_readComplete": "I have read and agree with the above",
   "tr_email": "Email",
   "tr_accountCreated": "Your Organized account has been created. Inform your congregation administrator to give you the necessary permissions and then refresh the page.",
-  "tr_createCongregationAccount": "Create a congregation",
+  "tr_createCongregationAccount": "Create congregation",
   "tr_unauthorizedRole": "<p>You don't currently have the necessary permissions to use this application. Please reach out to your congregation elders to verify your role and then <a href='#'>try again</a> in 5 minutes. If they require additional assistance, they can contact us via email.</p>",
   "tr_oauthAccept": "<p>By continuing, you accept our <a href='https://sws2apps.com/terms/' title='Terms of Use' target='_blank' rel='noopener'>Terms of Use</a> and <a href='https://sws2apps.com/privacy/' title='Privacy Policy' target='_blank' rel='noopener'>Privacy Policy</a>.</p>",
   "tr_signInDesc": "Choose how you want to log in",
