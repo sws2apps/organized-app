@@ -91,8 +91,8 @@ const useCongregationInfo = () => {
 
         const obj = {} as SettingsType;
 
-        obj.firstname = { value: data.firstname, updatedAt: new Date().toISOString() };
-        obj.lastname = { value: data.lastname, updatedAt: new Date().toISOString() };
+        obj.firstname = data.firstname;
+        obj.lastname = data.lastname;
         obj.cong_name = data.cong_name;
         obj.cong_number = data.cong_number;
         obj.user_members_delegate = data.user_members_delegate;
