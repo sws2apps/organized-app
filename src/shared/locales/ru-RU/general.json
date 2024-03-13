@@ -2,8 +2,6 @@
   "tr_iso": "en",
   "tr_errorTitle": "Произошла ошибка",
   "tr_about": "О приложении",
-  "tr_appFullName": "Organized",
-  "tr_appShortName": "Organized",
   "tr_errorHeaderText": "Ой, что-то пошло не так",
   "tr_errorActionText": "Произошла ошибка. Попробуйте обновить страницу. Если это не поможет, попробуй полностью перезапустить Organized. Обрати внимание, что все несинхронизированные данные будут очищены.",
   "tr_restart": "Перезапуск",
@@ -52,6 +50,5 @@
   "tr_themeFollowOSDisableDesc": "If you want to switch the theme back to automatic, you can do this in your profile settings",
   "tr_setup": "Setup",
   "tr_verify": "Verify",
-  "tr_2FATokenInvalidExpired": "The code is invalid or expired. Please try again.",
-  "tr_march": "March"
+  "tr_2FATokenInvalidExpired": "The code is invalid or expired. Please try again."
 }
