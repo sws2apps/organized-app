@@ -2,8 +2,6 @@
   "tr_iso": "en",
   "tr_errorTitle": "Wystąpił błąd",
   "tr_about": "O aplikacji",
-  "tr_appFullName": "Organized",
-  "tr_appShortName": "Organized",
   "tr_errorHeaderText": "Ups, coś poszło nie tak",
   "tr_errorActionText": "Wystąpił błąd. Spróbuj odświeżyć stronę. Jeśli to nie pomoże, spróbuj całkowicie zrestartować Organized. Pamiętaj, że spowoduje to usunięcie wszystkich niezsynchronizowanych danych.",
   "tr_restart": "Zrestartuj",
