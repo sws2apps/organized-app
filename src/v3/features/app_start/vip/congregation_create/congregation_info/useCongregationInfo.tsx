@@ -13,7 +13,7 @@ import { apiCreateCongregation } from '@services/api/congregation';
 import { handleUpdateSetting } from '@services/dexie/settings';
 import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 import { getMessageByCode } from '@services/i18n/translation';
-import { UserInfoType } from './index.types';
+import { SettingsType } from '@definition/app';
 
 const useCongregationInfo = () => {
   const cancel = useRef<boolean>();
@@ -28,6 +28,11 @@ const useCongregationInfo = () => {
   const [congregation, setCongregation] = useState(null);
   const [userTmpFirstName, setUserTmpFirstName] = useState('');
   const [userTmpLastName, setUserTmpLastName] = useState('');
+  const [isElderApproved, setIsElderApproved] = useState(false);
+
+  const handleToggleApproval = (value: boolean) => {
+    setIsElderApproved(value);
+  };
 
   const handleCongregationAction = async () => {
     if (isProcessing) return;
@@ -84,9 +89,10 @@ const useCongregationInfo = () => {
         setCongID(data.cong_id);
         worker.postMessage({ field: 'congID', value: data.cong_id });
 
-        const obj = {} as UserInfoType;
+        const obj = {} as SettingsType;
 
-        obj.username = data.username;
+        obj.firstname = { value: data.firstname, updatedAt: new Date().toISOString() };
+        obj.lastname = { value: data.lastname, updatedAt: new Date().toISOString() };
         obj.cong_name = data.cong_name;
         obj.cong_number = data.cong_number;
         obj.user_members_delegate = data.user_members_delegate;
@@ -152,7 +158,6 @@ const useCongregationInfo = () => {
 
   return {
     country,
-    congregation,
     userTmpFirstName,
     userTmpLastName,
     isProcessing,
@@ -165,6 +170,9 @@ const useCongregationInfo = () => {
     title,
     hideMessage,
     variant,
+    handleToggleApproval,
+    isElderApproved,
+    congregation,
   };
 };
 
