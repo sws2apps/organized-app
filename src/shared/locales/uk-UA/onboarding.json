@@ -79,5 +79,6 @@
   "tr_unauthorizedAccountDesc": "Звернися до адміністратора Organized у твоєму зборі для підтвердження своєї ролі, а потім повтори спробу через 5 хвилин. Для отримання додаткової допомоги старійшини можуть зв'язатися з нами через електронну пошту.",
   "tr_noSchedulesYet": "Ще немає розкладів",
   "tr_noSchedulesYetDesc": "Будь ласка, спочатку попроси старійшин твого збору опублікувати графік зібрання.",
-  "tr_reconnectAccount": "Перепідкючитись до акаунту"
+  "tr_reconnectAccount": "Перепідкючитись до акаунту",
+  "tr_registeringApproved": "The body of elders has approved registering this congregation in Organized"
 }
