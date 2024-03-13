@@ -2,8 +2,6 @@
   "tr_iso": "en",
   "tr_errorTitle": "エラーが発生しました",
   "tr_about": "このアプリについて",
-  "tr_appFullName": "Organized",
-  "tr_appShortName": "Organized",
   "tr_errorHeaderText": "おっと！問題が発生しました。",
   "tr_errorActionText": "エラーが発生しました。もう一度読み込んでください。それでも解決しない場合はOrganizedを開き直してください。インターネットに接続されていない時に保存されたすべてのデータが削除されますのでご注意ください。",
   "tr_restart": "再起動",
