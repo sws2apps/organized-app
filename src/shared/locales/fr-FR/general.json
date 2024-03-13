@@ -2,8 +2,6 @@
   "tr_iso": "en",
   "tr_errorTitle": "Une erreur est survenue",
   "tr_about": "À propos de l'application",
-  "tr_appFullName": "Organized",
-  "tr_appShortName": "Organized",
   "tr_errorHeaderText": "Oups, une erreur est survenue",
   "tr_errorActionText": "Une erreur est survenue. Essayez de rafraîchir la page. Si cela n'aide pas, essayez de relancer entièrement Organized. Notez que vous perdrez toutes vos données non synchronisées.",
   "tr_restart": "Relancer",
