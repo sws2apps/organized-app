@@ -2,8 +2,6 @@
   "tr_iso": "en",
   "tr_errorTitle": "Ein Fehler ist aufgetreten",
   "tr_about": "Über die App",
-  "tr_appFullName": "Organized",
-  "tr_appShortName": "Organized",
   "tr_errorHeaderText": "Ups, etwas ist schiefgegangen",
   "tr_errorActionText": "Ein Fehler ist aufgetreten. Versuche die Seite neu laden. Wenn das nicht hilft, versuch, Organized komplett neu zu starten. Beachte, dass dabei alle nicht synchronisierten Daten gelöscht werden.",
   "tr_restart": "Neustart",
