@@ -2,8 +2,6 @@
   "tr_iso": "tr",
   "tr_errorTitle": "Bir hata oluştu",
   "tr_about": "Uygulama hakkında",
-  "tr_appFullName": "Organized",
-  "tr_appShortName": "Organized",
   "tr_errorHeaderText": "Oops, bir hata oluştu",
   "tr_errorActionText": "Bir hata oluştu. Sayfayı yenilemeye çalış. Bu işe yaramazsa 'Organized'i yeniden başlatmayı deneyin. Not, bu senkronize edilmemiş tüm verilerinizi temizleyecektir.",
   "tr_restart": "Yeniden Başlatma",
