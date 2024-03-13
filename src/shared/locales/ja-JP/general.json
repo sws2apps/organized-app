@@ -2,6 +2,8 @@
   "tr_iso": "en",
   "tr_errorTitle": "エラーが発生しました",
   "tr_about": "このアプリについて",
+  "tr_appFullName": "Organized",
+  "tr_appShortName": "Organized",
   "tr_errorHeaderText": "おっと！問題が発生しました。",
   "tr_errorActionText": "エラーが発生しました。もう一度読み込んでください。それでも解決しない場合はOrganizedを開き直してください。インターネットに接続されていない時に保存されたすべてのデータが削除されますのでご注意ください。",
   "tr_restart": "再起動",
@@ -50,5 +52,6 @@
   "tr_themeFollowOSDisableDesc": "If you want to switch the theme back to automatic, you can do this in your profile settings",
   "tr_setup": "Setup",
   "tr_verify": "Verify",
-  "tr_2FATokenInvalidExpired": "The code is invalid or expired. Please try again."
+  "tr_2FATokenInvalidExpired": "The code is invalid or expired. Please try again.",
+  "tr_march": "March"
 }
