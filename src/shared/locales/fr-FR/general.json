@@ -2,6 +2,8 @@
   "tr_iso": "en",
   "tr_errorTitle": "Une erreur est survenue",
   "tr_about": "À propos de l'application",
+  "tr_appFullName": "Organized",
+  "tr_appShortName": "Organized",
   "tr_errorHeaderText": "Oups, une erreur est survenue",
   "tr_errorActionText": "Une erreur est survenue. Essayez de rafraîchir la page. Si cela n'aide pas, essayez de relancer entièrement Organized. Notez que vous perdrez toutes vos données non synchronisées.",
   "tr_restart": "Relancer",
@@ -50,5 +52,6 @@
   "tr_themeFollowOSDisableDesc": "If you want to switch the theme back to automatic, you can do this in your profile settings",
   "tr_setup": "Setup",
   "tr_verify": "Verify",
-  "tr_2FATokenInvalidExpired": "The code is invalid or expired. Please try again."
+  "tr_2FATokenInvalidExpired": "The code is invalid or expired. Please try again.",
+  "tr_march": "March"
 }
