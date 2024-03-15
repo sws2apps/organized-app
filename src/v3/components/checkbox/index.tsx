@@ -10,6 +10,7 @@ const CPECheckbox = (props: CheckboxPropsType) => {
   const disabled = props.disabled || false;
   const label = props.label || '';
   const isBorder = props.isBorder || false;
+  const className = props.className || 'body-regular';
 
   return (
     <FormControlLabel
@@ -39,7 +40,7 @@ const CPECheckbox = (props: CheckboxPropsType) => {
         />
       }
       label={
-        <Typography className={checked ? 'h4' : 'body-regular'} color={checked ? 'var(--accent-main)' : 'var(--black)'}>
+        <Typography className={className} color="var(--black)">
           {label}
         </Typography>
       }

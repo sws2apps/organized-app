@@ -23,19 +23,33 @@ const OTPInput: FC<OTPInputProps> = ({ hasError, ...props }) => {
         display="flex"
         gap={1}
         validateChar={validateChar}
-        TextFieldsProps={{
-          InputProps: { className: 'h1' },
+        TextFieldsProps={(index) => ({
           autoComplete: 'off',
-        }}
-        sx={{
-          '.MuiOutlinedInput-input': {
-            width: 52,
-            height: 52,
-            padding: 0,
-            borderRadius: 'var(--radius-l)',
-            border: `1px solid var(${hasError ? '--red-dark' : '--accent-main'})`,
+          inputProps: {
+            className: 'h1',
           },
-        }}
+          sx: {
+            '.MuiOutlinedInput-input': {
+              color: 'var(--black)',
+              width: 52,
+              height: 52,
+              padding: 0,
+              borderRadius: 'var(--radius-l)',
+            },
+            '.MuiOutlinedInput-root': {
+              '& fieldset': {
+                border: `1px solid var(${hasError ? '--red-dark' : props.value[index]?.length > 0 ? '--accent-main' : '--accent-300'})`,
+              },
+              '&.Mui-focused fieldset': {
+                border: `1px solid var(${hasError ? '--red-dark' : '--accent-main'})`,
+              },
+              '&:hover fieldset': {
+                border: `1px solid var(${hasError ? '--red-dark' : '--accent-main'})`,
+              },
+            },
+          },
+        })}
+        sx={{}}
       />
     </Box>
   );

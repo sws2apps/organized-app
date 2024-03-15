@@ -6,7 +6,7 @@ const CPETextMarkup = (props: TextMarkupTypeProps) => {
   let content = props.content || '';
   const color = props.color || 'var(--black)';
   const anchorClassName = props.anchorClassName || 'body-small-semibold';
-  const anchorColor = props.color || 'var(--accent-main)';
+  const anchorColor = props.anchorColor || 'var(--accent-dark)';
 
   content = content.startsWith('<') ? content : `<p>${content}</p>`;
 

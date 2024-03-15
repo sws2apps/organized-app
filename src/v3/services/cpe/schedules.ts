@@ -5,9 +5,9 @@ import { saveSource } from '@services/dexie/sources';
 import { setRootModalOpen } from '@services/recoil/app';
 import { promiseGetRecoil } from 'recoil-outside';
 import { getSourceLocal, getWeekListBySchedule } from './sources';
-import { monthNamesState, shortDateFormatState } from '@states/app';
+import { appLangState, monthNamesState, shortDateFormatState } from '@states/app';
 import { formatDate } from '@services/dateformat';
-import { elderRoleState, meetingTimeState, midweekMeetingDayState, sourceLangState } from '@states/settings';
+import { elderRoleState, meetingTimeState, midweekMeetingDayState } from '@states/settings';
 import { schedulesState } from '@states/schedules';
 import { getPerson } from './persons';
 import { getTranslation } from '@services/i18n/translation';
@@ -376,12 +376,12 @@ export const addMinutes = (prev, min) => {
 };
 
 export const getS140Data = async (scheduleName) => {
-  const sourceLang = await promiseGetRecoil(sourceLangState);
+  const appLang = await promiseGetRecoil(appLangState);
   const meetingTime = await promiseGetRecoil(meetingTimeState);
   const meetingDay = await promiseGetRecoil(midweekMeetingDayState);
   const monthNames = await promiseGetRecoil(monthNamesState);
 
-  const shortTimeFormat = getTranslation({ key: 'shortTimeFormat', language: sourceLang, namespace: 'source' });
+  const shortTimeFormat = getTranslation({ key: 'shortTimeFormat', language: appLang, namespace: 'source' });
 
   const data = [];
   const allWeeks = await getWeekListBySchedule(scheduleName);
@@ -398,7 +398,7 @@ export const getS140Data = async (scheduleName) => {
 
     const params = { month: monthNames[lDate.getMonth()], date: lDate.getDate(), year: lDate.getFullYear() };
 
-    const meetingDate = getTranslation({ key: 'longDateFormat', language: sourceLang, namespace: 'source', params });
+    const meetingDate = getTranslation({ key: 'longDateFormat', language: appLang, namespace: 'source', params });
 
     // pgm start
     const time = <MidweekMeetingTimeType>{};

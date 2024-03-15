@@ -18,13 +18,13 @@ const IconMenu = ({ color = '#222222', width = 24, height = 24, sx = {} }: IconP
           x="0"
           y="0"
           width="24"
-          height="24"
+          height="25"
         >
-          <rect y="0.500488" width="24" height="24" fill="#D9D9D9" />
+          <rect y="0.000488281" width="24" height="24" fill="#D9D9D9" />
         </mask>
         <g mask="url(#mask0_4812_204130)">
           <path
-            d="M3.5 18.1349V16.6349H20.5V18.1349H3.5ZM3.5 13.2503V11.7503H20.5V13.2503H3.5ZM3.5 8.3657V6.86572H20.5V8.3657H3.5Z"
+            d="M3.5 17.6349V16.1349H20.5V17.6349H3.5ZM3.5 12.7503V11.2503H20.5V12.7503H3.5ZM3.5 7.8657V6.36572H20.5V7.8657H3.5Z"
             fill={color}
           />
         </g>

@@ -1,10 +1,10 @@
 import { apiDefault } from './common';
 
 export const apiFetchSources = async () => {
-  const { apiHost, appVersion: appversion, isOnline, sourceLang } = await apiDefault();
+  const { apiHost, appVersion: appversion, isOnline, JWLang } = await apiDefault();
 
   if (isOnline && apiHost !== '') {
-    const res = await fetch(`${apiHost}api/public/source-material/${sourceLang}`, {
+    const res = await fetch(`${apiHost}api/public/source-material/${JWLang}`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion },
     });

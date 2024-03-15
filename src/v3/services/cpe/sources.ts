@@ -3,11 +3,10 @@ import { deleteSource, epubSaveSource, sourcesAddWeekManually } from '@services/
 import { displaySnackNotification } from '@services/recoil/app';
 import { getTranslation } from '@services/i18n/translation';
 import { promiseGetRecoil } from 'recoil-outside';
-import { sourceLangState } from '@states/settings';
 import { assignmentTypeLocaleState } from '@states/assignment';
 import { sourcesState } from '@states/sources';
 import { sourceSchema } from '@services/dexie/schema';
-import { monthNamesState, shortDateFormatState } from '@states/app';
+import { appLangState, monthNamesState, shortDateFormatState } from '@states/app';
 import { formatDate } from '@services/dateformat';
 import { SourceWeekLocaleType } from '@definition/sources';
 
@@ -53,8 +52,8 @@ export const getSource = async (weekOf) => {
 };
 
 export const getSourceLocal = async (weekOf) => {
-  const sourceLang = await promiseGetRecoil(sourceLangState);
-  const lang = sourceLang.toUpperCase();
+  const appLang = await promiseGetRecoil(appLangState);
+  const lang = appLang.toUpperCase();
 
   const assTypeList = await promiseGetRecoil(assignmentTypeLocaleState);
   const source = await getSource(weekOf);

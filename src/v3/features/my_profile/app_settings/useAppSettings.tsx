@@ -3,7 +3,6 @@ import { useRecoilValue } from 'recoil';
 import { handleUpdateSetting } from '@services/dexie/settings';
 import { autoBackupIntervalState, autoBackupState, followOSThemeState } from '@states/settings';
 import { useBreakpoints } from '@hooks/index';
-import { ColorSchemeType } from '@definition/app';
 import worker from '@services/worker/backupWorker';
 
 const useAppSettings = () => {
@@ -16,10 +15,6 @@ const useAppSettings = () => {
   const [autoSync, setAutoSync] = useState(autoBackup);
   const [autoSyncInterval, setAutoSyncInterval] = useState(autoBackupInterval);
   const [syncTheme, setSyncTheme] = useState(followOSTheme);
-  const [isBlue, setIsBlue] = useState(false);
-  const [isGreen, setIsGreen] = useState(false);
-  const [isPurple, setIsPurple] = useState(false);
-  const [isOrange, setIsOrange] = useState(false);
 
   const handleSwitchAutoBackup = async (value) => {
     setAutoSync(value);
@@ -43,33 +38,6 @@ const useAppSettings = () => {
     await handleUpdateSetting({ follow_os_theme: { value, updatedAt: new Date().toISOString() } });
   };
 
-  const handleChangeColorScheme = () => {
-    const savedColor = localStorage.getItem('color') as ColorSchemeType;
-
-    setIsBlue(false);
-    setIsGreen(false);
-    setIsOrange(false);
-    setIsPurple(false);
-
-    console.log('ran');
-
-    if (savedColor === 'blue') {
-      setIsBlue(true);
-    }
-
-    if (savedColor === 'green') {
-      setIsGreen(true);
-    }
-
-    if (savedColor === 'orange') {
-      setIsOrange(true);
-    }
-
-    if (savedColor === 'purple') {
-      setIsPurple(true);
-    }
-  };
-
   useEffect(() => {
     setSyncTheme(followOSTheme);
   }, [followOSTheme]);
@@ -82,11 +50,6 @@ const useAppSettings = () => {
     laptopUp,
     syncTheme,
     handleUpdateSyncTheme,
-    handleChangeColorScheme,
-    isBlue,
-    isGreen,
-    isOrange,
-    isPurple,
   };
 };
 
