@@ -33,3 +33,4 @@ export { default as DatePicker } from './date_picker';
 export { Reminders, ReminderItem } from './reminders/index';
 export { default as SearchBar } from './search_bar/index';
 export { default as ProgressBarSmall } from './progress_bar_small/index';
+export { default as Table } from './table/index';
