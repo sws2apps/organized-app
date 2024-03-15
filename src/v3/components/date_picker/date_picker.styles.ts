@@ -133,16 +133,10 @@ export const StyleDatePickerPopper = {
 
 export const StyledIconWrapper = styled(Stack)({
   ':hover': {
-    // background: 'var(--accent-200)',
-    // borderRadius: 'var(--radius-xl, 8px)',
     cursor: 'pointer',
   },
-
   '& svg:hover': {
     background: 'var(--accent-350-base)',
-    // borderRadius: 'var(--radius-xl, 8px)',
-    // cursor: 'pointer',
-
     '& g, & g path': {
       fill: 'var(--accent-400) !important',
     },

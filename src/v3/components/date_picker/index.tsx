@@ -146,26 +146,9 @@ const CPEDatePicker = ({
                   ...StyleDatePickerPopper,
                   '.MuiDateCalendar-viewTransitionContainer': {
                     overflow: 'hidden',
-                    // height: 'auto',
-                    // height: height,
-                    // minHeight: height,
-                    // height: height,
-                    // transition: 'min-height 0.5s ease',
-                  },
-                  '.MuiYearCalendar-root': {
-                    // width: 'inherit',
-                    // height: 'auto',
-                    // minHeight: 'unset',
-                    // minHeight: height,
-                    // height: height,
                   },
                   '.MuiDayCalendar-slideTransition': {
                     minHeight: `${height}px`,
-                    // height: height,
-                    // height: 'auto',
-                    // minHeight: 'auto',
-                    // overflowY: 'hidden',
-                    // transition: 'min-height 0.5s ease',
                     '@media (max-width:322px)': {
                       minHeight: `${height - 38}px`,
                     },
