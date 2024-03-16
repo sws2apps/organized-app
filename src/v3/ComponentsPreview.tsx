@@ -1,4 +1,4 @@
-import { Box, Container, MenuItem, TextField } from '@mui/material';
+import { Box, Container, MenuItem, Stack, TextField } from '@mui/material';
 import {
   Button,
   Checkbox,
@@ -18,6 +18,8 @@ import {
   ReminderItem,
   Tabs,
   SearchBar,
+  PublicWitnessingTimeCard,
+  PublicWitnessingPlaceCard,
   ScrollableTabs,
   ProgressBarSmall,
 } from '@components/index';
@@ -247,10 +249,93 @@ const ComponentPreview = () => {
 
       <Container maxWidth={false} sx={{ maxWidth: '1440px' }}>
         <Box sx={{ margin: '80px 0px' }}>
+          <Box marginBottom={2} sx={{ display: 'flex', flexDirection: 'row', gap: '25px' }}>
+            <PublicWitnessingPlaceCard label={'Time Square'} />
+            <PublicWitnessingPlaceCard label={'Time Square'} isDelete />
+          </Box>
+          <Box
+            marginBottom={2}
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              gap: '25px',
+              backgroundColor: 'var(--white)',
+              padding: '15px',
+              border: '1px solid var(--accent-300)',
+              borderRadius: 'var(--radius-l)',
+            }}
+          >
+            <Box>
+              <PublicWitnessingTimeCard
+                label={'11:00 - 12:00'}
+                witnesses={['Ruben Curtis', 'Cooper Donin']}
+                needWitnesses={2}
+              />
+            </Box>
+            <Box>
+              <PublicWitnessingTimeCard
+                label={'11:00 - 12:00'}
+                witnesses={['Ruben Curtis', 'Cooper Donin']}
+                needWitnesses={3}
+              />
+            </Box>
+            <Box>
+              <PublicWitnessingTimeCard label={'11:00 - 12:00'} />
+            </Box>
+            <Box>
+              <PublicWitnessingTimeCard
+                label={'11:00 - 12:00'}
+                witnesses={['Ruben Curtis', 'Cooper Donin']}
+                needWitnesses={2}
+                isPast
+              />
+            </Box>
+            <Box>
+              <PublicWitnessingTimeCard label={'11:00 - 12:00'} isPast />
+            </Box>
+          </Box>
+          <Stack
+            marginBottom={2}
+            spacing={2}
+            direction={'column'}
+            sx={{
+              display: 'flex',
+              backgroundColor: 'var(--white)',
+              padding: '15px',
+              border: '1px solid var(--accent-300)',
+              borderRadius: 'var(--radius-l)',
+            }}
+          >
+            <PublicWitnessingTimeCard
+              isDay={true}
+              label={'11:00 - 12:00'}
+              witnesses={['Ruben Curtis', 'Cooper Donin']}
+              needWitnesses={2}
+            />
+            <PublicWitnessingTimeCard
+              isDay={true}
+              label={'11:00 - 12:00'}
+              witnesses={['Ruben Curtis', 'Cooper Donin']}
+              needWitnesses={4}
+            />
+            <PublicWitnessingTimeCard label={'11:00 - 12:00'} isDay />
+            <PublicWitnessingTimeCard label={'11:00 - 12:00'} isDay isPast />
+            <PublicWitnessingTimeCard
+              label={'11:00 - 12:00'}
+              isDay
+              witnesses={['Ruben Curtis', 'Cooper Donin']}
+              needWitnesses={2}
+              isPast
+            />
+          </Stack>
+          <Box marginBottom={2} sx={{ display: 'flex', flexDirection: 'row', gap: '8px', width: '100px' }}>
+            <Badge text="1 available" color="accent" size="medium" filled fullWidth centerContent />
+            <Badge text="0 available" color="red" size="medium" filled />
+            <Badge text="8 available" color="transparent" size="medium" centerContent fullWidth borderStyle="dashed" />
+          </Box>
           <Box sx={{ display: 'flex', flexDirection: 'row', gap: '25px' }}>
             <DatePicker view={'input'} label={'Start date'} />
-            <DatePicker view={'input'} label={'End date'} />
-            <DatePicker view={'input'} label={'Limit year'} limitYear={true} />
+            <DatePicker view={'input'} label={'Start date'} isValueOnOpen />
             <DatePicker view={'button'} />
           </Box>
 

@@ -92,6 +92,8 @@
   --orange-main: rgba(var(--orange-main-base), 1);
   --orange-secondary-base: 54, 46, 36;
   --orange-secondary: rgba(var(--orange-secondary-base), 1);
+  --orange-tertiary-base: 73, 60, 44;
+  --orange-tertiary: rgba(var(--orange-tertiary-base), 1);
   --always-white-base: 254, 254, 254;
   --always-white: rgba(var(--always-white-base), 1);
   --white-semi-s-base: 255, 255, 255;
@@ -156,6 +158,8 @@
   --orange-main: rgba(var(--orange-main-base), 1);
   --orange-secondary-base: 253, 245, 237;
   --orange-secondary: rgba(var(--orange-secondary-base), 1);
+  --orange-tertiary-base: 254, 239, 221;
+  --orange-tertiary: rgba(var(--orange-tertiary-base), 1);
   --always-white-base: 254, 254, 254;
   --always-white: rgba(var(--always-white-base), 1);
   --white-semi-s-base: 255, 255, 255;
@@ -220,6 +224,8 @@
   --orange-main: rgba(var(--orange-main-base), 1);
   --orange-secondary-base: 54, 46, 36;
   --orange-secondary: rgba(var(--orange-secondary-base), 1);
+  --orange-tertiary-base: 73, 60, 44;
+  --orange-tertiary: rgba(var(--orange-tertiary-base), 1);
   --always-white-base: 254, 254, 254;
   --always-white: rgba(var(--always-white-base), 1);
   --white-semi-s-base: 255, 255, 255;
@@ -284,6 +290,8 @@
   --orange-main: rgba(var(--orange-main-base), 1);
   --orange-secondary-base: 253, 245, 237;
   --orange-secondary: rgba(var(--orange-secondary-base), 1);
+  --orange-tertiary-base: 254, 239, 221;
+  --orange-tertiary: rgba(var(--orange-tertiary-base), 1);
   --always-white-base: 254, 254, 254;
   --always-white: rgba(var(--always-white-base), 1);
   --white-semi-s-base: 255, 255, 255;
@@ -344,6 +352,8 @@
   --orange-main: rgba(var(--orange-main-base), 1);
   --orange-secondary-base: 253, 245, 237;
   --orange-secondary: rgba(var(--orange-secondary-base), 1);
+  --orange-tertiary-base: 254, 239, 221;
+  --orange-tertiary: rgba(var(--orange-tertiary-base), 1);
   --green-main-base: 62, 147, 33;
   --green-main: rgba(var(--green-main-base), 1);
   --green-secondary-base: 238, 246, 235;
@@ -408,6 +418,8 @@
   --orange-main: rgba(var(--orange-main-base), 1);
   --orange-secondary-base: 54, 46, 36;
   --orange-secondary: rgba(var(--orange-secondary-base), 1);
+  --orange-tertiary-base: 73, 60, 44;
+  --orange-tertiary: rgba(var(--orange-tertiary-base), 1);
   --green-main-base: 58, 136, 32;
   --green-main: rgba(var(--green-main-base), 1);
   --green-secondary-base: 40, 51, 36;
@@ -472,6 +484,8 @@
   --orange-main: rgba(var(--orange-main-base), 1);
   --orange-secondary-base: 253, 245, 237;
   --orange-secondary: rgba(var(--orange-secondary-base), 1);
+  --orange-tertiary-base: 254, 239, 221;
+  --orange-tertiary: rgba(var(--orange-tertiary-base), 1);
   --green-main-base: 62, 147, 33;
   --green-main: rgba(var(--green-main-base), 1);
   --green-secondary-base: 238, 246, 235;
@@ -536,6 +550,8 @@
   --orange-main: rgba(var(--orange-main-base), 1);
   --orange-secondary-base: 54, 46, 36;
   --orange-secondary: rgba(var(--orange-secondary-base), 1);
+  --orange-tertiary-base: 73, 60, 44;
+  --orange-tertiary: rgba(var(--orange-tertiary-base), 1);
   --green-main-base: 62, 147, 33;
   --green-main: rgba(var(--green-main-base), 1);
   --green-secondary-base: 40, 51, 36;
