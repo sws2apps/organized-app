@@ -11,7 +11,7 @@ const useNavbar = () => {
 
   const { t } = useAppTranslation();
 
-  const { laptopUp, tablet600Up, tabletDown, tabletUp } = useBreakpoints();
+  const { laptopUp, tabletDown, tabletUp } = useBreakpoints();
 
   const fullname = useRecoilValue(fullnameState);
   const congName = useRecoilValue(congNameState);
@@ -66,7 +66,6 @@ const useNavbar = () => {
   };
 
   return {
-    tablet600Up,
     openMore,
     handleOpenMoreMenu,
     handleCloseMore,
