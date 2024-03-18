@@ -1,4 +1,4 @@
 export type SearchBarProps = {
-  onSearch: (query: string) => void;
+  onSearch?: (query: string) => void;
   placeholder: string;
 };

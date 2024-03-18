@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import { Box } from '@mui/material';
+import { Box, SxProps } from '@mui/material';
 import Typography from '@components/typography';
 
 const InfoTip = ({
@@ -8,12 +8,14 @@ const InfoTip = ({
   title,
   icon,
   color,
+  sx,
 }: {
   isBig: boolean;
   text: string;
   title?: string;
   icon?: ReactElement;
   color?: string;
+  sx?: SxProps;
 }) => {
   const getColorStyle = () => {
     const result = {
@@ -41,54 +43,46 @@ const InfoTip = ({
   const style = getColorStyle();
 
   return (
-    <>
-      <Box
-        sx={{
-          padding: '16px',
-          borderRadius: 'var(--radius-xl)',
-          border: style.border,
-          bgcolor: style.background,
-        }}
-      >
-        {isBig && (
-          <Typography
-            className="h2"
-            sx={{
-              color: style.title,
-              marginBottom: '12px',
-            }}
-          >
-            {title}
-          </Typography>
-        )}
-
-        <Box
+    <Box
+      sx={{
+        padding: '16px',
+        borderRadius: 'var(--radius-xl)',
+        border: style.border,
+        bgcolor: style.background,
+        ...sx,
+      }}
+    >
+      {isBig && (
+        <Typography
+          className="h2"
           sx={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
+            color: style.title,
+            marginBottom: '12px',
           }}
         >
-          <Box
-            sx={{
-              '& svg': {
-                '& g, & path': {
-                  fill: style.text,
-                },
-              },
-              width: '24px',
-              height: '24px',
-            }}
-          >
-            {icon}
-          </Box>
+          {title}
+        </Typography>
+      )}
 
-          <Typography className="body-regular" sx={{ color: style.text }}>
-            {text}
-          </Typography>
-        </Box>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          '& svg': {
+            '& g, & path': {
+              fill: style.text,
+            },
+          },
+        }}
+      >
+        {icon}
+
+        <Typography className="body-regular" sx={{ color: style.text }}>
+          {text}
+        </Typography>
       </Box>
-    </>
+    </Box>
   );
 };
 

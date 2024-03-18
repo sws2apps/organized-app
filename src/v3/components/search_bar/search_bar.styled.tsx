@@ -3,7 +3,7 @@ import { Box, Button, Input } from '@mui/material';
 
 export const StyledBox = styled(Box)({
   display: 'flex',
-  width: '728px',
+  width: '100%',
   height: '48px',
   alignItems: 'center',
   flexShrink: '0',

@@ -11,6 +11,7 @@ export { default as JWMaterialsImport } from './meeting_materials/jw_import';
 export { default as LanguageSwitcher } from './language_switcher';
 export { default as MinistryPreferences } from './my_profile/ministry_preferences';
 export { default as MinistryTimer } from './ministry_timer';
+export { default as PublicTalks } from './public_talks';
 export { default as Support } from './support';
 export { default as ThemeSwitcher } from './theme_switcher';
 export { default as UserAccountSecurity } from './my_profile/security';
