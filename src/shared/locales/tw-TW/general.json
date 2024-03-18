@@ -51,5 +51,13 @@
   "tr_setup": "Setup",
   "tr_verify": "Verify",
   "tr_2FATokenInvalidExpired": "The code is invalid or expired. Please try again.",
-  "tr_march": "March"
+  "tr_march": "March",
+  "tr_expandAll": "Expand all",
+  "tr_shortTimeFormat": "HH:MM",
+  "tr_shortDateFormatAlt": "mm/dd/yyyy",
+  "tr_tableView": "Table view",
+  "tr_shortNumberLabel": "No",
+  "tr_title": "Title",
+  "tr_rename": "Rename",
+  "tr_collapseAll": "Collapse all"
 }
