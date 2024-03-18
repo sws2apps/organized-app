@@ -99,5 +99,8 @@
   "tr_EPUBImport": "Імпортування матеріалів з файлу .epub",
   "tr_offline": "Ти офлайн",
   "tr_publicTalkOfflineDesc": "<p>Ти зможеш отримати список публічних обговорень, щойно відновиться підключення до Інтернету. Коли з'явиться інтернет підключення, <a href='#'>онови сторінку</a>.</p>",
-  "tr_syncTalksList": "Синхронізувати список промов"
+  "tr_syncTalksList": "Синхронізувати список промов",
+  "tr_noTalksList": "You don’t have any public talks in your list. Sync the list to get all the public talks.",
+  "tr_countPublicTalks": "{{ count }} public talks",
+  "tr_publicTalkLastSync": "Last synced {{ date }} at {{ time }}"
 }

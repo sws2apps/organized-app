@@ -99,5 +99,8 @@
   "tr_EPUBImport": "Importing materials from the .epub file",
   "tr_offline": "You are offline",
   "tr_publicTalkOfflineDesc": "<p>You will be able to get the public talks list as soon as you have internet connection. Once you are back online, <a href='#'>reload the page</a>.</p>",
-  "tr_syncTalksList": "Sync talks list"
+  "tr_syncTalksList": "Sync talks list",
+  "tr_noTalksList": "You don’t have any public talks in your list. Sync the list to get all the public talks.",
+  "tr_countPublicTalks": "{{ count }} public talks",
+  "tr_publicTalkLastSync": "Last synced {{ date }} at {{ time }}"
 }
