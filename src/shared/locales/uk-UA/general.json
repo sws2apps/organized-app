@@ -52,12 +52,12 @@
   "tr_verify": "Підтвердити",
   "tr_2FATokenInvalidExpired": "Код недійсний або застарілий. Будь ласка, спробуй ще раз.",
   "tr_march": "Березень",
-  "tr_expandAll": "Expand all",
+  "tr_expandAll": "Розгорнути все",
   "tr_shortTimeFormat": "HH:MM",
-  "tr_shortDateFormatAlt": "mm/dd/yyyy",
-  "tr_tableView": "Table view",
-  "tr_shortNumberLabel": "No",
+  "tr_shortDateFormatAlt": "dd.mm.yyyy",
+  "tr_tableView": "Вид таблиці",
+  "tr_shortNumberLabel": "Ні.",
   "tr_title": "Назва",
-  "tr_rename": "Rename",
-  "tr_collapseAll": "Collapse all"
+  "tr_rename": "Перейменувати",
+  "tr_collapseAll": "Згорнути все"
 }
