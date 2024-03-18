@@ -24,6 +24,7 @@ const PublicTalks = () => {
         display: 'flex',
         flexDirection: 'column',
         gap: '16px',
+        backgroundColor: 'var(--white)',
       }}
     >
       <SearchBar placeholder={t('tr_search')} onSearch={handleSearch} />
