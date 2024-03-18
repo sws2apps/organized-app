@@ -113,9 +113,9 @@ To learn more about Organized and how to use it, check out the following useful 
 
 | Link                                                         | Description                                                   |
 |-------------------------------------------------------------------------------|---------------------------------------------------------------|
-| [Organized app](organized-app.com)                                           | Open and use the Organized app.           |
-| [About Organized](about.organized-app.com)                                | Learn more about the goals, features, and benefits of the Organized app. Feel free to share this link with others. |
+| [Organized app](https://organized-app.com)                                           | Open and use the Organized app.           |
+| [About Organized](https://about.organized-app.com)                                | Learn more about the goals, features, and benefits of the Organized app. Feel free to share this link with others. |
 | [Contribution guide](https://github.com/sws2apps/organized-app/blob/main/CONTRIBUTING.md)                     | See how you can contribute to the Organized project.     |
-| [Crowdin project](crowdin.com/project/organized)                              | Collaborate on translating the Organized app – it's easy and convenient.                   |
-| [How to use guide](sws2apps.com/docs/category/congregation-program-for-everyone) | Read text documentation on how to start using the app and learn about different features.       |
+| [Crowdin project](https://crowdin.com/project/organized)                              | Collaborate on translating the Organized app – it's easy and convenient.                   |
+| [How to use guide](https://sws2apps.com/docs/category/congregation-program-for-everyone) | Read text documentation on how to start using the app and learn about different features.       |
 | [Video tutorials](https://www.youtube.com/@organized-app)                     | Watch video tutorials and guides on using and contributing on our YouTube chanel.     |
