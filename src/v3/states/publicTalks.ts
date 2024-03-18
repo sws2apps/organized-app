@@ -3,7 +3,7 @@ This file holds the source of the truth from the table "public_talks".
 */
 
 import { atom, selector } from 'recoil';
-import { appLangState } from './app';
+import { JWLangState } from './app';
 import { TalkLocaleType, TalkType } from '@definition/sources';
 
 export const publicTalksState = atom({
@@ -15,7 +15,7 @@ export const publicTalksLocaleState = selector({
   key: 'publicTalksLocale',
   get: async ({ get }) => {
     const talks: TalkType[] = get(publicTalksState);
-    const lang = get(appLangState).toUpperCase();
+    const lang = get(JWLangState).toUpperCase();
 
     const result: TalkLocaleType[] = [];
 

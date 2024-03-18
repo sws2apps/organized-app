@@ -401,3 +401,12 @@ export const userTimeAwayState = selector({
     return settings?.user_time_away || { data: [], changes: [] };
   },
 });
+
+export const publicTalkSyncState = selector({
+  key: 'publicTalkSync',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+
+    return settings?.public_talk_sync || '';
+  },
+});

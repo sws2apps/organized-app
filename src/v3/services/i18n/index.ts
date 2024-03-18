@@ -35,7 +35,7 @@ for await (const language of LANGUAGE_LIST) {
   );
 
   resources[language.locale] = {
-    ui: { ...dashboard, ...general, ...onboarding, ...profile, ...ministry, ...meetings },
+    ui: { ...dashboard, ...general, ...onboarding, ...profile, ...ministry, ...meetings, ...source },
     source,
   };
 }

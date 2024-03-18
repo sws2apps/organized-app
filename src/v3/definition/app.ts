@@ -40,6 +40,7 @@ export type SettingsType = {
   follow_os_theme?: { value: boolean; updatedAt: string };
   enable_hour_credits?: { value: boolean; updatedAt: string };
   user_time_away?: TimeAwayRecordsType;
+  public_talk_sync?: string;
 };
 
 export type BackupDataType = {
