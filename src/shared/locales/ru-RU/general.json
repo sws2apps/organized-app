@@ -60,5 +60,5 @@
   "tr_title": "Title",
   "tr_rename": "Rename",
   "tr_collapseAll": "Collapse all",
-  "tr_searchResults": "Search results: {{ count }}"
+  "tr_searchResults": "Результаты поиска: {{ count }}"
 }
