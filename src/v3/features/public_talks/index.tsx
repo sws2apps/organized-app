@@ -12,7 +12,7 @@ const PublicTalks = () => {
 
   const { tabletDown, laptopUp } = useBreakpoints();
 
-  const { talksList, lastSyncFormatted, handleToggleExpandAll, isExpandAll, handleSearch, txtSearch } =
+  const { talksList, lastSyncFormatted, handleToggleExpandAll, isExpandAll, handleSearch, labelSearch, txtSearch } =
     usePublicTalks();
 
   return (
@@ -24,15 +24,16 @@ const PublicTalks = () => {
         display: 'flex',
         flexDirection: 'column',
         gap: '16px',
+        backgroundColor: 'var(--white)',
       }}
     >
-      <SearchBar placeholder={t('tr_search')} onSearch={handleSearch} />
+      <SearchBar placeholder={t('tr_search')} value={txtSearch} onSearch={handleSearch} />
 
       <Box
         sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: tabletDown ? '8px' : '16px', flexWrap: 'wrap' }}>
-          <Typography className="h2">{t('tr_countPublicTalks', { count: talksList.length })}</Typography>
+          <Typography className="h2">{t(labelSearch, { count: talksList.length })}</Typography>
           <Typography
             className="body-small-semibold"
             color="var(--accent-400)"
@@ -59,7 +60,7 @@ const PublicTalks = () => {
         )}
       </Box>
 
-      <TalksListView isExpandAll={isExpandAll} txtSearch={txtSearch} />
+      <TalksListView isExpandAll={isExpandAll} />
     </Box>
   );
 };

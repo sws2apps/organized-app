@@ -16,15 +16,21 @@ const TableHead = (props: EnhancedTableProps) => {
       <TableRow>
         {columns.map((headCell) => (
           <TableCell
-            style={{ backgroundColor: 'var(--accent-100)', borderColor: 'var(--accent-200)', padding: '2px 16px' }}
+            style={{ backgroundColor: 'var(--accent-100)', borderColor: 'var(--accent-200)' }}
             key={headCell.id}
             align={alignCenterArray.includes(headCell.type) ? 'center' : 'left'}
             sortDirection={orderBy === headCell.id ? order : false}
+            sx={headCell.sx}
           >
             <TableSortLabel
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : 'asc'}
               onClick={createSortHandler(headCell.id)}
+              sx={{
+                '& .MuiTableSortLabel-icon': {
+                  margin: 0,
+                },
+              }}
               IconComponent={(props) => (
                 <Box {...props}>
                   <IconArrowDown color={'var(--grey-350)'} />

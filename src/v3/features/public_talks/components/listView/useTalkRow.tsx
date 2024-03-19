@@ -5,6 +5,7 @@ const useTalkRow = (talkNumber: number, talkTitle: string, defaultExpand: boolea
   const [collapseOpen, setCollapseOpen] = useState(defaultExpand);
   const [isEditMode, setIsEditMode] = useState(false);
   const [talkTitleTmp, setTalkTitleTmp] = useState(talkTitle);
+  const [isHistoryFocused, setIsHistoryFocused] = useState(false);
 
   const handleToggleCollapse = () => {
     setCollapseOpen((prev) => !prev);
@@ -23,6 +24,14 @@ const useTalkRow = (talkNumber: number, talkTitle: string, defaultExpand: boolea
     setIsEditMode(false);
   };
 
+  const handleHistoryFocused = () => {
+    setIsHistoryFocused(true);
+  };
+
+  const handleHistoryUnfocused = () => {
+    setIsHistoryFocused(false);
+  };
+
   useEffect(() => {
     setTalkTitleTmp(talkTitle);
   }, [talkTitle]);
@@ -39,6 +48,9 @@ const useTalkRow = (talkNumber: number, talkTitle: string, defaultExpand: boolea
     talkTitleTmp,
     handleTalkTitleChange,
     handleSaveTalkTile,
+    isHistoryFocused,
+    handleHistoryFocused,
+    handleHistoryUnfocused,
   };
 };
 
