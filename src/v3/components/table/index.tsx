@@ -1,35 +1,35 @@
-import {
-  Box,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TableSortLabel,
-  Typography,
-} from '@mui/material';
-import { MouseEvent, useMemo, useState } from 'react';
-import { visuallyHidden } from '@mui/utils';
-import { IconArrowDown } from '@icons/index';
+import { Stack, TableBody, TableContainer } from '@mui/material';
+import { Column } from './index.types';
+import TableHead from './TableHead';
+import useSorting from '@hooks/useSorting';
+import { StyledCell, StyledRow, StyledTable } from '@components/table/table.styles';
+import Badge from '@components/badge';
+import { IconAssign } from '@icons/index';
+import Button from '@components/button';
 
-interface Column {
-  id: string;
-  label: string;
-  minWidth?: number;
-  align?: 'right';
-  format?: (value: number) => string;
-}
-
-const columns: readonly Column[] = [
-  { id: 'id', label: '№', minWidth: 170 },
-  { id: 'name', label: 'Name', minWidth: 170 },
-  { id: 'covered', label: 'Covered', minWidth: 100 },
+const columns: Column[] = [
+  { id: 'id', label: '№' },
+  { id: 'name', label: 'Name' },
+  { id: 'covered', label: 'Covered' },
   {
     id: 'households',
     label: 'Households',
-    minWidth: 170,
+    type: 'number',
+  },
+];
+const columns4: Column[] = [
+  { id: 'id', label: '№' },
+  { id: 'name', label: 'Name' },
+  { id: 'covered', label: 'Covered' },
+  {
+    id: 'households',
+    label: 'Households',
+    type: 'number',
+  },
+  {
+    id: 'action',
+    label: 'Action',
+    type: 'action',
   },
 ];
 
@@ -38,136 +38,211 @@ const rows = [
   { id: 'M5', name: 'Allerton Bridge', covered: '02.03.2019', households: 121 },
   { id: 'M4', name: 'Allerton Bridge', covered: '02.03.2019', households: 121 },
   { id: 'M1', name: 'Allerton Bridge', covered: '02.03.2019', households: 121 },
+  { id: 'M9', name: 'Allerton Bridge', covered: '02.03.2019', households: 121 },
+  { id: 'M8', name: 'Allerton Bridge', covered: '02.03.2019', households: 121 },
+  { id: 'M6', name: 'Allerton Bridge', covered: '02.03.2019', households: 121 },
+  { id: 'M3', name: 'Allerton Bridge', covered: '02.03.2019', households: 121 },
+];
+
+const columns2: Column[] = [
+  { id: 'id', label: '№' },
+  { id: 'publisher', label: 'Publisher' },
+  { id: 'assigned', label: 'Assigned' },
+  {
+    id: 'returned',
+    label: 'Returned',
+  },
+];
+
+const rows2 = [
+  {
+    id: 'M2',
+    name: 'Marktstraße, Gartenstraße',
+    publisher: 'Mike Wallenter',
+    assigned: '23.12.2020',
+    returned: '19.02.2021',
+  },
+  {
+    id: 'M21',
+    name: 'Marktstraße, Gartenstraße',
+    publisher: 'George Markus',
+    assigned: '23.12.2020',
+    returned: 'In work',
+  },
+  { id: 'M3', name: 'Marktstraße, Gartenstraße', publisher: 'George Markus', assigned: 'No info', returned: 'No info' },
+];
+
+const columns3: Column[] = [
+  { id: 'address', label: 'Address' },
+  { id: 'name', label: 'Name' },
+  { id: 'date', label: 'Date' },
+];
+
+const rows3 = [
+  {
+    address: 'Florianweg Str. 25',
+    name: 'Family Williamson',
+    date: '19.02.2021',
+  },
+  {
+    address: 'New World Str. 9a',
+    name: 'Sandero Schneidertson',
+    date: '23.12.2020',
+  },
+];
+
+const rows4 = [
+  { id: 'M1', name: 'Marktstraße, Gartenstraße', covered: '23.12.2020', households: 163 },
+  { id: 'M2', name: 'Allerton Bridge', covered: '02.03.2019', households: 121 },
+  { id: 'M3', name: 'Allerton Bridge', covered: '02.03.2019', households: 121 },
+  { id: 'M4', name: 'Allerton Bridge', covered: '02.03.2019', households: 121 },
+  { id: 'M5', name: 'Allerton Bridge', covered: '02.03.2019', households: 121 },
   { id: 'M6', name: 'Allerton Bridge', covered: '02.03.2019', households: 121 },
   { id: 'M7', name: 'Allerton Bridge', covered: '02.03.2019', households: 121 },
   { id: 'M8', name: 'Allerton Bridge', covered: '02.03.2019', households: 121 },
 ];
 
-type Order = 'asc' | 'desc';
-
-interface EnhancedTableProps {
-  onRequestSort: (event: MouseEvent<unknown>, property: string) => void;
-  order: Order;
-  orderBy: string;
-}
-
-function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
-  if (b[orderBy] < a[orderBy]) return -1;
-  if (b[orderBy] > a[orderBy]) return 1;
-  return 0;
-}
-function getComparator<Key extends keyof any>(
-  order: Order,
-  orderBy: Key
-): (a: { [key in Key]: number | string }, b: { [key in Key]: number | string }) => number {
-  return order === 'desc'
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) {
-  const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) {
-      return order;
-    }
-    return a[1] - b[1];
+const TestTable_1 = () => {
+  const { order, orderBy, handleRequestSort, visibleRows } = useSorting({
+    initialOrder: 'asc',
+    initialOrderBy: 'id',
+    rows: rows,
   });
-  return stabilizedThis.map((el) => el[0]);
-}
-
-function EnhancedTableHead(props: EnhancedTableProps) {
-  const { order, orderBy, onRequestSort } = props;
-  const createSortHandler = (property: string) => (event: MouseEvent<unknown>) => {
-    onRequestSort(event, property);
-  };
-
-  return (
-    <TableHead>
-      <TableRow>
-        {columns.map((headCell) => (
-          <TableCell
-            style={{ backgroundColor: 'transparent', borderColor: 'var(--accent-200)' }}
-            key={headCell.id}
-            // align={headCell.numeric ? 'right' : 'left'}
-            // padding={headCell.disablePadding ? 'none' : 'normal'}
-            sortDirection={orderBy === headCell.id ? order : false}
-          >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
-              onClick={createSortHandler(headCell.id)}
-              IconComponent={(props) => (
-                <Box {...props}>
-                  <IconArrowDown color={'var(--grey-350)'} />
-                </Box>
-              )}
-            >
-              <Typography className={'body-small-regular'} color={'var(--grey-350)'}>
-                {headCell.label}
-              </Typography>
-              {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                </Box>
-              ) : null}
-            </TableSortLabel>
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-  );
-}
-
-const CPETable = () => {
-  const [order, setOrder] = useState<Order>('asc');
-  const [orderBy, setOrderBy] = useState<string>('id');
-
-  const handleRequestSort = (event: MouseEvent<unknown>, property: string) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
-
-  const visibleRows = useMemo(() => stableSort(rows, getComparator(order, orderBy)), [order, orderBy]);
 
   return (
     <TableContainer sx={{ maxHeight: 440 }}>
-      <Table stickyHeader aria-label="sticky table" size={'small'}>
-        {/*<TableHead>*/}
-        {/*  <TableRow>*/}
-        {/*    {columns.map((column) => (*/}
-        {/*      <TableCell key={column.id} align={column.align} style={{ minWidth: column.minWidth }}>*/}
-        {/*        {column.label}*/}
-        {/*      </TableCell>*/}
-        {/*    ))}*/}
-        {/*  </TableRow>*/}
-        {/*</TableHead>*/}
-        <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
+      <StyledTable>
+        <TableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} columns={columns} />
         <TableBody>
           {visibleRows.map((row) => {
             return (
-              <TableRow hover tabIndex={-1} key={row.id}>
-                {columns.map((column) => {
-                  const value = row[column.id];
-                  return (
-                    <TableCell
-                      key={column.id}
-                      align={column.align}
-                      className={'body-small-semibold'}
-                      style={{ borderColor: 'var(--accent-200)', color: 'var(--black)' }}
-                    >
-                      {value}
-                    </TableCell>
-                  );
-                })}
-              </TableRow>
+              <StyledRow key={row.id}>
+                <StyledCell className={'body-small-semibold'}>{row.id}</StyledCell>
+                <StyledCell className={'body-small-semibold'}>{row.name}</StyledCell>
+                <StyledCell>{row.covered}</StyledCell>
+                <StyledCell align={'center'}>{row.households}</StyledCell>
+              </StyledRow>
             );
           })}
         </TableBody>
-      </Table>
+      </StyledTable>
     </TableContainer>
+  );
+};
+
+const TestTable_3 = () => {
+  const { order, orderBy, handleRequestSort, visibleRows } = useSorting({
+    initialOrder: 'asc',
+    initialOrderBy: 'date',
+    rows: rows3,
+  });
+
+  return (
+    <TableContainer sx={{ maxHeight: 440 }}>
+      <StyledTable>
+        <TableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} columns={columns3} />
+        <TableBody>
+          {visibleRows.map((row) => {
+            return (
+              <StyledRow key={row.id}>
+                <StyledCell className={'body-small-semibold'}>{row.address}</StyledCell>
+                <StyledCell>{row.name}</StyledCell>
+                <StyledCell>{row.date}</StyledCell>
+              </StyledRow>
+            );
+          })}
+        </TableBody>
+      </StyledTable>
+    </TableContainer>
+  );
+};
+
+const TestTable_2 = () => {
+  const { order, orderBy, handleRequestSort, visibleRows } = useSorting({
+    initialOrder: 'asc',
+    initialOrderBy: 'id',
+    rows: rows2,
+  });
+
+  return (
+    <TableContainer sx={{ maxHeight: 440 }}>
+      <StyledTable>
+        <TableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} columns={columns2} />
+        <TableBody>
+          {visibleRows.map((row) => {
+            return (
+              <StyledRow key={row.id}>
+                <StyledCell className={'body-small-semibold'} width={50}>
+                  {row.id}
+                </StyledCell>
+                <StyledCell className={'body-small-semibold'}>
+                  <Stack direction={'column'}>
+                    {row.name}
+                    <Badge
+                      sx={{ width: 'max-content' }}
+                      text={row.publisher}
+                      color={row.returned === 'In work' ? 'accent' : 'grey'}
+                      size="small"
+                      filled={false}
+                    />
+                  </Stack>
+                </StyledCell>
+                <StyledCell>{row.assigned}</StyledCell>
+                <StyledCell>{row.returned}</StyledCell>
+              </StyledRow>
+            );
+          })}
+        </TableBody>
+      </StyledTable>
+    </TableContainer>
+  );
+};
+
+const TestTable_4 = () => {
+  const { order, orderBy, handleRequestSort, visibleRows } = useSorting({
+    initialOrder: 'asc',
+    initialOrderBy: 'id',
+    rows: rows4,
+  });
+
+  return (
+    <TableContainer sx={{ maxHeight: 300 }}>
+      <StyledTable>
+        <TableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} columns={columns4} />
+        <TableBody>
+          {visibleRows.map((row) => {
+            return (
+              <StyledRow key={row.id}>
+                <StyledCell width={50} className={'body-small-semibold'}>
+                  {row.id}
+                </StyledCell>
+                <StyledCell className={'body-small-semibold'}>{row.name}</StyledCell>
+                <StyledCell>{row.covered}</StyledCell>
+                <StyledCell width={200} align={'center'}>
+                  {row.households}
+                </StyledCell>
+                <StyledCell width={200}>
+                  <Button variant="secondary" startIcon={<IconAssign />} sx={{ minHeight: '32px', height: '32px' }}>
+                    Request
+                  </Button>
+                </StyledCell>
+              </StyledRow>
+            );
+          })}
+        </TableBody>
+      </StyledTable>
+    </TableContainer>
+  );
+};
+
+const CPETable = () => {
+  return (
+    <Stack spacing={4} mb={5}>
+      <TestTable_1 />
+      <TestTable_2 />
+      <TestTable_3 />
+      <TestTable_4 />
+    </Stack>
   );
 };
 
