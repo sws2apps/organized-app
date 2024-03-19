@@ -1,3 +1,10 @@
+# [2.120.0](https://github.com/sws2apps/cpe-sws/compare/v2.119.0...v2.120.0) (2024-03-19)
+
+
+### Features
+
+* **app:** add new domain to url_handlers ([eda2cda](https://github.com/sws2apps/cpe-sws/commit/eda2cda9582697af5f4534ab565f5c4371c178c9))
+
 # [2.119.0](https://github.com/sws2apps/cpe-sws/compare/v2.118.0...v2.119.0) (2024-03-18)
 
 
