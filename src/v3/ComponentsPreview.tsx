@@ -22,6 +22,7 @@ import {
   PublicWitnessingPlaceCard,
   ScrollableTabs,
   ProgressBarSmall,
+  Table,
 } from '@components/index';
 import { useEffect, useState } from 'react';
 import { IconAdd, IconAssign, IconClose, IconReturn, IconUndo, IconUpdate, IconInfo, IconVisitors } from '@icons/index';
@@ -249,6 +250,9 @@ const ComponentPreview = () => {
 
       <Container maxWidth={false} sx={{ maxWidth: '1440px' }}>
         <Box sx={{ margin: '80px 0px' }}>
+          <Box>
+            <Table />
+          </Box>
           <Box marginBottom={2} sx={{ display: 'flex', flexDirection: 'row', gap: '25px' }}>
             <PublicWitnessingPlaceCard label={'Time Square'} />
             <PublicWitnessingPlaceCard label={'Time Square'} isDelete />
