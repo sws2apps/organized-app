@@ -100,7 +100,7 @@
   "tr_offline": "Ти офлайн",
   "tr_publicTalkOfflineDesc": "<p>Ти зможеш отримати список публічних обговорень, щойно відновиться підключення до Інтернету. Коли з'явиться інтернет підключення, <a href='#'>онови сторінку</a>.</p>",
   "tr_syncTalksList": "Синхронізувати список промов",
-  "tr_noTalksList": "You don’t have any public talks in your list. Sync the list to get all the public talks.",
-  "tr_countPublicTalks": "Public talks: {{ count }}",
-  "tr_publicTalkLastSync": "Last synced {{ date }} at {{ time }}"
+  "tr_noTalksList": "У тебе немає жодних промов у списку. Синхронізуй список, щоб отримати всі публічні промови.",
+  "tr_countPublicTalks": "Публічні промови: {{ count }}",
+  "tr_publicTalkLastSync": "Остання синхронізація {{ date }} о {{ time }}"
 }
