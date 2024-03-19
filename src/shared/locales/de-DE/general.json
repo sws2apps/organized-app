@@ -59,5 +59,6 @@
   "tr_shortNumberLabel": "No.",
   "tr_title": "Title",
   "tr_rename": "Rename",
-  "tr_collapseAll": "Collapse all"
+  "tr_collapseAll": "Collapse all",
+  "tr_searchResults": "Search results: {{ count }}"
 }
