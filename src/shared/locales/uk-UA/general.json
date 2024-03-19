@@ -59,5 +59,6 @@
   "tr_shortNumberLabel": "Ні.",
   "tr_title": "Назва",
   "tr_rename": "Перейменувати",
-  "tr_collapseAll": "Згорнути все"
+  "tr_collapseAll": "Згорнути все",
+  "tr_searchResults": "Search results: {{ count }}"
 }
