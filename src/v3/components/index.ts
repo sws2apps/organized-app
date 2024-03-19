@@ -39,3 +39,4 @@ export {
   CPEPublicWitnessingTimeCard as PublicWitnessingTimeCard,
 } from './public_witnessing_card/index';
 export { default as ProgressBarSmall } from './progress_bar_small/index';
+export { default as Table } from './table/index';
