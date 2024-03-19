@@ -1,7 +1,6 @@
 import { promiseGetRecoil } from 'recoil-outside';
 import { getS34 } from '@services/cpe/publicTalks';
 import { appDb } from '.';
-import { S34Schema } from './schema';
 import { TalkType } from '@definition/sources';
 import { JWLangState } from '@states/app';
 
@@ -24,13 +23,19 @@ export const saveS34 = async (talk_number: number, talk_title: string) => {
 
 export const resetS34s = async (talks: TalkType[]) => {
   for (const talk of talks) {
-    let S34;
+    let S34: TalkType;
 
-    S34 = await getS34(talk.talk_number);
+    const findTalk = await getS34(talk.talk_number);
 
-    if (!S34) {
-      S34 = structuredClone(S34Schema);
-      S34.talk_number = talk.talk_number;
+    if (!findTalk) {
+      S34 = {
+        talk_number: talk.talk_number,
+        talk_title: { E: { title: '', modified: '' } },
+      };
+    }
+
+    if (findTalk) {
+      S34 = structuredClone(findTalk);
     }
 
     for (const [language, value] of Object.entries(talk.talk_title)) {

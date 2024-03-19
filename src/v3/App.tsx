@@ -5,7 +5,7 @@ import { ErrorBoundary, WaitingCircular } from '@components/index';
 import { useGlobal } from '@hooks/index';
 import { RootLayout } from '@layouts/index';
 import { PublicTalksList } from './pages';
-import ComponentsPreview from './ComponentsPreview';
+import ComponentsPreview from '@components/preview';
 
 // lazy loading
 const Dashboard = lazy(() => import('@pages/dashboard'));

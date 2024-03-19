@@ -32,6 +32,16 @@ const CPETextField = (props: TextFieldTypeProps) => {
           paddingBottom: `calc(14.5px - ${varHeight}px)`,
           flex: '1 0 0',
         },
+        '.MuiInput-root:before': {
+          borderBottom: '1px solid var(--accent-300)',
+        },
+        '.MuiInput-root:after': {
+          borderBottom: '1px solid var(--accent-main)',
+        },
+        '.MuiInput-root:hover:before': {
+          borderBottom: '1px solid var(--accent-main)',
+          outline: 0,
+        },
         '.MuiOutlinedInput-root': {
           borderRadius: 'var(--radius-l)',
           color: 'var(--black)',

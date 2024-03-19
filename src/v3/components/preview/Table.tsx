@@ -1,11 +1,11 @@
 import { Stack, TableBody, TableContainer } from '@mui/material';
-import { Column } from './index.types';
-import TableHead from './TableHead';
-import useSorting from '@hooks/useSorting';
+import useSorting from '@components/table/useSorting';
 import { StyledCell, StyledRow, StyledTable } from '@components/table/table.styles';
 import Badge from '@components/badge';
 import { IconAssign } from '@icons/index';
 import Button from '@components/button';
+import { Column } from '@components/table/index.types';
+import TableHead from '@components/table/TableHead';
 
 const columns: Column[] = [
   { id: 'id', label: '№' },
@@ -235,7 +235,7 @@ const TestTable_4 = () => {
   );
 };
 
-const CPETable = () => {
+const TableDemo = () => {
   return (
     <Stack spacing={4} mb={5}>
       <TestTable_1 />
@@ -246,4 +246,4 @@ const CPETable = () => {
   );
 };
 
-export default CPETable;
+export default TableDemo;

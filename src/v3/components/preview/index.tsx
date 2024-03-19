@@ -12,7 +12,7 @@ import {
   Typography,
   UserCard,
   InfoTip,
-  Loading,
+  AppLoading,
   DatePicker,
   Reminders,
   ReminderItem,
@@ -22,13 +22,12 @@ import {
   PublicWitnessingPlaceCard,
   ScrollableTabs,
   ProgressBarSmall,
-  Table,
+  TimePicker,
 } from '@components/index';
 import { useEffect, useState } from 'react';
 import { IconAdd, IconAssign, IconClose, IconReturn, IconUndo, IconUpdate, IconInfo, IconVisitors } from '@icons/index';
-
-import { NavBar } from './layouts';
-import CPETimePicker from './components/time_picker';
+import NavBar from '@layouts/navbar';
+import TableDemo from './Table';
 
 const themes = ['blue', 'green', 'orange', 'purple'];
 
@@ -162,6 +161,16 @@ const ComponentPreview = () => {
     setCurrentTheme(e.target.value);
   };
 
+  const onSearch = (query) => {
+    // Write logic for filtration here
+    if (!query) {
+      setFilteredNames(names);
+    } else {
+      const filteredNames = names.filter((item) => item.name.toLowerCase().includes(query.toLowerCase()));
+      setFilteredNames(filteredNames);
+    }
+  };
+
   useEffect(() => {
     let current = currentTheme;
     const theme = localStorage.getItem('theme');
@@ -173,16 +182,6 @@ const ComponentPreview = () => {
     const themeColor = getComputedStyle(document.documentElement).getPropertyValue('--accent-100');
     document.querySelector("meta[name='theme-color']").setAttribute('content', themeColor);
   }, [currentTheme]);
-
-  const onSearch = (query) => {
-    // Write logic for filtration here
-    if (!query) {
-      setFilteredNames(names);
-    } else {
-      const filteredNames = names.filter((item) => item.name.toLowerCase().includes(query.toLowerCase()));
-      setFilteredNames(filteredNames);
-    }
-  };
 
   return (
     <Box>
@@ -251,7 +250,7 @@ const ComponentPreview = () => {
       <Container maxWidth={false} sx={{ maxWidth: '1440px' }}>
         <Box sx={{ margin: '80px 0px' }}>
           <Box>
-            <Table />
+            <TableDemo />
           </Box>
           <Box marginBottom={2} sx={{ display: 'flex', flexDirection: 'row', gap: '25px' }}>
             <PublicWitnessingPlaceCard label={'Time Square'} />
@@ -692,7 +691,7 @@ const ComponentPreview = () => {
           </Box>
         </Box>
         <Box>
-          <Loading />
+          <AppLoading />
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '40px', marginBottom: '40px' }}>
           <Typography className="body-regular">Reminders:</Typography>
@@ -714,10 +713,10 @@ const ComponentPreview = () => {
           </Reminders>
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'row', gap: '20px', marginTop: '40px', marginBottom: '40px' }}>
-          <CPETimePicker ampm={true} label={'Time'} />
-          <CPETimePicker ampm={true} label={'Time'} isValueOnOpen />
-          <CPETimePicker ampm={false} label={'Time'} />
-          <CPETimePicker ampm={false} label={'Time'} isValueOnOpen />
+          <TimePicker ampm={true} label={'Time'} />
+          <TimePicker ampm={true} label={'Time'} isValueOnOpen />
+          <TimePicker ampm={false} label={'Time'} />
+          <TimePicker ampm={false} label={'Time'} isValueOnOpen />
         </Box>
         <Box sx={{ mb: 5 }}>
           Tabs:

@@ -24,14 +24,27 @@ const TalkRow = ({ talk, isExpandAll }: TalkRowType) => {
     handleTalkTitleChange,
     talkTitleTmp,
     handleSaveTalkTile,
+    handleHistoryFocused,
+    handleHistoryUnfocused,
+    isHistoryFocused,
   } = useTalkRow(talk.talk_number, talk.talk_title, isExpandAll);
 
   return (
     <>
       <TableRow
+        className="talk-list-item"
+        onClick={handleToggleCollapse}
         sx={{
+          cursor: 'pointer',
           '& > .MuiTableCell-root': {
             borderBottomStyle: isEditMode ? 'solid' : 'none',
+          },
+          backgroundColor: isHistoryFocused ? 'var(--accent-150)' : 'initial',
+          '& .MuiTypography-root': {
+            color: isHistoryFocused ? 'var(--accent-dark)' : 'var(--black)',
+          },
+          '& .row-btn, & .row-btn g, & .row-btn path': {
+            fill: isHistoryFocused ? 'var(--accent-dark)' : 'var(--grey-300)',
           },
           '&:hover': {
             backgroundColor: 'var(--accent-150)',
@@ -40,6 +53,9 @@ const TalkRow = ({ talk, isExpandAll }: TalkRowType) => {
             },
             '& .row-btn, & .row-btn g, & .row-btn path': {
               fill: 'var(--accent-dark)',
+            },
+            '& + .talk-history': {
+              backgroundColor: 'var(--accent-150)',
             },
           },
         }}
@@ -129,7 +145,19 @@ const TalkRow = ({ talk, isExpandAll }: TalkRowType) => {
         )}
       </TableRow>
       {!isEditMode && (
-        <TableRow>
+        <TableRow
+          className="talk-history"
+          onClick={handleToggleCollapse}
+          sx={{
+            marginTop: '-5px',
+            cursor: 'pointer',
+            '&:hover': {
+              backgroundColor: 'var(--accent-150)',
+            },
+          }}
+          onMouseEnter={handleHistoryFocused}
+          onMouseLeave={handleHistoryUnfocused}
+        >
           <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={5}>
             <Collapse in={collapseOpen} timeout="auto" unmountOnExit>
               <Table
@@ -159,7 +187,7 @@ const TalkRow = ({ talk, isExpandAll }: TalkRowType) => {
                         },
                       }}
                     >
-                      <TableCell sx={{ minWidth: '180px' }} align="left">
+                      <TableCell sx={{ minWidth: '200px' }} align="left">
                         {index === 0 && !laptopUp && (
                           <Button
                             variant="small"

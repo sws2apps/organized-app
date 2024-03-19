@@ -1,10 +1,9 @@
-import { useAppTranslation } from '@hooks/index';
-import React from 'react';
-import IconLoading from '../icons/IconLoading';
+import { IconLoading } from '@icons/index';
 import { StyledCircleBox } from './loading.styles';
 import Typography from '@components/typography';
+import { useAppTranslation } from '@hooks/index';
 
-export const Loading = () => {
+const AppLoading = () => {
   const { t } = useAppTranslation();
 
   return (
@@ -17,4 +16,4 @@ export const Loading = () => {
   );
 };
 
-export default Loading;
+export default AppLoading;

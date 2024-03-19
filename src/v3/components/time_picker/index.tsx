@@ -10,7 +10,8 @@ import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'reac
 import { CPETimePickerProps } from './time_picker.types';
 import { StyleTimePickerPopper, StyleTimePickerToolbar } from './time_picker.styles';
 import { IconClock } from '@components/icons';
-import { TextField, Button } from '@components/index';
+import TextField from '@components/textfield';
+import Button from '@components/button';
 import { useAppTranslation } from '@hooks/index';
 
 const TimePickerInputField = (props: TextFieldProps & { setOpen?: Dispatch<SetStateAction<boolean>> }) => {
