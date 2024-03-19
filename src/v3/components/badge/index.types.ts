@@ -5,7 +5,10 @@ export type BadgePropsType = {
   size: 'small' | 'medium' | 'big';
   filled?: boolean;
   text: string;
-  color: 'red' | 'grey' | 'green' | 'orange' | 'accent' | 'accent';
+  color: 'red' | 'grey' | 'green' | 'orange' | 'accent' | 'transparent';
+  fullWidth?: boolean;
+  centerContent?: boolean;
+  borderStyle?: 'dashed' | 'solid';
   icon?: ReactElement;
   sx?: SxProps<Theme>;
 };

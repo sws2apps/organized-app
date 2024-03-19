@@ -40,6 +40,7 @@ export type SettingsType = {
   follow_os_theme?: { value: boolean; updatedAt: string };
   enable_hour_credits?: { value: boolean; updatedAt: string };
   user_time_away?: TimeAwayRecordsType;
+  public_talk_sync?: string;
 };
 
 export type BackupDataType = {
@@ -64,3 +65,18 @@ export type BackupDataType = {
 export type ColorSchemeType = 'blue' | 'green' | 'purple' | 'orange';
 
 export type SnackBarSeverityType = 'success' | 'error';
+
+export type CustomClassName =
+  | 'huge-numbers'
+  | 'big-numbers'
+  | 'label-small-medium'
+  | 'label-small-regular'
+  | 'h1'
+  | 'h2'
+  | 'h2-caps'
+  | 'h3'
+  | 'h4'
+  | 'button-caps'
+  | 'body-regular'
+  | 'body-small-semibold'
+  | 'body-small-regular';

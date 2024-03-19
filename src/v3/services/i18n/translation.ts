@@ -13,7 +13,7 @@ export const getTranslation = ({
 }) => {
   const i18n = getI18n();
 
-  if (!language) language = 'e';
+  if (!language) language = 'en';
 
   if (i18n) {
     return i18n.t(key, { lng: language, ns: namespace, ...params });

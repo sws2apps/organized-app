@@ -30,7 +30,6 @@ const NavBar = () => {
   const { t } = useAppTranslation();
 
   const {
-    tablet600Up,
     anchorEl,
     handleCloseMore,
     handleOpenMoreMenu,
@@ -80,7 +79,7 @@ const NavBar = () => {
         >
           <IconLogo width={40} height={40} />
           <Typography className="h3" color="var(--black)">
-            {tablet600Up ? t('tr_appFullName') : t('tr_appShortName')}
+            Organized
           </Typography>
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: { mobile: '4px', tablet: '8px' } }}>

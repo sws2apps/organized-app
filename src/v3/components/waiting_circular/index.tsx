@@ -1,16 +1,14 @@
-import { Box, CircularProgress, SxProps, Theme } from '@mui/material';
+import { Box, SxProps, Theme } from '@mui/material';
 import { VariantProps } from './index.types';
+import { IconLoading } from '@components/icons';
 
-const WaitingCircular = ({ variant = 'fixed' }: VariantProps) => {
+const WaitingCircular = ({ variant = 'fixed', width = 72, height = 72 }: VariantProps) => {
   let sx: SxProps<Theme> = {};
 
   if (variant === 'fixed') {
     sx = {
       position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
+      top: '50%',
       margin: 'auto',
     };
   }
@@ -26,14 +24,9 @@ const WaitingCircular = ({ variant = 'fixed' }: VariantProps) => {
         justifyContent: 'center',
       }}
     >
-      <CircularProgress
-        size={80}
-        disableShrink={true}
-        sx={{
-          color: 'var(--accent-dark)',
-          ...sx,
-        }}
-      />
+      <Box sx={sx}>
+        <IconLoading width={width} height={height} color="var(--accent-dark)" />
+      </Box>
     </Box>
   );
 };

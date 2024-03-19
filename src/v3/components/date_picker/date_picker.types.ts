@@ -7,5 +7,6 @@ export interface CPEDatePickerProps {
   disablePast?: boolean;
   longDateFormat?: string;
   shortDateFormat?: string;
+  isValueOnOpen?: boolean;
   onChange?: (value: Date) => VoidFunction | Promise<void>;
 }

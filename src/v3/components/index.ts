@@ -26,11 +26,17 @@ export { default as TextField } from './textfield/index';
 export { default as TextMarkup } from './text_markup/index';
 export { default as ThemeSwitch } from './theme_switch/index';
 export { default as Typography } from './typography/index';
+export { default as ScrollableTabs } from './scrollable_tabs/index';
 export { default as UserCard } from './user_card/index';
 export { default as WaitingCircular } from './waiting_circular/index';
 export { default as InfoTip } from './info_tip/index';
 export { default as DatePicker } from './date_picker';
 export { Reminders, ReminderItem } from './reminders/index';
 export { default as SearchBar } from './search_bar/index';
+export { default as Accordion } from './accordion/index';
+export {
+  CPEPublicWitnessingPlaceCard as PublicWitnessingPlaceCard,
+  CPEPublicWitnessingTimeCard as PublicWitnessingTimeCard,
+} from './public_witnessing_card/index';
 export { default as ProgressBarSmall } from './progress_bar_small/index';
 export { default as Table } from './table/index';

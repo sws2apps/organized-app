@@ -1,3 +1,4 @@
+import { ReactElement } from 'react';
 import { promiseSetRecoil } from 'recoil-outside';
 import logger from '@services/logger/index';
 import {
@@ -51,6 +52,7 @@ import {
   isDarkThemeState,
   appMessageHeaderState,
   isMFAEnabledState,
+  appMessageIconState,
 } from '@states/app';
 import { SnackBarSeverityType } from '@definition/app';
 
@@ -71,14 +73,17 @@ export const displaySnackNotification = async ({
   header,
   message,
   severity,
+  icon,
 }: {
   header: string;
   message: string;
   severity?: SnackBarSeverityType;
+  icon?: ReactElement;
 }) => {
   await promiseSetRecoil(appMessageHeaderState, header);
   await promiseSetRecoil(appMessageState, message);
   await promiseSetRecoil(appSeverityState, severity);
+  await promiseSetRecoil(appMessageIconState, icon);
   await promiseSetRecoil(appSnackOpenState, true);
 };
 

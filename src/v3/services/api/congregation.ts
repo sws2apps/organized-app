@@ -1,7 +1,7 @@
 import { apiDefault } from './common';
 
 export const apiFetchCountries = async () => {
-  const { apiHost, appVersion: appversion, visitorID: visitorid, userUID: uid, appLang } = await apiDefault();
+  const { apiHost, appVersion: appversion, visitorID: visitorid, userUID: uid, JWLang } = await apiDefault();
 
   const res = await fetch(`${apiHost}api/congregations/countries`, {
     method: 'GET',
@@ -11,7 +11,7 @@ export const apiFetchCountries = async () => {
       appversion,
       uid,
       visitorid,
-      language: appLang.toUpperCase(),
+      language: JWLang.toUpperCase(),
     },
   });
   const data = await res.json();
@@ -20,7 +20,7 @@ export const apiFetchCountries = async () => {
 };
 
 export const apiFetchCongregations = async (country, name) => {
-  const { apiHost, appVersion: appversion, visitorID: visitorid, userUID: uid, appLang } = await apiDefault();
+  const { apiHost, appVersion: appversion, visitorID: visitorid, userUID: uid, JWLang } = await apiDefault();
 
   if (apiHost === '' || visitorid === '') {
     return { data: [] };
@@ -34,7 +34,7 @@ export const apiFetchCongregations = async (country, name) => {
       appversion,
       uid,
       visitorid,
-      language: appLang.toUpperCase(),
+      language: JWLang.toUpperCase(),
       country,
       name,
     },
@@ -46,7 +46,7 @@ export const apiFetchCongregations = async (country, name) => {
 };
 
 export const apiCreateCongregation = async (country_code, cong_name, cong_number, firstname, lastname) => {
-  const { apiHost, appVersion: appversion, visitorID: visitorid, userUID: uid, appLang } = await apiDefault();
+  const { apiHost, appVersion: appversion, visitorID: visitorid, userUID: uid, JWLang } = await apiDefault();
 
   const res = await fetch(`${apiHost}api/congregations`, {
     method: 'PUT',
@@ -56,7 +56,7 @@ export const apiCreateCongregation = async (country_code, cong_name, cong_number
       appversion,
       visitorid,
       uid,
-      language: appLang.toUpperCase(),
+      language: JWLang.toUpperCase(),
     },
     body: JSON.stringify({ country_code, cong_name, cong_number, firstname, lastname }),
   });

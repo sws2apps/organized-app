@@ -64,7 +64,7 @@ const LanguageSwitcher = ({ menuStyle }: { menuStyle: SxProps }) => {
       >
         {LANGUAGE_LIST.map((lang) => (
           <MenuItem key={lang.locale} onClick={handleLangChange}>
-            <ListItemText data-code={lang.code}>
+            <ListItemText data-code={lang.locale}>
               <Typography className="body-regular" color="var(--black)">
                 {lang.name}
               </Typography>

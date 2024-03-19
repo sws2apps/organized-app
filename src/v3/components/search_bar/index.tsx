@@ -28,16 +28,18 @@ const SearchBar = ({ placeholder, onSearch }: SearchBarProps) => {
   const handleSearch = (query) => {
     const searchQuery = query.trim();
 
-    if (searchQuery.length > 0) {
-      onSearch(searchQuery);
-    } else {
-      onSearch('');
+    if (onSearch) {
+      if (searchQuery.length > 0) {
+        onSearch(searchQuery);
+      } else {
+        onSearch('');
+      }
     }
   };
 
   const handleClear = () => {
     setValue('');
-    onSearch('');
+    onSearch && onSearch('');
   };
 
   return (

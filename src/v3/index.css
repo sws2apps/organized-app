@@ -37,6 +37,11 @@ span .text-markup:last-child {
   padding: 50px;
 }
 
+.pop-up {
+  background-color: var(--white);
+  border-radius: var(--radius-xxl);
+}
+
 @keyframes fade-out-top {
   from {
     opacity: 1;
@@ -120,6 +125,24 @@ span .text-markup:last-child {
   }
 }
 
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--grey-300);
+  border-radius: 10px;
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--grey-350);
+
+  
 .MuiOtpInput-TextField {
   outline: none;
 }

@@ -40,15 +40,6 @@ export const fullnameState = selector({
   },
 });
 
-export const sourceLangState = selector({
-  key: 'sourceLang',
-  get: ({ get }) => {
-    const settings = get(settingsState);
-
-    return settings.source_lang || 'e';
-  },
-});
-
 export const congNumberState = selector({
   key: 'congNumber',
   get: ({ get }) => {
@@ -408,5 +399,14 @@ export const userTimeAwayState = selector({
     const settings = get(settingsState);
 
     return settings?.user_time_away || { data: [], changes: [] };
+  },
+});
+
+export const publicTalkSyncState = selector({
+  key: 'publicTalkSync',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+
+    return settings?.public_talk_sync || '';
   },
 });
