@@ -64,7 +64,6 @@
   "tr_openingPrayerWeekendMeeting": "Preghiera iniziale",
   "tr_noWMeeting": "Questa settimana non si tengono adunanze del fine settimana",
   "tr_noMeeting": "Questa settimana non si tengono adunanze infrasettimanali",
-  "tr_longDateFormat": "{{ date }} {{ month }}, {{ year }}",
   "tr_substituteSpeaker": "Oratore sostitutivo",
   "tr_startingConversation": "Iniziare una conversazione",
   "tr_followingUp": "Coltivare l’interesse",
