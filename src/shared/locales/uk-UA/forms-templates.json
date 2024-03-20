@@ -64,7 +64,6 @@
   "tr_openingPrayerWeekendMeeting": "Всупна молитва",
   "tr_noWMeeting": "Цього тижня немає зібрання на вихідних",
   "tr_noMeeting": "Цього тижня немає зібрання серед тижня",
-  "tr_longDateFormat": "{{ date }} {{ month }} {{ year }}",
   "tr_substituteSpeaker": "Запасний промовець",
   "tr_startingConversation": "Починаємо розмову",
   "tr_followingUp": "Розвиваємо інтерес",
