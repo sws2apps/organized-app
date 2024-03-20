@@ -64,7 +64,6 @@
   "tr_openingPrayerWeekendMeeting": "開会の祈り",
   "tr_noWMeeting": "There is no weekend meeting for this week",
   "tr_noMeeting": "There is no meeting for this week",
-  "tr_longDateFormat": "{{ year }} {{ month }} {{ date }}",
   "tr_substituteSpeaker": "Substitute Speaker",
   "tr_startingConversation": "会話を始める",
   "tr_followingUp": "再び話し合う",
