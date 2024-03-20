@@ -64,7 +64,6 @@
   "tr_openingPrayerWeekendMeeting": "Modlitwa początkowa",
   "tr_noWMeeting": "Nie ma zebrania w ten weekend",
   "tr_noMeeting": "Nie ma zebrania w tym tygodniu",
-  "tr_longDateFormat": "{{ date }} {{ month }} {{ year }}",
   "tr_substituteSpeaker": "Zastępczy mówca",
   "tr_startingConversation": "Rozpoczynanie rozmowy",
   "tr_followingUp": "Podtrzymywanie zainteresowania",

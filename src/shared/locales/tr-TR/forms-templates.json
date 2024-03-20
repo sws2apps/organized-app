@@ -64,7 +64,6 @@
   "tr_openingPrayerWeekendMeeting": "Açılış duası",
   "tr_noWMeeting": "Bu hafta hafta sonu toplantısı yapılmayacaktır",
   "tr_noMeeting": "Bu hafta ibadet yapılmayacaktır",
-  "tr_longDateFormat": "{{ month }} {{ date }} {{ year }}",
   "tr_substituteSpeaker": "Yedek konuşmacı",
   "tr_startingConversation": "Sohbet Başlatmak",
   "tr_followingUp": "Tekrar Ziyaretler Yapmak",

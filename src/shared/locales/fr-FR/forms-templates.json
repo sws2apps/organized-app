@@ -64,7 +64,6 @@
   "tr_openingPrayerWeekendMeeting": "La prière d’ouverture",
   "tr_noWMeeting": "Il n'y a pas de réunion de Week-End pour cette semaine",
   "tr_noMeeting": "Il n'y a pas de réunion pour cette semaine",
-  "tr_longDateFormat": "{{ date }} {{ month }}, {{ year }}",
   "tr_substituteSpeaker": "L'orateur en réserve",
   "tr_startingConversation": "Premier contact",
   "tr_followingUp": "Nouvelle visite",
