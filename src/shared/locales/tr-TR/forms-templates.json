@@ -2,7 +2,6 @@
   "tr_s89Title": "HAYATIMIZ VE HİZMETİMİZ İBADETİ<br />GÖREV KÂĞIDI",
   "tr_s89ToBeGiven": "Yapılacağı yer",
   "tr_s89DescFooter": "<strong>Görevi alan kișiye not:</strong> Görevinde kullanacağın kaynak malzeme ve çalışma noktası <em>Hayatımız ve Hizmetimiz İbadeti Kitapçığı</em>’nda bulunuyor. Lütfen <em>Hayatımız ve Hizmetimiz İbadeti İçin Talimatlar</em> (S-38) belgesinde bu kısım için verilen talimatları gözden geçir.",
-  "tr_name": "Ad soyad:",
   "tr_assistant": "Yardımcı:",
   "tr_date": "Date",
   "tr_assignment": "Görev",
@@ -71,5 +70,6 @@
   "tr_explainingBeliefs": "İnançlarımızı Açıklamak",
   "tr_discussion": "Müzakere",
   "tr_demonstration": "Gösteri",
-  "tr_partNo": "Kısım no.:"
+  "tr_partNo": "Kısım no.:",
+  "tr_nameLabel": "Ad soyad:"
 }
