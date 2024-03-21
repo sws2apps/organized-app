@@ -2,7 +2,6 @@
   "tr_s89Title": "Cahier pour la réunion Vie chrétienne et ministère<br />LES ATTRIBUTIONS DE LA REUNION",
   "tr_s89ToBeGiven": "Exposé",
   "tr_s89DescFooter": "<strong>-À l'intention de l'élève </strong> : Les matières servant de base à ton exposé se trouvent dans le   <em>Cahier pour la réunion Vie chrétienne et ministère</em>. Merci de travailler la technique oratoire indiquée ci-dessus. Elle fait l'objet d'une leçon du <em> manuel École du ministère.\nPense à prendre avec toi ce livre pour la réunion Vie chrétienne et ministère.</em>.",
-  "tr_name": "Nom:",
   "tr_assistant": "Interlocuteur :",
   "tr_date": "Date",
   "tr_assignment": "L'attribution",
@@ -71,5 +70,6 @@
   "tr_explainingBeliefs": "Explique tes croyances",
   "tr_discussion": "Communications",
   "tr_demonstration": "Démonstration",
-  "tr_partNo": "N° de partie.:"
+  "tr_partNo": "N° de partie.:",
+  "tr_nameLabel": "Nom:"
 }
