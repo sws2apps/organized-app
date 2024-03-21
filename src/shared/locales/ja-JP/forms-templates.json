@@ -2,7 +2,6 @@
   "tr_s89Title": "クリスチャンとしての生活と奉仕<br />の集会の割り当て",
   "tr_s89ToBeGiven": "会場",
   "tr_s89DescFooter": "<strong>生徒の方へ：</strong>割り当ての資料と課は<em>「生活と奉仕集会ワークブック」</em>に載せられています。<em>クリスチャンとしての生活と奉仕の集会に関する指示</em>（S-38）を参照し，担当する部分の指示を確認してください。",
-  "tr_name": "氏名：",
   "tr_assistant": "相手：",
   "tr_date": "Date",
   "tr_assignment": "割り当て",
@@ -71,5 +70,6 @@
   "tr_explainingBeliefs": "信じていることを説明する",
   "tr_discussion": "討議",
   "tr_demonstration": "実演",
-  "tr_partNo": "担当部分:"
+  "tr_partNo": "担当部分:",
+  "tr_nameLabel": "氏名："
 }
