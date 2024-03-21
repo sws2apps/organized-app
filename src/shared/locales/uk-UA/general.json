@@ -60,5 +60,5 @@
   "tr_title": "Назва",
   "tr_rename": "Перейменувати",
   "tr_collapseAll": "Згорнути все",
-  "tr_searchResults": "Search results: {{ count }}"
+  "tr_searchResults": "Результати пошуку: {{ count }}"
 }

@@ -70,7 +70,7 @@
   "tr_publicMinistryRequestDesc": "Please review the requests to serve in public ministry:",
   "tr_tertitoryCardRequest": "Tertitory card request",
   "tr_tertitoryCardRequestDesc": "Please review the requests for a territory card:",
-  "tr_markAsRead": "Read",
+  "tr_markAsRead": "Gelesen",
   "tr_yourRequestAccepted": "Your request accepted",
   "tr_yourRequestAcceptedDesc": "The {{ congregationNameAndNumber }} congregation accepted your request to view their outgoing speakers list. Navigate to the Visiting Speakers page to sync the speakers list.",
   "tr_returnedTerritory": "{{ publisherName }} returned the territory",
