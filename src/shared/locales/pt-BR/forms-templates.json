@@ -2,7 +2,6 @@
   "tr_s89Title": "DESIGNAÇÃO PARA A REUNIÃO<br />NOSSA VIDA E MINISTÉRIO CRISTÃO",
   "tr_s89ToBeGiven": "Local",
   "tr_s89DescFooter": "<strong>Observação para o estudante:</strong> A lição e a fonte de matéria para a sua designação estão na <em>Apostila da Reunião Vida e Ministério</em>. Veja as instruções para a parte que estão nas <em>Instruções para a Reunião Nossa Vida e Ministério Cristão</em> (S-38).",
-  "tr_name": "Nome:",
   "tr_assistant": "Ajudante:",
   "tr_date": "Date",
   "tr_assignment": "Designação",
@@ -71,5 +70,6 @@
   "tr_explainingBeliefs": "Explicando suas crenças",
   "tr_discussion": "Consideração",
   "tr_demonstration": "Demonstração",
-  "tr_partNo": "Número da parte:"
+  "tr_partNo": "Número da parte:",
+  "tr_nameLabel": "Nome:"
 }
