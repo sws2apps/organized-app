@@ -21,7 +21,8 @@ const useTalkRow = (talkNumber: number, talkTitle: string, defaultExpand: boolea
     setTalkTitleTmp(value);
   };
 
-  const handleSaveTalkTile = async () => {
+  const handleSaveTalkTile = async (e: MouseEvent<HTMLAnchorElement | HTMLButtonElement>) => {
+    e.stopPropagation();
     await saveS34(talkNumber, talkTitleTmp);
     setIsEditMode(false);
   };
