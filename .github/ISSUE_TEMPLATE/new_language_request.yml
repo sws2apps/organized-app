@@ -1,5 +1,6 @@
 name: New translation language for the Organized app
 description: Request a new language to be added to Crowdin platform
+title: '[Language] - New Language Request'
 labels: [i18n]
 body:
   - type: markdown
@@ -13,3 +14,51 @@ body:
         https://www.jw.org
     validations:
       required: true
+  - type: markdown
+    attributes:
+      value: |
+        We can do an AI-based translation of the language, if you send us the list of translations in your language. Afterwards, you will be able to proofread text strings instead of translating everything from scratch.
+  - type: textarea
+    attributes:
+      label: 'Please provide the translations for the following terms in your language:'
+      placeholder: |
+        Congregation =
+        Assignment =
+        Publisher =
+        Meeting =
+        Midweek meeting =
+        Weekend meeting =
+        Circuit overseer =
+        Student (of a meeting) =
+        Assistant (of a student) =
+        Elder =
+        Ministerial servant =
+        Ministry =
+        Service =
+        Report =
+        Meeting Schedule =
+        Schedule =
+        Pioneer application =
+        Auxiliary pioneer =
+        Regular pioneer =
+        Speaker =
+        Talk =
+        Memorial =
+        Chairman =
+        Prayer =
+        Reader =
+        Meeting workbook =
+        Governing Body Update (video) =
+        Organizational Accomplishments (video) =
+        Branch office =
+        Bethel =
+        Territory =
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 'Do you feel native to be a proofreader of the language? If yes, please provide your Crowdin username:'
+      placeholder: |
+        Yes, I can proofread the translations. My Crowdin username is...
+    validations:
+      required: false
