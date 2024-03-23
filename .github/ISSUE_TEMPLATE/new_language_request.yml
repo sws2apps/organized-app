@@ -21,158 +21,158 @@ body:
   - type: textarea
     attributes:
       label: 'Congregation'
-      validations:
-        required: true
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: 'Assignment'
-      validations:
-        required: true
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: 'Publisher'
-      validations:
-        required: true
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: 'Meeting'
-      validations:
-        required: true
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: 'Midweek meeting'
-      validations:
-        required: true
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: 'Weekend meeting'
-      validations:
-        required: true
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: 'Circuit overseer'
-      validations:
-        required: true
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: 'Student (of a meeting)'
-      validations:
-        required: true
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: 'Assistant (of a student)'
-      validations:
-        required: true
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: 'Elder'
-      validations:
-        required: true
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: 'Ministerial servant'
-      validations:
-        required: true
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: 'Ministry'
-      validations:
-        required: true
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: 'Service'
-      validations:
-        required: true
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: 'Report'
-      validations:
-        required: true
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: 'Meeting Schedule'
-      validations:
-        required: true
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: 'Schedule'
-      validations:
-        required: true
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: 'Pioneer application'
-      validations:
-        required: true
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: 'Auxiliary pioneer'
-      validations:
-        required: true
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: 'Regular pioneer'
-      validations:
-        required: true
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: 'Speaker'
-      validations:
-        required: true
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: 'Talk'
-      validations:
-        required: true
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: 'Memorial'
-      validations:
-        required: true
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: 'Chairman'
-      validations:
-        required: true
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: 'Prayer'
-      validations:
-        required: true
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: 'Reader'
-      validations:
-        required: true
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: 'Meeting workbook'
-      validations:
-        required: true
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: 'Governing Body Update (video)'
-      validations:
-        required: true
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: 'Organizational Accomplishments (video)'
-      validations:
-        required: true
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: 'Branch office'
-      validations:
-        required: true
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: 'Bethel'
-      validations:
-        required: true
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: 'Territory'
-      validations:
-        required: true
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: 'Do you feel native to be a proofreader of the language? If yes, please provide your Crowdin username:'
