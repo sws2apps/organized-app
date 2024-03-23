@@ -120,7 +120,7 @@ const TalkRow = ({ talk, isExpandAll }: TalkRowType) => {
                 variant="standard"
                 value={talkTitleTmp}
                 onChange={(e) => handleTalkTitleChange(e.target.value)}
-                sx={{ padding: '0px 4px' }}
+                sx={{ padding: '0px 4px', '& .MuiInput-input': { color: 'var(--black)' } }}
               />
             </Box>
           )}
@@ -136,7 +136,7 @@ const TalkRow = ({ talk, isExpandAll }: TalkRowType) => {
               </Typography>
             </TableCell>
             <TableCell>
-              <IconButton className="row-btn" sx={{ padding: 0 }} onClick={handleToggleCollapse}>
+              <IconButton className="row-btn" sx={{ padding: 0 }}>
                 {!collapseOpen && <IconExpand color="var(--black)" />}
                 {collapseOpen && <IconCollapse color="var(--black)" />}
               </IconButton>
