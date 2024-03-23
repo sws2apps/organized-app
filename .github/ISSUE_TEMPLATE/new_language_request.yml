@@ -20,40 +20,158 @@ body:
         We can do an AI-based translation of the language, if you send us the list of translations in your language. Afterwards, you will be able to proofread text strings instead of translating everything from scratch.
   - type: textarea
     attributes:
-      label: 'Please provide the translations for the following terms in your language:'
-      placeholder: |
-        Congregation =
-        Assignment =
-        Publisher =
-        Meeting =
-        Midweek meeting =
-        Weekend meeting =
-        Circuit overseer =
-        Student (of a meeting) =
-        Assistant (of a student) =
-        Elder =
-        Ministerial servant =
-        Ministry =
-        Service =
-        Report =
-        Meeting Schedule =
-        Schedule =
-        Pioneer application =
-        Auxiliary pioneer =
-        Regular pioneer =
-        Speaker =
-        Talk =
-        Memorial =
-        Chairman =
-        Prayer =
-        Reader =
-        Meeting workbook =
-        Governing Body Update (video) =
-        Organizational Accomplishments (video) =
-        Branch office =
-        Bethel =
-        Territory =
-    validations:
+      label: 'Congregation'
+      validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 'Assignment'
+      validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 'Publisher'
+      validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 'Meeting'
+      validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 'Midweek meeting'
+      validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 'Weekend meeting'
+      validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 'Circuit overseer'
+      validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 'Student (of a meeting)'
+      validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 'Assistant (of a student)'
+      validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 'Elder'
+      validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 'Ministerial servant'
+      validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 'Ministry'
+      validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 'Service'
+      validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 'Report'
+      validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 'Meeting Schedule'
+      validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 'Schedule'
+      validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 'Pioneer application'
+      validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 'Auxiliary pioneer'
+      validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 'Regular pioneer'
+      validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 'Speaker'
+      validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 'Talk'
+      validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 'Memorial'
+      validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 'Chairman'
+      validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 'Prayer'
+      validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 'Reader'
+      validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 'Meeting workbook'
+      validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 'Governing Body Update (video)'
+      validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 'Organizational Accomplishments (video)'
+      validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 'Branch office'
+      validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 'Bethel'
+      validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 'Territory'
+      validations:
       required: true
   - type: textarea
     attributes:
