@@ -175,7 +175,7 @@ body:
       required: true
   - type: input
     attributes:
-      label: 'Do you feel native to be a proofreader of the language? If yes, please provide your Crowdin username:'
+      label: 'Do you feel fluent to be a proofreader of the language? If yes, please provide your Crowdin username:'
       placeholder: |
         Yes, I can proofread the translations. My Crowdin username is...
     validations:
