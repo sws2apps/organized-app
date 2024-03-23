@@ -1,7 +1,7 @@
 import { InputAdornment, TextField } from '@mui/material';
 import { TextFieldTypeProps } from './index.types';
 
-const CPETextField = (props: TextFieldTypeProps) => {
+const CustomTextField = (props: TextFieldTypeProps) => {
   const height = props.height || 44;
   const sx = props.sx;
   const startIcon = props.startIcon;
@@ -117,4 +117,4 @@ const CPETextField = (props: TextFieldTypeProps) => {
   );
 };
 
-export default CPETextField;
+export default CustomTextField;

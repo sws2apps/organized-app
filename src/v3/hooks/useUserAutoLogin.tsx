@@ -5,11 +5,11 @@ import useFirebaseAuth from '@hooks/useFirebaseAuth';
 import { apiHostState, isAppLoadState, isOnlineState, visitorIDState } from '@states/app';
 import { apiValidateMe } from '@services/api/user';
 import { userSignOut } from '@services/firebase/auth';
-import { handleDeleteDatabase, updateUserInfoAfterLogin } from '@services/cpe';
-import { CPE_ROLES } from '@constants/index';
+import { handleDeleteDatabase, updateUserInfoAfterLogin } from '@services/app';
+import { APP_ROLES } from '@constants/index';
 import { setCongAccountConnected, setRootModalOpen } from '@services/recoil/app';
 import { apiFetchSchedule } from '@services/api/schedule';
-import { handleUpdateScheduleFromRemote } from '@services/cpe/schedules';
+import { handleUpdateScheduleFromRemote } from '@services/app/schedules';
 import { accountTypeState } from '@states/settings';
 import { apiFetchCongregationLastBackup } from '@services/api/congregation';
 import worker from '@services/worker/backupWorker';
@@ -44,7 +44,7 @@ const useUserAutoLogin = () => {
         }
 
         if (status === 200) {
-          const approvedRole = data.cong_role.some((role) => CPE_ROLES.includes(role));
+          const approvedRole = data.cong_role.some((role) => APP_ROLES.includes(role));
 
           if (!approvedRole) {
             await handleDeleteDatabase();

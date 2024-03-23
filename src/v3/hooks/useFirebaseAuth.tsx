@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { User, getAuth, onAuthStateChanged } from 'firebase/auth';
 import worker from '@services/worker/backupWorker';
-import { saveProfilePic } from '@services/cpe/settings';
+import { saveProfilePic } from '@services/app/settings';
 import { displaySnackNotification, setCurrentProvider } from '@services/recoil/app';
 import { getTranslation } from '@services/i18n/translation';
 

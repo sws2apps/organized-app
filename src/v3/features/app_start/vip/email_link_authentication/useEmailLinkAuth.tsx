@@ -12,8 +12,8 @@ import {
   setIsUnauthorizedRole,
   setIsUserSignIn,
 } from '@services/recoil/app';
-import { CPE_ROLES } from '@constants/index';
-import { updateUserInfoAfterLogin } from '@services/cpe';
+import { APP_ROLES } from '@constants/index';
+import { updateUserInfoAfterLogin } from '@services/app';
 import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 import { useAppTranslation } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
@@ -76,7 +76,7 @@ const useEmailLinkAuth = () => {
         }
 
         if (cong_name.length > 0 && cong_role.length > 0) {
-          const approvedRole = cong_role.some((role) => CPE_ROLES.includes(role));
+          const approvedRole = cong_role.some((role) => APP_ROLES.includes(role));
 
           if (!approvedRole) {
             result.unauthorized = true;

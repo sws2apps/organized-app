@@ -1,7 +1,7 @@
 import { IconButton } from '@mui/material';
 import { IconAdd } from '@icons/index';
 
-const CPEPlusButton = () => {
+const CustomPlusButton = () => {
   return (
     <IconButton
       disableRipple
@@ -34,4 +34,4 @@ const CPEPlusButton = () => {
   );
 };
 
-export default CPEPlusButton;
+export default CustomPlusButton;

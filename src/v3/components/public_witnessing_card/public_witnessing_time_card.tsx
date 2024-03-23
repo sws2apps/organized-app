@@ -4,7 +4,7 @@ import PublicWitnessingDayView from './view/day';
 import PublicWitnessingDefaultView from './view/default';
 import { PublicWitnessingCardProps } from './public_witnessing_card.types';
 
-const CPEPublicWitnessingTimeCard = (props: PublicWitnessingCardProps) => {
+const CustomPublicWitnessingTimeCard = (props: PublicWitnessingCardProps) => {
   const { witnesses, needWitnesses, isDay = false, isPast = false } = props;
   const tablet = useMediaQuery('(max-width:770px)');
   const isContent = !!witnesses && !!needWitnesses;
@@ -31,4 +31,4 @@ const CPEPublicWitnessingTimeCard = (props: PublicWitnessingCardProps) => {
   );
 };
 
-export default CPEPublicWitnessingTimeCard;
+export default CustomPublicWitnessingTimeCard;

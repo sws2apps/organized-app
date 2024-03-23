@@ -14,9 +14,9 @@ import { getMessageByCode } from '@services/i18n/translation';
 import { apiPocketSignup } from '@services/api/user';
 import { POCKET_ROLES } from '@constants/index';
 import { handleUpdateSetting, handleUpdateSettingFromRemote } from '@services/dexie/settings';
-import { loadApp, runUpdater } from '@services/cpe';
+import { loadApp, runUpdater } from '@services/app';
 import { apiFetchSchedule } from '@services/api/schedule';
-import { handleUpdateScheduleFromRemote } from '@services/cpe/schedules';
+import { handleUpdateScheduleFromRemote } from '@services/app/schedules';
 import { useAppTranslation } from '@hooks/index';
 import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 

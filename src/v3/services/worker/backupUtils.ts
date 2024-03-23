@@ -1,13 +1,13 @@
 // to minimize the size of the worker file, we recreate all its needed functions in this file
 
-import appDb from '@shared/indexedDb/mainDb';
+import appDb from '@shared/indexedDb/appDb';
 
 export const apiSendCongregationBackup = async ({ apiHost, congID, visitorID, userUID, reqPayload }) => {
   const res = await fetch(`${apiHost}api/congregations/${congID}/backup`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      appclient: 'cpe',
+      appclient: 'organized',
       appversion: import.meta.env.PACKAGE_VERSION,
       visitorid: visitorID,
       uid: userUID,
@@ -25,7 +25,7 @@ export const apiSendUserBackup = async ({ apiHost, visitorID, userID, reqPayload
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      appclient: 'cpe',
+      appclient: 'organized',
       appversion: import.meta.env.PACKAGE_VERSION,
       visitorid: visitorID,
     },
@@ -42,7 +42,7 @@ export const apiFetchCongregationLastBackup = async ({ apiHost, visitorID, userU
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      appclient: 'cpe',
+      appclient: 'organized',
       appversion: import.meta.env.PACKAGE_VERSION,
       visitorid: visitorID,
       uid: userUID,

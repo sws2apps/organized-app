@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import type { CPEUserCardProps } from './user_card.types';
+import type { CustomUserCardProps } from './user_card.types';
 import UserCardImg from '@assets/img/illustration_userCard.svg?component';
 import UserCardFemaleImg from '@assets/img/illustration_userCard1.svg?component';
 import IconDelete from '../icons/IconDelete';
@@ -17,7 +17,15 @@ import {
   StyledCardBox,
 } from './user_card.styles';
 
-export const CPEUserCard = ({ name, type, female, onClick, onDelete, chipLabels = [], children }: CPEUserCardProps) => {
+export const CustomUserCard = ({
+  name,
+  type,
+  female,
+  onClick,
+  onDelete,
+  chipLabels = [],
+  children,
+}: CustomUserCardProps) => {
   return (
     <StyledCardBox>
       <StyledCard onClick={() => onClick && onClick()}>
@@ -71,4 +79,4 @@ export const CPEUserCard = ({ name, type, female, onClick, onDelete, chipLabels 
   );
 };
 
-export default CPEUserCard;
+export default CustomUserCard;

@@ -1,7 +1,7 @@
 import { Button, ButtonProps } from '@mui/material';
 import { ButtonPropsType } from './index.types';
 
-const CPEButton = (props: ButtonPropsType) => {
+const CustomButton = (props: ButtonPropsType) => {
   let className = props.className || 'button-caps';
   const disabled = props.disabled || false;
   const variant = props.variant || 'main';
@@ -237,4 +237,4 @@ const CPEButton = (props: ButtonPropsType) => {
   );
 };
 
-export default CPEButton;
+export default CustomButton;

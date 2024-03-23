@@ -22,7 +22,7 @@ export const LANGUAGE_LIST = [
   { code: 'j', locale: 'ja-JP', name: '日本語' },
 ];
 
-export const CPE_ROLES = [
+export const APP_ROLES = [
   'admin',
   'coordinator',
   'public_talk_coordinator',

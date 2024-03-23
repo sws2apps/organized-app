@@ -5,7 +5,7 @@ export const apiUserLogout = async () => {
 
   await fetch(`${apiHost}api/users/logout`, {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, visitorid, uid: uid },
+    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid: uid },
   });
 };
 
@@ -14,7 +14,7 @@ export const apiPocketSignup = async (code) => {
 
   const res = await fetch(`${apiHost}api/sws-pocket/signup`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion },
+    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion },
     body: JSON.stringify({ visitorid, otp_code: code.toUpperCase() }),
   });
 
@@ -28,7 +28,7 @@ export const apiRequestPasswordlesssLink = async (email: string, uid?: string) =
 
   const res = await fetch(`${apiHost}user-passwordless-login`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, applanguage: appLang },
+    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, applanguage: appLang },
     body: JSON.stringify({ email, uid }),
   });
 
@@ -44,7 +44,7 @@ export const apiUpdatePasswordlessInfo = async (uid) => {
 
   const res = await fetch(`${apiHost}user-passwordless-verify`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, uid },
+    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, uid },
     body: JSON.stringify({ email: tmpEmail, visitorid }),
   });
 
@@ -58,7 +58,7 @@ export const apiSendAuthorization = async () => {
 
   const res = await fetch(`${apiHost}user-login`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, uid },
+    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, uid },
     body: JSON.stringify({ visitorid }),
   });
 
@@ -72,7 +72,7 @@ export const apiHandleVerifyOTP = async (userOTP) => {
 
   const res = await fetch(`${apiHost}api/mfa/verify-token`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, visitorid, uid },
+    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
     body: JSON.stringify({ token: userOTP }),
   });
 
@@ -86,7 +86,7 @@ export const apiValidateMe = async () => {
 
   const res = await fetch(`${apiHost}api/users/validate-me`, {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, visitorid, uid },
+    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
   });
 
   const data = await res.json();
@@ -99,7 +99,7 @@ export const apiUpdateUserFullname = async (fullname) => {
 
   const res = await fetch(`${apiHost}api/users/${userID}/fullname`, {
     method: 'PATCH',
-    headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, visitorid, uid },
+    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
     body: JSON.stringify({ fullname }),
   });
 
@@ -113,7 +113,7 @@ export const apiGetUser2FA = async () => {
 
   const res = await fetch(`${apiHost}api/users/${userID}/2fa`, {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, visitorid, uid },
+    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
   });
 
   const data = await res.json();
@@ -126,7 +126,7 @@ export const apiDisableUser2FA = async () => {
 
   const res = await fetch(`${apiHost}api/users/${userID}/2fa/disable`, {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, visitorid, uid },
+    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
   });
 
   const data = await res.json();
@@ -139,7 +139,7 @@ export const apiRevokeVIPSession = async (id) => {
 
   const res = await fetch(`${apiHost}api/users/${userID}/sessions`, {
     method: 'DELETE',
-    headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, visitorid, uid },
+    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
     body: JSON.stringify({ session: id }),
   });
 
@@ -153,7 +153,7 @@ export const apiGetUserSessions = async () => {
 
   const res = await fetch(`${apiHost}api/users/${userID}/sessions`, {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, visitorid, uid },
+    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
   });
 
   const data = await res.json();
@@ -166,7 +166,7 @@ export const apiDeletePocketDevice = async (pocket_visitorid) => {
 
   const res = await fetch(`${apiHost}api/sws-pocket/${userID}/devices`, {
     method: 'DELETE',
-    headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, visitorid },
+    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid },
     body: JSON.stringify({ pocket_visitorid }),
   });
 
@@ -180,7 +180,7 @@ export const apiFetchPocketSessions = async () => {
 
   const res = await fetch(`${apiHost}api/sws-pocket/${userID}/devices`, {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, visitorid },
+    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid },
   });
 
   const data = await res.json();
@@ -193,7 +193,7 @@ export const apiFetchUserLastBackup = async () => {
 
   const res = await fetch(`${apiHost}api/sws-pocket/${userID}/backup/last`, {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, visitorid },
+    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid },
   });
 
   const data = await res.json();
@@ -206,7 +206,7 @@ export const apiSendUserBackup = async (reqPayload) => {
 
   const res = await fetch(`${apiHost}api/sws-pocket/${userID}/backup`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, visitorid },
+    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid },
     body: JSON.stringify(reqPayload),
   });
 
@@ -220,7 +220,7 @@ export const apiRestoreUserBackup = async () => {
 
   const res = await fetch(`${apiHost}api/sws-pocket/${userID}/backup`, {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, visitorid },
+    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid },
   });
 
   const data = await res.json();
@@ -233,7 +233,7 @@ export const apiPocketValidate = async () => {
 
   const res = await fetch(`${apiHost}api/sws-pocket/validate-me`, {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, visitorid },
+    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid },
   });
 
   const data = await res.json();

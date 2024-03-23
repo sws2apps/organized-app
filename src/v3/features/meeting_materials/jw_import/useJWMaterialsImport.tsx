@@ -6,7 +6,7 @@ import { setIsImportJWOrg } from '@services/recoil/sources';
 import { apiFetchSources } from '@services/api/sources';
 import { displaySnackNotification } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
-import { addJwDataToDb } from '@services/cpe/sources';
+import { addJwDataToDb } from '@services/app/sources';
 
 const useJWMaterialsImport = () => {
   const { t } = useAppTranslation();

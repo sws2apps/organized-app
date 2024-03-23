@@ -17,7 +17,7 @@ import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 import { getMessageByCode } from '@services/i18n/translation';
 import { apiSendAuthorization } from '@services/api/user';
 import { handleUpdateSetting } from '@services/dexie/settings';
-import { CPE_ROLES } from '@constants/index';
+import { APP_ROLES } from '@constants/index';
 import { NextStepType } from './index.types';
 
 const useButtonBase = ({ provider, isEmail }) => {
@@ -69,7 +69,7 @@ const useButtonBase = ({ provider, isEmail }) => {
           }
 
           if (cong_name.length > 0 && cong_role.length > 0) {
-            const approvedRole = cong_role.some((role) => CPE_ROLES.includes(role));
+            const approvedRole = cong_role.some((role) => APP_ROLES.includes(role));
 
             if (!approvedRole) {
               nextStep.unauthorized = true;
@@ -84,7 +84,7 @@ const useButtonBase = ({ provider, isEmail }) => {
         }
 
         if (nextStep.isVerifyMFA || nextStep.encryption || nextStep.createCongregation) {
-          await handleUpdateSetting({ account_type: 'vip' });
+          await handleUpdateSetting({ account_type: 'vip', cong_code: data.cong_encryption });
 
           if (nextStep.isVerifyMFA) {
             setCurrentMFAStage('verify');
