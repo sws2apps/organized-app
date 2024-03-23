@@ -1,41 +1,42 @@
 {
-  "theme_color": "#2196f3",
-  "background_color": "#2196f3",
-  "display": "standalone",
-  "launch_handler": {
-    "client_mode": "navigate-existing"
-  },
-  "scope": "/",
-  "start_url": "/",
-  "id": "/",
-  "name": "Congregation Program for Everyone",
-  "short_name": "CPE App",
-  "description": "An application for Jehovah’s Witnesses congregation",
-  "icons": [
-    {
-      "src": "/img/icon-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "/img/icon-256x256.png",
-      "sizes": "256x256",
-      "type": "image/png"
-    },
-    {
-      "src": "/img/icon-384x384.png",
-      "sizes": "384x384",
-      "type": "image/png"
-    },
-    {
-      "src": "/img/icon-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
-  ],
-  "url_handlers": [
-    { "origin": "https://cpe-web.sws2apps.com" },
-    { "origin": "https://cpe-sws.web.app" },
-    { "origin": "https://cpe-sws.firebaseapp.com" }
-  ]
+	"theme_color": "#2196f3",
+	"background_color": "#2196f3",
+	"display": "standalone",
+	"launch_handler": {
+		"client_mode": "navigate-existing"
+	},
+	"scope": "/",
+	"start_url": "/",
+	"id": "/",
+	"name": "Congregation Program for Everyone",
+	"short_name": "CPE App",
+	"description": "An application for Jehovah’s Witnesses congregation",
+	"icons": [
+		{
+			"src": "/img/icon-192x192.png",
+			"sizes": "192x192",
+			"type": "image/png"
+		},
+		{
+			"src": "/img/icon-256x256.png",
+			"sizes": "256x256",
+			"type": "image/png"
+		},
+		{
+			"src": "/img/icon-384x384.png",
+			"sizes": "384x384",
+			"type": "image/png"
+		},
+		{
+			"src": "/img/icon-512x512.png",
+			"sizes": "512x512",
+			"type": "image/png"
+		}
+	],
+	"url_handlers": [
+		{ "origin": "https://cpe-web.sws2apps.com" },
+		{ "origin": "https://cpe-sws.web.app" },
+		{ "origin": "https://cpe-sws.firebaseapp.com" },
+		{ "origin": "https://organized-app.com" }
+	]
 }

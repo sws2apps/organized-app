@@ -4,7 +4,7 @@
 
 A free web app for Jehovah’s Witnesses congregations, helping with assignments and responsibilities, making things easier, and freeing up time for other important things! Create schedules, view your upcoming assignments, submit service reports,  generate congregation reports, and much more! In a nutshell, the Organized app is:
 
-🔵 **Multi-platform:** Windows, MacOS, Linux, ChromeOS, iPadOS, iOS, Android
+🔵 **Cross-platform:** Windows, MacOS, Linux, ChromeOS, iPadOS, iOS, Android
 
 🔵 **Secure:** End-to-end encrypted, with 2FA and multiple security features for all users
 
@@ -106,3 +106,16 @@ We're working hard on the new redesigned release in the new separate `main-next`
 • More printed schedules and forms (like S-12, S-13, S-140 variations, and more) <br>
 
 We're excited about adding these and many more new features! Of course, it takes time to develop them... If you know programming and want to help, we'd really appreciate it! Together we can create a better app for the brotherhood across the whole globe!
+
+## Useful links
+
+To learn more about Organized and how to use it, check out the following useful links:
+
+| Link                                                         | Description                                                   |
+|-------------------------------------------------------------------------------|---------------------------------------------------------------|
+| [Organized app](https://organized-app.com)                                           | Open and use the Organized app.           |
+| [About Organized](https://about.organized-app.com)                                | Learn more about the goals, features, and benefits of the Organized app. Feel free to share this link with others. |
+| [Contribution guide](https://github.com/sws2apps/organized-app/blob/main/CONTRIBUTING.md)                     | See how you can contribute to the Organized project.     |
+| [Crowdin project](https://crowdin.com/project/organized)                              | Collaborate on translating the Organized app – it's easy and convenient.                   |
+| [How to use guide](https://sws2apps.com/docs/category/congregation-program-for-everyone) | Read text documentation on how to start using the app and learn about different features.       |
+| [Video tutorials](https://www.youtube.com/@organized-app)                     | Watch video tutorials and guides on using and contributing on our YouTube channel.     |
