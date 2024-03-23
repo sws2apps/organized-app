@@ -5,7 +5,7 @@ import Typography from '@components/typography';
 import { IconClose } from '@icons/index';
 import { InfoMessagePropsType } from './index.types';
 
-const CPEInfoMessage = (props: InfoMessagePropsType) => {
+const CustomInfoMessage = (props: InfoMessagePropsType) => {
   const messageHeader = props.messageHeader || '';
   const message = props.message || '';
   const variant = props.variant || 'message-with-button';
@@ -96,4 +96,4 @@ const CPEInfoMessage = (props: InfoMessagePropsType) => {
   );
 };
 
-export default CPEInfoMessage;
+export default CustomInfoMessage;

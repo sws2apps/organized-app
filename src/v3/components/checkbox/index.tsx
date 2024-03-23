@@ -4,7 +4,7 @@ import { IconCheckboxEmpty, IconCheckboxFilled, IconCheckboxMultiple } from '@ic
 import { CheckboxPropsType } from './index.types';
 import { StyleCheckboxBorder, StyleCheckboxBorderChecked } from '@components/checkbox/index.style';
 
-const CPECheckbox = (props: CheckboxPropsType) => {
+const CustomCheckbox = (props: CheckboxPropsType) => {
   const checked = props.checked || false;
   const indeterminate = props.indeterminate || false;
   const disabled = props.disabled || false;
@@ -48,4 +48,4 @@ const CPECheckbox = (props: CheckboxPropsType) => {
   );
 };
 
-export default CPECheckbox;
+export default CustomCheckbox;

@@ -6,7 +6,7 @@ const FadeTransition = (props: FadeProps) => {
   return <Fade {...props} />;
 };
 
-const CPESnackbar = (props: SnackbarPropsType) => {
+const CustomSnackbar = (props: SnackbarPropsType) => {
   const open = props.open || false;
   const messageHeader = props.messageHeader || '';
   const message = props.message || '';
@@ -83,4 +83,4 @@ const CPESnackbar = (props: SnackbarPropsType) => {
   );
 };
 
-export default CPESnackbar;
+export default CustomSnackbar;

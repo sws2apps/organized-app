@@ -1,4 +1,4 @@
-import { CPEAccordionProps } from '@components/accordion/accordion.types';
+import { CustomAccordionProps } from '@components/accordion/accordion.types';
 
 export interface PublicWitnessingPlaceCardProps {
   label: string;
@@ -16,11 +16,13 @@ export interface PublicWitnessingTimeCardProps {
 }
 
 export interface PublicWitnessingCardProps
-  extends Omit<CPEAccordionProps, 'disabled' | 'variant'>,
+  extends Omit<CustomAccordionProps, 'disabled' | 'variant'>,
     PublicWitnessingTimeCardProps {
   isPast?: boolean;
 }
-export interface PublicWitnessingViewProps extends Omit<CPEAccordionProps, 'disabled'>, PublicWitnessingTimeCardProps {
+export interface PublicWitnessingViewProps
+  extends Omit<CustomAccordionProps, 'disabled'>,
+    PublicWitnessingTimeCardProps {
   isContent: boolean;
   isPast?: boolean;
 }

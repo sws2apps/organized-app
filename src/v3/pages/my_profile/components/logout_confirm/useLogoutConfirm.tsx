@@ -1,4 +1,4 @@
-import { handleDeleteDatabase } from '@services/cpe';
+import { handleDeleteDatabase } from '@services/app';
 
 const useLogoutConfirm = () => {
   const handleLogout = async () => {

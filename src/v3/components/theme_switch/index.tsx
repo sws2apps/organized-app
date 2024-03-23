@@ -1,7 +1,7 @@
 import { Box, Switch } from '@mui/material';
 import { IconNight, IconSun, IconToggle } from '@icons/index';
 
-const CPEThemeSwitch = ({
+const CustomThemeSwitch = ({
   checked,
   onChange = () => null,
 }: {
@@ -91,4 +91,4 @@ const CPEThemeSwitch = ({
   );
 };
 
-export default CPEThemeSwitch;
+export default CustomThemeSwitch;

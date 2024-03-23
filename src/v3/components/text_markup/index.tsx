@@ -2,7 +2,7 @@ import { LegacyRef } from 'react';
 import { Markup } from 'interweave';
 import { TextMarkupTypeProps } from './index.types';
 
-const CPETextMarkup = (props: TextMarkupTypeProps) => {
+const CustomTextMarkup = (props: TextMarkupTypeProps) => {
   let content = props.content || '';
   const color = props.color || 'var(--black)';
   const anchorClassName = props.anchorClassName || 'body-small-semibold';
@@ -43,4 +43,4 @@ const CPETextMarkup = (props: TextMarkupTypeProps) => {
   return <Markup content={content} transform={transformText} />;
 };
 
-export default CPETextMarkup;
+export default CustomTextMarkup;

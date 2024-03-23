@@ -23,8 +23,8 @@ import {
   setUserMfaVerify,
 } from '@services/recoil/app';
 import { congEncryptionCodeState, congNameState, congRoleState } from '@states/settings';
-import { CPE_ROLES } from '@constants/index';
-import { loadApp, runUpdater } from '@services/cpe';
+import { APP_ROLES } from '@constants/index';
+import { loadApp, runUpdater } from '@services/app';
 import { convertStringToBoolean } from '@utils/common';
 
 const useStartup = () => {
@@ -61,7 +61,7 @@ const useStartup = () => {
       return;
     }
 
-    const approvedRole = congRole.some((role) => CPE_ROLES.includes(role));
+    const approvedRole = congRole.some((role) => APP_ROLES.includes(role));
 
     if (!approvedRole) {
       showSignin();

@@ -25,7 +25,7 @@ const a11yProps = (index: number) => {
   };
 };
 
-const CPETabs = ({ tabs }: CustomTabProps) => {
+const CustomTabs = ({ tabs }: CustomTabProps) => {
   const [valueOfActivePanel, setValueOfActivePanel] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -77,4 +77,4 @@ const CPETabs = ({ tabs }: CustomTabProps) => {
   );
 };
 
-export default CPETabs;
+export default CustomTabs;

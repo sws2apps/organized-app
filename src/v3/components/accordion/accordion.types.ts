@@ -1,10 +1,10 @@
 import { ReactNode } from 'react';
 
-export type CPEAccordionVariant = 'accent' | 'orange' | 'dashed' | 'silver' | 'disabled';
+export type CustomAccordionVariant = 'accent' | 'orange' | 'dashed' | 'silver' | 'disabled';
 
-export interface CPEAccordionProps {
+export interface CustomAccordionProps {
   value?: string;
-  variant: CPEAccordionVariant;
+  variant: CustomAccordionVariant;
   label: string;
   onChange?: () => void;
   onClick?: () => void;
@@ -13,7 +13,7 @@ export interface CPEAccordionProps {
 }
 
 export interface AccordionViewProps {
-  view: CPEAccordionVariant;
+  view: CustomAccordionVariant;
   onIconClick?: () => void;
   isDesktopExpanded?: boolean;
 }

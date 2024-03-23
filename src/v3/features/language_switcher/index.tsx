@@ -73,7 +73,7 @@ const LanguageSwitcher = ({ menuStyle }: { menuStyle: SxProps }) => {
         ))}
         <MenuItem sx={{ padding: '8px 12px 8px 16px', minHeight: '40px', height: '40px' }} onClick={handleLocalizeOpen}>
           <Link
-            href="https://github.com/sws2apps/cpe-sws/blob/main/TRANSLATION.md"
+            href="https://github.com/sws2apps/organized-app/blob/main/TRANSLATION.md"
             target="_blank"
             rel="noopener"
             sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}
