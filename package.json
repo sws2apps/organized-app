@@ -67,7 +67,7 @@
     "swiper": "^11.0.7",
     "use-pwa2": "^0.2.0",
     "validator": "^13.11.0",
-    "vite": "^5.2.2",
+    "vite": "^5.2.3",
     "vite-plugin-comlink": "^4.0.2",
     "workbox-cli": "^7.0.0"
   },
