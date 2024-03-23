@@ -23,6 +23,7 @@ import {
   ScrollableTabs,
   ProgressBarSmall,
   TimePicker,
+  AssignmentsCheckList,
 } from '@components/index';
 import { useEffect, useState } from 'react';
 import { IconAdd, IconAssign, IconClose, IconReturn, IconUndo, IconUpdate, IconInfo, IconVisitors } from '@icons/index';
@@ -752,6 +753,49 @@ const ComponentPreview = () => {
           <ProgressBarSmall value={inputField} maxValue={100} />
           <ProgressBarSmall value={60} maxValue={135} />
           <ProgressBarSmall value={100} maxValue={120} />
+        </Box>
+        <Box sx={{ display: 'flex', width: '100%', gap: '8px', flexDirection: 'row' }}>
+          <Box>
+            <AssignmentsCheckList showIcon header={'Assignments Checklist'} color="living-as-christians">
+              <Checkbox label={'Chairman'} checked={checked} onChange={(e) => setChecked(e.target.checked)} />
+              <Checkbox label={'Reader'} indeterminate />
+              <Checkbox label={'Prayer'} checked={checked} onChange={(e) => setChecked(e.target.checked)} />
+              <Checkbox label={'Watchtower Reader'} checked={checked} onChange={(e) => setChecked(e.target.checked)} />
+            </AssignmentsCheckList>
+          </Box>
+          <Box>
+            <AssignmentsCheckList
+              header={'Assignments Checklist'}
+              color="apply-yourself-to-the-field-ministry"
+              disabled
+            >
+              <Checkbox label={'Chairman'} disabled onChange={(e) => setChecked(e.target.checked)} />
+              <Checkbox label={'Reader'} indeterminate disabled />
+              <Checkbox label={'Prayer'} checked disabled onChange={(e) => setChecked(e.target.checked)} />
+              <Checkbox
+                label={'Watchtower Reader'}
+                checked={checked}
+                disabled
+                onChange={(e) => setChecked(e.target.checked)}
+              />
+            </AssignmentsCheckList>
+          </Box>
+          <Box>
+            <AssignmentsCheckList header={'Assignments Checklist'} color="midweek-meeting">
+              <Checkbox label={'Chairman'} checked={checked} onChange={(e) => setChecked(e.target.checked)} />
+              <Checkbox label={'Reader'} indeterminate />
+              <Checkbox label={'Prayer'} checked={checked} onChange={(e) => setChecked(e.target.checked)} />
+              <Checkbox label={'Watchtower Reader'} checked={checked} onChange={(e) => setChecked(e.target.checked)} />
+            </AssignmentsCheckList>
+          </Box>
+          <Box>
+            <AssignmentsCheckList showIcon header={'Weekend meeting'} color="weekend-meeting">
+              <Checkbox label={'Chairman'} checked={checked} onChange={(e) => setChecked(e.target.checked)} />
+              <Checkbox label={'Prayer'} checked={checked} onChange={(e) => setChecked(e.target.checked)} />
+              <Checkbox label={'Reader'} indeterminate />
+              <Checkbox label={'Watchtower Reader'} checked={checked} onChange={(e) => setChecked(e.target.checked)} />
+            </AssignmentsCheckList>
+          </Box>
         </Box>
       </Container>
     </Box>
