@@ -18,8 +18,8 @@ export const LANGUAGE_LIST = [
   { code: 'tw', locale: 'tw-TW', name: 'Twi' },
   { code: 'vz', locale: 'mg-VZ', name: 'Vezo' },
   { code: 'k', locale: 'uk-UA', name: 'Українська' },
-  { code: 'chs', locale: 'ch-CHS', name: '中文简体（普通话）' },
-  { code: 'j', locale: 'ja-JP', name: '日本語' },
+  { code: 'chs', locale: 'ch-CHS', name: '中文简体（普通话）', font: 'NotoSans' },
+  { code: 'j', locale: 'ja-JP', name: '日本語', font: 'NotoSans' },
 ];
 
 export const APP_ROLES = [
