@@ -36,6 +36,7 @@ const TalkRow = ({ talk, isExpandAll }: TalkRowType) => {
         onClick={handleToggleCollapse}
         sx={{
           cursor: 'pointer',
+          height: '48px',
           '& > .MuiTableCell-root': {
             borderBottomStyle: isEditMode ? 'solid' : 'none',
           },
@@ -120,7 +121,7 @@ const TalkRow = ({ talk, isExpandAll }: TalkRowType) => {
                 variant="standard"
                 value={talkTitleTmp}
                 onChange={(e) => handleTalkTitleChange(e.target.value)}
-                sx={{ padding: '0px 4px' }}
+                sx={{ padding: '0px 4px', '& .MuiInput-input': { color: 'var(--black)' } }}
               />
             </Box>
           )}
@@ -136,10 +137,10 @@ const TalkRow = ({ talk, isExpandAll }: TalkRowType) => {
               </Typography>
             </TableCell>
             <TableCell>
-              <IconButton className="row-btn" sx={{ padding: 0 }} onClick={handleToggleCollapse}>
+              <Box className="row-btn" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 {!collapseOpen && <IconExpand color="var(--black)" />}
                 {collapseOpen && <IconCollapse color="var(--black)" />}
-              </IconButton>
+              </Box>
             </TableCell>
           </>
         )}

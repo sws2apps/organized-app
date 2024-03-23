@@ -33,7 +33,7 @@ const CPETextField = (props: TextFieldTypeProps) => {
           flex: '1 0 0',
         },
         '.MuiInput-root:before': {
-          borderBottom: '1px solid var(--accent-300)',
+          borderBottom: '1px solid var(--accent-300) !important',
         },
         '.MuiInput-root:after': {
           borderBottom: '1px solid var(--accent-main)',

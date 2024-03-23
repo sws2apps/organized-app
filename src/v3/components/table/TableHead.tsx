@@ -16,11 +16,10 @@ const TableHead = (props: EnhancedTableProps) => {
       <TableRow>
         {columns.map((headCell) => (
           <TableCell
-            style={{ backgroundColor: 'var(--accent-100)', borderColor: 'var(--accent-200)' }}
             key={headCell.id}
             align={alignCenterArray.includes(headCell.type) ? 'center' : 'left'}
             sortDirection={orderBy === headCell.id ? order : false}
-            sx={headCell.sx}
+            sx={{ backgroundColor: 'var(--accent-100)', borderColor: 'var(--accent-200)', ...headCell.sx }}
           >
             <TableSortLabel
               active={orderBy === headCell.id}
