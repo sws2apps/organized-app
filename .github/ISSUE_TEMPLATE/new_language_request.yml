@@ -18,159 +18,41 @@ body:
     attributes:
       value: |
         We can do an AI-based translation of the language, if you send us the list of translations in your language. Afterwards, you will be able to proofread text strings instead of translating everything from scratch.
-  - type: input
+  - type: textarea
     attributes:
-      label: 'Congregation'
-    validations:
-      required: true
-  - type: input
-    attributes:
-      label: 'Assignment'
-    validations:
-      required: true
-  - type: input
-    attributes:
-      label: 'Publisher'
-    validations:
-      required: true
-  - type: input
-    attributes:
-      label: 'Meeting'
-    validations:
-      required: true
-  - type: input
-    attributes:
-      label: 'Midweek meeting'
-    validations:
-      required: true
-  - type: input
-    attributes:
-      label: 'Weekend meeting'
-    validations:
-      required: true
-  - type: input
-    attributes:
-      label: 'Circuit overseer'
-    validations:
-      required: true
-  - type: input
-    attributes:
-      label: 'Student (of a meeting)'
-    validations:
-      required: true
-  - type: input
-    attributes:
-      label: 'Assistant (of a student)'
-    validations:
-      required: true
-  - type: input
-    attributes:
-      label: 'Elder'
-    validations:
-      required: true
-  - type: input
-    attributes:
-      label: 'Ministerial servant'
-    validations:
-      required: true
-  - type: input
-    attributes:
-      label: 'Ministry'
-    validations:
-      required: true
-  - type: input
-    attributes:
-      label: 'Service'
-    validations:
-      required: true
-  - type: input
-    attributes:
-      label: 'Report'
-    validations:
-      required: true
-  - type: input
-    attributes:
-      label: 'Meeting Schedule'
-    validations:
-      required: true
-  - type: input
-    attributes:
-      label: 'Schedule'
-    validations:
-      required: true
-  - type: input
-    attributes:
-      label: 'Pioneer application'
-    validations:
-      required: true
-  - type: input
-    attributes:
-      label: 'Auxiliary pioneer'
-    validations:
-      required: true
-  - type: input
-    attributes:
-      label: 'Regular pioneer'
-    validations:
-      required: true
-  - type: input
-    attributes:
-      label: 'Speaker'
-    validations:
-      required: true
-  - type: input
-    attributes:
-      label: 'Talk'
-    validations:
-      required: true
-  - type: input
-    attributes:
-      label: 'Memorial'
-    validations:
-      required: true
-  - type: input
-    attributes:
-      label: 'Chairman'
-    validations:
-      required: true
-  - type: input
-    attributes:
-      label: 'Prayer'
-    validations:
-      required: true
-  - type: input
-    attributes:
-      label: 'Reader'
-    validations:
-      required: true
-  - type: input
-    attributes:
-      label: 'Meeting workbook'
-    validations:
-      required: true
-  - type: input
-    attributes:
-      label: 'Governing Body Update (video)'
-    validations:
-      required: true
-  - type: input
-    attributes:
-      label: 'Organizational Accomplishments (video)'
-    validations:
-      required: true
-  - type: input
-    attributes:
-      label: 'Branch office'
-    validations:
-      required: true
-  - type: input
-    attributes:
-      label: 'Bethel'
-    validations:
-      required: true
-  - type: input
-    attributes:
-      label: 'Territory'
+      label: 'Please provide translations for the following terms in your language:'
+      value: |
+        Congregation: 
+        Assignment: 
+        Publisher: 
+        Meeting: 
+        Midweek meeting: 
+        Weekend meeting: 
+        Circuit overseer: 
+        Student (of a meeting): 
+        Assistant (of a student): 
+        Elder: 
+        Ministerial servant: 
+        Ministry: 
+        Service: 
+        Report: 
+        Meeting Schedule: 
+        Schedule: 
+        Pioneer application: 
+        Auxiliary pioneer: 
+        Regular pioneer: 
+        Speaker: 
+        Talk: 
+        Memorial: 
+        Chairman: 
+        Prayer: 
+        Reader: 
+        Meeting workbook: 
+        Governing Body Update (video): 
+        Organizational Accomplishments (video): 
+        Branch office: 
+        Bethel: 
+        Territory:
     validations:
       required: true
   - type: input
