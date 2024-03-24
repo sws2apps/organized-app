@@ -57,7 +57,7 @@
   "tr_shortDateFormatAlt": "mm/dd/yyyy",
   "tr_tableView": "Table view",
   "tr_shortNumberLabel": "No.",
-  "tr_title": "Title",
+  "tr_title": "शीर्षक",
   "tr_rename": "Rename",
   "tr_collapseAll": "Collapse all",
   "tr_searchResults": "Search results: {{ count }}"
