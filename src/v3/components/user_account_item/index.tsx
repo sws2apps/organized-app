@@ -1,4 +1,4 @@
-import { Box, IconButton } from '@mui/material';
+import { Box, IconButton, Typography } from '@mui/material';
 import { UserAccountItemProps } from './user_account_item.types';
 
 import { StyledBoxWrapper } from './user_account_item.styled';
@@ -31,18 +31,18 @@ const UserAccountItemTextContent = (props: {
     case 'user':
     case 'baptized':
       return (
-        <div className="h4" style={{ fontWeight: '550' }}>
+        <Typography className="h4" style={{ fontWeight: '550' }}>
           {props.userName}
-        </div>
+        </Typography>
       );
 
     case 'admin':
       return (
         <Box>
-          <div className="h4" style={{ fontWeight: '550', margin: '0' }}>
+          <Typography className="h4" style={{ fontWeight: '550', margin: '0' }}>
             {props.userName}
-          </div>
-          <div className="body-small-regular">{props.userPosition}</div>
+          </Typography>
+          <Typography className="body-small-regular">{props.userPosition}</Typography>
         </Box>
       );
   }
