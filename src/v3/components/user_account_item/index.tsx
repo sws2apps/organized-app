@@ -1,32 +1,26 @@
-import { Alert, AlertTitle, IconButton } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
 import { UserAccountItemProps } from './user_account_item.types';
 
-import AssignmentIndOutlinedIcon from '@mui/icons-material/AssignmentIndOutlined';
-import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import ArrowOutwardOutlinedIcon from '@mui/icons-material/ArrowOutwardOutlined';
+import { StyledBoxWrapper } from './user_account_item.styled';
+import { useState } from 'react';
+import { IconAccount, IconAdmin, IconArrowLink, IconAssigned } from '@components/icons';
 
 /**
- * Component: UserAccountItemTextContent
+ * Renders user account information based on the variant.
+ * @param {Object} props - The props for the component.
+ * @param {('user' | 'admin' | 'baptized')} props.variant - The variant of the user account item.
+ * @param {string} props.userName - The name of the user.
+ * @param {string} [props.userPosition] - The position of the user (applicable for 'admin' variant).
+ * @returns {JSX.Element} - JSX element representing the user account information.
+ * @example
+ * // Renders user name for a regular user:
+ * <UserAccountItemTextContent variant="user" userName="John Doe" />
  *
- * UserAccountItemTextContent is a component that displays the text content of a user account item.
- * Depending on the variant passed as a prop, the component displays different text formats.
+ * // Renders user name and position for an admin user:
+ * <UserAccountItemTextContent variant="admin" userName="Admin" userPosition="Administrator" />
  *
- * Props:
- * - variant: 'user' | 'admin' | 'baptized':
- *   Determines the variant of text content display. Possible values:
- *     - 'user': Displays only the user's name in h4 format.
- *     - 'admin': Displays the user's name in AlertTitle format with bold styling, along with the user's position.
- *     - 'baptized': Same display format as 'user'. (Note: Currently, 'baptized' variant behaves the same as 'user'.)
- *
- * Usage Example:
- * ```
- * <UserAccountItemTextContent
- *   variant="admin"
- *   userName="John Doe"
- *   userPosition="App administrator"
- * />
- * ```
+ * // Renders user name for a baptized user:
+ * <UserAccountItemTextContent variant="baptized" userName="Jane Doe" />
  */
 const UserAccountItemTextContent = (props: {
   variant: 'user' | 'admin' | 'baptized';
@@ -44,83 +38,64 @@ const UserAccountItemTextContent = (props: {
 
     case 'admin':
       return (
-        <>
-          <AlertTitle className="h4" style={{ fontWeight: '550', margin: '0' }}>
+        <Box>
+          <div className="h4" style={{ fontWeight: '550', margin: '0' }}>
             {props.userName}
-          </AlertTitle>
+          </div>
           <div className="body-small-regular">{props.userPosition}</div>
-        </>
+        </Box>
       );
   }
 };
 
 /**
- * Component: UserAccountItemIcon
+ * Renders an icon representing the user account type based on the variant.
  *
- * UserAccountItemIcon is a component that renders an icon based on the variant passed as a prop.
+ * @param {Object} props - The props for the component.
+ * @param {('user' | 'admin' | 'baptized')} props.variant - The variant of the user account item.
+ * @param {string} props.color - The color of the icon.
  *
- * Props:
- * - variant: 'user' | 'admin' | 'baptized':
- *   Determines the type of icon to render. Possible values:
- *     - 'user': Renders AssignmentIndOutlinedIcon.
- *     - 'admin': Renders AdminPanelSettingsOutlinedIcon.
- *     - 'baptized': Renders AccountCircleOutlinedIcon.
+ * @returns {JSX.Element} - JSX element representing the icon for the user account.
  *
- * Usage Example:
- * ```
- * <UserAccountItemIcon variant="admin" />
- * ```
+ * @example
+ * // Renders a user icon with blue color:
+ * <UserAccountItemIcon variant="user" color="blue" />
+ *
+ * // Renders an admin icon with red color:
+ * <UserAccountItemIcon variant="admin" color="red" />
+ *
+ * // Renders a baptized icon with green color:
+ * <UserAccountItemIcon variant="baptized" color="green" />
  */
-const UserAccountItemIcon = (props: { variant: 'user' | 'admin' | 'baptized' }) => {
-  const iconHTMLColor = 'var(--black)';
-
+const UserAccountItemIcon = (props: { variant: 'user' | 'admin' | 'baptized'; color: string }) => {
   switch (props.variant) {
     case 'user':
-      return <AssignmentIndOutlinedIcon htmlColor={iconHTMLColor} />;
+      return <IconAssigned color={props.color} />;
 
     case 'admin':
-      return <AdminPanelSettingsOutlinedIcon htmlColor={iconHTMLColor} />;
+      return <IconAdmin color={props.color} />;
 
     case 'baptized':
-      return <AccountCircleOutlinedIcon htmlColor={iconHTMLColor} />;
+      return <IconAccount color={props.color} />;
   }
 };
 
 /**
- * Component: UserAccountItem
+ * Renders a user account item with an icon, user name, and optional user position.
  *
- * UserAccountItem is a component that represents a user account item.
+ * @param {UserAccountItemProps} props - The props for the component.
  *
- * Props:
- * - variant: 'user' | 'admin' | 'baptized':
- *   Determines the variant of the user account item.
- *   Defaults to 'user'.
- *   - 'user': Regular user account.
- *   - 'admin': Administrator account.
- *   - 'baptized': Baptized user account.
- * - clickOnArrow?: () => void:
- *   Function to call when clicking on the arrow icon associated with the user account item.
- * - clickOnUserAccountItem?: () => void:
- *   Function to call when clicking on the user account item.
- * - userName: string:
- *   The name of the user.
- * - userPosition?: string:
- *   The position or role of the user (optional).
+ * @returns {JSX.Element} - JSX element representing the user account item.
  *
- * Usage Example:
- * ```
- * <UserAccountItem
- *      userName="Jeremiah Green"
- *      variant="admin"
- *      userPosition="App administrator"
- *      clickOnUserAccountItem={() => {
- *         console.log('Click on user account item');
- *      }}
- *      clickOnArrow={() => {
- *         console.log('Click on arrow');
- *      }}
- * />
- * ```
+ * @example
+ * // Renders a user account item for a regular user:
+ * <UserAccountItem userName="John Doe" />
+ *
+ * // Renders a user account item for an administrator with a position:
+ * <UserAccountItem variant="admin" userName="Admin" userPosition="Administrator" />
+ *
+ * // Renders a user account item for a baptized user:
+ * <UserAccountItem variant="baptized" userName="Jane Doe" />
  */
 const UserAccountItem = (props: UserAccountItemProps) => {
   const variant = props.variant || 'user';
@@ -129,50 +104,36 @@ const UserAccountItem = (props: UserAccountItemProps) => {
   const clickOnArrow = props.clickOnArrow || null;
   const clickOnUserAccountItem = props.clickOnUserAccountItem || null;
 
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
-    <Alert
-      icon={<UserAccountItemIcon variant={variant} />}
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        borderRadius: 'var(--radius-l)',
-        border: '1px solid var(--accent-300)',
-        backgroundColor: 'var(--white)',
-        color: 'var(--black)',
-        padding: 'none',
-        cursor: 'pointer',
-        'MuiPaper-root': {
-          boxShadow: 'none',
-        },
-        // height: '48px',
-        '&:hover': {
-          backgroundColor: 'var(--accent-150)',
-          borderColor: 'var(--accent-dark)',
-          boxShadow: '0px 2px 8px 0px #1c1c1c1f',
-          color: 'var(--accent-dark)',
-          '.MuiSvgIcon-root': {
-            color: 'var(--accent-dark) !important',
-          },
-        },
-        '.MuiAlert-message': {
-          padding: '0 !important',
-        },
-      }}
-      action={
-        <IconButton
-          type="button"
-          onClick={(e) => {
-            clickOnArrow();
-            e.stopPropagation();
-          }}
-        >
-          <ArrowOutwardOutlinedIcon htmlColor="var(--black)" />
-        </IconButton>
-      }
+    <StyledBoxWrapper
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className={isHovered ? 'hover-shadow' : ''}
       onClick={clickOnUserAccountItem}
     >
-      <UserAccountItemTextContent variant={variant} userName={userName} userPosition={userPosition} />
-    </Alert>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: '4px',
+        }}
+      >
+        <UserAccountItemIcon variant={variant} color={isHovered ? 'var(--accent-dark)' : 'var(--black)'} />
+        <UserAccountItemTextContent variant={variant} userName={userName} userPosition={userPosition} />
+      </Box>
+      <IconButton
+        sx={{ width: '32px', height: '32px' }}
+        onClick={(e) => {
+          clickOnArrow();
+          e.stopPropagation();
+        }}
+      >
+        <IconArrowLink color={isHovered ? 'var(--accent-dark)' : 'var(--black)'} />
+      </IconButton>
+    </StyledBoxWrapper>
   );
 };
 
