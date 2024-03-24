@@ -3,7 +3,7 @@ import { UserAccountItemProps } from './user_account_item.types';
 
 import { StyledBoxWrapper } from './user_account_item.styled';
 import { useState } from 'react';
-import { IconAccount, IconAdmin, IconArrowLink, IconAssigned } from '@components/icons';
+import { IconAccount, IconAdmin, IconArrowLink, IconAssignment } from '@components/icons';
 
 /**
  * Renders user account information based on the variant.
@@ -70,7 +70,7 @@ const UserAccountItemTextContent = (props: {
 const UserAccountItemIcon = (props: { variant: 'user' | 'admin' | 'baptized'; color: string }) => {
   switch (props.variant) {
     case 'user':
-      return <IconAssigned color={props.color} />;
+      return <IconAssignment color={props.color} />;
 
     case 'admin':
       return <IconAdmin color={props.color} />;
@@ -118,7 +118,7 @@ const UserAccountItem = (props: UserAccountItemProps) => {
           display: 'flex',
           flexDirection: 'row',
           alignItems: 'center',
-          gap: '4px',
+          gap: '8px',
         }}
       >
         <UserAccountItemIcon variant={variant} color={isHovered ? 'var(--accent-dark)' : 'var(--black)'} />
