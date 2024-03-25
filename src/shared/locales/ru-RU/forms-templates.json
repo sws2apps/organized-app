@@ -2,9 +2,8 @@
   "tr_s89Title": "ЗАДАНИЕ ДЛЯ ВСТРЕЧИ<br />«НАША ХРИСТИАНСКАЯ ЖИЗНЬ И СЛУЖЕНИЕ»",
   "tr_s89ToBeGiven": "Преподносится:",
   "tr_s89DescFooter": "<strong>Примечание для учащегося:</strong> Материл для этого задания и номер урока указаны в <em>рабочей тетради «Жизнь и служение»</em>. Воспользуйтесь руководством к своему заданию из <em>«Указаний для встречи \"Наша христианская жизнь и служение\"»</em> (S-38).",
-  "tr_name": "Имя:",
   "tr_assistant": "Напарник:",
-  "tr_date": "Дата:",
+  "tr_date": "Date",
   "tr_assignment": "Задание",
   "tr_bibleReading": "Чтение Библии",
   "tr_initialCall": "Первый разговор",
@@ -64,7 +63,6 @@
   "tr_openingPrayerWeekendMeeting": "Вступительная молитва",
   "tr_noWMeeting": "На этой неделе нет встречи на выходных",
   "tr_noMeeting": "На этой неделе нет встречи",
-  "tr_longDateFormat": "{{ date }} {{ month }} {{ year }}",
   "tr_substituteSpeaker": "Заменяющий докладчик",
   "tr_startingConversation": "Начинайте разговор",
   "tr_followingUp": "Развивайте интерес",
@@ -72,5 +70,6 @@
   "tr_explainingBeliefs": "Объясняйте свои взгляды",
   "tr_discussion": "Обсуждение",
   "tr_demonstration": "Диалог",
-  "tr_partNo": "Задание №:"
+  "tr_partNo": "Задание №:",
+  "tr_nameS89": "Имя:"
 }

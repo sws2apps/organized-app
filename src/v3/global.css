@@ -92,6 +92,8 @@
   --orange-main: rgba(var(--orange-main-base), 1);
   --orange-secondary-base: 54, 46, 36;
   --orange-secondary: rgba(var(--orange-secondary-base), 1);
+  --orange-tertiary-base: 73, 60, 44;
+  --orange-tertiary: rgba(var(--orange-tertiary-base), 1);
   --always-white-base: 254, 254, 254;
   --always-white: rgba(var(--always-white-base), 1);
   --white-semi-s-base: 255, 255, 255;
@@ -156,6 +158,8 @@
   --orange-main: rgba(var(--orange-main-base), 1);
   --orange-secondary-base: 253, 245, 237;
   --orange-secondary: rgba(var(--orange-secondary-base), 1);
+  --orange-tertiary-base: 254, 239, 221;
+  --orange-tertiary: rgba(var(--orange-tertiary-base), 1);
   --always-white-base: 254, 254, 254;
   --always-white: rgba(var(--always-white-base), 1);
   --white-semi-s-base: 255, 255, 255;
@@ -220,6 +224,8 @@
   --orange-main: rgba(var(--orange-main-base), 1);
   --orange-secondary-base: 54, 46, 36;
   --orange-secondary: rgba(var(--orange-secondary-base), 1);
+  --orange-tertiary-base: 73, 60, 44;
+  --orange-tertiary: rgba(var(--orange-tertiary-base), 1);
   --always-white-base: 254, 254, 254;
   --always-white: rgba(var(--always-white-base), 1);
   --white-semi-s-base: 255, 255, 255;
@@ -284,6 +290,8 @@
   --orange-main: rgba(var(--orange-main-base), 1);
   --orange-secondary-base: 253, 245, 237;
   --orange-secondary: rgba(var(--orange-secondary-base), 1);
+  --orange-tertiary-base: 254, 239, 221;
+  --orange-tertiary: rgba(var(--orange-tertiary-base), 1);
   --always-white-base: 254, 254, 254;
   --always-white: rgba(var(--always-white-base), 1);
   --white-semi-s-base: 255, 255, 255;
@@ -344,6 +352,8 @@
   --orange-main: rgba(var(--orange-main-base), 1);
   --orange-secondary-base: 253, 245, 237;
   --orange-secondary: rgba(var(--orange-secondary-base), 1);
+  --orange-tertiary-base: 254, 239, 221;
+  --orange-tertiary: rgba(var(--orange-tertiary-base), 1);
   --green-main-base: 62, 147, 33;
   --green-main: rgba(var(--green-main-base), 1);
   --green-secondary-base: 238, 246, 235;
@@ -408,6 +418,8 @@
   --orange-main: rgba(var(--orange-main-base), 1);
   --orange-secondary-base: 54, 46, 36;
   --orange-secondary: rgba(var(--orange-secondary-base), 1);
+  --orange-tertiary-base: 73, 60, 44;
+  --orange-tertiary: rgba(var(--orange-tertiary-base), 1);
   --green-main-base: 58, 136, 32;
   --green-main: rgba(var(--green-main-base), 1);
   --green-secondary-base: 40, 51, 36;
@@ -472,6 +484,8 @@
   --orange-main: rgba(var(--orange-main-base), 1);
   --orange-secondary-base: 253, 245, 237;
   --orange-secondary: rgba(var(--orange-secondary-base), 1);
+  --orange-tertiary-base: 254, 239, 221;
+  --orange-tertiary: rgba(var(--orange-tertiary-base), 1);
   --green-main-base: 62, 147, 33;
   --green-main: rgba(var(--green-main-base), 1);
   --green-secondary-base: 238, 246, 235;
@@ -536,6 +550,8 @@
   --orange-main: rgba(var(--orange-main-base), 1);
   --orange-secondary-base: 54, 46, 36;
   --orange-secondary: rgba(var(--orange-secondary-base), 1);
+  --orange-tertiary-base: 73, 60, 44;
+  --orange-tertiary: rgba(var(--orange-tertiary-base), 1);
   --green-main-base: 62, 147, 33;
   --green-main: rgba(var(--green-main-base), 1);
   --green-secondary-base: 40, 51, 36;
@@ -554,7 +570,6 @@
 .huge-numbers {
   font-size: 64px;
   text-decoration: none;
-  font-family: Inter;
   font-weight: 500;
   font-style: normal;
   font-stretch: normal;
@@ -567,7 +582,6 @@
 .big-numbers {
   font-size: 48px;
   text-decoration: none;
-  font-family: Inter;
   font-weight: 400;
   font-style: normal;
   font-stretch: normal;
@@ -580,7 +594,6 @@
 .label-small-medium {
   font-size: 12px;
   text-decoration: none;
-  font-family: Inter;
   font-weight: 500;
   font-style: normal;
   font-stretch: normal;
@@ -593,7 +606,6 @@
 .label-small-regular {
   font-size: 12px;
   text-decoration: none;
-  font-family: Inter;
   font-weight: 400;
   font-style: normal;
   font-stretch: normal;
@@ -608,7 +620,6 @@
   .h1 {
     font-size: 20px;
     text-decoration: none;
-    font-family: Inter;
     font-weight: 550;
     font-style: normal;
     font-stretch: normal;
@@ -621,7 +632,6 @@
   .h2 {
     font-size: 18px;
     text-decoration: none;
-    font-family: Inter;
     font-weight: 550;
     font-style: normal;
     font-stretch: normal;
@@ -634,7 +644,6 @@
   .h2-caps {
     font-size: 18px;
     text-decoration: none;
-    font-family: Inter;
     font-weight: 550;
     font-style: normal;
     font-stretch: normal;
@@ -647,7 +656,6 @@
   .h3 {
     font-size: 16px;
     text-decoration: none;
-    font-family: Inter;
     font-weight: 570;
     font-style: normal;
     font-stretch: normal;
@@ -660,7 +668,6 @@
   .h4 {
     font-size: 15px;
     text-decoration: none;
-    font-family: Inter;
     font-weight: 500;
     font-style: normal;
     font-stretch: normal;
@@ -673,7 +680,6 @@
   .button-caps {
     font-size: 14px;
     text-decoration: none;
-    font-family: Inter;
     font-weight: 450;
     font-style: normal;
     font-stretch: normal;
@@ -686,7 +692,6 @@
   .body-regular {
     font-size: 15px;
     text-decoration: none;
-    font-family: Inter;
     font-weight: 400;
     font-style: normal;
     font-stretch: normal;
@@ -699,7 +704,6 @@
   .body-small-semibold {
     font-size: 13px;
     text-decoration: none;
-    font-family: Inter;
     font-weight: 450;
     font-style: normal;
     font-stretch: normal;
@@ -712,7 +716,6 @@
   .body-small-regular {
     font-size: 13px;
     text-decoration: none;
-    font-family: Inter;
     font-weight: 400;
     font-style: normal;
     font-stretch: normal;
@@ -728,7 +731,6 @@
   .h1 {
     font-size: 24px;
     text-decoration: none;
-    font-family: Inter;
     font-weight: 600;
     font-style: normal;
     font-stretch: normal;
@@ -741,7 +743,6 @@
   .h2 {
     font-size: 20px;
     text-decoration: none;
-    font-family: Inter;
     font-weight: 550;
     font-style: normal;
     font-stretch: normal;
@@ -754,7 +755,6 @@
   .h2-caps {
     font-size: 20px;
     text-decoration: none;
-    font-family: Inter;
     font-weight: 550;
     font-style: normal;
     font-stretch: normal;
@@ -767,7 +767,6 @@
   .h3 {
     font-size: 18px;
     text-decoration: none;
-    font-family: Inter;
     font-weight: 570;
     font-style: normal;
     font-stretch: normal;
@@ -780,7 +779,6 @@
   .h4 {
     font-size: 16px;
     text-decoration: none;
-    font-family: Inter;
     font-weight: 500;
     font-style: normal;
     font-stretch: normal;
@@ -793,7 +791,6 @@
   .button-caps {
     font-size: 15px;
     text-decoration: none;
-    font-family: Inter;
     font-weight: 500;
     font-style: normal;
     font-stretch: normal;
@@ -806,7 +803,6 @@
   .body-regular {
     font-size: 16px;
     text-decoration: none;
-    font-family: Inter;
     font-weight: 400;
     font-style: normal;
     font-stretch: normal;
@@ -819,7 +815,6 @@
   .body-small-semibold {
     font-size: 14px;
     text-decoration: none;
-    font-family: Inter;
     font-weight: 520;
     font-style: normal;
     font-stretch: normal;
@@ -832,7 +827,6 @@
   .body-small-regular {
     font-size: 14px;
     text-decoration: none;
-    font-family: Inter;
     font-weight: 400;
     font-style: normal;
     font-stretch: normal;

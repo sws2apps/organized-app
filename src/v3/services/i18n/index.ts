@@ -25,14 +25,17 @@ for await (const language of LANGUAGE_LIST) {
   const ministry = await import(`../../../shared/locales/${language.locale}/ministry.json`).then(
     (module) => module.default
   );
+  const meetings = await import(`../../../shared/locales/${language.locale}/meetings.json`).then(
+    (module) => module.default
+  );
 
   // load source namespace
   const source = await import(`../../../shared/locales/${language.locale}/forms-templates.json`).then(
     (module) => module.default
   );
 
-  resources[language.code] = {
-    ui: { ...dashboard, ...general, ...onboarding, ...profile, ...ministry },
+  resources[language.locale] = {
+    ui: { ...dashboard, ...general, ...onboarding, ...profile, ...ministry, ...meetings, ...source },
     source,
   };
 }
@@ -40,8 +43,8 @@ for await (const language of LANGUAGE_LIST) {
 i18n.use(initReactI18next).init({
   resources,
   defaultNS,
-  lng: 'e',
-  fallbackLng: 'e',
+  lng: 'en',
+  fallbackLng: 'en',
   interpolation: { escapeValue: false },
 });
 

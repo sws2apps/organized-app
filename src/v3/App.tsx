@@ -4,11 +4,14 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary, WaitingCircular } from '@components/index';
 import { useGlobal } from '@hooks/index';
 import { RootLayout } from '@layouts/index';
-import ComponentsPreview from './ComponentsPreview';
 
 // lazy loading
 const Dashboard = lazy(() => import('@pages/dashboard'));
 const MyProfile = lazy(() => import('@pages/my_profile'));
+const PublicTalksList = lazy(() => import('@pages/meeting_materials/public_talks_list'));
+
+const ComponentsPreview = lazy(() => import('@components/preview'));
+const PdfPreview = lazy(() => import('@components/preview/PDF_Peview'));
 
 const queryClient = new QueryClient();
 
@@ -21,10 +24,15 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
       children: [
         { path: '/components-preview', element: <ComponentsPreview /> },
         {
+          path: '/pdf-document',
+          element: <PdfPreview />,
+        },
+        {
           element: <RootLayout updatePwa={updatePwa} />,
           children: [
             { path: '/', element: <Dashboard /> },
-            { path: '/my-profile', element: <MyProfile /> },
+            { path: '/user-profile', element: <MyProfile /> },
+            { path: '/public-talks-list', element: <PublicTalksList /> },
             { path: '*', element: <Dashboard /> },
           ],
         },

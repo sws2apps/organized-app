@@ -3,8 +3,8 @@ This file holds the source of the truth from the table "week_type".
 */
 
 import { atom, selector } from 'recoil';
-import { sourceLangState } from './settings';
 import { WeekType } from '@definition/sources';
+import { appLangState } from './app';
 
 export const weekTypeState = atom({
   key: 'weekType',
@@ -14,7 +14,7 @@ export const weekTypeState = atom({
 export const weekTypeLocaleState = selector({
   key: 'weekTypeLocale',
   get: ({ get }) => {
-    const sourceLang = get(sourceLangState);
+    const appLang = get(appLangState);
     const list = get(weekTypeState);
 
     const newList: WeekType[] = [];
@@ -23,7 +23,7 @@ export const weekTypeLocaleState = selector({
       const obj = <WeekType>{};
       obj.value = weekType.id_week_type;
       obj.sort_index = weekType.sort_index;
-      obj.label = weekType.week_type_name[sourceLang.toUpperCase()];
+      obj.label = weekType.week_type_name[appLang.toUpperCase()];
       newList.push(obj);
     }
 

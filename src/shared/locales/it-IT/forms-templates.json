@@ -2,9 +2,8 @@
   "tr_s89Title": "PARTE PER L’ADUNANZA<br />VITA CRISTIANA E MINISTERO",
   "tr_s89ToBeGiven": "Da svolgere nella:",
   "tr_s89DescFooter": "<strong>Nota per lo studente:</strong> La fonte e la lezione che riguardano la tua parte sono indicate nella <em>Guida per l’adunanza Vita e ministero</em>. Ripassa le Istruzioni per l’adunanza <em>Vita cristiana e ministero</em> (S-38) relative alla tua parte.",
-  "tr_name": "Nome:",
   "tr_assistant": "Assistente:",
-  "tr_date": "Data:",
+  "tr_date": "Date",
   "tr_assignment": "Compito",
   "tr_bibleReading": "Lettura biblica",
   "tr_initialCall": "Chiamata Iniziale",
@@ -64,7 +63,6 @@
   "tr_openingPrayerWeekendMeeting": "Preghiera iniziale",
   "tr_noWMeeting": "Questa settimana non si tengono adunanze del fine settimana",
   "tr_noMeeting": "Questa settimana non si tengono adunanze infrasettimanali",
-  "tr_longDateFormat": "{{ date }} {{ month }}, {{ year }}",
   "tr_substituteSpeaker": "Oratore sostitutivo",
   "tr_startingConversation": "Iniziare una conversazione",
   "tr_followingUp": "Coltivare l’interesse",
@@ -72,5 +70,6 @@
   "tr_explainingBeliefs": "Spiegare quello in cui si crede",
   "tr_discussion": "Trattazione",
   "tr_demonstration": "Dimostrazione",
-  "tr_partNo": "Parte n.:"
+  "tr_partNo": "Parte n.:",
+  "tr_nameS89": "Nome:"
 }

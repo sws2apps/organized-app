@@ -49,8 +49,8 @@ const BadgeTypography = (props: BadgeTypographyPropsType) => {
   );
 };
 
-const CPEBadge = (props: BadgePropsType) => {
-  const { icon, size, filled, color, text, sx = {} } = props;
+const CustomBadge = (props: BadgePropsType) => {
+  const { icon, size, filled, color, text, fullWidth, centerContent, borderStyle, sx = {} } = props;
 
   const getColor = () => {
     if (filled) return `var(--always-white)`;
@@ -59,7 +59,8 @@ const CPEBadge = (props: BadgePropsType) => {
       return `var(--${color}-400)`;
     } else if (color === 'green') {
       return `var(--${color}-main)`;
-    } else {
+    } else if (color === 'transparent') return 'var(--accent-400)';
+    else {
       if (size === 'big' && color === 'red') {
         return `var(--${color}-main)`;
       } else {
@@ -69,6 +70,7 @@ const CPEBadge = (props: BadgePropsType) => {
   };
 
   const getBackgroundColor = () => {
+    if (color == 'transparent') return color;
     if (filled) {
       if (color == 'grey') {
         return `var(--${color}-400)`;
@@ -96,10 +98,13 @@ const CPEBadge = (props: BadgePropsType) => {
             background: getBackgroundColor(),
             display: 'flex',
             flexDirection: 'row',
-            borderRadius: 'var(--radius-xs, 2px)',
+            borderRadius: 'var(--radius-xs)',
             gap: '4px',
             padding: '2px 6px',
             flexShrink: '0',
+            width: fullWidth ? '100%' : 'auto',
+            justifyContent: centerContent ? 'center' : 'flex-start',
+            borderStyle: borderStyle || 'none',
             ...sx,
           }}
         >
@@ -120,15 +125,19 @@ const CPEBadge = (props: BadgePropsType) => {
       {size == 'medium' && (
         <Box
           sx={{
-            border: '2px',
+            border: '1px',
+            borderColor: 'var(--accent-350)',
             height: '22px',
             background: getBackgroundColor(),
-            display: 'inline-flex',
+            display: 'flex',
             flexDirection: 'row',
-            borderRadius: 'var(--radius-xs, 2px)',
+            borderRadius: 'var(--radius-s)',
             padding: '2px 8px',
             gap: '4px',
             flexShrink: '0',
+            width: fullWidth ? '100%' : 'auto',
+            justifyContent: centerContent ? 'center' : 'flex-start',
+            borderStyle: borderStyle || 'none',
             ...sx,
           }}
         >
@@ -152,12 +161,15 @@ const CPEBadge = (props: BadgePropsType) => {
             border: '4px',
             height: filled ? '24px' : '28px',
             background: getBackgroundColor(),
-            display: 'inline-flex',
+            display: 'flex',
             flexDirection: 'row',
-            borderRadius: 'var(--radius-xs, 2px)',
+            borderRadius: 'var(--radius-xs)',
             gap: filled ? '10px' : '8px',
             padding: filled ? '2px 6px' : '4px 8px',
             flexShrink: '0',
+            width: fullWidth ? '100%' : 'auto',
+            justifyContent: centerContent ? 'center' : 'flex-start',
+            borderStyle: borderStyle || 'none',
             ...sx,
           }}
         >
@@ -181,4 +193,4 @@ const CPEBadge = (props: BadgePropsType) => {
   );
 };
 
-export default CPEBadge;
+export default CustomBadge;

@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material';
 import { TypographyTypeProps } from './index.types';
 
-const CPETypography = (props: TypographyTypeProps) => {
+const CustomTypography = (props: TypographyTypeProps) => {
   const color = props.color || 'var(--black)';
   const className = props.className || 'body-regular';
 
@@ -12,4 +12,4 @@ const CPETypography = (props: TypographyTypeProps) => {
   );
 };
 
-export default CPETypography;
+export default CustomTypography;

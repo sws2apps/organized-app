@@ -18,12 +18,12 @@ const IconChevronLeft = ({ color = '#222222', width = 24, height = 24, sx = {} }
           x="0"
           y="0"
           width="24"
-          height="24"
+          height="25"
         >
-          <rect y="0.500488" width="24" height="24" fill="#D9D9D9" />
+          <rect y="0.000488281" width="24" height="24" fill="#D9D9D9" />
         </mask>
         <g mask="url(#mask0_4921_2977714)">
-          <path d="M14 18.5005L8 12.5005L14 6.50049L15.4 7.90049L10.8 12.5005L15.4 17.1005L14 18.5005Z" fill={color} />
+          <path d="M14 18.0005L8 12.0005L14 6.00049L15.4 7.40049L10.8 12.0005L15.4 16.6005L14 18.0005Z" fill={color} />
         </g>
       </svg>
     </SvgIcon>

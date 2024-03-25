@@ -1,9 +1,11 @@
-import { Box, MenuItem } from '@mui/material';
+import { Box } from '@mui/material';
+import ColorSchemeSwitcher from '@features/color_scheme_selector';
+import MenuItem from '@components/menuitem';
 import Select from '@components/select';
 import Switch from '@components/switch';
-import { SwitcherItem } from '@components/global';
+import SwitcherContainer from '@components/switcher_container';
 import Typography from '@components/typography';
-import { ProfileItemContainer } from '../my_profile.styles';
+import { ProfileItemContainer, SettingWithBorderContainer } from '../my_profile.styles';
 import { useAppTranslation } from '@hooks/index';
 import useAppSettings from './useAppSettings';
 
@@ -24,18 +26,8 @@ const AppSettings = () => {
     <ProfileItemContainer>
       <Typography className="h2">{t('tr_organizedSettings')}</Typography>
 
-      <Box
-        sx={{
-          display: 'flex',
-          gap: '16px',
-          flexDirection: 'column',
-          '& > *:not(:last-child)': {
-            borderBottom: '1px solid var(--accent-200)',
-            paddingBottom: '16px',
-          },
-        }}
-      >
-        <SwitcherItem laptopUp={laptopUp}>
+      <SettingWithBorderContainer>
+        <SwitcherContainer>
           <Switch checked={autoSync} onChange={(e) => handleSwitchAutoBackup(e.target.checked)} />
           <Box
             sx={{
@@ -62,14 +54,16 @@ const AppSettings = () => {
             >
               {[5, 15, 30, 45].map((time) => (
                 <MenuItem key={time} value={time}>
-                  {`${time} ${t('tr_syncIntervalMinLabel')}`}
+                  <Typography className="body-regular" color="var(--black)">
+                    {`${time} ${t('tr_syncIntervalMinLabel')}`}
+                  </Typography>
                 </MenuItem>
               ))}
             </Select>
           </Box>
-        </SwitcherItem>
+        </SwitcherContainer>
 
-        <SwitcherItem laptopUp={laptopUp}>
+        <SwitcherContainer>
           <Switch checked={syncTheme} onChange={(e) => handleUpdateSyncTheme(e.target.checked)} />
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
             <Typography>{t('tr_autoThemeChange')}</Typography>
@@ -77,8 +71,14 @@ const AppSettings = () => {
               {t('tr_autoThemeChangeDesc')}
             </Typography>
           </Box>
-        </SwitcherItem>
-      </Box>
+        </SwitcherContainer>
+
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          <Typography className="h4">{t('tr_colorScheme')}</Typography>
+
+          <ColorSchemeSwitcher />
+        </Box>
+      </SettingWithBorderContainer>
     </ProfileItemContainer>
   );
 };

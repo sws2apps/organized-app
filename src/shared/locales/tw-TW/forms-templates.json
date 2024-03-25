@@ -2,9 +2,8 @@
   "tr_s89Title": "TUFUHIMU KRISTO NYINAA NE ASENKASA ASESAN<br />NHYEHYEE MAHODU",
   "tr_s89ToBeGiven": "Dɛn saa bɛhodii no mu",
   "tr_s89DescFooter": "<strong>Kyerɛw a osuani:</strong> Ntoso a wopɛ sɛ wo nni yɛ bɛhodii no so wɔ <em>Life and Ministry Meeting Workbook</em>. Mebaa wo kyere no nyinaa bi wɔ <em>Instructions for Our Christian Life and Ministry Meeting</em> (S-38).",
-  "tr_name": "Din:",
   "tr_assistant": "Boafoɔ:",
-  "tr_date": "Nkɔso:",
+  "tr_date": "Date",
   "tr_assignment": "Nhyehyee",
   "tr_bibleReading": "Bibere atentam",
   "tr_initialCall": "Tumi suman",
@@ -64,7 +63,6 @@
   "tr_openingPrayerWeekendMeeting": "Anigye Mpae",
   "tr_noWMeeting": "Eni nnawɔtwe awieɛ nhyiam wɔɑ wɔhɔ",
   "tr_noMeeting": "Eni nnawɔtwe mfinfii nhyiam wɔɑ wɔhɔ",
-  "tr_longDateFormat": "{{ month }} {{ date }}, {{ year }}",
   "tr_substituteSpeaker": "Ɔkasafoɔ a wɔsuban ase",
   "tr_startingConversation": "Ɛbɛtumi asi",
   "tr_followingUp": "Ɛbɛhyɛ mu",
@@ -72,5 +70,6 @@
   "tr_explainingBeliefs": "Bɛtumi akasa ne nkyɛn",
   "tr_discussion": "Ntobo",
   "tr_demonstration": "Nkwa",
-  "tr_partNo": "Nhyehyee no nɔ:"
+  "tr_partNo": "Nhyehyee no nɔ:",
+  "tr_nameS89": "Din:"
 }

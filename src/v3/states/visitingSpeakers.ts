@@ -4,7 +4,7 @@ This file holds the source of the truth from the table "visiting_speakers".
 
 import { atom, selector } from 'recoil';
 import { congNumberState } from './settings';
-import { getPerson, personIsElder, personIsMS } from '@services/cpe/persons';
+import { getPerson, personIsElder, personIsMS } from '@services/app/persons';
 
 export const visitingSpeakersState = atom({
   key: 'visitingSpeakers',

@@ -1,10 +1,18 @@
 import ThemeSwitch from '@components/theme_switch';
 import useThemeSwitcher from './useThemeSwitcher';
+import ThemeChangeConfirm from './components/themeChangeConfirm';
 
 const ThemeSwitcher = () => {
-  const { isDark, handleChangeTheme } = useThemeSwitcher();
+  const { isDark, handleChangeTheme, isOpenConfirm, handleCloseConfirm, handleOverrideThemeAuto } = useThemeSwitcher();
 
-  return <ThemeSwitch checked={isDark} onChange={handleChangeTheme} />;
+  return (
+    <>
+      {isOpenConfirm && (
+        <ThemeChangeConfirm open={isOpenConfirm} onClose={handleCloseConfirm} onConfirm={handleOverrideThemeAuto} />
+      )}
+      <ThemeSwitch checked={isDark} onChange={handleChangeTheme} />
+    </>
+  );
 };
 
 export default ThemeSwitcher;

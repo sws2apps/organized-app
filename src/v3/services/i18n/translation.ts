@@ -13,7 +13,7 @@ export const getTranslation = ({
 }) => {
   const i18n = getI18n();
 
-  if (!language) language = 'e';
+  if (!language) language = 'en';
 
   if (i18n) {
     return i18n.t(key, { lng: language, ns: namespace, ...params });
@@ -56,7 +56,7 @@ export const getMessageByCode = (code) => {
     case 'POCKET_NOT_FOUND':
       return getTranslation({ key: 'tr_pocketNotFound' });
     case 'TOKEN_INVALID':
-      return getTranslation({ key: 'tr_mfaTokenInvalidExpired' });
+      return getTranslation({ key: 'tr_2FATokenInvalidExpired' });
     case 'INTERNAL_ERROR':
       return getTranslation({ key: 'tr_internalError' });
     case 'Failed to fetch':

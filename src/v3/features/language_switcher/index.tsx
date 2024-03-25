@@ -1,5 +1,6 @@
-import { Link, ListItemIcon, ListItemText, Menu, MenuItem, SxProps } from '@mui/material';
+import { Link, ListItemIcon, ListItemText, Menu, SxProps } from '@mui/material';
 import { IconGlobe, IconLanguage } from '@icons/index';
+import MenuItem from '@components/menuitem';
 import Typography from '@components/typography';
 import useAppTranslation from '@hooks/useAppTranslation';
 import useLanguage from './useLanguage';
@@ -15,17 +16,17 @@ const LanguageSwitcher = ({ menuStyle }: { menuStyle: SxProps }) => {
     LANGUAGE_LIST,
     handleLocalizeOpen,
     handleLangChange,
-    laptopUp,
     tabletDown,
+    isAppLoad,
   } = useLanguage();
 
   return (
     <>
       <MenuItem disableRipple sx={menuStyle} onClick={handleClick}>
-        <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px' } }}>
+        <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px !important' } }}>
           <IconLanguage color="var(--black)" />
         </ListItemIcon>
-        {(laptopUp || tabletDown) && (
+        {(tabletDown || !isAppLoad) && (
           <ListItemText>
             <Typography className="body-regular">{t('tr_changeLanguage')}</Typography>
           </ListItemText>
@@ -62,42 +63,23 @@ const LanguageSwitcher = ({ menuStyle }: { menuStyle: SxProps }) => {
         }}
       >
         {LANGUAGE_LIST.map((lang) => (
-          <MenuItem
-            disableRipple
-            key={lang.locale}
-            onClick={handleLangChange}
-            sx={{
-              padding: '8px 12px 8px 16px',
-              height: '36px',
-              minHeight: '36px',
-              '&:hover': {
-                backgroundColor: 'var(--accent-100)',
-                '& p': {
-                  color: 'var(--accent-dark)',
-                },
-              },
-            }}
-          >
-            <ListItemText data-code={lang.code}>
+          <MenuItem key={lang.locale} onClick={handleLangChange}>
+            <ListItemText data-code={lang.locale}>
               <Typography className="body-regular" color="var(--black)">
-                {lang.name}
+                {lang.code.toUpperCase()} - {lang.name}
               </Typography>
             </ListItemText>
           </MenuItem>
         ))}
-        <MenuItem
-          disableRipple
-          sx={{ padding: '8px 12px 8px 16px', minHeight: '40px', height: '40px' }}
-          onClick={handleLocalizeOpen}
-        >
+        <MenuItem sx={{ padding: '8px 12px 8px 16px', minHeight: '40px', height: '40px' }} onClick={handleLocalizeOpen}>
           <Link
-            href="https://github.com/sws2apps/cpe-sws/blob/main/TRANSLATION.md"
+            href="https://github.com/sws2apps/organized-app/blob/main/TRANSLATION.md"
             target="_blank"
             rel="noopener"
             sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}
             underline="none"
           >
-            <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px' } }}>
+            <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px !important' } }}>
               <IconGlobe color="var(--accent-dark)" />
             </ListItemIcon>
             <ListItemText>

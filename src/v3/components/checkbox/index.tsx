@@ -4,12 +4,13 @@ import { IconCheckboxEmpty, IconCheckboxFilled, IconCheckboxMultiple } from '@ic
 import { CheckboxPropsType } from './index.types';
 import { StyleCheckboxBorder, StyleCheckboxBorderChecked } from '@components/checkbox/index.style';
 
-const CPECheckbox = (props: CheckboxPropsType) => {
+const CustomCheckbox = (props: CheckboxPropsType) => {
   const checked = props.checked || false;
   const indeterminate = props.indeterminate || false;
   const disabled = props.disabled || false;
   const label = props.label || '';
   const isBorder = props.isBorder || false;
+  const className = props.className || 'body-regular';
 
   return (
     <FormControlLabel
@@ -39,7 +40,7 @@ const CPECheckbox = (props: CheckboxPropsType) => {
         />
       }
       label={
-        <Typography className={checked ? 'h4' : 'body-regular'} color={checked ? 'var(--accent-main)' : 'var(--black)'}>
+        <Typography className={className} color="var(--black)">
           {label}
         </Typography>
       }
@@ -47,4 +48,4 @@ const CPECheckbox = (props: CheckboxPropsType) => {
   );
 };
 
-export default CPECheckbox;
+export default CustomCheckbox;

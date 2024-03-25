@@ -1,9 +1,9 @@
 import { PropsWithChildren } from 'react';
 
-export type CPEUserCardTypes = 'personal' | 'pioneer' | 'publisher';
-export interface CPEUserCardProps extends PropsWithChildren {
+export type CustomUserCardTypes = 'personal' | 'pioneer' | 'publisher';
+export interface CustomUserCardProps extends PropsWithChildren {
   name: string;
-  type: CPEUserCardTypes;
+  type: CustomUserCardTypes;
   chipLabels?: string[];
   female: boolean;
   onClick?: () => void;

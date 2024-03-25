@@ -1,18 +1,26 @@
 import { Dialog, DialogContent } from '@mui/material';
 
-const CPEDialog = ({
+const CustomDialog = ({
   open,
   onClose,
   children,
 }: {
   open: boolean;
-  onClose: (event: object, reason: string) => void;
+  onClose: VoidFunction;
   children: React.ReactNode;
 }) => {
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway' || reason === 'backdropClick') {
+      return;
+    }
+
+    onClose();
+  };
+
   return (
     <Dialog
       open={open}
-      onClose={onClose}
+      onClose={handleClose}
       sx={{
         '.MuiPaper-root': {
           margin: { mobile: '16px', tablet: '24px', desktop: '32px' },
@@ -22,7 +30,7 @@ const CPEDialog = ({
         className: 'pop-up-shadow',
         style: {
           maxWidth: '560px',
-          borderRadius: 'var(--radius-xxl)',
+          borderRadius: 'var(--radius-xl)',
           backgroundColor: 'var(--white)',
         },
       }}
@@ -43,4 +51,4 @@ const CPEDialog = ({
   );
 };
 
-export default CPEDialog;
+export default CustomDialog;

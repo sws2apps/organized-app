@@ -35,7 +35,7 @@ const About = () => {
       <Box sx={{ display: 'flex', padding: 'var(--radius-none)', alignItems: 'center', gap: '16px' }}>
         <IconLogo width={40} height={40} />
         <Box>
-          <Typography className="h3">{t('tr_appFullName')}</Typography>
+          <Typography className="h3">Organized</Typography>
           <Typography className="body-regular" color="var(--grey-350)">
             {import.meta.env.PACKAGE_VERSION}
           </Typography>

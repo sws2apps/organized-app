@@ -1,6 +1,6 @@
 import { promiseGetRecoil } from 'recoil-outside';
 import { appDb } from '.';
-import { comparePerson, getPerson } from '@services/cpe/persons';
+import { comparePerson, getPerson } from '@services/app/persons';
 import { personsState } from '@states/persons';
 import { PersontType } from '@definition/person';
 

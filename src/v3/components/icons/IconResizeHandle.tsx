@@ -18,13 +18,13 @@ const IconResizeHandle = ({ color = '#222222', width = 24, height = 24, sx = {} 
           x="0"
           y="0"
           width="24"
-          height="24"
+          height="25"
         >
-          <rect y="0.500488" width="24" height="24" fill="#D9D9D9" />
+          <rect y="0.000488281" width="24" height="24" fill="#D9D9D9" />
         </mask>
         <g mask="url(#mask0_4274_140267)">
-          <path d="M6.96395 18.0709L5.90332 17.0103L16.5099 6.40369L17.5705 7.46431L6.96395 18.0709Z" fill={color} />
-          <path d="M11.0337 17.5366L12.0943 18.5972L18.0969 12.5947L17.0362 11.5341L11.0337 17.5366Z" fill={color} />
+          <path d="M6.96395 17.5709L5.90332 16.5103L16.5099 5.90369L17.5705 6.96431L6.96395 17.5709Z" fill={color} />
+          <path d="M11.0337 17.0366L12.0943 18.0972L18.0969 12.0947L17.0362 11.0341L11.0337 17.0366Z" fill={color} />
         </g>
       </svg>
     </SvgIcon>

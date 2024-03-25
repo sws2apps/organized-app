@@ -1,6 +1,6 @@
 import { Button } from '@mui/material';
 
-const CPEFilterChip = ({
+const CustomFilterChip = ({
   label,
   onClick,
   selected = false,
@@ -38,4 +38,4 @@ const CPEFilterChip = ({
   );
 };
 
-export default CPEFilterChip;
+export default CustomFilterChip;
