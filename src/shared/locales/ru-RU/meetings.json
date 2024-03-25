@@ -101,6 +101,6 @@
   "tr_publicTalkOfflineDesc": "<p>Ты сможешь получить список публичных речей, как только у тебя появится соединение с Интернетом. Как только ты вернешься в сеть, <a href='#'>перезагрузи страницу</a>.</p>",
   "tr_syncTalksList": "Синхронизировать список речей",
   "tr_noTalksList": "У тебя нет публичных речей в списке. Синхронизируй список, чтобы получить все публичные речи.",
-  "tr_countPublicTalks": "Public talks: {{ count }}",
-  "tr_publicTalkLastSync": "Last synced {{ date }} at {{ time }}"
+  "tr_countPublicTalks": "Публичные речи: {{ count }}",
+  "tr_publicTalkLastSync": "Последняя синхронизация {{ date }} в {{ time }}"
 }
