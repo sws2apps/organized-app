@@ -1,9 +1,9 @@
 import React from 'react';
 import { Text, View, StyleSheet, Font } from '@react-pdf/renderer';
-import InterRegular from '../../assets/fonts/Inter-Regular.woff';
-import InterSemiBold from '../../assets/fonts/Inter-SemiBold.woff';
-import InterMedium from '../../assets/fonts/Inter-Medium.woff';
-import InterLight from '../../assets/fonts/Inter-Light.woff';
+import InterRegular from '@assets/fonts/Inter-Regular.ttf';
+import InterSemiBold from '@assets/fonts/Inter-SemiBold.ttf';
+import InterMedium from '@assets/fonts/Inter-Medium.ttf';
+import InterLight from '@assets/fonts/Inter-Light.ttf';
 import { WeekendMeetingItemProps } from './weekendMeeting.types';
 
 Font.register({

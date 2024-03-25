@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, Image, StyleSheet, Font } from '@react-pdf/renderer';
 import WatchtowerImg from '@assets/img/illustration_watchtower.png';
-import InterMedium from '../../assets/fonts/Inter-Medium.woff';
+import InterMedium from '@assets/fonts/Inter-Medium.ttf';
 
 Font.register({
   family: 'Inter',
