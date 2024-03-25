@@ -1,4 +1,4 @@
-import WeekendMeetingHeader from './WeekendMeeting_PDF/WeekendMeeting_Heder';
+import WeekendMeetingHeader from './WeekendMeeting_PDF/WeekendMeeting_Header';
 import WeekendMeetingItem from './WeekendMeeting_PDF/WeekendMeeting_item';
 import { StyleSheet, Document, Page } from '@react-pdf/renderer';
 
