@@ -20,7 +20,6 @@ import {
 } from '@components/index';
 import { useEffect, useState } from 'react';
 import { IconAdd, IconAssign, IconClose, IconReturn, IconUndo, IconUpdate, IconInfo, IconVisitors } from '@icons/index';
-
 import { NavBar } from './layouts';
 
 const themes = ['blue', 'green', 'orange', 'purple'];
