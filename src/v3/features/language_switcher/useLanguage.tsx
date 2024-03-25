@@ -21,6 +21,8 @@ const useLanguage = () => {
 
   const isMenuOpen = Boolean(anchorEl);
 
+  const langsList = LANGUAGE_LIST.sort((a, b) => a.code.localeCompare(b.code));
+
   const handleLangChange = async (e) => {
     setUserChange(true);
     const app_lang = e.target.parentElement.parentElement.dataset.code;
@@ -78,7 +80,7 @@ const useLanguage = () => {
     anchorEl,
     isMenuOpen,
     handleClose,
-    LANGUAGE_LIST,
+    langsList,
     handleLocalizeOpen,
     handleLangChange,
     tabletDown,

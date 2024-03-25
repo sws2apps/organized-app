@@ -13,7 +13,7 @@ const LanguageSwitcher = ({ menuStyle }: { menuStyle: SxProps }) => {
     anchorEl,
     isMenuOpen,
     handleClose,
-    LANGUAGE_LIST,
+    langsList,
     handleLocalizeOpen,
     handleLangChange,
     tabletDown,
@@ -62,11 +62,11 @@ const LanguageSwitcher = ({ menuStyle }: { menuStyle: SxProps }) => {
           },
         }}
       >
-        {LANGUAGE_LIST.map((lang) => (
+        {langsList.map((lang) => (
           <MenuItem key={lang.locale} onClick={handleLangChange}>
             <ListItemText data-code={lang.locale}>
               <Typography className="body-regular" color="var(--black)">
-                {lang.name}
+                ({lang.code.toUpperCase()}) {lang.name}
               </Typography>
             </ListItemText>
           </MenuItem>
