@@ -66,7 +66,7 @@ const LanguageSwitcher = ({ menuStyle }: { menuStyle: SxProps }) => {
           <MenuItem key={lang.locale} onClick={handleLangChange}>
             <ListItemText data-code={lang.locale}>
               <Typography className="body-regular" color="var(--black)">
-                {lang.name}
+                {lang.code.toUpperCase()} - {lang.name}
               </Typography>
             </ListItemText>
           </MenuItem>
