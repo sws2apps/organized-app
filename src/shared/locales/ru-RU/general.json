@@ -57,7 +57,7 @@
   "tr_shortDateFormatAlt": "dd.mm.yyyy",
   "tr_tableView": "Вид таблицы",
   "tr_shortNumberLabel": "№",
-  "tr_title": "Title",
+  "tr_title": "Название",
   "tr_rename": "Переименовать",
   "tr_collapseAll": "Свернуть всё",
   "tr_searchResults": "Результаты поиска: {{ count }}"
