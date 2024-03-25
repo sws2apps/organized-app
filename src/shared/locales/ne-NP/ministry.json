@@ -87,8 +87,8 @@
   "tr_addToCalendarDesc": "Do you want to add this event to your personal calendar? You should have a calendar app installed on your device.",
   "tr_forMyself": "मेरो लागि",
   "tr_forOthers": "अरूको लागि",
-  "tr_publisherWithNumber": "Publisher {{ publisherNumber }}",
-  "tr_occupied": "{{ number }} occupied",
+  "tr_publisherWithNumber": "प्रकाशक {{ publisherNumber }}",
+  "tr_occupied": "{{ number }} ओगटिएको",
   "tr_available": "{{ number }} उपलब्ध",
   "tr_deletePWLocation": "Delete the public witnessing location",
   "tr_deletePWLocationDesc": "Deleting this location permanently removes all its data and arrangements. This action cannot be undone."
