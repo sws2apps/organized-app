@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet, Tspan, Font } from '@react-pdf/renderer';
+import { Text, View, StyleSheet, Font } from '@react-pdf/renderer';
 import InterRegular from '../../assets/fonts/Inter-Regular.woff';
 import InterSemiBold from '../../assets/fonts/Inter-SemiBold.woff';
 import InterMedium from '../../assets/fonts/Inter-Medium.woff';
