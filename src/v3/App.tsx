@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary, WaitingCircular } from '@components/index';
 import { useGlobal } from '@hooks/index';
 import { RootLayout } from '@layouts/index';
+import PdfPreview from '@components/preview/PDF_Peview';
 import { PublicTalksList } from './pages';
 import ComponentsPreview from '@components/preview';
 
@@ -21,6 +22,10 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
       errorElement: <ErrorBoundary />,
       children: [
         { path: '/components-preview', element: <ComponentsPreview /> },
+        {
+          path: '/pdf-document',
+          element: <PdfPreview />,
+        },
         {
           element: <RootLayout updatePwa={updatePwa} />,
           children: [
