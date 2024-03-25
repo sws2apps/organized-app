@@ -23,7 +23,7 @@ import {
 
 export const deleteAppDb = async () => {
   await appDb.close();
-  await Dexie.delete('cpe_sws');
+  await Dexie.delete('organized');
 };
 
 export const dbExportTable = async (table_name: string): Promise<[]> => {

@@ -18,13 +18,13 @@ const IconCheck = ({ color = '#222222', width = 24, height = 24, sx = {} }: Icon
           x="0"
           y="0"
           width="24"
-          height="24"
+          height="25"
         >
-          <rect width="24" height="24" fill="#D9D9D9" />
+          <rect y="0.000488281" width="24" height="24" fill="#D9D9D9" />
         </mask>
         <g mask="url(#mask0_2352_13021)">
           <path
-            d="M9.5501 18L3.8501 12.3L5.2751 10.875L9.5501 15.15L18.7251 5.97498L20.1501 7.39998L9.5501 18Z"
+            d="M9.5501 18.0006L3.8501 12.3006L5.2751 10.8756L9.5501 15.1506L18.7251 5.97559L20.1501 7.40059L9.5501 18.0006Z"
             fill={color}
           />
         </g>

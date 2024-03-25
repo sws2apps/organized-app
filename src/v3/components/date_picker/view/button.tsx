@@ -2,10 +2,10 @@ import { BaseSingleInputFieldProps, FieldSection } from '@mui/x-date-pickers';
 import { IconDate } from '@icons/index';
 import { format } from 'date-fns';
 import { Button } from '@mui/material';
-import { FC } from 'react';
+import { Dispatch, FC, SetStateAction } from 'react';
 
 interface ButtonFieldProps extends BaseSingleInputFieldProps<never, never, FieldSection, never> {
-  setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpen?: Dispatch<SetStateAction<boolean>>;
   formatView: string;
 }
 

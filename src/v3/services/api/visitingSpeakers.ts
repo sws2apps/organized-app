@@ -1,4 +1,4 @@
-import { getVisitingSpeakersCongregations } from '@services/cpe/visitingSpeakers';
+import { getVisitingSpeakersCongregations } from '@services/app/visitingSpeakers';
 import { apiDefault } from './common';
 
 export const apiApproveCongregationSpeakersRequest = async (cong_id) => {
@@ -6,7 +6,7 @@ export const apiApproveCongregationSpeakersRequest = async (cong_id) => {
 
   const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/request-speakers/approve`, {
     method: 'PATCH',
-    headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, visitorid, uid, cong_id },
+    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid, cong_id },
   });
 
   const data = await res.json();
@@ -19,7 +19,7 @@ export const apiDisapproveCongregationSpeakersRequest = async (cong_id) => {
 
   const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/request-speakers/disapprove`, {
     method: 'PATCH',
-    headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, visitorid, uid, cong_id },
+    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid, cong_id },
   });
 
   const data = await res.json();
@@ -32,7 +32,7 @@ export const apiGetCongregationSpeakersRequests = async () => {
 
   const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/request-speakers`, {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, visitorid, uid },
+    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
   });
 
   const data = await res.json();
@@ -45,7 +45,7 @@ export const apiUploadVisitingSpeakers = async (speakers) => {
 
   const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/visiting-speakers`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, visitorid, uid },
+    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
     body: JSON.stringify({ speakers }),
   });
 
@@ -74,7 +74,7 @@ export const apiGetCongregationSpeakersList = async (congs) => {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      appclient: 'cpe',
+      appclient: 'organized',
       appversion,
       visitorid,
       uid,
@@ -92,7 +92,7 @@ export const apiGetApprovedVisitingSpeakersAccess = async () => {
 
   const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/visiting-speakers-access`, {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, visitorid, uid },
+    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
   });
 
   const data = await res.json();
@@ -105,7 +105,7 @@ export const apiUpdateVisitingSpeakersAccess = async (congs) => {
 
   const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/visiting-speakers-access`, {
     method: 'PATCH',
-    headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, visitorid, uid },
+    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
     body: JSON.stringify({ congs }),
   });
 
@@ -119,7 +119,7 @@ export const apiRequestAccessCongregationSpeakers = async (cong_id) => {
 
   const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/request-speakers`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, visitorid, uid },
+    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
     body: JSON.stringify({ cong_id }),
   });
 
@@ -133,7 +133,7 @@ export const apiFindCongregationSpeakers = async (name) => {
 
   const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/visiting-speakers-congregations`, {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, visitorid, uid, name: name },
+    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid, name: name },
   });
 
   const data = await res.json();

@@ -6,7 +6,6 @@ import VipStartup from '@features/app_start/vip/startup';
 import StartupIllustration from '../illustration';
 import UnauthorizedRole from '../unauthorized_role';
 import useStartup from './useStartup';
-import { IconLogo } from '@icons/index';
 
 const Startup = () => {
   const { isSetup, isAuth, isAccountChoose, accountType, isUnauthorizedRole } = useStartup();
@@ -59,14 +58,7 @@ const Startup = () => {
     );
   }
 
-  return (
-    <Box className="loader-waiting-js">
-      <IconLogo />
-      <Box className="progress-bar">
-        <Box className="progress-bar-value" />
-      </Box>
-    </Box>
-  );
+  return <WaitingCircular />;
 };
 
 export default Startup;

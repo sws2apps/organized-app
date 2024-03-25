@@ -18,13 +18,13 @@ const IconArrowLink = ({ color = '#222222', width = 24, height = 24, sx = {} }: 
           x="0"
           y="0"
           width="24"
-          height="24"
+          height="25"
         >
-          <rect width="24" height="24" fill="#D9D9D9" />
+          <rect y="0.000488281" width="24" height="24" fill="#D9D9D9" />
         </mask>
         <g mask="url(#mask0_2976_38562)">
           <path
-            d="M6.2942 17.6442L5.25 16.6L15.0904 6.74995H6.14422V5.25H17.6442V16.75H16.1442V7.80378L6.2942 17.6442Z"
+            d="M6.2942 17.6447L5.25 16.6005L15.0904 6.75044H6.14422V5.25049H17.6442V16.7504H16.1442V7.80426L6.2942 17.6447Z"
             fill={color}
           />
         </g>

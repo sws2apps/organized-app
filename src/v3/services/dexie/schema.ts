@@ -201,8 +201,3 @@ export const visitingSpeakerSchema: VisitingSpeakerPersonType = {
   phone: '',
   changes: [],
 };
-
-export const S34Schema = {
-  talk_number: '',
-  talk_title: [],
-};

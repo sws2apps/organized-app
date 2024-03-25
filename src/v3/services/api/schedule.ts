@@ -13,14 +13,14 @@ export const apiFetchSchedule = async () => {
     if (accountType === 'pocket') {
       res = await fetch(`${apiHost}api/sws-pocket/meeting-schedule`, {
         method: 'GET',
-        headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, visitorid },
+        headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid },
       });
     }
 
     if (accountType === 'vip') {
       res = await fetch(`${apiHost}api/congregations/${congID}/meeting-schedule`, {
         method: 'GET',
-        headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, uid, visitorid },
+        headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, uid, visitorid },
       });
     }
 

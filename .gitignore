@@ -34,3 +34,4 @@ replit.nix
 *.njsproj
 *.sln
 *.sw?
+**/tasks.json

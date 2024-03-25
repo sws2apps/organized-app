@@ -2,16 +2,26 @@ import { Checkbox, FormControlLabel } from '@mui/material';
 import Typography from '@components/typography';
 import { IconCheckboxEmpty, IconCheckboxFilled, IconCheckboxMultiple } from '@icons/index';
 import { CheckboxPropsType } from './index.types';
+import { StyleCheckboxBorder, StyleCheckboxBorderChecked } from '@components/checkbox/index.style';
 
-const CPECheckbox = (props: CheckboxPropsType) => {
+const CustomCheckbox = (props: CheckboxPropsType) => {
   const checked = props.checked || false;
   const indeterminate = props.indeterminate || false;
   const disabled = props.disabled || false;
   const label = props.label || '';
+  const isBorder = props.isBorder || false;
+  const className = props.className || 'body-regular';
 
   return (
     <FormControlLabel
-      sx={{ marginLeft: '-4px', display: 'flex', alignItems: 'center', gap: '8px' }}
+      sx={{
+        marginLeft: '-4px',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '8px',
+        ...(isBorder && { ...StyleCheckboxBorder }),
+        ...(isBorder && checked && { ...StyleCheckboxBorderChecked }),
+      }}
       control={
         <Checkbox
           checked={checked}
@@ -30,7 +40,7 @@ const CPECheckbox = (props: CheckboxPropsType) => {
         />
       }
       label={
-        <Typography className="body-regular" color="var(--black)">
+        <Typography className={className} color="var(--black)">
           {label}
         </Typography>
       }
@@ -38,4 +48,4 @@ const CPECheckbox = (props: CheckboxPropsType) => {
   );
 };
 
-export default CPECheckbox;
+export default CustomCheckbox;

@@ -1,13 +1,15 @@
-import { useCallback, useEffect, useState } from 'react';
-import { enUS } from 'date-fns/locale';
+import { useEffect, useState } from 'react';
+/* eslint-disable import/no-duplicates */
 import { addYears, getWeeksInMonth, startOfYear, subYears, format } from 'date-fns';
+import { enUS } from 'date-fns/locale';
+/* eslint-enable import/no-duplicates */
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { Box, ClickAwayListener, Stack } from '@mui/material';
 import Button from '@components/button';
 import Typography from '@components/typography';
 import { DesktopDatePicker } from '@mui/x-date-pickers';
-import { CPEDatePickerProps } from './date_picker.types';
+import { CustomDatePickerProps } from './date_picker.types';
 import ButtonField from './view/button';
 import DatePickerInputField from './view/input';
 import {
@@ -17,10 +19,10 @@ import {
   StyleDatePickerLayout,
   StyleDatePickerPopper,
   StyleDatePickerToolbar,
-} from './date_picker.style';
+} from './date_picker.styles';
 import { useAppTranslation } from '@hooks/index';
 
-const CPEDatePicker = ({
+const CustomDatePicker = ({
   value = null,
   onChange,
   view = 'input',
@@ -29,7 +31,8 @@ const CPEDatePicker = ({
   limitYear = false,
   shortDateFormat,
   longDateFormat,
-}: CPEDatePickerProps) => {
+  isValueOnOpen = false,
+}: CustomDatePickerProps) => {
   const { t } = useAppTranslation();
 
   const shortDateFormatLocale = shortDateFormat || t('tr_shortDateFormat');
@@ -39,20 +42,27 @@ const CPEDatePicker = ({
   const [valueTmp, setValueTmp] = useState<Date | null>(value);
   const [innerValue, setInnerValue] = useState<Date | null>(value);
 
-  const [height, setHeight] = useState('300px'); // Initial height
+  const [height, setHeight] = useState<number>(240); // Initial height
 
-  const changeHeight = useCallback((event) => {
-    if (getWeeksInMonth(new Date(event), { locale: enUS, weekStartsOn: 1 }) === 6) setHeight('340px');
-    else setHeight('300px');
+  useEffect(() => {
+    if (getWeeksInMonth(new Date(), { locale: enUS, weekStartsOn: 0 }) === 6) setHeight(290);
   }, []);
+
+  const changeHeight = (event) => {
+    if (getWeeksInMonth(new Date(event), { locale: enUS, weekStartsOn: 0 }) === 6) setHeight(290);
+    else setHeight(240);
+  };
 
   const handleClickAway = () => {
     if (open) setOpen(false);
   };
 
   useEffect(() => {
-    if (value === null && open) setInnerValue(new Date());
-  }, [value, open]);
+    if (value === null && open) {
+      setInnerValue(new Date());
+      if (valueTmp === null && isValueOnOpen) setValueTmp(new Date());
+    }
+  }, [value, open, valueTmp, isValueOnOpen]);
 
   const viewProps = view === 'button' ? { field: ButtonField } : { textField: DatePickerInputField };
 
@@ -63,8 +73,7 @@ const CPEDatePicker = ({
   };
 
   const handleValueChange = (value) => {
-    setInnerValue(value);
-    onChange && onChange(value);
+    setValueTmp(value);
   };
 
   return (
@@ -75,13 +84,12 @@ const CPEDatePicker = ({
             slots={{
               ...viewProps,
               actionBar: () => (
-                <Stack direction={'row'} justifyContent={'space-between'} p={'12px'}>
+                <Stack direction={'row'} justifyContent={'space-between'} p={'12px'} gap={'12px'}>
                   <Button
                     variant="secondary"
                     onClick={() => {
-                      setOpen(false);
                       setValueTmp(value);
-                      onChange && onChange(value);
+                      setOpen(false);
                     }}
                   >
                     {t('cancel')}
@@ -89,7 +97,8 @@ const CPEDatePicker = ({
                   <Button
                     variant="main"
                     onClick={() => {
-                      setValueTmp(innerValue);
+                      setInnerValue(innerValue);
+                      onChange && onChange(valueTmp);
                       setOpen(false);
                     }}
                   >
@@ -123,29 +132,26 @@ const CPEDatePicker = ({
             onOpen={() => setOpen(true)}
             slotProps={{
               textField: {
-                onClick: () => setOpen(true),
+                onClick: () => setOpen(!open),
                 label: label,
                 value: valueTmp,
               },
-              field: { format: shortDateFormatLocale },
+              field: {
+                value: valueTmp,
+                formatView: shortDateFormatLocale,
+                setOpen,
+              } as never,
               popper: {
                 sx: {
                   ...StyleDatePickerPopper,
                   '.MuiDateCalendar-viewTransitionContainer': {
                     overflow: 'hidden',
-                    height: height,
-                    minHeight: height,
-                    transition: 'min-height 0.5s ease',
-                  },
-                  '.MuiYearCalendar-root': {
-                    width: 'inherit',
-                    minHeight: height,
-                    height: height,
                   },
                   '.MuiDayCalendar-slideTransition': {
-                    minHeight: height,
-                    height: height,
-                    overflowY: 'hidden',
+                    minHeight: `${height}px`,
+                    '@media (max-width:322px)': {
+                      minHeight: `${height - 38}px`,
+                    },
                   },
                 },
               },
@@ -162,4 +168,4 @@ const CPEDatePicker = ({
   );
 };
 
-export default CPEDatePicker;
+export default CustomDatePicker;

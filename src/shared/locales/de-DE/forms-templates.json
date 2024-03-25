@@ -2,9 +2,8 @@
   "tr_s89Title": "AUFGABE IN DER<br />LEBEN-UND-DIENST-ZUSAMMENKUNFT",
   "tr_s89ToBeGiven": "Im:",
   "tr_s89DescFooter": "<strong>Hinweis:</strong> Das Quellenmaterial und die Lektion für deine Aufgabe stehen im <em>Arbeitsheft der Leben-und-Dienst-Zusammenkunft</em>. Mach dich bitte mit den Anweisungen für deine Aufbage in den <em>'Anweisungen für die Leben-und-Dienst-Zusammenkunft'</em> (S-38) vertraut.",
-  "tr_name": "Name:",
   "tr_assistant": "Partner:",
-  "tr_date": "Datum:",
+  "tr_date": "Date",
   "tr_assignment": "Aufgabe",
   "tr_bibleReading": "Bibellesung",
   "tr_initialCall": "Erstes Gespräch",
@@ -64,7 +63,6 @@
   "tr_openingPrayerWeekendMeeting": "Erstes Gebet",
   "tr_noWMeeting": "In dieser Woche findet keine Zusammenkunft am Wochenende statt",
   "tr_noMeeting": "In dieser Woche findet keine Zusammenkunft statt",
-  "tr_longDateFormat": "{{ month }} {{ date }}, {{ year }}",
   "tr_substituteSpeaker": "Ersatzredner",
   "tr_startingConversation": "Gespräche beginnen",
   "tr_followingUp": "Interesse fördern",
@@ -72,5 +70,6 @@
   "tr_explainingBeliefs": "Unsere Glaubens­ansichten erklären",
   "tr_discussion": "Diskussion",
   "tr_demonstration": "Gespielte Szene",
-  "tr_partNo": "Aufgabe nr.:"
+  "tr_partNo": "Aufgabe nr.:",
+  "tr_nameS89": "Name:"
 }

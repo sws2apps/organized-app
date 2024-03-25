@@ -1,12 +1,35 @@
-import { useEffect } from 'react';
-import { useRecoilState } from 'recoil';
+import { useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import { isDarkThemeState } from '@states/app';
+import { setIsDarkTheme } from '@services/recoil/app';
+import { followOSThemeState } from '@states/settings';
+import { handleUpdateSetting } from '@services/dexie/settings';
 
 const useThemeSwitcher = () => {
-  const [isDark, setIsDark] = useRecoilState(isDarkThemeState);
+  const isDark = useRecoilValue(isDarkThemeState);
+  const followOSTheme = useRecoilValue(followOSThemeState);
 
-  const handleChangeTheme = (value) => {
-    setIsDark(value);
+  const [isOpenConfirm, setIsOpenConfirm] = useState(false);
+
+  const handleChangeTheme = async (value) => {
+    if (followOSTheme) {
+      setIsOpenConfirm(true);
+      return;
+    }
+
+    await setIsDarkTheme(value);
+  };
+
+  const handleCloseConfirm = () => {
+    setIsOpenConfirm(false);
+  };
+
+  const handleOverrideThemeAuto = async () => {
+    await setIsDarkTheme(!isDark);
+
+    await handleUpdateSetting({ follow_os_theme: { value: false, updatedAt: new Date().toISOString() } });
+
+    setIsOpenConfirm(false);
   };
 
   useEffect(() => {
@@ -21,7 +44,35 @@ const useThemeSwitcher = () => {
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
   }, [isDark]);
 
-  return { isDark, handleChangeTheme };
+  useEffect(() => {
+    if (!followOSTheme) return;
+
+    // Check if the OS is in dark mode
+    const darkModeMediaQuery = matchMedia('(prefers-color-scheme: dark)');
+
+    // Function to handle the change event
+    const handleDarkModeChange = async (e) => {
+      if (e.matches) {
+        localStorage.setItem('theme', 'dark');
+        await setIsDarkTheme(true);
+      } else {
+        localStorage.setItem('theme', 'light');
+        await setIsDarkTheme(false);
+      }
+    };
+
+    // Listen for changes
+    darkModeMediaQuery.addEventListener('change', handleDarkModeChange);
+
+    // Call the function to set the initial state
+    handleDarkModeChange(darkModeMediaQuery);
+
+    return () => {
+      darkModeMediaQuery.removeEventListener('change', handleDarkModeChange);
+    };
+  }, [followOSTheme]);
+
+  return { isDark, handleChangeTheme, isOpenConfirm, handleCloseConfirm, handleOverrideThemeAuto };
 };
 
 export default useThemeSwitcher;

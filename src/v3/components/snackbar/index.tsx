@@ -1,8 +1,12 @@
-import { Snackbar, SnackbarOrigin } from '@mui/material';
+import { Fade, FadeProps, Snackbar, SnackbarCloseReason, SnackbarOrigin } from '@mui/material';
 import InfoMessage from '@components/info-message';
 import { SnackbarPropsType } from './index.types';
 
-const CPESnackbar = (props: SnackbarPropsType) => {
+const FadeTransition = (props: FadeProps) => {
+  return <Fade {...props} />;
+};
+
+const CustomSnackbar = (props: SnackbarPropsType) => {
   const open = props.open || false;
   const messageHeader = props.messageHeader || '';
   const message = props.message || '';
@@ -25,10 +29,19 @@ const CPESnackbar = (props: SnackbarPropsType) => {
     return anchor;
   };
 
+  const handleClose = (_, reason: SnackbarCloseReason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    props.onClose();
+  };
+
   return (
     <Snackbar
+      TransitionComponent={FadeTransition}
       open={open}
-      onClose={props.onClose}
+      onClose={handleClose}
       anchorOrigin={getAnchorOrigin()}
       autoHideDuration={variant === 'message-with-button' ? null : 5000}
       sx={{
@@ -70,4 +83,4 @@ const CPESnackbar = (props: SnackbarPropsType) => {
   );
 };
 
-export default CPESnackbar;
+export default CustomSnackbar;
