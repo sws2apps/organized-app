@@ -86,7 +86,5 @@
   "tr_successfullyDesc": "Your feedback has been successfully submitted",
   "tr_manageAccess": "Manage access",
   "tr_submitted": "Successfully submitted",
-  "tr_meetingAssignments": "<p>You have <a href='#' title='Meeting Assignment'>{{ assignment }} meeting assignments</a> at the moment</p>",
-  "tr_activitiesCard": "Activities",
-  "tr_hallCleaning": "Hall cleaning"
+  "tr_meetingAssignments": "<p>You have <a href='#' title='Meeting Assignment'>{{ assignment }} meeting assignments</a> at the moment</p>"
 }
