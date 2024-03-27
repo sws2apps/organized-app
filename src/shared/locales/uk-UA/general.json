@@ -61,11 +61,11 @@
   "tr_rename": "Перейменувати",
   "tr_collapseAll": "Згорнути все",
   "tr_searchResults": "Результати пошуку: {{ count }}",
-  "tr_addMonth": "Add month",
+  "tr_addMonth": "Додати місяць",
   "tr_export": "Експорт",
   "tr_monthYear": "{{ month }} {{ year }}",
   "tr_publish": "Опублікувати",
-  "tr_groupNumber": "Group {{ groupNumber }}",
-  "tr_groupName": "Group {{ groupName }}",
-  "tr_meetingDate": "Meeting date"
+  "tr_groupNumber": "Група {{ groupNumber }}",
+  "tr_groupName": "Група {{ groupName }}",
+  "tr_meetingDate": "Дата зібрання"
 }
