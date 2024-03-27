@@ -87,31 +87,31 @@ const MinistryTimer = ({ duration = '0:00' }: { duration?: string }) => {
   const [timerState, setTimerState] = useState(MinistryTimerStates.Zero);
   const [timerTextOpacity, setTimerTextOpacity] = useState(1);
 
-  function changeButtonStates() {
+  const changeButtonStates = () => {
     const numberOfStates = Object.keys(MinistryTimerStates).length / 2; // Divide by 2 because enums in TypeScript are bi-directional
     if (timerState !== numberOfStates - 1) {
       setTimerState(timerState + 1);
     } else {
       setTimerState(MinistryTimerStates.Started);
     }
-  }
+  };
 
   /**
    * Converts a duration string in the format 'HH:MM' to seconds.
    * @param {string} duration - The duration string to convert.
    * @returns {number} The duration in seconds.
    */
-  function convertDurationStringToSeconds(duration: string): number {
+  const convertDurationStringToSeconds = (duration: string): number => {
     const [hours, minutes] = duration.split(':');
     return parseInt(hours) * 3600 + parseInt(minutes) * 60;
-  }
+  };
 
   /**
    * Converts a duration in seconds to a string format 'HH:MM'.
    * @param {number} seconds - The duration in seconds to convert.
    * @returns {string} The duration string in 'HH:MM' format.
    */
-  function convertDurationInSecondsToString(seconds: number): string {
+  const convertDurationInSecondsToString = (seconds: number): string => {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
 
@@ -123,7 +123,7 @@ const MinistryTimer = ({ duration = '0:00' }: { duration?: string }) => {
     const formattedMinutes = minutes < 10 ? '0' + minutes.toString() : minutes.toString();
 
     return `${formattedHours}:${formattedMinutes}`;
-  }
+  };
 
   const [durationInSeconds, setDurationInSeconds] = useState(() => {
     return convertDurationStringToSeconds(duration);

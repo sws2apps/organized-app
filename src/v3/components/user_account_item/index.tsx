@@ -1,6 +1,6 @@
 import { Box, IconButton } from '@mui/material';
 import { UserAccountItemProps } from './user_account_item.types';
-import CustomTypography from '@components/typography/index';
+import CustomTypography from '@components/typography';
 import { StyledBoxWrapper } from './user_account_item.styled';
 import { useState } from 'react';
 import { IconAccount, IconAdmin, IconArrowLink, IconAssignment } from '@components/icons';

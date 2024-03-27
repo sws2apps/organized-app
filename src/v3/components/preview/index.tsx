@@ -24,6 +24,7 @@ import {
   ProgressBarSmall,
   TimePicker,
   UserAccountItem,
+  AddServiceTimeModalWindow,
 } from '@components/index';
 import { useEffect, useState } from 'react';
 import { IconAdd, IconAssign, IconClose, IconReturn, IconUndo, IconUpdate, IconInfo, IconVisitors } from '@icons/index';
@@ -771,6 +772,14 @@ const ComponentPreview = () => {
             <Typography className="label-small-regular">baptized-account-item</Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
               <UserAccountItem variant="baptized" userName="Ronald Richards" />
+            </Box>
+          </Box>
+        </Box>
+        <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap', marginTop: '10px' }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <Typography className="label-small-regular">add-service-time:</Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+              <AddServiceTimeModalWindow />
             </Box>
           </Box>
         </Box>
