@@ -60,5 +60,12 @@
   "tr_title": "शीर्षक",
   "tr_rename": "Rename",
   "tr_collapseAll": "Collapse all",
-  "tr_searchResults": "Search results: {{ count }}"
+  "tr_searchResults": "Search results: {{ count }}",
+  "tr_addMonth": "Add month",
+  "tr_export": "निर्यात गर्ने",
+  "tr_monthYear": "{{ month }} {{ year }}",
+  "tr_publish": "प्रकाशित गर्ने",
+  "tr_groupNumber": "Group {{ groupNumber }}",
+  "tr_groupName": "Group {{ groupName }}",
+  "tr_meetingDate": "Meeting date"
 }
