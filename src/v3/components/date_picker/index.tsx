@@ -36,7 +36,7 @@ const CustomDatePicker = ({
   const { t } = useAppTranslation();
 
   const shortDateFormatLocale = shortDateFormat || t('tr_shortDateFormat');
-  const longDateFormatLocale = longDateFormat || 'EEE, MMM dd, yyyy' || t('tr_longDateFormat');
+  const longDateFormatLocale = longDateFormat || t('tr_longDateFormat');
 
   const [open, setOpen] = useState<boolean>(false);
   const [valueTmp, setValueTmp] = useState<Date | null>(value);
