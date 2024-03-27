@@ -66,15 +66,12 @@ const CustomDatePicker = ({
 
   const viewProps = view === 'button' ? { field: ButtonField } : { textField: DatePickerInputField };
 
-  const handleFormatSelected = (value) => {
-    if (isNaN(Date.parse(value))) return '***';
-
+  const handleFormatSelected = (value: Date | null) => {
+    if (!value) return '***';
     return format(value, longDateFormatLocale);
   };
 
-  const handleValueChange = (value) => {
-    setValueTmp(value);
-  };
+  const handleValueChange = (value: Date) => setValueTmp(value);
 
   return (
     <ClickAwayListener onClickAway={handleClickAway}>

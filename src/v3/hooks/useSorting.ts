@@ -5,7 +5,7 @@ import { Order } from '@components/table/index.types';
 interface UseSortingProps {
   initialOrder: Order;
   initialOrderBy: string;
-  rows: any[];
+  rows: { [key: string]: string | number }[];
 }
 
 const useSorting = ({ initialOrder, initialOrderBy, rows }: UseSortingProps) => {
