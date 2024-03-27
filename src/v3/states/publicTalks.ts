@@ -30,3 +30,20 @@ export const publicTalksLocaleState = selector({
     return result;
   },
 });
+
+export const publicTalksSearchKeyState = atom({
+  key: 'publicTalksSearchKey',
+  default: '',
+});
+
+export const publicTalksFilteredState = selector({
+  key: 'publicTalksFiltered',
+  get: async ({ get }) => {
+    const talks = get(publicTalksLocaleState);
+    const search = get(publicTalksSearchKeyState);
+
+    const filteredList = talks.filter((talk) => talk.talk_title.toLowerCase().indexOf(search.toLowerCase()) !== -1);
+
+    return filteredList;
+  },
+});

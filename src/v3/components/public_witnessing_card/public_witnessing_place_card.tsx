@@ -4,7 +4,7 @@ import Typography from '@components/typography';
 import { PublicWitnessingPlaceCardProps } from './public_witnessing_card.types';
 import { CardWrapper, StyledIconWrapper } from './public_witnessing_card.styles';
 
-const CPEPublicWitnessingPlaceCard = ({
+const CustomPublicWitnessingPlaceCard = ({
   label,
   onClick,
   disabled,
@@ -49,4 +49,4 @@ const CPEPublicWitnessingPlaceCard = ({
     </CardWrapper>
   );
 };
-export default CPEPublicWitnessingPlaceCard;
+export default CustomPublicWitnessingPlaceCard;

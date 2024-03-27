@@ -1,6 +1,6 @@
 import { Dialog, DialogContent } from '@mui/material';
 
-const CPEDialog = ({
+const CustomDialog = ({
   open,
   onClose,
   children,
@@ -51,4 +51,4 @@ const CPEDialog = ({
   );
 };
 
-export default CPEDialog;
+export default CustomDialog;

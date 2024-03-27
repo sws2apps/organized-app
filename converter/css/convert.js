@@ -117,7 +117,7 @@ if (Object.keys(common).length > 0) {
     data += `.${className} {\n`;
 
     for (let [key, value] of Object.entries(details.value)) {
-      if (key !== 'paragraphSpacing') {
+      if (key !== 'paragraphSpacing' && key !== 'fontFamily') {
         if (key === 'paragraphIndent') key = 'text-indent';
         if (key === 'textCase') key = 'text-transform';
 
@@ -144,7 +144,7 @@ for (const [font, details] of Object.entries(tokens.font.mobile)) {
   data += `.${className} {\n`;
 
   for (let [key, value] of Object.entries(details.value)) {
-    if (key !== 'paragraphSpacing') {
+    if (key !== 'paragraphSpacing' && key !== 'fontFamily') {
       if (key === 'paragraphIndent') key = 'text-indent';
       if (key === 'textCase') key = 'text-transform';
 
@@ -171,7 +171,7 @@ for (const [className, details] of Object.entries(tokens.font)) {
     data += `.${className} {\n`;
 
     for (let [key, value] of Object.entries(details.value)) {
-      if (key !== 'paragraphSpacing') {
+      if (key !== 'paragraphSpacing' && key !== 'fontFamily') {
         if (key === 'paragraphIndent') key = 'text-indent';
         if (key === 'textCase') key = 'text-transform';
 

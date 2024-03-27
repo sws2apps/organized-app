@@ -2,8 +2,6 @@
   "tr_s89Title": "ZADANIE PODCZAS ZEBRANIA<br />CHRZEŚCIJAŃSKIEGO ŻYCIA I SŁUŻBY",
   "tr_s89ToBeGiven": "Zadanie przedstawisz w sali:",
   "tr_s89DescFooter": "<strong>Wskazówki:</strong> Informacje na temat materiału źródłowego i lekcji znajdziesz w periodyku <em>Chrześcijańskie życie i służba—program zebrań</em>. Zapoznaj się z instrukcjami do tego zadania we<em> „Wskazówkach dotyczących zebrania życia i służby” </em>(S-38).",
-  "tr_name": "Imię i nazwisko:",
-  "tr_assistant": "Pomocnik(-ca):",
   "tr_date": "Date",
   "tr_assignment": "Zadanie",
   "tr_bibleReading": "Czytanie Biblii",
@@ -31,7 +29,6 @@
   "tr_tgwGems": "Wyszukujemy duchowe skarby",
   "tr_student": "Uczestnik",
   "tr_partLessTime": "{{ duration }} min. lub mniej",
-  "tr_studentAssistant": "Uczestnik/Pomocnik:",
   "tr_cbs": "Zborowe studium Biblii",
   "tr_cbsConductor": "Prowadzący",
   "tr_cbsReader": "Lektor",
@@ -64,7 +61,6 @@
   "tr_openingPrayerWeekendMeeting": "Modlitwa początkowa",
   "tr_noWMeeting": "Nie ma zebrania w ten weekend",
   "tr_noMeeting": "Nie ma zebrania w tym tygodniu",
-  "tr_longDateFormat": "{{ date }} {{ month }} {{ year }}",
   "tr_substituteSpeaker": "Zastępczy mówca",
   "tr_startingConversation": "Rozpoczynanie rozmowy",
   "tr_followingUp": "Podtrzymywanie zainteresowania",
@@ -72,5 +68,8 @@
   "tr_explainingBeliefs": "Wyjaśnianie swoich wierzeń",
   "tr_discussion": "Omówienie z udziałem obecnych",
   "tr_demonstration": "Scenka",
-  "tr_partNo": "Zadanie nr:"
+  "tr_partNo": "Zadanie nr:",
+  "tr_nameS89": "Imię i nazwisko:",
+  "tr_assistantS89": "Pomocnik(-ca):",
+  "tr_studentAssistantS89": "Uczestnik/Pomocnik:"
 }

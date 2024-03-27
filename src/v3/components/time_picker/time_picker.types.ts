@@ -1,4 +1,4 @@
-export interface CPETimePickerProps {
+export interface CustomTimePickerProps {
   ampm: boolean;
   value?: Date | null;
   label?: string;

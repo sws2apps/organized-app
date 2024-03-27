@@ -8,12 +8,12 @@ import {
   setIsUnauthorizedRole,
   setRootModalOpen,
 } from '@services/recoil/app';
-import { handleDeleteDatabase, loadApp, runUpdater } from '@services/cpe';
+import { handleDeleteDatabase, loadApp, runUpdater } from '@services/app';
 import { apiPocketValidate } from '@services/api/user';
 import { POCKET_ROLES } from '@constants/index';
 import { handleUpdateSetting, handleUpdateSettingFromRemote } from '@services/dexie/settings';
 import { apiFetchSchedule } from '@services/api/schedule';
-import { handleUpdateScheduleFromRemote } from '@services/cpe/schedules';
+import { handleUpdateScheduleFromRemote } from '@services/app/schedules';
 import { userLocalUIDState } from '@states/settings';
 
 const useStartup = () => {

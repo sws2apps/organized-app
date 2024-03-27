@@ -59,5 +59,13 @@
   "tr_shortNumberLabel": "No.",
   "tr_title": "Title",
   "tr_rename": "Rename",
-  "tr_collapseAll": "Collapse all"
+  "tr_collapseAll": "Collapse all",
+  "tr_searchResults": "Search results: {{ count }}",
+  "tr_addMonth": "Add month",
+  "tr_export": "Export",
+  "tr_monthYear": "{{ month }} {{ year }}",
+  "tr_publish": "Publish",
+  "tr_groupNumber": "Group {{ groupNumber }}",
+  "tr_groupName": "Group {{ groupName }}",
+  "tr_meetingDate": "Meeting date"
 }

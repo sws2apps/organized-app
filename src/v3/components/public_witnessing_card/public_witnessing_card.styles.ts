@@ -1,9 +1,10 @@
 import { styled } from '@mui/system';
 import { ButtonBase } from '@mui/material';
 import { ButtonBaseProps } from '@mui/material/ButtonBase/ButtonBase';
-import { CPEAccordionVariant } from '@components/accordion/accordion.types';
+import { CustomAccordionVariant } from '@components/accordion/accordion.types';
+
 export const StyledIconWrapper = styled(ButtonBase)<ButtonBaseProps>((props) => ({
-  borderRadius: 'var(--radius-xl)',
+  borderRadius: 'var(--radius-l)',
   padding: '2.5px',
   color: props.color,
 }));
@@ -40,7 +41,7 @@ export const colorVariants = {
   disabled: 'var(--grey-300)',
 };
 export const CardWrapper = styled(ButtonBase)<
-  ButtonBaseProps & { view: CPEAccordionVariant; hoverChildColor?: string }
+  ButtonBaseProps & { view: CustomAccordionVariant; hoverChildColor?: string }
 >(({ view, hoverChildColor }) => ({
   minHeight: '48px',
   width: '100%',

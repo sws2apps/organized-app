@@ -49,7 +49,7 @@ const BadgeTypography = (props: BadgeTypographyPropsType) => {
   );
 };
 
-const CPEBadge = (props: BadgePropsType) => {
+const CustomBadge = (props: BadgePropsType) => {
   const { icon, size, filled, color, text, fullWidth, centerContent, borderStyle, sx = {} } = props;
 
   const getColor = () => {
@@ -193,4 +193,4 @@ const CPEBadge = (props: BadgePropsType) => {
   );
 };
 
-export default CPEBadge;
+export default CustomBadge;

@@ -570,7 +570,6 @@
 .huge-numbers {
   font-size: 64px;
   text-decoration: none;
-  font-family: Inter;
   font-weight: 500;
   font-style: normal;
   font-stretch: normal;
@@ -583,7 +582,6 @@
 .big-numbers {
   font-size: 48px;
   text-decoration: none;
-  font-family: Inter;
   font-weight: 400;
   font-style: normal;
   font-stretch: normal;
@@ -596,7 +594,6 @@
 .label-small-medium {
   font-size: 12px;
   text-decoration: none;
-  font-family: Inter;
   font-weight: 500;
   font-style: normal;
   font-stretch: normal;
@@ -609,7 +606,6 @@
 .label-small-regular {
   font-size: 12px;
   text-decoration: none;
-  font-family: Inter;
   font-weight: 400;
   font-style: normal;
   font-stretch: normal;
@@ -624,7 +620,6 @@
   .h1 {
     font-size: 20px;
     text-decoration: none;
-    font-family: Inter;
     font-weight: 550;
     font-style: normal;
     font-stretch: normal;
@@ -637,7 +632,6 @@
   .h2 {
     font-size: 18px;
     text-decoration: none;
-    font-family: Inter;
     font-weight: 550;
     font-style: normal;
     font-stretch: normal;
@@ -650,7 +644,6 @@
   .h2-caps {
     font-size: 18px;
     text-decoration: none;
-    font-family: Inter;
     font-weight: 550;
     font-style: normal;
     font-stretch: normal;
@@ -663,7 +656,6 @@
   .h3 {
     font-size: 16px;
     text-decoration: none;
-    font-family: Inter;
     font-weight: 570;
     font-style: normal;
     font-stretch: normal;
@@ -676,7 +668,6 @@
   .h4 {
     font-size: 15px;
     text-decoration: none;
-    font-family: Inter;
     font-weight: 500;
     font-style: normal;
     font-stretch: normal;
@@ -689,7 +680,6 @@
   .button-caps {
     font-size: 14px;
     text-decoration: none;
-    font-family: Inter;
     font-weight: 450;
     font-style: normal;
     font-stretch: normal;
@@ -702,7 +692,6 @@
   .body-regular {
     font-size: 15px;
     text-decoration: none;
-    font-family: Inter;
     font-weight: 400;
     font-style: normal;
     font-stretch: normal;
@@ -715,7 +704,6 @@
   .body-small-semibold {
     font-size: 13px;
     text-decoration: none;
-    font-family: Inter;
     font-weight: 450;
     font-style: normal;
     font-stretch: normal;
@@ -728,7 +716,6 @@
   .body-small-regular {
     font-size: 13px;
     text-decoration: none;
-    font-family: Inter;
     font-weight: 400;
     font-style: normal;
     font-stretch: normal;
@@ -744,7 +731,6 @@
   .h1 {
     font-size: 24px;
     text-decoration: none;
-    font-family: Inter;
     font-weight: 600;
     font-style: normal;
     font-stretch: normal;
@@ -757,7 +743,6 @@
   .h2 {
     font-size: 20px;
     text-decoration: none;
-    font-family: Inter;
     font-weight: 550;
     font-style: normal;
     font-stretch: normal;
@@ -770,7 +755,6 @@
   .h2-caps {
     font-size: 20px;
     text-decoration: none;
-    font-family: Inter;
     font-weight: 550;
     font-style: normal;
     font-stretch: normal;
@@ -783,7 +767,6 @@
   .h3 {
     font-size: 18px;
     text-decoration: none;
-    font-family: Inter;
     font-weight: 570;
     font-style: normal;
     font-stretch: normal;
@@ -796,7 +779,6 @@
   .h4 {
     font-size: 16px;
     text-decoration: none;
-    font-family: Inter;
     font-weight: 500;
     font-style: normal;
     font-stretch: normal;
@@ -809,7 +791,6 @@
   .button-caps {
     font-size: 15px;
     text-decoration: none;
-    font-family: Inter;
     font-weight: 500;
     font-style: normal;
     font-stretch: normal;
@@ -822,7 +803,6 @@
   .body-regular {
     font-size: 16px;
     text-decoration: none;
-    font-family: Inter;
     font-weight: 400;
     font-style: normal;
     font-stretch: normal;
@@ -835,7 +815,6 @@
   .body-small-semibold {
     font-size: 14px;
     text-decoration: none;
-    font-family: Inter;
     font-weight: 520;
     font-style: normal;
     font-stretch: normal;
@@ -848,7 +827,6 @@
   .body-small-regular {
     font-size: 14px;
     text-decoration: none;
-    font-family: Inter;
     font-weight: 400;
     font-style: normal;
     font-stretch: normal;

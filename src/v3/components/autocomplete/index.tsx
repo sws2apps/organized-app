@@ -50,7 +50,7 @@ const CustomListBoxComponent = forwardRef((props: BoxProps, ref) => {
 
 CustomListBoxComponent.displayName = 'CustomListBoxComponent';
 
-const CPEAutoComplete = <T,>(props: AutocompletePropsType<T>) => {
+const CustomAutoComplete = <T,>(props: AutocompletePropsType<T>) => {
   const { t } = useAppTranslation();
 
   const startIcon = props.startIcon;
@@ -103,4 +103,4 @@ const CPEAutoComplete = <T,>(props: AutocompletePropsType<T>) => {
   );
 };
 
-export default CPEAutoComplete;
+export default CustomAutoComplete;

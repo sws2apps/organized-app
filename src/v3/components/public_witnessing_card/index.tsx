@@ -1,4 +1,4 @@
-import CPEPublicWitnessingPlaceCard from './public_witnessing_place_card';
-import CPEPublicWitnessingTimeCard from './public_witnessing_time_card';
+import CustomPublicWitnessingPlaceCard from './public_witnessing_place_card';
+import CustomPublicWitnessingTimeCard from './public_witnessing_time_card';
 
-export { CPEPublicWitnessingPlaceCard, CPEPublicWitnessingTimeCard };
+export { CustomPublicWitnessingPlaceCard, CustomPublicWitnessingTimeCard };

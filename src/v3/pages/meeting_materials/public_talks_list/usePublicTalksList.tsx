@@ -39,6 +39,7 @@ const usePublicTalksList = () => {
       await handleUpdateSetting({ public_talk_sync: new Date().toISOString() });
       setIsFetching(false);
     } catch (error) {
+      console.error(error);
       setIsFetching(false);
 
       await displaySnackNotification({

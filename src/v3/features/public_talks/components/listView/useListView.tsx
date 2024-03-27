@@ -1,20 +1,29 @@
-import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { publicTalksLocaleState } from '@states/publicTalks';
+import { publicTalksFilteredState } from '@states/publicTalks';
+import { useAppTranslation } from '@hooks/index';
+import useSorting from '@components/table/useSorting';
+import { Column } from '@components/table/index.types';
 
-const useListView = (txtSearch: string) => {
-  const talksList = useRecoilValue(publicTalksLocaleState);
+const useListView = () => {
+  const { t } = useAppTranslation();
 
-  const [filteredList, setFilteredList] = useState(talksList);
+  const tableColumns: Column[] = [
+    { id: 'talk_number', label: t('tr_shortNumberLabel'), sx: { width: '30px', backgroundColor: 'unset' } },
+    { id: 'talk_title', label: t('tr_title'), sx: { minWidth: '120px', backgroundColor: 'unset' } },
+    { id: 'talk_date', label: t('tr_date'), sx: { width: '60px', backgroundColor: 'unset' } },
+    { id: 'talk_speaker', label: t('tr_speaker'), sx: { width: '188px', backgroundColor: 'unset' } },
+    { id: 'history_expand', label: '', sx: { width: '24px', backgroundColor: 'unset' } },
+  ];
 
-  useEffect(() => {
-    const filteredList = talksList.filter(
-      (talk) => talk.talk_title.toLowerCase().indexOf(txtSearch.toLowerCase()) !== -1
-    );
-    setFilteredList(filteredList);
-  }, [txtSearch, talksList]);
+  const talksList = useRecoilValue(publicTalksFilteredState);
 
-  return { talksList: filteredList };
+  const { order, orderBy, handleRequestSort, visibleRows } = useSorting({
+    initialOrder: 'asc',
+    initialOrderBy: 'id',
+    rows: talksList,
+  });
+
+  return { talksList: visibleRows, tableColumns, order, orderBy, handleRequestSort };
 };
 
 export default useListView;
