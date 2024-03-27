@@ -22,6 +22,7 @@ const CPEPublicWitnessingPlaceCard = ({
       view={'accent'}
       component="div"
       disabled={disabled}
+      hoverChildColor={isDelete ? 'var(--red-secondary)' : 'var(--accent-150)'}
     >
       <Stack
         style={{
@@ -36,6 +37,7 @@ const CPEPublicWitnessingPlaceCard = ({
           <Typography className={'h2'}>{label}</Typography>
         </Stack>
         <StyledIconWrapper
+          color={isDelete ? 'var(--red-main)' : 'var(--accent-main)'}
           onClick={() => {
             isDelete && onDelete && onDelete();
             onClick && onClick();

@@ -1,7 +1,7 @@
 import { EnhancedTableProps } from '@components/table/index.types';
 import { MouseEvent } from 'react';
-import { Box, TableCell, TableHead as MUITableHead, TableRow, TableSortLabel, Typography } from '@mui/material';
-import { IconArrowDown } from '@icons/index';
+import { Box, Stack, TableCell, TableHead as MUITableHead, TableRow, TableSortLabel, Typography } from '@mui/material';
+import { IconDown } from '@icons/index';
 import { visuallyHidden } from '@mui/utils';
 
 const alignCenterArray = ['action', 'number'];
@@ -25,10 +25,11 @@ const TableHead = (props: EnhancedTableProps) => {
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : 'asc'}
               onClick={createSortHandler(headCell.id)}
+              style={{ position: 'relative' }}
               IconComponent={(props) => (
-                <Box {...props}>
-                  <IconArrowDown color={'var(--grey-350)'} />
-                </Box>
+                <Stack {...props} style={{ position: 'absolute', right: '-25px' }}>
+                  <IconDown color={'var(--grey-350)'} width={18} height={18} />
+                </Stack>
               )}
             >
               <Typography className={'body-small-regular'} color={'var(--grey-350)'}>

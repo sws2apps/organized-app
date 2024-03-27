@@ -6,6 +6,9 @@ import { TableCellProps } from '@mui/material/TableCell/TableCell';
 export const StyledRow = styled((props: TableRowProps) => <TableRow hover tabIndex={-1} {...props} />)(() => ({
   '&.MuiTableRow-hover:hover': {
     backgroundColor: 'var(--accent-150)',
+    cursor: 'pointer',
+
+    td: { color: 'var(--accent-dark)' },
   },
 }));
 

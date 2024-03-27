@@ -36,7 +36,7 @@ const CPEDatePicker = ({
   const { t } = useAppTranslation();
 
   const shortDateFormatLocale = shortDateFormat || t('tr_shortDateFormat');
-  const longDateFormatLocale = longDateFormat || t('tr_longDateFormat');
+  const longDateFormatLocale = longDateFormat || 'EEE, MMM dd, yyyy' || t('tr_longDateFormat');
 
   const [open, setOpen] = useState<boolean>(false);
   const [valueTmp, setValueTmp] = useState<Date | null>(value);
@@ -66,15 +66,12 @@ const CPEDatePicker = ({
 
   const viewProps = view === 'button' ? { field: ButtonField } : { textField: DatePickerInputField };
 
-  const handleFormatSelected = (value) => {
-    if (isNaN(Date.parse(value))) return '***';
-
+  const handleFormatSelected = (value: Date | null) => {
+    if (!value) return '***';
     return format(value, longDateFormatLocale);
   };
 
-  const handleValueChange = (value) => {
-    setValueTmp(value);
-  };
+  const handleValueChange = (value: Date) => setValueTmp(value);
 
   return (
     <ClickAwayListener onClickAway={handleClickAway}>
