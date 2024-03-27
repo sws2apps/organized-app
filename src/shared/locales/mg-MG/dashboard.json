@@ -24,7 +24,7 @@
   "tr_timerLabelResume": "Resume",
   "tr_syncAppDataInProgress": "Syncing...",
   "tr_welcomeCongregationTitle": "Welcome to your congregation",
-  "tr_welcomeCongregationDesc": "<p>Welcome to the app! Learn all the power of the app on the <a href='https://sws2apps.com/docs/category/congregation-program-for-everyone' title='Organized' target='_blank'>How to use Organized</a> page</p>",
+  "tr_welcomeCongregationDesc": "<p>Welcome to the app! Learn all the power of the app on the <a href='https://guide.organized-app.com' title='Organized' target='_blank'>How to use Organized</a> page</p>",
   "tr_viewMyAssignments": "My assignments",
   "tr_viewAssignmentsSchedule": "Weekly schedules",
   "tr_refreshSchedule": "Refresh schedules",
@@ -86,5 +86,7 @@
   "tr_successfullyDesc": "Your feedback has been successfully submitted",
   "tr_manageAccess": "Manage access",
   "tr_submitted": "Successfully submitted",
-  "tr_meetingAssignments": "<p>You have <a href='#' title='Meeting Assignment'>{{ assignment }} meeting assignments</a> at the moment</p>"
+  "tr_meetingAssignments": "<p>You have <a href='#' title='Meeting Assignment'>{{ assignment }} meeting assignments</a> at the moment</p>",
+  "tr_activitiesCard": "Activities",
+  "tr_hallCleaning": "Hall cleaning"
 }
