@@ -41,5 +41,4 @@ export {
   CustomPublicWitnessingTimeCard as PublicWitnessingTimeCard,
 } from './public_witnessing_card/index';
 export { default as ProgressBarSmall } from './progress_bar_small/index';
-export { default as Table } from './table/index';
 export { default as UserAccountItem } from './user_account_item/index';
