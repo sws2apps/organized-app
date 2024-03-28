@@ -31,9 +31,6 @@ const TalksTableView = () => {
             top: 0,
             left: 0,
             backgroundColor: 'var(--white)',
-            '&:hover': {
-              backgroundColor: 'var(--accent-150)',
-            },
           },
           '& .MuiTableCell-root:nth-of-type(2)': {
             position: 'sticky',
@@ -41,13 +38,17 @@ const TalksTableView = () => {
             left: 41,
             minWidth: '120px',
             backgroundColor: 'var(--white)',
-            '&:hover': {
-              backgroundColor: 'var(--accent-150)',
-            },
           },
         }}
       >
-        <TableHead sx={{ zIndex: 60 }}>
+        <TableHead
+          sx={{
+            zIndex: 60,
+            '& .MuiTableRow-root > .MuiTableCell-root': {
+              borderBottom: '1px solid var(--accent-200)',
+            },
+          }}
+        >
           <TableRow sx={{ backgroundColor: 'var(--white)' }}>
             <TableCell>
               <Typography className={'body-small-regular'} color={'var(--grey-350)'}>
@@ -67,6 +68,7 @@ const TalksTableView = () => {
                   width: '120px',
                   minWidth: '120px',
                   padding: '8px 0 !important',
+                  backgroundColor: 'var(--white)',
                 }}
               >
                 <Typography
@@ -89,7 +91,7 @@ const TalksTableView = () => {
         </TableHead>
         <TableBody
           sx={{
-            '& .MuiTableRow-root': {
+            '& .MuiTableRow-root > .MuiTableCell-root': {
               borderBottom: '1px solid var(--accent-200)',
             },
             '& .MuiTableRow-root:last-child > .MuiTableCell-root': {

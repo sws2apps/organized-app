@@ -16,6 +16,9 @@ const TalkRow = ({ talk }: TalkRowType) => {
           '& .MuiTypography-root': {
             color: 'var(--accent-dark)',
           },
+          '& .MuiTableCell-root': {
+            backgroundColor: 'var(--accent-150)',
+          },
         },
       }}
     >
