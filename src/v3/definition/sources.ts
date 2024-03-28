@@ -187,3 +187,5 @@ export type MidweekMeetingTimeType = {
   pgmEnd: string;
   coTalk?: string;
 };
+
+export type PublicTalksViewType = 'list' | 'table';

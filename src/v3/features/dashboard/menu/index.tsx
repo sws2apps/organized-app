@@ -26,7 +26,7 @@ const DashboardMenu = ({
       return;
     }
 
-    onClick();
+    onClick && onClick();
   };
 
   return (
