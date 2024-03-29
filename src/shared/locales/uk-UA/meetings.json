@@ -101,5 +101,6 @@
   "tr_syncTalksList": "Синхронізувати список промов",
   "tr_noTalksList": "У тебе немає жодних промов у списку. Синхронізуй список, щоб отримати всі публічні промови.",
   "tr_countPublicTalks": "Публічні промови: {{ count }}",
-  "tr_publicTalkLastSync": "Остання синхронізація {{ date }} о {{ time }}"
+  "tr_publicTalkLastSync": "Остання синхронізація {{ date }} о {{ time }}",
+  "tr_exportS99": "Export S-99"
 }
