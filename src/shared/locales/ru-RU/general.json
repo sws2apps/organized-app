@@ -67,5 +67,6 @@
   "tr_publish": "Опубликовать",
   "tr_groupNumber": "Group {{ groupNumber }}",
   "tr_groupName": "Group {{ groupName }}",
-  "tr_meetingDate": "Meeting date"
+  "tr_meetingDate": "Meeting date",
+  "tr_listView": "List view"
 }
