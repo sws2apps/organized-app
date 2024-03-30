@@ -8,6 +8,7 @@ import CustomTypography from '@components/typography';
 import DatePicker from '@components/date_picker';
 import MinusButton from '@components/minus_button';
 import PlusButton from '@components/plus_button';
+import Button from '@components/button';
 import { useState } from 'react';
 
 export const AddServiceTimeModalWindow = (props: AddServieTimeModalWindowProps) => {
@@ -49,11 +50,7 @@ export const AddServiceTimeModalWindow = (props: AddServieTimeModalWindowProps) 
   const [localDurationInSeconds, setLocalDurationInSeconds] = useState(() => convertDurationStringToSeconds(duration));
 
   const incrementDuration = () => {
-    if (convertDurationInSecondsToString(localDurationInSeconds + 60) == '24:00') {
-      setLocalDurationInSeconds(0);
-    } else {
-      setLocalDurationInSeconds(localDurationInSeconds + 60);
-    }
+    setLocalDurationInSeconds(localDurationInSeconds + 60);
   };
 
   const decrimentDuration = () => {
@@ -84,6 +81,11 @@ export const AddServiceTimeModalWindow = (props: AddServieTimeModalWindowProps) 
           <PlusButton onClick={incrementDuration} />
         </Box>
       </StyledRowContainer>
+      <StyledRowContainer></StyledRowContainer>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+        <Button variant="secondary">{t('tr_cancel')}</Button>
+        <Button variant="main">{t('tr_add')}</Button>
+      </Box>
     </StyledModalWindowContainer>
   );
 };
