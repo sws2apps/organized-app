@@ -2,7 +2,6 @@
   "tr_s89Title": "HAYATIMIZ VE HİZMETİMİZ İBADETİ<br />GÖREV KÂĞIDI",
   "tr_s89ToBeGiven": "Yapılacağı yer",
   "tr_s89DescFooter": "<strong>Görevi alan kișiye not:</strong> Görevinde kullanacağın kaynak malzeme ve çalışma noktası <em>Hayatımız ve Hizmetimiz İbadeti Kitapçığı</em>’nda bulunuyor. Lütfen <em>Hayatımız ve Hizmetimiz İbadeti İçin Talimatlar</em> (S-38) belgesinde bu kısım için verilen talimatları gözden geçir.",
-  "tr_assistant": "Yardımcı:",
   "tr_date": "Date",
   "tr_assignment": "Görev",
   "tr_bibleReading": "Kutsal Kitap Okuması",
@@ -30,7 +29,6 @@
   "tr_tgwGems": "Ruhi Hazineleri Keşfedin",
   "tr_student": "Öğrenci",
   "tr_partLessTime": "En fazla {{ duration }}",
-  "tr_studentAssistant": "Öğrenci/Yardımcı:",
   "tr_cbs": "Cemaat Kutsal Kitap İncelemesi",
   "tr_cbsConductor": "İdareci",
   "tr_cbsReader": "Okuyucu",
@@ -71,5 +69,7 @@
   "tr_discussion": "Müzakere",
   "tr_demonstration": "Gösteri",
   "tr_partNo": "Kısım no.:",
-  "tr_nameLabel": "Ad soyad:"
+  "tr_nameS89": "Ad soyad:",
+  "tr_assistantS89": "Yardımcı:",
+  "tr_studentAssistantS89": "Öğrenci/Yardımcı:"
 }

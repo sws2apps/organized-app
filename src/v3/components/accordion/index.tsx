@@ -1,10 +1,17 @@
 import { useState } from 'react';
-import { CPEAccordionProps } from '@components/accordion/accordion.types';
+import { CustomAccordionProps } from '@components/accordion/accordion.types';
 import Typography from '@components/typography';
 import { Accordion, AccordionDetails, AccordionSummary } from './accordion.styles';
 import { colorVariants } from '@components/public_witnessing_card/public_witnessing_card.styles';
 
-const CPEAccordion = ({ variant = 'accent', label, onClick, onChange, children, disabled }: CPEAccordionProps) => {
+const CustomAccordion = ({
+  variant = 'accent',
+  label,
+  onClick,
+  onChange,
+  children,
+  disabled,
+}: CustomAccordionProps) => {
   const [expanded, setExpanded] = useState<boolean>(false);
 
   return (
@@ -34,4 +41,4 @@ const CPEAccordion = ({ variant = 'accent', label, onClick, onChange, children, 
   );
 };
 
-export default CPEAccordion;
+export default CustomAccordion;

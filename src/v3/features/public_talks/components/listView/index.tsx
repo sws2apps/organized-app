@@ -13,8 +13,12 @@ const TalksListView = ({ isExpandAll }: TalksListViewType) => {
   return (
     <TableContainer>
       <Table
+        stickyHeader
         size="small"
         sx={{
+          '& .MuiTableHead-root .MuiTableCell-root': {
+            backgroundColor: 'var(--white)',
+          },
           '& .MuiTableCell-root': {
             padding: '8px',
             boxSizing: 'content-box',

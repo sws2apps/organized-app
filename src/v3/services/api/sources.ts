@@ -6,7 +6,7 @@ export const apiFetchSources = async () => {
   if (isOnline && apiHost !== '') {
     const res = await fetch(`${apiHost}api/public/source-material/${JWLang}`, {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion },
+      headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion },
     });
 
     const data = await res.json();
@@ -20,7 +20,7 @@ export const apiFetchPublicTalks = async () => {
 
   const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/public-talks`, {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, visitorid, uid },
+    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
   });
 
   const data = await res.json();

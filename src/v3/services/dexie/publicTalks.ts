@@ -1,5 +1,5 @@
 import { promiseGetRecoil } from 'recoil-outside';
-import { getS34 } from '@services/cpe/publicTalks';
+import { getS34 } from '@services/app/publicTalks';
 import { appDb } from '.';
 import { TalkType } from '@definition/sources';
 import { JWLangState } from '@states/app';

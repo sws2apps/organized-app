@@ -24,6 +24,7 @@ import {
   ProgressBarSmall,
   TimePicker,
   AssignmentsCheckList,
+  UserAccountItem
 } from '@components/index';
 import { useEffect, useState } from 'react';
 import { IconAdd, IconAssign, IconClose, IconReturn, IconUndo, IconUpdate, IconInfo, IconVisitors } from '@icons/index';
@@ -795,6 +796,26 @@ const ComponentPreview = () => {
               <Checkbox label={'Reader'} />
               <Checkbox label={'Watchtower Reader'} checked={checked} onChange={(e, checked) => console.log(checked)} />
             </AssignmentsCheckList>
+          </Box>
+          </Box>
+        <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap', marginTop: '10px' }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <Typography className="label-small-regular">user-buttons:</Typography>
+
+            <Typography className="label-small-regular">admin-account-item</Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+              <UserAccountItem variant="admin" userName="Jeremiah Green" userPosition="App administrator" />
+            </Box>
+
+            <Typography className="label-small-regular">user-account-item</Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+              <UserAccountItem variant="user" userName="Floyd Miles" />
+            </Box>
+
+            <Typography className="label-small-regular">baptized-account-item</Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+              <UserAccountItem variant="baptized" userName="Ronald Richards" />
+            </Box>
           </Box>
         </Box>
       </Container>

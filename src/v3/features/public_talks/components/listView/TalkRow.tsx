@@ -36,6 +36,7 @@ const TalkRow = ({ talk, isExpandAll }: TalkRowType) => {
         onClick={handleToggleCollapse}
         sx={{
           cursor: 'pointer',
+          height: '48px',
           '& > .MuiTableCell-root': {
             borderBottomStyle: isEditMode ? 'solid' : 'none',
           },
@@ -120,7 +121,7 @@ const TalkRow = ({ talk, isExpandAll }: TalkRowType) => {
                 variant="standard"
                 value={talkTitleTmp}
                 onChange={(e) => handleTalkTitleChange(e.target.value)}
-                sx={{ padding: '0px 4px' }}
+                sx={{ padding: '0px 4px', '& .MuiInput-input': { color: 'var(--black)' } }}
               />
             </Box>
           )}
@@ -132,14 +133,14 @@ const TalkRow = ({ talk, isExpandAll }: TalkRowType) => {
             </TableCell>
             <TableCell>
               <Typography className="body-small-regular" sx={{ flexGrow: 1 }}>
-                Jason Bob
+                B. Jason
               </Typography>
             </TableCell>
             <TableCell>
-              <IconButton className="row-btn" sx={{ padding: 0 }} onClick={handleToggleCollapse}>
+              <Box className="row-btn" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 {!collapseOpen && <IconExpand color="var(--black)" />}
                 {collapseOpen && <IconCollapse color="var(--black)" />}
-              </IconButton>
+              </Box>
             </TableCell>
           </>
         )}
@@ -175,8 +176,8 @@ const TalkRow = ({ talk, isExpandAll }: TalkRowType) => {
               >
                 <TableBody>
                   {[
-                    { date: '12/08/22', name: 'Floyd Miles' },
-                    { date: '06/08/20', name: 'Jason Brendon' },
+                    { date: '12/08/22', name: 'F. Miles' },
+                    { date: '06/08/20', name: 'J. Brendon' },
                   ].map((history, index) => (
                     <TableRow
                       key={history.date}
@@ -187,7 +188,7 @@ const TalkRow = ({ talk, isExpandAll }: TalkRowType) => {
                         },
                       }}
                     >
-                      <TableCell sx={{ minWidth: '200px' }} align="left">
+                      <TableCell sx={{ minWidth: '195px', flexGrow: 1 }} align="left">
                         {index === 0 && !laptopUp && (
                           <Button
                             variant="small"

@@ -1,5 +1,5 @@
+import { MouseEvent, useEffect, useState } from 'react';
 import { saveS34 } from '@services/dexie/publicTalks';
-import { useEffect, useState } from 'react';
 
 const useTalkRow = (talkNumber: number, talkTitle: string, defaultExpand: boolean) => {
   const [collapseOpen, setCollapseOpen] = useState(defaultExpand);
@@ -11,15 +11,18 @@ const useTalkRow = (talkNumber: number, talkTitle: string, defaultExpand: boolea
     setCollapseOpen((prev) => !prev);
   };
 
-  const handleToggleEdit = () => {
+  const handleToggleEdit = (e: MouseEvent<HTMLAnchorElement | HTMLButtonElement>) => {
+    e.stopPropagation();
     setIsEditMode((prev) => !prev);
+    setTalkTitleTmp(talkTitle);
   };
 
   const handleTalkTitleChange = async (value) => {
     setTalkTitleTmp(value);
   };
 
-  const handleSaveTalkTile = async () => {
+  const handleSaveTalkTile = async (e: MouseEvent<HTMLAnchorElement | HTMLButtonElement>) => {
+    e.stopPropagation();
     await saveS34(talkNumber, talkTitleTmp);
     setIsEditMode(false);
   };

@@ -35,8 +35,8 @@
   "tr_sourceImportJw": "Aus jw.org importieren",
   "tr_fieldServiceReports": "Predigtdienstberichte",
   "tr_myTerritories": "Meine Gebiete",
-  "tr_planMidweekMeeting": "Plan midweek meetings",
-  "tr_planWeekendMeeting": "Plan weekend meetings",
+  "tr_planMidweekMeeting": "Zusammenkünfte unter der Woche",
+  "tr_planWeekendMeeting": "Zusammenkünfte am Wochenende",
   "tr_publishSchedules": "Publish schedules",
   "tr_territories": "Gebiete",
   "tr_allTerritories": "Alle Gebiete",
@@ -86,5 +86,7 @@
   "tr_successfullyDesc": "Your feedback has been successfully submitted",
   "tr_manageAccess": "Zugriff verwalten",
   "tr_submitted": "Successfully submitted",
-  "tr_meetingAssignments": "<p>You have <a href='#' title='Meeting Assignment'>{{ assignment }} meeting assignments</a> at the moment</p>"
+  "tr_meetingAssignments": "<p>You have <a href='#' title='Meeting Assignment'>{{ assignment }} meeting assignments</a> at the moment</p>",
+  "tr_activitiesCard": "Activities",
+  "tr_hallCleaning": "Hall cleaning"
 }

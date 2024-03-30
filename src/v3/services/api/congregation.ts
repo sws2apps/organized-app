@@ -7,7 +7,7 @@ export const apiFetchCountries = async () => {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      appclient: 'cpe',
+      appclient: 'organized',
       appversion,
       uid,
       visitorid,
@@ -30,7 +30,7 @@ export const apiFetchCongregations = async (country, name) => {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      appclient: 'cpe',
+      appclient: 'organized',
       appversion,
       uid,
       visitorid,
@@ -52,7 +52,7 @@ export const apiCreateCongregation = async (country_code, cong_name, cong_number
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
-      appclient: 'cpe',
+      appclient: 'organized',
       appversion,
       visitorid,
       uid,
@@ -71,7 +71,7 @@ export const apiFetchCongregationUsers = async () => {
 
   const res = await fetch(`${apiHost}api/congregations/admin/${congID}/members`, {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, visitorid, uid },
+    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
   });
 
   const data = await res.json();
@@ -84,7 +84,7 @@ export const apiSearchVIPUser = async (search) => {
 
   const res = await fetch(`${apiHost}api/congregations/admin/${congID}/members/find?search=${search}`, {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, visitorid, uid },
+    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
   });
 
   const data = await res.json();
@@ -97,7 +97,7 @@ export const apiCreateVIPUser = async (id) => {
 
   const res = await fetch(`${apiHost}api/congregations/admin/${congID}/members`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, visitorid, uid },
+    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
     body: JSON.stringify({ user_id: id }),
   });
 
@@ -111,7 +111,7 @@ export const apiCreatePocketUser = async (person_name, person_uid) => {
 
   const res = await fetch(`${apiHost}api/congregations/admin/${congID}/pockets`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, visitorid, uid },
+    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
     body: JSON.stringify({ username: person_name, user_local_uid: person_uid }),
   });
 
@@ -125,7 +125,7 @@ export const apiGeneratePocketCode = async (id) => {
 
   const res = await fetch(`${apiHost}api/congregations/admin/${congID}/pockets/${id}/code`, {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, visitorid, uid },
+    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
   });
 
   const data = await res.json();
@@ -138,7 +138,7 @@ export const apiDeletePocketCode = async (id) => {
 
   const res = await fetch(`${apiHost}api/congregations/admin/${congID}/pockets/${id}/code`, {
     method: 'DELETE',
-    headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, visitorid, uid },
+    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
   });
 
   const data = await res.json();
@@ -151,7 +151,7 @@ export const apiDeletePocketDevice = async (id, pocket_visitorid) => {
 
   const res = await fetch(`${apiHost}api/congregations/admin/${congID}/pockets/${id}`, {
     method: 'DELETE',
-    headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, visitorid, uid },
+    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
     body: JSON.stringify({ pocket_visitorid }),
   });
 
@@ -165,7 +165,7 @@ export const apiRevokeVIPUserSession = async (id, session_visitorid) => {
 
   const res = await fetch(`${apiHost}api/users/${id}/sessions`, {
     method: 'DELETE',
-    headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, visitorid, uid },
+    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
     body: JSON.stringify({ session: session_visitorid }),
   });
 
@@ -179,7 +179,7 @@ export const apiSaveVIPUser = async (id, user_role, user_members_delegate, user_
 
   const res = await fetch(`${apiHost}api/congregations/admin/${congID}/members/${id}`, {
     method: 'PATCH',
-    headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, visitorid, uid },
+    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
     body: JSON.stringify({ user_role, user_members_delegate, user_local_uid }),
   });
 
@@ -193,7 +193,7 @@ export const apiSavePocketUser = async (id, user_role, user_members_delegate, us
 
   const res = await fetch(`${apiHost}api/congregations/admin/${congID}/pockets/${id}`, {
     method: 'PATCH',
-    headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, visitorid, uid },
+    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
     body: JSON.stringify({ user_role, user_members_delegate, user_local_uid }),
   });
 
@@ -207,7 +207,7 @@ export const apiDeleteCongregationUser = async (id) => {
 
   const res = await fetch(`${apiHost}api/congregations/admin/${congID}/members/${id}`, {
     method: 'DELETE',
-    headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, visitorid, uid },
+    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
   });
 
   const data = await res.json();
@@ -220,7 +220,7 @@ export const apiFetchCongregationLastBackup = async () => {
 
   const res = await fetch(`${apiHost}api/congregations/${congID}/backup/last`, {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, visitorid, uid },
+    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
   });
 
   const data = await res.json();
@@ -233,7 +233,7 @@ export const apiSendCongregationBackup = async (reqPayload) => {
 
   const res = await fetch(`${apiHost}api/congregations/${congID}/backup`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, visitorid, uid },
+    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
     body: JSON.stringify(reqPayload),
   });
 
@@ -247,7 +247,7 @@ export const apiRestoreCongregationBackup = async () => {
 
   const res = await fetch(`${apiHost}api/congregations/${congID}/backup`, {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, visitorid, uid },
+    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
   });
 
   const data = await res.json();
@@ -260,7 +260,7 @@ export const apiSetCongregationEncryption = async (key) => {
 
   const res = await fetch(`${apiHost}api/congregations/admin/${congID}/encryption`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', appclient: 'cpe', appversion, visitorid, uid },
+    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
     body: JSON.stringify({ encryption_code: key }),
   });
 

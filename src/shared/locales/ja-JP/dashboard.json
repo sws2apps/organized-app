@@ -35,8 +35,8 @@
   "tr_sourceImportJw": "jw.orgからインポート",
   "tr_fieldServiceReports": "野外奉仕報告",
   "tr_myTerritories": "私の区域",
-  "tr_planMidweekMeeting": "Plan midweek meetings",
-  "tr_planWeekendMeeting": "Plan weekend meetings",
+  "tr_planMidweekMeeting": "Midweek meetings",
+  "tr_planWeekendMeeting": "Weekend meetings",
   "tr_publishSchedules": "Publish schedules",
   "tr_territories": "区域",
   "tr_allTerritories": "すべての区域",
@@ -86,5 +86,7 @@
   "tr_successfullyDesc": "あなたのフィードバックが正常に送信されました",
   "tr_manageAccess": "アクセス管理",
   "tr_submitted": "提出完了",
-  "tr_meetingAssignments": "<p> <a href='#' title='Meeting Assignment'>{{ assignment }}個の割り当て</a>t</p>"
+  "tr_meetingAssignments": "<p> <a href='#' title='Meeting Assignment'>{{ assignment }}個の割り当て</a>t</p>",
+  "tr_activitiesCard": "アクティビティ",
+  "tr_hallCleaning": "王国会館清掃"
 }

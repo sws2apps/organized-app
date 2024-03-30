@@ -9,7 +9,7 @@ import { Box, ClickAwayListener, Stack } from '@mui/material';
 import Button from '@components/button';
 import Typography from '@components/typography';
 import { DesktopDatePicker } from '@mui/x-date-pickers';
-import { CPEDatePickerProps } from './date_picker.types';
+import { CustomDatePickerProps } from './date_picker.types';
 import ButtonField from './view/button';
 import DatePickerInputField from './view/input';
 import {
@@ -22,7 +22,7 @@ import {
 } from './date_picker.styles';
 import { useAppTranslation } from '@hooks/index';
 
-const CPEDatePicker = ({
+const CustomDatePicker = ({
   value = null,
   onChange,
   view = 'input',
@@ -32,7 +32,7 @@ const CPEDatePicker = ({
   shortDateFormat,
   longDateFormat,
   isValueOnOpen = false,
-}: CPEDatePickerProps) => {
+}: CustomDatePickerProps) => {
   const { t } = useAppTranslation();
 
   const shortDateFormatLocale = shortDateFormat || t('tr_shortDateFormat');
@@ -168,4 +168,4 @@ const CPEDatePicker = ({
   );
 };
 
-export default CPEDatePicker;
+export default CustomDatePicker;

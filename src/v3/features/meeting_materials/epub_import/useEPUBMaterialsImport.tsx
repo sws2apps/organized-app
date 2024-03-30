@@ -5,7 +5,7 @@ import { epubFileState, isImportEPUBState } from '@states/sources';
 import { setEpubFile, setIsImportEPUB } from '@services/recoil/sources';
 import { displaySnackNotification } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
-import { addEpubDataToDb } from '@services/cpe/sources';
+import { addEpubDataToDb } from '@services/app/sources';
 
 const useEPUBMaterialsImport = () => {
   const { t } = useAppTranslation();

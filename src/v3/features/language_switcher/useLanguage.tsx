@@ -54,7 +54,10 @@ const useLanguage = () => {
 
         setAppLang(appLangLocal);
 
+        const font = LANGUAGE_LIST.find((lang) => lang.locale === appLangLocal).font || 'Inter';
         localStorage.setItem('app_lang', appLangLocal);
+        localStorage.setItem('app_font', font);
+
         setUserChange(false);
       } else {
         const appLang = localStorage.getItem('app_lang') || 'en';

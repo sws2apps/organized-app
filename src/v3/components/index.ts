@@ -38,7 +38,8 @@ export { Reminders, ReminderItem } from './reminders/index';
 export { default as SearchBar } from './search_bar/index';
 export { default as Accordion } from './accordion/index';
 export {
-  CPEPublicWitnessingPlaceCard as PublicWitnessingPlaceCard,
-  CPEPublicWitnessingTimeCard as PublicWitnessingTimeCard,
+  CustomPublicWitnessingPlaceCard as PublicWitnessingPlaceCard,
+  CustomPublicWitnessingTimeCard as PublicWitnessingTimeCard,
 } from './public_witnessing_card/index';
 export { default as ProgressBarSmall } from './progress_bar_small/index';
+export { default as UserAccountItem } from './user_account_item/index';

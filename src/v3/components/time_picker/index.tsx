@@ -7,7 +7,7 @@ import {
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { Box, ClickAwayListener, Stack, TextFieldProps, useMediaQuery } from '@mui/material';
 import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
-import { CPETimePickerProps } from './time_picker.types';
+import { CustomTimePickerProps } from './time_picker.types';
 import { StyleTimePickerPopper, StyleTimePickerToolbar } from './time_picker.styles';
 import { IconClock } from '@components/icons';
 import TextField from '@components/textfield';
@@ -56,7 +56,7 @@ const TimePickerActionBar = (props: PickersActionBarProps & { onClear: VoidFunct
   );
 };
 
-const CPETimePicker = ({ ampm, label, value = null, onChange, isValueOnOpen = false }: CPETimePickerProps) => {
+const CustomTimePicker = ({ ampm, label, value = null, onChange, isValueOnOpen = false }: CustomTimePickerProps) => {
   const { t } = useAppTranslation();
   const [currentValue, setCurrentValue] = useState<Date | null>(null);
   const [innerValue, setInnerValue] = useState<Date | null>(null);
@@ -184,4 +184,4 @@ const CPETimePicker = ({ ampm, label, value = null, onChange, isValueOnOpen = fa
   );
 };
 
-export default CPETimePicker;
+export default CustomTimePicker;

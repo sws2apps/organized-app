@@ -2,7 +2,6 @@
   "tr_s89Title": "TUFUHIMU KRISTO NYINAA NE ASENKASA ASESAN<br />NHYEHYEE MAHODU",
   "tr_s89ToBeGiven": "Dɛn saa bɛhodii no mu",
   "tr_s89DescFooter": "<strong>Kyerɛw a osuani:</strong> Ntoso a wopɛ sɛ wo nni yɛ bɛhodii no so wɔ <em>Life and Ministry Meeting Workbook</em>. Mebaa wo kyere no nyinaa bi wɔ <em>Instructions for Our Christian Life and Ministry Meeting</em> (S-38).",
-  "tr_assistant": "Boafoɔ:",
   "tr_date": "Date",
   "tr_assignment": "Nhyehyee",
   "tr_bibleReading": "Bibere atentam",
@@ -30,7 +29,6 @@
   "tr_tgwGems": "Nkwa a ɛkyerɛ nea Onyankopɔn de no",
   "tr_student": "Osuani",
   "tr_partLessTime": "{{ duration }} min. anaa kasatia",
-  "tr_studentAssistant": "Osuani/Boafoɔ:",
   "tr_cbs": "Asafoɔ Bibere Nkwantanan",
   "tr_cbsConductor": "Akokosii kasaahene",
   "tr_cbsReader": "Akokosii kasafoɔ",
@@ -71,5 +69,7 @@
   "tr_discussion": "Ntobo",
   "tr_demonstration": "Nkwa",
   "tr_partNo": "Nhyehyee no nɔ:",
-  "tr_nameLabel": "Din:"
+  "tr_nameS89": "Din:",
+  "tr_assistantS89": "Boafoɔ:",
+  "tr_studentAssistantS89": "Osuani/Boafoɔ:"
 }

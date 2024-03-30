@@ -1,7 +1,7 @@
 import { InputAdornment, TextField } from '@mui/material';
 import { TextFieldTypeProps } from './index.types';
 
-const CPETextField = (props: TextFieldTypeProps) => {
+const CustomTextField = (props: TextFieldTypeProps) => {
   const height = props.height || 44;
   const sx = props.sx;
   const startIcon = props.startIcon;
@@ -33,7 +33,7 @@ const CPETextField = (props: TextFieldTypeProps) => {
           flex: '1 0 0',
         },
         '.MuiInput-root:before': {
-          borderBottom: '1px solid var(--accent-300)',
+          borderBottom: '1px solid var(--accent-300) !important',
         },
         '.MuiInput-root:after': {
           borderBottom: '1px solid var(--accent-main)',
@@ -117,4 +117,4 @@ const CPETextField = (props: TextFieldTypeProps) => {
   );
 };
 
-export default CPETextField;
+export default CustomTextField;

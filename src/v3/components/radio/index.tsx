@@ -2,7 +2,7 @@ import { ChangeEvent } from 'react';
 import { Radio } from '@mui/material';
 import { IconRadioButtonChecked, IconRadioButtonUnchecked } from '@icons/index';
 
-const CPERadio = ({
+const CustomRadio = ({
   checked = false,
   disabled = false,
   onChange,
@@ -28,4 +28,4 @@ const CPERadio = ({
   );
 };
 
-export default CPERadio;
+export default CustomRadio;
