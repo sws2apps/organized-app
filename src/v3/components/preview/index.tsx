@@ -756,11 +756,11 @@ const ComponentPreview = () => {
         </Box>
         <Box sx={{ display: 'flex', width: '100%', gap: '8px', flexDirection: 'row' }}>
           <Box>
-            <AssignmentsCheckList showIcon header={'Assignments Checklist'} color="living-as-christians">
-              <Checkbox label={'Chairman'} checked={checked} onChange={(e) => setChecked(e.target.checked)} />
-              <Checkbox label={'Reader'} indeterminate />
-              <Checkbox label={'Prayer'} checked={checked} onChange={(e) => setChecked(e.target.checked)} />
-              <Checkbox label={'Watchtower Reader'} checked={checked} onChange={(e) => setChecked(e.target.checked)} />
+            <AssignmentsCheckList header={'Assignments Checklist'} color="living-as-christians">
+              <Checkbox label={'Chairman'} checked={checked} onChange={(e) => console.log(e.target.checked)} />
+              <Checkbox label={'Reader'} />
+              <Checkbox label={'Prayer'} checked={checked} onChange={(e) => console.log(e.target.checked)} />
+              <Checkbox label={'Watchtower Reader'} checked={checked} onChange={(e) => console.log(e.target.checked)} />
             </AssignmentsCheckList>
           </Box>
           <Box>
@@ -769,9 +769,9 @@ const ComponentPreview = () => {
               color="apply-yourself-to-the-field-ministry"
               disabled
             >
-              <Checkbox label={'Chairman'} disabled onChange={(e) => setChecked(e.target.checked)} />
-              <Checkbox label={'Reader'} indeterminate disabled />
-              <Checkbox label={'Prayer'} checked disabled onChange={(e) => setChecked(e.target.checked)} />
+              <Checkbox label={'Chairman'} disabled onChange={(e) => console.log(e.target.checked)} />
+              <Checkbox label={'Reader'} disabled />
+              <Checkbox label={'Prayer'} checked disabled onChange={(e) => console.log(e.target.checked)} />
               <Checkbox
                 label={'Watchtower Reader'}
                 checked={checked}
@@ -782,18 +782,18 @@ const ComponentPreview = () => {
           </Box>
           <Box>
             <AssignmentsCheckList header={'Assignments Checklist'} color="midweek-meeting">
-              <Checkbox label={'Chairman'} checked={checked} onChange={(e) => setChecked(e.target.checked)} />
-              <Checkbox label={'Reader'} indeterminate />
-              <Checkbox label={'Prayer'} checked={checked} onChange={(e) => setChecked(e.target.checked)} />
-              <Checkbox label={'Watchtower Reader'} checked={checked} onChange={(e) => setChecked(e.target.checked)} />
+              <Checkbox label={'Chairman'} checked={true} />
+              <Checkbox label={'Reader'} disabled />
+              <Checkbox label={'Prayer'} />
+              <Checkbox label={'Watchtower Reader'} onChange={(e, checked) => console.log(checked)} />
             </AssignmentsCheckList>
           </Box>
           <Box>
-            <AssignmentsCheckList showIcon header={'Weekend meeting'} color="weekend-meeting">
-              <Checkbox label={'Chairman'} checked={checked} onChange={(e) => setChecked(e.target.checked)} />
-              <Checkbox label={'Prayer'} checked={checked} onChange={(e) => setChecked(e.target.checked)} />
-              <Checkbox label={'Reader'} indeterminate />
-              <Checkbox label={'Watchtower Reader'} checked={checked} onChange={(e) => setChecked(e.target.checked)} />
+            <AssignmentsCheckList header={'Weekend meeting'} color="weekend-meeting">
+              <Checkbox label={'Chairman'} checked={checked} onChange={(e, checked) => console.log(checked)} />
+              <Checkbox label={'Prayer'} checked={checked} onChange={(e, checked) => console.log(checked)} />
+              <Checkbox label={'Reader'} />
+              <Checkbox label={'Watchtower Reader'} checked={checked} onChange={(e, checked) => console.log(checked)} />
             </AssignmentsCheckList>
           </Box>
         </Box>

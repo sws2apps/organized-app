@@ -11,7 +11,6 @@ export type CPEAssignmentCheckListColors =
 
 export interface CPEAssignmentCheckListProps extends PropsWithChildren {
   header: string;
-  showIcon?: boolean;
   disabled?: boolean;
   color: CPEAssignmentCheckListColors;
 }
