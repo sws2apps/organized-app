@@ -1,6 +1,6 @@
 import { Box, Checkbox } from '@mui/material';
 import { styled } from '@mui/system';
-import Typography from '../typography';
+import Typography from '@mui/material/Typography';
 import FormControlLabel from '@mui/material/FormControlLabel';
 export const HeaderBox = styled(Box)({
   display: 'flex',
@@ -18,7 +18,7 @@ export const StyledContentBox = styled(Box)<{ disabled: boolean }>(({ disabled }
 }));
 
 export const StyledTypography = styled(Typography)({
-  color: 'var(--white)',
+  color: 'var(--always-white)',
   fontSize: '14px',
   fontWeight: '520',
   lineHeight: '20px',
@@ -35,15 +35,15 @@ export const StyledFormControlLabel = styled(FormControlLabel)({
   display: 'flex',
   alignItems: 'center',
   gap: '8px',
-  color: 'var(--white)',
+  color: 'var(--always-white)',
   '& .MuiFormControlLabel-label.Mui-disabled': {
-    color: 'var(--white)',
+    color: 'var(--always-white)',
   },
 });
 
 export const StyledCheckbox = styled(Checkbox)({
   padding: 0,
   '& svg': {
-    color: 'var(--white)',
+    color: 'var(--always-white)',
   },
 });
