@@ -51,6 +51,16 @@ const TimeAwayItem = (props: TimeAwayItemProps) => {
           flexWrap: 'wrap',
         }}
       >
+        <Button
+          variant="small"
+          color="red"
+          startIcon={<IconDelete />}
+          sx={{ height: '32px', minHeight: '32px !important' }}
+          onClick={onDelete}
+        >
+          {t('tr_delete')}
+        </Button>
+
         {isLast && (
           <Button
             variant="small"
@@ -61,16 +71,6 @@ const TimeAwayItem = (props: TimeAwayItemProps) => {
             {t('tr_add')}
           </Button>
         )}
-
-        <Button
-          variant="small"
-          color="red"
-          startIcon={<IconDelete />}
-          sx={{ height: '32px', minHeight: '32px !important' }}
-          onClick={onDelete}
-        >
-          {t('tr_delete')}
-        </Button>
       </Box>
     </Box>
   );
