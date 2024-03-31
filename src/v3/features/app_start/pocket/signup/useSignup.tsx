@@ -20,6 +20,8 @@ import { handleUpdateScheduleFromRemote } from '@services/app/schedules';
 import { useAppTranslation } from '@hooks/index';
 import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 
+let timeoutId: NodeJS.Timeout;
+
 const useSignup = () => {
   const { t } = useAppTranslation();
 
@@ -44,7 +46,9 @@ const useSignup = () => {
 
       setIsProcessing(true);
 
-      setTimeout(async () => {
+      clearTimeout(timeoutId);
+
+      timeoutId = setTimeout(async () => {
         if (code.length < 10) {
           await displayOnboardingFeedback({
             title: t('tr_wrongInvitationCode'),

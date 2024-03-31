@@ -5,6 +5,19 @@ import path from 'path';
 
 const ROOT_FOLDER = './converter/css/sources';
 
+const kebabToCamel = (str) => {
+  return str.replace(/-([a-z])/g, function (g) {
+    return g[1].toUpperCase();
+  });
+};
+
+const fixFontPdf = (str) => {
+  if (/^\d/.test(str)) {
+    return 'pdf' + str;
+  }
+  return str;
+};
+
 const files = await fs.readdir(ROOT_FOLDER);
 const jsonFiles = files.filter(
   (file) => path.extname(file) === '.json' && path.basename(file).indexOf('sources.json') === -1
@@ -50,7 +63,7 @@ for await (const jsonFile of jsonFiles) {
   }
 }
 
-fs.writeFile('./converter/css/tokens.json', JSON.stringify(tokens));
+await fs.writeFile('./converter/css/tokens.json', JSON.stringify(tokens));
 
 let data = '';
 
@@ -80,6 +93,12 @@ for (const [key, details] of Object.entries(tokens['group-colors'])) {
   data += `--${key}: ${details.value};\n`;
 }
 
+// print pdf templates colors variables
+data += `\n/* global print-pdf-templates variables */\n`;
+for (const [key, details] of Object.entries(tokens['print-pdf-templates'])) {
+  data += `--${key}: ${details.value};\n`;
+}
+
 data += '}\n\n';
 
 // converting colors tokens to css variables
@@ -98,7 +117,7 @@ for (const [theme, details] of Object.entries(tokens.colors)) {
 // converting font tokens to css properties
 
 // check if common fonts
-const allFonts = Object.keys(tokens.font).filter((font) => font !== 'mobile');
+const allFonts = Object.keys(tokens.font).filter((font) => font !== 'mobile' && font !== 'pdf-templates');
 const mobileFonts = Object.keys(tokens.font.mobile);
 const common = {};
 
@@ -167,9 +186,8 @@ data += '}\n\n';
 data += `/* font styles used for wider devices */\n`;
 data += `@media (min-width: 768px) {\n`;
 for (const [className, details] of Object.entries(tokens.font)) {
-  if (className !== 'mobile' && !Object.keys(common).includes(className)) {
+  if (className !== 'mobile' && className !== 'pdf-templates' && !Object.keys(common).includes(className)) {
     data += `.${className} {\n`;
-
     for (let [key, value] of Object.entries(details.value)) {
       if (key !== 'paragraphSpacing' && key !== 'fontFamily') {
         if (key === 'paragraphIndent') key = 'text-indent';
@@ -264,3 +282,85 @@ for (let [effectName, details] of Object.entries(tokens.effect.dark)) {
 data += '}\n\n';
 
 fs.writeFile('./src/v3/global.css', data);
+
+// convert json to js
+data = '';
+
+data += `//Do not edit directly
+//Generated on ${new Date().toLocaleString()}
+\n`;
+
+data += 'const styles = {\n';
+
+// convert all fonts
+data += 'font: {\n';
+for (const [font, details] of Object.entries(tokens.font)) {
+  if (font !== 'mobile' && font !== 'pdf-templates') {
+    const fontName = kebabToCamel(font);
+    data += `${fontName}: {\n`;
+
+    for (let [key, value] of Object.entries(details.value)) {
+      if (key !== 'paragraphSpacing' && key !== 'fontFamily' && key !== 'fontWeight') {
+        if (key === 'paragraphIndent') key = 'textIndent';
+        if (key === 'textCase') key = 'textTransform';
+
+        if (typeof value === 'number' && key !== 'fontWeight') value = `${value}px`;
+
+        data += `${key}: '${value}',\n`;
+      }
+
+      if (key === 'fontWeight') {
+        data += `${key}: ${value},\n`;
+      }
+    }
+
+    data += '},';
+  }
+  if (font === 'mobile' || font === 'pdf-templates') {
+    const fontName = kebabToCamel(font);
+
+    data += `${fontName}: {\n`;
+
+    for (const [subFont, subDetails] of Object.entries(tokens.font[font])) {
+      let subFontName = kebabToCamel(subFont.replace('m-', ''));
+      subFontName = fixFontPdf(subFontName);
+
+      data += `${subFontName}: {\n`;
+
+      for (let [key, value] of Object.entries(subDetails.value)) {
+        if (key !== 'paragraphSpacing' && key !== 'fontFamily' && key !== 'fontWeight') {
+          if (key === 'paragraphIndent') key = 'textIndent';
+          if (key === 'textCase') key = 'textTransform';
+
+          if (typeof value === 'number' && key !== 'fontWeight') value = `${value}px`;
+
+          data += `${key}: '${value}',\n`;
+        }
+
+        if (key === 'fontWeight') {
+          data += `${key}: ${value},\n`;
+        }
+      }
+
+      data += '},\n';
+    }
+
+    data += '},';
+  }
+}
+data += '},\n';
+
+// convert all colors for pdf-templates
+data += 'colors: {\n';
+data += 'printPdfTemplates: {\n';
+for (const [color, details] of Object.entries(tokens['print-pdf-templates'])) {
+  let colorName = kebabToCamel(color.replace('pdf-', ''));
+  data += `${colorName}: '${details.value}',\n`;
+}
+data += '},\n';
+data += '},\n';
+
+data += `}\n
+export default styles`;
+
+fs.writeFile('./src/v3/global.ts', data);

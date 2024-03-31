@@ -1,6 +1,6 @@
 /**
 * Do not edit directly
-* Generated on 11/19/2023, 8:29:47 PM
+* Generated on 3/31/2024, 7:52:57 PM
 */
 
 :root {
@@ -22,284 +22,28 @@
   --weekend-meeting: #498457ff;
   --watchtower-study: #848383ff;
   --ministry: #7b57b5ff;
-  --text-treasures-from-gods-word: #2a6b77ff;
   --text-apply-yourself-to-the-field-ministry: #956711ff;
+  --text-treasures-from-gods-word: #2a6b77ff;
+  --text_living-as-christians: #942926ff;
+  --duties: #866151ff;
 
   /* global group-colors variables */
-  --group-1: #458a43ff;
   --group-2: #d64d4dff;
-  --group-3: #5f69bcff;
-  --group-4: #ea8135ff;
-  --group-5: #946951ff;
   --group-6: #944cb5ff;
-  --group-7: #25a9a9ff;
-  --group-8: #518accff;
+  --group-4: #ea8135ff;
+  --group-1: #458a43ff;
+  --group-3: #5360d0ff;
+  --group-5: #946951ff;
   --group-9: #a8b93eff;
+  --group-8: #518accff;
+  --group-7: #25a9a9ff;
   --group-10: #e46badff;
-}
 
-/* colors for purple-dark theme */
-[data-theme='purple-dark'] {
-  --accent-dark-overlay-base: 66, 63, 70;
-  --accent-dark-overlay: rgba(var(--accent-dark-overlay-base), 0.92);
-  --accent-dark-base: 208, 183, 251;
-  --accent-dark: rgba(var(--accent-dark-base), 1);
-  --accent-click-base: 98, 69, 135;
-  --accent-click: rgba(var(--accent-click-base), 1);
-  --accent-main-base: 125, 97, 184;
-  --accent-main: rgba(var(--accent-main-base), 1);
-  --accent-400-base: 187, 176, 201;
-  --accent-400: rgba(var(--accent-400-base), 1);
-  --accent-350-base: 122, 112, 136;
-  --accent-350: rgba(var(--accent-350-base), 1);
-  --accent-300-base: 93, 82, 106;
-  --accent-300: rgba(var(--accent-300-base), 1);
-  --accent-200-base: 60, 55, 67;
-  --accent-200: rgba(var(--accent-200-base), 1);
-  --accent-150-base: 47, 43, 53;
-  --accent-150: rgba(var(--accent-150-base), 1);
-  --accent-100-base: 20, 18, 22;
-  --accent-100: rgba(var(--accent-100-base), 1);
-  --black-base: 244, 244, 244;
-  --black: rgba(var(--black-base), 1);
-  --white-base: 34, 34, 34;
-  --white: rgba(var(--white-base), 1);
-  --grey-400-base: 200, 200, 200;
-  --grey-400: rgba(var(--grey-400-base), 1);
-  --grey-350-base: 129, 126, 126;
-  --grey-350: rgba(var(--grey-350-base), 1);
-  --grey-300-base: 170, 170, 170;
-  --grey-300: rgba(var(--grey-300-base), 1);
-  --grey-200-base: 68, 68, 68;
-  --grey-200: rgba(var(--grey-200-base), 1);
-  --grey-150-base: 23, 23, 24;
-  --grey-150: rgba(var(--grey-150-base), 1);
-  --grey-100-base: 44, 44, 44;
-  --grey-100: rgba(var(--grey-100-base), 1);
-  --red-main-base: 183, 59, 59;
-  --red-main: rgba(var(--red-main-base), 1);
-  --red-dark-base: 227, 90, 90;
-  --red-dark: rgba(var(--red-dark-base), 1);
-  --red-secondary-base: 58, 40, 40;
-  --red-secondary: rgba(var(--red-secondary-base), 1);
-  --green-main-base: 58, 136, 32;
-  --green-main: rgba(var(--green-main-base), 1);
-  --green-secondary-base: 40, 51, 36;
-  --green-secondary: rgba(var(--green-secondary-base), 1);
-  --orange-dark-base: 197, 114, 14;
-  --orange-dark: rgba(var(--orange-dark-base), 1);
-  --orange-main-base: 221, 140, 44;
-  --orange-main: rgba(var(--orange-main-base), 1);
-  --orange-secondary-base: 54, 46, 36;
-  --orange-secondary: rgba(var(--orange-secondary-base), 1);
-  --orange-tertiary-base: 73, 60, 44;
-  --orange-tertiary: rgba(var(--orange-tertiary-base), 1);
-  --always-white-base: 254, 254, 254;
-  --always-white: rgba(var(--always-white-base), 1);
-  --white-semi-s-base: 255, 255, 255;
-  --white-semi-s: rgba(var(--white-semi-s-base), 0.16);
-  --white-semi-m-base: 255, 255, 255;
-  --white-semi-m: rgba(var(--white-semi-m-base), 0.32);
-  --white-semi-l-base: 255, 255, 255;
-  --white-semi-l: rgba(var(--white-semi-l-base), 0.4);
-}
-
-/* colors for purple-light theme */
-[data-theme='purple-light'] {
-  --accent-dark-overlay-base: 14, 7, 22;
-  --accent-dark-overlay: rgba(var(--accent-dark-overlay-base), 0.48);
-  --accent-dark-base: 85, 56, 147;
-  --accent-dark: rgba(var(--accent-dark-base), 1);
-  --accent-click-base: 124, 95, 183;
-  --accent-click: rgba(var(--accent-click-base), 1);
-  --accent-main-base: 116, 82, 187;
-  --accent-main: rgba(var(--accent-main-base), 1);
-  --accent-400-base: 118, 108, 160;
-  --accent-400: rgba(var(--accent-400-base), 1);
-  --accent-350-base: 174, 162, 223;
-  --accent-350: rgba(var(--accent-350-base), 1);
-  --accent-300-base: 191, 182, 229;
-  --accent-300: rgba(var(--accent-300-base), 1);
-  --accent-200-base: 227, 220, 247;
-  --accent-200: rgba(var(--accent-200-base), 1);
-  --accent-150-base: 242, 239, 253;
-  --accent-150: rgba(var(--accent-150-base), 1);
-  --accent-100-base: 248, 246, 255;
-  --accent-100: rgba(var(--accent-100-base), 1);
-  --black-base: 34, 34, 34;
-  --black: rgba(var(--black-base), 1);
-  --white-base: 254, 254, 254;
-  --white: rgba(var(--white-base), 1);
-  --grey-400-base: 80, 80, 80;
-  --grey-400: rgba(var(--grey-400-base), 1);
-  --grey-350-base: 117, 117, 117;
-  --grey-350: rgba(var(--grey-350-base), 1);
-  --grey-300-base: 170, 170, 170;
-  --grey-300: rgba(var(--grey-300-base), 1);
-  --grey-200-base: 218, 218, 218;
-  --grey-200: rgba(var(--grey-200-base), 1);
-  --grey-150-base: 240, 240, 240;
-  --grey-150: rgba(var(--grey-150-base), 1);
-  --grey-100-base: 245, 245, 245;
-  --grey-100: rgba(var(--grey-100-base), 1);
-  --red-main-base: 202, 38, 38;
-  --red-main: rgba(var(--red-main-base), 1);
-  --red-dark-base: 178, 24, 24;
-  --red-dark: rgba(var(--red-dark-base), 1);
-  --red-secondary-base: 253, 239, 239;
-  --red-secondary: rgba(var(--red-secondary-base), 1);
-  --green-main-base: 62, 147, 33;
-  --green-main: rgba(var(--green-main-base), 1);
-  --green-secondary-base: 238, 246, 235;
-  --green-secondary: rgba(var(--green-secondary-base), 1);
-  --orange-dark-base: 197, 114, 14;
-  --orange-dark: rgba(var(--orange-dark-base), 1);
-  --orange-main-base: 221, 140, 44;
-  --orange-main: rgba(var(--orange-main-base), 1);
-  --orange-secondary-base: 253, 245, 237;
-  --orange-secondary: rgba(var(--orange-secondary-base), 1);
-  --orange-tertiary-base: 254, 239, 221;
-  --orange-tertiary: rgba(var(--orange-tertiary-base), 1);
-  --always-white-base: 254, 254, 254;
-  --always-white: rgba(var(--always-white-base), 1);
-  --white-semi-s-base: 255, 255, 255;
-  --white-semi-s: rgba(var(--white-semi-s-base), 0.16);
-  --white-semi-m-base: 255, 255, 255;
-  --white-semi-m: rgba(var(--white-semi-m-base), 0.32);
-  --white-semi-l-base: 255, 255, 255;
-  --white-semi-l: rgba(var(--white-semi-l-base), 0.4);
-}
-
-/* colors for orange-dark theme */
-[data-theme='orange-dark'] {
-  --accent-dark-overlay-base: 70, 67, 63;
-  --accent-dark-overlay: rgba(var(--accent-dark-overlay-base), 0.92);
-  --accent-dark-base: 225, 177, 82;
-  --accent-dark: rgba(var(--accent-dark-base), 1);
-  --accent-click-base: 178, 118, 28;
-  --accent-click: rgba(var(--accent-click-base), 1);
-  --accent-main-base: 200, 136, 40;
-  --accent-main: rgba(var(--accent-main-base), 1);
-  --accent-400-base: 201, 190, 176;
-  --accent-400: rgba(var(--accent-400-base), 1);
-  --accent-350-base: 136, 123, 112;
-  --accent-350: rgba(var(--accent-350-base), 1);
-  --accent-300-base: 88, 74, 58;
-  --accent-300: rgba(var(--accent-300-base), 1);
-  --accent-200-base: 71, 63, 56;
-  --accent-200: rgba(var(--accent-200-base), 1);
-  --accent-150-base: 55, 49, 44;
-  --accent-150: rgba(var(--accent-150-base), 1);
-  --accent-100-base: 22, 20, 18;
-  --accent-100: rgba(var(--accent-100-base), 1);
-  --black-base: 244, 244, 244;
-  --black: rgba(var(--black-base), 1);
-  --white-base: 34, 34, 34;
-  --white: rgba(var(--white-base), 1);
-  --grey-400-base: 200, 200, 200;
-  --grey-400: rgba(var(--grey-400-base), 1);
-  --grey-350-base: 129, 126, 126;
-  --grey-350: rgba(var(--grey-350-base), 1);
-  --grey-300-base: 170, 170, 170;
-  --grey-300: rgba(var(--grey-300-base), 1);
-  --grey-200-base: 68, 68, 68;
-  --grey-200: rgba(var(--grey-200-base), 1);
-  --grey-150-base: 23, 23, 24;
-  --grey-150: rgba(var(--grey-150-base), 1);
-  --grey-100-base: 44, 44, 44;
-  --grey-100: rgba(var(--grey-100-base), 1);
-  --red-main-base: 183, 59, 59;
-  --red-main: rgba(var(--red-main-base), 1);
-  --red-dark-base: 227, 90, 90;
-  --red-dark: rgba(var(--red-dark-base), 1);
-  --red-secondary-base: 58, 40, 40;
-  --red-secondary: rgba(var(--red-secondary-base), 1);
-  --green-main-base: 58, 136, 32;
-  --green-main: rgba(var(--green-main-base), 1);
-  --green-secondary-base: 40, 51, 36;
-  --green-secondary: rgba(var(--green-secondary-base), 1);
-  --orange-dark-base: 197, 114, 14;
-  --orange-dark: rgba(var(--orange-dark-base), 1);
-  --orange-main-base: 221, 140, 44;
-  --orange-main: rgba(var(--orange-main-base), 1);
-  --orange-secondary-base: 54, 46, 36;
-  --orange-secondary: rgba(var(--orange-secondary-base), 1);
-  --orange-tertiary-base: 73, 60, 44;
-  --orange-tertiary: rgba(var(--orange-tertiary-base), 1);
-  --always-white-base: 254, 254, 254;
-  --always-white: rgba(var(--always-white-base), 1);
-  --white-semi-s-base: 255, 255, 255;
-  --white-semi-s: rgba(var(--white-semi-s-base), 0.16);
-  --white-semi-m-base: 255, 255, 255;
-  --white-semi-m: rgba(var(--white-semi-m-base), 0.32);
-  --white-semi-l-base: 255, 255, 255;
-  --white-semi-l: rgba(var(--white-semi-l-base), 0.4);
-}
-
-/* colors for orange-light theme */
-[data-theme='orange-light'] {
-  --accent-dark-overlay-base: 22, 14, 7;
-  --accent-dark-overlay: rgba(var(--accent-dark-overlay-base), 0.48);
-  --accent-dark-base: 178, 119, 5;
-  --accent-dark: rgba(var(--accent-dark-base), 1);
-  --accent-click-base: 216, 159, 48;
-  --accent-click: rgba(var(--accent-click-base), 1);
-  --accent-main-base: 229, 156, 15;
-  --accent-main: rgba(var(--accent-main-base), 1);
-  --accent-400-base: 200, 160, 99;
-  --accent-400: rgba(var(--accent-400-base), 1);
-  --accent-350-base: 225, 192, 142;
-  --accent-350: rgba(var(--accent-350-base), 1);
-  --accent-300-base: 242, 219, 184;
-  --accent-300: rgba(var(--accent-300-base), 1);
-  --accent-200-base: 247, 234, 208;
-  --accent-200: rgba(var(--accent-200-base), 1);
-  --accent-150-base: 250, 244, 232;
-  --accent-150: rgba(var(--accent-150-base), 1);
-  --accent-100-base: 254, 251, 245;
-  --accent-100: rgba(var(--accent-100-base), 1);
-  --black-base: 34, 34, 34;
-  --black: rgba(var(--black-base), 1);
-  --white-base: 254, 254, 254;
-  --white: rgba(var(--white-base), 1);
-  --grey-400-base: 80, 80, 80;
-  --grey-400: rgba(var(--grey-400-base), 1);
-  --grey-350-base: 117, 117, 117;
-  --grey-350: rgba(var(--grey-350-base), 1);
-  --grey-300-base: 170, 170, 170;
-  --grey-300: rgba(var(--grey-300-base), 1);
-  --grey-200-base: 218, 218, 218;
-  --grey-200: rgba(var(--grey-200-base), 1);
-  --grey-150-base: 240, 240, 240;
-  --grey-150: rgba(var(--grey-150-base), 1);
-  --grey-100-base: 245, 245, 245;
-  --grey-100: rgba(var(--grey-100-base), 1);
-  --red-main-base: 183, 59, 59;
-  --red-main: rgba(var(--red-main-base), 1);
-  --red-dark-base: 178, 24, 24;
-  --red-dark: rgba(var(--red-dark-base), 1);
-  --red-secondary-base: 253, 239, 239;
-  --red-secondary: rgba(var(--red-secondary-base), 1);
-  --green-main-base: 58, 136, 32;
-  --green-main: rgba(var(--green-main-base), 1);
-  --green-secondary-base: 238, 246, 235;
-  --green-secondary: rgba(var(--green-secondary-base), 1);
-  --orange-dark-base: 197, 114, 14;
-  --orange-dark: rgba(var(--orange-dark-base), 1);
-  --orange-main-base: 221, 140, 44;
-  --orange-main: rgba(var(--orange-main-base), 1);
-  --orange-secondary-base: 253, 245, 237;
-  --orange-secondary: rgba(var(--orange-secondary-base), 1);
-  --orange-tertiary-base: 254, 239, 221;
-  --orange-tertiary: rgba(var(--orange-tertiary-base), 1);
-  --always-white-base: 254, 254, 254;
-  --always-white: rgba(var(--always-white-base), 1);
-  --white-semi-s-base: 255, 255, 255;
-  --white-semi-s: rgba(var(--white-semi-s-base), 0.16);
-  --white-semi-m-base: 255, 255, 255;
-  --white-semi-m: rgba(var(--white-semi-m-base), 0.32);
-  --white-semi-l-base: 255, 255, 255;
-  --white-semi-l: rgba(var(--white-semi-l-base), 0.4);
+  /* global print-pdf-templates variables */
+  --pdf-blue-main: #6876beff;
+  --pdf-green-main: #498457ff;
+  --pdf-green-light: #f1f8f2ff;
+  --pdf-green-neutral: #d7e3daff;
 }
 
 /* colors for blue-light theme */
@@ -352,8 +96,6 @@
   --orange-main: rgba(var(--orange-main-base), 1);
   --orange-secondary-base: 253, 245, 237;
   --orange-secondary: rgba(var(--orange-secondary-base), 1);
-  --orange-tertiary-base: 254, 239, 221;
-  --orange-tertiary: rgba(var(--orange-tertiary-base), 1);
   --green-main-base: 62, 147, 33;
   --green-main: rgba(var(--green-main-base), 1);
   --green-secondary-base: 238, 246, 235;
@@ -418,8 +160,6 @@
   --orange-main: rgba(var(--orange-main-base), 1);
   --orange-secondary-base: 54, 46, 36;
   --orange-secondary: rgba(var(--orange-secondary-base), 1);
-  --orange-tertiary-base: 73, 60, 44;
-  --orange-tertiary: rgba(var(--orange-tertiary-base), 1);
   --green-main-base: 58, 136, 32;
   --green-main: rgba(var(--green-main-base), 1);
   --green-secondary-base: 40, 51, 36;
@@ -484,8 +224,6 @@
   --orange-main: rgba(var(--orange-main-base), 1);
   --orange-secondary-base: 253, 245, 237;
   --orange-secondary: rgba(var(--orange-secondary-base), 1);
-  --orange-tertiary-base: 254, 239, 221;
-  --orange-tertiary: rgba(var(--orange-tertiary-base), 1);
   --green-main-base: 62, 147, 33;
   --green-main: rgba(var(--green-main-base), 1);
   --green-secondary-base: 238, 246, 235;
@@ -550,12 +288,266 @@
   --orange-main: rgba(var(--orange-main-base), 1);
   --orange-secondary-base: 54, 46, 36;
   --orange-secondary: rgba(var(--orange-secondary-base), 1);
-  --orange-tertiary-base: 73, 60, 44;
-  --orange-tertiary: rgba(var(--orange-tertiary-base), 1);
   --green-main-base: 62, 147, 33;
   --green-main: rgba(var(--green-main-base), 1);
   --green-secondary-base: 40, 51, 36;
   --green-secondary: rgba(var(--green-secondary-base), 1);
+  --always-white-base: 254, 254, 254;
+  --always-white: rgba(var(--always-white-base), 1);
+  --white-semi-s-base: 255, 255, 255;
+  --white-semi-s: rgba(var(--white-semi-s-base), 0.16);
+  --white-semi-m-base: 255, 255, 255;
+  --white-semi-m: rgba(var(--white-semi-m-base), 0.32);
+  --white-semi-l-base: 255, 255, 255;
+  --white-semi-l: rgba(var(--white-semi-l-base), 0.4);
+}
+
+/* colors for purple-dark theme */
+[data-theme='purple-dark'] {
+  --accent-dark-overlay-base: 66, 63, 70;
+  --accent-dark-overlay: rgba(var(--accent-dark-overlay-base), 0.92);
+  --accent-dark-base: 208, 183, 251;
+  --accent-dark: rgba(var(--accent-dark-base), 1);
+  --accent-click-base: 98, 69, 135;
+  --accent-click: rgba(var(--accent-click-base), 1);
+  --accent-main-base: 125, 97, 184;
+  --accent-main: rgba(var(--accent-main-base), 1);
+  --accent-400-base: 187, 176, 201;
+  --accent-400: rgba(var(--accent-400-base), 1);
+  --accent-350-base: 122, 112, 136;
+  --accent-350: rgba(var(--accent-350-base), 1);
+  --accent-300-base: 93, 82, 106;
+  --accent-300: rgba(var(--accent-300-base), 1);
+  --accent-200-base: 60, 55, 67;
+  --accent-200: rgba(var(--accent-200-base), 1);
+  --accent-150-base: 47, 43, 53;
+  --accent-150: rgba(var(--accent-150-base), 1);
+  --accent-100-base: 20, 18, 22;
+  --accent-100: rgba(var(--accent-100-base), 1);
+  --black-base: 244, 244, 244;
+  --black: rgba(var(--black-base), 1);
+  --white-base: 34, 34, 34;
+  --white: rgba(var(--white-base), 1);
+  --grey-400-base: 200, 200, 200;
+  --grey-400: rgba(var(--grey-400-base), 1);
+  --grey-350-base: 129, 126, 126;
+  --grey-350: rgba(var(--grey-350-base), 1);
+  --grey-300-base: 170, 170, 170;
+  --grey-300: rgba(var(--grey-300-base), 1);
+  --grey-200-base: 68, 68, 68;
+  --grey-200: rgba(var(--grey-200-base), 1);
+  --grey-150-base: 23, 23, 24;
+  --grey-150: rgba(var(--grey-150-base), 1);
+  --grey-100-base: 44, 44, 44;
+  --grey-100: rgba(var(--grey-100-base), 1);
+  --red-main-base: 183, 59, 59;
+  --red-main: rgba(var(--red-main-base), 1);
+  --red-dark-base: 227, 90, 90;
+  --red-dark: rgba(var(--red-dark-base), 1);
+  --red-secondary-base: 58, 40, 40;
+  --red-secondary: rgba(var(--red-secondary-base), 1);
+  --green-main-base: 58, 136, 32;
+  --green-main: rgba(var(--green-main-base), 1);
+  --green-secondary-base: 40, 51, 36;
+  --green-secondary: rgba(var(--green-secondary-base), 1);
+  --orange-dark-base: 197, 114, 14;
+  --orange-dark: rgba(var(--orange-dark-base), 1);
+  --orange-main-base: 221, 140, 44;
+  --orange-main: rgba(var(--orange-main-base), 1);
+  --orange-secondary-base: 54, 46, 36;
+  --orange-secondary: rgba(var(--orange-secondary-base), 1);
+  --always-white-base: 254, 254, 254;
+  --always-white: rgba(var(--always-white-base), 1);
+  --white-semi-s-base: 255, 255, 255;
+  --white-semi-s: rgba(var(--white-semi-s-base), 0.16);
+  --white-semi-m-base: 255, 255, 255;
+  --white-semi-m: rgba(var(--white-semi-m-base), 0.32);
+  --white-semi-l-base: 255, 255, 255;
+  --white-semi-l: rgba(var(--white-semi-l-base), 0.4);
+}
+
+/* colors for purple-light theme */
+[data-theme='purple-light'] {
+  --accent-dark-overlay-base: 14, 7, 22;
+  --accent-dark-overlay: rgba(var(--accent-dark-overlay-base), 0.48);
+  --accent-dark-base: 85, 56, 147;
+  --accent-dark: rgba(var(--accent-dark-base), 1);
+  --accent-click-base: 124, 95, 183;
+  --accent-click: rgba(var(--accent-click-base), 1);
+  --accent-main-base: 116, 82, 187;
+  --accent-main: rgba(var(--accent-main-base), 1);
+  --accent-400-base: 118, 108, 160;
+  --accent-400: rgba(var(--accent-400-base), 1);
+  --accent-350-base: 174, 162, 223;
+  --accent-350: rgba(var(--accent-350-base), 1);
+  --accent-300-base: 191, 182, 229;
+  --accent-300: rgba(var(--accent-300-base), 1);
+  --accent-200-base: 227, 220, 247;
+  --accent-200: rgba(var(--accent-200-base), 1);
+  --accent-150-base: 242, 239, 253;
+  --accent-150: rgba(var(--accent-150-base), 1);
+  --accent-100-base: 248, 246, 255;
+  --accent-100: rgba(var(--accent-100-base), 1);
+  --black-base: 34, 34, 34;
+  --black: rgba(var(--black-base), 1);
+  --white-base: 254, 254, 254;
+  --white: rgba(var(--white-base), 1);
+  --grey-400-base: 80, 80, 80;
+  --grey-400: rgba(var(--grey-400-base), 1);
+  --grey-350-base: 117, 117, 117;
+  --grey-350: rgba(var(--grey-350-base), 1);
+  --grey-300-base: 170, 170, 170;
+  --grey-300: rgba(var(--grey-300-base), 1);
+  --grey-200-base: 218, 218, 218;
+  --grey-200: rgba(var(--grey-200-base), 1);
+  --grey-150-base: 240, 240, 240;
+  --grey-150: rgba(var(--grey-150-base), 1);
+  --grey-100-base: 245, 245, 245;
+  --grey-100: rgba(var(--grey-100-base), 1);
+  --red-main-base: 202, 38, 38;
+  --red-main: rgba(var(--red-main-base), 1);
+  --red-dark-base: 178, 24, 24;
+  --red-dark: rgba(var(--red-dark-base), 1);
+  --red-secondary-base: 253, 239, 239;
+  --red-secondary: rgba(var(--red-secondary-base), 1);
+  --green-main-base: 62, 147, 33;
+  --green-main: rgba(var(--green-main-base), 1);
+  --green-secondary-base: 238, 246, 235;
+  --green-secondary: rgba(var(--green-secondary-base), 1);
+  --orange-dark-base: 197, 114, 14;
+  --orange-dark: rgba(var(--orange-dark-base), 1);
+  --orange-main-base: 221, 140, 44;
+  --orange-main: rgba(var(--orange-main-base), 1);
+  --orange-secondary-base: 253, 245, 237;
+  --orange-secondary: rgba(var(--orange-secondary-base), 1);
+  --always-white-base: 254, 254, 254;
+  --always-white: rgba(var(--always-white-base), 1);
+  --white-semi-s-base: 255, 255, 255;
+  --white-semi-s: rgba(var(--white-semi-s-base), 0.16);
+  --white-semi-m-base: 255, 255, 255;
+  --white-semi-m: rgba(var(--white-semi-m-base), 0.32);
+  --white-semi-l-base: 255, 255, 255;
+  --white-semi-l: rgba(var(--white-semi-l-base), 0.4);
+}
+
+/* colors for orange-dark theme */
+[data-theme='orange-dark'] {
+  --accent-dark-overlay-base: 70, 67, 63;
+  --accent-dark-overlay: rgba(var(--accent-dark-overlay-base), 0.92);
+  --accent-dark-base: 225, 177, 82;
+  --accent-dark: rgba(var(--accent-dark-base), 1);
+  --accent-click-base: 178, 118, 28;
+  --accent-click: rgba(var(--accent-click-base), 1);
+  --accent-main-base: 200, 136, 40;
+  --accent-main: rgba(var(--accent-main-base), 1);
+  --accent-400-base: 201, 190, 176;
+  --accent-400: rgba(var(--accent-400-base), 1);
+  --accent-350-base: 136, 123, 112;
+  --accent-350: rgba(var(--accent-350-base), 1);
+  --accent-300-base: 88, 74, 58;
+  --accent-300: rgba(var(--accent-300-base), 1);
+  --accent-200-base: 71, 63, 56;
+  --accent-200: rgba(var(--accent-200-base), 1);
+  --accent-150-base: 55, 49, 44;
+  --accent-150: rgba(var(--accent-150-base), 1);
+  --accent-100-base: 22, 20, 18;
+  --accent-100: rgba(var(--accent-100-base), 1);
+  --black-base: 244, 244, 244;
+  --black: rgba(var(--black-base), 1);
+  --white-base: 34, 34, 34;
+  --white: rgba(var(--white-base), 1);
+  --grey-400-base: 200, 200, 200;
+  --grey-400: rgba(var(--grey-400-base), 1);
+  --grey-350-base: 129, 126, 126;
+  --grey-350: rgba(var(--grey-350-base), 1);
+  --grey-300-base: 170, 170, 170;
+  --grey-300: rgba(var(--grey-300-base), 1);
+  --grey-200-base: 68, 68, 68;
+  --grey-200: rgba(var(--grey-200-base), 1);
+  --grey-150-base: 23, 23, 24;
+  --grey-150: rgba(var(--grey-150-base), 1);
+  --grey-100-base: 44, 44, 44;
+  --grey-100: rgba(var(--grey-100-base), 1);
+  --red-main-base: 183, 59, 59;
+  --red-main: rgba(var(--red-main-base), 1);
+  --red-dark-base: 227, 90, 90;
+  --red-dark: rgba(var(--red-dark-base), 1);
+  --red-secondary-base: 58, 40, 40;
+  --red-secondary: rgba(var(--red-secondary-base), 1);
+  --green-main-base: 58, 136, 32;
+  --green-main: rgba(var(--green-main-base), 1);
+  --green-secondary-base: 40, 51, 36;
+  --green-secondary: rgba(var(--green-secondary-base), 1);
+  --orange-dark-base: 197, 114, 14;
+  --orange-dark: rgba(var(--orange-dark-base), 1);
+  --orange-main-base: 221, 140, 44;
+  --orange-main: rgba(var(--orange-main-base), 1);
+  --orange-secondary-base: 54, 46, 36;
+  --orange-secondary: rgba(var(--orange-secondary-base), 1);
+  --always-white-base: 254, 254, 254;
+  --always-white: rgba(var(--always-white-base), 1);
+  --white-semi-s-base: 255, 255, 255;
+  --white-semi-s: rgba(var(--white-semi-s-base), 0.16);
+  --white-semi-m-base: 255, 255, 255;
+  --white-semi-m: rgba(var(--white-semi-m-base), 0.32);
+  --white-semi-l-base: 255, 255, 255;
+  --white-semi-l: rgba(var(--white-semi-l-base), 0.4);
+}
+
+/* colors for orange-light theme */
+[data-theme='orange-light'] {
+  --accent-dark-overlay-base: 22, 14, 7;
+  --accent-dark-overlay: rgba(var(--accent-dark-overlay-base), 0.48);
+  --accent-dark-base: 178, 119, 5;
+  --accent-dark: rgba(var(--accent-dark-base), 1);
+  --accent-click-base: 216, 159, 48;
+  --accent-click: rgba(var(--accent-click-base), 1);
+  --accent-main-base: 229, 156, 15;
+  --accent-main: rgba(var(--accent-main-base), 1);
+  --accent-400-base: 200, 160, 99;
+  --accent-400: rgba(var(--accent-400-base), 1);
+  --accent-350-base: 225, 192, 142;
+  --accent-350: rgba(var(--accent-350-base), 1);
+  --accent-300-base: 242, 219, 184;
+  --accent-300: rgba(var(--accent-300-base), 1);
+  --accent-200-base: 247, 234, 208;
+  --accent-200: rgba(var(--accent-200-base), 1);
+  --accent-150-base: 250, 244, 232;
+  --accent-150: rgba(var(--accent-150-base), 1);
+  --accent-100-base: 254, 251, 245;
+  --accent-100: rgba(var(--accent-100-base), 1);
+  --black-base: 34, 34, 34;
+  --black: rgba(var(--black-base), 1);
+  --white-base: 254, 254, 254;
+  --white: rgba(var(--white-base), 1);
+  --grey-400-base: 80, 80, 80;
+  --grey-400: rgba(var(--grey-400-base), 1);
+  --grey-350-base: 117, 117, 117;
+  --grey-350: rgba(var(--grey-350-base), 1);
+  --grey-300-base: 170, 170, 170;
+  --grey-300: rgba(var(--grey-300-base), 1);
+  --grey-200-base: 218, 218, 218;
+  --grey-200: rgba(var(--grey-200-base), 1);
+  --grey-150-base: 240, 240, 240;
+  --grey-150: rgba(var(--grey-150-base), 1);
+  --grey-100-base: 245, 245, 245;
+  --grey-100: rgba(var(--grey-100-base), 1);
+  --red-main-base: 183, 59, 59;
+  --red-main: rgba(var(--red-main-base), 1);
+  --red-dark-base: 178, 24, 24;
+  --red-dark: rgba(var(--red-dark-base), 1);
+  --red-secondary-base: 253, 239, 239;
+  --red-secondary: rgba(var(--red-secondary-base), 1);
+  --green-main-base: 58, 136, 32;
+  --green-main: rgba(var(--green-main-base), 1);
+  --green-secondary-base: 238, 246, 235;
+  --green-secondary: rgba(var(--green-secondary-base), 1);
+  --orange-dark-base: 197, 114, 14;
+  --orange-dark: rgba(var(--orange-dark-base), 1);
+  --orange-main-base: 221, 140, 44;
+  --orange-main: rgba(var(--orange-main-base), 1);
+  --orange-secondary-base: 253, 245, 237;
+  --orange-secondary: rgba(var(--orange-secondary-base), 1);
   --always-white-base: 254, 254, 254;
   --always-white: rgba(var(--always-white-base), 1);
   --white-semi-s-base: 255, 255, 255;
@@ -574,7 +566,7 @@
   font-style: normal;
   font-stretch: normal;
   letter-spacing: 0px;
-  line-height: 72px;
+  line-height: 96px;
   text-indent: 0px;
   text-transform: none;
 }
@@ -635,8 +627,8 @@
     font-weight: 550;
     font-style: normal;
     font-stretch: normal;
-    letter-spacing: 0px;
-    line-height: 22px;
+    letter-spacing: 0.18px;
+    line-height: 24px;
     text-indent: 0px;
     text-transform: none;
   }
@@ -647,10 +639,10 @@
     font-weight: 550;
     font-style: normal;
     font-stretch: normal;
-    letter-spacing: 0.36px;
+    letter-spacing: 0.18px;
     line-height: 22px;
     text-indent: 0px;
-    text-transform: none;
+    text-transform: uppercase;
   }
 
   .h3 {
@@ -707,7 +699,7 @@
     font-weight: 450;
     font-style: normal;
     font-stretch: normal;
-    letter-spacing: -0.26px;
+    letter-spacing: 0.065px;
     line-height: 16px;
     text-indent: 0px;
     text-transform: none;
@@ -795,7 +787,7 @@
     font-style: normal;
     font-stretch: normal;
     letter-spacing: 0.3px;
-    line-height: 20px;
+    line-height: 18px;
     text-indent: 0px;
     text-transform: uppercase;
   }
@@ -806,7 +798,7 @@
     font-weight: 400;
     font-style: normal;
     font-stretch: normal;
-    letter-spacing: 0.16px;
+    letter-spacing: 0px;
     line-height: 20px;
     text-indent: 0px;
     text-transform: none;
@@ -819,7 +811,7 @@
     font-style: normal;
     font-stretch: normal;
     letter-spacing: 0px;
-    line-height: 20px;
+    line-height: 18px;
     text-indent: 0px;
     text-transform: none;
   }
@@ -830,7 +822,7 @@
     font-weight: 400;
     font-style: normal;
     font-stretch: normal;
-    letter-spacing: -0.14px;
+    letter-spacing: -0.28px;
     line-height: 18px;
     text-indent: 0px;
     text-transform: none;
@@ -855,7 +847,11 @@
 }
 
 .left-sidebar-shadow {
-  box-shadow: 4px 0px 24px 0px #1c1c1c29;
+  box-shadow: 4px 0px 24px 0px #070a1629;
+}
+
+.btn-shadow {
+  box-shadow: 0px 2px 8px 0px #1c1c1c29;
 }
 
 .hover-shadow {
@@ -866,12 +862,12 @@
   box-shadow: 0px 16px 24px 0px #1c1c1c29;
 }
 
-.warning-glow {
-  box-shadow: 0px 8px 24px 0px #eb981c52;
-}
-
 .error-glow {
   box-shadow: 0px 8px 24px 0px #ca26263d;
+}
+
+.warning-glow {
+  box-shadow: 0px 8px 24px 0px #e2973e3d;
 }
 
 .success-glow {

@@ -1,5 +1,3 @@
-import '../../global.css'; // Import the CSS file
-
 export const StyleTimePickerPopper = {
   '.MuiClockPointer-root': {
     backgroundColor: 'var(--accent-main)',
