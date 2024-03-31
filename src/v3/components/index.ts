@@ -1,4 +1,5 @@
 export { default as AccountHeaderIcon } from './account_header_icon';
+export { default as AssignmentsCheckList } from './assignments_checklist/index';
 export { default as AppLoading } from './loading';
 export { default as AutoComplete } from './autocomplete';
 export { default as Badge } from './badge';
