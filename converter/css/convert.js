@@ -281,13 +281,13 @@ for (let [effectName, details] of Object.entries(tokens.effect.dark)) {
 }
 data += '}\n\n';
 
-fs.writeFile('./src/v3/global.css', data);
+fs.writeFile('./src/v3//global/global.css', data);
 
 // convert json to js
 data = '';
 
-data += `//Do not edit directly
-//Generated on ${new Date().toLocaleString()}
+data += `// Do not edit directly
+// Generated on ${new Date().toLocaleString()}
 \n`;
 
 data += 'const styles = {\n';
@@ -363,4 +363,4 @@ data += '},\n';
 data += `}\n
 export default styles`;
 
-fs.writeFile('./src/v3/global.ts', data);
+fs.writeFile('./src/v3/global/global.ts', data);

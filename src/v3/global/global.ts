@@ -1,5 +1,5 @@
-//Do not edit directly
-//Generated on 3/31/2024, 7:52:57 PM
+// Do not edit directly
+// Generated on 3/31/2024, 8:17:45 PM
 
 const styles = {
   font: {
@@ -28,7 +28,7 @@ const styles = {
     h1: {
       fontSize: '24px',
       textDecoration: 'none',
-      fontWeight: 700,
+      fontWeight: 600,
       fontStyle: 'normal',
       fontStretch: 'normal',
       letterSpacing: '0.24px',
@@ -39,7 +39,7 @@ const styles = {
     h2: {
       fontSize: '20px',
       textDecoration: 'none',
-      fontWeight: 500,
+      fontWeight: 550,
       fontStyle: 'normal',
       fontStretch: 'normal',
       letterSpacing: '0px',
@@ -50,7 +50,7 @@ const styles = {
     h2Caps: {
       fontSize: '20px',
       textDecoration: 'none',
-      fontWeight: 500,
+      fontWeight: 550,
       fontStyle: 'normal',
       fontStretch: 'normal',
       letterSpacing: '0.2px',
@@ -83,7 +83,7 @@ const styles = {
     buttonCaps: {
       fontSize: '15px',
       textDecoration: 'none',
-      fontWeight: 500,
+      fontWeight: 450,
       fontStyle: 'normal',
       fontStretch: 'normal',
       letterSpacing: '0.3px',
@@ -105,7 +105,7 @@ const styles = {
     bodySmallSemibold: {
       fontSize: '14px',
       textDecoration: 'none',
-      fontWeight: 500,
+      fontWeight: 520,
       fontStyle: 'normal',
       fontStretch: 'normal',
       letterSpacing: '0px',
@@ -150,7 +150,7 @@ const styles = {
       h1: {
         fontSize: '20px',
         textDecoration: 'none',
-        fontWeight: 500,
+        fontWeight: 550,
         fontStyle: 'normal',
         fontStretch: 'normal',
         letterSpacing: '0px',
@@ -161,7 +161,7 @@ const styles = {
       h2: {
         fontSize: '18px',
         textDecoration: 'none',
-        fontWeight: 500,
+        fontWeight: 550,
         fontStyle: 'normal',
         fontStretch: 'normal',
         letterSpacing: '0.18px',
@@ -172,7 +172,7 @@ const styles = {
       h2Caps: {
         fontSize: '18px',
         textDecoration: 'none',
-        fontWeight: 500,
+        fontWeight: 550,
         fontStyle: 'normal',
         fontStretch: 'normal',
         letterSpacing: '0.18px',
@@ -205,7 +205,7 @@ const styles = {
       buttonCaps: {
         fontSize: '14px',
         textDecoration: 'none',
-        fontWeight: 500,
+        fontWeight: 450,
         fontStyle: 'normal',
         fontStretch: 'normal',
         letterSpacing: '0.28px',
@@ -227,7 +227,7 @@ const styles = {
       bodySmallSemibold: {
         fontSize: '13px',
         textDecoration: 'none',
-        fontWeight: 500,
+        fontWeight: 450,
         fontStyle: 'normal',
         fontStretch: 'normal',
         letterSpacing: '0.065px',
