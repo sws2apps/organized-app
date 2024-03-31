@@ -50,7 +50,7 @@ const AppSettings = () => {
               value={autoSyncInterval}
               onChange={(e) => handleUpdateSyncInterval(e.target.value)}
               height={48}
-              sx={{ width: '200px', minWidth: '200px' }}
+              sx={{ maxWidth: '200px' }}
             >
               {[5, 15, 30, 45].map((time) => (
                 <MenuItem key={time} value={time}>
