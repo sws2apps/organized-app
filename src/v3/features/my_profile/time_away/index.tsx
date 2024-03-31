@@ -9,7 +9,7 @@ import TimeAwayItem from './components/TimeAwayItem';
 const UserTimeAway = () => {
   const { t } = useAppTranslation();
 
-  const { timeAwayList, tabletDown, handleUserTimeAwayAdd, handleUserTimeAwayDelete } = useTimeAway();
+  const { timeAwayList, handleUserTimeAwayAdd, handleUserTimeAwayDelete } = useTimeAway();
 
   return (
     <ProfileItemContainer>
@@ -34,7 +34,6 @@ const UserTimeAway = () => {
             lastItem={index === timeAwayList.data.length - 1}
             onAdd={handleUserTimeAwayAdd}
             onDelete={() => handleUserTimeAwayDelete(timeAwayItem.id)}
-            tabletDown={tabletDown}
           />
         ))}
       </SettingWithBorderContainer>

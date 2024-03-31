@@ -3,14 +3,17 @@ import Button from '@components/button';
 import DatePicker from '@components/date_picker';
 import TextField from '@components/textfield';
 import { TimeAwayItemProps } from '../index.types';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { IconAdd, IconDelete } from '@icons/index';
 import useTimeAwayItem from './useTimeAwayItem';
 
 const TimeAwayItem = (props: TimeAwayItemProps) => {
-  const { timeAway, lastItem, onAdd, onDelete, tabletDown } = props;
+  const { timeAway, lastItem, onAdd, onDelete } = props;
 
   const { t } = useAppTranslation();
+
+  const { tabletDown } = useBreakpoints();
+
   const { comments, endDate, handleUpdateComments, handleUpdateEndDate, handleUpdateStartDate, startDate } =
     useTimeAwayItem(timeAway);
 
@@ -48,19 +51,9 @@ const TimeAwayItem = (props: TimeAwayItemProps) => {
           alignItems: 'center',
           gap: '8px',
           justifyContent: isLast ? 'space-between' : 'flex-end',
-          flexWrap: 'wrap',
+          flexDirection: tabletDown ? 'column-reverse' : 'row',
         }}
       >
-        <Button
-          variant="small"
-          color="red"
-          startIcon={<IconDelete />}
-          sx={{ height: '32px', minHeight: '32px !important' }}
-          onClick={onDelete}
-        >
-          {t('tr_delete')}
-        </Button>
-
         {isLast && (
           <Button
             variant="small"
@@ -71,6 +64,16 @@ const TimeAwayItem = (props: TimeAwayItemProps) => {
             {t('tr_add')}
           </Button>
         )}
+
+        <Button
+          variant="small"
+          color="red"
+          startIcon={<IconDelete />}
+          sx={{ height: '32px', minHeight: '32px !important' }}
+          onClick={onDelete}
+        >
+          {t('tr_delete')}
+        </Button>
       </Box>
     </Box>
   );
