@@ -15,7 +15,7 @@
     "test": "npm run cypress:component-test",
     "cypress:open": "cypress open",
     "cypress:component-test": "cypress run --component --browser chrome",
-    "generate:css": "node converter/css/convert.js && prettier src/v3/global.css --write",
+    "generate:css": "node converter/css/convert.js && prettier  converter/css/tokens.json src/v3/global/global.css src/v3/global/global.ts --write",
     "generate:icons": "node converter/svg/convert.js && prettier src/v3/components/icons --write",
     "prepare": "husky install",
     "locales:unused": "node unused-i18n-keys.js",

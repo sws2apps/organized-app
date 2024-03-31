@@ -24,7 +24,7 @@ import {
   ProgressBarSmall,
   TimePicker,
   AssignmentsCheckList,
-  UserAccountItem
+  UserAccountItem,
 } from '@components/index';
 import { useEffect, useState } from 'react';
 import { IconAdd, IconAssign, IconClose, IconReturn, IconUndo, IconUpdate, IconInfo, IconVisitors } from '@icons/index';
@@ -797,7 +797,7 @@ const ComponentPreview = () => {
               <Checkbox label={'Watchtower Reader'} checked={checked} onChange={(e, checked) => console.log(checked)} />
             </AssignmentsCheckList>
           </Box>
-          </Box>
+        </Box>
         <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap', marginTop: '10px' }}>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             <Typography className="label-small-regular">user-buttons:</Typography>

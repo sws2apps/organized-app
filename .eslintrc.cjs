@@ -44,6 +44,7 @@ module.exports = {
           ['@locales', './src/shared/locales'],
           ['@shared', './src/shared'],
           ['@definition', './src/v3/definition'],
+          ['@global', './src/v3/global'],
         ],
       },
     },
