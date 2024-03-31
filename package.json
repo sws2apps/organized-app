@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
-    "@emotion/styled": "^11.11.0",
+    "@emotion/styled": "^11.11.5",
     "@fingerprintjs/fingerprintjs": "^4.2.2",
     "@fontsource/inter": "^5.0.17",
     "@fontsource/poppins": "^5.0.12",
@@ -50,7 +50,7 @@
     "eslint-config-prettier": "^9.1.0",
     "fast-memoize": "^2.5.2",
     "file-select-dialog": "^1.5.4",
-    "firebase": "^10.9.0",
+    "firebase": "^10.10.0",
     "html2pdf.js": "^0.10.1",
     "i18next": "^23.10.1",
     "interweave": "^13.1.0",
@@ -67,7 +67,7 @@
     "swiper": "^11.1.0",
     "use-pwa2": "^0.2.0",
     "validator": "^13.11.0",
-    "vite": "^5.2.6",
+    "vite": "^5.2.7",
     "vite-plugin-comlink": "^4.0.2",
     "workbox-cli": "^7.0.0"
   },
