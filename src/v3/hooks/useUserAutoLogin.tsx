@@ -70,7 +70,7 @@ const useUserAutoLogin = () => {
               }
             }
 
-            await setRootModalOpen(false);
+            await setRootModalOpen(true);
 
             worker.postMessage('startWorker');
           }

@@ -15,7 +15,7 @@ const AppModalWrapper = ({ children }: { children: ReactNode }) => {
           onClose={handleClose}
           aria-labelledby="alert-dialog-close-title"
           aria-describedby="alert-dialog-description"
-          PaperProps={{ sx: { color: 'unset', backgroundColor: 'unset', borderRadius: 'unset' } }}
+          PaperProps={{ sx: { color: 'unset', backgroundColor: 'unset', borderRadius: 'unset', boxShadow: 'none' } }}
         >
           <AppLoading />
         </Dialog>
