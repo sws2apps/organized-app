@@ -1,6 +1,6 @@
 import { PropsWithChildren } from 'react';
 
-export type CPEAssignmentCheckListColors =
+export type AssignmentCheckListColors =
   | 'midweek-meeting'
   | 'treasures-from-gods-word'
   | 'apply-yourself-to-the-field-ministry'
@@ -9,8 +9,8 @@ export type CPEAssignmentCheckListColors =
   | 'ministry'
   | 'duties';
 
-export interface CPEAssignmentCheckListProps extends PropsWithChildren {
+export interface AssignmentCheckListProps extends PropsWithChildren {
   header: string;
   disabled?: boolean;
-  color: CPEAssignmentCheckListColors;
+  color: AssignmentCheckListColors;
 }

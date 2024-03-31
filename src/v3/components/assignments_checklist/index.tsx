@@ -7,9 +7,9 @@ import {
   StyledFormControlLabel,
   StyledCheckbox,
 } from './assignments_checklist.styles';
-import { type CPEAssignmentCheckListProps } from './assignments_checklist.types';
+import { type AssignmentCheckListProps } from './assignments_checklist.types';
 
-export const CPEAssignmentCheckList = ({ header, color, disabled = false, children }: CPEAssignmentCheckListProps) => {
+export const AssignmentCheckList = ({ header, color, disabled = false, children }: AssignmentCheckListProps) => {
   const [checkedItems, setCheckedItems] = useState({});
   const [checkedMain, setCheckedMain] = useState(false);
 
@@ -87,4 +87,4 @@ export const CPEAssignmentCheckList = ({ header, color, disabled = false, childr
   );
 };
 
-export default CPEAssignmentCheckList;
+export default AssignmentCheckList;
