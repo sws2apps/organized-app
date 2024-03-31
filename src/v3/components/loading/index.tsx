@@ -7,7 +7,7 @@ const AppLoading = () => {
   const { t } = useAppTranslation();
 
   return (
-    <StyledCircleBox className="pop-up-shadow">
+    <StyledCircleBox>
       <IconLoading color="var(--accent-main)" width={72} height={72} />
       <Typography className="h4" color="var(--accent-main)">
         {t('tr_loading')}
