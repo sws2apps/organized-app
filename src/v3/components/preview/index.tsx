@@ -25,6 +25,7 @@ import {
   TimePicker,
   UserAccountItem,
   AddServiceTimeModalWindow,
+  DarkOverlay,
 } from '@components/index';
 import { useEffect, useState } from 'react';
 import { IconAdd, IconAssign, IconClose, IconReturn, IconUndo, IconUpdate, IconInfo, IconVisitors } from '@icons/index';
@@ -184,6 +185,8 @@ const ComponentPreview = () => {
     const themeColor = getComputedStyle(document.documentElement).getPropertyValue('--accent-100');
     document.querySelector("meta[name='theme-color']").setAttribute('content', themeColor);
   }, [currentTheme]);
+
+  const [darkOverlayIsOpen, setDarkOverlayIsOpen] = useState(false);
 
   return (
     <Box>
@@ -780,6 +783,25 @@ const ComponentPreview = () => {
             <Typography className="label-small-regular">add-service-time:</Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
               <AddServiceTimeModalWindow />
+            </Box>
+          </Box>
+        </Box>
+        <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap', marginTop: '10px' }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <Typography className="label-small-regular">dark-overlay:</Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+              <Button
+                variant="small"
+                onClick={() => {
+                  setDarkOverlayIsOpen(true);
+                  setTimeout(() => {
+                    setDarkOverlayIsOpen(false);
+                  }, 3000);
+                }}
+              >
+                Open dark-overlay 3sec
+              </Button>
+              <DarkOverlay overlayIsOpened={darkOverlayIsOpen} />
             </Box>
           </Box>
         </Box>

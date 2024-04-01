@@ -13,7 +13,6 @@ import { useState } from 'react';
 
 export const AddServiceTimeModalWindow = (props: AddServieTimeModalWindowProps) => {
   const duration = props.duration || '00:00';
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const variant = props.variant || 'simple';
 
   const { t } = useAppTranslation();
