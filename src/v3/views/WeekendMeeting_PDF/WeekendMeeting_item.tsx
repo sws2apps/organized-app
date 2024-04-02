@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
     gap: 6,
     paddingTop: 8,
     paddingBottom: 8,
+    width: 189,
   },
   meetingRole: {
     width: 90,
@@ -74,6 +75,7 @@ const styles = StyleSheet.create({
   },
   speechContainer: {
     width: 270,
+    justifyContent: 'center',
     paddingTop: 8,
     paddingBottom: 8,
     gap: 4,
@@ -102,6 +104,7 @@ const styles = StyleSheet.create({
   speakerContainer: {
     display: 'flex',
     flexDirection: 'row',
+    alignItems: 'center',
     gap: 16,
   },
   speaker: {
@@ -130,7 +133,7 @@ const styles = StyleSheet.create({
     paddingBottom: 4,
     paddingLeft: 8,
     paddingRight: 8,
-    gap: 8,
+    gap: 2,
     backgroundColor: '#F2F5FF',
     borderRadius: 2,
   },
@@ -160,7 +163,10 @@ const WeekendMeetingItem = ({
     mainSpeaker,
     congregation,
     substituteName,
+    weekType,
+    text,
   },
+  isLastItem,
 }: WeekendMeetingItemProps) => {
   const formatDate = (inputDate) => {
     const months = ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May', 'Jun.', 'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.'];
@@ -169,52 +175,139 @@ const WeekendMeetingItem = ({
     return `${day} ${monthAbbreviation} ${year}`;
   };
   const formattedDate = formatDate(date);
+  console.log(isLastItem);
+
+  let content;
+
+  if (weekType === 'Normal week') {
+    content = (
+      <>
+        <View style={styles.meetingParts}>
+          <View>
+            {chairman && (
+              <View style={styles.roleContainer}>
+                <Text style={styles.meetingRole}>Chairman:</Text>
+                <Text style={styles.name}>{chairman}</Text>
+              </View>
+            )}
+            {openingPrayer && (
+              <View style={styles.roleContainer}>
+                <Text style={styles.meetingRole}>Opening prayer:</Text>
+                <Text style={styles.name}>{openingPrayer}</Text>
+              </View>
+            )}
+          </View>
+          <View style={styles.lineHorizontal} />
+          <View>
+            {studyConductor && (
+              <View style={styles.roleContainer}>
+                <Text style={styles.meetingRole}>Study conductor:</Text>
+                <Text style={styles.name}>{studyConductor}</Text>
+              </View>
+            )}
+            {reader && (
+              <View style={styles.roleContainer}>
+                <Text style={styles.meetingRole}>Reader:</Text>
+                <Text style={styles.name}>{reader}</Text>
+              </View>
+            )}
+          </View>
+        </View>
+        <View style={styles.lineVertical} />
+        <View style={styles.speechContainer}>
+          <View style={styles.titleContainer}>
+            {speechTitle && <Text style={styles.speechTitle}>{speechTitle}</Text>}
+            {speechNumber && <Text style={styles.speechNumber}>№{speechNumber}</Text>}
+          </View>
+          <View style={styles.speakerContainer}>
+            <View style={styles.mainSpeaker}>
+              {mainSpeaker && <Text style={styles.speaker}>{mainSpeaker}</Text>}
+              {congregation && <Text style={styles.congregation}>{congregation}</Text>}
+            </View>
+            {substituteName && (
+              <View style={styles.substituteSpeaker}>
+                <Text style={styles.substitute}>Substitute:</Text>
+                <Text style={styles.substituteName}>{substituteName}</Text>
+              </View>
+            )}
+          </View>
+        </View>
+      </>
+    );
+  } else if (weekType === 'Visit of the circuit overseer') {
+    content = (
+      <>
+        <View style={styles.meetingParts}>
+          <View>
+            {chairman && (
+              <View style={styles.roleContainer}>
+                <Text style={styles.meetingRole}>Chairman:</Text>
+                <Text style={styles.name}>{chairman}</Text>
+              </View>
+            )}
+            {openingPrayer && (
+              <View style={styles.roleContainer}>
+                <Text style={styles.meetingRole}>Opening prayer:</Text>
+                <Text style={styles.name}>{openingPrayer}</Text>
+              </View>
+            )}
+          </View>
+          <View style={styles.lineHorizontal} />
+          <View>
+            {studyConductor && (
+              <View style={styles.roleContainer}>
+                <Text style={styles.meetingRole}>Study conductor:</Text>
+                <Text style={styles.name}>{studyConductor}</Text>
+              </View>
+            )}
+          </View>
+        </View>
+        <View style={styles.lineVertical} />
+        <View style={styles.speechContainer}>
+          {weekType && (
+            <View style={styles.titleContainer}>
+              <Text style={styles.speechTitle}>{weekType}</Text>
+            </View>
+          )}
+          <View style={styles.speakerContainer}>
+            {text && (
+              <View style={styles.mainSpeaker}>
+                <Text style={styles.speaker}>{text}</Text>
+              </View>
+            )}
+          </View>
+        </View>
+      </>
+    );
+  } else {
+    content = (
+      <>
+        <View style={styles.meetingParts}></View>
+        <View style={styles.lineVertical} />
+        <View style={styles.speechContainer}>
+          {weekType && (
+            <View style={styles.titleContainer}>
+              <Text style={styles.speechTitle}>{weekType}</Text>
+            </View>
+          )}
+          <View style={styles.speakerContainer}>
+            {text && (
+              <View style={styles.mainSpeaker}>
+                <Text style={styles.speaker}>{text}</Text>
+              </View>
+            )}
+          </View>
+        </View>
+      </>
+    );
+  }
 
   return (
-    <View style={styles.itemContainer}>
-      <View style={styles.date}>
+    <View style={[styles.itemContainer, isLastItem && { borderBottomLeftRadius: 6, borderBottomRightRadius: 6 }]}>
+      <View style={[styles.date, isLastItem && { borderBottomLeftRadius: 6 }]}>
         <Text style={styles.dateText}>{formattedDate}</Text>
       </View>
-      <View style={styles.meetingParts}>
-        <View>
-          <View style={styles.roleContainer}>
-            <Text style={styles.meetingRole}>Chairman:</Text>
-            <Text style={styles.name}>{chairman}</Text>
-          </View>
-          <View style={styles.roleContainer}>
-            <Text style={styles.meetingRole}>Opening prayer:</Text>
-            <Text style={styles.name}>{openingPrayer}</Text>
-          </View>
-        </View>
-        <View style={styles.lineHorizontal} />
-        <View>
-          <View style={styles.roleContainer}>
-            <Text style={styles.meetingRole}>Study conductor:</Text>
-            <Text style={styles.name}>{studyConductor}</Text>
-          </View>
-          <View style={styles.roleContainer}>
-            <Text style={styles.meetingRole}>Reader:</Text>
-            <Text style={styles.name}>{reader}</Text>
-          </View>
-        </View>
-      </View>
-      <View style={styles.lineVertical} />
-      <View style={styles.speechContainer}>
-        <View style={styles.titleContainer}>
-          <Text style={styles.speechTitle}>{speechTitle}</Text>
-          <Text style={styles.speechNumber}>№{speechNumber}</Text>
-        </View>
-        <View style={styles.speakerContainer}>
-          <View style={styles.mainSpeaker}>
-            <Text style={styles.speaker}>{mainSpeaker}</Text>
-            <Text style={styles.congregation}>{congregation}</Text>
-          </View>
-          <View style={styles.substituteSpeaker}>
-            <Text style={styles.substitute}>Substitute:</Text>
-            <Text style={styles.substituteName}>{substituteName}</Text>
-          </View>
-        </View>
-      </View>
+      {content}
     </View>
   );
 };

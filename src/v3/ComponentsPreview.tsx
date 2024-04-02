@@ -21,6 +21,7 @@ import {
 import { useEffect, useState } from 'react';
 import { IconAdd, IconAssign, IconClose, IconReturn, IconUndo, IconUpdate, IconInfo, IconVisitors } from '@icons/index';
 import { NavBar } from './layouts';
+import PdfPreview from './PDF_Peview';
 
 const themes = ['blue', 'green', 'orange', 'purple'];
 
@@ -519,6 +520,9 @@ const ComponentPreview = () => {
           </Box>
         </Box>
       </Container>
+      <Box>
+        <PdfPreview />
+      </Box>
     </Box>
   );
 };
