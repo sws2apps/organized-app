@@ -175,93 +175,75 @@ const WeekendMeetingItem = ({
     return `${day} ${monthAbbreviation} ${year}`;
   };
   const formattedDate = formatDate(date);
-  console.log(isLastItem);
-
   let content;
+
+  const commonMeetingParts = (
+    <View style={styles.meetingParts}>
+      <View>
+        {chairman && (
+          <View style={styles.roleContainer}>
+            <Text style={styles.meetingRole}>Chairman:</Text>
+            <Text style={styles.name}>{chairman}</Text>
+          </View>
+        )}
+        {openingPrayer && (
+          <View style={styles.roleContainer}>
+            <Text style={styles.meetingRole}>Opening prayer:</Text>
+            <Text style={styles.name}>{openingPrayer}</Text>
+          </View>
+        )}
+      </View>
+      {weekType === 'Normal week' && <View style={styles.lineHorizontal} />}
+      <View>
+        {studyConductor && (
+          <View style={styles.roleContainer}>
+            <Text style={styles.meetingRole}>Study conductor:</Text>
+            <Text style={styles.name}>{studyConductor}</Text>
+          </View>
+        )}
+        {reader && (
+          <View style={styles.roleContainer}>
+            <Text style={styles.meetingRole}>Reader:</Text>
+            <Text style={styles.name}>{reader}</Text>
+          </View>
+        )}
+      </View>
+    </View>
+  );
+
+  const commonSpeechContainer = (
+    <View style={styles.speechContainer}>
+      <View style={styles.titleContainer}>
+        {speechTitle && <Text style={styles.speechTitle}>{speechTitle}</Text>}
+        {speechNumber && <Text style={styles.speechNumber}>№{speechNumber}</Text>}
+      </View>
+      <View style={styles.speakerContainer}>
+        <View style={styles.mainSpeaker}>
+          {mainSpeaker && <Text style={styles.speaker}>{mainSpeaker}</Text>}
+          {congregation && <Text style={styles.congregation}>{congregation}</Text>}
+        </View>
+        {substituteName && (
+          <View style={styles.substituteSpeaker}>
+            <Text style={styles.substitute}>Substitute:</Text>
+            <Text style={styles.substituteName}>{substituteName}</Text>
+          </View>
+        )}
+      </View>
+    </View>
+  );
 
   if (weekType === 'Normal week') {
     content = (
       <>
-        <View style={styles.meetingParts}>
-          <View>
-            {chairman && (
-              <View style={styles.roleContainer}>
-                <Text style={styles.meetingRole}>Chairman:</Text>
-                <Text style={styles.name}>{chairman}</Text>
-              </View>
-            )}
-            {openingPrayer && (
-              <View style={styles.roleContainer}>
-                <Text style={styles.meetingRole}>Opening prayer:</Text>
-                <Text style={styles.name}>{openingPrayer}</Text>
-              </View>
-            )}
-          </View>
-          <View style={styles.lineHorizontal} />
-          <View>
-            {studyConductor && (
-              <View style={styles.roleContainer}>
-                <Text style={styles.meetingRole}>Study conductor:</Text>
-                <Text style={styles.name}>{studyConductor}</Text>
-              </View>
-            )}
-            {reader && (
-              <View style={styles.roleContainer}>
-                <Text style={styles.meetingRole}>Reader:</Text>
-                <Text style={styles.name}>{reader}</Text>
-              </View>
-            )}
-          </View>
-        </View>
+        {commonMeetingParts}
         <View style={styles.lineVertical} />
-        <View style={styles.speechContainer}>
-          <View style={styles.titleContainer}>
-            {speechTitle && <Text style={styles.speechTitle}>{speechTitle}</Text>}
-            {speechNumber && <Text style={styles.speechNumber}>№{speechNumber}</Text>}
-          </View>
-          <View style={styles.speakerContainer}>
-            <View style={styles.mainSpeaker}>
-              {mainSpeaker && <Text style={styles.speaker}>{mainSpeaker}</Text>}
-              {congregation && <Text style={styles.congregation}>{congregation}</Text>}
-            </View>
-            {substituteName && (
-              <View style={styles.substituteSpeaker}>
-                <Text style={styles.substitute}>Substitute:</Text>
-                <Text style={styles.substituteName}>{substituteName}</Text>
-              </View>
-            )}
-          </View>
-        </View>
+        {commonSpeechContainer}
       </>
     );
   } else if (weekType === 'Visit of the circuit overseer') {
     content = (
       <>
-        <View style={styles.meetingParts}>
-          <View>
-            {chairman && (
-              <View style={styles.roleContainer}>
-                <Text style={styles.meetingRole}>Chairman:</Text>
-                <Text style={styles.name}>{chairman}</Text>
-              </View>
-            )}
-            {openingPrayer && (
-              <View style={styles.roleContainer}>
-                <Text style={styles.meetingRole}>Opening prayer:</Text>
-                <Text style={styles.name}>{openingPrayer}</Text>
-              </View>
-            )}
-          </View>
-          <View style={styles.lineHorizontal} />
-          <View>
-            {studyConductor && (
-              <View style={styles.roleContainer}>
-                <Text style={styles.meetingRole}>Study conductor:</Text>
-                <Text style={styles.name}>{studyConductor}</Text>
-              </View>
-            )}
-          </View>
-        </View>
+        {commonMeetingParts}
         <View style={styles.lineVertical} />
         <View style={styles.speechContainer}>
           {weekType && (
