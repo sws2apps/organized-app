@@ -63,16 +63,6 @@ export const AddServiceTimeModalWindow = (props: AddServieTimeModalWindowProps) 
     convertDurationStringToSeconds(duration)
   );
 
-  const incrementCreditHoursDuration = () => {
-    setLocalDurationInSeconds(localDurationInSeconds + 60);
-  };
-
-  const decrimentCreditHoursDuration = () => {
-    if (convertDurationInSecondsToString(localDurationInSeconds) != '00:00') {
-      setLocalDurationInSeconds(localDurationInSeconds - 60);
-    }
-  };
-
   const [countOfStudies, setCountOfStudies] = useState(0);
 
   const incrementCountOfStudies = () => {
@@ -94,10 +84,6 @@ export const AddServiceTimeModalWindow = (props: AddServieTimeModalWindowProps) 
   const styledRowContainerWithBibleStudiesRef = useRef(null);
 
   let dropdownCheckedItems = [];
-
-  useEffect(() => {
-    console.log('page redmd');
-  }, []);
 
   return (
     <StyledModalWindowContainer>
@@ -128,11 +114,11 @@ export const AddServiceTimeModalWindow = (props: AddServieTimeModalWindowProps) 
           <StyledBox>
             <CustomTypography className="body-regular">{t('tr_creditHours')}</CustomTypography>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '168px', alignItems: 'center' }}>
-              <MinusButton onClick={decrimentCreditHoursDuration} />
-              <CustomTypography className="h2">
+              <MinusButton />
+              <CustomTypography className="h2" color={'var(--grey-300)'}>
                 {convertDurationInSecondsToString(localCreditHoursDurationInSeconds)}
               </CustomTypography>
-              <PlusButton onClick={incrementCreditHoursDuration} />
+              <PlusButton />
             </Box>
           </StyledBox>
         ) : null}
