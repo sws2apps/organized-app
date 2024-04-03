@@ -1,3 +1,12 @@
+# [2.122.0](https://github.com/sws2apps/cpe-sws/compare/v2.121.0...v2.122.0) (2024-04-03)
+
+
+### Features
+
+* **deps:** bump @tanstack/react-query from 5.28.9 to 5.28.14 ([2212199](https://github.com/sws2apps/cpe-sws/commit/2212199e77f4cbaa0e7cbf4c7cfd61c5ea6aad69))
+* **deps:** bump vite-plugin-comlink from 4.0.2 to 4.0.3 ([417b0d3](https://github.com/sws2apps/cpe-sws/commit/417b0d306bb957e3b51bdd80de8d360da4df7673))
+* **views:** update weekend meeting template to use portrait format ([dd7de1b](https://github.com/sws2apps/cpe-sws/commit/dd7de1b47998b30e93fe83aee2d79bc28c1d17e3))
+
 # [2.121.0](https://github.com/sws2apps/cpe-sws/compare/v2.120.0...v2.121.0) (2024-04-01)
 
 
