@@ -781,8 +781,36 @@ const ComponentPreview = () => {
         <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap', marginTop: '10px' }}>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             <Typography className="label-small-regular">add-service-time:</Typography>
-            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-              <AddServiceTimeModalWindow />
+            <Box sx={{ display: 'flex', flexDirection: 'row', gap: '16px' }}>
+              <AddServiceTimeModalWindow
+                bibleStudiesList={[
+                  'Alice',
+                  'Bob',
+                  'Charlie',
+                  'Diana',
+                  'Ethan',
+                  'Fiona',
+                  'George',
+                  'Hannah',
+                  'Ian',
+                  'Julia',
+                ]}
+              />
+              <AddServiceTimeModalWindow
+                variant="pioneer"
+                bibleStudiesList={[
+                  'Alice',
+                  'Bob',
+                  'Charlie',
+                  'Diana',
+                  'Ethan',
+                  'Fiona',
+                  'George',
+                  'Hannah',
+                  'Ian',
+                  'Julia',
+                ]}
+              />
             </Box>
           </Box>
         </Box>

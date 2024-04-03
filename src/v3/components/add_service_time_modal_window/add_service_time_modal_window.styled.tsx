@@ -17,7 +17,13 @@ export const StyledRowContainer = styled(Box)({
   borderRadius: 'var(--radius-xl)',
   border: '1px solid var(--accent-300)',
   padding: '16px',
+  display: 'flex',
   gap: '16px',
+  width: '100%',
+});
+
+export const StyledBox = styled(Box)({
   display: 'flex',
   alignItems: 'center',
+  justifyContent: 'space-between',
 });

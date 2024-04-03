@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 
-import { StyledModalWindowContainer, StyledRowContainer } from './add_service_time_modal_window.styled';
+import { StyledBox, StyledModalWindowContainer, StyledRowContainer } from './add_service_time_modal_window.styled';
 import { AddServieTimeModalWindowProps } from './add_service_time_modal_window.types';
 import useAppTranslation from '@hooks/useAppTranslation';
 
@@ -9,7 +9,8 @@ import DatePicker from '@components/date_picker';
 import MinusButton from '@components/minus_button';
 import PlusButton from '@components/plus_button';
 import Button from '@components/button';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { CustomDropdownContainer, CustomDropdownMenu } from './components/custom_dropdown';
 
 export const AddServiceTimeModalWindow = (props: AddServieTimeModalWindowProps) => {
   const duration = props.duration || '00:00';
@@ -58,6 +59,46 @@ export const AddServiceTimeModalWindow = (props: AddServieTimeModalWindowProps) 
     }
   };
 
+  const [localCreditHoursDurationInSeconds, setLocalCreditHoursDurationInSeconds] = useState(() =>
+    convertDurationStringToSeconds(duration)
+  );
+
+  const incrementCreditHoursDuration = () => {
+    setLocalDurationInSeconds(localDurationInSeconds + 60);
+  };
+
+  const decrimentCreditHoursDuration = () => {
+    if (convertDurationInSecondsToString(localDurationInSeconds) != '00:00') {
+      setLocalDurationInSeconds(localDurationInSeconds - 60);
+    }
+  };
+
+  const [countOfStudies, setCountOfStudies] = useState(0);
+
+  const incrementCountOfStudies = () => {
+    setCountOfStudies(countOfStudies + 1);
+  };
+
+  const decrimentCountOfStudies = () => {
+    if (countOfStudies !== 0) {
+      setCountOfStudies(countOfStudies - 1);
+    }
+  };
+
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const handleCustomDropdownContainerClick = () => {
+    setDropdownOpen((previous) => !previous);
+  };
+
+  const styledRowContainerWithBibleStudiesRef = useRef(null);
+
+  let dropdownCheckedItems = [];
+
+  useEffect(() => {
+    console.log('page redmd');
+  }, []);
+
   return (
     <StyledModalWindowContainer>
       <Box>
@@ -72,15 +113,54 @@ export const AddServiceTimeModalWindow = (props: AddServieTimeModalWindowProps) 
           <DatePicker view={'button'} />
         </Box>
       </Box>
-      <StyledRowContainer>
-        <CustomTypography className="body-regular">{t('tr_hours')}</CustomTypography>
+      <StyledRowContainer sx={{ justifyContent: 'space-between', flexDirection: 'column', alignItems: 'stretch' }}>
+        <StyledBox>
+          <CustomTypography className="body-regular">{t('tr_hours')}</CustomTypography>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '168px', alignItems: 'center' }}>
+            <MinusButton onClick={decrimentDuration} />
+            <CustomTypography className="h2">
+              {convertDurationInSecondsToString(localDurationInSeconds)}
+            </CustomTypography>
+            <PlusButton onClick={incrementDuration} />
+          </Box>
+        </StyledBox>
+        {variant == 'pioneer' ? (
+          <StyledBox>
+            <CustomTypography className="body-regular">{t('tr_creditHours')}</CustomTypography>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '168px', alignItems: 'center' }}>
+              <MinusButton onClick={decrimentCreditHoursDuration} />
+              <CustomTypography className="h2">
+                {convertDurationInSecondsToString(localCreditHoursDurationInSeconds)}
+              </CustomTypography>
+              <PlusButton onClick={incrementCreditHoursDuration} />
+            </Box>
+          </StyledBox>
+        ) : null}
+      </StyledRowContainer>
+      <StyledRowContainer ref={styledRowContainerWithBibleStudiesRef} sx={{ alignItems: 'center' }}>
+        <CustomDropdownContainer
+          label={t('tr_bibleStudies')}
+          onClick={() => {
+            handleCustomDropdownContainerClick();
+          }}
+        />
+        <CustomDropdownMenu
+          open={dropdownOpen}
+          labelAdd={t('tr_addNewStudy')}
+          items={props.bibleStudiesList}
+          checkedItems={(value) => (dropdownCheckedItems = value)}
+          width={styledRowContainerWithBibleStudiesRef.current?.offsetWidth + 'px'}
+          anchorElement={styledRowContainerWithBibleStudiesRef.current}
+          editIconClicked={(item_index, item_text) => {
+            // TODO: Open edit window
+          }}
+        />
         <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '168px', alignItems: 'center' }}>
-          <MinusButton onClick={decrimentDuration} />
-          <CustomTypography className="h2">{convertDurationInSecondsToString(localDurationInSeconds)}</CustomTypography>
-          <PlusButton onClick={incrementDuration} />
+          <MinusButton onClick={decrimentCountOfStudies} />
+          <CustomTypography className="h2">{countOfStudies}</CustomTypography>
+          <PlusButton onClick={incrementCountOfStudies} />
         </Box>
       </StyledRowContainer>
-      <StyledRowContainer></StyledRowContainer>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
         <Button variant="secondary">{t('tr_cancel')}</Button>
         <Button variant="main">{t('tr_add')}</Button>
