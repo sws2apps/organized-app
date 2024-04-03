@@ -1,3 +1,10 @@
+## [2.122.1](https://github.com/sws2apps/cpe-sws/compare/v2.122.0...v2.122.1) (2024-04-03)
+
+
+### Bug Fixes
+
+* **views:** update weekend meeting template to handle longer names ([6c2643b](https://github.com/sws2apps/cpe-sws/commit/6c2643ba11317554ed2bccfe08276cd7ab73e15e))
+
 # [2.122.0](https://github.com/sws2apps/cpe-sws/compare/v2.121.0...v2.122.0) (2024-04-03)
 
 
