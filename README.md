@@ -30,7 +30,7 @@ A free web app for Jehovah’s Witnesses congregations, helping with assignments
 
 🛜 **Offline-use convenience:** You can use the app even offline; data will be synced with your devices and congregation once the connection is restored.
 
-_Learn even more features, benefits and use-cases on our [About Organized website](https://about.organized-app.com)._
+_Learn even more about Organized features, benefits and use-cases on our [About Organized website](https://about.organized-app.com)._
 
 
 <img width="1110" alt="Features-gridv2" src="https://github.com/sws2apps/organized-app/assets/26148770/041d0b7a-0e59-446b-a735-0e978f3df9a5">
