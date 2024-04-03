@@ -4,7 +4,7 @@ import WeekendMeetingHeader from './Header';
 import WeekendMeetingItem from './Row';
 import styles from './styles';
 
-const MAX_HEIGHT_ON_PAGE = 850;
+const MAX_HEIGHT_ON_PAGE = 820;
 
 const calculateItemHeight = (meetingData) => {
   const { week_type } = meetingData;
