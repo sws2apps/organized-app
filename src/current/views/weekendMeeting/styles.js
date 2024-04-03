@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     gap: 6,
     paddingTop: 8,
     paddingBottom: 8,
-    width: 189,
+    width: 215,
   },
   meetingRole: {
     width: 90,
@@ -70,6 +70,7 @@ const styles = StyleSheet.create({
   name: {
     color: '#222222',
     fontSize: 10,
+    width: 125,
   },
   roleContainer: {
     display: 'flex',
@@ -77,7 +78,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   lineHorizontal: {
-    width: 189,
+    width: 215,
     borderBottom: '1px solid #D5DFFD',
   },
   lineVertical: {
@@ -86,14 +87,14 @@ const styles = StyleSheet.create({
     borderLeft: '1px solid #D5DFFD',
   },
   speechContainer: {
-    width: 270,
+    width: 244,
     justifyContent: 'center',
     paddingTop: 8,
     paddingBottom: 8,
     gap: 4,
   },
   titleContainer: {
-    width: 270,
+    width: 244,
     display: 'flex',
     flexDirection: 'row',
     alignContent: 'center',
@@ -101,7 +102,7 @@ const styles = StyleSheet.create({
     gap: 5,
   },
   speechTitle: {
-    width: 230,
+    width: 200,
     color: '#3B4CA3',
     fontSize: 10,
     fontWeight: 'semibold',
@@ -143,6 +144,7 @@ const styles = StyleSheet.create({
     gap: 2,
     backgroundColor: '#F2F5FF',
     borderRadius: 2,
+    flexWrap: 'wrap',
   },
   substitute: {
     fontSize: 8,
