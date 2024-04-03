@@ -31,8 +31,8 @@ const WeekendMeetingDownloadPDF = () => {
     const firstSplit = firstWeek.weekend_meeting_date.split('/');
     const lastSplit = lastWeek.weekend_meeting_date.split('/');
 
-    const firstFormatted = `${firstSplit[0]}${firstSplit[2]}`;
-    const lastFormatted = `${lastSplit[0]}${lastSplit[2]}`;
+    const firstFormatted = `${firstSplit[0]}${firstSplit[1]}`;
+    const lastFormatted = `${lastSplit[0]}${lastSplit[1]}`;
 
     let formatted = firstFormatted;
 

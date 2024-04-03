@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { Font, Document } from '@react-pdf/renderer';
 import RobotoBold from '../fonts/Roboto-Bold.ttf';
 import RobotoRegular from '../fonts/Roboto-Regular.ttf';
-import { ScheduleContainerA } from './weekendMeeting';
+import { WeekendMeetingContainer } from './weekendMeeting';
 import { Setting } from '../classes/Setting';
 
 Font.register({
@@ -46,7 +46,7 @@ const WeekendMeetingTemplate = ({ data }) => {
           creator="Congregation Program for Everyone (CPE)"
           producer="sws2apps (by react-pdf)"
         >
-          <ScheduleContainerA data={data} />
+          <WeekendMeetingContainer data={data} />
         </Document>
       )}
     </>
