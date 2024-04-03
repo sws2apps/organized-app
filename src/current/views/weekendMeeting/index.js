@@ -1,1 +1,1 @@
-export { default as ScheduleContainerA } from './templateA/ScheduleContainer';
+export { default as WeekendMeetingContainer } from './Container';

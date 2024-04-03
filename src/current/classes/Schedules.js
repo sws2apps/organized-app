@@ -604,23 +604,16 @@ SchedulesClass.prototype.WeekendMeetingData = function (startWeek, endWeek) {
     const publicTalks = S34s.getLocal();
     const currentTalk = publicTalks.find((record) => record.talk_number === schedule.public_talk);
     schedule.public_talk_title = currentTalk ? currentTalk.talk_title : '';
+    schedule.public_talk_number = currentTalk ? `No. ${currentTalk.talk_number}` : '';
 
     schedule.w_co_talk_title = source.w_co_talk_title;
     schedule.w_talk_title_override = source.w_talk_title_override;
 
-    schedule.speakers = schedule.speaker_1_name;
-
     if (schedule.is_visiting_speaker) {
       const speaker = VisitingSpeakers.getSpeakerByUid(schedule.speaker_1);
       if (speaker) {
-        schedule.speakers += '\u000A';
-        schedule.speakers += `(${speaker.cong_name})`;
+        schedule.speaker_cong_name = speaker.cong_name;
       }
-    }
-
-    if (schedule.speaker_2_name !== '') {
-      schedule.speakers += '\u000A';
-      schedule.speakers += schedule.speaker_2_name;
     }
 
     result.push(schedule);
