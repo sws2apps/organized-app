@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { Box } from '@mui/material';
 import AutoComplete from '@components/autocomplete';
 import Typography from '@components/typography';
@@ -35,10 +34,6 @@ const CountrySelector = ({ handleCountryChange }: { handleCountryChange: (value:
       endIcon={<IconSearch color={selected ? 'var(--black)' : 'var(--accent-350)'} />}
     />
   );
-};
-
-CountrySelector.propTypes = {
-  handleCountryChange: PropTypes.func.isRequired,
 };
 
 export default CountrySelector;

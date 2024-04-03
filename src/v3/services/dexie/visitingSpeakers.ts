@@ -1,9 +1,9 @@
-import { getCongregation, getCongregationByID, getSpeaker } from '@services/cpe/visitingSpeakers';
+import { getCongregation, getCongregationByID, getSpeaker } from '@services/app/visitingSpeakers';
 import { appDb } from '.';
 import { promiseGetRecoil } from 'recoil-outside';
 import { congNameState, congNumberState } from '@states/settings';
 import { visitingSpeakerSchema } from './schema';
-import { getPerson } from '@services/cpe/persons';
+import { getPerson } from '@services/app/persons';
 
 export const acknowledgeRequestApproval = async (cong_number) => {
   cong_number = +cong_number;

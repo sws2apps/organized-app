@@ -1,12 +1,8 @@
+import { TimeAwayType } from '@definition/app';
+
 export type TimeAwayItemProps = {
-  timeAway: {
-    id: string;
-    startDate: string;
-    endDate?: string;
-    comments?: string;
-  };
+  timeAway: TimeAwayType;
   lastItem?: boolean;
   onAdd: VoidFunction;
   onDelete: VoidFunction;
-  tabletDown: boolean;
 };

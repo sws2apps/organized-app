@@ -5,6 +5,7 @@ import WeekendMeetingItem from './WeekendMeeting_PDF/WeekendMeeting_item';
 import WeekendMeetingFooter from './WeekendMeeting_PDF/WeekendMeeting_Footer';
 
 //Function to generate meeting data dynamically
+
 const generateMeetingData = () => {
   const meetings = [];
   const titles = [
@@ -26,6 +27,7 @@ const generateMeetingData = () => {
     const mainSpeaker = `Michael White${i}`;
     const congregation = locations[i];
     const substituteName = substitutes[i];
+
     const weekType = 'Normal week';
 
     meetings.push({
@@ -46,7 +48,7 @@ const generateMeetingData = () => {
   meetings.push(
     { date: '2024-03-25', text: 'Week of Circuit Assembly text', weekType: 'Week of Circuit Assembly' },
     {
-      date: '2024-03-30',
+      date: '2024-09-29',
       text: 'John Doe',
       weekType: 'Visit of the circuit overseer',
       chairman: 'John Doe',

@@ -11,7 +11,12 @@ const AccountHeaderIcon = () => {
         <Avatar
           alt="Avatar"
           src={userAvatar}
-          sx={{ width: 32, height: 32, border: isOffline ? '2px solid var(--red-main)' : 'none' }}
+          sx={{
+            width: 32,
+            height: 32,
+            border: isOffline ? '2px solid var(--red-main)' : 'none',
+            boxSizing: 'border-box',
+          }}
         />
       )}
       {!userAvatar && (
@@ -19,20 +24,24 @@ const AccountHeaderIcon = () => {
           width={32}
           height={32}
           color="#5065D0"
-          sx={{ border: isOffline ? '2px solid var(--red-main)' : 'none', borderRadius: 'var(--radius-xxl)' }}
+          sx={{
+            border: isOffline ? '2px solid var(--red-main)' : 'none',
+            borderRadius: 'var(--radius-xxl)',
+            boxSizing: 'border-box',
+          }}
         />
       )}
       {isOffline && (
         <IconNoConnection
-          width={12}
-          height={12}
+          width={16}
+          height={16}
           color="#FEFEFE"
           sx={{
             position: 'absolute',
             background: 'var(--red-main)',
             borderRadius: 'var(--radius-xxl)',
             padding: '2px',
-            top: '22px',
+            top: '20px',
             left: '-2px',
           }}
         />

@@ -1,7 +1,6 @@
-import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
 
-const CPEFilterChip = ({
+const CustomFilterChip = ({
   label,
   onClick,
   selected = false,
@@ -39,10 +38,4 @@ const CPEFilterChip = ({
   );
 };
 
-CPEFilterChip.propTypes = {
-  label: PropTypes.string.isRequired,
-  onClick: PropTypes.func,
-  selected: PropTypes.bool,
-};
-
-export default CPEFilterChip;
+export default CustomFilterChip;

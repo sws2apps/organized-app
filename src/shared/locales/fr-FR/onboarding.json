@@ -71,13 +71,14 @@
   "tr_sendLink": "Envoyer le lien",
   "tr_emailNotSupported": "Désolé, cet e-mail n'est pas valide ou n'est pas pris en charge",
   "tr_selectCountry": "Pays",
-  "tr_2FA": "Let’s make sure it's you",
-  "tr_2FADesc": "Enter a code from your authenticator app",
-  "tr_2FAIncorrect": "Incorrect 2FA code",
-  "tr_2FAIncorrectDesc": "The code might be incorrect or expired. Try again.",
-  "tr_unauthorizedAccount": "Your access permissions need to be adjusted",
-  "tr_unauthorizedAccountDesc": "Contact your congregation app administrator to confirm your role, then try again in 5 minutes. For any further assistance, elders can contact us via email.",
-  "tr_noSchedulesYet": "No schedules yet",
-  "tr_noSchedulesYetDesc": "Please ask your congregation elders to publish the meeting schedule first.",
-  "tr_reconnectAccount": "Reconnect my account"
+  "tr_2FA": "Assurons-nous que c'est bien vous",
+  "tr_2FADesc": "Saisissez le code de votre application d'authentification",
+  "tr_2FAIncorrect": "Code d’authentification à deux facteurs incorrect",
+  "tr_2FAIncorrectDesc": "Le code est peut-être incorrect ou a expiré. Veuillez réessayer.",
+  "tr_unauthorizedAccount": "Vos autorisations d'accès doivent être ajustées",
+  "tr_unauthorizedAccountDesc": "Contactez l'administrateur de l'application de votre assemblée pour confirmer votre rôle, puis réessayez dans 5 minutes. Pour toute assistance supplémentaire, les anciens peuvent nous contacter par e-mail.",
+  "tr_noSchedulesYet": "Aucun programme défini",
+  "tr_noSchedulesYetDesc": "Veuillez demander aux anciens de commencer par publier le programme de la réunion de votre assemblée.",
+  "tr_reconnectAccount": "Reconnecter mon compte",
+  "tr_registeringApproved": "Le collège des anciens a approuvé l'enregistrement de cette assemblée dans Organized"
 }

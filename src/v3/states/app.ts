@@ -1,6 +1,9 @@
 import { atom, selector } from 'recoil';
 import { getShortDatePickerFormat, getTranslation } from '@services/i18n/translation';
 import { convertStringToBoolean } from '@utils/common';
+import { SnackBarSeverityType } from '@definition/app';
+import { ReactElement } from 'react';
+import { LANGUAGE_LIST } from '@constants/index';
 
 export const isDarkThemeState = atom({
   key: 'isDarkTheme',
@@ -39,7 +42,7 @@ export const isLoginOpenState = atom({
 
 export const appLangState = atom({
   key: 'appLang',
-  default: (typeof window !== 'undefined' && localStorage.getItem('app_lang')) || 'e',
+  default: (typeof window !== 'undefined' && localStorage.getItem('app_lang')) || 'en',
 });
 
 export const monthNamesState = selector({
@@ -265,7 +268,7 @@ export const appSnackOpenState = atom({
   default: false,
 });
 
-export const appSeverityState = atom({
+export const appSeverityState = atom<SnackBarSeverityType>({
   key: 'appSeverity',
   default: 'success',
 });
@@ -273,6 +276,16 @@ export const appSeverityState = atom({
 export const appMessageState = atom({
   key: 'appMessage',
   default: '',
+});
+
+export const appMessageHeaderState = atom({
+  key: 'appMessageHeader',
+  default: '',
+});
+
+export const appMessageIconState = atom<ReactElement | null>({
+  key: 'appMessageIcon',
+  default: null,
 });
 
 export const congAccountConnectedState = atom({
@@ -386,4 +399,20 @@ export const isAppDataSyncingState = atom({
 export const lastAppDataSyncState = atom({
   key: 'lastAppDataSync',
   default: undefined,
+});
+
+export const isMFAEnabledState = atom({
+  key: 'isMFAEnabled',
+  default: false,
+});
+
+export const JWLangState = selector({
+  key: 'JWLang',
+  get: ({ get }) => {
+    const appLang = get(appLangState);
+
+    const currentLang = LANGUAGE_LIST.find((lang) => lang.locale === appLang);
+
+    return currentLang.code || 'e';
+  },
 });

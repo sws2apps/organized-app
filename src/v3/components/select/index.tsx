@@ -1,7 +1,7 @@
 import { TextField } from '@mui/material';
 import { SelectPropsType } from './index.types';
 
-const CPESelect = (props: SelectPropsType) => {
+const CustomSelect = (props: SelectPropsType) => {
   const label = props.label || '';
   const className = props.className || '';
   const startIcon = props.startIcon || null;
@@ -84,6 +84,12 @@ const CPESelect = (props: SelectPropsType) => {
               border: '1px solid var(--accent-200)',
               padding: '8px 0px',
               '& ul': { paddingTop: 0, paddingBottom: 0 },
+              '& li': {
+                borderBottom: '1px solid var(--accent-200)',
+              },
+              '& li:last-child': {
+                borderBottom: 'none',
+              },
             },
             className: 'small-card-shadow',
           },
@@ -95,4 +101,4 @@ const CPESelect = (props: SelectPropsType) => {
   );
 };
 
-export default CPESelect;
+export default CustomSelect;

@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyledBox, StyledInput, StyledButton } from './search_bar.styled';
 import { IconSearch, IconClose } from '../icons';
 import { InputAdornment } from '@mui/material';
 import { SearchBarProps } from './search_bar.types';
 
-const SearchBar = ({ placeholder, onSearch }: SearchBarProps) => {
-  const [value, setValue] = useState('');
+const SearchBar = ({ placeholder, onSearch, value }: SearchBarProps) => {
+  const [valueTmp, setValueTmp] = useState(value || '');
 
   const handleChange = (event) => {
     const query = event.target.value;
-    setValue(query);
+    setValueTmp(query);
     handleSearch(query);
   };
 
@@ -28,17 +28,23 @@ const SearchBar = ({ placeholder, onSearch }: SearchBarProps) => {
   const handleSearch = (query) => {
     const searchQuery = query.trim();
 
-    if (searchQuery.length > 0) {
-      onSearch(searchQuery);
-    } else {
-      onSearch('');
+    if (onSearch) {
+      if (searchQuery.length > 0) {
+        onSearch(searchQuery);
+      } else {
+        onSearch('');
+      }
     }
   };
 
   const handleClear = () => {
-    setValue('');
-    onSearch('');
+    setValueTmp('');
+    onSearch && onSearch('');
   };
+
+  useEffect(() => {
+    setValueTmp(value || '');
+  }, [value]);
 
   return (
     <StyledBox>
@@ -49,7 +55,7 @@ const SearchBar = ({ placeholder, onSearch }: SearchBarProps) => {
         placeholder={placeholder}
         disableUnderline={true}
         className="body-regular"
-        value={value}
+        value={valueTmp}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
         endAdornment={

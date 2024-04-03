@@ -1,4 +1,5 @@
 import { ReactElement } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Box, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import Typography from '@components/typography';
 
@@ -8,17 +9,30 @@ const DashboardMenu = ({
   secondaryText = '',
   badgeText = '',
   onClick,
+  path,
 }: {
   icon: ReactElement;
   primaryText: string;
   secondaryText?: string;
   badgeText?: string;
   onClick?: VoidFunction;
+  path?: string;
 }) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    if (path) {
+      navigate(path);
+      return;
+    }
+
+    onClick && onClick();
+  };
+
   return (
     <ListItemButton
       disableRipple
-      onClick={onClick}
+      onClick={handleClick}
       sx={{
         padding: '8px 8px 8px 16px',
         minHeight: '40px',

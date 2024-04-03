@@ -45,8 +45,9 @@ const useCongregation = ({ country }: { country: CountryType }) => {
 
           if (result.status !== 200) {
             await displaySnackNotification({
+              header: t('tr_errorTitle'),
               message: t('tr_congregationsFetchError'),
-              severity: 'warning',
+              severity: 'error',
             });
           }
 

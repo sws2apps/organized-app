@@ -47,8 +47,9 @@ const useCountry = ({ handleCountryChange }: { handleCountryChange: (value: Coun
 
       if (result.status !== 200) {
         await displaySnackNotification({
+          header: t('tr_errorTitle'),
           message: t('tr_countriesFetchError'),
-          severity: 'warning',
+          severity: 'error',
         });
       }
 

@@ -1,5 +1,6 @@
 import { Box } from '@mui/material';
 import Button from '@components/button';
+import Checkbox from '@components/checkbox';
 import CongregationSelector from '@components/congregation_selector';
 import CountrySelector from '@components/country_selector';
 import InfoMessage from '@components/info-message';
@@ -26,6 +27,9 @@ const CongregationInfo = ({ setIsCreate }: { setIsCreate: (value: boolean) => vo
     setUserTmpLastName,
     userTmpFirstName,
     userTmpLastName,
+    handleToggleApproval,
+    isElderApproved,
+    congregation,
   } = useCongregationInfo();
 
   return (
@@ -84,8 +88,16 @@ const CongregationInfo = ({ setIsCreate }: { setIsCreate: (value: boolean) => vo
           <CountrySelector handleCountryChange={setCountry} />
           {country !== null && <CongregationSelector country={country} setCongregation={setCongregation} />}
 
+          <Checkbox
+            label={t('tr_registeringApproved')}
+            disabled={congregation === null}
+            checked={isElderApproved}
+            onChange={(e) => handleToggleApproval(e.target.checked)}
+          />
+
           <Button
             variant="main"
+            disabled={!isElderApproved}
             onClick={handleCongregationAction}
             sx={{ width: '100%' }}
             startIcon={isProcessing ? <IconLoading width={22} height={22} /> : null}

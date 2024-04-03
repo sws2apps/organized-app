@@ -7,7 +7,7 @@ import useCongregation from './useCongregation';
 const CongregationCard = () => {
   const { t } = useAppTranslation();
 
-  const { secondaryText, handleManualSync } = useCongregation();
+  const { secondaryText, handleManualSync, isConnected } = useCongregation();
 
   return (
     <DashboardCard header={t('tr_congregation')}>
@@ -15,19 +15,21 @@ const CongregationCard = () => {
         <DashboardMenu icon={<IconGroups color="var(--black)" />} primaryText={t('tr_fieldServiceGroups')} />
       </ListItem>
       <ListItem disablePadding>
-        <DashboardMenu icon={<IconManageAccess color="var(--black)" />} primaryText={t('tr_manageAccessToApps')} />
+        <DashboardMenu icon={<IconManageAccess color="var(--black)" />} primaryText={t('tr_manageAccess')} />
       </ListItem>
       <ListItem disablePadding>
         <DashboardMenu icon={<IconSettings color="var(--black)" />} primaryText={t('tr_congregationSettings')} />
       </ListItem>
-      <ListItem disablePadding>
-        <DashboardMenu
-          icon={<IconSynced color="var(--black)" />}
-          primaryText={t('tr_syncAppData')}
-          secondaryText={secondaryText}
-          onClick={handleManualSync}
-        />
-      </ListItem>
+      {isConnected && (
+        <ListItem disablePadding>
+          <DashboardMenu
+            icon={<IconSynced color="var(--black)" />}
+            primaryText={t('tr_syncAppData')}
+            secondaryText={secondaryText}
+            onClick={handleManualSync}
+          />
+        </ListItem>
+      )}
     </DashboardCard>
   );
 };

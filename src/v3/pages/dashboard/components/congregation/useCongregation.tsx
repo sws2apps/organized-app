@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
-import { isAppDataSyncingState, lastAppDataSyncState } from '@states/app';
+import { congAccountConnectedState, isAppDataSyncingState, lastAppDataSyncState } from '@states/app';
 import { useAppTranslation, useGlobal } from '@hooks/index';
 import { setIsAppDataSyncing } from '@services/recoil/app';
 import { dbExportDataOnline } from '@services/dexie/app';
@@ -18,6 +18,7 @@ const useCongregation = () => {
   const isSyncing = useRecoilValue(isAppDataSyncingState);
   const lastSync = useRecoilValue(lastAppDataSyncState);
   const accountType = useRecoilValue(accountTypeState);
+  const isConnected = useRecoilValue(congAccountConnectedState);
 
   const getSecondaryText = () => {
     let label = t('tr_syncAppDataInProgress');
@@ -89,11 +90,13 @@ const useCongregation = () => {
   };
 
   useEffect(() => {
-    const svgIcon = document.querySelector('#organized-icon-synced');
-    const g = svgIcon.querySelector('g');
-    const checkMark = g.querySelector('path');
-    checkMark.style.animation = 'fade-out 0s ease-in-out forwards';
-  }, []);
+    if (isConnected) {
+      const svgIcon = document.querySelector('#organized-icon-synced');
+      const g = svgIcon.querySelector('g');
+      const checkMark = g.querySelector('path');
+      checkMark.style.animation = 'fade-out 0s ease-in-out forwards';
+    }
+  }, [isConnected]);
 
   useEffect(() => {
     if (isSyncing) {
@@ -107,7 +110,7 @@ const useCongregation = () => {
   }, [isSyncing]);
 
   useEffect(() => {
-    if (!isSyncing) {
+    if (!isSyncing && isConnected) {
       const svgIcon = document.querySelector<SVGElement>('#organized-icon-synced');
       const g = svgIcon.querySelector('g');
       const checkMark = g.querySelector('path');
@@ -115,9 +118,9 @@ const useCongregation = () => {
       svgIcon.style.animation = '';
       checkMark.style.animation = 'fade-in 0.25s ease-in-out forwards';
     }
-  }, [isSyncing]);
+  }, [isSyncing, isConnected]);
 
-  return { isSyncing, secondaryText: getSecondaryText(), handleManualSync };
+  return { isSyncing, secondaryText: getSecondaryText(), handleManualSync, isConnected };
 };
 
 export default useCongregation;

@@ -2,7 +2,7 @@ import { ChangeEvent } from 'react';
 import { Switch } from '@mui/material';
 import { IconOffCircle, IconOnCircle } from '@icons/index';
 
-const CPESwitch = ({
+const CustomSwitch = ({
   checked,
   onChange,
 }: {
@@ -42,4 +42,4 @@ const CPESwitch = ({
   );
 };
 
-export default CPESwitch;
+export default CustomSwitch;

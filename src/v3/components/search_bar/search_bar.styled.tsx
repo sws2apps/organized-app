@@ -3,15 +3,13 @@ import { Box, Button, Input } from '@mui/material';
 
 export const StyledBox = styled(Box)({
   display: 'flex',
-  width: '728px',
+  width: '100%',
   height: '48px',
   alignItems: 'center',
-  flexShrink: '0',
   borderRadius: 'var(--radius-m)',
   background: 'var(--grey-100)',
   padding: '4px',
   gap: '4px',
-  flex: '1 0 0',
   alignSelf: 'stretch',
 });
 

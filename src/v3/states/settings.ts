@@ -5,6 +5,7 @@ Individual property are evaluated using recoil selector
 
 import { atom, selector } from 'recoil';
 import { SettingsType } from '@definition/app';
+import { AccountTypeState } from '@definition/api';
 
 export const settingsState = atom({
   key: 'settings',
@@ -36,15 +37,6 @@ export const fullnameState = selector({
     const lastname = get(lastnameState);
 
     return `${lastname ? `${lastname} ` : ''}${firstname}`;
-  },
-});
-
-export const sourceLangState = selector({
-  key: 'sourceLang',
-  get: ({ get }) => {
-    const settings = get(settingsState);
-
-    return settings.source_lang || 'e';
   },
 });
 
@@ -179,7 +171,7 @@ export const accountTypeState = selector({
   get: ({ get }) => {
     const settings = get(settingsState);
 
-    return settings.account_type || '';
+    return (settings.account_type as AccountTypeState) || '';
   },
 });
 
@@ -380,5 +372,41 @@ export const weekendMeetingSubstituteSpeakerState = selector({
     const settings = get(settingsState);
 
     return settings.weekend_meeting_useSubstituteSpeaker || false;
+  },
+});
+
+export const followOSThemeState = selector({
+  key: 'followOSTheme',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+
+    return settings?.follow_os_theme?.value || false;
+  },
+});
+
+export const enableHourCreditsState = selector({
+  key: 'enableHourCredits',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+
+    return settings?.enable_hour_credits?.value || false;
+  },
+});
+
+export const userTimeAwayState = selector({
+  key: 'userTimeAway',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+
+    return settings?.user_time_away || { data: [], changes: [] };
+  },
+});
+
+export const publicTalkSyncState = selector({
+  key: 'publicTalkSync',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+
+    return settings?.public_talk_sync || '';
   },
 });

@@ -2,7 +2,7 @@ import { delay } from '@utils/dev';
 import { dbExportDataOnline, apiSendCongregationBackup, apiSendUserBackup } from './backupUtils';
 
 const setting = {
-  isEnabled: true,
+  isEnabled: false,
   visitorID: undefined,
   apiHost: undefined,
   congID: undefined,
@@ -42,16 +42,13 @@ const runBackupSchedule = async () => {
       userUID,
       visitorID,
     } = setting;
-
     const adminRole = userRole.includes('admin');
     const lmmoRole = userRole.includes('lmmo') || userRole.includes('lmmo-backup');
     const secretaryRole = userRole.includes('secretary');
     const weekendEditorRole = userRole.includes('coordinator') || userRole.includes('public_talk_coordinator');
     const publicTalkCoordinatorRole = userRole.includes('public_talk_coordinator');
     const publisherRole = userRole.includes('publisher') || userRole.includes('ms') || userRole.includes('elder');
-
     const canBackup = adminRole || lmmoRole || secretaryRole || weekendEditorRole || publisherRole;
-
     if (
       canBackup &&
       isEnabled &&
@@ -63,11 +60,8 @@ const runBackupSchedule = async () => {
       isCongAccountConnected
     ) {
       self.postMessage('Syncing');
-
       await delay(5000);
-
       const dbData = await dbExportDataOnline({ cong_role: userRole });
-
       const reqPayload = {
         cong_persons: dbData.dbPersons,
         cong_deleted: dbData.dbDeleted,
@@ -86,26 +80,20 @@ const runBackupSchedule = async () => {
         cong_publicTalks: publicTalkCoordinatorRole ? dbData.dbPublicTalks : undefined,
         cong_visitingSpeakers: publicTalkCoordinatorRole ? dbData.dbVisitingSpeakers : undefined,
       };
-
       if (accountType === 'vip' && userUID) {
         const data = await apiSendCongregationBackup({ apiHost, congID, reqPayload, userUID, visitorID });
-
         if (data && data.message === 'BACKUP_SENT') {
           setting.lastBackup = new Date().toISOString();
         }
       }
-
       if (accountType === 'pocket' && userID) {
         const data = await apiSendUserBackup({ apiHost, reqPayload, userID, visitorID });
-
         if (data && data.message === 'BACKUP_SENT') {
           setting.lastBackup = new Date().toISOString();
         }
       }
     }
-
     self.postMessage('Done');
-
     setTimeout(runBackupSchedule, backupInterval);
   } catch {
     self.postMessage('Done');

@@ -3,8 +3,8 @@ This file holds the source of the truth from the table "assignment".
 */
 
 import { atom, selector } from 'recoil';
-import { sourceLangState } from './settings';
 import { AssignmentType } from '@definition/sources';
+import { JWLangState } from './app';
 
 export const assignmentState = atom({
   key: 'assignment',
@@ -15,13 +15,13 @@ export const assignmentTypeLocaleState = selector({
   key: 'assignmentTypeLocale',
   get: ({ get }) => {
     const assignmentType = get(assignmentState);
-    const sourceLang: string = get(sourceLangState);
+    const JWLang: string = get(JWLangState);
 
     const result: AssignmentType[] = [];
     for (const type of assignmentType) {
       const obj = <AssignmentType>{};
       obj.value = type.code;
-      obj.label = type.assignment_type_name[sourceLang.toUpperCase()];
+      obj.label = type.assignment_type_name[JWLang.toUpperCase()];
       obj.assignable = type.assignable;
       obj.maleOnly = type.maleOnly;
       obj.type = type.type;

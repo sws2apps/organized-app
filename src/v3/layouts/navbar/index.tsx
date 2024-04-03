@@ -1,4 +1,4 @@
-import { Box, Container, IconButton, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material';
+import { AppBar, Box, Container, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Toolbar } from '@mui/material';
 import AccountHeaderIcon from '@components/account_header_icon';
 import Typography from '@components/typography';
 import { AppNotification, LanguageSwitcher, ThemeSwitcher } from '@features/index';
@@ -30,7 +30,6 @@ const NavBar = () => {
   const { t } = useAppTranslation();
 
   const {
-    tablet600Up,
     anchorEl,
     handleCloseMore,
     handleOpenMoreMenu,
@@ -51,7 +50,8 @@ const NavBar = () => {
   } = useNavbar();
 
   return (
-    <Box
+    <AppBar
+      position="fixed"
       sx={{
         backgroundColor: 'var(--accent-100)',
         borderBottom: '1px solid var(--accent-200)',
@@ -62,156 +62,158 @@ const NavBar = () => {
         width: '100%',
         overflow: 'hidden',
         zIndex: 100,
+        boxShadow: 'none',
       }}
     >
-      <Container
-        maxWidth={false}
-        sx={{
-          maxWidth: '1440px',
-          padding: { mobile: '8px 16px', tablet: '8px 32px' },
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
-        <Box
-          sx={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: { mobile: '8px', tablet: '16px' } }}
-          onClick={handleGoDashboard}
+      <Toolbar sx={{ padding: 0 }}>
+        <Container
+          maxWidth={false}
+          sx={{
+            maxWidth: '1440px',
+            padding: { mobile: '8px 16px', tablet: '8px 32px' },
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
         >
-          <IconLogo width={40} height={40} />
-          <Typography className="h3" color="var(--black)">
-            {tablet600Up ? t('tr_appFullName') : t('tr_appShortName')}
-          </Typography>
-        </Box>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: { mobile: '4px', tablet: '8px' } }}>
-          <AppNotification />
-          <ThemeSwitcher />
-
-          {tabletUp && <LanguageSwitcher menuStyle={baseMenuStyle} />}
-
-          <IconButton
-            color="inherit"
-            edge="start"
-            sx={{
-              padding: '0px 8px',
-              marginLeft: '0px',
-              borderRadius: '8px',
-              '.MuiTouchRipple-ripple .MuiTouchRipple-child': {
-                borderRadius: 0,
-                backgroundColor: 'rgba(23, 32, 42, .3)',
-              },
-            }}
-            onClick={handleOpenMoreMenu}
+          <Box
+            sx={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: { mobile: '8px', tablet: '16px' } }}
+            onClick={handleGoDashboard}
           >
-            {tabletDown && <IconMenu color="var(--black)" />}
-            {(tabletUp || laptopUp) && (
-              <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                {laptopUp && fullname && congName && (
-                  <Box
-                    sx={{
-                      width: '100%',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: '2px',
-                      justifyContent: 'center',
-                      alignItems: 'flex-end',
-                    }}
-                  >
-                    <Typography className="body-small-semibold" sx={{ textAlign: 'right' }}>
-                      {fullname}
-                    </Typography>
-                    <Typography className="label-small-regular" sx={{ textAlign: 'right' }}>
-                      {congName}
-                    </Typography>
-                  </Box>
-                )}
+            <IconLogo width={40} height={40} />
+            <Typography className="h3" color="var(--black)">
+              Organized
+            </Typography>
+          </Box>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: { mobile: '4px', tablet: '8px' } }}>
+            <AppNotification />
+            <ThemeSwitcher />
 
-                <AccountHeaderIcon />
-              </Box>
-            )}
-          </IconButton>
+            {tabletUp && isAppLoad && <LanguageSwitcher menuStyle={baseMenuStyle} />}
 
-          <Menu
-            id="menu-language"
-            disableScrollLock={true}
-            anchorEl={anchorEl}
-            open={openMore}
-            onClose={handleCloseMore}
-            sx={{
-              padding: '8px 0',
-              marginTop: '7px',
-              '& li': {
-                borderBottom: '1px solid var(--accent-200)',
-              },
-              '& li:last-child': {
-                borderBottom: 'none',
-              },
-            }}
-            MenuListProps={{
-              'aria-labelledby': 'basic-button',
-            }}
-            slotProps={{
-              paper: {
-                className: 'small-card-shadow',
-                style: {
-                  borderRadius: 'var(--radius-l)',
-                  border: '1px solid var(--accent-200)',
-                  backgroundColor: 'var(--white)',
-                  minWidth: '294px',
+            <IconButton
+              color="inherit"
+              edge="start"
+              sx={{
+                padding: '0px 8px',
+                marginLeft: '0px',
+                borderRadius: '8px',
+                '.MuiTouchRipple-ripple .MuiTouchRipple-child': {
+                  borderRadius: 0,
+                  backgroundColor: 'rgba(23, 32, 42, .3)',
                 },
-              },
-            }}
-          >
-            {tabletDown && <LanguageSwitcher menuStyle={menuStyle} />}
+              }}
+              onClick={handleOpenMoreMenu}
+            >
+              {tabletDown && <IconMenu color="var(--black)" />}
+              {(tabletUp || laptopUp) && (
+                <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  {laptopUp && fullname && congName && (
+                    <Box
+                      sx={{
+                        width: '100%',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '2px',
+                        justifyContent: 'center',
+                        alignItems: 'flex-end',
+                      }}
+                    >
+                      <Typography className="body-small-semibold" sx={{ textAlign: 'right' }}>
+                        {fullname}
+                      </Typography>
+                      <Typography className="label-small-regular" sx={{ textAlign: 'right' }}>
+                        {congName}
+                      </Typography>
+                    </Box>
+                  )}
 
-            {isCongAccountConnected && (
+                  <AccountHeaderIcon />
+                </Box>
+              )}
+            </IconButton>
+
+            <Menu
+              id="menu-language"
+              disableScrollLock={true}
+              anchorEl={anchorEl}
+              open={openMore}
+              onClose={handleCloseMore}
+              sx={{
+                padding: '8px 0',
+                marginTop: '7px',
+                '& li': {
+                  borderBottom: '1px solid var(--accent-200)',
+                },
+                '& li:last-child': {
+                  borderBottom: 'none',
+                },
+              }}
+              MenuListProps={{
+                'aria-labelledby': 'basic-button',
+              }}
+              slotProps={{
+                paper: {
+                  className: 'small-card-shadow',
+                  style: {
+                    borderRadius: 'var(--radius-l)',
+                    border: '1px solid var(--accent-200)',
+                    backgroundColor: 'var(--white)',
+                    minWidth: '294px',
+                  },
+                },
+              }}
+            >
+              {(tabletDown || !isAppLoad) && <LanguageSwitcher menuStyle={menuStyle} />}
+
               <MenuItem disableRipple sx={menuStyle} onClick={handleOpenMyProfile}>
-                <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px' } }}>
+                <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px !important' } }}>
                   <IconAccount color="var(--black)" />
                 </ListItemIcon>
                 <ListItemText>
                   <Typography className="body-regular">{t('tr_myProfile')}</Typography>
                 </ListItemText>
               </MenuItem>
-            )}
-            {!isAppLoad && !isCongAccountConnected && (
-              <MenuItem disableRipple sx={menuStyle} onClick={handleReconnectAccount}>
-                <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px' } }}>
-                  <IconLogin color="var(--black)" />
+
+              {!isAppLoad && !isCongAccountConnected && (
+                <MenuItem disableRipple sx={menuStyle} onClick={handleReconnectAccount}>
+                  <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px !important' } }}>
+                    <IconLogin color="var(--black)" />
+                  </ListItemIcon>
+                  <ListItemText>
+                    <Typography className="body-regular">{t('tr_reconnectAccount')}</Typography>
+                  </ListItemText>
+                </MenuItem>
+              )}
+              <MenuItem disableRipple sx={menuStyle} onClick={handleOpenSupport}>
+                <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px !important' } }}>
+                  <IconDonate color="var(--black)" />
                 </ListItemIcon>
                 <ListItemText>
-                  <Typography className="body-regular">{t('tr_reconnectAccount')}</Typography>
+                  <Typography className="body-regular">{t('tr_supportApp')}</Typography>
                 </ListItemText>
               </MenuItem>
-            )}
-            <MenuItem disableRipple sx={menuStyle} onClick={handleOpenSupport}>
-              <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px' } }}>
-                <IconDonate color="var(--black)" />
-              </ListItemIcon>
-              <ListItemText>
-                <Typography className="body-regular">{t('tr_supportApp')}</Typography>
-              </ListItemText>
-            </MenuItem>
-            <MenuItem disableRipple sx={menuStyle} onClick={handleOpenDoc}>
-              <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px' } }}>
-                <IconHelp color="var(--black)" />
-              </ListItemIcon>
-              <ListItemText>
-                <Typography className="body-regular">{t('tr_howToUseApp')}</Typography>
-              </ListItemText>
-            </MenuItem>
-            <MenuItem disableRipple sx={menuStyle} onClick={handleOpenAbout}>
-              <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px' } }}>
-                <IconInfo color="var(--black)" />
-              </ListItemIcon>
-              <ListItemText>
-                <Typography className="body-regular">{t('tr_about')}</Typography>
-              </ListItemText>
-            </MenuItem>
-          </Menu>
-        </Box>
-      </Container>
-    </Box>
+              <MenuItem disableRipple sx={menuStyle} onClick={handleOpenDoc}>
+                <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px !important' } }}>
+                  <IconHelp color="var(--black)" />
+                </ListItemIcon>
+                <ListItemText>
+                  <Typography className="body-regular">{t('tr_howToUseApp')}</Typography>
+                </ListItemText>
+              </MenuItem>
+              <MenuItem disableRipple sx={menuStyle} onClick={handleOpenAbout}>
+                <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px !important' } }}>
+                  <IconInfo color="var(--black)" />
+                </ListItemIcon>
+                <ListItemText>
+                  <Typography className="body-regular">{t('tr_about')}</Typography>
+                </ListItemText>
+              </MenuItem>
+            </Menu>
+          </Box>
+        </Container>
+      </Toolbar>
+    </AppBar>
   );
 };
 

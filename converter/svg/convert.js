@@ -67,6 +67,8 @@ for await (const svgFile of svgFiles) {
     if (componentName !== 'IconOnCircle') {
       svgContent = svgContent.replace(/fill=(?!"#D9D9D9"|"none"|"white")".*?"(?=\s|\/)/g, 'fill={color}');
     }
+
+    svgContent = svgContent.replace(/stroke=(?!"#D9D9D9"|"none"|"white")".*?"(?=\s|\/)/g, 'stroke={color}');
   }
 
   svgContent = svgContent.replaceAll('style="mask-type:alpha"', 'style={{maskType:"alpha"}}');
@@ -74,6 +76,8 @@ for await (const svgFile of svgFiles) {
   svgContent = svgContent.replaceAll('clip-rule', 'clipRule');
   svgContent = svgContent.replaceAll('clip-path', 'clipPath');
   svgContent = svgContent.replaceAll('stop-color', 'stopColor');
+  svgContent = svgContent.replaceAll('stroke-width', 'strokeWidth');
+  svgContent = svgContent.replaceAll('stroke-dasharray', 'strokeDasharray');
 
   if (componentName === 'IconLoading') {
     svgContent = svgContent.replace(

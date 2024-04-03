@@ -1,27 +1,18 @@
-import { useState } from 'react';
-import { useBreakpoints } from '@hooks/index';
-
-const dummyTimeAwayList = [];
+import { useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
+import { userTimeAwayState } from '@states/settings';
+import { handleUserTimeAwayAdd, handleUserTimeAwayDelete } from '@services/dexie/settings';
 
 const useTimeAway = () => {
-  const { tabletDown } = useBreakpoints();
+  const userTimeAway = useRecoilValue(userTimeAwayState);
 
-  const [timeAwayList, setTimeAwayList] = useState(dummyTimeAwayList);
+  const [timeAwayList, setTimeAwayList] = useState(userTimeAway);
 
-  const handleAddTimeAway = async () => {
-    const newArray = [
-      ...timeAwayList,
-      { id: crypto.randomUUID(), startDate: new Date().toISOString(), endDate: '', comments: '' },
-    ];
-    setTimeAwayList(newArray);
-  };
+  useEffect(() => {
+    setTimeAwayList(userTimeAway);
+  }, [userTimeAway]);
 
-  const handleDeleteTimeAway = async (id: string) => {
-    const newArray = timeAwayList.filter((item) => item.id !== id);
-    setTimeAwayList(newArray);
-  };
-
-  return { timeAwayList, handleAddTimeAway, tabletDown, handleDeleteTimeAway };
+  return { timeAwayList, handleUserTimeAwayAdd, handleUserTimeAwayDelete };
 };
 
 export default useTimeAway;

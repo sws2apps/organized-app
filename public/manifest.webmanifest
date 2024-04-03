@@ -12,7 +12,6 @@
   "short_name": "Organized",
   "description": "A universal app to simplify management of Jehovah's Witnesses congregation life. View assignments, schedule meetings, send reports effortlessly and way more. Simplify your routine tasks and focus on what matters most!",
   "lang": "en",
-  "orientation": "any",
   "icons": [
     {
       "src": "/img/icon/icon-512x512.png",

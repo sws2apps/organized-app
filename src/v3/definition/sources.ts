@@ -103,7 +103,7 @@ export type SourceWeekType = {
 };
 
 export type SourceWeekIncomingType = {
-  weekOf: string;
+  week_date: string;
   mwb_week_date: string;
   w_study_date: string;
   mwb_week_date_locale: string;
@@ -143,6 +143,7 @@ export type SourceWeekIncomingType = {
 export type SourceWeekLocaleType = Overwrite<
   SourceWeekIncomingType,
   {
+    weekOf: string;
     mwb_ayf_part1_type: number;
     mwb_ayf_part1_type_name?: string;
     mwb_ayf_part2_type?: number | string;
@@ -186,3 +187,5 @@ export type MidweekMeetingTimeType = {
   pgmEnd: string;
   coTalk?: string;
 };
+
+export type PublicTalksViewType = 'list' | 'table';

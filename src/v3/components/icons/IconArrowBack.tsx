@@ -18,13 +18,13 @@ const IconArrowBack = ({ color = '#222222', width = 24, height = 24, sx = {} }: 
           x="0"
           y="0"
           width="24"
-          height="24"
+          height="25"
         >
-          <rect width="24" height="24" fill="#D9D9D9" />
+          <rect y="0.000488281" width="24" height="24" fill="#D9D9D9" />
         </mask>
         <g mask="url(#mask0_2557_53764)">
           <path
-            d="M10 21.6538L0.346191 12L10 2.34619L11.4192 3.76539L3.18462 12L11.4192 20.2346L10 21.6538Z"
+            d="M10 21.6543L0.346191 12.0005L10 2.34668L11.4192 3.76588L3.18462 12.0005L11.4192 20.2351L10 21.6543Z"
             fill={color}
           />
         </g>

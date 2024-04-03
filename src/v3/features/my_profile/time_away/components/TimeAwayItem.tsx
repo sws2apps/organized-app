@@ -3,13 +3,19 @@ import Button from '@components/button';
 import DatePicker from '@components/date_picker';
 import TextField from '@components/textfield';
 import { TimeAwayItemProps } from '../index.types';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { IconAdd, IconDelete } from '@icons/index';
+import useTimeAwayItem from './useTimeAwayItem';
 
 const TimeAwayItem = (props: TimeAwayItemProps) => {
-  const { timeAway, lastItem, onAdd, onDelete, tabletDown } = props;
+  const { timeAway, lastItem, onAdd, onDelete } = props;
 
   const { t } = useAppTranslation();
+
+  const { tabletDown } = useBreakpoints();
+
+  const { comments, endDate, handleUpdateComments, handleUpdateEndDate, handleUpdateStartDate, startDate } =
+    useTimeAwayItem(timeAway);
 
   const isLast = lastItem || false;
 
@@ -25,11 +31,19 @@ const TimeAwayItem = (props: TimeAwayItemProps) => {
           width: '100%',
         }}
       >
-        <DatePicker label={t('tr_startDate')} value={new Date(timeAway.startDate)} />
-        <DatePicker label={t('tr_endDate')} />
+        <DatePicker
+          label={t('tr_startDate')}
+          value={new Date(startDate)}
+          onChange={(value) => handleUpdateStartDate(value)}
+        />
+        <DatePicker
+          label={t('tr_endDate')}
+          value={endDate === null ? null : new Date(endDate)}
+          onChange={(value) => handleUpdateEndDate(value)}
+        />
       </Box>
 
-      <TextField label={t('tr_comments')} />
+      <TextField label={t('tr_comments')} value={comments} onChange={(e) => handleUpdateComments(e.target.value)} />
 
       <Box
         sx={{
@@ -37,7 +51,7 @@ const TimeAwayItem = (props: TimeAwayItemProps) => {
           alignItems: 'center',
           gap: '8px',
           justifyContent: isLast ? 'space-between' : 'flex-end',
-          flexWrap: 'wrap',
+          flexDirection: tabletDown ? 'column-reverse' : 'row',
         }}
       >
         {isLast && (

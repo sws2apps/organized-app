@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { isOnlineState, visitorIDState } from '@states/app';
 import {
@@ -14,14 +14,16 @@ import { getMessageByCode } from '@services/i18n/translation';
 import { apiPocketSignup } from '@services/api/user';
 import { POCKET_ROLES } from '@constants/index';
 import { handleUpdateSetting, handleUpdateSettingFromRemote } from '@services/dexie/settings';
-import { loadApp, runUpdater } from '@services/cpe';
+import { loadApp, runUpdater } from '@services/app';
 import { apiFetchSchedule } from '@services/api/schedule';
-import { handleUpdateScheduleFromRemote } from '@services/cpe/schedules';
+import { handleUpdateScheduleFromRemote } from '@services/app/schedules';
 import { useAppTranslation } from '@hooks/index';
 import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 
 const useSignup = () => {
   const { t } = useAppTranslation();
+
+  const timeoutId = useRef<NodeJS.Timeout | null>(null);
 
   const isOnline = useRecoilValue(isOnlineState);
   const visitorID = useRecoilValue(visitorIDState);
@@ -44,7 +46,9 @@ const useSignup = () => {
 
       setIsProcessing(true);
 
-      setTimeout(async () => {
+      clearTimeout(timeoutId.current);
+
+      timeoutId.current = setTimeout(async () => {
         if (code.length < 10) {
           await displayOnboardingFeedback({
             title: t('tr_wrongInvitationCode'),
@@ -102,6 +106,12 @@ const useSignup = () => {
       showMessage();
     }
   };
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(timeoutId.current);
+    };
+  });
 
   return {
     isOnline,

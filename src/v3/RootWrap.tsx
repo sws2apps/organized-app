@@ -9,15 +9,16 @@ import createCache from '@emotion/cache';
 import logger from '@services/logger/index';
 import { DatabaseWrapper, WebWorkerWrapper } from '@wrapper/index';
 import App from './App';
-import './inter.css';
-import './global.css';
-import './index.css';
+import '@global/global.css';
+import '@global/index.css';
 import { handleSWOnInstalled, handleSWOnUpdated } from '@services/recoil/app';
 import { initializeFirebaseApp } from '@services/firebase/index';
 import i18n from '@services/i18n/index';
 
 initializeFirebaseApp();
 await i18n.init();
+
+const font = localStorage.getItem('app_font') || 'Inter';
 
 const cache = createCache({
   key: 'css',
@@ -27,7 +28,16 @@ const cache = createCache({
 const theme = createTheme({
   typography: {
     allVariants: {
-      fontFamily: 'Inter',
+      fontFamily: font,
+    },
+  },
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          fontFamily: font,
+        },
+      },
     },
   },
   breakpoints: {

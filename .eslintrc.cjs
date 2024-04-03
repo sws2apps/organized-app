@@ -8,6 +8,8 @@ module.exports = {
     'eslint:recommended',
     'eslint-config-prettier',
     'prettier',
+    'plugin:import/recommended',
+    'plugin:import/typescript',
     'plugin:react/recommended',
     'plugin:react/jsx-runtime',
     'plugin:react-hooks/recommended',
@@ -19,6 +21,7 @@ module.exports = {
   settings: {
     react: { version: '18.2' },
     'import/resolver': {
+      typescript: {},
       node: {
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
       },
@@ -40,6 +43,8 @@ module.exports = {
           ['@wrapper', './src/v3/wrapper'],
           ['@locales', './src/shared/locales'],
           ['@shared', './src/shared'],
+          ['@definition', './src/v3/definition'],
+          ['@global', './src/v3/global'],
         ],
       },
     },
@@ -49,5 +54,6 @@ module.exports = {
     'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
     'react/jsx-uses-react': 'error',
     'react/jsx-uses-vars': 'error',
+    'import/no-cycle': ['error', { maxDepth: Infinity }],
   },
 };

@@ -1,7 +1,7 @@
 import { promiseSetRecoil } from 'recoil-outside';
 import { currentWeekState, epubFileState, isImportEPUBState, isImportJWOrgState } from '@states/sources';
 
-export const setEpubFile = async (value) => {
+export const setEpubFile = async (value: File) => {
   await promiseSetRecoil(epubFileState, value);
 };
 

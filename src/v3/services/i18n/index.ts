@@ -1,3 +1,5 @@
+/* eslint-disable import/no-named-as-default-member */
+/* eslint-disable import/no-named-as-default */
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import { LANGUAGE_LIST } from '@constants/index';
@@ -23,14 +25,17 @@ for await (const language of LANGUAGE_LIST) {
   const ministry = await import(`../../../shared/locales/${language.locale}/ministry.json`).then(
     (module) => module.default
   );
+  const meetings = await import(`../../../shared/locales/${language.locale}/meetings.json`).then(
+    (module) => module.default
+  );
 
   // load source namespace
   const source = await import(`../../../shared/locales/${language.locale}/forms-templates.json`).then(
     (module) => module.default
   );
 
-  resources[language.code] = {
-    ui: { ...dashboard, ...general, ...onboarding, ...profile, ...ministry },
+  resources[language.locale] = {
+    ui: { ...dashboard, ...general, ...onboarding, ...profile, ...ministry, ...meetings, ...source },
     source,
   };
 }
@@ -38,8 +43,8 @@ for await (const language of LANGUAGE_LIST) {
 i18n.use(initReactI18next).init({
   resources,
   defaultNS,
-  lng: 'e',
-  fallbackLng: 'e',
+  lng: 'en',
+  fallbackLng: 'en',
   interpolation: { escapeValue: false },
 });
 

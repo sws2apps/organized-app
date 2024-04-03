@@ -5,7 +5,7 @@ import Typography from '@components/typography';
 import { IconClose } from '@icons/index';
 import { InfoMessagePropsType } from './index.types';
 
-const CPEInfoMessage = (props: InfoMessagePropsType) => {
+const CustomInfoMessage = (props: InfoMessagePropsType) => {
   const messageHeader = props.messageHeader || '';
   const message = props.message || '';
   const variant = props.variant || 'message-with-button';
@@ -54,7 +54,7 @@ const CPEInfoMessage = (props: InfoMessagePropsType) => {
         sx={{
           width: '100%',
           display: 'flex',
-          alignItems: variant === 'message-with-button' ? 'center' : 'flex-start',
+          alignItems: variant === 'message-with-button' && props.actionClick ? 'center' : 'flex-start',
           gap: '4px',
           justifyContent: 'space-between',
         }}
@@ -75,7 +75,7 @@ const CPEInfoMessage = (props: InfoMessagePropsType) => {
           />
         </Box>
 
-        {variant === 'message-with-button' && (
+        {variant === 'message-with-button' && props.actionClick && (
           <Button
             variant="semi-white"
             onClick={props.actionClick}
@@ -86,7 +86,7 @@ const CPEInfoMessage = (props: InfoMessagePropsType) => {
             {props.actionText}
           </Button>
         )}
-        {variant !== 'message-with-button' && (
+        {props.onClose && (
           <IconButton onClick={props.onClose} sx={{ padding: 0 }}>
             <IconClose color="var(--always-white)" />
           </IconButton>
@@ -96,4 +96,4 @@ const CPEInfoMessage = (props: InfoMessagePropsType) => {
   );
 };
 
-export default CPEInfoMessage;
+export default CustomInfoMessage;

@@ -1,3 +1,4 @@
+import { ReactElement } from 'react';
 import { promiseSetRecoil } from 'recoil-outside';
 import logger from '@services/logger/index';
 import {
@@ -48,7 +49,12 @@ import {
   isEncryptionCodeOpenState,
   isAppDataSyncingState,
   lastAppDataSyncState,
+  isDarkThemeState,
+  appMessageHeaderState,
+  isMFAEnabledState,
+  appMessageIconState,
 } from '@states/app';
+import { SnackBarSeverityType } from '@definition/app';
 
 export const handleSWOnInstalled = async () => {
   logger.info('service-worker', 'the service worker was installed and ready for use');
@@ -63,9 +69,21 @@ export const disconnectCongAccount = async () => {
   await promiseSetRecoil(congAccountConnectedState, false);
 };
 
-export const displaySnackNotification = async ({ message, severity }: { message: string; severity?: string }) => {
+export const displaySnackNotification = async ({
+  header,
+  message,
+  severity,
+  icon,
+}: {
+  header: string;
+  message: string;
+  severity?: SnackBarSeverityType;
+  icon?: ReactElement;
+}) => {
+  await promiseSetRecoil(appMessageHeaderState, header);
   await promiseSetRecoil(appMessageState, message);
   await promiseSetRecoil(appSeverityState, severity);
+  await promiseSetRecoil(appMessageIconState, icon);
   await promiseSetRecoil(appSnackOpenState, true);
 };
 
@@ -228,4 +246,28 @@ export const setIsAppDataSyncing = async (value) => {
 
 export const setLastAppDataSync = async (value) => {
   await promiseSetRecoil(lastAppDataSyncState, value);
+};
+
+export const setIsDarkTheme = async (value) => {
+  await promiseSetRecoil(isDarkThemeState, value);
+};
+
+export const setAppSnackOpen = async (value) => {
+  await promiseSetRecoil(appSnackOpenState, value);
+};
+
+export const setAppSnackSeverity = async (value: SnackBarSeverityType) => {
+  await promiseSetRecoil(appSeverityState, value);
+};
+
+export const setAppSnackMessage = async (value) => {
+  await promiseSetRecoil(appMessageState, value);
+};
+
+export const setAppSnackMessageHeader = async (value) => {
+  await promiseSetRecoil(appMessageHeaderState, value);
+};
+
+export const setIsMFAEnabled = async (value) => {
+  await promiseSetRecoil(isMFAEnabledState, value);
 };

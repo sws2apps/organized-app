@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { User, getAuth, onAuthStateChanged } from 'firebase/auth';
 import worker from '@services/worker/backupWorker';
-import { saveProfilePic } from '@services/cpe/settings';
+import { saveProfilePic } from '@services/app/settings';
 import { displaySnackNotification, setCurrentProvider } from '@services/recoil/app';
 import { getTranslation } from '@services/i18n/translation';
 
@@ -19,8 +19,9 @@ const useFirebaseAuth = () => {
       if (user) {
         if (user.providerData.length > 1) {
           await displaySnackNotification({
+            header: getTranslation({ key: 'tr_errorTitle' }),
             message: getTranslation({ key: 'oauthAccountExistsWithDifferentCredential' }),
-            severity: 'warning',
+            severity: 'error',
           });
 
           setIsAuthenticated(false);
