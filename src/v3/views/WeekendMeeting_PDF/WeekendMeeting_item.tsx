@@ -5,7 +5,7 @@ import InterRegular from '@assets/fonts/Inter-Regular.ttf';
 import InterSemiBold from '@assets/fonts/Inter-SemiBold.ttf';
 import InterMedium from '@assets/fonts/Inter-Medium.ttf';
 import InterLight from '@assets/fonts/Inter-Light.ttf';
-import { WeekendMeetingItemProps } from './weekendMeeting.types';
+import { WeekendMeetingItemProps, MeetingRolePropTypes } from './weekendMeeting.types';
 
 Font.register({
   family: 'Inter',
@@ -152,8 +152,8 @@ const styles = StyleSheet.create({
   },
 });
 
-const WeekendMeetingItem = ({
-  meetingData: {
+const WeekendMeetingItem = ({ meetingData, isLastItem }: WeekendMeetingItemProps) => {
+  const {
     date,
     chairman,
     openingPrayer,
@@ -166,9 +166,7 @@ const WeekendMeetingItem = ({
     substituteName,
     weekType,
     text,
-  },
-  isLastItem,
-}: WeekendMeetingItemProps) => {
+  } = meetingData;
   const formatDate = (inputDate) => {
     const months = ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May', 'Jun.', 'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.'];
     const [year, month, day] = inputDate.split('-');
@@ -177,38 +175,23 @@ const WeekendMeetingItem = ({
   };
   const formattedDate = formatDate(date);
 
-  let content;
+  const MeetingRole = ({ role, name }: MeetingRolePropTypes) => (
+    <View style={styles.roleContainer}>
+      <Text style={styles.meetingRole}>{role}:</Text>
+      <Text style={styles.name}>{name}</Text>
+    </View>
+  );
 
   const commonMeetingParts = (
     <View style={styles.meetingParts}>
       <View>
-        {chairman && (
-          <View style={styles.roleContainer}>
-            <Text style={styles.meetingRole}>Chairman:</Text>
-            <Text style={styles.name}>{chairman}</Text>
-          </View>
-        )}
-        {openingPrayer && (
-          <View style={styles.roleContainer}>
-            <Text style={styles.meetingRole}>Opening prayer:</Text>
-            <Text style={styles.name}>{openingPrayer}</Text>
-          </View>
-        )}
+        {chairman && <MeetingRole role="Chairman" name={chairman} />}
+        {openingPrayer && <MeetingRole role="Opening prayer" name={openingPrayer} />}
       </View>
       {weekType === 'Normal week' && <View style={styles.lineHorizontal} />}
       <View>
-        {studyConductor && (
-          <View style={styles.roleContainer}>
-            <Text style={styles.meetingRole}>Study conductor:</Text>
-            <Text style={styles.name}>{studyConductor}</Text>
-          </View>
-        )}
-        {reader && (
-          <View style={styles.roleContainer}>
-            <Text style={styles.meetingRole}>Reader:</Text>
-            <Text style={styles.name}>{reader}</Text>
-          </View>
-        )}
+        {studyConductor && <MeetingRole role="Study conductor" name={studyConductor} />}
+        {reader && <MeetingRole role="Reader" name={reader} />}
       </View>
     </View>
   );
@@ -233,6 +216,8 @@ const WeekendMeetingItem = ({
       </View>
     </View>
   );
+
+  let content;
 
   if (weekType === 'Normal week') {
     content = (

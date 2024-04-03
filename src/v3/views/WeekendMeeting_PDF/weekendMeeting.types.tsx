@@ -21,3 +21,8 @@ export type WeekendMeetingItemProps = {
   };
   isLastItem: boolean;
 };
+
+export type MeetingRolePropTypes = {
+  role: string;
+  name: string;
+};
