@@ -49,7 +49,7 @@
   "tr_themeFollowOSDisable": "Turn off automatic theme change?",
   "tr_themeFollowOSDisableDesc": "If you want to switch the theme back to automatic, you can do this in your profile settings",
   "tr_setup": "Setup",
-  "tr_verify": "Verify",
+  "tr_verify": "認証",
   "tr_2FATokenInvalidExpired": "The code is invalid or expired. Please try again.",
   "tr_march": "March",
   "tr_expandAll": "Expand all",
