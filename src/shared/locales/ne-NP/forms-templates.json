@@ -14,13 +14,9 @@
   "tr_auxClass2": "सहायक कक्षा २",
   "tr_otherPart": "अन्य",
   "tr_midweekMeetingPrint": "मध्यहप्ताको सभा तालिका",
-  "tr_chairmanMidweekMeeting": "चेयरम्यान",
-  "tr_chairmanWeekendMeeting": "चेयरम्यान",
   "tr_noMMeeting": "यस हप्ता मध्यहप्ताको सभा हुनेछैन",
   "tr_auxClassCounselor": "सहायक कक्षा सल्लाहकार",
   "tr_song": "गीत",
-  "tr_prayerMidweekMeeting": "प्रार्थना",
-  "tr_prayerWeekendMeeting": "प्रार्थना",
   "tr_openingComments": "परिचय",
   "tr_treasuresPart": "बाइबलमा पाइने अनमोल धन",
   "tr_applyFieldMinistryPart": "कुराकानी गर्ने सीप तिखारौँ",
@@ -71,5 +67,7 @@
   "tr_partNo": "असाइनमेन्ट नं.:",
   "tr_nameS89": "नाम:",
   "tr_assistantS89": "साथी:",
-  "tr_studentAssistantS89": "विद्यार्थी/साथी:"
+  "tr_studentAssistantS89": "विद्यार्थी/साथी:",
+  "tr_chairman": "चेयरम्यान",
+  "tr_prayer": "प्रार्थना"
 }
