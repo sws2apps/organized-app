@@ -29,7 +29,7 @@
     "@fingerprintjs/fingerprintjs": "^4.2.2",
     "@fontsource/roboto": "^5.0.12",
     "@mui/icons-material": "^5.15.15",
-    "@mui/material": "^5.15.14",
+    "@mui/material": "^5.15.15",
     "@mui/x-date-pickers": "^7.1.0",
     "@mui/x-tree-view": "^7.1.0",
     "@react-pdf/renderer": "^3.4.2",
