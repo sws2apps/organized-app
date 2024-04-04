@@ -14,13 +14,9 @@
   "tr_auxClass2": "第3会場",
   "tr_otherPart": "その他",
   "tr_midweekMeetingPrint": "週日の集会の予定",
-  "tr_chairmanMidweekMeeting": "司会者",
-  "tr_chairmanWeekendMeeting": "司会者",
   "tr_noMMeeting": "今週は週日の集会はありません",
   "tr_auxClassCounselor": "補助クラスの助言者",
   "tr_song": "歌",
-  "tr_prayerMidweekMeeting": "祈り",
-  "tr_prayerWeekendMeeting": "祈り",
   "tr_openingComments": "開会の言葉",
   "tr_treasuresPart": "神の言葉の宝",
   "tr_applyFieldMinistryPart": "野外奉仕に励む",
@@ -71,5 +67,7 @@
   "tr_partNo": "担当部分:",
   "tr_nameS89": "氏名：",
   "tr_assistantS89": "相手：",
-  "tr_studentAssistantS89": "生徒/相手"
+  "tr_studentAssistantS89": "生徒/相手",
+  "tr_chairman": "司会者",
+  "tr_prayer": "祈り"
 }
