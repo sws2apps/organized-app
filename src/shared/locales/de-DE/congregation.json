@@ -74,5 +74,7 @@
   "tr_addEmergencyContacts": "Add contact persons from the 'No Blood' document, ensuring the group overseer always has the right people to reach in case of an emergency.",
   "tr_requiredInformation": "This information is required",
   "tr_contactInfo": "Contact info",
-  "tr_addContact": "Add contact"
+  "tr_addContact": "Add contact",
+  "tr_firstReport": "First report",
+  "tr_firstReportDesc": "The month when the person's field service report was first collected."
 }
