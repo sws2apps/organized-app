@@ -4,6 +4,7 @@ import { Setting } from '../../classes/Setting';
 import styles from './styles';
 
 const noOpeningPrayer = Setting.opening_prayer_WM_autoAssign;
+const source_lang = Setting.source_lang;
 
 const MeetingRole = ({ role, name }) => (
   <View style={styles.roleContainer}>
@@ -47,14 +48,16 @@ const WeekendMeetingItem = ({ meetingData, isLastItem }) => {
   const commonMeetingParts = (
     <View style={styles.meetingParts}>
       <View>
-        <MeetingRole role={t('chairmanWeekendMeeting')} name={chairman_WM_name} />
-        {!noOpeningPrayer && <MeetingRole role={t('openingPrayerWeekendMeeting')} name={opening_prayerWM_name} />}
+        <MeetingRole role={t('chairmanWeekendMeeting', { lng: source_lang })} name={chairman_WM_name} />
+        {!noOpeningPrayer && (
+          <MeetingRole role={t('openingPrayerWeekendMeeting', { lng: source_lang })} name={opening_prayerWM_name} />
+        )}
       </View>
       {week_type === 1 && (
         <>
           <View style={styles.lineHorizontal} />
           <View>
-            <MeetingRole role={t('wtStudyReader')} name={wtstudy_reader_name} />
+            <MeetingRole role={t('wtStudyReader', { lng: source_lang })} name={wtstudy_reader_name} />
           </View>
         </>
       )}
@@ -77,7 +80,7 @@ const WeekendMeetingItem = ({ meetingData, isLastItem }) => {
         </View>
         {substitute_speaker_name && substitute_speaker_name.length > 0 ? (
           <View style={styles.substituteSpeaker}>
-            <Text style={styles.substitute}>{t('substituteSpeaker')}:</Text>
+            <Text style={styles.substitute}>{t('substituteSpeaker', { lng: source_lang })}:</Text>
             <Text style={styles.substituteName}>{substitute_speaker_name}</Text>
           </View>
         ) : null}
