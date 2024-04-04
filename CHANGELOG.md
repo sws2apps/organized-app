@@ -1,3 +1,16 @@
+# [2.123.0](https://github.com/sws2apps/cpe-sws/compare/v2.122.1...v2.123.0) (2024-04-04)
+
+
+### Bug Fixes
+
+* **views:** correct translations not added in weekend meeting ([4daeeac](https://github.com/sws2apps/cpe-sws/commit/4daeeac7d66129053c38a23fb126089f0cc03f99))
+
+
+### Features
+
+* **deps:** bump react-pdf-html from 1.2.1 to 2.0.3 ([9a0bc9d](https://github.com/sws2apps/cpe-sws/commit/9a0bc9df3f0d038e2f601112d9f2637cd66879b9))
+* **deps:** bump vite from 5.2.7 to 5.2.8 ([9230061](https://github.com/sws2apps/cpe-sws/commit/9230061f81f90f337247414d8a87a894bf6ca952))
+
 ## [2.122.1](https://github.com/sws2apps/cpe-sws/compare/v2.122.0...v2.122.1) (2024-04-03)
 
 
