@@ -14,13 +14,9 @@
   "tr_auxClass2": "Sala C",
   "tr_otherPart": "Outra:",
   "tr_midweekMeetingPrint": "Programação da reunião do meio de semana",
-  "tr_chairmanMidweekMeeting": "Presidente",
-  "tr_chairmanWeekendMeeting": "Presidente",
   "tr_noMMeeting": "Não terá reunião nesta semana",
   "tr_auxClassCounselor": "Conselheiro da sala B",
   "tr_song": "Cântico",
-  "tr_prayerMidweekMeeting": "Oração",
-  "tr_prayerWeekendMeeting": "Oração inicial",
   "tr_openingComments": "Comentários iniciais",
   "tr_treasuresPart": "Tesouros da Palavra de Deus",
   "tr_applyFieldMinistryPart": "Faça Seu Melhor no Ministério",
@@ -71,5 +67,7 @@
   "tr_partNo": "Número da parte:",
   "tr_nameS89": "Nome:",
   "tr_assistantS89": "Ajudante:",
-  "tr_studentAssistantS89": "Estudante/ajudante:"
+  "tr_studentAssistantS89": "Estudante/ajudante:",
+  "tr_chairman": "Presidente",
+  "tr_prayer": "Oração inicial"
 }
