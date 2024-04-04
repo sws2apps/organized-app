@@ -14,13 +14,9 @@
   "tr_auxClass2": "Nebenraum 2",
   "tr_otherPart": "Andere",
   "tr_midweekMeetingPrint": "Plan für die Leben-und-Dienst Zusammenkunft",
-  "tr_chairmanMidweekMeeting": "Vorsitz",
-  "tr_chairmanWeekendMeeting": "Vorsitz",
   "tr_noMMeeting": "In dieser Woche findet keine Zusammenkunft unter der Woche statt",
   "tr_auxClassCounselor": "Nebenraum Vorsitz",
   "tr_song": "Lied",
-  "tr_prayerMidweekMeeting": "Gebet",
-  "tr_prayerWeekendMeeting": "Gebet",
   "tr_openingComments": "Einleitende Worte",
   "tr_treasuresPart": "Schätze Aus Gottes Wort",
   "tr_applyFieldMinistryPart": "Uns im Dienst verbessern",
@@ -71,5 +67,7 @@
   "tr_partNo": "Aufgabe nr.:",
   "tr_nameS89": "Name:",
   "tr_assistantS89": "Partner:",
-  "tr_studentAssistantS89": "Student/Partner:"
+  "tr_studentAssistantS89": "Student/Partner:",
+  "tr_chairman": "Vorsitz",
+  "tr_prayer": "Gebet"
 }
