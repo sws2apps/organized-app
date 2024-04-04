@@ -75,6 +75,6 @@
   "tr_requiredInformation": "This information is required",
   "tr_contactInfo": "Contact info",
   "tr_addContact": "Add contact",
-  "tr_firstReport": "First report",
-  "tr_firstReportDesc": "The month when the person's field service report was first collected."
+  "tr_firstReport": "初回報告日",
+  "tr_firstReportDesc": "その人の野外奉仕報告が初めて報告された月"
 }
