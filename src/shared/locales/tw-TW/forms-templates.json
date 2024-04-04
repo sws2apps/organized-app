@@ -14,13 +14,9 @@
   "tr_auxClass2": "Akokosii ahendimanmu 2",
   "tr_otherPart": "Birete",
   "tr_midweekMeetingPrint": "Nnawɔtwe Mfinfii Nhyiam Nhyehyee",
-  "tr_chairmanMidweekMeeting": "Dwumadini",
-  "tr_chairmanWeekendMeeting": "Dwumadini",
   "tr_noMMeeting": "Eni nnawɔtwe mfinfii nhyiam wɔɑ wɔhɔ",
   "tr_auxClassCounselor": "Akokosii ahendimanmu dada",
   "tr_song": "Nyɛm",
-  "tr_prayerMidweekMeeting": "Mpae",
-  "tr_prayerWeekendMeeting": "Mpae",
   "tr_openingComments": "Anigye nsɛm",
   "tr_treasuresPart": "Nkwa a ɛbɛba mu no",
   "tr_applyFieldMinistryPart": "Fa nhwɛso bere bi ahyɛ no so",
@@ -71,5 +67,7 @@
   "tr_partNo": "Nhyehyee no nɔ:",
   "tr_nameS89": "Din:",
   "tr_assistantS89": "Boafoɔ:",
-  "tr_studentAssistantS89": "Osuani/Boafoɔ:"
+  "tr_studentAssistantS89": "Osuani/Boafoɔ:",
+  "tr_chairman": "Dwumadini",
+  "tr_prayer": "Mpae"
 }
