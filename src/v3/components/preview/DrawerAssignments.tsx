@@ -46,34 +46,7 @@ const DrawerAssignments = () => {
           </Select>
 
           <Stack spacing={1}>
-            <AssigmentMonthItem assigmentDate={'2024-03-08'} />
-
-            <AssigmentItem assigmentDate={'2024-03-08'}>
-              <Stack justifyContent={'center'}>
-                <Typography className={'h3'}>Watchtower study reader</Typography>
-                <Typography className={'body-small-semibold'} color={'var(--grey-400)'}>
-                  “Continue to Be Patient”
-                </Typography>
-              </Stack>
-            </AssigmentItem>
-
-            <AssigmentItem assigmentDate={'2024-03-15'}>
-              <Typography className={'h3'}>Spiritual gems</Typography>
-            </AssigmentItem>
-
-            <AssigmentItem assigmentDate={'2024-03-26'}>
-              <Stack justifyContent={'center'}>
-                <Typography className={'h3'}>Public talk</Typography>
-                <Typography className={'body-small-semibold'} color={'var(--grey-400)'}>
-                  “Will You Be a Survivor of the Last Days?”
-                </Typography>
-              </Stack>
-            </AssigmentItem>
-          </Stack>
-
-          <Stack spacing={1}>
             <AssigmentMonthItem assigmentDate={'2024-04-01'} />
-
             <AssigmentItem assigmentDate={'2024-04-01'}>
               <Stack justifyContent={'center'}>
                 <Stack direction={'row'} spacing={1} alignItems={'center'}>
@@ -106,31 +79,6 @@ const DrawerAssignments = () => {
             </AssigmentItem>
 
             <AssigmentItem assigmentDate={'2024-03-20'}>
-              <Stack justifyContent={'center'}>
-                <Typography className={'h3'}>Public talk</Typography>
-                <Typography className={'body-small-semibold'} color={'var(--grey-400)'}>
-                  “Will You Be a Survivor of the Last Days?”
-                </Typography>
-              </Stack>
-            </AssigmentItem>
-          </Stack>
-
-          <Stack spacing={1}>
-            <AssigmentMonthItem assigmentDate={'2024-08-08'} />
-            <AssigmentItem assigmentDate={'2024-08-08'}>
-              <Stack justifyContent={'center'}>
-                <Typography className={'h3'}>Watchtower study reader</Typography>
-                <Typography className={'body-small-semibold'} color={'var(--grey-400)'}>
-                  “Continue to Be Patient”
-                </Typography>
-              </Stack>
-            </AssigmentItem>
-
-            <AssigmentItem assigmentDate={'2024-08-11'}>
-              <Typography className={'h3'}>Spiritual gems</Typography>
-            </AssigmentItem>
-
-            <AssigmentItem assigmentDate={'2024-08-21'}>
               <Stack justifyContent={'center'}>
                 <Typography className={'h3'}>Public talk</Typography>
                 <Typography className={'body-small-semibold'} color={'var(--grey-400)'}>
