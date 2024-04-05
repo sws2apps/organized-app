@@ -19,3 +19,4 @@ export { default as UserAppSettings } from './my_profile/app_settings';
 export { default as UserProfileDetails } from './my_profile/user_profile_details';
 export { default as UserSessions } from './my_profile/sessions';
 export { default as UserTimeAway } from './my_profile/time_away';
+export { default as Drawer } from './drawer';
