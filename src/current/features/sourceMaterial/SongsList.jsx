@@ -9,7 +9,7 @@ const SongsList = ({ song, setSong, readOnly }) => {
   const [songsList, setSongsList] = useState([]);
 
   useEffect(() => {
-    const N = 151;
+    const N = 158;
     let i = 0;
     const a = Array(N);
 
