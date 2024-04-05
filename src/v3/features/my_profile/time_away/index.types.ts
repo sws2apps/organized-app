@@ -5,5 +5,4 @@ export type TimeAwayItemProps = {
   lastItem?: boolean;
   onAdd: VoidFunction;
   onDelete: VoidFunction;
-  tabletDown: boolean;
 };
