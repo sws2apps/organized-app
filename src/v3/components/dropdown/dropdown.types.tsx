@@ -1,3 +1,4 @@
+import { Theme } from '@mui/material';
 import * as CSS from 'csstype';
 
 /**
@@ -48,7 +49,7 @@ export type CustomDropdownMenuProps = {
   /**
    * The z-index of the dropdown menu.
    */
-  zIndex?: CSS.Property.ZIndex | string;
+  zIndex?: CSS.Property.ZIndex | string | ((theme: Theme) => number);
 
   /**
    * An array of items to be displayed in the dropdown menu. Only used for 'studies' variant.

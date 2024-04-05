@@ -82,10 +82,10 @@ const RightMinistryTimerButton = (props: MinistryTimerButtonProps) => {
  * Ministry Timer component.
  * Displays a timer with start, pause, resume, and stop buttons.
  * @param {Object} props - The props for the component.
- * @param {string} [props.duration='0:00'] - The initial duration for the timer in 'HH:MM' format.
+ * @param {string} [props.duration='00:00'] - The initial duration for the timer in 'HH:MM' format.
  * @returns {JSX.Element} The JSX representation of the component.
  */
-const MinistryTimer = ({ duration = '0:00' }: { duration?: string }) => {
+const MinistryTimer = ({ duration = '00:00' }: { duration?: string }) => {
   const [timerState, setTimerState] = useState(MinistryTimerStates.Zero);
   const [timerTextOpacity, setTimerTextOpacity] = useState(1);
 
@@ -118,10 +118,10 @@ const MinistryTimer = ({ duration = '0:00' }: { duration?: string }) => {
     const minutes = Math.floor((seconds % 3600) / 60);
 
     if (hours === 0 && minutes === 0) {
-      return '0:00';
+      return '00:00';
     }
 
-    const formattedHours = hours.toString();
+    const formattedHours = hours < 10 ? '0' + hours.toString() : hours.toString();
     const formattedMinutes = minutes < 10 ? '0' + minutes.toString() : minutes.toString();
 
     return `${formattedHours}:${formattedMinutes}`;
@@ -140,7 +140,6 @@ const MinistryTimer = ({ duration = '0:00' }: { duration?: string }) => {
         setDurationInSeconds((value) => {
           return value + 1;
         });
-        console.log('bim bim ');
       }, 1000);
     }
 
@@ -196,19 +195,19 @@ const MinistryTimer = ({ duration = '0:00' }: { duration?: string }) => {
       />
       <Typography
         variant="h2"
-        color={timerDuration === '0:00' ? 'var(--accent-300)' : 'var(--accent-dark)'}
+        color={timerDuration === '00:00' ? 'var(--accent-300)' : 'var(--accent-dark)'}
         sx={{
           textAlign: 'center',
           width: '64px',
           opacity: timerTextOpacity,
           '&:hover': {
-            color: timerDuration === '0:00' ? 'var(--accent-350)' : 'var(--accent-main)',
+            color: timerDuration === '00:00' ? 'var(--accent-350)' : 'var(--accent-main)',
             '@media (hover: none)': {
-              color: timerDuration === '0:00' ? 'var(--accent-300)' : 'var(--accent-dark)',
+              color: timerDuration === '00:00' ? 'var(--accent-300)' : 'var(--accent-dark)',
             },
           },
           '&:active': {
-            color: timerDuration === '0:00' ? 'var(--accent-400)' : 'var(--accent-click)',
+            color: timerDuration === '00:00' ? 'var(--accent-400)' : 'var(--accent-click)',
           },
           cursor: 'pointer',
           userSelect: 'none',

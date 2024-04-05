@@ -10,6 +10,10 @@ export const StyledItemBoxForDropdownWithSchools = styled(Box)({
   alignItems: 'center',
   cursor: 'pointer',
 
+  '.MuiSvgIcon-root path': {
+    fill: 'var(--black)',
+  },
+
   '&:hover': {
     backgroundColor: 'var(--accent-100)',
     '.MuiSvgIcon-root path': {

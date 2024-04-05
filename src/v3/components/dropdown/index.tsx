@@ -57,7 +57,11 @@ const CustomDropdownMenu = (props: CustomDropdownMenuProps) => {
 
   const { t } = useAppTranslation();
 
-  const [itemsStates, setItemsStates] = useState(new Array<boolean>(props.items.length).fill(false));
+  const [itemsStates, setItemsStates] = useState(() => {
+    if (variant == 'studies') {
+      return new Array<boolean>(props.items?.length).fill(false);
+    }
+  });
 
   const toggleItemState = (index) => {
     setItemsStates((prev) => {
@@ -70,14 +74,16 @@ const CustomDropdownMenu = (props: CustomDropdownMenuProps) => {
   useEffect(() => {
     const tmpDropdownCheckedItems = [];
 
-    props.items.forEach((item, index) => {
-      if (itemsStates[index]) {
-        tmpDropdownCheckedItems.push(item);
-      }
-    });
+    if (variant == 'studies') {
+      props.items.forEach((item, index) => {
+        if (itemsStates[index]) {
+          tmpDropdownCheckedItems.push(item);
+        }
+      });
+    }
 
     props.callback(tmpDropdownCheckedItems);
-  }, [itemsStates, props]);
+  }, [itemsStates, props, variant]);
 
   if (variant == 'studies') {
     const items = props.items.map((item, index) => {
@@ -161,7 +167,8 @@ const CustomDropdownMenu = (props: CustomDropdownMenuProps) => {
         </Box>
       </Popper>
     );
-  } else if (variant == 'schools') {
+  }
+  if (variant == 'schools') {
     return (
       <Popper open={props.open} anchorEl={props.anchorElement} sx={{ zIndex: props.zIndex }} placement="bottom-start">
         <Box
