@@ -1,3 +1,13 @@
+# [2.124.0](https://github.com/sws2apps/cpe-sws/compare/v2.123.0...v2.124.0) (2024-04-05)
+
+
+### Features
+
+* **deps:** bump @mui/icons-material from 5.15.14 to 5.15.15 ([4289bda](https://github.com/sws2apps/cpe-sws/commit/4289bda03391d40720dc50272102569b271487f6))
+* **deps:** bump @mui/material from 5.15.14 to 5.15.15 ([7357055](https://github.com/sws2apps/cpe-sws/commit/735705539bfd7e5f6b8a2f728fc35d6f712972ce))
+* **deps:** bump react-pdf-html from 2.0.3 to 2.0.4 ([5e12285](https://github.com/sws2apps/cpe-sws/commit/5e12285aa3fd3254e73088b6ba916bf504f83e12))
+* **sources:** include songs 152-158 ([9d76e35](https://github.com/sws2apps/cpe-sws/commit/9d76e35e7b1f79f37758ac0511f5c2fd6c25e0f6))
+
 # [2.123.0](https://github.com/sws2apps/cpe-sws/compare/v2.122.1...v2.123.0) (2024-04-04)
 
 
