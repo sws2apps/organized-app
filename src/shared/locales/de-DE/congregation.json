@@ -99,6 +99,19 @@
   "tr_generateInvitationCode": "Generate invitation code",
   "tr_terminateSessionAdminDesc": "The user will stay logged in on their device until you terminate the session on their device. After doing so, the user will need to log in to Organized again using their invitation code. Use this feature when absolutely necessary and in selective security-related cases.",
   "tr_baptizedBrotherUserDesc": "This baptized brother has been assigned a <b>Publisher</b> spiritual status. Therefore, the user can view meeting schedules and submit field service reports by default. You can assign additional user rights below.",
-  "tr_Roles": "Roles",
-  "tr_CoordinatorRoleDesc": "Has full access to the Organized, including granting and withdrawing all user rights"
+  "tr_appAdminRoleDesc": "Has access to all the Organized features to set everything up and provide support",
+  "tr_roles": "Roles",
+  "tr_coordinatorRoleDesc": "Has full access to the Organized, including granting and withdrawing all user rights",
+  "tr_secretaryRoleDesc": "Has access to congregation reports, such as field service, attendance, publisher records, and others",
+  "tr_serviceOverseerRoleDesc": "Has access to publisher reports, congregation territories, and public witnessing scheduling",
+  "tr_serviceGroupOverseerRoleDesc": "Has access to reports of their publishers, meetings for field service scheduling, congregation territories",
+  "tr_serviceGroupOverseerOrAssistantRole": "Field service group overseer or his assistant",
+  "tr_deleteInvitationCode": "Delete invitation code",
+  "tr_regenerateInvitationCode": "Regenerate the code",
+  "tr_copyToClipboard": "Copy to clipboard",
+  "tr_rolesAndSettingSuccessMessage": "All roles and settings are now adjusted",
+  "tr_deleteInvitationCodeTitle": "Delete the invitation code",
+  "tr_deleteInvitationCodeDesc": "If you delete this invitation code, the user won't be able to log in on new devices using it. To let the user log in again, you'll need to create a new invitation code and give it to them.",
+  "tr_deleteUserProfile": "Delete the Organized user profile",
+  "tr_deleteUserProfileDesc": "Do you want to delete the user account from your congregation Organized users list? The next time the user opens the app, all local data will be deleted and the user will be redirected to the registration page again."
 }
