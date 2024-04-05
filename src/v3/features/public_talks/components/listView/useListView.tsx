@@ -2,7 +2,7 @@ import { useRecoilValue } from 'recoil';
 import { publicTalksFilteredState } from '@states/publicTalks';
 import { useAppTranslation } from '@hooks/index';
 import { Column } from '@components/table/index.types';
-import useSorting from '@hooks/useSorting';
+import useSorting from '@components/table/useSorting';
 
 const useListView = () => {
   const { t } = useAppTranslation();

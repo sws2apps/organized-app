@@ -6,7 +6,7 @@ import Button from '@components/button';
 import { Column } from '@components/table/index.types';
 import TableHead from '@components/table/TableHead';
 import Typography from '@components/typography';
-import useSorting from '@hooks/useSorting';
+import useSorting from '@components/table/useSorting';
 
 const columns: Column[] = [
   { id: 'id', label: '№' },
