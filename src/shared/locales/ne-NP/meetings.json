@@ -5,7 +5,6 @@
   "tr_yourPersonRecord": "Your person record",
   "tr_export": "निर्यात गर्ने",
   "tr_autofill": "Autofill",
-  "tr_publish": "प्रकाशित गर्ने",
   "tr_infoPlanMidweekMeeting": "Select a week to start adding assignments and editing the program parts if needed. You can also use the Autofill feature and Organized will fill in assignments based on user qualifications.",
   "tr_infoSecondPlanMidweekMeeting": "Select a week to schedule it manually, or allow Organized to auto-generate assignments with the Autofill feature, considering person's qualifications and past assignments. You can modify them as needed.",
   "tr_clearMultipleWeeks": "Clear weeks",
@@ -102,5 +101,6 @@
   "tr_syncTalksList": "Sync talks list",
   "tr_noTalksList": "You don’t have any public talks in your list. Sync the list to get all the public talks.",
   "tr_countPublicTalks": "Public talks: {{ count }}",
-  "tr_publicTalkLastSync": "Last synced {{ date }} at {{ time }}"
+  "tr_publicTalkLastSync": "Last synced {{ date }} at {{ time }}",
+  "tr_exportS99": "Export S-99"
 }

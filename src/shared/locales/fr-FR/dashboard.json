@@ -45,7 +45,7 @@
   "tr_assignmentHistory": "Assignment history",
   "tr_coverageStatistics": "Coverage statistics",
   "tr_persons": "Persons",
-  "tr_reports": "Reports",
+  "tr_reports": "Rapports",
   "tr_congregation": "Congregation",
   "tr_publishersRecords": "Publishers records",
   "tr_lastSynced": "Synced {{ durationt }} mins ago",
@@ -86,5 +86,7 @@
   "tr_successfullyDesc": "Your feedback has been successfully submitted",
   "tr_manageAccess": "Gérer les accès",
   "tr_submitted": "Successfully submitted",
-  "tr_meetingAssignments": "<p>You have <a href='#' title='Meeting Assignment'>{{ assignment }} meeting assignments</a> at the moment</p>"
+  "tr_meetingAssignments": "<p>You have <a href='#' title='Meeting Assignment'>{{ assignment }} meeting assignments</a> at the moment</p>",
+  "tr_activitiesCard": "Activities",
+  "tr_hallCleaning": "Hall cleaning"
 }

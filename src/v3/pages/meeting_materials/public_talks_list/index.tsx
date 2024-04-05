@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { IconInfo, IconNoConnection, IconSpreadsheet, IconSync } from '@components/icons';
+import { IconInfo, IconListView, IconNoConnection, IconSpreadsheet, IconSync } from '@components/icons';
 import Button from '@components/button';
 import InfoTip from '@components/info_tip';
 import PageTitle from '@components/page_title';
@@ -13,7 +13,7 @@ import { PublicTalks } from '@features/index';
 const PublicTalksList = () => {
   const { t } = useAppTranslation();
 
-  const { isConnected, talksList, handleSyncTalks, isFetching } = usePublicTalksList();
+  const { isConnected, talksList, handleSyncTalks, isFetching, currentView, handleToggleView } = usePublicTalksList();
 
   return (
     <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
@@ -21,26 +21,35 @@ const PublicTalksList = () => {
         title={t('tr_publicTalksList')}
         backTo="/"
         buttons={
-          isConnected ? (
+          isConnected || talksList.length > 0 ? (
             <>
               {talksList.length > 0 && (
                 <Button
                   variant="secondary"
-                  startIcon={<IconSpreadsheet height={22} width={22} color="var(--accent-main)" />}
+                  startIcon={
+                    currentView === 'list' ? (
+                      <IconSpreadsheet height={22} width={22} color="var(--accent-main)" />
+                    ) : (
+                      <IconListView height={22} width={22} color="var(--accent-main)" />
+                    )
+                  }
                   disabled={isFetching}
+                  onClick={handleToggleView}
                 >
-                  {t('tr_tableView')}
+                  {currentView === 'list' ? t('tr_tableView') : t('tr_listView')}
                 </Button>
               )}
 
-              <Button
-                variant="main"
-                startIcon={<IconSync height={22} width={22} color="var(--always-white)" />}
-                onClick={handleSyncTalks}
-                disabled={isFetching}
-              >
-                {t('tr_syncTalksList')}
-              </Button>
+              {isConnected && (
+                <Button
+                  variant="main"
+                  startIcon={<IconSync height={22} width={22} color="var(--always-white)" />}
+                  onClick={handleSyncTalks}
+                  disabled={isFetching}
+                >
+                  {t('tr_syncTalksList')}
+                </Button>
+              )}
             </>
           ) : null
         }
@@ -60,7 +69,7 @@ const PublicTalksList = () => {
             />
           )}
 
-          {talksList.length > 0 && <PublicTalks />}
+          {talksList.length > 0 && <PublicTalks view={currentView} />}
 
           {!isConnected && talksList.length === 0 && (
             <Box

@@ -20,7 +20,8 @@
       "@wrapper/*": ["v3/wrapper/*"],
       "@locales/*": ["shared/locales/*"],
       "@shared/*": ["shared/*"],
-      "@definition/*": ["v3/definition/*"]
+      "@definition/*": ["v3/definition/*"],
+      "@global/*": ["v3/global/*"]
     },
     "esModuleInterop": true,
     "moduleResolution": "Node",

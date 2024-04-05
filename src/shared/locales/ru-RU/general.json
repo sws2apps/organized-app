@@ -60,5 +60,13 @@
   "tr_title": "Название",
   "tr_rename": "Переименовать",
   "tr_collapseAll": "Свернуть всё",
-  "tr_searchResults": "Результаты поиска: {{ count }}"
+  "tr_searchResults": "Результаты поиска: {{ count }}",
+  "tr_addMonth": "Add month",
+  "tr_export": "Экспорт",
+  "tr_monthYear": "{{ month }} {{ year }}",
+  "tr_publish": "Опубликовать",
+  "tr_groupNumber": "Group {{ groupNumber }}",
+  "tr_groupName": "Group {{ groupName }}",
+  "tr_meetingDate": "Meeting date",
+  "tr_listView": "List view"
 }

@@ -133,7 +133,7 @@ const TalkRow = ({ talk, isExpandAll }: TalkRowType) => {
             </TableCell>
             <TableCell>
               <Typography className="body-small-regular" sx={{ flexGrow: 1 }}>
-                Jason Bob
+                B. Jason
               </Typography>
             </TableCell>
             <TableCell>
@@ -176,8 +176,8 @@ const TalkRow = ({ talk, isExpandAll }: TalkRowType) => {
               >
                 <TableBody>
                   {[
-                    { date: '12/08/22', name: 'Floyd Miles' },
-                    { date: '06/08/20', name: 'Jason Brendon' },
+                    { date: '12/08/22', name: 'F. Miles' },
+                    { date: '06/08/20', name: 'J. Brendon' },
                   ].map((history, index) => (
                     <TableRow
                       key={history.date}
@@ -188,7 +188,7 @@ const TalkRow = ({ talk, isExpandAll }: TalkRowType) => {
                         },
                       }}
                     >
-                      <TableCell sx={{ minWidth: '200px' }} align="left">
+                      <TableCell sx={{ minWidth: '195px', flexGrow: 1 }} align="left">
                         {index === 0 && !laptopUp && (
                           <Button
                             variant="small"

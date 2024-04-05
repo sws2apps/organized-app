@@ -26,6 +26,7 @@ export default defineConfig({
       { find: '@locales', replacement: resolve(__dirname, 'src/shared/locales') },
       { find: '@shared', replacement: resolve(__dirname, 'src/shared') },
       { find: '@definition', replacement: resolve(__dirname, 'src/v3/definition') },
+      { find: '@global', replacement: resolve(__dirname, 'src/v3/global') },
     ],
   },
   worker: { plugins: () => [comlink()] },

@@ -164,16 +164,16 @@ const NavBar = () => {
               }}
             >
               {(tabletDown || !isAppLoad) && <LanguageSwitcher menuStyle={menuStyle} />}
-              {isCongAccountConnected && (
-                <MenuItem disableRipple sx={menuStyle} onClick={handleOpenMyProfile}>
-                  <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px !important' } }}>
-                    <IconAccount color="var(--black)" />
-                  </ListItemIcon>
-                  <ListItemText>
-                    <Typography className="body-regular">{t('tr_myProfile')}</Typography>
-                  </ListItemText>
-                </MenuItem>
-              )}
+
+              <MenuItem disableRipple sx={menuStyle} onClick={handleOpenMyProfile}>
+                <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px !important' } }}>
+                  <IconAccount color="var(--black)" />
+                </ListItemIcon>
+                <ListItemText>
+                  <Typography className="body-regular">{t('tr_myProfile')}</Typography>
+                </ListItemText>
+              </MenuItem>
+
               {!isAppLoad && !isCongAccountConnected && (
                 <MenuItem disableRipple sx={menuStyle} onClick={handleReconnectAccount}>
                   <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px !important' } }}>
