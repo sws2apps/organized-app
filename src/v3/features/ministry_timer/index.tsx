@@ -5,6 +5,8 @@ import TimerButton from './components/TimerButton';
 import { useAppTranslation } from '@hooks/index';
 import { useEffect, useState } from 'react';
 import { MinistryTimerButtonProps, MinistryTimerStates } from './ministry_timer.types';
+import DarkOverlay from '@components/dark_overlay';
+import { AddServiceTimeModalWindow } from '@components/add_service_time_modal_window';
 
 /**
  * Left Ministry Timer Button component.
@@ -173,6 +175,8 @@ const MinistryTimer = ({ duration = '0:00' }: { duration?: string }) => {
 
   const timerDuration = convertDurationInSecondsToString(durationInSeconds);
 
+  const [addServiceTimeModalWindowOpen, setAddServiceTimeModalWindowOpen] = useState(false);
+
   return (
     <Box
       sx={{
@@ -187,7 +191,7 @@ const MinistryTimer = ({ duration = '0:00' }: { duration?: string }) => {
       <LeftMinistryTimerButton
         state={timerState}
         onClick={() => {
-          console.log('hello');
+          setAddServiceTimeModalWindowOpen(true);
         }}
       />
       <Typography
@@ -216,9 +220,17 @@ const MinistryTimer = ({ duration = '0:00' }: { duration?: string }) => {
         state={timerState}
         onClick={() => {
           changeButtonStates();
-          console.log('aaa');
         }}
       />
+      <DarkOverlay overlayIsOpened={addServiceTimeModalWindowOpen}>
+        <AddServiceTimeModalWindow
+          variant="pioneer"
+          duration={durationInSeconds}
+          bibleStudiesList={['Alice', 'Bob', 'Charlie', 'Diana', 'Ethan', 'Fiona', 'George', 'Hannah', 'Ian', 'Julia']}
+          cancelButtonClick={() => setAddServiceTimeModalWindowOpen(false)}
+          addButtonClick={() => setAddServiceTimeModalWindowOpen(false)}
+        />
+      </DarkOverlay>
     </Box>
   );
 };

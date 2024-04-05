@@ -44,3 +44,7 @@ export { default as ProgressBarSmall } from './progress_bar_small/index';
 export { default as UserAccountItem } from './user_account_item/index';
 export { default as AddServiceTimeModalWindow } from './add_service_time_modal_window/index';
 export { default as DarkOverlay } from './dark_overlay/index';
+export {
+  CustomDropdownContainer as CustomDropdownContainer,
+  CustomDropdownMenu as CustomDropdownMenu,
+} from './dropdown/index';

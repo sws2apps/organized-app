@@ -795,6 +795,7 @@ const ComponentPreview = () => {
                   'Ian',
                   'Julia',
                 ]}
+                duration={0}
               />
               <AddServiceTimeModalWindow
                 variant="pioneer"
@@ -810,6 +811,7 @@ const ComponentPreview = () => {
                   'Ian',
                   'Julia',
                 ]}
+                duration={0}
               />
             </Box>
           </Box>

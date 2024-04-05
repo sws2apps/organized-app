@@ -9,11 +9,11 @@ import DatePicker from '@components/date_picker';
 import MinusButton from '@components/minus_button';
 import PlusButton from '@components/plus_button';
 import Button from '@components/button';
-import { useEffect, useRef, useState } from 'react';
-import { CustomDropdownContainer, CustomDropdownMenu } from './components/custom_dropdown';
+import { useRef, useState } from 'react';
+import { CustomDropdownContainer, CustomDropdownMenu } from '@components/dropdown';
 
 export const AddServiceTimeModalWindow = (props: AddServieTimeModalWindowProps) => {
-  const duration = props.duration || '00:00';
+  const duration = props.duration;
   const variant = props.variant || 'simple';
 
   const { t } = useAppTranslation();
@@ -47,7 +47,11 @@ export const AddServiceTimeModalWindow = (props: AddServieTimeModalWindowProps) 
     return `${formattedHours}:${formattedMinutes}`;
   };
 
-  const [localDurationInSeconds, setLocalDurationInSeconds] = useState(() => convertDurationStringToSeconds(duration));
+  function convertHoursToSeconds(hours: number): number {
+    return hours * 3600;
+  }
+
+  const [localDurationInSeconds, setLocalDurationInSeconds] = useState(duration);
 
   const incrementDuration = () => {
     setLocalDurationInSeconds(localDurationInSeconds + 60);
@@ -59,9 +63,7 @@ export const AddServiceTimeModalWindow = (props: AddServieTimeModalWindowProps) 
     }
   };
 
-  const [localCreditHoursDurationInSeconds, setLocalCreditHoursDurationInSeconds] = useState(() =>
-    convertDurationStringToSeconds(duration)
-  );
+  const [localCreditHoursDurationInSeconds, setLocalCreditHoursDurationInSeconds] = useState(0);
 
   const [countOfStudies, setCountOfStudies] = useState(0);
 
@@ -75,18 +77,26 @@ export const AddServiceTimeModalWindow = (props: AddServieTimeModalWindowProps) 
     }
   };
 
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  // const [dropdownWithBibleStudyOpen, setDropdownWithBibleStudyOpen] = useState(false);
 
-  const handleCustomDropdownContainerClick = () => {
-    setDropdownOpen((previous) => !previous);
-  };
+  // const handleCustomDropdownContainerWithBibleStudyClick = () => {
+  //   setDropdownWithBibleStudyOpen((previous) => !previous);
+  // };
+
+  // const [dropdownWithCreditHoursOpen, setDropdownWithCreditHoursOpen] = useState(false);
+
+  // const handleCustomDropdownContainerWithCreditHoursClick = () => {
+  //   setDropdownWithCreditHoursOpen((previous) => !previous);
+  // };
 
   const styledRowContainerWithBibleStudiesRef = useRef(null);
+  const styledRowContainerWithCreditHours = useRef(null);
+  const thisModalWindow = useRef(null);
 
-  let dropdownCheckedItems = [];
+  // let dropdownCheckedItems = [];
 
   return (
-    <StyledModalWindowContainer>
+    <StyledModalWindowContainer ref={thisModalWindow}>
       <Box>
         <CustomTypography className="h2">{t('tr_addServiceTime')}</CustomTypography>
         <Box
@@ -99,7 +109,10 @@ export const AddServiceTimeModalWindow = (props: AddServieTimeModalWindowProps) 
           <DatePicker view={'button'} />
         </Box>
       </Box>
-      <StyledRowContainer sx={{ justifyContent: 'space-between', flexDirection: 'column', alignItems: 'stretch' }}>
+      <StyledRowContainer
+        sx={{ justifyContent: 'space-between', flexDirection: 'column', alignItems: 'stretch' }}
+        ref={styledRowContainerWithCreditHours}
+      >
         <StyledBox>
           <CustomTypography className="body-regular">{t('tr_hours')}</CustomTypography>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '168px', alignItems: 'center' }}>
@@ -112,7 +125,21 @@ export const AddServiceTimeModalWindow = (props: AddServieTimeModalWindowProps) 
         </StyledBox>
         {variant == 'pioneer' ? (
           <StyledBox>
-            <CustomTypography className="body-regular">{t('tr_creditHours')}</CustomTypography>
+            <CustomDropdownContainer
+              label={t('tr_creditHours')}
+              onClick={() => {
+                // handleCustomDropdownContainerWithCreditHoursClick();
+              }}
+            />
+            {/* <CustomDropdownForCreditHours
+              anchorElement={styledRowContainerWithCreditHours.current}
+              width={styledRowContainerWithCreditHours.current?.offsetWidth + 'px'}
+              open={dropdownWithCreditHoursOpen}
+              callbackCreditHours={(value) => {
+                setLocalCreditHoursDurationInSeconds(convertHoursToSeconds(value));
+              }}
+            /> */}
+
             <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '168px', alignItems: 'center' }}>
               <MinusButton />
               <CustomTypography className="h2" color={'var(--grey-300)'}>
@@ -127,11 +154,11 @@ export const AddServiceTimeModalWindow = (props: AddServieTimeModalWindowProps) 
         <CustomDropdownContainer
           label={t('tr_bibleStudies')}
           onClick={() => {
-            handleCustomDropdownContainerClick();
+            // handleCustomDropdownContainerWithBibleStudyClick();
           }}
         />
-        <CustomDropdownMenu
-          open={dropdownOpen}
+        {/* <CustomDropdownMenu
+          open={dropdownWithBibleStudyOpen}
           labelAdd={t('tr_addNewStudy')}
           items={props.bibleStudiesList}
           checkedItems={(value) => (dropdownCheckedItems = value)}
@@ -140,7 +167,7 @@ export const AddServiceTimeModalWindow = (props: AddServieTimeModalWindowProps) 
           editIconClicked={(item_index, item_text) => {
             // TODO: Open edit window
           }}
-        />
+        /> */}
         <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '168px', alignItems: 'center' }}>
           <MinusButton onClick={decrimentCountOfStudies} />
           <CustomTypography className="h2">{countOfStudies}</CustomTypography>
@@ -148,8 +175,12 @@ export const AddServiceTimeModalWindow = (props: AddServieTimeModalWindowProps) 
         </Box>
       </StyledRowContainer>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-        <Button variant="secondary">{t('tr_cancel')}</Button>
-        <Button variant="main">{t('tr_add')}</Button>
+        <Button variant="secondary" onClick={props.cancelButtonClick}>
+          {t('tr_cancel')}
+        </Button>
+        <Button variant="main" onClick={props.addButtonClick}>
+          {t('tr_add')}
+        </Button>
       </Box>
     </StyledModalWindowContainer>
   );
