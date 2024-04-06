@@ -76,7 +76,7 @@
   "tr_contactInfo": "Contact info",
   "tr_addContact": "Add contact",
   "tr_firstReport": "First report",
-  "tr_firstReportDesc": "The month when the person's field service report was first collected.",
+  "tr_firstReportDesc": "The month when the person's field service report was first collected",
   "tr_manageAccessFullTitle": "Manage access to Organized",
   "tr_addUser": "Add user",
   "tr_congregationPersons": "Congregation persons",
@@ -267,5 +267,10 @@
   "tr_enrollments": "Enrollments",
   "tr_hallA": "A",
   "tr_hallB": "B",
-  "tr_assigment": "Assigment"
+  "tr_assigment": "Assigment",
+  "tr_markDisqualifiedTitle": "Mark person disqualified",
+  "tr_markDisqualifiedDesc": "Disqualified persons cannot participate in meeting parts until re-qualified.",
+  "tr_disqualified": "Disqualified",
+  "tr_timeAwayAddedSuccess": "Time away added",
+  "tr_timeAwayAddedSuccessDesc": "Thanks for keeping your availability up-to-date"
 }
