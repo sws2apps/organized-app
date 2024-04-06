@@ -9,8 +9,10 @@ import DatePicker from '@components/date_picker';
 import MinusButton from '@components/minus_button';
 import PlusButton from '@components/plus_button';
 import Button from '@components/button';
-import { useRef, useState } from 'react';
-import { CustomDropdownContainer, CustomDropdownMenu } from '@components/dropdown';
+import { useEffect, useRef, useState } from 'react';
+import { CustomDropdownContainer, CustomDropdownItem, CustomDropdownMenu } from '@components/dropdown';
+import { IconLanguageCourse, IconPersonalDay, IconSchool, IconSchoolForEvangelizers } from '@components/icons';
+import { hoursToSeconds } from 'date-fns';
 
 export const AddServiceTimeModalWindow = (props: AddServieTimeModalWindowProps) => {
   const duration = props.duration;
@@ -48,10 +50,6 @@ export const AddServiceTimeModalWindow = (props: AddServieTimeModalWindowProps) 
     return `${formattedHours}:${formattedMinutes}`;
   };
 
-  function convertHoursToSeconds(hours: number): number {
-    return hours * 3600;
-  }
-
   const [localDurationInSeconds, setLocalDurationInSeconds] = useState(duration);
 
   const incrementDuration = () => {
@@ -85,10 +83,23 @@ export const AddServiceTimeModalWindow = (props: AddServieTimeModalWindowProps) 
   const styledRowContainerWithCreditHours = useRef(null);
   const thisModalWindow = useRef(null);
 
-  let dropdownCheckedItems = [];
+  // let dropdownCheckedItems = [];
+
+  // code for fix bug with empty field
+  useEffect(() => {
+    if (convertDurationInSecondsToString(localDurationInSeconds) == 'NaN:NaN') {
+      setLocalDurationInSeconds(0);
+    }
+  }, [localDurationInSeconds]);
 
   return (
-    <StyledModalWindowContainer ref={thisModalWindow}>
+    <StyledModalWindowContainer
+      ref={thisModalWindow}
+      className="pop-up-shadow"
+      sx={{
+        margin: { mobile: '16px', tablet: '24px', desktop: '32px' },
+      }}
+    >
       <Box>
         <CustomTypography className="h2">{t('tr_addServiceTime')}</CustomTypography>
         <Box
@@ -127,7 +138,10 @@ export const AddServiceTimeModalWindow = (props: AddServieTimeModalWindowProps) 
                   lineHeight: '24px',
                 },
               }}
-              defaultValue={convertDurationInSecondsToString(localDurationInSeconds)}
+              value={convertDurationInSecondsToString(localDurationInSeconds)}
+              onChange={(event) => {
+                setLocalDurationInSeconds(convertDurationStringToSeconds(event.target.value));
+              }}
             />
             <PlusButton onClick={incrementDuration} />
           </Box>
@@ -136,9 +150,9 @@ export const AddServiceTimeModalWindow = (props: AddServieTimeModalWindowProps) 
           <StyledBox>
             <CustomDropdownContainer
               label={t('tr_creditHours')}
-              onClick={() => setDropdownWithStudiesOpen((prev) => !prev)}
+              onClick={() => setDropdownWithSchoolsOpen((prev) => !prev)}
             />
-            <CustomDropdownMenu
+            {/* <CustomDropdownMenu
               variant="schools"
               anchorElement={styledRowContainerWithCreditHours.current}
               width={styledRowContainerWithCreditHours.current?.offsetWidth + 'px'}
@@ -147,7 +161,46 @@ export const AddServiceTimeModalWindow = (props: AddServieTimeModalWindowProps) 
               callback={(value) => {
                 setLocalCreditHoursDurationInSeconds(convertHoursToSeconds(value));
               }}
-            />
+            /> */}
+            <CustomDropdownMenu
+              open={dropdownWithSchoolsOpen}
+              anchorElement={styledRowContainerWithCreditHours.current}
+              width={styledRowContainerWithCreditHours.current?.offsetWidth + 'px'}
+              zIndex={(theme) => theme.zIndex.drawer + 3}
+            >
+              <CustomDropdownItem
+                variant="schools"
+                label={t('tr_pioneerSchool')}
+                description={t('tr_ministryTimeHours', { ministryTime: 30 })}
+                icon={<IconSchool />}
+                checked={false}
+                callback={() => setLocalCreditHoursDurationInSeconds(hoursToSeconds(30))}
+              />
+              <CustomDropdownItem
+                variant="schools"
+                label={t('tr_SKE')}
+                description={t('tr_ministryTimeHours', { ministryTime: 80 })}
+                icon={<IconSchoolForEvangelizers />}
+                checked={false}
+                callback={() => setLocalCreditHoursDurationInSeconds(hoursToSeconds(80))}
+              />
+              <CustomDropdownItem
+                variant="schools"
+                label={t('tr_languageCourse')}
+                description={t('tr_ministryTimeHours', { ministryTime: 25 })}
+                icon={<IconLanguageCourse />}
+                checked={false}
+                callback={() => setLocalCreditHoursDurationInSeconds(hoursToSeconds(25))}
+              />
+              <CustomDropdownItem
+                variant="schools"
+                label={t('tr_personalDay')}
+                description={t('tr_ministryTimeHours', { ministryTime: 5 })}
+                icon={<IconPersonalDay />}
+                checked={false}
+                callback={() => setLocalCreditHoursDurationInSeconds(hoursToSeconds(5))}
+              />
+            </CustomDropdownMenu>
 
             <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '168px', alignItems: 'center' }}>
               <MinusButton />
@@ -169,9 +222,9 @@ export const AddServiceTimeModalWindow = (props: AddServieTimeModalWindowProps) 
       <StyledRowContainer ref={styledRowContainerWithBibleStudiesRef} sx={{ alignItems: 'center' }}>
         <CustomDropdownContainer
           label={t('tr_bibleStudies')}
-          onClick={() => setDropdownWithSchoolsOpen((prev) => !prev)}
+          onClick={() => setDropdownWithStudiesOpen((prev) => !prev)}
         />
-        <CustomDropdownMenu
+        {/* <CustomDropdownMenu
           variant="studies"
           open={dropdownWithSchoolsOpen}
           items={props.bibleStudiesList}
@@ -182,7 +235,14 @@ export const AddServiceTimeModalWindow = (props: AddServieTimeModalWindowProps) 
           editItemButtonClick={(item_index, item_text) => {
             // TODO: Open edit window
           }}
-        />
+        /> */}
+        <CustomDropdownMenu
+          open={dropdownWithStudiesOpen}
+          zIndex={(theme) => theme.zIndex.drawer + 3}
+          anchorElement={styledRowContainerWithBibleStudiesRef.current}
+          width={styledRowContainerWithBibleStudiesRef.current?.offsetWidth + 'px'}
+        ></CustomDropdownMenu>
+
         <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '168px', alignItems: 'center' }}>
           <MinusButton onClick={decrimentCountOfStudies} />
           <CustomTypography className="h2" color={countOfStudies != 0 ? 'var(--black)' : 'var(--grey-300)'}>

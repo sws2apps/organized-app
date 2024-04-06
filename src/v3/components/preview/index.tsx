@@ -24,8 +24,6 @@ import {
   ProgressBarSmall,
   TimePicker,
   UserAccountItem,
-  AddServiceTimeModalWindow,
-  DarkOverlay,
 } from '@components/index';
 import { useEffect, useState } from 'react';
 import { IconAdd, IconAssign, IconClose, IconReturn, IconUndo, IconUpdate, IconInfo, IconVisitors } from '@icons/index';
@@ -775,63 +773,6 @@ const ComponentPreview = () => {
             <Typography className="label-small-regular">baptized-account-item</Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
               <UserAccountItem variant="baptized" userName="Ronald Richards" />
-            </Box>
-          </Box>
-        </Box>
-        <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap', marginTop: '10px' }}>
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <Typography className="label-small-regular">add-service-time:</Typography>
-            <Box sx={{ display: 'flex', flexDirection: 'row', gap: '16px' }}>
-              <AddServiceTimeModalWindow
-                bibleStudiesList={[
-                  'Alice',
-                  'Bob',
-                  'Charlie',
-                  'Diana',
-                  'Ethan',
-                  'Fiona',
-                  'George',
-                  'Hannah',
-                  'Ian',
-                  'Julia',
-                ]}
-                duration={0}
-              />
-              <AddServiceTimeModalWindow
-                variant="pioneer"
-                bibleStudiesList={[
-                  'Alice',
-                  'Bob',
-                  'Charlie',
-                  'Diana',
-                  'Ethan',
-                  'Fiona',
-                  'George',
-                  'Hannah',
-                  'Ian',
-                  'Julia',
-                ]}
-                duration={0}
-              />
-            </Box>
-          </Box>
-        </Box>
-        <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap', marginTop: '10px' }}>
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <Typography className="label-small-regular">dark-overlay:</Typography>
-            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-              <Button
-                variant="small"
-                onClick={() => {
-                  setDarkOverlayIsOpen(true);
-                  setTimeout(() => {
-                    setDarkOverlayIsOpen(false);
-                  }, 3000);
-                }}
-              >
-                Open dark-overlay 3sec
-              </Button>
-              <DarkOverlay overlayIsOpened={darkOverlayIsOpen} />
             </Box>
           </Box>
         </Box>

@@ -1,23 +1,15 @@
-import {
-  IconAdd,
-  IconArrowDown,
-  IconCheck,
-  IconEdit,
-  IconLanguageCourse,
-  IconPersonalDay,
-  IconSchool,
-  IconSchoolForEvangelizers,
-} from '@components/icons';
+import { IconArrowDown, IconCheck, IconEdit } from '@components/icons';
 import CustomTypography from '@components/typography';
 import { useEffect, useState } from 'react';
-import { CustomDropdownContainerProps, CustomDropdownMenuProps } from './dropdown.types';
+import { CustomDropdownContainerProps, CustomDropdownItemProps, CustomDropdownMenuProps } from './dropdown.types';
 import { Box, Popper } from '@mui/material';
-import useAppTranslation from '@hooks/useAppTranslation';
-import { StyledItemBoxForDropdownWithSchools } from './dropdown.styled';
+import CustomCheckbox from '@components/checkbox';
 
 /**
  * Component for rendering a custom dropdown container.
- * @param props - Props for CustomDropdownContainer.
+ * Displays a label and an arrow icon to indicate dropdown functionality.
+ *
+ * @param {CustomDropdownContainerProps} props - Props for CustomDropdownContainer component.
  */
 const CustomDropdownContainer = (props: CustomDropdownContainerProps) => {
   const [dropdownArrowRotation, setdropdownArrowRotation] = useState(false);
@@ -43,186 +35,139 @@ const CustomDropdownContainer = (props: CustomDropdownContainerProps) => {
 
 /**
  * Component for rendering a custom dropdown menu.
- * @param props - Props for CustomDropdownMenu.
+ * Displays a list of items within a popper.
+ *
+ * @param {CustomDropdownMenuProps} props - Props for CustomDropdownMenu component.
  */
 const CustomDropdownMenu = (props: CustomDropdownMenuProps) => {
-  const variant = props.variant || 'schools';
-
-  const hours = {
-    pioneerSchool: 30,
-    SKE: 80,
-    languageCourse: 25,
-    personalDay: 5,
-  };
-
-  const { t } = useAppTranslation();
-
-  const [itemsStates, setItemsStates] = useState(() => {
-    if (variant == 'studies') {
-      return new Array<boolean>(props.items?.length).fill(false);
-    }
-  });
-
-  const toggleItemState = (index) => {
-    setItemsStates((prev) => {
-      const newStates = [...prev];
-      newStates[index] = !newStates[index];
-      return newStates;
-    });
-  };
-
-  useEffect(() => {
-    const tmpDropdownCheckedItems = [];
-
-    if (variant == 'studies') {
-      props.items.forEach((item, index) => {
-        if (itemsStates[index]) {
-          tmpDropdownCheckedItems.push(item);
-        }
-      });
-    }
-
-    props.callback(tmpDropdownCheckedItems);
-  }, [itemsStates, props, variant]);
-
-  if (variant == 'studies') {
-    const items = props.items.map((item, index) => {
-      return (
-        <Box
-          key={index}
-          sx={{
-            display: 'flex',
-            padding: '8px 12px 8px 16px',
-
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            cursor: 'pointer',
-            /* Divider */
-            borderBottom: '1px solid var(--accent-200)',
-          }}
-          onClick={() => toggleItemState(index)}
-        >
-          <Box sx={{ gap: '8px', display: 'flex', alignItems: 'center' }}>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-              }}
-              onClick={(e) => {
-                props.editItemButtonClick(index, item);
-                e.stopPropagation();
-              }}
-            >
-              <IconEdit color="var(--accent-350)" />
-            </Box>
-            <CustomTypography className="body-regular">{item}</CustomTypography>
-          </Box>
-          {itemsStates[index] ? (
-            <IconCheck color="var(--accent-dark)" />
-          ) : (
-            <Box sx={{ width: '24px', height: '24px' }} />
-          )}
-        </Box>
-      );
-    });
-
-    return (
-      <Popper open={props.open} anchorEl={props.anchorElement} sx={{ zIndex: props.zIndex }} placement="bottom-start">
-        <Box
-          className="small-card-shadow"
-          sx={{
-            borderRadius: 'var(--radius-l)',
-            border: '1px solid var(--accent-200)',
-            padding: '8px 0px 8px 0px',
-            backgroundColor: 'var(--white)',
-            overflowY: 'scroll',
-            maxHeight: '256px',
-            width: props.width,
-          }}
-        >
-          {items}
-          <Box
-            sx={{
-              display: 'flex',
-              padding: '8px 12px 8px 16px',
-              gap: '8px',
-              alignItems: 'center',
-              cursor: 'pointer',
-              /* Divider */
-              borderBottom: '1px solid var(--accent-200)',
-            }}
-          >
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            >
-              <IconAdd color="var(--accent-dark)" />
-            </Box>
-            <CustomTypography className="h4" color="var(--accent-dark)">
-              {t('tr_addNewStudy')}
-            </CustomTypography>
-          </Box>
-        </Box>
-      </Popper>
-    );
-  }
-  if (variant == 'schools') {
-    return (
-      <Popper open={props.open} anchorEl={props.anchorElement} sx={{ zIndex: props.zIndex }} placement="bottom-start">
-        <Box
-          className="small-card-shadow"
-          sx={{
-            borderRadius: 'var(--radius-l)',
-            border: '1px solid var(--accent-200)',
-            padding: '8px 0px 8px 0px',
-            backgroundColor: 'var(--white)',
-            overflowY: 'scroll',
-            maxHeight: '256px',
-            width: props.width,
-          }}
-        >
-          <StyledItemBoxForDropdownWithSchools onClick={() => props.callback(hours.pioneerSchool)}>
-            <IconSchool />
-            <Box sx={{ alignItems: 'center' }}>
-              <CustomTypography className="body-regular">{t('tr_pioneerSchool')}</CustomTypography>
-              <CustomTypography className="body-small-regular" color="var(--grey-400)">
-                {t('tr_ministryTimeHours', { ministryTime: hours.pioneerSchool })}
-              </CustomTypography>
-            </Box>
-          </StyledItemBoxForDropdownWithSchools>
-          <StyledItemBoxForDropdownWithSchools onClick={() => props.callback(hours.SKE)}>
-            <IconSchoolForEvangelizers />
-            <Box sx={{ alignItems: 'center' }}>
-              <CustomTypography className="body-regular">{t('tr_SKE')}</CustomTypography>
-              <CustomTypography className="body-small-regular" color="var(--grey-400)">
-                {t('tr_ministryTimeHours', { ministryTime: hours.SKE })}
-              </CustomTypography>
-            </Box>
-          </StyledItemBoxForDropdownWithSchools>
-          <StyledItemBoxForDropdownWithSchools onClick={() => props.callback(hours.languageCourse)}>
-            <IconLanguageCourse />
-            <Box sx={{ alignItems: 'center' }}>
-              <CustomTypography className="body-regular">{t('tr_languageCourse')}</CustomTypography>
-              <CustomTypography className="body-small-regular" color="var(--grey-400)">
-                {t('tr_ministryTimeHours', { ministryTime: hours.languageCourse })}
-              </CustomTypography>
-            </Box>
-          </StyledItemBoxForDropdownWithSchools>
-          <StyledItemBoxForDropdownWithSchools onClick={() => props.callback(hours.personalDay)}>
-            <IconPersonalDay />
-            <Box sx={{ alignItems: 'center' }}>
-              <CustomTypography className="body-regular">{t('tr_personalDay')}</CustomTypography>
-              <CustomTypography className="body-small-regular" color="var(--grey-400)">
-                {t('tr_ministryTimeHours', { ministryTime: hours.personalDay })}
-              </CustomTypography>
-            </Box>
-          </StyledItemBoxForDropdownWithSchools>
-        </Box>
-      </Popper>
-    );
-  }
+  return (
+    <Popper open={props.open} sx={{ zIndex: props.zIndex }} anchorEl={props.anchorElement}>
+      <Box
+        className="small-card-shadow"
+        sx={{
+          borderRadius: 'var(--radius-l)',
+          padding: '8px, 0px, 8px, 0px',
+          border: '1px solid var(--accent-200)',
+          backgroundColor: 'var(--white)',
+          width: props.width,
+          maxHeight: '256px',
+          overflowY: 'auto',
+        }}
+      >
+        {props.children}
+      </Box>
+    </Popper>
+  );
 };
 
-export { CustomDropdownContainer, CustomDropdownMenu };
+/**
+ * Component for rendering a custom dropdown item.
+ * Displays different types of items based on variant prop.
+ *
+ * @param {CustomDropdownItemProps} props - Props for CustomDropdownItem component.
+ */
+const CustomDropdownItem = (props: CustomDropdownItemProps) => {
+  const variant = props.variant || 'standard';
+  const showDivider = props.showDivider || true;
+  const propsChecked = props.checked || false;
+
+  const [checked, setChecked] = useState(propsChecked);
+
+  useEffect(() => {
+    if (checked) {
+      props.callback(checked);
+    }
+
+    // fix bug with "infinity" value
+    if (variant == 'schools' || variant == 'standard') {
+      setChecked(false);
+    }
+  }, [checked, props, variant]);
+
+  const itemContent = () => {
+    switch (variant) {
+      case 'checkboxes':
+        return (
+          <>
+            <CustomCheckbox checked={checked} onChange={() => setChecked(!checked)} />
+            <CustomTypography className="body-regular">{props.label}</CustomTypography>
+          </>
+        );
+      case 'standard':
+        return <CustomTypography className="body-regular">{props.label}</CustomTypography>;
+      case 'custom':
+        return props.children;
+      case 'studies':
+        return (
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+            <Box
+              sx={{
+                display: 'flex',
+                gap: '8px',
+                alignItems: 'center',
+              }}
+            >
+              <Box onClick={() => props.editButtonClick(props.label)} sx={{ alignItems: 'center', display: 'flex' }}>
+                <IconEdit color="var(--accent-350)" />
+              </Box>
+              <CustomTypography className="body-regular">{props.label}</CustomTypography>
+            </Box>
+            {checked ? <IconCheck color="var(--accent-dark)" /> : null}
+          </Box>
+        );
+      case 'schools':
+        return (
+          <>
+            {props.icon}
+            <Box>
+              <CustomTypography className="body-regular">{props.label}</CustomTypography>
+              <CustomTypography className="body-small-regular" color="var(--grey-400)">
+                {props.description}
+              </CustomTypography>
+            </Box>
+          </>
+        );
+    }
+  };
+
+  return (
+    <Box
+      sx={{
+        padding: '8px 12px 8px 16px',
+        display: 'flex',
+        gap: '8px',
+        alignItems: 'center',
+        borderBottom: showDivider ? '1px solid var(--accent-200)' : 'none',
+        cursor: 'pointer',
+
+        '.MuiSvgIcon-root path': {
+          fill: 'var(--black)',
+        },
+
+        '&:hover': {
+          backgroundColor: 'var(--accent-100)',
+          '.MuiTypography-root': {
+            color: 'var(--accent-dark)',
+          },
+
+          '.MuiSvgIcon-root path': {
+            fill: 'var(--accent-dark)',
+          },
+        },
+        '.MuiFormControlLabel-root': {
+          margin: '0',
+          width: '24px',
+        },
+      }}
+      onClick={() => {
+        if (variant == 'checkboxes' || variant == 'studies' || variant == 'schools' || variant == 'custom') {
+          setChecked(!checked);
+        }
+      }}
+    >
+      {itemContent()}
+    </Box>
+  );
+};
+
+export { CustomDropdownContainer, CustomDropdownMenu, CustomDropdownItem };

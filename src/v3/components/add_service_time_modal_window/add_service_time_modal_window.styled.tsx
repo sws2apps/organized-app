@@ -9,6 +9,7 @@ export const StyledModalWindowContainer = styled(Box)({
   padding: '24px',
   display: 'flex',
   gap: '16px',
+
   flexDirection: 'column',
   alignItems: 'flex-start',
 });

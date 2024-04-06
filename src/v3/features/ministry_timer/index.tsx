@@ -224,10 +224,12 @@ const MinistryTimer = ({ duration = '00:00' }: { duration?: string }) => {
       <DarkOverlay overlayIsOpened={addServiceTimeModalWindowOpen}>
         <AddServiceTimeModalWindow
           variant="pioneer"
+          showCreditHours={true}
           duration={durationInSeconds}
           bibleStudiesList={['Alice', 'Bob', 'Charlie', 'Diana', 'Ethan', 'Fiona', 'George', 'Hannah', 'Ian', 'Julia']}
           cancelButtonClick={() => setAddServiceTimeModalWindowOpen(false)}
           addButtonClick={() => setAddServiceTimeModalWindowOpen(false)}
+          open={true}
         />
       </DarkOverlay>
     </Box>

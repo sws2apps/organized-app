@@ -47,4 +47,5 @@ export { default as DarkOverlay } from './dark_overlay/index';
 export {
   CustomDropdownContainer as CustomDropdownContainer,
   CustomDropdownMenu as CustomDropdownMenu,
+  CustomDropdownItem as CustomDropdownItem,
 } from './dropdown/index';

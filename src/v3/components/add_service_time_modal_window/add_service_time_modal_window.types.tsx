@@ -5,4 +5,5 @@ export type AddServieTimeModalWindowProps = {
   bibleStudiesList: string[];
   cancelButtonClick?: VoidFunction;
   addButtonClick?: VoidFunction;
+  open: boolean;
 };
