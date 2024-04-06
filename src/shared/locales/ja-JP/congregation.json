@@ -267,5 +267,10 @@
   "tr_enrollments": "Enrollments",
   "tr_hallA": "A",
   "tr_hallB": "B",
-  "tr_assigment": "Assigment"
+  "tr_assigment": "Assigment",
+  "tr_markDisqualifiedTitle": "Mark person disqualified",
+  "tr_markDisqualifiedDesc": "Disqualified persons cannot participate in meeting parts until re-qualified.",
+  "tr_disqualified": "Disqualified",
+  "tr_timeAwayAddedSuccess": "Time away added",
+  "tr_timeAwayAddedSuccessDesc": "Thanks for keeping your availability up-to-date"
 }
