@@ -113,5 +113,19 @@
   "tr_deleteInvitationCodeTitle": "Delete the invitation code",
   "tr_deleteInvitationCodeDesc": "If you delete this invitation code, the user won't be able to log in on new devices using it. To let the user log in again, you'll need to create a new invitation code and give it to them.",
   "tr_deleteUserProfile": "Delete the Organized user profile",
-  "tr_deleteUserProfileDesc": "Do you want to delete the user account from your congregation Organized users list? The next time the user opens the app, all local data will be deleted and the user will be redirected to the registration page again."
+  "tr_deleteUserProfileDesc": "Do you want to delete the user account from your congregation Organized users list? The next time the user opens the app, all local data will be deleted and the user will be redirected to the registration page again.",
+  "tr_additionalUserRights": "Additional rights",
+  "tr_service": "Service",
+  "tr_events": "Events",
+  "tr_midweekMeetingScheduling": "Midweek meeting scheduling",
+  "tr_weekendMeetingScheduling": "Weekend meeting scheduling",
+  "tr_meetingDutiesScheduling": "Meeting duties scheduling",
+  "tr_attendanceRecordTracking": "Attendance record tracking",
+  "tr_fieldServiceMeetingsScheduling": "Field service meetings scheduling",
+  "tr_publicWitnessingScheduling": "Public witnessing scheduling",
+  "tr_congregationTerritoriesManagement": "Congregation territories management",
+  "tr_coVisitScheduling": "Circuit overseer visit scheduling",
+  "tr_informationBoardEditing": "Information board editing",
+  "tr_congregationActivitiesScheduling": "Congregation activities scheduling",
+  "tr_hallCleaningScheduling": "Hall cleaning scheduling"
 }
