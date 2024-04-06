@@ -159,7 +159,7 @@
   "tr_autoAssignClosingPrayer": "Auto-assign chairman for closing prayer",
   "tr_auxClassroom": "Auxiliary classroom",
   "tr_assignAuxCounselor": "Assign main auxiliary classroom counselor",
-  "tr_assignAuxCounserlorDesc": "\"Only one brother, qualified for chairman assignments, will be responsible by default. Another brother can be manually assigned if needed.",
+  "tr_assignAuxCounserlorDesc": "Only one brother, qualified for chairman assignments, will be responsible by default. Another brother can be manually assigned if needed.",
   "tr_langGroups": "Language groups",
   "tr_langGroupsDesc": "You can create multiple language groups in your congregation and collaborate together.",
   "tr_langGroupEnable": "Language group in the congregation",
@@ -218,5 +218,12 @@
   "tr_createNewGroupLastStep": "Now, select a group overseer and his assistant. Then, add publishers to this group. You can edit these details later if needed.",
   "tr_groupOverseer": "Group overseer",
   "tr_groupOverseerAssistant": "Overseer’s assistant",
-  "tr_create": "Create"
+  "tr_create": "Create",
+  "tr_inactivePublishers": "Неактивные возвещатели",
+  "tr_wholeYearSetting": "Whole year",
+  "tr_statistics": "Statistics",
+  "tr_ministerialServant": "Ministerial servant",
+  "tr_specialPioneer": "Special pioneer",
+  "tr_fieldMissionary": "Field missionary",
+  "tr_elder": "Elder"
 }
