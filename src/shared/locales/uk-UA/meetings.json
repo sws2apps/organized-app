@@ -83,7 +83,6 @@
   "tr_successfullyPublished": "Успішно опубліковано",
   "tr_successfullyPublishedDesc": "Тепер всі у вашому зборі можуть переглянути графік і підготуватися до завдань",
   "tr_lastUpdated": "Останнє оновлення:",
-  "tr_inactivePublishers": "Неактивні вісники",
   "tr_outgoingTalks": "Виїздні промови",
   "tr_infoOutgoingTalk": "Брати, які будуть відвідувати інші збори з публічною промовою",
   "tr_speakers": "Промовців: {{ speakersCount }}",
