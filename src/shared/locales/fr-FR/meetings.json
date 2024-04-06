@@ -83,7 +83,6 @@
   "tr_successfullyPublished": "Publié avec succès",
   "tr_successfullyPublishedDesc": "À présent, tous les membres de l'assemblée peuvent consulter le programme et préparer leurs attributions",
   "tr_lastUpdated": "Dernière modification :",
-  "tr_inactivePublishers": "Proclamateurs inactifs",
   "tr_outgoingTalks": "Discours à l'extérieur",
   "tr_infoOutgoingTalk": "Frères qui prononceront un discours dans une autre assemblée",
   "tr_speakers": "Orateurs : {{ speakersCount }}",
