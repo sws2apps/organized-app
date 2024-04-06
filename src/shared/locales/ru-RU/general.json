@@ -69,5 +69,6 @@
   "tr_groupName": "Group {{ groupName }}",
   "tr_meetingDate": "Meeting date",
   "tr_listView": "List view",
-  "tr_share": "Share"
+  "tr_share": "Share",
+  "tr_copyLink": "Copy link"
 }
