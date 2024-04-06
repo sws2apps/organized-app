@@ -69,5 +69,6 @@
   "tr_groupName": "Група {{ groupName }}",
   "tr_meetingDate": "Дата зібрання",
   "tr_listView": "Вид списку",
-  "tr_share": "Share"
+  "tr_share": "Share",
+  "tr_copyLink": "Copy link"
 }
