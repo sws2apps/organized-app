@@ -289,5 +289,15 @@
   "tr_discoverableSetting": "Make your congregation discoverable in Organized",
   "tr_discoverableSettingDesc": "Allow other congregations on Organized to find your congregation by name or number and send a request for your outgoing speakers list",
   "tr_addCongregation": "Add congregation",
-  "tr_deleteCongregation": "Delete congregation"
+  "tr_deleteCongregation": "Delete congregation",
+  "tr_publicTalksLong": "Public talks",
+  "tr_songs": "Songs",
+  "tr_whoHasAccess": "Who has access",
+  "tr_noSpeakersYet": "No outgoing speakers yet. Add them by editing your list.",
+  "tr_noCongregationsYetInfo": "You haven't added any congregations yet. Add one to see their speakers list and use it in schedules.",
+  "tr_congregationInOrganized": "Congregation in Organized",
+  "tr_addManually": "Add manually",
+  "tr_searchCongregation ": "Search congregation ",
+  "tr_addOrganizedCongregationDesc": "Can't find the congregation you're looking for? Make sure they've made their congregation discoverable by others. Once they do this, you can request access to their outgoing speakers list through the app.",
+  "tr_addManualCongregationDesc": "Manually add a congregation that isn't on Organized yet. Once they join the app, you can sync their outgoing speakers list."
 }
