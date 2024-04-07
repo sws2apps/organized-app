@@ -279,7 +279,6 @@
   "tr_bibleStudies": "Bible studies",
   "tr_bibleStudiesCount": "Bible studies: {{ StudiesCount }}",
   "tr_activePublishers": "Active publishers",
-  "tr_regularPioneers": "Mpisava Lalana Maharitra",
   "tr_avgAuxPioMonthly": "Average auxiliary pioneers per month",
   "tr_avgHoursMonthly": "Average hours per month",
   "tr_highestStudiesNumberMonthly": "Highest number of studies per month",
@@ -295,5 +294,7 @@
   "tr_attendanceRecordAddedDesc": "All total and average numbers, as well as monthly data, are updated automatically",
   "tr_congregationName": "Congregation name",
   "tr_averageAttendanceWM": "Average weekend meeting attendance",
-  "tr_numberReports": "Number of reports"
+  "tr_numberReports": "Number of reports",
+  "tr_filters": "Filters",
+  "tr_pioneers": "Pioneers"
 }
