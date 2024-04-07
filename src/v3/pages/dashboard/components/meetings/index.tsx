@@ -2,9 +2,12 @@ import { ListItem } from '@mui/material';
 import { DashboardCard, DashboardMenu } from '@features/index';
 import { IconAssignment, IconCalendarWeek, IconDiamond, IconRefreshSchedule, IconTalk } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
+import useMeetings from './useMeetings';
 
 const MeetingsCard = () => {
   const { t } = useAppTranslation();
+
+  const { handleOpenMyAssignments } = useMeetings();
 
   return (
     <DashboardCard header={t('tr_meetings')}>
@@ -13,6 +16,7 @@ const MeetingsCard = () => {
           icon={<IconAssignment color="var(--black)" />}
           primaryText={t('tr_viewMyAssignments')}
           badgeText="3"
+          onClick={handleOpenMyAssignments}
         />
       </ListItem>
       <ListItem disablePadding>

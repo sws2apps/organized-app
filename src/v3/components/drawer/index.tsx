@@ -1,49 +1,24 @@
-import { Stack, Toolbar, Box, Drawer } from '@mui/material';
+import { FC, ReactNode } from 'react';
+import { Stack, Toolbar, Box, Drawer, DrawerProps } from '@mui/material';
 import { IconClose } from '@icons/index';
 import Typography from '@components/typography';
-import { FC, PropsWithChildren, ReactNode, useEffect } from 'react';
 import ButtonIcon from '@components/icon_button';
-import { useRecoilState } from 'recoil';
-import { drawerState } from '@states/drawer';
-
-type Anchor = 'left' | 'right';
 
 interface CustomDrawerProps {
-  anchor: Anchor;
-  isOpen: boolean;
-  onChange: () => void;
   title: string;
   headActions?: ReactNode;
-  id: string;
+  onClose: () => void;
 }
 
-const CustomDrawer: FC<PropsWithChildren & CustomDrawerProps> = ({
-  title,
-  children,
-  anchor,
-  isOpen,
-  onChange,
-  headActions,
-  id,
-}) => {
-  const [openDrawer, setOpenDrawer] = useRecoilState(drawerState);
-
-  useEffect(() => {
-    if (isOpen) setOpenDrawer(id);
-  }, [id, isOpen, setOpenDrawer]);
-
-  const toggleDrawer = (newOpen: boolean) => () => {
-    onChange();
-    if (newOpen) setOpenDrawer(id);
-    else setOpenDrawer('');
+const CustomDrawer: FC<DrawerProps & CustomDrawerProps> = ({ title, headActions, onClose, children, ...props }) => {
+  const handleClose = () => {
+    onClose();
   };
 
   return (
     <Drawer
-      id={id}
-      anchor={anchor}
-      open={openDrawer === id}
-      onClose={toggleDrawer(false)}
+      {...props}
+      onClose={handleClose}
       PaperProps={{ sx: { backgroundColor: 'unset', boxShadow: 'unset', overflowY: 'unset' } }}
     >
       <Toolbar sx={{ padding: 0 }} />
@@ -76,7 +51,7 @@ const CustomDrawer: FC<PropsWithChildren & CustomDrawerProps> = ({
           <Typography className="h1">{title}</Typography>
           <Stack direction={'row'} spacing={0.5}>
             {headActions}
-            <ButtonIcon onClick={toggleDrawer(false)}>
+            <ButtonIcon onClick={handleClose}>
               <IconClose color="var(--black)" />
             </ButtonIcon>
           </Stack>

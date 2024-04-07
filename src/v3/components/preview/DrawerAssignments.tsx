@@ -1,5 +1,4 @@
 import Button from '@components/button';
-import { Drawer } from '@features/index';
 import { MenuItem, Stack } from '@mui/material';
 import ButtonIcon from '@components/icon_button';
 import { IconManageAccounts, IconSync } from '@icons/index';
@@ -8,6 +7,7 @@ import Typography from '@components/typography';
 import AssigmentItem, { AssigmentMonthItem } from '@components/assigments';
 import Badge from '@components/badge';
 import { useState } from 'react';
+import Drawer from '@components/drawer';
 
 const DrawerAssignments = () => {
   const [open, setOpen] = useState(false);
@@ -20,8 +20,8 @@ const DrawerAssignments = () => {
       <Drawer
         id={'assignments'}
         anchor={'left'}
-        onChange={() => setOpen(!open)}
-        isOpen={open}
+        onClose={() => setOpen(!open)}
+        open={open}
         title={'My assignments'}
         headActions={
           <Stack direction={'row'} spacing={0.5}>

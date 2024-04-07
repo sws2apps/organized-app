@@ -1,6 +1,7 @@
 import { useRecoilValue } from 'recoil';
 import { handleUpdateSetting } from '@services/dexie/settings';
 import { congNewState, firstnameState } from '@states/settings';
+import { setIsMyAssignmentOpen } from '@services/recoil/app';
 
 const useDashboard = () => {
   const firstName = useRecoilValue(firstnameState);
@@ -10,7 +11,11 @@ const useDashboard = () => {
     await handleUpdateSetting({ cong_new: false });
   };
 
-  return { firstName, isCongNew, handleCloseNewCongNotice };
+  const handleOpenMyAssignments = async () => {
+    await setIsMyAssignmentOpen(true);
+  };
+
+  return { firstName, isCongNew, handleCloseNewCongNotice, handleOpenMyAssignments };
 };
 
 export default useDashboard;
