@@ -10,8 +10,6 @@
   "tr_startDate": "Start date",
   "tr_endDate": "End date",
   "tr_comments": "コメント",
-  "tr_setTimeAway": "Set time away",
-  "tr_addTimeAway": "Add time away",
   "tr_save": "保存",
   "tr_notificationPreferences": "通知設定",
   "tr_notificationPreferencesDesc": "Organizedから受け取りたくない通知を選択してください。後でいつでも変更できます。",

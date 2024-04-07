@@ -14,13 +14,9 @@
   "tr_auxClass2": "trzeciej",
   "tr_otherPart": "Inne",
   "tr_midweekMeetingPrint": "Plan zebrań w tygodniu",
-  "tr_chairmanMidweekMeeting": "Przewodniczący",
-  "tr_chairmanWeekendMeeting": "Przewodniczący",
   "tr_noMMeeting": "Nie ma zebrania w tym tygodniu",
   "tr_auxClassCounselor": "Przewodniczący drugiej klasy",
   "tr_song": "Pieśń",
-  "tr_prayerMidweekMeeting": "Modlitwa",
-  "tr_prayerWeekendMeeting": "Modlitwa",
   "tr_openingComments": "Uwagi wstępne",
   "tr_treasuresPart": "Skarby ze Słowa Bożego",
   "tr_applyFieldMinistryPart": "Ulepszajmy swoją służbę",
@@ -71,5 +67,7 @@
   "tr_partNo": "Zadanie nr:",
   "tr_nameS89": "Imię i nazwisko:",
   "tr_assistantS89": "Pomocnik(-ca):",
-  "tr_studentAssistantS89": "Uczestnik/Pomocnik:"
+  "tr_studentAssistantS89": "Uczestnik/Pomocnik:",
+  "tr_chairman": "Przewodniczący",
+  "tr_prayer": "Modlitwa"
 }

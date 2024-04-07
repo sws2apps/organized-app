@@ -14,13 +14,9 @@
   "tr_auxClass2": "Второй класс",
   "tr_otherPart": "Прочие",
   "tr_midweekMeetingPrint": "Расписание встречи в будние дни",
-  "tr_chairmanMidweekMeeting": "Председатель",
-  "tr_chairmanWeekendMeeting": "Председатель",
   "tr_noMMeeting": "На этой неделе нет встречи в будние дни",
   "tr_auxClassCounselor": "Ведущий вспомогательного класса",
   "tr_song": "Песня",
-  "tr_prayerMidweekMeeting": "Молитва",
-  "tr_prayerWeekendMeeting": "Молитва",
   "tr_openingComments": "Вступительные слова",
   "tr_treasuresPart": "Сокровища из Слова Бога",
   "tr_applyFieldMinistryPart": "Оттачиваем навыки служения",
@@ -71,5 +67,7 @@
   "tr_partNo": "Задание №:",
   "tr_nameS89": "Имя:",
   "tr_assistantS89": "Напарник:",
-  "tr_studentAssistantS89": "Ученик/Напарник:"
+  "tr_studentAssistantS89": "Ученик/Напарник:",
+  "tr_chairman": "Председатель",
+  "tr_prayer": "Молитва"
 }

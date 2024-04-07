@@ -14,13 +14,9 @@
   "tr_auxClass2": "Üçüncü Salon",
   "tr_otherPart": "Diğer",
   "tr_midweekMeetingPrint": "Hafta içi toplantı programı",
-  "tr_chairmanMidweekMeeting": "Başkanlık eden",
-  "tr_chairmanWeekendMeeting": "Başkanlık eden",
   "tr_noMMeeting": "Bu hafta hafta içi ibadeti yok",
   "tr_auxClassCounselor": "Ek odanın idarecisi",
   "tr_song": "İlahi",
-  "tr_prayerMidweekMeeting": "Dua",
-  "tr_prayerWeekendMeeting": "Dua",
   "tr_openingComments": "Açılış Sözleri",
   "tr_treasuresPart": "Tanrı'nın Sözündeki Hazineler",
   "tr_applyFieldMinistryPart": "Tarla Hizmetinde Kendinizi Geliştirin",
@@ -71,5 +67,7 @@
   "tr_partNo": "Kısım no.:",
   "tr_nameS89": "Ad soyad:",
   "tr_assistantS89": "Yardımcı:",
-  "tr_studentAssistantS89": "Öğrenci/Yardımcı:"
+  "tr_studentAssistantS89": "Öğrenci/Yardımcı:",
+  "tr_chairman": "Başkanlık eden",
+  "tr_prayer": "Dua"
 }

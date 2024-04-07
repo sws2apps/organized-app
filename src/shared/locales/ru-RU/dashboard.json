@@ -88,5 +88,6 @@
   "tr_submitted": "Успешно отправлено",
   "tr_meetingAssignments": "<p>У тебя сейчас есть <a href='#' title='Meeting Assignment'>{{ assignment }} заданий </a> для встреч</p>",
   "tr_activitiesCard": "Activities",
-  "tr_hallCleaning": "Hall cleaning"
+  "tr_hallCleaning": "Hall cleaning",
+  "tr_yourEmailField": "Your email address"
 }

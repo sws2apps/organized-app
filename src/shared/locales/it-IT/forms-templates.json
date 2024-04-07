@@ -14,13 +14,9 @@
   "tr_auxClass2": "Sala secondaria2",
   "tr_otherPart": "Altro",
   "tr_midweekMeetingPrint": "Adunanze infrasettimanali",
-  "tr_chairmanMidweekMeeting": "Presidente",
-  "tr_chairmanWeekendMeeting": "Presidente",
   "tr_noMMeeting": "Non c'è riunione per questa settimana",
   "tr_auxClassCounselor": "Consigliere della sala secondaria",
   "tr_song": "Cantico",
-  "tr_prayerMidweekMeeting": "Preghiera",
-  "tr_prayerWeekendMeeting": "Preghiera",
   "tr_openingComments": "Commenti introduttivi",
   "tr_treasuresPart": "Tesori della parola di dio",
   "tr_applyFieldMinistryPart": "Efficaci nel ministero",
@@ -71,5 +67,7 @@
   "tr_partNo": "Parte n.:",
   "tr_nameS89": "Nome:",
   "tr_assistantS89": "Assistente:",
-  "tr_studentAssistantS89": "Studente/Assistente:"
+  "tr_studentAssistantS89": "Studente/Assistente:",
+  "tr_chairman": "Presidente",
+  "tr_prayer": "Preghiera"
 }
