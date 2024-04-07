@@ -2,10 +2,12 @@ import { styled } from '@mui/system';
 import { ButtonBase } from '@mui/material';
 import { ButtonBaseProps } from '@mui/material/ButtonBase/ButtonBase';
 import { CustomAccordionVariant } from '@components/accordion/accordion.types';
-export const StyledIconWrapper = styled(ButtonBase)({
-  borderRadius: 'var(--radius-xl)',
+
+export const StyledIconWrapper = styled(ButtonBase)<ButtonBaseProps>((props) => ({
+  borderRadius: 'var(--radius-l)',
   padding: '2.5px',
-});
+  color: props.color,
+}));
 
 const borderViews = {
   orange: 'var(--orange-dark)',
@@ -38,7 +40,9 @@ export const colorVariants = {
   accent: 'var(--accent-dark)',
   disabled: 'var(--grey-300)',
 };
-export const CardWrapper = styled(ButtonBase)<ButtonBaseProps & { view: CustomAccordionVariant }>(({ view }) => ({
+export const CardWrapper = styled(ButtonBase)<
+  ButtonBaseProps & { view: CustomAccordionVariant; hoverChildColor?: string }
+>(({ view, hoverChildColor }) => ({
   minHeight: '48px',
   width: '100%',
   borderWidth: '1px',
@@ -50,6 +54,9 @@ export const CardWrapper = styled(ButtonBase)<ButtonBaseProps & { view: CustomAc
   pointerEvents: view === 'disabled' ? 'none' : null,
   '&:hover': {
     backgroundColor: hoverColorView[view],
+    button: {
+      backgroundColor: hoverChildColor,
+    },
   },
   color: view === 'orange' ? 'var(--orange-main)' : 'var(--accent-dark)',
 }));
