@@ -400,7 +400,6 @@
   "baptizedPublishers": "Proclamateurs baptisés",
   "unbaptizedPublishers": "Unbaptized Publishers",
   "auxiliaryPioneers": "Pionniers auxiliaires",
-  "regularPioneers": "Pionniers permanents",
   "reports": "Rapports",
   "fieldServiceGroup": "Groupe de prédication",
   "postFieldServiceReport": "Envoyer le rapport de prédication",
@@ -564,5 +563,6 @@
   "docsUrlCode": "docs",
   "useExactMidweekMeetingDate": "Use exact meeting date in S-140",
   "useSubtituteSpeaker": "Assign substitute for a visiting speaker",
-  "customTalk": "Custom public talk"
+  "customTalk": "Custom public talk",
+  "tr_regularPioneers": "Pionniers permanents"
 }
