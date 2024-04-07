@@ -1,22 +1,12 @@
 import { getI18n } from 'react-i18next';
 
-export const getTranslation = ({
-  key,
-  namespace = 'ui',
-  language,
-  params = {},
-}: {
-  key: string;
-  namespace?: string;
-  language?: string;
-  params?: object;
-}) => {
+export const getTranslation = ({ key, language, params = {} }: { key: string; language?: string; params?: object }) => {
   const i18n = getI18n();
 
   if (!language) language = 'en';
 
   if (i18n) {
-    return i18n.t(key, { lng: language, ns: namespace, ...params });
+    return i18n.t(key, { lng: language, ...params });
   }
 };
 

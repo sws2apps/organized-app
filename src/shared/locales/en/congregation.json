@@ -293,5 +293,7 @@
   "tr_weekNumber": "Week {{ weekNumber }}",
   "tr_attendanceRecordAdded": "Attendance record added",
   "tr_attendanceRecordAddedDesc": "All total and average numbers, as well as monthly data, are updated automatically",
-  "tr_congregationName": "Congregation name"
+  "tr_congregationName": "Congregation name",
+  "tr_filters": "Filters",
+  "tr_pioneers": "Pioneers"
 }
