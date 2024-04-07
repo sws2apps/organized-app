@@ -286,11 +286,14 @@
   "tr_avgStudiesMonthly": "Average studies per month",
   "tr_highestHourNumberMonthly": "Highest number of hours per month",
   "tr_publishers": "Verkündiger",
-  "tr_recordAttendance": "Record attendance",
-  "tr_recordAttendanceDesc": "Congregation meeting attendance record (S-3)",
-  "tr_month": "Month",
-  "tr_details": "Details",
-  "tr_weekNumber": "Week {{ weekNumber }}",
-  "tr_attendanceRecordAdded": "Attendance record added",
-  "tr_attendanceRecordAddedDesc": "All total and average numbers, as well as monthly data, are updated automatically"
+  "tr_notesList": "Notes: ",
+  "tr_avarage": "Avarage",
+  "tr_talksAndSongs": "Talks and songs",
+  "tr_today": "Today",
+  "tr_saveSongs": "Save songs",
+  "tr_editSongs": "Edit songs",
+  "tr_congregationRecordS88": "Congregation meeting attendance record (S-88)",
+  "tr_numberOfMeetings": "Number of meetings",
+  "tr_totalAttendance": "Total attendance",
+  "tr_averageAttendance": "Average attendance"
 }
