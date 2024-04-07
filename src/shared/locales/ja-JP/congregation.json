@@ -297,5 +297,6 @@
   "tr_numberReports": "Number of reports",
   "tr_filters": "Filters",
   "tr_pioneers": "開拓者",
-  "tr_markToBranchOffice": "Mark report as submitted to the branch office"
+  "tr_markToBranchOffice": "Mark report as submitted to the branch office",
+  "tr_markToBranchOfficeDesc": "You're about to mark this report as submitted to the branch office. All late reports submitted this month will be deleted. To undo submission, find the publishers' reports, mark them late, and resubmit."
 }
