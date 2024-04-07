@@ -296,5 +296,6 @@
   "tr_averageAttendanceWM": "Average weekend meeting attendance",
   "tr_numberReports": "Number of reports",
   "tr_filters": "Filters",
-  "tr_pioneers": "Pioneers"
+  "tr_pioneers": "Pioneers",
+  "tr_markToBranchOffice": "Mark report as submitted to the branch office"
 }
