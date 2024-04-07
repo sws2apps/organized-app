@@ -30,6 +30,7 @@ import { useEffect, useState } from 'react';
 import { IconAdd, IconAssign, IconClose, IconReturn, IconUndo, IconUpdate, IconInfo, IconVisitors } from '@icons/index';
 import NavBar from '@layouts/navbar';
 import TableDemo from './Table';
+import DrawerAssignments from '@components/preview/DrawerAssignments';
 
 const themes = ['blue', 'green', 'orange', 'purple'];
 
@@ -252,6 +253,7 @@ const ComponentPreview = () => {
       <Container maxWidth={false} sx={{ maxWidth: '1440px' }}>
         <Box sx={{ margin: '80px 0px' }}>
           <Box>
+            <DrawerAssignments />
             <TableDemo />
           </Box>
           <Box marginBottom={2} sx={{ display: 'flex', flexDirection: 'row', gap: '25px' }}>
