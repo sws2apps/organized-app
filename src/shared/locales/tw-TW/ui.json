@@ -400,7 +400,6 @@
   "baptizedPublishers": "Kyɛɛfoɔ baptize",
   "unbaptizedPublishers": "Kyɛɛfoɔ a wɔn nni Baptism",
   "auxiliaryPioneers": "Auxiliary Pioneers",
-  "regularPioneers": "Regular Pioneers",
   "reports": "Akontaabu",
   "fieldServiceGroup": "Field Service Group",
   "postFieldServiceReport": "Post Field Service Reports",
@@ -564,5 +563,6 @@
   "docsUrlCode": "docs",
   "useExactMidweekMeetingDate": "Fa CPE S-140 no wɔ nnidi nkwa asɛm so",
   "useSubtituteSpeaker": "Aha ɛtumi nsɔ Ewɔ nea ɛwɔ hɔ no",
-  "customTalk": "Custom public talk"
+  "customTalk": "Custom public talk",
+  "tr_regularPioneers": "Regular Pioneers"
 }
