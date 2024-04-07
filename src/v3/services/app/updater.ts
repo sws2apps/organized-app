@@ -11,10 +11,10 @@ export const updateWeekType = async () => {
   LANGUAGE_LIST.forEach((lang) => {
     const langCode = lang.code.toUpperCase();
 
-    normWeekObj[langCode] = getTranslation({ key: 'tr_normalWeek', namespace: 'source' });
-    tgWeekObj[langCode] = getTranslation({ key: 'tr_circuitOverseerWeek', namespace: 'source' });
-    caWeekObj[langCode] = getTranslation({ key: 'tr_assemblyWeek', namespace: 'source' });
-    coWeekObj[langCode] = getTranslation({ key: 'tr_conventionWeek', namespace: 'source' });
+    normWeekObj[langCode] = getTranslation({ key: 'tr_normalWeek' });
+    tgWeekObj[langCode] = getTranslation({ key: 'tr_circuitOverseerWeek' });
+    caWeekObj[langCode] = getTranslation({ key: 'tr_assemblyWeek' });
+    coWeekObj[langCode] = getTranslation({ key: 'tr_conventionWeek' });
   });
 
   await appDb.week_type.clear();
@@ -54,54 +54,48 @@ export const updateAssignmentType = async () => {
   LANGUAGE_LIST.forEach((lang) => {
     const langCode = lang.code.toUpperCase();
 
-    bReadObj[langCode] = getTranslation({ key: 'tr_bibleReading', namespace: 'source' });
-    initCallObj[langCode] = getTranslation({ key: 'tr_initialCall', namespace: 'source' });
-    rvObj[langCode] = getTranslation({ key: 'tr_returnVisit', namespace: 'source' });
-    bsObj[langCode] = getTranslation({ key: 'tr_bibleStudy', namespace: 'source' });
-    talkObj[langCode] = getTranslation({ key: 'tr_talk', namespace: 'source' });
-    otherObj[langCode] = getTranslation({ key: 'tr_otherPart', namespace: 'source' });
-    icVideoObj[langCode] = getTranslation({ key: 'tr_initialCallVideo', namespace: 'source' });
-    rvVideoObj[langCode] = getTranslation({ key: 'tr_returnVisitVideo', namespace: 'source' });
-    memorialObj[langCode] = getTranslation({ key: 'tr_memorialInvite', namespace: 'source' });
+    bReadObj[langCode] = getTranslation({ key: 'tr_bibleReading' });
+    initCallObj[langCode] = getTranslation({ key: 'tr_initialCall' });
+    rvObj[langCode] = getTranslation({ key: 'tr_returnVisit' });
+    bsObj[langCode] = getTranslation({ key: 'tr_bibleStudy' });
+    talkObj[langCode] = getTranslation({ key: 'tr_talk' });
+    otherObj[langCode] = getTranslation({ key: 'tr_otherPart' });
+    icVideoObj[langCode] = getTranslation({ key: 'tr_initialCallVideo' });
+    rvVideoObj[langCode] = getTranslation({ key: 'tr_returnVisitVideo' });
+    memorialObj[langCode] = getTranslation({ key: 'tr_memorialInvite' });
     memorialVideoObj[langCode] = getTranslation({
       key: 'tr_memorialInviteVideo',
       language: lang.code,
-      namespace: 'source',
     });
     chairmanMMObj[langCode] = getTranslation({
       key: 'tr_chairmanMidweekMeeting',
       language: lang.code,
-      namespace: 'source',
     });
-    prayerMMObj[langCode] = getTranslation({ key: 'tr_prayerMidweekMeeting', namespace: 'source' });
-    tgwTalkObj[langCode] = getTranslation({ key: 'tr_tgwTalk', namespace: 'source' });
-    tgwGemsObj[langCode] = getTranslation({ key: 'tr_tgwGems', namespace: 'source' });
-    lcPartObj[langCode] = getTranslation({ key: 'tr_lcPart', namespace: 'source' });
-    cbsConductorObj[langCode] = getTranslation({ key: 'tr_cbsConductor', namespace: 'source' });
-    cbsReaderObj[langCode] = getTranslation({ key: 'tr_cbsReader', namespace: 'source' });
+    prayerMMObj[langCode] = getTranslation({ key: 'tr_prayerMidweekMeeting' });
+    tgwTalkObj[langCode] = getTranslation({ key: 'tr_tgwTalk' });
+    tgwGemsObj[langCode] = getTranslation({ key: 'tr_tgwGems' });
+    lcPartObj[langCode] = getTranslation({ key: 'tr_lcPart' });
+    cbsConductorObj[langCode] = getTranslation({ key: 'tr_cbsConductor' });
+    cbsReaderObj[langCode] = getTranslation({ key: 'tr_cbsReader' });
     initCallVariationsObj[langCode] = getTranslation({
       key: 'tr_initialCallVariations',
       language: lang.code,
-      namespace: 'source',
     });
     rvVariationsObj[langCode] = getTranslation({
       key: 'tr_returnVisitVariations',
       language: lang.code,
-      namespace: 'source',
     });
     chairmanWMObj[langCode] = getTranslation({
       key: 'tr_chairmanWeekendMeeting',
       language: lang.code,
-      namespace: 'source',
     });
-    prayerWMObj[langCode] = getTranslation({ key: 'tr_prayerWeekendMeeting', namespace: 'source' });
-    speakerObj[langCode] = getTranslation({ key: 'tr_speaker', namespace: 'source' });
+    prayerWMObj[langCode] = getTranslation({ key: 'tr_prayerWeekendMeeting' });
+    speakerObj[langCode] = getTranslation({ key: 'tr_speaker' });
     speakerSymposiumObj[langCode] = getTranslation({
       key: 'tr_speakerSymposium',
       language: lang.code,
-      namespace: 'source',
     });
-    wtStudyReaderObj[langCode] = getTranslation({ key: 'tr_wtStudyReader', namespace: 'source' });
+    wtStudyReaderObj[langCode] = getTranslation({ key: 'tr_wtStudyReader' });
   });
 
   await appDb.assignment.clear();

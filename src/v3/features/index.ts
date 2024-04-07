@@ -12,6 +12,8 @@ export { default as LanguageSwitcher } from './language_switcher';
 export { default as MinistryPreferences } from './my_profile/ministry_preferences';
 export { default as MinistryTimer } from './ministry_timer';
 export { default as MyAssignments } from './meetings/my_assignments';
+export { default as PersonsFilter } from './persons/filter';
+export { default as PersonsSearch } from './persons/search';
 export { default as PublicTalks } from './public_talks';
 export { default as Support } from './support';
 export { default as ThemeSwitcher } from './theme_switcher';

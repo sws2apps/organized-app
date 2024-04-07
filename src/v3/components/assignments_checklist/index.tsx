@@ -9,24 +9,15 @@ import {
 } from './assignments_checklist.styles';
 import { type AssignmentCheckListProps } from './assignments_checklist.types';
 
-export const AssignmentCheckList = ({ header, color, disabled = false, children }: AssignmentCheckListProps) => {
+export const AssignmentCheckList = ({
+  header,
+  color,
+  disabled = false,
+  children,
+  onChange,
+}: AssignmentCheckListProps) => {
   const [checkedItems, setCheckedItems] = useState({});
   const [checkedMain, setCheckedMain] = useState(false);
-
-  useEffect(() => {
-    //set default values
-    const defaultValues = {};
-    Children.forEach(children, (child, index) => {
-      if (isValidElement(child)) {
-        if (child.props.disabled) return; //skip if child checkbox is disabled
-        defaultValues[index] = child.props.checked || false;
-      }
-    });
-    setCheckedItems(defaultValues);
-    setCheckedMain(
-      Object.values(defaultValues).length > 0 && Object.values(defaultValues).every((item) => item) ? true : false
-    );
-  }, [children]);
 
   const allChecked = Object.values(checkedItems).length > 0 && Object.values(checkedItems).every((item) => item);
   const someChecked = Object.values(checkedItems).some((item) => item);
@@ -43,7 +34,9 @@ export const AssignmentCheckList = ({ header, color, disabled = false, children 
 
     setCheckedItems(newCheckedItems);
     setCheckedMain(newCheckedState);
-  }, [allChecked, checkedMain, children]);
+
+    onChange && onChange(newCheckedState);
+  }, [allChecked, checkedMain, children, onChange]);
 
   const onChildCheckboxClick = (index) => {
     setCheckedItems({ ...checkedItems, [index]: !checkedItems[index] });
@@ -67,9 +60,24 @@ export const AssignmentCheckList = ({ header, color, disabled = false, children 
     });
   };
 
+  useEffect(() => {
+    //set default values
+    const defaultValues = {};
+    Children.forEach(children, (child, index) => {
+      if (isValidElement(child)) {
+        if (child.props.disabled) return; //skip if child checkbox is disabled
+        defaultValues[index] = child.props.checked || false;
+      }
+    });
+    setCheckedItems(defaultValues);
+    setCheckedMain(
+      Object.values(defaultValues).length > 0 && Object.values(defaultValues).every((item) => item) ? true : false
+    );
+  }, [children]);
+
   return (
     <StyledContentBox disabled={disabled}>
-      <HeaderBox sx={{ background: `var(--${color})`, height: '32px' }}>
+      <HeaderBox sx={{ background: `var(--${color})`, minHeight: '32px' }}>
         <StyledFormControlLabel
           label={<StyledTypography>{header}</StyledTypography>}
           control={

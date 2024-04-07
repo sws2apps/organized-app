@@ -33,3 +33,8 @@ export const personsSearchKeyState = atom({
   key: 'personsSearchKey',
   default: '',
 });
+
+export const personsFiltersKeyState = atom<string[]>({
+  key: 'personsFiltersKey',
+  default: [],
+});

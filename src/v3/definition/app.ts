@@ -80,3 +80,12 @@ export type CustomClassName =
   | 'body-regular'
   | 'body-small-semibold'
   | 'body-small-regular';
+
+export type AssignmentCheckListColors =
+  | 'midweek-meeting'
+  | 'treasures-from-gods-word'
+  | 'apply-yourself-to-the-field-ministry'
+  | 'living-as-christians'
+  | 'weekend-meeting'
+  | 'ministry'
+  | 'duties';

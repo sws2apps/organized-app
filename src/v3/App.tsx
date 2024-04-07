@@ -8,6 +8,7 @@ import { RootLayout } from '@layouts/index';
 // lazy loading
 const Dashboard = lazy(() => import('@pages/dashboard'));
 const MyProfile = lazy(() => import('@pages/my_profile'));
+const PersonsAll = lazy(() => import('@pages/persons/all_persons'));
 const PublicTalksList = lazy(() => import('@pages/meeting_materials/public_talks_list'));
 
 const ComponentsPreview = lazy(() => import('@components/preview'));
@@ -31,6 +32,7 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
           element: <RootLayout updatePwa={updatePwa} />,
           children: [
             { path: '/', element: <Dashboard /> },
+            { path: '/persons', element: <PersonsAll /> },
             { path: '/user-profile', element: <MyProfile /> },
             { path: '/public-talks-list', element: <PublicTalksList /> },
             { path: '*', element: <Dashboard /> },
