@@ -400,7 +400,6 @@
   "baptizedPublishers": "Mpitory Vita Batisa",
   "unbaptizedPublishers": "Mpitory Tsy Vita Batisa",
   "auxiliaryPioneers": "Mpisava Lalana Mpanampy",
-  "regularPioneers": "Mpisava Lalana Maharitra",
   "reports": "Tatitra",
   "fieldServiceGroup": "Andiam-pitory",
   "postFieldServiceReport": "Hampiditra Tatitra Momba ny Fanompoana",
@@ -564,5 +563,6 @@
   "docsUrlCode": "mg/docs",
   "useExactMidweekMeetingDate": "Hampiasa ny daty hivoriana amin’ny S-140",
   "useSubtituteSpeaker": "Hanendry mpandahateny mpisolo toerana rehefa mpandahateny mpitsidika",
-  "customTalk": "Lahateny hafa"
+  "customTalk": "Lahateny hafa",
+  "regularPioneers": "Mpisava Lalana Maharitra"
 }

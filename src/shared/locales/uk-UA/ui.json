@@ -400,7 +400,6 @@
   "baptizedPublishers": "Охрещені вісники",
   "unbaptizedPublishers": "Неохрещені промовці",
   "auxiliaryPioneers": "Допоміжні Піонери",
-  "regularPioneers": "Повночасні Піонери",
   "reports": "Звіти",
   "fieldServiceGroup": "Група проповідницького служіння",
   "postFieldServiceReport": "Звіти про проповідницьке служіння",
@@ -564,5 +563,6 @@
   "docsUrlCode": "docs",
   "useExactMidweekMeetingDate": "Використовувати точну дату зібрання в S-140",
   "useSubtituteSpeaker": "Призначити заміну для промовця-гостя",
-  "customTalk": "Власна публічна промова"
+  "customTalk": "Власна публічна промова",
+  "regularPioneers": "Повночасні Піонери"
 }

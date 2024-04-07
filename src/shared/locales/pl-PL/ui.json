@@ -400,7 +400,6 @@
   "baptizedPublishers": "Ochrzczeni głosiciele",
   "unbaptizedPublishers": "Nie ochrzczeni głosiciele",
   "auxiliaryPioneers": "Pionierzy pomocniczy",
-  "regularPioneers": "Pionierzy pełnoczasowi",
   "reports": "Raporty",
   "fieldServiceGroup": "Grupa służby polowej",
   "postFieldServiceReport": "Opublikuj raporty ze służby polowej",
@@ -564,5 +563,6 @@
   "docsUrlCode": "dokumenty",
   "useExactMidweekMeetingDate": "Użyj dokładnej daty spotkania w S-140",
   "useSubtituteSpeaker": "Przypisz zastępcę za mówcę",
-  "customTalk": "Custom public talk"
+  "customTalk": "Custom public talk",
+  "regularPioneers": "Pionierzy pełnoczasowi"
 }
