@@ -69,7 +69,7 @@
   "tr_oauthYahoo": "Yahoo खाता प्रयोग गर्ने",
   "tr_oauthEmail": "इमेल खाता प्रयोग गर्ने",
   "tr_sendLink": "लिङ्‍क पठाउने",
-  "tr_emailNotSupported": "Sorry, this email is invalid or not supported",
+  "tr_emailNotSupported": "माफ गर्नुहोस्, यो इमेल ठेगाना मान्य भएन वा प्रयोग गर्न सकिँदैन",
   "tr_selectCountry": "देश",
   "tr_2FA": "Let’s make sure it's you",
   "tr_2FADesc": "Enter a code from your authenticator app",
