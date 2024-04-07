@@ -279,5 +279,13 @@
   "tr_repeatedMonthlyWarning": "Show repeated assignment warning – monthly",
   "tr_repeatedMonthlyWarningDesc": "“This person already has an assignment this month”",
   "tr_mainStudyConductor": "Main study conductor",
-  "tr_monthsPeriod": "{{ MonthCount }} months"
+  "tr_monthsPeriod": "{{ MonthCount }} months",
+  "tr_congregationInfo": "Congregation info",
+  "tr_speakers": "Speakers",
+  "tr_getSpeakers": "Get speakers",
+  "tr_publicTalks": "Talks",
+  "tr_otherCongregations": "Other congregations",
+  "tr_yourOutgoingSpeakers": "Your outgoing speakers",
+  "tr_discoverableSetting": "Make your congregation discoverable in Organized",
+  "tr_discoverableSettingDesc": "Allow other congregations on Organized to find your congregation by name or number and send a request for your outgoing speakers list"
 }
