@@ -285,5 +285,9 @@
   "tr_highestStudiesNumberMonthly": "Highest number of studies per month",
   "tr_avgStudiesMonthly": "Average studies per month",
   "tr_highestHourNumberMonthly": "Highest number of hours per month",
-  "tr_publishers": "Вісники"
+  "tr_publishers": "Вісники",
+  "tr_notesList": "Notes: ",
+  "tr_avarage": "Avarage",
+  "tr_talksAndSongs": "Talks and songs",
+  "tr_today": "Today"
 }
