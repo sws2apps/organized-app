@@ -73,6 +73,53 @@ const useFilter = () => {
     ];
   }, [t]);
 
+  const filterGroups = useMemo(() => {
+    return [
+      {
+        name: t('tr_general'),
+        items: [
+          { id: 'male', name: t('tr_male') },
+          { id: 'female', name: t('tr_female') },
+          { id: 'anointed', name: t('tr_anointed') },
+        ],
+      },
+      {
+        name: t('tr_publishers'),
+        items: [
+          { id: 'baptized', name: t('tr_baptized') },
+          { id: 'unbaptized', name: t('tr_unbaptized') },
+          { id: 'active', name: t('tr_active') },
+          { id: 'inactive', name: t('tr_inactive') },
+        ],
+      },
+      {
+        name: t('tr_pioneers'),
+        items: [
+          { id: 'pioneerAll', name: t('tr_allPioneers') },
+          { id: 'auxiliaryPioneer', name: t('tr_AP') },
+          { id: 'regularPioneer', name: t('tr_regPioneers') },
+          { id: 'specialPionner', name: t('tr_specialPioneers') },
+          { id: 'fieldMissionary', name: t('tr_fieldMissionaries') },
+        ],
+      },
+      {
+        name: t('tr_appointedBrothers'),
+        items: [
+          { id: 'appointedBrotherAll', name: t('tr_allAppointedBrothers') },
+          { id: 'elder', name: t('tr_elders') },
+          { id: 'ministerialServant', name: t('tr_ministerialServants') },
+        ],
+      },
+      {
+        name: t('tr_studentAssignments'),
+        items: [
+          { id: 'midweekStudent', name: t('tr_midweekStudent') },
+          { id: 'noAssignment', name: t('tr_noAssignmentsYet') },
+        ],
+      },
+    ];
+  }, [t]);
+
   const handleExpand = () => {
     setIsExpanded((prev) => !prev);
   };
@@ -82,8 +129,7 @@ const useFilter = () => {
   };
 
   const handleToggleGroup = async (checked: boolean, id: string) => {
-    let newFiltersKey = [];
-    newFiltersKey = [...filters];
+    let newFiltersKey = [...filters];
     const items = assignments.find((group) => group.id === id).items;
 
     if (checked) {
@@ -105,7 +151,7 @@ const useFilter = () => {
     await setPersonsFiltersKey(newFiltersKey);
   };
 
-  return { isExpanded, handleExpand, filters, handleClearFilters, handleToggleGroup, assignments };
+  return { isExpanded, handleExpand, filters, handleClearFilters, handleToggleGroup, assignments, filterGroups };
 };
 
 export default useFilter;

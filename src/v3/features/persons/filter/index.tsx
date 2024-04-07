@@ -10,7 +10,8 @@ import AssignmentGroup from './components/assignment_group';
 const PersonsFilter = () => {
   const { t } = useAppTranslation();
 
-  const { isExpanded, handleExpand, filters, handleClearFilters, assignments, handleToggleGroup } = useFilter();
+  const { isExpanded, handleExpand, filters, handleClearFilters, assignments, handleToggleGroup, filterGroups } =
+    useFilter();
 
   return (
     <Box
@@ -54,62 +55,15 @@ const PersonsFilter = () => {
           <Box
             sx={{ display: 'flex', flexDirection: 'column', gap: '16px', flex: 1, width: '100%', minWidth: '120px' }}
           >
-            <FilterGroup
-              group={{
-                name: t('tr_general'),
-                items: [
-                  { id: 'male', name: t('tr_male') },
-                  { id: 'female', name: t('tr_female') },
-                  { id: 'anointed', name: t('tr_anointed') },
-                ],
-              }}
-            />
-
-            <FilterGroup
-              group={{
-                name: t('tr_publishers'),
-                items: [
-                  { id: 'baptized', name: t('tr_baptized') },
-                  { id: 'unbaptized', name: t('tr_unbaptized') },
-                  { id: 'active', name: t('tr_active') },
-                  { id: 'inactive', name: t('tr_inactive') },
-                ],
-              }}
-            />
-
-            <FilterGroup
-              group={{
-                name: t('tr_pioneers'),
-                items: [
-                  { id: 'pioneerAll', name: t('tr_allPioneers') },
-                  { id: 'auxiliaryPioneer', name: t('tr_AP') },
-                  { id: 'regularPioneer', name: t('tr_regPioneers') },
-                  { id: 'specialPionner', name: t('tr_specialPioneers') },
-                  { id: 'fieldMissionary', name: t('tr_fieldMissionaries') },
-                ],
-              }}
-            />
-
-            <FilterGroup
-              group={{
-                name: t('tr_appointedBrothers'),
-                items: [
-                  { id: 'appointedBrotherAll', name: t('tr_allAppointedBrothers') },
-                  { id: 'elder', name: t('tr_elders') },
-                  { id: 'ministerialServant', name: t('tr_ministerialServants') },
-                ],
-              }}
-            />
-
-            <FilterGroup
-              group={{
-                name: t('tr_studentAssignments'),
-                items: [
-                  { id: 'midweekStudent', name: t('tr_midweekStudent') },
-                  { id: 'noAssignment', name: t('tr_noAssignmentsYet') },
-                ],
-              }}
-            />
+            {filterGroups.map((group) => (
+              <FilterGroup
+                key={group.name}
+                group={{
+                  name: group.name,
+                  items: group.items,
+                }}
+              />
+            ))}
           </Box>
 
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px', flex: 1, width: '100%', minWidth: '150px' }}>
