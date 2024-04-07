@@ -400,7 +400,6 @@
   "baptizedPublishers": "Крещёные возвещатели",
   "unbaptizedPublishers": "Некрещёные возвещатели",
   "auxiliaryPioneers": "Подсобные пионеры",
-  "regularPioneers": "Общие пионеры",
   "reports": "Отчёты",
   "fieldServiceGroup": "Группа для служения",
   "postFieldServiceReport": "Отчёты о служении",
@@ -564,5 +563,6 @@
   "docsUrlCode": "docs",
   "useExactMidweekMeetingDate": "Использовать точную дату встречи в S-140",
   "useSubtituteSpeaker": "Назначать замену приглашенному докладчику",
-  "customTalk": "Пользовательская публичная речь"
+  "customTalk": "Пользовательская публичная речь",
+  "tr_regularPioneers": "Общие пионеры"
 }
