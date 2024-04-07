@@ -8,7 +8,7 @@ A free web app for Jehovah’s Witnesses congregations, helping with assignments
 
 🔵 **Secure:** End-to-end encrypted, with 2FA and multiple security features for all users
 
-🔵 **Well designed:** User-friendly and modern UI 
+🔵 **Well designed:** User-friendly and modern user interface
 
 🔵 **Open source:** Enhanced transparency, security and collaboration
 
@@ -80,7 +80,7 @@ We really appreciate your volunteer spirit! You can contribute to the app in a f
 2. 💬 by **telling others** about the Organized app;
 3. 💰 by supporting the app with a [**donation**](https://www.buymeacoffee.com/sws2apps);
 4. 🌐 by **[translating](https://crowdin.com/project/organized)** the app to your language; 
-5. 👨‍💻 by collaborating on development: **Frontend React Development**, **UI/UX design**, or **motion design**. Please read our [contribution guide](./CONTRIBUTING.md) on how to do so.
+5. 👨‍💻 by **[collaborating](https://guide.organized-app.com/how-to-support/contribute)** on the Organized ecosystem: **Frontend React Development**, **UI/UX design**, **Graphic design**, **Motion design**, and **User guide writing**.
 
 
 ### Project activity [![Time period](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/Ask2bindJP2tA2ytag1oKaSCKxxydBkXJbnd2Stwc0k/-Xc8_VTMWwDRjkyqwRmlzGGUMGGJKiMmPu7NSd3ztjg_badge.svg)](https://repography.com)
