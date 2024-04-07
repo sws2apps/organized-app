@@ -37,6 +37,9 @@ const theme = createTheme({
         body: {
           fontFamily: font,
         },
+        span: {
+          fontFamily: `${font} !important`,
+        },
       },
     },
   },

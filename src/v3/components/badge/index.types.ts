@@ -11,6 +11,7 @@ export type BadgePropsType = {
   borderStyle?: 'dashed' | 'solid';
   icon?: ReactElement;
   sx?: SxProps<Theme>;
+  key?: number | string;
 };
 
 export type BadgeTypographyPropsType = {

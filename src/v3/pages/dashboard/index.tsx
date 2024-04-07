@@ -13,7 +13,7 @@ import useDashboard from './useDashboard';
 const Dashboard = () => {
   const { t } = useAppTranslation();
 
-  const { firstName, isCongNew, handleCloseNewCongNotice } = useDashboard();
+  const { firstName, isCongNew, handleCloseNewCongNotice, handleOpenMyAssignments } = useDashboard();
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -24,6 +24,7 @@ const Dashboard = () => {
           className="h3"
           anchorClassName="h3"
           anchorColor="var(--accent-main)"
+          anchorClick={handleOpenMyAssignments}
         />
       </Box>
       <Box

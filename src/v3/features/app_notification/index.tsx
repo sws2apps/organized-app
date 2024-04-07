@@ -1,10 +1,10 @@
 import { IconNotifications, IconCheck, IconTalk, IconMap } from '@icons/index';
 import { Badge, Box, Divider, Stack } from '@mui/material';
-import CPEDrawer from '@features/drawer';
-import { useState } from 'react';
 import ButtonIcon from '@components/icon_button';
-import Typography from '@components/typography';
 import Button from '@components/button';
+import Drawer from '@components/drawer';
+import Typography from '@components/typography';
+import useAppNotification from './useAppNotification';
 
 const NotificationsTypeIcons = {
   request: (props) => <IconTalk {...props} />,
@@ -14,6 +14,7 @@ const NotificationsTypeIcons = {
 
 const notifications = [
   {
+    id: 1,
     type: 'request',
     title: 'Request for your speakers list',
     text: 'The following congregations requested access to view your outgoing speakers list:',
@@ -55,11 +56,11 @@ const notifications = [
 ];
 
 const AppNotification = () => {
-  const [open, setOpen] = useState(false);
+  const { handleCloseNotification, handleOpenNotification, open } = useAppNotification();
 
   return (
     <>
-      <ButtonIcon onClick={() => setOpen(!open)}>
+      <ButtonIcon onClick={handleOpenNotification}>
         <Badge
           badgeContent={2}
           slotProps={{
@@ -68,26 +69,17 @@ const AppNotification = () => {
                 backgroundColor: 'var(--accent-main)',
                 color: 'white',
                 textAlign: 'center',
-                fontStyle: 'normal',
-                fontWeight: 500,
-                fontFamily: 'Inter',
-                lineHeight: '12px',
                 top: '4px',
                 right: '4px',
               },
+              className: 'label-small-medium',
             },
           }}
         >
           <IconNotifications color="var(--black)" />
         </Badge>
       </ButtonIcon>
-      <CPEDrawer
-        id={'notifications'}
-        anchor={'right'}
-        onChange={() => setOpen(!open)}
-        isOpen={open}
-        title={'What’s new'}
-      >
+      <Drawer anchor={'right'} onClose={handleCloseNotification} open={open} title={'What’s new'}>
         <Stack spacing={2.3}>
           {notifications.map((notification) => (
             <Box key={notification.id}>
@@ -122,7 +114,7 @@ const AppNotification = () => {
             </Box>
           ))}
         </Stack>
-      </CPEDrawer>
+      </Drawer>
     </>
   );
 };

@@ -9,6 +9,7 @@ export { default as Checkbox } from './checkbox/index';
 export { default as CongregationSelector } from './congregation_selector';
 export { default as CountrySelector } from './country_selector';
 export { default as Dialog } from './dialog';
+export { default as Drawer } from './drawer';
 export { default as ErrorBoundary } from './error_boundary';
 export { default as FilterChip } from './filter_chip';
 export { default as InfoMessage } from './info-message';

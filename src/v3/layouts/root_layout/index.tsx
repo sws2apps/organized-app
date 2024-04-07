@@ -8,6 +8,7 @@ import {
   AppUpdater,
   EPUBMaterialsImport,
   JWMaterialsImport,
+  MyAssignments,
   Startup,
   Support,
 } from '@features/index';
@@ -24,6 +25,7 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
       {appSnackOpen && <AppFeedback />}
       {isImportJWOrg && <JWMaterialsImport />}
       {isImportEPUB && <EPUBMaterialsImport />}
+      <MyAssignments />
 
       <Container
         maxWidth={false}

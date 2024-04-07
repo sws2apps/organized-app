@@ -416,3 +416,8 @@ export const JWLangState = selector({
     return currentLang?.code || 'e';
   },
 });
+
+export const currentDrawerState = atom({
+  key: 'currentDrawer',
+  default: '',
+});
