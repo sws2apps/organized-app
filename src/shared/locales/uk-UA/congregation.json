@@ -298,5 +298,15 @@
   "tr_filters": "Filters",
   "tr_pioneers": "Піонери",
   "tr_markToBranchOffice": "Mark report as submitted to the branch office",
-  "tr_markToBranchOfficeDesc": "You're about to mark this report as submitted to the branch office. All late reports submitted this month will be deleted. To undo submission, find the publishers' reports, mark them late, and resubmit."
+  "tr_markToBranchOfficeDesc": "You're about to mark this report as submitted to the branch office. All late reports submitted this month will be deleted. To undo submission, find the publishers' reports, mark them late, and resubmit.",
+  "tr_markAsSubmitted": "Mark as submitted",
+  "tr_undoSubmission": "Undo submission",
+  "tr_chooseReport": "Choose a report",
+  "tr_branchOfficeReportYearsDesc": "This year's report hasn't been generated yet. Generate it to see all the details and then submit.",
+  "tr_branchOfficeReportMonthsDesc": "This month's report hasn't been generated yet. Generate it to see all the details and then submit.",
+  "tr_verageAttendanceMM": "Average midweek meeting attendance",
+  "tr_reactivatedPublishers": "Reactivated publishers",
+  "tr_totalNumberTerritories": "Total number of territories",
+  "tr_uncoveredTerritories": "Uncovered territories",
+  "tr_analysisReport": "Congregation analysis report"
 }
