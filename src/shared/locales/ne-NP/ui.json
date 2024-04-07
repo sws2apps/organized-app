@@ -400,7 +400,6 @@
   "baptizedPublishers": "Baptized Publishers",
   "unbaptizedPublishers": "Unbaptized Publishers",
   "auxiliaryPioneers": "Auxiliary Pioneers",
-  "regularPioneers": "Regular Pioneers",
   "reports": "Reports",
   "fieldServiceGroup": "Field Service Group",
   "postFieldServiceReport": "Post Field Service Reports",
@@ -564,5 +563,6 @@
   "docsUrlCode": "docs",
   "useExactMidweekMeetingDate": "Use exact meeting date in S-140",
   "useSubtituteSpeaker": "Assign substitute for a visiting speaker",
-  "customTalk": "Custom public talk"
+  "customTalk": "Custom public talk",
+  "tr_regularPioneers": "Regular pioneers"
 }
