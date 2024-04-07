@@ -287,5 +287,7 @@
   "tr_otherCongregations": "Other congregations",
   "tr_yourOutgoingSpeakers": "Your outgoing speakers",
   "tr_discoverableSetting": "Make your congregation discoverable in Organized",
-  "tr_discoverableSettingDesc": "Allow other congregations on Organized to find your congregation by name or number and send a request for your outgoing speakers list"
+  "tr_discoverableSettingDesc": "Allow other congregations on Organized to find your congregation by name or number and send a request for your outgoing speakers list",
+  "tr_addCongregation": "Add congregation",
+  "tr_deleteCongregation": "Delete congregation"
 }
