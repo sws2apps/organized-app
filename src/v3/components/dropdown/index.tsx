@@ -12,13 +12,13 @@ import CustomCheckbox from '@components/checkbox';
  * @param {CustomDropdownContainerProps} props - Props for CustomDropdownContainer component.
  */
 const CustomDropdownContainer = (props: CustomDropdownContainerProps) => {
-  const [dropdownArrowRotation, setdropdownArrowRotation] = useState(false);
+  const [dropdownArrowRotation, setDropdownArrowRotation] = useState(false);
 
   return (
     <Box
       sx={{ display: 'flex', gap: '8px', cursor: 'pointer' }}
       onClick={(event) => {
-        setdropdownArrowRotation((previous) => !previous);
+        setDropdownArrowRotation((previous) => !previous);
         props.onClick(event);
       }}
     >
@@ -109,7 +109,7 @@ const CustomDropdownItem = (props: CustomDropdownItemProps) => {
             >
               <Box
                 onClick={(event) => {
-                  props.editButtonClick(props.label);
+                  props.editButtonClick();
                   event.stopPropagation();
                 }}
                 sx={{ alignItems: 'center', display: 'flex' }}

@@ -184,8 +184,6 @@ const ComponentPreview = () => {
     document.querySelector("meta[name='theme-color']").setAttribute('content', themeColor);
   }, [currentTheme]);
 
-  const [darkOverlayIsOpen, setDarkOverlayIsOpen] = useState(false);
-
   return (
     <Box>
       <NavBar />

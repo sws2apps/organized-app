@@ -180,8 +180,7 @@ const MinistryTimer = ({ duration = '00:00' }: { duration?: string }) => {
 
   const addServiceTimeModalWindowRef = useRef(null);
 
-  // TODO: Connect to API
-  const [bibleStudiesList, setBibleStudiesList] = useState([]);
+  const [bibleStudiesList, setBibleStudiesList] = useState([] /** Connect to API */);
 
   const defaultEAABSValue = {
     popUpWindowOpen: false,
@@ -202,14 +201,10 @@ const MinistryTimer = ({ duration = '00:00' }: { duration?: string }) => {
     setEditAndAddBibleStudyData(defaultEAABSValue);
   };
 
-  const providerContent = {
-    editAndAddBibleStudyData,
-    setEditAndAddBibleStudyData,
-    clearEditAndAddBibleStudyData,
-  };
-
   return (
-    <EditAndAddBibleStudyContext.Provider value={providerContent}>
+    <EditAndAddBibleStudyContext.Provider
+      value={{ editAndAddBibleStudyData, setEditAndAddBibleStudyData, clearEditAndAddBibleStudyData }}
+    >
       <Box
         sx={{
           display: 'flex',
@@ -255,7 +250,7 @@ const MinistryTimer = ({ duration = '00:00' }: { duration?: string }) => {
           }}
         />
         <DarkOverlay overlayIsOpened={addServiceTimeModalWindowOpen}>
-          {/** TODO: Connect to API */}
+          {/** Connect to API */}
           <AddServiceTimeModalWindow
             variant="pioneer"
             showCreditHours={true}
@@ -266,7 +261,7 @@ const MinistryTimer = ({ duration = '00:00' }: { duration?: string }) => {
               setAddServiceTimeModalWindowOpen(false);
             }}
             result={(result) => {
-              // TODO: Connect API
+              // Connect API
               console.log(result);
             }}
             open={true}

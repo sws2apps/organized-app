@@ -25,10 +25,6 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
 
   const { editAndAddBibleStudyData, setEditAndAddBibleStudyData } = useContext(EditAndAddBibleStudyContext);
 
-  useEffect(() => {
-    null;
-  }, [props]);
-
   const { t } = useAppTranslation();
 
   /**
@@ -134,16 +130,7 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
             '.MuiButtonBase-root:hover': { backgroundColor: 'transparent' },
           }}
         >
-          <DatePicker
-            view={'button'}
-            onChange={(value) => {
-              setLocalDate(value);
-
-              return () => {
-                null;
-              };
-            }}
-          />
+          <DatePicker view={'button'} onChange={async (value) => setLocalDate(value)} />
         </Box>
       </Box>
       <StyledRowContainer
@@ -270,7 +257,7 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
                     variant: 'edit',
                   });
                 }}
-                key={`studies-item-${index}`}
+                key={index}
                 callback={() =>
                   setCheckedLocalStudiesStatesList((prev) => {
                     const updatedArray = [...prev];
