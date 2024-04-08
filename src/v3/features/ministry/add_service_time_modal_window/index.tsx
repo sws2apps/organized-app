@@ -243,6 +243,7 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
           width={styledRowContainerWithBibleStudiesRef.current?.offsetWidth + 'px'}
         >
           {props.bibleStudiesList.map((value, index) => {
+            const randomKey = Math.random();
             return (
               <CustomDropdownItem
                 variant="studies"
@@ -257,7 +258,7 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
                     variant: 'edit',
                   });
                 }}
-                key={Math.random()}
+                key={randomKey}
                 callback={() =>
                   setCheckedLocalStudiesStatesList((prev) => {
                     const updatedArray = [...prev];
