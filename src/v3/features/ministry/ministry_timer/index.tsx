@@ -181,18 +181,7 @@ const MinistryTimer = ({ duration = '00:00' }: { duration?: string }) => {
   const addServiceTimeModalWindowRef = useRef(null);
 
   // TODO: Connect to API
-  const [bibleStudiesList, setBibleStudiesList] = useState([
-    'Alice',
-    'Bob',
-    'Charlie',
-    'Diana',
-    'Ethan',
-    'Fiona',
-    'George',
-    'Hannah',
-    'Ian',
-    'Julia',
-  ]);
+  const [bibleStudiesList, setBibleStudiesList] = useState([]);
 
   const defaultEAABSValue = {
     popUpWindowOpen: false,
@@ -266,6 +255,7 @@ const MinistryTimer = ({ duration = '00:00' }: { duration?: string }) => {
           }}
         />
         <DarkOverlay overlayIsOpened={addServiceTimeModalWindowOpen}>
+          {/** TODO: Connect to API */}
           <AddServiceTimeModalWindow
             variant="pioneer"
             showCreditHours={true}

@@ -21,6 +21,11 @@ export type ASTMWResult = {
    * An array of Bible study names associated with the service time.
    */
   bibleStudies: string[];
+
+  /**
+   * The date of the service time.
+   */
+  date: Date;
 };
 
 /**

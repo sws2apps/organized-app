@@ -9,7 +9,7 @@ const MinistryCard = () => {
   return (
     <DashboardCard header={t('tr_ministry')}>
       <ListItem disablePadding>
-        <MinistryTimer duration="9:41" />
+        <MinistryTimer duration="00:00" />
       </ListItem>
       <ListItem disablePadding>
         <DashboardMenu

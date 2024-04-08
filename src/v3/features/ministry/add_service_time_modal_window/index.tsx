@@ -108,6 +108,8 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
     return tmpArray;
   };
 
+  const [localDate, setLocalDate] = useState<Date>(null);
+
   // code for fix bug with empty field
   useEffect(() => {
     if (convertDurationInSecondsToString(localDurationInSeconds) == 'NaN:NaN') {
@@ -132,7 +134,16 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
             '.MuiButtonBase-root:hover': { backgroundColor: 'transparent' },
           }}
         >
-          <DatePicker view={'button'} />
+          <DatePicker
+            view={'button'}
+            onChange={(value) => {
+              setLocalDate(value);
+
+              return () => {
+                null;
+              };
+            }}
+          />
         </Box>
       </Box>
       <StyledRowContainer
@@ -309,6 +320,7 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
               creditHoursInSeconds: localCreditHoursDurationInSeconds,
               bibleStudiesCount: countOfStudies,
               bibleStudies: getArrayWithCheckedStudies(),
+              date: localDate,
             });
             props.addButtonClick();
           }}
