@@ -3,7 +3,7 @@ import { IconAddTime, IconPause, IconResume, IconStart, IconStop } from '@icons/
 import Typography from '@components/typography';
 import TimerButton from './components/TimerButton';
 import { useAppTranslation } from '@hooks/index';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { MinistryTimerButtonProps, MinistryTimerStates } from './ministry_timer.types';
 import DarkOverlay from '@components/dark_overlay';
 import PopUpForEditOrCreateBibleStudy from '../pop_up_for_edit_or_create_bible_study';
@@ -193,18 +193,17 @@ const MinistryTimer = ({ duration = '00:00' }: { duration?: string }) => {
     return defaultEAABSValue;
   });
 
-  useEffect(() => {
-    null;
-  }, [editAndAddBibleStudyData]);
-
-  const clearEditAndAddBibleStudyData = () => {
-    setEditAndAddBibleStudyData(defaultEAABSValue);
-  };
+  // Memoize the context value to prevent unnecessary re-renders
+  const contextValue = useMemo(
+    () => ({
+      editAndAddBibleStudyData,
+      setEditAndAddBibleStudyData,
+    }),
+    [editAndAddBibleStudyData]
+  );
 
   return (
-    <EditAndAddBibleStudyContext.Provider
-      value={{ editAndAddBibleStudyData, setEditAndAddBibleStudyData, clearEditAndAddBibleStudyData }}
-    >
+    <EditAndAddBibleStudyContext.Provider value={contextValue}>
       <Box
         sx={{
           display: 'flex',
@@ -279,9 +278,9 @@ const MinistryTimer = ({ duration = '00:00' }: { duration?: string }) => {
                   return tmpArray.slice(editAndAddBibleStudyData.itemIndex + 1);
                 });
               }
-              clearEditAndAddBibleStudyData();
+              setEditAndAddBibleStudyData(defaultEAABSValue);
             }}
-            closeButtonClick={() => clearEditAndAddBibleStudyData()}
+            closeButtonClick={() => setEditAndAddBibleStudyData(defaultEAABSValue)}
             saveButtonClick={(value) => {
               setBibleStudiesList((prev) => {
                 const tmpArray = [...prev];
@@ -294,7 +293,7 @@ const MinistryTimer = ({ duration = '00:00' }: { duration?: string }) => {
 
                 return tmpArray;
               });
-              clearEditAndAddBibleStudyData();
+              setEditAndAddBibleStudyData(defaultEAABSValue);
             }}
           />
         </DarkOverlay>

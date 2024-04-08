@@ -108,7 +108,7 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
 
   // code for fix bug with empty field
   useEffect(() => {
-    if (convertDurationInSecondsToString(localDurationInSeconds) == 'NaN:NaN') {
+    if (convertDurationInSecondsToString(localDurationInSeconds) === 'NaN:NaN') {
       setLocalDurationInSeconds(0);
     }
   }, [localDurationInSeconds]);
@@ -257,7 +257,7 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
                     variant: 'edit',
                   });
                 }}
-                key={index}
+                key={Math.random() + index}
                 callback={() =>
                   setCheckedLocalStudiesStatesList((prev) => {
                     const updatedArray = [...prev];
