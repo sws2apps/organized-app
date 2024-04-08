@@ -97,5 +97,6 @@
   "tr_noTalksList": "У тебя нет публичных речей в списке. Синхронизируй список, чтобы получить все публичные речи.",
   "tr_countPublicTalks": "Публичные речи: {{ count }}",
   "tr_publicTalkLastSync": "Последняя синхронизация {{ date }} в {{ time }}",
-  "tr_exportS99": "Export S-99"
+  "tr_exportS99": "Export S-99",
+  "tr_alreadyInSchedule": "Already in schedule"
 }
