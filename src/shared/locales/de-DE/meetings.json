@@ -62,11 +62,11 @@
   "tr_kingdomHallAddress": "Kingdom Hall address",
   "tr_clearAllAssignments": "Clear all assignments",
   "tr_clearAllAssignmentsDesc": "Are you sure you want to clear all created assignments? You can always reassign them later.",
-  "tr_selectSpeakerAndTalk": "Select a speaker and talk",
+  "tr_selectSpeakerAndTalk": "Select speaker and talk",
   "tr_search": "Search",
   "tr_selectSong": "Select a song",
-  "tr_selectSongDesc": "There is a song list provided by the speaker. Please select a preferred one to add it to the schedule.",
-  "tr_addSong": "Add the song",
+  "tr_selectSongDesc": "The speaker has provided a list of songs for this public talk. Songs already included in the meeting schedule cannot be selected.",
+  "tr_addSong": "Add song",
   "tr_skip": "Skip",
   "tr_autofillWM": "Autofill weekend meeting",
   "tr_autofillWMDesc": "Select which schedules do you want to autofill with qualified participants.",
@@ -97,5 +97,6 @@
   "tr_noTalksList": "You don’t have any public talks in your list. Sync the list to get all the public talks.",
   "tr_countPublicTalks": "Public talks: {{ count }}",
   "tr_publicTalkLastSync": "Last synced {{ date }} at {{ time }}",
-  "tr_exportS99": "Export S-99"
+  "tr_exportS99": "Export S-99",
+  "tr_alreadyInSchedule": "Already in schedule"
 }
