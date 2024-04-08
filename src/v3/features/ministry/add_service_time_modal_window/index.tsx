@@ -15,6 +15,8 @@ import { IconAdd, IconLanguageCourse, IconPersonalDay, IconSchool, IconSchoolFor
 import { hoursToSeconds } from 'date-fns';
 import { EditAndAddBibleStudyContext } from '../EditAndAddBibleStudyContext';
 
+import { SHA256 } from 'crypto-es/lib/sha256';
+
 /**
  * Add Service Time Modal Window component.
  */
@@ -243,7 +245,7 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
           width={styledRowContainerWithBibleStudiesRef.current?.offsetWidth + 'px'}
         >
           {props.bibleStudiesList.map((value, index) => {
-            const randomKey = Math.random();
+            const randomKey = SHA256('SGVsbG8sIGd1eXMhIE15IG5hbWUgTWF4Lg==').toString();
             return (
               <CustomDropdownItem
                 variant="studies"
