@@ -1,4 +1,29 @@
 /**
+ * Represents the result of calculations performed by the Add Service Time Modal Window component.
+ */
+export type ASTMWResult = {
+  /**
+   * The total duration of service hours in seconds.
+   */
+  hoursInSeconds: number;
+
+  /**
+   * The total duration of credit hours in seconds.
+   */
+  creditHoursInSeconds: number;
+
+  /**
+   * The number of Bible studies associated with the service time.
+   */
+  bibleStudiesCount: number;
+
+  /**
+   * An array of Bible study names associated with the service time.
+   */
+  bibleStudies: string[];
+};
+
+/**
  * Represents the props that can be passed to the Add Service Time Modal Window component.
  */
 export type AddServiceTimeModalWindowProps = {
@@ -43,4 +68,10 @@ export type AddServiceTimeModalWindowProps = {
    * Reference to the component.
    */
   reference?: React.Ref<unknown>;
+
+  /**
+   * Callback function invoked when the result of the modal window is available.
+   * It receives an object containing the calculated result.
+   */
+  result?: (result: ASTMWResult) => void;
 };

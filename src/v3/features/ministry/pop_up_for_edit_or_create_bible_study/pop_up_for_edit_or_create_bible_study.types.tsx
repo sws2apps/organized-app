@@ -9,6 +9,9 @@ export type PopUpForEditOrCreateBibleStudyProps = {
    */
   variant?: 'add' | 'edit';
 
+  /**
+   * Indicates whether the pop-up is open or closed.
+   */
   open: boolean;
 
   /**
@@ -27,7 +30,13 @@ export type PopUpForEditOrCreateBibleStudyProps = {
    */
   cancelButtonClick?: VoidFunction;
 
+  /**
+   * Specifies the width of the pop-up.
+   */
   width?: string;
 
+  /**
+   * Callback function invoked when the close button is clicked.
+   */
   closeButtonClick?: VoidFunction;
 };

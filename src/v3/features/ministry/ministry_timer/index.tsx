@@ -91,20 +91,6 @@ const MinistryTimer = ({ duration = '00:00' }: { duration?: string }) => {
   const [timerState, setTimerState] = useState(MinistryTimerStates.Zero);
   const [timerTextOpacity, setTimerTextOpacity] = useState(1);
 
-  /* --------------------- For EditAndAddBibleStudyContext -------------------- */
-  const defautlEAABSValue = {
-    popUpWindowOpen: false,
-    variant: 'add',
-    itemValue: '',
-    itemIndex: 0,
-  };
-  const [editAndAddBibleStudy, setEditAndAddBibleStudy] = useState(defautlEAABSValue);
-
-  const clearEditAndAddBibleStudy = () => {
-    setEditAndAddBibleStudy(defautlEAABSValue);
-  };
-  /* ------------------- END For EditAndAddBibleStudyContext ------------------ */
-
   const changeButtonStates = () => {
     const numberOfStates = Object.keys(MinistryTimerStates).length / 2; // Divide by 2 because enums in TypeScript are bi-directional
     if (timerState !== numberOfStates - 1) {
@@ -208,8 +194,33 @@ const MinistryTimer = ({ duration = '00:00' }: { duration?: string }) => {
     'Julia',
   ]);
 
+  const defaultEAABSValue = {
+    popUpWindowOpen: false,
+    variant: 'add',
+    itemValue: '',
+    itemIndex: 0,
+  };
+
+  const [editAndAddBibleStudyData, setEditAndAddBibleStudyData] = useState(() => {
+    return defaultEAABSValue;
+  });
+
+  useEffect(() => {
+    null;
+  }, [editAndAddBibleStudyData]);
+
+  const clearEditAndAddBibleStudyData = () => {
+    setEditAndAddBibleStudyData(defaultEAABSValue);
+  };
+
+  const providerContent = {
+    editAndAddBibleStudyData,
+    setEditAndAddBibleStudyData,
+    clearEditAndAddBibleStudyData,
+  };
+
   return (
-    <EditAndAddBibleStudyContext.Provider value={{ editAndAddBibleStudy, setEditAndAddBibleStudy }}>
+    <EditAndAddBibleStudyContext.Provider value={providerContent}>
       <Box
         sx={{
           display: 'flex',
@@ -261,30 +272,44 @@ const MinistryTimer = ({ duration = '00:00' }: { duration?: string }) => {
             duration={durationInSeconds}
             bibleStudiesList={bibleStudiesList}
             cancelButtonClick={() => setAddServiceTimeModalWindowOpen(false)}
-            addButtonClick={() => setAddServiceTimeModalWindowOpen(false)}
+            addButtonClick={() => {
+              setAddServiceTimeModalWindowOpen(false);
+            }}
+            result={(result) => {
+              // TODO: Connect API
+              console.log(result);
+            }}
             open={true}
             reference={addServiceTimeModalWindowRef}
           />
           <PopUpForEditOrCreateBibleStudy
-            variant={editAndAddBibleStudy.variant as 'add' | 'edit'}
-            value={editAndAddBibleStudy.itemValue}
-            open={editAndAddBibleStudy.popUpWindowOpen}
+            variant={editAndAddBibleStudyData.variant as 'add' | 'edit'}
+            value={editAndAddBibleStudyData.itemValue}
+            open={editAndAddBibleStudyData.popUpWindowOpen}
             width={addServiceTimeModalWindowRef.current?.offsetWidth + 'px'}
-            cancelButtonClick={() => clearEditAndAddBibleStudy()}
-            closeButtonClick={() => clearEditAndAddBibleStudy()}
+            cancelButtonClick={() => {
+              if (editAndAddBibleStudyData.variant == 'edit') {
+                setBibleStudiesList((prev) => {
+                  const tmpArray = [...prev];
+                  return tmpArray.slice(editAndAddBibleStudyData.itemIndex + 1);
+                });
+              }
+              clearEditAndAddBibleStudyData();
+            }}
+            closeButtonClick={() => clearEditAndAddBibleStudyData()}
             saveButtonClick={(value) => {
               setBibleStudiesList((prev) => {
                 const tmpArray = [...prev];
 
-                if (editAndAddBibleStudy.variant == 'add') {
+                if (editAndAddBibleStudyData.variant == 'add') {
                   tmpArray.push(value);
                 } else {
-                  tmpArray[editAndAddBibleStudy.itemIndex] = value;
+                  tmpArray[editAndAddBibleStudyData.itemIndex] = value;
                 }
 
                 return tmpArray;
               });
-              clearEditAndAddBibleStudy();
+              clearEditAndAddBibleStudyData();
             }}
           />
         </DarkOverlay>

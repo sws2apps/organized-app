@@ -4,12 +4,21 @@ import CustomTypography from '@components/typography';
 import useAppTranslation from '@hooks/useAppTranslation';
 import { IconClose } from '@components/icons';
 import CustomButton from '@components/button';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
+/**
+ * Component for displaying a popup for editing or creating a Bible study.
+ *
+ * @param props - PopUpForEditOrCreateBibleStudyProps
+ */
 const PopUpForEditOrCreateBibleStudy = (props: PopUpForEditOrCreateBibleStudyProps) => {
   const variant = props.variant || 'add';
 
   const { t } = useAppTranslation();
+
+  useEffect(() => {
+    setTextFieldValue(props.value);
+  }, [props.value]);
 
   const [textFieldValue, setTextFieldValue] = useState('');
 
@@ -40,7 +49,7 @@ const PopUpForEditOrCreateBibleStudy = (props: PopUpForEditOrCreateBibleStudyPro
       <TextField
         id="outlined-basic"
         label={t('tr_name')}
-        defaultValue={props.value}
+        value={textFieldValue}
         variant="outlined"
         onChange={(event) => {
           setTextFieldValue(event.target.value);

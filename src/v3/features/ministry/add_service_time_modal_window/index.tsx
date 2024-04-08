@@ -23,7 +23,7 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
   const variant = props.variant || 'simple';
   const showCreditHours = props.showCreditHours || false;
 
-  const { editAndAddBibleStudy, setEditAndAddBibleStudy } = useContext(EditAndAddBibleStudyContext);
+  const { editAndAddBibleStudyData, setEditAndAddBibleStudyData } = useContext(EditAndAddBibleStudyContext);
 
   useEffect(() => {
     null;
@@ -252,13 +252,12 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
                 label={value}
                 editButtonClick={() => {
                   setDropdownWithStudiesOpen(false);
-                  setEditAndAddBibleStudy({
+                  setEditAndAddBibleStudyData({
                     itemValue: value,
                     itemIndex: index,
                     popUpWindowOpen: true,
                     variant: 'edit',
                   });
-                  console.log(editAndAddBibleStudy);
                 }}
                 key={`studies-item-${index}`}
                 callback={() =>
@@ -280,7 +279,7 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
             }}
             callback={() => {
               setDropdownWithStudiesOpen(false);
-              setEditAndAddBibleStudy((prev) => ({ ...prev, variant: 'add', popUpWindowOpen: true }));
+              setEditAndAddBibleStudyData({ ...editAndAddBibleStudyData, variant: 'add', popUpWindowOpen: true });
             }}
           >
             <IconAdd />
@@ -302,7 +301,18 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
         <Button variant="secondary" onClick={props.cancelButtonClick}>
           {t('tr_cancel')}
         </Button>
-        <Button variant="main" onClick={props.addButtonClick}>
+        <Button
+          variant="main"
+          onClick={() => {
+            props.result({
+              hoursInSeconds: localDurationInSeconds,
+              creditHoursInSeconds: localCreditHoursDurationInSeconds,
+              bibleStudiesCount: countOfStudies,
+              bibleStudies: getArrayWithCheckedStudies(),
+            });
+            props.addButtonClick();
+          }}
+        >
           {t('tr_add')}
         </Button>
       </Box>
