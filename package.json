@@ -36,7 +36,7 @@
     "@fontsource/roboto": "^5.0.12",
     "@mui/icons-material": "^5.15.15",
     "@mui/material": "^5.15.15",
-    "@mui/x-date-pickers": "^7.1.0",
+    "@mui/x-date-pickers": "^7.1.1",
     "@mui/x-tree-view": "^7.1.1",
     "@react-pdf/renderer": "^3.4.2",
     "@sws2apps/react-sw-helper": "^1.22.0",
