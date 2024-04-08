@@ -1,4 +1,4 @@
-import { Theme } from '@mui/material';
+import { SxProps, Theme } from '@mui/material';
 import * as CSS from 'csstype';
 import { ReactElement, ReactNode } from 'react';
 
@@ -74,7 +74,7 @@ export type CustomDropdownItemProps = {
    * Callback function triggered when the edit button for the item is clicked.
    * @param value - The value associated with the item.
    */
-  editButtonClick?: (value: string) => void;
+  editButtonClick?: VoidFunction;
 
   /**
    * Label for the dropdown item.
@@ -95,4 +95,9 @@ export type CustomDropdownItemProps = {
    * Additional content for the item (for 'custom' variant).
    */
   children?: ReactNode;
+
+  /**
+   * The system prop that allows defining system overrides as well as additional CSS styles.
+   */
+  sx?: SxProps<Theme>;
 };

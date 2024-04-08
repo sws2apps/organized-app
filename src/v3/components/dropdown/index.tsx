@@ -74,7 +74,7 @@ const CustomDropdownItem = (props: CustomDropdownItemProps) => {
   const [checked, setChecked] = useState(propsChecked);
 
   useEffect(() => {
-    if (checked) {
+    if (checked && variant != 'studies') {
       props.callback(checked);
     }
 
@@ -107,12 +107,32 @@ const CustomDropdownItem = (props: CustomDropdownItemProps) => {
                 alignItems: 'center',
               }}
             >
-              <Box onClick={() => props.editButtonClick(props.label)} sx={{ alignItems: 'center', display: 'flex' }}>
-                <IconEdit color="var(--accent-350)" />
+              <Box
+                onClick={(event) => {
+                  props.editButtonClick(props.label);
+                  event.stopPropagation();
+                }}
+                sx={{ alignItems: 'center', display: 'flex' }}
+              >
+                <IconEdit
+                  sx={{
+                    path: {
+                      fill: 'var(--accent-350) !important',
+                    },
+                  }}
+                />
               </Box>
               <CustomTypography className="body-regular">{props.label}</CustomTypography>
             </Box>
-            {checked ? <IconCheck color="var(--accent-dark)" /> : null}
+            {checked ? (
+              <IconCheck
+                sx={{
+                  path: {
+                    fill: 'var(--accent-dark) !important',
+                  },
+                }}
+              />
+            ) : null}
           </Box>
         );
       case 'schools':
@@ -158,10 +178,16 @@ const CustomDropdownItem = (props: CustomDropdownItemProps) => {
           margin: '0',
           width: '24px',
         },
+        ...props.sx,
       }}
       onClick={() => {
         if (variant == 'checkboxes' || variant == 'studies' || variant == 'schools' || variant == 'custom') {
           setChecked(!checked);
+
+          // this code fix infinity loop with variant = 'studies'
+          if (variant == 'studies') {
+            props.callback(checked);
+          }
         }
       }}
     >

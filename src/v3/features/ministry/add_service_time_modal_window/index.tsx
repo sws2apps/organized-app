@@ -1,7 +1,7 @@
 import { Box, TextField } from '@mui/material';
 
 import { StyledBox, StyledModalWindowContainer, StyledRowContainer } from './add_service_time_modal_window.styled';
-import { AddServieTimeModalWindowProps } from './add_service_time_modal_window.types';
+import { AddServiceTimeModalWindowProps } from './add_service_time_modal_window.types';
 import useAppTranslation from '@hooks/useAppTranslation';
 
 import CustomTypography from '@components/typography';
@@ -9,15 +9,25 @@ import DatePicker from '@components/date_picker';
 import MinusButton from '@components/minus_button';
 import PlusButton from '@components/plus_button';
 import Button from '@components/button';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { CustomDropdownContainer, CustomDropdownItem, CustomDropdownMenu } from '@components/dropdown';
-import { IconLanguageCourse, IconPersonalDay, IconSchool, IconSchoolForEvangelizers } from '@components/icons';
+import { IconAdd, IconLanguageCourse, IconPersonalDay, IconSchool, IconSchoolForEvangelizers } from '@components/icons';
 import { hoursToSeconds } from 'date-fns';
+import { EditAndAddBibleStudyContext } from '../EditAndAddBibleStudyContext';
 
-export const AddServiceTimeModalWindow = (props: AddServieTimeModalWindowProps) => {
+/**
+ * Add Service Time Modal Window component.
+ */
+export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps) => {
   const duration = props.duration;
   const variant = props.variant || 'simple';
   const showCreditHours = props.showCreditHours || false;
+
+  const { editAndAddBibleStudy, setEditAndAddBibleStudy } = useContext(EditAndAddBibleStudyContext);
+
+  useEffect(() => {
+    null;
+  }, [props]);
 
   const { t } = useAppTranslation();
 
@@ -64,6 +74,12 @@ export const AddServiceTimeModalWindow = (props: AddServieTimeModalWindowProps) 
 
   const [localCreditHoursDurationInSeconds, setLocalCreditHoursDurationInSeconds] = useState(0);
 
+  const [dropdownWithStudiesOpen, setDropdownWithStudiesOpen] = useState(false);
+  const [dropdownWithSchoolsOpen, setDropdownWithSchoolsOpen] = useState(false);
+
+  const styledRowContainerWithBibleStudiesRef = useRef(null);
+  const styledRowContainerWithCreditHours = useRef(null);
+
   const [countOfStudies, setCountOfStudies] = useState(0);
 
   const incrementCountOfStudies = () => {
@@ -71,19 +87,26 @@ export const AddServiceTimeModalWindow = (props: AddServieTimeModalWindowProps) 
   };
 
   const decrimentCountOfStudies = () => {
-    if (countOfStudies !== 0) {
+    if (countOfStudies != 0) {
       setCountOfStudies(countOfStudies - 1);
     }
   };
 
-  const [dropdownWithStudiesOpen, setDropdownWithStudiesOpen] = useState(false);
-  const [dropdownWithSchoolsOpen, setDropdownWithSchoolsOpen] = useState(false);
+  const [checkedLocalStudiesStatesList, setCheckedLocalStudiesStatesList] = useState(() => {
+    return Array<boolean>(props.bibleStudiesList.length).fill(false);
+  });
 
-  const styledRowContainerWithBibleStudiesRef = useRef(null);
-  const styledRowContainerWithCreditHours = useRef(null);
-  const thisModalWindow = useRef(null);
+  const getArrayWithCheckedStudies = (): string[] => {
+    const tmpArray = [];
 
-  // let dropdownCheckedItems = [];
+    props.bibleStudiesList.forEach((value, index) => {
+      if (checkedLocalStudiesStatesList[index]) {
+        tmpArray.push(props.bibleStudiesList[index]);
+      }
+    });
+
+    return tmpArray;
+  };
 
   // code for fix bug with empty field
   useEffect(() => {
@@ -94,7 +117,7 @@ export const AddServiceTimeModalWindow = (props: AddServieTimeModalWindowProps) 
 
   return (
     <StyledModalWindowContainer
-      ref={thisModalWindow}
+      ref={props.reference}
       className="pop-up-shadow"
       sx={{
         margin: { mobile: '16px', tablet: '24px', desktop: '32px' },
@@ -152,16 +175,7 @@ export const AddServiceTimeModalWindow = (props: AddServieTimeModalWindowProps) 
               label={t('tr_creditHours')}
               onClick={() => setDropdownWithSchoolsOpen((prev) => !prev)}
             />
-            {/* <CustomDropdownMenu
-              variant="schools"
-              anchorElement={styledRowContainerWithCreditHours.current}
-              width={styledRowContainerWithCreditHours.current?.offsetWidth + 'px'}
-              open={dropdownWithStudiesOpen}
-              zIndex={(theme) => theme.zIndex.drawer + 3}
-              callback={(value) => {
-                setLocalCreditHoursDurationInSeconds(convertHoursToSeconds(value));
-              }}
-            /> */}
+
             <CustomDropdownMenu
               open={dropdownWithSchoolsOpen}
               anchorElement={styledRowContainerWithCreditHours.current}
@@ -224,24 +238,57 @@ export const AddServiceTimeModalWindow = (props: AddServieTimeModalWindowProps) 
           label={t('tr_bibleStudies')}
           onClick={() => setDropdownWithStudiesOpen((prev) => !prev)}
         />
-        {/* <CustomDropdownMenu
-          variant="studies"
-          open={dropdownWithSchoolsOpen}
-          items={props.bibleStudiesList}
-          zIndex={(theme) => theme.zIndex.drawer + 3}
-          callback={(value) => (dropdownCheckedItems = value)}
-          width={styledRowContainerWithBibleStudiesRef.current?.offsetWidth + 'px'}
-          anchorElement={styledRowContainerWithBibleStudiesRef.current}
-          editItemButtonClick={(item_index, item_text) => {
-            // TODO: Open edit window
-          }}
-        /> */}
         <CustomDropdownMenu
           open={dropdownWithStudiesOpen}
           zIndex={(theme) => theme.zIndex.drawer + 3}
           anchorElement={styledRowContainerWithBibleStudiesRef.current}
           width={styledRowContainerWithBibleStudiesRef.current?.offsetWidth + 'px'}
-        ></CustomDropdownMenu>
+        >
+          {props.bibleStudiesList.map((value, index) => {
+            return (
+              <CustomDropdownItem
+                variant="studies"
+                checked={checkedLocalStudiesStatesList[index]}
+                label={value}
+                editButtonClick={() => {
+                  setDropdownWithStudiesOpen(false);
+                  setEditAndAddBibleStudy({
+                    itemValue: value,
+                    itemIndex: index,
+                    popUpWindowOpen: true,
+                    variant: 'edit',
+                  });
+                  console.log(editAndAddBibleStudy);
+                }}
+                key={`studies-item-${index}`}
+                callback={() =>
+                  setCheckedLocalStudiesStatesList((prev) => {
+                    const updatedArray = [...prev];
+                    updatedArray[index] = !updatedArray[index];
+                    return updatedArray;
+                  })
+                }
+              />
+            );
+          })}
+          <CustomDropdownItem
+            variant="custom"
+            sx={{
+              '.MuiSvgIcon-root path': {
+                fill: 'var(--accent-dark)',
+              },
+            }}
+            callback={() => {
+              setDropdownWithStudiesOpen(false);
+              setEditAndAddBibleStudy((prev) => ({ ...prev, variant: 'add', popUpWindowOpen: true }));
+            }}
+          >
+            <IconAdd />
+            <CustomTypography className="h4" color="var(--accent-dark)">
+              {t('tr_addNewStudy')}
+            </CustomTypography>
+          </CustomDropdownItem>
+        </CustomDropdownMenu>
 
         <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '168px', alignItems: 'center' }}>
           <MinusButton onClick={decrimentCountOfStudies} />

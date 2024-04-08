@@ -9,7 +9,7 @@ import { DarkOverlayProps } from './dark_overlay.types';
 const DarkOverlay = (props: DarkOverlayProps) => {
   return (
     <Backdrop
-      sx={{ color: 'var(--accent-dark-overlay)', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+      sx={{ color: 'var(--accent-dark-overlay)', zIndex: (theme) => theme.zIndex.drawer + 1, flexDirection: 'column' }}
       open={props.overlayIsOpened}
     >
       {props.children}

@@ -3,10 +3,12 @@ import { IconAddTime, IconPause, IconResume, IconStart, IconStop } from '@icons/
 import Typography from '@components/typography';
 import TimerButton from './components/TimerButton';
 import { useAppTranslation } from '@hooks/index';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { MinistryTimerButtonProps, MinistryTimerStates } from './ministry_timer.types';
 import DarkOverlay from '@components/dark_overlay';
-import { AddServiceTimeModalWindow } from '@components/add_service_time_modal_window';
+import PopUpForEditOrCreateBibleStudy from '../pop_up_for_edit_or_create_bible_study';
+import { EditAndAddBibleStudyContext } from '../EditAndAddBibleStudyContext';
+import { AddServiceTimeModalWindow } from '../add_service_time_modal_window';
 
 /**
  * Left Ministry Timer Button component.
@@ -88,6 +90,20 @@ const RightMinistryTimerButton = (props: MinistryTimerButtonProps) => {
 const MinistryTimer = ({ duration = '00:00' }: { duration?: string }) => {
   const [timerState, setTimerState] = useState(MinistryTimerStates.Zero);
   const [timerTextOpacity, setTimerTextOpacity] = useState(1);
+
+  /* --------------------- For EditAndAddBibleStudyContext -------------------- */
+  const defautlEAABSValue = {
+    popUpWindowOpen: false,
+    variant: 'add',
+    itemValue: '',
+    itemIndex: 0,
+  };
+  const [editAndAddBibleStudy, setEditAndAddBibleStudy] = useState(defautlEAABSValue);
+
+  const clearEditAndAddBibleStudy = () => {
+    setEditAndAddBibleStudy(defautlEAABSValue);
+  };
+  /* ------------------- END For EditAndAddBibleStudyContext ------------------ */
 
   const changeButtonStates = () => {
     const numberOfStates = Object.keys(MinistryTimerStates).length / 2; // Divide by 2 because enums in TypeScript are bi-directional
@@ -176,63 +192,104 @@ const MinistryTimer = ({ duration = '00:00' }: { duration?: string }) => {
 
   const [addServiceTimeModalWindowOpen, setAddServiceTimeModalWindowOpen] = useState(false);
 
+  const addServiceTimeModalWindowRef = useRef(null);
+
+  // TODO: Connect to API
+  const [bibleStudiesList, setBibleStudiesList] = useState([
+    'Alice',
+    'Bob',
+    'Charlie',
+    'Diana',
+    'Ethan',
+    'Fiona',
+    'George',
+    'Hannah',
+    'Ian',
+    'Julia',
+  ]);
+
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '100%',
-        padding: '4px 8px 12px 8px',
-        gap: '12px',
-      }}
-    >
-      <LeftMinistryTimerButton
-        state={timerState}
-        onClick={() => {
-          setAddServiceTimeModalWindowOpen(true);
-        }}
-      />
-      <Typography
-        variant="h2"
-        color={timerDuration === '00:00' ? 'var(--accent-300)' : 'var(--accent-dark)'}
+    <EditAndAddBibleStudyContext.Provider value={{ editAndAddBibleStudy, setEditAndAddBibleStudy }}>
+      <Box
         sx={{
-          textAlign: 'center',
-          width: '64px',
-          opacity: timerTextOpacity,
-          '&:hover': {
-            color: timerDuration === '00:00' ? 'var(--accent-350)' : 'var(--accent-main)',
-            '@media (hover: none)': {
-              color: timerDuration === '00:00' ? 'var(--accent-300)' : 'var(--accent-dark)',
-            },
-          },
-          '&:active': {
-            color: timerDuration === '00:00' ? 'var(--accent-400)' : 'var(--accent-click)',
-          },
-          cursor: 'pointer',
-          userSelect: 'none',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '100%',
+          padding: '4px 8px 12px 8px',
+          gap: '12px',
         }}
       >
-        {timerDuration}
-      </Typography>
-      <RightMinistryTimerButton
-        state={timerState}
-        onClick={() => {
-          changeButtonStates();
-        }}
-      />
-      <DarkOverlay overlayIsOpened={addServiceTimeModalWindowOpen}>
-        <AddServiceTimeModalWindow
-          variant="pioneer"
-          showCreditHours={true}
-          duration={durationInSeconds}
-          bibleStudiesList={['Alice', 'Bob', 'Charlie', 'Diana', 'Ethan', 'Fiona', 'George', 'Hannah', 'Ian', 'Julia']}
-          cancelButtonClick={() => setAddServiceTimeModalWindowOpen(false)}
-          addButtonClick={() => setAddServiceTimeModalWindowOpen(false)}
-          open={true}
+        <LeftMinistryTimerButton
+          state={timerState}
+          onClick={() => {
+            setAddServiceTimeModalWindowOpen(true);
+          }}
         />
-      </DarkOverlay>
-    </Box>
+        <Typography
+          variant="h2"
+          color={timerDuration === '00:00' ? 'var(--accent-300)' : 'var(--accent-dark)'}
+          sx={{
+            textAlign: 'center',
+            width: '64px',
+            opacity: timerTextOpacity,
+            '&:hover': {
+              color: timerDuration === '00:00' ? 'var(--accent-350)' : 'var(--accent-main)',
+              '@media (hover: none)': {
+                color: timerDuration === '00:00' ? 'var(--accent-300)' : 'var(--accent-dark)',
+              },
+            },
+            '&:active': {
+              color: timerDuration === '00:00' ? 'var(--accent-400)' : 'var(--accent-click)',
+            },
+            cursor: 'pointer',
+            userSelect: 'none',
+          }}
+        >
+          {timerDuration}
+        </Typography>
+        <RightMinistryTimerButton
+          state={timerState}
+          onClick={() => {
+            changeButtonStates();
+          }}
+        />
+        <DarkOverlay overlayIsOpened={addServiceTimeModalWindowOpen}>
+          <AddServiceTimeModalWindow
+            variant="pioneer"
+            showCreditHours={true}
+            duration={durationInSeconds}
+            bibleStudiesList={bibleStudiesList}
+            cancelButtonClick={() => setAddServiceTimeModalWindowOpen(false)}
+            addButtonClick={() => setAddServiceTimeModalWindowOpen(false)}
+            open={true}
+            reference={addServiceTimeModalWindowRef}
+          />
+          <PopUpForEditOrCreateBibleStudy
+            variant={editAndAddBibleStudy.variant as 'add' | 'edit'}
+            value={editAndAddBibleStudy.itemValue}
+            open={editAndAddBibleStudy.popUpWindowOpen}
+            width={addServiceTimeModalWindowRef.current?.offsetWidth + 'px'}
+            cancelButtonClick={() => clearEditAndAddBibleStudy()}
+            closeButtonClick={() => clearEditAndAddBibleStudy()}
+            saveButtonClick={(value) => {
+              setBibleStudiesList((prev) => {
+                const tmpArray = [...prev];
+
+                if (editAndAddBibleStudy.variant == 'add') {
+                  tmpArray.push(value);
+                } else {
+                  tmpArray[editAndAddBibleStudy.itemIndex] = value;
+                }
+
+                return tmpArray;
+              });
+              clearEditAndAddBibleStudy();
+            }}
+          />
+        </DarkOverlay>
+      </Box>
+    </EditAndAddBibleStudyContext.Provider>
   );
 };
 
