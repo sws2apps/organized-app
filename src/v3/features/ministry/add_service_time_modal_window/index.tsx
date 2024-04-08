@@ -257,7 +257,7 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
                     variant: 'edit',
                   });
                 }}
-                key={Math.random() + index}
+                key={Math.random()}
                 callback={() =>
                   setCheckedLocalStudiesStatesList((prev) => {
                     const updatedArray = [...prev];
