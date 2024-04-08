@@ -3,9 +3,12 @@ import { Button, PageTitle } from '@components/index';
 import { IconAddPerson } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { PersonsFilter, PersonsSearch } from '@features/index';
+import useAllPersons from './useAllPersons';
 
 const PersonsAll = () => {
   const { t } = useAppTranslation();
+
+  const { handlePersonAdd } = useAllPersons();
 
   return (
     <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
@@ -13,7 +16,7 @@ const PersonsAll = () => {
         title={t('tr_personsAll')}
         backTo="/"
         buttons={
-          <Button variant="main" startIcon={<IconAddPerson />}>
+          <Button variant="main" startIcon={<IconAddPerson />} onClick={handlePersonAdd}>
             {t('tr_personAdd')}
           </Button>
         }

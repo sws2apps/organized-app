@@ -296,5 +296,7 @@
   "tr_averageAttendanceWM": "Average weekend meeting attendance",
   "tr_numberReports": "Number of reports",
   "tr_filters": "Filters",
-  "tr_pioneers": "Pioneers"
+  "tr_pioneers": "Pioneers",
+  "tr_editPerson": "Edit person",
+  "tr_hope": "Hope"
 }
