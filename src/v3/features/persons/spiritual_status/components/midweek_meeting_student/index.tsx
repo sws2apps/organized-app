@@ -1,6 +1,6 @@
 import { Box, Collapse } from '@mui/material';
 import Button from '@components/button';
-import DateHistory from '../date_history';
+import DateHistory from '../../../date_history';
 import SpiritualStatusTitle from '../title';
 import { MidweekMeetingStudentType } from './index.types';
 import { useAppTranslation } from '@hooks/index';
@@ -10,7 +10,7 @@ import { IconAdd } from '@components/icons';
 const MidweekMeetingStudent = ({ checked, onChange, expanded, onExpand }: MidweekMeetingStudentType) => {
   const { t } = useAppTranslation();
 
-  const { person, handleAddHistory, handleDeleteHistory, handleEndDateChange, handleStartDateChange } =
+  const { handleAddHistory, handleDeleteHistory, handleEndDateChange, handleStartDateChange, activeHistory } =
     useMidweekMeetingStudent();
 
   return (
@@ -25,7 +25,7 @@ const MidweekMeetingStudent = ({ checked, onChange, expanded, onExpand }: Midwee
 
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <Box sx={{ marginTop: '24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          {person.midweekMeetingStudent.history.length === 0 && (
+          {activeHistory.length === 0 && (
             <Button
               variant="small"
               startIcon={<IconAdd />}
@@ -36,13 +36,13 @@ const MidweekMeetingStudent = ({ checked, onChange, expanded, onExpand }: Midwee
             </Button>
           )}
 
-          {person.midweekMeetingStudent.history.map((history, index) => (
+          {activeHistory.map((history, index) => (
             <DateHistory
               key={history.id}
               id={history.id}
               startDate={history.startDate.value}
               endDate={history.endDate.value}
-              isLast={index === person.midweekMeetingStudent.history.length - 1}
+              isLast={index === activeHistory.length - 1}
               onAdd={handleAddHistory}
               onDelete={handleDeleteHistory}
               onStartDateChange={handleStartDateChange}

@@ -3,8 +3,13 @@ import { useRecoilValue } from 'recoil';
 import { personCurrentDetailsState } from '@states/persons';
 import { PersontType } from '@definition/person';
 import { setPersonCurrentDetails } from '@services/recoil/persons';
+import { displaySnackNotification } from '@services/recoil/app';
+import { IconError } from '@components/icons';
+import { useAppTranslation } from '@hooks/index';
 
 const useSpiritualStatus = () => {
+  const { t } = useAppTranslation();
+
   const person = useRecoilValue(personCurrentDetailsState);
 
   const [expandedStatus, setExpandedStatus] = useState({
@@ -30,6 +35,28 @@ const useSpiritualStatus = () => {
   };
 
   const handleToggleMidweekMeetingStudent = async (checked: boolean) => {
+    // check if baptized publisher and abort
+    if (person.baptizedPublisher.active.value) {
+      await displaySnackNotification({
+        header: t('tr_spiritualStatusError'),
+        message: t('tr_baptizedMidweekStudentError'),
+        severity: 'error',
+        icon: <IconError color="var(--white)" />,
+      });
+      return;
+    }
+
+    // check if unbaptized publisher and abort
+    if (person.unbaptizedPublisher.active.value) {
+      await displaySnackNotification({
+        header: t('tr_spiritualStatusError'),
+        message: t('tr_unBaptizedMidweekStudentError'),
+        severity: 'error',
+        icon: <IconError color="var(--white)" />,
+      });
+      return;
+    }
+
     const newPerson: PersontType = structuredClone(person);
 
     newPerson.midweekMeetingStudent.active.value = checked;
@@ -39,6 +66,17 @@ const useSpiritualStatus = () => {
   };
 
   const handleToggleUnbaptizedPublisher = async (checked: boolean) => {
+    // check if baptized publisher and abort
+    if (person.baptizedPublisher.active.value) {
+      await displaySnackNotification({
+        header: t('tr_spiritualStatusError'),
+        message: t('tr_baptizedUnbaptizedError'),
+        severity: 'error',
+        icon: <IconError color="var(--white)" />,
+      });
+      return;
+    }
+
     const newPerson: PersontType = structuredClone(person);
 
     newPerson.unbaptizedPublisher.active.value = checked;

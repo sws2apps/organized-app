@@ -2,13 +2,13 @@ import { Box } from '@mui/material';
 import { Button, PageTitle } from '@components/index';
 import { IconSave } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
-import { PersonBasicInfo, PersonSpiritualStatus } from '@features/index';
+import { PersonBasicInfo, PersonEnrollments, PersonPrivileges, PersonSpiritualStatus } from '@features/index';
 import usePersonDetails from './usePersonDetails';
 
 const PersonDetails = () => {
   const { t } = useAppTranslation();
 
-  const { isNewPerson } = usePersonDetails();
+  const { isNewPerson, isBaptized, isMale } = usePersonDetails();
 
   return (
     <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
@@ -34,6 +34,26 @@ const PersonDetails = () => {
       >
         <PersonBasicInfo />
         <PersonSpiritualStatus />
+
+        {isBaptized && (
+          <Box
+            sx={{
+              backgroundColor: 'var(--white)',
+              border: '1px solid var(--accent-300)',
+              display: 'flex',
+              padding: '16px',
+              gap: '16px',
+              flexDirection: 'column',
+              borderRadius: 'var(--radius-xl)',
+              flex: 1,
+              width: '100%',
+            }}
+          >
+            {isMale && <PersonPrivileges />}
+
+            <PersonEnrollments />
+          </Box>
+        )}
       </Box>
     </Box>
   );

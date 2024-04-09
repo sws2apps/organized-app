@@ -1,7 +1,7 @@
 import { Box, Collapse, FormControlLabel, RadioGroup } from '@mui/material';
 import { IconAdd } from '@components/icons';
 import Button from '@components/button';
-import DateHistory from '../date_history';
+import DateHistory from '../../../date_history';
 import DatePicker from '@components/date_picker';
 import FirstReport from '../first_report';
 import Radio from '@components/radio';
@@ -26,6 +26,7 @@ const BaptizedPublisher = ({ checked, onChange, expanded, onExpand }: BaptizedPu
     handleToggleHope,
     handleChangeBaptismDate,
     age,
+    activeHistory,
   } = useBaptizedPublisher();
 
   return (
@@ -75,7 +76,11 @@ const BaptizedPublisher = ({ checked, onChange, expanded, onExpand }: BaptizedPu
             <Box sx={{ flexGrow: 1, width: tabletDown ? '100%' : 'unset' }}>
               <DatePicker
                 label={t('tr_baptismDate')}
-                value={person.birthDate.value === null ? null : new Date(person.birthDate.value)}
+                value={
+                  person.baptizedPublisher.baptismDate.value === null
+                    ? null
+                    : new Date(person.baptizedPublisher.baptismDate.value)
+                }
                 onChange={handleChangeBaptismDate}
                 maxDate={new Date()}
               />
@@ -85,7 +90,7 @@ const BaptizedPublisher = ({ checked, onChange, expanded, onExpand }: BaptizedPu
                 backgroundColor: 'var(--accent-150)',
                 padding: '8px 16px',
                 borderRadius: 'var(--radius-l)',
-                height: tabletDown ? 'auto' : '100%',
+                height: tabletDown ? 'auto' : '48px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -100,7 +105,7 @@ const BaptizedPublisher = ({ checked, onChange, expanded, onExpand }: BaptizedPu
 
           <FirstReport value={person.firstMonthReport.value} onChange={handleFirstReportChange} />
 
-          {person.baptizedPublisher.history.length === 0 && (
+          {activeHistory.length === 0 && (
             <Button
               variant="small"
               startIcon={<IconAdd />}
@@ -111,13 +116,13 @@ const BaptizedPublisher = ({ checked, onChange, expanded, onExpand }: BaptizedPu
             </Button>
           )}
 
-          {person.baptizedPublisher.history.map((history, index) => (
+          {activeHistory.map((history, index) => (
             <DateHistory
               key={history.id}
               id={history.id}
               startDate={history.startDate.value}
               endDate={history.endDate.value}
-              isLast={index === person.baptizedPublisher.history.length - 1}
+              isLast={index === activeHistory.length - 1}
               onAdd={handleAddHistory}
               onDelete={handleDeleteHistory}
               onStartDateChange={handleStartDateChange}

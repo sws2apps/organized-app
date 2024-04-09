@@ -43,6 +43,7 @@ export const personsFiltersKeyState = atom<string[]>({
 export const personCurrentDetailsState = atom<PersontType>({
   key: 'personNewDetails',
   default: {
+    _deleted: null,
     person_uid: crypto.randomUUID(),
     person_firstname: { value: '', updatedAt: '' },
     person_lastname: { value: '', updatedAt: '' },
@@ -51,8 +52,8 @@ export const personCurrentDetailsState = atom<PersontType>({
     isFemale: { value: false, updatedAt: '' },
     birthDate: { value: null, updatedAt: '' },
     isUnavailable: { value: false, updatedAt: '' },
-    assignments: { values: [], _deleted: [] },
-    timeAway: { values: [], _deleted: [] },
+    assignments: [],
+    timeAway: [],
     isMoved: { value: false, updatedAt: '' },
     isDisqualified: { value: false, updatedAt: '' },
     email: { value: '', updatedAt: '' },
@@ -65,12 +66,10 @@ export const personCurrentDetailsState = atom<PersontType>({
       isOtherSheep: { value: true, updatedAt: '' },
       baptismDate: { value: null, updatedAt: '' },
       history: [],
-      _deleted: [],
     },
     unbaptizedPublisher: {
       active: { value: false, updatedAt: '' },
       history: [],
-      _deleted: [],
     },
     midweekMeetingStudent: {
       active: { value: true, updatedAt: '' },
@@ -78,15 +77,12 @@ export const personCurrentDetailsState = atom<PersontType>({
         {
           id: crypto.randomUUID(),
           startDate: { value: new Date().toISOString(), updatedAt: new Date().toISOString() },
-          endDate: {
-            value: null,
-            updatedAt: new Date().toISOString(),
-          },
+          endDate: { value: null, updatedAt: new Date().toISOString() },
+          _deleted: null,
         },
       ],
-      _deleted: [],
     },
-    privileges: { history: [], _deleted: [] },
-    enrollments: { history: [], _deleted: [] },
+    privileges: [],
+    enrollments: [],
   },
 });

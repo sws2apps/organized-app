@@ -5,6 +5,8 @@ import { setPersonCurrentDetails } from '@services/recoil/persons';
 const useUnbaptizedPublisher = () => {
   const person = useRecoilValue(personCurrentDetailsState);
 
+  const activeHistory = person.unbaptizedPublisher.history.filter((record) => record._deleted === null);
+
   const handleFirstReportChange = async (value: Date | null) => {
     const newPerson = structuredClone(person);
 
@@ -23,6 +25,7 @@ const useUnbaptizedPublisher = () => {
       id: crypto.randomUUID(),
       startDate: { value: new Date().toISOString(), updatedAt: new Date().toISOString() },
       endDate: { value: null, updatedAt: new Date().toISOString() },
+      _deleted: null,
     });
 
     await setPersonCurrentDetails(newPerson);
@@ -31,14 +34,8 @@ const useUnbaptizedPublisher = () => {
   const handleDeleteHistory = async (id: string) => {
     const newPerson = structuredClone(person);
 
-    newPerson.unbaptizedPublisher.history = newPerson.unbaptizedPublisher.history.filter(
-      (history) => history.id !== id
-    );
-
-    newPerson.unbaptizedPublisher._deleted = newPerson.unbaptizedPublisher._deleted.filter(
-      (history) => history.id !== id
-    );
-    newPerson.unbaptizedPublisher._deleted.push({ id, on: new Date().toISOString() });
+    const current = newPerson.unbaptizedPublisher.history.find((history) => history.id === id);
+    current._deleted = new Date().toISOString();
 
     await setPersonCurrentDetails(newPerson);
   };
@@ -74,6 +71,7 @@ const useUnbaptizedPublisher = () => {
     handleStartDateChange,
     handleEndDateChange,
     handleFirstReportChange,
+    activeHistory,
   };
 };
 

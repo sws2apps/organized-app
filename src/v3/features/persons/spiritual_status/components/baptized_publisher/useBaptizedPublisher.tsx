@@ -9,6 +9,8 @@ const useBaptizedPublisher = () => {
 
   const [age, setAge] = useState('0');
 
+  const activeHistory = person.baptizedPublisher.history.filter((record) => record._deleted === null);
+
   const handleFirstReportChange = async (value: Date | null) => {
     const newPerson = structuredClone(person);
 
@@ -27,6 +29,7 @@ const useBaptizedPublisher = () => {
       id: crypto.randomUUID(),
       startDate: { value: new Date().toISOString(), updatedAt: new Date().toISOString() },
       endDate: { value: null, updatedAt: new Date().toISOString() },
+      _deleted: null,
     });
 
     await setPersonCurrentDetails(newPerson);
@@ -35,10 +38,8 @@ const useBaptizedPublisher = () => {
   const handleDeleteHistory = async (id: string) => {
     const newPerson = structuredClone(person);
 
-    newPerson.baptizedPublisher.history = newPerson.baptizedPublisher.history.filter((history) => history.id !== id);
-
-    newPerson.baptizedPublisher._deleted = newPerson.baptizedPublisher._deleted.filter((history) => history.id !== id);
-    newPerson.baptizedPublisher._deleted.push({ id, on: new Date().toISOString() });
+    const current = newPerson.baptizedPublisher.history.find((history) => history.id === id);
+    current._deleted = new Date().toISOString();
 
     await setPersonCurrentDetails(newPerson);
   };
@@ -119,6 +120,7 @@ const useBaptizedPublisher = () => {
     handleFirstReportChange,
     handleToggleHope,
     handleChangeBaptismDate,
+    activeHistory,
   };
 };
 

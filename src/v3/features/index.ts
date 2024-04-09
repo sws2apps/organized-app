@@ -13,9 +13,11 @@ export { default as MinistryPreferences } from './my_profile/ministry_preference
 export { default as MinistryTimer } from './ministry_timer';
 export { default as MyAssignments } from './meetings/my_assignments';
 export { default as PersonBasicInfo } from './persons/basic_info';
+export { default as PersonEnrollments } from './persons/enrollments';
 export { default as PersonsFilter } from './persons/filter';
-export { default as PersonsSearch } from './persons/search';
 export { default as PersonSpiritualStatus } from './persons/spiritual_status';
+export { default as PersonPrivileges } from './persons/privileges';
+export { default as PersonsSearch } from './persons/search';
 export { default as PublicTalks } from './public_talks';
 export { default as Support } from './support';
 export { default as ThemeSwitcher } from './theme_switcher';

@@ -1,7 +1,7 @@
 import { Box, Collapse } from '@mui/material';
 import { IconAdd } from '@components/icons';
 import Button from '@components/button';
-import DateHistory from '../date_history';
+import DateHistory from '../../../date_history';
 import SpiritualStatusTitle from '../title';
 import { UnbaptizedPublisherType } from './index.types';
 import { useAppTranslation } from '@hooks/index';
@@ -18,6 +18,7 @@ const UnbaptizedPublisher = ({ checked, onChange, expanded, onExpand }: Unbaptiz
     handleEndDateChange,
     handleStartDateChange,
     handleFirstReportChange,
+    activeHistory,
   } = useUnbaptizedPublisher();
 
   return (
@@ -34,7 +35,7 @@ const UnbaptizedPublisher = ({ checked, onChange, expanded, onExpand }: Unbaptiz
         <Box sx={{ marginTop: '24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
           <FirstReport value={person.firstMonthReport.value} onChange={handleFirstReportChange} />
 
-          {person.unbaptizedPublisher.history.length === 0 && (
+          {activeHistory.length === 0 && (
             <Button
               variant="small"
               startIcon={<IconAdd />}
@@ -45,13 +46,13 @@ const UnbaptizedPublisher = ({ checked, onChange, expanded, onExpand }: Unbaptiz
             </Button>
           )}
 
-          {person.unbaptizedPublisher.history.map((history, index) => (
+          {activeHistory.map((history, index) => (
             <DateHistory
               key={history.id}
               id={history.id}
               startDate={history.startDate.value}
               endDate={history.endDate.value}
-              isLast={index === person.unbaptizedPublisher.history.length - 1}
+              isLast={index === activeHistory.length - 1}
               onAdd={handleAddHistory}
               onDelete={handleDeleteHistory}
               onStartDateChange={handleStartDateChange}

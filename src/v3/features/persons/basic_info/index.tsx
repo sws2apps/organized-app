@@ -91,7 +91,6 @@ const PersonBasicInfo = () => {
           display: 'flex',
           gap: '8px',
           alignItems: tabletDown ? 'flex-start' : 'center',
-          flexWrap: 'wrap',
           width: '100%',
           flexDirection: tabletDown ? 'column' : 'row',
         }}
@@ -109,7 +108,7 @@ const PersonBasicInfo = () => {
             backgroundColor: 'var(--accent-150)',
             padding: '8px 16px',
             borderRadius: 'var(--radius-l)',
-            height: tabletDown ? 'auto' : '100%',
+            height: tabletDown ? 'auto' : '48px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
