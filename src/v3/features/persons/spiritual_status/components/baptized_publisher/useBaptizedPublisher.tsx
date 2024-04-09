@@ -40,8 +40,6 @@ const useBaptizedPublisher = () => {
   };
 
   const handleDeleteHistory = async (id: string) => {
-    if (isNewPerson) return;
-
     const newPerson = structuredClone(person);
 
     if (!isNewPerson) {

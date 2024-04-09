@@ -5,7 +5,7 @@ export type EnrollmentType = 'AP' | 'FR' | 'FS' | 'FMF';
 export type AssignmentType = {
   code: number;
   updatedAt: string;
-  _deleted: string;
+  _deleted: string | null;
 };
 
 type TimeAwayType = {
@@ -13,14 +13,14 @@ type TimeAwayType = {
   startDate: { value: string; updatedAt: string };
   endDate: { value: string | null; updatedAt: string };
   comments: { value: string; updatedAt: string };
-  _deleted: string;
+  _deleted: string | null;
 };
 
 type StatusHistoryType = {
   id: string;
   startDate: { value: string; updatedAt: string };
   endDate: { value: string | null; updatedAt: string };
-  _deleted: string;
+  _deleted: string | null;
 };
 
 type PrivilegeHistoryType = {
@@ -28,7 +28,7 @@ type PrivilegeHistoryType = {
   privilege: { value: PrivilegeType; updatedAt: string };
   startDate: { value: string; updatedAt: string };
   endDate: { value: string | null; updatedAt: string };
-  _deleted: string;
+  _deleted: string | null;
 };
 
 type EnrollmentHistoryType = {
@@ -36,11 +36,11 @@ type EnrollmentHistoryType = {
   enrollment: { value: EnrollmentType; updatedAt: string };
   startDate: { value: string; updatedAt: string };
   endDate: { value: string | null; updatedAt: string };
-  _deleted: string;
+  _deleted: string | null;
 };
 
 export type PersontType = {
-  _deleted: boolean;
+  _deleted: string | null;
   id?: string;
   person_uid: string;
   person_name?: string;

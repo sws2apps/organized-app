@@ -1,9 +1,13 @@
+import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { personCurrentDetailsState } from '@states/persons';
 import { setPersonCurrentDetails } from '@services/recoil/persons';
 import { PrivilegeType } from '@definition/person';
 
 const usePrivileges = () => {
+  const { id } = useParams();
+  const isNewPerson = id === undefined;
+
   const person = useRecoilValue(personCurrentDetailsState);
 
   const activeHistory = person.privileges.filter((record) => record._deleted === null);
@@ -25,8 +29,14 @@ const usePrivileges = () => {
   const handleDeleteHistory = async (id: string) => {
     const newPerson = structuredClone(person);
 
-    const current = newPerson.privileges.find((history) => history.id === id);
-    current._deleted = new Date().toISOString();
+    if (!isNewPerson) {
+      const current = newPerson.privileges.find((history) => history.id === id);
+      current._deleted = new Date().toISOString();
+    }
+
+    if (isNewPerson) {
+      newPerson.privileges = newPerson.privileges.filter((record) => record.id !== id);
+    }
 
     await setPersonCurrentDetails(newPerson);
   };
