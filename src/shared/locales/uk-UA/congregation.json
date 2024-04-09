@@ -91,7 +91,7 @@
   "tr_delegatePersons": "Delegate persons",
   "tr_delegatePersonsDesc": "By delegating a person from the congregation, you enable this user to view their meeting assignments and submit their field service reports.",
   "tr_delegatedPersons": "Delegated persons",
-  "tr_invitationCodeInstruction": "To add a new user's device, generate the invitation code, and ask them to open <a href=\"organized-app.com\">organized-app.com</a>. Next, they should select their user type and enter the invitation code when prompted.",
+  "tr_invitationCodeInstruction": "To add a new user's device, generate the invitation code, and ask them to open <a href=\"https://organized-app.com\">organized-app.com</a>. Next, they should select their user type and enter the invitation code when prompted.",
   "tr_generateInvitationCode": "Generate invitation code",
   "tr_terminateSessionAdminDesc": "The user will stay logged in on their device until you terminate the session on their device. After doing so, the user will need to log in to Organized again using their invitation code. Use this feature when absolutely necessary and in selective security-related cases.",
   "tr_baptizedBrotherUserDesc": "This baptized brother has been assigned a <b>Publisher</b> spiritual status. Therefore, the user can view meeting schedules and submit field service reports by default. You can assign additional user rights below.",
@@ -296,5 +296,17 @@
   "tr_averageAttendanceWM": "Average weekend meeting attendance",
   "tr_numberReports": "Number of reports",
   "tr_filters": "Filters",
-  "tr_pioneers": "Піонери"
+  "tr_pioneers": "Піонери",
+  "tr_markToBranchOffice": "Mark report as submitted to the branch office",
+  "tr_markToBranchOfficeDesc": "You're about to mark this report as submitted to the branch office. All late reports submitted this month will be deleted. To undo submission, find the publishers' reports, mark them late, and resubmit.",
+  "tr_markAsSubmitted": "Mark as submitted",
+  "tr_undoSubmission": "Undo submission",
+  "tr_chooseReport": "Choose a report",
+  "tr_branchOfficeReportYearsDesc": "This year's report hasn't been generated yet. Generate it to see all the details and then submit.",
+  "tr_branchOfficeReportMonthsDesc": "This month's report hasn't been generated yet. Generate it to see all the details and then submit.",
+  "tr_verageAttendanceMM": "Average midweek meeting attendance",
+  "tr_reactivatedPublishers": "Reactivated publishers",
+  "tr_totalNumberTerritories": "Total number of territories",
+  "tr_uncoveredTerritories": "Uncovered territories",
+  "tr_analysisReport": "Congregation analysis report"
 }

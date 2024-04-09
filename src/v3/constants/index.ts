@@ -21,6 +21,8 @@ export const LANGUAGE_LIST = [
   { code: 'chs', locale: 'ch-CHS', name: '中文简体（普通话）', font: 'NotoSans' },
   { code: 'j', locale: 'ja-JP', name: '日本語', font: 'NotoSansJP' },
   { code: 'np', locale: 'ne-NP', name: 'नेपाली', font: 'NotoSans' },
+  { code: 'z', locale: 'sv-SE', name: 'Svenska' },
+  { code: 'cv', locale: 'ceb-PH', name: 'Cebuano' },
 ].sort((a, b) => a.code.localeCompare(b.code));
 
 export const APP_ROLES = [
