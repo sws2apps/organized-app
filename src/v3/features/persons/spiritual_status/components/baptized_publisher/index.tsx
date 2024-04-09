@@ -40,7 +40,7 @@ const BaptizedPublisher = ({ checked, onChange, expanded, onExpand }: BaptizedPu
       />
 
       <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <Box sx={{ marginTop: '16px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <Box sx={{ marginTop: '16px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
           <Box sx={{ display: 'flex', gap: '8px', flexDirection: 'column' }}>
             <Typography className="body-small-semibold" color="var(--grey-350)">
               {t('tr_hope')}
@@ -116,19 +116,21 @@ const BaptizedPublisher = ({ checked, onChange, expanded, onExpand }: BaptizedPu
             </Button>
           )}
 
-          {activeHistory.map((history, index) => (
-            <DateHistory
-              key={history.id}
-              id={history.id}
-              startDate={history.startDate.value}
-              endDate={history.endDate.value}
-              isLast={index === activeHistory.length - 1}
-              onAdd={handleAddHistory}
-              onDelete={handleDeleteHistory}
-              onStartDateChange={handleStartDateChange}
-              onEndDateChange={handleEndDateChange}
-            />
-          ))}
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            {activeHistory.map((history, index) => (
+              <DateHistory
+                key={history.id}
+                id={history.id}
+                startDate={history.startDate.value}
+                endDate={history.endDate.value}
+                isLast={index === activeHistory.length - 1}
+                onAdd={handleAddHistory}
+                onDelete={handleDeleteHistory}
+                onStartDateChange={handleStartDateChange}
+                onEndDateChange={handleEndDateChange}
+              />
+            ))}
+          </Box>
         </Box>
       </Collapse>
     </Box>

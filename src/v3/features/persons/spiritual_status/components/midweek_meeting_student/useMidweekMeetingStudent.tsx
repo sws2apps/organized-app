@@ -1,8 +1,12 @@
+import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { personCurrentDetailsState } from '@states/persons';
 import { setPersonCurrentDetails } from '@services/recoil/persons';
 
 const useMidweekMeetingStudent = () => {
+  const { id } = useParams();
+  const isNewPerson = id === undefined;
+
   const person = useRecoilValue(personCurrentDetailsState);
 
   const activeHistory = person.midweekMeetingStudent.history.filter((record) => record._deleted === null);
@@ -23,8 +27,16 @@ const useMidweekMeetingStudent = () => {
   const handleDeleteHistory = async (id: string) => {
     const newPerson = structuredClone(person);
 
-    const current = newPerson.midweekMeetingStudent.history.find((history) => history.id === id);
-    current._deleted = new Date().toISOString();
+    if (!isNewPerson) {
+      const current = newPerson.midweekMeetingStudent.history.find((history) => history.id === id);
+      current._deleted = new Date().toISOString();
+    }
+
+    if (isNewPerson) {
+      newPerson.midweekMeetingStudent.history = newPerson.midweekMeetingStudent.history.filter(
+        (record) => record.id !== id
+      );
+    }
 
     await setPersonCurrentDetails(newPerson);
   };

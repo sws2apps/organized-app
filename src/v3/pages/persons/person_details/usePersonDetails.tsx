@@ -4,10 +4,9 @@ import { personCurrentDetailsState } from '@states/persons';
 
 const usePersonDetails = () => {
   const { id } = useParams();
+  const isNewPerson = id === undefined;
 
   const person = useRecoilValue(personCurrentDetailsState);
-
-  const isNewPerson = id === undefined;
 
   const isBaptized = person.baptizedPublisher.active.value;
   const isMale = person.isMale.value;

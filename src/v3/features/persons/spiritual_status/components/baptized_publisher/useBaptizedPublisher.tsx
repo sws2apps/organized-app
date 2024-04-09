@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { personCurrentDetailsState } from '@states/persons';
 import { setPersonCurrentDetails } from '@services/recoil/persons';
 import { computeYearsDiff } from '@utils/date';
 
 const useBaptizedPublisher = () => {
+  const { id } = useParams();
+  const isNewPerson = id === undefined;
+
   const person = useRecoilValue(personCurrentDetailsState);
 
   const [age, setAge] = useState('0');
@@ -36,10 +40,18 @@ const useBaptizedPublisher = () => {
   };
 
   const handleDeleteHistory = async (id: string) => {
+    if (isNewPerson) return;
+
     const newPerson = structuredClone(person);
 
-    const current = newPerson.baptizedPublisher.history.find((history) => history.id === id);
-    current._deleted = new Date().toISOString();
+    if (!isNewPerson) {
+      const current = newPerson.baptizedPublisher.history.find((history) => history.id === id);
+      current._deleted = new Date().toISOString();
+    }
+
+    if (isNewPerson) {
+      newPerson.baptizedPublisher.history = newPerson.baptizedPublisher.history.filter((record) => record.id !== id);
+    }
 
     await setPersonCurrentDetails(newPerson);
   };

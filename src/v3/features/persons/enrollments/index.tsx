@@ -24,8 +24,6 @@ const Enrollments = () => {
         display: 'flex',
         flexDirection: 'column',
         gap: '16px',
-        borderBottom: '1px solid var(--accent-200)',
-        paddingBottom: '16px',
       }}
     >
       <Typography className="h2">{t('tr_enrollments')}</Typography>
