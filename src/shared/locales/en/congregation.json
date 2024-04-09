@@ -319,5 +319,5 @@
   "tr_baptizedUnbaptizedError": "A baptized publisher cannot be changed to unbaptized.",
   "tr_baptizedMidweekStudentError": "A baptized publisher cannot be changed to midweek midweek student.",
   "tr_unBaptizedMidweekStudentError": "An unbaptized publisher cannot be changed to midweek midweek student.",
-  "tr_enrollment": "Enrollment",
+  "tr_enrollment": "Enrollment"
 }
