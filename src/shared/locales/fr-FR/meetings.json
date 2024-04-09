@@ -97,5 +97,6 @@
   "tr_noTalksList": "You don’t have any public talks in your list. Sync the list to get all the public talks.",
   "tr_countPublicTalks": "Public talks: {{ count }}",
   "tr_publicTalkLastSync": "Last synced {{ date }} at {{ time }}",
-  "tr_exportS99": "Export S-99"
+  "tr_exportS99": "Export S-99",
+  "tr_alreadyInSchedule": "Already in schedule"
 }
