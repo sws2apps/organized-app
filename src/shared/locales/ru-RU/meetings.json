@@ -7,8 +7,6 @@
   "tr_autofill": "Автозаполнить",
   "tr_infoPlanMidweekMeeting": "Выбери неделю, чтобы начать добавлять назначения и редактировать части программы при необходимости. Ты также можешь воспользоваться функцией автозаполнения, и Organized автоматически заполнит назначения на основе квалификации пользователей.",
   "tr_infoSecondPlanMidweekMeeting": "Выбери неделю, чтобы расписать ее вручную, или позволь Organized автоматически генерировать назначения с помощью функции автозаполнения, учитывая квалификацию и предыдущие назначения человека. Ты можешь изменять их при необходимости.",
-  "tr_clearMultipleWeeks": "Очистить недели",
-  "tr_addWeek": "Добавить неделю",
   "tr_noMeeting": "Нет встречи",
   "tr_weekType": "Тип недели",
   "tr_addTextToSchedule": "Добавить текст в расписание",
@@ -44,7 +42,6 @@
   "tr_addWeekManuallyDesc": "<p>It is recommended to add a new week only if you have no opportunity to import the meeting materials from .epub file or from jw.org. Otherwise, the added week will be empty and you will have to fill in all the meeting parts manually.</p><p>The new week will be added as the newest week in your list.</p>",
   "tr_unsavedChanges": "You have unsaved changes",
   "tr_unsavedChangesDesc": "Do you want to leave the page without saving the edits? You will lose all unsaved changes.",
-  "tr_saveChanges": "Save the changes",
   "tr_leavePage": "Leave the page",
   "tr_autofillMM": "Autofill midweek meeting",
   "tr_autofillMMDesc": "Choose schedules to autofill with qualified persons.",
@@ -63,7 +60,6 @@
   "tr_personAlreadyAssignmentWeek": "Этот человек уже имеет назначение в этой неделе",
   "tr_hostCongregation": "Принимающее собрание",
   "tr_kingdomHallAddress": "Адрес Зала Царства",
-  "tr_weekendMeeting": "Встречи на выходных",
   "tr_clearAllAssignments": "Очистить все назначения",
   "tr_clearAllAssignmentsDesc": "Ты уверен, что хочешь очистить все созданные задания? Ты всегда сможешь переназначить их позже.",
   "tr_selectSpeakerAndTalk": "Выбери докладчика и речь",
@@ -84,7 +80,6 @@
   "tr_successfullyPublished": "Успешно опубликовано",
   "tr_successfullyPublishedDesc": "Теперь все в твоём собрании могут просматривать расписание и готовиться к заданиям",
   "tr_lastUpdated": "Последнее обновление:",
-  "tr_inactivePublishers": "Неактивные возвещатели",
   "tr_outgoingTalks": "Выездные речи",
   "tr_infoOutgoingTalk": "Братья, которые посетят другое собрание с публичной речью",
   "tr_speakers": "Докладчики: {{ speakersCount }}",
@@ -102,5 +97,6 @@
   "tr_noTalksList": "У тебя нет публичных речей в списке. Синхронизируй список, чтобы получить все публичные речи.",
   "tr_countPublicTalks": "Публичные речи: {{ count }}",
   "tr_publicTalkLastSync": "Последняя синхронизация {{ date }} в {{ time }}",
-  "tr_exportS99": "Export S-99"
+  "tr_exportS99": "Export S-99",
+  "tr_alreadyInSchedule": "Already in schedule"
 }

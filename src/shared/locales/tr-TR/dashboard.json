@@ -88,5 +88,6 @@
   "tr_submitted": "Başarıyla gönderildi",
   "tr_meetingAssignments": "<p>Şu anda <a href='#' title='Meeting Assignment'>{{ assignment }} toplantı göreviniz</a> var</p>",
   "tr_activitiesCard": "Activities",
-  "tr_hallCleaning": "Hall cleaning"
+  "tr_hallCleaning": "Hall cleaning",
+  "tr_yourEmailField": "Your email address"
 }

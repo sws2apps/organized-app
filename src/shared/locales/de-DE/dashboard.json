@@ -47,7 +47,7 @@
   "tr_persons": "Personen",
   "tr_reports": "Berichte",
   "tr_congregation": "Versammlung",
-  "tr_publishersRecords": "Publishers records",
+  "tr_publishersRecords": "Publisher records",
   "tr_lastSynced": "Synchronisiert vor {{ durationt }} Minuten",
   "tr_myProfile": "Mein Profil",
   "tr_reminders": "Erinnerungen",
@@ -76,11 +76,11 @@
   "tr_returnedTerritory": "{{ publisherName }} returned the territory",
   "tr_returnedTerritoryDesc": "Territory {{ territoryNumber }} has been covered and returned. The households number submitted by the publisher is {{ numberOfHouses }}. Please update the territory info if needed.",
   "tr_whatsNew": "Was ist neu in Organized",
-  "tr_shareFeeback": "Share feedback",
+  "tr_shareFeeback": "Contact us",
   "tr_shareFeebackDesc": "Have a brilliant idea? Share it with us! For more technical or in-depth discussions, we encourage you to use our <a href=\"https://github.com/sws2apps/organized-app/discussions\">GitHub Discussions</a> if possible.",
   "tr_feedback": "Feedback",
   "tr_subject": "Thema",
-  "tr_sendFeedback": "Send feedback",
+  "tr_sendFeedback": "Send message",
   "tr_cancel": "Abbrechen",
   "tr_successfully": "Success",
   "tr_successfullyDesc": "Your feedback has been successfully submitted",
@@ -88,5 +88,6 @@
   "tr_submitted": "Successfully submitted",
   "tr_meetingAssignments": "<p>You have <a href='#' title='Meeting Assignment'>{{ assignment }} meeting assignments</a> at the moment</p>",
   "tr_activitiesCard": "Activities",
-  "tr_hallCleaning": "Hall cleaning"
+  "tr_hallCleaning": "Hall cleaning",
+  "tr_yourEmailField": "Your email address"
 }

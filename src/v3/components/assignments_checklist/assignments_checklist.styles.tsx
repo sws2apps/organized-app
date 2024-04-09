@@ -2,12 +2,12 @@ import { Box, Checkbox } from '@mui/material';
 import { styled } from '@mui/system';
 import Typography from '@mui/material/Typography';
 import FormControlLabel from '@mui/material/FormControlLabel';
+
 export const HeaderBox = styled(Box)({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
   borderRadius: 'var(--radius-s, 4px)',
-  // minWidth: 'min-content',
 });
 
 export const StyledContentBox = styled(Box)<{ disabled: boolean }>(({ disabled }) => ({

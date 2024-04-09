@@ -7,8 +7,6 @@
   "tr_autofill": "Autofill",
   "tr_infoPlanMidweekMeeting": "Select a week to start adding assignments and editing the program parts if needed. You can also use the Autofill feature and Organized will fill in assignments based on user qualifications.",
   "tr_infoSecondPlanMidweekMeeting": "Select a week to schedule it manually, or allow Organized to auto-generate assignments with the Autofill feature, considering person's qualifications and past assignments. You can modify them as needed.",
-  "tr_clearMultipleWeeks": "Clear weeks",
-  "tr_addWeek": "Add week",
   "tr_noMeeting": "No meeting",
   "tr_weekType": "Week type",
   "tr_addTextToSchedule": "Add text to schedule",
@@ -44,7 +42,6 @@
   "tr_addWeekManuallyDesc": "<p>It is recommended to add a new week only if you have no opportunity to import the meeting materials from .epub file or from jw.org. Otherwise, the added week will be empty and you will have to fill in all the meeting parts manually.</p><p>The new week will be added as the newest week in your list.</p>",
   "tr_unsavedChanges": "You have unsaved changes",
   "tr_unsavedChangesDesc": "Do you want to leave the page without saving the edits? You will lose all unsaved changes.",
-  "tr_saveChanges": "Save the changes",
   "tr_leavePage": "Leave the page",
   "tr_autofillMM": "Autofill midweek meeting",
   "tr_autofillMMDesc": "Choisissez les programmes auxquels appliquer le remplissage automatiquement avec des personnes qualifiées.",
@@ -63,7 +60,6 @@
   "tr_personAlreadyAssignmentWeek": "Cette personne a déjà une attribution cette semaine",
   "tr_hostCongregation": "Assemblée d'accueil",
   "tr_kingdomHallAddress": "Adresse de la Salle du Royaume",
-  "tr_weekendMeeting": "Réunion de fin de semaine",
   "tr_clearAllAssignments": "Effacer toutes les attributions",
   "tr_clearAllAssignmentsDesc": "Êtes-vous sûr de vouloir effacer toutes les attributions créées ? Il sera toujours possible de réattribuer les attributions plus tard.",
   "tr_selectSpeakerAndTalk": "Sélectionnez un orateur et un discours",
@@ -84,7 +80,6 @@
   "tr_successfullyPublished": "Publié avec succès",
   "tr_successfullyPublishedDesc": "À présent, tous les membres de l'assemblée peuvent consulter le programme et préparer leurs attributions",
   "tr_lastUpdated": "Dernière modification :",
-  "tr_inactivePublishers": "Proclamateurs inactifs",
   "tr_outgoingTalks": "Discours à l'extérieur",
   "tr_infoOutgoingTalk": "Frères qui prononceront un discours dans une autre assemblée",
   "tr_speakers": "Orateurs : {{ speakersCount }}",
@@ -102,5 +97,6 @@
   "tr_noTalksList": "You don’t have any public talks in your list. Sync the list to get all the public talks.",
   "tr_countPublicTalks": "Public talks: {{ count }}",
   "tr_publicTalkLastSync": "Last synced {{ date }} at {{ time }}",
-  "tr_exportS99": "Export S-99"
+  "tr_exportS99": "Export S-99",
+  "tr_alreadyInSchedule": "Already in schedule"
 }

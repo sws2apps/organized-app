@@ -61,7 +61,7 @@ const NavBar = () => {
         left: 0,
         width: '100%',
         overflow: 'hidden',
-        zIndex: 100,
+        zIndex: (theme) => theme.zIndex.drawer + 1,
         boxShadow: 'none',
       }}
     >
@@ -132,7 +132,6 @@ const NavBar = () => {
                 </Box>
               )}
             </IconButton>
-
             <Menu
               id="menu-language"
               disableScrollLock={true}

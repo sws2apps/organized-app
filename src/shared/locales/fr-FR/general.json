@@ -57,16 +57,16 @@
   "tr_shortDateFormatAlt": "jj/mm/aaaa",
   "tr_tableView": "Vue tableau",
   "tr_shortNumberLabel": "Non.",
-  "tr_title": "Titre",
   "tr_rename": "Renommer",
   "tr_collapseAll": "Tout réduire",
   "tr_searchResults": "Résultat de recherche : {{ count }}",
   "tr_addMonth": "Ajouter un mois",
-  "tr_export": "Exporter",
   "tr_monthYear": "{{ month }} {{ year }}",
   "tr_publish": "Publier",
   "tr_groupNumber": "Groupe {{ groupNumber }}",
   "tr_groupName": "Groupe {{ groupName }}",
   "tr_meetingDate": "Date de la réunion",
-  "tr_listView": "Vue liste"
+  "tr_listView": "Vue liste",
+  "tr_share": "Share",
+  "tr_copyLink": "Copy link"
 }

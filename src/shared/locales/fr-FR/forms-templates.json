@@ -14,18 +14,14 @@
   "tr_auxClass2": "Troisième salle",
   "tr_otherPart": "Autre",
   "tr_midweekMeetingPrint": "Le programme de la réunion de la semaine",
-  "tr_chairmanMidweekMeeting": "Président",
-  "tr_chairmanWeekendMeeting": "Président",
   "tr_noMMeeting": "Il n'y a pas de réunion de la semaine pour cette semaine",
   "tr_auxClassCounselor": "Conseiller de la deuxième salle",
   "tr_song": "Cantique",
-  "tr_prayerMidweekMeeting": "Prière",
-  "tr_prayerWeekendMeeting": "Prière",
   "tr_openingComments": "Paroles d'introduction",
   "tr_treasuresPart": "Joyaux De La Parole De Dieu",
   "tr_applyFieldMinistryPart": "Applique-Toi Au Ministère",
   "tr_livingPart": "Vie Chrétienne",
-  "tr_bibleReadingText": "Lecture de la Bible (4 min) : {}",
+  "tr_bibleReadingText": "Bible Reading (4 min.)",
   "tr_tgwGems": "Perles spirituelles",
   "tr_student": "Élève",
   "tr_partLessTime": "{{ duration }} min. ou moins",
@@ -71,5 +67,7 @@
   "tr_partNo": "N° de partie.:",
   "tr_nameS89": "Nom:",
   "tr_assistantS89": "Interlocuteur :",
-  "tr_studentAssistantS89": "Élève/Interlocureur:"
+  "tr_studentAssistantS89": "Élève/Interlocureur:",
+  "tr_chairman": "Président",
+  "tr_prayer": "Prière"
 }

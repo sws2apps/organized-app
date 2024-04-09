@@ -4,7 +4,7 @@ export type TextMarkupTypeProps = {
   content: string;
   className: string;
   color?: string;
-  style?: React.CSSProperties;
+  style?: CSSProperties;
   anchorClassName?:
     | 'huge-numbers'
     | 'big-numbers'
@@ -22,4 +22,5 @@ export type TextMarkupTypeProps = {
   anchorColor?: string;
   anchorRef?: MutableRefObject<HTMLElement> | LegacyRef<HTMLAnchorElement>;
   anchorStyle?: CSSProperties;
+  anchorClick?: () => void;
 };

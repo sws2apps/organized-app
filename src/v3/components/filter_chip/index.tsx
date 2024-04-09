@@ -12,7 +12,7 @@ const CustomFilterChip = ({
   return (
     <Button
       disableRipple
-      onClick={selected ? null : onClick}
+      onClick={onClick}
       className={selected ? 'body-small-semibold' : 'body-small-regular'}
       sx={{
         fontFeatureSettings: '"cv05"',
@@ -21,7 +21,6 @@ const CustomFilterChip = ({
         borderRadius: 'var(--radius-l)',
         border: selected ? '1px solid var(--accent-dark)' : '1px solid var(--accent-400)',
         backgroundColor: selected ? 'var(--accent-200)' : 'unset',
-        cursor: selected ? 'initial' : 'pointer',
         minHeight: '34px',
         '&:hover': {
           color: selected ? 'var(--accent-dark)' : 'var(--accent-400)',

@@ -1,5 +1,6 @@
 import { TextField } from '@mui/material';
 import { SelectPropsType } from './index.types';
+import { Theme } from '@mui/material/styles/createTheme';
 
 const CustomSelect = (props: SelectPropsType) => {
   const label = props.label || '';
@@ -77,20 +78,28 @@ const CustomSelect = (props: SelectPropsType) => {
       inputProps={{
         MenuProps: {
           PaperProps: {
-            sx: {
+            sx: (theme: Theme) => ({
               background: 'var(--white)',
               backgroundColor: 'var(--white)',
               borderRadius: 'var(--radius-l)',
               border: '1px solid var(--accent-200)',
               padding: '8px 0px',
-              '& ul': { paddingTop: 0, paddingBottom: 0 },
+              marginTop: '2px',
+              '& ul': { paddingTop: 0, paddingBottom: 0, gap: '5px' },
               '& li': {
+                position: 'relative',
+                '&:hover': {
+                  backgroundColor: 'var(--accent-100)',
+                },
                 borderBottom: '1px solid var(--accent-200)',
               },
               '& li:last-child': {
                 borderBottom: 'none',
               },
-            },
+              [theme.breakpoints.down('tablet')]: {
+                marginLeft: '-4px',
+              },
+            }),
             className: 'small-card-shadow',
           },
         },

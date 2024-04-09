@@ -14,18 +14,14 @@
   "tr_auxClass2": "Додатковий клас 2",
   "tr_otherPart": "Інше",
   "tr_midweekMeetingPrint": "Графік зібрання серед тижня",
-  "tr_chairmanMidweekMeeting": "Ведучий",
-  "tr_chairmanWeekendMeeting": "Ведучий",
   "tr_noMMeeting": "Цього тижня немає зібрання серед тижня",
   "tr_auxClassCounselor": "Ведучий додаткового класу",
   "tr_song": "Пісня",
-  "tr_prayerMidweekMeeting": "Молитва",
-  "tr_prayerWeekendMeeting": "Молитва",
   "tr_openingComments": "Вступні слова",
   "tr_treasuresPart": "Скарби з Божого слова",
   "tr_applyFieldMinistryPart": "Вдосконалюймо своє служіння",
   "tr_livingPart": "Християнське життя",
-  "tr_bibleReadingText": "Читання Біблії (4 хв)",
+  "tr_bibleReadingText": "Bible Reading (4 min.)",
   "tr_tgwGems": "Духовні перлини",
   "tr_student": "Учень",
   "tr_partLessTime": "{{ duration }} хв. або менше",
@@ -71,5 +67,7 @@
   "tr_partNo": "Завдання №:",
   "tr_nameS89": "Імʼя:",
   "tr_assistantS89": "Помічник:",
-  "tr_studentAssistantS89": "Учень/Партнер:"
+  "tr_studentAssistantS89": "Учень/Партнер:",
+  "tr_chairman": "Ведучий",
+  "tr_prayer": "Молитва"
 }
