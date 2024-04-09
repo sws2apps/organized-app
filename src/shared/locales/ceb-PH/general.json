@@ -1,5 +1,5 @@
 {
-  "tr_iso": "en",
+  "tr_iso": "ceb",
   "tr_errorTitle": "An error occurred",
   "tr_about": "About the app",
   "tr_errorHeaderText": "Oops, something went wrong",
@@ -38,7 +38,7 @@
   "tr_october": "October",
   "tr_november": "November",
   "tr_december": "December",
-  "tr_shortDateFormat": "MM/dd/yyyy",
+  "tr_shortDateFormat": "dd/MM/yyyy",
   "tr_longDateFormat": "EEE, MMM dd, yyyy",
   "tr_delete": "Delete",
   "tr_add": "Add",
