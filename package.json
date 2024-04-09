@@ -45,7 +45,7 @@
     "crypto-es": "^2.1.0",
     "date-fns": "^2.30.0",
     "dateformat": "^5.0.3",
-    "dexie": "^4.0.1",
+    "dexie": "^4.0.2",
     "dexie-react-hooks": "^1.1.7",
     "eslint-config-prettier": "^9.1.0",
     "fast-memoize": "^2.5.2",
