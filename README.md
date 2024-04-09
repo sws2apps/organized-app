@@ -82,7 +82,7 @@ We really appreciate your volunteer spirit! You can contribute to the app in a f
 4. 🌐 by **[translating](https://crowdin.com/project/organized)** the app to your language; 
 5. 👨‍💻 by **[collaborating](https://guide.organized-app.com/how-to-support/contribute)** on the Organized ecosystem: **Frontend React Development**, **UI/UX design**, **Graphic design**, **Motion design**, and **User guide writing**.
 
-To learn more about code contribution, please read our [Contrinution guide](https://github.com/sws2apps/organized-app/blob/main/CONTRIBUTING.md). It also features a link to our [step-by-step instruction on setting up the local environment](https://github.com/sws2apps/organized-app/blob/main/LOCAL_ENVIRONMENT_SETUP.md).
+To learn more about code contribution, please read our [Contribution guide](https://github.com/sws2apps/organized-app/blob/main/CONTRIBUTING.md). It also features a link to our [step-by-step instruction on setting up the local environment](https://github.com/sws2apps/organized-app/blob/main/LOCAL_ENVIRONMENT_SETUP.md).
 
 
 ### Project activity [![Time period](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/Ask2bindJP2tA2ytag1oKaSCKxxydBkXJbnd2Stwc0k/-Xc8_VTMWwDRjkyqwRmlzGGUMGGJKiMmPu7NSd3ztjg_badge.svg)](https://repography.com)
