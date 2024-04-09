@@ -3,12 +3,14 @@ import { IconExpand } from '@components/icons';
 import Button from '@components/button';
 import Typography from '@components/typography';
 import FilterGroup from './components/filter_group';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useFilter from './useFilter';
 import AssignmentGroup from './components/assignment_group';
 
 const PersonsFilter = () => {
   const { t } = useAppTranslation();
+
+  const { tabletDown } = useBreakpoints();
 
   const { isExpanded, handleExpand, filters, handleClearFilters, assignments, handleToggleGroup, filterGroups } =
     useFilter();
@@ -50,7 +52,14 @@ const PersonsFilter = () => {
 
       <Collapse in={isExpanded} timeout="auto" unmountOnExit>
         <Box
-          sx={{ display: 'flex', gap: '16px', flexWrap: 'wrap', marginTop: '16px', justifyContent: 'space-between' }}
+          sx={{
+            display: 'flex',
+            gap: '16px',
+            flexWrap: 'wrap',
+            marginTop: '16px',
+            justifyContent: 'space-between',
+            flexDirection: tabletDown ? 'column' : 'row',
+          }}
         >
           <Box
             sx={{ display: 'flex', flexDirection: 'column', gap: '16px', flex: 1, width: '100%', minWidth: '120px' }}

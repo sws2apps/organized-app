@@ -7,6 +7,7 @@ export interface CustomDatePickerProps {
   disablePast?: boolean;
   longDateFormat?: string;
   shortDateFormat?: string;
-  isValueOnOpen?: boolean;
-  onChange?: (value: Date) => VoidFunction | Promise<void>;
+  onChange?: (value: Date) => void | Promise<void>;
+  minDate?: Date | null;
+  maxDate?: Date | null;
 }

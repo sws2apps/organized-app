@@ -1,29 +1,19 @@
-import { ChangeEvent } from 'react';
-import { Radio } from '@mui/material';
+import { FC } from 'react';
+import { Radio, RadioProps } from '@mui/material';
 import { IconRadioButtonChecked, IconRadioButtonUnchecked } from '@icons/index';
 
-const CustomRadio = ({
-  checked = false,
-  disabled = false,
-  onChange,
-}: {
-  checked: boolean;
-  disabled?: boolean;
-  onChange?: (e: ChangeEvent<HTMLInputElement>, checked: boolean) => void;
-}) => {
+const CustomRadio: FC<RadioProps> = (props) => {
   return (
     <Radio
-      checked={checked}
-      disabled={disabled}
-      onChange={onChange ? onChange : null}
+      {...props}
       sx={{
         padding: '4px',
         '&.Mui-disabled': {
           color: 'var(--accent-300)',
         },
       }}
-      icon={<IconRadioButtonUnchecked color={disabled ? 'var(--accent-300)' : 'var(--accent-350)'} />}
-      checkedIcon={<IconRadioButtonChecked color={disabled ? 'var(--accent-300)' : 'var(--accent-main)'} />}
+      icon={<IconRadioButtonUnchecked color={props.disabled ? 'var(--accent-300)' : 'var(--accent-350)'} />}
+      checkedIcon={<IconRadioButtonChecked color={props.disabled ? 'var(--accent-300)' : 'var(--accent-main)'} />}
     />
   );
 };

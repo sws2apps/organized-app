@@ -16,7 +16,11 @@ const PersonsCard = () => {
         />
       </ListItem>
       <ListItem disablePadding>
-        <DashboardMenu icon={<IconAddPerson color="var(--black)" />} primaryText={t('tr_personAdd')} />
+        <DashboardMenu
+          icon={<IconAddPerson color="var(--black)" />}
+          primaryText={t('tr_personAdd')}
+          path="/persons/new"
+        />
       </ListItem>
       <ListItem disablePadding>
         <DashboardMenu
