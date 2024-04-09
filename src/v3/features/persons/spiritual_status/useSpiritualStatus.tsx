@@ -117,12 +117,18 @@ const useSpiritualStatus = () => {
     newPerson.unbaptizedPublisher.active.value = checked;
     newPerson.unbaptizedPublisher.active.updatedAt = new Date().toISOString();
 
-    newPerson.unbaptizedPublisher.history.push({
-      id: crypto.randomUUID(),
-      startDate: { value: new Date().toISOString(), updatedAt: new Date().toISOString() },
-      endDate: { value: null, updatedAt: new Date().toISOString() },
-      _deleted: null,
-    });
+    if (checked) {
+      const current = newPerson.unbaptizedPublisher.history.find((record) => record.endDate.value === null);
+
+      if (!current) {
+        newPerson.unbaptizedPublisher.history.push({
+          id: crypto.randomUUID(),
+          startDate: { value: new Date().toISOString(), updatedAt: new Date().toISOString() },
+          endDate: { value: null, updatedAt: new Date().toISOString() },
+          _deleted: null,
+        });
+      }
+    }
 
     await setPersonCurrentDetails(newPerson);
 
@@ -158,19 +164,56 @@ const useSpiritualStatus = () => {
         }
       }
 
-      newPerson.unbaptizedPublisher.active.value = false;
-      newPerson.unbaptizedPublisher.active.updatedAt = new Date().toISOString();
+      if (newPerson.unbaptizedPublisher.active.value) {
+        newPerson.unbaptizedPublisher.active.value = false;
+        newPerson.unbaptizedPublisher.active.updatedAt = new Date().toISOString();
+      }
+
+      const currentMidweek = newPerson.midweekMeetingStudent.history.find((record) => record.endDate.value === null);
+
+      if (currentMidweek) {
+        const startDate = formatDate(new Date(currentMidweek.startDate.value), 'mm/dd/yyyy');
+        const nowDate = formatDate(new Date(), 'mm/dd/yyyy');
+
+        if (startDate === nowDate) {
+          if (isNewPerson) {
+            newPerson.midweekMeetingStudent.history = newPerson.midweekMeetingStudent.history.filter(
+              (record) => record.id !== currentMidweek.id
+            );
+          }
+
+          if (!newPerson) {
+            currentMidweek._deleted = new Date().toISOString();
+          }
+        }
+
+        if (startDate !== nowDate) {
+          currentMidweek.endDate.value = new Date().toISOString();
+          currentMidweek.endDate.updatedAt = new Date().toISOString();
+        }
+      }
+
+      if (newPerson.midweekMeetingStudent.active.value) {
+        newPerson.midweekMeetingStudent.active.value = false;
+        newPerson.midweekMeetingStudent.active.updatedAt = new Date().toISOString();
+      }
     }
 
     newPerson.baptizedPublisher.active.value = checked;
     newPerson.baptizedPublisher.active.updatedAt = new Date().toISOString();
 
-    newPerson.baptizedPublisher.history.push({
-      id: crypto.randomUUID(),
-      startDate: { value: new Date().toISOString(), updatedAt: new Date().toISOString() },
-      endDate: { value: null, updatedAt: new Date().toISOString() },
-      _deleted: null,
-    });
+    if (checked) {
+      const current = newPerson.baptizedPublisher.history.find((record) => record.endDate.value === null);
+
+      if (!current) {
+        newPerson.baptizedPublisher.history.push({
+          id: crypto.randomUUID(),
+          startDate: { value: new Date().toISOString(), updatedAt: new Date().toISOString() },
+          endDate: { value: null, updatedAt: new Date().toISOString() },
+          _deleted: null,
+        });
+      }
+    }
 
     await setPersonCurrentDetails(newPerson);
 
