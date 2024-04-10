@@ -89,5 +89,6 @@
   "tr_meetingAssignments": "<p> <a href='#' title='Meeting Assignment'>{{ assignment }}個の割り当て</a>t</p>",
   "tr_activitiesCard": "アクティビティ",
   "tr_hallCleaning": "王国会館清掃",
-  "tr_yourEmailField": "Your email address"
+  "tr_yourEmailField": "Your email address",
+  "tr_yourMessage": "Your message"
 }
