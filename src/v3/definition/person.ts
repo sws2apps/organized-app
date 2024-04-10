@@ -9,7 +9,7 @@ export type AssignmentType = {
 };
 
 type TimeAwayType = {
-  timeAwayId: string;
+  id: string;
   startDate: { value: string; updatedAt: string };
   endDate: { value: string | null; updatedAt: string };
   comments: { value: string; updatedAt: string };
@@ -36,6 +36,13 @@ type EnrollmentHistoryType = {
   enrollment: { value: EnrollmentType; updatedAt: string };
   startDate: { value: string; updatedAt: string };
   endDate: { value: string | null; updatedAt: string };
+  _deleted: string | null;
+};
+
+type EmergencyContactsType = {
+  id: string;
+  name: { value: string; updatedAt: string };
+  contact: { value: string; updatedAt: string };
   _deleted: string | null;
 };
 
@@ -76,6 +83,7 @@ export type PersontType = {
   };
   privileges: PrivilegeHistoryType[];
   enrollments: EnrollmentHistoryType[];
+  emergencyContacts: EmergencyContactsType[];
 };
 
 export type VisitingSpeakerPersonType = {

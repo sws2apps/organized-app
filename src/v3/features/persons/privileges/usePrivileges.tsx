@@ -6,7 +6,7 @@ import { PrivilegeType } from '@definition/person';
 
 const usePrivileges = () => {
   const { id } = useParams();
-  const isNewPerson = id === undefined;
+  const isAddPerson = id === undefined;
 
   const person = useRecoilValue(personCurrentDetailsState);
 
@@ -29,12 +29,12 @@ const usePrivileges = () => {
   const handleDeleteHistory = async (id: string) => {
     const newPerson = structuredClone(person);
 
-    if (!isNewPerson) {
+    if (!isAddPerson) {
       const current = newPerson.privileges.find((history) => history.id === id);
       current._deleted = new Date().toISOString();
     }
 
-    if (isNewPerson) {
+    if (isAddPerson) {
       newPerson.privileges = newPerson.privileges.filter((record) => record.id !== id);
     }
 

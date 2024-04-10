@@ -5,7 +5,7 @@ import { setPersonCurrentDetails } from '@services/recoil/persons';
 
 const useUnbaptizedPublisher = () => {
   const { id } = useParams();
-  const isNewPerson = id === undefined;
+  const isAddPerson = id === undefined;
 
   const person = useRecoilValue(personCurrentDetailsState);
 
@@ -38,12 +38,12 @@ const useUnbaptizedPublisher = () => {
   const handleDeleteHistory = async (id: string) => {
     const newPerson = structuredClone(person);
 
-    if (!isNewPerson) {
+    if (!isAddPerson) {
       const current = newPerson.unbaptizedPublisher.history.find((history) => history.id === id);
       current._deleted = new Date().toISOString();
     }
 
-    if (isNewPerson) {
+    if (isAddPerson) {
       newPerson.unbaptizedPublisher.history = newPerson.unbaptizedPublisher.history.filter(
         (record) => record.id !== id
       );
