@@ -27,6 +27,6 @@ export enum AssignmentCode {
   MM_ExplainingBeliefs = 126,
   MM_Discussion = 127,
   MM_AuxiliaryCounselor = 128,
-  MM_AssitantOnly = 129,
+  MM_AssistantOnly = 129,
   WM_WTStudyConductor = 130,
 }
