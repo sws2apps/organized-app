@@ -5,5 +5,5 @@ export interface AssignmentCheckListProps extends PropsWithChildren {
   header: string;
   disabled?: boolean;
   color: AssignmentCheckListColors;
-  onChange?: (boolean) => void;
+  onChange?: (checked: boolean) => void;
 }

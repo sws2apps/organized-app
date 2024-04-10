@@ -3,19 +3,19 @@ import { styled } from '@mui/system';
 import Typography from '@mui/material/Typography';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
-export const HeaderBox = styled(Box)({
+export const HeaderBox = styled(Box)<{ disabled: boolean }>(({ disabled }) => ({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
   borderRadius: 'var(--radius-s, 4px)',
-});
+  opacity: disabled && '24%',
+}));
 
-export const StyledContentBox = styled(Box)<{ disabled: boolean }>(({ disabled }) => ({
+export const StyledContentBox = styled(Box)({
   display: 'flex',
   flexDirection: 'column',
   gap: '8px',
-  opacity: disabled && '24%',
-}));
+});
 
 export const StyledTypography = styled(Typography)({
   color: 'var(--always-white)',
@@ -23,6 +23,7 @@ export const StyledTypography = styled(Typography)({
   fontWeight: '520',
   lineHeight: '20px',
 });
+
 export const ChildrenBox = styled(Box)({
   display: 'flex',
   flexDirection: 'column',

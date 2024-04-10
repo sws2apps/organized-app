@@ -20,7 +20,7 @@ export const setPersonsSearchKey = async (data) => {
   await promiseSetRecoil(personsSearchKeyState, data);
 };
 
-export const setPersonsFiltersKey = async (data: string[]) => {
+export const setPersonsFiltersKey = async (data: (string | number)[]) => {
   await promiseSetRecoil(personsFiltersKeyState, data);
 };
 

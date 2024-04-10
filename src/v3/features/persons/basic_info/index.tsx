@@ -112,7 +112,7 @@ const PersonBasicInfo = () => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            maxWidth: '120px',
+            width: '120px',
           }}
         >
           <Typography className="h4" color="var(--accent-dark)">

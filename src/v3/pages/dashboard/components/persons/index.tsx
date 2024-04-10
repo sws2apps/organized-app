@@ -2,9 +2,12 @@ import { ListItem } from '@mui/material';
 import { DashboardCard, DashboardMenu } from '@features/index';
 import { IconAddPerson, IconApplications, IconParticipants, IconVisitingSpeaker } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
+import usePersons from './usePersons';
 
 const PersonsCard = () => {
   const { t } = useAppTranslation();
+
+  const { handleAddNewPerson } = usePersons();
 
   return (
     <DashboardCard header={t('tr_persons')}>
@@ -19,7 +22,7 @@ const PersonsCard = () => {
         <DashboardMenu
           icon={<IconAddPerson color="var(--black)" />}
           primaryText={t('tr_personAdd')}
-          path="/persons/new"
+          onClick={handleAddNewPerson}
         />
       </ListItem>
       <ListItem disablePadding>

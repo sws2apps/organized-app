@@ -13,7 +13,7 @@ const useSpiritualStatus = () => {
   const { t } = useAppTranslation();
 
   const { id } = useParams();
-  const isNewPerson = id === undefined;
+  const isAddPerson = id === undefined;
 
   const person = useRecoilValue(personCurrentDetailsState);
 
@@ -93,7 +93,7 @@ const useSpiritualStatus = () => {
         const nowDate = formatDate(new Date(), 'mm/dd/yyyy');
 
         if (startDate === nowDate) {
-          if (isNewPerson) {
+          if (isAddPerson) {
             newPerson.midweekMeetingStudent.history = newPerson.midweekMeetingStudent.history.filter(
               (record) => record.id !== currentMidweek.id
             );
@@ -147,7 +147,7 @@ const useSpiritualStatus = () => {
         const nowDate = formatDate(new Date(), 'mm/dd/yyyy');
 
         if (startDate === nowDate) {
-          if (isNewPerson) {
+          if (isAddPerson) {
             newPerson.unbaptizedPublisher.history = newPerson.unbaptizedPublisher.history.filter(
               (record) => record.id !== currentUnbaptized.id
             );
@@ -176,7 +176,7 @@ const useSpiritualStatus = () => {
         const nowDate = formatDate(new Date(), 'mm/dd/yyyy');
 
         if (startDate === nowDate) {
-          if (isNewPerson) {
+          if (isAddPerson) {
             newPerson.midweekMeetingStudent.history = newPerson.midweekMeetingStudent.history.filter(
               (record) => record.id !== currentMidweek.id
             );

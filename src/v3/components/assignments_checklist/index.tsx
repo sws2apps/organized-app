@@ -76,8 +76,8 @@ export const AssignmentCheckList = ({
   }, [children]);
 
   return (
-    <StyledContentBox disabled={disabled}>
-      <HeaderBox sx={{ background: `var(--${color})`, minHeight: '32px' }}>
+    <StyledContentBox>
+      <HeaderBox sx={{ background: `var(--${color})`, minHeight: '32px' }} disabled={disabled}>
         <StyledFormControlLabel
           label={<StyledTypography>{header}</StyledTypography>}
           control={

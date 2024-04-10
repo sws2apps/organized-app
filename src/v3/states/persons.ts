@@ -35,7 +35,7 @@ export const personsSearchKeyState = atom({
   default: '',
 });
 
-export const personsFiltersKeyState = atom<string[]>({
+export const personsFiltersKeyState = atom<(string | number)[]>({
   key: 'personsFiltersKey',
   default: [],
 });
@@ -84,5 +84,6 @@ export const personCurrentDetailsState = atom<PersontType>({
     },
     privileges: [],
     enrollments: [],
+    emergencyContacts: [],
   },
 });
