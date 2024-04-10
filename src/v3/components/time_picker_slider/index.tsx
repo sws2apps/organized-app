@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Box, IconButton, Typography } from '@mui/material';
 import { CPETimePickerSliderProps } from './time_picker_slider.types';
 import {
   ActiveCaseFilter,
@@ -30,8 +30,8 @@ const TimePickerCase = ({ value }: { value: number }) => {
 
 const TimePickerHourCases = ({ ampm }: { ampm: boolean }) => {
   const hours = [];
-  for (let h = 0; h < (ampm ? 12 : 24); h++) {
-    hours.push(<TimePickerCase value={h} />);
+  for (let h = 0; h <= (ampm ? 12 : 24); h++) {
+    hours.push(<TimePickerCase key={h} value={h} />);
   }
   return (
     <>
@@ -92,20 +92,20 @@ const TimePickerSelector = ({ children, value }: { children: React.ReactNode; va
   useEffect(updateActiveBox);
 
   return (
-    <div style={TimePickerSelectorStyle}>
-      <div style={ActiveCaseFilter}></div>
-      <div onClick={() => scroll(-1)} style={TimePickerArrowStyle}>
+    <Box sx={TimePickerSelectorStyle}>
+      <Box sx={ActiveCaseFilter}></Box>
+      <IconButton onClick={() => scroll(-1)} style={TimePickerArrowStyle}>
         <KeyboardArrowUp />
-      </div>
+      </IconButton>
 
       <div ref={containerRef} style={CaseContainerStyle} onScroll={updateActiveBox}>
         {children}
       </div>
 
-      <div onClick={() => scroll(1)} style={TimePickerArrowStyle}>
+      <IconButton onClick={() => scroll(1)} style={TimePickerArrowStyle}>
         <KeyboardArrowDown />
-      </div>
-    </div>
+      </IconButton>
+    </Box>
   );
 };
 

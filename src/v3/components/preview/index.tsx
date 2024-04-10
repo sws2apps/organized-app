@@ -31,6 +31,7 @@ import { IconAdd, IconAssign, IconClose, IconReturn, IconUndo, IconUpdate, IconI
 import NavBar from '@layouts/navbar';
 import TableDemo from './Table';
 import DrawerAssignments from '@components/preview/DrawerAssignments';
+import CPETimePickerSlider from '@components/time_picker_slider';
 
 const themes = ['blue', 'green', 'orange', 'purple'];
 
@@ -819,6 +820,9 @@ const ComponentPreview = () => {
               <UserAccountItem variant="baptized" userName="Ronald Richards" />
             </Box>
           </Box>
+        </Box>
+        <Box>
+          <CPETimePickerSlider ampm={false} />
         </Box>
       </Container>
     </Box>

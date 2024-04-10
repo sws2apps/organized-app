@@ -11,7 +11,7 @@ export const TimePickerTypography: SxProps<Theme> = {
   color: 'var(--black)',
 };
 
-export const ActiveCaseFilter: CSSProperties = {
+export const ActiveCaseFilter: SxProps<Theme> = {
   position: 'absolute',
   zIndex: -1,
   pointerEvents: 'none',
@@ -68,7 +68,7 @@ export const TimePickerArrowStyle: CSSProperties = {
   justifyContent: 'center',
 };
 
-export const TimePickerSelectorStyle: CSSProperties = {
+export const TimePickerSelectorStyle: SxProps<Theme> = {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
