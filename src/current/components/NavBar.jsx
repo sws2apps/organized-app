@@ -336,7 +336,7 @@ const NavBar = (props) => {
                 )}
 
                 <Link
-                  href={`https://sws2apps.com/${t('docsUrlCode')}/category/congregation-program-for-everyone`}
+                  href={`https://guide.organized-app.com`}
                   target="_blank"
                   rel="noopener"
                   underline="none"

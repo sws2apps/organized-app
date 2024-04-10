@@ -1,13 +1,10 @@
 import { useRecoilValue } from 'recoil';
 import { isAboutOpenState } from '@states/app';
-import { useAppTranslation } from '@hooks/index';
 import { setIsAboutOpen, setIsSupportOpen } from '@services/recoil/app';
 
 const currentYear = new Date().getFullYear();
 
 const useAbout = () => {
-  const { t } = useAppTranslation();
-
   const isOpen = useRecoilValue(isAboutOpenState);
 
   const handleClose = async () => {
@@ -20,7 +17,7 @@ const useAbout = () => {
   };
 
   const handleOpenDoc = () => {
-    window.open(`https://sws2apps.com/${t('tr_docsUrlCode')}/category/congregation-program-for-everyone`, '_blank');
+    window.open(`https://guide.organized-app.com`, '_blank');
   };
 
   return { isOpen, handleClose, currentYear, handleOpenDoc, handleOpenSupport };
