@@ -35,6 +35,11 @@ export const isAboutOpenState = atom({
   default: false,
 });
 
+export const isContactOpenState = atom({
+  key: 'isContactOpen',
+  default: false,
+});
+
 export const isLoginOpenState = atom({
   key: 'isLoginOpen',
   default: false,
