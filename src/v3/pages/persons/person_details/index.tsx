@@ -46,7 +46,7 @@ const PersonDetails = () => {
             display: 'flex',
             gap: '16px',
             flexDirection: 'column',
-            flex: 1,
+            flex: 0.77,
             width: desktopUp ? 'auto' : '100%',
           }}
         >
