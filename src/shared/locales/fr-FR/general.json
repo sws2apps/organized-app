@@ -68,5 +68,9 @@
   "tr_meetingDate": "Date de la réunion",
   "tr_listView": "Vue liste",
   "tr_share": "Share",
-  "tr_copyLink": "Copy link"
+  "tr_copyLink": "Copy link",
+  "tr_unsupportedBrowserError": "Unsupported browser",
+  "tr_unsupportedBrowserErrorDesc": "You are using an unsupported browser for the Organized app. Make sure that your browser is up to date, or try to use another browser. ",
+  "tr_jsDisabledError": "JavaScript is disabled",
+  "tr_jsDisabledErrorDesc": "Organized is a web app that requires JavaScript to work properly. Please enable JavaScript in your browser settings to ensure you can use all of its features."
 }
