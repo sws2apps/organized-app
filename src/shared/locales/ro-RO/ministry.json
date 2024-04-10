@@ -64,7 +64,6 @@
   "tr_auxiliaryPioneer": "Auxiliary pioneer",
   "tr_comments": "Comentarii",
   "tr_PWLocations": "Public witnessing locations",
-  "tr_editLocations": "Edit locations",
   "tr_PW": "Public witnessing",
   "tr_maxPublisherShift": "Max. publishers per shift: {{ maxPublisherCount }}",
   "tr_partnerNeeded": "Partner needed",
@@ -90,5 +89,7 @@
   "tr_occupied": "{{ number }} occupied",
   "tr_available": "{{ number }} available",
   "tr_deletePWLocation": "Delete the public witnessing location",
-  "tr_deletePWLocationDesc": "Deleting this location permanently removes all its data and arrangements. This action cannot be undone."
+  "tr_deletePWLocationDesc": "Deleting this location permanently removes all its data and arrangements. This action cannot be undone.",
+  "tr_changeImage": "Change image",
+  "tr_addImage": "Add image"
 }
