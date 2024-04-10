@@ -359,7 +359,7 @@
   "inputInvalid": "Veuillez vérifier les informations que vous avez fournies",
   "pocketNotFound": "Votre compte n'a pas pu être trouvé. Assurez-vous que le code est correct.",
   "internalError": "Une erreur interne s'est produite de notre côté. Veuillez réessayer ultérieurement.",
-  "noSchedules": "Please ask your congregation elders to publish the meeting schedule first",
+  "noSchedules": "The meeting schedule isn't available yet. Please ask your congregation elders to not only create, but also publish it in the app.",
   "noSchedule": "Il n'y a pas de programme pour cette semaine",
   "autoAssignMMOpeningPrayer": "Attribuer automatiquement le président pour la prière d'ouverture",
   "personsNoAssignment": "Pas encore assigné",
