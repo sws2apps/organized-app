@@ -98,7 +98,7 @@
     "prop-types": "^15.8.1",
     "rollup": "^4.14.1",
     "serve": "^14.2.1",
-    "typescript": "^5.4.4",
+    "typescript": "^5.4.5",
     "vite-plugin-eslint": "^1.8.1"
   },
   "engines": {
