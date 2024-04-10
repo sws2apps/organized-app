@@ -83,7 +83,6 @@
   "tr_outgoingTalks": "Виїздні промови",
   "tr_infoOutgoingTalk": "Брати, які будуть відвідувати інші збори з публічною промовою",
   "tr_speakers": "Промовців: {{ speakersCount }}",
-  "tr_addLocation": "Додати місце",
   "tr_JWImport": "Імпортування матеріалів з jw.org",
   "tr_JWImportDesc": "Завантаження матеріалів зібрань, будь ласка, зачекай",
   "tr_successfullyImported": "Успішно імпортовано",
