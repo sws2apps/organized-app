@@ -89,5 +89,6 @@
   "tr_meetingAssignments": "<p>हाल तपाईंको <a href='#' title='Meeting Assignment'>{{ assignment }} असाइनमेन्ट</a> छ।</p>",
   "tr_activitiesCard": "Activities",
   "tr_hallCleaning": "Hall cleaning",
-  "tr_yourEmailField": "Your email address"
+  "tr_yourEmailField": "Your email address",
+  "tr_yourMessage": "Your message"
 }
