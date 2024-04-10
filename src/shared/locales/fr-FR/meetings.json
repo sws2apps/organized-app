@@ -83,7 +83,6 @@
   "tr_outgoingTalks": "Discours à l'extérieur",
   "tr_infoOutgoingTalk": "Frères qui prononceront un discours dans une autre assemblée",
   "tr_speakers": "Orateurs : {{ speakersCount }}",
-  "tr_addLocation": "Ajoutez un lieu",
   "tr_JWImport": "Importation des contenus de JW.ORG",
   "tr_JWImportDesc": "Téléchargement des contenus de la réunion, veuillez patienter",
   "tr_successfullyImported": "Importation réussie",
