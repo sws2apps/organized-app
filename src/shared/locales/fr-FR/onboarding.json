@@ -77,7 +77,7 @@
   "tr_2FAIncorrectDesc": "Le code est peut-être incorrect ou a expiré. Veuillez réessayer.",
   "tr_unauthorizedAccount": "Vos autorisations d'accès doivent être ajustées",
   "tr_unauthorizedAccountDesc": "Contactez l'administrateur de l'application de votre assemblée pour confirmer votre rôle, puis réessayez dans 5 minutes. Pour toute assistance supplémentaire, les anciens peuvent nous contacter par e-mail.",
-  "tr_noSchedulesYet": "Aucun programme défini",
+  "tr_noSchedulesYet": "Aucun programme n'a encore été publié",
   "tr_noSchedulesYetDesc": "Veuillez demander aux anciens de commencer par publier le programme de la réunion de votre assemblée.",
   "tr_reconnectAccount": "Reconnecter mon compte",
   "tr_registeringApproved": "Le collège des anciens a approuvé l'enregistrement de cette assemblée dans Organized"
