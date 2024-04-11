@@ -254,7 +254,6 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
                   '.MuiInput-input': {
                     textAlign: 'center',
                     fontWeight: '550',
-                    fontFamily: 'Inter',
                     lineHeight: '24px',
                   },
                 }}
@@ -343,7 +342,6 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
                     '.MuiInput-input': {
                       textAlign: 'center',
                       fontWeight: '550',
-                      fontFamily: 'Inter',
                       lineHeight: '24px',
                     },
                   }}
