@@ -91,5 +91,7 @@
   "tr_deletePWLocation": "Supprimer cet emplacement pour le témoignage public",
   "tr_deletePWLocationDesc": "La suppression de cet emplacement supprime définitivement toutes ses données et arrangements. Cette action est irréversible.",
   "tr_changeImage": "Modifier l’image",
-  "tr_addImage": "Ajouter une image"
+  "tr_addImage": "Ajouter une image",
+  "tr_cantDeductStudiesDesc": "You can't select fewer Bible studies than you already have selected in the “Individual Bible studies” dropdown menu. ",
+  "tr_cantDeductStudiesTitle": "Cannot deduct Bible studies"
 }
