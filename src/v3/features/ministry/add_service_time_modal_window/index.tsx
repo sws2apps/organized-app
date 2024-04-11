@@ -8,20 +8,18 @@ import CustomTypography from '@components/typography';
 import DatePicker from '@components/date_picker';
 import MinusButton from '@components/minus_button';
 import PlusButton from '@components/plus_button';
-import Button from '@components/button';
+
 import { useContext, useEffect, useRef, useState } from 'react';
 import { CustomDropdownContainer, CustomDropdownItem, CustomDropdownMenu } from '@components/dropdown';
 import { IconAdd, IconLanguageCourse, IconPersonalDay, IconSchool, IconSchoolForEvangelizers } from '@components/icons';
 import { hoursToSeconds } from 'date-fns';
 import { EditAndAddBibleStudyContext } from '../EditAndAddBibleStudyContext';
-
-import { SHA256 } from 'crypto-es/lib/sha256';
+import CustomButton from '@components/button';
 
 /**
  * Add Service Time Modal Window component.
  */
 export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps) => {
-  const duration = props.duration;
   const variant = props.variant || 'simple';
   const showCreditHours = props.showCreditHours || false;
 
@@ -58,7 +56,11 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
     return `${formattedHours}:${formattedMinutes}`;
   };
 
-  const [localDurationInSeconds, setLocalDurationInSeconds] = useState(duration);
+  const [localDurationInSeconds, setLocalDurationInSeconds] = useState(0);
+
+  useEffect(() => {
+    setLocalDurationInSeconds(props.duration);
+  }, [props.duration]);
 
   const incrementDuration = () => {
     setLocalDurationInSeconds(localDurationInSeconds + 3600);
@@ -72,8 +74,51 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
 
   const [localCreditHoursDurationInSeconds, setLocalCreditHoursDurationInSeconds] = useState(0);
 
+  const incrementCreditHoursDuration = () => {
+    setLocalCreditHoursDurationInSeconds(localCreditHoursDurationInSeconds + 3600);
+  };
+  const decrimentCreditHoursDuration = () => {
+    if (convertDurationInSecondsToString(localCreditHoursDurationInSeconds) != '00:00') {
+      setLocalCreditHoursDurationInSeconds(localCreditHoursDurationInSeconds - 3600);
+    }
+  };
+
   const [dropdownWithStudiesOpen, setDropdownWithStudiesOpen] = useState(false);
   const [dropdownWithSchoolsOpen, setDropdownWithSchoolsOpen] = useState(false);
+
+  const dropdownWithStudiesReference = useRef(null);
+  const dropdownWithSchoolsReference = useRef(null);
+  const dropdownWithStudiesOpenButtonReference = useRef(null);
+  const dropdownWithSchoolsOpenButtonReference = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownWithStudiesOpenButtonReference.current &&
+        !dropdownWithStudiesOpenButtonReference.current.contains(event.target) &&
+        dropdownWithStudiesOpen &&
+        dropdownWithStudiesReference.current &&
+        !dropdownWithStudiesReference.current.contains(event.target)
+      ) {
+        setDropdownWithStudiesOpen(false);
+      }
+
+      if (
+        dropdownWithSchoolsOpenButtonReference.current &&
+        !dropdownWithSchoolsOpenButtonReference.current.contains(event.target) &&
+        dropdownWithSchoolsOpen &&
+        dropdownWithSchoolsReference.current &&
+        !dropdownWithSchoolsReference.current.contains(event.target)
+      ) {
+        setDropdownWithSchoolsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [dropdownWithStudiesOpen, dropdownWithSchoolsOpen]);
 
   const styledRowContainerWithBibleStudiesRef = useRef(null);
   const styledRowContainerWithCreditHours = useRef(null);
@@ -113,14 +158,32 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
     if (convertDurationInSecondsToString(localDurationInSeconds) === 'NaN:NaN') {
       setLocalDurationInSeconds(0);
     }
-  }, [localDurationInSeconds]);
+
+    if (convertDurationInSecondsToString(localCreditHoursDurationInSeconds) === 'NaN:NaN') {
+      setLocalCreditHoursDurationInSeconds(0);
+    }
+  }, [localDurationInSeconds, localCreditHoursDurationInSeconds]);
+
+  useEffect(() => {
+    let studiesCounter = 0;
+    props.bibleStudiesList.forEach((value, index) => {
+      if (checkedLocalStudiesStatesList[index]) {
+        studiesCounter++;
+      }
+    });
+
+    setCountOfStudies(studiesCounter);
+  }, [checkedLocalStudiesStatesList, props.bibleStudiesList]);
 
   return (
     <StyledModalWindowContainer
       ref={props.reference}
       className="pop-up-shadow"
       sx={{
-        margin: { mobile: '16px', tablet: '24px', desktop: '32px' },
+        marginLeft: { mobile: '16px', tablet: '24px', desktop: '32px' },
+        marginRight: { mobile: '16px', tablet: '24px', desktop: '32px' },
+        marginTop: '16px',
+        marginBottom: '16px',
       }}
     >
       <Box>
@@ -132,7 +195,7 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
             '.MuiButtonBase-root:hover': { backgroundColor: 'transparent' },
           }}
         >
-          <DatePicker view={'button'} onChange={async (value) => setLocalDate(value)} />
+          <DatePicker view={'button'} onChange={async (value) => setLocalDate(value)} value={new Date()} />
         </Box>
       </Box>
       <StyledRowContainer
@@ -141,7 +204,15 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
       >
         <StyledBox>
           <CustomTypography className="body-regular">{t('tr_hours')}</CustomTypography>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '168px', alignItems: 'center' }}>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              minWidth: '168px',
+              maxWidth: '168px',
+              alignItems: 'center',
+            }}
+          >
             <MinusButton onClick={decrimentDuration} />
             <TextField
               id="standard-basic"
@@ -172,11 +243,14 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
         {variant == 'pioneer' && showCreditHours ? (
           <StyledBox>
             <CustomDropdownContainer
+              open={dropdownWithSchoolsOpen}
               label={t('tr_creditHours')}
               onClick={() => setDropdownWithSchoolsOpen((prev) => !prev)}
+              reference={dropdownWithSchoolsOpenButtonReference}
             />
 
             <CustomDropdownMenu
+              reference={dropdownWithSchoolsReference}
               open={dropdownWithSchoolsOpen}
               anchorElement={styledRowContainerWithCreditHours.current}
               width={styledRowContainerWithCreditHours.current?.offsetWidth + 'px'}
@@ -212,40 +286,68 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
                 description={t('tr_ministryTimeHours', { ministryTime: 5 })}
                 icon={<IconPersonalDay />}
                 checked={false}
+                sx={{
+                  borderBottom: 'none',
+                }}
                 callback={() => setLocalCreditHoursDurationInSeconds(hoursToSeconds(5))}
               />
             </CustomDropdownMenu>
 
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '168px', alignItems: 'center' }}>
-              <MinusButton />
-              <CustomTypography
-                className="h2"
-                color={
-                  convertDurationInSecondsToString(localCreditHoursDurationInSeconds) != '00:00'
-                    ? 'var(--black)'
-                    : 'var(--grey-300)'
-                }
-              >
-                {convertDurationInSecondsToString(localCreditHoursDurationInSeconds)}
-              </CustomTypography>
-              <PlusButton />
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                minWidth: '168px',
+                maxWidth: '168px',
+                alignItems: 'center',
+              }}
+            >
+              <MinusButton onClick={() => decrimentCreditHoursDuration()} />
+              <TextField
+                id="standard-basic"
+                variant="standard"
+                sx={{
+                  '.MuiInputBase-root::after, .MuiInputBase-root::before': { content: 'none' },
+                  '.MuiInputBase-root': {
+                    color:
+                      convertDurationInSecondsToString(localCreditHoursDurationInSeconds) != '00:00'
+                        ? 'var(--black)'
+                        : 'var(--grey-300)',
+                  },
+                  '.MuiInput-input': {
+                    textAlign: 'center',
+                    fontWeight: '550',
+                    fontFamily: 'Inter',
+                    lineHeight: '24px',
+                  },
+                }}
+                value={convertDurationInSecondsToString(localCreditHoursDurationInSeconds)}
+                onChange={(event) => {
+                  setLocalCreditHoursDurationInSeconds(convertDurationStringToSeconds(event.target.value));
+                }}
+              />
+              <PlusButton onClick={() => incrementCreditHoursDuration()} />
             </Box>
           </StyledBox>
         ) : null}
       </StyledRowContainer>
       <StyledRowContainer ref={styledRowContainerWithBibleStudiesRef} sx={{ alignItems: 'center' }}>
         <CustomDropdownContainer
+          open={dropdownWithStudiesOpen}
+          reference={dropdownWithStudiesOpenButtonReference}
           label={t('tr_bibleStudies')}
           onClick={() => setDropdownWithStudiesOpen((prev) => !prev)}
         />
         <CustomDropdownMenu
           open={dropdownWithStudiesOpen}
+          reference={dropdownWithStudiesReference}
           zIndex={(theme) => theme.zIndex.drawer + 3}
           anchorElement={styledRowContainerWithBibleStudiesRef.current}
           width={styledRowContainerWithBibleStudiesRef.current?.offsetWidth + 'px'}
         >
           {props.bibleStudiesList.map((value, index) => {
-            const randomKey = SHA256('SGVsbG8sIGd1eXMhIE15IG5hbWUgTWF4Lg==').toString();
+            const randomKey = crypto.randomUUID();
+
             return (
               <CustomDropdownItem
                 variant="studies"
@@ -277,6 +379,7 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
               '.MuiSvgIcon-root path': {
                 fill: 'var(--accent-dark)',
               },
+              borderBottom: 'none',
             }}
             callback={() => {
               setDropdownWithStudiesOpen(false);
@@ -290,7 +393,15 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
           </CustomDropdownItem>
         </CustomDropdownMenu>
 
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '168px', alignItems: 'center' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            minWidth: '168px',
+            maxWidth: '168px',
+            alignItems: 'center',
+          }}
+        >
           <MinusButton onClick={decrimentCountOfStudies} />
           <CustomTypography className="h2" color={countOfStudies != 0 ? 'var(--black)' : 'var(--grey-300)'}>
             {countOfStudies}
@@ -299,10 +410,10 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
         </Box>
       </StyledRowContainer>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-        <Button variant="secondary" onClick={props.cancelButtonClick}>
+        <CustomButton variant="secondary" onClick={props.cancelButtonClick}>
           {t('tr_cancel')}
-        </Button>
-        <Button
+        </CustomButton>
+        <CustomButton
           variant="main"
           onClick={() => {
             props.result({
@@ -316,7 +427,7 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
           }}
         >
           {t('tr_add')}
-        </Button>
+        </CustomButton>
       </Box>
     </StyledModalWindowContainer>
   );

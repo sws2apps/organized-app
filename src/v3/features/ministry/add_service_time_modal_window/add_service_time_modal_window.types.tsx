@@ -72,7 +72,7 @@ export type AddServiceTimeModalWindowProps = {
   /**
    * Reference to the component.
    */
-  reference?: React.Ref<unknown>;
+  reference?: React.Ref<HTMLElement>;
 
   /**
    * Callback function invoked when the result of the modal window is available.

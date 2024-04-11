@@ -1,6 +1,5 @@
 import { Box } from '@mui/material';
 import { IconAddTime, IconPause, IconResume, IconStart, IconStop } from '@icons/index';
-import Typography from '@components/typography';
 import TimerButton from './components/TimerButton';
 import { useAppTranslation } from '@hooks/index';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -9,6 +8,7 @@ import DarkOverlay from '@components/dark_overlay';
 import PopUpForEditOrCreateBibleStudy from '../pop_up_for_edit_or_create_bible_study';
 import { EditAndAddBibleStudyContext } from '../EditAndAddBibleStudyContext';
 import { AddServiceTimeModalWindow } from '../add_service_time_modal_window';
+import CustomTypography from '@components/typography';
 
 /**
  * Left Ministry Timer Button component.
@@ -133,6 +133,11 @@ const MinistryTimer = ({ duration = '00:00' }: { duration?: string }) => {
     return convertDurationStringToSeconds(duration);
   });
 
+  const resetDurationToNull = () => {
+    setTimerState(MinistryTimerStates.Zero);
+    setDurationInSeconds(convertDurationStringToSeconds('00:00'));
+  };
+
   // For timer ticks
   useEffect(() => {
     let intervalId: NodeJS.Timeout | null = null;
@@ -158,7 +163,7 @@ const MinistryTimer = ({ duration = '00:00' }: { duration?: string }) => {
     if (timerState === MinistryTimerStates.Paused) {
       intervalId = setInterval(() => {
         setTimerTextOpacity((value) => {
-          return value == 0 ? 1 : 0;
+          return value === 0 ? 1 : 0;
         });
       }, 1000);
     }
@@ -218,10 +223,11 @@ const MinistryTimer = ({ duration = '00:00' }: { duration?: string }) => {
           state={timerState}
           onClick={() => {
             setAddServiceTimeModalWindowOpen(true);
+            setTimerState(MinistryTimerStates.Paused);
           }}
         />
-        <Typography
-          variant="h2"
+        <CustomTypography
+          className="h2"
           color={timerDuration === '00:00' ? 'var(--accent-300)' : 'var(--accent-dark)'}
           sx={{
             textAlign: 'center',
@@ -241,7 +247,7 @@ const MinistryTimer = ({ duration = '00:00' }: { duration?: string }) => {
           }}
         >
           {timerDuration}
-        </Typography>
+        </CustomTypography>
         <RightMinistryTimerButton
           state={timerState}
           onClick={() => {
@@ -257,6 +263,7 @@ const MinistryTimer = ({ duration = '00:00' }: { duration?: string }) => {
             bibleStudiesList={bibleStudiesList}
             cancelButtonClick={() => setAddServiceTimeModalWindowOpen(false)}
             addButtonClick={() => {
+              resetDurationToNull();
               setAddServiceTimeModalWindowOpen(false);
             }}
             result={(result) => {

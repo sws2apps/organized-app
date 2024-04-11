@@ -1,4 +1,4 @@
-import { Box, IconButton, TextField } from '@mui/material';
+import { Box, TextField } from '@mui/material';
 import { PopUpForEditOrCreateBibleStudyProps } from './pop_up_for_edit_or_create_bible_study.types';
 import CustomTypography from '@components/typography';
 import useAppTranslation from '@hooks/useAppTranslation';
@@ -42,9 +42,12 @@ const PopUpForEditOrCreateBibleStudy = (props: PopUpForEditOrCreateBibleStudyPro
         <CustomTypography className="h2">
           {variant == 'add' ? t('tr_addNewStudy') : t('tr_editBibleStudy')}
         </CustomTypography>
-        <IconButton onClick={() => props.closeButtonClick()}>
+        <Box onClick={() => props.closeButtonClick()} sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+          <IconClose color="var(--black)" />
+        </Box>
+        {/* <IconButton onClick={() => props.closeButtonClick()}>
           <IconClose />
-        </IconButton>
+        </IconButton> */}
       </Box>
       <TextField
         id="outlined-basic"
@@ -59,8 +62,22 @@ const PopUpForEditOrCreateBibleStudy = (props: PopUpForEditOrCreateBibleStudyPro
           '.MuiInputBase-root': {
             borderRadius: 'var(--radius-l)',
           },
+          '& .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'var(--black)',
+            borderWidth: '1px',
+          },
+
+          '&:hover:not(.Mui-focused)': {
+            '& .MuiOutlinedInput-notchedOutline': {
+              borderColor: 'var(--accent-main)',
+            },
+          },
+
+          '& .MuiInputLabel-outlined': {
+            color: 'var(--black)',
+          },
           '.Mui-focused': {
-            color: 'var(--accent-main)',
+            color: props.value == textFieldValue ? 'var(--accent-main)' : 'var(--black)',
           },
         }}
       />
@@ -68,6 +85,9 @@ const PopUpForEditOrCreateBibleStudy = (props: PopUpForEditOrCreateBibleStudyPro
         variant={'main'}
         onClick={() => {
           props.saveButtonClick(textFieldValue);
+
+          // this line fix bug with previous text
+          setTextFieldValue('');
         }}
       >
         {variant == 'add' ? t('tr_save') : t('tr_saveChanges')}
@@ -75,7 +95,7 @@ const PopUpForEditOrCreateBibleStudy = (props: PopUpForEditOrCreateBibleStudyPro
       <CustomButton
         variant={'secondary'}
         sx={{
-          color: variant == 'edit' ? 'var(--red-main)' : null,
+          color: variant == 'edit' ? 'var(--red-main)' : 'var(--accent-main)',
         }}
         onClick={() => {
           props.cancelButtonClick();

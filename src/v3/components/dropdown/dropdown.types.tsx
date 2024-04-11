@@ -14,6 +14,16 @@ export type CustomDropdownContainerProps = {
    * Label for the dropdown.
    */
   label: string;
+
+  /**
+   * Reference
+   */
+  reference?: React.Ref<HTMLElement>;
+
+  /**
+   * Boolean flag indicating whether the dropdown is open.
+   */
+  open: boolean;
 };
 
 /**
@@ -42,6 +52,11 @@ export type CustomDropdownMenuProps = {
    * Content inside the dropdown menu.
    */
   children?: React.ReactNode;
+
+  /**
+   * Reference
+   */
+  reference?: React.Ref<HTMLDivElement>;
 };
 
 /**
@@ -82,11 +97,6 @@ export type CustomDropdownItemProps = {
   label?: string;
 
   /**
-   * Indicates whether a divider should be shown after the item.
-   */
-  showDivider?: boolean;
-
-  /**
    * Description of the item (for 'schools' variant).
    */
   description?: string;
@@ -100,4 +110,9 @@ export type CustomDropdownItemProps = {
    * The system prop that allows defining system overrides as well as additional CSS styles.
    */
   sx?: SxProps<Theme>;
+
+  /**
+   * Reference
+   */
+  reference?: React.Ref<HTMLElement>;
 };

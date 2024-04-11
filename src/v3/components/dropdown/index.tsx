@@ -12,20 +12,18 @@ import CustomCheckbox from '@components/checkbox';
  * @param {CustomDropdownContainerProps} props - Props for CustomDropdownContainer component.
  */
 const CustomDropdownContainer = (props: CustomDropdownContainerProps) => {
-  const [dropdownArrowRotation, setDropdownArrowRotation] = useState(false);
-
   return (
     <Box
+      ref={props.reference}
       sx={{ display: 'flex', gap: '8px', cursor: 'pointer' }}
       onClick={(event) => {
-        setDropdownArrowRotation((previous) => !previous);
         props.onClick(event);
       }}
     >
       <CustomTypography className="body-regular">{props.label}</CustomTypography>
       <IconArrowDown
         sx={{
-          transform: dropdownArrowRotation ? 'rotate(0.5turn)' : 'rotate(0)',
+          transform: props.open ? 'rotate(0.5turn)' : 'rotate(0)',
         }}
         color="var(--black)"
       />
@@ -41,7 +39,7 @@ const CustomDropdownContainer = (props: CustomDropdownContainerProps) => {
  */
 const CustomDropdownMenu = (props: CustomDropdownMenuProps) => {
   return (
-    <Popper open={props.open} sx={{ zIndex: props.zIndex }} anchorEl={props.anchorElement}>
+    <Popper open={props.open} sx={{ zIndex: props.zIndex }} anchorEl={props.anchorElement} ref={props.reference}>
       <Box
         className="small-card-shadow"
         sx={{
@@ -68,7 +66,6 @@ const CustomDropdownMenu = (props: CustomDropdownMenuProps) => {
  */
 const CustomDropdownItem = (props: CustomDropdownItemProps) => {
   const variant = props.variant || 'standard';
-  const showDivider = props.showDivider || true;
   const propsChecked = props.checked || false;
 
   const [checked, setChecked] = useState(propsChecked);
@@ -152,12 +149,13 @@ const CustomDropdownItem = (props: CustomDropdownItemProps) => {
 
   return (
     <Box
+      ref={props.reference}
       sx={{
         padding: '8px 12px 8px 16px',
         display: 'flex',
         gap: '8px',
         alignItems: 'center',
-        borderBottom: showDivider ? '1px solid var(--accent-200)' : 'none',
+        borderBottom: '1px solid var(--accent-200)',
         cursor: 'pointer',
 
         '.MuiSvgIcon-root path': {
