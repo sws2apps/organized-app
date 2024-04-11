@@ -60,7 +60,6 @@
   "tr_noInternetConnection": "Aucune connexion internet",
   "tr_noInternetConnectionDesc": "Organized travaille actuellement en mode hors ligne. Lorsque vous serez de nouveau en ligne, toutes les nouvelles données que vous avez saisies pourront être synchronisées.",
   "tr_done": "Terminé",
-  "tr_doneDesc": "Votre rapport du mois de {{ month }} a été envoyé",
   "tr_notifications": "Notifications",
   "tr_reject": "Rejeter",
   "tr_accept": "Accepter",
@@ -90,5 +89,6 @@
   "tr_activitiesCard": "Activités",
   "tr_hallCleaning": "Nettoyage de la salle",
   "tr_yourEmailField": "Votre adresse e-mail",
-  "tr_yourMessage": "Votre message"
+  "tr_yourMessage": "Votre message",
+  "tr_reportSubmittedDesc": "Votre rapport du mois de {{ month }} a été envoyé"
 }
