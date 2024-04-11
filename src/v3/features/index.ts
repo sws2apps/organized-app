@@ -44,6 +44,20 @@ export { default as MinistryPreferences } from './my_profile/ministry_preference
 export { default as UserSessions } from './my_profile/sessions';
 export { default as UserTimeAway } from './my_profile/time_away';
 
+/* -------------------------------- Meetings -------------------------------- */
+export { default as MyAssignments } from './meetings/my_assignments';
+
+/* --------------------------------- Persons -------------------------------- */
+export { default as PersonAssignment } from './persons/assignments';
+export { default as PersonBasicInfo } from './persons/basic_info';
+export { default as PersonEmergencyContacts } from './persons/emergency_contacts';
+export { default as PersonEnrollments } from './persons/enrollments';
+export { default as PersonPrivileges } from './persons/privileges';
+export { default as PersonSpiritualStatus } from './persons/spiritual_status';
+export { default as PersonsFilter } from './persons/filter';
+export { default as PersonsSearch } from './persons/search';
+export { default as PersonTimeAway } from './persons/time_away';
+
 /* -------------------------------- Ministry -------------------------------- */
 export { default as AddServiceTimeModalWindow } from './ministry/add_service_time_modal_window';
 export { default as MinistryTimer } from './ministry/ministry_timer';

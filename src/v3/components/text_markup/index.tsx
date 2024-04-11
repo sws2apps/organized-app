@@ -29,6 +29,7 @@ const CustomTextMarkup = (props: TextMarkupTypeProps) => {
           id={node.getAttribute('id')}
           target={node.getAttribute('target')}
           ref={props.anchorRef as LegacyRef<HTMLAnchorElement>}
+          onClick={props.anchorClick}
         >
           {children}
         </a>

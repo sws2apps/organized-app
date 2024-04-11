@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { isOnlineState, visitorIDState } from '@states/app';
 import {
@@ -17,6 +17,8 @@ import { handleUpdateScheduleFromRemote } from '@services/app/schedules';
 import { userLocalUIDState } from '@states/settings';
 
 const useStartup = () => {
+  const timeoutId = useRef<NodeJS.Timeout>();
+
   const isOnline = useRecoilValue(isOnlineState);
   const visitorID = useRecoilValue(visitorIDState);
   const userLocalUID = useRecoilValue(userLocalUIDState);
@@ -34,7 +36,7 @@ const useStartup = () => {
         await setIsSetup(false);
         await loadApp();
         await runUpdater();
-        setTimeout(async () => {
+        timeoutId.current = setTimeout(async () => {
           await setIsAppLoad(false);
         }, 1000);
         return;
@@ -68,7 +70,7 @@ const useStartup = () => {
         await setRootModalOpen(false);
 
         setIsSetup(false);
-        setTimeout(async () => {
+        timeoutId.current = setTimeout(async () => {
           setCongAccountConnected(true);
           setIsAppLoad(false);
         }, 1000);
@@ -76,6 +78,10 @@ const useStartup = () => {
     };
 
     checkLoginState();
+
+    return () => {
+      clearTimeout(timeoutId.current);
+    };
   }, [isOnline, visitorID, userLocalUID]);
 
   return { isSignUp };

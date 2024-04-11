@@ -56,9 +56,9 @@
   "tr_reminderS4NotReady": "野外奉仕報告を提出してください",
   "tr_reminderS4NotReadyDesc": "It should be submitted to the secretary no later than the 6th day of the month.",
   "tr_remindMeTomorrow": "また明日確認する",
-  "tr_goToReports": "Go to reports",
+  "tr_goToReports": "レポートに移動",
   "tr_noInternetConnection": "インターネット接続がありません",
-  "tr_noInternetConnectionDesc": "Organized is working offline right now. When you're back online, any new data you entered will be able to sync.",
+  "tr_noInternetConnectionDesc": "Organizedはオフラインです。このまま使用できますがインターネットに接続するまでデータは同期されません。",
   "tr_done": "完了",
   "tr_doneDesc": "Your {{ month }} report has been submitted",
   "tr_notifications": "通知",
@@ -86,5 +86,9 @@
   "tr_successfullyDesc": "あなたのフィードバックが正常に送信されました",
   "tr_manageAccess": "アクセス管理",
   "tr_submitted": "提出完了",
-  "tr_meetingAssignments": "<p> <a href='#' title='Meeting Assignment'>{{ assignment }}個の割り当て</a>t</p>"
+  "tr_meetingAssignments": "<p> <a href='#' title='Meeting Assignment'>{{ assignment }}個の割り当て</a>t</p>",
+  "tr_activitiesCard": "アクティビティ",
+  "tr_hallCleaning": "王国会館清掃",
+  "tr_yourEmailField": "Your email address",
+  "tr_yourMessage": "Your message"
 }

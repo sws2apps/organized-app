@@ -12,6 +12,7 @@ export const ProfileItemContainer = styled(Box)({
 });
 
 export const SettingWithBorderContainer = styled(Box)({
+  marginTop: '8px',
   display: 'flex',
   gap: '16px',
   flexDirection: 'column',

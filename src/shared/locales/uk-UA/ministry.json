@@ -34,7 +34,6 @@
   "tr_averageMonthlyBibleStudies": "В середньому вивчень на місяць",
   "tr_maximumMonthlyBibleStudies": "Найбільше біблійних вивчень за місяць",
   "tr_monthlyHistory": "Місячна історія",
-  "tr_serviceYear ": "Службовий рік",
   "tr_ahead": "Попереду",
   "tr_inProgress": "В процесі",
   "tr_pioneerServiceStats": "Статистика піонерського служіння",
@@ -65,7 +64,6 @@
   "tr_auxiliaryPioneer": "Допоміжний піонер",
   "tr_comments": "Коментарі",
   "tr_PWLocations": "Місця громадського служіння",
-  "tr_editLocations": "Редагувати місця",
   "tr_PW": "Служіння в громадських місцях",
   "tr_maxPublisherShift": "Макс. вісників на зміну: {{ maxPublisherCount }}",
   "tr_partnerNeeded": "Потрібен партнер",
@@ -91,5 +89,7 @@
   "tr_occupied": "{{ number }} зайнято",
   "tr_available": "{{ number }} доступно",
   "tr_deletePWLocation": "Видалити місце громадського служіння",
-  "tr_deletePWLocationDesc": "Видалення цього місця повністю видаляє всі його дані та записи. Цю дію неможливо скасувати."
+  "tr_deletePWLocationDesc": "Видалення цього місця повністю видаляє всі його дані та записи. Цю дію неможливо скасувати.",
+  "tr_changeImage": "Change image",
+  "tr_addImage": "Add image"
 }

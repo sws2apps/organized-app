@@ -57,8 +57,18 @@
   "tr_shortDateFormatAlt": "dd.mm.yyyy",
   "tr_tableView": "Вид таблиці",
   "tr_shortNumberLabel": "Ні.",
-  "tr_title": "Назва",
   "tr_rename": "Перейменувати",
   "tr_collapseAll": "Згорнути все",
-  "tr_searchResults": "Результати пошуку: {{ count }}"
+  "tr_searchResults": "Результати пошуку: {{ count }}",
+  "tr_addMonth": "Додати місяць",
+  "tr_monthYear": "{{ month }} {{ year }}",
+  "tr_publish": "Опублікувати",
+  "tr_groupNumber": "Група {{ groupNumber }}",
+  "tr_groupName": "Група {{ groupName }}",
+  "tr_meetingDate": "Дата зібрання",
+  "tr_listView": "Вид списку",
+  "tr_share": "Share",
+  "tr_copyLink": "Copy link",
+  "tr_unsupportedBrowserError": "Unsupported browser",
+  "tr_unsupportedBrowserErrorDesc": "You are using an unsupported browser for the Organized app. Make sure that your browser is up to date, or try to use another browser. "
 }

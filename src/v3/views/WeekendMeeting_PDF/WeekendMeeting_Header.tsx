@@ -1,6 +1,6 @@
 import React from 'react';
-import { Text, View, Image, StyleSheet, Font } from '@react-pdf/renderer';
-import WatchtowerImg from '@assets/img/illustration_watchtower.png';
+import { Text, View, StyleSheet, Font } from '@react-pdf/renderer';
+import WatchtowerSvg from './WatchtowerSvg';
 import InterMedium from '@assets/fonts/Inter-Medium.ttf';
 
 Font.register({
@@ -10,8 +10,8 @@ Font.register({
 
 const styles = StyleSheet.create({
   header: {
-    paddingTop: 10,
-    paddingBottom: 10,
+    paddingTop: 5,
+    paddingBottom: 5,
     paddingRight: 16,
     paddingLeft: 16,
     backgroundColor: '#6876BE',
@@ -24,20 +24,15 @@ const styles = StyleSheet.create({
   },
   headerTittle: {
     color: '#FEFEFE',
-    font: 'Inter',
+    fontFamily: 'Inter',
     fontWeight: 'medium',
     fontSize: 14,
   },
   headerCongregation: {
     color: '#FEFEFE',
-    font: 'Inter',
+    fontFamily: 'Inter',
     fontWeight: 'medium',
     fontSize: 12,
-  },
-  img: {
-    width: 18,
-    height: 18,
-    fill: '#FEFEFE',
   },
 });
 
@@ -45,10 +40,10 @@ const WeekendMeetingHeader = () => {
   return (
     <View style={styles.header}>
       <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 5 }}>
-        <Image src={WatchtowerImg} style={styles.img} />
+        <WatchtowerSvg />
         <Text style={styles.headerTittle}>Weekend meeting schedule</Text>
       </View>
-      <Text style={styles.headerTittle}>Congregation name</Text>
+      <Text style={styles.headerCongregation}>Congregation name</Text>
     </View>
   );
 };

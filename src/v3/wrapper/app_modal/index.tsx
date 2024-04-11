@@ -4,7 +4,7 @@ import Dialog from '@mui/material/Dialog';
 import useModal from './useModal';
 import AppLoading from '@components/loading';
 
-const AppModalWrapper = ({ children }: { children: ReactNode }) => {
+const AppModalWrapper = ({ children }: { children?: ReactNode }) => {
   const { handleClose, open } = useModal();
 
   return (
@@ -15,6 +15,15 @@ const AppModalWrapper = ({ children }: { children: ReactNode }) => {
           onClose={handleClose}
           aria-labelledby="alert-dialog-close-title"
           aria-describedby="alert-dialog-description"
+          PaperProps={{
+            sx: {
+              color: 'unset',
+              backgroundColor: 'unset',
+              boxShadow: 'none',
+              borderRadius: 'var(--radius-xxl)',
+            },
+            className: 'pop-up-shadow',
+          }}
         >
           <AppLoading />
         </Dialog>

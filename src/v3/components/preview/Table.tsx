@@ -1,11 +1,12 @@
 import { Stack, TableBody, TableContainer } from '@mui/material';
-import useSorting from '@components/table/useSorting';
 import { StyledCell, StyledRow, StyledTable } from '@components/table/table.styles';
 import Badge from '@components/badge';
 import { IconAssign } from '@icons/index';
 import Button from '@components/button';
 import { Column } from '@components/table/index.types';
 import TableHead from '@components/table/TableHead';
+import Typography from '@components/typography';
+import useSorting from '@components/table/useSorting';
 
 const columns: Column[] = [
   { id: 'id', label: '№' },
@@ -117,10 +118,14 @@ const TestTable_1 = () => {
           {visibleRows.map((row) => {
             return (
               <StyledRow key={row.id}>
-                <StyledCell className={'body-small-semibold'}>{row.id}</StyledCell>
+                <StyledCell className={'body-small-semibold'} width={50}>
+                  {row.id}
+                </StyledCell>
                 <StyledCell className={'body-small-semibold'}>{row.name}</StyledCell>
-                <StyledCell>{row.covered}</StyledCell>
-                <StyledCell align={'center'}>{row.households}</StyledCell>
+                <StyledCell width={100}>{row.covered}</StyledCell>
+                <StyledCell align={'center'} width={150}>
+                  {row.households}
+                </StyledCell>
               </StyledRow>
             );
           })}
@@ -146,8 +151,8 @@ const TestTable_3 = () => {
             return (
               <StyledRow key={row.id}>
                 <StyledCell className={'body-small-semibold'}>{row.address}</StyledCell>
-                <StyledCell>{row.name}</StyledCell>
-                <StyledCell>{row.date}</StyledCell>
+                <StyledCell width={300}>{row.name}</StyledCell>
+                <StyledCell width={200}>{row.date}</StyledCell>
               </StyledRow>
             );
           })}
@@ -164,6 +169,9 @@ const TestTable_2 = () => {
     rows: rows2,
   });
 
+  const currentDate = new Date();
+  currentDate.setMonth(currentDate.getMonth() - 2);
+
   return (
     <TableContainer sx={{ maxHeight: 440 }}>
       <StyledTable>
@@ -176,19 +184,40 @@ const TestTable_2 = () => {
                   {row.id}
                 </StyledCell>
                 <StyledCell className={'body-small-semibold'}>
-                  <Stack direction={'column'}>
-                    {row.name}
-                    <Badge
-                      sx={{ width: 'max-content' }}
-                      text={row.publisher}
-                      color={row.returned === 'In work' ? 'accent' : 'grey'}
-                      size="small"
-                      filled={false}
-                    />
+                  <Stack direction={'column'} spacing={0.3}>
+                    <Typography className={'body-small-semibold'}>{row.name}</Typography>
+                    <Stack direction={'row'} spacing={1.3}>
+                      <Badge
+                        sx={{ width: 'max-content' }}
+                        text={row.publisher as string}
+                        color={row.returned === 'In work' ? 'accent' : 'grey'}
+                        size="small"
+                        filled={false}
+                      />
+                      {currentDate >
+                      new Date(Date.parse(row.assigned.toString().replace(/(\d{2}).(\d{2}).(\d{4})/, '$3-$2-$1'))) ? (
+                        <Badge
+                          sx={{ width: 'max-content' }}
+                          text={'Overdue: 2 month'}
+                          color={'orange'}
+                          size="small"
+                          filled={false}
+                        />
+                      ) : null}
+                    </Stack>
+                    <Typography className={'label-small-regular'} color={'var(--grey-350)'}>
+                      {row.desc}
+                    </Typography>
                   </Stack>
                 </StyledCell>
-                <StyledCell>{row.assigned}</StyledCell>
-                <StyledCell>{row.returned}</StyledCell>
+                <StyledCell width={150}>{row.assigned}</StyledCell>
+                <StyledCell
+                  width={150}
+                  className={row.returned === 'In work' && 'body-small-semibold'}
+                  sx={{ color: row.returned === 'In work' ? 'var(--accent-dark)' : 'var(--black)' }}
+                >
+                  {row.returned}
+                </StyledCell>
               </StyledRow>
             );
           })}
@@ -217,12 +246,16 @@ const TestTable_4 = () => {
                   {row.id}
                 </StyledCell>
                 <StyledCell className={'body-small-semibold'}>{row.name}</StyledCell>
-                <StyledCell>{row.covered}</StyledCell>
-                <StyledCell width={200} align={'center'}>
+                <StyledCell width={150}>{row.covered}</StyledCell>
+                <StyledCell width={100} align={'center'}>
                   {row.households}
                 </StyledCell>
-                <StyledCell width={200}>
-                  <Button variant="secondary" startIcon={<IconAssign />} sx={{ minHeight: '32px', height: '32px' }}>
+                <StyledCell width={100} align={'center'}>
+                  <Button
+                    variant="secondary"
+                    startIcon={<IconAssign />}
+                    sx={{ minHeight: '32px', height: '32px', textTransform: 'inherit !important' }}
+                  >
                     Request
                   </Button>
                 </StyledCell>

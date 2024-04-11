@@ -9,9 +9,6 @@
   "tr_timeAway": "Time away",
   "tr_startDate": "Start date",
   "tr_endDate": "End date",
-  "tr_comments": "Comments",
-  "tr_setTimeAway": "Set time away",
-  "tr_addTimeAway": "Add time away",
   "tr_save": "Save",
   "tr_notificationPreferences": "Notification preferences",
   "tr_notificationPreferencesDesc": "Select what notifications you don’t want to receive from the Organized. You can always change your preferences later.",
@@ -80,5 +77,6 @@
   "tr_2FAQRCodeDesc": "Scan the QR code with your authenticator app to set up Two-Factor Authentication.",
   "tr_2FASetupKey": "Setup key",
   "tr_2FASetupKeyDesc": "Copy the setup key and paste it into your authenticator app to set up Two-Factor Authentication.",
-  "tr_2FAStep2": "Step 2: Enter the 2FA code"
+  "tr_2FAStep2": "Step 2: Enter the 2FA code",
+  "tr_timeAwayDesc": "No time away set yet. Keep your time away up-to-date so that the brothers can take it into account when scheduling future meetings."
 }

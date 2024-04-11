@@ -5,6 +5,7 @@ import { publicTalkSyncState } from '@states/settings';
 import { formatDate } from '@services/dateformat';
 import { useAppTranslation } from '@hooks/index';
 import { setPublicTalksSearchKey } from '@services/recoil/publicTalks';
+import { congAccountConnectedState } from '@states/app';
 
 const usePublicTalks = () => {
   const { t } = useAppTranslation();
@@ -12,6 +13,7 @@ const usePublicTalks = () => {
   const talksList = useRecoilValue(publicTalksFilteredState);
   const lastSync = useRecoilValue(publicTalkSyncState);
   const txtSearch = useRecoilValue(publicTalksSearchKeyState);
+  const isConnected = useRecoilValue(congAccountConnectedState);
 
   const [lastSyncFormatted, setLastSyncFormatted] = useState('');
   const [isExpandAll, setIsExpandAll] = useState(false);
@@ -49,7 +51,16 @@ const usePublicTalks = () => {
     }
   }, [txtSearch]);
 
-  return { talksList, lastSyncFormatted, isExpandAll, handleToggleExpandAll, handleSearch, labelSearch, txtSearch };
+  return {
+    talksList,
+    lastSyncFormatted,
+    isExpandAll,
+    handleToggleExpandAll,
+    handleSearch,
+    labelSearch,
+    txtSearch,
+    isConnected,
+  };
 };
 
 export default usePublicTalks;

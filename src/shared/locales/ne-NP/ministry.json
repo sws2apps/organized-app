@@ -34,7 +34,6 @@
   "tr_averageMonthlyBibleStudies": "मासिक औसत बाइबल अध्ययन",
   "tr_maximumMonthlyBibleStudies": "मासिक अधिकतम बाइबल अध्ययन",
   "tr_monthlyHistory": "मासिक इतिहास",
-  "tr_serviceYear ": "सेवा वर्ष",
   "tr_ahead": "अगाडि",
   "tr_inProgress": "In progress",
   "tr_pioneerServiceStats": "अग्रगामी सेवा तथ्याङ्क",
@@ -65,7 +64,6 @@
   "tr_auxiliaryPioneer": "सहायक अग्रगामी",
   "tr_comments": "टिप्पणी",
   "tr_PWLocations": "सार्वजनिक साक्षीकार्यका लागि स्थान",
-  "tr_editLocations": "स्थान सम्पादन गर्ने",
   "tr_PW": "सार्वजनिक साक्षीकार्य",
   "tr_maxPublisherShift": "एक शिफ्टमा अधिकतम प्रकाशक: {{ maxPublisherCount }}",
   "tr_partnerNeeded": "साथी चाहिन्छ",
@@ -91,5 +89,7 @@
   "tr_occupied": "{{ number }} ओगटिएको",
   "tr_available": "{{ number }} उपलब्ध",
   "tr_deletePWLocation": "Delete the public witnessing location",
-  "tr_deletePWLocationDesc": "Deleting this location permanently removes all its data and arrangements. This action cannot be undone."
+  "tr_deletePWLocationDesc": "Deleting this location permanently removes all its data and arrangements. This action cannot be undone.",
+  "tr_changeImage": "Change image",
+  "tr_addImage": "Add image"
 }

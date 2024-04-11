@@ -40,21 +40,25 @@ export const matchIsNumeric = (text) => {
   return !isNaN(Number(text));
 };
 
-export const generateDisplayName = (name) => {
-  const txtArray = name.split(' ');
-  if (txtArray.length === 1) {
-    return name;
-  } else {
-    let varDisplay = '';
-    for (let i = 0; i < txtArray.length; i++) {
-      if (i === txtArray.length - 1) {
-        varDisplay += txtArray[i];
-      } else {
-        varDisplay += txtArray[i].substring(0, 1) + '. ';
-      }
-    }
-    return varDisplay;
+export const generateDisplayName = (lastname, firstname) => {
+  if (lastname.length === 0) {
+    return firstname;
   }
+
+  if (firstname.length === 0) {
+    return lastname;
+  }
+
+  const txtArray = String(`${lastname} ${firstname}`).split(' ');
+  let varDisplay = '';
+  for (let i = 0; i < txtArray.length; i++) {
+    if (i === txtArray.length - 1) {
+      varDisplay += txtArray[i];
+    } else {
+      varDisplay += txtArray[i].substring(0, 1) + '. ';
+    }
+  }
+  return varDisplay;
 };
 
 export const createArray = (n) => Array.from({ length: n }, (_, b) => b);

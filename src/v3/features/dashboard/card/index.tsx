@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { Box, List } from '@mui/material';
 import Typography from '@components/typography';
 
-const DashboardCard = ({ header, children }: { header: string; children: ReactNode }) => {
+const DashboardCard = ({ header, children }: { header: string; children?: ReactNode }) => {
   return (
     <Box
       sx={{

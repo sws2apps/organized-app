@@ -8,6 +8,7 @@ import { useAppTranslation } from '@hooks/index';
 import { apiFetchPublicTalks } from '@services/api/sources';
 import { resetS34s } from '@services/dexie/publicTalks';
 import { handleUpdateSetting } from '@services/dexie/settings';
+import { PublicTalksViewType } from '@definition/sources';
 
 const usePublicTalksList = () => {
   const { t } = useAppTranslation();
@@ -16,6 +17,7 @@ const usePublicTalksList = () => {
   const talksList = useRecoilValue(publicTalksLocaleState);
 
   const [isFetching, setIsFetching] = useState(false);
+  const [currentView, setCurrentView] = useState<PublicTalksViewType>('list');
 
   const handleSyncTalks = async () => {
     try {
@@ -50,7 +52,14 @@ const usePublicTalksList = () => {
     }
   };
 
-  return { isConnected, talksList, isFetching, handleSyncTalks };
+  const handleToggleView = () => {
+    setCurrentView((prev) => {
+      if (prev === 'list') return 'table';
+      if (prev === 'table') return 'list';
+    });
+  };
+
+  return { isConnected, talksList, isFetching, handleSyncTalks, handleToggleView, currentView };
 };
 
 export default usePublicTalksList;

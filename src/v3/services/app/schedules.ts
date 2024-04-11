@@ -139,21 +139,21 @@ export const getHistoryInfo = async (weekOf) => {
       // TGW Talk 10 min. History
       if (assignment === 'tgw_talk') {
         history.assignmentID = 112;
-        history.assignmentName = getTranslation({ key: 'tgwTalk', namespace: 'source' });
+        history.assignmentName = getTranslation({ key: 'tgwTalk' });
         history.assignmentSource = weekData.mwb_tgw_talk;
       }
 
       // TGW Spiritual Gems History
       if (assignment === 'tgw_gems') {
         history.assignmentID = 113;
-        history.assignmentName = getTranslation({ key: 'tgwGems', namespace: 'source' });
+        history.assignmentName = getTranslation({ key: 'tgwGems' });
       }
 
       //Bible Reading History
       if (assignment.startsWith('bRead_stu_')) {
         const stuclass = assignment.split('_')[2];
         history.assignmentID = 100;
-        history.assignmentName = getTranslation({ key: 'bibleReading', namespace: 'source' });
+        history.assignmentName = getTranslation({ key: 'bibleReading' });
         history.class = stuclass;
         history.assignmentSource = weekData.mwb_tgw_bread;
       }
@@ -175,15 +175,15 @@ export const getHistoryInfo = async (weekOf) => {
         history.assignmentID = assType;
         history.assignmentType = 'ayf';
         if (assType === 101 || (assType >= 140 && assType < 170)) {
-          history.assignmentName = getTranslation({ key: 'initialCall', namespace: 'source' });
+          history.assignmentName = getTranslation({ key: 'initialCall' });
         } else if (assType === 102 || (assType >= 170 && assType < 200)) {
-          history.assignmentName = getTranslation({ key: 'returnVisit', namespace: 'source' });
+          history.assignmentName = getTranslation({ key: 'returnVisit' });
         } else if (assType === 103) {
-          history.assignmentName = getTranslation({ key: 'bibleStudy', namespace: 'source' });
+          history.assignmentName = getTranslation({ key: 'bibleStudy' });
         } else if (assType === 104) {
-          history.assignmentName = getTranslation({ key: 'talk', namespace: 'source' });
+          history.assignmentName = getTranslation({ key: 'talk' });
         } else if (assType === 108) {
-          history.assignmentName = getTranslation({ key: 'memorialInvite', namespace: 'source' });
+          history.assignmentName = getTranslation({ key: 'memorialInvite' });
         }
         history.class = stuclass;
 
@@ -225,13 +225,13 @@ export const getHistoryInfo = async (weekOf) => {
 
         let mainPart;
         if (assType === 101 || (assType >= 140 && assType < 170)) {
-          mainPart = getTranslation({ key: 'initialCall', namespace: 'source' });
+          mainPart = getTranslation({ key: 'initialCall' });
         } else if (assType === 102 || (assType >= 170 && assType < 200)) {
-          mainPart = getTranslation({ key: 'returnVisit', namespace: 'source' });
+          mainPart = getTranslation({ key: 'returnVisit' });
         } else if (assType === 103) {
-          mainPart = getTranslation({ key: 'bibleStudy', namespace: 'source' });
+          mainPart = getTranslation({ key: 'bibleStudy' });
         } else if (assType === 108) {
-          mainPart = getTranslation({ key: 'memorialInvite', namespace: 'source' });
+          mainPart = getTranslation({ key: 'memorialInvite' });
         }
 
         history.assignmentName = `${assistantStr} (${mainPart})`;
@@ -248,7 +248,7 @@ export const getHistoryInfo = async (weekOf) => {
         const fldContent = `mwb_lc_part${lcIndex}_content`;
 
         history.assignmentID = 114;
-        history.assignmentName = getTranslation({ key: 'lcPart', namespace: 'source' });
+        history.assignmentName = getTranslation({ key: 'lcPart' });
         history.assignmentSource = `(${weekData[fldTime]} min.) ${weekData[fldSource]}`;
         history.assignmentContent = weekData[fldContent];
       }
@@ -256,16 +256,16 @@ export const getHistoryInfo = async (weekOf) => {
       // CBS Conductor History
       if (assignment === 'cbs_conductor') {
         history.assignmentID = 115;
-        history.assignmentName = getTranslation({ key: 'cbsConductor', namespace: 'source' });
-        history.assignmentName += ` (${getTranslation({ key: 'cbs', namespace: 'source' })})`;
+        history.assignmentName = getTranslation({ key: 'cbsConductor' });
+        history.assignmentName += ` (${getTranslation({ key: 'cbs' })})`;
         history.assignmentSource = weekData.mwb_lc_cbs;
       }
 
       // CBS Reader History
       if (assignment === 'cbs_reader') {
         history.assignmentID = 116;
-        history.assignmentName = getTranslation({ key: 'cbsReader', namespace: 'source' });
-        history.assignmentName += ` (${getTranslation({ key: 'cbs', namespace: 'source' })})`;
+        history.assignmentName = getTranslation({ key: 'cbsReader' });
+        history.assignmentName += ` (${getTranslation({ key: 'cbs' })})`;
         history.assignmentSource = weekData.mwb_lc_cbs;
       }
 
@@ -335,7 +335,7 @@ export const getHistoryInfo = async (weekOf) => {
       // Substitute Speaker
       if (assignment === 'substitute_speaker') {
         history.assignmentID = 120;
-        history.assignmentName = getTranslation({ key: 'substituteSpeaker', namespace: 'source' });
+        history.assignmentName = getTranslation({ key: 'substituteSpeaker' });
       }
 
       // Watchtower Study Reader
@@ -381,7 +381,7 @@ export const getS140Data = async (scheduleName) => {
   const meetingDay = await promiseGetRecoil(midweekMeetingDayState);
   const monthNames = await promiseGetRecoil(monthNamesState);
 
-  const shortTimeFormat = getTranslation({ key: 'shortTimeFormat', language: appLang, namespace: 'source' });
+  const shortTimeFormat = getTranslation({ key: 'shortTimeFormat', language: appLang });
 
   const data = [];
   const allWeeks = await getWeekListBySchedule(scheduleName);
@@ -398,7 +398,7 @@ export const getS140Data = async (scheduleName) => {
 
     const params = { month: monthNames[lDate.getMonth()], date: lDate.getDate(), year: lDate.getFullYear() };
 
-    const meetingDate = getTranslation({ key: 'longDateFormat', language: appLang, namespace: 'source', params });
+    const meetingDate = getTranslation({ key: 'longDateFormat', language: appLang, params });
 
     // pgm start
     const time = <MidweekMeetingTimeType>{};

@@ -1,10 +1,11 @@
 import React from 'react';
 import { Text, View, StyleSheet, Font } from '@react-pdf/renderer';
+
 import InterRegular from '@assets/fonts/Inter-Regular.ttf';
 import InterSemiBold from '@assets/fonts/Inter-SemiBold.ttf';
 import InterMedium from '@assets/fonts/Inter-Medium.ttf';
 import InterLight from '@assets/fonts/Inter-Light.ttf';
-import { WeekendMeetingItemProps } from './weekendMeeting.types';
+import { WeekendMeetingItemProps, MeetingRolePropTypes } from './weekendMeeting.types';
 
 Font.register({
   family: 'Inter',
@@ -47,6 +48,7 @@ const styles = StyleSheet.create({
     gap: 6,
     paddingTop: 8,
     paddingBottom: 8,
+    width: 189,
   },
   meetingRole: {
     width: 90,
@@ -74,6 +76,7 @@ const styles = StyleSheet.create({
   },
   speechContainer: {
     width: 270,
+    justifyContent: 'center',
     paddingTop: 8,
     paddingBottom: 8,
     gap: 4,
@@ -102,6 +105,7 @@ const styles = StyleSheet.create({
   speakerContainer: {
     display: 'flex',
     flexDirection: 'row',
+    alignItems: 'center',
     gap: 16,
   },
   speaker: {
@@ -130,7 +134,7 @@ const styles = StyleSheet.create({
     paddingBottom: 4,
     paddingLeft: 8,
     paddingRight: 8,
-    gap: 8,
+    gap: 2,
     backgroundColor: '#F2F5FF',
     borderRadius: 2,
   },
@@ -148,8 +152,8 @@ const styles = StyleSheet.create({
   },
 });
 
-const WeekendMeetingItem = ({
-  meetingData: {
+const WeekendMeetingItem = ({ meetingData, isLastItem }: WeekendMeetingItemProps) => {
+  const {
     date,
     chairman,
     openingPrayer,
@@ -160,8 +164,9 @@ const WeekendMeetingItem = ({
     mainSpeaker,
     congregation,
     substituteName,
-  },
-}: WeekendMeetingItemProps) => {
+    weekType,
+    text,
+  } = meetingData;
   const formatDate = (inputDate) => {
     const months = ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May', 'Jun.', 'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.'];
     const [year, month, day] = inputDate.split('-');
@@ -170,51 +175,108 @@ const WeekendMeetingItem = ({
   };
   const formattedDate = formatDate(date);
 
-  return (
-    <View style={styles.itemContainer}>
-      <View style={styles.date}>
-        <Text style={styles.dateText}>{formattedDate}</Text>
+  const MeetingRole = ({ role, name }: MeetingRolePropTypes) => (
+    <View style={styles.roleContainer}>
+      <Text style={styles.meetingRole}>{role}:</Text>
+      <Text style={styles.name}>{name}</Text>
+    </View>
+  );
+
+  const commonMeetingParts = (
+    <View style={styles.meetingParts}>
+      <View>
+        {chairman && <MeetingRole role="Chairman" name={chairman} />}
+        {openingPrayer && <MeetingRole role="Opening prayer" name={openingPrayer} />}
       </View>
-      <View style={styles.meetingParts}>
-        <View>
-          <View style={styles.roleContainer}>
-            <Text style={styles.meetingRole}>Chairman:</Text>
-            <Text style={styles.name}>{chairman}</Text>
-          </View>
-          <View style={styles.roleContainer}>
-            <Text style={styles.meetingRole}>Opening prayer:</Text>
-            <Text style={styles.name}>{openingPrayer}</Text>
-          </View>
-        </View>
-        <View style={styles.lineHorizontal} />
-        <View>
-          <View style={styles.roleContainer}>
-            <Text style={styles.meetingRole}>Study conductor:</Text>
-            <Text style={styles.name}>{studyConductor}</Text>
-          </View>
-          <View style={styles.roleContainer}>
-            <Text style={styles.meetingRole}>Reader:</Text>
-            <Text style={styles.name}>{reader}</Text>
-          </View>
-        </View>
+      {weekType === 'Normal week' && <View style={styles.lineHorizontal} />}
+      <View>
+        {studyConductor && <MeetingRole role="Study conductor" name={studyConductor} />}
+        {reader && <MeetingRole role="Reader" name={reader} />}
       </View>
-      <View style={styles.lineVertical} />
-      <View style={styles.speechContainer}>
-        <View style={styles.titleContainer}>
-          <Text style={styles.speechTitle}>{speechTitle}</Text>
-          <Text style={styles.speechNumber}>№{speechNumber}</Text>
+    </View>
+  );
+
+  const commonSpeechContainer = (
+    <View style={styles.speechContainer}>
+      <View style={styles.titleContainer}>
+        {speechTitle && <Text style={styles.speechTitle}>{speechTitle}</Text>}
+        {speechNumber && <Text style={styles.speechNumber}>№{speechNumber}</Text>}
+      </View>
+      <View style={styles.speakerContainer}>
+        <View style={styles.mainSpeaker}>
+          {mainSpeaker && <Text style={styles.speaker}>{mainSpeaker}</Text>}
+          {congregation && <Text style={styles.congregation}>{congregation}</Text>}
         </View>
-        <View style={styles.speakerContainer}>
-          <View style={styles.mainSpeaker}>
-            <Text style={styles.speaker}>{mainSpeaker}</Text>
-            <Text style={styles.congregation}>{congregation}</Text>
-          </View>
+        {substituteName && (
           <View style={styles.substituteSpeaker}>
             <Text style={styles.substitute}>Substitute:</Text>
             <Text style={styles.substituteName}>{substituteName}</Text>
           </View>
-        </View>
+        )}
       </View>
+    </View>
+  );
+
+  let content;
+
+  if (weekType === 'Normal week') {
+    content = (
+      <>
+        {commonMeetingParts}
+        <View style={styles.lineVertical} />
+        {commonSpeechContainer}
+      </>
+    );
+  } else if (weekType === 'Visit of the circuit overseer') {
+    content = (
+      <>
+        {commonMeetingParts}
+        <View style={styles.lineVertical} />
+        <View style={styles.speechContainer}>
+          {weekType && (
+            <View style={styles.titleContainer}>
+              <Text style={styles.speechTitle}>{weekType}</Text>
+            </View>
+          )}
+          <View style={styles.speakerContainer}>
+            {text && (
+              <View style={styles.mainSpeaker}>
+                <Text style={styles.speaker}>{text}</Text>
+              </View>
+            )}
+          </View>
+        </View>
+      </>
+    );
+  } else {
+    content = (
+      <>
+        <View style={styles.meetingParts}></View>
+        <View style={styles.lineVertical} />
+        <View style={styles.speechContainer}>
+          {weekType && (
+            <View style={styles.titleContainer}>
+              <Text style={styles.speechTitle}>{weekType}</Text>
+            </View>
+          )}
+          <View style={styles.speakerContainer}>
+            {text && (
+              <View style={styles.mainSpeaker}>
+                <Text style={styles.speaker}>{text}</Text>
+              </View>
+            )}
+          </View>
+        </View>
+      </>
+    );
+  }
+
+  return (
+    <View style={[styles.itemContainer, isLastItem && { borderBottomLeftRadius: 6, borderBottomRightRadius: 6 }]}>
+      <View style={[styles.date, isLastItem && { borderBottomLeftRadius: 6 }]}>
+        <Text style={styles.dateText}>{formattedDate}</Text>
+      </View>
+      {content}
     </View>
   );
 };

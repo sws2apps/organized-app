@@ -57,8 +57,18 @@
   "tr_shortDateFormatAlt": "dd.mm.yyyy",
   "tr_tableView": "Вид таблицы",
   "tr_shortNumberLabel": "№",
-  "tr_title": "Название",
   "tr_rename": "Переименовать",
   "tr_collapseAll": "Свернуть всё",
-  "tr_searchResults": "Результаты поиска: {{ count }}"
+  "tr_searchResults": "Результаты поиска: {{ count }}",
+  "tr_addMonth": "Add month",
+  "tr_monthYear": "{{ month }} {{ year }}",
+  "tr_publish": "Опубликовать",
+  "tr_groupNumber": "Group {{ groupNumber }}",
+  "tr_groupName": "Group {{ groupName }}",
+  "tr_meetingDate": "Meeting date",
+  "tr_listView": "List view",
+  "tr_share": "Share",
+  "tr_copyLink": "Copy link",
+  "tr_unsupportedBrowserError": "Unsupported browser",
+  "tr_unsupportedBrowserErrorDesc": "You are using an unsupported browser for the Organized app. Make sure that your browser is up to date, or try to use another browser. "
 }

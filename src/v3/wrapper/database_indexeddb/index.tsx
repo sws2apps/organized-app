@@ -5,7 +5,7 @@ This file will be the entry to get the live update from IndexedDb using dexie ho
 import { ReactNode, useEffect } from 'react';
 import useIndexedDb from './useIndexedDb';
 
-const DatabaseWrapper = ({ children }: { children: ReactNode }) => {
+const DatabaseWrapper = ({ children }: { children?: ReactNode }) => {
   const {
     loadSettings,
     loadAnnouncements,

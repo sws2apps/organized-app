@@ -4,6 +4,8 @@ import { Table, TableCell, TableCellProps, TableProps, TableRow, TableRowProps }
 export const StyledRow = styled((props: TableRowProps) => <TableRow hover tabIndex={-1} {...props} />)(() => ({
   '&.MuiTableRow-hover:hover': {
     backgroundColor: 'var(--accent-150)',
+    cursor: 'pointer',
+    td: { color: 'var(--accent-dark)' },
   },
 }));
 

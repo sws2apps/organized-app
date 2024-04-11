@@ -57,8 +57,18 @@
   "tr_shortDateFormatAlt": "mm/dd/yyyy",
   "tr_tableView": "Table view",
   "tr_shortNumberLabel": "No.",
-  "tr_title": "Title",
   "tr_rename": "Rename",
   "tr_collapseAll": "Collapse all",
-  "tr_searchResults": "Search results: {{ count }}"
+  "tr_searchResults": "Search results: {{ count }}",
+  "tr_addMonth": "Add month",
+  "tr_monthYear": "{{ month }} {{ year }}",
+  "tr_publish": "Publish",
+  "tr_groupNumber": "Group {{ groupNumber }}",
+  "tr_groupName": "Group {{ groupName }}",
+  "tr_meetingDate": "Meeting date",
+  "tr_listView": "List view",
+  "tr_share": "Share",
+  "tr_copyLink": "Copy link",
+  "tr_unsupportedBrowserError": "Unsupported browser",
+  "tr_unsupportedBrowserErrorDesc": "You are using an unsupported browser for the Organized app. Make sure that your browser is up to date, or try to use another browser. "
 }

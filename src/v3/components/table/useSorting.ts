@@ -5,14 +5,14 @@ import { Order } from '@components/table/index.types';
 interface UseSortingProps {
   initialOrder: Order;
   initialOrderBy: string;
-  rows: any[];
+  rows: { [key: string]: string | number }[];
 }
 
 const useSorting = ({ initialOrder, initialOrderBy, rows }: UseSortingProps) => {
   const [order, setOrder] = useState<Order>(initialOrder);
   const [orderBy, setOrderBy] = useState<string>(initialOrderBy);
 
-  const handleRequestSort = (event: unknown, property: string) => {
+  const handleRequestSort = (_event: unknown, property: string) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);

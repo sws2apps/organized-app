@@ -1,5 +1,6 @@
 import { ChangeEvent } from 'react';
 import { CustomClassName } from '@definition/app';
+import { SxProps } from '@mui/material';
 
 export type CheckboxPropsType = {
   checked?: boolean;
@@ -9,4 +10,5 @@ export type CheckboxPropsType = {
   label?: string;
   isBorder?: boolean;
   className?: CustomClassName;
+  sx?: SxProps;
 };

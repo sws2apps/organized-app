@@ -185,10 +185,10 @@ const CustomButton = (props: ButtonPropsType) => {
       disableRipple
       className={className}
       disabled={disabled}
-      target={props.target}
       rel={props.rel}
       href={props.href}
       sx={{
+        cursor: 'pointer',
         minHeight: '44px',
         fontFeatureSettings: '"cv05"',
         padding: variant === 'small' ? '4px 8px' : '8px 16px',

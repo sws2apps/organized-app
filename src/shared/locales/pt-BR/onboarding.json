@@ -14,7 +14,7 @@
   "tr_email": "Email",
   "tr_accountCreated": "Sua conta foi criada. Informe o administrador da congregação para lhe dar as permissões necessárias e, em seguida, atualize a página.",
   "tr_createCongregationAccount": "Criar uma congregação",
-  "tr_unauthorizedRole": "<p>You don't currently have the necessary permissions to use this application. Please reach out to your congregation elders to verify your role and then <a href='#'>try again</a> in 5 minutes. If they require additional assistance, they can contact us via email.</p>",
+  "tr_unauthorizedRole": "<p>Your account is all set! To access all the features of the Organized app, please ask your congregation's app administrator to give you permission, then  <a href='#'>try again</a> in 5 minutes.</p><p>Elders can contact us at <a href='mailto:support@organized-app.com'>support@organized-app.com</a> if they need assistance.</p>",
   "tr_oauthAccept": "<p>By continuing, you accept our <a href='https://sws2apps.com/terms/' title='Terms of Use' target='_blank' rel='noopener'>Terms of Use</a> and <a href='https://sws2apps.com/privacy/' title='Privacy Policy' target='_blank' rel='noopener'>Privacy Policy</a>.</p>",
   "tr_signInDesc": "Choose how you want to log in",
   "tr_emailAuth": "Autenticação por Email",
@@ -32,7 +32,7 @@
   "tr_illustrationSecretaryHeader": "Todos os relatórios do secretário",
   "tr_illustrationSecretaryDescription": "Track meeting attendance record for all meetings, both monthly and annually. View publisher reports and easily send all necessary reports directly to your local branch. Receive and review auxiliary pioneer applications.",
   "tr_selectAccount": "Para começar a usar o Organized, escolha qual opção se aplica a você:",
-  "tr_accountPublisherStudent": "Publisher or a student of midweek meeting",
+  "tr_accountPublisherStudent": "Publisher or midweek meeting student",
   "tr_accountBaptizedBrother": "Irmão batizado",
   "tr_connectCongregation": "Conecte-se à sua congregação",
   "tr_invitationCode": "Código do convite",
@@ -77,8 +77,8 @@
   "tr_2FAIncorrectDesc": "The code might be incorrect or expired. Try again.",
   "tr_unauthorizedAccount": "Your access permissions need to be adjusted",
   "tr_unauthorizedAccountDesc": "Contact your congregation app administrator to confirm your role, then try again in 5 minutes. For any further assistance, elders can contact us via email.",
-  "tr_noSchedulesYet": "No schedules yet",
-  "tr_noSchedulesYetDesc": "Please ask your congregation elders to publish the meeting schedule first.",
+  "tr_noSchedulesYet": "No schedules have been published yet",
+  "tr_noSchedulesYetDesc": "The meeting schedule isn't available yet. Please ask your congregation elders to not only create but also publish it in the app.",
   "tr_reconnectAccount": "Reconnect my account",
   "tr_registeringApproved": "The body of elders has approved registering this congregation in Organized"
 }

@@ -11,16 +11,20 @@ const CustomCheckbox = (props: CheckboxPropsType) => {
   const label = props.label || '';
   const isBorder = props.isBorder || false;
   const className = props.className || 'body-regular';
+  const sx = props.sx;
 
   return (
     <FormControlLabel
       sx={{
+        padding: '4px 0px',
         marginLeft: '-4px',
         display: 'flex',
         alignItems: 'center',
         gap: '8px',
+        opacity: disabled ? '24%' : 1,
         ...(isBorder && { ...StyleCheckboxBorder }),
         ...(isBorder && checked && { ...StyleCheckboxBorderChecked }),
+        ...sx,
       }}
       control={
         <Checkbox

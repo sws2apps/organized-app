@@ -413,6 +413,11 @@ export const JWLangState = selector({
 
     const currentLang = LANGUAGE_LIST.find((lang) => lang.locale === appLang);
 
-    return currentLang.code || 'e';
+    return currentLang?.code || 'e';
   },
+});
+
+export const currentDrawerState = atom({
+  key: 'currentDrawer',
+  default: '',
 });

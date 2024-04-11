@@ -9,9 +9,6 @@
   "tr_timeAway": "Indisponibilitate",
   "tr_startDate": "Data de început",
   "tr_endDate": "Data de încheiere",
-  "tr_comments": "Comentarii",
-  "tr_setTimeAway": "Setare timp indisponibilitate",
-  "tr_addTimeAway": "Adăugare timp de indisponibilitate",
   "tr_save": "Salvare",
   "tr_notificationPreferences": "Preferințe de notificări",
   "tr_notificationPreferencesDesc": "Selectați ce notificări nu doriți să primiți de la Organized. Puteți schimba întotdeauna preferințele ulterior.",
@@ -80,5 +77,6 @@
   "tr_2FAQRCodeDesc": "Scan the QR code with your authenticator app to set up Two-Factor Authentication.",
   "tr_2FASetupKey": "Setup key",
   "tr_2FASetupKeyDesc": "Copy the setup key and paste it into your authenticator app to set up Two-Factor Authentication.",
-  "tr_2FAStep2": "Step 2: Enter the 2FA code"
+  "tr_2FAStep2": "Step 2: Enter the 2FA code",
+  "tr_timeAwayDesc": "No time away set yet. Keep your time away up-to-date so that the brothers can take it into account when scheduling future meetings."
 }
