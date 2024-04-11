@@ -41,26 +41,26 @@ export const BranchS1ReportResult = (data: BranchOfficeS1ReportResult, t: TFunct
           </Typography>
           <StyledColumnBox gap="8px">
             <CardHeader className={'h4'}>{t('tr_publishers')}</CardHeader>
-            <ReportResultElement title={t('tr_numberReports')} value={'82'} />
+            <ReportResultElement title={t('tr_numberReports')} value={data.totalReports.toString()} />
             <StyledDivider />
-            <ReportResultElement title={t('tr_bibleStudies')} value={'9'} />
+            <ReportResultElement title={t('tr_bibleStudies')} value={data.totalBibleStudies.toString()} />
           </StyledColumnBox>
           <StyledColumnBox gap="8px">
             <CardHeader className={'h4'}>{t('tr_AP')}</CardHeader>
-            <ReportResultElement title={t('tr_numberReports')} value={'4'} />
+            <ReportResultElement title={t('tr_numberReports')} value={data.auxPioneersReports.toString()} />
             <StyledDivider />
-            <ReportResultElement title={t('tr_hours')} value={'127'} />
+            <ReportResultElement title={t('tr_hours')} value={data.auxPioneersHours.toString()} />
 
             <StyledDivider />
-            <ReportResultElement title={t('tr_bibleStudies')} value={'1'} />
+            <ReportResultElement title={t('tr_bibleStudies')} value={data.auxPioneersBibleStudies.toString()} />
           </StyledColumnBox>
           <StyledColumnBox gap="8px">
             <CardHeader className={'h4'}>{t('tr_regPioneers')}</CardHeader>
-            <ReportResultElement title={t('tr_numberReports')} value={'15'} />
+            <ReportResultElement title={t('tr_numberReports')} value={data.regPioneersReports.toString()} />
             <StyledDivider />
-            <ReportResultElement title={t('tr_hours')} value={'791'} />
+            <ReportResultElement title={t('tr_hours')} value={data.regPioneersHours.toString()} />
             <StyledDivider />
-            <ReportResultElement title={t('tr_bibleStudies')} value={'8'} />
+            <ReportResultElement title={t('tr_bibleStudies')} value={data.regPioneersBibleStudies.toString()} />
           </StyledColumnBox>
         </StyledColumnBox>
       </StyledContentCardBox>
@@ -85,23 +85,29 @@ export const BranchS10ReportResult = (
           </Typography>
           <StyledColumnBox gap="8px">
             <CardHeader className={'h4'}>{'Meeting attendance'}</CardHeader>
-            <ReportResultElement title={t('tr_verageAttendanceMM')} value={'89'} />
+            <ReportResultElement
+              title={t('tr_verageAttendanceMM')}
+              value={data.midweekMeetingAttendanceAvg.toString()}
+            />
             <StyledDivider />
-            <ReportResultElement title={t('tr_averageAttendanceWM')} value={'105'} />
+            <ReportResultElement
+              title={t('tr_averageAttendanceWM')}
+              value={data.weekendMeetingAttendanceAvg.toString()}
+            />
           </StyledColumnBox>
           <StyledColumnBox gap="8px">
             <CardHeader className={'h4'}>{t('tr_publishers')}</CardHeader>
-            <ReportResultElement title={t('tr_activePublishers')} value={'102'} />
+            <ReportResultElement title={t('tr_activePublishers')} value={data.activePublishers.toString()} />
             <StyledDivider />
-            <ReportResultElement title={t('tr_inactivePublishers')} value={'3'} />
+            <ReportResultElement title={t('tr_inactivePublishers')} value={data.inactivePublishers.toString()} />
             <StyledDivider />
-            <ReportResultElement title={t('tr_reactivatedPublishers')} value={'1'} />
+            <ReportResultElement title={t('tr_reactivatedPublishers')} value={data.reactivatedPublishers.toString()} />
           </StyledColumnBox>
           <StyledColumnBox gap="8px">
             <CardHeader className={'h4'}>{t('tr_territories')}</CardHeader>
-            <ReportResultElement title={t('tr_totalNumberTerritories')} value={'157'} />
+            <ReportResultElement title={t('tr_totalNumberTerritories')} value={data.totalTerritories.toString()} />
             <StyledDivider />
-            <ReportResultElement title={t('tr_uncoveredTerritories')} value={'12'} />
+            <ReportResultElement title={t('tr_uncoveredTerritories')} value={data.uncoveredTerritories.toString()} />
           </StyledColumnBox>
         </StyledColumnBox>
       </StyledContentCardBox>
