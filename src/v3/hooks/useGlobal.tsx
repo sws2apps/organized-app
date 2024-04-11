@@ -98,7 +98,13 @@ const useGlobal = () => {
         apiHost = import.meta.env.VITE_BACKEND_API;
       } else {
         if (import.meta.env.DEV || window.location.host.indexOf('localhost') !== -1) {
-          apiHost = 'http://localhost:8000/';
+          if (import.meta.env.API_HOST_PORT) {
+            apiHost = `http://localhost:${import.meta.env.API_HOST_PORT}/`;
+            console.log(import.meta.env.API_HOST_PORT);
+          } else {
+            apiHost = `http://localhost:8000/`;
+            console.log(import.meta.env.API_HOST_PORT);
+          }
         } else {
           apiHost = 'https://api.sws2apps.com/';
         }
