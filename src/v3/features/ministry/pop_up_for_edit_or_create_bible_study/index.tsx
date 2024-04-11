@@ -1,10 +1,11 @@
-import { Box, TextField } from '@mui/material';
+import { Box } from '@mui/material';
 import { PopUpForEditOrCreateBibleStudyProps } from './pop_up_for_edit_or_create_bible_study.types';
 import CustomTypography from '@components/typography';
 import useAppTranslation from '@hooks/useAppTranslation';
 import { IconClose } from '@components/icons';
 import CustomButton from '@components/button';
 import { useEffect, useState } from 'react';
+import CustomTextField from '@components/textfield';
 
 /**
  * Component for displaying a popup for editing or creating a Bible study.
@@ -45,40 +46,19 @@ const PopUpForEditOrCreateBibleStudy = (props: PopUpForEditOrCreateBibleStudyPro
         <Box onClick={() => props.closeButtonClick()} sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
           <IconClose color="var(--black)" />
         </Box>
-        {/* <IconButton onClick={() => props.closeButtonClick()}>
-          <IconClose />
-        </IconButton> */}
       </Box>
-      <TextField
-        id="outlined-basic"
+      <CustomTextField
         label={t('tr_name')}
-        value={textFieldValue}
         variant="outlined"
-        onChange={(event) => {
-          setTextFieldValue(event.target.value);
-        }}
+        value={textFieldValue}
         sx={{
           width: '100%',
-          '.MuiInputBase-root': {
-            borderRadius: 'var(--radius-l)',
-          },
-          '& .MuiOutlinedInput-notchedOutline': {
-            borderColor: 'var(--black)',
-            borderWidth: '1px',
-          },
-
-          '&:hover:not(.Mui-focused)': {
-            '& .MuiOutlinedInput-notchedOutline': {
-              borderColor: 'var(--accent-main)',
-            },
-          },
-
-          '& .MuiInputLabel-outlined': {
-            color: 'var(--black)',
-          },
           '.Mui-focused': {
             color: props.value == textFieldValue ? 'var(--accent-main)' : 'var(--black)',
           },
+        }}
+        onChange={(event) => {
+          setTextFieldValue(event.target.value);
         }}
       />
       <CustomButton

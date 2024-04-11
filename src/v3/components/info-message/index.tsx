@@ -46,6 +46,7 @@ const CustomInfoMessage = (props: InfoMessagePropsType) => {
         background: getBackground(),
         padding: variant === 'message-with-button' ? '16px 16px 16px 24px' : '16px 24px',
         borderRadius: 'var(--radius-xl)',
+        ...props.sx,
       }}
       className={getEffect()}
     >

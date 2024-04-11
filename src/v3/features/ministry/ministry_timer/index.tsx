@@ -223,11 +223,11 @@ const MinistryTimer = ({ duration = '00:00' }: { duration?: string }) => {
           state={timerState}
           onClick={() => {
             setAddServiceTimeModalWindowOpen(true);
-            setTimerState(MinistryTimerStates.Paused);
+            setTimerState(MinistryTimerStates.Zero);
           }}
         />
         <CustomTypography
-          className="h2"
+          className="h3"
           color={timerDuration === '00:00' ? 'var(--accent-300)' : 'var(--accent-dark)'}
           sx={{
             textAlign: 'center',

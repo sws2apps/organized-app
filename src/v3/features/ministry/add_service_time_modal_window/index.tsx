@@ -10,11 +10,20 @@ import PlusButton from '@components/plus_button';
 
 import { useContext, useEffect, useRef, useState } from 'react';
 import { CustomDropdownContainer, CustomDropdownItem, CustomDropdownMenu } from '@components/dropdown';
-import { IconAdd, IconLanguageCourse, IconPersonalDay, IconSchool, IconSchoolForEvangelizers } from '@components/icons';
+import {
+  IconAdd,
+  IconClose,
+  IconError,
+  IconLanguageCourse,
+  IconPersonalDay,
+  IconSchool,
+  IconSchoolForEvangelizers,
+} from '@components/icons';
 import { hoursToSeconds } from 'date-fns';
 import { EditAndAddBibleStudyContext } from '../EditAndAddBibleStudyContext';
 import CustomButton from '@components/button';
 import CustomDatePicker from '@components/date_picker';
+import CustomInfoMessage from '@components/info-message';
 
 /**
  * Add Service Time Modal Window component.
@@ -124,14 +133,17 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
   const styledRowContainerWithCreditHours = useRef(null);
 
   const [countOfStudies, setCountOfStudies] = useState(0);
+  const [countOfStudiesInBuffer, setCountOfStudiesInBuffer] = useState(0);
 
-  const incrementCountOfStudies = () => {
-    setCountOfStudies(countOfStudies + 1);
+  const incrementCountOfStudiesInBuffer = () => {
+    setCountOfStudiesInBuffer(countOfStudiesInBuffer + 1);
   };
 
-  const decrimentCountOfStudies = () => {
-    if (countOfStudies != 0) {
-      setCountOfStudies(countOfStudies - 1);
+  const decrimentCountOfStudiesInBuffer = () => {
+    if (countOfStudiesInBuffer != 0) {
+      setCountOfStudiesInBuffer(countOfStudiesInBuffer - 1);
+    } else {
+      setInfoMessageBoxOpen(true);
     }
   };
 
@@ -172,8 +184,8 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
       }
     });
 
-    setCountOfStudies(studiesCounter);
-  }, [checkedLocalStudiesStatesList, props.bibleStudiesList]);
+    setCountOfStudies(studiesCounter + countOfStudiesInBuffer);
+  }, [checkedLocalStudiesStatesList, countOfStudiesInBuffer, props.bibleStudiesList]);
 
   const styleForStyledBox = (theme: Theme) => ({
     [theme.breakpoints.down('tablet')]: {
@@ -186,124 +198,38 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
     },
   });
 
+  const [infoMessageBoxOpen, setInfoMessageBoxOpen] = useState(false);
+
   return (
-    <StyledModalWindowContainer
-      ref={props.reference}
-      className="pop-up-shadow"
-      sx={{
-        marginLeft: { mobile: '16px', tablet: '24px', desktop: '32px' },
-        marginRight: { mobile: '16px', tablet: '24px', desktop: '32px' },
-        marginTop: '16px',
-        marginBottom: '16px',
-      }}
-    >
-      <Box>
-        <CustomTypography className="h2">{t('tr_addServiceTime')}</CustomTypography>
-        <Box
-          sx={{
-            marginTop: '8px',
-            '.MuiButtonBase-root': { padding: 0 },
-            '.MuiButtonBase-root:hover': { backgroundColor: 'transparent' },
-          }}
-        >
-          <CustomDatePicker view={'button'} onChange={async (value) => setLocalDate(value)} value={new Date()} />
-        </Box>
-      </Box>
-      <StyledRowContainer
-        sx={{ justifyContent: 'space-between', flexDirection: 'column', alignItems: 'stretch' }}
-        ref={styledRowContainerWithCreditHours}
+    <>
+      <StyledModalWindowContainer
+        ref={props.reference}
+        className="pop-up-shadow"
+        sx={{
+          marginLeft: { mobile: '16px', tablet: '24px', desktop: '32px' },
+          marginRight: { mobile: '16px', tablet: '24px', desktop: '32px' },
+          marginTop: '16px',
+          marginBottom: '16px',
+        }}
       >
-        <StyledBox sx={styleForStyledBox}>
-          <CustomTypography className="body-regular">{t('tr_hours')}</CustomTypography>
+        <Box>
+          <CustomTypography className="h2">{t('tr_addServiceTime')}</CustomTypography>
           <Box
             sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              minWidth: '168px',
-              maxWidth: '168px',
-              alignItems: 'center',
+              marginTop: '8px',
+              '.MuiButtonBase-root': { padding: 0 },
+              '.MuiButtonBase-root:hover': { backgroundColor: 'transparent' },
             }}
           >
-            <MinusButton onClick={decrimentDuration} />
-            <TextField
-              id="standard-basic"
-              variant="standard"
-              sx={{
-                '.MuiInputBase-root::after, .MuiInputBase-root::before': { content: 'none' },
-                '.MuiInputBase-root': {
-                  color:
-                    convertDurationInSecondsToString(localDurationInSeconds) != '00:00'
-                      ? 'var(--black)'
-                      : 'var(--grey-300)',
-                },
-                '.MuiInput-input': {
-                  textAlign: 'center',
-                  fontWeight: '550',
-                  fontFamily: 'Inter',
-                  lineHeight: '24px',
-                },
-              }}
-              value={convertDurationInSecondsToString(localDurationInSeconds)}
-              onChange={(event) => {
-                setLocalDurationInSeconds(convertDurationStringToSeconds(event.target.value));
-              }}
-            />
-            <PlusButton onClick={incrementDuration} />
+            <CustomDatePicker view={'button'} onChange={async (value) => setLocalDate(value)} value={new Date()} />
           </Box>
-        </StyledBox>
-        {variant == 'pioneer' && showCreditHours ? (
+        </Box>
+        <StyledRowContainer
+          sx={{ justifyContent: 'space-between', flexDirection: 'column', alignItems: 'stretch' }}
+          ref={styledRowContainerWithCreditHours}
+        >
           <StyledBox sx={styleForStyledBox}>
-            <CustomDropdownContainer
-              open={dropdownWithSchoolsOpen}
-              label={t('tr_creditHours')}
-              onClick={() => setDropdownWithSchoolsOpen((prev) => !prev)}
-              reference={dropdownWithSchoolsOpenButtonReference}
-            />
-
-            <CustomDropdownMenu
-              reference={dropdownWithSchoolsReference}
-              open={dropdownWithSchoolsOpen}
-              anchorElement={styledRowContainerWithCreditHours.current}
-              width={styledRowContainerWithCreditHours.current?.offsetWidth + 'px'}
-              zIndex={(theme) => theme.zIndex.drawer + 3}
-            >
-              <CustomDropdownItem
-                variant="schools"
-                label={t('tr_pioneerSchool')}
-                description={t('tr_ministryTimeHours', { ministryTime: 30 })}
-                icon={<IconSchool />}
-                checked={false}
-                callback={() => setLocalCreditHoursDurationInSeconds(hoursToSeconds(30))}
-              />
-              <CustomDropdownItem
-                variant="schools"
-                label={t('tr_SKE')}
-                description={t('tr_ministryTimeHours', { ministryTime: 80 })}
-                icon={<IconSchoolForEvangelizers />}
-                checked={false}
-                callback={() => setLocalCreditHoursDurationInSeconds(hoursToSeconds(80))}
-              />
-              <CustomDropdownItem
-                variant="schools"
-                label={t('tr_languageCourse')}
-                description={t('tr_ministryTimeHours', { ministryTime: 25 })}
-                icon={<IconLanguageCourse />}
-                checked={false}
-                callback={() => setLocalCreditHoursDurationInSeconds(hoursToSeconds(25))}
-              />
-              <CustomDropdownItem
-                variant="schools"
-                label={t('tr_personalDay')}
-                description={t('tr_ministryTimeHours', { ministryTime: 5 })}
-                icon={<IconPersonalDay />}
-                checked={false}
-                sx={{
-                  borderBottom: 'none',
-                }}
-                callback={() => setLocalCreditHoursDurationInSeconds(hoursToSeconds(5))}
-              />
-            </CustomDropdownMenu>
-
+            <CustomTypography className="body-regular">{t('tr_hours')}</CustomTypography>
             <Box
               sx={{
                 display: 'flex',
@@ -313,7 +239,7 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
                 alignItems: 'center',
               }}
             >
-              <MinusButton onClick={() => decrimentCreditHoursDuration()} />
+              <MinusButton onClick={decrimentDuration} />
               <TextField
                 id="standard-basic"
                 variant="standard"
@@ -321,7 +247,7 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
                   '.MuiInputBase-root::after, .MuiInputBase-root::before': { content: 'none' },
                   '.MuiInputBase-root': {
                     color:
-                      convertDurationInSecondsToString(localCreditHoursDurationInSeconds) != '00:00'
+                      convertDurationInSecondsToString(localDurationInSeconds) != '00:00'
                         ? 'var(--black)'
                         : 'var(--grey-300)',
                   },
@@ -332,138 +258,242 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
                     lineHeight: '24px',
                   },
                 }}
-                value={convertDurationInSecondsToString(localCreditHoursDurationInSeconds)}
+                value={convertDurationInSecondsToString(localDurationInSeconds)}
                 onChange={(event) => {
-                  setLocalCreditHoursDurationInSeconds(convertDurationStringToSeconds(event.target.value));
+                  setLocalDurationInSeconds(convertDurationStringToSeconds(event.target.value));
                 }}
               />
-              <PlusButton onClick={() => incrementCreditHoursDuration()} />
+              <PlusButton onClick={incrementDuration} />
             </Box>
           </StyledBox>
-        ) : null}
-      </StyledRowContainer>
-      <StyledRowContainer
-        ref={styledRowContainerWithBibleStudiesRef}
-        sx={(theme) => ({
-          alignItems: 'center',
-          [theme.breakpoints.down('tablet')]: {
-            flexDirection: 'column',
-            '& .MuiBox-root': {
-              width: '100%',
-              maxWidth: 'none',
-              minWidth: 'none',
-            },
-          },
-        })}
-      >
-        <CustomDropdownContainer
-          open={dropdownWithStudiesOpen}
-          reference={dropdownWithStudiesOpenButtonReference}
-          label={t('tr_bibleStudies')}
-          onClick={() => setDropdownWithStudiesOpen((prev) => !prev)}
-        />
-        <CustomDropdownMenu
-          open={dropdownWithStudiesOpen}
-          reference={dropdownWithStudiesReference}
-          zIndex={(theme) => theme.zIndex.drawer + 3}
-          anchorElement={styledRowContainerWithBibleStudiesRef.current}
-          width={styledRowContainerWithBibleStudiesRef.current?.offsetWidth + 'px'}
-        >
-          {props.bibleStudiesList.map((value, index) => {
-            const randomKey = crypto.randomUUID();
-
-            return (
-              <CustomDropdownItem
-                variant="studies"
-                checked={checkedLocalStudiesStatesList[index]}
-                label={value}
-                editButtonClick={() => {
-                  setDropdownWithStudiesOpen(false);
-                  setEditAndAddBibleStudyData({
-                    itemValue: value,
-                    itemIndex: index,
-                    popUpWindowOpen: true,
-                    variant: 'edit',
-                  });
-                }}
-                key={randomKey}
-                callback={() =>
-                  setCheckedLocalStudiesStatesList((prev) => {
-                    const updatedArray = [...prev];
-                    updatedArray[index] = !updatedArray[index];
-                    return updatedArray;
-                  })
-                }
+          {variant == 'pioneer' && showCreditHours ? (
+            <StyledBox sx={styleForStyledBox}>
+              <CustomDropdownContainer
+                open={dropdownWithSchoolsOpen}
+                label={t('tr_creditHours')}
+                onClick={() => setDropdownWithSchoolsOpen((prev) => !prev)}
+                reference={dropdownWithSchoolsOpenButtonReference}
               />
-            );
-          })}
-          <CustomDropdownItem
-            variant="custom"
-            sx={{
-              '.MuiSvgIcon-root path': {
-                fill: 'var(--accent-dark)',
+
+              <CustomDropdownMenu
+                reference={dropdownWithSchoolsReference}
+                open={dropdownWithSchoolsOpen}
+                anchorElement={styledRowContainerWithCreditHours.current}
+                width={styledRowContainerWithCreditHours.current?.offsetWidth + 'px'}
+                zIndex={(theme) => theme.zIndex.drawer + 3}
+              >
+                <CustomDropdownItem
+                  variant="schools"
+                  label={t('tr_pioneerSchool')}
+                  description={t('tr_ministryTimeHours', { ministryTime: 30 })}
+                  icon={<IconSchool />}
+                  checked={false}
+                  callback={() => setLocalCreditHoursDurationInSeconds(hoursToSeconds(30))}
+                />
+                <CustomDropdownItem
+                  variant="schools"
+                  label={t('tr_SKE')}
+                  description={t('tr_ministryTimeHours', { ministryTime: 80 })}
+                  icon={<IconSchoolForEvangelizers />}
+                  checked={false}
+                  callback={() => setLocalCreditHoursDurationInSeconds(hoursToSeconds(80))}
+                />
+                <CustomDropdownItem
+                  variant="schools"
+                  label={t('tr_languageCourse')}
+                  description={t('tr_ministryTimeHours', { ministryTime: 25 })}
+                  icon={<IconLanguageCourse />}
+                  checked={false}
+                  callback={() => setLocalCreditHoursDurationInSeconds(hoursToSeconds(25))}
+                />
+                <CustomDropdownItem
+                  variant="schools"
+                  label={t('tr_personalDay')}
+                  description={t('tr_ministryTimeHours', { ministryTime: 5 })}
+                  icon={<IconPersonalDay />}
+                  checked={false}
+                  sx={{
+                    borderBottom: 'none',
+                  }}
+                  callback={() => setLocalCreditHoursDurationInSeconds(hoursToSeconds(5))}
+                />
+              </CustomDropdownMenu>
+
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  minWidth: '168px',
+                  maxWidth: '168px',
+                  alignItems: 'center',
+                }}
+              >
+                <MinusButton onClick={() => decrimentCreditHoursDuration()} />
+                <TextField
+                  id="standard-basic"
+                  variant="standard"
+                  sx={{
+                    '.MuiInputBase-root::after, .MuiInputBase-root::before': { content: 'none' },
+                    '.MuiInputBase-root': {
+                      color:
+                        convertDurationInSecondsToString(localCreditHoursDurationInSeconds) != '00:00'
+                          ? 'var(--black)'
+                          : 'var(--grey-300)',
+                    },
+                    '.MuiInput-input': {
+                      textAlign: 'center',
+                      fontWeight: '550',
+                      fontFamily: 'Inter',
+                      lineHeight: '24px',
+                    },
+                  }}
+                  value={convertDurationInSecondsToString(localCreditHoursDurationInSeconds)}
+                  onChange={(event) => {
+                    setLocalCreditHoursDurationInSeconds(convertDurationStringToSeconds(event.target.value));
+                  }}
+                />
+                <PlusButton onClick={() => incrementCreditHoursDuration()} />
+              </Box>
+            </StyledBox>
+          ) : null}
+        </StyledRowContainer>
+        <StyledRowContainer
+          ref={styledRowContainerWithBibleStudiesRef}
+          sx={(theme) => ({
+            alignItems: 'center',
+            [theme.breakpoints.down('tablet')]: {
+              flexDirection: 'column',
+              '& .MuiBox-root': {
+                width: '100%',
+                maxWidth: 'none',
+                minWidth: 'none',
               },
-              borderBottom: 'none',
-            }}
-            callback={() => {
-              setDropdownWithStudiesOpen(false);
-              setEditAndAddBibleStudyData({ ...editAndAddBibleStudyData, variant: 'add', popUpWindowOpen: true });
+            },
+          })}
+        >
+          <CustomDropdownContainer
+            open={dropdownWithStudiesOpen}
+            reference={dropdownWithStudiesOpenButtonReference}
+            label={t('tr_bibleStudies')}
+            onClick={() => setDropdownWithStudiesOpen((prev) => !prev)}
+          />
+          <CustomDropdownMenu
+            open={dropdownWithStudiesOpen}
+            reference={dropdownWithStudiesReference}
+            zIndex={(theme) => theme.zIndex.drawer + 3}
+            anchorElement={styledRowContainerWithBibleStudiesRef.current}
+            width={styledRowContainerWithBibleStudiesRef.current?.offsetWidth + 'px'}
+          >
+            {props.bibleStudiesList.map((value, index) => {
+              const randomKey = crypto.randomUUID();
+
+              return (
+                <CustomDropdownItem
+                  variant="studies"
+                  checked={checkedLocalStudiesStatesList[index]}
+                  label={value}
+                  editButtonClick={() => {
+                    setDropdownWithStudiesOpen(false);
+                    setEditAndAddBibleStudyData({
+                      itemValue: value,
+                      itemIndex: index,
+                      popUpWindowOpen: true,
+                      variant: 'edit',
+                    });
+                  }}
+                  key={randomKey}
+                  callback={() =>
+                    setCheckedLocalStudiesStatesList((prev) => {
+                      const updatedArray = [...prev];
+                      updatedArray[index] = !updatedArray[index];
+                      return updatedArray;
+                    })
+                  }
+                />
+              );
+            })}
+            <CustomDropdownItem
+              variant="custom"
+              sx={{
+                '.MuiSvgIcon-root path': {
+                  fill: 'var(--accent-dark)',
+                },
+                borderBottom: 'none',
+              }}
+              callback={() => {
+                setDropdownWithStudiesOpen(false);
+                setEditAndAddBibleStudyData({ ...editAndAddBibleStudyData, variant: 'add', popUpWindowOpen: true });
+              }}
+            >
+              <IconAdd />
+              <CustomTypography className="h4" color="var(--accent-dark)">
+                {t('tr_addNewStudy')}
+              </CustomTypography>
+            </CustomDropdownItem>
+          </CustomDropdownMenu>
+
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              minWidth: '168px',
+              maxWidth: '168px',
+              alignItems: 'center',
             }}
           >
-            <IconAdd />
-            <CustomTypography className="h4" color="var(--accent-dark)">
-              {t('tr_addNewStudy')}
+            <MinusButton onClick={decrimentCountOfStudiesInBuffer} />
+            <CustomTypography className="h2" color={countOfStudies != 0 ? 'var(--black)' : 'var(--grey-300)'}>
+              {countOfStudies}
             </CustomTypography>
-          </CustomDropdownItem>
-        </CustomDropdownMenu>
-
+            <PlusButton onClick={incrementCountOfStudiesInBuffer} />
+          </Box>
+        </StyledRowContainer>
         <Box
-          sx={{
+          sx={(theme) => ({
             display: 'flex',
             justifyContent: 'space-between',
-            minWidth: '168px',
-            maxWidth: '168px',
-            alignItems: 'center',
-          }}
+            width: '100%',
+            [theme.breakpoints.down('tablet')]: {
+              flexDirection: 'column',
+              gap: '8px',
+            },
+          })}
         >
-          <MinusButton onClick={decrimentCountOfStudies} />
-          <CustomTypography className="h2" color={countOfStudies != 0 ? 'var(--black)' : 'var(--grey-300)'}>
-            {countOfStudies}
-          </CustomTypography>
-          <PlusButton onClick={incrementCountOfStudies} />
+          <CustomButton variant="secondary" onClick={props.cancelButtonClick}>
+            {t('tr_cancel')}
+          </CustomButton>
+          <CustomButton
+            variant="main"
+            onClick={() => {
+              props.result({
+                hoursInSeconds: localDurationInSeconds,
+                creditHoursInSeconds: localCreditHoursDurationInSeconds,
+                bibleStudiesCount: countOfStudies,
+                bibleStudies: getArrayWithCheckedStudies(),
+                date: localDate,
+              });
+              props.addButtonClick();
+            }}
+          >
+            {t('tr_add')}
+          </CustomButton>
         </Box>
-      </StyledRowContainer>
-      <Box
-        sx={(theme) => ({
-          display: 'flex',
-          justifyContent: 'space-between',
-          width: '100%',
-          [theme.breakpoints.down('tablet')]: {
-            flexDirection: 'column',
-            gap: '8px',
-          },
-        })}
-      >
-        <CustomButton variant="secondary" onClick={props.cancelButtonClick}>
-          {t('tr_cancel')}
-        </CustomButton>
-        <CustomButton
-          variant="main"
-          onClick={() => {
-            props.result({
-              hoursInSeconds: localDurationInSeconds,
-              creditHoursInSeconds: localCreditHoursDurationInSeconds,
-              bibleStudiesCount: countOfStudies,
-              bibleStudies: getArrayWithCheckedStudies(),
-              date: localDate,
-            });
-            props.addButtonClick();
-          }}
-        >
-          {t('tr_add')}
-        </CustomButton>
-      </Box>
-    </StyledModalWindowContainer>
+      </StyledModalWindowContainer>
+      <CustomInfoMessage
+        variant="error"
+        sx={{
+          position: 'fixed',
+          bottom: '24px',
+          visibility: infoMessageBoxOpen ? 'visible' : 'hidden',
+        }}
+        messageHeader={t('tr_cantDeductStudiesTitle')}
+        message={t('tr_cantDeductStudiesDesc')}
+        messageIcon={<IconError />}
+        onClose={() => {
+          setInfoMessageBoxOpen(false);
+        }}
+      />
+    </>
   );
 };
 
