@@ -1,81 +1,89 @@
+export type PrivilegeType = 'elder' | 'ms';
+
+export type EnrollmentType = 'AP' | 'FR' | 'FS' | 'FMF';
+
 export type AssignmentType = {
   code: number;
+  updatedAt: string;
+  _deleted: string | null;
 };
 
 type TimeAwayType = {
-  timeAwayId: string;
-  startDate: string; // date ISO
-  endDate: string | null; // date ISO
-  comments: string;
+  id: string;
+  startDate: { value: string; updatedAt: string };
+  endDate: { value: string | null; updatedAt: string };
+  comments: { value: string; updatedAt: string };
+  _deleted: string | null;
 };
 
-type SpiritualStatusType = {
-  statusId: string;
-  startDate: string; // date ISO
-  endDate: string | null; // date ISO
-  status: string;
+type StatusHistoryType = {
+  id: string;
+  startDate: { value: string; updatedAt: string };
+  endDate: { value: string | null; updatedAt: string };
+  _deleted: string | null;
 };
 
-type OtherServiceType = {
-  serviceId: string;
-  startDate: string; // date ISO
-  endDate: string | null; // date ISO
-  service: string;
+type PrivilegeHistoryType = {
+  id: string;
+  privilege: { value: PrivilegeType; updatedAt: string };
+  startDate: { value: string; updatedAt: string };
+  endDate: { value: string | null; updatedAt: string };
+  _deleted: string | null;
 };
 
-export type PersonChangeType = {
-  date: string;
-  field: string;
-  value: string | boolean | number | AssignmentType | TimeAwayType | SpiritualStatusType | OtherServiceType;
-  isAdded?: boolean;
-  isDeleted?: boolean;
-  isModified?: boolean;
+type EnrollmentHistoryType = {
+  id: string;
+  enrollment: { value: EnrollmentType; updatedAt: string };
+  startDate: { value: string; updatedAt: string };
+  endDate: { value: string | null; updatedAt: string };
+  _deleted: string | null;
 };
 
-export type AssignmentChange = Overwrite<
-  PersonChangeType,
-  { value: AssignmentType; isAdded: boolean; isDeleted: boolean }
->;
-
-export type TimeAwayChange = Overwrite<
-  PersonChangeType,
-  { value: TimeAwayType; isAdded: boolean; isDeleted: boolean; isModified: boolean }
->;
-
-export type SpiritualStatusChange = Overwrite<
-  PersonChangeType,
-  { value: SpiritualStatusType; isAdded: boolean; isDeleted: boolean; isModified: boolean }
->;
-
-export type OtherServiceChange = Overwrite<
-  PersonChangeType,
-  { value: OtherServiceType; isAdded: boolean; isDeleted: boolean; isModified: boolean }
->;
+type EmergencyContactsType = {
+  id: string;
+  name: { value: string; updatedAt: string };
+  contact: { value: string; updatedAt: string };
+  _deleted: string | null;
+};
 
 export type PersontType = {
+  _deleted: string | null;
   id?: string;
   person_uid: string;
-  person_name: string;
-  person_displayName: string;
-  isMale: boolean;
-  isFemale: boolean;
-  birthDate: string | null;
-  isAnointed: boolean;
-  isOtherSheep: boolean;
-  isBaptized: boolean;
-  immersedDate: string | null;
-  isUnavailable: boolean;
+  person_name?: string;
+  person_firstname: { value: string; updatedAt: string };
+  person_lastname: { value: string; updatedAt: string };
+  person_displayName: { value: string; updatedAt: string };
+  isMale: { value: boolean; updatedAt: string };
+  isFemale: { value: boolean; updatedAt: string };
+  birthDate: { value: string | null; updatedAt: string };
+  isUnavailable: { value: boolean; updatedAt: string };
   assignments: AssignmentType[];
   timeAway: TimeAwayType[];
-  isMoved: false;
-  isDisqualified: false;
-  email: string;
-  address: string;
-  phone: string;
-  spiritualStatus: SpiritualStatusType[];
-  otherService: OtherServiceType[];
-  firstMonthReport: null;
-  changes: PersonChangeType[];
+  isMoved: { value: boolean; updatedAt: string };
+  isDisqualified: { value: boolean; updatedAt: string };
+  email: { value: string; updatedAt: string };
+  address: { value: string; updatedAt: string };
+  phone: { value: string; updatedAt: string };
+  firstMonthReport: { value: string | null; updatedAt: string };
+  baptizedPublisher: {
+    active: { value: boolean; updatedAt: string };
+    isAnointed: { value: boolean; updatedAt: string };
+    isOtherSheep: { value: boolean; updatedAt: string };
+    baptismDate: { value: string | null; updatedAt: string };
+    history: StatusHistoryType[];
+  };
+  unbaptizedPublisher: {
+    active: { value: boolean; updatedAt: string };
+    history: StatusHistoryType[];
+  };
+  midweekMeetingStudent: {
+    active: { value: boolean; updatedAt: string };
+    history: StatusHistoryType[];
+  };
+  privileges: PrivilegeHistoryType[];
+  enrollments: EnrollmentHistoryType[];
+  emergencyContacts: EmergencyContactsType[];
 };
 
 export type VisitingSpeakerPersonType = {

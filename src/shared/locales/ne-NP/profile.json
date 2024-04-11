@@ -77,5 +77,6 @@
   "tr_2FAQRCodeDesc": "दुई-चरण प्रमाणीकरण सेटअप गर्न प्रमाणीकरण एपबाट QR कोड स्क्यान गर्नुहोस्।",
   "tr_2FASetupKey": "सेटअप नम्बर",
   "tr_2FASetupKeyDesc": "दुई-चरण प्रमाणीकरण सेटअप गर्न सेटअप नम्बर कपी गरी प्रमाणीकरण एपमा पेस्ट गर्नुहोस्।",
-  "tr_2FAStep2": "Step 2: Enter the 2FA code"
+  "tr_2FAStep2": "Step 2: Enter the 2FA code",
+  "tr_timeAwayDesc": "No time away set yet. Keep your time away up-to-date so that the brothers can take it into account when scheduling future meetings."
 }

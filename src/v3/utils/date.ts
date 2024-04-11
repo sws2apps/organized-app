@@ -23,9 +23,9 @@ export const computeYearsDiff = (date: string) => {
   const userDate = new Date(date).getTime();
   const now = new Date().getTime();
   const oneDay = 24 * 60 * 60 * 1000;
-  const yearsDiff = ((now - userDate) / oneDay / 365).toFixed(2);
+  const yearsDiff = ((now - userDate) / oneDay / 365).toFixed(1);
 
-  return +yearsDiff;
+  return yearsDiff;
 };
 
 export const getTeochraticalYear = (date: Date) => {

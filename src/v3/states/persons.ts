@@ -1,6 +1,7 @@
 /*
 This file holds the source of the truth from the table "persons".
 */
+import { PersontType } from '@definition/person';
 import { atom, selector } from 'recoil';
 
 export const personsState = atom({
@@ -34,7 +35,55 @@ export const personsSearchKeyState = atom({
   default: '',
 });
 
-export const personsFiltersKeyState = atom<string[]>({
+export const personsFiltersKeyState = atom<(string | number)[]>({
   key: 'personsFiltersKey',
   default: [],
+});
+
+export const personCurrentDetailsState = atom<PersontType>({
+  key: 'personNewDetails',
+  default: {
+    _deleted: null,
+    person_uid: crypto.randomUUID(),
+    person_firstname: { value: '', updatedAt: '' },
+    person_lastname: { value: '', updatedAt: '' },
+    person_displayName: { value: '', updatedAt: '' },
+    isMale: { value: true, updatedAt: '' },
+    isFemale: { value: false, updatedAt: '' },
+    birthDate: { value: null, updatedAt: '' },
+    isUnavailable: { value: false, updatedAt: '' },
+    assignments: [],
+    timeAway: [],
+    isMoved: { value: false, updatedAt: '' },
+    isDisqualified: { value: false, updatedAt: '' },
+    email: { value: '', updatedAt: '' },
+    address: { value: '', updatedAt: '' },
+    phone: { value: '', updatedAt: '' },
+    firstMonthReport: { value: null, updatedAt: '' },
+    baptizedPublisher: {
+      active: { value: false, updatedAt: '' },
+      isAnointed: { value: false, updatedAt: '' },
+      isOtherSheep: { value: true, updatedAt: '' },
+      baptismDate: { value: null, updatedAt: '' },
+      history: [],
+    },
+    unbaptizedPublisher: {
+      active: { value: false, updatedAt: '' },
+      history: [],
+    },
+    midweekMeetingStudent: {
+      active: { value: true, updatedAt: '' },
+      history: [
+        {
+          id: crypto.randomUUID(),
+          startDate: { value: new Date().toISOString(), updatedAt: new Date().toISOString() },
+          endDate: { value: null, updatedAt: new Date().toISOString() },
+          _deleted: null,
+        },
+      ],
+    },
+    privileges: [],
+    enrollments: [],
+    emergencyContacts: [],
+  },
 });

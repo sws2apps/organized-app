@@ -2,14 +2,12 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { setIsAboutOpen, setIsAppLoad, setIsSetup, setIsSupportOpen, setOfflineOverride } from '@services/recoil/app';
-import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import { useBreakpoints } from '@hooks/index';
 import { congAccountConnectedState, isAppLoadState } from '@states/app';
 import { congNameState, fullnameState } from '@states/settings';
 
 const useNavbar = () => {
   const navigate = useNavigate();
-
-  const { t } = useAppTranslation();
 
   const { laptopUp, tabletDown, tabletUp } = useBreakpoints();
 
@@ -62,7 +60,7 @@ const useNavbar = () => {
 
   const handleOpenDoc = () => {
     handleCloseMore();
-    window.open(`https://sws2apps.com/${t('tr_docsUrlCode')}/category/congregation-program-for-everyone`, '_blank');
+    window.open(`https://guide.organized-app.com`, '_blank');
   };
 
   return {

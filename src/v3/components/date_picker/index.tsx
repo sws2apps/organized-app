@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 /* eslint-disable import/no-duplicates */
-import { addYears, getWeeksInMonth, startOfYear, subYears, format } from 'date-fns';
+import { getWeeksInMonth, format } from 'date-fns';
 import { enUS } from 'date-fns/locale';
 /* eslint-enable import/no-duplicates */
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -28,10 +28,10 @@ const CustomDatePicker = ({
   view = 'input',
   label,
   disablePast,
-  limitYear = false,
   shortDateFormat,
   longDateFormat,
-  isValueOnOpen = false,
+  maxDate = null,
+  minDate = null,
 }: CustomDatePickerProps) => {
   const { t } = useAppTranslation();
 
@@ -42,11 +42,7 @@ const CustomDatePicker = ({
   const [valueTmp, setValueTmp] = useState<Date | null>(value);
   const [innerValue, setInnerValue] = useState<Date | null>(value);
 
-  const [height, setHeight] = useState<number>(240); // Initial height
-
-  useEffect(() => {
-    if (getWeeksInMonth(new Date(), { locale: enUS, weekStartsOn: 0 }) === 6) setHeight(290);
-  }, []);
+  const [height, setHeight] = useState(240); // Initial height
 
   const changeHeight = (event) => {
     if (getWeeksInMonth(new Date(event), { locale: enUS, weekStartsOn: 0 }) === 6) setHeight(290);
@@ -57,21 +53,25 @@ const CustomDatePicker = ({
     if (open) setOpen(false);
   };
 
-  useEffect(() => {
-    if (value === null && open) {
-      setInnerValue(new Date());
-      if (valueTmp === null && isValueOnOpen) setValueTmp(new Date());
-    }
-  }, [value, open, valueTmp, isValueOnOpen]);
-
   const viewProps = view === 'button' ? { field: ButtonField } : { textField: DatePickerInputField };
 
-  const handleFormatSelected = (value: Date | null) => {
-    if (!value) return '***';
+  const handleFormatSelected = (value) => {
+    if (isNaN(Date.parse(value))) return '***';
+
     return format(value, longDateFormatLocale);
   };
 
-  const handleValueChange = (value: Date) => setValueTmp(value);
+  const handleValueChange = (value: Date) => {
+    setInnerValue(value);
+  };
+
+  useEffect(() => {
+    if (getWeeksInMonth(new Date(), { locale: enUS, weekStartsOn: 0 }) === 6) setHeight(290);
+  }, []);
+
+  useEffect(() => {
+    if (value === null && open) setInnerValue(new Date());
+  }, [value, open]);
 
   return (
     <ClickAwayListener onClickAway={handleClickAway}>
@@ -85,21 +85,22 @@ const CustomDatePicker = ({
                   <Button
                     variant="secondary"
                     onClick={() => {
-                      setValueTmp(value);
                       setOpen(false);
+                      setValueTmp(null);
+                      onChange && onChange(null);
                     }}
                   >
-                    {t('cancel')}
+                    {t('tr_clear')}
                   </Button>
                   <Button
                     variant="main"
                     onClick={() => {
-                      setInnerValue(innerValue);
-                      onChange && onChange(valueTmp);
+                      setValueTmp(innerValue);
+                      onChange && onChange(innerValue);
                       setOpen(false);
                     }}
                   >
-                    {t('save')}
+                    {t('tr_save')}
                   </Button>
                 </Stack>
               ),
@@ -119,8 +120,8 @@ const CustomDatePicker = ({
               ),
             }}
             open={open}
-            minDate={limitYear ? subYears(startOfYear(new Date()), 6) : null}
-            maxDate={limitYear ? addYears(startOfYear(new Date()), 8) : null}
+            minDate={minDate}
+            maxDate={maxDate}
             disablePast={disablePast}
             yearsPerRow={3}
             showDaysOutsideCurrentMonth={true}
@@ -129,15 +130,13 @@ const CustomDatePicker = ({
             onOpen={() => setOpen(true)}
             slotProps={{
               textField: {
-                onClick: () => setOpen(!open),
+                onClick: () => setOpen(true),
                 label: label,
                 value: valueTmp,
               },
               field: {
-                value: valueTmp,
-                formatView: shortDateFormatLocale,
-                setOpen,
-              } as never,
+                format: shortDateFormatLocale,
+              },
               popper: {
                 sx: {
                   ...StyleDatePickerPopper,

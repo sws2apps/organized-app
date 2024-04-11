@@ -83,7 +83,6 @@
   "tr_outgoingTalks": "Виїздні промови",
   "tr_infoOutgoingTalk": "Брати, які будуть відвідувати інші збори з публічною промовою",
   "tr_speakers": "Промовців: {{ speakersCount }}",
-  "tr_addLocation": "Додати місце",
   "tr_JWImport": "Імпортування матеріалів з jw.org",
   "tr_JWImportDesc": "Завантаження матеріалів зібрань, будь ласка, зачекай",
   "tr_successfullyImported": "Успішно імпортовано",
@@ -97,5 +96,6 @@
   "tr_noTalksList": "У тебе немає жодних промов у списку. Синхронізуй список, щоб отримати всі публічні промови.",
   "tr_countPublicTalks": "Публічні промови: {{ count }}",
   "tr_publicTalkLastSync": "Остання синхронізація {{ date }} о {{ time }}",
-  "tr_exportS99": "Експорт S-99"
+  "tr_exportS99": "Експорт S-99",
+  "tr_alreadyInSchedule": "Already in schedule"
 }

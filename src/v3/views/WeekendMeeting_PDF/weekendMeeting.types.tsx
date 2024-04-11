@@ -10,5 +10,19 @@ export type WeekendMeetingItemProps = {
     mainSpeaker: string;
     congregation: string;
     substituteName: string;
+    text: string;
+    weekType:
+      | 'Normal week'
+      | 'Week of Memorial'
+      | 'Week of special talk'
+      | 'Week of regional convention'
+      | 'Week of Circuit Assembly'
+      | 'Visit of the circuit overseer';
   };
+  isLastItem: boolean;
+};
+
+export type MeetingRolePropTypes = {
+  role: string;
+  name: string;
 };

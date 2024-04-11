@@ -67,6 +67,8 @@
   "tr_groupName": "Groupe {{ groupName }}",
   "tr_meetingDate": "Date de la réunion",
   "tr_listView": "Vue liste",
-  "tr_share": "Share",
-  "tr_copyLink": "Copy link"
+  "tr_share": "Partager",
+  "tr_copyLink": "Copier le lien",
+  "tr_unsupportedBrowserError": "Le navigateur n'est pas pris en charge",
+  "tr_unsupportedBrowserErrorDesc": "Vous utilisez un navigateur non pris en charge pour l'application Organized. Assurez-vous que votre navigateur est à jour ou essayez d'utiliser un autre navigateur. "
 }

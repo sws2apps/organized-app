@@ -16,14 +16,14 @@
   "tr_wantSupportApp": "Organizedを支援していただけますか？",
   "tr_supportAppDesc": "<p>Organized is a free app, and we're happy to develop and share it with you. While we work on it with enthusiasm, maintaining it costs money. If you'd like to show your appreciation, your support would be greatly appreciated!</p>",
   "tr_supportAppOption1": "①寄付する",
-  "tr_supportAppOption1Desc": "<p>Your donations help Organized stay free for congregations. They cover server costs and help us to build new features faster. Your generosity supports congregations worldwide!</p>",
+  "tr_supportAppOption1Desc": "<p>Organizedを世界中の会衆に無料で提供し続けるために寄付は助けとなります。それらの寄付はサーバーの使用料金や新機能の提供などに用いられます。皆さんの寛大なサポートに前もって感謝します。</p>",
   "tr_makeDonation": "寄付する",
-  "tr_supportAppOption2": "Option 2: Contribute",
+  "tr_supportAppOption2": "②貢献する",
   "tr_supportAppOption2Desc": "<p>We'd appreciate your help in the following areas:</p><ul><li>React development</li><li>UI/UX Design</li><li>App translation</li></ul><p>If you can help in any of these areas, please <a href='mailto:sws2apps.notification@gmail.com'>contact us</a>. Let's work together to improve Organized!</p><p>Also, recommending Organized to others extends its reach and benefits congregations. Any way you contribute truly enhances the app, making it better for everyone.</p>",
   "tr_howToContribute": "How to contribute",
   "tr_changeLanguage": "言語",
   "tr_languageMissing": "私の言語を追加",
-  "tr_internalError": "An internal error has occurred on our side. Please try again later.",
+  "tr_internalError": "エラーが発生しています。後でもう一度お試しください。",
   "tr_loading": "読み込み中…",
   "tr_noOptions": "見つかりません。",
   "tr_pleaseWait": "お待ちください...",
@@ -68,5 +68,7 @@
   "tr_meetingDate": "Meeting date",
   "tr_listView": "List view",
   "tr_share": "Share",
-  "tr_copyLink": "Copy link"
+  "tr_copyLink": "Copy link",
+  "tr_unsupportedBrowserError": "Unsupported browser",
+  "tr_unsupportedBrowserErrorDesc": "You are using an unsupported browser for the Organized app. Make sure that your browser is up to date, or try to use another browser. "
 }

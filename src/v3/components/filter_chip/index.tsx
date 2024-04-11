@@ -26,8 +26,8 @@ const CustomFilterChip = ({
           color: selected ? 'var(--accent-dark)' : 'var(--accent-400)',
           backgroundColor: selected ? 'var(--accent-200)' : 'var(--accent-150)',
           '@media (hover: none)': {
-            backgroundColor: 'unset',
-            color: 'var(--accent-400)',
+            backgroundColor: selected ? 'var(--accent-200)' : 'unset',
+            color: selected ? 'var(--accent-dark)' : 'var(--accent-400)',
           },
         },
       }}

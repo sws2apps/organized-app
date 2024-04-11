@@ -9,6 +9,7 @@ import { RootLayout } from '@layouts/index';
 const Dashboard = lazy(() => import('@pages/dashboard'));
 const MyProfile = lazy(() => import('@pages/my_profile'));
 const PersonsAll = lazy(() => import('@pages/persons/all_persons'));
+const PersonDetails = lazy(() => import('@pages/persons/person_details'));
 const PublicTalksList = lazy(() => import('@pages/meeting_materials/public_talks_list'));
 const BranchOfficeReports = lazy(() => import('@pages/reports/branch_office'));
 
@@ -35,6 +36,8 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
             { path: '/', element: <Dashboard /> },
             { path: '/persons', element: <PersonsAll /> },
             { path: '/reports/branch-office', element: <BranchOfficeReports /> },
+            { path: '/persons/:id', element: <PersonDetails /> },
+            { path: '/persons/new', element: <PersonDetails /> },
             { path: '/user-profile', element: <MyProfile /> },
             { path: '/public-talks-list', element: <PublicTalksList /> },
             { path: '*', element: <Dashboard /> },
