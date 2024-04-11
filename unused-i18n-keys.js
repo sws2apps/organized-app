@@ -5,11 +5,7 @@ import glob from 'glob';
 let translationKeys = [];
 
 // Use glob to get all .json files in the translations directory
-let translationFiles = glob.sync('src/shared/locales/en/*.json');
-
-// Exclude files based on filename
-const excludedFiles = ['source.json', 'ui.json']; // replace with your filenames
-translationFiles = translationFiles.filter((file) => !excludedFiles.includes(file.split('/').pop()));
+const translationFiles = glob.sync('src/shared/locales/en/*.json');
 
 translationFiles.forEach((file) => {
   const translationFile = fs.readFileSync(file);
@@ -20,7 +16,7 @@ translationFiles.forEach((file) => {
 let usedKeys = [];
 
 // Use glob to get all .js and .jsx files in the project directory
-const files = glob.sync('src/v3/**/*.+(js|jsx|ts|tsx)');
+const files = glob.sync('src/current/**/*.+(js|jsx)');
 
 files.forEach((file) => {
   const sourceCode = fs.readFileSync(file, 'utf-8');
