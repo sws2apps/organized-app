@@ -78,5 +78,5 @@
   "tr_2FASetupKey": "Clé de configuration",
   "tr_2FASetupKeyDesc": "Scannez le code QR avec votre application d'authentification pour configurer l'authentification à deux facteurs.",
   "tr_2FAStep2": "Étape 2 : Entrez le code 2FA",
-  "tr_timeAwayDesc": "No time away set yet. Keep your time away up-to-date so that the brothers can take it into account when scheduling future meetings."
+  "tr_timeAwayDesc": "Pas d'absence définie. Mettez à jour vos dates d'absences pour que les frères puissent le prendre en compte lorsqu'ils vont programmer les prochaines réunions."
 }
