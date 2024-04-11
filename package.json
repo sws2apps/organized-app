@@ -50,7 +50,7 @@
     "eslint-config-prettier": "^9.1.0",
     "fast-memoize": "^2.5.2",
     "file-select-dialog": "^1.5.4",
-    "firebase": "^10.10.0",
+    "firebase": "^10.11.0",
     "html2pdf.js": "^0.10.1",
     "i18next": "^23.11.1",
     "interweave": "^13.1.0",
