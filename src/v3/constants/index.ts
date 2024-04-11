@@ -39,3 +39,5 @@ export const APP_ROLES = [
 ];
 
 export const VIP_ROLES = ['coordinator', 'public_talk_coordinator', 'lmmo', 'lmmo-backup', 'secretary'];
+
+export const POCKET_ROLES = ['elder', 'ms', 'publisher', 'view_meeting_schedule'];
