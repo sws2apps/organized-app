@@ -15,7 +15,7 @@ const CustomDropdownContainer = (props: CustomDropdownContainerProps) => {
   return (
     <Box
       ref={props.reference}
-      sx={{ display: 'flex', gap: '8px', cursor: 'pointer' }}
+      sx={{ display: 'flex', gap: '8px', cursor: 'pointer', justifyContent: 'center' }}
       onClick={(event) => {
         props.onClick(event);
       }}

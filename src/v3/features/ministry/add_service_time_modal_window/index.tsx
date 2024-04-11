@@ -1,11 +1,10 @@
-import { Box, TextField } from '@mui/material';
+import { Box, TextField, Theme } from '@mui/material';
 
 import { StyledBox, StyledModalWindowContainer, StyledRowContainer } from './add_service_time_modal_window.styled';
 import { AddServiceTimeModalWindowProps } from './add_service_time_modal_window.types';
 import useAppTranslation from '@hooks/useAppTranslation';
 
 import CustomTypography from '@components/typography';
-import DatePicker from '@components/date_picker';
 import MinusButton from '@components/minus_button';
 import PlusButton from '@components/plus_button';
 
@@ -15,6 +14,7 @@ import { IconAdd, IconLanguageCourse, IconPersonalDay, IconSchool, IconSchoolFor
 import { hoursToSeconds } from 'date-fns';
 import { EditAndAddBibleStudyContext } from '../EditAndAddBibleStudyContext';
 import CustomButton from '@components/button';
+import CustomDatePicker from '@components/date_picker';
 
 /**
  * Add Service Time Modal Window component.
@@ -175,6 +175,17 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
     setCountOfStudies(studiesCounter);
   }, [checkedLocalStudiesStatesList, props.bibleStudiesList]);
 
+  const styleForStyledBox = (theme: Theme) => ({
+    [theme.breakpoints.down('tablet')]: {
+      flexDirection: 'column',
+      '& .MuiBox-root': {
+        width: '100%',
+        maxWidth: 'none',
+        minWidth: 'none',
+      },
+    },
+  });
+
   return (
     <StyledModalWindowContainer
       ref={props.reference}
@@ -195,14 +206,14 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
             '.MuiButtonBase-root:hover': { backgroundColor: 'transparent' },
           }}
         >
-          <DatePicker view={'button'} onChange={async (value) => setLocalDate(value)} value={new Date()} />
+          <CustomDatePicker view={'button'} onChange={async (value) => setLocalDate(value)} value={new Date()} />
         </Box>
       </Box>
       <StyledRowContainer
         sx={{ justifyContent: 'space-between', flexDirection: 'column', alignItems: 'stretch' }}
         ref={styledRowContainerWithCreditHours}
       >
-        <StyledBox>
+        <StyledBox sx={styleForStyledBox}>
           <CustomTypography className="body-regular">{t('tr_hours')}</CustomTypography>
           <Box
             sx={{
@@ -241,7 +252,7 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
           </Box>
         </StyledBox>
         {variant == 'pioneer' && showCreditHours ? (
-          <StyledBox>
+          <StyledBox sx={styleForStyledBox}>
             <CustomDropdownContainer
               open={dropdownWithSchoolsOpen}
               label={t('tr_creditHours')}
@@ -331,7 +342,20 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
           </StyledBox>
         ) : null}
       </StyledRowContainer>
-      <StyledRowContainer ref={styledRowContainerWithBibleStudiesRef} sx={{ alignItems: 'center' }}>
+      <StyledRowContainer
+        ref={styledRowContainerWithBibleStudiesRef}
+        sx={(theme) => ({
+          alignItems: 'center',
+          [theme.breakpoints.down('tablet')]: {
+            flexDirection: 'column',
+            '& .MuiBox-root': {
+              width: '100%',
+              maxWidth: 'none',
+              minWidth: 'none',
+            },
+          },
+        })}
+      >
         <CustomDropdownContainer
           open={dropdownWithStudiesOpen}
           reference={dropdownWithStudiesOpenButtonReference}
@@ -409,7 +433,17 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
           <PlusButton onClick={incrementCountOfStudies} />
         </Box>
       </StyledRowContainer>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+      <Box
+        sx={(theme) => ({
+          display: 'flex',
+          justifyContent: 'space-between',
+          width: '100%',
+          [theme.breakpoints.down('tablet')]: {
+            flexDirection: 'column',
+            gap: '8px',
+          },
+        })}
+      >
         <CustomButton variant="secondary" onClick={props.cancelButtonClick}>
           {t('tr_cancel')}
         </CustomButton>
