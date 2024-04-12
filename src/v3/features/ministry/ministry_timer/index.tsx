@@ -9,6 +9,7 @@ import PopUpForEditOrCreateBibleStudy from '../pop_up_for_edit_or_create_bible_s
 import { EditAndAddBibleStudyContext } from '../EditAndAddBibleStudyContext';
 import { AddServiceTimeModalWindow } from '../add_service_time_modal_window';
 import CustomTypography from '@components/typography';
+import { convertDurationInSecondsToString, convertDurationStringToSeconds } from '../utils';
 
 /**
  * Left Ministry Timer Button component.
@@ -98,35 +99,6 @@ const MinistryTimer = ({ duration = '00:00' }: { duration?: string }) => {
     } else {
       setTimerState(MinistryTimerStates.Started);
     }
-  };
-
-  /**
-   * Converts a duration string in the format 'HH:MM' to seconds.
-   * @param {string} duration - The duration string to convert.
-   * @returns {number} The duration in seconds.
-   */
-  const convertDurationStringToSeconds = (duration: string): number => {
-    const [hours, minutes] = duration.split(':');
-    return parseInt(hours) * 3600 + parseInt(minutes) * 60;
-  };
-
-  /**
-   * Converts a duration in seconds to a string format 'HH:MM'.
-   * @param {number} seconds - The duration in seconds to convert.
-   * @returns {string} The duration string in 'HH:MM' format.
-   */
-  const convertDurationInSecondsToString = (seconds: number): string => {
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-
-    if (hours === 0 && minutes === 0) {
-      return '00:00';
-    }
-
-    const formattedHours = hours < 10 ? '0' + hours.toString() : hours.toString();
-    const formattedMinutes = minutes < 10 ? '0' + minutes.toString() : minutes.toString();
-
-    return `${formattedHours}:${formattedMinutes}`;
   };
 
   const [durationInSeconds, setDurationInSeconds] = useState(() => {
