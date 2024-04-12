@@ -136,6 +136,13 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
 
   const [localDate, setLocalDate] = useState<Date>(null);
 
+  const clearAllFields = () => {
+    setLocalDurationInSeconds(0);
+    setCheckedLocalStudiesStatesList(Array<boolean>(props.bibleStudiesList.length).fill(false));
+    setLocalCreditHoursDurationInSeconds(0);
+    setCountOfStudiesInBuffer(0);
+  };
+
   // code for fix bug with empty field
   useEffect(() => {
     if (convertDurationInSecondsToString(localDurationInSeconds) === 'NaN:NaN') {
@@ -442,6 +449,9 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
                 date: localDate,
               });
               props.addButtonClick();
+
+              // Clear all values
+              clearAllFields();
             }}
           >
             {t('tr_add')}
