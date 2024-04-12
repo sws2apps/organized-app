@@ -18,7 +18,11 @@ const ReportsCard = () => {
         />
       </ListItem>
       <ListItem disablePadding>
-        <DashboardMenu icon={<IconReportToBranch color="var(--black)" />} primaryText={t('tr_branchOfficeReport')} />
+        <DashboardMenu
+          icon={<IconReportToBranch color="var(--black)" />}
+          primaryText={t('tr_branchOfficeReport')}
+          path="/reports/branch-office"
+        />
       </ListItem>
     </DashboardCard>
   );

@@ -47,3 +47,4 @@ export { default as ProgressBarSmall } from './progress_bar_small/index';
 export { default as UserAccountItem } from './user_account_item/index';
 export { default as DarkOverlay } from './dark_overlay/index';
 export { CustomDropdownContainer, CustomDropdownMenu, CustomDropdownItem } from './dropdown/index';
+export { default as CardHeader } from './card_header/index';
