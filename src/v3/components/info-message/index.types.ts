@@ -1,3 +1,4 @@
+import { SxProps, Theme } from '@mui/material/styles';
 import { ReactElement } from 'react';
 
 export type InfoMessagePropsType = {
@@ -9,4 +10,6 @@ export type InfoMessagePropsType = {
   messageHeader: string;
   message: string;
   onClose: VoidFunction;
+
+  sx?: SxProps<Theme>;
 };
