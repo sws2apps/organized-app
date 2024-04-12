@@ -1,10 +1,11 @@
 import { IconButton } from '@mui/material';
 import { IconAdd } from '@icons/index';
 
-const CustomPlusButton = () => {
+const CustomPlusButton = (props: { onClick?: VoidFunction }) => {
   return (
     <IconButton
       disableRipple
+      onClick={props.onClick}
       sx={{
         border: '1px solid var(--accent-350)',
         borderRadius: 'var(--radius-m)',

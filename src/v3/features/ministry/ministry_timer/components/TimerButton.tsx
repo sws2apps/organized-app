@@ -19,7 +19,7 @@ const TimerButton = ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        gap: '8px',
+        gap: '2px',
         flex: '1 0 0',
         borderRadius: 'var(--radius-l)',
         background: 'var(--accent-150)',
