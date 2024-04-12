@@ -4,11 +4,10 @@ import { IconArrowLink, IconCheckCircle, IconInfo, IconUndo } from '@components/
 import Typography from '@components/typography';
 import Select from '@components/select';
 import { useAppTranslation } from '@hooks/index';
-import Divider from '@mui/material/Divider';
 import { useState } from 'react';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import SubmitReport from './components/submit_report';
-import { BranchOfficePageStateType, BranchReportsList, type BranchOfficeReportType } from './index.types';
+import { BranchOfficePageStateType, BranchReportsList, type BranchOfficeReportType, ReportResult } from './index.types';
 import { BranchS10ReportResult, BranchS1ReportResult } from './components/report_results';
 import { s10reportMockData, s1reportMockData } from './index.mock';
 import BranchReportToolbar from './components/report_toolbar';
@@ -34,20 +33,38 @@ const BranshOfficeReportsPage = () => {
   const [isReportSubmit, setIsReportSubmit] = useState<boolean>(false);
   const [reportSubmitted, setReportSubmitted] = useState<boolean>(false);
 
+  //This should be refactored adter implementing the real data
+  const [reportResultData, setReportResultData] = useState({
+    year: 0,
+    month: 0,
+    yearRepresentation: '',
+    monthRepresentation: '',
+  });
+
   const onSubmitReport = async () => {
     setIsReportSubmit(false);
     setReportSubmitted(true);
     await displaySnackNotification({
       header: t('tr_done'),
-      message: t('tr_doneDesc'),
+      message: t('tr_reportSubmittedGeneralDesc'),
       severity: 'success',
     });
   };
 
-  const onGenerateReport = () => {
+  const onGenerateReport = (
+    result: BranchOfficeReportToolbarData,
+    yearRepresentation: string,
+    monthRepresentation: string
+  ) => {
     setPageState('generating');
     const timer = setTimeout(() => {
       setPageState('generated');
+      setReportResultData({
+        year: result.selectedYear,
+        month: result.selectedMonth,
+        yearRepresentation,
+        monthRepresentation,
+      });
     }, 5000);
 
     return () => clearTimeout(timer);
@@ -66,7 +83,7 @@ const BranshOfficeReportsPage = () => {
           ) : (
             <>
               <Button variant="secondary" disabled={pageState !== 'generated'} startIcon={<IconArrowLink />}>
-                Submit on JW
+                {t('tr_submitOnHub')}
               </Button>
               <Button
                 variant="main"
@@ -118,9 +135,9 @@ const BranshOfficeReportsPage = () => {
           {pageState !== 'generated' ? (
             <InfoTip isBig={false} icon={<IconInfo />} color="white" text={t('tr_branchOfficeReportMonthsDesc')} />
           ) : reportType === 's1' ? (
-            BranchS1ReportResult(s1reportMockData, t)
+            BranchS1ReportResult(s1reportMockData, t, reportResultData.monthRepresentation)
           ) : (
-            BranchS10ReportResult(s10reportMockData, t, congName)
+            BranchS10ReportResult(s10reportMockData, t, reportResultData.yearRepresentation, congName)
           )}
         </Box>
       </StyledPageContentBox>

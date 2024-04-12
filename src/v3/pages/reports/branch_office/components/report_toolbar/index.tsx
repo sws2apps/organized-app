@@ -71,7 +71,7 @@ const BranchReportToolbar = ({ pageState, onGenerateReport, reportType, t }: Bra
         reportType={reportType}
         variant="tertiary"
         startIcon={buttonIcon}
-        onClick={() => onGenerateReport(data)}
+        onClick={() => onGenerateReport(data, yearsList[data.selectedYear], monthList[data.selectedMonth])}
       >
         {pageState === 'generated' ? t('tr_regenerate') : t('tr_generate')}
       </StyledButton>

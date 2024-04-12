@@ -2,7 +2,14 @@ import React from 'react';
 import { Typography } from '@mui/material';
 import { CardHeader } from '@components/index';
 import { BranchOfficeS10ReportResult, BranchOfficeS1ReportResult } from '../../index.types';
-import { StyledDivider, StyledColumnBox, StyledContentBox, StyledContentCardBox, StyledRowBox } from './index.styles';
+import {
+  StyledDivider,
+  StyledColumnBox,
+  StyledContentBox,
+  StyledContentCardBox,
+  StyledRowBox,
+  StyledHeaderBox,
+} from './index.styles';
 
 import { TFunction } from 'i18next';
 
@@ -21,11 +28,18 @@ const ReportResultElement = ({ title, value }: { title: string; value: string })
   );
 };
 
-export const BranchS1ReportResult = (data: BranchOfficeS1ReportResult, t: TFunction<'translation', undefined>) => {
+export const BranchS1ReportResult = (
+  data: BranchOfficeS1ReportResult,
+  t: TFunction<'translation', undefined>,
+  month: string
+) => {
   return (
     <StyledContentBox>
       <StyledContentCardBox>
         <StyledColumnBox gap="8px">
+          <Typography className="h2" color="var(--black)">
+            {month}
+          </Typography>
           <ReportResultElement title={t('tr_activePublishers')} value={data.activePublishers.toString()} />
           <StyledDivider />
           <ReportResultElement
@@ -71,18 +85,21 @@ export const BranchS1ReportResult = (data: BranchOfficeS1ReportResult, t: TFunct
 export const BranchS10ReportResult = (
   data: BranchOfficeS10ReportResult,
   t: TFunction<'translation', undefined>,
+  year: string,
   congName: string
 ) => {
   return (
     <StyledContentBox>
       <StyledContentCardBox>
         <StyledColumnBox gap="16px">
-          <Typography className="h2" color="var(--black)">
-            {t('tr_analysisReport')}
-          </Typography>
-          <Typography className="h4" color="var(--grey-400)">
-            {congName}
-          </Typography>
+          <StyledHeaderBox>
+            <Typography className="h2" color="var(--black)">
+              {`${t('tr_analysisReport')} ${year}`}
+            </Typography>
+            <Typography className="h4" color="var(--grey-400)">
+              {congName}
+            </Typography>
+          </StyledHeaderBox>
           <StyledColumnBox gap="8px">
             <CardHeader className={'h4'}>{t('tr_meetingAttendance')}</CardHeader>
             <ReportResultElement

@@ -3,7 +3,7 @@ import { BranchOfficeReportType, type BranchOfficePageStateType } from '../../in
 
 export type BranchOfficeReportToolbarProps = {
   pageState: BranchOfficePageStateType;
-  onGenerateReport: (data: BranchOfficeReportToolbarData) => void;
+  onGenerateReport: (data: BranchOfficeReportToolbarData, year: string, month: string) => void;
   reportType: BranchOfficeReportType;
   t: TFunction<'translation', undefined>;
 };

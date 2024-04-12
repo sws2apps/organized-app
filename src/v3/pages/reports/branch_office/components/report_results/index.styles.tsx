@@ -34,3 +34,10 @@ export const StyledRowBox = styled(Box)({
 export const StyledDivider = styled(Divider)({
   color: 'var(--accent-200)',
 });
+
+export const StyledHeaderBox = styled(Box)({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '8px',
+  justifyContent: 'space-between',
+});
