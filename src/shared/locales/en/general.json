@@ -70,5 +70,6 @@
   "tr_share": "Share",
   "tr_copyLink": "Copy link",
   "tr_unsupportedBrowserError": "Unsupported browser",
-  "tr_unsupportedBrowserErrorDesc": "You are using an unsupported browser for the Organized app. Make sure that your browser is up to date, or try to use another browser. "
+  "tr_unsupportedBrowserErrorDesc": "You are using an unsupported browser for the Organized app. Make sure that your browser is up to date, or try to use another browser. ",
+  "tr_reportSubmittedGeneralDesc": "Your report has been submitted"
 }
