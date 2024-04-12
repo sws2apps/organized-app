@@ -241,7 +241,7 @@
   "tr_disqualify": "Disqualify",
   "tr_moved": "Moved",
   "tr_qualifyAgain": "Qualify again",
-  "tr_privileges": "Privileges",
+  "tr_privileges": "Geistiger Status",
   "tr_enrollments": "Enrollments",
   "tr_hallA": "A",
   "tr_hallB": "B",
@@ -325,7 +325,6 @@
   "tr_baptizedUnbaptizedError": "A baptized publisher cannot be changed to unbaptized.",
   "tr_baptizedMidweekStudentError": "A baptized publisher cannot be changed to midweek midweek student.",
   "tr_unBaptizedMidweekStudentError": "An unbaptized publisher cannot be changed to midweek midweek student.",
-  "tr_enrollment": "Enrollment",
   "tr_userDeletedDesc": "{{ UserName }} no longer has a user profile and cannot log in to your congregation's account",
   "tr_userDeletedTitle": "User profile deleted: {{ UserName }}"
 }
