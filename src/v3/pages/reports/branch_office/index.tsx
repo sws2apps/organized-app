@@ -16,6 +16,7 @@ import { BranchOfficeReportToolbarData } from './components/report_toolbar/index
 import { congNameState } from '@states/settings';
 import { useRecoilValue } from 'recoil';
 import { displaySnackNotification } from '@services/recoil/app';
+import { StyledContentBox, StyledDivider, StyledPageContentBox, StyledReportBox } from './index.styles';
 
 const BranshOfficeReportsPage = () => {
   const theme = useTheme();
@@ -43,7 +44,7 @@ const BranshOfficeReportsPage = () => {
     });
   };
 
-  const onGenerateReport = (data: BranchOfficeReportToolbarData) => {
+  const onGenerateReport = () => {
     setPageState('generating');
     const timer = setTimeout(() => {
       setPageState('generated');
@@ -53,7 +54,7 @@ const BranshOfficeReportsPage = () => {
   };
 
   return (
-    <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
+    <StyledContentBox>
       <PageTitle
         title={t('tr_branchOfficeReport')}
         backTo="/"
@@ -90,22 +91,10 @@ const BranshOfficeReportsPage = () => {
         />
       )}
 
-      <Box sx={{ display: 'flex', flexDirection: desktopView ? 'row' : 'column', gap: '16px' }}>
-        <Box
-          sx={{
-            backgroundColor: 'var(--white)',
-            border: '1px solid var(--accent-300)',
-            borderRadius: 'var(--radius-xl)',
-            padding: '16px',
-            display: 'flex',
-            gap: '16px',
-            flexDirection: 'column',
-            height: 'min-content',
-            flex: desktopView && 19,
-          }}
-        >
+      <StyledPageContentBox desktopView={desktopView}>
+        <StyledReportBox desktopView={desktopView}>
           <Select
-            label={'Choose report'}
+            label={t('tr_chooseReport')}
             value={reportType}
             onChange={(e) => setReportType(e.target.value as BranchOfficeReportType)}
           >
@@ -117,9 +106,14 @@ const BranshOfficeReportsPage = () => {
               </MenuItem>
             ))}
           </Select>
-          <Divider />
-          <BranchReportToolbar pageState={pageState} reportType={reportType} onGenerateReport={onGenerateReport} />
-        </Box>
+          <StyledDivider />
+          <BranchReportToolbar
+            pageState={pageState}
+            reportType={reportType}
+            onGenerateReport={onGenerateReport}
+            t={t}
+          />
+        </StyledReportBox>
         <Box sx={{ flex: desktopView && 15 }}>
           {pageState !== 'generated' ? (
             <InfoTip isBig={false} icon={<IconInfo />} color="white" text={t('tr_branchOfficeReportMonthsDesc')} />
@@ -129,8 +123,8 @@ const BranshOfficeReportsPage = () => {
             BranchS10ReportResult(s10reportMockData, t, congName)
           )}
         </Box>
-      </Box>
-    </Box>
+      </StyledPageContentBox>
+    </StyledContentBox>
   );
 };
 

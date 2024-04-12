@@ -84,7 +84,7 @@ export const BranchS10ReportResult = (
             {congName}
           </Typography>
           <StyledColumnBox gap="8px">
-            <CardHeader className={'h4'}>{'Meeting attendance'}</CardHeader>
+            <CardHeader className={'h4'}>{t('tr_meetingAttendance')}</CardHeader>
             <ReportResultElement
               title={t('tr_verageAttendanceMM')}
               value={data.midweekMeetingAttendanceAvg.toString()}

@@ -6,7 +6,7 @@ import { StyledBox, StyledButton, StyledSelect } from './index.styles';
 import { BranchOfficeReportToolbarData, BranchOfficeReportToolbarProps } from './index.types';
 const NUMBER_OF_YEARS = 5;
 
-const BranchReportToolbar = ({ pageState, onGenerateReport, reportType }: BranchOfficeReportToolbarProps) => {
+const BranchReportToolbar = ({ pageState, onGenerateReport, reportType, t }: BranchOfficeReportToolbarProps) => {
   const theme = useTheme();
   const laptopView = useMediaQuery(theme.breakpoints.up('laptop'), {
     noSsr: true,
@@ -36,7 +36,7 @@ const BranchReportToolbar = ({ pageState, onGenerateReport, reportType }: Branch
   return (
     <StyledBox laptopView={laptopView}>
       <StyledSelect
-        label={'Service year'}
+        label={t('tr_serviceYear')}
         onChange={(e) => setData({ ...data, selectedYear: parseInt(e.target.value) })}
         value={data.selectedYear.toString()}
         reportType={reportType}
@@ -53,7 +53,7 @@ const BranchReportToolbar = ({ pageState, onGenerateReport, reportType }: Branch
       </StyledSelect>
       {reportType === 's1' && (
         <StyledSelect
-          label={'Month'}
+          label={t('tr_month')}
           onChange={(e) => setData({ ...data, selectedMonth: parseInt(e.target.value) })}
           value={data.selectedMonth.toString()}
           reportType={reportType}
@@ -73,7 +73,7 @@ const BranchReportToolbar = ({ pageState, onGenerateReport, reportType }: Branch
         startIcon={buttonIcon}
         onClick={() => onGenerateReport(data)}
       >
-        {pageState === 'generated' ? 'Regenerate' : 'Generate'}
+        {pageState === 'generated' ? t('tr_regenerate') : t('tr_generate')}
       </StyledButton>
     </StyledBox>
   );
