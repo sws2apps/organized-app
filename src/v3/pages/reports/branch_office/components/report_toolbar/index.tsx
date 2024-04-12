@@ -6,7 +6,13 @@ import { StyledBox, StyledButton, StyledSelect } from './index.styles';
 import { BranchOfficeReportToolbarData, BranchOfficeReportToolbarProps } from './index.types';
 const NUMBER_OF_YEARS = 5;
 
-const BranchReportToolbar = ({ pageState, onGenerateReport, reportType, t }: BranchOfficeReportToolbarProps) => {
+const BranchReportToolbar = ({
+  pageState,
+  onGenerateReport,
+  reportType,
+  disabledGenerateButton,
+  t,
+}: BranchOfficeReportToolbarProps) => {
   const theme = useTheme();
   const laptopView = useMediaQuery(theme.breakpoints.up('laptop'), {
     noSsr: true,
@@ -71,6 +77,7 @@ const BranchReportToolbar = ({ pageState, onGenerateReport, reportType, t }: Bra
         reportType={reportType}
         variant="tertiary"
         startIcon={buttonIcon}
+        disabled={disabledGenerateButton}
         onClick={() => onGenerateReport(data, yearsList[data.selectedYear], monthList[data.selectedMonth])}
       >
         {pageState === 'generated' ? t('tr_regenerate') : t('tr_generate')}

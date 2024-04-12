@@ -7,7 +7,7 @@ import { useAppTranslation } from '@hooks/index';
 import { useState } from 'react';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import SubmitReport from './components/submit_report';
-import { BranchOfficePageStateType, BranchReportsList, type BranchOfficeReportType, ReportResult } from './index.types';
+import { BranchOfficePageStateType, BranchReportsList, type BranchOfficeReportType } from './index.types';
 import { BranchS10ReportResult, BranchS1ReportResult } from './components/report_results';
 import { s10reportMockData, s1reportMockData } from './index.mock';
 import BranchReportToolbar from './components/report_toolbar';
@@ -127,6 +127,7 @@ const BranshOfficeReportsPage = () => {
           <BranchReportToolbar
             pageState={pageState}
             reportType={reportType}
+            disabledGenerateButton={reportSubmitted}
             onGenerateReport={onGenerateReport}
             t={t}
           />
