@@ -60,7 +60,6 @@
   "tr_noInternetConnection": "İnternet bağlantısı yok",
   "tr_noInternetConnectionDesc": "Organize şu anda çevrimdışı çalışıyor. Tekrar çevrimiçi olduğunuzda girdiğiniz tüm yeni veriler senkronize edilebilecektir.",
   "tr_done": "Tamamlandı",
-  "tr_doneDesc": "{{ month }} raporunuz gönderildi",
   "tr_notifications": "Bildirimler",
   "tr_reject": "Reddet",
   "tr_accept": "Kabul et",
@@ -90,5 +89,6 @@
   "tr_activitiesCard": "Activities",
   "tr_hallCleaning": "Hall cleaning",
   "tr_yourEmailField": "Your email address",
-  "tr_yourMessage": "Your message"
+  "tr_yourMessage": "Your message",
+  "tr_reportSubmittedDesc": "{{ month }} raporunuz gönderildi"
 }

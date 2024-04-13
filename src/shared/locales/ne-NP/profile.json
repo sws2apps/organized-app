@@ -48,7 +48,6 @@
   "tr_currentSession": "हालको सेसन",
   "tr_logoutClearData": "Log out and clear the local data?",
   "tr_logoutClearDataDesc": "Make sure that all your recently created data is synced, otherwise it will be deleted.",
-  "tr_doneDesc": "The session is terminated",
   "tr_2FAEnable": "दुई-चरण प्रमाणीकरण सक्रिय गर्ने",
   "tr_2FAEnableDesc": "Use the Google Authenticator or Microsoft Authenticator app on your mobile device to scan the QR code and complete the setup.",
   "tr_codeCopied": "कोड कपी गरियो",
@@ -77,5 +76,7 @@
   "tr_2FAQRCodeDesc": "दुई-चरण प्रमाणीकरण सेटअप गर्न प्रमाणीकरण एपबाट QR कोड स्क्यान गर्नुहोस्।",
   "tr_2FASetupKey": "सेटअप नम्बर",
   "tr_2FASetupKeyDesc": "दुई-चरण प्रमाणीकरण सेटअप गर्न सेटअप नम्बर कपी गरी प्रमाणीकरण एपमा पेस्ट गर्नुहोस्।",
-  "tr_2FAStep2": "Step 2: Enter the 2FA code"
+  "tr_2FAStep2": "Step 2: Enter the 2FA code",
+  "tr_timeAwayDesc": "No time away set yet. Keep your time away up-to-date so that the brothers can take it into account when scheduling future meetings.",
+  "tr_terminatedDesc": "The session on that device is terminated"
 }

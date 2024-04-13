@@ -48,7 +48,6 @@
   "tr_currentSession": "Geçerli oturum",
   "tr_logoutClearData": "Çıkış yapmak ve yerel verileri silmek istiyor musunuz?",
   "tr_logoutClearDataDesc": "Tüm yakın zamanda oluşturulan verilerinizin senkronize olduğundan emin olun, aksi takdirde silinecektir.",
-  "tr_doneDesc": "Oturum sonlandırıldı",
   "tr_2FAEnable": "İki faktörlü kimlik doğrulamayı etkinleştir",
   "tr_2FAEnableDesc": "Use the Google Authenticator or Microsoft Authenticator app on your mobile device to scan the QR code and complete the setup.",
   "tr_codeCopied": "Kod kopyalandı",
@@ -77,5 +76,7 @@
   "tr_2FAQRCodeDesc": "Scan the QR code with your authenticator app to set up Two-Factor Authentication.",
   "tr_2FASetupKey": "Setup key",
   "tr_2FASetupKeyDesc": "Copy the setup key and paste it into your authenticator app to set up Two-Factor Authentication.",
-  "tr_2FAStep2": "Step 2: Enter the 2FA code"
+  "tr_2FAStep2": "Step 2: Enter the 2FA code",
+  "tr_timeAwayDesc": "No time away set yet. Keep your time away up-to-date so that the brothers can take it into account when scheduling future meetings.",
+  "tr_terminatedDesc": "Oturum sonlandırıldı"
 }

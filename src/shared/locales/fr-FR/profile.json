@@ -48,7 +48,6 @@
   "tr_currentSession": "Session en cours",
   "tr_logoutClearData": "Se déconnecter et effacer les données locales ?",
   "tr_logoutClearDataDesc": "Assurez-vous que toutes vos données récemment créées sont synchronisées, sinon elles seront supprimées.",
-  "tr_doneDesc": "La session est terminée",
   "tr_2FAEnable": "Activer l'authentification à deux facteurs",
   "tr_2FAEnableDesc": "Utilisez l'application Google Authenticator ou Microsoft Authenticator sur votre smartphone pour scanner le code QR et terminer la configuration.",
   "tr_codeCopied": "Le code a été copié",
@@ -77,5 +76,7 @@
   "tr_2FAQRCodeDesc": "Scannez le code QR avec votre application d'authentification pour configurer l'authentification à deux facteurs.",
   "tr_2FASetupKey": "Clé de configuration",
   "tr_2FASetupKeyDesc": "Scannez le code QR avec votre application d'authentification pour configurer l'authentification à deux facteurs.",
-  "tr_2FAStep2": "Étape 2 : Entrez le code 2FA"
+  "tr_2FAStep2": "Étape 2 : Entrez le code 2FA",
+  "tr_timeAwayDesc": "Pas d'absence définie. Mettez à jour vos dates d'absences pour que les frères puissent le prendre en compte lorsqu'ils vont programmer les prochaines réunions.",
+  "tr_terminatedDesc": "La session est terminée"
 }

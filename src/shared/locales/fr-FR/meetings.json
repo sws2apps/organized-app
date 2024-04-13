@@ -17,7 +17,7 @@
   "tr_partNumber": "Partie {{ partNumber }}",
   "tr_duration": "Durée",
   "tr_type": "Type",
-  "tr_sourceMaterial": "Source material",
+  "tr_sourceMaterial": "Ressources des réunions",
   "tr_overwriteWithCustomData": "Remplacer par des données personnalisées",
   "tr_title": "Titre",
   "tr_addCustomMeetingPart": "Ajouter une partie personnalisée de la réunion",
