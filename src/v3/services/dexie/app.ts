@@ -16,7 +16,7 @@ import { BackupDataType, SettingsType } from '@definition/app';
 import {
   AssignmentChange,
   OtherServiceChange,
-  PersontType,
+  PersonType,
   SpiritualStatusChange,
   TimeAwayChange,
 } from '@definition/person';
@@ -139,8 +139,8 @@ export const dbRestoreSettingFromBackup = async (cong_settings: SettingsType[]) 
   }
 };
 
-export const dbRestorePersonsFromBackup = async (cong_persons: PersontType[]) => {
-  const oldPersons: PersontType[] = await appDb.persons.toArray();
+export const dbRestorePersonsFromBackup = async (cong_persons: PersonType[]) => {
+  const oldPersons: PersonType[] = await appDb.persons.toArray();
 
   // handle modified person record
   for await (const oldPerson of oldPersons) {

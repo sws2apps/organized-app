@@ -1,10 +1,10 @@
 /*
 This file holds the source of the truth from the table "persons".
 */
-import { PersontType } from '@definition/person';
+import { PersonType } from '@definition/person';
 import { atom, selector } from 'recoil';
 
-export const personsState = atom({
+export const personsState = atom<PersonType[]>({
   key: 'persons',
   default: [],
 });
@@ -15,8 +15,8 @@ export const personsActiveState = selector({
     const persons = get(personsState);
 
     return persons
-      .filter((person) => !person.is_deleted && !person.isMoved)
-      .sort((a, b) => (a.person_name > b.person_name ? 1 : -1));
+      .filter((person) => person._deleted === null)
+      .sort((a, b) => (a.person_lastname.value > b.person_lastname.value ? 1 : -1));
   },
 });
 
@@ -40,18 +40,17 @@ export const personsFiltersKeyState = atom<(string | number)[]>({
   default: [],
 });
 
-export const personCurrentDetailsState = atom<PersontType>({
+export const personCurrentDetailsState = atom<PersonType>({
   key: 'personNewDetails',
   default: {
     _deleted: null,
-    person_uid: crypto.randomUUID(),
+    person_uid: '',
     person_firstname: { value: '', updatedAt: '' },
     person_lastname: { value: '', updatedAt: '' },
     person_displayName: { value: '', updatedAt: '' },
     isMale: { value: true, updatedAt: '' },
     isFemale: { value: false, updatedAt: '' },
     birthDate: { value: null, updatedAt: '' },
-    isUnavailable: { value: false, updatedAt: '' },
     assignments: [],
     timeAway: [],
     isMoved: { value: false, updatedAt: '' },
@@ -85,5 +84,27 @@ export const personCurrentDetailsState = atom<PersontType>({
     privileges: [],
     enrollments: [],
     emergencyContacts: [],
+  },
+});
+
+export const personsFilteredState = selector({
+  key: 'personsFiltered',
+  get: ({ get }) => {
+    const persons = get(personsActiveState);
+    const searchKey = get(personsSearchKeyState);
+
+    const result: PersonType[] = [];
+
+    for (const person of persons) {
+      const foundFirstName = person.person_firstname.value.toLowerCase().includes(searchKey.toLowerCase());
+      const foundLastName = person.person_lastname.value.toLowerCase().includes(searchKey.toLowerCase());
+      const foundDisplayName = person.person_displayName.value.toLowerCase().includes(searchKey.toLowerCase());
+
+      if (foundFirstName || foundLastName || foundDisplayName) {
+        result.push(person);
+      }
+    }
+
+    return result;
   },
 });

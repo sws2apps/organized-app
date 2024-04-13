@@ -23,14 +23,7 @@ export type TalkHistoryType = {
   last_delivered_formatted: string;
 };
 
-export type WeekType = {
-  value: number;
-  sort_index: number;
-  label: string;
-};
-
 export type TalkType = {
-  id?: string;
   talk_number: number;
   talk_title: {
     [language: string]: {
@@ -189,3 +182,18 @@ export type MidweekMeetingTimeType = {
 };
 
 export type PublicTalksViewType = 'list' | 'table';
+
+export enum Week {
+  NORMAL = 1,
+  CO_VISIT = 2,
+  ASSEMBLY = 3,
+  CONVENTION = 4,
+}
+
+export type WeekType = {
+  id: Week;
+  sort_index: number;
+  week_type_name: {
+    [language: string]: string;
+  };
+};

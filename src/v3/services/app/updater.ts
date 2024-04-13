@@ -1,4 +1,5 @@
 import { LANGUAGE_LIST } from '@constants/index';
+import { AssignmentCode } from '@definition/schedules';
 import { appDb } from '@services/dexie';
 import { getTranslation } from '@services/i18n/translation';
 
@@ -19,10 +20,10 @@ export const updateWeekType = async () => {
 
   await appDb.week_type.clear();
 
-  await appDb.week_type.put({ id_week_type: 1, sort_index: 1, week_type_name: { ...normWeekObj } });
-  await appDb.week_type.put({ id_week_type: 2, sort_index: 2, week_type_name: { ...tgWeekObj } });
-  await appDb.week_type.put({ id_week_type: 3, sort_index: 4, week_type_name: { ...coWeekObj } });
-  await appDb.week_type.put({ id_week_type: 4, sort_index: 3, week_type_name: { ...caWeekObj } });
+  await appDb.week_type.put({ id: 1, sort_index: 1, week_type_name: { ...normWeekObj } });
+  await appDb.week_type.put({ id: 2, sort_index: 2, week_type_name: { ...tgWeekObj } });
+  await appDb.week_type.put({ id: 3, sort_index: 4, week_type_name: { ...coWeekObj } });
+  await appDb.week_type.put({ id: 4, sort_index: 3, week_type_name: { ...caWeekObj } });
 };
 
 export const updateAssignmentType = async () => {
@@ -50,6 +51,9 @@ export const updateAssignmentType = async () => {
   const speakerObj = {};
   const speakerSymposiumObj = {};
   const wtStudyReaderObj = {};
+  const wtStudyConductor = {};
+  const auxClassroomMMObj = {};
+  const assistantOnlyMMObj = {};
 
   LANGUAGE_LIST.forEach((lang) => {
     const langCode = lang.code.toUpperCase();
@@ -95,230 +99,256 @@ export const updateAssignmentType = async () => {
       key: 'tr_speakerSymposium',
       language: lang.code,
     });
-    wtStudyReaderObj[langCode] = getTranslation({ key: 'tr_wtStudyReader' });
+    wtStudyReaderObj[langCode] = getTranslation({ key: 'tr_watchtowerStudyReader' });
+    wtStudyConductor[langCode] = getTranslation({ key: 'tr_watchtowerStudyConductor' });
+    auxClassroomMMObj[langCode] = getTranslation({ key: 'tr_auxClassCounselor' });
+    assistantOnlyMMObj[langCode] = getTranslation({ key: 'tr_assistantOnly' });
   });
 
   await appDb.assignment.clear();
 
   await appDb.assignment.put({
-    code: 100,
+    code: AssignmentCode.MM_BibleReading,
     maleOnly: true,
     assignable: true,
     type: 'tgw',
     assignment_type_name: {
       ...bReadObj,
     },
-    id_type: 1,
   });
 
   await appDb.assignment.put({
-    code: 101,
+    code: AssignmentCode.MM_InitialCall,
+    maleOnly: false,
     assignable: true,
     type: 'ayf',
     assignment_type_name: {
       ...initCallObj,
     },
-    id_type: 2,
   });
 
   await appDb.assignment.put({
-    code: 102,
+    code: AssignmentCode.MM_ReturnVisit,
+    maleOnly: false,
     assignable: true,
     type: 'ayf',
     assignment_type_name: {
       ...rvObj,
     },
-    id_type: 3,
   });
 
   await appDb.assignment.put({
-    code: 103,
+    code: AssignmentCode.MM_BibleStudy,
+    maleOnly: false,
     assignable: true,
     type: 'ayf',
     assignment_type_name: {
       ...bsObj,
     },
-    id_type: 4,
   });
 
   await appDb.assignment.put({
-    code: 104,
+    code: AssignmentCode.MM_Talk,
     maleOnly: true,
     assignable: true,
     type: 'ayf',
     assignment_type_name: {
       ...talkObj,
     },
-    id_type: 5,
   });
 
   await appDb.assignment.put({
-    code: 105,
+    code: AssignmentCode.MM_InitialCallVideo,
+    maleOnly: false,
     assignable: false,
     type: 'ayf',
     assignment_type_name: {
       ...icVideoObj,
     },
-    id_type: 6,
   });
 
   await appDb.assignment.put({
-    code: 106,
+    code: AssignmentCode.MM_ReturnVisitVideo,
+    maleOnly: false,
     assignable: false,
     type: 'ayf',
     assignment_type_name: {
       ...rvVideoObj,
     },
-    id_type: 7,
   });
 
   await appDb.assignment.put({
-    code: 107,
+    code: AssignmentCode.MM_Other,
+    maleOnly: false,
     assignable: false,
     type: 'ayf',
     assignment_type_name: {
       ...otherObj,
     },
-    id_type: 8,
   });
 
   await appDb.assignment.put({
-    code: 108,
-    linkTo: 101,
+    code: AssignmentCode.MM_Memorial,
+    maleOnly: false,
+    linkTo: AssignmentCode.MM_InitialCall,
     assignable: false,
     type: 'ayf',
     assignment_type_name: {
       ...memorialObj,
     },
-    id_type: 9,
   });
 
   await appDb.assignment.put({
-    code: 110,
+    code: AssignmentCode.MM_Chairman,
     maleOnly: true,
     assignable: true,
     type: 'mm',
     assignment_type_name: {
       ...chairmanMMObj,
     },
-    id_type: 10,
   });
 
   await appDb.assignment.put({
-    code: 111,
+    code: AssignmentCode.MM_Prayer,
     maleOnly: true,
     assignable: true,
     type: 'mm',
     assignment_type_name: {
       ...prayerMMObj,
     },
-    id_type: 11,
   });
 
   await appDb.assignment.put({
-    code: 112,
+    code: AssignmentCode.MM_TGWTalk,
     maleOnly: true,
     assignable: true,
     type: 'tgw',
     assignment_type_name: {
       ...tgwTalkObj,
     },
-    id_type: 12,
   });
 
   await appDb.assignment.put({
-    code: 113,
+    code: AssignmentCode.MM_TGWGems,
     maleOnly: true,
     assignable: true,
     type: 'tgw',
     assignment_type_name: {
       ...tgwGemsObj,
     },
-    id_type: 13,
   });
 
   await appDb.assignment.put({
-    code: 114,
+    code: AssignmentCode.MM_LCPart,
     maleOnly: true,
     assignable: true,
     type: 'lc',
     assignment_type_name: {
       ...lcPartObj,
     },
-    id_type: 14,
   });
 
   await appDb.assignment.put({
-    code: 115,
+    code: AssignmentCode.MM_CBSConductor,
     maleOnly: true,
     assignable: true,
     type: 'lc',
     assignment_type_name: {
       ...cbsConductorObj,
     },
-    id_type: 15,
   });
 
   await appDb.assignment.put({
-    code: 116,
+    code: AssignmentCode.MM_CBSReader,
     maleOnly: true,
     assignable: true,
     type: 'lc',
     assignment_type_name: {
       ...cbsReaderObj,
     },
-    id_type: 16,
   });
 
   await appDb.assignment.put({
-    code: 117,
-    linkTo: 105,
+    code: AssignmentCode.MM_MemorialVideo,
+    maleOnly: false,
+    linkTo: AssignmentCode.MM_InitialCallVideo,
     assignable: false,
     type: 'ayf',
     assignment_type_name: {
       ...memorialVideoObj,
     },
-    id_type: 17,
   });
 
   await appDb.assignment.put({
-    code: 118,
+    code: AssignmentCode.WM_Chairman,
+    maleOnly: true,
+    assignable: true,
     assignment_type_name: {
       ...chairmanWMObj,
     },
-    id_type: 18,
   });
 
   await appDb.assignment.put({
-    code: 119,
+    code: AssignmentCode.WM_Prayer,
+    maleOnly: true,
+    assignable: true,
     assignment_type_name: {
       ...prayerWMObj,
     },
-    id_type: 19,
   });
 
   await appDb.assignment.put({
-    code: 120,
+    code: AssignmentCode.WM_Speaker,
+    maleOnly: true,
+    assignable: true,
     assignment_type_name: {
       ...speakerObj,
     },
-    id_type: 20,
   });
 
   await appDb.assignment.put({
-    code: 121,
+    code: AssignmentCode.WM_SpeakerSymposium,
+    maleOnly: true,
+    assignable: true,
     assignment_type_name: {
       ...speakerSymposiumObj,
     },
-    id_type: 21,
   });
 
   await appDb.assignment.put({
-    code: 122,
+    code: AssignmentCode.WM_WTStudyReader,
+    maleOnly: true,
+    assignable: true,
     assignment_type_name: {
       ...wtStudyReaderObj,
     },
-    id_type: 22,
+  });
+
+  await appDb.assignment.put({
+    code: AssignmentCode.WM_WTStudyConductor,
+    maleOnly: true,
+    assignable: true,
+    assignment_type_name: {
+      ...wtStudyConductor,
+    },
+  });
+
+  await appDb.assignment.put({
+    code: AssignmentCode.MM_AuxiliaryCounselor,
+    maleOnly: true,
+    assignable: true,
+    assignment_type_name: {
+      ...auxClassroomMMObj,
+    },
+  });
+
+  await appDb.assignment.put({
+    code: AssignmentCode.MM_AssistantOnly,
+    maleOnly: true,
+    assignable: true,
+    assignment_type_name: {
+      ...assistantOnlyMMObj,
+    },
   });
 
   // handle initial call variation (140-169)
@@ -329,13 +359,13 @@ export const updateAssignmentType = async () => {
       for await (const variation of variations) {
         await appDb.assignment.put({
           code: codeIndice,
-          linkTo: 101,
+          maleOnly: false,
+          linkTo: AssignmentCode.MM_InitialCall,
           assignable: false,
           type: 'ayf',
           assignment_type_name: {
             [key]: variation,
           },
-          id_type: codeIndice,
         });
 
         codeIndice++;
@@ -351,13 +381,13 @@ export const updateAssignmentType = async () => {
       for await (const variation of variations) {
         await appDb.assignment.put({
           code: codeIndice,
-          linkTo: 102,
+          maleOnly: false,
+          linkTo: AssignmentCode.MM_ReturnVisit,
           assignable: false,
           type: 'ayf',
           assignment_type_name: {
             [key]: variation,
           },
-          id_type: codeIndice,
         });
 
         codeIndice++;

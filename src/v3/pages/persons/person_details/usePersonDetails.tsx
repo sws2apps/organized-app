@@ -1,17 +1,74 @@
-import { useParams } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
-import { personCurrentDetailsState } from '@states/persons';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useRecoilValue, useResetRecoilState } from 'recoil';
+import { IconCheckCircle, IconError } from '@components/icons';
+import { personCurrentDetailsState, personsActiveState } from '@states/persons';
+import { useAppTranslation } from '@hooks/index';
+import { displaySnackNotification } from '@services/recoil/app';
+import { dbSavePerson } from '@services/dexie/persons';
+import { useEffect } from 'react';
+import { setPersonCurrentDetails } from '@services/recoil/persons';
 
 const usePersonDetails = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
+
+  const { t } = useAppTranslation();
+
   const isNewPerson = id === undefined;
 
   const person = useRecoilValue(personCurrentDetailsState);
+  const resetPersonNew = useResetRecoilState(personCurrentDetailsState);
+  const persons = useRecoilValue(personsActiveState);
 
   const isBaptized = person.baptizedPublisher.active.value;
   const isMale = person.isMale.value;
 
-  return { isNewPerson, isBaptized, isMale };
+  const handleSavePerson = async () => {
+    try {
+      await dbSavePerson(person);
+      resetPersonNew();
+
+      navigate('/persons');
+
+      if (isNewPerson) {
+        await displaySnackNotification({
+          header: t('tr_personAdded'),
+          message: t('tr_personAddedDesc'),
+          severity: 'success',
+          icon: <IconCheckCircle color="var(--white)" />,
+        });
+      }
+
+      if (!isNewPerson) {
+        await displaySnackNotification({
+          header: t('tr_personSaved'),
+          message: t('tr_personSavedDesc'),
+          severity: 'success',
+          icon: <IconCheckCircle color="var(--white)" />,
+        });
+      }
+    } catch (error) {
+      await displaySnackNotification({
+        header: t('tr_errorTitle'),
+        message: error.message,
+        severity: 'error',
+        icon: <IconError color="var(--white)" />,
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (id) {
+      const foundPerson = persons.find((record) => record.person_uid === id);
+      setPersonCurrentDetails(foundPerson);
+    }
+
+    if (!id) {
+      navigate('/persons');
+    }
+  }, [id, persons, navigate]);
+
+  return { isNewPerson, isBaptized, isMale, handleSavePerson };
 };
 
 export default usePersonDetails;
