@@ -5,6 +5,8 @@
     <meta name="robots" content="notranslate" />
     <meta name="googlebot" content="notranslate" />
     <meta charset="utf-8" />
+    <link rel="stylesheet" href="src/v3/global/global.css" />
+    <link rel="stylesheet" href="src/v3/global/index.css" />
     <link rel="icon" href="favicon.svg" />
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="stylesheet" href="inter.css" />
@@ -192,18 +194,6 @@
     />
     <title>Organized (sws2apps)</title>
     <style>
-      noscript {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-
-      noscript div {
-        font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
-        color: red;
-        font-weight: bold;
-      }
-
       .loader-waiting-js {
         width: 216px;
         margin: auto;
@@ -264,6 +254,204 @@
       }
     </style>
 
+    <noscript>
+      <style>
+        noscript {
+          color: rgba(0, 0, 0, 0.87);
+          font-size: 1rem;
+          font-weight: 400;
+          letter-spacing: 0.00938em;
+          line-height: 1.5;
+        }
+
+        noscript nav {
+          background-color: var(--accent-100);
+          border-bottom: 1px solid var(--accent-200);
+          height: 56px;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          overflow: hidden;
+          z-index: 100;
+        }
+
+        noscript nav #nav-container {
+          max-width: 1440px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+
+          padding: 8px 16px;
+
+          @media (min-width: 480px) {
+            padding: 8px 32px;
+          }
+        }
+
+        noscript nav #nav-container #nav-brand-container {
+          display: flex;
+          align-items: center;
+
+          gap: 8px;
+
+          @media (min-width: 480px) {
+            gap: 16px;
+          }
+        }
+
+        noscript nav #nav-container #nav-brand-container h3 {
+          font-size: 18px;
+          text-decoration: none;
+          font-family: Inter;
+          font-weight: 570;
+          font-style: normal;
+          font-stretch: normal;
+          letter-spacing: 0.18px;
+          line-height: 24px;
+          text-indent: 0px;
+          text-transform: none;
+          margin: 0px;
+          color: var(--black);
+        }
+
+        noscript nav #nav-container #nav-brand-container #svg-icon {
+          width: 40px;
+          height: 40px;
+        }
+
+        noscript #container {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          margin-left: auto;
+          margin-right: auto;
+          transform: translate(-50%, -50%);
+          box-sizing: border-box;
+          width: 100%;
+          max-width: 600px;
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+          gap: 48px;
+          padding: 16px;
+
+          @media (min-width: 480px) {
+            align-items: flex-start;
+          }
+
+          @media (min-width: 768px) {
+            flex-direction: row;
+            max-width: 800px;
+          }
+        }
+
+        noscript #container #illustration {
+          width: 160px;
+          height: 160px;
+        }
+
+        noscript #container #message-container {
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+        }
+
+        noscript #container #message-container h1 {
+          margin: 0px;
+          color: var(--black);
+        }
+
+        noscript #container #message-container p {
+          color: var(--grey-400);
+        }
+
+        noscript #container #action-container {
+          display: flex;
+          align-items: flex-start;
+          align-self: stretch;
+          justify-content: space-between;
+          gap: 8px;
+
+          flex-direction: column-reverse;
+        }
+
+        noscript .variant-main {
+          display: -webkit-inline-box;
+          display: -webkit-inline-flex;
+          display: -ms-inline-flexbox;
+          display: inline-flex;
+          -webkit-align-items: center;
+          -webkit-box-align: center;
+          -ms-flex-align: center;
+          align-items: center;
+          -webkit-box-pack: center;
+          -ms-flex-pack: center;
+          -webkit-justify-content: center;
+          justify-content: center;
+          position: relative;
+          box-sizing: border-box;
+          -webkit-tap-highlight-color: transparent;
+          background-color: transparent;
+          outline: 0;
+          border: 0;
+          margin: 0;
+          border-radius: 0;
+          padding: 0;
+          cursor: pointer;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+          vertical-align: middle;
+          -webkit-text-decoration: none;
+          text-decoration: none;
+          color: inherit;
+          font-family: Inter;
+          font-weight: 500;
+          font-size: 0.875rem;
+          line-height: 1.75;
+          letter-spacing: 0.02857em;
+          text-transform: uppercase;
+          min-width: 64px;
+          padding: 6px 16px;
+          border-radius: 4px;
+          -webkit-transition:
+            background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+            box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+            border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+            color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+          transition:
+            background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+            box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+            border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+            color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+          box-shadow:
+            0px 3px 1px -2px rgba(0, 0, 0, 0.2),
+            0px 2px 2px 0px rgba(0, 0, 0, 0.14),
+            0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+          min-height: 44px;
+          font-feature-settings: 'cv05';
+          padding: 8px 16px;
+          background-color: var(--accent-main);
+          border: none;
+          color: var(--always-white);
+          box-shadow: none;
+          border-radius: var(--radius-l);
+          width: 100%;
+          gap: 8px;
+
+          @media (min-width: 480px) {
+            width: fit-content;
+          }
+        }
+
+        .loader-waiting-js {
+          display: none;
+        }
+      </style>
+    </noscript>
+
     <script>
       const theme = localStorage.getItem('theme') || 'light';
       const color = localStorage.getItem('color') || 'blue';
@@ -276,7 +464,32 @@
     </script>
   </head>
   <body>
-    <noscript><div>Please enable JavaScript in order to use Organized application.</div></noscript>
+    <noscript>
+      <nav>
+        <div id="nav-container">
+          <div id="nav-brand-container">
+            <img id="svg-icon" src="/img/icon/logo.svg" />
+            <h3>Organized</h3>
+          </div>
+        </div>
+      </nav>
+      <div id="container">
+        <img id="illustration" src="/noscript/illustration_enable_js.svg" />
+        <div id="message-container">
+          <h1 class="h1">JavaScript is disabled</h1>
+          <p class="body-regular">
+            Organized is a web app that requires JavaScript to work properly. Please enable JavaScript in your browser
+            settings to ensure you can use all of its features.
+          </p>
+          <div id="action-container">
+            <a variant="main" class="button-caps variant-main" href="/">
+              <img id="refresh-icon" src="/noscript/refresh_icon.svg" />
+              refresh the page
+            </a>
+          </div>
+        </div>
+      </div>
+    </noscript>
     <div id="root">
       <div class="loader-waiting-js">
         <svg width="154" height="154" viewBox="0 0 154 154" fill="none" xmlns="http://www.w3.org/2000/svg">
