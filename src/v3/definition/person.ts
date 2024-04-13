@@ -46,18 +46,15 @@ type EmergencyContactsType = {
   _deleted: string | null;
 };
 
-export type PersontType = {
+export type PersonType = {
   _deleted: string | null;
-  id?: string;
   person_uid: string;
-  person_name?: string;
   person_firstname: { value: string; updatedAt: string };
   person_lastname: { value: string; updatedAt: string };
   person_displayName: { value: string; updatedAt: string };
   isMale: { value: boolean; updatedAt: string };
   isFemale: { value: boolean; updatedAt: string };
   birthDate: { value: string | null; updatedAt: string };
-  isUnavailable: { value: boolean; updatedAt: string };
   assignments: AssignmentType[];
   timeAway: TimeAwayType[];
   isMoved: { value: boolean; updatedAt: string };

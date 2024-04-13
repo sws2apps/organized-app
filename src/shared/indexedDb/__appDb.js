@@ -30,6 +30,11 @@ appDb.version(1).stores({
   week_type: '&id_week_type, week_type_name, sort_index',
 });
 
+appDb.version(2).stores({
+  persons:
+    '&person_uid, person_firstname, person_lastname, person_displayName, isMale, isFemale, birthDate, isUnavailable, assignments, timeAway, isMoved, isDisqualified, email, address, phone, firstMonthReport, baptizedPublisher, unbaptizedPublisher, midweekMeetingStudent, privileges, enrollments, emergencyContacts',
+});
+
 appDb.on('populate', function () {
   appDb.app_settings.add({
     id: 1,

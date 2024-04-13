@@ -24,7 +24,7 @@ const PrivilegeItem = ({
     <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
       <Select
         className="body-regular"
-        label={t('tr_spiritualStatus')}
+        label={t('tr_privilege')}
         value={privilege}
         onChange={(e) => onPrivilegeChange(id, e.target.value)}
       >

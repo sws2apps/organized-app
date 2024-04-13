@@ -18,7 +18,7 @@ const PersonDetails = () => {
 
   const { desktopUp } = useBreakpoints();
 
-  const { isNewPerson, isBaptized, isMale } = usePersonDetails();
+  const { isNewPerson, isBaptized, isMale, handleSavePerson } = usePersonDetails();
 
   return (
     <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
@@ -26,7 +26,7 @@ const PersonDetails = () => {
         title={isNewPerson ? t('tr_addNewPerson') : t('tr_editPerson')}
         backTo="/persons"
         buttons={
-          <Button variant="main" startIcon={<IconSave />}>
+          <Button variant="main" startIcon={<IconSave />} onClick={handleSavePerson}>
             {t('tr_save')}
           </Button>
         }

@@ -44,12 +44,13 @@ const useAssignments = () => {
         id: 'applyFieldMinistryPart',
         color: 'apply-yourself-to-the-field-ministry' as AssignmentCheckListColors,
         items: [
+          { code: AssignmentCode.MM_Discussion, name: t('tr_discussion') },
           { code: AssignmentCode.MM_StartingConversation, name: t('tr_startingConversation') },
           { code: AssignmentCode.MM_FollowingUp, name: t('tr_followingUp') },
           { code: AssignmentCode.MM_MakingDisciples, name: t('tr_makingDisciples') },
           { code: AssignmentCode.MM_ExplainingBeliefs, name: t('tr_explainingBeliefs') },
           { code: AssignmentCode.MM_Talk, name: t('tr_talk') },
-          { code: AssignmentCode.MM_AssitantOnly, name: t('tr_assistantOnly'), borderTop: true },
+          { code: AssignmentCode.MM_AssistantOnly, name: t('tr_assistantOnly'), borderTop: true },
         ],
       },
       {
@@ -85,6 +86,12 @@ const useAssignments = () => {
 
     if (checked) {
       for (const item of items) {
+        if (!isMale) {
+          if (item.code === AssignmentCode.MM_Discussion || item.code === AssignmentCode.MM_Talk) {
+            continue;
+          }
+        }
+
         const current = newPerson.assignments.find((record) => record.code === item.code);
         if (!current) {
           newPerson.assignments.push({

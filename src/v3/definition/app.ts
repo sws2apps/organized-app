@@ -34,7 +34,7 @@ export type SettingsType = {
   user_local_uid?: string;
   user_members_delegate?: [];
   opening_prayer_WM_autoAssign?: boolean;
-  weekend_meeting_day?: boolean;
+  weekend_meeting_day?: number;
   midweek_meeting_useExactDate?: boolean;
   weekend_meeting_useSubstituteSpeaker?: boolean;
   follow_os_theme?: { value: boolean; updatedAt: string };
@@ -89,3 +89,5 @@ export type AssignmentCheckListColors =
   | 'weekend-meeting'
   | 'ministry'
   | 'duties';
+
+export type BadgeColor = 'red' | 'grey' | 'green' | 'orange' | 'accent' | 'transparent';

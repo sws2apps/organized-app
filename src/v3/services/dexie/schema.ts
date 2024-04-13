@@ -170,7 +170,6 @@ export const personSchema = {
   isOtherSheep: true,
   isBaptized: false,
   immersedDate: null,
-  isUnavailable: false,
   assignments: [],
   timeAway: [],
   isMoved: false,
