@@ -5,8 +5,6 @@
     <meta name="robots" content="notranslate" />
     <meta name="googlebot" content="notranslate" />
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="src/v3/global/global.css" />
-    <link rel="stylesheet" href="src/v3/global/index.css" />
     <link rel="icon" href="favicon.svg" />
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="stylesheet" href="inter.css" />
@@ -256,6 +254,16 @@
 
     <noscript>
       <style>
+        :root {
+          --radius-l: 8px;
+          --accent-100: rgba(248, 249, 255, 1);
+          --accent-200: rgba(213, 223, 253, 1);
+          --accent-main: rgba(80, 101, 208, 1);
+          --always-white: rgba(254, 254, 254, 1);
+          --black: rgba(34, 34, 34, 1);
+          --grey-400: rgba(80, 80, 80, 1);
+        }
+
         noscript {
           color: rgba(0, 0, 0, 0.87);
           font-size: 1rem;
@@ -337,6 +345,7 @@
 
           @media (min-width: 480px) {
             align-items: flex-start;
+            padding: 32px;
           }
 
           @media (min-width: 768px) {
@@ -359,10 +368,42 @@
         noscript #container #message-container h1 {
           margin: 0px;
           color: var(--black);
+          text-decoration: none;
+          font-style: normal;
+          font-stretch: normal;
+          text-indent: 0px;
+          text-transform: none;
+
+          font-size: 20px;
+          font-weight: 550;
+          letter-spacing: 0px;
+          line-height: 24px;
+
+          @media (min-width: 768px) {
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: 0.24px;
+            line-height: 28px;
+          }
         }
 
         noscript #container #message-container p {
           color: var(--grey-400);
+
+          font-size: 15px;
+          text-decoration: none;
+          font-weight: 400;
+          font-style: normal;
+          font-stretch: normal;
+          letter-spacing: -0.15px;
+          line-height: 20px;
+          text-indent: 0px;
+          text-transform: none;
+
+          @media (min-width: 768px) {
+            font-size: 16px;
+            letter-spacing: 0px;
+          }
         }
 
         noscript #container #action-container {
@@ -371,7 +412,6 @@
           align-self: stretch;
           justify-content: space-between;
           gap: 8px;
-
           flex-direction: column-reverse;
         }
 
