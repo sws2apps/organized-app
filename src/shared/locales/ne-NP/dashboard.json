@@ -60,7 +60,6 @@
   "tr_noInternetConnection": "इन्टरनेट छैन",
   "tr_noInternetConnectionDesc": "Organized अहिले अफलाइन काम गर्दैछ। फेरि अनलाइन भएपछि तपाईंले राखेका कुनै नयाँ डाटा सिङ्क गर्न सक्नुहुनेछ।",
   "tr_done": "काम भयो",
-  "tr_doneDesc": "तपाईंको {{ month }} महिनाको रिपोर्ट पेस गरियो",
   "tr_notifications": "सूचना",
   "tr_reject": "अस्वीकार गर्ने",
   "tr_accept": "स्वीकार गर्ने",
@@ -90,5 +89,6 @@
   "tr_activitiesCard": "Activities",
   "tr_hallCleaning": "Hall cleaning",
   "tr_yourEmailField": "Your email address",
-  "tr_yourMessage": "Your message"
+  "tr_yourMessage": "Your message",
+  "tr_reportSubmittedDesc": "तपाईंको {{ month }} महिनाको रिपोर्ट पेस गरियो"
 }

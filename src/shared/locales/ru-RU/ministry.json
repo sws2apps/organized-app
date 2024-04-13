@@ -5,6 +5,7 @@
   "tr_btnAdd": "Добавить",
   "tr_creditHours": "Кредитные часы",
   "tr_addNewStudy": "Добавить новое библейское изучение",
+  "tr_editBibleStudy": "Edit Bible study",
   "tr_pioneerSchool": "Школа пионеров",
   "tr_ministryTimeHours": "{{ ministryTime }} часов",
   "tr_SKE": "School for Kingdom Evangelizers",
@@ -91,5 +92,7 @@
   "tr_deletePWLocation": "Delete the public witnessing location",
   "tr_deletePWLocationDesc": "Deleting this location permanently removes all its data and arrangements. This action cannot be undone.",
   "tr_changeImage": "Change image",
-  "tr_addImage": "Add image"
+  "tr_addImage": "Add image",
+  "tr_cantDeductStudiesDesc": "You can't select fewer Bible studies than you already have selected in the “Individual Bible studies” dropdown menu. ",
+  "tr_cantDeductStudiesTitle": "Cannot deduct Bible studies"
 }

@@ -1,13 +1,15 @@
-import { Dialog, DialogContent } from '@mui/material';
+import { Dialog, DialogContent, SxProps } from '@mui/material';
 
 const CustomDialog = ({
   open,
   onClose,
   children,
+  sx,
 }: {
   open: boolean;
   onClose: VoidFunction;
   children: React.ReactNode;
+  sx?: SxProps;
 }) => {
   const handleClose = (event, reason) => {
     if (reason === 'clickaway' || reason === 'backdropClick') {
@@ -43,7 +45,7 @@ const CustomDialog = ({
       }}
     >
       <DialogContent
-        sx={{ padding: '32px', display: 'flex', flexDirection: 'column', gap: '24px', alignItems: 'flex-start' }}
+        sx={{ padding: '32px', display: 'flex', flexDirection: 'column', gap: '24px', alignItems: 'flex-start', ...sx }}
       >
         {children}
       </DialogContent>
