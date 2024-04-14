@@ -25,7 +25,6 @@ const schema = {
   ...sourcesSchema,
   ...publicTalksSchema,
   ...assignmentSchema,
-  ...assignmentSchema,
   ...weekTypeSchema,
   ...schedSchema,
 };
