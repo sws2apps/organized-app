@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { TimeAwayType } from '@definition/app';
-import { handleUserTimeAwayUpdate } from '@services/dexie/settings';
+import { dbAppSettingsTimeAwayUpdate } from '@services/dexie/settings';
+import { TimeAwayType } from '@definition/person';
 
 const useTimeAwayItem = (timeAway: TimeAwayType) => {
   const [startDate, setStartDate] = useState(timeAway.startDate);
@@ -11,27 +11,27 @@ const useTimeAwayItem = (timeAway: TimeAwayType) => {
     setStartDate(value);
 
     const obj = structuredClone(timeAway);
-    obj.startDate = new Date(value).toISOString();
+    obj.startDate = { value: new Date(value).toISOString(), updatedAt: new Date().toISOString() };
 
-    await handleUserTimeAwayUpdate(obj);
+    await dbAppSettingsTimeAwayUpdate(obj);
   };
 
   const handleUpdateEndDate = async (value) => {
     setEndDate(value);
 
     const obj = structuredClone(timeAway);
-    obj.endDate = new Date(value).toISOString();
+    obj.endDate = { value: new Date(value).toISOString(), updatedAt: new Date().toISOString() };
 
-    await handleUserTimeAwayUpdate(obj);
+    await dbAppSettingsTimeAwayUpdate(obj);
   };
 
   const handleUpdateComments = async (value) => {
     setComments(value);
 
     const obj = structuredClone(timeAway);
-    obj.comments = value;
+    obj.comments = { value, updatedAt: new Date().toISOString() };
 
-    await handleUserTimeAwayUpdate(obj);
+    await dbAppSettingsTimeAwayUpdate(obj);
   };
 
   return { startDate, endDate, comments, handleUpdateStartDate, handleUpdateEndDate, handleUpdateComments };

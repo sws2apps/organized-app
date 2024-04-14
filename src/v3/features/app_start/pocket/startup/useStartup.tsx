@@ -11,9 +11,9 @@ import {
 import { handleDeleteDatabase, loadApp, runUpdater } from '@services/app';
 import { apiPocketValidate } from '@services/api/user';
 import { POCKET_ROLES } from '@constants/index';
-import { handleUpdateSetting, handleUpdateSettingFromRemote } from '@services/dexie/settings';
+import { dbAppSettingsUpdate, dbAppSettingsUpdateFromRemote } from '@services/dexie/settings';
 import { apiFetchSchedule } from '@services/api/schedule';
-import { handleUpdateScheduleFromRemote } from '@services/app/schedules';
+import { schedUpdateFromRemote } from '@services/app/schedules';
 import { userLocalUIDState } from '@states/settings';
 
 const useStartup = () => {
@@ -53,19 +53,19 @@ const useStartup = () => {
         const approvedRole = data.cong_role.some((role) => POCKET_ROLES.includes(role));
 
         if (!approvedRole) {
-          await handleUpdateSetting({ account_type: '' });
+          await dbAppSettingsUpdate({ account_type: '' });
           await setIsUnauthorizedRole(true);
           return;
         }
 
         await loadApp();
         await runUpdater();
-        await handleUpdateSettingFromRemote(data);
+        await dbAppSettingsUpdateFromRemote(data);
 
         await setRootModalOpen(true);
         const { status: scheduleStatus, data: scheduleData } = await apiFetchSchedule();
         if (scheduleStatus === 200) {
-          await handleUpdateScheduleFromRemote(scheduleData);
+          await schedUpdateFromRemote(scheduleData);
         }
         await setRootModalOpen(false);
 

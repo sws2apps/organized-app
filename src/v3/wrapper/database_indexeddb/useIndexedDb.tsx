@@ -1,6 +1,6 @@
+import { useCallback } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { appDb } from '@services/dexie';
 import { settingsState } from '@states/settings';
 import { personsState } from '@states/persons';
 import { weekTypeState } from '@states/weekType';
@@ -8,7 +8,7 @@ import { assignmentState } from '@states/assignment';
 import { publicTalksState } from '@states/publicTalks';
 import { sourcesState } from '@states/sources';
 import { schedulesState } from '@states/schedules';
-import { useCallback } from 'react';
+import appDb from '@shared/indexedDb/appDb';
 
 const useIndexedDb = () => {
   const dbSettings = useLiveQuery(() => appDb.app_settings.toArray());

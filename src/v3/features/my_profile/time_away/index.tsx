@@ -10,13 +10,13 @@ import TimeAwayItem from './components/TimeAwayItem';
 const UserTimeAway = () => {
   const { t } = useAppTranslation();
 
-  const { timeAwayList, handleUserTimeAwayAdd, handleUserTimeAwayDelete } = useTimeAway();
+  const { timeAwayList, dbAppSettingsTimeAwayAdd, dbAppSettingsTimeAwayDelete } = useTimeAway();
 
   return (
     <ProfileItemContainer>
       <Typography className="h2">{t('tr_timeAway')}</Typography>
 
-      {timeAwayList.data.length === 0 && (
+      {timeAwayList.length === 0 && (
         <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <IconInfo color="var(--grey-350)" />
@@ -27,22 +27,22 @@ const UserTimeAway = () => {
             variant="small"
             startIcon={<IconAdd />}
             sx={{ height: '32px', minHeight: '32px !important', alignSelf: 'flex-start' }}
-            onClick={handleUserTimeAwayAdd}
+            onClick={dbAppSettingsTimeAwayAdd}
           >
             {t('tr_add')}
           </Button>
         </Box>
       )}
 
-      {timeAwayList.data.length > 0 && (
+      {timeAwayList.length > 0 && (
         <SettingWithBorderContainer>
-          {timeAwayList.data.map((timeAwayItem, index) => (
+          {timeAwayList.map((timeAwayItem, index) => (
             <TimeAwayItem
               key={timeAwayItem.id}
               timeAway={timeAwayItem}
-              lastItem={index === timeAwayList.data.length - 1}
-              onAdd={handleUserTimeAwayAdd}
-              onDelete={() => handleUserTimeAwayDelete(timeAwayItem.id)}
+              lastItem={index === timeAwayList.length - 1}
+              onAdd={dbAppSettingsTimeAwayAdd}
+              onDelete={() => dbAppSettingsTimeAwayDelete(timeAwayItem.id)}
             />
           ))}
         </SettingWithBorderContainer>

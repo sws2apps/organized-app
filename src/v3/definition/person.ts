@@ -8,7 +8,7 @@ export type AssignmentType = {
   _deleted: string | null;
 };
 
-type TimeAwayType = {
+export type TimeAwayType = {
   id: string;
   startDate: { value: string; updatedAt: string };
   endDate: { value: string | null; updatedAt: string };

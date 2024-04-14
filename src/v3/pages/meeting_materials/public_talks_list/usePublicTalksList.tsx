@@ -6,9 +6,9 @@ import { displaySnackNotification } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { useAppTranslation } from '@hooks/index';
 import { apiFetchPublicTalks } from '@services/api/sources';
-import { resetS34s } from '@services/dexie/publicTalks';
-import { handleUpdateSetting } from '@services/dexie/settings';
+import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { PublicTalksViewType } from '@definition/sources';
+import { dbPublicTalksReset } from '@services/dexie/publicTalks';
 
 const usePublicTalksList = () => {
   const { t } = useAppTranslation();
@@ -37,8 +37,8 @@ const usePublicTalksList = () => {
         return;
       }
 
-      await resetS34s(data);
-      await handleUpdateSetting({ public_talk_sync: new Date().toISOString() });
+      await dbPublicTalksReset(data);
+      await dbAppSettingsUpdate({ public_talk_sync: new Date().toISOString() });
       setIsFetching(false);
     } catch (error) {
       console.error(error);
