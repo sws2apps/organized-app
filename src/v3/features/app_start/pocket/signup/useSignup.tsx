@@ -13,7 +13,7 @@ import {
 import { getMessageByCode } from '@services/i18n/translation';
 import { apiPocketSignup } from '@services/api/user';
 import { POCKET_ROLES } from '@constants/index';
-import { dbAppSettingsSave, dbAppSettingsUpdateFromRemote } from '@services/dexie/settings';
+import { dbAppSettingsUpdate, dbAppSettingsUpdateFromRemote } from '@services/dexie/settings';
 import { loadApp, runUpdater } from '@services/app';
 import { apiFetchSchedule } from '@services/api/schedule';
 import { schedUpdateFromRemote } from '@services/app/schedules';
@@ -34,7 +34,7 @@ const useSignup = () => {
   const [isProcessing, setIsProcessing] = useState(false);
 
   const handleReturnChooser = async () => {
-    await dbAppSettingsSave({ account_type: '' });
+    await dbAppSettingsUpdate({ account_type: '' });
     await setIsAccountChoose(true);
   };
 
@@ -75,7 +75,7 @@ const useSignup = () => {
         const approvedRole = data.cong_role.some((role) => POCKET_ROLES.includes(role));
 
         if (!approvedRole) {
-          await dbAppSettingsSave({ account_type: '' });
+          await dbAppSettingsUpdate({ account_type: '' });
           await setIsUnauthorizedRole(true);
           return;
         }

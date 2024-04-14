@@ -1,5 +1,5 @@
 import { dbSchedSave } from '@services/dexie/schedules';
-import { dbAppSettingsSave } from '@services/dexie/settings';
+import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { dbSourcesSave } from '@services/dexie/sources';
 
 export const schedUpdateFromRemote = async (data) => {
@@ -14,7 +14,7 @@ export const schedUpdateFromRemote = async (data) => {
   }
 
   const { class_count, source_lang, co_name, co_displayName, opening_prayer_MM_autoAssign } = cong_settings;
-  await dbAppSettingsSave({
+  await dbAppSettingsUpdate({
     class_count,
     source_lang,
     co_name,

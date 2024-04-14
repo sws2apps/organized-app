@@ -16,7 +16,7 @@ import useAppTranslation from '@hooks/useAppTranslation';
 import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 import { getMessageByCode } from '@services/i18n/translation';
 import { apiSendAuthorization } from '@services/api/user';
-import { dbAppSettingsSave } from '@services/dexie/settings';
+import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { APP_ROLES } from '@constants/index';
 import { NextStepType } from './index.types';
 
@@ -84,7 +84,7 @@ const useButtonBase = ({ provider, isEmail }) => {
         }
 
         if (nextStep.isVerifyMFA || nextStep.encryption || nextStep.createCongregation) {
-          await dbAppSettingsSave({ account_type: 'vip', cong_code: data.cong_encryption });
+          await dbAppSettingsUpdate({ account_type: 'vip', cong_code: data.cong_encryption });
 
           if (nextStep.isVerifyMFA) {
             setCurrentMFAStage('verify');

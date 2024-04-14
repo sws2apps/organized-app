@@ -1,5 +1,5 @@
 import { useRecoilValue } from 'recoil';
-import { dbAppSettingsSave } from '@services/dexie/settings';
+import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { congNewState, firstnameState } from '@states/settings';
 import { setIsMyAssignmentOpen } from '@services/recoil/app';
 
@@ -8,7 +8,7 @@ const useDashboard = () => {
   const isCongNew = useRecoilValue(congNewState);
 
   const handleCloseNewCongNotice = async () => {
-    await dbAppSettingsSave({ cong_new: false });
+    await dbAppSettingsUpdate({ cong_new: false });
   };
 
   const handleOpenMyAssignments = async () => {

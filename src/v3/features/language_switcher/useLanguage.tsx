@@ -3,7 +3,7 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { appLangState, isAppLoadState } from '@states/app';
 import { LANGUAGE_LIST } from '@constants/index';
-import { dbAppSettingsSave } from '@services/dexie/settings';
+import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { getTranslation } from '@services/i18n/translation';
 
 const useLanguage = () => {
@@ -26,7 +26,7 @@ const useLanguage = () => {
     const app_lang = e.target.parentElement.parentElement.dataset.code;
     setAppLangLocal(app_lang);
 
-    await dbAppSettingsSave({ source_lang: app_lang });
+    await dbAppSettingsUpdate({ source_lang: app_lang });
 
     handleClose();
     window.location.reload();

@@ -72,8 +72,6 @@ export const dbAppSettingsTimeAwayUpdate = async (timeAway: TimeAwayType) => {
 };
 
 export const dbAppSettingsSaveProfilePic = async (url: string, provider: string) => {
-  const settings = await appDb.app_settings.get(1);
-
   if (url && url !== '' && url !== null) {
     if (provider !== 'microsoft.com' && provider !== 'yahoo.com') {
       const downloadedImg = new Image();
@@ -100,9 +98,7 @@ export const dbAppSettingsSaveProfilePic = async (url: string, provider: string)
 
       const savePic = (profileBlob) => {
         profileBlob.arrayBuffer().then((profileBuffer) => {
-          settings.user_avatar = profileBuffer;
-
-          dbAppSettingsSave(settings);
+          dbAppSettingsUpdate({ user_avatar: profileBuffer });
         });
       };
 
@@ -110,8 +106,7 @@ export const dbAppSettingsSaveProfilePic = async (url: string, provider: string)
     }
   }
 
-  settings.user_avatar = undefined;
-  await dbAppSettingsSave(settings);
+  await dbAppSettingsUpdate({ user_avatar: undefined });
 };
 
 export const dbAppSettingsUpdateUserInfoAfterLogin = async (data) => {

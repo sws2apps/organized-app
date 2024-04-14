@@ -9,6 +9,7 @@ export type SettingsType = {
   cong_name: string;
   cong_code: string;
   cong_role: string[];
+  cong_new: boolean;
   class_count: { value: number; updatedAt: string };
   midweek_meeting_day: { value: number; updatedAt: string };
   meeting_time: { value: string; updatedAt: string };

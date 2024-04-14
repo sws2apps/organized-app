@@ -40,6 +40,7 @@ appDb.on('populate', function () {
     source_lang: '',
     cong_number: '',
     cong_name: '',
+    cong_new: true,
     cong_code: '',
     cong_role: [],
     class_count: { value: 1, updatedAt: '' },

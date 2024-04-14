@@ -11,7 +11,7 @@ import {
 import { handleDeleteDatabase, loadApp, runUpdater } from '@services/app';
 import { apiPocketValidate } from '@services/api/user';
 import { POCKET_ROLES } from '@constants/index';
-import { dbAppSettingsSave, dbAppSettingsUpdateFromRemote } from '@services/dexie/settings';
+import { dbAppSettingsUpdate, dbAppSettingsUpdateFromRemote } from '@services/dexie/settings';
 import { apiFetchSchedule } from '@services/api/schedule';
 import { schedUpdateFromRemote } from '@services/app/schedules';
 import { userLocalUIDState } from '@states/settings';
@@ -53,7 +53,7 @@ const useStartup = () => {
         const approvedRole = data.cong_role.some((role) => POCKET_ROLES.includes(role));
 
         if (!approvedRole) {
-          await dbAppSettingsSave({ account_type: '' });
+          await dbAppSettingsUpdate({ account_type: '' });
           await setIsUnauthorizedRole(true);
           return;
         }
