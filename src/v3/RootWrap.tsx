@@ -14,9 +14,12 @@ import '@global/index.css';
 import { handleSWOnInstalled, handleSWOnUpdated } from '@services/recoil/app';
 import { initializeFirebaseApp } from '@services/firebase/index';
 import i18n from '@services/i18n/index';
+import { publicTalksBuildList } from '@services/i18n/public_talks';
 
 initializeFirebaseApp();
 await i18n.init();
+
+publicTalksBuildList('en');
 
 const font = localStorage.getItem('app_font') || 'Inter';
 

@@ -37,6 +37,10 @@ for await (const language of LANGUAGE_LIST) {
     (module) => module.default
   );
 
+  const talks = await import(`../../public_talks/${language.locale}/public_talks.json`).then(
+    (module) => module.default
+  );
+
   // load source namespace
 
   resources[language.locale] = {
@@ -51,6 +55,7 @@ for await (const language of LANGUAGE_LIST) {
       ...meetings,
       ...formsTemplates,
     },
+    talks,
   };
 }
 
