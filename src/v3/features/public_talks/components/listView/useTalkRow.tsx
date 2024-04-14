@@ -1,5 +1,5 @@
 import { MouseEvent, useEffect, useState } from 'react';
-import { saveS34 } from '@services/dexie/publicTalks';
+import { dbPublicTalksSave } from '@services/dexie/publicTalks';
 
 const useTalkRow = (talkNumber: number, talkTitle: string, defaultExpand: boolean) => {
   const [collapseOpen, setCollapseOpen] = useState(defaultExpand);
@@ -23,7 +23,7 @@ const useTalkRow = (talkNumber: number, talkTitle: string, defaultExpand: boolea
 
   const handleSaveTalkTile = async (e: MouseEvent<HTMLAnchorElement | HTMLButtonElement>) => {
     e.stopPropagation();
-    await saveS34(talkNumber, talkTitleTmp);
+    await dbPublicTalksSave(talkNumber, talkTitleTmp);
     setIsEditMode(false);
   };
 

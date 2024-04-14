@@ -13,11 +13,11 @@ import {
   setIsUserSignIn,
 } from '@services/recoil/app';
 import { APP_ROLES } from '@constants/index';
-import { updateUserInfoAfterLogin } from '@services/app';
 import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 import { useAppTranslation } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
 import { NextStepType } from './index.types';
+import { dbAppSettingsUpdateUserInfoAfterLogin } from '@services/dexie/settings';
 
 const useEmailLinkAuth = () => {
   const { t } = useAppTranslation();
@@ -83,7 +83,7 @@ const useEmailLinkAuth = () => {
           }
 
           if (approvedRole) {
-            await updateUserInfoAfterLogin(data);
+            await dbAppSettingsUpdateUserInfoAfterLogin(data);
 
             // refetch auth after email update
             await userSignInCustomToken(code);

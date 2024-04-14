@@ -6,6 +6,7 @@ Individual property are evaluated using recoil selector
 import { atom, selector } from 'recoil';
 import { SettingsType } from '@definition/app';
 import { AccountTypeState } from '@definition/api';
+import { TimeAwayType } from '@definition/person';
 
 export const settingsState = atom({
   key: 'settings',
@@ -393,12 +394,12 @@ export const enableHourCreditsState = selector({
   },
 });
 
-export const userTimeAwayState = selector({
+export const userTimeAwayState = selector<TimeAwayType[]>({
   key: 'userTimeAway',
   get: ({ get }) => {
     const settings = get(settingsState);
 
-    return settings?.user_time_away || { data: [], changes: [] };
+    return settings?.user_time_away || [];
   },
 });
 

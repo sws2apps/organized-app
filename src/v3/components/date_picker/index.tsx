@@ -73,6 +73,11 @@ const CustomDatePicker = ({
     if (value === null && open) setInnerValue(new Date());
   }, [value, open]);
 
+  useEffect(() => {
+    setValueTmp(value);
+    setInnerValue(value);
+  }, [value]);
+
   return (
     <ClickAwayListener onClickAway={handleClickAway}>
       <Box sx={{ width: '100%' }}>

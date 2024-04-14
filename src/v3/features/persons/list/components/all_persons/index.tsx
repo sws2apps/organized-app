@@ -1,6 +1,6 @@
 import { Box, Grid } from '@mui/material';
+import PersonCard from '../person_card';
 import useAllPersons from './useAllPersons';
-import PersonCard from './component/person_card';
 
 const PersonsListAll = () => {
   const { persons } = useAllPersons();

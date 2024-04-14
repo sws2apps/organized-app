@@ -5,7 +5,7 @@ import { PersonType } from '@definition/person';
 import { useAppTranslation } from '@hooks/index';
 import { displaySnackNotification } from '@services/recoil/app';
 import { IconCheckCircle, IconError } from '@components/icons';
-import { dbDeletePerson } from '@services/dexie/persons';
+import { dbPersonsDelete } from '@services/dexie/persons';
 
 const usePersonCard = (person: PersonType) => {
   const navigate = useNavigate();
@@ -83,7 +83,7 @@ const usePersonCard = (person: PersonType) => {
 
   const handleDeleteConfirm = async () => {
     try {
-      await dbDeletePerson(person);
+      await dbPersonsDelete(person.person_uid);
 
       await displaySnackNotification({
         header: t('tr_personDeleted'),

@@ -1,12 +1,11 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { useRecoilValue, useResetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import { IconCheckCircle, IconError } from '@components/icons';
 import { personCurrentDetailsState, personsActiveState } from '@states/persons';
 import { useAppTranslation } from '@hooks/index';
 import { displaySnackNotification } from '@services/recoil/app';
-import { dbSavePerson } from '@services/dexie/persons';
 import { useEffect } from 'react';
-import { setPersonCurrentDetails } from '@services/recoil/persons';
+import { dbPersonsSave } from '@services/dexie/persons';
 
 const usePersonDetails = () => {
   const { id } = useParams();
@@ -16,7 +15,7 @@ const usePersonDetails = () => {
 
   const isNewPerson = id === undefined;
 
-  const person = useRecoilValue(personCurrentDetailsState);
+  const [person, setPerson] = useRecoilState(personCurrentDetailsState);
   const resetPersonNew = useResetRecoilState(personCurrentDetailsState);
   const persons = useRecoilValue(personsActiveState);
 
@@ -25,7 +24,7 @@ const usePersonDetails = () => {
 
   const handleSavePerson = async () => {
     try {
-      await dbSavePerson(person);
+      await dbPersonsSave(person);
       resetPersonNew();
 
       navigate('/persons');
@@ -58,15 +57,16 @@ const usePersonDetails = () => {
   };
 
   useEffect(() => {
-    if (id) {
-      const foundPerson = persons.find((record) => record.person_uid === id);
-      setPersonCurrentDetails(foundPerson);
+    const foundPerson = persons.find((record) => record.person_uid === id);
+
+    if (foundPerson) {
+      setPerson(foundPerson);
     }
 
-    if (!id) {
+    if (!foundPerson) {
       navigate('/persons');
     }
-  }, [id, persons, navigate]);
+  }, [id, persons, navigate, setPerson]);
 
   return { isNewPerson, isBaptized, isMale, handleSavePerson };
 };

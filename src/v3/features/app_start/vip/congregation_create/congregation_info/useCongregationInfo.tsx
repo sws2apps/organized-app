@@ -10,7 +10,7 @@ import {
   setIsCongAccountCreate,
 } from '@services/recoil/app';
 import { apiCreateCongregation } from '@services/api/congregation';
-import { handleUpdateSetting } from '@services/dexie/settings';
+import { dbAppSettingsSave } from '@services/dexie/settings';
 import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 import { getMessageByCode } from '@services/i18n/translation';
 import { SettingsType } from '@definition/app';
@@ -98,7 +98,7 @@ const useCongregationInfo = () => {
         obj.user_members_delegate = data.user_members_delegate;
         obj.cong_role = data.cong_role;
 
-        await handleUpdateSetting(obj);
+        await dbAppSettingsSave(obj);
         await setIsNewCongregation(true);
 
         setUserID(data.id);

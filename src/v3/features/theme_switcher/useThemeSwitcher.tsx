@@ -3,7 +3,7 @@ import { useRecoilValue } from 'recoil';
 import { isDarkThemeState } from '@states/app';
 import { setIsDarkTheme } from '@services/recoil/app';
 import { followOSThemeState } from '@states/settings';
-import { handleUpdateSetting } from '@services/dexie/settings';
+import { dbAppSettingsSave } from '@services/dexie/settings';
 
 const useThemeSwitcher = () => {
   const isDark = useRecoilValue(isDarkThemeState);
@@ -27,7 +27,7 @@ const useThemeSwitcher = () => {
   const handleOverrideThemeAuto = async () => {
     await setIsDarkTheme(!isDark);
 
-    await handleUpdateSetting({ follow_os_theme: { value: false, updatedAt: new Date().toISOString() } });
+    await dbAppSettingsSave({ follow_os_theme: { value: false, updatedAt: new Date().toISOString() } });
 
     setIsOpenConfirm(false);
   };

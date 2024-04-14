@@ -7,7 +7,7 @@ import { LANGUAGE_LIST } from '@constants/index';
 
 export const isDarkThemeState = atom({
   key: 'isDarkTheme',
-  default: localStorage.getItem('theme') === 'dark' ? true : false,
+  default: typeof localStorage !== 'undefined' && localStorage.getItem('theme') === 'dark' ? true : false,
 });
 
 export const offlineOverrideState = atom({
