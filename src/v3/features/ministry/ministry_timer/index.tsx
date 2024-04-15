@@ -112,42 +112,63 @@ const MinistryTimer = ({ duration = '00:00' }: { duration?: string }) => {
 
   // For timer ticks
   useEffect(() => {
-    let intervalId: NodeJS.Timeout | null = null;
+    let lastTime = 0;
+    let requestId: number;
 
-    if (timerState !== MinistryTimerStates.Zero && timerState !== MinistryTimerStates.Paused) {
-      intervalId = setInterval(() => {
-        setDurationInSeconds((value) => {
-          return value + 1;
-        });
-      }, 1000);
+    const tick = (timestamp: number) => {
+      if (timerState === MinistryTimerStates.Zero || timerState === MinistryTimerStates.Paused) {
+        lastTime = timestamp;
+        return;
+      }
+
+      const deltaTime = timestamp - lastTime;
+      if (deltaTime >= 1000) {
+        setDurationInSeconds((prev) => prev + Math.floor(deltaTime / 1000));
+        lastTime = timestamp;
+      }
+
+      requestId = requestAnimationFrame(tick);
+    };
+
+    if (timerState === MinistryTimerStates.Started) {
+      lastTime = performance.now();
+      requestId = requestAnimationFrame(tick);
     }
 
     return () => {
-      if (intervalId) {
-        clearInterval(intervalId);
-      }
+      cancelAnimationFrame(requestId);
     };
   }, [timerState]);
 
   // For timer text opacity
   useEffect(() => {
-    let intervalId: NodeJS.Timeout | null = null;
-    if (timerState === MinistryTimerStates.Paused) {
-      intervalId = setInterval(() => {
-        setTimerTextOpacity((value) => {
-          return value === 0 ? 1 : 0;
-        });
-      }, 1000);
-    }
+    let lastTime = 0;
+    let requestId: number;
 
-    if (timerState === MinistryTimerStates.Started) {
+    const blink = (timestamp: number) => {
+      if (timerState !== MinistryTimerStates.Paused) {
+        setTimerTextOpacity(1);
+        return;
+      }
+
+      const deltaTime = timestamp - lastTime;
+      if (deltaTime >= 1000) {
+        setTimerTextOpacity((prev) => (prev === 0 ? 1 : 0));
+        lastTime = timestamp;
+      }
+
+      requestId = requestAnimationFrame(blink);
+    };
+
+    if (timerState === MinistryTimerStates.Paused) {
+      lastTime = performance.now();
+      requestId = requestAnimationFrame(blink);
+    } else {
       setTimerTextOpacity(1);
     }
 
     return () => {
-      if (intervalId) {
-        clearInterval(intervalId);
-      }
+      cancelAnimationFrame(requestId);
     };
   }, [timerState]);
 
@@ -254,7 +275,8 @@ const MinistryTimer = ({ duration = '00:00' }: { duration?: string }) => {
               if (editAndAddBibleStudyData.variant == 'edit') {
                 setBibleStudiesList((prev) => {
                   const tmpArray = [...prev];
-                  return tmpArray.slice(editAndAddBibleStudyData.itemIndex + 1);
+                  tmpArray.splice(editAndAddBibleStudyData.itemIndex, 1);
+                  return tmpArray;
                 });
               }
               setEditAndAddBibleStudyData(defaultEAABSValue);
