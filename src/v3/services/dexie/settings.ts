@@ -98,7 +98,10 @@ export const dbAppSettingsSaveProfilePic = async (url: string, provider: string)
 
       const savePic = (profileBlob) => {
         profileBlob.arrayBuffer().then((profileBuffer) => {
-          dbAppSettingsUpdate({ user_avatar: profileBuffer });
+          const blob = new Blob([profileBuffer]);
+          const src = URL.createObjectURL(blob);
+
+          dbAppSettingsUpdate({ user_avatar: src });
         });
       };
 
@@ -106,7 +109,7 @@ export const dbAppSettingsSaveProfilePic = async (url: string, provider: string)
     }
   }
 
-  await dbAppSettingsUpdate({ user_avatar: undefined });
+  await dbAppSettingsUpdate({ user_avatar: '' });
 };
 
 export const dbAppSettingsUpdateUserInfoAfterLogin = async (data) => {

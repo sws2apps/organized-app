@@ -2,6 +2,7 @@ import { useRecoilValue } from 'recoil';
 import { publicTalksFilteredState } from '@states/publicTalks';
 import { useAppTranslation } from '@hooks/index';
 import { Column } from '@components/table/index.types';
+import { PublicTalkType } from '@definition/public_talks';
 import useSorting from '@components/table/useSorting';
 
 const useListView = () => {
@@ -23,7 +24,7 @@ const useListView = () => {
     rows: talksList,
   });
 
-  return { talksList: visibleRows, tableColumns, order, orderBy, handleRequestSort };
+  return { talksList: visibleRows as PublicTalkType[], tableColumns, order, orderBy, handleRequestSort };
 };
 
 export default useListView;

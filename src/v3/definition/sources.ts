@@ -1,44 +1,3 @@
-export type AssignmentType = {
-  value: number;
-  label: string;
-  assignable: boolean;
-  maleOnly: boolean;
-  type: string;
-  linkTo: number;
-};
-
-export type TalkHistoryWeeklyType = {
-  weekOf: string;
-  weekOfFormatted: string;
-  speaker1: string;
-  speaker_1_dispName: string;
-  speaker2: string;
-  speaker_2_dispName: string;
-};
-
-export type TalkHistoryType = {
-  talk_number: number;
-  history: TalkHistoryWeeklyType[];
-  last_delivered: string;
-  last_delivered_formatted: string;
-};
-
-export type TalkType = {
-  talk_number: number;
-  talk_title: {
-    [language: string]: {
-      title: string;
-      updatedAt: string;
-    };
-  };
-};
-
-export type TalkLocaleType = {
-  talk_number: number;
-  talk_title: string;
-  talk_modified: string;
-};
-
 type LanguageStringData = {
   [language: string]: string | undefined;
 };
@@ -179,21 +138,4 @@ export type MidweekMeetingTimeType = {
   concludingComments: string;
   pgmEnd: string;
   coTalk?: string;
-};
-
-export type PublicTalksViewType = 'list' | 'table';
-
-export enum Week {
-  NORMAL = 1,
-  CO_VISIT = 2,
-  ASSEMBLY = 3,
-  CONVENTION = 4,
-}
-
-export type WeekType = {
-  id: Week;
-  sort_index: number;
-  week_type_name: {
-    [language: string]: string;
-  };
 };

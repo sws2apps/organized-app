@@ -1,33 +1,21 @@
 import { Box } from '@mui/material';
 import Button from '@components/button';
 import SearchBar from '@components/search_bar';
-import TalksListView from './components/listView';
-import TalksTableView from './components/tableView';
+import TalksListView from './listView';
+import TalksTableView from './tableView';
 import Typography from '@components/typography';
 import usePublicTalks from './usePublicTalks';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { IconCollapse, IconExpand, IconExport } from '@components/icons';
-import { PublicTalksViewType } from '@definition/sources';
-
-type PublicTalksType = {
-  view: PublicTalksViewType;
-};
+import { PublicTalksType } from './index.types';
 
 const PublicTalks = ({ view }: PublicTalksType) => {
   const { t } = useAppTranslation();
 
-  const { tabletDown, laptopUp } = useBreakpoints();
+  const { laptopUp } = useBreakpoints();
 
-  const {
-    talksList,
-    lastSyncFormatted,
-    handleToggleExpandAll,
-    isExpandAll,
-    handleSearch,
-    labelSearch,
-    txtSearch,
-    isConnected,
-  } = usePublicTalks();
+  const { talksList, handleToggleExpandAll, isExpandAll, handleSearch, labelSearch, txtSearch, isConnected } =
+    usePublicTalks();
 
   const getTableHeight = () => {
     let height: string;
@@ -65,16 +53,7 @@ const PublicTalks = ({ view }: PublicTalksType) => {
       <Box
         sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}
       >
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: tabletDown ? '8px' : '16px', flexWrap: 'wrap' }}>
-          <Typography className="h2">{t(labelSearch, { count: talksList.length })}</Typography>
-          <Typography
-            className="body-small-semibold"
-            color="var(--accent-400)"
-            sx={{ padding: '4px 8px', borderRadius: 'var(--radius-s)', backgroundColor: 'var(--accent-150)' }}
-          >
-            {lastSyncFormatted}
-          </Typography>
-        </Box>
+        <Typography className="h2">{t(labelSearch, { count: talksList.length })}</Typography>
 
         {view === 'list' && laptopUp && (
           <Button

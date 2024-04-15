@@ -1,6 +1,6 @@
 import { Table, TableBody, TableContainer } from '@mui/material';
 import useListView from './useListView';
-import TalkRow from './TalkRow';
+import TalkRow from './talk_row';
 import TableHead from '@components/table/TableHead';
 
 type TalksListViewType = {

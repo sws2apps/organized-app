@@ -1,21 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { publicTalksFilteredState, publicTalksSearchKeyState } from '@states/publicTalks';
-import { publicTalkSyncState } from '@states/settings';
-import { formatDate } from '@services/dateformat';
-import { useAppTranslation } from '@hooks/index';
 import { setPublicTalksSearchKey } from '@services/recoil/publicTalks';
 import { congAccountConnectedState } from '@states/app';
 
 const usePublicTalks = () => {
-  const { t } = useAppTranslation();
-
   const talksList = useRecoilValue(publicTalksFilteredState);
-  const lastSync = useRecoilValue(publicTalkSyncState);
   const txtSearch = useRecoilValue(publicTalksSearchKeyState);
   const isConnected = useRecoilValue(congAccountConnectedState);
 
-  const [lastSyncFormatted, setLastSyncFormatted] = useState('');
   const [isExpandAll, setIsExpandAll] = useState(false);
   const [labelSearch, setLabelSearch] = useState('tr_countPublicTalks');
 
@@ -26,20 +19,6 @@ const usePublicTalks = () => {
   const handleSearch = async (value: string) => {
     await setPublicTalksSearchKey(value);
   };
-
-  useEffect(() => {
-    if (lastSync.length === 0) setLastSyncFormatted('');
-
-    if (lastSync.length > 0) {
-      const dateSync = new Date(lastSync);
-
-      const dateFormatted = formatDate(dateSync, t('tr_shortDateFormatAlt'));
-      const timeFormatted = formatDate(dateSync, t('tr_shortTimeFormat'));
-
-      const result = t('tr_publicTalkLastSync', { date: dateFormatted, time: timeFormatted });
-      setLastSyncFormatted(result);
-    }
-  }, [lastSync, t]);
 
   useEffect(() => {
     if (txtSearch.length === 0) {
@@ -53,7 +32,6 @@ const usePublicTalks = () => {
 
   return {
     talksList,
-    lastSyncFormatted,
     isExpandAll,
     handleToggleExpandAll,
     handleSearch,
