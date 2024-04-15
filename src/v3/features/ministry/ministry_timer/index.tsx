@@ -254,7 +254,10 @@ const MinistryTimer = ({ duration = '00:00' }: { duration?: string }) => {
             showCreditHours={true}
             duration={durationInSeconds}
             bibleStudiesList={bibleStudiesList}
-            cancelButtonClick={() => setAddServiceTimeModalWindowOpen(false)}
+            cancelButtonClick={() => {
+              setAddServiceTimeModalWindowOpen(false);
+              setEditAndAddBibleStudyData(defaultEAABSValue);
+            }}
             addButtonClick={() => {
               resetDurationToNull();
               setAddServiceTimeModalWindowOpen(false);
@@ -294,6 +297,7 @@ const MinistryTimer = ({ duration = '00:00' }: { duration?: string }) => {
 
                 return tmpArray;
               });
+
               setEditAndAddBibleStudyData(defaultEAABSValue);
             }}
           />
