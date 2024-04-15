@@ -21,14 +21,12 @@ export { default as DashboardCard } from './dashboard/card';
 export { default as DashboardMenu } from './dashboard/menu';
 
 /* ---------------------------- Meeting material ---------------------------- */
+export { default as PublicTalks } from './meeting_materials/public_talks';
 export { default as EPUBMaterialsImport } from './meeting_materials/epub_import';
 export { default as JWMaterialsImport } from './meeting_materials/jw_import';
 
 /* ---------------------------- Language Switcher --------------------------- */
 export { default as LanguageSwitcher } from './language_switcher';
-
-/* ------------------------------ Public talks ------------------------------ */
-export { default as PublicTalks } from './public_talks';
 
 /* --------------------------------- Support -------------------------------- */
 export { default as Support } from './support';

@@ -2,7 +2,7 @@ import { promiseSetRecoil } from 'recoil-outside';
 import { rootModalOpenState } from '@states/app';
 import { PersonType } from '@definition/person';
 import { generateDisplayName } from './common';
-import { AssignmentCode } from '@definition/schedules';
+import { AssignmentCode } from '@definition/assignment';
 import appDb from '@shared/indexedDb/appDb';
 
 export const delay = async (time: number) => {

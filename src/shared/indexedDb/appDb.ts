@@ -29,7 +29,7 @@ const schema = {
   ...schedSchema,
 };
 
-appDb.version(4).stores(schema);
+appDb.version(5).stores(schema);
 
 appDb.on('populate', function () {
   appDb.app_settings.add({
@@ -62,7 +62,6 @@ appDb.on('populate', function () {
     follow_os_theme: { value: false, updatedAt: '' },
     enable_hour_credits: { value: false, updatedAt: '' },
     user_time_away: [],
-    public_talk_sync: '',
   });
 });
 

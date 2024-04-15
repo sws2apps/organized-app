@@ -1,5 +1,5 @@
 import { AssignmentCheckListColors } from '@definition/app';
-import { AssignmentCode } from '@definition/schedules';
+import { AssignmentCode } from '@definition/assignment';
 
 export type AssignmentGroupType = {
   id: string;

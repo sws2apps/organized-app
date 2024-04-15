@@ -1,9 +1,9 @@
 import { useRecoilValue } from 'recoil';
 import { congAccountConnectedState, isAppLoadState } from '@states/app';
-import { avatarUrlState } from '@states/settings';
+import { userAvatarState } from '@states/settings';
 
 export const useAccountHeaderIcon = () => {
-  const userAvatar = useRecoilValue(avatarUrlState);
+  const userAvatar = useRecoilValue(userAvatarState);
   const congAccountConnected = useRecoilValue(congAccountConnectedState);
   const isAppLoad = useRecoilValue(isAppLoadState);
 

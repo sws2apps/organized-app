@@ -1,5 +1,5 @@
-import { SchedWeekType } from '@definition/schedules';
-import { SourceWeekType, Week } from '@definition/sources';
+import { SchedWeekType, Week } from '@definition/schedules';
+import { SourceWeekType } from '@definition/sources';
 
 export const sourceSchema: SourceWeekType = {
   weekOf: '',

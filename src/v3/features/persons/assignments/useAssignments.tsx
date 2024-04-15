@@ -5,7 +5,7 @@ import { useAppTranslation } from '@hooks/index';
 import { AssignmentCheckListColors } from '@definition/app';
 import { personCurrentDetailsState } from '@states/persons';
 import { setPersonCurrentDetails } from '@services/recoil/persons';
-import { AssignmentCode } from '@definition/schedules';
+import { AssignmentCode } from '@definition/assignment';
 
 const useAssignments = () => {
   const { id } = useParams();
