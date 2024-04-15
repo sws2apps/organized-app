@@ -57,16 +57,22 @@ const usePersonDetails = () => {
   };
 
   useEffect(() => {
-    const foundPerson = persons.find((record) => record.person_uid === id);
-
-    if (foundPerson) {
-      setPerson(foundPerson);
+    if (isNewPerson) {
+      resetPersonNew();
     }
 
-    if (!foundPerson) {
-      navigate('/persons');
+    if (!isNewPerson) {
+      const foundPerson = persons.find((record) => record.person_uid === id);
+
+      if (foundPerson) {
+        setPerson(foundPerson);
+      }
+
+      if (!foundPerson) {
+        navigate('/persons');
+      }
     }
-  }, [id, persons, navigate, setPerson]);
+  }, [id, persons, navigate, setPerson, resetPersonNew, isNewPerson]);
 
   return { isNewPerson, isBaptized, isMale, handleSavePerson };
 };
