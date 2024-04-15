@@ -338,9 +338,9 @@
   "tr_privilege": "Privilege",
   "tr_userDeletedDesc": "{{ UserName }} no longer has a user profile and cannot log in to your congregation's account",
   "tr_userDeletedTitle": "User profile deleted: {{ UserName }}",
-  "tr_FRs": "Regular pioneers",
   "tr_FMF": "Field missionary",
   "tr_FR": "Regular pioneer",
   "tr_FS": "Special pioneer",
-  "tr_AP": "Auxiliary pioneer"
+  "tr_AP": "Auxiliary pioneer",
+  "tr_FRs": "Regular pioneers"
 }
