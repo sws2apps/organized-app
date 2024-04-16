@@ -1,11 +1,12 @@
-import { PropsWithChildren } from 'react';
+import { MouseEventHandler, PropsWithChildren } from 'react';
 
-export type CustomUserCardTypes = 'personal' | 'pioneer' | 'publisher';
+export type CustomUserCardTypes = 'person' | 'pioneer' | 'publisher';
+
 export interface CustomUserCardProps extends PropsWithChildren {
   name: string;
   type: CustomUserCardTypes;
   chipLabels?: string[];
   female: boolean;
   onClick?: () => void;
-  onDelete?: () => void;
+  onDelete?: MouseEventHandler<HTMLButtonElement>;
 }

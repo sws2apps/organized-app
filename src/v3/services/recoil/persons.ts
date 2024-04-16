@@ -6,7 +6,7 @@ import {
   personsSearchKeyState,
   selectedPersonState,
 } from '@states/persons';
-import { PersontType } from '@definition/person';
+import { PersonType } from '@definition/person';
 
 export const setIsPersonDelete = async (value) => {
   await promiseSetRecoil(isPersonDeleteState, value);
@@ -24,6 +24,6 @@ export const setPersonsFiltersKey = async (data: (string | number)[]) => {
   await promiseSetRecoil(personsFiltersKeyState, data);
 };
 
-export const setPersonCurrentDetails = async (data: PersontType) => {
+export const setPersonCurrentDetails = async (data: PersonType) => {
   await promiseSetRecoil(personCurrentDetailsState, data);
 };

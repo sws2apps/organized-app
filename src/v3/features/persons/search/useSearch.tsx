@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { personsSearchKeyState } from '@states/persons';
 
 const useSearch = () => {
-  const [txtSearch, setTxtSearch] = useState('');
+  const [txtSearch, setTxtSearch] = useRecoilState(personsSearchKeyState);
 
   const handleSearch = (value: string) => {
     setTxtSearch(value);

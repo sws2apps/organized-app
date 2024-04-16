@@ -23,7 +23,7 @@ const useAssignmentGroup = (isMale: boolean) => {
       if (code === AssignmentCode.MM_FollowingUp) isDisabled = false;
       if (code === AssignmentCode.MM_MakingDisciples) isDisabled = false;
       if (code === AssignmentCode.MM_ExplainingBeliefs) isDisabled = false;
-      if (code === AssignmentCode.MM_AssitantOnly) isDisabled = false;
+      if (code === AssignmentCode.MM_AssistantOnly) isDisabled = false;
     }
 
     return isDisabled;

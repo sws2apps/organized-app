@@ -3,7 +3,7 @@ import { useRecoilValue } from 'recoil';
 import { firstnameState, lastnameState } from '@states/settings';
 import useBreakpoints from '@hooks/useBreakpoints';
 import useFirebaseAuth from '@hooks/useFirebaseAuth';
-import { handleUpdateSetting } from '@services/dexie/settings';
+import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { congAccountConnectedState } from '@states/app';
 
 const useUserProfileDetails = () => {
@@ -23,13 +23,13 @@ const useUserProfileDetails = () => {
   const handleChangeFirstName = async (value) => {
     setFirstNameTmp(value);
 
-    await handleUpdateSetting({ firstname: { value, updatedAt: new Date().toISOString() } });
+    await dbAppSettingsUpdate({ firstname: { value, updatedAt: new Date().toISOString() } });
   };
 
   const handleChangeLastName = async (value) => {
     setLastNameTmp(value);
 
-    await handleUpdateSetting({ lastname: { value, updatedAt: new Date().toISOString() } });
+    await dbAppSettingsUpdate({ lastname: { value, updatedAt: new Date().toISOString() } });
   };
 
   return { tabletDown, firstNameTmp, lastNameTmp, handleChangeFirstName, handleChangeLastName, userEmail, isConnected };

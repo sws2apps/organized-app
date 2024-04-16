@@ -5,14 +5,15 @@ import useFirebaseAuth from '@hooks/useFirebaseAuth';
 import { apiHostState, isAppLoadState, isOnlineState, visitorIDState } from '@states/app';
 import { apiValidateMe } from '@services/api/user';
 import { userSignOut } from '@services/firebase/auth';
-import { handleDeleteDatabase, updateUserInfoAfterLogin } from '@services/app';
+import { handleDeleteDatabase } from '@services/app';
 import { APP_ROLES } from '@constants/index';
 import { setCongAccountConnected, setRootModalOpen } from '@services/recoil/app';
 import { apiFetchSchedule } from '@services/api/schedule';
-import { handleUpdateScheduleFromRemote } from '@services/app/schedules';
+import { schedUpdateFromRemote } from '@services/app/schedules';
 import { accountTypeState } from '@states/settings';
 import { apiFetchCongregationLastBackup } from '@services/api/congregation';
 import worker from '@services/worker/backupWorker';
+import { dbAppSettingsUpdateUserInfoAfterLogin } from '@services/dexie/settings';
 
 const useUserAutoLogin = () => {
   const { isAuthenticated } = useFirebaseAuth();
@@ -52,12 +53,12 @@ const useUserAutoLogin = () => {
           }
 
           if (approvedRole) {
-            await updateUserInfoAfterLogin(data);
+            await dbAppSettingsUpdateUserInfoAfterLogin(data);
 
             await setRootModalOpen(true);
             const { status: scheduleStatus, data: scheduleData } = await apiFetchSchedule();
             if (scheduleStatus === 200) {
-              await handleUpdateScheduleFromRemote(scheduleData);
+              await schedUpdateFromRemote(scheduleData);
             }
 
             const { status, data: backup } = await apiFetchCongregationLastBackup();

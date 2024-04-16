@@ -33,12 +33,12 @@ const TimeAwayItem = (props: TimeAwayItemProps) => {
       >
         <DatePicker
           label={t('tr_startDate')}
-          value={new Date(startDate)}
+          value={new Date(startDate.value)}
           onChange={(value) => handleUpdateStartDate(value)}
         />
         <DatePicker
           label={t('tr_endDate')}
-          value={endDate === null ? null : new Date(endDate)}
+          value={endDate === null ? null : new Date(endDate.value)}
           onChange={(value) => handleUpdateEndDate(value)}
         />
       </Box>

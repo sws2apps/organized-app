@@ -1,12 +1,11 @@
 import { promiseGetRecoil } from 'recoil-outside';
-import { getS34 } from '@services/app/publicTalks';
-import { appDb } from '.';
+import appDb from '@shared/indexedDb/appDb';
 import { TalkType } from '@definition/sources';
 import { JWLangState } from '@states/app';
 
-export const saveS34 = async (talk_number: number, talk_title: string) => {
+export const dbPublicTalksSave = async (talk_number: number, talk_title: string) => {
   let JWLang: string = await promiseGetRecoil(JWLangState);
-  const talk = await getS34(talk_number);
+  const talk = await appDb.public_talks.get(talk_number);
 
   let hasChange = true;
   JWLang = JWLang.toUpperCase();
@@ -16,21 +15,25 @@ export const saveS34 = async (talk_number: number, talk_title: string) => {
   }
 
   if (hasChange) {
-    const talkTitle = { ...talk.talk_title, [JWLang]: { title: talk_title, modified: new Date().toISOString() } };
-    await appDb.public_talks.update(talk.talk_number, { ...talk, talk_title: talkTitle });
+    const updateTalk: TalkType = {
+      talk_number: talk.talk_number,
+      talk_title: { ...talk.talk_title, [JWLang]: { title: talk_title, updatedAt: new Date().toISOString() } },
+    };
+
+    await appDb.public_talks.put(updateTalk);
   }
 };
 
-export const resetS34s = async (talks: TalkType[]) => {
+export const dbPublicTalksReset = async (talks: TalkType[]) => {
   for (const talk of talks) {
     let S34: TalkType;
 
-    const findTalk = await getS34(talk.talk_number);
+    const findTalk = await appDb.public_talks.get(talk.talk_number);
 
     if (!findTalk) {
       S34 = {
         talk_number: talk.talk_number,
-        talk_title: { E: { title: '', modified: '' } },
+        talk_title: { E: { title: '', updatedAt: '' } },
       };
     }
 
@@ -40,10 +43,10 @@ export const resetS34s = async (talks: TalkType[]) => {
 
     for (const [language, value] of Object.entries(talk.talk_title)) {
       const incomingTitle = value.title;
-      const incomingModified = value.modified;
+      const incomingModified = value.updatedAt;
 
       let hasChange = false;
-      const currentModified = S34.talk_title[language]?.modified || '';
+      const currentModified = S34.talk_title[language]?.updatedAt || '';
 
       if (currentModified === '') hasChange = true;
       if (currentModified !== '') {
@@ -54,7 +57,7 @@ export const resetS34s = async (talks: TalkType[]) => {
       }
 
       if (hasChange) {
-        S34.talk_title = { ...S34.talk_title, [language]: { title: incomingTitle, modified: incomingModified } };
+        S34.talk_title = { ...S34.talk_title, [language]: { title: incomingTitle, updatedAt: incomingModified } };
         await appDb.public_talks.put(S34);
       }
     }

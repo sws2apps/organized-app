@@ -55,6 +55,7 @@ export { default as PersonEnrollments } from './persons/enrollments';
 export { default as PersonPrivileges } from './persons/privileges';
 export { default as PersonSpiritualStatus } from './persons/spiritual_status';
 export { default as PersonsFilter } from './persons/filter';
+export { default as PersonsList } from './persons/list';
 export { default as PersonsSearch } from './persons/search';
 export { default as PersonTimeAway } from './persons/time_away';
 

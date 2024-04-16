@@ -1,11 +1,12 @@
 import { ReactElement, ReactNode } from 'react';
 import { SxProps, Theme } from '@mui/material';
+import { BadgeColor } from '@definition/app';
 
 export type BadgePropsType = {
   size: 'small' | 'medium' | 'big';
   filled?: boolean;
   text: string;
-  color: 'red' | 'grey' | 'green' | 'orange' | 'accent' | 'transparent';
+  color: BadgeColor;
   fullWidth?: boolean;
   centerContent?: boolean;
   borderStyle?: 'dashed' | 'solid';
