@@ -228,7 +228,7 @@
   "tr_otherPublishers": "Other publishers",
   "tr_totalStats": "Total statistics",
   "tr_exportS21": "Export S-21",
-  "tr_userAge": "Age: {{ UserAge }}",
+  "tr_userAge": "Age: {{ userAge }}",
   "tr_otherSheep": "Other sheep",
   "tr_baptismDate": "Date of baptism",
   "tr_hoursList": "Hours: {{ Hours }}",
