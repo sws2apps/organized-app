@@ -31,7 +31,6 @@
   "tr_btnUndoSumbission": "Undo sumbission",
   "tr_totalHours": "Total hours",
   "tr_fieldMinistry": "Field ministry",
-  "tr_LDCHours": "LDC hours",
   "tr_averageMonthlyBibleStudies": "Average Bible studies per month",
   "tr_maximumMonthlyBibleStudies": "Peak Bible studies per month",
   "tr_monthlyHistory": "Monthly history",
@@ -94,5 +93,6 @@
   "tr_changeImage": "Change image",
   "tr_addImage": "Add image",
   "tr_cantDeductStudiesDesc": "You can't select fewer Bible studies than you already have selected in the “Individual Bible studies” dropdown menu. ",
-  "tr_cantDeductStudiesTitle": "Cannot deduct Bible studies"
+  "tr_cantDeductStudiesTitle": "Cannot deduct Bible studies",
+  "tr_includesServiceAndCredit": "Includes field service and credit hours"
 }
