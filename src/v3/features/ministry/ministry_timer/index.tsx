@@ -10,6 +10,7 @@ import { EditAndAddBibleStudyContext } from '../EditAndAddBibleStudyContext';
 import { AddServiceTimeModalWindow } from '../add_service_time_modal_window';
 import CustomTypography from '@components/typography';
 import { convertDurationInSecondsToString, convertDurationStringToSeconds } from '../utils';
+import TimeAlreadyInServiceModalWindow from '../time_already_in_service_modal_window';
 
 /**
  * Left Ministry Timer Button component.
@@ -200,6 +201,8 @@ const MinistryTimer = ({ duration = '00:00' }: { duration?: string }) => {
     [editAndAddBibleStudyData]
   );
 
+  const [timeAlreadyInServiceModalWindowOpen, setTimeAlreadyInServiceModalWindowOpen] = useState(false);
+
   return (
     <EditAndAddBibleStudyContext.Provider value={contextValue}>
       <Box
@@ -238,6 +241,11 @@ const MinistryTimer = ({ duration = '00:00' }: { duration?: string }) => {
             cursor: 'pointer',
             userSelect: 'none',
           }}
+          onClick={() => {
+            if (timerDuration === '00:00') {
+              setTimeAlreadyInServiceModalWindowOpen(true);
+            }
+          }}
         >
           {timerDuration}
         </CustomTypography>
@@ -248,9 +256,8 @@ const MinistryTimer = ({ duration = '00:00' }: { duration?: string }) => {
           }}
         />
         <DarkOverlay overlayIsOpened={addServiceTimeModalWindowOpen}>
-          {/** Connect to API */}
+          {/** Connect to API  | Add variant */}
           <AddServiceTimeModalWindow
-            variant="pioneer"
             showCreditHours={true}
             duration={durationInSeconds}
             bibleStudiesList={bibleStudiesList}
@@ -299,6 +306,16 @@ const MinistryTimer = ({ duration = '00:00' }: { duration?: string }) => {
               });
 
               setEditAndAddBibleStudyData(defaultEAABSValue);
+            }}
+          />
+        </DarkOverlay>
+
+        <DarkOverlay overlayIsOpened={timeAlreadyInServiceModalWindowOpen}>
+          <TimeAlreadyInServiceModalWindow
+            cancelButtonClick={() => setTimeAlreadyInServiceModalWindowOpen(false)}
+            addButtonClick={(value) => {
+              setDurationInSeconds(value);
+              setTimeAlreadyInServiceModalWindowOpen(false);
             }}
           />
         </DarkOverlay>

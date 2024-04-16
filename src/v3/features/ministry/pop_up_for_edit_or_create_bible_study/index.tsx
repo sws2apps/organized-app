@@ -76,6 +76,10 @@ const PopUpForEditOrCreateBibleStudy = (props: PopUpForEditOrCreateBibleStudyPro
         variant={'secondary'}
         sx={{
           color: variant == 'edit' ? 'var(--red-main)' : 'var(--accent-main)',
+
+          '&:hover': {
+            backgroundColor: variant == 'edit' ? 'var(--red-secondary)' : 'var(--accent-350)',
+          },
         }}
         onClick={() => {
           props.cancelButtonClick();

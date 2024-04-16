@@ -823,7 +823,12 @@ const ComponentPreview = () => {
           </Box>
         </Box>
         <Box>
-          <CPETimePickerSlider ampm={false} />
+          <CPETimePickerSlider
+            ampm={false}
+            onChange={(seconds) => {
+              console.log(seconds);
+            }}
+          />
         </Box>
       </Container>
     </Box>

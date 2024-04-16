@@ -429,7 +429,7 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
               }}
             >
               <MinusButton onClick={decrimentCountOfStudiesInBuffer} />
-              <CustomTypography className="h2" color={countOfStudies != 0 ? 'var(--black)' : 'var(--grey-300)'}>
+              <CustomTypography className="h3" color={countOfStudies != 0 ? 'var(--black)' : 'var(--grey-300)'}>
                 {countOfStudies}
               </CustomTypography>
               <PlusButton onClick={incrementCountOfStudiesInBuffer} />

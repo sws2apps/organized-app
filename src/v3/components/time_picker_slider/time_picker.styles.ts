@@ -13,7 +13,6 @@ export const TimePickerTypography: SxProps<Theme> = {
 
 export const ActiveCaseFilter: SxProps<Theme> = {
   position: 'absolute',
-  zIndex: -1,
   pointerEvents: 'none',
   backgroundColor: 'var(--accent-150)',
   borderRadius: 'var(--radius-s)',
