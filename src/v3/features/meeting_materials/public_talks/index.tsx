@@ -14,8 +14,7 @@ const PublicTalks = ({ view }: PublicTalksType) => {
 
   const { laptopUp } = useBreakpoints();
 
-  const { talksList, handleToggleExpandAll, isExpandAll, handleSearch, labelSearch, txtSearch, isConnected } =
-    usePublicTalks();
+  const { talksList, handleToggleExpandAll, isExpandAll, handleSearch, labelSearch, txtSearch } = usePublicTalks();
 
   const getTableHeight = () => {
     let height: string;
@@ -24,12 +23,8 @@ const PublicTalks = ({ view }: PublicTalksType) => {
       height = '80vh';
     }
 
-    if (!isConnected && !laptopUp) {
+    if (!laptopUp) {
       height = '75vh';
-    }
-
-    if (isConnected && !laptopUp) {
-      height = '70vh';
     }
 
     return height;

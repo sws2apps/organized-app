@@ -1,8 +1,8 @@
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
 import Typography from '@components/typography';
-import TalkRow from './TalkRow';
-import useTableView from './useTableView';
+import TalkRow from './talk_row';
+import useTableView from './talk_row/useTableView';
 
 const TalksTableView = () => {
   const { t } = useAppTranslation();

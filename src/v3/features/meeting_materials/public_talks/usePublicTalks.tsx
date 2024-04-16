@@ -2,12 +2,10 @@ import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { publicTalksFilteredState, publicTalksSearchKeyState } from '@states/publicTalks';
 import { setPublicTalksSearchKey } from '@services/recoil/publicTalks';
-import { congAccountConnectedState } from '@states/app';
 
 const usePublicTalks = () => {
   const talksList = useRecoilValue(publicTalksFilteredState);
   const txtSearch = useRecoilValue(publicTalksSearchKeyState);
-  const isConnected = useRecoilValue(congAccountConnectedState);
 
   const [isExpandAll, setIsExpandAll] = useState(false);
   const [labelSearch, setLabelSearch] = useState('tr_countPublicTalks');
@@ -37,7 +35,6 @@ const usePublicTalks = () => {
     handleSearch,
     labelSearch,
     txtSearch,
-    isConnected,
   };
 };
 
