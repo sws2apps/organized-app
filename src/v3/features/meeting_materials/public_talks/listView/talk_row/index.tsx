@@ -49,10 +49,12 @@ const TalkRow = ({ talk, isExpandAll }: TalkRowType) => {
           </Typography>
         </TableCell>
         <TableCell>
-          <Typography className="body-small-regular">01/01/24</Typography>
+          <Typography className="body-small-regular" sx={{ minWidth: '50px' }}>
+            01/01/24
+          </Typography>
         </TableCell>
         <TableCell>
-          <Typography className="body-small-regular" sx={{ flexGrow: 1 }}>
+          <Typography className="body-small-regular" sx={{ flexGrow: 1, minWidth: '60px' }}>
             B. Jason
           </Typography>
         </TableCell>
@@ -107,7 +109,9 @@ const TalkRow = ({ talk, isExpandAll }: TalkRowType) => {
                   >
                     <TableCell sx={{ minWidth: '195px', flexGrow: 1 }} align="left" />
                     <TableCell align="left" sx={{ width: '78px' }}>
-                      <Typography className="body-small-regular">{history.date}</Typography>
+                      <Typography className="body-small-regular" sx={{ minWidth: '50px' }}>
+                        {history.date}
+                      </Typography>
                     </TableCell>
                     <TableCell align="left" sx={{ width: '210px' }}>
                       <Typography className="body-small-regular">{history.name}</Typography>

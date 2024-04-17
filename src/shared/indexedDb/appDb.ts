@@ -2,18 +2,11 @@ import BaseDexie from 'dexie';
 import { PersonsTable, personsSchema } from './tables/persons';
 import { SettingsTable, settingsSchema } from './tables/settings';
 import { SourcesTable, sourcesSchema } from './tables/sources';
-import { PublicTalksTable, publicTalksSchema } from './tables/publicTalks';
 import { AssignmentTable, assignmentSchema } from './tables/assignment';
 import { WeekTypeTable, weekTypeSchema } from './tables/weekType';
 import { SchedTable, schedSchema } from './tables/sched';
 
-type DexieTables = PersonsTable &
-  SettingsTable &
-  SourcesTable &
-  PublicTalksTable &
-  AssignmentTable &
-  WeekTypeTable &
-  SchedTable;
+type DexieTables = PersonsTable & SettingsTable & SourcesTable & AssignmentTable & WeekTypeTable & SchedTable;
 
 type Dexie<T = DexieTables> = BaseDexie & T;
 
@@ -23,13 +16,12 @@ const schema = {
   ...personsSchema,
   ...settingsSchema,
   ...sourcesSchema,
-  ...publicTalksSchema,
   ...assignmentSchema,
   ...weekTypeSchema,
   ...schedSchema,
 };
 
-appDb.version(4).stores(schema);
+appDb.version(1).stores(schema);
 
 appDb.on('populate', function () {
   appDb.app_settings.add({

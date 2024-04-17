@@ -23,22 +23,6 @@ export type TalkHistoryType = {
   last_delivered_formatted: string;
 };
 
-export type TalkType = {
-  talk_number: number;
-  talk_title: {
-    [language: string]: {
-      title: string;
-      updatedAt: string;
-    };
-  };
-};
-
-export type TalkLocaleType = {
-  talk_number: number;
-  talk_title: string;
-  talk_modified: string;
-};
-
 type LanguageStringData = {
   [language: string]: string | undefined;
 };
@@ -180,8 +164,6 @@ export type MidweekMeetingTimeType = {
   pgmEnd: string;
   coTalk?: string;
 };
-
-export type PublicTalksViewType = 'list' | 'table';
 
 export enum Week {
   NORMAL = 1,
