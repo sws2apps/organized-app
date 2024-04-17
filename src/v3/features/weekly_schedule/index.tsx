@@ -3,13 +3,10 @@ import TextMarkup from '@components/text_markup';
 import Typography from '@components/typography';
 import { useAppTranslation } from '@hooks/index';
 import { IconError } from '@icons/index';
-import useUnauthorizedRole from './useUnauthorizedRole';
-import PermissionErrorImg from '@assets/img/permission-error-illustration.svg?component';
+import NoSchedulesErrorImg from '@assets/img/no-schedules-error-illustration.svg?component';
 
 const UnauthorizedRole = () => {
   const { t } = useAppTranslation();
-
-  const { anchorRef } = useUnauthorizedRole();
 
   return (
     <Box
@@ -24,7 +21,7 @@ const UnauthorizedRole = () => {
     >
       <Box sx={{ maxWidth: '702px', display: 'flex', gap: '24px', alignItems: 'center' }}>
         <IconError width={72} height={72} color="var(--red-main)" />
-        <PermissionErrorImg />
+        <NoSchedulesErrorImg />
         <Box
           sx={{
             display: 'flex',
@@ -39,7 +36,6 @@ const UnauthorizedRole = () => {
             color="var(--grey-400)"
             anchorClassName="h4"
             anchorColor="var(--accent-dark)"
-            anchorRef={anchorRef}
           />
         </Box>
       </Box>
