@@ -31,7 +31,6 @@
   "tr_btnUndoSumbission": "फिर्ता लिने",
   "tr_totalHours": "कुल घण्टा",
   "tr_fieldMinistry": "क्षेत्र सेवा",
-  "tr_LDCHours": "एल.डी.सी. घण्टा",
   "tr_averageMonthlyBibleStudies": "मासिक औसत बाइबल अध्ययन",
   "tr_maximumMonthlyBibleStudies": "मासिक अधिकतम बाइबल अध्ययन",
   "tr_monthlyHistory": "मासिक इतिहास",
@@ -94,5 +93,6 @@
   "tr_changeImage": "Change image",
   "tr_addImage": "Add image",
   "tr_cantDeductStudiesDesc": "You can't select fewer Bible studies than you already have selected in the “Individual Bible studies” dropdown menu. ",
-  "tr_cantDeductStudiesTitle": "Cannot deduct Bible studies"
+  "tr_cantDeductStudiesTitle": "Cannot deduct Bible studies",
+  "tr_includesServiceAndCredit": "Includes field service and credit hours"
 }
