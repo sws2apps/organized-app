@@ -116,7 +116,7 @@ const PersonBasicInfo = () => {
           }}
         >
           <Typography className="h4" color="var(--accent-dark)">
-            {t('tr_yearsNumber', { yearsCount: age })}
+            {t('tr_userAge', { userAge: age })}
           </Typography>
         </Box>
       </Box>

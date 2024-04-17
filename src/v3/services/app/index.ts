@@ -6,10 +6,16 @@ import { disconnectCongAccount, displaySnackNotification, setRootModalOpen } fro
 import { dbWeekTypeUpdate } from '@services/dexie/weekType';
 import { dbAssignmentUpdate } from '@services/dexie/assignment';
 import { dbAppDelete } from '@services/dexie/app';
+import { publicTalksBuildList } from '@services/i18n/public_talks';
+import { setPublicTalks } from '@services/recoil/publicTalks';
 
 export const loadApp = async () => {
   const appLang = await promiseGetRecoil(appLangState);
   handleAppChangeLanguage(appLang);
+
+  // load public talks
+  const talks = await publicTalksBuildList(appLang);
+  await setPublicTalks(talks);
 };
 
 export const runUpdater = async () => {

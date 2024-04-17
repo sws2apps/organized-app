@@ -1,10 +1,6 @@
 import { Box, TableCell, TableRow } from '@mui/material';
-import { TalkLocaleType } from '@definition/sources';
 import Typography from '@components/typography';
-
-type TalkRowType = {
-  talk: TalkLocaleType;
-};
+import { TalkRowType } from './index.types';
 
 const TalkRow = ({ talk }: TalkRowType) => {
   return (
