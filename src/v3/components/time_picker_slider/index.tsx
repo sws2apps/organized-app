@@ -10,7 +10,7 @@ import {
   TimePickerSelectorStyle,
   TimePickerTypography,
 } from './time_picker.styles';
-import { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
 
 const TimePickerSliderContext = createContext(null);
@@ -65,7 +65,7 @@ const TimePickerSelector = ({ children, variant }: { children: React.ReactNode; 
   };
 
   // Add active class to the center box
-  const updateActiveBox = () => {
+  const updateActiveBox = useCallback(() => {
     const container = containerRef.current;
     const scrollPosition = container.scrollTop;
 
@@ -88,7 +88,7 @@ const TimePickerSelector = ({ children, variant }: { children: React.ReactNode; 
         minutes: centerBox.textContent,
       }));
     }
-  };
+  }, [setTimePickerSliderData, variant]);
 
   // Scroll [unit] case up or down
   const scroll = (unit: number) => {
@@ -110,7 +110,7 @@ const TimePickerSelector = ({ children, variant }: { children: React.ReactNode; 
     container.scrollTo({ top: newScrollPosition, behavior: 'instant' });
   };
 
-  useEffect(updateActiveBox);
+  useEffect(updateActiveBox, [updateActiveBox]);
 
   return (
     <Box sx={TimePickerSelectorStyle}>
