@@ -1,6 +1,6 @@
 /**
 * Do not edit directly
-* Generated on 4/7/2024, 3:29:37 PM
+* Generated on 4/17/2024, 10:27:47 PM
 */
 
 :root {
@@ -88,8 +88,8 @@
   --red-main: rgba(var(--red-main-base), 1);
   --red-dark-base: 178, 24, 24;
   --red-dark: rgba(var(--red-dark-base), 1);
-  --red-secondary-base: 253, 239, 239;
-  --red-secondary: rgba(var(--red-secondary-base), 1);
+  --red-secondary-base: 231, 55, 55;
+  --red-secondary: rgba(var(--red-secondary-base), 0.1);
   --orange-dark-base: 197, 114, 14;
   --orange-dark: rgba(var(--orange-dark-base), 1);
   --orange-main-base: 221, 140, 44;
@@ -152,8 +152,8 @@
   --red-main: rgba(var(--red-main-base), 1);
   --red-dark-base: 227, 90, 90;
   --red-dark: rgba(var(--red-dark-base), 1);
-  --red-secondary-base: 58, 40, 40;
-  --red-secondary: rgba(var(--red-secondary-base), 1);
+  --red-secondary-base: 250, 109, 109;
+  --red-secondary: rgba(var(--red-secondary-base), 0.1);
   --orange-dark-base: 197, 114, 14;
   --orange-dark: rgba(var(--orange-dark-base), 1);
   --orange-main-base: 221, 140, 44;
@@ -216,8 +216,8 @@
   --red-main: rgba(var(--red-main-base), 1);
   --red-dark-base: 178, 24, 24;
   --red-dark: rgba(var(--red-dark-base), 1);
-  --red-secondary-base: 253, 239, 239;
-  --red-secondary: rgba(var(--red-secondary-base), 1);
+  --red-secondary-base: 231, 55, 55;
+  --red-secondary: rgba(var(--red-secondary-base), 0.1);
   --orange-dark-base: 197, 114, 14;
   --orange-dark: rgba(var(--orange-dark-base), 1);
   --orange-main-base: 221, 140, 44;
@@ -280,8 +280,8 @@
   --red-main: rgba(var(--red-main-base), 1);
   --red-dark-base: 227, 90, 90;
   --red-dark: rgba(var(--red-dark-base), 1);
-  --red-secondary-base: 58, 40, 40;
-  --red-secondary: rgba(var(--red-secondary-base), 1);
+  --red-secondary-base: 250, 109, 109;
+  --red-secondary: rgba(var(--red-secondary-base), 0.1);
   --orange-dark-base: 197, 114, 14;
   --orange-dark: rgba(var(--orange-dark-base), 1);
   --orange-main-base: 221, 140, 44;
@@ -344,8 +344,8 @@
   --red-main: rgba(var(--red-main-base), 1);
   --red-dark-base: 227, 90, 90;
   --red-dark: rgba(var(--red-dark-base), 1);
-  --red-secondary-base: 58, 40, 40;
-  --red-secondary: rgba(var(--red-secondary-base), 1);
+  --red-secondary-base: 250, 109, 109;
+  --red-secondary: rgba(var(--red-secondary-base), 0.1);
   --green-main-base: 58, 136, 32;
   --green-main: rgba(var(--green-main-base), 1);
   --green-secondary-base: 40, 51, 36;
@@ -408,8 +408,8 @@
   --red-main: rgba(var(--red-main-base), 1);
   --red-dark-base: 178, 24, 24;
   --red-dark: rgba(var(--red-dark-base), 1);
-  --red-secondary-base: 253, 239, 239;
-  --red-secondary: rgba(var(--red-secondary-base), 1);
+  --red-secondary-base: 231, 55, 55;
+  --red-secondary: rgba(var(--red-secondary-base), 0.1);
   --green-main-base: 62, 147, 33;
   --green-main: rgba(var(--green-main-base), 1);
   --green-secondary-base: 238, 246, 235;
@@ -472,8 +472,8 @@
   --red-main: rgba(var(--red-main-base), 1);
   --red-dark-base: 227, 90, 90;
   --red-dark: rgba(var(--red-dark-base), 1);
-  --red-secondary-base: 58, 40, 40;
-  --red-secondary: rgba(var(--red-secondary-base), 1);
+  --red-secondary-base: 250, 109, 109;
+  --red-secondary: rgba(var(--red-secondary-base), 0.1);
   --green-main-base: 58, 136, 32;
   --green-main: rgba(var(--green-main-base), 1);
   --green-secondary-base: 40, 51, 36;
@@ -536,8 +536,8 @@
   --red-main: rgba(var(--red-main-base), 1);
   --red-dark-base: 178, 24, 24;
   --red-dark: rgba(var(--red-dark-base), 1);
-  --red-secondary-base: 253, 239, 239;
-  --red-secondary: rgba(var(--red-secondary-base), 1);
+  --red-secondary-base: 231, 55, 55;
+  --red-secondary: rgba(var(--red-secondary-base), 0.1);
   --green-main-base: 58, 136, 32;
   --green-main: rgba(var(--green-main-base), 1);
   --green-secondary-base: 238, 246, 235;
@@ -590,7 +590,7 @@
   font-style: normal;
   font-stretch: normal;
   letter-spacing: -0.12px;
-  line-height: 14px;
+  line-height: 16px;
   text-indent: 0px;
   text-transform: none;
 }
