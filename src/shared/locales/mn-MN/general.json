@@ -1,5 +1,5 @@
 {
-  "tr_iso": "en",
+  "tr_iso": "mn",
   "tr_errorTitle": "An error occurred",
   "tr_about": "About the app",
   "tr_errorHeaderText": "Oops, something went wrong",
@@ -39,7 +39,7 @@
   "tr_november": "November",
   "tr_december": "December",
   "tr_shortDateFormat": "MM/dd/yyyy",
-  "tr_longDateFormat": "EEE, MMM dd, yyyy",
+  "tr_longDateFormat": "EEE, dd MMM, yyyy",
   "tr_delete": "Delete",
   "tr_add": "Add",
   "tr_pickerSelectTime": "Select time",
