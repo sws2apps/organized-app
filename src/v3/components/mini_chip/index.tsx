@@ -24,7 +24,7 @@ const MiniChip = ({ label, edit = false, onDelete }: { label: string; edit?: boo
         },
       }}
       deleteIcon={
-        <div style={{ margin: 0, padding: 0 }}>
+        <div style={{ margin: 0, padding: 0, display: 'flex', alignItems: 'center' }}>
           <IconCancelFilled />
         </div>
       }

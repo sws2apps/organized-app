@@ -1,9 +1,8 @@
 import { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 import { congAccountConnectedState, isAppDataSyncingState, lastAppDataSyncState } from '@states/app';
-import { useAppTranslation, useGlobal } from '@hooks/index';
+import { useAppTranslation } from '@hooks/index';
 import { setIsAppDataSyncing } from '@services/recoil/app';
-import { dbExportDataOnline } from '@services/dexie/app';
 import { accountTypeState } from '@states/settings';
 import { apiSendCongregationBackup } from '@services/api/congregation';
 import { apiSendUserBackup } from '@services/api/user';
@@ -12,8 +11,6 @@ import { delay } from '@utils/dev';
 
 const useCongregation = () => {
   const { t } = useAppTranslation();
-
-  const { lmmoRole, publicTalkCoordinatorRole, secretaryRole, weekendEditorRole, publisherRole } = useGlobal();
 
   const isSyncing = useRecoilValue(isAppDataSyncingState);
   const lastSync = useRecoilValue(lastAppDataSyncState);
@@ -46,26 +43,7 @@ const useCongregation = () => {
 
       await delay(5000);
 
-      const dbData = await dbExportDataOnline();
-
-      const reqPayload = {
-        cong_persons: dbData.dbPersons,
-        cong_deleted: dbData.dbDeleted,
-        cong_settings: dbData.dbSettings,
-        cong_schedule: lmmoRole || weekendEditorRole ? dbData.dbSchedule : undefined,
-        cong_sourceMaterial: lmmoRole || weekendEditorRole ? dbData.dbSourceMaterial : undefined,
-        cong_branchReports: secretaryRole ? dbData.dbBranchReportsTbl : undefined,
-        cong_fieldServiceGroup: secretaryRole ? dbData.dbFieldServiceGroupTbl : undefined,
-        cong_fieldServiceReports: secretaryRole ? dbData.dbFieldServiceReportsTbl : undefined,
-        cong_lateReports: secretaryRole ? dbData.dbLateReportsTbl : undefined,
-        cong_meetingAttendance: secretaryRole ? dbData.dbMeetingAttendanceTbl : undefined,
-        cong_minutesReports: secretaryRole ? dbData.dbMinutesReportsTbl : undefined,
-        cong_publicTalks: publicTalkCoordinatorRole ? dbData.dbPublicTalks : undefined,
-        cong_visitingSpeakers: publicTalkCoordinatorRole ? dbData.dbVisitingSpeakers : undefined,
-        cong_serviceYear: secretaryRole ? dbData.dbServiceYearTbl : undefined,
-        user_bibleStudies: publisherRole ? dbData.dbUserBibleStudiesTbl : undefined,
-        user_fieldServiceReports: publisherRole ? dbData.dbUserFieldServiceReportsTbl : undefined,
-      };
+      const reqPayload = {};
 
       let status;
 

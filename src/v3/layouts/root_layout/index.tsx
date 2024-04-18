@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import NavBar from '@layouts/navbar';
 import { AppModalWrapper } from '@wrapper/index';
-import { Box, Container } from '@mui/material';
+import { Box, Container, Toolbar } from '@mui/material';
 import {
   About,
   AppFeedback,
@@ -13,6 +13,7 @@ import {
   Support,
 } from '@features/index';
 import useRootLayout from './useRootLayout';
+import { IconClose } from '@components/icons';
 
 const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
   const { isAppLoad, isOpenAbout, isOpenSupport, appSnackOpen, isImportJWOrg, isImportEPUB } = useRootLayout();
@@ -27,6 +28,11 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
       {isImportEPUB && <EPUBMaterialsImport />}
       <MyAssignments />
 
+      <Toolbar sx={{ padding: 0 }}>
+        {/* temporary workaround while page components are being built */}
+        <IconClose sx={{ opacity: 0 }} />
+      </Toolbar>
+
       <Container
         maxWidth={false}
         sx={{
@@ -34,7 +40,7 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
           width: '100%',
           paddingLeft: { mobile: '16px', tablet: '24px', desktop: '32px' },
           paddingRight: { mobile: '16px', tablet: '24px', desktop: '32px' },
-          marginTop: '80px', // header 56px + 24px
+          marginTop: '24px',
         }}
       >
         {isOpenAbout && <About />}
