@@ -4,6 +4,11 @@ import { PageTitleProps } from './page_title.types';
 import { PageTitleBlock, PageTitleButtonsContainer, PageTitleContainer, PageTitleIcon } from './page_title.styles';
 import usePageTitle from './usePageTitle';
 
+/**
+ * Component for displaying a page title with optional back button and additional buttons.
+ * @param props - The props for the PageTitle component.
+ * @returns A React element representing the PageTitle component.
+ */
 const PageTitle = (props: PageTitleProps) => {
   const { backTo, title, buttons } = props;
 

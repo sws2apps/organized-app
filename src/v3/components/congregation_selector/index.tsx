@@ -7,6 +7,13 @@ import { useAppTranslation } from '@hooks/index';
 import { CountryType } from '../country_selector/index.types';
 import { CongregationResponseType } from '@definition/api';
 
+/**
+ * Component for selecting a congregation.
+ * @param {Object} props - Props for the CongregationSelector component.
+ * @param {CountryType} props.country - The selected country.
+ * @param {(value: CongregationResponseType) => void} props.setCongregation - Function to set the selected congregation.
+ * @returns {JSX.Element} CongregationSelector component.
+ */
 const CongregationSelector = ({
   country,
   setCongregation,

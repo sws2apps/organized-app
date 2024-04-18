@@ -4,6 +4,14 @@ import Typography from '@components/typography';
 import { PublicWitnessingPlaceCardProps } from './public_witnessing_card.types';
 import { CardWrapper, StyledIconWrapper } from './public_witnessing_card.styles';
 
+/**
+ * Custom card component for public witnessing place.
+ * @param label - The label for the card.
+ * @param onClick - Callback function when the card is clicked.
+ * @param disabled - Determines if the card is disabled.
+ * @param isDelete - Determines if the delete functionality is enabled for the card.
+ * @param onDelete - Callback function when the delete action is clicked.
+ */
 const CustomPublicWitnessingPlaceCard = ({
   label,
   onClick,

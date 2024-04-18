@@ -6,6 +6,12 @@ import useAppTranslation from '@hooks/useAppTranslation';
 import { CountryResponseType } from '@definition/api';
 import { CountryType } from './index.types';
 
+/**
+ * Hook for managing country data and selection.
+ * @param {Object} props - Props for the useCountry hook.
+ * @param {(value: CountryType) => void} props.handleCountryChange - Function to handle country change.
+ * @returns {Object} Object containing country data and selection state.
+ */
 const useCountry = ({ handleCountryChange }: { handleCountryChange: (value: CountryType) => void }) => {
   const queryClient = useQueryClient();
 

@@ -13,13 +13,17 @@ import {
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
 
+/**
+ * Context for TimePickerSlider to manage state and communication between components.
+ */
 const TimePickerSliderContext = createContext(null);
 
-// Used to center the cards
-// const BlankCase = () => {
-//   return <Box sx={TimePickerCaseStyle} />;
-// };
-
+/**
+ * Represents a single time value in the TimePicker slider.
+ *
+ * @param props - The properties for the TimePickerCase component.
+ * @returns A single time value component.
+ */
 const TimePickerCase = ({ value }: { value: number }) => {
   return (
     <Box sx={TimePickerCaseStyle}>
@@ -30,6 +34,12 @@ const TimePickerCase = ({ value }: { value: number }) => {
   );
 };
 
+/**
+ * Component for rendering hours in the TimePicker slider.
+ *
+ * @param props - The properties for the TimePickerHourCases component.
+ * @returns A component for rendering hours in the TimePicker slider.
+ */
 const TimePickerHourCases = ({ ampm }: { ampm: boolean }) => {
   const hours = [];
   const maxHours = ampm ? 12 : 24;
@@ -42,6 +52,11 @@ const TimePickerHourCases = ({ ampm }: { ampm: boolean }) => {
   return <>{hours}</>;
 };
 
+/**
+ * Component for rendering minutes in the TimePicker slider.
+ *
+ * @returns A component for rendering minutes in the TimePicker slider.
+ */
 const TimePickerMinutesCases = () => {
   const minutes = [];
   for (let m = -1; m < 61; m++) {
@@ -52,6 +67,12 @@ const TimePickerMinutesCases = () => {
   return <>{minutes}</>;
 };
 
+/**
+ * Selector component for TimePickerSlider to scroll through time options.
+ *
+ * @param props - The properties for the TimePickerSelector component.
+ * @returns A selector component for TimePickerSlider.
+ */
 const TimePickerSelector = ({ children, variant }: { children: React.ReactNode; variant: 'minutes' | 'hours' }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -130,6 +151,12 @@ const TimePickerSelector = ({ children, variant }: { children: React.ReactNode; 
   );
 };
 
+/**
+ * Component for rendering the hour selector in the TimePickerSlider.
+ *
+ * @param props - The properties for the TimePickerHours component.
+ * @returns A component for rendering the hour selector.
+ */
 const TimePickerHours = ({ ampm }: { ampm: boolean }) => {
   return (
     <TimePickerSelector variant="hours">
@@ -138,6 +165,11 @@ const TimePickerHours = ({ ampm }: { ampm: boolean }) => {
   );
 };
 
+/**
+ * Component for rendering the minute selector in the TimePickerSlider.
+ *
+ * @returns A component for rendering the minute selector.
+ */
 const TimePickerMinutes = () => {
   return (
     <TimePickerSelector variant="minutes">
@@ -146,6 +178,12 @@ const TimePickerMinutes = () => {
   );
 };
 
+/**
+ * Component for selecting time using a slider interface.
+ *
+ * @param props - The properties for the CPETimePickerSlider component.
+ * @returns A component for selecting time using a slider interface.
+ */
 const CPETimePickerSlider = ({ ampm, onChange }: CPETimePickerSliderProps) => {
   const [timePickerSliderData, setTimePickerSliderData] = useState({
     hours: '00',
