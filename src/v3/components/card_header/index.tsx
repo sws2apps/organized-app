@@ -2,6 +2,11 @@ import { Box } from '@mui/material';
 import Typography from '@components/typography';
 import { CardHeaderPropsType } from './index.types';
 
+/**
+ * Component for rendering a card header.
+ * @param {CardHeaderPropsType} props - Props for the CardHeader component.
+ * @returns {JSX.Element} CardHeader component.
+ */
 const CardHeader = (props: CardHeaderPropsType) => {
   return (
     <Box

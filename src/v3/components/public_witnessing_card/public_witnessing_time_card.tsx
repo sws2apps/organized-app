@@ -4,6 +4,14 @@ import PublicWitnessingDayView from './view/day';
 import PublicWitnessingDefaultView from './view/default';
 import { PublicWitnessingCardProps } from './public_witnessing_card.types';
 
+/**
+ * Custom card component for public witnessing time.
+ * @param witnesses - An array of witnesses.
+ * @param needWitnesses - The required number of witnesses.
+ * @param minWitnesses - The minimum number of witnesses.
+ * @param isDay - Determines if the card is for the day view.
+ * @param isPast - Determines if the card represents a past event.
+ */
 const CustomPublicWitnessingTimeCard = (props: PublicWitnessingCardProps) => {
   const { witnesses, needWitnesses, isDay = false, isPast = false } = props;
   const tablet = useMediaQuery('(max-width:770px)');

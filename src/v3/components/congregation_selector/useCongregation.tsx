@@ -6,6 +6,12 @@ import { useAppTranslation } from '@hooks/index';
 import { CongregationResponseType } from '@definition/api';
 import { CountryType } from '../country_selector/index.types';
 
+/**
+ * Custom hook for managing congregation data.
+ * @param {Object} param0 - The country object.
+ * @param {CountryType} param0.country - The selected country.
+ * @returns {Object} An object containing state and functions for managing congregation data.
+ */
 const useCongregation = ({ country }: { country: CountryType }) => {
   const queryClient = useQueryClient();
 

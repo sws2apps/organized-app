@@ -3,6 +3,10 @@ import { StyledCircleBox } from './loading.styles';
 import Typography from '@components/typography';
 import { useAppTranslation } from '@hooks/index';
 
+/**
+ * Component for displaying a loading indicator.
+ * @returns JSX element for the AppLoading component.
+ */
 const AppLoading = () => {
   const { t } = useAppTranslation();
 
