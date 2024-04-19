@@ -7,7 +7,7 @@ import { computeYearsDiff } from '@utils/date';
 
 const useBaptizedPublisher = () => {
   const { id } = useParams();
-  const isNewPerson = id === undefined;
+  const isAddPerson = id === undefined;
 
   const person = useRecoilValue(personCurrentDetailsState);
 
@@ -42,12 +42,12 @@ const useBaptizedPublisher = () => {
   const handleDeleteHistory = async (id: string) => {
     const newPerson = structuredClone(person);
 
-    if (!isNewPerson) {
+    if (!isAddPerson) {
       const current = newPerson.baptizedPublisher.history.find((history) => history.id === id);
       current._deleted = new Date().toISOString();
     }
 
-    if (isNewPerson) {
+    if (isAddPerson) {
       newPerson.baptizedPublisher.history = newPerson.baptizedPublisher.history.filter((record) => record.id !== id);
     }
 

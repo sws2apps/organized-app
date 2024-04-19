@@ -9,6 +9,11 @@ import {
 } from './assignments_checklist.styles';
 import { type AssignmentCheckListProps } from './assignments_checklist.types';
 
+/**
+ * Component for rendering an assignment checklist.
+ * @param {AssignmentCheckListProps} props - Props for the AssignmentCheckList component.
+ * @returns {JSX.Element} AssignmentCheckList component.
+ */
 export const AssignmentCheckList = ({
   header,
   color,
@@ -76,8 +81,8 @@ export const AssignmentCheckList = ({
   }, [children]);
 
   return (
-    <StyledContentBox disabled={disabled}>
-      <HeaderBox sx={{ background: `var(--${color})`, minHeight: '32px' }}>
+    <StyledContentBox>
+      <HeaderBox sx={{ background: `var(--${color})`, minHeight: '32px' }} disabled={disabled}>
         <StyledFormControlLabel
           label={<StyledTypography>{header}</StyledTypography>}
           control={

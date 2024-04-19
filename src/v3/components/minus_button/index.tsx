@@ -1,10 +1,16 @@
 import { IconButton } from '@mui/material';
 import { IconRemove } from '@icons/index';
 
-const CustomMinusButton = () => {
+/**
+ * Custom minus button component.
+ * @param onClick - Callback function for the click event.
+ * @returns JSX element for the CustomMinusButton component.
+ */
+const CustomMinusButton = (props: { onClick?: VoidFunction }) => {
   return (
     <IconButton
       disableRipple
+      onClick={props.onClick}
       sx={{
         border: '1px solid var(--accent-350)',
         borderRadius: 'var(--radius-m)',

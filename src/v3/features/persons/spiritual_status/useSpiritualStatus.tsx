@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { personCurrentDetailsState } from '@states/persons';
-import { PersontType } from '@definition/person';
+import { PersonType } from '@definition/person';
 import { setPersonCurrentDetails } from '@services/recoil/persons';
 import { displaySnackNotification } from '@services/recoil/app';
 import { IconError } from '@components/icons';
@@ -13,14 +13,14 @@ const useSpiritualStatus = () => {
   const { t } = useAppTranslation();
 
   const { id } = useParams();
-  const isNewPerson = id === undefined;
+  const isAddPerson = id === undefined;
 
   const person = useRecoilValue(personCurrentDetailsState);
 
   const [expandedStatus, setExpandedStatus] = useState({
-    baptized: false,
-    unbaptized: false,
-    midweek: false,
+    baptized: person.baptizedPublisher.active.value,
+    unbaptized: person.unbaptizedPublisher.active.value,
+    midweek: person.midweekMeetingStudent.active.value,
   });
 
   const handleToggleExpand = (status: 'baptized' | 'unbaptized' | 'midweek') => {
@@ -62,10 +62,23 @@ const useSpiritualStatus = () => {
       return;
     }
 
-    const newPerson: PersontType = structuredClone(person);
+    const newPerson: PersonType = structuredClone(person);
 
     newPerson.midweekMeetingStudent.active.value = checked;
     newPerson.midweekMeetingStudent.active.updatedAt = new Date().toISOString();
+
+    if (checked) {
+      const current = newPerson.midweekMeetingStudent.history.find((record) => record.endDate.value === null);
+
+      if (!current) {
+        newPerson.midweekMeetingStudent.history.push({
+          id: crypto.randomUUID(),
+          startDate: { value: new Date().toISOString(), updatedAt: new Date().toISOString() },
+          endDate: { value: null, updatedAt: new Date().toISOString() },
+          _deleted: null,
+        });
+      }
+    }
 
     await setPersonCurrentDetails(newPerson);
   };
@@ -82,7 +95,7 @@ const useSpiritualStatus = () => {
       return;
     }
 
-    const newPerson: PersontType = structuredClone(person);
+    const newPerson: PersonType = structuredClone(person);
 
     // update previous status if checked is true
     if (checked) {
@@ -93,7 +106,7 @@ const useSpiritualStatus = () => {
         const nowDate = formatDate(new Date(), 'mm/dd/yyyy');
 
         if (startDate === nowDate) {
-          if (isNewPerson) {
+          if (isAddPerson) {
             newPerson.midweekMeetingStudent.history = newPerson.midweekMeetingStudent.history.filter(
               (record) => record.id !== currentMidweek.id
             );
@@ -131,12 +144,10 @@ const useSpiritualStatus = () => {
     }
 
     await setPersonCurrentDetails(newPerson);
-
-    setExpandedStatus({ baptized: false, midweek: false, unbaptized: true });
   };
 
   const handleToggleBaptizedPublisher = async (checked: boolean) => {
-    const newPerson: PersontType = structuredClone(person);
+    const newPerson: PersonType = structuredClone(person);
 
     // update previous status if checked is true
     if (checked) {
@@ -147,7 +158,7 @@ const useSpiritualStatus = () => {
         const nowDate = formatDate(new Date(), 'mm/dd/yyyy');
 
         if (startDate === nowDate) {
-          if (isNewPerson) {
+          if (isAddPerson) {
             newPerson.unbaptizedPublisher.history = newPerson.unbaptizedPublisher.history.filter(
               (record) => record.id !== currentUnbaptized.id
             );
@@ -176,7 +187,7 @@ const useSpiritualStatus = () => {
         const nowDate = formatDate(new Date(), 'mm/dd/yyyy');
 
         if (startDate === nowDate) {
-          if (isNewPerson) {
+          if (isAddPerson) {
             newPerson.midweekMeetingStudent.history = newPerson.midweekMeetingStudent.history.filter(
               (record) => record.id !== currentMidweek.id
             );
@@ -216,9 +227,15 @@ const useSpiritualStatus = () => {
     }
 
     await setPersonCurrentDetails(newPerson);
-
-    setExpandedStatus({ midweek: false, unbaptized: false, baptized: true });
   };
+
+  useEffect(() => {
+    setExpandedStatus({
+      baptized: person.baptizedPublisher.active.value,
+      unbaptized: person.unbaptizedPublisher.active.value,
+      midweek: person.midweekMeetingStudent.active.value,
+    });
+  }, [person]);
 
   return {
     person,

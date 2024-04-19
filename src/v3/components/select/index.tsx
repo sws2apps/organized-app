@@ -2,6 +2,12 @@ import { TextField } from '@mui/material';
 import { SelectPropsType } from './index.types';
 import { Theme } from '@mui/material/styles/createTheme';
 
+/**
+ * Custom select component.
+ *
+ * @param props The props for the CustomSelect component.
+ * @returns A custom select input field.
+ */
 const CustomSelect = (props: SelectPropsType) => {
   const label = props.label || '';
   const className = props.className || '';
@@ -85,6 +91,7 @@ const CustomSelect = (props: SelectPropsType) => {
               border: '1px solid var(--accent-200)',
               padding: '8px 0px',
               marginTop: '2px',
+              maxHeight: '232px',
               '& ul': { paddingTop: 0, paddingBottom: 0, gap: '5px' },
               '& li': {
                 position: 'relative',
@@ -98,6 +105,12 @@ const CustomSelect = (props: SelectPropsType) => {
               },
               [theme.breakpoints.down('tablet')]: {
                 marginLeft: '-4px',
+              },
+              '&::-webkit-scrollbar': {
+                width: '4px',
+              },
+              '&::-webkit-scrollbar-track': {
+                backgroundColor: 'transparent',
               },
             }),
             className: 'small-card-shadow',

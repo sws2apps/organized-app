@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { handleUpdateSetting } from '@services/dexie/settings';
+import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { autoBackupIntervalState, autoBackupState, followOSThemeState } from '@states/settings';
 import { useBreakpoints } from '@hooks/index';
 import worker from '@services/worker/backupWorker';
@@ -19,7 +19,7 @@ const useAppSettings = () => {
   const handleSwitchAutoBackup = async (value) => {
     setAutoSync(value);
 
-    await handleUpdateSetting({ autoBackup: { value, updatedAt: new Date().toISOString() } });
+    await dbAppSettingsUpdate({ autoBackup: { value, updatedAt: new Date().toISOString() } });
 
     worker.postMessage({ field: 'isEnabled', value });
   };
@@ -27,7 +27,7 @@ const useAppSettings = () => {
   const handleUpdateSyncInterval = async (value) => {
     setAutoSyncInterval(value);
 
-    await handleUpdateSetting({ autoBackup_interval: { value, updatedAt: new Date().toISOString() } });
+    await dbAppSettingsUpdate({ autoBackup_interval: { value, updatedAt: new Date().toISOString() } });
 
     worker.postMessage({ field: 'backupInterval', value: value * 60 * 1000 });
   };
@@ -35,7 +35,7 @@ const useAppSettings = () => {
   const handleUpdateSyncTheme = async (value) => {
     setSyncTheme(value);
 
-    await handleUpdateSetting({ follow_os_theme: { value, updatedAt: new Date().toISOString() } });
+    await dbAppSettingsUpdate({ follow_os_theme: { value, updatedAt: new Date().toISOString() } });
   };
 
   useEffect(() => {

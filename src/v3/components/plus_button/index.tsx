@@ -1,10 +1,15 @@
 import { IconButton } from '@mui/material';
 import { IconAdd } from '@icons/index';
 
-const CustomPlusButton = () => {
+/**
+ * Custom button component with a plus icon.
+ * @param onClick - Optional function to handle click events.
+ */
+const CustomPlusButton = (props: { onClick?: VoidFunction }) => {
   return (
     <IconButton
       disableRipple
+      onClick={props.onClick}
       sx={{
         border: '1px solid var(--accent-350)',
         borderRadius: 'var(--radius-m)',

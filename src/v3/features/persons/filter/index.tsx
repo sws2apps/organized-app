@@ -5,15 +5,24 @@ import Typography from '@components/typography';
 import FilterGroup from './components/filter_group';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useFilter from './useFilter';
-import AssignmentGroup from './components/assignment_group';
+import AssignmentGroup from '../assignment_group';
 
 const PersonsFilter = () => {
   const { t } = useAppTranslation();
 
   const { tabletDown } = useBreakpoints();
 
-  const { isExpanded, handleExpand, filters, handleClearFilters, assignments, handleToggleGroup, filterGroups } =
-    useFilter();
+  const {
+    isExpanded,
+    handleExpand,
+    filters,
+    handleClearFilters,
+    assignments,
+    handleToggleGroup,
+    filterGroups,
+    handleToggleAssignment,
+    checkedItems,
+  } = useFilter();
 
   return (
     <Box
@@ -87,7 +96,10 @@ const PersonsFilter = () => {
                   header={assignment.header}
                   color={assignment.color}
                   items={assignment.items}
-                  onChange={(checked, id) => handleToggleGroup(checked, id)}
+                  onHeaderChange={handleToggleGroup}
+                  onItemChange={handleToggleAssignment}
+                  checkedItems={checkedItems}
+                  isMale={true}
                 />
               ))}
             </Box>

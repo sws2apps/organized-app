@@ -83,7 +83,6 @@
   "tr_outgoingTalks": "Выездные речи",
   "tr_infoOutgoingTalk": "Братья, которые посетят другое собрание с публичной речью",
   "tr_speakers": "Докладчики: {{ speakersCount }}",
-  "tr_addLocation": "Добавить место",
   "tr_JWImport": "Импорт материалов с jw.org",
   "tr_JWImportDesc": "Загрузка материалов встреч, пожалуйста, подожди",
   "tr_successfullyImported": "Успешно импортировано",

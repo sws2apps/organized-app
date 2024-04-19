@@ -5,6 +5,7 @@
   "tr_btnAdd": "थप्ने",
   "tr_creditHours": "क्रेडिट घण्टा",
   "tr_addNewStudy": "नयाँ बाइबल अध्ययन थप्ने",
+  "tr_editBibleStudy": "Edit Bible study",
   "tr_pioneerSchool": "अग्रगामी स्कुल",
   "tr_ministryTimeHours": "{{ ministryTime }} hours",
   "tr_SKE": "राज्य प्रचारकका लागि स्कुल",
@@ -30,7 +31,6 @@
   "tr_btnUndoSumbission": "फिर्ता लिने",
   "tr_totalHours": "कुल घण्टा",
   "tr_fieldMinistry": "क्षेत्र सेवा",
-  "tr_LDCHours": "एल.डी.सी. घण्टा",
   "tr_averageMonthlyBibleStudies": "मासिक औसत बाइबल अध्ययन",
   "tr_maximumMonthlyBibleStudies": "मासिक अधिकतम बाइबल अध्ययन",
   "tr_monthlyHistory": "मासिक इतिहास",
@@ -64,7 +64,6 @@
   "tr_auxiliaryPioneer": "सहायक अग्रगामी",
   "tr_comments": "टिप्पणी",
   "tr_PWLocations": "सार्वजनिक साक्षीकार्यका लागि स्थान",
-  "tr_editLocations": "स्थान सम्पादन गर्ने",
   "tr_PW": "सार्वजनिक साक्षीकार्य",
   "tr_maxPublisherShift": "एक शिफ्टमा अधिकतम प्रकाशक: {{ maxPublisherCount }}",
   "tr_partnerNeeded": "साथी चाहिन्छ",
@@ -90,5 +89,10 @@
   "tr_occupied": "{{ number }} ओगटिएको",
   "tr_available": "{{ number }} उपलब्ध",
   "tr_deletePWLocation": "Delete the public witnessing location",
-  "tr_deletePWLocationDesc": "Deleting this location permanently removes all its data and arrangements. This action cannot be undone."
+  "tr_deletePWLocationDesc": "Deleting this location permanently removes all its data and arrangements. This action cannot be undone.",
+  "tr_changeImage": "Change image",
+  "tr_addImage": "Add image",
+  "tr_cantDeductStudiesDesc": "You can't select fewer Bible studies than you already have selected in the “Individual Bible studies” dropdown menu. ",
+  "tr_cantDeductStudiesTitle": "Cannot deduct Bible studies",
+  "tr_includesServiceAndCredit": "Includes field service and credit hours"
 }

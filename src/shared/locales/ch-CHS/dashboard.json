@@ -60,7 +60,6 @@
   "tr_noInternetConnection": "No internet connection",
   "tr_noInternetConnectionDesc": "Organized is working offline right now. When you're back online, any new data you entered will be able to sync.",
   "tr_done": "Done",
-  "tr_doneDesc": "Your {{ month }} report has been submitted",
   "tr_notifications": "Notifications",
   "tr_reject": "Reject",
   "tr_accept": "Accept",
@@ -89,5 +88,7 @@
   "tr_meetingAssignments": "<p>You have <a href='#' title='Meeting Assignment'>{{ assignment }} meeting assignments</a> at the moment</p>",
   "tr_activitiesCard": "Activities",
   "tr_hallCleaning": "Hall cleaning",
-  "tr_yourEmailField": "Your email address"
+  "tr_yourEmailField": "Your email address",
+  "tr_yourMessage": "Your message",
+  "tr_reportSubmittedDesc": "Your report for the month of {{ month }} has been submitted"
 }

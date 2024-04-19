@@ -60,7 +60,6 @@
   "tr_noInternetConnection": "Нет интернета",
   "tr_noInternetConnectionDesc": "Orginized сейчас работает без интернета. Когда интернет-соединение вернется, все новые данные, которые ты ввёл, будут синхронизированы.",
   "tr_done": "Готово",
-  "tr_doneDesc": "Твой отчёт за {{ month }} отправлен",
   "tr_notifications": "Уведомления",
   "tr_reject": "Отклонить",
   "tr_accept": "Принять",
@@ -89,5 +88,7 @@
   "tr_meetingAssignments": "<p>У тебя сейчас есть <a href='#' title='Meeting Assignment'>{{ assignment }} заданий </a> для встреч</p>",
   "tr_activitiesCard": "Activities",
   "tr_hallCleaning": "Hall cleaning",
-  "tr_yourEmailField": "Your email address"
+  "tr_yourEmailField": "Your email address",
+  "tr_yourMessage": "Your message",
+  "tr_reportSubmittedDesc": "Твой отчёт за {{ month }} отправлен"
 }

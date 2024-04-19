@@ -5,7 +5,7 @@ import { setPersonCurrentDetails } from '@services/recoil/persons';
 
 const useMidweekMeetingStudent = () => {
   const { id } = useParams();
-  const isNewPerson = id === undefined;
+  const isAddPerson = id === undefined;
 
   const person = useRecoilValue(personCurrentDetailsState);
 
@@ -27,12 +27,12 @@ const useMidweekMeetingStudent = () => {
   const handleDeleteHistory = async (id: string) => {
     const newPerson = structuredClone(person);
 
-    if (!isNewPerson) {
+    if (!isAddPerson) {
       const current = newPerson.midweekMeetingStudent.history.find((history) => history.id === id);
       current._deleted = new Date().toISOString();
     }
 
-    if (isNewPerson) {
+    if (isAddPerson) {
       newPerson.midweekMeetingStudent.history = newPerson.midweekMeetingStudent.history.filter(
         (record) => record.id !== id
       );

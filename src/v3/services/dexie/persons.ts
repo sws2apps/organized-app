@@ -1,60 +1,84 @@
-import { promiseGetRecoil } from 'recoil-outside';
-import { appDb } from '.';
-import { comparePerson, getPerson } from '@services/app/persons';
-import { personsState } from '@states/persons';
-import { PersontType } from '@definition/person';
+import appDb from '@shared/indexedDb/appDb';
+import { PersonType } from '@definition/person';
+import { getTranslation } from '@services/i18n/translation';
 
-export const resetPersons = async (cong_persons: []) => {
-  await appDb.persons.clear();
+export const dbPersonsSave = async (person: PersonType) => {
+  try {
+    // CHECK FOR MULTIPLE RECORDS HISTORY FOR ALL SPIRITUAL STATUS
+    const baptizedActive = person.baptizedPublisher.history.filter(
+      (record) => record._deleted === null && record.endDate.value === null
+    ).length;
 
-  for await (const person of cong_persons) {
-    await appDb.persons.put(person);
-  }
-};
+    if (baptizedActive > 1) {
+      throw new Error(getTranslation({ key: 'tr_baptizedActiveMultiple' }));
+    }
 
-export const savePerson = async (data: PersontType) => {
-  const { person_uid, person_name, person_displayName } = data;
+    const unbaptizedActive = person.unbaptizedPublisher.history.filter(
+      (record) => record._deleted === null && record.endDate.value === null
+    ).length;
 
-  if (person_name && person_displayName) {
-    if (person_uid) {
-      const currentPerson = await getPerson(data.person_uid);
+    if (unbaptizedActive > 1) {
+      throw new Error(getTranslation({ key: 'tr_unbaptizedActiveMultiple' }));
+    }
 
-      if (!data.isMoved) {
-        data.changes = comparePerson(currentPerson, data);
-        data.changes = data.changes.filter((item) => item.field !== 'lastAssignment');
+    const midweekActive = person.midweekMeetingStudent.history.filter(
+      (record) => record._deleted === null && record.endDate.value === null
+    ).length;
+
+    if (midweekActive > 1) {
+      throw new Error(getTranslation({ key: 'tr_midweekActiveMultiple' }));
+    }
+
+    // CHECK FOR ACTIVE RECORDS IN INACTIVE STATUSES
+    if (!person.baptizedPublisher.active.value) {
+      if (baptizedActive > 0) {
+        throw new Error(getTranslation({ key: 'tr_baptizedInvalidRecords' }));
       }
-
-      await appDb.persons.put(data);
     }
 
-    if (!person_uid) {
-      const newPerson = {
-        person_uid: window.crypto.randomUUID(),
-        isMoved: false,
-        isDisqualified: false,
-        ...data,
-      };
-
-      await appDb.persons.put(newPerson);
-
-      return newPerson.person_uid;
+    if (!person.unbaptizedPublisher.active.value) {
+      if (unbaptizedActive > 0) {
+        throw new Error(getTranslation({ key: 'tr_unbaptizedInvalidRecords' }));
+      }
     }
 
-    return true;
-  } else {
-    return false;
+    if (!person.midweekMeetingStudent.active.value) {
+      if (midweekActive > 0) {
+        throw new Error(getTranslation({ key: 'tr_midweekInvalidRecords' }));
+      }
+    }
+
+    // CHECK FOR MULTIPLE ACTIVE PRIVILEGES
+    const privilegesActive = person.privileges.filter(
+      (record) => record._deleted === null && record.endDate.value === null
+    ).length;
+
+    if (privilegesActive > 1) {
+      throw new Error(getTranslation({ key: 'tr_privilegesActiveMultiple' }));
+    }
+
+    // CHECK FOR MULTIPLE ACTIVE ENROLLMENTS
+    const enrollmentsActive = person.enrollments.filter(
+      (record) => record._deleted === null && record.endDate.value === null
+    ).length;
+
+    if (enrollmentsActive > 1) {
+      throw new Error(getTranslation({ key: 'tr_enrollemntsActiveMultiple' }));
+    }
+
+    await appDb.persons.put(person);
+  } catch (err) {
+    throw new Error(err);
   }
 };
 
-export const deletePerson = async (uid: string) => {
-  const oldPersons = await promiseGetRecoil(personsState);
-  const persons = structuredClone(oldPersons);
-
-  const person = persons.find((p) => p.person_uid === uid);
-
-  if (person) {
-    person.is_deleted = true;
+export const dbPersonsDelete = async (person_uid: string) => {
+  try {
+    const person = await appDb.persons.get(person_uid);
+    person._deleted = new Date().toISOString();
 
     await appDb.persons.put(person);
+  } catch (err) {
+    throw new Error(err);
   }
 };

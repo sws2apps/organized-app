@@ -6,100 +6,33 @@ import { ReactNode, useEffect } from 'react';
 import useIndexedDb from './useIndexedDb';
 
 const DatabaseWrapper = ({ children }: { children?: ReactNode }) => {
-  const {
-    loadSettings,
-    loadAnnouncements,
-    loadAssignment,
-    loadBranchReports,
-    loadFieldServiceGroup,
-    loadFieldServiceReports,
-    loadLateReports,
-    loadMeetingAttendance,
-    loadMinutesReports,
-    loadPersons,
-    loadPublicTalks,
-    loadSchedules,
-    loadServiceYear,
-    loadSources,
-    loadUserBibleStudies,
-    loadUserFieldServiceReports,
-    loadVisitingSpeakers,
-    loadWeekType,
-  } = useIndexedDb();
+	const { loadSettings, loadAssignment, loadPersons, loadSchedules, loadSources, loadWeekType } = useIndexedDb();
 
-  useEffect(() => {
-    loadSettings();
-  }, [loadSettings]);
+	useEffect(() => {
+		loadSettings();
+	}, [loadSettings]);
 
-  useEffect(() => {
-    loadAnnouncements();
-  }, [loadAnnouncements]);
+	useEffect(() => {
+		loadAssignment();
+	}, [loadAssignment]);
 
-  useEffect(() => {
-    loadAssignment();
-  }, [loadAssignment]);
+	useEffect(() => {
+		loadPersons();
+	}, [loadPersons]);
 
-  useEffect(() => {
-    loadBranchReports();
-  }, [loadBranchReports]);
+	useEffect(() => {
+		loadSchedules();
+	}, [loadSchedules]);
 
-  useEffect(() => {
-    loadFieldServiceGroup();
-  }, [loadFieldServiceGroup]);
+	useEffect(() => {
+		loadWeekType();
+	}, [loadWeekType]);
 
-  useEffect(() => {
-    loadFieldServiceReports();
-  }, [loadFieldServiceReports]);
+	useEffect(() => {
+		loadSources();
+	}, [loadSources]);
 
-  useEffect(() => {
-    loadLateReports();
-  }, [loadLateReports]);
-
-  useEffect(() => {
-    loadMeetingAttendance();
-  }, [loadMeetingAttendance]);
-
-  useEffect(() => {
-    loadMinutesReports();
-  }, [loadMinutesReports]);
-
-  useEffect(() => {
-    loadPersons();
-  }, [loadPersons]);
-
-  useEffect(() => {
-    loadPublicTalks();
-  }, [loadPublicTalks]);
-
-  useEffect(() => {
-    loadSchedules();
-  }, [loadSchedules]);
-
-  useEffect(() => {
-    loadServiceYear();
-  }, [loadServiceYear]);
-
-  useEffect(() => {
-    loadUserBibleStudies();
-  }, [loadUserBibleStudies]);
-
-  useEffect(() => {
-    loadUserFieldServiceReports();
-  }, [loadUserFieldServiceReports]);
-
-  useEffect(() => {
-    loadVisitingSpeakers();
-  }, [loadVisitingSpeakers]);
-
-  useEffect(() => {
-    loadWeekType();
-  }, [loadWeekType]);
-
-  useEffect(() => {
-    loadSources();
-  }, [loadSources]);
-
-  return <>{children}</>;
+	return <>{children}</>;
 };
 
 export default DatabaseWrapper;

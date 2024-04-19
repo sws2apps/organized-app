@@ -1,4 +1,3 @@
-import { Box } from '@mui/material';
 import type { CustomUserCardProps } from './user_card.types';
 import UserCardImg from '@assets/img/illustration_userCard.svg?component';
 import UserCardFemaleImg from '@assets/img/illustration_userCard1.svg?component';
@@ -17,6 +16,17 @@ import {
   StyledCardBox,
 } from './user_card.styles';
 
+/**
+ * A custom user card component.
+ *
+ * @param name The name of the user.
+ * @param type The type of the user card.
+ * @param female Specifies if the user is female.
+ * @param onClick Callback function to handle click events on the user card.
+ * @param onDelete Callback function to handle delete events on the user card.
+ * @param chipLabels Optional chip labels to display on the user card.
+ * @param children Additional content to render inside the user card.
+ */
 export const CustomUserCard = ({
   name,
   type,
@@ -36,15 +46,20 @@ export const CustomUserCard = ({
               <StyledBoxSpaceBetween flexDirection="column">
                 <StyledBoxSpaceBetween flexDirection="row">
                   <StyledBoxSpaceBetween flexDirection="column">
-                    <Typography variant="h4">{name}</Typography>
+                    <Typography className="h4">{name}</Typography>
                   </StyledBoxSpaceBetween>
-                  {type == 'personal' && (
+                  {type == 'person' && (
                     <StyledBox sx={{ flexGrow: '1', flexDirection: 'row-reverse' }}>
                       <StyledBox gap="16px">
-                        <StyledIconWrapper hoverBackgrColor="var(--red-secondary)" iconColor="var(--red-main)">
-                          <Box onClick={() => onDelete && onDelete()}>
-                            <IconDelete />
-                          </Box>
+                        <StyledIconWrapper
+                          hoverBackgrColor="var(--red-secondary)"
+                          iconColor="var(--red-main)"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onDelete && onDelete(e);
+                          }}
+                        >
+                          <IconDelete />
                         </StyledIconWrapper>
                       </StyledBox>
                     </StyledBox>
@@ -54,7 +69,7 @@ export const CustomUserCard = ({
                   {children}
                 </StyledBox>
               </StyledBoxSpaceBetween>
-              {type != 'personal' && (
+              {type != 'person' && (
                 <StyledBox gap="8px" sx={{ flexGrow: '1', flexDirection: 'row-reverse', alignItems: 'center' }}>
                   <StyledIconWrapper hoverBackgrColor="none" iconColor="var(--black)">
                     <IconArrowLink />
@@ -64,7 +79,7 @@ export const CustomUserCard = ({
             </StyledBox>
           </StyledBox>
 
-          {type == 'personal' && chipLabels.length > 0 && (
+          {type == 'person' && chipLabels.length > 0 && (
             <StyledBox gap="13px">
               <StyledBox gap="8px" sx={{ alignItems: 'center', flexWrap: 'wrap' }}>
                 {chipLabels.map((chipLabel, index) => (

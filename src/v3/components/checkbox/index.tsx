@@ -4,6 +4,11 @@ import { IconCheckboxEmpty, IconCheckboxFilled, IconCheckboxMultiple } from '@ic
 import { CheckboxPropsType } from './index.types';
 import { StyleCheckboxBorder, StyleCheckboxBorderChecked } from '@components/checkbox/index.style';
 
+/**
+ * Custom checkbox component.
+ * @param {CheckboxPropsType} props - Props for the CustomCheckbox component.
+ * @returns {JSX.Element} CustomCheckbox component.
+ */
 const CustomCheckbox = (props: CheckboxPropsType) => {
   const checked = props.checked || false;
   const indeterminate = props.indeterminate || false;
@@ -21,6 +26,7 @@ const CustomCheckbox = (props: CheckboxPropsType) => {
         display: 'flex',
         alignItems: 'center',
         gap: '8px',
+        opacity: disabled ? '24%' : 1,
         ...(isBorder && { ...StyleCheckboxBorder }),
         ...(isBorder && checked && { ...StyleCheckboxBorderChecked }),
         ...sx,

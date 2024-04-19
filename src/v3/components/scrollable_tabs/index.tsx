@@ -4,9 +4,20 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import React, { useState } from 'react';
 
+/**
+ * Component that renders scrollable tabs.
+ *
+ * @param tabs Array of tab labels.
+ */
 function ScrollableTabs({ tabs }: CustomTabProps) {
   const [valueOfActivePanel, setValueOfActivePanel] = useState(0);
 
+  /**
+   * Handles tab change event.
+   *
+   * @param event The event object.
+   * @param newValue The new value of the active tab.
+   */
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     event.preventDefault();
     setValueOfActivePanel(newValue);

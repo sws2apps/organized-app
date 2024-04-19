@@ -1,18 +1,29 @@
-import { personCurrentDetailsState } from '@states/persons';
 import { useNavigate } from 'react-router-dom';
-import { useResetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
+import { personCurrentDetailsState } from '@states/persons';
+import { setPersonCurrentDetails } from '@services/recoil/persons';
 
 const useAllPersons = () => {
   const navigate = useNavigate();
 
-  const resetPersonNew = useResetRecoilState(personCurrentDetailsState);
+  const person = useRecoilValue(personCurrentDetailsState);
 
-  const handlePersonAdd = () => {
-    resetPersonNew();
+  const handlePersonAdd = async () => {
+    const newPerson = structuredClone(person);
+    newPerson.person_uid = crypto.randomUUID();
+
+    await setPersonCurrentDetails(newPerson);
+
     navigate('/persons/new');
   };
 
-  return { handlePersonAdd };
+  const handleGetDummyPersons = async () => {
+    const { importDummyPersons } = await import('@utils/dev');
+
+    await importDummyPersons();
+  };
+
+  return { handlePersonAdd, handleGetDummyPersons };
 };
 
 export default useAllPersons;

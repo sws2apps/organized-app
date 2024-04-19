@@ -1,6 +1,14 @@
 import { Box, Switch } from '@mui/material';
 import { IconNight, IconSun, IconToggle } from '@icons/index';
 
+/**
+ * A custom theme switch component.
+ *
+ * @param {object} props - The props for the CustomThemeSwitch component.
+ * @param {boolean} props.checked - The checked state of the switch.
+ * @param {function} props.onChange - The function to handle the change event.
+ * @returns {JSX.Element} - JSX.Element
+ */
 const CustomThemeSwitch = ({
   checked,
   onChange = () => null,

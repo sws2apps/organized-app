@@ -1,14 +1,14 @@
-import { Box } from '@mui/material';
+import { Badge, Box } from '@mui/material';
 import { Button, PageTitle } from '@components/index';
-import { IconAddPerson } from '@components/icons';
+import { IconAddPerson, IconDownload } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
-import { PersonsFilter, PersonsSearch } from '@features/index';
+import { PersonsFilter, PersonsList, PersonsSearch } from '@features/index';
 import useAllPersons from './useAllPersons';
 
 const PersonsAll = () => {
   const { t } = useAppTranslation();
 
-  const { handlePersonAdd } = useAllPersons();
+  const { handlePersonAdd, handleGetDummyPersons } = useAllPersons();
 
   return (
     <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
@@ -16,9 +16,16 @@ const PersonsAll = () => {
         title={t('tr_personsAll')}
         backTo="/"
         buttons={
-          <Button variant="main" startIcon={<IconAddPerson />} onClick={handlePersonAdd}>
-            {t('tr_personAdd')}
-          </Button>
+          <>
+            <Button variant="main" startIcon={<IconDownload />} onClick={handleGetDummyPersons}>
+              GET DUMMY
+              <Badge badgeContent={'dev'} color="error" sx={{ marginTop: '-35px', left: 18, position: 'absolute' }} />
+            </Button>
+
+            <Button variant="main" startIcon={<IconAddPerson />} onClick={handlePersonAdd}>
+              {t('tr_personAdd')}
+            </Button>
+          </>
         }
       />
 
@@ -35,6 +42,8 @@ const PersonsAll = () => {
       >
         <PersonsSearch />
         <PersonsFilter />
+
+        <PersonsList />
       </Box>
     </Box>
   );

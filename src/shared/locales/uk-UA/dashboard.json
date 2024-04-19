@@ -60,7 +60,6 @@
   "tr_noInternetConnection": "Немає інтернет-зʼєднання",
   "tr_noInternetConnectionDesc": "Organized зараз працює в офлайн режимі. Коли ти знову підключитесь до мережі, усі введені тобою нові дані синхронізуються.",
   "tr_done": "Готово",
-  "tr_doneDesc": "Твій звіт за {{ month}} було надіслано",
   "tr_notifications": "Сповіщення",
   "tr_reject": "Відхилити",
   "tr_accept": "Прийняти",
@@ -89,5 +88,7 @@
   "tr_meetingAssignments": "<p>Ти зараз маєш <a href='#' title='Meeting Assignment'>{{ assignment }} завдань</a> на зібрання</p>",
   "tr_activitiesCard": "Активності",
   "tr_hallCleaning": "Прибирання залу",
-  "tr_yourEmailField": "Your email address"
+  "tr_yourEmailField": "Your email address",
+  "tr_yourMessage": "Your message",
+  "tr_reportSubmittedDesc": "Твій звіт за {{ month}} було надіслано"
 }
