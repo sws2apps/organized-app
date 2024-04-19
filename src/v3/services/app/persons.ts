@@ -175,3 +175,72 @@ export const personArchive = (person: PersonType, isAddPerson: boolean) => {
 
   person.isArchived = { value: true, updatedAt: new Date().toISOString() };
 };
+
+export const personIsInactive = (person: PersonType) => {
+  let isInactive = false;
+
+  const isBaptized = person.baptizedPublisher.active.value;
+  const isUnbaptized = person.unbaptizedPublisher.active.value;
+
+  if (isBaptized) {
+    isInactive =
+      person.baptizedPublisher.history.filter((record) => record._deleted === null && record.endDate.value === null)
+        .length === 0;
+  }
+
+  if (isUnbaptized) {
+    isInactive =
+      person.unbaptizedPublisher.history.filter((record) => record._deleted === null && record.endDate.value === null)
+        .length === 0;
+  }
+
+  return isInactive;
+};
+
+export const personIsElder = (person: PersonType) => {
+  const hasActive = person.privileges.find(
+    (record) => record.privilege.value === 'elder' && record.endDate.value === null
+  );
+
+  return hasActive ? true : false;
+};
+
+export const personIsMS = (person: PersonType) => {
+  const hasActive = person.privileges.find(
+    (record) => record.privilege.value === 'ms' && record.endDate.value === null
+  );
+
+  return hasActive ? true : false;
+};
+
+export const personIsAP = (person: PersonType) => {
+  const hasActive = person.enrollments.find(
+    (record) => record.enrollment.value === 'AP' && record.endDate.value === null
+  );
+
+  return hasActive ? true : false;
+};
+
+export const personIsFMF = (person: PersonType) => {
+  const hasActive = person.enrollments.find(
+    (record) => record.enrollment.value === 'FMF' && record.endDate.value === null
+  );
+
+  return hasActive ? true : false;
+};
+
+export const personIsFR = (person: PersonType) => {
+  const hasActive = person.enrollments.find(
+    (record) => record.enrollment.value === 'FR' && record.endDate.value === null
+  );
+
+  return hasActive ? true : false;
+};
+
+export const personIsFS = (person: PersonType) => {
+  const hasActive = person.enrollments.find(
+    (record) => record.enrollment.value === 'FS' && record.endDate.value === null
+  );
+
+  return hasActive ? true : false;
+};

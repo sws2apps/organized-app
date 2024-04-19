@@ -345,5 +345,6 @@
   "tr_markQualifiedTitle": "Mark person as qualified",
   "tr_markQualifiedDesc": "Meeting parts can be assigned to this person again.",
   "tr_personTimeAwayDesc": "No time away set yet. Keep the time away up-to-date for consideration in future meeting scheduling.",
-  "tr_personEmergencyDesc": "Add contact persons from the 'No Blood' document, ensuring the group overseer always has the right people to reach in case of an emergency."
+  "tr_personEmergencyDesc": "Add contact persons from the 'No Blood' document, ensuring the group overseer always has the right people to reach in case of an emergency.",
+  "tr_inactivePublisher": "Inactive publisher"
 }

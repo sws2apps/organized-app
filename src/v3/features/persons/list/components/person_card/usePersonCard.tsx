@@ -6,6 +6,15 @@ import { useAppTranslation } from '@hooks/index';
 import { displaySnackNotification } from '@services/recoil/app';
 import { IconCheckCircle, IconError } from '@components/icons';
 import { dbPersonsDelete } from '@services/dexie/persons';
+import {
+  personIsAP,
+  personIsElder,
+  personIsFMF,
+  personIsFR,
+  personIsFS,
+  personIsInactive,
+  personIsMS,
+} from '@services/app/persons';
 
 const usePersonCard = (person: PersonType) => {
   const navigate = useNavigate();
@@ -15,23 +24,18 @@ const usePersonCard = (person: PersonType) => {
   const [isDeleting, setIsDeleting] = useState(false);
 
   const getPersonBadge = useCallback(() => {
-    const isElder = person.privileges.find(
-      (record) => record.privilege.value === 'elder' && record.endDate.value === null
-    );
-
-    const isMS = person.privileges.find((record) => record.privilege.value === 'ms' && record.endDate.value === null);
-
-    const isAP = person.enrollments.find((record) => record.enrollment.value === 'AP' && record.endDate.value === null);
-    const isFMF = person.enrollments.find(
-      (record) => record.enrollment.value === 'FMF' && record.endDate.value === null
-    );
-    const isFR = person.enrollments.find((record) => record.enrollment.value === 'FR' && record.endDate.value === null);
-    const isFS = person.enrollments.find((record) => record.enrollment.value === 'FS' && record.endDate.value === null);
+    const isElder = personIsElder(person);
+    const isMS = personIsMS(person);
+    const isAP = personIsAP(person);
+    const isFMF = personIsFMF(person);
+    const isFR = personIsFR(person);
+    const isFS = personIsFS(person);
 
     const isBaptized = person.baptizedPublisher.active.value;
     const isUnbaptized = person.unbaptizedPublisher.active.value;
     const isMidweek = person.midweekMeetingStudent.active.value;
     const isDisqualified = person.isDisqualified.value;
+    const isInactivePublisher = personIsInactive(person);
 
     const badges: { name: string; color: BadgeColor }[] = [];
 
@@ -39,7 +43,11 @@ const usePersonCard = (person: PersonType) => {
       badges.push({ name: t('tr_disqualified'), color: 'red' });
     }
 
-    if (!isDisqualified) {
+    if (isInactivePublisher) {
+      badges.push({ name: t('tr_inactivePublisher'), color: 'red' });
+    }
+
+    if (!isDisqualified && !isInactivePublisher) {
       if (isElder) {
         badges.push({ name: t('tr_elder'), color: 'green' });
       }
@@ -65,7 +73,7 @@ const usePersonCard = (person: PersonType) => {
       }
     }
 
-    const hasSpecialBadge = isDisqualified || isElder || isMS || isAP || isFMF || isFR || isFS;
+    const hasSpecialBadge = isDisqualified || isInactivePublisher || isElder || isMS || isAP || isFMF || isFR || isFS;
 
     if (!hasSpecialBadge || isDisqualified) {
       if (isBaptized) {
