@@ -2,21 +2,16 @@ import { ReactElement } from 'react';
 import { Box, SxProps } from '@mui/material';
 import Typography from '@components/typography';
 
-const InfoTip = ({
-  isBig,
-  text,
-  title,
-  icon,
-  color,
-  sx,
-}: {
-  isBig: boolean;
+interface InfoTipProps {
+  isBig?: boolean;
   text: string;
   title?: string;
   icon?: ReactElement;
   color?: string;
   sx?: SxProps;
-}) => {
+}
+
+const InfoTip = ({ isBig = false, text, title, icon, color, sx }: InfoTipProps) => {
   const getColorStyle = () => {
     const result = {
       border: '',
@@ -77,7 +72,6 @@ const InfoTip = ({
         }}
       >
         {icon}
-
         <Typography className="body-regular" sx={{ color: style.text }}>
           {text}
         </Typography>

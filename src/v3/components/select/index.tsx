@@ -85,6 +85,7 @@ const CustomSelect = (props: SelectPropsType) => {
               border: '1px solid var(--accent-200)',
               padding: '8px 0px',
               marginTop: '2px',
+              maxHeight: '232px',
               '& ul': { paddingTop: 0, paddingBottom: 0, gap: '5px' },
               '& li': {
                 position: 'relative',
@@ -98,6 +99,12 @@ const CustomSelect = (props: SelectPropsType) => {
               },
               [theme.breakpoints.down('tablet')]: {
                 marginLeft: '-4px',
+              },
+              '&::-webkit-scrollbar': {
+                width: '4px',
+              },
+              '&::-webkit-scrollbar-track': {
+                backgroundColor: 'transparent',
               },
             }),
             className: 'small-card-shadow',
