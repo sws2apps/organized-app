@@ -12,7 +12,8 @@ interface AssigmentItemProps {
 
 export const AssigmentMonthItem = ({ assigmentDate }: AssigmentItemProps) => {
   const { t } = useAppTranslation();
-
+  const formattedDate = format(new Date(assigmentDate), 'LLLL');
+  const formattedYear = format(new Date(assigmentDate), 'yyyy');
   return (
     <Box
       sx={{
@@ -23,7 +24,7 @@ export const AssigmentMonthItem = ({ assigmentDate }: AssigmentItemProps) => {
       }}
     >
       <Typography className="h2" color="var(--accent-dark)" sx={{ textAlign: 'left' }}>
-        {`${t(`tr_${format(new Date(assigmentDate), 'LLLL').toLowerCase()}`)}  ${format(new Date(assigmentDate), 'yyyy')}`}
+        {t(`tr_${formattedDate.toLowerCase()}`)} {formattedYear}
       </Typography>
     </Box>
   );

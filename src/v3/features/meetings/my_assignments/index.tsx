@@ -45,7 +45,7 @@ const MyAssignments = () => {
   const { handleManualRefresh } = useAssignments();
 
   const [value, setValue] = useState(0);
-  const [personAssignments, setPersonAssingments] = useState('');
+  const [personAssignments, setPersonAssignments] = useState('');
 
   useEffect(() => {
     if (!open) setValue(0);
@@ -136,6 +136,7 @@ const MyAssignments = () => {
       <CustomTabPanel value={value} index={1}>
         <Stack spacing={2.3}>
           <InfoTip
+            isBig={false}
             icon={<IconInfo />}
             color="blue"
             text="To see your name in the list, make sure your person record exists on the All persons page."
@@ -143,7 +144,7 @@ const MyAssignments = () => {
           <Select label={t('tr_yourPersonRecord')} value={personAssignments}>
             {persons.map((person) => (
               <MenuItem
-                onClick={() => setPersonAssingments(`${person.person_firstname.value} ${person.person_lastname.value}`)}
+                onClick={() => setPersonAssignments(`${person.person_firstname.value} ${person.person_lastname.value}`)}
                 key={person.person_uid}
                 value={`${person.person_firstname.value} ${person.person_lastname.value}`}
               >
