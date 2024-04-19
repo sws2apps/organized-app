@@ -22,13 +22,17 @@ const CustomTextField = (props: TextFieldTypeProps) => {
 
   const varHeight = (56 - height) / 2;
 
+  const isMultiLine = props.multiline || props.rows;
+
   return (
     <TextField
       {...defaultProps}
       fullWidth
       sx={{
         '.MuiInputBase-root': {
-          height: `${height}px`,
+          height: isMultiLine ? 'auto' : `${height}px`,
+          paddingTop: isMultiLine ? '0' : 'auto',
+          paddingBottom: isMultiLine ? '0' : 'auto',
           display: 'flex',
           alignItems: 'center',
           gap: '8px',
