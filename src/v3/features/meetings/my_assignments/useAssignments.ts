@@ -23,7 +23,9 @@ const useAssignments = () => {
   useEffect(() => {
     if (isSyncing) {
       const svgIcon = document.querySelector<SVGElement>('#organized-icon-sync');
-      svgIcon.style.animation = 'rotate 2s linear infinite';
+      if (svgIcon) {
+        svgIcon.style.animation = 'rotate 2s linear infinite';
+      }
     }
   }, [isSyncing]);
 
