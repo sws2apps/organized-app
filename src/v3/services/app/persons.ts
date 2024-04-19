@@ -103,7 +103,7 @@ const personArchiveUnbaptizedPublisher = (person: PersonType, isAddPerson: boole
     }
 
     if (startDate !== nowDate) {
-      current.endDate.value = new Date().toISOString();
+      current.endDate.value = dateLastDatePreviousMonth().toISOString();
       current.endDate.updatedAt = new Date().toISOString();
     }
   }
@@ -131,7 +131,7 @@ const personArchiveBaptizedPublisher = (person: PersonType, isAddPerson: boolean
     }
 
     if (startDate !== nowDate) {
-      current.endDate.value = new Date().toISOString();
+      current.endDate.value = dateLastDatePreviousMonth().toISOString();
       current.endDate.updatedAt = new Date().toISOString();
     }
   }
