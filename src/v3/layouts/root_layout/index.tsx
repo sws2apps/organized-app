@@ -13,9 +13,11 @@ import {
   Support,
 } from '@features/index';
 import useRootLayout from './useRootLayout';
+import Contact from '@features/contact';
 
 const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
-  const { isAppLoad, isOpenAbout, isOpenSupport, appSnackOpen, isImportJWOrg, isImportEPUB } = useRootLayout();
+  const { isAppLoad, isOpenAbout, isOpenContact, isOpenSupport, appSnackOpen, isImportJWOrg, isImportEPUB } =
+    useRootLayout();
 
   return (
     <AppModalWrapper>
@@ -37,6 +39,7 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
           marginTop: '80px', // header 56px + 24px
         }}
       >
+        {isOpenContact && <Contact />}
         {isOpenAbout && <About />}
         {isOpenSupport && <Support />}
 
