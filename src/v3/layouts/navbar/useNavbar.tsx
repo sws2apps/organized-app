@@ -1,7 +1,14 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { setIsAboutOpen, setIsAppLoad, setIsSetup, setIsSupportOpen, setOfflineOverride } from '@services/recoil/app';
+import {
+  setIsAboutOpen,
+  setIsAppLoad,
+  setIsContactOpen,
+  setIsSetup,
+  setIsSupportOpen,
+  setOfflineOverride,
+} from '@services/recoil/app';
 import { useBreakpoints } from '@hooks/index';
 import { congAccountConnectedState, isAppLoadState } from '@states/app';
 import { congNameState, fullnameState } from '@states/settings';
@@ -48,6 +55,11 @@ const useNavbar = () => {
     await setIsAppLoad(true);
   };
 
+  const handleOpenContact = async () => {
+    handleCloseMore();
+    await setIsContactOpen(true);
+  };
+
   const handleOpenAbout = async () => {
     handleCloseMore();
     await setIsAboutOpen(true);
@@ -68,6 +80,7 @@ const useNavbar = () => {
     handleOpenMoreMenu,
     handleCloseMore,
     anchorEl,
+    handleOpenContact,
     handleOpenAbout,
     handleOpenSupport,
     handleOpenDoc,

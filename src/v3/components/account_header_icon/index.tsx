@@ -2,6 +2,14 @@ import { Avatar, Box } from '@mui/material';
 import { IconHeaderAccount, IconNoConnection } from '@icons/index';
 import { useAccountHeaderIcon } from './useAccountHeaderIcon';
 
+/**
+ * Functional component for rendering the user's avatar or a default icon
+ * with an indicator for offline status.
+ * @param {Object} props - Component props
+ * @param {string} props.userAvatar - URL of the user's avatar
+ * @param {boolean} props.isOffline - Indicator for user's offline status
+ * @returns {JSX.Element} AccountHeaderIcon component
+ */
 const AccountHeaderIcon = () => {
   const { userAvatar, isOffline } = useAccountHeaderIcon();
 

@@ -6,6 +6,11 @@ import { IconRefresh, IconRestart } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
 import useError from './useError';
 
+/**
+ * Error boundary component to handle errors gracefully.
+ *
+ * @returns {JSX.Element} ErrorBoundary component.
+ */
 const ErrorBoundary = () => {
   const { error, handleReload, handleDelete } = useError();
 

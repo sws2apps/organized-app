@@ -1,5 +1,12 @@
 import { ReactNode } from 'react';
+
+/**
+ * Props type for the CardHeader component.
+ */
 export type CardHeaderPropsType = {
+  /**
+   * Class name for the card header.
+   */
   className?:
     | 'huge-numbers'
     | 'big-numbers'
@@ -14,5 +21,9 @@ export type CardHeaderPropsType = {
     | 'body-regular'
     | 'body-small-semibold'
     | 'body-small-regular';
+
+  /**
+   * Children elements to be rendered within the card header.
+   */
   children: ReactNode;
 };

@@ -9,6 +9,11 @@ import {
 } from './assignments_checklist.styles';
 import { type AssignmentCheckListProps } from './assignments_checklist.types';
 
+/**
+ * Component for rendering an assignment checklist.
+ * @param {AssignmentCheckListProps} props - Props for the AssignmentCheckList component.
+ * @returns {JSX.Element} AssignmentCheckList component.
+ */
 export const AssignmentCheckList = ({
   header,
   color,

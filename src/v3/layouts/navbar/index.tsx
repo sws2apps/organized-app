@@ -2,7 +2,7 @@ import { AppBar, Box, Container, IconButton, ListItemIcon, ListItemText, Menu, M
 import AccountHeaderIcon from '@components/account_header_icon';
 import Typography from '@components/typography';
 import { AppNotification, LanguageSwitcher, ThemeSwitcher } from '@features/index';
-import { IconAccount, IconDonate, IconHelp, IconInfo, IconLogin, IconLogo, IconMenu } from '@icons/index';
+import { IconAccount, IconDonate, IconHelp, IconInfo, IconLogin, IconLogo, IconMenu, IconMail } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
 import useNavbar from './useNavbar';
 
@@ -34,6 +34,7 @@ const NavBar = () => {
     handleCloseMore,
     handleOpenMoreMenu,
     openMore,
+    handleOpenContact,
     handleOpenAbout,
     handleOpenSupport,
     handleOpenDoc,
@@ -198,6 +199,14 @@ const NavBar = () => {
                 </ListItemIcon>
                 <ListItemText>
                   <Typography className="body-regular">{t('tr_howToUseApp')}</Typography>
+                </ListItemText>
+              </MenuItem>
+              <MenuItem disableRipple sx={menuStyle} onClick={handleOpenContact}>
+                <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px !important' } }}>
+                  <IconMail color="var(--black)" />
+                </ListItemIcon>
+                <ListItemText>
+                  <Typography className="body-regular">{t('tr_shareFeeback')}</Typography>
                 </ListItemText>
               </MenuItem>
               <MenuItem disableRipple sx={menuStyle} onClick={handleOpenAbout}>

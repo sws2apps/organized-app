@@ -14,9 +14,11 @@ import {
 } from '@features/index';
 import useRootLayout from './useRootLayout';
 import { IconClose } from '@components/icons';
+import Contact from '@features/contact';
 
 const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
-  const { isAppLoad, isOpenAbout, isOpenSupport, appSnackOpen, isImportJWOrg, isImportEPUB } = useRootLayout();
+  const { isAppLoad, isOpenAbout, isOpenContact, isOpenSupport, appSnackOpen, isImportJWOrg, isImportEPUB } =
+    useRootLayout();
 
   return (
     <AppModalWrapper>
@@ -43,6 +45,7 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
           marginTop: '24px',
         }}
       >
+        {isOpenContact && <Contact />}
         {isOpenAbout && <About />}
         {isOpenSupport && <Support />}
 

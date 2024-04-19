@@ -2,6 +2,11 @@ import { ChangeEvent } from 'react';
 import { Switch } from '@mui/material';
 import { IconOffCircle, IconOnCircle } from '@icons/index';
 
+/**
+ * Custom Switch component.
+ * @param checked - The current state of the switch.
+ * @param onChange - The function called when the switch state changes.
+ */
 const CustomSwitch = ({
   checked,
   onChange,

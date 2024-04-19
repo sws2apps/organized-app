@@ -16,6 +16,17 @@ import {
   StyledCardBox,
 } from './user_card.styles';
 
+/**
+ * A custom user card component.
+ *
+ * @param name The name of the user.
+ * @param type The type of the user card.
+ * @param female Specifies if the user is female.
+ * @param onClick Callback function to handle click events on the user card.
+ * @param onDelete Callback function to handle delete events on the user card.
+ * @param chipLabels Optional chip labels to display on the user card.
+ * @param children Additional content to render inside the user card.
+ */
 export const CustomUserCard = ({
   name,
   type,

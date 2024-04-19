@@ -5,6 +5,7 @@ import {
   backupDbOpenState,
   isAboutOpenState,
   isAppLoadState,
+  isContactOpenState,
   isSupportOpenState,
   restoreDbOpenState,
   userConfirmationOpenState,
@@ -20,6 +21,7 @@ const useRootLayout = () => {
   const { autoLoginStatus } = useUserAutoLogin();
 
   const isAppLoad = useRecoilValue(isAppLoadState);
+  const isOpenContact = useRecoilValue(isContactOpenState);
   const isOpenAbout = useRecoilValue(isAboutOpenState);
   const isImportJWOrg = useRecoilValue(isImportJWOrgState);
   const isImportEPUB = useRecoilValue(isImportEPUBState);
@@ -40,6 +42,7 @@ const useRootLayout = () => {
     isLoading,
     isAppLoad,
     isOpenAbout,
+    isOpenContact,
     isImportJWOrg,
     isImportEPUB,
     isUserConfirm,
