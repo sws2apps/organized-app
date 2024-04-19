@@ -1,5 +1,11 @@
 import { IconButton, IconButtonProps } from '@mui/material';
 
+/**
+ * Component representing a custom icon button.
+ *
+ * @param {IconButtonProps} props - Props for the CustomIconButton component.
+ * @returns {JSX.Element} CustomIconButton component.
+ */
 const CustomIconButton = (props: IconButtonProps) => {
   const { children } = props;
 

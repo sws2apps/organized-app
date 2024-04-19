@@ -15,7 +15,7 @@ import {
 } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { apiSetCongregationEncryption } from '@services/api/congregation';
-import { handleUpdateSetting } from '@services/dexie/settings';
+import { dbAppSettingsUpdate } from '@services/dexie/settings';
 
 const useCongregationEncryption = () => {
   const { t } = useAppTranslation();
@@ -62,7 +62,7 @@ const useCongregationEncryption = () => {
         return;
       }
 
-      await handleUpdateSetting({ cong_code: tmpEncryptionCode });
+      await dbAppSettingsUpdate({ cong_code: tmpEncryptionCode });
 
       await loadApp();
 
@@ -93,7 +93,7 @@ const useCongregationEncryption = () => {
     try {
       decryptData(congCode, tmpEncryptionCode);
 
-      await handleUpdateSetting({ cong_code: tmpEncryptionCode });
+      await dbAppSettingsUpdate({ cong_code: tmpEncryptionCode });
 
       await loadApp();
 

@@ -14,7 +14,7 @@
   "tr_email": "Email",
   "tr_accountCreated": "Your Organized account has been created. Inform your congregation administrator to give you the necessary permissions and then refresh the page.",
   "tr_createCongregationAccount": "Create congregation",
-  "tr_unauthorizedRole": "<p>Your account is all set! To access all the features of the Organized app, please ask your congregation's app administrator to give you permission, then  <a href='#'>try again</a> in 5 minutes.</p><p>Elders can contact us at <a href='mailto:support@organized-app.com'>support@organized-app.com</a> if they need assistance.</p>",
+  "tr_unauthorizedRole": "<p>Your account is all set! To access the Organized app, please ask your congregation’s app administrator to give you permissions and refresh the page in 5 minutes.</p><p>Elders can contact us at <a href='mailto:support@organized-app.com'>support@organized-app.com</a> if they need assistance.</p>",
   "tr_oauthAccept": "<p>By continuing, you accept our <a href='https://sws2apps.com/terms/' title='Terms of Use' target='_blank' rel='noopener'>Terms of Use</a> and <a href='https://sws2apps.com/privacy/' title='Privacy Policy' target='_blank' rel='noopener'>Privacy Policy</a>.</p>",
   "tr_signInDesc": "Choose how you want to log in",
   "tr_emailAuth": "Email authentication",
@@ -78,7 +78,7 @@
   "tr_unauthorizedAccount": "Your access permissions need to be adjusted",
   "tr_unauthorizedAccountDesc": "Contact your congregation app administrator to confirm your role, then try again in 5 minutes. For any further assistance, elders can contact us via email.",
   "tr_noSchedulesYet": "No schedules have been published yet",
-  "tr_noSchedulesYetDesc": "The meeting schedule isn't available yet. Please ask your congregation elders to not only create but also publish it in the app.",
+  "tr_noSchedulesYetDesc": "The meeting schedules aren't available yet. Please ask your congregation elders to not only create but also publish them in the app.",
   "tr_reconnectAccount": "Reconnect my account",
   "tr_registeringApproved": "The body of elders has approved registering this congregation in Organized"
 }

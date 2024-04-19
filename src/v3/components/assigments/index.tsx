@@ -6,10 +6,21 @@ import { FC, PropsWithChildren } from 'react';
 import { parseISO, getDay, format } from 'date-fns';
 import { useAppTranslation } from '@hooks/index';
 
+/**
+ * Props for the AssigmentItem component.
+ */
 interface AssigmentItemProps {
+  /**
+   * Date of the assignment.
+   */
   assigmentDate: string;
 }
 
+/**
+ * Component for rendering an assignment item.
+ * @param {AssigmentItemProps} props - Props for the AssigmentItem component.
+ * @returns {JSX.Element} AssigmentItem component.
+ */
 export const AssigmentMonthItem = ({ assigmentDate }: AssigmentItemProps) => {
   const { t } = useAppTranslation();
   const formattedDate = format(new Date(assigmentDate), 'LLLL');
@@ -30,6 +41,11 @@ export const AssigmentMonthItem = ({ assigmentDate }: AssigmentItemProps) => {
   );
 };
 
+/**
+ * Component for rendering an assignment item with children.
+ * @param {PropsWithChildren<AssigmentItemProps>} props - Props for the AssigmentItem component.
+ * @returns {JSX.Element} AssigmentItem component.
+ */
 const AssigmentItem: FC<PropsWithChildren & AssigmentItemProps> = ({ children, assigmentDate }) => {
   return (
     <Stack direction={'row'} spacing={2} alignItems={'center'}>

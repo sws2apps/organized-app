@@ -1,9 +1,9 @@
 import { promiseSetRecoil } from 'recoil-outside';
 import { rootModalOpenState } from '@states/app';
-import { appDb } from '@services/dexie';
 import { PersonType } from '@definition/person';
 import { generateDisplayName } from './common';
 import { AssignmentCode } from '@definition/schedules';
+import appDb from '@shared/indexedDb/appDb';
 
 export const delay = async (time: number) => {
   return new Promise((resolve) => setTimeout(resolve, time));

@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { User, getAuth, onAuthStateChanged } from 'firebase/auth';
-import worker from '@services/worker/backupWorker';
-import { saveProfilePic } from '@services/app/settings';
 import { displaySnackNotification, setCurrentProvider } from '@services/recoil/app';
 import { getTranslation } from '@services/i18n/translation';
+import { dbAppSettingsSaveProfilePic } from '@services/dexie/settings';
+import worker from '@services/worker/backupWorker';
 
 const useFirebaseAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -32,7 +32,7 @@ const useFirebaseAuth = () => {
         await setCurrentProvider(provider);
 
         const photoURL = user.providerData[0]?.photoURL;
-        saveProfilePic(photoURL, provider);
+        dbAppSettingsSaveProfilePic(photoURL, provider);
         setIsAuthenticated(true);
       } else {
         setIsAuthenticated(false);

@@ -22,6 +22,20 @@ import {
 } from './date_picker.styles';
 import { useAppTranslation } from '@hooks/index';
 
+/**
+ * Component for a custom date picker.
+ * @param {CustomDatePickerProps} props - Props for the CustomDatePicker component.
+ * @param {Date} props.value - The selected date value.
+ * @param {('button' | 'input')} props.view - The view mode of the date picker, either 'button' or 'input'.
+ * @param {string} props.label - The label for the date picker.
+ * @param {boolean} props.disablePast - Indicates whether to disable selection of past dates.
+ * @param {string} props.shortDateFormat - The short date format string.
+ * @param {string} props.longDateFormat - The long date format string.
+ * @param {Date} props.maxDate - The maximum selectable date.
+ * @param {Date} props.minDate - The minimum selectable date.
+ * @param {(value: Date) => void | Promise<void>} props.onChange - Function called when the selected date changes.
+ * @returns {JSX.Element} CustomDatePicker component.
+ */
 const CustomDatePicker = ({
   value = null,
   onChange,
@@ -72,6 +86,11 @@ const CustomDatePicker = ({
   useEffect(() => {
     if (value === null && open) setInnerValue(new Date());
   }, [value, open]);
+
+  useEffect(() => {
+    setValueTmp(value);
+    setInnerValue(value);
+  }, [value]);
 
   return (
     <ClickAwayListener onClickAway={handleClickAway}>

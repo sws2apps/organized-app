@@ -1,5 +1,5 @@
 import { Table } from 'dexie';
-import { SettingsType } from '@definition/app';
+import { SettingsType } from '@definition/settings';
 
 export type SettingsTable = {
   app_settings: Table<SettingsType>;

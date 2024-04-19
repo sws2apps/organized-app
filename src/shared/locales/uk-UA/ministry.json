@@ -31,7 +31,6 @@
   "tr_btnUndoSumbission": "Відмінити відправку",
   "tr_totalHours": "Всього годин",
   "tr_fieldMinistry": "Польове служіння",
-  "tr_LDCHours": "Години МВПБ",
   "tr_averageMonthlyBibleStudies": "В середньому вивчень на місяць",
   "tr_maximumMonthlyBibleStudies": "Найбільше біблійних вивчень за місяць",
   "tr_monthlyHistory": "Місячна історія",
@@ -94,5 +93,6 @@
   "tr_changeImage": "Change image",
   "tr_addImage": "Add image",
   "tr_cantDeductStudiesDesc": "You can't select fewer Bible studies than you already have selected in the “Individual Bible studies” dropdown menu. ",
-  "tr_cantDeductStudiesTitle": "Cannot deduct Bible studies"
+  "tr_cantDeductStudiesTitle": "Cannot deduct Bible studies",
+  "tr_includesServiceAndCredit": "Includes field service and credit hours"
 }

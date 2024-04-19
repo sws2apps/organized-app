@@ -1,6 +1,12 @@
 import { InputAdornment, TextField } from '@mui/material';
 import { TextFieldTypeProps } from './index.types';
 
+/**
+ * A custom text field component.
+ *
+ * @param {TextFieldTypeProps} props - The props for the CustomTextField component.
+ * @returns {JSX.Element} - JSX.Element
+ */
 const CustomTextField = (props: TextFieldTypeProps) => {
   const height = props.height || 44;
   const sx = props.sx;

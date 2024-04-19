@@ -2,6 +2,12 @@ import { TextField } from '@mui/material';
 import { SelectPropsType } from './index.types';
 import { Theme } from '@mui/material/styles/createTheme';
 
+/**
+ * Custom select component.
+ *
+ * @param props The props for the CustomSelect component.
+ * @returns A custom select input field.
+ */
 const CustomSelect = (props: SelectPropsType) => {
   const label = props.label || '';
   const className = props.className || '';
