@@ -7,7 +7,7 @@ import useAssignments from './useAssignments';
 const PersonAssignments = () => {
   const { t } = useAppTranslation();
 
-  const { assignments, checkedItems, handleToggleAssignment, handleToggleGroup, isMale, isDiqualified } =
+  const { assignments, checkedItems, handleToggleAssignment, handleToggleGroup, isMale, isDisqualified } =
     useAssignments();
 
   return (
@@ -36,7 +36,7 @@ const PersonAssignments = () => {
             onItemChange={handleToggleAssignment}
             checkedItems={checkedItems}
             isMale={isMale}
-            isDisqualified={isDiqualified}
+            isDisqualified={isDisqualified}
           />
         ))}
       </Box>

@@ -15,7 +15,7 @@ const useAssignments = () => {
 
   const person = useRecoilValue(personCurrentDetailsState);
   const isMale = person.isMale.value;
-  const isDiqualified = person.isDisqualified.value;
+  const isDisqualified = person.isDisqualified.value;
   const checkedItems = person.assignments.filter((record) => record._deleted === null).map((record) => record.code);
 
   const assignments = useMemo(() => {
@@ -162,7 +162,7 @@ const useAssignments = () => {
     await setPersonCurrentDetails(newPerson);
   };
 
-  return { assignments, checkedItems, handleToggleAssignment, handleToggleGroup, isMale, isDiqualified };
+  return { assignments, checkedItems, handleToggleAssignment, handleToggleGroup, isMale, isDisqualified };
 };
 
 export default useAssignments;
