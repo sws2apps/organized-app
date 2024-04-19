@@ -17,7 +17,7 @@ const CustomIconButton = (props: IconButtonProps) => {
         padding: '8px',
         borderRadius: 'var(--radius-l)',
         '&:hover': {
-          backgroundColor: 'var(--accent-150)',
+          backgroundColor: 'var(--accent-200)',
         },
         '.MuiTouchRipple-ripple .MuiTouchRipple-child': {
           borderRadius: 'var(--radius-l)',
