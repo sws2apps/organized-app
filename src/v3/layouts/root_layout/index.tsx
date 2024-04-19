@@ -16,7 +16,6 @@ import useRootLayout from './useRootLayout';
 import { IconClose } from '@components/icons';
 import Contact from '@features/contact';
 
-
 const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
   const { isAppLoad, isOpenAbout, isOpenContact, isOpenSupport, appSnackOpen, isImportJWOrg, isImportEPUB } =
     useRootLayout();

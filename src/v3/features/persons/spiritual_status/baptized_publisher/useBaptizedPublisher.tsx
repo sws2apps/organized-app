@@ -3,7 +3,9 @@ import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { personCurrentDetailsState } from '@states/persons';
 import { setPersonCurrentDetails } from '@services/recoil/persons';
-import { computeYearsDiff } from '@utils/date';
+import { computeYearsDiff, dateFirstDayMonth } from '@utils/date';
+import { formatDate } from '@services/dateformat';
+import { PersonType } from '@definition/person';
 
 const useBaptizedPublisher = () => {
   const { id } = useParams();
@@ -12,8 +14,47 @@ const useBaptizedPublisher = () => {
   const person = useRecoilValue(personCurrentDetailsState);
 
   const [age, setAge] = useState('0');
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const activeHistory = person.baptizedPublisher.history.filter((record) => record._deleted === null);
+
+  const isActive = activeHistory.find((record) => record.endDate.value === null) ? true : false;
+
+  const handleToggleExpand = () => setIsExpanded((prev) => !prev);
+
+  const handleToggleActive = async () => {
+    const newPerson: PersonType = structuredClone(person);
+
+    if (isActive) {
+      const activeRecord = newPerson.baptizedPublisher.history.find((record) => record.endDate.value === null);
+
+      const startDate = formatDate(new Date(activeRecord.startDate.value), 'mm/dd/yyyy');
+      const nowDate = formatDate(new Date(), 'mm/dd/yyyy');
+
+      if (startDate === nowDate) {
+        if (isAddPerson) {
+          newPerson.baptizedPublisher.history = newPerson.baptizedPublisher.history.filter(
+            (record) => record.id !== activeRecord.id
+          );
+        }
+
+        if (!isAddPerson) {
+          activeRecord._deleted = new Date().toISOString();
+        }
+      }
+
+      if (startDate !== nowDate) {
+        activeRecord.endDate.value = new Date().toISOString();
+        activeRecord.endDate.updatedAt = new Date().toISOString();
+      }
+
+      await setPersonCurrentDetails(newPerson);
+    }
+
+    if (!isActive) {
+      await handleAddHistory();
+    }
+  };
 
   const handleFirstReportChange = async (value: Date | null) => {
     const newPerson = structuredClone(person);
@@ -31,7 +72,7 @@ const useBaptizedPublisher = () => {
 
     newPerson.baptizedPublisher.history.push({
       id: crypto.randomUUID(),
-      startDate: { value: new Date().toISOString(), updatedAt: new Date().toISOString() },
+      startDate: { value: dateFirstDayMonth().toISOString(), updatedAt: new Date().toISOString() },
       endDate: { value: null, updatedAt: new Date().toISOString() },
       _deleted: null,
     });
@@ -131,6 +172,10 @@ const useBaptizedPublisher = () => {
     handleToggleHope,
     handleChangeBaptismDate,
     activeHistory,
+    handleToggleExpand,
+    isExpanded,
+    isActive,
+    handleToggleActive,
   };
 };
 

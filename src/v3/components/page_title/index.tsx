@@ -1,7 +1,7 @@
 import { IconArrowBack } from '@icons/index';
 import Typography from '@components/typography';
 import { PageTitleProps } from './page_title.types';
-import { PageTitleBlock, PageTitleButtonsContainer, PageTitleContainer, PageTitleIcon } from './page_title.styles';
+import { PageTitleBlock, PageTitleButtonsContainer, PageTitleContainer } from './page_title.styles';
 import usePageTitle from './usePageTitle';
 
 /**
@@ -16,10 +16,8 @@ const PageTitle = (props: PageTitleProps) => {
 
   return (
     <PageTitleContainer>
-      <PageTitleBlock>
-        <PageTitleIcon onClick={handleArrowBackAction}>
-          <IconArrowBack color="var(--black)" />
-        </PageTitleIcon>
+      <PageTitleBlock onClick={handleArrowBackAction}>
+        <IconArrowBack color="var(--black)" />
 
         <Typography className="h1">{title}</Typography>
       </PageTitleBlock>

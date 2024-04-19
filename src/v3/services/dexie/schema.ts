@@ -1,3 +1,4 @@
+import { PersonType } from '@definition/person';
 import { SchedWeekType } from '@definition/schedules';
 import { SourceWeekType, Week } from '@definition/sources';
 
@@ -160,4 +161,48 @@ export const scheduleSchema: SchedWeekType = {
   noWMeeting: { value: false, updatedAt: '' },
   isReleased: { value: false, updatedAt: '' },
   week_type: { value: Week.NORMAL, updatedAt: '' },
+};
+
+export const personSchema: PersonType = {
+  _deleted: null,
+  person_uid: '',
+  person_firstname: { value: '', updatedAt: '' },
+  person_lastname: { value: '', updatedAt: '' },
+  person_displayName: { value: '', updatedAt: '' },
+  isMale: { value: true, updatedAt: '' },
+  isFemale: { value: false, updatedAt: '' },
+  birthDate: { value: null, updatedAt: '' },
+  assignments: [],
+  timeAway: [],
+  isArchived: { value: false, updatedAt: '' },
+  isDisqualified: { value: false, updatedAt: '' },
+  email: { value: '', updatedAt: '' },
+  address: { value: '', updatedAt: '' },
+  phone: { value: '', updatedAt: '' },
+  firstMonthReport: { value: null, updatedAt: '' },
+  baptizedPublisher: {
+    active: { value: false, updatedAt: '' },
+    isAnointed: { value: false, updatedAt: '' },
+    isOtherSheep: { value: true, updatedAt: '' },
+    baptismDate: { value: null, updatedAt: '' },
+    history: [],
+  },
+  unbaptizedPublisher: {
+    active: { value: false, updatedAt: '' },
+    history: [],
+  },
+  midweekMeetingStudent: {
+    active: { value: true, updatedAt: '' },
+    history: [
+      {
+        id: crypto.randomUUID(),
+        startDate: { value: new Date().toISOString(), updatedAt: new Date().toISOString() },
+        endDate: { value: null, updatedAt: new Date().toISOString() },
+        _deleted: null,
+      },
+    ],
+  },
+  privileges: [],
+  enrollments: [],
+  emergencyContacts: [],
 };

@@ -6,6 +6,15 @@ import { useAppTranslation } from '@hooks/index';
 import { displaySnackNotification } from '@services/recoil/app';
 import { IconCheckCircle, IconError } from '@components/icons';
 import { dbPersonsDelete } from '@services/dexie/persons';
+import {
+  personIsAP,
+  personIsElder,
+  personIsFMF,
+  personIsFR,
+  personIsFS,
+  personIsInactive,
+  personIsMS,
+} from '@services/app/persons';
 
 const usePersonCard = (person: PersonType) => {
   const navigate = useNavigate();
@@ -15,52 +24,58 @@ const usePersonCard = (person: PersonType) => {
   const [isDeleting, setIsDeleting] = useState(false);
 
   const getPersonBadge = useCallback(() => {
-    const isElder = person.privileges.find(
-      (record) => record.privilege.value === 'elder' && record.endDate.value === null
-    );
-
-    const isMS = person.privileges.find((record) => record.privilege.value === 'ms' && record.endDate.value === null);
-
-    const isAP = person.enrollments.find((record) => record.enrollment.value === 'AP' && record.endDate.value === null);
-    const isFMF = person.enrollments.find(
-      (record) => record.enrollment.value === 'FMF' && record.endDate.value === null
-    );
-    const isFR = person.enrollments.find((record) => record.enrollment.value === 'FR' && record.endDate.value === null);
-    const isFS = person.enrollments.find((record) => record.enrollment.value === 'FS' && record.endDate.value === null);
+    const isElder = personIsElder(person);
+    const isMS = personIsMS(person);
+    const isAP = personIsAP(person);
+    const isFMF = personIsFMF(person);
+    const isFR = personIsFR(person);
+    const isFS = personIsFS(person);
 
     const isBaptized = person.baptizedPublisher.active.value;
     const isUnbaptized = person.unbaptizedPublisher.active.value;
     const isMidweek = person.midweekMeetingStudent.active.value;
+    const isDisqualified = person.isDisqualified.value;
+    const isInactivePublisher = personIsInactive(person);
 
     const badges: { name: string; color: BadgeColor }[] = [];
 
-    if (isElder) {
-      badges.push({ name: t('tr_elder'), color: 'green' });
+    if (isDisqualified) {
+      badges.push({ name: t('tr_disqualified'), color: 'red' });
     }
 
-    if (isMS) {
-      badges.push({ name: t('tr_ministerialServant'), color: 'green' });
+    if (isInactivePublisher) {
+      badges.push({ name: t('tr_inactivePublisher'), color: 'red' });
     }
 
-    if (isAP) {
-      badges.push({ name: t('tr_AP'), color: 'orange' });
+    if (!isDisqualified && !isInactivePublisher) {
+      if (isElder) {
+        badges.push({ name: t('tr_elder'), color: 'green' });
+      }
+
+      if (isMS) {
+        badges.push({ name: t('tr_ministerialServant'), color: 'green' });
+      }
+
+      if (isAP) {
+        badges.push({ name: t('tr_AP'), color: 'orange' });
+      }
+
+      if (isFMF) {
+        badges.push({ name: t('tr_FMF'), color: 'orange' });
+      }
+
+      if (isFR) {
+        badges.push({ name: t('tr_FR'), color: 'orange' });
+      }
+
+      if (isFS) {
+        badges.push({ name: t('tr_FS'), color: 'orange' });
+      }
     }
 
-    if (isFMF) {
-      badges.push({ name: t('tr_FMF'), color: 'orange' });
-    }
+    const hasSpecialBadge = isDisqualified || isInactivePublisher || isElder || isMS || isAP || isFMF || isFR || isFS;
 
-    if (isFR) {
-      badges.push({ name: t('tr_FR'), color: 'orange' });
-    }
-
-    if (isFS) {
-      badges.push({ name: t('tr_FS'), color: 'orange' });
-    }
-
-    const hasSpecialBadge = isElder || isMS || isAP || isFMF || isFR || isFS;
-
-    if (!hasSpecialBadge) {
+    if (!hasSpecialBadge || isDisqualified) {
       if (isBaptized) {
         badges.push({ name: t('tr_baptizedPublisher'), color: 'grey' });
       }
@@ -74,7 +89,7 @@ const usePersonCard = (person: PersonType) => {
       }
     }
 
-    return badges;
+    return badges.sort((a, b) => a.name.localeCompare(b.name));
   }, [t, person]);
 
   const handleDelete = () => setIsDeleting(true);

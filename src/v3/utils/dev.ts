@@ -36,7 +36,7 @@ export const importDummyPersons = async () => {
         isDisqualified: { value: false, updatedAt: new Date().toISOString() },
         isFemale: { value: user.gender === 'female', updatedAt: new Date().toISOString() },
         isMale: { value: user.gender === 'male', updatedAt: new Date().toISOString() },
-        isMoved: { value: false, updatedAt: new Date().toISOString() },
+        isArchived: { value: false, updatedAt: new Date().toISOString() },
         person_firstname: { value: user.firstName, updatedAt: new Date().toISOString() },
         person_lastname: { value: user.lastName, updatedAt: new Date().toISOString() },
         person_displayName: {
@@ -474,7 +474,7 @@ export const importDummyPersons = async () => {
           person.privileges.push({
             id: crypto.randomUUID(),
             privilege: { value: 'elder', updatedAt: new Date().toISOString() },
-            startDate: { value: new Date().toISOString(), updatedAt: new Date().toISOString() },
+            startDate: { value: startDateTemp, updatedAt: new Date().toISOString() },
             endDate: { value: null, updatedAt: new Date().toISOString() },
             _deleted: null,
           });
@@ -542,7 +542,7 @@ export const importDummyPersons = async () => {
           person.privileges.push({
             id: crypto.randomUUID(),
             privilege: { value: 'ms', updatedAt: new Date().toISOString() },
-            startDate: { value: new Date().toISOString(), updatedAt: new Date().toISOString() },
+            startDate: { value: startDateTemp, updatedAt: new Date().toISOString() },
             endDate: { value: null, updatedAt: new Date().toISOString() },
             _deleted: null,
           });
@@ -605,7 +605,7 @@ export const importDummyPersons = async () => {
           person.enrollments.push({
             id: crypto.randomUUID(),
             enrollment: { value: 'FR', updatedAt: new Date().toISOString() },
-            startDate: { value: new Date().toISOString(), updatedAt: new Date().toISOString() },
+            startDate: { value: startDateTemp, updatedAt: new Date().toISOString() },
             endDate: { value: null, updatedAt: new Date().toISOString() },
             _deleted: null,
           });
@@ -615,7 +615,7 @@ export const importDummyPersons = async () => {
           person.enrollments.push({
             id: crypto.randomUUID(),
             enrollment: { value: maleStatus, updatedAt: new Date().toISOString() },
-            startDate: { value: new Date().toISOString(), updatedAt: new Date().toISOString() },
+            startDate: { value: startDateTemp, updatedAt: new Date().toISOString() },
             endDate: { value: null, updatedAt: new Date().toISOString() },
             _deleted: null,
           });

@@ -15,6 +15,7 @@ const useAssignments = () => {
 
   const person = useRecoilValue(personCurrentDetailsState);
   const isMale = person.isMale.value;
+  const isDisqualified = person.isDisqualified.value;
   const checkedItems = person.assignments.filter((record) => record._deleted === null).map((record) => record.code);
 
   const assignments = useMemo(() => {
@@ -85,7 +86,9 @@ const useAssignments = () => {
     const items = assignments.find((group) => group.id === id).items;
 
     if (checked) {
-      for (const item of items) {
+      const localItems = items.filter((record) => record.code !== AssignmentCode.MM_AssistantOnly);
+
+      for (const item of localItems) {
         if (!isMale) {
           if (item.code === AssignmentCode.MM_Discussion || item.code === AssignmentCode.MM_Talk) {
             continue;
@@ -159,7 +162,7 @@ const useAssignments = () => {
     await setPersonCurrentDetails(newPerson);
   };
 
-  return { assignments, checkedItems, handleToggleAssignment, handleToggleGroup, isMale };
+  return { assignments, checkedItems, handleToggleAssignment, handleToggleGroup, isMale, isDisqualified };
 };
 
 export default useAssignments;

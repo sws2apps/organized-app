@@ -1,10 +1,10 @@
 import { Box } from '@mui/material';
-import { Button, PageTitle } from '@components/index';
-import { IconSave } from '@components/icons';
+import { PageTitle } from '@components/index';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import {
   PersonAssignment,
   PersonBasicInfo,
+  PersonButtonActions,
   PersonEmergencyContacts,
   PersonEnrollments,
   PersonPrivileges,
@@ -16,20 +16,16 @@ import usePersonDetails from './usePersonDetails';
 const PersonDetails = () => {
   const { t } = useAppTranslation();
 
-  const { desktopUp } = useBreakpoints();
+  const { desktopUp, laptopUp } = useBreakpoints();
 
-  const { isNewPerson, isBaptized, isMale, handleSavePerson } = usePersonDetails();
+  const { isNewPerson, isBaptized, isMale } = usePersonDetails();
 
   return (
     <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
       <PageTitle
         title={isNewPerson ? t('tr_addNewPerson') : t('tr_editPerson')}
         backTo="/persons"
-        buttons={
-          <Button variant="main" startIcon={<IconSave />} onClick={handleSavePerson}>
-            {t('tr_save')}
-          </Button>
-        }
+        buttons={laptopUp ? <PersonButtonActions /> : null}
       />
 
       <Box
@@ -80,6 +76,12 @@ const PersonDetails = () => {
           <PersonEmergencyContacts />
         </Box>
       </Box>
+
+      {!laptopUp && (
+        <Box sx={{ display: 'flex', flexDirection: 'column-reverse', gap: '8px' }}>
+          <PersonButtonActions />
+        </Box>
+      )}
     </Box>
   );
 };

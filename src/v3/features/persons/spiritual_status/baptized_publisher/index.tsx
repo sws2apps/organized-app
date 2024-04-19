@@ -1,7 +1,5 @@
 import { Box, Collapse, FormControlLabel, RadioGroup } from '@mui/material';
-import { IconAdd } from '@components/icons';
-import Button from '@components/button';
-import DateHistory from '../../../date_history';
+import DateHistory from '../../date_history';
 import DatePicker from '@components/date_picker';
 import FirstReport from '../first_report';
 import Radio from '@components/radio';
@@ -10,6 +8,7 @@ import Typography from '@components/typography';
 import { BaptizedPublisherType } from './index.types';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useBaptizedPublisher from './useBaptizedPublisher';
+import StatusHistory from '../history';
 
 const BaptizedPublisher = ({ checked, onChange, expanded, onExpand }: BaptizedPublisherType) => {
   const { t } = useAppTranslation();
@@ -27,6 +26,10 @@ const BaptizedPublisher = ({ checked, onChange, expanded, onExpand }: BaptizedPu
     handleChangeBaptismDate,
     age,
     activeHistory,
+    handleToggleExpand,
+    isExpanded,
+    isActive,
+    handleToggleActive,
   } = useBaptizedPublisher();
 
   return (
@@ -105,32 +108,31 @@ const BaptizedPublisher = ({ checked, onChange, expanded, onExpand }: BaptizedPu
 
           <FirstReport value={person.firstMonthReport.value} onChange={handleFirstReportChange} />
 
-          {activeHistory.length === 0 && (
-            <Button
-              variant="small"
-              startIcon={<IconAdd />}
-              sx={{ height: '32px', minHeight: '32px !important', alignSelf: 'flex-start' }}
-              onClick={handleAddHistory}
-            >
-              {t('tr_add')}
-            </Button>
-          )}
-
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            {activeHistory.map((history, index) => (
-              <DateHistory
-                key={history.id}
-                id={history.id}
-                startDate={history.startDate.value}
-                endDate={history.endDate.value}
-                isLast={index === activeHistory.length - 1}
-                onAdd={handleAddHistory}
-                onDelete={handleDeleteHistory}
-                onStartDateChange={handleStartDateChange}
-                onEndDateChange={handleEndDateChange}
-              />
-            ))}
-          </Box>
+          <StatusHistory
+            active={isActive}
+            onChange={handleToggleActive}
+            expanded={isExpanded}
+            onExpand={handleToggleExpand}
+            showAdd={activeHistory.length === 0}
+            onAdd={handleAddHistory}
+            history={
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px', marginTop: '8px' }}>
+                {activeHistory.map((history, index) => (
+                  <DateHistory
+                    key={history.id}
+                    id={history.id}
+                    startDate={history.startDate.value}
+                    endDate={history.endDate.value}
+                    isLast={index === activeHistory.length - 1}
+                    onAdd={handleAddHistory}
+                    onDelete={handleDeleteHistory}
+                    onStartDateChange={handleStartDateChange}
+                    onEndDateChange={handleEndDateChange}
+                  />
+                ))}
+              </Box>
+            }
+          />
         </Box>
       </Collapse>
     </Box>

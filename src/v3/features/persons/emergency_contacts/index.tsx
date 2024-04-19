@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { IconAdd } from '@icons/index';
+import { IconAdd, IconInfo } from '@icons/index';
 import Button from '@components/button';
 import Typography from '@components/typography';
 import { useAppTranslation } from '@hooks/index';
@@ -27,14 +27,21 @@ const PersonEmergencyContacts = () => {
       <Typography className="h2">{t('tr_emergencyContacts')}</Typography>
 
       {activeContacts.length === 0 && (
-        <Button
-          variant="small"
-          startIcon={<IconAdd />}
-          onClick={handleAddContact}
-          sx={{ height: '32px', minHeight: '32px !important', alignSelf: 'flex-start' }}
-        >
-          {t('tr_add')}
-        </Button>
+        <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <IconInfo color="var(--grey-350)" />
+            <Typography color="var(--grey-350)">{t('tr_personEmergencyDesc')}</Typography>
+          </Box>
+
+          <Button
+            variant="small"
+            startIcon={<IconAdd />}
+            onClick={handleAddContact}
+            sx={{ height: '32px', minHeight: '32px !important', alignSelf: 'flex-start' }}
+          >
+            {t('tr_add')}
+          </Button>
+        </Box>
       )}
 
       {activeContacts.length > 0 && (

@@ -1,6 +1,6 @@
 import { Box, Collapse } from '@mui/material';
 import Button from '@components/button';
-import DateHistory from '../../../date_history';
+import DateHistory from '../../date_history';
 import SpiritualStatusTitle from '../title';
 import { MidweekMeetingStudentType } from './index.types';
 import { useAppTranslation } from '@hooks/index';

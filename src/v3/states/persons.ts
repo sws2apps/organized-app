@@ -53,7 +53,7 @@ export const personCurrentDetailsState = atom<PersonType>({
     birthDate: { value: null, updatedAt: '' },
     assignments: [],
     timeAway: [],
-    isMoved: { value: false, updatedAt: '' },
+    isArchived: { value: false, updatedAt: '' },
     isDisqualified: { value: false, updatedAt: '' },
     email: { value: '', updatedAt: '' },
     address: { value: '', updatedAt: '' },
