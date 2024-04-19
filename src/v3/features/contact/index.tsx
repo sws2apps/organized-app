@@ -33,7 +33,7 @@ const Contact = () => {
         </Box>
       </Box>
 
-      <TextMarkup content={t('tr_shareFeebackDesc')} className="body-regular" />
+      <TextMarkup content={t('tr_shareFeebackDesc')} className="body-regular" anchorClassName="body-regular" />
       <CustomTextField type="email" label={t('tr_yourEmailField')}></CustomTextField>
       <CustomTextField type="text" label={t('tr_subject')}></CustomTextField>
       <CustomTextField multiline label={t('tr_yourMessage')} rows={4} type="text"></CustomTextField>
@@ -47,7 +47,9 @@ const Contact = () => {
         }}
       >
         <Button variant="main">{t('tr_sendFeedback')}</Button>
-        <Button variant="secondary" onClick={handleClose}>{t('tr_cancel')}</Button>
+        <Button variant="secondary" onClick={handleClose}>
+          {t('tr_cancel')}
+        </Button>
       </Box>
     </Dialog>
   );
