@@ -10,4 +10,5 @@ export type AssignmentGroupType = {
   onItemChange?: (checked: boolean, code: AssignmentCode) => void;
   checkedItems: AssignmentCode[];
   isMale: boolean;
+  isDisqualified?: boolean;
 };

@@ -8,6 +8,7 @@ import { displaySnackNotification } from '@services/recoil/app';
 import { IconError } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { formatDate } from '@services/dateformat';
+import { dateFirstDayMonth, dateLastDatePreviousMonth } from '@utils/date';
 
 const useSpiritualStatus = () => {
   const { t } = useAppTranslation();
@@ -22,6 +23,169 @@ const useSpiritualStatus = () => {
     unbaptized: person.unbaptizedPublisher.active.value,
     midweek: person.midweekMeetingStudent.active.value,
   });
+
+  const handleToggleArchive = async () => {
+    const newPerson: PersonType = structuredClone(person);
+
+    const isArchived = newPerson.isArchived.value;
+
+    // UNARCHIVE PERSON
+    if (isArchived) {
+      // MIDWEEK STUDENT
+      if (newPerson.midweekMeetingStudent.active.value) {
+        const current = newPerson.midweekMeetingStudent.history.find(
+          (record) => record._deleted === null && record.endDate.value === null
+        );
+
+        if (!current) {
+          newPerson.midweekMeetingStudent.history.push({
+            id: crypto.randomUUID(),
+            startDate: { value: new Date().toISOString(), updatedAt: new Date().toISOString() },
+            endDate: { value: null, updatedAt: new Date().toISOString() },
+            _deleted: null,
+          });
+        }
+      }
+
+      // UNBAPTIZED PUBLISHER
+      if (newPerson.unbaptizedPublisher.active.value) {
+        const current = newPerson.unbaptizedPublisher.history.find(
+          (record) => record._deleted === null && record.endDate.value === null
+        );
+
+        if (!current) {
+          newPerson.unbaptizedPublisher.history.push({
+            id: crypto.randomUUID(),
+            startDate: { value: dateFirstDayMonth().toISOString(), updatedAt: new Date().toISOString() },
+            endDate: { value: null, updatedAt: new Date().toISOString() },
+            _deleted: null,
+          });
+        }
+      }
+
+      // BAPTIZED PUBLISHER
+      if (newPerson.baptizedPublisher.active.value) {
+        const current = newPerson.baptizedPublisher.history.find(
+          (record) => record._deleted === null && record.endDate.value === null
+        );
+
+        if (!current) {
+          newPerson.baptizedPublisher.history.push({
+            id: crypto.randomUUID(),
+            startDate: { value: dateFirstDayMonth().toISOString(), updatedAt: new Date().toISOString() },
+            endDate: { value: null, updatedAt: new Date().toISOString() },
+            _deleted: null,
+          });
+        }
+      }
+    }
+
+    // ARCHIVE PERSON
+    if (!isArchived) {
+      // MIDWEEK STUDENT
+      if (newPerson.midweekMeetingStudent.active.value) {
+        const current = newPerson.midweekMeetingStudent.history.find(
+          (record) => record._deleted === null && record.endDate.value === null
+        );
+
+        const startDate = formatDate(new Date(current.startDate.value), 'mm/dd/yyyy');
+        const nowDate = formatDate(new Date(), 'mm/dd/yyyy');
+
+        if (startDate === nowDate) {
+          if (isAddPerson) {
+            newPerson.midweekMeetingStudent.history = newPerson.midweekMeetingStudent.history.filter(
+              (record) => record.id !== current.id
+            );
+          }
+
+          if (!isAddPerson) {
+            current._deleted = new Date().toISOString();
+          }
+        }
+
+        if (startDate !== nowDate) {
+          current.endDate.value = new Date().toISOString();
+          current.endDate.updatedAt = new Date().toISOString();
+        }
+      }
+
+      // UNBAPTIZED PUBLISHER
+      if (newPerson.unbaptizedPublisher.active.value) {
+        const current = newPerson.unbaptizedPublisher.history.find(
+          (record) => record._deleted === null && record.endDate.value === null
+        );
+
+        const startDate = formatDate(new Date(current.startDate.value), 'mm/dd/yyyy');
+        const nowDate = formatDate(new Date(), 'mm/dd/yyyy');
+
+        if (startDate === nowDate) {
+          if (isAddPerson) {
+            newPerson.unbaptizedPublisher.history = newPerson.unbaptizedPublisher.history.filter(
+              (record) => record.id !== current.id
+            );
+          }
+
+          if (!isAddPerson) {
+            current._deleted = new Date().toISOString();
+          }
+        }
+
+        if (startDate !== nowDate) {
+          current.endDate.value = new Date().toISOString();
+          current.endDate.updatedAt = new Date().toISOString();
+        }
+      }
+
+      // BAPTIZED PUBLISHER
+      if (newPerson.baptizedPublisher.active.value) {
+        const current = newPerson.baptizedPublisher.history.find(
+          (record) => record._deleted === null && record.endDate.value === null
+        );
+
+        const startDate = formatDate(new Date(current.startDate.value), 'mm/dd/yyyy');
+        const nowDate = formatDate(new Date(), 'mm/dd/yyyy');
+
+        if (startDate === nowDate) {
+          if (isAddPerson) {
+            newPerson.baptizedPublisher.history = newPerson.baptizedPublisher.history.filter(
+              (record) => record.id !== current.id
+            );
+          }
+
+          if (!isAddPerson) {
+            current._deleted = new Date().toISOString();
+          }
+        }
+
+        if (startDate !== nowDate) {
+          current.endDate.value = new Date().toISOString();
+          current.endDate.updatedAt = new Date().toISOString();
+        }
+      }
+
+      // ENROLLMENTS
+      const activeEnrollments = newPerson.enrollments.filter(
+        (record) => record._deleted === null && record.endDate.value === null
+      );
+
+      for (const enrollment of activeEnrollments) {
+        enrollment.endDate = { value: dateLastDatePreviousMonth().toISOString(), updatedAt: new Date().toISOString() };
+      }
+
+      // PRIVILEGES
+      const activePrivileges = newPerson.privileges.filter(
+        (record) => record._deleted === null && record.endDate.value === null
+      );
+
+      for (const privilege of activePrivileges) {
+        privilege.endDate = { value: dateLastDatePreviousMonth().toISOString(), updatedAt: new Date().toISOString() };
+      }
+    }
+
+    newPerson.isArchived = { value: !isArchived, updatedAt: new Date().toISOString() };
+
+    await setPersonCurrentDetails(newPerson);
+  };
 
   const handleToggleExpand = (status: 'baptized' | 'unbaptized' | 'midweek') => {
     setExpandedStatus((prev) => {
@@ -80,6 +244,21 @@ const useSpiritualStatus = () => {
       }
     }
 
+    if (!checked) {
+      const current = newPerson.midweekMeetingStudent.history.find((record) => record.endDate.value === null);
+
+      if (current && isAddPerson) {
+        newPerson.midweekMeetingStudent.history = newPerson.midweekMeetingStudent.history.filter(
+          (record) => record.id !== current.id
+        );
+      }
+
+      if (current && !isAddPerson) {
+        current.endDate.value = new Date().toISOString();
+        current.endDate.updatedAt = new Date().toISOString();
+      }
+    }
+
     await setPersonCurrentDetails(newPerson);
   };
 
@@ -97,7 +276,7 @@ const useSpiritualStatus = () => {
 
     const newPerson: PersonType = structuredClone(person);
 
-    // update previous status if checked is true
+    // update meeting student status if checked is true
     if (checked) {
       const currentMidweek = newPerson.midweekMeetingStudent.history.find((record) => record.endDate.value === null);
 
@@ -112,7 +291,7 @@ const useSpiritualStatus = () => {
             );
           }
 
-          if (!newPerson) {
+          if (!isAddPerson) {
             currentMidweek._deleted = new Date().toISOString();
           }
         }
@@ -136,10 +315,30 @@ const useSpiritualStatus = () => {
       if (!current) {
         newPerson.unbaptizedPublisher.history.push({
           id: crypto.randomUUID(),
-          startDate: { value: new Date().toISOString(), updatedAt: new Date().toISOString() },
+          startDate: { value: dateFirstDayMonth().toISOString(), updatedAt: new Date().toISOString() },
           endDate: { value: null, updatedAt: new Date().toISOString() },
           _deleted: null,
         });
+      }
+
+      if (newPerson.firstMonthReport.value === null) {
+        newPerson.firstMonthReport = { value: dateFirstDayMonth().toISOString(), updatedAt: new Date().toISOString() };
+      }
+    }
+
+    if (!checked) {
+      const current = newPerson.unbaptizedPublisher.history.find((record) => record.endDate.value === null);
+
+      if (current && isAddPerson) {
+        newPerson.firstMonthReport = { value: null, updatedAt: '' };
+        newPerson.unbaptizedPublisher.history = newPerson.unbaptizedPublisher.history.filter(
+          (record) => record.id !== current.id
+        );
+      }
+
+      if (current && !isAddPerson) {
+        current.endDate.value = new Date().toISOString();
+        current.endDate.updatedAt = new Date().toISOString();
       }
     }
 
@@ -164,7 +363,7 @@ const useSpiritualStatus = () => {
             );
           }
 
-          if (!newPerson) {
+          if (!isAddPerson) {
             currentUnbaptized._deleted = new Date().toISOString();
           }
         }
@@ -193,7 +392,7 @@ const useSpiritualStatus = () => {
             );
           }
 
-          if (!newPerson) {
+          if (!isAddPerson) {
             currentMidweek._deleted = new Date().toISOString();
           }
         }
@@ -219,10 +418,30 @@ const useSpiritualStatus = () => {
       if (!current) {
         newPerson.baptizedPublisher.history.push({
           id: crypto.randomUUID(),
-          startDate: { value: new Date().toISOString(), updatedAt: new Date().toISOString() },
+          startDate: { value: dateFirstDayMonth().toISOString(), updatedAt: new Date().toISOString() },
           endDate: { value: null, updatedAt: new Date().toISOString() },
           _deleted: null,
         });
+      }
+
+      if (newPerson.firstMonthReport.value === null) {
+        newPerson.firstMonthReport = { value: dateFirstDayMonth().toISOString(), updatedAt: new Date().toISOString() };
+      }
+    }
+
+    if (!checked) {
+      const current = newPerson.baptizedPublisher.history.find((record) => record.endDate.value === null);
+
+      if (current && isAddPerson) {
+        newPerson.firstMonthReport = { value: null, updatedAt: '' };
+        newPerson.baptizedPublisher.history = newPerson.baptizedPublisher.history.filter(
+          (record) => record.id !== current.id
+        );
+      }
+
+      if (current && !isAddPerson) {
+        current.endDate.value = new Date().toISOString();
+        current.endDate.updatedAt = new Date().toISOString();
       }
     }
 
@@ -244,6 +463,7 @@ const useSpiritualStatus = () => {
     handleToggleBaptizedPublisher,
     expandedStatus,
     handleToggleExpand,
+    handleToggleArchive,
   };
 };
 

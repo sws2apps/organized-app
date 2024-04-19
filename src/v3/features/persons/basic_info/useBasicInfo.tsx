@@ -15,6 +15,7 @@ const useBasicInfo = () => {
 
   const [age, setAge] = useState('0');
   const [nameFlex, setNameFlex] = useState<'row' | 'row-reverse' | 'column' | 'column-reverse'>('row');
+  const [isInactive, setIsInactive] = useState(false);
 
   const handleChangeFirstname = async (value: string) => {
     const newPerson = structuredClone(person);
@@ -137,6 +138,23 @@ const useBasicInfo = () => {
     }
   }, [tabletDown, appLang]);
 
+  useEffect(() => {
+    if (person.baptizedPublisher.active.value) {
+      const isActive =
+        person.baptizedPublisher.history.filter((record) => record._deleted === null && record.endDate.value === null)
+          .length === 1;
+
+      setIsInactive(!isActive);
+    }
+
+    if (person.unbaptizedPublisher.active.value) {
+      const isActive =
+        person.unbaptizedPublisher.history.filter((record) => record._deleted === null && record.endDate.value === null)
+          .length === 1;
+      setIsInactive(!isActive);
+    }
+  }, [person.baptizedPublisher, person.unbaptizedPublisher]);
+
   return {
     handleChangeBirthDate,
     person,
@@ -149,6 +167,7 @@ const useBasicInfo = () => {
     handleChangePhone,
     handleChangeAddress,
     nameFlex,
+    isInactive,
   };
 };
 

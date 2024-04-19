@@ -31,36 +31,43 @@ const usePersonCard = (person: PersonType) => {
     const isBaptized = person.baptizedPublisher.active.value;
     const isUnbaptized = person.unbaptizedPublisher.active.value;
     const isMidweek = person.midweekMeetingStudent.active.value;
+    const isDisqualified = person.isDisqualified.value;
 
     const badges: { name: string; color: BadgeColor }[] = [];
 
-    if (isElder) {
-      badges.push({ name: t('tr_elder'), color: 'green' });
+    if (isDisqualified) {
+      badges.push({ name: t('tr_disqualified'), color: 'red' });
     }
 
-    if (isMS) {
-      badges.push({ name: t('tr_ministerialServant'), color: 'green' });
+    if (!isDisqualified) {
+      if (isElder) {
+        badges.push({ name: t('tr_elder'), color: 'green' });
+      }
+
+      if (isMS) {
+        badges.push({ name: t('tr_ministerialServant'), color: 'green' });
+      }
+
+      if (isAP) {
+        badges.push({ name: t('tr_AP'), color: 'orange' });
+      }
+
+      if (isFMF) {
+        badges.push({ name: t('tr_FMF'), color: 'orange' });
+      }
+
+      if (isFR) {
+        badges.push({ name: t('tr_FR'), color: 'orange' });
+      }
+
+      if (isFS) {
+        badges.push({ name: t('tr_FS'), color: 'orange' });
+      }
     }
 
-    if (isAP) {
-      badges.push({ name: t('tr_AP'), color: 'orange' });
-    }
+    const hasSpecialBadge = isDisqualified || isElder || isMS || isAP || isFMF || isFR || isFS;
 
-    if (isFMF) {
-      badges.push({ name: t('tr_FMF'), color: 'orange' });
-    }
-
-    if (isFR) {
-      badges.push({ name: t('tr_FR'), color: 'orange' });
-    }
-
-    if (isFS) {
-      badges.push({ name: t('tr_FS'), color: 'orange' });
-    }
-
-    const hasSpecialBadge = isElder || isMS || isAP || isFMF || isFR || isFS;
-
-    if (!hasSpecialBadge) {
+    if (!hasSpecialBadge || isDisqualified) {
       if (isBaptized) {
         badges.push({ name: t('tr_baptizedPublisher'), color: 'grey' });
       }
@@ -74,7 +81,7 @@ const usePersonCard = (person: PersonType) => {
       }
     }
 
-    return badges;
+    return badges.sort((a, b) => a.name.localeCompare(b.name));
   }, [t, person]);
 
   const handleDelete = () => setIsDeleting(true);

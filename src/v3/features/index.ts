@@ -48,6 +48,7 @@ export { default as MyAssignments } from './meetings/my_assignments';
 /* --------------------------------- Persons -------------------------------- */
 export { default as PersonAssignment } from './persons/assignments';
 export { default as PersonBasicInfo } from './persons/basic_info';
+export { default as PersonButtonActions } from './persons/button_actions';
 export { default as PersonEmergencyContacts } from './persons/emergency_contacts';
 export { default as PersonEnrollments } from './persons/enrollments';
 export { default as PersonPrivileges } from './persons/privileges';
