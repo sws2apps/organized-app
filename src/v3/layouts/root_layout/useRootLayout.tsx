@@ -1,3 +1,4 @@
+import { useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import usePwa2 from 'use-pwa2';
 import {
@@ -5,6 +6,7 @@ import {
   isAboutOpenState,
   isAppLoadState,
   isContactOpenState,
+  isOnlineState,
   isSupportOpenState,
   restoreDbOpenState,
   userConfirmationOpenState,
@@ -12,9 +14,12 @@ import {
 import { useEffect } from 'react';
 import { useUserAutoLogin } from '@hooks/index';
 import { isImportEPUBState, isImportJWOrgState } from '@states/sources';
+import { checkPwaUpdate } from '@services/app';
 import logger from '@services/logger/index';
 
 const useRootLayout = () => {
+  const location = useLocation();
+
   const { installPwa, isLoading } = usePwa2();
 
   const { autoLoginStatus } = useUserAutoLogin();
@@ -28,6 +33,11 @@ const useRootLayout = () => {
   const isBackupDb = useRecoilValue(backupDbOpenState);
   const isRestoreDb = useRecoilValue(restoreDbOpenState);
   const isOpenSupport = useRecoilValue(isSupportOpenState);
+  const isOnline = useRecoilValue(isOnlineState);
+
+  useEffect(() => {
+    if (import.meta.env.PROD && isOnline) checkPwaUpdate();
+  }, [isOnline, location]);
 
   useEffect(() => {
     if (autoLoginStatus !== '') {

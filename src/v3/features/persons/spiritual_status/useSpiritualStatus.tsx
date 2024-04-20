@@ -138,7 +138,7 @@ const useSpiritualStatus = () => {
 
       if (currentMidweek) {
         const startDate = formatDate(new Date(currentMidweek.startDate.value), 'mm/dd/yyyy');
-        const nowDate = formatDate(new Date(), 'mm/dd/yyyy');
+        const nowDate = formatDate(dateFirstDayMonth(), 'mm/dd/yyyy');
 
         if (startDate === nowDate) {
           if (isAddPerson) {
@@ -210,7 +210,7 @@ const useSpiritualStatus = () => {
 
       if (currentUnbaptized) {
         const startDate = formatDate(new Date(currentUnbaptized.startDate.value), 'mm/dd/yyyy');
-        const nowDate = formatDate(new Date(), 'mm/dd/yyyy');
+        const nowDate = formatDate(dateFirstDayMonth(), 'mm/dd/yyyy');
 
         if (startDate === nowDate) {
           if (isAddPerson) {
@@ -239,7 +239,7 @@ const useSpiritualStatus = () => {
 
       if (currentMidweek) {
         const startDate = formatDate(new Date(currentMidweek.startDate.value), 'mm/dd/yyyy');
-        const nowDate = formatDate(new Date(), 'mm/dd/yyyy');
+        const nowDate = formatDate(dateFirstDayMonth(), 'mm/dd/yyyy');
 
         if (startDate === nowDate) {
           if (isAddPerson) {

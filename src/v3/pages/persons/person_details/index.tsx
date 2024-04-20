@@ -24,7 +24,6 @@ const PersonDetails = () => {
     <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
       <PageTitle
         title={isNewPerson ? t('tr_addNewPerson') : t('tr_editPerson')}
-        backTo="/persons"
         buttons={laptopUp ? <PersonButtonActions /> : null}
       />
 
