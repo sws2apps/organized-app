@@ -221,7 +221,7 @@ export const settingSchema: SettingsType = {
   class_count: { value: 1, updatedAt: '' },
   midweek_meeting_day: { value: 2, updatedAt: '' },
   meeting_time: { value: '', updatedAt: '' },
-  user_avatar: '',
+  user_avatar: undefined,
   co_name: { value: '', updatedAt: '' },
   co_displayName: { value: '', updatedAt: '' },
   autoBackup: { value: false, updatedAt: '' },

@@ -122,6 +122,22 @@ export const userAvatarState = selector({
   },
 });
 
+export const userAvatarUrlState = selector({
+  key: 'userAvatarUrl',
+  get: ({ get }) => {
+    const avatarBuffer = get(userAvatarState);
+
+    let src = '';
+
+    if (avatarBuffer) {
+      const blob = new Blob([avatarBuffer]);
+      src = URL.createObjectURL(blob);
+    }
+
+    return src;
+  },
+});
+
 export const coNameState = selector({
   key: 'coName',
   get: ({ get }) => {
