@@ -13,7 +13,7 @@ export type SettingsType = {
   class_count: { value: number; updatedAt: string };
   midweek_meeting_day: { value: number; updatedAt: string };
   meeting_time: { value: string; updatedAt: string };
-  user_avatar: object | undefined;
+  user_avatar: string;
   co_name: { value: string; updatedAt: string };
   co_displayName: { value: string; updatedAt: string };
   autoBackup: { value: boolean; updatedAt: string };
