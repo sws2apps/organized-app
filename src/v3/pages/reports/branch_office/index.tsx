@@ -74,7 +74,6 @@ const BranshOfficeReportsPage = () => {
     <StyledContentBox>
       <PageTitle
         title={t('tr_branchOfficeReport')}
-        backTo="/"
         buttons={
           reportSubmitted ? (
             <Button variant="main" color="orange" startIcon={<IconUndo />} onClick={() => setReportSubmitted(false)}>

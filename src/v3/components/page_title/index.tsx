@@ -10,9 +10,9 @@ import usePageTitle from './usePageTitle';
  * @returns A React element representing the PageTitle component.
  */
 const PageTitle = (props: PageTitleProps) => {
-  const { backTo, title, buttons } = props;
+  const { title, buttons } = props;
 
-  const { handleArrowBackAction } = usePageTitle(backTo);
+  const { handleArrowBackAction } = usePageTitle();
 
   return (
     <PageTitleContainer>

@@ -9,11 +9,6 @@ export type PageTitleProps = {
   title: string;
 
   /**
-   * The path to navigate back to.
-   */
-  backTo: string;
-
-  /**
    * Optional buttons to be displayed in the page title.
    */
   buttons?: ReactElement;
