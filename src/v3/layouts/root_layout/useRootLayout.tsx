@@ -1,7 +1,6 @@
 import { useRecoilValue } from 'recoil';
 import usePwa2 from 'use-pwa2';
 import {
-  appSnackOpenState,
   backupDbOpenState,
   isAboutOpenState,
   isAppLoadState,
@@ -29,7 +28,6 @@ const useRootLayout = () => {
   const isBackupDb = useRecoilValue(backupDbOpenState);
   const isRestoreDb = useRecoilValue(restoreDbOpenState);
   const isOpenSupport = useRecoilValue(isSupportOpenState);
-  const appSnackOpen = useRecoilValue(appSnackOpenState);
 
   useEffect(() => {
     if (autoLoginStatus !== '') {
@@ -49,7 +47,6 @@ const useRootLayout = () => {
     isBackupDb,
     isRestoreDb,
     isOpenSupport,
-    appSnackOpen,
   };
 };
 

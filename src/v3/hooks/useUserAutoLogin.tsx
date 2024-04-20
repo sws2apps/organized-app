@@ -6,7 +6,7 @@ import { apiHostState, isAppLoadState, isOnlineState, visitorIDState } from '@st
 import { apiValidateMe } from '@services/api/user';
 import { userSignOut } from '@services/firebase/auth';
 import { handleDeleteDatabase } from '@services/app';
-import { APP_ROLES } from '@constants/index';
+import { APP_ROLES, isDemo } from '@constants/index';
 import { setCongAccountConnected, setRootModalOpen } from '@services/recoil/app';
 import { apiFetchSchedule } from '@services/api/schedule';
 import { schedUpdateFromRemote } from '@services/app/schedules';
@@ -85,7 +85,7 @@ const useUserAutoLogin = () => {
   }, [isAuthenticated, apiHost, visitorID, isOnline]);
 
   useEffect(() => {
-    if (accountType === 'vip' && !isAppLoad && isOnline && isAuthenticated) {
+    if (!isDemo && accountType === 'vip' && !isAppLoad && isOnline && isAuthenticated) {
       checkLogin();
     } else {
       setCongAccountConnected(false);

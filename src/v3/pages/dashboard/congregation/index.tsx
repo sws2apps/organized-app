@@ -14,9 +14,12 @@ const CongregationCard = () => {
       <ListItem disablePadding>
         <DashboardMenu icon={<IconGroups color="var(--black)" />} primaryText={t('tr_fieldServiceGroups')} />
       </ListItem>
-      <ListItem disablePadding>
-        <DashboardMenu icon={<IconManageAccess color="var(--black)" />} primaryText={t('tr_manageAccess')} />
-      </ListItem>
+      {isConnected && (
+        <ListItem disablePadding>
+          <DashboardMenu icon={<IconManageAccess color="var(--black)" />} primaryText={t('tr_manageAccess')} />
+        </ListItem>
+      )}
+
       <ListItem disablePadding>
         <DashboardMenu icon={<IconSettings color="var(--black)" />} primaryText={t('tr_congregationSettings')} />
       </ListItem>

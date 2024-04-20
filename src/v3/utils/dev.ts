@@ -16,9 +16,11 @@ const getRandomDate = (startDate = new Date(1970, 0, 1), endDate = new Date(2010
   return new Date(timestamp).toISOString();
 };
 
-export const importDummyPersons = async () => {
+export const importDummyPersons = async (showLoading?: boolean) => {
+  const showProgress = showLoading ?? true;
+
   try {
-    await promiseSetRecoil(rootModalOpenState, true);
+    showProgress && (await promiseSetRecoil(rootModalOpenState, true));
 
     await appDb.persons.clear();
 
@@ -627,9 +629,9 @@ export const importDummyPersons = async () => {
       await appDb.persons.put(person);
     }
 
-    await promiseSetRecoil(rootModalOpenState, false);
+    showProgress && (await promiseSetRecoil(rootModalOpenState, false));
   } catch (err) {
-    await promiseSetRecoil(rootModalOpenState, false);
+    showProgress && (await promiseSetRecoil(rootModalOpenState, false));
     console.error(err);
   }
 };

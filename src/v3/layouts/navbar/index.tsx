@@ -1,10 +1,11 @@
 import { AppBar, Box, Container, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Toolbar } from '@mui/material';
 import AccountHeaderIcon from '@components/account_header_icon';
 import Typography from '@components/typography';
-import { AppNotification, LanguageSwitcher, ThemeSwitcher } from '@features/index';
+import { AppNotification, DemoBanner, LanguageSwitcher, ThemeSwitcher } from '@features/index';
 import { IconAccount, IconDonate, IconHelp, IconInfo, IconLogin, IconLogo, IconMenu, IconMail } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
 import useNavbar from './useNavbar';
+import { isDemo } from '@constants/index';
 
 const baseMenuStyle = {
   padding: '8px 12px 8px 16px',
@@ -56,7 +57,7 @@ const NavBar = () => {
       sx={{
         backgroundColor: 'var(--accent-100)',
         borderBottom: '1px solid var(--accent-200)',
-        height: '56px',
+        minHeight: '56px',
         position: 'fixed',
         top: 0,
         left: 0,
@@ -82,9 +83,12 @@ const NavBar = () => {
             onClick={handleGoDashboard}
           >
             <IconLogo width={40} height={40} />
-            <Typography className="h3" color="var(--black)">
-              Organized
-            </Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+              <Typography className="h3" color="var(--black)">
+                Organized
+              </Typography>
+              {isDemo && <DemoBanner />}
+            </Box>
           </Box>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: { mobile: '4px', tablet: '8px' } }}>
             <AppNotification />
@@ -166,16 +170,18 @@ const NavBar = () => {
             >
               {(tabletDown || !isAppLoad) && <LanguageSwitcher menuStyle={menuStyle} />}
 
-              <MenuItem disableRipple sx={menuStyle} onClick={handleOpenMyProfile}>
-                <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px !important' } }}>
-                  <IconAccount color="var(--black)" />
-                </ListItemIcon>
-                <ListItemText>
-                  <Typography className="body-regular">{t('tr_myProfile')}</Typography>
-                </ListItemText>
-              </MenuItem>
+              {!isAppLoad && (
+                <MenuItem disableRipple sx={menuStyle} onClick={handleOpenMyProfile}>
+                  <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px !important' } }}>
+                    <IconAccount color="var(--black)" />
+                  </ListItemIcon>
+                  <ListItemText>
+                    <Typography className="body-regular">{t('tr_myProfile')}</Typography>
+                  </ListItemText>
+                </MenuItem>
+              )}
 
-              {!isAppLoad && !isCongAccountConnected && (
+              {!isDemo && !isAppLoad && !isCongAccountConnected && (
                 <MenuItem disableRipple sx={menuStyle} onClick={handleReconnectAccount}>
                   <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px !important' } }}>
                     <IconLogin color="var(--black)" />

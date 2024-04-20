@@ -426,3 +426,8 @@ export const currentDrawerState = atom({
   key: 'currentDrawer',
   default: '',
 });
+
+export const isWIPSnackOpenState = atom({
+  key: 'isWIPSnackOpen',
+  default: false,
+});
