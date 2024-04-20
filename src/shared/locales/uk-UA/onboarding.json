@@ -80,5 +80,7 @@
   "tr_noSchedulesYet": "Ще немає опублікованих розкладів",
   "tr_noSchedulesYetDesc": "Графік зібрань ще не доступний. Будь ласка, звернися до старійшин твого збору, щоб вони не лише створили, а й опублікували його в додатку.",
   "tr_reconnectAccount": "Перепідкючитись до акаунту",
-  "tr_registeringApproved": "Рада старійшин схвалила реєстрацію цього збору в Organized"
+  "tr_registeringApproved": "Рада старійшин схвалила реєстрацію цього збору в Organized",
+  "tr_testAppWelcome": "Welcome to the Test Mode of Organized",
+  "tr_testAppWaitForData": "Please wait until we prepare all the necessary data for you to test"
 }

@@ -80,5 +80,7 @@
   "tr_noSchedulesYet": "Es wurden noch keine Pläne veröffentlicht",
   "tr_noSchedulesYetDesc": "The meeting schedules aren't available yet. Please ask your congregation elders to not only create but also publish them in the app.",
   "tr_reconnectAccount": "Reconnect my account",
-  "tr_registeringApproved": "The body of elders has approved registering this congregation in Organized"
+  "tr_registeringApproved": "The body of elders has approved registering this congregation in Organized",
+  "tr_testAppWelcome": "Welcome to the Test Mode of Organized",
+  "tr_testAppWaitForData": "Please wait until we prepare all the necessary data for you to test"
 }
