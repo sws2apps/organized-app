@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Box, Container, Toolbar } from '@mui/material';
 import { IconClose } from '@components/icons';
@@ -16,6 +17,7 @@ import {
   Support,
   WorkInProgressNotif,
 } from '@features/index';
+import WaitingCircular from '@components/waiting_circular';
 import useRootLayout from './useRootLayout';
 import { isDemo } from '@constants/index';
 
@@ -57,10 +59,12 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
         {isAppLoad && isDemo && <DemoStartup />}
 
         {!isAppLoad && (
-          <Box sx={{ marginBottom: '32px' }}>
-            <MyAssignments />
-            <Outlet />
-          </Box>
+          <Suspense fallback={<WaitingCircular />}>
+            <Box sx={{ marginBottom: '32px' }}>
+              <MyAssignments />
+              <Outlet />
+            </Box>
+          </Suspense>
         )}
       </Container>
     </AppModalWrapper>
