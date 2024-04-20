@@ -80,5 +80,7 @@
   "tr_noSchedulesYet": "Пока не опубликовано ни одного расписания",
   "tr_noSchedulesYetDesc": "Пожалуйста, попроси сначала своих старейшин опубликовать расписание встречи.",
   "tr_reconnectAccount": "Переподключиться к аккаунту",
-  "tr_registeringApproved": "Совет старейшин утвердил регистрацию этого собрания в Organized"
+  "tr_registeringApproved": "Совет старейшин утвердил регистрацию этого собрания в Organized",
+  "tr_testAppWelcome": "Welcome to the Test Mode of Organized",
+  "tr_testAppWaitForData": "Please wait until we prepare all the necessary data for you to test"
 }
