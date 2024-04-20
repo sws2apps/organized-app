@@ -79,22 +79,26 @@ const useCongregation = () => {
   useEffect(() => {
     if (isSyncing) {
       const svgIcon = document.querySelector<SVGElement>('#organized-icon-synced');
-      const g = svgIcon.querySelector('g');
-      const checkMark = g.querySelector('path');
+      if (svgIcon) {
+        const g = svgIcon.querySelector('g');
+        const checkMark = g.querySelector('path');
 
-      checkMark.style.animation = 'fade-out 0s ease-in-out forwards';
-      svgIcon.style.animation = 'rotate 2s linear infinite';
+        checkMark.style.animation = 'fade-out 0s ease-in-out forwards';
+        svgIcon.style.animation = 'rotate 2s linear infinite';
+      }
     }
   }, [isSyncing]);
 
   useEffect(() => {
     if (!isSyncing && isConnected) {
       const svgIcon = document.querySelector<SVGElement>('#organized-icon-synced');
-      const g = svgIcon.querySelector('g');
-      const checkMark = g.querySelector('path');
+      if (svgIcon) {
+        const g = svgIcon.querySelector('g');
+        const checkMark = g.querySelector('path');
 
-      svgIcon.style.animation = '';
-      checkMark.style.animation = 'fade-in 0.25s ease-in-out forwards';
+        svgIcon.style.animation = '';
+        checkMark.style.animation = 'fade-in 0.25s ease-in-out forwards';
+      }
     }
   }, [isSyncing, isConnected]);
 

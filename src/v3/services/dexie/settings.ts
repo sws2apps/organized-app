@@ -3,6 +3,7 @@ import appDb from '@shared/indexedDb/appDb';
 import { TimeAwayType } from '@definition/person';
 import { SettingsType } from '@definition/settings';
 import { setCongAccountConnected, setCongID, setIsMFAEnabled, setUserID } from '@services/recoil/app';
+import { settingSchema } from './schema';
 import worker from '@services/worker/backupWorker';
 
 export const dbAppSettingsSave = async (setting: SettingsType) => {
@@ -98,7 +99,9 @@ export const dbAppSettingsSaveProfilePic = async (url: string, provider: string)
 
       const savePic = (profileBlob) => {
         profileBlob.arrayBuffer().then((profileBuffer) => {
-          dbAppSettingsUpdate({ user_avatar: profileBuffer });
+          const blob = new Blob([profileBuffer]);
+          const src = URL.createObjectURL(blob);
+          dbAppSettingsUpdate({ user_avatar: src });
         });
       };
 
@@ -106,7 +109,7 @@ export const dbAppSettingsSaveProfilePic = async (url: string, provider: string)
     }
   }
 
-  await dbAppSettingsUpdate({ user_avatar: undefined });
+  await dbAppSettingsUpdate({ user_avatar: '' });
 };
 
 export const dbAppSettingsUpdateUserInfoAfterLogin = async (data) => {
@@ -147,4 +150,16 @@ export const dbAppSettingsUpdateUserInfoAfterLogin = async (data) => {
   worker.postMessage({ field: 'congID', value: cong_id });
   worker.postMessage({ field: 'isCongAccountConnected', value: true });
   worker.postMessage({ field: 'accountType', value: 'vip' });
+};
+
+export const dbAppSettingsBuildTest = async () => {
+  const baseSettings = structuredClone(settingSchema);
+  baseSettings.account_type = 'vip';
+  baseSettings.firstname = { value: 'Test', updatedAt: new Date().toISOString() };
+  baseSettings.lastname = { value: 'User', updatedAt: new Date().toISOString() };
+  baseSettings.cong_name = 'Congregation Test';
+  baseSettings.cong_number = '123456';
+  baseSettings.cong_role = ['admin'];
+
+  await appDb.app_settings.put(baseSettings, 1);
 };

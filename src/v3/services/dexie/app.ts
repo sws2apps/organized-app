@@ -6,6 +6,10 @@ export const dbAppDelete = async () => {
   await Dexie.delete('organized');
 };
 
+export const dbAppOpen = async () => {
+  await appDb.open();
+};
+
 export const dbExportDataOnline = async () => {
   // NEW BACKUP ACTION
 };

@@ -7,7 +7,7 @@ import useMeetings from './useMeetings';
 const MeetingsCard = () => {
   const { t } = useAppTranslation();
 
-  const { handleOpenMyAssignments } = useMeetings();
+  const { handleOpenMyAssignments, isConnected } = useMeetings();
 
   return (
     <DashboardCard header={t('tr_meetings')}>
@@ -28,9 +28,11 @@ const MeetingsCard = () => {
       <ListItem disablePadding>
         <DashboardMenu icon={<IconTalk color="var(--black)" />} primaryText={t('tr_weekendMeeting')} />
       </ListItem>
-      <ListItem disablePadding>
-        <DashboardMenu icon={<IconRefreshSchedule color="var(--black)" />} primaryText={t('tr_refreshSchedule')} />
-      </ListItem>
+      {isConnected && (
+        <ListItem disablePadding>
+          <DashboardMenu icon={<IconRefreshSchedule color="var(--black)" />} primaryText={t('tr_refreshSchedule')} />
+        </ListItem>
+      )}
     </DashboardCard>
   );
 };

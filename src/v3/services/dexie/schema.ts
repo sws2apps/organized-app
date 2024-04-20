@@ -1,5 +1,6 @@
 import { PersonType } from '@definition/person';
 import { SchedWeekType } from '@definition/schedules';
+import { SettingsType } from '@definition/settings';
 import { SourceWeekType, Week } from '@definition/sources';
 
 export const sourceSchema: SourceWeekType = {
@@ -205,4 +206,36 @@ export const personSchema: PersonType = {
   privileges: [],
   enrollments: [],
   emergencyContacts: [],
+};
+
+export const settingSchema: SettingsType = {
+  id: 1,
+  firstname: { value: '', updatedAt: '' },
+  lastname: { value: '', updatedAt: '' },
+  source_lang: '',
+  cong_number: '',
+  cong_name: '',
+  cong_new: true,
+  cong_code: '',
+  cong_role: [],
+  class_count: { value: 1, updatedAt: '' },
+  midweek_meeting_day: { value: 2, updatedAt: '' },
+  meeting_time: { value: '', updatedAt: '' },
+  user_avatar: '',
+  co_name: { value: '', updatedAt: '' },
+  co_displayName: { value: '', updatedAt: '' },
+  autoBackup: { value: false, updatedAt: '' },
+  autoBackup_interval: { value: 0, updatedAt: '' },
+  schedule_useFullname: { value: false, updatedAt: '' },
+  account_type: '',
+  opening_prayer_MM_autoAssign: { value: false, updatedAt: '' },
+  user_local_uid: '',
+  user_members_delegate: [],
+  opening_prayer_WM_autoAssign: { value: false, updatedAt: '' },
+  weekend_meeting_day: { value: 6, updatedAt: '' },
+  midweek_meeting_useExactDate: { value: false, updatedAt: '' },
+  weekend_meeting_useSubstituteSpeaker: { value: false, updatedAt: '' },
+  follow_os_theme: { value: false, updatedAt: '' },
+  enable_hour_credits: { value: false, updatedAt: '' },
+  user_time_away: [],
 };

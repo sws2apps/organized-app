@@ -126,7 +126,7 @@ export const setCongAccountConnected = async (value) => {
   await promiseSetRecoil(congAccountConnectedState, value);
 };
 
-export const setIsAppLoad = async (value) => {
+export const setIsAppLoad = async (value: boolean) => {
   await promiseSetRecoil(isAppLoadState, value);
 };
 
