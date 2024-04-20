@@ -80,5 +80,7 @@
   "tr_noSchedulesYet": "Încă nici-o planificare",
   "tr_noSchedulesYetDesc": "Vă rugăm să solicitați bătrânilor congregației să publice mai întâi planificarea întrunirii.",
   "tr_reconnectAccount": "Reconnect my account",
-  "tr_registeringApproved": "The body of elders has approved registering this congregation in Organized"
+  "tr_registeringApproved": "The body of elders has approved registering this congregation in Organized",
+  "tr_testAppWelcome": "Welcome to the Test Mode of Organized",
+  "tr_testAppWaitForData": "Please wait until we prepare all the necessary data for you to test"
 }
