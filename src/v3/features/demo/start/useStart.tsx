@@ -19,7 +19,7 @@ const useStart = () => {
       await setIsAppLoad(false);
     };
 
-    const timeOut = setTimeout(handlePrepareTest, 2000);
+    const timeOut = setTimeout(handlePrepareTest, 5000);
 
     return () => {
       clearTimeout(timeOut);
