@@ -14,6 +14,7 @@ import {
 import { useEffect } from 'react';
 import { useUserAutoLogin } from '@hooks/index';
 import { isImportEPUBState, isImportJWOrgState } from '@states/sources';
+import { checkPwaUpdate } from '@services/app';
 import logger from '@services/logger/index';
 
 const useRootLayout = () => {
@@ -33,15 +34,6 @@ const useRootLayout = () => {
   const isRestoreDb = useRecoilValue(restoreDbOpenState);
   const isOpenSupport = useRecoilValue(isSupportOpenState);
   const isOnline = useRecoilValue(isOnlineState);
-
-  const checkPwaUpdate = () => {
-    if ('serviceWorker' in navigator) {
-      const swUrl = `${import.meta.env.BASE_URL}service-worker.js`;
-      navigator.serviceWorker.register(swUrl).then((reg) => {
-        reg.update();
-      });
-    }
-  };
 
   useEffect(() => {
     if (import.meta.env.PROD && isOnline) checkPwaUpdate();
