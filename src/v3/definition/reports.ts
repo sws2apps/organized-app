@@ -4,7 +4,7 @@ export type DailyReportType = {
   month_date: string;
   placements: number;
   videos: number;
-  duration: number;
+  hours: number;
   duration_start: string;
   returnVisits: number;
   bibleStudies: [];

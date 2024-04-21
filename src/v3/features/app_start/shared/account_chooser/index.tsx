@@ -12,7 +12,7 @@ const AccountChooser = () => {
   const { handleChoosePocket, handleChooseVIP } = useAccountChooser();
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '24px' }}>
       <Box>
         <Typography className="h1" color="var(--black)" sx={{ marginBottom: '16px' }}>
           {t('tr_welcomeApp')}

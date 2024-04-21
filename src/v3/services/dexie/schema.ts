@@ -1,7 +1,15 @@
+import { BranchCongAnalysisType } from '@definition/branch_cong_analysis';
+import { BranchFieldServiceReportType } from '@definition/branch_field_service_reports';
+import { CongFieldServiceReportType } from '@definition/cong_field_service_reports';
+import { FieldServiceGroupType } from '@definition/field_service_groups';
+import { MeetingAttendanceType } from '@definition/meeting_attendance';
 import { PersonType } from '@definition/person';
 import { SchedWeekType } from '@definition/schedules';
 import { SettingsType } from '@definition/settings';
 import { SourceWeekType, Week } from '@definition/sources';
+import { UserBibleStudyType } from '@definition/user_bible_studies';
+import { UserFieldServiceReportType } from '@definition/user_field_service_reports';
+import { VisitingSpeakerType } from '@definition/visiting_speakers';
 
 export const sourceSchema: SourceWeekType = {
   weekOf: '',
@@ -238,4 +246,97 @@ export const settingSchema: SettingsType = {
   follow_os_theme: { value: false, updatedAt: '' },
   enable_hour_credits: { value: false, updatedAt: '' },
   user_time_away: [],
+};
+
+export const fieldServiceGroupSchema: FieldServiceGroupType = {
+  _deleted: null,
+  members: [],
+  name: { value: '', updatedAt: '' },
+  sort_index: { value: 1, updatedAt: '' },
+};
+
+export const visitingSpeakerSchema: VisitingSpeakerType = {
+  _deleted: null,
+  cong_address: { value: '', updatedAt: '' },
+  cong_coordinator_email: { value: '', updatedAt: '' },
+  cong_coordinator_name: { value: '', updatedAt: '' },
+  cong_coordinator_phone: { value: '', updatedAt: '' },
+  cong_id: '',
+  cong_name: { value: '', updatedAt: '' },
+  cong_number: undefined,
+  cong_public_talk_coordinator_email: { value: '', updatedAt: '' },
+  cong_public_talk_coordinator_name: { value: '', updatedAt: '' },
+  cong_public_talk_coordinator_phone: { value: '', updatedAt: '' },
+  cong_speakers: [],
+  notification_dismissed: { value: false, updatedAt: '' },
+  request_status: { value: 'pending', updatedAt: '' },
+  weekend_meeting_day: { value: 6, updatedAt: '' },
+  weekend_meeting_time: { value: '', updatedAt: '' },
+};
+
+export const userBibleStudySchema: UserBibleStudyType = {
+  _deleted: null,
+  person_name: { value: '', updatedAt: '' },
+};
+
+export const userFieldServiceReportSchema: UserFieldServiceReportType = {
+  _deleted: null,
+  month_date: { value: '', updatedAt: '' },
+  bible_studies: { value: 0, updatedAt: '' },
+  bible_studies_record: [],
+  comments: { value: '', updatedAt: '' },
+  hours: { value: 0, updatedAt: '' },
+  duration_start: '',
+  isSubmitted: { value: false, updatedAt: '' },
+  record_type: { value: 'daily', updatedAt: '' },
+  hours_credits: { value: 0, updatedAt: '' },
+  shared_ministry: { value: true, updatedAt: '' },
+};
+
+export const congFieldServiceReportSchema: CongFieldServiceReportType = {
+  _deleted: null,
+  month_date: { value: '', updatedAt: '' },
+  bible_studies: { value: 0, updatedAt: '' },
+  comments: { value: '', updatedAt: '' },
+  hours: { value: 0, updatedAt: '' },
+  hours_credits: { value: 0, updatedAt: '' },
+  person_uid: '',
+  posted_date: { value: '', updatedAt: '' },
+  shared_ministry: { value: true, updatedAt: '' },
+};
+
+export const branchFieldServiceReportSchema: BranchFieldServiceReportType = {
+  updateAt: '',
+  month_date: '',
+  publishers: { bible_studies: 0, report_count: 0 },
+  APs: { bible_studies: 0, report_count: 0 },
+  FRs: { bible_studies: 0, report_count: 0, hours: 0 },
+  active_publishers: 0,
+  average_weekend_meeting: 0,
+  isSubmitted: { value: false, updatedAt: '' },
+};
+
+export const branchCongAnalysisSchema: BranchCongAnalysisType = {
+  updateAt: '',
+  month_date: '',
+  average_meeting_attendace: { midweek: 0, weekend: 0 },
+  congregation_totals: {
+    active_publishers: 0,
+    blind_publihsers: 0,
+    deaf_publishers: 0,
+    inactive_publishers: 0,
+    incarcerated_publishers: 0,
+    reactivated_publishers: 0,
+  },
+  isSubmitted: { value: false, updatedAt: '' },
+  territory_coverage: { not_worked: 0, total: 0 },
+};
+
+export const meetingAttendanceSchema: MeetingAttendanceType = {
+  month_date: '',
+  week_1: { midweek: { online: 0, present: 0 }, weekend: { online: 0, present: 0 } },
+  week_2: { midweek: { online: 0, present: 0 }, weekend: { online: 0, present: 0 } },
+  week_3: { midweek: { online: 0, present: 0 }, weekend: { online: 0, present: 0 } },
+  week_4: { midweek: { online: 0, present: 0 }, weekend: { online: 0, present: 0 } },
+  week_5: { midweek: { online: 0, present: 0 }, weekend: { online: 0, present: 0 } },
 };
