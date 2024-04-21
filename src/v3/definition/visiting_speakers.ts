@@ -1,7 +1,7 @@
 type SpeakerTalk = {
   _deleted: string | null;
-  talk_number: { value: number; updateAt: string };
-  talk_songs: { value: number[]; updateAt: string };
+  talk_number: { value: number; updatedAt: string };
+  talk_songs: { value: number[]; updatedAt: string };
 };
 
 type CongSpeakerType = {

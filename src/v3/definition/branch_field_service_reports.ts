@@ -6,7 +6,7 @@ type ReportType = {
 
 export type BranchFieldServiceReportType = {
   id?: string;
-  updateAt: string;
+  updatedAt: string;
   month_date: string;
   active_publishers: number;
   average_weekend_meeting: number;

@@ -306,7 +306,7 @@ export const congFieldServiceReportSchema: CongFieldServiceReportType = {
 };
 
 export const branchFieldServiceReportSchema: BranchFieldServiceReportType = {
-  updateAt: '',
+  updatedAt: '',
   month_date: '',
   publishers: { bible_studies: 0, report_count: 0 },
   APs: { bible_studies: 0, report_count: 0 },
@@ -317,12 +317,12 @@ export const branchFieldServiceReportSchema: BranchFieldServiceReportType = {
 };
 
 export const branchCongAnalysisSchema: BranchCongAnalysisType = {
-  updateAt: '',
+  updatedAt: '',
   month_date: '',
   average_meeting_attendace: { midweek: 0, weekend: 0 },
   congregation_totals: {
     active_publishers: 0,
-    blind_publihsers: 0,
+    blind_publishers: 0,
     deaf_publishers: 0,
     inactive_publishers: 0,
     incarcerated_publishers: 0,
