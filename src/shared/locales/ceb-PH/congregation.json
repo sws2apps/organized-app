@@ -347,5 +347,9 @@
   "tr_personTimeAwayDesc": "No time away set yet. Keep the time away up-to-date for consideration in future meeting scheduling.",
   "tr_personEmergencyDesc": "Add contact persons from the 'No Blood' document, ensuring the group overseer always has the right people to reach in case of an emergency.",
   "tr_inactivePublisher": "Inactive publisher",
-  "tr_archived": "Archived"
+  "tr_archived": "Archived",
+  "tr_noPersonsAdded": "No persons added yet",
+  "tr_noPersonsAddedDesc": "Start adding people to your congregation by clicking 'Add person' and filling out their information. This will make scheduling and reporting easier.",
+  "tr_searchResultsNone": "No search results",
+  "tr_searchResultsNoneDesc": "Try changing your search input or filters, and double-check for typos."
 }
