@@ -1,20 +1,23 @@
 import { Box } from '@mui/material';
-import PersonsListAll from './components/all_persons';
+import { useAppTranslation } from '@hooks/index';
+import PersonsListAll from './all_persons';
+import PersonsRecent from './recent_persons';
 import Tabs from '@components/tabs';
 import Typography from '@components/typography';
 import useList from './useList';
-import { useAppTranslation } from '@hooks/index';
 
 const PersonsList = () => {
   const { t } = useAppTranslation();
 
-  const { persons } = useList();
+  const { persons, activeTab, handleTabChange } = useList();
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px', marginTop: '16px' }}>
       <Typography className="h2">{t('tr_personsAmount', { amount: persons.length })}</Typography>
 
       <Tabs
+        value={activeTab}
+        onChange={handleTabChange}
         tabs={[
           {
             label: t('tr_personsAll'),
@@ -22,7 +25,7 @@ const PersonsList = () => {
           },
           {
             label: t('tr_recentlyViewed'),
-            Component: <></>,
+            Component: <PersonsRecent />,
           },
         ]}
       />

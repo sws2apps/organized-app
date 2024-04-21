@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useEffect, useState } from 'react';
 import { Tabs, Tab, Box } from '@mui/material';
 import { TabsPanelProps, CustomTabProps } from './index.types';
 
@@ -41,8 +41,8 @@ const a11yProps = (index: number) => {
  *
  * @param tabs An array of tabs with label and corresponding component.
  */
-const CustomTabs = ({ tabs }: CustomTabProps) => {
-  const [valueOfActivePanel, setValueOfActivePanel] = React.useState(0);
+const CustomTabs = ({ tabs, value, onChange }: CustomTabProps) => {
+  const [valueOfActivePanel, setValueOfActivePanel] = useState(value);
 
   /**
    * Handle tab change event.
@@ -53,7 +53,13 @@ const CustomTabs = ({ tabs }: CustomTabProps) => {
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     event.preventDefault();
     setValueOfActivePanel(newValue);
+
+    onChange && onChange(newValue);
   };
+
+  useEffect(() => {
+    setValueOfActivePanel(value);
+  }, [value]);
 
   return (
     <Box sx={{ width: '100%' }}>

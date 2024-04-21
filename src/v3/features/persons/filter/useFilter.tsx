@@ -1,14 +1,16 @@
 import { useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
-import { personsFiltersKeyState } from '@states/persons';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { personsFiltersKeyState, personsTabState } from '@states/persons';
 import { setPersonsFiltersKey } from '@services/recoil/persons';
 import { useAppTranslation } from '@hooks/index';
 import { AssignmentCheckListColors } from '@definition/app';
 import { AssignmentCode } from '@definition/schedules';
+import { PersonsTab } from '@definition/person';
 
 const useFilter = () => {
   const { t } = useAppTranslation();
 
+  const setActiveTab = useSetRecoilState(personsTabState);
   const filters = useRecoilValue(personsFiltersKeyState);
 
   const [isExpanded, setIsExpanded] = useState(false);
@@ -130,6 +132,8 @@ const useFilter = () => {
   const handleClearFilters = async () => {
     setCheckedItems([]);
     await setPersonsFiltersKey([]);
+
+    setActiveTab(PersonsTab.ALL);
   };
 
   const handleToggleGroup = async (checked: boolean, id: string) => {
@@ -164,6 +168,8 @@ const useFilter = () => {
 
     setCheckedItems(newCheckedItems);
     await setPersonsFiltersKey(newFiltersKey);
+
+    setActiveTab(PersonsTab.ALL);
   };
 
   const handleToggleAssignment = async (checked: boolean, code: AssignmentCode) => {
@@ -192,6 +198,8 @@ const useFilter = () => {
 
     setCheckedItems(newCheckedItems);
     await setPersonsFiltersKey(newFiltersKey);
+
+    setActiveTab(PersonsTab.ALL);
   };
 
   return {

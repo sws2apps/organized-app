@@ -100,3 +100,8 @@ export type VisitingSpeakerPersonType = {
   phone: string;
   changes: [];
 };
+
+export enum PersonsTab {
+  ALL = 0,
+  RECENT = 1,
+}

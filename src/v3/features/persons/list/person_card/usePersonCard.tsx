@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
 import { BadgeColor } from '@definition/app';
 import { PersonType } from '@definition/person';
 import { useAppTranslation } from '@hooks/index';
@@ -14,13 +15,16 @@ import {
   personIsFS,
   personIsInactive,
   personIsMS,
+  updateRecentPersons,
 } from '@services/app/persons';
+import { personsRecentState } from '@states/persons';
 
 const usePersonCard = (person: PersonType) => {
   const navigate = useNavigate();
 
   const { t } = useAppTranslation();
 
+  const setPersonsRecent = useSetRecoilState(personsRecentState);
   const [isDeleting, setIsDeleting] = useState(false);
 
   const getPersonBadge = useCallback(() => {
@@ -117,6 +121,9 @@ const usePersonCard = (person: PersonType) => {
   };
 
   const handleOpenPerson = async () => {
+    const result = updateRecentPersons(person.person_uid, 'add');
+    setPersonsRecent(result);
+
     navigate(`/persons/${person.person_uid}`);
   };
 

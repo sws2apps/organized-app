@@ -398,3 +398,26 @@ export const applyGroupFilters = (persons: PersonType[], filtersKey: string[]) =
 
   return finalResult;
 };
+
+export const updateRecentPersons = (person_uid: string, action: 'add' | 'remove') => {
+  let recentPersons: string[] = JSON.parse(localStorage.getItem('personsRecent') || '[]');
+
+  if (action === 'add') {
+    const length = recentPersons.length;
+
+    if (length === 12) {
+      recentPersons.shift();
+    }
+
+    const isExist = recentPersons.find((record) => record === person_uid);
+    if (!isExist) recentPersons.push(person_uid);
+  }
+
+  if (action === 'remove') {
+    recentPersons = recentPersons.filter((record) => record !== person_uid);
+  }
+
+  localStorage.setItem('personsRecent', JSON.stringify(recentPersons));
+
+  return recentPersons;
+};

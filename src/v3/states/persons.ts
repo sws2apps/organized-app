@@ -1,9 +1,10 @@
 /*
 This file holds the source of the truth from the table "persons".
 */
-import { PersonType } from '@definition/person';
-import { applyAssignmentFilters, applyGroupFilters, applyNameFilters } from '@services/app/persons';
 import { atom, selector } from 'recoil';
+import { PersonType, PersonsTab } from '@definition/person';
+import { applyAssignmentFilters, applyGroupFilters, applyNameFilters } from '@services/app/persons';
+import { localStorageGetItem } from '@utils/common';
 
 export const personsState = atom<PersonType[]>({
   key: 'persons',
@@ -103,4 +104,14 @@ export const personsFilteredState = selector({
 
     return finalResult;
   },
+});
+
+export const personsRecentState = atom<string[]>({
+  key: 'personsRecent',
+  default: localStorageGetItem('personsRecent') ? JSON.parse(localStorageGetItem('personsRecent')) : [],
+});
+
+export const personsTabState = atom({
+  key: 'personsTab',
+  default: PersonsTab.ALL,
 });
