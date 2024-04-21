@@ -1,4 +1,4 @@
-import { TabProps } from '@mui/material';
+import { TabOwnProps } from '@mui/material';
 
 /**
  * Props for the TabsPanel component.
@@ -23,7 +23,7 @@ export type TabsPanelProps = {
 /**
  * Custom props for the Tab component.
  */
-export interface CustomTabProps extends TabProps {
+export interface CustomTabProps extends TabOwnProps {
   /**
    * An array of tabs containing label and corresponding component.
    */
@@ -38,4 +38,5 @@ export interface CustomTabProps extends TabProps {
      */
     Component: React.ReactNode;
   }[];
+  onChange?: (activeTab: number) => void;
 }

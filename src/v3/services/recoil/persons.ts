@@ -4,6 +4,7 @@ import {
   personCurrentDetailsState,
   personsActiveState,
   personsFiltersKeyState,
+  personsRecentState,
   personsSearchKeyState,
   selectedPersonState,
 } from '@states/persons';
@@ -33,4 +34,8 @@ export const personsStateFind = async (person_uid: string) => {
   const persons: PersonType[] = await promiseGetRecoil(personsActiveState);
   const person = persons.find((record) => record.person_uid === person_uid);
   return person;
+};
+
+export const setPersonsRecent = async (data: string[]) => {
+  await promiseSetRecoil(personsRecentState, data);
 };
