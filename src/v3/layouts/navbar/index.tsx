@@ -1,11 +1,22 @@
 import { AppBar, Box, Container, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Toolbar } from '@mui/material';
-import AccountHeaderIcon from '@components/account_header_icon';
-import Typography from '@components/typography';
+import {
+  IconAccount,
+  IconDonate,
+  IconHelp,
+  IconInfo,
+  IconLogin,
+  IconLogo,
+  IconMenu,
+  IconMail,
+  IconArrowLink,
+} from '@icons/index';
 import { AppNotification, DemoBanner, LanguageSwitcher, ThemeSwitcher } from '@features/index';
-import { IconAccount, IconDonate, IconHelp, IconInfo, IconLogin, IconLogo, IconMenu, IconMail } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
-import useNavbar from './useNavbar';
 import { isDemo } from '@constants/index';
+import AccountHeaderIcon from '@components/account_header_icon';
+import Button from '@components/button';
+import Typography from '@components/typography';
+import useNavbar from './useNavbar';
 
 const baseMenuStyle = {
   padding: '8px 12px 8px 16px',
@@ -49,6 +60,7 @@ const NavBar = () => {
     handleGoDashboard,
     isAppLoad,
     handleReconnectAccount,
+    handleOpenRealApp,
   } = useNavbar();
 
   return (
@@ -94,7 +106,7 @@ const NavBar = () => {
             <AppNotification />
             <ThemeSwitcher />
 
-            {tabletUp && isAppLoad && <LanguageSwitcher menuStyle={baseMenuStyle} />}
+            {tabletUp && (isAppLoad || isDemo) && <LanguageSwitcher menuStyle={baseMenuStyle} />}
 
             <IconButton
               color="inherit"
@@ -168,7 +180,7 @@ const NavBar = () => {
                 },
               }}
             >
-              {(tabletDown || !isAppLoad) && <LanguageSwitcher menuStyle={menuStyle} />}
+              {(tabletDown || (!isAppLoad && !isDemo)) && <LanguageSwitcher menuStyle={menuStyle} />}
 
               {!isAppLoad && (
                 <MenuItem disableRipple sx={menuStyle} onClick={handleOpenMyProfile}>
@@ -222,6 +234,15 @@ const NavBar = () => {
                 <ListItemText>
                   <Typography className="body-regular">{t('tr_about')}</Typography>
                 </ListItemText>
+              </MenuItem>
+              <MenuItem
+                disableRipple
+                sx={{ ...menuStyle, height: 'auto', paddingTop: '5px' }}
+                onClick={handleOpenRealApp}
+              >
+                <Button variant="tertiary" startIcon={<IconArrowLink />} sx={{ width: '100%' }}>
+                  {t('tr_openRealApp')}
+                </Button>
               </MenuItem>
             </Menu>
           </Box>

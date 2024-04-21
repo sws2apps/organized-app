@@ -12,7 +12,6 @@ const useStart = () => {
       await dbAppOpen();
       await importDummyPersons(false);
       await dbAppSettingsBuildTest();
-
       await loadApp();
       await runUpdater();
 

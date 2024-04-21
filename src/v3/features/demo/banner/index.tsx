@@ -6,7 +6,12 @@ const DemoBanner = () => {
       className="label-small-medium"
       color="var(--always-white)"
       align="center"
-      sx={{ backgroundColor: 'red', borderRadius: '10px', padding: '1px 0', marginTop: '-2px' }}
+      sx={{
+        backgroundColor: 'rgba(var(--red-dark-base), 0.7)',
+        borderRadius: '10px',
+        padding: '1px 0',
+        marginTop: '-2px',
+      }}
     >
       TEST
     </Typography>

@@ -18,18 +18,24 @@ const DemoStatup = () => {
           backgroundColor: 'var(--white)',
           border: '1px solid var(--accent-300)',
           borderRadius: 'var(--radius-xl)',
-          padding: '15px',
+          padding: '24px',
           display: 'flex',
+          gap: '24px',
           flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
         }}
       >
-        <Typography align="center" className="h2">
-          {t('tr_testAppWelcome')}
-        </Typography>
+        <Typography className="h2">{t('tr_testAppMode')}</Typography>
 
-        <AppLoading text={t('tr_testAppWaitForData')} />
+        <AppLoading
+          text={t('tr_testAppWaitForData')}
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: 'row',
+            padding: 0,
+            '.MuiTypography-root': { textAlign: 'left' },
+          }}
+        />
       </Box>
     </Box>
   );

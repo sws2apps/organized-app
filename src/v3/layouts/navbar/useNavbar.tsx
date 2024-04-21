@@ -75,6 +75,11 @@ const useNavbar = () => {
     window.open(`https://guide.organized-app.com`, '_blank');
   };
 
+  const handleOpenRealApp = () => {
+    handleCloseMore();
+    window.open(`https://organized-app.com`, '_blank');
+  };
+
   return {
     openMore,
     handleOpenMoreMenu,
@@ -94,6 +99,7 @@ const useNavbar = () => {
     handleGoDashboard,
     isAppLoad,
     handleReconnectAccount,
+    handleOpenRealApp,
   };
 };
 

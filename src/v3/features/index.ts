@@ -25,6 +25,7 @@ export { default as DashboardMenu } from './dashboard/menu';
 
 /* -------------------------------- Demo ------------------------------- */
 export { default as DemoBanner } from './demo/banner';
+export { default as DemoNotice } from './demo/notice';
 export { default as DemoStartup } from './demo/start';
 
 /* ---------------------------- Meeting material ---------------------------- */
