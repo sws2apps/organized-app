@@ -46,6 +46,10 @@ const PersonBasicInfo = () => {
       >
         <Typography className="h2">{t('tr_basicInformation')}</Typography>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+          {person.isArchived.value && (
+            <Badge size="big" color="red" text={t('tr_archived')} sx={{ width: 'fit-content' }} />
+          )}
+
           {isInactive && <Badge size="big" color="red" text={t('tr_inactive')} sx={{ width: 'fit-content' }} />}
 
           {person.isDisqualified.value && (

@@ -6,6 +6,7 @@ import { personCurrentDetailsState } from '@states/persons';
 import { useAppTranslation } from '@hooks/index';
 import { displaySnackNotification } from '@services/recoil/app';
 import { dbPersonsSave } from '@services/dexie/persons';
+import { personAssignmentsRemove } from '@services/app/persons';
 
 const useButtonActions = () => {
   const { id } = useParams();
@@ -19,6 +20,7 @@ const useButtonActions = () => {
   const person = useRecoilValue(personCurrentDetailsState);
 
   const isPersonDisqualified = person.isDisqualified.value;
+  const isPersonArchived = person.isArchived.value;
 
   const [isDisqualify, setIsDisqualify] = useState(false);
   const [isQualify, setIsQualify] = useState(false);
@@ -69,12 +71,7 @@ const useButtonActions = () => {
     try {
       const newPerson = structuredClone(person);
       newPerson.isDisqualified = { value: true, updatedAt: new Date().toISOString() };
-
-      for (const assignment of newPerson.assignments) {
-        if (assignment._deleted === null) {
-          assignment._deleted = new Date().toISOString();
-        }
-      }
+      personAssignmentsRemove(newPerson);
 
       await dbPersonsSave(newPerson);
       resetPersonNew();
@@ -118,6 +115,7 @@ const useButtonActions = () => {
     handleQualify,
     handleQualifyCancel,
     isQualify,
+    isPersonArchived,
   };
 };
 

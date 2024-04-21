@@ -41,10 +41,7 @@ const useNavbar = () => {
 
   const handleOpenMyProfile = () => {
     handleCloseMore();
-
-    setTimeout(() => {
-      navigate(`/user-profile`);
-    }, 500);
+    navigate(`/user-profile`);
   };
 
   const handleReconnectAccount = async () => {
