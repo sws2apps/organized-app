@@ -81,6 +81,10 @@
   "tr_noSchedulesYetDesc": "Графік зібрань ще не доступний. Будь ласка, звернися до старійшин твого збору, щоб вони не лише створили, а й опублікували його в додатку.",
   "tr_reconnectAccount": "Перепідкючитись до акаунту",
   "tr_registeringApproved": "Рада старійшин схвалила реєстрацію цього збору в Organized",
-  "tr_testAppWelcome": "Welcome to the Test Mode of Organized",
-  "tr_testAppWaitForData": "Please wait until we prepare all the necessary data for you to test"
+  "tr_testAppMode": "Organized test mode",
+  "tr_testAppWaitForData": "Preparing the data you need for a smooth test experience",
+  "tr_tryOrganized": "Try Organized in test mode",
+  "tr_testStart": "Start testing",
+  "tr_testAppWelcome": "Welcome to Organized test mode!",
+  "tr_testAppWelcomeDesc": "<p>This is a test environment with pre-filled data for an imaginary congregation. Explore features such as schedules, assignments, ministry, reports, and more! Any changes you make will reset after a page reload.</p><p>To start using the real Organized app, open <a href='https://organized-app.com' target='_blank'>organized-app.com</a> in your browser.</p>"
 }
