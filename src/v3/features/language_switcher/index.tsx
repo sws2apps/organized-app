@@ -1,4 +1,4 @@
-import { Link, ListItemIcon, ListItemText, Menu, SxProps } from '@mui/material';
+import { Box, Link, ListItemIcon, ListItemText, Menu, SxProps } from '@mui/material';
 import { IconGlobe, IconLanguage } from '@icons/index';
 import MenuItem from '@components/menuitem';
 import Typography from '@components/typography';
@@ -65,9 +65,18 @@ const LanguageSwitcher = ({ menuStyle }: { menuStyle: SxProps }) => {
         {LANGUAGE_LIST.map((lang) => (
           <MenuItem key={lang.locale} onClick={handleLangChange}>
             <ListItemText data-code={lang.locale}>
-              <Typography className="body-regular" color="var(--black)">
-                {lang.code.toUpperCase()} - {lang.name}
-              </Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                <Typography
+                  className="label-small-medium"
+                  color="var(--accent-dark)"
+                  sx={{ backgroundColor: 'var(--accent-200)', padding: '2px 3px', borderRadius: 'var(--radius-s)' }}
+                >
+                  {lang.code.toUpperCase()}
+                </Typography>
+                <Typography className="body-regular" color="var(--black)">
+                  {lang.name}
+                </Typography>
+              </Box>
             </ListItemText>
           </MenuItem>
         ))}
