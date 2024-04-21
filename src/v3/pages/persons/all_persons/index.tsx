@@ -4,7 +4,7 @@ import { IconAddPerson, IconDownload } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { PersonsFilter, PersonsList, PersonsSearch } from '@features/index';
 import useAllPersons from './useAllPersons';
-import { isDEV, isQA } from '@constants/index';
+import { isDemo } from '@constants/index';
 
 const PersonsAll = () => {
   const { t } = useAppTranslation();
@@ -17,7 +17,7 @@ const PersonsAll = () => {
         title={t('tr_personsAll')}
         buttons={
           <>
-            {(isDEV || isQA) && (
+            {!isDemo && (
               <Button variant="main" startIcon={<IconDownload />} onClick={handleGetDummyPersons}>
                 GET DUMMY
                 <Badge badgeContent={'dev'} color="error" sx={{ marginTop: '-35px', left: 18, position: 'absolute' }} />

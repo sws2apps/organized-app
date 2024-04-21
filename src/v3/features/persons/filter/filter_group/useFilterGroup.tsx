@@ -15,6 +15,21 @@ const useFilterGroup = () => {
 
     if (!hasKey) {
       newFiltersKey = [...filtersKey, key];
+
+      const specialKeys = [
+        { keys: ['male', 'female'] },
+        { keys: ['baptized', 'unbaptized'] },
+        { keys: ['active', 'inactive'] },
+        { keys: ['pioneerAll', 'AP', 'FR', 'FS', 'FMF'] },
+        { keys: ['appointedBrotherAll', 'elder', 'ministerialServant'] },
+      ];
+
+      const sKeys = specialKeys.find((record) => record.keys.includes(key));
+
+      if (sKeys) {
+        const keyRemove = sKeys.keys.filter((record) => record !== key);
+        newFiltersKey = newFiltersKey.filter((record) => !keyRemove.includes(record));
+      }
     }
 
     await setPersonsFiltersKey(newFiltersKey);

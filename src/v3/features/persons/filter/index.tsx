@@ -2,7 +2,7 @@ import { Box, Collapse } from '@mui/material';
 import { IconExpand } from '@components/icons';
 import Button from '@components/button';
 import Typography from '@components/typography';
-import FilterGroup from './components/filter_group';
+import FilterGroup from './filter_group';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useFilter from './useFilter';
 import AssignmentGroup from '../assignment_group';

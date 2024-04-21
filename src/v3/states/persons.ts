@@ -2,6 +2,7 @@
 This file holds the source of the truth from the table "persons".
 */
 import { PersonType } from '@definition/person';
+import { applyAssignmentFilters, applyGroupFilters, applyNameFilters } from '@services/app/persons';
 import { atom, selector } from 'recoil';
 
 export const personsState = atom<PersonType[]>({
@@ -92,19 +93,14 @@ export const personsFilteredState = selector({
   get: ({ get }) => {
     const persons = get(personsActiveState);
     const searchKey = get(personsSearchKeyState);
+    const filtersKey = get(personsFiltersKeyState);
 
-    const result: PersonType[] = [];
+    const filteredByName: PersonType[] = applyNameFilters(persons, searchKey);
 
-    for (const person of persons) {
-      const foundFirstName = person.person_firstname.value.toLowerCase().includes(searchKey.toLowerCase());
-      const foundLastName = person.person_lastname.value.toLowerCase().includes(searchKey.toLowerCase());
-      const foundDisplayName = person.person_displayName.value.toLowerCase().includes(searchKey.toLowerCase());
+    const filteredByAssignments: PersonType[] = applyAssignmentFilters(filteredByName, filtersKey as number[]);
 
-      if (foundFirstName || foundLastName || foundDisplayName) {
-        result.push(person);
-      }
-    }
+    const finalResult: PersonType[] = applyGroupFilters(filteredByAssignments, filtersKey as string[]);
 
-    return result;
+    return finalResult;
   },
 });
