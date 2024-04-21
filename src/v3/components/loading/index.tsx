@@ -8,13 +8,13 @@ import { AppLoadingType } from './index.types';
  * Component for displaying a loading indicator.
  * @returns JSX element for the AppLoading component.
  */
-const AppLoading = ({ text }: AppLoadingType) => {
+const AppLoading = ({ text, sx }: AppLoadingType) => {
   const { t } = useAppTranslation();
 
   const loadingText = text || t('tr_loading');
 
   return (
-    <StyledCircleBox>
+    <StyledCircleBox sx={sx}>
       <IconLoading color="var(--accent-main)" width={72} height={72} />
       <Typography align="center" className="h4" color="var(--accent-main)">
         {loadingText}
