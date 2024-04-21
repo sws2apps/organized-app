@@ -81,6 +81,10 @@
   "tr_noSchedulesYetDesc": "Veuillez demander aux anciens de commencer par publier le programme de la réunion de votre assemblée.",
   "tr_reconnectAccount": "Reconnecter mon compte",
   "tr_registeringApproved": "Le collège des anciens a approuvé l'enregistrement de cette assemblée dans Organized",
-  "tr_testAppWelcome": "Welcome to the Test Mode of Organized",
-  "tr_testAppWaitForData": "Please wait until we prepare all the necessary data for you to test"
+  "tr_testAppMode": "Organized test mode",
+  "tr_testAppWaitForData": "Preparing the data you need for a smooth test experience",
+  "tr_tryOrganized": "Try Organized in test mode",
+  "tr_testStart": "Start testing",
+  "tr_testAppWelcome": "Welcome to Organized test mode!",
+  "tr_testAppWelcomeDesc": "<p>This is a test environment with pre-filled data for an imaginary congregation. Explore features such as schedules, assignments, ministry, reports, and more! Any changes you make will reset after a page reload.</p><p>To start using the real Organized app, open <a href='https://organized-app.com' target='_blank'>organized-app.com</a> in your browser.</p>"
 }
