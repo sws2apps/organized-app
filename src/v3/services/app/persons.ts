@@ -157,6 +157,14 @@ const personEndActivePrivileges = (person: PersonType) => {
   }
 };
 
+export const personAssignmentsRemove = (person: PersonType) => {
+  for (const assignment of person.assignments) {
+    if (assignment._deleted === null) {
+      assignment._deleted = new Date().toISOString();
+    }
+  }
+};
+
 export const personUnarchive = (person: PersonType) => {
   personUnarchiveMidweekMeeting(person);
   personUnarchiveUnbaptizedPublisher(person);
@@ -172,6 +180,8 @@ export const personArchive = (person: PersonType, isAddPerson: boolean) => {
 
   personEndActiveEnrollments(person);
   personEndActivePrivileges(person);
+
+  personAssignmentsRemove(person);
 
   person.isArchived = { value: true, updatedAt: new Date().toISOString() };
 };
@@ -250,10 +260,29 @@ export const personHasNoAssignment = (person: PersonType) => {
   return hasNoAssignment;
 };
 
-export const applyNameFilters = (persons: PersonType[], searchKey: string) => {
+export const applyNameFilters = ({
+  persons,
+  searchKey,
+  isArchived,
+  allPersons,
+}: {
+  persons: PersonType[];
+  searchKey: string;
+  isArchived?: boolean;
+  allPersons?: PersonType[];
+}) => {
+  const dataPersons: PersonType[] = [];
+
+  if (isArchived) {
+    const archivedPersons = allPersons.filter((record) => record.isArchived.value);
+    dataPersons.push(...archivedPersons);
+  } else {
+    dataPersons.push(...persons);
+  }
+
   const filteredByName: PersonType[] = [];
 
-  for (const person of persons) {
+  for (const person of dataPersons) {
     const foundFirstName = person.person_firstname.value.toLowerCase().includes(searchKey.toLowerCase());
     const foundLastName = person.person_lastname.value.toLowerCase().includes(searchKey.toLowerCase());
     const foundDisplayName = person.person_displayName.value.toLowerCase().includes(searchKey.toLowerCase());

@@ -2,7 +2,7 @@ import { promiseGetRecoil, promiseSetRecoil } from 'recoil-outside';
 import {
   isPersonDeleteState,
   personCurrentDetailsState,
-  personsActiveState,
+  personsAllState,
   personsFiltersKeyState,
   personsRecentState,
   personsSearchKeyState,
@@ -31,7 +31,7 @@ export const setPersonCurrentDetails = async (data: PersonType) => {
 };
 
 export const personsStateFind = async (person_uid: string) => {
-  const persons: PersonType[] = await promiseGetRecoil(personsActiveState);
+  const persons: PersonType[] = await promiseGetRecoil(personsAllState);
   const person = persons.find((record) => record.person_uid === person_uid);
   return person;
 };

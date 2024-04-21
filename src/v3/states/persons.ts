@@ -11,14 +11,23 @@ export const personsState = atom<PersonType[]>({
   default: [],
 });
 
-export const personsActiveState = selector({
-  key: 'personsActive',
+export const personsAllState = selector({
+  key: 'personsAll',
   get: ({ get }) => {
     const persons = get(personsState);
 
     return persons
       .filter((person) => person._deleted === null)
       .sort((a, b) => (a.person_lastname.value > b.person_lastname.value ? 1 : -1));
+  },
+});
+
+export const personsActiveState = selector({
+  key: 'personsActive',
+  get: ({ get }) => {
+    const persons = get(personsAllState);
+
+    return persons.filter((person) => !person.isArchived.value);
   },
 });
 
@@ -92,11 +101,14 @@ export const personCurrentDetailsState = atom<PersonType>({
 export const personsFilteredState = selector({
   key: 'personsFiltered',
   get: ({ get }) => {
+    const personsAll = get(personsAllState);
     const persons = get(personsActiveState);
     const searchKey = get(personsSearchKeyState);
     const filtersKey = get(personsFiltersKeyState);
 
-    const filteredByName: PersonType[] = applyNameFilters(persons, searchKey);
+    const isArchived = filtersKey.includes('archived');
+
+    const filteredByName: PersonType[] = applyNameFilters({ persons, searchKey, isArchived, allPersons: personsAll });
 
     const filteredByAssignments: PersonType[] = applyAssignmentFilters(filteredByName, filtersKey as number[]);
 

@@ -20,6 +20,7 @@ const PersonButtonActions = () => {
     handleQualifyCancel,
     handleQualifyConfirm,
     isQualify,
+    isPersonArchived,
   } = useButtonActions();
 
   return (
@@ -32,7 +33,7 @@ const PersonButtonActions = () => {
 
       <PersonQualifyConfirm open={isQualify} onClose={handleQualifyCancel} onConfirm={handleQualifyConfirm} />
 
-      {!isNewPerson && !isPersonDisqualified && (
+      {!isNewPerson && !isPersonDisqualified && !isPersonArchived && (
         <Button variant="secondary" color="red" startIcon={<IconDisqualified />} onClick={handleDisqualify}>
           {t('tr_disqualify')}
         </Button>

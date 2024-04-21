@@ -86,6 +86,7 @@ const useFilter = () => {
           { id: 'male', name: t('tr_male') },
           { id: 'female', name: t('tr_female') },
           { id: 'anointed', name: t('tr_anointed') },
+          { id: 'archived', name: t('tr_archived') },
         ],
       },
       {

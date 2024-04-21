@@ -37,7 +37,7 @@ const PersonSpiritualStatus = () => {
         sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}
       >
         <Typography className="h2">{t('tr_spiritualStatus')}</Typography>
-        <Checkbox label="Archived" checked={person.isArchived.value} onChange={handleToggleArchive} />
+        <Checkbox label={t('tr_archived')} checked={person.isArchived.value} onChange={handleToggleArchive} />
       </Box>
 
       <Box
