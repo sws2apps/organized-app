@@ -5,10 +5,10 @@ import { dbAppSettingsBuildTest } from '@services/dexie/settings';
 import { setIsAppLoad } from '@services/recoil/app';
 import { loadApp, runUpdater } from '@services/app';
 
-document.title = 'Test Organized app (sws2apps)';
-
 const useStart = () => {
   useEffect(() => {
+    document.title = 'Test Organized app (sws2apps)';
+
     const handlePrepareTest = async () => {
       await dbAppDelete();
       await dbAppOpen();
