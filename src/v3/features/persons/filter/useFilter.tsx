@@ -99,10 +99,10 @@ const useFilter = () => {
         name: t('tr_pioneers'),
         items: [
           { id: 'pioneerAll', name: t('tr_allPioneers') },
-          { id: 'auxiliaryPioneer', name: t('tr_APs') },
-          { id: 'regularPioneer', name: t('tr_FRs') },
-          { id: 'specialPionner', name: t('tr_FSs') },
-          { id: 'fieldMissionary', name: t('tr_FMFs') },
+          { id: 'AP', name: t('tr_APs') },
+          { id: 'FR', name: t('tr_FRs') },
+          { id: 'FS', name: t('tr_FSs') },
+          { id: 'FMF', name: t('tr_FMFs') },
         ],
       },
       {
