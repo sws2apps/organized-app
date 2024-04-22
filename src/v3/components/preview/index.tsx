@@ -28,7 +28,7 @@ import {
 } from '@components/index';
 import { useEffect, useState } from 'react';
 import { IconAdd, IconAssign, IconClose, IconReturn, IconUndo, IconUpdate, IconInfo, IconVisitors } from '@icons/index';
-
+import PdfPreview from './PDF_Peview';
 import NavBar from '@layouts/navbar';
 import TableDemo from './Table';
 import DrawerAssignments from '@components/preview/DrawerAssignments';
@@ -822,6 +822,9 @@ const ComponentPreview = () => {
           </Box>
         </Box>
       </Container>
+      <Box>
+        <PdfPreview />
+      </Box>
     </Box>
   );
 };
