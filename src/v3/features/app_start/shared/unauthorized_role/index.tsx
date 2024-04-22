@@ -3,7 +3,7 @@ import Button from '@components/button';
 import TextMarkup from '@components/text_markup';
 import Typography from '@components/typography';
 import { useAppTranslation } from '@hooks/index';
-import { IconError, IconRefresh } from '@components/icons/index';
+import { IconRefresh } from '@components/icons/index';
 import useUnauthorizedRole from './useUnauthorizedRole';
 import PermissionErrorImg from '@assets/img/permission-error-illustration.svg?component';
 
@@ -23,8 +23,15 @@ const UnauthorizedRole = () => {
         alignItems: 'center',
       }}
     >
-      <Box sx={{ maxWidth: '702px', display: 'flex', gap: '24px', alignItems: 'center' }}>
-        {/* <IconError width={72} height={72} color="var(--red-main)" /> */}
+      <Box
+        sx={{
+          maxWidth: '702px',
+          display: 'flex',
+          gap: '24px',
+          alignItems: 'center',
+          flexDirection: { mobile: 'column-reverse', tablet: 'row' },
+        }}
+      >
         <PermissionErrorImg />
         <Box
           sx={{

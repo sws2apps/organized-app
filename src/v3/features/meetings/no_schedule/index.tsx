@@ -3,7 +3,7 @@ import Button from '@components/button';
 import TextMarkup from '@components/text_markup';
 import Typography from '@components/typography';
 import { useAppTranslation } from '@hooks/index';
-import { IconError, IconRefresh } from '@components/icons/index';
+import { IconRefresh } from '@components/icons/index';
 import NoSchedulesErrorImg from '@assets/img/no-schedules-error-illustration.svg?component';
 
 const NoScheduleYetPage = () => {
@@ -20,8 +20,15 @@ const NoScheduleYetPage = () => {
         alignItems: 'center',
       }}
     >
-      <Box sx={{ maxWidth: '702px', display: 'flex', gap: '24px', alignItems: 'center' }}>
-        {/* <IconError width={72} height={72} color="var(--red-main)" /> */}
+      <Box
+        sx={{
+          maxWidth: '702px',
+          display: 'flex',
+          gap: '24px',
+          alignItems: 'center',
+          flexDirection: { mobile: 'column-reverse', tablet: 'row' },
+        }}
+      >
         <NoSchedulesErrorImg />
         <Box
           sx={{
