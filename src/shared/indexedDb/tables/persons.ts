@@ -7,5 +7,5 @@ export type PersonsTable = {
 
 export const personsSchema = {
   persons:
-    '&person_uid, person_firstname, person_lastname, person_displayName, isMale, isFemale, birthDate, isUnavailable, assignments, timeAway, isMoved, isDisqualified, email, address, phone, firstMonthReport, baptizedPublisher, unbaptizedPublisher, midweekMeetingStudent, privileges, enrollments, emergencyContacts',
+    '&person_uid, _deleted, person_firstname, person_lastname, person_displayName, isMale, isFemale, birthDate, isUnavailable, assignments, timeAway, isDisqualified, email, address, phone, firstMonthReport, baptizedPublisher, unbaptizedPublisher, midweekMeetingStudent, privileges, enrollments, emergencyContacts, isArchived',
 };

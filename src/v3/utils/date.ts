@@ -1,3 +1,17 @@
+export const dateFirstDayMonth = (date: Date = new Date()) => {
+  const month = date.getMonth();
+  const year = date.getFullYear();
+
+  return new Date(year, month, 1);
+};
+
+export const dateLastDatePreviousMonth = (date: Date = new Date()) => {
+  const month = date.getMonth();
+  const year = date.getFullYear();
+
+  return new Date(year, month, 0);
+};
+
 export const getWeekDate = (date: Date = new Date()) => {
   const day = date.getDay();
   const diff = date.getDate() - day + (day === 0 ? -6 : 1);

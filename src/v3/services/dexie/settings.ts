@@ -3,6 +3,7 @@ import appDb from '@shared/indexedDb/appDb';
 import { TimeAwayType } from '@definition/person';
 import { SettingsType } from '@definition/settings';
 import { setCongAccountConnected, setCongID, setIsMFAEnabled, setUserID } from '@services/recoil/app';
+import { settingSchema } from './schema';
 import worker from '@services/worker/backupWorker';
 
 export const dbAppSettingsSave = async (setting: SettingsType) => {
@@ -147,4 +148,16 @@ export const dbAppSettingsUpdateUserInfoAfterLogin = async (data) => {
   worker.postMessage({ field: 'congID', value: cong_id });
   worker.postMessage({ field: 'isCongAccountConnected', value: true });
   worker.postMessage({ field: 'accountType', value: 'vip' });
+};
+
+export const dbAppSettingsBuildTest = async () => {
+  const baseSettings = structuredClone(settingSchema);
+  baseSettings.account_type = 'vip';
+  baseSettings.firstname = { value: 'Test', updatedAt: new Date().toISOString() };
+  baseSettings.lastname = { value: 'User', updatedAt: new Date().toISOString() };
+  baseSettings.cong_name = 'Congregation Test';
+  baseSettings.cong_number = '123456';
+  baseSettings.cong_role = ['admin'];
+
+  await appDb.app_settings.put(baseSettings, 1);
 };

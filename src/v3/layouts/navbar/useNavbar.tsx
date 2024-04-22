@@ -1,7 +1,14 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { setIsAboutOpen, setIsAppLoad, setIsSetup, setIsSupportOpen, setOfflineOverride } from '@services/recoil/app';
+import {
+  setIsAboutOpen,
+  setIsAppLoad,
+  setIsContactOpen,
+  setIsSetup,
+  setIsSupportOpen,
+  setOfflineOverride,
+} from '@services/recoil/app';
 import { useBreakpoints } from '@hooks/index';
 import { congAccountConnectedState, isAppLoadState } from '@states/app';
 import { congNameState, fullnameState } from '@states/settings';
@@ -34,10 +41,7 @@ const useNavbar = () => {
 
   const handleOpenMyProfile = () => {
     handleCloseMore();
-
-    setTimeout(() => {
-      navigate(`/user-profile`);
-    }, 500);
+    navigate(`/user-profile`);
   };
 
   const handleReconnectAccount = async () => {
@@ -46,6 +50,11 @@ const useNavbar = () => {
     await setOfflineOverride(true);
     await setIsSetup(true);
     await setIsAppLoad(true);
+  };
+
+  const handleOpenContact = async () => {
+    handleCloseMore();
+    await setIsContactOpen(true);
   };
 
   const handleOpenAbout = async () => {
@@ -63,11 +72,17 @@ const useNavbar = () => {
     window.open(`https://guide.organized-app.com`, '_blank');
   };
 
+  const handleOpenRealApp = () => {
+    handleCloseMore();
+    window.open(`https://organized-app.com`, '_blank');
+  };
+
   return {
     openMore,
     handleOpenMoreMenu,
     handleCloseMore,
     anchorEl,
+    handleOpenContact,
     handleOpenAbout,
     handleOpenSupport,
     handleOpenDoc,
@@ -81,6 +96,7 @@ const useNavbar = () => {
     handleGoDashboard,
     isAppLoad,
     handleReconnectAccount,
+    handleOpenRealApp,
   };
 };
 

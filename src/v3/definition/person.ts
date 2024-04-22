@@ -57,7 +57,7 @@ export type PersonType = {
   birthDate: { value: string | null; updatedAt: string };
   assignments: AssignmentType[];
   timeAway: TimeAwayType[];
-  isMoved: { value: boolean; updatedAt: string };
+  isArchived: { value: boolean; updatedAt: string };
   isDisqualified: { value: boolean; updatedAt: string };
   email: { value: string; updatedAt: string };
   address: { value: string; updatedAt: string };
@@ -100,3 +100,8 @@ export type VisitingSpeakerPersonType = {
   phone: string;
   changes: [];
 };
+
+export enum PersonsTab {
+  ALL = 0,
+  RECENT = 1,
+}

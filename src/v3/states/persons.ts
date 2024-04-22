@@ -1,22 +1,33 @@
 /*
 This file holds the source of the truth from the table "persons".
 */
-import { PersonType } from '@definition/person';
 import { atom, selector } from 'recoil';
+import { PersonType, PersonsTab } from '@definition/person';
+import { applyAssignmentFilters, applyGroupFilters, applyNameFilters } from '@services/app/persons';
+import { localStorageGetItem } from '@utils/common';
 
 export const personsState = atom<PersonType[]>({
   key: 'persons',
   default: [],
 });
 
-export const personsActiveState = selector({
-  key: 'personsActive',
+export const personsAllState = selector({
+  key: 'personsAll',
   get: ({ get }) => {
     const persons = get(personsState);
 
     return persons
       .filter((person) => person._deleted === null)
       .sort((a, b) => (a.person_lastname.value > b.person_lastname.value ? 1 : -1));
+  },
+});
+
+export const personsActiveState = selector({
+  key: 'personsActive',
+  get: ({ get }) => {
+    const persons = get(personsAllState);
+
+    return persons.filter((person) => !person.isArchived.value);
   },
 });
 
@@ -53,7 +64,7 @@ export const personCurrentDetailsState = atom<PersonType>({
     birthDate: { value: null, updatedAt: '' },
     assignments: [],
     timeAway: [],
-    isMoved: { value: false, updatedAt: '' },
+    isArchived: { value: false, updatedAt: '' },
     isDisqualified: { value: false, updatedAt: '' },
     email: { value: '', updatedAt: '' },
     address: { value: '', updatedAt: '' },
@@ -90,21 +101,29 @@ export const personCurrentDetailsState = atom<PersonType>({
 export const personsFilteredState = selector({
   key: 'personsFiltered',
   get: ({ get }) => {
+    const personsAll = get(personsAllState);
     const persons = get(personsActiveState);
     const searchKey = get(personsSearchKeyState);
+    const filtersKey = get(personsFiltersKeyState);
 
-    const result: PersonType[] = [];
+    const isArchived = filtersKey.includes('archived');
 
-    for (const person of persons) {
-      const foundFirstName = person.person_firstname.value.toLowerCase().includes(searchKey.toLowerCase());
-      const foundLastName = person.person_lastname.value.toLowerCase().includes(searchKey.toLowerCase());
-      const foundDisplayName = person.person_displayName.value.toLowerCase().includes(searchKey.toLowerCase());
+    const filteredByName: PersonType[] = applyNameFilters({ persons, searchKey, isArchived, allPersons: personsAll });
 
-      if (foundFirstName || foundLastName || foundDisplayName) {
-        result.push(person);
-      }
-    }
+    const filteredByAssignments: PersonType[] = applyAssignmentFilters(filteredByName, filtersKey as number[]);
 
-    return result;
+    const finalResult: PersonType[] = applyGroupFilters(filteredByAssignments, filtersKey as string[]);
+
+    return finalResult;
   },
+});
+
+export const personsRecentState = atom<string[]>({
+  key: 'personsRecent',
+  default: localStorageGetItem('personsRecent') ? JSON.parse(localStorageGetItem('personsRecent')) : [],
+});
+
+export const personsTabState = atom({
+  key: 'personsTab',
+  default: PersonsTab.ALL,
 });

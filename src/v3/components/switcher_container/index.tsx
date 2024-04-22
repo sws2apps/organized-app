@@ -2,6 +2,11 @@ import { FC } from 'react';
 import { Box, BoxProps } from '@mui/material';
 import { useBreakpoints } from '@hooks/index';
 
+/**
+ * SwitcherContainer component.
+ * This component provides a container with flexible layout based on breakpoints.
+ * @param props - The BoxProps for styling and additional configurations.
+ */
 const SwitcherContainer: FC<BoxProps> = (props) => {
   const { laptopUp } = useBreakpoints();
 

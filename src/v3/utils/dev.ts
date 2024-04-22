@@ -16,9 +16,11 @@ const getRandomDate = (startDate = new Date(1970, 0, 1), endDate = new Date(2010
   return new Date(timestamp).toISOString();
 };
 
-export const importDummyPersons = async () => {
+export const importDummyPersons = async (showLoading?: boolean) => {
+  const showProgress = showLoading ?? true;
+
   try {
-    await promiseSetRecoil(rootModalOpenState, true);
+    showProgress && (await promiseSetRecoil(rootModalOpenState, true));
 
     await appDb.persons.clear();
 
@@ -36,7 +38,7 @@ export const importDummyPersons = async () => {
         isDisqualified: { value: false, updatedAt: new Date().toISOString() },
         isFemale: { value: user.gender === 'female', updatedAt: new Date().toISOString() },
         isMale: { value: user.gender === 'male', updatedAt: new Date().toISOString() },
-        isMoved: { value: false, updatedAt: new Date().toISOString() },
+        isArchived: { value: false, updatedAt: new Date().toISOString() },
         person_firstname: { value: user.firstName, updatedAt: new Date().toISOString() },
         person_lastname: { value: user.lastName, updatedAt: new Date().toISOString() },
         person_displayName: {
@@ -474,7 +476,7 @@ export const importDummyPersons = async () => {
           person.privileges.push({
             id: crypto.randomUUID(),
             privilege: { value: 'elder', updatedAt: new Date().toISOString() },
-            startDate: { value: new Date().toISOString(), updatedAt: new Date().toISOString() },
+            startDate: { value: startDateTemp, updatedAt: new Date().toISOString() },
             endDate: { value: null, updatedAt: new Date().toISOString() },
             _deleted: null,
           });
@@ -542,7 +544,7 @@ export const importDummyPersons = async () => {
           person.privileges.push({
             id: crypto.randomUUID(),
             privilege: { value: 'ms', updatedAt: new Date().toISOString() },
-            startDate: { value: new Date().toISOString(), updatedAt: new Date().toISOString() },
+            startDate: { value: startDateTemp, updatedAt: new Date().toISOString() },
             endDate: { value: null, updatedAt: new Date().toISOString() },
             _deleted: null,
           });
@@ -605,7 +607,7 @@ export const importDummyPersons = async () => {
           person.enrollments.push({
             id: crypto.randomUUID(),
             enrollment: { value: 'FR', updatedAt: new Date().toISOString() },
-            startDate: { value: new Date().toISOString(), updatedAt: new Date().toISOString() },
+            startDate: { value: startDateTemp, updatedAt: new Date().toISOString() },
             endDate: { value: null, updatedAt: new Date().toISOString() },
             _deleted: null,
           });
@@ -615,7 +617,7 @@ export const importDummyPersons = async () => {
           person.enrollments.push({
             id: crypto.randomUUID(),
             enrollment: { value: maleStatus, updatedAt: new Date().toISOString() },
-            startDate: { value: new Date().toISOString(), updatedAt: new Date().toISOString() },
+            startDate: { value: startDateTemp, updatedAt: new Date().toISOString() },
             endDate: { value: null, updatedAt: new Date().toISOString() },
             _deleted: null,
           });
@@ -627,9 +629,9 @@ export const importDummyPersons = async () => {
       await appDb.persons.put(person);
     }
 
-    await promiseSetRecoil(rootModalOpenState, false);
+    showProgress && (await promiseSetRecoil(rootModalOpenState, false));
   } catch (err) {
-    await promiseSetRecoil(rootModalOpenState, false);
+    showProgress && (await promiseSetRecoil(rootModalOpenState, false));
     console.error(err);
   }
 };

@@ -4,6 +4,7 @@ import { IconAddPerson, IconDownload } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { PersonsFilter, PersonsList, PersonsSearch } from '@features/index';
 import useAllPersons from './useAllPersons';
+import { isDemo } from '@constants/index';
 
 const PersonsAll = () => {
   const { t } = useAppTranslation();
@@ -14,13 +15,14 @@ const PersonsAll = () => {
     <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
       <PageTitle
         title={t('tr_personsAll')}
-        backTo="/"
         buttons={
           <>
-            <Button variant="main" startIcon={<IconDownload />} onClick={handleGetDummyPersons}>
-              GET DUMMY
-              <Badge badgeContent={'dev'} color="error" sx={{ marginTop: '-35px', left: 18, position: 'absolute' }} />
-            </Button>
+            {!isDemo && (
+              <Button variant="main" startIcon={<IconDownload />} onClick={handleGetDummyPersons}>
+                GET DUMMY
+                <Badge badgeContent={'dev'} color="error" sx={{ marginTop: '-35px', left: 18, position: 'absolute' }} />
+              </Button>
+            )}
 
             <Button variant="main" startIcon={<IconAddPerson />} onClick={handlePersonAdd}>
               {t('tr_personAdd')}

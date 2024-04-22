@@ -1,12 +1,34 @@
 import BaseDexie from 'dexie';
+import { settingSchema } from '@services/dexie/schema';
 import { PersonsTable, personsSchema } from './tables/persons';
 import { SettingsTable, settingsSchema } from './tables/settings';
 import { SourcesTable, sourcesSchema } from './tables/sources';
 import { AssignmentTable, assignmentSchema } from './tables/assignment';
 import { WeekTypeTable, weekTypeSchema } from './tables/weekType';
 import { SchedTable, schedSchema } from './tables/sched';
+import { FieldServiceGroupsTable, fieldServiceGroupsSchema } from './tables/field_service_groups';
+import { VisitingSpeakersTable, visitingSpeakersSchema } from './tables/visiting_speakers';
+import { UserBibleStudiesTable, userBibleStudiesSchema } from './tables/user_bible_studies';
+import { UserFieldServiceReportsTable, userFieldServiceReportsSchema } from './tables/user_field_service_reports';
+import { CongFieldServiceReportsTable, congFieldServiceReportsSchema } from './tables/cong_field_service_reports';
+import { BranchFieldServiceReportsTable, branchFieldServiceReportsSchema } from './tables/branch_field_service_reports';
+import { BranchCongAnalysisTable, branchCongAnalysisSchema } from './tables/branch_cong_analysis';
+import { MeetingAttendanceTable, meetingAttendanceSchema } from './tables/meeting_attendance';
 
-type DexieTables = PersonsTable & SettingsTable & SourcesTable & AssignmentTable & WeekTypeTable & SchedTable;
+type DexieTables = PersonsTable &
+  SettingsTable &
+  SourcesTable &
+  AssignmentTable &
+  WeekTypeTable &
+  SchedTable &
+  FieldServiceGroupsTable &
+  VisitingSpeakersTable &
+  UserBibleStudiesTable &
+  UserFieldServiceReportsTable &
+  CongFieldServiceReportsTable &
+  BranchFieldServiceReportsTable &
+  BranchCongAnalysisTable &
+  MeetingAttendanceTable;
 
 type Dexie<T = DexieTables> = BaseDexie & T;
 
@@ -19,43 +41,20 @@ const schema = {
   ...assignmentSchema,
   ...weekTypeSchema,
   ...schedSchema,
+  ...fieldServiceGroupsSchema,
+  ...visitingSpeakersSchema,
+  ...userBibleStudiesSchema,
+  ...userFieldServiceReportsSchema,
+  ...congFieldServiceReportsSchema,
+  ...branchFieldServiceReportsSchema,
+  ...branchCongAnalysisSchema,
+  ...meetingAttendanceSchema,
 };
 
 appDb.version(1).stores(schema);
 
 appDb.on('populate', function () {
-  appDb.app_settings.add({
-    id: 1,
-    firstname: { value: '', updatedAt: '' },
-    lastname: { value: '', updatedAt: '' },
-    source_lang: '',
-    cong_number: '',
-    cong_name: '',
-    cong_new: true,
-    cong_code: '',
-    cong_role: [],
-    class_count: { value: 1, updatedAt: '' },
-    midweek_meeting_day: { value: 2, updatedAt: '' },
-    meeting_time: { value: '', updatedAt: '' },
-    user_avatar: undefined,
-    co_name: { value: '', updatedAt: '' },
-    co_displayName: { value: '', updatedAt: '' },
-    autoBackup: { value: false, updatedAt: '' },
-    autoBackup_interval: { value: 0, updatedAt: '' },
-    schedule_useFullname: { value: false, updatedAt: '' },
-    account_type: '',
-    opening_prayer_MM_autoAssign: { value: false, updatedAt: '' },
-    user_local_uid: '',
-    user_members_delegate: [],
-    opening_prayer_WM_autoAssign: { value: false, updatedAt: '' },
-    weekend_meeting_day: { value: 6, updatedAt: '' },
-    midweek_meeting_useExactDate: { value: false, updatedAt: '' },
-    weekend_meeting_useSubstituteSpeaker: { value: false, updatedAt: '' },
-    follow_os_theme: { value: false, updatedAt: '' },
-    enable_hour_credits: { value: false, updatedAt: '' },
-    user_time_away: [],
-    public_talk_sync: '',
-  });
+  appDb.app_settings.add(settingSchema);
 });
 
 export default appDb;

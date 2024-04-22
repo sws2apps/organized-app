@@ -1,10 +1,16 @@
-import { useRecoilValue } from 'recoil';
-import { personsFilteredState } from '@states/persons';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { personsActiveState, personsFilteredState, personsTabState } from '@states/persons';
 
 const useList = () => {
+  const [activeTab, setActiveTab] = useRecoilState(personsTabState);
   const persons = useRecoilValue(personsFilteredState);
+  const personsAll = useRecoilValue(personsActiveState);
 
-  return { persons };
+  const handleTabChange = (active: number) => {
+    setActiveTab(active);
+  };
+
+  return { persons, activeTab, handleTabChange, personsAll };
 };
 
 export default useList;

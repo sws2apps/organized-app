@@ -1,4 +1,5 @@
 import { Box, Divider, FormControlLabel, RadioGroup } from '@mui/material';
+import Badge from '@components/badge';
 import DatePicker from '@components/date_picker';
 import Radio from '@components/radio';
 import TextField from '@components/textfield';
@@ -23,6 +24,7 @@ const PersonBasicInfo = () => {
     handleChangeEmailAddress,
     handleChangePhone,
     nameFlex,
+    isInactive,
   } = useBasicInfo();
 
   return (
@@ -39,7 +41,22 @@ const PersonBasicInfo = () => {
         width: '100%',
       }}
     >
-      <Typography className="h2">{t('tr_basicInformation')}</Typography>
+      <Box
+        sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', flexWrap: 'wrap' }}
+      >
+        <Typography className="h2">{t('tr_basicInformation')}</Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+          {person.isArchived.value && (
+            <Badge size="big" color="red" text={t('tr_archived')} sx={{ width: 'fit-content' }} />
+          )}
+
+          {isInactive && <Badge size="big" color="red" text={t('tr_inactive')} sx={{ width: 'fit-content' }} />}
+
+          {person.isDisqualified.value && (
+            <Badge size="big" color="red" text={t('tr_disqualified')} sx={{ width: 'fit-content' }} />
+          )}
+        </Box>
+      </Box>
 
       <Box sx={{ display: 'flex', gap: '16px', marginTop: '8px', flexDirection: 'column' }}>
         <Box

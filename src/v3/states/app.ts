@@ -1,13 +1,13 @@
 import { atom, selector } from 'recoil';
 import { getShortDatePickerFormat, getTranslation } from '@services/i18n/translation';
-import { convertStringToBoolean } from '@utils/common';
+import { convertStringToBoolean, localStorageGetItem } from '@utils/common';
 import { SnackBarSeverityType } from '@definition/app';
 import { ReactElement } from 'react';
 import { LANGUAGE_LIST } from '@constants/index';
 
 export const isDarkThemeState = atom({
   key: 'isDarkTheme',
-  default: typeof localStorage !== 'undefined' && localStorage.getItem('theme') === 'dark' ? true : false,
+  default: localStorageGetItem('theme') === 'dark' ? true : false,
 });
 
 export const offlineOverrideState = atom({
@@ -32,6 +32,11 @@ export const apiHostState = atom({
 
 export const isAboutOpenState = atom({
   key: 'isAboutOpen',
+  default: false,
+});
+
+export const isContactOpenState = atom({
+  key: 'isContactOpen',
   default: false,
 });
 
@@ -420,4 +425,9 @@ export const JWLangState = selector({
 export const currentDrawerState = atom({
   key: 'currentDrawer',
   default: '',
+});
+
+export const isWIPSnackOpenState = atom({
+  key: 'isWIPSnackOpen',
+  default: false,
 });

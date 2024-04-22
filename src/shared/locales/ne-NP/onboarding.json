@@ -78,7 +78,13 @@
   "tr_unauthorizedAccount": "Your access permissions need to be adjusted",
   "tr_unauthorizedAccountDesc": "Contact your congregation app administrator to confirm your role, then try again in 5 minutes. For any further assistance, elders can contact us via email.",
   "tr_noSchedulesYet": "तालिका छैन",
-  "tr_noSchedulesYetDesc": "The meeting schedule isn't available yet. Please ask your congregation elders to not only create but also publish it in the app.",
+  "tr_noSchedulesYetDesc": "The meeting schedules aren't available yet. Please ask your congregation elders to not only create but also publish them in the app.",
   "tr_reconnectAccount": "मेरो खाता पुनः जोड्ने",
-  "tr_registeringApproved": "The body of elders has approved registering this congregation in Organized"
+  "tr_registeringApproved": "The body of elders has approved registering this congregation in Organized",
+  "tr_testAppMode": "Organized test mode",
+  "tr_testAppWaitForData": "Preparing the data you need for a smooth test experience",
+  "tr_tryOrganized": "Try Organized in test mode",
+  "tr_testStart": "Start testing",
+  "tr_testAppWelcome": "Welcome to Organized test mode!",
+  "tr_testAppWelcomeDesc": "<p>This is a test environment with pre-filled data for an imaginary congregation. Explore features such as schedules, assignments, ministry, reports, and more! Any changes you make will reset after a page reload.</p><p>To start using the real Organized app, open <a href='https://organized-app.com' target='_blank'>organized-app.com</a> in your browser.</p>"
 }

@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
 import worker from '@services/worker/backupWorker';
 import { setIsAppDataSyncing, setLastAppDataSync } from '@services/recoil/app';
+import { isDemo } from '@constants/index';
 
 const useWebWorker = () => {
   useEffect(() => {
-    if (window.Worker) {
+    if (!isDemo && window.Worker) {
       worker.onmessage = async function (event) {
         if (event.data === 'Syncing') {
           await setIsAppDataSyncing(true);

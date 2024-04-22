@@ -1,7 +1,12 @@
-import * as React from 'react';
+import { useEffect, useState } from 'react';
 import { Tabs, Tab, Box } from '@mui/material';
 import { TabsPanelProps, CustomTabProps } from './index.types';
 
+/**
+ * A custom tab panel component.
+ *
+ * @param props The props for the TabsPanel component.
+ */
 const CustomTabPanel = (props: TabsPanelProps) => {
   const { children, value, index, ...other } = props;
 
@@ -18,6 +23,12 @@ const CustomTabPanel = (props: TabsPanelProps) => {
   );
 };
 
+/**
+ * Generate accessibility props for a tab.
+ *
+ * @param index The index of the tab.
+ * @returns Accessibility props for the tab.
+ */
 const a11yProps = (index: number) => {
   return {
     id: `simple-tab-${index}`,
@@ -25,13 +36,30 @@ const a11yProps = (index: number) => {
   };
 };
 
-const CustomTabs = ({ tabs }: CustomTabProps) => {
-  const [valueOfActivePanel, setValueOfActivePanel] = React.useState(0);
+/**
+ * A custom tabs component.
+ *
+ * @param tabs An array of tabs with label and corresponding component.
+ */
+const CustomTabs = ({ tabs, value, onChange }: CustomTabProps) => {
+  const [valueOfActivePanel, setValueOfActivePanel] = useState(value);
 
+  /**
+   * Handle tab change event.
+   *
+   * @param event The event object.
+   * @param newValue The new value of the active tab.
+   */
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     event.preventDefault();
     setValueOfActivePanel(newValue);
+
+    onChange && onChange(newValue);
   };
+
+  useEffect(() => {
+    setValueOfActivePanel(value);
+  }, [value]);
 
   return (
     <Box sx={{ width: '100%' }}>

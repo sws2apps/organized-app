@@ -21,9 +21,8 @@ const useLanguage = () => {
 
   const isMenuOpen = Boolean(anchorEl);
 
-  const handleLangChange = async (e) => {
+  const handleLangChange = async (app_lang: string) => {
     setUserChange(true);
-    const app_lang = e.target.parentElement.parentElement.dataset.code;
     setAppLangLocal(app_lang);
 
     await dbAppSettingsUpdate({ source_lang: app_lang });
@@ -54,7 +53,7 @@ const useLanguage = () => {
 
         setAppLang(appLangLocal);
 
-        const font = LANGUAGE_LIST.find((lang) => lang.locale === appLangLocal).font || 'Inter';
+        const font = LANGUAGE_LIST.find((lang) => lang.locale === appLangLocal)?.font || 'Inter';
         localStorage.setItem('app_lang', appLangLocal);
         localStorage.setItem('app_font', font);
 

@@ -6,6 +6,12 @@ import { useAppTranslation } from '@hooks/index';
 import useCountry from './useCountry';
 import { CountryType } from './index.types';
 
+/**
+ * Component for selecting a country.
+ * @param {CountrySelectorProps} props - Props for the CountrySelector component.
+ * @param {(value: CountryType) => void} props.handleCountryChange - Function to handle country change.
+ * @returns {JSX.Element} CountrySelector component.
+ */
 const CountrySelector = ({ handleCountryChange }: { handleCountryChange: (value: CountryType) => void }) => {
   const { setOpenPicker, selected, options, handleOnChange, isLoading, openPicker } = useCountry({
     handleCountryChange,

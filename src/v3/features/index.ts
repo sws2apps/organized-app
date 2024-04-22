@@ -16,9 +16,17 @@ export { default as AppUpdater } from './app_updater';
 /* -------------------------- Color scheme selector ------------------------- */
 export { default as ColorSchemeSelector } from './color_scheme_selector';
 
+/* -------------------------------- Contact ------------------------------- */
+export { default as Contact } from './contact';
+
 /* -------------------------------- Dashboard ------------------------------- */
 export { default as DashboardCard } from './dashboard/card';
 export { default as DashboardMenu } from './dashboard/menu';
+
+/* -------------------------------- Demo ------------------------------- */
+export { default as DemoBanner } from './demo/banner';
+export { default as DemoNotice } from './demo/notice';
+export { default as DemoStartup } from './demo/start';
 
 /* ---------------------------- Meeting material ---------------------------- */
 export { default as EPUBMaterialsImport } from './meeting_materials/epub_import';
@@ -48,6 +56,7 @@ export { default as MyAssignments } from './meetings/my_assignments';
 /* --------------------------------- Persons -------------------------------- */
 export { default as PersonAssignment } from './persons/assignments';
 export { default as PersonBasicInfo } from './persons/basic_info';
+export { default as PersonButtonActions } from './persons/button_actions';
 export { default as PersonEmergencyContacts } from './persons/emergency_contacts';
 export { default as PersonEnrollments } from './persons/enrollments';
 export { default as PersonPrivileges } from './persons/privileges';
@@ -61,3 +70,6 @@ export { default as PersonTimeAway } from './persons/time_away';
 export { default as AddServiceTimeModalWindow } from './ministry/add_service_time_modal_window';
 export { default as MinistryTimer } from './ministry/ministry_timer';
 export { default as PopUpForEditOrCreateBibleStudy } from './ministry/pop_up_for_edit_or_create_bible_study';
+
+/* -------------------------------- Work In Progress -------------------------------- */
+export { default as WorkInProgressNotif } from './wip';
