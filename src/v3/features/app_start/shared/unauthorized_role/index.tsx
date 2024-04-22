@@ -1,8 +1,9 @@
 import { Box } from '@mui/material';
+import Button from '@components/button';
 import TextMarkup from '@components/text_markup';
 import Typography from '@components/typography';
 import { useAppTranslation } from '@hooks/index';
-import { IconError } from '@icons/index';
+import { IconError, IconRefresh } from '@components/icons/index';
 import useUnauthorizedRole from './useUnauthorizedRole';
 import PermissionErrorImg from '@assets/img/permission-error-illustration.svg?component';
 
@@ -23,12 +24,12 @@ const UnauthorizedRole = () => {
       }}
     >
       <Box sx={{ maxWidth: '702px', display: 'flex', gap: '24px', alignItems: 'center' }}>
-        <IconError width={72} height={72} color="var(--red-main)" />
+        {/* <IconError width={72} height={72} color="var(--red-main)" /> */}
         <PermissionErrorImg />
         <Box
           sx={{
             display: 'flex',
-            gap: '8px',
+            gap: '16px',
             flexDirection: 'column',
           }}
         >
@@ -41,6 +42,9 @@ const UnauthorizedRole = () => {
             anchorColor="var(--accent-dark)"
             anchorRef={anchorRef}
           />
+          <Button variant="main" className="button-caps" startIcon={<IconRefresh />}>
+            {t('tr_refreshPage')}
+          </Button>
         </Box>
       </Box>
     </Box>

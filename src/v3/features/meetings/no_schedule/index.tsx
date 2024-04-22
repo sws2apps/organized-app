@@ -1,11 +1,12 @@
 import { Box } from '@mui/material';
+import Button from '@components/button';
 import TextMarkup from '@components/text_markup';
 import Typography from '@components/typography';
 import { useAppTranslation } from '@hooks/index';
-import { IconError } from '@icons/index';
+import { IconError, IconRefresh } from '@components/icons/index';
 import NoSchedulesErrorImg from '@assets/img/no-schedules-error-illustration.svg?component';
 
-const UnauthorizedRole = () => {
+const NoScheduleYetPage = () => {
   const { t } = useAppTranslation();
 
   return (
@@ -20,12 +21,12 @@ const UnauthorizedRole = () => {
       }}
     >
       <Box sx={{ maxWidth: '702px', display: 'flex', gap: '24px', alignItems: 'center' }}>
-        <IconError width={72} height={72} color="var(--red-main)" />
+        {/* <IconError width={72} height={72} color="var(--red-main)" /> */}
         <NoSchedulesErrorImg />
         <Box
           sx={{
             display: 'flex',
-            gap: '8px',
+            gap: '16px',
             flexDirection: 'column',
           }}
         >
@@ -37,10 +38,13 @@ const UnauthorizedRole = () => {
             anchorClassName="h4"
             anchorColor="var(--accent-dark)"
           />
+          <Button variant="main" className="button-caps" startIcon={<IconRefresh />}>
+            {t('tr_refreshPage')}
+          </Button>
         </Box>
       </Box>
     </Box>
   );
 };
 
-export default UnauthorizedRole;
+export default NoScheduleYetPage;
