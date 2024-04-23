@@ -7,7 +7,7 @@ const DemoBanner = () => {
       color="var(--always-white)"
       align="center"
       sx={{
-        backgroundColor: 'rgba(var(--red-dark-base), 0.7)',
+        backgroundColor: 'var(--accent-main)',
         borderRadius: '10px',
         padding: '1px 0',
         marginTop: '-2px',
