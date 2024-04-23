@@ -235,15 +235,17 @@ const NavBar = () => {
                   <Typography className="body-regular">{t('tr_about')}</Typography>
                 </ListItemText>
               </MenuItem>
-              <MenuItem
-                disableRipple
-                sx={{ ...menuStyle, height: 'auto', paddingTop: '5px' }}
-                onClick={handleOpenRealApp}
-              >
-                <Button variant="tertiary" startIcon={<IconArrowLink />} sx={{ width: '100%' }}>
-                  {t('tr_openRealApp')}
-                </Button>
-              </MenuItem>
+              {isDemo && (
+                <MenuItem
+                  disableRipple
+                  sx={{ ...menuStyle, height: 'auto', paddingTop: '5px' }}
+                  onClick={handleOpenRealApp}
+                >
+                  <Button variant="tertiary" startIcon={<IconArrowLink />} sx={{ width: '100%' }}>
+                    {t('tr_openRealApp')}
+                  </Button>
+                </MenuItem>
+              )}
             </Menu>
           </Box>
         </Container>
