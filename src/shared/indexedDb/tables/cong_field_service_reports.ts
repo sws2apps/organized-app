@@ -7,5 +7,5 @@ export type CongFieldServiceReportsTable = {
 
 export const congFieldServiceReportsSchema = {
   cong_field_service_reports:
-    '&id, _deleted, person_uid, month_date, shared_ministry, hours, hours_credits, bible_studies, comments, posted_date',
+    '++id, _deleted, person_uid, month_date, shared_ministry, hours, hours_credits, bible_studies, comments, posted_date',
 };
