@@ -5,6 +5,7 @@
   "tr_btnAdd": "Додати",
   "tr_creditHours": "Кредитні години",
   "tr_addNewStudy": "Додати нове біблійне вивчення",
+  "tr_editBibleStudy": "Edit Bible study",
   "tr_pioneerSchool": "Піонерська школа",
   "tr_ministryTimeHours": "{{ ministryTime }} годин",
   "tr_SKE": "Школа проповідників Царства",
@@ -30,7 +31,6 @@
   "tr_btnUndoSumbission": "Відмінити відправку",
   "tr_totalHours": "Всього годин",
   "tr_fieldMinistry": "Польове служіння",
-  "tr_LDCHours": "Години МВПБ",
   "tr_averageMonthlyBibleStudies": "В середньому вивчень на місяць",
   "tr_maximumMonthlyBibleStudies": "Найбільше біблійних вивчень за місяць",
   "tr_monthlyHistory": "Місячна історія",
@@ -91,5 +91,8 @@
   "tr_deletePWLocation": "Видалити місце громадського служіння",
   "tr_deletePWLocationDesc": "Видалення цього місця повністю видаляє всі його дані та записи. Цю дію неможливо скасувати.",
   "tr_changeImage": "Change image",
-  "tr_addImage": "Add image"
+  "tr_addImage": "Add image",
+  "tr_cantDeductStudiesDesc": "You can't select fewer Bible studies than you already have selected in the “Individual Bible studies” dropdown menu. ",
+  "tr_cantDeductStudiesTitle": "Cannot deduct Bible studies",
+  "tr_includesServiceAndCredit": "Includes field service and credit hours"
 }

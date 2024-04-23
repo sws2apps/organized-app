@@ -1,10 +1,14 @@
-import { useState } from 'react';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { personsSearchKeyState, personsTabState } from '@states/persons';
+import { PersonsTab } from '@definition/person';
 
 const useSearch = () => {
-  const [txtSearch, setTxtSearch] = useState('');
+  const setActiveTab = useSetRecoilState(personsTabState);
+  const [txtSearch, setTxtSearch] = useRecoilState(personsSearchKeyState);
 
   const handleSearch = (value: string) => {
     setTxtSearch(value);
+    setActiveTab(PersonsTab.ALL);
   };
 
   return { txtSearch, handleSearch };

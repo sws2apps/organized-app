@@ -3,7 +3,7 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { appLangState, isAppLoadState } from '@states/app';
 import { LANGUAGE_LIST } from '@constants/index';
-import { handleUpdateSetting } from '@services/dexie/settings';
+import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { getTranslation } from '@services/i18n/translation';
 
 const useLanguage = () => {
@@ -21,12 +21,11 @@ const useLanguage = () => {
 
   const isMenuOpen = Boolean(anchorEl);
 
-  const handleLangChange = async (e) => {
+  const handleLangChange = async (app_lang: string) => {
     setUserChange(true);
-    const app_lang = e.target.parentElement.parentElement.dataset.code;
     setAppLangLocal(app_lang);
 
-    await handleUpdateSetting({ source_lang: app_lang });
+    await dbAppSettingsUpdate({ source_lang: app_lang });
 
     handleClose();
     window.location.reload();
@@ -54,7 +53,7 @@ const useLanguage = () => {
 
         setAppLang(appLangLocal);
 
-        const font = LANGUAGE_LIST.find((lang) => lang.locale === appLangLocal).font || 'Inter';
+        const font = LANGUAGE_LIST.find((lang) => lang.locale === appLangLocal)?.font || 'Inter';
         localStorage.setItem('app_lang', appLangLocal);
         localStorage.setItem('app_font', font);
 

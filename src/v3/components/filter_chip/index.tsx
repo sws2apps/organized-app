@@ -1,5 +1,18 @@
 import { Button } from '@mui/material';
 
+/**
+ * Component representing a custom filter chip.
+ *
+ * @param {{
+ *   label: string;
+ *   onClick?: VoidFunction;
+ *   selected?: boolean;
+ * }} props - Props for the CustomFilterChip component.
+ * @param {string} props.label - The label text for the chip.
+ * @param {VoidFunction} [props.onClick] - Function to handle click event.
+ * @param {boolean} [props.selected=false] - Whether the chip is selected or not.
+ * @returns {JSX.Element} CustomFilterChip component.
+ */
 const CustomFilterChip = ({
   label,
   onClick,

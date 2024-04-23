@@ -23,7 +23,7 @@
   "tr_partnerSearchDesc": "Get a notification as soon as somebody publishes a partner request",
   "tr_organizedSettings": "Organized settings",
   "tr_autoSync": "Auto sync",
-  "tr_autoSyncDesc": "Automatically sync data between congregation and my devices logged in the Organized",
+  "tr_autoSyncDesc": "Automatically sync data between congregation and your devices logged in the Organized",
   "tr_syncInterval": "Sync interval",
   "tr_syncIntervalMinLabel": "min.",
   "tr_customLinkInMobilePanel": "Custom link in the mobile navigation panel",
@@ -31,7 +31,7 @@
   "tr_selectFeature": "Select feature",
   "tr_publicMinistry": "Public ministry",
   "tr_autoThemeChange": "Automatic app theme change",
-  "tr_autoThemeChangeDesc": "Follow you device’s system setting when choosing between light and dark mode",
+  "tr_autoThemeChangeDesc": "Follow your device’s system setting when choosing between light and dark mode",
   "tr_colorScheme": "Color scheme",
   "tr_blue": "Blue",
   "tr_green": "Green",
@@ -48,7 +48,6 @@
   "tr_currentSession": "Current session",
   "tr_logoutClearData": "Log out and clear the local data?",
   "tr_logoutClearDataDesc": "Make sure that all your recently created data is synced, otherwise it will be deleted.",
-  "tr_doneDesc": "The session is terminated",
   "tr_2FAEnable": "Enable two-factor authentication",
   "tr_2FAEnableDesc": "Use the Google Authenticator or Microsoft Authenticator app on your mobile device to scan the QR code and complete the setup.",
   "tr_codeCopied": "The code has been copied",
@@ -77,5 +76,7 @@
   "tr_2FAQRCodeDesc": "Scan the QR code with your authenticator app to set up Two-Factor Authentication.",
   "tr_2FASetupKey": "Setup key",
   "tr_2FASetupKeyDesc": "Copy the setup key and paste it into your authenticator app to set up Two-Factor Authentication.",
-  "tr_2FAStep2": "Step 2: Enter the 2FA code"
+  "tr_2FAStep2": "Step 2: Enter the 2FA code",
+  "tr_timeAwayDesc": "No time away set yet. Keep your time away up-to-date so that the brothers can take it into account when scheduling future meetings.",
+  "tr_terminatedDesc": "The session on that device is terminated"
 }

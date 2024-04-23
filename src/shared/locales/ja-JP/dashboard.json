@@ -37,7 +37,7 @@
   "tr_myTerritories": "私の区域",
   "tr_planMidweekMeeting": "Midweek meetings",
   "tr_planWeekendMeeting": "Weekend meetings",
-  "tr_publishSchedules": "Publish schedules",
+  "tr_publishSchedules": "スケジュールの公開",
   "tr_territories": "区域",
   "tr_allTerritories": "すべての区域",
   "tr_assign": "割り当て",
@@ -60,7 +60,6 @@
   "tr_noInternetConnection": "インターネット接続がありません",
   "tr_noInternetConnectionDesc": "Organizedはオフラインです。このまま使用できますがインターネットに接続するまでデータは同期されません。",
   "tr_done": "完了",
-  "tr_doneDesc": "Your {{ month }} report has been submitted",
   "tr_notifications": "通知",
   "tr_reject": "承認しない",
   "tr_accept": "受け入れる",
@@ -90,5 +89,6 @@
   "tr_activitiesCard": "アクティビティ",
   "tr_hallCleaning": "王国会館清掃",
   "tr_yourEmailField": "Your email address",
-  "tr_yourMessage": "Your message"
+  "tr_yourMessage": "Your message",
+  "tr_reportSubmittedDesc": "Your report for the month of {{ month }} has been submitted"
 }

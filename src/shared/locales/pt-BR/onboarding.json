@@ -14,7 +14,7 @@
   "tr_email": "Email",
   "tr_accountCreated": "Sua conta foi criada. Informe o administrador da congregação para lhe dar as permissões necessárias e, em seguida, atualize a página.",
   "tr_createCongregationAccount": "Criar uma congregação",
-  "tr_unauthorizedRole": "<p>You don't currently have the necessary permissions to use this application. Please reach out to your congregation elders to verify your role and then <a href='#'>try again</a> in 5 minutes. If they require additional assistance, they can contact us via email.</p>",
+  "tr_unauthorizedRole": "<p>Your account is all set! To access the Organized app, please ask your congregation’s app administrator to give you permissions and refresh the page in 5 minutes.</p><p>Elders can contact us at <a href='mailto:support@organized-app.com'>support@organized-app.com</a> if they need assistance.</p>",
   "tr_oauthAccept": "<p>By continuing, you accept our <a href='https://sws2apps.com/terms/' title='Terms of Use' target='_blank' rel='noopener'>Terms of Use</a> and <a href='https://sws2apps.com/privacy/' title='Privacy Policy' target='_blank' rel='noopener'>Privacy Policy</a>.</p>",
   "tr_signInDesc": "Choose how you want to log in",
   "tr_emailAuth": "Autenticação por Email",
@@ -77,8 +77,14 @@
   "tr_2FAIncorrectDesc": "The code might be incorrect or expired. Try again.",
   "tr_unauthorizedAccount": "Your access permissions need to be adjusted",
   "tr_unauthorizedAccountDesc": "Contact your congregation app administrator to confirm your role, then try again in 5 minutes. For any further assistance, elders can contact us via email.",
-  "tr_noSchedulesYet": "No schedules yet",
-  "tr_noSchedulesYetDesc": "Please ask your congregation elders to publish the meeting schedule first.",
+  "tr_noSchedulesYet": "No schedules have been published yet",
+  "tr_noSchedulesYetDesc": "The meeting schedules aren't available yet. Please ask your congregation elders to not only create but also publish them in the app.",
   "tr_reconnectAccount": "Reconnect my account",
-  "tr_registeringApproved": "The body of elders has approved registering this congregation in Organized"
+  "tr_registeringApproved": "The body of elders has approved registering this congregation in Organized",
+  "tr_testAppMode": "Organized test mode",
+  "tr_testAppWaitForData": "Preparing the data you need for a smooth test experience",
+  "tr_tryOrganized": "Try Organized in test mode",
+  "tr_testStart": "Start testing",
+  "tr_testAppWelcome": "Welcome to Organized test mode!",
+  "tr_testAppWelcomeDesc": "<p>This is a test environment with pre-filled data for an imaginary congregation. Explore features such as schedules, assignments, ministry, reports, and more! Any changes you make will reset after a page reload.</p><p>To start using the real Organized app, open <a href='https://organized-app.com' target='_blank'>organized-app.com</a> in your browser.</p>"
 }

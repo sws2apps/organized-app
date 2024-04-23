@@ -6,7 +6,7 @@ import { EnrollmentType } from '@definition/person';
 
 const useEnrollments = () => {
   const { id } = useParams();
-  const isNewPerson = id === undefined;
+  const isAddPerson = id === undefined;
 
   const person = useRecoilValue(personCurrentDetailsState);
 
@@ -29,12 +29,12 @@ const useEnrollments = () => {
   const handleDeleteHistory = async (id: string) => {
     const newPerson = structuredClone(person);
 
-    if (!isNewPerson) {
+    if (!isAddPerson) {
       const current = newPerson.enrollments.find((history) => history.id === id);
       current._deleted = new Date().toISOString();
     }
 
-    if (isNewPerson) {
+    if (isAddPerson) {
       newPerson.enrollments = newPerson.enrollments.filter((record) => record.id !== id);
     }
 

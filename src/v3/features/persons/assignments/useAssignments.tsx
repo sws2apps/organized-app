@@ -1,0 +1,168 @@
+import { useMemo } from 'react';
+import { useParams } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { useAppTranslation } from '@hooks/index';
+import { AssignmentCheckListColors } from '@definition/app';
+import { personCurrentDetailsState } from '@states/persons';
+import { setPersonCurrentDetails } from '@services/recoil/persons';
+import { AssignmentCode } from '@definition/schedules';
+
+const useAssignments = () => {
+  const { id } = useParams();
+  const isAddPerson = id === undefined;
+
+  const { t } = useAppTranslation();
+
+  const person = useRecoilValue(personCurrentDetailsState);
+  const isMale = person.isMale.value;
+  const isDisqualified = person.isDisqualified.value;
+  const checkedItems = person.assignments.filter((record) => record._deleted === null).map((record) => record.code);
+
+  const assignments = useMemo(() => {
+    return [
+      {
+        header: t('tr_midweekMeeting'),
+        id: 'midweekMeeting',
+        color: 'midweek-meeting' as AssignmentCheckListColors,
+        items: [
+          { code: AssignmentCode.MM_Chairman, name: t('tr_chairman') },
+          { code: AssignmentCode.MM_Prayer, name: t('tr_prayer') },
+          { code: AssignmentCode.MM_AuxiliaryCounselor, name: t('tr_auxClassCounselor') },
+        ],
+      },
+      {
+        header: t('tr_treasuresPart'),
+        id: 'treasuresPart',
+        color: 'treasures-from-gods-word' as AssignmentCheckListColors,
+        items: [
+          { code: AssignmentCode.MM_TGWTalk, name: t('tr_tgwTalk') },
+          { code: AssignmentCode.MM_TGWGems, name: t('tr_tgwGems') },
+          { code: AssignmentCode.MM_BibleReading, name: t('tr_bibleReading') },
+        ],
+      },
+      {
+        header: t('tr_applyFieldMinistryPart'),
+        id: 'applyFieldMinistryPart',
+        color: 'apply-yourself-to-the-field-ministry' as AssignmentCheckListColors,
+        items: [
+          { code: AssignmentCode.MM_Discussion, name: t('tr_discussion') },
+          { code: AssignmentCode.MM_StartingConversation, name: t('tr_startingConversation') },
+          { code: AssignmentCode.MM_FollowingUp, name: t('tr_followingUp') },
+          { code: AssignmentCode.MM_MakingDisciples, name: t('tr_makingDisciples') },
+          { code: AssignmentCode.MM_ExplainingBeliefs, name: t('tr_explainingBeliefs') },
+          { code: AssignmentCode.MM_Talk, name: t('tr_talk') },
+          { code: AssignmentCode.MM_AssistantOnly, name: t('tr_assistantOnly'), borderTop: true },
+        ],
+      },
+      {
+        header: t('tr_livingPart'),
+        id: 'livingPart',
+        color: 'living-as-christians' as AssignmentCheckListColors,
+        items: [
+          { code: AssignmentCode.MM_LCPart, name: t('tr_lcPart') },
+          { code: AssignmentCode.MM_CBSConductor, name: t('tr_congregationBibleStudyConductor') },
+          { code: AssignmentCode.MM_CBSReader, name: t('tr_congregationBibleStudyReader') },
+        ],
+      },
+      {
+        header: t('tr_weekendMeeting'),
+        id: 'weekendMeeting',
+        color: 'weekend-meeting' as AssignmentCheckListColors,
+        items: [
+          { code: AssignmentCode.WM_Chairman, name: t('tr_chairman') },
+          { code: AssignmentCode.WM_Prayer, name: t('tr_prayer') },
+          { code: AssignmentCode.WM_Speaker, name: t('tr_speaker') },
+          { code: AssignmentCode.WM_SpeakerSymposium, name: t('tr_speakerSymposium') },
+          { code: AssignmentCode.WM_WTStudyConductor, name: t('tr_watchtowerStudyConductor') },
+          { code: AssignmentCode.WM_WTStudyReader, name: t('tr_watchtowerStudyReader') },
+        ],
+      },
+    ];
+  }, [t]);
+
+  const handleToggleGroup = async (checked: boolean, id: string) => {
+    const newPerson = structuredClone(person);
+
+    const items = assignments.find((group) => group.id === id).items;
+
+    if (checked) {
+      const localItems = items.filter((record) => record.code !== AssignmentCode.MM_AssistantOnly);
+
+      for (const item of localItems) {
+        if (!isMale) {
+          if (item.code === AssignmentCode.MM_Discussion || item.code === AssignmentCode.MM_Talk) {
+            continue;
+          }
+        }
+
+        const current = newPerson.assignments.find((record) => record.code === item.code);
+        if (!current) {
+          newPerson.assignments.push({
+            code: item.code,
+            updatedAt: new Date().toISOString(),
+            _deleted: null,
+          });
+        }
+
+        if (current && current._deleted !== null) {
+          current._deleted = null;
+        }
+      }
+    }
+
+    if (!checked) {
+      for (const item of items) {
+        if (!isAddPerson) {
+          const current = newPerson.assignments.find((record) => record.code === item.code);
+          if (current && current._deleted === null) {
+            current._deleted = new Date().toISOString();
+          }
+        }
+
+        if (isAddPerson) {
+          newPerson.assignments = newPerson.assignments.filter((record) => record.code !== item.code);
+        }
+      }
+    }
+
+    await setPersonCurrentDetails(newPerson);
+  };
+
+  const handleToggleAssignment = async (checked: boolean, code: AssignmentCode) => {
+    const newPerson = structuredClone(person);
+
+    if (checked) {
+      const current = newPerson.assignments.find((record) => record.code === code);
+      if (!current) {
+        newPerson.assignments.push({
+          code: code,
+          updatedAt: new Date().toISOString(),
+          _deleted: null,
+        });
+      }
+
+      if (current && current._deleted !== null) {
+        current._deleted = null;
+      }
+    }
+
+    if (!checked) {
+      if (!isAddPerson) {
+        const current = newPerson.assignments.find((record) => record.code === code);
+        if (current && current._deleted === null) {
+          current._deleted = new Date().toISOString();
+        }
+      }
+
+      if (isAddPerson) {
+        newPerson.assignments = newPerson.assignments.filter((record) => record.code !== code);
+      }
+    }
+
+    await setPersonCurrentDetails(newPerson);
+  };
+
+  return { assignments, checkedItems, handleToggleAssignment, handleToggleGroup, isMale, isDisqualified };
+};
+
+export default useAssignments;

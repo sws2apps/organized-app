@@ -8,8 +8,8 @@ export type AssignmentType = {
   _deleted: string | null;
 };
 
-type TimeAwayType = {
-  timeAwayId: string;
+export type TimeAwayType = {
+  id: string;
   startDate: { value: string; updatedAt: string };
   endDate: { value: string | null; updatedAt: string };
   comments: { value: string; updatedAt: string };
@@ -39,21 +39,25 @@ type EnrollmentHistoryType = {
   _deleted: string | null;
 };
 
-export type PersontType = {
+type EmergencyContactsType = {
+  id: string;
+  name: { value: string; updatedAt: string };
+  contact: { value: string; updatedAt: string };
   _deleted: string | null;
-  id?: string;
+};
+
+export type PersonType = {
+  _deleted: string | null;
   person_uid: string;
-  person_name?: string;
   person_firstname: { value: string; updatedAt: string };
   person_lastname: { value: string; updatedAt: string };
   person_displayName: { value: string; updatedAt: string };
   isMale: { value: boolean; updatedAt: string };
   isFemale: { value: boolean; updatedAt: string };
   birthDate: { value: string | null; updatedAt: string };
-  isUnavailable: { value: boolean; updatedAt: string };
   assignments: AssignmentType[];
   timeAway: TimeAwayType[];
-  isMoved: { value: boolean; updatedAt: string };
+  isArchived: { value: boolean; updatedAt: string };
   isDisqualified: { value: boolean; updatedAt: string };
   email: { value: string; updatedAt: string };
   address: { value: string; updatedAt: string };
@@ -76,6 +80,7 @@ export type PersontType = {
   };
   privileges: PrivilegeHistoryType[];
   enrollments: EnrollmentHistoryType[];
+  emergencyContacts: EmergencyContactsType[];
 };
 
 export type VisitingSpeakerPersonType = {
@@ -95,3 +100,8 @@ export type VisitingSpeakerPersonType = {
   phone: string;
   changes: [];
 };
+
+export enum PersonsTab {
+  ALL = 0,
+  RECENT = 1,
+}

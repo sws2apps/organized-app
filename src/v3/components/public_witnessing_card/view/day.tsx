@@ -4,6 +4,11 @@ import { IconPersonSearch } from '@icons/index';
 import { PublicWitnessingViewProps } from '../public_witnessing_card.types';
 import { colorVariants } from '@components/public_witnessing_card/public_witnessing_card.styles';
 
+/**
+ * Component for rendering the day view of public witnessing.
+ * @param props - Component props.
+ * @returns JSX element representing the day view of public witnessing.
+ */
 const PublicWitnessingDayView = (props: PublicWitnessingViewProps) => {
   const { witnesses, needWitnesses, isContent, variant, label } = props;
 

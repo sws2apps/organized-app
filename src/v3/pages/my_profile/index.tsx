@@ -24,7 +24,6 @@ const MyProfile = () => {
     <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
       <PageTitle
         title={t('tr_myProfile')}
-        backTo="/"
         buttons={
           <Button variant="main" color="red" startIcon={<IconLogout />} onClick={handleOpenLogoutConfirm}>
             {t('tr_logOut')}

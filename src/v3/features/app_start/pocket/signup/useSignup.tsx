@@ -13,10 +13,10 @@ import {
 import { getMessageByCode } from '@services/i18n/translation';
 import { apiPocketSignup } from '@services/api/user';
 import { POCKET_ROLES } from '@constants/index';
-import { handleUpdateSetting, handleUpdateSettingFromRemote } from '@services/dexie/settings';
+import { dbAppSettingsUpdate, dbAppSettingsUpdateFromRemote } from '@services/dexie/settings';
 import { loadApp, runUpdater } from '@services/app';
 import { apiFetchSchedule } from '@services/api/schedule';
-import { handleUpdateScheduleFromRemote } from '@services/app/schedules';
+import { schedUpdateFromRemote } from '@services/app/schedules';
 import { useAppTranslation } from '@hooks/index';
 import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 
@@ -34,7 +34,7 @@ const useSignup = () => {
   const [isProcessing, setIsProcessing] = useState(false);
 
   const handleReturnChooser = async () => {
-    await handleUpdateSetting({ account_type: '' });
+    await dbAppSettingsUpdate({ account_type: '' });
     await setIsAccountChoose(true);
   };
 
@@ -75,19 +75,19 @@ const useSignup = () => {
         const approvedRole = data.cong_role.some((role) => POCKET_ROLES.includes(role));
 
         if (!approvedRole) {
-          await handleUpdateSetting({ account_type: '' });
+          await dbAppSettingsUpdate({ account_type: '' });
           await setIsUnauthorizedRole(true);
           return;
         }
 
         await loadApp();
         await runUpdater();
-        await handleUpdateSettingFromRemote(data);
+        await dbAppSettingsUpdateFromRemote(data);
 
         await setRootModalOpen(true);
         const { status: scheduleStatus, data: scheduleData } = await apiFetchSchedule();
         if (scheduleStatus === 200) {
-          await handleUpdateScheduleFromRemote(scheduleData);
+          await schedUpdateFromRemote(scheduleData);
         }
         await setRootModalOpen(false);
 

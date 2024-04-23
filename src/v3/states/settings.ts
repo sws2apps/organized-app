@@ -4,8 +4,9 @@ Individual property are evaluated using recoil selector
 */
 
 import { atom, selector } from 'recoil';
-import { SettingsType } from '@definition/app';
 import { AccountTypeState } from '@definition/api';
+import { TimeAwayType } from '@definition/person';
+import { SettingsType } from '@definition/settings';
 
 export const settingsState = atom({
   key: 'settings',
@@ -117,7 +118,23 @@ export const userAvatarState = selector({
   get: ({ get }) => {
     const settings = get(settingsState);
 
-    return settings.user_avatar || undefined;
+    return settings.user_avatar;
+  },
+});
+
+export const userAvatarUrlState = selector({
+  key: 'userAvatarUrl',
+  get: ({ get }) => {
+    const avatarBuffer = get(userAvatarState);
+
+    let src = '';
+
+    if (avatarBuffer) {
+      const blob = new Blob([avatarBuffer]);
+      src = URL.createObjectURL(blob);
+    }
+
+    return src;
   },
 });
 
@@ -323,22 +340,6 @@ export const isMeetingEditorRoleState = selector({
   },
 });
 
-export const avatarUrlState = selector({
-  key: 'avatarUrl',
-  get: ({ get }) => {
-    const userAvatar = get(userAvatarState);
-
-    let src = '';
-
-    if (userAvatar && typeof userAvatar === 'object') {
-      const blob = new Blob([userAvatar]);
-      src = URL.createObjectURL(blob);
-    }
-
-    return src;
-  },
-});
-
 export const autoAssignMMOpeningPrayerState = selector({
   key: 'autoAssignMMOpeningPrayer',
   get: ({ get }) => {
@@ -393,20 +394,11 @@ export const enableHourCreditsState = selector({
   },
 });
 
-export const userTimeAwayState = selector({
+export const userTimeAwayState = selector<TimeAwayType[]>({
   key: 'userTimeAway',
   get: ({ get }) => {
     const settings = get(settingsState);
 
-    return settings?.user_time_away || { data: [], changes: [] };
-  },
-});
-
-export const publicTalkSyncState = selector({
-  key: 'publicTalkSync',
-  get: ({ get }) => {
-    const settings = get(settingsState);
-
-    return settings?.public_talk_sync || '';
+    return settings?.user_time_away || [];
   },
 });

@@ -64,13 +64,15 @@
   "tr_monthYear": "{{ month }} {{ year }}",
   "tr_publish": "公開",
   "tr_groupNumber": "Group {{ groupNumber }}",
-  "tr_groupName": "Group {{ groupName }}",
+  "tr_groupName": "{{ groupName }}グループ",
   "tr_meetingDate": "Meeting date",
   "tr_listView": "List view",
   "tr_share": "Share",
-  "tr_copyLink": "Copy link",
+  "tr_copyLink": "リンクをコピー",
   "tr_unsupportedBrowserError": "Unsupported browser",
   "tr_unsupportedBrowserErrorDesc": "You are using an unsupported browser for the Organized app. Make sure that your browser is up to date, or try to use another browser. ",
-  "tr_jsDisabledError": "JavaScript is disabled",
-  "tr_jsDisabledErrorDesc": "Organized is a web app that requires JavaScript to work properly. Please enable JavaScript in your browser settings to ensure you can use all of its features."
+  "tr_featureComingSoon": "Feature coming soon",
+  "tr_featureComingSoonDesc": "This feature is not available yet. We are currently working on it. Stay tuned!",
+  "tr_openRealApp": "Open real App",
+  "tr_confirm": "Confirm"
 }

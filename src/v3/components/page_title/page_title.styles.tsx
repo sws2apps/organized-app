@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Box, BoxProps, IconButton } from '@mui/material';
+import { Box, BoxProps } from '@mui/material';
 import { styled } from '@mui/system';
 import { useBreakpoints } from '@hooks/index';
 
@@ -7,10 +7,7 @@ export const PageTitleBlock = styled(Box)({
   display: 'flex',
   alignItems: 'center',
   gap: '16px',
-});
-
-export const PageTitleIcon = styled(IconButton)({
-  padding: 0,
+  cursor: 'pointer',
 });
 
 export const PageTitleContainer: FC<BoxProps> = (props) => {

@@ -5,8 +5,20 @@ import { IconDown } from '@icons/index';
 import { visuallyHidden } from '@mui/utils';
 
 const alignCenterArray = ['action', 'number'];
+
+/**
+ * Component for rendering the head of a table.
+ * @param props - The props for the TableHead component.
+ * @returns A JSX element representing the table head.
+ */
 const TableHead = (props: EnhancedTableProps) => {
   const { order, orderBy, onRequestSort, columns } = props;
+
+  /**
+   * Creates a handler function for sorting table columns.
+   * @param property - The property to sort by.
+   * @returns A function that handles sorting when a column header is clicked.
+   */
   const createSortHandler = (property: string) => (event: MouseEvent<unknown>) => {
     onRequestSort(event, property);
   };

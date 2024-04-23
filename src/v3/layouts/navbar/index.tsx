@@ -1,9 +1,21 @@
 import { AppBar, Box, Container, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Toolbar } from '@mui/material';
-import AccountHeaderIcon from '@components/account_header_icon';
-import Typography from '@components/typography';
-import { AppNotification, LanguageSwitcher, ThemeSwitcher } from '@features/index';
-import { IconAccount, IconDonate, IconHelp, IconInfo, IconLogin, IconLogo, IconMenu } from '@icons/index';
+import {
+  IconAccount,
+  IconDonate,
+  IconHelp,
+  IconInfo,
+  IconLogin,
+  IconLogo,
+  IconMenu,
+  IconMail,
+  IconArrowLink,
+} from '@icons/index';
+import { AppNotification, DemoBanner, LanguageSwitcher, ThemeSwitcher } from '@features/index';
 import { useAppTranslation } from '@hooks/index';
+import { isDemo } from '@constants/index';
+import AccountHeaderIcon from '@components/account_header_icon';
+import Button from '@components/button';
+import Typography from '@components/typography';
 import useNavbar from './useNavbar';
 
 const baseMenuStyle = {
@@ -34,6 +46,7 @@ const NavBar = () => {
     handleCloseMore,
     handleOpenMoreMenu,
     openMore,
+    handleOpenContact,
     handleOpenAbout,
     handleOpenSupport,
     handleOpenDoc,
@@ -47,6 +60,7 @@ const NavBar = () => {
     handleGoDashboard,
     isAppLoad,
     handleReconnectAccount,
+    handleOpenRealApp,
   } = useNavbar();
 
   return (
@@ -55,7 +69,7 @@ const NavBar = () => {
       sx={{
         backgroundColor: 'var(--accent-100)',
         borderBottom: '1px solid var(--accent-200)',
-        height: '56px',
+        minHeight: '56px',
         position: 'fixed',
         top: 0,
         left: 0,
@@ -81,15 +95,18 @@ const NavBar = () => {
             onClick={handleGoDashboard}
           >
             <IconLogo width={40} height={40} />
-            <Typography className="h3" color="var(--black)">
-              Organized
-            </Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+              <Typography className="h3" color="var(--black)">
+                Organized
+              </Typography>
+              {isDemo && <DemoBanner />}
+            </Box>
           </Box>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: { mobile: '4px', tablet: '8px' } }}>
             <AppNotification />
             <ThemeSwitcher />
 
-            {tabletUp && isAppLoad && <LanguageSwitcher menuStyle={baseMenuStyle} />}
+            {tabletUp && (isAppLoad || isDemo) && <LanguageSwitcher menuStyle={baseMenuStyle} />}
 
             <IconButton
               color="inherit"
@@ -163,18 +180,20 @@ const NavBar = () => {
                 },
               }}
             >
-              {(tabletDown || !isAppLoad) && <LanguageSwitcher menuStyle={menuStyle} />}
+              {(tabletDown || (!isAppLoad && !isDemo)) && <LanguageSwitcher menuStyle={menuStyle} />}
 
-              <MenuItem disableRipple sx={menuStyle} onClick={handleOpenMyProfile}>
-                <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px !important' } }}>
-                  <IconAccount color="var(--black)" />
-                </ListItemIcon>
-                <ListItemText>
-                  <Typography className="body-regular">{t('tr_myProfile')}</Typography>
-                </ListItemText>
-              </MenuItem>
+              {!isAppLoad && (
+                <MenuItem disableRipple sx={menuStyle} onClick={handleOpenMyProfile}>
+                  <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px !important' } }}>
+                    <IconAccount color="var(--black)" />
+                  </ListItemIcon>
+                  <ListItemText>
+                    <Typography className="body-regular">{t('tr_myProfile')}</Typography>
+                  </ListItemText>
+                </MenuItem>
+              )}
 
-              {!isAppLoad && !isCongAccountConnected && (
+              {!isDemo && !isAppLoad && !isCongAccountConnected && (
                 <MenuItem disableRipple sx={menuStyle} onClick={handleReconnectAccount}>
                   <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px !important' } }}>
                     <IconLogin color="var(--black)" />
@@ -200,6 +219,14 @@ const NavBar = () => {
                   <Typography className="body-regular">{t('tr_howToUseApp')}</Typography>
                 </ListItemText>
               </MenuItem>
+              <MenuItem disableRipple sx={menuStyle} onClick={handleOpenContact}>
+                <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px !important' } }}>
+                  <IconMail color="var(--black)" />
+                </ListItemIcon>
+                <ListItemText>
+                  <Typography className="body-regular">{t('tr_shareFeeback')}</Typography>
+                </ListItemText>
+              </MenuItem>
               <MenuItem disableRipple sx={menuStyle} onClick={handleOpenAbout}>
                 <ListItemIcon sx={{ '&.MuiListItemIcon-root': { width: '24px', minWidth: '24px !important' } }}>
                   <IconInfo color="var(--black)" />
@@ -207,6 +234,15 @@ const NavBar = () => {
                 <ListItemText>
                   <Typography className="body-regular">{t('tr_about')}</Typography>
                 </ListItemText>
+              </MenuItem>
+              <MenuItem
+                disableRipple
+                sx={{ ...menuStyle, height: 'auto', paddingTop: '5px' }}
+                onClick={handleOpenRealApp}
+              >
+                <Button variant="tertiary" startIcon={<IconArrowLink />} sx={{ width: '100%' }}>
+                  {t('tr_openRealApp')}
+                </Button>
               </MenuItem>
             </Menu>
           </Box>

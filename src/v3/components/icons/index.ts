@@ -241,6 +241,7 @@ export { default as IconSun } from './IconSun';
 export { default as IconSync } from './IconSync';
 export { default as IconSynced } from './IconSynced';
 export { default as IconTalk } from './IconTalk';
+export { default as IconTest } from './IconTest';
 export { default as IconTimeChange } from './IconTimeChange';
 export { default as IconToggle } from './IconToggle';
 export { default as IconTypeText } from './IconTypeText';

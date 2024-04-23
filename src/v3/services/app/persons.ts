@@ -1,694 +1,452 @@
-import { personsActiveState, personsState } from '@states/persons';
-import { promiseGetRecoil } from 'recoil-outside';
-import { getServiceYearByMonth } from './serviceYear';
-import { getPublisherS21, isPublisherHasReport } from './fieldServiceReports';
-import { addMonths } from '@utils/date';
+import { PersonType } from '@definition/person';
+import { formatDate } from '@services/dateformat';
+import { dateFirstDayMonth, dateLastDatePreviousMonth } from '@utils/date';
 
-const excludeFields = ['changes', 'id', 'lastAssignment', 'person_uid'];
+const personUnarchiveMidweekMeeting = (person: PersonType) => {
+  if (person.midweekMeetingStudent.active.value) {
+    const current = person.midweekMeetingStudent.history.find(
+      (record) => record._deleted === null && record.endDate.value === null
+    );
 
-const compareNonArray = (source, modified, changes) => {
-  const localExclude = [...excludeFields, 'timeAway', 'assignments', 'spiritualStatus', 'otherService'];
-
-  for (const [key, value] of Object.entries(modified)) {
-    if (localExclude.indexOf(key) === -1) {
-      if (value !== source[key]) {
-        const findIndex = changes.findIndex((item) => item.field === key);
-        if (findIndex !== -1) changes.splice(findIndex, 1);
-        changes.push({ date: new Date().toISOString(), field: key, value });
-      }
+    if (!current) {
+      person.midweekMeetingStudent.history.push({
+        id: crypto.randomUUID(),
+        startDate: { value: new Date().toISOString(), updatedAt: new Date().toISOString() },
+        endDate: { value: null, updatedAt: new Date().toISOString() },
+        _deleted: null,
+      });
     }
   }
-
-  return changes;
 };
 
-const compareAssignments = (source, modified, changes) => {
-  // check added or deleted assignment
-  if (modified.assignments) {
-    for (const updated of modified.assignments) {
-      const findSource = source.assignments?.find((item) => item.code === updated.code);
-      // new assignment
-      if (!findSource) {
-        const filteredChanges = [];
-        changes.forEach((item) => {
-          if (item.field === 'assignments' && item.value.code === updated.code) {
-            return;
-          }
-          filteredChanges.push(item);
-        });
-        changes = [...filteredChanges];
-        changes.push({ date: new Date().toISOString(), field: 'assignments', isAdded: true, value: updated });
-      }
+const personUnarchiveUnbaptizedPublisher = (person: PersonType) => {
+  if (person.unbaptizedPublisher.active.value) {
+    const current = person.unbaptizedPublisher.history.find(
+      (record) => record._deleted === null && record.endDate.value === null
+    );
+
+    if (!current) {
+      person.unbaptizedPublisher.history.push({
+        id: crypto.randomUUID(),
+        startDate: { value: dateFirstDayMonth().toISOString(), updatedAt: new Date().toISOString() },
+        endDate: { value: null, updatedAt: new Date().toISOString() },
+        _deleted: null,
+      });
     }
   }
-
-  // check deleted assignment
-  if (source.assignments) {
-    for (const original of source.assignments) {
-      const findModified = modified.assignments?.find((item) => item.code === original.code);
-      if (!findModified) {
-        const filteredChanges = [];
-        changes.forEach((item) => {
-          if (item.field === 'assignments' && item.value.code === original.code) {
-            return;
-          }
-          filteredChanges.push(item);
-        });
-        changes = [...filteredChanges];
-        changes.push({ date: new Date().toISOString(), field: 'assignments', isDeleted: true, value: original });
-      }
-    }
-  }
-
-  return changes;
 };
 
-const compareTimeAway = (source, modified, changes) => {
-  // check added or modified time away
-  if (modified.timeAway) {
-    for (const updated of modified.timeAway) {
-      const findSource = source.timeAway?.find((item) => item.timeAwayId === updated.timeAwayId);
-      // time away modified
-      if (findSource) {
-        const excludeArrayFields = ['timeAwayId', 'isActive'];
-        let arrayFieldChanged = false;
-        for (const [arrayKey, arrayValue] of Object.entries(updated)) {
-          if (excludeArrayFields.indexOf(arrayKey) === -1) {
-            if (arrayValue !== findSource[arrayKey]) {
-              arrayFieldChanged = true;
-              break;
-            }
-          }
-        }
+const personUnarchiveBaptizedPublisher = (person: PersonType) => {
+  if (person.baptizedPublisher.active.value) {
+    const current = person.baptizedPublisher.history.find(
+      (record) => record._deleted === null && record.endDate.value === null
+    );
 
-        if (arrayFieldChanged) {
-          const filteredChanges = [];
-          changes.forEach((item) => {
-            if (item.field === 'timeAway' && item.value.timeAwayId === updated.timeAwayId) {
-              return;
-            }
-            filteredChanges.push(item);
-          });
-          changes = [...filteredChanges];
-          changes.push({ date: new Date().toISOString(), field: 'timeAway', isModified: true, value: updated });
-        }
-      }
-
-      // new time away
-      if (!findSource) {
-        changes.push({ date: new Date().toISOString(), field: 'timeAway', isAdded: true, value: updated });
-      }
+    if (!current) {
+      person.baptizedPublisher.history.push({
+        id: crypto.randomUUID(),
+        startDate: { value: dateFirstDayMonth().toISOString(), updatedAt: new Date().toISOString() },
+        endDate: { value: null, updatedAt: new Date().toISOString() },
+        _deleted: null,
+      });
     }
   }
-
-  // check deleted timeAway
-  if (source.timeAway) {
-    for (const original of source.timeAway) {
-      const findModified = modified.timeAway?.find((item) => item.timeAwayId === original.timeAwayId);
-      if (!findModified) {
-        const filteredChanges = [];
-        changes.forEach((item) => {
-          if (item.field === 'timeAway' && item.value.timeAwayId === original.timeAwayId) {
-            return;
-          }
-          filteredChanges.push(item);
-        });
-        changes = [...filteredChanges];
-        changes.push({ date: new Date().toISOString(), field: 'timeAway', isDeleted: true, value: original });
-      }
-    }
-  }
-
-  return changes;
 };
 
-const compareSpiritualStatus = (source, modified, changes) => {
-  // check added or modified status
-  if (modified.spiritualStatus) {
-    for (const updated of modified.spiritualStatus) {
-      const findSource = source.spiritualStatus?.find((item) => item.statusId === updated.statusId);
-      // status modified
-      if (findSource) {
-        const excludeArrayFields = ['statusId', 'isActive'];
-        let arrayFieldChanged = false;
-        for (const [arrayKey, arrayValue] of Object.entries(updated)) {
-          if (excludeArrayFields.indexOf(arrayKey) === -1) {
-            if (arrayValue !== findSource[arrayKey]) {
-              arrayFieldChanged = true;
-              break;
-            }
-          }
-        }
-        if (arrayFieldChanged) {
-          const filteredChanges = [];
-          changes.forEach((item) => {
-            if (item.field === 'spiritualStatus' && item.value.statusId === updated.statusId) {
-              return;
-            }
-            filteredChanges.push(item);
-          });
-          changes = [...filteredChanges];
-          changes.push({ date: new Date().toISOString(), field: 'spiritualStatus', isModified: true, value: updated });
-        }
+const personArchiveMidweekMeeting = (person: PersonType, isAddPerson: boolean) => {
+  if (person.midweekMeetingStudent.active.value) {
+    const current = person.midweekMeetingStudent.history.find(
+      (record) => record._deleted === null && record.endDate.value === null
+    );
+
+    const startDate = formatDate(new Date(current.startDate.value), 'mm/dd/yyyy');
+    const nowDate = formatDate(new Date(), 'mm/dd/yyyy');
+
+    if (startDate === nowDate) {
+      if (isAddPerson) {
+        person.midweekMeetingStudent.history = person.midweekMeetingStudent.history.filter(
+          (record) => record.id !== current.id
+        );
       }
 
-      // new status
-      if (!findSource) {
-        changes.push({ date: new Date().toISOString(), field: 'spiritualStatus', isAdded: true, value: updated });
+      if (!isAddPerson) {
+        current._deleted = new Date().toISOString();
       }
     }
-  }
 
-  // check deleted spiritualStatus
-  if (source.spiritualStatus) {
-    for (const original of source.spiritualStatus) {
-      const findModified = modified.spiritualStatus?.find((item) => item.statusId === original.statusId);
-      if (!findModified) {
-        const filteredChanges = [];
-        changes.forEach((item) => {
-          if (item.field === 'spiritualStatus' && item.value.statusId === original.statusId) {
-            return;
-          }
-          filteredChanges.push(item);
-        });
-        changes = [...filteredChanges];
-        changes.push({ date: new Date().toISOString(), field: 'spiritualStatus', isDeleted: true, value: original });
-      }
+    if (startDate !== nowDate) {
+      current.endDate.value = new Date().toISOString();
+      current.endDate.updatedAt = new Date().toISOString();
     }
   }
-
-  return changes;
 };
 
-const compareOtherService = (source, modified, changes) => {
-  // check added or modified service
-  if (modified.otherService) {
-    for (const updated of modified.otherService) {
-      const findSource = source.otherService?.find((item) => item.serviceId === updated.serviceId);
-      // service modified
-      if (findSource) {
-        const excludeArrayFields = ['serviceId', 'isActive'];
-        let arrayFieldChanged = false;
-        for (const [arrayKey, arrayValue] of Object.entries(updated)) {
-          if (excludeArrayFields.indexOf(arrayKey) === -1) {
-            if (arrayValue !== findSource[arrayKey]) {
-              arrayFieldChanged = true;
-              break;
-            }
-          }
-        }
-        if (arrayFieldChanged) {
-          const filteredChanges = [];
-          changes.forEach((item) => {
-            if (item.field === 'otherService' && item.value.serviceId === updated.serviceId) {
-              return;
-            }
-            filteredChanges.push(item);
-          });
-          changes = [...filteredChanges];
-          changes.push({ date: new Date().toISOString(), field: 'otherService', isModified: true, value: updated });
-        }
+const personArchiveUnbaptizedPublisher = (person: PersonType, isAddPerson: boolean) => {
+  if (person.unbaptizedPublisher.active.value) {
+    const current = person.unbaptizedPublisher.history.find(
+      (record) => record._deleted === null && record.endDate.value === null
+    );
+
+    const startDate = formatDate(new Date(current.startDate.value), 'mm/dd/yyyy');
+    const nowDate = formatDate(new Date(), 'mm/dd/yyyy');
+
+    if (startDate === nowDate) {
+      if (isAddPerson) {
+        person.unbaptizedPublisher.history = person.unbaptizedPublisher.history.filter(
+          (record) => record.id !== current.id
+        );
       }
 
-      // new service
-      if (!findSource) {
-        changes.push({ date: new Date().toISOString(), field: 'otherService', isAdded: true, value: updated });
+      if (!isAddPerson) {
+        current._deleted = new Date().toISOString();
       }
     }
-  }
 
-  // check deleted otherService
-  if (source.otherService) {
-    for (const original of source.otherService) {
-      const findModified = modified.otherService?.find((item) => item.serviceId === original.serviceId);
-      if (!findModified) {
-        const filteredChanges = [];
-        changes.forEach((item) => {
-          if (item.field === 'otherService' && item.value.serviceId === original.serviceId) {
-            return;
-          }
-          filteredChanges.push(item);
-        });
-        changes = [...filteredChanges];
-        changes.push({ date: new Date().toISOString(), field: 'otherService', isDeleted: true, value: original });
-      }
+    if (startDate !== nowDate) {
+      current.endDate.value = dateLastDatePreviousMonth().toISOString();
+      current.endDate.updatedAt = new Date().toISOString();
     }
   }
-
-  return changes;
 };
 
-export const comparePerson = (source, modified) => {
-  let changes = source.changes ? [...source.changes] : [];
+const personArchiveBaptizedPublisher = (person: PersonType, isAddPerson: boolean) => {
+  if (person.baptizedPublisher.active.value) {
+    const current = person.baptizedPublisher.history.find(
+      (record) => record._deleted === null && record.endDate.value === null
+    );
 
-  changes = compareNonArray(source, modified, changes);
-  changes = compareAssignments(source, modified, changes);
-  changes = compareTimeAway(source, modified, changes);
-  changes = compareSpiritualStatus(source, modified, changes);
-  changes = compareOtherService(source, modified, changes);
+    const startDate = formatDate(new Date(current.startDate.value), 'mm/dd/yyyy');
+    const nowDate = formatDate(new Date(), 'mm/dd/yyyy');
 
-  return changes;
+    if (startDate === nowDate) {
+      if (isAddPerson) {
+        person.baptizedPublisher.history = person.baptizedPublisher.history.filter(
+          (record) => record.id !== current.id
+        );
+      }
+
+      if (!isAddPerson) {
+        current._deleted = new Date().toISOString();
+      }
+    }
+
+    if (startDate !== nowDate) {
+      current.endDate.value = dateLastDatePreviousMonth().toISOString();
+      current.endDate.updatedAt = new Date().toISOString();
+    }
+  }
 };
 
-export const getRecentPersons = async (data) => {
-  const recentPersons = data ? JSON.parse(data) : [];
-  const persons = await promiseGetRecoil(personsState);
+const personEndActiveEnrollments = (person: PersonType) => {
+  const activeEnrollments = person.enrollments.filter(
+    (record) => record._deleted === null && record.endDate.value === null
+  );
 
-  const result = [];
-  if (persons.length === 0) {
-    localStorage.removeItem('recentPersons');
+  for (const enrollment of activeEnrollments) {
+    enrollment.endDate = { value: dateLastDatePreviousMonth().toISOString(), updatedAt: new Date().toISOString() };
+  }
+};
+
+const personEndActivePrivileges = (person: PersonType) => {
+  const activePrivileges = person.privileges.filter(
+    (record) => record._deleted === null && record.endDate.value === null
+  );
+
+  for (const privilege of activePrivileges) {
+    privilege.endDate = { value: dateLastDatePreviousMonth().toISOString(), updatedAt: new Date().toISOString() };
+  }
+};
+
+export const personAssignmentsRemove = (person: PersonType) => {
+  for (const assignment of person.assignments) {
+    if (assignment._deleted === null) {
+      assignment._deleted = new Date().toISOString();
+    }
+  }
+};
+
+export const personUnarchive = (person: PersonType) => {
+  personUnarchiveMidweekMeeting(person);
+  personUnarchiveUnbaptizedPublisher(person);
+  personUnarchiveBaptizedPublisher(person);
+
+  person.isArchived = { value: false, updatedAt: new Date().toISOString() };
+};
+
+export const personArchive = (person: PersonType, isAddPerson: boolean) => {
+  personArchiveMidweekMeeting(person, isAddPerson);
+  personArchiveUnbaptizedPublisher(person, isAddPerson);
+  personArchiveBaptizedPublisher(person, isAddPerson);
+
+  personEndActiveEnrollments(person);
+  personEndActivePrivileges(person);
+
+  personAssignmentsRemove(person);
+
+  person.isArchived = { value: true, updatedAt: new Date().toISOString() };
+};
+
+export const personIsInactive = (person: PersonType) => {
+  let isInactive = false;
+
+  const isBaptized = person.baptizedPublisher.active.value;
+  const isUnbaptized = person.unbaptizedPublisher.active.value;
+
+  if (isBaptized) {
+    isInactive =
+      person.baptizedPublisher.history.filter((record) => record._deleted === null && record.endDate.value === null)
+        .length === 0;
+  }
+
+  if (isUnbaptized) {
+    isInactive =
+      person.unbaptizedPublisher.history.filter((record) => record._deleted === null && record.endDate.value === null)
+        .length === 0;
+  }
+
+  return isInactive;
+};
+
+export const personIsElder = (person: PersonType) => {
+  const hasActive = person.privileges.find(
+    (record) => record.privilege.value === 'elder' && record.endDate.value === null && record._deleted === null
+  );
+
+  return hasActive ? true : false;
+};
+
+export const personIsMS = (person: PersonType) => {
+  const hasActive = person.privileges.find(
+    (record) => record.privilege.value === 'ms' && record.endDate.value === null && record._deleted === null
+  );
+
+  return hasActive ? true : false;
+};
+
+export const personIsAP = (person: PersonType) => {
+  const hasActive = person.enrollments.find(
+    (record) => record.enrollment.value === 'AP' && record.endDate.value === null && record._deleted === null
+  );
+
+  return hasActive ? true : false;
+};
+
+export const personIsFMF = (person: PersonType) => {
+  const hasActive = person.enrollments.find(
+    (record) => record.enrollment.value === 'FMF' && record.endDate.value === null && record._deleted === null
+  );
+
+  return hasActive ? true : false;
+};
+
+export const personIsFR = (person: PersonType) => {
+  const hasActive = person.enrollments.find(
+    (record) => record.enrollment.value === 'FR' && record.endDate.value === null && record._deleted === null
+  );
+
+  return hasActive ? true : false;
+};
+
+export const personIsFS = (person: PersonType) => {
+  const hasActive = person.enrollments.find(
+    (record) => record.enrollment.value === 'FS' && record.endDate.value === null && record._deleted === null
+  );
+
+  return hasActive ? true : false;
+};
+
+export const personHasNoAssignment = (person: PersonType) => {
+  const hasNoAssignment = person.assignments.filter((record) => record._deleted === null).length === 0;
+  return hasNoAssignment;
+};
+
+export const applyNameFilters = ({
+  persons,
+  searchKey,
+  isArchived,
+  allPersons,
+}: {
+  persons: PersonType[];
+  searchKey: string;
+  isArchived?: boolean;
+  allPersons?: PersonType[];
+}) => {
+  const dataPersons: PersonType[] = [];
+
+  if (isArchived) {
+    const archivedPersons = allPersons.filter((record) => record.isArchived.value);
+    dataPersons.push(...archivedPersons);
   } else {
-    let temp = recentPersons;
-    for await (const recent of recentPersons) {
-      const findPerson = persons.find((person) => person.person_uid === recent);
+    dataPersons.push(...persons);
+  }
 
-      if (findPerson) {
-        result.push(findPerson);
-      } else {
-        temp = temp.filter((tmp) => tmp !== recent);
-        localStorage.setItem('recentPersons', JSON.stringify(temp));
-      }
+  const filteredByName: PersonType[] = [];
+
+  for (const person of dataPersons) {
+    const foundFirstName = person.person_firstname.value.toLowerCase().includes(searchKey.toLowerCase());
+    const foundLastName = person.person_lastname.value.toLowerCase().includes(searchKey.toLowerCase());
+    const foundDisplayName = person.person_displayName.value.toLowerCase().includes(searchKey.toLowerCase());
+
+    if (foundFirstName || foundLastName || foundDisplayName) {
+      filteredByName.push(person);
     }
   }
 
-  return result;
+  return filteredByName;
 };
 
-export const getPerson = async (uid) => {
-  const persons = await promiseGetRecoil(personsActiveState);
-  const person = persons.find((p) => p.person_uid === uid);
+export const applyAssignmentFilters = (persons: PersonType[], filtersKey: number[]) => {
+  const assignments = filtersKey.filter((item) => typeof item === 'number');
+  const filteredByAssignments: PersonType[] = [];
 
-  return person;
+  if (assignments.length === 0) {
+    filteredByAssignments.push(...persons);
+  }
+
+  if (assignments.length > 0) {
+    for (const person of persons) {
+      let isPassed = false;
+
+      const activeAssignments = person.assignments.filter((record) => record._deleted === null);
+      isPassed = activeAssignments.some((record) => assignments.includes(record.code));
+
+      if (isPassed) {
+        filteredByAssignments.push(person);
+      }
+    }
+  }
+
+  return filteredByAssignments;
 };
 
-export const personIsPublisher = async (uid: string, month?: string) => {
-  const persons = await promiseGetRecoil(personsState);
-  const person = persons.find((p) => p.person_uid === uid);
+export const applyGroupFilters = (persons: PersonType[], filtersKey: string[]) => {
+  const groups = filtersKey.filter((item) => typeof item === 'string');
 
-  // default month to current month if undefined
-  if (!month) month = `${new Date().getFullYear()}/${String(new Date().getMonth() + 1).padStart(2, '0')}/01`;
+  const finalResult: PersonType[] = [];
 
-  let result = false;
-  const publisherDates = person.spiritualStatus?.filter((status) => status.status === 'publisher') || [];
+  if (groups.length === 0) {
+    finalResult.push(...persons);
+  }
 
-  for (const service of publisherDates) {
-    const varDate = new Date(month);
-    const tmpStartDate = new Date(service.startDate);
-    const startDate = new Date(tmpStartDate.getFullYear(), tmpStartDate.getMonth(), 1);
+  if (groups.length > 0) {
+    for (const person of persons) {
+      let isPassed = false;
 
-    if (startDate > varDate) {
-      continue;
-    }
+      const isMaleFilter = groups.includes('male');
+      const isFemaleFilter = groups.includes('female');
+      const isAnointedFilter = groups.includes('anointed');
+      const isBaptizedFilter = groups.includes('baptized');
+      const isUnbaptizedFilter = groups.includes('unbaptized');
+      const isActiveFilter = groups.includes('active');
+      const isInactiveFilter = groups.includes('inactive');
+      const isPioneerAllFilter = groups.includes('pioneerAll');
+      const isAPFilter = groups.includes('AP');
+      const isFRFilter = groups.includes('FR');
+      const isFSFilter = groups.includes('FS');
+      const isFMFFilter = groups.includes('FMF');
+      const isAppointedBrotherAllFilter = groups.includes('appointedBrotherAll');
+      const isElderFilter = groups.includes('elder');
+      const isMSFilter = groups.includes('ministerialServant');
+      const isMidweekStudentFilter = groups.includes('midweekStudent');
+      const isNoAssignmentFilter = groups.includes('noAssignment');
 
-    if (service.endDate === null) {
-      result = true;
-      break;
-    }
+      const isMale = person.isMale.value;
+      const isFemale = person.isFemale.value;
+      const isAnointed = person.baptizedPublisher.isAnointed.value;
+      const isBaptized = person.baptizedPublisher.active.value;
+      const isUnbaptized = person.unbaptizedPublisher.active.value;
+      const isInactive = personIsInactive(person);
+      const isAP = personIsAP(person);
+      const isFR = personIsFR(person);
+      const isFS = personIsFS(person);
+      const isFMF = personIsFMF(person);
+      const isElder = personIsElder(person);
+      const isMS = personIsMS(person);
+      const isMidweekStudent = person.midweekMeetingStudent.active.value;
+      const hasNoAssignment = personHasNoAssignment(person);
 
-    const endDate = new Date(service.endDate);
-    if (varDate < endDate) {
-      result = true;
-      break;
+      // male and female not selected
+      if (!isMaleFilter && !isFemaleFilter) isPassed = true;
+
+      // male selected
+      if (isMaleFilter && !isFemaleFilter) isPassed = isMale;
+
+      // female selected
+      if (!isMaleFilter && isFemaleFilter) isPassed = isFemale;
+
+      // anointed selected
+      if (isAnointedFilter) isPassed = isAnointed;
+
+      // baptized selected
+      if (isPassed && isBaptizedFilter) isPassed = isBaptized;
+
+      // unbaptized selected
+      if (isPassed && isUnbaptizedFilter) isPassed = isUnbaptized;
+
+      // active selected
+      if (isPassed && isActiveFilter) isPassed = !isInactive;
+
+      // inactive selected
+      if (isPassed && isInactiveFilter) isPassed = (isBaptized || isUnbaptized) && isInactive;
+
+      // all pioneers selected
+      if (isPassed && isPioneerAllFilter) isPassed = isAP || isFR || isFS || isFMF;
+
+      // AP selected
+      if (isPassed && isAPFilter) isPassed = isAP;
+
+      // FR selected
+      if (isPassed && isFRFilter) isPassed = isFR;
+
+      // FS selected
+      if (isPassed && isFSFilter) isPassed = isFS;
+
+      // FMF selected
+      if (isPassed && isFMFFilter) isPassed = isFMF;
+
+      // all appointed brothers selected
+      if (isPassed && isAppointedBrotherAllFilter) isPassed = isElder || isMS;
+
+      // elder selected
+      if (isPassed && isElderFilter) isPassed = isElder;
+
+      // ministerial servant selected
+      if (isPassed && isMSFilter) isPassed = isMS;
+
+      // midweek student selected
+      if (isPassed && isMidweekStudentFilter) isPassed = isMidweekStudent;
+
+      // no assignment selected
+      if (isPassed && isNoAssignmentFilter) isPassed = hasNoAssignment;
+
+      if (isPassed) {
+        finalResult.push(person);
+      }
     }
   }
 
-  return result;
+  return finalResult;
 };
 
-export const personIsAuxiliaryPioneer = async (uid: string, month?: string) => {
-  const persons = await promiseGetRecoil(personsState);
-  const person = persons.find((p) => p.person_uid === uid);
+export const updateRecentPersons = (person_uid: string, action: 'add' | 'remove') => {
+  let recentPersons: string[] = JSON.parse(localStorage.getItem('personsRecent') || '[]');
 
-  // default month to current month if undefined
-  if (!month) month = `${new Date().getFullYear()}/${String(new Date().getMonth() + 1).padStart(2, '0')}/01`;
+  if (action === 'add') {
+    const length = recentPersons.length;
 
-  let result = false;
-  const auxPionnerDates = person.otherService?.filter((service) => service.service === 'auxiliaryPioneer') || [];
-
-  for (const service of auxPionnerDates) {
-    const varDate = new Date(month);
-    const tmpStartDate = new Date(service.startDate);
-    const startDate = new Date(tmpStartDate.getFullYear(), tmpStartDate.getMonth(), 1);
-
-    if (startDate > varDate) {
-      continue;
+    if (length === 12) {
+      recentPersons.shift();
     }
 
-    if (service.endDate === null) {
-      result = true;
-      break;
-    }
-
-    const endDate = new Date(service.endDate);
-    if (varDate < endDate) {
-      result = true;
-      break;
-    }
+    const isExist = recentPersons.find((record) => record === person_uid);
+    if (!isExist) recentPersons.push(person_uid);
   }
 
-  return result;
-};
-
-export const personIsElder = async (uid: string, month?: string) => {
-  const persons = await promiseGetRecoil(personsState);
-  const person = persons.find((p) => p.person_uid === uid);
-
-  // default month to current month if undefined
-  if (!month) month = `${new Date().getFullYear()}/${String(new Date().getMonth() + 1).padStart(2, '0')}/01`;
-
-  let result = false;
-  const elderDates = person.spiritualStatus?.filter((status) => status.status === 'elder') || [];
-
-  for (const service of elderDates) {
-    const varDate = new Date(month);
-    const tmpStartDate = new Date(service.startDate);
-    const startDate = new Date(tmpStartDate.getFullYear(), tmpStartDate.getMonth(), 1);
-
-    if (startDate > varDate) {
-      continue;
-    }
-
-    if (service.endDate === null) {
-      result = true;
-      break;
-    }
-
-    const endDate = new Date(service.endDate);
-    if (varDate < endDate) {
-      result = true;
-      break;
-    }
+  if (action === 'remove') {
+    recentPersons = recentPersons.filter((record) => record !== person_uid);
   }
 
-  return result;
-};
+  localStorage.setItem('personsRecent', JSON.stringify(recentPersons));
 
-export const personIsMS = async (uid: string, month?: string) => {
-  const persons = await promiseGetRecoil(personsState);
-  const person = persons.find((p) => p.person_uid === uid);
-
-  // default month to current month if undefined
-  if (!month) month = `${new Date().getFullYear()}/${String(new Date().getMonth() + 1).padStart(2, '0')}/01`;
-
-  let result = false;
-  const msDates = person.spiritualStatus?.filter((status) => status.status === 'ms') || [];
-
-  for (const service of msDates) {
-    const varDate = new Date(month);
-    const tmpStartDate = new Date(service.startDate);
-    const startDate = new Date(tmpStartDate.getFullYear(), tmpStartDate.getMonth(), 1);
-
-    if (startDate > varDate) {
-      continue;
-    }
-
-    if (service.endDate === null) {
-      result = true;
-      break;
-    }
-
-    const endDate = new Date(service.endDate);
-    if (varDate < endDate) {
-      result = true;
-      break;
-    }
-  }
-
-  return result;
-};
-
-export const personIsRegularPioneer = async (uid: string, month?: string) => {
-  const persons = await promiseGetRecoil(personsState);
-  const person = persons.find((p) => p.person_uid === uid);
-
-  // default month to current month if undefined
-  if (!month) month = `${new Date().getFullYear()}/${String(new Date().getMonth() + 1).padStart(2, '0')}/01`;
-
-  let result = false;
-  const regPionnerDates = person.otherService?.filter((service) => service.service === 'regularPioneer') || [];
-
-  for (const service of regPionnerDates) {
-    const varDate = new Date(month);
-    const tmpStartDate = new Date(service.startDate);
-    const startDate = new Date(tmpStartDate.getFullYear(), tmpStartDate.getMonth(), 1);
-
-    if (startDate > varDate) {
-      continue;
-    }
-
-    if (service.endDate === null) {
-      result = true;
-      break;
-    }
-
-    const endDate = new Date(service.endDate);
-    if (varDate < endDate) {
-      result = true;
-      break;
-    }
-  }
-
-  return result;
-};
-
-export const personIsSpecialPioneer = async (uid: string, month?: string) => {
-  const persons = await promiseGetRecoil(personsState);
-  const person = persons.find((p) => p.person_uid === uid);
-
-  // default month to current month if undefined
-  if (!month) month = `${new Date().getFullYear()}/${String(new Date().getMonth() + 1).padStart(2, '0')}/01`;
-
-  let result = false;
-  const specialPioneerDates = person.otherService?.filter((service) => service.service === 'specialPioneer') || [];
-
-  for (const service of specialPioneerDates) {
-    const varDate = new Date(month);
-    const tmpStartDate = new Date(service.startDate);
-    const startDate = new Date(tmpStartDate.getFullYear(), tmpStartDate.getMonth(), 1);
-
-    if (startDate > varDate) {
-      continue;
-    }
-
-    if (service.endDate === null) {
-      result = true;
-      break;
-    }
-
-    const endDate = new Date(service.endDate);
-    if (varDate < endDate) {
-      result = true;
-      break;
-    }
-  }
-
-  return result;
-};
-
-export const personIsBaptized = async (uid: string, month?: string) => {
-  const persons = await promiseGetRecoil(personsState);
-  const person = persons.find((p) => p.person_uid === uid);
-
-  // default month to current month if undefined
-  if (!month) month = `${new Date().getFullYear()}/${String(new Date().getMonth() + 1).padStart(2, '0')}/01`;
-
-  let result = false;
-
-  if (person.isBaptized) {
-    const varDate = new Date(month);
-    const tmpStartDate = new Date(person.immersedDate);
-    const startDate = new Date(tmpStartDate.getFullYear(), tmpStartDate.getMonth(), 1);
-
-    if (startDate <= varDate) {
-      result = true;
-    }
-  }
-
-  return result;
-};
-
-export const personIsValidPublisher = async (uid: string, month?: string) => {
-  const persons = await promiseGetRecoil(personsState);
-  const person = persons.find((p) => p.person_uid === uid);
-
-  // default month to current month if undefined
-  const currentDate = new Date();
-  if (!month) month = `${currentDate.getFullYear()}/${String(currentDate.getMonth() + 1).padStart(2, '0')}/01`;
-
-  let isValid = true;
-  if (person.firstMonthReport !== null) {
-    const dateCheck = new Date(month);
-    const firstReport = new Date(person.firstMonthReport);
-    if (dateCheck < firstReport) isValid = false;
-  }
-
-  return isValid;
-};
-
-export const personIsActivePublisher = async (uid: string, month?: string) => {
-  const persons = await promiseGetRecoil(personsState);
-  const person = persons.find((p) => p.person_uid === uid);
-
-  // default month to current month if undefined
-  const currentDate = new Date();
-  if (!month) month = `${currentDate.getFullYear()}/${String(currentDate.getMonth() + 1).padStart(2, '0')}/01`;
-
-  let isActive = false;
-  let countReport = 0;
-  let SY = await getServiceYearByMonth(month);
-  let serviceYear;
-
-  do {
-    if (SY) {
-      const isValid = await personIsValidPublisher(uid, month);
-
-      if (!isValid) {
-        isActive = true;
-        break;
-      }
-
-      serviceYear = SY.uid;
-      const currentS21 = await getPublisherS21(serviceYear, person.person_uid);
-      if (currentS21) {
-        const hasReport = await isPublisherHasReport({
-          service_year: serviceYear,
-          person_uid: person.person_uid,
-          month,
-        });
-        if (hasReport) {
-          isActive = true;
-          break;
-        }
-      }
-
-      const prevMonth = addMonths(new Date(month), -1);
-      month = `${prevMonth.getFullYear()}/${String(prevMonth.getMonth() + 1).padStart(2, '0')}/01`;
-      SY = await getServiceYearByMonth(month);
-    }
-
-    if (!SY) {
-      isActive = true;
-      break;
-    }
-
-    countReport++;
-  } while (countReport <= 5);
-
-  return isActive;
-};
-
-export const personsFilter = async ({ persons, data }) => {
-  const txtSearch = data.txtSearch || '';
-  const filter = data.filter || 'allPersons';
-  const assTypes = data.assTypes || [];
-
-  let firstPassFiltered = [];
-  if (filter === 'allPersons') {
-    firstPassFiltered = structuredClone(persons);
-  }
-
-  const allPublishers = [];
-  for await (const person of persons) {
-    if (person.isValid && (person.isElder || person.isMS || person.isPublisher)) {
-      allPublishers.push(person);
-    }
-  }
-
-  if (filter === 'allPublishers') {
-    firstPassFiltered = structuredClone(allPublishers);
-  }
-
-  if (filter === 'baptizedPublishers') {
-    for await (const person of allPublishers) {
-      if (person.isBaptized && (person.isElder || person.isMS || person.isPublisher)) {
-        firstPassFiltered.push(person);
-      }
-    }
-  }
-
-  if (filter === 'unbaptizedPublishers') {
-    for (const person of allPublishers) {
-      if (!person.isBaptized && person.isPublisher) {
-        firstPassFiltered.push(person);
-      }
-    }
-  }
-
-  if (filter === 'appointedBrothers') {
-    for await (const person of allPublishers) {
-      if (person.isElder || person.isMS) {
-        firstPassFiltered.push(person);
-      }
-    }
-  }
-
-  if (filter === 'elders') {
-    for (const person of allPublishers) {
-      if (person.isElder) {
-        firstPassFiltered.push(person);
-      }
-    }
-  }
-
-  if (filter === 'auxiliaryPioneers') {
-    for await (const person of allPublishers) {
-      if (person.isAuxP) {
-        firstPassFiltered.push(person);
-      }
-    }
-  }
-
-  if (filter === 'regularPioneers') {
-    for await (const person of allPublishers) {
-      if (person.isFR) {
-        firstPassFiltered.push(person);
-      }
-    }
-  }
-
-  if (filter === 'inactivePublishers') {
-    for await (const person of allPublishers) {
-      if (!person.isActive) {
-        firstPassFiltered.push(person);
-      }
-    }
-  }
-
-  if (filter === 'activePublishers') {
-    for await (const person of allPublishers) {
-      if (person.isActive) {
-        firstPassFiltered.push(person);
-      }
-    }
-  }
-
-  const secondPassFiltered = [];
-  for (const person of firstPassFiltered) {
-    const assignments = person.assignments;
-
-    let passed = true;
-
-    for (const type of assTypes) {
-      const found = assignments.find((assignment) => assignment.code === type);
-      if (!found) {
-        passed = false;
-        break;
-      }
-    }
-
-    if (passed) secondPassFiltered.push(person);
-  }
-
-  const thirdPassFiltered = [];
-  for (const person of secondPassFiltered) {
-    if (person.person_name.toLowerCase().includes(txtSearch.toLowerCase())) {
-      thirdPassFiltered.push(person);
-    }
-  }
-
-  thirdPassFiltered.sort((a, b) => {
-    return a.person_name > b.person_name ? 1 : -1;
-  });
-
-  return thirdPassFiltered;
+  return recentPersons;
 };

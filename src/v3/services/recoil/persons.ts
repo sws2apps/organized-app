@@ -1,12 +1,14 @@
-import { promiseSetRecoil } from 'recoil-outside';
+import { promiseGetRecoil, promiseSetRecoil } from 'recoil-outside';
 import {
   isPersonDeleteState,
   personCurrentDetailsState,
+  personsAllState,
   personsFiltersKeyState,
+  personsRecentState,
   personsSearchKeyState,
   selectedPersonState,
 } from '@states/persons';
-import { PersontType } from '@definition/person';
+import { PersonType } from '@definition/person';
 
 export const setIsPersonDelete = async (value) => {
   await promiseSetRecoil(isPersonDeleteState, value);
@@ -20,10 +22,20 @@ export const setPersonsSearchKey = async (data) => {
   await promiseSetRecoil(personsSearchKeyState, data);
 };
 
-export const setPersonsFiltersKey = async (data: string[]) => {
+export const setPersonsFiltersKey = async (data: (string | number)[]) => {
   await promiseSetRecoil(personsFiltersKeyState, data);
 };
 
-export const setPersonCurrentDetails = async (data: PersontType) => {
+export const setPersonCurrentDetails = async (data: PersonType) => {
   await promiseSetRecoil(personCurrentDetailsState, data);
+};
+
+export const personsStateFind = async (person_uid: string) => {
+  const persons: PersonType[] = await promiseGetRecoil(personsAllState);
+  const person = persons.find((record) => record.person_uid === person_uid);
+  return person;
+};
+
+export const setPersonsRecent = async (data: string[]) => {
+  await promiseSetRecoil(personsRecentState, data);
 };
