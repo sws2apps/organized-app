@@ -1,4 +1,4 @@
-import { StyleSheet, Document, Page, View, Text } from '@react-pdf/renderer';
+import { StyleSheet, Document, Page } from '@react-pdf/renderer';
 import MidweekMeetingHeader from './MidweekMeeting_PDF/MidweekMeetingHeader';
 import MidweekMeetingItem from './MidweekMeeting_PDF/MidweekMeetingItem';
 const styles = StyleSheet.create({

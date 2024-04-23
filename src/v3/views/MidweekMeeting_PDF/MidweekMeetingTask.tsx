@@ -35,17 +35,22 @@ const MidweekMeetingTask = ({
     },
   });
 
-  const func = (part, obj) => {
+  const participantsFunc = (part, obj) => {
     if (part === 'Apply yourself to the field ministry' && typeof obj === 'object') {
-      const mappedArray = Object.entries(obj).map(([_, value]) => {
-        return { value };
+      const mappedArray = Object.entries(obj).map(([, value]) => {
+        return value;
       });
       return mappedArray;
     }
     return [];
   };
 
-  const participants = func(part, taskConductor);
+  interface Participant {
+    first: string;
+    second?: string;
+  }
+
+  const participants = participantsFunc(part, taskConductor);
 
   return (
     <View style={styles.container}>
@@ -92,17 +97,19 @@ const MidweekMeetingTask = ({
               : {}
           }
         >
-          {participants.map((participant: any, index: number) => (
+          {participants.map((participant: Participant, index) => (
             <View
               key={index}
               style={{ display: 'flex', flexDirection: 'row', width: 106, gap: 4, paddingBottom: 4, paddingTop: 4 }}
             >
               <Text style={{ fontFamily: 'Inter', fontWeight: 'medium', fontSize: 9, color: '#222222' }}>
-                {participant.value.first}
+                {participant.first}
               </Text>
-              <Text style={{ fontFamily: 'Inter', fontWeight: 'normal', fontSize: 9, color: '#222222' }}>
-                {participant.value.second}
-              </Text>
+              {participant.second && (
+                <Text style={{ fontFamily: 'Inter', fontWeight: 'normal', fontSize: 9, color: '#222222' }}>
+                  {participant.second}
+                </Text>
+              )}
             </View>
           ))}
         </View>
