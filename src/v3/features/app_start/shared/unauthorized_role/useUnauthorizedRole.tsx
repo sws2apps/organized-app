@@ -17,7 +17,7 @@ const useUnauthorizedRole = () => {
     };
   }, [anchorRef]);
 
-  return { anchorRef };
+  return { anchorRef, reloadApp };
 };
 
 export default useUnauthorizedRole;

@@ -2,15 +2,16 @@ import { Box } from '@mui/material';
 import Button from '@components/button';
 import TextMarkup from '@components/text_markup';
 import Typography from '@components/typography';
+import PageTitle from '@components/page_title';
 import { useAppTranslation } from '@hooks/index';
 import { IconRefresh } from '@components/icons/index';
-import useUnauthorizedRole from './useUnauthorizedRole';
-import PermissionErrorImg from '@assets/img/permission-error-illustration.svg?component';
+import NoSchedulesErrorImg from '@assets/img/no-schedules-error-illustration.svg?component';
 
-const UnauthorizedRole = () => {
+const NoScheduleYetPage = () => {
   const { t } = useAppTranslation();
-
-  const { reloadApp, anchorRef } = useUnauthorizedRole();
+  const handleReload = () => {
+    window.location.reload();
+  };
 
   return (
     <Box
@@ -23,6 +24,7 @@ const UnauthorizedRole = () => {
         alignItems: 'center',
       }}
     >
+      <PageTitle title={t('tr_viewAssignmentsSchedule')} />
       <Box
         sx={{
           maxWidth: '702px',
@@ -32,7 +34,7 @@ const UnauthorizedRole = () => {
           flexDirection: { mobile: 'column-reverse', tablet: 'row' },
         }}
       >
-        <PermissionErrorImg />
+        <NoSchedulesErrorImg />
         <Box
           sx={{
             display: 'flex',
@@ -40,16 +42,15 @@ const UnauthorizedRole = () => {
             flexDirection: 'column',
           }}
         >
-          <Typography className="h1">{t('tr_unauthorized')}</Typography>
+          <Typography className="h1">{t('tr_noSchedulesYet')}</Typography>
           <TextMarkup
-            content={t('tr_unauthorizedRole')}
+            content={t('tr_noSchedulesYetDesc')}
             className="body-regular"
             color="var(--grey-400)"
             anchorClassName="h4"
             anchorColor="var(--accent-dark)"
-            anchorRef={anchorRef}
           />
-          <Button variant="main" className="button-caps" onClick={reloadApp} startIcon={<IconRefresh />}>
+          <Button variant="main" className="button-caps" onClick={handleReload} startIcon={<IconRefresh />}>
             {t('tr_refreshPage')}
           </Button>
         </Box>
@@ -58,4 +59,4 @@ const UnauthorizedRole = () => {
   );
 };
 
-export default UnauthorizedRole;
+export default NoScheduleYetPage;
