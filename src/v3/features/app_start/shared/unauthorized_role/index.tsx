@@ -10,7 +10,7 @@ import PermissionErrorImg from '@assets/img/permission-error-illustration.svg?co
 const UnauthorizedRole = () => {
   const { t } = useAppTranslation();
 
-  const { anchorRef } = useUnauthorizedRole();
+  const { reloadApp, anchorRef } = useUnauthorizedRole();
 
   return (
     <Box
@@ -49,7 +49,7 @@ const UnauthorizedRole = () => {
             anchorColor="var(--accent-dark)"
             anchorRef={anchorRef}
           />
-          <Button variant="main" className="button-caps" startIcon={<IconRefresh />}>
+          <Button variant="main" className="button-caps" onClick={reloadApp} startIcon={<IconRefresh />}>
             {t('tr_refreshPage')}
           </Button>
         </Box>

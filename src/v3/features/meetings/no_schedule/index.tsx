@@ -2,12 +2,16 @@ import { Box } from '@mui/material';
 import Button from '@components/button';
 import TextMarkup from '@components/text_markup';
 import Typography from '@components/typography';
+import PageTitle from '@components/page_title';
 import { useAppTranslation } from '@hooks/index';
 import { IconRefresh } from '@components/icons/index';
 import NoSchedulesErrorImg from '@assets/img/no-schedules-error-illustration.svg?component';
 
 const NoScheduleYetPage = () => {
   const { t } = useAppTranslation();
+  const handleReload = () => {
+    window.location.reload();
+  };
 
   return (
     <Box
@@ -20,6 +24,7 @@ const NoScheduleYetPage = () => {
         alignItems: 'center',
       }}
     >
+      <PageTitle title={t('tr_viewAssignmentsSchedule')} />
       <Box
         sx={{
           maxWidth: '702px',
@@ -45,7 +50,7 @@ const NoScheduleYetPage = () => {
             anchorClassName="h4"
             anchorColor="var(--accent-dark)"
           />
-          <Button variant="main" className="button-caps" startIcon={<IconRefresh />}>
+          <Button variant="main" className="button-caps" onClick={handleReload} startIcon={<IconRefresh />}>
             {t('tr_refreshPage')}
           </Button>
         </Box>
