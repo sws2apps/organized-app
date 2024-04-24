@@ -12,35 +12,34 @@ Font.register({
   ],
 });
 
-const MidweekMeetingPartsTitle = ({ part, color, icon, taskConductor }: MeetingPartsTitleProps) => {
-  const styles = StyleSheet.create({
-    container: {
-      paddingTop: 2,
-      paddingBottom: 2,
-      paddingRight: 5,
-      paddingLeft: 15,
-      backgroundColor: color,
-      display: 'flex',
-      flexDirection: 'row',
-      alignItems: 'center',
-    },
-    title: {
-      color: '#FEFEFE',
-      fontFamily: 'Inter',
-      fontWeight: 'medium',
-      fontSize: 9,
-      textTransform: 'uppercase',
-      marginLeft: 4,
-    },
-    mainHall: {
-      width: 106.67,
-      fontFamily: 'Inter',
-      fontWeight: 'semibold',
-      fontSize: 9,
-      color: '#FEFEFE',
-    },
-  });
+const styles = StyleSheet.create({
+  container: {
+    paddingTop: 2,
+    paddingBottom: 2,
+    paddingRight: 5,
+    paddingLeft: 15,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  title: {
+    color: '#FEFEFE',
+    fontFamily: 'Inter',
+    fontWeight: 'medium',
+    fontSize: 9,
+    textTransform: 'uppercase',
+    marginLeft: 4,
+  },
+  mainHall: {
+    width: 106.67,
+    fontFamily: 'Inter',
+    fontWeight: 'semibold',
+    fontSize: 9,
+    color: '#FEFEFE',
+  },
+});
 
+const MidweekMeetingPartsTitle = ({ part, color, icon, taskConductor }: MeetingPartsTitleProps) => {
   const func = (obj) => {
     return obj && typeof obj !== 'string' ? Object.keys(obj) : [];
   };
@@ -48,7 +47,7 @@ const MidweekMeetingPartsTitle = ({ part, color, icon, taskConductor }: MeetingP
   const keys = func(taskConductor);
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: color }]}>
       {icon}
       <Text style={styles.title}>{part}</Text>
       {part === 'Apply yourself to the field ministry' && keys.length > 1 && (
