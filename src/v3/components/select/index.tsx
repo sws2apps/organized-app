@@ -15,13 +15,14 @@ const CustomSelect = (props: SelectPropsType) => {
   const endIcon = props.endIcon || null;
   const required = props.required || false;
   const height = props.height || 44;
+  const fullWidth = props.fullWidth ?? true;
 
   const varHeight = (56 - height) / 2;
 
   return (
     <TextField
       {...props}
-      fullWidth
+      fullWidth={fullWidth}
       required={required}
       label={label}
       value={props.value}
@@ -41,7 +42,7 @@ const CustomSelect = (props: SelectPropsType) => {
           paddingTop: `calc(14.5px - ${varHeight}px)`,
           paddingBottom: `calc(14.5px - ${varHeight}px)`,
           flex: '1 0 0',
-          marginRight: '32px',
+
           '&.MuiSelect-select': {
             minHeight: 'unset',
           },
@@ -73,6 +74,11 @@ const CustomSelect = (props: SelectPropsType) => {
           },
         },
         '.MuiFormLabel-root[data-shrink=false]': { top: `-${varHeight}px` },
+        '.MuiTypography-root': {
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+        },
         ...props.sx,
       }}
       InputProps={{

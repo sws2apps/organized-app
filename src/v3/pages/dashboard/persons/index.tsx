@@ -33,7 +33,11 @@ const PersonsCard = () => {
         />
       </ListItem>
       <ListItem disablePadding>
-        <DashboardMenu icon={<IconVisitingSpeaker color="var(--black)" />} primaryText={t('tr_visitingSpeakers')} />
+        <DashboardMenu
+          icon={<IconVisitingSpeaker color="var(--black)" />}
+          primaryText={t('tr_visitingSpeakers')}
+          path="/visiting-speakers"
+        />
       </ListItem>
     </DashboardCard>
   );

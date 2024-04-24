@@ -21,7 +21,7 @@ export type AutocompletePropsType<T> = Omit<
   /**
    * Label text for the Autocomplete component.
    */
-  label: string;
+  label?: string;
 
   /**
    * Function to render the input of the Autocomplete component.

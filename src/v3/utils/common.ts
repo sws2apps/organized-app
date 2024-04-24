@@ -40,7 +40,28 @@ export const matchIsNumeric = (text) => {
   return !isNaN(Number(text));
 };
 
-export const generateDisplayName = (lastname, firstname) => {
+export const buildPersonFullname = (lastname: string, firstname: string) => {
+  if (lastname.length === 0) {
+    return firstname;
+  }
+
+  if (firstname.length === 0) {
+    return lastname;
+  }
+
+  let result = lastname;
+  if (result.length > 0) result += ` `;
+  result += firstname;
+
+  return result;
+};
+
+export const generateDisplayName = (lastname: string, firstname: string, autogenerate: boolean) => {
+  if (!autogenerate) {
+    const result = buildPersonFullname(lastname, firstname);
+    return result;
+  }
+
   if (lastname.length === 0) {
     return firstname;
   }

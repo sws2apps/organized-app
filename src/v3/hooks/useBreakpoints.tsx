@@ -3,7 +3,15 @@ import { useMediaQuery, useTheme } from '@mui/material';
 const useBreakpoints = () => {
   const theme = useTheme();
 
+  const mobile400Down = useMediaQuery(theme.breakpoints.down('mobile400'), {
+    noSsr: true,
+  });
+
   const tablet600Up = useMediaQuery(theme.breakpoints.up('tablet600'), {
+    noSsr: true,
+  });
+
+  const tablet600Down = useMediaQuery(theme.breakpoints.down('tablet600'), {
     noSsr: true,
   });
 
@@ -23,7 +31,7 @@ const useBreakpoints = () => {
     noSsr: true,
   });
 
-  return { tablet600Up, tabletUp, tabletDown, laptopUp, desktopUp };
+  return { mobile400Down, tablet600Up, tablet600Down, tabletUp, tabletDown, laptopUp, desktopUp };
 };
 
 export default useBreakpoints;

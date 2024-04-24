@@ -4,6 +4,7 @@ import UserCard from '@components/user_card';
 import { PersonCardType } from './index.types';
 import usePersonCard from './usePersonCard';
 import DeletePersonConfirm from '../person_delete';
+import { buildPersonFullname } from '@utils/common';
 
 const PersonCard = ({ person }: PersonCardType) => {
   const { badges, handleDeleteCancel, handleDelete, isDeleting, handleDeleteConfirm, handleOpenPerson } =
@@ -15,7 +16,7 @@ const PersonCard = ({ person }: PersonCardType) => {
 
       <UserCard
         type="person"
-        name={`${person.person_lastname.value} ${person.person_firstname.value}`}
+        name={buildPersonFullname(person.person_lastname.value, person.person_firstname.value)}
         female={person.isFemale.value}
         onDelete={handleDelete}
         onClick={handleOpenPerson}

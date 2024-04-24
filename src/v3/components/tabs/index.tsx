@@ -42,7 +42,7 @@ const a11yProps = (index: number) => {
  * @param tabs An array of tabs with label and corresponding component.
  */
 const CustomTabs = ({ tabs, value, onChange }: CustomTabProps) => {
-  const [valueOfActivePanel, setValueOfActivePanel] = useState(value);
+  const [valueOfActivePanel, setValueOfActivePanel] = useState(value || 0);
 
   /**
    * Handle tab change event.
@@ -58,7 +58,7 @@ const CustomTabs = ({ tabs, value, onChange }: CustomTabProps) => {
   };
 
   useEffect(() => {
-    setValueOfActivePanel(value);
+    setValueOfActivePanel(value || 0);
   }, [value]);
 
   return (

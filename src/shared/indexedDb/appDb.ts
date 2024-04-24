@@ -14,6 +14,7 @@ import { CongFieldServiceReportsTable, congFieldServiceReportsSchema } from './t
 import { BranchFieldServiceReportsTable, branchFieldServiceReportsSchema } from './tables/branch_field_service_reports';
 import { BranchCongAnalysisTable, branchCongAnalysisSchema } from './tables/branch_cong_analysis';
 import { MeetingAttendanceTable, meetingAttendanceSchema } from './tables/meeting_attendance';
+import { SpeakersCongregationsTable, speakersCongregationsSchema } from './tables/speakers_congregations';
 
 type DexieTables = PersonsTable &
   SettingsTable &
@@ -28,7 +29,8 @@ type DexieTables = PersonsTable &
   CongFieldServiceReportsTable &
   BranchFieldServiceReportsTable &
   BranchCongAnalysisTable &
-  MeetingAttendanceTable;
+  MeetingAttendanceTable &
+  SpeakersCongregationsTable;
 
 type Dexie<T = DexieTables> = BaseDexie & T;
 
@@ -49,6 +51,7 @@ const schema = {
   ...branchFieldServiceReportsSchema,
   ...branchCongAnalysisSchema,
   ...meetingAttendanceSchema,
+  ...speakersCongregationsSchema,
 };
 
 appDb.version(1).stores(schema);
