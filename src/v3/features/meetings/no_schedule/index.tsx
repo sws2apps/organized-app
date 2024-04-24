@@ -1,17 +1,17 @@
 import { Box } from '@mui/material';
+import { IconRefresh } from '@icons/index';
+import { useAppTranslation } from '@hooks/index';
 import Button from '@components/button';
 import TextMarkup from '@components/text_markup';
 import Typography from '@components/typography';
 import PageTitle from '@components/page_title';
-import { useAppTranslation } from '@hooks/index';
-import { IconRefresh } from '@components/icons/index';
 import NoSchedulesErrorImg from '@assets/img/no-schedules-error-illustration.svg?component';
+import useNoSchedule from './useNoSchedule';
 
 const NoScheduleYetPage = () => {
   const { t } = useAppTranslation();
-  const handleReload = () => {
-    window.location.reload();
-  };
+
+  const { handleReload } = useNoSchedule();
 
   return (
     <Box

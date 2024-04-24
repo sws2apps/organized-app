@@ -50,3 +50,5 @@ export const isDemo = import.meta.env.VITE_APP_MODE === 'DEMO';
 export const isDEV = isDemo ? false : import.meta.env.DEV;
 
 export const isQA = import.meta.env.VITE_APP_MODE === 'QA';
+
+export const songsList = Array.from({ length: 158 }, (_, i) => i + 1);

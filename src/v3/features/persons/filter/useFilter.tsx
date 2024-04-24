@@ -4,7 +4,7 @@ import { personsFiltersKeyState, personsTabState } from '@states/persons';
 import { setPersonsFiltersKey } from '@services/recoil/persons';
 import { useAppTranslation } from '@hooks/index';
 import { AssignmentCheckListColors } from '@definition/app';
-import { AssignmentCode } from '@definition/schedules';
+import { AssignmentCode } from '@definition/assignment';
 import { PersonsTab } from '@definition/person';
 
 const useFilter = () => {

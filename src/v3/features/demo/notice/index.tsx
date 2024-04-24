@@ -11,7 +11,7 @@ const DemoNotice = () => {
   const { handleClose, open } = useNotice();
 
   return (
-    <Dialog onClose={handleClose} open={open} sx={{ padding: '24px', maxWidth: '500px' }}>
+    <Dialog onClose={handleClose} open={open} sx={{ padding: '24px' }}>
       <Typography className="h2">{t('tr_testAppWelcome')}</Typography>
       <TextMarkup
         content={t('tr_testAppWelcomeDesc')}

@@ -9,7 +9,7 @@ const PersonQualifyConfirm = ({ open, onClose, onConfirm }: PersonQualifyConfirm
   const { t } = useAppTranslation();
 
   return (
-    <Dialog onClose={onClose} open={open} sx={{ padding: '24px', maxWidth: '500px' }}>
+    <Dialog onClose={onClose} open={open} sx={{ padding: '24px' }}>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
         <Typography className="h2">{t('tr_markQualifiedTitle')}</Typography>
         <Typography className="body-regular" color="var(--grey-400)">

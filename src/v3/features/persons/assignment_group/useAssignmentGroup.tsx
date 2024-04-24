@@ -1,4 +1,4 @@
-import { AssignmentCode } from '@definition/schedules';
+import { AssignmentCode } from '@definition/assignment';
 
 const useAssignmentGroup = (isMale: boolean) => {
   const checkGroupDisabled = (id: string) => {

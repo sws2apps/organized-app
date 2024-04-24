@@ -18,7 +18,7 @@ export type SettingsType = {
   co_displayName: { value: string; updatedAt: string };
   autoBackup: { value: boolean; updatedAt: string };
   autoBackup_interval: { value: number; updatedAt: string };
-  schedule_useFullname: { value: boolean; updatedAt: string };
+  autogenerate_display_name: { value: boolean; updatedAt: string };
   account_type: string;
   opening_prayer_MM_autoAssign: { value: boolean; updatedAt: string };
   user_local_uid: string;
@@ -30,6 +30,7 @@ export type SettingsType = {
   follow_os_theme: { value: boolean; updatedAt: string };
   enable_hour_credits: { value: boolean; updatedAt: string };
   user_time_away: TimeAwayType[];
+  cong_discoverable: { value: boolean; updatedAt: string };
 };
 
 export type BackupDataType = {

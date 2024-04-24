@@ -1,9 +1,9 @@
 import { Box } from '@mui/material';
+import { IconRefresh } from '@icons/index';
+import { useAppTranslation } from '@hooks/index';
 import Button from '@components/button';
 import TextMarkup from '@components/text_markup';
 import Typography from '@components/typography';
-import { useAppTranslation } from '@hooks/index';
-import { IconRefresh } from '@components/icons/index';
 import useUnauthorizedRole from './useUnauthorizedRole';
 import PermissionErrorImg from '@assets/img/permission-error-illustration.svg?component';
 

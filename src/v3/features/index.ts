@@ -66,6 +66,10 @@ export { default as PersonsList } from './persons/list';
 export { default as PersonsSearch } from './persons/search';
 export { default as PersonTimeAway } from './persons/time_away';
 
+/* -------------------------------- Visiting Speakers -------------------------------- */
+export { default as IncomingSpeakers } from './persons/visiting_speakers/incoming';
+export { default as OutgoingSpeakers } from './persons/visiting_speakers/outgoing';
+
 /* -------------------------------- Ministry -------------------------------- */
 export { default as AddServiceTimeModalWindow } from './ministry/add_service_time_modal_window';
 export { default as MinistryTimer } from './ministry/ministry_timer';

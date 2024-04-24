@@ -9,7 +9,7 @@ const DeletePersonConfirm = ({ open, onClose, onConfirm }: DeletePersonConfirmTy
   const { t } = useAppTranslation();
 
   return (
-    <Dialog onClose={onClose} open={open} sx={{ padding: '24px', maxWidth: '500px' }}>
+    <Dialog onClose={onClose} open={open} sx={{ padding: '24px' }}>
       <Typography className="h2">{t('tr_deletePerson')}</Typography>
       <Typography className="body-regular" color="var(--grey-400)">
         {t('tr_deletePersonConfirmation')}

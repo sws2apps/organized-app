@@ -2,7 +2,7 @@ import { promiseSetRecoil } from 'recoil-outside';
 import { rootModalOpenState } from '@states/app';
 import { PersonType } from '@definition/person';
 import { generateDisplayName } from './common';
-import { AssignmentCode } from '@definition/schedules';
+import { AssignmentCode } from '@definition/assignment';
 import appDb from '@shared/indexedDb/appDb';
 
 export const delay = async (time: number) => {
@@ -42,7 +42,7 @@ export const importDummyPersons = async (showLoading?: boolean) => {
         person_firstname: { value: user.firstName, updatedAt: new Date().toISOString() },
         person_lastname: { value: user.lastName, updatedAt: new Date().toISOString() },
         person_displayName: {
-          value: generateDisplayName(user.lastName, user.firstName),
+          value: generateDisplayName(user.lastName, user.firstName, false),
           updatedAt: new Date().toISOString(),
         },
         birthDate: { value: new Date(user.birthDate).toISOString(), updatedAt: new Date().toISOString() },
