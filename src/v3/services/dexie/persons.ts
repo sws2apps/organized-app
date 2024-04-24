@@ -2,7 +2,7 @@ import appDb from '@shared/indexedDb/appDb';
 import { PersonType } from '@definition/person';
 import { getTranslation } from '@services/i18n/translation';
 
-export const dbPersonsSave = async (person: PersonType) => {
+export const dbPersonsSave = async (person: PersonType, isNew?: boolean) => {
   try {
     // CHECK FOR MULTIPLE RECORDS HISTORY FOR ALL SPIRITUAL STATUS
     const baptizedActive = person.baptizedPublisher.history.filter(
@@ -66,6 +66,20 @@ export const dbPersonsSave = async (person: PersonType) => {
       throw new Error(getTranslation({ key: 'tr_enrollemntsActiveMultiple' }));
     }
 
+    // CHECK FOR EXISTING RECORD IF NEW
+    if (isNew) {
+      const personsAll = await dbPersonsGetAll();
+      const found = personsAll.find(
+        (record) =>
+          record.person_firstname.value === person.person_firstname.value &&
+          record.person_lastname.value === person.person_lastname.value
+      );
+
+      if (found) {
+        throw new Error(getTranslation({ key: 'tr_personRecordExists' }));
+      }
+    }
+
     await appDb.persons.put(person);
   } catch (err) {
     throw new Error(err);
@@ -81,4 +95,9 @@ export const dbPersonsDelete = async (person_uid: string) => {
   } catch (err) {
     throw new Error(err);
   }
+};
+
+export const dbPersonsGetAll = async () => {
+  const persons = await appDb.persons.toArray();
+  return persons;
 };

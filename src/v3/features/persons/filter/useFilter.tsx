@@ -13,8 +13,9 @@ const useFilter = () => {
   const setActiveTab = useSetRecoilState(personsTabState);
   const filters = useRecoilValue(personsFiltersKeyState);
 
+  const checkedItems = filters.filter((record) => typeof record === 'number') as number[];
+
   const [isExpanded, setIsExpanded] = useState(false);
-  const [checkedItems, setCheckedItems] = useState<number[]>([]);
 
   const assignments = useMemo(() => {
     return [
@@ -131,7 +132,6 @@ const useFilter = () => {
   };
 
   const handleClearFilters = async () => {
-    setCheckedItems([]);
     await setPersonsFiltersKey([]);
 
     setActiveTab(PersonsTab.ALL);
@@ -139,7 +139,6 @@ const useFilter = () => {
 
   const handleToggleGroup = async (checked: boolean, id: string) => {
     let newFiltersKey = [...filters];
-    let newCheckedItems = [...checkedItems];
 
     const items = assignments.find((group) => group.id === id).items;
 
@@ -147,10 +146,6 @@ const useFilter = () => {
       for (const item of items) {
         if (!newFiltersKey.includes(item.code)) {
           newFiltersKey.push(item.code);
-        }
-
-        if (!newCheckedItems.includes(item.code)) {
-          newCheckedItems.push(item.code);
         }
       }
     }
@@ -160,14 +155,9 @@ const useFilter = () => {
         if (newFiltersKey.includes(item.code)) {
           newFiltersKey = newFiltersKey.filter((key) => key !== item.code);
         }
-
-        if (newCheckedItems.includes(item.code)) {
-          newCheckedItems = newCheckedItems.filter((key) => key !== item.code);
-        }
       }
     }
 
-    setCheckedItems(newCheckedItems);
     await setPersonsFiltersKey(newFiltersKey);
 
     setActiveTab(PersonsTab.ALL);
@@ -175,15 +165,10 @@ const useFilter = () => {
 
   const handleToggleAssignment = async (checked: boolean, code: AssignmentCode) => {
     let newFiltersKey = [...filters];
-    let newCheckedItems = [...checkedItems];
 
     if (checked) {
       if (!newFiltersKey.includes(code)) {
         newFiltersKey.push(code);
-      }
-
-      if (!newCheckedItems.includes(code)) {
-        newCheckedItems.push(code);
       }
     }
 
@@ -191,13 +176,8 @@ const useFilter = () => {
       if (newFiltersKey.includes(code)) {
         newFiltersKey = newFiltersKey.filter((activeKey) => activeKey !== code);
       }
-
-      if (newCheckedItems.includes(code)) {
-        newCheckedItems = newCheckedItems.filter((activeKey) => activeKey !== code);
-      }
     }
 
-    setCheckedItems(newCheckedItems);
     await setPersonsFiltersKey(newFiltersKey);
 
     setActiveTab(PersonsTab.ALL);

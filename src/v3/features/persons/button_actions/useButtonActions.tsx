@@ -35,7 +35,7 @@ const useButtonActions = () => {
 
   const handleSavePerson = async () => {
     try {
-      await dbPersonsSave(person);
+      await dbPersonsSave(person, isNewPerson);
       resetPersonNew();
 
       navigate('/persons');
