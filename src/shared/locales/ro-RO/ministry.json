@@ -17,7 +17,7 @@
   "tr_timeInService": "Time already in service",
   "tr_timeInServiceDesc": "The time will be added to the ministry timer",
   "tr_monthlyReport": "Monthly report",
-  "tr_sharedMinistry": "Participated in any form of ministry during this month",
+  "tr_sharedMinistry": "Shared in any form of ministry during this month",
   "tr_dailyHistory": "Daily history",
   "tr_btnAddRecord": "Add record",
   "tr_addRecordDesc": "You don’t have any daily service records yet. Add one here to fill out your monthly report.",

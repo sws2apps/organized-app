@@ -37,7 +37,10 @@ const usePersonDetails = () => {
 
   useEffect(() => {
     const handleLoad = async () => {
-      await setPersonCurrentDetails(personSchema);
+      const newSchema = structuredClone(personSchema);
+      newSchema.person_uid = crypto.randomUUID();
+
+      await setPersonCurrentDetails(newSchema);
     };
 
     handleLoad();

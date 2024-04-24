@@ -17,7 +17,6 @@ import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 import { useAppTranslation } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
 import { NextStepType } from './index.types';
-import { dbAppSettingsUpdateUserInfoAfterLogin } from '@services/dexie/settings';
 
 const useEmailLinkAuth = () => {
   const { t } = useAppTranslation();
@@ -36,16 +35,30 @@ const useEmailLinkAuth = () => {
     setSearchParams('');
   };
 
+  const handleResult = async (result: NextStepType) => {
+    setSearchParams('');
+    setIsEmailLinkAuthenticate(false);
+    setIsEmailAuth(false);
+
+    if (result.encryption) {
+      setIsEncryptionCodeOpen(true);
+    } else if (result.isVerifyMFA) {
+      setCurrentMFAStage('verify');
+    } else if (result.unauthorized) {
+      setIsUnauthorizedRole(true);
+    } else if (result.createCongregation) {
+      setIsCongAccountCreate(true);
+    }
+  };
+
   const completeEmailAuth = async () => {
     try {
       if (isProcessing) return;
 
       hideMessage();
-
       setIsProcessing(true);
 
       await setAuthPersistence();
-
       const user = await userSignInCustomToken(code);
 
       const { status, data } = await apiUpdatePasswordlessInfo(user.uid);
@@ -57,9 +70,7 @@ const useEmailLinkAuth = () => {
           message: getMessageByCode(data.message),
         });
         showMessage();
-
         setIsProcessing(false);
-
         return;
       }
 
@@ -69,59 +80,19 @@ const useEmailLinkAuth = () => {
       if (mfa === 'not_enabled') {
         if (cong_name.length === 0) {
           result.createCongregation = true;
-        }
-
-        if (cong_name.length > 0 && cong_role.length === 0) {
+        } else if (cong_role.length === 0) {
           result.unauthorized = true;
-        }
-
-        if (cong_name.length > 0 && cong_role.length > 0) {
-          const approvedRole = cong_role.some((role) => APP_ROLES.includes(role));
-
-          if (!approvedRole) {
-            result.unauthorized = true;
-          }
-
-          if (approvedRole) {
-            await dbAppSettingsUpdateUserInfoAfterLogin(data);
-
-            // refetch auth after email update
-            await userSignInCustomToken(code);
-
-            result.encryption = true;
-          }
+        } else if (cong_role.some((role) => APP_ROLES.includes(role))) {
+          await userSignInCustomToken(code);
+          result.encryption = true;
+        } else {
+          result.unauthorized = true;
         }
       } else {
         result.isVerifyMFA = true;
       }
 
-      if (result.encryption) {
-        setSearchParams('');
-        setIsEmailLinkAuthenticate(false);
-        setIsEncryptionCodeOpen(true);
-      }
-
-      if (result.isVerifyMFA) {
-        setSearchParams('');
-        setIsEmailLinkAuthenticate(false);
-        setIsEmailAuth(false);
-        setCurrentMFAStage('verify');
-      }
-
-      if (result.unauthorized) {
-        setSearchParams('');
-        setIsEmailLinkAuthenticate(false);
-        setIsEmailAuth(false);
-        setIsUnauthorizedRole(true);
-      }
-
-      if (result.createCongregation) {
-        setSearchParams('');
-        setIsEmailLinkAuthenticate(false);
-        setIsEmailAuth(false);
-        setIsCongAccountCreate(true);
-      }
-
+      await handleResult(result);
       setIsProcessing(false);
     } catch (err) {
       await displayOnboardingFeedback({

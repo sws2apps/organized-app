@@ -351,5 +351,6 @@
   "tr_noPersonsAdded": "No persons added yet",
   "tr_noPersonsAddedDesc": "Start adding people to your congregation by clicking 'Add person' and filling out their information. This will make scheduling and reporting easier.",
   "tr_searchResultsNone": "No search results",
-  "tr_searchResultsNoneDesc": "Try changing your search input or filters, and double-check for typos."
+  "tr_searchResultsNoneDesc": "Try changing your search input or filters, and double-check for typos.",
+  "tr_personRecordExists": "This person already exists in your congregation persons list."
 }
