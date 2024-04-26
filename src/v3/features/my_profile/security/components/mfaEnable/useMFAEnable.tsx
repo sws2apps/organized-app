@@ -94,7 +94,6 @@ const useMFAEnable = (closeDialog: VoidFunction) => {
 
           const qrImg = await QRCode.toDataURL(qrCode);
           setImgSrc(qrImg);
-
           setIsLoading(false);
           return;
         }

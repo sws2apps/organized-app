@@ -32,10 +32,10 @@ const MFAEnable = ({ open, onClose }: MFAEnableType) => {
 
   return (
     <Dialog onClose={onClose} open={open}>
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px', width: '100%' }}>
         <Typography className="h2">{t('tr_2FAStep1')}</Typography>
         {isLoading && (
-          <Box sx={{ display: 'flex', justifyContent: 'center', padding: '36px' }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', padding: '36px', width: '100%' }}>
             <IconLoading color="var(--accent-main)" width={84} height={84} />
           </Box>
         )}
@@ -57,7 +57,7 @@ const MFAEnable = ({ open, onClose }: MFAEnableType) => {
                       <Typography className="body-regular" color="var(--grey-400)">
                         {t('tr_2FAQuickSetupDesc')}
                       </Typography>
-                      <Button variant="tertiary" target="_parent" rel="noopener" href={qrCode}>
+                      <Button variant="tertiary" rel="noopener" href={qrCode}>
                         {t('tr_setup')}
                       </Button>
                     </Box>

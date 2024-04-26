@@ -8,8 +8,6 @@ import { userSignOut } from '@services/firebase/auth';
 import { handleDeleteDatabase } from '@services/app';
 import { APP_ROLES, isDemo } from '@constants/index';
 import { setCongAccountConnected, setRootModalOpen } from '@services/recoil/app';
-import { apiFetchSchedule } from '@services/api/schedule';
-import { schedUpdateFromRemote } from '@services/app/schedules';
 import { accountTypeState } from '@states/settings';
 import { apiFetchCongregationLastBackup } from '@services/api/congregation';
 import worker from '@services/worker/backupWorker';
@@ -56,11 +54,6 @@ const useUserAutoLogin = () => {
             await dbAppSettingsUpdateUserInfoAfterLogin(data);
 
             await setRootModalOpen(true);
-            const { status: scheduleStatus, data: scheduleData } = await apiFetchSchedule();
-            if (scheduleStatus === 200) {
-              await schedUpdateFromRemote(scheduleData);
-            }
-
             const { status, data: backup } = await apiFetchCongregationLastBackup();
             if (status === 200) {
               if (backup.cong_last_backup !== 'NO_BACKUP' || backup.user_last_backup !== 'NO_BACKUP') {

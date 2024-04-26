@@ -7,6 +7,10 @@ const useBreakpoints = () => {
     noSsr: true,
   });
 
+  const tablet500Down = useMediaQuery(theme.breakpoints.down('tablet500'), {
+    noSsr: true,
+  });
+
   const tablet600Up = useMediaQuery(theme.breakpoints.up('tablet600'), {
     noSsr: true,
   });
@@ -31,7 +35,7 @@ const useBreakpoints = () => {
     noSsr: true,
   });
 
-  return { mobile400Down, tablet600Up, tablet600Down, tabletUp, tabletDown, laptopUp, desktopUp };
+  return { mobile400Down, tablet500Down, tablet600Up, tablet600Down, tabletUp, tabletDown, laptopUp, desktopUp };
 };
 
 export default useBreakpoints;

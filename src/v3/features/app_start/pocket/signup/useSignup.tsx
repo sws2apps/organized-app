@@ -8,15 +8,12 @@ import {
   setIsAppLoad,
   setIsSetup,
   setIsUnauthorizedRole,
-  setRootModalOpen,
 } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { apiPocketSignup } from '@services/api/user';
 import { POCKET_ROLES } from '@constants/index';
 import { dbAppSettingsUpdate, dbAppSettingsUpdateFromRemote } from '@services/dexie/settings';
 import { loadApp, runUpdater } from '@services/app';
-import { apiFetchSchedule } from '@services/api/schedule';
-import { schedUpdateFromRemote } from '@services/app/schedules';
 import { useAppTranslation } from '@hooks/index';
 import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 
@@ -83,13 +80,6 @@ const useSignup = () => {
         await loadApp();
         await runUpdater();
         await dbAppSettingsUpdateFromRemote(data);
-
-        await setRootModalOpen(true);
-        const { status: scheduleStatus, data: scheduleData } = await apiFetchSchedule();
-        if (scheduleStatus === 200) {
-          await schedUpdateFromRemote(scheduleData);
-        }
-        await setRootModalOpen(false);
 
         setIsSetup(false);
         setTimeout(async () => {

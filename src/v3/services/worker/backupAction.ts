@@ -28,6 +28,10 @@ self.onmessage = function (event) {
 };
 
 const runBackupSchedule = async () => {
+  let timeout: NodeJS.Timeout;
+
+  if (timeout) clearTimeout(timeout);
+
   try {
     const {
       backupInterval,
@@ -60,10 +64,9 @@ const runBackupSchedule = async () => {
       }
     }
     self.postMessage('Done');
-    setTimeout(runBackupSchedule, backupInterval);
-  } catch {
-    self.postMessage('Done');
-    setTimeout(runBackupSchedule, setting.backupInterval);
+    timeout = setTimeout(runBackupSchedule, backupInterval);
+  } catch (error) {
+    throw new Error(error);
   }
 };
 

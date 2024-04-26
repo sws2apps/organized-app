@@ -17,7 +17,7 @@ const SpeakerContactInfo = ({ speaker }: SpeakerContactInfoType) => {
           <IconCall color="var(--black)" />
           <Typography className="body-small-regular">{t('tr_phoneNumber')}</Typography>
         </Box>
-        <Typography className="body-small-semibold" color="var(--accent-dark)">
+        <Typography className="body-small-semibold" color="var(--accent-dark)" sx={{ wordBreak: 'break-all' }}>
           {person.phone.value}
         </Typography>
       </Box>
@@ -26,7 +26,7 @@ const SpeakerContactInfo = ({ speaker }: SpeakerContactInfoType) => {
           <IconMail color="var(--black)" />
           <Typography className="body-small-regular">{t('tr_emailAddress')}</Typography>
         </Box>
-        <Typography className="body-small-semibold" color="var(--accent-dark)">
+        <Typography className="body-small-semibold" color="var(--accent-dark)" sx={{ wordBreak: 'break-all' }}>
           {person.email.value}
         </Typography>
       </Box>
