@@ -10,11 +10,13 @@ import { publicTalksState } from '@states/public_talks';
 import { PublicTalkType } from '@definition/public_talks';
 import { outgoingSpeakersState } from '@states/visiting_speakers';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
+import { fullnameOptionState } from '@states/settings';
 
 const useEdit = (speaker: VisitingSpeakerType) => {
   const activePersons = useRecoilValue(personsActiveState);
   const publicTalks = useRecoilValue(publicTalksState);
   const outgoingSpeakers = useRecoilValue(outgoingSpeakersState);
+  const fullnameOption = useRecoilValue(fullnameOptionState);
 
   const [openSongAdd, setOpenSongAdd] = useState(false);
   const [addedTalk, setAddedTalk] = useState({} as PublicTalkType);
@@ -137,6 +139,7 @@ const useEdit = (speaker: VisitingSpeakerType) => {
     openSpeakerDetails,
     handleCloseSpeakerDetails,
     speakersOnRecord,
+    fullnameOption,
   };
 };
 

@@ -4,21 +4,18 @@ import { VisitingSpeakerType } from '@definition/visiting_speakers';
 import { buildPersonFullname } from '@utils/common';
 import { personsActiveState } from '@states/persons';
 import { personIsElder } from '@services/app/persons';
-import { congNameState, displayNameEnableState, fullnameOptionState } from '@states/settings';
+import { congNameState, fullnameOptionState } from '@states/settings';
 
 const useSpeakerDetails = (speaker: VisitingSpeakerType) => {
   const fullnameOption = useRecoilValue(fullnameOptionState);
   const persons = useRecoilValue(personsActiveState);
   const congName = useRecoilValue(congNameState);
-  const displayNameEnabled = useRecoilValue(displayNameEnableState);
 
   const [isEdit, setIsEdit] = useState(false);
 
   const person = persons.find((record) => record.person_uid === speaker.person_uid);
 
-  const personName = displayNameEnabled
-    ? speaker.person_display_name.value
-    : buildPersonFullname(speaker.person_lastname.value, speaker.person_firstname.value, fullnameOption);
+  const personName = buildPersonFullname(speaker.person_lastname.value, speaker.person_firstname.value, fullnameOption);
 
   const isElder = personIsElder(person);
 
