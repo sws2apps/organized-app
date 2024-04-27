@@ -23,7 +23,7 @@ const AccountHeaderIcon = () => {
             width: 32,
             height: 32,
             border: isOffline ? '2px solid var(--red-main)' : 'none',
-            boxSizing: 'content-box',
+            boxSizing: 'border-box',
           }}
         />
       )}
