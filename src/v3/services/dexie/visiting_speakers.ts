@@ -1,12 +1,14 @@
 import { UpdateSpec } from 'dexie';
-import appDb from '@shared/indexedDb/appDb';
+import appDb from '@db/appDb';
 import { dbSpeakersCongregationsCreateLocal } from './speakers_congregations';
 import { vistingSpeakerSchema } from './schema';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
 
 export const dbVistingSpeakersLocalCongSpeakerAdd = async () => {
   try {
-    const { cong_number } = await appDb.app_settings.get(1);
+    const settings = await appDb.app_settings.get(1);
+    const cong_number = settings.cong_settings.cong_number;
+
     const congExist = await appDb.speakers_congregations.get(cong_number);
 
     if (!congExist) {

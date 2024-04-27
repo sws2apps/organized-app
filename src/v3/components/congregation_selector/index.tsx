@@ -44,7 +44,7 @@ const CongregationSelector = ({
       startIcon={<IconCongregation color={value ? 'var(--black)' : 'var(--accent-350)'} />}
       endIcon={<IconSearch color={value ? 'var(--black)' : 'var(--accent-350)'} />}
       renderOption={(props, option) => (
-        <Box component="li" {...props} sx={{ margin: 0, padding: 0 }}>
+        <Box component="li" {...props} sx={{ margin: 0, padding: 0 }} key={option.congNumber}>
           <Typography className="body-regular">
             {option.congName.trim()}, {option.congNumber}
           </Typography>

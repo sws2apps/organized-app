@@ -28,7 +28,7 @@ const CountrySelector = ({ handleCountryChange }: { handleCountryChange: (value:
       getOptionLabel={(option: CountryType) => option.name}
       options={options}
       renderOption={(props, option) => (
-        <Box component="li" {...props} sx={{ margin: 0, padding: 0 }}>
+        <Box component="li" {...props} sx={{ margin: 0, padding: 0 }} key={option.code}>
           <Typography className="body-regular">{option.name}</Typography>
         </Box>
       )}

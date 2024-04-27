@@ -11,16 +11,16 @@ const AssignmentGroup = ({
   onHeaderChange,
   onItemChange,
   checkedItems,
-  isMale,
-  isDisqualified = false,
+  male,
+  disqualified = false,
 }: AssignmentGroupType) => {
-  const { checkAssignmentDisabled, checkGroupDisabled } = useAssignmentGroup(isMale);
+  const { checkAssignmentDisabled, checkGroupDisabled } = useAssignmentGroup(male);
 
   return (
     <AssignmentsCheckList
       header={header}
       color={color}
-      disabled={isDisqualified || checkGroupDisabled(id)}
+      disabled={disqualified || checkGroupDisabled(id)}
       onChange={(checked) => onHeaderChange(checked, id)}
     >
       {items.map((assignment) => (
@@ -30,7 +30,7 @@ const AssignmentGroup = ({
           checked={checkAssignmentDisabled(assignment.code) ? false : checkedItems.includes(assignment.code)}
           onChange={(_, checked) => onItemChange(checked, assignment.code)}
           className="body-small-regular"
-          disabled={isDisqualified || checkAssignmentDisabled(assignment.code)}
+          disabled={disqualified || checkAssignmentDisabled(assignment.code)}
           sx={
             assignment.borderTop
               ? { borderTop: '1px solid var(--accent-200)', marginTop: '4px', paddingTop: '8px' }

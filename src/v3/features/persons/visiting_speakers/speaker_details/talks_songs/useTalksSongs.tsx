@@ -1,6 +1,6 @@
 import { useRecoilValue } from 'recoil';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
-import { publicTalksState } from '@states/publicTalks';
+import { publicTalksState } from '@states/public_talks';
 import { dbVisitingSpeakersLocalCongSpeakerUpdate } from '@services/dexie/visiting_speakers';
 
 const useTalksSongs = (speaker: VisitingSpeakerType) => {

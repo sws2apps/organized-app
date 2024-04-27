@@ -1,5 +1,5 @@
 import Dexie from 'dexie';
-import appDb from '@shared/indexedDb/appDb';
+import appDb from '@db/appDb';
 
 export const dbAppDelete = async () => {
   await appDb.close();

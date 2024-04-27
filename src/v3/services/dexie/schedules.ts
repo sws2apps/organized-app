@@ -1,5 +1,5 @@
 import { UpdateSpec } from 'dexie';
-import appDb from '@shared/indexedDb/appDb';
+import appDb from '@db/appDb';
 import { SchedInfoType, SchedWeekType } from '@definition/schedules';
 import { scheduleSchema } from './schema';
 
@@ -20,8 +20,14 @@ export const dbSchedSaveInfo = async ({ scheduleInfo, isOverride }: ScheduleInfo
 
     schedNew.weekOf = scheduleInfo.weekOf;
     schedNew.week_type = { value: scheduleInfo.week_type, updatedAt: new Date().toISOString() };
-    schedNew.noMMeeting = { value: scheduleInfo.noMMeeting, updatedAt: new Date().toISOString() };
-    schedNew.noWMeeting = { value: scheduleInfo.noWMeeting, updatedAt: new Date().toISOString() };
+    schedNew.midweek_meeting_canceled = {
+      value: scheduleInfo.midweek_meeting_canceled,
+      updatedAt: new Date().toISOString(),
+    };
+    schedNew.weekend_meeting_canceled = {
+      value: scheduleInfo.weekend_meeting_canceled,
+      updatedAt: new Date().toISOString(),
+    };
 
     await appDb.sched.put(schedNew);
     return;
@@ -35,12 +41,18 @@ export const dbSchedSaveInfo = async ({ scheduleInfo, isOverride }: ScheduleInfo
       schedEdit.week_type = { value: scheduleInfo.week_type, updatedAt: new Date().toISOString() };
     }
 
-    if (schedEdit.noMMeeting.value !== scheduleInfo.noMMeeting) {
-      schedEdit.noMMeeting = { value: scheduleInfo.noMMeeting, updatedAt: new Date().toISOString() };
+    if (schedEdit.midweek_meeting_canceled.value !== scheduleInfo.midweek_meeting_canceled) {
+      schedEdit.midweek_meeting_canceled = {
+        value: scheduleInfo.midweek_meeting_canceled,
+        updatedAt: new Date().toISOString(),
+      };
     }
 
-    if (schedEdit.noWMeeting.value !== scheduleInfo.noWMeeting) {
-      schedEdit.noWMeeting = { value: scheduleInfo.noWMeeting, updatedAt: new Date().toISOString() };
+    if (schedEdit.weekend_meeting_canceled.value !== scheduleInfo.weekend_meeting_canceled) {
+      schedEdit.weekend_meeting_canceled = {
+        value: scheduleInfo.weekend_meeting_canceled,
+        updatedAt: new Date().toISOString(),
+      };
     }
 
     await appDb.sched.put(schedEdit);

@@ -19,8 +19,8 @@ const useButtonActions = () => {
   const resetPersonNew = useResetRecoilState(personCurrentDetailsState);
   const person = useRecoilValue(personCurrentDetailsState);
 
-  const isPersonDisqualified = person.isDisqualified.value;
-  const isPersonArchived = person.isArchived.value;
+  const isPersonDisqualified = person.disqualified.value;
+  const isPersonArchived = person.archived.value;
 
   const [isDisqualify, setIsDisqualify] = useState(false);
   const [isQualify, setIsQualify] = useState(false);
@@ -70,7 +70,7 @@ const useButtonActions = () => {
   const handleDisqualifyConfirm = async () => {
     try {
       const newPerson = structuredClone(person);
-      newPerson.isDisqualified = { value: true, updatedAt: new Date().toISOString() };
+      newPerson.disqualified = { value: true, updatedAt: new Date().toISOString() };
       personAssignmentsRemove(newPerson);
 
       await dbPersonsSave(newPerson);
@@ -90,7 +90,7 @@ const useButtonActions = () => {
   const handleQualifyConfirm = async () => {
     try {
       const newPerson = structuredClone(person);
-      newPerson.isDisqualified = { value: false, updatedAt: new Date().toISOString() };
+      newPerson.disqualified = { value: false, updatedAt: new Date().toISOString() };
       await dbPersonsSave(newPerson);
       setIsQualify(false);
     } catch (error) {

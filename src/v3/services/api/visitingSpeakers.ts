@@ -1,4 +1,3 @@
-import { getVisitingSpeakersCongregations } from '@services/app/visitingSpeakers';
 import { apiDefault } from './common';
 
 export const apiApproveCongregationSpeakersRequest = async (cong_id) => {
@@ -47,39 +46,6 @@ export const apiUploadVisitingSpeakers = async (speakers) => {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
     body: JSON.stringify({ speakers }),
-  });
-
-  const data = await res.json();
-
-  return { status: res.status, data };
-};
-
-export const apiGetCongregationSpeakersList = async (congs) => {
-  const { apiHost, appVersion: appversion, visitorID: visitorid, congID, userUID: uid } = await apiDefault();
-
-  if (!congs) {
-    const tmpList = await getVisitingSpeakersCongregations();
-    if (tmpList.length === 0) {
-      congs = [];
-    } else {
-      congs = tmpList.join(';');
-    }
-  }
-
-  if (congs) {
-    congs = [congs];
-  }
-
-  const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/visiting-speakers`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      appclient: 'organized',
-      appversion,
-      visitorid,
-      uid,
-      congs: JSON.stringify(congs),
-    },
   });
 
   const data = await res.json();

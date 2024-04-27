@@ -14,8 +14,8 @@ const useAssignments = () => {
   const { t } = useAppTranslation();
 
   const person = useRecoilValue(personCurrentDetailsState);
-  const isMale = person.isMale.value;
-  const isDisqualified = person.isDisqualified.value;
+  const male = person.male.value;
+  const disqualified = person.disqualified.value;
   const checkedItems = person.assignments.filter((record) => record._deleted === null).map((record) => record.code);
 
   const assignments = useMemo(() => {
@@ -89,7 +89,7 @@ const useAssignments = () => {
       const localItems = items.filter((record) => record.code !== AssignmentCode.MM_AssistantOnly);
 
       for (const item of localItems) {
-        if (!isMale) {
+        if (!male) {
           if (item.code === AssignmentCode.MM_Discussion || item.code === AssignmentCode.MM_Talk) {
             continue;
           }
@@ -162,7 +162,7 @@ const useAssignments = () => {
     await setPersonCurrentDetails(newPerson);
   };
 
-  return { assignments, checkedItems, handleToggleAssignment, handleToggleGroup, isMale, isDisqualified };
+  return { assignments, checkedItems, handleToggleAssignment, handleToggleGroup, male, disqualified };
 };
 
 export default useAssignments;

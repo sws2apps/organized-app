@@ -99,7 +99,7 @@ const PersonsFilter = () => {
                   onHeaderChange={handleToggleGroup}
                   onItemChange={handleToggleAssignment}
                   checkedItems={checkedItems}
-                  isMale={true}
+                  male={true}
                 />
               ))}
             </Box>

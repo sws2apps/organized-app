@@ -3,7 +3,7 @@ export type SpeakersCongregationsType = {
   _deleted: string | null;
   cong_id: string;
   cong_name: { value: string; updatedAt: string };
-  cong_address: { value: string; updatedAt: string };
+  cong_location: { value: string; updatedAt: string };
   weekend_meeting_day: { value: number; updatedAt: string };
   weekend_meeting_time: { value: string; updatedAt: string };
   cong_public_talk_coordinator_name: { value: string; updatedAt: string };

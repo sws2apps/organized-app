@@ -1,7 +1,6 @@
 import { useCallback } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { useLiveQuery } from 'dexie-react-hooks';
-import appDb from '@shared/indexedDb/appDb';
 import { settingsState } from '@states/settings';
 import { personsState } from '@states/persons';
 import { weekTypeState } from '@states/weekType';
@@ -10,6 +9,7 @@ import { sourcesState } from '@states/sources';
 import { schedulesState } from '@states/schedules';
 import { visitingSpeakersState } from '@states/visiting_speakers';
 import { speakersCongregationsState } from '@states/speakers_congregations';
+import appDb from '@db/appDb';
 
 const useIndexedDb = () => {
   const dbSettings = useLiveQuery(() => appDb.app_settings.toArray());
@@ -31,7 +31,7 @@ const useIndexedDb = () => {
   const setSpeakersCongregations = useSetRecoilState(speakersCongregationsState);
 
   const loadSettings = useCallback(() => {
-    if (dbSettings && dbSettings[0] && dbSettings[0].id === 1) {
+    if (dbSettings && dbSettings[0]) {
       setSettings(dbSettings[0]);
     }
   }, [dbSettings, setSettings]);

@@ -9,12 +9,12 @@ const useEmergencyContacts = () => {
 
   const person = useRecoilValue(personCurrentDetailsState);
 
-  const activeContacts = person.emergencyContacts.filter((record) => record._deleted === null);
+  const activeContacts = person.emergency_contacts.filter((record) => record._deleted === null);
 
   const handleAddContact = async () => {
     const newPerson = structuredClone(person);
 
-    newPerson.emergencyContacts.push({
+    newPerson.emergency_contacts.push({
       id: crypto.randomUUID(),
       name: { value: '', updatedAt: '' },
       contact: { value: '', updatedAt: '' },
@@ -28,12 +28,12 @@ const useEmergencyContacts = () => {
     const newPerson = structuredClone(person);
 
     if (!isAddPerson) {
-      const current = newPerson.emergencyContacts.find((contact) => contact.id === id);
+      const current = newPerson.emergency_contacts.find((contact) => contact.id === id);
       current._deleted = new Date().toISOString();
     }
 
     if (isAddPerson) {
-      newPerson.emergencyContacts = newPerson.emergencyContacts.filter((contact) => contact.id !== id);
+      newPerson.emergency_contacts = newPerson.emergency_contacts.filter((contact) => contact.id !== id);
     }
 
     await setPersonCurrentDetails(newPerson);
@@ -42,7 +42,7 @@ const useEmergencyContacts = () => {
   const handleNameChange = async (id: string, value: string) => {
     const newPerson = structuredClone(person);
 
-    const current = newPerson.emergencyContacts.find((contact) => contact.id === id);
+    const current = newPerson.emergency_contacts.find((contact) => contact.id === id);
     current.name = { value, updatedAt: new Date().toISOString() };
 
     await setPersonCurrentDetails(newPerson);
@@ -51,7 +51,7 @@ const useEmergencyContacts = () => {
   const handleContactChange = async (id: string, value: string) => {
     const newPerson = structuredClone(person);
 
-    const current = newPerson.emergencyContacts.find((history) => history.id === id);
+    const current = newPerson.emergency_contacts.find((history) => history.id === id);
     current.contact = { value, updatedAt: new Date().toISOString() };
 
     await setPersonCurrentDetails(newPerson);

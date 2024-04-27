@@ -12,7 +12,7 @@ import {
 import { getMessageByCode } from '@services/i18n/translation';
 import { apiPocketSignup } from '@services/api/user';
 import { POCKET_ROLES } from '@constants/index';
-import { dbAppSettingsUpdate, dbAppSettingsUpdateFromRemote } from '@services/dexie/settings';
+import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { loadApp, runUpdater } from '@services/app';
 import { useAppTranslation } from '@hooks/index';
 import useFeedback from '@features/app_start/shared/hooks/useFeedback';
@@ -31,7 +31,7 @@ const useSignup = () => {
   const [isProcessing, setIsProcessing] = useState(false);
 
   const handleReturnChooser = async () => {
-    await dbAppSettingsUpdate({ account_type: '' });
+    await dbAppSettingsUpdate({ 'user_settings.account_type': '' });
     await setIsAccountChoose(true);
   };
 
@@ -72,14 +72,13 @@ const useSignup = () => {
         const approvedRole = data.cong_role.some((role) => POCKET_ROLES.includes(role));
 
         if (!approvedRole) {
-          await dbAppSettingsUpdate({ account_type: '' });
+          await dbAppSettingsUpdate({ 'user_settings.account_type': '' });
           await setIsUnauthorizedRole(true);
           return;
         }
 
         await loadApp();
         await runUpdater();
-        await dbAppSettingsUpdateFromRemote(data);
 
         setIsSetup(false);
         setTimeout(async () => {

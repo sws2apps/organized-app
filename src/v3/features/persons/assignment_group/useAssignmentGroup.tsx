@@ -1,12 +1,12 @@
 import { AssignmentCode } from '@definition/assignment';
 
-const useAssignmentGroup = (isMale: boolean) => {
+const useAssignmentGroup = (male: boolean) => {
   const checkGroupDisabled = (id: string) => {
     let isDisabled = true;
 
-    if (isMale) isDisabled = false;
+    if (male) isDisabled = false;
 
-    if (!isMale) {
+    if (!male) {
       if (id === 'applyFieldMinistryPart') isDisabled = false;
     }
 
@@ -16,9 +16,9 @@ const useAssignmentGroup = (isMale: boolean) => {
   const checkAssignmentDisabled = (code: AssignmentCode) => {
     let isDisabled = true;
 
-    if (isMale) isDisabled = false;
+    if (male) isDisabled = false;
 
-    if (!isMale) {
+    if (!male) {
       if (code === AssignmentCode.MM_StartingConversation) isDisabled = false;
       if (code === AssignmentCode.MM_FollowingUp) isDisabled = false;
       if (code === AssignmentCode.MM_MakingDisciples) isDisabled = false;

@@ -17,7 +17,7 @@ const useOutgoing = () => {
 
       return {
         ...speaker,
-        person_displayName: { value: findPerson?.person_displayName.value || '', updatedAt: '' },
+        person_display_name: { value: findPerson?.person_display_name.value || '', updatedAt: '' },
         person_firstname: { value: findPerson?.person_firstname.value || '', updatedAt: '' },
         person_lastname: { value: findPerson?.person_lastname.value || '', updatedAt: '' },
       };

@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import { IconAddTime, IconPause, IconResume, IconStart, IconStop } from '@icons/index';
-import TimerButton from './components/TimerButton';
+import TimerButton from './timer_button';
 import { useAppTranslation } from '@hooks/index';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { MinistryTimerButtonProps, MinistryTimerStates } from './ministry_timer.types';

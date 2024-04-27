@@ -37,7 +37,7 @@ const PersonSpiritualStatus = () => {
         sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}
       >
         <Typography className="h2">{t('tr_spiritualStatus')}</Typography>
-        <Checkbox label={t('tr_archived')} checked={person.isArchived.value} onChange={handleToggleArchive} />
+        <Checkbox label={t('tr_archived')} checked={person.archived.value} onChange={handleToggleArchive} />
       </Box>
 
       <Box
@@ -52,21 +52,21 @@ const PersonSpiritualStatus = () => {
         }}
       >
         <BaptizedPublisher
-          checked={person.baptizedPublisher.active.value}
+          checked={person.publisher_baptized.active.value}
           onChange={handleToggleBaptizedPublisher}
           expanded={expandedStatus.baptized}
           onExpand={() => handleToggleExpand('baptized')}
         />
 
         <UnbaptizedPublisher
-          checked={person.unbaptizedPublisher.active.value}
+          checked={person.publisher_unbaptized.active.value}
           onChange={handleToggleUnbaptizedPublisher}
           expanded={expandedStatus.unbaptized}
           onExpand={() => handleToggleExpand('unbaptized')}
         />
 
         <MidweekMeetingStudent
-          checked={person.midweekMeetingStudent.active.value}
+          checked={person.midweek_meeting_student.active.value}
           onChange={handleToggleMidweekMeetingStudent}
           expanded={expandedStatus.midweek}
           onExpand={() => handleToggleExpand('midweek')}

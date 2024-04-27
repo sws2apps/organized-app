@@ -11,9 +11,9 @@ export type TalkHistoryWeeklyType = {
   weekOf: string;
   weekOfFormatted: string;
   speaker1: string;
-  speaker_1_dispName: string;
+  speaker_1_display_name: string;
   speaker2: string;
-  speaker_2_dispName: string;
+  speaker_2_display_name: string;
 };
 
 export type TalkHistoryType = {
@@ -76,7 +76,7 @@ export type SourceWeekType = {
   w_study_title: LanguageStringData;
   w_study_opening_song: number | string;
   w_study_concluding_song: number | string;
-  keepOverride: string | undefined;
+  keep_override: string | undefined;
 };
 
 export type SourceWeekIncomingType = {

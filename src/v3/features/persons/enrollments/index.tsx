@@ -1,10 +1,10 @@
 import { Box } from '@mui/material';
 import { IconAdd } from '@components/icons';
-import Button from '@components/button';
-import Typography from '@components/typography';
 import { useAppTranslation } from '@hooks/index';
 import useEnrollments from './useEnrollments';
-import EnrollmentItem from './components/enrollment_item';
+import Button from '@components/button';
+import EnrollmentItem from './enrollment_item';
+import Typography from '@components/typography';
 
 const Enrollments = () => {
   const { t } = useAppTranslation();
@@ -45,8 +45,8 @@ const Enrollments = () => {
             key={history.id}
             id={history.id}
             enrollment={history.enrollment.value}
-            startDate={history.startDate.value}
-            endDate={history.endDate.value}
+            start_date={history.start_date.value}
+            end_date={history.end_date.value}
             isLast={index === activeHistory.length - 1}
             onAdd={handleAddHistory}
             onDelete={handleDeleteHistory}

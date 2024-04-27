@@ -25,6 +25,7 @@ const PersonBasicInfo = () => {
     handleChangePhone,
     nameFlex,
     isInactive,
+    displayNameEnabled,
   } = useBasicInfo();
 
   return (
@@ -46,13 +47,13 @@ const PersonBasicInfo = () => {
       >
         <Typography className="h2">{t('tr_basicInformation')}</Typography>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-          {person.isArchived.value && (
+          {person.archived.value && (
             <Badge size="big" color="red" text={t('tr_archived')} sx={{ width: 'fit-content' }} />
           )}
 
           {isInactive && <Badge size="big" color="red" text={t('tr_inactive')} sx={{ width: 'fit-content' }} />}
 
-          {person.isDisqualified.value && (
+          {person.disqualified.value && (
             <Badge size="big" color="red" text={t('tr_disqualified')} sx={{ width: 'fit-content' }} />
           )}
         </Box>
@@ -79,16 +80,18 @@ const PersonBasicInfo = () => {
             onChange={(e) => handleChangeLastname(e.target.value)}
           />
         </Box>
-        <TextField
-          label={t('tr_displayName')}
-          value={person.person_displayName.value}
-          onChange={(e) => handleChangeDisplayName(e.target.value)}
-        />
+        {displayNameEnabled && (
+          <TextField
+            label={t('tr_displayName')}
+            value={person.person_display_name.value}
+            onChange={(e) => handleChangeDisplayName(e.target.value)}
+          />
+        )}
       </Box>
 
       <RadioGroup
         sx={{ marginLeft: '4px', flexDirection: 'row', gap: tabletDown ? '16px' : '24px', flexWrap: 'wrap' }}
-        value={person.isMale.value ? 'male' : 'female'}
+        value={person.male.value ? 'male' : 'female'}
         onChange={(e) => handleToggleGender(e.target.value)}
       >
         <FormControlLabel
@@ -115,7 +118,7 @@ const PersonBasicInfo = () => {
         <Box sx={{ flexGrow: 1, width: tabletDown ? '100%' : 'unset' }}>
           <DatePicker
             label={t('tr_dateOfBirth')}
-            value={person.birthDate.value === null ? null : new Date(person.birthDate.value)}
+            value={person.birth_date.value === null ? null : new Date(person.birth_date.value)}
             onChange={handleChangeBirthDate}
             maxDate={new Date()}
           />

@@ -6,7 +6,7 @@ import {
   dbVisitingSpeakersLocalCongSpeakerUpdate,
   dbVistingSpeakersLocalCongSpeakerDelete,
 } from '@services/dexie/visiting_speakers';
-import { publicTalksState } from '@states/publicTalks';
+import { publicTalksState } from '@states/public_talks';
 import { PublicTalkType } from '@definition/public_talks';
 import { outgoingSpeakersState } from '@states/visiting_speakers';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';

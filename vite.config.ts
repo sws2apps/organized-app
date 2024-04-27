@@ -27,6 +27,7 @@ export default defineConfig({
       { find: '@shared', replacement: resolve(__dirname, 'src/shared') },
       { find: '@definition', replacement: resolve(__dirname, 'src/v3/definition') },
       { find: '@global', replacement: resolve(__dirname, 'src/v3/global') },
+      { find: '@db', replacement: resolve(__dirname, 'src/v3/indexedDb') },
     ],
   },
   worker: { plugins: () => [comlink()] },

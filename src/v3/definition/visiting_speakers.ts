@@ -11,7 +11,7 @@ export type VisitingSpeakerType = {
   cong_number: string;
   person_firstname: { value: string; updatedAt: string };
   person_lastname: { value: string; updatedAt: string };
-  person_displayName: { value: string; updatedAt: string };
+  person_display_name: { value: string; updatedAt: string };
   person_notes: { value: string; updatedAt: string };
   talks: SpeakerTalk[];
 };

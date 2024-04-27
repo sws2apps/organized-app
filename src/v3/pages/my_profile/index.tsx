@@ -11,7 +11,7 @@ import {
   UserTimeAway,
 } from '@features/index';
 import useMyProfile from './useMyProfile';
-import LogoutConfirm from './components/logout_confirm';
+import LogoutConfirm from './logout_confirm';
 
 const MyProfile = () => {
   const { t } = useAppTranslation();

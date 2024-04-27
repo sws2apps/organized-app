@@ -1,17 +1,16 @@
 import { promiseSetRecoil } from 'recoil-outside';
 import { rootModalOpenState } from '@states/app';
 import { PersonType } from '@definition/person';
-import { generateDisplayName } from './common';
 import { AssignmentCode } from '@definition/assignment';
-import appDb from '@shared/indexedDb/appDb';
+import appDb from '@db/appDb';
 
 export const delay = async (time: number) => {
   return new Promise((resolve) => setTimeout(resolve, time));
 };
 
-const getRandomDate = (startDate = new Date(1970, 0, 1), endDate = new Date(2010, 11, 31)) => {
-  const minValue = startDate.getTime();
-  const maxValue = endDate.getTime();
+const getRandomDate = (start_date = new Date(1970, 0, 1), end_date = new Date(2010, 11, 31)) => {
+  const minValue = start_date.getTime();
+  const maxValue = end_date.getTime();
   const timestamp = Math.floor(Math.random() * (maxValue - minValue + 1) + minValue);
   return new Date(timestamp).toISOString();
 };
@@ -35,33 +34,30 @@ export const importDummyPersons = async (showLoading?: boolean) => {
       const obj = {
         _deleted: null,
         person_uid: crypto.randomUUID(),
-        isDisqualified: { value: false, updatedAt: new Date().toISOString() },
-        isFemale: { value: user.gender === 'female', updatedAt: new Date().toISOString() },
-        isMale: { value: user.gender === 'male', updatedAt: new Date().toISOString() },
-        isArchived: { value: false, updatedAt: new Date().toISOString() },
+        disqualified: { value: false, updatedAt: new Date().toISOString() },
+        female: { value: user.gender === 'female', updatedAt: new Date().toISOString() },
+        male: { value: user.gender === 'male', updatedAt: new Date().toISOString() },
+        archived: { value: false, updatedAt: new Date().toISOString() },
         person_firstname: { value: user.firstName, updatedAt: new Date().toISOString() },
         person_lastname: { value: user.lastName, updatedAt: new Date().toISOString() },
-        person_displayName: {
-          value: generateDisplayName(user.lastName, user.firstName, false),
-          updatedAt: new Date().toISOString(),
-        },
-        birthDate: { value: new Date(user.birthDate).toISOString(), updatedAt: new Date().toISOString() },
+        person_display_name: { value: '', updatedAt: '' },
+        birth_date: { value: new Date(user.birthDate).toISOString(), updatedAt: new Date().toISOString() },
         address: { value: `${user.address.address} ${user.address.city}`, updatedAt: new Date().toISOString() },
         email: { value: user.email, updatedAt: new Date().toISOString() },
         phone: { value: user.phone, updatedAt: new Date().toISOString() },
-        firstMonthReport: { value: null, updatedAt: '' },
-        baptizedPublisher: {
+        first_month_report: { value: null, updatedAt: '' },
+        publisher_baptized: {
           active: { value: false, updatedAt: new Date().toISOString() },
-          isAnointed: { value: false, updatedAt: new Date().toISOString() },
-          isOtherSheep: { value: true, updatedAt: new Date().toISOString() },
-          baptismDate: { value: null, updatedAt: new Date().toISOString() },
+          anointed: { value: false, updatedAt: new Date().toISOString() },
+          other_sheep: { value: true, updatedAt: new Date().toISOString() },
+          baptism_date: { value: null, updatedAt: new Date().toISOString() },
           history: [],
         },
-        unbaptizedPublisher: {
+        publisher_unbaptized: {
           active: { value: false, updatedAt: new Date().toISOString() },
           history: [],
         },
-        midweekMeetingStudent: {
+        midweek_meeting_student: {
           active: { value: false, updatedAt: new Date().toISOString() },
           history: [],
         },
@@ -69,7 +65,7 @@ export const importDummyPersons = async (showLoading?: boolean) => {
         assignments: [],
         privileges: [],
         enrollments: [],
-        emergencyContacts: [],
+        emergency_contacts: [],
       };
 
       return obj;
@@ -90,7 +86,7 @@ export const importDummyPersons = async (showLoading?: boolean) => {
     let activeFemaleFMF = 0;
 
     for (const person of formattedData) {
-      if (person.isFemale.value) {
+      if (person.female.value) {
         const femaleArray = ['midweek', 'unbaptized', 'baptized', 'AP', 'FR', 'FS', 'FMF'];
         let statusPassed = false;
         let femaleStatus: string;
@@ -134,13 +130,13 @@ export const importDummyPersons = async (showLoading?: boolean) => {
         } while (statusPassed === false);
 
         if (femaleStatus === 'midweek') {
-          person.midweekMeetingStudent = {
+          person.midweek_meeting_student = {
             active: { value: true, updatedAt: new Date().toISOString() },
             history: [
               {
                 id: crypto.randomUUID(),
-                startDate: { value: startDateTemp, updatedAt: new Date().toISOString() },
-                endDate: { value: null, updatedAt: '' },
+                start_date: { value: startDateTemp, updatedAt: new Date().toISOString() },
+                end_date: { value: null, updatedAt: '' },
                 _deleted: null,
               },
             ],
@@ -154,15 +150,15 @@ export const importDummyPersons = async (showLoading?: boolean) => {
         }
 
         if (femaleStatus === 'unbaptized') {
-          person.firstMonthReport = { value: startDateTemp, updatedAt: new Date().toISOString() };
+          person.first_month_report = { value: startDateTemp, updatedAt: new Date().toISOString() };
 
-          person.unbaptizedPublisher = {
+          person.publisher_unbaptized = {
             active: { value: true, updatedAt: new Date().toISOString() },
             history: [
               {
                 id: crypto.randomUUID(),
-                startDate: { value: startDateTemp, updatedAt: new Date().toISOString() },
-                endDate: { value: null, updatedAt: '' },
+                start_date: { value: startDateTemp, updatedAt: new Date().toISOString() },
+                end_date: { value: null, updatedAt: '' },
                 _deleted: null,
               },
             ],
@@ -199,22 +195,22 @@ export const importDummyPersons = async (showLoading?: boolean) => {
           femaleStatus === 'FS' ||
           femaleStatus === 'FMF'
         ) {
-          person.firstMonthReport = { value: startDateTemp, updatedAt: new Date().toISOString() };
+          person.first_month_report = { value: startDateTemp, updatedAt: new Date().toISOString() };
 
           const baptismStartDate = new Date(
-            new Date(person.birthDate.value).setFullYear(new Date(person.birthDate.value).getFullYear() + 11)
+            new Date(person.birth_date.value).setFullYear(new Date(person.birth_date.value).getFullYear() + 11)
           );
 
-          person.baptizedPublisher = {
+          person.publisher_baptized = {
             active: { value: true, updatedAt: new Date().toISOString() },
-            baptismDate: { value: getRandomDate(baptismStartDate), updatedAt: new Date().toISOString() },
-            isOtherSheep: { value: true, updatedAt: new Date().toISOString() },
-            isAnointed: { value: false, updatedAt: new Date().toISOString() },
+            baptism_date: { value: getRandomDate(baptismStartDate), updatedAt: new Date().toISOString() },
+            other_sheep: { value: true, updatedAt: new Date().toISOString() },
+            anointed: { value: false, updatedAt: new Date().toISOString() },
             history: [
               {
                 id: crypto.randomUUID(),
-                startDate: { value: startDateTemp, updatedAt: new Date().toISOString() },
-                endDate: { value: null, updatedAt: '' },
+                start_date: { value: startDateTemp, updatedAt: new Date().toISOString() },
+                end_date: { value: null, updatedAt: '' },
                 _deleted: null,
               },
             ],
@@ -248,8 +244,8 @@ export const importDummyPersons = async (showLoading?: boolean) => {
           person.enrollments.push({
             id: crypto.randomUUID(),
             enrollment: { value: femaleStatus, updatedAt: new Date().toISOString() },
-            startDate: { value: startDateTemp, updatedAt: new Date().toISOString() },
-            endDate: { value: null, updatedAt: new Date().toISOString() },
+            start_date: { value: startDateTemp, updatedAt: new Date().toISOString() },
+            end_date: { value: null, updatedAt: new Date().toISOString() },
             _deleted: null,
           });
         }
@@ -277,7 +273,7 @@ export const importDummyPersons = async (showLoading?: boolean) => {
     let activeMaleFMF = 0;
 
     for (const person of formattedData) {
-      if (person.isMale.value) {
+      if (person.male.value) {
         const maleArray = [
           'midweek',
           'unbaptized',
@@ -347,13 +343,13 @@ export const importDummyPersons = async (showLoading?: boolean) => {
         } while (statusPassed === false);
 
         if (maleStatus === 'midweek') {
-          person.midweekMeetingStudent = {
+          person.midweek_meeting_student = {
             active: { value: true, updatedAt: new Date().toISOString() },
             history: [
               {
                 id: crypto.randomUUID(),
-                startDate: { value: startDateTemp, updatedAt: new Date().toISOString() },
-                endDate: { value: null, updatedAt: '' },
+                start_date: { value: startDateTemp, updatedAt: new Date().toISOString() },
+                end_date: { value: null, updatedAt: '' },
                 _deleted: null,
               },
             ],
@@ -367,15 +363,15 @@ export const importDummyPersons = async (showLoading?: boolean) => {
         }
 
         if (maleStatus === 'unbaptized') {
-          person.firstMonthReport = { value: startDateTemp, updatedAt: new Date().toISOString() };
+          person.first_month_report = { value: startDateTemp, updatedAt: new Date().toISOString() };
 
-          person.unbaptizedPublisher = {
+          person.publisher_unbaptized = {
             active: { value: true, updatedAt: new Date().toISOString() },
             history: [
               {
                 id: crypto.randomUUID(),
-                startDate: { value: startDateTemp, updatedAt: new Date().toISOString() },
-                endDate: { value: null, updatedAt: '' },
+                start_date: { value: startDateTemp, updatedAt: new Date().toISOString() },
+                end_date: { value: null, updatedAt: '' },
                 _deleted: null,
               },
             ],
@@ -420,22 +416,22 @@ export const importDummyPersons = async (showLoading?: boolean) => {
           maleStatus === 'FS' ||
           maleStatus === 'FMF'
         ) {
-          person.firstMonthReport = { value: startDateTemp, updatedAt: new Date().toISOString() };
+          person.first_month_report = { value: startDateTemp, updatedAt: new Date().toISOString() };
 
           const baptismStartDate = new Date(
-            new Date(person.birthDate.value).setFullYear(new Date(person.birthDate.value).getFullYear() + 11)
+            new Date(person.birth_date.value).setFullYear(new Date(person.birth_date.value).getFullYear() + 11)
           );
 
-          person.baptizedPublisher = {
+          person.publisher_baptized = {
             active: { value: true, updatedAt: new Date().toISOString() },
-            baptismDate: { value: getRandomDate(baptismStartDate), updatedAt: new Date().toISOString() },
-            isOtherSheep: { value: true, updatedAt: new Date().toISOString() },
-            isAnointed: { value: false, updatedAt: new Date().toISOString() },
+            baptism_date: { value: getRandomDate(baptismStartDate), updatedAt: new Date().toISOString() },
+            other_sheep: { value: true, updatedAt: new Date().toISOString() },
+            anointed: { value: false, updatedAt: new Date().toISOString() },
             history: [
               {
                 id: crypto.randomUUID(),
-                startDate: { value: startDateTemp, updatedAt: new Date().toISOString() },
-                endDate: { value: null, updatedAt: '' },
+                start_date: { value: startDateTemp, updatedAt: new Date().toISOString() },
+                end_date: { value: null, updatedAt: '' },
                 _deleted: null,
               },
             ],
@@ -476,8 +472,8 @@ export const importDummyPersons = async (showLoading?: boolean) => {
           person.privileges.push({
             id: crypto.randomUUID(),
             privilege: { value: 'elder', updatedAt: new Date().toISOString() },
-            startDate: { value: startDateTemp, updatedAt: new Date().toISOString() },
-            endDate: { value: null, updatedAt: new Date().toISOString() },
+            start_date: { value: startDateTemp, updatedAt: new Date().toISOString() },
+            end_date: { value: null, updatedAt: new Date().toISOString() },
             _deleted: null,
           });
 
@@ -544,8 +540,8 @@ export const importDummyPersons = async (showLoading?: boolean) => {
           person.privileges.push({
             id: crypto.randomUUID(),
             privilege: { value: 'ms', updatedAt: new Date().toISOString() },
-            startDate: { value: startDateTemp, updatedAt: new Date().toISOString() },
-            endDate: { value: null, updatedAt: new Date().toISOString() },
+            start_date: { value: startDateTemp, updatedAt: new Date().toISOString() },
+            end_date: { value: null, updatedAt: new Date().toISOString() },
             _deleted: null,
           });
 
@@ -607,8 +603,8 @@ export const importDummyPersons = async (showLoading?: boolean) => {
           person.enrollments.push({
             id: crypto.randomUUID(),
             enrollment: { value: 'FR', updatedAt: new Date().toISOString() },
-            startDate: { value: startDateTemp, updatedAt: new Date().toISOString() },
-            endDate: { value: null, updatedAt: new Date().toISOString() },
+            start_date: { value: startDateTemp, updatedAt: new Date().toISOString() },
+            end_date: { value: null, updatedAt: new Date().toISOString() },
             _deleted: null,
           });
         }
@@ -617,8 +613,8 @@ export const importDummyPersons = async (showLoading?: boolean) => {
           person.enrollments.push({
             id: crypto.randomUUID(),
             enrollment: { value: maleStatus, updatedAt: new Date().toISOString() },
-            startDate: { value: startDateTemp, updatedAt: new Date().toISOString() },
-            endDate: { value: null, updatedAt: new Date().toISOString() },
+            start_date: { value: startDateTemp, updatedAt: new Date().toISOString() },
+            end_date: { value: null, updatedAt: new Date().toISOString() },
             _deleted: null,
           });
         }

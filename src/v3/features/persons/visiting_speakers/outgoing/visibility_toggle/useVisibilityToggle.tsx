@@ -27,8 +27,7 @@ const useVisibilityToggle = () => {
 
   const handleConfirmAction = async (checked: boolean) => {
     await dbAppSettingsUpdate({
-      'cong_discoverable.updatedAt': new Date().toISOString(),
-      'cong_discoverable.value': checked,
+      'cong_settings.cong_discoverable': { value: checked, updatedAt: new Date().toISOString() },
     });
   };
 

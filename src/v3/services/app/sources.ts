@@ -148,13 +148,13 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
       obj.w_study_concluding_song = src.w_study_concluding_song;
     }
 
-    await dbSourcesSave({ srcData: obj, keepOverride: true });
+    await dbSourcesSave({ srcData: obj, keep_override: true });
 
     // edit schedule info
     const schedObj = <SchedInfoType>{};
     schedObj.week_type = 1;
-    schedObj.noMMeeting = false;
-    schedObj.noWMeeting = false;
+    schedObj.midweek_meeting_canceled = false;
+    schedObj.weekend_meeting_canceled = false;
     schedObj.weekOf = src.mwb_week_date || src.w_study_date || src.week_date;
 
     await dbSchedSaveInfo({ scheduleInfo: schedObj, isOverride: false });

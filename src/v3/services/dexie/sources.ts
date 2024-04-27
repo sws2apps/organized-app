@@ -1,13 +1,13 @@
 import { promiseGetRecoil } from 'recoil-outside';
-import appDb from '@shared/indexedDb/appDb';
 import { JWLangState } from '@states/app';
 import { coordinatorRoleState, lmmoRoleState } from '@states/settings';
 import { sourceSchema } from '@services/dexie/schema';
 import { SourceWeekLocaleType } from '@definition/sources';
+import appDb from '@db/appDb';
 
-type SourcesSaveType = { srcData: SourceWeekLocaleType; keepOverride: boolean; forPocket?: boolean };
+type SourcesSaveType = { srcData: SourceWeekLocaleType; keep_override: boolean; forPocket?: boolean };
 
-export const dbSourcesSave = async ({ srcData, keepOverride, forPocket }: SourcesSaveType) => {
+export const dbSourcesSave = async ({ srcData, keep_override, forPocket }: SourcesSaveType) => {
   const JWLang = await promiseGetRecoil(JWLangState);
   const lmmoRole = await promiseGetRecoil(lmmoRoleState);
   const coordinatorRole = await promiseGetRecoil(coordinatorRoleState);
@@ -56,57 +56,57 @@ export const dbSourcesSave = async ({ srcData, keepOverride, forPocket }: Source
     source.mwb_lc_part2_content[source_lang] = srcData.mwb_lc_part2_content || '';
 
     source.mwb_lc_count_override = {
-      value: keepOverride ? source.mwb_lc_count_override.value : srcData.mwb_lc_count_override,
-      updatedAt: keepOverride ? source.mwb_lc_count_override.updatedAt : new Date().toISOString(),
+      value: keep_override ? source.mwb_lc_count_override.value : srcData.mwb_lc_count_override,
+      updatedAt: keep_override ? source.mwb_lc_count_override.updatedAt : new Date().toISOString(),
     };
     source.mwb_lc_part1_time_override = {
-      value: keepOverride ? source.mwb_lc_part1_time_override.value : srcData.mwb_lc_part1_time_override,
-      updatedAt: keepOverride ? source.mwb_lc_count_override.updatedAt : new Date().toISOString(),
+      value: keep_override ? source.mwb_lc_part1_time_override.value : srcData.mwb_lc_part1_time_override,
+      updatedAt: keep_override ? source.mwb_lc_count_override.updatedAt : new Date().toISOString(),
     };
     source.mwb_lc_part1_override = {
-      value: keepOverride ? source.mwb_lc_part1_override.value : srcData.mwb_lc_part1_override,
-      updatedAt: keepOverride ? source.mwb_lc_part1_override.updatedAt : new Date().toISOString(),
+      value: keep_override ? source.mwb_lc_part1_override.value : srcData.mwb_lc_part1_override,
+      updatedAt: keep_override ? source.mwb_lc_part1_override.updatedAt : new Date().toISOString(),
     };
     source.mwb_lc_part1_content_override = {
-      value: keepOverride ? source.mwb_lc_part1_content_override.value : srcData.mwb_lc_part1_content_override,
-      updatedAt: keepOverride ? source.mwb_lc_part1_override.updatedAt : new Date().toISOString(),
+      value: keep_override ? source.mwb_lc_part1_content_override.value : srcData.mwb_lc_part1_content_override,
+      updatedAt: keep_override ? source.mwb_lc_part1_override.updatedAt : new Date().toISOString(),
     };
 
     source.mwb_lc_part2_time_override = {
-      value: keepOverride ? source.mwb_lc_part2_time_override.value : srcData.mwb_lc_part2_time_override,
-      updatedAt: keepOverride ? source.mwb_lc_count_override.updatedAt : new Date().toISOString(),
+      value: keep_override ? source.mwb_lc_part2_time_override.value : srcData.mwb_lc_part2_time_override,
+      updatedAt: keep_override ? source.mwb_lc_count_override.updatedAt : new Date().toISOString(),
     };
     source.mwb_lc_part2_override = {
-      value: keepOverride ? source.mwb_lc_part2_override.value : srcData.mwb_lc_part2_override,
-      updatedAt: keepOverride ? source.mwb_lc_part2_override.updatedAt : new Date().toISOString(),
+      value: keep_override ? source.mwb_lc_part2_override.value : srcData.mwb_lc_part2_override,
+      updatedAt: keep_override ? source.mwb_lc_part2_override.updatedAt : new Date().toISOString(),
     };
     source.mwb_lc_part2_content_override = {
-      value: keepOverride ? source.mwb_lc_part2_content_override.value : srcData.mwb_lc_part2_content_override,
-      updatedAt: keepOverride ? source.mwb_lc_part2_override.updatedAt : new Date().toISOString(),
+      value: keep_override ? source.mwb_lc_part2_content_override.value : srcData.mwb_lc_part2_content_override,
+      updatedAt: keep_override ? source.mwb_lc_part2_override.updatedAt : new Date().toISOString(),
     };
 
     source.mwb_lc_cbs[source_lang] = srcData.mwb_lc_cbs || '';
     source.mwb_lc_cbs_time_override = {
-      value: keepOverride ? source.mwb_lc_cbs_time_override.value : srcData.mwb_lc_cbs_time_override,
-      updatedAt: keepOverride ? source.mwb_lc_cbs_time_override.updatedAt : new Date().toISOString(),
+      value: keep_override ? source.mwb_lc_cbs_time_override.value : srcData.mwb_lc_cbs_time_override,
+      updatedAt: keep_override ? source.mwb_lc_cbs_time_override.updatedAt : new Date().toISOString(),
     };
 
     source.mwb_song_conclude = srcData.mwb_song_conclude || '';
     source.mwb_song_conclude_override = {
-      value: keepOverride ? source.mwb_song_conclude_override.value : srcData.mwb_song_conclude_override,
-      updatedAt: keepOverride ? source.mwb_song_conclude_override.updatedAt : new Date().toISOString(),
+      value: keep_override ? source.mwb_song_conclude_override.value : srcData.mwb_song_conclude_override,
+      updatedAt: keep_override ? source.mwb_song_conclude_override.updatedAt : new Date().toISOString(),
     };
 
     source.mwb_co_talk_title = {
-      value: keepOverride ? source.mwb_co_talk_title.value : srcData.mwb_co_talk_title || '',
-      updatedAt: keepOverride ? source.mwb_co_talk_title.updatedAt : new Date().toISOString(),
+      value: keep_override ? source.mwb_co_talk_title.value : srcData.mwb_co_talk_title || '',
+      updatedAt: keep_override ? source.mwb_co_talk_title.updatedAt : new Date().toISOString(),
     };
   }
 
   if (isUpdateWeekend) {
     source.w_co_talk_title = {
-      value: keepOverride ? source.w_co_talk_title.value : srcData.w_co_talk_title || '',
-      updatedAt: keepOverride ? source.w_co_talk_title.updatedAt : new Date().toISOString(),
+      value: keep_override ? source.w_co_talk_title.value : srcData.w_co_talk_title || '',
+      updatedAt: keep_override ? source.w_co_talk_title.updatedAt : new Date().toISOString(),
     };
     source.w_study_date_locale[source_lang] = srcData.w_study_date_locale || '';
     source.w_study_title[source_lang] = srcData.w_study_title || '';
@@ -114,7 +114,7 @@ export const dbSourcesSave = async ({ srcData, keepOverride, forPocket }: Source
     source.w_study_concluding_song = srcData.w_study_concluding_song || '';
   }
 
-  source.keepOverride = keepOverride ? source.keepOverride : new Date().toISOString();
+  source.keep_override = keep_override ? source.keep_override : new Date().toISOString();
 
   await appDb.sources.put(source);
 };

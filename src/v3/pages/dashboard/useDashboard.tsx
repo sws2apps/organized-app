@@ -8,7 +8,7 @@ const useDashboard = () => {
   const isCongNew = useRecoilValue(congNewState);
 
   const handleCloseNewCongNotice = async () => {
-    await dbAppSettingsUpdate({ cong_new: false });
+    await dbAppSettingsUpdate({ 'cong_settings.cong_new': false });
   };
 
   const handleOpenMyAssignments = async () => {

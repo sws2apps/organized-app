@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import worker from '@services/worker/backupWorker';
-import { useAppTranslation, useFirebaseAuth } from '@hooks/index';
+import { useRecoilValue } from 'recoil';
+import { useAppTranslation } from '@hooks/index';
 import {
   setCongID,
   setUserID,
@@ -9,25 +9,28 @@ import {
   setIsEncryptionCodeOpen,
   setIsCongAccountCreate,
 } from '@services/recoil/app';
+import { settingsState } from '@states/settings';
 import { apiCreateCongregation } from '@services/api/congregation';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
-import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 import { getMessageByCode } from '@services/i18n/translation';
-import { SettingsType } from '@definition/settings';
+import { CongregationCreateResponseType } from '@definition/api';
+import useFeedback from '@features/app_start/shared/hooks/useFeedback';
+import worker from '@services/worker/backupWorker';
 
 const useCongregationInfo = () => {
   const cancel = useRef<boolean>();
-  const { user } = useFirebaseAuth();
 
   const { t } = useAppTranslation();
 
   const { hideMessage, message, showMessage, title, variant } = useFeedback();
 
+  const settings = useRecoilValue(settingsState);
+
   const [isProcessing, setIsProcessing] = useState(false);
   const [country, setCountry] = useState(null);
   const [congregation, setCongregation] = useState(null);
-  const [userTmpFirstName, setUserTmpFirstName] = useState('');
-  const [userTmpLastName, setUserTmpLastName] = useState('');
+  const [userTmpFirstName, setUserTmpFirstName] = useState(settings.user_settings.firstname.value);
+  const [userTmpLastName, setUserTmpLastName] = useState(settings.user_settings.lastname.value);
   const [isElderApproved, setIsElderApproved] = useState(false);
 
   const handleToggleApproval = (value: boolean) => {
@@ -86,22 +89,34 @@ const useCongregationInfo = () => {
       }
 
       if (status === 200) {
-        setCongID(data.cong_id);
-        worker.postMessage({ field: 'congID', value: data.cong_id });
+        const result = data as CongregationCreateResponseType;
 
-        const obj = {} as SettingsType;
+        setCongID(result.cong_id);
+        worker.postMessage({ field: 'congID', value: result.cong_id });
 
-        obj.firstname = data.firstname;
-        obj.lastname = data.lastname;
-        obj.cong_name = data.cong_name;
-        obj.cong_number = data.cong_number;
-        obj.user_members_delegate = data.user_members_delegate;
-        obj.cong_role = data.cong_role;
+        const midweekMeeting = structuredClone(settings.cong_settings.midweek_meeting);
+        const midweekMain = midweekMeeting.find((record) => record.type === 'main');
+        midweekMain.time = result.midweek_meeting.time;
+        midweekMain.weekday = result.midweek_meeting.weekday;
 
-        await dbAppSettingsUpdate(obj);
+        const weekendMeeting = structuredClone(settings.cong_settings.weekend_meeting);
+        const weekendMain = weekendMeeting.find((record) => record.type === 'main');
+        weekendMain.time = result.weekend_meeting.time;
+        weekendMain.weekday = result.weekend_meeting.weekday;
+
+        await dbAppSettingsUpdate({
+          'cong_settings.cong_name': result.cong_name,
+          'cong_settings.cong_number': result.cong_number,
+          'user_settings.cong_role': result.cong_role,
+          'cong_settings.cong_circuit': [{ type: 'main', value: result.cong_circuit }],
+          'cong_settings.cong_location': result.cong_location,
+          'cong_settings.midweek_meeting': midweekMeeting,
+          'cong_settings.weekend_meeting': weekendMeeting,
+        });
+
         await setIsNewCongregation(true);
 
-        setUserID(data.id);
+        setUserID(result.id);
 
         setIsCongAccountCreate(false);
         setIsEncryptionCodeOpen(true);
@@ -118,35 +133,6 @@ const useCongregationInfo = () => {
       }
     }
   };
-
-  useEffect(() => {
-    if (user) {
-      let userFullname;
-
-      if (user.displayName && user.displayName !== null) {
-        userFullname = user.displayName;
-      }
-
-      if (
-        user.displayName === null &&
-        user.providerData[0]?.displayName &&
-        user.providerData[0]?.displayName !== null
-      ) {
-        userFullname = user.providerData[0].displayName;
-      }
-
-      if (userFullname) {
-        const names = userFullname.split(' ');
-        const lastName = names.pop();
-        const firstName = names.join(' ');
-        setUserTmpFirstName(firstName);
-        setUserTmpLastName(lastName);
-      } else {
-        setUserTmpFirstName('');
-        setUserTmpLastName('');
-      }
-    }
-  }, [user]);
 
   useEffect(() => {
     return () => {

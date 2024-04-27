@@ -3,8 +3,8 @@ import { Button, PageTitle } from '@components/index';
 import { IconAddPerson, IconDownload } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { PersonsFilter, PersonsList, PersonsSearch } from '@features/index';
-import useAllPersons from './useAllPersons';
 import { isDemo } from '@constants/index';
+import useAllPersons from './useAllPersons';
 
 const PersonsAll = () => {
   const { t } = useAppTranslation();

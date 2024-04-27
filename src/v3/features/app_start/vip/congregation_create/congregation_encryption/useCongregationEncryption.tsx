@@ -62,7 +62,7 @@ const useCongregationEncryption = () => {
         return;
       }
 
-      await dbAppSettingsUpdate({ cong_code: tmpEncryptionCode });
+      await dbAppSettingsUpdate({ 'cong_settings.cong_code': tmpEncryptionCode });
 
       await loadApp();
 
@@ -93,7 +93,7 @@ const useCongregationEncryption = () => {
     try {
       decryptData(congCode, tmpEncryptionCode);
 
-      await dbAppSettingsUpdate({ cong_code: tmpEncryptionCode });
+      await dbAppSettingsUpdate({ 'cong_settings.cong_code': tmpEncryptionCode });
 
       await loadApp();
 

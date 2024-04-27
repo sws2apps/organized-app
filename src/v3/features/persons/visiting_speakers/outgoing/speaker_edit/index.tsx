@@ -3,15 +3,15 @@ import { IconDelete, IconSong } from '@components/icons';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { SpeakerEditViewType } from './index.types';
 import { PublicTalkType } from '@definition/public_talks';
+import useEdit from './useEdit';
 import AutocompleteMultiple from '@components/autocomplete_multiple';
 import Button from '@components/button';
 import MenuItem from '@components/menuitem';
-import Select from '@components/select';
-import Typography from '@components/typography';
 import MiniChip from '@components/mini_chip';
-import PopupSongAdd from '@features/persons/visiting_speakers/popup_song_add';
-import useEdit from './useEdit';
+import PopupSongAdd from '@features/persons/visiting_speakers/song_add_popup';
+import Select from '@components/select';
 import SpeakerDetails from '@features/persons/visiting_speakers/speaker_details';
+import Typography from '@components/typography';
 
 const SpeakerEditView = ({ speaker }: SpeakerEditViewType) => {
   const { t } = useAppTranslation();
@@ -79,7 +79,7 @@ const SpeakerEditView = ({ speaker }: SpeakerEditViewType) => {
               disabled={speakersOnRecord.find((record) => record.person_uid === option.person_uid) ? false : true}
             >
               <Typography className="body-regular" color="var(--black)">
-                {option.person_displayName.value}
+                {option.person_display_name.value}
               </Typography>
             </MenuItem>
           ))}

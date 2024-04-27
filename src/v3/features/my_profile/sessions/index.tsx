@@ -4,7 +4,7 @@ import Typography from '@components/typography';
 import { ProfileItemContainer, SettingWithBorderContainer } from '../my_profile.styles';
 import { useAppTranslation } from '@hooks/index';
 import useSessions from './useSessions';
-import SessionItem from './components/SessionItem';
+import SessionItem from './session_item';
 
 const UserSessions = () => {
   const { t } = useAppTranslation();

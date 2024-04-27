@@ -5,7 +5,7 @@ import Typography from '@components/typography';
 import { ProfileItemContainer, SettingWithBorderContainer } from '../my_profile.styles';
 import { useAppTranslation } from '@hooks/index';
 import useTimeAway from './useTimeAway';
-import TimeAwayItem from './components/TimeAwayItem';
+import TimeAwayItem from './time_away_item';
 
 const UserTimeAway = () => {
   const { t } = useAppTranslation();

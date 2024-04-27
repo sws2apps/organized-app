@@ -20,7 +20,7 @@ const SpeakerReadOnlyView = ({ speaker }: SpeakerReadOnlyViewType) => {
       }}
     >
       <Typography sx={{ minWidth: mobile400Down ? 'unset' : '250px', width: mobile400Down ? 'unset' : '250px' }}>
-        {speaker.person_displayName.value}
+        {speaker.person_display_name.value}
       </Typography>
       <Typography className="body-small-semibold">{talks}</Typography>
     </Box>

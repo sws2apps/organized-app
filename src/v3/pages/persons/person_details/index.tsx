@@ -18,7 +18,7 @@ const PersonDetails = () => {
 
   const { desktopUp, laptopUp } = useBreakpoints();
 
-  const { isNewPerson, isBaptized, isMale } = usePersonDetails();
+  const { isNewPerson, isBaptized, male } = usePersonDetails();
 
   return (
     <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
@@ -62,7 +62,7 @@ const PersonDetails = () => {
                 width: '100%',
               }}
             >
-              {isMale && <PersonPrivileges />}
+              {male && <PersonPrivileges />}
 
               <PersonEnrollments />
             </Box>

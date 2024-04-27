@@ -1,11 +1,12 @@
-import appDb from '@shared/indexedDb/appDb';
+import appDb from '@db/appDb';
 
 export const dbSpeakersCongregationsCreateLocal = async () => {
-  const { cong_number } = await appDb.app_settings.get(1);
+  const settings = await appDb.app_settings.get(1);
+  const cong_number = settings.cong_settings.cong_number;
 
   await appDb.speakers_congregations.put({
     _deleted: null,
-    cong_address: { value: '', updatedAt: '' },
+    cong_location: { value: '', updatedAt: '' },
     cong_coordinator_email: { value: '', updatedAt: '' },
     cong_coordinator_name: { value: '', updatedAt: '' },
     cong_coordinator_phone: { value: '', updatedAt: '' },
