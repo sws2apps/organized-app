@@ -1,13 +1,14 @@
 import { Box } from '@mui/material';
 import { useBreakpoints } from '@hooks/index';
 import { SpeakerReadOnlyViewType } from './index.types';
-import Typography from '@components/typography';
 import useView from './useView';
+import Typography from '@components/typography';
+import { buildPersonFullname } from '@utils/common';
 
 const SpeakerReadOnlyView = ({ speaker }: SpeakerReadOnlyViewType) => {
-  const { talks } = useView(speaker);
-
   const { mobile400Down } = useBreakpoints();
+
+  const { talks, fullnameOption } = useView(speaker);
 
   return (
     <Box
@@ -20,7 +21,7 @@ const SpeakerReadOnlyView = ({ speaker }: SpeakerReadOnlyViewType) => {
       }}
     >
       <Typography sx={{ minWidth: mobile400Down ? 'unset' : '250px', width: mobile400Down ? 'unset' : '250px' }}>
-        {speaker.person_display_name.value}
+        {buildPersonFullname(speaker.person_lastname.value, speaker.person_firstname.value, fullnameOption)}
       </Typography>
       <Typography className="body-small-semibold">{talks}</Typography>
     </Box>
