@@ -97,7 +97,7 @@ const NavBar = () => {
             <IconLogo width={40} height={40} />
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
               <Typography className="h3" color="var(--black)">
-                Organized app
+                Organized
               </Typography>
               {isDemo && <DemoBanner />}
             </Box>
