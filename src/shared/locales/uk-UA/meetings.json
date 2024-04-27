@@ -97,5 +97,15 @@
   "tr_countPublicTalks": "Публічні промови: {{ count }}",
   "tr_publicTalkLastSync": "Остання синхронізація {{ date }} о {{ time }}",
   "tr_exportS99": "Експорт S-99",
-  "tr_alreadyInSchedule": "Already in schedule"
+  "tr_alreadyInSchedule": "Already in schedule",
+  "tr_createS1": "Create S-1 report",
+  "tr_recordS88": "Congregation meeting attendance record (S-88)",
+  "tr_average": "Average",
+  "tr_online": "Online",
+  "tr_present": "Present",
+  "tr_numberOfMeetings": "Number of meetings",
+  "tr_today": "Today",
+  "tr_totalAttendance": "Total attendance",
+  "tr_avgAttendance": "Average attendance",
+  "tr_avgOnline": "Average online"
 }
