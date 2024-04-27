@@ -2,7 +2,7 @@ import fs from 'fs';
 import glob from 'glob';
 
 // Step 1: Extract keys from translation files
-let translationKeys = [];
+let translationKeys: string[] = [];
 
 // Use glob to get all .json files in the translations directory
 let translationFiles = glob.sync('src/shared/locales/en/*.json');
@@ -13,11 +13,11 @@ translationFiles = translationFiles.filter((file) => !excludedFiles.includes(fil
 
 translationFiles.forEach((file) => {
   const translationFile = fs.readFileSync(file);
-  translationKeys = [...translationKeys, ...Object.keys(JSON.parse(translationFile))];
+  translationKeys = [...translationKeys, ...Object.keys(JSON.parse(translationFile.toString()))];
 });
 
 // Step 2: Parse source code to find used keys
-let usedKeys = [];
+const usedKeys: string[] = [];
 
 // Use glob to get all .js and .jsx files in the project directory
 const files = glob.sync('src/v3/**/*.+(js|jsx|ts|tsx)');
