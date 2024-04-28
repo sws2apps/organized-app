@@ -14,8 +14,10 @@ self.setting = {
 };
 
 self.onmessage = function (event) {
-  if (event.data.field) {
+  if (Object.keys(self.setting).includes(event.data.field)) {
     self.setting[event.data.field] = event.data.value;
+  } else {
+    console.error('Invalid setting field:', event.data.field);
   }
 
   if (event.data === 'startWorker') {
@@ -45,5 +47,6 @@ const runBackup = async () => {
     self.postMessage({ lastBackup: new Date().toISOString() });
   } catch (error) {
     console.error(error);
+    self.postMessage({ error: 'BACKUP_FAILED', details: error.message });
   }
 };

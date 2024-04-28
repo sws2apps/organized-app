@@ -98,7 +98,7 @@ const useMFAEnable = (closeDialog: VoidFunction) => {
         });
       }
 
-      if (!isPending && data.status !== 200) {
+      if (!isPending && data && data.status !== 200) {
         closeDialog();
         await displaySnackNotification({
           header: t('tr_errorTitle'),
@@ -107,7 +107,7 @@ const useMFAEnable = (closeDialog: VoidFunction) => {
         });
       }
 
-      if (!isPending && data.status === 200) {
+      if (!isPending && data && data.status === 200) {
         const { qrCode, secret } = data.result;
 
         setQrCode(qrCode);
