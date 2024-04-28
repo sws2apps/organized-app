@@ -1,17 +1,18 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import logger from '@services/logger/index';
-import useFirebaseAuth from '@hooks/useFirebaseAuth';
+import { useQuery } from '@tanstack/react-query';
 import { apiHostState, isAppLoadState, isOnlineState, visitorIDState } from '@states/app';
 import { apiValidateMe } from '@services/api/user';
 import { userSignOut } from '@services/firebase/auth';
 import { handleDeleteDatabase } from '@services/app';
 import { APP_ROLES, isDemo } from '@constants/index';
-import { setCongAccountConnected, setRootModalOpen } from '@services/recoil/app';
+import { setRootModalOpen } from '@services/recoil/app';
 import { accountTypeState } from '@states/settings';
 import { apiFetchCongregationLastBackup } from '@services/api/congregation';
-import worker from '@services/worker/backupWorker';
 import { dbAppSettingsUpdateUserInfoAfterLogin } from '@services/dexie/settings';
+import useFirebaseAuth from '@hooks/useFirebaseAuth';
+import logger from '@services/logger/index';
+import worker from '@services/worker/backupWorker';
 
 const useUserAutoLogin = () => {
   const { isAuthenticated } = useFirebaseAuth();
@@ -22,68 +23,75 @@ const useUserAutoLogin = () => {
   const isAppLoad = useRecoilValue(isAppLoadState);
   const accountType = useRecoilValue(accountTypeState);
 
+  const runFetch =
+    !isDemo && apiHost !== '' && visitorID !== '' && accountType === 'vip' && !isAppLoad && isOnline && isAuthenticated;
+
+  const { isPending, data, error } = useQuery({
+    queryKey: ['whoami'],
+    queryFn: apiValidateMe,
+    enabled: runFetch,
+  });
+
   const [autoLoginStatus, setAutoLoginStatus] = useState('');
 
-  const checkLogin = useCallback(async () => {
-    try {
-      setAutoLoginStatus('auto login process started');
+  useEffect(() => {
+    const handleLoginData = async () => {
+      if (isPending) {
+        setAutoLoginStatus('auto login process started');
+        return;
+      }
 
-      if (isOnline && isAuthenticated && apiHost !== '' && visitorID !== '') {
-        const { status, data } = await apiValidateMe();
+      if (error || data.result.message) {
+        const msg = error?.message || data.result.message;
+        logger.error('app', msg);
 
-        if (status === 403) {
-          await userSignOut();
-          return;
-        }
+        return;
+      }
 
-        // congregation not found -> user not authorized and delete local data
-        if (status === 404) {
+      if (data.status === 403) {
+        await userSignOut();
+        return;
+      }
+
+      // congregation not found -> user not authorized and delete local data
+      if (data.status === 404) {
+        await handleDeleteDatabase();
+        return;
+      }
+
+      if (data.status === 200) {
+        const approvedRole = data.result.cong_role.some((role) => APP_ROLES.includes(role));
+
+        if (!approvedRole) {
           await handleDeleteDatabase();
           return;
         }
 
-        if (status === 200) {
-          const approvedRole = data.cong_role.some((role) => APP_ROLES.includes(role));
+        if (approvedRole) {
+          await dbAppSettingsUpdateUserInfoAfterLogin(data);
 
-          if (!approvedRole) {
-            await handleDeleteDatabase();
-            return;
-          }
+          await setRootModalOpen(true);
+          const { status, data: backup } = await apiFetchCongregationLastBackup();
+          if (status === 200) {
+            if (backup.cong_last_backup !== 'NO_BACKUP' || backup.user_last_backup !== 'NO_BACKUP') {
+              const lastDate =
+                backup.cong_last_backup !== 'NO_BACKUP' ? backup.cong_last_backup : backup.user_last_backup;
 
-          if (approvedRole) {
-            await dbAppSettingsUpdateUserInfoAfterLogin(data);
-
-            await setRootModalOpen(true);
-            const { status, data: backup } = await apiFetchCongregationLastBackup();
-            if (status === 200) {
-              if (backup.cong_last_backup !== 'NO_BACKUP' || backup.user_last_backup !== 'NO_BACKUP') {
-                const lastDate =
-                  backup.cong_last_backup !== 'NO_BACKUP' ? backup.cong_last_backup : backup.user_last_backup;
-
-                worker.postMessage({ field: 'lastBackup', value: lastDate });
-              }
+              worker.postMessage({ field: 'lastBackup', value: lastDate });
             }
-
-            await setRootModalOpen(false);
-
-            worker.postMessage('startWorker');
           }
+
+          await setRootModalOpen(false);
+
+          worker.postMessage('startWorker');
         }
+
+        setAutoLoginStatus('auto login process completed');
       }
+    };
 
-      setAutoLoginStatus('auto login process completed');
-    } catch (err) {
-      logger.error('app', err.message);
-    }
-  }, [isAuthenticated, apiHost, visitorID, isOnline]);
-
-  useEffect(() => {
-    if (!isDemo && accountType === 'vip' && !isAppLoad && isOnline && isAuthenticated) {
-      checkLogin();
-    } else {
-      setCongAccountConnected(false);
-    }
-  }, [accountType, isAppLoad, isAuthenticated, checkLogin, isOnline]);
+    handleLoginData();
+  }, [isPending, data, error]);
 
   return { autoLoginStatus };
 };

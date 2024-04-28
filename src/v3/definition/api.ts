@@ -39,19 +39,23 @@ export type CongregationCreateResponseType = {
 
 type MeetingResponseType = { type: string; weekday: number; time: string };
 
-export type ValidateUserResponseType = {
-  cong_id: string;
-  firstname: { value: string; updatedAt: string };
-  lastname: { value: string; updatedAt: string };
-  cong_name: string;
-  cong_number: string;
-  cong_role: string[];
-  id: string;
-  mfaEnabled: boolean;
-  cong_circuit: { type: string; value: string }[];
-  cong_location: { address: string; lat: number; lng: number };
-  midweek_meeting: MeetingResponseType[];
-  weekend_meeting: MeetingResponseType[];
+export type ValidateMeResponseType = {
+  status: number;
+  result: {
+    message: string;
+    cong_id: string;
+    firstname: { value: string; updatedAt: string };
+    lastname: { value: string; updatedAt: string };
+    cong_name: string;
+    cong_number: string;
+    cong_role: string[];
+    id: string;
+    mfaEnabled: boolean;
+    cong_circuit: { type: string; value: string }[];
+    cong_location: { address: string; lat: number; lng: number };
+    midweek_meeting: MeetingResponseType[];
+    weekend_meeting: MeetingResponseType[];
+  };
 };
 
 export type UserLoginResponseType = {
@@ -61,4 +65,14 @@ export type UserLoginResponseType = {
   mfa: 'not_enabled' | 'enabled';
   cong_name: string;
   cong_role: string[];
+};
+
+export type GetUser2FAResponseType = {
+  status: number;
+  result: { message?: string; mfaEnabled?: boolean; qrCode?: string; secret?: string };
+};
+
+export type GetUserSessionsType = {
+  status: number;
+  result: { message?: string; sessions?: SessionResponseType[] };
 };

@@ -1,102 +1,49 @@
 import { delay } from '@utils/dev';
 import { apiSendCongregationBackup, apiSendUserBackup } from './backupUtils';
 
-const setting = {
-  isEnabled: false,
+declare const self: MyWorkerGlobalScope;
+
+self.setting = {
   visitorID: undefined,
   apiHost: undefined,
   congID: undefined,
-  isOnline: navigator.onLine,
-  backupInterval: 300000,
-  isCongAccountConnected: undefined,
   userRole: [],
   accountType: undefined,
   userUID: undefined,
   userID: undefined,
-  lastBackup: undefined,
 };
 
 self.onmessage = function (event) {
   if (event.data.field) {
-    setting[event.data.field] = event.data.value;
+    self.setting[event.data.field] = event.data.value;
   }
 
   if (event.data === 'startWorker') {
-    runBackupSchedule();
-    checkLastSync();
+    runBackup();
   }
 };
 
-const runBackupSchedule = async () => {
-  let timeout: NodeJS.Timeout;
-
-  if (timeout) clearTimeout(timeout);
-
+const runBackup = async () => {
   try {
-    const {
-      backupInterval,
-      accountType,
-      apiHost,
-      congID,
-      isCongAccountConnected,
-      isEnabled,
-      isOnline,
-      userID,
-      userUID,
-      visitorID,
-    } = setting;
+    const { accountType, apiHost, congID, userID, userUID, visitorID } = self.setting;
 
-    if (isEnabled && backupInterval && isOnline && visitorID && apiHost && congID && isCongAccountConnected) {
-      self.postMessage('Syncing');
-      await delay(5000);
-      const reqPayload = {};
-      if (accountType === 'vip' && userUID) {
-        const data = await apiSendCongregationBackup({ apiHost, congID, reqPayload, userUID, visitorID });
-        if (data && data.message === 'BACKUP_SENT') {
-          setting.lastBackup = new Date().toISOString();
-        }
-      }
-      if (accountType === 'pocket' && userID) {
-        const data = await apiSendUserBackup({ apiHost, reqPayload, userID, visitorID });
-        if (data && data.message === 'BACKUP_SENT') {
-          setting.lastBackup = new Date().toISOString();
-        }
-      }
+    self.postMessage('Syncing');
+
+    const reqPayload = {};
+
+    if (accountType === 'vip' && userUID) {
+      await apiSendCongregationBackup({ apiHost, congID, reqPayload, userUID, visitorID });
     }
+
+    if (accountType === 'pocket' && userID) {
+      await apiSendUserBackup({ apiHost, reqPayload, userID, visitorID });
+    }
+
+    await delay(5000);
+
     self.postMessage('Done');
-    timeout = setTimeout(runBackupSchedule, backupInterval);
+    self.postMessage({ lastBackup: new Date().toISOString() });
   } catch (error) {
-    throw new Error(error);
+    console.error(error);
   }
-};
-
-const checkLastSync = () => {
-  const { isOnline, lastBackup } = setting;
-
-  if (isOnline && lastBackup) {
-    let result: string | number = 0;
-
-    const lastDate = new Date(lastBackup).getTime();
-    const currentDate = new Date().getTime();
-
-    const msDifference = currentDate - lastDate;
-    const resultS = Math.floor(msDifference / 1000);
-    const resultM = Math.floor(resultS / 60);
-
-    if (resultS <= 30) {
-      result = 'now';
-    }
-
-    if (resultS > 30 && resultS < 60) {
-      result = 'recently';
-    }
-
-    if (resultS >= 60) {
-      result = resultM;
-    }
-
-    self.postMessage({ lastBackup: result });
-  }
-
-  setTimeout(checkLastSync, 500);
 };

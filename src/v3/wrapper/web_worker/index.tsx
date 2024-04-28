@@ -1,7 +1,7 @@
-import { ReactNode } from 'react';
+import { PropsWithChildren } from 'react';
 import useWebWorker from './useWebWorker';
 
-const WebWorker = ({ children }: { children?: ReactNode }) => {
+const WebWorker = ({ children }: PropsWithChildren) => {
   useWebWorker();
 
   return <>{children}</>;

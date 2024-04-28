@@ -1,15 +1,16 @@
 import { Box } from '@mui/material';
 import { SessionResponseType } from '@definition/api';
-import Typography from '@components/typography';
 import { ProfileItemContainer, SettingWithBorderContainer } from '../my_profile.styles';
 import { useAppTranslation } from '@hooks/index';
 import useSessions from './useSessions';
+import Typography from '@components/typography';
 import SessionItem from './session_item';
+import WaitingCircular from '@components/waiting_circular';
 
 const UserSessions = () => {
   const { t } = useAppTranslation();
 
-  const { sessions } = useSessions();
+  const { sessions, errorMsg, isLoading } = useSessions();
 
   return (
     <ProfileItemContainer>
@@ -20,11 +21,17 @@ const UserSessions = () => {
         </Typography>
       </Box>
 
-      <SettingWithBorderContainer>
-        {sessions.map((session: SessionResponseType) => (
-          <SessionItem key={session.visitorid} session={session} />
-        ))}
-      </SettingWithBorderContainer>
+      {isLoading && <WaitingCircular variant="standard" />}
+
+      {errorMsg.length > 0 && <Typography color="var(--red-main)">{errorMsg}</Typography>}
+
+      {!isLoading && sessions.length > 0 && (
+        <SettingWithBorderContainer>
+          {sessions.map((session: SessionResponseType) => (
+            <SessionItem key={session.visitorid} session={session} />
+          ))}
+        </SettingWithBorderContainer>
+      )}
     </ProfileItemContainer>
   );
 };

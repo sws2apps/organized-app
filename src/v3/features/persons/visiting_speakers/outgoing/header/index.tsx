@@ -1,9 +1,10 @@
 import { Box, IconButton } from '@mui/material';
 import { IconCheck, IconEdit, IconExpand, IconSharedWith } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
-import Typography from '@components/typography';
-import useHeader from './useHeader';
 import { OutgoingSpeakersHeaderType } from './index.types';
+import useHeader from './useHeader';
+import Typography from '@components/typography';
+import OutgoingSpeakersAccess from '../congregations_access';
 
 const OutgoingSpeakersHeader = ({
   expanded,
@@ -13,7 +14,7 @@ const OutgoingSpeakersHeader = ({
 }: OutgoingSpeakersHeaderType) => {
   const { t } = useAppTranslation();
 
-  const { congName, congNumber } = useHeader();
+  const { congName, congNumber, handleCloseAccess, handleOpenAccess, openAccess } = useHeader();
 
   return (
     <Box
@@ -25,6 +26,8 @@ const OutgoingSpeakersHeader = ({
         gap: '16px',
       }}
     >
+      {openAccess && <OutgoingSpeakersAccess open={openAccess} onClose={handleCloseAccess} />}
+
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
         <Typography className="h2">{t('tr_yourCongregation')}</Typography>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px', flexWrap: 'wrap' }}>
@@ -46,7 +49,7 @@ const OutgoingSpeakersHeader = ({
           {!editMode && <IconEdit color="var(--accent-main)" />}
           {editMode && <IconCheck color="var(--accent-main)" />}
         </IconButton>
-        <IconButton>
+        <IconButton onClick={handleOpenAccess}>
           <IconSharedWith color="var(--accent-main)" />
         </IconButton>
         <IconButton onClick={onExpandChange}>

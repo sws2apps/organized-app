@@ -1,9 +1,22 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import worker from '@services/worker/backupWorker';
 import { setIsAppDataSyncing, setLastAppDataSync } from '@services/recoil/app';
 import { isDemo } from '@constants/index';
+import { congAccountConnectedState, isOnlineState } from '@states/app';
+import { backupAutoState, backupIntervalState } from '@states/settings';
 
 const useWebWorker = () => {
+  const isOnline = useRecoilValue(isOnlineState);
+  const isConnected = useRecoilValue(congAccountConnectedState);
+  const backupAuto = useRecoilValue(backupAutoState);
+  const backupInterval = useRecoilValue(backupIntervalState);
+
+  const [lastBackup, setLastBackup] = useState('');
+
+  const backupEnabled = isOnline && isConnected && backupAuto;
+  const interval = backupInterval * 60 * 1000;
+
   useEffect(() => {
     if (!isDemo && window.Worker) {
       worker.onmessage = async function (event) {
@@ -16,11 +29,60 @@ const useWebWorker = () => {
         }
 
         if (event.data.lastBackup) {
-          await setLastAppDataSync(event.data.lastBackup);
+          setLastBackup(event.data.lastBackup);
         }
       };
     }
   }, []);
+
+  useEffect(() => {
+    const runBackupTimer = setInterval(() => {
+      if (backupEnabled) {
+        worker.postMessage('startWorker');
+      }
+    }, interval);
+
+    return () => {
+      clearInterval(runBackupTimer);
+    };
+  }, [backupEnabled, interval]);
+
+  useEffect(() => {
+    const runCheckLastBackup = setInterval(() => {
+      let result: string | number = 0;
+
+      if (lastBackup.length === 0) {
+        result = lastBackup;
+      }
+
+      if (lastBackup.length > 0) {
+        const lastDate = new Date(lastBackup).getTime();
+        const currentDate = new Date().getTime();
+
+        const msDifference = currentDate - lastDate;
+        const resultS = Math.floor(msDifference / 1000);
+        const resultM = Math.floor(resultS / 60);
+
+        if (resultS <= 30) {
+          result = 'now';
+        }
+
+        if (resultS > 30 && resultS < 60) {
+          result = 'recently';
+        }
+
+        if (resultS >= 60) {
+          result = resultM;
+        }
+      }
+
+      setLastAppDataSync(result);
+    }, 1000);
+
+    return () => {
+      clearInterval(runCheckLastBackup);
+    };
+  }, [lastBackup]);
 
   return {};
 };

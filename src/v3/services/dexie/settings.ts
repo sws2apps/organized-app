@@ -3,7 +3,7 @@ import { TimeAwayType } from '@definition/person';
 import { SettingsType } from '@definition/settings';
 import { setCongAccountConnected, setCongID, setIsMFAEnabled, setUserID } from '@services/recoil/app';
 import { settingSchema } from './schema';
-import { ValidateUserResponseType } from '@definition/api';
+import { ValidateMeResponseType } from '@definition/api';
 import appDb from '@db/appDb';
 import worker from '@services/worker/backupWorker';
 
@@ -88,29 +88,29 @@ export const dbAppSettingsSaveProfilePic = async (url: string, provider: string)
   await dbAppSettingsUpdate({ 'user_settings.user_avatar': undefined });
 };
 
-export const dbAppSettingsUpdateUserInfoAfterLogin = async (data: ValidateUserResponseType) => {
+export const dbAppSettingsUpdateUserInfoAfterLogin = async (data: ValidateMeResponseType) => {
   const settings = await appDb.app_settings.get(1);
 
   await dbAppSettingsUpdate({
-    'cong_settings.cong_name': data.cong_name,
-    'cong_settings.cong_number': data.cong_number,
-    'user_settings.cong_role': data.cong_role,
+    'cong_settings.cong_name': data.result.cong_name,
+    'cong_settings.cong_number': data.result.cong_number,
+    'user_settings.cong_role': data.result.cong_role,
     'user_settings.account_type': 'vip',
-    'cong_settings.cong_location': data.cong_location,
-    'cong_settings.cong_circuit': data.cong_circuit,
+    'cong_settings.cong_location': data.result.cong_location,
+    'cong_settings.cong_circuit': data.result.cong_circuit,
   });
 
-  if (settings.user_settings.firstname.updatedAt < data.firstname.updatedAt) {
-    await dbAppSettingsUpdate({ 'user_settings.firstname': data.firstname });
+  if (settings.user_settings.firstname.updatedAt < data.result.firstname.updatedAt) {
+    await dbAppSettingsUpdate({ 'user_settings.firstname': data.result.firstname });
   }
 
-  if (settings.user_settings.lastname.updatedAt < data.lastname.updatedAt) {
-    await dbAppSettingsUpdate({ 'user_settings.lastname': data.lastname });
+  if (settings.user_settings.lastname.updatedAt < data.result.lastname.updatedAt) {
+    await dbAppSettingsUpdate({ 'user_settings.lastname': data.result.lastname });
   }
 
   const midweekMeeting = structuredClone(settings.cong_settings.midweek_meeting);
   for (const item of midweekMeeting) {
-    const remoteItem = data.midweek_meeting.find((record) => record.type === item.type);
+    const remoteItem = data.result.midweek_meeting.find((record) => record.type === item.type);
     if (remoteItem) {
       item.time = remoteItem.time;
       item.weekday = remoteItem.weekday;
@@ -120,7 +120,7 @@ export const dbAppSettingsUpdateUserInfoAfterLogin = async (data: ValidateUserRe
 
   const weekendMeeting = structuredClone(settings.cong_settings.weekend_meeting);
   for (const item of weekendMeeting) {
-    const remoteItem = data.weekend_meeting.find((record) => record.type === item.type);
+    const remoteItem = data.result.weekend_meeting.find((record) => record.type === item.type);
     if (remoteItem) {
       item.time = remoteItem.time;
       item.weekday = remoteItem.weekday;
@@ -128,15 +128,15 @@ export const dbAppSettingsUpdateUserInfoAfterLogin = async (data: ValidateUserRe
   }
   await dbAppSettingsUpdate({ 'cong_settings.weekend_meeting': weekendMeeting });
 
-  await setIsMFAEnabled(data.mfaEnabled);
-  await setCongID(data.cong_id);
+  await setIsMFAEnabled(data.result.mfaEnabled);
+  await setCongID(data.result.cong_id);
   await setCongAccountConnected(true);
-  await setUserID(data.id);
+  await setUserID(data.result.id);
 
   worker.postMessage({ field: 'isEnabled', value: settings.user_settings.backup_automatic.enabled.value });
-  worker.postMessage({ field: 'userRole', value: data.cong_role });
-  worker.postMessage({ field: 'userID', value: data.id });
-  worker.postMessage({ field: 'congID', value: data.cong_id });
+  worker.postMessage({ field: 'userRole', value: data.result.cong_role });
+  worker.postMessage({ field: 'userID', value: data.result.id });
+  worker.postMessage({ field: 'congID', value: data.result.cong_id });
   worker.postMessage({ field: 'isCongAccountConnected', value: true });
   worker.postMessage({ field: 'accountType', value: 'vip' });
 };
