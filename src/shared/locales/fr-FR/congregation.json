@@ -360,5 +360,8 @@
   "tr_speakerTalksSongsDesc": "Here you can edit songs for each public talks of this speaker.",
   "tr_songsEdit": "Edit songs",
   "tr_outgoingSpeakersHide": "Hide your congregation from other congregations on Organized?",
-  "tr_outgoingSpeakersHideDesc": "<p>Other congregations using Organized won't be able to find your congregation and request your speakers list anymore. You can make it visible again later at any time.</p><p>Congregations that already have access to your speakers list will keep it, unless you manually revoke their access.</p>"
+  "tr_outgoingSpeakersHideDesc": "<p>Other congregations using Organized won't be able to find your congregation and request your speakers list anymore. You can make it visible again later at any time.</p><p>Congregations that already have access to your speakers list will keep it, unless you manually revoke their access.</p>",
+  "tr_outgoingSpeakersAccess": "Congregations granted access to your outgoing speakers list",
+  "tr_outgoingSpeakersAccessNoneDesc": "No congregations have access to your outgoing speakers list yet. To allow other congregations to find yours and send a request, make sure your congregation is discoverable in Organized.",
+  "tr_outgoingSpeakersAccessActiveDesc": "The following congregations can view your outgoing speakers list and contact information of your congregation provided by you."
 }
