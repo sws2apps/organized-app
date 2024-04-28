@@ -14,10 +14,10 @@ self.setting = {
 };
 
 self.onmessage = function (event) {
-  if (Object.keys(self.setting).includes(event.data.field)) {
-    self.setting[event.data.field] = event.data.value;
-  } else {
-    console.error('Invalid setting field:', event.data.field);
+  if (event.data.field) {
+    if (Object.keys(self.setting).includes(event.data.field)) {
+      self.setting[event.data.field] = event.data.value;
+    }
   }
 
   if (event.data === 'startWorker') {

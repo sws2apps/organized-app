@@ -18,17 +18,9 @@ import {
 import worker from '@services/worker/backupWorker';
 
 // creating theme
-const lightTheme = createTheme({
-  palette: {
-    mode: 'light',
-  },
-});
+const lightTheme = createTheme({ palette: { mode: 'light' } });
 
-const darkTheme = createTheme({
-  palette: {
-    mode: 'dark',
-  },
-});
+const darkTheme = createTheme({ palette: { mode: 'dark' } });
 
 const useGlobal = () => {
   const { isNavigatorOnline } = useInternetChecker();
@@ -53,7 +45,6 @@ const useGlobal = () => {
   useEffect(() => {
     const updateNetworkStatus = async () => {
       await setIsOnline(isNavigatorOnline);
-      worker.postMessage({ field: 'isOnline', value: isNavigatorOnline });
 
       if (!isNavigatorOnline) {
         await disconnectCongAccount();

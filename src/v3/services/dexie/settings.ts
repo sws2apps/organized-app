@@ -133,11 +133,9 @@ export const dbAppSettingsUpdateUserInfoAfterLogin = async (data: ValidateMeResp
   await setCongAccountConnected(true);
   await setUserID(data.result.id);
 
-  worker.postMessage({ field: 'isEnabled', value: settings.user_settings.backup_automatic.enabled.value });
   worker.postMessage({ field: 'userRole', value: data.result.cong_role });
   worker.postMessage({ field: 'userID', value: data.result.id });
   worker.postMessage({ field: 'congID', value: data.result.cong_id });
-  worker.postMessage({ field: 'isCongAccountConnected', value: true });
   worker.postMessage({ field: 'accountType', value: 'vip' });
 };
 
