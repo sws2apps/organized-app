@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
 import { publicTalksState } from '@states/public_talks';
@@ -5,6 +6,10 @@ import { dbVisitingSpeakersLocalCongSpeakerUpdate } from '@services/dexie/visiti
 
 const useTalksSongs = (speaker: VisitingSpeakerType) => {
   const publicTalks = useRecoilValue(publicTalksState);
+
+  const [isEdit, setIsEdit] = useState(false);
+
+  const handleToggleEdit = () => setIsEdit((prev) => !prev);
 
   const talks = speaker.talks
     .filter((record) => record._deleted === null)
@@ -33,7 +38,7 @@ const useTalksSongs = (speaker: VisitingSpeakerType) => {
     await dbVisitingSpeakersLocalCongSpeakerUpdate({ talks }, speaker.person_uid);
   };
 
-  return { talks, handleSongsTalkUpdate, handleSongsTalkDelete };
+  return { talks, handleSongsTalkUpdate, handleSongsTalkDelete, handleToggleEdit, isEdit };
 };
 
 export default useTalksSongs;
