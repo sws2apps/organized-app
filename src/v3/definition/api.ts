@@ -55,6 +55,7 @@ export type ValidateMeResponseType = {
     cong_location: { address: string; lat: number; lng: number };
     midweek_meeting: MeetingResponseType[];
     weekend_meeting: MeetingResponseType[];
+    cong_encryption: string;
   };
 };
 

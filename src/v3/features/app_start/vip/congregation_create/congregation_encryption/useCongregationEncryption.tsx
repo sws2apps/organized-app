@@ -117,10 +117,10 @@ const useCongregationEncryption = () => {
   };
 
   useEffect(() => {
-    const validateUser = async () => {
+    const getEncryptionKey = async () => {
       setIsLoading(true);
 
-      const { status, data } = await apiValidateMe();
+      const { status, result } = await apiValidateMe();
 
       if (status === 403) {
         await userSignOut();
@@ -133,15 +133,15 @@ const useCongregationEncryption = () => {
         return;
       }
 
-      await setCongID(data.cong_id);
+      await setCongID(result.cong_id);
 
-      setCongCode(data.cong_encryption);
-      setIsSetupCode(data.cong_encryption.length === 0);
+      setCongCode(result.cong_encryption);
+      setIsSetupCode(result.cong_encryption.length === 0);
 
       setIsLoading(false);
     };
 
-    if (isAuthenticated) validateUser();
+    if (isAuthenticated) getEncryptionKey();
   }, [isAuthenticated]);
 
   useEffect(() => {
