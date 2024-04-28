@@ -6,11 +6,11 @@ const useHeader = () => {
   const congName = useRecoilValue(congNameState);
   const congNumber = useRecoilValue(congNumberState);
 
-  const [openAccess, setOpenAcess] = useState(false);
+  const [openAccess, setOpenAccess] = useState(false);
 
-  const handleOpenAccess = () => setOpenAcess(true);
+  const handleOpenAccess = () => setOpenAccess(true);
 
-  const handleCloseAccess = () => setOpenAcess(false);
+  const handleCloseAccess = () => setOpenAccess(false);
 
   return { congName, congNumber, handleOpenAccess, handleCloseAccess, openAccess };
 };

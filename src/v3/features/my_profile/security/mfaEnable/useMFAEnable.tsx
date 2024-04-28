@@ -10,7 +10,7 @@ const useMFAEnable = (closeDialog: VoidFunction) => {
   const { t } = useAppTranslation();
 
   const { isPending, data, error } = useQuery({
-    queryKey: ['2fa-details'],
+    queryKey: ['2fa_details'],
     queryFn: apiGetUser2FA,
     refetchOnMount: 'always',
   });

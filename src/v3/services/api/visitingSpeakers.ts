@@ -1,3 +1,4 @@
+import { GetApprovedVisitingSpeakersAccessResponseType } from '@definition/api';
 import { apiDefault } from './common';
 
 export const apiApproveCongregationSpeakersRequest = async (cong_id) => {
@@ -53,18 +54,19 @@ export const apiUploadVisitingSpeakers = async (speakers) => {
   return { status: res.status, data };
 };
 
-export const apiGetApprovedVisitingSpeakersAccess = async () => {
-  const { apiHost, appVersion: appversion, visitorID: visitorid, congID, userUID: uid } = await apiDefault();
+export const apiGetApprovedVisitingSpeakersAccess =
+  async (): Promise<GetApprovedVisitingSpeakersAccessResponseType> => {
+    const { apiHost, appVersion: appversion, visitorID: visitorid, congID, userUID: uid } = await apiDefault();
 
-  const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/visiting-speakers-access`, {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
-  });
+    const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/visiting-speakers-access`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
+    });
 
-  const data = await res.json();
+    const data = await res.json();
 
-  return { status: res.status, data };
-};
+    return { status: res.status, result: data };
+  };
 
 export const apiUpdateVisitingSpeakersAccess = async (congs) => {
   const { apiHost, appVersion: appversion, visitorID: visitorid, congID, userUID: uid } = await apiDefault();
