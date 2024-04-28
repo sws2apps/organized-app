@@ -4,7 +4,6 @@ import { SpeakerDetailsType } from './index.types';
 import { useAppTranslation } from '@hooks/index';
 import useSpeakerDetails from './useSpeakerDetails';
 import Badge from '@components/badge';
-import Button from '@components/button';
 import Dialog from '@components/dialog';
 import SpeakerTalksSongs from './talks_songs';
 import Tabs from '@components/tabs';
@@ -14,7 +13,7 @@ import SpeakerContactInfo from './contact_info';
 const SpeakerDetails = ({ open, onClose, speaker }: SpeakerDetailsType) => {
   const { t } = useAppTranslation();
 
-  const { personName, isElder, congName, handleToggleEdit, isEdit } = useSpeakerDetails(speaker);
+  const { personName, isElder, congName } = useSpeakerDetails(speaker);
 
   return (
     <Dialog onClose={onClose} open={open} sx={{ padding: '16px', gap: '16px' }}>
@@ -61,22 +60,13 @@ const SpeakerDetails = ({ open, onClose, speaker }: SpeakerDetailsType) => {
         )}
       </Box>
 
-      <Box sx={{ marginTop: '-16px' }}>
+      <Box sx={{ marginTop: '-16px', width: '100%', marginBottom: '-16px' }}>
         <Tabs
           tabs={[
-            { label: t('tr_speakerTalksSongs'), Component: <SpeakerTalksSongs speaker={speaker} edit={isEdit} /> },
-            { label: t('tr_contactInfo'), Component: <SpeakerContactInfo speaker={speaker} /> },
+            { label: t('tr_speakerTalksSongs'), Component: <SpeakerTalksSongs speaker={speaker} onClose={onClose} /> },
+            { label: t('tr_contactInfo'), Component: <SpeakerContactInfo speaker={speaker} onClose={onClose} /> },
           ]}
         />
-      </Box>
-
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%', marginTop: '-32px' }}>
-        <Button variant="main" onClick={handleToggleEdit}>
-          {isEdit ? t('tr_done') : t('tr_songsEdit')}
-        </Button>
-        <Button variant="secondary" onClick={onClose}>
-          {t('tr_cancel')}
-        </Button>
       </Box>
     </Dialog>
   );
