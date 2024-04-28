@@ -50,7 +50,7 @@
   "tr_encryptionCode": "Código criptografado",
   "tr_encryptionCodeSetupDesc": "Crie seu código de criptografia da congregação.",
   "tr_encryptionCodeLostDesc": "Enter your congregation's encryption code to access it",
-  "tr_encryptionCodeNotice": "Please note it and keep it secure. Losing it means losing all your congregation data.",
+  "tr_encryptionCodeNotice": "Please note and safeguard this key. Losing it could mean the loss of all your congregation's data.",
   "tr_encryptionCodeCreate": "Criar código criptografado",
   "tr_encryptionCodeNoticeLength": "Pelo menos 16 caracteres",
   "tr_encryptionCodeNoticeNumber": "Digito",
