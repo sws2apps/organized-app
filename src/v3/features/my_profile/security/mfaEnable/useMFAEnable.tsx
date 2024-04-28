@@ -88,21 +88,13 @@ const useMFAEnable = (closeDialog: VoidFunction) => {
 
   useEffect(() => {
     const handleQueryResponse = async () => {
-      if (!isPending && error) {
+      if (!isPending && (error || (data && data.status !== 200))) {
         closeDialog();
+        const message = error ? error.message : data.result.message;
 
-        await displaySnackNotification({
+        displaySnackNotification({
           header: t('tr_errorTitle'),
-          message: getMessageByCode(error.message),
-          severity: 'error',
-        });
-      }
-
-      if (!isPending && data && data.status !== 200) {
-        closeDialog();
-        await displaySnackNotification({
-          header: t('tr_errorTitle'),
-          message: getMessageByCode(data.result.message),
+          message: getMessageByCode(message),
           severity: 'error',
         });
       }

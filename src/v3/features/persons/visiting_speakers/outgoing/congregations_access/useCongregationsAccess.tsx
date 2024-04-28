@@ -17,28 +17,17 @@ const useCongregationsAccess = (closeDialog: VoidFunction) => {
   const congregations = data?.result?.congregations || [];
 
   useEffect(() => {
-    const handleQueryResponse = async () => {
-      if (!isPending && error) {
-        closeDialog();
+    if (!isPending && (error || (data && data.status !== 200))) {
+      closeDialog();
 
-        await displaySnackNotification({
-          header: t('tr_errorTitle'),
-          message: getMessageByCode(error.message),
-          severity: 'error',
-        });
-      }
+      const message = error ? error.message : data.result.message;
 
-      if (!isPending && data && data.status !== 200) {
-        closeDialog();
-        await displaySnackNotification({
-          header: t('tr_errorTitle'),
-          message: getMessageByCode(data.result.message),
-          severity: 'error',
-        });
-      }
-    };
-
-    handleQueryResponse();
+      displaySnackNotification({
+        header: t('tr_errorTitle'),
+        message: getMessageByCode(message),
+        severity: 'error',
+      });
+    }
   }, [isPending, error, data, closeDialog, t]);
 
   return { congregations, isPending };
