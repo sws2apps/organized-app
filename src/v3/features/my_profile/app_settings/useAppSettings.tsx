@@ -3,7 +3,6 @@ import { useRecoilValue } from 'recoil';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { backupAutoState, backupIntervalState, themeFollowOSEnabledState } from '@states/settings';
 import { useBreakpoints } from '@hooks/index';
-import worker from '@services/worker/backupWorker';
 
 const useAppSettings = () => {
   const { laptopUp } = useBreakpoints();
@@ -22,8 +21,6 @@ const useAppSettings = () => {
     await dbAppSettingsUpdate({
       'user_settings.backup_automatic.enabled': { value, updatedAt: new Date().toISOString() },
     });
-
-    worker.postMessage({ field: 'isEnabled', value });
   };
 
   const handleUpdateSyncInterval = async (value) => {
@@ -32,8 +29,6 @@ const useAppSettings = () => {
     await dbAppSettingsUpdate({
       'user_settings.backup_automatic.interval': { value, updatedAt: new Date().toISOString() },
     });
-
-    worker.postMessage({ field: 'backupInterval', value: value * 60 * 1000 });
   };
 
   const handleUpdateSyncTheme = async (value) => {

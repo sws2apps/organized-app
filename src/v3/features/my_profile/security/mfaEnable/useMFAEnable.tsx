@@ -4,9 +4,16 @@ import { useAppTranslation } from '@hooks/index';
 import { displaySnackNotification, setIsMFAEnabled } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { apiGetUser2FA, apiHandleVerifyOTP } from '@services/api/user';
+import { useQuery } from '@tanstack/react-query';
 
 const useMFAEnable = (closeDialog: VoidFunction) => {
   const { t } = useAppTranslation();
+
+  const { isPending, data, error } = useQuery({
+    queryKey: ['2fa-details'],
+    queryFn: apiGetUser2FA,
+    refetchOnMount: 'always',
+  });
 
   const [isLoading, setIsLoading] = useState(true);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -80,31 +87,8 @@ const useMFAEnable = (closeDialog: VoidFunction) => {
   }, []);
 
   useEffect(() => {
-    const handleFetch2FA = async () => {
-      try {
-        setIsLoading(true);
-
-        const result = await apiGetUser2FA();
-
-        if (result.status === 200) {
-          const { qrCode, secret } = result.data;
-
-          setQrCode(qrCode);
-          setToken(secret);
-
-          const qrImg = await QRCode.toDataURL(qrCode);
-          setImgSrc(qrImg);
-          setIsLoading(false);
-          return;
-        }
-
-        closeDialog();
-        await displaySnackNotification({
-          header: t('tr_errorTitle'),
-          message: getMessageByCode(result.data.message),
-          severity: 'error',
-        });
-      } catch (error) {
+    const handleQueryResponse = async () => {
+      if (!isPending && error) {
         closeDialog();
 
         await displaySnackNotification({
@@ -113,10 +97,30 @@ const useMFAEnable = (closeDialog: VoidFunction) => {
           severity: 'error',
         });
       }
+
+      if (!isPending && data && data.status !== 200) {
+        closeDialog();
+        await displaySnackNotification({
+          header: t('tr_errorTitle'),
+          message: getMessageByCode(data.result.message),
+          severity: 'error',
+        });
+      }
+
+      if (!isPending && data && data.status === 200) {
+        const { qrCode, secret } = data.result;
+
+        setQrCode(qrCode);
+        setToken(secret);
+
+        const qrImg = await QRCode.toDataURL(qrCode);
+        setImgSrc(qrImg);
+        setIsLoading(false);
+      }
     };
 
-    if (isLoading) handleFetch2FA();
-  }, [isLoading, closeDialog, t]);
+    handleQueryResponse();
+  }, [isPending, error, data, closeDialog, t]);
 
   return {
     isLoading,
