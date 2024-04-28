@@ -77,3 +77,14 @@ export type GetUserSessionsType = {
   status: number;
   result: { message?: string; sessions?: SessionResponseType[] };
 };
+
+export type ApprovedVisitingSpeakersAccessListType = {
+  cong_id: string;
+  cong_number: string;
+  cong_name: string;
+};
+
+export type GetApprovedVisitingSpeakersAccessResponseType = {
+  status: number;
+  result: { message?: string; congregations: ApprovedVisitingSpeakersAccessListType[] };
+};
