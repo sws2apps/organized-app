@@ -1,5 +1,5 @@
 {
-  "tr_addServiceTime": "Magdagdag ng oras",
+  "tr_addServiceTime": "Mag-add ng oras",
   "tr_hours": "Oras",
   "tr_bibleStudies": "Mga indibidwal na pag-aaral ng Bibliya",
   "tr_btnAdd": "Idagdag",
@@ -83,16 +83,16 @@
   "tr_arrangementWith": "Kasama si {{ publisherName }}",
   "tr_addToCalendar": "Idagdag sa kalendaryo",
   "tr_addToCalendarDesc": "Gusto mo bang idagdag ang kaganapang ito sa iyong kalendaryo? Dapat na mayroon kang app ng kalendaryo sa iyong device.",
-  "tr_forMyself": "For myself",
-  "tr_forOthers": "For others",
+  "tr_forMyself": "Para sa akin",
+  "tr_forOthers": "Para sa iba",
   "tr_publisherWithNumber": "Publisher {{ publisherNumber }}",
-  "tr_occupied": "{{ number }} occupied",
+  "tr_occupied": "{{ number }} okupado",
   "tr_available": "{{ number }} available",
-  "tr_deletePWLocation": "Delete the public witnessing location",
-  "tr_deletePWLocationDesc": "Deleting this location permanently removes all its data and arrangements. This action cannot be undone.",
-  "tr_changeImage": "Change image",
-  "tr_addImage": "Add image",
-  "tr_cantDeductStudiesDesc": "You can't select fewer Bible studies than you already have selected in the “Individual Bible studies” dropdown menu. ",
-  "tr_cantDeductStudiesTitle": "Cannot deduct Bible studies",
-  "tr_includesServiceAndCredit": "Includes field service and credit hours"
+  "tr_deletePWLocation": "Tanggalin ang pampublikong lugar ng pagpapatotoo",
+  "tr_deletePWLocationDesc": "Mawawala nang tuluyan ang lahat ng data kapag binura ang lokasyong ito. Hindi na ito maibabalik.",
+  "tr_changeImage": "Palitan ang larawan",
+  "tr_addImage": "Mag-add ng larawan",
+  "tr_cantDeductStudiesDesc": "Hindi puwedeng pumili ng mas kaunting mga pag-aaral sa Bibliya kaysa sa iyong mga napili sa dropdown menu ng “Indibidwal na mga Pag-aaral sa Bibliya.”",
+  "tr_cantDeductStudiesTitle": "Hindi maaaring bawasan ang Pag-aaral ng Bibliya",
+  "tr_includesServiceAndCredit": "Kasama ang oras sa larangan at credit hours"
 }
