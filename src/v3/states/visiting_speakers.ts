@@ -20,6 +20,6 @@ export const outgoingSpeakersState = selector({
     const outgoingSpeakers =
       speakers.filter((record) => record.cong_number === congNumber && record._deleted === null) || [];
 
-    return outgoingSpeakers.sort((a, b) => (a.person_display_name.value > b.person_display_name.value ? 1 : -1));
+    return outgoingSpeakers;
   },
 });

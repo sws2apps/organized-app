@@ -131,6 +131,7 @@ export { default as IconLogin } from './IconLogin';
 export { default as IconLogo } from './IconLogo';
 export { default as IconLogout } from './IconLogout';
 export { default as IconMail } from './IconMail';
+export { default as IconMale } from './IconMale';
 export { default as IconManageAccess } from './IconManageAccess';
 export { default as IconManageAccounts } from './IconManageAccounts';
 export { default as IconMapOverview } from './IconMapOverview';

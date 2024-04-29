@@ -92,6 +92,7 @@ export const dbAppSettingsUpdateUserInfoAfterLogin = async (data: ValidateMeResp
   const settings = await appDb.app_settings.get(1);
 
   await dbAppSettingsUpdate({
+    'cong_settings.country_code': data.result.country_code,
     'cong_settings.cong_name': data.result.cong_name,
     'cong_settings.cong_number': data.result.cong_number,
     'user_settings.cong_role': data.result.cong_role,
@@ -144,6 +145,7 @@ export const dbAppSettingsBuildTest = async () => {
   baseSettings.user_settings.account_type = 'vip';
   baseSettings.user_settings.firstname = { value: 'Test', updatedAt: new Date().toISOString() };
   baseSettings.user_settings.lastname = { value: 'User', updatedAt: new Date().toISOString() };
+  baseSettings.cong_settings.country_code = 'USA';
   baseSettings.cong_settings.cong_name = 'Congregation Test';
   baseSettings.cong_settings.cong_number = '123456';
   baseSettings.cong_settings.cong_circuit = [{ type: 'main', value: '01 - A' }];

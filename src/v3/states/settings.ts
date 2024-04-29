@@ -31,6 +31,15 @@ export const congNameState = selector({
   },
 });
 
+export const countryCodeState = selector({
+  key: 'countryCode',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+
+    return settings.cong_settings.country_code;
+  },
+});
+
 export const congEncryptionCodeState = selector({
   key: 'congEncryptionCode',
   get: ({ get }) => {

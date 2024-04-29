@@ -10,6 +10,7 @@ export type AccountTypeState = 'vip' | 'pocket';
 export type SettingsType = {
   id: number;
   cong_settings: {
+    country_code: string;
     cong_number: string;
     cong_name: string;
     cong_code: string;

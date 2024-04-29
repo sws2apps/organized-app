@@ -13,7 +13,7 @@ import SpeakerContactInfo from './contact_info';
 const SpeakerDetails = ({ open, onClose, speaker }: SpeakerDetailsType) => {
   const { t } = useAppTranslation();
 
-  const { personName, isElder, congName } = useSpeakerDetails(speaker);
+  const { personName, speakerCongName } = useSpeakerDetails(speaker);
 
   return (
     <Dialog onClose={onClose} open={open} sx={{ padding: '16px', gap: '16px' }}>
@@ -29,7 +29,7 @@ const SpeakerDetails = ({ open, onClose, speaker }: SpeakerDetailsType) => {
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px', flexWrap: 'wrap' }}>
           <Typography className="h2">{personName}</Typography>
-          {isElder && (
+          {speaker.elder.value && (
             <Badge
               text={t('tr_elder')}
               color="green"
@@ -38,7 +38,7 @@ const SpeakerDetails = ({ open, onClose, speaker }: SpeakerDetailsType) => {
               sx={{ backgroundColor: 'var(--green-secondary)' }}
             />
           )}
-          {!isElder && (
+          {speaker.ministerial_servant.value && (
             <Badge
               text={t('tr_ministerialServant')}
               color="green"
@@ -54,7 +54,7 @@ const SpeakerDetails = ({ open, onClose, speaker }: SpeakerDetailsType) => {
       </Box>
 
       <Box sx={{ borderBottom: '1px solid var(--accent-200)', paddingBottom: '16px', width: '100%' }}>
-        <Typography>{congName}</Typography>
+        <Typography>{speakerCongName}</Typography>
         {speaker.person_notes.value.length > 0 && (
           <Typography className="body-small-regular">{speaker.person_notes.value}</Typography>
         )}

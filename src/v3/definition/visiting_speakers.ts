@@ -13,5 +13,9 @@ export type VisitingSpeakerType = {
   person_lastname: { value: string; updatedAt: string };
   person_display_name: { value: string; updatedAt: string };
   person_notes: { value: string; updatedAt: string };
+  person_email: { value: string; updatedAt: string };
+  person_phone: { value: string; updatedAt: string };
+  elder: { value: boolean; updatedAt: string };
+  ministerial_servant: { value: boolean; updatedAt: string };
   talks: SpeakerTalk[];
 };

@@ -22,3 +22,8 @@ export const incomingCongSpeakersState = selector({
     return incomingCongregations.sort((a, b) => (a.cong_name.value > b.cong_name.value ? 1 : -1));
   },
 });
+
+export const isAddingCongregationState = atom({
+  key: 'isAddingCongregation',
+  default: false,
+});

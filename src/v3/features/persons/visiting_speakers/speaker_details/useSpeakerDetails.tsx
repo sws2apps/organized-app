@@ -1,23 +1,23 @@
-import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
 import { buildPersonFullname } from '@utils/common';
-import { personsActiveState } from '@states/persons';
-import { personIsElder } from '@services/app/persons';
-import { congNameState, fullnameOptionState } from '@states/settings';
+import { congNameState, congNumberState, fullnameOptionState } from '@states/settings';
+import { speakersCongregationsState } from '@states/speakers_congregations';
 
 const useSpeakerDetails = (speaker: VisitingSpeakerType) => {
   const fullnameOption = useRecoilValue(fullnameOptionState);
-  const persons = useRecoilValue(personsActiveState);
   const congName = useRecoilValue(congNameState);
-
-  const person = persons.find((record) => record.person_uid === speaker.person_uid);
+  const congNumber = useRecoilValue(congNumberState);
+  const congregations = useRecoilValue(speakersCongregationsState);
 
   const personName = buildPersonFullname(speaker.person_lastname.value, speaker.person_firstname.value, fullnameOption);
 
-  const isElder = personIsElder(person);
+  const speakerCongName =
+    congNumber === speaker.cong_number
+      ? congName
+      : congregations.find((record) => record.cong_number === speaker.cong_number)?.cong_name.value;
 
-  return { personName, isElder, congName };
+  return { personName, speakerCongName };
 };
 
 export default useSpeakerDetails;

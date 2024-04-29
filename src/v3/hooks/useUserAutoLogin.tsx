@@ -41,13 +41,6 @@ const useUserAutoLogin = () => {
         return;
       }
 
-      if (error || data.result.message) {
-        const msg = error?.message || data.result.message;
-        logger.error('app', msg);
-
-        return;
-      }
-
       if (data.status === 403) {
         await userSignOut();
         return;
@@ -56,6 +49,13 @@ const useUserAutoLogin = () => {
       // congregation not found -> user not authorized and delete local data
       if (data.status === 404) {
         await handleDeleteDatabase();
+        return;
+      }
+
+      if (error || data.result.message) {
+        const msg = error?.message || data.result.message;
+        logger.error('app', msg);
+
         return;
       }
 

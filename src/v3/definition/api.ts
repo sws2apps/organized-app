@@ -1,9 +1,11 @@
 export type CongregationResponseType = {
+  address: string;
+  circuit: string;
   congNumber: string;
   congName: string;
-  language: string;
-  midweekMeetingTime: string;
-  weekendMeetingTime: string;
+  location: { lat: number; lng: number };
+  midweekMeetingTime: { time: string; weekday: number };
+  weekendMeetingTime: { time: string; weekday: number };
 };
 
 export type CountryResponseType = {
@@ -27,6 +29,7 @@ export type CongregationCreateResponseType = {
   cong_id: string;
   firstname: { value: string; updatedAt: string };
   lastname: { value: string; updatedAt: string };
+  country_code: string;
   cong_name: string;
   cong_number: string;
   cong_role: string[];
@@ -46,6 +49,7 @@ export type ValidateMeResponseType = {
     cong_id: string;
     firstname: { value: string; updatedAt: string };
     lastname: { value: string; updatedAt: string };
+    country_code: string;
     cong_name: string;
     cong_number: string;
     cong_role: string[];
@@ -87,4 +91,15 @@ export type ApprovedVisitingSpeakersAccessListType = {
 export type GetApprovedVisitingSpeakersAccessResponseType = {
   status: number;
   result: { message?: string; congregations: ApprovedVisitingSpeakersAccessListType[] };
+};
+
+export type IncomingCongregationResponseType = {
+  cong_id?: string;
+  cong_name: string;
+  cong_number: string;
+  country_code: string;
+  cong_circuit: string;
+  cong_location: { address: string; lat: number; lng: number };
+  midweek_meeting: { weekday: number; time: string };
+  weekend_meeting: { weekday: number; time: string };
 };
