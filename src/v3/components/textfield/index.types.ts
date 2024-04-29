@@ -38,4 +38,9 @@ export type TextFieldTypeProps = TextFieldProps & {
    * Whether to reset the helper text padding
    */
   resetHelperPadding?: boolean;
+
+  /**
+   * Whether to apply color to svg
+   */
+  styleIcon?: boolean;
 };

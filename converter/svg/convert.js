@@ -42,7 +42,8 @@ for await (const svgFile of svgFiles) {
     componentName !== 'IconGoogle' &&
     componentName !== 'IconMicrosoft' &&
     componentName !== 'IconYahoo' &&
-    componentName !== 'IconLogo'
+    componentName !== 'IconLogo' &&
+    componentName !== 'IconMale'
       ? `color = '#222222', `
       : ''
   }width = 24, height = 24, sx = {} }: IconProps) => {
@@ -59,7 +60,8 @@ for await (const svgFile of svgFiles) {
     componentName !== 'IconGoogle' &&
     componentName !== 'IconMicrosoft' &&
     componentName !== 'IconYahoo' &&
-    componentName !== 'IconLogo'
+    componentName !== 'IconLogo' &&
+    componentName !== 'IconMale'
   ) {
     if (componentName === 'IconOnCircle') {
       svgContent = svgContent.replace(/fill=(?!"#D9D9D9"|"none"|"white"|"#FEFEFE")".*?"(?=\s|\/)/g, 'fill={color}');

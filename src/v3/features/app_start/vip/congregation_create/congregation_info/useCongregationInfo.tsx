@@ -14,6 +14,7 @@ import { apiCreateCongregation } from '@services/api/congregation';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { getMessageByCode } from '@services/i18n/translation';
 import { CongregationCreateResponseType } from '@definition/api';
+import { CountryType } from '@components/country_selector/index.types';
 import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 import worker from '@services/worker/backupWorker';
 
@@ -27,7 +28,7 @@ const useCongregationInfo = () => {
   const settings = useRecoilValue(settingsState);
 
   const [isProcessing, setIsProcessing] = useState(false);
-  const [country, setCountry] = useState(null);
+  const [country, setCountry] = useState<CountryType>(null);
   const [congregation, setCongregation] = useState(null);
   const [userTmpFirstName, setUserTmpFirstName] = useState(settings.user_settings.firstname.value);
   const [userTmpLastName, setUserTmpLastName] = useState(settings.user_settings.lastname.value);
@@ -105,6 +106,7 @@ const useCongregationInfo = () => {
         weekendMain.weekday = result.weekend_meeting.weekday;
 
         await dbAppSettingsUpdate({
+          'cong_settings.country_code': result.country_code,
           'cong_settings.cong_name': result.cong_name,
           'cong_settings.cong_number': result.cong_number,
           'user_settings.cong_role': result.cong_role,

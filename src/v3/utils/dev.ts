@@ -631,3 +631,12 @@ export const importDummyPersons = async (showLoading?: boolean) => {
     console.error(err);
   }
 };
+
+export const removeSecondsFromTime = (time: string) => {
+  const parts = time.split(':');
+
+  if (parts.length > 2) {
+    return parts.slice(0, 2).join(':');
+  }
+  return time;
+};

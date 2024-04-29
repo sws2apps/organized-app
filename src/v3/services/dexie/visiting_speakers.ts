@@ -26,7 +26,7 @@ export const dbVistingSpeakersLocalCongSpeakerAdd = async () => {
   }
 };
 
-export const dbVistingSpeakersLocalCongSpeakerDelete = async (person_uid: string) => {
+export const dbVistingSpeakersDelete = async (person_uid: string) => {
   try {
     const speaker = await appDb.visiting_speakers.get(person_uid);
     speaker._deleted = new Date().toISOString();
@@ -37,12 +37,22 @@ export const dbVistingSpeakersLocalCongSpeakerDelete = async (person_uid: string
   }
 };
 
-export const dbVisitingSpeakersLocalCongSpeakerUpdate = async (
-  changes: UpdateSpec<VisitingSpeakerType>,
-  person_uid: string
-) => {
+export const dbVistingSpeakersUpdate = async (changes: UpdateSpec<VisitingSpeakerType>, person_uid: string) => {
   try {
     await appDb.visiting_speakers.update(person_uid, changes);
+  } catch (err) {
+    console.error(err);
+    throw new Error(err);
+  }
+};
+
+export const dbVistingSpeakersAdd = async (cong_number: string) => {
+  try {
+    const newSpeaker = structuredClone(vistingSpeakerSchema);
+    newSpeaker.person_uid = crypto.randomUUID();
+    newSpeaker.cong_number = cong_number;
+
+    await appDb.visiting_speakers.put(newSpeaker);
   } catch (err) {
     console.error(err);
     throw new Error(err);

@@ -1,12 +1,16 @@
 import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
+import { buildPersonFullname } from '@utils/common';
 import { dbVistingSpeakersLocalCongSpeakerAdd } from '@services/dexie/visiting_speakers';
 import { outgoingSpeakersState } from '@states/visiting_speakers';
 import { personsActiveState } from '@states/persons';
+import { fullnameOptionState } from '@states/settings';
+import { personIsElder, personIsMS } from '@services/app/persons';
 
 const useOutgoing = () => {
   const outgoingSpeakers = useRecoilValue(outgoingSpeakersState);
   const persons = useRecoilValue(personsActiveState);
+  const fullnameOption = useRecoilValue(fullnameOptionState);
 
   const [isExpanded, setIsExpanded] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
@@ -20,13 +24,21 @@ const useOutgoing = () => {
         person_display_name: { value: findPerson?.person_display_name.value || '', updatedAt: '' },
         person_firstname: { value: findPerson?.person_firstname.value || '', updatedAt: '' },
         person_lastname: { value: findPerson?.person_lastname.value || '', updatedAt: '' },
+        elder: { value: personIsElder(findPerson), updatedAt: '' },
+        ministerial_servant: { value: personIsMS(findPerson), updatedAt: '' },
+        person_email: { value: findPerson?.email.value || '', updatedAt: '' },
+        person_phone: { value: findPerson?.phone.value || '', updatedAt: '' },
       };
     })
     .sort((a, b) => {
-      if (a.person_lastname.value === '') return 1;
-      if (b.person_lastname.value === '') return -1;
-      if (a.person_lastname.value < b.person_lastname.value) return -1;
-      if (a.person_lastname.value > b.person_lastname.value) return 1;
+      const fullnameA = buildPersonFullname(a.person_lastname.value, a.person_firstname.value, fullnameOption);
+      const fullnameB = buildPersonFullname(b.person_lastname.value, b.person_firstname.value, fullnameOption);
+
+      if (fullnameA === '') return 1;
+      if (fullnameB === '') return -1;
+
+      if (fullnameA < fullnameB) return -1;
+      if (fullnameB > fullnameB) return 1;
       return 0;
     });
 

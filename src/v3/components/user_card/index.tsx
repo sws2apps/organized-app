@@ -1,6 +1,6 @@
 import type { CustomUserCardProps } from './user_card.types';
-import UserCardImg from '@assets/img/illustration_userCard.svg?component';
-import UserCardFemaleImg from '@assets/img/illustration_userCard1.svg?component';
+import UserCardMaleImg from '@assets/img/illustration_male.svg?component';
+import UserCardFemaleImg from '@assets/img/illustration_female.svg?component';
 import IconDelete from '../icons/IconDelete';
 import IconArrowLink from '../icons/IconArrowLink';
 import MiniChip from '../mini_chip';
@@ -42,7 +42,7 @@ export const CustomUserCard = ({
         <StyledCardContent>
           <StyledBox gap="13px" sx={{ flexWrap: 'nowrap' }}>
             <StyledBox gap="12px" sx={{ width: '100%' }}>
-              <StyledImgContainer>{female ? <UserCardFemaleImg /> : <UserCardImg />}</StyledImgContainer>
+              <StyledImgContainer>{female ? <UserCardFemaleImg /> : <UserCardMaleImg />}</StyledImgContainer>
               <StyledBoxSpaceBetween flexDirection="column">
                 <StyledBoxSpaceBetween flexDirection="row">
                   <StyledBoxSpaceBetween flexDirection="column">

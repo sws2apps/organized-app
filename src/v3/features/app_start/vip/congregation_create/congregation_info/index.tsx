@@ -86,7 +86,7 @@ const CongregationInfo = ({ setIsCreate }: { setIsCreate: (value: boolean) => vo
           </Box>
 
           <CountrySelector handleCountryChange={setCountry} />
-          {country !== null && <CongregationSelector country={country} setCongregation={setCongregation} />}
+          {country !== null && <CongregationSelector country_code={country.code} setCongregation={setCongregation} />}
 
           <Checkbox
             label={t('tr_registeringApproved')}

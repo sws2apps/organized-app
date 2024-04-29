@@ -1,11 +1,11 @@
 import { Box, Divider, FormControlLabel, RadioGroup } from '@mui/material';
+import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import useBasicInfo from './useBasicInfo';
 import Badge from '@components/badge';
 import DatePicker from '@components/date_picker';
 import Radio from '@components/radio';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
-import { useAppTranslation, useBreakpoints } from '@hooks/index';
-import useBasicInfo from './useBasicInfo';
 
 const PersonBasicInfo = () => {
   const { t } = useAppTranslation();
@@ -94,16 +94,8 @@ const PersonBasicInfo = () => {
         value={person.male.value ? 'male' : 'female'}
         onChange={(e) => handleToggleGender(e.target.value)}
       >
-        <FormControlLabel
-          value="male"
-          control={<Radio />}
-          label={<Typography className="body-regular">{t('tr_male')}</Typography>}
-        />
-        <FormControlLabel
-          value="female"
-          control={<Radio />}
-          label={<Typography className="body-regular">{t('tr_female')}</Typography>}
-        />
+        <FormControlLabel value="male" control={<Radio />} label={<Typography>{t('tr_male')}</Typography>} />
+        <FormControlLabel value="female" control={<Radio />} label={<Typography>{t('tr_female')}</Typography>} />
       </RadioGroup>
 
       <Box

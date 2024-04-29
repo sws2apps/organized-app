@@ -2,14 +2,11 @@ import { Box } from '@mui/material';
 import { IconCall, IconMail } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { SpeakerContactInfoType } from './index.types';
-import useContactInfo from './useContactInfo';
 import Button from '@components/button';
 import Typography from '@components/typography';
 
 const SpeakerContactInfo = ({ speaker, onClose }: SpeakerContactInfoType) => {
   const { t } = useAppTranslation();
-
-  const { person } = useContactInfo(speaker);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -19,7 +16,7 @@ const SpeakerContactInfo = ({ speaker, onClose }: SpeakerContactInfoType) => {
           <Typography className="body-small-regular">{t('tr_phoneNumber')}</Typography>
         </Box>
         <Typography className="body-small-semibold" color="var(--accent-dark)" sx={{ wordBreak: 'break-all' }}>
-          {person.phone.value}
+          {speaker.person_phone.value}
         </Typography>
       </Box>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
@@ -28,7 +25,7 @@ const SpeakerContactInfo = ({ speaker, onClose }: SpeakerContactInfoType) => {
           <Typography className="body-small-regular">{t('tr_emailAddress')}</Typography>
         </Box>
         <Typography className="body-small-semibold" color="var(--accent-dark)" sx={{ wordBreak: 'break-all' }}>
-          {person.email.value}
+          {speaker.person_email.value}
         </Typography>
       </Box>
 

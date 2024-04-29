@@ -10,9 +10,9 @@ import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'reac
 import { CustomTimePickerProps } from './time_picker.types';
 import { StyleTimePickerPopper, StyleTimePickerToolbar } from './time_picker.styles';
 import { IconClock } from '@components/icons';
+import { useAppTranslation } from '@hooks/index';
 import TextField from '@components/textfield';
 import Button from '@components/button';
-import { useAppTranslation } from '@hooks/index';
 
 /**
  * Custom input field for the time picker.
@@ -28,7 +28,7 @@ const TimePickerInputField = (props: TextFieldProps & { setOpen?: Dispatch<SetSt
   return (
     <TextField
       {...props}
-      className={'body-regular'}
+      className="body-regular"
       endIcon={
         <Box onClick={handleClick} display={'flex'} alignItems={'center'} style={{ cursor: 'pointer' }}>
           <IconClock />
@@ -60,7 +60,7 @@ const TimePickerActionBar = (props: PickersActionBarProps & { onClear: VoidFunct
       }}
     >
       <Button variant="secondary" onClick={onClear}>
-        {t('tr_cancel')}
+        {t('tr_clear')}
       </Button>
       <Button variant="main" onClick={onSave}>
         {t('tr_save')}
@@ -81,11 +81,15 @@ const TimePickerActionBar = (props: PickersActionBarProps & { onClear: VoidFunct
  */
 const CustomTimePicker = ({ ampm, label, value = null, onChange, isValueOnOpen = false }: CustomTimePickerProps) => {
   const { t } = useAppTranslation();
-  const [currentValue, setCurrentValue] = useState<Date | null>(null);
-  const [innerValue, setInnerValue] = useState<Date | null>(null);
+  const [currentValue, setCurrentValue] = useState(value);
+  const [innerValue, setInnerValue] = useState(value);
   const [open, setOpen] = useState<boolean>(false);
 
   const isMobile = useMediaQuery('(max-width:600px)');
+
+  const handleClickAway = () => {
+    if (open) setOpen(false);
+  };
 
   useEffect(() => {
     if (value === null && isValueOnOpen && open && innerValue === null) {
@@ -94,15 +98,12 @@ const CustomTimePicker = ({ ampm, label, value = null, onChange, isValueOnOpen =
     }
   }, [value, open, isValueOnOpen, innerValue]);
 
-  const handleClickAway = () => {
-    if (open) setOpen(false);
-  };
-
   return (
     <ClickAwayListener onClickAway={handleClickAway}>
-      <div>
+      <Box sx={{ flex: 1, minWidth: '120px', width: '100%' }}>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <DesktopTimePicker
+            key={value ? value.toISOString() : crypto.randomUUID()}
             localeText={{ toolbarTitle: t('tr_pickerSelectTime') }}
             open={open}
             label={label}
@@ -110,10 +111,7 @@ const CustomTimePicker = ({ ampm, label, value = null, onChange, isValueOnOpen =
             orientation={isMobile ? 'portrait' : 'landscape'}
             value={innerValue}
             ampm={ampm}
-            onChange={(value) => {
-              setInnerValue(value);
-              if (onChange) onChange();
-            }}
+            onChange={(value) => setInnerValue(value)}
             onOpen={() => setOpen(true)}
             viewRenderers={{
               hours: renderTimeViewClock,
@@ -127,22 +125,24 @@ const CustomTimePicker = ({ ampm, label, value = null, onChange, isValueOnOpen =
               actionBar: {
                 onSave: () => {
                   setCurrentValue(innerValue);
+                  onChange && onChange(innerValue);
                   setOpen(false);
                 },
                 onClear: () => {
+                  setCurrentValue(null);
+                  setInnerValue(null);
+                  onChange && onChange(null);
                   setOpen(false);
-                  setCurrentValue(value);
-                  setInnerValue(value);
                 },
               } as never,
               textField: {
-                setOpen: setOpen,
                 label: label,
                 value: currentValue,
                 onClick: () => setOpen(!open),
               } as never,
               toolbar: {
                 hidden: false,
+                className: 'h3',
                 sx: {
                   ...StyleTimePickerToolbar,
                   maxWidth: isMobile ? 'none' : '250px',
@@ -202,7 +202,7 @@ const CustomTimePicker = ({ ampm, label, value = null, onChange, isValueOnOpen =
             }}
           />
         </LocalizationProvider>
-      </div>
+      </Box>
     </ClickAwayListener>
   );
 };

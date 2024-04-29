@@ -7,5 +7,5 @@ export type SpeakersCongregationsTable = {
 
 export const speakersCongregationsSchema = {
   speakers_congregations:
-    '&cong_number, _deleted, cong_id, cong_name, cong_location, weekend_meeting_day, weekend_meeting_time, cong_public_talk_coordinator_name, cong_public_talk_coordinator_email, cong_public_talk_coordinator_phone, cong_coordinator_name, cong_coordinator_email, cong_coordinator_phone, request_status, notification_dismissed',
+    '&cong_number, _deleted, cong_id, cong_name, cong_circuit, cong_location, midweek_meeting, weekend_meeting, public_talk_coordinator, coordinator, request_status, notification_dismissed',
 };

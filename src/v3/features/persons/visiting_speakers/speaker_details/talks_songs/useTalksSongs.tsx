@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
 import { publicTalksState } from '@states/public_talks';
-import { dbVisitingSpeakersLocalCongSpeakerUpdate } from '@services/dexie/visiting_speakers';
+import { dbVistingSpeakersUpdate } from '@services/dexie/visiting_speakers';
 
 const useTalksSongs = (speaker: VisitingSpeakerType) => {
   const publicTalks = useRecoilValue(publicTalksState);
@@ -26,7 +26,7 @@ const useTalksSongs = (speaker: VisitingSpeakerType) => {
     findTalk.talk_songs = songs;
     findTalk.updatedAt = new Date().toISOString();
 
-    await dbVisitingSpeakersLocalCongSpeakerUpdate({ talks }, speaker.person_uid);
+    await dbVistingSpeakersUpdate({ talks }, speaker.person_uid);
   };
 
   const handleSongsTalkDelete = async (talk_number: number, song: number) => {
@@ -35,7 +35,7 @@ const useTalksSongs = (speaker: VisitingSpeakerType) => {
     findTalk.talk_songs = findTalk.talk_songs.filter((record) => record !== song);
     findTalk.updatedAt = new Date().toISOString();
 
-    await dbVisitingSpeakersLocalCongSpeakerUpdate({ talks }, speaker.person_uid);
+    await dbVistingSpeakersUpdate({ talks }, speaker.person_uid);
   };
 
   return { talks, handleSongsTalkUpdate, handleSongsTalkDelete, handleToggleEdit, isEdit };

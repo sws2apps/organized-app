@@ -212,6 +212,7 @@ export const personSchema: PersonType = {
 export const settingSchema: SettingsType = {
   id: 1,
   cong_settings: {
+    country_code: '',
     cong_number: '',
     cong_name: '',
     cong_code: '',
@@ -267,11 +268,15 @@ export const settingSchema: SettingsType = {
 
 export const vistingSpeakerSchema: VisitingSpeakerType = {
   _deleted: null,
+  person_uid: '',
   cong_number: '',
   person_display_name: { value: '', updatedAt: '' },
   person_firstname: { value: '', updatedAt: '' },
   person_lastname: { value: '', updatedAt: '' },
   person_notes: { value: '', updatedAt: '' },
-  person_uid: '',
+  elder: { value: false, updatedAt: '' },
+  ministerial_servant: { value: false, updatedAt: '' },
+  person_email: { value: '', updatedAt: '' },
+  person_phone: { value: '', updatedAt: '' },
   talks: [],
 };
