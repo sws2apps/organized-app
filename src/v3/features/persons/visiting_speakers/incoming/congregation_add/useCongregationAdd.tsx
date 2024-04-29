@@ -22,7 +22,11 @@ const useCongregationAdd = (onClose: VoidFunction) => {
     setIsFindCongregation(true);
   };
 
-  const handleMoveNext = () => setIsFindCongregation(false);
+  const handleMoveNext = () => {
+    if (congregation === null) return;
+
+    setIsFindCongregation(false);
+  };
 
   const handleCongAddressChange = (value: string) => {
     setIncomingCongregation((prev) => {
