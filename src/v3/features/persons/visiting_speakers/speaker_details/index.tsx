@@ -13,7 +13,7 @@ import SpeakerContactInfo from './contact_info';
 const SpeakerDetails = ({ open, onClose, speaker }: SpeakerDetailsType) => {
   const { t } = useAppTranslation();
 
-  const { personName, congName } = useSpeakerDetails(speaker);
+  const { personName, speakerCongName } = useSpeakerDetails(speaker);
 
   return (
     <Dialog onClose={onClose} open={open} sx={{ padding: '16px', gap: '16px' }}>
@@ -54,7 +54,7 @@ const SpeakerDetails = ({ open, onClose, speaker }: SpeakerDetailsType) => {
       </Box>
 
       <Box sx={{ borderBottom: '1px solid var(--accent-200)', paddingBottom: '16px', width: '100%' }}>
-        <Typography>{congName}</Typography>
+        <Typography>{speakerCongName}</Typography>
         {speaker.person_notes.value.length > 0 && (
           <Typography className="body-small-regular">{speaker.person_notes.value}</Typography>
         )}
