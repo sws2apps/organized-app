@@ -7,5 +7,5 @@
   "tr_deleteDate": "I-delete ang petsa",
   "tr_deleteDateDecs": "Hindi mo ito maaaring i-undo, ngunit puwede kang gumawa ng bagong petsa sa anumang oras.",
   "tr_deleteMonth": "I-delete ang buwan",
-  "tr_deleteMonthDesc": "You cannot undo this action, but you can add a new month at any time."
+  "tr_deleteMonthDesc": "Hindi maaaring i-undo, ngunit puwede mag-add ng bagong buwan."
 }
