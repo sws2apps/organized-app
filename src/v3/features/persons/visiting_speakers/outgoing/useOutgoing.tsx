@@ -24,8 +24,8 @@ const useOutgoing = () => {
         person_display_name: { value: findPerson?.person_display_name.value || '', updatedAt: '' },
         person_firstname: { value: findPerson?.person_firstname.value || '', updatedAt: '' },
         person_lastname: { value: findPerson?.person_lastname.value || '', updatedAt: '' },
-        elder: { value: personIsElder(findPerson), updatedAt: '' },
-        ministerial_servant: { value: personIsMS(findPerson), updatedAt: '' },
+        elder: { value: findPerson ? personIsElder(findPerson) : false, updatedAt: '' },
+        ministerial_servant: { value: findPerson ? personIsMS(findPerson) : false, updatedAt: '' },
         person_email: { value: findPerson?.email.value || '', updatedAt: '' },
         person_phone: { value: findPerson?.phone.value || '', updatedAt: '' },
       };
