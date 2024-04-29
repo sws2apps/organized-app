@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { displayNameEnableState, fullnameOptionState } from '@states/settings';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
-import { dbVistingSpeakersUpdate } from '@services/dexie/visiting_speakers';
+import { dbVistingSpeakersDelete, dbVistingSpeakersUpdate } from '@services/dexie/visiting_speakers';
 import { generateDisplayName } from '@utils/common';
 import { publicTalksState } from '@states/public_talks';
 import { PublicTalkType } from '@definition/public_talks';
@@ -197,6 +197,10 @@ const useEdit = (speaker: VisitingSpeakerType) => {
     await dbVistingSpeakersUpdate({ talks }, speaker.person_uid);
   };
 
+  const handleDeleteSpeaker = async (person_uid: string) => {
+    await dbVistingSpeakersDelete(person_uid);
+  };
+
   return {
     fullnameOption,
     displayNameEnabled,
@@ -227,6 +231,7 @@ const useEdit = (speaker: VisitingSpeakerType) => {
     handleCloseSpeakerDetails,
     handleSongsTalkUpdate,
     handleSongsTalkDelete,
+    handleDeleteSpeaker,
   };
 };
 

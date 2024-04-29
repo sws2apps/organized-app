@@ -8,20 +8,20 @@ import IncomingSpeakerEdit from './edit';
 import IncomingSpeakerView from './view';
 import Typography from '@components/typography';
 
-const SpeakersList = ({ speakers, isEditMode, cong_number }: SpeakersListType) => {
+const SpeakersList = ({ isEditMode, cong_number }: SpeakersListType) => {
   const { t } = useAppTranslation();
 
   const { mobile400Down } = useBreakpoints();
 
-  const { handleVisitingSpeakersAdd } = useSpeakersList();
+  const { handleVisitingSpeakersAdd, incomingSpeakers } = useSpeakersList(cong_number);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      {!isEditMode && speakers.length === 0 && (
+      {!isEditMode && incomingSpeakers.length === 0 && (
         <Typography color="var(--grey-350)">{t('tr_incomingCongregationNoSpeakers')}</Typography>
       )}
 
-      {!isEditMode && speakers.length > 0 && (
+      {!isEditMode && incomingSpeakers.length > 0 && (
         <Box>
           {!mobile400Down && (
             <Box
@@ -49,16 +49,16 @@ const SpeakersList = ({ speakers, isEditMode, cong_number }: SpeakersListType) =
             sx={{
               display: 'flex',
               flexDirection: 'column',
-              '& .MuiBox-root': {
+              '& > .MuiBox-root': {
                 borderBottom: '1px solid var(--accent-200)',
                 paddingBottom: '10px',
               },
-              '& .MuiBox-root:last-child': {
+              '& > .MuiBox-root:last-child': {
                 borderBottom: 'none',
               },
             }}
           >
-            {speakers.map((speaker) => (
+            {incomingSpeakers.map((speaker) => (
               <IncomingSpeakerView key={speaker.person_uid} speaker={speaker} />
             ))}
           </Box>
@@ -80,7 +80,7 @@ const SpeakersList = ({ speakers, isEditMode, cong_number }: SpeakersListType) =
             },
           }}
         >
-          {speakers.map((speaker) => (
+          {incomingSpeakers.map((speaker) => (
             <IncomingSpeakerEdit key={speaker.person_uid} speaker={speaker} />
           ))}
         </Box>

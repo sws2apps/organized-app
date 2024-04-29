@@ -37,9 +37,7 @@ const useOutgoing = () => {
       if (fullnameA === '') return 1;
       if (fullnameB === '') return -1;
 
-      if (fullnameA < fullnameB) return -1;
-      if (fullnameB > fullnameB) return 1;
-      return 0;
+      return fullnameA.localeCompare(fullnameB);
     });
 
   const handleToggleExpanded = () => setIsExpanded((prev) => !prev);

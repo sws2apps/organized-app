@@ -49,6 +49,7 @@ const IncomingSpeakerEdit = ({ speaker }: IncomingSpeakerEditType) => {
     handleOpenSpeakerDetails,
     handleSongsTalkDelete,
     handleSongsTalkUpdate,
+    handleDeleteSpeaker,
   } = useEdit(speaker);
 
   return (
@@ -187,6 +188,7 @@ const IncomingSpeakerEdit = ({ speaker }: IncomingSpeakerEditType) => {
           color="red"
           startIcon={<IconDelete />}
           sx={{ height: '32px', minHeight: '32px !important', justifySelf: 'flex-end' }}
+          onClick={() => handleDeleteSpeaker(speaker.person_uid)}
         >
           {t('tr_delete')}
         </Button>
