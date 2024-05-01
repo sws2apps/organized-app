@@ -77,12 +77,12 @@
   "tr_confirm": "Confirmar",
   "tr_hide": "Ocultar",
   "tr_close": "Fechar",
-  "tr_back": "Back",
-  "tr_monday": "Monday",
-  "tr_tuesday": "Tuesday",
-  "tr_wednesday": "Wednesday",
-  "tr_thursday": "Thursday",
-  "tr_friday": "Friday",
-  "tr_saturday": "Saturday",
-  "tr_sunday": "Sunday"
+  "tr_back": "Voltar",
+  "tr_monday": "Segunda-feira",
+  "tr_tuesday": "Terça-feira",
+  "tr_wednesday": "Quarta-feira",
+  "tr_thursday": "Quinta-feira",
+  "tr_friday": "Sexta-feira",
+  "tr_saturday": "Sábado",
+  "tr_sunday": "Domingo"
 }
