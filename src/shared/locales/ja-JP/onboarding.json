@@ -84,8 +84,8 @@
   "tr_testAppMode": "Organized test mode",
   "tr_testAppWaitForData": "Preparing the data you need for a smooth test experience",
   "tr_tryOrganized": "Try Organized in test mode",
-  "tr_testStart": "Start testing",
-  "tr_testAppWelcome": "Welcome to Organized test mode!",
-  "tr_testAppWelcomeDesc": "<p>This is a test environment with pre-filled data for an imaginary congregation. Explore features such as schedules, assignments, ministry, reports, and more! Any changes you make will reset after a page reload.</p><p>To start using the real Organized app, open <a href='https://organized-app.com' target='_blank'>organized-app.com</a> in your browser.</p>",
+  "tr_testStart": "デモを始める",
+  "tr_testAppWelcome": "Organizedのデモページへようこそ！",
+  "tr_testAppWelcomeDesc": "<p>これはOrganizedの機能を試すためにサンプルのデータが用意されています。スケジュール、割り当て、伝道、報告などの機能をご覧ください！このデモページで行った変更は保存されません。</p><p>実際のOrganizedアプリを使用するには、ブラウザで<a href='https://organized-app.com' target='_blank'>organized-app.com</a>を開いてください。</p>",
   "tr_congregationExists": "This congregation already exists in Organized. Contact your congregation administrator to give you the necessary roles."
 }
