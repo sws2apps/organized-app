@@ -55,14 +55,22 @@ function ScrollableTabs({ tabs }: CustomTabProps) {
         }}
       >
         {tabs.map(
-          ({ label }): React.ReactNode => (
+          ({ label, icon }): React.ReactNode => (
             <Tab
               label={label}
               key={label}
+              icon={icon}
+              iconPosition='end'
               sx={{
                 fontSize: 16,
                 ':not(&.Mui-selected)': { fontWeight: 400 },
-                '&.Mui-Selected': { fontWeight: 600, fontSize: 18 },
+                '&.Mui-Selected': { 
+                  fontWeight: 600, 
+                  fontSize: 18,
+                },
+                'path': {
+                  fill: 'var(--accent-main)',
+                }
               }}
             />
           )

@@ -1,4 +1,5 @@
 import { TabProps } from '@mui/material';
+import { ReactElement } from 'react';
 
 /**
  * Props for the TabsPanel component.
@@ -37,5 +38,10 @@ export interface CustomTabProps extends TabProps {
      * The component to be rendered in the tab.
      */
     Component: React.ReactNode;
+
+    /**
+     * The icon element to be displayed with the tab.
+     */
+    icon?: ReactElement;
   }[];
 }
