@@ -90,5 +90,6 @@
   "tr_hallCleaning": "王国会館清掃",
   "tr_yourEmailField": "Your email address",
   "tr_yourMessage": "Your message",
-  "tr_reportSubmittedDesc": "Your report for the month of {{ month }} has been submitted"
+  "tr_reportSubmittedDesc": "Your report for the month of {{ month }} has been submitted",
+  "tr_mainCongregation": "Main congregation"
 }
