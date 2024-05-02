@@ -204,7 +204,6 @@
   "tr_addPublishers": "Adicionar publicadores",
   "tr_editGroup": "Editar o grupo",
   "tr_number": "Número",
-  "tr_alreadyTakenError": "Já está em uso",
   "tr_newServiceGroupCreatedSuccess": "Novo grupo de serviço de campo criado com sucesso",
   "tr_deleteServiceGroupDesc": "If you delete this group, you’ll need to manually reassign its publishers. Are you sure you want to continue?",
   "tr_deleteServiceGroupTitle": "Excluir Grupo {{ GroupNumber }}",
