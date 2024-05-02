@@ -204,7 +204,6 @@
   "tr_addPublishers": "Magdagdag ng mga publisher",
   "tr_editGroup": "I-edit ang grupo",
   "tr_number": "Number",
-  "tr_alreadyTakenError": "Nakuha na",
   "tr_newServiceGroupCreatedSuccess": "Nakagawa na ng bagong field service group",
   "tr_deleteServiceGroupDesc": "Kung aalisin mo ang grupong ito, kailangan mong i-reassign ang mga publisher mano-mano. Sigurado ka bang ituloy ito?",
   "tr_deleteServiceGroupTitle": "Alisin ang Group {{ GroupNumber }}",
