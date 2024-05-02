@@ -204,7 +204,6 @@
   "tr_addPublishers": "Add publishers",
   "tr_editGroup": "Edit the group",
   "tr_number": "Number",
-  "tr_alreadyTakenError": "Already taken",
   "tr_newServiceGroupCreatedSuccess": "New field service group created successfully",
   "tr_deleteServiceGroupDesc": "If you delete this group, you’ll need to manually reassign its publishers. Are you sure you want to continue?",
   "tr_deleteServiceGroupTitle": "Delete Group {{ GroupNumber }}",
