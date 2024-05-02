@@ -81,11 +81,11 @@
   "tr_noSchedulesYetDesc": "The meeting schedules aren’t available yet. Please ask your congregation elders to not only create but also publish them in the app.",
   "tr_reconnectAccount": "Reconnect my account",
   "tr_registeringApproved": "The body of elders has approved registering this congregation in Organized",
-  "tr_testAppMode": "Organized test mode",
+  "tr_testAppMode": "Organizedのデモ版",
   "tr_testAppWaitForData": "Preparing the data you need for a smooth test experience",
   "tr_tryOrganized": "Try Organized in test mode",
   "tr_testStart": "デモを始める",
-  "tr_testAppWelcome": "Organizedのデモページへようこそ！",
-  "tr_testAppWelcomeDesc": "<p>これはOrganizedの機能を試すためにサンプルのデータが用意されています。スケジュール、割り当て、伝道、報告などの機能をご覧ください！このデモページで行った変更は保存されません。</p><p>実際のOrganizedアプリを使用するには、ブラウザで<a href='https://organized-app.com' target='_blank'>organized-app.com</a>を開いてください。</p>",
+  "tr_testAppWelcome": "Organizedのデモ版へようこそ！",
+  "tr_testAppWelcomeDesc": "<p>これはOrganizedの機能を試すためにサンプルのデータが用意されています。スケジュール、割り当て、奉仕、報告などの機能をご覧ください！このデモページで行った変更は保存されません。</p><p>正規版のOrganizedを使用するには、ブラウザで<a href='https://organized-app.com' target='_blank'>organized-app.com</a>を開いてください。</p>",
   "tr_congregationExists": "This congregation already exists in Organized. Contact your congregation administrator to give you the necessary roles."
 }

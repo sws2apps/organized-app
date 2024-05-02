@@ -90,5 +90,6 @@
   "tr_hallCleaning": "Paglilinis",
   "tr_yourEmailField": "Iyong email address",
   "tr_yourMessage": "Iyong mensahe",
-  "tr_reportSubmittedDesc": "Ang iyong ulat para sa buwan ng {{ month }} ay na-submit na"
+  "tr_reportSubmittedDesc": "Ang iyong ulat para sa buwan ng {{ month }} ay na-submit na",
+  "tr_mainCongregation": "Main congregation"
 }

@@ -90,5 +90,6 @@
   "tr_hallCleaning": "Hall cleaning",
   "tr_yourEmailField": "Your email address",
   "tr_yourMessage": "Your message",
-  "tr_reportSubmittedDesc": "{{ month }} raporunuz gönderildi"
+  "tr_reportSubmittedDesc": "{{ month }} raporunuz gönderildi",
+  "tr_mainCongregation": "Main congregation"
 }

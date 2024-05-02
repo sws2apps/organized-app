@@ -84,5 +84,12 @@
   "tr_thursday": "Thursday",
   "tr_friday": "Friday",
   "tr_saturday": "Saturday",
-  "tr_sunday": "Sunday"
+  "tr_sunday": "Sunday",
+  "tr_enterPIN": "Enter your PIN code",
+  "tr_pinRequired": "To view or edit this information, please enter your personal PIN code used to unlock the app.",
+  "tr_changeMasterKey": "Change the congregation master key",
+  "tr_changeMasterKeyDesc": "We advise changing the key only if unauthorized access to it is suspected. After creating a new key, securely note and share it with responsible brothers needing it to work with Organized.",
+  "tr_currentKey": "Current congregation master key",
+  "tr_newKey": "New congregation master key",
+  "tr_approve": "Approve"
 }
