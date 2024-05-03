@@ -381,5 +381,6 @@
   "tr_enterAccessCodeDesc": "Please enter the access code to your congregation. This unique code is specific to your congregation and is necessary to connect and access it.",
   "tr_setCongregationMasterKey": "Установить главный ключ собрания",
   "tr_createCongregationMasterKey": "Создай главный ключ собрания",
-  "tr_createMasterKeyIntroDesc": "Этот ключ безопасно шифрует данные твоего собрания, включая отчеты и людей, и требуется для административных действий, таких как экспорт/импорт данных или внесение значительных изменений в настройки."
+  "tr_createMasterKeyIntroDesc": "Этот ключ безопасно шифрует данные твоего собрания, включая отчеты и людей, и требуется для административных действий, таких как экспорт/импорт данных или внесение значительных изменений в настройки.",
+  "tr_hallC": "C"
 }
