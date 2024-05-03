@@ -12,6 +12,7 @@ const PersonsAll = lazy(() => import('@pages/persons/all_persons'));
 const PersonDetails = lazy(() => import('@pages/persons/person_details'));
 const PublicTalksList = lazy(() => import('@pages/meeting_materials/public_talks_list'));
 const BranchOfficeReports = lazy(() => import('@pages/reports/branch_office'));
+const MeetingAttendanceReports = lazy(() => import('@pages/reports/meeting_attendance'));
 
 const ComponentsPreview = lazy(() => import('@components/preview'));
 const PdfPreview = lazy(() => import('@components/preview/PDF_Peview'));
@@ -36,6 +37,7 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
             { path: '/', element: <Dashboard /> },
             { path: '/persons', element: <PersonsAll /> },
             { path: '/reports/branch-office', element: <BranchOfficeReports /> },
+            { path: '/reports/meeting-attendance', element: <MeetingAttendanceReports /> },
             { path: '/persons/:id', element: <PersonDetails /> },
             { path: '/persons/new', element: <PersonDetails /> },
             { path: '/user-profile', element: <MyProfile /> },

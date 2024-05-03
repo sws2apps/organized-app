@@ -4,12 +4,13 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import React, { useState } from 'react';
 
-function ScrollableTabs({ tabs }: CustomTabProps) {
-  const [valueOfActivePanel, setValueOfActivePanel] = useState(0);
+function ScrollableTabs({ tabs, value = 0, onChangeTab }: CustomTabProps) {
+  const [valueOfActivePanel, setValueOfActivePanel] = useState(value);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     event.preventDefault();
     setValueOfActivePanel(newValue);
+    onChangeTab(newValue);
   };
 
   return (

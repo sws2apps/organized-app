@@ -1,13 +1,10 @@
 import { Box } from '@mui/material';
 import { styled } from '@mui/system';
-import { Select, Button } from '@components/index';
+import { Select } from '@components/index';
 
 export const StyledSelect = styled(Select)({
   flex: 1,
-});
-
-export const StyledButton = styled(Button)({
-  flex: 1,
+  height: '48px',
 });
 
 export const StyledBox = styled(Box)(({ laptopView }: { laptopView: boolean }) => ({

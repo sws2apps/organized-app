@@ -58,12 +58,12 @@ export const getTheocraticalMonthListInAYear = (year: number) => {
 
   for (let month = 8; month < 11; month++) {
     const monthName = getMonthName(month);
-    monthsList[month] = `${monthName} ${year}`;
+    monthsList.push(`${monthName} ${year}`);
   }
 
   for (let month = 0; month < 8; month++) {
     const monthName = getMonthName(month);
-    monthsList[month] = `${monthName} ${year + 1}`;
+    monthsList.push(`${monthName} ${year + 1}`);
   }
 
   return monthsList;
@@ -87,3 +87,11 @@ const getMonthName = (month: number) => {
 
   return monthNames[month];
 };
+
+export function getWeekNumberInMonthForDate(date: Date) {
+  const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+  const dayOfWeek = firstDayOfMonth.getDay();
+  const firstSunday = 1 + (7 - dayOfWeek);
+  const diff = date.getDate() - firstSunday;
+  return Math.ceil(diff / 7) + 1;
+}

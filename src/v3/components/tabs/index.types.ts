@@ -1,4 +1,5 @@
 import { TabProps } from '@mui/material';
+import { FormEventHandler } from 'react';
 
 export type TabsPanelProps = {
   children?: React.ReactNode;
@@ -11,4 +12,6 @@ export interface CustomTabProps extends TabProps {
     label: string;
     Component: React.ReactNode;
   }[];
+  onChangeTab?: (newValue: number) => void;
+  value?: number;
 }

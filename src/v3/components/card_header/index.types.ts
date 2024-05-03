@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+export type CardHeaderSizeType = 'small' | 'large';
 export type CardHeaderPropsType = {
   className?:
     | 'huge-numbers'
@@ -14,5 +15,8 @@ export type CardHeaderPropsType = {
     | 'body-regular'
     | 'body-small-semibold'
     | 'body-small-regular';
-  children: ReactNode;
+  children?: ReactNode;
+  header: string;
+  size?: CardHeaderSizeType;
+  color?: string;
 };
