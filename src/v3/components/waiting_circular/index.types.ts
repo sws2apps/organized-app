@@ -1,5 +1,16 @@
+/**
+ * Props for specifying variant, height, and width.
+ */
 export type VariantProps = {
+  /**
+   * The variant of the component.
+   * - 'fixed': Fixed variant.
+   * - 'standard': Standard variant.
+   */
   variant?: 'fixed' | 'standard';
-  height?: number;
-  width?: number;
+
+  /**
+   * The size of the component.
+   */
+  size?: number;
 };

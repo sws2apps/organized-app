@@ -6,7 +6,7 @@ import { setIsImportJWOrg } from '@services/recoil/sources';
 import { apiFetchSources } from '@services/api/sources';
 import { displaySnackNotification } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
-import { addJwDataToDb } from '@services/app/sources';
+import { sourcesImportJW } from '@services/app/sources';
 
 const useJWMaterialsImport = () => {
   const { t } = useAppTranslation();
@@ -26,7 +26,7 @@ const useJWMaterialsImport = () => {
 
         if (status === 200) {
           if (data && data.length > 0) {
-            await addJwDataToDb(data);
+            await sourcesImportJW(data);
           }
 
           setIsCompleted(true);

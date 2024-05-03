@@ -1,14 +1,16 @@
 import { Box } from '@mui/material';
 import { SnackBar, TextMarkup, Typography } from '@components/index';
 import { IconCheckCircle } from '@icons/index';
-import CongregationCard from './components/congregation';
-import MinistryCard from './components/ministry';
-import MeetingsCard from './components/meetings';
-import MeetingsMaterialsCard from './components/meeting_materials';
-import PersonsCard from './components/persons';
-import ReportsCard from './components/reports';
 import { useAppTranslation } from '@hooks/index';
+import { isDemo } from '@constants/index';
+import CongregationCard from './congregation';
+import MinistryCard from './ministry';
+import MeetingsCard from './meetings';
+import MeetingsMaterialsCard from './meeting_materials';
+import PersonsCard from './persons';
+import ReportsCard from './reports';
 import useDashboard from './useDashboard';
+import { DemoNotice } from '@features/index';
 
 const Dashboard = () => {
   const { t } = useAppTranslation();
@@ -42,7 +44,7 @@ const Dashboard = () => {
         <CongregationCard />
       </Box>
 
-      {isCongNew && (
+      {isCongNew && !isDemo && (
         <SnackBar
           open={isCongNew}
           variant="success"
@@ -52,6 +54,8 @@ const Dashboard = () => {
           onClose={handleCloseNewCongNotice}
         />
       )}
+
+      {isCongNew && isDemo && <DemoNotice />}
     </Box>
   );
 };

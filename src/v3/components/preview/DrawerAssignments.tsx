@@ -8,8 +8,11 @@ import AssigmentItem, { AssigmentMonthItem } from '@components/assigments';
 import Badge from '@components/badge';
 import { useState } from 'react';
 import Drawer from '@components/drawer';
+import { useAppTranslation } from '@hooks/index';
 
 const DrawerAssignments = () => {
+  const { t } = useAppTranslation();
+
   const [open, setOpen] = useState(false);
 
   return (
@@ -22,7 +25,7 @@ const DrawerAssignments = () => {
         anchor={'left'}
         onClose={() => setOpen(!open)}
         open={open}
-        title={'My assignments'}
+        title={t('tr_viewMyAssignments')}
         headActions={
           <Stack direction={'row'} spacing={0.5}>
             <ButtonIcon>

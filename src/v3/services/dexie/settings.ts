@@ -1,125 +1,155 @@
-import { promiseGetRecoil } from 'recoil-outside';
-import { settingsState } from '@states/settings';
-import { appDb } from '.';
-import { SettingsType, TimeAwayType } from '@definition/app';
+import { UpdateSpec } from 'dexie';
+import { TimeAwayType } from '@definition/person';
+import { SettingsType } from '@definition/settings';
+import { setCongAccountConnected, setCongID, setIsMFAEnabled, setUserID } from '@services/recoil/app';
+import { settingSchema } from './schema';
+import { ValidateMeResponseType } from '@definition/api';
+import appDb from '@db/appDb';
 import worker from '@services/worker/backupWorker';
 
-export const handleUpdateSetting = async (setting: SettingsType) => {
-  const current: SettingsType = await promiseGetRecoil(settingsState);
+export const dbAppSettingsSave = async (setting: SettingsType) => {
+  const current = await appDb.app_settings.get(1);
 
-  if (current.id === 1) {
-    const newSettings = { ...current, ...setting };
-
-    await appDb.app_settings.put(newSettings);
-  }
-};
-
-export const handleUpdateSettingFromRemote = async (data) => {
-  const current = await promiseGetRecoil(settingsState);
-  const newSettings = {
-    ...current,
-    cong_number: data.cong_number,
-    cong_name: data.cong_name,
-    cong_role: data.cong_role,
-    username: data.username,
-    user_members_delegate: data.user_members_delegate,
-    user_local_uid: data.user_local_uid,
-    account_type: 'pocket',
-  };
-
+  const newSettings = { ...current, ...setting };
   await appDb.app_settings.put(newSettings);
-
-  worker.postMessage({ field: 'userRole', value: data.cong_role });
-  worker.postMessage({ field: 'accountType', value: 'pocket' });
-  worker.postMessage({ field: 'userID', value: data.id });
-  worker.postMessage({ field: 'congID', value: data.cong_id });
-  worker.postMessage({ field: 'isCongAccountConnected', value: true });
 };
 
-export const handleUserTimeAwayAdd = async () => {
-  const current: SettingsType = await promiseGetRecoil(settingsState);
+export const dbAppSettingsUpdate = async (changes: UpdateSpec<SettingsType>) => {
+  await appDb.app_settings.update(1, changes);
+};
 
-  const obj: TimeAwayType = {
+export const dbAppSettingsTimeAwayAdd = async () => {
+  const setting = await appDb.app_settings.get(1);
+
+  setting.user_settings.user_time_away.push({
     id: crypto.randomUUID(),
-    startDate: new Date().toISOString(),
-    endDate: null,
-    comments: '',
-  };
-
-  const objChange = {
-    date: new Date().toISOString(),
-    id: obj.id,
-    type: 'add',
-    value: obj,
-  };
-
-  const currentTimeAways = current?.user_time_away || { data: [], changes: [] };
-  const currentData = currentTimeAways.data || [];
-  const currentChanges = currentTimeAways.changes || [];
-
-  const newData = [...currentData, obj];
-  const newChanges = [...currentChanges, objChange];
-
-  const newTimeAways = {
-    data: newData,
-    changes: newChanges,
-  };
-
-  const newSettings = { ...current, user_time_away: newTimeAways };
-
-  await appDb.app_settings.put(newSettings);
-};
-
-export const handleUserTimeAwayDelete = async (id) => {
-  const current: SettingsType = await promiseGetRecoil(settingsState);
-
-  const currentData = current.user_time_away.data;
-  const currentChanges = current.user_time_away.changes;
-
-  const newData = currentData.filter((record) => record.id !== id);
-  const newChanges = currentChanges.filter((change) => change.id !== id);
-
-  newChanges.push({
-    date: new Date().toISOString(),
-    id: id,
-    type: 'deleted',
-    value: { id: '', startDate: '', endDate: '', comments: '' },
+    start_date: { value: new Date().toISOString(), updatedAt: new Date().toISOString() },
+    end_date: { value: null, updatedAt: '' },
+    comments: { value: '', updatedAt: '' },
+    _deleted: null,
   });
 
-  const newTimeAways = {
-    data: newData,
-    changes: newChanges,
-  };
-
-  const newSettings = { ...current, user_time_away: newTimeAways };
-
-  await appDb.app_settings.put(newSettings);
+  await appDb.app_settings.put(setting);
 };
 
-export const handleUserTimeAwayUpdate = async (timeAway: TimeAwayType) => {
-  const current: SettingsType = await promiseGetRecoil(settingsState);
-  const currentTimeAways = structuredClone(current.user_time_away);
+export const dbAppSettingsTimeAwayDelete = async (id) => {
+  const setting = await appDb.app_settings.get(1);
 
-  const findIndex = currentTimeAways.data.findIndex((record) => record.id === timeAway.id);
+  const currentTimeAway = setting.user_settings.user_time_away.find((record) => record.id === id);
+  currentTimeAway._deleted = new Date().toISOString();
 
-  currentTimeAways.data[findIndex] = timeAway;
+  await appDb.app_settings.put(setting);
+};
 
-  const currentChanges = currentTimeAways.changes;
-  const newChanges = currentChanges.filter((change) => change.id !== timeAway.id);
+export const dbAppSettingsTimeAwayUpdate = async (timeAway: TimeAwayType) => {
+  const setting = await appDb.app_settings.get(1);
 
-  newChanges.push({
-    date: new Date().toISOString(),
-    id: timeAway.id,
-    type: 'modify',
-    value: timeAway,
+  const currentIndex = setting.user_settings.user_time_away.findIndex((record) => record.id === timeAway.id);
+  setting.user_settings.user_time_away[currentIndex] = { ...timeAway };
+
+  await appDb.app_settings.put(setting);
+};
+
+export const dbAppSettingsSaveProfilePic = async (url: string, provider: string) => {
+  if (url && url !== '' && url !== null) {
+    if (provider !== 'microsoft.com' && provider !== 'yahoo.com') {
+      const downloadedImg = new Image();
+      downloadedImg.crossOrigin = 'Anonymous';
+
+      const imageReceived = () => {
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+
+        canvas.width = downloadedImg.width;
+        canvas.height = downloadedImg.height;
+        canvas.innerText = downloadedImg.alt;
+
+        context.drawImage(downloadedImg, 0, 0);
+
+        canvas.toBlob((done) => savePic(done));
+
+        // Remove the event listener to avoid memory leak
+        downloadedImg.removeEventListener('load', imageReceived, false);
+      };
+
+      downloadedImg.src = url;
+      downloadedImg.addEventListener('load', imageReceived, false);
+
+      const savePic = (profileBlob) => {
+        profileBlob.arrayBuffer().then((profileBuffer) => {
+          dbAppSettingsUpdate({ 'user_settings.user_avatar': profileBuffer });
+        });
+      };
+
+      return;
+    }
+  }
+
+  await dbAppSettingsUpdate({ 'user_settings.user_avatar': undefined });
+};
+
+export const dbAppSettingsUpdateUserInfoAfterLogin = async (data: ValidateMeResponseType) => {
+  const settings = await appDb.app_settings.get(1);
+
+  await dbAppSettingsUpdate({
+    'cong_settings.country_code': data.result.country_code,
+    'cong_settings.cong_name': data.result.cong_name,
+    'cong_settings.cong_number': data.result.cong_number,
+    'user_settings.cong_role': data.result.cong_role,
+    'user_settings.account_type': 'vip',
+    'cong_settings.cong_location': data.result.cong_location,
+    'cong_settings.cong_circuit': data.result.cong_circuit,
   });
 
-  const newTimeAways = {
-    data: currentTimeAways.data,
-    changes: newChanges,
-  };
+  if (settings.user_settings.firstname.updatedAt < data.result.firstname.updatedAt) {
+    await dbAppSettingsUpdate({ 'user_settings.firstname': data.result.firstname });
+  }
 
-  const newSettings = { ...current, user_time_away: newTimeAways };
+  if (settings.user_settings.lastname.updatedAt < data.result.lastname.updatedAt) {
+    await dbAppSettingsUpdate({ 'user_settings.lastname': data.result.lastname });
+  }
 
-  await appDb.app_settings.put(newSettings);
+  const midweekMeeting = structuredClone(settings.cong_settings.midweek_meeting);
+  for (const item of midweekMeeting) {
+    const remoteItem = data.result.midweek_meeting.find((record) => record.type === item.type);
+    if (remoteItem) {
+      item.time = remoteItem.time;
+      item.weekday = remoteItem.weekday;
+    }
+  }
+  await dbAppSettingsUpdate({ 'cong_settings.midweek_meeting': midweekMeeting });
+
+  const weekendMeeting = structuredClone(settings.cong_settings.weekend_meeting);
+  for (const item of weekendMeeting) {
+    const remoteItem = data.result.weekend_meeting.find((record) => record.type === item.type);
+    if (remoteItem) {
+      item.time = remoteItem.time;
+      item.weekday = remoteItem.weekday;
+    }
+  }
+  await dbAppSettingsUpdate({ 'cong_settings.weekend_meeting': weekendMeeting });
+
+  await setIsMFAEnabled(data.result.mfaEnabled);
+  await setCongID(data.result.cong_id);
+  await setCongAccountConnected(true);
+  await setUserID(data.result.id);
+
+  worker.postMessage({ field: 'userRole', value: data.result.cong_role });
+  worker.postMessage({ field: 'userID', value: data.result.id });
+  worker.postMessage({ field: 'congID', value: data.result.cong_id });
+  worker.postMessage({ field: 'accountType', value: 'vip' });
+};
+
+export const dbAppSettingsBuildTest = async () => {
+  const baseSettings = structuredClone(settingSchema);
+  baseSettings.user_settings.account_type = 'vip';
+  baseSettings.user_settings.firstname = { value: 'Test', updatedAt: new Date().toISOString() };
+  baseSettings.user_settings.lastname = { value: 'User', updatedAt: new Date().toISOString() };
+  baseSettings.cong_settings.country_code = 'USA';
+  baseSettings.cong_settings.cong_name = 'Congregation Test';
+  baseSettings.cong_settings.cong_number = '123456';
+  baseSettings.cong_settings.cong_circuit = [{ type: 'main', value: '01 - A' }];
+  baseSettings.user_settings.cong_role = ['admin'];
+
+  await appDb.app_settings.put(baseSettings, 1);
 };

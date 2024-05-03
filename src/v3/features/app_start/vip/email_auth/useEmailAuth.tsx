@@ -53,6 +53,8 @@ const useEmailAuth = () => {
       showMessage();
 
       setIsProcessing(false);
+
+      return;
     }
 
     localStorage.setItem('emailForSignIn', userTmpEmail);

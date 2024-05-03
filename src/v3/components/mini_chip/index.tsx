@@ -1,6 +1,13 @@
 import { Chip } from '@mui/material';
 import { IconCancelFilled } from '@icons/index';
 
+/**
+ * Mini chip component.
+ * @param label - The text label of the chip.
+ * @param edit - Whether the chip is editable.
+ * @param onDelete - Callback function to handle deletion.
+ * @returns JSX element for the MiniChip component.
+ */
 const MiniChip = ({ label, edit = false, onDelete }: { label: string; edit?: boolean; onDelete?: VoidFunction }) => {
   return (
     <Chip
@@ -24,7 +31,7 @@ const MiniChip = ({ label, edit = false, onDelete }: { label: string; edit?: boo
         },
       }}
       deleteIcon={
-        <div style={{ margin: 0, padding: 0 }}>
+        <div style={{ margin: 0, padding: 0, display: 'flex', alignItems: 'center' }}>
           <IconCancelFilled />
         </div>
       }

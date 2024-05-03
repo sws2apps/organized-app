@@ -1,6 +1,11 @@
 import { Button, ButtonProps } from '@mui/material';
 import { ButtonPropsType } from './index.types';
 
+/**
+ * Component for rendering a custom button.
+ * @param {ButtonPropsType} props - Props for the CustomButton component.
+ * @returns {JSX.Element} CustomButton component.
+ */
 const CustomButton = (props: ButtonPropsType) => {
   let className = props.className || 'button-caps';
   const disabled = props.disabled || false;

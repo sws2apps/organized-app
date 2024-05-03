@@ -1,5 +1,5 @@
 // Do not edit directly
-// Generated on 4/7/2024, 3:29:38 PM
+// Generated on 4/17/2024, 10:37:54 PM
 
 const styles = {
   font: {
@@ -131,7 +131,7 @@ const styles = {
       fontStyle: 'normal',
       fontStretch: 'normal',
       letterSpacing: '-0.12px',
-      lineHeight: '16px',
+      lineHeight: '14px',
       textIndent: '0px',
       textTransform: 'none',
     },

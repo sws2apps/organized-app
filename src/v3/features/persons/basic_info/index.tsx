@@ -1,10 +1,11 @@
 import { Box, Divider, FormControlLabel, RadioGroup } from '@mui/material';
+import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import useBasicInfo from './useBasicInfo';
+import Badge from '@components/badge';
 import DatePicker from '@components/date_picker';
 import Radio from '@components/radio';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
-import { useAppTranslation, useBreakpoints } from '@hooks/index';
-import useBasicInfo from './useBasicInfo';
 
 const PersonBasicInfo = () => {
   const { t } = useAppTranslation();
@@ -23,6 +24,8 @@ const PersonBasicInfo = () => {
     handleChangeEmailAddress,
     handleChangePhone,
     nameFlex,
+    isInactive,
+    displayNameEnabled,
   } = useBasicInfo();
 
   return (
@@ -39,7 +42,22 @@ const PersonBasicInfo = () => {
         width: '100%',
       }}
     >
-      <Typography className="h2">{t('tr_basicInformation')}</Typography>
+      <Box
+        sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', flexWrap: 'wrap' }}
+      >
+        <Typography className="h2">{t('tr_basicInformation')}</Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+          {person.archived.value && (
+            <Badge size="big" color="red" text={t('tr_archived')} sx={{ width: 'fit-content' }} />
+          )}
+
+          {isInactive && <Badge size="big" color="red" text={t('tr_inactive')} sx={{ width: 'fit-content' }} />}
+
+          {person.disqualified.value && (
+            <Badge size="big" color="red" text={t('tr_disqualified')} sx={{ width: 'fit-content' }} />
+          )}
+        </Box>
+      </Box>
 
       <Box sx={{ display: 'flex', gap: '16px', marginTop: '8px', flexDirection: 'column' }}>
         <Box
@@ -62,28 +80,22 @@ const PersonBasicInfo = () => {
             onChange={(e) => handleChangeLastname(e.target.value)}
           />
         </Box>
-        <TextField
-          label={t('tr_displayName')}
-          value={person.person_displayName.value}
-          onChange={(e) => handleChangeDisplayName(e.target.value)}
-        />
+        {displayNameEnabled && (
+          <TextField
+            label={t('tr_displayName')}
+            value={person.person_display_name.value}
+            onChange={(e) => handleChangeDisplayName(e.target.value)}
+          />
+        )}
       </Box>
 
       <RadioGroup
         sx={{ marginLeft: '4px', flexDirection: 'row', gap: tabletDown ? '16px' : '24px', flexWrap: 'wrap' }}
-        value={person.isMale.value ? 'male' : 'female'}
+        value={person.male.value ? 'male' : 'female'}
         onChange={(e) => handleToggleGender(e.target.value)}
       >
-        <FormControlLabel
-          value="male"
-          control={<Radio />}
-          label={<Typography className="body-regular">{t('tr_male')}</Typography>}
-        />
-        <FormControlLabel
-          value="female"
-          control={<Radio />}
-          label={<Typography className="body-regular">{t('tr_female')}</Typography>}
-        />
+        <FormControlLabel value="male" control={<Radio />} label={<Typography>{t('tr_male')}</Typography>} />
+        <FormControlLabel value="female" control={<Radio />} label={<Typography>{t('tr_female')}</Typography>} />
       </RadioGroup>
 
       <Box
@@ -98,7 +110,7 @@ const PersonBasicInfo = () => {
         <Box sx={{ flexGrow: 1, width: tabletDown ? '100%' : 'unset' }}>
           <DatePicker
             label={t('tr_dateOfBirth')}
-            value={person.birthDate.value === null ? null : new Date(person.birthDate.value)}
+            value={person.birth_date.value === null ? null : new Date(person.birth_date.value)}
             onChange={handleChangeBirthDate}
             maxDate={new Date()}
           />
@@ -116,7 +128,7 @@ const PersonBasicInfo = () => {
           }}
         >
           <Typography className="h4" color="var(--accent-dark)">
-            {t('tr_yearsNumber', { yearsCount: age })}
+            {t('tr_userAge', { userAge: age })}
           </Typography>
         </Box>
       </Box>

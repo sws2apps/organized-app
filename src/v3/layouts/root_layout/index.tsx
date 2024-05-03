@@ -1,31 +1,44 @@
+import { Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
+import { Box, Container, Toolbar } from '@mui/material';
+import { IconClose } from '@components/icons';
 import NavBar from '@layouts/navbar';
 import { AppModalWrapper } from '@wrapper/index';
-import { Box, Container } from '@mui/material';
 import {
   About,
   AppFeedback,
   AppUpdater,
+  Contact,
+  DemoStartup,
   EPUBMaterialsImport,
   JWMaterialsImport,
   MyAssignments,
   Startup,
   Support,
+  WorkInProgressNotif,
 } from '@features/index';
+import WaitingCircular from '@components/waiting_circular';
 import useRootLayout from './useRootLayout';
+import { isDemo } from '@constants/index';
 
 const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
-  const { isAppLoad, isOpenAbout, isOpenSupport, appSnackOpen, isImportJWOrg, isImportEPUB } = useRootLayout();
+  const { isAppLoad, isOpenAbout, isOpenContact, isOpenSupport, isImportJWOrg, isImportEPUB } = useRootLayout();
 
   return (
     <AppModalWrapper>
       <NavBar />
       <AppUpdater updatePwa={updatePwa} />
 
-      {appSnackOpen && <AppFeedback />}
+      <AppFeedback />
+
+      <WorkInProgressNotif />
       {isImportJWOrg && <JWMaterialsImport />}
       {isImportEPUB && <EPUBMaterialsImport />}
-      <MyAssignments />
+
+      <Toolbar sx={{ padding: 0 }}>
+        {/* temporary workaround while page components are being built */}
+        <IconClose sx={{ opacity: 0 }} />
+      </Toolbar>
 
       <Container
         maxWidth={false}
@@ -34,18 +47,24 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
           width: '100%',
           paddingLeft: { mobile: '16px', tablet: '24px', desktop: '32px' },
           paddingRight: { mobile: '16px', tablet: '24px', desktop: '32px' },
-          marginTop: '80px', // header 56px + 24px
+          marginTop: '24px',
         }}
       >
+        {isOpenContact && <Contact />}
         {isOpenAbout && <About />}
         {isOpenSupport && <Support />}
 
-        {isAppLoad && <Startup />}
+        {isAppLoad && !isDemo && <Startup />}
+
+        {isAppLoad && isDemo && <DemoStartup />}
 
         {!isAppLoad && (
-          <Box sx={{ marginBottom: '32px' }}>
-            <Outlet />
-          </Box>
+          <Suspense fallback={<WaitingCircular />}>
+            <Box sx={{ marginBottom: '32px' }}>
+              <MyAssignments />
+              <Outlet />
+            </Box>
+          </Suspense>
         )}
       </Container>
     </AppModalWrapper>

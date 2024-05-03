@@ -18,8 +18,8 @@ const useEnrollments = () => {
     newPerson.enrollments.push({
       id: crypto.randomUUID(),
       enrollment: { value: 'AP', updatedAt: new Date().toISOString() },
-      startDate: { value: new Date().toISOString(), updatedAt: new Date().toISOString() },
-      endDate: { value: null, updatedAt: new Date().toISOString() },
+      start_date: { value: new Date().toISOString(), updatedAt: new Date().toISOString() },
+      end_date: { value: null, updatedAt: new Date().toISOString() },
       _deleted: null,
     });
 
@@ -45,7 +45,7 @@ const useEnrollments = () => {
     const newPerson = structuredClone(person);
 
     const current = newPerson.enrollments.find((history) => history.id === id);
-    current.startDate = {
+    current.start_date = {
       value: value.toISOString(),
       updatedAt: new Date().toISOString(),
     };
@@ -57,7 +57,7 @@ const useEnrollments = () => {
     const newPerson = structuredClone(person);
 
     const current = newPerson.enrollments.find((history) => history.id === id);
-    current.endDate = {
+    current.end_date = {
       value: value === null ? null : value.toISOString(),
       updatedAt: new Date().toISOString(),
     };

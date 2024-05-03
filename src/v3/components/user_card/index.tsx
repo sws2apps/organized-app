@@ -1,6 +1,6 @@
 import type { CustomUserCardProps } from './user_card.types';
-import UserCardImg from '@assets/img/illustration_userCard.svg?component';
-import UserCardFemaleImg from '@assets/img/illustration_userCard1.svg?component';
+import UserCardMaleImg from '@assets/img/illustration_male.svg?component';
+import UserCardFemaleImg from '@assets/img/illustration_female.svg?component';
 import IconDelete from '../icons/IconDelete';
 import IconArrowLink from '../icons/IconArrowLink';
 import MiniChip from '../mini_chip';
@@ -16,6 +16,17 @@ import {
   StyledCardBox,
 } from './user_card.styles';
 
+/**
+ * A custom user card component.
+ *
+ * @param name The name of the user.
+ * @param type The type of the user card.
+ * @param female Specifies if the user is female.
+ * @param onClick Callback function to handle click events on the user card.
+ * @param onDelete Callback function to handle delete events on the user card.
+ * @param chipLabels Optional chip labels to display on the user card.
+ * @param children Additional content to render inside the user card.
+ */
 export const CustomUserCard = ({
   name,
   type,
@@ -31,7 +42,7 @@ export const CustomUserCard = ({
         <StyledCardContent>
           <StyledBox gap="13px" sx={{ flexWrap: 'nowrap' }}>
             <StyledBox gap="12px" sx={{ width: '100%' }}>
-              <StyledImgContainer>{female ? <UserCardFemaleImg /> : <UserCardImg />}</StyledImgContainer>
+              <StyledImgContainer>{female ? <UserCardFemaleImg /> : <UserCardMaleImg />}</StyledImgContainer>
               <StyledBoxSpaceBetween flexDirection="column">
                 <StyledBoxSpaceBetween flexDirection="row">
                   <StyledBoxSpaceBetween flexDirection="column">

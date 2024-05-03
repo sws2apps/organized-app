@@ -4,12 +4,32 @@ import { IconClose } from '@icons/index';
 import Typography from '@components/typography';
 import ButtonIcon from '@components/icon_button';
 
+/**
+ * Props for the CustomDrawer component.
+ */
 interface CustomDrawerProps {
+  /**
+   * The title of the drawer.
+   */
   title: string;
+
+  /**
+   * Additional actions to be displayed in the header.
+   */
   headActions?: ReactNode;
+
+  /**
+   * Function to handle the close event of the drawer.
+   */
   onClose: () => void;
 }
 
+/**
+ * Custom drawer component.
+ *
+ * @param {CustomDrawerProps & DrawerProps} props - Props for the CustomDrawer component.
+ * @returns {JSX.Element} Custom drawer component.
+ */
 const CustomDrawer: FC<DrawerProps & CustomDrawerProps> = ({ title, headActions, onClose, children, ...props }) => {
   const handleClose = () => {
     onClose();

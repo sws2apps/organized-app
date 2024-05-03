@@ -4,6 +4,13 @@ import { IconSearch, IconClose } from '../icons';
 import { InputAdornment } from '@mui/material';
 import { SearchBarProps } from './search_bar.types';
 
+/**
+ * Component for rendering a search bar input field.
+ *
+ * @param placeholder The placeholder text to display in the search input field.
+ * @param onSearch Callback function invoked when the search button is clicked or the Enter key is pressed.
+ * @param value The current value of the search input field.
+ */
 const SearchBar = ({ placeholder, onSearch, value }: SearchBarProps) => {
   const [valueTmp, setValueTmp] = useState(value || '');
 

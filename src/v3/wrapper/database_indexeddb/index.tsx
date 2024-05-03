@@ -6,36 +6,36 @@ import { ReactNode, useEffect } from 'react';
 import useIndexedDb from './useIndexedDb';
 
 const DatabaseWrapper = ({ children }: { children?: ReactNode }) => {
-  const { loadSettings, loadAssignment, loadPersons, loadPublicTalks, loadSchedules, loadSources, loadWeekType } =
-    useIndexedDb();
+  const {
+    loadSettings,
+    loadAssignment,
+    loadPersons,
+    loadSchedules,
+    loadSources,
+    loadWeekType,
+    loadVisitingSpeakers,
+    loadSpeakersCongregations,
+  } = useIndexedDb();
 
   useEffect(() => {
     loadSettings();
-  }, [loadSettings]);
-
-  useEffect(() => {
     loadAssignment();
-  }, [loadAssignment]);
-
-  useEffect(() => {
     loadPersons();
-  }, [loadPersons]);
-
-  useEffect(() => {
-    loadPublicTalks();
-  }, [loadPublicTalks]);
-
-  useEffect(() => {
     loadSchedules();
-  }, [loadSchedules]);
-
-  useEffect(() => {
     loadWeekType();
-  }, [loadWeekType]);
-
-  useEffect(() => {
     loadSources();
-  }, [loadSources]);
+    loadSpeakersCongregations();
+    loadVisitingSpeakers();
+  }, [
+    loadSettings,
+    loadAssignment,
+    loadPersons,
+    loadSchedules,
+    loadWeekType,
+    loadSources,
+    loadSpeakersCongregations,
+    loadVisitingSpeakers,
+  ]);
 
   return <>{children}</>;
 };

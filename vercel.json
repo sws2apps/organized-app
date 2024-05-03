@@ -2,7 +2,8 @@
   "git": {
     "deploymentEnabled": {
       "l10n_main": false,
-      "l10n_main-next": false
+      "l10n_main-next": false,
+      "l10n_public-talks-main-next": false
     }
   }
 }

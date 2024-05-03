@@ -1,4 +1,4 @@
-import { TimeAwayType } from '@definition/app';
+import { TimeAwayType } from '@definition/person';
 
 export type TimeAwayItemProps = {
   timeAway: TimeAwayType;

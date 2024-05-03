@@ -1,6 +1,10 @@
 import { IconButton } from '@mui/material';
 import { IconAdd } from '@icons/index';
 
+/**
+ * Custom button component with a plus icon.
+ * @param onClick - Optional function to handle click events.
+ */
 const CustomPlusButton = (props: { onClick?: VoidFunction }) => {
   return (
     <IconButton

@@ -2,6 +2,11 @@ import { FC } from 'react';
 import { Radio, RadioProps } from '@mui/material';
 import { IconRadioButtonChecked, IconRadioButtonUnchecked } from '@icons/index';
 
+/**
+ * Custom radio button component.
+ * @param props - Component props.
+ * @returns JSX element representing the custom radio button.
+ */
 const CustomRadio: FC<RadioProps> = (props) => {
   return (
     <Radio

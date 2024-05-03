@@ -1,6 +1,11 @@
 import { MenuItem, MenuItemProps } from '@mui/material';
 import { FC } from 'react';
 
+/**
+ * Custom menu item component.
+ * @param props - Props for the MenuItem component.
+ * @returns JSX element for the CustomMenuItem component.
+ */
 const CustomMenuItem: FC<MenuItemProps> = (props) => {
   return (
     <MenuItem

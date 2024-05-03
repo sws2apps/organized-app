@@ -14,6 +14,10 @@ import {
   StyledPoint,
 } from './reminders.styled';
 
+/**
+ * Component for displaying a list of reminders.
+ * @param children Children elements representing reminder items.
+ */
 const Reminders = ({ children }: RemindersProps) => {
   const [reminderDate, setReminderDate] = useState<string | null>(null);
 

@@ -5,6 +5,11 @@ import { StyledContentBox } from './index.styles';
 import { IconExpand } from '@components/icons';
 import { useState } from 'react';
 
+/**
+ * Component for rendering a card header.
+ * @param {CardHeaderPropsType} props - Props for the CardHeader component.
+ * @returns {JSX.Element} CardHeader component.
+ */
 const CardHeader = ({ header, size = 'small', className, color = 'accent', children }: CardHeaderPropsType) => {
   const [isExpanded, setIsExpanded] = useState(false);
 

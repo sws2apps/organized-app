@@ -58,7 +58,7 @@
   "tr_remindMeTomorrow": "Нагадати завтра",
   "tr_goToReports": "До звітів",
   "tr_noInternetConnection": "Немає інтернет-зʼєднання",
-  "tr_noInternetConnectionDesc": "Organized зараз працює в офлайн режимі. Коли ти знову підключитесь до мережі, усі введені тобою нові дані синхронізуються.",
+  "tr_noInternetConnectionDesc": "Organized is working offline right now. When you’re back online, any new data you entered will be able to sync.",
   "tr_done": "Готово",
   "tr_notifications": "Сповіщення",
   "tr_reject": "Відхилити",
@@ -76,7 +76,7 @@
   "tr_returnedTerritoryDesc": "Територію {{ territoryNumber }} було опрацьовано та повернуто. Кількість будинків, надана вісником: {{ numberOfHouses }}. За потреби онови інформацію про територію.",
   "tr_whatsNew": "Що нового в Organized",
   "tr_shareFeeback": "Поділитися відгуком",
-  "tr_shareFeebackDesc": "Маєш блискучу ідею? Поділися з нами! Для більш технічних або детальних обговорень, ми рекомендуємо вам використовувати наші <a href=\"https://github.com/sws2apps/organized-app/discussions\">GitHub Discussions</a>, якщо це можливо.",
+  "tr_shareFeebackDesc": "Have a brilliant idea? Share it with us! For more technical or in-depth discussions, we encourage you to use our <a href='https://github.com/sws2apps/organized-app/discussions'>GitHub Discussions</a> if possible.",
   "tr_feedback": "Відгук",
   "tr_subject": "Тема",
   "tr_sendFeedback": "Надіслати відгук",
@@ -90,5 +90,6 @@
   "tr_hallCleaning": "Прибирання залу",
   "tr_yourEmailField": "Your email address",
   "tr_yourMessage": "Your message",
-  "tr_reportSubmittedDesc": "Твій звіт за {{ month}} було надіслано"
+  "tr_reportSubmittedDesc": "Твій звіт за {{ month}} було надіслано",
+  "tr_mainCongregation": "Main congregation"
 }

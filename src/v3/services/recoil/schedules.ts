@@ -1,3 +1,5 @@
+// ** FOR SETTING STATE OUTSIDE REACT COMPONENTS OR TO AVOID USE OF USECALLBACK ** //
+
 import { promiseSetRecoil } from 'recoil-outside';
 import {
   S140DataState,

@@ -7,10 +7,10 @@ import { DateHistoryType } from './index.types';
 
 const DateHistory = ({
   id,
-  endDate,
+  end_date,
   onAdd,
   onDelete,
-  startDate,
+  start_date,
   isLast,
   onEndDateChange,
   onStartDateChange,
@@ -33,12 +33,12 @@ const DateHistory = ({
       >
         <DatePicker
           label={t('tr_startDate')}
-          value={new Date(startDate)}
+          value={new Date(start_date)}
           onChange={(value) => onStartDateChange(id, value)}
         />
         <DatePicker
           label={t('tr_endDate')}
-          value={endDate === null ? null : new Date(endDate)}
+          value={end_date === null ? null : new Date(end_date)}
           onChange={(value) => onEndDateChange(id, value)}
         />
       </Box>

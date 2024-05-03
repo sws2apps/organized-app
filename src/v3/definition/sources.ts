@@ -11,9 +11,9 @@ export type TalkHistoryWeeklyType = {
   weekOf: string;
   weekOfFormatted: string;
   speaker1: string;
-  speaker_1_dispName: string;
+  speaker_1_display_name: string;
   speaker2: string;
-  speaker_2_dispName: string;
+  speaker_2_display_name: string;
 };
 
 export type TalkHistoryType = {
@@ -21,22 +21,6 @@ export type TalkHistoryType = {
   history: TalkHistoryWeeklyType[];
   last_delivered: string;
   last_delivered_formatted: string;
-};
-
-export type TalkType = {
-  talk_number: number;
-  talk_title: {
-    [language: string]: {
-      title: string;
-      modified: string;
-    };
-  };
-};
-
-export type TalkLocaleType = {
-  talk_number: number;
-  talk_title: string;
-  talk_modified: string;
 };
 
 type LanguageStringData = {
@@ -69,30 +53,30 @@ export type SourceWeekType = {
   mwb_ayf_part4: LanguageStringData;
   mwb_song_middle: number | string;
   mwb_lc_count: number;
-  mwb_lc_count_override: number;
+  mwb_lc_count_override: { value: number; updatedAt: string };
   mwb_lc_part1_time: number | string;
   mwb_lc_part1: LanguageStringData;
   mwb_lc_part1_content: LanguageStringData;
-  mwb_lc_part1_time_override: number | string;
-  mwb_lc_part1_override: LanguageStringData;
-  mwb_lc_part1_content_override: LanguageStringData;
+  mwb_lc_part1_time_override: { value: number | string; updatedAt: string };
+  mwb_lc_part1_override: { value: string; updatedAt: string };
+  mwb_lc_part1_content_override: { value: string; updatedAt: string };
   mwb_lc_part2_time: number | string;
   mwb_lc_part2: LanguageStringData;
   mwb_lc_part2_content: LanguageStringData;
-  mwb_lc_part2_time_override: number | string;
-  mwb_lc_part2_override: LanguageStringData;
-  mwb_lc_part2_content_override: LanguageStringData;
+  mwb_lc_part2_time_override: { value: number | string; updatedAt: string };
+  mwb_lc_part2_override: { value: string; updatedAt: string };
+  mwb_lc_part2_content_override: { value: string; updatedAt: string };
   mwb_lc_cbs: LanguageStringData;
-  mwb_lc_cbs_time_override: number | string;
-  mwb_co_talk_title: string;
+  mwb_lc_cbs_time_override: { value: number | string; updatedAt: string };
+  mwb_co_talk_title: { value: string; updatedAt: string };
   mwb_song_conclude: number | string;
-  mwb_song_conclude_override: number | string;
+  mwb_song_conclude_override: { value: number | string; updatedAt: string };
   w_study_date_locale: LanguageStringData;
-  w_co_talk_title: string;
+  w_co_talk_title: { value: string; updatedAt: string };
   w_study_title: LanguageStringData;
   w_study_opening_song: number | string;
   w_study_concluding_song: number | string;
-  keepOverride: string | undefined;
+  keep_override: string | undefined;
 };
 
 export type SourceWeekIncomingType = {
@@ -180,8 +164,6 @@ export type MidweekMeetingTimeType = {
   pgmEnd: string;
   coTalk?: string;
 };
-
-export type PublicTalksViewType = 'list' | 'table';
 
 export enum Week {
   NORMAL = 1,

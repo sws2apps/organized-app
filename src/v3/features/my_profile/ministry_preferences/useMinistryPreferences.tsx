@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { enableHourCreditsState } from '@states/settings';
-import { handleUpdateSetting } from '@services/dexie/settings';
+import { hoursCreditsEnabledState } from '@states/settings';
+import { dbAppSettingsUpdate } from '@services/dexie/settings';
 
 const useMinistryPreferences = () => {
-  const enableHourCredits = useRecoilValue(enableHourCreditsState);
+  const enableHourCredits = useRecoilValue(hoursCreditsEnabledState);
 
   const [addCredits, setAddCredits] = useState(false);
 
   const handleAddCreditsChange = async (value) => {
     setAddCredits(value);
 
-    await handleUpdateSetting({ enable_hour_credits: { value, updatedAt: new Date().toISOString() } });
+    await dbAppSettingsUpdate({ 'user_settings.hour_credits_enabled': { value, updatedAt: new Date().toISOString() } });
   };
 
   useEffect(() => {

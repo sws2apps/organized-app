@@ -1,20 +1,31 @@
 import { InputAdornment, TextField } from '@mui/material';
 import { TextFieldTypeProps } from './index.types';
 
+/**
+ * A custom text field component.
+ *
+ * @param {TextFieldTypeProps} props - The props for the CustomTextField component.
+ * @returns {JSX.Element} - JSX.Element
+ */
 const CustomTextField = (props: TextFieldTypeProps) => {
   const height = props.height || 44;
   const sx = props.sx;
   const startIcon = props.startIcon;
   const endIcon = props.endIcon;
+  const styleIcon = props.styleIcon ?? true;
 
   const defaultProps = { ...props };
+
   delete defaultProps.startIcon;
   delete defaultProps.endIcon;
   delete defaultProps.InputProps;
   delete defaultProps.className;
   delete defaultProps.resetHelperPadding;
+  delete defaultProps.styleIcon;
 
   const varHeight = (56 - height) / 2;
+
+  const isMultiLine = props.multiline || props.rows;
 
   return (
     <TextField
@@ -22,7 +33,9 @@ const CustomTextField = (props: TextFieldTypeProps) => {
       fullWidth
       sx={{
         '.MuiInputBase-root': {
-          height: `${height}px`,
+          height: isMultiLine ? 'auto' : `${height}px`,
+          paddingTop: isMultiLine ? '0' : 'auto',
+          paddingBottom: isMultiLine ? '0' : 'auto',
           display: 'flex',
           alignItems: 'center',
           gap: '8px',
@@ -77,13 +90,15 @@ const CustomTextField = (props: TextFieldTypeProps) => {
               height: 0,
               maxHeight: 0,
               marginRight: 0,
-              '& svg, & svg g, & svg g path': {
-                fill: startIcon.props.color
-                  ? startIcon.props.color
-                  : props.value
-                    ? 'var(--black)'
-                    : 'var(--accent-350)',
-              },
+              '& svg, & svg g, & svg g path': styleIcon
+                ? {
+                    fill: startIcon.props.color
+                      ? startIcon.props.color
+                      : props.value
+                        ? 'var(--black)'
+                        : 'var(--accent-350)',
+                  }
+                : {},
             }}
           >
             {startIcon}
@@ -96,9 +111,11 @@ const CustomTextField = (props: TextFieldTypeProps) => {
               height: 0,
               maxHeight: 0,
               marginRight: 0,
-              '& svg, & svg g, & svg g path': {
-                fill: endIcon.props.color ? endIcon.props.color : 'var(--accent-350)',
-              },
+              '& svg, & svg g, & svg g path': styleIcon
+                ? {
+                    fill: endIcon.props.color ? endIcon.props.color : 'var(--accent-350)',
+                  }
+                : {},
             }}
           >
             {endIcon}

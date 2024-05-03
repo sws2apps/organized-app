@@ -1,18 +1,21 @@
 import { useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
-import { personsFiltersKeyState } from '@states/persons';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { personsFiltersKeyState, personsTabState } from '@states/persons';
 import { setPersonsFiltersKey } from '@services/recoil/persons';
 import { useAppTranslation } from '@hooks/index';
 import { AssignmentCheckListColors } from '@definition/app';
-import { AssignmentCode } from '@definition/schedules';
+import { AssignmentCode } from '@definition/assignment';
+import { PersonsTab } from '@definition/person';
 
 const useFilter = () => {
   const { t } = useAppTranslation();
 
+  const setActiveTab = useSetRecoilState(personsTabState);
   const filters = useRecoilValue(personsFiltersKeyState);
 
+  const checkedItems = filters.filter((record) => typeof record === 'number') as number[];
+
   const [isExpanded, setIsExpanded] = useState(false);
-  const [checkedItems, setCheckedItems] = useState<number[]>([]);
 
   const assignments = useMemo(() => {
     return [
@@ -84,6 +87,7 @@ const useFilter = () => {
           { id: 'male', name: t('tr_male') },
           { id: 'female', name: t('tr_female') },
           { id: 'anointed', name: t('tr_anointed') },
+          { id: 'archived', name: t('tr_archived') },
         ],
       },
       {
@@ -99,10 +103,10 @@ const useFilter = () => {
         name: t('tr_pioneers'),
         items: [
           { id: 'pioneerAll', name: t('tr_allPioneers') },
-          { id: 'auxiliaryPioneer', name: t('tr_APs') },
-          { id: 'regularPioneer', name: t('tr_FRs') },
-          { id: 'specialPionner', name: t('tr_FSs') },
-          { id: 'fieldMissionary', name: t('tr_FMFs') },
+          { id: 'AP', name: t('tr_APs') },
+          { id: 'FR', name: t('tr_FRs') },
+          { id: 'FS', name: t('tr_FSs') },
+          { id: 'FMF', name: t('tr_FMFs') },
         ],
       },
       {
@@ -128,13 +132,13 @@ const useFilter = () => {
   };
 
   const handleClearFilters = async () => {
-    setCheckedItems([]);
     await setPersonsFiltersKey([]);
+
+    setActiveTab(PersonsTab.ALL);
   };
 
   const handleToggleGroup = async (checked: boolean, id: string) => {
     let newFiltersKey = [...filters];
-    let newCheckedItems = [...checkedItems];
 
     const items = assignments.find((group) => group.id === id).items;
 
@@ -142,10 +146,6 @@ const useFilter = () => {
       for (const item of items) {
         if (!newFiltersKey.includes(item.code)) {
           newFiltersKey.push(item.code);
-        }
-
-        if (!newCheckedItems.includes(item.code)) {
-          newCheckedItems.push(item.code);
         }
       }
     }
@@ -155,28 +155,20 @@ const useFilter = () => {
         if (newFiltersKey.includes(item.code)) {
           newFiltersKey = newFiltersKey.filter((key) => key !== item.code);
         }
-
-        if (newCheckedItems.includes(item.code)) {
-          newCheckedItems = newCheckedItems.filter((key) => key !== item.code);
-        }
       }
     }
 
-    setCheckedItems(newCheckedItems);
     await setPersonsFiltersKey(newFiltersKey);
+
+    setActiveTab(PersonsTab.ALL);
   };
 
   const handleToggleAssignment = async (checked: boolean, code: AssignmentCode) => {
     let newFiltersKey = [...filters];
-    let newCheckedItems = [...checkedItems];
 
     if (checked) {
       if (!newFiltersKey.includes(code)) {
         newFiltersKey.push(code);
-      }
-
-      if (!newCheckedItems.includes(code)) {
-        newCheckedItems.push(code);
       }
     }
 
@@ -184,14 +176,11 @@ const useFilter = () => {
       if (newFiltersKey.includes(code)) {
         newFiltersKey = newFiltersKey.filter((activeKey) => activeKey !== code);
       }
-
-      if (newCheckedItems.includes(code)) {
-        newCheckedItems = newCheckedItems.filter((activeKey) => activeKey !== code);
-      }
     }
 
-    setCheckedItems(newCheckedItems);
     await setPersonsFiltersKey(newFiltersKey);
+
+    setActiveTab(PersonsTab.ALL);
   };
 
   return {

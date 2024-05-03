@@ -1,6 +1,13 @@
 import { ReactNode } from 'react';
 export type CardHeaderSizeType = 'small' | 'large';
+
+/**
+ * Props type for the CardHeader component.
+ */
 export type CardHeaderPropsType = {
+  /**
+   * Class name for the card header.
+   */
   className?:
     | 'huge-numbers'
     | 'big-numbers'

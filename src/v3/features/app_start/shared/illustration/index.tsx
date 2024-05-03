@@ -1,10 +1,10 @@
 import { Box, IconButton } from '@mui/material';
 import Typography from '@components/typography';
 import { useAppTranslation } from '@hooks/index';
-import MinistryAssignments from '@assets/img/illustration_ministryAssignments.svg?component';
-import MultiPlattform from '@assets/img/illustration_multiPlattform.svg?component';
-import MeetingSchedules from '@assets/img/illustration_meetingSchedules.svg?component';
-import Secretary from '@assets/img/illustration_secretary.svg?component';
+import MinistryAssignments from '@assets/img/illustration_ministryAssignments.svg?url';
+import MultiPlattform from '@assets/img/illustration_multiPlattform.svg?url';
+import MeetingSchedules from '@assets/img/illustration_meetingSchedules.svg?url';
+import Secretary from '@assets/img/illustration_secretary.svg?url';
 import useIllustration from './useIllustration';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper/modules';
@@ -68,7 +68,7 @@ const StartupIllustration = () => {
                   {t('tr_illustrationMinistryAssignmentsDescription')}
                 </Typography>
               </Box>
-              <MinistryAssignments viewBox="0 0 748 457" style={{ width: '100%', height: 'auto' }} />
+              <img src={MinistryAssignments} style={{ width: '100%', height: 'auto' }} />
             </Box>
           </SwiperSlide>
 
@@ -82,7 +82,7 @@ const StartupIllustration = () => {
                   {t('tr_illustrationMultiPlattformDescription')}
                 </Typography>
               </Box>
-              <MultiPlattform viewBox="0 0 748 457" style={{ width: '100%', height: 'auto' }} />
+              <img src={MultiPlattform} style={{ width: '100%', height: 'auto' }} />
             </Box>
           </SwiperSlide>
 
@@ -96,7 +96,7 @@ const StartupIllustration = () => {
                   {t('tr_illustrationMeetingSchedulesDescription')}
                 </Typography>
               </Box>
-              <MeetingSchedules viewBox="0 0 748 457" style={{ width: '100%', height: 'auto' }} />
+              <img src={MeetingSchedules} style={{ width: '100%', height: 'auto' }} />
             </Box>
           </SwiperSlide>
 
@@ -111,7 +111,7 @@ const StartupIllustration = () => {
                 </Typography>
               </Box>
 
-              <Secretary viewBox="0 0 748 457" style={{ width: '100%', height: 'auto' }} />
+              <img src={Secretary} style={{ width: '100%', height: 'auto' }} />
             </Box>
           </SwiperSlide>
         </Swiper>

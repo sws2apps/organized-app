@@ -6,25 +6,21 @@ const AppFeedback = () => {
   const { appMessage, appSeverity, handleClose, snackOpen, appMessageHeader, appMessageIcon } = useAppFeedback();
 
   return (
-    <>
-      {appMessage && (
-        <SnackBar
-          open={snackOpen}
-          variant={appSeverity}
-          position="bottom-center"
-          messageHeader={appMessageHeader}
-          message={appMessage}
-          onClose={handleClose}
-          messageIcon={
-            appMessageIcon ? (
-              appMessageIcon
-            ) : appSeverity === 'success' ? (
-              <IconCheckCircle color="var(--always-white)" />
-            ) : null
-          }
-        />
-      )}
-    </>
+    <SnackBar
+      open={snackOpen}
+      variant={appSeverity}
+      position="bottom-center"
+      messageHeader={appMessageHeader}
+      message={appMessage}
+      onClose={handleClose}
+      messageIcon={
+        appMessageIcon ? (
+          appMessageIcon
+        ) : appSeverity === 'success' ? (
+          <IconCheckCircle color="var(--always-white)" />
+        ) : null
+      }
+    />
   );
 };
 

@@ -16,8 +16,8 @@ const useTimeAway = () => {
 
     newPerson.timeAway.push({
       id: crypto.randomUUID(),
-      startDate: { value: new Date().toISOString(), updatedAt: new Date().toISOString() },
-      endDate: { value: null, updatedAt: '' },
+      start_date: { value: new Date().toISOString(), updatedAt: new Date().toISOString() },
+      end_date: { value: null, updatedAt: '' },
       comments: { value: '', updatedAt: '' },
       _deleted: null,
     });
@@ -44,7 +44,7 @@ const useTimeAway = () => {
     const newPerson = structuredClone(person);
 
     const current = newPerson.timeAway.find((history) => history.id === id);
-    current.startDate = {
+    current.start_date = {
       value: value.toISOString(),
       updatedAt: new Date().toISOString(),
     };
@@ -56,7 +56,7 @@ const useTimeAway = () => {
     const newPerson = structuredClone(person);
 
     const current = newPerson.timeAway.find((history) => history.id === id);
-    current.endDate = {
+    current.end_date = {
       value: value === null ? null : value.toISOString(),
       updatedAt: new Date().toISOString(),
     };

@@ -18,8 +18,8 @@ const usePrivileges = () => {
     newPerson.privileges.push({
       id: crypto.randomUUID(),
       privilege: { value: 'ms', updatedAt: new Date().toISOString() },
-      startDate: { value: new Date().toISOString(), updatedAt: new Date().toISOString() },
-      endDate: { value: null, updatedAt: new Date().toISOString() },
+      start_date: { value: new Date().toISOString(), updatedAt: new Date().toISOString() },
+      end_date: { value: null, updatedAt: new Date().toISOString() },
       _deleted: null,
     });
 
@@ -45,7 +45,7 @@ const usePrivileges = () => {
     const newPerson = structuredClone(person);
 
     const current = newPerson.privileges.find((history) => history.id === id);
-    current.startDate = {
+    current.start_date = {
       value: value.toISOString(),
       updatedAt: new Date().toISOString(),
     };
@@ -57,7 +57,7 @@ const usePrivileges = () => {
     const newPerson = structuredClone(person);
 
     const current = newPerson.privileges.find((history) => history.id === id);
-    current.endDate = {
+    current.end_date = {
       value: value === null ? null : value.toISOString(),
       updatedAt: new Date().toISOString(),
     };

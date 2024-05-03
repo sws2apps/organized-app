@@ -2,6 +2,11 @@ import { Box } from '@mui/material';
 import Typography from '@components/typography';
 import { BadgeContentPropsType, BadgePropsType, BadgeTypographyPropsType } from './index.types';
 
+/**
+ * Component for rendering the content of a badge.
+ * @param {BadgeContentPropsType} props - Props for the BadgeContent component.
+ * @returns {JSX.Element} BadgeContent component.
+ */
 const BadgeContent = (props: BadgeContentPropsType) => {
   const { icon, iconHeight, iconWidth, children, color } = props;
 

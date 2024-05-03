@@ -5,11 +5,20 @@ import Typography from '@components/typography';
 import { IconClose } from '@icons/index';
 import { InfoMessagePropsType } from './index.types';
 
+/**
+ * Custom component for displaying information messages.
+ * @param props The props for the CustomInfoMessage component.
+ * @returns JSX element for the CustomInfoMessage component.
+ */
 const CustomInfoMessage = (props: InfoMessagePropsType) => {
   const messageHeader = props.messageHeader || '';
   const message = props.message || '';
   const variant = props.variant || 'message-with-button';
 
+  /**
+   * Function to get the background color based on the variant.
+   * @returns The background color.
+   */
   const getBackground = () => {
     let color: string;
 
@@ -20,6 +29,10 @@ const CustomInfoMessage = (props: InfoMessagePropsType) => {
     return color;
   };
 
+  /**
+   * Function to get the effect based on the variant.
+   * @returns The effect name.
+   */
   const getEffect = () => {
     let effect: string;
 

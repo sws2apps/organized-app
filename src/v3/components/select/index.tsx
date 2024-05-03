@@ -2,6 +2,12 @@ import { TextField } from '@mui/material';
 import { SelectPropsType } from './index.types';
 import { Theme } from '@mui/material/styles/createTheme';
 
+/**
+ * Custom select component.
+ *
+ * @param props The props for the CustomSelect component.
+ * @returns A custom select input field.
+ */
 const CustomSelect = (props: SelectPropsType) => {
   const label = props.label || '';
   const className = props.className || '';
@@ -9,13 +15,14 @@ const CustomSelect = (props: SelectPropsType) => {
   const endIcon = props.endIcon || null;
   const required = props.required || false;
   const height = props.height || 44;
+  const fullWidth = props.fullWidth ?? true;
 
   const varHeight = (56 - height) / 2;
 
   return (
     <TextField
       {...props}
-      fullWidth
+      fullWidth={fullWidth}
       required={required}
       label={label}
       value={props.value}
@@ -35,7 +42,7 @@ const CustomSelect = (props: SelectPropsType) => {
           paddingTop: `calc(14.5px - ${varHeight}px)`,
           paddingBottom: `calc(14.5px - ${varHeight}px)`,
           flex: '1 0 0',
-          marginRight: '32px',
+
           '&.MuiSelect-select': {
             minHeight: 'unset',
           },
@@ -67,6 +74,11 @@ const CustomSelect = (props: SelectPropsType) => {
           },
         },
         '.MuiFormLabel-root[data-shrink=false]': { top: `-${varHeight}px` },
+        '.MuiTypography-root': {
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+        },
         ...props.sx,
       }}
       InputProps={{
@@ -85,6 +97,7 @@ const CustomSelect = (props: SelectPropsType) => {
               border: '1px solid var(--accent-200)',
               padding: '8px 0px',
               marginTop: '2px',
+              maxHeight: '232px',
               '& ul': { paddingTop: 0, paddingBottom: 0, gap: '5px' },
               '& li': {
                 position: 'relative',
@@ -98,6 +111,12 @@ const CustomSelect = (props: SelectPropsType) => {
               },
               [theme.breakpoints.down('tablet')]: {
                 marginLeft: '-4px',
+              },
+              '&::-webkit-scrollbar': {
+                width: '4px',
+              },
+              '&::-webkit-scrollbar-track': {
+                backgroundColor: 'transparent',
               },
             }),
             className: 'small-card-shadow',

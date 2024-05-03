@@ -1,6 +1,11 @@
 import { IconButton } from '@mui/material';
 import { IconRemove } from '@icons/index';
 
+/**
+ * Custom minus button component.
+ * @param onClick - Callback function for the click event.
+ * @returns JSX element for the CustomMinusButton component.
+ */
 const CustomMinusButton = (props: { onClick?: VoidFunction }) => {
   return (
     <IconButton

@@ -2,10 +2,16 @@ import { Fade, FadeProps, Snackbar, SnackbarCloseReason, SnackbarOrigin } from '
 import InfoMessage from '@components/info-message';
 import { SnackbarPropsType } from './index.types';
 
+/**
+ * Custom transition component for the Snackbar.
+ */
 const FadeTransition = (props: FadeProps) => {
   return <Fade {...props} />;
 };
 
+/**
+ * Custom Snackbar component.
+ */
 const CustomSnackbar = (props: SnackbarPropsType) => {
   const open = props.open || false;
   const messageHeader = props.messageHeader || '';
@@ -13,6 +19,10 @@ const CustomSnackbar = (props: SnackbarPropsType) => {
   const variant = props.variant || 'message-with-button';
   const position = props.position || 'bottom-center';
 
+  /**
+   * Gets the anchor origin for the Snackbar based on the specified position.
+   * @returns SnackbarOrigin - The anchor origin for the Snackbar.
+   */
   const getAnchorOrigin = () => {
     const anchor = {} as SnackbarOrigin;
 
@@ -29,6 +39,11 @@ const CustomSnackbar = (props: SnackbarPropsType) => {
     return anchor;
   };
 
+  /**
+   * Handles the Snackbar close event.
+   * @param _ - The event.
+   * @param reason - The reason for closing the Snackbar.
+   */
   const handleClose = (_, reason: SnackbarCloseReason) => {
     if (reason === 'clickaway') {
       return;

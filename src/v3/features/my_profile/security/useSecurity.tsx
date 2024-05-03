@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { isMFAEnabledState } from '@states/app';
 
@@ -18,10 +18,10 @@ const useSecurity = () => {
     }
   };
 
-  const handleCloseDialog = () => {
+  const handleCloseDialog = useCallback(() => {
     setIsOpenMFAEnable(false);
     setIsOpenMFADisable(false);
-  };
+  }, []);
 
   return { isMFAEnabled, handleToggleMFA, isOpenMFAEnable, isOpenMFADisable, handleCloseDialog };
 };

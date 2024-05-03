@@ -1,0 +1,6 @@
+pull_request_title: 'feat(public-talks): updated translation from Crowdin'
+pull_request_labels:
+  - crowdin
+files:
+  - source: /src/v3/public_talks/en/*.json
+    translation: /src/v3/public_talks/%locale%/%original_file_name%

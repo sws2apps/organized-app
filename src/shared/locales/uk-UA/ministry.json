@@ -31,7 +31,6 @@
   "tr_btnUndoSumbission": "Відмінити відправку",
   "tr_totalHours": "Всього годин",
   "tr_fieldMinistry": "Польове служіння",
-  "tr_LDCHours": "Години МВПБ",
   "tr_averageMonthlyBibleStudies": "В середньому вивчень на місяць",
   "tr_maximumMonthlyBibleStudies": "Найбільше біблійних вивчень за місяць",
   "tr_monthlyHistory": "Місячна історія",
@@ -48,7 +47,7 @@
   "tr_theMonthsOf": "На місяць(і)",
   "tr_hoursGoal": "Мета годин",
   "tr_continuousAPS": "Я хочу безперервно служити допоміжним піонером до наступного повідомлення.",
-  "tr_pioneerApplicationMoral": "У мене добрий моральний стан та звички. Я спланував(-ла) усе так, щоб мати можливість виконувати норму годин (дивися <a href=\"https://wol.jw.org/uk/wol/d/r15/lp-k/202013206\">\"Наше служіння Царству\" за червень 2013 року, сторінка 2</a>).",
+  "tr_pioneerApplicationMoral": "I am of good moral standing and habits. I have made plans that will enable me to meet the hour requirement. – See the <a href='https://www.jw.org/finder?wtlocale=E&docid=202013206'>June 2013 Our Kingdom Ministry, p. 2</a>.",
   "tr_nameAPSApplication": "Імʼя, служить як підпис",
   "tr_noteAPSApplication": "ПРИМІТКА: Якщо можливо, заповни цей бланк і відправ його принаймні за тиждень до того часу, з якого ти хочеш почати своє служіння допоміжним піонером. Ця заява не посилається у філіал, а зберігається серед документів збору.",
   "tr_attentionServiceCommittee": "<p>До уваги службового комітету збору:</p><p>1. Чи заявник подає добрий приклад християнської поведінки і дотримується високих моральних норм?</p><p>2. Особи, котрі протягом останніх 12 місяців отримали докір чи були поновлені у зборі, а також ті, з кого ще не знято обмеження, не відповідають вимогами.</p><p>3. Чи ви радилися з наглядачем групи, до якої належить заявник?</p>",
@@ -93,6 +92,7 @@
   "tr_deletePWLocationDesc": "Видалення цього місця повністю видаляє всі його дані та записи. Цю дію неможливо скасувати.",
   "tr_changeImage": "Change image",
   "tr_addImage": "Add image",
-  "tr_cantDeductStudiesDesc": "You can't select fewer Bible studies than you already have selected in the “Individual Bible studies” dropdown menu. ",
-  "tr_cantDeductStudiesTitle": "Cannot deduct Bible studies"
+  "tr_cantDeductStudiesDesc": "You can’t select fewer Bible studies than you already have selected in the “Individual Bible studies” dropdown menu. ",
+  "tr_cantDeductStudiesTitle": "Cannot deduct Bible studies",
+  "tr_includesServiceAndCredit": "Includes field service and credit hours"
 }

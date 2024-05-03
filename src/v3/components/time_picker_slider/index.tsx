@@ -10,14 +10,20 @@ import {
   TimePickerSelectorStyle,
   TimePickerTypography,
 } from './time_picker.styles';
-import { MutableRefObject, useEffect, useRef } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
 
-// Used to center the cards
-const BlankCase = () => {
-  return <Box sx={TimePickerCaseStyle} />;
-};
+/**
+ * Context for TimePickerSlider to manage state and communication between components.
+ */
+const TimePickerSliderContext = createContext(null);
 
+/**
+ * Represents a single time value in the TimePicker slider.
+ *
+ * @param props - The properties for the TimePickerCase component.
+ * @returns A single time value component.
+ */
 const TimePickerCase = ({ value }: { value: number }) => {
   return (
     <Box sx={TimePickerCaseStyle}>
@@ -28,37 +34,49 @@ const TimePickerCase = ({ value }: { value: number }) => {
   );
 };
 
+/**
+ * Component for rendering hours in the TimePicker slider.
+ *
+ * @param props - The properties for the TimePickerHourCases component.
+ * @returns A component for rendering hours in the TimePicker slider.
+ */
 const TimePickerHourCases = ({ ampm }: { ampm: boolean }) => {
   const hours = [];
-  for (let h = 0; h <= (ampm ? 12 : 24); h++) {
-    hours.push(<TimePickerCase key={h} value={h} />);
+  const maxHours = ampm ? 12 : 24;
+
+  for (let h = -1; h <= maxHours; h++) {
+    const value = (h + maxHours) % maxHours;
+    hours.push(<TimePickerCase key={h} value={value} />);
   }
-  return (
-    <>
-      <BlankCase />
-      {hours}
-      <BlankCase />
-    </>
-  );
+
+  return <>{hours}</>;
 };
 
+/**
+ * Component for rendering minutes in the TimePicker slider.
+ *
+ * @returns A component for rendering minutes in the TimePicker slider.
+ */
 const TimePickerMinutesCases = () => {
   const minutes = [];
-  for (let m = 0; m < 60; m++) {
-    minutes.push(<TimePickerCase key={m} value={m} />);
+  for (let m = -1; m < 61; m++) {
+    const value = (m + 60) % 60;
+    minutes.push(<TimePickerCase key={m} value={value} />);
   }
 
-  return (
-    <>
-      <BlankCase />
-      {minutes}
-      <BlankCase />
-    </>
-  );
+  return <>{minutes}</>;
 };
 
-const TimePickerSelector = ({ children, value }: { children: React.ReactNode; value: MutableRefObject<string> }) => {
+/**
+ * Selector component for TimePickerSlider to scroll through time options.
+ *
+ * @param props - The properties for the TimePickerSelector component.
+ * @returns A selector component for TimePickerSlider.
+ */
+const TimePickerSelector = ({ children, variant }: { children: React.ReactNode; variant: 'minutes' | 'hours' }) => {
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const { setTimePickerSliderData } = useContext(TimePickerSliderContext);
 
   const disactiveBox = (box: Element) => {
     if (box.firstElementChild) (box.firstElementChild as HTMLElement).style.color = 'var(--grey-200)';
@@ -68,7 +86,7 @@ const TimePickerSelector = ({ children, value }: { children: React.ReactNode; va
   };
 
   // Add active class to the center box
-  const updateActiveBox = () => {
+  const updateActiveBox = useCallback(() => {
     const container = containerRef.current;
     const scrollPosition = container.scrollTop;
 
@@ -79,17 +97,41 @@ const TimePickerSelector = ({ children, value }: { children: React.ReactNode; va
       disactiveBox(boxes[index]);
     }
     activeBox(centerBox);
-    value.current = centerBox.textContent;
-  };
+
+    if (variant === 'hours') {
+      setTimePickerSliderData((prev) => ({
+        ...prev,
+        hours: centerBox.textContent,
+      }));
+    } else {
+      setTimePickerSliderData((prev) => ({
+        ...prev,
+        minutes: centerBox.textContent,
+      }));
+    }
+  }, [setTimePickerSliderData, variant]);
 
   // Scroll [unit] case up or down
   const scroll = (unit: number) => {
     const container = containerRef.current;
+    if (!container) return;
+
+    const scrollHeight = container.scrollHeight;
     const scrollPosition = container.scrollTop;
-    container.scrollTo({ top: scrollPosition + unit * CASE_SIZE, behavior: 'smooth' });
+    const maxScroll = scrollHeight - container.clientHeight;
+
+    let newScrollPosition = scrollPosition + unit * CASE_SIZE;
+
+    if (newScrollPosition < 0) {
+      newScrollPosition = maxScroll;
+    } else if (newScrollPosition > maxScroll) {
+      newScrollPosition = 0;
+    }
+
+    container.scrollTo({ top: newScrollPosition, behavior: 'instant' });
   };
 
-  useEffect(updateActiveBox);
+  useEffect(updateActiveBox, [updateActiveBox]);
 
   return (
     <Box sx={TimePickerSelectorStyle}>
@@ -109,37 +151,75 @@ const TimePickerSelector = ({ children, value }: { children: React.ReactNode; va
   );
 };
 
-const TimePickerHours = ({ ampm, value }: { ampm: boolean; value: MutableRefObject<string> }) => {
+/**
+ * Component for rendering the hour selector in the TimePickerSlider.
+ *
+ * @param props - The properties for the TimePickerHours component.
+ * @returns A component for rendering the hour selector.
+ */
+const TimePickerHours = ({ ampm }: { ampm: boolean }) => {
   return (
-    <TimePickerSelector value={value}>
+    <TimePickerSelector variant="hours">
       <TimePickerHourCases ampm={ampm} />
     </TimePickerSelector>
   );
 };
 
-const TimePickerMinutes = ({ value }: { value: MutableRefObject<string> }) => {
+/**
+ * Component for rendering the minute selector in the TimePickerSlider.
+ *
+ * @returns A component for rendering the minute selector.
+ */
+const TimePickerMinutes = () => {
   return (
-    <TimePickerSelector value={value}>
+    <TimePickerSelector variant="minutes">
       <TimePickerMinutesCases />
     </TimePickerSelector>
   );
 };
 
-const CPETimePickerSlider = ({ ampm }: CPETimePickerSliderProps) => {
-  // Use theses in the future to get the selected time ⏰
-  const hoursValue = useRef<string>('00');
-  const minutesValue = useRef<string>('00');
+/**
+ * Component for selecting time using a slider interface.
+ *
+ * @param props - The properties for the CPETimePickerSlider component.
+ * @returns A component for selecting time using a slider interface.
+ */
+const CPETimePickerSlider = ({ ampm, onChange }: CPETimePickerSliderProps) => {
+  const [timePickerSliderData, setTimePickerSliderData] = useState({
+    hours: '00',
+    minutes: '00',
+  });
+
+  const convertToSeconds = (hours: string, minutes: string): number => {
+    const hoursInSeconds = parseInt(hours) * 3600;
+    const minutesInSeconds = parseInt(minutes) * 60;
+    return hoursInSeconds + minutesInSeconds;
+  };
+
+  useEffect(() => {
+    onChange(convertToSeconds(timePickerSliderData.hours, timePickerSliderData.minutes));
+  }, [onChange, timePickerSliderData]);
+
+  const contextValue = useMemo(
+    () => ({
+      timePickerSliderData,
+      setTimePickerSliderData,
+    }),
+    [timePickerSliderData]
+  );
 
   return (
-    <Box sx={TimePickerContainerStyle}>
-      <TimePickerHours ampm={ampm} value={hoursValue} />
+    <TimePickerSliderContext.Provider value={contextValue}>
+      <Box sx={TimePickerContainerStyle}>
+        <TimePickerHours ampm={ampm} />
 
-      <Box sx={{ width: CASE_SIZE, display: 'flex', justifyContent: 'center' }}>
-        <Typography sx={TimePickerTypography}>:</Typography>
+        <Box sx={{ width: CASE_SIZE, display: 'flex', justifyContent: 'center' }}>
+          <Typography sx={TimePickerTypography}>:</Typography>
+        </Box>
+
+        <TimePickerMinutes />
       </Box>
-
-      <TimePickerMinutes value={minutesValue} />
-    </Box>
+    </TimePickerSliderContext.Provider>
   );
 };
 

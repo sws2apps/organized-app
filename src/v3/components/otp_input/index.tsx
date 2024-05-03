@@ -2,10 +2,20 @@ import { FC } from 'react';
 import { Box } from '@mui/material';
 import { MuiOtpInput, MuiOtpInputProps } from 'mui-one-time-password-input';
 
+/**
+ * Function to check if the provided text is numeric.
+ * @param text - The text to be checked.
+ * @returns A boolean indicating whether the text is numeric.
+ */
 const matchIsNumeric = (text) => {
   return !isNaN(Number(text));
 };
 
+/**
+ * Function to validate each character of the OTP input.
+ * @param value - The value of the OTP input.
+ * @returns A boolean indicating whether the character is valid.
+ */
 const validateChar = (value) => {
   return matchIsNumeric(value);
 };
@@ -14,6 +24,12 @@ type OTPInputProps = MuiOtpInputProps & {
   hasError?: boolean;
 };
 
+/**
+ * OTPInput component.
+ * @param hasError - Boolean flag indicating whether there is an error in the OTP input.
+ * @param props - Additional props for the OTPInput component.
+ * @returns JSX element for the OTPInput component.
+ */
 const OTPInput: FC<OTPInputProps> = ({ hasError, ...props }) => {
   return (
     <Box sx={{ width: '100%', maxWidth: '352px' }}>

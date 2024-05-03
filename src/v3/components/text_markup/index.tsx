@@ -2,6 +2,12 @@ import { LegacyRef } from 'react';
 import { Markup } from 'interweave';
 import { TextMarkupTypeProps } from './index.types';
 
+/**
+ * A custom text markup component that allows rendering HTML content with custom styling and anchor handling.
+ *
+ * @param {TextMarkupTypeProps} props - The props for the CustomTextMarkup component.
+ * @returns {JSX.Element} A CustomTextMarkup component.
+ */
 const CustomTextMarkup = (props: TextMarkupTypeProps) => {
   let content = props.content || '';
   const color = props.color || 'var(--black)';

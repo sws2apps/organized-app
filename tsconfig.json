@@ -21,7 +21,8 @@
       "@locales/*": ["shared/locales/*"],
       "@shared/*": ["shared/*"],
       "@definition/*": ["v3/definition/*"],
-      "@global/*": ["v3/global/*"]
+      "@global/*": ["v3/global/*"],
+      "@db/*": ["v3/indexedDb/*"]
     },
     "esModuleInterop": true,
     "moduleResolution": "Node",

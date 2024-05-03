@@ -6,11 +6,26 @@ import {
 } from './progress_bar_small.styled';
 import IconCheck from '@components/icons/IconCheck';
 
+/**
+ * Props for the ProgressBarSmall component.
+ */
 interface ProgressBarProps {
+  /**
+   * The current value of the progress bar.
+   */
   value: number;
+
+  /**
+   * The maximum value of the progress bar.
+   */
   maxValue: number;
 }
 
+/**
+ * A small progress bar component.
+ * @param value - The current value of the progress bar.
+ * @param maxValue - The maximum value of the progress bar.
+ */
 const ProgressBarSmall = ({ value, maxValue }: ProgressBarProps) => {
   const progressValue = Math.min(Math.max(value, 0), maxValue);
 

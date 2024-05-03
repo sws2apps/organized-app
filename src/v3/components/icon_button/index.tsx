@@ -1,5 +1,11 @@
 import { IconButton, IconButtonProps } from '@mui/material';
 
+/**
+ * Component representing a custom icon button.
+ *
+ * @param {IconButtonProps} props - Props for the CustomIconButton component.
+ * @returns {JSX.Element} CustomIconButton component.
+ */
 const CustomIconButton = (props: IconButtonProps) => {
   const { children } = props;
 
@@ -11,7 +17,7 @@ const CustomIconButton = (props: IconButtonProps) => {
         padding: '8px',
         borderRadius: 'var(--radius-l)',
         '&:hover': {
-          backgroundColor: 'var(--accent-150)',
+          backgroundColor: 'var(--accent-200)',
         },
         '.MuiTouchRipple-ripple .MuiTouchRipple-child': {
           borderRadius: 'var(--radius-l)',

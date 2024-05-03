@@ -24,6 +24,7 @@ import CustomButton from '@components/button';
 import CustomDatePicker from '@components/date_picker';
 import CustomInfoMessage from '@components/info-message';
 import { convertDurationInSecondsToString, convertDurationStringToSeconds } from '../utils';
+import MiniChip from '@components/mini_chip';
 
 /**
  * Add Service Time Modal Window component.
@@ -183,12 +184,16 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
       <StyledModalWindowContainer
         ref={props.reference}
         className="pop-up-shadow"
-        sx={{
+        sx={(theme) => ({
           marginLeft: { mobile: '16px', tablet: '24px', desktop: '32px' },
           marginRight: { mobile: '16px', tablet: '24px', desktop: '32px' },
           marginTop: '16px',
           marginBottom: '16px',
-        }}
+
+          [theme.breakpoints.up(540)]: {
+            width: '100%',
+          },
+        })}
       >
         <Box>
           <CustomTypography className="h2">{t('tr_addServiceTime')}</CustomTypography>
@@ -335,94 +340,134 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
         </StyledRowContainer>
         <StyledRowContainer
           ref={styledRowContainerWithBibleStudiesRef}
-          sx={(theme) => ({
-            alignItems: 'center',
-            [theme.breakpoints.down('tablet')]: {
-              flexDirection: 'column',
-              '& .MuiBox-root': {
-                width: '100%',
-                maxWidth: 'none',
-                minWidth: 'none',
-              },
-            },
-          })}
+          sx={{
+            flexDirection: 'column',
+          }}
         >
-          <CustomDropdownContainer
-            open={dropdownWithStudiesOpen}
-            reference={dropdownWithStudiesOpenButtonReference}
-            label={t('tr_bibleStudies')}
-            onClick={() => setDropdownWithStudiesOpen((prev) => !prev)}
-          />
-          <CustomDropdownMenu
-            open={dropdownWithStudiesOpen}
-            reference={dropdownWithStudiesReference}
-            zIndex={(theme) => theme.zIndex.drawer + 3}
-            anchorElement={styledRowContainerWithBibleStudiesRef.current}
-            width={styledRowContainerWithBibleStudiesRef.current?.offsetWidth + 'px'}
-          >
-            {props.bibleStudiesList.map((value, index) => {
-              const randomKey = crypto.randomUUID();
-
-              return (
-                <CustomDropdownItem
-                  variant="studies"
-                  checked={checkedLocalStudiesStatesList[index]}
-                  label={value}
-                  editButtonClick={() => {
-                    setDropdownWithStudiesOpen(false);
-                    setEditAndAddBibleStudyData({
-                      itemValue: value,
-                      itemIndex: index,
-                      popUpWindowOpen: true,
-                      variant: 'edit',
-                    });
-                  }}
-                  key={randomKey}
-                  callback={() =>
-                    setCheckedLocalStudiesStatesList((prev) => {
-                      const updatedArray = [...prev];
-                      updatedArray[index] = !updatedArray[index];
-                      return updatedArray;
-                    })
-                  }
-                />
-              );
-            })}
-            <CustomDropdownItem
-              variant="custom"
-              sx={{
-                '.MuiSvgIcon-root path': {
-                  fill: 'var(--accent-dark)',
+          <StyledBox
+            sx={(theme) => ({
+              gap: '16px',
+              [theme.breakpoints.down('tablet')]: {
+                justifyContent: 'center',
+                flexDirection: 'column',
+                '& .MuiBox-root': {
+                  width: '100%',
+                  maxWidth: 'none',
+                  minWidth: 'none',
                 },
-                borderBottom: 'none',
-              }}
-              callback={() => {
-                setDropdownWithStudiesOpen(false);
-                setEditAndAddBibleStudyData({ ...editAndAddBibleStudyData, variant: 'add', popUpWindowOpen: true });
+              },
+            })}
+          >
+            <CustomDropdownContainer
+              open={dropdownWithStudiesOpen}
+              reference={dropdownWithStudiesOpenButtonReference}
+              label={t('tr_bibleStudies')}
+              onClick={() => setDropdownWithStudiesOpen((prev) => !prev)}
+            />
+            <CustomDropdownMenu
+              open={dropdownWithStudiesOpen}
+              reference={dropdownWithStudiesReference}
+              zIndex={(theme) => theme.zIndex.drawer + 3}
+              anchorElement={styledRowContainerWithBibleStudiesRef.current}
+              width={styledRowContainerWithBibleStudiesRef.current?.offsetWidth + 'px'}
+            >
+              {props.bibleStudiesList.map((value, index) => {
+                const randomKey = crypto.randomUUID();
+
+                return (
+                  <CustomDropdownItem
+                    variant="studies"
+                    checked={checkedLocalStudiesStatesList[index]}
+                    label={value}
+                    editButtonClick={() => {
+                      setDropdownWithStudiesOpen(false);
+                      setEditAndAddBibleStudyData({
+                        itemValue: value,
+                        itemIndex: index,
+                        popUpWindowOpen: true,
+                        variant: 'edit',
+                      });
+                    }}
+                    key={randomKey}
+                    callback={() =>
+                      setCheckedLocalStudiesStatesList((prev) => {
+                        const updatedArray = [...prev];
+                        updatedArray[index] = !updatedArray[index];
+                        return updatedArray;
+                      })
+                    }
+                  />
+                );
+              })}
+              <CustomDropdownItem
+                variant="custom"
+                sx={{
+                  '.MuiSvgIcon-root path': {
+                    fill: 'var(--accent-dark)',
+                  },
+                  borderBottom: 'none',
+                }}
+                callback={() => {
+                  setDropdownWithStudiesOpen(false);
+                  setEditAndAddBibleStudyData({ ...editAndAddBibleStudyData, variant: 'add', popUpWindowOpen: true });
+                }}
+              >
+                <IconAdd />
+                <CustomTypography className="h4" color="var(--accent-dark)">
+                  {t('tr_addNewStudy')}
+                </CustomTypography>
+              </CustomDropdownItem>
+            </CustomDropdownMenu>
+
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                minWidth: '168px',
+                maxWidth: '168px',
+                alignItems: 'center',
               }}
             >
-              <IconAdd />
-              <CustomTypography className="h4" color="var(--accent-dark)">
-                {t('tr_addNewStudy')}
+              <MinusButton onClick={decrimentCountOfStudiesInBuffer} />
+              <CustomTypography className="h3" color={countOfStudies != 0 ? 'var(--black)' : 'var(--grey-300)'}>
+                {countOfStudies}
               </CustomTypography>
-            </CustomDropdownItem>
-          </CustomDropdownMenu>
+              <PlusButton onClick={incrementCountOfStudiesInBuffer} />
+            </Box>
+          </StyledBox>
+          {getArrayWithCheckedStudies().length != 0 ? (
+            <Box
+              sx={{
+                display: 'flex',
+                gap: '4px',
+                flexWrap: 'wrap',
+              }}
+            >
+              {getArrayWithCheckedStudies().map((value) => {
+                const randomKey = crypto.randomUUID();
 
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              minWidth: '168px',
-              maxWidth: '168px',
-              alignItems: 'center',
-            }}
-          >
-            <MinusButton onClick={decrimentCountOfStudiesInBuffer} />
-            <CustomTypography className="h2" color={countOfStudies != 0 ? 'var(--black)' : 'var(--grey-300)'}>
-              {countOfStudies}
-            </CustomTypography>
-            <PlusButton onClick={incrementCountOfStudiesInBuffer} />
-          </Box>
+                return (
+                  <MiniChip
+                    label={value}
+                    key={randomKey}
+                    edit={true}
+                    onDelete={() => {
+                      props.bibleStudiesList.forEach((globalValue, index) => {
+                        if (value == globalValue) {
+                          setCheckedLocalStudiesStatesList((prev) => {
+                            const tmpArray = [...prev];
+                            tmpArray[index] = false;
+
+                            return tmpArray;
+                          });
+                        }
+                      });
+                    }}
+                  />
+                );
+              })}
+            </Box>
+          ) : null}
         </StyledRowContainer>
         <Box
           sx={(theme) => ({

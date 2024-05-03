@@ -5,7 +5,7 @@ import Typography from '@components/typography';
 import { useAppTranslation } from '@hooks/index';
 import { AutocompletePropsType } from './index.types';
 
-const CustomPaper = (props: PaperProps) => {
+export const CustomPaper = (props: PaperProps) => {
   return (
     <Paper
       {...props}
@@ -20,7 +20,7 @@ const CustomPaper = (props: PaperProps) => {
   );
 };
 
-const CustomListBoxComponent = forwardRef((props: BoxProps, ref) => {
+export const CustomListBoxComponent = forwardRef((props: BoxProps, ref) => {
   return (
     <Box
       ref={ref}
