@@ -3,14 +3,16 @@ import ScrollableTabs from '@components/scrollable_tabs';
 import CustomTextarea from '@components/textarea';
 import CustomTypography from '@components/typography';
 import useAppTranslation from '@hooks/useAppTranslation';
-import { Box } from '@mui/material';
+import { Box, TextField } from '@mui/material';
 import { ReactElement, useContext, useEffect, useRef, useState } from 'react';
 import { MonthlyReportProps } from './monthly_report.types';
 import { CustomDropdownContainer, CustomDropdownItem, CustomDropdownMenu } from '@components/dropdown';
 import CustomInfoMessage from '@components/info-message';
 import { IconAdd, IconCheck, IconClose, IconError } from '@components/icons';
-import { MiniChip, MinusButton, PlusButton } from '@components/index';
+import { Badge, MiniChip, MinusButton, PlusButton } from '@components/index';
 import { EditAndAddBibleStudyContext } from '@features/ministry/EditAndAddBibleStudyContext';
+import CustomBadge from '@components/badge';
+import { convertDurationInSecondsToString } from '@features/ministry/utils';
 
 const MonthlyReport = (props: MonthlyReportProps) => {
   const { t } = useAppTranslation();
@@ -71,6 +73,8 @@ const MonthlyReport = (props: MonthlyReportProps) => {
   ];
 
   const [sharedMinistry, setSharedMinistry] = useState(false);
+
+  const [totalOutOf50Hours, setTotalOutOf50Hours] = useState(true);
 
   const [countOfStudies, setCountOfStudies] = useState(0);
   const [countOfStudiesInBuffer, setCountOfStudiesInBuffer] = useState(0);
@@ -140,6 +144,10 @@ const MonthlyReport = (props: MonthlyReportProps) => {
     setCountOfStudies(studiesCounter + countOfStudiesInBuffer);
   }, [checkedLocalStudiesStatesList, countOfStudiesInBuffer, props.bibleStudiesList]);
 
+  const [localDurationInSeconds, setLocalDurationInSeconds] = useState(() => {
+    return props.record.hours_in_seconds;
+  });
+
   return (
     <Box
       sx={{
@@ -161,6 +169,73 @@ const MonthlyReport = (props: MonthlyReportProps) => {
         checked={sharedMinistry}
         onChange={() => setSharedMinistry((prev) => !prev)}
       />
+      {variant == 'pioneer' || variant == 'special-pioneer' ? (
+        <Box>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+            }}
+          >
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '4px',
+                justifyContent: 'center',
+              }}
+            >
+              <Box
+                sx={{
+                  display: 'flex',
+                  gap: '8px',
+                }}
+              >
+                <CustomTypography className="body-regular">{t('tr_total')}</CustomTypography>
+                {totalOutOf50Hours ? (
+                  <CustomBadge size={'medium'} text={t('tr_badgeGoalHours', { ministryTime: '50' })} color={'accent'} />
+                ) : null}
+              </Box>
+              <CustomTypography className="body-small-regular" color="var(--grey-350)">
+                {t('tr_includesServiceAndCredit')}
+              </CustomTypography>
+            </Box>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                minWidth: '168px',
+                maxWidth: '168px',
+                alignItems: 'center',
+              }}
+            >
+              <MinusButton onClick={null} />
+              <TextField
+                id="standard-basic"
+                variant="standard"
+                sx={{
+                  '.MuiInputBase-root::after, .MuiInputBase-root::before': { content: 'none' },
+                  '.MuiInputBase-root': {
+                    color: convertDurationInSecondsToString(null) != '00:00' ? 'var(--black)' : 'var(--grey-300)',
+                  },
+                  '.MuiInput-input': {
+                    textAlign: 'center',
+                    fontWeight: '550',
+                    lineHeight: '24px',
+                  },
+                }}
+                value={convertDurationInSecondsToString(null)}
+                onChange={(event) => {
+                  // setLocalDurationInSeconds(convertDurationStringToSeconds(event.target.value));
+                }}
+              />
+              <PlusButton onClick={null} />
+            </Box>
+          </Box>
+
+          <Box></Box>
+        </Box>
+      ) : null}
       {variant != 'empty' ? (
         <>
           <Box

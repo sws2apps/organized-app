@@ -5,17 +5,14 @@ import useBreakpoints from '@hooks/useBreakpoints';
 import { Box } from '@mui/material';
 import MonthlyReport from './components/monthly_report';
 import CustomButton from '@components/button';
-import { MinistryReportVariants } from './ministry_report.types';
+import { MinistryRecord } from './ministry_report.types';
 import { useMemo, useState } from 'react';
 import { EditAndAddBibleStudyContext } from '@features/ministry/EditAndAddBibleStudyContext';
 import DarkOverlay from '@components/dark_overlay';
 import PopUpForEditOrCreateBibleStudy from '@features/ministry/pop_up_for_edit_or_create_bible_study';
+import { getTmpMinistryRecords } from './_tmpMinistryRecords';
 
-const MinistryReport = (variant?: MinistryReportVariants) => {
-  if (!variant) {
-    variant = 'empty';
-  }
-
+const MinistryReport = () => {
   const { t } = useAppTranslation();
 
   const { desktopUp } = useBreakpoints();
@@ -53,6 +50,31 @@ const MinistryReport = (variant?: MinistryReportVariants) => {
 
   const [bibleStudiesList, setBibleStudiesList] = useState([] /** Connect to API */);
 
+  // This is test data for developers
+  // TODO: Connect to API
+  // You can uncomment, but this work with commit 0246d60dc2e3506a7648662e0c7ed2380a6091e1+
+  const [ministyDailyHistory, setMinistryDailyHistory] = useState(() => {
+    return getTmpMinistryRecords(10);
+  });
+
+  const userType = 'pioneer';
+
+  const getTotalRecordByDailyHistory = () => {
+    let ministryHoursInSeconds = 0;
+    let creditHoursInSeconds = 0;
+    let countOfStudies = 0;
+    const studies = [];
+
+    ministyDailyHistory.forEach((value, index) => {
+      ministryHoursInSeconds += value.count_of_bible_studies;
+      creditHoursInSeconds += value.credit_hours_in_seconds;
+      countOfStudies += value.count_of_bible_studies;
+      studies.concat(value.bible_studies);
+    });
+
+    return new MinistryRecord('', countOfStudies, ministryHoursInSeconds, creditHoursInSeconds, studies);
+  };
+
   return (
     <EditAndAddBibleStudyContext.Provider value={contextValue}>
       <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
@@ -84,7 +106,12 @@ const MinistryReport = (variant?: MinistryReportVariants) => {
 
         <Box sx={{ display: 'flex', gap: '16px', flexWrap: desktopUp ? 'nowrap' : 'wrap' }}>
           <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column', width: '100%', flexGrow: 1 }}>
-            <MonthlyReport variant="pioneer" bibleStudiesList={bibleStudiesList} months={null} />
+            <MonthlyReport
+              variant={ministyDailyHistory.length !== 0 ? userType : 'empty'}
+              bibleStudiesList={bibleStudiesList}
+              record={getTotalRecordByDailyHistory()}
+              months={null}
+            />
           </Box>
 
           <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column', width: '100%', flexGrow: 1 }}></Box>
