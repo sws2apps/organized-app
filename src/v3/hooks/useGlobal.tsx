@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { createTheme } from '@mui/material/styles';
-import { load } from '@fingerprintjs/fingerprintjs';
+import { getFingerprint } from '@thumbmarkjs/thumbmarkjs';
 import { useRecoilValue } from 'recoil';
 import { appSnackOpenState, congAccountConnectedState, isDarkThemeState, isOnlineState } from '@states/app';
 import logger from '@services/logger/index';
@@ -65,10 +65,7 @@ const useGlobal = () => {
   useEffect(() => {
     const getUserID = async () => {
       try {
-        const fp = await load();
-        const result = await fp.get();
-        const visitorId = result.visitorId;
-
+        const visitorId = await getFingerprint();
         await setVisitorID(visitorId);
         worker.postMessage({ field: 'visitorID', value: visitorId });
 
