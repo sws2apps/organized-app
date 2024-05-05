@@ -26,7 +26,6 @@
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
-    "@fingerprintjs/fingerprintjs": "^4.3.0",
     "@fontsource/roboto": "^5.0.13",
     "@mui/icons-material": "^5.15.16",
     "@mui/material": "^5.15.16",
@@ -35,6 +34,7 @@
     "@react-pdf/renderer": "^3.4.4",
     "@sws2apps/react-sw-helper": "^1.23.0",
     "@tanstack/react-query": "^5.32.1",
+    "@thumbmarkjs/thumbmarkjs": "^0.14.7",
     "comlink": "^4.4.1",
     "date-fns": "^2.30.0",
     "dateformat": "^5.0.3",
