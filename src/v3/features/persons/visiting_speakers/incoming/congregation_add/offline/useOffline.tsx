@@ -61,7 +61,7 @@ const useOffline = (onCongregationChange: (value: IncomingCongregationResponseTy
     } else {
       onCongregationChange(null);
     }
-  }, [congNameTmp, congNumberTmp, congCircuitTmp]);
+  }, [congNameTmp, congNumberTmp, congCircuitTmp, onCongregationChange]);
 
   return {
     isOnline,

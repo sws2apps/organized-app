@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import { useAppTranslation } from '@hooks/index';
 import { CongregationOfflineAddType } from './index.types';
 import useOffline from './useOffline';
 import CongregationSelector from '@components/congregation_selector';
