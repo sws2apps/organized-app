@@ -23,7 +23,6 @@ const useCongregationAdd = (onClose: VoidFunction) => {
   };
 
   const handleMoveNext = () => {
-    console.log(congregation);
     if (congregation === null) return;
 
     setIsFindCongregation(false);
