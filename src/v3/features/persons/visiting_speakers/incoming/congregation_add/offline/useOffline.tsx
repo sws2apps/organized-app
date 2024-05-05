@@ -46,22 +46,24 @@ const useOffline = (onCongregationChange: (value: IncomingCongregationResponseTy
   const handleCongCircuitChange = (value: string) => setCongCircuitTmp(value);
 
   useEffect(() => {
-    if (congNameTmp.length > 0 && congNumberTmp.length > 0 && congCircuitTmp.length > 0) {
-      const dataCong: IncomingCongregationResponseType = {
-        cong_name: congNameTmp,
-        cong_number: congNumberTmp,
-        country_code: '',
-        cong_circuit: congCircuitTmp,
-        cong_location: { address: '', lat: 0, lng: 0 },
-        midweek_meeting: { weekday: 2, time: '18:00:00' },
-        weekend_meeting: { weekday: 7, time: '9:00:00' },
-      };
+    if (!isOnline) {
+      if (congNameTmp.length > 0 && congNumberTmp.length > 0 && congCircuitTmp.length > 0) {
+        const dataCong: IncomingCongregationResponseType = {
+          cong_name: congNameTmp,
+          cong_number: congNumberTmp,
+          country_code: '',
+          cong_circuit: congCircuitTmp,
+          cong_location: { address: '', lat: 0, lng: 0 },
+          midweek_meeting: { weekday: 2, time: '18:00:00' },
+          weekend_meeting: { weekday: 7, time: '9:00:00' },
+        };
 
-      onCongregationChange(dataCong);
-    } else {
-      onCongregationChange(null);
+        onCongregationChange(dataCong);
+      } else {
+        onCongregationChange(null);
+      }
     }
-  }, [congNameTmp, congNumberTmp, congCircuitTmp, onCongregationChange]);
+  }, [congNameTmp, congNumberTmp, congCircuitTmp, onCongregationChange, isOnline]);
 
   return {
     isOnline,

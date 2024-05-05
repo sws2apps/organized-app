@@ -4,6 +4,8 @@ import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { appLangState, isAppLoadState } from '@states/app';
 import { LANGUAGE_LIST } from '@constants/index';
 import { getTranslation } from '@services/i18n/translation';
+import { FullnameOption } from '@definition/settings';
+import { dbAppSettingsUpdate } from '@services/dexie/settings';
 
 const useLanguage = () => {
   const { i18n } = useAppTranslation();
@@ -23,6 +25,12 @@ const useLanguage = () => {
   const handleLangChange = async (app_lang: string) => {
     setUserChange(true);
     setAppLangLocal(app_lang);
+
+    const fullnameOption =
+      LANGUAGE_LIST.find((record) => record.locale === app_lang).fullnameOption || FullnameOption.FIRST_BEFORE_LAST;
+    await dbAppSettingsUpdate({
+      'cong_settings.fullname_option': { value: fullnameOption, updatedAt: new Date().toISOString() },
+    });
 
     handleClose();
     window.location.reload();
