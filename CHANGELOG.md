@@ -1,3 +1,15 @@
+# [2.126.0](https://github.com/sws2apps/cpe-sws/compare/v2.125.0...v2.126.0) (2024-05-05)
+
+
+### Features
+
+* **app:** update library for fingerprinting ([5cfc255](https://github.com/sws2apps/cpe-sws/commit/5cfc25595f4ff4d612b171f6dd7e95a9e76e0543))
+* **deps:** bump @mui/icons-material from 5.15.15 to 5.15.16 ([f834112](https://github.com/sws2apps/cpe-sws/commit/f834112c5f256cb7e6da18d64138e56a15effb06))
+* **deps:** bump @mui/material from 5.15.15 to 5.15.16 ([46582a1](https://github.com/sws2apps/cpe-sws/commit/46582a19d37d30e73e900da57903e960592f8852))
+* **deps:** bump @mui/x-date-pickers from 7.3.1 to 7.3.2 ([cd3af18](https://github.com/sws2apps/cpe-sws/commit/cd3af188e0f2d96fc5a573a75e96e2065be2d6cf))
+* **deps:** bump @tanstack/react-query from 5.32.0 to 5.32.1 ([b89e9d1](https://github.com/sws2apps/cpe-sws/commit/b89e9d1311199c39f69962c5c52572f8bdc1352a))
+* **deps:** bump vite from 5.2.10 to 5.2.11 ([1ee1a48](https://github.com/sws2apps/cpe-sws/commit/1ee1a4854d10752ec0939d1023e2df1326e3d36e))
+
 # [2.125.0](https://github.com/sws2apps/cpe-sws/compare/v2.124.0...v2.125.0) (2024-04-30)
 
 
