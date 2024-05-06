@@ -3,6 +3,7 @@ import { useAppTranslation } from '@hooks/index';
 import { CongregationOfflineAddType } from './index.types';
 import useOffline from './useOffline';
 import CongregationSelector from '@components/congregation_selector';
+import CountrySelector from '@components/country_selector';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
 
@@ -10,7 +11,7 @@ const CongregationOfflineAdd = ({ onCongregationChange }: CongregationOfflineAdd
   const { t } = useAppTranslation();
 
   const {
-    countryCode,
+    country,
     isOnline,
     handleSelectCongregation,
     congNumber,
@@ -20,6 +21,9 @@ const CongregationOfflineAdd = ({ onCongregationChange }: CongregationOfflineAdd
     handleCongCircuitChange,
     handleCongNameChange,
     handleCongNumberChange,
+    handleCountryChange,
+    handleCongSearchOverride,
+    overrideOnline,
   } = useOffline(onCongregationChange);
 
   return (
@@ -28,16 +32,23 @@ const CongregationOfflineAdd = ({ onCongregationChange }: CongregationOfflineAdd
         {t('tr_addManualCongregationDesc')}
       </Typography>
 
-      {isOnline && (
-        <CongregationSelector
-          label={t('tr_searchCongregation')}
-          country_code={countryCode}
-          setCongregation={handleSelectCongregation}
-          cong_number={congNumber}
-        />
+      {isOnline && !overrideOnline && (
+        <>
+          <CountrySelector handleCountryChange={handleCountryChange} />
+          {country !== null && (
+            <CongregationSelector
+              freeSolo={true}
+              label={t('tr_searchCongregation')}
+              country_code={country.code}
+              setCongregation={handleSelectCongregation}
+              cong_number={congNumber}
+              freeSoloChange={handleCongSearchOverride}
+            />
+          )}
+        </>
       )}
 
-      {!isOnline && (
+      {(!isOnline || overrideOnline) && (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           <TextField
             label={t('tr_congregationName')}

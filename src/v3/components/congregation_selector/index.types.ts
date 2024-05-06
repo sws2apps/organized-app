@@ -5,4 +5,6 @@ export type CongregationSelectorType = {
   setCongregation: (value: CongregationResponseType) => void;
   label?: string;
   cong_number?: string;
+  freeSolo?: boolean;
+  freeSoloChange?: (cong_name: string) => void;
 };

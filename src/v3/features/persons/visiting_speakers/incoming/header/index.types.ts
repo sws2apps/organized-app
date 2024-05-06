@@ -1,5 +1,3 @@
-import { SpeakersCongregationsType } from '@definition/speakers_congregations';
-
 export type IncomingCongregationHeaderType = {
   expanded: boolean;
   onExpandChange: (value: string) => void;
