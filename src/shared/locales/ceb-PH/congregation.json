@@ -12,7 +12,6 @@
   "tr_amountApplied": "{{ amount }} na-apply",
   "tr_personsAmount": "Mga Tawo: {{ amount }}",
   "tr_recentlyViewed": "Bag-ong gitan-aw",
-  "tr_regularPioneer": "Regular pioneer",
   "tr_midweekStudent": "Estudyante sa Midweek",
   "tr_publisher": "Magmamantala",
   "tr_general": "General",
@@ -217,8 +216,6 @@
   "tr_wholeYearSetting": "Whole year",
   "tr_statistics": "Statistics",
   "tr_ministerialServant": "Ministerial servant",
-  "tr_specialPioneer": "Special pioneer",
-  "tr_fieldMissionary": "Field missionary",
   "tr_elder": "Elder",
   "tr_fulltimeServants": "Full-time servants",
   "tr_totalCount": "Total count",
@@ -383,5 +380,6 @@
   "tr_createCongregationMasterKey": "Create congregation master key",
   "tr_createMasterKeyIntroDesc": "This key securely encrypts your congregation's data, including reports and persons, and is required for administrative actions such as data export/import or making significant changed to settings.",
   "tr_hallC": "C",
-  "tr_FR": "Regular pioneer"
+  "tr_FR": "Regular pioneer",
+  "tr_FS": "Special pioneer"
 }

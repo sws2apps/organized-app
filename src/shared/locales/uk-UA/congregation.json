@@ -12,7 +12,6 @@
   "tr_amountApplied": "{{ amount }} застосовано",
   "tr_personsAmount": "Особи: {{ amount }}",
   "tr_recentlyViewed": "Недавно переглянуті",
-  "tr_regularPioneer": "Regular pioneer",
   "tr_midweekStudent": "Учень на зібранні серед тижня",
   "tr_publisher": "Publisher",
   "tr_general": "General",
@@ -217,8 +216,6 @@
   "tr_wholeYearSetting": "Whole year",
   "tr_statistics": "Statistics",
   "tr_ministerialServant": "Служитель збору",
-  "tr_specialPioneer": "Спеціальний піонер",
-  "tr_fieldMissionary": "Місіонер",
   "tr_elder": "Старійшина",
   "tr_fulltimeServants": "Повночасні служителі",
   "tr_totalCount": "Total count",
@@ -383,5 +380,6 @@
   "tr_createCongregationMasterKey": "Створи головний зборовий ключ",
   "tr_createMasterKeyIntroDesc": "Цей ключ безпечно шифрує дані вашого збору, включаючи звіти та осіб, і запитується для адміністративних дій, таких як експорт/імпорт даних або внесення значних змін в налаштування.",
   "tr_hallC": "3",
-  "tr_FR": "Regular pioneer"
+  "tr_FR": "Regular pioneer",
+  "tr_FS": "Special pioneer"
 }

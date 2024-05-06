@@ -12,7 +12,6 @@
   "tr_amountApplied": "{{ amount }} napili",
   "tr_personsAmount": "Mga tao: {{ amount }}",
   "tr_recentlyViewed": "Tinignan kamakailan",
-  "tr_regularPioneer": "Regular Pioneer",
   "tr_midweekStudent": "Estudyante ng midweek",
   "tr_publisher": "Publisher",
   "tr_general": "General",
@@ -217,8 +216,6 @@
   "tr_wholeYearSetting": "Buong taon",
   "tr_statistics": "Statistics",
   "tr_ministerialServant": "Ministerial Servant",
-  "tr_specialPioneer": "Special Pioneer",
-  "tr_fieldMissionary": "Field missionary",
   "tr_elder": "Elder",
   "tr_fulltimeServants": "Full-time servants",
   "tr_totalCount": "Kabuuang bilang",
@@ -383,5 +380,6 @@
   "tr_createCongregationMasterKey": "Create congregation master key",
   "tr_createMasterKeyIntroDesc": "This key securely encrypts your congregation's data, including reports and persons, and is required for administrative actions such as data export/import or making significant changed to settings.",
   "tr_hallC": "C",
-  "tr_FR": "Regular pioneer"
+  "tr_FR": "Regular pioneer",
+  "tr_FS": "Special pioneer"
 }
