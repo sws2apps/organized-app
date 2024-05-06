@@ -1,18 +1,20 @@
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { isOnlineState } from '@states/app';
-import { congNumberState, countryCodeState } from '@states/settings';
+import { congNumberState } from '@states/settings';
 import { CongregationResponseType, IncomingCongregationResponseType } from '@definition/api';
 import { removeSecondsFromTime } from '@utils/dev';
+import { CountryType } from '@components/country_selector/index.types';
 
 const useOffline = (onCongregationChange: (value: IncomingCongregationResponseType) => void) => {
   const isOnline = useRecoilValue(isOnlineState);
-  const countryCode = useRecoilValue(countryCodeState);
   const congNumber = useRecoilValue(congNumberState);
 
   const [congNameTmp, setCongNameTmp] = useState('');
   const [congNumberTmp, setCongNumberTmp] = useState('');
   const [congCircuitTmp, setCongCircuitTmp] = useState('');
+  const [country, setCountry] = useState<CountryType>(null);
+  const [overrideOnline, setOverrideOnline] = useState(false);
 
   const handleSelectCongregation = (value: CongregationResponseType) => {
     if (value === null) {
@@ -25,7 +27,7 @@ const useOffline = (onCongregationChange: (value: IncomingCongregationResponseTy
       cong_location: { address: value.address, ...value.location },
       cong_name: value.congName,
       cong_number: value.congNumber,
-      country_code: countryCode,
+      country_code: country.code,
       midweek_meeting: {
         weekday: value.midweekMeetingTime.weekday,
         time: removeSecondsFromTime(value.midweekMeetingTime.time),
@@ -45,8 +47,15 @@ const useOffline = (onCongregationChange: (value: IncomingCongregationResponseTy
 
   const handleCongCircuitChange = (value: string) => setCongCircuitTmp(value);
 
+  const handleCountryChange = (value: CountryType) => setCountry(value);
+
+  const handleCongSearchOverride = (value: string) => {
+    setCongNameTmp(value);
+    setOverrideOnline(true);
+  };
+
   useEffect(() => {
-    if (!isOnline) {
+    if (!isOnline || overrideOnline) {
       if (congNameTmp.length > 0 && congNumberTmp.length > 0 && congCircuitTmp.length > 0) {
         const dataCong: IncomingCongregationResponseType = {
           cong_name: congNameTmp,
@@ -54,8 +63,8 @@ const useOffline = (onCongregationChange: (value: IncomingCongregationResponseTy
           country_code: '',
           cong_circuit: congCircuitTmp,
           cong_location: { address: '', lat: 0, lng: 0 },
-          midweek_meeting: { weekday: 2, time: '18:00:00' },
-          weekend_meeting: { weekday: 7, time: '9:00:00' },
+          midweek_meeting: { weekday: 2, time: '18:00' },
+          weekend_meeting: { weekday: 7, time: '9:00' },
         };
 
         onCongregationChange(dataCong);
@@ -63,11 +72,11 @@ const useOffline = (onCongregationChange: (value: IncomingCongregationResponseTy
         onCongregationChange(null);
       }
     }
-  }, [congNameTmp, congNumberTmp, congCircuitTmp, onCongregationChange, isOnline]);
+  }, [congNameTmp, congNumberTmp, congCircuitTmp, onCongregationChange, isOnline, overrideOnline]);
 
   return {
     isOnline,
-    countryCode,
+    country: country,
     handleSelectCongregation,
     congNumber,
     handleCongNameChange,
@@ -76,6 +85,9 @@ const useOffline = (onCongregationChange: (value: IncomingCongregationResponseTy
     congNameTmp,
     congNumberTmp,
     congCircuitTmp,
+    handleCountryChange,
+    handleCongSearchOverride,
+    overrideOnline,
   };
 };
 
