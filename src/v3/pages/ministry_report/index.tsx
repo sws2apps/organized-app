@@ -5,12 +5,13 @@ import useBreakpoints from '@hooks/useBreakpoints';
 import { Box } from '@mui/material';
 import MonthlyReport from './components/monthly_report';
 import CustomButton from '@components/button';
-import { MinistryRecord } from './ministry_report.types';
-import { useMemo, useState } from 'react';
+import { MinistryRecord, MinistryReportVariants } from './ministry_report.types';
+import { useEffect, useMemo, useState } from 'react';
 import { EditAndAddBibleStudyContext } from '@features/ministry/EditAndAddBibleStudyContext';
 import DarkOverlay from '@components/dark_overlay';
 import PopUpForEditOrCreateBibleStudy from '@features/ministry/pop_up_for_edit_or_create_bible_study';
-import { getTmpMinistryRecords } from './_tmpMinistryRecords';
+// import { getTmpMinistryRecords } from './_tmpMinistryRecords';
+import DailyHistory from './components/daily_history';
 
 const MinistryReport = () => {
   const { t } = useAppTranslation();
@@ -50,14 +51,13 @@ const MinistryReport = () => {
 
   const [bibleStudiesList, setBibleStudiesList] = useState([] /** Connect to API */);
 
-  // This is test data for developers
   // TODO: Connect to API
-  // You can uncomment, but this work with commit 0246d60dc2e3506a7648662e0c7ed2380a6091e1+
   const [ministyDailyHistory, setMinistryDailyHistory] = useState(() => {
-    return getTmpMinistryRecords(10);
+    return [];
   });
 
-  const userType = 'pioneer';
+  // TODO: Connect to API
+  const userType: MinistryReportVariants = 'pioneer';
 
   const getTotalRecordByDailyHistory = () => {
     let ministryHoursInSeconds = 0;
@@ -65,14 +65,89 @@ const MinistryReport = () => {
     let countOfStudies = 0;
     const studies = [];
 
-    ministyDailyHistory.forEach((value, index) => {
-      ministryHoursInSeconds += value.count_of_bible_studies;
+    ministyDailyHistory.forEach((value) => {
+      ministryHoursInSeconds += value.hours_in_seconds;
       creditHoursInSeconds += value.credit_hours_in_seconds;
       countOfStudies += value.count_of_bible_studies;
       studies.concat(value.bible_studies);
     });
 
     return new MinistryRecord('', countOfStudies, ministryHoursInSeconds, creditHoursInSeconds, studies);
+  };
+
+  const getEmptyMinistryRecord = (): MinistryRecord => {
+    return new MinistryRecord(new Date().toString(), 0, 0, 0, []);
+  };
+
+  const [localRecordIndex, setLocalRecordIndex] = useState(null);
+  const [localOldRecord, setLocalOldRecord] = useState(null);
+  const [localRecord, setLocalRecord] = useState(null);
+
+  const onAddRecordButtonClick = () => {
+    // Clear previous data
+    setLocalRecordIndex(null);
+    setLocalOldRecord(null);
+    setLocalRecord(null);
+
+    setMinistryDailyHistory((prev) => {
+      const record = getEmptyMinistryRecord();
+      const updatedArray = [...prev, record];
+
+      setLocalRecordIndex(updatedArray.length - 1);
+      setLocalOldRecord(record);
+      setLocalRecord(record);
+
+      return updatedArray;
+    });
+  };
+
+  const MonthlyReportSelecter = () => {
+    if (ministyDailyHistory.length != 0) {
+      // -
+      if (localRecordIndex != null) {
+        // - ret for user 1
+        return (
+          <MonthlyReport
+            bibleStudiesList={bibleStudiesList}
+            months={null}
+            variant={userType}
+            record={localOldRecord}
+            forOneRecord={true}
+            onChange={(record) => {
+              setLocalRecord(record);
+            }}
+          />
+        );
+      }
+
+      // ret for total
+      return (
+        <MonthlyReport
+          bibleStudiesList={bibleStudiesList}
+          months={null}
+          variant={userType}
+          onChange={(record) => {
+            null;
+          }}
+          record={getTotalRecordByDailyHistory()}
+          forOneRecord={false}
+        />
+      );
+    }
+
+    // ret for empty
+    return (
+      <MonthlyReport
+        bibleStudiesList={bibleStudiesList}
+        months={null}
+        variant="empty"
+        onChange={(record) => {
+          null;
+        }}
+        record={getEmptyMinistryRecord()}
+        forOneRecord={true}
+      />
+    );
   };
 
   return (
@@ -106,15 +181,12 @@ const MinistryReport = () => {
 
         <Box sx={{ display: 'flex', gap: '16px', flexWrap: desktopUp ? 'nowrap' : 'wrap' }}>
           <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column', width: '100%', flexGrow: 1 }}>
-            <MonthlyReport
-              variant={ministyDailyHistory.length !== 0 ? userType : 'empty'}
-              bibleStudiesList={bibleStudiesList}
-              record={getTotalRecordByDailyHistory()}
-              months={null}
-            />
+            <MonthlyReportSelecter />
           </Box>
 
-          <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column', width: '100%', flexGrow: 1 }}></Box>
+          <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column', width: '100%', flexGrow: 1 }}>
+            <DailyHistory records={ministyDailyHistory} onAddButtonClick={onAddRecordButtonClick}></DailyHistory>
+          </Box>
         </Box>
       </Box>
 

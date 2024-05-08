@@ -1,4 +1,8 @@
-import { MinistryRecord, MinistryReportVariants } from '@pages/ministry_report/ministry_report.types';
+import {
+  MinistryRecord,
+  MinistryRecordObj,
+  MinistryReportVariants,
+} from '@pages/ministry_report/ministry_report.types';
 import { ReactElement } from 'react';
 
 export type MonthlyReportProps = {
@@ -26,6 +30,10 @@ export type MonthlyReportProps = {
     icon?: ReactElement;
   }[];
 
-  onChange?: (record: MinistryRecord) => void;
+  onChange: (record: MinistryRecordObj) => void;
   record: MinistryRecord;
+
+  showCreditHours?: boolean;
+
+  forOneRecord: boolean;
 };

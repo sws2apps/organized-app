@@ -3,21 +3,31 @@ import ScrollableTabs from '@components/scrollable_tabs';
 import CustomTextarea from '@components/textarea';
 import CustomTypography from '@components/typography';
 import useAppTranslation from '@hooks/useAppTranslation';
-import { Box, TextField } from '@mui/material';
-import { ReactElement, useContext, useEffect, useRef, useState } from 'react';
+import { Box, Divider, TextField } from '@mui/material';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { MonthlyReportProps } from './monthly_report.types';
 import { CustomDropdownContainer, CustomDropdownItem, CustomDropdownMenu } from '@components/dropdown';
 import CustomInfoMessage from '@components/info-message';
-import { IconAdd, IconCheck, IconClose, IconError } from '@components/icons';
-import { Badge, MiniChip, MinusButton, PlusButton } from '@components/index';
+import {
+  IconAdd,
+  IconError,
+  IconLanguageCourse,
+  IconPersonalDay,
+  IconSchool,
+  IconSchoolForEvangelizers,
+} from '@components/icons';
+import { MiniChip, MinusButton, PlusButton } from '@components/index';
 import { EditAndAddBibleStudyContext } from '@features/ministry/EditAndAddBibleStudyContext';
 import CustomBadge from '@components/badge';
-import { convertDurationInSecondsToString } from '@features/ministry/utils';
+import { convertDurationInSecondsToString, convertDurationStringToSeconds } from '@features/ministry/utils';
+import { hoursToSeconds } from 'date-fns';
 
 const MonthlyReport = (props: MonthlyReportProps) => {
   const { t } = useAppTranslation();
 
   const variant = props.variant || 'empty';
+
+  const showCreditHours = props.showCreditHours || false;
 
   const { editAndAddBibleStudyData, setEditAndAddBibleStudyData } = useContext(EditAndAddBibleStudyContext);
 
@@ -74,35 +84,38 @@ const MonthlyReport = (props: MonthlyReportProps) => {
 
   const [sharedMinistry, setSharedMinistry] = useState(false);
 
-  const [totalOutOf50Hours, setTotalOutOf50Hours] = useState(true);
+  const [totalOutOf_Hours, setTotalOutOf_Hours] = useState(0);
 
   const [countOfStudies, setCountOfStudies] = useState(0);
   const [countOfStudiesInBuffer, setCountOfStudiesInBuffer] = useState(0);
 
   const incrementCountOfStudiesInBuffer = () => {
-    setCountOfStudiesInBuffer(countOfStudiesInBuffer + 1);
+    setCountOfStudiesInBuffer((prev) => prev + 1);
   };
 
   const [infoMessageBoxOpen, setInfoMessageBoxOpen] = useState(false);
 
   const decrimentCountOfStudiesInBuffer = () => {
     if (countOfStudiesInBuffer != 0) {
-      setCountOfStudiesInBuffer(countOfStudiesInBuffer - 1);
+      setCountOfStudiesInBuffer((prev) => prev - 1);
     } else {
       setInfoMessageBoxOpen(true);
     }
   };
 
   const [dropdownWithStudiesOpen, setDropdownWithStudiesOpen] = useState(false);
+  const [dropdownWithSchoolsOpen, setDropdownWithSchoolsOpen] = useState(false);
 
   const dropdownWithStudiesReference = useRef(null);
+  const dropdownWithSchoolsReference = useRef(null);
   const dropdownWithStudiesOpenButtonReference = useRef(null);
+  const dropdownWithSchoolsOpenButtonReference = useRef(null);
 
   const [checkedLocalStudiesStatesList, setCheckedLocalStudiesStatesList] = useState(() => {
     return Array<boolean>(props.bibleStudiesList.length).fill(false);
   });
 
-  const getArrayWithCheckedStudies = (): string[] => {
+  const getArrayWithCheckedStudies = useCallback((): string[] => {
     const tmpArray = [];
 
     props.bibleStudiesList.forEach((value, index) => {
@@ -112,7 +125,7 @@ const MonthlyReport = (props: MonthlyReportProps) => {
     });
 
     return tmpArray;
-  };
+  }, [checkedLocalStudiesStatesList, props.bibleStudiesList]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -125,13 +138,23 @@ const MonthlyReport = (props: MonthlyReportProps) => {
       ) {
         setDropdownWithStudiesOpen(false);
       }
+
+      if (
+        dropdownWithSchoolsOpenButtonReference.current &&
+        !dropdownWithSchoolsOpenButtonReference.current.contains(event.target) &&
+        dropdownWithSchoolsOpen &&
+        dropdownWithSchoolsReference.current &&
+        !dropdownWithSchoolsReference.current.contains(event.target)
+      ) {
+        setDropdownWithSchoolsOpen(false);
+      }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [dropdownWithStudiesOpen]);
+  }, [dropdownWithStudiesOpen, dropdownWithSchoolsOpen]);
 
   useEffect(() => {
     let studiesCounter = 0;
@@ -144,9 +167,49 @@ const MonthlyReport = (props: MonthlyReportProps) => {
     setCountOfStudies(studiesCounter + countOfStudiesInBuffer);
   }, [checkedLocalStudiesStatesList, countOfStudiesInBuffer, props.bibleStudiesList]);
 
-  const [localDurationInSeconds, setLocalDurationInSeconds] = useState(() => {
-    return props.record.hours_in_seconds;
-  });
+  const [localCreditHoursDurationInSeconds, setLocalCreditHoursDurationInSeconds] = useState(0);
+
+  const incrementCreditHoursDuration = () => {
+    setLocalCreditHoursDurationInSeconds((prev) => prev + 3600);
+  };
+  const decrimentCreditHoursDuration = () => {
+    if (convertDurationInSecondsToString(localCreditHoursDurationInSeconds) != '00:00') {
+      setLocalCreditHoursDurationInSeconds((prev) => prev - 3600);
+    }
+  };
+
+  const [localDurationInSeconds, setLocalDurationInSeconds] = useState(props.record.hours_in_seconds);
+
+  const incrementLocalDurationInSeconds = () => {
+    setLocalDurationInSeconds((prev) => prev + 3600);
+  };
+
+  const decrimentLocalDurationInSeconds = () => {
+    if (localDurationInSeconds != 0) {
+      setLocalDurationInSeconds((prev) => prev - 3600);
+    }
+  };
+
+  useEffect(() => {
+    if (localDurationInSeconds > 50 * 3600) {
+      setTotalOutOf_Hours(50);
+
+      if (localDurationInSeconds > 100 * 3600) {
+        setTotalOutOf_Hours(100);
+      }
+    }
+  }, [localDurationInSeconds]);
+
+  useEffect(() => {
+    // Call the onChange function with the updated MinistryRecord data
+    props.onChange({
+      date_of_creation: '',
+      count_of_bible_studies: countOfStudies,
+      hours_in_seconds: localDurationInSeconds,
+      credit_hours_in_seconds: localCreditHoursDurationInSeconds,
+      bible_studies: getArrayWithCheckedStudies(),
+    });
+  }, [countOfStudies, getArrayWithCheckedStudies, localCreditHoursDurationInSeconds, localDurationInSeconds, props]);
 
   return (
     <Box
@@ -164,13 +227,27 @@ const MonthlyReport = (props: MonthlyReportProps) => {
         {t('tr_monthlyReport')}
       </CustomTypography>
       <ScrollableTabs tabs={months} />
-      <CustomCheckbox
-        label={t('tr_sharedMinistry')}
-        checked={sharedMinistry}
-        onChange={() => setSharedMinistry((prev) => !prev)}
-      />
+      {variant == 'pioneer' || variant == 'special-pioneer' ? null : (
+        <CustomCheckbox
+          label={t('tr_sharedMinistry')}
+          checked={sharedMinistry}
+          onChange={() => setSharedMinistry((prev) => !prev)}
+        />
+      )}
       {variant == 'pioneer' || variant == 'special-pioneer' ? (
-        <Box>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '12px',
+          }}
+        >
+          <Divider
+            sx={{
+              border: '1px solid var(--accent-200)',
+            }}
+          />
+
           <Box
             sx={{
               display: 'flex',
@@ -192,13 +269,19 @@ const MonthlyReport = (props: MonthlyReportProps) => {
                 }}
               >
                 <CustomTypography className="body-regular">{t('tr_total')}</CustomTypography>
-                {totalOutOf50Hours ? (
-                  <CustomBadge size={'medium'} text={t('tr_badgeGoalHours', { ministryTime: '50' })} color={'accent'} />
+                {totalOutOf_Hours != 0 ? (
+                  <CustomBadge
+                    size={'medium'}
+                    text={t('tr_badgeGoalHours', { ministryTime: totalOutOf_Hours })}
+                    color={'accent'}
+                  />
                 ) : null}
               </Box>
-              <CustomTypography className="body-small-regular" color="var(--grey-350)">
-                {t('tr_includesServiceAndCredit')}
-              </CustomTypography>
+              {!props.forOneRecord ? (
+                <CustomTypography className="body-small-regular" color="var(--grey-350)">
+                  {t('tr_includesServiceAndCredit')}
+                </CustomTypography>
+              ) : null}
             </Box>
             <Box
               sx={{
@@ -209,14 +292,17 @@ const MonthlyReport = (props: MonthlyReportProps) => {
                 alignItems: 'center',
               }}
             >
-              <MinusButton onClick={null} />
+              <MinusButton onClick={decrimentLocalDurationInSeconds} />
               <TextField
                 id="standard-basic"
                 variant="standard"
                 sx={{
                   '.MuiInputBase-root::after, .MuiInputBase-root::before': { content: 'none' },
                   '.MuiInputBase-root': {
-                    color: convertDurationInSecondsToString(null) != '00:00' ? 'var(--black)' : 'var(--grey-300)',
+                    color:
+                      convertDurationInSecondsToString(localDurationInSeconds) != '00:00'
+                        ? 'var(--black)'
+                        : 'var(--grey-300)',
                   },
                   '.MuiInput-input': {
                     textAlign: 'center',
@@ -224,16 +310,146 @@ const MonthlyReport = (props: MonthlyReportProps) => {
                     lineHeight: '24px',
                   },
                 }}
-                value={convertDurationInSecondsToString(null)}
+                value={convertDurationInSecondsToString(localDurationInSeconds)}
                 onChange={(event) => {
-                  // setLocalDurationInSeconds(convertDurationStringToSeconds(event.target.value));
+                  setLocalDurationInSeconds(convertDurationStringToSeconds(event.target.value));
                 }}
               />
-              <PlusButton onClick={null} />
+              <PlusButton onClick={incrementLocalDurationInSeconds} />
             </Box>
           </Box>
 
-          <Box></Box>
+          <Divider
+            sx={{
+              border: showCreditHours ? '1px dashed var(--accent-200)' : '1px solid var(--accent-200)',
+            }}
+          />
+
+          {showCreditHours ? (
+            <>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                }}
+              >
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '4px',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      gap: '8px',
+                    }}
+                  >
+                    <CustomDropdownContainer
+                      open={dropdownWithSchoolsOpen}
+                      label={t('tr_creditHours')}
+                      onClick={() => setDropdownWithSchoolsOpen((prev) => !prev)}
+                      reference={dropdownWithSchoolsOpenButtonReference}
+                    />
+
+                    <CustomDropdownMenu
+                      reference={dropdownWithSchoolsReference}
+                      open={dropdownWithSchoolsOpen}
+                      anchorElement={dropdownWithSchoolsOpenButtonReference.current}
+                      width={document.getElementById('AQdwN')?.offsetWidth + 'px'}
+                      zIndex={(theme) => theme.zIndex.drawer + 3}
+                      placement="bottom-start"
+                    >
+                      <CustomDropdownItem
+                        variant="schools"
+                        label={t('tr_pioneerSchool')}
+                        description={t('tr_ministryTimeHours', { ministryTime: 30 })}
+                        icon={<IconSchool />}
+                        checked={false}
+                        callback={() => setLocalCreditHoursDurationInSeconds(hoursToSeconds(30))}
+                      />
+                      <CustomDropdownItem
+                        variant="schools"
+                        label={t('tr_SKE')}
+                        description={t('tr_ministryTimeHours', { ministryTime: 80 })}
+                        icon={<IconSchoolForEvangelizers />}
+                        checked={false}
+                        callback={() => setLocalCreditHoursDurationInSeconds(hoursToSeconds(80))}
+                      />
+                      <CustomDropdownItem
+                        variant="schools"
+                        label={t('tr_languageCourse')}
+                        description={t('tr_ministryTimeHours', { ministryTime: 25 })}
+                        icon={<IconLanguageCourse />}
+                        checked={false}
+                        callback={() => setLocalCreditHoursDurationInSeconds(hoursToSeconds(25))}
+                      />
+                      <CustomDropdownItem
+                        variant="schools"
+                        label={t('tr_personalDay')}
+                        description={t('tr_ministryTimeHours', { ministryTime: 5 })}
+                        icon={<IconPersonalDay />}
+                        checked={false}
+                        sx={{
+                          borderBottom: 'none',
+                        }}
+                        callback={() => setLocalCreditHoursDurationInSeconds(hoursToSeconds(5))}
+                      />
+                    </CustomDropdownMenu>
+                    {totalOutOf_Hours != 0 ? (
+                      <CustomBadge
+                        size={'medium'}
+                        text={t('tr_badgeGoalHours', { ministryTime: totalOutOf_Hours })}
+                        color={'accent'}
+                      />
+                    ) : null}
+                  </Box>
+                </Box>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    minWidth: '168px',
+                    maxWidth: '168px',
+                    alignItems: 'center',
+                  }}
+                >
+                  <MinusButton onClick={decrimentCreditHoursDuration} />
+                  <TextField
+                    id="standard-basic"
+                    variant="standard"
+                    sx={{
+                      '.MuiInputBase-root::after, .MuiInputBase-root::before': { content: 'none' },
+                      '.MuiInputBase-root': {
+                        color:
+                          convertDurationInSecondsToString(localCreditHoursDurationInSeconds) != '00:00'
+                            ? 'var(--black)'
+                            : 'var(--grey-300)',
+                      },
+                      '.MuiInput-input': {
+                        textAlign: 'center',
+                        fontWeight: '550',
+                        lineHeight: '24px',
+                      },
+                    }}
+                    value={convertDurationInSecondsToString(localCreditHoursDurationInSeconds)}
+                    onChange={(event) => {
+                      setLocalCreditHoursDurationInSeconds(convertDurationStringToSeconds(event.target.value));
+                    }}
+                  />
+                  <PlusButton onClick={incrementCreditHoursDuration} />
+                </Box>
+              </Box>
+
+              <Divider
+                sx={{
+                  border: '1px solid var(--accent-200)',
+                }}
+              />
+            </>
+          ) : null}
         </Box>
       ) : null}
       {variant != 'empty' ? (

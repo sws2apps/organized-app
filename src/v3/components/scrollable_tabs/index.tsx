@@ -60,17 +60,18 @@ function ScrollableTabs({ tabs }: CustomTabProps) {
               label={label}
               key={label}
               icon={icon}
-              iconPosition='end'
+              iconPosition="end"
               sx={{
                 fontSize: 16,
+                textTransform: 'capitalize',
                 ':not(&.Mui-selected)': { fontWeight: 400 },
-                '&.Mui-Selected': { 
-                  fontWeight: 600, 
+                '&.Mui-Selected': {
+                  fontWeight: 600,
                   fontSize: 18,
                 },
-                'path': {
+                path: {
                   fill: 'var(--accent-main)',
-                }
+                },
               }}
             />
           )

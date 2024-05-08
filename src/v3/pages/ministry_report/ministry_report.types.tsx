@@ -54,8 +54,44 @@ export class MinistryRecord {
    * Converts the MinistryRecord object to its string representation.
    * @returns A string representation of the MinistryRecord object.
    */
-  toString() {
+  toString(): string {
     return `{date_of_creation: "${this.date_of_creation}", count_of_bible_studies: ${this.count_of_bible_studies}, 
     hours_in_seconds: ${this.hours_in_seconds}, credit_hours_in_seconds: ${this.credit_hours_in_seconds}, bible_studies: ${this.bible_studies.toString()}}`;
   }
+
+  isEmpty(): boolean {
+    if (
+      this.date_of_creation == '' &&
+      this.bible_studies.length == 0 &&
+      this.count_of_bible_studies == 0 &&
+      this.hours_in_seconds == 0 &&
+      this.credit_hours_in_seconds == 0
+    ) {
+      return true;
+    }
+    return false;
+  }
 }
+
+export type MinistryRecordObj = {
+  /**
+   * Date of creation of the ministry record.
+   */
+  date_of_creation: string;
+  /**
+   * Count of bible studies conducted.
+   */
+  count_of_bible_studies: number;
+  /**
+   * Total hours spent in seconds.
+   */
+  hours_in_seconds: number;
+  /**
+   * Total credit hours in seconds.
+   */
+  credit_hours_in_seconds: number;
+  /**
+   * List of bible studies conducted.
+   */
+  bible_studies: string[];
+};
