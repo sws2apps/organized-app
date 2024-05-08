@@ -5,7 +5,7 @@
   "tr_btnAdd": "Добавить",
   "tr_creditHours": "Кредитные часы",
   "tr_addNewStudy": "Добавить новое библейское изучение",
-  "tr_editBibleStudy": "Edit Bible study",
+  "tr_editBibleStudy": "Редактировать изучение Библии",
   "tr_pioneerSchool": "Школа пионеров",
   "tr_ministryTimeHours": "{{ ministryTime }} часов",
   "tr_SKE": "School for Kingdom Evangelizers",
@@ -95,5 +95,5 @@
   "tr_cantDeductStudiesDesc": "You can’t select fewer Bible studies than you already have selected in the “Individual Bible studies” dropdown menu. ",
   "tr_cantDeductStudiesTitle": "Cannot deduct Bible studies",
   "tr_includesServiceAndCredit": "Includes field service and credit hours",
-  "tr_noDailyRecordsDesc": "No daily service records yet. Add the record to include it in your monthly report."
+  "tr_noDailyRecordsDesc": "У тебя еще нет ежедневных записей о служении. Добавь запись, чтобы включить её в свой ежемесячный отчет."
 }
