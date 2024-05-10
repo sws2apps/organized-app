@@ -5,13 +5,18 @@ import useBreakpoints from '@hooks/useBreakpoints';
 import { Box } from '@mui/material';
 import MonthlyReport from './components/monthly_report';
 import CustomButton from '@components/button';
-import { MinistryRecord, MinistryReportVariants } from './ministry_report.types';
-import { useEffect, useMemo, useState } from 'react';
+import { MinistryRecord, MinistryRecordActionMode, MinistryReportVariants } from './ministry_report.types';
+import { useMemo, useRef, useState } from 'react';
 import { EditAndAddBibleStudyContext } from '@features/ministry/EditAndAddBibleStudyContext';
 import DarkOverlay from '@components/dark_overlay';
 import PopUpForEditOrCreateBibleStudy from '@features/ministry/pop_up_for_edit_or_create_bible_study';
 // import { getTmpMinistryRecords } from './_tmpMinistryRecords';
 import DailyHistory from './components/daily_history';
+import { convertDurationStringToSeconds } from '@features/ministry/utils';
+import { AddServiceTimeModalWindow } from '@features/index';
+import { secondsToHours, secondsToMinutes } from 'date-fns';
+import TransferMinutesPopUp from './components/transfer_minutes_popup';
+import { TransferMinutesVariant } from './components/transfer_minutes_popup/transfer_minutes_popup.types';
 
 const MinistryReport = () => {
   const { t } = useAppTranslation();
@@ -19,7 +24,39 @@ const MinistryReport = () => {
   const { desktopUp } = useBreakpoints();
 
   const handleTheConfirmReport = () => {
+    const totalRecord = getTotalRecordByDailyHistory();
+
+    const hoursInSeconds = secondsToHours(totalRecord.hours_in_seconds) * 3600;
+    const floorMinutes = secondsToMinutes(totalRecord.hours_in_seconds - hoursInSeconds);
+
+    if (floorMinutes > 0) {
+      setExtraMinutes(floorMinutes);
+      setTransferMinutesPopUpOpen(true);
+    } else {
+      confirmReport();
+    }
+  };
+
+  // TODO: Connect API | Add next stages (Out)
+  const confirmReport = () => {
+    const totalRecord = getTotalRecordByDailyHistory();
+    const reportExtraMinutes = extraMinutes;
+    const reportActionWithExtraMinutes = actionWithExtraMinutes;
+    const reportComment = comment;
+
     setReportSubmitted(true);
+  };
+
+  const handleTheTransferButtonClick = () => {
+    setActionWithExtraMinutes('transfer');
+    setTransferMinutesPopUpOpen(false);
+    confirmReport();
+  };
+
+  const handleTheKeepItButtonClick = () => {
+    setActionWithExtraMinutes('keep');
+    setTransferMinutesPopUpOpen(false);
+    confirmReport();
   };
 
   const handleTheUndoSubmission = () => {
@@ -27,6 +64,10 @@ const MinistryReport = () => {
   };
 
   const [reportSubmitted, setReportSubmitted] = useState(false);
+
+  const [transferMinutesPopUpOpen, setTransferMinutesPopUpOpen] = useState(false);
+  const [actionWithExtraMinutes, setActionWithExtraMinutes] = useState<TransferMinutesVariant>(null);
+  const [extraMinutes, setExtraMinutes] = useState(0);
 
   const defaultEAABSValue = {
     darkOverlayOpen: false,
@@ -79,76 +120,61 @@ const MinistryReport = () => {
     return new MinistryRecord(new Date().toString(), 0, 0, 0, []);
   };
 
-  const [localRecordIndex, setLocalRecordIndex] = useState(null);
-  const [localOldRecord, setLocalOldRecord] = useState(null);
-  const [localRecord, setLocalRecord] = useState(null);
+  const [recordActionMode, setRecordActionMode] = useState<MinistryRecordActionMode>('add');
 
   const onAddRecordButtonClick = () => {
-    // Clear previous data
-    setLocalRecordIndex(null);
-    setLocalOldRecord(null);
-    setLocalRecord(null);
-
-    setMinistryDailyHistory((prev) => {
-      const record = getEmptyMinistryRecord();
-      const updatedArray = [...prev, record];
-
-      setLocalRecordIndex(updatedArray.length - 1);
-      setLocalOldRecord(record);
-      setLocalRecord(record);
-
-      return updatedArray;
-    });
+    setRecordActionMode('add');
+    setAddServiceTimeModalWindowOpen(true);
   };
+
+  const [bufferRecord, setBufferRecord] = useState({
+    record: getEmptyMinistryRecord(),
+    index: null,
+  });
+
+  const onEditButtonClick = (value, index) => {
+    setRecordActionMode('edit');
+    setBufferRecord({
+      record: value,
+      index: index,
+    });
+    setAddServiceTimeModalWindowOpen(true);
+  };
+
+  const [comment, setComment] = useState('');
 
   const MonthlyReportSelecter = () => {
     if (ministyDailyHistory.length != 0) {
-      // -
-      if (localRecordIndex != null) {
-        // - ret for user 1
-        return (
-          <MonthlyReport
-            bibleStudiesList={bibleStudiesList}
-            months={null}
-            variant={userType}
-            record={localOldRecord}
-            forOneRecord={true}
-            onChange={(record) => {
-              setLocalRecord(record);
-            }}
-          />
-        );
-      }
-
-      // ret for total
       return (
         <MonthlyReport
-          bibleStudiesList={bibleStudiesList}
           months={null}
           variant={userType}
-          onChange={(record) => {
-            null;
-          }}
           record={getTotalRecordByDailyHistory()}
-          forOneRecord={false}
+          commentOnChange={(value) => setComment(value)}
         />
       );
     }
-
-    // ret for empty
     return (
       <MonthlyReport
-        bibleStudiesList={bibleStudiesList}
         months={null}
         variant="empty"
-        onChange={(record) => {
-          null;
-        }}
         record={getEmptyMinistryRecord()}
-        forOneRecord={true}
+        commentOnChange={(value) => setComment(value)}
       />
     );
   };
+
+  const [durationInSeconds, setDurationInSeconds] = useState(() => {
+    return convertDurationStringToSeconds('00:00');
+  });
+
+  const resetDurationToNull = () => {
+    setDurationInSeconds(convertDurationStringToSeconds('00:00'));
+  };
+
+  const [addServiceTimeModalWindowOpen, setAddServiceTimeModalWindowOpen] = useState(false);
+
+  const addServiceTimeModalWindowRef = useRef(null);
 
   return (
     <EditAndAddBibleStudyContext.Provider value={contextValue}>
@@ -185,18 +211,54 @@ const MinistryReport = () => {
           </Box>
 
           <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column', width: '100%', flexGrow: 1 }}>
-            <DailyHistory records={ministyDailyHistory} onAddButtonClick={onAddRecordButtonClick}></DailyHistory>
+            <DailyHistory
+              records={ministyDailyHistory}
+              onAddButtonClick={onAddRecordButtonClick}
+              onEditButtonClick={onEditButtonClick}
+            ></DailyHistory>
           </Box>
         </Box>
       </Box>
 
-      <DarkOverlay overlayIsOpened={editAndAddBibleStudyData.darkOverlayOpen}>
-        {/** Connect to API */}
+      <DarkOverlay overlayIsOpened={addServiceTimeModalWindowOpen}>
+        {/** TODO: Connect to API  | Add variant */}
+        <AddServiceTimeModalWindow
+          showCreditHours={true}
+          duration={durationInSeconds}
+          bibleStudiesList={bibleStudiesList}
+          cancelButtonClick={() => {
+            setAddServiceTimeModalWindowOpen(false);
+            setEditAndAddBibleStudyData(defaultEAABSValue);
+          }}
+          mode={recordActionMode}
+          recordForEdit={recordActionMode == 'edit' ? bufferRecord.record : getEmptyMinistryRecord()}
+          addButtonClick={() => {
+            resetDurationToNull();
+            setAddServiceTimeModalWindowOpen(false);
+          }}
+          result={(result) => {
+            if (recordActionMode == 'add') {
+              setMinistryDailyHistory((prev) => {
+                const updatedArray = [...prev, result];
+                return updatedArray;
+              });
+            } else {
+              setMinistryDailyHistory((prev) => {
+                const updatedArray = [...prev];
+                updatedArray[bufferRecord.index] = result;
+                return updatedArray;
+              });
+            }
+          }}
+          open={true}
+          reference={addServiceTimeModalWindowRef}
+          date={new Date()}
+        />
         <PopUpForEditOrCreateBibleStudy
           variant={editAndAddBibleStudyData.variant as 'add' | 'edit'}
           value={editAndAddBibleStudyData.itemValue}
           open={editAndAddBibleStudyData.popUpWindowOpen}
-          width="100%"
+          width={addServiceTimeModalWindowRef.current?.offsetWidth + 'px'}
           cancelButtonClick={() => {
             if (editAndAddBibleStudyData.variant == 'edit') {
               setBibleStudiesList((prev) => {
@@ -223,6 +285,14 @@ const MinistryReport = () => {
 
             setEditAndAddBibleStudyData(defaultEAABSValue);
           }}
+        />
+      </DarkOverlay>
+
+      <DarkOverlay overlayIsOpened={transferMinutesPopUpOpen}>
+        <TransferMinutesPopUp
+          extraMinutes={extraMinutes}
+          transferButtonClick={handleTheTransferButtonClick}
+          keepButtonClick={handleTheKeepItButtonClick}
         />
       </DarkOverlay>
     </EditAndAddBibleStudyContext.Provider>

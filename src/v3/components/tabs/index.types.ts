@@ -44,4 +44,14 @@ export interface CustomTabProps extends TabProps {
      */
     icon?: ReactElement;
   }[];
+
+  /**
+   * The index of the currently selected tab.
+   */
+  selected?: number;
+
+  /**
+   * A boolean indicating whether to display the indicator.
+   */
+  indicatorMode?: boolean;
 }

@@ -16,27 +16,52 @@ export const Months = [
   'tr_december',
 ];
 
-const getDayIndex = (dateString: string): number => {
+/**
+ * Get the index of the day in a week (0 for Sunday, 1 for Monday, etc.).
+ * @param dateString The string representation of the date.
+ * @returns The index of the day in a week.
+ */
+export const getDayIndex = (dateString: string): number => {
   const date = new Date(dateString);
   return date.getUTCDay();
 };
 
-const getDayNumberInMonth = (dateString: string): number => {
+/**
+ * Get the day number in the month.
+ * @param dateString The string representation of the date.
+ * @returns The day number in the month.
+ */
+export const getDayNumberInMonth = (dateString: string): number => {
   const date = new Date(dateString);
   const dayOfMonth = date.getDate();
   return dayOfMonth;
 };
 
-const getMonthIndexFromDate = (dateString: string): number => {
+/**
+ * Get the index of the month in a year (0 for January, 1 for February, etc.).
+ * @param dateString The string representation of the date.
+ * @returns The index of the month in a year.
+ */
+export const getMonthIndexFromDate = (dateString: string): number => {
   const date = new Date(dateString);
   return date.getMonth();
 };
 
-function getYearFromDate(dateString: string): number {
+/**
+ * Get the year from the date.
+ * @param dateString The string representation of the date.
+ * @returns The year.
+ */
+export function getYearFromDate(dateString: string): number {
   const date = new Date(dateString);
   return date.getFullYear();
 }
 
+/**
+ * Format the date string for daily history display.
+ * @param dateString The string representation of the date.
+ * @returns The formatted date string.
+ */
 export const FormatStringForDailyHistory = (dateString: string) => {
   const { t } = useAppTranslation();
 

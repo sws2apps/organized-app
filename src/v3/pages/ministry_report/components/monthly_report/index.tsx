@@ -3,25 +3,32 @@ import ScrollableTabs from '@components/scrollable_tabs';
 import CustomTextarea from '@components/textarea';
 import CustomTypography from '@components/typography';
 import useAppTranslation from '@hooks/useAppTranslation';
-import { Box, Divider, TextField } from '@mui/material';
-import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { Box, Divider } from '@mui/material';
+import { useEffect, useRef, useState } from 'react';
 import { MonthlyReportProps } from './monthly_report.types';
-import { CustomDropdownContainer, CustomDropdownItem, CustomDropdownMenu } from '@components/dropdown';
+// import { CustomDropdownContainer, CustomDropdownItem, CustomDropdownMenu } from '@components/dropdown';
 import CustomInfoMessage from '@components/info-message';
 import {
-  IconAdd,
+  // IconAdd,
   IconError,
-  IconLanguageCourse,
-  IconPersonalDay,
-  IconSchool,
-  IconSchoolForEvangelizers,
+  // IconLanguageCourse,
+  // IconPersonalDay,
+  // IconSchool,
+  // IconSchoolForEvangelizers,
 } from '@components/icons';
-import { MiniChip, MinusButton, PlusButton } from '@components/index';
-import { EditAndAddBibleStudyContext } from '@features/ministry/EditAndAddBibleStudyContext';
+import { MiniChip } from '@components/index';
+// import { EditAndAddBibleStudyContext } from '@features/ministry/EditAndAddBibleStudyContext';
 import CustomBadge from '@components/badge';
-import { convertDurationInSecondsToString, convertDurationStringToSeconds } from '@features/ministry/utils';
-import { hoursToSeconds } from 'date-fns';
+import { convertDurationInSecondsToString } from '@features/ministry/utils';
+import { getMonthIndexFromDate } from '@pages/ministry_report/utils';
+// import { hoursToSeconds } from 'date-fns';
 
+/**
+ * MonthlyReport component displays a monthly report for ministry activities.
+ * It includes various sections such as tabs for selecting months, options for shared ministry, credit hours, and comments.
+ * This component is customizable based on the MonthlyReportProps provided.
+ * @param props MonthlyReportProps containing the configuration and data for the component.
+ */
 const MonthlyReport = (props: MonthlyReportProps) => {
   const { t } = useAppTranslation();
 
@@ -29,7 +36,10 @@ const MonthlyReport = (props: MonthlyReportProps) => {
 
   const showCreditHours = props.showCreditHours || false;
 
-  const { editAndAddBibleStudyData, setEditAndAddBibleStudyData } = useContext(EditAndAddBibleStudyContext);
+  // TODO: If you want add Minus and Plus button,
+  // uncomment all comments in this file, where you see code.
+
+  // const { editAndAddBibleStudyData, setEditAndAddBibleStudyData } = useContext(EditAndAddBibleStudyContext);
 
   const months = props.months || [
     {
@@ -86,22 +96,22 @@ const MonthlyReport = (props: MonthlyReportProps) => {
 
   const [totalOutOf_Hours, setTotalOutOf_Hours] = useState(0);
 
-  const [countOfStudies, setCountOfStudies] = useState(0);
-  const [countOfStudiesInBuffer, setCountOfStudiesInBuffer] = useState(0);
+  const [countOfStudies, setCountOfStudies] = useState(props.record.count_of_bible_studies);
+  // const [countOfStudiesInBuffer, setCountOfStudiesInBuffer] = useState(0);
 
-  const incrementCountOfStudiesInBuffer = () => {
-    setCountOfStudiesInBuffer((prev) => prev + 1);
-  };
+  // const incrementCountOfStudiesInBuffer = () => {
+  //   setCountOfStudiesInBuffer((prev) => prev + 1);
+  // };
 
   const [infoMessageBoxOpen, setInfoMessageBoxOpen] = useState(false);
 
-  const decrimentCountOfStudiesInBuffer = () => {
-    if (countOfStudiesInBuffer != 0) {
-      setCountOfStudiesInBuffer((prev) => prev - 1);
-    } else {
-      setInfoMessageBoxOpen(true);
-    }
-  };
+  // const decrimentCountOfStudiesInBuffer = () => {
+  //   if (countOfStudiesInBuffer != 0) {
+  //     setCountOfStudiesInBuffer((prev) => prev - 1);
+  //   } else {
+  //     setInfoMessageBoxOpen(true);
+  //   }
+  // };
 
   const [dropdownWithStudiesOpen, setDropdownWithStudiesOpen] = useState(false);
   const [dropdownWithSchoolsOpen, setDropdownWithSchoolsOpen] = useState(false);
@@ -110,22 +120,6 @@ const MonthlyReport = (props: MonthlyReportProps) => {
   const dropdownWithSchoolsReference = useRef(null);
   const dropdownWithStudiesOpenButtonReference = useRef(null);
   const dropdownWithSchoolsOpenButtonReference = useRef(null);
-
-  const [checkedLocalStudiesStatesList, setCheckedLocalStudiesStatesList] = useState(() => {
-    return Array<boolean>(props.bibleStudiesList.length).fill(false);
-  });
-
-  const getArrayWithCheckedStudies = useCallback((): string[] => {
-    const tmpArray = [];
-
-    props.bibleStudiesList.forEach((value, index) => {
-      if (checkedLocalStudiesStatesList[index]) {
-        tmpArray.push(props.bibleStudiesList[index]);
-      }
-    });
-
-    return tmpArray;
-  }, [checkedLocalStudiesStatesList, props.bibleStudiesList]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -156,39 +150,28 @@ const MonthlyReport = (props: MonthlyReportProps) => {
     };
   }, [dropdownWithStudiesOpen, dropdownWithSchoolsOpen]);
 
-  useEffect(() => {
-    let studiesCounter = 0;
-    props.bibleStudiesList.forEach((value, index) => {
-      if (checkedLocalStudiesStatesList[index]) {
-        studiesCounter++;
-      }
-    });
-
-    setCountOfStudies(studiesCounter + countOfStudiesInBuffer);
-  }, [checkedLocalStudiesStatesList, countOfStudiesInBuffer, props.bibleStudiesList]);
-
   const [localCreditHoursDurationInSeconds, setLocalCreditHoursDurationInSeconds] = useState(0);
 
-  const incrementCreditHoursDuration = () => {
-    setLocalCreditHoursDurationInSeconds((prev) => prev + 3600);
-  };
-  const decrimentCreditHoursDuration = () => {
-    if (convertDurationInSecondsToString(localCreditHoursDurationInSeconds) != '00:00') {
-      setLocalCreditHoursDurationInSeconds((prev) => prev - 3600);
-    }
-  };
+  // const incrementCreditHoursDuration = () => {
+  //   setLocalCreditHoursDurationInSeconds((prev) => prev + 3600);
+  // };
+  // const decrimentCreditHoursDuration = () => {
+  //   if (convertDurationInSecondsToString(localCreditHoursDurationInSeconds) != '00:00') {
+  //     setLocalCreditHoursDurationInSeconds((prev) => prev - 3600);
+  //   }
+  // };
 
   const [localDurationInSeconds, setLocalDurationInSeconds] = useState(props.record.hours_in_seconds);
 
-  const incrementLocalDurationInSeconds = () => {
-    setLocalDurationInSeconds((prev) => prev + 3600);
-  };
+  // const incrementLocalDurationInSeconds = () => {
+  //   setLocalDurationInSeconds((prev) => prev + 3600);
+  // };
 
-  const decrimentLocalDurationInSeconds = () => {
-    if (localDurationInSeconds != 0) {
-      setLocalDurationInSeconds((prev) => prev - 3600);
-    }
-  };
+  // const decrimentLocalDurationInSeconds = () => {
+  //   if (localDurationInSeconds != 0) {
+  //     setLocalDurationInSeconds((prev) => prev - 3600);
+  //   }
+  // };
 
   useEffect(() => {
     if (localDurationInSeconds > 50 * 3600) {
@@ -200,16 +183,16 @@ const MonthlyReport = (props: MonthlyReportProps) => {
     }
   }, [localDurationInSeconds]);
 
-  useEffect(() => {
-    // Call the onChange function with the updated MinistryRecord data
-    props.onChange({
-      date_of_creation: '',
-      count_of_bible_studies: countOfStudies,
-      hours_in_seconds: localDurationInSeconds,
-      credit_hours_in_seconds: localCreditHoursDurationInSeconds,
-      bible_studies: getArrayWithCheckedStudies(),
-    });
-  }, [countOfStudies, getArrayWithCheckedStudies, localCreditHoursDurationInSeconds, localDurationInSeconds, props]);
+  // useEffect(() => {
+  //   // Call the onChange function with the updated MinistryRecord data
+  //   props.onChange({
+  //     date_of_creation: '',
+  //     count_of_bible_studies: countOfStudies,
+  //     hours_in_seconds: localDurationInSeconds,
+  //     credit_hours_in_seconds: localCreditHoursDurationInSeconds,
+  //     bible_studies: getArrayWithCheckedStudies(),
+  //   });
+  // }, [countOfStudies, getArrayWithCheckedStudies, localCreditHoursDurationInSeconds, localDurationInSeconds, props]);
 
   return (
     <Box
@@ -226,7 +209,7 @@ const MonthlyReport = (props: MonthlyReportProps) => {
       <CustomTypography className="h2" id="AQdwN">
         {t('tr_monthlyReport')}
       </CustomTypography>
-      <ScrollableTabs tabs={months} />
+      <ScrollableTabs tabs={months} selected={getMonthIndexFromDate(new Date().toString())} indicatorMode />
       {variant == 'pioneer' || variant == 'special-pioneer' ? null : (
         <CustomCheckbox
           label={t('tr_sharedMinistry')}
@@ -277,23 +260,21 @@ const MonthlyReport = (props: MonthlyReportProps) => {
                   />
                 ) : null}
               </Box>
-              {!props.forOneRecord ? (
-                <CustomTypography className="body-small-regular" color="var(--grey-350)">
-                  {t('tr_includesServiceAndCredit')}
-                </CustomTypography>
-              ) : null}
+              <CustomTypography className="body-small-regular" color="var(--grey-350)">
+                {t('tr_includesServiceAndCredit')}
+              </CustomTypography>
             </Box>
             <Box
               sx={{
                 display: 'flex',
                 justifyContent: 'space-between',
-                minWidth: '168px',
-                maxWidth: '168px',
+                // minWidth: '168px',
+                // maxWidth: '168px',
                 alignItems: 'center',
               }}
             >
-              <MinusButton onClick={decrimentLocalDurationInSeconds} />
-              <TextField
+              {/* <MinusButton onClick={decrimentLocalDurationInSeconds} /> */}
+              {/* <TextField
                 id="standard-basic"
                 variant="standard"
                 sx={{
@@ -314,16 +295,40 @@ const MonthlyReport = (props: MonthlyReportProps) => {
                 onChange={(event) => {
                   setLocalDurationInSeconds(convertDurationStringToSeconds(event.target.value));
                 }}
-              />
-              <PlusButton onClick={incrementLocalDurationInSeconds} />
+              /> */}
+              <CustomTypography
+                className="h3"
+                sx={{
+                  color:
+                    convertDurationInSecondsToString(localDurationInSeconds) != '00:00'
+                      ? 'var(--black)'
+                      : 'var(--grey-300)',
+                }}
+              >
+                {convertDurationInSecondsToString(localDurationInSeconds)}
+              </CustomTypography>
+              {/* <PlusButton onClick={incrementLocalDurationInSeconds} /> */}
             </Box>
           </Box>
 
-          <Divider
-            sx={{
-              border: showCreditHours ? '1px dashed var(--accent-200)' : '1px solid var(--accent-200)',
-            }}
-          />
+          {/** For change border use this website (border generator): https://codepen.io/amit_sheen/pen/xxZeyjO */}
+          {showCreditHours ? (
+            <Divider
+              sx={{
+                backgroundImage: `repeating-linear-gradient(0deg, var(--accent-200), var(--accent-200) 5px, transparent 5px, transparent 10px, var(--accent-200) 10px), repeating-linear-gradient(90deg, var(--accent-200), var(--accent-200) 5px, transparent 5px, transparent 10px, var(--accent-200) 10px), repeating-linear-gradient(180deg, var(--accent-200), var(--accent-200) 5px, transparent 5px, transparent 10px, var(--accent-200) 10px), repeating-linear-gradient(270deg, var(--accent-200), var(--accent-200) 5px, transparent 5px, transparent 10px, var(--accent-200) 10px)`,
+                backgroundSize: `1px 100%, 100% 1px, 1px 100% , 100% 1px`,
+                backgroundPosition: `0 0, 0 0, 100% 0, 0 100%`,
+                backgroundRepeat: `no-repeat`,
+                borderColor: 'transparent',
+              }}
+            />
+          ) : (
+            <Divider
+              sx={{
+                border: '1px solid var(--accent-200)',
+              }}
+            />
+          )}
 
           {showCreditHours ? (
             <>
@@ -347,14 +352,16 @@ const MonthlyReport = (props: MonthlyReportProps) => {
                       gap: '8px',
                     }}
                   >
-                    <CustomDropdownContainer
+                    {/* <CustomDropdownContainer
                       open={dropdownWithSchoolsOpen}
                       label={t('tr_creditHours')}
                       onClick={() => setDropdownWithSchoolsOpen((prev) => !prev)}
                       reference={dropdownWithSchoolsOpenButtonReference}
-                    />
+                    /> */}
 
-                    <CustomDropdownMenu
+                    <CustomTypography className="body-regular">{t('tr_creditHours')}</CustomTypography>
+
+                    {/* <CustomDropdownMenu
                       reference={dropdownWithSchoolsReference}
                       open={dropdownWithSchoolsOpen}
                       anchorElement={dropdownWithSchoolsOpenButtonReference.current}
@@ -397,7 +404,7 @@ const MonthlyReport = (props: MonthlyReportProps) => {
                         }}
                         callback={() => setLocalCreditHoursDurationInSeconds(hoursToSeconds(5))}
                       />
-                    </CustomDropdownMenu>
+                    </CustomDropdownMenu> */}
                     {totalOutOf_Hours != 0 ? (
                       <CustomBadge
                         size={'medium'}
@@ -411,13 +418,13 @@ const MonthlyReport = (props: MonthlyReportProps) => {
                   sx={{
                     display: 'flex',
                     justifyContent: 'space-between',
-                    minWidth: '168px',
-                    maxWidth: '168px',
+                    // minWidth: '168px',
+                    // maxWidth: '168px',
                     alignItems: 'center',
                   }}
                 >
-                  <MinusButton onClick={decrimentCreditHoursDuration} />
-                  <TextField
+                  {/* <MinusButton onClick={decrimentCreditHoursDuration} /> */}
+                  {/* <TextField
                     id="standard-basic"
                     variant="standard"
                     sx={{
@@ -438,8 +445,19 @@ const MonthlyReport = (props: MonthlyReportProps) => {
                     onChange={(event) => {
                       setLocalCreditHoursDurationInSeconds(convertDurationStringToSeconds(event.target.value));
                     }}
-                  />
-                  <PlusButton onClick={incrementCreditHoursDuration} />
+                  /> */}
+                  <CustomTypography
+                    className="h3"
+                    sx={{
+                      color:
+                        convertDurationInSecondsToString(localCreditHoursDurationInSeconds) != '00:00'
+                          ? 'var(--black)'
+                          : 'var(--grey-300)',
+                    }}
+                  >
+                    {convertDurationInSecondsToString(localCreditHoursDurationInSeconds)}
+                  </CustomTypography>
+                  {/* <PlusButton onClick={incrementCreditHoursDuration} /> */}
                 </Box>
               </Box>
 
@@ -462,13 +480,16 @@ const MonthlyReport = (props: MonthlyReportProps) => {
               alignItems: 'center',
             }}
           >
-            <CustomDropdownContainer
+            {/* <CustomDropdownContainer
               open={dropdownWithStudiesOpen}
               reference={dropdownWithStudiesOpenButtonReference}
               label={t('tr_bibleStudies')}
               onClick={() => setDropdownWithStudiesOpen((prev) => !prev)}
-            />
-            <CustomDropdownMenu
+            /> */}
+
+            <CustomTypography className="body-regular">{t('tr_bibleStudies')}</CustomTypography>
+
+            {/* <CustomDropdownMenu
               open={dropdownWithStudiesOpen}
               placement="bottom-start"
               reference={dropdownWithStudiesReference}
@@ -483,24 +504,24 @@ const MonthlyReport = (props: MonthlyReportProps) => {
                     variant="studies"
                     checked={checkedLocalStudiesStatesList[index]}
                     label={value}
-                    editButtonClick={() => {
-                      setDropdownWithStudiesOpen(false);
-                      setEditAndAddBibleStudyData({
-                        darkOverlayOpen: true,
-                        itemValue: value,
-                        itemIndex: index,
-                        popUpWindowOpen: true,
-                        variant: 'edit',
-                      });
-                    }}
+                    // editButtonClick={() => {
+                    //   setDropdownWithStudiesOpen(false);
+                    //   setEditAndAddBibleStudyData({
+                    //     darkOverlayOpen: true,
+                    //     itemValue: value,
+                    //     itemIndex: index,
+                    //     popUpWindowOpen: true,
+                    //     variant: 'edit',
+                    //   });
+                    // }}
                     key={randomKey}
-                    callback={() =>
-                      setCheckedLocalStudiesStatesList((prev) => {
-                        const updatedArray = [...prev];
-                        updatedArray[index] = !updatedArray[index];
-                        return updatedArray;
-                      })
-                    }
+                    // callback={() =>
+                    //   setCheckedLocalStudiesStatesList((prev) => {
+                    //     const updatedArray = [...prev];
+                    //     updatedArray[index] = !updatedArray[index];
+                    //     return updatedArray;
+                    //   })
+                    // }
                   />
                 );
               })}
@@ -527,24 +548,24 @@ const MonthlyReport = (props: MonthlyReportProps) => {
                   {t('tr_addNewStudy')}
                 </CustomTypography>
               </CustomDropdownItem>
-            </CustomDropdownMenu>
+            </CustomDropdownMenu> */}
             <Box
               sx={{
                 display: 'flex',
                 justifyContent: 'space-between',
-                minWidth: '168px',
-                maxWidth: '168px',
+                // minWidth: '168px',
+                // maxWidth: '168px',
                 alignItems: 'center',
               }}
             >
-              <MinusButton onClick={decrimentCountOfStudiesInBuffer} />
+              {/* <MinusButton onClick={decrimentCountOfStudiesInBuffer} /> */}
               <CustomTypography className="h3" color={countOfStudies != 0 ? 'var(--black)' : 'var(--grey-300)'}>
                 {countOfStudies}
               </CustomTypography>
-              <PlusButton onClick={incrementCountOfStudiesInBuffer} />
+              {/* <PlusButton onClick={incrementCountOfStudiesInBuffer} /> */}
             </Box>
           </Box>
-          {getArrayWithCheckedStudies().length != 0 ? (
+          {props.record.bible_studies.length != 0 ? (
             <Box
               sx={{
                 display: 'flex',
@@ -552,7 +573,7 @@ const MonthlyReport = (props: MonthlyReportProps) => {
                 flexWrap: 'wrap',
               }}
             >
-              {getArrayWithCheckedStudies().map((value) => {
+              {props.record.bible_studies.map((value) => {
                 const randomKey = crypto.randomUUID();
 
                 return (
@@ -560,18 +581,18 @@ const MonthlyReport = (props: MonthlyReportProps) => {
                     label={value}
                     key={randomKey}
                     edit={true}
-                    onDelete={() => {
-                      props.bibleStudiesList.forEach((globalValue, index) => {
-                        if (value == globalValue) {
-                          setCheckedLocalStudiesStatesList((prev) => {
-                            const tmpArray = [...prev];
-                            tmpArray[index] = false;
+                    // onDelete={() => {
+                    //   props.bibleStudiesList.forEach((globalValue, index) => {
+                    //     if (value == globalValue) {
+                    //       setCheckedLocalStudiesStatesList((prev) => {
+                    //         const tmpArray = [...prev];
+                    //         tmpArray[index] = false;
 
-                            return tmpArray;
-                          });
-                        }
-                      });
-                    }}
+                    //         return tmpArray;
+                    //       });
+                    //     }
+                    //   });
+                    // }}
                   />
                 );
               })}
@@ -594,7 +615,7 @@ const MonthlyReport = (props: MonthlyReportProps) => {
           setInfoMessageBoxOpen(false);
         }}
       />
-      <CustomTextarea placeholder={t('tr_comments')} />
+      <CustomTextarea placeholder={t('tr_comments')} onChange={(value) => props.commentOnChange(value)} />
     </Box>
   );
 };

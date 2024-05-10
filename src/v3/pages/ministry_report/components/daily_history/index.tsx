@@ -8,15 +8,31 @@ import { FormatStringForDailyHistory } from '@pages/ministry_report/utils';
 import CustomBadge from '@components/badge';
 import { convertDurationInSecondsToString } from '@features/ministry/utils';
 
+/**
+ * DailyHistory component displays a list of daily ministry records.
+ * It allows users to view, add, and edit daily records.
+ * @param props DailyHistoryProps containing the configuration and data for the component.
+ */
 const DailyHistory = (props: DailyHistoryProps) => {
   const { t } = useAppTranslation();
 
+  /**
+   * Renders the content for each daily ministry record.
+   * @returns JSX.Element representing the content for each daily ministry record.
+   */
   const Content = () => {
     return props.records.map((value, index) => {
       const key = `daily_history_item-${index}`;
 
       return (
-        <Box key={key}>
+        <Box
+          key={key}
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '8px',
+          }}
+        >
           <Box
             sx={{
               display: 'flex',
@@ -45,7 +61,14 @@ const DailyHistory = (props: DailyHistoryProps) => {
             }}
             onClick={() => props.onEditButtonClick(value, index)}
           >
-            <CustomTypography className="h4">{FormatStringForDailyHistory(value.date_of_creation)}</CustomTypography>
+            <CustomTypography
+              className="h4"
+              sx={{
+                height: '24px',
+              }}
+            >
+              {FormatStringForDailyHistory(value.date_of_creation)}
+            </CustomTypography>
             <Box
               sx={{
                 display: 'flex',
@@ -80,7 +103,6 @@ const DailyHistory = (props: DailyHistoryProps) => {
               ) : null}
             </Box>
           </Box>
-
           <Divider
             sx={{
               border: '1px solid var(--accent-200)',

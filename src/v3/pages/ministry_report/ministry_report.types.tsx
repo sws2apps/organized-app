@@ -3,6 +3,8 @@
  */
 export type MinistryReportVariants = 'empty' | 'base' | 'pioneer' | 'special-pioneer';
 
+export type MinistryRecordActionMode = 'add' | 'edit';
+
 /**
  * Represents a ministry record with details such as date of creation, count of bible studies, hours spent, credit hours, and list of bible studies.
  */
@@ -72,26 +74,3 @@ export class MinistryRecord {
     return false;
   }
 }
-
-export type MinistryRecordObj = {
-  /**
-   * Date of creation of the ministry record.
-   */
-  date_of_creation: string;
-  /**
-   * Count of bible studies conducted.
-   */
-  count_of_bible_studies: number;
-  /**
-   * Total hours spent in seconds.
-   */
-  hours_in_seconds: number;
-  /**
-   * Total credit hours in seconds.
-   */
-  credit_hours_in_seconds: number;
-  /**
-   * List of bible studies conducted.
-   */
-  bible_studies: string[];
-};

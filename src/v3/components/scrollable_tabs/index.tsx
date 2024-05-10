@@ -9,8 +9,8 @@ import React, { useState } from 'react';
  *
  * @param tabs Array of tab labels.
  */
-function ScrollableTabs({ tabs }: CustomTabProps) {
-  const [valueOfActivePanel, setValueOfActivePanel] = useState(0);
+function ScrollableTabs({ tabs, selected, indicatorMode }: CustomTabProps) {
+  const [valueOfActivePanel, setValueOfActivePanel] = useState(selected || 0);
 
   /**
    * Handles tab change event.
@@ -19,8 +19,10 @@ function ScrollableTabs({ tabs }: CustomTabProps) {
    * @param newValue The new value of the active tab.
    */
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    event.preventDefault();
-    setValueOfActivePanel(newValue);
+    if (!indicatorMode) {
+      event.preventDefault();
+      setValueOfActivePanel(newValue);
+    }
   };
 
   return (
