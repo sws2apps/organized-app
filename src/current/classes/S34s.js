@@ -8,9 +8,7 @@ class S34sClass {
 }
 
 S34sClass.prototype.sort = function () {
-  this.talks.sort((a, b) => {
-    return a.talk_number > b.talk_number ? 1 : -1;
-  });
+  this.talks.sort((a, b) => a.talk_number - b.talk_number);
 };
 
 S34sClass.prototype.loadAll = async function () {
