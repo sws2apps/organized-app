@@ -111,7 +111,7 @@ export const loadApp = async () => {
 
     const notifications = await dbGetNotifications();
     await promiseSetRecoil(appNotificationsState, notifications);
-    await promiseSetRecoil(publicTalksState, S34s.getLocal());
+    await promiseSetRecoil(publicTalksState, S34s.talks);
   } catch (err) {
     throw new Error(err);
   }

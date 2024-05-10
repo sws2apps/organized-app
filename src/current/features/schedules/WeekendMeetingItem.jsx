@@ -389,9 +389,7 @@ const WeekendMeetingItem = ({ weekOf }) => {
                 </Box>
               </Box>
 
-              {publicTalkCoordinatorRole && (
-                <PublicTalkSelectorAdvanced advancedOpen={isTalkSelectorAdvanced} setPublicTalk={handleUpdateTalk} />
-              )}
+              {publicTalkCoordinatorRole && <PublicTalkSelectorAdvanced advancedOpen={isTalkSelectorAdvanced} />}
 
               {publicTalkCoordinatorRole && (
                 <VisitingSpeakerSelector
