@@ -2,8 +2,11 @@ import Checkbox from '@mui/material/Checkbox';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import { TreeView } from '@mui/x-tree-view/TreeView';
-import { TreeItem } from '@mui/x-tree-view/TreeItem';
+import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView';
+import { TreeItem } from '@mui/x-tree-view';
+
+const ExpandIcon = () => <ChevronRightIcon sx={{ fontSize: '30px !important' }} />;
+const CollapseIcon = () => <ExpandMoreIcon sx={{ fontSize: '30px !important' }} />;
 
 const TreeViewCheckbox = (props) => {
   const { data, selected, defaultExpanded } = props;
@@ -56,7 +59,7 @@ const TreeViewCheckbox = (props) => {
     return (
       <TreeItem
         key={nodes.value}
-        nodeId={nodes.value}
+        itemId={nodes.value}
         label={
           <FormControlLabel
             control={
@@ -81,13 +84,15 @@ const TreeViewCheckbox = (props) => {
   };
 
   return (
-    <TreeView
-      defaultCollapseIcon={<ExpandMoreIcon sx={{ fontSize: '30px !important' }} />}
-      defaultExpandIcon={<ChevronRightIcon sx={{ fontSize: '30px !important' }} />}
-      defaultExpanded={defaultExpanded}
+    <SimpleTreeView
+      defaultExpandedItems={defaultExpanded}
+      slots={{
+        expandIcon: ExpandIcon,
+        collapseIcon: CollapseIcon,
+      }}
     >
       {renderTree(data)}
-    </TreeView>
+    </SimpleTreeView>
   );
 };
 
