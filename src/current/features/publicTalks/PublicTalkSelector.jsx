@@ -36,7 +36,7 @@ const PublicTalkSelector = ({
   };
 
   useEffect(() => {
-    setTalksList(S34s.getLocal());
+    setTalksList(S34s.talks);
   }, []);
 
   useEffect(() => {

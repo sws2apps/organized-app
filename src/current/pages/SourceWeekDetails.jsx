@@ -228,11 +228,6 @@ const SourceWeekDetails = () => {
     setIsTalkSelectorAdvanced((prev) => !prev);
   };
 
-  const handleSetPublicTalkAdvanced = (value) => {
-    setPublicTalk(value);
-    setIsTalkSelectorAdvanced(false);
-  };
-
   useEffect(() => {
     let isSubscribed = true;
 
@@ -724,12 +719,7 @@ const SourceWeekDetails = () => {
             </Box>
           )}
 
-          {publicTalkCoordinatorRole && (
-            <PublicTalkSelectorAdvanced
-              advancedOpen={isTalkSelectorAdvanced}
-              setPublicTalk={handleSetPublicTalkAdvanced}
-            />
-          )}
+          {publicTalkCoordinatorRole && <PublicTalkSelectorAdvanced advancedOpen={isTalkSelectorAdvanced} />}
 
           {weekType === 2 && (
             <Box sx={{ maxWidth: '800px' }}>

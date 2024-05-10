@@ -503,7 +503,7 @@ SchedulesClass.prototype.buildTalkHistory = function () {
       Setting.cong_role.includes('public_talk_coordinator') || Setting.cong_role.includes('coordinator');
 
     if (publicTalkEditorRole) {
-      const talksList = S34s.getLocal();
+      const talksList = S34s.talks;
       const appData = this.list;
 
       for (const talk of talksList) {
@@ -601,7 +601,7 @@ SchedulesClass.prototype.WeekendMeetingData = function (startWeek, endWeek) {
     schedule.weekend_meeting_date = WMDate;
     schedule.weekend_meeting_date_formatted = WMDateFormatted;
 
-    const publicTalks = S34s.getLocal();
+    const publicTalks = S34s.talks();
     const currentTalk = publicTalks.find((record) => record.talk_number === schedule.public_talk);
     schedule.public_talk_title = currentTalk ? currentTalk.talk_title : '';
     schedule.public_talk_number = currentTalk ? `No. ${currentTalk.talk_number}` : '';

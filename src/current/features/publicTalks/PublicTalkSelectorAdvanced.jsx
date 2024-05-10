@@ -4,7 +4,7 @@ import Collapse from '@mui/material/Collapse';
 import { Schedules } from '../../classes/Schedules';
 import { PublicTalkContainer, PublicTalkPagination } from '../publicTalks';
 
-const PublicTalkSelectorAdvanced = ({ advancedOpen, setPublicTalk }) => {
+const PublicTalkSelectorAdvanced = ({ advancedOpen }) => {
   const [page, setPage] = useState(0);
   const publicTalks = Schedules.talkHistory;
 
@@ -24,7 +24,7 @@ const PublicTalkSelectorAdvanced = ({ advancedOpen, setPublicTalk }) => {
           />
         )}
 
-        {publicTalks.length > 0 && <PublicTalkContainer currentPage={page} readOnly setPublicTalk={setPublicTalk} />}
+        {publicTalks.length > 0 && <PublicTalkContainer currentPage={page} />}
 
         {publicTalks.length > 0 && (
           <PublicTalkPagination

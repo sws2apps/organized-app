@@ -33,7 +33,7 @@ const SpeakerTalk = ({ speaker, readOnly }) => {
   };
 
   useEffect(() => {
-    const options = S34s.getLocal();
+    const options = S34s.talks;
     setTalksList(options);
 
     const selected = speaker.talks.map((talk) => {
