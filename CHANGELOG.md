@@ -1,3 +1,22 @@
+# [2.127.0](https://github.com/sws2apps/cpe-sws/compare/v2.126.0...v2.127.0) (2024-05-10)
+
+
+### Bug Fixes
+
+* **cleanup:** remove unused code in public talks ([796b437](https://github.com/sws2apps/cpe-sws/commit/796b437aae720a2ea747a286057c7ba97e1c29e7))
+* **components:** migration from mui tree view from v6 to v7 ([aeb789c](https://github.com/sws2apps/cpe-sws/commit/aeb789cbf764beabb5c891e54450ba4534985a6e))
+
+
+### Features
+
+* **deps:** bump @mui/icons-material from 5.15.16 to 5.15.17 ([b7629e4](https://github.com/sws2apps/cpe-sws/commit/b7629e431d2ba296f9b57c5a09dc76807b07a109))
+* **deps:** bump @mui/material from 5.15.16 to 5.15.17 ([de7dfbf](https://github.com/sws2apps/cpe-sws/commit/de7dfbfac4ffd5f17d8b0fdbfabf229d350d4801))
+* **deps:** bump @tanstack/react-query from 5.32.1 to 5.35.1 ([2956aae](https://github.com/sws2apps/cpe-sws/commit/2956aae527943609e0f243a90cefa60341c78a14))
+* **deps:** bump validator from 13.11.0 to 13.12.0 ([20d5cee](https://github.com/sws2apps/cpe-sws/commit/20d5ceee75531522f1f1d434b560f4c1de8a06f6))
+* **localize:** updated translation from Crowdin ([#1724](https://github.com/sws2apps/cpe-sws/issues/1724)) ([c98c684](https://github.com/sws2apps/cpe-sws/commit/c98c684ed7593835299626ae5bdaaf658fe60aa2))
+* **public-talks:** include tagalog talks ([dafce4f](https://github.com/sws2apps/cpe-sws/commit/dafce4f660e2e903755deb376237f87eb4fb0612))
+* **sources:** get public talks list from crowdin ([97b434c](https://github.com/sws2apps/cpe-sws/commit/97b434c89733ea185acc1d238455022de22a6b0a))
+
 # [2.126.0](https://github.com/sws2apps/cpe-sws/compare/v2.125.0...v2.126.0) (2024-05-05)
 
 
