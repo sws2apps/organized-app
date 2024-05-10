@@ -95,5 +95,6 @@
   "tr_cantDeductStudiesDesc": "You can’t select fewer Bible studies than you already have selected in the “Individual Bible studies” dropdown menu. ",
   "tr_cantDeductStudiesTitle": "Cannot deduct Bible studies",
   "tr_includesServiceAndCredit": "Includes field service and credit hours",
-  "tr_noDailyRecordsDesc": "У тебя еще нет ежедневных записей о служении. Добавь запись, чтобы включить её в свой ежемесячный отчет."
+  "tr_noDailyRecordsDesc": "У тебя еще нет ежедневных записей о служении. Добавь запись, чтобы включить её в свой ежемесячный отчет.",
+  "tr_editServiceTime": "Edit service time"
 }
