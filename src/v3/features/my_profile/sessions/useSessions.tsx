@@ -1,28 +1,25 @@
-import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useQuery } from '@tanstack/react-query';
 import { apiGetUserSessions } from '@services/api/user';
-import { SessionResponseType } from '@definition/api';
 import { userIDState } from '@states/app';
+import { getMessageByCode } from '@services/i18n/translation';
 
 const useSessions = () => {
   const userID = useRecoilValue(userIDState);
 
-  const { isLoading, data } = useQuery({
+  const { isLoading, data, error } = useQuery({
     queryKey: ['sessions'],
     queryFn: apiGetUserSessions,
     enabled: userID.length > 0,
+    refetchOnWindowFocus: 'always',
+    refetchInterval: 15000,
   });
 
-  const [sessions, setSessions] = useState<[SessionResponseType] | []>([]);
+  const errorMsg = getMessageByCode(error?.message) || getMessageByCode(data?.result?.message) || '';
 
-  useEffect(() => {
-    if (!isLoading && data?.status === 200) {
-      setSessions(data.data);
-    }
-  }, [isLoading, data]);
+  const sessions = data?.result?.sessions || [];
 
-  return { sessions };
+  return { sessions, isLoading, errorMsg };
 };
 
 export default useSessions;

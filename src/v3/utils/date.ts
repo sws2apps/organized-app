@@ -1,3 +1,17 @@
+export const dateFirstDayMonth = (date: Date = new Date()) => {
+  const month = date.getMonth();
+  const year = date.getFullYear();
+
+  return new Date(year, month, 1);
+};
+
+export const dateLastDatePreviousMonth = (date: Date = new Date()) => {
+  const month = date.getMonth();
+  const year = date.getFullYear();
+
+  return new Date(year, month, 0);
+};
+
 export const getWeekDate = (date: Date = new Date()) => {
   const day = date.getDay();
   const diff = date.getDate() - day + (day === 0 ? -6 : 1);
@@ -13,8 +27,8 @@ export const getOldestWeekDate = () => {
 };
 
 export const addMonths = (date: Date | string, value: number) => {
-  const startDate = new Date(date);
-  const result = startDate.setMonth(startDate.getMonth() + value);
+  const start_date = new Date(date);
+  const result = start_date.setMonth(start_date.getMonth() + value);
 
   return new Date(result);
 };
@@ -86,4 +100,12 @@ const getMonthName = (month: number) => {
   ];
 
   return monthNames[month];
+};
+
+export const generateDateFromTime = (time: string) => {
+  const timeParts = time.split(':');
+  const date = new Date();
+  date.setHours(+timeParts[0], +timeParts[1]);
+
+  return date;
 };

@@ -1,5 +1,5 @@
 import { AssignmentCheckListColors } from '@definition/app';
-import { AssignmentCode } from '@definition/schedules';
+import { AssignmentCode } from '@definition/assignment';
 
 export type AssignmentGroupType = {
   id: string;
@@ -9,5 +9,6 @@ export type AssignmentGroupType = {
   onHeaderChange?: (checked: boolean, id: string) => void;
   onItemChange?: (checked: boolean, code: AssignmentCode) => void;
   checkedItems: AssignmentCode[];
-  isMale: boolean;
+  male: boolean;
+  disqualified?: boolean;
 };

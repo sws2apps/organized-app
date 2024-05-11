@@ -35,9 +35,11 @@ const CustomDialog = ({
 
   return (
     <Dialog
+      fullWidth
       open={open}
       onClose={handleClose}
       sx={{
+        boxSizing: 'border-box',
         '.MuiPaper-root': {
           margin: { mobile: '16px', tablet: '24px', desktop: '32px' },
         },

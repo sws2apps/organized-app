@@ -1,5 +1,4 @@
-import { TabProps } from '@mui/material';
-import { ReactElement } from 'react';
+import { TabOwnProps } from '@mui/material';
 
 /**
  * Props for the TabsPanel component.
@@ -24,7 +23,7 @@ export type TabsPanelProps = {
 /**
  * Custom props for the Tab component.
  */
-export interface CustomTabProps extends TabProps {
+export interface CustomTabProps extends TabOwnProps {
   /**
    * An array of tabs containing label and corresponding component.
    */
@@ -54,4 +53,7 @@ export interface CustomTabProps extends TabProps {
    * A boolean indicating whether to display the indicator.
    */
   indicatorMode?: boolean;
+
+
+  onChange?: (activeTab: number) => void;
 }

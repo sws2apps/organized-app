@@ -8,7 +8,9 @@ declare module '@mui/system/createTheme/createBreakpoints' {
     lg: false;
     xl: false;
     mobile: true;
+    mobile400: true;
     tablet: true;
+    tablet500: true;
     tablet600: true;
     tablet688: true;
     laptop: true;

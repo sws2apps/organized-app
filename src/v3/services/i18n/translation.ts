@@ -3,30 +3,25 @@ import { getI18n } from 'react-i18next';
 export const getTranslation = ({ key, language, params = {} }: { key: string; language?: string; params?: object }) => {
   const i18n = getI18n();
 
-  if (!language) language = 'en';
-
   if (i18n) {
+    if (!language) language = i18n.language;
+
     return i18n.t(key, { lng: language, ...params });
   }
 };
 
-export const generateMonths = () => {
-  const months = [];
+export const generateWeekday = () => {
+  const result: string[] = [
+    getTranslation({ key: 'tr_monday' }),
+    getTranslation({ key: 'tr_tuesday' }),
+    getTranslation({ key: 'tr_wednesday' }),
+    getTranslation({ key: 'tr_thursday' }),
+    getTranslation({ key: 'tr_friday' }),
+    getTranslation({ key: 'tr_saturday' }),
+    getTranslation({ key: 'tr_sunday' }),
+  ];
 
-  months.push(getTranslation({ key: 'january' }));
-  months.push(getTranslation({ key: 'february' }));
-  months.push(getTranslation({ key: 'march' }));
-  months.push(getTranslation({ key: 'april' }));
-  months.push(getTranslation({ key: 'may' }));
-  months.push(getTranslation({ key: 'june' }));
-  months.push(getTranslation({ key: 'july' }));
-  months.push(getTranslation({ key: 'august' }));
-  months.push(getTranslation({ key: 'september' }));
-  months.push(getTranslation({ key: 'october' }));
-  months.push(getTranslation({ key: 'november' }));
-  months.push(getTranslation({ key: 'december' }));
-
-  return months;
+  return result;
 };
 
 export const getShortDateFormat = () => {
@@ -37,7 +32,7 @@ export const getShortDatePickerFormat = () => {
   return getTranslation({ key: 'shortDatePickerFormat' });
 };
 
-export const getMessageByCode = (code) => {
+export const getMessageByCode = (code: string) => {
   switch (code) {
     case 'DEVICE_REMOVED':
       return getTranslation({ key: 'tr_deviceRemoved' });

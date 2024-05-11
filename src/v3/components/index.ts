@@ -2,6 +2,7 @@ export { default as AccountHeaderIcon } from './account_header_icon';
 export { default as AssignmentsCheckList } from './assignments_checklist/index';
 export { default as AppLoading } from './loading';
 export { default as AutoComplete } from './autocomplete';
+export { default as AutocompleteMultiple } from './autocomplete_multiple';
 export { default as Badge } from './badge';
 export { default as Button } from './button';
 export { default as ButtonIcon } from './icon_button';

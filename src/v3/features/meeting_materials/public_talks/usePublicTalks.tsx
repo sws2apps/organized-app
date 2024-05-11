@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { publicTalksFilteredState, publicTalksSearchKeyState } from '@states/publicTalks';
+import { publicTalksFilteredState, publicTalksSearchKeyState } from '@states/public_talks';
 import { setPublicTalksSearchKey } from '@services/recoil/publicTalks';
 
 const usePublicTalks = () => {

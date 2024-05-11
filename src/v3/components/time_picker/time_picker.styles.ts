@@ -40,7 +40,6 @@ export const StyleTimePickerPopper = {
 
 const h3 = {
   textDecoration: 'none',
-  fontFamily: 'Inter',
   fontWeight: '570',
   fontStyle: 'normal',
   fontStretch: 'normal',

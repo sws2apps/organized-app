@@ -1,3 +1,5 @@
+import { FullnameOption } from '@definition/settings';
+
 export const convertStringToBoolean = (value) => {
   switch (value) {
     case 'true':
@@ -40,7 +42,25 @@ export const matchIsNumeric = (text) => {
   return !isNaN(Number(text));
 };
 
-export const generateDisplayName = (lastname, firstname) => {
+export const buildPersonFullname = (lastname: string, firstname: string, option?: FullnameOption) => {
+  const buildOption = option || FullnameOption.FIRST_BEFORE_LAST;
+
+  if (lastname.length === 0) {
+    return firstname;
+  }
+
+  if (firstname.length === 0) {
+    return lastname;
+  }
+
+  if (buildOption === FullnameOption.FIRST_BEFORE_LAST) {
+    return `${firstname} ${lastname}`;
+  }
+
+  return `${lastname} ${firstname}`;
+};
+
+export const generateDisplayName = (lastname: string, firstname: string) => {
   if (lastname.length === 0) {
     return firstname;
   }
@@ -62,3 +82,11 @@ export const generateDisplayName = (lastname, firstname) => {
 };
 
 export const createArray = (n) => Array.from({ length: n }, (_, b) => b);
+
+export const localStorageGetItem = (key: string) => {
+  if (typeof localStorage === 'undefined') {
+    return;
+  }
+
+  return localStorage.getItem(key);
+};

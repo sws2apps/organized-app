@@ -7,7 +7,6 @@ import React, { useState } from 'react';
 /**
  * Component that renders scrollable tabs.
  *
- * @param tabs Array of tab labels.
  */
 function ScrollableTabs({ tabs, selected, indicatorMode }: CustomTabProps) {
   const [valueOfActivePanel, setValueOfActivePanel] = useState(selected || 0);

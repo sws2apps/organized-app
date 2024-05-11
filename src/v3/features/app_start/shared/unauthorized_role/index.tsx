@@ -1,14 +1,16 @@
 import { Box } from '@mui/material';
+import { IconRefresh } from '@icons/index';
+import { useAppTranslation } from '@hooks/index';
+import Button from '@components/button';
 import TextMarkup from '@components/text_markup';
 import Typography from '@components/typography';
-import { useAppTranslation } from '@hooks/index';
-import { IconError } from '@icons/index';
 import useUnauthorizedRole from './useUnauthorizedRole';
+import PermissionErrorImg from '@assets/img/permission-error-illustration.svg?component';
 
 const UnauthorizedRole = () => {
   const { t } = useAppTranslation();
 
-  const { anchorRef } = useUnauthorizedRole();
+  const { reloadApp, anchorRef } = useUnauthorizedRole();
 
   return (
     <Box
@@ -21,13 +23,20 @@ const UnauthorizedRole = () => {
         alignItems: 'center',
       }}
     >
-      <Box sx={{ maxWidth: '702px', display: 'flex', gap: '24px', alignItems: 'center' }}>
-        <IconError width={72} height={72} color="var(--red-main)" />
-
+      <Box
+        sx={{
+          maxWidth: '702px',
+          display: 'flex',
+          gap: '24px',
+          alignItems: 'center',
+          flexDirection: { mobile: 'column-reverse', tablet: 'row' },
+        }}
+      >
+        <PermissionErrorImg />
         <Box
           sx={{
             display: 'flex',
-            gap: '8px',
+            gap: '16px',
             flexDirection: 'column',
           }}
         >
@@ -40,6 +49,9 @@ const UnauthorizedRole = () => {
             anchorColor="var(--accent-dark)"
             anchorRef={anchorRef}
           />
+          <Button variant="main" className="button-caps" onClick={reloadApp} startIcon={<IconRefresh />}>
+            {t('tr_refreshPage')}
+          </Button>
         </Box>
       </Box>
     </Box>

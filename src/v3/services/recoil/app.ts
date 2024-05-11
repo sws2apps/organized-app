@@ -1,3 +1,5 @@
+// ** FOR SETTING STATE OUTSIDE REACT COMPONENTS OR TO AVOID USE OF USECALLBACK ** //
+
 import { ReactElement } from 'react';
 import { promiseSetRecoil } from 'recoil-outside';
 import logger from '@services/logger/index';
@@ -53,6 +55,7 @@ import {
   appMessageHeaderState,
   isMFAEnabledState,
   appMessageIconState,
+  isContactOpenState,
 } from '@states/app';
 import { SnackBarSeverityType } from '@definition/app';
 
@@ -125,7 +128,7 @@ export const setCongAccountConnected = async (value) => {
   await promiseSetRecoil(congAccountConnectedState, value);
 };
 
-export const setIsAppLoad = async (value) => {
+export const setIsAppLoad = async (value: boolean) => {
   await promiseSetRecoil(isAppLoadState, value);
 };
 
@@ -199,6 +202,9 @@ export const setWhatsNewOpen = async (value) => {
 
 export const setIsAboutOpen = async (value) => {
   await promiseSetRecoil(isAboutOpenState, value);
+};
+export const setIsContactOpen = async (value) => {
+  await promiseSetRecoil(isContactOpenState, value);
 };
 
 export const setUserConfirmationOpen = async (value) => {

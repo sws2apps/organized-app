@@ -1,4 +1,4 @@
-import { getVisitingSpeakersCongregations } from '@services/app/visitingSpeakers';
+import { GetApprovedVisitingSpeakersAccessResponseType } from '@definition/api';
 import { apiDefault } from './common';
 
 export const apiApproveCongregationSpeakersRequest = async (cong_id) => {
@@ -54,51 +54,19 @@ export const apiUploadVisitingSpeakers = async (speakers) => {
   return { status: res.status, data };
 };
 
-export const apiGetCongregationSpeakersList = async (congs) => {
-  const { apiHost, appVersion: appversion, visitorID: visitorid, congID, userUID: uid } = await apiDefault();
+export const apiGetApprovedVisitingSpeakersAccess =
+  async (): Promise<GetApprovedVisitingSpeakersAccessResponseType> => {
+    const { apiHost, appVersion: appversion, visitorID: visitorid, congID, userUID: uid } = await apiDefault();
 
-  if (!congs) {
-    const tmpList = await getVisitingSpeakersCongregations();
-    if (tmpList.length === 0) {
-      congs = [];
-    } else {
-      congs = tmpList.join(';');
-    }
-  }
+    const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/visiting-speakers-access`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
+    });
 
-  if (congs) {
-    congs = [congs];
-  }
+    const data = await res.json();
 
-  const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/visiting-speakers`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      appclient: 'organized',
-      appversion,
-      visitorid,
-      uid,
-      congs: JSON.stringify(congs),
-    },
-  });
-
-  const data = await res.json();
-
-  return { status: res.status, data };
-};
-
-export const apiGetApprovedVisitingSpeakersAccess = async () => {
-  const { apiHost, appVersion: appversion, visitorID: visitorid, congID, userUID: uid } = await apiDefault();
-
-  const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/visiting-speakers-access`, {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
-  });
-
-  const data = await res.json();
-
-  return { status: res.status, data };
-};
+    return { status: res.status, result: data };
+  };
 
 export const apiUpdateVisitingSpeakersAccess = async (congs) => {
   const { apiHost, appVersion: appversion, visitorID: visitorid, congID, userUID: uid } = await apiDefault();

@@ -1,32 +1,39 @@
+import { Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
+import { Box, Container, Toolbar } from '@mui/material';
+import { IconClose } from '@components/icons';
 import NavBar from '@layouts/navbar';
 import { AppModalWrapper } from '@wrapper/index';
-import { Box, Container, Toolbar } from '@mui/material';
 import {
   About,
   AppFeedback,
   AppUpdater,
+  Contact,
+  DemoStartup,
   EPUBMaterialsImport,
   JWMaterialsImport,
   MyAssignments,
   Startup,
   Support,
+  WorkInProgressNotif,
 } from '@features/index';
+import WaitingCircular from '@components/waiting_circular';
 import useRootLayout from './useRootLayout';
-import { IconClose } from '@components/icons';
+import { isDemo } from '@constants/index';
 
 const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
-  const { isAppLoad, isOpenAbout, isOpenSupport, appSnackOpen, isImportJWOrg, isImportEPUB } = useRootLayout();
+  const { isAppLoad, isOpenAbout, isOpenContact, isOpenSupport, isImportJWOrg, isImportEPUB } = useRootLayout();
 
   return (
     <AppModalWrapper>
       <NavBar />
       <AppUpdater updatePwa={updatePwa} />
 
-      {appSnackOpen && <AppFeedback />}
+      <AppFeedback />
+
+      <WorkInProgressNotif />
       {isImportJWOrg && <JWMaterialsImport />}
       {isImportEPUB && <EPUBMaterialsImport />}
-      <MyAssignments />
 
       <Toolbar sx={{ padding: 0 }}>
         {/* temporary workaround while page components are being built */}
@@ -43,15 +50,21 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
           marginTop: '24px',
         }}
       >
+        {isOpenContact && <Contact />}
         {isOpenAbout && <About />}
         {isOpenSupport && <Support />}
 
-        {isAppLoad && <Startup />}
+        {isAppLoad && !isDemo && <Startup />}
+
+        {isAppLoad && isDemo && <DemoStartup />}
 
         {!isAppLoad && (
-          <Box sx={{ marginBottom: '32px' }}>
-            <Outlet />
-          </Box>
+          <Suspense fallback={<WaitingCircular />}>
+            <Box sx={{ marginBottom: '32px' }}>
+              <MyAssignments />
+              <Outlet />
+            </Box>
+          </Suspense>
         )}
       </Container>
     </AppModalWrapper>

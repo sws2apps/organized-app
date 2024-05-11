@@ -5,8 +5,8 @@ import Typography from '@components/typography';
 import useSecurity from './useSecurity';
 import { ProfileItemContainer, SettingWithBorderContainer } from '../my_profile.styles';
 import { useAppTranslation } from '@hooks/index';
-import MFAEnable from './components/mfaEnable/index';
-import MFADisable from './components/mfaDisable';
+import MFAEnable from './mfaEnable';
+import MFADisable from './mfaDisable';
 
 const Security = () => {
   const { t } = useAppTranslation();

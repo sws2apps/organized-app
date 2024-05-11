@@ -1,8 +1,9 @@
 import { Box } from '@mui/material';
-import BaptizedPublisher from './components/baptized_publisher';
+import BaptizedPublisher from './baptized_publisher';
+import Checkbox from '@components/checkbox';
 import Typography from '@components/typography';
-import MidweekMeetingStudent from './components/midweek_meeting_student';
-import UnbaptizedPublisher from './components/unbaptized_publisher';
+import MidweekMeetingStudent from './midweek_meeting_student';
+import UnbaptizedPublisher from './unbaptized_publisher';
 import { useAppTranslation } from '@hooks/index';
 import useSpiritualStatus from './useSpiritualStatus';
 
@@ -16,6 +17,7 @@ const PersonSpiritualStatus = () => {
     handleToggleBaptizedPublisher,
     expandedStatus,
     handleToggleExpand,
+    handleToggleArchive,
   } = useSpiritualStatus();
 
   return (
@@ -31,7 +33,12 @@ const PersonSpiritualStatus = () => {
         width: '100%',
       }}
     >
-      <Typography className="h2">{t('tr_spiritualStatus')}</Typography>
+      <Box
+        sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}
+      >
+        <Typography className="h2">{t('tr_spiritualStatus')}</Typography>
+        <Checkbox label={t('tr_archived')} checked={person.archived.value} onChange={handleToggleArchive} />
+      </Box>
 
       <Box
         sx={{
@@ -45,21 +52,21 @@ const PersonSpiritualStatus = () => {
         }}
       >
         <BaptizedPublisher
-          checked={person.baptizedPublisher.active.value}
+          checked={person.publisher_baptized.active.value}
           onChange={handleToggleBaptizedPublisher}
           expanded={expandedStatus.baptized}
           onExpand={() => handleToggleExpand('baptized')}
         />
 
         <UnbaptizedPublisher
-          checked={person.unbaptizedPublisher.active.value}
+          checked={person.publisher_unbaptized.active.value}
           onChange={handleToggleUnbaptizedPublisher}
           expanded={expandedStatus.unbaptized}
           onExpand={() => handleToggleExpand('unbaptized')}
         />
 
         <MidweekMeetingStudent
-          checked={person.midweekMeetingStudent.active.value}
+          checked={person.midweek_meeting_student.active.value}
           onChange={handleToggleMidweekMeetingStudent}
           expanded={expandedStatus.midweek}
           onExpand={() => handleToggleExpand('midweek')}

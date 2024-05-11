@@ -15,7 +15,6 @@ const PublicTalksList = () => {
     <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
       <PageTitle
         title={t('tr_publicTalksList')}
-        backTo="/"
         buttons={
           <Button
             variant="secondary"

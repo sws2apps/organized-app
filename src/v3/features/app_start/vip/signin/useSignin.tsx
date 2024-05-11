@@ -6,7 +6,7 @@ const useSignin = () => {
   const { message, title, hideMessage, variant } = useFeedback();
 
   const handleReturnChooser = async () => {
-    await dbAppSettingsUpdate({ account_type: '' });
+    await dbAppSettingsUpdate({ 'user_settings.account_type': '' });
     await setIsAccountChoose(true);
   };
 

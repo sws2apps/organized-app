@@ -1,3 +1,4 @@
+import { GetUser2FAResponseType, GetUserSessionsType, ValidateMeResponseType } from '@definition/api';
 import { apiDefault } from './common';
 
 export const apiUserLogout = async () => {
@@ -81,7 +82,7 @@ export const apiHandleVerifyOTP = async (userOTP) => {
   return { status: res.status, data };
 };
 
-export const apiValidateMe = async () => {
+export const apiValidateMe = async (): Promise<ValidateMeResponseType> => {
   const { apiHost, appVersion: appversion, visitorID: visitorid, userUID: uid } = await apiDefault();
 
   const res = await fetch(`${apiHost}api/users/validate-me`, {
@@ -91,7 +92,7 @@ export const apiValidateMe = async () => {
 
   const data = await res.json();
 
-  return { status: res.status, data };
+  return { status: res.status, result: data };
 };
 
 export const apiUpdateUserFullname = async (fullname) => {
@@ -108,7 +109,7 @@ export const apiUpdateUserFullname = async (fullname) => {
   return { status: res.status, data };
 };
 
-export const apiGetUser2FA = async () => {
+export const apiGetUser2FA = async (): Promise<GetUser2FAResponseType> => {
   const { apiHost, appVersion: appversion, visitorID: visitorid, userUID: uid, userID } = await apiDefault();
 
   const res = await fetch(`${apiHost}api/users/${userID}/2fa`, {
@@ -118,7 +119,7 @@ export const apiGetUser2FA = async () => {
 
   const data = await res.json();
 
-  return { status: res.status, data };
+  return { status: res.status, result: data };
 };
 
 export const apiDisableUser2FA = async () => {
@@ -148,7 +149,7 @@ export const apiRevokeVIPSession = async (id) => {
   return { status: res.status, data };
 };
 
-export const apiGetUserSessions = async () => {
+export const apiGetUserSessions = async (): Promise<GetUserSessionsType> => {
   const { apiHost, appVersion: appversion, visitorID: visitorid, userUID: uid, userID } = await apiDefault();
 
   const res = await fetch(`${apiHost}api/users/${userID}/sessions`, {
@@ -158,7 +159,7 @@ export const apiGetUserSessions = async () => {
 
   const data = await res.json();
 
-  return { status: res.status, data };
+  return { status: res.status, result: data.message ? { message: data.message } : { sessions: data } };
 };
 
 export const apiDeletePocketDevice = async (pocket_visitorid) => {

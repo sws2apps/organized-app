@@ -4,6 +4,7 @@ import ButtonIcon from '@components/icon_button';
 import { IconAddMonth } from '@icons/index';
 import { FC, PropsWithChildren } from 'react';
 import { parseISO, getDay, format } from 'date-fns';
+import { useAppTranslation } from '@hooks/index';
 
 /**
  * Props for the AssigmentItem component.
@@ -21,6 +22,9 @@ interface AssigmentItemProps {
  * @returns {JSX.Element} AssigmentItem component.
  */
 export const AssigmentMonthItem = ({ assigmentDate }: AssigmentItemProps) => {
+  const { t } = useAppTranslation();
+  const formattedDate = format(new Date(assigmentDate), 'LLLL');
+  const formattedYear = format(new Date(assigmentDate), 'yyyy');
   return (
     <Box
       sx={{
@@ -31,7 +35,7 @@ export const AssigmentMonthItem = ({ assigmentDate }: AssigmentItemProps) => {
       }}
     >
       <Typography className="h2" color="var(--accent-dark)" sx={{ textAlign: 'left' }}>
-        {format(new Date(assigmentDate), 'MMMM yyyy')}
+        {t(`tr_${formattedDate.toLowerCase()}`)} {formattedYear}
       </Typography>
     </Box>
   );
@@ -52,8 +56,8 @@ const AssigmentItem: FC<PropsWithChildren & AssigmentItemProps> = ({ children, a
           borderRadius: 'var(--radius-m)',
           padding: '8px 4px',
           backgroundColor: [6, 0].includes(getDay(parseISO(assigmentDate)))
-            ? 'var(--green-main)'
-            : 'var(--accent-main)',
+            ? 'var(--weekend-meeting)'
+            : 'var(--midweek-meeting)',
         }}
       >
         <Typography className={'h2'} color={'var(--always-white)'}>
@@ -71,6 +75,7 @@ const AssigmentItem: FC<PropsWithChildren & AssigmentItemProps> = ({ children, a
           [theme.breakpoints.up('tablet')]: {
             ':hover': {
               button: {
+                backgroundColor: 'var(--accent-200)',
                 opacity: 1,
                 pointerEvents: 'all',
               },
@@ -85,11 +90,11 @@ const AssigmentItem: FC<PropsWithChildren & AssigmentItemProps> = ({ children, a
             [theme.breakpoints.up('tablet')]: {
               opacity: 0,
               pointerEvents: 'none',
-              transition: 'opacity 0.2s ease',
+              transition: 'opacity 500ms ease',
             },
           })}
         >
-          <IconAddMonth color={'var(--accent-main)'} />
+          <IconAddMonth color={'var(--accent-main)'} height={24} width={24} />
         </ButtonIcon>
       </Stack>
     </Stack>

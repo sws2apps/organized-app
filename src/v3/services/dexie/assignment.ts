@@ -1,7 +1,7 @@
 import { LANGUAGE_LIST } from '@constants/index';
-import { AssignmentCode } from '@definition/schedules';
+import { AssignmentCode } from '@definition/assignment';
 import { getTranslation } from '@services/i18n/translation';
-import appDb from '@shared/indexedDb/appDb';
+import appDb from '@db/appDb';
 
 export const dbAssignmentUpdate = async () => {
   const bReadObj = {};

@@ -4,49 +4,21 @@ Individual property are evaluated using recoil selector
 */
 
 import { atom, selector } from 'recoil';
-import { SettingsType } from '@definition/app';
-import { AccountTypeState } from '@definition/api';
-import { TimeAwayType } from '@definition/person';
+import { settingSchema } from '@services/dexie/schema';
+import { buildPersonFullname } from '@utils/common';
 
 export const settingsState = atom({
   key: 'settings',
-  default: {} as SettingsType,
+  default: settingSchema,
 });
 
-export const firstnameState = selector({
-  key: 'firstname',
-  get: ({ get }) => {
-    const settings = get(settingsState);
-
-    return settings?.firstname?.value || '';
-  },
-});
-
-export const lastnameState = selector({
-  key: 'lastname',
-  get: ({ get }) => {
-    const settings = get(settingsState);
-
-    return settings?.lastname?.value || '';
-  },
-});
-
-export const fullnameState = selector({
-  key: 'fullname',
-  get: ({ get }) => {
-    const firstname = get(firstnameState);
-    const lastname = get(lastnameState);
-
-    return `${lastname ? `${lastname} ` : ''}${firstname}`;
-  },
-});
-
+// CONGREGATION SETTINGS
 export const congNumberState = selector({
   key: 'congNumber',
   get: ({ get }) => {
     const settings = get(settingsState);
 
-    return settings.cong_number || '';
+    return settings.cong_settings.cong_number;
   },
 });
 
@@ -55,7 +27,16 @@ export const congNameState = selector({
   get: ({ get }) => {
     const settings = get(settingsState);
 
-    return settings.cong_name || '';
+    return settings.cong_settings.cong_name;
+  },
+});
+
+export const countryCodeState = selector({
+  key: 'countryCode',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+
+    return settings.cong_settings.country_code;
   },
 });
 
@@ -64,7 +45,7 @@ export const congEncryptionCodeState = selector({
   get: ({ get }) => {
     const settings = get(settingsState);
 
-    return settings.cong_code || '';
+    return settings.cong_settings.cong_code;
   },
 });
 
@@ -73,7 +54,7 @@ export const congNewState = selector({
   get: ({ get }) => {
     const settings = get(settingsState);
 
-    return settings.cong_new || false;
+    return settings.cong_settings.cong_new;
   },
 });
 
@@ -82,142 +63,56 @@ export const congRoleState = selector({
   get: ({ get }) => {
     const settings = get(settingsState);
 
-    return settings.cong_role || [];
+    return settings.user_settings.cong_role;
   },
 });
 
-export const classCountState = selector({
-  key: 'classCount',
+export const fullnameOptionState = selector({
+  key: 'fullnameOption',
   get: ({ get }) => {
     const settings = get(settingsState);
 
-    return settings.class_count || 1;
+    return settings.cong_settings.fullname_option.value;
   },
 });
 
-export const midweekMeetingDayState = selector({
-  key: 'midweekMeetingDay',
-  get: ({ get }) => {
-    const settings = get(settingsState);
-
-    return settings.midweek_meeting_day || 3;
-  },
-});
-
-export const meetingTimeState = selector({
-  key: 'meetingTime',
-  get: ({ get }) => {
-    const settings = get(settingsState);
-
-    return settings.meeting_time || new Date();
-  },
-});
-
-export const userAvatarState = selector({
-  key: 'userAvatar',
-  get: ({ get }) => {
-    const settings = get(settingsState);
-
-    return settings.user_avatar || undefined;
-  },
-});
-
-export const coNameState = selector({
-  key: 'coName',
-  get: ({ get }) => {
-    const settings = get(settingsState);
-
-    return settings.co_name || '';
-  },
-});
-
-export const coDisplayNameState = selector({
+export const COFirstnameState = selector({
   key: 'coDisplayName',
   get: ({ get }) => {
     const settings = get(settingsState);
 
-    return settings.co_displayName || '';
+    return settings.cong_settings.circuit_overseer.firstname.value;
   },
 });
 
-export const autoBackupState = selector({
-  key: 'autoBackup',
+export const COLastnameState = selector({
+  key: 'COLastname',
   get: ({ get }) => {
     const settings = get(settingsState);
 
-    return settings?.autoBackup?.value || false;
+    return settings.cong_settings.circuit_overseer.lastname.value;
   },
 });
 
-export const autoBackupIntervalState = selector({
-  key: 'autoBackupInterval',
+export const COLDisplayNameState = selector({
+  key: 'COLastnameState',
   get: ({ get }) => {
     const settings = get(settingsState);
 
-    return settings?.autoBackup_interval?.value || 5;
+    return settings.cong_settings.circuit_overseer.display_name.value;
   },
 });
 
-export const scheduleUseFullnameState = selector({
-  key: 'scheduleUseFullname',
+export const COLFullnametate = selector({
+  key: 'COLFullname',
   get: ({ get }) => {
-    const settings = get(settingsState);
+    const firstname = get(COFirstnameState);
+    const lastname = get(COLastnameState);
+    const fullnameOption = get(fullnameOptionState);
 
-    return settings.schedule_useFullname || false;
-  },
-});
+    const fullname = buildPersonFullname(lastname, firstname, fullnameOption);
 
-export const accountTypeState = selector({
-  key: 'accountType',
-  get: ({ get }) => {
-    const settings = get(settingsState);
-
-    return (settings.account_type as AccountTypeState) || '';
-  },
-});
-
-export const openingPrayerMMAutoAssignState = selector({
-  key: 'openingPrayerMMAutoAssign',
-  get: ({ get }) => {
-    const settings = get(settingsState);
-
-    return settings.opening_prayer_MM_autoAssign || false;
-  },
-});
-
-export const userLocalUIDState = selector({
-  key: 'userLocalUID',
-  get: ({ get }) => {
-    const settings = get(settingsState);
-
-    return settings.user_local_uid || '';
-  },
-});
-
-export const userMembersDelegateState = selector({
-  key: 'userMembersDelegate',
-  get: ({ get }) => {
-    const settings = get(settingsState);
-
-    return settings.user_members_delegate || [];
-  },
-});
-
-export const openingPrayerWMAutoAssignState = selector({
-  key: 'openingPrayerWMAutoAssign',
-  get: ({ get }) => {
-    const settings = get(settingsState);
-
-    return settings.opening_prayer_WM_autoAssign || false;
-  },
-});
-
-export const weekendMeetingDayState = selector({
-  key: 'weekendMeetingDay',
-  get: ({ get }) => {
-    const settings = get(settingsState);
-
-    return settings.weekend_meeting_day || 6;
+    return fullname;
   },
 });
 
@@ -313,8 +208,8 @@ export const personEditorRoleState = selector({
   },
 });
 
-export const isMeetingEditorRoleState = selector({
-  key: 'isMeetingEditorRole',
+export const meetingEditorRoleState = selector({
+  key: 'meetingEditorRole',
   get: ({ get }) => {
     const lmmoRole = get(lmmoRoleState);
     const coordinatorRole = get(coordinatorRoleState);
@@ -324,37 +219,64 @@ export const isMeetingEditorRoleState = selector({
   },
 });
 
-export const avatarUrlState = selector({
-  key: 'avatarUrl',
-  get: ({ get }) => {
-    const userAvatar = get(userAvatarState);
-
-    let src = '';
-
-    if (userAvatar && typeof userAvatar === 'object') {
-      const blob = new Blob([userAvatar]);
-      src = URL.createObjectURL(blob);
-    }
-
-    return src;
-  },
-});
-
-export const autoAssignMMOpeningPrayerState = selector({
-  key: 'autoAssignMMOpeningPrayer',
+export const congDiscoverableState = selector({
+  key: 'congDiscoverable',
   get: ({ get }) => {
     const settings = get(settingsState);
 
-    return settings.opening_prayer_MM_autoAssign || false;
+    return settings.cong_settings.cong_discoverable.value;
   },
 });
 
-export const autoAssignWMOpeningPrayerState = selector({
-  key: 'autoAssignWMOpeningPrayer',
+export const displayNameEnableState = selector({
+  key: 'displayNameEnable',
   get: ({ get }) => {
     const settings = get(settingsState);
 
-    return settings.opening_prayer_WM_autoAssign || false;
+    return settings.cong_settings.display_name_enabled.value;
+  },
+});
+
+// MIDWEEK MEETING
+
+export const midweekMeetingClassCountState = selector({
+  key: 'midweekMeetingClassCount',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+    const dataView = get(userDataViewState);
+
+    return settings.cong_settings.midweek_meeting.find((record) => record.type === dataView).class_count.value;
+  },
+});
+
+export const midweekMeetingWeekdayState = selector({
+  key: 'midweekMeetingWeekday',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+    const dataView = get(userDataViewState);
+
+    return settings.cong_settings.midweek_meeting.find((record) => record.type === dataView).weekday;
+  },
+});
+
+export const midweekMeetingTimeState = selector({
+  key: 'midweekMeetingTime',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+    const dataView = get(userDataViewState);
+
+    return settings.cong_settings.midweek_meeting.find((record) => record.type === dataView).time;
+  },
+});
+
+export const midweekMeetingOpeningPrayerAutoAssign = selector({
+  key: 'openingPrayerMMAutoAssign',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+    const dataView = get(userDataViewState);
+
+    return settings.cong_settings.midweek_meeting.find((record) => record.type === dataView).opening_prayer_auto_assign
+      .value;
   },
 });
 
@@ -362,8 +284,33 @@ export const midweekMeetingExactDateState = selector({
   key: 'midweekMeetingExactDate',
   get: ({ get }) => {
     const settings = get(settingsState);
+    const dataView = get(userDataViewState);
 
-    return settings.midweek_meeting_useExactDate || false;
+    return settings.cong_settings.midweek_meeting.find((record) => record.type === dataView)
+      .schedule_exact_date_enabled;
+  },
+});
+
+// WEEKEND MEETING
+
+export const weekendMeetingOpeningPrayerAutoAssignState = selector({
+  key: 'weekendMeetingOpeningPrayerAutoAssign',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+    const dataView = get(userDataViewState);
+
+    return settings.cong_settings.weekend_meeting.find((record) => record.type === dataView)
+      .opening_prayer_auto_assigned.value;
+  },
+});
+
+export const weekendMeetingWeekdayState = selector({
+  key: 'weekendMeetingWeekday',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+    const dataView = get(userDataViewState);
+
+    return settings.cong_settings.weekend_meeting.find((record) => record.type === dataView).weekday;
   },
 });
 
@@ -371,43 +318,147 @@ export const weekendMeetingSubstituteSpeakerState = selector({
   key: 'weekendMeetingSubstituteSpeaker',
   get: ({ get }) => {
     const settings = get(settingsState);
+    const dataView = get(userDataViewState);
 
-    return settings.weekend_meeting_useSubstituteSpeaker || false;
+    return settings.cong_settings.weekend_meeting.find((record) => record.type === dataView).substitute_speaker_enabled;
   },
 });
 
-export const followOSThemeState = selector({
-  key: 'followOSTheme',
+// USER SETTINGS
+
+export const userDataViewState = selector({
+  key: 'userDataView',
   get: ({ get }) => {
     const settings = get(settingsState);
 
-    return settings?.follow_os_theme?.value || false;
+    return settings.user_settings.data_view;
   },
 });
 
-export const enableHourCreditsState = selector({
-  key: 'enableHourCredits',
+export const firstnameState = selector({
+  key: 'firstname',
   get: ({ get }) => {
     const settings = get(settingsState);
 
-    return settings?.enable_hour_credits?.value || false;
+    return settings.user_settings.firstname.value;
   },
 });
 
-export const userTimeAwayState = selector<TimeAwayType[]>({
+export const lastnameState = selector({
+  key: 'lastname',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+
+    return settings.user_settings.lastname.value;
+  },
+});
+
+export const fullnameState = selector({
+  key: 'fullname',
+  get: ({ get }) => {
+    const firstname = get(firstnameState);
+    const lastname = get(lastnameState);
+    const fullnameOption = get(fullnameOptionState);
+
+    const fullname = buildPersonFullname(lastname, firstname, fullnameOption);
+
+    return fullname;
+  },
+});
+
+export const userAvatarState = selector({
+  key: 'userAvatar',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+
+    return settings.user_settings.user_avatar;
+  },
+});
+
+export const userAvatarUrlState = selector({
+  key: 'userAvatarUrl',
+  get: ({ get }) => {
+    const avatarBuffer = get(userAvatarState);
+
+    let src = '';
+
+    if (avatarBuffer) {
+      const blob = new Blob([avatarBuffer]);
+      src = URL.createObjectURL(blob);
+    }
+
+    return src;
+  },
+});
+
+export const backupAutoState = selector({
+  key: 'backupAuto',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+
+    return settings.user_settings.backup_automatic.enabled.value;
+  },
+});
+
+export const backupIntervalState = selector({
+  key: 'backupInterval',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+
+    return settings.user_settings.backup_automatic.interval.value;
+  },
+});
+
+export const accountTypeState = selector({
+  key: 'accountType',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+
+    return settings.user_settings.account_type;
+  },
+});
+
+export const userLocalUIDState = selector({
+  key: 'userLocalUID',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+
+    return settings.user_settings.user_local_uid;
+  },
+});
+
+export const userMembersDelegateState = selector({
+  key: 'userMembersDelegate',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+
+    return settings.user_settings.user_members_delegate;
+  },
+});
+
+export const themeFollowOSEnabledState = selector({
+  key: 'themeFollowOSEnabled',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+
+    return settings.user_settings.theme_follow_os_enabled.value;
+  },
+});
+
+export const hoursCreditsEnabledState = selector({
+  key: 'hoursCreditsEnabled',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+
+    return settings.user_settings.hour_credits_enabled.value;
+  },
+});
+
+export const userTimeAwayState = selector({
   key: 'userTimeAway',
   get: ({ get }) => {
     const settings = get(settingsState);
 
-    return settings?.user_time_away || [];
-  },
-});
-
-export const publicTalkSyncState = selector({
-  key: 'publicTalkSync',
-  get: ({ get }) => {
-    const settings = get(settingsState);
-
-    return settings?.public_talk_sync || '';
+    return settings.user_settings.user_time_away;
   },
 });
