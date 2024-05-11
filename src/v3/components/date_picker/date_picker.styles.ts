@@ -99,8 +99,8 @@ export const StyleDatePickerPopper = {
     width: 'inherit',
     padding: '0px 12px 0px 12px',
     overflowY: 'hidden',
-    maxHeight: 'unset',
-    height: 'auto',
+    maxHeight: '400px',
+    height: '100%',
     '@media (max-width:376px)': {
       padding: '0 5px',
     },

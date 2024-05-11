@@ -137,8 +137,8 @@ const useSpiritualStatus = () => {
       const currentMidweek = newPerson.midweek_meeting_student.history.find((record) => record.end_date.value === null);
 
       if (currentMidweek) {
-        const start_date = formatDate(new Date(currentMidweek.start_date.value), 'mm/dd/yyyy');
-        const nowDate = formatDate(dateFirstDayMonth(), 'mm/dd/yyyy');
+        const start_date = formatDate(new Date(currentMidweek.start_date.value), 'MM/dd/yyyy');
+        const nowDate = formatDate(dateFirstDayMonth(), 'MM/dd/yyyy');
 
         if (start_date === nowDate) {
           if (isAddPerson) {
@@ -212,8 +212,8 @@ const useSpiritualStatus = () => {
       const currentUnbaptized = newPerson.publisher_unbaptized.history.find((record) => record.end_date.value === null);
 
       if (currentUnbaptized) {
-        const start_date = formatDate(new Date(currentUnbaptized.start_date.value), 'mm/dd/yyyy');
-        const nowDate = formatDate(dateFirstDayMonth(), 'mm/dd/yyyy');
+        const start_date = formatDate(new Date(currentUnbaptized.start_date.value), 'MM/dd/yyyy');
+        const nowDate = formatDate(dateFirstDayMonth(), 'MM/dd/yyyy');
 
         if (start_date === nowDate) {
           if (isAddPerson) {
@@ -241,8 +241,8 @@ const useSpiritualStatus = () => {
       const currentMidweek = newPerson.midweek_meeting_student.history.find((record) => record.end_date.value === null);
 
       if (currentMidweek) {
-        const start_date = formatDate(new Date(currentMidweek.start_date.value), 'mm/dd/yyyy');
-        const nowDate = formatDate(dateFirstDayMonth(), 'mm/dd/yyyy');
+        const start_date = formatDate(new Date(currentMidweek.start_date.value), 'MM/dd/yyyy');
+        const nowDate = formatDate(dateFirstDayMonth(), 'MM/dd/yyyy');
 
         if (start_date === nowDate) {
           if (isAddPerson) {
