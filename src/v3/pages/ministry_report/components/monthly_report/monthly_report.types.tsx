@@ -1,5 +1,5 @@
 import { MinistryRecord, MinistryReportVariants } from '@pages/ministry_report/ministry_report.types';
-import { ReactElement } from 'react';
+import { ChangeEvent, ReactElement } from 'react';
 
 export type MonthlyReportProps = {
   /**
@@ -38,8 +38,8 @@ export type MonthlyReportProps = {
   showCreditHours?: boolean;
 
   /**
-   * Callback function invoked when the comment is changed.
-   * @param value The new value of the comment.
+   * A function to be called when the comment input field changes.
+   * @param event - The change event.
    */
-  commentOnChange: (value: string) => void;
+  commentOnChange?: (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 };

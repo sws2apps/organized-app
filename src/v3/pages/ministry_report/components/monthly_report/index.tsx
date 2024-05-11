@@ -3,7 +3,7 @@ import ScrollableTabs from '@components/scrollable_tabs';
 import CustomTextarea from '@components/textarea';
 import CustomTypography from '@components/typography';
 import useAppTranslation from '@hooks/useAppTranslation';
-import { Box, Divider } from '@mui/material';
+import { Box } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { MonthlyReportProps } from './monthly_report.types';
 // import { CustomDropdownContainer, CustomDropdownItem, CustomDropdownMenu } from '@components/dropdown';
@@ -16,7 +16,7 @@ import {
   // IconSchool,
   // IconSchoolForEvangelizers,
 } from '@components/icons';
-import { MiniChip } from '@components/index';
+import { CustomDivider, MiniChip } from '@components/index';
 // import { EditAndAddBibleStudyContext } from '@features/ministry/EditAndAddBibleStudyContext';
 import CustomBadge from '@components/badge';
 import { convertDurationInSecondsToString } from '@features/ministry/utils';
@@ -225,11 +225,7 @@ const MonthlyReport = (props: MonthlyReportProps) => {
             gap: '12px',
           }}
         >
-          <Divider
-            sx={{
-              border: '1px solid var(--accent-200)',
-            }}
-          />
+          <CustomDivider color="var(--accent-200)" height={1} />
 
           <Box
             sx={{
@@ -313,7 +309,8 @@ const MonthlyReport = (props: MonthlyReportProps) => {
 
           {/** For change border use this website (border generator): https://codepen.io/amit_sheen/pen/xxZeyjO */}
           {showCreditHours ? (
-            <Divider
+            <CustomDivider
+              color="transparent"
               sx={{
                 backgroundImage: `repeating-linear-gradient(0deg, var(--accent-200), var(--accent-200) 5px, transparent 5px, transparent 10px, var(--accent-200) 10px), repeating-linear-gradient(90deg, var(--accent-200), var(--accent-200) 5px, transparent 5px, transparent 10px, var(--accent-200) 10px), repeating-linear-gradient(180deg, var(--accent-200), var(--accent-200) 5px, transparent 5px, transparent 10px, var(--accent-200) 10px), repeating-linear-gradient(270deg, var(--accent-200), var(--accent-200) 5px, transparent 5px, transparent 10px, var(--accent-200) 10px)`,
                 backgroundSize: `1px 100%, 100% 1px, 1px 100% , 100% 1px`,
@@ -323,11 +320,7 @@ const MonthlyReport = (props: MonthlyReportProps) => {
               }}
             />
           ) : (
-            <Divider
-              sx={{
-                border: '1px solid var(--accent-200)',
-              }}
-            />
+            <CustomDivider color="var(--accent-200)" height={1} />
           )}
 
           {showCreditHours ? (
@@ -461,11 +454,7 @@ const MonthlyReport = (props: MonthlyReportProps) => {
                 </Box>
               </Box>
 
-              <Divider
-                sx={{
-                  border: '1px solid var(--accent-200)',
-                }}
-              />
+              <CustomDivider color="var(--accent-200)" height={1} />
             </>
           ) : null}
         </Box>
@@ -615,7 +604,7 @@ const MonthlyReport = (props: MonthlyReportProps) => {
           setInfoMessageBoxOpen(false);
         }}
       />
-      <CustomTextarea placeholder={t('tr_comments')} onChange={(value) => props.commentOnChange(value)} />
+      <CustomTextarea placeholder={t('tr_comments')} onChange={props.commentOnChange} />
     </Box>
   );
 };

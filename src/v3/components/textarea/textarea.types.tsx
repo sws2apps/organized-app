@@ -1,3 +1,5 @@
+import { ChangeEvent } from 'react';
+
 /**
  * CustomTextareaProps Type
  *
@@ -10,9 +12,15 @@ export type CustomTextareaProps = {
   placeholder?: string;
 
   /**
-   * Callback function triggered when the textarea value changes.
+   * Callback fired when the value is changed.
    *
-   * @param {string} value - The new value of the textarea.
+   * @param {object} event The event source of the callback.
+   * You can pull out the new value by accessing `event.target.value` (string).
    */
-  onChange?: (value: string) => void;
+  onChange?: (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+
+  /**
+   * The value of the `input` element, required for a controlled component.
+   */
+  value?: unknown;
 };

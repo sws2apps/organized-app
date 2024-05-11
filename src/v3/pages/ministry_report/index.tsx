@@ -37,12 +37,16 @@ const MinistryReport = () => {
     }
   };
 
+  const [comment, setComment] = useState(['']);
+
   // TODO: Connect API | Add next stages (Out)
   const confirmReport = () => {
     const totalRecord = getTotalRecordByDailyHistory();
     const reportExtraMinutes = extraMinutes;
     const reportActionWithExtraMinutes = actionWithExtraMinutes;
-    const reportComment = comment;
+    const reportComment = comment[0];
+
+    console.log(reportComment);
 
     setReportSubmitted(true);
   };
@@ -141,16 +145,17 @@ const MinistryReport = () => {
     setAddServiceTimeModalWindowOpen(true);
   };
 
-  const [comment, setComment] = useState('');
-
   const MonthlyReportSelecter = () => {
     if (ministyDailyHistory.length != 0) {
       return (
         <MonthlyReport
           months={null}
+          showCreditHours
           variant={userType}
           record={getTotalRecordByDailyHistory()}
-          commentOnChange={(value) => setComment(value)}
+          commentOnChange={(event) => {
+            comment[0] = event.target.value;
+          }}
         />
       );
     }
@@ -159,7 +164,9 @@ const MinistryReport = () => {
         months={null}
         variant="empty"
         record={getEmptyMinistryRecord()}
-        commentOnChange={(value) => setComment(value)}
+        commentOnChange={(event) => {
+          comment[0] = event.target.value;
+        }}
       />
     );
   };
@@ -181,7 +188,6 @@ const MinistryReport = () => {
       <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
         <PageTitle
           title={t('tr_report')}
-          backTo="/"
           buttons={
             !reportSubmitted ? (
               <CustomButton variant="main" startIcon={<IconSend />} onClick={handleTheConfirmReport}>

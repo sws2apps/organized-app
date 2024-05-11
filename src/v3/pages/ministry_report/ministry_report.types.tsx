@@ -61,6 +61,10 @@ export class MinistryRecord {
     hours_in_seconds: ${this.hours_in_seconds}, credit_hours_in_seconds: ${this.credit_hours_in_seconds}, bible_studies: ${this.bible_studies.toString()}}`;
   }
 
+  /**
+   * Checks if the MinistryRecord is empty.
+   * @returns True if the MinistryRecord is empty, otherwise false.
+   */
   isEmpty(): boolean {
     if (
       this.date_of_creation == '' &&

@@ -15,6 +15,7 @@ const CustomTextarea = (props: CustomTextareaProps) => {
       multiline
       placeholder={props.placeholder}
       className="body-regular"
+      onChange={props.onChange}
       sx={{
         width: '100%',
         minHeight: '90px',
@@ -39,9 +40,6 @@ const CustomTextarea = (props: CustomTextareaProps) => {
             color: 'var(--accent-main)',
           },
         },
-      }}
-      onChange={(event) => {
-        props.onChange(event.target.value);
       }}
     />
   );
