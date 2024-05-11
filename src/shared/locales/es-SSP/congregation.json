@@ -370,7 +370,7 @@
   "tr_congregationSecurityDesc": "In Organized, your privacy and security are top priority. The app has several layers of protection in place. Two important ones are the ‘Congregation access code’ and the ‘Congregation master key’. They keep congregation data safely encrypted and allow only authorized users to access it. <a 'href=#'>Learn more</a> about these and other security features.",
   "tr_congregationMasterKey": "Congregation master key",
   "tr_congregationMasterKeyDesc": "This code is essential for securely accessing congregation data, including congregation and ministry reports, the persons list, and other information only available to appointed brothers. It's the most important code – losing it could result in losing all congregation data.",
-  "tr_congregationAccessCodeDesc": "This is your congregation's unique code for connecting new users or logging in. It's used to encrypt basic congregation data as well.",
+  "tr_congregationAccessCodeDesc": "This is your congregation's unique code for connecting new users or logging in. It's used to encrypt congregation data for all users.",
   "tr_congregationAccessCode": "Congregation access code",
   "tr_changeKeyButton": "Change master key",
   "tr_changeAccessCodeButton": "Change access code",
