@@ -369,7 +369,7 @@
   "tr_congregationSecurity": "Ժողովի անվտանգությունը",
   "tr_congregationSecurityDesc": "Organized-ում ձեր գաղտնիությունն ու անվտանգությունը մեր առաջնահերթությունն են: Հավելվածն ունի պաշտպանության մի քանի մակարդակ: Երկու կարևոր կետերն են «Ժողովի մուտքի կոդը» և «Ժողովի գլխավոր բանալին»: Նրանք ապահով կերպով կոդավորում են ժողովի տվյալները և սահմանափակում են մուտքը միայն լիազորված օգտատերերի համար: <a 'href=#'>Իմացեք ավելին</a> այս և անվտանգության այլ գործառույթների մասին:",
   "tr_congregationMasterKey": "Ժողովի գլխավոր բանալի",
-  "tr_congregationMasterKeyDesc": "Այս կոդը պահանջվում է ժողովի տվյալներին անվտանգ մուտք գործելու համար, ներառյալ հանդիպումների և ծառայության գրառումները, անձանց ցուցակը և այլ տեղեկություններ, որոնք հասանելի են միայն նշանակված եղբայրներին: Սա ամենակարևոր ծածկագիրն է, որի կորուստը կարող է հանգեցնել ժողովի բոլոր տվյալների կորստի:",
+  "tr_congregationMasterKeyDesc": "This code is essential for securely accessing congregation data, including congregation and ministry reports, the persons list, and other information only available to appointed brothers. It's the most important code – losing it could result in losing all congregation data.",
   "tr_congregationAccessCodeDesc": "Սա ձեր ժողովի եզակի կոդըն է՝ նոր օգտվողներին միացնելու կամ մուտք գործելու համար: Այն նաև օգտագործվում է ժողովի հիմնական տվյալները գաղտնագրելու համար:",
   "tr_congregationAccessCode": "Ժողովի մուտքի կոդը",
   "tr_changeKeyButton": "Փոփոխել գլխավոր բանալին",
