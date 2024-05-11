@@ -59,8 +59,8 @@ const personArchiveMidweekMeeting = (person: PersonType, isAddPerson: boolean) =
       (record) => record._deleted === null && record.end_date.value === null
     );
 
-    const start_date = formatDate(new Date(current.start_date.value), 'mm/dd/yyyy');
-    const nowDate = formatDate(new Date(), 'mm/dd/yyyy');
+    const start_date = formatDate(new Date(current.start_date.value), 'MM/dd/yyyy');
+    const nowDate = formatDate(new Date(), 'MM/dd/yyyy');
 
     if (start_date === nowDate) {
       if (isAddPerson) {
@@ -87,8 +87,8 @@ const personArchiveUnbaptizedPublisher = (person: PersonType, isAddPerson: boole
       (record) => record._deleted === null && record.end_date.value === null
     );
 
-    const start_date = formatDate(new Date(current.start_date.value), 'mm/dd/yyyy');
-    const nowDate = formatDate(new Date(), 'mm/dd/yyyy');
+    const start_date = formatDate(new Date(current.start_date.value), 'MM/dd/yyyy');
+    const nowDate = formatDate(new Date(), 'MM/dd/yyyy');
 
     if (start_date === nowDate) {
       if (isAddPerson) {
@@ -115,8 +115,8 @@ const personArchiveBaptizedPublisher = (person: PersonType, isAddPerson: boolean
       (record) => record._deleted === null && record.end_date.value === null
     );
 
-    const start_date = formatDate(new Date(current.start_date.value), 'mm/dd/yyyy');
-    const nowDate = formatDate(new Date(), 'mm/dd/yyyy');
+    const start_date = formatDate(new Date(current.start_date.value), 'MM/dd/yyyy');
+    const nowDate = formatDate(new Date(), 'MM/dd/yyyy');
 
     if (start_date === nowDate) {
       if (isAddPerson) {

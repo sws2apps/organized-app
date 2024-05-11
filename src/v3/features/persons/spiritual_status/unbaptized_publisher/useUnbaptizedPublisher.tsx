@@ -27,8 +27,8 @@ const useUnbaptizedPublisher = () => {
     if (isActive) {
       const activeRecord = newPerson.publisher_unbaptized.history.find((record) => record.end_date.value === null);
 
-      const start_date = formatDate(new Date(activeRecord.start_date.value), 'mm/dd/yyyy');
-      const nowDate = formatDate(new Date(), 'mm/dd/yyyy');
+      const start_date = formatDate(new Date(activeRecord.start_date.value), 'MM/dd/yyyy');
+      const nowDate = formatDate(new Date(), 'MM/dd/yyyy');
 
       if (start_date === nowDate) {
         if (isAddPerson) {
