@@ -369,7 +369,7 @@
   "tr_congregationSecurity": "Безпека збору",
   "tr_congregationSecurityDesc": "У Organized твоя конфіденційність та безпека є найвищим пріоритетом. Додаток має декілька рівнів захисту. Два важливі з низ – це «Код доступу до збору» та «Головний зборовий ключ». Вони зберігають дані збору безпечно зашифрованими та дозволяють доступ тільки авторизованим користувачам. <a 'href=#'>Дізнайся більше</a> про ці та інші функції безпеки.",
   "tr_congregationMasterKey": "Головний зборовий ключ",
-  "tr_congregationMasterKeyDesc": "Цей код є важливим для безпечного доступу до даних про спільноту, включаючи звіти про спільноту та збір, список осіб та іншу інформацію, доступну лише призначеним братам. Це найважливіший код – його втрата може призвести до втрати всіх даних збору.",
+  "tr_congregationMasterKeyDesc": "This code is essential for securely accessing congregation data, including congregation and ministry reports, the persons list, and other information only available to appointed brothers. It's the most important code – losing it could result in losing all congregation data.",
   "tr_congregationAccessCodeDesc": "This is your congregation's unique code for connecting new users or logging in. It's used to encrypt congregation data for all users.",
   "tr_congregationAccessCode": "Код доступу до збору",
   "tr_changeKeyButton": "Змінити головний ключ",
