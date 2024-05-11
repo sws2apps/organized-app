@@ -10,7 +10,7 @@ import Button from '@components/button';
 import Typography from '@components/typography';
 import { DesktopDatePicker } from '@mui/x-date-pickers';
 import { CustomDatePickerProps } from './date_picker.types';
-import ButtonField from './view/button';
+import ButtonField, { FieldProps } from './view/button';
 import DatePickerInputField from './view/input';
 import {
   StyleDatePickerActionBar,
@@ -77,6 +77,11 @@ const CustomDatePicker = ({
 
   const handleValueChange = (value: Date) => {
     setInnerValue(value);
+
+    if (view === 'button') {
+      setValueTmp(value);
+      setOpen(false);
+    }
   };
 
   useEffect(() => {
@@ -99,44 +104,50 @@ const CustomDatePicker = ({
           <DesktopDatePicker
             slots={{
               ...viewProps,
-              actionBar: () => (
-                <Stack direction={'row'} justifyContent={'space-between'} p={'12px'} gap={'12px'}>
-                  <Button
-                    variant="secondary"
-                    onClick={() => {
-                      setOpen(false);
-                      setValueTmp(null);
-                      onChange && onChange(null);
-                    }}
-                  >
-                    {t('tr_clear')}
-                  </Button>
-                  <Button
-                    variant="main"
-                    onClick={() => {
-                      setValueTmp(innerValue);
-                      onChange && onChange(innerValue);
-                      setOpen(false);
-                    }}
-                  >
-                    {t('tr_save')}
-                  </Button>
-                </Stack>
-              ),
-              toolbar: () => (
-                <Stack
-                  direction={'column'}
-                  sx={{
-                    padding: '16px 12px 12px 24px',
-                    borderBottom: '1px solid var(--accent-200)',
-                  }}
-                >
-                  <Typography className="body-small-semibold" color={'var(--grey-400)'}>
-                    {t('tr_selectDate')}
-                  </Typography>
-                  <Typography className="h2">{`${handleFormatSelected(innerValue)}`}</Typography>
-                </Stack>
-              ),
+              actionBar:
+                view === 'button'
+                  ? null
+                  : () => (
+                      <Stack direction={'row'} justifyContent={'space-between'} p={'12px'} gap={'12px'}>
+                        <Button
+                          variant="secondary"
+                          onClick={() => {
+                            setOpen(false);
+                            setValueTmp(null);
+                            onChange && onChange(null);
+                          }}
+                        >
+                          {t('tr_clear')}
+                        </Button>
+                        <Button
+                          variant="main"
+                          onClick={() => {
+                            setValueTmp(innerValue);
+                            onChange && onChange(innerValue);
+                            setOpen(false);
+                          }}
+                        >
+                          OK
+                        </Button>
+                      </Stack>
+                    ),
+              toolbar:
+                view === 'button'
+                  ? null
+                  : () => (
+                      <Stack
+                        direction={'column'}
+                        sx={{
+                          padding: '16px 12px 12px 24px',
+                          borderBottom: '1px solid var(--accent-200)',
+                        }}
+                      >
+                        <Typography className="body-small-semibold" color={'var(--grey-400)'}>
+                          {t('tr_selectDate')}
+                        </Typography>
+                        <Typography className="h2">{`${handleFormatSelected(innerValue)}`}</Typography>
+                      </Stack>
+                    ),
             }}
             open={open}
             minDate={minDate}
@@ -155,7 +166,8 @@ const CustomDatePicker = ({
               },
               field: {
                 format: shortDateFormatLocale,
-              },
+                setOpen: setOpen,
+              } as FieldProps,
               popper: {
                 sx: {
                   ...StyleDatePickerPopper,
