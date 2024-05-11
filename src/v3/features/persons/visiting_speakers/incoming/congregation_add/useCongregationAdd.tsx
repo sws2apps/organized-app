@@ -167,7 +167,7 @@ const useCongregationAdd = (onClose: VoidFunction) => {
 
   useEffect(() => {
     if (congregation) {
-      const addressWithoutTags = congregation.cong_location.address.split(/<[^>]*>/).join('');
+      const addressWithoutTags = congregation.cong_location.address.replace(/<\/?[^>]+(>|$)/g, '');
       const address = addressWithoutTags.replace(/(\r\n|\n|\r)/gm, ' ');
 
       const obj: CongregationIncomingDetailsType = {
