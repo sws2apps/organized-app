@@ -7,10 +7,9 @@ import React, { useState } from 'react';
 /**
  * Component that renders scrollable tabs.
  *
- * @param tabs Array of tab labels.
  */
-function ScrollableTabs({ tabs }: CustomTabProps) {
-  const [valueOfActivePanel, setValueOfActivePanel] = useState(0);
+function ScrollableTabs({ tabs, selected, indicatorMode }: CustomTabProps) {
+  const [valueOfActivePanel, setValueOfActivePanel] = useState(selected || 0);
 
   /**
    * Handles tab change event.
@@ -19,8 +18,10 @@ function ScrollableTabs({ tabs }: CustomTabProps) {
    * @param newValue The new value of the active tab.
    */
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    event.preventDefault();
-    setValueOfActivePanel(newValue);
+    if (!indicatorMode) {
+      event.preventDefault();
+      setValueOfActivePanel(newValue);
+    }
   };
 
   return (
@@ -55,14 +56,23 @@ function ScrollableTabs({ tabs }: CustomTabProps) {
         }}
       >
         {tabs.map(
-          ({ label }): React.ReactNode => (
+          ({ label, icon }): React.ReactNode => (
             <Tab
               label={label}
               key={label}
+              icon={icon}
+              iconPosition="end"
               sx={{
                 fontSize: 16,
+                textTransform: 'capitalize',
                 ':not(&.Mui-selected)': { fontWeight: 400 },
-                '&.Mui-Selected': { fontWeight: 600, fontSize: 18 },
+                '&.Mui-Selected': {
+                  fontWeight: 600,
+                  fontSize: 18,
+                },
+                path: {
+                  fill: 'var(--accent-main)',
+                },
               }}
             />
           )

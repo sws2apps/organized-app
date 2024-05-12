@@ -8,7 +8,7 @@ import CustomTypography from '@components/typography';
 import MinusButton from '@components/minus_button';
 import PlusButton from '@components/plus_button';
 
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { CustomDropdownContainer, CustomDropdownItem, CustomDropdownMenu } from '@components/dropdown';
 import {
   IconAdd,
@@ -25,6 +25,7 @@ import CustomDatePicker from '@components/date_picker';
 import CustomInfoMessage from '@components/info-message';
 import { convertDurationInSecondsToString, convertDurationStringToSeconds } from '../utils';
 import MiniChip from '@components/mini_chip';
+import { MinistryRecord } from '@pages/ministry_report/ministry_report.types';
 
 /**
  * Add Service Time Modal Window component.
@@ -33,6 +34,12 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
   const variant = props.variant || 'simple';
   const showCreditHours = props.showCreditHours || false;
 
+  const mode = props.mode || 'add';
+
+  if (mode == 'edit' && props.recordForEdit == undefined) {
+    throw new Error('Record for edit not setted!');
+  }
+
   const { editAndAddBibleStudyData, setEditAndAddBibleStudyData } = useContext(EditAndAddBibleStudyContext);
 
   const { t } = useAppTranslation();
@@ -40,8 +47,8 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
   const [localDurationInSeconds, setLocalDurationInSeconds] = useState(0);
 
   useEffect(() => {
-    setLocalDurationInSeconds(props.duration);
-  }, [props.duration]);
+    setLocalDurationInSeconds(mode == 'add' ? props.duration : props.recordForEdit.hours_in_seconds);
+  }, [mode, props.duration, props.recordForEdit.hours_in_seconds]);
 
   const incrementDuration = () => {
     setLocalDurationInSeconds(localDurationInSeconds + 3600);
@@ -54,6 +61,12 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
   };
 
   const [localCreditHoursDurationInSeconds, setLocalCreditHoursDurationInSeconds] = useState(0);
+
+  useEffect(() => {
+    if (mode == 'edit') {
+      setLocalCreditHoursDurationInSeconds(props.recordForEdit.credit_hours_in_seconds);
+    }
+  }, [mode, props.recordForEdit.credit_hours_in_seconds, localCreditHoursDurationInSeconds]);
 
   const incrementCreditHoursDuration = () => {
     setLocalCreditHoursDurationInSeconds(localCreditHoursDurationInSeconds + 3600);
@@ -107,6 +120,12 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
   const [countOfStudies, setCountOfStudies] = useState(0);
   const [countOfStudiesInBuffer, setCountOfStudiesInBuffer] = useState(0);
 
+  useEffect(() => {
+    if (mode == 'edit') {
+      setCountOfStudiesInBuffer(props.recordForEdit.count_of_bible_studies - props.recordForEdit.bible_studies.length);
+    }
+  }, [mode, props.recordForEdit.bible_studies?.length, props.recordForEdit.count_of_bible_studies]);
+
   const incrementCountOfStudiesInBuffer = () => {
     setCountOfStudiesInBuffer(countOfStudiesInBuffer + 1);
   };
@@ -119,9 +138,32 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
     }
   };
 
+  const getArrayWithStudiesStates = useCallback((): boolean[] => {
+    const tmpArray = [];
+
+    for (let i = 0; i < props.bibleStudiesList.length; i++) {
+      let found = false;
+      for (let j = 0; j < props.recordForEdit.bible_studies.length; j++) {
+        if (props.bibleStudiesList[i] === props.recordForEdit.bible_studies[j]) {
+          found = true;
+          break;
+        }
+      }
+      tmpArray.push(found);
+    }
+
+    return tmpArray;
+  }, [props.bibleStudiesList, props.recordForEdit.bible_studies]);
+
   const [checkedLocalStudiesStatesList, setCheckedLocalStudiesStatesList] = useState(() => {
     return Array<boolean>(props.bibleStudiesList.length).fill(false);
   });
+
+  useEffect(() => {
+    if (mode == 'edit') {
+      setCheckedLocalStudiesStatesList(getArrayWithStudiesStates);
+    }
+  }, [getArrayWithStudiesStates, mode]);
 
   const getArrayWithCheckedStudies = (): string[] => {
     const tmpArray = [];
@@ -135,7 +177,7 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
     return tmpArray;
   };
 
-  const [localDate, setLocalDate] = useState<Date>(null);
+  const [localDate, setLocalDate] = useState<Date>(props.date);
 
   const clearAllFields = () => {
     setLocalDurationInSeconds(0);
@@ -196,7 +238,9 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
         })}
       >
         <Box>
-          <CustomTypography className="h2">{t('tr_addServiceTime')}</CustomTypography>
+          <CustomTypography className="h2">
+            {mode == 'add' ? t('tr_addServiceTime') : t('tr_editServiceTime')}
+          </CustomTypography>
           <Box
             sx={{
               marginTop: '8px',
@@ -204,7 +248,7 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
               '.MuiButtonBase-root:hover': { backgroundColor: 'transparent' },
             }}
           >
-            <CustomDatePicker view={'button'} onChange={async (value) => setLocalDate(value)} value={new Date()} />
+            <CustomDatePicker view={'button'} onChange={async (value) => setLocalDate(value)} value={localDate} />
           </Box>
         </Box>
         <StyledRowContainer
@@ -486,20 +530,22 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
           <CustomButton
             variant="main"
             onClick={() => {
-              props.result({
-                hoursInSeconds: localDurationInSeconds,
-                creditHoursInSeconds: localCreditHoursDurationInSeconds,
-                bibleStudiesCount: countOfStudies,
-                bibleStudies: getArrayWithCheckedStudies(),
-                date: localDate,
-              });
+              props.result(
+                new MinistryRecord(
+                  new Date().toString(),
+                  countOfStudies,
+                  localDurationInSeconds,
+                  localCreditHoursDurationInSeconds,
+                  getArrayWithCheckedStudies()
+                )
+              );
               props.addButtonClick();
 
               // Clear all values
               clearAllFields();
             }}
           >
-            {t('tr_add')}
+            {mode == 'add' ? t('tr_add') : t('tr_save')}
           </CustomButton>
         </Box>
       </StyledModalWindowContainer>
