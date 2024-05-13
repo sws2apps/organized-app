@@ -369,7 +369,7 @@
   "tr_congregationSecurity": "Congregation security",
   "tr_congregationSecurityDesc": "В Organized твоя конфиденциальность и безопасность имеют высший приоритет. В приложении есть несколько уровней защиты. Два важных из них – «Код доступа к собранию» и «Главный ключ собрания». Они безопасно шифруют данные о собрании и разрешают доступ только авторизованным пользователям. <a 'href=#'>Узнай больше</a> об этих и других функциях безопасности.",
   "tr_congregationMasterKey": "Главный ключ собрания",
-  "tr_congregationMasterKeyDesc": "Этот код необходим для безопасного доступа к данным собрания, включая отчёты собрания и служения, список лиц и другую информацию, доступную только назначенным братьям. Это самый важный код – его потеря может привести к потере всех данных собрания.",
+  "tr_congregationMasterKeyDesc": "This code is essential for securely accessing congregation data, including congregation and ministry reports, the persons list, and other information only available to appointed brothers. It's the most important code – losing it could result in losing all congregation data.",
   "tr_congregationAccessCodeDesc": "This is your congregation's unique code for connecting new users or logging in. It's used to encrypt congregation data for all users.",
   "tr_congregationAccessCode": "Congregation access code",
   "tr_changeKeyButton": "Сменить главный ключ",

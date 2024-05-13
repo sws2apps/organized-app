@@ -277,6 +277,7 @@ const MinistryTimer = ({ duration = '00:00' }: { duration?: string }) => {
             }}
             open={true}
             reference={addServiceTimeModalWindowRef}
+            date={undefined}
           />
           <PopUpForEditOrCreateBibleStudy
             variant={editAndAddBibleStudyData.variant as 'add' | 'edit'}
