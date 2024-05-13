@@ -17,7 +17,7 @@ import { getMessageByCode } from '@services/i18n/translation';
 import { apiSetCongregationEncryption } from '@services/api/congregation';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 
-const useCongregationEncryption = () => {
+const useCongregationPassword = () => {
   const { t } = useAppTranslation();
 
   const { isAuthenticated } = useFirebaseAuth();
@@ -171,4 +171,4 @@ const useCongregationEncryption = () => {
   };
 };
 
-export default useCongregationEncryption;
+export default useCongregationPassword;

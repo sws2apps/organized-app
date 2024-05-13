@@ -22,7 +22,7 @@ import {
   setUserMfaSetup,
   setUserMfaVerify,
 } from '@services/recoil/app';
-import { congEncryptionCodeState, congNameState, congRoleState } from '@states/settings';
+import { congMasterKeyState, congNameState, congPasswordState, congRoleState } from '@states/settings';
 import { APP_ROLES } from '@constants/index';
 import { loadApp, runUpdater } from '@services/app';
 import { convertStringToBoolean } from '@utils/common';
@@ -41,7 +41,8 @@ const useStartup = () => {
   const congName = useRecoilValue(congNameState);
   const congRole = useRecoilValue(congRoleState);
   const isEncryptionCodeOpen = useRecoilValue(isEncryptionCodeOpenState);
-  const congEncryption = useRecoilValue(congEncryptionCodeState);
+  const congMasterKey = useRecoilValue(congMasterKeyState);
+  const congPassword = useRecoilValue(congPasswordState);
 
   const showSignin = useCallback(() => {
     setIsUserSignIn(true);
@@ -68,12 +69,12 @@ const useStartup = () => {
       return;
     }
 
-    if (congName.length > 0 && congEncryption.length === 0) {
+    if (congName.length > 0 && congMasterKey.length === 0 && congPassword.length === 0) {
       setIsEncryptionCodeOpen(true);
       return;
     }
 
-    if (congName.length > 0 && congEncryption.length > 0) {
+    if (congName.length > 0 && congMasterKey.length > 0 && congPassword.length > 0) {
       setIsSetup(false);
       await loadApp();
       await runUpdater();
@@ -82,7 +83,7 @@ const useStartup = () => {
         setIsAppLoad(false);
       }, 1000);
     }
-  }, [isOfflineOverride, congName, congRole, showSignin, congEncryption]);
+  }, [isOfflineOverride, congName, congRole, showSignin, congMasterKey, congPassword]);
 
   useEffect(() => {
     const checkLink = async () => {
