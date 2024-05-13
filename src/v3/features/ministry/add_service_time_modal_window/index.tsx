@@ -62,8 +62,6 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
   const [countOfStudiesInBuffer, setCountOfStudiesInBuffer] = useState(0);
   const [infoMessageBoxOpen, setInfoMessageBoxOpen] = useState(false);
 
-  console.log(props);
-
   const decrimentDuration = () => {
     if (convertDurationInSecondsToString(localDurationInSeconds) != '00:00') {
       setLocalDurationInSeconds(localDurationInSeconds - 3600);
