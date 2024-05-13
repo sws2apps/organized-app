@@ -258,7 +258,6 @@ const MinistryReport = () => {
           }}
           open={true}
           reference={addServiceTimeModalWindowRef}
-          date={new Date()}
         />
         <PopUpForEditOrCreateBibleStudy
           variant={editAndAddBibleStudyData.variant as 'add' | 'edit'}

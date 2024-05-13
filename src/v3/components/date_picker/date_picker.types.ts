@@ -57,4 +57,9 @@ export interface CustomDatePickerProps {
    * The maximum selectable date.
    */
   maxDate?: Date | null;
+
+  /**
+   * The default value for date picker.
+   */
+  defaultValue?: Date | null;
 }

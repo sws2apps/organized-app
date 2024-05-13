@@ -85,6 +85,12 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
   const dropdownWithStudiesOpenButtonReference = useRef(null);
   const dropdownWithSchoolsOpenButtonReference = useRef(null);
 
+  const closeInfoMessageAfterDelay = () => {
+    setTimeout(() => {
+      setInfoMessageBoxOpen(false);
+    }, 5000);
+  };
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -135,6 +141,7 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
       setCountOfStudiesInBuffer(countOfStudiesInBuffer - 1);
     } else {
       setInfoMessageBoxOpen(true);
+      closeInfoMessageAfterDelay();
     }
   };
 
@@ -177,7 +184,7 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
     return tmpArray;
   };
 
-  const [localDate, setLocalDate] = useState<Date>(props.date);
+  const [localDate, setLocalDate] = useState<Date>(new Date());
 
   const clearAllFields = () => {
     setLocalDurationInSeconds(0);
@@ -248,7 +255,11 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
               '.MuiButtonBase-root:hover': { backgroundColor: 'transparent' },
             }}
           >
-            <CustomDatePicker view={'button'} onChange={async (value) => setLocalDate(value)} value={localDate} />
+            <CustomDatePicker
+              view={'button'}
+              onChange={async (value) => setLocalDate(value)}
+              defaultValue={new Date()}
+            />
           </Box>
         </Box>
         <StyledRowContainer
