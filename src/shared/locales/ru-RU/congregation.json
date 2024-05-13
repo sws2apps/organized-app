@@ -381,5 +381,8 @@
   "tr_createMasterKeyIntroDesc": "Этот ключ безопасно шифрует данные твоего собрания, включая отчеты и людей, и требуется для административных действий, таких как экспорт/импорт данных или внесение значительных изменений в настройки.",
   "tr_hallC": "C",
   "tr_FR": "Regular pioneer",
-  "tr_FS": "Special pioneer"
+  "tr_FS": "Special pioneer",
+  "tr_congregationPassword": "Congregation password",
+  "tr_congregationPasswordLostDesc": "Enter your congregation’s password to open the app",
+  "tr_congregationPasswordAsk": "Enter congregation password"
 }

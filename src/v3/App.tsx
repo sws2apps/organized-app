@@ -42,7 +42,7 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
             { path: '/persons/new', element: <PersonDetails /> },
             { path: '/user-profile', element: <MyProfile /> },
             { path: '/public-talks-list', element: <PublicTalksList /> },
-            { path: '/ministry-report', element: <MinistryReport />},
+            { path: '/ministry-report', element: <MinistryReport /> },
             { path: '/visiting-speakers', element: <VisitingSpeakers /> },
             { path: '*', element: <Dashboard /> },
           ],
