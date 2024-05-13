@@ -47,6 +47,7 @@ const CustomDatePicker = ({
   maxDate = null,
   minDate = null,
 }: CustomDatePickerProps) => {
+  console.log(value);
   const { t } = useAppTranslation();
 
   const shortDateFormatLocale = shortDateFormat || t('tr_shortDateFormat');
@@ -158,6 +159,7 @@ const CustomDatePicker = ({
             onMonthChange={changeHeight}
             onChange={handleValueChange}
             onOpen={() => setOpen(true)}
+            value={valueTmp}
             slotProps={{
               textField: {
                 onClick: () => setOpen(true),
@@ -167,6 +169,7 @@ const CustomDatePicker = ({
               field: {
                 format: shortDateFormatLocale,
                 setOpen: setOpen,
+                value: valueTmp,
               } as FieldProps,
               popper: {
                 sx: {
