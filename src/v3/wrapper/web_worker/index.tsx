@@ -4,7 +4,7 @@ import useWebWorker from './useWebWorker';
 const WebWorker = ({ children }: PropsWithChildren) => {
   useWebWorker();
 
-  return <>{children}</>;
+  return children;
 };
 
 export default WebWorker;

@@ -2,10 +2,10 @@
 This file will be the entry to get the live update from IndexedDb using dexie hooks
 */
 
-import { ReactNode, useEffect } from 'react';
+import { PropsWithChildren, useEffect } from 'react';
 import useIndexedDb from './useIndexedDb';
 
-const DatabaseWrapper = ({ children }: { children?: ReactNode }) => {
+const DatabaseWrapper = ({ children }: PropsWithChildren) => {
   const {
     loadSettings,
     loadAssignment,
@@ -37,7 +37,7 @@ const DatabaseWrapper = ({ children }: { children?: ReactNode }) => {
     loadVisitingSpeakers,
   ]);
 
-  return <>{children}</>;
+  return children;
 };
 
 export default DatabaseWrapper;
