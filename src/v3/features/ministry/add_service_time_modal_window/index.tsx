@@ -45,14 +45,22 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
   const { t } = useAppTranslation();
 
   const [localDurationInSeconds, setLocalDurationInSeconds] = useState(0);
+  const [localDate, setLocalDate] = useState<Date>(props.date);
+  const [localCreditHoursDurationInSeconds, setLocalCreditHoursDurationInSeconds] = useState(0);
+  const [dropdownWithStudiesOpen, setDropdownWithStudiesOpen] = useState(false);
+  const [dropdownWithSchoolsOpen, setDropdownWithSchoolsOpen] = useState(false);
 
-  useEffect(() => {
-    setLocalDurationInSeconds(mode == 'add' ? props.duration : props.recordForEdit.hours_in_seconds);
-  }, [mode, props.duration, props.recordForEdit.hours_in_seconds]);
+  const dropdownWithStudiesReference = useRef(null);
+  const dropdownWithSchoolsReference = useRef(null);
+  const dropdownWithStudiesOpenButtonReference = useRef(null);
+  const dropdownWithSchoolsOpenButtonReference = useRef(null);
 
-  const incrementDuration = () => {
-    setLocalDurationInSeconds(localDurationInSeconds + 3600);
-  };
+  const styledRowContainerWithBibleStudiesRef = useRef(null);
+  const styledRowContainerWithCreditHours = useRef(null);
+
+  const [countOfStudies, setCountOfStudies] = useState(0);
+  const [countOfStudiesInBuffer, setCountOfStudiesInBuffer] = useState(0);
+  const [infoMessageBoxOpen, setInfoMessageBoxOpen] = useState(false);
 
   const decrimentDuration = () => {
     if (convertDurationInSecondsToString(localDurationInSeconds) != '00:00') {
@@ -60,17 +68,14 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
     }
   };
 
-  const [localCreditHoursDurationInSeconds, setLocalCreditHoursDurationInSeconds] = useState(0);
-
-  useEffect(() => {
-    if (mode == 'edit') {
-      setLocalCreditHoursDurationInSeconds(props.recordForEdit.credit_hours_in_seconds);
-    }
-  }, [mode, props.recordForEdit.credit_hours_in_seconds, localCreditHoursDurationInSeconds]);
+  const incrementDuration = () => {
+    setLocalDurationInSeconds(localDurationInSeconds + 3600);
+  };
 
   const incrementCreditHoursDuration = () => {
     setLocalCreditHoursDurationInSeconds(localCreditHoursDurationInSeconds + 3600);
   };
+
   const decrimentCreditHoursDuration = () => {
     if (convertDurationInSecondsToString(localCreditHoursDurationInSeconds) != '00:00') {
       setLocalCreditHoursDurationInSeconds(localCreditHoursDurationInSeconds - 3600);
@@ -166,12 +171,6 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
     return Array<boolean>(props.bibleStudiesList.length).fill(false);
   });
 
-  useEffect(() => {
-    if (mode == 'edit') {
-      setCheckedLocalStudiesStatesList(getArrayWithStudiesStates);
-    }
-  }, [getArrayWithStudiesStates, mode]);
-
   const getArrayWithCheckedStudies = (): string[] => {
     const tmpArray = [];
 
@@ -192,6 +191,68 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
     setLocalCreditHoursDurationInSeconds(0);
     setCountOfStudiesInBuffer(0);
   };
+
+  const styleForStyledBox = (theme: Theme) => ({
+    [theme.breakpoints.down('tablet')]: {
+      flexDirection: 'column',
+      '& .MuiBox-root': {
+        width: '100%',
+        maxWidth: 'none',
+        minWidth: 'none',
+      },
+    },
+  });
+
+  useEffect(() => {
+    setLocalDurationInSeconds(mode == 'add' ? props.duration : props.recordForEdit.hours_in_seconds);
+  }, [mode, props.duration, props.recordForEdit.hours_in_seconds]);
+
+  useEffect(() => {
+    if (mode == 'edit') {
+      setLocalCreditHoursDurationInSeconds(props.recordForEdit.credit_hours_in_seconds);
+    }
+  }, [mode, props.recordForEdit.credit_hours_in_seconds, localCreditHoursDurationInSeconds]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownWithStudiesOpenButtonReference.current &&
+        !dropdownWithStudiesOpenButtonReference.current.contains(event.target) &&
+        dropdownWithStudiesOpen &&
+        dropdownWithStudiesReference.current &&
+        !dropdownWithStudiesReference.current.contains(event.target)
+      ) {
+        setDropdownWithStudiesOpen(false);
+      }
+
+      if (
+        dropdownWithSchoolsOpenButtonReference.current &&
+        !dropdownWithSchoolsOpenButtonReference.current.contains(event.target) &&
+        dropdownWithSchoolsOpen &&
+        dropdownWithSchoolsReference.current &&
+        !dropdownWithSchoolsReference.current.contains(event.target)
+      ) {
+        setDropdownWithSchoolsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [dropdownWithStudiesOpen, dropdownWithSchoolsOpen]);
+
+  useEffect(() => {
+    if (mode == 'edit') {
+      setCountOfStudiesInBuffer(props.recordForEdit.count_of_bible_studies - props.recordForEdit.bible_studies.length);
+    }
+  }, [mode, props.recordForEdit.bible_studies?.length, props.recordForEdit.count_of_bible_studies]);
+
+  useEffect(() => {
+    if (mode == 'edit') {
+      setCheckedLocalStudiesStatesList(getArrayWithStudiesStates);
+    }
+  }, [getArrayWithStudiesStates, mode]);
 
   // code for fix bug with empty field
   useEffect(() => {
@@ -214,19 +275,6 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
 
     setCountOfStudies(studiesCounter + countOfStudiesInBuffer);
   }, [checkedLocalStudiesStatesList, countOfStudiesInBuffer, props.bibleStudiesList]);
-
-  const styleForStyledBox = (theme: Theme) => ({
-    [theme.breakpoints.down('tablet')]: {
-      flexDirection: 'column',
-      '& .MuiBox-root': {
-        width: '100%',
-        maxWidth: 'none',
-        minWidth: 'none',
-      },
-    },
-  });
-
-  const [infoMessageBoxOpen, setInfoMessageBoxOpen] = useState(false);
 
   return (
     <>

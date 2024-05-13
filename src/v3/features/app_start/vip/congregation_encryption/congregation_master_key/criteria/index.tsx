@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
-import Typography from '@components/typography';
 import { IconCheck, IconClose } from '@icons/index';
+import Typography from '@components/typography';
 
 const Criteria = ({ criteria, passed = false }: { criteria: string; passed: boolean }) => {
   return (

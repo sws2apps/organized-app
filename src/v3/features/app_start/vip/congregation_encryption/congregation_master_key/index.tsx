@@ -8,15 +8,13 @@ import WaitingCircular from '@components/waiting_circular';
 import Criteria from './criteria';
 import { IconEncryptionKey, IconError, IconLoading } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
-import useCongregationEncryption from './useCongregationEncryption';
+import useCongregationMasterKey from './useCongregationMasterKey';
 
 const CongregationEncryption = () => {
   const { t } = useAppTranslation();
 
   const {
     isLoading,
-    tmpEncryptionCode,
-    setTmpEncryptionCode,
     isLengthPassed,
     isNumberPassed,
     isLowerCasePassed,
@@ -29,7 +27,13 @@ const CongregationEncryption = () => {
     variant,
     handleAction,
     isSetupCode,
-  } = useCongregationEncryption();
+    isMatch,
+    setTmpMasterKey,
+    setTmpMasterKeyVerify,
+    tmpMasterKey,
+    tmpMasterKeyVerify,
+    btnActionDisabled,
+  } = useCongregationMasterKey();
 
   return (
     <Box
@@ -47,8 +51,8 @@ const CongregationEncryption = () => {
         <>
           <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', width: '100%' }}>
             <PageHeader
-              title={t('tr_encryptionCode')}
-              description={t(isSetupCode ? 'tr_encryptionCodeSetupDesc' : 'tr_encryptionCodeLostDesc')}
+              title={t('tr_congregationMasterKey')}
+              description={t(isSetupCode ? 'tr_createMasterKeyIntroDesc' : 'tr_encryptionCodeLostDesc')}
             />
 
             {isSetupCode && (
@@ -80,39 +84,59 @@ const CongregationEncryption = () => {
                 width: '100%',
               }}
             >
-              <TextField
-                label={t(isSetupCode ? 'tr_encryptionCodeCreate' : 'tr_encryptionCodeAsk')}
-                variant="outlined"
-                autoComplete="off"
-                value={tmpEncryptionCode}
-                onChange={(e) => setTmpEncryptionCode(e.target.value)}
-                startIcon={<IconEncryptionKey />}
-                resetHelperPadding={true}
-                helperText={
-                  isSetupCode ? (
-                    <Box sx={{ padding: '8px 0px 0px 16px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                      <Criteria criteria={t('tr_encryptionCodeNoticeLength')} passed={isLengthPassed} />
-                      <Criteria criteria={t('tr_encryptionCodeNoticeNumber')} passed={isNumberPassed} />
-                      <Criteria criteria={t('tr_encryptionCodeNoticeLowerCase')} passed={isLowerCasePassed} />
-                      <Criteria criteria={t('tr_encryptionCodeNoticeUpperCase')} passed={isUpperCasePassed} />
-                      <Criteria criteria={t('tr_encryptionCodeNoticeSpecialSymbol')} passed={isSpecialSymbolPassed} />
-                    </Box>
-                  ) : null
-                }
-              />
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '16px',
+                  width: '100%',
+                }}
+              >
+                <TextField
+                  type="password"
+                  label={t(isSetupCode ? 'tr_createCongregationMasterKey' : 'tr_encryptionCodeAsk')}
+                  variant="outlined"
+                  autoComplete="off"
+                  value={tmpMasterKey}
+                  onChange={(e) => setTmpMasterKey(e.target.value)}
+                  startIcon={<IconEncryptionKey />}
+                  resetHelperPadding={true}
+                />
+                {isSetupCode && (
+                  <TextField
+                    type="password"
+                    label={t('tr_congregationMasterKeyVerify')}
+                    variant="outlined"
+                    autoComplete="off"
+                    value={tmpMasterKeyVerify}
+                    onChange={(e) => setTmpMasterKeyVerify(e.target.value)}
+                    startIcon={<IconEncryptionKey />}
+                    resetHelperPadding={true}
+                    helperText={
+                      isSetupCode ? (
+                        <Box sx={{ padding: '8px 0px 0px 16px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                          <Criteria criteria={t('tr_encryptionCodeNoticeLength')} passed={isLengthPassed} />
+                          <Criteria criteria={t('tr_encryptionCodeNoticeNumber')} passed={isNumberPassed} />
+                          <Criteria criteria={t('tr_encryptionCodeNoticeLowerCase')} passed={isLowerCasePassed} />
+                          <Criteria criteria={t('tr_encryptionCodeNoticeUpperCase')} passed={isUpperCasePassed} />
+                          <Criteria
+                            criteria={t('tr_encryptionCodeNoticeSpecialSymbol')}
+                            passed={isSpecialSymbolPassed}
+                          />
+                          <Criteria criteria={t('tr_encryptionCodeNoticeMatch')} passed={isMatch} />
+                        </Box>
+                      ) : null
+                    }
+                  />
+                )}
+              </Box>
 
               <Button
                 variant="main"
                 sx={{ width: '100%' }}
                 onClick={handleAction}
                 startIcon={isProcessing ? <IconLoading width={22} height={22} /> : null}
-                disabled={
-                  !isLengthPassed ||
-                  !isNumberPassed ||
-                  !isLowerCasePassed ||
-                  !isUpperCasePassed ||
-                  !isSpecialSymbolPassed
-                }
+                disabled={btnActionDisabled}
               >
                 {t(isSetupCode ? 'tr_encryptionCodeSet' : 'tr_encryptionCodeValidate')}
               </Button>
