@@ -13,7 +13,8 @@ export type SettingsType = {
     country_code: string;
     cong_number: string;
     cong_name: string;
-    cong_code: string;
+    cong_master_key: string;
+    cong_password: string;
     cong_location: { address: string; lat: number; lng: number };
     cong_new: boolean;
     cong_circuit: { type: string; value: string }[];

@@ -1,4 +1,6 @@
-import { InputAdornment, TextField } from '@mui/material';
+import { HTMLInputTypeAttribute, useState } from 'react';
+import { IconButton, InputAdornment, TextField } from '@mui/material';
+import { IconVisibility, IconVisibilityOff } from '@components/icons';
 import { TextFieldTypeProps } from './index.types';
 
 /**
@@ -8,32 +10,37 @@ import { TextFieldTypeProps } from './index.types';
  * @returns {JSX.Element} - JSX.Element
  */
 const CustomTextField = (props: TextFieldTypeProps) => {
-  const height = props.height || 44;
-  const sx = props.sx;
-  const startIcon = props.startIcon;
-  const endIcon = props.endIcon;
-  const styleIcon = props.styleIcon ?? true;
+  const { height, startIcon, endIcon, styleIcon, InputProps, resetHelperPadding, ...defaultProps } = props;
+  const [showPassword, setShowPassword] = useState(false);
+  const [inputType, setInputType] = useState<HTMLInputTypeAttribute>(props.type);
 
-  const defaultProps = { ...props };
+  const heightLocal = height || 44;
+  const endIconLocal = props.type === 'password' ? showPassword ? <IconVisibilityOff /> : <IconVisibility /> : endIcon;
+  const styleIconLocal = styleIcon ?? true;
 
-  delete defaultProps.startIcon;
-  delete defaultProps.endIcon;
-  delete defaultProps.InputProps;
-  delete defaultProps.className;
-  delete defaultProps.resetHelperPadding;
-  delete defaultProps.styleIcon;
-
-  const varHeight = (56 - height) / 2;
+  const varHeight = (56 - heightLocal) / 2;
 
   const isMultiLine = props.multiline || props.rows;
+
+  const handleTogglePassword = () => {
+    setShowPassword((prev) => {
+      if (!prev) setInputType('text');
+      if (prev) setInputType(props.type);
+
+      return !prev;
+    });
+  };
 
   return (
     <TextField
       {...defaultProps}
+      type={inputType}
+      placeholder={props.placeholder || props.label.toString()}
+      label={props.value ? props.label : null}
       fullWidth
       sx={{
         '.MuiInputBase-root': {
-          height: isMultiLine ? 'auto' : `${height}px`,
+          height: isMultiLine ? 'auto' : `${heightLocal}px`,
           paddingTop: isMultiLine ? '0' : 'auto',
           paddingBottom: isMultiLine ? '0' : 'auto',
           display: 'flex',
@@ -44,6 +51,7 @@ const CustomTextField = (props: TextFieldTypeProps) => {
           paddingTop: `calc(14.5px - ${varHeight}px)`,
           paddingBottom: `calc(14.5px - ${varHeight}px)`,
           flex: '1 0 0',
+          color: props.value || props.inputProps?.value ? 'var(--black)' : 'var(--accent-400)',
         },
         '.MuiInput-root:before': {
           borderBottom: '1px solid var(--accent-300) !important',
@@ -78,10 +86,10 @@ const CustomTextField = (props: TextFieldTypeProps) => {
           },
         },
         '.MuiFormLabel-root[data-shrink=false]': { top: `-${varHeight}px` },
-        ...sx,
+        ...props.sx,
       }}
       InputProps={{
-        ...props.InputProps,
+        ...InputProps,
         className: props.className,
         startAdornment: startIcon ? (
           <InputAdornment
@@ -90,7 +98,7 @@ const CustomTextField = (props: TextFieldTypeProps) => {
               height: 0,
               maxHeight: 0,
               marginRight: 0,
-              '& svg, & svg g, & svg g path': styleIcon
+              '& svg, & svg g, & svg g path': styleIconLocal
                 ? {
                     fill: startIcon.props.color
                       ? startIcon.props.color
@@ -104,21 +112,26 @@ const CustomTextField = (props: TextFieldTypeProps) => {
             {startIcon}
           </InputAdornment>
         ) : null,
-        endAdornment: props.endIcon ? (
+        endAdornment: endIconLocal ? (
           <InputAdornment
             position="end"
             sx={{
               height: 0,
               maxHeight: 0,
               marginRight: 0,
-              '& svg, & svg g, & svg g path': styleIcon
+              '& svg, & svg g, & svg g path': styleIconLocal
                 ? {
-                    fill: endIcon.props.color ? endIcon.props.color : 'var(--accent-350)',
+                    fill: endIconLocal.props.color ?? 'var(--accent-350)',
                   }
                 : {},
             }}
           >
-            {endIcon}
+            {props.type !== 'password' && endIconLocal}
+            {props.type === 'password' && (
+              <IconButton onClick={handleTogglePassword} sx={{ margin: 0, padding: 0 }}>
+                {endIconLocal}
+              </IconButton>
+            )}
           </InputAdornment>
         ) : null,
       }}
@@ -126,10 +139,9 @@ const CustomTextField = (props: TextFieldTypeProps) => {
         component: 'div',
         style: {
           margin: 0,
-          padding: props.resetHelperPadding ? 0 : '4px 16px 0px 16px',
+          padding: resetHelperPadding ? 0 : '4px 16px 0px 16px',
         },
       }}
-      helperText={props.helperText}
     />
   );
 };

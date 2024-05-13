@@ -7,6 +7,7 @@ import { formatDate } from '@services/dateformat';
 
 type ButtonFieldProps = Omit<BaseSingleInputFieldProps<Date, Date, FieldSection, boolean, Error>, 'setOpen'> & {
   setOpen?: Dispatch<SetStateAction<boolean>>;
+  value: Date;
 };
 
 export type FieldProps = SlotComponentPropsFromProps<

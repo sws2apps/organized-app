@@ -35,7 +35,6 @@ export const APP_ROLES = [
   'coordinator',
   'public_talk_coordinator',
   'lmmo',
-  'lmmo-backup',
   'secretary',
   'elder',
   'ms',
@@ -43,7 +42,7 @@ export const APP_ROLES = [
   'view_meeting_schedule',
 ];
 
-export const VIP_ROLES = ['coordinator', 'public_talk_coordinator', 'lmmo', 'lmmo-backup', 'secretary'];
+export const VIP_ROLES = ['admin', 'coordinator', 'public_talk_coordinator', 'lmmo', 'secretary'];
 
 export const POCKET_ROLES = ['elder', 'ms', 'publisher', 'view_meeting_schedule'];
 

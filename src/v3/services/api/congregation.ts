@@ -255,13 +255,27 @@ export const apiRestoreCongregationBackup = async () => {
   return { status: res.status, data };
 };
 
-export const apiSetCongregationEncryption = async (key) => {
+export const apiSetCongregationMasterKey = async (key: string) => {
   const { apiHost, appVersion: appversion, visitorID: visitorid, userUID: uid, congID } = await apiDefault();
 
-  const res = await fetch(`${apiHost}api/congregations/admin/${congID}/encryption`, {
+  const res = await fetch(`${apiHost}api/congregations/admin/${congID}/master-key`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
-    body: JSON.stringify({ encryption_code: key }),
+    body: JSON.stringify({ cong_master_key: key }),
+  });
+
+  const data = await res.json();
+
+  return { status: res.status, data };
+};
+
+export const apiSetCongregationPassword = async (password: string) => {
+  const { apiHost, appVersion: appversion, visitorID: visitorid, userUID: uid, congID } = await apiDefault();
+
+  const res = await fetch(`${apiHost}api/congregations/admin/${congID}/password`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
+    body: JSON.stringify({ cong_password: password }),
   });
 
   const data = await res.json();
