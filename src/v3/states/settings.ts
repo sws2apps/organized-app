@@ -41,7 +41,7 @@ export const countryCodeState = selector({
 });
 
 export const congMasterKeyState = selector({
-  key: 'congEncryptionCode',
+  key: 'congMasterKey',
   get: ({ get }) => {
     const settings = get(settingsState);
 
