@@ -7,10 +7,10 @@ import { decryptData, encryptData, generateKey } from '@services/encryption/inde
 import { apiValidateMe } from '@services/api/user';
 import { displayOnboardingFeedback, setCongID } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
-import { apiSetCongregationEncryption } from '@services/api/congregation';
+import { apiSetCongregationMasterKey } from '@services/api/congregation';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 
-const useCongregationEncryption = () => {
+const useCongregationMasterKey = () => {
   const { t } = useAppTranslation();
 
   const { isAuthenticated } = useFirebaseAuth();
@@ -19,30 +19,40 @@ const useCongregationEncryption = () => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [isSetupCode, setIsSetupCode] = useState(true);
-  const [tmpEncryptionCode, setTmpEncryptionCode] = useState('');
+  const [tmpMasterKey, setTmpMasterKey] = useState('');
+  const [tmpMasterKeyVerify, setTmpMasterKeyVerify] = useState('');
   const [isLengthPassed, setIsLengthPassed] = useState(false);
   const [isNumberPassed, setIsNumberPassed] = useState(false);
   const [isLowerCasePassed, setIsLowerCasePassed] = useState(false);
   const [isUpperCasePassed, setIsUpperCasePassed] = useState(false);
   const [isSpecialSymbolPassed, setIsSpecialSymbolPassed] = useState(false);
+  const [isMatch, setIsMatch] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [congCode, setCongCode] = useState('');
+  const [congMasterKey, setCongMasterKey] = useState('');
+
+  const btnActionDisabled =
+    !isLengthPassed ||
+    !isNumberPassed ||
+    !isLowerCasePassed ||
+    !isUpperCasePassed ||
+    !isSpecialSymbolPassed ||
+    (isSetupCode && !isMatch);
 
   const handleAction = () => {
-    if (isSetupCode) handleSetEncryptionKey();
-    if (!isSetupCode) handleValidateEncryptionKey();
+    if (isSetupCode) handleSetMasterKey();
+    if (!isSetupCode) handleValidateMasterKey();
   };
 
-  const handleSetEncryptionKey = async () => {
+  const handleSetMasterKey = async () => {
     if (isProcessing) return;
     hideMessage();
     setIsProcessing(true);
 
     try {
       const encryptionKey = generateKey();
-      const encryptedKey = encryptData(encryptionKey, tmpEncryptionCode);
+      const encryptedKey = encryptData(encryptionKey, tmpMasterKey);
 
-      const { status, data } = await apiSetCongregationEncryption(encryptedKey);
+      const { status, data } = await apiSetCongregationMasterKey(encryptedKey);
 
       if (status !== 200) {
         await displayOnboardingFeedback({
@@ -55,7 +65,7 @@ const useCongregationEncryption = () => {
         return;
       }
 
-      await dbAppSettingsUpdate({ 'cong_settings.cong_master_key': tmpEncryptionCode });
+      await dbAppSettingsUpdate({ 'cong_settings.cong_master_key': tmpMasterKey });
     } catch (err) {
       await displayOnboardingFeedback({
         title: t('tr_errorGeneric'),
@@ -67,15 +77,15 @@ const useCongregationEncryption = () => {
     }
   };
 
-  const handleValidateEncryptionKey = async () => {
+  const handleValidateMasterKey = async () => {
     if (isProcessing) return;
     hideMessage();
     setIsProcessing(true);
 
     try {
-      decryptData(congCode, tmpEncryptionCode);
+      decryptData(congMasterKey, tmpMasterKey);
 
-      await dbAppSettingsUpdate({ 'cong_settings.cong_master_key': tmpEncryptionCode });
+      await dbAppSettingsUpdate({ 'cong_settings.cong_master_key': tmpMasterKey });
     } catch (err) {
       await displayOnboardingFeedback({
         title: t('tr_errorGeneric'),
@@ -88,7 +98,7 @@ const useCongregationEncryption = () => {
   };
 
   useEffect(() => {
-    const getEncryptionKey = async () => {
+    const getMasterKey = async () => {
       setIsLoading(true);
 
       const { status, result } = await apiValidateMe();
@@ -106,28 +116,31 @@ const useCongregationEncryption = () => {
 
       await setCongID(result.cong_id);
 
-      setCongCode(result.cong_encryption);
-      setIsSetupCode(result.cong_encryption.length === 0);
+      setCongMasterKey(result.cong_master_key);
+      setIsSetupCode(result.cong_master_key.length === 0);
 
       setIsLoading(false);
     };
 
-    if (isAuthenticated) getEncryptionKey();
+    if (isAuthenticated) getMasterKey();
   }, [isAuthenticated]);
 
   useEffect(() => {
-    setIsLengthPassed(tmpEncryptionCode.length >= 16);
-    setIsNumberPassed(/\d/.test(tmpEncryptionCode));
-    setIsLowerCasePassed(/[a-z]/.test(tmpEncryptionCode));
-    setIsUpperCasePassed(/[A-Z]/.test(tmpEncryptionCode));
-    setIsSpecialSymbolPassed(/[!@#$%^&*(),.?"’:{}|<>]/.test(tmpEncryptionCode));
-  }, [tmpEncryptionCode]);
+    setIsLengthPassed(tmpMasterKey.length >= 16);
+    setIsNumberPassed(/\d/.test(tmpMasterKey));
+    setIsLowerCasePassed(/[a-z]/.test(tmpMasterKey));
+    setIsUpperCasePassed(/[A-Z]/.test(tmpMasterKey));
+    setIsSpecialSymbolPassed(/[!@#$%^&*(),.?"’:{}|<>]/.test(tmpMasterKey));
+    setIsMatch(tmpMasterKey.length > 0 && tmpMasterKey === tmpMasterKeyVerify);
+  }, [tmpMasterKey, tmpMasterKeyVerify]);
 
   return {
     isLoading,
     isSetupCode,
-    tmpEncryptionCode,
-    setTmpEncryptionCode,
+    tmpMasterKey,
+    setTmpMasterKey,
+    tmpMasterKeyVerify,
+    setTmpMasterKeyVerify,
     isLengthPassed,
     isNumberPassed,
     isLowerCasePassed,
@@ -139,7 +152,9 @@ const useCongregationEncryption = () => {
     title,
     hideMessage,
     variant,
+    isMatch,
+    btnActionDisabled,
   };
 };
 
-export default useCongregationEncryption;
+export default useCongregationMasterKey;

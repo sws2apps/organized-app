@@ -59,12 +59,14 @@ export type ValidateMeResponseType = {
     cong_location: { address: string; lat: number; lng: number };
     midweek_meeting: MeetingResponseType[];
     weekend_meeting: MeetingResponseType[];
-    cong_encryption: string;
+    cong_master_key: string;
+    cong_password: string;
   };
 };
 
 export type UserLoginResponseType = {
-  cong_encryption: string;
+  cong_master_key: string;
+  cong_password: string;
   firstname: { value: string; updatedAt: string };
   lastname: { value: string; updatedAt: string };
   mfa: 'not_enabled' | 'enabled';
