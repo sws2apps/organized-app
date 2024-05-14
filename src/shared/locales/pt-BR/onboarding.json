@@ -89,11 +89,11 @@
   "tr_testAppWelcomeDesc": "<p>Este é um ambiente de teste com dados pré-preenchidos para uma congregação imaginária. Explore recursos como horários, atribuições, ministério, relatórios e muito mais! Quaisquer alterações que você fizer serão redefinidas após a atualização da página.</p><p>Para começar a usar o aplicativo Organized real, abra <a href='https://organized-app.com' target='_blank'>organized-app.com</a> em seu navegador.</p>",
   "tr_congregationExists": "Esta congregação já existe em Organized. Entre em contacto com o administrador da sua congregação para lhe fornecer as permissões necessárias.",
   "tr_congregationMasterKeyVerify": "Verify congregation master key",
-  "tr_encryptionCodeNoticeMatch": "Match",
+  "tr_encryptionCodeNoticeMatch": "Keys match",
   "tr_congregationPasswordCreateDesc": "This password securely encrypts your shared congregation's data, including reports from publishers and schedules.",
-  "tr_congregationPasswordCreate": "Create congregation password",
+  "tr_congregationPasswordCreate": "Create congregation master key",
   "tr_congregationPasswordNoticeLength": "At least 8 characters",
-  "tr_congregationPasswordSet": "Set password",
-  "tr_congregationPasswordVerify": "Verify congregation password",
+  "tr_congregationPasswordSet": "Set master key",
+  "tr_congregationPasswordVerify": "Confirm congregation master key",
   "tr_congregationPasswordNotice": "Please note and safeguard this key. Any users accessing your congregation need it to open the app."
 }
