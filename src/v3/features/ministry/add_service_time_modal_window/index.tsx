@@ -88,35 +88,6 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
   };
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownWithStudiesOpenButtonReference.current &&
-        !dropdownWithStudiesOpenButtonReference.current.contains(event.target) &&
-        dropdownWithStudiesOpen &&
-        dropdownWithStudiesReference.current &&
-        !dropdownWithStudiesReference.current.contains(event.target)
-      ) {
-        setDropdownWithStudiesOpen(false);
-      }
-
-      if (
-        dropdownWithSchoolsOpenButtonReference.current &&
-        !dropdownWithSchoolsOpenButtonReference.current.contains(event.target) &&
-        dropdownWithSchoolsOpen &&
-        dropdownWithSchoolsReference.current &&
-        !dropdownWithSchoolsReference.current.contains(event.target)
-      ) {
-        setDropdownWithSchoolsOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [dropdownWithStudiesOpen, dropdownWithSchoolsOpen]);
-
-  useEffect(() => {
     if (mode == 'edit') {
       setCountOfStudiesInBuffer(props.recordForEdit.count_of_bible_studies - props.recordForEdit.bible_studies.length);
     }
