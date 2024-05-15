@@ -46,8 +46,6 @@ const MinistryReport = () => {
     const reportActionWithExtraMinutes = actionWithExtraMinutes;
     const reportComment = comment[0];
 
-    console.log(reportComment);
-
     setReportSubmitted(true);
   };
 
@@ -150,7 +148,6 @@ const MinistryReport = () => {
       return (
         <MonthlyReport
           months={null}
-          showCreditHours
           variant={userType}
           record={getTotalRecordByDailyHistory()}
           commentOnChange={(event) => {
@@ -258,7 +255,6 @@ const MinistryReport = () => {
           }}
           open={true}
           reference={addServiceTimeModalWindowRef}
-          date={new Date()}
         />
         <PopUpForEditOrCreateBibleStudy
           variant={editAndAddBibleStudyData.variant as 'add' | 'edit'}

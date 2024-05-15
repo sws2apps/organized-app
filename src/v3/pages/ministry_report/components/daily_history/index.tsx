@@ -1,4 +1,4 @@
-import { Box, Divider } from '@mui/material';
+import { Box } from '@mui/material';
 import { DailyHistoryProps } from './daily_history.types';
 import CustomTypography from '@components/typography';
 import useAppTranslation from '@hooks/useAppTranslation';
@@ -7,6 +7,7 @@ import { IconAdd, IconEdit, IconInfo } from '@components/icons';
 import { FormatStringForDailyHistory } from '@pages/ministry_report/utils';
 import CustomBadge from '@components/badge';
 import { convertDurationInSecondsToString } from '@features/ministry/utils';
+import { CustomDivider } from '@components/index';
 
 /**
  * DailyHistory component displays a list of daily ministry records.
@@ -103,11 +104,7 @@ const DailyHistory = (props: DailyHistoryProps) => {
               ) : null}
             </Box>
           </Box>
-          <Divider
-            sx={{
-              border: '1px solid var(--accent-200)',
-            }}
-          />
+          <CustomDivider color="var(--accent-200)" height={1} />
         </Box>
       );
     });
