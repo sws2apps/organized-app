@@ -81,14 +81,6 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
     }
   };
 
-  const [dropdownWithStudiesOpen, setDropdownWithStudiesOpen] = useState(false);
-  const [dropdownWithSchoolsOpen, setDropdownWithSchoolsOpen] = useState(false);
-
-  const dropdownWithStudiesReference = useRef(null);
-  const dropdownWithSchoolsReference = useRef(null);
-  const dropdownWithStudiesOpenButtonReference = useRef(null);
-  const dropdownWithSchoolsOpenButtonReference = useRef(null);
-
   const closeInfoMessageAfterDelay = () => {
     setTimeout(() => {
       setInfoMessageBoxOpen(false);
@@ -123,12 +115,6 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [dropdownWithStudiesOpen, dropdownWithSchoolsOpen]);
-
-  const styledRowContainerWithBibleStudiesRef = useRef(null);
-  const styledRowContainerWithCreditHours = useRef(null);
-
-  const [countOfStudies, setCountOfStudies] = useState(0);
-  const [countOfStudiesInBuffer, setCountOfStudiesInBuffer] = useState(0);
 
   useEffect(() => {
     if (mode == 'edit') {
