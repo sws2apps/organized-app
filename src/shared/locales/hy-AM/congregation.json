@@ -381,5 +381,8 @@
   "tr_createMasterKeyIntroDesc": "Այս բանալին ապահով կերպով կոդավորում է ձեր ժողովի տվյալները, ներառյալ հաշվետվությունները և անձի մասին տեղեկությունները, և պահանջվում է ադմինիստրատիվ գործողությունների համար, ինչպիսիք են տվյալների արտահանումը/ներմուծումը կամ կարգավորումներում էական փոփոխությունների կատարումը:",
   "tr_hallC": "C",
   "tr_FR": "Regular pioneer",
-  "tr_FS": "Special pioneer"
+  "tr_FS": "Special pioneer",
+  "tr_congregationPassword": "Congregation master key",
+  "tr_congregationPasswordLostDesc": "Enter your congregation’s password to open the app",
+  "tr_congregationPasswordAsk": "Enter congregation password"
 }
