@@ -303,11 +303,7 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
               '.MuiButtonBase-root:hover': { backgroundColor: 'transparent' },
             }}
           >
-            <CustomDatePicker
-              view={'button'}
-              onChange={async (value) => setLocalDate(value)}
-              defaultValue={new Date()}
-            />
+            <CustomDatePicker view={'button'} onChange={async (value) => setLocalDate(value)} value={new Date()} />
           </Box>
         </Box>
         <StyledRowContainer

@@ -44,7 +44,6 @@ const CustomDatePicker = ({
   disablePast,
   shortDateFormat,
   longDateFormat,
-  defaultValue = null,
   maxDate = null,
   minDate = null,
 }: CustomDatePickerProps) => {
@@ -103,7 +102,6 @@ const CustomDatePicker = ({
       <Box sx={{ width: '100%' }}>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <DesktopDatePicker
-            defaultValue={defaultValue}
             slots={{
               ...viewProps,
               actionBar:
