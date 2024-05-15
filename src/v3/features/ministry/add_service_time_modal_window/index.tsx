@@ -45,7 +45,6 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
   const { t } = useAppTranslation();
 
   const [localDurationInSeconds, setLocalDurationInSeconds] = useState(0);
-  const [localDate, setLocalDate] = useState<Date>(props.date);
   const [localCreditHoursDurationInSeconds, setLocalCreditHoursDurationInSeconds] = useState(0);
   const [dropdownWithStudiesOpen, setDropdownWithStudiesOpen] = useState(false);
   const [dropdownWithSchoolsOpen, setDropdownWithSchoolsOpen] = useState(false);
