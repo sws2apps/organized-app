@@ -59,8 +59,17 @@ export function getYearFromDate(dateString: string): number {
 
 /**
  * Format the date string for daily history display.
- * @param dateString The string representation of the date.
- * @returns The formatted date string.
+ *
+ * This function takes a date string and formats it into a more readable format
+ * for daily history displays. It translates the day and month names using the
+ * application's translation system and optionally inserts a newline character
+ * between the day name and the day number.
+ *
+ * @param dateString - The string representation of the date to be formatted.
+ * @param newline - A boolean indicating whether a newline character should be
+ *                  inserted between the day name and the day number.
+ * @returns A formatted date string, e.g., "Monday,\n 5 January 2024" if newline
+ *          is true, or "Monday, 5 January 2024" if newline is false.
  */
 export const FormatStringForDailyHistory = (dateString: string, newline: boolean) => {
   const { t } = useAppTranslation();
