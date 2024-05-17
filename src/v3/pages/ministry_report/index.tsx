@@ -17,6 +17,7 @@ import { AddServiceTimeModalWindow } from '@features/index';
 import { secondsToHours, secondsToMinutes } from 'date-fns';
 import TransferMinutesPopUp from './components/transfer_minutes_popup';
 import { TransferMinutesVariant } from './components/transfer_minutes_popup/transfer_minutes_popup.types';
+import { element } from 'prop-types';
 
 const MinistryReport = () => {
   const { t } = useAppTranslation();
@@ -45,6 +46,8 @@ const MinistryReport = () => {
     const reportExtraMinutes = extraMinutes;
     const reportActionWithExtraMinutes = actionWithExtraMinutes;
     const reportComment = comment[0];
+
+    console.log(totalRecord);
 
     setReportSubmitted(true);
   };
@@ -100,7 +103,7 @@ const MinistryReport = () => {
   });
 
   // TODO: Connect to API
-  const userType: MinistryReportVariants = 'pioneer';
+  const userType: MinistryReportVariants = 'base';
 
   const getTotalRecordByDailyHistory = () => {
     let ministryHoursInSeconds = 0;
@@ -112,7 +115,10 @@ const MinistryReport = () => {
       ministryHoursInSeconds += value.hours_in_seconds;
       creditHoursInSeconds += value.credit_hours_in_seconds;
       countOfStudies += value.count_of_bible_studies;
-      studies.concat(value.bible_studies);
+
+      value.bible_studies.map((element) => {
+        studies.push(element);
+      });
     });
 
     return new MinistryRecord('', countOfStudies, ministryHoursInSeconds, creditHoursInSeconds, studies);
