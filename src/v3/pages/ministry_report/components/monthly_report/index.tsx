@@ -98,7 +98,6 @@ const MonthlyReport = (props: MonthlyReportProps) => {
 
   const [countOfStudies, setCountOfStudies] = useState(props.record.count_of_bible_studies);
   const [studiesList, setStudiesList] = useState(props.record.bible_studies);
-  console.log(studiesList);
 
   // const [countOfStudiesInBuffer, setCountOfStudiesInBuffer] = useState(0);
 

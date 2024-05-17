@@ -62,8 +62,8 @@ export function getYearFromDate(dateString: string): number {
  * @param dateString The string representation of the date.
  * @returns The formatted date string.
  */
-export const FormatStringForDailyHistory = (dateString: string) => {
+export const FormatStringForDailyHistory = (dateString: string, newline: boolean) => {
   const { t } = useAppTranslation();
 
-  return `${t(Days[getDayIndex(dateString)])}, ${getDayNumberInMonth(dateString)} ${t(Months[getMonthIndexFromDate(dateString)])} ${getYearFromDate(dateString)}`;
+  return `${t(Days[getDayIndex(dateString)])},${newline ? '\n' : ''} ${getDayNumberInMonth(dateString)} ${t(Months[getMonthIndexFromDate(dateString)])} ${getYearFromDate(dateString)}`;
 };
