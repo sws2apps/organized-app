@@ -17,7 +17,6 @@ import { AddServiceTimeModalWindow } from '@features/index';
 import { secondsToHours, secondsToMinutes } from 'date-fns';
 import TransferMinutesPopUp from './components/transfer_minutes_popup';
 import { TransferMinutesVariant } from './components/transfer_minutes_popup/transfer_minutes_popup.types';
-import { element } from 'prop-types';
 
 const MinistryReport = () => {
   const { t } = useAppTranslation();
