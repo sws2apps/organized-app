@@ -46,9 +46,6 @@ const MinistryReport = () => {
     const reportExtraMinutes = extraMinutes;
     const reportActionWithExtraMinutes = actionWithExtraMinutes;
     const reportComment = comment[0];
-
-    console.log(totalRecord);
-
     setReportSubmitted(true);
   };
 
