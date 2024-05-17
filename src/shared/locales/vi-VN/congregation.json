@@ -4,7 +4,7 @@
   "tr_applicationsAmount": "Số đơn: {{ amount }}",
   "tr_newApplications": "Các đơn mới",
   "tr_approved": "Đã duyệt",
-  "tr_submittedOnDate": "Submitted on {{ date }}",
+  "tr_submittedOnDate": "Đăng ký vào ngày {{ date }}",
   "tr_awaiting": "Đang chờ",
   "tr_newAPAdded": "Đã thêm Tiên phong phụ trợ mới",
   "tr_pubApprovedAsAP": "Công bố này đã được duyệt làm Tiên phong phụ trợ và hiện đang nằm trong danh sách tương ứng.",
