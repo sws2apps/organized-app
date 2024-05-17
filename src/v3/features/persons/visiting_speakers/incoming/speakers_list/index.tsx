@@ -5,15 +5,15 @@ import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useSpeakersList from './useSpeakersList';
 import Button from '@components/button';
 import IncomingSpeakerEdit from './edit';
-import IncomingSpeakerView from './view';
+import SpeakerRowView from '../../speaker_row_view';
 import Typography from '@components/typography';
 
-const SpeakersList = ({ isEditMode, cong_number }: SpeakersListType) => {
+const SpeakersList = ({ isEditMode, cong_id }: SpeakersListType) => {
   const { t } = useAppTranslation();
 
   const { mobile400Down } = useBreakpoints();
 
-  const { handleVisitingSpeakersAdd, incomingSpeakers } = useSpeakersList(cong_number);
+  const { handleVisitingSpeakersAdd, incomingSpeakers } = useSpeakersList(cong_id, isEditMode);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -51,7 +51,7 @@ const SpeakersList = ({ isEditMode, cong_number }: SpeakersListType) => {
               flexDirection: 'column',
               '& > .MuiBox-root': {
                 borderBottom: '1px solid var(--accent-200)',
-                paddingBottom: '10px',
+                padding: '4px 0',
               },
               '& > .MuiBox-root:last-child': {
                 borderBottom: 'none',
@@ -59,7 +59,7 @@ const SpeakersList = ({ isEditMode, cong_number }: SpeakersListType) => {
             }}
           >
             {incomingSpeakers.map((speaker) => (
-              <IncomingSpeakerView key={speaker.person_uid} speaker={speaker} />
+              <SpeakerRowView key={speaker.person_uid} speaker={speaker} />
             ))}
           </Box>
         </Box>
@@ -91,7 +91,7 @@ const SpeakersList = ({ isEditMode, cong_number }: SpeakersListType) => {
           variant="tertiary"
           startIcon={<IconAdd />}
           sx={{ width: '100%' }}
-          onClick={() => handleVisitingSpeakersAdd(cong_number)}
+          onClick={() => handleVisitingSpeakersAdd(cong_id)}
         >
           {t('tr_speakersAdd')}
         </Button>

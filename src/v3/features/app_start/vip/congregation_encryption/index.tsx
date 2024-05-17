@@ -1,14 +1,14 @@
 import CongregationMasterKey from './congregation_master_key';
-import CongregationPassword from './congregation_password';
+import CongregationAccessCode from './congregation_access_code';
 import useCongregationEncryption from './useCongregationEncryption';
 
 const CongregationEncryption = () => {
-  const { setupMasterKey } = useCongregationEncryption();
+  const { setupMasterKey, setupAccessCode } = useCongregationEncryption();
 
   return (
     <>
       {setupMasterKey && <CongregationMasterKey />}
-      {!setupMasterKey && <CongregationPassword />}
+      {!setupMasterKey && setupAccessCode && <CongregationAccessCode />}
     </>
   );
 };

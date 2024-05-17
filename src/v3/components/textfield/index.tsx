@@ -11,19 +11,20 @@ import { TextFieldTypeProps } from './index.types';
  */
 const CustomTextField = (props: TextFieldTypeProps) => {
   const { height, startIcon, endIcon, styleIcon, InputProps, resetHelperPadding, ...defaultProps } = props;
-  const [showPassword, setShowPassword] = useState(false);
+  const [showAccessCode, setShowAccessCode] = useState(false);
   const [inputType, setInputType] = useState<HTMLInputTypeAttribute>(props.type);
 
   const heightLocal = height || 44;
-  const endIconLocal = props.type === 'password' ? showPassword ? <IconVisibilityOff /> : <IconVisibility /> : endIcon;
+  const endIconLocal =
+    props.type === 'password' ? showAccessCode ? <IconVisibilityOff /> : <IconVisibility /> : endIcon;
   const styleIconLocal = styleIcon ?? true;
 
   const varHeight = (56 - heightLocal) / 2;
 
   const isMultiLine = props.multiline || props.rows;
 
-  const handleTogglePassword = () => {
-    setShowPassword((prev) => {
+  const handleToggleAccessCode = () => {
+    setShowAccessCode((prev) => {
       if (!prev) setInputType('text');
       if (prev) setInputType(props.type);
 
@@ -128,7 +129,7 @@ const CustomTextField = (props: TextFieldTypeProps) => {
           >
             {props.type !== 'password' && endIconLocal}
             {props.type === 'password' && (
-              <IconButton onClick={handleTogglePassword} sx={{ margin: 0, padding: 0 }}>
+              <IconButton onClick={handleToggleAccessCode} sx={{ margin: 0, padding: 0 }}>
                 {endIconLocal}
               </IconButton>
             )}

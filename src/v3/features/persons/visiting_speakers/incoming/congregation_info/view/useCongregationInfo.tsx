@@ -7,16 +7,16 @@ const useCongregationInfo = ({ congregation }: CongregationInfoViewType) => {
   const getMidweekTime = () => {
     let result = '';
 
-    const weekDay = congregation.midweek_meeting.weekday.value;
+    const weekDay = congregation.cong_data.midweek_meeting.weekday.value;
 
     if (weekDay > 0) {
       result = weekdays[weekDay - 1];
     }
 
-    if (congregation.midweek_meeting.time.value) {
+    if (congregation.cong_data.midweek_meeting.time.value) {
       result += result.length > 0 ? ', ' : '';
 
-      result += congregation.midweek_meeting.time.value;
+      result += congregation.cong_data.midweek_meeting.time.value;
     }
 
     return result;
@@ -25,16 +25,16 @@ const useCongregationInfo = ({ congregation }: CongregationInfoViewType) => {
   const getWeekendTime = () => {
     let result = '';
 
-    const weekDay = congregation.weekend_meeting.weekday.value;
+    const weekDay = congregation.cong_data.weekend_meeting.weekday.value;
 
     if (weekDay > 0) {
       result = weekdays[weekDay - 1];
     }
 
-    if (congregation.weekend_meeting.time.value) {
+    if (congregation.cong_data.weekend_meeting.time.value) {
       result += result.length > 0 ? ', ' : '';
 
-      result += congregation.weekend_meeting.time.value;
+      result += congregation.cong_data.weekend_meeting.time.value;
     }
 
     return result;

@@ -60,7 +60,7 @@ export type ValidateMeResponseType = {
     midweek_meeting: MeetingResponseType[];
     weekend_meeting: MeetingResponseType[];
     cong_master_key: string;
-    cong_password: string;
+    cong_access_code: string;
   };
 };
 

@@ -2,7 +2,7 @@ type FieldServiceGroupMembersType = {
   /**
    * Null or date in ISO string format to indicate if the person is deleted
    */
-  _deleted: string | null;
+  _deleted: { value: boolean; updatedAt: string };
 
   /**
    * The person UID record to include in the field service group
@@ -64,7 +64,7 @@ export type FieldServiceGroupType = {
   /**
    * Null or date in ISO string format to indicate if the field service group is deleted
    */
-  _deleted: string | null;
+  _deleted: { value: boolean; updatedAt: string };
 
   /**
    * Custom name of the field service group

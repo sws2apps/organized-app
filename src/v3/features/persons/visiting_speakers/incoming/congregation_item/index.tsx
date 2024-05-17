@@ -13,7 +13,7 @@ const IncomingCongregation = ({ congregation, currentExpanded, onChangeCurrentEx
 
   const { handleToggleEdit, isEditMode, isExpanded, handleToggleExpanded } = useList({
     currentExpanded,
-    cong_number: congregation.cong_number,
+    id: congregation.id,
     onChangeCurrentExpanded,
   });
 
@@ -29,9 +29,9 @@ const IncomingCongregation = ({ congregation, currentExpanded, onChangeCurrentEx
       }}
     >
       <IncomingCongregationHeader
-        cong_name={congregation.cong_name.value}
-        cong_number={congregation.cong_number}
-        cong_synced={congregation.cong_id.length > 0}
+        cong_name={congregation.cong_data.cong_name.value}
+        cong_number={congregation.cong_data.cong_number.value}
+        cong_synced={congregation.cong_data.cong_id.length > 0}
         editMode={isEditMode}
         expanded={isExpanded}
         onEditModeChange={handleToggleEdit}
@@ -54,12 +54,12 @@ const IncomingCongregation = ({ congregation, currentExpanded, onChangeCurrentEx
               tabs={[
                 {
                   label: t('tr_speakers'),
-                  Component: <SpeakersList isEditMode={isEditMode} cong_number={congregation.cong_number} />,
+                  Component: <SpeakersList isEditMode={isEditMode} cong_id={congregation.id} />,
                 },
                 {
                   label: t('tr_congregationInfo'),
                   Component: isEditMode ? (
-                    <CongregationInfoEdit cong_number={congregation.cong_number} />
+                    <CongregationInfoEdit cong_number={congregation.cong_data.cong_number.value} />
                   ) : (
                     <CongregationInfoView congregation={congregation} />
                   ),

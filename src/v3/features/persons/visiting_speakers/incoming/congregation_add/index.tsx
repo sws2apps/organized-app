@@ -32,6 +32,7 @@ const CongregationAdd = ({ onClose, open }: CongregationAddType) => {
     handleTalkCoordinatorNameChange,
     handleTalkCoordinatorPhoneChange,
     handleIncomingCongregationAdd,
+    congAccountConnected,
   } = useCongregationAdd(onClose);
 
   return (
@@ -43,16 +44,25 @@ const CongregationAdd = ({ onClose, open }: CongregationAddType) => {
           <Box sx={{ width: '100%', marginBottom: '-24px', marginTop: '-8px' }}>
             <Tabs
               onChange={() => handleResetCongregation()}
-              tabs={[
-                {
-                  label: t('tr_congregationInOrganized'),
-                  Component: <CongregationOnlineAdd onCongregationChange={handleSelectCongregation} />,
-                },
-                {
-                  label: t('tr_addManually'),
-                  Component: <CongregationOfflineAdd onCongregationChange={handleSelectCongregation} />,
-                },
-              ]}
+              tabs={
+                congAccountConnected
+                  ? [
+                      {
+                        label: t('tr_congregationInOrganized'),
+                        Component: <CongregationOnlineAdd onCongregationChange={handleSelectCongregation} />,
+                      },
+                      {
+                        label: t('tr_addManually'),
+                        Component: <CongregationOfflineAdd onCongregationChange={handleSelectCongregation} />,
+                      },
+                    ]
+                  : [
+                      {
+                        label: t('tr_addManually'),
+                        Component: <CongregationOfflineAdd onCongregationChange={handleSelectCongregation} />,
+                      },
+                    ]
+              }
             />
           </Box>
 

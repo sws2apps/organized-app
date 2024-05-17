@@ -431,3 +431,8 @@ export const isWIPSnackOpenState = atom({
   key: 'isWIPSnackOpen',
   default: false,
 });
+
+export const isAppNotificationOpenState = atom({
+  key: 'isAppNotificationOpen',
+  default: false,
+});

@@ -47,13 +47,13 @@ const PersonBasicInfo = () => {
       >
         <Typography className="h2">{t('tr_basicInformation')}</Typography>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-          {person.archived.value && (
+          {person.person_data.archived.value && (
             <Badge size="big" color="red" text={t('tr_archived')} sx={{ width: 'fit-content' }} />
           )}
 
           {isInactive && <Badge size="big" color="red" text={t('tr_inactive')} sx={{ width: 'fit-content' }} />}
 
-          {person.disqualified.value && (
+          {person.person_data.disqualified.value && (
             <Badge size="big" color="red" text={t('tr_disqualified')} sx={{ width: 'fit-content' }} />
           )}
         </Box>
@@ -71,19 +71,19 @@ const PersonBasicInfo = () => {
         >
           <TextField
             label={t('tr_firstname')}
-            value={person.person_firstname.value}
+            value={person.person_data.person_firstname.value}
             onChange={(e) => handleChangeFirstname(e.target.value)}
           />
           <TextField
             label={t('tr_lastname')}
-            value={person.person_lastname.value}
+            value={person.person_data.person_lastname.value}
             onChange={(e) => handleChangeLastname(e.target.value)}
           />
         </Box>
         {displayNameEnabled && (
           <TextField
             label={t('tr_displayName')}
-            value={person.person_display_name.value}
+            value={person.person_data.person_display_name.value}
             onChange={(e) => handleChangeDisplayName(e.target.value)}
           />
         )}
@@ -91,7 +91,7 @@ const PersonBasicInfo = () => {
 
       <RadioGroup
         sx={{ marginLeft: '4px', flexDirection: 'row', gap: tabletDown ? '16px' : '24px', flexWrap: 'wrap' }}
-        value={person.male.value ? 'male' : 'female'}
+        value={person.person_data.male.value ? 'male' : 'female'}
         onChange={(e) => handleToggleGender(e.target.value)}
       >
         <FormControlLabel value="male" control={<Radio />} label={<Typography>{t('tr_male')}</Typography>} />
@@ -110,7 +110,7 @@ const PersonBasicInfo = () => {
         <Box sx={{ flexGrow: 1, width: tabletDown ? '100%' : 'unset' }}>
           <DatePicker
             label={t('tr_dateOfBirth')}
-            value={person.birth_date.value === null ? null : new Date(person.birth_date.value)}
+            value={person.person_data.birth_date.value === null ? null : new Date(person.person_data.birth_date.value)}
             onChange={handleChangeBirthDate}
             maxDate={new Date()}
           />
@@ -147,18 +147,18 @@ const PersonBasicInfo = () => {
         >
           <TextField
             label={t('tr_emailAddress')}
-            value={person.email.value}
+            value={person.person_data.email.value}
             onChange={(e) => handleChangeEmailAddress(e.target.value)}
           />
           <TextField
             label={t('tr_phoneNumber')}
-            value={person.phone.value}
+            value={person.person_data.phone.value}
             onChange={(e) => handleChangePhone(e.target.value)}
           />
         </Box>
         <TextField
           label={t('tr_address')}
-          value={person.address.value}
+          value={person.person_data.address.value}
           onChange={(e) => handleChangeAddress(e.target.value)}
         />
       </Box>

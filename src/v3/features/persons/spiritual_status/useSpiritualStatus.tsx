@@ -20,15 +20,15 @@ const useSpiritualStatus = () => {
   const person = useRecoilValue(personCurrentDetailsState);
 
   const [expandedStatus, setExpandedStatus] = useState({
-    baptized: person.publisher_baptized.active.value,
-    unbaptized: person.publisher_unbaptized.active.value,
-    midweek: person.midweek_meeting_student.active.value,
+    baptized: person.person_data.publisher_baptized.active.value,
+    unbaptized: person.person_data.publisher_unbaptized.active.value,
+    midweek: person.person_data.midweek_meeting_student.active.value,
   });
 
   const handleToggleArchive = async () => {
     const newPerson: PersonType = structuredClone(person);
 
-    const archived = newPerson.archived.value;
+    const archived = newPerson.person_data.archived.value;
 
     // UNARCHIVE PERSON
     if (archived) {
@@ -61,7 +61,7 @@ const useSpiritualStatus = () => {
 
   const handleToggleMidweekMeetingStudent = async (checked: boolean) => {
     // check if baptized publisher and abort
-    if (person.publisher_baptized.active.value) {
+    if (person.person_data.publisher_baptized.active.value) {
       await displaySnackNotification({
         header: t('tr_spiritualStatusError'),
         message: t('tr_baptizedMidweekStudentError'),
@@ -72,7 +72,7 @@ const useSpiritualStatus = () => {
     }
 
     // check if unbaptized publisher and abort
-    if (person.publisher_unbaptized.active.value) {
+    if (person.person_data.publisher_unbaptized.active.value) {
       await displaySnackNotification({
         header: t('tr_spiritualStatusError'),
         message: t('tr_unBaptizedMidweekStudentError'),
@@ -84,29 +84,32 @@ const useSpiritualStatus = () => {
 
     const newPerson: PersonType = structuredClone(person);
 
-    newPerson.midweek_meeting_student.active.value = checked;
-    newPerson.midweek_meeting_student.active.updatedAt = new Date().toISOString();
+    newPerson.person_data.midweek_meeting_student.active.value = checked;
+    newPerson.person_data.midweek_meeting_student.active.updatedAt = new Date().toISOString();
 
     if (checked) {
-      const current = newPerson.midweek_meeting_student.history.find((record) => record.end_date.value === null);
+      const current = newPerson.person_data.midweek_meeting_student.history.find(
+        (record) => record.end_date.value === null
+      );
 
       if (!current) {
-        newPerson.midweek_meeting_student.history.push({
+        newPerson.person_data.midweek_meeting_student.history.push({
           id: crypto.randomUUID(),
           start_date: { value: new Date().toISOString(), updatedAt: new Date().toISOString() },
           end_date: { value: null, updatedAt: new Date().toISOString() },
-          _deleted: null,
+          _deleted: { value: false, updatedAt: '' },
         });
       }
     }
 
     if (!checked) {
-      const current = newPerson.midweek_meeting_student.history.find((record) => record.end_date.value === null);
+      const current = newPerson.person_data.midweek_meeting_student.history.find(
+        (record) => record.end_date.value === null
+      );
 
       if (current && isAddPerson) {
-        newPerson.midweek_meeting_student.history = newPerson.midweek_meeting_student.history.filter(
-          (record) => record.id !== current.id
-        );
+        newPerson.person_data.midweek_meeting_student.history =
+          newPerson.person_data.midweek_meeting_student.history.filter((record) => record.id !== current.id);
       }
 
       if (current && !isAddPerson) {
@@ -120,7 +123,7 @@ const useSpiritualStatus = () => {
 
   const handleToggleUnbaptizedPublisher = async (checked: boolean) => {
     // check if baptized publisher and abort
-    if (person.publisher_baptized.active.value) {
+    if (person.person_data.publisher_baptized.active.value) {
       await displaySnackNotification({
         header: t('tr_spiritualStatusError'),
         message: t('tr_baptizedUnbaptizedError'),
@@ -134,7 +137,9 @@ const useSpiritualStatus = () => {
 
     // update meeting student status if checked is true
     if (checked) {
-      const currentMidweek = newPerson.midweek_meeting_student.history.find((record) => record.end_date.value === null);
+      const currentMidweek = newPerson.person_data.midweek_meeting_student.history.find(
+        (record) => record.end_date.value === null
+      );
 
       if (currentMidweek) {
         const start_date = formatDate(new Date(currentMidweek.start_date.value), 'MM/dd/yyyy');
@@ -142,13 +147,12 @@ const useSpiritualStatus = () => {
 
         if (start_date === nowDate) {
           if (isAddPerson) {
-            newPerson.midweek_meeting_student.history = newPerson.midweek_meeting_student.history.filter(
-              (record) => record.id !== currentMidweek.id
-            );
+            newPerson.person_data.midweek_meeting_student.history =
+              newPerson.person_data.midweek_meeting_student.history.filter((record) => record.id !== currentMidweek.id);
           }
 
           if (!isAddPerson) {
-            currentMidweek._deleted = new Date().toISOString();
+            currentMidweek._deleted = { value: true, updatedAt: new Date().toISOString() };
           }
         }
 
@@ -158,27 +162,29 @@ const useSpiritualStatus = () => {
         }
       }
 
-      newPerson.midweek_meeting_student.active.value = false;
-      newPerson.midweek_meeting_student.active.updatedAt = new Date().toISOString();
+      newPerson.person_data.midweek_meeting_student.active.value = false;
+      newPerson.person_data.midweek_meeting_student.active.updatedAt = new Date().toISOString();
     }
 
-    newPerson.publisher_unbaptized.active.value = checked;
-    newPerson.publisher_unbaptized.active.updatedAt = new Date().toISOString();
+    newPerson.person_data.publisher_unbaptized.active.value = checked;
+    newPerson.person_data.publisher_unbaptized.active.updatedAt = new Date().toISOString();
 
     if (checked) {
-      const current = newPerson.publisher_unbaptized.history.find((record) => record.end_date.value === null);
+      const current = newPerson.person_data.publisher_unbaptized.history.find(
+        (record) => record.end_date.value === null
+      );
 
       if (!current) {
-        newPerson.publisher_unbaptized.history.push({
+        newPerson.person_data.publisher_unbaptized.history.push({
           id: crypto.randomUUID(),
           start_date: { value: dateFirstDayMonth().toISOString(), updatedAt: new Date().toISOString() },
           end_date: { value: null, updatedAt: new Date().toISOString() },
-          _deleted: null,
+          _deleted: { value: false, updatedAt: '' },
         });
       }
 
-      if (newPerson.first_month_report.value === null) {
-        newPerson.first_month_report = {
+      if (newPerson.person_data.first_month_report.value === null) {
+        newPerson.person_data.first_month_report = {
           value: dateFirstDayMonth().toISOString(),
           updatedAt: new Date().toISOString(),
         };
@@ -186,11 +192,13 @@ const useSpiritualStatus = () => {
     }
 
     if (!checked) {
-      const current = newPerson.publisher_unbaptized.history.find((record) => record.end_date.value === null);
+      const current = newPerson.person_data.publisher_unbaptized.history.find(
+        (record) => record.end_date.value === null
+      );
 
       if (current && isAddPerson) {
-        newPerson.first_month_report = { value: null, updatedAt: '' };
-        newPerson.publisher_unbaptized.history = newPerson.publisher_unbaptized.history.filter(
+        newPerson.person_data.first_month_report = { value: null, updatedAt: '' };
+        newPerson.person_data.publisher_unbaptized.history = newPerson.person_data.publisher_unbaptized.history.filter(
           (record) => record.id !== current.id
         );
       }
@@ -209,7 +217,9 @@ const useSpiritualStatus = () => {
 
     // update previous status if checked is true
     if (checked) {
-      const currentUnbaptized = newPerson.publisher_unbaptized.history.find((record) => record.end_date.value === null);
+      const currentUnbaptized = newPerson.person_data.publisher_unbaptized.history.find(
+        (record) => record.end_date.value === null
+      );
 
       if (currentUnbaptized) {
         const start_date = formatDate(new Date(currentUnbaptized.start_date.value), 'MM/dd/yyyy');
@@ -217,13 +227,12 @@ const useSpiritualStatus = () => {
 
         if (start_date === nowDate) {
           if (isAddPerson) {
-            newPerson.publisher_unbaptized.history = newPerson.publisher_unbaptized.history.filter(
-              (record) => record.id !== currentUnbaptized.id
-            );
+            newPerson.person_data.publisher_unbaptized.history =
+              newPerson.person_data.publisher_unbaptized.history.filter((record) => record.id !== currentUnbaptized.id);
           }
 
           if (!isAddPerson) {
-            currentUnbaptized._deleted = new Date().toISOString();
+            currentUnbaptized._deleted = { value: true, updatedAt: new Date().toISOString() };
           }
         }
 
@@ -233,12 +242,14 @@ const useSpiritualStatus = () => {
         }
       }
 
-      if (newPerson.publisher_unbaptized.active.value) {
-        newPerson.publisher_unbaptized.active.value = false;
-        newPerson.publisher_unbaptized.active.updatedAt = new Date().toISOString();
+      if (newPerson.person_data.publisher_unbaptized.active.value) {
+        newPerson.person_data.publisher_unbaptized.active.value = false;
+        newPerson.person_data.publisher_unbaptized.active.updatedAt = new Date().toISOString();
       }
 
-      const currentMidweek = newPerson.midweek_meeting_student.history.find((record) => record.end_date.value === null);
+      const currentMidweek = newPerson.person_data.midweek_meeting_student.history.find(
+        (record) => record.end_date.value === null
+      );
 
       if (currentMidweek) {
         const start_date = formatDate(new Date(currentMidweek.start_date.value), 'MM/dd/yyyy');
@@ -246,13 +257,12 @@ const useSpiritualStatus = () => {
 
         if (start_date === nowDate) {
           if (isAddPerson) {
-            newPerson.midweek_meeting_student.history = newPerson.midweek_meeting_student.history.filter(
-              (record) => record.id !== currentMidweek.id
-            );
+            newPerson.person_data.midweek_meeting_student.history =
+              newPerson.person_data.midweek_meeting_student.history.filter((record) => record.id !== currentMidweek.id);
           }
 
           if (!isAddPerson) {
-            currentMidweek._deleted = new Date().toISOString();
+            currentMidweek._deleted = { value: true, updatedAt: new Date().toISOString() };
           }
         }
 
@@ -262,29 +272,29 @@ const useSpiritualStatus = () => {
         }
       }
 
-      if (newPerson.midweek_meeting_student.active.value) {
-        newPerson.midweek_meeting_student.active.value = false;
-        newPerson.midweek_meeting_student.active.updatedAt = new Date().toISOString();
+      if (newPerson.person_data.midweek_meeting_student.active.value) {
+        newPerson.person_data.midweek_meeting_student.active.value = false;
+        newPerson.person_data.midweek_meeting_student.active.updatedAt = new Date().toISOString();
       }
     }
 
-    newPerson.publisher_baptized.active.value = checked;
-    newPerson.publisher_baptized.active.updatedAt = new Date().toISOString();
+    newPerson.person_data.publisher_baptized.active.value = checked;
+    newPerson.person_data.publisher_baptized.active.updatedAt = new Date().toISOString();
 
     if (checked) {
-      const current = newPerson.publisher_baptized.history.find((record) => record.end_date.value === null);
+      const current = newPerson.person_data.publisher_baptized.history.find((record) => record.end_date.value === null);
 
       if (!current) {
-        newPerson.publisher_baptized.history.push({
+        newPerson.person_data.publisher_baptized.history.push({
           id: crypto.randomUUID(),
           start_date: { value: dateFirstDayMonth().toISOString(), updatedAt: new Date().toISOString() },
           end_date: { value: null, updatedAt: new Date().toISOString() },
-          _deleted: null,
+          _deleted: { value: false, updatedAt: '' },
         });
       }
 
-      if (newPerson.first_month_report.value === null) {
-        newPerson.first_month_report = {
+      if (newPerson.person_data.first_month_report.value === null) {
+        newPerson.person_data.first_month_report = {
           value: dateFirstDayMonth().toISOString(),
           updatedAt: new Date().toISOString(),
         };
@@ -292,11 +302,11 @@ const useSpiritualStatus = () => {
     }
 
     if (!checked) {
-      const current = newPerson.publisher_baptized.history.find((record) => record.end_date.value === null);
+      const current = newPerson.person_data.publisher_baptized.history.find((record) => record.end_date.value === null);
 
       if (current && isAddPerson) {
-        newPerson.first_month_report = { value: null, updatedAt: '' };
-        newPerson.publisher_baptized.history = newPerson.publisher_baptized.history.filter(
+        newPerson.person_data.first_month_report = { value: null, updatedAt: '' };
+        newPerson.person_data.publisher_baptized.history = newPerson.person_data.publisher_baptized.history.filter(
           (record) => record.id !== current.id
         );
       }
@@ -312,9 +322,9 @@ const useSpiritualStatus = () => {
 
   useEffect(() => {
     setExpandedStatus({
-      baptized: person.publisher_baptized.active.value,
-      unbaptized: person.publisher_unbaptized.active.value,
-      midweek: person.midweek_meeting_student.active.value,
+      baptized: person.person_data.publisher_baptized.active.value,
+      unbaptized: person.person_data.publisher_unbaptized.active.value,
+      midweek: person.person_data.midweek_meeting_student.active.value,
     });
   }, [person]);
 

@@ -26,7 +26,7 @@ export const dbAppSettingsTimeAwayAdd = async () => {
     start_date: { value: new Date().toISOString(), updatedAt: new Date().toISOString() },
     end_date: { value: null, updatedAt: '' },
     comments: { value: '', updatedAt: '' },
-    _deleted: null,
+    _deleted: { value: false, updatedAt: '' },
   });
 
   await appDb.app_settings.put(setting);
@@ -36,7 +36,7 @@ export const dbAppSettingsTimeAwayDelete = async (id) => {
   const setting = await appDb.app_settings.get(1);
 
   const currentTimeAway = setting.user_settings.user_time_away.find((record) => record.id === id);
-  currentTimeAway._deleted = new Date().toISOString();
+  currentTimeAway._deleted = { value: true, updatedAt: new Date().toISOString() };
 
   await appDb.app_settings.put(setting);
 };

@@ -1,5 +1,6 @@
-import { delay } from '@utils/dev';
-import { apiSendCongregationBackup, apiSendUserBackup } from './backupUtils';
+import { delay } from '@utils/common';
+import { apiGetCongregationBackup, apiSendCongregationBackup } from './backupApi';
+import { dbExportDataBackup } from './backupUtils';
 
 declare const self: MyWorkerGlobalScope;
 
@@ -26,27 +27,44 @@ self.onmessage = function (event) {
 };
 
 const runBackup = async () => {
+  let backup = 'started';
+
   try {
-    const { accountType, apiHost, congID, userID, userUID, visitorID } = self.setting;
+    const { accountType, apiHost, congID, userUID, visitorID, userRole } = self.setting;
 
     self.postMessage('Syncing');
 
-    const reqPayload = {};
-
     if (accountType === 'vip' && userUID) {
-      await apiSendCongregationBackup({ apiHost, congID, reqPayload, userUID, visitorID });
+      // loop until server responds backup completed excluding failure
+      do {
+        const backupData = await apiGetCongregationBackup({ apiHost, congID, userUID, visitorID });
+
+        const reqPayload = await dbExportDataBackup(userRole, backupData);
+
+        const data = await apiSendCongregationBackup({
+          apiHost,
+          congID,
+          reqPayload,
+          userUID,
+          visitorID,
+          lastBackup: backupData.last_backup,
+        });
+
+        if (data?.message === 'BACKUP_SENT') backup = 'completed';
+
+        if (backup !== 'completed') {
+          await delay(5000);
+        }
+      } while (backup === 'started');
     }
 
-    if (accountType === 'pocket' && userID) {
-      await apiSendUserBackup({ apiHost, reqPayload, userID, visitorID });
+    if (backup === 'completed') {
+      self.postMessage('Done');
+      self.postMessage({ lastBackup: new Date().toISOString() });
     }
-
-    await delay(5000);
-
-    self.postMessage('Done');
-    self.postMessage({ lastBackup: new Date().toISOString() });
   } catch (error) {
     console.error(error);
+    backup = 'failed';
     self.postMessage({ error: 'BACKUP_FAILED', details: error.message });
   }
 };

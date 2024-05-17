@@ -16,10 +16,11 @@ export const incomingCongSpeakersState = selector({
   get: ({ get }) => {
     const congregations = get(speakersCongregationsState);
     const congNumber = get(congNumberState);
+    const congId = congregations.find((record) => record.cong_data.cong_number.value === congNumber)?.id;
 
-    const incomingCongregations = congregations.filter((record) => record.cong_number !== congNumber);
+    const incomingCongregations = congregations.filter((record) => record.id !== congId);
 
-    return incomingCongregations.sort((a, b) => (a.cong_name.value > b.cong_name.value ? 1 : -1));
+    return incomingCongregations.sort((a, b) => (a.cong_data.cong_name.value > b.cong_data.cong_name.value ? 1 : -1));
   },
 });
 

@@ -1,11 +1,13 @@
-import { useState } from 'react';
-import { setIsMyAssignmentOpen } from '@services/recoil/app';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { isAppNotificationOpenState, isMyAssignmentOpenState } from '@states/app';
 
 const useAppNotification = () => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useRecoilState(isAppNotificationOpenState);
+
+  const setIsMyAssignmentOpen = useSetRecoilState(isMyAssignmentOpenState);
 
   const handleOpenNotification = async () => {
-    await setIsMyAssignmentOpen(false);
+    setIsMyAssignmentOpen(false);
 
     setOpen(true);
   };

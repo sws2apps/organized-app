@@ -36,7 +36,7 @@ const UnbaptizedPublisher = ({ checked, onChange, expanded, onExpand }: Unbaptiz
 
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <Box sx={{ marginTop: '24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          <FirstReport value={person.first_month_report.value} onChange={handleFirstReportChange} />
+          <FirstReport value={person.person_data.first_month_report.value} onChange={handleFirstReportChange} />
 
           <StatusHistory
             active={isActive}

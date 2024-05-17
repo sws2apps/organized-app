@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useListType } from './index.types';
 
-const useList = ({ cong_number, currentExpanded, onChangeCurrentExpanded }: useListType) => {
+const useList = ({ id, currentExpanded, onChangeCurrentExpanded }: useListType) => {
   const [isEditMode, setIsEditMode] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(currentExpanded === cong_number);
+  const [isExpanded, setIsExpanded] = useState(currentExpanded === id);
 
   const handleToggleEdit = () => {
     setIsEditMode((prev) => {
@@ -20,16 +20,16 @@ const useList = ({ cong_number, currentExpanded, onChangeCurrentExpanded }: useL
   const handleToggleExpanded = () => {
     setIsExpanded((prev) => !prev);
 
-    if (currentExpanded === cong_number) {
+    if (currentExpanded === id) {
       onChangeCurrentExpanded('');
     } else {
-      onChangeCurrentExpanded(cong_number);
+      onChangeCurrentExpanded(id);
     }
   };
 
   useEffect(() => {
-    setIsExpanded(currentExpanded === cong_number);
-  }, [currentExpanded, cong_number]);
+    setIsExpanded(currentExpanded === id);
+  }, [currentExpanded, id]);
 
   return { isEditMode, handleToggleEdit, isExpanded, handleToggleExpanded };
 };

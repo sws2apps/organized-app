@@ -371,18 +371,10 @@
   "tr_congregationMasterKey": "Congregation master key",
   "tr_congregationMasterKeyDesc": "This code is essential for securely accessing congregation data, including congregation and ministry reports, the persons list, and other information only available to appointed brothers. It's the most important code – losing it could result in losing all congregation data.",
   "tr_congregationAccessCodeDesc": "This is your congregation's unique code for connecting new users or logging in. It's used to encrypt congregation data for all users.",
-  "tr_congregationAccessCode": "Congregation access code",
   "tr_changeKeyButton": "Change master key",
   "tr_changeAccessCodeButton": "Change access code",
-  "tr_enterAccessCode": "Enter congregation access code",
-  "tr_enterAccessCodeDesc": "Please enter the access code to your congregation. This unique code is specific to your congregation and is necessary to connect and access it.",
-  "tr_setCongregationMasterKey": "Set congregation master key",
-  "tr_createCongregationMasterKey": "Create congregation master key",
   "tr_createMasterKeyIntroDesc": "This key securely encrypts your congregation's data, including reports and persons, and is required for administrative actions such as data export/import or making significant changed to settings.",
   "tr_hallC": "C",
   "tr_FR": "Regular pioneer",
-  "tr_FS": "Special pioneer",
-  "tr_congregationPassword": "Congregation password",
-  "tr_congregationPasswordLostDesc": "Enter your congregation’s password to open the app",
-  "tr_congregationPasswordAsk": "Enter congregation password"
+  "tr_FS": "Special pioneer"
 }

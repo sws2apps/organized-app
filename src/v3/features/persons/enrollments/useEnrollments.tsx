@@ -10,17 +10,17 @@ const useEnrollments = () => {
 
   const person = useRecoilValue(personCurrentDetailsState);
 
-  const activeHistory = person.enrollments.filter((record) => record._deleted === null);
+  const activeHistory = person.person_data.enrollments.filter((record) => record._deleted.value === false);
 
   const handleAddHistory = async () => {
     const newPerson = structuredClone(person);
 
-    newPerson.enrollments.push({
+    newPerson.person_data.enrollments.push({
       id: crypto.randomUUID(),
       enrollment: { value: 'AP', updatedAt: new Date().toISOString() },
       start_date: { value: new Date().toISOString(), updatedAt: new Date().toISOString() },
       end_date: { value: null, updatedAt: new Date().toISOString() },
-      _deleted: null,
+      _deleted: { value: false, updatedAt: '' },
     });
 
     await setPersonCurrentDetails(newPerson);
@@ -30,12 +30,12 @@ const useEnrollments = () => {
     const newPerson = structuredClone(person);
 
     if (!isAddPerson) {
-      const current = newPerson.enrollments.find((history) => history.id === id);
-      current._deleted = new Date().toISOString();
+      const current = newPerson.person_data.enrollments.find((history) => history.id === id);
+      current._deleted = { value: true, updatedAt: new Date().toISOString() };
     }
 
     if (isAddPerson) {
-      newPerson.enrollments = newPerson.enrollments.filter((record) => record.id !== id);
+      newPerson.person_data.enrollments = newPerson.person_data.enrollments.filter((record) => record.id !== id);
     }
 
     await setPersonCurrentDetails(newPerson);
@@ -44,7 +44,7 @@ const useEnrollments = () => {
   const handleStartDateChange = async (id: string, value: Date) => {
     const newPerson = structuredClone(person);
 
-    const current = newPerson.enrollments.find((history) => history.id === id);
+    const current = newPerson.person_data.enrollments.find((history) => history.id === id);
     current.start_date = {
       value: value.toISOString(),
       updatedAt: new Date().toISOString(),
@@ -56,7 +56,7 @@ const useEnrollments = () => {
   const handleEndDateChange = async (id: string, value: Date | null) => {
     const newPerson = structuredClone(person);
 
-    const current = newPerson.enrollments.find((history) => history.id === id);
+    const current = newPerson.person_data.enrollments.find((history) => history.id === id);
     current.end_date = {
       value: value === null ? null : value.toISOString(),
       updatedAt: new Date().toISOString(),
@@ -70,7 +70,7 @@ const useEnrollments = () => {
 
     const newValue = value as EnrollmentType;
 
-    const current = newPerson.enrollments.find((history) => history.id === id);
+    const current = newPerson.person_data.enrollments.find((history) => history.id === id);
     current.enrollment = { value: newValue, updatedAt: new Date().toISOString() };
 
     await setPersonCurrentDetails(newPerson);

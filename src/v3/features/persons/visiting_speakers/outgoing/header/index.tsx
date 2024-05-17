@@ -14,7 +14,7 @@ const OutgoingSpeakersHeader = ({
 }: OutgoingSpeakersHeaderType) => {
   const { t } = useAppTranslation();
 
-  const { congName, congNumber, handleCloseAccess, handleOpenAccess, openAccess } = useHeader();
+  const { congName, congNumber, handleCloseAccess, handleOpenAccess, openAccess, congAccountConnected } = useHeader();
 
   return (
     <Box
@@ -26,7 +26,7 @@ const OutgoingSpeakersHeader = ({
         gap: '16px',
       }}
     >
-      {openAccess && <OutgoingSpeakersAccess open={openAccess} onClose={handleCloseAccess} />}
+      {congAccountConnected && openAccess && <OutgoingSpeakersAccess open={openAccess} onClose={handleCloseAccess} />}
 
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
         <Typography className="h2">{t('tr_yourCongregation')}</Typography>
@@ -49,9 +49,12 @@ const OutgoingSpeakersHeader = ({
           {!editMode && <IconEdit color="var(--accent-main)" />}
           {editMode && <IconCheck color="var(--accent-main)" />}
         </IconButton>
-        <IconButton onClick={handleOpenAccess}>
-          <IconSharedWith color="var(--accent-main)" />
-        </IconButton>
+        {congAccountConnected && (
+          <IconButton onClick={handleOpenAccess}>
+            <IconSharedWith color="var(--accent-main)" />
+          </IconButton>
+        )}
+
         <IconButton onClick={onExpandChange}>
           <IconExpand
             color="var(--black)"

@@ -11,7 +11,8 @@ import NoCongregations from './no_congregations';
 const IncomingSpeakers = () => {
   const { t } = useAppTranslation();
 
-  const { incomingCongs, isAdding, handleIsAddingClose, currentExpanded, handleSetExpanded } = useIncoming();
+  const { incomingCongs, isAdding, handleIsAddingClose, currentExpanded, handleSetExpanded, congAccountConnected } =
+    useIncoming();
 
   return (
     <Box
@@ -29,9 +30,12 @@ const IncomingSpeakers = () => {
         sx={{ display: 'flex', alignItems: 'center', gap: '16px', justifyContent: 'space-between', flexWrap: 'wrap' }}
       >
         <Typography className="h2">{t('tr_otherCongregations')}</Typography>
-        <Button variant="secondary" startIcon={<IconCloudDownload color="var(--accent-main)" />}>
-          {t('tr_getSpeakers')}
-        </Button>
+
+        {congAccountConnected && (
+          <Button variant="secondary" startIcon={<IconCloudDownload color="var(--accent-main)" />}>
+            {t('tr_getSpeakers')}
+          </Button>
+        )}
       </Box>
 
       {incomingCongs.length === 0 && <NoCongregations />}
@@ -39,7 +43,7 @@ const IncomingSpeakers = () => {
       {incomingCongs.length > 0 &&
         incomingCongs.map((congregation) => (
           <IncomingCongregation
-            key={congregation.cong_number}
+            key={congregation.id}
             congregation={congregation}
             currentExpanded={currentExpanded}
             onChangeCurrentExpanded={handleSetExpanded}

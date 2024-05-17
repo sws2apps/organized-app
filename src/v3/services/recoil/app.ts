@@ -277,7 +277,3 @@ export const setAppSnackMessageHeader = async (value) => {
 export const setIsMFAEnabled = async (value) => {
   await promiseSetRecoil(isMFAEnabledState, value);
 };
-
-export const setIsMyAssignmentOpen = async (value) => {
-  await promiseSetRecoil(isMyAssignmentOpenState, value);
-};

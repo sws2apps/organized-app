@@ -1,6 +1,6 @@
 export type CongFieldServiceReportType = {
   id?: string;
-  _deleted: null | string;
+  _deleted: { value: boolean; updatedAt: string };
   person_uid: string;
   shared_ministry: { value: boolean; updatedAt: string };
   month_date: { value: string; updatedAt: string };

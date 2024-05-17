@@ -6,9 +6,7 @@ import { apiValidateMe } from '@services/api/user';
 import { userSignOut } from '@services/firebase/auth';
 import { handleDeleteDatabase } from '@services/app';
 import { APP_ROLES, isDemo } from '@constants/index';
-import { setRootModalOpen } from '@services/recoil/app';
-import { accountTypeState } from '@states/settings';
-import { apiFetchCongregationLastBackup } from '@services/api/congregation';
+import { accountTypeState, congNumberState } from '@states/settings';
 import { dbAppSettingsUpdateUserInfoAfterLogin } from '@services/dexie/settings';
 import useFirebaseAuth from '@hooks/useFirebaseAuth';
 import logger from '@services/logger/index';
@@ -22,6 +20,7 @@ const useUserAutoLogin = () => {
   const visitorID = useRecoilValue(visitorIDState);
   const isAppLoad = useRecoilValue(isAppLoadState);
   const accountType = useRecoilValue(accountTypeState);
+  const congNumber = useRecoilValue(congNumberState);
 
   const runFetch =
     !isDemo && apiHost !== '' && visitorID !== '' && accountType === 'vip' && !isAppLoad && isOnline && isAuthenticated;
@@ -52,6 +51,11 @@ const useUserAutoLogin = () => {
         return;
       }
 
+      if (congNumber.length > 0 && data.result.cong_number !== congNumber) {
+        await handleDeleteDatabase();
+        return;
+      }
+
       if (error || data.result.message) {
         const msg = error?.message || data.result.message;
         logger.error('app', msg);
@@ -69,20 +73,6 @@ const useUserAutoLogin = () => {
 
         if (approvedRole) {
           await dbAppSettingsUpdateUserInfoAfterLogin(data);
-
-          await setRootModalOpen(true);
-          const { status, data: backup } = await apiFetchCongregationLastBackup();
-          if (status === 200) {
-            if (backup.cong_last_backup !== 'NO_BACKUP' || backup.user_last_backup !== 'NO_BACKUP') {
-              const lastDate =
-                backup.cong_last_backup !== 'NO_BACKUP' ? backup.cong_last_backup : backup.user_last_backup;
-
-              worker.postMessage({ field: 'lastBackup', value: lastDate });
-            }
-          }
-
-          await setRootModalOpen(false);
-
           worker.postMessage('startWorker');
         }
 
@@ -91,7 +81,7 @@ const useUserAutoLogin = () => {
     };
 
     handleLoginData();
-  }, [isPending, data, error]);
+  }, [isPending, data, error, congNumber]);
 
   return { autoLoginStatus };
 };

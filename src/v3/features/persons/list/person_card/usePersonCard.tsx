@@ -39,10 +39,10 @@ const usePersonCard = (person: PersonType) => {
     const isFR = personIsFR(person);
     const isFS = personIsFS(person);
 
-    const isBaptized = person.publisher_baptized.active.value;
-    const isUnbaptized = person.publisher_unbaptized.active.value;
-    const isMidweek = person.midweek_meeting_student.active.value;
-    const disqualified = person.disqualified.value;
+    const isBaptized = person.person_data.publisher_baptized.active.value;
+    const isUnbaptized = person.person_data.publisher_unbaptized.active.value;
+    const isMidweek = person.person_data.midweek_meeting_student.active.value;
+    const disqualified = person.person_data.disqualified.value;
     const isInactivePublisher = personIsInactive(person);
 
     const badges: { name: string; color: BadgeColor }[] = [];
