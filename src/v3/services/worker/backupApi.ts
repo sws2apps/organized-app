@@ -1,12 +1,12 @@
-export const apiGetCongregationBackup = async ({ apiHost, congID, visitorID, userUID }) => {
+export const apiGetCongregationBackup = async ({ apiHost, congID, idToken }) => {
   const res = await fetch(`${apiHost}api/congregations/${congID}/backup`, {
     method: 'GET',
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${idToken}`,
       appclient: 'organized',
       appversion: import.meta.env.PACKAGE_VERSION,
-      visitorid: visitorID,
-      uid: userUID,
     },
   });
 
@@ -15,35 +15,18 @@ export const apiGetCongregationBackup = async ({ apiHost, congID, visitorID, use
   return data;
 };
 
-export const apiSendCongregationBackup = async ({ apiHost, congID, visitorID, userUID, reqPayload, lastBackup }) => {
+export const apiSendCongregationBackup = async ({ apiHost, congID, reqPayload, lastBackup, idToken }) => {
   const res = await fetch(`${apiHost}api/congregations/${congID}/backup`, {
     method: 'POST',
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${idToken}`,
       appclient: 'organized',
       appversion: import.meta.env.PACKAGE_VERSION,
-      visitorid: visitorID,
-      uid: userUID,
       lastbackup: lastBackup,
     },
     body: JSON.stringify({ cong_backup: reqPayload }),
-  });
-
-  const data = await res.json();
-
-  return data;
-};
-
-export const apiSendUserBackup = async ({ apiHost, visitorID, userID, reqPayload }) => {
-  const res = await fetch(`${apiHost}api/sws-pocket/${userID}/backup`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      appclient: 'organized',
-      appversion: import.meta.env.PACKAGE_VERSION,
-      visitorid: visitorID,
-    },
-    body: JSON.stringify(reqPayload),
   });
 
   const data = await res.json();

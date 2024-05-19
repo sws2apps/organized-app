@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useQuery } from '@tanstack/react-query';
-import { apiHostState, isAppLoadState, isOnlineState, visitorIDState } from '@states/app';
+import { apiHostState, isAppLoadState, isOnlineState } from '@states/app';
 import { apiValidateMe } from '@services/api/user';
 import { userSignOut } from '@services/firebase/auth';
 import { handleDeleteDatabase } from '@services/app';
@@ -17,13 +17,11 @@ const useUserAutoLogin = () => {
 
   const isOnline = useRecoilValue(isOnlineState);
   const apiHost = useRecoilValue(apiHostState);
-  const visitorID = useRecoilValue(visitorIDState);
   const isAppLoad = useRecoilValue(isAppLoadState);
   const accountType = useRecoilValue(accountTypeState);
   const congNumber = useRecoilValue(congNumberState);
 
-  const runFetch =
-    !isDemo && apiHost !== '' && visitorID !== '' && accountType === 'vip' && !isAppLoad && isOnline && isAuthenticated;
+  const runFetch = !isDemo && apiHost !== '' && accountType === 'vip' && !isAppLoad && isOnline && isAuthenticated;
 
   const { isPending, data, error } = useQuery({
     queryKey: ['whoami'],
@@ -51,11 +49,6 @@ const useUserAutoLogin = () => {
         return;
       }
 
-      if (congNumber.length > 0 && data.result.cong_number !== congNumber) {
-        await handleDeleteDatabase();
-        return;
-      }
-
       if (error || data.result.message) {
         const msg = error?.message || data.result.message;
         logger.error('app', msg);
@@ -64,6 +57,11 @@ const useUserAutoLogin = () => {
       }
 
       if (data.status === 200) {
+        if (congNumber.length > 0 && data.result.cong_number !== congNumber) {
+          await handleDeleteDatabase();
+          return;
+        }
+
         const approvedRole = data.result.cong_role.some((role) => APP_ROLES.includes(role));
 
         if (!approvedRole) {

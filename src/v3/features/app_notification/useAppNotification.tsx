@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { isAppNotificationOpenState, isMyAssignmentOpenState } from '@states/app';
 
@@ -5,6 +6,8 @@ const useAppNotification = () => {
   const [open, setOpen] = useRecoilState(isAppNotificationOpenState);
 
   const setIsMyAssignmentOpen = useSetRecoilState(isMyAssignmentOpenState);
+
+  const [count, setCount] = useState(0);
 
   const handleOpenNotification = async () => {
     setIsMyAssignmentOpen(false);
@@ -16,7 +19,7 @@ const useAppNotification = () => {
     setOpen(false);
   };
 
-  return { open, handleOpenNotification, handleCloseNotification };
+  return { open, handleOpenNotification, handleCloseNotification, count };
 };
 
 export default useAppNotification;

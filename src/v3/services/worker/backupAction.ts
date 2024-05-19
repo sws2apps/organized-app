@@ -5,13 +5,12 @@ import { dbExportDataBackup } from './backupUtils';
 declare const self: MyWorkerGlobalScope;
 
 self.setting = {
-  visitorID: undefined,
   apiHost: undefined,
   congID: undefined,
   userRole: [],
   accountType: undefined,
-  userUID: undefined,
   userID: undefined,
+  idToken: undefined,
 };
 
 self.onmessage = function (event) {
@@ -30,14 +29,14 @@ const runBackup = async () => {
   let backup = 'started';
 
   try {
-    const { accountType, apiHost, congID, userUID, visitorID, userRole } = self.setting;
+    const { accountType, apiHost, congID, userRole, idToken } = self.setting;
 
     self.postMessage('Syncing');
 
-    if (accountType === 'vip' && userUID) {
+    if (accountType === 'vip' && idToken) {
       // loop until server responds backup completed excluding failure
       do {
-        const backupData = await apiGetCongregationBackup({ apiHost, congID, userUID, visitorID });
+        const backupData = await apiGetCongregationBackup({ apiHost, congID, idToken });
 
         const reqPayload = await dbExportDataBackup(userRole, backupData);
 
@@ -45,8 +44,7 @@ const runBackup = async () => {
           apiHost,
           congID,
           reqPayload,
-          userUID,
-          visitorID,
+          idToken,
           lastBackup: backupData.last_backup,
         });
 

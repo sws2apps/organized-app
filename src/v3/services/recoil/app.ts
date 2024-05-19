@@ -22,7 +22,6 @@ import {
   offlineOverrideState,
   rootModalOpenState,
   userIDState,
-  visitorIDState,
   secretTokenPathState,
   qrCodePathState,
   isEmailLinkAuthenticateState,
@@ -98,10 +97,6 @@ export const displayOnboardingFeedback = async ({ title, message, variant = 'err
 
 export const setApiHost = async (value) => {
   await promiseSetRecoil(apiHostState, value);
-};
-
-export const setVisitorID = async (value) => {
-  await promiseSetRecoil(visitorIDState, value);
 };
 
 export const setIsOnline = async (value) => {

@@ -118,11 +118,6 @@ export const isShowTermsUseState = atom({
   default: typeof window !== 'undefined' && convertStringToBoolean(localStorage.getItem('termsUse') || 'true'),
 });
 
-export const visitorIDState = atom({
-  key: 'visitorID',
-  default: '',
-});
-
 export const qrCodePathState = atom({
   key: 'qrCodePath',
   default: '',

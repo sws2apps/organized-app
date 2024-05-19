@@ -59,9 +59,9 @@ const useEmailLinkAuth = () => {
       setIsProcessing(true);
 
       await setAuthPersistence();
-      const user = await userSignInCustomToken(code);
+      await userSignInCustomToken(code);
 
-      const { status, data } = await apiUpdatePasswordlessInfo(user.uid);
+      const { status, data } = await apiUpdatePasswordlessInfo();
       localStorage.removeItem('emailForSignIn');
 
       if (status !== 200) {
