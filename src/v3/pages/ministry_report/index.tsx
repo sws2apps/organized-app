@@ -112,9 +112,7 @@ const MinistryReport = () => {
       creditHoursInSeconds += value.credit_hours_in_seconds;
       countOfStudies += value.count_of_bible_studies;
 
-      value.bible_studies.map((element) => {
-        studies.push(element);
-      });
+      studies.push(...value.bible_studies);
     });
 
     return new MinistryRecord('', countOfStudies, ministryHoursInSeconds, creditHoursInSeconds, studies);
