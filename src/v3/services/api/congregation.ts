@@ -1,3 +1,4 @@
+import { CongregationUpdatesResponseType } from '@definition/api';
 import { apiDefault } from './common';
 
 export const apiFetchCountries = async () => {
@@ -123,4 +124,23 @@ export const apiSetCongregationAccessCode = async (access_code: string) => {
   const data = await res.json();
 
   return { status: res.status, data };
+};
+
+export const apiGetCongregationUpdates = async (): Promise<CongregationUpdatesResponseType> => {
+  const { apiHost, appVersion: appversion, congID, idToken } = await apiDefault();
+
+  const res = await fetch(`${apiHost}api/congregations/${congID}/updates-routine`, {
+    method: 'GET',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${idToken}`,
+      appclient: 'organized',
+      appversion,
+    },
+  });
+
+  const data = await res.json();
+
+  return { status: res.status, result: data };
 };

@@ -53,4 +53,5 @@ export type TextMarkupTypeProps = {
    * Callback function for when an anchor element within the text is clicked.
    */
   anchorClick?: () => void;
+  tagClassNames?: { [tag: string]: string }; // New prop
 };

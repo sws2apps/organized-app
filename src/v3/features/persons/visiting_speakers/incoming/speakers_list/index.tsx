@@ -8,20 +8,34 @@ import IncomingSpeakerEdit from './edit';
 import SpeakerRowView from '../../speaker_row_view';
 import Typography from '@components/typography';
 
-const SpeakersList = ({ isEditMode, cong_id }: SpeakersListType) => {
+const SpeakersList = ({ isEditMode, cong_id, cong_synced }: SpeakersListType) => {
   const { t } = useAppTranslation();
 
   const { mobile400Down } = useBreakpoints();
 
-  const { handleVisitingSpeakersAdd, incomingSpeakers } = useSpeakersList(cong_id, isEditMode);
+  const { handleVisitingSpeakersAdd, incomingSpeakers, congregation } = useSpeakersList(cong_id, isEditMode);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      {!isEditMode && incomingSpeakers.length === 0 && (
+      {congregation.cong_data.cong_id.length === 0 && !isEditMode && incomingSpeakers.length === 0 && (
         <Typography color="var(--grey-350)">{t('tr_incomingCongregationNoSpeakers')}</Typography>
       )}
 
-      {!isEditMode && incomingSpeakers.length > 0 && (
+      {congregation.cong_data.request_status === 'pending' && (
+        <Typography color="var(--grey-350)">{t('tr_incomingCongregationOnlinePending')}</Typography>
+      )}
+
+      {congregation.cong_data.request_status === 'disapproved' && (
+        <Typography color="var(--grey-350)">{t('tr_incomingCongregationOnlineDisapproved')}</Typography>
+      )}
+
+      {congregation.cong_data.request_status === 'approved' &&
+        congregation.cong_data.cong_id.length > 0 &&
+        incomingSpeakers.length === 0 && (
+          <Typography color="var(--grey-350)">{t('tr_incomingCongregationOnlineNoSpeakers')}</Typography>
+        )}
+
+      {(!isEditMode || cong_synced) && incomingSpeakers.length > 0 && (
         <Box>
           {!mobile400Down && (
             <Box
@@ -65,7 +79,7 @@ const SpeakersList = ({ isEditMode, cong_id }: SpeakersListType) => {
         </Box>
       )}
 
-      {isEditMode && (
+      {!cong_synced && isEditMode && (
         <Box
           sx={{
             display: 'flex',
@@ -86,7 +100,7 @@ const SpeakersList = ({ isEditMode, cong_id }: SpeakersListType) => {
         </Box>
       )}
 
-      {isEditMode && (
+      {!cong_synced && isEditMode && (
         <Button
           variant="tertiary"
           startIcon={<IconAdd />}

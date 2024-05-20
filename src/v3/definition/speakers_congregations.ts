@@ -32,7 +32,7 @@ export type SpeakersCongregationsType = {
       phone: { value: string; updatedAt: string };
     };
     request_status: 'pending' | 'disapproved' | 'approved';
-    notification_dismissed: { value: boolean; updatedAt: string };
+    request_id: string;
   };
 };
 

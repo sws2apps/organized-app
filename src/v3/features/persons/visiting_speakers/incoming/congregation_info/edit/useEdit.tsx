@@ -170,6 +170,7 @@ const useEdit = (cong_number: string) => {
     handleNameChange,
     number,
     handleNumberChange,
+    cong_synced: congregation.cong_data.cong_id.length > 0,
   };
 };
 

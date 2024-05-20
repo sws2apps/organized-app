@@ -2,14 +2,16 @@ import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
 import { publicTalksState } from '@states/public_talks';
-import { dbVistingSpeakersUpdate } from '@services/dexie/visiting_speakers';
+import { dbVisitingSpeakersUpdate } from '@services/dexie/visiting_speakers';
+import { speakersCongregationsState } from '@states/speakers_congregations';
 
 const useTalksSongs = (speaker: VisitingSpeakerType) => {
   const publicTalks = useRecoilValue(publicTalksState);
+  const congregations = useRecoilValue(speakersCongregationsState);
 
   const [isEdit, setIsEdit] = useState(false);
 
-  const handleToggleEdit = () => setIsEdit((prev) => !prev);
+  const congregation = congregations.find((record) => record.id === speaker.speaker_data.cong_id);
 
   const talks = speaker.speaker_data.talks
     .filter((record) => record._deleted === false)
@@ -20,13 +22,15 @@ const useTalksSongs = (speaker: VisitingSpeakerType) => {
       return { talk, songs };
     });
 
+  const handleToggleEdit = () => setIsEdit((prev) => !prev);
+
   const handleSongsTalkUpdate = async (talk_number: number, songs: number[]) => {
     const talks = structuredClone(speaker.speaker_data.talks);
     const findTalk = talks.find((record) => record.talk_number === talk_number);
     findTalk.talk_songs = songs;
     findTalk.updatedAt = new Date().toISOString();
 
-    await dbVistingSpeakersUpdate({ 'speaker_data.talks': talks }, speaker.person_uid);
+    await dbVisitingSpeakersUpdate({ 'speaker_data.talks': talks }, speaker.person_uid);
   };
 
   const handleSongsTalkDelete = async (talk_number: number, song: number) => {
@@ -35,10 +39,17 @@ const useTalksSongs = (speaker: VisitingSpeakerType) => {
     findTalk.talk_songs = findTalk.talk_songs.filter((record) => record !== song);
     findTalk.updatedAt = new Date().toISOString();
 
-    await dbVistingSpeakersUpdate({ 'speaker_data.talks': talks }, speaker.person_uid);
+    await dbVisitingSpeakersUpdate({ 'speaker_data.talks': talks }, speaker.person_uid);
   };
 
-  return { talks, handleSongsTalkUpdate, handleSongsTalkDelete, handleToggleEdit, isEdit };
+  return {
+    talks,
+    handleSongsTalkUpdate,
+    handleSongsTalkDelete,
+    handleToggleEdit,
+    isEdit,
+    cong_synced: congregation.cong_data.cong_id.length > 0,
+  };
 };
 
 export default useTalksSongs;

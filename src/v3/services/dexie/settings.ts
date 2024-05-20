@@ -1,7 +1,13 @@
 import { UpdateSpec } from 'dexie';
 import { TimeAwayType } from '@definition/person';
 import { SettingsType } from '@definition/settings';
-import { setCongAccountConnected, setCongID, setIsMFAEnabled, setUserID } from '@services/recoil/app';
+import {
+  setCongAccountConnected,
+  setCongID,
+  setEncryptedMasterKey,
+  setIsMFAEnabled,
+  setUserID,
+} from '@services/recoil/app';
 import { settingSchema } from './schema';
 import { ValidateMeResponseType } from '@definition/api';
 import appDb from '@db/appDb';
@@ -133,6 +139,7 @@ export const dbAppSettingsUpdateUserInfoAfterLogin = async (data: ValidateMeResp
   await setCongID(data.result.cong_id);
   await setCongAccountConnected(true);
   await setUserID(data.result.id);
+  await setEncryptedMasterKey(data.result.cong_master_key);
 
   worker.postMessage({ field: 'userRole', value: data.result.cong_role });
   worker.postMessage({ field: 'userID', value: data.result.id });

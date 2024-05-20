@@ -5,13 +5,13 @@ import ButtonIcon from '@components/icon_button';
 import NotificationContainer from './container';
 
 const AppNotification = () => {
-  const { handleCloseNotification, handleOpenNotification, open } = useAppNotification();
+  const { handleCloseNotification, handleOpenNotification, open, count } = useAppNotification();
 
   return (
     <>
       <ButtonIcon onClick={handleOpenNotification}>
         <Badge
-          badgeContent={2}
+          badgeContent={count}
           slotProps={{
             badge: {
               style: {

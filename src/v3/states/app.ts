@@ -431,3 +431,13 @@ export const isAppNotificationOpenState = atom({
   key: 'isAppNotificationOpen',
   default: false,
 });
+
+export const speakersKeyState = atom({
+  key: 'speakersKey',
+  default: '',
+});
+
+export const encryptedMasterKeyState = atom({
+  key: 'encryptedMasterKey',
+  default: '',
+});

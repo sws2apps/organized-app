@@ -1,4 +1,4 @@
-import { GetUser2FAResponseType, GetUserSessionsType, ValidateMeResponseType } from '@definition/api';
+import { User2FAResponseType, UserSessionsResponseType, ValidateMeResponseType } from '@definition/api';
 import { apiDefault } from './common';
 
 export const apiUserLogout = async () => {
@@ -110,7 +110,7 @@ export const apiValidateMe = async (): Promise<ValidateMeResponseType> => {
   return { status: res.status, result: data };
 };
 
-export const apiGetUser2FA = async (): Promise<GetUser2FAResponseType> => {
+export const apiGetUser2FA = async (): Promise<User2FAResponseType> => {
   const { apiHost, appVersion: appversion, userID, idToken } = await apiDefault();
 
   const res = await fetch(`${apiHost}api/users/${userID}/2fa`, {
@@ -168,7 +168,7 @@ export const apiRevokeVIPSession = async (id: string) => {
   return { status: res.status, data };
 };
 
-export const apiGetUserSessions = async (): Promise<GetUserSessionsType> => {
+export const apiGetUserSessions = async (): Promise<UserSessionsResponseType> => {
   const { apiHost, appVersion: appversion, userID, idToken } = await apiDefault();
 
   const res = await fetch(`${apiHost}api/users/${userID}/sessions`, {

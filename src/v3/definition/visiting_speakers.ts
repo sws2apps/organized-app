@@ -21,3 +21,20 @@ export type VisitingSpeakerType = {
     talks: SpeakerTalk[];
   };
 };
+
+export type VisitingSpeakerBackupType = {
+  person_uid: string;
+  _deleted: string;
+  speaker_data: {
+    cong_id: string;
+    person_firstname: string;
+    person_lastname: string;
+    person_display_name: string;
+    person_notes: string;
+    person_email: string;
+    person_phone: string;
+    elder: string;
+    ministerial_servant: string;
+    talks: string;
+  };
+};

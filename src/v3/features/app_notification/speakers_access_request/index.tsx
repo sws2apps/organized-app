@@ -2,11 +2,14 @@ import { Stack } from '@mui/material';
 import { IconCheckCircle, IconReject } from '@icons/index';
 import { SpeakerAccessRequestType } from './index.types';
 import { useAppTranslation } from '@hooks/index';
+import useSpeakerAccessRequest from './useSpeakerAccessRequest';
 import Button from '@components/button';
 import Typography from '@components/typography';
 
-const SpeakerAccessRequest = (props: SpeakerAccessRequestType) => {
+const SpeakerAccessRequest = ({ request }: SpeakerAccessRequestType) => {
   const { t } = useAppTranslation();
+
+  const { handleAcceptRequest, handleRejectRequest } = useSpeakerAccessRequest(request.request_id);
 
   return (
     <Stack
@@ -20,13 +23,16 @@ const SpeakerAccessRequest = (props: SpeakerAccessRequestType) => {
       }}
     >
       <Stack direction="column" justifyContent="center" spacing={0.5}>
-        <Typography className="h4">{props.cong_name}</Typography>
+        <Typography className="h4">
+          ({request.country_code}) {request.cong_name}
+        </Typography>
         <Typography color="var(--accent-400)" className="body-small-semibold">
-          {props.cong_number}
+          {request.cong_number}
         </Typography>
       </Stack>
       <Stack direction="row" alignItems="center">
         <Button
+          onClick={handleRejectRequest}
           sx={{ height: 'min-content' }}
           className={'body-small-semibold'}
           startIcon={<IconReject color={'red'} />}
@@ -36,6 +42,7 @@ const SpeakerAccessRequest = (props: SpeakerAccessRequestType) => {
           {t('tr_reject')}
         </Button>
         <Button
+          onClick={handleAcceptRequest}
           sx={{ height: 'min-content' }}
           className={'body-small-semibold'}
           startIcon={<IconCheckCircle color={'accent'} />}

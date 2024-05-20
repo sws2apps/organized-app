@@ -55,6 +55,7 @@ import {
   isMFAEnabledState,
   appMessageIconState,
   isContactOpenState,
+  encryptedMasterKeyState,
 } from '@states/app';
 import { SnackBarSeverityType } from '@definition/app';
 
@@ -271,4 +272,8 @@ export const setAppSnackMessageHeader = async (value) => {
 
 export const setIsMFAEnabled = async (value) => {
   await promiseSetRecoil(isMFAEnabledState, value);
+};
+
+export const setEncryptedMasterKey = async (value: string) => {
+  await promiseSetRecoil(encryptedMasterKeyState, value);
 };

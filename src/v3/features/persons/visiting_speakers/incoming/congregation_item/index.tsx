@@ -11,7 +11,7 @@ import Tabs from '@components/tabs';
 const IncomingCongregation = ({ congregation, currentExpanded, onChangeCurrentExpanded }: IncomingCongregationType) => {
   const { t } = useAppTranslation();
 
-  const { handleToggleEdit, isEditMode, isExpanded, handleToggleExpanded } = useList({
+  const { handleToggleEdit, isEditMode, isExpanded, handleToggleExpanded, handleDeleteCongregation } = useList({
     currentExpanded,
     id: congregation.id,
     onChangeCurrentExpanded,
@@ -36,6 +36,7 @@ const IncomingCongregation = ({ congregation, currentExpanded, onChangeCurrentEx
         expanded={isExpanded}
         onEditModeChange={handleToggleEdit}
         onExpandChange={handleToggleExpanded}
+        onDelete={handleDeleteCongregation}
       />
 
       <Collapse in={isExpanded} unmountOnExit>
@@ -54,7 +55,13 @@ const IncomingCongregation = ({ congregation, currentExpanded, onChangeCurrentEx
               tabs={[
                 {
                   label: t('tr_speakers'),
-                  Component: <SpeakersList isEditMode={isEditMode} cong_id={congregation.id} />,
+                  Component: (
+                    <SpeakersList
+                      isEditMode={isEditMode}
+                      cong_id={congregation.id}
+                      cong_synced={congregation.cong_data.cong_id.length > 0}
+                    />
+                  ),
                 },
                 {
                   label: t('tr_congregationInfo'),

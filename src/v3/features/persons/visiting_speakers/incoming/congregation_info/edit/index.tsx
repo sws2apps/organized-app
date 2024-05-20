@@ -37,11 +37,17 @@ const CongregationInfoEdit = ({ cong_number }: CongregationInfoEditType) => {
     handleNumberChange,
     name,
     number,
+    cong_synced,
   } = useEdit(cong_number);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      <TextField label={t('tr_congregationName')} value={name} onChange={(e) => handleNameChange(e.target.value)} />
+      <TextField
+        label={t('tr_congregationName')}
+        value={name}
+        onChange={(e) => handleNameChange(e.target.value)}
+        InputProps={{ readOnly: cong_synced }}
+      />
 
       <Box
         sx={{
@@ -51,11 +57,17 @@ const CongregationInfoEdit = ({ cong_number }: CongregationInfoEditType) => {
           justifyContent: 'space-between',
         }}
       >
-        <TextField label={t('tr_number')} value={number} onChange={(e) => handleNumberChange(e.target.value)} />
+        <TextField
+          label={t('tr_number')}
+          value={number}
+          onChange={(e) => handleNumberChange(e.target.value)}
+          InputProps={{ readOnly: cong_synced }}
+        />
         <TextField
           label={t('tr_circuitNumber')}
           value={circuit}
           onChange={(e) => handleCircuitChange(e.target.value)}
+          InputProps={{ readOnly: cong_synced }}
         />
       </Box>
 

@@ -33,7 +33,7 @@ export const dbSpeakersCongregationsCreateLocal = async () => {
         name: { value: '', updatedAt: '' },
         phone: { value: '', updatedAt: '' },
       },
-      notification_dismissed: { value: true, updatedAt: '' },
+      request_id: '',
       request_status: 'approved',
     },
   });

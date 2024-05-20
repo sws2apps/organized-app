@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { buildPersonFullname } from '@utils/common';
-import { dbVistingSpeakersLocalCongSpeakerAdd } from '@services/dexie/visiting_speakers';
+import { dbVisitingSpeakersLocalCongSpeakerAdd } from '@services/dexie/visiting_speakers';
 import { outgoingSpeakersState } from '@states/visiting_speakers';
 import { personsActiveState } from '@states/persons';
 import { fullnameOptionState } from '@states/settings';
@@ -67,7 +67,7 @@ const useOutgoing = () => {
   };
 
   const handleSpeakerAdd = async () => {
-    await dbVistingSpeakersLocalCongSpeakerAdd();
+    await dbVisitingSpeakersLocalCongSpeakerAdd();
   };
 
   return {

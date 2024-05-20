@@ -74,25 +74,24 @@ export type UserLoginResponseType = {
   cong_role: string[];
 };
 
-export type GetUser2FAResponseType = {
+export type User2FAResponseType = {
   status: number;
   result: { message?: string; mfaEnabled?: boolean; qrCode?: string; secret?: string };
 };
 
-export type GetUserSessionsType = {
+export type UserSessionsResponseType = {
   status: number;
   result: { message?: string; sessions?: SessionResponseType[] };
 };
 
-export type ApprovedVisitingSpeakersAccessListType = {
-  cong_id: string;
-  cong_number: string;
-  cong_name: string;
-};
-
-export type GetApprovedVisitingSpeakersAccessResponseType = {
+export type VisitingSpeakersAccessResponseType = {
   status: number;
-  result: { message?: string; congregations: ApprovedVisitingSpeakersAccessListType[] };
+  result: {
+    message?: string;
+    congregations: CongregationRequestPendingType[];
+    speakers_key?: string;
+    cong_master_key?: string;
+  };
 };
 
 export type IncomingCongregationResponseType = {
@@ -104,4 +103,55 @@ export type IncomingCongregationResponseType = {
   cong_location: { address: string; lat: number; lng: number };
   midweek_meeting: { weekday: number; time: string };
   weekend_meeting: { weekday: number; time: string };
+};
+
+export type CongregationRequestPendingType = {
+  cong_id: string;
+  updatedAt: string;
+  cong_number: string;
+  cong_name: string;
+  country_code: string;
+  request_id: string;
+};
+
+export type VisitingSpeakerEncryptedType = {
+  person_uid: string;
+  _deleted: string;
+  speaker_data: {
+    cong_id: string;
+    person_firstname: string;
+    person_lastname: string;
+    person_display_name: string;
+    person_notes: string;
+    person_email: string;
+    person_phone: string;
+    elder: string;
+    ministerial_servant: string;
+    talks: string;
+  };
+};
+
+export type RemoteCongregationType = {
+  cong_id: string;
+  status: 'pending' | 'approved' | 'disapproved';
+  updatedAt: string;
+  key: string;
+  list: VisitingSpeakerEncryptedType[];
+  cong_name?: string;
+  cong_number?: string;
+  country_code?: string;
+  request_id: string;
+};
+
+export type CongregationUpdatesResponseType = {
+  status: number;
+  result: {
+    message?: string;
+    cong_master_key?: string;
+    cong_access_code?: string;
+    speakers_key?: string;
+    pending_speakers_requests?: CongregationRequestPendingType[];
+    remote_congregations?: RemoteCongregationType[];
+    rejected_requests?: RemoteCongregationType[];
+  };
 };

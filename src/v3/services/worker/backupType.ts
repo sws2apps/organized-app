@@ -52,7 +52,7 @@ export type SpeakersCongregationBackupType = {
     public_talk_coordinator: string;
     coordinator: string;
     request_status: string;
-    notification_dismissed: string;
+    request_id: string;
   };
 };
 

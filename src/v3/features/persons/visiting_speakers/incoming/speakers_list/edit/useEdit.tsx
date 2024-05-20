@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { displayNameEnableState, fullnameOptionState } from '@states/settings';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
-import { dbVistingSpeakersDelete, dbVistingSpeakersUpdate } from '@services/dexie/visiting_speakers';
+import { dbVisitingSpeakersDelete, dbVisitingSpeakersUpdate } from '@services/dexie/visiting_speakers';
 import { generateDisplayName } from '@utils/common';
 import { publicTalksState } from '@states/public_talks';
 import { PublicTalkType } from '@definition/public_talks';
@@ -40,7 +40,7 @@ const useEdit = (speaker: VisitingSpeakerType) => {
   const handleFirstnameChange = async (value: string) => {
     setFirstname(value);
 
-    await dbVistingSpeakersUpdate(
+    await dbVisitingSpeakersUpdate(
       { 'speaker_data.person_firstname': { value: value, updatedAt: new Date().toISOString() } },
       speaker.person_uid
     );
@@ -49,7 +49,7 @@ const useEdit = (speaker: VisitingSpeakerType) => {
       const dispName = generateDisplayName(speaker.speaker_data.person_lastname.value, value);
       setDisplayName(dispName);
 
-      await dbVistingSpeakersUpdate(
+      await dbVisitingSpeakersUpdate(
         { 'speaker_data.person_display_name': { value: dispName, updatedAt: new Date().toISOString() } },
         speaker.person_uid
       );
@@ -59,7 +59,7 @@ const useEdit = (speaker: VisitingSpeakerType) => {
   const handleLastnameChange = async (value: string) => {
     setLastname(value);
 
-    await dbVistingSpeakersUpdate(
+    await dbVisitingSpeakersUpdate(
       { 'speaker_data.person_lastname': { value: value, updatedAt: new Date().toISOString() } },
       speaker.person_uid
     );
@@ -68,7 +68,7 @@ const useEdit = (speaker: VisitingSpeakerType) => {
       const dispName = generateDisplayName(value, speaker.speaker_data.person_firstname.value);
       setDisplayName(dispName);
 
-      await dbVistingSpeakersUpdate(
+      await dbVisitingSpeakersUpdate(
         { 'speaker_data.person_display_name': { value: dispName, updatedAt: new Date().toISOString() } },
         speaker.person_uid
       );
@@ -78,7 +78,7 @@ const useEdit = (speaker: VisitingSpeakerType) => {
   const handleDisplayNameChange = async (value: string) => {
     setDisplayName(value);
 
-    await dbVistingSpeakersUpdate(
+    await dbVisitingSpeakersUpdate(
       { 'speaker_data.person_display_name': { value: value, updatedAt: new Date().toISOString() } },
       speaker.person_uid
     );
@@ -86,7 +86,7 @@ const useEdit = (speaker: VisitingSpeakerType) => {
 
   const handleToggleGender = async (value: string) => {
     if (value === 'elder') {
-      await dbVistingSpeakersUpdate(
+      await dbVisitingSpeakersUpdate(
         {
           'speaker_data.elder': { value: true, updatedAt: new Date().toISOString() },
           'speaker_data.ministerial_servant': { value: false, updatedAt: new Date().toISOString() },
@@ -96,7 +96,7 @@ const useEdit = (speaker: VisitingSpeakerType) => {
     }
 
     if (value === 'ms') {
-      await dbVistingSpeakersUpdate(
+      await dbVisitingSpeakersUpdate(
         {
           'speaker_data.elder': { value: false, updatedAt: new Date().toISOString() },
           'speaker_data.ministerial_servant': { value: true, updatedAt: new Date().toISOString() },
@@ -109,7 +109,7 @@ const useEdit = (speaker: VisitingSpeakerType) => {
   const handleEmailChange = async (value: string) => {
     setEmail(value);
 
-    await dbVistingSpeakersUpdate(
+    await dbVisitingSpeakersUpdate(
       { 'speaker_data.person_email': { value: value, updatedAt: new Date().toISOString() } },
       speaker.person_uid
     );
@@ -118,7 +118,7 @@ const useEdit = (speaker: VisitingSpeakerType) => {
   const handlePhoneChange = async (value: string) => {
     setPhone(value);
 
-    await dbVistingSpeakersUpdate(
+    await dbVisitingSpeakersUpdate(
       { 'speaker_data.person_phone': { value: value, updatedAt: new Date().toISOString() } },
       speaker.person_uid
     );
@@ -127,7 +127,7 @@ const useEdit = (speaker: VisitingSpeakerType) => {
   const handleNoteChange = async (value: string) => {
     setNote(value);
 
-    await dbVistingSpeakersUpdate(
+    await dbVisitingSpeakersUpdate(
       { 'speaker_data.person_notes': { value: value, updatedAt: new Date().toISOString() } },
       speaker.person_uid
     );
@@ -160,7 +160,7 @@ const useEdit = (speaker: VisitingSpeakerType) => {
 
     talks.sort((a, b) => (a.talk_number > b.talk_number ? 1 : -1));
 
-    await dbVistingSpeakersUpdate({ 'speaker_data.talks': talks }, speaker.person_uid);
+    await dbVisitingSpeakersUpdate({ 'speaker_data.talks': talks }, speaker.person_uid);
     setOpenSongAdd(true);
   };
 
@@ -171,7 +171,7 @@ const useEdit = (speaker: VisitingSpeakerType) => {
     talk._deleted = true;
     talk.updatedAt = new Date().toISOString();
 
-    await dbVistingSpeakersUpdate({ 'speaker_data.talks': talks }, speaker.person_uid);
+    await dbVisitingSpeakersUpdate({ 'speaker_data.talks': talks }, speaker.person_uid);
   };
 
   const handleCloseSongAdd = () => setOpenSongAdd(false);
@@ -188,7 +188,7 @@ const useEdit = (speaker: VisitingSpeakerType) => {
     findTalk.talk_songs = songs;
     findTalk.updatedAt = new Date().toISOString();
 
-    await dbVistingSpeakersUpdate({ 'speaker_data.talks': talks }, speaker.person_uid);
+    await dbVisitingSpeakersUpdate({ 'speaker_data.talks': talks }, speaker.person_uid);
   };
 
   const handleSongsTalkDelete = async (talk_number: number, song: number) => {
@@ -199,11 +199,11 @@ const useEdit = (speaker: VisitingSpeakerType) => {
     findTalk.talk_songs = findTalk.talk_songs.filter((record) => record !== song);
     findTalk.updatedAt = new Date().toISOString();
 
-    await dbVistingSpeakersUpdate({ 'speaker_data.talks': talks }, speaker.person_uid);
+    await dbVisitingSpeakersUpdate({ 'speaker_data.talks': talks }, speaker.person_uid);
   };
 
   const handleDeleteSpeaker = async (person_uid: string) => {
-    await dbVistingSpeakersDelete(person_uid);
+    await dbVisitingSpeakersDelete(person_uid);
   };
 
   return {
