@@ -17,6 +17,8 @@ import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 import { useAppTranslation } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
 import { NextStepType } from './index.types';
+import { UserLoginResponseType } from '@definition/api';
+import { dbAppSettingsUpdate } from '@services/dexie/settings';
 
 const useEmailLinkAuth = () => {
   const { t } = useAppTranslation();
@@ -35,10 +37,17 @@ const useEmailLinkAuth = () => {
     setSearchParams('');
   };
 
-  const handleResult = async (result: NextStepType) => {
+  const handleResult = async (data: UserLoginResponseType, result: NextStepType) => {
     setSearchParams('');
     setIsEmailLinkAuthenticate(false);
     setIsEmailAuth(false);
+
+    await dbAppSettingsUpdate({
+      'user_settings.account_type': 'vip',
+      'user_settings.cong_role': data.cong_role,
+      'user_settings.lastname': data.lastname,
+      'user_settings.firstname': data.firstname,
+    });
 
     if (result.encryption) {
       setIsEncryptionCodeOpen(true);
@@ -92,7 +101,7 @@ const useEmailLinkAuth = () => {
         result.isVerifyMFA = true;
       }
 
-      await handleResult(result);
+      await handleResult(data, result);
       setIsProcessing(false);
     } catch (err) {
       await displayOnboardingFeedback({
