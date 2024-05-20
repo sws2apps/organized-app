@@ -45,7 +45,6 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
   const { t } = useAppTranslation();
 
   const [localDurationInSeconds, setLocalDurationInSeconds] = useState(0);
-  const [localDate, setLocalDate] = useState<Date>(props.date);
   const [localCreditHoursDurationInSeconds, setLocalCreditHoursDurationInSeconds] = useState(0);
   const [dropdownWithStudiesOpen, setDropdownWithStudiesOpen] = useState(false);
   const [dropdownWithSchoolsOpen, setDropdownWithSchoolsOpen] = useState(false);
@@ -82,6 +81,18 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
     }
   };
 
+  const closeInfoMessageAfterDelay = () => {
+    setTimeout(() => {
+      setInfoMessageBoxOpen(false);
+    }, 5000);
+  };
+
+  useEffect(() => {
+    if (mode == 'edit') {
+      setCountOfStudiesInBuffer(props.recordForEdit.count_of_bible_studies - props.recordForEdit.bible_studies.length);
+    }
+  }, [mode, props.recordForEdit.bible_studies?.length, props.recordForEdit.count_of_bible_studies]);
+
   const incrementCountOfStudiesInBuffer = () => {
     setCountOfStudiesInBuffer(countOfStudiesInBuffer + 1);
   };
@@ -91,6 +102,7 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
       setCountOfStudiesInBuffer(countOfStudiesInBuffer - 1);
     } else {
       setInfoMessageBoxOpen(true);
+      closeInfoMessageAfterDelay();
     }
   };
 
@@ -126,6 +138,8 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
 
     return tmpArray;
   };
+
+  const [localDate, setLocalDate] = useState<Date>(new Date());
 
   const clearAllFields = () => {
     setLocalDurationInSeconds(0);
@@ -245,7 +259,7 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
               '.MuiButtonBase-root:hover': { backgroundColor: 'transparent' },
             }}
           >
-            <CustomDatePicker view={'button'} onChange={(value) => setLocalDate(value)} value={localDate} />
+            <CustomDatePicker view={'button'} onChange={async (value) => setLocalDate(value)} value={new Date()} />
           </Box>
         </Box>
         <StyledRowContainer

@@ -77,11 +77,6 @@ export type AddServiceTimeModalWindowProps = {
   reference?: React.Ref<HTMLElement>;
 
   /**
-   * The date of the service time.
-   */
-  date: Date;
-
-  /**
    * Specifies the mode of the ministry record action.
    */
   mode?: MinistryRecordActionMode;

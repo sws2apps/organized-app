@@ -25,7 +25,7 @@ const CustomTextarea = (props: CustomTextareaProps) => {
           alignItems: 'flex-start',
         },
         '.MuiInputBase-input': {
-          color: 'var(--accent-main)',
+          color: 'var(--black)',
         },
 
         '& .MuiOutlinedInput-root': {

@@ -1,4 +1,4 @@
-import { Box, Divider } from '@mui/material';
+import { Box } from '@mui/material';
 import { DailyHistoryProps } from './daily_history.types';
 import CustomTypography from '@components/typography';
 import useAppTranslation from '@hooks/useAppTranslation';
@@ -7,6 +7,8 @@ import { IconAdd, IconEdit, IconInfo } from '@components/icons';
 import { FormatStringForDailyHistory } from '@pages/ministry_report/utils';
 import CustomBadge from '@components/badge';
 import { convertDurationInSecondsToString } from '@features/ministry/utils';
+import { CustomDivider } from '@components/index';
+import useBreakpoints from '@hooks/useBreakpoints';
 
 /**
  * DailyHistory component displays a list of daily ministry records.
@@ -15,6 +17,8 @@ import { convertDurationInSecondsToString } from '@features/ministry/utils';
  */
 const DailyHistory = (props: DailyHistoryProps) => {
   const { t } = useAppTranslation();
+
+  const { tablet500Down } = useBreakpoints();
 
   /**
    * Renders the content for each daily ministry record.
@@ -64,15 +68,20 @@ const DailyHistory = (props: DailyHistoryProps) => {
             <CustomTypography
               className="h4"
               sx={{
-                height: '24px',
+                height: tablet500Down ? 'none' : '24px',
+                whiteSpace: 'pre-line',
               }}
             >
-              {FormatStringForDailyHistory(value.date_of_creation)}
+              {FormatStringForDailyHistory(value.date_of_creation, tablet500Down)}
             </CustomTypography>
             <Box
               sx={{
                 display: 'flex',
                 gap: '8px',
+                flexWrap: tablet500Down ? 'wrap' : 'none',
+                justifyContent: tablet500Down ? 'flex-end' : 'none',
+
+                width: tablet500Down ? '50%' : 'none',
               }}
             >
               <IconEdit
@@ -103,11 +112,7 @@ const DailyHistory = (props: DailyHistoryProps) => {
               ) : null}
             </Box>
           </Box>
-          <Divider
-            sx={{
-              border: '1px solid var(--accent-200)',
-            }}
-          />
+          <CustomDivider color="var(--accent-200)" height={1} />
         </Box>
       );
     });
@@ -126,12 +131,18 @@ const DailyHistory = (props: DailyHistoryProps) => {
       }}
     >
       <Box
-        sx={{
+        sx={(theme) => ({
           display: 'flex',
           gap: '8px',
           justifyContent: 'space-between',
           alignItems: 'center',
-        }}
+
+          [theme.breakpoints.down('tablet')]: {
+            button: {
+              width: '50%',
+            },
+          },
+        })}
       >
         <CustomTypography className="h2" color={'var(--black)'}>
           {t('tr_dailyHistory')}
