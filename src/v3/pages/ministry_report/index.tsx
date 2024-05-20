@@ -45,7 +45,6 @@ const MinistryReport = () => {
     const reportExtraMinutes = extraMinutes;
     const reportActionWithExtraMinutes = actionWithExtraMinutes;
     const reportComment = comment[0];
-
     setReportSubmitted(true);
   };
 
@@ -100,7 +99,7 @@ const MinistryReport = () => {
   });
 
   // TODO: Connect to API
-  const userType: MinistryReportVariants = 'pioneer';
+  const userType: MinistryReportVariants = 'base';
 
   const getTotalRecordByDailyHistory = () => {
     let ministryHoursInSeconds = 0;
@@ -112,7 +111,8 @@ const MinistryReport = () => {
       ministryHoursInSeconds += value.hours_in_seconds;
       creditHoursInSeconds += value.credit_hours_in_seconds;
       countOfStudies += value.count_of_bible_studies;
-      studies.concat(value.bible_studies);
+
+      studies.push(...value.bible_studies);
     });
 
     return new MinistryRecord('', countOfStudies, ministryHoursInSeconds, creditHoursInSeconds, studies);

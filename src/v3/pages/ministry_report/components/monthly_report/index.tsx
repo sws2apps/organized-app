@@ -97,6 +97,8 @@ const MonthlyReport = (props: MonthlyReportProps) => {
   const [totalOutOf_Hours, setTotalOutOf_Hours] = useState(0);
 
   const [countOfStudies, setCountOfStudies] = useState(props.record.count_of_bible_studies);
+  const [studiesList, setStudiesList] = useState(props.record.bible_studies);
+
   // const [countOfStudiesInBuffer, setCountOfStudiesInBuffer] = useState(0);
 
   // const incrementCountOfStudiesInBuffer = () => {
@@ -459,7 +461,7 @@ const MonthlyReport = (props: MonthlyReportProps) => {
           ) : null}
         </Box>
       ) : null}
-      {variant != 'empty' ? (
+      {variant != 'empty' && sharedMinistry ? (
         <>
           <Box
             sx={{
@@ -554,7 +556,7 @@ const MonthlyReport = (props: MonthlyReportProps) => {
               {/* <PlusButton onClick={incrementCountOfStudiesInBuffer} /> */}
             </Box>
           </Box>
-          {props.record.bible_studies.length != 0 ? (
+          {studiesList.length != 0 ? (
             <Box
               sx={{
                 display: 'flex',
@@ -562,14 +564,14 @@ const MonthlyReport = (props: MonthlyReportProps) => {
                 flexWrap: 'wrap',
               }}
             >
-              {props.record.bible_studies.map((value) => {
+              {studiesList.map((value) => {
                 const randomKey = crypto.randomUUID();
 
                 return (
                   <MiniChip
                     label={value}
                     key={randomKey}
-                    edit={true}
+                    edit={false}
                     // onDelete={() => {
                     //   props.bibleStudiesList.forEach((globalValue, index) => {
                     //     if (value == globalValue) {
