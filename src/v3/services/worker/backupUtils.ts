@@ -163,14 +163,16 @@ const dbRestoreFromBackup = async (backupData: BackupDataType, accessCode: strin
 export const dbExportDataBackup = async (userRole: string[], backupData: BackupDataType) => {
   const obj: BackupDataType = {};
 
-  const { persons, settings, outgoing_speakers, speakers_congregations, visiting_speakers } = await dbGetTableData();
+  const oldData = await dbGetTableData();
+  const cong_access_code = await oldData.settings.cong_settings.cong_access_code;
+  const cong_master_key = await oldData.settings.cong_settings.cong_master_key;
 
-  const accessCode = decryptData(backupData.cong_access_code, settings.cong_settings.cong_access_code);
-  const masterKey = backupData.cong_master_key
-    ? decryptData(backupData.cong_master_key, settings.cong_settings.cong_master_key)
-    : undefined;
+  const accessCode = decryptData(backupData.cong_access_code, cong_access_code);
+  const masterKey = backupData.cong_master_key ? decryptData(backupData.cong_master_key, cong_master_key) : undefined;
 
   await dbRestoreFromBackup(backupData, accessCode, masterKey);
+
+  const { persons, settings, outgoing_speakers, speakers_congregations, visiting_speakers } = await dbGetTableData();
 
   const adminRole = userRole.includes('admin');
 
