@@ -85,11 +85,11 @@
   "tr_friday": "Sexta-feira",
   "tr_saturday": "Sábado",
   "tr_sunday": "Domingo",
-  "tr_enterPIN": "Enter your PIN code",
+  "tr_enterPIN": "Introduza o seu código PIN",
   "tr_pinRequired": "To view or edit this information, please enter your personal PIN code used to unlock the app.",
-  "tr_approve": "Approve",
-  "tr_changeAccessCodeDesc": "We advise changing the code only if unauthorized access to it is suspected. After creating a new code, securely note and share it with new Organized users in your congregation.",
-  "tr_changeAccessCode": "Change the congregation access code",
-  "tr_currentCode": "Current congregation access code",
-  "tr_newCode": "New congregation access code"
+  "tr_approve": "Aprovar",
+  "tr_changeAccessCodeDesc": "Aconselhamos a alteração do código somente se o acesso não autorizado ao mesmo for suspeito. Após criar um código, anote e compartilhe com segurança os novos utilizadores Organized da sua congregação.",
+  "tr_changeAccessCode": "Alterar o código de acesso da congregação",
+  "tr_currentCode": "Código de acesso atual da congregação",
+  "tr_newCode": "Novo código de acesso da congregação"
 }
