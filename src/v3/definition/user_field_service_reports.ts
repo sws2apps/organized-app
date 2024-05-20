@@ -1,12 +1,12 @@
 type BibleStudyType = {
-  _deleted: null | string;
+  _deleted: { value: boolean; updatedAt: string };
   person_uid: string;
   updatedAt: string;
 };
 
 export type UserFieldServiceReportType = {
   id?: string;
-  _deleted: null | string;
+  _deleted: { value: boolean; updatedAt: string };
   month_date: { value: string; updatedAt: string };
   shared_ministry: { value: boolean; updatedAt: string };
   hours?: { value: number; updatedAt: string };

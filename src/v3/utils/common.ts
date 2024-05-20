@@ -90,3 +90,7 @@ export const localStorageGetItem = (key: string) => {
 
   return localStorage.getItem(key);
 };
+
+export const delay = async (time: number) => {
+  return new Promise((resolve) => setTimeout(resolve, time));
+};

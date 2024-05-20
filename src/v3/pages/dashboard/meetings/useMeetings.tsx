@@ -1,12 +1,13 @@
-import { useRecoilValue } from 'recoil';
-import { setIsMyAssignmentOpen } from '@services/recoil/app';
-import { congAccountConnectedState } from '@states/app';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { congAccountConnectedState, isMyAssignmentOpenState } from '@states/app';
 
 const useMeetings = () => {
+  const setIsMyAssignmentOpen = useSetRecoilState(isMyAssignmentOpenState);
+
   const isConnected = useRecoilValue(congAccountConnectedState);
 
   const handleOpenMyAssignments = async () => {
-    await setIsMyAssignmentOpen(true);
+    setIsMyAssignmentOpen(true);
   };
 
   return { handleOpenMyAssignments, isConnected };

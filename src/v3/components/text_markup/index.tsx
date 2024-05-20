@@ -1,4 +1,4 @@
-import { LegacyRef } from 'react';
+import { LegacyRef, createElement } from 'react';
 import { Markup } from 'interweave';
 import { TextMarkupTypeProps } from './index.types';
 
@@ -17,7 +17,9 @@ const CustomTextMarkup = (props: TextMarkupTypeProps) => {
   content = content.startsWith('<') ? content : `<p>${content}</p>`;
 
   const transformText = (node, children) => {
-    if (node.tagName.toLowerCase() === 'p') {
+    const tagName = node.tagName.toLowerCase();
+
+    if (tagName === 'p') {
       return (
         <p className={`text-markup ${props.className}`} style={{ color, ...props.style }}>
           {children}
@@ -25,7 +27,7 @@ const CustomTextMarkup = (props: TextMarkupTypeProps) => {
       );
     }
 
-    if (node.tagName.toLowerCase() === 'a') {
+    if (tagName === 'a') {
       return (
         <a
           className={anchorClassName}
@@ -42,8 +44,13 @@ const CustomTextMarkup = (props: TextMarkupTypeProps) => {
       );
     }
 
-    if (node.tagName.toLowerCase() === 'ul') {
+    if (tagName === 'ul') {
       return <ul style={{ paddingInlineStart: '32px', color }}>{children}</ul>;
+    }
+
+    // Check if the tag has a class name assigned in the props
+    if (props.tagClassNames && props.tagClassNames[tagName]) {
+      return createElement(tagName, { className: props.tagClassNames[tagName] }, children);
     }
   };
 

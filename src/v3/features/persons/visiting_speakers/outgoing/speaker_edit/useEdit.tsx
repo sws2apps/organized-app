@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { personsActiveState } from '@states/persons';
 import { AssignmentCode } from '@definition/assignment';
-import { dbVistingSpeakersUpdate, dbVistingSpeakersDelete } from '@services/dexie/visiting_speakers';
+import { dbVisitingSpeakersUpdate, dbVisitingSpeakersDelete } from '@services/dexie/visiting_speakers';
 import { publicTalksState } from '@states/public_talks';
 import { PublicTalkType } from '@definition/public_talks';
 import { outgoingSpeakersState } from '@states/visiting_speakers';
@@ -21,8 +21,8 @@ const useEdit = (speaker: VisitingSpeakerType) => {
   const [openSpeakerDetails, setOpenSpeakerDetails] = useState(false);
 
   const speakers = activePersons.filter((record) =>
-    record.assignments.find(
-      (assignment) => assignment._deleted === null && assignment.code === AssignmentCode.WM_Speaker
+    record.person_data.assignments.find(
+      (assignment) => assignment._deleted === false && assignment.code === AssignmentCode.WM_Speaker
     )
   );
 
@@ -35,28 +35,28 @@ const useEdit = (speaker: VisitingSpeakerType) => {
   const selectedTalks =
     outgoingSpeakers
       .find((record) => record.person_uid === speaker.person_uid)
-      ?.talks.filter((record) => record._deleted === null)
+      ?.speaker_data.talks.filter((record) => record._deleted === false)
       .map((record) => {
         const talk = publicTalks.find((item) => item.talk_number === record.talk_number);
         return talk;
       }) || [];
 
   const handleChangeSpeaker = async (value: string) => {
-    await dbVistingSpeakersUpdate({ person_uid: value }, speaker.person_uid);
+    await dbVisitingSpeakersUpdate({ person_uid: value }, speaker.person_uid);
   };
 
   const handleDeleteSpeaker = async (person_uid: string) => {
-    await dbVistingSpeakersDelete(person_uid);
+    await dbVisitingSpeakersDelete(person_uid);
   };
 
   const handleTalksUpdate = async (value: PublicTalkType[]) => {
-    const talks = structuredClone(speaker.talks);
+    const talks = structuredClone(speaker.speaker_data.talks);
 
     for (const selectedTalk of value) {
       const findTalk = talks.find((record) => record.talk_number === selectedTalk.talk_number);
 
       if (findTalk && findTalk._deleted !== null) {
-        findTalk._deleted = null;
+        findTalk._deleted = false;
         findTalk.updatedAt = new Date().toISOString();
         setAddedTalk(selectedTalk);
         setSelectedSongs([]);
@@ -64,7 +64,7 @@ const useEdit = (speaker: VisitingSpeakerType) => {
 
       if (!findTalk) {
         talks.push({
-          _deleted: null,
+          _deleted: false,
           talk_number: selectedTalk.talk_number,
           talk_songs: [],
           updatedAt: new Date().toISOString(),
@@ -76,39 +76,40 @@ const useEdit = (speaker: VisitingSpeakerType) => {
 
     talks.sort((a, b) => (a.talk_number > b.talk_number ? 1 : -1));
 
-    await dbVistingSpeakersUpdate({ talks }, speaker.person_uid);
+    await dbVisitingSpeakersUpdate({ 'speaker_data.talks': talks }, speaker.person_uid);
     setOpenSongAdd(true);
   };
 
   const handleTalksDelete = async (talk_number: number) => {
-    const talks = structuredClone(speaker.talks);
+    const talks = structuredClone(speaker.speaker_data.talks);
 
     const talk = talks.find((record) => record.talk_number === talk_number);
-    talk._deleted = new Date().toISOString();
+    talk._deleted = true;
+    talk.updatedAt = new Date().toISOString();
 
-    await dbVistingSpeakersUpdate({ talks }, speaker.person_uid);
+    await dbVisitingSpeakersUpdate({ 'speaker_data.talks': talks }, speaker.person_uid);
   };
 
   const handleSongsTalkUpdate = async (talk_number: number, songs: number[]) => {
     setSelectedSongs(songs);
 
-    const talks = structuredClone(speaker.talks);
+    const talks = structuredClone(speaker.speaker_data.talks);
     const findTalk = talks.find((record) => record.talk_number === talk_number);
     findTalk.talk_songs = songs;
     findTalk.updatedAt = new Date().toISOString();
 
-    await dbVistingSpeakersUpdate({ talks }, speaker.person_uid);
+    await dbVisitingSpeakersUpdate({ 'speaker_data.talks': talks }, speaker.person_uid);
   };
 
   const handleSongsTalkDelete = async (talk_number: number, song: number) => {
     setSelectedSongs((prev) => prev.filter((record) => record !== song));
 
-    const talks = structuredClone(speaker.talks);
+    const talks = structuredClone(speaker.speaker_data.talks);
     const findTalk = talks.find((record) => record.talk_number === talk_number);
     findTalk.talk_songs = findTalk.talk_songs.filter((record) => record !== song);
     findTalk.updatedAt = new Date().toISOString();
 
-    await dbVistingSpeakersUpdate({ talks }, speaker.person_uid);
+    await dbVisitingSpeakersUpdate({ 'speaker_data.talks': talks }, speaker.person_uid);
   };
 
   const handleCloseSongAdd = () => setOpenSongAdd(false);

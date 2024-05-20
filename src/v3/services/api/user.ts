@@ -1,36 +1,28 @@
-import { GetUser2FAResponseType, GetUserSessionsType, ValidateMeResponseType } from '@definition/api';
+import { User2FAResponseType, UserSessionsResponseType, ValidateMeResponseType } from '@definition/api';
 import { apiDefault } from './common';
 
 export const apiUserLogout = async () => {
-  const { apiHost, appVersion: appversion, visitorID: visitorid, userUID: uid } = await apiDefault();
+  const { apiHost, appVersion: appversion, idToken } = await apiDefault();
 
   await fetch(`${apiHost}api/users/logout`, {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid: uid },
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${idToken}`,
+      appclient: 'organized',
+      appversion,
+    },
   });
 };
 
-export const apiPocketSignup = async (code) => {
-  const { apiHost, appVersion: appversion, visitorID: visitorid } = await apiDefault();
-
-  const res = await fetch(`${apiHost}api/sws-pocket/signup`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion },
-    body: JSON.stringify({ visitorid, otp_code: code.toUpperCase() }),
-  });
-
-  const data = await res.json();
-
-  return { status: res.status, data };
-};
-
-export const apiRequestPasswordlesssLink = async (email: string, uid?: string) => {
+export const apiRequestPasswordlesssLink = async (email: string) => {
   const { apiHost, appVersion: appversion, appLang } = await apiDefault();
 
   const res = await fetch(`${apiHost}user-passwordless-login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, applanguage: appLang },
-    body: JSON.stringify({ email, uid }),
+    body: JSON.stringify({ email }),
   });
 
   const data = await res.json();
@@ -38,15 +30,21 @@ export const apiRequestPasswordlesssLink = async (email: string, uid?: string) =
   return { status: res.status, data };
 };
 
-export const apiUpdatePasswordlessInfo = async (uid) => {
-  const { apiHost, appVersion: appversion, visitorID: visitorid } = await apiDefault();
+export const apiUpdatePasswordlessInfo = async () => {
+  const { apiHost, appVersion: appversion, idToken } = await apiDefault();
 
   const tmpEmail = localStorage.getItem('emailForSignIn');
 
   const res = await fetch(`${apiHost}user-passwordless-verify`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, uid },
-    body: JSON.stringify({ email: tmpEmail, visitorid }),
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${idToken}`,
+      appclient: 'organized',
+      appversion,
+    },
+    body: JSON.stringify({ email: tmpEmail }),
   });
 
   const data = await res.json();
@@ -55,12 +53,17 @@ export const apiUpdatePasswordlessInfo = async (uid) => {
 };
 
 export const apiSendAuthorization = async () => {
-  const { apiHost, appVersion: appversion, visitorID: visitorid, userUID: uid } = await apiDefault();
+  const { apiHost, appVersion: appversion, idToken } = await apiDefault();
 
   const res = await fetch(`${apiHost}user-login`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, uid },
-    body: JSON.stringify({ visitorid }),
+    method: 'GET',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${idToken}`,
+      appclient: 'organized',
+      appversion,
+    },
   });
 
   const data = await res.json();
@@ -68,12 +71,18 @@ export const apiSendAuthorization = async () => {
   return { status: res.status, data };
 };
 
-export const apiHandleVerifyOTP = async (userOTP) => {
-  const { apiHost, appVersion: appversion, visitorID: visitorid, userUID: uid } = await apiDefault();
+export const apiHandleVerifyOTP = async (userOTP: string) => {
+  const { apiHost, appVersion: appversion, idToken } = await apiDefault();
 
   const res = await fetch(`${apiHost}api/mfa/verify-token`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${idToken}`,
+      appclient: 'organized',
+      appversion,
+    },
     body: JSON.stringify({ token: userOTP }),
   });
 
@@ -83,11 +92,17 @@ export const apiHandleVerifyOTP = async (userOTP) => {
 };
 
 export const apiValidateMe = async (): Promise<ValidateMeResponseType> => {
-  const { apiHost, appVersion: appversion, visitorID: visitorid, userUID: uid } = await apiDefault();
+  const { apiHost, appVersion: appversion, idToken } = await apiDefault();
 
   const res = await fetch(`${apiHost}api/users/validate-me`, {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${idToken}`,
+      appclient: 'organized',
+      appversion,
+    },
   });
 
   const data = await res.json();
@@ -95,26 +110,18 @@ export const apiValidateMe = async (): Promise<ValidateMeResponseType> => {
   return { status: res.status, result: data };
 };
 
-export const apiUpdateUserFullname = async (fullname) => {
-  const { apiHost, appVersion: appversion, visitorID: visitorid, userUID: uid, userID } = await apiDefault();
-
-  const res = await fetch(`${apiHost}api/users/${userID}/fullname`, {
-    method: 'PATCH',
-    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
-    body: JSON.stringify({ fullname }),
-  });
-
-  const data = await res.json();
-
-  return { status: res.status, data };
-};
-
-export const apiGetUser2FA = async (): Promise<GetUser2FAResponseType> => {
-  const { apiHost, appVersion: appversion, visitorID: visitorid, userUID: uid, userID } = await apiDefault();
+export const apiGetUser2FA = async (): Promise<User2FAResponseType> => {
+  const { apiHost, appVersion: appversion, userID, idToken } = await apiDefault();
 
   const res = await fetch(`${apiHost}api/users/${userID}/2fa`, {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${idToken}`,
+      appclient: 'organized',
+      appversion,
+    },
   });
 
   const data = await res.json();
@@ -123,11 +130,17 @@ export const apiGetUser2FA = async (): Promise<GetUser2FAResponseType> => {
 };
 
 export const apiDisableUser2FA = async () => {
-  const { apiHost, appVersion: appversion, visitorID: visitorid, userUID: uid, userID } = await apiDefault();
+  const { apiHost, appVersion: appversion, userID, idToken } = await apiDefault();
 
   const res = await fetch(`${apiHost}api/users/${userID}/2fa/disable`, {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${idToken}`,
+      appclient: 'organized',
+      appversion,
+    },
   });
 
   const data = await res.json();
@@ -135,12 +148,18 @@ export const apiDisableUser2FA = async () => {
   return { status: res.status, data };
 };
 
-export const apiRevokeVIPSession = async (id) => {
-  const { apiHost, appVersion: appversion, visitorID: visitorid, userUID: uid, userID } = await apiDefault();
+export const apiRevokeVIPSession = async (id: string) => {
+  const { apiHost, appVersion: appversion, userID, idToken } = await apiDefault();
 
   const res = await fetch(`${apiHost}api/users/${userID}/sessions`, {
     method: 'DELETE',
-    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${idToken}`,
+      appclient: 'organized',
+      appversion,
+    },
     body: JSON.stringify({ session: id }),
   });
 
@@ -149,95 +168,21 @@ export const apiRevokeVIPSession = async (id) => {
   return { status: res.status, data };
 };
 
-export const apiGetUserSessions = async (): Promise<GetUserSessionsType> => {
-  const { apiHost, appVersion: appversion, visitorID: visitorid, userUID: uid, userID } = await apiDefault();
+export const apiGetUserSessions = async (): Promise<UserSessionsResponseType> => {
+  const { apiHost, appVersion: appversion, userID, idToken } = await apiDefault();
 
   const res = await fetch(`${apiHost}api/users/${userID}/sessions`, {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${idToken}`,
+      appclient: 'organized',
+      appversion,
+    },
   });
 
   const data = await res.json();
 
   return { status: res.status, result: data.message ? { message: data.message } : { sessions: data } };
-};
-
-export const apiDeletePocketDevice = async (pocket_visitorid) => {
-  const { apiHost, appVersion: appversion, visitorID: visitorid, userID } = await apiDefault();
-
-  const res = await fetch(`${apiHost}api/sws-pocket/${userID}/devices`, {
-    method: 'DELETE',
-    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid },
-    body: JSON.stringify({ pocket_visitorid }),
-  });
-
-  const data = await res.json();
-
-  return { status: res.status, data };
-};
-
-export const apiFetchPocketSessions = async () => {
-  const { apiHost, appVersion: appversion, visitorID: visitorid, userID } = await apiDefault();
-
-  const res = await fetch(`${apiHost}api/sws-pocket/${userID}/devices`, {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid },
-  });
-
-  const data = await res.json();
-
-  return { status: res.status, data };
-};
-
-export const apiFetchUserLastBackup = async () => {
-  const { apiHost, appVersion: appversion, visitorID: visitorid, userID } = await apiDefault();
-
-  const res = await fetch(`${apiHost}api/sws-pocket/${userID}/backup/last`, {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid },
-  });
-
-  const data = await res.json();
-
-  return { status: res.status, data };
-};
-
-export const apiSendUserBackup = async (reqPayload) => {
-  const { apiHost, appVersion: appversion, visitorID: visitorid, userID } = await apiDefault();
-
-  const res = await fetch(`${apiHost}api/sws-pocket/${userID}/backup`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid },
-    body: JSON.stringify(reqPayload),
-  });
-
-  const data = await res.json();
-
-  return { status: res.status, data };
-};
-
-export const apiRestoreUserBackup = async () => {
-  const { apiHost, appVersion: appversion, visitorID: visitorid, userID } = await apiDefault();
-
-  const res = await fetch(`${apiHost}api/sws-pocket/${userID}/backup`, {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid },
-  });
-
-  const data = await res.json();
-
-  return { status: res.status, data };
-};
-
-export const apiPocketValidate = async () => {
-  const { apiHost, appVersion: appversion, visitorID: visitorid } = await apiDefault();
-
-  const res = await fetch(`${apiHost}api/sws-pocket/validate-me`, {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid },
-  });
-
-  const data = await res.json();
-
-  return { status: res.status, data };
 };

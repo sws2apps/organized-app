@@ -50,7 +50,7 @@ const BaptizedPublisher = ({ checked, onChange, expanded, onExpand }: BaptizedPu
             </Typography>
             <RadioGroup
               sx={{ marginLeft: '4px', flexDirection: 'row', gap: tabletDown ? '16px' : '24px', flexWrap: 'wrap' }}
-              value={person.publisher_baptized.anointed.value ? 'anointed' : 'otherSheep'}
+              value={person.person_data.publisher_baptized.anointed.value ? 'anointed' : 'otherSheep'}
               onChange={(e) => handleToggleHope(e.target.value)}
             >
               <FormControlLabel
@@ -80,9 +80,9 @@ const BaptizedPublisher = ({ checked, onChange, expanded, onExpand }: BaptizedPu
               <DatePicker
                 label={t('tr_baptismDate')}
                 value={
-                  person.publisher_baptized.baptism_date.value === null
+                  person.person_data.publisher_baptized.baptism_date.value === null
                     ? null
-                    : new Date(person.publisher_baptized.baptism_date.value)
+                    : new Date(person.person_data.publisher_baptized.baptism_date.value)
                 }
                 onChange={handleChangeBaptismDate}
                 maxDate={new Date()}
@@ -106,7 +106,7 @@ const BaptizedPublisher = ({ checked, onChange, expanded, onExpand }: BaptizedPu
             </Box>
           </Box>
 
-          <FirstReport value={person.first_month_report.value} onChange={handleFirstReportChange} />
+          <FirstReport value={person.person_data.first_month_report.value} onChange={handleFirstReportChange} />
 
           <StatusHistory
             active={isActive}

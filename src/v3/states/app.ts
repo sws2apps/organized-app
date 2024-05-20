@@ -118,11 +118,6 @@ export const isShowTermsUseState = atom({
   default: typeof window !== 'undefined' && convertStringToBoolean(localStorage.getItem('termsUse') || 'true'),
 });
 
-export const visitorIDState = atom({
-  key: 'visitorID',
-  default: '',
-});
-
 export const qrCodePathState = atom({
   key: 'qrCodePath',
   default: '',
@@ -430,4 +425,19 @@ export const currentDrawerState = atom({
 export const isWIPSnackOpenState = atom({
   key: 'isWIPSnackOpen',
   default: false,
+});
+
+export const isAppNotificationOpenState = atom({
+  key: 'isAppNotificationOpen',
+  default: false,
+});
+
+export const speakersKeyState = atom({
+  key: 'speakersKey',
+  default: '',
+});
+
+export const encryptedMasterKeyState = atom({
+  key: 'encryptedMasterKey',
+  default: '',
 });

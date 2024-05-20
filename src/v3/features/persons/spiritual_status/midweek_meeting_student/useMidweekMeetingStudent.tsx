@@ -9,16 +9,18 @@ const useMidweekMeetingStudent = () => {
 
   const person = useRecoilValue(personCurrentDetailsState);
 
-  const activeHistory = person.midweek_meeting_student.history.filter((record) => record._deleted === null);
+  const activeHistory = person.person_data.midweek_meeting_student.history.filter(
+    (record) => record._deleted.value === false
+  );
 
   const handleAddHistory = async () => {
     const newPerson = structuredClone(person);
 
-    newPerson.midweek_meeting_student.history.push({
+    newPerson.person_data.midweek_meeting_student.history.push({
       id: crypto.randomUUID(),
       start_date: { value: new Date().toISOString(), updatedAt: new Date().toISOString() },
       end_date: { value: null, updatedAt: new Date().toISOString() },
-      _deleted: null,
+      _deleted: { value: false, updatedAt: '' },
     });
 
     await setPersonCurrentDetails(newPerson);
@@ -28,14 +30,13 @@ const useMidweekMeetingStudent = () => {
     const newPerson = structuredClone(person);
 
     if (!isAddPerson) {
-      const current = newPerson.midweek_meeting_student.history.find((history) => history.id === id);
-      current._deleted = new Date().toISOString();
+      const current = newPerson.person_data.midweek_meeting_student.history.find((history) => history.id === id);
+      current._deleted = { value: true, updatedAt: new Date().toISOString() };
     }
 
     if (isAddPerson) {
-      newPerson.midweek_meeting_student.history = newPerson.midweek_meeting_student.history.filter(
-        (record) => record.id !== id
-      );
+      newPerson.person_data.midweek_meeting_student.history =
+        newPerson.person_data.midweek_meeting_student.history.filter((record) => record.id !== id);
     }
 
     await setPersonCurrentDetails(newPerson);
@@ -44,7 +45,7 @@ const useMidweekMeetingStudent = () => {
   const handleStartDateChange = async (id: string, value: Date) => {
     const newPerson = structuredClone(person);
 
-    const current = newPerson.midweek_meeting_student.history.find((history) => history.id === id);
+    const current = newPerson.person_data.midweek_meeting_student.history.find((history) => history.id === id);
     current.start_date = {
       value: value.toISOString(),
       updatedAt: new Date().toISOString(),
@@ -56,7 +57,7 @@ const useMidweekMeetingStudent = () => {
   const handleEndDateChange = async (id: string, value: Date | null) => {
     const newPerson = structuredClone(person);
 
-    const current = newPerson.midweek_meeting_student.history.find((history) => history.id === id);
+    const current = newPerson.person_data.midweek_meeting_student.history.find((history) => history.id === id);
     current.end_date = {
       value: value === null ? null : value.toISOString(),
       updatedAt: new Date().toISOString(),

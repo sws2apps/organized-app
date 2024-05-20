@@ -40,7 +40,6 @@ const AutocompleteMultiple = <T,>(props: AutocompleteMutilePropsType<T>) => {
               alignItems: 'center',
               gap: '8px',
             },
-            '.MuiFormLabel-root[data-shrink=false]': { top: `-${varHeight}px` },
             '.MuiInputBase-input': {
               paddingTop: `calc(14.5px - ${varHeight}px)`,
               paddingBottom: `calc(14.5px - ${varHeight}px)`,

@@ -6,13 +6,12 @@ declare const ReactDOM: typeof ReactDOM;
 
 interface MyWorkerGlobalScope extends DedicatedWorkerGlobalScope {
   setting: {
-    visitorID: string | undefined;
     apiHost: string | undefined;
     congID: string | undefined;
     userRole: string[];
     accountType: string | undefined;
-    userUID: string | undefined;
     userID: string | undefined;
+    idToken: string | undefined;
   };
   onmessage: DedicatedWorkerGlobalScope['onmessage'];
   postMessage: DedicatedWorkerGlobalScope['postMessage'];

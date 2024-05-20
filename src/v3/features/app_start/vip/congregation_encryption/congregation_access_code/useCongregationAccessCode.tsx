@@ -1,23 +1,16 @@
 import { useEffect, useState } from 'react';
-import { handleDeleteDatabase, loadApp, runUpdater } from '@services/app';
+import { handleDeleteDatabase } from '@services/app';
 import { useAppTranslation, useFirebaseAuth } from '@hooks/index';
 import { userSignOut } from '@services/firebase/auth';
 import { decryptData, encryptData, generateKey } from '@services/encryption/index';
 import { apiValidateMe } from '@services/api/user';
-import {
-  displayOnboardingFeedback,
-  setCongAccountConnected,
-  setCongID,
-  setIsAppLoad,
-  setIsSetup,
-  setOfflineOverride,
-} from '@services/recoil/app';
+import { displayOnboardingFeedback, setCongID } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
-import { apiSetCongregationPassword } from '@services/api/congregation';
+import { apiSetCongregationAccessCode } from '@services/api/congregation';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 
-const useCongregationPassword = () => {
+const useCongregationAccessCode = () => {
   const { t } = useAppTranslation();
 
   const { isAuthenticated } = useFirebaseAuth();
@@ -26,8 +19,8 @@ const useCongregationPassword = () => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [isSetupCode, setIsSetupCode] = useState(true);
-  const [tmpPassword, setTmpPassword] = useState('');
-  const [tmpPasswordVerify, setTmpPasswordVerify] = useState('');
+  const [tmpAccessCode, setTmpAccessCode] = useState('');
+  const [tmpAccessCodeVerify, setTmpAccessCodeVerify] = useState('');
   const [isLengthPassed, setIsLengthPassed] = useState(false);
   const [isNumberPassed, setIsNumberPassed] = useState(false);
   const [isLowerCasePassed, setIsLowerCasePassed] = useState(false);
@@ -35,7 +28,7 @@ const useCongregationPassword = () => {
   const [isSpecialSymbolPassed, setIsSpecialSymbolPassed] = useState(false);
   const [isMatch, setIsMatch] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [congPassword, setCongPassword] = useState('');
+  const [congAccessCode, setCongAccessCode] = useState('');
 
   const btnActionDisabled =
     !isLengthPassed ||
@@ -46,20 +39,20 @@ const useCongregationPassword = () => {
     (isSetupCode && !isMatch);
 
   const handleAction = () => {
-    if (isSetupCode) handleSetPassword();
-    if (!isSetupCode) handleValidatePassword();
+    if (isSetupCode) handleSetAccessCode();
+    if (!isSetupCode) handleValidateAccessCode();
   };
 
-  const handleSetPassword = async () => {
+  const handleSetAccessCode = async () => {
     if (isProcessing) return;
     hideMessage();
     setIsProcessing(true);
 
     try {
       const encryptionKey = generateKey();
-      const encryptedKey = encryptData(encryptionKey, tmpPassword);
+      const encryptedKey = encryptData(encryptionKey, tmpAccessCode);
 
-      const { status, data } = await apiSetCongregationPassword(encryptedKey);
+      const { status, data } = await apiSetCongregationAccessCode(encryptedKey);
 
       if (status !== 200) {
         await displayOnboardingFeedback({
@@ -72,18 +65,7 @@ const useCongregationPassword = () => {
         return;
       }
 
-      await dbAppSettingsUpdate({ 'cong_settings.cong_password': tmpPassword });
-
-      await loadApp();
-
-      await setIsSetup(false);
-
-      await runUpdater();
-      setTimeout(() => {
-        setOfflineOverride(false);
-        setCongAccountConnected(true);
-        setIsAppLoad(false);
-      }, 2000);
+      await dbAppSettingsUpdate({ 'cong_settings.cong_access_code': tmpAccessCode });
     } catch (err) {
       await displayOnboardingFeedback({
         title: t('tr_errorGeneric'),
@@ -95,26 +77,15 @@ const useCongregationPassword = () => {
     }
   };
 
-  const handleValidatePassword = async () => {
+  const handleValidateAccessCode = async () => {
     if (isProcessing) return;
     hideMessage();
     setIsProcessing(true);
 
     try {
-      decryptData(congPassword, tmpPassword);
+      decryptData(congAccessCode, tmpAccessCode);
 
-      await dbAppSettingsUpdate({ 'cong_settings.cong_password': tmpPassword });
-
-      await loadApp();
-
-      await setIsSetup(false);
-
-      await runUpdater();
-      setTimeout(() => {
-        setOfflineOverride(false);
-        setCongAccountConnected(true);
-        setIsAppLoad(false);
-      }, 2000);
+      await dbAppSettingsUpdate({ 'cong_settings.cong_access_code': tmpAccessCode });
     } catch (err) {
       await displayOnboardingFeedback({
         title: t('tr_errorGeneric'),
@@ -127,7 +98,7 @@ const useCongregationPassword = () => {
   };
 
   useEffect(() => {
-    const getPassword = async () => {
+    const getAccessCode = async () => {
       setIsLoading(true);
 
       const { status, result } = await apiValidateMe();
@@ -145,29 +116,29 @@ const useCongregationPassword = () => {
 
       await setCongID(result.cong_id);
 
-      setCongPassword(result.cong_password);
-      setIsSetupCode(result.cong_password.length === 0);
+      setCongAccessCode(result.cong_access_code);
+      setIsSetupCode(result.cong_access_code.length === 0);
 
       setIsLoading(false);
     };
 
-    if (isAuthenticated) getPassword();
+    if (isAuthenticated) getAccessCode();
   }, [isAuthenticated]);
 
   useEffect(() => {
-    setIsLengthPassed(tmpPassword.length >= 8);
-    setIsNumberPassed(/\d/.test(tmpPassword));
-    setIsLowerCasePassed(/[a-z]/.test(tmpPassword));
-    setIsUpperCasePassed(/[A-Z]/.test(tmpPassword));
-    setIsSpecialSymbolPassed(/[!@#$%^&*(),.?"’:{}|<>]/.test(tmpPassword));
-    setIsMatch(tmpPassword.length > 0 && tmpPassword === tmpPasswordVerify);
-  }, [tmpPassword, tmpPasswordVerify]);
+    setIsLengthPassed(tmpAccessCode.length >= 8);
+    setIsNumberPassed(/\d/.test(tmpAccessCode));
+    setIsLowerCasePassed(/[a-z]/.test(tmpAccessCode));
+    setIsUpperCasePassed(/[A-Z]/.test(tmpAccessCode));
+    setIsSpecialSymbolPassed(/[!@#$%^&*(),.?"’:{}|<>]/.test(tmpAccessCode));
+    setIsMatch(tmpAccessCode.length > 0 && tmpAccessCode === tmpAccessCodeVerify);
+  }, [tmpAccessCode, tmpAccessCodeVerify]);
 
   return {
     isLoading,
     isSetupCode,
-    tmpPassword,
-    setTmpPassword,
+    tmpAccessCode,
+    setTmpAccessCode,
     isLengthPassed,
     isNumberPassed,
     isLowerCasePassed,
@@ -180,10 +151,10 @@ const useCongregationPassword = () => {
     hideMessage,
     variant,
     isMatch,
-    setTmpPasswordVerify,
-    tmpPasswordVerify,
+    setTmpAccessCodeVerify,
+    tmpAccessCodeVerify,
     btnActionDisabled,
   };
 };
 
-export default useCongregationPassword;
+export default useCongregationAccessCode;

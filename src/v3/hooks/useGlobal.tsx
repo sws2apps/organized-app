@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import { createTheme } from '@mui/material/styles';
-import { getFingerprint } from '@thumbmarkjs/thumbmarkjs';
 import { useRecoilValue } from 'recoil';
-import { appSnackOpenState, congAccountConnectedState, isDarkThemeState, isOnlineState } from '@states/app';
+import { appSnackOpenState, congAccountConnectedState, isDarkThemeState } from '@states/app';
 import logger from '@services/logger/index';
-import { disconnectCongAccount, setApiHost, setIsOnline, setVisitorID } from '@services/recoil/app';
+import { disconnectCongAccount, setApiHost, setIsOnline } from '@services/recoil/app';
 import useInternetChecker from '@hooks/useInternetChecker';
 import {
   adminRoleState,
@@ -26,7 +25,6 @@ const useGlobal = () => {
   const { isNavigatorOnline } = useInternetChecker();
 
   const isLight = useRecoilValue(isDarkThemeState);
-  const isOnline = useRecoilValue(isOnlineState);
   const appSnackOpen = useRecoilValue(appSnackOpenState);
   const adminRole = useRecoilValue(adminRoleState);
   const coordinatorRole = useRecoilValue(coordinatorRoleState);
@@ -61,22 +59,6 @@ const useGlobal = () => {
       setActiveTheme(darkTheme);
     }
   }, [isLight]);
-
-  useEffect(() => {
-    const getUserID = async () => {
-      try {
-        const visitorId = await getFingerprint();
-        await setVisitorID(visitorId);
-        worker.postMessage({ field: 'visitorID', value: visitorId });
-
-        logger.info('app', 'device fingerprint visitor id has been set');
-      } catch (error) {
-        throw new Error(error);
-      }
-    };
-
-    if (isOnline) getUserID();
-  }, [isOnline]);
 
   useEffect(() => {
     const loadApi = async () => {

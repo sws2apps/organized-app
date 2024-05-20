@@ -10,12 +10,18 @@ const useSpeakerDetails = (speaker: VisitingSpeakerType) => {
   const congNumber = useRecoilValue(congNumberState);
   const congregations = useRecoilValue(speakersCongregationsState);
 
-  const personName = buildPersonFullname(speaker.person_lastname.value, speaker.person_firstname.value, fullnameOption);
+  const personName = buildPersonFullname(
+    speaker.speaker_data.person_lastname.value,
+    speaker.speaker_data.person_firstname.value,
+    fullnameOption
+  );
+
+  const congId = congregations.find((record) => record.cong_data.cong_number.value === congNumber)?.id;
 
   const speakerCongName =
-    congNumber === speaker.cong_number
+    congId === speaker.speaker_data.cong_id
       ? congName
-      : congregations.find((record) => record.cong_number === speaker.cong_number)?.cong_name.value;
+      : congregations.find((record) => record.id === speaker.speaker_data.cong_id)?.cong_data.cong_name.value;
 
   return { personName, speakerCongName };
 };

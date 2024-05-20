@@ -1,4 +1,4 @@
-import { Week } from './schedules';
+import { Week } from './sources';
 
 export type WeekType = {
   id: Week;

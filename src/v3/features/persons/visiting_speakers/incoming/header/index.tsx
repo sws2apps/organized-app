@@ -1,13 +1,5 @@
 import { Box, IconButton } from '@mui/material';
-import {
-  IconCheck,
-  IconCloud,
-  IconCloudDownload,
-  IconCloudOff,
-  IconDelete,
-  IconEdit,
-  IconExpand,
-} from '@components/icons';
+import { IconCheck, IconCloud, IconCloudOff, IconDelete, IconEdit, IconExpand } from '@components/icons';
 import { IncomingCongregationHeaderType } from './index.types';
 import useHeader from './useHeader';
 import Typography from '@components/typography';
@@ -21,6 +13,7 @@ const IncomingCongregationHeader = ({
   cong_name,
   cong_number,
   cong_synced,
+  onDelete,
 }: IncomingCongregationHeaderType) => {
   const { laptopDown } = useBreakpoints();
 
@@ -56,23 +49,15 @@ const IncomingCongregationHeader = ({
 
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
         {(laptopDown || showDelete) && (
-          <IconButton>
+          <IconButton onClick={onDelete}>
             <IconDelete color="var(--red-main)" />
           </IconButton>
         )}
 
-        {cong_synced && (
-          <IconButton onClick={onEditModeChange}>
-            <IconCloudDownload color="var(--accent-main)" />
-          </IconButton>
-        )}
-
-        {!cong_synced && (
-          <IconButton onClick={onEditModeChange}>
-            {!editMode && <IconEdit color="var(--accent-main)" />}
-            {editMode && <IconCheck color="var(--accent-main)" />}
-          </IconButton>
-        )}
+        <IconButton onClick={onEditModeChange}>
+          {!editMode && <IconEdit color="var(--accent-main)" />}
+          {editMode && <IconCheck color="var(--accent-main)" />}
+        </IconButton>
 
         <IconButton onClick={() => onExpandChange(cong_number)}>
           <IconExpand

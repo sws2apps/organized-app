@@ -1,8 +1,6 @@
 import { Box } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
-import { IconCloudDownload } from '@components/icons';
 import useIncoming from './useIncoming';
-import Button from '@components/button';
 import CongregationAdd from './congregation_add';
 import IncomingCongregation from './congregation_item';
 import Typography from '@components/typography';
@@ -25,21 +23,14 @@ const IncomingSpeakers = () => {
     >
       {isAdding && <CongregationAdd open={isAdding} onClose={handleIsAddingClose} />}
 
-      <Box
-        sx={{ display: 'flex', alignItems: 'center', gap: '16px', justifyContent: 'space-between', flexWrap: 'wrap' }}
-      >
-        <Typography className="h2">{t('tr_otherCongregations')}</Typography>
-        <Button variant="secondary" startIcon={<IconCloudDownload color="var(--accent-main)" />}>
-          {t('tr_getSpeakers')}
-        </Button>
-      </Box>
+      <Typography className="h2">{t('tr_otherCongregations')}</Typography>
 
       {incomingCongs.length === 0 && <NoCongregations />}
 
       {incomingCongs.length > 0 &&
         incomingCongs.map((congregation) => (
           <IncomingCongregation
-            key={congregation.cong_number}
+            key={congregation.id}
             congregation={congregation}
             currentExpanded={currentExpanded}
             onChangeCurrentExpanded={handleSetExpanded}

@@ -49,12 +49,12 @@ export const congMasterKeyState = selector({
   },
 });
 
-export const congPasswordState = selector({
-  key: 'congPassword',
+export const congAccessCodeState = selector({
+  key: 'congAccessCode',
   get: ({ get }) => {
     const settings = get(settingsState);
 
-    return settings.cong_settings.cong_password;
+    return settings.cong_settings.cong_access_code;
   },
 });
 

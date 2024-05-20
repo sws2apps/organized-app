@@ -66,7 +66,9 @@ const CongregationSelector = ({
       includeInputInList={true}
       value={value}
       onChange={(_, newValue: CongregationResponseType) => {
-        if (freeSolo) return freeSoloChange && freeSoloChange(newValue.congName);
+        const isCongExist = options.find((record) => record.congName === newValue.congName);
+
+        if (freeSolo && !isCongExist) return freeSoloChange && freeSoloChange(newValue.congName);
 
         setValue(newValue);
         setCongregation(newValue);

@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import { IconEncryptionKey, IconError, IconLoading } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
-import useCongregationPassword from './useCongregationPassword';
+import useCongregationAccessCode from './useCongregationAccessCode';
 import PageHeader from '@features/app_start/shared/page_header';
 import Button from '@components/button';
 import InfoMessage from '@components/info-message';
@@ -10,7 +10,7 @@ import Typography from '@components/typography';
 import WaitingCircular from '@components/waiting_circular';
 import Criteria from './criteria';
 
-const CongregationPassword = () => {
+const CongregationAccessCode = () => {
   const { t } = useAppTranslation();
 
   const {
@@ -28,12 +28,12 @@ const CongregationPassword = () => {
     handleAction,
     isSetupCode,
     isMatch,
-    setTmpPassword,
-    setTmpPasswordVerify,
-    tmpPassword,
-    tmpPasswordVerify,
+    setTmpAccessCode,
+    setTmpAccessCodeVerify,
+    tmpAccessCode,
+    tmpAccessCodeVerify,
     btnActionDisabled,
-  } = useCongregationPassword();
+  } = useCongregationAccessCode();
 
   return (
     <Box
@@ -51,8 +51,8 @@ const CongregationPassword = () => {
         <>
           <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', width: '100%' }}>
             <PageHeader
-              title={t('tr_congregationPassword')}
-              description={t(isSetupCode ? 'tr_congregationPasswordCreateDesc' : 'tr_congregationPasswordLostDesc')}
+              title={t('tr_congregationAccessCode')}
+              description={t(isSetupCode ? 'tr_congregationAccessCodeCreateDesc' : 'tr_congregationAccessCodeLostDesc')}
             />
 
             {isSetupCode && (
@@ -69,7 +69,7 @@ const CongregationPassword = () => {
               >
                 <IconError color="var(--red-main)" />
                 <Typography className="body-regular" color="var(--red-main)">
-                  {t('tr_congregationPasswordNotice')}
+                  {t('tr_congregationAccessCodeNotice')}
                 </Typography>
               </Box>
             )}
@@ -94,28 +94,28 @@ const CongregationPassword = () => {
               >
                 <TextField
                   type="password"
-                  label={t(isSetupCode ? 'tr_congregationPasswordCreate' : 'tr_congregationPasswordAsk')}
+                  label={t(isSetupCode ? 'tr_congregationAccessCodeCreate' : 'tr_congregationAccessCodeAsk')}
                   variant="outlined"
                   autoComplete="off"
-                  value={tmpPassword}
-                  onChange={(e) => setTmpPassword(e.target.value)}
+                  value={tmpAccessCode}
+                  onChange={(e) => setTmpAccessCode(e.target.value)}
                   startIcon={<IconEncryptionKey />}
                   resetHelperPadding={true}
                 />
                 {isSetupCode && (
                   <TextField
                     type="password"
-                    label={t('tr_congregationPasswordVerify')}
+                    label={t('tr_congregationAccessCodeVerify')}
                     variant="outlined"
                     autoComplete="off"
-                    value={tmpPasswordVerify}
-                    onChange={(e) => setTmpPasswordVerify(e.target.value)}
+                    value={tmpAccessCodeVerify}
+                    onChange={(e) => setTmpAccessCodeVerify(e.target.value)}
                     startIcon={<IconEncryptionKey />}
                     resetHelperPadding={true}
                     helperText={
                       isSetupCode ? (
                         <Box sx={{ padding: '8px 0px 0px 16px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                          <Criteria criteria={t('tr_congregationPasswordNoticeLength')} passed={isLengthPassed} />
+                          <Criteria criteria={t('tr_congregationAccessCodeNoticeLength')} passed={isLengthPassed} />
                           <Criteria criteria={t('tr_encryptionCodeNoticeNumber')} passed={isNumberPassed} />
                           <Criteria criteria={t('tr_encryptionCodeNoticeLowerCase')} passed={isLowerCasePassed} />
                           <Criteria criteria={t('tr_encryptionCodeNoticeUpperCase')} passed={isUpperCasePassed} />
@@ -138,7 +138,7 @@ const CongregationPassword = () => {
                 startIcon={isProcessing ? <IconLoading width={22} height={22} /> : null}
                 disabled={btnActionDisabled}
               >
-                {t(isSetupCode ? 'tr_congregationPasswordSet' : 'tr_encryptionCodeValidate')}
+                {t(isSetupCode ? 'tr_congregationAccessCodeSet' : 'tr_encryptionCodeValidate')}
               </Button>
             </Box>
           </Box>
@@ -158,4 +158,4 @@ const CongregationPassword = () => {
   );
 };
 
-export default CongregationPassword;
+export default CongregationAccessCode;

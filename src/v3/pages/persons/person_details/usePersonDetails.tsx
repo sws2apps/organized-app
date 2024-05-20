@@ -14,8 +14,8 @@ const usePersonDetails = () => {
   const person = useRecoilValue(personCurrentDetailsState);
   const persons = useRecoilValue(personsActiveState);
 
-  const isBaptized = person.publisher_baptized.active.value;
-  const male = person.male.value;
+  const isBaptized = person.person_data.publisher_baptized.active.value;
+  const male = person.person_data.male.value;
 
   useEffect(() => {
     const handleCheckPerson = async () => {

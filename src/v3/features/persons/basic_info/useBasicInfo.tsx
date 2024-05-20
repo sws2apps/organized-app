@@ -22,13 +22,13 @@ const useBasicInfo = () => {
   const handleChangeFirstname = async (value: string) => {
     const newPerson = structuredClone(person);
 
-    newPerson.person_firstname.value = value;
-    newPerson.person_firstname.updatedAt = new Date().toISOString();
+    newPerson.person_data.person_firstname.value = value;
+    newPerson.person_data.person_firstname.updatedAt = new Date().toISOString();
 
     if (displayNameEnabled) {
-      const dispName = generateDisplayName(newPerson.person_lastname.value, value);
-      newPerson.person_display_name.value = dispName;
-      newPerson.person_display_name.updatedAt = new Date().toISOString();
+      const dispName = generateDisplayName(newPerson.person_data.person_lastname.value, value);
+      newPerson.person_data.person_display_name.value = dispName;
+      newPerson.person_data.person_display_name.updatedAt = new Date().toISOString();
     }
 
     await setPersonCurrentDetails(newPerson);
@@ -36,13 +36,13 @@ const useBasicInfo = () => {
 
   const handleChangeLastname = async (value: string) => {
     const newPerson = structuredClone(person);
-    newPerson.person_lastname.value = value;
-    newPerson.person_lastname.updatedAt = new Date().toISOString();
+    newPerson.person_data.person_lastname.value = value;
+    newPerson.person_data.person_lastname.updatedAt = new Date().toISOString();
 
     if (displayNameEnabled) {
-      const dispName = generateDisplayName(value, newPerson.person_firstname.value);
-      newPerson.person_display_name.value = dispName;
-      newPerson.person_display_name.updatedAt = new Date().toISOString();
+      const dispName = generateDisplayName(value, newPerson.person_data.person_firstname.value);
+      newPerson.person_data.person_display_name.value = dispName;
+      newPerson.person_data.person_display_name.updatedAt = new Date().toISOString();
     }
 
     await setPersonCurrentDetails(newPerson);
@@ -51,8 +51,8 @@ const useBasicInfo = () => {
   const handleChangeDisplayName = async (value: string) => {
     const newPerson = structuredClone(person);
 
-    newPerson.person_display_name.value = value;
-    newPerson.person_display_name.updatedAt = new Date().toISOString();
+    newPerson.person_data.person_display_name.value = value;
+    newPerson.person_data.person_display_name.updatedAt = new Date().toISOString();
 
     await setPersonCurrentDetails(newPerson);
   };
@@ -61,19 +61,19 @@ const useBasicInfo = () => {
     const newPerson = structuredClone(person);
 
     if (value === 'male') {
-      newPerson.male.value = true;
-      newPerson.male.updatedAt = new Date().toISOString();
+      newPerson.person_data.male.value = true;
+      newPerson.person_data.male.updatedAt = new Date().toISOString();
 
-      newPerson.female.value = false;
-      newPerson.female.updatedAt = new Date().toISOString();
+      newPerson.person_data.female.value = false;
+      newPerson.person_data.female.updatedAt = new Date().toISOString();
     }
 
     if (value === 'female') {
-      newPerson.male.value = false;
-      newPerson.male.updatedAt = new Date().toISOString();
+      newPerson.person_data.male.value = false;
+      newPerson.person_data.male.updatedAt = new Date().toISOString();
 
-      newPerson.female.value = true;
-      newPerson.female.updatedAt = new Date().toISOString();
+      newPerson.person_data.female.value = true;
+      newPerson.person_data.female.updatedAt = new Date().toISOString();
     }
 
     await setPersonCurrentDetails(newPerson);
@@ -82,8 +82,8 @@ const useBasicInfo = () => {
   const handleChangeBirthDate = async (value: Date) => {
     const newPerson = structuredClone(person);
 
-    newPerson.birth_date.value = value === null ? null : new Date(value).toISOString();
-    newPerson.birth_date.updatedAt = new Date().toISOString();
+    newPerson.person_data.birth_date.value = value === null ? null : new Date(value).toISOString();
+    newPerson.person_data.birth_date.updatedAt = new Date().toISOString();
 
     await setPersonCurrentDetails(newPerson);
   };
@@ -91,8 +91,8 @@ const useBasicInfo = () => {
   const handleChangeEmailAddress = async (value: string) => {
     const newPerson = structuredClone(person);
 
-    newPerson.email.value = value;
-    newPerson.email.updatedAt = new Date().toISOString();
+    newPerson.person_data.email.value = value;
+    newPerson.person_data.email.updatedAt = new Date().toISOString();
 
     await setPersonCurrentDetails(newPerson);
   };
@@ -100,8 +100,8 @@ const useBasicInfo = () => {
   const handleChangePhone = async (value: string) => {
     const newPerson = structuredClone(person);
 
-    newPerson.phone.value = value;
-    newPerson.phone.updatedAt = new Date().toISOString();
+    newPerson.person_data.phone.value = value;
+    newPerson.person_data.phone.updatedAt = new Date().toISOString();
 
     await setPersonCurrentDetails(newPerson);
   };
@@ -109,22 +109,22 @@ const useBasicInfo = () => {
   const handleChangeAddress = async (value: string) => {
     const newPerson = structuredClone(person);
 
-    newPerson.address.value = value;
-    newPerson.address.updatedAt = new Date().toISOString();
+    newPerson.person_data.address.value = value;
+    newPerson.person_data.address.updatedAt = new Date().toISOString();
 
     await setPersonCurrentDetails(newPerson);
   };
 
   useEffect(() => {
-    if (person.birth_date.value === null) {
+    if (person.person_data.birth_date.value === null) {
       setAge('0');
     }
 
-    if (person.birth_date.value !== null) {
-      const age = computeYearsDiff(person.birth_date.value);
+    if (person.person_data.birth_date.value !== null) {
+      const age = computeYearsDiff(person.person_data.birth_date.value);
       setAge(age);
     }
-  }, [person.birth_date.value]);
+  }, [person.person_data.birth_date.value]);
 
   useEffect(() => {
     if (tabletDown) {
@@ -145,22 +145,23 @@ const useBasicInfo = () => {
   }, [tabletDown, appLang]);
 
   useEffect(() => {
-    if (person.publisher_baptized.active.value) {
+    if (person.person_data.publisher_baptized.active.value) {
       const isActive =
-        person.publisher_baptized.history.filter((record) => record._deleted === null && record.end_date.value === null)
-          .length === 1;
+        person.person_data.publisher_baptized.history.filter(
+          (record) => record._deleted.value === false && record.end_date.value === null
+        ).length === 1;
 
       setIsInactive(!isActive);
     }
 
-    if (person.publisher_unbaptized.active.value) {
+    if (person.person_data.publisher_unbaptized.active.value) {
       const isActive =
-        person.publisher_unbaptized.history.filter(
-          (record) => record._deleted === null && record.end_date.value === null
+        person.person_data.publisher_unbaptized.history.filter(
+          (record) => record._deleted.value === false && record.end_date.value === null
         ).length === 1;
       setIsInactive(!isActive);
     }
-  }, [person.publisher_baptized, person.publisher_unbaptized]);
+  }, [person.person_data.publisher_baptized, person.person_data.publisher_unbaptized]);
 
   return {
     handleChangeBirthDate,

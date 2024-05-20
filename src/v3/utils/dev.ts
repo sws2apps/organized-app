@@ -4,10 +4,6 @@ import { PersonType } from '@definition/person';
 import { AssignmentCode } from '@definition/assignment';
 import appDb from '@db/appDb';
 
-export const delay = async (time: number) => {
-  return new Promise((resolve) => setTimeout(resolve, time));
-};
-
 const getRandomDate = (start_date = new Date(1970, 0, 1), end_date = new Date(2010, 11, 31)) => {
   const minValue = start_date.getTime();
   const maxValue = end_date.getTime();
@@ -32,40 +28,42 @@ export const importDummyPersons = async (showLoading?: boolean) => {
 
     const formattedData: PersonType[] = data.users.map((user) => {
       const obj = {
-        _deleted: null,
+        _deleted: { value: false, updatedAt: '' },
         person_uid: crypto.randomUUID(),
-        disqualified: { value: false, updatedAt: new Date().toISOString() },
-        female: { value: user.gender === 'female', updatedAt: new Date().toISOString() },
-        male: { value: user.gender === 'male', updatedAt: new Date().toISOString() },
-        archived: { value: false, updatedAt: new Date().toISOString() },
-        person_firstname: { value: user.firstName, updatedAt: new Date().toISOString() },
-        person_lastname: { value: user.lastName, updatedAt: new Date().toISOString() },
-        person_display_name: { value: '', updatedAt: '' },
-        birth_date: { value: new Date(user.birthDate).toISOString(), updatedAt: new Date().toISOString() },
-        address: { value: `${user.address.address} ${user.address.city}`, updatedAt: new Date().toISOString() },
-        email: { value: user.email, updatedAt: new Date().toISOString() },
-        phone: { value: user.phone, updatedAt: new Date().toISOString() },
-        first_month_report: { value: null, updatedAt: '' },
-        publisher_baptized: {
-          active: { value: false, updatedAt: new Date().toISOString() },
-          anointed: { value: false, updatedAt: new Date().toISOString() },
-          other_sheep: { value: true, updatedAt: new Date().toISOString() },
-          baptism_date: { value: null, updatedAt: new Date().toISOString() },
-          history: [],
+        person_data: {
+          disqualified: { value: false, updatedAt: new Date().toISOString() },
+          female: { value: user.gender === 'female', updatedAt: new Date().toISOString() },
+          male: { value: user.gender === 'male', updatedAt: new Date().toISOString() },
+          archived: { value: false, updatedAt: new Date().toISOString() },
+          person_firstname: { value: user.firstName, updatedAt: new Date().toISOString() },
+          person_lastname: { value: user.lastName, updatedAt: new Date().toISOString() },
+          person_display_name: { value: '', updatedAt: '' },
+          birth_date: { value: new Date(user.birthDate).toISOString(), updatedAt: new Date().toISOString() },
+          address: { value: `${user.address.address} ${user.address.city}`, updatedAt: new Date().toISOString() },
+          email: { value: user.email, updatedAt: new Date().toISOString() },
+          phone: { value: user.phone, updatedAt: new Date().toISOString() },
+          first_month_report: { value: null, updatedAt: '' },
+          publisher_baptized: {
+            active: { value: false, updatedAt: new Date().toISOString() },
+            anointed: { value: false, updatedAt: new Date().toISOString() },
+            other_sheep: { value: true, updatedAt: new Date().toISOString() },
+            baptism_date: { value: null, updatedAt: new Date().toISOString() },
+            history: [],
+          },
+          publisher_unbaptized: {
+            active: { value: false, updatedAt: new Date().toISOString() },
+            history: [],
+          },
+          midweek_meeting_student: {
+            active: { value: false, updatedAt: new Date().toISOString() },
+            history: [],
+          },
+          timeAway: [],
+          assignments: [],
+          privileges: [],
+          enrollments: [],
+          emergency_contacts: [],
         },
-        publisher_unbaptized: {
-          active: { value: false, updatedAt: new Date().toISOString() },
-          history: [],
-        },
-        midweek_meeting_student: {
-          active: { value: false, updatedAt: new Date().toISOString() },
-          history: [],
-        },
-        timeAway: [],
-        assignments: [],
-        privileges: [],
-        enrollments: [],
-        emergency_contacts: [],
       };
 
       return obj;
@@ -86,7 +84,7 @@ export const importDummyPersons = async (showLoading?: boolean) => {
     let activeFemaleFMF = 0;
 
     for (const person of formattedData) {
-      if (person.female.value) {
+      if (person.person_data.female.value) {
         const femaleArray = ['midweek', 'unbaptized', 'baptized', 'AP', 'FR', 'FS', 'FMF'];
         let statusPassed = false;
         let femaleStatus: string;
@@ -130,60 +128,60 @@ export const importDummyPersons = async (showLoading?: boolean) => {
         } while (statusPassed === false);
 
         if (femaleStatus === 'midweek') {
-          person.midweek_meeting_student = {
+          person.person_data.midweek_meeting_student = {
             active: { value: true, updatedAt: new Date().toISOString() },
             history: [
               {
                 id: crypto.randomUUID(),
                 start_date: { value: startDateTemp, updatedAt: new Date().toISOString() },
                 end_date: { value: null, updatedAt: '' },
-                _deleted: null,
+                _deleted: { value: false, updatedAt: '' },
               },
             ],
           };
 
-          person.assignments.push({
+          person.person_data.assignments.push({
             code: AssignmentCode.MM_AssistantOnly,
             updatedAt: new Date().toISOString(),
-            _deleted: null,
+            _deleted: false,
           });
         }
 
         if (femaleStatus === 'unbaptized') {
-          person.first_month_report = { value: startDateTemp, updatedAt: new Date().toISOString() };
+          person.person_data.first_month_report = { value: startDateTemp, updatedAt: new Date().toISOString() };
 
-          person.publisher_unbaptized = {
+          person.person_data.publisher_unbaptized = {
             active: { value: true, updatedAt: new Date().toISOString() },
             history: [
               {
                 id: crypto.randomUUID(),
                 start_date: { value: startDateTemp, updatedAt: new Date().toISOString() },
                 end_date: { value: null, updatedAt: '' },
-                _deleted: null,
+                _deleted: { value: false, updatedAt: '' },
               },
             ],
           };
 
-          person.assignments.push(
+          person.person_data.assignments.push(
             {
               code: AssignmentCode.MM_StartingConversation,
               updatedAt: new Date().toISOString(),
-              _deleted: null,
+              _deleted: false,
             },
             {
               code: AssignmentCode.MM_FollowingUp,
               updatedAt: new Date().toISOString(),
-              _deleted: null,
+              _deleted: false,
             },
             {
               code: AssignmentCode.MM_ExplainingBeliefs,
               updatedAt: new Date().toISOString(),
-              _deleted: null,
+              _deleted: false,
             },
             {
               code: AssignmentCode.MM_MakingDisciples,
               updatedAt: new Date().toISOString(),
-              _deleted: null,
+              _deleted: false,
             }
           );
         }
@@ -195,13 +193,15 @@ export const importDummyPersons = async (showLoading?: boolean) => {
           femaleStatus === 'FS' ||
           femaleStatus === 'FMF'
         ) {
-          person.first_month_report = { value: startDateTemp, updatedAt: new Date().toISOString() };
+          person.person_data.first_month_report = { value: startDateTemp, updatedAt: new Date().toISOString() };
 
           const baptismStartDate = new Date(
-            new Date(person.birth_date.value).setFullYear(new Date(person.birth_date.value).getFullYear() + 11)
+            new Date(person.person_data.birth_date.value).setFullYear(
+              new Date(person.person_data.birth_date.value).getFullYear() + 11
+            )
           );
 
-          person.publisher_baptized = {
+          person.person_data.publisher_baptized = {
             active: { value: true, updatedAt: new Date().toISOString() },
             baptism_date: { value: getRandomDate(baptismStartDate), updatedAt: new Date().toISOString() },
             other_sheep: { value: true, updatedAt: new Date().toISOString() },
@@ -211,42 +211,42 @@ export const importDummyPersons = async (showLoading?: boolean) => {
                 id: crypto.randomUUID(),
                 start_date: { value: startDateTemp, updatedAt: new Date().toISOString() },
                 end_date: { value: null, updatedAt: '' },
-                _deleted: null,
+                _deleted: { value: false, updatedAt: '' },
               },
             ],
           };
 
-          person.assignments.push(
+          person.person_data.assignments.push(
             {
               code: AssignmentCode.MM_StartingConversation,
               updatedAt: new Date().toISOString(),
-              _deleted: null,
+              _deleted: false,
             },
             {
               code: AssignmentCode.MM_FollowingUp,
               updatedAt: new Date().toISOString(),
-              _deleted: null,
+              _deleted: false,
             },
             {
               code: AssignmentCode.MM_ExplainingBeliefs,
               updatedAt: new Date().toISOString(),
-              _deleted: null,
+              _deleted: false,
             },
             {
               code: AssignmentCode.MM_MakingDisciples,
               updatedAt: new Date().toISOString(),
-              _deleted: null,
+              _deleted: false,
             }
           );
         }
 
         if (femaleStatus === 'AP' || femaleStatus === 'FR' || femaleStatus === 'FS' || femaleStatus === 'FMF') {
-          person.enrollments.push({
+          person.person_data.enrollments.push({
             id: crypto.randomUUID(),
             enrollment: { value: femaleStatus, updatedAt: new Date().toISOString() },
             start_date: { value: startDateTemp, updatedAt: new Date().toISOString() },
             end_date: { value: null, updatedAt: new Date().toISOString() },
-            _deleted: null,
+            _deleted: { value: false, updatedAt: '' },
           });
         }
       }
@@ -273,7 +273,7 @@ export const importDummyPersons = async (showLoading?: boolean) => {
     let activeMaleFMF = 0;
 
     for (const person of formattedData) {
-      if (person.male.value) {
+      if (person.person_data.male.value) {
         const maleArray = [
           'midweek',
           'unbaptized',
@@ -343,65 +343,65 @@ export const importDummyPersons = async (showLoading?: boolean) => {
         } while (statusPassed === false);
 
         if (maleStatus === 'midweek') {
-          person.midweek_meeting_student = {
+          person.person_data.midweek_meeting_student = {
             active: { value: true, updatedAt: new Date().toISOString() },
             history: [
               {
                 id: crypto.randomUUID(),
                 start_date: { value: startDateTemp, updatedAt: new Date().toISOString() },
                 end_date: { value: null, updatedAt: '' },
-                _deleted: null,
+                _deleted: { value: false, updatedAt: '' },
               },
             ],
           };
 
-          person.assignments.push({
+          person.person_data.assignments.push({
             code: AssignmentCode.MM_BibleReading,
             updatedAt: new Date().toISOString(),
-            _deleted: null,
+            _deleted: false,
           });
         }
 
         if (maleStatus === 'unbaptized') {
-          person.first_month_report = { value: startDateTemp, updatedAt: new Date().toISOString() };
+          person.person_data.first_month_report = { value: startDateTemp, updatedAt: new Date().toISOString() };
 
-          person.publisher_unbaptized = {
+          person.person_data.publisher_unbaptized = {
             active: { value: true, updatedAt: new Date().toISOString() },
             history: [
               {
                 id: crypto.randomUUID(),
                 start_date: { value: startDateTemp, updatedAt: new Date().toISOString() },
                 end_date: { value: null, updatedAt: '' },
-                _deleted: null,
+                _deleted: { value: false, updatedAt: '' },
               },
             ],
           };
 
-          person.assignments.push(
+          person.person_data.assignments.push(
             {
               code: AssignmentCode.MM_BibleReading,
               updatedAt: new Date().toISOString(),
-              _deleted: null,
+              _deleted: false,
             },
             {
               code: AssignmentCode.MM_StartingConversation,
               updatedAt: new Date().toISOString(),
-              _deleted: null,
+              _deleted: false,
             },
             {
               code: AssignmentCode.MM_FollowingUp,
               updatedAt: new Date().toISOString(),
-              _deleted: null,
+              _deleted: false,
             },
             {
               code: AssignmentCode.MM_ExplainingBeliefs,
               updatedAt: new Date().toISOString(),
-              _deleted: null,
+              _deleted: false,
             },
             {
               code: AssignmentCode.MM_MakingDisciples,
               updatedAt: new Date().toISOString(),
-              _deleted: null,
+              _deleted: false,
             }
           );
         }
@@ -416,13 +416,15 @@ export const importDummyPersons = async (showLoading?: boolean) => {
           maleStatus === 'FS' ||
           maleStatus === 'FMF'
         ) {
-          person.first_month_report = { value: startDateTemp, updatedAt: new Date().toISOString() };
+          person.person_data.first_month_report = { value: startDateTemp, updatedAt: new Date().toISOString() };
 
           const baptismStartDate = new Date(
-            new Date(person.birth_date.value).setFullYear(new Date(person.birth_date.value).getFullYear() + 11)
+            new Date(person.person_data.birth_date.value).setFullYear(
+              new Date(person.person_data.birth_date.value).getFullYear() + 11
+            )
           );
 
-          person.publisher_baptized = {
+          person.person_data.publisher_baptized = {
             active: { value: true, updatedAt: new Date().toISOString() },
             baptism_date: { value: getRandomDate(baptismStartDate), updatedAt: new Date().toISOString() },
             other_sheep: { value: true, updatedAt: new Date().toISOString() },
@@ -432,190 +434,190 @@ export const importDummyPersons = async (showLoading?: boolean) => {
                 id: crypto.randomUUID(),
                 start_date: { value: startDateTemp, updatedAt: new Date().toISOString() },
                 end_date: { value: null, updatedAt: '' },
-                _deleted: null,
+                _deleted: { value: false, updatedAt: '' },
               },
             ],
           };
         }
 
         if (maleStatus === 'baptized' || maleStatus === 'FR') {
-          person.assignments.push(
+          person.person_data.assignments.push(
             {
               code: AssignmentCode.MM_StartingConversation,
               updatedAt: new Date().toISOString(),
-              _deleted: null,
+              _deleted: false,
             },
             {
               code: AssignmentCode.MM_FollowingUp,
               updatedAt: new Date().toISOString(),
-              _deleted: null,
+              _deleted: false,
             },
             {
               code: AssignmentCode.MM_ExplainingBeliefs,
               updatedAt: new Date().toISOString(),
-              _deleted: null,
+              _deleted: false,
             },
             {
               code: AssignmentCode.MM_MakingDisciples,
               updatedAt: new Date().toISOString(),
-              _deleted: null,
+              _deleted: false,
             },
             {
               code: AssignmentCode.MM_Talk,
               updatedAt: new Date().toISOString(),
-              _deleted: null,
+              _deleted: false,
             }
           );
         }
 
         if (maleStatus === 'elder' || maleStatus === 'elderFR' || maleStatus === 'FS' || maleStatus === 'FMF') {
-          person.privileges.push({
+          person.person_data.privileges.push({
             id: crypto.randomUUID(),
             privilege: { value: 'elder', updatedAt: new Date().toISOString() },
             start_date: { value: startDateTemp, updatedAt: new Date().toISOString() },
             end_date: { value: null, updatedAt: new Date().toISOString() },
-            _deleted: null,
+            _deleted: { value: false, updatedAt: '' },
           });
 
-          person.assignments.push(
+          person.person_data.assignments.push(
             {
               code: AssignmentCode.MM_Chairman,
               updatedAt: new Date().toISOString(),
-              _deleted: null,
+              _deleted: false,
             },
             {
               code: AssignmentCode.MM_AuxiliaryCounselor,
               updatedAt: new Date().toISOString(),
-              _deleted: null,
+              _deleted: false,
             },
             {
               code: AssignmentCode.MM_Prayer,
               updatedAt: new Date().toISOString(),
-              _deleted: null,
+              _deleted: false,
             },
             {
               code: AssignmentCode.MM_TGWTalk,
               updatedAt: new Date().toISOString(),
-              _deleted: null,
+              _deleted: false,
             },
             {
               code: AssignmentCode.MM_TGWGems,
               updatedAt: new Date().toISOString(),
-              _deleted: null,
+              _deleted: false,
             },
             {
               code: AssignmentCode.MM_Discussion,
               updatedAt: new Date().toISOString(),
-              _deleted: null,
+              _deleted: false,
             },
             {
               code: AssignmentCode.MM_LCPart,
               updatedAt: new Date().toISOString(),
-              _deleted: null,
+              _deleted: false,
             },
             {
               code: AssignmentCode.MM_CBSConductor,
               updatedAt: new Date().toISOString(),
-              _deleted: null,
+              _deleted: false,
             },
             {
               code: AssignmentCode.WM_Chairman,
               updatedAt: new Date().toISOString(),
-              _deleted: null,
+              _deleted: false,
             },
             {
               code: AssignmentCode.WM_Prayer,
               updatedAt: new Date().toISOString(),
-              _deleted: null,
+              _deleted: false,
             },
             {
               code: AssignmentCode.WM_Speaker,
               updatedAt: new Date().toISOString(),
-              _deleted: null,
+              _deleted: false,
             }
           );
         }
 
         if (maleStatus === 'minServ' || maleStatus === 'minServFR') {
-          person.privileges.push({
+          person.person_data.privileges.push({
             id: crypto.randomUUID(),
             privilege: { value: 'ms', updatedAt: new Date().toISOString() },
             start_date: { value: startDateTemp, updatedAt: new Date().toISOString() },
             end_date: { value: null, updatedAt: new Date().toISOString() },
-            _deleted: null,
+            _deleted: { value: false, updatedAt: '' },
           });
 
-          person.assignments.push(
+          person.person_data.assignments.push(
             {
               code: AssignmentCode.MM_Prayer,
               updatedAt: new Date().toISOString(),
-              _deleted: null,
+              _deleted: false,
             },
             {
               code: AssignmentCode.MM_TGWTalk,
               updatedAt: new Date().toISOString(),
-              _deleted: null,
+              _deleted: false,
             },
             {
               code: AssignmentCode.MM_TGWGems,
               updatedAt: new Date().toISOString(),
-              _deleted: null,
+              _deleted: false,
             },
             {
               code: AssignmentCode.MM_Discussion,
               updatedAt: new Date().toISOString(),
-              _deleted: null,
+              _deleted: false,
             },
             {
               code: AssignmentCode.MM_LCPart,
               updatedAt: new Date().toISOString(),
-              _deleted: null,
+              _deleted: false,
             },
             {
               code: AssignmentCode.MM_CBSReader,
               updatedAt: new Date().toISOString(),
-              _deleted: null,
+              _deleted: false,
             },
             {
               code: AssignmentCode.WM_Chairman,
               updatedAt: new Date().toISOString(),
-              _deleted: null,
+              _deleted: false,
             },
             {
               code: AssignmentCode.WM_Prayer,
               updatedAt: new Date().toISOString(),
-              _deleted: null,
+              _deleted: false,
             },
             {
               code: AssignmentCode.WM_Speaker,
               updatedAt: new Date().toISOString(),
-              _deleted: null,
+              _deleted: false,
             },
             {
               code: AssignmentCode.WM_WTStudyReader,
               updatedAt: new Date().toISOString(),
-              _deleted: null,
+              _deleted: false,
             }
           );
         }
 
         if (maleStatus === 'elderFR' || maleStatus === 'minServFR' || maleStatus === 'FR') {
-          person.enrollments.push({
+          person.person_data.enrollments.push({
             id: crypto.randomUUID(),
             enrollment: { value: 'FR', updatedAt: new Date().toISOString() },
             start_date: { value: startDateTemp, updatedAt: new Date().toISOString() },
             end_date: { value: null, updatedAt: new Date().toISOString() },
-            _deleted: null,
+            _deleted: { value: false, updatedAt: '' },
           });
         }
 
         if (maleStatus === 'FS' || maleStatus === 'FMF') {
-          person.enrollments.push({
+          person.person_data.enrollments.push({
             id: crypto.randomUUID(),
             enrollment: { value: maleStatus, updatedAt: new Date().toISOString() },
             start_date: { value: startDateTemp, updatedAt: new Date().toISOString() },
             end_date: { value: null, updatedAt: new Date().toISOString() },
-            _deleted: null,
+            _deleted: { value: false, updatedAt: '' },
           });
         }
       }

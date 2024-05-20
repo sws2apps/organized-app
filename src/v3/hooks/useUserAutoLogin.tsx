@@ -1,14 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useQuery } from '@tanstack/react-query';
-import { apiHostState, isAppLoadState, isOnlineState, visitorIDState } from '@states/app';
+import { apiHostState, isAppLoadState, isOnlineState } from '@states/app';
 import { apiValidateMe } from '@services/api/user';
 import { userSignOut } from '@services/firebase/auth';
 import { handleDeleteDatabase } from '@services/app';
 import { APP_ROLES, isDemo } from '@constants/index';
-import { setRootModalOpen } from '@services/recoil/app';
-import { accountTypeState } from '@states/settings';
-import { apiFetchCongregationLastBackup } from '@services/api/congregation';
+import { accountTypeState, congNumberState } from '@states/settings';
 import { dbAppSettingsUpdateUserInfoAfterLogin } from '@services/dexie/settings';
 import useFirebaseAuth from '@hooks/useFirebaseAuth';
 import logger from '@services/logger/index';
@@ -19,12 +17,11 @@ const useUserAutoLogin = () => {
 
   const isOnline = useRecoilValue(isOnlineState);
   const apiHost = useRecoilValue(apiHostState);
-  const visitorID = useRecoilValue(visitorIDState);
   const isAppLoad = useRecoilValue(isAppLoadState);
   const accountType = useRecoilValue(accountTypeState);
+  const congNumber = useRecoilValue(congNumberState);
 
-  const runFetch =
-    !isDemo && apiHost !== '' && visitorID !== '' && accountType === 'vip' && !isAppLoad && isOnline && isAuthenticated;
+  const runFetch = !isDemo && apiHost !== '' && accountType === 'vip' && !isAppLoad && isOnline && isAuthenticated;
 
   const { isPending, data, error } = useQuery({
     queryKey: ['whoami'],
@@ -60,6 +57,11 @@ const useUserAutoLogin = () => {
       }
 
       if (data.status === 200) {
+        if (congNumber.length > 0 && data.result.cong_number !== congNumber) {
+          await handleDeleteDatabase();
+          return;
+        }
+
         const approvedRole = data.result.cong_role.some((role) => APP_ROLES.includes(role));
 
         if (!approvedRole) {
@@ -69,20 +71,6 @@ const useUserAutoLogin = () => {
 
         if (approvedRole) {
           await dbAppSettingsUpdateUserInfoAfterLogin(data);
-
-          await setRootModalOpen(true);
-          const { status, data: backup } = await apiFetchCongregationLastBackup();
-          if (status === 200) {
-            if (backup.cong_last_backup !== 'NO_BACKUP' || backup.user_last_backup !== 'NO_BACKUP') {
-              const lastDate =
-                backup.cong_last_backup !== 'NO_BACKUP' ? backup.cong_last_backup : backup.user_last_backup;
-
-              worker.postMessage({ field: 'lastBackup', value: lastDate });
-            }
-          }
-
-          await setRootModalOpen(false);
-
           worker.postMessage('startWorker');
         }
 
@@ -91,7 +79,7 @@ const useUserAutoLogin = () => {
     };
 
     handleLoginData();
-  }, [isPending, data, error]);
+  }, [isPending, data, error, congNumber]);
 
   return { autoLoginStatus };
 };

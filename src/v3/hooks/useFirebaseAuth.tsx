@@ -14,7 +14,8 @@ const useFirebaseAuth = () => {
 
     onAuthStateChanged(auth, async (user: User) => {
       setUser(user);
-      worker.postMessage({ field: 'userUID', value: user?.uid });
+
+      worker.postMessage({ field: 'idToken', value: user ? await user.getIdToken() : undefined });
 
       if (user) {
         if (user.providerData.length > 1) {

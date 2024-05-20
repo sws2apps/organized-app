@@ -81,7 +81,11 @@ const SpeakerEditView = ({ speaker }: SpeakerEditViewType) => {
               disabled={speakersOnRecord.find((record) => record.person_uid === person.person_uid) ? false : true}
             >
               <Typography>
-                {buildPersonFullname(person.person_lastname.value, person.person_firstname.value, fullnameOption)}
+                {buildPersonFullname(
+                  person.person_data.person_lastname.value,
+                  person.person_data.person_firstname.value,
+                  fullnameOption
+                )}
               </Typography>
             </MenuItem>
           ))}
