@@ -88,7 +88,7 @@ export type VisitingSpeakersAccessResponseType = {
   status: number;
   result: {
     message?: string;
-    congregations: CongregationRequestPendingType[];
+    congregations: CongregationRequestType[];
     speakers_key?: string;
     cong_master_key?: string;
   };
@@ -105,7 +105,7 @@ export type IncomingCongregationResponseType = {
   weekend_meeting: { weekday: number; time: string };
 };
 
-export type CongregationRequestPendingType = {
+export type CongregationRequestType = {
   cong_id: string;
   updatedAt: string;
   cong_number: string;
@@ -150,7 +150,7 @@ export type CongregationUpdatesResponseType = {
     cong_master_key?: string;
     cong_access_code?: string;
     speakers_key?: string;
-    pending_speakers_requests?: CongregationRequestPendingType[];
+    pending_speakers_requests?: CongregationRequestType[];
     remote_congregations?: RemoteCongregationType[];
     rejected_requests?: RemoteCongregationType[];
   };

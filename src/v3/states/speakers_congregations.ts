@@ -55,3 +55,12 @@ export const congregationsRemoteListState = selector({
     return congregations.filter((record) => record.cong_data.cong_id.length > 0);
   },
 });
+
+export const congregationsNotDisapprovedState = selector({
+  key: 'congregationsNotDisapproved',
+  get: ({ get }) => {
+    const congregations = get(speakersCongregationsActiveState);
+
+    return congregations.filter((record) => record.cong_data.request_status !== 'disapproved');
+  },
+});

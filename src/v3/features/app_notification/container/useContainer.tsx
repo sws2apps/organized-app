@@ -4,10 +4,14 @@ import { useQuery } from '@tanstack/react-query';
 import { IconTalk } from '@components/icons';
 import { congAccountConnectedState, encryptedMasterKeyState, speakersKeyState } from '@states/app';
 import { useAppTranslation } from '@hooks/index';
-import { CongregationSpeakerRequestType, NotificationRecordType } from '@definition/notification';
+import { NotificationRecordType } from '@definition/notification';
 import { notificationsState } from '@states/notification';
 import { apiGetCongregationUpdates } from '@services/api/congregation';
-import { congregationsPendingState, congregationsRemoteListState } from '@states/speakers_congregations';
+import {
+  congregationsNotDisapprovedState,
+  congregationsPendingState,
+  congregationsRemoteListState,
+} from '@states/speakers_congregations';
 import {
   dbVisitingSpeakersClearRemote,
   dbVisitingSpeakersUpdateRemote,
@@ -18,9 +22,12 @@ import { decryptData } from '@services/encryption';
 import { displaySnackNotification } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { dbSpeakersCongregationsUpdate } from '@services/dexie/speakers_congregations';
+import usePendingRequests from './usePendingRequests';
 
 const useContainer = () => {
   const { t } = useAppTranslation();
+
+  const { updatePendingRequestsNotification } = usePendingRequests();
 
   const [notifications, setNotifications] = useRecoilState(notificationsState);
 
@@ -30,6 +37,7 @@ const useContainer = () => {
   const congAccountConnected = useRecoilValue(congAccountConnectedState);
   const pendingRequests = useRecoilValue(congregationsPendingState);
   const congregationRemotes = useRecoilValue(congregationsRemoteListState);
+  const congregationsNotDisapproved = useRecoilValue(congregationsNotDisapprovedState);
   const congMasterKey = useRecoilValue(congMasterKeyState);
 
   const { isLoading, data } = useQuery({
@@ -39,49 +47,21 @@ const useContainer = () => {
     refetchInterval: 30000,
   });
 
+  const indices = Array.from({ length: notifications.length }, (_, i) => i);
+
+  indices.sort((a, b) => notifications[a].date.localeCompare(notifications[b].date));
+
+  const sortedNotifications = indices.map((i) => notifications[i]);
+
   const handlePendingSpeakersRequests = useCallback(async () => {
     try {
       if (data?.result?.pending_speakers_requests) {
         if (data.result.pending_speakers_requests.length > 0) {
           setSpeakersKey(data.result.speakers_key);
           setEncryptedMasterKey(data.result.cong_master_key);
-
-          const lastUpdated = data.result.pending_speakers_requests.sort((a, b) =>
-            a.updatedAt.localeCompare(b.updatedAt)
-          )[0].updatedAt;
-
-          const requestNotification: NotificationRecordType = {
-            id: 'request-cong',
-            type: 'speakers-request',
-            title: t('tr_requestSpeakersList'),
-            description: t('tr_requestSpeakersListDesc'),
-            date: lastUpdated,
-            options: [] as CongregationSpeakerRequestType[],
-            icon: <IconTalk color="var(--black)" />,
-          };
-
-          for (const congRequest of data.result.pending_speakers_requests) {
-            requestNotification.options.push({
-              request_id: congRequest.request_id,
-              cong_name: congRequest.cong_name,
-              cong_number: congRequest.cong_number,
-              country_code: congRequest.country_code,
-            });
-          }
-
-          setNotifications((prev) => {
-            const newValue = prev.filter((record) => record.id !== 'request-cong');
-            newValue.push(requestNotification);
-            return newValue;
-          });
         }
 
-        if (data.result.pending_speakers_requests.length === 0) {
-          setNotifications((prev) => {
-            const newValue = prev.filter((record) => record.id !== 'request-cong');
-            return newValue;
-          });
-        }
+        updatePendingRequestsNotification(data.result.pending_speakers_requests);
       }
     } catch (err) {
       await displaySnackNotification({
@@ -90,7 +70,7 @@ const useContainer = () => {
         severity: 'error',
       });
     }
-  }, [data, t, setEncryptedMasterKey, setNotifications, setSpeakersKey]);
+  }, [data, t, setEncryptedMasterKey, setSpeakersKey, updatePendingRequestsNotification]);
 
   const handleRemoteCongregations = useCallback(async () => {
     try {
@@ -153,10 +133,11 @@ const useContainer = () => {
     try {
       if (data?.result?.rejected_requests) {
         if (data.result.rejected_requests.length > 0) {
-          for (const pending of pendingRequests) {
+          for (const congNotDisapproved of congregationsNotDisapproved) {
             const findRejected = data.result.rejected_requests.find(
               (record) =>
-                record.cong_id === pending.cong_data.cong_id && record.request_id === pending.cong_data.request_id
+                record.cong_id === congNotDisapproved.cong_data.cong_id &&
+                record.request_id === congNotDisapproved.cong_data.request_id
             );
 
             if (findRejected) {
@@ -208,7 +189,7 @@ const useContainer = () => {
         severity: 'error',
       });
     }
-  }, [data, pendingRequests, setNotifications, t, congregationRemotes]);
+  }, [data, setNotifications, t, congregationRemotes, congregationsNotDisapproved]);
 
   useEffect(() => {
     if (!isLoading) {
@@ -227,7 +208,7 @@ const useContainer = () => {
   }, [notifications]);
 
   return {
-    notifications: notifications.sort((a, b) => a.date.localeCompare(b.date)),
+    notifications: sortedNotifications,
   };
 };
 

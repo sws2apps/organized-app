@@ -1,4 +1,5 @@
 import { CSSProperties, LegacyRef, MutableRefObject } from 'react';
+import { CustomClassName } from '@definition/app';
 
 /**
  * Props for the TextMarkupType component.
@@ -11,7 +12,7 @@ export type TextMarkupTypeProps = {
   /**
    * The class name of the text.
    */
-  className: string;
+  className: CustomClassName | 'string';
   /**
    * The color of the text.
    */

@@ -1,6 +1,4 @@
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { IconTalk } from '@components/icons';
-import { CongregationSpeakerRequestType, NotificationRecordType } from '@definition/notification';
+import { useRecoilValue } from 'recoil';
 import { useAppTranslation } from '@hooks/index';
 import {
   apiApproveRequestCongregationSpeakers,
@@ -10,56 +8,17 @@ import { decryptData } from '@services/encryption';
 import { getMessageByCode } from '@services/i18n/translation';
 import { displaySnackNotification } from '@services/recoil/app';
 import { encryptedMasterKeyState, speakersKeyState } from '@states/app';
-import { notificationsState } from '@states/notification';
 import { congMasterKeyState } from '@states/settings';
-import { VisitingSpeakersAccessResponseType } from '@definition/api';
+import usePendingRequests from '../container/usePendingRequests';
 
 const useSpeakerAccessRequest = (request_id: string) => {
   const { t } = useAppTranslation();
 
-  const setNotifications = useSetRecoilState(notificationsState);
+  const { updatePendingRequestsNotification } = usePendingRequests();
 
   const speakersKey = useRecoilValue(speakersKeyState);
   const encryptedMasterKey = useRecoilValue(encryptedMasterKeyState);
   const masterKey = useRecoilValue(congMasterKeyState);
-
-  const updateNotification = async (result: VisitingSpeakersAccessResponseType['result']) => {
-    if (result.congregations.length > 0) {
-      const lastUpdated = result.congregations.sort((a, b) => a.updatedAt.localeCompare(b.updatedAt))[0].updatedAt;
-
-      const requestNotification: NotificationRecordType = {
-        id: 'request-cong',
-        type: 'speakers-request',
-        title: t('tr_requestSpeakersList'),
-        description: t('tr_requestSpeakersListDesc'),
-        date: lastUpdated,
-        options: [] as CongregationSpeakerRequestType[],
-        icon: <IconTalk color="var(--black)" />,
-      };
-
-      for (const congRequest of result.congregations) {
-        requestNotification.options.push({
-          request_id: congRequest.request_id,
-          cong_name: congRequest.cong_name,
-          cong_number: congRequest.cong_number,
-          country_code: congRequest.country_code,
-        });
-      }
-
-      setNotifications((prev) => {
-        const newValue = prev.filter((record) => record.id !== 'request-cong');
-        newValue.push(requestNotification);
-        return newValue;
-      });
-    }
-
-    if (result.congregations.length === 0) {
-      setNotifications((prev) => {
-        const newValue = prev.filter((record) => record.id !== 'request-cong');
-        return newValue;
-      });
-    }
-  };
 
   const handleAcceptRequest = async () => {
     try {
@@ -78,7 +37,7 @@ const useSpeakerAccessRequest = (request_id: string) => {
         return;
       }
 
-      await updateNotification(result);
+      await updatePendingRequestsNotification(result.congregations);
     } catch (err) {
       await displaySnackNotification({
         header: t('tr_errorTitle'),
@@ -102,7 +61,7 @@ const useSpeakerAccessRequest = (request_id: string) => {
         return;
       }
 
-      await updateNotification(result);
+      await updatePendingRequestsNotification(result.congregations);
     } catch (err) {
       await displaySnackNotification({
         header: t('tr_errorTitle'),

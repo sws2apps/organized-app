@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import { apiFetchCongregations } from '@services/api/congregation';
 import { displaySnackNotification } from '@services/recoil/app';
 import { useAppTranslation } from '@hooks/index';
 import { CongregationResponseType } from '@definition/api';
-import { useRecoilValue } from 'recoil';
 import { speakersCongregationsActiveState } from '@states/speakers_congregations';
 
 const useCongregation = (country_code: string, cong_number?: string) => {

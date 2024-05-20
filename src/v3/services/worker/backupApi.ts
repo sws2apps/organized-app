@@ -4,6 +4,7 @@ export const apiGetCongregationBackup = async ({ apiHost, congID, idToken }) => 
     credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
+      'Cache-Control': 'no-cache',
       Authorization: `Bearer ${idToken}`,
       appclient: 'organized',
       appversion: import.meta.env.PACKAGE_VERSION,
@@ -21,6 +22,7 @@ export const apiSendCongregationBackup = async ({ apiHost, congID, reqPayload, l
     credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
+      'Cache-Control': 'no-cache',
       Authorization: `Bearer ${idToken}`,
       appclient: 'organized',
       appversion: import.meta.env.PACKAGE_VERSION,
