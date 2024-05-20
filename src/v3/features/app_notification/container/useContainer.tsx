@@ -44,7 +44,7 @@ const useContainer = () => {
     enabled: congAccountConnected,
     queryKey: ['congregation_updates'],
     queryFn: apiGetCongregationUpdates,
-    refetchInterval: 30000,
+    refetchInterval: 60 * 1000,
   });
 
   const indices = Array.from({ length: notifications.length }, (_, i) => i);
