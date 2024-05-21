@@ -44,7 +44,7 @@
   "tr_add": "Ekle",
   "tr_pickerSelectTime": "Select time",
   "tr_pickerSelectDate": "Select date",
-  "tr_longDateTimeFormat": "MM/dd/yyyy HH:MM",
+  "tr_longDateTimeFormat": "MM/dd/yyyy HH:mm",
   "tr_yes": "Evet",
   "tr_themeFollowOSDisable": "Otomatik tema değişikliği kapatılsın mı?",
   "tr_themeFollowOSDisableDesc": "Temayı tekrar otomatik hale getirmek istiyorsanız bunu profil ayarlarınızdan yapabilirsiniz.",
