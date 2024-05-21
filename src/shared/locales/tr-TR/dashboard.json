@@ -71,7 +71,7 @@
   "tr_tertitoryCardRequestDesc": "Lütfen saha kartı taleplerini gözden geçirin:",
   "tr_markAsRead": "Okundu olarak işaretle",
   "tr_yourRequestAccepted": "İsteğiniz kabul edildi",
-  "tr_yourRequestAcceptedDesc": "{{ congregationNameAndNumber }} cemaat, giden konuşmacıların listesini görüntüleme isteğinizi kabul etti. Konuşmacılar listesini senkronize etmek için Ziyaretçi Konuşmacılar sayfasına gidin.",
+  "tr_yourRequestAcceptedDesc": "The <strong>{{ congregationNameAndNumber }}</strong> congregation accepted your request to view their outgoing speakers list.",
   "tr_returnedTerritory": "{{ publisherName }}  sahayı iade etti",
   "tr_returnedTerritoryDesc": "Saha {{ territoryNumber }} kapsandı ve iade edildi. Müjdeci tarafından gönderilen hane sayısı {{ numberOfHouses }} şeklindedir. Gerekirse lütfen saha bilgilerini güncelleyin.",
   "tr_whatsNew": "Organized'daki yenilikler",
