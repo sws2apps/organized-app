@@ -71,7 +71,7 @@
   "tr_tertitoryCardRequestDesc": "Пожалуйста, рассмотри запросы на получение участка:",
   "tr_markAsRead": "Прочитано",
   "tr_yourRequestAccepted": "Твой запрос принят",
-  "tr_yourRequestAcceptedDesc": "Собрание {{ congregationNameAndNumber }} приняло твою заявку на просмотр списка выездных докладчиков. Перейди на страницу Рекомендованные докладчики, чтобы синхронизировать список докладчиков.",
+  "tr_yourRequestAcceptedDesc": "The <strong>{{ congregationNameAndNumber }}</strong> congregation accepted your request to view their outgoing speakers list.",
   "tr_returnedTerritory": "{{ publisherName }} вернул(а) территорию",
   "tr_returnedTerritoryDesc": "Участок {{ territoryNumber }} был обработан и  возвращена. Количество домов, который сообщил возвещатель: {{ numberOfHouses }}. Пожалуйста, обнови информацию об участке, если необходимо.",
   "tr_whatsNew": "Что нового в Organized",
