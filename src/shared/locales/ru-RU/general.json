@@ -44,7 +44,7 @@
   "tr_add": "Добавить",
   "tr_pickerSelectTime": "Выбрать время",
   "tr_pickerSelectDate": "Выбрать дату",
-  "tr_longDateTimeFormat": "MM/dd/yyyy HH:MM",
+  "tr_longDateTimeFormat": "MM/dd/yyyy HH:mm",
   "tr_yes": "Да",
   "tr_themeFollowOSDisable": "Отключить автоматическое изменение темы?",
   "tr_themeFollowOSDisableDesc": "Если ты захочешь переключить тему обратно в автоматический режим, ты сможешь сделать это в настройках своего профиля",
