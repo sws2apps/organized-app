@@ -13,7 +13,7 @@ import logger from '@services/logger/index';
 import worker from '@services/worker/backupWorker';
 
 const useUserAutoLogin = () => {
-  const { isAuthenticated, user } = useFirebaseAuth();
+  const { isAuthenticated } = useFirebaseAuth();
 
   const isOnline = useRecoilValue(isOnlineState);
   const apiHost = useRecoilValue(apiHostState);
@@ -79,7 +79,7 @@ const useUserAutoLogin = () => {
     };
 
     handleLoginData();
-  }, [isPending, data, error, congNumber, user]);
+  }, [isPending, data, error, congNumber]);
 
   return { autoLoginStatus };
 };
