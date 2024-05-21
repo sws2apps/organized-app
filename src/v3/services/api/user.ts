@@ -160,7 +160,7 @@ export const apiRevokeVIPSession = async (id: string) => {
       appclient: 'organized',
       appversion,
     },
-    body: JSON.stringify({ session: id }),
+    body: JSON.stringify({ identifier: id }),
   });
 
   const data = await res.json();

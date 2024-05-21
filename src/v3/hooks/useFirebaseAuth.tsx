@@ -3,7 +3,6 @@ import { User, getAuth, onAuthStateChanged } from 'firebase/auth';
 import { displaySnackNotification, setCurrentProvider } from '@services/recoil/app';
 import { getTranslation } from '@services/i18n/translation';
 import { dbAppSettingsSaveProfilePic } from '@services/dexie/settings';
-import worker from '@services/worker/backupWorker';
 
 const useFirebaseAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -16,8 +15,6 @@ const useFirebaseAuth = () => {
       setUser(user);
 
       if (user) {
-        worker.postMessage({ field: 'idToken', value: await user.getIdToken() });
-
         if (user.providerData.length > 1) {
           await displaySnackNotification({
             header: getTranslation({ key: 'tr_errorTitle' }),
