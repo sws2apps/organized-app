@@ -71,7 +71,7 @@
   "tr_tertitoryCardRequestDesc": "Vui lòng xem lại các yêu cầu thẻ vùng:",
   "tr_markAsRead": "Đã đọc",
   "tr_yourRequestAccepted": "Yêu cầu của anh/chị đã được chấp nhận",
-  "tr_yourRequestAcceptedDesc": "Hội thánh {{ congregationNameAndNumber }} đã chấp nhận yêu cầu của anh/chị để xem danh sách người nói chuyện đi khách của họ. Vui lòng đi đến trang Người nói chuyện khách để đồng bộ danh sách người nói chuyện.",
+  "tr_yourRequestAcceptedDesc": "The <strong>{{ congregationNameAndNumber }}</strong> congregation accepted your request to view their outgoing speakers list.",
   "tr_returnedTerritory": "{{ publisherName }} đã trả lại vùng",
   "tr_returnedTerritoryDesc": "Vùng {{ territoryNumber }} đã được phủ sóng và trả lại. Số hộ gia đình được công bố viên đăng ký là {{ numberOfHouses }}. Vui lòng cập nhật thông tin vùng nếu cần thiết.",
   "tr_whatsNew": "Có gì mới trong Organized",

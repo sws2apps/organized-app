@@ -71,7 +71,7 @@
   "tr_tertitoryCardRequestDesc": "इलाका कार्डको अनुरोध पुनरावृत्ति गर्नुहोस्:",
   "tr_markAsRead": "पढ्ने",
   "tr_yourRequestAccepted": "तपाईंको अनुरोध स्वीकृत भयो",
-  "tr_yourRequestAcceptedDesc": "{{ congregationNameAndNumber }} मण्डलीले तपाईंको अतिथि वक्ताहरूको सूचीको लागि तपाईंको अनुरोध स्वीकृत गऱ्यो। वक्ताहरूको सूची सिङ्क गर्नका लागि अतिथि वक्ताहरू पृष्ठमा जानुहोस्।",
+  "tr_yourRequestAcceptedDesc": "The <strong>{{ congregationNameAndNumber }}</strong> congregation accepted your request to view their outgoing speakers list.",
   "tr_returnedTerritory": "{{ publisherName }}बाट इलाका फिर्ता गरियो",
   "tr_returnedTerritoryDesc": "इलाका {{ territoryNumber }} ढाकियो र कार्ड फिर्ता गरिएको छ। प्रकाशकले पेस गरेका घर संख्या {{ numberOfHouses }} हो। आवश्यक भएमा इलाका जानकारी अपडेट गर्नुहोस्।",
   "tr_whatsNew": "Organized एपमा के नयाँ छ",

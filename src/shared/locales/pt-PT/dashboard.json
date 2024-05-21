@@ -71,7 +71,7 @@
   "tr_tertitoryCardRequestDesc": "Por favor, reveja as solicitações para obter um cartão de território:",
   "tr_markAsRead": "Lido",
   "tr_yourRequestAccepted": "O seu pedido foi aceite",
-  "tr_yourRequestAcceptedDesc": "A congregação {{ congregationNameAndNumber }} aceitou a sua solicitação para visualizar a lista de oradores públicos. Visite a página de Oradores Visitantes para sincronizar a lista de oradores.",
+  "tr_yourRequestAcceptedDesc": "The <strong>{{ congregationNameAndNumber }}</strong> congregation accepted your request to view their outgoing speakers list.",
   "tr_returnedTerritory": "{{ publisherName }} devolveu o território",
   "tr_returnedTerritoryDesc": "O território {{ territoryNumber }} foi coberto e devolvido. O número de casas enviado pelo publicador é {{ numberOfHouses }}. Por favor, atualize as informações do território se necessário.",
   "tr_whatsNew": "Novidades no Organized",
