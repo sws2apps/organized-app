@@ -7,7 +7,7 @@ import worker from '@services/worker/backupWorker';
 
 const useFirebaseAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState(undefined);
+  const [user, setUser] = useState<User | undefined>(undefined);
 
   useEffect(() => {
     const auth = getAuth();
@@ -15,9 +15,9 @@ const useFirebaseAuth = () => {
     onAuthStateChanged(auth, async (user: User) => {
       setUser(user);
 
-      worker.postMessage({ field: 'idToken', value: user ? await user.getIdToken() : undefined });
-
       if (user) {
+        worker.postMessage({ field: 'idToken', value: await user.getIdToken() });
+
         if (user.providerData.length > 1) {
           await displaySnackNotification({
             header: getTranslation({ key: 'tr_errorTitle' }),
