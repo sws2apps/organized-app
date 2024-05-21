@@ -16,7 +16,7 @@ const useFirebaseAuth = () => {
       setUser(user);
 
       if (user) {
-        worker.postMessage({ field: 'idToken', value: await user.getIdToken() });
+        worker.postMessage({ field: 'idToken', value: await user.getIdToken(true) });
 
         if (user.providerData.length > 1) {
           await displaySnackNotification({

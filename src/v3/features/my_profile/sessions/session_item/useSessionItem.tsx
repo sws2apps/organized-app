@@ -8,7 +8,6 @@ import { displaySnackNotification } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { accountTypeState } from '@states/settings';
 import { apiRevokeVIPSession } from '@services/api/user';
-import { getCookie } from '@utils/browser';
 
 const useSessionItem = (session: SessionResponseType) => {
   const { t } = useAppTranslation();
@@ -30,7 +29,7 @@ const useSessionItem = (session: SessionResponseType) => {
       setIsProcessing(true);
 
       if (accountType === 'vip') {
-        const result = await apiRevokeVIPSession(session.visitorid);
+        const result = await apiRevokeVIPSession(session.identifier);
 
         if (result.status === 200) {
           await queryClient.refetchQueries({ queryKey: ['sessions'] });
@@ -55,7 +54,7 @@ const useSessionItem = (session: SessionResponseType) => {
   };
 
   useEffect(() => {
-    setIsCurrent(session.visitorid === decodeURIComponent(getCookie('visitorid')));
+    setIsCurrent(session.isSelf);
 
     setLocation(session.ip);
 
