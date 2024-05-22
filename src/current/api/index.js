@@ -35,7 +35,7 @@ export const {
 
 export const { fetchNotifications } = await import('./notification.js');
 
-export const { fetchSourceMaterial, apiFetchPublicTalks } = await import('./source-material.js');
+export const { fetchSourceMaterial } = await import('./source-material.js');
 
 export const { apiFetchSchedule } = await import('./schedule.js');
 
