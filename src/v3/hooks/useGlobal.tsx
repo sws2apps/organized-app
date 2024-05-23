@@ -70,7 +70,7 @@ const useGlobal = () => {
         if (import.meta.env.DEV || window.location.host.indexOf('localhost') !== -1) {
           apiHost = 'http://localhost:8000/';
         } else {
-          apiHost = 'https://api.sws2apps.com/';
+          apiHost = 'https://api.organized-app.com/';
         }
       }
 
