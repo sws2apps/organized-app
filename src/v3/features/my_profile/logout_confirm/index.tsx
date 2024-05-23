@@ -1,10 +1,10 @@
 import { Box } from '@mui/material';
-import Button from '@components/button';
-import Dialog from '@components/dialog';
-import Typography from '@components/typography';
 import { LogoutConfirmType } from './index.types';
 import { useAppTranslation } from '@hooks/index';
 import useLogoutConfirm from './useLogoutConfirm';
+import Button from '@components/button';
+import Dialog from '@components/dialog';
+import Typography from '@components/typography';
 
 const LogoutConfirm = ({ open, onClose }: LogoutConfirmType) => {
   const { t } = useAppTranslation();
