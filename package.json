@@ -70,7 +70,7 @@
     "@semantic-release/git": "^10.0.1",
     "@svgr/plugin-prettier": "^8.1.0",
     "@svgx/vite-plugin-react": "^1.0.1",
-    "@types/react": "^18.3.2",
+    "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.0",
     "cypress": "^13.10.0",
