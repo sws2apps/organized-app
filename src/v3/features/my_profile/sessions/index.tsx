@@ -28,7 +28,7 @@ const UserSessions = () => {
       {!isLoading && sessions.length > 0 && (
         <SettingWithBorderContainer>
           {sessions.map((session: SessionResponseType) => (
-            <SessionItem key={session.visitorid} session={session} />
+            <SessionItem key={session.identifier} session={session} />
           ))}
         </SettingWithBorderContainer>
       )}

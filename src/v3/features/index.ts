@@ -49,6 +49,7 @@ export { default as UserProfileDetails } from './my_profile/user_profile_details
 export { default as MinistryPreferences } from './my_profile/ministry_preferences';
 export { default as UserSessions } from './my_profile/sessions';
 export { default as UserTimeAway } from './my_profile/time_away';
+export { default as UserLogoutConfirm } from './my_profile/logout_confirm';
 
 /* -------------------------------- Meetings -------------------------------- */
 export { default as MyAssignments } from './meetings/my_assignments';

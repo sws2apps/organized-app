@@ -14,7 +14,8 @@ export type CountryResponseType = {
 };
 
 export type SessionResponseType = {
-  visitorid: string;
+  identifier: string;
+  isSelf: boolean;
   ip: string;
   country_name: string;
   device: {
