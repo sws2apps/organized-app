@@ -1,7 +1,6 @@
-/* eslint-disable import/no-unresolved */
 import { Box } from '@mui/material';
-import FemaleCardSVG from './femaleCard';
-import MaleCardSVG from './maleCard';
+import FemaleCardSVG from './FemaleCard';
+import MaleCardSVG from './MaleCard';
 
 const ScheduleGrid = ({ children }: { children?: React.ReactNode }) => {
   return (
