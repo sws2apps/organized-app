@@ -35,6 +35,16 @@ const MidweekMeetingTask = ({
     },
   });
 
+  const containerWidth = (length) => {
+    if (length < 2) {
+      return 180;
+    } else if (length === 2) {
+      return 140;
+    } else {
+      return 106;
+    }
+  };
+
   const participantsFunc = (part, obj) => {
     if (part === 'Apply yourself to the field ministry' && typeof obj === 'object') {
       const mappedArray = Object.entries(obj).map(([, value]) => {
@@ -59,7 +69,6 @@ const MidweekMeetingTask = ({
           display: 'flex',
           flexDirection: 'row',
           alignItems: 'center',
-          justifyContent: 'space-between',
           gap: 4,
         }}
       >
@@ -67,7 +76,7 @@ const MidweekMeetingTask = ({
           style={{
             display: 'flex',
             flexDirection: 'row',
-            width: participants.length > 1 ? 188 : 304,
+            width: participants.length > 1 ? 188 : 324,
             gap: 2,
             flexWrap: 'wrap',
           }}
@@ -82,7 +91,16 @@ const MidweekMeetingTask = ({
           >
             {taskNumber} {taskTitle}
           </Text>
-          <Text style={{ fontFamily: 'Inter', fontWeight: 'normal', fontSize: 9, color: '#AAAAAA' }}>{taskTime}</Text>
+          <Text
+            style={{
+              fontFamily: 'Inter',
+              fontWeight: 'normal',
+              fontSize: 9,
+              color: '#AAAAAA',
+            }}
+          >
+            {taskTime}
+          </Text>
         </View>
         {participants.length > 0 ? null : (
           <Text style={{ fontFamily: 'Inter', fontWeight: 'light', fontSize: 9, color: '#757575' }}>Conductor:</Text>
@@ -93,14 +111,27 @@ const MidweekMeetingTask = ({
         <View
           style={
             participants.length > 1
-              ? { display: 'flex', flexDirection: 'row', width: 326, gap: 2, paddingRight: 2 }
+              ? {
+                  gap: 2,
+                  display: 'flex',
+                  flexDirection: 'row-reverse',
+                  marginLeft: participants.length === 2 ? 45 : null,
+                }
               : {}
           }
         >
           {participants.map((participant: Participant, index) => (
             <View
               key={index}
-              style={{ display: 'flex', flexDirection: 'row', width: 106, gap: 4, paddingBottom: 4, paddingTop: 4 }}
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+                width: containerWidth(participants.length),
+                gap: 4,
+                paddingBottom: 4,
+                paddingTop: 4,
+              }}
             >
               <Text style={{ fontFamily: 'Inter', fontWeight: 'medium', fontSize: 9, color: '#222222' }}>
                 {participant.first}
@@ -114,7 +145,7 @@ const MidweekMeetingTask = ({
           ))}
         </View>
       ) : (
-        <Text style={{ fontFamily: 'Inter', fontWeight: 'medium', fontSize: 9, color: '#222222' }}>
+        <Text style={{ fontFamily: 'Inter', fontWeight: 'medium', fontSize: 9, color: '#222222', width: 140 }}>
           {typeof taskConductor === 'string' ? taskConductor : null}
         </Text>
       )}

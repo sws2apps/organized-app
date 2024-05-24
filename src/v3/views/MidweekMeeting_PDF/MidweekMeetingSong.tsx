@@ -51,15 +51,15 @@ const styles = StyleSheet.create({
 const MidweekMeetingSong = ({ prayer, name, songNumber }: MidweekMeetingSongProps) => {
   return (
     <View style={styles.container}>
-      <View style={{ display: 'flex', flexDirection: 'row', width: 355, justifyContent: 'space-between', gap: 4 }}>
-        <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2 }}>
+      <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: 4 }}>
+        <View style={{ display: 'flex', flexDirection: 'row', gap: 2, width: 341 }}>
           <SongSvg />
           <Text style={styles.text}> Song {songNumber}</Text>
         </View>
         {prayer && <Text style={styles.prayer}>Prayer:</Text>}
       </View>
       {prayer && (
-        <View style={{ display: 'flex', flexDirection: 'row' }}>
+        <View style={{ display: 'flex', flexDirection: 'row', width: 140 }}>
           <Text style={styles.name}>{name}</Text>
         </View>
       )}

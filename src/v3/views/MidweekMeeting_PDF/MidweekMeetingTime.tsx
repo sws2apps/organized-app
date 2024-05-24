@@ -30,6 +30,8 @@ const MidweekMeetingTime = ({ time, textColor }: MidweekMeetingTimeProps) => {
       paddingTop: 4,
       paddingBottom: 4,
       backgroundColor: getBGColor(textColor),
+      alignItems: 'center',
+      justifyContent: 'center',
     },
     time: {
       fontFamily: 'Inter',

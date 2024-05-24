@@ -16,7 +16,6 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: 2,
     paddingBottom: 2,
-    paddingRight: 5,
     paddingLeft: 15,
     display: 'flex',
     flexDirection: 'row',
@@ -30,13 +29,6 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     marginLeft: 4,
   },
-  mainHall: {
-    width: 106.67,
-    fontFamily: 'Inter',
-    fontWeight: 'semibold',
-    fontSize: 9,
-    color: '#FEFEFE',
-  },
 });
 
 const MidweekMeetingPartsTitle = ({ part, color, icon, taskConductor }: MeetingPartsTitleProps) => {
@@ -48,12 +40,30 @@ const MidweekMeetingPartsTitle = ({ part, color, icon, taskConductor }: MeetingP
 
   return (
     <View style={[styles.container, { backgroundColor: color }]}>
-      {icon}
-      <Text style={styles.title}>{part}</Text>
+      <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+        {icon}
+        <Text style={styles.title}>{part}</Text>
+      </View>
       {part === 'Apply yourself to the field ministry' && keys.length > 1 && (
-        <View style={{ width: 324, gap: 2, display: 'flex', flexDirection: 'row', marginLeft: 8 }}>
+        <View
+          style={{
+            gap: 2,
+            marginLeft: keys.length === 3 ? 6 : keys.length === 2 ? 51 : null,
+            display: 'flex',
+            flexDirection: 'row-reverse',
+          }}
+        >
           {keys.map((key, index) => (
-            <Text key={index} style={styles.mainHall}>
+            <Text
+              key={index}
+              style={{
+                width: keys.length === 2 ? 140 : 106.67,
+                fontFamily: 'Inter',
+                fontWeight: 'semibold',
+                fontSize: 9,
+                color: '#FEFEFE',
+              }}
+            >
               {key}
             </Text>
           ))}

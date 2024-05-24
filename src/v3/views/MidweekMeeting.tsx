@@ -57,11 +57,11 @@ const tasks = [
     taskTitle: 'Starting a Conversation',
     taskTime: '(3 min.)',
     taskConductor:
-      // 'Carrington Alan',
+      //  'Carrington Alan',
       {
-        'Main hall': { first: 'Koss V.', second: 'Stiverson M.' },
-        'Auxillilary classroom 1': { first: 'Koss V.', second: 'Stiverson M.' },
-        // 'Auxillilary classroom 2': { first: 'Koss V.', second: 'Stiverson M.' },
+        'Main hall': { first: 'Koss V1.', second: 'Stiverson M.' },
+        // 'Auxillilary classroom 1': { first: 'Koss V2.', second: 'Stiverson M.' },
+        // 'Auxillilary classroom 2': { first: 'Koss V3.', second: 'Stiverson M.' },
       },
     taskNumber: '4.',
   },
@@ -72,9 +72,9 @@ const tasks = [
     taskConductor:
       //  'Carrington Alan',
       {
-        'Main hall': { first: 'Koss V.', second: 'Stiverson M.' },
-        'Auxillilary classroom 1': { first: 'Koss V.', second: 'Stiverson M.' },
-        // 'Auxillilary classroom 2': { first: 'Koss V.', second: 'Stiverson M.' },
+        'Main hall': { first: 'Koss Mark-Stivenson V.', second: 'Alan Carringttttttt' },
+        // 'Auxillilary classroom 1': { first: 'Koss V2.', second: 'Stiverson M.' },
+        // 'Auxillilary classroom 2': { first: 'Koss V3.', second: 'Stiverson M.' },
       },
     taskNumber: '5.',
   },
@@ -83,11 +83,11 @@ const tasks = [
     taskTitle: 'Explaining Your Beliefs',
     taskTime: '(3 min.)',
     taskConductor:
-      // 'Carrington Alan',
+      //  'Carrington Alan',
       {
-        'Main hall': { first: 'Koss V.' },
-        'Auxillilary classroom 1': { first: 'Koss V.' },
-        // 'Auxillilary classroom 2': { first: 'Koss V.', second: 'Stiverson M.' },
+        'Main hall': { first: 'Koss V1.' },
+        // 'Auxillilary classroom 1': { first: 'Koss V2.' },
+        // 'Auxillilary classroom 2': { first: 'Koss V3.' },
       },
     taskNumber: '6.',
   },
