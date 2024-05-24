@@ -62,6 +62,34 @@ const ScheduleItem = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
+const ScheduleItemTitle = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <Box
+      sx={{
+        display: 'grid',
+        gridTemplateColumns: 'subgrid',
+        gridColumn: '1 / -1',
+      }}
+    >
+      {children}
+    </Box>
+  );
+};
+
+const ScheduleWeekTitle = ({ children, color }: { children: React.ReactNode; color: string }) => {
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        color: color,
+      }}
+    >
+      <span className="h2-caps">{children}</span>
+    </Box>
+  );
+};
+
 const ScheduleTitle = ({
   children,
   color,
@@ -92,6 +120,14 @@ const ScheduleTitle = ({
       >
         {children}
       </Box>
+    </span>
+  );
+};
+
+const ScheduleSubtitle = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <span className="h4" style={{ color: 'var(--black)' }}>
+      {children}
     </span>
   );
 };
@@ -143,7 +179,8 @@ const ScheduleMembers = ({ children }: { children: React.ReactNode }) => {
         display: 'grid',
         gridTemplateColumns: 'subgrid',
         gridColumn: '2 / -1',
-        gap: '8px',
+        columnGap: '8px',
+        rowGap: '4px',
       }}
     >
       {children}
@@ -217,7 +254,10 @@ export {
   ScheduleGrid,
   ScheduleHeader,
   ScheduleItem,
+  ScheduleItemTitle,
+  ScheduleWeekTitle,
   ScheduleTitle,
+  ScheduleSubtitle,
   ScheduleDescription,
   ScheduleMembers,
   ScheduleMemberClassRoom,
