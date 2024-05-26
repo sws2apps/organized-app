@@ -20,7 +20,11 @@ const MeetingsCard = () => {
         />
       </ListItem>
       <ListItem disablePadding>
-        <DashboardMenu icon={<IconCalendarWeek color="var(--black)" />} primaryText={t('tr_viewAssignmentsSchedule')} />
+        <DashboardMenu
+          icon={<IconCalendarWeek color="var(--black)" />}
+          primaryText={t('tr_viewAssignmentsSchedule')}
+          path="/weekly-schedules"
+        />
       </ListItem>
       <ListItem disablePadding>
         <DashboardMenu

@@ -36,10 +36,6 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
           element: <PdfPreview />,
         },
         {
-          path: '/dev-weekly-schedules',
-          element: <WeeklySchedules />,
-        },
-        {
           element: <RootLayout updatePwa={updatePwa} />,
           children: [
             { path: '/', element: <Dashboard /> },
@@ -53,6 +49,7 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
             { path: '/visiting-speakers', element: <VisitingSpeakers /> },
             { path: '/midweek-meeting', element: <MidweekMeeting /> },
             { path: '/weekend-meeting', element: <WeekendMeeting /> },
+            { path: '/weekly-schedules', element: <WeeklySchedules /> },
             { path: '*', element: <Dashboard /> },
           ],
         },
