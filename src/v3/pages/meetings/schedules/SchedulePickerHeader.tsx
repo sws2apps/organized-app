@@ -21,6 +21,15 @@ const SchedulePickerHeader = ({ lastUpdated }: { lastUpdated: string }) => {
       <Box
         sx={{
           '& > *': { maxWidth: '100% !important' },
+          // Math for the gap :
+          // Screen = 1144px ; gap = 0px
+          // Screen = 1250px ; gap = 10px (106px => 10px)
+          // Screen = 1338px ; gap = ~20px (194px => 20px)
+          '@media (min-width: 1144px)': {
+            '.MuiTabs-flexContainer': {
+              gap: 'min(calc((100vw - 1144px)*10/106), 32px)',
+            },
+          },
           '& > * > * > *:first-child, & > * > * > *:last-child': {
             padding: '0 10px',
             justifyContent: 'flex-start',

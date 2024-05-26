@@ -48,6 +48,9 @@ const ScheduleItem = ({ children }: { children: React.ReactNode }) => {
       sx={{
         paddingBottom: '8px',
         display: 'grid',
+        '&:not(:has(#classRoomName))': {
+          alignItems: 'center',
+        },
         gridTemplateColumns: 'subgrid',
         gridColumn: '1 / -1',
         padding: '8px 0',
@@ -157,6 +160,7 @@ const ScheduleMemberClassRoom = ({ children, classRoomName }: { children: React.
       }}
     >
       <span
+        id="classRoomName"
         className="body-small-semibold"
         style={{
           gridColumn: '1/-1',
