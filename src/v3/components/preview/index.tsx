@@ -6,6 +6,7 @@ import {
   ScrollableTabs,
   ProgressBarSmall,
   UserAccountItem,
+  CustomTimeTextfield,
 } from '@components/index';
 import { useEffect, useState } from 'react';
 
@@ -290,6 +291,9 @@ const ComponentPreview = () => {
           <ProgressBarSmall value={100} maxValue={120} />
         </Box>
 
+        <br />
+        <br />
+
         <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap', marginTop: '10px' }}>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             <Typography className="label-small-regular">user-buttons:</Typography>
@@ -311,13 +315,40 @@ const ComponentPreview = () => {
           </Box>
         </Box>
 
-        <Box>
-          <CPETimePickerSlider
-            ampm={false}
-            onChange={(seconds) => {
-              console.log(seconds);
-            }}
-          />
+        <br />
+        <br />
+
+        <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap', marginTop: '10px' }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <Typography className="label-small-regular">time-picker-slider</Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+              <CPETimePickerSlider
+                ampm={false}
+                onChange={(seconds) => {
+                  console.log(seconds);
+                }}
+              />
+            </Box>
+          </Box>
+        </Box>
+
+        <br />
+        <br />
+
+        <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap', marginTop: '10px' }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <Typography className="label-small-regular">time-text-field</Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+              <CustomTimeTextfield
+                hours={0}
+                minutes={0}
+                format="hh:mm"
+                onChange={(h, m, s) => {
+                  console.log(`[CustomTimeTextfield]:[out]:[ hours : ${h}, minutes : ${m}, seconds: ${s} ]`);
+                }}
+              />
+            </Box>
+          </Box>
         </Box>
       </Container>
     </Box>
