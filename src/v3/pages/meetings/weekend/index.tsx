@@ -7,7 +7,7 @@ const WeekendMeeting = () => {
 
   return (
     <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
-      <PageTitle title={t('tr_planWeekendMeeting')} />
+      <PageTitle title={t('tr_weekendMeeting')} />
     </Box>
   );
 };
