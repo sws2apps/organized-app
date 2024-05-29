@@ -12,7 +12,6 @@ const CongregationOfflineAdd = ({ onCongregationChange }: CongregationOfflineAdd
 
   const {
     country,
-    isOnline,
     handleSelectCongregation,
     congNumber,
     congCircuitTmp,
@@ -23,7 +22,7 @@ const CongregationOfflineAdd = ({ onCongregationChange }: CongregationOfflineAdd
     handleCongNumberChange,
     handleCountryChange,
     handleCongSearchOverride,
-    overrideOnline,
+    showOnlineInput,
   } = useOffline(onCongregationChange);
 
   return (
@@ -32,7 +31,7 @@ const CongregationOfflineAdd = ({ onCongregationChange }: CongregationOfflineAdd
         {t('tr_addManualCongregationDesc')}
       </Typography>
 
-      {isOnline && !overrideOnline && (
+      {showOnlineInput && (
         <>
           <CountrySelector handleCountryChange={handleCountryChange} />
           {country !== null && (
@@ -48,7 +47,7 @@ const CongregationOfflineAdd = ({ onCongregationChange }: CongregationOfflineAdd
         </>
       )}
 
-      {(!isOnline || overrideOnline) && (
+      {!showOnlineInput && (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           <TextField
             label={t('tr_congregationName')}

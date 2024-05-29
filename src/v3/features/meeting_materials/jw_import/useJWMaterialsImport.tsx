@@ -39,6 +39,7 @@ const useJWMaterialsImport = () => {
           severity: 'error',
         });
       } catch (error) {
+        console.error(error);
         await setIsImportJWOrg(false);
 
         await displaySnackNotification({

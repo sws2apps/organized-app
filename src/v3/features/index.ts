@@ -53,6 +53,7 @@ export { default as UserLogoutConfirm } from './my_profile/logout_confirm';
 
 /* -------------------------------- Meetings -------------------------------- */
 export { default as MyAssignments } from './meetings/my_assignments';
+export { default as WeekSelector } from './meetings/week_selector';
 
 /* --------------------------------- Persons -------------------------------- */
 export { default as PersonAssignment } from './persons/assignments';

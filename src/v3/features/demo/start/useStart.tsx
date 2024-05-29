@@ -4,6 +4,10 @@ import { dbAppDelete, dbAppOpen } from '@services/dexie/app';
 import { dbAppSettingsBuildTest } from '@services/dexie/settings';
 import { setIsAppLoad } from '@services/recoil/app';
 import { loadApp, runUpdater } from '@services/app';
+import { dbSpeakersCongregationsDummy } from '@services/dexie/speakers_congregations';
+import { dbVisitingSpeakersDummy } from '@services/dexie/visiting_speakers';
+import { apiFetchSources } from '@services/api/sources';
+import { sourcesImportJW } from '@services/app/sources';
 
 const useStart = () => {
   useEffect(() => {
@@ -14,6 +18,14 @@ const useStart = () => {
       await dbAppOpen();
       await importDummyPersons(false);
       await dbAppSettingsBuildTest();
+      await dbSpeakersCongregationsDummy();
+      await dbVisitingSpeakersDummy();
+
+      const { data, status } = await apiFetchSources();
+      if (status === 200 && data && data.length) {
+        await sourcesImportJW(data);
+      }
+
       await loadApp();
       await runUpdater();
 
