@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import { handleDeleteDatabase } from '@services/app';
 import { useAppTranslation, useFirebaseAuth } from '@hooks/index';
 import { userSignOut } from '@services/firebase/auth';
@@ -9,6 +10,7 @@ import { displayOnboardingFeedback, setCongID } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { apiSetCongregationMasterKey } from '@services/api/congregation';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
+import { congNumberState } from '@states/settings';
 
 const useCongregationMasterKey = () => {
   const { t } = useAppTranslation();
@@ -16,6 +18,8 @@ const useCongregationMasterKey = () => {
   const { isAuthenticated } = useFirebaseAuth();
 
   const { hideMessage, message, showMessage, title, variant } = useFeedback();
+
+  const congNumber = useRecoilValue(congNumberState);
 
   const [isLoading, setIsLoading] = useState(true);
   const [isSetupCode, setIsSetupCode] = useState(true);
@@ -114,6 +118,11 @@ const useCongregationMasterKey = () => {
         return;
       }
 
+      if (status === 200 && result.cong_number !== congNumber) {
+        await handleDeleteDatabase();
+        return;
+      }
+
       await setCongID(result.cong_id);
 
       setCongMasterKey(result.cong_master_key);
@@ -123,7 +132,7 @@ const useCongregationMasterKey = () => {
     };
 
     if (isAuthenticated) getMasterKey();
-  }, [isAuthenticated]);
+  }, [isAuthenticated, congNumber]);
 
   useEffect(() => {
     setIsLengthPassed(tmpMasterKey.length >= 16);
