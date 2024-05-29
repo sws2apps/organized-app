@@ -73,7 +73,7 @@
     "cypress": "^13.10.0",
     "eslint": "^8.57.0",
     "eslint-config-react-app": "^7.0.1",
-    "eslint-plugin-cypress": "^3.2.0",
+    "eslint-plugin-cypress": "^3.3.0",
     "prop-types": "^15.8.1",
     "rollup": "^4.18.0",
     "serve": "^14.2.3",
