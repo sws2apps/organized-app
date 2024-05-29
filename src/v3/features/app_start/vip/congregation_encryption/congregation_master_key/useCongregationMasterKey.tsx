@@ -118,9 +118,11 @@ const useCongregationMasterKey = () => {
         return;
       }
 
-      if (status === 200 && result.cong_number !== congNumber) {
-        await handleDeleteDatabase();
-        return;
+      if (status === 200) {
+        if (congNumber.length > 0 && result.cong_number !== congNumber) {
+          await handleDeleteDatabase();
+          return;
+        }
       }
 
       await setCongID(result.cong_id);
