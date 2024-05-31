@@ -6,7 +6,7 @@ import {
   ScrollableTabs,
   ProgressBarSmall,
   UserAccountItem,
-  CustomTimeTextfield,
+  CustomTimeTextField,
 } from '@components/index';
 import { useEffect, useState } from 'react';
 
@@ -339,7 +339,7 @@ const ComponentPreview = () => {
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             <Typography className="label-small-regular">time-text-field</Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-              <CustomTimeTextfield
+              <CustomTimeTextField
                 hours={0}
                 minutes={0}
                 format="hh:mm"
