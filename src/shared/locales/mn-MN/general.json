@@ -90,5 +90,6 @@
   "tr_changeAccessCode": "Change the congregation access code",
   "tr_currentCode": "Current congregation access code",
   "tr_newCode": "New congregation access code",
-  "tr_unsupportedBrowserErrorDesc": "You are using an unsupported browser for the Organized app. Please ensure your browser is up to date and that private or incognito mode is turned off. Alternatively, try using a different browser."
+  "tr_unsupportedBrowserErrorDesc": "You are using an unsupported browser for the Organized app. Please ensure your browser is up to date and that private or incognito mode is turned off. Alternatively, try using a different browser.",
+  "tr_longDateNoYearLocale": "{{ month }} {{ date }}"
 }
