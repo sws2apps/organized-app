@@ -1,16 +1,19 @@
 import { Box } from '@mui/material';
 import { IconSong } from '@components/icons';
-import { songsList } from '@constants/index';
 import { SongsTalkType } from './index.types';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import useSongTalk from './useSongTalk';
 import AutocompleteMultiple from '@components/autocomplete_multiple';
 import MiniChip from '@components/mini_chip';
 import Typography from '@components/typography';
+import { SongType } from '@definition/songs';
 
 const SongsTalk = ({ talk, songs, onChange, onDelete, edit = true }: SongsTalkType) => {
   const { t } = useAppTranslation();
 
   const { tabletDown } = useBreakpoints();
+
+  const { songsOption, selectedSongs } = useSongTalk(songs);
 
   return (
     <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -46,19 +49,24 @@ const SongsTalk = ({ talk, songs, onChange, onDelete, edit = true }: SongsTalkTy
       {edit && (
         <AutocompleteMultiple
           fullWidth={true}
-          options={songsList}
-          value={songs}
-          onChange={(e, value: number[]) => onChange(talk.talk_number, value)}
+          options={songsOption}
+          getOptionLabel={(option: SongType) => option.song_number.toString()}
+          value={selectedSongs}
+          onChange={(_, value: SongType[]) => onChange(talk.talk_number, value)}
+          renderOption={(props, option) => (
+            <Box component="li" {...props} sx={{ margin: 0, padding: 0 }} key={option.song_number}>
+              <Typography>{option.song_title}</Typography>
+            </Box>
+          )}
           label={t('tr_songs')}
-          getOptionLabel={(option) => option.toString()}
           height={40}
           renderTags={(tagValue) =>
             tagValue.map((option) => (
               <MiniChip
-                key={option}
-                label={option.toString()}
+                key={option.song_number}
+                label={option.song_number.toString()}
                 edit={true}
-                onDelete={() => onDelete(talk.talk_number, option)}
+                onDelete={() => onDelete(talk.talk_number, option.song_number)}
               />
             ))
           }

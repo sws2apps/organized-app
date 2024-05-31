@@ -4,6 +4,7 @@ import { VisitingSpeakerType } from '@definition/visiting_speakers';
 import { publicTalksState } from '@states/public_talks';
 import { dbVisitingSpeakersUpdate } from '@services/dexie/visiting_speakers';
 import { speakersCongregationsState } from '@states/speakers_congregations';
+import { SongType } from '@definition/songs';
 
 const useTalksSongs = (speaker: VisitingSpeakerType) => {
   const publicTalks = useRecoilValue(publicTalksState);
@@ -24,10 +25,10 @@ const useTalksSongs = (speaker: VisitingSpeakerType) => {
 
   const handleToggleEdit = () => setIsEdit((prev) => !prev);
 
-  const handleSongsTalkUpdate = async (talk_number: number, songs: number[]) => {
+  const handleSongsTalkUpdate = async (talk_number: number, songs: SongType[]) => {
     const talks = structuredClone(speaker.speaker_data.talks);
     const findTalk = talks.find((record) => record.talk_number === talk_number);
-    findTalk.talk_songs = songs;
+    findTalk.talk_songs = songs.map((record) => record.song_number);
     findTalk.updatedAt = new Date().toISOString();
 
     await dbVisitingSpeakersUpdate({ 'speaker_data.talks': talks }, speaker.person_uid);
