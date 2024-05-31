@@ -8,10 +8,16 @@ import { dbAssignmentUpdate } from '@services/dexie/assignment';
 import { dbAppDelete } from '@services/dexie/app';
 import { publicTalksBuildList } from '@services/i18n/public_talks';
 import { setPublicTalks } from '@services/recoil/publicTalks';
+import { songsBuildList } from '@services/i18n/songs';
+import { setSongs } from '@services/recoil/songs';
 
 export const loadApp = async () => {
   const appLang = await promiseGetRecoil(appLangState);
   handleAppChangeLanguage(appLang);
+
+  // load songs
+  const songs = await songsBuildList(appLang);
+  await setSongs(songs);
 
   // load public talks
   const talks = await publicTalksBuildList(appLang);

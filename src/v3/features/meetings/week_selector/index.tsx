@@ -11,7 +11,7 @@ const WeekSelector = () => {
 
   const { desktopUp } = useBreakpoints();
 
-  const { tabs } = useWeekSelector();
+  const { tabs, hasWeeks } = useWeekSelector();
 
   return (
     <Box
@@ -27,16 +27,21 @@ const WeekSelector = () => {
       }}
     >
       <Typography className="h2">{t('tr_meetingWeeks')}</Typography>
-      <ScrollableTabs tabs={tabs} />
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Button
-          variant="small"
-          startIcon={<IconClearMultiple height={20} width={20} />}
-          sx={{ height: '32px', minHeight: '32px' }}
-          color="red"
-        >
-          {t('tr_clear')}
-        </Button>
+
+      {hasWeeks && <ScrollableTabs tabs={tabs} />}
+
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: hasWeeks ? 'space-between' : 'flex-end' }}>
+        {hasWeeks && (
+          <Button
+            variant="small"
+            startIcon={<IconClearMultiple height={20} width={20} />}
+            sx={{ height: '32px', minHeight: '32px' }}
+            color="red"
+          >
+            {t('tr_clear')}
+          </Button>
+        )}
+
         <Button
           variant="small"
           startIcon={<IconAdd height={20} width={20} />}

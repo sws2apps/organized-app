@@ -10,7 +10,9 @@ const useWeekSelector = () => {
     Component: <MonthsContainer months={year.months} />,
   }));
 
-  return { tabs };
+  const hasWeeks = sources.length > 0;
+
+  return { tabs, hasWeeks };
 };
 
 export default useWeekSelector;
