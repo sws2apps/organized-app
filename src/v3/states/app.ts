@@ -57,18 +57,18 @@ export const monthNamesState = selector({
 
     const months = [];
 
-    months.push(getTranslation({ key: 'january', language: appLang }));
-    months.push(getTranslation({ key: 'february', language: appLang }));
-    months.push(getTranslation({ key: 'march', language: appLang }));
-    months.push(getTranslation({ key: 'april', language: appLang }));
-    months.push(getTranslation({ key: 'may', language: appLang }));
-    months.push(getTranslation({ key: 'june', language: appLang }));
-    months.push(getTranslation({ key: 'july', language: appLang }));
-    months.push(getTranslation({ key: 'august', language: appLang }));
-    months.push(getTranslation({ key: 'september', language: appLang }));
-    months.push(getTranslation({ key: 'october', language: appLang }));
-    months.push(getTranslation({ key: 'november', language: appLang }));
-    months.push(getTranslation({ key: 'december', language: appLang }));
+    months.push(getTranslation({ key: 'tr_january', language: appLang }));
+    months.push(getTranslation({ key: 'tr_february', language: appLang }));
+    months.push(getTranslation({ key: 'tr_march', language: appLang }));
+    months.push(getTranslation({ key: 'tr_april', language: appLang }));
+    months.push(getTranslation({ key: 'tr_may', language: appLang }));
+    months.push(getTranslation({ key: 'tr_june', language: appLang }));
+    months.push(getTranslation({ key: 'tr_july', language: appLang }));
+    months.push(getTranslation({ key: 'tr_august', language: appLang }));
+    months.push(getTranslation({ key: 'tr_september', language: appLang }));
+    months.push(getTranslation({ key: 'tr_october', language: appLang }));
+    months.push(getTranslation({ key: 'tr_november', language: appLang }));
+    months.push(getTranslation({ key: 'tr_december', language: appLang }));
 
     return months;
   },

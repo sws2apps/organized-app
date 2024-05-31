@@ -9,7 +9,13 @@ const MidweekMeeting = () => {
   const { t } = useAppTranslation();
 
   return (
-    <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
+    <Box
+      sx={{
+        display: 'flex',
+        gap: '16px',
+        flexDirection: 'column',
+      }}
+    >
       <PageTitle
         title={t('tr_midweekMeeting')}
         buttons={

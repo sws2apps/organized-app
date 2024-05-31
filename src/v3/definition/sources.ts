@@ -327,3 +327,11 @@ export type WeekType = {
     [language: string]: string;
   };
 };
+
+export type SourcesFormattedType = {
+  value: number;
+  months: {
+    value: number;
+    weeks: string[];
+  }[];
+};
