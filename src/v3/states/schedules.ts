@@ -54,3 +54,8 @@ export const S140DownloadOpenState = atom({
   key: 'S140DownloadOpen',
   default: false,
 });
+
+export const selectedWeekState = atom({
+  key: 'selectedWeek',
+  default: '',
+});

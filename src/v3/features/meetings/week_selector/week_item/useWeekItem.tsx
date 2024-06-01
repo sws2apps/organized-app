@@ -1,9 +1,12 @@
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { monthNamesState } from '@states/app';
 import { useAppTranslation } from '@hooks/index';
+import { selectedWeekState } from '@states/schedules';
 
 const useWeekItem = (week: string) => {
   const { t } = useAppTranslation();
+
+  const [selectedWeek, setSelectedWeek] = useRecoilState(selectedWeekState);
 
   const monthNames = useRecoilValue(monthNamesState);
 
@@ -15,7 +18,11 @@ const useWeekItem = (week: string) => {
 
   const weekDateLocale = t('tr_longDateNoYearLocale', { date, month: monthName });
 
-  return { weekDateLocale };
+  const handleSelectWeek = (value: string) => setSelectedWeek(value);
+
+  const isSelected = week === selectedWeek;
+
+  return { weekDateLocale, handleSelectWeek, isSelected };
 };
 
 export default useWeekItem;

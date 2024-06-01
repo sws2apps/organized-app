@@ -103,7 +103,7 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
       obj.midweek_meeting.lc_cbs = {
         src: { [source_lang]: src.mwb_lc_cbs },
         time: { default: 30, override: [] },
-        title: { [source_lang]: src.mwb_lc_cbs_title },
+        title: { default: { [source_lang]: src.mwb_lc_cbs_title }, override: [] },
       };
       obj.midweek_meeting.song_conclude = {
         default: { [source_lang]: src.mwb_song_conclude.toString() },

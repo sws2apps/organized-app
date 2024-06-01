@@ -1,4 +1,4 @@
-import { Week } from './sources';
+import { Week } from './week_type';
 
 type AssignmentCongregation = {
   type: string;

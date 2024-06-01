@@ -108,5 +108,6 @@
   "tr_totalAttendance": "Total attendance",
   "tr_avgAttendance": "Average attendance",
   "tr_avgOnline": "Average online",
-  "tr_meetingWeeks": "Meeting weeks"
+  "tr_meetingWeeks": "Meeting weeks",
+  "tr_meetingMaterialsNotAvailable": "The meeting materials for this week are not available yet. If necessary, import from jw.org or from an EPUB file."
 }
