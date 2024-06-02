@@ -1,4 +1,4 @@
-import { Box, TextField, Theme } from '@mui/material';
+import { Box, Theme } from '@mui/material';
 
 import { StyledBox, StyledModalWindowContainer, StyledRowContainer } from './add_service_time_modal_window.styled';
 import { AddServiceTimeModalWindowProps } from './add_service_time_modal_window.types';
