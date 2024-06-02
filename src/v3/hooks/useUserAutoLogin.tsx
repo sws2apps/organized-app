@@ -33,48 +33,52 @@ const useUserAutoLogin = () => {
 
   useEffect(() => {
     const handleLoginData = async () => {
-      if (isPending) {
-        setAutoLoginStatus('auto login process started');
-        return;
-      }
+      try {
+        if (isPending) {
+          setAutoLoginStatus('auto login process started');
+          return;
+        }
 
-      if (data.status === 403) {
-        await userSignOut();
-        return;
-      }
+        if (data.status === 403) {
+          await userSignOut();
+          return;
+        }
 
-      // congregation not found -> user not authorized and delete local data
-      if (data.status === 404) {
-        await handleDeleteDatabase();
-        return;
-      }
-
-      if (error || data.result.message) {
-        const msg = error?.message || data.result.message;
-        logger.error('app', msg);
-
-        return;
-      }
-
-      if (data.status === 200) {
-        if (congNumber.length > 0 && data.result.cong_number !== congNumber) {
+        // congregation not found -> user not authorized and delete local data
+        if (data.status === 404) {
           await handleDeleteDatabase();
           return;
         }
 
-        const approvedRole = data.result.cong_role.some((role) => APP_ROLES.includes(role));
+        if (error || data.result.message) {
+          const msg = error?.message || data.result.message;
+          logger.error('app', msg);
 
-        if (!approvedRole) {
-          await handleDeleteDatabase();
           return;
         }
 
-        if (approvedRole) {
-          await dbAppSettingsUpdateUserInfoAfterLogin(data);
-          worker.postMessage('startWorker');
-        }
+        if (data.status === 200) {
+          if (congNumber.length > 0 && data.result.cong_number !== congNumber) {
+            await handleDeleteDatabase();
+            return;
+          }
 
-        setAutoLoginStatus('auto login process completed');
+          const approvedRole = data.result.cong_role.some((role) => APP_ROLES.includes(role));
+
+          if (!approvedRole) {
+            await handleDeleteDatabase();
+            return;
+          }
+
+          if (approvedRole) {
+            await dbAppSettingsUpdateUserInfoAfterLogin(data);
+            worker.postMessage('startWorker');
+          }
+
+          setAutoLoginStatus('auto login process completed');
+        }
+      } catch (error) {
+        console.error(error);
       }
     };
 

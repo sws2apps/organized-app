@@ -69,7 +69,6 @@
   "tr_share": "Chia sẻ",
   "tr_copyLink": "Sao chép liên kết",
   "tr_unsupportedBrowserError": "Trình duyệt không được hỗ trợ",
-  "tr_unsupportedBrowserErrorDesc": "Anh/chị đang sử dụng một trình duyệt không được hỗ trợ cho ứng dụng Organized. Hãy đảm bảo rằng trình duyệt của anh/chị đã được cập nhật hoặc thử sử dụng một trình duyệt khác.",
   "tr_featureComingSoon": "Tính năng sắp ra mắt",
   "tr_featureComingSoonDesc": "Tính năng này chưa có sẵn. Chúng tôi đang làm việc để hoàn thiện nó. Vui lòng đợi chút!",
   "tr_openRealApp": "Open real App",
@@ -90,5 +89,7 @@
   "tr_changeAccessCodeDesc": "Chúng tôi khuyên anh/chị nên thay đổi mã truy cập chỉ khi nghi ngờ có sự truy cập không được phép. Sau khi tạo mã truy cập mới, hãy lưu và chia sẻ nó với các anh chị em trách nhiệm cần nó để làm việc với Organized.",
   "tr_changeAccessCode": "Thay đổi mã truy cập hội thánh",
   "tr_currentCode": "Mã truy cập hội thánh hiện tại",
-  "tr_newCode": "Mã truy cập hội thánh mới"
+  "tr_newCode": "Mã truy cập hội thánh mới",
+  "tr_unsupportedBrowserErrorDesc": "You are using an unsupported browser for the Organized app. Please ensure your browser is up to date and that private or incognito mode is turned off. Alternatively, try using a different browser.",
+  "tr_longDateNoYearLocale": "{{ month }} {{ date }}"
 }

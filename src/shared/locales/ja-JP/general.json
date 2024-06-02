@@ -69,7 +69,6 @@
   "tr_share": "共有",
   "tr_copyLink": "リンクをコピー",
   "tr_unsupportedBrowserError": "サポートされていないブラウザ",
-  "tr_unsupportedBrowserErrorDesc": "お使いのブラウザはOrganizedに対応していません。ブラウザをアップデートするか他のブラウザをお使いください。",
   "tr_featureComingSoon": "この機能はまだ利用できません",
   "tr_featureComingSoonDesc": "この機能はまだ利用できません。現在開発中です。乞うご期待！",
   "tr_openRealApp": "Open real App",
@@ -90,5 +89,7 @@
   "tr_changeAccessCodeDesc": "We advise changing the code only if unauthorized access to it is suspected. After creating a new code, securely note and share it with new Organized users in your congregation.",
   "tr_changeAccessCode": "Change the congregation access code",
   "tr_currentCode": "Current congregation access code",
-  "tr_newCode": "New congregation access code"
+  "tr_newCode": "New congregation access code",
+  "tr_unsupportedBrowserErrorDesc": "You are using an unsupported browser for the Organized app. Please ensure your browser is up to date and that private or incognito mode is turned off. Alternatively, try using a different browser.",
+  "tr_longDateNoYearLocale": "{{ month }} {{ date }}"
 }

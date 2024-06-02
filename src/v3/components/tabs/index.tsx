@@ -7,7 +7,7 @@ import { TabsPanelProps, CustomTabProps } from './index.types';
  *
  * @param props The props for the TabsPanel component.
  */
-const CustomTabPanel = (props: TabsPanelProps) => {
+export const CustomTabPanel = (props: TabsPanelProps) => {
   const { children, value, index, ...other } = props;
 
   return (

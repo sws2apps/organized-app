@@ -35,6 +35,9 @@ for await (const language of languages) {
   // load talks namespace
   const talks = await import(`../../public_talks/${language}/public_talks.json`).then((module) => module.default);
 
+  // load songs namespace
+  const songs = await import(`../../../shared/locales/${language}/songs.json`).then((module) => module.default);
+
   resources[language] = {
     ui: {
       ...activities,
@@ -48,6 +51,7 @@ for await (const language of languages) {
       ...formsTemplates,
     },
     talks,
+    songs,
   };
 }
 

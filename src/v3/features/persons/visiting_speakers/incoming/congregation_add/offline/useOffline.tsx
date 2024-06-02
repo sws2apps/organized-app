@@ -5,6 +5,7 @@ import { congNumberState } from '@states/settings';
 import { CongregationResponseType, IncomingCongregationResponseType } from '@definition/api';
 import { removeSecondsFromTime } from '@utils/dev';
 import { CountryType } from '@components/country_selector/index.types';
+import { isDemo } from '@constants/index';
 
 const useOffline = (onCongregationChange: (value: IncomingCongregationResponseType) => void) => {
   const isOnline = useRecoilValue(isOnlineState);
@@ -15,6 +16,8 @@ const useOffline = (onCongregationChange: (value: IncomingCongregationResponseTy
   const [congCircuitTmp, setCongCircuitTmp] = useState('');
   const [country, setCountry] = useState<CountryType>(null);
   const [overrideOnline, setOverrideOnline] = useState(false);
+
+  const showOnlineInput = !isDemo && isOnline && !overrideOnline;
 
   const handleSelectCongregation = (value: CongregationResponseType) => {
     if (value === null) {
@@ -75,7 +78,6 @@ const useOffline = (onCongregationChange: (value: IncomingCongregationResponseTy
   }, [congNameTmp, congNumberTmp, congCircuitTmp, onCongregationChange, isOnline, overrideOnline]);
 
   return {
-    isOnline,
     country: country,
     handleSelectCongregation,
     congNumber,
@@ -87,7 +89,7 @@ const useOffline = (onCongregationChange: (value: IncomingCongregationResponseTy
     congCircuitTmp,
     handleCountryChange,
     handleCongSearchOverride,
-    overrideOnline,
+    showOnlineInput,
   };
 };
 

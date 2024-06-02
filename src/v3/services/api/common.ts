@@ -12,7 +12,7 @@ export const apiDefault = async () => {
   const userID = await promiseGetRecoil(userIDState);
 
   const userUID = currentAuthUser()?.uid;
-  const idToken = await currentAuthUser()?.getIdToken(true);
+  const idToken = await currentAuthUser()?.getIdToken();
 
   return { apiHost, appVersion, userUID, appLang, congID, isOnline, JWLang, userID, idToken };
 };

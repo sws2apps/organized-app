@@ -8,6 +8,7 @@ import { PublicTalkType } from '@definition/public_talks';
 import { outgoingSpeakersState } from '@states/visiting_speakers';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
 import { fullnameOptionState } from '@states/settings';
+import { SongType } from '@definition/songs';
 
 const useEdit = (speaker: VisitingSpeakerType) => {
   const activePersons = useRecoilValue(personsActiveState);
@@ -90,12 +91,13 @@ const useEdit = (speaker: VisitingSpeakerType) => {
     await dbVisitingSpeakersUpdate({ 'speaker_data.talks': talks }, speaker.person_uid);
   };
 
-  const handleSongsTalkUpdate = async (talk_number: number, songs: number[]) => {
-    setSelectedSongs(songs);
+  const handleSongsTalkUpdate = async (talk_number: number, songs: SongType[]) => {
+    const songsSelected = songs.map((record) => record.song_number);
+    setSelectedSongs(songsSelected);
 
     const talks = structuredClone(speaker.speaker_data.talks);
     const findTalk = talks.find((record) => record.talk_number === talk_number);
-    findTalk.talk_songs = songs;
+    findTalk.talk_songs = songsSelected;
     findTalk.updatedAt = new Date().toISOString();
 
     await dbVisitingSpeakersUpdate({ 'speaker_data.talks': talks }, speaker.person_uid);

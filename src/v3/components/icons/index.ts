@@ -86,6 +86,7 @@ export { default as IconEncryptionKey } from './IconEncryptionKey';
 export { default as IconError } from './IconError';
 export { default as IconExpand } from './IconExpand';
 export { default as IconExport } from './IconExport';
+export { default as IconFemale } from './IconFemale';
 export { default as IconFilter } from './IconFilter';
 export { default as IconFindCountry } from './IconFindCountry';
 export { default as IconFullscreenExit } from './IconFullscreenExit';

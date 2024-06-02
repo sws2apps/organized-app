@@ -1,3 +1,4 @@
+import { ReactElement } from 'react';
 import { TabOwnProps } from '@mui/material';
 
 /**
@@ -53,7 +54,6 @@ export interface CustomTabProps extends TabOwnProps {
    * A boolean indicating whether to display the indicator.
    */
   indicatorMode?: boolean;
-
 
   onChange?: (activeTab: number) => void;
 }

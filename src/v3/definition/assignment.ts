@@ -32,10 +32,47 @@ export enum AssignmentCode {
 }
 
 export type AssignmentType = {
+  /**
+   * The code of the assignment.
+   */
+  code: AssignmentCode;
+
+  /**
+   * Indicates whether the assignment is assignable.
+   */
+  assignable: boolean;
+
+  /**
+   * Indicates whether the assignment is only for male.
+   */
+  maleOnly: boolean;
+
+  /**
+   * Link an assignment to an existing one.
+   */
+  linkTo?: AssignmentCode;
+
+  /**
+   * The type of the assignment. It can be 'tgw', 'ayf', or 'lc'.
+   */
+  type?: 'mm' | 'tgw' | 'ayf' | 'lc';
+
+  /**
+   * The name of the assignment type in different languages.
+   */
+  assignment_type_name: { [language: string]: string };
+};
+
+export type AssignmentLocalType = {
   value: number;
   label: string;
   assignable: boolean;
   maleOnly: boolean;
   type: string;
   linkTo: number;
+};
+
+export type AssignmentAYFOnlyType = {
+  value: number;
+  label: string;
 };
