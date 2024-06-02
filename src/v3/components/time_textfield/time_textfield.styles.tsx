@@ -1,43 +1,58 @@
-import { TextField, styled } from '@mui/material';
+import styled from '@emotion/styled';
+import { TextField } from '@mui/material';
 
-/**
- * Props for the StyledSmallTextField component.
- *
- * @typedef {Object} StyledSmallTextFieldProps
- * @property {string} [fontColor] - The font color for the input text.
- */
-type StyledSmallTextFieldProps = {
+// Define an interface for the custom props
+type CustomTextFieldProps = {
   fontColor?: string;
 };
 
-/**
- * A styled TextField component with customized styles.
- *
- * @component
- * @example
- * <StyledSmallTextField fontColor="red" />
- *
- * @param {StyledSmallTextFieldProps} props - The props for the component.
- * @returns {JSX.Element} The styled TextField component.
- */
-export const StyledSmallTextField = styled(TextField, {
-  shouldForwardProp: (prop) => prop !== 'fontColor',
-})<StyledSmallTextFieldProps>(({ fontColor }) => ({
-  '.MuiInputBase-root::after, .MuiInputBase-root::before': { content: 'none' },
-  '.MuiInput-input': {
-    textAlign: 'center',
+// Use the interface in the styled component
+export const StyledCustomTimeTextField = styled(TextField)<CustomTextFieldProps>(({ fontColor }) => ({
+  '& .MuiInputBase-root': {
+    border: 'none',
+  },
+  '& .MuiOutlinedInput-notchedOutline': {
+    border: 'none',
+  },
+  '& input[type="time"]::-webkit-clear-button': {
+    display: 'none',
+  },
+  '& input[type="time"]::-webkit-inner-spin-button': {
+    display: 'none',
+  },
+  '& input[type="time"]::-webkit-calendar-picker-indicator': {
+    opacity: 0,
+    display: 'none',
+  },
+  '& input[type="time"]::-moz-clear-button': {
+    display: 'none',
+  },
+  '& input[type="time"]::-moz-inner-spin-button': {
+    display: 'none',
+  },
+
+  'input[type=time]::-webkit-datetime-edit-hour-field:focus, input[type=time]::-webkit-datetime-edit-minute-field:focus, input[type=time]::-webkit-datetime-edit-second-field:focus, input[type=time]::-webkit-datetime-edit-ampm-field:focus':
+    {
+      backgroundColor: 'var(--accent-300)',
+    },
+
+  '& input': {
+    color: fontColor || 'var(--black)',
     fontWeight: '550',
     lineHeight: '24px',
   },
-  '.MuiInputBase-root': {
-    color: fontColor,
+  '& input[type="time"]::-moz-calendar-picker-indicator': {
+    opacity: 0,
+    display: 'none',
   },
-  'input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner-spin-button': {
-    '-webkit-appearance': 'none',
-    margin: 0,
+  '& input[type="time"]::-ms-clear': {
+    display: 'none',
   },
-
-  'input[type=number]': {
-    '-moz-appearance': 'textfield',
+  '& input[type="time"]::-ms-inner-spin-button': {
+    display: 'none',
+  },
+  '& input[type="time"]::-ms-calendar-picker-indicator': {
+    opacity: 0,
+    display: 'none',
   },
 }));

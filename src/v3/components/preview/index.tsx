@@ -130,7 +130,6 @@ const ComponentPreview = () => {
   return (
     <Box>
       <NavBar />
-
       <Container
         maxWidth={false}
         sx={{
@@ -339,14 +338,7 @@ const ComponentPreview = () => {
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             <Typography className="label-small-regular">time-text-field</Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-              <CustomTimeTextField
-                hours={0}
-                minutes={0}
-                format="hh:mm"
-                onChange={(h, m, s) => {
-                  console.log(`[CustomTimeTextfield]:[out]:[ hours : ${h}, minutes : ${m}, seconds: ${s} ]`);
-                }}
-              />
+              <CustomTimeTextField />
             </Box>
           </Box>
         </Box>
