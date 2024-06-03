@@ -56,6 +56,4 @@ export interface CustomTabProps extends TabOwnProps {
   indicatorMode?: boolean;
 
   onChange?: (activeTab: number) => void;
-
-  value?: number;
 }
