@@ -103,35 +103,35 @@
 		},
 		{
 			"src": "/img/screenshot/one_app_for_everyone_mobile.jpg",
-			"sizes": "1125x2001",
+			"sizes": "1125x2000",
 			"type": "image/png",
 			"form_factor": "narrow",
 			"label": "one_app_for_everyone_mobile"
 		},
 		{
 			"src": "/img/screenshot/collaborate_with_ease_mobile.jpg",
-			"sizes": "1125x2001",
+			"sizes": "1125x2000",
 			"type": "image/png",
 			"form_factor": "narrow",
 			"label": "collaborate_with_ease_mobile"
 		},
 		{
 			"src": "/img/screenshot/instant_reports_mobile.jpg",
-			"sizes": "1125x2001",
+			"sizes": "1125x2000",
 			"type": "image/png",
 			"form_factor": "narrow",
 			"label": "instant_reports_mobile"
 		},
 		{
 			"src": "/img/screenshot/light_and_dark_themes_mobile.jpg",
-			"sizes": "1125x2001",
+			"sizes": "1125x2000",
 			"type": "image/png",
 			"form_factor": "narrow",
 			"label": "light_and_dark_themes_mobile"
 		},
 		{
 			"src": "/img/screenshot/truly_multi_platform_mobile.jpg",
-			"sizes": "1125x2001",
+			"sizes": "1125x2000",
 			"type": "image/png",
 			"form_factor": "narrow",
 			"label": "truly_multi_platform_mobile"
