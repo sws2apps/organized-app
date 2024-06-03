@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { displayOnboardingFeedback, setIsEmailAuth, setIsUserSignIn } from '@services/recoil/app';
 import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 import { useAppTranslation } from '@hooks/index';
@@ -7,8 +7,6 @@ import { apiRequestPasswordlesssLink } from '@services/api/user';
 import { getMessageByCode } from '@services/i18n/translation';
 
 const useEmailAuth = () => {
-  const cancel = useRef<boolean>();
-
   const { t } = useAppTranslation();
 
   const { hideMessage, message, showMessage, title, variant } = useFeedback();
@@ -29,8 +27,6 @@ const useEmailAuth = () => {
     hideMessage();
 
     setIsProcessing(true);
-
-    cancel.current = false;
 
     if (!isEmailValid(userTmpEmail)) {
       await displayOnboardingFeedback({
@@ -72,12 +68,6 @@ const useEmailAuth = () => {
 
     setIsProcessing(false);
   };
-
-  useEffect(() => {
-    return () => {
-      cancel.current = true;
-    };
-  }, []);
 
   return {
     isProcessing,

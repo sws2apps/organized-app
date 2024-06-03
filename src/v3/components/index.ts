@@ -49,3 +49,6 @@ export { default as UserAccountItem } from './user_account_item/index';
 export { default as DarkOverlay } from './dark_overlay/index';
 export { CustomDropdownContainer, CustomDropdownMenu, CustomDropdownItem } from './dropdown/index';
 export { default as CardHeader } from './card_header/index';
+export { default as CustomTextarea } from './textarea/index';
+export { default as CustomDivider } from './divider/index';
+export { default as CustomTimeTextField } from './time_textfield/index';

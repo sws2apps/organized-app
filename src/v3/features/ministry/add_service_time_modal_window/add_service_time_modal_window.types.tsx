@@ -1,3 +1,5 @@
+import { MinistryRecord, MinistryRecordActionMode } from '@pages/ministry_report/ministry_report.types';
+
 /**
  * Represents the result of calculations performed by the Add Service Time Modal Window component.
  */
@@ -75,8 +77,18 @@ export type AddServiceTimeModalWindowProps = {
   reference?: React.Ref<HTMLElement>;
 
   /**
+   * Specifies the mode of the ministry record action.
+   */
+  mode?: MinistryRecordActionMode;
+
+  /**
+   * The ministry record for editing.
+   */
+  recordForEdit?: MinistryRecord;
+
+  /**
    * Callback function invoked when the result of the modal window is available.
    * It receives an object containing the calculated result.
    */
-  result?: (result: ASTMWResult) => void;
+  result?: (result: MinistryRecord) => void;
 };

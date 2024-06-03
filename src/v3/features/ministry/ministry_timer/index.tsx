@@ -11,6 +11,7 @@ import { AddServiceTimeModalWindow } from '../add_service_time_modal_window';
 import CustomTypography from '@components/typography';
 import { convertDurationInSecondsToString, convertDurationStringToSeconds } from '../utils';
 import TimeAlreadyInServiceModalWindow from '../time_already_in_service_modal_window';
+import { MinistryRecord } from '@pages/ministry_report/ministry_report.types';
 
 /**
  * Left Ministry Timer Button component.
@@ -256,10 +257,11 @@ const MinistryTimer = ({ duration = '00:00' }: { duration?: string }) => {
           }}
         />
         <DarkOverlay overlayIsOpened={addServiceTimeModalWindowOpen}>
-          {/** Connect to API  | Add variant */}
+          {/** TODO: Connect to API  | Add variant */}
           <AddServiceTimeModalWindow
             showCreditHours={true}
             duration={durationInSeconds}
+            recordForEdit={new MinistryRecord('', 0, 0, 0, null) /* Dont delete! Not used data. */}
             bibleStudiesList={bibleStudiesList}
             cancelButtonClick={() => {
               setAddServiceTimeModalWindowOpen(false);

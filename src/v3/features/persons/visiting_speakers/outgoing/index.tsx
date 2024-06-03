@@ -4,11 +4,11 @@ import { useAppTranslation } from '@hooks/index';
 import useOutgoing from './useOutgoing';
 import Button from '@components/button';
 import NoSpeakers from './no_speakers';
-import Typography from '@components/typography';
 import OutgoingSpeakersHeader from './header';
-import VisibilityToggle from './visibility_toggle';
 import SpeakerEditView from './speaker_edit';
-import SpeakerReadOnlyView from './speaker_view';
+import SpeakerRowView from '../speaker_row_view';
+import Typography from '@components/typography';
+import VisibilityToggle from './visibility_toggle';
 
 const OutgoingSpeakers = () => {
   const { t } = useAppTranslation();
@@ -67,18 +67,17 @@ const OutgoingSpeakers = () => {
               sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '4px',
-                '& .MuiBox-root': {
+                '& > .MuiBox-root': {
                   borderBottom: '1px solid var(--accent-200)',
-                  paddingBottom: '10px',
+                  padding: '4px 0',
                 },
-                '& .MuiBox-root:last-child': {
+                '& > .MuiBox-root:last-child': {
                   borderBottom: 'none',
                 },
               }}
             >
               {localSpeakers.map((speaker) => (
-                <SpeakerReadOnlyView key={speaker.person_uid} speaker={speaker} />
+                <SpeakerRowView key={speaker.person_uid} speaker={speaker} />
               ))}
             </Box>
           )}

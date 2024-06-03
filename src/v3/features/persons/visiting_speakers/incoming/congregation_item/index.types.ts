@@ -7,7 +7,7 @@ export type IncomingCongregationType = {
 };
 
 export type useListType = {
-  cong_number: string;
+  id: string;
   currentExpanded: string;
   onChangeCurrentExpanded: (value: string) => void;
 };

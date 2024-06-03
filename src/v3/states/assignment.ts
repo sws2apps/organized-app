@@ -3,8 +3,8 @@ This file holds the source of the truth from the table "assignment".
 */
 
 import { atom, selector } from 'recoil';
-import { AssignmentType } from '@definition/sources';
 import { JWLangState } from './app';
+import { AssignmentAYFOnlyType, AssignmentLocalType } from '@definition/assignment';
 
 export const assignmentState = atom({
   key: 'assignment',
@@ -17,9 +17,9 @@ export const assignmentTypeLocaleState = selector({
     const assignmentType = get(assignmentState);
     const JWLang: string = get(JWLangState);
 
-    const result: AssignmentType[] = [];
+    const result: AssignmentLocalType[] = [];
     for (const type of assignmentType) {
-      const obj = <AssignmentType>{};
+      const obj = <AssignmentLocalType>{};
       obj.value = type.code;
       obj.label = type.assignment_type_name[JWLang.toUpperCase()];
       obj.assignable = type.assignable;
@@ -33,13 +33,13 @@ export const assignmentTypeLocaleState = selector({
   },
 });
 
-export const assignmentTypeAYFOnlyState = selector({
+export const assignmentTypeAYFOnlyState = selector<AssignmentAYFOnlyType[]>({
   key: 'assignmentTypeAYFOnly',
   get: ({ get }) => {
     const assignmentTypeLocale = get(assignmentTypeLocaleState);
 
     const newList = assignmentTypeLocale
-      .filter((ass) => ass.type === 'ayf' && ass.label !== undefined && ass.label !== '')
+      .filter((record) => record.type === 'ayf' && record.label !== undefined && record.label !== '')
       .sort((a, b) => {
         return a.value > b.value ? 1 : -1;
       });

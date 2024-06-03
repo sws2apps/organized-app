@@ -90,3 +90,34 @@ export const localStorageGetItem = (key: string) => {
 
   return localStorage.getItem(key);
 };
+
+export const delay = async (time: number) => {
+  return new Promise((resolve) => setTimeout(resolve, time));
+};
+
+export const updateObject = <T extends object>(oldObj: T, newObj: T): T => {
+  const objectKeys = Object.keys(newObj).filter((key) => newObj[key] !== null && typeof newObj[key] === 'object');
+
+  for (const key of objectKeys) {
+    if (oldObj[key]) {
+      if (!('updatedAt' in newObj[key])) {
+        updateObject(oldObj[key], newObj[key]);
+      } else {
+        if (newObj[key].updatedAt > oldObj[key].updatedAt) {
+          oldObj[key] = newObj[key];
+        }
+      }
+    } else {
+      oldObj[key] = newObj[key];
+    }
+  }
+
+  const primitiveKeys = Object.keys(newObj).filter((key) => typeof newObj[key] !== 'object');
+  for (const key of primitiveKeys) {
+    if (newObj[key] && newObj[key] !== null && newObj[key] !== '') {
+      oldObj[key] = newObj[key];
+    }
+  }
+
+  return oldObj;
+};

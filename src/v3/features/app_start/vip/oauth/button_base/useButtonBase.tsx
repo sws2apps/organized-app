@@ -81,7 +81,7 @@ const useButtonBase = ({ provider, isEmail }) => {
   const updateUserSettings = async (data: UserLoginResponseType, nextStep: NextStepType) => {
     await dbAppSettingsUpdate({
       'user_settings.account_type': 'vip',
-      'cong_settings.cong_code': data.cong_encryption,
+      'user_settings.cong_role': data.cong_role,
       'user_settings.lastname': data.lastname,
       'user_settings.firstname': data.firstname,
     });

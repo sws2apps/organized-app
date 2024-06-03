@@ -40,12 +40,21 @@ export const countryCodeState = selector({
   },
 });
 
-export const congEncryptionCodeState = selector({
-  key: 'congEncryptionCode',
+export const congMasterKeyState = selector({
+  key: 'congMasterKey',
   get: ({ get }) => {
     const settings = get(settingsState);
 
-    return settings.cong_settings.cong_code;
+    return settings.cong_settings.cong_master_key;
+  },
+});
+
+export const congAccessCodeState = selector({
+  key: 'congAccessCode',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+
+    return settings.cong_settings.cong_access_code;
   },
 });
 

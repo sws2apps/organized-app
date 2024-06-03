@@ -3,6 +3,7 @@ import { personsActiveState, personsFilteredState, personsTabState } from '@stat
 
 const useList = () => {
   const [activeTab, setActiveTab] = useRecoilState(personsTabState);
+
   const persons = useRecoilValue(personsFilteredState);
   const personsAll = useRecoilValue(personsActiveState);
 

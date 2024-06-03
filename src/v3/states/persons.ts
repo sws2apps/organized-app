@@ -19,10 +19,18 @@ export const personsAllState = selector({
     const fullnameOption = get(fullnameOptionState);
 
     return persons
-      .filter((person) => person._deleted === null)
+      .filter((person) => person._deleted.value === false)
       .sort((a, b) => {
-        const fullnameA = buildPersonFullname(a.person_lastname.value, a.person_firstname.value, fullnameOption);
-        const fullnameB = buildPersonFullname(b.person_lastname.value, b.person_firstname.value, fullnameOption);
+        const fullnameA = buildPersonFullname(
+          a.person_data.person_lastname.value,
+          a.person_data.person_firstname.value,
+          fullnameOption
+        );
+        const fullnameB = buildPersonFullname(
+          b.person_data.person_lastname.value,
+          b.person_data.person_firstname.value,
+          fullnameOption
+        );
 
         return fullnameA > fullnameB ? 1 : -1;
       });
@@ -34,7 +42,7 @@ export const personsActiveState = selector({
   get: ({ get }) => {
     const persons = get(personsAllState);
 
-    return persons.filter((person) => !person.archived.value);
+    return persons.filter((person) => !person.person_data.archived.value);
   },
 });
 
@@ -61,47 +69,49 @@ export const personsFiltersKeyState = atom<(string | number)[]>({
 export const personCurrentDetailsState = atom<PersonType>({
   key: 'personNewDetails',
   default: {
-    _deleted: null,
+    _deleted: { value: false, updatedAt: '' },
     person_uid: '',
-    person_firstname: { value: '', updatedAt: '' },
-    person_lastname: { value: '', updatedAt: '' },
-    person_display_name: { value: '', updatedAt: '' },
-    male: { value: true, updatedAt: '' },
-    female: { value: false, updatedAt: '' },
-    birth_date: { value: null, updatedAt: '' },
-    assignments: [],
-    timeAway: [],
-    archived: { value: false, updatedAt: '' },
-    disqualified: { value: false, updatedAt: '' },
-    email: { value: '', updatedAt: '' },
-    address: { value: '', updatedAt: '' },
-    phone: { value: '', updatedAt: '' },
-    first_month_report: { value: null, updatedAt: '' },
-    publisher_baptized: {
-      active: { value: false, updatedAt: '' },
-      anointed: { value: false, updatedAt: '' },
-      other_sheep: { value: true, updatedAt: '' },
-      baptism_date: { value: null, updatedAt: '' },
-      history: [],
+    person_data: {
+      person_firstname: { value: '', updatedAt: '' },
+      person_lastname: { value: '', updatedAt: '' },
+      person_display_name: { value: '', updatedAt: '' },
+      male: { value: true, updatedAt: '' },
+      female: { value: false, updatedAt: '' },
+      birth_date: { value: null, updatedAt: '' },
+      assignments: [],
+      timeAway: [],
+      archived: { value: false, updatedAt: '' },
+      disqualified: { value: false, updatedAt: '' },
+      email: { value: '', updatedAt: '' },
+      address: { value: '', updatedAt: '' },
+      phone: { value: '', updatedAt: '' },
+      first_month_report: { value: null, updatedAt: '' },
+      publisher_baptized: {
+        active: { value: false, updatedAt: '' },
+        anointed: { value: false, updatedAt: '' },
+        other_sheep: { value: true, updatedAt: '' },
+        baptism_date: { value: null, updatedAt: '' },
+        history: [],
+      },
+      publisher_unbaptized: {
+        active: { value: false, updatedAt: '' },
+        history: [],
+      },
+      midweek_meeting_student: {
+        active: { value: true, updatedAt: '' },
+        history: [
+          {
+            id: crypto.randomUUID(),
+            start_date: { value: new Date().toISOString(), updatedAt: new Date().toISOString() },
+            end_date: { value: null, updatedAt: new Date().toISOString() },
+            _deleted: { value: false, updatedAt: '' },
+          },
+        ],
+      },
+      privileges: [],
+      enrollments: [],
+      emergency_contacts: [],
     },
-    publisher_unbaptized: {
-      active: { value: false, updatedAt: '' },
-      history: [],
-    },
-    midweek_meeting_student: {
-      active: { value: true, updatedAt: '' },
-      history: [
-        {
-          id: crypto.randomUUID(),
-          start_date: { value: new Date().toISOString(), updatedAt: new Date().toISOString() },
-          end_date: { value: null, updatedAt: new Date().toISOString() },
-          _deleted: null,
-        },
-      ],
-    },
-    privileges: [],
-    enrollments: [],
-    emergency_contacts: [],
   },
 });
 

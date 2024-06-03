@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import { apiFetchCongregations } from '@services/api/congregation';
 import { displaySnackNotification } from '@services/recoil/app';
 import { useAppTranslation } from '@hooks/index';
 import { CongregationResponseType } from '@definition/api';
+import { speakersCongregationsActiveState } from '@states/speakers_congregations';
 
 const useCongregation = (country_code: string, cong_number?: string) => {
   const { t } = useAppTranslation();
+
+  const congregations = useRecoilValue(speakersCongregationsActiveState);
 
   const [value, setValue] = useState<CongregationResponseType>(null);
   const [inputValue, setInputValue] = useState('');
@@ -38,8 +42,13 @@ const useCongregation = (country_code: string, cong_number?: string) => {
 
           if (active && status === 200) {
             if (Array.isArray(data)) {
-              const filteredData = data.filter((record) => record.congNumber !== cong_number);
-              setOptions(filteredData);
+              const optionsRemoveRemote = data.filter((record) =>
+                congregations.find((cong) => cong.cong_data.cong_number.value === record.congNumber) ? false : true
+              );
+
+              const finalOptions = optionsRemoveRemote.filter((record) => record.congNumber !== cong_number);
+
+              setOptions(finalOptions);
             }
           }
 
@@ -64,7 +73,7 @@ const useCongregation = (country_code: string, cong_number?: string) => {
       active = false;
       if (fetchTimer) clearTimeout(fetchTimer);
     };
-  }, [country_code, value, inputValue, t, cong_number]);
+  }, [country_code, value, inputValue, t, cong_number, congregations]);
 
   return { setValue, value, setInputValue, options, isLoading };
 };

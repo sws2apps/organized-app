@@ -5,8 +5,7 @@ import { IconLoading } from '@components/icons';
 /**
  * Circular loading indicator component.
  * @param variant The variant of the loading indicator.
- * @param width The width of the loading indicator.
- * @param height The height of the loading indicator.
+ * @param size (width and height)
  */
 const WaitingCircular = ({ variant = 'fixed', size = 72 }: VariantProps) => {
   let sx: SxProps<Theme> = {};

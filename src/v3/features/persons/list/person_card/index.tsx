@@ -23,8 +23,12 @@ const PersonCard = ({ person }: PersonCardType) => {
 
       <UserCard
         type="person"
-        name={buildPersonFullname(person.person_lastname.value, person.person_firstname.value, fullnameOption)}
-        female={person.female.value}
+        name={buildPersonFullname(
+          person.person_data.person_lastname.value,
+          person.person_data.person_firstname.value,
+          fullnameOption
+        )}
+        female={person.person_data.female.value}
         onDelete={handleDelete}
         onClick={handleOpenPerson}
       >

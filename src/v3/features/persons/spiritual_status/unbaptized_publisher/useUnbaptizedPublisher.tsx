@@ -15,7 +15,9 @@ const useUnbaptizedPublisher = () => {
 
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const activeHistory = person.publisher_unbaptized.history.filter((record) => record._deleted === null);
+  const activeHistory = person.person_data.publisher_unbaptized.history.filter(
+    (record) => record._deleted.value === false
+  );
 
   const isActive = activeHistory.find((record) => record.end_date.value === null) ? true : false;
 
@@ -25,20 +27,21 @@ const useUnbaptizedPublisher = () => {
     const newPerson: PersonType = structuredClone(person);
 
     if (isActive) {
-      const activeRecord = newPerson.publisher_unbaptized.history.find((record) => record.end_date.value === null);
+      const activeRecord = newPerson.person_data.publisher_unbaptized.history.find(
+        (record) => record.end_date.value === null
+      );
 
-      const start_date = formatDate(new Date(activeRecord.start_date.value), 'mm/dd/yyyy');
-      const nowDate = formatDate(new Date(), 'mm/dd/yyyy');
+      const start_date = formatDate(new Date(activeRecord.start_date.value), 'MM/dd/yyyy');
+      const nowDate = formatDate(new Date(), 'MM/dd/yyyy');
 
       if (start_date === nowDate) {
         if (isAddPerson) {
-          newPerson.publisher_unbaptized.history = newPerson.publisher_unbaptized.history.filter(
-            (record) => record.id !== activeRecord.id
-          );
+          newPerson.person_data.publisher_unbaptized.history =
+            newPerson.person_data.publisher_unbaptized.history.filter((record) => record.id !== activeRecord.id);
         }
 
         if (!isAddPerson) {
-          activeRecord._deleted = new Date().toISOString();
+          activeRecord._deleted = { value: true, updatedAt: new Date().toISOString() };
         }
       }
 
@@ -58,7 +61,7 @@ const useUnbaptizedPublisher = () => {
   const handleFirstReportChange = async (value: Date | null) => {
     const newPerson = structuredClone(person);
 
-    newPerson.first_month_report = {
+    newPerson.person_data.first_month_report = {
       value: value === null ? null : value.toISOString(),
       updatedAt: new Date().toISOString(),
     };
@@ -69,11 +72,11 @@ const useUnbaptizedPublisher = () => {
   const handleAddHistory = async () => {
     const newPerson = structuredClone(person);
 
-    newPerson.publisher_unbaptized.history.push({
+    newPerson.person_data.publisher_unbaptized.history.push({
       id: crypto.randomUUID(),
       start_date: { value: dateFirstDayMonth().toISOString(), updatedAt: new Date().toISOString() },
       end_date: { value: null, updatedAt: new Date().toISOString() },
-      _deleted: null,
+      _deleted: { value: false, updatedAt: '' },
     });
 
     await setPersonCurrentDetails(newPerson);
@@ -83,12 +86,12 @@ const useUnbaptizedPublisher = () => {
     const newPerson = structuredClone(person);
 
     if (!isAddPerson) {
-      const current = newPerson.publisher_unbaptized.history.find((history) => history.id === id);
-      current._deleted = new Date().toISOString();
+      const current = newPerson.person_data.publisher_unbaptized.history.find((history) => history.id === id);
+      current._deleted = { value: true, updatedAt: new Date().toISOString() };
     }
 
     if (isAddPerson) {
-      newPerson.publisher_unbaptized.history = newPerson.publisher_unbaptized.history.filter(
+      newPerson.person_data.publisher_unbaptized.history = newPerson.person_data.publisher_unbaptized.history.filter(
         (record) => record.id !== id
       );
     }
@@ -99,7 +102,7 @@ const useUnbaptizedPublisher = () => {
   const handleStartDateChange = async (id: string, value: Date) => {
     const newPerson = structuredClone(person);
 
-    const current = newPerson.publisher_unbaptized.history.find((history) => history.id === id);
+    const current = newPerson.person_data.publisher_unbaptized.history.find((history) => history.id === id);
     current.start_date = {
       value: value.toISOString(),
       updatedAt: new Date().toISOString(),
@@ -111,7 +114,7 @@ const useUnbaptizedPublisher = () => {
   const handleEndDateChange = async (id: string, value: Date | null) => {
     const newPerson = structuredClone(person);
 
-    const current = newPerson.publisher_unbaptized.history.find((history) => history.id === id);
+    const current = newPerson.person_data.publisher_unbaptized.history.find((history) => history.id === id);
     current.end_date = {
       value: value === null ? null : value.toISOString(),
       updatedAt: new Date().toISOString(),

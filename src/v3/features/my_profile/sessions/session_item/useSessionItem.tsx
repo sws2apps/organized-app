@@ -4,7 +4,6 @@ import { SessionResponseType } from '@definition/api';
 import { formatDate } from '@services/dateformat';
 import { useAppTranslation } from '@hooks/index';
 import { useRecoilValue } from 'recoil';
-import { visitorIDState } from '@states/app';
 import { displaySnackNotification } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { accountTypeState } from '@states/settings';
@@ -15,7 +14,6 @@ const useSessionItem = (session: SessionResponseType) => {
 
   const queryClient = useQueryClient();
 
-  const visitorID = useRecoilValue(visitorIDState);
   const accountType = useRecoilValue(accountTypeState);
 
   const [isProcessing, setIsProcessing] = useState(false);
@@ -31,7 +29,7 @@ const useSessionItem = (session: SessionResponseType) => {
       setIsProcessing(true);
 
       if (accountType === 'vip') {
-        const result = await apiRevokeVIPSession(session.visitorid);
+        const result = await apiRevokeVIPSession(session.identifier);
 
         if (result.status === 200) {
           await queryClient.refetchQueries({ queryKey: ['sessions'] });
@@ -56,7 +54,7 @@ const useSessionItem = (session: SessionResponseType) => {
   };
 
   useEffect(() => {
-    setIsCurrent(visitorID === session.visitorid);
+    setIsCurrent(session.isSelf);
 
     setLocation(session.ip);
 
@@ -72,7 +70,7 @@ const useSessionItem = (session: SessionResponseType) => {
 
     const tmpDate = session.last_seen ? formatDate(new Date(session.last_seen), t('tr_longDateTimeFormat')) : '';
     setLastSeen(tmpDate.length > 0 ? t('tr_lastSeen', { date: tmpDate }) : '');
-  }, [session, t, visitorID]);
+  }, [session, t]);
 
   return { isProcessing, handleTerminate, isCurrent, location, browser, lastSeen };
 };

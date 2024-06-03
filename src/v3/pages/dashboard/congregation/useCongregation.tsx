@@ -1,11 +1,13 @@
 import { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 import { congAccountConnectedState, isAppDataSyncingState, lastAppDataSyncState } from '@states/app';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useFirebaseAuth } from '@hooks/index';
 import worker from '@services/worker/backupWorker';
 
 const useCongregation = () => {
   const { t } = useAppTranslation();
+
+  const { user } = useFirebaseAuth();
 
   const isSyncing = useRecoilValue(isAppDataSyncingState);
   const lastSync = useRecoilValue(lastAppDataSyncState);
@@ -32,6 +34,7 @@ const useCongregation = () => {
   };
 
   const handleManualSync = async () => {
+    worker.postMessage({ field: 'idToken', value: await user.getIdToken(true) });
     worker.postMessage('startWorker');
   };
 

@@ -1,4 +1,4 @@
-import { SxProps, Theme } from '@mui/material';
+import { PopperPlacementType, SxProps, Theme } from '@mui/material';
 import * as CSS from 'csstype';
 import { ReactElement, ReactNode } from 'react';
 
@@ -57,6 +57,12 @@ export type CustomDropdownMenuProps = {
    * Reference
    */
   reference?: React.Ref<HTMLDivElement>;
+
+  /**
+   * Popper placement.
+   * @default 'bottom'
+   */
+  placement?: PopperPlacementType;
 };
 
 /**

@@ -1,7 +1,13 @@
 import { UpdateSpec } from 'dexie';
 import { TimeAwayType } from '@definition/person';
 import { SettingsType } from '@definition/settings';
-import { setCongAccountConnected, setCongID, setIsMFAEnabled, setUserID } from '@services/recoil/app';
+import {
+  setCongAccountConnected,
+  setCongID,
+  setEncryptedMasterKey,
+  setIsMFAEnabled,
+  setUserID,
+} from '@services/recoil/app';
 import { settingSchema } from './schema';
 import { ValidateMeResponseType } from '@definition/api';
 import appDb from '@db/appDb';
@@ -26,7 +32,7 @@ export const dbAppSettingsTimeAwayAdd = async () => {
     start_date: { value: new Date().toISOString(), updatedAt: new Date().toISOString() },
     end_date: { value: null, updatedAt: '' },
     comments: { value: '', updatedAt: '' },
-    _deleted: null,
+    _deleted: { value: false, updatedAt: '' },
   });
 
   await appDb.app_settings.put(setting);
@@ -36,7 +42,7 @@ export const dbAppSettingsTimeAwayDelete = async (id) => {
   const setting = await appDb.app_settings.get(1);
 
   const currentTimeAway = setting.user_settings.user_time_away.find((record) => record.id === id);
-  currentTimeAway._deleted = new Date().toISOString();
+  currentTimeAway._deleted = { value: true, updatedAt: new Date().toISOString() };
 
   await appDb.app_settings.put(setting);
 };
@@ -133,6 +139,7 @@ export const dbAppSettingsUpdateUserInfoAfterLogin = async (data: ValidateMeResp
   await setCongID(data.result.cong_id);
   await setCongAccountConnected(true);
   await setUserID(data.result.id);
+  await setEncryptedMasterKey(data.result.cong_master_key);
 
   worker.postMessage({ field: 'userRole', value: data.result.cong_role });
   worker.postMessage({ field: 'userID', value: data.result.id });

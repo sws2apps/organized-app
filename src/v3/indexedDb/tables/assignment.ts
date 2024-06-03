@@ -1,5 +1,5 @@
 import { Table } from 'dexie';
-import { AssignmentType } from '@definition/schedules';
+import { AssignmentType } from '@definition/assignment';
 
 export type AssignmentTable = {
   assignment: Table<AssignmentType>;

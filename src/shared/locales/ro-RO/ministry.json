@@ -21,7 +21,7 @@
   "tr_dailyHistory": "Daily history",
   "tr_btnAddRecord": "Add record",
   "tr_addRecordDesc": "You don’t have any daily service records yet. Add one here to fill out your monthly report.",
-  "tr_btnSubmitReport": "Submit the report",
+  "tr_btnSubmitReport": "Submit report",
   "tr_badgeGoalHours": "out of {{ ministryTime }} h",
   "tr_btnAddCreditHours": "Add hours credit",
   "tr_extraTime": "You have extra {{ ministryTime }} minutes",
@@ -56,7 +56,7 @@
   "tr_serviceOverseer": "Service overseer",
   "tr_secretary": "Secretary",
   "tr_moreInformationForAP": "Interested in becoming a full-time pioneer? Apply at <a href='https://hub.jw.org'>hub.jw.org</a> or contact the elders in your congregation.",
-  "tr_btnSubmitApplication": "Submit the application",
+  "tr_btnSubmitApplication": "Submit application",
   "tr_hourGoal": "The hour goal is set to 30",
   "tr_hourGoalDesc": "To serve continuously, the goal should be 30 hours. However, during specific months announced by your elders, you can also apply for 15 hours.",
   "tr_applicationSubmitted": "The application has been submitted",
@@ -94,5 +94,7 @@
   "tr_addImage": "Add image",
   "tr_cantDeductStudiesDesc": "You can’t select fewer Bible studies than you already have selected in the “Individual Bible studies” dropdown menu. ",
   "tr_cantDeductStudiesTitle": "Cannot deduct Bible studies",
-  "tr_includesServiceAndCredit": "Includes field service and credit hours"
+  "tr_includesServiceAndCredit": "Includes field service and credit hours",
+  "tr_noDailyRecordsDesc": "No daily service records yet. Add the record to include it in your monthly report.",
+  "tr_editServiceTime": "Edit service time"
 }

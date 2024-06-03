@@ -29,7 +29,7 @@ const SpeakerDetails = ({ open, onClose, speaker }: SpeakerDetailsType) => {
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px', flexWrap: 'wrap' }}>
           <Typography className="h2">{personName}</Typography>
-          {speaker.elder.value && (
+          {speaker.speaker_data.elder.value && (
             <Badge
               text={t('tr_elder')}
               color="green"
@@ -38,7 +38,7 @@ const SpeakerDetails = ({ open, onClose, speaker }: SpeakerDetailsType) => {
               sx={{ backgroundColor: 'var(--green-secondary)' }}
             />
           )}
-          {speaker.ministerial_servant.value && (
+          {speaker.speaker_data.ministerial_servant.value && (
             <Badge
               text={t('tr_ministerialServant')}
               color="green"
@@ -55,8 +55,8 @@ const SpeakerDetails = ({ open, onClose, speaker }: SpeakerDetailsType) => {
 
       <Box sx={{ borderBottom: '1px solid var(--accent-200)', paddingBottom: '16px', width: '100%' }}>
         <Typography>{speakerCongName}</Typography>
-        {speaker.person_notes.value.length > 0 && (
-          <Typography className="body-small-regular">{speaker.person_notes.value}</Typography>
+        {speaker.speaker_data.person_notes.value.length > 0 && (
+          <Typography className="body-small-regular">{speaker.speaker_data.person_notes.value}</Typography>
         )}
       </Box>
 

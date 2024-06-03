@@ -18,6 +18,7 @@ export interface CustomTimePickerProps {
    * Function to be called when the value of the time picker changes.
    */
   onChange?: (value: Date) => void;
+
   /**
    * Indicates if the value should be displayed when the time picker opens.
    */

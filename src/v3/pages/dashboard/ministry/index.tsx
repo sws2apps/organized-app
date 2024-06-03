@@ -16,6 +16,7 @@ const MinistryCard = () => {
           icon={<IconMinistryReport color="var(--black)" />}
           primaryText={t('tr_report')}
           badgeText="24:56"
+          path="/ministry-report"
         />
       </ListItem>
       <ListItem disablePadding>

@@ -22,7 +22,6 @@ import {
   offlineOverrideState,
   rootModalOpenState,
   userIDState,
-  visitorIDState,
   secretTokenPathState,
   qrCodePathState,
   isEmailLinkAuthenticateState,
@@ -56,6 +55,7 @@ import {
   isMFAEnabledState,
   appMessageIconState,
   isContactOpenState,
+  encryptedMasterKeyState,
 } from '@states/app';
 import { SnackBarSeverityType } from '@definition/app';
 
@@ -98,10 +98,6 @@ export const displayOnboardingFeedback = async ({ title, message, variant = 'err
 
 export const setApiHost = async (value) => {
   await promiseSetRecoil(apiHostState, value);
-};
-
-export const setVisitorID = async (value) => {
-  await promiseSetRecoil(visitorIDState, value);
 };
 
 export const setIsOnline = async (value) => {
@@ -278,6 +274,6 @@ export const setIsMFAEnabled = async (value) => {
   await promiseSetRecoil(isMFAEnabledState, value);
 };
 
-export const setIsMyAssignmentOpen = async (value) => {
-  await promiseSetRecoil(isMyAssignmentOpenState, value);
+export const setEncryptedMasterKey = async (value: string) => {
+  await promiseSetRecoil(encryptedMasterKeyState, value);
 };

@@ -1,13 +1,20 @@
 import { BaseSingleInputFieldProps, FieldSection } from '@mui/x-date-pickers';
 import { IconDate } from '@icons/index';
-import { format } from 'date-fns';
 import { Button } from '@mui/material';
 import { Dispatch, FC, SetStateAction } from 'react';
+import { SlotComponentPropsFromProps, UsePickerProps } from '@mui/x-date-pickers/internals';
+import { formatDate } from '@services/dateformat';
 
-interface ButtonFieldProps extends BaseSingleInputFieldProps<never, never, FieldSection, never> {
+type ButtonFieldProps = Omit<BaseSingleInputFieldProps<Date, Date, FieldSection, boolean, Error>, 'setOpen'> & {
   setOpen?: Dispatch<SetStateAction<boolean>>;
-  formatView: string;
-}
+  value: Date;
+};
+
+export type FieldProps = SlotComponentPropsFromProps<
+  ButtonFieldProps,
+  unknown,
+  UsePickerProps<never, never, never, never, never, never>
+>;
 
 /**
  * Component for rendering a button field in a date picker.
@@ -24,11 +31,11 @@ interface ButtonFieldProps extends BaseSingleInputFieldProps<never, never, Field
 const ButtonField: FC<ButtonFieldProps> = ({
   setOpen,
   id,
-  value,
   disabled,
   InputProps: { ref } = {},
   inputProps: { 'aria-label': ariaLabel } = {},
-  formatView,
+  format,
+  value,
 }) => {
   return (
     <Button
@@ -49,8 +56,9 @@ const ButtonField: FC<ButtonFieldProps> = ({
         padding: '4px 8px',
       }}
     >
-      {value ? `${format(value, formatView)}` : 'Pick a date'}
+      {value ? `${formatDate(value, format)}` : 'Pick a date'}
     </Button>
   );
 };
+
 export default ButtonField;

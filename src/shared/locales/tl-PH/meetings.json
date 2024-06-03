@@ -107,5 +107,6 @@
   "tr_today": "Ngayong araw",
   "tr_totalAttendance": "Kabuuang Attendance",
   "tr_avgAttendance": "Average attendance",
-  "tr_avgOnline": "Average online"
+  "tr_avgOnline": "Average online",
+  "tr_meetingWeeks": "Meeting weeks"
 }

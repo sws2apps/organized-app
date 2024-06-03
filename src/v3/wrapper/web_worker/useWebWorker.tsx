@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import worker from '@services/worker/backupWorker';
 import { setIsAppDataSyncing, setLastAppDataSync } from '@services/recoil/app';
 import { isDemo } from '@constants/index';
 import { congAccountConnectedState, isOnlineState } from '@states/app';
 import { backupAutoState, backupIntervalState } from '@states/settings';
+import { useFirebaseAuth } from '@hooks/index';
+import worker from '@services/worker/backupWorker';
 
 const useWebWorker = () => {
+  const { user } = useFirebaseAuth();
+
   const isOnline = useRecoilValue(isOnlineState);
   const isConnected = useRecoilValue(congAccountConnectedState);
   const backupAuto = useRecoilValue(backupAutoState);
@@ -36,8 +39,9 @@ const useWebWorker = () => {
   }, []);
 
   useEffect(() => {
-    const runBackupTimer = setInterval(() => {
-      if (backupEnabled) {
+    const runBackupTimer = setInterval(async () => {
+      if (backupEnabled && user) {
+        worker.postMessage({ field: 'idToken', value: await user.getIdToken(true) });
         worker.postMessage('startWorker');
       }
     }, interval);
@@ -45,7 +49,7 @@ const useWebWorker = () => {
     return () => {
       clearInterval(runBackupTimer);
     };
-  }, [backupEnabled, interval]);
+  }, [backupEnabled, interval, user]);
 
   useEffect(() => {
     const runCheckLastBackup = setInterval(() => {

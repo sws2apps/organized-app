@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Link } from '@mui/material';
 import { CongregationInfoViewType } from './index.types';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import Typography from '@components/typography';
@@ -22,11 +22,11 @@ const CongregationInfoView = ({ congregation }: CongregationInfoViewType) => {
           paddingBottom: '8px',
         }}
       >
-        <Box sx={{ padding: '12px', backgroundColor: 'var(--accent-150)' }}>
+        <Box sx={{ padding: '12px', backgroundColor: 'var(--accent-150)', borderRadius: 'var(--radius-l)' }}>
           <Typography className="label-small-regular" color="var(--accent-400)">
             {t('tr_kingdomHallAddress')}
           </Typography>
-          <Typography className="body-small-semibold">{congregation.cong_location.address.value}</Typography>
+          <Typography className="body-small-semibold">{congregation.cong_data.cong_location.address.value}</Typography>
         </Box>
 
         <Box
@@ -47,12 +47,13 @@ const CongregationInfoView = ({ congregation }: CongregationInfoViewType) => {
               gap: '2px',
               flex: 1,
               width: '100%',
+              borderRadius: 'var(--radius-l)',
             }}
           >
             <Typography className="label-small-regular" color="var(--accent-400)">
               {t('tr_circuitNumber')}
             </Typography>
-            <Typography className="body-small-semibold">{congregation.cong_circuit.value}</Typography>
+            <Typography className="body-small-semibold">{congregation.cong_data.cong_circuit.value}</Typography>
           </Box>
 
           <Box
@@ -64,6 +65,7 @@ const CongregationInfoView = ({ congregation }: CongregationInfoViewType) => {
               gap: '2px',
               flex: 1,
               width: '100%',
+              borderRadius: 'var(--radius-l)',
             }}
           >
             <Typography className="label-small-regular" color="var(--accent-400)">
@@ -81,6 +83,7 @@ const CongregationInfoView = ({ congregation }: CongregationInfoViewType) => {
               gap: '2px',
               flex: 1,
               width: '100%',
+              borderRadius: 'var(--radius-l)',
             }}
           >
             <Typography className="label-small-regular" color="var(--accent-400)">
@@ -106,7 +109,9 @@ const CongregationInfoView = ({ congregation }: CongregationInfoViewType) => {
           <Typography className="label-small-regular" color="var(--accent-400)">
             {t('tr_publicTalkCoordinator')}
           </Typography>
-          <Typography className="body-small-semibold">{congregation.public_talk_coordinator.name.value}</Typography>
+          <Typography className="body-small-semibold">
+            {congregation.cong_data.public_talk_coordinator.name.value}
+          </Typography>
         </Box>
 
         <Box
@@ -118,12 +123,21 @@ const CongregationInfoView = ({ congregation }: CongregationInfoViewType) => {
             alignItems: tabletDown ? 'flex-start' : 'flex-end',
           }}
         >
-          <Typography className="body-small-semibold" color="var(--accent-main)">
-            {congregation.public_talk_coordinator.email.value}
-          </Typography>
-          <Typography className="body-small-semibold" color="var(--accent-main)">
-            {congregation.public_talk_coordinator.phone.value}
-          </Typography>
+          {congregation.cong_data.public_talk_coordinator.email.value.length > 0 && (
+            <Link underline="none" href={`mailto:${congregation.cong_data.public_talk_coordinator.email.value}`}>
+              <Typography className="body-small-semibold" color="var(--accent-main)">
+                {congregation.cong_data.public_talk_coordinator.email.value}
+              </Typography>
+            </Link>
+          )}
+
+          {congregation.cong_data.public_talk_coordinator.phone.value.length > 0 && (
+            <Link underline="none" href={`tel:${congregation.cong_data.public_talk_coordinator.phone.value}`}>
+              <Typography className="body-small-semibold" color="var(--accent-main)">
+                {congregation.cong_data.public_talk_coordinator.phone.value}
+              </Typography>
+            </Link>
+          )}
         </Box>
       </Box>
 
@@ -141,7 +155,7 @@ const CongregationInfoView = ({ congregation }: CongregationInfoViewType) => {
           <Typography className="label-small-regular" color="var(--accent-400)">
             {t('tr_coordinator')}
           </Typography>
-          <Typography className="body-small-semibold">{congregation.coordinator.name.value}</Typography>
+          <Typography className="body-small-semibold">{congregation.cong_data.coordinator.name.value}</Typography>
         </Box>
 
         <Box
@@ -153,12 +167,21 @@ const CongregationInfoView = ({ congregation }: CongregationInfoViewType) => {
             alignItems: tabletDown ? 'flex-start' : 'flex-end',
           }}
         >
-          <Typography className="body-small-semibold" color="var(--accent-main)">
-            {congregation.coordinator.email.value}
-          </Typography>
-          <Typography className="body-small-semibold" color="var(--accent-main)">
-            {congregation.coordinator.phone.value}
-          </Typography>
+          {congregation.cong_data.coordinator.email.value.length > 0 && (
+            <Link underline="none" href={`mailto:${congregation.cong_data.coordinator.email.value}`}>
+              <Typography className="body-small-semibold" color="var(--accent-main)">
+                {congregation.cong_data.coordinator.email.value}
+              </Typography>
+            </Link>
+          )}
+
+          {congregation.cong_data.coordinator.phone.value.length > 0 && (
+            <Link underline="none" href={`tel:${congregation.cong_data.coordinator.phone.value}`}>
+              <Typography className="body-small-semibold" color="var(--accent-main)">
+                {congregation.cong_data.coordinator.phone.value}
+              </Typography>
+            </Link>
+          )}
         </Box>
       </Box>
     </Box>

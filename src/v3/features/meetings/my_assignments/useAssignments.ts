@@ -1,8 +1,8 @@
+import { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 import { congAccountConnectedState, isAppDataSyncingState } from '@states/app';
 import { setIsAppDataSyncing } from '@services/recoil/app';
-import { delay } from '@utils/dev';
-import { useEffect } from 'react';
+import { delay } from '@utils/common';
 
 const useAssignments = () => {
   const isSyncing = useRecoilValue(isAppDataSyncingState);

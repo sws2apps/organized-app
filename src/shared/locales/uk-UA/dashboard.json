@@ -71,7 +71,7 @@
   "tr_tertitoryCardRequestDesc": "Будь ласка, переглянь запити на отримання території:",
   "tr_markAsRead": "Прочитано",
   "tr_yourRequestAccepted": "Твій запит прийнято",
-  "tr_yourRequestAcceptedDesc": "Збір {{ congregationNameAndNumber }} прийняла твій запит на перегляд списку промовців. Перейди на сторінку Рекомендовані промовці, щоб синхронізувати список промовців.",
+  "tr_yourRequestAcceptedDesc": "The <strong>{{ congregationNameAndNumber }}</strong> congregation accepted your request to view their outgoing speakers list.",
   "tr_returnedTerritory": "{{ publisherName }} повернув(ла) територію",
   "tr_returnedTerritoryDesc": "Територію {{ territoryNumber }} було опрацьовано та повернуто. Кількість будинків, надана вісником: {{ numberOfHouses }}. За потреби онови інформацію про територію.",
   "tr_whatsNew": "Що нового в Organized",

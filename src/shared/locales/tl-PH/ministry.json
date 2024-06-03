@@ -94,5 +94,7 @@
   "tr_addImage": "Mag-add ng larawan",
   "tr_cantDeductStudiesDesc": "Hindi puwedeng pumili ng mas kaunting mga pag-aaral sa Bibliya kaysa sa iyong mga napili sa dropdown menu ng “Indibidwal na mga Pag-aaral sa Bibliya.”",
   "tr_cantDeductStudiesTitle": "Hindi maaaring bawasan ang Pag-aaral ng Bibliya",
-  "tr_includesServiceAndCredit": "Kasama ang oras sa larangan at credit hours"
+  "tr_includesServiceAndCredit": "Kasama ang oras sa larangan at credit hours",
+  "tr_noDailyRecordsDesc": "No daily service records yet. Add the record to include it in your monthly report.",
+  "tr_editServiceTime": "Edit service time"
 }

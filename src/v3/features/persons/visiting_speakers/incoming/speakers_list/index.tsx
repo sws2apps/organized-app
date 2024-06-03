@@ -5,23 +5,37 @@ import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useSpeakersList from './useSpeakersList';
 import Button from '@components/button';
 import IncomingSpeakerEdit from './edit';
-import IncomingSpeakerView from './view';
+import SpeakerRowView from '../../speaker_row_view';
 import Typography from '@components/typography';
 
-const SpeakersList = ({ isEditMode, cong_number }: SpeakersListType) => {
+const SpeakersList = ({ isEditMode, cong_id, cong_synced }: SpeakersListType) => {
   const { t } = useAppTranslation();
 
   const { mobile400Down } = useBreakpoints();
 
-  const { handleVisitingSpeakersAdd, incomingSpeakers } = useSpeakersList(cong_number);
+  const { handleVisitingSpeakersAdd, incomingSpeakers, congregation } = useSpeakersList(cong_id, isEditMode);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      {!isEditMode && incomingSpeakers.length === 0 && (
+      {congregation.cong_data.cong_id.length === 0 && !isEditMode && incomingSpeakers.length === 0 && (
         <Typography color="var(--grey-350)">{t('tr_incomingCongregationNoSpeakers')}</Typography>
       )}
 
-      {!isEditMode && incomingSpeakers.length > 0 && (
+      {congregation.cong_data.request_status === 'pending' && (
+        <Typography color="var(--grey-350)">{t('tr_incomingCongregationOnlinePending')}</Typography>
+      )}
+
+      {congregation.cong_data.request_status === 'disapproved' && (
+        <Typography color="var(--grey-350)">{t('tr_incomingCongregationOnlineDisapproved')}</Typography>
+      )}
+
+      {congregation.cong_data.request_status === 'approved' &&
+        congregation.cong_data.cong_id.length > 0 &&
+        incomingSpeakers.length === 0 && (
+          <Typography color="var(--grey-350)">{t('tr_incomingCongregationOnlineNoSpeakers')}</Typography>
+        )}
+
+      {(!isEditMode || cong_synced) && incomingSpeakers.length > 0 && (
         <Box>
           {!mobile400Down && (
             <Box
@@ -51,7 +65,7 @@ const SpeakersList = ({ isEditMode, cong_number }: SpeakersListType) => {
               flexDirection: 'column',
               '& > .MuiBox-root': {
                 borderBottom: '1px solid var(--accent-200)',
-                paddingBottom: '10px',
+                padding: '4px 0',
               },
               '& > .MuiBox-root:last-child': {
                 borderBottom: 'none',
@@ -59,13 +73,13 @@ const SpeakersList = ({ isEditMode, cong_number }: SpeakersListType) => {
             }}
           >
             {incomingSpeakers.map((speaker) => (
-              <IncomingSpeakerView key={speaker.person_uid} speaker={speaker} />
+              <SpeakerRowView key={speaker.person_uid} speaker={speaker} />
             ))}
           </Box>
         </Box>
       )}
 
-      {isEditMode && (
+      {!cong_synced && isEditMode && (
         <Box
           sx={{
             display: 'flex',
@@ -86,12 +100,12 @@ const SpeakersList = ({ isEditMode, cong_number }: SpeakersListType) => {
         </Box>
       )}
 
-      {isEditMode && (
+      {!cong_synced && isEditMode && (
         <Button
           variant="tertiary"
           startIcon={<IconAdd />}
           sx={{ width: '100%' }}
-          onClick={() => handleVisitingSpeakersAdd(cong_number)}
+          onClick={() => handleVisitingSpeakersAdd(cong_id)}
         >
           {t('tr_speakersAdd')}
         </Button>
