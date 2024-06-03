@@ -5,7 +5,7 @@ import Typography from '@components/typography';
 import ProgressBarSmall from '@components/progress_bar_small';
 
 const WeekItem = ({ week }: WeekItemType) => {
-  const { weekDateLocale, handleSelectWeek, isSelected } = useWeekItem(week);
+  const { weekDateLocale, handleSelectWeek, isSelected, assigned, total } = useWeekItem(week);
 
   return (
     <Box
@@ -32,10 +32,10 @@ const WeekItem = ({ week }: WeekItemType) => {
       <Typography>{weekDateLocale}</Typography>
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
         <Box>
-          <ProgressBarSmall value={20} maxValue={20} />
+          <ProgressBarSmall value={assigned} maxValue={total} />
         </Box>
         <Typography className="label-small-medium" sx={{ width: '48px' }} textAlign="right">
-          20/20
+          {assigned}/{total}
         </Typography>
       </Box>
     </Box>

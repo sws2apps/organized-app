@@ -1,14 +1,19 @@
-import { forwardRef } from 'react';
-import { Autocomplete, Box, BoxProps, Paper, PaperProps } from '@mui/material';
+import { MouseEvent, forwardRef } from 'react';
+import { Autocomplete, Box, BoxProps, Paper } from '@mui/material';
+import { AutocompletePropsType, CustomPaperType } from './index.types';
+import { useAppTranslation } from '@hooks/index';
+import Divider from '@components/divider';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
-import { useAppTranslation } from '@hooks/index';
-import { AutocompletePropsType } from './index.types';
 
-export const CustomPaper = (props: PaperProps) => {
+export const CustomPaper = ({ optionsHeader, ...otherProps }: CustomPaperType) => {
+  const handleMouseDown = (event: MouseEvent) => {
+    event.preventDefault();
+  };
+
   return (
     <Paper
-      {...props}
+      {...otherProps}
       elevation={1}
       sx={{
         backgroundColor: 'var(--white)',
@@ -16,7 +21,16 @@ export const CustomPaper = (props: PaperProps) => {
         border: '1px solid var(--accent-200)',
       }}
       className="small-card-shadow"
-    />
+      onMouseDown={handleMouseDown}
+    >
+      {optionsHeader && (
+        <>
+          <Box sx={{ padding: '8px 12px 8px 16px' }}>{optionsHeader}</Box>
+          <Divider color="var(--accent-200)" />
+        </>
+      )}
+      {otherProps.children}
+    </Paper>
   );
 };
 
@@ -56,11 +70,15 @@ const CustomAutoComplete = <T,>(props: AutocompletePropsType<T>) => {
   const startIcon = props.startIcon;
   const endIcon = props.endIcon;
   const label = props.label;
+  const optionsHeader = props.optionsHeader;
+  const styleIcon = props.styleIcon ?? true;
 
   const defaultProps = { ...props };
   delete defaultProps.startIcon;
   delete defaultProps.endIcon;
   delete defaultProps.label;
+  delete defaultProps.optionsHeader;
+  delete defaultProps.styleIcon;
 
   return (
     <Autocomplete
@@ -77,7 +95,7 @@ const CustomAutoComplete = <T,>(props: AutocompletePropsType<T>) => {
           padding: '0px !important',
         },
       }}
-      PaperComponent={CustomPaper}
+      PaperComponent={(paperProps) => <CustomPaper {...paperProps} optionsHeader={optionsHeader} />}
       ListboxComponent={CustomListBoxComponent}
       noOptionsText={
         <Box sx={{ backgroundColor: 'var(--white)' }}>
@@ -92,11 +110,13 @@ const CustomAutoComplete = <T,>(props: AutocompletePropsType<T>) => {
       renderInput={(params) => (
         <TextField
           {...params}
-          label={label}
+          label={props.value ? label : ''}
+          placeholder={props.value ? '' : label}
           InputProps={{ ...params.InputProps }}
           startIcon={startIcon}
           endIcon={endIcon}
           height={48}
+          styleIcon={styleIcon}
         />
       )}
     />

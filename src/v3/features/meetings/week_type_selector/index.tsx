@@ -14,7 +14,7 @@ const WeekTypeSelector = ({ week }: WeekTypeSelectorType) => {
     <Select
       label={t('tr_weekType')}
       fullWidth={false}
-      sx={{ maxWidth: '520px', width: '100%' }}
+      sx={{ maxWidth: '400px', width: '100%' }}
       value={weekType}
       onChange={(e) => handleWeekTypeChange(+e.target.value)}
     >

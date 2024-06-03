@@ -1,7 +1,9 @@
+import { useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { monthNamesState } from '@states/app';
-import { useAppTranslation } from '@hooks/index';
 import { selectedWeekState } from '@states/schedules';
+import { useAppTranslation } from '@hooks/index';
+import { schedulesWeekAssignmentsInfo } from '@services/app/schedules';
 
 const useWeekItem = (week: string) => {
   const { t } = useAppTranslation();
@@ -9,6 +11,9 @@ const useWeekItem = (week: string) => {
   const [selectedWeek, setSelectedWeek] = useRecoilState(selectedWeekState);
 
   const monthNames = useRecoilValue(monthNamesState);
+
+  const [total, setTotal] = useState(0);
+  const [assigned, setAssigned] = useState(0);
 
   const weekDate = new Date(week);
   const month = weekDate.getMonth();
@@ -22,7 +27,18 @@ const useWeekItem = (week: string) => {
 
   const isSelected = week === selectedWeek;
 
-  return { weekDateLocale, handleSelectWeek, isSelected };
+  useEffect(() => {
+    const loadWeekDetails = async () => {
+      const { total, assigned } = await schedulesWeekAssignmentsInfo(week);
+
+      setTotal(total);
+      setAssigned(assigned);
+    };
+
+    loadWeekDetails();
+  }, [week]);
+
+  return { weekDateLocale, handleSelectWeek, isSelected, total, assigned };
 };
 
 export default useWeekItem;

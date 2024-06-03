@@ -34,6 +34,19 @@ type CongregationNumberType = {
   updatedAt: string;
 };
 
+export type ApplyMinistryType = {
+  type: LanguageNumberType;
+  time: LanguageNumberType;
+  src: LanguageStringType;
+  title: LanguageStringType;
+};
+
+export type LivingAsChristiansType = {
+  time: { default: LanguageNumberType; override: CongregationNumberType[] };
+  title: { default: LanguageStringType; override: CongregationStringType[] };
+  desc: { default: LanguageStringType; override: CongregationStringType[] };
+};
+
 export type SourceWeekType = {
   weekOf: string;
   midweek_meeting: {
@@ -44,47 +57,15 @@ export type SourceWeekType = {
     tgw_gems: LanguageStringType;
     tgw_bible_reading: { src: LanguageStringType; title: LanguageStringType };
     ayf_count: LanguageNumberType;
-    ayf_part1: {
-      type: LanguageNumberType;
-      time: LanguageNumberType;
-      src: LanguageStringType;
-      title: LanguageStringType;
-    };
-    ayf_part2: {
-      type: LanguageNumberType;
-      time: LanguageNumberType;
-      src: LanguageStringType;
-      title: LanguageStringType;
-    };
-    ayf_part3: {
-      type: LanguageNumberType;
-      time: LanguageNumberType;
-      src: LanguageStringType;
-      title: LanguageStringType;
-    };
-    ayf_part4: {
-      type: LanguageNumberType;
-      time: LanguageNumberType;
-      src: LanguageStringType;
-      title: LanguageStringType;
-    };
+    ayf_part1: ApplyMinistryType;
+    ayf_part2: ApplyMinistryType;
+    ayf_part3: ApplyMinistryType;
+    ayf_part4: ApplyMinistryType;
     song_middle: LanguageStringType;
     lc_count: { default: LanguageNumberType; override: CongregationNumberType[] };
-    lc_part1: {
-      time: { default: LanguageNumberType; override: CongregationNumberType[] };
-      title: { default: LanguageStringType; override: CongregationStringType[] };
-      desc: { default: LanguageStringType; override: CongregationStringType[] };
-    };
-    lc_part2: {
-      time: { default: LanguageNumberType; override: CongregationNumberType[] };
-      title: { default: LanguageStringType; override: CongregationStringType[] };
-      desc: { default: LanguageStringType; override: CongregationStringType[] };
-    };
-    lc_part3: {
-      time: { default: LanguageNumberType; override: CongregationNumberType[] };
-      title: { default: LanguageStringType; override: CongregationStringType[] };
-      desc: { default: LanguageStringType; override: CongregationStringType[] };
-    };
+    lc_part1: LivingAsChristiansType;
+    lc_part2: LivingAsChristiansType;
+    lc_part3: LivingAsChristiansType;
     lc_cbs: {
       title: { default: LanguageStringType; override: CongregationStringType[] };
       time: { default: number; override: CongregationNumberType[] };
@@ -142,9 +123,9 @@ export type SourceWeekIncomingType = {
   mwb_lc_part1_time: number;
   mwb_lc_part1_title: string;
   mwb_lc_part1_content: string;
-  mwb_lc_part2_time?: number | undefined;
-  mwb_lc_part2_title?: string | undefined;
-  mwb_lc_part2_content?: string | undefined;
+  mwb_lc_part2_time?: number;
+  mwb_lc_part2_title?: string;
+  mwb_lc_part2_content?: string;
   mwb_lc_cbs: string;
   mwb_lc_cbs_title: string;
   mwb_song_conclude: number | string;

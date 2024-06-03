@@ -62,8 +62,10 @@ export const scheduleSchema: SchedWeekType = {
   week_type: [{ type: 'main', value: Week.NORMAL, updatedAt: '' }],
   released: [{ type: 'main', value: false, updatedAt: '' }],
   midweek_meeting: {
-    chairman_A: [{ type: 'main', value: '', name: '', updatedAt: '' }],
-    chairman_B: [{ type: 'main', value: '', name: '', updatedAt: '' }],
+    chairman: {
+      main_hall: [{ type: 'main', value: '', name: '', updatedAt: '' }],
+      aux_class_1: { type: 'main', value: '', name: '', updatedAt: '' },
+    },
     opening_prayer: [{ type: 'main', value: '', name: '', updatedAt: '' }],
     tgw_talk: [{ type: 'main', value: '', name: '', updatedAt: '' }],
     tgw_gems: [{ type: 'main', value: '', name: '', updatedAt: '' }],
