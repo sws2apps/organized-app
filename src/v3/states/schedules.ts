@@ -8,7 +8,6 @@ import { AssignmentAYFType, AssignmentCongregation, AssignmentHistoryType, Sched
 import { sourcesState } from './sources';
 import { JWLangState } from './app';
 import { getTranslation } from '@services/i18n/translation';
-import { assignmentTypeLocaleState } from './assignment';
 import { LivingAsChristiansType } from '@definition/sources';
 import { userDataViewState } from './settings';
 import { schedulesAddHistory } from './utils';
@@ -76,7 +75,6 @@ export const assignmentsHistoryState = selector({
     const schedules = get(schedulesState);
     const sources = get(sourcesState);
     const lang = get(JWLangState);
-    const assignmentOptions = get(assignmentTypeLocaleState);
     const dataView = get(userDataViewState);
 
     for (const schedule of schedules) {
@@ -115,7 +113,6 @@ export const assignmentsHistoryState = selector({
           assigned,
           code: AssignmentCode.MM_Prayer,
           title: getTranslation({ key: 'tr_prayer' }),
-          classroom: '1',
         });
       }
 
@@ -127,7 +124,6 @@ export const assignmentsHistoryState = selector({
           assigned,
           code: AssignmentCode.MM_TGWTalk,
           title: getTranslation({ key: 'tr_tgw10TalkHistory' }),
-          classroom: '1',
         });
       }
 
@@ -139,7 +135,6 @@ export const assignmentsHistoryState = selector({
           assigned,
           code: AssignmentCode.MM_TGWGems,
           title: getTranslation({ key: 'tr_tgwGems' }),
-          classroom: '1',
         });
       }
 
@@ -171,7 +166,8 @@ export const assignmentsHistoryState = selector({
         const code: AssignmentCode = source.midweek_meeting[`ayf_part${a}`].type[lang];
 
         if (code) {
-          const title = assignmentOptions.find((record) => record.value === code).label;
+          const title = source.midweek_meeting[`ayf_part${a}`].title[lang];
+          const desc = source.midweek_meeting[`ayf_part${a}`].src[lang];
           const ayfPart: AssignmentAYFType = schedule.midweek_meeting[`ayf_part${a}`];
 
           // student main hall
@@ -184,6 +180,7 @@ export const assignmentsHistoryState = selector({
               assigned,
               code,
               title,
+              desc: desc,
               classroom: '1',
               assistant: ayfPart.main_hall.assistant.find((record) => record.type === assigned.type)?.value,
             });
@@ -199,6 +196,7 @@ export const assignmentsHistoryState = selector({
               assigned,
               code: AssignmentCode.MM_AssistantOnly,
               title: `${getTranslation({ key: 'tr_assistant' })} (${title})`,
+              desc: desc,
               classroom: '1',
               student: ayfPart.main_hall.student.find((record) => record.type === assigned.type)?.value,
             });
@@ -212,6 +210,7 @@ export const assignmentsHistoryState = selector({
             assigned,
             code,
             title,
+            desc: desc,
             classroom: '2',
             assistant: ayfPart.aux_class_1.assistant.value,
           });
@@ -224,6 +223,7 @@ export const assignmentsHistoryState = selector({
             assigned,
             code: AssignmentCode.MM_AssistantOnly,
             title: `${getTranslation({ key: 'tr_assistant' })} (${title})`,
+            desc: desc,
             classroom: '2',
             student: ayfPart.aux_class_1.student.value,
           });
@@ -251,7 +251,6 @@ export const assignmentsHistoryState = selector({
               code: AssignmentCode.MM_AssistantOnly,
               title,
               desc,
-              classroom: '1',
             });
           }
         }
@@ -265,7 +264,6 @@ export const assignmentsHistoryState = selector({
           assigned,
           code: AssignmentCode.MM_CBSConductor,
           title: getTranslation({ key: 'tr_congregationBibleStudyConductor' }),
-          classroom: '1',
         });
       }
 
@@ -277,7 +275,6 @@ export const assignmentsHistoryState = selector({
           assigned,
           code: AssignmentCode.MM_CBSReader,
           title: getTranslation({ key: 'tr_congregationBibleStudyReader' }),
-          classroom: '1',
         });
       }
 
@@ -289,7 +286,6 @@ export const assignmentsHistoryState = selector({
           assigned,
           code: AssignmentCode.MM_Prayer,
           title: getTranslation({ key: 'tr_prayer' }),
-          classroom: '1',
         });
       }
     }

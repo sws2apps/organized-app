@@ -42,4 +42,5 @@ export type GenderType = 'male' | 'female';
 export type PersonOptionsType = PersonType & {
   last_assignment?: string;
   last_assistant?: string;
+  hall?: string;
 };

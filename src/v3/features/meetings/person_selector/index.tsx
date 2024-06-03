@@ -1,16 +1,15 @@
 import { Box, FormControlLabel, IconButton, Popper, RadioGroup } from '@mui/material';
 import { PersonOptionsType, PersonSelectorType } from './index.types';
 import { IconAssignmetHistory, IconFemale, IconMale } from '@components/icons';
-import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import { useAppTranslation } from '@hooks/index';
 import usePersonSelector from './usePersonSelector';
 import AutoComplete from '@components/autocomplete';
 import Radio from '@components/radio';
 import Typography from '@components/typography';
+import { AssignmentCode } from '@definition/assignment';
 
 const PersonSelector = (props: PersonSelectorType) => {
   const { t } = useAppTranslation();
-
-  const { tabletUp } = useBreakpoints();
 
   const {
     options,
@@ -22,6 +21,7 @@ const PersonSelector = (props: PersonSelectorType) => {
     gender,
     handleGenderUpdate,
     isAssistant,
+    type,
   } = usePersonSelector(props);
 
   return (
@@ -40,27 +40,40 @@ const PersonSelector = (props: PersonSelectorType) => {
           {...props}
           sx={{
             margin: 0,
-            padding: 0,
             display: 'flex',
             alignItems: 'center',
             gap: '8px',
             justifyContent: 'space-between',
-            paddingTop: '8px',
+            padding: '8px 10px 0 0',
           }}
           key={option.person_uid}
         >
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px', width: '222px' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px', width: '200px' }}>
             {option.person_data.male.value ? <IconMale /> : <IconFemale />}
-            <Typography className="body-regular">{getPersonDisplayName(option)}</Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+              <Typography className="body-regular">{getPersonDisplayName(option)}</Typography>
+              {showGenderSelector &&
+                option.last_assistant.length > 0 &&
+                option.last_assistant !== option.last_assignment && (
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <Typography className="body-small-regular" color="var(--grey-350)">
+                      {t('tr_assistant')}:
+                    </Typography>
+                    <Typography className="body-small-regular" color="var(--grey-350)">
+                      {option.last_assistant}
+                    </Typography>
+                  </Box>
+                )}
+            </Box>
           </Box>
 
           <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <Typography className="body-small-regular" color="var(--grey-350)" sx={{ width: '110px' }}>
+            <Typography className="body-small-regular" color="var(--grey-350)" align="center" sx={{ width: '85px' }}>
               {option.last_assignment}
             </Typography>
-            {tabletUp && showGenderSelector && (
-              <Typography className="body-small-regular" color="var(--grey-350)" sx={{ width: '110px' }}>
-                {option.last_assistant}
+            {(showGenderSelector || type === AssignmentCode.MM_BibleReading) && (
+              <Typography className="body-small-regular" color="var(--grey-350)" align="center" sx={{ width: '70px' }}>
+                {option.hall}
               </Typography>
             )}
           </Box>
@@ -71,6 +84,7 @@ const PersonSelector = (props: PersonSelectorType) => {
           <Typography className="h3" sx={{ padding: '8px 0px' }}>
             {optionHeader}
           </Typography>
+
           {showGenderSelector && !isAssistant && (
             <RadioGroup sx={{ flexDirection: 'row', gap: '16px', padding: '0px 0 8px 8px' }} value={gender}>
               <FormControlLabel
@@ -87,25 +101,31 @@ const PersonSelector = (props: PersonSelectorType) => {
               />
             </RadioGroup>
           )}
+
           <Box
             sx={{
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
               justifyContent: 'space-between',
-              paddingTop: '8px',
+              padding: '8px 10px 0 0',
             }}
           >
-            <Typography className="body-small-regular" color="var(--grey-350)" sx={{ width: '222px' }}>
+            <Typography className="body-small-regular" color="var(--grey-350)" sx={{ width: '200px' }}>
               {t('tr_name')}
             </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <Typography className="body-small-regular" color="var(--grey-350)" sx={{ width: '130px' }}>
+              <Typography className="body-small-regular" color="var(--grey-350)" align="center" sx={{ width: '85px' }}>
                 {t('tr_lastAssignment')}
               </Typography>
-              {tabletUp && showGenderSelector && (
-                <Typography className="body-small-regular" color="var(--grey-350)" sx={{ width: '130px' }}>
-                  {t('tr_assistant')}
+              {(showGenderSelector || type === AssignmentCode.MM_BibleReading) && (
+                <Typography
+                  className="body-small-regular"
+                  color="var(--grey-350)"
+                  align="center"
+                  sx={{ width: '70px' }}
+                >
+                  {t('tr_hall')}
                 </Typography>
               )}
             </Box>

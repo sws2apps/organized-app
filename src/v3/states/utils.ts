@@ -21,7 +21,7 @@ export const schedulesAddHistory = ({
   assigned: AssignmentCongregation;
   code: AssignmentCode;
   title: string;
-  classroom: string;
+  classroom?: string;
   desc?: string;
   student?: string;
   assistant?: string;

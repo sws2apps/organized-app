@@ -175,10 +175,14 @@ const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
         const lastAssistant = history.find((item) => item.assignment.ayf?.assistant === record.person_uid);
         const lastAssistantFormat = lastAssistant ? handleFormatDate(lastAssistant.weekOf) : '';
 
+        const classroom = lastAssignment?.assignment.classroom;
+        const hall = classroom === '1' ? t('tr_hallA') : classroom === '2' ? t('tr_hallB') : '';
+
         return {
           ...record,
           last_assignment: lastAssignmentFormat,
           last_assistant: lastAssistantFormat,
+          hall,
         };
       });
 
@@ -186,12 +190,12 @@ const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
         if (a.last_assignment.length === 0) return -1;
         if (b.last_assignment.length === 0) return 1;
 
-        return new Date(b.last_assignment).toISOString().localeCompare(new Date(a.last_assignment).toISOString());
+        return new Date(a.last_assignment).toISOString().localeCompare(new Date(b.last_assignment).toISOString());
       });
 
       return newPersons;
     },
-    [handleFormatDate, history]
+    [handleFormatDate, history, t]
   );
 
   useEffect(() => {
@@ -301,6 +305,8 @@ const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
       const path = assignmentPaths[assignment];
 
       if (path) {
+        setGender('male');
+
         let mainStudent: PersonType;
 
         if (isAssistant) {
@@ -382,6 +388,7 @@ const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
     gender,
     handleGenderUpdate,
     isAssistant,
+    type,
   };
 };
 
