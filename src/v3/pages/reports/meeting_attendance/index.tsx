@@ -1,28 +1,73 @@
-import { Box, MenuItem, useTheme } from '@mui/material';
-import { Button, PageTitle, InfoTip, CardHeader, TextField, ScrollableTabs } from '@components/index';
-import { IconArrowLink, IconCheckCircle, IconInfo, IconPrepareReport, IconUndo } from '@components/icons';
+import { Box, useTheme } from '@mui/material';
+import { Button, PageTitle, CardHeader } from '@components/index';
+import { IconPrepareReport } from '@components/icons';
 import Typography from '@components/typography';
-import Select from '@components/select';
 import { useAppTranslation } from '@hooks/index';
 import { useState } from 'react';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-import { MeetingAttendanceReportResult } from './components/report_results';
+import { MeetingAttendanceReportHistory } from './components/report_results';
 import MeetingAttendanceToolbar from './components/report_toolbar';
-import { MeetingAttendanceReportToolbarData } from './components/report_toolbar/index.types';
-import { congNameState } from '@states/settings';
-import { useRecoilValue } from 'recoil';
-import {
-  StyledContentBox,
-  StyledDivider,
-  StyledBox,
-  StyledReportBox,
-  StyledContentCardBox,
-  StyledColumnBox,
-  StyledHeaderBox,
-} from './index.styles';
+import { StyledContentBox, StyledDivider, StyledBox, StyledReportBox } from './index.styles';
 import { MeetingAttendanceTotalBox } from './components/total_box';
 import { WeekBox } from './components/week_box';
+import useMeetingAttendance from './useMeetingAttendance';
+import { MeetingAttendanceType } from '@definition/meeting_attendance';
+import { getTeochraticalYear } from '@utils/date';
+
+const EMPTY_MEETING_ATTENDANCE: MeetingAttendanceType = {
+  month_date: '',
+  week_1: {
+    midweek: {
+      present: 0,
+      online: 0,
+    },
+    weekend: {
+      present: 0,
+      online: 0,
+    },
+  },
+  week_2: {
+    midweek: {
+      present: 0,
+      online: 0,
+    },
+    weekend: {
+      present: 0,
+      online: 0,
+    },
+  },
+  week_3: {
+    midweek: {
+      present: 0,
+      online: 0,
+    },
+    weekend: {
+      present: 0,
+      online: 0,
+    },
+  },
+  week_4: {
+    midweek: {
+      present: 0,
+      online: 0,
+    },
+    weekend: {
+      present: 0,
+      online: 0,
+    },
+  },
+  week_5: {
+    midweek: {
+      present: 0,
+      online: 0,
+    },
+    weekend: {
+      present: 0,
+      online: 0,
+    },
+  },
+};
 
 const MeetingAttendanceReportsPage = () => {
   const theme = useTheme();
@@ -32,43 +77,79 @@ const MeetingAttendanceReportsPage = () => {
 
   const { t } = useAppTranslation();
 
-  //This should be refactored adter implementing the real data
-  const [reportResultData, setReportResultData] = useState({
-    year: 0,
-    month: 0,
-    yearRepresentation: '',
-    monthRepresentation: '',
-  });
+  const { handleAddMeetingAttendance, handleGetMeetingAttendance, handleGetMeetingAttendanceHistory } =
+    useMeetingAttendance();
 
-  const onChangeWeek = (weekNumber: number, weekend: boolean, value: number) => {
-    console.log(weekNumber, weekend, value);
+  const [history, setHistory] = useState<MeetingAttendanceType[]>([]);
+
+  const [selectedHistoryYear, setSelectedHistoryYear] = useState<number>(getTeochraticalYear(new Date()));
+
+  const onChangeHistoryYear = async (year: number) => {
+    const history = await handleGetMeetingAttendanceHistory(year);
+    setHistory(history);
+    setSelectedHistoryYear(year);
   };
 
-  const onGenerateReport = (
-    result: MeetingAttendanceReportToolbarData,
-    yearRepresentation: string,
-    monthRepresentation: string
-  ) => {
-    const timer = setTimeout(() => {
-      setReportResultData({
-        year: result.selectedYear,
-        month: result.selectedMonth,
-        yearRepresentation,
-        monthRepresentation,
-      });
-    }, 5000);
+  const [reportData, setReportData] = useState<MeetingAttendanceType>(EMPTY_MEETING_ATTENDANCE);
 
-    return () => clearTimeout(timer);
+  let numberOfMeetingsMidweek = 0;
+  const totalMidweek = [1, 2, 3, 4, 5].reduce((acc, weekNumber) => {
+    const value = reportData[`week_${weekNumber}`]?.midweek?.present;
+    if (value != 0) {
+      numberOfMeetingsMidweek += 1;
+    }
+    return acc + value;
+  }, 0);
+  const avgMidweek = Math.floor(
+    totalMidweek / (numberOfMeetingsMidweek === 0 ? 1 : numberOfMeetingsMidweek)
+  ).toString();
+
+  let numberOfMeetingsWeekend = 0;
+  const totalWeekend = [1, 2, 3, 4, 5].reduce((acc, weekNumber) => {
+    const value = reportData[`week_${weekNumber}`]?.weekend?.present;
+    if (value != 0) {
+      numberOfMeetingsWeekend += 1;
+    }
+    return acc + value;
+  }, 0);
+  const avgWeekend = Math.floor(
+    totalWeekend / (numberOfMeetingsWeekend === 0 ? 1 : numberOfMeetingsWeekend)
+  ).toString();
+
+  const onChangeWeek = async (weekNumber: number, weekend: boolean, value: number) => {
+    const week = `week_${weekNumber ?? 0}`;
+    const meetingType = weekend ? 'weekend' : 'midweek';
+
+    if (isNaN(value)) value = 0;
+
+    const updatedData: MeetingAttendanceType = {
+      ...reportData,
+      [week]: {
+        ...reportData[week],
+        [meetingType]: {
+          ...reportData[week][meetingType],
+          present: value,
+        },
+      },
+    };
+
+    setReportData(updatedData);
+    await handleAddMeetingAttendance(updatedData);
+    setHistory(await handleGetMeetingAttendanceHistory(selectedHistoryYear));
+  };
+
+  const onChangeDate = async (date: string) => {
+    const data = await handleGetMeetingAttendance(date);
+    setReportData(data ? { ...data } : { ...EMPTY_MEETING_ATTENDANCE, month_date: date });
   };
 
   return (
     <StyledContentBox>
       <PageTitle
         title={t('tr_meetingAttendanceRecord')}
-        backTo="/"
         buttons={
-          <Button variant="main" startIcon={<IconPrepareReport />}>
-            {'Create S-1 Report'}
+          <Button variant="main" startIcon={<IconPrepareReport />} href="#/reports/branch-office">
+            {t('tr_createS1')}
           </Button>
         }
       />
@@ -83,40 +164,50 @@ const MeetingAttendanceReportsPage = () => {
               {t('tr_recordAttendanceDesc')}
             </Typography>
           </Box>
-          <MeetingAttendanceToolbar t={t} />
+          <MeetingAttendanceToolbar t={t} onChangeDate={onChangeDate} />
           <StyledDivider />
 
           <StyledBox row={false}>
             <CardHeader header={t('tr_midweekMeeting')} size="large" color="midweek-meeting" />
             <StyledBox row>
-              {<WeekBox weekNumber={1} weekend={false} onChange={onChangeWeek} t={t} />}
-              {<WeekBox weekNumber={2} weekend={false} onChange={onChangeWeek} t={t} />}
-              {<WeekBox weekNumber={3} weekend={false} onChange={onChangeWeek} t={t} />}
-              {<WeekBox weekNumber={4} weekend={false} onChange={onChangeWeek} t={t} />}
-              {<WeekBox weekNumber={5} weekend={false} onChange={onChangeWeek} t={t} />}
+              {[1, 2, 3, 4, 5].map((weekNumber) => (
+                <WeekBox
+                  key={weekNumber}
+                  weekNumber={weekNumber}
+                  weekend={false}
+                  onChange={onChangeWeek}
+                  t={t}
+                  value={reportData[`week_${weekNumber}`]?.midweek?.present}
+                />
+              ))}
             </StyledBox>
             <StyledBox row>
-              <MeetingAttendanceTotalBox label="Total" value="121" type="midweek" />
-              <MeetingAttendanceTotalBox label="Average" value="49" type="midweek" />
+              <MeetingAttendanceTotalBox label="Total" value={totalMidweek} type="midweek" />
+              <MeetingAttendanceTotalBox label="Average" value={avgMidweek} type="midweek" />
             </StyledBox>
           </StyledBox>
           <StyledBox row={false}>
             <CardHeader header={t('tr_weekendMeeting')} size="large" color="weekend-meeting" />
             <StyledBox row>
-              {<WeekBox weekNumber={1} weekend onChange={onChangeWeek} t={t} />}
-              {<WeekBox weekNumber={2} weekend onChange={onChangeWeek} t={t} />}
-              {<WeekBox weekNumber={3} weekend onChange={onChangeWeek} t={t} />}
-              {<WeekBox weekNumber={4} weekend onChange={onChangeWeek} t={t} />}
-              {<WeekBox weekNumber={5} weekend onChange={onChangeWeek} t={t} />}
+              {[1, 2, 3, 4, 5].map((weekNumber) => (
+                <WeekBox
+                  key={weekNumber}
+                  weekNumber={weekNumber}
+                  weekend
+                  onChange={onChangeWeek}
+                  t={t}
+                  value={reportData[`week_${weekNumber}`]?.weekend?.present}
+                />
+              ))}
             </StyledBox>
             <StyledBox row>
-              <MeetingAttendanceTotalBox label="Total" value="121" type="weekend" />
-              <MeetingAttendanceTotalBox label="Average" value="49" type="weekend" />
+              <MeetingAttendanceTotalBox label="Total" value={totalWeekend} type="weekend" />
+              <MeetingAttendanceTotalBox label="Average" value={avgWeekend} type="weekend" />
             </StyledBox>
           </StyledBox>
         </StyledReportBox>
 
-        <Box sx={{ flex: desktopView && 15 }}>{MeetingAttendanceReportResult(t)}</Box>
+        <Box sx={{ flex: desktopView && 15 }}>{MeetingAttendanceReportHistory(t, history, onChangeHistoryYear)}</Box>
       </StyledBox>
     </StyledContentBox>
   );

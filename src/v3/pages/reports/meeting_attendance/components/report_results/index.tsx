@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Typography, Box } from '@mui/material';
 import { CardHeader, ScrollableTabs } from '@components/index';
-import { MeetingAttendanceS10ReportResult, MeetingAttendanceS1ReportResult } from '../../index.types';
 import {
   StyledDivider,
   StyledColumnBox,
@@ -12,7 +11,13 @@ import {
 } from './index.styles';
 
 import { TFunction } from 'i18next';
-import { getTeochraticalYear, getTheocraticalMonthListInAYear, getTheocraticalYearsList } from '@utils/date';
+import {
+  getTeochraticalYear,
+  getTheocraticalMonthDate,
+  getTheocraticalMonthListInAYear,
+  getTheocraticalYearsList,
+} from '@utils/date';
+import { MeetingAttendanceType } from '@definition/meeting_attendance';
 
 const NUMBER_OF_YEARS = 5;
 
@@ -31,7 +36,43 @@ const ReportResultElement = ({ title, value }: { title: string; value: string })
   );
 };
 
-const ReportResultMonthBox = ({ title, t }: { title: string; t: TFunction<'translation', undefined> }) => {
+const ReportHistoryMonthBox = ({
+  title,
+  t,
+  data,
+}: {
+  title: string;
+  t: TFunction<'translation', undefined>;
+  data?: MeetingAttendanceType;
+}) => {
+  let numberOfMeetingsWeekend = 0;
+  const totalMidweek = data
+    ? [1, 2, 3, 4, 5].reduce((acc, weekNumber) => {
+        const value = data[`week_${weekNumber}`]?.weekend?.present;
+        if (value != 0) {
+          numberOfMeetingsWeekend += 1;
+        }
+        return acc + value;
+      }, 0)
+    : 0;
+  const avgMidweek = data
+    ? Math.floor(totalMidweek / (numberOfMeetingsWeekend === 0 ? 1 : numberOfMeetingsWeekend)).toString()
+    : '0';
+
+  let numberOfMeetingsMidweek = 0;
+  const totalWeekend = data
+    ? [1, 2, 3, 4, 5].reduce((acc, weekNumber) => {
+        const value = data[`week_${weekNumber}`]?.midweek?.present;
+        if (value != 0) {
+          numberOfMeetingsMidweek += 1;
+        }
+        return acc + value;
+      }, 0)
+    : 0;
+  const avgWeekend = data
+    ? Math.floor(totalWeekend / (numberOfMeetingsMidweek === 0 ? 1 : numberOfMeetingsMidweek)).toString()
+    : '0';
+
   return (
     <CardHeader header={title} size="small">
       <Box
@@ -48,13 +89,13 @@ const ReportResultMonthBox = ({ title, t }: { title: string; t: TFunction<'trans
           <Typography className="h3" color="var(--black)">
             {t('tr_midweekMeeting')}
           </Typography>
-          <ReportResultElement title={'Number of meetings'} value={'5'} />
+          <ReportResultElement title={'Number of meetings'} value={numberOfMeetingsMidweek.toString()} />
           <StyledDivider />
-          <ReportResultElement title={'Total attendance'} value={'360'} />
+          <ReportResultElement title={'Total attendance'} value={totalMidweek} />
           <StyledDivider />
-          <ReportResultElement title={'Average attendance'} value={'85'} />
+          <ReportResultElement title={'Average attendance'} value={avgMidweek} />
           <StyledDivider />
-          <ReportResultElement title={'Average online'} value={'24(32%)'} />
+          <ReportResultElement title={'Average online'} value={'0'} />
         </Box>
         <Box
           sx={{
@@ -68,27 +109,36 @@ const ReportResultMonthBox = ({ title, t }: { title: string; t: TFunction<'trans
           <Typography className="h3" color="var(--black)">
             {t('tr_weekendMeeting')}
           </Typography>
-          <ReportResultElement title={'Number of meetings'} value={'5'} />
+          <ReportResultElement title={'Number of meetings'} value={numberOfMeetingsWeekend.toString()} />
           <StyledDivider />
-          <ReportResultElement title={'Total attendance'} value={'360'} />
+          <ReportResultElement title={'Total attendance'} value={totalWeekend} />
           <StyledDivider />
-          <ReportResultElement title={'Average attendance'} value={'85'} />
+          <ReportResultElement title={'Average attendance'} value={avgWeekend} />
           <StyledDivider />
-          <ReportResultElement title={'Average online'} value={'24(32%)'} />
+          <ReportResultElement title={'Average online'} value={'0'} />
         </Box>
       </Box>
     </CardHeader>
   );
 };
-export const MeetingAttendanceReportResult = (t: TFunction<'translation', undefined>) => {
+export const MeetingAttendanceReportHistory = (
+  t: TFunction<'translation', undefined>,
+  history: MeetingAttendanceType[],
+  onChangeHistoryYear: (year: number) => void
+) => {
   const yearsList = getTheocraticalYearsList(NUMBER_OF_YEARS);
-  console.log(yearsList);
   const [currentYear, setCurrentYear] = useState(getTeochraticalYear(new Date()));
 
   const monthList = getTheocraticalMonthListInAYear(currentYear);
-  const onYearChange = (index: number) => {
-    console.log(index);
+  const onYearChange = async (index: number) => {
+    console.log(index, index);
+    setCurrentYear(index);
+    onChangeHistoryYear(index);
   };
+
+  useEffect(() => {
+    onChangeHistoryYear(currentYear);
+  }, []);
 
   return (
     <StyledContentBox>
@@ -112,9 +162,12 @@ export const MeetingAttendanceReportResult = (t: TFunction<'translation', undefi
               onChangeTab={onYearChange}
             ></ScrollableTabs>
             <StyledColumnBox gap="16px">
-              {monthList.map((month, index) => (
-                <ReportResultMonthBox key={index.toString()} title={month} t={t} />
-              ))}
+              {monthList.map((month, index) => {
+                const currentMonthDate = getTheocraticalMonthDate(index, currentYear);
+                const monthData = history.find((data) => data.month_date === currentMonthDate);
+
+                return <ReportHistoryMonthBox key={index.toString()} title={month} t={t} data={monthData} />;
+              })}
             </StyledColumnBox>
           </StyledColumnBox>
         </StyledColumnBox>

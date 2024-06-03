@@ -1,11 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MenuItem, Typography, useMediaQuery, useTheme } from '@mui/material';
-import { getTheocraticalMonthListInAYear, getTheocraticalYearsList, getTeochraticalYear } from '@utils/date';
+import {
+  getTheocraticalMonthListInAYear,
+  getTheocraticalYearsList,
+  getTeochraticalYear,
+  getTheocraticalMonthDate,
+} from '@utils/date';
 import { StyledBox, StyledSelect } from './index.styles';
 import { MeetingAttendanceReportToolbarData, MeetingAttendanceReportToolbarProps } from './index.types';
+
 const NUMBER_OF_YEARS = 5;
 
-const MeetingAttendanceToolbar = ({ t }: MeetingAttendanceReportToolbarProps) => {
+const MeetingAttendanceToolbar = ({ t, onChangeDate }: MeetingAttendanceReportToolbarProps) => {
   const theme = useTheme();
   const laptopView = useMediaQuery(theme.breakpoints.up('laptop'), {
     noSsr: true,
@@ -19,11 +25,25 @@ const MeetingAttendanceToolbar = ({ t }: MeetingAttendanceReportToolbarProps) =>
   const yearsList = getTheocraticalYearsList(NUMBER_OF_YEARS);
   const monthList = getTheocraticalMonthListInAYear(data.selectedYear);
 
+  const onChangeMonth = (month: number) => {
+    setData({ ...data, selectedMonth: month });
+    onChangeDate(getTheocraticalMonthDate(month, data.selectedYear));
+  };
+
+  const onChangeYear = (year: number) => {
+    setData({ ...data, selectedYear: year });
+    onChangeDate(getTheocraticalMonthDate(data.selectedMonth, year));
+  };
+
+  useEffect(() => {
+    onChangeDate(getTheocraticalMonthDate(data.selectedMonth, data.selectedYear));
+  }, []);
+
   return (
     <StyledBox laptopView={laptopView}>
       <StyledSelect
         label={t('tr_serviceYear')}
-        onChange={(e) => setData({ ...data, selectedYear: parseInt(e.target.value) })}
+        onChange={(e) => onChangeYear(parseInt(e.target.value))}
         value={data.selectedYear.toString()}
       >
         {yearsList.map((year, index) => {
@@ -39,7 +59,7 @@ const MeetingAttendanceToolbar = ({ t }: MeetingAttendanceReportToolbarProps) =>
 
       <StyledSelect
         label={t('tr_month')}
-        onChange={(e) => setData({ ...data, selectedMonth: parseInt(e.target.value) })}
+        onChange={(e) => onChangeMonth(parseInt(e.target.value))}
         value={data.selectedMonth.toString()}
       >
         {monthList.map((month, index) => (

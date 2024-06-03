@@ -5,4 +5,5 @@ export type WeekBoxProps = {
   weekend: boolean;
   onChange: (weekNumber: number, weekend: boolean, value: number) => void;
   t: TFunction<'translation', undefined>;
+  value?: number;
 };

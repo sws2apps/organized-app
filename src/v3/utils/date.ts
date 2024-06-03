@@ -70,7 +70,7 @@ export const getTheocraticalYearsList = (lengthOfList = 5) => {
 export const getTheocraticalMonthListInAYear = (year: number) => {
   const monthsList = [];
 
-  for (let month = 8; month < 11; month++) {
+  for (let month = 8; month < 12; month++) {
     const monthName = getMonthName(month);
     monthsList.push(`${monthName} ${year}`);
   }
@@ -100,6 +100,19 @@ const getMonthName = (month: number) => {
   ];
 
   return monthNames[month];
+};
+
+export const getTheocraticalMonthDate = (monthIndex: number, year: number) => {
+  let month = 0;
+
+  if (monthIndex < 4) {
+    month = monthIndex + 9;
+  } else {
+    year = year + 1;
+    month = monthIndex - 3;
+  }
+
+  return `${year}-${month.toString().padStart(2, '0')}`;
 };
 
 export function getWeekNumberInMonthForDate(date: Date) {

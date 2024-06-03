@@ -36,16 +36,18 @@ export const BranchS1ReportResult = (
   return (
     <StyledContentBox>
       <StyledContentCardBox>
-        <StyledColumnBox gap="8px">
+        <StyledColumnBox gap="16px">
           <Typography className="h2" color="var(--black)">
             {month}
           </Typography>
-          <ReportResultElement title={t('tr_activePublishers')} value={data.activePublishers.toString()} />
-          <StyledDivider />
-          <ReportResultElement
-            title={t('tr_averageAttendanceWM')}
-            value={data.weekendMeetingAttendanceAvg.toString()}
-          />
+          <StyledColumnBox gap="8px">
+            <ReportResultElement title={t('tr_activePublishers')} value={data.activePublishers.toString()} />
+            <StyledDivider />
+            <ReportResultElement
+              title={t('tr_averageAttendanceWM')}
+              value={data.weekendMeetingAttendanceAvg.toString()}
+            />
+          </StyledColumnBox>
         </StyledColumnBox>
       </StyledContentCardBox>
       <StyledContentCardBox>
@@ -69,7 +71,7 @@ export const BranchS1ReportResult = (
             <ReportResultElement title={t('tr_bibleStudies')} value={data.auxPioneersBibleStudies.toString()} />
           </StyledColumnBox>
           <StyledColumnBox gap="8px">
-            <CardHeader className={'h4'} header={t('tr_regPioneers')} size={'small'} />
+            <CardHeader className={'h4'} header={t('tr_FRs')} size={'small'} />
             <ReportResultElement title={t('tr_numberReports')} value={data.regPioneersReports.toString()} />
             <StyledDivider />
             <ReportResultElement title={t('tr_hours')} value={data.regPioneersHours.toString()} />
