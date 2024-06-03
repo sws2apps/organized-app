@@ -5,7 +5,7 @@ const useNotice = () => {
   const [open, setOpen] = useState(true);
 
   const handleClose = async () => {
-    await dbAppSettingsUpdate({ cong_new: false });
+    await dbAppSettingsUpdate({ 'cong_settings.cong_new': false });
     setOpen(false);
   };
 

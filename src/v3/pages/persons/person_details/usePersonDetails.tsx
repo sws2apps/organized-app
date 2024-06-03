@@ -14,8 +14,8 @@ const usePersonDetails = () => {
   const person = useRecoilValue(personCurrentDetailsState);
   const persons = useRecoilValue(personsActiveState);
 
-  const isBaptized = person.baptizedPublisher.active.value;
-  const isMale = person.isMale.value;
+  const isBaptized = person.person_data.publisher_baptized.active.value;
+  const male = person.person_data.male.value;
 
   useEffect(() => {
     const handleCheckPerson = async () => {
@@ -46,7 +46,7 @@ const usePersonDetails = () => {
     handleLoad();
   }, []);
 
-  return { isNewPerson, isBaptized, isMale };
+  return { isNewPerson, isBaptized, male };
 };
 
 export default usePersonDetails;

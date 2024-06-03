@@ -1,10 +1,10 @@
 import { Box } from '@mui/material';
 import { IconAdd } from '@components/icons';
-import Button from '@components/button';
-import Typography from '@components/typography';
 import { useAppTranslation } from '@hooks/index';
 import usePrivileges from './usePrivileges';
-import PrivilegeItem from './components/privilege_item';
+import Button from '@components/button';
+import Typography from '@components/typography';
+import PrivilegeItem from './privilege_item';
 
 const Privileges = () => {
   const { t } = useAppTranslation();
@@ -47,8 +47,8 @@ const Privileges = () => {
             key={history.id}
             id={history.id}
             privilege={history.privilege.value}
-            startDate={history.startDate.value}
-            endDate={history.endDate.value}
+            start_date={history.start_date.value}
+            end_date={history.end_date.value}
             isLast={index === activeHistory.length - 1}
             onAdd={handleAddHistory}
             onDelete={handleDeleteHistory}

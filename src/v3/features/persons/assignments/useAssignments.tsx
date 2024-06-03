@@ -14,9 +14,11 @@ const useAssignments = () => {
   const { t } = useAppTranslation();
 
   const person = useRecoilValue(personCurrentDetailsState);
-  const isMale = person.isMale.value;
-  const isDisqualified = person.isDisqualified.value;
-  const checkedItems = person.assignments.filter((record) => record._deleted === null).map((record) => record.code);
+  const male = person.person_data.male.value;
+  const disqualified = person.person_data.disqualified.value;
+  const checkedItems = person.person_data.assignments
+    .filter((record) => record._deleted === false)
+    .map((record) => record.code);
 
   const assignments = useMemo(() => {
     return [
@@ -89,18 +91,18 @@ const useAssignments = () => {
       const localItems = items.filter((record) => record.code !== AssignmentCode.MM_AssistantOnly);
 
       for (const item of localItems) {
-        if (!isMale) {
+        if (!male) {
           if (item.code === AssignmentCode.MM_Discussion || item.code === AssignmentCode.MM_Talk) {
             continue;
           }
         }
 
-        const current = newPerson.assignments.find((record) => record.code === item.code);
+        const current = newPerson.person_data.assignments.find((record) => record.code === item.code);
         if (!current) {
-          newPerson.assignments.push({
+          newPerson.person_data.assignments.push({
             code: item.code,
             updatedAt: new Date().toISOString(),
-            _deleted: null,
+            _deleted: false,
           });
         }
 
@@ -113,14 +115,17 @@ const useAssignments = () => {
     if (!checked) {
       for (const item of items) {
         if (!isAddPerson) {
-          const current = newPerson.assignments.find((record) => record.code === item.code);
-          if (current && current._deleted === null) {
-            current._deleted = new Date().toISOString();
+          const current = newPerson.person_data.assignments.find((record) => record.code === item.code);
+          if (current && current._deleted === false) {
+            current._deleted = true;
+            current.updatedAt = new Date().toISOString();
           }
         }
 
         if (isAddPerson) {
-          newPerson.assignments = newPerson.assignments.filter((record) => record.code !== item.code);
+          newPerson.person_data.assignments = newPerson.person_data.assignments.filter(
+            (record) => record.code !== item.code
+          );
         }
       }
     }
@@ -132,12 +137,12 @@ const useAssignments = () => {
     const newPerson = structuredClone(person);
 
     if (checked) {
-      const current = newPerson.assignments.find((record) => record.code === code);
+      const current = newPerson.person_data.assignments.find((record) => record.code === code);
       if (!current) {
-        newPerson.assignments.push({
+        newPerson.person_data.assignments.push({
           code: code,
           updatedAt: new Date().toISOString(),
-          _deleted: null,
+          _deleted: false,
         });
       }
 
@@ -148,21 +153,22 @@ const useAssignments = () => {
 
     if (!checked) {
       if (!isAddPerson) {
-        const current = newPerson.assignments.find((record) => record.code === code);
-        if (current && current._deleted === null) {
-          current._deleted = new Date().toISOString();
+        const current = newPerson.person_data.assignments.find((record) => record.code === code);
+        if (current && current._deleted === false) {
+          current._deleted = true;
+          current.updatedAt = new Date().toISOString();
         }
       }
 
       if (isAddPerson) {
-        newPerson.assignments = newPerson.assignments.filter((record) => record.code !== code);
+        newPerson.person_data.assignments = newPerson.person_data.assignments.filter((record) => record.code !== code);
       }
     }
 
     await setPersonCurrentDetails(newPerson);
   };
 
-  return { assignments, checkedItems, handleToggleAssignment, handleToggleGroup, isMale, isDisqualified };
+  return { assignments, checkedItems, handleToggleAssignment, handleToggleGroup, male, disqualified };
 };
 
 export default useAssignments;

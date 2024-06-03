@@ -1,18 +1,9 @@
 import { promiseGetRecoil } from 'recoil-outside';
-import {
-  JWLangState,
-  apiHostState,
-  appLangState,
-  congIDState,
-  isOnlineState,
-  userIDState,
-  visitorIDState,
-} from '@states/app';
+import { JWLangState, apiHostState, appLangState, congIDState, isOnlineState, userIDState } from '@states/app';
 import { currentAuthUser } from '@services/firebase/auth';
 
 export const apiDefault = async () => {
   const apiHost = await promiseGetRecoil(apiHostState);
-  const visitorID = await promiseGetRecoil(visitorIDState);
   const appVersion = import.meta.env.PACKAGE_VERSION;
   const appLang = await promiseGetRecoil(appLangState);
   const congID = await promiseGetRecoil(congIDState);
@@ -21,6 +12,7 @@ export const apiDefault = async () => {
   const userID = await promiseGetRecoil(userIDState);
 
   const userUID = currentAuthUser()?.uid;
+  const idToken = await currentAuthUser()?.getIdToken();
 
-  return { apiHost, visitorID, appVersion, userUID, appLang, congID, isOnline, JWLang, userID };
+  return { apiHost, appVersion, userUID, appLang, congID, isOnline, JWLang, userID, idToken };
 };

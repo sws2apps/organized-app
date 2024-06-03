@@ -6,6 +6,7 @@ import {
   ScrollableTabs,
   ProgressBarSmall,
   UserAccountItem,
+  CustomTimeTextField,
 } from '@components/index';
 import { useEffect, useState } from 'react';
 
@@ -129,7 +130,6 @@ const ComponentPreview = () => {
   return (
     <Box>
       <NavBar />
-
       <Container
         maxWidth={false}
         sx={{
@@ -290,6 +290,9 @@ const ComponentPreview = () => {
           <ProgressBarSmall value={100} maxValue={120} />
         </Box>
 
+        <br />
+        <br />
+
         <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap', marginTop: '10px' }}>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             <Typography className="label-small-regular">user-buttons:</Typography>
@@ -311,13 +314,33 @@ const ComponentPreview = () => {
           </Box>
         </Box>
 
-        <Box>
-          <CPETimePickerSlider
-            ampm={false}
-            onChange={(seconds) => {
-              console.log(seconds);
-            }}
-          />
+        <br />
+        <br />
+
+        <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap', marginTop: '10px' }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <Typography className="label-small-regular">time-picker-slider</Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+              <CPETimePickerSlider
+                ampm={false}
+                onChange={(seconds) => {
+                  console.log(seconds);
+                }}
+              />
+            </Box>
+          </Box>
+        </Box>
+
+        <br />
+        <br />
+
+        <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap', marginTop: '10px' }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <Typography className="label-small-regular">time-text-field</Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+              <CustomTimeTextField />
+            </Box>
+          </Box>
         </Box>
       </Container>
     </Box>

@@ -1,4 +1,4 @@
-import { Box, TextField, Theme } from '@mui/material';
+import { Box, Theme } from '@mui/material';
 
 import { StyledBox, StyledModalWindowContainer, StyledRowContainer } from './add_service_time_modal_window.styled';
 import { AddServiceTimeModalWindowProps } from './add_service_time_modal_window.types';
@@ -8,7 +8,7 @@ import CustomTypography from '@components/typography';
 import MinusButton from '@components/minus_button';
 import PlusButton from '@components/plus_button';
 
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { CustomDropdownContainer, CustomDropdownItem, CustomDropdownMenu } from '@components/dropdown';
 import {
   IconAdd,
@@ -25,6 +25,8 @@ import CustomDatePicker from '@components/date_picker';
 import CustomInfoMessage from '@components/info-message';
 import { convertDurationInSecondsToString, convertDurationStringToSeconds } from '../utils';
 import MiniChip from '@components/mini_chip';
+import { MinistryRecord } from '@pages/ministry_report/ministry_report.types';
+import CustomTimeTextField from '@components/time_textfield';
 
 /**
  * Add Service Time Modal Window component.
@@ -33,37 +35,19 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
   const variant = props.variant || 'simple';
   const showCreditHours = props.showCreditHours || false;
 
+  const mode = props.mode || 'add';
+
+  if (mode == 'edit' && props.recordForEdit == undefined) {
+    throw new Error('Record for edit not setted!');
+  }
+
   const { editAndAddBibleStudyData, setEditAndAddBibleStudyData } = useContext(EditAndAddBibleStudyContext);
 
   const { t } = useAppTranslation();
 
   const [localDurationInSeconds, setLocalDurationInSeconds] = useState(0);
 
-  useEffect(() => {
-    setLocalDurationInSeconds(props.duration);
-  }, [props.duration]);
-
-  const incrementDuration = () => {
-    setLocalDurationInSeconds(localDurationInSeconds + 3600);
-  };
-
-  const decrimentDuration = () => {
-    if (convertDurationInSecondsToString(localDurationInSeconds) != '00:00') {
-      setLocalDurationInSeconds(localDurationInSeconds - 3600);
-    }
-  };
-
   const [localCreditHoursDurationInSeconds, setLocalCreditHoursDurationInSeconds] = useState(0);
-
-  const incrementCreditHoursDuration = () => {
-    setLocalCreditHoursDurationInSeconds(localCreditHoursDurationInSeconds + 3600);
-  };
-  const decrimentCreditHoursDuration = () => {
-    if (convertDurationInSecondsToString(localCreditHoursDurationInSeconds) != '00:00') {
-      setLocalCreditHoursDurationInSeconds(localCreditHoursDurationInSeconds - 3600);
-    }
-  };
-
   const [dropdownWithStudiesOpen, setDropdownWithStudiesOpen] = useState(false);
   const [dropdownWithSchoolsOpen, setDropdownWithSchoolsOpen] = useState(false);
 
@@ -71,6 +55,121 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
   const dropdownWithSchoolsReference = useRef(null);
   const dropdownWithStudiesOpenButtonReference = useRef(null);
   const dropdownWithSchoolsOpenButtonReference = useRef(null);
+
+  const styledRowContainerWithBibleStudiesRef = useRef(null);
+  const styledRowContainerWithCreditHours = useRef(null);
+
+  const [countOfStudies, setCountOfStudies] = useState(0);
+  const [countOfStudiesInBuffer, setCountOfStudiesInBuffer] = useState(0);
+  const [infoMessageBoxOpen, setInfoMessageBoxOpen] = useState(false);
+
+  const decrimentDuration = () => {
+    if (convertDurationInSecondsToString(localDurationInSeconds) != '00:00') {
+      setLocalDurationInSeconds((prev) => prev - 3600);
+    }
+  };
+
+  const incrementDuration = () => {
+    setLocalDurationInSeconds((prev) => prev + 3600);
+  };
+
+  const incrementCreditHoursDuration = () => {
+    setLocalCreditHoursDurationInSeconds(localCreditHoursDurationInSeconds + 3600);
+  };
+
+  const decrimentCreditHoursDuration = () => {
+    if (convertDurationInSecondsToString(localCreditHoursDurationInSeconds) != '00:00') {
+      setLocalCreditHoursDurationInSeconds(localCreditHoursDurationInSeconds - 3600);
+    }
+  };
+
+  const closeInfoMessageAfterDelay = () => {
+    setTimeout(() => {
+      setInfoMessageBoxOpen(false);
+    }, 5000);
+  };
+
+  useEffect(() => {
+    if (mode == 'edit') {
+      setCountOfStudiesInBuffer(props.recordForEdit.count_of_bible_studies - props.recordForEdit.bible_studies.length);
+    }
+  }, [mode, props.recordForEdit.bible_studies?.length, props.recordForEdit.count_of_bible_studies]);
+
+  const incrementCountOfStudiesInBuffer = () => {
+    setCountOfStudiesInBuffer(countOfStudiesInBuffer + 1);
+  };
+
+  const decrimentCountOfStudiesInBuffer = () => {
+    if (countOfStudiesInBuffer != 0) {
+      setCountOfStudiesInBuffer(countOfStudiesInBuffer - 1);
+    } else {
+      setInfoMessageBoxOpen(true);
+      closeInfoMessageAfterDelay();
+    }
+  };
+
+  const getArrayWithStudiesStates = useCallback((): boolean[] => {
+    const tmpArray = [];
+
+    for (let i = 0; i < props.bibleStudiesList.length; i++) {
+      let found = false;
+      for (let j = 0; j < props.recordForEdit.bible_studies.length; j++) {
+        if (props.bibleStudiesList[i] === props.recordForEdit.bible_studies[j]) {
+          found = true;
+          break;
+        }
+      }
+      tmpArray.push(found);
+    }
+
+    return tmpArray;
+  }, [props.bibleStudiesList, props.recordForEdit.bible_studies]);
+
+  const [checkedLocalStudiesStatesList, setCheckedLocalStudiesStatesList] = useState(() => {
+    return Array<boolean>(props.bibleStudiesList.length).fill(false);
+  });
+
+  const getArrayWithCheckedStudies = (): string[] => {
+    const tmpArray = [];
+
+    props.bibleStudiesList.forEach((value, index) => {
+      if (checkedLocalStudiesStatesList[index]) {
+        tmpArray.push(props.bibleStudiesList[index]);
+      }
+    });
+
+    return tmpArray;
+  };
+
+  const [localDate, setLocalDate] = useState<Date>(new Date());
+
+  const clearAllFields = () => {
+    setLocalDurationInSeconds(0);
+    setCheckedLocalStudiesStatesList(Array<boolean>(props.bibleStudiesList.length).fill(false));
+    setLocalCreditHoursDurationInSeconds(0);
+    setCountOfStudiesInBuffer(0);
+  };
+
+  const styleForStyledBox = (theme: Theme) => ({
+    [theme.breakpoints.down('tablet')]: {
+      flexDirection: 'column',
+      '& .MuiBox-root': {
+        width: '100%',
+        maxWidth: 'none',
+        minWidth: 'none',
+      },
+    },
+  });
+
+  useEffect(() => {
+    setLocalDurationInSeconds(mode == 'add' ? props.duration : props.recordForEdit.hours_in_seconds);
+  }, [mode, props.duration, props.recordForEdit.hours_in_seconds]);
+
+  useEffect(() => {
+    if (mode == 'edit') {
+      setLocalCreditHoursDurationInSeconds(props.recordForEdit.credit_hours_in_seconds);
+    }
+  }, [mode, props.recordForEdit.credit_hours_in_seconds, localCreditHoursDurationInSeconds]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -101,48 +200,17 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
     };
   }, [dropdownWithStudiesOpen, dropdownWithSchoolsOpen]);
 
-  const styledRowContainerWithBibleStudiesRef = useRef(null);
-  const styledRowContainerWithCreditHours = useRef(null);
-
-  const [countOfStudies, setCountOfStudies] = useState(0);
-  const [countOfStudiesInBuffer, setCountOfStudiesInBuffer] = useState(0);
-
-  const incrementCountOfStudiesInBuffer = () => {
-    setCountOfStudiesInBuffer(countOfStudiesInBuffer + 1);
-  };
-
-  const decrimentCountOfStudiesInBuffer = () => {
-    if (countOfStudiesInBuffer != 0) {
-      setCountOfStudiesInBuffer(countOfStudiesInBuffer - 1);
-    } else {
-      setInfoMessageBoxOpen(true);
+  useEffect(() => {
+    if (mode == 'edit') {
+      setCountOfStudiesInBuffer(props.recordForEdit.count_of_bible_studies - props.recordForEdit.bible_studies.length);
     }
-  };
+  }, [mode, props.recordForEdit.bible_studies?.length, props.recordForEdit.count_of_bible_studies]);
 
-  const [checkedLocalStudiesStatesList, setCheckedLocalStudiesStatesList] = useState(() => {
-    return Array<boolean>(props.bibleStudiesList.length).fill(false);
-  });
-
-  const getArrayWithCheckedStudies = (): string[] => {
-    const tmpArray = [];
-
-    props.bibleStudiesList.forEach((value, index) => {
-      if (checkedLocalStudiesStatesList[index]) {
-        tmpArray.push(props.bibleStudiesList[index]);
-      }
-    });
-
-    return tmpArray;
-  };
-
-  const [localDate, setLocalDate] = useState<Date>(null);
-
-  const clearAllFields = () => {
-    setLocalDurationInSeconds(0);
-    setCheckedLocalStudiesStatesList(Array<boolean>(props.bibleStudiesList.length).fill(false));
-    setLocalCreditHoursDurationInSeconds(0);
-    setCountOfStudiesInBuffer(0);
-  };
+  useEffect(() => {
+    if (mode == 'edit') {
+      setCheckedLocalStudiesStatesList(getArrayWithStudiesStates);
+    }
+  }, [getArrayWithStudiesStates, mode]);
 
   // code for fix bug with empty field
   useEffect(() => {
@@ -166,19 +234,6 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
     setCountOfStudies(studiesCounter + countOfStudiesInBuffer);
   }, [checkedLocalStudiesStatesList, countOfStudiesInBuffer, props.bibleStudiesList]);
 
-  const styleForStyledBox = (theme: Theme) => ({
-    [theme.breakpoints.down('tablet')]: {
-      flexDirection: 'column',
-      '& .MuiBox-root': {
-        width: '100%',
-        maxWidth: 'none',
-        minWidth: 'none',
-      },
-    },
-  });
-
-  const [infoMessageBoxOpen, setInfoMessageBoxOpen] = useState(false);
-
   return (
     <>
       <StyledModalWindowContainer
@@ -196,7 +251,9 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
         })}
       >
         <Box>
-          <CustomTypography className="h2">{t('tr_addServiceTime')}</CustomTypography>
+          <CustomTypography className="h2">
+            {mode == 'add' ? t('tr_addServiceTime') : t('tr_editServiceTime')}
+          </CustomTypography>
           <Box
             sx={{
               marginTop: '8px',
@@ -223,27 +280,16 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
               }}
             >
               <MinusButton onClick={decrimentDuration} />
-              <TextField
-                id="standard-basic"
-                variant="standard"
-                sx={{
-                  '.MuiInputBase-root::after, .MuiInputBase-root::before': { content: 'none' },
-                  '.MuiInputBase-root': {
-                    color:
-                      convertDurationInSecondsToString(localDurationInSeconds) != '00:00'
-                        ? 'var(--black)'
-                        : 'var(--grey-300)',
-                  },
-                  '.MuiInput-input': {
-                    textAlign: 'center',
-                    fontWeight: '550',
-                    lineHeight: '24px',
-                  },
-                }}
+              <CustomTimeTextField
                 value={convertDurationInSecondsToString(localDurationInSeconds)}
                 onChange={(event) => {
                   setLocalDurationInSeconds(convertDurationStringToSeconds(event.target.value));
                 }}
+                color={
+                  convertDurationInSecondsToString(localDurationInSeconds) != '00:00'
+                    ? 'var(--black)'
+                    : 'var(--grey-300)'
+                }
               />
               <PlusButton onClick={incrementDuration} />
             </Box>
@@ -311,27 +357,16 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
                 }}
               >
                 <MinusButton onClick={() => decrimentCreditHoursDuration()} />
-                <TextField
-                  id="standard-basic"
-                  variant="standard"
-                  sx={{
-                    '.MuiInputBase-root::after, .MuiInputBase-root::before': { content: 'none' },
-                    '.MuiInputBase-root': {
-                      color:
-                        convertDurationInSecondsToString(localCreditHoursDurationInSeconds) != '00:00'
-                          ? 'var(--black)'
-                          : 'var(--grey-300)',
-                    },
-                    '.MuiInput-input': {
-                      textAlign: 'center',
-                      fontWeight: '550',
-                      lineHeight: '24px',
-                    },
-                  }}
+                <CustomTimeTextField
                   value={convertDurationInSecondsToString(localCreditHoursDurationInSeconds)}
                   onChange={(event) => {
                     setLocalCreditHoursDurationInSeconds(convertDurationStringToSeconds(event.target.value));
                   }}
+                  color={
+                    convertDurationInSecondsToString(localCreditHoursDurationInSeconds) != '00:00'
+                      ? 'var(--black)'
+                      : 'var(--grey-300)'
+                  }
                 />
                 <PlusButton onClick={() => incrementCreditHoursDuration()} />
               </Box>
@@ -486,20 +521,22 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
           <CustomButton
             variant="main"
             onClick={() => {
-              props.result({
-                hoursInSeconds: localDurationInSeconds,
-                creditHoursInSeconds: localCreditHoursDurationInSeconds,
-                bibleStudiesCount: countOfStudies,
-                bibleStudies: getArrayWithCheckedStudies(),
-                date: localDate,
-              });
+              props.result(
+                new MinistryRecord(
+                  new Date().toString(),
+                  countOfStudies,
+                  localDurationInSeconds,
+                  localCreditHoursDurationInSeconds,
+                  getArrayWithCheckedStudies()
+                )
+              );
               props.addButtonClick();
 
               // Clear all values
               clearAllFields();
             }}
           >
-            {t('tr_add')}
+            {mode == 'add' ? t('tr_add') : t('tr_save')}
           </CustomButton>
         </Box>
       </StyledModalWindowContainer>

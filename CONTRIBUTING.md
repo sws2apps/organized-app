@@ -46,6 +46,7 @@ You will get the values for the following environment from the Firebase project 
 - VITE_FIREBASE_PROJECTID: your Firebase projectId defined in the Firebase Console.
 - VITE_FIREBASE_APPID: your Firebase appId defined in the Firebase Console.
 - VITE_FIREBASE_MEASUREMENTID: your Firebase measurementId defined in the Firebase Console.
+- VITE_FIREBASE_MESSAGINGSENDERID: your Firebase messagingSenderId defined in the Firebase Console.
 
 ### Starting the Development Server
 

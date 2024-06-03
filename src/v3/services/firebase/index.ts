@@ -9,7 +9,7 @@ const firebaseConfig = {
   measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENTID,
 };
 
-export const initializeFirebaseApp = () => {
-  const fbApp = initializeApp(firebaseConfig);
-  getAnalytics(fbApp);
-};
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+getAnalytics(app);

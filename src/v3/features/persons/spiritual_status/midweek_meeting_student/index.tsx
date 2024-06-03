@@ -40,8 +40,8 @@ const MidweekMeetingStudent = ({ checked, onChange, expanded, onExpand }: Midwee
             <DateHistory
               key={history.id}
               id={history.id}
-              startDate={history.startDate.value}
-              endDate={history.endDate.value}
+              start_date={history.start_date.value}
+              end_date={history.end_date.value}
               isLast={index === activeHistory.length - 1}
               onAdd={handleAddHistory}
               onDelete={handleDeleteHistory}

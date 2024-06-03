@@ -18,7 +18,7 @@ jobs:
 
     steps:
       - name: Checkout for testing
-        uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b
+        uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
         with:
           ref: main
           persist-credentials: false
@@ -32,7 +32,7 @@ jobs:
         run: npm ci
 
       - name: Cypress run component testing
-        uses: cypress-io/github-action@1b70233146622b69e789ccdd4f9452adc638d25a
+        uses: cypress-io/github-action@f88a151c986cab2e339cdbede6a5c4468bb62c17
         with:
           command-prefix: "--"
           install: false

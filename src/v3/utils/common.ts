@@ -1,3 +1,5 @@
+import { FullnameOption } from '@definition/settings';
+
 export const convertStringToBoolean = (value) => {
   switch (value) {
     case 'true':
@@ -40,7 +42,9 @@ export const matchIsNumeric = (text) => {
   return !isNaN(Number(text));
 };
 
-export const buildPersonFullname = (lastname: string, firstname: string) => {
+export const buildPersonFullname = (lastname: string, firstname: string, option?: FullnameOption) => {
+  const buildOption = option || FullnameOption.FIRST_BEFORE_LAST;
+
   if (lastname.length === 0) {
     return firstname;
   }
@@ -49,19 +53,14 @@ export const buildPersonFullname = (lastname: string, firstname: string) => {
     return lastname;
   }
 
-  let result = lastname;
-  if (result.length > 0) result += ` `;
-  result += firstname;
-
-  return result;
-};
-
-export const generateDisplayName = (lastname: string, firstname: string, autogenerate: boolean) => {
-  if (!autogenerate) {
-    const result = buildPersonFullname(lastname, firstname);
-    return result;
+  if (buildOption === FullnameOption.FIRST_BEFORE_LAST) {
+    return `${firstname} ${lastname}`;
   }
 
+  return `${lastname} ${firstname}`;
+};
+
+export const generateDisplayName = (lastname: string, firstname: string) => {
   if (lastname.length === 0) {
     return firstname;
   }
@@ -90,4 +89,35 @@ export const localStorageGetItem = (key: string) => {
   }
 
   return localStorage.getItem(key);
+};
+
+export const delay = async (time: number) => {
+  return new Promise((resolve) => setTimeout(resolve, time));
+};
+
+export const updateObject = <T extends object>(oldObj: T, newObj: T): T => {
+  const objectKeys = Object.keys(newObj).filter((key) => newObj[key] !== null && typeof newObj[key] === 'object');
+
+  for (const key of objectKeys) {
+    if (oldObj[key]) {
+      if (!('updatedAt' in newObj[key])) {
+        updateObject(oldObj[key], newObj[key]);
+      } else {
+        if (newObj[key].updatedAt > oldObj[key].updatedAt) {
+          oldObj[key] = newObj[key];
+        }
+      }
+    } else {
+      oldObj[key] = newObj[key];
+    }
+  }
+
+  const primitiveKeys = Object.keys(newObj).filter((key) => typeof newObj[key] !== 'object');
+  for (const key of primitiveKeys) {
+    if (newObj[key] && newObj[key] !== null && newObj[key] !== '') {
+      oldObj[key] = newObj[key];
+    }
+  }
+
+  return oldObj;
 };

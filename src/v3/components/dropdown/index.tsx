@@ -39,12 +39,19 @@ const CustomDropdownContainer = (props: CustomDropdownContainerProps) => {
  */
 const CustomDropdownMenu = (props: CustomDropdownMenuProps) => {
   return (
-    <Popper open={props.open} sx={{ zIndex: props.zIndex }} anchorEl={props.anchorElement} ref={props.reference}>
+    <Popper
+      open={props.open}
+      sx={{ zIndex: props.zIndex }}
+      anchorEl={props.anchorElement}
+      placement={props.placement}
+      ref={props.reference}
+    >
       <Box
         className="small-card-shadow"
         sx={{
+          maxWidth: '500px',
           borderRadius: 'var(--radius-l)',
-          padding: '8px, 0px, 8px, 0px',
+          padding: '8px 0px 8px 0px',
           border: '1px solid var(--accent-200)',
           backgroundColor: 'var(--white)',
           width: props.width,

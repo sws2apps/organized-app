@@ -1,5 +1,5 @@
 import { useRecoilValue } from 'recoil';
-import { publicTalksFilteredState } from '@states/publicTalks';
+import { publicTalksFilteredState } from '@states/public_talks';
 
 const useTableView = () => {
   const talksList = useRecoilValue(publicTalksFilteredState);

@@ -1,10 +1,10 @@
 import { Box } from '@mui/material';
 import { IconAdd, IconInfo } from '@icons/index';
-import Button from '@components/button';
-import Typography from '@components/typography';
 import { useAppTranslation } from '@hooks/index';
 import useTimeAway from './useTimeAway';
-import TimeAwayItem from './components/time_away_item';
+import Button from '@components/button';
+import Typography from '@components/typography';
+import TimeAwayItem from './time_away_item';
 
 const PersonTimeAway = () => {
   const { t } = useAppTranslation();
@@ -56,8 +56,8 @@ const PersonTimeAway = () => {
             <TimeAwayItem
               key={timeAwayItem.id}
               id={timeAwayItem.id}
-              startDate={timeAwayItem.startDate.value}
-              endDate={timeAwayItem.endDate.value}
+              start_date={timeAwayItem.start_date.value}
+              end_date={timeAwayItem.end_date.value}
               comments={timeAwayItem.comments.value}
               isLast={index === activeTimeAway.length - 1}
               onAdd={handleAddTimeAway}

@@ -1,0 +1,11 @@
+{
+  "tr_addNewDate": "Adicionar nova data",
+  "tr_deepCleaning": "Limpeza profunda",
+  "tr_noCleaningSchedulesYet": "Ainda não tem nenhuma agenda de limpeza criada. Adicione um novo mês para começar a criar a sua primeira agenda.",
+  "tr_addMonthDesc": "Primeiro, escolha os meses que deseja agendar. Em seguida, crie um plano para cada data específica de reunião.",
+  "tr_responsiblePerson": "Pessoa responsável",
+  "tr_deleteDate": "Apagar a data",
+  "tr_deleteDateDecs": "Não pode desfazer esta ação, mas pode criar uma data a qualquer momento.",
+  "tr_deleteMonth": "Apagar o mês",
+  "tr_deleteMonthDesc": "Não pode desfazer esta ação, mas pode adicionar um novo mês a qualquer momento."
+}

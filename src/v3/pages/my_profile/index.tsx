@@ -6,12 +6,12 @@ import {
   MinistryPreferences,
   UserAccountSecurity,
   UserAppSettings,
+  UserLogoutConfirm,
   UserProfileDetails,
   UserSessions,
   UserTimeAway,
 } from '@features/index';
 import useMyProfile from './useMyProfile';
-import LogoutConfirm from './components/logout_confirm';
 
 const MyProfile = () => {
   const { t } = useAppTranslation();
@@ -31,7 +31,7 @@ const MyProfile = () => {
         }
       />
 
-      {isLogoutConfirm && <LogoutConfirm open={isLogoutConfirm} onClose={handleCloseConfirm} />}
+      {isLogoutConfirm && <UserLogoutConfirm open={isLogoutConfirm} onClose={handleCloseConfirm} />}
 
       {/* container */}
       <Box sx={{ display: 'flex', gap: '16px', flexWrap: desktopUp ? 'nowrap' : 'wrap' }}>

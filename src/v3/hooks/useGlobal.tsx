@@ -1,11 +1,8 @@
 import { useEffect, useState } from 'react';
 import { createTheme } from '@mui/material/styles';
-import { load } from '@fingerprintjs/fingerprintjs';
 import { useRecoilValue } from 'recoil';
-import { appSnackOpenState, congAccountConnectedState, isDarkThemeState, isOnlineState } from '@states/app';
-import logger from '@services/logger/index';
-import { disconnectCongAccount, setApiHost, setIsOnline, setVisitorID } from '@services/recoil/app';
-import useInternetChecker from '@hooks/useInternetChecker';
+import { appSnackOpenState, congAccountConnectedState, isDarkThemeState } from '@states/app';
+import { disconnectCongAccount, setApiHost, setIsOnline } from '@services/recoil/app';
 import {
   adminRoleState,
   coordinatorRoleState,
@@ -15,26 +12,19 @@ import {
   publisherRoleState,
   secretaryRoleState,
 } from '@states/settings';
+import logger from '@services/logger/index';
 import worker from '@services/worker/backupWorker';
+import useInternetChecker from '@hooks/useInternetChecker';
 
 // creating theme
-const lightTheme = createTheme({
-  palette: {
-    mode: 'light',
-  },
-});
+const lightTheme = createTheme({ palette: { mode: 'light' } });
 
-const darkTheme = createTheme({
-  palette: {
-    mode: 'dark',
-  },
-});
+const darkTheme = createTheme({ palette: { mode: 'dark' } });
 
 const useGlobal = () => {
   const { isNavigatorOnline } = useInternetChecker();
 
   const isLight = useRecoilValue(isDarkThemeState);
-  const isOnline = useRecoilValue(isOnlineState);
   const appSnackOpen = useRecoilValue(appSnackOpenState);
   const adminRole = useRecoilValue(adminRoleState);
   const coordinatorRole = useRecoilValue(coordinatorRoleState);
@@ -53,7 +43,6 @@ const useGlobal = () => {
   useEffect(() => {
     const updateNetworkStatus = async () => {
       await setIsOnline(isNavigatorOnline);
-      worker.postMessage({ field: 'isOnline', value: isNavigatorOnline });
 
       if (!isNavigatorOnline) {
         await disconnectCongAccount();
@@ -72,25 +61,6 @@ const useGlobal = () => {
   }, [isLight]);
 
   useEffect(() => {
-    const getUserID = async () => {
-      try {
-        const fp = await load();
-        const result = await fp.get();
-        const visitorId = result.visitorId;
-
-        await setVisitorID(visitorId);
-        worker.postMessage({ field: 'visitorID', value: visitorId });
-
-        logger.info('app', 'device fingerprint visitor id has been set');
-      } catch (error) {
-        throw new Error(error);
-      }
-    };
-
-    if (isOnline) getUserID();
-  }, [isOnline]);
-
-  useEffect(() => {
     const loadApi = async () => {
       let apiHost;
 
@@ -100,7 +70,7 @@ const useGlobal = () => {
         if (import.meta.env.DEV || window.location.host.indexOf('localhost') !== -1) {
           apiHost = 'http://localhost:8000/';
         } else {
-          apiHost = 'https://api.sws2apps.com/';
+          apiHost = 'https://api.organized-app.com/';
         }
       }
 

@@ -1,5 +1,7 @@
+// ** FOR SETTING STATE OUTSIDE REACT COMPONENTS OR TO AVOID USE OF USECALLBACK ** //
+
 import { promiseGetRecoil, promiseSetRecoil } from 'recoil-outside';
-import { publicTalksSearchKeyState, publicTalksState } from '@states/publicTalks';
+import { publicTalksSearchKeyState, publicTalksState } from '@states/public_talks';
 import { PublicTalkType } from '@definition/public_talks';
 
 export const setPublicTalksSearchKey = async (value: string) => {

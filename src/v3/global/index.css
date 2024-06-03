@@ -145,3 +145,7 @@ span .text-markup:last-child {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--grey-350);
 }
+
+body iframe {
+  opacity: 0;
+}

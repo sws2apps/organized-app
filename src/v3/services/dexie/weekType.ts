@@ -1,6 +1,6 @@
 import { LANGUAGE_LIST } from '@constants/index';
 import { getTranslation } from '@services/i18n/translation';
-import appDb from '@shared/indexedDb/appDb';
+import appDb from '@db/appDb';
 
 export const dbWeekTypeUpdate = async () => {
   const normWeekObj = {};

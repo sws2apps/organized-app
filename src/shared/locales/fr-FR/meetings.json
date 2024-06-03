@@ -6,7 +6,7 @@
   "tr_export": "Exporter",
   "tr_autofill": "Remplissage automatique",
   "tr_infoPlanMidweekMeeting": "Sélectionnez une semaine pour commencer à ajouter des attributions et modifier le programme si nécessaire. Vous pouvez également utiliser la fonctionnalité de remplissage automatique et Organized assignera les attributions en fonction des qualifications de l'utilisateur.",
-  "tr_infoSecondPlanMidweekMeeting": "Sélectionnez une semaine pour effectuer une planification manuelle, ou laissez Organized générer automatiquement des attributions grâce à la fonctionnalité de remplissage automatique, tenant compte des qualifications de la personne et de ses précédentes attributions. Il sera possible de les modifier au besoin.",
+  "tr_infoSecondPlanMidweekMeeting": "Select a week to schedule it manually, or allow Organized to auto-generate assignments with the Autofill feature, considering person’s qualifications and past assignments. You can modify them as needed.",
   "tr_noMeeting": "Aucune réunion",
   "tr_weekType": "Type de semaine",
   "tr_addTextToSchedule": "Ajouter un libellé au programme",
@@ -82,7 +82,7 @@
   "tr_lastUpdated": "Dernière modification :",
   "tr_outgoingTalks": "Discours à l'extérieur",
   "tr_infoOutgoingTalk": "Frères qui prononceront un discours dans une autre assemblée",
-  "tr_speakers": "Orateurs : {{ speakersCount }}",
+  "tr_speakersWithCount": "Speakers: {{ speakersCount }}",
   "tr_JWImport": "Importation des contenus de JW.ORG",
   "tr_JWImportDesc": "Téléchargement des contenus de la réunion, veuillez patienter",
   "tr_successfullyImported": "Importation réussie",
@@ -107,5 +107,6 @@
   "tr_today": "Today",
   "tr_totalAttendance": "Total attendance",
   "tr_avgAttendance": "Average attendance",
-  "tr_avgOnline": "Average online"
+  "tr_avgOnline": "Average online",
+  "tr_meetingWeeks": "Meeting weeks"
 }

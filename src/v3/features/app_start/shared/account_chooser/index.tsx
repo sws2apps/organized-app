@@ -1,7 +1,7 @@
 import { Box, Link } from '@mui/material';
 import { IconBrother, IconPublishers, IconTest } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
-import AccountType from './components/AccountType';
+import AccountType from './account_type';
 import Button from '@components/button';
 import Typography from '@components/typography';
 import useAccountChooser from './useAccountChooser';

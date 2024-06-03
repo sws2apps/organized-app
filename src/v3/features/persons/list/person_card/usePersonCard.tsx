@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { BadgeColor } from '@definition/app';
 import { PersonType } from '@definition/person';
 import { useAppTranslation } from '@hooks/index';
@@ -18,13 +18,17 @@ import {
   updateRecentPersons,
 } from '@services/app/persons';
 import { personsRecentState } from '@states/persons';
+import { fullnameOptionState } from '@states/settings';
 
 const usePersonCard = (person: PersonType) => {
   const navigate = useNavigate();
 
   const { t } = useAppTranslation();
 
+  const fullnameOption = useRecoilValue(fullnameOptionState);
+
   const setPersonsRecent = useSetRecoilState(personsRecentState);
+
   const [isDeleting, setIsDeleting] = useState(false);
 
   const getPersonBadge = useCallback(() => {
@@ -35,15 +39,15 @@ const usePersonCard = (person: PersonType) => {
     const isFR = personIsFR(person);
     const isFS = personIsFS(person);
 
-    const isBaptized = person.baptizedPublisher.active.value;
-    const isUnbaptized = person.unbaptizedPublisher.active.value;
-    const isMidweek = person.midweekMeetingStudent.active.value;
-    const isDisqualified = person.isDisqualified.value;
+    const isBaptized = person.person_data.publisher_baptized.active.value;
+    const isUnbaptized = person.person_data.publisher_unbaptized.active.value;
+    const isMidweek = person.person_data.midweek_meeting_student.active.value;
+    const disqualified = person.person_data.disqualified.value;
     const isInactivePublisher = personIsInactive(person);
 
     const badges: { name: string; color: BadgeColor }[] = [];
 
-    if (isDisqualified) {
+    if (disqualified) {
       badges.push({ name: t('tr_disqualified'), color: 'red' });
     }
 
@@ -51,7 +55,7 @@ const usePersonCard = (person: PersonType) => {
       badges.push({ name: t('tr_inactivePublisher'), color: 'red' });
     }
 
-    if (!isDisqualified && !isInactivePublisher) {
+    if (!disqualified && !isInactivePublisher) {
       if (isElder) {
         badges.push({ name: t('tr_elder'), color: 'green' });
       }
@@ -77,9 +81,9 @@ const usePersonCard = (person: PersonType) => {
       }
     }
 
-    const hasSpecialBadge = isDisqualified || isInactivePublisher || isElder || isMS || isAP || isFMF || isFR || isFS;
+    const hasSpecialBadge = disqualified || isInactivePublisher || isElder || isMS || isAP || isFMF || isFR || isFS;
 
-    if (!hasSpecialBadge || isDisqualified) {
+    if (!hasSpecialBadge || disqualified) {
       if (isBaptized) {
         badges.push({ name: t('tr_baptizedPublisher'), color: 'grey' });
       }
@@ -134,6 +138,7 @@ const usePersonCard = (person: PersonType) => {
     handleDeleteCancel,
     handleDeleteConfirm,
     handleOpenPerson,
+    fullnameOption,
   };
 };
 

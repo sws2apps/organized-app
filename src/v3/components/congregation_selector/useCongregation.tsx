@@ -1,21 +1,15 @@
 import { useEffect, useState } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
+import { useRecoilValue } from 'recoil';
 import { apiFetchCongregations } from '@services/api/congregation';
 import { displaySnackNotification } from '@services/recoil/app';
 import { useAppTranslation } from '@hooks/index';
 import { CongregationResponseType } from '@definition/api';
-import { CountryType } from '../country_selector/index.types';
+import { speakersCongregationsActiveState } from '@states/speakers_congregations';
 
-/**
- * Custom hook for managing congregation data.
- * @param {Object} param0 - The country object.
- * @param {CountryType} param0.country - The selected country.
- * @returns {Object} An object containing state and functions for managing congregation data.
- */
-const useCongregation = ({ country }: { country: CountryType }) => {
-  const queryClient = useQueryClient();
-
+const useCongregation = (country_code: string, cong_number?: string) => {
   const { t } = useAppTranslation();
+
+  const congregations = useRecoilValue(speakersCongregationsActiveState);
 
   const [value, setValue] = useState<CongregationResponseType>(null);
   const [inputValue, setInputValue] = useState('');
@@ -36,25 +30,26 @@ const useCongregation = ({ country }: { country: CountryType }) => {
         try {
           setIsLoading(true);
 
-          await queryClient.prefetchQuery({
-            queryKey: ['congregations_by_country'],
-            queryFn: () => apiFetchCongregations(country.code, name),
-          });
+          const { data, status } = await apiFetchCongregations(country_code, name);
 
-          const result: { status: number; data: CongregationResponseType[] } = queryClient.getQueryData([
-            'congregations_by_country',
-          ]);
-
-          if (active && result.status === 200) {
-            if (Array.isArray(result.data)) setOptions(result.data);
-          }
-
-          if (result.status !== 200) {
+          if (status !== 200) {
             await displaySnackNotification({
               header: t('tr_errorTitle'),
               message: t('tr_congregationsFetchError'),
               severity: 'error',
             });
+          }
+
+          if (active && status === 200) {
+            if (Array.isArray(data)) {
+              const optionsRemoveRemote = data.filter((record) =>
+                congregations.find((cong) => cong.cong_data.cong_number.value === record.congNumber) ? false : true
+              );
+
+              const finalOptions = optionsRemoveRemote.filter((record) => record.congNumber !== cong_number);
+
+              setOptions(finalOptions);
+            }
           }
 
           setIsLoading(false);
@@ -78,7 +73,7 @@ const useCongregation = ({ country }: { country: CountryType }) => {
       active = false;
       if (fetchTimer) clearTimeout(fetchTimer);
     };
-  }, [country, value, inputValue, queryClient, t]);
+  }, [country_code, value, inputValue, t, cong_number, congregations]);
 
   return { setValue, value, setInputValue, options, isLoading };
 };

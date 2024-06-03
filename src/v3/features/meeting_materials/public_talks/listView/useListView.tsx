@@ -1,5 +1,5 @@
 import { useRecoilValue } from 'recoil';
-import { publicTalksFilteredState } from '@states/publicTalks';
+import { publicTalksFilteredState } from '@states/public_talks';
 import { useAppTranslation } from '@hooks/index';
 import { Column } from '@components/table/index.types';
 import { PublicTalkType } from '@definition/public_talks';

@@ -10,17 +10,17 @@ const usePrivileges = () => {
 
   const person = useRecoilValue(personCurrentDetailsState);
 
-  const activeHistory = person.privileges.filter((record) => record._deleted === null);
+  const activeHistory = person.person_data.privileges.filter((record) => record._deleted.value === false);
 
   const handleAddHistory = async () => {
     const newPerson = structuredClone(person);
 
-    newPerson.privileges.push({
+    newPerson.person_data.privileges.push({
       id: crypto.randomUUID(),
       privilege: { value: 'ms', updatedAt: new Date().toISOString() },
-      startDate: { value: new Date().toISOString(), updatedAt: new Date().toISOString() },
-      endDate: { value: null, updatedAt: new Date().toISOString() },
-      _deleted: null,
+      start_date: { value: new Date().toISOString(), updatedAt: new Date().toISOString() },
+      end_date: { value: null, updatedAt: new Date().toISOString() },
+      _deleted: { value: false, updatedAt: '' },
     });
 
     await setPersonCurrentDetails(newPerson);
@@ -30,12 +30,12 @@ const usePrivileges = () => {
     const newPerson = structuredClone(person);
 
     if (!isAddPerson) {
-      const current = newPerson.privileges.find((history) => history.id === id);
-      current._deleted = new Date().toISOString();
+      const current = newPerson.person_data.privileges.find((history) => history.id === id);
+      current._deleted = { value: true, updatedAt: new Date().toISOString() };
     }
 
     if (isAddPerson) {
-      newPerson.privileges = newPerson.privileges.filter((record) => record.id !== id);
+      newPerson.person_data.privileges = newPerson.person_data.privileges.filter((record) => record.id !== id);
     }
 
     await setPersonCurrentDetails(newPerson);
@@ -44,8 +44,8 @@ const usePrivileges = () => {
   const handleStartDateChange = async (id: string, value: Date) => {
     const newPerson = structuredClone(person);
 
-    const current = newPerson.privileges.find((history) => history.id === id);
-    current.startDate = {
+    const current = newPerson.person_data.privileges.find((history) => history.id === id);
+    current.start_date = {
       value: value.toISOString(),
       updatedAt: new Date().toISOString(),
     };
@@ -56,8 +56,8 @@ const usePrivileges = () => {
   const handleEndDateChange = async (id: string, value: Date | null) => {
     const newPerson = structuredClone(person);
 
-    const current = newPerson.privileges.find((history) => history.id === id);
-    current.endDate = {
+    const current = newPerson.person_data.privileges.find((history) => history.id === id);
+    current.end_date = {
       value: value === null ? null : value.toISOString(),
       updatedAt: new Date().toISOString(),
     };
@@ -70,7 +70,7 @@ const usePrivileges = () => {
 
     const newValue = value as PrivilegeType;
 
-    const current = newPerson.privileges.find((history) => history.id === id);
+    const current = newPerson.person_data.privileges.find((history) => history.id === id);
     current.privilege = { value: newValue, updatedAt: new Date().toISOString() };
 
     await setPersonCurrentDetails(newPerson);

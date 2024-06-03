@@ -50,7 +50,7 @@ const BaptizedPublisher = ({ checked, onChange, expanded, onExpand }: BaptizedPu
             </Typography>
             <RadioGroup
               sx={{ marginLeft: '4px', flexDirection: 'row', gap: tabletDown ? '16px' : '24px', flexWrap: 'wrap' }}
-              value={person.baptizedPublisher.isAnointed.value ? 'anointed' : 'otherSheep'}
+              value={person.person_data.publisher_baptized.anointed.value ? 'anointed' : 'otherSheep'}
               onChange={(e) => handleToggleHope(e.target.value)}
             >
               <FormControlLabel
@@ -80,9 +80,9 @@ const BaptizedPublisher = ({ checked, onChange, expanded, onExpand }: BaptizedPu
               <DatePicker
                 label={t('tr_baptismDate')}
                 value={
-                  person.baptizedPublisher.baptismDate.value === null
+                  person.person_data.publisher_baptized.baptism_date.value === null
                     ? null
-                    : new Date(person.baptizedPublisher.baptismDate.value)
+                    : new Date(person.person_data.publisher_baptized.baptism_date.value)
                 }
                 onChange={handleChangeBaptismDate}
                 maxDate={new Date()}
@@ -106,7 +106,7 @@ const BaptizedPublisher = ({ checked, onChange, expanded, onExpand }: BaptizedPu
             </Box>
           </Box>
 
-          <FirstReport value={person.firstMonthReport.value} onChange={handleFirstReportChange} />
+          <FirstReport value={person.person_data.first_month_report.value} onChange={handleFirstReportChange} />
 
           <StatusHistory
             active={isActive}
@@ -121,8 +121,8 @@ const BaptizedPublisher = ({ checked, onChange, expanded, onExpand }: BaptizedPu
                   <DateHistory
                     key={history.id}
                     id={history.id}
-                    startDate={history.startDate.value}
-                    endDate={history.endDate.value}
+                    start_date={history.start_date.value}
+                    end_date={history.end_date.value}
                     isLast={index === activeHistory.length - 1}
                     onAdd={handleAddHistory}
                     onDelete={handleDeleteHistory}

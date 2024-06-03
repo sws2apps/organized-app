@@ -1,14 +1,16 @@
 import { Box } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
-import Typography from '@components/typography';
 import { SpeakerTalksSongsType } from './index.types';
 import useTalksSongs from './useTalksSongs';
+import Button from '@components/button';
+import Typography from '@components/typography';
 import SongsTalk from '../../songs_talk';
 
-const SpeakerTalksSongs = ({ speaker, edit }: SpeakerTalksSongsType) => {
+const SpeakerTalksSongs = ({ speaker, onClose }: SpeakerTalksSongsType) => {
   const { t } = useAppTranslation();
 
-  const { talks, handleSongsTalkDelete, handleSongsTalkUpdate } = useTalksSongs(speaker);
+  const { talks, handleSongsTalkDelete, handleSongsTalkUpdate, handleToggleEdit, isEdit, cong_synced } =
+    useTalksSongs(speaker);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -35,10 +37,27 @@ const SpeakerTalksSongs = ({ speaker, edit }: SpeakerTalksSongsType) => {
             songs={record.songs}
             onChange={handleSongsTalkUpdate}
             onDelete={handleSongsTalkDelete}
-            edit={edit}
+            edit={isEdit}
           />
         ))}
       </Box>
+
+      {!cong_synced && (
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%' }}>
+          <Button variant="main" onClick={handleToggleEdit}>
+            {isEdit ? t('tr_done') : t('tr_songsEdit')}
+          </Button>
+          <Button variant="secondary" onClick={onClose}>
+            {t('tr_cancel')}
+          </Button>
+        </Box>
+      )}
+
+      {cong_synced && (
+        <Button variant="main" onClick={onClose} sx={{ width: '100%' }}>
+          {t('tr_close')}
+        </Button>
+      )}
     </Box>
   );
 };

@@ -1,11 +1,11 @@
 import { Box, Divider, FormControlLabel, RadioGroup } from '@mui/material';
+import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import useBasicInfo from './useBasicInfo';
 import Badge from '@components/badge';
 import DatePicker from '@components/date_picker';
 import Radio from '@components/radio';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
-import { useAppTranslation, useBreakpoints } from '@hooks/index';
-import useBasicInfo from './useBasicInfo';
 
 const PersonBasicInfo = () => {
   const { t } = useAppTranslation();
@@ -25,6 +25,7 @@ const PersonBasicInfo = () => {
     handleChangePhone,
     nameFlex,
     isInactive,
+    displayNameEnabled,
   } = useBasicInfo();
 
   return (
@@ -46,13 +47,13 @@ const PersonBasicInfo = () => {
       >
         <Typography className="h2">{t('tr_basicInformation')}</Typography>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-          {person.isArchived.value && (
+          {person.person_data.archived.value && (
             <Badge size="big" color="red" text={t('tr_archived')} sx={{ width: 'fit-content' }} />
           )}
 
           {isInactive && <Badge size="big" color="red" text={t('tr_inactive')} sx={{ width: 'fit-content' }} />}
 
-          {person.isDisqualified.value && (
+          {person.person_data.disqualified.value && (
             <Badge size="big" color="red" text={t('tr_disqualified')} sx={{ width: 'fit-content' }} />
           )}
         </Box>
@@ -70,37 +71,31 @@ const PersonBasicInfo = () => {
         >
           <TextField
             label={t('tr_firstname')}
-            value={person.person_firstname.value}
+            value={person.person_data.person_firstname.value}
             onChange={(e) => handleChangeFirstname(e.target.value)}
           />
           <TextField
             label={t('tr_lastname')}
-            value={person.person_lastname.value}
+            value={person.person_data.person_lastname.value}
             onChange={(e) => handleChangeLastname(e.target.value)}
           />
         </Box>
-        <TextField
-          label={t('tr_displayName')}
-          value={person.person_displayName.value}
-          onChange={(e) => handleChangeDisplayName(e.target.value)}
-        />
+        {displayNameEnabled && (
+          <TextField
+            label={t('tr_displayName')}
+            value={person.person_data.person_display_name.value}
+            onChange={(e) => handleChangeDisplayName(e.target.value)}
+          />
+        )}
       </Box>
 
       <RadioGroup
         sx={{ marginLeft: '4px', flexDirection: 'row', gap: tabletDown ? '16px' : '24px', flexWrap: 'wrap' }}
-        value={person.isMale.value ? 'male' : 'female'}
+        value={person.person_data.male.value ? 'male' : 'female'}
         onChange={(e) => handleToggleGender(e.target.value)}
       >
-        <FormControlLabel
-          value="male"
-          control={<Radio />}
-          label={<Typography className="body-regular">{t('tr_male')}</Typography>}
-        />
-        <FormControlLabel
-          value="female"
-          control={<Radio />}
-          label={<Typography className="body-regular">{t('tr_female')}</Typography>}
-        />
+        <FormControlLabel value="male" control={<Radio />} label={<Typography>{t('tr_male')}</Typography>} />
+        <FormControlLabel value="female" control={<Radio />} label={<Typography>{t('tr_female')}</Typography>} />
       </RadioGroup>
 
       <Box
@@ -115,7 +110,7 @@ const PersonBasicInfo = () => {
         <Box sx={{ flexGrow: 1, width: tabletDown ? '100%' : 'unset' }}>
           <DatePicker
             label={t('tr_dateOfBirth')}
-            value={person.birthDate.value === null ? null : new Date(person.birthDate.value)}
+            value={person.person_data.birth_date.value === null ? null : new Date(person.person_data.birth_date.value)}
             onChange={handleChangeBirthDate}
             maxDate={new Date()}
           />
@@ -152,18 +147,18 @@ const PersonBasicInfo = () => {
         >
           <TextField
             label={t('tr_emailAddress')}
-            value={person.email.value}
+            value={person.person_data.email.value}
             onChange={(e) => handleChangeEmailAddress(e.target.value)}
           />
           <TextField
             label={t('tr_phoneNumber')}
-            value={person.phone.value}
+            value={person.person_data.phone.value}
             onChange={(e) => handleChangePhone(e.target.value)}
           />
         </Box>
         <TextField
           label={t('tr_address')}
-          value={person.address.value}
+          value={person.person_data.address.value}
           onChange={(e) => handleChangeAddress(e.target.value)}
         />
       </Box>

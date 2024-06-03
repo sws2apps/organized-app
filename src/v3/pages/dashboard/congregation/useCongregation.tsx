@@ -1,20 +1,16 @@
 import { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 import { congAccountConnectedState, isAppDataSyncingState, lastAppDataSyncState } from '@states/app';
-import { useAppTranslation } from '@hooks/index';
-import { setIsAppDataSyncing } from '@services/recoil/app';
-import { accountTypeState } from '@states/settings';
-import { apiSendCongregationBackup } from '@services/api/congregation';
-import { apiSendUserBackup } from '@services/api/user';
+import { useAppTranslation, useFirebaseAuth } from '@hooks/index';
 import worker from '@services/worker/backupWorker';
-import { delay } from '@utils/dev';
 
 const useCongregation = () => {
   const { t } = useAppTranslation();
 
+  const { user } = useFirebaseAuth();
+
   const isSyncing = useRecoilValue(isAppDataSyncingState);
   const lastSync = useRecoilValue(lastAppDataSyncState);
-  const accountType = useRecoilValue(accountTypeState);
   const isConnected = useRecoilValue(congAccountConnectedState);
 
   const getSecondaryText = () => {
@@ -38,33 +34,8 @@ const useCongregation = () => {
   };
 
   const handleManualSync = async () => {
-    try {
-      await setIsAppDataSyncing(true);
-
-      await delay(5000);
-
-      const reqPayload = {};
-
-      let status;
-
-      if (accountType === 'vip') {
-        const result = await apiSendCongregationBackup(reqPayload);
-        status = result.status;
-      }
-
-      if (accountType === 'pocket') {
-        const result = await apiSendUserBackup(reqPayload);
-        status = result.status;
-      }
-
-      if (status === 200) {
-        worker.postMessage({ field: 'lastBackup', value: new Date().toISOString() });
-      }
-
-      await setIsAppDataSyncing(false);
-    } catch (err) {
-      await setIsAppDataSyncing(false);
-    }
+    worker.postMessage({ field: 'idToken', value: await user.getIdToken(true) });
+    worker.postMessage('startWorker');
   };
 
   useEffect(() => {

@@ -1,84 +1,57 @@
-import { getVisitingSpeakersCongregations } from '@services/app/visitingSpeakers';
+import { VisitingSpeakersAccessResponseType } from '@definition/api';
 import { apiDefault } from './common';
 
-export const apiApproveCongregationSpeakersRequest = async (cong_id) => {
-  const { apiHost, appVersion: appversion, visitorID: visitorid, userUID: uid, congID } = await apiDefault();
+export const apiGetApprovedVisitingSpeakersAccess = async (): Promise<VisitingSpeakersAccessResponseType> => {
+  const { apiHost, appVersion: appversion, congID, idToken } = await apiDefault();
 
-  const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/request-speakers/approve`, {
-    method: 'PATCH',
-    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid, cong_id },
-  });
-
-  const data = await res.json();
-
-  return { status: res.status, data };
-};
-
-export const apiDisapproveCongregationSpeakersRequest = async (cong_id) => {
-  const { apiHost, appVersion: appversion, visitorID: visitorid, userUID: uid, congID } = await apiDefault();
-
-  const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/request-speakers/disapprove`, {
-    method: 'PATCH',
-    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid, cong_id },
-  });
-
-  const data = await res.json();
-
-  return { status: res.status, data };
-};
-
-export const apiGetCongregationSpeakersRequests = async () => {
-  const { apiHost, appVersion: appversion, visitorID: visitorid, userUID: uid, congID } = await apiDefault();
-
-  const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/request-speakers`, {
+  const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/visiting-speakers/access`, {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
-  });
-
-  const data = await res.json();
-
-  return { status: res.status, data };
-};
-
-export const apiUploadVisitingSpeakers = async (speakers) => {
-  const { apiHost, appVersion: appversion, visitorID: visitorid, congID, userUID: uid } = await apiDefault();
-
-  const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/visiting-speakers`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
-    body: JSON.stringify({ speakers }),
-  });
-
-  const data = await res.json();
-
-  return { status: res.status, data };
-};
-
-export const apiGetCongregationSpeakersList = async (congs) => {
-  const { apiHost, appVersion: appversion, visitorID: visitorid, congID, userUID: uid } = await apiDefault();
-
-  if (!congs) {
-    const tmpList = await getVisitingSpeakersCongregations();
-    if (tmpList.length === 0) {
-      congs = [];
-    } else {
-      congs = tmpList.join(';');
-    }
-  }
-
-  if (congs) {
-    congs = [congs];
-  }
-
-  const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/visiting-speakers`, {
-    method: 'GET',
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${idToken}`,
       appclient: 'organized',
       appversion,
-      visitorid,
-      uid,
-      congs: JSON.stringify(congs),
+    },
+  });
+
+  const data = await res.json();
+
+  return { status: res.status, result: data };
+};
+
+export const apiRequestAccessCongregationSpeakers = async (cong_id: string, request_id: string, key: string) => {
+  const { apiHost, appVersion: appversion, congID, idToken } = await apiDefault();
+
+  const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/visiting-speakers/request`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${idToken}`,
+      appclient: 'organized',
+      appversion,
+    },
+    body: JSON.stringify({ cong_id, request_id, key }),
+  });
+
+  const data = await res.json();
+
+  return { status: res.status, data };
+};
+
+export const apiFindCongregationSpeakers = async (name: string) => {
+  const { apiHost, appVersion: appversion, congID, idToken } = await apiDefault();
+
+  const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/visiting-speakers/congregations`, {
+    method: 'GET',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${idToken}`,
+      appclient: 'organized',
+      appversion,
+      name: name,
     },
   });
 
@@ -87,56 +60,66 @@ export const apiGetCongregationSpeakersList = async (congs) => {
   return { status: res.status, data };
 };
 
-export const apiGetApprovedVisitingSpeakersAccess = async () => {
-  const { apiHost, appVersion: appversion, visitorID: visitorid, congID, userUID: uid } = await apiDefault();
+export const apiGetPendingVisitingSpeakersAccess = async (): Promise<VisitingSpeakersAccessResponseType> => {
+  const { apiHost, appVersion: appversion, congID, idToken } = await apiDefault();
 
-  const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/visiting-speakers-access`, {
+  const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/visiting-speakers/pending-access`, {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${idToken}`,
+      appclient: 'organized',
+      appversion,
+    },
   });
 
   const data = await res.json();
 
-  return { status: res.status, data };
+  return { status: res.status, result: data };
 };
 
-export const apiUpdateVisitingSpeakersAccess = async (congs) => {
-  const { apiHost, appVersion: appversion, visitorID: visitorid, congID, userUID: uid } = await apiDefault();
+export const apiApproveRequestCongregationSpeakers = async (
+  request_id: string,
+  key: string
+): Promise<VisitingSpeakersAccessResponseType> => {
+  const { apiHost, appVersion: appversion, congID, idToken } = await apiDefault();
 
-  const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/visiting-speakers-access`, {
-    method: 'PATCH',
-    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
-    body: JSON.stringify({ congs }),
-  });
-
-  const data = await res.json();
-
-  return { status: res.status, data };
-};
-
-export const apiRequestAccessCongregationSpeakers = async (cong_id) => {
-  const { apiHost, appVersion: appversion, visitorID: visitorid, congID, userUID: uid } = await apiDefault();
-
-  const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/request-speakers`, {
+  const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/visiting-speakers/request/approve`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid },
-    body: JSON.stringify({ cong_id }),
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${idToken}`,
+      appclient: 'organized',
+      appversion,
+    },
+    body: JSON.stringify({ request_id, key }),
   });
 
   const data = await res.json();
 
-  return { status: res.status, data };
+  return { status: res.status, result: data };
 };
 
-export const apiFindCongregationSpeakers = async (name) => {
-  const { apiHost, appVersion: appversion, visitorID: visitorid, congID, userUID: uid } = await apiDefault();
+export const apiRejectRequestCongregationSpeakers = async (
+  request_id: string
+): Promise<VisitingSpeakersAccessResponseType> => {
+  const { apiHost, appVersion: appversion, congID, idToken } = await apiDefault();
 
-  const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/visiting-speakers-congregations`, {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid, uid, name: name },
+  const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/visiting-speakers/request/reject`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${idToken}`,
+      appclient: 'organized',
+      appversion,
+    },
+    body: JSON.stringify({ request_id }),
   });
 
   const data = await res.json();
 
-  return { status: res.status, data };
+  return { status: res.status, result: data };
 };

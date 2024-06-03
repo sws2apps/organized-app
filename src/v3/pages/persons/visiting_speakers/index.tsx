@@ -1,20 +1,23 @@
 import { Box } from '@mui/material';
-import { useAppTranslation, useBreakpoints } from '@hooks/index';
-import { Button, PageTitle } from '@components/index';
 import { IconAdd } from '@components/icons';
+import { Button, PageTitle } from '@components/index';
+import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { IncomingSpeakers, OutgoingSpeakers } from '@features/index';
+import useVisitingSpeakers from './useVisitingSpeakers';
 
 const VisitingSpeakers = () => {
   const { t } = useAppTranslation();
 
   const { desktopUp } = useBreakpoints();
 
+  const { handleIsAddingOpen } = useVisitingSpeakers();
+
   return (
     <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
       <PageTitle
         title={t('tr_visitingSpeakers')}
         buttons={
-          <Button variant="main" startIcon={<IconAdd />}>
+          <Button variant="main" startIcon={<IconAdd />} onClick={handleIsAddingOpen}>
             {t('tr_addCongregation')}
           </Button>
         }

@@ -1,99 +1,68 @@
-import { delay } from '@utils/dev';
-import { apiSendCongregationBackup, apiSendUserBackup } from './backupUtils';
+import { delay } from '@utils/common';
+import { apiGetCongregationBackup, apiSendCongregationBackup } from './backupApi';
+import { dbExportDataBackup } from './backupUtils';
 
-const setting = {
-  isEnabled: false,
-  visitorID: undefined,
+declare const self: MyWorkerGlobalScope;
+
+self.setting = {
   apiHost: undefined,
   congID: undefined,
-  isOnline: navigator.onLine,
-  backupInterval: 300000,
-  isCongAccountConnected: undefined,
   userRole: [],
   accountType: undefined,
-  userUID: undefined,
   userID: undefined,
-  lastBackup: undefined,
+  idToken: undefined,
 };
 
 self.onmessage = function (event) {
   if (event.data.field) {
-    setting[event.data.field] = event.data.value;
+    if (Object.keys(self.setting).includes(event.data.field)) {
+      self.setting[event.data.field] = event.data.value;
+    }
   }
 
   if (event.data === 'startWorker') {
-    runBackupSchedule();
-    checkLastSync();
+    runBackup();
   }
 };
 
-const runBackupSchedule = async () => {
+const runBackup = async () => {
+  let backup = 'started';
+
   try {
-    const {
-      backupInterval,
-      accountType,
-      apiHost,
-      congID,
-      isCongAccountConnected,
-      isEnabled,
-      isOnline,
-      userID,
-      userUID,
-      visitorID,
-    } = setting;
+    const { accountType, apiHost, congID, userRole, idToken } = self.setting;
 
-    if (isEnabled && backupInterval && isOnline && visitorID && apiHost && congID && isCongAccountConnected) {
-      self.postMessage('Syncing');
-      await delay(5000);
-      const reqPayload = {};
-      if (accountType === 'vip' && userUID) {
-        const data = await apiSendCongregationBackup({ apiHost, congID, reqPayload, userUID, visitorID });
-        if (data && data.message === 'BACKUP_SENT') {
-          setting.lastBackup = new Date().toISOString();
+    self.postMessage('Syncing');
+
+    if (accountType === 'vip' && idToken) {
+      // loop until server responds backup completed excluding failure
+      do {
+        const backupData = await apiGetCongregationBackup({ apiHost, congID, idToken });
+
+        const reqPayload = await dbExportDataBackup(userRole, backupData);
+
+        const data = await apiSendCongregationBackup({
+          apiHost,
+          congID,
+          reqPayload,
+          idToken,
+          lastBackup: backupData.last_backup,
+        });
+
+        if (data?.message === 'BACKUP_SENT') backup = 'completed';
+
+        if (backup !== 'completed') {
+          await delay(5000);
         }
-      }
-      if (accountType === 'pocket' && userID) {
-        const data = await apiSendUserBackup({ apiHost, reqPayload, userID, visitorID });
-        if (data && data.message === 'BACKUP_SENT') {
-          setting.lastBackup = new Date().toISOString();
-        }
-      }
+      } while (backup === 'started');
     }
-    self.postMessage('Done');
-    setTimeout(runBackupSchedule, backupInterval);
-  } catch {
-    self.postMessage('Done');
-    setTimeout(runBackupSchedule, setting.backupInterval);
+
+    if (backup === 'completed') {
+      self.postMessage('Done');
+      self.postMessage({ lastBackup: new Date().toISOString() });
+    }
+  } catch (error) {
+    console.error(error);
+    backup = 'failed';
+    self.postMessage({ error: 'BACKUP_FAILED', details: error.message });
   }
-};
-
-const checkLastSync = () => {
-  const { isOnline, lastBackup } = setting;
-
-  if (isOnline && lastBackup) {
-    let result: string | number = 0;
-
-    const lastDate = new Date(lastBackup).getTime();
-    const currentDate = new Date().getTime();
-
-    const msDifference = currentDate - lastDate;
-    const resultS = Math.floor(msDifference / 1000);
-    const resultM = Math.floor(resultS / 60);
-
-    if (resultS <= 30) {
-      result = 'now';
-    }
-
-    if (resultS > 30 && resultS < 60) {
-      result = 'recently';
-    }
-
-    if (resultS >= 60) {
-      result = resultM;
-    }
-
-    self.postMessage({ lastBackup: result });
-  }
-
-  setTimeout(checkLastSync, 500);
 };

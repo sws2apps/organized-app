@@ -57,18 +57,18 @@ export const monthNamesState = selector({
 
     const months = [];
 
-    months.push(getTranslation({ key: 'january', language: appLang }));
-    months.push(getTranslation({ key: 'february', language: appLang }));
-    months.push(getTranslation({ key: 'march', language: appLang }));
-    months.push(getTranslation({ key: 'april', language: appLang }));
-    months.push(getTranslation({ key: 'may', language: appLang }));
-    months.push(getTranslation({ key: 'june', language: appLang }));
-    months.push(getTranslation({ key: 'july', language: appLang }));
-    months.push(getTranslation({ key: 'august', language: appLang }));
-    months.push(getTranslation({ key: 'september', language: appLang }));
-    months.push(getTranslation({ key: 'october', language: appLang }));
-    months.push(getTranslation({ key: 'november', language: appLang }));
-    months.push(getTranslation({ key: 'december', language: appLang }));
+    months.push(getTranslation({ key: 'tr_january', language: appLang }));
+    months.push(getTranslation({ key: 'tr_february', language: appLang }));
+    months.push(getTranslation({ key: 'tr_march', language: appLang }));
+    months.push(getTranslation({ key: 'tr_april', language: appLang }));
+    months.push(getTranslation({ key: 'tr_may', language: appLang }));
+    months.push(getTranslation({ key: 'tr_june', language: appLang }));
+    months.push(getTranslation({ key: 'tr_july', language: appLang }));
+    months.push(getTranslation({ key: 'tr_august', language: appLang }));
+    months.push(getTranslation({ key: 'tr_september', language: appLang }));
+    months.push(getTranslation({ key: 'tr_october', language: appLang }));
+    months.push(getTranslation({ key: 'tr_november', language: appLang }));
+    months.push(getTranslation({ key: 'tr_december', language: appLang }));
 
     return months;
   },
@@ -116,11 +116,6 @@ export const isCongAccountCreateState = atom({
 export const isShowTermsUseState = atom({
   key: 'isShowLAG',
   default: typeof window !== 'undefined' && convertStringToBoolean(localStorage.getItem('termsUse') || 'true'),
-});
-
-export const visitorIDState = atom({
-  key: 'visitorID',
-  default: '',
 });
 
 export const qrCodePathState = atom({
@@ -418,7 +413,7 @@ export const JWLangState = selector({
 
     const currentLang = LANGUAGE_LIST.find((lang) => lang.locale === appLang);
 
-    return currentLang?.code || 'e';
+    return currentLang?.code.toUpperCase() || 'E';
   },
 });
 
@@ -430,4 +425,19 @@ export const currentDrawerState = atom({
 export const isWIPSnackOpenState = atom({
   key: 'isWIPSnackOpen',
   default: false,
+});
+
+export const isAppNotificationOpenState = atom({
+  key: 'isAppNotificationOpen',
+  default: false,
+});
+
+export const speakersKeyState = atom({
+  key: 'speakersKey',
+  default: '',
+});
+
+export const encryptedMasterKeyState = atom({
+  key: 'encryptedMasterKey',
+  default: '',
 });

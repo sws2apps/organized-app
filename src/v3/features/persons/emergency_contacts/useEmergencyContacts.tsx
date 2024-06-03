@@ -9,16 +9,16 @@ const useEmergencyContacts = () => {
 
   const person = useRecoilValue(personCurrentDetailsState);
 
-  const activeContacts = person.emergencyContacts.filter((record) => record._deleted === null);
+  const activeContacts = person.person_data.emergency_contacts.filter((record) => record._deleted.value === false);
 
   const handleAddContact = async () => {
     const newPerson = structuredClone(person);
 
-    newPerson.emergencyContacts.push({
+    newPerson.person_data.emergency_contacts.push({
       id: crypto.randomUUID(),
       name: { value: '', updatedAt: '' },
       contact: { value: '', updatedAt: '' },
-      _deleted: null,
+      _deleted: { value: false, updatedAt: '' },
     });
 
     await setPersonCurrentDetails(newPerson);
@@ -28,12 +28,14 @@ const useEmergencyContacts = () => {
     const newPerson = structuredClone(person);
 
     if (!isAddPerson) {
-      const current = newPerson.emergencyContacts.find((contact) => contact.id === id);
-      current._deleted = new Date().toISOString();
+      const current = newPerson.person_data.emergency_contacts.find((contact) => contact.id === id);
+      current._deleted = { value: true, updatedAt: new Date().toISOString() };
     }
 
     if (isAddPerson) {
-      newPerson.emergencyContacts = newPerson.emergencyContacts.filter((contact) => contact.id !== id);
+      newPerson.person_data.emergency_contacts = newPerson.person_data.emergency_contacts.filter(
+        (contact) => contact.id !== id
+      );
     }
 
     await setPersonCurrentDetails(newPerson);
@@ -42,7 +44,7 @@ const useEmergencyContacts = () => {
   const handleNameChange = async (id: string, value: string) => {
     const newPerson = structuredClone(person);
 
-    const current = newPerson.emergencyContacts.find((contact) => contact.id === id);
+    const current = newPerson.person_data.emergency_contacts.find((contact) => contact.id === id);
     current.name = { value, updatedAt: new Date().toISOString() };
 
     await setPersonCurrentDetails(newPerson);
@@ -51,7 +53,7 @@ const useEmergencyContacts = () => {
   const handleContactChange = async (id: string, value: string) => {
     const newPerson = structuredClone(person);
 
-    const current = newPerson.emergencyContacts.find((history) => history.id === id);
+    const current = newPerson.person_data.emergency_contacts.find((history) => history.id === id);
     current.contact = { value, updatedAt: new Date().toISOString() };
 
     await setPersonCurrentDetails(newPerson);

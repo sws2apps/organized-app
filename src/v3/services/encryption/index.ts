@@ -17,7 +17,7 @@ export const encryptData = (data: string, passphrase: string) => {
 export const decryptData = (data: string, passphrase: string) => {
   const decryptedData = CryptoES.AES.decrypt(data, passphrase);
   const str = decryptedData.toString(CryptoES.enc.Utf8);
-  const result = JSON.parse(str);
+  const result: string = JSON.parse(str);
 
   return result;
 };

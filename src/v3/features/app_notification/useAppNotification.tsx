@@ -1,11 +1,18 @@
-import { useState } from 'react';
-import { setIsMyAssignmentOpen } from '@services/recoil/app';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { isAppNotificationOpenState, isMyAssignmentOpenState } from '@states/app';
+import { notificationsState } from '@states/notification';
 
 const useAppNotification = () => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useRecoilState(isAppNotificationOpenState);
+
+  const setIsMyAssignmentOpen = useSetRecoilState(isMyAssignmentOpenState);
+
+  const notifications = useRecoilValue(notificationsState);
+
+  const count = notifications.filter((record) => !record.read).length;
 
   const handleOpenNotification = async () => {
-    await setIsMyAssignmentOpen(false);
+    setIsMyAssignmentOpen(false);
 
     setOpen(true);
   };
@@ -14,7 +21,12 @@ const useAppNotification = () => {
     setOpen(false);
   };
 
-  return { open, handleOpenNotification, handleCloseNotification };
+  return {
+    open,
+    handleOpenNotification,
+    handleCloseNotification,
+    count,
+  };
 };
 
 export default useAppNotification;

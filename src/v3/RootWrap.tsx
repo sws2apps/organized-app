@@ -12,10 +12,9 @@ import App from './App';
 import '@global/global.css';
 import '@global/index.css';
 import { handleSWOnInstalled, handleSWOnUpdated } from '@services/recoil/app';
-import { initializeFirebaseApp } from '@services/firebase/index';
+import '@services/firebase/index';
 import i18n from '@services/i18n/index';
 
-initializeFirebaseApp();
 await i18n.init();
 
 const font = localStorage.getItem('app_font') || 'Inter';
@@ -48,6 +47,7 @@ const theme = createTheme({
       mobile: 0,
       mobile400: 400,
       tablet: 480,
+      tablet500: 500,
       tablet600: 600,
       tablet688: 688,
       laptop: 768,

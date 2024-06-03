@@ -58,7 +58,7 @@
   "tr_remindMeTomorrow": "भोलि सम्झाउने",
   "tr_goToReports": "रिपोर्टहरू हेर्ने",
   "tr_noInternetConnection": "इन्टरनेट छैन",
-  "tr_noInternetConnectionDesc": "Organized अहिले अफलाइन काम गर्दैछ। फेरि अनलाइन भएपछि तपाईंले राखेका कुनै नयाँ डाटा सिङ्क गर्न सक्नुहुनेछ।",
+  "tr_noInternetConnectionDesc": "Organized is working offline right now. When you’re back online, any new data you entered will be able to sync.",
   "tr_done": "काम भयो",
   "tr_notifications": "सूचना",
   "tr_reject": "अस्वीकार गर्ने",
@@ -71,12 +71,12 @@
   "tr_tertitoryCardRequestDesc": "इलाका कार्डको अनुरोध पुनरावृत्ति गर्नुहोस्:",
   "tr_markAsRead": "पढ्ने",
   "tr_yourRequestAccepted": "तपाईंको अनुरोध स्वीकृत भयो",
-  "tr_yourRequestAcceptedDesc": "{{ congregationNameAndNumber }} मण्डलीले तपाईंको अतिथि वक्ताहरूको सूचीको लागि तपाईंको अनुरोध स्वीकृत गऱ्यो। वक्ताहरूको सूची सिङ्क गर्नका लागि अतिथि वक्ताहरू पृष्ठमा जानुहोस्।",
+  "tr_yourRequestAcceptedDesc": "The <strong>{{ congregationNameAndNumber }}</strong> congregation accepted your request to view their outgoing speakers list.",
   "tr_returnedTerritory": "{{ publisherName }}बाट इलाका फिर्ता गरियो",
   "tr_returnedTerritoryDesc": "इलाका {{ territoryNumber }} ढाकियो र कार्ड फिर्ता गरिएको छ। प्रकाशकले पेस गरेका घर संख्या {{ numberOfHouses }} हो। आवश्यक भएमा इलाका जानकारी अपडेट गर्नुहोस्।",
   "tr_whatsNew": "Organized एपमा के नयाँ छ",
   "tr_shareFeeback": "प्रतिक्रिया शेयर गर्ने",
-  "tr_shareFeebackDesc": "नयाँ विचार छ? हामीसँग शेयर गर्नुहोस्! थप प्राविधिक वा गहिरो छलफलका लागि हाम्रो <a href=\"https://github.com/sws2apps/organized-app/discussions\">GitHub चर्चा</a> प्रयोग गर्नुहोस्।",
+  "tr_shareFeebackDesc": "Have a brilliant idea? Share it with us! For more technical or in-depth discussions, we encourage you to use our <a href='https://github.com/sws2apps/organized-app/discussions'>GitHub Discussions</a> if possible.",
   "tr_feedback": "प्रतिक्रिया",
   "tr_subject": "विषय",
   "tr_sendFeedback": "प्रतिक्रिया पठाउने",
@@ -90,5 +90,6 @@
   "tr_hallCleaning": "Hall cleaning",
   "tr_yourEmailField": "Your email address",
   "tr_yourMessage": "Your message",
-  "tr_reportSubmittedDesc": "तपाईंको {{ month }} महिनाको रिपोर्ट पेस गरियो"
+  "tr_reportSubmittedDesc": "तपाईंको {{ month }} महिनाको रिपोर्ट पेस गरियो",
+  "tr_mainCongregation": "Main congregation"
 }

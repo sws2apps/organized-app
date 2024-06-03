@@ -1,20 +1,19 @@
-import { useRecoilValue } from 'recoil';
+import { ReactNode, useEffect, useState } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { Box, MenuItem, Stack } from '@mui/material';
 import { IconInfo, IconManageAccounts, IconSync } from '@icons/index';
-import ButtonIcon from '@components/icon_button';
-import Select from '@components/select';
-import Typography from '@components/typography';
+import { isMyAssignmentOpenState } from '@states/app';
+import { personsFilteredState } from '@states/persons';
+import { useAppTranslation } from '@hooks/index';
+import useAssignments from '@features/meetings/my_assignments/useAssignments';
 import AssigmentItem, { AssigmentMonthItem } from '@components/assigments';
 import Badge from '@components/badge';
-import Drawer from '@components/drawer';
-import { isMyAssignmentOpenState } from '@states/app';
-import { setIsMyAssignmentOpen } from '@services/recoil/app';
-import { ReactNode, useEffect, useState } from 'react';
-import InfoTip from '@components/info_tip';
-import { useAppTranslation } from '@hooks/index';
 import Button from '@components/button';
-import { personsFilteredState } from '@states/persons';
-import useAssignments from '@features/meetings/my_assignments/useAssignments';
+import ButtonIcon from '@components/icon_button';
+import Drawer from '@components/drawer';
+import InfoTip from '@components/info_tip';
+import Select from '@components/select';
+import Typography from '@components/typography';
 
 interface TabPanelProps {
   children?: ReactNode;
@@ -40,24 +39,28 @@ const CustomTabPanel = (props: TabPanelProps) => {
 
 const MyAssignments = () => {
   const { t } = useAppTranslation();
+
+  const { handleManualRefresh } = useAssignments();
+
+  const setIsMyAssignmentOpen = useSetRecoilState(isMyAssignmentOpenState);
+
   const persons = useRecoilValue(personsFilteredState);
   const open = useRecoilValue(isMyAssignmentOpenState);
-  const { handleManualRefresh } = useAssignments();
 
   const [value, setValue] = useState(0);
   const [personAssignments, setPersonAssignments] = useState('');
-
-  useEffect(() => {
-    if (!open) setValue(0);
-  }, [open]);
 
   const handleChange = (newValue: number) => {
     setValue(newValue);
   };
 
   const handleClose = async () => {
-    await setIsMyAssignmentOpen(false);
+    setIsMyAssignmentOpen(false);
   };
+
+  useEffect(() => {
+    if (!open) setValue(0);
+  }, [open]);
 
   return (
     <Drawer
@@ -144,12 +147,16 @@ const MyAssignments = () => {
           <Select label={t('tr_yourPersonRecord')} value={personAssignments}>
             {persons.map((person) => (
               <MenuItem
-                onClick={() => setPersonAssignments(`${person.person_firstname.value} ${person.person_lastname.value}`)}
+                onClick={() =>
+                  setPersonAssignments(
+                    `${person.person_data.person_firstname.value} ${person.person_data.person_lastname.value}`
+                  )
+                }
                 key={person.person_uid}
-                value={`${person.person_firstname.value} ${person.person_lastname.value}`}
+                value={`${person.person_data.person_firstname.value} ${person.person_data.person_lastname.value}`}
               >
                 <Typography className="body-regular" color="var(--black)">
-                  {`${person.person_firstname.value} ${person.person_lastname.value}`}
+                  {`${person.person_data.person_firstname.value} ${person.person_data.person_lastname.value}`}
                 </Typography>
               </MenuItem>
             ))}

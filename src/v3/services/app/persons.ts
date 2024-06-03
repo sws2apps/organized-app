@@ -3,164 +3,165 @@ import { formatDate } from '@services/dateformat';
 import { dateFirstDayMonth, dateLastDatePreviousMonth } from '@utils/date';
 
 const personUnarchiveMidweekMeeting = (person: PersonType) => {
-  if (person.midweekMeetingStudent.active.value) {
-    const current = person.midweekMeetingStudent.history.find(
-      (record) => record._deleted === null && record.endDate.value === null
+  if (person.person_data.midweek_meeting_student.active.value) {
+    const current = person.person_data.midweek_meeting_student.history.find(
+      (record) => record._deleted.value === false && record.end_date.value === null
     );
 
     if (!current) {
-      person.midweekMeetingStudent.history.push({
+      person.person_data.midweek_meeting_student.history.push({
         id: crypto.randomUUID(),
-        startDate: { value: new Date().toISOString(), updatedAt: new Date().toISOString() },
-        endDate: { value: null, updatedAt: new Date().toISOString() },
-        _deleted: null,
+        start_date: { value: new Date().toISOString(), updatedAt: new Date().toISOString() },
+        end_date: { value: null, updatedAt: new Date().toISOString() },
+        _deleted: { value: false, updatedAt: '' },
       });
     }
   }
 };
 
 const personUnarchiveUnbaptizedPublisher = (person: PersonType) => {
-  if (person.unbaptizedPublisher.active.value) {
-    const current = person.unbaptizedPublisher.history.find(
-      (record) => record._deleted === null && record.endDate.value === null
+  if (person.person_data.publisher_unbaptized.active.value) {
+    const current = person.person_data.publisher_unbaptized.history.find(
+      (record) => record._deleted.value === false && record.end_date.value === null
     );
 
     if (!current) {
-      person.unbaptizedPublisher.history.push({
+      person.person_data.publisher_unbaptized.history.push({
         id: crypto.randomUUID(),
-        startDate: { value: dateFirstDayMonth().toISOString(), updatedAt: new Date().toISOString() },
-        endDate: { value: null, updatedAt: new Date().toISOString() },
-        _deleted: null,
+        start_date: { value: dateFirstDayMonth().toISOString(), updatedAt: new Date().toISOString() },
+        end_date: { value: null, updatedAt: new Date().toISOString() },
+        _deleted: { value: false, updatedAt: '' },
       });
     }
   }
 };
 
 const personUnarchiveBaptizedPublisher = (person: PersonType) => {
-  if (person.baptizedPublisher.active.value) {
-    const current = person.baptizedPublisher.history.find(
-      (record) => record._deleted === null && record.endDate.value === null
+  if (person.person_data.publisher_baptized.active.value) {
+    const current = person.person_data.publisher_baptized.history.find(
+      (record) => record._deleted.value === false && record.end_date.value === null
     );
 
     if (!current) {
-      person.baptizedPublisher.history.push({
+      person.person_data.publisher_baptized.history.push({
         id: crypto.randomUUID(),
-        startDate: { value: dateFirstDayMonth().toISOString(), updatedAt: new Date().toISOString() },
-        endDate: { value: null, updatedAt: new Date().toISOString() },
-        _deleted: null,
+        start_date: { value: dateFirstDayMonth().toISOString(), updatedAt: new Date().toISOString() },
+        end_date: { value: null, updatedAt: new Date().toISOString() },
+        _deleted: { value: false, updatedAt: '' },
       });
     }
   }
 };
 
 const personArchiveMidweekMeeting = (person: PersonType, isAddPerson: boolean) => {
-  if (person.midweekMeetingStudent.active.value) {
-    const current = person.midweekMeetingStudent.history.find(
-      (record) => record._deleted === null && record.endDate.value === null
+  if (person.person_data.midweek_meeting_student.active.value) {
+    const current = person.person_data.midweek_meeting_student.history.find(
+      (record) => record._deleted.value === false && record.end_date.value === null
     );
 
-    const startDate = formatDate(new Date(current.startDate.value), 'mm/dd/yyyy');
-    const nowDate = formatDate(new Date(), 'mm/dd/yyyy');
+    const start_date = formatDate(new Date(current.start_date.value), 'MM/dd/yyyy');
+    const nowDate = formatDate(new Date(), 'MM/dd/yyyy');
 
-    if (startDate === nowDate) {
+    if (start_date === nowDate) {
       if (isAddPerson) {
-        person.midweekMeetingStudent.history = person.midweekMeetingStudent.history.filter(
+        person.person_data.midweek_meeting_student.history = person.person_data.midweek_meeting_student.history.filter(
           (record) => record.id !== current.id
         );
       }
 
       if (!isAddPerson) {
-        current._deleted = new Date().toISOString();
+        current._deleted = { value: true, updatedAt: new Date().toISOString() };
       }
     }
 
-    if (startDate !== nowDate) {
-      current.endDate.value = new Date().toISOString();
-      current.endDate.updatedAt = new Date().toISOString();
+    if (start_date !== nowDate) {
+      current.end_date.value = new Date().toISOString();
+      current.end_date.updatedAt = new Date().toISOString();
     }
   }
 };
 
 const personArchiveUnbaptizedPublisher = (person: PersonType, isAddPerson: boolean) => {
-  if (person.unbaptizedPublisher.active.value) {
-    const current = person.unbaptizedPublisher.history.find(
-      (record) => record._deleted === null && record.endDate.value === null
+  if (person.person_data.publisher_unbaptized.active.value) {
+    const current = person.person_data.publisher_unbaptized.history.find(
+      (record) => record._deleted.value === false && record.end_date.value === null
     );
 
-    const startDate = formatDate(new Date(current.startDate.value), 'mm/dd/yyyy');
-    const nowDate = formatDate(new Date(), 'mm/dd/yyyy');
+    const start_date = formatDate(new Date(current.start_date.value), 'MM/dd/yyyy');
+    const nowDate = formatDate(new Date(), 'MM/dd/yyyy');
 
-    if (startDate === nowDate) {
+    if (start_date === nowDate) {
       if (isAddPerson) {
-        person.unbaptizedPublisher.history = person.unbaptizedPublisher.history.filter(
+        person.person_data.publisher_unbaptized.history = person.person_data.publisher_unbaptized.history.filter(
           (record) => record.id !== current.id
         );
       }
 
       if (!isAddPerson) {
-        current._deleted = new Date().toISOString();
+        current._deleted = { value: true, updatedAt: new Date().toISOString() };
       }
     }
 
-    if (startDate !== nowDate) {
-      current.endDate.value = dateLastDatePreviousMonth().toISOString();
-      current.endDate.updatedAt = new Date().toISOString();
+    if (start_date !== nowDate) {
+      current.end_date.value = dateLastDatePreviousMonth().toISOString();
+      current.end_date.updatedAt = new Date().toISOString();
     }
   }
 };
 
 const personArchiveBaptizedPublisher = (person: PersonType, isAddPerson: boolean) => {
-  if (person.baptizedPublisher.active.value) {
-    const current = person.baptizedPublisher.history.find(
-      (record) => record._deleted === null && record.endDate.value === null
+  if (person.person_data.publisher_baptized.active.value) {
+    const current = person.person_data.publisher_baptized.history.find(
+      (record) => record._deleted.value === false && record.end_date.value === null
     );
 
-    const startDate = formatDate(new Date(current.startDate.value), 'mm/dd/yyyy');
-    const nowDate = formatDate(new Date(), 'mm/dd/yyyy');
+    const start_date = formatDate(new Date(current.start_date.value), 'MM/dd/yyyy');
+    const nowDate = formatDate(new Date(), 'MM/dd/yyyy');
 
-    if (startDate === nowDate) {
+    if (start_date === nowDate) {
       if (isAddPerson) {
-        person.baptizedPublisher.history = person.baptizedPublisher.history.filter(
+        person.person_data.publisher_baptized.history = person.person_data.publisher_baptized.history.filter(
           (record) => record.id !== current.id
         );
       }
 
       if (!isAddPerson) {
-        current._deleted = new Date().toISOString();
+        current._deleted = { value: true, updatedAt: new Date().toISOString() };
       }
     }
 
-    if (startDate !== nowDate) {
-      current.endDate.value = dateLastDatePreviousMonth().toISOString();
-      current.endDate.updatedAt = new Date().toISOString();
+    if (start_date !== nowDate) {
+      current.end_date.value = dateLastDatePreviousMonth().toISOString();
+      current.end_date.updatedAt = new Date().toISOString();
     }
   }
 };
 
 const personEndActiveEnrollments = (person: PersonType) => {
-  const activeEnrollments = person.enrollments.filter(
-    (record) => record._deleted === null && record.endDate.value === null
+  const activeEnrollments = person.person_data.enrollments.filter(
+    (record) => record._deleted.value === false && record.end_date.value === null
   );
 
   for (const enrollment of activeEnrollments) {
-    enrollment.endDate = { value: dateLastDatePreviousMonth().toISOString(), updatedAt: new Date().toISOString() };
+    enrollment.end_date = { value: dateLastDatePreviousMonth().toISOString(), updatedAt: new Date().toISOString() };
   }
 };
 
 const personEndActivePrivileges = (person: PersonType) => {
-  const activePrivileges = person.privileges.filter(
-    (record) => record._deleted === null && record.endDate.value === null
+  const activePrivileges = person.person_data.privileges.filter(
+    (record) => record._deleted.value === false && record.end_date.value === null
   );
 
   for (const privilege of activePrivileges) {
-    privilege.endDate = { value: dateLastDatePreviousMonth().toISOString(), updatedAt: new Date().toISOString() };
+    privilege.end_date = { value: dateLastDatePreviousMonth().toISOString(), updatedAt: new Date().toISOString() };
   }
 };
 
 export const personAssignmentsRemove = (person: PersonType) => {
-  for (const assignment of person.assignments) {
-    if (assignment._deleted === null) {
-      assignment._deleted = new Date().toISOString();
+  for (const assignment of person.person_data.assignments) {
+    if (assignment._deleted === false) {
+      assignment._deleted = true;
+      assignment.updatedAt = new Date().toISOString();
     }
   }
 };
@@ -170,7 +171,7 @@ export const personUnarchive = (person: PersonType) => {
   personUnarchiveUnbaptizedPublisher(person);
   personUnarchiveBaptizedPublisher(person);
 
-  person.isArchived = { value: false, updatedAt: new Date().toISOString() };
+  person.person_data.archived = { value: false, updatedAt: new Date().toISOString() };
 };
 
 export const personArchive = (person: PersonType, isAddPerson: boolean) => {
@@ -183,98 +184,100 @@ export const personArchive = (person: PersonType, isAddPerson: boolean) => {
 
   personAssignmentsRemove(person);
 
-  person.isArchived = { value: true, updatedAt: new Date().toISOString() };
+  person.person_data.archived = { value: true, updatedAt: new Date().toISOString() };
 };
 
 export const personIsInactive = (person: PersonType) => {
   let isInactive = false;
 
-  const isBaptized = person.baptizedPublisher.active.value;
-  const isUnbaptized = person.unbaptizedPublisher.active.value;
+  const isBaptized = person.person_data.publisher_baptized.active.value;
+  const isUnbaptized = person.person_data.publisher_unbaptized.active.value;
 
   if (isBaptized) {
     isInactive =
-      person.baptizedPublisher.history.filter((record) => record._deleted === null && record.endDate.value === null)
-        .length === 0;
+      person.person_data.publisher_baptized.history.filter(
+        (record) => record._deleted.value === false && record.end_date.value === null
+      ).length === 0;
   }
 
   if (isUnbaptized) {
     isInactive =
-      person.unbaptizedPublisher.history.filter((record) => record._deleted === null && record.endDate.value === null)
-        .length === 0;
+      person.person_data.publisher_unbaptized.history.filter(
+        (record) => record._deleted.value === false && record.end_date.value === null
+      ).length === 0;
   }
 
   return isInactive;
 };
 
 export const personIsElder = (person: PersonType) => {
-  const hasActive = person.privileges.find(
-    (record) => record.privilege.value === 'elder' && record.endDate.value === null && record._deleted === null
+  const hasActive = person.person_data.privileges.find(
+    (record) => record.privilege.value === 'elder' && record.end_date.value === null && record._deleted.value === false
   );
 
   return hasActive ? true : false;
 };
 
 export const personIsMS = (person: PersonType) => {
-  const hasActive = person.privileges.find(
-    (record) => record.privilege.value === 'ms' && record.endDate.value === null && record._deleted === null
+  const hasActive = person.person_data.privileges.find(
+    (record) => record.privilege.value === 'ms' && record.end_date.value === null && record._deleted.value === false
   );
 
   return hasActive ? true : false;
 };
 
 export const personIsAP = (person: PersonType) => {
-  const hasActive = person.enrollments.find(
-    (record) => record.enrollment.value === 'AP' && record.endDate.value === null && record._deleted === null
+  const hasActive = person.person_data.enrollments.find(
+    (record) => record.enrollment.value === 'AP' && record.end_date.value === null && record._deleted.value === false
   );
 
   return hasActive ? true : false;
 };
 
 export const personIsFMF = (person: PersonType) => {
-  const hasActive = person.enrollments.find(
-    (record) => record.enrollment.value === 'FMF' && record.endDate.value === null && record._deleted === null
+  const hasActive = person.person_data.enrollments.find(
+    (record) => record.enrollment.value === 'FMF' && record.end_date.value === null && record._deleted.value === false
   );
 
   return hasActive ? true : false;
 };
 
 export const personIsFR = (person: PersonType) => {
-  const hasActive = person.enrollments.find(
-    (record) => record.enrollment.value === 'FR' && record.endDate.value === null && record._deleted === null
+  const hasActive = person.person_data.enrollments.find(
+    (record) => record.enrollment.value === 'FR' && record.end_date.value === null && record._deleted.value === false
   );
 
   return hasActive ? true : false;
 };
 
 export const personIsFS = (person: PersonType) => {
-  const hasActive = person.enrollments.find(
-    (record) => record.enrollment.value === 'FS' && record.endDate.value === null && record._deleted === null
+  const hasActive = person.person_data.enrollments.find(
+    (record) => record.enrollment.value === 'FS' && record.end_date.value === null && record._deleted.value === false
   );
 
   return hasActive ? true : false;
 };
 
 export const personHasNoAssignment = (person: PersonType) => {
-  const hasNoAssignment = person.assignments.filter((record) => record._deleted === null).length === 0;
+  const hasNoAssignment = person.person_data.assignments.filter((record) => record._deleted === false).length === 0;
   return hasNoAssignment;
 };
 
 export const applyNameFilters = ({
   persons,
   searchKey,
-  isArchived,
+  archived,
   allPersons,
 }: {
   persons: PersonType[];
   searchKey: string;
-  isArchived?: boolean;
+  archived?: boolean;
   allPersons?: PersonType[];
 }) => {
   const dataPersons: PersonType[] = [];
 
-  if (isArchived) {
-    const archivedPersons = allPersons.filter((record) => record.isArchived.value);
+  if (archived) {
+    const archivedPersons = allPersons.filter((record) => record.person_data.archived.value);
     dataPersons.push(...archivedPersons);
   } else {
     dataPersons.push(...persons);
@@ -283,9 +286,11 @@ export const applyNameFilters = ({
   const filteredByName: PersonType[] = [];
 
   for (const person of dataPersons) {
-    const foundFirstName = person.person_firstname.value.toLowerCase().includes(searchKey.toLowerCase());
-    const foundLastName = person.person_lastname.value.toLowerCase().includes(searchKey.toLowerCase());
-    const foundDisplayName = person.person_displayName.value.toLowerCase().includes(searchKey.toLowerCase());
+    const foundFirstName = person.person_data.person_firstname.value.toLowerCase().includes(searchKey.toLowerCase());
+    const foundLastName = person.person_data.person_lastname.value.toLowerCase().includes(searchKey.toLowerCase());
+    const foundDisplayName = person.person_data.person_display_name.value
+      .toLowerCase()
+      .includes(searchKey.toLowerCase());
 
     if (foundFirstName || foundLastName || foundDisplayName) {
       filteredByName.push(person);
@@ -307,7 +312,7 @@ export const applyAssignmentFilters = (persons: PersonType[], filtersKey: number
     for (const person of persons) {
       let isPassed = false;
 
-      const activeAssignments = person.assignments.filter((record) => record._deleted === null);
+      const activeAssignments = person.person_data.assignments.filter((record) => record._deleted === false);
       isPassed = activeAssignments.some((record) => assignments.includes(record.code));
 
       if (isPassed) {
@@ -350,11 +355,11 @@ export const applyGroupFilters = (persons: PersonType[], filtersKey: string[]) =
       const isMidweekStudentFilter = groups.includes('midweekStudent');
       const isNoAssignmentFilter = groups.includes('noAssignment');
 
-      const isMale = person.isMale.value;
-      const isFemale = person.isFemale.value;
-      const isAnointed = person.baptizedPublisher.isAnointed.value;
-      const isBaptized = person.baptizedPublisher.active.value;
-      const isUnbaptized = person.unbaptizedPublisher.active.value;
+      const male = person.person_data.male.value;
+      const female = person.person_data.female.value;
+      const anointed = person.person_data.publisher_baptized.anointed.value;
+      const isBaptized = person.person_data.publisher_baptized.active.value;
+      const isUnbaptized = person.person_data.publisher_unbaptized.active.value;
       const isInactive = personIsInactive(person);
       const isAP = personIsAP(person);
       const isFR = personIsFR(person);
@@ -362,20 +367,20 @@ export const applyGroupFilters = (persons: PersonType[], filtersKey: string[]) =
       const isFMF = personIsFMF(person);
       const isElder = personIsElder(person);
       const isMS = personIsMS(person);
-      const isMidweekStudent = person.midweekMeetingStudent.active.value;
+      const isMidweekStudent = person.person_data.midweek_meeting_student.active.value;
       const hasNoAssignment = personHasNoAssignment(person);
 
       // male and female not selected
       if (!isMaleFilter && !isFemaleFilter) isPassed = true;
 
       // male selected
-      if (isMaleFilter && !isFemaleFilter) isPassed = isMale;
+      if (isMaleFilter && !isFemaleFilter) isPassed = male;
 
       // female selected
-      if (!isMaleFilter && isFemaleFilter) isPassed = isFemale;
+      if (!isMaleFilter && isFemaleFilter) isPassed = female;
 
       // anointed selected
-      if (isAnointedFilter) isPassed = isAnointed;
+      if (isAnointedFilter) isPassed = anointed;
 
       // baptized selected
       if (isPassed && isBaptizedFilter) isPassed = isBaptized;

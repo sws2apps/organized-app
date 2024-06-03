@@ -10,12 +10,7 @@ export type VariantProps = {
   variant?: 'fixed' | 'standard';
 
   /**
-   * The height of the component.
+   * The size of the component.
    */
-  height?: number;
-
-  /**
-   * The width of the component.
-   */
-  width?: number;
+  size?: number;
 };

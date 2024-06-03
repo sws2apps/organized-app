@@ -1,11 +1,13 @@
-import { Box } from '@mui/material';
+import { Box, createFilterOptions } from '@mui/material';
+import { IconCongregation, IconLoading, IconSearch } from '@icons/index';
+import { CongregationResponseType } from '@definition/api';
+import { useAppTranslation } from '@hooks/index';
+import { CongregationSelectorType } from './index.types';
 import AutoComplete from '@components/autocomplete';
 import Typography from '@components/typography';
-import { IconCongregation, IconSearch } from '@icons/index';
 import useCongregation from './useCongregation';
-import { useAppTranslation } from '@hooks/index';
-import { CountryType } from '../country_selector/index.types';
-import { CongregationResponseType } from '@definition/api';
+
+const filter = createFilterOptions<CongregationResponseType>();
 
 /**
  * Component for selecting a congregation.
@@ -15,41 +17,90 @@ import { CongregationResponseType } from '@definition/api';
  * @returns {JSX.Element} CongregationSelector component.
  */
 const CongregationSelector = ({
-  country,
+  country_code,
   setCongregation,
-}: {
-  country: CountryType;
-  setCongregation: (value: CongregationResponseType) => void;
-}) => {
-  const { setValue, value, setInputValue, options, isLoading } = useCongregation({ country });
-
+  label,
+  cong_number,
+  freeSolo = false,
+  freeSoloChange,
+}: CongregationSelectorType) => {
   const { t } = useAppTranslation();
+
+  const { setValue, value, setInputValue, options, isLoading } = useCongregation(country_code, cong_number);
+
+  const selectorLabel = label || t('tr_yourCongregation');
 
   return (
     <AutoComplete
+      freeSolo={freeSolo}
       isOptionEqualToValue={(option, value) => option.congNumber === value.congNumber}
-      getOptionLabel={(option: CongregationResponseType) => `${option.congName.trim()}, ${option.congNumber}`}
-      filterOptions={(x) => x}
+      getOptionLabel={(option: CongregationResponseType) => {
+        let label = option.congName.trim();
+
+        if (option.congNumber.length > 0) {
+          label += `, ${option.congNumber}`;
+        }
+        return label;
+      }}
+      filterOptions={(options, params) => {
+        if (!freeSolo) return options;
+
+        const filtered = filter(options, params);
+
+        if (params.inputValue !== '') {
+          filtered.push({
+            congName: params.inputValue,
+            address: '',
+            circuit: '',
+            congNumber: '',
+            location: null,
+            midweekMeetingTime: null,
+            weekendMeetingTime: null,
+          });
+        }
+
+        return filtered;
+      }}
       options={options}
       autoComplete={true}
       includeInputInList={true}
       value={value}
-      onChange={(event, newValue) => {
-        setValue(newValue as CongregationResponseType);
-        setCongregation(newValue as CongregationResponseType);
+      onChange={(_, newValue: CongregationResponseType) => {
+        const isCongExist = options.find((record) => record.congName === newValue.congName);
+
+        if (freeSolo && !isCongExist) return freeSoloChange && freeSoloChange(newValue.congName);
+
+        setValue(newValue);
+        setCongregation(newValue);
       }}
-      onInputChange={(event, newInputValue) => setInputValue(newInputValue)}
+      onInputChange={(_, newInputValue) => setInputValue(newInputValue)}
       loading={isLoading}
-      label={t('tr_yourCongregation')}
+      label={selectorLabel}
       startIcon={<IconCongregation color={value ? 'var(--black)' : 'var(--accent-350)'} />}
-      endIcon={<IconSearch color={value ? 'var(--black)' : 'var(--accent-350)'} />}
-      renderOption={(props, option) => (
-        <Box component="li" {...props} sx={{ margin: 0, padding: 0 }}>
-          <Typography className="body-regular">
-            {option.congName.trim()}, {option.congNumber}
-          </Typography>
-        </Box>
-      )}
+      endIcon={
+        freeSolo && isLoading ? (
+          <IconLoading color="var(--accent-350)" />
+        ) : (
+          <IconSearch color={value ? 'var(--black)' : 'var(--accent-350)'} />
+        )
+      }
+      renderOption={(props, option) => {
+        let optionValue = option.congName.trim();
+
+        if (option.congNumber.length === 0) {
+          optionValue = `${t('tr_add')} “${optionValue}”`;
+        }
+
+        if (option.congNumber.length > 0) {
+          optionValue += `, ${option.congNumber}`;
+        }
+
+        return (
+          <Box component="li" {...props} sx={{ margin: 0, padding: 0 }} key={option.congNumber}>
+            <Typography>{optionValue}</Typography>
+          </Box>
+        );
+      }}
     />
   );
 };

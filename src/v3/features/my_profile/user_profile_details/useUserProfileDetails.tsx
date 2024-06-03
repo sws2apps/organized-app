@@ -23,13 +23,13 @@ const useUserProfileDetails = () => {
   const handleChangeFirstName = async (value) => {
     setFirstNameTmp(value);
 
-    await dbAppSettingsUpdate({ firstname: { value, updatedAt: new Date().toISOString() } });
+    await dbAppSettingsUpdate({ 'user_settings.firstname': { value, updatedAt: new Date().toISOString() } });
   };
 
   const handleChangeLastName = async (value) => {
     setLastNameTmp(value);
 
-    await dbAppSettingsUpdate({ lastname: { value, updatedAt: new Date().toISOString() } });
+    await dbAppSettingsUpdate({ 'user_settings.lastname': { value, updatedAt: new Date().toISOString() } });
   };
 
   return { tabletDown, firstNameTmp, lastNameTmp, handleChangeFirstName, handleChangeLastName, userEmail, isConnected };

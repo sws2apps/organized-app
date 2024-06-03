@@ -3,15 +3,16 @@ import { IconDelete, IconSong } from '@components/icons';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { SpeakerEditViewType } from './index.types';
 import { PublicTalkType } from '@definition/public_talks';
+import useEdit from './useEdit';
 import AutocompleteMultiple from '@components/autocomplete_multiple';
 import Button from '@components/button';
 import MenuItem from '@components/menuitem';
-import Select from '@components/select';
-import Typography from '@components/typography';
 import MiniChip from '@components/mini_chip';
-import PopupSongAdd from '@features/persons/visiting_speakers/popup_song_add';
-import useEdit from './useEdit';
+import PopupSongAdd from '@features/persons/visiting_speakers/song_add_popup';
+import Select from '@components/select';
 import SpeakerDetails from '@features/persons/visiting_speakers/speaker_details';
+import Typography from '@components/typography';
+import { buildPersonFullname } from '@utils/common';
 
 const SpeakerEditView = ({ speaker }: SpeakerEditViewType) => {
   const { t } = useAppTranslation();
@@ -37,6 +38,7 @@ const SpeakerEditView = ({ speaker }: SpeakerEditViewType) => {
     handleOpenSpeakerDetails,
     openSpeakerDetails,
     speakersOnRecord,
+    fullnameOption,
   } = useEdit(speaker);
 
   return (
@@ -72,14 +74,18 @@ const SpeakerEditView = ({ speaker }: SpeakerEditViewType) => {
           fullWidth={false}
           sx={{ flexGrow: 1, width: tablet600Down ? '100%' : '280px', maxWidth: tablet600Down ? '100%' : '280px' }}
         >
-          {speakers.map((option) => (
+          {speakers.map((person) => (
             <MenuItem
-              key={option.person_uid}
-              value={option.person_uid}
-              disabled={speakersOnRecord.find((record) => record.person_uid === option.person_uid) ? false : true}
+              key={person.person_uid}
+              value={person.person_uid}
+              disabled={speakersOnRecord.find((record) => record.person_uid === person.person_uid) ? false : true}
             >
-              <Typography className="body-regular" color="var(--black)">
-                {option.person_displayName.value}
+              <Typography>
+                {buildPersonFullname(
+                  person.person_data.person_lastname.value,
+                  person.person_data.person_firstname.value,
+                  fullnameOption
+                )}
               </Typography>
             </MenuItem>
           ))}
@@ -93,8 +99,8 @@ const SpeakerEditView = ({ speaker }: SpeakerEditViewType) => {
             value={selectedTalks}
             onChange={(e, value: PublicTalkType[]) => handleTalksUpdate(value)}
             renderOption={(props, option) => (
-              <Box key={option.talk_number} component="li" {...props} sx={{ margin: 0, padding: 0 }}>
-                <Typography className="body-regular">
+              <Box component="li" {...props} sx={{ margin: 0, padding: 0 }} key={option.talk_number}>
+                <Typography>
                   {option.talk_number}. {option.talk_title}
                 </Typography>
               </Box>

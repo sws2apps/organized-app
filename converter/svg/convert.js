@@ -15,6 +15,8 @@ const svgFiles = await fs.readdir(ROOT_FOLDER);
 
 let strImport = '';
 
+const specialIcons = ['IconGoogle', 'IconMicrosoft', 'IconYahoo', 'IconLogo', 'IconMale', 'IconFemale'];
+
 for await (const svgFile of svgFiles) {
   const originalName = svgFile.replace('name=', '').replace('.svg', '');
   let componentName = originalName.replace(/-(\w)/g, (match, p1) => {
@@ -39,12 +41,7 @@ for await (const svgFile of svgFiles) {
   };
 
   const ${componentName} = ({ ${
-    componentName !== 'IconGoogle' &&
-    componentName !== 'IconMicrosoft' &&
-    componentName !== 'IconYahoo' &&
-    componentName !== 'IconLogo'
-      ? `color = '#222222', `
-      : ''
+    !specialIcons.includes(componentName) ? `color = '#222222', ` : ''
   }width = 24, height = 24, sx = {} }: IconProps) => {
     return (
       <SvgIcon id="organized-icon-${originalName}" sx={{ width: widthPx, height: heightPx, ...sx }}>`;
@@ -55,12 +52,7 @@ for await (const svgFile of svgFiles) {
   const filePath = path.join(ROOT_FOLDER, svgFile);
   let svgContent = await fs.readFile(filePath, 'utf-8');
 
-  if (
-    componentName !== 'IconGoogle' &&
-    componentName !== 'IconMicrosoft' &&
-    componentName !== 'IconYahoo' &&
-    componentName !== 'IconLogo'
-  ) {
+  if (!specialIcons.includes(componentName)) {
     if (componentName === 'IconOnCircle') {
       svgContent = svgContent.replace(/fill=(?!"#D9D9D9"|"none"|"white"|"#FEFEFE")".*?"(?=\s|\/)/g, 'fill={color}');
     }

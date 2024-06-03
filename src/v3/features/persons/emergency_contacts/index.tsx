@@ -1,10 +1,10 @@
 import { Box } from '@mui/material';
 import { IconAdd, IconInfo } from '@icons/index';
-import Button from '@components/button';
-import Typography from '@components/typography';
 import { useAppTranslation } from '@hooks/index';
 import useEmergencyContacts from './useEmergencyContacts';
-import ContactItem from './components/contact_item';
+import Button from '@components/button';
+import Typography from '@components/typography';
+import ContactItem from './contact_item';
 
 const PersonEmergencyContacts = () => {
   const { t } = useAppTranslation();

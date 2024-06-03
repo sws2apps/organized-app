@@ -1,3 +1,4 @@
+import { ReactElement } from 'react';
 import { TabOwnProps } from '@mui/material';
 
 /**
@@ -37,6 +38,22 @@ export interface CustomTabProps extends TabOwnProps {
      * The component to be rendered in the tab.
      */
     Component: React.ReactNode;
+
+    /**
+     * The icon element to be displayed with the tab.
+     */
+    icon?: ReactElement;
   }[];
+
+  /**
+   * The index of the currently selected tab.
+   */
+  selected?: number;
+
+  /**
+   * A boolean indicating whether to display the indicator.
+   */
+  indicatorMode?: boolean;
+
   onChange?: (activeTab: number) => void;
 }

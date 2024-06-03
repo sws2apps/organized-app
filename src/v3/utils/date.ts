@@ -27,8 +27,8 @@ export const getOldestWeekDate = () => {
 };
 
 export const addMonths = (date: Date | string, value: number) => {
-  const startDate = new Date(date);
-  const result = startDate.setMonth(startDate.getMonth() + value);
+  const start_date = new Date(date);
+  const result = start_date.setMonth(start_date.getMonth() + value);
 
   return new Date(result);
 };
@@ -100,4 +100,12 @@ const getMonthName = (month: number) => {
   ];
 
   return monthNames[month];
+};
+
+export const generateDateFromTime = (time: string) => {
+  const timeParts = time.split(':');
+  const date = new Date();
+  date.setHours(+timeParts[0], +timeParts[1]);
+
+  return date;
 };

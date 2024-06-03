@@ -23,10 +23,18 @@ const MeetingsCard = () => {
         <DashboardMenu icon={<IconCalendarWeek color="var(--black)" />} primaryText={t('tr_viewAssignmentsSchedule')} />
       </ListItem>
       <ListItem disablePadding>
-        <DashboardMenu icon={<IconDiamond color="var(--black)" />} primaryText={t('tr_midweekMeeting')} />
+        <DashboardMenu
+          icon={<IconDiamond color="var(--black)" />}
+          primaryText={t('tr_midweekMeeting')}
+          path="/midweek-meeting"
+        />
       </ListItem>
       <ListItem disablePadding>
-        <DashboardMenu icon={<IconTalk color="var(--black)" />} primaryText={t('tr_weekendMeeting')} />
+        <DashboardMenu
+          icon={<IconTalk color="var(--black)" />}
+          primaryText={t('tr_weekendMeeting')}
+          path="/weekend-meeting"
+        />
       </ListItem>
       {isConnected && (
         <ListItem disablePadding>
