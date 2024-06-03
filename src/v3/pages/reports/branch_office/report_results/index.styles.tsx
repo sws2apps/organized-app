@@ -29,8 +29,8 @@ export const StyledRowBox = styled(Box)({
   flexDirection: 'row',
   gap: '8px',
   justifyContent: 'space-between',
-  paddingLeft: '4px',
-  paddingRight: '4px',
+  paddingLeft: '8px',
+  paddingRight: '8px',
 });
 
 export const StyledDivider = styled(Divider)({
