@@ -51,6 +51,116 @@ You will get the values for the following environment from the Firebase project 
 
 Open a terminal and run `npm run dev` to start the development server, and start using the local version of CPE.
 
+## Coding Rules
+
+This section provides guidelines for writing clean, consistent, and maintainable code, covering naming conventions, code structure, documentation, error handling, and performance. Adhering to these rules ensures high-quality, reliable software.
+
+### Writing Documentation
+
+Quality documentation is crucial for the success of any development project. It facilitates teamwork, maintenance, and product evolution. This section covers key principles and best practices for writing effective documentation.
+
+Since technology doesn't stand still these days, you can use this prompt for chatgpt to write documentation.
+
+```plaintext
+ChatGPT Documentation Prompt
+
+When documenting ChatGPT code, it's crucial to provide clear and comprehensive information about each function, method, and class. This ensures that the code is understandable and maintainable. Follow these guidelines to document your ChatGPT TypeScript code effectively:
+
+1. Function or Method Documentation:
+   - Description: Provide a brief but detailed description of what the function or method does.
+   - @param: For each parameter, describe the type and purpose.
+   - @returns: Describe the return value and its type, if applicable.
+   - @example: Include an example of how to use the function or method.
+
+2. Class Documentation:
+   - Description: Provide an overview of the class, its purpose, and how it should be used.
+   - @property: For each property, describe the type and purpose.
+
+Example Documentation:
+
+Function Documentation:
+
+/**
+ * Adds two numbers together.
+ *
+ * @param {number} a - The first number to add.
+ * @param {number} b - The second number to add.
+ * @returns {number} The sum of the two numbers.
+ * @example
+ * // Example usage:
+ * // Returns 3
+ * add(1, 2);
+ */
+function add(a: number, b: number): number {
+    return a + b;
+}
+
+Class Documentation:
+
+/**
+ * Represents a point in 2D space.
+ *
+ * @class
+ */
+class Point {
+    /**
+     * Creates a new Point.
+     *
+     * @param {number} x - The x-coordinate.
+     * @param {number} y - The y-coordinate.
+     */
+    constructor(private x: number, private y: number) {}
+
+    /**
+     * Gets the x-coordinate.
+     *
+     * @returns {number} The x-coordinate.
+     */
+    getX(): number {
+        return this.x;
+    }
+
+    /**
+     * Gets the y-coordinate.
+     *
+     * @returns {number} The y-coordinate.
+     */
+    getY(): number {
+        return this.y;
+    }
+
+    /**
+     * Moves the point by a given delta.
+     *
+     * @param {number} dx - The delta to move in the x-direction.
+     * @param {number} dy - The delta to move in the y-direction.
+     * @example
+     * const point = new Point(1, 2);
+     * point.move(3, 4);
+     * // Now point is at (4, 6)
+     */
+    move(dx: number, dy: number): void {
+        this.x += dx;
+        this.y += dy;
+    }
+}
+
+Best Practices:
+- Clarity: Ensure that descriptions are clear and concise.
+- Consistency: Use the same terminology and structure across all documentation.
+- Examples: Provide examples that cover common use cases and edge cases where relevant.
+- Type Annotations: Always specify the types of parameters and return values to leverage TypeScript's type-checking capabilities.
+
+By following this guide, you can create documentation that is both informative and easy to understand, making your ChatGPT TypeScript code more maintainable and accessible to other developers.
+
+```
+
+!PLEASE DO NOT USE CHATGPT TO WRITE CODE, USE ONLY IN THE MOST SEVERE CASES, BETTER ASK THE DEVELOPER COMMUNITY!
+
+### Code decoration
+
+For seperate code recomended use [comment-divider](https://github.com/stackbreak/comment-divider).
+
 ## Sending a Pull Request (PR)
 
 We are monitoring for pull requests. We will review your pull request and either merge it, request changes to it, or close it with an explanation. We’ll do our best to provide updates and feedback throughout the process.
