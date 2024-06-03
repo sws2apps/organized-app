@@ -20,6 +20,11 @@ const useWeekSelector = () => {
     Component: <MonthsContainer months={year.months} />,
   }));
 
+  const currentYear =
+    selectedWeek.length > 0 ? new Date(selectedWeek).getFullYear().toString() : new Date().getFullYear().toString();
+
+  const activeTab = tabs.findIndex((record) => record.label === currentYear);
+
   const hasWeeks = sources.length > 0;
 
   const handleToggleExpand = () => {
@@ -38,7 +43,7 @@ const useWeekSelector = () => {
     };
   }, [resetSelectedWeek]);
 
-  return { tabs, hasWeeks, expanded, handleToggleExpand };
+  return { tabs, hasWeeks, expanded, handleToggleExpand, activeTab };
 };
 
 export default useWeekSelector;

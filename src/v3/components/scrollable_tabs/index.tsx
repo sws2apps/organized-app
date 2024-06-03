@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, Tab, Tabs, tabsClasses } from '@mui/material';
 import { CustomTabPanel } from '@components/tabs';
 import { CustomTabProps } from '@components/tabs/index.types';
@@ -9,8 +9,8 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
  * Component that renders scrollable tabs.
  *
  */
-function ScrollableTabs({ tabs, selected, indicatorMode, onChange }: CustomTabProps) {
-  const [valueOfActivePanel, setValueOfActivePanel] = useState(selected || 0);
+function ScrollableTabs({ tabs, value, indicatorMode, onChange }: CustomTabProps) {
+  const [valueOfActivePanel, setValueOfActivePanel] = useState(value || 0);
 
   /**
    * Handles tab change event.
@@ -25,6 +25,10 @@ function ScrollableTabs({ tabs, selected, indicatorMode, onChange }: CustomTabPr
       onChange && onChange(newValue);
     }
   };
+
+  useEffect(() => {
+    setValueOfActivePanel(value || 0);
+  }, [value]);
 
   return (
     <Box sx={{ width: '100%' }}>

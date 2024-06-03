@@ -11,7 +11,7 @@ const WeekSelector = () => {
 
   const { desktopUp } = useBreakpoints();
 
-  const { tabs, hasWeeks, expanded, handleToggleExpand } = useWeekSelector();
+  const { tabs, hasWeeks, expanded, handleToggleExpand, activeTab } = useWeekSelector();
 
   return (
     <Box
@@ -45,7 +45,7 @@ const WeekSelector = () => {
       </Box>
 
       <Collapse in={desktopUp || expanded} timeout="auto" unmountOnExit>
-        {hasWeeks && <ScrollableTabs tabs={tabs} />}
+        {hasWeeks && <ScrollableTabs tabs={tabs} value={activeTab} />}
 
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: hasWeeks ? 'space-between' : 'flex-end' }}>
           {hasWeeks && (

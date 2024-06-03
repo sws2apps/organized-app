@@ -22,7 +22,7 @@ const useSongSource = ({ meeting, type, week }: SongSourceType) => {
   const source = sources.find((record) => record.weekOf === week);
 
   useEffect(() => {
-    if (meeting === 'midweek') {
+    if (source && meeting === 'midweek') {
       if (type === 'opening') {
         const song = source.midweek_meeting.song_first[lang];
         const title = songs.find((record) => record.song_number === +song);
