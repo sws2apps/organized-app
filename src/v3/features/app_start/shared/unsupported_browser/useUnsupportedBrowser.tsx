@@ -1,11 +1,11 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 const useUnsupportedBrowser = () => {
   const anchorRef = useRef<HTMLElement>();
 
-  const reloadApp = () => {
+  const reloadApp = useCallback(() => {
     window.location.reload();
-  };
+  }, []);
 
   useEffect(() => {
     const tryAgain = anchorRef.current;
