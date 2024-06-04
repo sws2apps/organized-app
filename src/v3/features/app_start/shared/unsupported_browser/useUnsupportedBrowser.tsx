@@ -15,7 +15,7 @@ const useUnsupportedBrowser = () => {
     return () => {
       if (tryAgain) tryAgain?.removeEventListener('click', reloadApp);
     };
-  }, [anchorRef]);
+  }, [reloadApp]);
 
   return { anchorRef, reloadApp };
 };
