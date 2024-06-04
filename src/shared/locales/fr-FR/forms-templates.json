@@ -55,8 +55,8 @@
   "tr_weekendMeetingPrint": "Le programme de la réunion week-end",
   "tr_publicTalk": "Discours public",
   "tr_openingPrayerWeekendMeeting": "La prière d’ouverture",
-  "tr_noWMeeting": "Il n'y a pas de réunion de Week-End pour cette semaine",
-  "tr_noMeeting": "Il n'y a pas de réunion pour cette semaine",
+  "tr_noWMeetingWeek": "There is no weekend meeting for this week",
+  "tr_noMeetingWeek": "There is no meeting for this week",
   "tr_substituteSpeaker": "L'orateur en réserve",
   "tr_startingConversation": "Premier contact",
   "tr_followingUp": "Nouvelle visite",
@@ -69,5 +69,6 @@
   "tr_assistantS89": "Interlocuteur :",
   "tr_studentAssistantS89": "Élève/Interlocureur:",
   "tr_chairman": "Président",
-  "tr_prayer": "Prière"
+  "tr_prayer": "Prière",
+  "tr_partDuration": "({{ time }} min.)"
 }

@@ -1,6 +1,7 @@
 {
   "tr_display": "Показати",
-  "tr_hall": "Зал {{ hallNumber }}",
+  "tr_hall": "Hall",
+  "tr_hallWithName": "Hall {{ name }}",
   "tr_yourUserRecordOfTheList": "Щоб знайти своє імʼя в списку, переконайся, що твій запис особи існує на сторінці <a href='#'>Всі особи</a>.",
   "tr_yourPersonRecord": "Ваш запис особи",
   "tr_export": "Експорт",
@@ -108,5 +109,9 @@
   "tr_totalAttendance": "Total attendance",
   "tr_avgAttendance": "Average attendance",
   "tr_avgOnline": "Average online",
-  "tr_meetingWeeks": "Тижні зібрань"
+  "tr_meetingWeeks": "Тижні зібрань",
+  "tr_meetingMaterialsNotAvailable": "The meeting materials for this week are not available yet. If necessary, import from jw.org or from an EPUB file.",
+  "tr_assistant": "Assistant",
+  "tr_tgw10TalkHistory": "Treasures - 10 min talk",
+  "tr_chairmanMidwekMeetingHistory": "Midweek meeting chairman"
 }

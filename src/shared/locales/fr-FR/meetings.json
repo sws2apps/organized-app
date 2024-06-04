@@ -1,6 +1,7 @@
 {
   "tr_display": "Afficher",
-  "tr_hall": "Salle {{ hallNumber }}",
+  "tr_hall": "Hall",
+  "tr_hallWithName": "Hall {{ name }}",
   "tr_yourUserRecordOfTheList": "Pour voir votre nom sur la liste, assurez-vous qu'il a été enregistré, via la page <a href='#'>Toutes les personnes</a>.",
   "tr_yourPersonRecord": "Votre fiche personnelle",
   "tr_export": "Exporter",
@@ -108,5 +109,9 @@
   "tr_totalAttendance": "Total attendance",
   "tr_avgAttendance": "Average attendance",
   "tr_avgOnline": "Average online",
-  "tr_meetingWeeks": "Meeting weeks"
+  "tr_meetingWeeks": "Meeting weeks",
+  "tr_meetingMaterialsNotAvailable": "The meeting materials for this week are not available yet. If necessary, import from jw.org or from an EPUB file.",
+  "tr_assistant": "Assistant",
+  "tr_tgw10TalkHistory": "Treasures - 10 min talk",
+  "tr_chairmanMidwekMeetingHistory": "Midweek meeting chairman"
 }
