@@ -6,6 +6,7 @@ import { dbSourcesSave } from '@services/dexie/sources';
 import { dbSchedCheck } from '@services/dexie/schedules';
 import { AssignmentAYFOnlyType } from '@definition/assignment';
 import { JWLangState } from '@states/app';
+import { getTranslation } from '@services/i18n/translation';
 
 export const sourcesImportEPUB = async (fileEPUB) => {
   const data = await loadEPUB(fileEPUB);
@@ -103,7 +104,7 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
       obj.midweek_meeting.lc_cbs = {
         src: { [source_lang]: src.mwb_lc_cbs },
         time: { default: 30, override: [] },
-        title: { [source_lang]: src.mwb_lc_cbs_title },
+        title: { default: { [source_lang]: src.mwb_lc_cbs_title }, override: [] },
       };
       obj.midweek_meeting.song_conclude = {
         default: { [source_lang]: src.mwb_song_conclude.toString() },
@@ -132,4 +133,63 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
     // check if record exists in sched table
     await dbSchedCheck(obj.weekOf);
   }
+};
+
+export const sourcesCheckAYFExplainBeliefsAssignment = (source: string) => {
+  if (source) {
+    const boundary = '(?:^|\\s|$)';
+    const talk = getTranslation({ key: 'tr_talk' });
+    const demonstration = getTranslation({ key: 'tr_demonstration' });
+    const searchKey = `${boundary}${talk}|${boundary}${demonstration}`;
+    const regex = new RegExp(searchKey, 'i');
+    const result = source.match(regex);
+
+    if (result?.length > 0) {
+      const isTalk = result[0].toLowerCase() === talk.toLowerCase();
+
+      return isTalk;
+    }
+  }
+
+  return false;
+};
+
+export const sourcesCheckLCElderAssignment = (source: string, desc: string) => {
+  if (source) {
+    let isElderPart = false;
+
+    const elderVariations = getTranslation({ key: 'tr_lcSourceElderVariations' });
+
+    const search = `(${elderVariations})`;
+    const regex = new RegExp(search.toLowerCase());
+    const array = regex.exec(source.toLowerCase());
+    isElderPart = Array.isArray(array);
+
+    if (!isElderPart) {
+      const contentVariations = getTranslation({ key: 'tr_lcContentElderVariations' });
+
+      const search = `(${contentVariations})`;
+      const regex = new RegExp(search.toLowerCase());
+      const array = regex.exec(desc.toLowerCase());
+      isElderPart = Array.isArray(array);
+    }
+
+    return isElderPart;
+  }
+
+  return false;
+};
+
+export const sourcesCheckLCAssignments = (source: string) => {
+  if (source) {
+    const noAssigned = getTranslation({ key: 'tr_lcNoAssignedVariations' });
+
+    const search = `(${noAssigned})`;
+    const regex = new RegExp(search.toLowerCase());
+    const array = regex.exec(source.toLowerCase());
+
+    return Array.isArray(array);
+  }
+
+  return false;
 };

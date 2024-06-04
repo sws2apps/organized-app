@@ -3,7 +3,7 @@ import { UpdateSpec } from 'dexie';
 import { SchedWeekType } from '@definition/schedules';
 import { scheduleSchema } from './schema';
 
-export const dbSchedUpdate = async ({ weekOf, changes }: { weekOf: string; changes: UpdateSpec<SchedWeekType> }) => {
+export const dbSchedUpdate = async (weekOf: string, changes: UpdateSpec<SchedWeekType>) => {
   await appDb.sched.update(weekOf, changes);
 };
 

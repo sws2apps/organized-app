@@ -3,6 +3,7 @@ import { PageTitle } from '@components/index';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import {
   PersonAssignment,
+  PersonAssignmentsHistory,
   PersonBasicInfo,
   PersonButtonActions,
   PersonEmergencyContacts,
@@ -71,6 +72,9 @@ const PersonDetails = () => {
 
         <Box sx={{ flex: 1, display: 'flex', gap: '16px', flexDirection: 'column' }}>
           <PersonAssignment />
+
+          {!isNewPerson && <PersonAssignmentsHistory />}
+
           <PersonTimeAway />
           <PersonEmergencyContacts />
         </Box>
