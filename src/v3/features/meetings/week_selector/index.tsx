@@ -16,7 +16,8 @@ const WeekSelector = () => {
   return (
     <Box
       sx={{
-        maxWidth: desktopUp ? '360px' : '100%',
+        width: desktopUp ? '360px' : '100%',
+        flexShrink: 0,
         borderRadius: 'var(--radius-xl)',
         border: '1px solid var(--accent-300)',
         backgroundColor: 'var(--white)',

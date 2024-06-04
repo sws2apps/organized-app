@@ -46,7 +46,7 @@ const MidweekEditor = () => {
         padding: '16px',
         backgroundColor: 'var(--white)',
         border: '1px solid var(--accent-300)',
-        width: '100%',
+        flexGrow: 1,
       }}
     >
       {weekDateLocale.length === 0 && (
