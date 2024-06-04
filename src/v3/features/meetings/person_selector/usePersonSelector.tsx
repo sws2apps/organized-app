@@ -13,7 +13,7 @@ import { sourcesState } from '@states/sources';
 import { JWLangState } from '@states/app';
 import { sourcesCheckAYFExplainBeliefsAssignment, sourcesCheckLCElderAssignment } from '@services/app/sources';
 import { personIsElder } from '@services/app/persons';
-import { AssignmentCongregation, SchedWeekType } from '@definition/schedules';
+import { AssignmentCongregation, AssignmentHistoryType, SchedWeekType } from '@definition/schedules';
 import { UpdateSpec } from 'dexie';
 import { LivingAsChristiansType } from '@definition/sources';
 import { formatDate } from '@services/dateformat';
@@ -162,10 +162,27 @@ const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
   const handleSortOptions = useCallback(
     (options: PersonOptionsType[]) => {
       const newPersons = options.map((record) => {
-        const lastAssignment = history.find(
-          (item) =>
-            item.assignment.person === record.person_uid && item.assignment.code !== AssignmentCode.MM_AssistantOnly
-        );
+        let lastAssignment: AssignmentHistoryType;
+
+        const studentPart = [
+          AssignmentCode.MM_StartingConversation,
+          AssignmentCode.MM_FollowingUp,
+          AssignmentCode.MM_MakingDisciples,
+          AssignmentCode.MM_ExplainingBeliefs,
+        ];
+
+        if (!studentPart.includes(type)) {
+          lastAssignment = history.find(
+            (item) => item.assignment.person === record.person_uid && item.assignment.code === type
+          );
+        }
+
+        if (studentPart.includes(type)) {
+          lastAssignment = history.find(
+            (item) => item.assignment.person === record.person_uid && studentPart.includes(item.assignment.code)
+          );
+        }
+
         const lastAssignmentFormat = lastAssignment ? handleFormatDate(lastAssignment.weekOf) : '';
 
         const lastAssistant = history.find((item) => item.assignment.ayf?.assistant === record.person_uid);
@@ -205,7 +222,7 @@ const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
 
       return newPersons;
     },
-    [handleFormatDate, history, t, getPersonDisplayName]
+    [handleFormatDate, history, t, getPersonDisplayName, type]
   );
 
   const handleOpenHistory = () => setIsHistoryOpen(true);
@@ -229,36 +246,36 @@ const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
   }, [type, labelBrothers, labelParticipants]);
 
   useEffect(() => {
-    const isMale = gender === 'male';
-    const isFemale = gender === 'female';
-
-    const getLCSources = (part: LivingAsChristiansType) => {
-      const srcOverride = part.title.override.find((record) => record.type === dataView);
-      const srcDefault = part.title.default[lang];
-      const src = srcOverride?.value.length > 0 ? srcOverride.value : srcDefault;
-
-      const descOverride = part.desc.override.find((record) => record.type === dataView);
-      const descDefault = part.desc.default[lang];
-      const desc = descOverride?.value.length > 0 ? descOverride.value : descDefault;
-
-      return { src, desc };
-    };
-
-    const getPersons = (isElder: boolean) => {
-      let persons = personsAll.filter((record) =>
-        record.person_data.assignments
-          .filter((assignment) => assignment._deleted === false)
-          .find((item) => item.code === type)
-      );
-
-      if (isElder) {
-        persons = persons.filter((record) => personIsElder(record));
-      }
-
-      return persons;
-    };
-
     if (!isAssistant) {
+      const isMale = gender === 'male';
+      const isFemale = gender === 'female';
+
+      const getLCSources = (part: LivingAsChristiansType) => {
+        const srcOverride = part.title.override.find((record) => record.type === dataView);
+        const srcDefault = part.title.default[lang];
+        const src = srcOverride?.value.length > 0 ? srcOverride.value : srcDefault;
+
+        const descOverride = part.desc.override.find((record) => record.type === dataView);
+        const descDefault = part.desc.default[lang];
+        const desc = descOverride?.value.length > 0 ? descOverride.value : descDefault;
+
+        return { src, desc };
+      };
+
+      const getPersons = (isElder: boolean) => {
+        let persons = personsAll.filter((record) =>
+          record.person_data.assignments
+            .filter((assignment) => assignment._deleted === false)
+            .find((item) => item.code === type)
+        );
+
+        if (isElder) {
+          persons = persons.filter((record) => personIsElder(record));
+        }
+
+        return persons;
+      };
+
       if (type !== AssignmentCode.MM_LCPart) {
         const persons = personsAll.filter(
           (record) =>
@@ -314,6 +331,7 @@ const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
       AssignmentCode.MM_FollowingUp,
       AssignmentCode.MM_MakingDisciples,
       AssignmentCode.MM_ExplainingBeliefs,
+      AssignmentCode.MM_AssistantOnly,
     ];
 
     if (week.length > 0) {
