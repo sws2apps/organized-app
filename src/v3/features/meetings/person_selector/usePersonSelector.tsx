@@ -66,23 +66,26 @@ const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
     }
   };
 
-  const getPersonDisplayName = (option: PersonOptionsType) => {
-    let result: string;
+  const getPersonDisplayName = useCallback(
+    (option: PersonOptionsType) => {
+      let result: string;
 
-    if (displayNameEnabled) {
-      result = option.person_data.person_display_name.value;
-    }
+      if (displayNameEnabled) {
+        result = option.person_data.person_display_name.value;
+      }
 
-    if (!displayNameEnabled) {
-      result = buildPersonFullname(
-        option.person_data.person_lastname.value,
-        option.person_data.person_firstname.value,
-        fullnameOption
-      );
-    }
+      if (!displayNameEnabled) {
+        result = buildPersonFullname(
+          option.person_data.person_lastname.value,
+          option.person_data.person_firstname.value,
+          fullnameOption
+        );
+      }
 
-    return result;
-  };
+      return result;
+    },
+    [displayNameEnabled, fullnameOption]
+  );
 
   const labelBrothers = t('tr_brothers');
   const labelParticipants = t('tr_participants');
@@ -169,7 +172,10 @@ const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
   const handleSortOptions = useCallback(
     (options: PersonOptionsType[]) => {
       const newPersons = options.map((record) => {
-        const lastAssignment = history.find((item) => item.assignment.person === record.person_uid);
+        const lastAssignment = history.find(
+          (item) =>
+            item.assignment.person === record.person_uid && item.assignment.code !== AssignmentCode.MM_AssistantOnly
+        );
         const lastAssignmentFormat = lastAssignment ? handleFormatDate(lastAssignment.weekOf) : '';
 
         const lastAssistant = history.find((item) => item.assignment.ayf?.assistant === record.person_uid);
@@ -187,15 +193,29 @@ const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
       });
 
       newPersons.sort((a, b) => {
-        if (a.last_assignment.length === 0) return -1;
-        if (b.last_assignment.length === 0) return 1;
+        // If both 'last_assignment' fields are empty, sort by name
+        if (a.last_assignment.length === 0 && b.last_assignment.length === 0) {
+          return getPersonDisplayName(a).localeCompare(getPersonDisplayName(b));
+        }
+
+        // If 'last_assignment' of 'a' is empty, 'a' should come first
+        if (a.last_assignment.length === 0) {
+          return -1;
+        }
+
+        // If 'last_assignment' of 'b' is empty, 'b' should come first
+        if (b.last_assignment.length === 0) {
+          return 1;
+        }
+
+        // If both 'last_assignment' fields are not empty, sort by date
 
         return new Date(a.last_assignment).toISOString().localeCompare(new Date(b.last_assignment).toISOString());
       });
 
       return newPersons;
     },
-    [handleFormatDate, history, t]
+    [handleFormatDate, history, t, getPersonDisplayName]
   );
 
   useEffect(() => {
@@ -262,19 +282,20 @@ const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
 
       if (type === AssignmentCode.MM_LCPart) {
         const source = sources.find((record) => record.weekOf === week);
+        if (source) {
+          const lcParts = ['MM_LCPart1', 'MM_LCPart2', 'MM_LCPart3'];
 
-        const lcParts = ['MM_LCPart1', 'MM_LCPart2', 'MM_LCPart3'];
+          if (lcParts.includes(assignment)) {
+            const path = assignment.replace('MM_', '').replace('LC', 'LC_').toLowerCase();
+            const part = source.midweek_meeting[path];
 
-        if (lcParts.includes(assignment)) {
-          const path = assignment.replace('MM_', '').replace('LC', 'LC_').toLowerCase();
-          const part = source.midweek_meeting[path];
+            const { src, desc } = getLCSources(part);
+            const isElder = sourcesCheckLCElderAssignment(src, desc);
+            const persons = getPersons(isElder);
 
-          const { src, desc } = getLCSources(part);
-          const isElder = sourcesCheckLCElderAssignment(src, desc);
-          const persons = getPersons(isElder);
-
-          const options = handleSortOptions(persons);
-          setOptions(options);
+            const options = handleSortOptions(persons);
+            setOptions(options);
+          }
         }
       }
     }
