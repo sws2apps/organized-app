@@ -11,6 +11,7 @@ import { getTranslation } from '@services/i18n/translation';
 import { LivingAsChristiansType } from '@definition/sources';
 import { userDataViewState } from './settings';
 import { schedulesAddHistory } from './utils';
+import { assignmentTypeLocaleState } from './assignment';
 
 export const schedulesState = atom<SchedWeekType[]>({
   key: 'schedules',
@@ -76,6 +77,7 @@ export const assignmentsHistoryState = selector({
     const sources = get(sourcesState);
     const lang = get(JWLangState);
     const dataView = get(userDataViewState);
+    const assignmentOptions = get(assignmentTypeLocaleState);
 
     for (const schedule of schedules) {
       let assigned: AssignmentCongregation[] | AssignmentCongregation;
@@ -146,6 +148,7 @@ export const assignmentsHistoryState = selector({
           assigned,
           code: AssignmentCode.MM_BibleReading,
           title: getTranslation({ key: 'tr_bibleReading' }),
+          src: source.midweek_meeting.tgw_bible_reading.src[lang],
           classroom: '1',
         });
       }
@@ -158,6 +161,7 @@ export const assignmentsHistoryState = selector({
         assigned,
         code: AssignmentCode.MM_BibleReading,
         title: getTranslation({ key: 'tr_bibleReading' }),
+        src: source.midweek_meeting.tgw_bible_reading.src[lang],
         classroom: '2',
       });
 
@@ -166,8 +170,8 @@ export const assignmentsHistoryState = selector({
         const code: AssignmentCode = source.midweek_meeting[`ayf_part${a}`].type[lang];
 
         if (code) {
-          const title = source.midweek_meeting[`ayf_part${a}`].title[lang];
-          const desc = source.midweek_meeting[`ayf_part${a}`].src[lang];
+          const src = source.midweek_meeting[`ayf_part${a}`].src[lang];
+          const title = assignmentOptions.find((record) => record.value === code).label;
           const ayfPart: AssignmentAYFType = schedule.midweek_meeting[`ayf_part${a}`];
 
           // student main hall
@@ -180,7 +184,7 @@ export const assignmentsHistoryState = selector({
               assigned,
               code,
               title,
-              desc: desc,
+              src,
               classroom: '1',
               assistant: ayfPart.main_hall.assistant.find((record) => record.type === assigned.type)?.value,
             });
@@ -196,7 +200,7 @@ export const assignmentsHistoryState = selector({
               assigned,
               code: AssignmentCode.MM_AssistantOnly,
               title: `${getTranslation({ key: 'tr_assistant' })} (${title})`,
-              desc: desc,
+              src,
               classroom: '1',
               student: ayfPart.main_hall.student.find((record) => record.type === assigned.type)?.value,
             });
@@ -210,7 +214,7 @@ export const assignmentsHistoryState = selector({
             assigned,
             code,
             title,
-            desc: desc,
+            src,
             classroom: '2',
             assistant: ayfPart.aux_class_1.assistant.value,
           });
@@ -223,7 +227,7 @@ export const assignmentsHistoryState = selector({
             assigned,
             code: AssignmentCode.MM_AssistantOnly,
             title: `${getTranslation({ key: 'tr_assistant' })} (${title})`,
-            desc: desc,
+            src,
             classroom: '2',
             student: ayfPart.aux_class_1.student.value,
           });
@@ -234,22 +238,23 @@ export const assignmentsHistoryState = selector({
       for (let a = 1; a <= 3; a++) {
         const lcPart: LivingAsChristiansType = source.midweek_meeting[`lc_part${a}`];
 
-        const titleOverride = lcPart.title.override.find((record) => record.type === dataView)?.value;
-        const titleDefault = lcPart.title.default[lang];
-        const title = titleOverride?.length > 0 ? titleOverride : titleDefault;
+        const srcOverride = lcPart.title.override.find((record) => record.type === dataView)?.value;
+        const srcDefault = lcPart.title.default[lang];
+        const src = srcOverride?.length > 0 ? srcOverride : srcDefault;
 
         const descOverride = lcPart.desc.override.find((record) => record.type === dataView)?.value;
         const descDefault = lcPart.desc.default[lang];
         const desc = descOverride?.length > 0 ? descOverride : descDefault;
 
-        if (title?.length > 0) {
+        if (src?.length > 0) {
           for (assigned of schedule.midweek_meeting[`lc_part${a}`]) {
             schedulesAddHistory({
               result,
               schedule,
               assigned: assigned as AssignmentCongregation,
               code: AssignmentCode.MM_AssistantOnly,
-              title,
+              title: getTranslation({ key: 'tr_lcPart' }),
+              src,
               desc,
             });
           }
@@ -264,6 +269,7 @@ export const assignmentsHistoryState = selector({
           assigned,
           code: AssignmentCode.MM_CBSConductor,
           title: getTranslation({ key: 'tr_congregationBibleStudyConductor' }),
+          src: source.midweek_meeting.lc_cbs.src[lang],
         });
       }
 
@@ -275,6 +281,7 @@ export const assignmentsHistoryState = selector({
           assigned,
           code: AssignmentCode.MM_CBSReader,
           title: getTranslation({ key: 'tr_congregationBibleStudyReader' }),
+          src: source.midweek_meeting.lc_cbs.src[lang],
         });
       }
 

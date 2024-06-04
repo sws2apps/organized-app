@@ -4,7 +4,7 @@ import { PersonType } from '@definition/person';
 import { useRecoilValue } from 'recoil';
 import { personsActiveState, personsState } from '@states/persons';
 import { displayNameEnableState, fullnameOptionState, userDataViewState } from '@states/settings';
-import { buildPersonFullname } from '@utils/common';
+import { personGetDisplayName } from '@utils/common';
 import { AssignmentCode } from '@definition/assignment';
 import { useAppTranslation } from '@hooks/index';
 import { assignmentsHistoryState, schedulesState } from '@states/schedules';
@@ -35,11 +35,17 @@ const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
   const [options, setOptions] = useState<PersonOptionsType[]>([]);
   const [value, setValue] = useState<PersonOptionsType | null>(null);
   const [gender, setGender] = useState<GenderType>('male');
+  const [isHistoryOpen, setIsHistoryOpen] = useState(false);
+
+  const labelBrothers = t('tr_brothers');
+  const labelParticipants = t('tr_participants');
 
   const isAssistant = assignment.includes('Assistant');
 
   const schedule = schedules.find((record) => record.weekOf === week);
   const source = sources.find((record) => record.weekOf === week);
+
+  const assignmentsHistory = history.filter((record) => record.assignment.person === value?.person_uid);
 
   const checkGenderSelector = () => {
     const validType = [
@@ -68,27 +74,11 @@ const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
 
   const getPersonDisplayName = useCallback(
     (option: PersonOptionsType) => {
-      let result: string;
-
-      if (displayNameEnabled) {
-        result = option.person_data.person_display_name.value;
-      }
-
-      if (!displayNameEnabled) {
-        result = buildPersonFullname(
-          option.person_data.person_lastname.value,
-          option.person_data.person_firstname.value,
-          fullnameOption
-        );
-      }
-
+      const result = personGetDisplayName(option, displayNameEnabled, fullnameOption);
       return result;
     },
     [displayNameEnabled, fullnameOption]
   );
-
-  const labelBrothers = t('tr_brothers');
-  const labelParticipants = t('tr_participants');
 
   const assignmentPaths = useMemo(() => {
     return {
@@ -217,6 +207,10 @@ const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
     },
     [handleFormatDate, history, t, getPersonDisplayName]
   );
+
+  const handleOpenHistory = () => setIsHistoryOpen(true);
+
+  const handleCloseHistory = () => setIsHistoryOpen(false);
 
   useEffect(() => {
     const brothers = [
@@ -410,6 +404,10 @@ const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
     handleGenderUpdate,
     isAssistant,
     type,
+    handleOpenHistory,
+    isHistoryOpen,
+    handleCloseHistory,
+    assignmentsHistory,
   };
 };
 

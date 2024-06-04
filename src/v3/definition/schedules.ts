@@ -83,6 +83,7 @@ export type AssignmentHistoryType = {
   assignment: {
     code: AssignmentCode;
     title: string;
+    src?: string;
     desc?: string;
     person: string;
     category: string;

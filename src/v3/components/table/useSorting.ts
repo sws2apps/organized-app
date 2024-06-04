@@ -5,7 +5,7 @@ import { Order } from '@components/table/index.types';
 /**
  * Props for the useSorting hook.
  */
-interface UseSortingProps {
+export interface UseSortingProps {
   /**
    * The initial sorting order.
    */

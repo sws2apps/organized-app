@@ -15,6 +15,7 @@ export const schedulesAddHistory = ({
   desc,
   student,
   assistant,
+  src,
 }: {
   result: AssignmentHistoryType[];
   schedule: SchedWeekType;
@@ -25,6 +26,7 @@ export const schedulesAddHistory = ({
   desc?: string;
   student?: string;
   assistant?: string;
+  src?: string;
 }) => {
   if (assigned.value.length > 0) {
     const obj: AssignmentHistoryType = {
@@ -35,6 +37,7 @@ export const schedulesAddHistory = ({
         code,
         person: assigned.value,
         title,
+        src,
         desc,
         classroom,
         ayf: {
