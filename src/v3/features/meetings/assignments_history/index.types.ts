@@ -1,10 +1,8 @@
 import { AssignmentHistoryType } from '@definition/schedules';
 
 export type AssignmentsHistoryType = {
-  open: boolean;
-  onClose: VoidFunction;
-  person: string;
   history: AssignmentHistoryType[];
+  isDialog?: boolean;
 };
 
 export type FormattedHistoryType = {

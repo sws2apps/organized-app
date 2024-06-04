@@ -4,7 +4,7 @@ import { IconAssignmetHistory, IconFemale, IconMale } from '@components/icons';
 import { AssignmentCode } from '@definition/assignment';
 import { useAppTranslation } from '@hooks/index';
 import usePersonSelector from './usePersonSelector';
-import AssignmentsHistory from '../assignments_history';
+import AssignmentsHistoryDialog from '../assignments_history_dialog';
 import AutoComplete from '@components/autocomplete';
 import Radio from '@components/radio';
 import Typography from '@components/typography';
@@ -32,7 +32,7 @@ const PersonSelector = (props: PersonSelectorType) => {
   return (
     <>
       {isHistoryOpen && (
-        <AssignmentsHistory
+        <AssignmentsHistoryDialog
           open={isHistoryOpen}
           onClose={handleCloseHistory}
           person={getPersonDisplayName(value)}

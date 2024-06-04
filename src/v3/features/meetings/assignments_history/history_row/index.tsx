@@ -3,16 +3,18 @@ import { HistoryRowType } from './index.types';
 import useHistoryRow from './useHistoryRow';
 import Typography from '@components/typography';
 
-const HistoryRow = ({ assignment }: HistoryRowType) => {
-  const { history } = useHistoryRow(assignment);
+const HistoryRow = (props: HistoryRowType) => {
+  const { history, textColor, textClassname, textClassnameAlt } = useHistoryRow(props);
 
   return (
     <TableRow>
       <TableCell component="th" scope="row">
-        <Typography color="var(--grey-350)">{history.history_date}</Typography>
+        <Typography className={textClassnameAlt} color={textColor}>
+          {history.history_date}
+        </Typography>
       </TableCell>
       <TableCell sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-        <Typography>{history.history_assignment}</Typography>
+        <Typography className={textClassname}>{history.history_assignment}</Typography>
 
         {history.history_misc.ayf?.student && (
           <Typography className="body-small-regular" color="var(--grey-400)">
@@ -27,7 +29,9 @@ const HistoryRow = ({ assignment }: HistoryRowType) => {
         )}
       </TableCell>
       <TableCell align="center">
-        <Typography color="var(--grey-350)">{history.history_hall}</Typography>
+        <Typography className={textClassnameAlt} color={textColor}>
+          {history.history_hall}
+        </Typography>
       </TableCell>
     </TableRow>
   );
