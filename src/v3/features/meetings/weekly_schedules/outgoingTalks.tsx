@@ -53,7 +53,7 @@ const OutgoingTalks = () => {
         <Badge text={t('tr_lastUpdated') + ' ' + lastUpdated} color="grey" size="small" filled={false} />
       </Box>
       <ScheduleGrid>
-        <ScheduleHeader text="8 November 2023" color="var(--weekend-meeting)" icon={<IconWatchtowerStudy />} />
+        <ScheduleHeader text="8 November 2023" color="var(--weekend-meeting)" />
         <ScheduleItem>
           <Box>
             <ScheduleTitle color="var(--weekend-meeting)">
@@ -78,7 +78,7 @@ const OutgoingTalks = () => {
             <ScheduleMemberRow type={t('tr_speaker') + ':'} name="Jeremiah Green" />
           </ScheduleMembers>
         </ScheduleItem>
-        <ScheduleHeader text="16 November 2023" color="var(--weekend-meeting)" icon={<IconWatchtowerStudy />} />
+        <ScheduleHeader text="16 Novemxber 2023" color="var(--weekend-meeting)" />
         <ScheduleItem>
           <Box>
             <ScheduleTitle color="var(--weekend-meeting)">
@@ -91,7 +91,7 @@ const OutgoingTalks = () => {
             <ScheduleMemberRow type={t('tr_speaker') + ':'} name="Jeremiah Green" />
           </ScheduleMembers>
         </ScheduleItem>
-        <ScheduleHeader text="22 November 2023" color="var(--weekend-meeting)" icon={<IconWatchtowerStudy />} />
+        <ScheduleHeader text="22 November 2023" color="var(--weekend-meeting)" />
         <ScheduleItem>
           <Box>
             <ScheduleTitle color="var(--weekend-meeting)">

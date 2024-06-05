@@ -36,7 +36,7 @@ const WeekendMeeting = () => {
         <ScheduleItemTitle>
           <ScheduleWeekTitle color="black">8 November 2023</ScheduleWeekTitle>
           <ScheduleMembers>
-            <ScheduleMemberRow type={t('tr_prayer') + ':'} name="Jeremiah Green" />
+            <ScheduleMemberRow type={t('tr_chairman') + ':'} name="Jeremiah Green" />
           </ScheduleMembers>
         </ScheduleItemTitle>
         <ScheduleItem>
@@ -48,7 +48,7 @@ const WeekendMeeting = () => {
             <ScheduleMemberRow type={t('tr_prayer') + ':'} name="Jeremiah Green" />
           </ScheduleMembers>
         </ScheduleItem>
-        <ScheduleHeader text={t('tr_treasuresPart')} color="var(--weekend-meeting)" icon={<IconWatchtowerStudy />} />
+        <ScheduleHeader text={t('tr_publicTalk')} color="var(--weekend-meeting)" icon={<IconTalker />} />
         <ScheduleItem>
           <Box>
             <ScheduleTitle color="var(--weekend-meeting)">Public talk</ScheduleTitle>
@@ -58,7 +58,7 @@ const WeekendMeeting = () => {
             <ScheduleMemberRow name="Jeremiah Green" />
           </ScheduleMembers>
         </ScheduleItem>
-        <ScheduleHeader text={t('tr_livingPart')} color="var(--watchtower-study)" icon={<IconTalker />} />
+        <ScheduleHeader text={t('tr_watchtowerStudy')} color="var(--watchtower-study)" icon={<IconWatchtowerStudy />} />
 
         <ScheduleItem>
           <ScheduleTitle color="black">

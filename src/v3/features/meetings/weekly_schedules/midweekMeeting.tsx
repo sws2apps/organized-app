@@ -5,13 +5,16 @@ import {
   ScheduleGrid,
   ScheduleHeader,
   ScheduleItem,
+  ScheduleItemTitle,
   ScheduleMemberClassRoom,
   ScheduleMemberRow,
   ScheduleMembers,
   ScheduleTitle,
+  ScheduleWeekTitle,
 } from './ScheduleComponents';
-import { IconDiamond, IconLiving, IconMinistry, IconSong } from '@components/icons';
+import { IconDiamond, IconLiving, IconMinistry, IconSong, IconWavingHand } from '@components/icons';
 import { Box } from '@mui/material';
+import { Badge } from '@components/index';
 
 const MidweekMeeting = () => {
   const lastUpdated = new Date().toLocaleString('en-US', {
@@ -20,7 +23,7 @@ const MidweekMeeting = () => {
     year: 'numeric',
   });
   const { t } = useAppTranslation();
-  t('tr_mainHall');
+
   return (
     <Box
       sx={{
@@ -31,6 +34,40 @@ const MidweekMeeting = () => {
     >
       <SchedulePickerHeader lastUpdated={lastUpdated} />
       <ScheduleGrid>
+        <ScheduleItemTitle>
+          <ScheduleWeekTitle color="black">
+            <Box>
+              8 November 2023 |{' '}
+              <Box
+                sx={{
+                  display: 'inline-block',
+                }}
+              >
+                2 Corinthians 4-6
+              </Box>
+            </Box>
+            <Badge
+              text={t('tr_circuitOverseerWeek')}
+              color="accent"
+              size="medium"
+              multiLine
+              filled={false}
+              icon={<IconWavingHand />}
+            />
+          </ScheduleWeekTitle>
+          <ScheduleMembers>
+            <ScheduleMemberRow type={t('tr_chairman') + ':'} name="Jeremiah Green" />
+          </ScheduleMembers>
+        </ScheduleItemTitle>
+        <ScheduleItem>
+          <ScheduleTitle color="black">
+            <IconSong />
+            Song 109 – “Jehovah’s Warm Appeal: “Be Wise, My Son”
+          </ScheduleTitle>
+          <ScheduleMembers>
+            <ScheduleMemberRow type={t('tr_prayer') + ':'} name="Jeremiah Green" />
+          </ScheduleMembers>
+        </ScheduleItem>
         <ScheduleHeader text={t('tr_treasuresPart')} color="var(--treasures-from-gods-word)" icon={<IconDiamond />} />
         <ScheduleItem>
           <Box>

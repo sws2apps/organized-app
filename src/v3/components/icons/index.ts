@@ -264,6 +264,7 @@ export { default as IconVisitingSpeaker } from './IconVisitingSpeaker';
 export { default as IconVisitors } from './IconVisitors';
 export { default as IconWallet } from './IconWallet';
 export { default as IconWatchtowerStudy } from './IconWatchtowerStudy';
+export { default as IconWavingHand } from './IconWavingHand';
 export { default as IconWeek } from './IconWeek';
 export { default as IconWork } from './IconWork';
 export { default as IconYahoo } from './IconYahoo';

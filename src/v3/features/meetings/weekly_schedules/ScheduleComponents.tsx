@@ -17,7 +17,7 @@ const ScheduleGrid = ({ children }: { children?: React.ReactNode }) => {
   );
 };
 
-const ScheduleHeader = ({ text, color, icon }: { text: string; color: string; icon: React.ReactNode }) => {
+const ScheduleHeader = ({ text, color, icon }: { text: string; color: string; icon?: React.ReactNode }) => {
   return (
     <Box
       sx={{
@@ -81,11 +81,19 @@ const ScheduleItemTitle = ({ children }: { children: React.ReactNode }) => {
 const ScheduleWeekTitle = ({ children, color }: { children: React.ReactNode; color: string }) => {
   return (
     <Box
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        color: color,
-      }}
+      sx={(theme) => ({
+        ['&, & > *']: {
+          display: 'flex',
+          alignItems: 'center',
+          gap: '16px',
+          color: color,
+          [theme.breakpoints.down('desktop')]: {
+            flexDirection: 'column',
+            gap: '8px',
+            alignItems: 'flex-start',
+          },
+        },
+      })}
     >
       <span className="h2-caps">{children}</span>
     </Box>
