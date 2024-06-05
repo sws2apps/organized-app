@@ -40,10 +40,10 @@ const SchedulePickerHeader = ({ lastUpdated }: { lastUpdated: string }) => {
           },
         }}
       >
-        <ScrollableTabs tabs={days}></ScrollableTabs>
+        <ScrollableTabs tabs={days} />
       </Box>
       <Box sx={{ display: 'flex', flexDirection: 'row', gap: '8px', marginTop: '16px', position: 'relative' }}>
-        <Badge text={t('tr_lastUpdated') + ' ' + lastUpdated} color="grey" size="small" filled={false} />
+        <Badge text={`${t('tr_lastUpdated')} ${lastUpdated}`} color="grey" size="small" filled={false} />
         <Box
           className="body-small-semibold"
           sx={{

@@ -4,9 +4,9 @@ import PageTitle from '@components/page_title';
 import { Tabs } from '@components/index';
 import { lazy } from 'react';
 
-const MidweekMeeting = lazy(() => import('./midweekMeeting'));
-const WeekendMeeting = lazy(() => import('./weekendMeeting'));
-const OutgoingTalks = lazy(() => import('./outgoingTalks'));
+const MidweekMeeting = lazy(() => import('@features/meetings/weekly_schedules/midweekMeeting'));
+const WeekendMeeting = lazy(() => import('@features/meetings/weekly_schedules/weekendMeeting'));
+const OutgoingTalks = lazy(() => import('@features/meetings/weekly_schedules/outgoingTalks'));
 
 const WeeklySchedules = () => {
   const { t } = useAppTranslation();
