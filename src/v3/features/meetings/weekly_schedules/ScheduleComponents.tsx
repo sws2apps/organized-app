@@ -1,6 +1,10 @@
-import { Box } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
 import FemaleCardSVG from './FemaleCard';
 import MaleCardSVG from './MaleCard';
+import { IconCheckCircle, IconCopy } from '@components/icons';
+import { SnackBar } from '@components/index';
+import { useState } from 'react';
+import useAppTranslation from '@hooks/useAppTranslation';
 
 const ScheduleGrid = ({ children }: { children?: React.ReactNode }) => {
   return (
@@ -134,10 +138,36 @@ const ScheduleTitle = ({
   );
 };
 
-const ScheduleSubtitle = ({ children }: { children: React.ReactNode }) => {
+const CopyButton = ({ value }: { value: string }) => {
+  const [isCopied, setIsCopied] = useState(false);
+  const handleClick = () => {
+    navigator.clipboard.writeText(value);
+    setIsCopied(true);
+  };
+  const { t } = useAppTranslation();
+
   return (
-    <span className="h4" style={{ color: 'var(--black)' }}>
+    <>
+      <IconButton onClick={handleClick}>
+        <IconCopy />
+      </IconButton>
+      <SnackBar
+        open={isCopied}
+        variant="success"
+        messageIcon={<IconCheckCircle color="var(--always-white)" />}
+        messageHeader={t('tr_textCopied')}
+        message=""
+        onClose={() => setIsCopied(false)}
+      />
+    </>
+  );
+};
+
+const ScheduleSubtitle = ({ children, isCopyable }: { children: React.ReactNode; isCopyable?: boolean }) => {
+  return (
+    <span className="h4" style={{ color: 'var(--black)', display: 'flex', alignItems: 'center', gap: '8px' }}>
       {children}
+      {isCopyable && <CopyButton value={children.toString()} />}
     </span>
   );
 };

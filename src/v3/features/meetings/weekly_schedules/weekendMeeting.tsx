@@ -52,7 +52,7 @@ const WeekendMeeting = () => {
         <ScheduleItem>
           <Box>
             <ScheduleTitle color="var(--weekend-meeting)">Public talk</ScheduleTitle>
-            <ScheduleSubtitle>“The Resurrection — Why That Hope Should Be Real to You”</ScheduleSubtitle>
+            <ScheduleSubtitle isCopyable>“The Resurrection — Why That Hope Should Be Real to You”</ScheduleSubtitle>
           </Box>
           <ScheduleMembers>
             <ScheduleMemberRow name="Jeremiah Green" />
