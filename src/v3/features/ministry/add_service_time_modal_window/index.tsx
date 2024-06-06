@@ -1,4 +1,4 @@
-import { Box, TextField, Theme } from '@mui/material';
+import { Box, Theme } from '@mui/material';
 
 import { StyledBox, StyledModalWindowContainer, StyledRowContainer } from './add_service_time_modal_window.styled';
 import { AddServiceTimeModalWindowProps } from './add_service_time_modal_window.types';
@@ -26,6 +26,7 @@ import CustomInfoMessage from '@components/info-message';
 import { convertDurationInSecondsToString, convertDurationStringToSeconds } from '../utils';
 import MiniChip from '@components/mini_chip';
 import { MinistryRecord } from '@pages/ministry_report/ministry_report.types';
+import CustomTimeTextField from '@components/time_textfield';
 
 /**
  * Add Service Time Modal Window component.
@@ -45,6 +46,7 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
   const { t } = useAppTranslation();
 
   const [localDurationInSeconds, setLocalDurationInSeconds] = useState(0);
+
   const [localCreditHoursDurationInSeconds, setLocalCreditHoursDurationInSeconds] = useState(0);
   const [dropdownWithStudiesOpen, setDropdownWithStudiesOpen] = useState(false);
   const [dropdownWithSchoolsOpen, setDropdownWithSchoolsOpen] = useState(false);
@@ -63,12 +65,12 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
 
   const decrimentDuration = () => {
     if (convertDurationInSecondsToString(localDurationInSeconds) != '00:00') {
-      setLocalDurationInSeconds(localDurationInSeconds - 3600);
+      setLocalDurationInSeconds((prev) => prev - 3600);
     }
   };
 
   const incrementDuration = () => {
-    setLocalDurationInSeconds(localDurationInSeconds + 3600);
+    setLocalDurationInSeconds((prev) => prev + 3600);
   };
 
   const incrementCreditHoursDuration = () => {
@@ -278,27 +280,16 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
               }}
             >
               <MinusButton onClick={decrimentDuration} />
-              <TextField
-                id="standard-basic"
-                variant="standard"
-                sx={{
-                  '.MuiInputBase-root::after, .MuiInputBase-root::before': { content: 'none' },
-                  '.MuiInputBase-root': {
-                    color:
-                      convertDurationInSecondsToString(localDurationInSeconds) != '00:00'
-                        ? 'var(--black)'
-                        : 'var(--grey-300)',
-                  },
-                  '.MuiInput-input': {
-                    textAlign: 'center',
-                    fontWeight: '550',
-                    lineHeight: '24px',
-                  },
-                }}
+              <CustomTimeTextField
                 value={convertDurationInSecondsToString(localDurationInSeconds)}
                 onChange={(event) => {
                   setLocalDurationInSeconds(convertDurationStringToSeconds(event.target.value));
                 }}
+                color={
+                  convertDurationInSecondsToString(localDurationInSeconds) != '00:00'
+                    ? 'var(--black)'
+                    : 'var(--grey-300)'
+                }
               />
               <PlusButton onClick={incrementDuration} />
             </Box>
@@ -366,27 +357,16 @@ export const AddServiceTimeModalWindow = (props: AddServiceTimeModalWindowProps)
                 }}
               >
                 <MinusButton onClick={() => decrimentCreditHoursDuration()} />
-                <TextField
-                  id="standard-basic"
-                  variant="standard"
-                  sx={{
-                    '.MuiInputBase-root::after, .MuiInputBase-root::before': { content: 'none' },
-                    '.MuiInputBase-root': {
-                      color:
-                        convertDurationInSecondsToString(localCreditHoursDurationInSeconds) != '00:00'
-                          ? 'var(--black)'
-                          : 'var(--grey-300)',
-                    },
-                    '.MuiInput-input': {
-                      textAlign: 'center',
-                      fontWeight: '550',
-                      lineHeight: '24px',
-                    },
-                  }}
+                <CustomTimeTextField
                   value={convertDurationInSecondsToString(localCreditHoursDurationInSeconds)}
                   onChange={(event) => {
                     setLocalCreditHoursDurationInSeconds(convertDurationStringToSeconds(event.target.value));
                   }}
+                  color={
+                    convertDurationInSecondsToString(localCreditHoursDurationInSeconds) != '00:00'
+                      ? 'var(--black)'
+                      : 'var(--grey-300)'
+                  }
                 />
                 <PlusButton onClick={() => incrementCreditHoursDuration()} />
               </Box>

@@ -69,7 +69,6 @@
   "tr_share": "Partilhar",
   "tr_copyLink": "Copiar link",
   "tr_unsupportedBrowserError": "Navegador não suportado",
-  "tr_unsupportedBrowserErrorDesc": "Você está a usar um navegador não suportado para a aplicação Organized. Certifique-se de que o seu navegador está atualizado ou tente usar outro navegador.",
   "tr_featureComingSoon": "Esta funcionalidade chegará em breve",
   "tr_featureComingSoonDesc": "Este recurso ainda não está disponível. Estamos a trabalhar nisso agora. Fique atento!",
   "tr_openRealApp": "Abrir app real",
@@ -90,5 +89,9 @@
   "tr_changeAccessCodeDesc": "Aconselhamos a alteração do código somente se o acesso não autorizado ao mesmo for suspeito. Após criar um código, anote e compartilhe com segurança os novos utilizadores Organized da sua congregação.",
   "tr_changeAccessCode": "Alterar o código de acesso da congregação",
   "tr_currentCode": "Código de acesso atual da congregação",
-  "tr_newCode": "Novo código de acesso da congregação"
+  "tr_newCode": "Novo código de acesso da congregação",
+  "tr_unsupportedBrowserErrorDesc": "You are using an unsupported browser for the Organized app. Please ensure your browser is up to date and that private or incognito mode is turned off. Alternatively, try using a different browser.",
+  "tr_longDateNoYearLocale": "{{ month }} {{ date }}",
+  "tr_brother": "Brother",
+  "tr_brothers": "Brothers"
 }

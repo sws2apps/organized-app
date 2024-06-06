@@ -36,8 +36,8 @@ const CustomTextField = (props: TextFieldTypeProps) => {
     <TextField
       {...defaultProps}
       type={inputType}
-      placeholder={props.placeholder || props.label.toString()}
-      label={props.value ? props.label : null}
+      placeholder={props.placeholder}
+      label={props.label}
       fullWidth
       sx={{
         '.MuiInputBase-root': {

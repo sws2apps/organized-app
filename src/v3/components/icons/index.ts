@@ -143,6 +143,7 @@ export { default as IconMap } from './IconMap';
 export { default as IconMenu } from './IconMenu';
 export { default as IconMicrophone } from './IconMicrophone';
 export { default as IconMicrosoft } from './IconMicrosoft';
+export { default as IconMinistryPart } from './IconMinistryPart';
 export { default as IconMinistryReport } from './IconMinistryReport';
 export { default as IconMinistry } from './IconMinistry';
 export { default as IconMore } from './IconMore';

@@ -52,7 +52,7 @@ const CongregationEncryption = () => {
           <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', width: '100%' }}>
             <PageHeader
               title={t('tr_congregationMasterKey')}
-              description={t(isSetupCode ? 'tr_createMasterKeyIntroDesc' : 'tr_encryptionCodeLostDesc')}
+              description={t(isSetupCode ? 'tr_createMasterKeyIntroDesc' : 'tr_congregationMasterKeyLostDesc')}
             />
 
             {isSetupCode && (
@@ -94,7 +94,7 @@ const CongregationEncryption = () => {
               >
                 <TextField
                   type="password"
-                  label={t(isSetupCode ? 'tr_createCongregationMasterKey' : 'tr_encryptionCodeAsk')}
+                  label={t(isSetupCode ? 'tr_createCongregationMasterKey' : 'tr_congregationMasterKeyAsk')}
                   variant="outlined"
                   autoComplete="off"
                   value={tmpMasterKey}

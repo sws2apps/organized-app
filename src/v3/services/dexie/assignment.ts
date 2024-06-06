@@ -4,33 +4,38 @@ import { getTranslation } from '@services/i18n/translation';
 import appDb from '@db/appDb';
 
 export const dbAssignmentUpdate = async () => {
-  const bReadObj = {};
-  const initCallObj = {};
-  const rvObj = {};
-  const bsObj = {};
-  const talkObj = {};
-  const icVideoObj = {};
-  const rvVideoObj = {};
-  const otherObj = {};
-  const memorialObj = {};
-  const memorialVideoObj = {};
-  const chairmanMMObj = {};
-  const prayerMMObj = {};
-  const tgwTalkObj = {};
-  const tgwGemsObj = {};
-  const lcPartObj = {};
-  const cbsConductorObj = {};
-  const cbsReaderObj = {};
+  const bReadObj: { [language: string]: string } = {};
+  const initCallObj: { [language: string]: string } = {};
+  const rvObj: { [language: string]: string } = {};
+  const bsObj: { [language: string]: string } = {};
+  const talkObj: { [language: string]: string } = {};
+  const icVideoObj: { [language: string]: string } = {};
+  const rvVideoObj: { [language: string]: string } = {};
+  const otherObj: { [language: string]: string } = {};
+  const memorialObj: { [language: string]: string } = {};
+  const memorialVideoObj: { [language: string]: string } = {};
+  const chairmanMMObj: { [language: string]: string } = {};
+  const prayerMMObj: { [language: string]: string } = {};
+  const tgwTalkObj: { [language: string]: string } = {};
+  const tgwGemsObj: { [language: string]: string } = {};
+  const lcPartObj: { [language: string]: string } = {};
+  const cbsConductorObj: { [language: string]: string } = {};
+  const cbsReaderObj: { [language: string]: string } = {};
   const initCallVariationsObj: { [language: string]: string } = {};
   const rvVariationsObj: { [language: string]: string } = {};
-  const chairmanWMObj = {};
-  const prayerWMObj = {};
-  const speakerObj = {};
-  const speakerSymposiumObj = {};
-  const wtStudyReaderObj = {};
-  const wtStudyConductor = {};
-  const auxClassroomMMObj = {};
-  const assistantOnlyMMObj = {};
+  const chairmanWMObj: { [language: string]: string } = {};
+  const prayerWMObj: { [language: string]: string } = {};
+  const speakerObj: { [language: string]: string } = {};
+  const speakerSymposiumObj: { [language: string]: string } = {};
+  const wtStudyReaderObj: { [language: string]: string } = {};
+  const wtStudyConductor: { [language: string]: string } = {};
+  const auxClassroomMMObj: { [language: string]: string } = {};
+  const assistantOnlyMMObj: { [language: string]: string } = {};
+  const startingConversationObj: { [language: string]: string } = {};
+  const followingUpObj: { [language: string]: string } = {};
+  const makingDisciplesObj: { [language: string]: string } = {};
+  const explainingBeliefsObj: { [language: string]: string } = {};
+  const dicussionObj: { [language: string]: string } = {};
 
   LANGUAGE_LIST.forEach((lang) => {
     const langCode = lang.code.toUpperCase();
@@ -58,28 +63,21 @@ export const dbAssignmentUpdate = async () => {
     lcPartObj[langCode] = getTranslation({ key: 'tr_lcPart' });
     cbsConductorObj[langCode] = getTranslation({ key: 'tr_cbsConductor' });
     cbsReaderObj[langCode] = getTranslation({ key: 'tr_cbsReader' });
-    initCallVariationsObj[langCode] = getTranslation({
-      key: 'tr_initialCallVariations',
-      language: lang.code,
-    });
-    rvVariationsObj[langCode] = getTranslation({
-      key: 'tr_returnVisitVariations',
-      language: lang.code,
-    });
-    chairmanWMObj[langCode] = getTranslation({
-      key: 'tr_chairmanWeekendMeeting',
-      language: lang.code,
-    });
+    initCallVariationsObj[langCode] = getTranslation({ key: 'tr_initialCallVariations' });
+    rvVariationsObj[langCode] = getTranslation({ key: 'tr_returnVisitVariations' });
+    chairmanWMObj[langCode] = getTranslation({ key: 'tr_chairmanWeekendMeeting' });
     prayerWMObj[langCode] = getTranslation({ key: 'tr_prayerWeekendMeeting' });
     speakerObj[langCode] = getTranslation({ key: 'tr_speaker' });
-    speakerSymposiumObj[langCode] = getTranslation({
-      key: 'tr_speakerSymposium',
-      language: lang.code,
-    });
+    speakerSymposiumObj[langCode] = getTranslation({ key: 'tr_speakerSymposium' });
     wtStudyReaderObj[langCode] = getTranslation({ key: 'tr_watchtowerStudyReader' });
     wtStudyConductor[langCode] = getTranslation({ key: 'tr_watchtowerStudyConductor' });
     auxClassroomMMObj[langCode] = getTranslation({ key: 'tr_auxClassCounselor' });
     assistantOnlyMMObj[langCode] = getTranslation({ key: 'tr_assistantOnly' });
+    startingConversationObj[langCode] = getTranslation({ key: 'tr_startingConversation' });
+    followingUpObj[langCode] = getTranslation({ key: 'tr_followingUp' });
+    makingDisciplesObj[langCode] = getTranslation({ key: 'tr_makingDisciples' });
+    explainingBeliefsObj[langCode] = getTranslation({ key: 'tr_explainingBeliefs' });
+    dicussionObj[langCode] = getTranslation({ key: 'tr_discussion' });
   });
 
   await appDb.assignment.clear();
@@ -323,8 +321,59 @@ export const dbAssignmentUpdate = async () => {
     code: AssignmentCode.MM_AssistantOnly,
     maleOnly: true,
     assignable: true,
+    type: 'ayf',
     assignment_type_name: {
       ...assistantOnlyMMObj,
+    },
+  });
+
+  await appDb.assignment.put({
+    code: AssignmentCode.MM_StartingConversation,
+    maleOnly: false,
+    assignable: true,
+    type: 'ayf',
+    assignment_type_name: {
+      ...startingConversationObj,
+    },
+  });
+
+  await appDb.assignment.put({
+    code: AssignmentCode.MM_FollowingUp,
+    maleOnly: false,
+    assignable: true,
+    type: 'ayf',
+    assignment_type_name: {
+      ...followingUpObj,
+    },
+  });
+
+  await appDb.assignment.put({
+    code: AssignmentCode.MM_MakingDisciples,
+    maleOnly: false,
+    assignable: true,
+    type: 'ayf',
+    assignment_type_name: {
+      ...makingDisciplesObj,
+    },
+  });
+
+  await appDb.assignment.put({
+    code: AssignmentCode.MM_ExplainingBeliefs,
+    maleOnly: false,
+    assignable: true,
+    type: 'ayf',
+    assignment_type_name: {
+      ...explainingBeliefsObj,
+    },
+  });
+
+  await appDb.assignment.put({
+    code: AssignmentCode.MM_Discussion,
+    maleOnly: false,
+    assignable: true,
+    type: 'ayf',
+    assignment_type_name: {
+      ...dicussionObj,
     },
   });
 

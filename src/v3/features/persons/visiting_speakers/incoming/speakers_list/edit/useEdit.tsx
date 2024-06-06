@@ -6,6 +6,7 @@ import { dbVisitingSpeakersDelete, dbVisitingSpeakersUpdate } from '@services/de
 import { generateDisplayName } from '@utils/common';
 import { publicTalksState } from '@states/public_talks';
 import { PublicTalkType } from '@definition/public_talks';
+import { SongType } from '@definition/songs';
 
 const useEdit = (speaker: VisitingSpeakerType) => {
   const fullnameOption = useRecoilValue(fullnameOptionState);
@@ -180,12 +181,14 @@ const useEdit = (speaker: VisitingSpeakerType) => {
 
   const handleCloseSpeakerDetails = () => setOpenSpeakerDetails(false);
 
-  const handleSongsTalkUpdate = async (talk_number: number, songs: number[]) => {
-    setSelectedSongs(songs);
+  const handleSongsTalkUpdate = async (talk_number: number, songs: SongType[]) => {
+    const selectedSongs = songs.map((record) => record.song_number);
+
+    setSelectedSongs(selectedSongs);
 
     const talks = structuredClone(speaker.speaker_data.talks);
     const findTalk = talks.find((record) => record.talk_number === talk_number);
-    findTalk.talk_songs = songs;
+    findTalk.talk_songs = selectedSongs;
     findTalk.updatedAt = new Date().toISOString();
 
     await dbVisitingSpeakersUpdate({ 'speaker_data.talks': talks }, speaker.person_uid);

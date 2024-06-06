@@ -28,6 +28,7 @@ export const LANGUAGE_LIST = [
   { code: 'kha', locale: 'mn-MN', name: 'монгол' },
   { code: 'rea', locale: 'hy-AM', name: 'Հայերեն' },
   { code: 'h', locale: 'hy-HU', name: 'magyar' },
+  { code: 'tpo', locale: 'pt-PT', name: 'Português (Portugal)' },
 ].sort((a, b) => a.code.localeCompare(b.code));
 
 export const APP_ROLES = [
@@ -51,5 +52,3 @@ export const isDemo = import.meta.env.VITE_APP_MODE === 'DEMO';
 export const isDEV = isDemo ? false : import.meta.env.DEV;
 
 export const isQA = import.meta.env.VITE_APP_MODE === 'QA';
-
-export const songsList = Array.from({ length: 158 }, (_, i) => i + 1);

@@ -12,10 +12,9 @@ import App from './App';
 import '@global/global.css';
 import '@global/index.css';
 import { handleSWOnInstalled, handleSWOnUpdated } from '@services/recoil/app';
-import { initializeFirebaseApp } from '@services/firebase/index';
+import '@services/firebase/index';
 import i18n from '@services/i18n/index';
 
-initializeFirebaseApp();
 await i18n.init();
 
 const font = localStorage.getItem('app_font') || 'Inter';

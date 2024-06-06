@@ -2,9 +2,7 @@ import { useEffect, useState } from 'react';
 import { createTheme } from '@mui/material/styles';
 import { useRecoilValue } from 'recoil';
 import { appSnackOpenState, congAccountConnectedState, isDarkThemeState } from '@states/app';
-import logger from '@services/logger/index';
 import { disconnectCongAccount, setApiHost, setIsOnline } from '@services/recoil/app';
-import useInternetChecker from '@hooks/useInternetChecker';
 import {
   adminRoleState,
   coordinatorRoleState,
@@ -14,7 +12,9 @@ import {
   publisherRoleState,
   secretaryRoleState,
 } from '@states/settings';
+import logger from '@services/logger/index';
 import worker from '@services/worker/backupWorker';
+import useInternetChecker from '@hooks/useInternetChecker';
 
 // creating theme
 const lightTheme = createTheme({ palette: { mode: 'light' } });
@@ -70,7 +70,7 @@ const useGlobal = () => {
         if (import.meta.env.DEV || window.location.host.indexOf('localhost') !== -1) {
           apiHost = 'http://localhost:8000/';
         } else {
-          apiHost = 'https://api.sws2apps.com/';
+          apiHost = 'https://api.organized-app.com/';
         }
       }
 

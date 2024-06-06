@@ -1,13 +1,9 @@
-/*
-This file holds the source of the truth from the table "public_talks".
-*/
-
 import { atom, selector } from 'recoil';
 import { PublicTalkType } from '@definition/public_talks';
 
-export const publicTalksState = atom({
+export const publicTalksState = atom<PublicTalkType[]>({
   key: 'publicTalks',
-  default: [] as PublicTalkType[],
+  default: [],
 });
 
 export const publicTalksSearchKeyState = atom({
