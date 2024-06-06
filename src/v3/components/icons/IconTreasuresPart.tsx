@@ -7,9 +7,9 @@ type IconProps = {
   sx?: SxProps<Theme>;
 };
 
-const IconTreasures = ({ color = '#222222', width = 24, height = 24, sx = {} }: IconProps) => {
+const IconTreasuresPart = ({ color = '#222222', width = 24, height = 24, sx = {} }: IconProps) => {
   return (
-    <SvgIcon id="organized-icon-treasures" sx={{ width: `${width}px`, height: `${height}px`, ...sx }}>
+    <SvgIcon id="organized-icon-treasures-part" sx={{ width: `${width}px`, height: `${height}px`, ...sx }}>
       <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
           fillRule="evenodd"
@@ -22,4 +22,4 @@ const IconTreasures = ({ color = '#222222', width = 24, height = 24, sx = {} }: 
   );
 };
 
-export default IconTreasures;
+export default IconTreasuresPart;

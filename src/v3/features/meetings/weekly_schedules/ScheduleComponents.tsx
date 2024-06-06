@@ -1,7 +1,5 @@
 import { Box, IconButton } from '@mui/material';
-import FemaleCardSVG from './FemaleCard';
-import MaleCardSVG from './MaleCard';
-import { IconCheckCircle, IconCopy } from '@components/icons';
+import { IconCheckCircle, IconCopy, IconFemale, IconMale } from '@components/icons';
 import { SnackBar } from '@components/index';
 import { useState } from 'react';
 import useAppTranslation from '@hooks/useAppTranslation';
@@ -281,7 +279,7 @@ const ScheduleMemberRow = ({
             backgroundColor: active && 'var(--accent-150)',
           }}
         >
-          {female ? <FemaleCardSVG /> : <MaleCardSVG />}
+          {female ? <IconFemale /> : <IconMale />}
           <span style={{ color: 'black' }} className="body-regular">
             {name}
           </span>

@@ -7,9 +7,9 @@ type IconProps = {
   sx?: SxProps<Theme>;
 };
 
-const IconLiving = ({ color = '#222222', width = 24, height = 24, sx = {} }: IconProps) => {
+const IconLivingPart = ({ color = '#222222', width = 24, height = 24, sx = {} }: IconProps) => {
   return (
-    <SvgIcon id="organized-icon-living" sx={{ width: `${width}px`, height: `${height}px`, ...sx }}>
+    <SvgIcon id="organized-icon-living-part" sx={{ width: `${width}px`, height: `${height}px`, ...sx }}>
       <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
           fillRule="evenodd"
@@ -22,4 +22,4 @@ const IconLiving = ({ color = '#222222', width = 24, height = 24, sx = {} }: Ico
   );
 };
 
-export default IconLiving;
+export default IconLivingPart;

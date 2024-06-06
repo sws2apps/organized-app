@@ -12,7 +12,7 @@ import {
   ScheduleTitle,
   ScheduleWeekTitle,
 } from './ScheduleComponents';
-import { IconDiamond, IconLiving, IconMinistry, IconSong, IconWavingHand } from '@components/icons';
+import { IconDiamond, IconLivingPart, IconMinistry, IconSong, IconWavingHand } from '@components/icons';
 import { Box } from '@mui/material';
 import { Badge } from '@components/index';
 
@@ -130,7 +130,7 @@ const MidweekMeeting = () => {
             </ScheduleMemberClassRoom>
           </ScheduleMembers>
         </ScheduleItem>
-        <ScheduleHeader text={t('tr_livingPart')} color="var(--living-as-christians)" icon={<IconLiving />} />
+        <ScheduleHeader text={t('tr_livingPart')} color="var(--living-as-christians)" icon={<IconLivingPart />} />
         <ScheduleItem>
           <Box>
             <ScheduleTitle cssCounter color="var(--text_living-as-christians)">
