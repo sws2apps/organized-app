@@ -366,7 +366,6 @@
   "tr_shortNote": "Short note",
   "tr_selectPerson": "Select person",
   "tr_selectPersonError": "You must select a person record to bind it with the user profile",
-  "tr_congregationSecurity": "Congregation security",
   "tr_congregationSecurityDesc": "В Organized твоя конфиденциальность и безопасность имеют высший приоритет. В приложении есть несколько уровней защиты. Два важных из них – «Код доступа к собранию» и «Главный ключ собрания». Они безопасно шифруют данные о собрании и разрешают доступ только авторизованным пользователям. <a 'href=#'>Узнай больше</a> об этих и других функциях безопасности.",
   "tr_congregationMasterKey": "Главный ключ собрания",
   "tr_congregationMasterKeyDesc": "This code is essential for securely accessing congregation data, including congregation and ministry reports, the persons list, and other information only available to appointed brothers. It's the most important code – losing it could result in losing all congregation data.",
@@ -384,5 +383,6 @@
   "tr_congregationRequestRejectedDesc": "The <strong>{{ congregationNameAndNumber }}</strong> congregation rejected your request to view their outgoing speakers list. If necessary, you can contact them.",
   "tr_congregationAccessRevoke": "Revoke access for this congregation",
   "tr_congregationAccessRevokeDesc": "Revoke access to your speakers list for <strong>{{ congregationName }}</strong> congregation? They won't be able to see it anymore, but you can share it with them again later if they make a new request.",
-  "tr_noGroupsYet": "You don't have any field service groups created yet. Create a group first to start adding publishers and reordering groups."
+  "tr_noGroupsYet": "You don't have any field service groups created yet. Create a group first to start adding publishers and reordering groups.",
+  "tr_congregationPrivacy": "Congregation privacy"
 }
