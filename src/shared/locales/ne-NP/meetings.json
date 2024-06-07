@@ -61,7 +61,6 @@
   "tr_hostCongregation": "Host congregation",
   "tr_kingdomHallAddress": "Kingdom Hall address",
   "tr_clearAllAssignments": "Clear all assignments",
-  "tr_clearAllAssignmentsDesc": "Are you sure you want to clear all created assignments for this meeting? You can always reassign them later.",
   "tr_selectSpeakerAndTalk": "Select speaker and talk",
   "tr_search": "खोज्ने",
   "tr_selectSong": "गीत छान्ने",
@@ -112,5 +111,6 @@
   "tr_meetingMaterialsNotAvailable": "The meeting materials for this week are not available yet. If necessary, import from jw.org or from an EPUB file.",
   "tr_assistant": "Assistant",
   "tr_tgw10TalkHistory": "Treasures - 10 min talk",
-  "tr_chairmanMidwekMeetingHistory": "Midweek meeting chairman"
+  "tr_chairmanMidwekMeetingHistory": "Midweek meeting chairman",
+  "tr_clearAllAssignmentsDesc": "Are you sure you want to clear all created assignments for this meeting? You can always reassign them later."
 }
