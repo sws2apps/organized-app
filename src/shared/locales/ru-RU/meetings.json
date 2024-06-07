@@ -61,7 +61,6 @@
   "tr_hostCongregation": "Принимающее собрание",
   "tr_kingdomHallAddress": "Адрес Зала Царства",
   "tr_clearAllAssignments": "Очистить все назначения",
-  "tr_clearAllAssignmentsDesc": "Ты уверен, что хочешь очистить все созданные задания? Ты всегда сможешь переназначить их позже.",
   "tr_selectSpeakerAndTalk": "Выбери докладчика и речь",
   "tr_search": "Поиск",
   "tr_selectSong": "Выбери песню",
@@ -112,5 +111,6 @@
   "tr_meetingMaterialsNotAvailable": "The meeting materials for this week are not available yet. If necessary, import from jw.org or from an EPUB file.",
   "tr_assistant": "Assistant",
   "tr_tgw10TalkHistory": "Treasures - 10 min talk",
-  "tr_chairmanMidwekMeetingHistory": "Midweek meeting chairman"
+  "tr_chairmanMidwekMeetingHistory": "Midweek meeting chairman",
+  "tr_clearAllAssignmentsDesc": "Are you sure you want to clear all created assignments for this meeting? You can always reassign them later."
 }
