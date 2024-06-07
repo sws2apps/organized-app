@@ -61,7 +61,6 @@
   "tr_hostCongregation": "Host congregation",
   "tr_kingdomHallAddress": "Address ng Kingdom Hall",
   "tr_clearAllAssignments": "I-clear lahat ng mga assignment",
-  "tr_clearAllAssignmentsDesc": "Sigurado ka bang gusto mong i-clear lahat ng nagawang assignment? Maaari naman silang i-reassign ulit.",
   "tr_selectSpeakerAndTalk": "Pumili ng speaker at pahayag",
   "tr_search": "Maghanap",
   "tr_selectSong": "Pumili ng awit",
@@ -112,5 +111,6 @@
   "tr_meetingMaterialsNotAvailable": "The meeting materials for this week are not available yet. If necessary, import from jw.org or from an EPUB file.",
   "tr_assistant": "Assistant",
   "tr_tgw10TalkHistory": "Treasures - 10 min talk",
-  "tr_chairmanMidwekMeetingHistory": "Midweek meeting chairman"
+  "tr_chairmanMidwekMeetingHistory": "Midweek meeting chairman",
+  "tr_clearAllAssignmentsDesc": "Are you sure you want to clear all created assignments for this meeting? You can always reassign them later."
 }
