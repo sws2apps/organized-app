@@ -61,7 +61,6 @@
   "tr_hostCongregation": "Hội thánh chủ nhà",
   "tr_kingdomHallAddress": "Địa chỉ Phòng Nước Trời",
   "tr_clearAllAssignments": "Xóa tất cả các nhiệm vụ",
-  "tr_clearAllAssignmentsDesc": "Anh/chị có chắc chắn muốn xóa tất cả các nhiệm vụ đã tạo? Anh/chị luôn có thể giao nhiệm vụ lại sau này.",
   "tr_selectSpeakerAndTalk": "Chọn người nói chuyện và buổi nói chuyện",
   "tr_search": "Tìm kiếm",
   "tr_selectSong": "Chọn bài hát",
@@ -112,5 +111,6 @@
   "tr_meetingMaterialsNotAvailable": "The meeting materials for this week are not available yet. If necessary, import from jw.org or from an EPUB file.",
   "tr_assistant": "Assistant",
   "tr_tgw10TalkHistory": "Treasures - 10 min talk",
-  "tr_chairmanMidwekMeetingHistory": "Midweek meeting chairman"
+  "tr_chairmanMidwekMeetingHistory": "Midweek meeting chairman",
+  "tr_clearAllAssignmentsDesc": "Are you sure you want to clear all created assignments for this meeting? You can always reassign them later."
 }
