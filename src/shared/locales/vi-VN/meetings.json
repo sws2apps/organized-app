@@ -1,7 +1,7 @@
 {
   "tr_display": "Hiển thị",
-  "tr_hall": "Hall",
-  "tr_hallWithName": "Hall {{ name }}",
+  "tr_hall": "Phòng",
+  "tr_hallWithName": "Phòng {{ name }}",
   "tr_yourUserRecordOfTheList": "Để tìm tên của anh/chị trong danh sách, hãy đảm bảo rằng hồ sơ cá nhân của anh/chị tồn tại trên trang <a href='#'>Tất cả người dùng</a>.",
   "tr_yourPersonRecord": "Hồ sơ cá nhân của anh/chị",
   "tr_export": "Xuất",
