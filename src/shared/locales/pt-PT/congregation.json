@@ -197,8 +197,6 @@
   "tr_makeAssistant": "Tornar ajudante",
   "tr_removeFromGroups": "Remover do grupo",
   "tr_reorderGroupsTitle": "Reordenar grupos",
-  "tr_removeUserTitle": "Remover utilizador",
-  "tr_confirmRemovingUser": "Deseja remover <b>{{ PersonName }}</b> do <b>Grupo {{ GroupNumber }} – {{ GroupName }}</b>?",
   "tr_remove": "Remover",
   "tr_addPublishers": "Adicionar publicadores",
   "tr_editGroup": "Editar o grupo",
@@ -384,5 +382,7 @@
   "tr_congregationAccessRevoke": "Revoke access for this congregation",
   "tr_congregationAccessRevokeDesc": "Revoke access to your speakers list for <strong>{{ congregationName }}</strong> congregation? They won't be able to see it anymore, but you can share it with them again later if they make a new request.",
   "tr_noGroupsYet": "You don't have any field service groups created yet. Create a group first to start adding publishers and reordering groups.",
-  "tr_congregationPrivacy": "Congregation privacy"
+  "tr_congregationPrivacy": "Congregation privacy",
+  "tr_removePublisher": "Remove publisher: {PersonName}",
+  "tr_confirmRemoving": "Do you want to remove the publisher from the <b>Group {{ GroupNumber }} – {{ GroupName }}</b>?"
 }
