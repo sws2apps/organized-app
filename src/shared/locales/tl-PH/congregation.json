@@ -197,8 +197,6 @@
   "tr_makeAssistant": "Gawing assistant",
   "tr_removeFromGroups": "Alisin sa grupo",
   "tr_reorderGroupsTitle": "Ayusing muli ang mga grupo",
-  "tr_removeUserTitle": "Alisin ang user",
-  "tr_confirmRemovingUser": "Gusto mong tanggalin si <b>{{ PersonName }}</b> mula sa <b>Group {{ GroupNumber }} – {{ GroupName }}</b>?",
   "tr_remove": "Alisin",
   "tr_addPublishers": "Magdagdag ng mga publisher",
   "tr_editGroup": "I-edit ang grupo",
@@ -384,5 +382,7 @@
   "tr_congregationAccessRevoke": "Revoke access for this congregation",
   "tr_congregationAccessRevokeDesc": "Revoke access to your speakers list for <strong>{{ congregationName }}</strong> congregation? They won't be able to see it anymore, but you can share it with them again later if they make a new request.",
   "tr_noGroupsYet": "You don't have any field service groups created yet. Create a group first to start adding publishers and reordering groups.",
-  "tr_congregationPrivacy": "Congregation privacy"
+  "tr_congregationPrivacy": "Congregation privacy",
+  "tr_removePublisher": "Remove publisher: {PersonName}",
+  "tr_confirmRemoving": "Do you want to remove the publisher from the <b>Group {{ GroupNumber }} – {{ GroupName }}</b>?"
 }
