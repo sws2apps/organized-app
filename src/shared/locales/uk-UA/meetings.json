@@ -57,12 +57,10 @@
   "tr_addOutgoingTalk": "Додати виїздну промову",
   "tr_weekendScheduleSaved": "Розклад зібрання на вихідних збережено",
   "tr_weekendScheduleSavedDesc": "Після створення бажаних графіків, не забудь опублікувати їх для збору.",
-  "tr_personAlreadyAssignmentMonth": "Ця особа вже має завдання цього місяця",
   "tr_personAlreadyAssignmentWeek": "Ця особа вже має завдння цього тижня",
   "tr_hostCongregation": "Приймаючий збір",
   "tr_kingdomHallAddress": "Адреса Залу Царства",
   "tr_clearAllAssignments": "Очистити всі завдання",
-  "tr_clearAllAssignmentsDesc": "Ти впевнений, що бажаєш видалити всі створені завдання? Ти завжди можеш перепризначити їх пізніше.",
   "tr_selectSpeakerAndTalk": "Обери промовця і промову",
   "tr_search": "Пошук",
   "tr_selectSong": "Вибери пісню",
@@ -113,5 +111,6 @@
   "tr_meetingMaterialsNotAvailable": "The meeting materials for this week are not available yet. If necessary, import from jw.org or from an EPUB file.",
   "tr_assistant": "Assistant",
   "tr_tgw10TalkHistory": "Treasures - 10 min talk",
-  "tr_chairmanMidwekMeetingHistory": "Midweek meeting chairman"
+  "tr_chairmanMidwekMeetingHistory": "Midweek meeting chairman",
+  "tr_clearAllAssignmentsDesc": "Are you sure you want to clear all created assignments for this meeting? You can always reassign them later."
 }
