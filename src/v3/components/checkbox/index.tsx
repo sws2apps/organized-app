@@ -27,6 +27,7 @@ const CustomCheckbox = (props: CheckboxPropsType) => {
         alignItems: 'center',
         gap: '8px',
         opacity: disabled ? '24%' : 1,
+        width: 'fit-content',
         ...(isBorder && { ...StyleCheckboxBorder }),
         ...(isBorder && checked && { ...StyleCheckboxBorderChecked }),
         ...sx,

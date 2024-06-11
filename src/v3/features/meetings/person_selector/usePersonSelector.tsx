@@ -1,4 +1,4 @@
-import { MouseEvent, useCallback, useEffect, useMemo, useState } from 'react';
+import { MouseEvent, useCallback, useEffect, useState } from 'react';
 import { GenderType, PersonOptionsType, PersonSelectorType } from './index.types';
 import { PersonType } from '@definition/person';
 import { useRecoilValue } from 'recoil';
@@ -17,6 +17,9 @@ import { AssignmentCongregation, AssignmentHistoryType, SchedWeekType } from '@d
 import { UpdateSpec } from 'dexie';
 import { LivingAsChristiansType } from '@definition/sources';
 import { formatDate } from '@services/dateformat';
+import { ASSIGNMENT_PATH, ASSISTANT_ASSIGNMENT, BROTHER_ASSIGNMENT, STUDENT_ASSIGNMENT } from '@constants/index';
+import { schedulesGetData, schedulesUpdateHistory } from '@services/app/schedules';
+import { IconMale, IconPersonPlaceholder } from '@components/icons';
 
 const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
   const { t } = useAppTranslation();
@@ -39,6 +42,8 @@ const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
 
   const labelBrothers = t('tr_brothers');
   const labelParticipants = t('tr_participants');
+
+  const placeHolderIcon = STUDENT_ASSIGNMENT.includes(type) ? <IconPersonPlaceholder /> : <IconMale />;
 
   const isAssistant = assignment.includes('Assistant');
 
@@ -80,69 +85,24 @@ const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
     [displayNameEnabled, fullnameOption]
   );
 
-  const assignmentPaths = useMemo(() => {
-    return {
-      MM_Chairman_A: 'midweek_meeting.chairman.main_hall',
-      MM_Chairman_B: 'midweek_meeting.chairman.aux_class_1',
-      MM_OpeningPrayer: 'midweek_meeting.opening_prayer',
-      MM_TGWTalk: 'midweek_meeting.tgw_talk',
-      MM_TGWGems: 'midweek_meeting.tgw_gems',
-      MM_TGWBibleReading_A: 'midweek_meeting.tgw_bible_reading.main_hall',
-      MM_TGWBibleReading_B: 'midweek_meeting.tgw_bible_reading.aux_class_1',
-      MM_AYFPart1_Student_A: 'midweek_meeting.ayf_part1.main_hall.student',
-      MM_AYFPart1_Assistant_A: 'midweek_meeting.ayf_part1.main_hall.assistant',
-      MM_AYFPart1_Student_B: 'midweek_meeting.ayf_part1.aux_class_1.student',
-      MM_AYFPart1_Assistant_B: 'midweek_meeting.ayf_part1.aux_class_1.assistant',
-      MM_AYFPart2_Student_A: 'midweek_meeting.ayf_part2.main_hall.student',
-      MM_AYFPart2_Assistant_A: 'midweek_meeting.ayf_part2.main_hall.assistant',
-      MM_AYFPart2_Student_B: 'midweek_meeting.ayf_part2.aux_class_1.student',
-      MM_AYFPart2_Assistant_B: 'midweek_meeting.ayf_part2.aux_class_1.assistant',
-      MM_AYFPart3_Student_A: 'midweek_meeting.ayf_part3.main_hall.student',
-      MM_AYFPart3_Assistant_A: 'midweek_meeting.ayf_part3.main_hall.assistant',
-      MM_AYFPart3_Student_B: 'midweek_meeting.ayf_part3.aux_class_1.student',
-      MM_AYFPart3_Assistant_B: 'midweek_meeting.ayf_part3.aux_class_1.assistant',
-      MM_AYFPart4_Student_A: 'midweek_meeting.ayf_part4.main_hall.student',
-      MM_AYFPart4_Assistant_A: 'midweek_meeting.ayf_part4.main_hall.assistant',
-      MM_AYFPart4_Student_B: 'midweek_meeting.ayf_part4.aux_class_1.student',
-      MM_AYFPart4_Assistant_B: 'midweek_meeting.ayf_part4.aux_class_1.assistant',
-      MM_LCPart1: 'midweek_meeting.lc_part1',
-      MM_LCPart2: 'midweek_meeting.lc_part2',
-      MM_LCPart3: 'midweek_meeting.lc_part3',
-      MM_LCCBSConductor: 'midweek_meeting.lc_cbs.conductor',
-      MM_LCCBSReader: 'midweek_meeting.lc_cbs.reader',
-      MM_ClosingPrayer: 'midweek_meeting.closing_prayer',
-    };
-  }, []);
-
   const handleGenderUpdate = (e: MouseEvent<HTMLLabelElement>, value: GenderType) => {
     e.preventDefault();
     setGender(value);
   };
 
-  const getScheduleData = (schedule: SchedWeekType, path: string) => {
-    const pathParts = path.split('.');
-    let current: unknown = schedule;
-
-    for (const part of pathParts) {
-      if (current === undefined || current === null) {
-        return undefined;
-      }
-      current = current[part];
-    }
-
-    return current as AssignmentCongregation | AssignmentCongregation[];
-  };
-
   const handleSaveAssignment = async (value: PersonOptionsType) => {
     const toSave = value ? value.person_uid : '';
-    const path = assignmentPaths[assignment];
-    const fieldUpdate = structuredClone(getScheduleData(schedule, path));
+    const path = ASSIGNMENT_PATH[assignment];
+    const fieldUpdate = structuredClone(schedulesGetData(schedule, path));
+
+    let assigned: AssignmentCongregation;
 
     if (Array.isArray(fieldUpdate)) {
-      const toUpdate = fieldUpdate.find((record) => record.type === dataView);
-      toUpdate.value = toSave;
-      toUpdate.updatedAt = new Date().toISOString();
+      assigned = fieldUpdate.find((record) => record.type === dataView);
+      assigned.value = toSave;
+      assigned.updatedAt = new Date().toISOString();
     } else {
+      assigned = fieldUpdate;
       fieldUpdate.value = toSave;
       fieldUpdate.updatedAt = new Date().toISOString();
     }
@@ -150,6 +110,9 @@ const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
     const dataDb = { [path]: fieldUpdate } as unknown as UpdateSpec<SchedWeekType>;
 
     await dbSchedUpdate(week, dataDb);
+
+    // update history
+    await schedulesUpdateHistory(week, assignment, assigned);
   };
 
   const handleFormatDate = useCallback(
@@ -164,22 +127,15 @@ const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
       const newPersons = options.map((record) => {
         let lastAssignment: AssignmentHistoryType;
 
-        const studentPart = [
-          AssignmentCode.MM_StartingConversation,
-          AssignmentCode.MM_FollowingUp,
-          AssignmentCode.MM_MakingDisciples,
-          AssignmentCode.MM_ExplainingBeliefs,
-        ];
-
-        if (!studentPart.includes(type)) {
+        if (!STUDENT_ASSIGNMENT.includes(type)) {
           lastAssignment = history.find(
             (item) => item.assignment.person === record.person_uid && item.assignment.code === type
           );
         }
 
-        if (studentPart.includes(type)) {
+        if (STUDENT_ASSIGNMENT.includes(type)) {
           lastAssignment = history.find(
-            (item) => item.assignment.person === record.person_uid && studentPart.includes(item.assignment.code)
+            (item) => item.assignment.person === record.person_uid && STUDENT_ASSIGNMENT.includes(item.assignment.code)
           );
         }
 
@@ -230,15 +186,7 @@ const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
   const handleCloseHistory = () => setIsHistoryOpen(false);
 
   useEffect(() => {
-    const brothers = [
-      AssignmentCode.MM_Chairman,
-      AssignmentCode.MM_Prayer,
-      AssignmentCode.MM_TGWTalk,
-      AssignmentCode.MM_TGWGems,
-      AssignmentCode.MM_LCPart,
-    ];
-
-    if (brothers.includes(type)) {
+    if (BROTHER_ASSIGNMENT.includes(type)) {
       setOptionHeader(labelBrothers);
     } else {
       setOptionHeader(labelParticipants);
@@ -326,16 +274,8 @@ const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
   ]);
 
   useEffect(() => {
-    const assistantType = [
-      AssignmentCode.MM_StartingConversation,
-      AssignmentCode.MM_FollowingUp,
-      AssignmentCode.MM_MakingDisciples,
-      AssignmentCode.MM_ExplainingBeliefs,
-      AssignmentCode.MM_AssistantOnly,
-    ];
-
     if (week.length > 0) {
-      const path = assignmentPaths[assignment];
+      const path = ASSIGNMENT_PATH[assignment];
 
       if (path) {
         setGender('male');
@@ -346,8 +286,8 @@ const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
           setValue(null);
           setOptions([]);
 
-          const pathMainStudent = assignmentPaths[assignment.replace('Assistant', 'Student')];
-          const data = getScheduleData(schedule, pathMainStudent) as AssignmentCongregation[];
+          const pathMainStudent = ASSIGNMENT_PATH[assignment.replace('Assistant', 'Student')];
+          const data = schedulesGetData(schedule, pathMainStudent) as AssignmentCongregation[];
 
           const mainPerson = data.find((record) => record.type === dataView)?.value;
           mainStudent = persons.find((record) => record.person_uid === mainPerson);
@@ -365,7 +305,7 @@ const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
                 record.person_data.female.value === isFemale &&
                 record.person_data.assignments
                   .filter((assignment) => assignment._deleted === false)
-                  .some((assignment) => assistantType.includes(assignment.code))
+                  .some((assignment) => ASSISTANT_ASSIGNMENT.includes(assignment.code))
             );
 
             const options = handleSortOptions(newPersons);
@@ -374,7 +314,7 @@ const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
         }
 
         if (!isAssistant || (isAssistant && mainStudent)) {
-          const dataSchedule = getScheduleData(schedule, path);
+          const dataSchedule = schedulesGetData(schedule, path);
           let person_uid: string;
 
           if (Array.isArray(dataSchedule)) {
@@ -405,7 +345,6 @@ const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
     assignment,
     personsAll,
     isAssistant,
-    assignmentPaths,
     handleFormatDate,
     history,
     handleSortOptions,
@@ -426,6 +365,7 @@ const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
     isHistoryOpen,
     handleCloseHistory,
     assignmentsHistory,
+    placeHolderIcon,
   };
 };
 

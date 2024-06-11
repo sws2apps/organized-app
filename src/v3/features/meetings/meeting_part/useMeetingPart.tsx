@@ -15,21 +15,38 @@ const useMeetingPart = ({ week, type }: MeetingPartType) => {
 
   const [source, setSource] = useState('');
   const [secondary, setSecondary] = useState<string | null>(null);
+  const [sourceOverwrite, setSourceOverwrite] = useState('');
+  const [secondaryOverwrite, setSecondaryOverwrite] = useState('');
+  const [timeOverwrite, setTimeOverwrite] = useState<number | string>('');
 
   const sourceRecord = sources.find((record) => record.weekOf === week);
 
   useEffect(() => {
     if (sourceRecord) {
       if (type === 'tgw_talk') {
-        const src = sourceRecord.midweek_meeting.tgw_talk[lang];
-        const time = t('tr_partDuration', { time: 10 });
-        setSource(`${src} ${time}`);
+        const part = sourceRecord.midweek_meeting.tgw_talk;
+        const src = part.src[lang];
+
+        const timeOverride = part.time.override.find((record) => record.type === dataView)?.value || 0;
+        const timeDefault = part.time.default;
+        const time = timeOverride > 0 ? timeOverride : timeDefault;
+
+        const partDuration = t('tr_partDuration', { time: time });
+
+        setSource(`${src} ${partDuration}`);
       }
 
       if (type === 'tgw_gems') {
-        const src = sourceRecord.midweek_meeting.tgw_gems[lang];
-        const time = t('tr_partDuration', { time: 10 });
-        setSource(`${src} ${time}`);
+        const part = sourceRecord.midweek_meeting.tgw_gems;
+        const title = part.title[lang];
+
+        const timeOverride = part.time.override.find((record) => record.type === dataView)?.value || 0;
+        const timeDefault = part.time.default;
+        const time = timeOverride > 0 ? timeOverride : timeDefault;
+
+        const partDuration = t('tr_partDuration', { time: time });
+
+        setSource(`${title} ${partDuration}`);
       }
 
       if (type === 'tgw_bible_reading') {
@@ -86,20 +103,23 @@ const useMeetingPart = ({ week, type }: MeetingPartType) => {
 
         const titleOverride = lcPart.title.override.find((record) => record.type === dataView)?.value || '';
         const titleDefault = lcPart.title.default[lang];
-        const src = titleOverride.length > 0 ? titleOverride : titleDefault;
+        const title = titleOverride.length > 0 ? titleOverride : titleDefault;
 
-        const timeOverride = lcPart.time.override.find((record) => record.type === dataView)?.value;
+        const timeOverride = lcPart.time.override.find((record) => record.type === dataView)?.value || 0;
         const timeDefault = lcPart.time.default[lang];
-        const time = titleOverride.length > 0 ? timeOverride : timeDefault;
+        const time = timeOverride > 0 ? timeOverride : timeDefault;
 
         const partDuration = t('tr_partDuration', { time: time });
-        setSource(`${src} ${partDuration}`);
+        setSource(`${title} ${partDuration}`);
+        setSourceOverwrite(titleOverride);
+        setTimeOverwrite(time === 0 ? '' : time);
 
-        const descOverride = lcPart.desc.override.find((record) => record.type === dataView)?.value;
+        const descOverride = lcPart.desc.override.find((record) => record.type === dataView)?.value || '';
         const descDefault = lcPart.desc.default[lang];
-        const secondary = titleOverride.length > 0 ? descOverride : descDefault;
+        const secondary = descOverride.length > 0 ? descOverride : descDefault;
 
         setSecondary(secondary);
+        setSecondaryOverwrite(descOverride);
       }
 
       if (type === 'lc_part2') {
@@ -107,41 +127,39 @@ const useMeetingPart = ({ week, type }: MeetingPartType) => {
 
         const titleOverride = lcPart.title.override.find((record) => record.type === dataView)?.value || '';
         const titleDefault = lcPart.title.default[lang];
-        const src = titleOverride.length > 0 ? titleOverride : titleDefault;
+        const title = titleOverride.length > 0 ? titleOverride : titleDefault;
 
-        const timeOverride = lcPart.time.override.find((record) => record.type === dataView)?.value;
+        const timeOverride = lcPart.time.override.find((record) => record.type === dataView)?.value || 0;
         const timeDefault = lcPart.time.default[lang];
-        const time = titleOverride.length > 0 ? timeOverride : timeDefault;
+        const time = timeOverride > 0 ? timeOverride : timeDefault;
 
         const partDuration = t('tr_partDuration', { time: time });
-        setSource(`${src} ${partDuration}`);
+        setSource(`${title} ${partDuration}`);
+        setSourceOverwrite(titleOverride);
+        setTimeOverwrite(time === 0 ? '' : time);
 
-        const descOverride = lcPart.desc.override.find((record) => record.type === dataView)?.value;
+        const descOverride = lcPart.desc.override.find((record) => record.type === dataView)?.value || '';
         const descDefault = lcPart.desc.default[lang];
-        const secondary = titleOverride.length > 0 ? descOverride : descDefault;
+        const secondary = descOverride.length > 0 ? descOverride : descDefault;
 
         setSecondary(secondary);
+        setSecondaryOverwrite(descOverride);
       }
 
       if (type === 'lc_part3') {
         const lcPart = sourceRecord.midweek_meeting.lc_part3;
 
-        const titleOverride = lcPart.title.override.find((record) => record.type === dataView)?.value || '';
-        const titleDefault = lcPart.title.default[lang];
-        const src = titleOverride.length > 0 ? titleOverride : titleDefault;
-
-        const timeOverride = lcPart.time.override.find((record) => record.type === dataView)?.value;
-        const timeDefault = lcPart.time.default[lang];
-        const time = titleOverride.length > 0 ? timeOverride : timeDefault;
+        const title = lcPart.title.find((record) => record.type === dataView)?.value || '';
+        const time = lcPart.time.find((record) => record.type === dataView)?.value || 0;
 
         const partDuration = t('tr_partDuration', { time: time });
-        setSource(`${src} ${partDuration}`);
+        setSource(`${title} ${partDuration}`);
+        setSourceOverwrite(title);
+        setTimeOverwrite(time === 0 ? '' : time);
 
-        const descOverride = lcPart.desc.override.find((record) => record.type === dataView)?.value;
-        const descDefault = lcPart.desc.default[lang];
-        const secondary = titleOverride.length > 0 ? descOverride : descDefault;
-
+        const secondary = lcPart.desc.find((record) => record.type === dataView)?.value || '';
         setSecondary(secondary);
+        setSecondaryOverwrite(secondary);
       }
 
       if (type === 'lc_cbs') {
@@ -149,14 +167,14 @@ const useMeetingPart = ({ week, type }: MeetingPartType) => {
 
         const titleOverride = lcPart.title.override.find((record) => record.type === dataView)?.value || '';
         const titleDefault = lcPart.title.default[lang];
-        const src = titleOverride.length > 0 ? titleOverride : titleDefault;
+        const title = titleOverride.length > 0 ? titleOverride : titleDefault;
 
-        const timeOverride = lcPart.time.override.find((record) => record.type === dataView)?.value;
+        const timeOverride = lcPart.time.override.find((record) => record.type === dataView)?.value || 0;
         const timeDefault = lcPart.time.default;
-        const time = titleOverride.length > 0 ? timeOverride : timeDefault;
+        const time = timeOverride > 0 ? timeOverride : timeDefault;
 
         const partDuration = t('tr_partDuration', { time: time });
-        setSource(`${src} ${partDuration}`);
+        setSource(`${title} ${partDuration}`);
 
         const secondary = lcPart.src[lang];
         setSecondary(secondary);
@@ -164,7 +182,7 @@ const useMeetingPart = ({ week, type }: MeetingPartType) => {
     }
   }, [sourceRecord, type, lang, t, dataView]);
 
-  return { source, secondary };
+  return { source, secondary, sourceOverwrite, secondaryOverwrite, timeOverwrite };
 };
 
 export default useMeetingPart;

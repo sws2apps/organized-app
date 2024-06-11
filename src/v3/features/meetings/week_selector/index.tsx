@@ -59,14 +59,6 @@ const WeekSelector = () => {
               {t('tr_clear')}
             </Button>
           )}
-
-          <Button
-            variant="small"
-            startIcon={<IconAdd height={20} width={20} />}
-            sx={{ height: '32px', minHeight: '32px' }}
-          >
-            {t('tr_add')}
-          </Button>
         </Box>
       </Collapse>
     </Box>

@@ -37,8 +37,14 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
       obj.midweek_meeting.week_date_locale = { [source_lang]: src.mwb_week_date_locale };
       obj.midweek_meeting.weekly_bible_reading = { [source_lang]: src.mwb_weekly_bible_reading };
       obj.midweek_meeting.song_first = { [source_lang]: src.mwb_song_first.toString() };
-      obj.midweek_meeting.tgw_talk = { [source_lang]: src.mwb_tgw_talk_title };
-      obj.midweek_meeting.tgw_gems = { [source_lang]: src.mwb_tgw_gems_title };
+      obj.midweek_meeting.tgw_talk = {
+        src: { [source_lang]: src.mwb_tgw_talk_title },
+        time: { default: 10, override: [] },
+      };
+      obj.midweek_meeting.tgw_gems = {
+        title: { [source_lang]: src.mwb_tgw_gems_title },
+        time: { default: 10, override: [] },
+      };
       obj.midweek_meeting.tgw_bible_reading = {
         src: { [source_lang]: src.mwb_tgw_bread },
         title: { [source_lang]: src.mwb_tgw_bread_title },

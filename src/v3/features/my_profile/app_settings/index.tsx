@@ -55,7 +55,7 @@ const AppSettings = () => {
               {[5, 15, 30, 45].map((time) => (
                 <MenuItem key={time} value={time}>
                   <Typography className="body-regular" color="var(--black)">
-                    {`${time} ${t('tr_syncIntervalMinLabel')}`}
+                    {`${time} ${t('tr_minLabel')}`}
                   </Typography>
                 </MenuItem>
               ))}

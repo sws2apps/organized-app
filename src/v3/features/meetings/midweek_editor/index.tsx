@@ -1,12 +1,24 @@
 import { Box } from '@mui/material';
-import { IconInfo, IconLivingPart, IconMinistryPart, IconTreasuresPart } from '@components/icons';
+import {
+  IconCustom,
+  IconEdit,
+  IconInfo,
+  IconLivingPart,
+  IconMinistryPart,
+  IconSave,
+  IconTreasuresPart,
+} from '@components/icons';
 import { AssignmentCode } from '@definition/assignment';
-import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import { Week } from '@definition/week_type';
 import { ClassAssignmentContainer, PersonDoubleContainer, PersonSelectorContainer, RowContainer } from './index.styles';
+import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useMidweekEditor from './useMidweekEditor';
+import Button from '@components/button';
+import Checkbox from '@components/checkbox';
 import Divider from '@components/divider';
 import MeetingPart from '../meeting_part';
 import MeetingSection from '../meeting_section';
+import PartDuration from '../part_duration';
 import PersonSelector from '../person_selector';
 import SongSource from '../song_source';
 import SwitchCheckbox from '../switch_checkbox';
@@ -20,6 +32,8 @@ const MidweekEditor = () => {
   const { desktopUp, laptopUp } = useBreakpoints();
 
   const {
+    handleToggleMode,
+    isEdit,
     weekDateLocale,
     selectedWeek,
     hasSource,
@@ -37,6 +51,13 @@ const MidweekEditor = () => {
     lcNoAssignPart1,
     lcNoAssignPart2,
     lcNoAssignPart3,
+    weekType,
+    customPartEnabled,
+    handleToggleOverwriteLCPart1,
+    handleToggleOverwriteLCPart2,
+    isCustomLCPart2,
+    isOverwriteLCPart1,
+    isOverwriteLCPart2,
   } = useMidweekEditor();
 
   return (
@@ -55,6 +76,7 @@ const MidweekEditor = () => {
           <Typography color="var(--grey-400)">{t('tr_infoPlanMidweekMeeting')}</Typography>
         </Box>
       )}
+
       {weekDateLocale.length > 0 && (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           <Typography className="h2">{weekDateLocale}</Typography>
@@ -71,6 +93,10 @@ const MidweekEditor = () => {
             <WeekTypeSelector week={selectedWeek} />
             <SwitchCheckbox week={selectedWeek} meeting="midweek" />
           </Box>
+
+          <Button variant="tertiary" startIcon={isEdit ? <IconSave /> : <IconEdit />} onClick={handleToggleMode}>
+            {isEdit ? t('tr_editingFinished') : t('tr_meetingPartsEdit')}
+          </Button>
 
           <Divider color="var(--accent-200)" />
 
@@ -127,8 +153,13 @@ const MidweekEditor = () => {
                 icon={<IconTreasuresPart color="var(--always-white)" />}
               />
 
+              {/* tgw_talk */}
               <RowContainer desktopUp={desktopUp}>
-                <MeetingPart week={selectedWeek} type="tgw_talk" color="var(--treasures-from-gods-word)" />
+                <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+                  {isEdit && <PartDuration length={10} week={selectedWeek} type="tgw_talk" />}
+
+                  <MeetingPart week={selectedWeek} type="tgw_talk" color="var(--treasures-from-gods-word)" />
+                </Box>
 
                 <PersonSelectorContainer desktopUp={desktopUp}>
                   <PersonSelector
@@ -142,8 +173,13 @@ const MidweekEditor = () => {
 
               <Divider color="var(--accent-200)" />
 
+              {/* tgw_gems */}
               <RowContainer desktopUp={desktopUp}>
-                <MeetingPart week={selectedWeek} type="tgw_gems" color="var(--treasures-from-gods-word)" />
+                <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+                  {isEdit && <PartDuration length={10} week={selectedWeek} type="tgw_gems" />}
+
+                  <MeetingPart week={selectedWeek} type="tgw_gems" color="var(--treasures-from-gods-word)" />
+                </Box>
 
                 <PersonSelectorContainer desktopUp={desktopUp}>
                   <PersonSelector
@@ -157,6 +193,7 @@ const MidweekEditor = () => {
 
               <Divider color="var(--accent-200)" />
 
+              {/* tgw_bible_reading */}
               <RowContainer desktopUp={desktopUp}>
                 <MeetingPart week={selectedWeek} type="tgw_bible_reading" color="var(--treasures-from-gods-word)" />
 
@@ -196,6 +233,7 @@ const MidweekEditor = () => {
                 icon={<IconMinistryPart color="var(--always-white)" />}
               />
 
+              {/* ayf_part1 */}
               <RowContainer desktopUp={desktopUp}>
                 <MeetingPart week={selectedWeek} type="ayf_part1" color="var(--apply-yourself-to-the-field-ministry)" />
 
@@ -250,6 +288,7 @@ const MidweekEditor = () => {
                 </PersonSelectorContainer>
               </RowContainer>
 
+              {/* ayf_part2 */}
               {ayfCount > 1 && (
                 <>
                   <Divider color="var(--accent-200)" />
@@ -314,6 +353,7 @@ const MidweekEditor = () => {
                 </>
               )}
 
+              {/* ayf_part3 */}
               {ayfCount > 2 && (
                 <>
                   <Divider color="var(--accent-200)" />
@@ -378,6 +418,7 @@ const MidweekEditor = () => {
                 </>
               )}
 
+              {/* ayf_part4 */}
               {ayfCount > 3 && (
                 <>
                   <Divider color="var(--accent-200)" />
@@ -452,48 +493,88 @@ const MidweekEditor = () => {
 
               <Divider color="var(--accent-200)" />
 
-              <RowContainer desktopUp={desktopUp}>
-                <MeetingPart week={selectedWeek} type="lc_part1" color="var(--living-as-christians)" />
-
-                {!lcNoAssignPart1 && (
-                  <PersonSelectorContainer desktopUp={desktopUp}>
-                    <PersonSelector
-                      week={selectedWeek}
-                      label={t('tr_brother')}
-                      type={AssignmentCode.MM_LCPart}
-                      assignment="MM_LCPart1"
-                    />
-                  </PersonSelectorContainer>
+              {/* lc_part1 */}
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                {isEdit && (
+                  <Checkbox
+                    label={t('tr_overwriteWithCustomData')}
+                    checked={isOverwriteLCPart1}
+                    onChange={handleToggleOverwriteLCPart1}
+                  />
                 )}
-              </RowContainer>
 
+                <RowContainer desktopUp={desktopUp}>
+                  <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+                    {isEdit && <PartDuration length={15} week={selectedWeek} type="lc_part1" />}
+
+                    <MeetingPart
+                      week={selectedWeek}
+                      type="lc_part1"
+                      color="var(--living-as-christians)"
+                      isOverwrite={isOverwriteLCPart1}
+                    />
+                  </Box>
+
+                  {!lcNoAssignPart1 && (
+                    <PersonSelectorContainer desktopUp={desktopUp}>
+                      <PersonSelector
+                        week={selectedWeek}
+                        label={t('tr_brother')}
+                        type={AssignmentCode.MM_LCPart}
+                        assignment="MM_LCPart1"
+                      />
+                    </PersonSelectorContainer>
+                  )}
+                </RowContainer>
+              </Box>
+
+              {/* lc_part2 */}
               {lcCount > 1 && (
                 <>
                   <Divider color="var(--accent-200)" />
 
-                  <RowContainer desktopUp={desktopUp}>
-                    <MeetingPart week={selectedWeek} type="lc_part2" color="var(--living-as-christians)" />
-
-                    {!lcNoAssignPart2 && (
-                      <PersonSelectorContainer desktopUp={desktopUp}>
-                        <PersonSelector
-                          week={selectedWeek}
-                          label={t('tr_brother')}
-                          type={AssignmentCode.MM_LCPart}
-                          assignment="MM_LCPart2"
-                        />
-                      </PersonSelectorContainer>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    {isEdit && !isCustomLCPart2 && (
+                      <Checkbox
+                        label={t('tr_overwriteWithCustomData')}
+                        checked={isOverwriteLCPart2}
+                        onChange={handleToggleOverwriteLCPart2}
+                      />
                     )}
-                  </RowContainer>
+
+                    <RowContainer desktopUp={desktopUp}>
+                      <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+                        {isEdit && <PartDuration length={15} week={selectedWeek} type="lc_part2" />}
+
+                        <MeetingPart week={selectedWeek} type="lc_part2" color="var(--living-as-christians)" />
+                      </Box>
+
+                      {!lcNoAssignPart2 && (
+                        <PersonSelectorContainer desktopUp={desktopUp}>
+                          <PersonSelector
+                            week={selectedWeek}
+                            label={t('tr_brother')}
+                            type={AssignmentCode.MM_LCPart}
+                            assignment="MM_LCPart2"
+                          />
+                        </PersonSelectorContainer>
+                      )}
+                    </RowContainer>
+                  </Box>
                 </>
               )}
 
+              {/* lc_part3 */}
               {lcCount > 2 && (
                 <>
                   <Divider color="var(--accent-200)" />
 
                   <RowContainer desktopUp={desktopUp}>
-                    <MeetingPart week={selectedWeek} type="lc_part3" color="var(--living-as-christians)" />
+                    <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+                      {isEdit && <PartDuration length={15} week={selectedWeek} type="lc_part3" />}
+
+                      <MeetingPart week={selectedWeek} type="lc_part3" color="var(--living-as-christians)" />
+                    </Box>
 
                     {!lcNoAssignPart3 && (
                       <PersonSelectorContainer desktopUp={desktopUp}>
@@ -509,10 +590,27 @@ const MidweekEditor = () => {
                 </>
               )}
 
+              {/* Add custom part */}
+
+              {isEdit && customPartEnabled && (
+                <>
+                  <Divider color="var(--accent-200)" />
+
+                  <Button variant="small" startIcon={<IconCustom />} sx={{ minHeight: '32px', width: 'fit-content' }}>
+                    {t('tr_addCustomMeetingPart')}
+                  </Button>
+                </>
+              )}
+
               <Divider color="var(--accent-200)" />
 
+              {/* lc_cbs */}
               <RowContainer desktopUp={desktopUp}>
-                <MeetingPart week={selectedWeek} type="lc_cbs" color="var(--living-as-christians)" />
+                <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+                  {isEdit && <PartDuration length={30} week={selectedWeek} type="lc_cbs" />}
+
+                  <MeetingPart week={selectedWeek} type="lc_cbs" color="var(--living-as-christians)" />
+                </Box>
 
                 <PersonSelectorContainer desktopUp={desktopUp}>
                   <PersonDoubleContainer desktopUp={desktopUp} laptopUp={laptopUp}>
@@ -534,8 +632,14 @@ const MidweekEditor = () => {
 
               <Divider color="var(--accent-200)" />
 
+              {/* closing_prayer */}
               <RowContainer desktopUp={desktopUp}>
-                <SongSource week={selectedWeek} meeting="midweek" type="concluding" />
+                <SongSource
+                  week={selectedWeek}
+                  meeting="midweek"
+                  type="concluding"
+                  isEdit={weekType === Week.CO_VISIT && isEdit}
+                />
 
                 <PersonSelectorContainer desktopUp={desktopUp}>
                   <PersonSelector

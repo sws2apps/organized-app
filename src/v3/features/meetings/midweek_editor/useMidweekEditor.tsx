@@ -20,6 +20,8 @@ const useMidweekEditor = () => {
   const classCount = useRecoilValue(midweekMeetingClassCountState);
   const schedules = useRecoilValue(schedulesState);
 
+  const [isEdit, setIsEdit] = useState(false);
+
   const [weekDateLocale, setWeekDateLocale] = useState('');
   const [hasSource, setHasSource] = useState(false);
   const [weekType, setWeekType] = useState(Week.NORMAL);
@@ -36,6 +38,10 @@ const useMidweekEditor = () => {
   const [lcNoAssignPart1, setLcNoAssignPart1] = useState(false);
   const [lcNoAssignPart2, setLcNoAssignPart2] = useState(false);
   const [lcNoAssignPart3, setLcNoAssignPart3] = useState(false);
+  const [customPartEnabled, setCustomPartEnabled] = useState(true);
+  const [isOverwriteLCPart1, setIsOverwriteLCPart1] = useState(false);
+  const [isOverwriteLCPart2, setIsOverwriteLCPart2] = useState(false);
+  const [isCustomLCPart2, setIsCustomLCPart2] = useState(false);
 
   const showDoublePerson = classCount === 2 && weekType !== Week.CO_VISIT;
 
@@ -62,6 +68,12 @@ const useMidweekEditor = () => {
       ayfPart4 !== AssignmentCode.MM_Talk &&
       ayfPart4 !== AssignmentCode.MM_Discussion) ||
     (ayfPart4 === AssignmentCode.MM_ExplainingBeliefs && !isTalkAYFPart4);
+
+  const handleToggleMode = () => setIsEdit((prev) => !prev);
+
+  const handleToggleOverwriteLCPart1 = () => setIsOverwriteLCPart1((prev) => !prev);
+
+  const handleToggleOverwriteLCPart2 = () => setIsOverwriteLCPart2((prev) => !prev);
 
   useEffect(() => {
     if (selectedWeek.length > 0) {
@@ -114,12 +126,13 @@ const useMidweekEditor = () => {
           setIsTalkAYFPart4(sourcesCheckAYFExplainBeliefsAssignment(source.midweek_meeting.ayf_part4.src[lang]));
         }
 
-        const lcCountOverride = source.midweek_meeting.lc_count.override.find((record) => record.type === dataView);
-        if (lcCountOverride?.value > 0) {
-          setLcCount(lcCountOverride.value);
-        } else {
-          setLcCount(source.midweek_meeting.lc_count.default[lang]);
-        }
+        const lcCountOverride =
+          source.midweek_meeting.lc_count.override.find((record) => record.type === dataView)?.value || 0;
+        const lcCountDefault = source.midweek_meeting.lc_count.default[lang];
+        const lcCount = lcCountOverride > 0 ? lcCountOverride : lcCountDefault;
+        setLcCount(lcCount);
+        setCustomPartEnabled(lcCountOverride < lcCount + 1);
+        setIsCustomLCPart2(lcCountDefault === 1 && lcCountOverride > lcCountDefault);
 
         const lc1SrcOverride = source.midweek_meeting.lc_part1.title.override.find(
           (record) => record.type === dataView
@@ -143,13 +156,9 @@ const useMidweekEditor = () => {
           setLcNoAssignPart2(noAssign);
         }
 
-        const lc3SrcOverride = source.midweek_meeting.lc_part2.title.override.find(
-          (record) => record.type === dataView
-        )?.value;
-        const lc3SrcDefault = source.midweek_meeting.lc_part2.title.default[lang];
-        const lc3Src = lc3SrcOverride?.length > 0 ? lc3SrcOverride : lc3SrcDefault;
+        const lc3Src = source.midweek_meeting.lc_part3.title.find((record) => record.type === dataView)?.value || '';
 
-        if (lc3Src?.length > 0) {
+        if (lc3Src.length > 0) {
           const noAssign = sourcesCheckLCAssignments(lc3Src);
           setLcNoAssignPart3(noAssign);
         }
@@ -160,6 +169,8 @@ const useMidweekEditor = () => {
   }, [selectedWeek, sources, lang, dataView, schedules]);
 
   return {
+    isEdit,
+    handleToggleMode,
     weekDateLocale,
     selectedWeek,
     hasSource,
@@ -177,6 +188,13 @@ const useMidweekEditor = () => {
     lcNoAssignPart1,
     lcNoAssignPart2,
     lcNoAssignPart3,
+    weekType,
+    customPartEnabled,
+    isOverwriteLCPart1,
+    isOverwriteLCPart2,
+    isCustomLCPart2,
+    handleToggleOverwriteLCPart1,
+    handleToggleOverwriteLCPart2,
   };
 };
 

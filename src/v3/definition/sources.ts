@@ -53,8 +53,14 @@ export type SourceWeekType = {
     week_date_locale: LanguageStringType;
     weekly_bible_reading: LanguageStringType;
     song_first: LanguageStringType;
-    tgw_talk: LanguageStringType;
-    tgw_gems: LanguageStringType;
+    tgw_talk: {
+      src: LanguageStringType;
+      time: { default: number; override: CongregationNumberType[] };
+    };
+    tgw_gems: {
+      title: LanguageStringType;
+      time: { default: number; override: CongregationNumberType[] };
+    };
     tgw_bible_reading: { src: LanguageStringType; title: LanguageStringType };
     ayf_count: LanguageNumberType;
     ayf_part1: ApplyMinistryType;
@@ -65,7 +71,7 @@ export type SourceWeekType = {
     lc_count: { default: LanguageNumberType; override: CongregationNumberType[] };
     lc_part1: LivingAsChristiansType;
     lc_part2: LivingAsChristiansType;
-    lc_part3: LivingAsChristiansType;
+    lc_part3: { time: CongregationNumberType[]; title: CongregationStringType[]; desc: CongregationStringType[] };
     lc_cbs: {
       title: { default: LanguageStringType; override: CongregationStringType[] };
       time: { default: number; override: CongregationNumberType[] };

@@ -15,7 +15,15 @@ const svgFiles = await fs.readdir(ROOT_FOLDER);
 
 let strImport = '';
 
-const specialIcons = ['IconGoogle', 'IconMicrosoft', 'IconYahoo', 'IconLogo', 'IconMale', 'IconFemale'];
+const specialIcons = [
+  'IconGoogle',
+  'IconMicrosoft',
+  'IconYahoo',
+  'IconLogo',
+  'IconMale',
+  'IconFemale',
+  'IconPersonPlaceholder',
+];
 
 for await (const svgFile of svgFiles) {
   const originalName = svgFile.replace('name=', '').replace('.svg', '');

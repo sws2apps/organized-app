@@ -112,7 +112,9 @@ const CustomTextField = (props: TextFieldTypeProps) => {
           >
             {startIcon}
           </InputAdornment>
-        ) : null,
+        ) : (
+          InputProps?.startAdornment
+        ),
         endAdornment: endIconLocal ? (
           <InputAdornment
             position="end"
@@ -134,7 +136,9 @@ const CustomTextField = (props: TextFieldTypeProps) => {
               </IconButton>
             )}
           </InputAdornment>
-        ) : null,
+        ) : (
+          InputProps?.endAdornment
+        ),
       }}
       FormHelperTextProps={{
         component: 'div',
