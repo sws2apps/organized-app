@@ -42,6 +42,9 @@ const useMidweekEditor = () => {
   const [isOverwriteLCPart1, setIsOverwriteLCPart1] = useState(false);
   const [isOverwriteLCPart2, setIsOverwriteLCPart2] = useState(false);
   const [isCustomLCPart2, setIsCustomLCPart2] = useState(false);
+  const [openTGW, setOpenTGW] = useState(true);
+  const [openAYF, setOpenAYF] = useState(true);
+  const [openLC, setOpenLC] = useState(true);
 
   const showDoublePerson = classCount === 2 && weekType !== Week.CO_VISIT;
 
@@ -69,7 +72,15 @@ const useMidweekEditor = () => {
       ayfPart4 !== AssignmentCode.MM_Discussion) ||
     (ayfPart4 === AssignmentCode.MM_ExplainingBeliefs && !isTalkAYFPart4);
 
-  const handleToggleMode = () => setIsEdit((prev) => !prev);
+  const handleEditAssignments = () => setIsEdit(false);
+
+  const handleEditParts = () => setIsEdit(true);
+
+  const handleToggleTGW = () => setOpenTGW((prev) => !prev);
+
+  const handleToggleAYF = () => setOpenAYF((prev) => !prev);
+
+  const handleToggleLC = () => setOpenLC((prev) => !prev);
 
   const handleToggleOverwriteLCPart1 = () => setIsOverwriteLCPart1((prev) => !prev);
 
@@ -170,7 +181,8 @@ const useMidweekEditor = () => {
 
   return {
     isEdit,
-    handleToggleMode,
+    handleEditAssignments,
+    handleEditParts,
     weekDateLocale,
     selectedWeek,
     hasSource,
@@ -195,6 +207,12 @@ const useMidweekEditor = () => {
     isCustomLCPart2,
     handleToggleOverwriteLCPart1,
     handleToggleOverwriteLCPart2,
+    handleToggleTGW,
+    handleToggleAYF,
+    handleToggleLC,
+    openTGW,
+    openAYF,
+    openLC,
   };
 };
 

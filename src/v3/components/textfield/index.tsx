@@ -87,6 +87,9 @@ const CustomTextField = (props: TextFieldTypeProps) => {
           },
         },
         '.MuiFormLabel-root[data-shrink=false]': { top: `-${varHeight}px` },
+        '& > .MuiAutocomplete-popupIndicator': {
+          '& svg, & svg g, & svg g path': 'var(--black)',
+        },
         ...props.sx,
       }}
       InputProps={{
@@ -137,7 +140,16 @@ const CustomTextField = (props: TextFieldTypeProps) => {
             )}
           </InputAdornment>
         ) : (
-          InputProps?.endAdornment
+          <InputAdornment
+            position="end"
+            sx={{
+              '& svg, & svg g, & svg g path': {
+                fill: 'var(--black)',
+              },
+            }}
+          >
+            {InputProps?.endAdornment}
+          </InputAdornment>
         ),
       }}
       FormHelperTextProps={{

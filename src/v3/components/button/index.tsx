@@ -1,12 +1,13 @@
 import { Button, ButtonProps } from '@mui/material';
 import { ButtonPropsType } from './index.types';
+import { FC } from 'react';
 
 /**
  * Component for rendering a custom button.
  * @param {ButtonPropsType} props - Props for the CustomButton component.
  * @returns {JSX.Element} CustomButton component.
  */
-const CustomButton = (props: ButtonPropsType) => {
+const CustomButton: FC<ButtonPropsType> = (props) => {
   let className = props.className || 'button-caps';
   const disabled = props.disabled || false;
   const variant = props.variant || 'main';
@@ -17,7 +18,7 @@ const CustomButton = (props: ButtonPropsType) => {
 
   if (variant === 'main' || variant === 'semi-white') internalVariant = 'contained';
   if (variant === 'secondary' || variant === 'small') internalVariant = 'text';
-  if (variant === 'tertiary') internalVariant = 'outlined';
+  if (variant === 'tertiary' || variant === 'group') internalVariant = 'outlined';
 
   if (variant === 'small') className = 'body-small-semibold';
 
@@ -207,7 +208,13 @@ const CustomButton = (props: ButtonPropsType) => {
           border: internalVariant === 'outlined' ? '1px solid var(--accent-dark)' : 'none',
           boxShadow: 'none',
           borderRadius:
-            variant === 'small' ? 'var(--radius-s)' : variant === 'semi-white' ? 'var(--radius-m)' : 'var(--radius-l)',
+            variant === 'group'
+              ? 'none'
+              : variant === 'small'
+                ? 'var(--radius-s)'
+                : variant === 'semi-white'
+                  ? 'var(--radius-m)'
+                  : 'var(--radius-l)',
           '@media (hover: none)': {
             backgroundColor: getBackgroundColor(),
           },
@@ -218,7 +225,13 @@ const CustomButton = (props: ButtonPropsType) => {
           border: internalVariant === 'outlined' ? '1px solid var(--accent-dark)' : 'none',
           boxShadow: 'none',
           borderRadius:
-            variant === 'small' ? 'var(--radius-s)' : variant === 'semi-white' ? 'var(--radius-m)' : 'var(--radius-l)',
+            variant === 'group'
+              ? 'none'
+              : variant === 'small'
+                ? 'var(--radius-s)'
+                : variant === 'semi-white'
+                  ? 'var(--radius-m)'
+                  : 'var(--radius-l)',
           opacity: variant === 'small' || color ? 0.8 : 1,
         },
         '&:disabled': {

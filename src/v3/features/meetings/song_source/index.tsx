@@ -5,6 +5,7 @@ import { useAppTranslation } from '@hooks/index';
 import useSongSource from './useSongSource';
 import AutoComplete from '@components/autocomplete';
 import Typography from '@components/typography';
+import { IconSong } from '@components/icons';
 
 const SongSource = (props: SongSourceType) => {
   const { t } = useAppTranslation();
@@ -30,7 +31,12 @@ const SongSource = (props: SongSourceType) => {
           />
         </Box>
       )}
-      {!props.isEdit && <Typography className="h4">{songTitle}</Typography>}
+      {!props.isEdit && (
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+          <IconSong height={20} width={20} />
+          <Typography className="h4">{songTitle}</Typography>
+        </Box>
+      )}
     </>
   );
 };

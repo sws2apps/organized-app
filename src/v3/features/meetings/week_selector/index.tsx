@@ -1,5 +1,5 @@
 import { Box, Collapse } from '@mui/material';
-import { IconAdd, IconClearMultiple, IconCollapse } from '@components/icons';
+import { IconClearMultiple, IconCollapse } from '@components/icons';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useWeekSelector from './useWeekSelector';
 import Button from '@components/button';
@@ -25,6 +25,8 @@ const WeekSelector = () => {
         display: 'flex',
         flexDirection: 'column',
         gap: '16px',
+        position: desktopUp ? 'sticky' : 'unset',
+        top: desktopUp ? 57 : 'unset',
       }}
     >
       <Box
@@ -56,7 +58,7 @@ const WeekSelector = () => {
               sx={{ height: '32px', minHeight: '32px' }}
               color="red"
             >
-              {t('tr_clear')}
+              {t('tr_assignmentsDeleteMultiple')}
             </Button>
           )}
         </Box>
