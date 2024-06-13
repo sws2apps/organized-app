@@ -92,7 +92,7 @@
   "tr_deletePWLocationDesc": "A exclusão deste local remove permanentemente todos os seus dados e arranjos. Esta ação não pode ser desfeita.",
   "tr_changeImage": "Alterar imagem",
   "tr_addImage": "Adicionar imagem",
-  "tr_cantDeductStudiesDesc": "You can’t select fewer Bible studies than you already have selected in the “Individual Bible studies” dropdown menu. ",
+  "tr_cantDeductStudiesDesc": "You can’t select fewer Bible studies than you already have selected in the “Individual Bible studies” dropdown menu.",
   "tr_cantDeductStudiesTitle": "Não é possível deduzir estudos bíblicos",
   "tr_includesServiceAndCredit": "Inclui serviço de campo e horas de crédito",
   "tr_noDailyRecordsDesc": "No daily service records yet. Add the record to include it in your monthly report.",
