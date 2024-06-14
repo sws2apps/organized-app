@@ -28,6 +28,7 @@ export default defineConfig({
       { find: '@definition', replacement: resolve(__dirname, 'src/v3/definition') },
       { find: '@global', replacement: resolve(__dirname, 'src/v3/global') },
       { find: '@db', replacement: resolve(__dirname, 'src/v3/indexedDb') },
+      { find: '@modal_windows', replacement: resolve(__dirname, 'src/v3/modal_windows') },
     ],
   },
   worker: { plugins: () => [comlink()] },

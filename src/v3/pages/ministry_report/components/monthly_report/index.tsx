@@ -19,7 +19,7 @@ import {
 import { CustomDivider, MiniChip } from '@components/index';
 // import { EditAndAddBibleStudyContext } from '@features/ministry/EditAndAddBibleStudyContext';
 import CustomBadge from '@components/badge';
-import { convertDurationInSecondsToString } from '@features/ministry/utils';
+import { convertDurationInSecondsToString } from '@modal_windows/add_service_time_modal_window/utils';
 import { getMonthIndexFromDate } from '@pages/ministry_report/utils';
 // import { hoursToSeconds } from 'date-fns';
 

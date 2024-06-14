@@ -22,7 +22,8 @@
       "@shared/*": ["shared/*"],
       "@definition/*": ["v3/definition/*"],
       "@global/*": ["v3/global/*"],
-      "@db/*": ["v3/indexedDb/*"]
+      "@db/*": ["v3/indexedDb/*"],
+      "@modal_windows/*": ["v3/modal_windows/*"]
     },
     "esModuleInterop": true,
     "moduleResolution": "Node",

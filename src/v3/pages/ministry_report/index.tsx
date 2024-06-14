@@ -7,16 +7,15 @@ import MonthlyReport from './components/monthly_report';
 import CustomButton from '@components/button';
 import { MinistryRecord, MinistryRecordActionMode, MinistryReportVariants } from './ministry_report.types';
 import { useMemo, useRef, useState } from 'react';
-import { EditAndAddBibleStudyContext } from '@features/ministry/EditAndAddBibleStudyContext';
 import DarkOverlay from '@components/dark_overlay';
-import PopUpForEditOrCreateBibleStudy from '@features/ministry/pop_up_for_edit_or_create_bible_study';
 // import { getTmpMinistryRecords } from './_tmpMinistryRecords';
 import DailyHistory from './components/daily_history';
-import { convertDurationStringToSeconds } from '@features/ministry/utils';
-import { AddServiceTimeModalWindow } from '@features/index';
+import { convertDurationStringToSeconds } from '@modal_windows/add_service_time_modal_window/utils';
 import { secondsToHours, secondsToMinutes } from 'date-fns';
 import TransferMinutesPopUp from './components/transfer_minutes_popup';
 import { TransferMinutesVariant } from './components/transfer_minutes_popup/transfer_minutes_popup.types';
+import { AddServiceTimeModalWindow, PopUpForEditOrCreateBibleStudy } from '@modal_windows/index';
+import { EditAndAddBibleStudyContext } from '@modal_windows/add_service_time_modal_window/EditAndAddBibleStudyContext';
 
 const MinistryReport = () => {
   const { t } = useAppTranslation();

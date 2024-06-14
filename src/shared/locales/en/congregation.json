@@ -384,5 +384,8 @@
   "tr_congregationRequestRejectedDesc": "The <strong>{{ congregationNameAndNumber }}</strong> congregation rejected your request to view their outgoing speakers list. If necessary, you can contact them.",
   "tr_congregationAccessRevoke": "Revoke access for this congregation",
   "tr_congregationAccessRevokeDesc": "Revoke access to your speakers list for <strong>{{ congregationName }}</strong> congregation? They won't be able to see it anymore, but you can share it with them again later if they make a new request.",
-  "tr_noGroupsYet": "You don't have any field service groups created yet. Create a group first to start adding publishers and reordering groups."
+  "tr_noGroupsYet": "You don't have any field service groups created yet. Create a group first to start adding publishers and reordering groups.",
+  "tr_coordinator": "Coordinator",
+  "tr_secretary": "Secretary",
+  "tr_createUser": "Create user"
 }
