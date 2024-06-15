@@ -32,6 +32,11 @@ export type BadgePropsType = {
   fullWidth?: boolean;
 
   /**
+   * Indicates whether the badge should adjust to multiple lines.
+   */
+  multiLine?: boolean;
+
+  /**
    * Indicates whether the badge content should be centered.
    */
   centerContent?: boolean;

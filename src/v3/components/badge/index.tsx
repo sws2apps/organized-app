@@ -99,7 +99,7 @@ const CustomBadge = (props: BadgePropsType) => {
         <Box
           sx={{
             border: '2px',
-            height: '20px',
+            height: props.multiLine ? 'unset' : '20px',
             background: getBackgroundColor(),
             display: 'flex',
             flexDirection: 'row',
@@ -132,7 +132,7 @@ const CustomBadge = (props: BadgePropsType) => {
           sx={{
             border: '1px',
             borderColor: 'var(--accent-350)',
-            height: '22px',
+            height: props.multiLine ? 'unset' : '22px',
             background: getBackgroundColor(),
             display: 'flex',
             flexDirection: 'row',
@@ -164,7 +164,7 @@ const CustomBadge = (props: BadgePropsType) => {
         <Box
           sx={{
             border: '4px',
-            height: filled ? '24px' : '28px',
+            height: props.multiLine ? 'unset' : filled ? '24px' : '28px',
             background: getBackgroundColor(),
             display: 'flex',
             flexDirection: 'row',
