@@ -18,7 +18,5 @@ export const disableWindowScroll = () => {
  */
 export const enableWindowScroll = () => {
   // Reset the window's onscroll event handler to allow scrolling
-  window.onscroll = () => {
-    null;
-  };
+  window.onscroll = null;
 };
