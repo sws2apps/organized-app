@@ -6,7 +6,7 @@ import CustomButton from '@components/button';
 import { IconAdd, IconEdit, IconInfo } from '@components/icons';
 import { FormatStringForDailyHistory } from '@pages/ministry_report/utils';
 import CustomBadge from '@components/badge';
-import { convertDurationInSecondsToString } from '@modal_windows/add_service_time_modal_window/utils';
+import { convertDurationInSecondsToString } from '@features/ministry/add_service_time_modal_window/utils';
 import { CustomDivider } from '@components/index';
 import useBreakpoints from '@hooks/useBreakpoints';
 

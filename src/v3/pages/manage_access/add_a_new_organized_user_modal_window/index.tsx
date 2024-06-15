@@ -13,6 +13,8 @@ const AddANewOrganizedUserModalWindow = (props: AddANewOrganizedUserModalWindowP
 
   const [userType, setUserType] = useState('baptized');
 
+  const [userEmailAddress, setUserEmailAddress] = useState('');
+
   const CustomRadioWithLabel = (props: {
     checked: boolean;
     label: string;
@@ -27,7 +29,17 @@ const AddANewOrganizedUserModalWindow = (props: AddANewOrganizedUserModalWindowP
         }}
       >
         <CustomRadio onChange={props.onChange} checked={props.checked} />
-        <CustomTypography className="body-regular">{props.label}</CustomTypography>
+        <CustomTypography
+          sx={{
+            cursor: 'pointer',
+          }}
+          className="body-regular"
+          onClick={() => {
+            props.onChange(null, true);
+          }}
+        >
+          {props.label}
+        </CustomTypography>
       </Box>
     );
   };
@@ -83,7 +95,14 @@ const AddANewOrganizedUserModalWindow = (props: AddANewOrganizedUserModalWindowP
         />
       </Box>
 
-      <CustomTextField label={t('tr_userEmailAddress')} />
+      <CustomTextField
+        label={t('tr_userEmailAddress')}
+        type="email"
+        value={userEmailAddress}
+        onChange={(event) => {
+          setUserEmailAddress(event.target.value);
+        }}
+      />
 
       <CustomTextField value={t('tr_selectPerson')} disabled />
 

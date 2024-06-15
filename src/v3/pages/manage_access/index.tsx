@@ -9,8 +9,8 @@ import { useEffect, useState } from 'react';
 import { MiniPerson } from './mini_person';
 import { TestData__AppAdministrators, TestData__BaptizedBrothers, TestData__CongregationPersons } from './test_data';
 import CustomTypography from '@components/typography';
-import { AddANewOrganizedUserModalWindow } from '@modal_windows/index';
 import { disableWindowScroll, enableWindowScroll } from '@utils/scroll';
+import AddANewOrganizedUserModalWindow from './add_a_new_organized_user_modal_window';
 
 const ManageAccess = () => {
   const { t } = useAppTranslation();

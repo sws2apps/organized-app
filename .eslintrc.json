@@ -45,8 +45,7 @@
           ["@shared", "./src/shared"],
           ["@definition", "./src/v3/definition"],
           ["@global", "./src/v3/global"],
-          ["@db", "./src/v3/indexedDb"],
-          ["@modal_windows", "./src/v3/modal_windows"]
+          ["@db", "./src/v3/indexedDb"]
         ]
       }
     }
