@@ -14,8 +14,9 @@ import { convertDurationStringToSeconds } from '@features/ministry/add_service_t
 import { secondsToHours, secondsToMinutes } from 'date-fns';
 import TransferMinutesPopUp from './components/transfer_minutes_popup';
 import { TransferMinutesVariant } from './components/transfer_minutes_popup/transfer_minutes_popup.types';
-import { AddServiceTimeModalWindow, PopUpForEditOrCreateBibleStudy } from '@modal_windows/index';
 import { EditAndAddBibleStudyContext } from '@features/ministry/add_service_time_modal_window/EditAndAddBibleStudyContext';
+import { AddServiceTimeModalWindow } from '@features/ministry/add_service_time_modal_window';
+import PopUpForEditOrCreateBibleStudy from '@features/ministry/pop_up_for_edit_or_create_bible_study';
 
 const MinistryReport = () => {
   const { t } = useAppTranslation();
