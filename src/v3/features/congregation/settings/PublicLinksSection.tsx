@@ -38,10 +38,10 @@ const PageLinkItem = ({
   };
 
   return (
-    <Box sx={{ display: 'flex', alignItems: 'center', height: '32px' }}>
+    <Box sx={{ display: 'flex', alignItems: 'center', minHeight: '32px' }}>
       <SwitchItem label={label} helper={helper} value={isPublic} setValue={setIsPublic} />
       {isPublic && (
-        <Button onClick={handleClick} variant="small" sx={{ gap: '8px', minHeight: '32px' }}>
+        <Button onClick={handleClick} variant="small" sx={{ gap: '8px', flexShrink: 0, minHeight: '32px' }}>
           <IconCopy />
           {t('tr_copyLink')}
         </Button>
