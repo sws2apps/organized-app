@@ -1,7 +1,7 @@
 import { ChangeEvent } from 'react';
 
 interface HandleBooleans {
-  (e: ChangeEvent<HTMLInputElement>, setFunction: (value: any) => void): void;
+  (e: ChangeEvent<HTMLInputElement>, setFunction: (value: boolean) => void): void;
 }
 
 const handleBoolean: HandleBooleans = (e, setFunction) => {
@@ -9,7 +9,7 @@ const handleBoolean: HandleBooleans = (e, setFunction) => {
 };
 
 interface HandleNumbers {
-  (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, setFunction: (value: any) => void): void;
+  (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, setFunction: (value: number) => void): void;
 }
 
 const handleNumber: HandleNumbers = (e, setFunction) => {
