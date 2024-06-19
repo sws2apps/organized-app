@@ -1,4 +1,4 @@
-import { Typography } from '@components/index';
+import { TextMarkup } from '@components/index';
 import { Box, Divider, SxProps } from '@mui/material';
 
 const CardSection = ({ children }: { children?: React.ReactNode }) => {
@@ -20,7 +20,7 @@ const CardSection = ({ children }: { children?: React.ReactNode }) => {
   );
 };
 
-const CardSectionContent = ({ children }: { children?: React.ReactNode }) => {
+const CardSectionContent = ({ children, sx }: { children?: React.ReactNode; sx?: SxProps }) => {
   return (
     <Box
       sx={{
@@ -33,6 +33,7 @@ const CardSectionContent = ({ children }: { children?: React.ReactNode }) => {
         '.divider': {
           display: 'none',
         },
+        ...sx,
       }}
     >
       <Divider
@@ -60,8 +61,16 @@ const CardSectionTitle = ({ children }: { children?: React.ReactNode }) => {
   );
 };
 
-const CardSectionDescription = ({ children }: { children?: React.ReactNode }) => {
-  return <Typography className="body-regular">{children}</Typography>;
+const CardSectionDescription = ({ content }: { content: string }) => {
+  return (
+    <TextMarkup
+      anchorStyle={{
+        fontSize: 'inherit',
+      }}
+      className="body-regular"
+      content={content}
+    />
+  );
 };
 
 const CardSectionHeader = ({ title, description, sx }: { title: string; description: string; sx?: SxProps }) => {
@@ -75,7 +84,7 @@ const CardSectionHeader = ({ title, description, sx }: { title: string; descript
       }}
     >
       <CardSectionTitle>{title}</CardSectionTitle>
-      <CardSectionDescription>{description}</CardSectionDescription>
+      <CardSectionDescription content={description} />
     </Box>
   );
 };
