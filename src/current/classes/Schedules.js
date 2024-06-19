@@ -601,7 +601,7 @@ SchedulesClass.prototype.WeekendMeetingData = function (startWeek, endWeek) {
     schedule.weekend_meeting_date = WMDate;
     schedule.weekend_meeting_date_formatted = WMDateFormatted;
 
-    const publicTalks = S34s.talks();
+    const publicTalks = S34s.talks;
     const currentTalk = publicTalks.find((record) => record.talk_number === schedule.public_talk);
     schedule.public_talk_title = currentTalk ? currentTalk.talk_title : '';
     schedule.public_talk_number = currentTalk ? `No. ${currentTalk.talk_number}` : '';
