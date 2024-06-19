@@ -80,4 +80,21 @@ const CardSectionHeader = ({ title, description, sx }: { title: string; descript
   );
 };
 
-export { CardSection, CardSectionContent, CardSectionTitle, CardSectionDescription, CardSectionHeader };
+const TwoColumnsRow = ({ children }: { children?: React.ReactNode }) => {
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        gap: '16px',
+        alignItems: 'center',
+        '> *': {
+          flex: '1 0 0',
+        },
+      }}
+    >
+      {children}
+    </Box>
+  );
+};
+
+export { CardSection, CardSectionContent, CardSectionTitle, CardSectionDescription, CardSectionHeader, TwoColumnsRow };
