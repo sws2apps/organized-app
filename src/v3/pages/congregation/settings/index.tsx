@@ -2,6 +2,7 @@ import PageTitle from '@components/page_title';
 import CongregationPrivacySection from '@features/congregation/settings/CongregationPrivacySection';
 import CongregationSection from '@features/congregation/settings/CongregationSection';
 import MeetingSection from '@features/congregation/settings/MeetingSection';
+import OverseerSection from '@features/congregation/settings/OverseerSection';
 import useAppTranslation from '@hooks/useAppTranslation';
 import { Box } from '@mui/material';
 
@@ -20,6 +21,7 @@ const CongregationSettings = () => {
       <CongregationSection />
       <CongregationPrivacySection />
       <MeetingSection />
+      <OverseerSection />
     </div>
   );
 };
