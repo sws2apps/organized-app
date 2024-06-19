@@ -1,6 +1,7 @@
 import PageTitle from '@components/page_title';
 import CongregationPrivacySection from '@features/congregation/settings/CongregationPrivacySection';
 import CongregationSection from '@features/congregation/settings/CongregationSection';
+import MeetingSection from '@features/congregation/settings/MeetingSection';
 import useAppTranslation from '@hooks/useAppTranslation';
 import { Box } from '@mui/material';
 
@@ -18,6 +19,7 @@ const CongregationSettings = () => {
       </Box>
       <CongregationSection />
       <CongregationPrivacySection />
+      <MeetingSection />
     </div>
   );
 };
