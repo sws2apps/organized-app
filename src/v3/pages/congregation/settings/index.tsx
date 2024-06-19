@@ -3,6 +3,7 @@ import CongregationPrivacySection from '@features/congregation/settings/Congrega
 import CongregationSection from '@features/congregation/settings/CongregationSection';
 import MeetingSection from '@features/congregation/settings/MeetingSection';
 import OverseerSection from '@features/congregation/settings/OverseerSection';
+import PublicLinksSection from '@features/congregation/settings/PublicLinksSection';
 import useAppTranslation from '@hooks/useAppTranslation';
 import { Box } from '@mui/material';
 
@@ -22,6 +23,7 @@ const CongregationSettings = () => {
       <CongregationPrivacySection />
       <MeetingSection />
       <OverseerSection />
+      <PublicLinksSection />
     </div>
   );
 };
