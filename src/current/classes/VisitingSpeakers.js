@@ -434,7 +434,7 @@ VisitingSpeakersClass.prototype.incomingSpeakersTalks = function (talk) {
 
   const talks = [];
 
-  const allTalks = S34s.talks();
+  const allTalks = S34s.talks;
 
   for (const talk of tmpTalks) {
     const obj = {};
