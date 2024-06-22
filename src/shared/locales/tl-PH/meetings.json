@@ -1,6 +1,7 @@
 {
   "tr_display": "Display",
-  "tr_hall": "Hall {{ hallNumber }}",
+  "tr_hall": "Hall",
+  "tr_hallWithName": "Hall {{ name }}",
   "tr_yourUserRecordOfTheList": "Upang makita ang iyong pangalan sa listahan, siguraduhing ang inyong person record ay nasa <a href='#'>All persons page</a>.",
   "tr_yourPersonRecord": "Iyong person record",
   "tr_export": "Export",
@@ -56,12 +57,10 @@
   "tr_addOutgoingTalk": "Mag-add ng outgoing talk",
   "tr_weekendScheduleSaved": "Nai-save ang weekend schedule",
   "tr_weekendScheduleSavedDesc": "Pagkatapos gawin ang iskedyul, pinapaalala na i-publish ito para sa kongregasyon.",
-  "tr_personAlreadyAssignmentMonth": "May assignment na sa buwang ito ang user",
   "tr_personAlreadyAssignmentWeek": "May assignment na sa linggong ito ang user",
   "tr_hostCongregation": "Host congregation",
   "tr_kingdomHallAddress": "Address ng Kingdom Hall",
   "tr_clearAllAssignments": "I-clear lahat ng mga assignment",
-  "tr_clearAllAssignmentsDesc": "Sigurado ka bang gusto mong i-clear lahat ng nagawang assignment? Maaari naman silang i-reassign ulit.",
   "tr_selectSpeakerAndTalk": "Pumili ng speaker at pahayag",
   "tr_search": "Maghanap",
   "tr_selectSong": "Pumili ng awit",
@@ -108,5 +107,10 @@
   "tr_totalAttendance": "Kabuuang Attendance",
   "tr_avgAttendance": "Average attendance",
   "tr_avgOnline": "Average online",
-  "tr_meetingWeeks": "Meeting weeks"
+  "tr_meetingWeeks": "Meeting weeks",
+  "tr_meetingMaterialsNotAvailable": "The meeting materials for this week are not available yet. If necessary, import from jw.org or from an EPUB file.",
+  "tr_assistant": "Assistant",
+  "tr_tgw10TalkHistory": "Treasures - 10 min talk",
+  "tr_chairmanMidwekMeetingHistory": "Midweek meeting chairman",
+  "tr_clearAllAssignmentsDesc": "Are you sure you want to clear all created assignments for this meeting? You can always reassign them later."
 }

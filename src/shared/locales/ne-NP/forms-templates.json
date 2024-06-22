@@ -55,8 +55,8 @@
   "tr_weekendMeetingPrint": "सप्ताहन्तको सभाको तालिका",
   "tr_publicTalk": "जनभाषण",
   "tr_openingPrayerWeekendMeeting": "सुरुको प्रार्थना",
-  "tr_noWMeeting": "यस हप्ता सप्ताहन्तको सभा हुनेछैन",
-  "tr_noMeeting": "यस हप्ता सभा छैन",
+  "tr_noWMeetingWeek": "There is no weekend meeting for this week",
+  "tr_noMeetingWeek": "There is no meeting for this week",
   "tr_substituteSpeaker": "वैकल्पिक वक्ता",
   "tr_startingConversation": "कुराकानी थाल्नुहोस्",
   "tr_followingUp": "फेरि भेट्नुहोस्",
@@ -69,5 +69,6 @@
   "tr_assistantS89": "साथी:",
   "tr_studentAssistantS89": "विद्यार्थी/साथी:",
   "tr_chairman": "चेयरम्यान",
-  "tr_prayer": "प्रार्थना"
+  "tr_prayer": "प्रार्थना",
+  "tr_partDuration": "({{ time }} min.)"
 }

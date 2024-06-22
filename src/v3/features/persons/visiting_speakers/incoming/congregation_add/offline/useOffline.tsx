@@ -58,7 +58,7 @@ const useOffline = (onCongregationChange: (value: IncomingCongregationResponseTy
   };
 
   useEffect(() => {
-    if (!isOnline || overrideOnline) {
+    if (!showOnlineInput) {
       if (congNameTmp.length > 0 && congNumberTmp.length > 0 && congCircuitTmp.length > 0) {
         const dataCong: IncomingCongregationResponseType = {
           cong_name: congNameTmp,
@@ -75,7 +75,7 @@ const useOffline = (onCongregationChange: (value: IncomingCongregationResponseTy
         onCongregationChange(null);
       }
     }
-  }, [congNameTmp, congNumberTmp, congCircuitTmp, onCongregationChange, isOnline, overrideOnline]);
+  }, [congNameTmp, congNumberTmp, congCircuitTmp, onCongregationChange, showOnlineInput]);
 
   return {
     country: country,

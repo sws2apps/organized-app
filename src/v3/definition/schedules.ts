@@ -1,6 +1,7 @@
-import { Week } from './sources';
+import { AssignmentCode } from './assignment';
+import { Week } from './week_type';
 
-type AssignmentCongregation = {
+export type AssignmentCongregation = {
   type: string;
   name: string;
   value: string;
@@ -19,11 +20,19 @@ type WeekTypeCongregation = {
   updatedAt: string;
 };
 
+export type AssignmentAYFType = {
+  main_hall: { student: AssignmentCongregation[]; assistant: AssignmentCongregation[] };
+  aux_class_1: { student: AssignmentCongregation; assistant: AssignmentCongregation };
+  aux_class_2: { student: AssignmentCongregation; assistant: AssignmentCongregation };
+};
+
 export type SchedWeekType = {
   weekOf: string;
   midweek_meeting: {
-    chairman_A: AssignmentCongregation[];
-    chairman_B: AssignmentCongregation[];
+    chairman: {
+      main_hall: AssignmentCongregation[];
+      aux_class_1: AssignmentCongregation;
+    };
     opening_prayer: AssignmentCongregation[];
     tgw_talk: AssignmentCongregation[];
     tgw_gems: AssignmentCongregation[];
@@ -32,26 +41,10 @@ export type SchedWeekType = {
       aux_class_1: AssignmentCongregation;
       aux_class_2: AssignmentCongregation;
     };
-    ayf_part1: {
-      main_hall: { student: AssignmentCongregation[]; assistant: AssignmentCongregation[] };
-      aux_class_1: { student: AssignmentCongregation; assistant: AssignmentCongregation };
-      aux_class_2: { student: AssignmentCongregation; assistant: AssignmentCongregation };
-    };
-    ayf_part2: {
-      main_hall: { student: AssignmentCongregation[]; assistant: AssignmentCongregation[] };
-      aux_class_1: { student: AssignmentCongregation; assistant: AssignmentCongregation };
-      aux_class_2: { student: AssignmentCongregation; assistant: AssignmentCongregation };
-    };
-    ayf_part3: {
-      main_hall: { student: AssignmentCongregation[]; assistant: AssignmentCongregation[] };
-      aux_class_1: { student: AssignmentCongregation; assistant: AssignmentCongregation };
-      aux_class_2: { student: AssignmentCongregation; assistant: AssignmentCongregation };
-    };
-    ayf_part4: {
-      main_hall: { student: AssignmentCongregation[]; assistant: AssignmentCongregation[] };
-      aux_class_1: { student: AssignmentCongregation; assistant: AssignmentCongregation };
-      aux_class_2: { student: AssignmentCongregation; assistant: AssignmentCongregation };
-    };
+    ayf_part1: AssignmentAYFType;
+    ayf_part2: AssignmentAYFType;
+    ayf_part3: AssignmentAYFType;
+    ayf_part4: AssignmentAYFType;
     lc_part1: AssignmentCongregation[];
     lc_part2: AssignmentCongregation[];
     lc_part3: AssignmentCongregation[];
@@ -82,4 +75,22 @@ export type SchedWeekType = {
   };
   released: SwitchCongregation[];
   week_type: WeekTypeCongregation[];
+};
+
+export type AssignmentHistoryType = {
+  id: string;
+  weekOf: string;
+  assignment: {
+    code: AssignmentCode;
+    title: string;
+    src?: string;
+    desc?: string;
+    person: string;
+    category: string;
+    classroom: string;
+    ayf?: {
+      student?: string;
+      assistant?: string;
+    };
+  };
 };

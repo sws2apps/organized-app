@@ -9,12 +9,12 @@ export const dbWeekTypeUpdate = async () => {
   const caWeekObj = {};
 
   LANGUAGE_LIST.forEach((lang) => {
-    const langCode = lang.code.toUpperCase();
+    const locale = lang.locale.toUpperCase();
 
-    normWeekObj[langCode] = getTranslation({ key: 'tr_normalWeek' });
-    tgWeekObj[langCode] = getTranslation({ key: 'tr_circuitOverseerWeek' });
-    caWeekObj[langCode] = getTranslation({ key: 'tr_assemblyWeek' });
-    coWeekObj[langCode] = getTranslation({ key: 'tr_conventionWeek' });
+    normWeekObj[locale] = getTranslation({ key: 'tr_normalWeek' });
+    tgWeekObj[locale] = getTranslation({ key: 'tr_circuitOverseerWeek' });
+    caWeekObj[locale] = getTranslation({ key: 'tr_assemblyWeek' });
+    coWeekObj[locale] = getTranslation({ key: 'tr_conventionWeek' });
   });
 
   await appDb.week_type.clear();

@@ -1,3 +1,4 @@
+import { PersonType } from '@definition/person';
 import { FullnameOption } from '@definition/settings';
 
 export const convertStringToBoolean = (value) => {
@@ -120,4 +121,26 @@ export const updateObject = <T extends object>(oldObj: T, newObj: T): T => {
   }
 
   return oldObj;
+};
+
+export const personGetDisplayName = (
+  option: PersonType,
+  displayNameEnabled: boolean,
+  fullnameOption: FullnameOption
+) => {
+  let result: string;
+
+  if (displayNameEnabled) {
+    result = option.person_data.person_display_name.value;
+  }
+
+  if (!displayNameEnabled) {
+    result = buildPersonFullname(
+      option.person_data.person_lastname.value,
+      option.person_data.person_firstname.value,
+      fullnameOption
+    );
+  }
+
+  return result;
 };

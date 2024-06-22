@@ -41,6 +41,7 @@ export type SettingsType = {
       lastname: { value: string; updatedAt: string };
       display_name: { value: string; updatedAt: string };
     };
+    language_groups: { id: string; name: string; language: string }[];
   };
   user_settings: {
     cong_role: string[];

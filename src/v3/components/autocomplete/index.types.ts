@@ -1,5 +1,5 @@
 import { ReactElement, ReactNode } from 'react';
-import { AutocompleteProps, AutocompleteRenderInputParams } from '@mui/material';
+import { AutocompleteProps, AutocompleteRenderInputParams, PaperProps } from '@mui/material';
 
 /**
  * Props type for the Autocomplete component.
@@ -29,4 +29,12 @@ export type AutocompletePropsType<T> = Omit<
    * @returns {ReactNode} JSX.Element for the input.
    */
   renderInput?: (params: AutocompleteRenderInputParams) => ReactNode;
+
+  optionsHeader?: ReactNode;
+
+  styleIcon?: boolean;
+};
+
+export type CustomPaperType = PaperProps & {
+  optionsHeader: ReactNode;
 };

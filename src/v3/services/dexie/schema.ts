@@ -1,9 +1,10 @@
 import { PersonType } from '@definition/person';
 import { SchedWeekType } from '@definition/schedules';
 import { FullnameOption, SettingsType } from '@definition/settings';
-import { SourceWeekType, Week } from '@definition/sources';
+import { SourceWeekType } from '@definition/sources';
 import { SpeakersCongregationsType } from '@definition/speakers_congregations';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
+import { Week } from '@definition/week_type';
 
 export const sourceSchema: SourceWeekType = {
   weekOf: '',
@@ -39,7 +40,7 @@ export const sourceSchema: SourceWeekType = {
     lc_cbs: {
       src: {},
       time: { default: 30, override: [] },
-      title: {},
+      title: { default: {}, override: [] },
     },
     co_talk_title: { src: '', updatedAt: '' },
     song_conclude: { default: {}, override: [] },
@@ -61,8 +62,10 @@ export const scheduleSchema: SchedWeekType = {
   week_type: [{ type: 'main', value: Week.NORMAL, updatedAt: '' }],
   released: [{ type: 'main', value: false, updatedAt: '' }],
   midweek_meeting: {
-    chairman_A: [{ type: 'main', value: '', name: '', updatedAt: '' }],
-    chairman_B: [{ type: 'main', value: '', name: '', updatedAt: '' }],
+    chairman: {
+      main_hall: [{ type: 'main', value: '', name: '', updatedAt: '' }],
+      aux_class_1: { type: 'main', value: '', name: '', updatedAt: '' },
+    },
     opening_prayer: [{ type: 'main', value: '', name: '', updatedAt: '' }],
     tgw_talk: [{ type: 'main', value: '', name: '', updatedAt: '' }],
     tgw_gems: [{ type: 'main', value: '', name: '', updatedAt: '' }],
@@ -200,6 +203,7 @@ export const personSchema: PersonType = {
     privileges: [],
     enrollments: [],
     emergency_contacts: [],
+    categories: ['main'],
   },
 };
 
@@ -241,6 +245,7 @@ export const settingSchema: SettingsType = {
         weekday: 7,
       },
     ],
+    language_groups: [],
   },
   user_settings: {
     cong_role: [],

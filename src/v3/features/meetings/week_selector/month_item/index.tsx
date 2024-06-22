@@ -6,7 +6,7 @@ import Typography from '@components/typography';
 import WeekItem from '../week_item';
 
 const MonthItem = ({ month, weeks }: MonthItemType) => {
-  const { monthName, expanded, handleToggleExpand } = useMonthItem(month);
+  const { monthName, expanded, handleToggleExpand, assignComplete } = useMonthItem({ month, weeks });
 
   return (
     <Box>
@@ -22,20 +22,23 @@ const MonthItem = ({ month, weeks }: MonthItemType) => {
       >
         <Typography className="h4">{monthName}</Typography>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          <Box
-            sx={{
-              borderRadius: 'var(--radius-max)',
-              width: '18.4px',
-              height: '18.4px',
-              padding: '2px',
-              backgroundColor: 'var(--accent-main)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <IconCheck color="var(--white)" height={14.4} width={14.4} />
-          </Box>
+          {assignComplete && (
+            <Box
+              sx={{
+                borderRadius: 'var(--radius-max)',
+                width: '18.4px',
+                height: '18.4px',
+                padding: '2px',
+                backgroundColor: 'var(--accent-main)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <IconCheck color="var(--white)" height={14.4} width={14.4} />
+            </Box>
+          )}
+
           <IconCollapse
             color="var(--black)"
             sx={{ transform: expanded ? 'rotate(0deg)' : 'rotate(180deg)', transition: 'transform 0.3s' }}

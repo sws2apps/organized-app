@@ -67,6 +67,7 @@ export { default as PersonsFilter } from './persons/filter';
 export { default as PersonsList } from './persons/list';
 export { default as PersonsSearch } from './persons/search';
 export { default as PersonTimeAway } from './persons/time_away';
+export { default as PersonAssignmentsHistory } from './persons/assignments_history';
 
 /* -------------------------------- Visiting Speakers -------------------------------- */
 export { default as IncomingSpeakers } from './persons/visiting_speakers/incoming';

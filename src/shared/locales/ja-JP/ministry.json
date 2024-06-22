@@ -92,9 +92,15 @@
   "tr_deletePWLocationDesc": "Deleting this location permanently removes all its data and arrangements. This action cannot be undone.",
   "tr_changeImage": "Change image",
   "tr_addImage": "Add image",
-  "tr_cantDeductStudiesDesc": "You can’t select fewer Bible studies than you already have selected in the “Individual Bible studies” dropdown menu. ",
+  "tr_cantDeductStudiesDesc": "You can’t select fewer Bible studies than you already have selected in the “Individual Bible studies” dropdown menu.",
   "tr_cantDeductStudiesTitle": "Cannot deduct Bible studies",
   "tr_includesServiceAndCredit": "Includes field service and credit hours",
   "tr_noDailyRecordsDesc": "No daily service records yet. Add the record to include it in your monthly report.",
-  "tr_editServiceTime": "Edit service time"
+  "tr_editServiceTime": "Edit service time",
+  "tr_reportStatus": "Report status",
+  "tr_reportSubmitted": "Report submitted",
+  "tr_reportNotSubmitted": "Report not submitted",
+  "tr_assignAuxPioBtn": "Assign Auxiliary Pioneer this month",
+  "tr_lateReport": "Late report",
+  "tr_continuousAuxPio": "Continuous Auxiliary Pioneer"
 }

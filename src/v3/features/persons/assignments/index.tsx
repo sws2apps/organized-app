@@ -1,8 +1,8 @@
 import { Box } from '@mui/material';
-import AssignmentGroup from '../assignment_group';
-import Typography from '@components/typography';
 import { useAppTranslation } from '@hooks/index';
 import useAssignments from './useAssignments';
+import AssignmentGroup from '../assignment_group';
+import Typography from '@components/typography';
 
 const PersonAssignments = () => {
   const { t } = useAppTranslation();
