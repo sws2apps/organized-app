@@ -4,17 +4,15 @@ import React from 'react';
 
 const PdfPreview = () => {
   return (
-    <PDFViewer width={'100%'} height={1500}>
-      <>
-        <Document>
-          <Page size="A4">
-            <MidweekMeeting />
-          </Page>
-          <Page size="A4">
-            <WeekendMeeting />
-          </Page>
-        </Document>
-      </>
+    <PDFViewer width={'100%'} height={1080} style={{ opacity: 100 }}>
+      <Document>
+        <Page size="A4">
+          <MidweekMeeting />
+        </Page>
+        <Page size="A4">
+          <WeekendMeeting />
+        </Page>
+      </Document>
     </PDFViewer>
   );
 };
