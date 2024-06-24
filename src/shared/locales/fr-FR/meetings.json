@@ -57,12 +57,10 @@
   "tr_addOutgoingTalk": "Ajouter un discours à l'extérieur",
   "tr_weekendScheduleSaved": "Programme de week-end enregistré",
   "tr_weekendScheduleSavedDesc": "Après avoir créé les programmes souhaités, pensez à les publier afin qu'ils soient accessibles à l'assemblée.",
-  "tr_personAlreadyAssignmentMonth": "Cette personne a déjà une attribution ce mois",
   "tr_personAlreadyAssignmentWeek": "Cette personne a déjà une attribution cette semaine",
   "tr_hostCongregation": "Assemblée d'accueil",
   "tr_kingdomHallAddress": "Adresse de la Salle du Royaume",
   "tr_clearAllAssignments": "Effacer toutes les attributions",
-  "tr_clearAllAssignmentsDesc": "Êtes-vous sûr de vouloir effacer toutes les attributions créées ? Il sera toujours possible de réattribuer les attributions plus tard.",
   "tr_selectSpeakerAndTalk": "Sélectionnez un orateur et un discours",
   "tr_search": "Rechercher",
   "tr_selectSong": "Sélectionnez un cantique",
@@ -113,5 +111,6 @@
   "tr_meetingMaterialsNotAvailable": "The meeting materials for this week are not available yet. If necessary, import from jw.org or from an EPUB file.",
   "tr_assistant": "Assistant",
   "tr_tgw10TalkHistory": "Treasures - 10 min talk",
-  "tr_chairmanMidwekMeetingHistory": "Midweek meeting chairman"
+  "tr_chairmanMidwekMeetingHistory": "Midweek meeting chairman",
+  "tr_clearAllAssignmentsDesc": "Are you sure you want to clear all created assignments for this meeting? You can always reassign them later."
 }
