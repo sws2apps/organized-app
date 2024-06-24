@@ -12,8 +12,14 @@ export const sourceSchema: SourceWeekType = {
     week_date_locale: {},
     weekly_bible_reading: {},
     song_first: {},
-    tgw_talk: {},
-    tgw_gems: {},
+    tgw_talk: {
+      src: {},
+      time: { default: 10, override: [] },
+    },
+    tgw_gems: {
+      title: {},
+      time: { default: 10, override: [] },
+    },
     tgw_bible_reading: { src: {}, title: {} },
     ayf_count: {},
     ayf_part1: { src: {}, time: {}, title: {}, type: {} },
@@ -33,9 +39,9 @@ export const sourceSchema: SourceWeekType = {
       title: { default: {}, override: [] },
     },
     lc_part3: {
-      desc: { default: {}, override: [] },
-      time: { default: {}, override: [] },
-      title: { default: {}, override: [] },
+      desc: [],
+      time: [],
+      title: [],
     },
     lc_cbs: {
       src: {},

@@ -4,6 +4,7 @@ import { promiseSetRecoil } from 'recoil-outside';
 import {
   S140DataState,
   S140DownloadOpenState,
+  assignmentsHistoryState,
   currentScheduleState,
   dlgAssDeleteOpenState,
   dlgAutoFillOpenState,
@@ -12,6 +13,7 @@ import {
   isPublishOpenState,
   s89DataState,
 } from '@states/schedules';
+import { AssignmentHistoryType } from '@definition/schedules';
 
 export const setPublishPocket = async (value) => {
   await promiseSetRecoil(isPublishOpenState, value);
@@ -47,4 +49,8 @@ export const setS140Data = async (value) => {
 
 export const setIsS140Download = async (value) => {
   await promiseSetRecoil(S140DownloadOpenState, value);
+};
+
+export const setAssignmentsHistory = async (value: AssignmentHistoryType[]) => {
+  await promiseSetRecoil(assignmentsHistoryState, value);
 };

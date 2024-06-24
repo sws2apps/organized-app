@@ -4,17 +4,18 @@ import useWeekTypeSelector from './useWeekTypeSelector';
 import MenuItem from '@components/menuitem';
 import Select from '@components/select';
 import Typography from '@components/typography';
+import { Week } from '@definition/week_type';
 
-const WeekTypeSelector = ({ week }: WeekTypeSelectorType) => {
+const WeekTypeSelector = (props: WeekTypeSelectorType) => {
   const { t } = useAppTranslation();
 
-  const { weekType, weekTypeOptions, handleWeekTypeChange } = useWeekTypeSelector(week);
+  const { weekType, weekTypeOptions, handleWeekTypeChange } = useWeekTypeSelector(props);
 
   return (
     <Select
       label={t('tr_weekType')}
       fullWidth={false}
-      sx={{ maxWidth: '400px', width: '100%' }}
+      sx={{ width: '100%', flex: 1 }}
       value={weekType}
       onChange={(e) => handleWeekTypeChange(+e.target.value)}
     >
@@ -23,6 +24,9 @@ const WeekTypeSelector = ({ week }: WeekTypeSelectorType) => {
           <Typography>{weekType.week_type_name}</Typography>
         </MenuItem>
       ))}
+      <MenuItem value={Week.NO_MEETING}>
+        <Typography>{t('tr_noMeeting')}</Typography>
+      </MenuItem>
     </Select>
   );
 };

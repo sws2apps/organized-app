@@ -8,6 +8,7 @@ import { midweekMeetingClassCountState, userDataViewState } from '@states/settin
 import { AssignmentCode } from '@definition/assignment';
 import { sourcesCheckAYFExplainBeliefsAssignment, sourcesCheckLCAssignments } from '@services/app/sources';
 import { Week } from '@definition/week_type';
+import { dbSourcesUpdate } from '@services/dexie/sources';
 
 const useMidweekEditor = () => {
   const { t } = useAppTranslation();
@@ -19,6 +20,8 @@ const useMidweekEditor = () => {
   const dataView = useRecoilValue(userDataViewState);
   const classCount = useRecoilValue(midweekMeetingClassCountState);
   const schedules = useRecoilValue(schedulesState);
+
+  const [isEdit, setIsEdit] = useState(false);
 
   const [weekDateLocale, setWeekDateLocale] = useState('');
   const [hasSource, setHasSource] = useState(false);
@@ -36,6 +39,13 @@ const useMidweekEditor = () => {
   const [lcNoAssignPart1, setLcNoAssignPart1] = useState(false);
   const [lcNoAssignPart2, setLcNoAssignPart2] = useState(false);
   const [lcNoAssignPart3, setLcNoAssignPart3] = useState(false);
+  const [customPartEnabled, setCustomPartEnabled] = useState(true);
+  const [isOverwriteLCPart1, setIsOverwriteLCPart1] = useState(false);
+  const [isOverwriteLCPart2, setIsOverwriteLCPart2] = useState(false);
+  const [openTGW, setOpenTGW] = useState(true);
+  const [openAYF, setOpenAYF] = useState(true);
+  const [openLC, setOpenLC] = useState(true);
+  const [hasCustomPart, setHasCustomPart] = useState(false);
 
   const showDoublePerson = classCount === 2 && weekType !== Week.CO_VISIT;
 
@@ -63,6 +73,175 @@ const useMidweekEditor = () => {
       ayfPart4 !== AssignmentCode.MM_Discussion) ||
     (ayfPart4 === AssignmentCode.MM_ExplainingBeliefs && !isTalkAYFPart4);
 
+  const handleEditAssignments = () => setIsEdit(false);
+
+  const handleEditParts = () => setIsEdit(true);
+
+  const handleToggleTGW = () => setOpenTGW((prev) => !prev);
+
+  const handleToggleAYF = () => setOpenAYF((prev) => !prev);
+
+  const handleToggleLC = () => setOpenLC((prev) => !prev);
+
+  const handleToggleOverwriteLCPart1 = async () => {
+    const newValue = !isOverwriteLCPart1;
+
+    const source = sources.find((record) => record.weekOf === selectedWeek);
+
+    const lcPartTitle = structuredClone(source.midweek_meeting.lc_part1.title.override);
+    const currentTitle = lcPartTitle.find((record) => record.type === dataView);
+
+    if (!currentTitle) {
+      lcPartTitle.push({ type: dataView, updatedAt: '', value: '' });
+    } else {
+      currentTitle.value = '';
+      currentTitle.updatedAt = new Date().toISOString();
+    }
+
+    await dbSourcesUpdate(selectedWeek, { 'midweek_meeting.lc_part1.title.override': lcPartTitle });
+
+    const lcPartTime = structuredClone(source.midweek_meeting.lc_part1.time.override);
+    const currentTime = lcPartTime.find((record) => record.type === dataView);
+
+    if (!currentTime) {
+      lcPartTime.push({ type: dataView, updatedAt: '', value: undefined });
+    } else {
+      currentTime.updatedAt = new Date().toISOString();
+      currentTime.value = undefined;
+    }
+
+    await dbSourcesUpdate(selectedWeek, { 'midweek_meeting.lc_part1.time.override': lcPartTime });
+
+    const lcPartDesc = structuredClone(source.midweek_meeting.lc_part1.desc.override);
+    const currentDesc = lcPartDesc.find((record) => record.type === dataView);
+
+    if (!currentDesc) {
+      lcPartDesc.push({ type: dataView, updatedAt: '', value: '' });
+    } else {
+      currentDesc.updatedAt = new Date().toISOString();
+      currentDesc.value = '';
+    }
+
+    await dbSourcesUpdate(selectedWeek, { 'midweek_meeting.lc_part1.desc.override': lcPartDesc });
+
+    setIsOverwriteLCPart1(newValue);
+  };
+
+  const handleToggleOverwriteLCPart2 = async () => {
+    const newValue = !isOverwriteLCPart2;
+
+    const source = sources.find((record) => record.weekOf === selectedWeek);
+
+    const lcPartTitle = structuredClone(source.midweek_meeting.lc_part2.title.override);
+    const currentTitle = lcPartTitle.find((record) => record.type === dataView);
+
+    if (!currentTitle) {
+      lcPartTitle.push({ type: dataView, updatedAt: '', value: '' });
+    } else {
+      currentTitle.updatedAt = new Date().toISOString();
+      currentTitle.value = '';
+    }
+    await dbSourcesUpdate(selectedWeek, { 'midweek_meeting.lc_part2.title.override': lcPartTitle });
+
+    const lcPartTime = structuredClone(source.midweek_meeting.lc_part2.time.override);
+    const currentTime = lcPartTime.find((record) => record.type === dataView);
+
+    if (!currentTime) {
+      lcPartTime.push({ type: dataView, updatedAt: '', value: undefined });
+    } else {
+      currentTime.updatedAt = new Date().toISOString();
+      currentTime.value = undefined;
+    }
+    await dbSourcesUpdate(selectedWeek, { 'midweek_meeting.lc_part2.time.override': lcPartTime });
+
+    const lcPartDesc = structuredClone(source.midweek_meeting.lc_part2.desc.override);
+    const currentDesc = lcPartDesc.find((record) => record.type === dataView);
+
+    if (!currentDesc) {
+      lcPartDesc.push({ type: dataView, updatedAt: '', value: '' });
+    } else {
+      currentDesc.updatedAt = new Date().toISOString();
+      currentDesc.value = '';
+    }
+    await dbSourcesUpdate(selectedWeek, { 'midweek_meeting.lc_part2.desc.override': lcPartDesc });
+
+    setIsOverwriteLCPart2(newValue);
+  };
+
+  const handleAddCustomLCPart = async () => {
+    const source = sources.find((record) => record.weekOf === selectedWeek);
+    const lcCount = source.midweek_meeting.lc_count;
+    const lcCountOverride = structuredClone(lcCount.override);
+
+    let current = lcCountOverride.find((record) => record.type === dataView);
+    if (!current) {
+      lcCountOverride.push({ type: dataView, updatedAt: '', value: undefined });
+      current = lcCountOverride.find((record) => record.type === dataView);
+    }
+
+    current.updatedAt = new Date().toISOString();
+    current.value = lcCount.default[lang] + 1;
+
+    const lcPartTitle = structuredClone(source.midweek_meeting.lc_part3.title);
+    const currentTitle = lcPartTitle.find((record) => record.type === dataView);
+
+    if (!currentTitle) {
+      lcPartTitle.push({ type: dataView, updatedAt: '', value: '' });
+    }
+
+    const lcPartDesc = structuredClone(source.midweek_meeting.lc_part3.desc);
+    const currentDesc = lcPartDesc.find((record) => record.type === dataView);
+
+    if (!currentDesc) {
+      lcPartDesc.push({ type: dataView, updatedAt: '', value: '' });
+    }
+
+    const lcPartTime = structuredClone(source.midweek_meeting.lc_part3.time);
+    const currentTime = lcPartTime.find((record) => record.type === dataView);
+
+    if (!currentTime) {
+      lcPartTime.push({ type: dataView, updatedAt: '', value: undefined });
+    }
+
+    await dbSourcesUpdate(selectedWeek, {
+      'midweek_meeting.lc_count.override': lcCountOverride,
+      'midweek_meeting.lc_part3.title': lcPartTitle,
+      'midweek_meeting.lc_part3.desc': lcPartDesc,
+      'midweek_meeting.lc_part3.time': lcPartTime,
+    });
+  };
+
+  const handleDeleteCustomLCPart = async () => {
+    const source = sources.find((record) => record.weekOf === selectedWeek);
+    const lcCountOverride = structuredClone(source.midweek_meeting.lc_count.override);
+
+    const currentCount = lcCountOverride.find((record) => record.type === dataView);
+    currentCount.updatedAt = new Date().toISOString();
+    currentCount.value = undefined;
+
+    const lcPartTitle = structuredClone(source.midweek_meeting.lc_part3.title);
+    const currentTitle = lcPartTitle.find((record) => record.type === dataView);
+    currentTitle.updatedAt = new Date().toISOString();
+    currentTitle.value = '';
+
+    const lcPartDesc = structuredClone(source.midweek_meeting.lc_part3.desc);
+    const currentDesc = lcPartDesc.find((record) => record.type === dataView);
+    currentDesc.updatedAt = new Date().toISOString();
+    currentDesc.value = '';
+
+    const lcPartTime = structuredClone(source.midweek_meeting.lc_part3.time);
+    const currentTime = lcPartTime.find((record) => record.type === dataView);
+    currentTime.updatedAt = new Date().toISOString();
+    currentTime.value = undefined;
+
+    await dbSourcesUpdate(selectedWeek, {
+      'midweek_meeting.lc_count.override': lcCountOverride,
+      'midweek_meeting.lc_part3.title': lcPartTitle,
+      'midweek_meeting.lc_part3.desc': lcPartDesc,
+      'midweek_meeting.lc_part3.time': lcPartTime,
+    });
+  };
+
   useEffect(() => {
     if (selectedWeek.length > 0) {
       const weekDate = new Date(selectedWeek);
@@ -77,6 +256,9 @@ const useMidweekEditor = () => {
   }, [t, selectedWeek, monthNames]);
 
   useEffect(() => {
+    setIsOverwriteLCPart1(false);
+    setIsOverwriteLCPart2(false);
+
     if (selectedWeek.length > 0) {
       const source = sources.find((record) => record.weekOf === selectedWeek);
       const schedule = schedules.find((record) => record.weekOf === selectedWeek);
@@ -114,18 +296,19 @@ const useMidweekEditor = () => {
           setIsTalkAYFPart4(sourcesCheckAYFExplainBeliefsAssignment(source.midweek_meeting.ayf_part4.src[lang]));
         }
 
-        const lcCountOverride = source.midweek_meeting.lc_count.override.find((record) => record.type === dataView);
-        if (lcCountOverride?.value > 0) {
-          setLcCount(lcCountOverride.value);
-        } else {
-          setLcCount(source.midweek_meeting.lc_count.default[lang]);
-        }
+        const lcCountOverride =
+          source.midweek_meeting.lc_count.override.find((record) => record.type === dataView)?.value || 0;
+        const lcCount = source.midweek_meeting.lc_count.default[lang];
+        setLcCount(lcCount);
+        setCustomPartEnabled(lcCountOverride < lcCount + 1);
+        setHasCustomPart(lcCountOverride > lcCount);
 
         const lc1SrcOverride = source.midweek_meeting.lc_part1.title.override.find(
           (record) => record.type === dataView
         )?.value;
         const lc1SrcDefault = source.midweek_meeting.lc_part1.title.default[lang];
         const lc1Src = lc1SrcOverride?.length > 0 ? lc1SrcOverride : lc1SrcDefault;
+        setIsOverwriteLCPart1(lc1SrcOverride?.length > 0);
 
         if (lc1Src?.length > 0) {
           const noAssign = sourcesCheckLCAssignments(lc1Src);
@@ -137,19 +320,16 @@ const useMidweekEditor = () => {
         )?.value;
         const lc2SrcDefault = source.midweek_meeting.lc_part2.title.default[lang];
         const lc2Src = lc2SrcOverride?.length > 0 ? lc2SrcOverride : lc2SrcDefault;
+        setIsOverwriteLCPart2(lc2SrcOverride?.length > 0);
 
         if (lc2Src?.length > 0) {
           const noAssign = sourcesCheckLCAssignments(lc2Src);
           setLcNoAssignPart2(noAssign);
         }
 
-        const lc3SrcOverride = source.midweek_meeting.lc_part2.title.override.find(
-          (record) => record.type === dataView
-        )?.value;
-        const lc3SrcDefault = source.midweek_meeting.lc_part2.title.default[lang];
-        const lc3Src = lc3SrcOverride?.length > 0 ? lc3SrcOverride : lc3SrcDefault;
+        const lc3Src = source.midweek_meeting.lc_part3.title.find((record) => record.type === dataView)?.value || '';
 
-        if (lc3Src?.length > 0) {
+        if (lc3Src.length > 0) {
           const noAssign = sourcesCheckLCAssignments(lc3Src);
           setLcNoAssignPart3(noAssign);
         }
@@ -160,6 +340,9 @@ const useMidweekEditor = () => {
   }, [selectedWeek, sources, lang, dataView, schedules]);
 
   return {
+    isEdit,
+    handleEditAssignments,
+    handleEditParts,
     weekDateLocale,
     selectedWeek,
     hasSource,
@@ -177,6 +360,21 @@ const useMidweekEditor = () => {
     lcNoAssignPart1,
     lcNoAssignPart2,
     lcNoAssignPart3,
+    weekType,
+    customPartEnabled,
+    isOverwriteLCPart1,
+    isOverwriteLCPart2,
+    handleToggleOverwriteLCPart1,
+    handleToggleOverwriteLCPart2,
+    handleToggleTGW,
+    handleToggleAYF,
+    handleToggleLC,
+    openTGW,
+    openAYF,
+    openLC,
+    handleAddCustomLCPart,
+    hasCustomPart,
+    handleDeleteCustomLCPart,
   };
 };
 

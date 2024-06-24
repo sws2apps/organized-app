@@ -175,6 +175,7 @@ export { default as IconPermissionsPending } from './IconPermissionsPending';
 export { default as IconPersonSearch } from './IconPersonSearch';
 export { default as IconPerson } from './IconPerson';
 export { default as IconPersonalDay } from './IconPersonalDay';
+export { default as IconPersonPlaceholder } from './IconPersonPlaceholder';
 export { default as IconPhone } from './IconPhone';
 export { default as IconPinCode } from './IconPinCode';
 export { default as IconPin } from './IconPin';
