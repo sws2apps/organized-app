@@ -14,4 +14,5 @@ export type MeetingPartType = {
     | 'lc_cbs';
   color: string;
   isOverwrite?: boolean;
+  isEdit?: boolean;
 };

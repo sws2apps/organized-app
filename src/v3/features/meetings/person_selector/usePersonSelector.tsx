@@ -242,13 +242,24 @@ const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
       if (type === AssignmentCode.MM_LCPart) {
         const source = sources.find((record) => record.weekOf === week);
         if (source) {
-          const lcParts = ['MM_LCPart1', 'MM_LCPart2', 'MM_LCPart3'];
+          const lcParts = ['MM_LCPart1', 'MM_LCPart2'];
 
           if (lcParts.includes(assignment)) {
             const path = assignment.replace('MM_', '').replace('LC', 'LC_').toLowerCase();
             const part = source.midweek_meeting[path];
 
             const { src, desc } = getLCSources(part);
+            const isElder = sourcesCheckLCElderAssignment(src, desc);
+            const persons = getPersons(isElder);
+
+            const options = handleSortOptions(persons);
+            setOptions(options);
+          }
+
+          if (assignment === 'MM_LCPart3') {
+            const src = source.midweek_meeting.lc_part3.title.find((record) => record.type === dataView)?.value;
+            const desc = source.midweek_meeting.lc_part3.desc.find((record) => record.type === dataView)?.value;
+
             const isElder = sourcesCheckLCElderAssignment(src, desc);
             const persons = getPersons(isElder);
 

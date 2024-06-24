@@ -5,6 +5,7 @@ import { createNumbersArray } from '@utils/common';
 import { sourcesState } from '@states/sources';
 import { JWLangState } from '@states/app';
 import { userDataViewState } from '@states/settings';
+import { dbSourcesUpdate } from '@services/dexie/sources';
 
 const usePartDuration = ({ length, type, week }: PartDurationType) => {
   const sources = useRecoilValue(sourcesState);
@@ -17,6 +18,119 @@ const usePartDuration = ({ length, type, week }: PartDurationType) => {
 
   const handleChangeDuration = async (value: number) => {
     setValue(value);
+
+    const source = sources.find((record) => record.weekOf === week);
+
+    if (type === 'tgw_talk') {
+      const part = source.midweek_meeting.tgw_talk.time;
+
+      const timeOverride = structuredClone(part.override);
+      const timeDefault = part.default;
+
+      let currentTime = timeOverride.find((record) => record.type === dataView);
+
+      if (!currentTime) {
+        timeOverride.push({ value: undefined, type: dataView, updatedAt: '' });
+        currentTime = timeOverride.find((record) => record.type === dataView);
+      }
+
+      currentTime.updatedAt = new Date().toISOString();
+      currentTime.value = timeDefault === value ? undefined : value;
+
+      await dbSourcesUpdate(week, { 'midweek_meeting.tgw_talk.time.override': timeOverride });
+    }
+
+    if (type === 'tgw_gems') {
+      const part = source.midweek_meeting.tgw_gems.time;
+
+      const timeOverride = structuredClone(part.override);
+      const timeDefault = part.default;
+
+      let currentTime = timeOverride.find((record) => record.type === dataView);
+
+      if (!currentTime) {
+        timeOverride.push({ value: undefined, type: dataView, updatedAt: '' });
+        currentTime = timeOverride.find((record) => record.type === dataView);
+      }
+
+      currentTime.updatedAt = new Date().toISOString();
+      currentTime.value = timeDefault === value ? undefined : value;
+
+      await dbSourcesUpdate(week, { 'midweek_meeting.tgw_gems.time.override': timeOverride });
+    }
+
+    if (type === 'lc_part1') {
+      const part = source.midweek_meeting.lc_part1.time;
+
+      const timeOverride = structuredClone(part.override);
+      const timeDefault = part.default[lang];
+
+      let currentTime = timeOverride.find((record) => record.type === dataView);
+
+      if (!currentTime) {
+        timeOverride.push({ value: undefined, type: dataView, updatedAt: '' });
+        currentTime = timeOverride.find((record) => record.type === dataView);
+      }
+
+      currentTime.updatedAt = new Date().toISOString();
+      currentTime.value = timeDefault === value ? undefined : value;
+
+      await dbSourcesUpdate(week, { 'midweek_meeting.lc_part1.time.override': timeOverride });
+    }
+
+    if (type === 'lc_part2') {
+      const part = source.midweek_meeting.lc_part2.time;
+
+      const timeOverride = structuredClone(part.override);
+      const timeDefault = part.default[lang];
+
+      let currentTime = timeOverride.find((record) => record.type === dataView);
+
+      if (!currentTime) {
+        timeOverride.push({ value: undefined, type: dataView, updatedAt: '' });
+        currentTime = timeOverride.find((record) => record.type === dataView);
+      }
+
+      currentTime.updatedAt = new Date().toISOString();
+      currentTime.value = timeDefault === value ? undefined : value;
+
+      await dbSourcesUpdate(week, { 'midweek_meeting.lc_part2.time.override': timeOverride });
+    }
+
+    if (type === 'lc_part3') {
+      const part = source.midweek_meeting.lc_part3.time;
+      const timeOverride = structuredClone(part);
+      let currentTime = timeOverride.find((record) => record.type === dataView);
+
+      if (!currentTime) {
+        timeOverride.push({ value: undefined, type: dataView, updatedAt: '' });
+        currentTime = timeOverride.find((record) => record.type === dataView);
+      }
+
+      currentTime.updatedAt = new Date().toISOString();
+      currentTime.value = value;
+
+      await dbSourcesUpdate(week, { 'midweek_meeting.lc_part3.time': timeOverride });
+    }
+
+    if (type === 'lc_cbs') {
+      const part = source.midweek_meeting.lc_cbs.time;
+
+      const timeOverride = structuredClone(part.override);
+      const timeDefault = part.default;
+
+      let currentTime = timeOverride.find((record) => record.type === dataView);
+
+      if (!currentTime) {
+        timeOverride.push({ value: undefined, type: dataView, updatedAt: '' });
+        currentTime = timeOverride.find((record) => record.type === dataView);
+      }
+
+      currentTime.updatedAt = new Date().toISOString();
+      currentTime.value = timeDefault === value ? undefined : value;
+
+      await dbSourcesUpdate(week, { 'midweek_meeting.lc_cbs.time.override': timeOverride });
+    }
   };
 
   useEffect(() => {
@@ -61,10 +175,7 @@ const usePartDuration = ({ length, type, week }: PartDurationType) => {
 
       if (type === 'lc_part3') {
         const part = source.midweek_meeting.lc_part3;
-        const timeOverride = part.time.override.find((record) => record.type === dataView)?.value || 0;
-        const timeDefault = part.time.default[lang];
-        const time = timeOverride > 0 ? timeOverride : timeDefault;
-
+        const time = part.time.find((record) => record.type === dataView)?.value || '';
         setValue(time);
       }
 

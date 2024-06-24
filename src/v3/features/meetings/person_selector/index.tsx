@@ -42,6 +42,7 @@ const PersonSelector = (props: PersonSelectorType) => {
       )}
 
       <AutoComplete
+        readOnly={props.readOnly}
         label={props.label}
         isOptionEqualToValue={(option, value) => option.person_uid === value.person_uid}
         getOptionLabel={(option: PersonOptionsType) => getPersonDisplayName(option)}

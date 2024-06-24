@@ -1,13 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { MeetingPartType } from './index.types';
 import { sourcesState } from '@states/sources';
 import { JWLangState } from '@states/app';
 import { useAppTranslation } from '@hooks/index';
 import { userDataViewState } from '@states/settings';
+import { dbSourcesUpdate } from '@services/dexie/sources';
 
 const useMeetingPart = ({ week, type }: MeetingPartType) => {
   const { t } = useAppTranslation();
+
+  const timerSource = useRef<NodeJS.Timeout>();
 
   const sources = useRecoilValue(sourcesState);
   const lang = useRecoilValue(JWLangState);
@@ -20,6 +23,120 @@ const useMeetingPart = ({ week, type }: MeetingPartType) => {
   const [timeOverwrite, setTimeOverwrite] = useState<number | string>('');
 
   const sourceRecord = sources.find((record) => record.weekOf === week);
+
+  const handleSourceOverwriteChange = (value: string) => {
+    setSourceOverwrite(value);
+  };
+
+  const handleSourceOverwriteSave = () => {
+    if (timerSource.current) clearTimeout(timerSource.current);
+
+    timerSource.current = setTimeout(handleSourceOverwriteSaveDb, 1000);
+  };
+
+  const handleSourceOverwriteSaveDb = async () => {
+    if (type === 'lc_part1') {
+      const lcPartTitle = structuredClone(sourceRecord.midweek_meeting.lc_part1.title.override);
+      const current = lcPartTitle.find((record) => record.type === dataView);
+      current.value = new Date().toISOString();
+      current.value = sourceOverwrite;
+
+      await dbSourcesUpdate(week, { 'midweek_meeting.lc_part1.title.override': lcPartTitle });
+
+      // check if time is still empty
+      const lcPartTime = structuredClone(sourceRecord.midweek_meeting.lc_part1.time.override);
+      const currentTime = lcPartTime.find((record) => record.type === dataView);
+      if (!currentTime.value || currentTime.value === 0) {
+        currentTime.updatedAt = new Date().toISOString();
+        currentTime.value = +timeOverwrite;
+
+        await dbSourcesUpdate(week, { 'midweek_meeting.lc_part1.time.override': lcPartTime });
+      }
+    }
+
+    if (type === 'lc_part2') {
+      const lcPartTitle = structuredClone(sourceRecord.midweek_meeting.lc_part2.title.override);
+      const current = lcPartTitle.find((record) => record.type === dataView);
+      current.value = new Date().toISOString();
+      current.value = sourceOverwrite;
+
+      await dbSourcesUpdate(week, { 'midweek_meeting.lc_part2.title.override': lcPartTitle });
+
+      // check if time is still empty
+      const lcPartTime = structuredClone(sourceRecord.midweek_meeting.lc_part2.time.override);
+      const currentTime = lcPartTime.find((record) => record.type === dataView);
+      if (!currentTime.value || currentTime.value === 0) {
+        currentTime.updatedAt = new Date().toISOString();
+        currentTime.value = +timeOverwrite;
+
+        await dbSourcesUpdate(week, { 'midweek_meeting.lc_part2.time.override': lcPartTime });
+      }
+    }
+
+    if (type === 'lc_part3') {
+      const lcPartTitle = structuredClone(sourceRecord.midweek_meeting.lc_part3.title);
+      const current = lcPartTitle.find((record) => record.type === dataView);
+      current.value = new Date().toISOString();
+      current.value = sourceOverwrite;
+
+      await dbSourcesUpdate(week, { 'midweek_meeting.lc_part3.title': lcPartTitle });
+    }
+
+    if (type === 'lc_cbs') {
+      const lcCBSTitle = structuredClone(sourceRecord.midweek_meeting.lc_cbs.title.override);
+      const current = lcCBSTitle.find((record) => record.type === dataView);
+
+      if (!current) {
+        lcCBSTitle.push({ type: dataView, updatedAt: new Date().toISOString(), value: sourceOverwrite });
+      }
+
+      if (current) {
+        current.value = new Date().toISOString();
+        current.value = source === sourceOverwrite ? '' : sourceOverwrite;
+      }
+
+      await dbSourcesUpdate(week, { 'midweek_meeting.lc_cbs.title.override': lcCBSTitle });
+    }
+  };
+
+  const handleSecondaryOverwriteChange = (value: string) => {
+    setSecondaryOverwrite(value);
+  };
+
+  const handleSecondaryOverwriteSave = () => {
+    if (timerSource.current) clearTimeout(timerSource.current);
+
+    timerSource.current = setTimeout(handleSecondaryOverwriteSaveDb, 1000);
+  };
+
+  const handleSecondaryOverwriteSaveDb = async () => {
+    if (type === 'lc_part1') {
+      const lcPartDesc = structuredClone(sourceRecord.midweek_meeting.lc_part1.desc.override);
+      const current = lcPartDesc.find((record) => record.type === dataView);
+      current.value = new Date().toISOString();
+      current.value = sourceOverwrite;
+
+      await dbSourcesUpdate(week, { 'midweek_meeting.lc_part1.desc.override': lcPartDesc });
+    }
+
+    if (type === 'lc_part2') {
+      const lcPartDesc = structuredClone(sourceRecord.midweek_meeting.lc_part2.desc.override);
+      const current = lcPartDesc.find((record) => record.type === dataView);
+      current.value = new Date().toISOString();
+      current.value = sourceOverwrite;
+
+      await dbSourcesUpdate(week, { 'midweek_meeting.lc_part2.desc.override': lcPartDesc });
+    }
+
+    if (type === 'lc_part3') {
+      const lcPartDesc = structuredClone(sourceRecord.midweek_meeting.lc_part3.desc);
+      const current = lcPartDesc.find((record) => record.type === dataView);
+      current.value = new Date().toISOString();
+      current.value = sourceOverwrite;
+
+      await dbSourcesUpdate(week, { 'midweek_meeting.lc_part3.desc': lcPartDesc });
+    }
+  };
 
   useEffect(() => {
     if (sourceRecord) {
@@ -116,7 +233,7 @@ const useMeetingPart = ({ week, type }: MeetingPartType) => {
 
         const descOverride = lcPart.desc.override.find((record) => record.type === dataView)?.value || '';
         const descDefault = lcPart.desc.default[lang];
-        const secondary = descOverride.length > 0 ? descOverride : descDefault;
+        const secondary = titleOverride.length > 0 ? descOverride : descDefault;
 
         setSecondary(secondary);
         setSecondaryOverwrite(descOverride);
@@ -140,7 +257,7 @@ const useMeetingPart = ({ week, type }: MeetingPartType) => {
 
         const descOverride = lcPart.desc.override.find((record) => record.type === dataView)?.value || '';
         const descDefault = lcPart.desc.default[lang];
-        const secondary = descOverride.length > 0 ? descOverride : descDefault;
+        const secondary = titleOverride.length > 0 ? descOverride : descDefault;
 
         setSecondary(secondary);
         setSecondaryOverwrite(descOverride);
@@ -175,6 +292,7 @@ const useMeetingPart = ({ week, type }: MeetingPartType) => {
 
         const partDuration = t('tr_partDuration', { time: time });
         setSource(`${title} ${partDuration}`);
+        setSourceOverwrite(title);
 
         const secondary = lcPart.src[lang];
         setSecondary(secondary);
@@ -182,7 +300,16 @@ const useMeetingPart = ({ week, type }: MeetingPartType) => {
     }
   }, [sourceRecord, type, lang, t, dataView]);
 
-  return { source, secondary, sourceOverwrite, secondaryOverwrite, timeOverwrite };
+  return {
+    source,
+    secondary,
+    sourceOverwrite,
+    secondaryOverwrite,
+    handleSourceOverwriteSave,
+    handleSourceOverwriteChange,
+    handleSecondaryOverwriteChange,
+    handleSecondaryOverwriteSave,
+  };
 };
 
 export default useMeetingPart;

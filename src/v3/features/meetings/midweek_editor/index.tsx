@@ -1,5 +1,12 @@
 import { Box } from '@mui/material';
-import { IconCustom, IconInfo, IconLivingPart, IconMinistryPart, IconTreasuresPart } from '@components/icons';
+import {
+  IconCustom,
+  IconDelete,
+  IconInfo,
+  IconLivingPart,
+  IconMinistryPart,
+  IconTreasuresPart,
+} from '@components/icons';
 import { AssignmentCode } from '@definition/assignment';
 import { Week } from '@definition/week_type';
 import { ClassAssignmentContainer, PersonDoubleContainer, PersonSelectorContainer, RowContainer } from './index.styles';
@@ -46,7 +53,6 @@ const MidweekEditor = () => {
     customPartEnabled,
     handleToggleOverwriteLCPart1,
     handleToggleOverwriteLCPart2,
-    isCustomLCPart2,
     isOverwriteLCPart1,
     isOverwriteLCPart2,
     handleToggleTGW,
@@ -57,6 +63,9 @@ const MidweekEditor = () => {
     openLC,
     handleEditAssignments,
     handleEditParts,
+    handleAddCustomLCPart,
+    hasCustomPart,
+    handleDeleteCustomLCPart,
   } = useMidweekEditor();
 
   return (
@@ -124,6 +133,7 @@ const MidweekEditor = () => {
                     label={t('tr_chairman')}
                     type={AssignmentCode.MM_Chairman}
                     assignment="MM_Chairman_A"
+                    readOnly={isEdit}
                   />
                   {showDoublePerson && (
                     <PersonSelector
@@ -131,6 +141,7 @@ const MidweekEditor = () => {
                       label={t('tr_auxClassCounselor')}
                       type={AssignmentCode.MM_Chairman}
                       assignment="MM_Chairman_B"
+                      readOnly={isEdit}
                     />
                   )}
                 </PersonSelectorContainer>
@@ -147,6 +158,7 @@ const MidweekEditor = () => {
                     label={t('tr_prayer')}
                     type={AssignmentCode.MM_Prayer}
                     assignment="MM_OpeningPrayer"
+                    readOnly={isEdit}
                   />
                 </PersonSelectorContainer>
               </RowContainer>
@@ -174,6 +186,7 @@ const MidweekEditor = () => {
                       label={t('tr_brother')}
                       type={AssignmentCode.MM_TGWTalk}
                       assignment="MM_TGWTalk"
+                      readOnly={isEdit}
                     />
                   </PersonSelectorContainer>
                 </RowContainer>
@@ -194,6 +207,7 @@ const MidweekEditor = () => {
                       label={t('tr_brother')}
                       type={AssignmentCode.MM_TGWGems}
                       assignment="MM_TGWGems"
+                      readOnly={isEdit}
                     />
                   </PersonSelectorContainer>
                 </RowContainer>
@@ -214,6 +228,7 @@ const MidweekEditor = () => {
                         label={t('tr_student')}
                         type={AssignmentCode.MM_BibleReading}
                         assignment="MM_TGWBibleReading_A"
+                        readOnly={isEdit}
                       />
                     </ClassAssignmentContainer>
 
@@ -228,6 +243,7 @@ const MidweekEditor = () => {
                           label={t('tr_student')}
                           type={AssignmentCode.MM_BibleReading}
                           assignment="MM_TGWBibleReading_B"
+                          readOnly={isEdit}
                         />
                       </ClassAssignmentContainer>
                     )}
@@ -261,6 +277,7 @@ const MidweekEditor = () => {
                           label={t('tr_student')}
                           type={ayfPart1}
                           assignment="MM_AYFPart1_Student_A"
+                          readOnly={isEdit}
                         />
 
                         {showAYFPart1Assistant && (
@@ -269,6 +286,7 @@ const MidweekEditor = () => {
                             label={t('tr_assistant')}
                             type={ayfPart1}
                             assignment="MM_AYFPart1_Assistant_A"
+                            readOnly={isEdit}
                           />
                         )}
                       </PersonDoubleContainer>
@@ -285,6 +303,7 @@ const MidweekEditor = () => {
                             label={t('tr_student')}
                             type={ayfPart1}
                             assignment="MM_AYFPart1_Student_B"
+                            readOnly={isEdit}
                           />
 
                           {showAYFPart1Assistant && (
@@ -293,6 +312,7 @@ const MidweekEditor = () => {
                               label={t('tr_assistant')}
                               type={ayfPart1}
                               assignment="MM_AYFPart1_Assistant_B"
+                              readOnly={isEdit}
                             />
                           )}
                         </PersonDoubleContainer>
@@ -324,6 +344,7 @@ const MidweekEditor = () => {
                               label={t('tr_student')}
                               type={ayfPart2}
                               assignment="MM_AYFPart2_Student_A"
+                              readOnly={isEdit}
                             />
 
                             {showAYFPart2Assistant && (
@@ -332,6 +353,7 @@ const MidweekEditor = () => {
                                 label={t('tr_assistant')}
                                 type={ayfPart2}
                                 assignment="MM_AYFPart2_Assistant_A"
+                                readOnly={isEdit}
                               />
                             )}
                           </PersonDoubleContainer>
@@ -348,6 +370,7 @@ const MidweekEditor = () => {
                                 label={t('tr_student')}
                                 type={ayfPart2}
                                 assignment="MM_AYFPart2_Student_B"
+                                readOnly={isEdit}
                               />
 
                               {showAYFPart2Assistant && (
@@ -356,6 +379,7 @@ const MidweekEditor = () => {
                                   label={t('tr_assistant')}
                                   type={ayfPart2}
                                   assignment="MM_AYFPart2_Assistant_B"
+                                  readOnly={isEdit}
                                 />
                               )}
                             </PersonDoubleContainer>
@@ -389,6 +413,7 @@ const MidweekEditor = () => {
                               label={t('tr_student')}
                               type={ayfPart3}
                               assignment="MM_AYFPart3_Student_A"
+                              readOnly={isEdit}
                             />
 
                             {showAYFPart3Assistant && (
@@ -397,6 +422,7 @@ const MidweekEditor = () => {
                                 label={t('tr_assistant')}
                                 type={ayfPart3}
                                 assignment="MM_AYFPart3_Assistant_A"
+                                readOnly={isEdit}
                               />
                             )}
                           </PersonDoubleContainer>
@@ -413,6 +439,7 @@ const MidweekEditor = () => {
                                 label={t('tr_student')}
                                 type={ayfPart3}
                                 assignment="MM_AYFPart3_Student_B"
+                                readOnly={isEdit}
                               />
 
                               {showAYFPart3Assistant && (
@@ -421,6 +448,7 @@ const MidweekEditor = () => {
                                   label={t('tr_assistant')}
                                   type={ayfPart3}
                                   assignment="MM_AYFPart3_Assistant_B"
+                                  readOnly={isEdit}
                                 />
                               )}
                             </PersonDoubleContainer>
@@ -454,6 +482,7 @@ const MidweekEditor = () => {
                               label={t('tr_student')}
                               type={ayfPart4}
                               assignment="MM_AYFPart4_Student_A"
+                              readOnly={isEdit}
                             />
 
                             {showAYFPart4Assistant && (
@@ -462,6 +491,7 @@ const MidweekEditor = () => {
                                 label={t('tr_assistant')}
                                 type={ayfPart4}
                                 assignment="MM_AYFPart4_Assistant_A"
+                                readOnly={isEdit}
                               />
                             )}
                           </PersonDoubleContainer>
@@ -478,6 +508,7 @@ const MidweekEditor = () => {
                                 label={t('tr_student')}
                                 type={ayfPart4}
                                 assignment="MM_AYFPart4_Student_B"
+                                readOnly={isEdit}
                               />
 
                               {showAYFPart4Assistant && (
@@ -486,6 +517,7 @@ const MidweekEditor = () => {
                                   label={t('tr_assistant')}
                                   type={ayfPart4}
                                   assignment="MM_AYFPart4_Assistant_B"
+                                  readOnly={isEdit}
                                 />
                               )}
                             </PersonDoubleContainer>
@@ -527,6 +559,7 @@ const MidweekEditor = () => {
                         type="lc_part1"
                         color="var(--living-as-christians)"
                         isOverwrite={isOverwriteLCPart1}
+                        isEdit={isEdit}
                       />
                     </Box>
 
@@ -537,6 +570,7 @@ const MidweekEditor = () => {
                           label={t('tr_brother')}
                           type={AssignmentCode.MM_LCPart}
                           assignment="MM_LCPart1"
+                          readOnly={isEdit}
                         />
                       </PersonSelectorContainer>
                     )}
@@ -549,7 +583,7 @@ const MidweekEditor = () => {
                     <Divider color="var(--accent-200)" />
 
                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                      {isEdit && !isCustomLCPart2 && (
+                      {isEdit && (
                         <Checkbox
                           label={t('tr_overwriteWithCustomData')}
                           checked={isOverwriteLCPart2}
@@ -563,7 +597,12 @@ const MidweekEditor = () => {
                         >
                           {isEdit && <PartDuration length={15} week={selectedWeek} type="lc_part2" />}
 
-                          <MeetingPart week={selectedWeek} type="lc_part2" color="var(--living-as-christians)" />
+                          <MeetingPart
+                            week={selectedWeek}
+                            type="lc_part2"
+                            color="var(--living-as-christians)"
+                            isOverwrite={isOverwriteLCPart2}
+                          />
                         </Box>
 
                         {!lcNoAssignPart2 && (
@@ -573,6 +612,7 @@ const MidweekEditor = () => {
                               label={t('tr_brother')}
                               type={AssignmentCode.MM_LCPart}
                               assignment="MM_LCPart2"
+                              readOnly={isEdit}
                             />
                           </PersonSelectorContainer>
                         )}
@@ -582,27 +622,56 @@ const MidweekEditor = () => {
                 )}
 
                 {/* lc_part3 */}
-                {lcCount > 2 && (
+                {hasCustomPart && (
                   <>
                     <Divider color="var(--accent-200)" />
 
-                    <RowContainer desktopUp={desktopUp}>
+                    <Typography color="var(--grey-350)">{t('tr_customMeetingPartDesc')}</Typography>
+
+                    <RowContainer desktopUp={desktopUp} sx={{ alignItems: 'flex-start' }}>
                       <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
                         {isEdit && <PartDuration length={15} week={selectedWeek} type="lc_part3" />}
 
-                        <MeetingPart week={selectedWeek} type="lc_part3" color="var(--living-as-christians)" />
+                        <MeetingPart
+                          week={selectedWeek}
+                          type="lc_part3"
+                          color="var(--living-as-christians)"
+                          isEdit={isEdit}
+                          isOverwrite={true}
+                        />
                       </Box>
 
-                      {!lcNoAssignPart3 && (
-                        <PersonSelectorContainer desktopUp={desktopUp}>
-                          <PersonSelector
-                            week={selectedWeek}
-                            label={t('tr_brother')}
-                            type={AssignmentCode.MM_LCPart}
-                            assignment="MM_LCPart3"
-                          />
-                        </PersonSelectorContainer>
-                      )}
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'column',
+                          alignItems: 'flex-end',
+                          gap: '16px',
+                          width: desktopUp ? 'unset' : '100%',
+                        }}
+                      >
+                        {!lcNoAssignPart3 && (
+                          <PersonSelectorContainer desktopUp={desktopUp}>
+                            <PersonSelector
+                              week={selectedWeek}
+                              label={t('tr_brother')}
+                              type={AssignmentCode.MM_LCPart}
+                              assignment="MM_LCPart3"
+                              readOnly={isEdit}
+                            />
+                          </PersonSelectorContainer>
+                        )}
+
+                        <Button
+                          variant="small"
+                          color="red"
+                          startIcon={<IconDelete />}
+                          sx={{ minHeight: '32px', width: 'fit-content' }}
+                          onClick={handleDeleteCustomLCPart}
+                        >
+                          {t('tr_customMeetingPartDelete')}
+                        </Button>
+                      </Box>
                     </RowContainer>
                   </>
                 )}
@@ -613,7 +682,12 @@ const MidweekEditor = () => {
                   <>
                     <Divider color="var(--accent-200)" />
 
-                    <Button variant="small" startIcon={<IconCustom />} sx={{ minHeight: '32px', width: 'fit-content' }}>
+                    <Button
+                      variant="small"
+                      startIcon={<IconCustom />}
+                      sx={{ minHeight: '32px', width: 'fit-content' }}
+                      onClick={handleAddCustomLCPart}
+                    >
                       {t('tr_addCustomMeetingPart')}
                     </Button>
                   </>
@@ -622,11 +696,17 @@ const MidweekEditor = () => {
                 <Divider color="var(--accent-200)" />
 
                 {/* lc_cbs */}
-                <RowContainer desktopUp={desktopUp}>
+                <RowContainer desktopUp={desktopUp} sx={{ alignItems: 'flex-start' }}>
                   <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
                     {isEdit && <PartDuration length={30} week={selectedWeek} type="lc_cbs" />}
 
-                    <MeetingPart week={selectedWeek} type="lc_cbs" color="var(--living-as-christians)" />
+                    <MeetingPart
+                      week={selectedWeek}
+                      type="lc_cbs"
+                      color="var(--living-as-christians)"
+                      isEdit={isEdit}
+                      isOverwrite={isEdit}
+                    />
                   </Box>
 
                   <PersonSelectorContainer desktopUp={desktopUp}>
@@ -636,12 +716,14 @@ const MidweekEditor = () => {
                         label={t('tr_cbsConductor')}
                         type={AssignmentCode.MM_CBSConductor}
                         assignment="MM_LCCBSConductor"
+                        readOnly={isEdit}
                       />
                       <PersonSelector
                         week={selectedWeek}
                         label={t('tr_cbsReader')}
                         type={AssignmentCode.MM_CBSReader}
                         assignment="MM_LCCBSReader"
+                        readOnly={isEdit}
                       />
                     </PersonDoubleContainer>
                   </PersonSelectorContainer>
@@ -665,6 +747,7 @@ const MidweekEditor = () => {
                     label={t('tr_prayer')}
                     type={AssignmentCode.MM_Prayer}
                     assignment="MM_ClosingPrayer"
+                    readOnly={isEdit}
                   />
                 </PersonSelectorContainer>
               </RowContainer>

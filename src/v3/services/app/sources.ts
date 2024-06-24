@@ -171,7 +171,7 @@ export const sourcesCheckLCElderAssignment = (source: string, desc: string) => {
     const array = regex.exec(source.toLowerCase());
     isElderPart = Array.isArray(array);
 
-    if (!isElderPart) {
+    if (!isElderPart && desc) {
       const contentVariations = getTranslation({ key: 'tr_lcContentElderVariations' });
 
       const search = `(${contentVariations})`;

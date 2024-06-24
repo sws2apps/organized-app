@@ -6,6 +6,7 @@ export type PersonSelectorType = {
   week: string;
   type: AssignmentCode;
   assignment: AssignmentFieldType;
+  readOnly?: boolean;
 };
 
 export type GenderType = 'male' | 'female';
