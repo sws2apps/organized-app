@@ -112,5 +112,11 @@
   "tr_assistant": "Assistant",
   "tr_tgw10TalkHistory": "Treasures - 10 min talk",
   "tr_chairmanMidwekMeetingHistory": "Midweek meeting chairman",
+  "tr_meetingPartsEdit": "Edit meeting parts",
+  "tr_assignmentsDeleteMultiple": "Delete multiple assignments",
+  "tr_editAssignments": "Edit assignments",
+  "tr_editParts": "Edit parts",
+  "tr_customMeetingPartDesc": "Your custom meeting part. If no info is entered, it won't be displayed in the schedule.",
+  "tr_customMeetingPartDelete": "Delete custom part",
   "tr_clearAllAssignmentsDesc": "Are you sure you want to clear all created assignments for this meeting? You can always reassign them later."
 }
