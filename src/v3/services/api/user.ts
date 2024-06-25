@@ -4,7 +4,7 @@ import { apiDefault } from './common';
 export const apiUserLogout = async () => {
   const { apiHost, appVersion: appversion, idToken } = await apiDefault();
 
-  await fetch(`${apiHost}api/users/logout`, {
+  await fetch(`${apiHost}api/v3/users/logout`, {
     method: 'GET',
     credentials: 'include',
     headers: {
@@ -19,7 +19,7 @@ export const apiUserLogout = async () => {
 export const apiRequestPasswordlesssLink = async (email: string) => {
   const { apiHost, appVersion: appversion, appLang } = await apiDefault();
 
-  const res = await fetch(`${apiHost}user-passwordless-login`, {
+  const res = await fetch(`${apiHost}api/v3/user-passwordless-login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, applanguage: appLang },
     body: JSON.stringify({ email }),
@@ -35,7 +35,7 @@ export const apiUpdatePasswordlessInfo = async () => {
 
   const tmpEmail = localStorage.getItem('emailForSignIn');
 
-  const res = await fetch(`${apiHost}user-passwordless-verify`, {
+  const res = await fetch(`${apiHost}api/v3/user-passwordless-verify`, {
     method: 'POST',
     credentials: 'include',
     headers: {
@@ -55,7 +55,7 @@ export const apiUpdatePasswordlessInfo = async () => {
 export const apiSendAuthorization = async () => {
   const { apiHost, appVersion: appversion, idToken } = await apiDefault();
 
-  const res = await fetch(`${apiHost}user-login`, {
+  const res = await fetch(`${apiHost}api/v3/user-login`, {
     method: 'GET',
     credentials: 'include',
     headers: {
@@ -74,7 +74,7 @@ export const apiSendAuthorization = async () => {
 export const apiHandleVerifyOTP = async (userOTP: string) => {
   const { apiHost, appVersion: appversion, idToken } = await apiDefault();
 
-  const res = await fetch(`${apiHost}api/mfa/verify-token`, {
+  const res = await fetch(`${apiHost}api/v3/mfa/verify-token`, {
     method: 'POST',
     credentials: 'include',
     headers: {
@@ -94,7 +94,7 @@ export const apiHandleVerifyOTP = async (userOTP: string) => {
 export const apiValidateMe = async (): Promise<ValidateMeResponseType> => {
   const { apiHost, appVersion: appversion, idToken } = await apiDefault();
 
-  const res = await fetch(`${apiHost}api/users/validate-me`, {
+  const res = await fetch(`${apiHost}api/v3/users/validate-me`, {
     method: 'GET',
     credentials: 'include',
     headers: {
@@ -113,7 +113,7 @@ export const apiValidateMe = async (): Promise<ValidateMeResponseType> => {
 export const apiGetUser2FA = async (): Promise<User2FAResponseType> => {
   const { apiHost, appVersion: appversion, userID, idToken } = await apiDefault();
 
-  const res = await fetch(`${apiHost}api/users/${userID}/2fa`, {
+  const res = await fetch(`${apiHost}api/v3/users/${userID}/2fa`, {
     method: 'GET',
     credentials: 'include',
     headers: {
@@ -132,7 +132,7 @@ export const apiGetUser2FA = async (): Promise<User2FAResponseType> => {
 export const apiDisableUser2FA = async () => {
   const { apiHost, appVersion: appversion, userID, idToken } = await apiDefault();
 
-  const res = await fetch(`${apiHost}api/users/${userID}/2fa/disable`, {
+  const res = await fetch(`${apiHost}api/v3/users/${userID}/2fa/disable`, {
     method: 'GET',
     credentials: 'include',
     headers: {
@@ -151,7 +151,7 @@ export const apiDisableUser2FA = async () => {
 export const apiRevokeVIPSession = async (id: string) => {
   const { apiHost, appVersion: appversion, userID, idToken } = await apiDefault();
 
-  const res = await fetch(`${apiHost}api/users/${userID}/sessions`, {
+  const res = await fetch(`${apiHost}api/v3/users/${userID}/sessions`, {
     method: 'DELETE',
     credentials: 'include',
     headers: {
@@ -171,7 +171,7 @@ export const apiRevokeVIPSession = async (id: string) => {
 export const apiGetUserSessions = async (): Promise<UserSessionsResponseType> => {
   const { apiHost, appVersion: appversion, userID, idToken } = await apiDefault();
 
-  const res = await fetch(`${apiHost}api/users/${userID}/sessions`, {
+  const res = await fetch(`${apiHost}api/v3/users/${userID}/sessions`, {
     method: 'GET',
     credentials: 'include',
     headers: {
