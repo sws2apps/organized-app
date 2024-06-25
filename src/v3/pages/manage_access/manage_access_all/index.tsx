@@ -11,8 +11,9 @@ import { TestData__AppAdministrators, TestData__BaptizedBrothers, TestData__Cong
 import CustomTypography from '@components/typography';
 import { disableWindowScroll, enableWindowScroll } from '@utils/scroll';
 import AddANewOrganizedUserModalWindow from './add_a_new_organized_user_modal_window';
+// import ShareInvitationCodeModalWindow from './share_invitation_code_modal_window';
 
-const ManageAccess = () => {
+const ManageAccessAll = () => {
   const { t } = useAppTranslation();
 
   const { desktopUp } = useBreakpoints();
@@ -128,9 +129,10 @@ const ManageAccess = () => {
             setShowCreateUserModalWindow(false);
           }}
         />
+        {/* <ShareInvitationCodeModalWindow name={'Mathoney Monday'} invitation_code={'UKR17038-V6VKVYUJAN6W'} /> */}
       </DarkOverlay>
     </>
   );
 };
 
-export default ManageAccess;
+export default ManageAccessAll;

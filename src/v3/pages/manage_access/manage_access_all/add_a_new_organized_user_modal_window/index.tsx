@@ -1,5 +1,4 @@
 import CustomButton from '@components/button';
-import { CustomDropdownContainer, CustomDropdownMenu } from '@components/dropdown';
 import CustomRadio from '@components/radio';
 import CustomTextField from '@components/textfield';
 import CustomTypography from '@components/typography';
@@ -104,7 +103,7 @@ const AddANewOrganizedUserModalWindow = (props: AddANewOrganizedUserModalWindowP
         }}
       />
 
-      <CustomTextField value={t('tr_selectPerson')} disabled />
+      <CustomTextField label={t('tr_selectPerson')} disabled select />
 
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
         <CustomButton variant="main">{t('tr_createUser')}</CustomButton>

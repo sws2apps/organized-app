@@ -78,6 +78,7 @@
   "tr_baptizedAndAppointed": "Baptized and appointed brothers",
   "tr_baptizedAndAppointedDesc": "The administrator role should be given only to elders or brothers who have been authorized by the elders.",
   "tr_appAdministrators": "App administrators",
+  "tr_appAdministrator": "App administrator",
   "tr_baptizedBrothers": "Baptized brothers",
   "tr_publicTalkCoordinator": "Public talk coordinator",
   "tr_midweekMeetingOverseer": "Midweek meeting overseer",
@@ -117,6 +118,7 @@
   "tr_attendanceRecordTracking": "Attendance record tracking",
   "tr_fieldServiceMeetingsScheduling": "Field service meetings scheduling",
   "tr_publicWitnessingScheduling": "Public witnessing scheduling",
+  "tr_literatureManagement": "Literature management",
   "tr_congregationTerritoriesManagement": "Congregation territories management",
   "tr_coVisitScheduling": "Circuit overseer visit scheduling",
   "tr_informationBoardEditing": "Information board editing",
@@ -385,6 +387,7 @@
   "tr_coordinator": "Coordinator",
   "tr_secretary": "Secretary",
   "tr_createUser": "Create user",
+  "tr_deleteUser": "Delete user",
   "tr_congregationPrivacy": "Congregation privacy",
   "tr_removePublisher": "Remove publisher: {PersonName}",
   "tr_confirmRemoving": "Do you want to remove the publisher from the <b>Group {{ GroupNumber }} – {{ GroupName }}</b>?"
