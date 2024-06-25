@@ -13,4 +13,6 @@ export type MeetingPartType = {
     | 'lc_part3'
     | 'lc_cbs';
   color: string;
+  isOverwrite?: boolean;
+  isEdit?: boolean;
 };

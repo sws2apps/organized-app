@@ -144,3 +144,7 @@ export const personGetDisplayName = (
 
   return result;
 };
+
+export const createNumbersArray = (length: number) => {
+  return Array.from({ length }, (_, i) => i + 1);
+};

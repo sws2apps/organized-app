@@ -1,3 +1,4 @@
+import { AssignmentCode } from '@definition/assignment';
 import { FullnameOption } from '@definition/settings';
 
 export const LANGUAGE_LIST = [
@@ -52,3 +53,54 @@ export const isDemo = import.meta.env.VITE_APP_MODE === 'DEMO';
 export const isDEV = isDemo ? false : import.meta.env.DEV;
 
 export const isQA = import.meta.env.VITE_APP_MODE === 'QA';
+
+export const ASSIGNMENT_PATH = {
+  MM_Chairman_A: 'midweek_meeting.chairman.main_hall',
+  MM_Chairman_B: 'midweek_meeting.chairman.aux_class_1',
+  MM_OpeningPrayer: 'midweek_meeting.opening_prayer',
+  MM_TGWTalk: 'midweek_meeting.tgw_talk',
+  MM_TGWGems: 'midweek_meeting.tgw_gems',
+  MM_TGWBibleReading_A: 'midweek_meeting.tgw_bible_reading.main_hall',
+  MM_TGWBibleReading_B: 'midweek_meeting.tgw_bible_reading.aux_class_1',
+  MM_AYFPart1_Student_A: 'midweek_meeting.ayf_part1.main_hall.student',
+  MM_AYFPart1_Assistant_A: 'midweek_meeting.ayf_part1.main_hall.assistant',
+  MM_AYFPart1_Student_B: 'midweek_meeting.ayf_part1.aux_class_1.student',
+  MM_AYFPart1_Assistant_B: 'midweek_meeting.ayf_part1.aux_class_1.assistant',
+  MM_AYFPart2_Student_A: 'midweek_meeting.ayf_part2.main_hall.student',
+  MM_AYFPart2_Assistant_A: 'midweek_meeting.ayf_part2.main_hall.assistant',
+  MM_AYFPart2_Student_B: 'midweek_meeting.ayf_part2.aux_class_1.student',
+  MM_AYFPart2_Assistant_B: 'midweek_meeting.ayf_part2.aux_class_1.assistant',
+  MM_AYFPart3_Student_A: 'midweek_meeting.ayf_part3.main_hall.student',
+  MM_AYFPart3_Assistant_A: 'midweek_meeting.ayf_part3.main_hall.assistant',
+  MM_AYFPart3_Student_B: 'midweek_meeting.ayf_part3.aux_class_1.student',
+  MM_AYFPart3_Assistant_B: 'midweek_meeting.ayf_part3.aux_class_1.assistant',
+  MM_AYFPart4_Student_A: 'midweek_meeting.ayf_part4.main_hall.student',
+  MM_AYFPart4_Assistant_A: 'midweek_meeting.ayf_part4.main_hall.assistant',
+  MM_AYFPart4_Student_B: 'midweek_meeting.ayf_part4.aux_class_1.student',
+  MM_AYFPart4_Assistant_B: 'midweek_meeting.ayf_part4.aux_class_1.assistant',
+  MM_LCPart1: 'midweek_meeting.lc_part1',
+  MM_LCPart2: 'midweek_meeting.lc_part2',
+  MM_LCPart3: 'midweek_meeting.lc_part3',
+  MM_LCCBSConductor: 'midweek_meeting.lc_cbs.conductor',
+  MM_LCCBSReader: 'midweek_meeting.lc_cbs.reader',
+  MM_ClosingPrayer: 'midweek_meeting.closing_prayer',
+};
+
+export const BROTHER_ASSIGNMENT = [
+  AssignmentCode.MM_Chairman,
+  AssignmentCode.MM_Prayer,
+  AssignmentCode.MM_TGWTalk,
+  AssignmentCode.MM_TGWGems,
+  AssignmentCode.MM_LCPart,
+  AssignmentCode.MM_CBSConductor,
+  AssignmentCode.MM_CBSReader,
+];
+
+export const STUDENT_ASSIGNMENT = [
+  AssignmentCode.MM_StartingConversation,
+  AssignmentCode.MM_FollowingUp,
+  AssignmentCode.MM_MakingDisciples,
+  AssignmentCode.MM_ExplainingBeliefs,
+];
+
+export const ASSISTANT_ASSIGNMENT = [...STUDENT_ASSIGNMENT, AssignmentCode.MM_AssistantOnly];

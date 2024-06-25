@@ -5,22 +5,27 @@ import Button from '@components/button';
 import TextMarkup from '@components/text_markup';
 import Typography from '@components/typography';
 import useUnsupportedBrowser from './useUnsupportedBrowser';
-import UnsupportedBrowserImg from '@assets/img/unsupported-browser-illustration.svg?component';
+import UnsupportedBrowserImg from '@assets/img/unsupported-browser-illustration.svg?url';
 
 const UnsupportedBrowser = () => {
   const { t } = useAppTranslation();
 
-  const { reloadApp, anchorRef } = useUnsupportedBrowser();
+  const { reloadApp } = useUnsupportedBrowser();
 
   return (
     <Box
       sx={{
-        width: '100%',
-        height: '100%',
+        position: 'fixed',
+        top: 48,
+        bottom: 0,
+        right: 0,
+        left: 0,
         display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
         alignItems: 'center',
+        justifyContent: 'center',
+        maxWidth: '1440px',
+        paddingLeft: { mobile: '16px', tablet: '24px', desktop: '32px' },
+        paddingRight: { mobile: '16px', tablet: '24px', desktop: '32px' },
       }}
     >
       <Box
@@ -29,10 +34,11 @@ const UnsupportedBrowser = () => {
           display: 'flex',
           gap: '48px',
           alignItems: 'center',
-          flexDirection: { mobile: 'column' },
+          flexDirection: { mobile: 'column', tablet: 'row' },
         }}
       >
-        <UnsupportedBrowserImg />
+        <img src={UnsupportedBrowserImg} style={{ width: '200px', height: 'auto' }} />
+
         <Box
           sx={{
             display: 'flex',
@@ -47,9 +53,14 @@ const UnsupportedBrowser = () => {
             color="var(--grey-400)"
             anchorClassName="h4"
             anchorColor="var(--accent-dark)"
-            anchorRef={anchorRef}
           />
-          <Button variant="main" className="button-caps" onClick={reloadApp} startIcon={<IconRefresh />}>
+          <Button
+            variant="main"
+            className="button-caps"
+            onClick={reloadApp}
+            startIcon={<IconRefresh />}
+            sx={{ width: { mobile: '100%', tablet: 'fit-content' } }}
+          >
             {t('tr_refreshPage')}
           </Button>
         </Box>

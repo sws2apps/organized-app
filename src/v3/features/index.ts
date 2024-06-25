@@ -1,5 +1,6 @@
 /* ------------------------------- App Startup ------------------------------ */
 export { Startup } from './app_start';
+export { default as UnsupportedBrowser } from './app_start/shared/unsupported_browser';
 
 /* ---------------------------------- About --------------------------------- */
 export { default as About } from './about';

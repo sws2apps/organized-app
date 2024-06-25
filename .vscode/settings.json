@@ -12,8 +12,6 @@
   "[css]": {
     "editor.defaultFormatter": "vscode.css-language-features"
   },
-  "conventionalCommits.scopes": [
-    "components"
-  ],
+  "conventionalCommits.scopes": ["components"],
   "prettier.useTabs": false
 }
