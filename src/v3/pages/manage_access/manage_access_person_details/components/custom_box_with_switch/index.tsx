@@ -16,7 +16,7 @@ const CustomBoxWithSwitch = (props: CustomBoxWithSwitchProps) => {
     <Box
       sx={{
         display: 'flex',
-        gap: '8px',
+        gap: '16px',
         alignItems: 'center',
       }}
     >
