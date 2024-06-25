@@ -1,5 +1,5 @@
 export const apiGetCongregationBackup = async ({ apiHost, congID, idToken }) => {
-  const res = await fetch(`${apiHost}api/congregations/${congID}/backup`, {
+  const res = await fetch(`${apiHost}api/v3/congregations/${congID}/backup`, {
     method: 'GET',
     credentials: 'include',
     headers: {
@@ -17,7 +17,7 @@ export const apiGetCongregationBackup = async ({ apiHost, congID, idToken }) => 
 };
 
 export const apiSendCongregationBackup = async ({ apiHost, congID, reqPayload, lastBackup, idToken }) => {
-  const res = await fetch(`${apiHost}api/congregations/${congID}/backup`, {
+  const res = await fetch(`${apiHost}api/v3/congregations/${congID}/backup`, {
     method: 'POST',
     credentials: 'include',
     headers: {
