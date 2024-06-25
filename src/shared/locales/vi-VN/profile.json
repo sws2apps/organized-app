@@ -25,7 +25,6 @@
   "tr_autoSync": "Auto sync",
   "tr_autoSyncDesc": "Automatically sync data between congregation and your devices logged in the Organized",
   "tr_syncInterval": "Sync interval",
-  "tr_syncIntervalMinLabel": "min.",
   "tr_customLinkInMobilePanel": "Custom link in the mobile navigation panel",
   "tr_customLinkInMobilePanelDesc": "Replace the ‘Info board’ button with another feature for quick access from Home page",
   "tr_selectFeature": "Select feature",

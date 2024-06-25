@@ -25,7 +25,6 @@
   "tr_autoSync": "Otomatik senkronizasyon",
   "tr_autoSyncDesc": "Verileri otomatik olarak 'Organized' ve cihazlarım arasında senkronize et",
   "tr_syncInterval": "Senkronizasyon aralığı",
-  "tr_syncIntervalMinLabel": "dk.",
   "tr_customLinkInMobilePanel": "Mobil gezinme panelindeki özel bağlantı",
   "tr_customLinkInMobilePanelDesc": "Replace the ‘Info board’ button with another feature for quick access from Home page",
   "tr_selectFeature": "Özellik Seç",

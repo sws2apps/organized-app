@@ -94,5 +94,7 @@
   "tr_longDateNoYearLocale": "{{ month }} {{ date }}",
   "tr_brother": "Brother",
   "tr_brothers": "Brothers",
+  "tr_editingFinished": "Editing completed",
+  "tr_minLabel": "min.",
   "tr_textCopied": "Information copied to clipboard"
 }
