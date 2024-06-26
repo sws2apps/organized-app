@@ -317,10 +317,10 @@ const ManageAccessPersonDetails = () => {
                       gap: '16px',
                     }}
                   >
-                    <StyledCustomIconButton onClick={syncButtonAction}>
+                    <StyledCustomIconButton onClick={syncButtonAction} title={t('tr_sync')}>
                       <IconSync color="var(--accent-400)" />
                     </StyledCustomIconButton>
-                    <StyledCustomIconButton onClick={copyButtonAction}>
+                    <StyledCustomIconButton onClick={copyButtonAction} title={t('tr_copy')}>
                       <IconCopy color="var(--accent-400)" />
                     </StyledCustomIconButton>
                   </InputAdornment>

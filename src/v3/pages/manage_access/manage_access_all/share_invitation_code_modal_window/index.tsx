@@ -16,6 +16,7 @@ const ShareInvitationCodeModalWindow = (props: ShareInvitationCodeModalWindowPro
 
   const copyButtonAction = () => {
     // TODO: Add Copy Button action
+    navigator.clipboard.writeText(props.invitation_code);
   };
 
   return (
@@ -58,10 +59,10 @@ const ShareInvitationCodeModalWindow = (props: ShareInvitationCodeModalWindowPro
               gap: '16px',
             }}
           >
-            <StyledCustomIconButton onClick={shareButtonAction}>
+            <StyledCustomIconButton onClick={shareButtonAction} title={t('tr_share')}>
               <IconShare color="var(--accent-400)" />
             </StyledCustomIconButton>
-            <StyledCustomIconButton onClick={copyButtonAction}>
+            <StyledCustomIconButton onClick={copyButtonAction} title={t('tr_copy')}>
               <IconCopy color="var(--accent-400)" />
             </StyledCustomIconButton>
           </InputAdornment>
