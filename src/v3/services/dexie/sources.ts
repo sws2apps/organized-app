@@ -1,3 +1,4 @@
+import { UpdateSpec } from 'dexie';
 import appDb from '@db/appDb';
 import { sourceSchema } from '@services/dexie/schema';
 import { SourceWeekType } from '@definition/sources';
@@ -19,4 +20,8 @@ export const dbSourcesSave = async (srcData: SourceWeekType) => {
   updateObject(newSource, srcData);
 
   await appDb.sources.put(newSource);
+};
+
+export const dbSourcesUpdate = async (weekOf: string, changes: UpdateSpec<SourceWeekType>) => {
+  await appDb.sources.update(weekOf, changes);
 };

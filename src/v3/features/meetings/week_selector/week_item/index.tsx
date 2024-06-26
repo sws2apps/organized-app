@@ -5,16 +5,21 @@ import Typography from '@components/typography';
 import ProgressBarSmall from '@components/progress_bar_small';
 
 const WeekItem = ({ week }: WeekItemType) => {
-  const { weekDateLocale } = useWeekItem(week);
+  const { weekDateLocale, handleSelectWeek, isSelected, assigned, total } = useWeekItem(week);
 
   return (
     <Box
       sx={{
+        cursor: 'pointer',
         padding: '8px 8px 8px 16px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
         borderTop: '1px solid var(--accent-200)',
+        backgroundColor: isSelected ? 'var(--accent-150)' : 'unset',
+        '.MuiTypography-root': {
+          color: isSelected ? 'var(--accent-dark)' : 'var(--black)',
+        },
         '&:hover': {
           backgroundColor: 'var(--accent-150)',
           '.MuiTypography-root': {
@@ -22,14 +27,15 @@ const WeekItem = ({ week }: WeekItemType) => {
           },
         },
       }}
+      onClick={() => handleSelectWeek(week)}
     >
       <Typography>{weekDateLocale}</Typography>
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
         <Box>
-          <ProgressBarSmall value={20} maxValue={20} />
+          <ProgressBarSmall value={assigned} maxValue={total} />
         </Box>
         <Typography className="label-small-medium" sx={{ width: '48px' }} textAlign="right">
-          20/20
+          {total > 0 && `${assigned}/${total}`}
         </Typography>
       </Box>
     </Box>

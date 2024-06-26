@@ -3,24 +3,24 @@ import { accountTypeState } from '@states/settings';
 import { apiDefault } from './common';
 
 export const apiFetchSchedule = async () => {
-  const { apiHost, appVersion: appversion, visitorID: visitorid, congID, isOnline, userUID: uid } = await apiDefault();
+  const { apiHost, appVersion: appversion, congID, isOnline, userUID: uid } = await apiDefault();
 
-  if (isOnline && apiHost !== '' && visitorid !== '') {
+  if (isOnline && apiHost !== '') {
     const accountType = await promiseGetRecoil(accountTypeState);
 
     let res;
 
     if (accountType === 'pocket') {
-      res = await fetch(`${apiHost}api/sws-pocket/meeting-schedule`, {
+      res = await fetch(`${apiHost}api/v3/sws-pocket/meeting-schedule`, {
         method: 'GET',
-        headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, visitorid },
+        headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion },
       });
     }
 
     if (accountType === 'vip') {
-      res = await fetch(`${apiHost}api/congregations/${congID}/meeting-schedule`, {
+      res = await fetch(`${apiHost}api/v3/congregations/${congID}/meeting-schedule`, {
         method: 'GET',
-        headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, uid, visitorid },
+        headers: { 'Content-Type': 'application/json', appclient: 'organized', appversion, uid },
       });
     }
 

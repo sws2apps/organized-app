@@ -1,13 +1,16 @@
 import { Box } from '@mui/material';
 import { IconGenerate, IconPrint, IconPublish } from '@components/icons';
 import { WeekSelector } from '@features/index';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useMidweek from './useMidweek';
 import Button from '@components/button';
+import MidweekEditor from '@features/meetings/midweek_editor';
 import PageTitle from '@components/page_title';
 
 const MidweekMeeting = () => {
   const { t } = useAppTranslation();
+
+  const { desktopUp } = useBreakpoints();
 
   const { hasWeeks } = useMidweek();
 
@@ -38,7 +41,17 @@ const MidweekMeeting = () => {
         }
       />
 
-      <WeekSelector />
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: desktopUp ? 'row' : 'column',
+          gap: '16px',
+          alignItems: desktopUp ? 'flex-start' : 'unset',
+        }}
+      >
+        <WeekSelector />
+        <MidweekEditor />
+      </Box>
     </Box>
   );
 };

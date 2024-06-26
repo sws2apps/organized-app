@@ -2,8 +2,8 @@
 This file holds the source of the truth from the table "sched".
 */
 
-import { SchedWeekType } from '@definition/schedules';
 import { atom } from 'recoil';
+import { AssignmentHistoryType, SchedWeekType } from '@definition/schedules';
 
 export const schedulesState = atom<SchedWeekType[]>({
   key: 'schedules',
@@ -53,4 +53,14 @@ export const S140DataState = atom({
 export const S140DownloadOpenState = atom({
   key: 'S140DownloadOpen',
   default: false,
+});
+
+export const selectedWeekState = atom({
+  key: 'selectedWeek',
+  default: '',
+});
+
+export const assignmentsHistoryState = atom<AssignmentHistoryType[]>({
+  key: 'assignmentsHistory',
+  default: [],
 });

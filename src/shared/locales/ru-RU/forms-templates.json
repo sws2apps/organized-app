@@ -55,8 +55,8 @@
   "tr_weekendMeetingPrint": "Расписание встречи на выходных",
   "tr_publicTalk": "Публичная речь",
   "tr_openingPrayerWeekendMeeting": "Вступительная молитва",
-  "tr_noWMeeting": "На этой неделе нет встречи на выходных",
-  "tr_noMeeting": "На этой неделе нет встречи",
+  "tr_noWMeetingWeek": "There is no weekend meeting for this week",
+  "tr_noMeetingWeek": "There is no meeting for this week",
   "tr_substituteSpeaker": "Заменяющий докладчик",
   "tr_startingConversation": "Начинайте разговор",
   "tr_followingUp": "Развивайте интерес",
@@ -69,5 +69,6 @@
   "tr_assistantS89": "Напарник:",
   "tr_studentAssistantS89": "Ученик/Напарник:",
   "tr_chairman": "Председатель",
-  "tr_prayer": "Молитва"
+  "tr_prayer": "Молитва",
+  "tr_partDuration": "({{ time }} min.)"
 }

@@ -48,7 +48,7 @@ export interface CustomTabProps extends TabOwnProps {
   /**
    * The index of the currently selected tab.
    */
-  selected?: number;
+  value?: number;
 
   /**
    * A boolean indicating whether to display the indicator.

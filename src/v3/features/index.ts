@@ -1,5 +1,6 @@
 /* ------------------------------- App Startup ------------------------------ */
 export { Startup } from './app_start';
+export { default as UnsupportedBrowser } from './app_start/shared/unsupported_browser';
 
 /* ---------------------------------- About --------------------------------- */
 export { default as About } from './about';
@@ -67,6 +68,7 @@ export { default as PersonsFilter } from './persons/filter';
 export { default as PersonsList } from './persons/list';
 export { default as PersonsSearch } from './persons/search';
 export { default as PersonTimeAway } from './persons/time_away';
+export { default as PersonAssignmentsHistory } from './persons/assignments_history';
 
 /* -------------------------------- Visiting Speakers -------------------------------- */
 export { default as IncomingSpeakers } from './persons/visiting_speakers/incoming';

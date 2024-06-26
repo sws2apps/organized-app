@@ -7,7 +7,9 @@ type CustomTextFieldProps = {
 };
 
 // Use the interface in the styled component
-export const StyledCustomTimeTextField = styled(TextField)<CustomTextFieldProps>(({ fontColor }) => ({
+export const StyledCustomTimeTextField = styled(TextField, {
+  shouldForwardProp: (prop) => !['fontColor'].includes(String(prop)),
+})<CustomTextFieldProps>(({ fontColor }) => ({
   '& .MuiInputBase-root': {
     border: 'none',
   },

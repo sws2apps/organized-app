@@ -15,7 +15,7 @@ const CustomMenuItem: FC<MenuItemProps> = (props) => {
         height: '36px',
         minHeight: '36px',
         '&:hover': {
-          backgroundColor: 'var(--accent-100)',
+          backgroundColor: 'var(--accent-150)',
           '& p': {
             color: 'var(--accent-dark)',
           },

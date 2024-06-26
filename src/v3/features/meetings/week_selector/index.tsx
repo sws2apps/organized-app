@@ -1,5 +1,5 @@
-import { Box } from '@mui/material';
-import { IconAdd, IconClearMultiple } from '@components/icons';
+import { Box, Collapse } from '@mui/material';
+import { IconClearMultiple, IconCollapse } from '@components/icons';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useWeekSelector from './useWeekSelector';
 import Button from '@components/button';
@@ -11,12 +11,13 @@ const WeekSelector = () => {
 
   const { desktopUp } = useBreakpoints();
 
-  const { tabs, hasWeeks } = useWeekSelector();
+  const { tabs, hasWeeks, expanded, handleToggleExpand, activeTab } = useWeekSelector();
 
   return (
     <Box
       sx={{
-        maxWidth: desktopUp ? '360px' : '100%',
+        width: desktopUp ? '360px' : '100%',
+        flexShrink: 0,
         borderRadius: 'var(--radius-xl)',
         border: '1px solid var(--accent-300)',
         backgroundColor: 'var(--white)',
@@ -24,32 +25,44 @@ const WeekSelector = () => {
         display: 'flex',
         flexDirection: 'column',
         gap: '16px',
+        position: desktopUp ? 'sticky' : 'unset',
+        top: desktopUp ? 57 : 'unset',
       }}
     >
-      <Typography className="h2">{t('tr_meetingWeeks')}</Typography>
-
-      {hasWeeks && <ScrollableTabs tabs={tabs} />}
-
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: hasWeeks ? 'space-between' : 'flex-end' }}>
-        {hasWeeks && (
-          <Button
-            variant="small"
-            startIcon={<IconClearMultiple height={20} width={20} />}
-            sx={{ height: '32px', minHeight: '32px' }}
-            color="red"
-          >
-            {t('tr_clear')}
-          </Button>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          cursor: desktopUp ? 'default' : 'pointer',
+        }}
+        onClick={desktopUp ? null : handleToggleExpand}
+      >
+        <Typography className="h2">{t('tr_meetingWeeks')}</Typography>
+        {!desktopUp && (
+          <IconCollapse
+            color="var(--black)"
+            sx={{ transform: expanded ? 'rotate(0deg)' : 'rotate(180deg)', transition: 'transform 0.3s' }}
+          />
         )}
-
-        <Button
-          variant="small"
-          startIcon={<IconAdd height={20} width={20} />}
-          sx={{ height: '32px', minHeight: '32px' }}
-        >
-          {t('tr_add')}
-        </Button>
       </Box>
+
+      <Collapse in={desktopUp || expanded} timeout="auto" unmountOnExit>
+        {hasWeeks && <ScrollableTabs tabs={tabs} value={activeTab} />}
+
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: hasWeeks ? 'space-between' : 'flex-end' }}>
+          {hasWeeks && (
+            <Button
+              variant="small"
+              startIcon={<IconClearMultiple height={20} width={20} />}
+              sx={{ height: '32px', minHeight: '32px' }}
+              color="red"
+            >
+              {t('tr_assignmentsDeleteMultiple')}
+            </Button>
+          )}
+        </Box>
+      </Collapse>
     </Box>
   );
 };

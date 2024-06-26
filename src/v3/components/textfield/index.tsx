@@ -36,8 +36,8 @@ const CustomTextField = (props: TextFieldTypeProps) => {
     <TextField
       {...defaultProps}
       type={inputType}
-      placeholder={props.placeholder || props.label.toString()}
-      label={props.value ? props.label : null}
+      placeholder={props.placeholder}
+      label={props.label}
       fullWidth
       sx={{
         '.MuiInputBase-root': {
@@ -87,6 +87,9 @@ const CustomTextField = (props: TextFieldTypeProps) => {
           },
         },
         '.MuiFormLabel-root[data-shrink=false]': { top: `-${varHeight}px` },
+        '& > .MuiAutocomplete-popupIndicator': {
+          '& svg, & svg g, & svg g path': 'var(--black)',
+        },
         ...props.sx,
       }}
       InputProps={{
@@ -112,7 +115,9 @@ const CustomTextField = (props: TextFieldTypeProps) => {
           >
             {startIcon}
           </InputAdornment>
-        ) : null,
+        ) : (
+          InputProps?.startAdornment
+        ),
         endAdornment: endIconLocal ? (
           <InputAdornment
             position="end"
@@ -134,7 +139,18 @@ const CustomTextField = (props: TextFieldTypeProps) => {
               </IconButton>
             )}
           </InputAdornment>
-        ) : null,
+        ) : (
+          <InputAdornment
+            position="end"
+            sx={{
+              '& svg, & svg g, & svg g path': {
+                fill: 'var(--black)',
+              },
+            }}
+          >
+            {InputProps?.endAdornment}
+          </InputAdornment>
+        ),
       }}
       FormHelperTextProps={{
         component: 'div',
