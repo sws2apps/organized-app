@@ -2,7 +2,7 @@ import { StyledTextField, StyledTodayTypography, StyledWeekBox } from './index.s
 import { getWeekNumberInMonthForDate } from '@utils/date';
 import { WeekBoxProps } from './index.types';
 
-export const WeekBox = ({ weekNumber, weekend, onChange, t, value }: WeekBoxProps) => {
+export const WeekBox = ({ weekNumber, weekend, onChange, value }: WeekBoxProps) => {
   const handleWeekChange = (event) => {
     if (!event.target.value.match(/[^0-9]/)) {
       event.preventDefault();
@@ -12,7 +12,7 @@ export const WeekBox = ({ weekNumber, weekend, onChange, t, value }: WeekBoxProp
   };
   const todaysWeekNumber = getWeekNumberInMonthForDate(new Date());
   const dayStr = new Date().toDateString().slice(0, 3);
-  const isWeekend = dayStr == 'Sat' || dayStr == 'Sun';
+  const isWeekend = dayStr === 'Sat' || dayStr === 'Sun';
 
   const color = weekend ? 'var(--weekend-meeting)' : 'var(--accent-dark)';
 

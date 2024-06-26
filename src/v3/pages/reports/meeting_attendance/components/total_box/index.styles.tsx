@@ -6,14 +6,18 @@ export const StyledSelect = styled(Select)({
   flex: 1,
 });
 
-export const StyledBox = styled(Box)(({ laptopView }: { laptopView: boolean }) => ({
-  display: 'flex',
-  gap: '16px',
-  flexDirection: laptopView ? 'row' : 'column',
-}));
+export const StyledBox = styled(Box, { shouldForwardProp: (prop) => prop !== 'laptopView' })(
+  ({ laptopView }: { laptopView: boolean }) => ({
+    display: 'flex',
+    gap: '16px',
+    flexDirection: laptopView ? 'row' : 'column',
+  })
+);
 
-export const StyledColorBox = styled(Box)<{ backgroudColor: string }>((props) => ({
-  backgroundColor: props.backgroudColor,
+export const StyledColorBox = styled(Box, { shouldForwardProp: (prop) => prop !== 'backgroundColor' })<{
+  backgroundColor: string;
+}>((props) => ({
+  backgroundColor: props.backgroundColor,
   display: 'flex',
   flexDirection: 'column',
   borderRadius: 'var(--radius-l)',

@@ -9,7 +9,7 @@ import {
   StyledRowBox,
   StyledHeaderBox,
 } from './index.styles';
-
+import { useAppTranslation } from '@hooks/index';
 import { TFunction } from 'i18next';
 import {
   getTeochraticalYear,
@@ -36,20 +36,13 @@ const ReportResultElement = ({ title, value }: { title: string; value: string })
   );
 };
 
-const ReportHistoryMonthBox = ({
-  title,
-  t,
-  data,
-}: {
-  title: string;
-  t: TFunction<'translation', undefined>;
-  data?: MeetingAttendanceType;
-}) => {
+const ReportHistoryMonthBox = ({ title, data }: { title: string; data?: MeetingAttendanceType }) => {
+  const { t } = useAppTranslation();
   let numberOfMeetingsWeekend = 0;
   const totalMidweek = data
     ? [1, 2, 3, 4, 5].reduce((acc, weekNumber) => {
         const value = data[`week_${weekNumber}`]?.weekend?.present;
-        if (value != 0) {
+        if (value !== 0) {
           numberOfMeetingsWeekend += 1;
         }
         return acc + value;
@@ -104,7 +97,7 @@ const ReportHistoryMonthBox = ({
             gap: '8px',
             border: '1px solid var(--accent-150)',
           }}
-        ></Box>
+        />
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%' }}>
           <Typography className="h3" color="var(--black)">
             {t('tr_weekendMeeting')}
@@ -131,7 +124,6 @@ export const MeetingAttendanceReportHistory = (
 
   const monthList = getTheocraticalMonthListInAYear(currentYear);
   const onYearChange = async (index: number) => {
-    console.log(index, index);
     setCurrentYear(index);
     onChangeHistoryYear(index);
   };
@@ -152,14 +144,14 @@ export const MeetingAttendanceReportHistory = (
               {t('tr_recordAttendanceDesc')}
             </Typography>
           </StyledHeaderBox>
-          <StyledColumnBox gap="16px" sx={{}}>
+          <StyledColumnBox gap="16px">
             <ScrollableTabs
               tabs={yearsList.map((year, index) => ({
                 label: index.toString(),
                 Component: <></>,
               }))}
               value={NUMBER_OF_YEARS - 1}
-              onChangeTab={onYearChange}
+              onChange={onYearChange}
             ></ScrollableTabs>
             <StyledColumnBox gap="16px">
               {monthList.map((month, index) => {

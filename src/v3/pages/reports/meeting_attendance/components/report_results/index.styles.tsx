@@ -18,10 +18,12 @@ export const StyledContentCardBox = styled(Box)({
   flex: 19,
 });
 
-export const StyledColumnBox = styled(Box)(({ gap }: { gap: string }) => ({
+export const StyledColumnBox = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'gap',
+})(({ gap }: { gap: string }) => ({
   display: 'flex',
   flexDirection: 'column',
-  gap,
+  gap: gap,
 }));
 
 export const StyledRowBox = styled(Box)({

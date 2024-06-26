@@ -8,14 +8,17 @@ import {
 } from '@utils/date';
 import { StyledBox, StyledSelect } from './index.styles';
 import { MeetingAttendanceReportToolbarData, MeetingAttendanceReportToolbarProps } from './index.types';
+import { useAppTranslation } from '@hooks/index';
 
 const NUMBER_OF_YEARS = 5;
 
-const MeetingAttendanceToolbar = ({ t, onChangeDate }: MeetingAttendanceReportToolbarProps) => {
+const MeetingAttendanceToolbar = ({ onChangeDate }: MeetingAttendanceReportToolbarProps) => {
   const theme = useTheme();
   const laptopView = useMediaQuery(theme.breakpoints.up('laptop'), {
     noSsr: true,
   });
+
+  const { t } = useAppTranslation();
 
   const [data, setData] = useState<MeetingAttendanceReportToolbarData>({
     selectedYear: getTeochraticalYear(new Date()),

@@ -18,7 +18,7 @@ const CardHeader = ({ header, size = 'small', className, color = 'accent', child
       <StyledContentBox color={color} size={size}>
         <Typography
           className={className}
-          color={size == 'small' ? 'var(--accent-dark)' : `var(--white)`}
+          color={size === 'small' ? 'var(--accent-dark)' : `var(--white)`}
           sx={{ textAlign: 'left' }}
         >
           {header}

@@ -7,7 +7,9 @@ export const StyledSelect = styled(Select)({
   height: '48px',
 });
 
-export const StyledBox = styled(Box)(({ laptopView }: { laptopView: boolean }) => ({
+export const StyledBox = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'laptopView',
+})(({ laptopView }: { laptopView: boolean }) => ({
   display: 'flex',
   gap: '16px',
   flexDirection: laptopView ? 'row' : 'column',

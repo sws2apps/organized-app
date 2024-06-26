@@ -17,10 +17,12 @@ export const StyledTextField = styled(TextField)({
   },
 });
 
-export const StyledTodayTypography = styled(Typography)(({ color }: { color: string }) => ({
-  textAlign: 'center',
-  color: color,
-}));
+export const StyledTodayTypography = styled(Typography, { shouldForwardProp: (prop) => prop !== 'color' })(
+  ({ color }: { color: string }) => ({
+    textAlign: 'center',
+    color: color,
+  })
+);
 
 export const StyledWeekBox = styled(Box)({
   display: 'flex',

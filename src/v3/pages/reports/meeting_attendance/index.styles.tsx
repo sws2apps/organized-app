@@ -8,23 +8,25 @@ export const StyledContentBox = styled(Box)({
   flexDirection: 'column',
 });
 
-export const StyledBox = styled(Box)(({ row }: { row: boolean }) => ({
+export const StyledBox = styled(Box, { shouldForwardProp: (prop) => prop !== 'row' })(({ row }: { row: boolean }) => ({
   display: 'flex',
   flexDirection: row ? 'row' : 'column',
   gap: '16px',
 }));
 
-export const StyledReportBox = styled(Box)(({ desktopView }: { desktopView: boolean }) => ({
-  backgroundColor: 'var(--white)',
-  border: '1px solid var(--accent-300)',
-  borderRadius: 'var(--radius-xl)',
-  padding: '16px',
-  display: 'flex',
-  gap: '24px',
-  flexDirection: 'column',
-  height: 'min-content',
-  flex: desktopView && 19,
-}));
+export const StyledReportBox = styled(Box, { shouldForwardProp: (prop) => prop !== 'desktopView' })(
+  ({ desktopView }: { desktopView: boolean }) => ({
+    backgroundColor: 'var(--white)',
+    border: '1px solid var(--accent-300)',
+    borderRadius: 'var(--radius-xl)',
+    padding: '16px',
+    display: 'flex',
+    gap: '24px',
+    flexDirection: 'column',
+    height: 'min-content',
+    flex: desktopView && 19,
+  })
+);
 
 export const StyledDivider = styled(Divider)({
   color: 'var(--accent-200)',
@@ -41,11 +43,13 @@ export const StyledContentCardBox = styled(Box)({
   flex: 19,
 });
 
-export const StyledColumnBox = styled(Box)(({ gap }: { gap: string }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  gap,
-}));
+export const StyledColumnBox = styled(Box, { shouldForwardProp: (prop) => prop !== 'gap' })(
+  ({ gap }: { gap: string }) => ({
+    display: 'flex',
+    flexDirection: 'column',
+    gap: gap,
+  })
+);
 
 export const StyledHeaderBox = styled(Box)({
   display: 'flex',

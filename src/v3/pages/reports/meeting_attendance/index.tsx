@@ -95,7 +95,7 @@ const MeetingAttendanceReportsPage = () => {
   let numberOfMeetingsMidweek = 0;
   const totalMidweek = [1, 2, 3, 4, 5].reduce((acc, weekNumber) => {
     const value = reportData[`week_${weekNumber}`]?.midweek?.present;
-    if (value != 0) {
+    if (value !== 0) {
       numberOfMeetingsMidweek += 1;
     }
     return acc + value;
@@ -120,7 +120,7 @@ const MeetingAttendanceReportsPage = () => {
     const week = `week_${weekNumber ?? 0}`;
     const meetingType = weekend ? 'weekend' : 'midweek';
 
-    if (isNaN(value)) value = 0;
+    if (Number.isNaN(value)) value = 0;
 
     const updatedData: MeetingAttendanceType = {
       ...reportData,
