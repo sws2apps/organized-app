@@ -3,14 +3,12 @@ import { CardSection, CardSectionContent, CardSectionHeader } from './CardSectio
 import { useState } from 'react';
 import { MenuItem, TextField } from '@components/index';
 import SwitchItem from './SwitchItem';
-import { LANGUAGE_LIST } from '@constants/index';
 
 const MeetingSection = () => {
-  const { t, i18n } = useAppTranslation();
+  const { t } = useAppTranslation();
 
   const [autoCheckUpdates, setAutoCheckUpdates] = useState(true);
   const [autoCheckFrequency, setAutoCheckFrequency] = useState('week');
-  const [language, setLanguage] = useState(i18n.language);
 
   // Meeting schedules settings
   const [displayExactDate, setDisplayExactDate] = useState(true);
@@ -41,15 +39,6 @@ const MeetingSection = () => {
           <MenuItem value="week">{t('tr_everyWeek')}</MenuItem>
           <MenuItem value="twoWeeks">{t('tr_everyTwoWeeks')}</MenuItem>
           <MenuItem value="month">{t('tr_everyMonth')}</MenuItem>
-        </TextField>
-        <TextField select label={t('tr_changeLanguage')} value={language} onChange={(e) => setLanguage(e.target.value)}>
-          {LANGUAGE_LIST.map((lang) => {
-            return (
-              <MenuItem key={lang.locale} value={lang.locale}>
-                {lang.name}
-              </MenuItem>
-            );
-          })}
         </TextField>
       </CardSectionContent>
       <CardSectionContent sx={{ gap: '16px' }}>
