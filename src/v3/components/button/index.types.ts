@@ -28,7 +28,7 @@ export type ButtonPropsType = {
   /**
    * Variant style of the button.
    */
-  variant: 'main' | 'secondary' | 'tertiary' | 'small' | 'semi-white';
+  variant?: 'main' | 'secondary' | 'tertiary' | 'small' | 'semi-white' | 'group';
 
   /**
    * Icon displayed at the start of the button.

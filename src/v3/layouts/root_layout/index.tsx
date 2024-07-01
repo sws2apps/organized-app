@@ -14,19 +14,23 @@ import {
   MyAssignments,
   Startup,
   Support,
+  UnsupportedBrowser,
   WorkInProgressNotif,
 } from '@features/index';
 import { isDemo } from '@constants/index';
+import useGlobal from '@hooks/useGlobal';
 import useRootLayout from './useRootLayout';
 import NavBar from '@layouts/navbar';
 import WaitingCircular from '@components/waiting_circular';
 
 const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
+  const { isSupported } = useGlobal();
+
   const { isAppLoad, isOpenAbout, isOpenContact, isOpenSupport, isImportJWOrg, isImportEPUB } = useRootLayout();
 
   return (
     <AppModalWrapper>
-      <NavBar />
+      <NavBar isSupported={isSupported} />
       <AppUpdater updatePwa={updatePwa} />
 
       <AppFeedback />
@@ -50,21 +54,27 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
           marginTop: '24px',
         }}
       >
-        {isOpenContact && <Contact />}
-        {isOpenAbout && <About />}
-        {isOpenSupport && <Support />}
+        {!isSupported && <UnsupportedBrowser />}
 
-        {isAppLoad && !isDemo && <Startup />}
+        {isSupported && (
+          <>
+            {isOpenContact && <Contact />}
+            {isOpenAbout && <About />}
+            {isOpenSupport && <Support />}
 
-        {isAppLoad && isDemo && <DemoStartup />}
+            {isAppLoad && !isDemo && <Startup />}
 
-        {!isAppLoad && (
-          <Suspense fallback={<WaitingCircular />}>
-            <Box sx={{ marginBottom: '32px' }}>
-              <MyAssignments />
-              <Outlet />
-            </Box>
-          </Suspense>
+            {isAppLoad && isDemo && <DemoStartup />}
+
+            {!isAppLoad && (
+              <Suspense fallback={<WaitingCircular />}>
+                <Box sx={{ marginBottom: '32px' }}>
+                  <MyAssignments />
+                  <Outlet />
+                </Box>
+              </Suspense>
+            )}
+          </>
         )}
       </Container>
     </AppModalWrapper>

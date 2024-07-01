@@ -5,6 +5,7 @@ export { default as AutoComplete } from './autocomplete';
 export { default as AutocompleteMultiple } from './autocomplete_multiple';
 export { default as Badge } from './badge';
 export { default as Button } from './button';
+export { default as ButtonGroup } from './button_group';
 export { default as ButtonIcon } from './icon_button';
 export { default as Checkbox } from './checkbox/index';
 export { default as CongregationSelector } from './congregation_selector';

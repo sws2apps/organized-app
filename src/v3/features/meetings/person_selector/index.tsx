@@ -27,6 +27,7 @@ const PersonSelector = (props: PersonSelectorType) => {
     handleCloseHistory,
     isHistoryOpen,
     assignmentsHistory,
+    placeHolderIcon,
   } = usePersonSelector(props);
 
   return (
@@ -41,6 +42,7 @@ const PersonSelector = (props: PersonSelectorType) => {
       )}
 
       <AutoComplete
+        readOnly={props.readOnly}
         label={props.label}
         isOptionEqualToValue={(option, value) => option.person_uid === value.person_uid}
         getOptionLabel={(option: PersonOptionsType) => getPersonDisplayName(option)}
@@ -158,7 +160,7 @@ const PersonSelector = (props: PersonSelectorType) => {
           </>
         }
         styleIcon={false}
-        startIcon={value ? value.person_data.male.value ? <IconMale /> : <IconFemale /> : null}
+        startIcon={value ? value.person_data.male.value ? <IconMale /> : <IconFemale /> : placeHolderIcon}
         endIcon={
           value ? (
             <IconButton sx={{ padding: 0 }} onClick={handleOpenHistory}>

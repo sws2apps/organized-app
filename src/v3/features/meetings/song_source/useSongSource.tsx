@@ -6,6 +6,7 @@ import { songsState } from '@states/songs';
 import { JWLangState } from '@states/app';
 import { useAppTranslation } from '@hooks/index';
 import { userDataViewState } from '@states/settings';
+import { SongType } from '@definition/songs';
 
 const useSongSource = ({ meeting, type, week }: SongSourceType) => {
   const { t } = useAppTranslation();
@@ -16,10 +17,15 @@ const useSongSource = ({ meeting, type, week }: SongSourceType) => {
   const dataView = useRecoilValue(userDataViewState);
 
   const [songTitle, setSongTitle] = useState('');
+  const [selectedSong, setSelectedSong] = useState<SongType>(null);
 
   const songLocale = t('tr_song');
 
   const source = sources.find((record) => record.weekOf === week);
+
+  const handleSongChange = async (value: SongType) => {
+    console.log(value);
+  };
 
   useEffect(() => {
     if (source && meeting === 'midweek') {
@@ -52,11 +58,12 @@ const useSongSource = ({ meeting, type, week }: SongSourceType) => {
         const result = title ? `${songLocale} ${title.song_title}` : song;
 
         setSongTitle(result as string);
+        setSelectedSong(title ? title : null);
       }
     }
   }, [meeting, songs, source, lang, type, songLocale, dataView]);
 
-  return { songTitle };
+  return { songTitle, songs, selectedSong, handleSongChange };
 };
 
 export default useSongSource;

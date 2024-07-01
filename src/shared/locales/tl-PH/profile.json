@@ -25,7 +25,6 @@
   "tr_autoSync": "Auto sync",
   "tr_autoSyncDesc": "Awtomatikong i-sync ang data sa kongregasyon at mga device na naka-log in sa Organized",
   "tr_syncInterval": "Sync interval",
-  "tr_syncIntervalMinLabel": "min.",
   "tr_customLinkInMobilePanel": "Custom link para sa mobile navigation panel",
   "tr_customLinkInMobilePanelDesc": "Palitan ang “Info board” button ng ibang feature para sa mabilis na pag-access mula sa Home page",
   "tr_selectFeature": "Select feature",

@@ -22,7 +22,8 @@
       "@shared/*": ["shared/*"],
       "@definition/*": ["v3/definition/*"],
       "@global/*": ["v3/global/*"],
-      "@db/*": ["v3/indexedDb/*"]
+      "@db/*": ["v3/indexedDb/*"],
+      "@talks/*": ["v3/public_talks/*"]
     },
     "esModuleInterop": true,
     "moduleResolution": "Node",
