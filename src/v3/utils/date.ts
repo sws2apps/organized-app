@@ -70,14 +70,14 @@ export const getTheocraticalYearsList = (lengthOfList = 5) => {
 export const getTheocraticalMonthListInAYear = (year: number) => {
   const monthsList = [];
 
-  for (let month = 8; month < 11; month++) {
+  for (let month = 8; month < 12; month++) {
     const monthName = getMonthName(month);
-    monthsList[month] = `${monthName} ${year}`;
+    monthsList.push(`${monthName} ${year}`);
   }
 
   for (let month = 0; month < 8; month++) {
     const monthName = getMonthName(month);
-    monthsList[month] = `${monthName} ${year + 1}`;
+    monthsList.push(`${monthName} ${year + 1}`);
   }
 
   return monthsList;
@@ -102,6 +102,26 @@ const getMonthName = (month: number) => {
   return monthNames[month];
 };
 
+export const getTheocraticalMonthDate = (monthIndex: number, year: number) => {
+  let month = 0;
+
+  if (monthIndex < 4) {
+    month = monthIndex + 9;
+  } else {
+    year = year + 1;
+    month = monthIndex - 3;
+  }
+
+  return `${year}-${month.toString().padStart(2, '0')}`;
+};
+
+export function getWeekNumberInMonthForDate(date: Date) {
+  const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+  const dayOfWeek = firstDayOfMonth.getDay();
+  const firstSunday = 1 + (7 - dayOfWeek);
+  const diff = date.getDate() - firstSunday;
+  return Math.ceil(diff / 7) + 1;
+}
 export const generateDateFromTime = (time: string) => {
   const timeParts = time.split(':');
   const date = new Date();

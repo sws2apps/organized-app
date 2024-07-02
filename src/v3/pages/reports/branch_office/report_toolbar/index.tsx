@@ -45,7 +45,6 @@ const BranchReportToolbar = ({
         label={t('tr_serviceYear')}
         onChange={(e) => setData({ ...data, selectedYear: parseInt(e.target.value) })}
         value={data.selectedYear.toString()}
-        reportType={reportType}
       >
         {yearsList.map((year, index) => {
           return (
@@ -62,7 +61,6 @@ const BranchReportToolbar = ({
           label={t('tr_month')}
           onChange={(e) => setData({ ...data, selectedMonth: parseInt(e.target.value) })}
           value={data.selectedMonth.toString()}
-          reportType={reportType}
         >
           {monthList.map((month, index) => (
             <MenuItem key={`month-${index.toString()}`} value={index.toString()}>
@@ -74,7 +72,6 @@ const BranchReportToolbar = ({
         </StyledSelect>
       )}
       <StyledButton
-        reportType={reportType}
         variant="tertiary"
         startIcon={buttonIcon}
         disabled={disabledGenerateButton}
