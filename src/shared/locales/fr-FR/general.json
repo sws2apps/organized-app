@@ -67,6 +67,8 @@
   "tr_meetingDate": "Date de la réunion",
   "tr_listView": "Vue liste",
   "tr_share": "Partager",
+  "tr_copy": "Copy",
+  "tr_sync": "Sync",
   "tr_copyLink": "Copier le lien",
   "tr_unsupportedBrowserError": "Le navigateur n'est pas pris en charge",
   "tr_featureComingSoon": "Feature coming soon",
