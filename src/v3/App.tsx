@@ -19,6 +19,7 @@ const WeekendMeeting = lazy(() => import('@pages/meetings/weekend'));
 const ManageAccessAll = lazy(() => import('@pages/manage_access/manage_access_all'));
 const ManageAccessPersonDetails = lazy(() => import('@pages/manage_access/manage_access_person_details'));
 const WeeklySchedules = lazy(() => import('@pages/meetings/schedules'));
+const CongregationSettings = lazy(() => import('@pages/congregation/settings'));
 
 const ComponentsPreview = lazy(() => import('@components/preview'));
 const PdfPreview = lazy(() => import('@components/preview/PDF_Peview'));
@@ -53,6 +54,7 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
             { path: '/manage-access', element: <ManageAccessAll /> },
             { path: '/manage-access/:id', element: <ManageAccessPersonDetails /> },
             { path: '/weekly-schedules', element: <WeeklySchedules /> },
+            { path: '/congregation-settings', element: <CongregationSettings /> },
             { path: '*', element: <Dashboard /> },
           ],
         },

@@ -25,7 +25,11 @@ const CongregationCard = () => {
       )}
 
       <ListItem disablePadding>
-        <DashboardMenu icon={<IconSettings color="var(--black)" />} primaryText={t('tr_congregationSettings')} />
+        <DashboardMenu
+          path="/congregation-settings"
+          icon={<IconSettings color="var(--black)" />}
+          primaryText={t('tr_congregationSettings')}
+        />
       </ListItem>
       {isConnected && (
         <ListItem disablePadding>
