@@ -67,6 +67,8 @@
   "tr_meetingDate": "Meeting date",
   "tr_listView": "リスト表示",
   "tr_share": "共有",
+  "tr_copy": "Copy",
+  "tr_sync": "Sync",
   "tr_copyLink": "リンクをコピー",
   "tr_unsupportedBrowserError": "サポートされていないブラウザ",
   "tr_featureComingSoon": "この機能はまだ利用できません",
