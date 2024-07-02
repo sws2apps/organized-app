@@ -9,7 +9,8 @@ const useManageAccessPersonDetails = () => {
   // 'publisher' | 'midweek-student' | 'administrator'
   const userRights = 'administrator';
 
-  const invitationCode = 'UKR17038-V6VKVYUJAN6W';
+  // const invitationCode = 'UKR17038-V6VKVYUJAN6W';
+  const invitationCode = null;
 
   return { userName, userRights, invitationCode };
 };

@@ -11,6 +11,7 @@ import { TestData__AppAdministrators, TestData__BaptizedBrothers, TestData__Cong
 import CustomTypography from '@components/typography';
 import { disableWindowScroll, enableWindowScroll } from '@utils/scroll';
 import AddANewOrganizedUserModalWindow from './add_a_new_organized_user_modal_window';
+import useManageAccessAll from './useManageAccessAll';
 // import ShareInvitationCodeModalWindow from './share_invitation_code_modal_window';
 
 const ManageAccessAll = () => {
@@ -18,12 +19,14 @@ const ManageAccessAll = () => {
 
   const { desktopUp } = useBreakpoints();
 
+  const { congregationPersons, baptizedBrothers } = useManageAccessAll();
+
   // TODO: Connect to API
   // TODO: Remove test data
   /* ----------------------------------- -- ----------------------------------- */
-  const [congregationPersonsList, setCongregationPersons] = useState<MiniPerson[]>(() => TestData__CongregationPersons);
+  const [congregationPersonsList, setCongregationPersons] = useState<MiniPerson[]>(() => congregationPersons);
   const [appAdministatorsList, setAppAdministratorsList] = useState<MiniPerson[]>(() => TestData__AppAdministrators);
-  const [baptizedBrothersList, setBaptizedBrothersList] = useState<MiniPerson[]>(() => TestData__BaptizedBrothers);
+  const [baptizedBrothersList, setBaptizedBrothersList] = useState<MiniPerson[]>(() => baptizedBrothers);
   /* ----------------------------------- -- ----------------------------------- */
 
   const [showCreateUserModalWindow, setShowCreateUserModalWindow] = useState(false);

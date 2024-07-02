@@ -3,7 +3,7 @@ import { Box, InputAdornment } from '@mui/material';
 import CustomButton from '@components/button';
 import useAppTranslation from '@hooks/useAppTranslation';
 import useBreakpoints from '@hooks/useBreakpoints';
-import { IconCopy, IconDelete, IconInfo, IconSync } from '@components/icons';
+import { IconCopy, IconDelete, IconInfo, IconInvite, IconSync } from '@components/icons';
 import { StyledBoxForSwitches, StyledContainerForDetails } from './manage_access_person_details.styled';
 import CustomTypography from '@components/typography';
 import useManageAccessPersonDetails from './useManageAccessPersonDetails';
@@ -13,6 +13,7 @@ import CustomBoxWithSwitch from './components/custom_box_with_switch';
 import CustomTextField from '@components/textfield';
 import { StyledCustomIconButton } from '../manage_access_all/share_invitation_code_modal_window/share_invitation_code_modal_window.styled';
 import SessionItem from '@features/my_profile/sessions/session_item';
+import DelegatedPersons from './components/delegated_persons';
 
 const ManageAccessPersonDetails = () => {
   const { t } = useAppTranslation();
@@ -284,65 +285,86 @@ const ManageAccessPersonDetails = () => {
                 {t('tr_delegatePersonsDesc')}
               </CustomTypography>
             </Box>
+            <DelegatedPersons
+              persons={[
+                'Craig Federighi',
+                'John Smith',
+                'Emily Johnson',
+                'Michael Brown',
+                'Sarah Davis',
+                'David Wilson',
+                'Jessica Martinez',
+                'Christopher Taylor',
+                'Amanda Anderson',
+                'Daniel Thomas',
+              ]}
+            />
           </StyledContainerForDetails>
-          {invitationCode ? (
-            <StyledContainerForDetails>
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '8px',
-                }}
-              >
-                <CustomTypography className="h2" color={'var(--black)'}>
-                  {t('tr_invitationCode')}
-                </CustomTypography>
-                <CustomTypography
-                  className="body-regular"
-                  color={'var(--grey-400)'}
-                  dangerouslySetInnerHTML={{
-                    __html: t('tr_invitationCodeInstruction'),
-                  }}
-                />
-              </Box>
-              <CustomTextField
-                value={invitationCode}
-                label={t('tr_invitationCode')}
-                endAdornment={
-                  <InputAdornment
-                    position="end"
-                    sx={{
-                      position: 'relative',
-                      right: '-12px',
-                      gap: '16px',
-                    }}
-                  >
-                    <StyledCustomIconButton onClick={syncButtonAction} title={t('tr_sync')}>
-                      <IconSync color="var(--accent-400)" />
-                    </StyledCustomIconButton>
-                    <StyledCustomIconButton onClick={copyButtonAction} title={t('tr_copy')}>
-                      <IconCopy color="var(--accent-400)" />
-                    </StyledCustomIconButton>
-                  </InputAdornment>
-                }
-              />
-              <CustomButton
-                variant="tertiary"
-                sx={{
-                  color: 'var(--red-main)',
-                  border: '1px solid var(--red-main)',
 
-                  '&:hover': {
-                    backgroundColor: 'var(--red-main)',
-                    color: 'var(--white)',
-                    border: '1px solid var(--red-main)',
-                  },
+          <StyledContainerForDetails>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '8px',
+              }}
+            >
+              <CustomTypography className="h2" color={'var(--black)'}>
+                {t('tr_invitationCode')}
+              </CustomTypography>
+              <CustomTypography
+                className="body-regular"
+                color={'var(--grey-400)'}
+                dangerouslySetInnerHTML={{
+                  __html: t('tr_invitationCodeInstruction'),
                 }}
-              >
-                {t('tr_deleteInvitationCode')}
+              />
+            </Box>
+            {invitationCode ? (
+              <>
+                <CustomTextField
+                  value={invitationCode}
+                  label={t('tr_invitationCode')}
+                  endAdornment={
+                    <InputAdornment
+                      position="end"
+                      sx={{
+                        position: 'relative',
+                        right: '-12px',
+                        gap: '16px',
+                      }}
+                    >
+                      <StyledCustomIconButton onClick={syncButtonAction} title={t('tr_sync')}>
+                        <IconSync color="var(--accent-400)" />
+                      </StyledCustomIconButton>
+                      <StyledCustomIconButton onClick={copyButtonAction} title={t('tr_copy')}>
+                        <IconCopy color="var(--accent-400)" />
+                      </StyledCustomIconButton>
+                    </InputAdornment>
+                  }
+                />
+                <CustomButton
+                  variant="tertiary"
+                  sx={{
+                    color: 'var(--red-main)',
+                    border: '1px solid var(--red-main)',
+
+                    '&:hover': {
+                      backgroundColor: 'var(--red-main)',
+                      color: 'var(--white)',
+                      border: '1px solid var(--red-main)',
+                    },
+                  }}
+                >
+                  {t('tr_deleteInvitationCode')}
+                </CustomButton>
+              </>
+            ) : (
+              <CustomButton variant="tertiary" startIcon={<IconInvite />}>
+                {t('tr_generateInvitationCode')}
               </CustomButton>
-            </StyledContainerForDetails>
-          ) : null}
+            )}
+          </StyledContainerForDetails>
           <StyledContainerForDetails>
             <Box
               sx={{
