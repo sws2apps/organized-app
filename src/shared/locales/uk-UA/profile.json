@@ -25,7 +25,6 @@
   "tr_autoSync": "Автосинхронізація",
   "tr_autoSyncDesc": "Автоматично синхронізувати дані між збором та моїми пристроями, на яких зайдено в Organized",
   "tr_syncInterval": "Інтервал синхронізації",
-  "tr_syncIntervalMinLabel": "хв.",
   "tr_customLinkInMobilePanel": "Змінити посилання на мобільній панелі навігації",
   "tr_customLinkInMobilePanelDesc": "Замінити кнопку «Дошка оголошень» іншою функцією для швидкого доступу з головної сторінки",
   "tr_selectFeature": "Вибери функцію",

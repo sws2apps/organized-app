@@ -25,7 +25,6 @@
   "tr_autoSync": "Sincronização automática",
   "tr_autoSyncDesc": "Sincronizar dados automaticamente entre a congregação e os meus dispositivos conectados ao Organized",
   "tr_syncInterval": "Intervalo de sincronização",
-  "tr_syncIntervalMinLabel": "min.",
   "tr_customLinkInMobilePanel": "Link personalizado no painel de navegação móvel",
   "tr_customLinkInMobilePanelDesc": "Substituir o botão \"painel de informações\" por outro recurso para acesso rápido na página inicial",
   "tr_selectFeature": "Selecionar recurso",

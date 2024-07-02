@@ -4,7 +4,7 @@ import { apiDefault } from './common';
 export const apiGetApprovedVisitingSpeakersAccess = async (): Promise<VisitingSpeakersAccessResponseType> => {
   const { apiHost, appVersion: appversion, congID, idToken } = await apiDefault();
 
-  const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/visiting-speakers/access`, {
+  const res = await fetch(`${apiHost}api/v3/congregations/meeting/${congID}/visiting-speakers/access`, {
     method: 'GET',
     credentials: 'include',
     headers: {
@@ -23,7 +23,7 @@ export const apiGetApprovedVisitingSpeakersAccess = async (): Promise<VisitingSp
 export const apiRequestAccessCongregationSpeakers = async (cong_id: string, request_id: string, key: string) => {
   const { apiHost, appVersion: appversion, congID, idToken } = await apiDefault();
 
-  const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/visiting-speakers/request`, {
+  const res = await fetch(`${apiHost}api/v3/congregations/meeting/${congID}/visiting-speakers/request`, {
     method: 'POST',
     credentials: 'include',
     headers: {
@@ -43,7 +43,7 @@ export const apiRequestAccessCongregationSpeakers = async (cong_id: string, requ
 export const apiFindCongregationSpeakers = async (name: string) => {
   const { apiHost, appVersion: appversion, congID, idToken } = await apiDefault();
 
-  const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/visiting-speakers/congregations`, {
+  const res = await fetch(`${apiHost}api/v3/congregations/meeting/${congID}/visiting-speakers/congregations`, {
     method: 'GET',
     credentials: 'include',
     headers: {
@@ -63,7 +63,7 @@ export const apiFindCongregationSpeakers = async (name: string) => {
 export const apiGetPendingVisitingSpeakersAccess = async (): Promise<VisitingSpeakersAccessResponseType> => {
   const { apiHost, appVersion: appversion, congID, idToken } = await apiDefault();
 
-  const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/visiting-speakers/pending-access`, {
+  const res = await fetch(`${apiHost}api/v3/congregations/meeting/${congID}/visiting-speakers/pending-access`, {
     method: 'GET',
     credentials: 'include',
     headers: {
@@ -85,7 +85,7 @@ export const apiApproveRequestCongregationSpeakers = async (
 ): Promise<VisitingSpeakersAccessResponseType> => {
   const { apiHost, appVersion: appversion, congID, idToken } = await apiDefault();
 
-  const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/visiting-speakers/request/approve`, {
+  const res = await fetch(`${apiHost}api/v3/congregations/meeting/${congID}/visiting-speakers/request/approve`, {
     method: 'POST',
     credentials: 'include',
     headers: {
@@ -107,7 +107,7 @@ export const apiRejectRequestCongregationSpeakers = async (
 ): Promise<VisitingSpeakersAccessResponseType> => {
   const { apiHost, appVersion: appversion, congID, idToken } = await apiDefault();
 
-  const res = await fetch(`${apiHost}api/congregations/meeting/${congID}/visiting-speakers/request/reject`, {
+  const res = await fetch(`${apiHost}api/v3/congregations/meeting/${congID}/visiting-speakers/request/reject`, {
     method: 'POST',
     credentials: 'include',
     headers: {
