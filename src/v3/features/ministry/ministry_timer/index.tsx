@@ -5,13 +5,16 @@ import { useAppTranslation } from '@hooks/index';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { MinistryTimerButtonProps, MinistryTimerStates } from './ministry_timer.types';
 import DarkOverlay from '@components/dark_overlay';
-import PopUpForEditOrCreateBibleStudy from '../pop_up_for_edit_or_create_bible_study';
-import { EditAndAddBibleStudyContext } from '../EditAndAddBibleStudyContext';
-import { AddServiceTimeModalWindow } from '../add_service_time_modal_window';
 import CustomTypography from '@components/typography';
-import { convertDurationInSecondsToString, convertDurationStringToSeconds } from '../utils';
-import TimeAlreadyInServiceModalWindow from '../time_already_in_service_modal_window';
 import { MinistryRecord } from '@pages/ministry_report/ministry_report.types';
+import {
+  convertDurationInSecondsToString,
+  convertDurationStringToSeconds,
+} from '@features/ministry/add_service_time_modal_window/utils';
+import { EditAndAddBibleStudyContext } from '@features/ministry/add_service_time_modal_window/EditAndAddBibleStudyContext';
+import PopUpForEditOrCreateBibleStudy from '../pop_up_for_edit_or_create_bible_study';
+import TimeAlreadyInServiceModalWindow from '../time_already_in_service_modal_window';
+import { AddServiceTimeModalWindow } from '../add_service_time_modal_window';
 
 /**
  * Left Ministry Timer Button component.

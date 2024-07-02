@@ -1,4 +1,4 @@
-import { ChangeEvent, Ref } from 'react';
+import { ChangeEvent } from 'react';
 import { CustomClassName } from '@definition/app';
 import { SxProps } from '@mui/material';
 
@@ -32,6 +32,11 @@ export type CheckboxPropsType = {
    * Label for the checkbox.
    */
   label?: string;
+
+  /**
+   * Additional description for the label.
+   */
+  labelDescription?: string;
 
   /**
    * Whether to display a border around the checkbox.

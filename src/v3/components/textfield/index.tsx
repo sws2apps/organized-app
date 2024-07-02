@@ -140,16 +140,7 @@ const CustomTextField = (props: TextFieldTypeProps) => {
             )}
           </InputAdornment>
         ) : (
-          <InputAdornment
-            position="end"
-            sx={{
-              '& svg, & svg g, & svg g path': {
-                fill: 'var(--black)',
-              },
-            }}
-          >
-            {InputProps?.endAdornment}
-          </InputAdornment>
+          props.endAdornment
         ),
       }}
       FormHelperTextProps={{

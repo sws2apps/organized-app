@@ -16,6 +16,8 @@ const MidweekMeeting = lazy(() => import('@pages/meetings/midweek'));
 const MinistryReport = lazy(() => import('@pages/ministry_report'));
 const VisitingSpeakers = lazy(() => import('@pages/persons/visiting_speakers'));
 const WeekendMeeting = lazy(() => import('@pages/meetings/weekend'));
+const ManageAccessAll = lazy(() => import('@pages/manage_access/manage_access_all'));
+const ManageAccessPersonDetails = lazy(() => import('@pages/manage_access/manage_access_person_details'));
 const WeeklySchedules = lazy(() => import('@pages/meetings/schedules'));
 
 const ComponentsPreview = lazy(() => import('@components/preview'));
@@ -48,6 +50,8 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
             { path: '/visiting-speakers', element: <VisitingSpeakers /> },
             { path: '/midweek-meeting', element: <MidweekMeeting /> },
             { path: '/weekend-meeting', element: <WeekendMeeting /> },
+            { path: '/manage-access', element: <ManageAccessAll /> },
+            { path: '/manage-access/:id', element: <ManageAccessPersonDetails /> },
             { path: '/weekly-schedules', element: <WeeklySchedules /> },
             { path: '*', element: <Dashboard /> },
           ],

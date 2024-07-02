@@ -26,12 +26,13 @@ const UserAccountItemTextContent = (props: {
   variant: 'user' | 'admin' | 'baptized';
   userName: string;
   userPosition: string;
+  color?: string;
 }) => {
   switch (props.variant) {
     case 'user':
     case 'baptized':
       return (
-        <CustomTypography className="h4" style={{ fontWeight: '550' }}>
+        <CustomTypography className="h4" style={{ fontWeight: '550', color: props.color || 'var(--black)' }}>
           {props.userName}
         </CustomTypography>
       );
@@ -39,10 +40,20 @@ const UserAccountItemTextContent = (props: {
     case 'admin':
       return (
         <Box>
-          <CustomTypography className="h4" style={{ fontWeight: '550', margin: '0' }}>
+          <CustomTypography
+            className="h4"
+            style={{ fontWeight: '550', margin: '0', color: props.color || 'var(--black)' }}
+          >
             {props.userName}
           </CustomTypography>
-          <CustomTypography className="body-small-regular">{props.userPosition}</CustomTypography>
+          <CustomTypography
+            className="body-small-regular"
+            style={{
+              color: props.color != 'var(--black)' ? 'var(--accent-400)' : props.color,
+            }}
+          >
+            {props.userPosition}
+          </CustomTypography>
         </Box>
       );
   }
@@ -122,7 +133,12 @@ const UserAccountItem = (props: UserAccountItemProps) => {
         }}
       >
         <UserAccountItemIcon variant={variant} color={isHovered ? 'var(--accent-dark)' : 'var(--black)'} />
-        <UserAccountItemTextContent variant={variant} userName={userName} userPosition={userPosition} />
+        <UserAccountItemTextContent
+          variant={variant}
+          userName={userName}
+          userPosition={userPosition}
+          color={isHovered ? 'var(--accent-dark)' : 'var(--black)'}
+        />
       </Box>
       <IconButton
         sx={{ width: '32px', height: '32px' }}

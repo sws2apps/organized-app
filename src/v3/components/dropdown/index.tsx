@@ -12,6 +12,9 @@ import CustomCheckbox from '@components/checkbox';
  * @param {CustomDropdownContainerProps} props - Props for CustomDropdownContainer component.
  */
 const CustomDropdownContainer = (props: CustomDropdownContainerProps) => {
+  const arrowColor = props.arrowColor || 'var(--black)';
+  const labelColor = props.labelColor || 'var(--black)';
+
   return (
     <Box
       ref={props.reference}
@@ -20,12 +23,14 @@ const CustomDropdownContainer = (props: CustomDropdownContainerProps) => {
         props.onClick(event);
       }}
     >
-      <CustomTypography className="body-regular">{props.label}</CustomTypography>
+      <CustomTypography className="body-regular" color={labelColor}>
+        {props.label}
+      </CustomTypography>
       <IconArrowDown
         sx={{
           transform: props.open ? 'rotate(0.5turn)' : 'rotate(0)',
         }}
-        color="var(--black)"
+        color={arrowColor}
       />
     </Box>
   );
@@ -78,7 +83,7 @@ const CustomDropdownItem = (props: CustomDropdownItemProps) => {
   const [checked, setChecked] = useState(propsChecked);
 
   useEffect(() => {
-    if (checked && variant != 'studies') {
+    if ((checked && variant != 'studies') || variant != 'checkboxes') {
       props.callback(checked);
     }
 
@@ -93,8 +98,18 @@ const CustomDropdownItem = (props: CustomDropdownItemProps) => {
       case 'checkboxes':
         return (
           <>
-            <CustomCheckbox checked={checked} onChange={() => setChecked(!checked)} />
-            <CustomTypography className="body-regular">{props.label}</CustomTypography>
+            <CustomCheckbox
+              checked={props.checked}
+              onChange={props.onCheckboxClick}
+              sx={{
+                '.MuiSvgIcon-root path': {
+                  fill: 'var(--accent-350)',
+                },
+              }}
+            />
+            <CustomTypography className="body-regular" color={'var(--black)'}>
+              {props.label}
+            </CustomTypography>
           </>
         );
       case 'standard':
@@ -186,13 +201,17 @@ const CustomDropdownItem = (props: CustomDropdownItemProps) => {
         ...props.sx,
       }}
       onClick={() => {
-        if (variant == 'checkboxes' || variant == 'studies' || variant == 'schools' || variant == 'custom') {
+        if (variant == 'studies' || variant == 'schools' || variant == 'custom') {
           setChecked(!checked);
 
           // this code fix infinity loop with variant = 'studies'
           if (variant == 'studies') {
             props.callback(checked);
           }
+        }
+
+        if (variant == 'checkboxes') {
+          props.onCheckboxClick(null, !props.checked);
         }
       }}
     >

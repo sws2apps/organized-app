@@ -16,7 +16,11 @@ const CongregationCard = () => {
       </ListItem>
       {isConnected && (
         <ListItem disablePadding>
-          <DashboardMenu icon={<IconManageAccess color="var(--black)" />} primaryText={t('tr_manageAccess')} />
+          <DashboardMenu
+            icon={<IconManageAccess color="var(--black)" />}
+            primaryText={t('tr_manageAccess')}
+            path="/manage-access"
+          />
         </ListItem>
       )}
 

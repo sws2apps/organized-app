@@ -19,14 +19,14 @@ import {
   IconSchoolForEvangelizers,
 } from '@components/icons';
 import { hoursToSeconds } from 'date-fns';
-import { EditAndAddBibleStudyContext } from '../EditAndAddBibleStudyContext';
 import CustomButton from '@components/button';
 import CustomDatePicker from '@components/date_picker';
 import CustomInfoMessage from '@components/info-message';
-import { convertDurationInSecondsToString, convertDurationStringToSeconds } from '../utils';
 import MiniChip from '@components/mini_chip';
 import { MinistryRecord } from '@pages/ministry_report/ministry_report.types';
 import CustomTimeTextField from '@components/time_textfield';
+import { EditAndAddBibleStudyContext } from './EditAndAddBibleStudyContext';
+import { convertDurationInSecondsToString, convertDurationStringToSeconds } from './utils';
 
 /**
  * Add Service Time Modal Window component.
