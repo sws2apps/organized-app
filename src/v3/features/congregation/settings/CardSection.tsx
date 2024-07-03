@@ -54,6 +54,7 @@ const CardSectionTitle = ({ children }: { children?: React.ReactNode }) => {
         fontWeight: '550',
         fontSize: '20px',
         lineHeight: '28px',
+        color: 'var(--black)',
       }}
     >
       {children}
@@ -67,6 +68,7 @@ const CardSectionDescription = ({ content }: { content: string }) => {
       anchorStyle={{
         fontSize: 'inherit',
       }}
+      color="var(--grey-400)"
       className="body-regular"
       content={content}
     />

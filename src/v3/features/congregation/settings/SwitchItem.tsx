@@ -14,7 +14,7 @@ const SwitchItem = ({ label, helper, value, setValue }: SwitchItemProps) => {
     <SwitcherContainer>
       <Switch checked={value} onChange={(e) => handleBoolean(e, setValue)} />
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-        <Typography>{label}</Typography>
+        <Typography color="var(--black)">{label}</Typography>
         {helper && (
           <Typography className="label-small-regular" color="var(--grey-350)">
             {helper}
