@@ -28,7 +28,7 @@
     "@emotion/styled": "^11.11.5",
     "@fontsource/roboto": "^5.0.13",
     "@mui/icons-material": "^5.15.21",
-    "@mui/material": "^5.15.21",
+    "@mui/material": "^5.16.0",
     "@mui/x-date-pickers": "^7.8.0",
     "@mui/x-tree-view": "^7.9.0",
     "@react-pdf/renderer": "^3.4.4",
