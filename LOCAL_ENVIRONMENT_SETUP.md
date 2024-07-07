@@ -73,10 +73,10 @@ Next, let's proceed to run the local backend API server. This server handles log
 1. First thing first, let’s create a new folder in your file system to store both the backend and frontend projects.
 2. Once you’ve created the folder, right-click within it and select ‘Open Git Bash’. You can also use Terminal or Command Prompt if you prefer.
 3. The next step is to clone each of these projects using the `git clone` command. Using the direct GitHub repository URL from the sws2apps organization, or you can also clone from your own fork if you already have one.
-5. Let’s start by cloning the API project. This should be a quick process as the sws2apps-api repository is relatively small.
-6. With the API project cloned, let’s move on to the frontend project, the Organized app itself. Please note that this repository is quite large so the cloning process may take more time.
-7. Great! Both repositories have been successfully cloned.
-8. Next, open the sws2apps-API folder, right-click within it, and select **Open with Code.** This is a VS Code shortcut that we enabled during the VS Code installation.
+4. Let’s start by cloning the API project. This should be a quick process as the sws2apps-api repository is relatively small.
+5. With the API project cloned, let’s move on to the frontend project, the Organized app itself. Please note that this repository is quite large so the cloning process may take more time.
+6. Great! Both repositories have been successfully cloned.
+7. Next, open the sws2apps-API folder, right-click within it, and select **Open with Code.** This is a VS Code shortcut that we enabled during the VS Code installation.
 
 _When you open it for the first time, you'll need to trust yourself as the author of the files in this folder. There might be a prompt to install a Dev Containers extension, but it's not necessary for local development, so feel free to ignore it._
 
@@ -94,11 +94,11 @@ _Before booting up the API server, let’s prepare our environment._
 1. In VS Code, open a new Terminal by navigating to **View** and selecting **Terminal.** Wait for the Terminal window to load completely.
 2. With the terminal ready, let’s install the Firebase CLI using the command `npm i -g firebase-tools`. This command installs the Firebase CLI globally.
 3. Once installed, you might receive a notice from npm about a new minor version being available. If so, let’s install that quickly.
-4. To check if the Firebase CLI was installed correctly, use the command `firebase --version`. It should display the version of Firebase you just installed. For now, it’s 14.2.1.
+4. To check if the Firebase CLI was installed correctly, use the command `firebase --version`. It should display the version of Firebase you just installed. For now, it’s 13.12.0.
 5. Next, let’s authenticate our Firebase Account with the CLI. Type `firebase login`, and you’ll be prompted to complete the authentication in your browser. Ensure that you’re logged into your Google Account and that you have an account on the Firebase Console website.
 6. Once you’ve completed the authentication, the Firebase CLI will be connected to your account.
 7. In VS Code, switch to the `main-e2e` branch for the new Organized app using the `git checkout main-e2e` command.
->Keep in mind that during the development of the next Organized app release, we still have the current Congregation Program for Everyone app with the `main` branch. After the Organized app release, we'll close the “Congregation Program for Everyone” version, resulting in only one main app and one main branch.
+   > Keep in mind that during the development of the next Organized app release, we still have the current Congregation Program for Everyone app with the `main` branch. After the Organized app release, we'll close the “Congregation Program for Everyone” version, resulting in only one main app and one main branch.
 8. After checking out the correct branch, install the dependencies using the `npm i` command. This will start the installation of all the project’s dependencies.
 
 #### Create a new Firebase project
@@ -127,7 +127,7 @@ _Now the installations of these dependencies are completed._
 
 #### Set up environment variables for the backend API
 
-Firebase Emulators require a storage rule file to set up Firebase Storage locally. 
+Firebase Emulators require a storage rule file to set up Firebase Storage locally.
 
 1. To get this file, use the command `cp storage.rules.example storage.rules`. That’s done! Now we have our own storage rules for Firebase.
 2. Let’s also make a copy of the environment file example, using the command `cp .env.example .env`.
@@ -137,7 +137,7 @@ Now, let’s assign values to these variables:
 1. Starting with the **USER_PARSER_API_KEY,** go to [userparser.com](https://www.userparser.com). This API helps us better authorize users by collecting the user agent data of their devices. Log in to your account if you already have one, or create a new one if you don’t. It’s completely free.
 2. After completing the authentication, navigate to **Dashboard,** where you should see the API key at the top of the page. Copy that API key to the **USER_PARSER_API_KEY** variable.
 3. Next, we have three environment variables: **GMAIL_ADDRESS, GMAIL_APP_PASSWORD,** and **GMAIL_SENDER_NAME.** We won’t use these during local development, so we can skip them for now.
-4. Let’s move on to the Firebase environment variables. For **FIREBASE_APP_NAME,** use **organized-api,** which is the name we created in the Firebase Console.
+4. Let’s move on to the Firebase environment variables. For **FIREBASE_APP_NAME,** use **organized-api,** which is the name we created in the Firebase Console. To get the project name, you can get it from the URL (ie: `organized-app-47c7u` from `https://console.firebase.google.com/u/1/project/organized-app-47c7u/overview`). Alternatively, you can go to **Settings,** then **General,** and find the `Project ID`.
 5. We’ll come back to the value of **GOOGLE_CONFIG_BASE64** later.
 6. But first, let’s get our Crowdin environment variables, as these are also required for the API to work. Go to [crowdin.com](https://crowdin.com), log in to your account if you already have one, or create a new free account.
 7. After completing the authentication, under your user profile icon, navigate to **Settings.** Open **API,** and click **New token.**
@@ -147,12 +147,13 @@ Now, let’s assign values to these variables:
 11. Give a name for the project. Let’s make it public, and choose one target language. Then click **Save.**
 12. To get the project name, you can get it from the URL. It should be the same as the one that you just wrote when creating the project. Alternatively, you can go to **Settings,** then **General,** and find the Project name.
 13. That’s our Crowdin project name, let’s paste it to the **CROWDIN_PROJECT_NAME** variable.
-14. And now for the **GOOGLE_CONFIG_BASE64,** there are many approaches to get this base64 string of the private key. We’re just showing one way of getting it.
-15. In this example, we’ll use Node directly in the Terminal window by typing `node`.
-16. Let’s create a variable to store our private key JSON contents. Open the JSON file we downloaded earlier and copy its contents. Then, type `const firebaseConfig =` and right after this paste all the JSON content into the Terminal. Press Enter. Remember, it’s just the JSON data saved in this newly defined variable.
-17. To convert it to a base64 string, we use the command `Buffer.from(JSON.stringify(firebaseConfig)).toString('base64')`. Please, note that we recommend using the local converting command rather than online base64 converter tools, because of security reasons. Then, press **Enter.**
-18. You should now have the base64 encoded string of your Firebase private key. Copy that text to the **GOOGLE_CONFIG_BASE64** variable.
-19. Additionally, you have to go to the firebase rc file and update the Firebase project name from the default dev-sws2apps one to ‘organized-api’ or the name of your Firebase project.
+14. Add **CROWDIN_PROJECT_ID** as well. This is the project ID that you can find selecting the project from the sidebar on the left, in the box on the right side of the Crowdin Dashboard.
+15. And now for the **GOOGLE_CONFIG_BASE64,** there are many approaches to get this base64 string of the private key. We’re just showing one way of getting it.
+16. In this example, we’ll use Node directly in the Terminal window by typing `node`.
+17. Let’s create a variable to store our private key JSON contents. Open the JSON file we downloaded earlier and copy its contents. Then, type `const firebaseConfig =` and right after this paste all the JSON content into the Terminal. Press Enter. Remember, it’s just the JSON data saved in this newly defined variable.
+18. To convert it to a base64 string, we use the command `Buffer.from(JSON.stringify(firebaseConfig)).toString('base64')`. Please, note that we recommend using the local converting command rather than online base64 converter tools, because of security reasons. Then, press **Enter.**
+19. You should now have the base64 encoded string of your Firebase private key. Copy that text to the **GOOGLE_CONFIG_BASE64** variable.
+20. Additionally, you have to go to the `.firebaserc` file and update the Firebase project name from the default dev-sws2apps one to ‘organized-api’ or the name of your Firebase project.
 
 #### Setup the Firebase emulators
 
@@ -185,8 +186,8 @@ _That completes the setup of the backend project for the local environment. The 
 
 _Now, let’s add the required environment variables for the frontend application._
 
-1. Create an `.env` file for this frontend project.
-2. Write all the required variables. We need the **VITE_FIREBASE_APIKEY, VITE_FIREBASE_AUTHDOMAIN, VITE_FIREBASE_PROJECTID, VITE_FIREBASE_APPID,** and **VITE_FIREBASE_MEASUREMENTID.**
+1. Create an `.env` file for this frontend project. You can do it starting from the example file `cp .env.example .env`.
+2. Write all the required variables. We need the **VITE_FIREBASE_APIKEY, VITE_FIREBASE_AUTHDOMAIN, VITE_FIREBASE_PROJECTID, VITE_FIREBASE_APPID,**, **VITE_FIREBASE_MEASUREMENTID.**, and **VITE_FIREBASE_MESSAGINGSENDERID**.
 3. To get these values, go back to the Firebase Console and open your project.
 4. Navigate to **Project Settings.** Find “Your apps” or “Add an app” area and hit the “Web” button. Then create and register a new Web App.
 5. Give a nickname for the web app. For example, ‘Organized web app’.
