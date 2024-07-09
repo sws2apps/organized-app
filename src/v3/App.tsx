@@ -13,7 +13,8 @@ const PublicTalksList = lazy(() => import('@pages/meeting_materials/public_talks
 const BranchOfficeReports = lazy(() => import('@pages/reports/branch_office'));
 const MeetingAttendanceReports = lazy(() => import('@pages/reports/meeting_attendance'));
 const MidweekMeeting = lazy(() => import('@pages/meetings/midweek'));
-const MinistryReport = lazy(() => import('@pages/ministry_report'));
+const MinistryReport = lazy(() => import('@pages/ministry/ministry_report'));
+const ServiceYear = lazy(() => import('@pages/ministry/service_year'));
 const VisitingSpeakers = lazy(() => import('@pages/persons/visiting_speakers'));
 const WeekendMeeting = lazy(() => import('@pages/meetings/weekend'));
 const ManageAccessAll = lazy(() => import('@pages/manage_access/manage_access_all'));
@@ -53,6 +54,7 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
             { path: '/weekend-meeting', element: <WeekendMeeting /> },
             { path: '/manage-access', element: <ManageAccessAll /> },
             { path: '/manage-access/:id', element: <ManageAccessPersonDetails /> },
+            { path: '/service-year', element: <ServiceYear /> },
             { path: '/weekly-schedules', element: <WeeklySchedules /> },
             { path: '/congregation-settings', element: <CongregationSettings /> },
             { path: '*', element: <Dashboard /> },

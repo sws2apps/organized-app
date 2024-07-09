@@ -1,4 +1,4 @@
-import { MinistryRecord, MinistryRecordActionMode } from '@pages/ministry_report/ministry_report.types';
+import { MinistryRecord, MinistryRecordActionMode } from '@pages/ministry/ministry_report/ministry_report.types';
 
 /**
  * Represents the result of calculations performed by the Add Service Time Modal Window component.

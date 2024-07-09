@@ -208,7 +208,7 @@ const MinistryReport = () => {
           }
         />
 
-        <Box sx={{ display: 'flex', gap: '16px', flexWrap: desktopUp ? 'nowrap' : 'wrap' }}>
+        <Box sx={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
           <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column', width: '100%', flexGrow: 1 }}>
             <MonthlyReportSelecter />
           </Box>
