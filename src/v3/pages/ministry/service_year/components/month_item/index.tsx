@@ -44,7 +44,7 @@ const MonthItem = (props: MonthItemProps) => {
           <Box
             sx={{
               display: 'flex',
-              gap: '16px',
+              gap: '8px',
               flexWrap: 'wrap',
               alignItems: 'center',
             }}
@@ -148,7 +148,7 @@ const MonthItem = (props: MonthItemProps) => {
           <Box
             sx={{
               display: 'flex',
-              gap: '16px',
+              gap: '8px',
               flexWrap: 'wrap',
               alignItems: 'center',
             }}
