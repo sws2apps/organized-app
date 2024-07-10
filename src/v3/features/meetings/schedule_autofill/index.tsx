@@ -4,7 +4,7 @@ import { ScheduleAutofillType } from './index.types';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
 import Typography from '@components/typography';
-import ScheduleRangeSelector from '../schedule_range_selector';
+import WeekRangeSelector from '../week_range_selector';
 
 const ScheduleAutofillDialog = ({ open, onClose, meeting }: ScheduleAutofillType) => {
   const { t } = useAppTranslation();
@@ -13,15 +13,10 @@ const ScheduleAutofillDialog = ({ open, onClose, meeting }: ScheduleAutofillType
     <Dialog onClose={onClose} open={open} sx={{ padding: '24px' }}>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
         <Typography className="h2">{meeting === 'midweek' ? t('tr_autofillMM') : t('tr_autofillWM')}</Typography>
-        <Typography color="var(--grey-400)">{t('tr_autofillMMDesc')}</Typography>
+        <Typography color="var(--grey-400)">{t('tr_autofillDesc')}</Typography>
       </Box>
 
-      {meeting === 'midweek' && (
-        <ScheduleRangeSelector
-          onStartChange={(value) => console.log(value)}
-          onEndChange={(value) => console.log(value)}
-        />
-      )}
+      <WeekRangeSelector onStartChange={(value) => console.log(value)} onEndChange={(value) => console.log(value)} />
 
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%' }}>
         <Button variant="main">{t('tr_autofill')}</Button>
