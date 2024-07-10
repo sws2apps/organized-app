@@ -67,7 +67,7 @@
   "tr_addSong": "Додати пісню",
   "tr_skip": "Пропустити",
   "tr_autofillWM": "Автозаповнення зібрання на вихідних",
-  "tr_autofillDesc": "Select which schedules do you want to autofill with qualified participants.",
+  "tr_autofillDesc": "Вибери, які розклади ти хочеш автоматично заповнити кваліфікованими учасниками.",
   "tr_exportWM": "Експорт зібрання на вихідних",
   "tr_exportWMDesc": "Вибери, які розклади експортувати.",
   "tr_autofillCompleted": "Автозаповнення завершено",
