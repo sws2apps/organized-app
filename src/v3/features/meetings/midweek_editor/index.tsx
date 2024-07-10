@@ -96,9 +96,10 @@ const MidweekEditor = () => {
               alignItems: 'center',
               flexWrap: 'wrap',
               justifyContent: 'space-between',
+              flexDirection: laptopUp ? 'row' : 'column',
             }}
           >
-            <Box sx={{ flex: 1 }}>
+            <Box sx={{ flex: 1, alignSelf: laptopUp ? 'center' : 'flex-start' }}>
               <ButtonGroup
                 buttons={[
                   {
