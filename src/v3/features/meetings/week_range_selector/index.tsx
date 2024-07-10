@@ -25,7 +25,7 @@ const WeekRangeSelector = ({ onEndChange, onStartChange }: WeekRangeSelectorType
         ))}
       </Select>
 
-      <Select label={t('tr_endWeek')} defaultValue="" onChange={(e) => onEndChange && onEndChange(e.target.value)}>
+      <Select label={t('tr_endWeek')} defaultValue="" onChange={(e) => onEndChange?.(e.target.value)}>
         {endWeekOptions.map((option) => (
           <MenuItem key={option.value} value={option.value}>
             <Typography className="body-regular" color="var(--black)">

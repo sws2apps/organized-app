@@ -25,7 +25,7 @@ const ScheduleRangeSelector = ({ onEndChange, onStartChange }: ScheduleRangeSele
         ))}
       </Select>
 
-      <Select label={t('tr_endMonth')} defaultValue="" onChange={(e) => onEndChange && onEndChange(e.target.value)}>
+      <Select label={t('tr_endMonth')} defaultValue="" onChange={(e) => onEndChange?.(e.target.value)}>
         {endMonthOptions.map((option) => (
           <MenuItem key={option.value} value={option.value}>
             <Typography className="body-regular" color="var(--black)">

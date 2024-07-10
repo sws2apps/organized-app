@@ -44,7 +44,7 @@ const useWeekRangeSelector = (onStartChange: WeekRangeSelectorType['onStartChang
 
   const handleStartWeekChange = (value: string) => {
     setStartWeek(value);
-    onStartChange && onStartChange(value);
+    onStartChange?.(value);
   };
 
   return { endWeekOptions, startWeekOptions, handleStartWeekChange };

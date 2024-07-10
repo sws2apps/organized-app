@@ -41,7 +41,7 @@ const useScheduleRangeSelector = (onStartChange: ScheduleRangeSelectorType['onSt
 
   const handleStartMonthChange = (value: string) => {
     setStartMonth(value);
-    onStartChange && onStartChange(value);
+    onStartChange?.(value);
   };
 
   return { handleStartMonthChange, startMonthOptions, endMonthOptions };
