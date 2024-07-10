@@ -20,7 +20,7 @@ import { CustomDivider, MiniChip } from '@components/index';
 // import { EditAndAddBibleStudyContext } from '@features/ministry/EditAndAddBibleStudyContext';
 import CustomBadge from '@components/badge';
 import { convertDurationInSecondsToString } from '@features/ministry/add_service_time_modal_window/utils';
-import { getMonthIndexFromDate } from '@pages/ministry_report/utils';
+import { getMonthIndexFromDate } from '@pages/ministry/ministry_report/utils';
 // import { hoursToSeconds } from 'date-fns';
 
 /**
@@ -211,7 +211,7 @@ const MonthlyReport = (props: MonthlyReportProps) => {
       <CustomTypography className="h2" id="AQdwN">
         {t('tr_monthlyReport')}
       </CustomTypography>
-      <ScrollableTabs tabs={months} selected={getMonthIndexFromDate(new Date().toString())} indicatorMode />
+      <ScrollableTabs tabs={months} indicatorMode value={getMonthIndexFromDate(new Date().toString())} />
       {variant == 'pioneer' || variant == 'special-pioneer' ? null : (
         <CustomCheckbox
           label={t('tr_sharedMinistry')}

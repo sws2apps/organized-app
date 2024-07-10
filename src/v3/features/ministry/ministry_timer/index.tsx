@@ -6,7 +6,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { MinistryTimerButtonProps, MinistryTimerStates } from './ministry_timer.types';
 import DarkOverlay from '@components/dark_overlay';
 import CustomTypography from '@components/typography';
-import { MinistryRecord } from '@pages/ministry_report/ministry_report.types';
+import { MinistryRecord } from '@pages/ministry/ministry_report/ministry_report.types';
 import {
   convertDurationInSecondsToString,
   convertDurationStringToSeconds,

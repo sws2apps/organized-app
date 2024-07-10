@@ -20,7 +20,11 @@ const MinistryCard = () => {
         />
       </ListItem>
       <ListItem disablePadding>
-        <DashboardMenu icon={<IconStatsYear color="var(--black)" />} primaryText={t('tr_serviceYear')} />
+        <DashboardMenu
+          icon={<IconStatsYear color="var(--black)" />}
+          primaryText={t('tr_serviceYear')}
+          path="/service-year"
+        />
       </ListItem>
     </DashboardCard>
   );

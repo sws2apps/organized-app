@@ -19,11 +19,21 @@ const CustomDivider = (props: CustomDividerProps) => {
 
   return (
     <Divider
-      sx={{
-        ...props.sx,
-        border: 'none',
-        borderBottom: `${height}px solid ${color}`,
-      }}
+      sx={
+        props.dashed
+          ? {
+              backgroundImage: `repeating-linear-gradient(0deg, ${color}, ${color} 5px, transparent 5px, transparent 10px, ${color} 10px), repeating-linear-gradient(90deg, ${color}, ${color} 5px, transparent 5px, transparent 10px, ${color} 10px), repeating-linear-gradient(180deg, ${color}, ${color} 5px, transparent 5px, transparent 10px, ${color} 10px), repeating-linear-gradient(270deg, ${color}, ${color} 5px, transparent 5px, transparent 10px, ${color} 10px)`,
+              backgroundSize: `1px 100%, 100% 1px, 1px 100% , 100% 1px`,
+              backgroundPosition: `0 0, 0 0, 100% 0, 0 100%`,
+              backgroundRepeat: `no-repeat`,
+              borderColor: 'transparent',
+            }
+          : {
+              ...props.sx,
+              border: 'none',
+              borderBottom: `${height}px solid ${color}`,
+            }
+      }
     />
   );
 };

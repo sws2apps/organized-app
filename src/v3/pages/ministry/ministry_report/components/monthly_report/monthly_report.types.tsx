@@ -1,4 +1,4 @@
-import { MinistryRecord, MinistryReportVariants } from '@pages/ministry_report/ministry_report.types';
+import { MinistryRecord, MinistryReportVariants } from '@pages/ministry/ministry_report/ministry_report.types';
 import { ChangeEvent, ReactElement } from 'react';
 
 export type MonthlyReportProps = {
