@@ -99,5 +99,5 @@
   "tr_editingFinished": "Editing completed",
   "tr_minLabel": "min.",
   "tr_textCopied": "Information copied to clipboard",
-  "tr_longDateWithYearLocale": "{{ month }} {{ date }}, {{ year }}"
+  "tr_longDateWithYearLocale": "{{ date }} {{ month }}, {{ year }}"
 }
