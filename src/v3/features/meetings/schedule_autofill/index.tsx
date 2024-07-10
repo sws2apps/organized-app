@@ -16,7 +16,11 @@ const ScheduleAutofillDialog = ({ open, onClose, meeting }: ScheduleAutofillType
         <Typography color="var(--grey-400)">{t('tr_autofillDesc')}</Typography>
       </Box>
 
-      <WeekRangeSelector onStartChange={(value) => console.log(value)} onEndChange={(value) => console.log(value)} />
+      <WeekRangeSelector
+        meeting={meeting}
+        onStartChange={(value) => console.log(value)}
+        onEndChange={(value) => console.log(value)}
+      />
 
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%' }}>
         <Button variant="main">{t('tr_autofill')}</Button>
