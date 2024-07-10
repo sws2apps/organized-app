@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { Dialog, DialogContent, SxProps } from '@mui/material';
 
 /**
@@ -17,7 +18,7 @@ const CustomDialog = ({
 }: {
   open: boolean;
   onClose: VoidFunction;
-  children: React.ReactNode;
+  children: ReactNode;
   sx?: SxProps;
 }) => {
   /**

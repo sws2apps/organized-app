@@ -54,6 +54,7 @@ export { default as UserLogoutConfirm } from './my_profile/logout_confirm';
 
 /* -------------------------------- Meetings -------------------------------- */
 export { default as MyAssignments } from './meetings/my_assignments';
+export { default as ScheduleAutofillDialog } from './meetings/schedule_autofill';
 export { default as WeekSelector } from './meetings/week_selector';
 
 /* --------------------------------- Persons -------------------------------- */
