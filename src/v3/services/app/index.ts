@@ -10,6 +10,8 @@ import { publicTalksBuildList } from '@services/i18n/public_talks';
 import { setPublicTalks } from '@services/recoil/publicTalks';
 import { songsBuildList } from '@services/i18n/songs';
 import { setSongs } from '@services/recoil/songs';
+import { schedulesBuildHistoryList } from './schedules';
+import { setAssignmentsHistory } from '@services/recoil/schedules';
 
 export const loadApp = async () => {
   const appLang = await promiseGetRecoil(appLangState);
@@ -22,6 +24,10 @@ export const loadApp = async () => {
   // load public talks
   const talks = await publicTalksBuildList(appLang);
   await setPublicTalks(talks);
+
+  // load assignment history
+  const history = await schedulesBuildHistoryList();
+  await setAssignmentsHistory(history);
 };
 
 export const runUpdater = async () => {

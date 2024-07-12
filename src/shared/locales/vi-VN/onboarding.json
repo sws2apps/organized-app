@@ -86,7 +86,7 @@
   "tr_tryOrganized": "Thử Organized trong chế độ kiểm thử",
   "tr_testStart": "Bắt đầu kiểm thử",
   "tr_testAppWelcome": "Welcome to Organized test mode!",
-  "tr_testAppWelcomeDesc": "<p>This is a test environment with pre-filled data for an imaginary congregation. Explore features such as schedules, assignments, ministry, reports, and more! Any changes you make will reset after a page reload.</p><p>To start using the real Organized app, open <a href='https://organized-app.com' target='_blank'>organized-app.com</a> in your browser.</p>",
+  "tr_testAppWelcomeDesc": "<p>This is a test environment with pre-filled data for an imaginary congregation. Explore features such as schedules, assignments, ministry, reports, and more! Any changes you make will reset after the app reload.</p><p>To start using the real Organized app, open <a href='https://organized-app.com' target='_blank'>organized-app.com</a> in your browser.</p>",
   "tr_congregationExists": "This congregation already exists in Organized. Contact your congregation administrator to give you the necessary roles.",
   "tr_congregationMasterKeyVerify": "Xác minh khóa chính hội thánh",
   "tr_encryptionCodeNoticeMatch": "Keys match",

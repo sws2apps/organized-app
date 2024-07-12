@@ -1,13 +1,12 @@
 import { Box } from '@mui/material';
 import { styled } from '@mui/system';
 import { Select, Button } from '@components/index';
-import { BranchOfficeReportType } from '../index.types';
 
-export const StyledSelect = styled(Select)<{ reportType: BranchOfficeReportType }>({
+export const StyledSelect = styled(Select)({
   flex: 1,
 });
 
-export const StyledButton = styled(Button)<{ reportType: BranchOfficeReportType }>({
+export const StyledButton = styled(Button)({
   flex: 1,
 });
 

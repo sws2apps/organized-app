@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { ReactNode, SyntheticEvent, useEffect, useState } from 'react';
 import { Box, Tab, Tabs, tabsClasses } from '@mui/material';
 import { CustomTabPanel } from '@components/tabs';
 import { CustomTabProps } from '@components/tabs/index.types';
@@ -18,7 +18,7 @@ function ScrollableTabs({ tabs, value, indicatorMode, onChange }: CustomTabProps
    * @param event The event object.
    * @param newValue The new value of the active tab.
    */
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChange = (event: SyntheticEvent, newValue: number) => {
     if (!indicatorMode) {
       event.preventDefault();
       setValueOfActivePanel(newValue);
@@ -31,7 +31,7 @@ function ScrollableTabs({ tabs, value, indicatorMode, onChange }: CustomTabProps
   }, [value]);
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: '100%', minHeight: '45px' }}>
       <Box>
         <Tabs
           value={valueOfActivePanel}
@@ -58,7 +58,7 @@ function ScrollableTabs({ tabs, value, indicatorMode, onChange }: CustomTabProps
           }}
         >
           {tabs.map(
-            ({ label, icon }): React.ReactNode => (
+            ({ label, icon }): ReactNode => (
               <Tab
                 label={label}
                 key={label}
@@ -83,7 +83,7 @@ function ScrollableTabs({ tabs, value, indicatorMode, onChange }: CustomTabProps
       </Box>
 
       {tabs.map(
-        (tab, i: number): React.ReactNode => (
+        (tab, i: number): ReactNode => (
           <CustomTabPanel value={valueOfActivePanel} index={i} key={tab.label}>
             {tab.Component}
           </CustomTabPanel>

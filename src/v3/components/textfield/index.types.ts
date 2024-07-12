@@ -43,4 +43,7 @@ export type TextFieldTypeProps = TextFieldProps & {
    * Whether to apply color to svg
    */
   styleIcon?: boolean;
+
+  // Dont use for password fields, use type = "password"
+  endAdornment?: JSX.Element;
 };

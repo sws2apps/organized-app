@@ -4,7 +4,7 @@ import { apiDefault } from './common';
 export const apiFetchCountries = async () => {
   const { apiHost, appVersion: appversion, JWLang, idToken } = await apiDefault();
 
-  const res = await fetch(`${apiHost}api/congregations/countries`, {
+  const res = await fetch(`${apiHost}api/v3/congregations/countries`, {
     method: 'GET',
     credentials: 'include',
     headers: {
@@ -27,7 +27,7 @@ export const apiFetchCongregations = async (country, name) => {
     return { data: [] };
   }
 
-  const res = await fetch(`${apiHost}api/congregations/list-by-country`, {
+  const res = await fetch(`${apiHost}api/v3/congregations/list-by-country`, {
     method: 'GET',
     credentials: 'include',
     headers: {
@@ -49,7 +49,7 @@ export const apiFetchCongregations = async (country, name) => {
 export const apiCreateCongregation = async (country_code, cong_name, cong_number, firstname, lastname) => {
   const { apiHost, appVersion: appversion, JWLang, idToken } = await apiDefault();
 
-  const res = await fetch(`${apiHost}api/congregations`, {
+  const res = await fetch(`${apiHost}api/v3/congregations`, {
     method: 'PUT',
     credentials: 'include',
     headers: {
@@ -70,7 +70,7 @@ export const apiCreateCongregation = async (country_code, cong_name, cong_number
 export const apiFetchCongregationUsers = async () => {
   const { apiHost, appVersion: appversion, congID, idToken } = await apiDefault();
 
-  const res = await fetch(`${apiHost}api/congregations/admin/${congID}/members`, {
+  const res = await fetch(`${apiHost}api/v3/congregations/admin/${congID}/members`, {
     method: 'GET',
     credentials: 'include',
     headers: {
@@ -89,7 +89,7 @@ export const apiFetchCongregationUsers = async () => {
 export const apiSetCongregationMasterKey = async (key: string) => {
   const { apiHost, appVersion: appversion, congID, idToken } = await apiDefault();
 
-  const res = await fetch(`${apiHost}api/congregations/admin/${congID}/master-key`, {
+  const res = await fetch(`${apiHost}api/v3/congregations/admin/${congID}/master-key`, {
     method: 'POST',
     credentials: 'include',
     headers: {
@@ -109,7 +109,7 @@ export const apiSetCongregationMasterKey = async (key: string) => {
 export const apiSetCongregationAccessCode = async (access_code: string) => {
   const { apiHost, appVersion: appversion, congID, idToken } = await apiDefault();
 
-  const res = await fetch(`${apiHost}api/congregations/admin/${congID}/access-code`, {
+  const res = await fetch(`${apiHost}api/v3/congregations/admin/${congID}/access-code`, {
     method: 'POST',
     credentials: 'include',
     headers: {
@@ -129,7 +129,7 @@ export const apiSetCongregationAccessCode = async (access_code: string) => {
 export const apiGetCongregationUpdates = async (): Promise<CongregationUpdatesResponseType> => {
   const { apiHost, appVersion: appversion, congID, idToken } = await apiDefault();
 
-  const res = await fetch(`${apiHost}api/congregations/${congID}/updates-routine`, {
+  const res = await fetch(`${apiHost}api/v3/congregations/${congID}/updates-routine`, {
     method: 'GET',
     credentials: 'include',
     headers: {

@@ -25,7 +25,6 @@
   "tr_autoSync": "自動同期",
   "tr_autoSyncDesc": "Organizedにログインした教会とデバイス間でデータを自動的に同期します",
   "tr_syncInterval": "同期間隔",
-  "tr_syncIntervalMinLabel": "分",
   "tr_customLinkInMobilePanel": "Custom link in the mobile navigation panel",
   "tr_customLinkInMobilePanelDesc": "Replace the ‘Info board’ button with another feature for quick access from Home page",
   "tr_selectFeature": "選択してください",

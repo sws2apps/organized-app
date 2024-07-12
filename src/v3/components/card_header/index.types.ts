@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+export type CardHeaderSizeType = 'small' | 'large';
 
 /**
  * Props type for the CardHeader component.
@@ -21,9 +22,8 @@ export type CardHeaderPropsType = {
     | 'body-regular'
     | 'body-small-semibold'
     | 'body-small-regular';
-
-  /**
-   * Children elements to be rendered within the card header.
-   */
-  children: ReactNode;
+  children?: ReactNode;
+  header: string;
+  size?: CardHeaderSizeType;
+  color?: string;
 };

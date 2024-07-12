@@ -67,6 +67,8 @@
   "tr_meetingDate": "Date de la réunion",
   "tr_listView": "Vue liste",
   "tr_share": "Partager",
+  "tr_copy": "Copy",
+  "tr_sync": "Sync",
   "tr_copyLink": "Copier le lien",
   "tr_unsupportedBrowserError": "Le navigateur n'est pas pris en charge",
   "tr_featureComingSoon": "Feature coming soon",
@@ -93,5 +95,9 @@
   "tr_unsupportedBrowserErrorDesc": "You are using an unsupported browser for the Organized app. Please ensure your browser is up to date and that private or incognito mode is turned off. Alternatively, try using a different browser.",
   "tr_longDateNoYearLocale": "{{ month }} {{ date }}",
   "tr_brother": "Brother",
-  "tr_brothers": "Brothers"
+  "tr_brothers": "Brothers",
+  "tr_editingFinished": "Editing completed",
+  "tr_minLabel": "min.",
+  "tr_textCopied": "Information copied to clipboard",
+  "tr_longDateWithYearLocale": "{{ month }} {{ date }}, {{ year }}"
 }

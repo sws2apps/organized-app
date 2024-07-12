@@ -1,4 +1,4 @@
-import { AssignmentCode } from './assignment';
+import { AssignmentCode, AssignmentFieldType } from './assignment';
 import { Week } from './week_type';
 
 export type AssignmentCongregation = {
@@ -80,14 +80,16 @@ export type SchedWeekType = {
 export type AssignmentHistoryType = {
   id: string;
   weekOf: string;
+  weekOfFormatted: string;
   assignment: {
+    key: AssignmentFieldType;
     code: AssignmentCode;
     title: string;
     src?: string;
     desc?: string;
     person: string;
     category: string;
-    classroom: string;
+    classroom?: string;
     ayf?: {
       student?: string;
       assistant?: string;
