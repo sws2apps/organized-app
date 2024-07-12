@@ -12,7 +12,7 @@ const CongregationCard = () => {
   return (
     <DashboardCard header={t('tr_congregation')}>
       <ListItem disablePadding>
-        <DashboardMenu icon={<IconGroups color="var(--black)" />} primaryText={t('tr_fieldServiceGroups')} />
+        <DashboardMenu icon={<IconGroups color="var(--black)" />} primaryText={t('tr_fieldServiceGroups')}  path="/service-groups"/>
       </ListItem>
       {isConnected && (
         <ListItem disablePadding>
