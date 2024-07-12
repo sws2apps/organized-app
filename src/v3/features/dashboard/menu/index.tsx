@@ -10,15 +10,27 @@ const DashboardMenu = ({
   primaryText = '',
   secondaryText = '',
   badgeText = '',
+  hoverColor = '',
+  accentHoverColor = '',
+  activeColor = '',
   onClick,
   path,
+  actionComponent,
+  height,
+  small = false,
 }: {
   icon: ReactElement;
   primaryText: string;
   secondaryText?: string;
   badgeText?: string;
+  hoverColor?: string;
+  accentHoverColor?: string;
+  activeColor?: string;
   onClick?: VoidFunction;
   path?: string;
+  actionComponent?: ReactElement;
+  height?: string;
+  small?: boolean;
 }) => {
   const navigate = useNavigate();
 
@@ -44,24 +56,26 @@ const DashboardMenu = ({
       disableRipple
       onClick={handleClick}
       sx={{
-        padding: '8px 8px 8px 16px',
-        minHeight: '40px',
+        padding: small ? '4px 4px 4px 8px' : '8px 8px 8px 16px',
+        height: '100%',
+        // height: height ? height : '100%',
+        minHeight: height ? height : '40px',
         borderRadius: 'var(--radius-s)',
         transition: 'background 0.1s ease',
         '&:hover': {
-          background: 'var(--accent-150)',
+          background: hoverColor ? hoverColor : 'var(--accent-150)',
           '& p': {
-            color: 'var(--accent-dark)',
+            color: accentHoverColor ? accentHoverColor : 'var(--accent-dark)',
           },
           '& svg, & svg g, & svg g path': {
-            fill: 'var(--accent-dark)',
+            fill: accentHoverColor ? accentHoverColor : 'var(--accent-dark)',
           },
           '& .menu-secondary': {
             background: 'var(--accent-200)',
           },
         },
         '&:active': {
-          background: 'var(--accent-200)',
+          background: activeColor ? activeColor : 'var(--accent-200)',
           '& .menu-secondary': {
             background: 'var(--accent-300)',
           },
@@ -85,6 +99,7 @@ const DashboardMenu = ({
                   </Typography>
                 )}
               </Box>
+              {actionComponent ? actionComponent : null}
               {badgeText.length > 0 && (
                 <Box
                   className="menu-secondary"
