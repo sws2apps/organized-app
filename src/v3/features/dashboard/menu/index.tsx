@@ -99,7 +99,7 @@ const DashboardMenu = ({
                   </Typography>
                 )}
               </Box>
-              {actionComponent && actionComponent}
+              {actionComponent ? actionComponent : null}
               {badgeText.length > 0 && (
                 <Box
                   className="menu-secondary"
