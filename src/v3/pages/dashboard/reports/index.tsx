@@ -19,6 +19,7 @@ const ReportsCard = () => {
         <DashboardMenu
           icon={<IconPublishersReports color="var(--black)" />}
           primaryText={t('tr_fieldServiceReports')}
+          path="/reports/field-service"
         />
       </ListItem>
       <ListItem disablePadding>
