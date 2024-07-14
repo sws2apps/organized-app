@@ -29,7 +29,7 @@ const ReportsPersonSelector = ({
   };
   return (
     <StyledCardBox>
-      <span className="h3">
+      <span className="h3" style={{ color: 'var(--black)' }}>
         {t('tr_personsAmount', {
           amount: persons.length,
         })}
@@ -57,7 +57,7 @@ const NoPersons = () => {
       <Box>
         <NoSearchResults viewBox="0 0 160 160" width={80} height={80} />
       </Box>
-      <VerticalFlex sx={{ gap: '8px', flexShrink: '1' }}>
+      <VerticalFlex sx={{ gap: '8px', flexShrink: '1', color: 'var(--black)' }}>
         <span className="h4">{t('tr_noPersonsFound')}</span>
         <span className="body">{t('tr_noPersonsFoundDesc')}</span>
       </VerticalFlex>
@@ -88,7 +88,7 @@ const ReportPerson = ({
       <HorizontalFlex sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
         <HorizontalFlex sx={{ gap: '13px' }}>
           {person.genre == 'female' ? <UserCardFemaleImg /> : <UserCardMaleImg />}
-          <VerticalFlex sx={{ gap: '4px' }}>
+          <VerticalFlex sx={{ gap: '4px', color: 'var(--black)' }}>
             <span>
               {person.firstName} {person.lastName}
             </span>

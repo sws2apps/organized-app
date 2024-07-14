@@ -55,7 +55,7 @@ const PersonDetails = ({ person }: { person: PersonWithReport }) => {
   const isAPublisher = person.fieldService === 'Publisher';
 
   return (
-    <StyledCardBox sx={{ padding: '24px', borderRadius: 'var(--radius-l)' }}>
+    <StyledCardBox sx={{ padding: '24px', borderRadius: 'var(--radius-l)', color: 'var(--black)' }}>
       <HorizontalFlex sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
         <HorizontalFlex sx={{ gap: '13px' }}>
           {person.genre == 'female' ? <UserCardFemaleImg /> : <UserCardMaleImg />}

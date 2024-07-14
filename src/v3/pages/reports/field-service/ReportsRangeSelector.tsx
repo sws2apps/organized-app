@@ -1,4 +1,4 @@
-import { CustomDivider, MenuItem, TextField } from '@components/index';
+import { CustomDivider, MenuItem, TextField, Typography } from '@components/index';
 import { HorizontalFlex, StyledCardBox, VerticalFlex } from './index.styles';
 import useAppTranslation from '@hooks/useAppTranslation';
 import ProgressBar from '@components/progress_bar';
@@ -43,6 +43,7 @@ const ReportsRangeSelector = () => {
           sx={{
             justifyContent: 'space-between',
             alignItems: 'center',
+            color: 'var(--black)',
           }}
         >
           <span className="h3">{t('tr_receivedReports')}</span>
