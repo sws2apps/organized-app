@@ -16,7 +16,7 @@ const persons = [
     id: '1',
     firstName: 'Alice',
     lastName: 'Adams',
-    genre: 'female',
+    gender: 'female',
     fieldService: 'Publisher',
     report: {
       isLate: false,
@@ -28,7 +28,7 @@ const persons = [
     id: '2',
     firstName: 'Bob',
     lastName: 'Brown',
-    genre: 'male',
+    gender: 'male',
     fieldService: 'Regular pioneer',
     responsibility: 'Ministerial Servant',
   },
@@ -36,7 +36,7 @@ const persons = [
     id: '3',
     firstName: 'Charlie',
     lastName: 'Clark',
-    genre: 'female',
+    gender: 'female',
     fieldService: 'Special pioneer',
     report: {
       isLate: true,

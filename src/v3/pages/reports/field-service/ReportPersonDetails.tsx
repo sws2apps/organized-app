@@ -2,7 +2,7 @@ import { HorizontalFlex, StyledCardBox, VerticalFlex } from './index.styles';
 import UserCardMaleImg from '@assets/img/illustration_male.svg?component';
 import UserCardFemaleImg from '@assets/img/illustration_female.svg?component';
 import { PersonWithReport } from './index.types';
-import { FieldServiceBadge, ResponsabilityBadge } from './PersonBadge';
+import { FieldServiceBadge, ResponsibilityBadge } from './PersonBadge';
 import {
   Checkbox,
   CustomDivider,
@@ -24,7 +24,7 @@ import CustomTypography from '@components/typography';
 
 const ReportPersonDetails = ({ person }: { person?: PersonWithReport }) => {
   if (!person) return <NoPersonSelected />;
-  return <PersonDetails person={person} />;
+  else return <PersonDetails person={person} />;
 };
 
 const NoPersonSelected = () => {
@@ -58,13 +58,13 @@ const PersonDetails = ({ person }: { person: PersonWithReport }) => {
     <StyledCardBox sx={{ padding: '24px', borderRadius: 'var(--radius-l)', color: 'var(--black)' }}>
       <HorizontalFlex sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
         <HorizontalFlex sx={{ gap: '13px' }}>
-          {person.genre == 'female' ? <UserCardFemaleImg /> : <UserCardMaleImg />}
+          {person.gender == 'female' ? <UserCardFemaleImg /> : <UserCardMaleImg />}
           <VerticalFlex sx={{ gap: '4px' }}>
             <span>
               {person.firstName} {person.lastName}
             </span>
             <HorizontalFlex sx={{ gap: '8px' }}>
-              <ResponsabilityBadge responsability={person.responsibility} />
+              <ResponsibilityBadge responsability={person.responsibility} />
               <FieldServiceBadge fieldService={person.fieldService} />
             </HorizontalFlex>
           </VerticalFlex>
@@ -97,7 +97,7 @@ const PersonDetails = ({ person }: { person: PersonWithReport }) => {
 };
 
 const TimeField = ({ value, onChange }: { value: number; onChange: (value: number) => void }) => {
-  const decrimentDuration = () => {
+  const decrementDuration = () => {
     if (convertDurationInSecondsToString(value) != '00:00') {
       onChange(value - 3600);
     }
@@ -116,7 +116,7 @@ const TimeField = ({ value, onChange }: { value: number; onChange: (value: numbe
         alignItems: 'center',
       }}
     >
-      <MinusButton onClick={decrimentDuration} />
+      <MinusButton onClick={decrementDuration} />
       <CustomTimeTextField
         value={convertDurationInSecondsToString(value)}
         onChange={(event) => {
@@ -135,7 +135,7 @@ const CustomNumberField = ({ value, onChange }: { value: number; onChange: (valu
     onChange(value + 1);
   };
 
-  const decriment = () => {
+  const decrement = () => {
     onChange(value > 0 ? value - 1 : 0);
   };
   return (
@@ -148,7 +148,7 @@ const CustomNumberField = ({ value, onChange }: { value: number; onChange: (valu
         alignItems: 'center',
       }}
     >
-      <MinusButton onClick={decriment} />
+      <MinusButton onClick={decrement} />
       <CustomTypography className="h3" color="var(--black)">
         {value}
       </CustomTypography>

@@ -6,7 +6,7 @@ import UserCardFemaleImg from '@assets/img/illustration_female.svg?component';
 import NoSearchResults from '@assets/img/illustration_no_search_results.svg?component';
 import { IconCheckmarkCircleAlt } from '@components/icons';
 import { Box } from '@mui/material';
-import { FieldServiceBadge, ResponsabilityBadge } from './PersonBadge';
+import { FieldServiceBadge, ResponsibilityBadge } from './PersonBadge';
 import { useState } from 'react';
 
 const ReportsPersonSelector = ({
@@ -87,13 +87,13 @@ const ReportPerson = ({
     >
       <HorizontalFlex sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
         <HorizontalFlex sx={{ gap: '13px' }}>
-          {person.genre == 'female' ? <UserCardFemaleImg /> : <UserCardMaleImg />}
+          {person.gender == 'female' ? <UserCardFemaleImg /> : <UserCardMaleImg />}
           <VerticalFlex sx={{ gap: '4px', color: 'var(--black)' }}>
             <span>
               {person.firstName} {person.lastName}
             </span>
             <HorizontalFlex sx={{ gap: '8px' }}>
-              <ResponsabilityBadge responsability={person.responsibility} />
+              <ResponsibilityBadge responsability={person.responsibility} />
               <FieldServiceBadge fieldService={person.fieldService} />
             </HorizontalFlex>
           </VerticalFlex>

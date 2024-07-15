@@ -2,7 +2,7 @@ import { Badge } from '@components/index';
 import { BadgeColor } from '@definition/app';
 import { Person } from './index.types';
 
-const ResponsabilityBadge = ({ responsability }: { responsability?: Person['responsibility'] }) => {
+const ResponsibilityBadge = ({ responsability }: { responsability?: Person['responsibility'] }) => {
   return responsability && <Badge text={responsability} color="green" size="small" filled={false} />;
 };
 
@@ -16,4 +16,4 @@ const FieldServiceBadge = ({ fieldService }: { fieldService: Person['fieldServic
   return <Badge text={fieldService} color={colors[fieldService]} size="small" filled={false} />;
 };
 
-export { ResponsabilityBadge, FieldServiceBadge };
+export { ResponsibilityBadge, FieldServiceBadge };

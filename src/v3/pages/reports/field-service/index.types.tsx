@@ -4,7 +4,7 @@ export interface Person {
   lastName: string;
   responsibility?: 'Elder' | 'Ministerial Servant';
   fieldService?: 'Special pioneer' | 'Regular pioneer' | 'Auxiliary pioneer' | 'Publisher';
-  genre: 'male' | 'female';
+  gender: 'male' | 'female';
 }
 
 export interface PublisherReport {
