@@ -71,7 +71,7 @@
   "tr_autofillCompleted": "Autofill completed",
   "tr_autofillCompletedDesc": "Weekend assignments added to the selected weeks",
   "tr_newWeekAddedDesc": "You can find it in the meeting weeks list",
-  "tr_publishSchedulesDesc": "Select the schedules you want to publish for everybody in congregation to view them. Older schedules are available to everyone for 3 months after their expiration date.",
+  "tr_publishSchedulesDesc": "Select the schedules you want to publish for everybody in congregation to view them. Past schedules are accessible to everyone for 3 months after their expiration date.",
   "tr_successfullyPublished": "Successfully published",
   "tr_successfullyPublishedDesc": "Now everybody in your congregation can view the schedule and prepare for the assignments",
   "tr_lastUpdated": "最終更新日:",
