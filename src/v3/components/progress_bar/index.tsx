@@ -1,11 +1,9 @@
 import {
   StyledProgressBar,
   StyledProgressBarFill,
-  StyledProgressBarCheck,
   StyledProgressBarBox,
   StyledProgressBarToFill,
 } from './progress_bar.styled';
-import IconCheck from '@components/icons/IconCheck';
 
 /**
  * Props for the ProgressBarSmall component.

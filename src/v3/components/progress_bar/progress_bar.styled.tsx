@@ -3,11 +3,6 @@ import { Box } from '@mui/material';
 
 export const StyledProgressBarBox = styled(Box)({});
 
-export const StyledProgressBarCheck = styled(Box)({
-  width: '24px',
-  height: '24px',
-});
-
 export const StyledProgressBar = styled(Box)({
   position: 'relative',
   height: '24px',
@@ -36,11 +31,4 @@ export const StyledProgressBarToFill = styled(Box)({
   color: 'var(--accent-dark)',
   display: 'flex',
   justifyContent: 'center',
-});
-
-export const StyledProgressBarFilled = styled(Box)({
-  display: 'flex',
-  height: '100%',
-  borderRadius: 'var(--radius-s)',
-  background: 'var(--accent-main)',
 });
