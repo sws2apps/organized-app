@@ -37,7 +37,6 @@ const ServiceYear = () => {
     <>
       <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
         <PageTitle title={t('tr_serviceYear')} />
-
         <Box
           sx={{
             display: 'flex',
