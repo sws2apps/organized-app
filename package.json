@@ -45,7 +45,7 @@
     "dexie-react-hooks": "^1.1.7",
     "file-select-dialog": "^1.5.4",
     "firebase": "^10.12.3",
-    "i18next": "^23.11.5",
+    "i18next": "^23.12.1",
     "interweave": "^13.1.0",
     "jw-epub-parser": "^3.18.0",
     "mui-one-time-password-input": "^2.0.3",
