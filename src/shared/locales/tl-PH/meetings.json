@@ -69,7 +69,6 @@
   "tr_exportWM": "I-export ang weekend meeting",
   "tr_exportWMDesc": "Pumili kung anong iskedyul ang gusto mong i-export.",
   "tr_autofillCompleted": "Natapos ang autofill",
-  "tr_autofillCompletedDesc": "Na-add na ang mga weekend assignments sa mga piling linggo",
   "tr_newWeekAddedDesc": "Maaaring mahanap ito sa listahan ng mga pulong",
   "tr_publishSchedulesDesc": "Pumili ng iskedyul na nais mong i-publish para sa kongregasyon upang makita na nila ito. Ang mga nakaraang iskedyul ay maaaring makita ng lahat sa loob ng tatlong buwan matapos ang expiration date.",
   "tr_successfullyPublished": "Nai-publish na",
@@ -111,5 +110,6 @@
   "tr_editParts": "Edit parts",
   "tr_customMeetingPartDesc": "Your custom meeting part. If no info is entered, it won't be displayed in the schedule.",
   "tr_customMeetingPartDelete": "Delete custom part",
-  "tr_clearAllAssignmentsDesc": "Are you sure you want to clear all created assignments for this meeting? You can always reassign them later."
+  "tr_clearAllAssignmentsDesc": "Are you sure you want to clear all created assignments for this meeting? You can always reassign them later.",
+  "tr_autofillCompletedDesc": "Assignments added to the selected weeks"
 }
