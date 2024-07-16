@@ -27,11 +27,10 @@
     ]
   },
   "dependencies": {
-    "@emotion/cache": "^11.11.0",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
-    "@mui/icons-material": "^5.16.1",
     "@mui/lab": "^5.0.0-alpha.170",
+    "@mui/icons-material": "^5.16.1",
     "@mui/material": "^5.16.1",
     "@mui/x-date-pickers": "^7.10.0",
     "@mui/x-tree-view": "^7.10.0",
