@@ -69,6 +69,7 @@
   "tr_exportWM": "Exportar reunião de fim de semana",
   "tr_exportWMDesc": "Selecione quais programas deseja exportar.",
   "tr_autofillCompleted": "Preenchimento automático concluído",
+  "tr_autofillCompletedDesc": "Weekend assignments added to the selected weeks",
   "tr_newWeekAddedDesc": "Você pode encontrá-la na lista de semanas de reuniões",
   "tr_publishSchedulesDesc": "Selecione os programas que deseja publicar para que todos na congregação possam visualizá-los. Os programas mais antigos estarão disponíveis para todos até 3 meses após a data de expiração.",
   "tr_successfullyPublished": "Publicado com sucesso",
@@ -110,6 +111,5 @@
   "tr_editParts": "Edit parts",
   "tr_customMeetingPartDesc": "Your custom meeting part. If no info is entered, it won't be displayed in the schedule.",
   "tr_customMeetingPartDelete": "Delete custom part",
-  "tr_clearAllAssignmentsDesc": "Are you sure you want to clear all created assignments for this meeting? You can always reassign them later.",
-  "tr_autofillCompletedDesc": "Assignments added to the selected weeks"
+  "tr_clearAllAssignmentsDesc": "Are you sure you want to clear all created assignments for this meeting? You can always reassign them later."
 }
