@@ -69,7 +69,7 @@
   "tr_exportWM": "I-export ang weekend meeting",
   "tr_exportWMDesc": "Pumili kung anong iskedyul ang gusto mong i-export.",
   "tr_autofillCompleted": "Natapos ang autofill",
-  "tr_autofillCompletedDesc": "Na-add na ang mga weekend assignments sa mga piling linggo",
+  "tr_autofillCompletedDesc": "Weekend assignments added to the selected weeks",
   "tr_newWeekAddedDesc": "Maaaring mahanap ito sa listahan ng mga pulong",
   "tr_publishSchedulesDesc": "Pumili ng iskedyul na nais mong i-publish para sa kongregasyon upang makita na nila ito. Ang mga nakaraang iskedyul ay maaaring makita ng lahat sa loob ng tatlong buwan matapos ang expiration date.",
   "tr_successfullyPublished": "Nai-publish na",

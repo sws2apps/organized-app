@@ -69,7 +69,7 @@
   "tr_exportWM": "Экспорт встречи на выходных",
   "tr_exportWMDesc": "Выбери расписания для экспорта.",
   "tr_autofillCompleted": "Автозаполнение завершено",
-  "tr_autofillCompletedDesc": "Задания на выходные добавлены в выбранные недели",
+  "tr_autofillCompletedDesc": "Weekend assignments added to the selected weeks",
   "tr_newWeekAddedDesc": "Ты можешь найти ее в списке недель встреч",
   "tr_publishSchedulesDesc": "Выбери расписания, которые ты хочешь опубликовать для всех в собрании. Старые расписания будут доступны всем в течение 3 месяцев после даты истечения срока их действия.",
   "tr_successfullyPublished": "Успешно опубликовано",

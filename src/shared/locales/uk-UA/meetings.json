@@ -69,7 +69,7 @@
   "tr_exportWM": "Експорт зібрання на вихідних",
   "tr_exportWMDesc": "Вибери, які розклади експортувати.",
   "tr_autofillCompleted": "Автозаповнення завершено",
-  "tr_autofillCompletedDesc": "До вибраних тижнів додано завдання у вихідні",
+  "tr_autofillCompletedDesc": "Weekend assignments added to the selected weeks",
   "tr_newWeekAddedDesc": "Ти можеш знайти його в списку тижнів зібрань",
   "tr_publishSchedulesDesc": "Вибери графіки, які ти хочеш опублікувати для всіх у зборі для їх перегляду. Старі розклади доступні для всіх протягом 3 місяців після закінчення терміну їх дії.",
   "tr_successfullyPublished": "Успішно опубліковано",

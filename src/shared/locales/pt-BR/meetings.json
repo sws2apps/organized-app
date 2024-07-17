@@ -69,7 +69,7 @@
   "tr_exportWM": "Exportar reunião de fim de semana",
   "tr_exportWMDesc": "Selecione quais programas deseja exportar.",
   "tr_autofillCompleted": "Preenchimento automático concluído",
-  "tr_autofillCompletedDesc": "Designações de fim de semana adicionadas às semanas selecionadas",
+  "tr_autofillCompletedDesc": "Weekend assignments added to the selected weeks",
   "tr_newWeekAddedDesc": "Você pode encontrá-la na lista de semanas de reuniões",
   "tr_publishSchedulesDesc": "Selecione os programas que deseja publicar para que todos na congregação possam visualizá-los. Os programas mais antigos estarão disponíveis para todos até 3 meses após a data de expiração.",
   "tr_successfullyPublished": "Publicado com sucesso",
