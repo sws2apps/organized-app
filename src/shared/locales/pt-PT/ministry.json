@@ -102,5 +102,7 @@
   "tr_reportNotSubmitted": "Relatório não enviado",
   "tr_assignAuxPioBtn": "Atribuir Pioneiro Auxiliar este mês",
   "tr_lateReport": "Relatório atrasado",
+  "tr_receivedReports": "Received reports",
+  "tr_reportPageInfo": "On this page, you can view reports from publishers and add reports from those who do not use Organized. Select a publisher to start.",
   "tr_continuousAuxPio": "Pioneiro Auxiliar Contínuo"
 }
