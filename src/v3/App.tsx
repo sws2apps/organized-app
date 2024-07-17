@@ -12,6 +12,7 @@ const PersonDetails = lazy(() => import('@pages/persons/person_details'));
 const PublicTalksList = lazy(() => import('@pages/meeting_materials/public_talks_list'));
 const BranchOfficeReports = lazy(() => import('@pages/reports/branch_office'));
 const MeetingAttendanceReports = lazy(() => import('@pages/reports/meeting_attendance'));
+const FieldServiceReportsPage = lazy(() => import('@pages/reports/field-service'));
 const MidweekMeeting = lazy(() => import('@pages/meetings/midweek'));
 const MinistryReport = lazy(() => import('@pages/ministry/ministry_report'));
 const ServiceYear = lazy(() => import('@pages/ministry/service_year'));
@@ -45,6 +46,7 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
             { path: '/persons', element: <PersonsAll /> },
             { path: '/reports/branch-office', element: <BranchOfficeReports /> },
             { path: '/reports/meeting-attendance', element: <MeetingAttendanceReports /> },
+            { path: '/reports/field-service', element: <FieldServiceReportsPage /> },
             { path: '/persons/:id', element: <PersonDetails /> },
             { path: '/persons/new', element: <PersonDetails /> },
             { path: '/user-profile', element: <MyProfile /> },

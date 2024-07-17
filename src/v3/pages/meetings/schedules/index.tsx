@@ -27,11 +27,7 @@ const WeeklySchedules = () => {
   ];
 
   return (
-    <div
-      style={{
-        padding: '16px',
-      }}
-    >
+    <>
       <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
         <PageTitle title={t('tr_meetingSchedules')} />
       </Box>
@@ -46,7 +42,7 @@ const WeeklySchedules = () => {
       >
         <Tabs tabs={tabs} />
       </Box>
-    </div>
+    </>
   );
 };
 
