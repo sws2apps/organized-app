@@ -129,8 +129,6 @@
   "tr_userEmailAddress": "Endereço de e-mail do utilizador",
   "tr_searchUser": "Pesquisar utilizador",
   "tr_noUserError": "Nenhum utilizador encontrado com este endereço de e-mail",
-  "tr_noPersonsFound": "No persons found",
-  "tr_noPersonsFoundDesc": "No persons match your search parameters. Please try adjusting the category or date.",
   "tr_userFoundSuccess": "Utilizador encontrado! Criar utilizador e configurar o seu perfil e permissões",
   "tr_addNewPublisherDesc": "Selecione um membro da lista de Pessoas da sua congregação para gerar e partilhar o seu código de convite único.",
   "tr_inviteUserDesc": "Forneça este código de convite pessoal para conceder-lhes acesso à sua Congregação no Organized. O código também está disponível na sua página de utilizador.",
@@ -220,8 +218,6 @@
   "tr_groupOverseerAssistant": "Ajudante do superintendente do grupo",
   "tr_create": "Criar",
   "tr_inactivePublishers": "Publicadores inativos",
-  "tr_unbaptizedPublishers": "Unbaptized publishers",
-  "tr_baptizedPublishers": "Baptized publishers",
   "tr_wholeYearSetting": "Ano inteiro",
   "tr_statistics": "Estatísticas",
   "tr_ministerialServant": "Servo ministerial",
@@ -412,5 +408,7 @@
   "tr_dateFormat": "Formato da Data",
   "tr_dateFormat1": "29.10.2024",
   "tr_dateFormat2": "10/29/2024",
-  "tr_dateFormat3": "2024-10-29"
+  "tr_dateFormat3": "2024-10-29",
+  "tr_baptizedPublishers": "Baptized publishers",
+  "tr_unbaptizedPublishers": "Unbaptized publishers"
 }

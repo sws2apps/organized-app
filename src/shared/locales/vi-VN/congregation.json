@@ -129,8 +129,6 @@
   "tr_userEmailAddress": "User’s email address",
   "tr_searchUser": "Search user",
   "tr_noUserError": "No user found with this email address",
-  "tr_noPersonsFound": "No persons found",
-  "tr_noPersonsFoundDesc": "No persons match your search parameters. Please try adjusting the category or date.",
   "tr_userFoundSuccess": "Tìm thấy người dùng! Tạo người dùng và thiết lập hồ sơ và quyền của anh",
   "tr_addNewPublisherDesc": "Chọn một thành viên từ danh sách Người trong hội thánh của anh/chị để tạo và chia sẻ mã mời cá nhân của họ.",
   "tr_inviteUserDesc": "Cung cấp mã mời cá nhân này để cấp quyền truy cập cho họ vào hội thánh của anh/chị trên Organized. Nó cũng có sẵn trên trang người dùng của họ.",
@@ -220,8 +218,6 @@
   "tr_groupOverseerAssistant": "Overseer’s assistant",
   "tr_create": "Create",
   "tr_inactivePublishers": "Inactive publishers",
-  "tr_unbaptizedPublishers": "Unbaptized publishers",
-  "tr_baptizedPublishers": "Baptized publishers",
   "tr_wholeYearSetting": "Whole year",
   "tr_statistics": "Statistics",
   "tr_ministerialServant": "Ministerial servant",
@@ -412,5 +408,7 @@
   "tr_dateFormat": "Date format",
   "tr_dateFormat1": "29.10.2024",
   "tr_dateFormat2": "10/29/2024",
-  "tr_dateFormat3": "2024-10-29"
+  "tr_dateFormat3": "2024-10-29",
+  "tr_baptizedPublishers": "Baptized publishers",
+  "tr_unbaptizedPublishers": "Unbaptized publishers"
 }

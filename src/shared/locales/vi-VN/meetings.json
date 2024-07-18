@@ -69,6 +69,7 @@
   "tr_exportWM": "Xuất cuộc họp cuối tuần",
   "tr_exportWMDesc": "Chọn các lịch trình bạn muốn xuất.",
   "tr_autofillCompleted": "Hoàn thành tự động điền",
+  "tr_autofillCompletedDesc": "Weekend assignments added to the selected weeks",
   "tr_newWeekAddedDesc": "Anh/chị có thể tìm thấy nó trong danh sách các tuần cuộc họp",
   "tr_publishSchedulesDesc": "Chọn các lịch trình anh/chị muốn đăng ký cho mọi người trong hội thánh xem. Các lịch trình cũ sẽ có sẵn cho mọi người trong vòng 3 tháng sau ngày hết hạn.",
   "tr_successfullyPublished": "Xuất bản thành công",
@@ -110,6 +111,5 @@
   "tr_editParts": "Edit parts",
   "tr_customMeetingPartDesc": "Your custom meeting part. If no info is entered, it won't be displayed in the schedule.",
   "tr_customMeetingPartDelete": "Delete custom part",
-  "tr_clearAllAssignmentsDesc": "Are you sure you want to clear all created assignments for this meeting? You can always reassign them later.",
-  "tr_autofillCompletedDesc": "Assignments added to the selected weeks"
+  "tr_clearAllAssignmentsDesc": "Are you sure you want to clear all created assignments for this meeting? You can always reassign them later."
 }

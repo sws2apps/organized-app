@@ -69,6 +69,7 @@
   "tr_exportWM": "Exporter la réunion de week-end",
   "tr_exportWMDesc": "Sélectionner les programmes à exporter.",
   "tr_autofillCompleted": "Remplissage automatique terminé",
+  "tr_autofillCompletedDesc": "Weekend assignments added to the selected weeks",
   "tr_newWeekAddedDesc": "Vous pourrez la trouver dans la liste des semaines de réunion",
   "tr_publishSchedulesDesc": "Sélectionnez les programmes que vous souhaitez afficher à tous les membres de l'assemblée. Les programmes précédents sont accessibles à tous 3 mois après leurs dates d`expiration.",
   "tr_successfullyPublished": "Publié avec succès",
@@ -110,6 +111,5 @@
   "tr_editParts": "Edit parts",
   "tr_customMeetingPartDesc": "Your custom meeting part. If no info is entered, it won't be displayed in the schedule.",
   "tr_customMeetingPartDelete": "Delete custom part",
-  "tr_clearAllAssignmentsDesc": "Are you sure you want to clear all created assignments for this meeting? You can always reassign them later.",
-  "tr_autofillCompletedDesc": "Assignments added to the selected weeks"
+  "tr_clearAllAssignmentsDesc": "Are you sure you want to clear all created assignments for this meeting? You can always reassign them later."
 }
