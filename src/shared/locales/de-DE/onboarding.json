@@ -13,7 +13,7 @@
   "tr_readComplete": "Ich habe das oben Gesagte gelesen und stimme mit dem zu",
   "tr_email": "E-Mail",
   "tr_accountCreated": "Dein Organized-Konto wurde erstellt. Informiere den Administrator deiner Versammlung, damit er dir die erforderlichen Berechtigungen gibt, und aktualisiere dann die Seite.",
-  "tr_createCongregationAccount": "Erstelle eine Versammlung",
+  "tr_createCongregationAccount": "Create congregation",
   "tr_unauthorizedRole": "<p>Du besitzt derzeit nicht die erforderlichen Berechtigungen, um diese Anwendung zu nutzen. Bitte wende dich an die Ältesten deiner Versammlung, um deine Rolle zu überprüfen, und <a href='#'>versuche es</a> dann in 5 Minuten erneut. Falls sie zusätzliche Unterstützung benötigen, können sie uns per E-Mail kontaktieren.</p>",
   "tr_oauthAccept": "<p>Indem du fortfährst, akzeptierst du unsere <a href='https://sws2apps.com/terms/' title='Nutzungsbedingungen' target='_blank' rel='noopener'>Nutzungsbedingungen</a> und <a href='https://sws2apps.com/privacy/' title='Datenschutzrichtlinie' target='_blank' rel='noopener'>Datenschutzrichtlinie</a>.</p>",
   "tr_signInDesc": "Wähle aus, wie du dich anmelden möchtest",
@@ -102,5 +102,7 @@
   "tr_congregationAccessCodeAsk": "Enter congregation access code",
   "tr_congregationAccessCode": "Congregation access code",
   "tr_congregationMasterKeyLostDesc": "Enter your congregation’s master key to access it",
-  "tr_congregationMasterKeyAsk": "Enter congregation master key"
+  "tr_congregationMasterKeyAsk": "Enter congregation master key",
+  "tr_can'tFindCongregation": "Can't find your congregation?",
+  "tr_cantFindCongregationDesc": "Check for mistakes (minimum input is 2 characters). If your congregation isn’t listed on the jw.org search page, contact <a href=\"mailto:support@organized-app.com\">support@organized-app.com</a> for help."
 }

@@ -13,7 +13,7 @@
   "tr_readComplete": "Eu li e concordo com o texto acima",
   "tr_email": "Email",
   "tr_accountCreated": "A sua conta foi criada. Informe o administrador da congregação para lhe dar as permissões necessárias e, em seguida, atualize a página.",
-  "tr_createCongregationAccount": "Criar uma congregação",
+  "tr_createCongregationAccount": "Create congregation",
   "tr_unauthorizedRole": "<p>A sua conta está pronta! Para aceder à aplicação Organized, por favor peça ao administrador da aplicação da sua congregação para lhe conceder permissões e atualize a página em 5 minutos.</p><p>Os anciãos podem entrar em contacto connosco em <a href='mailto:support@organized-app.com'>support@organized-app.com</a> se precisarem de ajuda.</p>",
   "tr_oauthAccept": "<p>Ao continuar, aceita os nossos <a href='https://sws2apps.com/terms/' title='Termos de uso' target='_blank' rel='noopener'>Termos de uso</a> e <a href='https://sws2apps.com/privacy/' title='Política de Privacidade' target='_blank' rel='noopener'>Política de Privacidade</a>.</p>",
   "tr_signInDesc": "Escolha como deseja entrar",
@@ -42,7 +42,7 @@
   "tr_importantNotice": "Aviso importante",
   "tr_registrationSuccess": "Obrigado pelo seu registo",
   "tr_congregationCreateLabel": "Your congregation isn’t registered in Organized yet?",
-  "tr_createCongregation": "Criar congregação",
+  "tr_createCongregation": "Criar uma congregação",
   "tr_yourCongregation": "A sua congregação",
   "tr_incompleteCongregationInfo": "Please make sure you’ve provided all needed details to set up your congregation",
   "tr_firstname": "Primeiro nome",
@@ -102,5 +102,7 @@
   "tr_congregationAccessCodeAsk": "Enter congregation access code",
   "tr_congregationAccessCode": "Congregation access code",
   "tr_congregationMasterKeyLostDesc": "Enter your congregation’s master key to access it",
-  "tr_congregationMasterKeyAsk": "Enter congregation master key"
+  "tr_congregationMasterKeyAsk": "Enter congregation master key",
+  "tr_can'tFindCongregation": "Can't find your congregation?",
+  "tr_cantFindCongregationDesc": "Check for mistakes (minimum input is 2 characters). If your congregation isn’t listed on the jw.org search page, contact <a href=\"mailto:support@organized-app.com\">support@organized-app.com</a> for help."
 }
