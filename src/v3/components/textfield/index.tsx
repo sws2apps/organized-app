@@ -15,8 +15,7 @@ const CustomTextField = (props: TextFieldTypeProps) => {
   const [inputType, setInputType] = useState<HTMLInputTypeAttribute>(props.type);
 
   const heightLocal = height || 44;
-  const endIconLocal =
-    props.type === 'password' ? showAccessCode ? <IconVisibilityOff /> : <IconVisibility /> : endIcon;
+  const endIconLocal = props.type === 'password' ? showAccessCode ? <IconVisibilityOff /> : <IconVisibility /> : endIcon;
   const styleIconLocal = styleIcon ?? true;
 
   const varHeight = (56 - heightLocal) / 2;
@@ -104,11 +103,7 @@ const CustomTextField = (props: TextFieldTypeProps) => {
               marginRight: 0,
               '& svg, & svg g, & svg g path': styleIconLocal
                 ? {
-                    fill: startIcon.props.color
-                      ? startIcon.props.color
-                      : props.value
-                        ? 'var(--black)'
-                        : 'var(--accent-350)',
+                    fill: startIcon.props.color ? startIcon.props.color : props.value ? 'var(--black)' : 'var(--accent-350)',
                   }
                 : {},
             }}
@@ -140,7 +135,16 @@ const CustomTextField = (props: TextFieldTypeProps) => {
             )}
           </InputAdornment>
         ) : (
-          props.endAdornment
+          <InputAdornment
+            position="end"
+            sx={{
+              '& svg, & svg g, & svg g path': {
+                fill: 'var(--black)',
+              },
+            }}
+          >
+            {InputProps?.endAdornment}
+          </InputAdornment>
         ),
       }}
       FormHelperTextProps={{

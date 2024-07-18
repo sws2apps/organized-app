@@ -161,24 +161,9 @@ const ServiceYear = () => {
 
               <StyledCardContainer>
                 <CustomDivider color="var(--accent-200)" />
-                <MonthItem
-                  title={'September 2023'}
-                  style="pioneer"
-                  comment="I was sick"
-                  bibleStudies={10}
-                  hours={1}
-                  inProgress
-                />
+                <MonthItem title={'September 2023'} style="pioneer" comment="I was sick" bibleStudies={10} hours={1} inProgress />
                 <CustomDivider color="var(--accent-200)" />
-                <MonthItem
-                  title={'November 2023'}
-                  style="publisher"
-                  comment="I was sick"
-                  bibleStudies={10}
-                  hours={1}
-                  ministry
-                  auxiliaryPioneer
-                />
+                <MonthItem title={'November 2023'} style="publisher" comment="I was sick" bibleStudies={10} hours={1} ministry auxiliaryPioneer />
               </StyledCardContainer>
             </StyledInfoCard>
           </Box>

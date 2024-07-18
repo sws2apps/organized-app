@@ -9,13 +9,7 @@ import { Box } from '@mui/material';
 import { FieldServiceBadge, ResponsibilityBadge } from './PersonBadge';
 import { useState } from 'react';
 
-const ReportsPersonSelector = ({
-  persons,
-  onClick,
-}: {
-  persons: PersonWithReport[];
-  onClick: (person: PersonWithReport) => void;
-}) => {
+const ReportsPersonSelector = ({ persons, onClick }: { persons: PersonWithReport[]; onClick: (person: PersonWithReport) => void }) => {
   const [personSelected, setPersonSelected] = useState<PersonWithReport>();
   const { t } = useAppTranslation();
   const handleClick = (person: PersonWithReport) => {
@@ -36,12 +30,7 @@ const ReportsPersonSelector = ({
       </span>
       <VerticalFlex sx={{ gap: '8px' }}>
         {persons.map((person) => (
-          <ReportPerson
-            key={person.id}
-            person={person}
-            isSelected={personSelected?.id == person.id}
-            onClick={handleClick.bind(null, person)}
-          />
+          <ReportPerson key={person.id} person={person} isSelected={personSelected?.id == person.id} onClick={handleClick.bind(null, person)} />
         ))}
         {persons.length === 0 && <NoPersons />}
       </VerticalFlex>
@@ -65,15 +54,7 @@ const NoPersons = () => {
   );
 };
 
-const ReportPerson = ({
-  person,
-  isSelected,
-  onClick,
-}: {
-  person: PersonWithReport;
-  isSelected: boolean;
-  onClick: () => void;
-}) => {
+const ReportPerson = ({ person, isSelected, onClick }: { person: PersonWithReport; isSelected: boolean; onClick: () => void }) => {
   return (
     <StyledCardBox
       onClick={onClick}

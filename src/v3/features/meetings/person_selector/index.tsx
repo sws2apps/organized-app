@@ -33,12 +33,7 @@ const PersonSelector = (props: PersonSelectorType) => {
   return (
     <>
       {isHistoryOpen && (
-        <AssignmentsHistoryDialog
-          open={isHistoryOpen}
-          onClose={handleCloseHistory}
-          person={getPersonDisplayName(value)}
-          history={assignmentsHistory}
-        />
+        <AssignmentsHistoryDialog open={isHistoryOpen} onClose={handleCloseHistory} person={getPersonDisplayName(value)} history={assignmentsHistory} />
       )}
 
       <AutoComplete
@@ -69,18 +64,16 @@ const PersonSelector = (props: PersonSelectorType) => {
               {option.person_data.male.value ? <IconMale /> : <IconFemale />}
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                 <Typography className="body-regular">{getPersonDisplayName(option)}</Typography>
-                {showGenderSelector &&
-                  option.last_assistant.length > 0 &&
-                  option.last_assistant !== option.last_assignment && (
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                      <Typography className="body-small-regular" color="var(--grey-350)">
-                        {t('tr_assistant')}:
-                      </Typography>
-                      <Typography className="body-small-regular" color="var(--grey-350)">
-                        {option.last_assistant}
-                      </Typography>
-                    </Box>
-                  )}
+                {showGenderSelector && option.last_assistant.length > 0 && option.last_assistant !== option.last_assignment && (
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <Typography className="body-small-regular" color="var(--grey-350)">
+                      {t('tr_assistant')}:
+                    </Typography>
+                    <Typography className="body-small-regular" color="var(--grey-350)">
+                      {option.last_assistant}
+                    </Typography>
+                  </Box>
+                )}
               </Box>
             </Box>
 
@@ -89,12 +82,7 @@ const PersonSelector = (props: PersonSelectorType) => {
                 {option.last_assignment}
               </Typography>
               {(showGenderSelector || type === AssignmentCode.MM_BibleReading) && (
-                <Typography
-                  className="body-small-regular"
-                  color="var(--grey-350)"
-                  align="center"
-                  sx={{ width: '70px' }}
-                >
+                <Typography className="body-small-regular" color="var(--grey-350)" align="center" sx={{ width: '70px' }}>
                   {option.hall}
                 </Typography>
               )}
@@ -137,21 +125,11 @@ const PersonSelector = (props: PersonSelectorType) => {
                 {t('tr_name')}
               </Typography>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <Typography
-                  className="body-small-regular"
-                  color="var(--grey-350)"
-                  align="center"
-                  sx={{ width: '85px' }}
-                >
+                <Typography className="body-small-regular" color="var(--grey-350)" align="center" sx={{ width: '85px' }}>
                   {t('tr_lastAssignment')}
                 </Typography>
                 {(showGenderSelector || type === AssignmentCode.MM_BibleReading) && (
-                  <Typography
-                    className="body-small-regular"
-                    color="var(--grey-350)"
-                    align="center"
-                    sx={{ width: '70px' }}
-                  >
+                  <Typography className="body-small-regular" color="var(--grey-350)" align="center" sx={{ width: '70px' }}>
                     {t('tr_hall')}
                   </Typography>
                 )}
@@ -163,9 +141,11 @@ const PersonSelector = (props: PersonSelectorType) => {
         startIcon={value ? value.person_data.male.value ? <IconMale /> : <IconFemale /> : placeHolderIcon}
         endIcon={
           value ? (
-            <IconButton sx={{ padding: 0 }} onClick={handleOpenHistory}>
-              <IconAssignmetHistory color="var(--accent-main)" />
-            </IconButton>
+            <>
+              <IconButton sx={{ padding: 0 }} onClick={handleOpenHistory}>
+                <IconAssignmetHistory color="var(--accent-main)" />
+              </IconButton>
+            </>
           ) : null
         }
       />

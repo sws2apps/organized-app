@@ -101,10 +101,7 @@ const DashboardMenu = ({
               </Box>
               {actionComponent ? actionComponent : null}
               {badgeText.length > 0 && (
-                <Box
-                  className="menu-secondary"
-                  sx={{ padding: '2px 12px', borderRadius: 'var(--radius-xxl)', background: 'var(--accent-150)' }}
-                >
+                <Box className="menu-secondary" sx={{ padding: '2px 12px', borderRadius: 'var(--radius-xxl)', background: 'var(--accent-150)' }}>
                   <Typography className="body-small-semibold" color="var(--accent-dark)" sx={{ textAlign: 'center' }}>
                     {badgeText}
                   </Typography>

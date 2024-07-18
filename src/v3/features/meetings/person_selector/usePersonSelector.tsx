@@ -8,17 +8,15 @@ import { personGetDisplayName } from '@utils/common';
 import { AssignmentCode } from '@definition/assignment';
 import { useAppTranslation } from '@hooks/index';
 import { assignmentsHistoryState, schedulesState } from '@states/schedules';
-import { dbSchedUpdate } from '@services/dexie/schedules';
 import { sourcesState } from '@states/sources';
 import { JWLangState } from '@states/app';
 import { sourcesCheckAYFExplainBeliefsAssignment, sourcesCheckLCElderAssignment } from '@services/app/sources';
 import { personIsElder } from '@services/app/persons';
-import { AssignmentCongregation, AssignmentHistoryType, SchedWeekType } from '@definition/schedules';
-import { UpdateSpec } from 'dexie';
+import { AssignmentCongregation, AssignmentHistoryType } from '@definition/schedules';
 import { LivingAsChristiansType } from '@definition/sources';
 import { formatDate } from '@services/dateformat';
 import { ASSIGNMENT_PATH, ASSISTANT_ASSIGNMENT, BROTHER_ASSIGNMENT, STUDENT_ASSIGNMENT } from '@constants/index';
-import { schedulesGetData, schedulesUpdateHistory } from '@services/app/schedules';
+import { schedulesGetData, schedulesSaveAssignment } from '@services/app/schedules';
 import { IconMale, IconPersonPlaceholder } from '@components/icons';
 
 const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
@@ -91,28 +89,7 @@ const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
   };
 
   const handleSaveAssignment = async (value: PersonOptionsType) => {
-    const toSave = value ? value.person_uid : '';
-    const path = ASSIGNMENT_PATH[assignment];
-    const fieldUpdate = structuredClone(schedulesGetData(schedule, path));
-
-    let assigned: AssignmentCongregation;
-
-    if (Array.isArray(fieldUpdate)) {
-      assigned = fieldUpdate.find((record) => record.type === dataView);
-      assigned.value = toSave;
-      assigned.updatedAt = new Date().toISOString();
-    } else {
-      assigned = fieldUpdate;
-      fieldUpdate.value = toSave;
-      fieldUpdate.updatedAt = new Date().toISOString();
-    }
-
-    const dataDb = { [path]: fieldUpdate } as unknown as UpdateSpec<SchedWeekType>;
-
-    await dbSchedUpdate(week, dataDb);
-
-    // update history
-    await schedulesUpdateHistory(week, assignment, assigned);
+    await schedulesSaveAssignment(schedule, assignment, value);
   };
 
   const handleFormatDate = useCallback(

@@ -1,15 +1,6 @@
 import { useAppTranslation } from '@hooks/index';
 import { Button, PageTitle } from '@components/index';
-import {
-  IconAdd,
-  IconEdit,
-  IconMore,
-  IconPerson,
-  IconRemovePerson,
-  IconReorder,
-  IconVisitors,
-  IconAssistant,
-} from '@icons/index';
+import { IconAdd, IconEdit, IconMore, IconPerson, IconRemovePerson, IconReorder, IconVisitors, IconAssistant } from '@icons/index';
 import { Box, IconButton, Stack, MenuItem, ListItemIcon, ListItemText, Menu, ListItem } from '@mui/material';
 import Masonry from '@mui/lab/Masonry';
 
@@ -104,17 +95,7 @@ const PersonMenu: FC<{ color?: string }> = ({ color }) => {
   );
 };
 
-const GroupHeader = ({
-  groupNumber,
-  groupName = '',
-  groupLength,
-  color,
-}: {
-  groupNumber: number;
-  groupName?: string;
-  groupLength: number;
-  color?: string;
-}) => {
+const GroupHeader = ({ groupNumber, groupName = '', groupLength, color }: { groupNumber: number; groupName?: string; groupLength: number; color?: string }) => {
   return (
     <Stack
       direction={'row'}
@@ -212,14 +193,7 @@ const ServiceGroups = () => {
 
         <DashboardCard
           color={'rgb(from var(--group-2) r g b / 48%)'}
-          header={
-            <GroupHeader
-              groupNumber={2}
-              groupLength={11}
-              groupName={'Emelricherlicher Vlyn'}
-              color={'var(--group-2)'}
-            />
-          }
+          header={<GroupHeader groupNumber={2} groupLength={11} groupName={'Emelricherlicher Vlyn'} color={'var(--group-2)'} />}
           fixedHeight={false}
         >
           {persons.slice(0, 10).map((person) => (

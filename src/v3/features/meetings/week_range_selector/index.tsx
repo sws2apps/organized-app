@@ -6,12 +6,12 @@ import Select from '@components/select';
 import MenuItem from '@components/menuitem';
 import Typography from '@components/typography';
 
-const WeekRangeSelector = ({ onEndChange, onStartChange }: WeekRangeSelectorType) => {
+const WeekRangeSelector = ({ onEndChange, onStartChange, meeting }: WeekRangeSelectorType) => {
   const { t } = useAppTranslation();
 
   const { tabletUp } = useBreakpoints();
 
-  const { endWeekOptions, startWeekOptions, handleStartWeekChange } = useWeekRangeSelector(onStartChange);
+  const { endWeekOptions, startWeekOptions, handleStartWeekChange } = useWeekRangeSelector(onStartChange, meeting);
 
   return (
     <Box sx={{ width: '100%', display: 'flex', flexDirection: tabletUp ? 'row' : 'column', gap: '16px' }}>

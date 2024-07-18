@@ -6,7 +6,10 @@ import { getWeekDate } from '@utils/date';
 import { useAppTranslation } from '@hooks/index';
 import { monthNamesState } from '@states/app';
 
-const useWeekRangeSelector = (onStartChange: WeekRangeSelectorType['onStartChange']) => {
+const useWeekRangeSelector = (
+  onStartChange: WeekRangeSelectorType['onStartChange'],
+  meeting: WeekRangeSelectorType['meeting']
+) => {
   const { t } = useAppTranslation();
 
   const sources = useRecoilValue(sourcesState);
@@ -15,7 +18,12 @@ const useWeekRangeSelector = (onStartChange: WeekRangeSelectorType['onStartChang
   const [startWeek, setStartWeek] = useState('');
 
   const startWeekOptions = useMemo(() => {
-    const recentSources = sources.filter((source) => new Date(source.weekOf) >= getWeekDate());
+    const recentSources = sources.filter(
+      (source) =>
+        new Date(source.weekOf) >= getWeekDate() &&
+        meeting === 'midweek' &&
+        source.midweek_meeting.week_date_locale['E']
+    );
 
     const result: WeekOptionsType[] = recentSources.map((source) => {
       const [year, month, date] = source.weekOf.split('/');
@@ -25,7 +33,7 @@ const useWeekRangeSelector = (onStartChange: WeekRangeSelectorType['onStartChang
     });
 
     return result;
-  }, [sources, t, monthNames]);
+  }, [sources, t, monthNames, meeting]);
 
   const endWeekOptions = useMemo(() => {
     if (startWeek.length <= 0) return [];

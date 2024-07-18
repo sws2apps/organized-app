@@ -1,12 +1,5 @@
 import { Box } from '@mui/material';
-import {
-  IconCustom,
-  IconDelete,
-  IconInfo,
-  IconLivingPart,
-  IconMinistryPart,
-  IconTreasuresPart,
-} from '@components/icons';
+import { IconClose, IconCustom, IconDelete, IconInfo, IconLivingPart, IconMinistryPart, IconTreasuresPart } from '@components/icons';
 import { AssignmentCode } from '@definition/assignment';
 import { Week } from '@definition/week_type';
 import { ClassAssignmentContainer, PersonDoubleContainer, PersonSelectorContainer, RowContainer } from './index.styles';
@@ -24,6 +17,7 @@ import Typography from '@components/typography';
 import WeekHeader from './week_header';
 import WeekTypeSelector from '../week_type_selector';
 import ButtonGroup from '@components/button_group';
+import AssignmentsWeekDelete from '../assignments_week_delete';
 
 const MidweekEditor = () => {
   const { t } = useAppTranslation();
@@ -66,6 +60,9 @@ const MidweekEditor = () => {
     handleAddCustomLCPart,
     hasCustomPart,
     handleDeleteCustomLCPart,
+    clearAll,
+    handleCloseClearAll,
+    handleOpenClearAll,
   } = useMidweekEditor();
 
   return (
@@ -78,6 +75,8 @@ const MidweekEditor = () => {
         flexGrow: 1,
       }}
     >
+      {clearAll && <AssignmentsWeekDelete open={clearAll} meeting="midweek" week={selectedWeek} onClose={handleCloseClearAll} />}
+
       {weekDateLocale.length === 0 && (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <IconInfo color="var(--accent-400)" />
@@ -129,13 +128,7 @@ const MidweekEditor = () => {
                 <WeekHeader week={selectedWeek} />
 
                 <PersonSelectorContainer desktopUp={desktopUp}>
-                  <PersonSelector
-                    week={selectedWeek}
-                    label={t('tr_chairman')}
-                    type={AssignmentCode.MM_Chairman}
-                    assignment="MM_Chairman_A"
-                    readOnly={isEdit}
-                  />
+                  <PersonSelector week={selectedWeek} label={t('tr_chairman')} type={AssignmentCode.MM_Chairman} assignment="MM_Chairman_A" readOnly={isEdit} />
                   {showDoublePerson && (
                     <PersonSelector
                       week={selectedWeek}
@@ -154,13 +147,7 @@ const MidweekEditor = () => {
                 <SongSource week={selectedWeek} meeting="midweek" type="opening" />
 
                 <PersonSelectorContainer desktopUp={desktopUp}>
-                  <PersonSelector
-                    week={selectedWeek}
-                    label={t('tr_prayer')}
-                    type={AssignmentCode.MM_Prayer}
-                    assignment="MM_OpeningPrayer"
-                    readOnly={isEdit}
-                  />
+                  <PersonSelector week={selectedWeek} label={t('tr_prayer')} type={AssignmentCode.MM_Prayer} assignment="MM_OpeningPrayer" readOnly={isEdit} />
                 </PersonSelectorContainer>
               </RowContainer>
 
@@ -182,13 +169,7 @@ const MidweekEditor = () => {
                   </Box>
 
                   <PersonSelectorContainer desktopUp={desktopUp}>
-                    <PersonSelector
-                      week={selectedWeek}
-                      label={t('tr_brother')}
-                      type={AssignmentCode.MM_TGWTalk}
-                      assignment="MM_TGWTalk"
-                      readOnly={isEdit}
-                    />
+                    <PersonSelector week={selectedWeek} label={t('tr_brother')} type={AssignmentCode.MM_TGWTalk} assignment="MM_TGWTalk" readOnly={isEdit} />
                   </PersonSelectorContainer>
                 </RowContainer>
 
@@ -203,13 +184,7 @@ const MidweekEditor = () => {
                   </Box>
 
                   <PersonSelectorContainer desktopUp={desktopUp}>
-                    <PersonSelector
-                      week={selectedWeek}
-                      label={t('tr_brother')}
-                      type={AssignmentCode.MM_TGWGems}
-                      assignment="MM_TGWGems"
-                      readOnly={isEdit}
-                    />
+                    <PersonSelector week={selectedWeek} label={t('tr_brother')} type={AssignmentCode.MM_TGWGems} assignment="MM_TGWGems" readOnly={isEdit} />
                   </PersonSelectorContainer>
                 </RowContainer>
 
@@ -261,11 +236,7 @@ const MidweekEditor = () => {
               >
                 {/* ayf_part1 */}
                 <RowContainer desktopUp={desktopUp}>
-                  <MeetingPart
-                    week={selectedWeek}
-                    type="ayf_part1"
-                    color="var(--apply-yourself-to-the-field-ministry)"
-                  />
+                  <MeetingPart week={selectedWeek} type="ayf_part1" color="var(--apply-yourself-to-the-field-ministry)" />
 
                   <PersonSelectorContainer desktopUp={desktopUp}>
                     <ClassAssignmentContainer>
@@ -273,13 +244,7 @@ const MidweekEditor = () => {
                         {t('tr_mainHall')}
                       </Typography>
                       <PersonDoubleContainer desktopUp={desktopUp} laptopUp={laptopUp}>
-                        <PersonSelector
-                          week={selectedWeek}
-                          label={t('tr_student')}
-                          type={ayfPart1}
-                          assignment="MM_AYFPart1_Student_A"
-                          readOnly={isEdit}
-                        />
+                        <PersonSelector week={selectedWeek} label={t('tr_student')} type={ayfPart1} assignment="MM_AYFPart1_Student_A" readOnly={isEdit} />
 
                         {showAYFPart1Assistant && (
                           <PersonSelector
@@ -299,13 +264,7 @@ const MidweekEditor = () => {
                           {t('tr_auxClass')}
                         </Typography>
                         <PersonDoubleContainer desktopUp={desktopUp} laptopUp={laptopUp}>
-                          <PersonSelector
-                            week={selectedWeek}
-                            label={t('tr_student')}
-                            type={ayfPart1}
-                            assignment="MM_AYFPart1_Student_B"
-                            readOnly={isEdit}
-                          />
+                          <PersonSelector week={selectedWeek} label={t('tr_student')} type={ayfPart1} assignment="MM_AYFPart1_Student_B" readOnly={isEdit} />
 
                           {showAYFPart1Assistant && (
                             <PersonSelector
@@ -328,11 +287,7 @@ const MidweekEditor = () => {
                     <Divider color="var(--accent-200)" />
 
                     <RowContainer desktopUp={desktopUp}>
-                      <MeetingPart
-                        week={selectedWeek}
-                        type="ayf_part2"
-                        color="var(--apply-yourself-to-the-field-ministry)"
-                      />
+                      <MeetingPart week={selectedWeek} type="ayf_part2" color="var(--apply-yourself-to-the-field-ministry)" />
 
                       <PersonSelectorContainer desktopUp={desktopUp}>
                         <ClassAssignmentContainer>
@@ -340,13 +295,7 @@ const MidweekEditor = () => {
                             {t('tr_mainHall')}
                           </Typography>
                           <PersonDoubleContainer desktopUp={desktopUp} laptopUp={laptopUp}>
-                            <PersonSelector
-                              week={selectedWeek}
-                              label={t('tr_student')}
-                              type={ayfPart2}
-                              assignment="MM_AYFPart2_Student_A"
-                              readOnly={isEdit}
-                            />
+                            <PersonSelector week={selectedWeek} label={t('tr_student')} type={ayfPart2} assignment="MM_AYFPart2_Student_A" readOnly={isEdit} />
 
                             {showAYFPart2Assistant && (
                               <PersonSelector
@@ -397,11 +346,7 @@ const MidweekEditor = () => {
                     <Divider color="var(--accent-200)" />
 
                     <RowContainer desktopUp={desktopUp}>
-                      <MeetingPart
-                        week={selectedWeek}
-                        type="ayf_part3"
-                        color="var(--apply-yourself-to-the-field-ministry)"
-                      />
+                      <MeetingPart week={selectedWeek} type="ayf_part3" color="var(--apply-yourself-to-the-field-ministry)" />
 
                       <PersonSelectorContainer desktopUp={desktopUp}>
                         <ClassAssignmentContainer>
@@ -409,13 +354,7 @@ const MidweekEditor = () => {
                             {t('tr_mainHall')}
                           </Typography>
                           <PersonDoubleContainer desktopUp={desktopUp} laptopUp={laptopUp}>
-                            <PersonSelector
-                              week={selectedWeek}
-                              label={t('tr_student')}
-                              type={ayfPart3}
-                              assignment="MM_AYFPart3_Student_A"
-                              readOnly={isEdit}
-                            />
+                            <PersonSelector week={selectedWeek} label={t('tr_student')} type={ayfPart3} assignment="MM_AYFPart3_Student_A" readOnly={isEdit} />
 
                             {showAYFPart3Assistant && (
                               <PersonSelector
@@ -466,11 +405,7 @@ const MidweekEditor = () => {
                     <Divider color="var(--accent-200)" />
 
                     <RowContainer desktopUp={desktopUp}>
-                      <MeetingPart
-                        week={selectedWeek}
-                        type="ayf_part4"
-                        color="var(--apply-yourself-to-the-field-ministry)"
-                      />
+                      <MeetingPart week={selectedWeek} type="ayf_part4" color="var(--apply-yourself-to-the-field-ministry)" />
 
                       <PersonSelectorContainer desktopUp={desktopUp}>
                         <ClassAssignmentContainer>
@@ -478,13 +413,7 @@ const MidweekEditor = () => {
                             {t('tr_mainHall')}
                           </Typography>
                           <PersonDoubleContainer desktopUp={desktopUp} laptopUp={laptopUp}>
-                            <PersonSelector
-                              week={selectedWeek}
-                              label={t('tr_student')}
-                              type={ayfPart4}
-                              assignment="MM_AYFPart4_Student_A"
-                              readOnly={isEdit}
-                            />
+                            <PersonSelector week={selectedWeek} label={t('tr_student')} type={ayfPart4} assignment="MM_AYFPart4_Student_A" readOnly={isEdit} />
 
                             {showAYFPart4Assistant && (
                               <PersonSelector
@@ -543,36 +472,18 @@ const MidweekEditor = () => {
 
                 {/* lc_part1 */}
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                  {isEdit && (
-                    <Checkbox
-                      label={t('tr_overwriteWithCustomData')}
-                      checked={isOverwriteLCPart1}
-                      onChange={handleToggleOverwriteLCPart1}
-                    />
-                  )}
+                  {isEdit && <Checkbox label={t('tr_overwriteWithCustomData')} checked={isOverwriteLCPart1} onChange={handleToggleOverwriteLCPart1} />}
 
                   <RowContainer desktopUp={desktopUp}>
                     <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
                       {isEdit && <PartDuration length={15} week={selectedWeek} type="lc_part1" />}
 
-                      <MeetingPart
-                        week={selectedWeek}
-                        type="lc_part1"
-                        color="var(--living-as-christians)"
-                        isOverwrite={isOverwriteLCPart1}
-                        isEdit={isEdit}
-                      />
+                      <MeetingPart week={selectedWeek} type="lc_part1" color="var(--living-as-christians)" isOverwrite={isOverwriteLCPart1} isEdit={isEdit} />
                     </Box>
 
                     {!lcNoAssignPart1 && (
                       <PersonSelectorContainer desktopUp={desktopUp}>
-                        <PersonSelector
-                          week={selectedWeek}
-                          label={t('tr_brother')}
-                          type={AssignmentCode.MM_LCPart}
-                          assignment="MM_LCPart1"
-                          readOnly={isEdit}
-                        />
+                        <PersonSelector week={selectedWeek} label={t('tr_brother')} type={AssignmentCode.MM_LCPart} assignment="MM_LCPart1" readOnly={isEdit} />
                       </PersonSelectorContainer>
                     )}
                   </RowContainer>
@@ -584,26 +495,13 @@ const MidweekEditor = () => {
                     <Divider color="var(--accent-200)" />
 
                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                      {isEdit && (
-                        <Checkbox
-                          label={t('tr_overwriteWithCustomData')}
-                          checked={isOverwriteLCPart2}
-                          onChange={handleToggleOverwriteLCPart2}
-                        />
-                      )}
+                      {isEdit && <Checkbox label={t('tr_overwriteWithCustomData')} checked={isOverwriteLCPart2} onChange={handleToggleOverwriteLCPart2} />}
 
                       <RowContainer desktopUp={desktopUp}>
-                        <Box
-                          sx={{ width: '100%', display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}
-                        >
+                        <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
                           {isEdit && <PartDuration length={15} week={selectedWeek} type="lc_part2" />}
 
-                          <MeetingPart
-                            week={selectedWeek}
-                            type="lc_part2"
-                            color="var(--living-as-christians)"
-                            isOverwrite={isOverwriteLCPart2}
-                          />
+                          <MeetingPart week={selectedWeek} type="lc_part2" color="var(--living-as-christians)" isOverwrite={isOverwriteLCPart2} />
                         </Box>
 
                         {!lcNoAssignPart2 && (
@@ -633,13 +531,7 @@ const MidweekEditor = () => {
                       <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
                         {isEdit && <PartDuration length={15} week={selectedWeek} type="lc_part3" />}
 
-                        <MeetingPart
-                          week={selectedWeek}
-                          type="lc_part3"
-                          color="var(--living-as-christians)"
-                          isEdit={isEdit}
-                          isOverwrite={true}
-                        />
+                        <MeetingPart week={selectedWeek} type="lc_part3" color="var(--living-as-christians)" isEdit={isEdit} isOverwrite={true} />
                       </Box>
 
                       <Box
@@ -683,12 +575,7 @@ const MidweekEditor = () => {
                   <>
                     <Divider color="var(--accent-200)" />
 
-                    <Button
-                      variant="small"
-                      startIcon={<IconCustom />}
-                      sx={{ minHeight: '32px', width: 'fit-content' }}
-                      onClick={handleAddCustomLCPart}
-                    >
+                    <Button variant="small" startIcon={<IconCustom />} sx={{ minHeight: '32px', width: 'fit-content' }} onClick={handleAddCustomLCPart}>
                       {t('tr_addCustomMeetingPart')}
                     </Button>
                   </>
@@ -701,13 +588,7 @@ const MidweekEditor = () => {
                   <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
                     {isEdit && <PartDuration length={30} week={selectedWeek} type="lc_cbs" />}
 
-                    <MeetingPart
-                      week={selectedWeek}
-                      type="lc_cbs"
-                      color="var(--living-as-christians)"
-                      isEdit={isEdit}
-                      isOverwrite={isEdit}
-                    />
+                    <MeetingPart week={selectedWeek} type="lc_cbs" color="var(--living-as-christians)" isEdit={isEdit} isOverwrite={isEdit} />
                   </Box>
 
                   <PersonSelectorContainer desktopUp={desktopUp}>
@@ -735,23 +616,18 @@ const MidweekEditor = () => {
 
               {/* closing_prayer */}
               <RowContainer desktopUp={desktopUp}>
-                <SongSource
-                  week={selectedWeek}
-                  meeting="midweek"
-                  type="concluding"
-                  isEdit={weekType === Week.CO_VISIT && isEdit}
-                />
+                <SongSource week={selectedWeek} meeting="midweek" type="concluding" isEdit={weekType === Week.CO_VISIT && isEdit} />
 
                 <PersonSelectorContainer desktopUp={desktopUp}>
-                  <PersonSelector
-                    week={selectedWeek}
-                    label={t('tr_prayer')}
-                    type={AssignmentCode.MM_Prayer}
-                    assignment="MM_ClosingPrayer"
-                    readOnly={isEdit}
-                  />
+                  <PersonSelector week={selectedWeek} label={t('tr_prayer')} type={AssignmentCode.MM_Prayer} assignment="MM_ClosingPrayer" readOnly={isEdit} />
                 </PersonSelectorContainer>
               </RowContainer>
+
+              <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <Button variant="secondary" color="red" startIcon={<IconClose />} onClick={handleOpenClearAll}>
+                  {t('tr_clearAll')}
+                </Button>
+              </Box>
             </Box>
           )}
         </Box>

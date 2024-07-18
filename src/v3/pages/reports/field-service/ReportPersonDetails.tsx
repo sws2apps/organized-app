@@ -3,22 +3,11 @@ import UserCardMaleImg from '@assets/img/illustration_male.svg?component';
 import UserCardFemaleImg from '@assets/img/illustration_female.svg?component';
 import { PersonWithReport } from './index.types';
 import { FieldServiceBadge, ResponsibilityBadge } from './PersonBadge';
-import {
-  Checkbox,
-  CustomDivider,
-  CustomTimeTextField,
-  InfoTip,
-  MinusButton,
-  PlusButton,
-  TextField,
-} from '@components/index';
+import { Checkbox, CustomDivider, CustomTimeTextField, InfoTip, MinusButton, PlusButton, TextField } from '@components/index';
 import useAppTranslation from '@hooks/useAppTranslation';
 import { useState } from 'react';
 import { IconInfo } from '@components/icons';
-import {
-  convertDurationInSecondsToString,
-  convertDurationStringToSeconds,
-} from '@features/ministry/add_service_time_modal_window/utils';
+import { convertDurationInSecondsToString, convertDurationStringToSeconds } from '@features/ministry/add_service_time_modal_window/utils';
 import { Box } from '@mui/material';
 import CustomTypography from '@components/typography';
 
@@ -30,15 +19,7 @@ const ReportPersonDetails = ({ person }: { person?: PersonWithReport }) => {
 const NoPersonSelected = () => {
   const { t } = useAppTranslation();
 
-  return (
-    <InfoTip
-      sx={{ borderRadius: 'var(--radius-l)' }}
-      isBig={false}
-      icon={<IconInfo />}
-      color="white"
-      text={t('tr_reportPageInfo')}
-    />
-  );
+  return <InfoTip sx={{ borderRadius: 'var(--radius-l)' }} isBig={false} icon={<IconInfo />} color="white" text={t('tr_reportPageInfo')} />;
 };
 
 const PersonDetails = ({ person }: { person: PersonWithReport }) => {
@@ -46,9 +27,7 @@ const PersonDetails = ({ person }: { person: PersonWithReport }) => {
 
   const [isLate, setIsLate] = useState(person.report?.isLate ?? false);
 
-  const [sharedAnyFormOfTheMinistry, setSharedAnyFormOfTheMinistry] = useState(
-    person.report?.sharedAnyFormOfTheMinistry ?? false
-  );
+  const [sharedAnyFormOfTheMinistry, setSharedAnyFormOfTheMinistry] = useState(person.report?.sharedAnyFormOfTheMinistry ?? false);
   const [totalHours, setTotalHours] = useState(person.report?.totalHours ?? 0);
   const [nbBibleStudies, setNbBibleStudies] = useState(person.report?.bibleStudies ?? 0);
 
@@ -74,11 +53,7 @@ const PersonDetails = ({ person }: { person: PersonWithReport }) => {
       <CustomDivider color="var(--accent-200)" />
 
       {isAPublisher ? (
-        <Checkbox
-          label={t('tr_sharedMinistry')}
-          checked={sharedAnyFormOfTheMinistry}
-          onChange={(e) => setSharedAnyFormOfTheMinistry(e.target.checked)}
-        />
+        <Checkbox label={t('tr_sharedMinistry')} checked={sharedAnyFormOfTheMinistry} onChange={(e) => setSharedAnyFormOfTheMinistry(e.target.checked)} />
       ) : (
         <HorizontalFlex sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
           <span className="body-regular">{t('tr_totalHours')}</span>

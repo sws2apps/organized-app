@@ -1,9 +1,4 @@
-import {
-  StyledProgressBar,
-  StyledProgressBarFill,
-  StyledProgressBarBox,
-  StyledProgressBarToFill,
-} from './progress_bar.styled';
+import { StyledProgressBar, StyledProgressBarFill, StyledProgressBarBox, StyledProgressBarToFill } from './progress_bar.styled';
 
 /**
  * Props for the ProgressBarSmall component.

@@ -31,7 +31,7 @@ const AssignmentsHistory = ({ history, isDialog = true }: AssignmentsHistoryType
           }}
         >
           {assignments.map((assignment) => (
-            <HistoryRow key={assignment.history_date} assignment={assignment} isDialog={isDialog} />
+            <HistoryRow key={assignment.history_id} assignment={assignment} isDialog={isDialog} />
           ))}
         </TableBody>
       </Table>
