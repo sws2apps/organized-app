@@ -70,5 +70,6 @@
   "tr_studentAssistantS89": "Öğrenci/Yardımcı:",
   "tr_chairman": "Başkanlık eden",
   "tr_prayer": "Dua",
-  "tr_partDuration": "({{ time }} min.)"
+  "tr_partDuration": "({{ time }} min.)",
+  "tr_memorialWeek": "Week of Memorial"
 }
