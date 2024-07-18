@@ -99,5 +99,6 @@
   "tr_editingFinished": "Edición terminada",
   "tr_minLabel": "min.",
   "tr_textCopied": "Información copiada al portapapeles",
-  "tr_longDateWithYearLocale": "{{ month }} {{ date }}, {{ year }}"
+  "tr_longDateWithYearLocale": "{{ month }} {{ date }}, {{ year }}",
+  "tr_edit": "Edit"
 }
