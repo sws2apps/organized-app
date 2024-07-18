@@ -13,6 +13,7 @@
   "tr_readComplete": "I have read and agree with the above",
   "tr_email": "Email",
   "tr_accountCreated": "Your Organized account has been created. Inform your congregation administrator to give you the necessary permissions and then refresh the page.",
+  "tr_createCongregationAccount": "Create congregation",
   "tr_unauthorizedRole": "<p>Your account is all set! To access the Organized app, please ask your congregation’s app administrator to give you permissions and refresh the page in 5 minutes.</p><p>Elders can contact us at <a href='mailto:support@organized-app.com'>support@organized-app.com</a> if they need assistance.</p>",
   "tr_oauthAccept": "<p>By continuing, you accept our <a href='https://sws2apps.com/terms/' title='Terms of Use' target='_blank' rel='noopener'>Terms of Use</a> and <a href='https://sws2apps.com/privacy/' title='Privacy Policy' target='_blank' rel='noopener'>Privacy Policy</a>.</p>",
   "tr_signInDesc": "Choose how you want to log in",
@@ -94,7 +95,7 @@
   "tr_congregationAccessCodeNoticeLength": "At least 8 characters",
   "tr_congregationAccessCodeSet": "Set access code",
   "tr_congregationAccessCodeVerify": "Verify congregation access code",
-  "tr_congregationAccessCodeNotice": "Please note and safeguard this code. Any users accessing your congregation need it to start using the app.",
+  "tr_congregationAccessCodeNotice": "Please note and safeguard this code. Any users accessing your congregation need it to open the app.",
   "tr_congregationAccessCodeLostDesc": "Please enter the access code to your congregation. This unique code is specific to your congregation and is necessary to connect and access it.",
   "tr_setCongregationMasterKey": "Set congregation master key",
   "tr_createCongregationMasterKey": "Create congregation master key",
@@ -102,6 +103,6 @@
   "tr_congregationAccessCode": "Congregation access code",
   "tr_congregationMasterKeyLostDesc": "Enter your congregation’s master key to access it",
   "tr_congregationMasterKeyAsk": "Enter congregation master key",
-  "tr_cantFindCongregation": "Can't find your congregation?",
-  "tr_cantFindCongregationMessage": "Check for mistakes (minimum input is 2 characters). If your congregation isn’t listed on the jw.org search page, contact <a href=\"mailto:support@organized-app.com\">support@organized-app.com</a> for help."
+  "tr_can'tFindCongregation": "Can't find your congregation?",
+  "tr_cantFindCongregationDesc": "Check for mistakes (minimum input is 2 characters). If your congregation isn’t listed on the jw.org search page, contact <a href=\"mailto:support@organized-app.com\">support@organized-app.com</a> for help."
 }
