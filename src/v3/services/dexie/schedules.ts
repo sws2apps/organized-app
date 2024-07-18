@@ -22,3 +22,11 @@ export const dbSchedCheck = async (weekOf: string) => {
     await appDb.sched.put(newSched);
   }
 };
+
+export const dbSchedBulkUpdate = async (weeks: SchedWeekType[]) => {
+  const data = weeks.map((sched) => {
+    return { key: sched.weekOf, changes: sched };
+  });
+
+  await appDb.sched.bulkUpdate(data);
+};

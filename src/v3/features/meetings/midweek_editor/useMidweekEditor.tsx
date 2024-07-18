@@ -46,31 +46,24 @@ const useMidweekEditor = () => {
   const [openAYF, setOpenAYF] = useState(true);
   const [openLC, setOpenLC] = useState(true);
   const [hasCustomPart, setHasCustomPart] = useState(false);
+  const [clearAll, setClearAll] = useState(false);
 
   const showDoublePerson = classCount === 2 && weekType !== Week.CO_VISIT;
 
   const showAYFPart1Assistant =
-    (ayfPart1 !== AssignmentCode.MM_ExplainingBeliefs &&
-      ayfPart1 !== AssignmentCode.MM_Talk &&
-      ayfPart1 !== AssignmentCode.MM_Discussion) ||
+    (ayfPart1 !== AssignmentCode.MM_ExplainingBeliefs && ayfPart1 !== AssignmentCode.MM_Talk && ayfPart1 !== AssignmentCode.MM_Discussion) ||
     (ayfPart1 === AssignmentCode.MM_ExplainingBeliefs && !isTalkAYFPart1);
 
   const showAYFPart2Assistant =
-    (ayfPart2 !== AssignmentCode.MM_ExplainingBeliefs &&
-      ayfPart2 !== AssignmentCode.MM_Talk &&
-      ayfPart2 !== AssignmentCode.MM_Discussion) ||
+    (ayfPart2 !== AssignmentCode.MM_ExplainingBeliefs && ayfPart2 !== AssignmentCode.MM_Talk && ayfPart2 !== AssignmentCode.MM_Discussion) ||
     (ayfPart2 === AssignmentCode.MM_ExplainingBeliefs && !isTalkAYFPart2);
 
   const showAYFPart3Assistant =
-    (ayfPart3 !== AssignmentCode.MM_ExplainingBeliefs &&
-      ayfPart3 !== AssignmentCode.MM_Talk &&
-      ayfPart3 !== AssignmentCode.MM_Discussion) ||
+    (ayfPart3 !== AssignmentCode.MM_ExplainingBeliefs && ayfPart3 !== AssignmentCode.MM_Talk && ayfPart3 !== AssignmentCode.MM_Discussion) ||
     (ayfPart3 === AssignmentCode.MM_ExplainingBeliefs && !isTalkAYFPart3);
 
   const showAYFPart4Assistant =
-    (ayfPart4 !== AssignmentCode.MM_ExplainingBeliefs &&
-      ayfPart4 !== AssignmentCode.MM_Talk &&
-      ayfPart4 !== AssignmentCode.MM_Discussion) ||
+    (ayfPart4 !== AssignmentCode.MM_ExplainingBeliefs && ayfPart4 !== AssignmentCode.MM_Talk && ayfPart4 !== AssignmentCode.MM_Discussion) ||
     (ayfPart4 === AssignmentCode.MM_ExplainingBeliefs && !isTalkAYFPart4);
 
   const handleEditAssignments = () => setIsEdit(false);
@@ -242,6 +235,10 @@ const useMidweekEditor = () => {
     });
   };
 
+  const handleOpenClearAll = () => setClearAll(true);
+
+  const handleCloseClearAll = () => setClearAll(false);
+
   useEffect(() => {
     if (selectedWeek.length > 0) {
       const weekDate = new Date(selectedWeek);
@@ -296,16 +293,13 @@ const useMidweekEditor = () => {
           setIsTalkAYFPart4(sourcesCheckAYFExplainBeliefsAssignment(source.midweek_meeting.ayf_part4.src[lang]));
         }
 
-        const lcCountOverride =
-          source.midweek_meeting.lc_count.override.find((record) => record.type === dataView)?.value || 0;
+        const lcCountOverride = source.midweek_meeting.lc_count.override.find((record) => record.type === dataView)?.value || 0;
         const lcCount = source.midweek_meeting.lc_count.default[lang];
         setLcCount(lcCount);
         setCustomPartEnabled(lcCountOverride < lcCount + 1);
         setHasCustomPart(lcCountOverride > lcCount);
 
-        const lc1SrcOverride = source.midweek_meeting.lc_part1.title.override.find(
-          (record) => record.type === dataView
-        )?.value;
+        const lc1SrcOverride = source.midweek_meeting.lc_part1.title.override.find((record) => record.type === dataView)?.value;
         const lc1SrcDefault = source.midweek_meeting.lc_part1.title.default[lang];
         const lc1Src = lc1SrcOverride?.length > 0 ? lc1SrcOverride : lc1SrcDefault;
         setIsOverwriteLCPart1(lc1SrcOverride?.length > 0);
@@ -315,9 +309,7 @@ const useMidweekEditor = () => {
           setLcNoAssignPart1(noAssign);
         }
 
-        const lc2SrcOverride = source.midweek_meeting.lc_part2.title.override.find(
-          (record) => record.type === dataView
-        )?.value;
+        const lc2SrcOverride = source.midweek_meeting.lc_part2.title.override.find((record) => record.type === dataView)?.value;
         const lc2SrcDefault = source.midweek_meeting.lc_part2.title.default[lang];
         const lc2Src = lc2SrcOverride?.length > 0 ? lc2SrcOverride : lc2SrcDefault;
         setIsOverwriteLCPart2(lc2SrcOverride?.length > 0);
@@ -375,6 +367,9 @@ const useMidweekEditor = () => {
     handleAddCustomLCPart,
     hasCustomPart,
     handleDeleteCustomLCPart,
+    clearAll,
+    handleOpenClearAll,
+    handleCloseClearAll,
   };
 };
 

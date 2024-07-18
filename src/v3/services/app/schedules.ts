@@ -521,13 +521,11 @@ export const schedulesSaveAssignment = async (schedule: SchedWeekType, assignmen
   await schedulesUpdateHistory(schedule.weekOf, assignment, assigned);
 };
 
-export const schedulesPersonNoPart = async ({ persons }: { persons: PersonType[] }) => {
+export const schedulesPersonNoPart = ({ persons, history }: { persons: PersonType[]; history: AssignmentHistoryType[] }) => {
   let selected: PersonType;
 
-  const assignmentsHistory = await promiseGetRecoil(assignmentsHistoryState);
-
   for (const person of persons) {
-    const assignments = assignmentsHistory.filter((record) => record.assignment.person === person.person_uid);
+    const assignments = history.filter((record) => record.assignment.person === person.person_uid);
 
     if (assignments.length === 0) {
       selected = person;
@@ -543,13 +541,14 @@ export const schedulesPersonNoPartWithinMonth = async ({
   type,
   week,
   classroom,
+  history,
 }: {
   persons: PersonType[];
   type: AssignmentCode;
   week: string;
   classroom?: string;
+  history: AssignmentHistoryType[];
 }) => {
-  const assignmentsHistory: AssignmentHistoryType[] = await promiseGetRecoil(assignmentsHistoryState);
   const classCount: number = await promiseGetRecoil(midweekMeetingClassCountState);
 
   let selected: PersonType;
@@ -559,27 +558,31 @@ export const schedulesPersonNoPartWithinMonth = async ({
   const nextMonth = addMonths(currentDate, 1);
 
   for (const person of persons) {
-    const assignments = assignmentsHistory.filter((record) => {
+    const assignments = history.filter((record) => {
       const tmpDate = new Date(record.weekOf);
 
       return tmpDate > lastMonth && tmpDate < nextMonth && record.assignment.person === person.person_uid;
     });
 
     if (assignments.length === 0) {
+      const lastAssignment = history.find((record) => {
+        const tmpDate = new Date(record.weekOf);
+
+        return tmpDate < currentDate && record.assignment.person === person.person_uid;
+      });
+
       if (!classroom) {
-        selected = person;
-        break;
+        const lastAssignmentType = lastAssignment?.assignment.code;
+
+        if (lastAssignmentType !== type) {
+          selected = person;
+          break;
+        }
       }
 
       if (classroom) {
-        const lastAssignment = assignmentsHistory.find((record) => {
-          const tmpDate = new Date(record.weekOf);
-
-          return tmpDate < currentDate && record.assignment.person === person.person_uid;
-        });
-
-        const lastAssignmentClassroom = lastAssignment?.assignment.classroom;
         const lastAssignmentType = lastAssignment?.assignment.code;
+        const lastAssignmentClassroom = lastAssignment?.assignment.classroom;
         const hasAux = classCount === 2;
 
         if (lastAssignmentType !== type && (!hasAux || (hasAux && lastAssignmentClassroom !== classroom))) {
@@ -598,13 +601,14 @@ export const schedulesPersonNoPartWithin2Weeks = async ({
   type,
   week,
   classroom,
+  history,
 }: {
   persons: PersonType[];
   type: AssignmentCode;
   week: string;
   classroom?: string;
+  history: AssignmentHistoryType[];
 }) => {
-  const assignmentsHistory: AssignmentHistoryType[] = await promiseGetRecoil(assignmentsHistoryState);
   const classCount: number = await promiseGetRecoil(midweekMeetingClassCountState);
 
   let selected: PersonType;
@@ -615,25 +619,29 @@ export const schedulesPersonNoPartWithin2Weeks = async ({
   const next2Weeks = addWeeks(currentDate, 2);
 
   for (const person of persons) {
-    const assignments = assignmentsHistory.filter((record) => {
+    const assignments = history.filter((record) => {
       const tmpDate = new Date(record.weekOf);
 
       return tmpDate > last2Weeks && tmpDate < next2Weeks && record.assignment.person === person.person_uid;
     });
 
     if (assignments.length === 0) {
+      const lastAssignment = history.find((record) => {
+        const tmpDate = new Date(record.weekOf);
+
+        return tmpDate < currentDate && record.assignment.person === person.person_uid;
+      });
+
       if (!classroom) {
-        selected = person;
-        break;
+        const lastAssignmentType = lastAssignment?.assignment.code;
+
+        if (lastAssignmentType !== type) {
+          selected = person;
+          break;
+        }
       }
 
       if (classroom) {
-        const lastAssignment = assignmentsHistory.find((record) => {
-          const tmpDate = new Date(record.weekOf);
-
-          return tmpDate < currentDate && record.assignment.person === person.person_uid;
-        });
-
         const lastAssignmentClassroom = lastAssignment?.assignment.classroom;
         const lastAssignmentType = lastAssignment?.assignment.code;
         const hasAux = classCount === 2;
@@ -654,13 +662,14 @@ export const schedulesPersonNoPartSameWeek = async ({
   type,
   week,
   classroom,
+  history,
 }: {
   persons: PersonType[];
   type: AssignmentCode;
   week: string;
   classroom?: string;
+  history: AssignmentHistoryType[];
 }) => {
-  const assignmentsHistory: AssignmentHistoryType[] = await promiseGetRecoil(assignmentsHistoryState);
   const classCount: number = await promiseGetRecoil(midweekMeetingClassCountState);
 
   let selected: PersonType;
@@ -668,23 +677,27 @@ export const schedulesPersonNoPartSameWeek = async ({
   const currentDate = new Date(week);
 
   for (const person of persons) {
-    const assignments = assignmentsHistory.filter((record) => {
+    const assignments = history.filter((record) => {
       return week === record.weekOf && record.assignment.person === person.person_uid;
     });
 
     if (assignments.length === 0) {
+      const lastAssignment = history.find((record) => {
+        const tmpDate = new Date(record.weekOf);
+
+        return tmpDate < currentDate && record.assignment.person === person.person_uid;
+      });
+
       if (!classroom) {
-        selected = person;
-        break;
+        const lastAssignmentType = lastAssignment?.assignment.code;
+
+        if (lastAssignmentType !== type) {
+          selected = person;
+          break;
+        }
       }
 
       if (classroom) {
-        const lastAssignment = assignmentsHistory.find((record) => {
-          const tmpDate = new Date(record.weekOf);
-
-          return tmpDate < currentDate && record.assignment.person === person.person_uid;
-        });
-
         const lastAssignmentClassroom = lastAssignment?.assignment.classroom;
         const lastAssignmentType = lastAssignment?.assignment.code;
         const hasAux = classCount === 2;
@@ -700,14 +713,23 @@ export const schedulesPersonNoPartSameWeek = async ({
   return selected;
 };
 
-export const schedulesPersonNoConsecutivePart = async ({ persons, type, classroom }: { persons: PersonType[]; type: AssignmentCode; classroom?: string }) => {
+export const schedulesPersonNoConsecutivePart = async ({
+  persons,
+  type,
+  classroom,
+  history,
+}: {
+  persons: PersonType[];
+  type: AssignmentCode;
+  history: AssignmentHistoryType[];
+  classroom?: string;
+}) => {
   let selected: PersonType;
 
-  const assignmentsHistory = await promiseGetRecoil(assignmentsHistoryState);
   const classCount = await promiseGetRecoil(midweekMeetingClassCountState);
 
   for (const person of persons) {
-    const lastAssignment = assignmentsHistory.find((record) => record.assignment.person === person.person_uid);
+    const lastAssignment = history.find((record) => record.assignment.person === person.person_uid);
 
     if (lastAssignment?.assignment.code !== type) {
       if (classroom) {
@@ -737,6 +759,7 @@ export const schedulesSelectRandomPerson = async (data: {
   isLC?: boolean;
   isElderPart?: boolean;
   mainStudent?: string;
+  history: AssignmentHistoryType[];
 }) => {
   let selected: PersonType;
 
@@ -759,7 +782,7 @@ export const schedulesSelectRandomPerson = async (data: {
 
   if (personsElligible.length > 0) {
     // 1st rule: no part
-    selected = await schedulesPersonNoPart({ persons: personsElligible });
+    selected = await schedulesPersonNoPart({ persons: personsElligible, history: data.history });
 
     // 2nd rule: no part within month
     if (!selected) {
@@ -768,16 +791,18 @@ export const schedulesSelectRandomPerson = async (data: {
         type: data.type,
         week: data.week,
         classroom: data.classroom,
+        history: data.history,
       });
     }
 
-    // 3rd rule: no part within month
+    // 3rd rule: no part within 2 weeks
     if (!selected) {
       selected = await schedulesPersonNoPartWithin2Weeks({
         persons: personsElligible,
         type: data.type,
         week: data.week,
         classroom: data.classroom,
+        history: data.history,
       });
     }
 
@@ -788,6 +813,7 @@ export const schedulesSelectRandomPerson = async (data: {
         type: data.type,
         week: data.week,
         classroom: data.classroom,
+        history: data.history,
       });
     }
     // 5th rule: no same part
@@ -796,6 +822,7 @@ export const schedulesSelectRandomPerson = async (data: {
         persons: personsElligible,
         type: data.type,
         classroom: data.classroom,
+        history: data.history,
       });
     }
   }
@@ -857,4 +884,74 @@ export const scheduleDeleteMidweekWeekAssignments = async (schedule: SchedWeekTy
   } as unknown as UpdateSpec<SchedWeekType>;
 
   await dbSchedUpdate(schedule.weekOf, dataDb);
+};
+
+export const schedulesAutofillUpdateHistory = async ({
+  schedule,
+  assignment,
+  assigned,
+  history,
+}: {
+  schedule: SchedWeekType;
+  assignment: AssignmentFieldType;
+  assigned: AssignmentCongregation;
+  history: AssignmentHistoryType[];
+}) => {
+  // remove record from history
+  const previousIndex = history.findIndex((record) => record.weekOf === schedule.weekOf && record.assignment.key === assignment);
+  if (previousIndex !== -1) history.splice(previousIndex, 1);
+
+  if (assigned.value !== '') {
+    const assignmentOptions: AssignmentLocalType[] = await promiseGetRecoil(assignmentTypeLocaleState);
+    const lang: string = await promiseGetRecoil(JWLangState);
+
+    const sources: SourceWeekType[] = await promiseGetRecoil(sourcesState);
+    const source = sources.find((record) => record.weekOf === schedule.weekOf);
+
+    const historyDetails = schedulesGetHistoryDetails({
+      assigned,
+      assignment,
+      assignmentOptions,
+      lang,
+      schedule,
+      source,
+    });
+
+    history.push(historyDetails);
+  }
+
+  history.sort((a, b) => new Date(b.weekOf).toISOString().localeCompare(new Date(a.weekOf).toISOString()));
+};
+
+export const schedulesAutofillSaveAssignment = async ({
+  assignment,
+  schedule,
+  value,
+  history,
+}: {
+  schedule: SchedWeekType;
+  assignment: AssignmentFieldType;
+  value: PersonType;
+  history: AssignmentHistoryType[];
+}) => {
+  const dataView = await promiseGetRecoil(userDataViewState);
+
+  const toSave = value ? value.person_uid : '';
+  const path = ASSIGNMENT_PATH[assignment];
+  const fieldUpdate = schedulesGetData(schedule, path);
+
+  let assigned: AssignmentCongregation;
+
+  if (Array.isArray(fieldUpdate)) {
+    assigned = fieldUpdate.find((record) => record.type === dataView);
+    assigned.value = toSave;
+    assigned.updatedAt = new Date().toISOString();
+  } else {
+    assigned = fieldUpdate;
+    fieldUpdate.value = toSave;
+    fieldUpdate.updatedAt = new Date().toISOString();
+  }
+
+  // update history
+  await schedulesAutofillUpdateHistory({ schedule, assignment, assigned, history });
 };

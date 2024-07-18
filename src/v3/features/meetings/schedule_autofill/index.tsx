@@ -5,17 +5,13 @@ import { ScheduleAutofillType } from './index.types';
 import useScheduleAutofill from './useScheduleAutofill';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
-import ProgressBarSmall from '@components/progress_bar_small';
 import Typography from '@components/typography';
 import WeekRangeSelector from '../week_range_selector';
 
 const ScheduleAutofillDialog = ({ open, onClose, meeting }: ScheduleAutofillType) => {
   const { t } = useAppTranslation();
 
-  const { handleSetEndWeek, handleSetStartWeek, handleStartAutoFill, isProcessing, assignmentsTotal, assignmentsCurrent } = useScheduleAutofill(
-    meeting,
-    onClose
-  );
+  const { handleSetEndWeek, handleSetStartWeek, handleStartAutoFill, isProcessing } = useScheduleAutofill(meeting, onClose);
 
   return (
     <Dialog onClose={onClose} open={open} sx={{ padding: '24px' }}>
@@ -25,20 +21,6 @@ const ScheduleAutofillDialog = ({ open, onClose, meeting }: ScheduleAutofillType
       </Box>
 
       <WeekRangeSelector meeting={meeting} onStartChange={handleSetStartWeek} onEndChange={handleSetEndWeek} />
-
-      {isProcessing && (
-        <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <Typography color="var(--accent-main)">{t('tr_autofillInProgress')}</Typography>
-            <Typography className="h4" color="var(--accent-main)">
-              {assignmentsCurrent}/{assignmentsTotal}
-            </Typography>
-          </Box>
-          <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-            <ProgressBarSmall value={assignmentsCurrent} maxValue={assignmentsTotal} />
-          </Box>
-        </Box>
-      )}
 
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%' }}>
         <Button variant="main" disabled={isProcessing} endIcon={isProcessing && <IconLoading />} onClick={handleStartAutoFill}>
