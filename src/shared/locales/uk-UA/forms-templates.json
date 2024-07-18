@@ -70,5 +70,6 @@
   "tr_studentAssistantS89": "Учень/Партнер:",
   "tr_chairman": "Ведучий",
   "tr_prayer": "Молитва",
-  "tr_partDuration": "({{ time }} min.)"
+  "tr_partDuration": "({{ time }} min.)",
+  "tr_memorialWeek": "Week of Memorial"
 }

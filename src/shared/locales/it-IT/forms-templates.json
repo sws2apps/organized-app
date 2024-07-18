@@ -70,5 +70,6 @@
   "tr_studentAssistantS89": "Studente/Assistente:",
   "tr_chairman": "Presidente",
   "tr_prayer": "Preghiera",
-  "tr_partDuration": "({{ time }} min.)"
+  "tr_partDuration": "({{ time }} min.)",
+  "tr_memorialWeek": "Week of Memorial"
 }

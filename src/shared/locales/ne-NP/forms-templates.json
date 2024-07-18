@@ -70,5 +70,6 @@
   "tr_studentAssistantS89": "विद्यार्थी/साथी:",
   "tr_chairman": "चेयरम्यान",
   "tr_prayer": "प्रार्थना",
-  "tr_partDuration": "({{ time }} min.)"
+  "tr_partDuration": "({{ time }} min.)",
+  "tr_memorialWeek": "Week of Memorial"
 }
