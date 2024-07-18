@@ -7,6 +7,7 @@ import ScrollableTabs from '@components/scrollable_tabs';
 import CustomTypography from '@components/typography';
 import CustomDivider from '@components/divider';
 import MonthItem from './components/month_item';
+import { useState } from 'react';
 
 const ServiceYear = () => {
   const { t } = useAppTranslation();
@@ -28,15 +29,25 @@ const ServiceYear = () => {
     return years;
   };
 
+  const [yearsTabs, setYearsTabs] = useState(() => {
+    return generateYearsTabsList();
+  });
+
   return (
     <>
       <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
         <PageTitle title={t('tr_serviceYear')} />
-
-        <Box sx={{ display: 'flex', gap: '16px', flexWrap: desktopUp ? 'nowrap' : 'wrap' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            gap: '16px',
+            flexWrap: desktopUp ? 'nowrap' : 'wrap',
+            width: '100%',
+          }}
+        >
           <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column', flexGrow: 1 }}>
             <StyledInfoCard>
-              <ScrollableTabs tabs={generateYearsTabsList()} value={2} />
+              <ScrollableTabs tabs={yearsTabs} value={2} />
               <CustomDivider color="var(--accent-200)" />
               <StyledCardContainer>
                 <StyledKeyValueBox>
@@ -150,24 +161,9 @@ const ServiceYear = () => {
 
               <StyledCardContainer>
                 <CustomDivider color="var(--accent-200)" />
-                <MonthItem
-                  title={'September 2023'}
-                  style="pioneer"
-                  comment="I was sick"
-                  bibleStudies={10}
-                  hours={1}
-                  inProgress
-                />
+                <MonthItem title={'September 2023'} style="pioneer" comment="I was sick" bibleStudies={10} hours={1} inProgress />
                 <CustomDivider color="var(--accent-200)" />
-                <MonthItem
-                  title={'November 2023'}
-                  style="publisher"
-                  comment="I was sick"
-                  bibleStudies={10}
-                  hours={1}
-                  ministry
-                  auxiliaryPioneer
-                />
+                <MonthItem title={'November 2023'} style="publisher" comment="I was sick" bibleStudies={10} hours={1} ministry auxiliaryPioneer />
               </StyledCardContainer>
             </StyledInfoCard>
           </Box>

@@ -42,7 +42,7 @@
   "tr_importantNotice": "Important notice",
   "tr_registrationSuccess": "दर्ता गर्नुभएकोमा धन्यवाद",
   "tr_congregationCreateLabel": "Your congregation isn’t registered in Organized yet?",
-  "tr_createCongregation": "मण्डली सिर्जना गर्नुहोस्",
+  "tr_createCongregation": "Create congregation",
   "tr_yourCongregation": "तपाईंको मण्डली",
   "tr_incompleteCongregationInfo": "Please make sure you’ve provided all needed details to set up your congregation",
   "tr_firstname": "नाम",
@@ -102,5 +102,7 @@
   "tr_congregationAccessCodeAsk": "Enter congregation access code",
   "tr_congregationAccessCode": "Congregation access code",
   "tr_congregationMasterKeyLostDesc": "Enter your congregation’s master key to access it",
-  "tr_congregationMasterKeyAsk": "Enter congregation master key"
+  "tr_congregationMasterKeyAsk": "Enter congregation master key",
+  "tr_can'tFindCongregation": "Can't find your congregation?",
+  "tr_cantFindCongregationDesc": "Check for mistakes (minimum input is 2 characters). If your congregation isn’t listed on the jw.org search page, contact <a href=\"mailto:support@organized-app.com\">support@organized-app.com</a> for help."
 }

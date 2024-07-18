@@ -13,7 +13,7 @@
   "tr_readComplete": "Yukarıdakileri okudum ve kabul ediyorum",
   "tr_email": "E-Posta",
   "tr_accountCreated": "'Organized' hesabınız oluşturuldu.Cemaat yöneticinize gerekli izinleri vermesini söyleyin ve ardından sayfayı yenileyin.",
-  "tr_createCongregationAccount": "Bir cemaat oluştur",
+  "tr_createCongregationAccount": "Create congregation",
   "tr_unauthorizedRole": "<p>Şu anda bu uygulamayı kullanmak için gerekli izinlere sahip değilsiniz. Rolünüzü doğrulamak için lütfen cemaat ileri gelenlerinize ulaşın ve ardından <a href='#'> 5 dakika içinde tekrar </a> deneyin. Ek yardıma ihtiyaçları olursa, bizimle e-posta yoluyla iletişime geçebilirler.</p>",
   "tr_oauthAccept": "<p>Devam ederek<a href='https://sws2apps.com/terms/' title='Terms of Use' target='_blank' rel='noopener'>Kullanım Şartları</a>ve<a href='https://sws2apps.com/privacy/' title='Privacy Policy' target='_blank' rel='noopener'>Gizlilik Politikası</a>.</p>",
   "tr_signInDesc": "Nasıl oturum açmak istediğinizi seç",
@@ -102,5 +102,7 @@
   "tr_congregationAccessCodeAsk": "Enter congregation access code",
   "tr_congregationAccessCode": "Congregation access code",
   "tr_congregationMasterKeyLostDesc": "Enter your congregation’s master key to access it",
-  "tr_congregationMasterKeyAsk": "Enter congregation master key"
+  "tr_congregationMasterKeyAsk": "Enter congregation master key",
+  "tr_can'tFindCongregation": "Can't find your congregation?",
+  "tr_cantFindCongregationDesc": "Check for mistakes (minimum input is 2 characters). If your congregation isn’t listed on the jw.org search page, contact <a href=\"mailto:support@organized-app.com\">support@organized-app.com</a> for help."
 }

@@ -102,5 +102,7 @@
   "tr_reportNotSubmitted": "Report not submitted",
   "tr_assignAuxPioBtn": "Assign Auxiliary Pioneer this month",
   "tr_lateReport": "Late report",
-  "tr_continuousAuxPio": "Continuous Auxiliary Pioneer"
+  "tr_continuousAuxPio": "Continuous Auxiliary Pioneer",
+  "tr_receivedReports": "Received reports",
+  "tr_reportPageInfo": "On this page, you can view reports from publishers and add reports from those who do not use Organized. Select a publisher to start."
 }

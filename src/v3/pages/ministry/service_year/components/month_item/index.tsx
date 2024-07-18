@@ -54,11 +54,7 @@ const MonthItem = (props: MonthItemProps) => {
                 sx={{
                   borderRadius: 'var(--radius-s)',
                 }}
-                text={
-                  props.bibleStudies > 1
-                    ? `${props.bibleStudies} ${t('tr_bibleStudies')}`
-                    : `${props.bibleStudies} ${t('tr_bibleStudy')}`
-                }
+                text={t('tr_bibleStudiesCount', { StudiesCount: props.bibleStudies })}
                 size={'big'}
                 color={'grey'}
               />
@@ -69,7 +65,7 @@ const MonthItem = (props: MonthItemProps) => {
                 sx={{
                   borderRadius: 'var(--radius-s)',
                 }}
-                text={`${props.hours} ${t('tr_hours')}`}
+                text={t('tr_hoursList', { Hours: props.hours })}
                 size={'big'}
                 color={'grey'}
               />
@@ -112,17 +108,7 @@ const MonthItem = (props: MonthItemProps) => {
                   alignItems: 'center',
                 }}
               >
-                <CustomTypography
-                  className="body-small-semibold"
-                  color={props.ministry ? 'var(--accent-main)' : 'var(--red-main)'}
-                >
-                  {t('tr_ministry')}
-                </CustomTypography>
-                {props.ministry ? (
-                  <IconCheck color="var(--accent-main)" />
-                ) : (
-                  <IconReportNotSent color="var(--red-main)" />
-                )}
+                {props.ministry ? <IconCheck color="var(--accent-main)" /> : <IconReportNotSent color="var(--red-main)" />}
               </Box>
               <CustomTypography className="h4" color={'var(--black)'}>
                 {props.title}
@@ -158,11 +144,7 @@ const MonthItem = (props: MonthItemProps) => {
                 sx={{
                   borderRadius: 'var(--radius-s)',
                 }}
-                text={
-                  props.bibleStudies > 1
-                    ? `${props.bibleStudies} ${t('tr_bibleStudies')}`
-                    : `${props.bibleStudies} ${t('tr_bibleStudy')}`
-                }
+                text={t('tr_bibleStudiesCount', { StudiesCount: props.bibleStudies })}
                 size={'big'}
                 color={'grey'}
               />
@@ -173,7 +155,7 @@ const MonthItem = (props: MonthItemProps) => {
                 sx={{
                   borderRadius: 'var(--radius-s)',
                 }}
-                text={`${props.hours} ${t('tr_hours')}`}
+                text={t('tr_hoursList', { Hours: props.hours })}
                 size={'big'}
                 color={'grey'}
               />

@@ -75,7 +75,7 @@
   "tr_returnedTerritory": "{{ publisherName }} ha devuelto el territorio",
   "tr_returnedTerritoryDesc": "El territorio {{ territoryNumber }} ha sido cubierto y devuelto. El número de hogares enviado por el editor es {{ numberOfHouses }}. Si es necesario, actualice la información del territorio.",
   "tr_whatsNew": "What’s new in Organized",
-  "tr_shareFeeback": "Contact us",
+  "tr_shareFeeback": "Share feedback",
   "tr_shareFeebackDesc": "¿Tienes una brillante idea? ¡Compártela con nosotros! Para discusiones más técnicas o detalladas, te animamos a que utilices nuestras <a href='https://github.com/sws2apps/organized-app/discussions'>Discusiones en GitHub</a> si es posible.",
   "tr_feedback": "Feedback",
   "tr_subject": "Subject",
