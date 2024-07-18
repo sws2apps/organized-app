@@ -103,6 +103,6 @@
   "tr_congregationAccessCode": "Congregation access code",
   "tr_congregationMasterKeyLostDesc": "Enter your congregation’s master key to access it",
   "tr_congregationMasterKeyAsk": "Enter congregation master key",
-  "tr_can'tFindCongregation": "Can't find your congregation?",
-  "tr_cantFindCongregationDesc": "Check for mistakes (minimum input is 2 characters). If your congregation isn’t listed on the jw.org search page, contact <a href=\"mailto:support@organized-app.com\">support@organized-app.com</a> for help."
+  "tr_can'tFindCongregation": "会衆が見つかりませんか？",
+  "tr_cantFindCongregationDesc": "入力に間違いがないか確認してください。（少なくとも2文字入力する必要があります）あなたの会衆がjw.orgの検索ページに載せられていない場合は<a href=\"mailto:support@organized-app.com\"> support@organized-app.com</a>まで援助を依頼してください。"
 }
