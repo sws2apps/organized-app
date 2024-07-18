@@ -61,6 +61,7 @@
   "tr_hourGoalDesc": "To serve continuously, the goal should be 30 hours. However, during specific months announced by your elders, you can also apply for 15 hours.",
   "tr_applicationSubmitted": "The application has been submitted",
   "tr_applicationSubmittedDesc": "Service committee of your congregation will review it and if it’s approved, you will get notified by them",
+  "tr_auxiliaryPioneer": "Auxiliary pioneer",
   "tr_comments": "Comments",
   "tr_PWLocations": "Public witnessing locations",
   "tr_PW": "Public witnessing",
@@ -103,7 +104,5 @@
   "tr_lateReport": "Late report",
   "tr_continuousAuxPio": "Continuous Auxiliary Pioneer",
   "tr_receivedReports": "Received reports",
-  "tr_reportPageInfo": "On this page, you can view reports from publishers and add reports from those who do not use Organized. Select a publisher to start.",
-  "tr_reportPublishersCount": "Publishers: {{ publishersCount }}",
-  "tr_reportAlreadySentWarning": "This month's report has already been submitted to the Branch Office. Only late reports can be added, unless you undo the submission."
+  "tr_reportPageInfo": "On this page, you can view reports from publishers and add reports from those who do not use Organized. Select a publisher to start."
 }
