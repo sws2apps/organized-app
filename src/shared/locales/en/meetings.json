@@ -69,7 +69,7 @@
   "tr_exportWM": "Export weekend meeting",
   "tr_exportWMDesc": "Select which schedules to export.",
   "tr_autofillCompleted": "Autofill completed",
-  "tr_autofillCompletedDesc": "Weekend assignments added to the selected weeks",
+  "tr_autofillCompletedDesc": "Assignments added to selected weeks",
   "tr_newWeekAddedDesc": "You can find it in the meeting weeks list",
   "tr_publishSchedulesDesc": "Select the schedules you want to publish for everybody in congregation to view them. Past schedules are accessible to everyone for 3 months after their expiration date.",
   "tr_successfullyPublished": "Successfully published",
