@@ -72,6 +72,7 @@ const CustomAutoComplete = <T,>(props: AutocompletePropsType<T>) => {
   const label = props.label;
   const optionsHeader = props.optionsHeader;
   const styleIcon = props.styleIcon ?? true;
+  const decorator = props.decorator;
 
   const defaultProps = { ...props };
   delete defaultProps.startIcon;
@@ -79,6 +80,7 @@ const CustomAutoComplete = <T,>(props: AutocompletePropsType<T>) => {
   delete defaultProps.label;
   delete defaultProps.optionsHeader;
   delete defaultProps.styleIcon;
+  delete defaultProps.decorator;
 
   return (
     <Autocomplete
@@ -117,6 +119,29 @@ const CustomAutoComplete = <T,>(props: AutocompletePropsType<T>) => {
           endIcon={endIcon}
           height={48}
           styleIcon={styleIcon}
+          sx={
+            decorator === 'error'
+              ? {
+                  '.MuiOutlinedInput-root': {
+                    '& fieldset': {
+                      border: '1px solid var(--red-main)',
+                    },
+                    '&:hover fieldset': {
+                      border: '1px solid var(--red-main)',
+                    },
+                    '&.Mui-focused fieldset': {
+                      border: '1px solid var(--red-main)',
+                    },
+                  },
+                  '.MuiInputLabel-root': {
+                    color: 'var(--red-main)',
+                    '&.Mui-focused': {
+                      color: 'var(--red-main)',
+                    },
+                  },
+                }
+              : {}
+          }
         />
       )}
     />
