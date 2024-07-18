@@ -67,20 +67,7 @@ CustomListBoxComponent.displayName = 'CustomListBoxComponent';
 const CustomAutoComplete = <T,>(props: AutocompletePropsType<T>) => {
   const { t } = useAppTranslation();
 
-  const startIcon = props.startIcon;
-  const endIcon = props.endIcon;
-  const label = props.label;
-  const optionsHeader = props.optionsHeader;
-  const styleIcon = props.styleIcon ?? true;
-  const decorator = props.decorator;
-
-  const defaultProps = { ...props };
-  delete defaultProps.startIcon;
-  delete defaultProps.endIcon;
-  delete defaultProps.label;
-  delete defaultProps.optionsHeader;
-  delete defaultProps.styleIcon;
-  delete defaultProps.decorator;
+  const { startIcon, endIcon, label, optionsHeader, styleIcon, decorator, ...defaultProps } = props;
 
   return (
     <Autocomplete
@@ -118,7 +105,7 @@ const CustomAutoComplete = <T,>(props: AutocompletePropsType<T>) => {
           startIcon={startIcon}
           endIcon={endIcon}
           height={48}
-          styleIcon={styleIcon}
+          styleIcon={styleIcon ?? true}
           sx={
             decorator === 'error'
               ? {
