@@ -70,5 +70,6 @@
   "tr_studentAssistantS89": "生徒/相手",
   "tr_chairman": "司会者",
   "tr_prayer": "祈り",
-  "tr_partDuration": "({{ time }} min.)"
+  "tr_partDuration": "({{ time }} min.)",
+  "tr_memorialWeek": "Week of Memorial"
 }
