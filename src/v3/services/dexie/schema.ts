@@ -9,6 +9,7 @@ import { Week } from '@definition/week_type';
 export const sourceSchema: SourceWeekType = {
   weekOf: '',
   midweek_meeting: {
+    event_name: { value: '', updatedAt: '' },
     week_date_locale: {},
     weekly_bible_reading: {},
     song_first: {},
