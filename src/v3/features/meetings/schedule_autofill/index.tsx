@@ -12,14 +12,10 @@ import WeekRangeSelector from '../week_range_selector';
 const ScheduleAutofillDialog = ({ open, onClose, meeting }: ScheduleAutofillType) => {
   const { t } = useAppTranslation();
 
-  const {
-    handleSetEndWeek,
-    handleSetStartWeek,
-    handleStartAutoFill,
-    isProcessing,
-    assignmentsTotal,
-    assignmentsCurrent,
-  } = useScheduleAutofill(meeting, onClose);
+  const { handleSetEndWeek, handleSetStartWeek, handleStartAutoFill, isProcessing, assignmentsTotal, assignmentsCurrent } = useScheduleAutofill(
+    meeting,
+    onClose
+  );
 
   return (
     <Dialog onClose={onClose} open={open} sx={{ padding: '24px' }}>
@@ -31,21 +27,21 @@ const ScheduleAutofillDialog = ({ open, onClose, meeting }: ScheduleAutofillType
       <WeekRangeSelector meeting={meeting} onStartChange={handleSetStartWeek} onEndChange={handleSetEndWeek} />
 
       {isProcessing && (
-        <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-          <ProgressBarSmall value={assignmentsCurrent} maxValue={assignmentsTotal} />
-          <Typography className="label-small-medium" sx={{ width: '48px' }} textAlign="right">
-            {assignmentsCurrent}/{assignmentsTotal}
-          </Typography>
+        <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Typography color="var(--accent-main)">{t('tr_autofillInProgress')}</Typography>
+            <Typography className="h4" color="var(--accent-main)">
+              {assignmentsCurrent}/{assignmentsTotal}
+            </Typography>
+          </Box>
+          <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+            <ProgressBarSmall value={assignmentsCurrent} maxValue={assignmentsTotal} />
+          </Box>
         </Box>
       )}
 
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%' }}>
-        <Button
-          variant="main"
-          disabled={isProcessing}
-          endIcon={isProcessing && <IconLoading />}
-          onClick={handleStartAutoFill}
-        >
+        <Button variant="main" disabled={isProcessing} endIcon={isProcessing && <IconLoading />} onClick={handleStartAutoFill}>
           {t('tr_autofill')}
         </Button>
         <Button variant="secondary" onClick={onClose}>

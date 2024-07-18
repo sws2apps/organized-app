@@ -1,10 +1,6 @@
 import { UpdateSpec } from 'dexie';
 import { promiseGetRecoil } from 'recoil-outside';
-import {
-  midweekMeetingClassCountState,
-  midweekMeetingOpeningPrayerAutoAssign,
-  userDataViewState,
-} from '@states/settings';
+import { midweekMeetingClassCountState, midweekMeetingOpeningPrayerAutoAssign, userDataViewState } from '@states/settings';
 import { sourcesState } from '@states/sources';
 import { assignmentsHistoryState, schedulesState } from '@states/schedules';
 import { JWLangState } from '@states/app';
@@ -23,6 +19,7 @@ import { dbSchedUpdate } from '@services/dexie/schedules';
 import { addMonths, addWeeks } from '@utils/date';
 import { applyAssignmentFilters, personIsElder } from './persons';
 import { personsActiveState } from '@states/persons';
+import { personsStateFind } from '@services/recoil/persons';
 
 export const schedulesWeekAssignmentsInfo = async (week: string, meeting: 'midweek' | 'weekend') => {
   const classCount: number = await promiseGetRecoil(midweekMeetingClassCountState);
@@ -171,17 +168,13 @@ export const schedulesWeekAssignmentsInfo = async (week: string, meeting: 'midwe
         }
 
         // student main hall
-        assignment = schedule.midweek_meeting[`ayf_part${a}`].main_hall.student.find(
-          (record) => record.type === dataView
-        );
+        assignment = schedule.midweek_meeting[`ayf_part${a}`].main_hall.student.find((record) => record.type === dataView);
         if (assignment && assignment.value.length > 0) {
           assigned = assigned + 1;
         }
 
         // assistant main hall
-        assignment = schedule.midweek_meeting[`ayf_part${a}`].main_hall.assistant.find(
-          (record) => record.type === dataView
-        );
+        assignment = schedule.midweek_meeting[`ayf_part${a}`].main_hall.assistant.find((record) => record.type === dataView);
         if (assignment && assignment.value.length > 0) {
           assigned = assigned + 1;
         }
@@ -355,30 +348,32 @@ export const schedulesGetHistoryDetails = ({
   if (assignment.includes('AYFPart')) {
     const partNum = assignment.match(/\d+\.?\d*/g).at(0);
     const code: AssignmentCode = source.midweek_meeting[`ayf_part${partNum}`].type[lang];
-    const src: string = source.midweek_meeting[`ayf_part${partNum}`].src[lang];
-    const title = assignmentOptions.find((record) => record.value === code).label;
+    if (code) {
+      const src: string = source.midweek_meeting[`ayf_part${partNum}`].src[lang];
+      const title = assignmentOptions.find((record) => record.value === code).label;
 
-    history.assignment.src = src;
-    history.assignment.ayf = {};
+      history.assignment.src = src;
+      history.assignment.ayf = {};
 
-    if (assignment.includes('Student')) {
-      const assistantFld = assignment.replace('Student', 'Assistant');
-      const assistantValue = schedulesGetData(schedule, ASSIGNMENT_PATH[assistantFld]);
-      const asistants = Array.isArray(assistantValue) ? assistantValue : [assistantValue];
+      if (assignment.includes('Student')) {
+        const assistantFld = assignment.replace('Student', 'Assistant');
+        const assistantValue = schedulesGetData(schedule, ASSIGNMENT_PATH[assistantFld]);
+        const asistants = Array.isArray(assistantValue) ? assistantValue : [assistantValue];
 
-      history.assignment.title = title;
-      history.assignment.code = code;
-      history.assignment.ayf.assistant = asistants.find((record) => record.type === assigned.type)?.value;
-    }
+        history.assignment.title = title;
+        history.assignment.code = code;
+        history.assignment.ayf.assistant = asistants.find((record) => record.type === assigned.type)?.value;
+      }
 
-    if (assignment.includes('Assistant')) {
-      const studentFld = assignment.replace('Assistant', 'Student');
-      const studentValue = schedulesGetData(schedule, ASSIGNMENT_PATH[studentFld]);
-      const students = Array.isArray(studentValue) ? studentValue : [studentValue];
+      if (assignment.includes('Assistant')) {
+        const studentFld = assignment.replace('Assistant', 'Student');
+        const studentValue = schedulesGetData(schedule, ASSIGNMENT_PATH[studentFld]);
+        const students = Array.isArray(studentValue) ? studentValue : [studentValue];
 
-      history.assignment.title = `${getTranslation({ key: 'tr_assistant' })} (${title})`;
-      history.assignment.code = AssignmentCode.MM_AssistantOnly;
-      history.assignment.ayf.student = students.find((record) => record.type === assigned.type)?.value;
+        history.assignment.title = `${getTranslation({ key: 'tr_assistant' })} (${title})`;
+        history.assignment.code = AssignmentCode.MM_AssistantOnly;
+        history.assignment.ayf.student = students.find((record) => record.type === assigned.type)?.value;
+      }
     }
   }
 
@@ -464,19 +459,13 @@ export const schedulesBuildHistoryList = async () => {
   return result.sort((a, b) => new Date(b.weekOf).toISOString().localeCompare(new Date(a.weekOf).toISOString()));
 };
 
-export const schedulesUpdateHistory = async (
-  week: string,
-  assignment: AssignmentFieldType,
-  assigned: AssignmentCongregation
-) => {
+export const schedulesUpdateHistory = async (week: string, assignment: AssignmentFieldType, assigned: AssignmentCongregation) => {
   const history: AssignmentHistoryType[] = await promiseGetRecoil(assignmentsHistoryState);
 
   const historyStale = structuredClone(history);
 
   // remove record from history
-  const previousIndex = historyStale.findIndex(
-    (record) => record.weekOf === week && record.assignment.key === assignment
-  );
+  const previousIndex = historyStale.findIndex((record) => record.weekOf === week && record.assignment.key === assignment);
   if (previousIndex !== -1) historyStale.splice(previousIndex, 1);
 
   if (assigned.value !== '') {
@@ -505,11 +494,7 @@ export const schedulesUpdateHistory = async (
   await setAssignmentsHistory(historyStale);
 };
 
-export const schedulesSaveAssignment = async (
-  schedule: SchedWeekType,
-  assignment: AssignmentFieldType,
-  value: PersonType
-) => {
+export const schedulesSaveAssignment = async (schedule: SchedWeekType, assignment: AssignmentFieldType, value: PersonType) => {
   const dataView = await promiseGetRecoil(userDataViewState);
 
   const toSave = value ? value.person_uid : '';
@@ -715,15 +700,7 @@ export const schedulesPersonNoPartSameWeek = async ({
   return selected;
 };
 
-export const schedulesPersonNoConsecutivePart = async ({
-  persons,
-  type,
-  classroom,
-}: {
-  persons: PersonType[];
-  type: AssignmentCode;
-  classroom?: string;
-}) => {
+export const schedulesPersonNoConsecutivePart = async ({ persons, type, classroom }: { persons: PersonType[]; type: AssignmentCode; classroom?: string }) => {
   let selected: PersonType;
 
   const assignmentsHistory = await promiseGetRecoil(assignmentsHistoryState);
@@ -755,9 +732,11 @@ export const schedulesPersonNoConsecutivePart = async ({
 export const schedulesSelectRandomPerson = async (data: {
   type: AssignmentCode;
   week: string;
+  isAYFTalk?: boolean;
   classroom?: string;
   isLC?: boolean;
   isElderPart?: boolean;
+  mainStudent?: string;
 }) => {
   let selected: PersonType;
 
@@ -767,6 +746,15 @@ export const schedulesSelectRandomPerson = async (data: {
 
   if (data.isElderPart) {
     personsElligible = personsElligible.filter((record) => personIsElder(record));
+  }
+
+  if (data.isAYFTalk) {
+    personsElligible = personsElligible.filter((record) => record.person_data.male.value);
+  }
+
+  if (data.mainStudent && data.mainStudent.length > 0) {
+    const mainPerson = await personsStateFind(data.mainStudent);
+    personsElligible = personsElligible.filter((record) => record.person_data.male.value === mainPerson.person_data.male.value);
   }
 
   if (personsElligible.length > 0) {
@@ -869,8 +857,4 @@ export const scheduleDeleteMidweekWeekAssignments = async (schedule: SchedWeekTy
   } as unknown as UpdateSpec<SchedWeekType>;
 
   await dbSchedUpdate(schedule.weekOf, dataDb);
-
-  // load assignment history
-  const history = await schedulesBuildHistoryList();
-  await setAssignmentsHistory(history);
 };

@@ -1,15 +1,17 @@
 import { useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { displaySnackNotification } from '@services/recoil/app';
 import { useAppTranslation } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
-import { schedulesState } from '@states/schedules';
+import { assignmentsHistoryState, schedulesState } from '@states/schedules';
 import { SchedWeekType } from '@definition/schedules';
 import { AssignmentsDeleteType } from './index.types';
-import { scheduleDeleteMidweekWeekAssignments } from '@services/app/schedules';
+import { scheduleDeleteMidweekWeekAssignments, schedulesBuildHistoryList } from '@services/app/schedules';
 
 const useAssignmentsDelete = (meeting: AssignmentsDeleteType['meeting'], onClose: AssignmentsDeleteType['onClose']) => {
   const { t } = useAppTranslation();
+
+  const setAssignmentsHistory = useSetRecoilState(assignmentsHistoryState);
 
   const schedules = useRecoilValue(schedulesState);
 
@@ -25,6 +27,10 @@ const useAssignmentsDelete = (meeting: AssignmentsDeleteType['meeting'], onClose
     for await (const schedule of weeksList) {
       await scheduleDeleteMidweekWeekAssignments(schedule);
     }
+
+    // load assignment history
+    const history = await schedulesBuildHistoryList();
+    setAssignmentsHistory(history);
   };
 
   const handleClearAssignments = async () => {

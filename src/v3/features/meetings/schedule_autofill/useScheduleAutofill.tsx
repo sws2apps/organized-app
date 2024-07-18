@@ -5,23 +5,16 @@ import { useAppTranslation } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
 import { schedulesState } from '@states/schedules';
 import { PersonType } from '@definition/person';
-import { AssignmentCode } from '@definition/assignment';
-import {
-  midweekMeetingClassCountState,
-  midweekMeetingOpeningPrayerAutoAssign,
-  userDataViewState,
-} from '@states/settings';
-import {
-  schedulesSaveAssignment,
-  schedulesSelectRandomPerson,
-  schedulesWeekAssignmentsInfo,
-} from '@services/app/schedules';
-import { SchedWeekType } from '@definition/schedules';
+import { AssignmentCode, AssignmentFieldType } from '@definition/assignment';
+import { midweekMeetingClassCountState, midweekMeetingOpeningPrayerAutoAssign, userDataViewState } from '@states/settings';
+import { schedulesSaveAssignment, schedulesSelectRandomPerson, schedulesWeekAssignmentsInfo } from '@services/app/schedules';
+import { AssignmentAYFType, SchedWeekType } from '@definition/schedules';
 import { ScheduleAutofillType } from './index.types';
 import { Week } from '@definition/week_type';
 import { sourcesState } from '@states/sources';
 import { JWLangState } from '@states/app';
-import { sourcesCheckLCAssignments, sourcesCheckLCElderAssignment } from '@services/app/sources';
+import { sourcesCheckAYFExplainBeliefsAssignment, sourcesCheckLCAssignments, sourcesCheckLCElderAssignment } from '@services/app/sources';
+import { dbSchedGet } from '@services/dexie/schedules';
 
 const useScheduleAutofill = (meeting: ScheduleAutofillType['meeting'], onClose: ScheduleAutofillType['onClose']) => {
   const { t } = useAppTranslation();
@@ -100,6 +93,7 @@ const useScheduleAutofill = (meeting: ScheduleAutofillType['meeting'], onClose: 
 
       if (!noMeeting) {
         const weekType = schedule.week_type.find((record) => record.type === dataView)?.value ?? Week.NORMAL;
+        const source = sources.find((record) => record.weekOf === schedule.weekOf);
 
         // Assign TGW Talk
         main = schedule.midweek_meeting.tgw_talk.find((record) => record.type === dataView)?.value || '';
@@ -122,8 +116,6 @@ const useScheduleAutofill = (meeting: ScheduleAutofillType['meeting'], onClose: 
         }
 
         // Assign LC Part 1
-        const source = sources.find((record) => record.weekOf === schedule.weekOf);
-
         let lcPart = source.midweek_meeting.lc_part1;
         let titleOverride = lcPart.title.override.find((record) => record.type === dataView)?.value || '';
         let titleDefault = lcPart.title.default[lang];
@@ -248,6 +240,133 @@ const useScheduleAutofill = (meeting: ScheduleAutofillType['meeting'], onClose: 
           if (selected) {
             await schedulesSaveAssignment(schedule, 'MM_ClosingPrayer', selected);
             setAssignmentsCurrent((prev) => prev + 1);
+          }
+        }
+
+        // Assign Bible Reading Main Hall
+        main = schedule.midweek_meeting.tgw_bible_reading.main_hall.find((record) => record.type === dataView)?.value || '';
+        if (main.length === 0) {
+          selected = await schedulesSelectRandomPerson({ type: AssignmentCode.MM_BibleReading, week: schedule.weekOf, classroom: '1' });
+          if (selected) {
+            await schedulesSaveAssignment(schedule, 'MM_TGWBibleReading_A', selected);
+            setAssignmentsCurrent((prev) => prev + 1);
+          }
+        }
+
+        // Assign Bible Reading Aux Class
+        if (classCount === 2) {
+          const weekType = schedule.week_type.find((record) => record.type === dataView)?.value ?? Week.NORMAL;
+          main = schedule.midweek_meeting.tgw_bible_reading.aux_class_1.value;
+
+          if (weekType === Week.NORMAL && main.length === 0) {
+            selected = await schedulesSelectRandomPerson({ type: AssignmentCode.MM_BibleReading, week: schedule.weekOf, classroom: '2' });
+            if (selected) {
+              await schedulesSaveAssignment(schedule, 'MM_TGWBibleReading_B', selected);
+              setAssignmentsCurrent((prev) => prev + 1);
+            }
+          }
+        }
+
+        // Assign AYF Students
+        for await (const index of [1, 2, 3, 4]) {
+          let field: AssignmentFieldType;
+          const ayfPart: AssignmentAYFType = schedule.midweek_meeting[`ayf_part${index}`];
+          const type: AssignmentCode = source.midweek_meeting[`ayf_part${index}`].type[lang];
+          const ayfSrc: string = source.midweek_meeting[`ayf_part${index}`].src[lang];
+          const isTalk = type === AssignmentCode.MM_ExplainingBeliefs ? sourcesCheckAYFExplainBeliefsAssignment(ayfSrc) : undefined;
+
+          if (type) {
+            const validTypesBase = [
+              AssignmentCode.MM_StartingConversation,
+              AssignmentCode.MM_FollowingUp,
+              AssignmentCode.MM_MakingDisciples,
+              AssignmentCode.MM_ExplainingBeliefs,
+              AssignmentCode.MM_Talk,
+            ];
+
+            const validTypesMainHall = [...validTypesBase, AssignmentCode.MM_Discussion];
+
+            // Main Hall
+            if (validTypesMainHall.includes(type)) {
+              main = ayfPart.main_hall.student.find((record) => record.type === dataView)?.value || '';
+              if (main.length === 0) {
+                field = `MM_AYFPart${index}_Student_A` as AssignmentFieldType;
+
+                selected = await schedulesSelectRandomPerson({ type, week: schedule.weekOf, isAYFTalk: isTalk, classroom: '1' });
+                if (selected) {
+                  await schedulesSaveAssignment(schedule, field, selected);
+                  setAssignmentsCurrent((prev) => prev + 1);
+                }
+              }
+            }
+
+            // Aux class
+            if (classCount === 2) {
+              if (validTypesBase.includes(type)) {
+                const weekType = schedule.week_type.find((record) => record.type === dataView)?.value ?? Week.NORMAL;
+                main = ayfPart.aux_class_1.student.value;
+
+                if (weekType === Week.NORMAL && main.length === 0) {
+                  field = `MM_AYFPart${index}_Student_B` as AssignmentFieldType;
+                  selected = await schedulesSelectRandomPerson({ type, week: schedule.weekOf, isAYFTalk: isTalk, classroom: '2' });
+                  if (selected) {
+                    await schedulesSaveAssignment(schedule, field, selected);
+                    setAssignmentsCurrent((prev) => prev + 1);
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        // Assign AYF Assistants
+        for await (const index of [1, 2, 3, 4]) {
+          let field: AssignmentFieldType;
+          const ayfPart: AssignmentAYFType = schedule.midweek_meeting[`ayf_part${index}`];
+          const type: AssignmentCode = source.midweek_meeting[`ayf_part${index}`].type[lang];
+          const ayfSrc: string = source.midweek_meeting[`ayf_part${index}`].src[lang];
+          const isTalk = type === AssignmentCode.MM_ExplainingBeliefs ? sourcesCheckAYFExplainBeliefsAssignment(ayfSrc) : undefined;
+          const recentSchedules = await dbSchedGet(schedule.weekOf);
+          const recentAyfPart: AssignmentAYFType = recentSchedules.midweek_meeting[`ayf_part${index}`];
+
+          if (type) {
+            const validTypes = [AssignmentCode.MM_StartingConversation, AssignmentCode.MM_FollowingUp, AssignmentCode.MM_MakingDisciples];
+
+            // Main Hall
+            if (validTypes.includes(type) || (type === AssignmentCode.MM_ExplainingBeliefs && !isTalk)) {
+              const mainStudent = recentAyfPart.main_hall.student.find((record) => record.type === dataView)?.value || '';
+
+              main = ayfPart.main_hall.assistant.find((record) => record.type === dataView)?.value || '';
+
+              if (mainStudent.length > 0 && main.length === 0) {
+                field = `MM_AYFPart${index}_Assistant_A` as AssignmentFieldType;
+
+                selected = await schedulesSelectRandomPerson({ type, week: schedule.weekOf, mainStudent, isAYFTalk: isTalk, classroom: '1' });
+                if (selected) {
+                  await schedulesSaveAssignment(schedule, field, selected);
+                  setAssignmentsCurrent((prev) => prev + 1);
+                }
+              }
+            }
+
+            // Aux class
+            if (classCount === 2) {
+              if (validTypes.includes(type) || (type === AssignmentCode.MM_ExplainingBeliefs && isTalk)) {
+                const weekType = schedule.week_type.find((record) => record.type === dataView)?.value ?? Week.NORMAL;
+                const mainStudent = recentAyfPart.aux_class_1.student.value;
+
+                main = ayfPart.aux_class_1.assistant.value;
+
+                if (weekType === Week.NORMAL && mainStudent.length > 0 && main.length === 0) {
+                  field = `MM_AYFPart${index}_Assistant_B` as AssignmentFieldType;
+                  selected = await schedulesSelectRandomPerson({ type, week: schedule.weekOf, mainStudent, isAYFTalk: isTalk, classroom: '2' });
+                  if (selected) {
+                    await schedulesSaveAssignment(schedule, field, selected);
+                    setAssignmentsCurrent((prev) => prev + 1);
+                  }
+                }
+              }
+            }
           }
         }
       }
