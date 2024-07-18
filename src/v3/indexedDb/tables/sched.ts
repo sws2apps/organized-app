@@ -6,5 +6,5 @@ export type SchedTable = {
 };
 
 export const schedSchema = {
-  sched: '&weekOf, week_type, midweek_meeting, weekend_meeting, released',
+  sched: '&weekOf, midweek_meeting, weekend_meeting, released',
 };

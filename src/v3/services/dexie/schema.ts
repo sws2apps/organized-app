@@ -65,7 +65,6 @@ export const sourceSchema: SourceWeekType = {
 
 export const scheduleSchema: SchedWeekType = {
   weekOf: '',
-  week_type: [{ type: 'main', value: Week.NORMAL, updatedAt: '' }],
   released: [{ type: 'main', value: false, updatedAt: '' }],
   midweek_meeting: {
     chairman: {
@@ -144,7 +143,7 @@ export const scheduleSchema: SchedWeekType = {
       reader: [{ type: 'main', value: '', name: '', updatedAt: '' }],
     },
     closing_prayer: [{ type: 'main', value: '', name: '', updatedAt: '' }],
-    canceled: [{ type: 'main', value: false, updatedAt: '' }],
+    week_type: [{ type: 'main', value: Week.NORMAL, updatedAt: '' }],
   },
   weekend_meeting: {
     chairman: [{ type: 'main', value: '', name: '', updatedAt: '' }],
@@ -162,7 +161,7 @@ export const scheduleSchema: SchedWeekType = {
       conductor: [{ type: 'main', value: '', name: '', updatedAt: '' }],
       reader: [{ type: 'main', value: '', name: '', updatedAt: '' }],
     },
-    canceled: [{ type: 'main', value: false, updatedAt: '' }],
+    week_type: [{ type: 'main', value: Week.NORMAL, updatedAt: '' }],
   },
 };
 

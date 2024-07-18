@@ -36,8 +36,8 @@ export const schedulesWeekAssignmentsInfo = async (week: string, meeting: 'midwe
   const schedule = schedules.find((record) => record.weekOf === week);
 
   if (meeting === 'midweek') {
-    const hasNoMeeting = schedule.midweek_meeting.canceled.find((record) => record.type === dataView)?.value ?? false;
-    const weekType = schedule.week_type.find((record) => record.type === dataView)?.value || Week.NORMAL;
+    const weekType = schedule.midweek_meeting.week_type.find((record) => record.type === dataView).value || Week.NORMAL;
+    const hasNoMeeting = weekType === Week.ASSEMBLY || weekType == Week.CONVENTION || weekType === Week.MEMORIAL || weekType === Week.NO_MEETING;
 
     if (!hasNoMeeting) {
       // chairman main hall

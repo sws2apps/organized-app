@@ -1,5 +1,5 @@
 import { Table } from 'dexie';
-import { WeekType } from '@definition/sources';
+import { WeekType } from '@definition/week_type';
 
 export type WeekTypeTable = {
   week_type: Table<WeekType>;
