@@ -104,5 +104,6 @@
   "tr_lateReport": "Late report",
   "tr_continuousAuxPio": "Continuous Auxiliary Pioneer",
   "tr_receivedReports": "Отримані звіти",
-  "tr_reportPageInfo": "On this page, you can view reports from publishers and add reports from those who do not use Organized. Select a publisher to start."
+  "tr_reportPageInfo": "On this page, you can view reports from publishers and add reports from those who do not use Organized. Select a publisher to start.",
+  "tr_rejected": "Rejected"
 }

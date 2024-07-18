@@ -104,5 +104,6 @@
   "tr_lateReport": "Relatório atrasado",
   "tr_continuousAuxPio": "Pioneiro Auxiliar Contínuo",
   "tr_receivedReports": "Received reports",
-  "tr_reportPageInfo": "On this page, you can view reports from publishers and add reports from those who do not use Organized. Select a publisher to start."
+  "tr_reportPageInfo": "On this page, you can view reports from publishers and add reports from those who do not use Organized. Select a publisher to start.",
+  "tr_rejected": "Rejected"
 }

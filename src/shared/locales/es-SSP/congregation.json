@@ -252,7 +252,6 @@
   "tr_monthsPeriod": "{{ MonthCount }} meses",
   "tr_congregationInfo": "Información de la congregación",
   "tr_speakers": "Oradores",
-  "tr_getSpeakers": "Obtener oradores",
   "tr_publicTalks": "Conferencias",
   "tr_otherCongregations": "Otras congregaciones",
   "tr_yourOutgoingSpeakers": "Tus oradores salientes",
