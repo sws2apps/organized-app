@@ -46,7 +46,9 @@ const useScheduleAutofill = (meeting: ScheduleAutofillType['meeting'], onClose: 
 
     // Assign Chairman
     for await (const schedule of weeksAutofill) {
-      const noMeeting = schedule.midweek_meeting.canceled.find((record) => record.type === dataView)?.value ?? false;
+      const weekType = schedule.midweek_meeting.week_type.find((record) => record.type === dataView).value || Week.NORMAL;
+
+      const noMeeting = weekType === Week.ASSEMBLY || weekType == Week.CONVENTION || weekType === Week.MEMORIAL || weekType === Week.NO_MEETING;
 
       if (!noMeeting) {
         // Main Hall
@@ -60,7 +62,6 @@ const useScheduleAutofill = (meeting: ScheduleAutofillType['meeting'], onClose: 
 
         // Aux Class
         if (classCount === 2) {
-          const weekType = schedule.week_type.find((record) => record.type === dataView)?.value ?? Week.NORMAL;
           main = schedule.midweek_meeting.chairman.aux_class_1.value;
 
           if (weekType === Week.NORMAL && main.length === 0) {
@@ -75,8 +76,9 @@ const useScheduleAutofill = (meeting: ScheduleAutofillType['meeting'], onClose: 
 
     // Assign CBS Conductor
     for await (const schedule of weeksAutofill) {
-      const noMeeting = schedule.midweek_meeting.canceled.find((record) => record.type === dataView)?.value ?? false;
-      const weekType = schedule.week_type.find((record) => record.type === dataView)?.value ?? Week.NORMAL;
+      const weekType = schedule.midweek_meeting.week_type.find((record) => record.type === dataView).value || Week.NORMAL;
+
+      const noMeeting = weekType === Week.ASSEMBLY || weekType == Week.CONVENTION || weekType === Week.MEMORIAL || weekType === Week.NO_MEETING;
 
       if (!noMeeting && weekType === Week.NORMAL) {
         main = schedule.midweek_meeting.lc_cbs.conductor.find((record) => record.type === dataView)?.value || '';
@@ -91,10 +93,11 @@ const useScheduleAutofill = (meeting: ScheduleAutofillType['meeting'], onClose: 
 
     // Assign other parts
     for await (const schedule of weeksAutofill) {
-      const noMeeting = schedule.midweek_meeting.canceled.find((record) => record.type === dataView)?.value ?? false;
+      const weekType = schedule.midweek_meeting.week_type.find((record) => record.type === dataView).value || Week.NORMAL;
+
+      const noMeeting = weekType === Week.ASSEMBLY || weekType == Week.CONVENTION || weekType === Week.MEMORIAL || weekType === Week.NO_MEETING;
 
       if (!noMeeting) {
-        const weekType = schedule.week_type.find((record) => record.type === dataView)?.value ?? Week.NORMAL;
         const source = sources.find((record) => record.weekOf === schedule.weekOf);
 
         // Assign TGW Talk
@@ -241,7 +244,6 @@ const useScheduleAutofill = (meeting: ScheduleAutofillType['meeting'], onClose: 
 
         // Assign Bible Reading Aux Class
         if (classCount === 2) {
-          const weekType = schedule.week_type.find((record) => record.type === dataView)?.value ?? Week.NORMAL;
           main = schedule.midweek_meeting.tgw_bible_reading.aux_class_1.value;
 
           if (weekType === Week.NORMAL && main.length === 0) {
@@ -284,9 +286,7 @@ const useScheduleAutofill = (meeting: ScheduleAutofillType['meeting'], onClose: 
 
                 selected = await schedulesSelectRandomPerson({ type, week: schedule.weekOf, isAYFTalk: isTalk, classroom: '1', history: historyAutofill });
                 if (selected) {
-                  // await schedulesSaveAssignment(schedule, field, selected);
                   await schedulesAutofillSaveAssignment({ assignment: field, history: historyAutofill, schedule, value: selected });
-                  // setAssignmentsCurrent((prev) => prev + 1);
                 }
               }
             }
@@ -294,7 +294,6 @@ const useScheduleAutofill = (meeting: ScheduleAutofillType['meeting'], onClose: 
             // Aux class
             if (classCount === 2) {
               if (validTypesBase.includes(type)) {
-                const weekType = schedule.week_type.find((record) => record.type === dataView)?.value ?? Week.NORMAL;
                 main = ayfPart.aux_class_1.student.value;
 
                 if (weekType === Week.NORMAL && main.length === 0) {
@@ -338,9 +337,7 @@ const useScheduleAutofill = (meeting: ScheduleAutofillType['meeting'], onClose: 
                   history: historyAutofill,
                 });
                 if (selected) {
-                  // await schedulesSaveAssignment(schedule, field, selected);
                   await schedulesAutofillSaveAssignment({ assignment: field, history: historyAutofill, schedule, value: selected });
-                  // setAssignmentsCurrent((prev) => prev + 1);
                 }
               }
             }
@@ -348,7 +345,6 @@ const useScheduleAutofill = (meeting: ScheduleAutofillType['meeting'], onClose: 
             // Aux class
             if (classCount === 2) {
               if (validTypes.includes(type) || (type === AssignmentCode.MM_ExplainingBeliefs && isTalk)) {
-                const weekType = schedule.week_type.find((record) => record.type === dataView)?.value ?? Week.NORMAL;
                 const mainStudent = ayfPart.aux_class_1.student.value;
 
                 main = ayfPart.aux_class_1.assistant.value;

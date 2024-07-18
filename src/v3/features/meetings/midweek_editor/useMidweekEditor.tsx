@@ -265,7 +265,7 @@ const useMidweekEditor = () => {
       if (weekDate) {
         setHasSource(true);
 
-        const weekType = schedule.week_type.find((record) => record.type === dataView);
+        const weekType = schedule.midweek_meeting.week_type.find((record) => record.type === dataView);
         setWeekType(weekType.value);
 
         setAyfCount(source.midweek_meeting.ayf_count[lang]);

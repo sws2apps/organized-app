@@ -14,7 +14,7 @@ type SwitchCongregation = {
   updatedAt: string;
 };
 
-type WeekTypeCongregation = {
+export type WeekTypeCongregation = {
   type: string;
   value: Week;
   updatedAt: string;
@@ -53,7 +53,7 @@ export type SchedWeekType = {
       reader: AssignmentCongregation[];
     };
     closing_prayer: AssignmentCongregation[];
-    canceled: SwitchCongregation[];
+    week_type: WeekTypeCongregation[];
   };
   weekend_meeting: {
     chairman: AssignmentCongregation[];
@@ -71,10 +71,9 @@ export type SchedWeekType = {
       conductor: AssignmentCongregation[];
       reader: AssignmentCongregation[];
     };
-    canceled: SwitchCongregation[];
+    week_type: WeekTypeCongregation[];
   };
   released: SwitchCongregation[];
-  week_type: WeekTypeCongregation[];
 };
 
 export type AssignmentHistoryType = {
