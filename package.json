@@ -44,7 +44,7 @@
     "dexie": "^4.0.8",
     "dexie-react-hooks": "^1.1.7",
     "file-select-dialog": "^1.5.4",
-    "firebase": "^10.12.3",
+    "firebase": "^10.12.4",
     "i18next": "^23.12.1",
     "interweave": "^13.1.0",
     "jw-epub-parser": "^3.18.0",
