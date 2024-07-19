@@ -33,7 +33,7 @@
   "tr_auxClass": "Sala B",
   "tr_memorialInvite": "Convite do Memorial",
   "tr_normalWeek": "Semana normal",
-  "tr_circuitOverseerWeek": "Visit of Circuit Overseer",
+  "tr_circuitOverseerWeek": "Visita do Superintendente de Circuito",
   "tr_conventionWeek": "Semana do Congresso Regional",
   "tr_assemblyWeek": "Semana da Assembleia de Circuito",
   "tr_shortTimeFormat": "H:MM",
@@ -71,5 +71,5 @@
   "tr_chairman": "Presidente",
   "tr_prayer": "Oração",
   "tr_partDuration": "({{ time }} min.)",
-  "tr_memorialWeek": "Week of Memorial"
+  "tr_memorialWeek": "Semana do Memorial"
 }
