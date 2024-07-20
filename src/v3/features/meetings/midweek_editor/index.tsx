@@ -9,6 +9,7 @@ import AssignmentsWeekDelete from '../assignments_week_delete';
 import Button from '@components/button';
 import ButtonGroup from '@components/button_group';
 import Checkbox from '@components/checkbox';
+import COTalk from './co_talk';
 import Divider from '@components/divider';
 import EventEditor from '../event_editor';
 import MeetingPart from '../meeting_part';
@@ -649,32 +650,37 @@ const MidweekEditor = () => {
                     <Divider color="var(--accent-200)" />
 
                     {/* lc_cbs */}
-                    <RowContainer desktopUp={desktopUp} sx={{ alignItems: 'flex-start' }}>
-                      <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
-                        {isEdit && <PartDuration length={30} week={selectedWeek} type="lc_cbs" />}
+                    {weekType !== Week.CO_VISIT && (
+                      <RowContainer desktopUp={desktopUp} sx={{ alignItems: 'flex-start' }}>
+                        <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+                          {isEdit && <PartDuration length={30} week={selectedWeek} type="lc_cbs" />}
 
-                        <MeetingPart week={selectedWeek} type="lc_cbs" color="var(--living-as-christians)" isEdit={isEdit} isOverwrite={isEdit} />
-                      </Box>
+                          <MeetingPart week={selectedWeek} type="lc_cbs" color="var(--living-as-christians)" isEdit={isEdit} isOverwrite={isEdit} />
+                        </Box>
 
-                      <PersonSelectorContainer desktopUp={desktopUp}>
-                        <PersonDoubleContainer desktopUp={desktopUp} laptopUp={laptopUp}>
-                          <PersonSelector
-                            week={selectedWeek}
-                            label={t('tr_cbsConductor')}
-                            type={AssignmentCode.MM_CBSConductor}
-                            assignment="MM_LCCBSConductor"
-                            readOnly={isEdit}
-                          />
-                          <PersonSelector
-                            week={selectedWeek}
-                            label={t('tr_cbsReader')}
-                            type={AssignmentCode.MM_CBSReader}
-                            assignment="MM_LCCBSReader"
-                            readOnly={isEdit}
-                          />
-                        </PersonDoubleContainer>
-                      </PersonSelectorContainer>
-                    </RowContainer>
+                        <PersonSelectorContainer desktopUp={desktopUp}>
+                          <PersonDoubleContainer desktopUp={desktopUp} laptopUp={laptopUp}>
+                            <PersonSelector
+                              week={selectedWeek}
+                              label={t('tr_cbsConductor')}
+                              type={AssignmentCode.MM_CBSConductor}
+                              assignment="MM_LCCBSConductor"
+                              readOnly={isEdit}
+                            />
+                            <PersonSelector
+                              week={selectedWeek}
+                              label={t('tr_cbsReader')}
+                              type={AssignmentCode.MM_CBSReader}
+                              assignment="MM_LCCBSReader"
+                              readOnly={isEdit}
+                            />
+                          </PersonDoubleContainer>
+                        </PersonSelectorContainer>
+                      </RowContainer>
+                    )}
+
+                    {/* CO talk */}
+                    {weekType === Week.CO_VISIT && <COTalk week={selectedWeek} meeting="midweek" />}
 
                     <Divider color="var(--accent-200)" />
                   </MeetingSection>

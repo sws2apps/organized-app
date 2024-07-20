@@ -52,6 +52,8 @@ export type EventNameType = {
   updatedAt: string;
 };
 
+export type COTalkTitleType = { src: string; updatedAt: string };
+
 export type SourceWeekType = {
   weekOf: string;
   midweek_meeting: {
@@ -83,17 +85,14 @@ export type SourceWeekType = {
       time: { default: number; override: CongregationNumberType[] };
       src: LanguageStringType;
     };
-    co_talk_title: { src: string; updatedAt: string };
+    co_talk_title: COTalkTitleType;
     song_conclude: { default: LanguageStringType; override: CongregationStringType[] };
   };
   weekend_meeting: {
     event_name: EventNameType;
     song_first: CongregationStringType[];
     public_talk: CongregationNumberType[];
-    co_talk_title: {
-      public: { src: string; updatedAt: string };
-      service: { src: string; updatedAt: string };
-    };
+    co_talk_title: { public: COTalkTitleType; service: COTalkTitleType };
     w_study: {
       title: LanguageStringType;
       opening_song: LanguageStringType;
