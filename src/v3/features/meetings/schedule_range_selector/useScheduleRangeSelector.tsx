@@ -12,7 +12,7 @@ const useScheduleRangeSelector = (onStartChange: ScheduleRangeSelectorType['onSt
   const [startMonth, setStartMonth] = useState('');
 
   const startMonthOptions = useMemo(() => {
-    const recentSources = sources.filter((source) => new Date(source.weekOf) >= getWeekDate());
+    const recentSources = sources.filter((source) => new Date(source.weekOf) >= getWeekDate() && source.midweek_meeting.week_date_locale['E']);
     recentSources.sort((a, b) => new Date(a.weekOf).getTime() - new Date(b.weekOf).getTime());
 
     const result: ScheduleOptionsType[] = [];

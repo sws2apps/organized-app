@@ -1,12 +1,8 @@
 import { styled } from '@mui/system';
+import { StyledTextFieldProps } from './index.types';
 import TextField from '@mui/material/TextField';
 
-type StyledTextFieldProps = {
-  height: number;
-  varHeight: number;
-};
-
-const StyledTextField = styled(TextField)<StyledTextFieldProps>((props) => ({
+const StyledTextField = styled(TextField, { shouldForwardProp: (prop) => !['varHeight'].includes(String(prop)) })<StyledTextFieldProps>((props) => ({
   '.MuiInputBase-root': {
     height: `${props.height}px`,
     display: 'flex',

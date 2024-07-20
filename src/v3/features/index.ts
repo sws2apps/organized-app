@@ -53,6 +53,7 @@ export { default as UserTimeAway } from './my_profile/time_away';
 export { default as UserLogoutConfirm } from './my_profile/logout_confirm';
 
 /* -------------------------------- Meetings -------------------------------- */
+export { default as MidweekExport } from './meetings/midweek_export';
 export { default as MyAssignments } from './meetings/my_assignments';
 export { default as ScheduleAutofillDialog } from './meetings/schedule_autofill';
 export { default as WeekSelector } from './meetings/week_selector';

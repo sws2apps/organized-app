@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import { IconGenerate, IconPrint, IconPublish } from '@components/icons';
-import { ScheduleAutofillDialog, WeekSelector } from '@features/index';
+import { MidweekExport, ScheduleAutofillDialog, WeekSelector } from '@features/index';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useMidweek from './useMidweek';
 import Button from '@components/button';
@@ -12,7 +12,7 @@ const MidweekMeeting = () => {
 
   const { desktopUp } = useBreakpoints();
 
-  const { hasWeeks, handleCloseAutofill, handleOpenAutofill, openAutofill } = useMidweek();
+  const { hasWeeks, handleCloseAutofill, handleOpenAutofill, openAutofill, handleCloseExport, handleOpenExport, openExport } = useMidweek();
 
   return (
     <Box
@@ -22,6 +22,8 @@ const MidweekMeeting = () => {
         flexDirection: 'column',
       }}
     >
+      {openExport && <MidweekExport open={openExport} onClose={handleCloseExport} />}
+
       {openAutofill && <ScheduleAutofillDialog meeting="midweek" open={openAutofill} onClose={handleCloseAutofill} />}
 
       <PageTitle
@@ -29,7 +31,7 @@ const MidweekMeeting = () => {
         buttons={
           hasWeeks && (
             <>
-              <Button variant="secondary" startIcon={<IconPrint />}>
+              <Button variant="secondary" onClick={handleOpenExport} startIcon={<IconPrint />}>
                 {t('tr_export')}
               </Button>
               <Button variant="secondary" onClick={handleOpenAutofill} startIcon={<IconGenerate />}>

@@ -1,5 +1,5 @@
 import { HTMLInputTypeAttribute, useState } from 'react';
-import { IconButton, InputAdornment, TextField } from '@mui/material';
+import { IconButton, InputAdornment, TextField as MUITextField } from '@mui/material';
 import { IconVisibility, IconVisibilityOff } from '@components/icons';
 import { TextFieldTypeProps } from './index.types';
 
@@ -9,7 +9,7 @@ import { TextFieldTypeProps } from './index.types';
  * @param {TextFieldTypeProps} props - The props for the CustomTextField component.
  * @returns {JSX.Element} - JSX.Element
  */
-const CustomTextField = (props: TextFieldTypeProps) => {
+const TextField = (props: TextFieldTypeProps) => {
   const { height, startIcon, endIcon, styleIcon, InputProps, resetHelperPadding, ...defaultProps } = props;
   const [showAccessCode, setShowAccessCode] = useState(false);
   const [inputType, setInputType] = useState<HTMLInputTypeAttribute>(props.type);
@@ -32,7 +32,7 @@ const CustomTextField = (props: TextFieldTypeProps) => {
   };
 
   return (
-    <TextField
+    <MUITextField
       {...defaultProps}
       type={inputType}
       placeholder={props.placeholder}
@@ -158,4 +158,4 @@ const CustomTextField = (props: TextFieldTypeProps) => {
   );
 };
 
-export default CustomTextField;
+export default TextField;

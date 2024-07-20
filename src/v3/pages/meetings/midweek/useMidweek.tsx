@@ -6,6 +6,7 @@ const useMidweek = () => {
   const sources = useRecoilValue(sourcesFormattedState);
 
   const [openAutofill, setOpenAutofill] = useState(false);
+  const [openExport, setOpenExport] = useState(false);
 
   const hasWeeks = sources.length > 0;
 
@@ -13,7 +14,11 @@ const useMidweek = () => {
 
   const handleCloseAutofill = () => setOpenAutofill(false);
 
-  return { hasWeeks, handleCloseAutofill, handleOpenAutofill, openAutofill };
+  const handleOpenExport = () => setOpenExport(true);
+
+  const handleCloseExport = () => setOpenExport(false);
+
+  return { hasWeeks, handleCloseAutofill, handleOpenAutofill, openAutofill, openExport, handleOpenExport, handleCloseExport };
 };
 
 export default useMidweek;

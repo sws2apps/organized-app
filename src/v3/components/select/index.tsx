@@ -1,6 +1,6 @@
 import { Theme } from '@mui/material/styles/createTheme';
 import { SelectPropsType } from './types';
-import StyledTextField from './styled';
+import StyledTextField from './index.styles';
 
 /**
  * Custom select component.
@@ -8,7 +8,7 @@ import StyledTextField from './styled';
  * @param props The props for the CustomSelect component.
  * @returns A custom select input field.
  */
-const CustomSelect = (props: SelectPropsType) => {
+const Select = (props: SelectPropsType) => {
   const label = props.label || '';
   const className = props.className || '';
   const startIcon = props.startIcon || null;
@@ -79,4 +79,4 @@ const CustomSelect = (props: SelectPropsType) => {
   );
 };
 
-export default CustomSelect;
+export default Select;

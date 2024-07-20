@@ -46,14 +46,18 @@ const useCOTalk = ({ meeting, week, talk }: COTalkType) => {
   };
 
   useEffect(() => {
-    if (meeting === 'midweek') {
-      const talkTitle: COTalkTitleType = source.midweek_meeting.co_talk_title;
-      setTalkTitle(talkTitle.src);
-    }
+    setTalkTitle('');
 
-    if (meeting === 'weekend') {
-      const talkTitle: COTalkTitleType = source.weekend_meeting.co_talk_title[talk];
-      setTalkTitle(talkTitle.src);
+    if (source) {
+      if (meeting === 'midweek') {
+        const talkTitle: COTalkTitleType = source.midweek_meeting.co_talk_title;
+        setTalkTitle(talkTitle.src);
+      }
+
+      if (meeting === 'weekend') {
+        const talkTitle: COTalkTitleType = source.weekend_meeting.co_talk_title[talk];
+        setTalkTitle(talkTitle.src);
+      }
     }
   }, [source, meeting, talk]);
 
