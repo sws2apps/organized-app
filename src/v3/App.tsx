@@ -16,6 +16,7 @@ const FieldServiceReportsPage = lazy(() => import('@pages/reports/field-service'
 const MidweekMeeting = lazy(() => import('@pages/meetings/midweek'));
 const MinistryReport = lazy(() => import('@pages/ministry/ministry_report'));
 const ServiceYear = lazy(() => import('@pages/ministry/service_year'));
+const AuxiliaryPioneerApplication = lazy(() => import('@pages/ministry/auxiliary_pioneer'));
 const VisitingSpeakers = lazy(() => import('@pages/persons/visiting_speakers'));
 const WeekendMeeting = lazy(() => import('@pages/meetings/weekend'));
 const ServiceGroups = lazy(() => import('@pages/service_groups'));
@@ -52,6 +53,7 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
             { path: '/user-profile', element: <MyProfile /> },
             { path: '/public-talks-list', element: <PublicTalksList /> },
             { path: '/ministry-report', element: <MinistryReport /> },
+            { path: '/auxiliary-pioneer-application', element: <AuxiliaryPioneerApplication /> },
             { path: '/visiting-speakers', element: <VisitingSpeakers /> },
             { path: '/midweek-meeting', element: <MidweekMeeting /> },
             { path: '/weekend-meeting', element: <WeekendMeeting /> },
