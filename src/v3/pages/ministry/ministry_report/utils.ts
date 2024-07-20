@@ -1,20 +1,7 @@
+import { MONTHS } from '@constants/index';
 import useAppTranslation from '@hooks/useAppTranslation';
 
 export const Days = ['tr_sunday', 'tr_monday', 'tr_tuesday', 'tr_wednesday', 'tr_thursday', 'tr_friday', 'tr_saturday'];
-export const Months = [
-  'tr_january',
-  'tr_february',
-  'tr_march',
-  'tr_april',
-  'tr_may',
-  'tr_june',
-  'tr_july',
-  'tr_august',
-  'tr_september',
-  'tr_october',
-  'tr_november',
-  'tr_december',
-];
 
 /**
  * Get the index of the day in a week (0 for Sunday, 1 for Monday, etc.).
@@ -74,5 +61,5 @@ export function getYearFromDate(dateString: string): number {
 export const FormatStringForDailyHistory = (dateString: string, newline: boolean) => {
   const { t } = useAppTranslation();
 
-  return `${t(Days[getDayIndex(dateString)])},${newline ? '\n' : ''} ${getDayNumberInMonth(dateString)} ${t(Months[getMonthIndexFromDate(dateString)])} ${getYearFromDate(dateString)}`;
+  return `${t(Days[getDayIndex(dateString)])},${newline ? '\n' : ''} ${getDayNumberInMonth(dateString)} ${t(MONTHS[getMonthIndexFromDate(dateString)])} ${getYearFromDate(dateString)}`;
 };

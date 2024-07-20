@@ -1,33 +1,9 @@
-import { ReactElement } from 'react';
-import { Box, SxProps } from '@mui/material';
+import React from 'react';
+import { Box } from '@mui/material';
 import Typography from '@components/typography';
+import { InfoTipProps } from './types';
 
-/**
- * Component representing an information tip.
- *
- * @param {boolean} isBig - Indicates whether the information tip is big or not.
- * @param {string} text - The text content of the information tip.
- * @param {string} [title] - The title of the information tip.
- * @param {ReactElement} [icon] - The icon element to display alongside the text.
- * @param {string} [color] - The color of the information tip.
- * @param {SxProps} [sx] - Additional styles for the information tip container.
- * @returns {JSX.Element} InfoTip component.
- */
-const InfoTip = ({
-  isBig,
-  text,
-  title,
-  icon,
-  color,
-  sx,
-}: {
-  isBig: boolean;
-  text: string;
-  title?: string;
-  icon?: ReactElement;
-  color?: string;
-  sx?: SxProps;
-}) => {
+const InfoTip: React.FC<InfoTipProps> = ({ isBig, text, title, icon, color, sx, children }) => {
   const getColorStyle = () => {
     const result = {
       border: '',
@@ -90,7 +66,7 @@ const InfoTip = ({
         {icon}
 
         <Typography className="body-regular" sx={{ color: style.text }}>
-          {text}
+          {text || children}
         </Typography>
       </Box>
     </Box>
