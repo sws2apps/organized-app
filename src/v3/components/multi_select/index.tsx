@@ -1,4 +1,10 @@
-import { Checkbox, InputLabel, ListItemText, MenuItem, OutlinedInput } from '@mui/material';
+import {
+  Checkbox,
+  InputLabel,
+  ListItemText,
+  MenuItem,
+  OutlinedInput,
+} from '@mui/material';
 import { MultiSelectPropsType } from './types';
 import { StyledMultiSelect, StyledFormControl } from './styled';
 
@@ -9,7 +15,16 @@ import { StyledMultiSelect, StyledFormControl } from './styled';
  * @returns A custom select input field.
  */
 const MultiSelect = (props: MultiSelectPropsType) => {
-  const { label = 'Label', value, onChange, required = false, height = 44, fullWidth = true, options = [] } = props;
+  const {
+    label = 'Label',
+    value,
+    onChange,
+    required = false,
+    height = 44,
+    fullWidth = true,
+    options = [],
+    disabled = false,
+  } = props;
   const varHeight = (56 - height) / 2;
 
   return (
@@ -31,6 +46,9 @@ const MultiSelect = (props: MultiSelectPropsType) => {
         height={height}
         varHeight={varHeight}
         sx={props.sx}
+        inputProps={{
+          disabled,
+        }}
       >
         {options.map((name) => (
           <MenuItem key={name} value={name}>

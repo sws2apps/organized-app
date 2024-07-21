@@ -17,7 +17,10 @@ const AuxiliaryPioneer = () => {
 
   return (
     <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
-      <PageTitle title={t('tr_applicationAuxiliaryPioneer')} buttons={laptopUp ? <ButtonSubmitApplication /> : null} />
+      <PageTitle
+        title={t('tr_applicationAuxiliaryPioneer')}
+        buttons={laptopUp ? <ButtonSubmitApplication /> : null}
+      />
       <Box
         sx={{
           flexGrow: 1,
@@ -29,12 +32,20 @@ const AuxiliaryPioneer = () => {
         }}
       >
         <Grid container spacing={2}>
-          <APSForm continuousServiceDesire={continuousServiceDesire} setContinuousServiceDesire={setContinuousServiceDesire} />
+          <APSForm
+            continuousServiceDesire={continuousServiceDesire}
+            setContinuousServiceDesire={setContinuousServiceDesire}
+          />
           <Grid mobile={12} laptop={6} paddingRight={4}>
             <Typography className="h4" color="var(--black)" marginTop={2}>
               {t('tr_noteAPSApplication')}
             </Typography>
-            <Typography className="h4" marginTop={2} marginBottom={1} component="div">
+            <Typography
+              className="h4"
+              marginTop={2}
+              marginBottom={1}
+              component="div"
+            >
               <Stack direction="column" gap={1}>
                 <Trans i18nKey="tr_attentionServiceCommittee" />
               </Stack>
@@ -50,7 +61,11 @@ const AuxiliaryPioneer = () => {
                 { name: 'David Offenbarung', role: 'Service overseer' },
                 { name: 'John Netherleed', role: 'Secretary' },
               ].map((member) => (
-                <MemberAccountItem key={member.name} name={member.name} role={member.role} />
+                <MemberAccountItem
+                  key={member.name}
+                  name={member.name}
+                  role={member.role}
+                />
               ))}
             </Box>
           </Grid>
@@ -59,14 +74,22 @@ const AuxiliaryPioneer = () => {
 
       <InfoTip icon={<IconInfo />} color="white" isBig={false}>
         <Trans i18nKey="tr_moreInformationForAP">
-          <Link href="https://hub.jw.org" className="h4" color="var(--accent-dark)" underline="none" target="_blank">
+          <Link
+            href="https://hub.jw.org"
+            className="h4"
+            color="var(--accent-dark)"
+            underline="none"
+            target="_blank"
+          >
             link
           </Link>
         </Trans>
       </InfoTip>
 
       {!laptopUp && (
-        <Box sx={{ display: 'flex', flexDirection: 'column-reverse', gap: '8px' }}>
+        <Box
+          sx={{ display: 'flex', flexDirection: 'column-reverse', gap: '8px' }}
+        >
           <ButtonSubmitApplication />
         </Box>
       )}
