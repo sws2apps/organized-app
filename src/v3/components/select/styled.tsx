@@ -23,6 +23,14 @@ const StyledTextField = styled(TextField)<StyledTextFieldProps>((props) => ({
     '&.MuiSelect-select': {
       minHeight: 'unset',
     },
+    '.MuiTypography-root': {
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap',
+    },
+    '&.Mui-disabled': {
+      '-webkit-text-fill-color': 'var(--black)',
+    },
   },
   '.MuiOutlinedInput-root': {
     borderRadius: 'var(--radius-l)',
@@ -49,14 +57,12 @@ const StyledTextField = styled(TextField)<StyledTextFieldProps>((props) => ({
     '&.Mui-focused': {
       color: 'var(--accent-main)',
     },
+    '&.Mui-disabled': {
+      color: 'var(--accent-350)',
+    },
   },
   '.MuiFormLabel-root[data-shrink="false"]': {
     top: `-${props.varHeight}px`,
-  },
-  '.MuiTypography-root': {
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap',
   },
 }));
 

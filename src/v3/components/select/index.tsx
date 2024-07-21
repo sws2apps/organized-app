@@ -9,13 +9,16 @@ import StyledTextField from './styled';
  * @returns A custom select input field.
  */
 const CustomSelect = (props: SelectPropsType) => {
-  const label = props.label || '';
-  const className = props.className || '';
-  const startIcon = props.startIcon || null;
-  const endIcon = props.endIcon || null;
-  const required = props.required || false;
-  const height = props.height || 44;
-  const fullWidth = props.fullWidth ?? true;
+  const {
+    label = '',
+    className = '',
+    startIcon = null,
+    endIcon = null,
+    required = false,
+    height = 44,
+    fullWidth = true,
+    disabled = false,
+  } = props;
 
   const varHeight = (56 - height) / 2;
 
@@ -38,6 +41,7 @@ const CustomSelect = (props: SelectPropsType) => {
         endAdornment: endIcon,
       }}
       inputProps={{
+        disabled,
         MenuProps: {
           PaperProps: {
             sx: (theme: Theme) => ({

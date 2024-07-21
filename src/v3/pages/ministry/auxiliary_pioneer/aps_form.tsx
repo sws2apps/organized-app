@@ -2,7 +2,13 @@ import React, { useState } from 'react';
 import { Trans } from 'react-i18next';
 import { Link } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
-import { DatePicker, MenuItem, Select, TextField, Typography } from '@components/index';
+import {
+  DatePicker,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+} from '@components/index';
 import CustomCheckbox from '@components/checkbox';
 import MultiSelect from '@components/multi_select';
 import { MONTHS } from '@constants/index';
@@ -13,7 +19,10 @@ interface APSFormProps {
   setContinuousServiceDesire: (value: boolean) => void;
 }
 
-const AuxiliaryPioneerForm: React.FC<APSFormProps> = ({ continuousServiceDesire, setContinuousServiceDesire }) => {
+const AuxiliaryPioneerForm: React.FC<APSFormProps> = ({
+  continuousServiceDesire,
+  setContinuousServiceDesire,
+}) => {
   const { t } = useAppTranslation();
   const all_months = MONTHS.map((monthKey) => t(monthKey));
 
@@ -53,7 +62,11 @@ const AuxiliaryPioneerForm: React.FC<APSFormProps> = ({ continuousServiceDesire,
           value={continuousServiceDesire ? [] : selectedMonths}
           disabled={continuousServiceDesire}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setSelectedMonths(typeof e.target.value === 'string' ? e.target.value.split(',') : e.target.value);
+            setSelectedMonths(
+              typeof e.target.value === 'string'
+                ? e.target.value.split(',')
+                : e.target.value
+            );
           }}
         />
       </Grid>
@@ -68,14 +81,24 @@ const AuxiliaryPioneerForm: React.FC<APSFormProps> = ({ continuousServiceDesire,
       <Grid mobile={12}>
         <Typography className="body-regular" marginBottom={1}>
           <Trans i18nKey="tr_pioneerApplicationMoral">
-            <Link href="https://www.jw.org/finder?wtlocale=E&docid=202013206" className="h4" color="var(--accent-dark)" underline="none" target="_blank">
+            <Link
+              href="https://www.jw.org/finder?wtlocale=E&docid=202013206"
+              className="h4"
+              color="var(--accent-dark)"
+              underline="none"
+              target="_blank"
+            >
               link
             </Link>
           </Trans>
         </Typography>
       </Grid>
       <Grid mobile={12} tablet688={4} laptop={3}>
-        <DatePicker label={t('tr_selectDate')} value={new Date()} onChange={(e) => console.log('date', e)} />
+        <DatePicker
+          label={t('tr_selectDate')}
+          value={new Date()}
+          onChange={(e) => console.log('date', e)}
+        />
       </Grid>
       <Grid mobile={12} tablet688={8} laptop={9}>
         <TextField

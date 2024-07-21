@@ -20,5 +20,6 @@ export type MultiSelectPropsType = TextFieldProps & {
   height?: number;
   label?: string;
   options?: string[];
+  disabled?: boolean;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };

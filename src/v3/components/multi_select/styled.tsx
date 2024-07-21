@@ -1,6 +1,11 @@
 import React from 'react';
 import { styled } from '@mui/system';
-import { BaseSelectProps, FormControl, OutlinedSelectProps, Select } from '@mui/material';
+import {
+  BaseSelectProps,
+  FormControl,
+  OutlinedSelectProps,
+  Select,
+} from '@mui/material';
 
 type StyledMultiSelectBaseProps = {
   height: number;
@@ -24,6 +29,7 @@ export const StyledMultiSelectBase = styled(Select)<StyledMultiSelectBaseProps>`
   .MuiInputBase-input {
     padding-top: ${({ varHeight }) => `calc(14.5px - ${varHeight}px)`};
     padding-bottom: ${({ varHeight }) => `calc(14.5px - ${varHeight}px)`};
+    color: var(--black);
     flex: 1 0 0;
 
     &.MuiSelect-select {
@@ -50,9 +56,14 @@ export const StyledMultiSelectBase = styled(Select)<StyledMultiSelectBaseProps>`
   }
 `;
 
-export const StyledMultiSelect = styled(({ className, ...props }: StyledMultiSelectBaseProps) => (
-  <StyledMultiSelectBase {...props} MenuProps={{ PaperProps: { className } }} />
-))(({ theme }) => ({
+export const StyledMultiSelect = styled(
+  ({ className, ...props }: StyledMultiSelectBaseProps) => (
+    <StyledMultiSelectBase
+      {...props}
+      MenuProps={{ PaperProps: { className } }}
+    />
+  )
+)(({ theme }) => ({
   background: 'var(--white)',
   backgroundColor: 'var(--white)',
   borderRadius: 'var(--radius-l)',
@@ -105,31 +116,31 @@ type StyledFormControlProps = {
 };
 
 export const StyledFormControl = styled(FormControl)<StyledFormControlProps>`
-  ${({ varHeight }) => ({
-    '.MuiFormLabel-root[data-shrink=false]': { top: `-${varHeight}px` },
-    '.MuiInputLabel-root': {
-      color: 'var(--accent-350)',
-      '&.Mui-focused': {
-        color: 'var(--accent-main)',
-      },
-    },
-    '.MuiOutlinedInput-root': {
-      '& svg': {
-        color: 'var(--accent-350)',
-        boxSizing: 'content-box',
-      },
-      '&.Mui-focused svg': {
-        color: 'var(--black)',
-      },
-      '& fieldset': {
-        border: '1px solid var(--accent-350)',
-      },
-      '&:hover fieldset': {
-        border: '1px solid var(--accent-main)',
-      },
-      '&.Mui-focused fieldset': {
-        border: '1px solid var(--accent-main)',
-      },
-    },
-  })}
+  .MuiFormLabel-root[data-shrink='false'] {
+    top: ${({ varHeight }) => `-${varHeight}px`};
+  }
+  .MuiInputLabel-root {
+    color: var(--accent-350);
+    &.Mui-focused {
+      color: var(--accent-main);
+    }
+  }
+  .MuiOutlinedInput-root {
+    & svg {
+      color: var(--accent-350);
+      boxsizing: content-box;
+    }
+    &.Mui-focused svg {
+      color: var(--black);
+    }
+    & fieldset {
+      border: 1px solid var(--accent-350);
+    }
+    &:hover fieldset {
+      border: 1px solid var(--accent-main);
+    }
+    &.Mui-focused fieldset {
+      border: 1px solid var(--accent-main);
+    }
+  }
 `;
