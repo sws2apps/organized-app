@@ -3,6 +3,7 @@ import { styled } from '@mui/system';
 import {
   BaseSelectProps,
   FormControl,
+  MenuItem,
   OutlinedSelectProps,
   Select,
 } from '@mui/material';
@@ -30,13 +31,13 @@ export const StyledMultiSelectBase = styled(Select)<StyledMultiSelectBaseProps>`
     padding-top: ${({ varHeight }) => `calc(14.5px - ${varHeight}px)`};
     padding-bottom: ${({ varHeight }) => `calc(14.5px - ${varHeight}px)`};
     color: var(--black);
-    flex: 1 0 0;
 
     &.MuiSelect-select {
-      display: flex;
-      align-items: center;
-      // flexWrap: 'nowrap',
-      // minHeight: 'unset',
+      minheight: 'unset';
+      overflow: 'hidden';
+      textoverflow: 'ellipsis';
+      whitespace: 'nowrap';
+      display: 'block';
     }
     & .MuiListItemText-root {
       overflow: hidden;
@@ -47,12 +48,6 @@ export const StyledMultiSelectBase = styled(Select)<StyledMultiSelectBaseProps>`
     & .MuiCheckbox-root {
       display: none;
     }
-  }
-  .MuiTypography-root {
-    // overflow: 'hidden',
-    // textOverflow: 'ellipsis',
-    // whiteSpace: 'nowrap',
-    // display: 'block',
   }
 `;
 
@@ -142,5 +137,14 @@ export const StyledFormControl = styled(FormControl)<StyledFormControlProps>`
     &.Mui-focused fieldset {
       border: 1px solid var(--accent-main);
     }
+  }
+`;
+
+export const StyledMenuItem = styled(MenuItem)`
+  &.Mui-selected {
+    background-color: inherit;
+  }
+  & svg {
+    fill: var(--accent-main);
   }
 `;
