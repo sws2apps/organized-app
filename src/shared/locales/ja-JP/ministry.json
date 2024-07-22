@@ -106,5 +106,7 @@
   "tr_continuousAuxPio": "Continuous Auxiliary Pioneer",
   "tr_receivedReports": "Received reports",
   "tr_reportPageInfo": "On this page, you can view reports from publishers and add reports from those who do not use Organized. Select a publisher to start.",
-  "tr_rejected": "承認しない"
+  "tr_rejected": "承認しない",
+  "tr_alreadySubmittedWarning": "This month's report has already been submitted to the Branch Office. Only late reports can be added, unless you undo the submission.",
+  "tr_publishersCountReport": "Publishers: {{ publishersCount }}"
 }
