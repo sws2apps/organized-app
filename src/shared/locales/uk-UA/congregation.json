@@ -412,5 +412,6 @@
   "tr_showAwayToAllDesc": "Allow all users to view the time away of other publishers. Otherwise, only appointed brothers can see it.",
   "tr_showAwayToAll": "Показувати час відсутності всім користувачам",
   "tr_importExport": "Імпорт/Експорт",
-  "tr_count": "Кількість"
+  "tr_count": "Кількість",
+  "tr_congregationNumberFull": "Congregation number"
 }
