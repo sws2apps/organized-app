@@ -412,5 +412,6 @@
   "tr_showAwayToAllDesc": "Allow all users to view the time away of other publishers. Otherwise, only appointed brothers can see it.",
   "tr_showAwayToAll": "Show time away to all users",
   "tr_importExport": "İçe/Dışa aktar",
-  "tr_count": "Sayı"
+  "tr_count": "Sayı",
+  "tr_congregationNumberFull": "Congregation number"
 }
