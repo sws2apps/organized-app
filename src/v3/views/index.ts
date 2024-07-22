@@ -1,2 +1,1 @@
-export { default as WeekendMeeting } from './WeekendMeeting';
-export { default as MidweekMeeting } from './MidweekMeeting';
+export { default as MidweekMeeting } from './meetings/midweek/app_normal/MidweekMeeting';

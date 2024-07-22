@@ -1,5 +1,8 @@
 import { atom, selector } from 'recoil';
-import { getShortDatePickerFormat, getTranslation } from '@services/i18n/translation';
+import {
+  getShortDatePickerFormat,
+  getTranslation,
+} from '@services/i18n/translation';
 import { convertStringToBoolean, localStorageGetItem } from '@utils/common';
 import { SnackBarSeverityType } from '@definition/app';
 import { ReactElement } from 'react';
@@ -47,7 +50,8 @@ export const isLoginOpenState = atom({
 
 export const appLangState = atom({
   key: 'appLang',
-  default: (typeof window !== 'undefined' && localStorage.getItem('app_lang')) || 'en',
+  default:
+    (typeof window !== 'undefined' && localStorage.getItem('app_lang')) || 'en',
 });
 
 export const monthNamesState = selector({
@@ -55,7 +59,7 @@ export const monthNamesState = selector({
   get: ({ get }) => {
     const appLang = get(appLangState);
 
-    const months = [];
+    const months: string[] = [];
 
     months.push(getTranslation({ key: 'tr_january', language: appLang }));
     months.push(getTranslation({ key: 'tr_february', language: appLang }));
@@ -115,7 +119,9 @@ export const isCongAccountCreateState = atom({
 
 export const isShowTermsUseState = atom({
   key: 'isShowLAG',
-  default: typeof window !== 'undefined' && convertStringToBoolean(localStorage.getItem('termsUse') || 'true'),
+  default:
+    typeof window !== 'undefined' &&
+    convertStringToBoolean(localStorage.getItem('termsUse') || 'true'),
 });
 
 export const qrCodePathState = atom({

@@ -1,6 +1,6 @@
 import { StyleSheet, Document, Page } from '@react-pdf/renderer';
-import MidweekMeetingHeader from './MidweekMeeting_PDF/MidweekMeetingHeader';
-import MidweekMeetingItem from './MidweekMeeting_PDF/MidweekMeetingItem';
+import MidweekMeetingHeader from './MidweekMeetingHeader';
+import MidweekMeetingItem from './MidweekMeetingItem';
 const styles = StyleSheet.create({
   page: {
     padding: 20,
@@ -72,7 +72,10 @@ const tasks = [
     taskConductor:
       //  'Carrington Alan',
       {
-        'Main hall': { first: 'Koss Mark-Stivenson V.', second: 'Alan Carringttttttt' },
+        'Main hall': {
+          first: 'Koss Mark-Stivenson V.',
+          second: 'Alan Carringttttttt',
+        },
         // 'Auxillilary classroom 1': { first: 'Koss V2.', second: 'Stiverson M.' },
         // 'Auxillilary classroom 2': { first: 'Koss V3.', second: 'Stiverson M.' },
       },
@@ -99,7 +102,8 @@ const tasks = [
   },
   {
     part: 'Living as christians',
-    taskTitle: 'Be Prepared for Situations That Require Medical or Surgical Care',
+    taskTitle:
+      'Be Prepared for Situations That Require Medical or Surgical Care',
     taskTime: '(10 min.)',
     taskConductor: 'Carrington Alan',
     taskNumber: '7.',

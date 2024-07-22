@@ -31,7 +31,12 @@ const styles = StyleSheet.create({
   },
 });
 
-const MidweekMeetingPartsTitle = ({ part, color, icon, taskConductor }: MeetingPartsTitleProps) => {
+const MidweekMeetingPartsTitle = ({
+  part,
+  color,
+  icon,
+  taskConductor,
+}: MeetingPartsTitleProps) => {
   const func = (obj) => {
     return obj && typeof obj !== 'string' ? Object.keys(obj) : [];
   };
@@ -40,7 +45,9 @@ const MidweekMeetingPartsTitle = ({ part, color, icon, taskConductor }: MeetingP
 
   return (
     <View style={[styles.container, { backgroundColor: color }]}>
-      <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+      <View
+        style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
+      >
         {icon}
         <Text style={styles.title}>{part}</Text>
       </View>

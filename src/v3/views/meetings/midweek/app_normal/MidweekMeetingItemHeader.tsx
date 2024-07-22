@@ -32,7 +32,10 @@ const styles = StyleSheet.create({
   },
 });
 
-const MidweekMeetingItemHeader = ({ date, WeeklyBibleReading }: MidweekMeetingItemHeaderProps) => {
+const MidweekMeetingItemHeader = ({
+  date,
+  WeeklyBibleReading,
+}: MidweekMeetingItemHeaderProps) => {
   return (
     <View style={styles.header}>
       <Svg viewBox="0 0 24 24" style={{ width: 16, height: 16 }}>

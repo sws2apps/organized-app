@@ -11,9 +11,18 @@ export default defineConfig({
   resolve: {
     alias: [
       { find: '@assets', replacement: resolve(__dirname, 'src/v3/assets') },
-      { find: '@components', replacement: resolve(__dirname, 'src/v3/components') },
-      { find: '@icons', replacement: resolve(__dirname, 'src/v3/components/icons') },
-      { find: '@constants', replacement: resolve(__dirname, 'src/v3/constants') },
+      {
+        find: '@components',
+        replacement: resolve(__dirname, 'src/v3/components'),
+      },
+      {
+        find: '@icons',
+        replacement: resolve(__dirname, 'src/v3/components/icons'),
+      },
+      {
+        find: '@constants',
+        replacement: resolve(__dirname, 'src/v3/constants'),
+      },
       { find: '@features', replacement: resolve(__dirname, 'src/v3/features') },
       { find: '@hooks', replacement: resolve(__dirname, 'src/v3/hooks') },
       { find: '@layouts', replacement: resolve(__dirname, 'src/v3/layouts') },
@@ -23,12 +32,22 @@ export default defineConfig({
       { find: '@states', replacement: resolve(__dirname, 'src/v3/states') },
       { find: '@utils', replacement: resolve(__dirname, 'src/v3/utils') },
       { find: '@wrapper', replacement: resolve(__dirname, 'src/v3/wrapper') },
-      { find: '@locales', replacement: resolve(__dirname, 'src/shared/locales') },
+      {
+        find: '@locales',
+        replacement: resolve(__dirname, 'src/shared/locales'),
+      },
       { find: '@shared', replacement: resolve(__dirname, 'src/shared') },
-      { find: '@definition', replacement: resolve(__dirname, 'src/v3/definition') },
+      {
+        find: '@definition',
+        replacement: resolve(__dirname, 'src/v3/definition'),
+      },
       { find: '@global', replacement: resolve(__dirname, 'src/v3/global') },
       { find: '@db', replacement: resolve(__dirname, 'src/v3/indexedDb') },
-      { find: '@talks', replacement: resolve(__dirname, 'src/v3/public_talks') },
+      {
+        find: '@talks',
+        replacement: resolve(__dirname, 'src/v3/public_talks'),
+      },
+      { find: '@views', replacement: resolve(__dirname, 'src/v3/views') },
     ],
   },
   worker: { plugins: () => [comlink()] },

@@ -46,7 +46,10 @@ const MidweekMeetingTask = ({
   };
 
   const participantsFunc = (part, obj) => {
-    if (part === 'Apply yourself to the field ministry' && typeof obj === 'object') {
+    if (
+      part === 'Apply yourself to the field ministry' &&
+      typeof obj === 'object'
+    ) {
       const mappedArray = Object.entries(obj).map(([, value]) => {
         return value;
       });
@@ -103,7 +106,16 @@ const MidweekMeetingTask = ({
           </Text>
         </View>
         {participants.length > 0 ? null : (
-          <Text style={{ fontFamily: 'Inter', fontWeight: 'light', fontSize: 9, color: '#757575' }}>Conductor:</Text>
+          <Text
+            style={{
+              fontFamily: 'Inter',
+              fontWeight: 'light',
+              fontSize: 9,
+              color: '#757575',
+            }}
+          >
+            Conductor:
+          </Text>
         )}
       </View>
 
@@ -133,11 +145,25 @@ const MidweekMeetingTask = ({
                 paddingTop: 4,
               }}
             >
-              <Text style={{ fontFamily: 'Inter', fontWeight: 'medium', fontSize: 9, color: '#222222' }}>
+              <Text
+                style={{
+                  fontFamily: 'Inter',
+                  fontWeight: 'medium',
+                  fontSize: 9,
+                  color: '#222222',
+                }}
+              >
                 {participant.first}
               </Text>
               {participant.second && (
-                <Text style={{ fontFamily: 'Inter', fontWeight: 'normal', fontSize: 9, color: '#222222' }}>
+                <Text
+                  style={{
+                    fontFamily: 'Inter',
+                    fontWeight: 'normal',
+                    fontSize: 9,
+                    color: '#222222',
+                  }}
+                >
                   {participant.second}
                 </Text>
               )}
@@ -145,7 +171,15 @@ const MidweekMeetingTask = ({
           ))}
         </View>
       ) : (
-        <Text style={{ fontFamily: 'Inter', fontWeight: 'medium', fontSize: 9, color: '#222222', width: 140 }}>
+        <Text
+          style={{
+            fontFamily: 'Inter',
+            fontWeight: 'medium',
+            fontSize: 9,
+            color: '#222222',
+            width: 140,
+          }}
+        >
           {typeof taskConductor === 'string' ? taskConductor : null}
         </Text>
       )}

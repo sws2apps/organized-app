@@ -46,14 +46,18 @@
           ["@definition", "./src/v3/definition"],
           ["@global", "./src/v3/global"],
           ["@db", "./src/v3/indexedDb"],
-          ["@talks", "./src/v3/public_talks"]
+          ["@talks", "./src/v3/public_talks"],
+          ["@views", "./src/v3/views"]
         ]
       }
     }
   },
   "plugins": ["react", "react-refresh"],
   "rules": {
-    "react-refresh/only-export-components": ["warn", { "allowConstantExport": true }],
+    "react-refresh/only-export-components": [
+      "warn",
+      { "allowConstantExport": true }
+    ],
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error",
     "import/no-cycle": ["error", { "maxDepth": 9999 }]

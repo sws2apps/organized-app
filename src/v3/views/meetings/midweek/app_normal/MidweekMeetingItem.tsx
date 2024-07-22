@@ -24,7 +24,10 @@ Font.register({
   ],
 });
 
-const MidweekMeetingItem = ({ meetingData, tasks }: MidweekMeetingItemProps) => {
+const MidweekMeetingItem = ({
+  meetingData,
+  tasks,
+}: MidweekMeetingItemProps) => {
   const meetingStartTime = meetingData.meetingStartTime;
 
   let startTime = meetingStartTime;
@@ -121,14 +124,19 @@ const MidweekMeetingItem = ({ meetingData, tasks }: MidweekMeetingItemProps) => 
       }
       acc[task.part].push(task);
 
-      acc[task.part].sort((a, b) => parseInt(a.taskNumber) - parseInt(b.taskNumber));
+      acc[task.part].sort(
+        (a, b) => parseInt(a.taskNumber) - parseInt(b.taskNumber)
+      );
 
       return acc;
     }, {});
 
   return (
     <>
-      <MidweekMeetingItemHeader date={meetingData.date} WeeklyBibleReading={meetingData.WeeklyBibleReading} />
+      <MidweekMeetingItemHeader
+        date={meetingData.date}
+        WeeklyBibleReading={meetingData.WeeklyBibleReading}
+      />
       <View>
         {Object.keys(sortedTasks).map((part) => (
           <React.Fragment key={part}>
@@ -138,7 +146,9 @@ const MidweekMeetingItem = ({ meetingData, tasks }: MidweekMeetingItemProps) => 
                 color={getPartColor(part)}
                 icon={getPartIcon(part)}
                 taskConductor={
-                  part === 'Apply yourself to the field ministry' ? sortedTasks[part][0]?.taskConductor : null
+                  part === 'Apply yourself to the field ministry'
+                    ? sortedTasks[part][0]?.taskConductor
+                    : null
                 }
               />
             )}
@@ -154,13 +164,21 @@ const MidweekMeetingItem = ({ meetingData, tasks }: MidweekMeetingItemProps) => 
                     display: 'flex',
                     flexDirection: 'row',
                     gap: 4,
-                    backgroundColor: index % 2 !== 0 ? getPartBgColor(part) : 'transparent',
+                    backgroundColor:
+                      index % 2 !== 0 ? getPartBgColor(part) : 'transparent',
                   }}
                   key={index}
                 >
-                  <MidweekMeetingTime time={taskStartTime} textColor={getPartTextColor(part)} />
+                  <MidweekMeetingTime
+                    time={taskStartTime}
+                    textColor={getPartTextColor(part)}
+                  />
                   {task.taskTitle === 'Song' ? (
-                    <MidweekMeetingSong prayer={task.prayer} name={task.name} songNumber={task.songNumber} />
+                    <MidweekMeetingSong
+                      prayer={task.prayer}
+                      name={task.name}
+                      songNumber={task.songNumber}
+                    />
                   ) : (
                     <MidweekMeetingTask
                       part={task.part}
