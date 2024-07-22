@@ -28,6 +28,7 @@ const AuxiliaryPioneerForm: React.FC<APSFormProps> = ({
 
   const [hours, setHours] = useState('');
   const [selectedMonths, setSelectedMonths] = useState([]);
+  const [applicantName, setApplicantName] = useState('');
 
   return (
     <>
@@ -104,8 +105,8 @@ const AuxiliaryPioneerForm: React.FC<APSFormProps> = ({
         <TextField
           label={t('tr_nameAPSApplication')}
           height={48}
-          // value={person_firstname.value}
-          onChange={(e) => console.log(e.target.value)}
+          value={applicantName}
+          onChange={(e) => setApplicantName(e.target.value)}
         />
       </Grid>
     </>

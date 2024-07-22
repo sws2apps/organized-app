@@ -2,11 +2,10 @@ import {
   Checkbox,
   InputLabel,
   ListItemText,
-  MenuItem,
   OutlinedInput,
 } from '@mui/material';
 import { MultiSelectPropsType } from './types';
-import { StyledMultiSelect, StyledFormControl } from './styled';
+import { StyledMultiSelect, StyledFormControl, StyledMenuItem } from './styled';
 
 /**
  * Custom Multi Select Component.
@@ -51,10 +50,10 @@ const MultiSelect = (props: MultiSelectPropsType) => {
         }}
       >
         {options.map((name) => (
-          <MenuItem key={name} value={name}>
+          <StyledMenuItem key={name} value={name}>
             <Checkbox checked={(props.value as string[]).indexOf(name) > -1} />
             <ListItemText primary={name} />
-          </MenuItem>
+          </StyledMenuItem>
         ))}
       </StyledMultiSelect>
     </StyledFormControl>
