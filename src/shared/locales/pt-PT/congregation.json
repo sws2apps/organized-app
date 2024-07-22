@@ -412,5 +412,6 @@
   "tr_showAwayToAllDesc": "Permita que todos os utilizadores vejam os períodos de ausência de outros publicadores. Caso contrário, só os irmãos designados podem vê-los.",
   "tr_showAwayToAll": "Mostrar os períodos de ausência para todos os utilizadores",
   "tr_importExport": "Importar/exportar",
-  "tr_count": "Contagem"
+  "tr_count": "Contagem",
+  "tr_congregationNumberFull": "Congregation number"
 }
