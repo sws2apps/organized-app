@@ -162,7 +162,7 @@
   "tr_langGroupEnable": "Grupo ng wika sa kongregasyon",
   "tr_langGroupEnableDesc": "I-enable ang paggawa ng mga grupo ng wika sa loob ng iyong kongregasyon",
   "tr_congregationEncryptionTitle": "Congregation data encryption code",
-  "tr_congregationEncryptionDesc": "Panatilihing ligtas ang mahalagang code na ito – ito ay para sa pag-encrypt ng inyong congregation data, kaya hindi ito makikita ng sinumang walang code. Kung mawala man, kailangang gumawa muli ng iyong kongregasyon. <a href='https://guide.organized-app.com/faq/security'>Matutunan nang higit pa <a>kung paano namin pinoprotektahan ang lahat ng data.",
+  "tr_congregationEncryptionDesc": "Keep this important code safe – it’s for encrypting your congregation data, so nobody without the code can view it. If lost, you’ll need to create your congregation again. <a href='https://guide.organized-app.com/faq/security'>Learn more</a> how we protect all your data.",
   "tr_meetinMaterialsTitle": "Mga gamit sa pulong, mga form, at mga iskedyul",
   "tr_meetinMaterialsDesc": "Pumili ng wika para sa pag-import ng mga gamit sa pulong, tulad ng mga iskedyul (S-140), mga assignment forms (S-89), mga public talks, at iba pa.",
   "tr_dateFormatSelect": "Date format",

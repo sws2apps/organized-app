@@ -162,7 +162,7 @@
   "tr_langGroupEnable": "Cemaat içinde dil grubu",
   "tr_langGroupEnableDesc": "Cemaatiniz içinde dil grupları oluşturmayı etkinleştirin",
   "tr_congregationEncryptionTitle": "Cemaat veri şifreleme kodu",
-  "tr_congregationEncryptionDesc": "Bu önemli kodu güvende tutun – cemaat verilerinizi şifrelemek içindir, böylece kod olmadan kimse verileri görüntüleyemez. Kaybedilirse, cemaatinizi yeniden oluşturmanız gerekecektir. Verilerinizi nasıl koruduğumuzu öğrenmek için <a href='https://guide.organized-app.com/faq/security'>daha fazla bilgi edinin<a>.",
+  "tr_congregationEncryptionDesc": "Keep this important code safe – it’s for encrypting your congregation data, so nobody without the code can view it. If lost, you’ll need to create your congregation again. <a href='https://guide.organized-app.com/faq/security'>Learn more</a> how we protect all your data.",
   "tr_meetinMaterialsTitle": "İbadet materyalleri, formlar ve programlar",
   "tr_meetinMaterialsDesc": "İbadet materyalleri, örneğin programlar (S-140), atama formları (S-89), halka açık konuşmalar ve diğerleri gibi belgelerin içe aktarımı için dil seçiniz.",
   "tr_dateFormatSelect": "Tarih formatı",
