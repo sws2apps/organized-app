@@ -106,5 +106,7 @@
   "tr_continuousAuxPio": "Continuous Auxiliary Pioneer",
   "tr_receivedReports": "Отримані звіти",
   "tr_reportPageInfo": "On this page, you can view reports from publishers and add reports from those who do not use Organized. Select a publisher to start.",
-  "tr_rejected": "Rejected"
+  "tr_rejected": "Rejected",
+  "tr_alreadySubmittedWarning": "This month's report has already been submitted to the Branch Office. Only late reports can be added, unless you undo the submission.",
+  "tr_publishersCountReport": "Publishers: {{ publishersCount }}"
 }
