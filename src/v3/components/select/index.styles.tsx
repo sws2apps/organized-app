@@ -2,7 +2,9 @@ import { styled } from '@mui/system';
 import { StyledTextFieldProps } from './index.types';
 import TextField from '@mui/material/TextField';
 
-const StyledTextField = styled(TextField, { shouldForwardProp: (prop) => !['varHeight'].includes(String(prop)) })<StyledTextFieldProps>((props) => ({
+const StyledTextField = styled(TextField, {
+  shouldForwardProp: (prop) => !['varHeight'].includes(String(prop)),
+})<StyledTextFieldProps>((props) => ({
   '.MuiInputBase-root': {
     height: `${props.height}px`,
     display: 'flex',
@@ -18,6 +20,14 @@ const StyledTextField = styled(TextField, { shouldForwardProp: (prop) => !['varH
     flex: '1 0 0',
     '&.MuiSelect-select': {
       minHeight: 'unset',
+    },
+    '.MuiTypography-root': {
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap',
+    },
+    '&.Mui-disabled': {
+      '-webkit-text-fill-color': 'var(--black)',
     },
   },
   '.MuiOutlinedInput-root': {
@@ -45,14 +55,12 @@ const StyledTextField = styled(TextField, { shouldForwardProp: (prop) => !['varH
     '&.Mui-focused': {
       color: 'var(--accent-main)',
     },
+    '&.Mui-disabled': {
+      color: 'var(--accent-350)',
+    },
   },
   '.MuiFormLabel-root[data-shrink="false"]': {
     top: `-${props.varHeight}px`,
-  },
-  '.MuiTypography-root': {
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap',
   },
 }));
 

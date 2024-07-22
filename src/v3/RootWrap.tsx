@@ -43,7 +43,16 @@ const theme = createTheme({
     },
   },
   breakpoints: {
-    keys: ['mobile', 'mobile400', 'tablet', 'tablet500', 'tablet600', 'tablet688', 'laptop', 'desktop'],
+    keys: [
+      'mobile',
+      'mobile400',
+      'tablet',
+      'tablet500',
+      'tablet600',
+      'tablet688',
+      'laptop',
+      'desktop',
+    ],
     values: {
       mobile: 0,
       mobile400: 400,
