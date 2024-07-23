@@ -76,6 +76,6 @@
   "tr_2FASetupKey": "Clave de configuración",
   "tr_2FASetupKeyDesc": "Copia la clave de configuración y pégala en tu aplicación de autenticación para configurar la autenticación de dos factores.",
   "tr_2FAStep2": "Paso 2: Introduzca el código 2FA",
-  "tr_timeAwayDesc": "No time away set yet. Keep your time away up-to-date so that the brothers can take it into account when scheduling future meetings.",
+  "tr_timeAwayDesc": "No hay tiempo de espera todavía. Mantén tu tiempo al día para que los hermanos puedan tenerlo en cuenta a la hora de programar futuras reuniones.",
   "tr_terminatedDesc": "The session on that device is terminated"
 }

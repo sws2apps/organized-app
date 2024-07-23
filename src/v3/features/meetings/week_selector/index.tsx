@@ -2,6 +2,7 @@ import { Box, Collapse } from '@mui/material';
 import { IconClearMultiple, IconCollapse } from '@components/icons';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useWeekSelector from './useWeekSelector';
+import AssignmentsDelete from '../assignments_delete';
 import Button from '@components/button';
 import Typography from '@components/typography';
 import ScrollableTabs from '@components/scrollable_tabs';
@@ -11,7 +12,8 @@ const WeekSelector = () => {
 
   const { desktopUp } = useBreakpoints();
 
-  const { tabs, hasWeeks, expanded, handleToggleExpand, activeTab } = useWeekSelector();
+  const { tabs, hasWeeks, expanded, handleToggleExpand, activeTab, handleCloseDelete, openDelete, handleOpenDelete } =
+    useWeekSelector();
 
   return (
     <Box
@@ -29,6 +31,8 @@ const WeekSelector = () => {
         top: desktopUp ? 57 : 'unset',
       }}
     >
+      {openDelete && <AssignmentsDelete meeting="midweek" open={openDelete} onClose={handleCloseDelete} />}
+
       <Box
         sx={{
           display: 'flex',
@@ -57,6 +61,7 @@ const WeekSelector = () => {
               startIcon={<IconClearMultiple height={20} width={20} />}
               sx={{ height: '32px', minHeight: '32px' }}
               color="red"
+              onClick={handleOpenDelete}
             >
               {t('tr_assignmentsDeleteMultiple')}
             </Button>

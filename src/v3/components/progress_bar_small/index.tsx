@@ -29,10 +29,10 @@ interface ProgressBarProps {
 const ProgressBarSmall = ({ value, maxValue }: ProgressBarProps) => {
   const progressValue = Math.round((value * 100) / maxValue);
 
-  const progressBarWidth = maxValue > 0 && value === maxValue ? 'calc(96px - 26px)' : '96px';
+  const progressBarWidth = maxValue > 0 && value === maxValue ? 'calc(100% - 26px)' : '100%';
 
   return (
-    <StyledProgressBarSmallBox style={{ width: '96px' }}>
+    <StyledProgressBarSmallBox style={{ width: '100%' }}>
       <StyledProgressBarSmall style={{ width: progressBarWidth }}>
         <StyledProgressBarSmallFill style={{ width: `${progressValue}%` }} />
       </StyledProgressBarSmall>

@@ -18,4 +18,6 @@ export type CustomDividerProps = {
    * The height of the divider.
    */
   height?: number;
+
+  dashed?: boolean;
 };

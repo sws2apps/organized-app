@@ -67,6 +67,8 @@
   "tr_meetingDate": "Ngày họp",
   "tr_listView": "Hiển thị dạng danh sách",
   "tr_share": "Chia sẻ",
+  "tr_copy": "Copy",
+  "tr_sync": "Sync",
   "tr_copyLink": "Sao chép liên kết",
   "tr_unsupportedBrowserError": "Trình duyệt không được hỗ trợ",
   "tr_featureComingSoon": "Tính năng sắp ra mắt",
@@ -96,5 +98,10 @@
   "tr_brothers": "Brothers",
   "tr_editingFinished": "Editing completed",
   "tr_minLabel": "min.",
-  "tr_textCopied": "Information copied to clipboard"
+  "tr_textCopied": "Information copied to clipboard",
+  "tr_longDateWithYearLocale": "{{ month }} {{ date }}, {{ year }}",
+  "tr_edit": "Edit",
+  "tr_noPersonsFound": "No persons found",
+  "tr_noPersonsFoundDesc": "No persons match your search parameters. Please try adjusting the category or date.",
+  "tr_categories": "Categories"
 }

@@ -1,6 +1,6 @@
 import { PopperPlacementType, SxProps, Theme } from '@mui/material';
 import * as CSS from 'csstype';
-import { ReactElement, ReactNode } from 'react';
+import { ChangeEvent, ReactElement, ReactNode } from 'react';
 
 /**
  * Props for CustomDropdownContainer component.
@@ -24,6 +24,16 @@ export type CustomDropdownContainerProps = {
    * Boolean flag indicating whether the dropdown is open.
    */
   open: boolean;
+
+  /**
+   * The color of the arrow.
+   */
+  arrowColor?: string;
+
+  /**
+   * The color of the label.
+   */
+  labelColor?: string;
 };
 
 /**
@@ -121,4 +131,6 @@ export type CustomDropdownItemProps = {
    * Reference
    */
   reference?: React.Ref<HTMLElement>;
+
+  onCheckboxClick?: (event: ChangeEvent<HTMLInputElement>, checked: boolean) => void;
 };

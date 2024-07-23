@@ -1,6 +1,6 @@
 import { ListItem } from '@mui/material';
 import { DashboardCard, DashboardMenu, MinistryTimer } from '@features/index';
-import { IconMinistryReport, IconStatsYear } from '@icons/index';
+import { IconMinistryReport, IconPioneerForm, IconStatsYear } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
 
 const MinistryCard = () => {
@@ -20,7 +20,18 @@ const MinistryCard = () => {
         />
       </ListItem>
       <ListItem disablePadding>
-        <DashboardMenu icon={<IconStatsYear color="var(--black)" />} primaryText={t('tr_serviceYear')} />
+        <DashboardMenu
+          icon={<IconStatsYear color="var(--black)" />}
+          primaryText={t('tr_serviceYear')}
+          path="/service-year"
+        />
+      </ListItem>
+      <ListItem disablePadding>
+        <DashboardMenu
+          icon={<IconPioneerForm color="var(--black)" />}
+          primaryText={t('tr_applicationAuxiliaryPioneer')}
+          path="/auxiliary-pioneer-application"
+        />
       </ListItem>
     </DashboardCard>
   );

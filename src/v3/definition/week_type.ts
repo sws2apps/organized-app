@@ -3,7 +3,8 @@ export enum Week {
   CO_VISIT = 2,
   ASSEMBLY = 3,
   CONVENTION = 4,
-  NO_MEETING = 0,
+  MEMORIAL = 5,
+  NO_MEETING = 20,
 }
 
 export type WeekType = {

@@ -55,14 +55,14 @@
   "tr_weekendMeetingPrint": "Programação da reunião do fim de semana",
   "tr_publicTalk": "Discurso público",
   "tr_openingPrayerWeekendMeeting": "Oração inicial",
-  "tr_noWMeetingWeek": "There is no weekend meeting for this week",
-  "tr_noMeetingWeek": "There is no meeting for this week",
+  "tr_noWMeetingWeek": "Não há nenhuma reunião de fim de semana para esta semana",
+  "tr_noMeetingWeek": "Não existe reunião para esta semana",
   "tr_substituteSpeaker": "Orador substituto",
   "tr_startingConversation": "Iniciar Conversas",
   "tr_followingUp": "Cultivar o interesse",
   "tr_makingDisciples": "Fazer discípulos",
   "tr_explainingBeliefs": "Explicar as suas crenças",
-  "tr_discussion": "Discussion",
+  "tr_discussion": "Consideração",
   "tr_demonstration": "Demonstração",
   "tr_partNo": "Número da parte:",
   "tr_nameS89": "Nome:",
@@ -70,5 +70,6 @@
   "tr_studentAssistantS89": "Estudante/ajudante:",
   "tr_chairman": "Presidente",
   "tr_prayer": "Oração",
-  "tr_partDuration": "({{ time }} min.)"
+  "tr_partDuration": "({{ time }} min.)",
+  "tr_memorialWeek": "Semana do Memorial"
 }

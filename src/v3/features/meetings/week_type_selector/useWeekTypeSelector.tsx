@@ -6,6 +6,8 @@ import { Week } from '@definition/week_type';
 import { userDataViewState } from '@states/settings';
 import { dbSchedUpdate } from '@services/dexie/schedules';
 import { WeekTypeSelectorType } from './index.types';
+import { SchedWeekType, WeekTypeCongregation } from '@definition/schedules';
+import { UpdateSpec } from 'dexie';
 
 const useWeekTypeSelector = ({ meeting, week }: WeekTypeSelectorType) => {
   const weekTypeOptions = useRecoilValue(weekTypeLocaleState);
@@ -15,48 +17,35 @@ const useWeekTypeSelector = ({ meeting, week }: WeekTypeSelectorType) => {
   const [weekType, setWeekType] = useState(Week.NORMAL);
 
   const handleWeekTypeChange = async (value: Week) => {
-    // custom handler for no meeting
+    const schedule = schedules.find((record) => record.weekOf === week);
 
-    if (value === Week.NO_MEETING) {
-      const schedule = schedules.find((record) => record.weekOf === week);
+    const meetingType: WeekTypeCongregation[] = structuredClone(schedule[`${meeting}_meeting`].week_type);
+    const midweekUserRecord = meetingType.find((record) => record.type === userDataView);
 
-      if (meeting === 'midweek') {
-        const midweekCanceled = schedule.midweek_meeting.canceled;
-        const newRecord = structuredClone(midweekCanceled);
+    midweekUserRecord.value = value;
+    midweekUserRecord.updatedAt = new Date().toISOString();
 
-        const userRecord = newRecord.find((record) => record.type === userDataView);
+    const field = `${meeting}_meeting.week_type`;
 
-        userRecord.value = false;
-        userRecord.updatedAt = new Date().toISOString();
+    const data = { [field]: meetingType } as unknown as UpdateSpec<SchedWeekType>;
 
-        await dbSchedUpdate(week, { 'midweek_meeting.canceled': newRecord });
-      }
+    await dbSchedUpdate(week, data);
 
-      if (meeting === 'weekend') {
-        const weekendCanceled = schedule.weekend_meeting.canceled;
-        const newRecord = structuredClone(weekendCanceled);
+    if (value === Week.ASSEMBLY || value === Week.CONVENTION || value === Week.CO_VISIT) {
+      const otherMeeting = meeting === 'midweek' ? 'weekend_meeting' : 'midweek_meeting';
+      const meetingType: WeekTypeCongregation[] = structuredClone(schedule[otherMeeting].week_type);
 
-        const userRecord = newRecord.find((record) => record.type === userDataView);
+      const midweekUserRecord = meetingType.find((record) => record.type === userDataView);
 
-        userRecord.value = false;
-        userRecord.updatedAt = new Date().toISOString();
+      midweekUserRecord.value = value;
+      midweekUserRecord.updatedAt = new Date().toISOString();
 
-        await dbSchedUpdate(week, { 'weekend_meeting.canceled': newRecord });
-      }
+      const field = `${otherMeeting}.week_type`;
 
-      return;
+      const data = { [field]: meetingType } as unknown as UpdateSpec<SchedWeekType>;
+
+      await dbSchedUpdate(week, data);
     }
-
-    // normal week type switch
-    const weekTypeRecord = schedules.find((record) => record.weekOf === week).week_type;
-
-    const newWeekTypeRecord = structuredClone(weekTypeRecord);
-    const mainRecord = newWeekTypeRecord.find((record) => record.type === userDataView);
-
-    mainRecord.value = value;
-    mainRecord.updatedAt = new Date().toISOString();
-
-    await dbSchedUpdate(week, { week_type: newWeekTypeRecord });
   };
 
   useEffect(() => {
@@ -65,26 +54,14 @@ const useWeekTypeSelector = ({ meeting, week }: WeekTypeSelectorType) => {
 
       // check if no meeting and exit out early
       if (meeting === 'midweek') {
-        const canceled = schedule.midweek_meeting.canceled.find((record) => record.type === userDataView).value;
-        if (canceled) {
-          setWeekType(Week.NO_MEETING);
-          return;
-        }
+        const weekType = schedule.midweek_meeting.week_type.find((record) => record.type === userDataView).value || Week.NORMAL;
+        setWeekType(weekType);
       }
 
       if (meeting === 'weekend') {
-        const canceled = schedule.weekend_meeting.canceled.find((record) => record.type === userDataView).value;
-        if (canceled) {
-          setWeekType(Week.NO_MEETING);
-          return;
-        }
+        const weekType = schedule.weekend_meeting.week_type.find((record) => record.type === userDataView).value;
+        setWeekType(weekType);
       }
-
-      // normal week type handler
-      const weekTypeRecord = schedules.find((record) => record.weekOf === week).week_type;
-      const weekType = weekTypeRecord.find((record) => record.type === userDataView).value;
-
-      setWeekType(weekType);
     }
   }, [week, schedules, userDataView, meeting]);
 

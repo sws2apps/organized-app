@@ -104,3 +104,18 @@ export const STUDENT_ASSIGNMENT = [
 ];
 
 export const ASSISTANT_ASSIGNMENT = [...STUDENT_ASSIGNMENT, AssignmentCode.MM_AssistantOnly];
+
+export const MONTHS = [
+  'tr_january',
+  'tr_february',
+  'tr_march',
+  'tr_april',
+  'tr_may',
+  'tr_june',
+  'tr_july',
+  'tr_august',
+  'tr_september',
+  'tr_october',
+  'tr_november',
+  'tr_december',
+];

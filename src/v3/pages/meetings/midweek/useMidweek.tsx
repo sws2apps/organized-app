@@ -1,12 +1,19 @@
+import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { sourcesFormattedState } from '@states/sources';
 
 const useMidweek = () => {
   const sources = useRecoilValue(sourcesFormattedState);
 
+  const [openAutofill, setOpenAutofill] = useState(false);
+
   const hasWeeks = sources.length > 0;
 
-  return { hasWeeks };
+  const handleOpenAutofill = () => setOpenAutofill(true);
+
+  const handleCloseAutofill = () => setOpenAutofill(false);
+
+  return { hasWeeks, handleCloseAutofill, handleOpenAutofill, openAutofill };
 };
 
 export default useMidweek;

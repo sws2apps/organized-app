@@ -33,7 +33,7 @@ const SongSource = (props: SongSourceType) => {
       )}
       {!props.isEdit && (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-          <IconSong height={20} width={20} />
+          <IconSong color="var(--grey-400)" height={20} width={20} />
           <Typography className="h4">{songTitle}</Typography>
         </Box>
       )}

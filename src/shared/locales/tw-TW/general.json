@@ -67,6 +67,8 @@
   "tr_meetingDate": "Meeting date",
   "tr_listView": "List view",
   "tr_share": "Share",
+  "tr_copy": "Copy",
+  "tr_sync": "Sync",
   "tr_copyLink": "Copy link",
   "tr_unsupportedBrowserError": "Unsupported browser",
   "tr_featureComingSoon": "Feature coming soon",
@@ -96,5 +98,10 @@
   "tr_brothers": "Brothers",
   "tr_editingFinished": "Editing completed",
   "tr_minLabel": "min.",
-  "tr_textCopied": "Information copied to clipboard"
+  "tr_textCopied": "Information copied to clipboard",
+  "tr_longDateWithYearLocale": "{{ month }} {{ date }}, {{ year }}",
+  "tr_edit": "Edit",
+  "tr_noPersonsFound": "No persons found",
+  "tr_noPersonsFoundDesc": "No persons match your search parameters. Please try adjusting the category or date.",
+  "tr_categories": "Categories"
 }

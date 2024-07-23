@@ -67,6 +67,8 @@
   "tr_meetingDate": "Дата зібрання",
   "tr_listView": "Вид списку",
   "tr_share": "Поділитись",
+  "tr_copy": "Copy",
+  "tr_sync": "Sync",
   "tr_copyLink": "Скопіювати посилання",
   "tr_unsupportedBrowserError": "Браузер не підтримується",
   "tr_featureComingSoon": "Функція скоро з'явиться",
@@ -96,5 +98,10 @@
   "tr_brothers": "Brothers",
   "tr_editingFinished": "Editing completed",
   "tr_minLabel": "min.",
-  "tr_textCopied": "Information copied to clipboard"
+  "tr_textCopied": "Information copied to clipboard",
+  "tr_longDateWithYearLocale": "{{ date }} {{ month }}, {{ year }}",
+  "tr_edit": "Edit",
+  "tr_noPersonsFound": "No persons found",
+  "tr_noPersonsFoundDesc": "No persons match your search parameters. Please try adjusting the category or date.",
+  "tr_categories": "Categories"
 }

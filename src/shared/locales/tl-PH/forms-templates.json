@@ -33,7 +33,7 @@
   "tr_auxClass": "Auxiliary Classroom",
   "tr_memorialInvite": "Kampanya para sa Memoryal",
   "tr_normalWeek": "Normal na linggo",
-  "tr_circuitOverseerWeek": "Dalaw ng Tagapangasiwa ng Sirkito",
+  "tr_circuitOverseerWeek": "Visit of Circuit Overseer",
   "tr_conventionWeek": "Linggo ng Panrehiyong Kombensiyon",
   "tr_assemblyWeek": "Linggo ng Pansirkitong Asamblea",
   "tr_shortTimeFormat": "H:MM",
@@ -70,5 +70,6 @@
   "tr_studentAssistantS89": "Student/Assistant:",
   "tr_chairman": "Chairman",
   "tr_prayer": "Panalangin",
-  "tr_partDuration": "({{ time }} min.)"
+  "tr_partDuration": "({{ time }} min.)",
+  "tr_memorialWeek": "Week of Memorial"
 }

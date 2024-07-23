@@ -54,6 +54,7 @@ export { default as UserLogoutConfirm } from './my_profile/logout_confirm';
 
 /* -------------------------------- Meetings -------------------------------- */
 export { default as MyAssignments } from './meetings/my_assignments';
+export { default as ScheduleAutofillDialog } from './meetings/schedule_autofill';
 export { default as WeekSelector } from './meetings/week_selector';
 
 /* --------------------------------- Persons -------------------------------- */
@@ -75,9 +76,8 @@ export { default as IncomingSpeakers } from './persons/visiting_speakers/incomin
 export { default as OutgoingSpeakers } from './persons/visiting_speakers/outgoing';
 
 /* -------------------------------- Ministry -------------------------------- */
-export { default as AddServiceTimeModalWindow } from './ministry/add_service_time_modal_window';
+export { default as ButtonSubmitApplication } from './ministry/button_submit';
 export { default as MinistryTimer } from './ministry/ministry_timer';
-export { default as PopUpForEditOrCreateBibleStudy } from './ministry/pop_up_for_edit_or_create_bible_study';
 
 /* -------------------------------- Work In Progress -------------------------------- */
 export { default as WorkInProgressNotif } from './wip';

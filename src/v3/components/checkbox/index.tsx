@@ -14,6 +14,7 @@ const CustomCheckbox = (props: CheckboxPropsType) => {
   const indeterminate = props.indeterminate || false;
   const disabled = props.disabled || false;
   const label = props.label || '';
+  const labelDescription = props.labelDescription || '';
   const isBorder = props.isBorder || false;
   const className = props.className || 'body-regular';
   const sx = props.sx;
@@ -50,9 +51,16 @@ const CustomCheckbox = (props: CheckboxPropsType) => {
         />
       }
       label={
-        <Typography className={className} color="var(--black)">
-          {label}
-        </Typography>
+        <>
+          <Typography className={className} color="var(--black)">
+            {label}
+          </Typography>
+          {labelDescription != '' ? (
+            <Typography className="body-small-regular" color={'var(--grey-400)'}>
+              {labelDescription}
+            </Typography>
+          ) : null}
+        </>
       }
     />
   );

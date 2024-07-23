@@ -15,6 +15,7 @@ const useAssignmentsHistory = (history: AssignmentHistoryType[]) => {
 
   const customHistory = history.map((record) => {
     return {
+      history_id: record.id,
       history_date: record.weekOf,
       history_assignment: record.assignment.title,
       history_hall: record.assignment.classroom,
