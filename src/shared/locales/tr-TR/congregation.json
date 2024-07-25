@@ -400,6 +400,7 @@
   "tr_nameFormat": "İsim biçimi",
   "tr_formatFirstLast": "İsim Soyisim",
   "tr_formatLastFirst": "Soyisim İsim",
+  "tr_dateFormat": "Date format",
   "tr_dateFormat1": "29.10.2024",
   "tr_dateFormat2": "10/29/2024",
   "tr_dateFormat3": "2024-10-29",

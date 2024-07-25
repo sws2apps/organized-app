@@ -400,6 +400,7 @@
   "tr_nameFormat": "Formato do nome",
   "tr_formatFirstLast": "Primeiro, Último",
   "tr_formatLastFirst": "Último, Primeiro",
+  "tr_dateFormat": "Date format",
   "tr_dateFormat1": "29.10.2024",
   "tr_dateFormat2": "10/29/2024",
   "tr_dateFormat3": "2024-10-29",
