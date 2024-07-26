@@ -86,6 +86,11 @@ const CustomTextField = (props: TextFieldTypeProps) => {
             color: 'var(--accent-main)',
           },
         },
+
+        '& .MuiSvgIcon-root': {
+          color: 'var(--accent-350)',
+        },
+
         '.MuiFormLabel-root[data-shrink=false]': { top: `-${varHeight}px` },
         '& > .MuiAutocomplete-popupIndicator': {
           '& svg, & svg g, & svg g path': 'var(--black)',

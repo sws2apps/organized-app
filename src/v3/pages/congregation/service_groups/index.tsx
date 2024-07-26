@@ -1,5 +1,5 @@
 import { useAppTranslation } from '@hooks/index';
-import { Button, PageTitle } from '@components/index';
+import { Button, DarkOverlay, PageTitle } from '@components/index';
 import {
   IconAdd,
   IconEdit,
@@ -14,137 +14,20 @@ import { Box, IconButton, Stack, MenuItem, ListItemIcon, ListItemText, Menu, Lis
 import Masonry from '@mui/lab/Masonry';
 
 import Typography from '@components/typography';
-import Badge from '@components/badge';
 import useList from '@features/persons/list/useList';
 import { useState, MouseEvent, FC } from 'react';
 import IconGroupOverseer from '@icons/IconGroupOverseer';
 import { DashboardMenu } from '@features/index';
 import DashboardCard from '@features/dashboard/card';
 import { styled } from '@mui/system';
-
-const options = [
-  { icon: <IconGroupOverseer color={'var(--black)'} />, title: 'Make group overseer' },
-  { icon: <IconAssistant color={'var(--black)'} />, title: 'Make assistant' },
-  { icon: <IconRemovePerson color={'var(--red-main) !important'} />, title: 'Remove from the group' },
-];
-
-const PersonMenu: FC<{ color?: string }> = ({ color }) => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event: MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  return (
-    <div>
-      <IconButton
-        aria-label="more"
-        id="long-button"
-        aria-controls={open ? 'long-menu' : undefined}
-        aria-expanded={open ? 'true' : undefined}
-        aria-haspopup="true"
-        onClick={handleClick}
-        sx={{ padding: '0px' }}
-      >
-        <IconMore color={'var(--grey-400)'} />
-      </IconButton>
-      <Menu
-        id="long-menu"
-        MenuListProps={{
-          'aria-labelledby': 'long-button',
-        }}
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        slotProps={{
-          paper: {
-            style: {
-              backgroundColor: 'var(--white)',
-              borderRadius: 'var(--radius-l)',
-              border: '1px solid var(--accent-200)',
-            },
-          },
-        }}
-      >
-        {options.map((option, index) => {
-          const isLast = index === options.length - 1;
-          return (
-            <MenuItem
-              divider={!isLast}
-              key={index}
-              selected={option.title === 'Pyxis'}
-              onClick={handleClose}
-              sx={{
-                color: isLast ? 'var(--red-main)' : 'var(--black)',
-                borderColor: color ? `rgb(from ${color} r g b / 16%)` : 'inherit',
-                '&:hover': {
-                  background: !isLast && color ? `rgb(from ${color} r g b / 6%)` : 'inherit',
-                  '& span': {
-                    color: !isLast && color ? color : 'inherit',
-                  },
-                  '& svg, & svg g, & svg g path': {
-                    fill: !isLast && color ? color : 'inherit',
-                  },
-                },
-                '&:active': {
-                  background: !isLast && color ? `rgb(from ${color} r g b / 12%)` : 'inherit',
-                },
-              }}
-            >
-              <ListItemIcon>{option.icon}</ListItemIcon>
-              <ListItemText>{option.title}</ListItemText>
-            </MenuItem>
-          );
-        })}
-      </Menu>
-    </div>
-  );
-};
-
-const GroupHeader = ({
-  groupNumber,
-  groupName = '',
-  groupLength,
-  color,
-}: {
-  groupNumber: number;
-  groupName?: string;
-  groupLength: number;
-  color?: string;
-}) => {
-  return (
-    <Stack
-      direction={'row'}
-      justifyContent={'space-between'}
-      sx={{
-        padding: '8px 16px',
-        alignSelf: 'stretch',
-        borderRadius: 'var(--radius-m)',
-        backgroundColor: color ? `rgb(from ${color} r g b / 12%)` : 'var(--accent-200)',
-        position: 'relative',
-      }}
-      alignItems={'center'}
-    >
-      <Stack direction={'column'} sx={{ opacity: '100%' }}>
-        <Stack direction={'row'} spacing={'8px'} alignItems={'center'}>
-          <Typography className="h3" color={color ? color : 'var(--accent-dark)'}>
-            {`Group ${groupNumber}`}
-          </Typography>
-          <Badge size={'small'} text={groupLength.toString()} color={'green'} icon={<IconVisitors />} />
-        </Stack>
-        <Typography className="body-regular" color={color ? color : 'var(--accent-dark)'}>
-          {groupName}
-        </Typography>
-      </Stack>
-      <IconButton sx={{ height: 'fit-content', position: 'absolute', right: '12px', padding: '4px' }}>
-        <IconEdit color={color ? color : 'var(--accent-dark)'} />
-      </IconButton>
-    </Stack>
-  );
-};
+import CreateNewGroupModalWindow from './modal_windows/create_new_group';
+import ReorderGroupsModalWindow from './modal_windows/reorder_groups';
+import { EditGroupModalWindowData } from './modal_windows/edit_group/edit_group.types';
+import EditGroupModalWindow from './modal_windows/edit_group';
+import QuickSettingsModalWindow from './modal_windows/quick_settings';
+import DeleteGroupModalWindow from './modal_windows/delete_group';
+import CustomTypography from '@components/typography';
+import { GroupCardContainer, GroupCardContentItem, GroupCardDivider, GroupCardHeader } from './components/group_card';
 
 export const StyledMasonry = styled(Masonry)(({ theme }) => ({
   [theme.breakpoints.down('tablet500')]: {
@@ -170,158 +53,241 @@ const ServiceGroups = () => {
   const { t } = useAppTranslation();
   const { persons } = useList();
 
+  const [createNewGroupModalWindowOpen, setCreateNewGroupModalWindowOpen] = useState(false);
+  const [reorderGroupsModalWindowOpen, setReorderGroupsModalWindowOpen] = useState(false);
+  const [editGroupsModalWindowOpen, setEditGroupsModalWindowOpen] = useState(false);
+  const [quickSettingsModalWindowOpen, setQuickSettingsModalWindowOpen] = useState(false);
+  const [deleteGroupModalWindowOpen, setDeleteGroupModalWindowOpen] = useState(false);
+
+  const [editGroupModalWindowData, setEditGroupsModalWindowData] = useState<EditGroupModalWindowData>({
+    groupName: 'Isem',
+    groupNumber: '1',
+    publishers: ['Ali Partyan', 'Kseniya Shutovska', 'Andrey Tregulov', 'Aleksandr Portnoy'],
+  });
+
   return (
-    <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
-      <PageTitle
-        title={t('tr_fieldServiceGroups')}
-        buttons={
-          <Stack direction={'row'} spacing={'8px'}>
-            <Button variant="secondary" startIcon={<IconReorder />}>
-              {t('tr_reorderGroups')}
-            </Button>
-            <Button variant="main" startIcon={<IconAdd />}>
-              {t('tr_createGroup')}
-            </Button>
-          </Stack>
-        }
-      />
-
-      <StyledMasonry spacing={2} sequential>
-        <DashboardCard
-          // color={'rgb(from var(--group-1) r g b / 48%)'}
-          color={'rgba(var(--group-1), 0.48)'}
-          header={<GroupHeader groupNumber={1} groupLength={9} color={'var(--group-1)'} />}
-          fixedHeight={false}
-        >
-          {persons.slice(0, 9).map((person) => (
-            <ListItem disablePadding key={person.person_uid}>
-              <DashboardMenu
-                small
-                hoverColor={'rgba(var(--group-1), 0.6)'}
-                activeColor={'rgb(from var(--group-1) r g b / 12%)'}
-                accentHoverColor={'var(--group-1)'}
-                icon={<IconPerson color={'var(--black)'} />}
-                primaryText={person.person_data.person_firstname.value}
-                actionComponent={<PersonMenu color={'var(--group-1)'} />}
-                secondaryText={person.person_data.birth_date.value}
-                height={'32px'}
-              />
-            </ListItem>
-          ))}
-        </DashboardCard>
-
-        <DashboardCard
-          color={'rgb(from var(--group-2) r g b / 48%)'}
-          header={
-            <GroupHeader
-              groupNumber={2}
-              groupLength={11}
-              groupName={'Emelricherlicher Vlyn'}
-              color={'var(--group-2)'}
-            />
+    <>
+      <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
+        <PageTitle
+          title={t('tr_fieldServiceGroups')}
+          buttons={
+            <Stack direction={'row'} spacing={'8px'}>
+              <Button
+                variant="secondary"
+                startIcon={<IconReorder />}
+                onClick={() => {
+                  setReorderGroupsModalWindowOpen(true);
+                }}
+              >
+                {t('tr_reorderGroups')}
+              </Button>
+              <Button
+                variant="main"
+                startIcon={<IconAdd />}
+                onClick={() => {
+                  setCreateNewGroupModalWindowOpen(true);
+                }}
+              >
+                {t('tr_createGroup')}
+              </Button>
+            </Stack>
           }
-          fixedHeight={false}
-        >
-          {persons.slice(0, 10).map((person) => (
-            <ListItem disablePadding key={person.person_uid}>
-              <DashboardMenu
-                small
-                icon={<IconPerson color={'var(--black)'} />}
-                primaryText={person.person_data.person_firstname.value}
-                actionComponent={<PersonMenu />}
-                height={'32px'}
-              />
-            </ListItem>
-          ))}
-        </DashboardCard>
-        <DashboardCard
-          header={<GroupHeader groupNumber={3} groupLength={8} color={'var(--group-3)'} />}
-          fixedHeight={false}
-          color={'rgb(from var(--group-3) r g b / 48%)'}
-        >
-          {persons.slice(0, 8).map((person) => (
-            <ListItem disablePadding key={person.person_uid}>
-              <DashboardMenu
-                small
-                icon={<IconPerson color={'var(--black)'} />}
-                primaryText={person.person_data.person_firstname.value}
-                actionComponent={<PersonMenu />}
-                height={'32px'}
-              />
-            </ListItem>
-          ))}
-        </DashboardCard>
+        />
 
-        <DashboardCard
-          color={'rgb(from var(--group-4) r g b / 48%)'}
-          header={<GroupHeader groupNumber={4} groupLength={6} color={'var(--group-4)'} />}
-          fixedHeight={false}
-        >
-          {persons.slice(0, 12).map((person) => (
-            <ListItem disablePadding key={person.person_uid}>
-              <DashboardMenu
-                small
-                icon={<IconPerson color={'var(--black)'} />}
-                primaryText={person.person_data.person_firstname.value}
-                actionComponent={<PersonMenu />}
-                height={'32px'}
-              />
-            </ListItem>
-          ))}
-        </DashboardCard>
-        <DashboardCard
-          color={'rgb(from var(--group-5) r g b / 48%)'}
-          header={<GroupHeader groupNumber={5} groupLength={6} color={'var(--group-5)'} />}
-          fixedHeight={false}
-        >
-          {persons.slice(0, 6).map((person) => (
-            <ListItem disablePadding key={person.person_uid}>
-              <DashboardMenu
-                small
-                icon={<IconPerson color={'var(--black)'} />}
-                primaryText={person.person_data.person_firstname.value}
-                actionComponent={<PersonMenu />}
-                height={'32px'}
-              />
-            </ListItem>
-          ))}
-        </DashboardCard>
-        <DashboardCard
-          color={'rgb(from var(--group-6) r g b / 48%)'}
-          header={<GroupHeader groupNumber={6} groupLength={10} color={'var(--group-6)'} />}
-          fixedHeight={false}
-        >
-          {persons.slice(0, 10).map((person) => (
-            <ListItem disablePadding key={person.person_uid}>
-              <DashboardMenu
-                small
-                icon={<IconPerson color={'var(--black)'} />}
-                primaryText={person.person_data.person_firstname.value}
-                actionComponent={<PersonMenu />}
-                height={'32px'}
-              />
-            </ListItem>
-          ))}
-        </DashboardCard>
-        <DashboardCard
-          color={'rgb(from var(--group-7) r g b / 48%)'}
-          header={<GroupHeader groupNumber={7} groupLength={7} color={'var(--group-7)'} />}
-          fixedHeight={false}
-        >
-          {persons.slice(0, 7).map((person) => (
-            <ListItem disablePadding key={person.person_uid}>
-              <DashboardMenu
-                small
-                icon={<IconPerson color={'var(--black)'} />}
-                primaryText={person.person_data.person_firstname.value}
-                actionComponent={<PersonMenu />}
-                height={'32px'}
-              />
-            </ListItem>
-          ))}
-        </DashboardCard>
-      </StyledMasonry>
-    </Box>
+        <StyledMasonry spacing={2} sequential>
+          <GroupCardContainer color={'var(--group-1)'}>
+            <GroupCardHeader groupNumber={1} groupName={'Issum'} visitorsCount={10} isMyGroup />
+
+            {persons.slice(0, 9).map((value, index) => {
+              const randomKey = crypto.randomUUID();
+
+              if (index == 0) {
+                return (
+                  <>
+                    <GroupCardContentItem
+                      key={randomKey}
+                      groupNumber={1}
+                      primaryText={value.person_data.person_firstname.value}
+                      descriptionText={t('tr_groupOverseer')}
+                      icon={<IconAssistant />}
+                      isBaptized
+                    />
+                    <GroupCardDivider groupNumber={1} />
+                  </>
+                );
+              }
+
+              if (index == 1) {
+                return (
+                  <>
+                    <GroupCardContentItem
+                      key={randomKey}
+                      groupNumber={1}
+                      primaryText={value.person_data.person_firstname.value}
+                      descriptionText={t('tr_groupOverseerAssistant')}
+                      thirdText="Away: June 16, 2024 - July 2, 2024"
+                      icon={<IconGroupOverseer />}
+                      isBaptized
+                    />
+                    <GroupCardDivider groupNumber={1} />
+                  </>
+                );
+              }
+
+              return (
+                <>
+                  <GroupCardContentItem
+                    key={randomKey}
+                    groupNumber={1}
+                    primaryText={value.person_data.person_firstname.value}
+                    icon={<IconPerson />}
+                    isBaptized
+                  />
+                  {index != 8 && <GroupCardDivider groupNumber={1} />}
+                </>
+              );
+            })}
+          </GroupCardContainer>
+          <GroupCardContainer color={'var(--group-2)'}>
+            <GroupCardHeader groupNumber={2} groupName={''} visitorsCount={10} />
+
+            {persons.slice(0, 9).map((value, index) => {
+              const randomKey = crypto.randomUUID();
+
+              if (index == 0) {
+                return (
+                  <>
+                    <GroupCardContentItem
+                      key={randomKey}
+                      groupNumber={2}
+                      primaryText={value.person_data.person_firstname.value}
+                      descriptionText={t('tr_groupOverseer')}
+                      icon={<IconAssistant />}
+                      isBaptized
+                    />
+                    <GroupCardDivider groupNumber={2} />
+                  </>
+                );
+              }
+
+              if (index == 1) {
+                return (
+                  <>
+                    <GroupCardContentItem
+                      key={randomKey}
+                      groupNumber={2}
+                      primaryText={value.person_data.person_firstname.value}
+                      descriptionText={t('tr_groupOverseerAssistant')}
+                      thirdText="Away: June 16, 2024 - July 2, 2024"
+                      icon={<IconGroupOverseer />}
+                      isBaptized
+                    />
+                    <GroupCardDivider groupNumber={2} />
+                  </>
+                );
+              }
+
+              return (
+                <>
+                  <GroupCardContentItem
+                    key={randomKey}
+                    groupNumber={2}
+                    primaryText={value.person_data.person_firstname.value}
+                    icon={<IconPerson />}
+                    isBaptized
+                  />
+                  {index != 8 && <GroupCardDivider groupNumber={2} />}
+                </>
+              );
+            })}
+          </GroupCardContainer>
+
+          <GroupCardContainer color={'var(--group-3)'}>
+            <GroupCardHeader groupNumber={3} groupName={'Gelsenkirchen'} visitorsCount={10} />
+
+            {persons.slice(0, 9).map((value, index) => {
+              const randomKey = crypto.randomUUID();
+
+              if (index == 0) {
+                return (
+                  <>
+                    <GroupCardContentItem
+                      key={randomKey}
+                      groupNumber={3}
+                      primaryText={value.person_data.person_firstname.value}
+                      descriptionText={t('tr_groupOverseer')}
+                      icon={<IconAssistant />}
+                      isBaptized
+                    />
+                    <GroupCardDivider groupNumber={3} />
+                  </>
+                );
+              }
+
+              if (index == 1) {
+                return (
+                  <>
+                    <GroupCardContentItem
+                      key={randomKey}
+                      groupNumber={3}
+                      primaryText={value.person_data.person_firstname.value}
+                      descriptionText={t('tr_groupOverseerAssistant')}
+                      thirdText="Away: June 16, 2024 - July 2, 2024"
+                      icon={<IconGroupOverseer />}
+                      isBaptized
+                    />
+                    <GroupCardDivider groupNumber={3} />
+                  </>
+                );
+              }
+
+              return (
+                <>
+                  <GroupCardContentItem
+                    key={randomKey}
+                    groupNumber={3}
+                    primaryText={value.person_data.person_firstname.value}
+                    icon={<IconPerson />}
+                    isBaptized
+                  />
+                  {index != 8 && <GroupCardDivider groupNumber={3} />}
+                </>
+              );
+            })}
+          </GroupCardContainer>
+        </StyledMasonry>
+      </Box>
+      <DarkOverlay overlayIsOpened={createNewGroupModalWindowOpen}>{/* <CreateNewGroupModalWindow /> */}</DarkOverlay>
+      <DarkOverlay overlayIsOpened={reorderGroupsModalWindowOpen}>
+        {/* <ReorderGroupsModalWindow
+          groups={[
+            { groupNum: '1', groupName: 'Group name' },
+            { groupNum: '2', groupName: 'Issum' },
+          ]}
+          onChange={() => {
+            null;
+          }}
+        /> */}
+      </DarkOverlay>
+      <DarkOverlay overlayIsOpened={editGroupsModalWindowOpen}>
+        {/* <EditGroupModalWindow
+          data={editGroupModalWindowData}
+          onDeleteButtonClick={() => {
+            setEditGroupsModalWindowOpen(false);
+            setDeleteGroupModalWindowOpen(true);
+          }}
+          onSaveButtonClick={() => {
+            null;
+          }}
+        /> */}
+      </DarkOverlay>
+      <DarkOverlay overlayIsOpened={quickSettingsModalWindowOpen}>
+        {/* <QuickSettingsModalWindow showTimeAwayToAllUsers={true} /> */}
+      </DarkOverlay>
+      <DarkOverlay overlayIsOpened={deleteGroupModalWindowOpen}>
+        {/* <DeleteGroupModalWindow groupId={parseInt(editGroupModalWindowData.groupNumber)} /> */}
+      </DarkOverlay>
+    </>
   );
 };
 

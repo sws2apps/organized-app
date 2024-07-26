@@ -1,10 +1,10 @@
 import { Box } from '@mui/material';
-import { DeleteGroupModalWindowProps } from './delete_group.types';
 import useAppTranslation from '@hooks/useAppTranslation';
 import CustomButton from '@components/button';
 import CustomTypography from '@components/typography';
+import { RemovePublisherModalWindowProps } from './remove_publisher.types';
 
-const DeleteGroupModalWindow = (props: DeleteGroupModalWindowProps) => {
+const RemovePublisherModalWindow = (props: RemovePublisherModalWindowProps) => {
   const { t } = useAppTranslation();
 
   return (
@@ -27,12 +27,10 @@ const DeleteGroupModalWindow = (props: DeleteGroupModalWindowProps) => {
           flexDirection: 'column',
         }}
       >
-        <CustomTypography className="h2">
-          {t('tr_deleteServiceGroupTitle', { GroupNumber: props.groupId })}
-        </CustomTypography>
+        <CustomTypography className="h2">{t('tr_removePublisher', { PersonName: props.userName })}</CustomTypography>
 
         <CustomTypography className="body-regular" color={'var(--grey-400)'}>
-          {t('tr_deleteServiceGroupDesc')}
+          {t('tr_confirmRemoving', { GroupNumber: props.groupId, GroupName: props.groupName })}
         </CustomTypography>
       </Box>
       <Box
@@ -42,7 +40,7 @@ const DeleteGroupModalWindow = (props: DeleteGroupModalWindowProps) => {
           gap: '8px',
         }}
       >
-        <CustomButton variant="main" color="red" onClick={props.onDeleteButtonClick}>
+        <CustomButton variant="main" color={'red'} onClick={props.onRemoveButtonClick}>
           {t('tr_delete')}
         </CustomButton>
         <CustomButton variant="secondary" onClick={props.onCancelButtonClick}>
@@ -53,4 +51,4 @@ const DeleteGroupModalWindow = (props: DeleteGroupModalWindowProps) => {
   );
 };
 
-export default DeleteGroupModalWindow;
+export default RemovePublisherModalWindow;
