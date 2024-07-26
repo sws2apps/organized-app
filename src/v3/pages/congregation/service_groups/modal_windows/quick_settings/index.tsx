@@ -18,7 +18,9 @@ const QuickSettingsModalWindow = (props: QuickSettingsModalWindowProps) => {
           gap: '16px',
         }}
       >
-        <CustomTypography className="h2">{t('tr_quickSettingsFieldServiceGroups')}</CustomTypography>
+        <CustomTypography className="h2">
+          {t('tr_quickSettingsFieldServiceGroups')}
+        </CustomTypography>
         <CustomTypography className="body-regular" color={'var(--grey-400)'}>
           {t('tr_quickSettingsFieldServiceGroupsDesc')}
         </CustomTypography>
@@ -31,7 +33,10 @@ const QuickSettingsModalWindow = (props: QuickSettingsModalWindowProps) => {
           alignItems: 'center',
         }}
       >
-        <CustomSwitch checked={props.showTimeAwayToAllUsers} onChange={props.onChange} />
+        <CustomSwitch
+          checked={props.showTimeAwayToAllUsers}
+          onChange={props.onChange}
+        />
         <Box
           sx={{
             display: 'flex',
@@ -39,8 +44,13 @@ const QuickSettingsModalWindow = (props: QuickSettingsModalWindowProps) => {
             gap: '4px',
           }}
         >
-          <CustomTypography className="body-regular">{t('tr_showTimeAwayToAllUsers')}</CustomTypography>
-          <CustomTypography className="label-small-regular" color={'var(--grey-350)'}>
+          <CustomTypography className="body-regular">
+            {t('tr_showTimeAwayToAllUsers')}
+          </CustomTypography>
+          <CustomTypography
+            className="label-small-regular"
+            color={'var(--grey-350)'}
+          >
             {t('tr_allowAllUsersToViewTheTimeDesc')}
           </CustomTypography>
         </Box>
@@ -56,7 +66,7 @@ const QuickSettingsModalWindow = (props: QuickSettingsModalWindowProps) => {
         <CustomButton
           variant="main"
           onClick={() => {
-            null;
+            // onClick
           }}
         >
           {t('tr_done')}
@@ -64,7 +74,7 @@ const QuickSettingsModalWindow = (props: QuickSettingsModalWindowProps) => {
         <CustomButton
           variant="secondary"
           onClick={() => {
-            null;
+            // onClick
           }}
         >
           {t('tr_cancel')}

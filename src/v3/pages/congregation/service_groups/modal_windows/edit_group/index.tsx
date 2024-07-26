@@ -28,17 +28,27 @@ const EditGroupModalWindow = (props: EditGroupModalWindowProps) => {
         <CustomTypography className="h2">
           {t('tr_groupNumber', { groupNumber: props.data.groupNumber })}
         </CustomTypography>
-        <CustomButton variant="small" color="red" onClick={props.onDeleteButtonClick} startIcon={<IconDelete />}>
+        <CustomButton
+          variant="small"
+          color="red"
+          onClick={props.onDeleteButtonClick}
+          startIcon={<IconDelete />}
+        >
           {t('tr_delete')}
         </CustomButton>
       </Box>
       <CustomTextField label={t('tr_groupNameOptional')} />
 
       <CustomDragList
-        values={['Cody Osborne', 'Zaki Lawrence', 'Gabriel Cantrell', 'Melissa Caldwell']}
+        values={[
+          'Cody Osborne',
+          'Zaki Lawrence',
+          'Gabriel Cantrell',
+          'Melissa Caldwell',
+        ]}
         variant={'publishers'}
         onChange={() => {
-          null;
+          // onChange
         }}
       />
 

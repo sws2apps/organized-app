@@ -13,7 +13,12 @@ import { EditGroupModalWindowData } from './modal_windows/edit_group/edit_group.
 import EditGroupModalWindow from './modal_windows/edit_group';
 import QuickSettingsModalWindow from './modal_windows/quick_settings';
 import DeleteGroupModalWindow from './modal_windows/delete_group';
-import { GroupCardContainer, GroupCardContentItem, GroupCardDivider, GroupCardHeader } from './components/group_card';
+import {
+  GroupCardContainer,
+  GroupCardContentItem,
+  GroupCardDivider,
+  GroupCardHeader,
+} from './components/group_card';
 import CustomButton from '@components/button';
 
 export const StyledMasonry = styled(Masonry)(({ theme }) => ({
@@ -40,17 +45,28 @@ const ServiceGroups = () => {
   const { t } = useAppTranslation();
   const { persons } = useList();
 
-  const [createNewGroupModalWindowOpen, setCreateNewGroupModalWindowOpen] = useState(false);
-  const [reorderGroupsModalWindowOpen, setReorderGroupsModalWindowOpen] = useState(false);
-  const [editGroupsModalWindowOpen, setEditGroupsModalWindowOpen] = useState(false);
-  const [quickSettingsModalWindowOpen, setQuickSettingsModalWindowOpen] = useState(false);
-  const [deleteGroupModalWindowOpen, setDeleteGroupModalWindowOpen] = useState(false);
+  const [createNewGroupModalWindowOpen, setCreateNewGroupModalWindowOpen] =
+    useState(false);
+  const [reorderGroupsModalWindowOpen, setReorderGroupsModalWindowOpen] =
+    useState(false);
+  const [editGroupsModalWindowOpen, setEditGroupsModalWindowOpen] =
+    useState(false);
+  const [quickSettingsModalWindowOpen, setQuickSettingsModalWindowOpen] =
+    useState(false);
+  const [deleteGroupModalWindowOpen, setDeleteGroupModalWindowOpen] =
+    useState(false);
 
-  const [editGroupModalWindowData, setEditGroupsModalWindowData] = useState<EditGroupModalWindowData>({
-    groupName: 'Isem',
-    groupNumber: '1',
-    publishers: ['Ali Partyan', 'Kseniya Shutovska', 'Andrey Tregulov', 'Aleksandr Portnoy'],
-  });
+  const [editGroupModalWindowData, setEditGroupsModalWindowData] =
+    useState<EditGroupModalWindowData>({
+      groupName: 'Isem',
+      groupNumber: '1',
+      publishers: [
+        'Ali Partyan',
+        'Kseniya Shutovska',
+        'Andrey Tregulov',
+        'Aleksandr Portnoy',
+      ],
+    });
 
   return (
     <>
@@ -145,7 +161,11 @@ const ServiceGroups = () => {
             })}
           </GroupCardContainer>
           <GroupCardContainer color={'var(--group-2)'}>
-            <GroupCardHeader groupNumber={2} groupName={''} visitorsCount={10} />
+            <GroupCardHeader
+              groupNumber={2}
+              groupName={''}
+              visitorsCount={10}
+            />
 
             {persons.slice(0, 9).map((value, index) => {
               const randomKey = crypto.randomUUID();
@@ -199,7 +219,11 @@ const ServiceGroups = () => {
           </GroupCardContainer>
 
           <GroupCardContainer color={'var(--group-3)'}>
-            <GroupCardHeader groupNumber={3} groupName={'Gelsenkirchen'} visitorsCount={10} />
+            <GroupCardHeader
+              groupNumber={3}
+              groupName={'Gelsenkirchen'}
+              visitorsCount={10}
+            />
 
             {persons.slice(0, 9).map((value, index) => {
               const randomKey = crypto.randomUUID();
@@ -263,7 +287,7 @@ const ServiceGroups = () => {
             { groupNum: '2', groupName: 'Issum' },
           ]}
           onChange={() => {
-            null;
+            // onChange
           }}
         />
       </DarkOverlay>
@@ -275,7 +299,7 @@ const ServiceGroups = () => {
             setDeleteGroupModalWindowOpen(true);
           }}
           onSaveButtonClick={() => {
-            null;
+            // onSaveButtonClick
           }}
         />
       </DarkOverlay>
@@ -283,7 +307,9 @@ const ServiceGroups = () => {
         <QuickSettingsModalWindow showTimeAwayToAllUsers={true} />
       </DarkOverlay>
       <DarkOverlay overlayIsOpened={deleteGroupModalWindowOpen}>
-        <DeleteGroupModalWindow groupId={parseInt(editGroupModalWindowData.groupNumber)} />
+        <DeleteGroupModalWindow
+          groupId={parseInt(editGroupModalWindowData.groupNumber)}
+        />
       </DarkOverlay>
     </>
   );
