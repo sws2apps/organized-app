@@ -393,7 +393,7 @@
   "tr_autoCheckUpdate": "Auto-update ng mga publikasyon sa pagpupulong",
   "tr_autoCheckUpdateDesc": "Awtomatikong i-import ang mga publikasyon sa pagpupulong mula sa jw.org at piliin ang dalas ng update",
   "tr_confirmRemoving": "Nais mo bang alisin ang publisher mula sa <b>Group {{ GroupNumber }} – {{ GroupName }}</b>?",
-  "tr_everyWeek": "Every week",
+  "tr_everyWeek": "Bawat linggo",
   "tr_everyTwoWeeks": "Bawat dalawang linggo",
   "tr_everyMonth": "Bawat buwan",
   "tr_autoCheckFrequency": "Kung gaaano kadalas",
