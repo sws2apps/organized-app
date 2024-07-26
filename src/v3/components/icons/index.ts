@@ -33,6 +33,7 @@ export { default as IconCheck } from './IconCheck';
 export { default as IconCheckboxEmpty } from './IconCheckboxEmpty';
 export { default as IconCheckboxFilled } from './IconCheckboxFilled';
 export { default as IconCheckboxMultiple } from './IconCheckboxMultiple';
+export { default as IconCheckmarkCircleAlt } from './IconCheckmarkCircleAlt';
 export { default as IconChevronLeft } from './IconChevronLeft';
 export { default as IconChevronRight } from './IconChevronRight';
 export { default as IconCircle } from './IconCircle';

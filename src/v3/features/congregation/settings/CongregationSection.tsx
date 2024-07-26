@@ -3,7 +3,7 @@ import { CardSection, CardSectionContent, CardSectionHeader, CardSectionTitle, T
 import { Box } from '@mui/material';
 import { MenuItem, Tabs, TextField, TimePicker } from '@components/index';
 import { useState } from 'react';
-import { handleNumber } from './utils';
+import { handleNumber, textFieldSelectStyles } from './utils';
 import SwitchItem from './SwitchItem';
 
 const CongregationSection = () => {
@@ -45,6 +45,7 @@ const CongregationSection = () => {
               label={t('tr_meetingDay')}
               value={midweekDay}
               onChange={(e) => setMidweekDay(e.target.value)}
+              {...textFieldSelectStyles}
             >
               {startWeekOnSunday && <MenuItem value="sunday">Sunday</MenuItem>}
               <MenuItem value={'monday'}>{t('tr_monday')}</MenuItem>
@@ -91,6 +92,7 @@ const CongregationSection = () => {
                 label={t('tr_count')}
                 value={midweekAuxClassroomCount}
                 onChange={(e) => handleNumber(e, setMidweekAuxClassroomCount)}
+                {...textFieldSelectStyles}
               >
                 <MenuItem value="2">2</MenuItem>
                 <MenuItem value="3">3</MenuItem>
@@ -110,6 +112,7 @@ const CongregationSection = () => {
                 label={t('tr_auxClassCounselor')}
                 value={midweekAuxClassCounselor}
                 onChange={(e) => setMidweekAuxClassCounselor(e.target.value)}
+                {...textFieldSelectStyles}
               >
                 <MenuItem value="jamesSmith">James Smith</MenuItem>
                 <MenuItem value="michaelWilliams">Michael Williams</MenuItem>
@@ -130,6 +133,7 @@ const CongregationSection = () => {
               label={t('tr_meetingDay')}
               value={weekendDay}
               onChange={(e) => setWeekendDay(e.target.value)}
+              {...textFieldSelectStyles}
             >
               {startWeekOnSunday && <MenuItem value="sunday">Sunday</MenuItem>}
               <MenuItem value={'monday'}>{t('tr_monday')}</MenuItem>
@@ -177,6 +181,7 @@ const CongregationSection = () => {
                 label={t('tr_mainStudyConductor')}
                 value={weekendSubstitutionConductor}
                 onChange={(e) => setWeekendSubstitutionConductor(e.target.value)}
+                {...textFieldSelectStyles}
               >
                 <MenuItem value="jamesSmith">James Smith</MenuItem>
                 <MenuItem value="michaelWilliams">Michael Williams</MenuItem>

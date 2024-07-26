@@ -4,10 +4,7 @@ import { AutocompleteProps, AutocompleteRenderInputParams, PaperProps } from '@m
 /**
  * Props type for the Autocomplete component.
  */
-export type AutocompletePropsType<T> = Omit<
-  AutocompleteProps<T, boolean | undefined, boolean | undefined, boolean | undefined>,
-  'renderInput'
-> & {
+export type AutocompletePropsType<T> = Omit<AutocompleteProps<T, boolean | undefined, boolean | undefined, boolean | undefined>, 'renderInput'> & {
   /**
    * Icon displayed at the start of the Autocomplete component.
    */
@@ -33,6 +30,8 @@ export type AutocompletePropsType<T> = Omit<
   optionsHeader?: ReactNode;
 
   styleIcon?: boolean;
+
+  decorator?: 'error' | 'warning';
 };
 
 export type CustomPaperType = PaperProps & {

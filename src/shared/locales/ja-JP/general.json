@@ -99,5 +99,9 @@
   "tr_editingFinished": "Editing completed",
   "tr_minLabel": "min.",
   "tr_textCopied": "Information copied to clipboard",
-  "tr_longDateWithYearLocale": "{{ month }} {{ date }}, {{ year }}"
+  "tr_longDateWithYearLocale": "{{ month }} {{ date }}, {{ year }}",
+  "tr_edit": "編集",
+  "tr_noPersonsFound": "No persons found",
+  "tr_noPersonsFoundDesc": "No persons match your search parameters. Please try adjusting the category or date.",
+  "tr_categories": "Categories"
 }

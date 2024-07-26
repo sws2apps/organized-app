@@ -1,12 +1,12 @@
 import { Box } from '@mui/material';
 import { IconSong } from '@components/icons';
+import { SongType } from '@definition/songs';
 import { SongsTalkType } from './index.types';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useSongTalk from './useSongTalk';
 import AutocompleteMultiple from '@components/autocomplete_multiple';
 import MiniChip from '@components/mini_chip';
 import Typography from '@components/typography';
-import { SongType } from '@definition/songs';
 
 const SongsTalk = ({ talk, songs, onChange, onDelete, edit = true }: SongsTalkType) => {
   const { t } = useAppTranslation();

@@ -33,6 +33,13 @@ export const addMonths = (date: Date | string, value: number) => {
   return new Date(result);
 };
 
+export const addWeeks = (date: Date | string, value: number) => {
+  const startDate = new Date(date);
+  const result = startDate.setDate(startDate.getDate() + value * 7);
+
+  return new Date(result);
+};
+
 export const computeYearsDiff = (date: string) => {
   const userDate = new Date(date).getTime();
   const now = new Date().getTime();

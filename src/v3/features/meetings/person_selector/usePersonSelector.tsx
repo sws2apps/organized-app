@@ -8,17 +8,15 @@ import { personGetDisplayName } from '@utils/common';
 import { AssignmentCode } from '@definition/assignment';
 import { useAppTranslation } from '@hooks/index';
 import { assignmentsHistoryState, schedulesState } from '@states/schedules';
-import { dbSchedUpdate } from '@services/dexie/schedules';
 import { sourcesState } from '@states/sources';
 import { JWLangState } from '@states/app';
 import { sourcesCheckAYFExplainBeliefsAssignment, sourcesCheckLCElderAssignment } from '@services/app/sources';
 import { personIsElder } from '@services/app/persons';
-import { AssignmentCongregation, AssignmentHistoryType, SchedWeekType } from '@definition/schedules';
-import { UpdateSpec } from 'dexie';
+import { AssignmentCongregation, AssignmentHistoryType } from '@definition/schedules';
 import { LivingAsChristiansType } from '@definition/sources';
 import { formatDate } from '@services/dateformat';
 import { ASSIGNMENT_PATH, ASSISTANT_ASSIGNMENT, BROTHER_ASSIGNMENT, STUDENT_ASSIGNMENT } from '@constants/index';
-import { schedulesGetData, schedulesUpdateHistory } from '@services/app/schedules';
+import { schedulesGetData, schedulesSaveAssignment } from '@services/app/schedules';
 import { IconMale, IconPersonPlaceholder } from '@components/icons';
 
 const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
@@ -39,6 +37,8 @@ const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
   const [value, setValue] = useState<PersonOptionsType | null>(null);
   const [gender, setGender] = useState<GenderType>('male');
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
+  const [decorator, setDecorator] = useState<'error' | 'warning'>(null);
+  const [helperText, setHelperText] = useState('');
 
   const labelBrothers = t('tr_brothers');
   const labelParticipants = t('tr_participants');
@@ -53,11 +53,7 @@ const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
   const assignmentsHistory = history.filter((record) => record.assignment.person === value?.person_uid);
 
   const checkGenderSelector = () => {
-    const validType = [
-      AssignmentCode.MM_StartingConversation,
-      AssignmentCode.MM_FollowingUp,
-      AssignmentCode.MM_MakingDisciples,
-    ];
+    const validType = [AssignmentCode.MM_StartingConversation, AssignmentCode.MM_FollowingUp, AssignmentCode.MM_MakingDisciples];
 
     if (validType.includes(type)) {
       return true;
@@ -91,28 +87,7 @@ const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
   };
 
   const handleSaveAssignment = async (value: PersonOptionsType) => {
-    const toSave = value ? value.person_uid : '';
-    const path = ASSIGNMENT_PATH[assignment];
-    const fieldUpdate = structuredClone(schedulesGetData(schedule, path));
-
-    let assigned: AssignmentCongregation;
-
-    if (Array.isArray(fieldUpdate)) {
-      assigned = fieldUpdate.find((record) => record.type === dataView);
-      assigned.value = toSave;
-      assigned.updatedAt = new Date().toISOString();
-    } else {
-      assigned = fieldUpdate;
-      fieldUpdate.value = toSave;
-      fieldUpdate.updatedAt = new Date().toISOString();
-    }
-
-    const dataDb = { [path]: fieldUpdate } as unknown as UpdateSpec<SchedWeekType>;
-
-    await dbSchedUpdate(week, dataDb);
-
-    // update history
-    await schedulesUpdateHistory(week, assignment, assigned);
+    await schedulesSaveAssignment(schedule, assignment, value);
   };
 
   const handleFormatDate = useCallback(
@@ -128,15 +103,11 @@ const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
         let lastAssignment: AssignmentHistoryType;
 
         if (!STUDENT_ASSIGNMENT.includes(type)) {
-          lastAssignment = history.find(
-            (item) => item.assignment.person === record.person_uid && item.assignment.code === type
-          );
+          lastAssignment = history.find((item) => item.assignment.person === record.person_uid && item.assignment.code === type);
         }
 
         if (STUDENT_ASSIGNMENT.includes(type)) {
-          lastAssignment = history.find(
-            (item) => item.assignment.person === record.person_uid && STUDENT_ASSIGNMENT.includes(item.assignment.code)
-          );
+          lastAssignment = history.find((item) => item.assignment.person === record.person_uid && STUDENT_ASSIGNMENT.includes(item.assignment.code));
         }
 
         const lastAssignmentFormat = lastAssignment ? handleFormatDate(lastAssignment.weekOf) : '';
@@ -212,9 +183,7 @@ const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
 
       const getPersons = (isElder: boolean) => {
         let persons = personsAll.filter((record) =>
-          record.person_data.assignments
-            .filter((assignment) => assignment._deleted === false)
-            .find((item) => item.code === type)
+          record.person_data.assignments.filter((assignment) => assignment._deleted === false).find((item) => item.code === type)
         );
 
         if (isElder) {
@@ -229,9 +198,7 @@ const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
           (record) =>
             record.person_data.male.value === isMale &&
             record.person_data.female.value === isFemale &&
-            record.person_data.assignments
-              .filter((assignment) => assignment._deleted === false)
-              .find((item) => item.code === type)
+            record.person_data.assignments.filter((assignment) => assignment._deleted === false).find((item) => item.code === type)
         );
 
         const options = handleSortOptions(persons);
@@ -269,20 +236,7 @@ const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
         }
       }
     }
-  }, [
-    type,
-    personsAll,
-    gender,
-    isAssistant,
-    week,
-    assignment,
-    dataView,
-    lang,
-    sources,
-    history,
-    handleFormatDate,
-    handleSortOptions,
-  ]);
+  }, [type, personsAll, gender, isAssistant, week, assignment, dataView, lang, sources, history, handleFormatDate, handleSortOptions]);
 
   useEffect(() => {
     if (week.length > 0) {
@@ -348,18 +302,42 @@ const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
         }
       }
     }
-  }, [
-    week,
-    schedule,
-    dataView,
-    persons,
-    assignment,
-    personsAll,
-    isAssistant,
-    handleFormatDate,
-    history,
-    handleSortOptions,
-  ]);
+  }, [week, schedule, dataView, persons, assignment, personsAll, isAssistant, handleFormatDate, history, handleSortOptions]);
+
+  useEffect(() => {
+    const checkAssignments = () => {
+      setDecorator(null);
+      setHelperText('');
+
+      if (value && week.length > 0) {
+        // check week assignments
+        const weekAssignments = assignmentsHistory.filter((record) => record.weekOf === week);
+
+        if (weekAssignments.length > 1) {
+          setDecorator('error');
+          setHelperText(t('tr_personAlreadyAssignmentWeek'));
+
+          return;
+        }
+
+        const [currentYear, currentMonth] = week.split('/');
+        const monthAssignments = assignmentsHistory.filter((record) => {
+          const [tmpYear, tmpMonth] = record.weekOf.split('/');
+
+          return tmpYear === currentYear && currentMonth === tmpMonth;
+        });
+
+        if (monthAssignments.length > 1) {
+          setDecorator('error');
+          setHelperText(t('tr_repeatedMonthlyWarningDesc'));
+
+          return;
+        }
+      }
+    };
+
+    checkAssignments();
+  }, [value, week, assignmentsHistory, t]);
 
   return {
     options,
@@ -377,6 +355,8 @@ const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
     handleCloseHistory,
     assignmentsHistory,
     placeHolderIcon,
+    decorator,
+    helperText,
   };
 };
 

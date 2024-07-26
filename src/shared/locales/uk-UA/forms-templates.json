@@ -33,7 +33,7 @@
   "tr_auxClass": "Додатковий клас",
   "tr_memorialInvite": "Запрошення на Спомин",
   "tr_normalWeek": "Звичайний тиждень",
-  "tr_circuitOverseerWeek": "Візит районного наглядача",
+  "tr_circuitOverseerWeek": "Visit of Circuit Overseer",
   "tr_conventionWeek": "Тиждень регіонального конгресу",
   "tr_assemblyWeek": "Тиждень районного конгресу",
   "tr_shortTimeFormat": "H:MM",
@@ -70,5 +70,6 @@
   "tr_studentAssistantS89": "Учень/Партнер:",
   "tr_chairman": "Ведучий",
   "tr_prayer": "Молитва",
-  "tr_partDuration": "({{ time }} min.)"
+  "tr_partDuration": "({{ time }} min.)",
+  "tr_memorialWeek": "Week of Memorial"
 }

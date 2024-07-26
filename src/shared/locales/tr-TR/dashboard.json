@@ -2,7 +2,7 @@
   "tr_congregationSettings": "Cemaat ayarları",
   "tr_midweekMeeting": "Hafta içi İbadeti",
   "tr_fieldServiceGroups": "Tarla hizmeti grupları",
-  "tr_meetingAttendanceRecord": "Toplantıya katılan kişi sayısı",
+  "tr_meetingAttendanceRecord": "İbadete katılan kişi sayısı",
   "tr_serviceYear": "Hizmet yılı",
   "tr_weekendMeeting": "Hafta sonu cemaat ibadeti",
   "tr_branchOfficeReport": "Şubeye raporlar",
@@ -39,7 +39,7 @@
   "tr_planWeekendMeeting": "Hafta sonu toplantısını planla",
   "tr_publishSchedules": "Programları yayınla",
   "tr_territories": "Sahalar",
-  "tr_allTerritories": "Tüm sahalar",
+  "tr_allTerritories": "All territories",
   "tr_assign": "Ata",
   "tr_return": "Geri dön",
   "tr_assignmentHistory": "Atama geçmişi",
@@ -90,6 +90,6 @@
   "tr_hallCleaning": "Hall cleaning",
   "tr_yourEmailField": "Your email address",
   "tr_yourMessage": "Your message",
-  "tr_reportSubmittedDesc": "{{ month }} raporunuz gönderildi",
+  "tr_reportSubmittedDesc": "Your report for the month of {{ month }} has been submitted",
   "tr_mainCongregation": "Main congregation"
 }

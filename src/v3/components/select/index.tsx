@@ -1,6 +1,6 @@
-import { TextField } from '@mui/material';
-import { SelectPropsType } from './index.types';
 import { Theme } from '@mui/material/styles/createTheme';
+import { SelectPropsType } from './types';
+import StyledTextField from './styled';
 
 /**
  * Custom select component.
@@ -9,78 +9,31 @@ import { Theme } from '@mui/material/styles/createTheme';
  * @returns A custom select input field.
  */
 const CustomSelect = (props: SelectPropsType) => {
-  const label = props.label || '';
-  const className = props.className || '';
-  const startIcon = props.startIcon || null;
-  const endIcon = props.endIcon || null;
-  const required = props.required || false;
-  const height = props.height || 44;
-  const fullWidth = props.fullWidth ?? true;
+  const {
+    label = '',
+    className = '',
+    startIcon = null,
+    endIcon = null,
+    required = false,
+    height = 44,
+    fullWidth = true,
+    disabled = false,
+  } = props;
 
   const varHeight = (56 - height) / 2;
 
   return (
-    <TextField
+    <StyledTextField
       {...props}
+      varHeight={varHeight}
+      height={height}
       fullWidth={fullWidth}
       required={required}
       label={label}
       value={props.value}
       onChange={props.onChange}
       select
-      sx={{
-        '& .MuiSelect-icon': {
-          color: 'var(--black) !important', // change the color of the dropdown icon
-        },
-        '.MuiInputBase-root': {
-          height: `${height}px`,
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-        },
-        '.MuiInputBase-input': {
-          paddingTop: `calc(14.5px - ${varHeight}px)`,
-          paddingBottom: `calc(14.5px - ${varHeight}px)`,
-          flex: '1 0 0',
-
-          '&.MuiSelect-select': {
-            minHeight: 'unset',
-          },
-        },
-        '.MuiOutlinedInput-root': {
-          borderRadius: 'var(--radius-l)',
-          color: 'var(--black)',
-          '& svg': {
-            color: 'var(--accent-350)',
-            boxSizing: 'content-box',
-          },
-          '&.Mui-focused svg': {
-            color: 'var(--black)',
-          },
-          '& fieldset': {
-            border: '1px solid var(--accent-350)',
-          },
-          '&:hover fieldset': {
-            border: '1px solid var(--accent-main)',
-          },
-          '&.Mui-focused fieldset': {
-            border: '1px solid var(--accent-main)',
-          },
-        },
-        '.MuiInputLabel-root': {
-          color: 'var(--accent-350)',
-          '&.Mui-focused': {
-            color: 'var(--accent-main)',
-          },
-        },
-        '.MuiFormLabel-root[data-shrink=false]': { top: `-${varHeight}px` },
-        '.MuiTypography-root': {
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          whiteSpace: 'nowrap',
-        },
-        ...props.sx,
-      }}
+      sx={props.sx}
       InputProps={{
         ...props.InputProps,
         className: className,
@@ -88,6 +41,7 @@ const CustomSelect = (props: SelectPropsType) => {
         endAdornment: endIcon,
       }}
       inputProps={{
+        disabled,
         MenuProps: {
           PaperProps: {
             sx: (theme: Theme) => ({
@@ -125,7 +79,7 @@ const CustomSelect = (props: SelectPropsType) => {
       }}
     >
       {props.children}
-    </TextField>
+    </StyledTextField>
   );
 };
 

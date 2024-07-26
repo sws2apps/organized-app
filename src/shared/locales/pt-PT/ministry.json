@@ -1,5 +1,5 @@
 {
-  "tr_addServiceTime": "Adicionar tempo de serviço",
+  "tr_addServiceTime": "Adicionar tempo de pregação",
   "tr_hours": "Horas",
   "tr_bibleStudies": "Estudos bíblicos individuais",
   "tr_btnAdd": "Adicionar",
@@ -42,12 +42,13 @@
   "tr_currentMonthlyGoal": "Alvo mensal atual",
   "tr_hoursBalance": "Saldo de horas",
   "tr_applicationAuxiliaryPioneer": "Petição de pioneiro auxiliar",
+  "tr_submitApplication": "Enviar a petição",
   "tr_applicationAPS": "Petição de serviço de pioneiro auxiliar",
   "tr_applicationAPSDesc": "Por causa do meu amor a Jeová e do meu desejo de ajudar outros a aprender sobre ele e seus amorosos propósitos, gostaria de aumentar minha participação no serviço de campo por trabalhar como pioneiro(a) auxiliar no período indicado a seguir:",
   "tr_theMonthsOf": "Para o(s) mes(es) de",
   "tr_hoursGoal": "Alvo de horas",
   "tr_continuousAPS": "Dê um tique aqui caso deseje servir continuamente como pioneiro auxiliar até posterior comunicado.",
-  "tr_pioneerApplicationMoral": "Tenho boa reputação moral e bons hábitos. Fiz planos que me habilitarão a satisfazer o requisito de horas.—Veja o <a href='https://wol.jw.org/pt-PT/wol/d/r296/lp-tpo/202013206'>Nosso Ministério do Reino de junho de 2013, p. 2</a>.",
+  "tr_pioneerApplicationMoral": "Tenho boa reputação moral e bons hábitos. Fiz planos que me habilitarão a satisfazer o requisito de horas.—Veja o <0>Nosso Ministério do Reino de junho de 2013, p. 2</0>.",
   "tr_nameAPSApplication": "Nome, serve como assinatura",
   "tr_noteAPSApplication": "NOTA: Depois de preencher esta petição, entregue-a ao coordenador do corpo de anciãos. Se possível, faça isso pelo menos uma semana antes, da data em que deseja iniciar seu serviço de pioneiro auxiliar. Esta petição não deve ser enviada ao escritório da filial, mas, antes, deve ser guardada nos arquivos da congregação.",
   "tr_attentionServiceCommittee": "<p>Para consideração da Comissão de Serviço da Congregação:</p><p>1. O peticionário é um bom exemplo de vida cristã, gozando de boa reputação moral? </p><p>2. Pessoas repreendidas ou readmitidas nos últimos 12 meses ou as que estiverem sob restrições não se qualificam.</p><p>3. Consultaram o respetivo superintendente de grupo?</p>",
@@ -55,7 +56,7 @@
   "tr_coordinator": "Coordenador",
   "tr_serviceOverseer": "Superintendente de serviço",
   "tr_secretary": "Secretário",
-  "tr_moreInformationForAP": "Interessado em se tornar um pioneiro de tempo integral? Solicite em <a href='https://hub.jw.org'>hub.jw.org</a> ou entre em contacto com os anciãos da sua congregação.",
+  "tr_moreInformationForAP": "Interessado em se tornar um pioneiro de tempo integral? Petição em <0>hub.jw.org</0> ou entre em contacto com os anciãos da sua congregação.",
   "tr_btnSubmitApplication": "Enviar a petição",
   "tr_hourGoal": "O alvo de horas está definido para 30",
   "tr_hourGoalDesc": "Para servir continuamente, a meta deve ser de 30 horas. No entanto, durante meses específicos anunciados pelos anciãos, também pode se inscrever por 15 horas.",
@@ -102,5 +103,10 @@
   "tr_reportNotSubmitted": "Relatório não enviado",
   "tr_assignAuxPioBtn": "Atribuir Pioneiro Auxiliar este mês",
   "tr_lateReport": "Relatório atrasado",
-  "tr_continuousAuxPio": "Pioneiro Auxiliar Contínuo"
+  "tr_continuousAuxPio": "Pioneiro Auxiliar Contínuo",
+  "tr_receivedReports": "Relatórios recebidos",
+  "tr_reportPageInfo": "Nesta página, pode visualizar relatórios de publicadores e adicionar relatórios daqueles que não usam o Organized. Selecione um publicador para começar.",
+  "tr_rejected": "Rejeitado",
+  "tr_alreadySubmittedWarning": "O relatório deste mês já foi enviado para a Filial. Apenas relatórios atrasados podem ser adicionados, a menos que desfaça o envio.",
+  "tr_publishersCountReport": "Publicadores: {{ publishersCount }}"
 }

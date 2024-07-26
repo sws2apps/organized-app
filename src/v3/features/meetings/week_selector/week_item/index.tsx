@@ -30,10 +30,8 @@ const WeekItem = ({ week }: WeekItemType) => {
       onClick={() => handleSelectWeek(week)}
     >
       <Typography>{weekDateLocale}</Typography>
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <Box>
-          <ProgressBarSmall value={assigned} maxValue={total} />
-        </Box>
+      <Box sx={{ display: 'flex', alignItems: 'center', width: '144px' }}>
+        <ProgressBarSmall value={assigned} maxValue={total} />
         <Typography className="label-small-medium" sx={{ width: '48px' }} textAlign="right">
           {total > 0 && `${assigned}/${total}`}
         </Typography>

@@ -30,10 +30,9 @@ const SchedulePickerHeader = ({ lastUpdated }: { lastUpdated: string }) => {
               gap: 'min(calc((100vw - 1144px)*10/106), 32px)',
             },
           },
-          '& > * > * > *:first-child, & > * > * > *:last-child': {
+          '& > * > * > *:first-of-type, & > * > * > *:last-child': {
             padding: '0 10px',
             justifyContent: 'flex-start',
-            width: '60px',
           },
           '& > * > * > *:last-child': {
             justifyContent: 'flex-end',

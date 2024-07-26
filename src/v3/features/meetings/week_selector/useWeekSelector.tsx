@@ -14,6 +14,7 @@ const useWeekSelector = () => {
   const selectedWeek = useRecoilValue(selectedWeekState);
 
   const [expanded, setExpanded] = useState(true);
+  const [openDelete, setOpenDelete] = useState(false);
 
   const tabs = sources.map((year) => ({
     label: year.value.toString(),
@@ -31,6 +32,10 @@ const useWeekSelector = () => {
     setExpanded((prev) => !prev);
   };
 
+  const handleOpenDelete = () => setOpenDelete(true);
+
+  const handleCloseDelete = () => setOpenDelete(false);
+
   useEffect(() => {
     if (!desktopUp && selectedWeek.length > 0) {
       setExpanded(false);
@@ -43,7 +48,7 @@ const useWeekSelector = () => {
     };
   }, [resetSelectedWeek]);
 
-  return { tabs, hasWeeks, expanded, handleToggleExpand, activeTab };
+  return { tabs, hasWeeks, expanded, handleToggleExpand, activeTab, openDelete, handleCloseDelete, handleOpenDelete };
 };
 
 export default useWeekSelector;

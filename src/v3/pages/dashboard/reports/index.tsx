@@ -9,24 +9,13 @@ const ReportsCard = () => {
   return (
     <DashboardCard header={t('tr_reports')}>
       <ListItem disablePadding>
-        <DashboardMenu
-          icon={<IconVisitors color="var(--black)" />}
-          primaryText={t('tr_meetingAttendanceRecord')}
-          path="/reports/meeting-attendance"
-        />
+        <DashboardMenu icon={<IconVisitors color="var(--black)" />} primaryText={t('tr_meetingAttendanceRecord')} path="/reports/meeting-attendance" />
       </ListItem>
       <ListItem disablePadding>
-        <DashboardMenu
-          icon={<IconPublishersReports color="var(--black)" />}
-          primaryText={t('tr_fieldServiceReports')}
-        />
+        <DashboardMenu icon={<IconPublishersReports color="var(--black)" />} primaryText={t('tr_fieldServiceReports')} path="/reports/field-service" />
       </ListItem>
       <ListItem disablePadding>
-        <DashboardMenu
-          icon={<IconReportToBranch color="var(--black)" />}
-          primaryText={t('tr_branchOfficeReport')}
-          path="/reports/branch-office"
-        />
+        <DashboardMenu icon={<IconReportToBranch color="var(--black)" />} primaryText={t('tr_branchOfficeReport')} path="/reports/branch-office" />
       </ListItem>
     </DashboardCard>
   );

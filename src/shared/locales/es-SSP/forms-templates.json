@@ -33,7 +33,7 @@
   "tr_auxClass": "Sala auxiliar",
   "tr_memorialInvite": "Invitación a la conmemoración",
   "tr_normalWeek": "Semana regular",
-  "tr_circuitOverseerWeek": "Visita del superintendente de circuito",
+  "tr_circuitOverseerWeek": "Visit of Circuit Overseer",
   "tr_conventionWeek": "Semana de la asamblea regional",
   "tr_assemblyWeek": "Semana de la asamblea de circuito",
   "tr_shortTimeFormat": "H:MM",
@@ -55,8 +55,8 @@
   "tr_weekendMeetingPrint": "Horario de reunión entre semana",
   "tr_publicTalk": "Discurso Público",
   "tr_openingPrayerWeekendMeeting": "Opening Prayer",
-  "tr_noWMeetingWeek": "There is no weekend meeting for this week",
-  "tr_noMeetingWeek": "There is no meeting for this week",
+  "tr_noWMeetingWeek": "No hay reunión de fin de semana para esta semana",
+  "tr_noMeetingWeek": "No hay reunión para esta semana",
   "tr_substituteSpeaker": "Substitute Speaker",
   "tr_startingConversation": "Iniciar conversaciones",
   "tr_followingUp": "Hacer revisitas",
@@ -70,5 +70,6 @@
   "tr_studentAssistantS89": "Estudiante/Ayudante:",
   "tr_chairman": "Presidente",
   "tr_prayer": "Oración",
-  "tr_partDuration": "({{ time }} min.)"
+  "tr_partDuration": "({{ time }} mins.)",
+  "tr_memorialWeek": "Week of Memorial"
 }

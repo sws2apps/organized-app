@@ -33,7 +33,7 @@
   "tr_auxClass": "Ek oda",
   "tr_memorialInvite": "Anma Yemeği Daveti",
   "tr_normalWeek": "Sıradan bir hafta",
-  "tr_circuitOverseerWeek": "Çevre gözetmeninin ziyareti",
+  "tr_circuitOverseerWeek": "Visit of Circuit Overseer",
   "tr_conventionWeek": "Bölge İbadeti Haftası",
   "tr_assemblyWeek": "Çevre İbadeti Haftası",
   "tr_shortTimeFormat": "H:MM",
@@ -70,5 +70,6 @@
   "tr_studentAssistantS89": "Öğrenci/Yardımcı:",
   "tr_chairman": "Başkanlık eden",
   "tr_prayer": "Dua",
-  "tr_partDuration": "({{ time }} min.)"
+  "tr_partDuration": "({{ time }} min.)",
+  "tr_memorialWeek": "Week of Memorial"
 }

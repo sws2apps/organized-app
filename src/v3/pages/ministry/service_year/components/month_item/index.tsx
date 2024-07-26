@@ -108,11 +108,7 @@ const MonthItem = (props: MonthItemProps) => {
                   alignItems: 'center',
                 }}
               >
-                {props.ministry ? (
-                  <IconCheck color="var(--accent-main)" />
-                ) : (
-                  <IconReportNotSent color="var(--red-main)" />
-                )}
+                {props.ministry ? <IconCheck color="var(--accent-main)" /> : <IconReportNotSent color="var(--red-main)" />}
               </Box>
               <CustomTypography className="h4" color={'var(--black)'}>
                 {props.title}
