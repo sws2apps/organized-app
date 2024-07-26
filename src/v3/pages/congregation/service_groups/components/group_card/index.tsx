@@ -14,7 +14,6 @@ import {
   IconGroupOverseer,
   IconMore,
   IconMyGroup,
-  IconNewStar,
   IconRemovePerson,
   IconVisitors,
 } from '@components/icons';
@@ -143,6 +142,8 @@ export const GroupCardContentItem = (props: GroupCardContentItemProps) => {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
+
+        gap: '8px',
 
         '&:hover': {
           backgroundColor: `rgb(from var(--group-${props.groupNumber}) r g b / 6%)`,

@@ -1,24 +1,11 @@
 import { useAppTranslation } from '@hooks/index';
-import { Button, DarkOverlay, PageTitle } from '@components/index';
-import {
-  IconAdd,
-  IconEdit,
-  IconMore,
-  IconPerson,
-  IconRemovePerson,
-  IconReorder,
-  IconVisitors,
-  IconAssistant,
-} from '@icons/index';
-import { Box, IconButton, Stack, MenuItem, ListItemIcon, ListItemText, Menu, ListItem } from '@mui/material';
+import { DarkOverlay, PageTitle } from '@components/index';
+import { IconAdd, IconPerson, IconReorder, IconAssistant } from '@icons/index';
+import { Box, Stack } from '@mui/material';
 import Masonry from '@mui/lab/Masonry';
-
-import Typography from '@components/typography';
 import useList from '@features/persons/list/useList';
-import { useState, MouseEvent, FC } from 'react';
+import { useState } from 'react';
 import IconGroupOverseer from '@icons/IconGroupOverseer';
-import { DashboardMenu } from '@features/index';
-import DashboardCard from '@features/dashboard/card';
 import { styled } from '@mui/system';
 import CreateNewGroupModalWindow from './modal_windows/create_new_group';
 import ReorderGroupsModalWindow from './modal_windows/reorder_groups';
@@ -26,8 +13,8 @@ import { EditGroupModalWindowData } from './modal_windows/edit_group/edit_group.
 import EditGroupModalWindow from './modal_windows/edit_group';
 import QuickSettingsModalWindow from './modal_windows/quick_settings';
 import DeleteGroupModalWindow from './modal_windows/delete_group';
-import CustomTypography from '@components/typography';
 import { GroupCardContainer, GroupCardContentItem, GroupCardDivider, GroupCardHeader } from './components/group_card';
+import CustomButton from '@components/button';
 
 export const StyledMasonry = styled(Masonry)(({ theme }) => ({
   [theme.breakpoints.down('tablet500')]: {
@@ -72,16 +59,17 @@ const ServiceGroups = () => {
           title={t('tr_fieldServiceGroups')}
           buttons={
             <Stack direction={'row'} spacing={'8px'}>
-              <Button
+              <CustomButton
                 variant="secondary"
-                startIcon={<IconReorder />}
+                color="accent"
+                startIcon={<IconReorder color="var(--accent-main)" />}
                 onClick={() => {
                   setReorderGroupsModalWindowOpen(true);
                 }}
               >
                 {t('tr_reorderGroups')}
-              </Button>
-              <Button
+              </CustomButton>
+              <CustomButton
                 variant="main"
                 startIcon={<IconAdd />}
                 onClick={() => {
@@ -89,14 +77,22 @@ const ServiceGroups = () => {
                 }}
               >
                 {t('tr_createGroup')}
-              </Button>
+              </CustomButton>
             </Stack>
           }
         />
 
         <StyledMasonry spacing={2} sequential>
           <GroupCardContainer color={'var(--group-1)'}>
-            <GroupCardHeader groupNumber={1} groupName={'Issum'} visitorsCount={10} isMyGroup />
+            <GroupCardHeader
+              groupNumber={1}
+              groupName={'Issum'}
+              visitorsCount={10}
+              isMyGroup
+              onEditButtonClick={() => {
+                setEditGroupsModalWindowOpen(true);
+              }}
+            />
 
             {persons.slice(0, 9).map((value, index) => {
               const randomKey = crypto.randomUUID();
@@ -109,7 +105,7 @@ const ServiceGroups = () => {
                       groupNumber={1}
                       primaryText={value.person_data.person_firstname.value}
                       descriptionText={t('tr_groupOverseer')}
-                      icon={<IconAssistant />}
+                      icon={<IconAssistant color="var(--black)" />}
                       isBaptized
                     />
                     <GroupCardDivider groupNumber={1} />
@@ -126,7 +122,7 @@ const ServiceGroups = () => {
                       primaryText={value.person_data.person_firstname.value}
                       descriptionText={t('tr_groupOverseerAssistant')}
                       thirdText="Away: June 16, 2024 - July 2, 2024"
-                      icon={<IconGroupOverseer />}
+                      icon={<IconGroupOverseer color="var(--black)" />}
                       isBaptized
                     />
                     <GroupCardDivider groupNumber={1} />
@@ -140,7 +136,7 @@ const ServiceGroups = () => {
                     key={randomKey}
                     groupNumber={1}
                     primaryText={value.person_data.person_firstname.value}
-                    icon={<IconPerson />}
+                    icon={<IconPerson color="var(--black)" />}
                     isBaptized
                   />
                   {index != 8 && <GroupCardDivider groupNumber={1} />}
@@ -162,7 +158,7 @@ const ServiceGroups = () => {
                       groupNumber={2}
                       primaryText={value.person_data.person_firstname.value}
                       descriptionText={t('tr_groupOverseer')}
-                      icon={<IconAssistant />}
+                      icon={<IconAssistant color="var(--black)" />}
                       isBaptized
                     />
                     <GroupCardDivider groupNumber={2} />
@@ -179,7 +175,7 @@ const ServiceGroups = () => {
                       primaryText={value.person_data.person_firstname.value}
                       descriptionText={t('tr_groupOverseerAssistant')}
                       thirdText="Away: June 16, 2024 - July 2, 2024"
-                      icon={<IconGroupOverseer />}
+                      icon={<IconGroupOverseer color="var(--black)" />}
                       isBaptized
                     />
                     <GroupCardDivider groupNumber={2} />
@@ -193,7 +189,7 @@ const ServiceGroups = () => {
                     key={randomKey}
                     groupNumber={2}
                     primaryText={value.person_data.person_firstname.value}
-                    icon={<IconPerson />}
+                    icon={<IconPerson color="var(--black)" />}
                     isBaptized
                   />
                   {index != 8 && <GroupCardDivider groupNumber={2} />}
@@ -216,7 +212,7 @@ const ServiceGroups = () => {
                       groupNumber={3}
                       primaryText={value.person_data.person_firstname.value}
                       descriptionText={t('tr_groupOverseer')}
-                      icon={<IconAssistant />}
+                      icon={<IconAssistant color="var(--black)" />}
                       isBaptized
                     />
                     <GroupCardDivider groupNumber={3} />
@@ -233,7 +229,7 @@ const ServiceGroups = () => {
                       primaryText={value.person_data.person_firstname.value}
                       descriptionText={t('tr_groupOverseerAssistant')}
                       thirdText="Away: June 16, 2024 - July 2, 2024"
-                      icon={<IconGroupOverseer />}
+                      icon={<IconGroupOverseer color="var(--black)" />}
                       isBaptized
                     />
                     <GroupCardDivider groupNumber={3} />
@@ -247,7 +243,7 @@ const ServiceGroups = () => {
                     key={randomKey}
                     groupNumber={3}
                     primaryText={value.person_data.person_firstname.value}
-                    icon={<IconPerson />}
+                    icon={<IconPerson color="var(--black)" />}
                     isBaptized
                   />
                   {index != 8 && <GroupCardDivider groupNumber={3} />}
@@ -257,9 +253,11 @@ const ServiceGroups = () => {
           </GroupCardContainer>
         </StyledMasonry>
       </Box>
-      <DarkOverlay overlayIsOpened={createNewGroupModalWindowOpen}>{/* <CreateNewGroupModalWindow /> */}</DarkOverlay>
+      <DarkOverlay overlayIsOpened={createNewGroupModalWindowOpen}>
+        <CreateNewGroupModalWindow />
+      </DarkOverlay>
       <DarkOverlay overlayIsOpened={reorderGroupsModalWindowOpen}>
-        {/* <ReorderGroupsModalWindow
+        <ReorderGroupsModalWindow
           groups={[
             { groupNum: '1', groupName: 'Group name' },
             { groupNum: '2', groupName: 'Issum' },
@@ -267,10 +265,10 @@ const ServiceGroups = () => {
           onChange={() => {
             null;
           }}
-        /> */}
+        />
       </DarkOverlay>
       <DarkOverlay overlayIsOpened={editGroupsModalWindowOpen}>
-        {/* <EditGroupModalWindow
+        <EditGroupModalWindow
           data={editGroupModalWindowData}
           onDeleteButtonClick={() => {
             setEditGroupsModalWindowOpen(false);
@@ -279,13 +277,13 @@ const ServiceGroups = () => {
           onSaveButtonClick={() => {
             null;
           }}
-        /> */}
+        />
       </DarkOverlay>
       <DarkOverlay overlayIsOpened={quickSettingsModalWindowOpen}>
-        {/* <QuickSettingsModalWindow showTimeAwayToAllUsers={true} /> */}
+        <QuickSettingsModalWindow showTimeAwayToAllUsers={true} />
       </DarkOverlay>
       <DarkOverlay overlayIsOpened={deleteGroupModalWindowOpen}>
-        {/* <DeleteGroupModalWindow groupId={parseInt(editGroupModalWindowData.groupNumber)} /> */}
+        <DeleteGroupModalWindow groupId={parseInt(editGroupModalWindowData.groupNumber)} />
       </DarkOverlay>
     </>
   );
