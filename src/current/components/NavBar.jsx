@@ -54,7 +54,11 @@ import {
   congSpeakersRequestsUpdateCountState,
   usernameState,
 } from '../states/congregation';
-import { appMessageState, appSeverityState, appSnackOpenState } from '../states/notification';
+import {
+  appMessageState,
+  appSeverityState,
+  appSnackOpenState,
+} from '../states/notification';
 import { pendingFieldServiceReportsCountState } from '../states/report';
 
 const sharedStyles = {
@@ -86,7 +90,9 @@ const NavBar = (props) => {
   const navigate = useNavigate();
   const theme = useTheme();
 
-  const [congAccountConnected, setCongAccountConnected] = useRecoilState(congAccountConnectedState);
+  const [congAccountConnected, setCongAccountConnected] = useRecoilState(
+    congAccountConnectedState
+  );
 
   const setIsAboutOpen = useSetRecoilState(isAboutOpenState);
   const setOfflineOverride = useSetRecoilState(offlineOverrideState);
@@ -112,8 +118,12 @@ const NavBar = (props) => {
   const visitorID = useRecoilValue(visitorIDState);
   const accountType = useRecoilValue(accountTypeState);
   const cnPendingReports = useRecoilValue(pendingFieldServiceReportsCountState);
-  const cnSpeakersRequests = useRecoilValue(congSpeakersRequestsStateCountState);
-  const cnSpeakersRequestsApproved = useRecoilValue(congSpeakersRequestsUpdateCountState);
+  const cnSpeakersRequests = useRecoilValue(
+    congSpeakersRequestsStateCountState
+  );
+  const cnSpeakersRequestsApproved = useRecoilValue(
+    congSpeakersRequestsUpdateCountState
+  );
 
   const mdUp = useMediaQuery(theme.breakpoints.up('md'), {
     noSsr: true,
@@ -244,15 +254,34 @@ const NavBar = (props) => {
               <AppLanguage />
 
               {!isLoading && enabledInstall && (
-                <IconButton color="inherit" edge="start" sx={sharedStyles.menuIcon} onClick={() => installPwa()}>
+                <IconButton
+                  color="inherit"
+                  edge="start"
+                  sx={sharedStyles.menuIcon}
+                  onClick={() => installPwa()}
+                >
                   <GetApp />
-                  {mdUp && <Typography sx={{ marginLeft: '5px' }}>{t('install')}</Typography>}
+                  {mdUp && (
+                    <Typography sx={{ marginLeft: '5px' }}>
+                      {t('install')}
+                    </Typography>
+                  )}
                 </IconButton>
               )}
 
-              <IconButton color="inherit" edge="start" sx={sharedStyles.menuIcon} onClick={handleWhatsNewClick}>
+              <IconButton
+                color="inherit"
+                edge="start"
+                sx={sharedStyles.menuIcon}
+                onClick={handleWhatsNewClick}
+              >
                 <Badge
-                  badgeContent={cnNews + cnPendingReports + cnSpeakersRequests + cnSpeakersRequestsApproved}
+                  badgeContent={
+                    cnNews +
+                    cnPendingReports +
+                    cnSpeakersRequests +
+                    cnSpeakersRequestsApproved
+                  }
                   color="error"
                 >
                   <NotificationsIcon />
@@ -294,12 +323,19 @@ const NavBar = (props) => {
                   </Box>
                 )}
                 {userAvatar && (
-                  <Avatar alt="Avatar" src={userAvatar} sx={{ width: 32, height: 32, border: '1px solid white' }} />
+                  <Avatar
+                    alt="Avatar"
+                    src={userAvatar}
+                    sx={{ width: 32, height: 32, border: '1px solid white' }}
+                  />
                 )}
                 {!userAvatar && <AccountCircle sx={{ fontSize: '40px' }} />}
               </IconButton>
               <Menu
-                sx={{ marginTop: '40px', '.MuiMenu-list': { minWidth: '200px !important' } }}
+                sx={{
+                  marginTop: '40px',
+                  '.MuiMenu-list': { minWidth: '200px !important' },
+                }}
                 id="menu-account"
                 MenuListProps={{
                   'aria-labelledby': 'button-account',
@@ -317,26 +353,32 @@ const NavBar = (props) => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                {!isAppLoad && accountType === 'vip' && isOnline && !congAccountConnected && (
-                  <MenuItem onClick={handleUseOnlineAccount}>
-                    <ListItemIcon>
-                      <KeyIcon fontSize="medium" sx={{ color: '#DC7633' }} />
-                    </ListItemIcon>
-                    <ListItemText>{t('useOnlineAccount')}</ListItemText>
-                  </MenuItem>
-                )}
+                {!isAppLoad &&
+                  accountType === 'vip' &&
+                  isOnline &&
+                  !congAccountConnected && (
+                    <MenuItem onClick={handleUseOnlineAccount}>
+                      <ListItemIcon>
+                        <KeyIcon fontSize="medium" sx={{ color: '#DC7633' }} />
+                      </ListItemIcon>
+                      <ListItemText>{t('useOnlineAccount')}</ListItemText>
+                    </MenuItem>
+                  )}
 
                 {!isAppLoad && (
                   <MenuItem onClick={handleGoSettings}>
                     <ListItemIcon>
-                      <AdminPanelSettingsIcon fontSize="medium" color="warning" />
+                      <AdminPanelSettingsIcon
+                        fontSize="medium"
+                        color="warning"
+                      />
                     </ListItemIcon>
                     <ListItemText>{t('myUserProfile')}</ListItemText>
                   </MenuItem>
                 )}
 
                 <Link
-                  href={`https://sws2apps.com/${t('docsUrlCode')}/category/congregation-program-for-everyone`}
+                  href={`https://guide.organized-app.com`}
                   target="_blank"
                   rel="noopener"
                   underline="none"
@@ -359,14 +401,20 @@ const NavBar = (props) => {
                   <ListItemText>{t('about')}</ListItemText>
                 </MenuItem>
 
-                {!isAppLoad && accountType === 'vip' && isOnline && congAccountConnected && (
-                  <MenuItem onClick={handleLogout}>
-                    <ListItemIcon>
-                      <LogoutIcon fontSize="medium" sx={{ color: '#E74C3C' }} />
-                    </ListItemIcon>
-                    <ListItemText>{t('logoutOnlineAccount')}</ListItemText>
-                  </MenuItem>
-                )}
+                {!isAppLoad &&
+                  accountType === 'vip' &&
+                  isOnline &&
+                  congAccountConnected && (
+                    <MenuItem onClick={handleLogout}>
+                      <ListItemIcon>
+                        <LogoutIcon
+                          fontSize="medium"
+                          sx={{ color: '#E74C3C' }}
+                        />
+                      </ListItemIcon>
+                      <ListItemText>{t('logoutOnlineAccount')}</ListItemText>
+                    </MenuItem>
+                  )}
 
                 {!isAppLoad && !mdUp && (
                   <MenuItem disabled={true} sx={{ opacity: '1 !important' }}>

@@ -1,0 +1,11 @@
+{
+  "tr_addNewDate": "Magdagdag ng bagong petsa",
+  "tr_deepCleaning": "Deep cleaning",
+  "tr_noCleaningSchedulesYet": "Wala pang nagawang iskedyul ng paglilinis. Mag-add ng bagong buwan upang simulan ang paggawa ng iyong unang iskedyul.",
+  "tr_addMonthDesc": "Una, pumili ng mga buwan na gustong lagyan ng iskedyul. Saka, gumawa ng plano para sa bawat espisipikong na petsa ng pulong.",
+  "tr_responsiblePerson": "May pananagutan",
+  "tr_deleteDate": "I-delete ang petsa",
+  "tr_deleteDateDecs": "Hindi mo ito maaaring i-undo, ngunit puwede kang gumawa ng bagong petsa sa anumang oras.",
+  "tr_deleteMonth": "I-delete ang buwan",
+  "tr_deleteMonthDesc": "Hindi maaaring i-undo, ngunit puwede mag-add ng bagong buwan."
+}

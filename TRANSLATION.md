@@ -8,11 +8,11 @@ We use the collaborative localization platform Crowdin.com to work on different 
 2. Open the [Organized](https://crowdin.com/project/organized) project in Crowdin. If you don't have an account, sign up.
 3. Find your language and start translation.
 
-Additionally, you can find more details and nuances in [Crowdin's guide for volunteer translators](https://support.crowdin.com/for-volunteer-translators/). 
+Additionally, you can find more details and nuances in [Crowdin's guide for volunteer translators](https://support.crowdin.com/for-volunteer-translators/).
 
 ### Where are the English source strings?
 
-If you've found a mistake or have a better suggestion for the English language: English sources can be found in [/locales/en](https://github.com/sws2apps/organized-app/tree/main/src/shared/locales/en). Please ensure that you are viewing the **correct desired branch**. If you find any problem with the source, please create a pull request with changes directly to `/locales/en`. 
+If you've found a mistake or have a better suggestion for the English language: English sources can be found in [/locales/en](https://github.com/sws2apps/organized-app/tree/main/src/shared/locales/en). Please ensure that you are viewing the **correct desired branch**. If you find any problem with the source, please create a pull request with changes directly to `/locales/en`.
 Crowdin automatically pulls all updates within 3 hours.
 
 ### My language is not yet available on Crowdin

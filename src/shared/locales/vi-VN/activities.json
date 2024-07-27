@@ -1,0 +1,11 @@
+{
+  "tr_addNewDate": "Thêm ngày mới",
+  "tr_deepCleaning": "Dọn dẹp sâu",
+  "tr_noCleaningSchedulesYet": "Anh/chị chưa tạo lịch dọn dẹp nào. Hãy thêm một tháng mới để bắt đầu tạo lịch đầu tiên của anh/chị.",
+  "tr_addMonthDesc": "Đầu tiên, chọn các tháng anh/chị muốn lập lịch. Sau đó, tạo kế hoạch cho mỗi ngày họp cụ thể.",
+  "tr_responsiblePerson": "Người chịu trách nhiệm",
+  "tr_deleteDate": "Xóa ngày",
+  "tr_deleteDateDecs": "Anh/chị không thể hoàn tác hành động này, nhưng anh/chị có thể tạo một ngày mới bất cứ lúc nào.",
+  "tr_deleteMonth": "Xóa tháng",
+  "tr_deleteMonthDesc": "Anh/chị không thể hoàn tác hành động này, nhưng anh/chị có thể thêm một tháng mới bất cứ lúc nào."
+}
