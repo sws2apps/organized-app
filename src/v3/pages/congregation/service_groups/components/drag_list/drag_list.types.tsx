@@ -1,7 +1,7 @@
 export type CustomDragListProps = {
   values: string[];
   variant: 'reorder' | 'publishers';
-  onChange: (values) => void;
+  onChange: (values: string[]) => void;
 };
 
 export type CustomDragListItemProps = {
