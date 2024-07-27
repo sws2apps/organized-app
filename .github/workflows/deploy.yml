@@ -28,7 +28,7 @@ jobs:
       - name: Use Node.js LTS version
         uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b
         with:
-          node-version: lts/Hydrogen
+          node-version: lts/Iron
 
       - name: Install package dependencies
         run: npm ci
