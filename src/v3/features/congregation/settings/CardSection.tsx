@@ -20,7 +20,13 @@ const CardSection = ({ children }: { children?: React.ReactNode }) => {
   );
 };
 
-const CardSectionContent = ({ children, sx }: { children?: React.ReactNode; sx?: SxProps }) => {
+const CardSectionContent = ({
+  children,
+  sx,
+}: {
+  children?: React.ReactNode;
+  sx?: SxProps;
+}) => {
   return (
     <Box
       sx={{
@@ -54,6 +60,7 @@ const CardSectionTitle = ({ children }: { children?: React.ReactNode }) => {
         fontWeight: '550',
         fontSize: '20px',
         lineHeight: '28px',
+        color: 'var(--black)',
       }}
     >
       {children}
@@ -67,13 +74,22 @@ const CardSectionDescription = ({ content }: { content: string }) => {
       anchorStyle={{
         fontSize: 'inherit',
       }}
+      color="var(--grey-400)"
       className="body-regular"
       content={content}
     />
   );
 };
 
-const CardSectionHeader = ({ title, description, sx }: { title: string; description: string; sx?: SxProps }) => {
+const CardSectionHeader = ({
+  title,
+  description,
+  sx,
+}: {
+  title: string;
+  description: string;
+  sx?: SxProps;
+}) => {
   return (
     <Box
       sx={{
@@ -106,4 +122,11 @@ const TwoColumnsRow = ({ children }: { children?: React.ReactNode }) => {
   );
 };
 
-export { CardSection, CardSectionContent, CardSectionTitle, CardSectionDescription, CardSectionHeader, TwoColumnsRow };
+export {
+  CardSection,
+  CardSectionContent,
+  CardSectionTitle,
+  CardSectionDescription,
+  CardSectionHeader,
+  TwoColumnsRow,
+};

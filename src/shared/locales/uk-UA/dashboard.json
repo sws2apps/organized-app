@@ -90,6 +90,6 @@
   "tr_hallCleaning": "Прибирання залу",
   "tr_yourEmailField": "Your email address",
   "tr_yourMessage": "Твоє повідомлення",
-  "tr_reportSubmittedDesc": "Твій звіт за {{ month}} було надіслано",
+  "tr_reportSubmittedDesc": "Your report for {{ month }} has been submitted",
   "tr_mainCongregation": "Головний збір"
 }

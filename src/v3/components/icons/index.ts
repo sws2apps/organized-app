@@ -152,6 +152,7 @@ export { default as IconMoveAround } from './IconMoveAround';
 export { default as IconMoveBack } from './IconMoveBack';
 export { default as IconMoveForward } from './IconMoveForward';
 export { default as IconMoved } from './IconMoved';
+export { default as IconMyGroup } from './IconMyGroup';
 export { default as IconMyLocation } from './IconMyLocation';
 export { default as IconNewStar } from './IconNewStar';
 export { default as IconNew } from './IconNew';

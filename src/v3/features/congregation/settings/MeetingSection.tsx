@@ -1,8 +1,13 @@
 import useAppTranslation from '@hooks/useAppTranslation';
-import { CardSection, CardSectionContent, CardSectionHeader } from './CardSection';
+import {
+  CardSection,
+  CardSectionContent,
+  CardSectionHeader,
+} from './CardSection';
 import { useState } from 'react';
 import { MenuItem, TextField } from '@components/index';
 import SwitchItem from './SwitchItem';
+import { textFieldSelectStyles } from './utils';
 
 const MeetingSection = () => {
   const { t } = useAppTranslation();
@@ -22,7 +27,10 @@ const MeetingSection = () => {
   return (
     <CardSection>
       <CardSectionContent sx={{ gap: '16px' }}>
-        <CardSectionHeader title={t('tr_meetinMaterialsTitle')} description={t('tr_meetinMaterialsDesc')} />
+        <CardSectionHeader
+          title={t('tr_meetinMaterialsTitle')}
+          description={t('tr_meetinMaterialsDesc')}
+        />
 
         <SwitchItem
           value={autoCheckUpdates}
@@ -35,6 +43,7 @@ const MeetingSection = () => {
           label={t('tr_autoCheckFrequency')}
           value={autoCheckFrequency}
           onChange={(e) => setAutoCheckFrequency(e.target.value)}
+          {...textFieldSelectStyles}
         >
           <MenuItem value="week">{t('tr_everyWeek')}</MenuItem>
           <MenuItem value="twoWeeks">{t('tr_everyTwoWeeks')}</MenuItem>
@@ -62,11 +71,23 @@ const MeetingSection = () => {
         />
       </CardSectionContent>
       <CardSectionContent sx={{ gap: '16px' }}>
-        <TextField select label={t('tr_nameFormat')} value={nameFormat} onChange={(e) => setNameFormat(e.target.value)}>
+        <TextField
+          select
+          label={t('tr_nameFormat')}
+          value={nameFormat}
+          onChange={(e) => setNameFormat(e.target.value)}
+          {...textFieldSelectStyles}
+        >
           <MenuItem value="firstLast">{t('tr_formatFirstLast')}</MenuItem>
           <MenuItem value="lastFirst">{t('tr_formatLastFirst')}</MenuItem>
         </TextField>
-        <TextField select label={t('tr_dateFormat')} value={dateFormat} onChange={(e) => setDateFormat(e.target.value)}>
+        <TextField
+          select
+          label={t('tr_dateFormat')}
+          value={dateFormat}
+          onChange={(e) => setDateFormat(e.target.value)}
+          {...textFieldSelectStyles}
+        >
           <MenuItem value="dateFormat1">{t('tr_dateFormat1')}</MenuItem>
           <MenuItem value="dateFormat2">{t('tr_dateFormat2')}</MenuItem>
           <MenuItem value="dateFormat3">{t('tr_dateFormat3')}</MenuItem>

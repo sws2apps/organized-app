@@ -100,5 +100,8 @@
   "tr_minLabel": "min.",
   "tr_textCopied": "Informação copiada para a área de transferência",
   "tr_longDateWithYearLocale": "{{ date }} {{ month }} {{ year }}",
-  "tr_edit": "Editar"
+  "tr_edit": "Editar",
+  "tr_noPersonsFound": "Não foram encontradas pessoas",
+  "tr_noPersonsFoundDesc": "Nenhuma pessoa corresponde aos parâmetros da sua pesquisa. Tente ajustar a categoria ou a data.",
+  "tr_categories": "Categorias"
 }

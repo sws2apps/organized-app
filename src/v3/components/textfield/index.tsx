@@ -1,5 +1,9 @@
 import { HTMLInputTypeAttribute, useState } from 'react';
-import { IconButton, InputAdornment, TextField as MUITextField } from '@mui/material';
+import {
+  IconButton,
+  InputAdornment,
+  TextField as MUITextField,
+} from '@mui/material';
 import { IconVisibility, IconVisibilityOff } from '@components/icons';
 import { TextFieldTypeProps } from './index.types';
 
@@ -10,12 +14,31 @@ import { TextFieldTypeProps } from './index.types';
  * @returns {JSX.Element} - JSX.Element
  */
 const TextField = (props: TextFieldTypeProps) => {
-  const { height, startIcon, endIcon, styleIcon, InputProps, resetHelperPadding, ...defaultProps } = props;
+  const {
+    height,
+    startIcon,
+    endIcon,
+    styleIcon,
+    InputProps,
+    resetHelperPadding,
+    ...defaultProps
+  } = props;
   const [showAccessCode, setShowAccessCode] = useState(false);
-  const [inputType, setInputType] = useState<HTMLInputTypeAttribute>(props.type);
+  const [inputType, setInputType] = useState<HTMLInputTypeAttribute>(
+    props.type
+  );
 
   const heightLocal = height || 44;
-  const endIconLocal = props.type === 'password' ? showAccessCode ? <IconVisibilityOff /> : <IconVisibility /> : endIcon;
+  const endIconLocal =
+    props.type === 'password' ? (
+      showAccessCode ? (
+        <IconVisibilityOff />
+      ) : (
+        <IconVisibility />
+      )
+    ) : (
+      endIcon
+    );
   const styleIconLocal = styleIcon ?? true;
 
   const varHeight = (56 - heightLocal) / 2;
@@ -51,7 +74,10 @@ const TextField = (props: TextFieldTypeProps) => {
           paddingTop: `calc(14.5px - ${varHeight}px)`,
           paddingBottom: `calc(14.5px - ${varHeight}px)`,
           flex: '1 0 0',
-          color: props.value || props.inputProps?.value ? 'var(--black)' : 'var(--accent-400)',
+          color:
+            props.value || props.inputProps?.value
+              ? 'var(--black)'
+              : 'var(--accent-400)',
         },
         '.MuiInput-root:before': {
           borderBottom: '1px solid var(--accent-300) !important',
@@ -85,6 +111,11 @@ const TextField = (props: TextFieldTypeProps) => {
             color: 'var(--accent-main)',
           },
         },
+
+        '& .MuiSvgIcon-root': {
+          color: 'var(--accent-350)',
+        },
+
         '.MuiFormLabel-root[data-shrink=false]': { top: `-${varHeight}px` },
         '& > .MuiAutocomplete-popupIndicator': {
           '& svg, & svg g, & svg g path': 'var(--black)',
@@ -103,7 +134,11 @@ const TextField = (props: TextFieldTypeProps) => {
               marginRight: 0,
               '& svg, & svg g, & svg g path': styleIconLocal
                 ? {
-                    fill: startIcon.props.color ? startIcon.props.color : props.value ? 'var(--black)' : 'var(--accent-350)',
+                    fill: startIcon.props.color
+                      ? startIcon.props.color
+                      : props.value
+                        ? 'var(--black)'
+                        : 'var(--accent-350)',
                   }
                 : {},
             }}
@@ -129,7 +164,10 @@ const TextField = (props: TextFieldTypeProps) => {
           >
             {props.type !== 'password' && endIconLocal}
             {props.type === 'password' && (
-              <IconButton onClick={handleToggleAccessCode} sx={{ margin: 0, padding: 0 }}>
+              <IconButton
+                onClick={handleToggleAccessCode}
+                sx={{ margin: 0, padding: 0 }}
+              >
                 {endIconLocal}
               </IconButton>
             )}
