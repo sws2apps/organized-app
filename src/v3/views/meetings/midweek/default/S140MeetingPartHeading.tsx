@@ -1,7 +1,5 @@
-import { useRecoilValue } from 'recoil';
 import { Text, View } from '@react-pdf/renderer';
 import { S140MeetingPartHeadingType } from './index.types';
-import { midweekMeetingClassCountState } from '@states/settings';
 import { Week } from '@definition/week_type';
 import { useAppTranslation } from '@hooks/index';
 import styles from './index.styles';
@@ -11,10 +9,9 @@ const S140MeetingPartHeading = ({
   meetingPart,
   backgroundColor,
   classroomHeading,
+  class_count,
 }: S140MeetingPartHeadingType) => {
   const { t } = useAppTranslation();
-
-  const class_count = useRecoilValue(midweekMeetingClassCountState);
 
   return (
     <View

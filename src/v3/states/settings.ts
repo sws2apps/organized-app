@@ -103,7 +103,7 @@ export const COLastnameState = selector({
   },
 });
 
-export const COLDisplayNameState = selector({
+export const CODisplayNameState = selector({
   key: 'COLastnameState',
   get: ({ get }) => {
     const settings = get(settingsState);
@@ -112,7 +112,7 @@ export const COLDisplayNameState = selector({
   },
 });
 
-export const COLFullnametate = selector({
+export const COFullnameState = selector({
   key: 'COLFullname',
   get: ({ get }) => {
     const firstname = get(COFirstnameState);
@@ -201,7 +201,13 @@ export const elderLocalRoleState = selector({
     const coordinatorRole = get(coordinatorRoleState);
     const publicTalkCoordinatorRole = get(publicTalkCoordinatorRoleState);
 
-    return elderRole || secretaryRole || lmmoRole || coordinatorRole || publicTalkCoordinatorRole;
+    return (
+      elderRole ||
+      secretaryRole ||
+      lmmoRole ||
+      coordinatorRole ||
+      publicTalkCoordinatorRole
+    );
   },
 });
 
@@ -213,7 +219,9 @@ export const personEditorRoleState = selector({
     const coordinatorRole = get(coordinatorRoleState);
     const publicTalkCoordinatorRole = get(publicTalkCoordinatorRoleState);
 
-    return secretaryRole || lmmoRole || coordinatorRole || publicTalkCoordinatorRole;
+    return (
+      secretaryRole || lmmoRole || coordinatorRole || publicTalkCoordinatorRole
+    );
   },
 });
 
@@ -254,7 +262,9 @@ export const midweekMeetingClassCountState = selector({
     const settings = get(settingsState);
     const dataView = get(userDataViewState);
 
-    return settings.cong_settings.midweek_meeting.find((record) => record.type === dataView).class_count.value;
+    return settings.cong_settings.midweek_meeting.find(
+      (record) => record.type === dataView
+    ).class_count.value;
   },
 });
 
@@ -264,7 +274,9 @@ export const midweekMeetingWeekdayState = selector({
     const settings = get(settingsState);
     const dataView = get(userDataViewState);
 
-    return settings.cong_settings.midweek_meeting.find((record) => record.type === dataView).weekday;
+    return settings.cong_settings.midweek_meeting.find(
+      (record) => record.type === dataView
+    ).weekday;
   },
 });
 
@@ -274,7 +286,9 @@ export const midweekMeetingTimeState = selector({
     const settings = get(settingsState);
     const dataView = get(userDataViewState);
 
-    return settings.cong_settings.midweek_meeting.find((record) => record.type === dataView).time;
+    return settings.cong_settings.midweek_meeting.find(
+      (record) => record.type === dataView
+    ).time;
   },
 });
 
@@ -284,8 +298,9 @@ export const midweekMeetingOpeningPrayerAutoAssign = selector({
     const settings = get(settingsState);
     const dataView = get(userDataViewState);
 
-    return settings.cong_settings.midweek_meeting.find((record) => record.type === dataView).opening_prayer_auto_assign
-      .value;
+    return settings.cong_settings.midweek_meeting.find(
+      (record) => record.type === dataView
+    ).opening_prayer_auto_assign.value;
   },
 });
 
@@ -295,8 +310,9 @@ export const midweekMeetingExactDateState = selector({
     const settings = get(settingsState);
     const dataView = get(userDataViewState);
 
-    return settings.cong_settings.midweek_meeting.find((record) => record.type === dataView)
-      .schedule_exact_date_enabled;
+    return settings.cong_settings.midweek_meeting.find(
+      (record) => record.type === dataView
+    ).schedule_exact_date_enabled.value;
   },
 });
 
@@ -308,8 +324,9 @@ export const weekendMeetingOpeningPrayerAutoAssignState = selector({
     const settings = get(settingsState);
     const dataView = get(userDataViewState);
 
-    return settings.cong_settings.weekend_meeting.find((record) => record.type === dataView)
-      .opening_prayer_auto_assigned.value;
+    return settings.cong_settings.weekend_meeting.find(
+      (record) => record.type === dataView
+    ).opening_prayer_auto_assigned.value;
   },
 });
 
@@ -319,7 +336,9 @@ export const weekendMeetingWeekdayState = selector({
     const settings = get(settingsState);
     const dataView = get(userDataViewState);
 
-    return settings.cong_settings.weekend_meeting.find((record) => record.type === dataView).weekday;
+    return settings.cong_settings.weekend_meeting.find(
+      (record) => record.type === dataView
+    ).weekday;
   },
 });
 
@@ -329,7 +348,9 @@ export const weekendMeetingSubstituteSpeakerState = selector({
     const settings = get(settingsState);
     const dataView = get(userDataViewState);
 
-    return settings.cong_settings.weekend_meeting.find((record) => record.type === dataView).substitute_speaker_enabled;
+    return settings.cong_settings.weekend_meeting.find(
+      (record) => record.type === dataView
+    ).substitute_speaker_enabled;
   },
 });
 

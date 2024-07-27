@@ -1,3 +1,5 @@
+import { generateMonthNames, getTranslation } from '@services/i18n/translation';
+
 export const dateFirstDayMonth = (date: Date = new Date()) => {
   const month = date.getMonth();
   const year = date.getFullYear();
@@ -135,4 +137,35 @@ export const generateDateFromTime = (time: string) => {
   date.setHours(+timeParts[0], +timeParts[1]);
 
   return date;
+};
+
+export const dateFormatFriendly = (value: string) => {
+  const monthNames = generateMonthNames();
+
+  const [year, month, date] = value.split('/');
+  const monthName = monthNames[+month - 1];
+
+  return getTranslation({
+    key: 'tr_longDateWithYearLocale',
+    params: { year, month: monthName, date },
+  });
+};
+
+export const timeAddMinutes = (prev: string, min: number) => {
+  const split = prev.split(':');
+  const hour = +split[0];
+  const minute = +split[1];
+
+  let newHour = hour;
+  let newMinute = minute + min;
+  if (newMinute >= 60) {
+    newHour = hour + 1;
+    newMinute = newMinute - 60;
+  }
+
+  let result = `${newHour}:`;
+
+  result += String(newMinute).padStart(2, '0');
+
+  return result;
 };

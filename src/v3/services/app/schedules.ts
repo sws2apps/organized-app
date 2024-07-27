@@ -1,14 +1,21 @@
 import { UpdateSpec } from 'dexie';
 import { promiseGetRecoil } from 'recoil-outside';
 import {
+  CODisplayNameState,
+  COFullnameState,
+  displayNameEnableState,
+  fullnameOptionState,
   midweekMeetingClassCountState,
+  midweekMeetingExactDateState,
   midweekMeetingOpeningPrayerAutoAssign,
+  midweekMeetingTimeState,
+  midweekMeetingWeekdayState,
   userDataViewState,
 } from '@states/settings';
 import { sourcesState } from '@states/sources';
 import { assignmentsHistoryState, schedulesState } from '@states/schedules';
-import { JWLangState } from '@states/app';
-import { Week } from '@definition/week_type';
+import { JWLangState, monthNamesState } from '@states/app';
+import { Week, WeekTypeLocale } from '@definition/week_type';
 import {
   AssignmentCode,
   AssignmentFieldType,
@@ -17,15 +24,22 @@ import {
 import {
   ApplyMinistryType,
   LivingAsChristiansType,
+  SourceAssignmentType,
   SourceWeekType,
 } from '@definition/sources';
 import {
+  sourcesCBSGetTitle,
   sourcesCheckAYFExplainBeliefsAssignment,
   sourcesCheckLCAssignments,
+  sourcesLCGetTitle,
+  sourcesPartTiming,
+  sourcesSongConclude,
 } from './sources';
 import {
   AssignmentCongregation,
   AssignmentHistoryType,
+  MidweekMeetingDataType,
+  S89DataType,
   SchedWeekType,
 } from '@definition/schedules';
 import { getTranslation } from '@services/i18n/translation';
@@ -35,10 +49,18 @@ import { assignmentTypeLocaleState } from '@states/assignment';
 import { setAssignmentsHistory } from '@services/recoil/schedules';
 import { PersonType } from '@definition/person';
 import { dbSchedUpdate } from '@services/dexie/schedules';
-import { addMonths, addWeeks } from '@utils/date';
+import {
+  addMonths,
+  addWeeks,
+  dateFormatFriendly,
+  timeAddMinutes,
+} from '@utils/date';
 import { applyAssignmentFilters, personIsElder } from './persons';
 import { personsActiveState } from '@states/persons';
 import { personsStateFind } from '@services/recoil/persons';
+import { buildPersonFullname } from '@utils/common';
+import { sourcesFind } from '@services/recoil/sources';
+import { weekTypeLocaleState } from '@states/weekType';
 
 export const schedulesWeekAssignmentsInfo = async (
   week: string,
@@ -328,7 +350,11 @@ export const schedulesWeekAssignmentsInfo = async (
   return { total, assigned };
 };
 
-export const schedulesGetData = (schedule: SchedWeekType, path: string) => {
+export const schedulesGetData = (
+  schedule: SchedWeekType,
+  path: string,
+  dataView?: string
+) => {
   const pathParts = path.split('.');
   let current: unknown = schedule;
 
@@ -339,7 +365,48 @@ export const schedulesGetData = (schedule: SchedWeekType, path: string) => {
     current = current[part];
   }
 
+  if (dataView) {
+    if (Array.isArray(current)) {
+      const data = current as AssignmentCongregation[];
+      current = data.find((record) => record.type === dataView);
+    }
+
+    return current as AssignmentCongregation;
+  }
+
   return current as AssignmentCongregation | AssignmentCongregation[];
+};
+
+export const schedulesWeekGetAssigned = async ({
+  schedule,
+  assignment,
+  dataView,
+}: {
+  schedule: SchedWeekType;
+  dataView: string;
+  assignment: AssignmentFieldType;
+}) => {
+  const path = ASSIGNMENT_PATH[assignment];
+  const assigned = schedulesGetData(
+    schedule,
+    path,
+    dataView
+  ) as AssignmentCongregation;
+
+  let result: string;
+
+  if (assigned.value?.length > 0) {
+    const person = await personsStateFind(assigned.value);
+    const fullnameOption = await promiseGetRecoil(fullnameOptionState);
+
+    result = buildPersonFullname(
+      person.person_data.person_lastname.value,
+      person.person_data.person_firstname.value,
+      fullnameOption
+    );
+  }
+
+  return result;
 };
 
 export const schedulesGetHistoryDetails = ({
@@ -1226,4 +1293,525 @@ export const schedulesAutofillSaveAssignment = async ({
     assigned,
     history,
   });
+};
+
+export const schedulesWeekNoMeeting = (week: Week) => {
+  return (
+    week === Week.ASSEMBLY ||
+    week === Week.CONVENTION ||
+    week === Week.MEMORIAL ||
+    week === Week.NO_MEETING
+  );
+};
+
+export const schedulesS89Data = async (
+  schedule: SchedWeekType,
+  dataView: string
+) => {
+  const fullnameOption = await promiseGetRecoil(fullnameOptionState);
+
+  const result: S89DataType[] = [];
+
+  const assignments: AssignmentFieldType[] = [
+    'MM_TGWBibleReading_A',
+    'MM_TGWBibleReading_B',
+    'MM_AYFPart1_Student_A',
+    'MM_AYFPart1_Student_B',
+    'MM_AYFPart2_Student_A',
+    'MM_AYFPart2_Student_B',
+    'MM_AYFPart3_Student_A',
+    'MM_AYFPart3_Student_B',
+    'MM_AYFPart4_Student_A',
+    'MM_AYFPart4_Student_B',
+  ];
+
+  for (const assignment of assignments) {
+    const path = ASSIGNMENT_PATH[assignment];
+    const assigned = schedulesGetData(
+      schedule,
+      path,
+      dataView
+    ) as AssignmentCongregation;
+
+    if (assigned.value?.length > 0) {
+      const person = await personsStateFind(assigned.value);
+
+      const obj = <S89DataType>{};
+
+      obj.id = crypto.randomUUID();
+      obj.student_name = buildPersonFullname(
+        person.person_data.person_lastname.value,
+        person.person_data.person_firstname.value,
+        fullnameOption
+      );
+
+      if (assignment.includes('AYFPart')) {
+        const assistant = assignment.replace('Student', 'Assistant');
+        const path = ASSIGNMENT_PATH[assistant];
+        const assistantAssigned = schedulesGetData(
+          schedule,
+          path,
+          dataView
+        ) as AssignmentCongregation;
+
+        if (assistantAssigned?.value.length > 0) {
+          const assistantPerson = await personsStateFind(
+            assistantAssigned.value
+          );
+
+          obj.assistant_name = buildPersonFullname(
+            assistantPerson.person_data.person_lastname.value,
+            assistantPerson.person_data.person_firstname.value,
+            fullnameOption
+          );
+        }
+      }
+
+      obj.assignment_date = dateFormatFriendly(schedule.weekOf);
+
+      if (assignment.includes('TGWBibleReading')) {
+        obj.part_number = '3';
+      }
+
+      if (assignment.includes('Part1')) {
+        obj.part_number = '4';
+      }
+
+      if (assignment.includes('Part2')) {
+        obj.part_number = '5';
+      }
+
+      if (assignment.includes('Part3')) {
+        obj.part_number = '6';
+      }
+
+      if (assignment.includes('Part4')) {
+        obj.part_number = '7';
+      }
+
+      if (assignment.includes('_A')) {
+        obj.main_hall = true;
+      }
+
+      if (assignment.includes('_B')) {
+        obj.aux_class_1 = true;
+      }
+
+      result.push(obj);
+    }
+  }
+
+  return result;
+};
+
+export const schedulesMidweekGetTiming = ({
+  schedule,
+  source,
+  dataView,
+  lang,
+  pgmStart,
+}: {
+  schedule: SchedWeekType;
+  source: SourceWeekType;
+  dataView: string;
+  lang: string;
+  pgmStart: string;
+}) => {
+  const timing = <MidweekMeetingDataType['timing']>{};
+
+  timing.pgm_start = pgmStart;
+
+  timing.opening_comments = timeAddMinutes(timing.pgm_start, 5);
+
+  timing.tgw_talk = timeAddMinutes(timing.opening_comments, 1);
+
+  let time = sourcesPartTiming(source, 'tgw_talk', dataView, lang);
+  timing.tgw_gems = timeAddMinutes(timing.tgw_talk, time);
+
+  time = sourcesPartTiming(source, 'tgw_gems', dataView, lang);
+  timing.tgw_bible_reading = timeAddMinutes(timing.tgw_gems, time);
+
+  timing.ayf_part1 = timeAddMinutes(timing.tgw_bible_reading, 5);
+
+  time = sourcesPartTiming(source, 'ayf_part1', dataView, lang);
+  const ayf_part1 = source.midweek_meeting.ayf_part1.type[lang];
+
+  if (ayf_part1 && ayf_part1 === AssignmentCode.MM_Discussion) {
+    timing.ayf_part2 = timeAddMinutes(timing.ayf_part1, time);
+  } else {
+    timing.ayf_part2 = timeAddMinutes(timing.ayf_part1, time + 1);
+  }
+
+  time = sourcesPartTiming(source, 'ayf_part2', dataView, lang);
+  const ayf_part2 = source.midweek_meeting.ayf_part2.type[lang];
+
+  if (!ayf_part2) {
+    timing.ayf_part3 = timing.ayf_part2;
+  } else {
+    if (ayf_part2 === AssignmentCode.MM_Discussion) {
+      timing.ayf_part3 = timeAddMinutes(timing.ayf_part2, time);
+    } else {
+      timing.ayf_part3 = timeAddMinutes(timing.ayf_part2, time + 1);
+    }
+  }
+
+  time = sourcesPartTiming(source, 'ayf_part3', dataView, lang);
+  const ayf_part3 = source.midweek_meeting.ayf_part3.type[lang];
+
+  if (!ayf_part3) {
+    timing.ayf_part4 = timing.ayf_part3;
+  } else {
+    if (ayf_part3 === AssignmentCode.MM_Discussion) {
+      timing.ayf_part4 = timeAddMinutes(timing.ayf_part3, time);
+    } else {
+      timing.ayf_part4 = timeAddMinutes(timing.ayf_part3, time + 1);
+    }
+  }
+
+  time = sourcesPartTiming(source, 'ayf_part4', dataView, lang);
+  const ayf_part4 = source.midweek_meeting.ayf_part4.type[lang];
+
+  if (!ayf_part4) {
+    timing.lc_middle_song = timing.ayf_part4;
+  } else {
+    if (ayf_part4 === AssignmentCode.MM_Discussion) {
+      timing.lc_middle_song = timeAddMinutes(timing.ayf_part4, time);
+    } else {
+      timing.lc_middle_song = timeAddMinutes(timing.ayf_part4, time + 1);
+    }
+  }
+
+  timing.lc_part1 = timeAddMinutes(timing.lc_middle_song, 5);
+
+  time = sourcesPartTiming(source, 'lc_part1', dataView, lang);
+  timing.lc_part2 = timeAddMinutes(timing.lc_part1, time);
+
+  time = sourcesPartTiming(source, 'lc_part2', dataView, lang);
+  if (time > 0) {
+    timing.lc_part3 = timeAddMinutes(timing.lc_part2, time);
+  } else {
+    timing.lc_part3 = timing.lc_part2;
+  }
+
+  const week_type =
+    schedule.midweek_meeting.week_type.find(
+      (record) => record.type === dataView
+    )?.value || Week.NORMAL;
+
+  if (week_type === Week.NORMAL) {
+    time = sourcesPartTiming(source, 'lc_part3', dataView, lang);
+    if (time > 0) {
+      timing.cbs = timeAddMinutes(timing.lc_part3, time);
+    } else {
+      timing.cbs = timing.lc_part3;
+    }
+
+    time = sourcesPartTiming(source, 'lc_cbs', dataView, lang);
+    timing.concluding_comments = timeAddMinutes(timing.cbs, time);
+
+    timing.pgm_end = timeAddMinutes(timing.concluding_comments, 3);
+  }
+
+  if (week_type === Week.CO_VISIT) {
+    time = sourcesPartTiming(source, 'lc_part3', dataView, lang);
+    if (time > 0) {
+      timing.concluding_comments = timeAddMinutes(timing.lc_part3, time);
+    } else {
+      timing.concluding_comments = timing.lc_part3;
+    }
+
+    timing.co_talk = timeAddMinutes(timing.concluding_comments, 3);
+
+    timing.pgm_end = timeAddMinutes(timing.co_talk, 30);
+  }
+
+  return timing;
+};
+
+export const schedulesMidweekData = async (
+  schedule: SchedWeekType,
+  dataView: string,
+  lang: string
+) => {
+  const source = await sourcesFind(schedule.weekOf);
+  const useExactDate: boolean = await promiseGetRecoil(
+    midweekMeetingExactDateState
+  );
+  const months: string[] = await promiseGetRecoil(monthNamesState);
+  const class_count: number = await promiseGetRecoil(
+    midweekMeetingClassCountState
+  );
+  const openingPrayerAuto: boolean = await promiseGetRecoil(
+    midweekMeetingOpeningPrayerAutoAssign
+  );
+  const useDisplayName: boolean = await promiseGetRecoil(
+    displayNameEnableState
+  );
+
+  const minLabel = getTranslation({ key: 'tr_minLabel' });
+
+  const result = <MidweekMeetingDataType>{};
+
+  // get meeting parts timing
+  const pgmStart = await promiseGetRecoil(midweekMeetingTimeState);
+  result.timing = schedulesMidweekGetTiming({
+    schedule,
+    source,
+    dataView,
+    lang,
+    pgmStart,
+  });
+
+  // get other data
+  result.weekOf = schedule.weekOf;
+
+  let scheduleDate = '';
+
+  if (useExactDate) {
+    const meetingDay = await promiseGetRecoil(midweekMeetingWeekdayState);
+    const [year, month, day] = schedule.weekOf.split('/');
+    const newDate = new Date(+year, +month - 1, +day + +meetingDay - 1);
+
+    const meetingDate = newDate.getDate();
+    const meetingMonth = months[newDate.getMonth()];
+    const meetingYear = newDate.getFullYear();
+
+    scheduleDate = getTranslation({
+      key: 'tr_longDateWithYearLocale',
+      params: { month: meetingMonth, date: meetingDate, year: meetingYear },
+    });
+  } else {
+    scheduleDate = source.midweek_meeting.week_date_locale[lang];
+  }
+
+  result.schedule_title =
+    scheduleDate + ' | ' + source.midweek_meeting.weekly_bible_reading[lang];
+
+  const week_type = schedule.midweek_meeting.week_type.find(
+    (record) => record.type === dataView
+  ).value;
+
+  result.week_type = week_type;
+  result.no_meeting = schedulesWeekNoMeeting(week_type);
+
+  if (week_type !== Week.NORMAL) {
+    const event_name = source.midweek_meeting.event_name.value;
+
+    if (event_name.length > 0) {
+      result.week_type_name = event_name;
+    } else {
+      const weekTypes: WeekTypeLocale[] =
+        await promiseGetRecoil(weekTypeLocaleState);
+      const name = weekTypes.find(
+        (record) => record.id === week_type
+      ).week_type_name;
+
+      result.week_type_name = name;
+    }
+  }
+
+  result.chairman_A_name = await schedulesWeekGetAssigned({
+    schedule,
+    dataView,
+    assignment: 'MM_Chairman_A',
+  });
+
+  if (week_type !== Week.CO_VISIT && class_count === 2) {
+    result.chairman_B_name = await schedulesWeekGetAssigned({
+      schedule,
+      dataView,
+      assignment: 'MM_Chairman_B',
+    });
+  }
+
+  if (openingPrayerAuto) {
+    result.opening_prayer_name = result.chairman_A_name;
+  } else {
+    result.opening_prayer_name = await schedulesWeekGetAssigned({
+      schedule,
+      dataView,
+      assignment: 'MM_OpeningPrayer',
+    });
+  }
+
+  result.tgw_talk_name = await schedulesWeekGetAssigned({
+    schedule,
+    dataView,
+    assignment: 'MM_TGWTalk',
+  });
+  result.tgw_talk_src = source.midweek_meeting.tgw_talk.src[lang];
+  result.tgw_talk_time =
+    sourcesPartTiming(source, 'tgw_talk', dataView, lang) + ' ' + minLabel;
+
+  result.tgw_gems_name = await schedulesWeekGetAssigned({
+    schedule,
+    dataView,
+    assignment: 'MM_TGWGems',
+  });
+  result.tgw_gems_src = source.midweek_meeting.tgw_gems.title[lang];
+  result.tgw_gems_time =
+    sourcesPartTiming(source, 'tgw_gems', dataView, lang) + ' ' + minLabel;
+
+  result.tgw_bible_reading_A_name = await schedulesWeekGetAssigned({
+    schedule,
+    dataView,
+    assignment: 'MM_TGWBibleReading_A',
+  });
+  result.tgw_bible_reading_src =
+    source.midweek_meeting.tgw_bible_reading.title[lang];
+
+  if (class_count === 2) {
+    result.tgw_bible_reading_B_name = await schedulesWeekGetAssigned({
+      schedule,
+      dataView,
+      assignment: 'MM_TGWBibleReading_B',
+    });
+  }
+
+  for (let i = 1; i < 5; i++) {
+    const baseName = `ayf_part${i}`;
+    const assignment = baseName as SourceAssignmentType;
+    const fieldType = `${baseName}_type`;
+    const fieldTypeName = `${baseName}_type_name`;
+    const fieldTime = `${baseName}_time`;
+    const fieldNameA = `${baseName}_A_name`;
+    const fieldNameB = `${baseName}_B_name`;
+    const fieldStudentA = `MM_AYFPart${i}_Student_A` as AssignmentFieldType;
+    const fieldStudentB = `MM_AYFPart${i}_Student_A` as AssignmentFieldType;
+    const fieldAssistantA = `MM_AYFPart${i}_Assistant_A` as AssignmentFieldType;
+    const fieldAssistantB = `MM_AYFPart${i}_Assistant_A` as AssignmentFieldType;
+
+    const ayfSource: ApplyMinistryType = source.midweek_meeting[baseName];
+
+    const ayfTitle = ayfSource.title[lang];
+
+    if (ayfTitle?.length > 0) {
+      result[fieldType] = ayfSource.type[lang];
+      result[fieldTypeName] = ayfSource.title[lang];
+      result[fieldTime] =
+        sourcesPartTiming(source, assignment, dataView, lang) + ' ' + minLabel;
+      result[fieldNameA] = await schedulesWeekGetAssigned({
+        schedule,
+        dataView,
+        assignment: fieldStudentA,
+      });
+
+      let assistant = await schedulesWeekGetAssigned({
+        schedule,
+        dataView,
+        assignment: fieldAssistantA,
+      });
+
+      if (assistant?.length > 0) {
+        result[fieldNameA] += useDisplayName ? '/' : '\u000A';
+        result[fieldNameA] += assistant;
+      }
+
+      if (week_type !== Week.CO_VISIT && class_count === 2) {
+        result[fieldNameB] = await schedulesWeekGetAssigned({
+          schedule,
+          dataView,
+          assignment: fieldStudentB,
+        });
+
+        assistant = await schedulesWeekGetAssigned({
+          schedule,
+          dataView,
+          assignment: fieldAssistantB,
+        });
+
+        if (assistant?.length > 0) {
+          result[fieldNameB] += useDisplayName ? '/' : '\u000A';
+          result[fieldNameB] += assistant;
+        }
+      }
+    }
+  }
+
+  result.lc_middle_song = source.midweek_meeting.song_middle[lang];
+
+  for (let i = 1; i < 3; i++) {
+    const baseName = `lc_part${i}`;
+    const assignment = baseName as SourceAssignmentType;
+    const fieldSrc = `${baseName}_src`;
+    const fieldTime = `${baseName}_time`;
+    const fieldName = `${baseName}_name`;
+    const fieldAssignment = `MM_LCPart${i}` as AssignmentFieldType;
+
+    const lcPart: LivingAsChristiansType = source.midweek_meeting[baseName];
+    const lcSrc = sourcesLCGetTitle(lcPart, dataView, lang);
+
+    if (lcSrc?.length > 0) {
+      result[fieldSrc] = sourcesLCGetTitle(lcPart, dataView, lang);
+      result[fieldTime] = sourcesPartTiming(source, assignment, dataView, lang);
+      result[fieldName] = await schedulesWeekGetAssigned({
+        schedule,
+        dataView,
+        assignment: fieldAssignment,
+      });
+    }
+  }
+
+  const lcPart3 = source.midweek_meeting.lc_part3;
+  const lcPart3_title =
+    lcPart3.title.find((record) => record.type === dataView)?.value || '';
+
+  if (lcPart3_title.length > 0) {
+    result.lc_part3_src = lcPart3_title;
+    result.lc_part3_time = sourcesPartTiming(
+      source,
+      'lc_part3',
+      dataView,
+      lang
+    );
+    result.lc_part3_name = await schedulesWeekGetAssigned({
+      schedule,
+      dataView,
+      assignment: 'MM_LCPart3',
+    });
+  }
+
+  if (week_type === Week.NORMAL) {
+    result.lc_cbs_label = sourcesCBSGetTitle(
+      source.midweek_meeting.lc_cbs,
+      dataView,
+      lang
+    );
+    result.lc_cbs_time = sourcesPartTiming(source, 'lc_cbs', dataView, lang);
+
+    result.lc_cbs_name = await schedulesWeekGetAssigned({
+      schedule,
+      dataView,
+      assignment: 'MM_LCCBSConductor',
+    });
+
+    const reader = await schedulesWeekGetAssigned({
+      schedule,
+      dataView,
+      assignment: 'MM_LCCBSReader',
+    });
+
+    if (reader?.length > 0) {
+      result.lc_cbs_name += useDisplayName ? '/' : '\u000A';
+      result.lc_cbs_name += reader;
+    }
+  }
+
+  if (week_type === Week.CO_VISIT) {
+    const COFullname = await promiseGetRecoil(COFullnameState);
+    const CODisplayName = await promiseGetRecoil(CODisplayNameState);
+
+    result.lc_co_talk = source.midweek_meeting.co_talk_title.src;
+    result.co_name = useDisplayName ? CODisplayName : COFullname;
+  }
+
+  result.lc_concluding_song = sourcesSongConclude(source, dataView, lang);
+
+  result.lc_concluding_prayer = await schedulesWeekGetAssigned({
+    schedule,
+    dataView,
+    assignment: 'MM_ClosingPrayer',
+  });
+
+  return result;
 };

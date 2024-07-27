@@ -3,7 +3,7 @@ import { Text, View } from '@react-pdf/renderer';
 import { useAppTranslation } from '@hooks/index';
 import { Week } from '@definition/week_type';
 import {
-  COLFullnametate,
+  COFullnameState,
   weekendMeetingOpeningPrayerAutoAssignState,
 } from '@states/settings';
 import {
@@ -99,7 +99,7 @@ const WeekendMeetingItem = ({
   const noOpeningPrayer = useRecoilValue(
     weekendMeetingOpeningPrayerAutoAssignState
   );
-  const coName = useRecoilValue(COLFullnametate);
+  const coName = useRecoilValue(COFullnameState);
 
   const { date_formatted, event_name, public_talk_title } = meetingData;
 

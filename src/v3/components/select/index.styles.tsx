@@ -27,7 +27,7 @@ const StyledTextField = styled(TextField, {
       whiteSpace: 'nowrap',
     },
     '&.Mui-disabled': {
-      '-webkit-text-fill-color': 'var(--black)',
+      WebkitTextFillColor: 'var(--black)',
     },
   },
   '.MuiOutlinedInput-root': {

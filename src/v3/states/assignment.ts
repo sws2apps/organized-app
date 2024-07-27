@@ -4,9 +4,13 @@ This file holds the source of the truth from the table "assignment".
 
 import { atom, selector } from 'recoil';
 import { JWLangState } from './app';
-import { AssignmentAYFOnlyType, AssignmentLocalType } from '@definition/assignment';
+import {
+  AssignmentAYFOnlyType,
+  AssignmentLocalType,
+  AssignmentType,
+} from '@definition/assignment';
 
-export const assignmentState = atom({
+export const assignmentState = atom<AssignmentType[]>({
   key: 'assignment',
   default: [],
 });
@@ -39,7 +43,12 @@ export const assignmentTypeAYFOnlyState = selector<AssignmentAYFOnlyType[]>({
     const assignmentTypeLocale = get(assignmentTypeLocaleState);
 
     const newList = assignmentTypeLocale
-      .filter((record) => record.type === 'ayf' && record.label !== undefined && record.label !== '')
+      .filter(
+        (record) =>
+          record.type === 'ayf' &&
+          record.label !== undefined &&
+          record.label !== ''
+      )
       .sort((a, b) => {
         return a.value > b.value ? 1 : -1;
       });

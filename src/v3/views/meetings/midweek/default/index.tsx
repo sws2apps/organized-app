@@ -1,10 +1,6 @@
-import { useRecoilValue } from 'recoil';
+/* eslint-disable react-refresh/only-export-components */
 import { Document, Font, Page, View } from '@react-pdf/renderer';
 import { useAppTranslation } from '@hooks/index';
-import {
-  COLFullnametate,
-  midweekMeetingClassCountState,
-} from '@states/settings';
 import { S140Type } from './index.types';
 import { Week } from '@definition/week_type';
 import styles from './index.styles';
@@ -29,11 +25,14 @@ Font.register({
   fonts: [{ src: FontRegular }, { src: FontBold }],
 });
 
-const S140 = ({ data, currentSchedule }: S140Type) => {
+const S140 = ({
+  data,
+  currentSchedule,
+  class_count,
+  cong_name,
+  cong_number,
+}: S140Type) => {
   const { t } = useAppTranslation();
-
-  const class_count = useRecoilValue(midweekMeetingClassCountState);
-  const co_name = useRecoilValue(COLFullnametate);
 
   const minLabel = t('tr_minLabel');
 
@@ -48,7 +47,7 @@ const S140 = ({ data, currentSchedule }: S140Type) => {
         >
           <Page size="A4" style={styles.body}>
             {/* S-140 Header */}
-            <S140Header />
+            <S140Header cong_name={cong_name} cong_number={cong_number} />
 
             {data.map((meetingData, index) => (
               <View
@@ -121,6 +120,7 @@ const S140 = ({ data, currentSchedule }: S140Type) => {
                             backgroundColor={'#2a6b77'}
                             classroomHeading={true}
                             meetingData={meetingData}
+                            class_count={class_count}
                           />
 
                           {/* TGW Talk */}
@@ -176,10 +176,14 @@ const S140 = ({ data, currentSchedule }: S140Type) => {
                             backgroundColor={'#a56803'}
                             classroomHeading={true}
                             meetingData={meetingData}
+                            class_count={class_count}
                           />
 
                           {/* AYF Parts */}
-                          <S140AYF meetingData={meetingData} />
+                          <S140AYF
+                            meetingData={meetingData}
+                            class_count={class_count}
+                          />
 
                           {/* LC Heading */}
                           <S140MeetingPartHeading
@@ -187,6 +191,7 @@ const S140 = ({ data, currentSchedule }: S140Type) => {
                             backgroundColor={'#942926'}
                             classroomHeading={false}
                             meetingData={meetingData}
+                            class_count={class_count}
                           />
 
                           {/* Middle Song */}
@@ -233,7 +238,7 @@ const S140 = ({ data, currentSchedule }: S140Type) => {
                                   bulletColor="#942926"
                                 />
                                 <S140PartMiniLabel part="" />
-                                <S140Person person={co_name} />
+                                <S140Person person={meetingData.co_name} />
                               </View>
                             </>
                           )}

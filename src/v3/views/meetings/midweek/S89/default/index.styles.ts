@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     marginBottom: '3px',
     paddingBottom: '1px',
     borderBottom: '1px dotted black',
-    fontSize: '11px',
+    fontSize: '9px',
   },
   toBeGiven: {
     marginTop: '12px',

@@ -1,6 +1,13 @@
 import { loadEPUB } from 'jw-epub-parser';
 import { promiseGetRecoil } from 'recoil-outside';
-import { SourceWeekIncomingType, SourceWeekType } from '@definition/sources';
+import {
+  ApplyMinistryType,
+  CongregationBibleStudyType,
+  LivingAsChristiansType,
+  SourceAssignmentType,
+  SourceWeekIncomingType,
+  SourceWeekType,
+} from '@definition/sources';
 import { assignmentTypeAYFOnlyState } from '@states/assignment';
 import { dbSourcesSave } from '@services/dexie/sources';
 import { dbSchedCheck } from '@services/dexie/schedules';
@@ -30,13 +37,21 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
 
     if (isMWB) {
       let assType: number;
-      const assTypeList: AssignmentAYFOnlyType[] = await promiseGetRecoil(assignmentTypeAYFOnlyState);
+      const assTypeList: AssignmentAYFOnlyType[] = await promiseGetRecoil(
+        assignmentTypeAYFOnlyState
+      );
 
       obj.midweek_meeting = <SourceWeekType['midweek_meeting']>{};
 
-      obj.midweek_meeting.week_date_locale = { [source_lang]: src.mwb_week_date_locale };
-      obj.midweek_meeting.weekly_bible_reading = { [source_lang]: src.mwb_weekly_bible_reading };
-      obj.midweek_meeting.song_first = { [source_lang]: src.mwb_song_first.toString() };
+      obj.midweek_meeting.week_date_locale = {
+        [source_lang]: src.mwb_week_date_locale,
+      };
+      obj.midweek_meeting.weekly_bible_reading = {
+        [source_lang]: src.mwb_weekly_bible_reading,
+      };
+      obj.midweek_meeting.song_first = {
+        [source_lang]: src.mwb_song_first.toString(),
+      };
       obj.midweek_meeting.tgw_talk = {
         src: { [source_lang]: src.mwb_tgw_talk_title },
         time: { default: 10, override: [] },
@@ -53,7 +68,9 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
       const cnAYF = src.mwb_ayf_count;
       obj.midweek_meeting.ayf_count = { [source_lang]: src.mwb_ayf_count };
 
-      assType = assTypeList.find((type) => type.label === src.mwb_ayf_part1_type)?.value || 127;
+      assType =
+        assTypeList.find((type) => type.label === src.mwb_ayf_part1_type)
+          ?.value || 127;
       obj.midweek_meeting.ayf_part1 = {
         src: { [source_lang]: src.mwb_ayf_part1 },
         time: { [source_lang]: src.mwb_ayf_part1_time },
@@ -62,7 +79,9 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
       };
 
       if (cnAYF > 1) {
-        assType = assTypeList.find((type) => type.label === src.mwb_ayf_part2_type)?.value || 127;
+        assType =
+          assTypeList.find((type) => type.label === src.mwb_ayf_part2_type)
+            ?.value || 127;
         obj.midweek_meeting.ayf_part2 = {
           src: { [source_lang]: src.mwb_ayf_part2 },
           time: { [source_lang]: src.mwb_ayf_part2_time },
@@ -72,7 +91,9 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
       }
 
       if (cnAYF > 2) {
-        assType = assTypeList.find((type) => type.label === src.mwb_ayf_part3_type)?.value || 127;
+        assType =
+          assTypeList.find((type) => type.label === src.mwb_ayf_part3_type)
+            ?.value || 127;
         obj.midweek_meeting.ayf_part3 = {
           src: { [source_lang]: src.mwb_ayf_part3 },
           time: { [source_lang]: src.mwb_ayf_part3_time },
@@ -82,7 +103,9 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
       }
 
       if (cnAYF > 3) {
-        assType = assTypeList.find((type) => type.label === src.mwb_ayf_part4_type)?.value || 127;
+        assType =
+          assTypeList.find((type) => type.label === src.mwb_ayf_part4_type)
+            ?.value || 127;
         obj.midweek_meeting.ayf_part4 = {
           src: { [source_lang]: src.mwb_ayf_part4 },
           time: { [source_lang]: src.mwb_ayf_part4_time },
@@ -91,26 +114,52 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
         };
       }
 
-      obj.midweek_meeting.song_middle = { [source_lang]: src.mwb_song_middle.toString() };
-      obj.midweek_meeting.lc_count = { default: { [source_lang]: src.mwb_lc_count }, override: [] };
+      obj.midweek_meeting.song_middle = {
+        [source_lang]: src.mwb_song_middle.toString(),
+      };
+      obj.midweek_meeting.lc_count = {
+        default: { [source_lang]: src.mwb_lc_count },
+        override: [],
+      };
       obj.midweek_meeting.lc_part1 = {
-        title: { default: { [source_lang]: src.mwb_lc_part1_title }, override: [] },
-        time: { default: { [source_lang]: src.mwb_lc_part1_time }, override: [] },
-        desc: { default: { [source_lang]: src.mwb_lc_part1_content }, override: [] },
+        title: {
+          default: { [source_lang]: src.mwb_lc_part1_title },
+          override: [],
+        },
+        time: {
+          default: { [source_lang]: src.mwb_lc_part1_time },
+          override: [],
+        },
+        desc: {
+          default: { [source_lang]: src.mwb_lc_part1_content },
+          override: [],
+        },
       };
 
       if (src.mwb_lc_count > 1) {
         obj.midweek_meeting.lc_part2 = {
-          title: { default: { [source_lang]: src.mwb_lc_part2_title }, override: [] },
-          time: { default: { [source_lang]: src.mwb_lc_part2_time }, override: [] },
-          desc: { default: { [source_lang]: src.mwb_lc_part2_content }, override: [] },
+          title: {
+            default: { [source_lang]: src.mwb_lc_part2_title },
+            override: [],
+          },
+          time: {
+            default: { [source_lang]: src.mwb_lc_part2_time },
+            override: [],
+          },
+          desc: {
+            default: { [source_lang]: src.mwb_lc_part2_content },
+            override: [],
+          },
         };
       }
 
       obj.midweek_meeting.lc_cbs = {
         src: { [source_lang]: src.mwb_lc_cbs },
         time: { default: 30, override: [] },
-        title: { default: { [source_lang]: src.mwb_lc_cbs_title }, override: [] },
+        title: {
+          default: { [source_lang]: src.mwb_lc_cbs_title },
+          override: [],
+        },
       };
       obj.midweek_meeting.song_conclude = {
         default: { [source_lang]: src.mwb_song_conclude.toString() },
@@ -130,7 +179,9 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
       obj.weekend_meeting.w_study = {
         opening_song: { [source_lang]: src.w_study_opening_song.toString() },
         title: { [source_lang]: src.w_study_title },
-        concluding_song: { [source_lang]: src.w_study_concluding_song.toString() },
+        concluding_song: {
+          [source_lang]: src.w_study_concluding_song.toString(),
+        },
       };
     }
 
@@ -164,7 +215,9 @@ export const sourcesCheckLCElderAssignment = (source: string, desc: string) => {
   if (source) {
     let isElderPart = false;
 
-    const elderVariations = getTranslation({ key: 'tr_lcSourceElderVariations' });
+    const elderVariations = getTranslation({
+      key: 'tr_lcSourceElderVariations',
+    });
 
     const search = `(${elderVariations})`;
     const regex = new RegExp(search.toLowerCase());
@@ -172,7 +225,9 @@ export const sourcesCheckLCElderAssignment = (source: string, desc: string) => {
     isElderPart = Array.isArray(array);
 
     if (!isElderPart && desc) {
-      const contentVariations = getTranslation({ key: 'tr_lcContentElderVariations' });
+      const contentVariations = getTranslation({
+        key: 'tr_lcContentElderVariations',
+      });
 
       const search = `(${contentVariations})`;
       const regex = new RegExp(search.toLowerCase());
@@ -198,4 +253,137 @@ export const sourcesCheckLCAssignments = (source: string) => {
   }
 
   return false;
+};
+
+export const sourcesPartTiming = (
+  source: SourceWeekType,
+  type: SourceAssignmentType,
+  dataView: string,
+  lang: string
+) => {
+  if (type === 'tgw_talk') {
+    const part = source.midweek_meeting.tgw_talk;
+    const timeOverride =
+      part.time.override.find((record) => record.type === dataView)?.value || 0;
+    const timeDefault = part.time.default as number;
+    const time = timeOverride > 0 ? timeOverride : timeDefault;
+
+    return time;
+  }
+
+  if (type === 'tgw_gems') {
+    const part = source.midweek_meeting.tgw_gems;
+    const timeOverride =
+      part.time.override.find((record) => record.type === dataView)?.value || 0;
+    const timeDefault = part.time.default as number;
+    const time = timeOverride > 0 ? timeOverride : timeDefault;
+
+    return time;
+  }
+
+  if (type === 'lc_part1') {
+    const part = source.midweek_meeting.lc_part1;
+    const timeOverride =
+      part.time.override.find((record) => record.type === dataView)?.value || 0;
+    const timeDefault = part.time.default[lang];
+    const time = timeOverride > 0 ? timeOverride : timeDefault;
+
+    return time;
+  }
+
+  if (type === 'lc_part2') {
+    const part = source.midweek_meeting.lc_part2;
+    const timeOverride =
+      part.time.override.find((record) => record.type === dataView)?.value || 0;
+    const timeDefault = part.time.default[lang];
+    const time = timeOverride > 0 ? timeOverride : timeDefault;
+
+    return time;
+  }
+
+  if (type === 'lc_part3') {
+    const part = source.midweek_meeting.lc_part3;
+    const time =
+      part.time.find((record) => record.type === dataView)?.value || 0;
+
+    return time;
+  }
+
+  if (type === 'lc_cbs') {
+    const part = source.midweek_meeting.lc_cbs;
+    const timeOverride =
+      part.time.override.find((record) => record.type === dataView)?.value || 0;
+    const timeDefault = part.time.default as number;
+    const time = timeOverride > 0 ? timeOverride : timeDefault;
+
+    return time;
+  }
+
+  if (type.includes('ayf_part')) {
+    const part = source.midweek_meeting[type] as ApplyMinistryType;
+    const time = part.time[lang];
+
+    return time;
+  }
+};
+
+export const sourcesCountLC = (
+  source: SourceWeekType,
+  dataView: string,
+  lang: string
+) => {
+  const countDefault = source.midweek_meeting.lc_count.default[lang];
+  const countOverride =
+    source.midweek_meeting.lc_count.override.find(
+      (record) => record.type === dataView
+    )?.value || 0;
+
+  const count = countOverride > 0 ? countOverride : countDefault;
+
+  return count;
+};
+
+export const sourcesLCGetTitle = (
+  lcPart: LivingAsChristiansType,
+  dataView: string,
+  lang: string
+) => {
+  const titleDefault = lcPart.title.default[lang];
+  const titleOverride =
+    lcPart.title.override.find((record) => record.type === dataView)?.value ||
+    '';
+
+  const title = titleOverride.length > 0 ? titleOverride : titleDefault;
+
+  return title;
+};
+
+export const sourcesCBSGetTitle = (
+  cbs: CongregationBibleStudyType,
+  dataView: string,
+  lang: string
+) => {
+  const titleDefault = cbs.title.default[lang];
+  const titleOverride =
+    cbs.title.override.find((record) => record.type === dataView)?.value || '';
+
+  const title = titleOverride.length > 0 ? titleOverride : titleDefault;
+
+  return title;
+};
+
+export const sourcesSongConclude = (
+  source: SourceWeekType,
+  dataView: string,
+  lang: string
+) => {
+  const songDefault = source.midweek_meeting.song_conclude.default[lang];
+  const songOverride =
+    source.midweek_meeting.song_conclude.override.find(
+      (record) => record.type === dataView
+    )?.value || '';
+
+  const song = songOverride.length > 0 ? songOverride : songDefault;
+
+  return song;
 };

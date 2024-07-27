@@ -9,11 +9,11 @@ const S89ToBeGiven = ({ main_hall, aux_class_1 }: S89ToBeGivenType) => {
 
   return (
     <View style={styles.toBeGiven}>
-      <Text>{t('s89ToBeGiven')} </Text>
+      <Text>{t('tr_s89ToBeGiven')} </Text>
       <View style={styles.classes}>
-        <S89Class name={t('mainHall')} checked={main_hall} />
-        <S89Class name={t('auxClass1')} checked={aux_class_1} />
-        <S89Class name={t('auxClass2')} />
+        <S89Class name={t('tr_mainHall')} checked={main_hall} />
+        <S89Class name={t('tr_auxClass1')} checked={aux_class_1} />
+        <S89Class name={t('tr_auxClass2')} />
       </View>
     </View>
   );

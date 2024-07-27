@@ -1,14 +1,10 @@
-import { useRecoilValue } from 'recoil';
 import { Text, View } from '@react-pdf/renderer';
 import { useAppTranslation } from '@hooks/index';
-import { congNameState, congNumberState } from '@states/settings';
+import { S140HeaderType } from './index.types';
 import styles from './index.styles';
 
-const S140Header = () => {
+const S140Header = ({ cong_name, cong_number }: S140HeaderType) => {
   const { t } = useAppTranslation();
-
-  const cong_name = useRecoilValue(congNameState);
-  const cong_number = useRecoilValue(congNumberState);
 
   return (
     <View style={styles.header} fixed>

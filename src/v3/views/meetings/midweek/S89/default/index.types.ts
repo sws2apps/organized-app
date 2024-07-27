@@ -1,4 +1,4 @@
-import { ViewProps } from '@react-pdf/renderer';
+import { S89DataType } from '@definition/schedules';
 
 export type S89ClassType = {
   name: string;
@@ -17,17 +17,15 @@ export type S89ToBeGivenType = {
   aux_class_2?: boolean;
 };
 
-export type S89DataType = {
-  id: string;
-  student_name: string;
-  assistant_name: string;
-  assignment_date: string;
-  part_number: string;
-  main_hall: boolean;
-  aux_class_1: boolean;
-  aux_class_2?: boolean;
-};
-
 export type S89Type = {
   s89Data: S89DataType[];
+  lang: string;
+};
+
+export type S89FooterType = {
+  lang: string;
+};
+
+export type S89HeaderType = {
+  lang: string;
 };

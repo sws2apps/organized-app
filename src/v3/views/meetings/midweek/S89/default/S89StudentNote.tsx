@@ -1,5 +1,4 @@
-import Html from 'react-pdf-html';
-import { View } from '@react-pdf/renderer';
+import { Text, View } from '@react-pdf/renderer';
 import { useAppTranslation } from '@hooks/index';
 import styles from './index.styles';
 
@@ -8,14 +7,7 @@ const S89StudentNote = () => {
 
   return (
     <View style={styles.studentNote}>
-      <Html
-        style={{
-          fontSize: styles.studentNote.fontSize,
-          lineHeight: styles.studentNote.lineHeight,
-        }}
-      >
-        {t('s89DescFooter')}
-      </Html>
+      <Text>{t('tr_s89DescFooter')}</Text>
     </View>
   );
 };

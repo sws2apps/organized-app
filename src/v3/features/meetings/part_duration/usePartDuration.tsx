@@ -6,6 +6,7 @@ import { sourcesState } from '@states/sources';
 import { JWLangState } from '@states/app';
 import { userDataViewState } from '@states/settings';
 import { dbSourcesUpdate } from '@services/dexie/sources';
+import { sourcesPartTiming } from '@services/app/sources';
 
 const usePartDuration = ({ length, type, week }: PartDurationType) => {
   const sources = useRecoilValue(sourcesState);
@@ -37,7 +38,9 @@ const usePartDuration = ({ length, type, week }: PartDurationType) => {
       currentTime.updatedAt = new Date().toISOString();
       currentTime.value = timeDefault === value ? undefined : value;
 
-      await dbSourcesUpdate(week, { 'midweek_meeting.tgw_talk.time.override': timeOverride });
+      await dbSourcesUpdate(week, {
+        'midweek_meeting.tgw_talk.time.override': timeOverride,
+      });
     }
 
     if (type === 'tgw_gems') {
@@ -56,7 +59,9 @@ const usePartDuration = ({ length, type, week }: PartDurationType) => {
       currentTime.updatedAt = new Date().toISOString();
       currentTime.value = timeDefault === value ? undefined : value;
 
-      await dbSourcesUpdate(week, { 'midweek_meeting.tgw_gems.time.override': timeOverride });
+      await dbSourcesUpdate(week, {
+        'midweek_meeting.tgw_gems.time.override': timeOverride,
+      });
     }
 
     if (type === 'lc_part1') {
@@ -75,7 +80,9 @@ const usePartDuration = ({ length, type, week }: PartDurationType) => {
       currentTime.updatedAt = new Date().toISOString();
       currentTime.value = timeDefault === value ? undefined : value;
 
-      await dbSourcesUpdate(week, { 'midweek_meeting.lc_part1.time.override': timeOverride });
+      await dbSourcesUpdate(week, {
+        'midweek_meeting.lc_part1.time.override': timeOverride,
+      });
     }
 
     if (type === 'lc_part2') {
@@ -94,7 +101,9 @@ const usePartDuration = ({ length, type, week }: PartDurationType) => {
       currentTime.updatedAt = new Date().toISOString();
       currentTime.value = timeDefault === value ? undefined : value;
 
-      await dbSourcesUpdate(week, { 'midweek_meeting.lc_part2.time.override': timeOverride });
+      await dbSourcesUpdate(week, {
+        'midweek_meeting.lc_part2.time.override': timeOverride,
+      });
     }
 
     if (type === 'lc_part3') {
@@ -110,7 +119,9 @@ const usePartDuration = ({ length, type, week }: PartDurationType) => {
       currentTime.updatedAt = new Date().toISOString();
       currentTime.value = value;
 
-      await dbSourcesUpdate(week, { 'midweek_meeting.lc_part3.time': timeOverride });
+      await dbSourcesUpdate(week, {
+        'midweek_meeting.lc_part3.time': timeOverride,
+      });
     }
 
     if (type === 'lc_cbs') {
@@ -129,7 +140,9 @@ const usePartDuration = ({ length, type, week }: PartDurationType) => {
       currentTime.updatedAt = new Date().toISOString();
       currentTime.value = timeDefault === value ? undefined : value;
 
-      await dbSourcesUpdate(week, { 'midweek_meeting.lc_cbs.time.override': timeOverride });
+      await dbSourcesUpdate(week, {
+        'midweek_meeting.lc_cbs.time.override': timeOverride,
+      });
     }
   };
 
@@ -137,56 +150,8 @@ const usePartDuration = ({ length, type, week }: PartDurationType) => {
     if (week.length > 0) {
       const source = sources.find((record) => record.weekOf === week);
 
-      if (type === 'tgw_talk') {
-        const part = source.midweek_meeting.tgw_talk;
-        const timeOverride = part.time.override.find((record) => record.type === dataView)?.value || 0;
-        const timeDefault = part.time.default;
-        const time = timeOverride > 0 ? timeOverride : timeDefault;
-
-        setValue(time);
-      }
-
-      if (type === 'tgw_gems') {
-        const part = source.midweek_meeting.tgw_gems;
-        const timeOverride = part.time.override.find((record) => record.type === dataView)?.value || 0;
-        const timeDefault = part.time.default;
-        const time = timeOverride > 0 ? timeOverride : timeDefault;
-
-        setValue(time);
-      }
-
-      if (type === 'lc_part1') {
-        const part = source.midweek_meeting.lc_part1;
-        const timeOverride = part.time.override.find((record) => record.type === dataView)?.value || 0;
-        const timeDefault = part.time.default[lang];
-        const time = timeOverride > 0 ? timeOverride : timeDefault;
-
-        setValue(time);
-      }
-
-      if (type === 'lc_part2') {
-        const part = source.midweek_meeting.lc_part2;
-        const timeOverride = part.time.override.find((record) => record.type === dataView)?.value || 0;
-        const timeDefault = part.time.default[lang];
-        const time = timeOverride > 0 ? timeOverride : timeDefault;
-
-        setValue(time);
-      }
-
-      if (type === 'lc_part3') {
-        const part = source.midweek_meeting.lc_part3;
-        const time = part.time.find((record) => record.type === dataView)?.value || '';
-        setValue(time);
-      }
-
-      if (type === 'lc_cbs') {
-        const part = source.midweek_meeting.lc_cbs;
-        const timeOverride = part.time.override.find((record) => record.type === dataView)?.value || 0;
-        const timeDefault = part.time.default;
-        const time = timeOverride > 0 ? timeOverride : timeDefault;
-
-        setValue(time);
-      }
+      const time = sourcesPartTiming(source, type, dataView, lang);
+      setValue(time);
     }
   }, [type, week, sources, lang, dataView]);
 

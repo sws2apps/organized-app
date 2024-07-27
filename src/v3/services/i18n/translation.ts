@@ -1,6 +1,14 @@
 import { getI18n } from 'react-i18next';
 
-export const getTranslation = ({ key, language, params = {} }: { key: string; language?: string; params?: object }) => {
+export const getTranslation = ({
+  key,
+  language,
+  params = {},
+}: {
+  key: string;
+  language?: string;
+  params?: object;
+}) => {
   const i18n = getI18n();
 
   if (i18n) {
@@ -51,7 +59,9 @@ export const getMessageByCode = (code: string) => {
     case 'BACKUP_DISCREPANCY':
       return getTranslation({ key: 'tr_backupDiscrepancy' });
     case 'auth/account-exists-with-different-credential':
-      return getTranslation({ key: 'tr_oauthAccountExistsWithDifferentCredential' });
+      return getTranslation({
+        key: 'tr_oauthAccountExistsWithDifferentCredential',
+      });
     default:
       return code;
   }
@@ -61,4 +71,23 @@ export const handleAppChangeLanguage = (lang) => {
   const I18n = getI18n();
 
   I18n.changeLanguage(lang);
+};
+
+export const generateMonthNames = () => {
+  const months: string[] = [
+    getTranslation({ key: 'tr_january' }),
+    getTranslation({ key: 'tr_february' }),
+    getTranslation({ key: 'tr_march' }),
+    getTranslation({ key: 'tr_april' }),
+    getTranslation({ key: 'tr_may' }),
+    getTranslation({ key: 'tr_june' }),
+    getTranslation({ key: 'tr_july' }),
+    getTranslation({ key: 'tr_august' }),
+    getTranslation({ key: 'tr_september' }),
+    getTranslation({ key: 'tr_october' }),
+    getTranslation({ key: 'tr_november' }),
+    getTranslation({ key: 'tr_december' }),
+  ];
+
+  return months;
 };

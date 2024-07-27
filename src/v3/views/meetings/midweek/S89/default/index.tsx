@@ -1,7 +1,9 @@
+/* eslint-disable react-refresh/only-export-components */
 import { Document, Font, Page, View } from '@react-pdf/renderer';
 import { S89Type } from './index.types';
 import { useAppTranslation } from '@hooks/index';
 import FontBold from '@assets/fonts/Inter-SemiBold.ttf';
+import FontItalic from '@assets/fonts/Inter-Italic.ttf';
 import FontRegular from '@assets/fonts/Inter-Regular.ttf';
 import styles from './index.styles';
 import S89Header from './S89Header';
@@ -13,12 +15,16 @@ import S89Footer from './S89Footer';
 Font.register({
   family: 'Inter',
   format: 'truetype',
-  fonts: [{ src: FontRegular }, { src: FontBold }],
+  fonts: [
+    { src: FontRegular },
+    { src: FontItalic, fontWeight: 400, fontStyle: 'italic' },
+    { src: FontBold },
+  ],
 });
 
 Font.registerHyphenationCallback((word) => [word]);
 
-const S89 = ({ s89Data }: S89Type) => {
+const S89 = ({ s89Data, lang }: S89Type) => {
   const { t } = useAppTranslation();
 
   return (
@@ -34,27 +40,27 @@ const S89 = ({ s89Data }: S89Type) => {
             <Page key={data.id} size={[241.2, 319.68]} style={styles.body}>
               <View style={styles.content}>
                 <View>
-                  <S89Header />
+                  <S89Header lang={lang} />
 
                   <View style={styles.details}>
                     <S89DetailsRow
-                      field={t('name')}
+                      field={t('tr_nameS89')}
                       value={data.student_name}
                     />
 
                     <S89DetailsRow
-                      field={t('assistant')}
+                      field={t('tr_assistantS89')}
                       value={data.assistant_name}
                     />
 
                     <S89DetailsRow
-                      field={t('date')}
+                      field={`${t('tr_date')}:`}
                       value={data.assignment_date}
                       align="center"
                     />
 
                     <S89DetailsRow
-                      field={t('partNo')}
+                      field={t('tr_partNo')}
                       value={data.part_number}
                       align="center"
                     />
@@ -69,7 +75,7 @@ const S89 = ({ s89Data }: S89Type) => {
                   <S89StudentNote />
                 </View>
 
-                <S89Footer />
+                <S89Footer lang={lang} />
               </View>
             </Page>
           ))}

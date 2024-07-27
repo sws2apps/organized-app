@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { View } from '@react-pdf/renderer';
 import { S140LCType } from './index.types';
 import styles from './index.styles';
