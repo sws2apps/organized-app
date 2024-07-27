@@ -189,6 +189,7 @@ export type MidweekMeetingDataType = {
   lc_part3_src?: string;
   lc_part3_name?: string;
   lc_co_talk?: string;
+  lc_cbs_title?: string;
   lc_cbs_time?: string;
   lc_cbs_label?: string;
   lc_cbs_name?: string;

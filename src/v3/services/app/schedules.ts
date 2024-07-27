@@ -1624,6 +1624,11 @@ export const schedulesMidweekData = async (
     });
   }
 
+  result.song_first =
+    getTranslation({ key: 'tr_song' }) +
+    ' ' +
+    source.midweek_meeting.song_first[lang];
+
   if (openingPrayerAuto) {
     result.opening_prayer_name = result.chairman_A_name;
   } else {
@@ -1674,6 +1679,7 @@ export const schedulesMidweekData = async (
     const fieldType = `${baseName}_type`;
     const fieldTypeName = `${baseName}_type_name`;
     const fieldTime = `${baseName}_time`;
+    const fieldLabel = `${baseName}_label`;
     const fieldNameA = `${baseName}_A_name`;
     const fieldNameB = `${baseName}_B_name`;
     const fieldStudentA = `MM_AYFPart${i}_Student_A` as AssignmentFieldType;
@@ -1686,10 +1692,43 @@ export const schedulesMidweekData = async (
     const ayfTitle = ayfSource.title[lang];
 
     if (ayfTitle?.length > 0) {
-      result[fieldType] = ayfSource.type[lang];
+      const ayfType = ayfSource.type[lang];
+
+      result[fieldType] = ayfType;
       result[fieldTypeName] = ayfSource.title[lang];
       result[fieldTime] =
         sourcesPartTiming(source, assignment, dataView, lang) + ' ' + minLabel;
+
+      const src = ayfSource.src[lang];
+      const isTalk =
+        ayfType === AssignmentCode.MM_ExplainingBeliefs
+          ? sourcesCheckAYFExplainBeliefsAssignment(src)
+          : false;
+
+      if (
+        ayfType === AssignmentCode.MM_Talk ||
+        (ayfType === AssignmentCode.MM_ExplainingBeliefs && isTalk)
+      ) {
+        result[fieldLabel] = getTranslation({ key: 'tr_student' }) + ':';
+      } else {
+        if (useDisplayName) {
+          result[fieldLabel] =
+            getTranslation({ key: 'tr_student' }) +
+            '/' +
+            getTranslation({ key: 'tr_assistantS89' }) +
+            ':';
+        }
+
+        if (!useDisplayName) {
+          result[fieldLabel] =
+            getTranslation({ key: 'tr_student' }) +
+            ':' +
+            '\u000A' +
+            getTranslation({ key: 'tr_assistant' }) +
+            ':';
+        }
+      }
+
       result[fieldNameA] = await schedulesWeekGetAssigned({
         schedule,
         dataView,
@@ -1728,7 +1767,10 @@ export const schedulesMidweekData = async (
     }
   }
 
-  result.lc_middle_song = source.midweek_meeting.song_middle[lang];
+  result.lc_middle_song =
+    getTranslation({ key: 'tr_song' }) +
+    ' ' +
+    source.midweek_meeting.song_middle[lang];
 
   for (let i = 1; i < 3; i++) {
     const baseName = `lc_part${i}`;
@@ -1743,7 +1785,8 @@ export const schedulesMidweekData = async (
 
     if (lcSrc?.length > 0) {
       result[fieldSrc] = sourcesLCGetTitle(lcPart, dataView, lang);
-      result[fieldTime] = sourcesPartTiming(source, assignment, dataView, lang);
+      result[fieldTime] =
+        sourcesPartTiming(source, assignment, dataView, lang) + ' ' + minLabel;
       result[fieldName] = await schedulesWeekGetAssigned({
         schedule,
         dataView,
@@ -1758,12 +1801,8 @@ export const schedulesMidweekData = async (
 
   if (lcPart3_title.length > 0) {
     result.lc_part3_src = lcPart3_title;
-    result.lc_part3_time = sourcesPartTiming(
-      source,
-      'lc_part3',
-      dataView,
-      lang
-    );
+    result.lc_part3_time =
+      sourcesPartTiming(source, 'lc_part3', dataView, lang) + ' ' + minLabel;
     result.lc_part3_name = await schedulesWeekGetAssigned({
       schedule,
       dataView,
@@ -1772,12 +1811,30 @@ export const schedulesMidweekData = async (
   }
 
   if (week_type === Week.NORMAL) {
-    result.lc_cbs_label = sourcesCBSGetTitle(
+    result.lc_cbs_title = sourcesCBSGetTitle(
       source.midweek_meeting.lc_cbs,
       dataView,
       lang
     );
-    result.lc_cbs_time = sourcesPartTiming(source, 'lc_cbs', dataView, lang);
+    result.lc_cbs_time =
+      sourcesPartTiming(source, 'lc_cbs', dataView, lang) + ' ' + minLabel;
+
+    if (useDisplayName) {
+      result.lc_cbs_label =
+        getTranslation({ key: 'tr_cbsConductor' }) +
+        '/' +
+        getTranslation({ key: 'tr_cbsReader' }) +
+        ':';
+    }
+
+    if (!useDisplayName) {
+      result.lc_cbs_label =
+        getTranslation({ key: 'tr_cbsConductor' }) +
+        ':' +
+        '\u000A' +
+        getTranslation({ key: 'tr_cbsReader' }) +
+        ':';
+    }
 
     result.lc_cbs_name = await schedulesWeekGetAssigned({
       schedule,
@@ -1805,7 +1862,12 @@ export const schedulesMidweekData = async (
     result.co_name = useDisplayName ? CODisplayName : COFullname;
   }
 
-  result.lc_concluding_song = sourcesSongConclude(source, dataView, lang);
+  const concluding_song = sourcesSongConclude(source, dataView, lang);
+  const isSongText = isNaN(+concluding_song);
+
+  result.lc_concluding_song = isSongText
+    ? concluding_song
+    : getTranslation({ key: 'tr_song' }) + ' ' + concluding_song;
 
   result.lc_concluding_prayer = await schedulesWeekGetAssigned({
     schedule,

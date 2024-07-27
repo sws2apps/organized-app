@@ -25,23 +25,17 @@ Font.register({
   fonts: [{ src: FontRegular }, { src: FontBold }],
 });
 
-const S140 = ({
-  data,
-  currentSchedule,
-  class_count,
-  cong_name,
-  cong_number,
-}: S140Type) => {
+const S140 = ({ data, class_count, cong_name, cong_number }: S140Type) => {
   const { t } = useAppTranslation();
 
   const minLabel = t('tr_minLabel');
 
   return (
     <>
-      {data.length > 0 && currentSchedule.length > 0 && (
+      {data.length > 0 && (
         <Document
           author="sws2apps"
-          title={currentSchedule.replace('/', '-')}
+          title={t('tr_midweekMeetingPrint')}
           creator="Organized"
           producer="sws2apps (by react-pdf)"
         >
@@ -53,33 +47,25 @@ const S140 = ({
               <View
                 key={`week-${meetingData.weekOf}`}
                 style={styles.weekContainer}
-                break={index === 2 || index === 4}
+                break={index > 0 && index % 2 === 0}
               >
                 <View style={styles.rowBase}>
                   <S140WeekTitle title={meetingData.schedule_title} />
                   {!meetingData.no_meeting && (
                     <>
-                      <S140PartMiniLabel
-                        part={`${t('chairmanMidweekMeeting')}:`}
-                      />
+                      <S140PartMiniLabel part={`${t('tr_chairman')}:`} />
                       <S140Person person={meetingData.chairman_A_name} />
                     </>
                   )}
                 </View>
                 <View style={{ ...styles.rowBase, marginBottom: '10px' }}>
                   <S140WeekInfoLabel weekLabel={meetingData.week_type_name} />
-                  {!meetingData.no_meeting && (
+                  {!meetingData.no_meeting && class_count === 2 && (
                     <>
                       <S140PartMiniLabel
-                        part={
-                          class_count === 2 ? `${t('auxClassCounselor')}:` : ''
-                        }
+                        part={`${t('tr_auxClassCounselor')}:`}
                       />
-                      <S140Person
-                        person={
-                          class_count === 2 ? meetingData.chairman_B_name : ''
-                        }
-                      />
+                      <S140Person person={meetingData.chairman_B_name} />
                     </>
                   )}
                 </View>
@@ -93,9 +79,7 @@ const S140 = ({
                         source={meetingData.song_first}
                         bulletColor={'#2a6b77'}
                       />
-                      <S140PartMiniLabel
-                        part={`${t('prayerMidweekMeeting')}:`}
-                      />
+                      <S140PartMiniLabel part={`${t('tr_prayer')}:`} />
                       <S140Person person={meetingData.opening_prayer_name} />
                     </View>
 
@@ -103,7 +87,7 @@ const S140 = ({
                     <View style={styles.rowBase}>
                       <S140Time time={meetingData.timing.opening_comments} />
                       <S140SourceExtended
-                        source={t('openingComments')}
+                        source={t('tr_openingComments')}
                         time={`1 ${minLabel}`}
                         bulletColor={'#2a6b77'}
                       />
@@ -116,7 +100,7 @@ const S140 = ({
                         <>
                           {/* TGW, Classroom heading */}
                           <S140MeetingPartHeading
-                            meetingPart={'treasuresPart'}
+                            meetingPart={'tr_treasuresPart'}
                             backgroundColor={'#2a6b77'}
                             classroomHeading={true}
                             meetingData={meetingData}
@@ -139,7 +123,7 @@ const S140 = ({
                           <View style={styles.rowBase}>
                             <S140Time time={meetingData.timing.tgw_gems} />
                             <S140SourceExtended
-                              source={t('tgwGems')}
+                              source={meetingData.tgw_gems_src}
                               time={meetingData.tgw_gems_time}
                               bulletColor={'#2a6b77'}
                             />
@@ -153,10 +137,10 @@ const S140 = ({
                               time={meetingData.timing.tgw_bible_reading}
                             />
                             <S140SourceComplex
-                              source={t('bibleReading')}
+                              source={meetingData.tgw_bible_reading_src}
                               time={`4 ${minLabel}`}
                               bulletColor={'#2a6b77'}
-                              partLabel={`${t('student')}:`}
+                              partLabel={`${t('tr_student')}:`}
                             />
                             <S140Person
                               person={
@@ -172,7 +156,7 @@ const S140 = ({
 
                           {/* AYF Heading */}
                           <S140MeetingPartHeading
-                            meetingPart={'applyFieldMinistryPart'}
+                            meetingPart={'tr_applyFieldMinistryPart'}
                             backgroundColor={'#a56803'}
                             classroomHeading={true}
                             meetingData={meetingData}
@@ -187,7 +171,7 @@ const S140 = ({
 
                           {/* LC Heading */}
                           <S140MeetingPartHeading
-                            meetingPart={'livingPart'}
+                            meetingPart={'tr_livingPart'}
                             backgroundColor={'#942926'}
                             classroomHeading={false}
                             meetingData={meetingData}
@@ -219,7 +203,7 @@ const S140 = ({
                                   time={meetingData.timing.concluding_comments}
                                 />
                                 <S140SourceExtended
-                                  source={t('concludingComments')}
+                                  source={t('tr_concludingComments')}
                                   time={`3 ${minLabel}`}
                                   bulletColor="#942926"
                                 />
@@ -255,7 +239,7 @@ const S140 = ({
                               >
                                 <S140Time time={meetingData.timing.cbs} />
                                 <S140SourceExtended
-                                  source={t('cbs')}
+                                  source={meetingData.lc_cbs_title}
                                   time={meetingData.lc_cbs_time}
                                   bulletColor="#942926"
                                 />
@@ -271,7 +255,7 @@ const S140 = ({
                                   time={meetingData.timing.concluding_comments}
                                 />
                                 <S140SourceExtended
-                                  source={t('concludingComments')}
+                                  source={t('tr_concludingComments')}
                                   time={`3 ${minLabel}`}
                                   bulletColor="#942926"
                                 />
@@ -290,9 +274,7 @@ const S140 = ({
                               source={meetingData.lc_concluding_song}
                               bulletColor="#942926"
                             />
-                            <S140PartMiniLabel
-                              part={`${t('prayerMidweekMeeting')}:`}
-                            />
+                            <S140PartMiniLabel part={`${t('tr_prayer')}:`} />
                             <S140Person
                               person={meetingData.lc_concluding_prayer}
                             />

@@ -2,7 +2,6 @@ import { MidweekMeetingDataType } from '@definition/schedules';
 
 export type S140Type = {
   data: MidweekMeetingDataType[];
-  currentSchedule: string;
   class_count: number;
   cong_name: string;
   cong_number: string;

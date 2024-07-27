@@ -18,7 +18,7 @@ const S140LC = ({ meetingData }: S140LCType) => {
 
         return (
           <View key={`lc-${meetingData.weekOf}-${index}`}>
-            {lcSrc.length > 0 && (
+            {lcSrc?.length > 0 && (
               <View style={styles.rowBase}>
                 <S140Time time={lcTIming} />
                 <S140SourceExtended

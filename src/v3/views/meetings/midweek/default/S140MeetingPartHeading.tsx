@@ -31,13 +31,13 @@ const S140MeetingPartHeading = ({
         {classroomHeading &&
         class_count === 2 &&
         meetingData.week_type !== Week.CO_VISIT
-          ? t('auxClass')
+          ? t('tr_auxClass')
           : ''}
       </Text>
       <Text
         style={{ ...styles.miniLabelBase, width: '130px', padding: '0 10px' }}
       >
-        {classroomHeading ? t('mainHall') : ''}
+        {classroomHeading ? t('tr_mainHall') : ''}
       </Text>
     </View>
   );

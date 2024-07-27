@@ -3,7 +3,6 @@ import { Document, Font, Page, View } from '@react-pdf/renderer';
 import { S89Type } from './index.types';
 import { useAppTranslation } from '@hooks/index';
 import FontBold from '@assets/fonts/Inter-SemiBold.ttf';
-import FontItalic from '@assets/fonts/Inter-Italic.ttf';
 import FontRegular from '@assets/fonts/Inter-Regular.ttf';
 import styles from './index.styles';
 import S89Header from './S89Header';
@@ -15,11 +14,7 @@ import S89Footer from './S89Footer';
 Font.register({
   family: 'Inter',
   format: 'truetype',
-  fonts: [
-    { src: FontRegular },
-    { src: FontItalic, fontWeight: 400, fontStyle: 'italic' },
-    { src: FontBold },
-  ],
+  fonts: [{ src: FontRegular }, { src: FontBold }],
 });
 
 Font.registerHyphenationCallback((word) => [word]);
@@ -49,7 +44,7 @@ const S89 = ({ s89Data, lang }: S89Type) => {
                     />
 
                     <S89DetailsRow
-                      field={t('tr_assistantS89')}
+                      field={`${t('tr_assistant')}:`}
                       value={data.assistant_name}
                     />
 

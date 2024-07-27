@@ -16,8 +16,13 @@ import {
   schedulesMidweekData,
   schedulesS89Data,
 } from '@services/app/schedules';
-import { userDataViewState } from '@states/settings';
-import { TemplateS89 } from '@views/index';
+import {
+  congNameState,
+  congNumberState,
+  midweekMeetingClassCountState,
+  userDataViewState,
+} from '@states/settings';
+import { TemplateS140, TemplateS89 } from '@views/index';
 import { JWLangState } from '@states/app';
 
 const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
@@ -26,6 +31,9 @@ const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
   const schedules = useRecoilValue(schedulesState);
   const dataView = useRecoilValue(userDataViewState);
   const lang = useRecoilValue(JWLangState);
+  const class_count = useRecoilValue(midweekMeetingClassCountState);
+  const cong_name = useRecoilValue(congNameState);
+  const cong_number = useRecoilValue(congNumberState);
 
   const [startMonth, setStartMonth] = useState('');
   const [endMonth, setEndMonth] = useState('');
@@ -66,7 +74,23 @@ const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
       S140.push(data);
     }
 
-    console.log(S140);
+    if (S140.length > 0) {
+      const blob = await pdf(
+        <TemplateS140
+          class_count={class_count}
+          cong_name={cong_name}
+          cong_number={cong_number}
+          data={S140}
+        />
+      ).toBlob();
+
+      const firstWeek = S140.at(0).weekOf.replaceAll('/', '');
+      const lastWeek = S140.at(-1).weekOf.replaceAll('/', '');
+
+      const filename = `MM_${firstWeek}-${lastWeek}.pdf`;
+
+      saveAs(blob, filename);
+    }
   };
 
   const handleExportSchedule = async () => {

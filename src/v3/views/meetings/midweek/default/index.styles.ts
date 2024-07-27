@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'flex-start',
-    marginBottom: '1px',
+    marginBottom: '5px',
   },
   personLabel: {
     color: 'black',
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     marginRight: '5px',
   },
   bulletPoint: {
-    fontSize: '16px',
+    fontSize: '12px',
     fontWeight: 'bold',
     width: '8px',
     marginTop: '-3px',
