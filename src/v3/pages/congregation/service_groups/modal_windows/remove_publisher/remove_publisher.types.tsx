@@ -4,7 +4,7 @@ export type RemovePublisherModalWindowProps = {
   userName: string;
 
   groupId: number;
-  groupName: number;
+  groupName: string;
 
   onRemoveButtonClick?: MouseEventHandler<HTMLAnchorElement>;
   onCancelButtonClick?: MouseEventHandler<HTMLAnchorElement>;
