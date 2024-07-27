@@ -20,6 +20,8 @@ const AuxiliaryPioneerApplication = lazy(() => import('@pages/ministry/auxiliary
 const VisitingSpeakers = lazy(() => import('@pages/persons/visiting_speakers'));
 const WeekendMeeting = lazy(() => import('@pages/meetings/weekend'));
 const ServiceGroups = lazy(() => import('@pages/service_groups'));
+const PublisherRecord = lazy(() => import('@pages/congregation/publisher_records'));
+const PublisherRecordDetail = lazy(() => import('@pages/congregation/publisher_records_detail'));
 const ManageAccessAll = lazy(() => import('@pages/manage_access/manage_access_all'));
 const ManageAccessPersonDetails = lazy(() => import('@pages/manage_access/manage_access_person_details'));
 const WeeklySchedules = lazy(() => import('@pages/meetings/schedules'));
@@ -58,6 +60,8 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
             { path: '/midweek-meeting', element: <MidweekMeeting /> },
             { path: '/weekend-meeting', element: <WeekendMeeting /> },
             { path: '/service-groups', element: <ServiceGroups /> },
+            { path: '/publisher-records', element: <PublisherRecord /> },
+            { path: '/publisher-records/:id', element: <PublisherRecordDetail /> },
             { path: '/manage-access', element: <ManageAccessAll /> },
             { path: '/manage-access/:id', element: <ManageAccessPersonDetails /> },
             { path: '/service-year', element: <ServiceYear /> },
