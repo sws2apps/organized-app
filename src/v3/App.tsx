@@ -19,7 +19,7 @@ const ServiceYear = lazy(() => import('@pages/ministry/service_year'));
 const AuxiliaryPioneerApplication = lazy(() => import('@pages/ministry/auxiliary_pioneer'));
 const VisitingSpeakers = lazy(() => import('@pages/persons/visiting_speakers'));
 const WeekendMeeting = lazy(() => import('@pages/meetings/weekend'));
-const ServiceGroups = lazy(() => import('@pages/service_groups'));
+const ServiceGroups = lazy(() => import('@pages/congregation/service_groups'));
 const ManageAccessAll = lazy(() => import('@pages/manage_access/manage_access_all'));
 const ManageAccessPersonDetails = lazy(() => import('@pages/manage_access/manage_access_person_details'));
 const WeeklySchedules = lazy(() => import('@pages/meetings/schedules'));
