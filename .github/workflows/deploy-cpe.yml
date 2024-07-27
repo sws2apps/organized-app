@@ -1,4 +1,4 @@
-name: CD-Re
+name: Deploy CPE
 
 on:
   workflow_dispatch:
