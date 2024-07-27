@@ -7,7 +7,7 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# Logs
+# Cache
 *cache
 
 node_modules
@@ -34,3 +34,4 @@ replit.nix
 *.njsproj
 *.sln
 *.sw?
+**/tasks.json

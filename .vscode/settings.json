@@ -5,7 +5,12 @@
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "prettier.printWidth": 120,
+  "prettier.printWidth": 80,
   "prettier.jsxSingleQuote": true,
-  "prettier.singleQuote": true
+  "prettier.singleQuote": true,
+  "prettier.tabWidth": 2,
+  "[css]": {
+    "editor.defaultFormatter": "vscode.css-language-features"
+  },
+  "prettier.useTabs": false
 }

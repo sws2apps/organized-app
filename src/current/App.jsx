@@ -14,8 +14,16 @@ import PrivateVipRoute from './components/PrivateVipRoute';
 import PrivatePublicTalkCoordinatorRoute from './components/PrivatePublicTalkCoordinatorRoute';
 import PrivateWeekendMeetingRoute from './components/PrivateWeekendMeetingRoute';
 import ErrorBoundary from './components/ErrorBoundary';
-import { apiHostState, isLightThemeState, isOnlineState, visitorIDState } from './states/main';
-import { congAccountConnectedState, congRoleState } from './states/congregation';
+import {
+  apiHostState,
+  isLightThemeState,
+  isOnlineState,
+  visitorIDState,
+} from './states/main';
+import {
+  congAccountConnectedState,
+  congRoleState,
+} from './states/congregation';
 import { appSnackOpenState } from './states/notification';
 import { InternetChecker } from './features/internetChecker';
 import NotificationWrapper from './features/notificationWrapper';
@@ -36,18 +44,26 @@ const ScheduleWeekDetails = lazy(() => import('./pages/ScheduleWeekDetails'));
 const Settings = lazy(() => import('./pages/UserSettings'));
 const SourceMaterials = lazy(() => import('./pages/SourceMaterials'));
 const SourceWeekDetails = lazy(() => import('./pages/SourceWeekDetails'));
-const CongregationPersonDetails = lazy(() => import('./pages/CongregationPersonDetails'));
+const CongregationPersonDetails = lazy(
+  () => import('./pages/CongregationPersonDetails')
+);
 const WeeklyAssignments = lazy(() => import('./pages/WeeklyAssignments'));
 const CongregationSettings = lazy(() => import('./pages/CongregationSettings'));
 const FieldServiceGroup = lazy(() => import('./pages/FieldServiceGroup'));
 const MeetingAttendance = lazy(() => import('./pages/MeetingAttendance'));
 const FieldServiceReport = lazy(() => import('./pages/FieldServiceReport'));
 const BranchOfficeReports = lazy(() => import('./pages/BranchOfficeReports'));
-const UserFieldServiceReport = lazy(() => import('./pages/UserFieldServiceReport'));
+const UserFieldServiceReport = lazy(
+  () => import('./pages/UserFieldServiceReport')
+);
 const UserBibleStudies = lazy(() => import('./pages/UserBibleStudies'));
-const PendingFieldServiceReports = lazy(() => import('./pages/PendingFieldServiceReports'));
+const PendingFieldServiceReports = lazy(
+  () => import('./pages/PendingFieldServiceReports')
+);
 const PublicTalksList = lazy(() => import('./pages/PublicTalksList'));
-const WeekendMeetingSchedule = lazy(() => import('./pages/WeekendMeetingSchedule'));
+const WeekendMeetingSchedule = lazy(
+  () => import('./pages/WeekendMeetingSchedule')
+);
 const VisitingSpeakers = lazy(() => import('./pages/VisitingSpeakers'));
 
 const queryClient = new QueryClient();
@@ -80,12 +96,19 @@ const App = ({ updatePwa }) => {
   const [isSupported, setIsSupported] = useState(true);
 
   const secretaryRole = congRole.includes('secretary');
-  const lmmoRole = congRole.includes('lmmo') || congRole.includes('lmmo-backup');
-  const publicTalkCoordinatorRole = congRole.includes('public_talk_coordinator');
+  const lmmoRole =
+    congRole.includes('lmmo') || congRole.includes('lmmo-backup');
+  const publicTalkCoordinatorRole = congRole.includes(
+    'public_talk_coordinator'
+  );
   const coordinatorRole = congRole.includes('coordinator');
   const adminRole = congRole.includes('admin');
   const elderRole =
-    congRole.includes('elder') || secretaryRole || lmmoRole || coordinatorRole || publicTalkCoordinatorRole;
+    congRole.includes('elder') ||
+    secretaryRole ||
+    lmmoRole ||
+    coordinatorRole ||
+    publicTalkCoordinatorRole;
   const msRole = congRole.includes('ms');
   const publisherRole = congRole.includes('publisher') || msRole || elderRole;
 
@@ -106,7 +129,10 @@ const App = ({ updatePwa }) => {
         {
           element: <PrivatePublisherRoute isPublisher={publisherRole} />,
           children: [
-            { path: '/user-field-service-reports', element: <UserFieldServiceReport /> },
+            {
+              path: '/user-field-service-reports',
+              element: <UserFieldServiceReport />,
+            },
             { path: '/user-bible-studies', element: <UserBibleStudies /> },
           ],
         },
@@ -159,7 +185,9 @@ const App = ({ updatePwa }) => {
                 {
                   element: (
                     <PrivateMeetingEditorRoute
-                      isMeetingEditor={lmmoRole || coordinatorRole || publicTalkCoordinatorRole}
+                      isMeetingEditor={
+                        lmmoRole || coordinatorRole || publicTalkCoordinatorRole
+                      }
                     />
                   ),
                   children: [
@@ -174,7 +202,9 @@ const App = ({ updatePwa }) => {
                   ],
                 },
                 {
-                  element: <PrivateSecretaryRoute isSecretary={secretaryRole} />,
+                  element: (
+                    <PrivateSecretaryRoute isSecretary={secretaryRole} />
+                  ),
                   children: [
                     {
                       path: '/field-service-group',
@@ -199,7 +229,11 @@ const App = ({ updatePwa }) => {
                   ],
                 },
                 {
-                  element: <PrivatePublicTalkCoordinatorRoute isPublicTalkCoordinator={publicTalkCoordinatorRole} />,
+                  element: (
+                    <PrivatePublicTalkCoordinatorRoute
+                      isPublicTalkCoordinator={publicTalkCoordinatorRole}
+                    />
+                  ),
                   children: [
                     {
                       path: '/public-talks',
@@ -213,7 +247,11 @@ const App = ({ updatePwa }) => {
                 },
                 {
                   element: (
-                    <PrivateWeekendMeetingRoute isWeekendMeetingRole={publicTalkCoordinatorRole || coordinatorRole} />
+                    <PrivateWeekendMeetingRoute
+                      isWeekendMeetingRole={
+                        publicTalkCoordinatorRole || coordinatorRole
+                      }
+                    />
                   ),
                   children: [
                     {
@@ -229,7 +267,12 @@ const App = ({ updatePwa }) => {
               element: <CongregationSettings />,
             },
             {
-              element: <PrivateVipConnectedRoute isCongAccountConnected={isCongAccountConnected} isAdmin={adminRole} />,
+              element: (
+                <PrivateVipConnectedRoute
+                  isCongAccountConnected={isCongAccountConnected}
+                  isAdmin={adminRole}
+                />
+              ),
               children: [
                 {
                   path: '/administration',
@@ -278,7 +321,10 @@ const App = ({ updatePwa }) => {
     if (import.meta.env.VITE_BACKEND_API) {
       apiHost = import.meta.env.VITE_BACKEND_API;
     } else {
-      if (import.meta.env.DEV || window.location.host.indexOf('localhost') !== -1) {
+      if (
+        import.meta.env.DEV ||
+        window.location.host.indexOf('localhost') !== -1
+      ) {
         apiHost = 'http://localhost:8000/';
       } else {
         apiHost = 'https://api.sws2apps.com/';
@@ -295,31 +341,41 @@ const App = ({ updatePwa }) => {
     const checkBrowser = () => {
       if (!('Worker' in window)) {
         setIsSupported(false);
-        console.error(`CPE: Browser Not Supported: Web Worker is not supported in this device`);
+        console.error(
+          `CPE: Browser Not Supported: Web Worker is not supported in this device`
+        );
         return;
       }
 
       if (!('crypto' in window)) {
         setIsSupported(false);
-        console.error(`CPE: Browser Not Supported: Web Crypto is not supported in this device`);
+        console.error(
+          `CPE: Browser Not Supported: Web Crypto is not supported in this device`
+        );
         return;
       }
 
       if (!crypto.randomUUID || typeof crypto.randomUUID !== 'function') {
         setIsSupported(false);
-        console.error(`CPE: Browser Not Supported: Web Crypto RandomUUID is not supported in this device`);
+        console.error(
+          `CPE: Browser Not Supported: Web Crypto RandomUUID is not supported in this device`
+        );
         return;
       }
 
       if (!indexedDB) {
         setIsSupported(false);
-        console.error(`CPE: Browser Not Supported: IndexedDb is not supported in this device`);
+        console.error(
+          `CPE: Browser Not Supported: IndexedDb is not supported in this device`
+        );
         return;
       }
 
       if (!('serviceWorker' in navigator)) {
         setIsSupported(false);
-        console.error(`CPE: Browser Not Supported: Service Worker is not supported in this device`);
+        console.error(
+          `CPE: Browser Not Supported: Service Worker is not supported in this device`
+        );
       }
     };
 
@@ -335,8 +391,9 @@ const App = ({ updatePwa }) => {
     <>
       {!isSupported && (
         <div className="browser-not-supported">
-          You are using unsupported browser for the Congregation Program for Everyone app. Make sure that your browser
-          is up to date, or try to use another browser.
+          You are using unsupported browser for the Congregation Program for
+          Everyone app. Make sure that your browser is up to date, or try to use
+          another browser.
         </div>
       )}
       {isSupported && (

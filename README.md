@@ -2,7 +2,7 @@
 
 ![Organized-devices](https://github.com/sws2apps/organized-app/assets/26148770/9526daa0-ad34-4a1b-8611-c50f0d3375b7)
 
-A free web app for Jehovah’s Witnesses congregations, helping with assignments and responsibilities, making things easier, and freeing up time for other important things! Create schedules, view your upcoming assignments, submit service reports,  generate congregation reports, and much more! In a nutshell, the Organized app is:
+A free web app for Jehovah’s Witnesses congregations, helping with assignments and responsibilities, making things easier, and freeing up time for other important things! Create schedules, view your upcoming assignments, submit service reports, generate congregation reports, and much more! In a nutshell, the Organized app is:
 
 🔵 **Cross-platform:** Windows, MacOS, Linux, ChromeOS, iPadOS, iOS, Android
 
@@ -32,7 +32,6 @@ A free web app for Jehovah’s Witnesses congregations, helping with assignments
 
 _Learn even more about Organized features, benefits and use-cases on our [About Organized website](https://about.organized-app.com)._
 
-
 <img width="1110" alt="Features-gridv2" src="https://github.com/sws2apps/organized-app/assets/26148770/041d0b7a-0e59-446b-a735-0e978f3df9a5">
 
 ## Who Organized is made for?
@@ -53,8 +52,8 @@ Organized is a Progressive Web Application (PWA), meaning that it can function i
 
 📱️ **Convenience** – Enjoy full functionality seamlessly on any device – whether it's mobile or desktop. Organized allows publishers and appointed brothers to use the app on any device, anywhere. You can access the app either from a web browser or install it for the best experience.
 
-### 
->
+###
+
 > ![organized-schedules](https://github.com/sws2apps/organized-app/assets/26148770/eb4fa1a8-e3b3-4b57-b889-9c1f91fa9ed1)
 > Example of printed schedules, automatically generated in Organized
 
@@ -79,26 +78,27 @@ We really appreciate your volunteer spirit! You can contribute to the app in a f
 1. ⭐️ by **starring the repository**. This makes it easier for other enthusiasts to find the app.;
 2. 💬 by **telling others** about the Organized app;
 3. 💰 by supporting the app with a [**donation**](https://www.buymeacoffee.com/sws2apps);
-4. 🌐 by **[translating](https://crowdin.com/project/organized)** the app to your language; 
+4. 🌐 by **[translating](https://crowdin.com/project/organized)** the app to your language;
 5. 👨‍💻 by **[collaborating](https://guide.organized-app.com/how-to-support/contribute)** on creating the Organized ecosystem: **Frontend React Development**, **UI/UX design**, **Graphic design**, **Motion design**, and **User guide writing**.
 
 To learn more about code contribution, please read our [Contribution guide](https://github.com/sws2apps/organized-app/blob/main/CONTRIBUTING.md). It also features a link to our [step-by-step instructions on setting up the local environment](https://github.com/sws2apps/organized-app/blob/main/LOCAL_ENVIRONMENT_SETUP.md).
 
-
 ### Project activity [![Time period](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/Ask2bindJP2tA2ytag1oKaSCKxxydBkXJbnd2Stwc0k/-Xc8_VTMWwDRjkyqwRmlzGGUMGGJKiMmPu7NSd3ztjg_badge.svg)](https://repography.com)
+
 [![Timeline graph](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/Ask2bindJP2tA2ytag1oKaSCKxxydBkXJbnd2Stwc0k/-Xc8_VTMWwDRjkyqwRmlzGGUMGGJKiMmPu7NSd3ztjg_timeline.svg)](https://github.com/sws2apps/organized-app/commits)
 [![Activity map](https://images.repography.com/34928945/sws2apps/organized-app/recent-activity/Ask2bindJP2tA2ytag1oKaSCKxxydBkXJbnd2Stwc0k/-Xc8_VTMWwDRjkyqwRmlzGGUMGGJKiMmPu7NSd3ztjg_map.svg)](https://github.com/sws2apps/organized-app/commits)
 [![Top contributors](https://images.repography.com/34928945/sws2apps/organized-app/top-contributors/Ask2bindJP2tA2ytag1oKaSCKxxydBkXJbnd2Stwc0k/-Xc8_VTMWwDRjkyqwRmlzGGUMGGJKiMmPu7NSd3ztjg_table.svg)](https://github.com/sws2apps/organized-app/graphs/contributors)
 
 ## Available in many languages
+
 [![Crowdin](https://badges.crowdin.net/organized/localized.svg)](https://crowdin.com/project/organized)
 
 Currently, the app is fully or partially available in **25+ languages**, including `English`, `Spanish`, `Portuguese`, `French`, `German`, `Italian`, `Polish`, `Japanese`, `Russian`, `Chinese`, `Ukrainian`, `Malagasy`, and even more to come. If you'd like to contribute by translating Organized into the language of your heart, you're very welcome to do so!
 
-
 The translation for the Organized app is handled at our [Crowdin project page](https://crowdin.com/project/organized) and is pretty easy. The whole app can be translated just in a few days. To learn more about how to help with localization, please read the [translation guide](./TRANSLATION.md). If your language hasn't been added to Crowdin yet, feel free to [create a new issue](https://github.com/sws2apps/organized-app/issues/new?assignees=&labels=i18n&projects=&template=new_language_request.yml) to include your specific language.
 
-## New features in development 
+## New features in development
+
 We're working hard on the new redesigned release in the new separate `main-next` branch _(the current `main` branch contains an old, but fully functional version of the app)_. There are so many features we want to implement:
 
 • Territories management <br>
@@ -115,13 +115,13 @@ We're excited about adding these and many more new features! Of course, it takes
 
 To learn more about Organized and how to use it, check out the following useful links:
 
-| Link                                                         | Description                                                   |
-|-------------------------------------------------------------------------------|---------------------------------------------------------------|
-| [Organized app](https://organized-app.com)                                           | Open and use the Organized app.           |
-| [Organized test mode](https://test.organized-app.com)                                         | Preview environment of the app with pre-filled data, where you can test its features without registration.            |
-| [About Organized](https://about.organized-app.com)                                | Learn more about the goals, features, and benefits of the Organized app. Feel free to share this link with others. |
-| [Contribution guide](https://github.com/sws2apps/organized-app/blob/main/CONTRIBUTING.md)                     | See how you can contribute to the Organized project.     |
-| [Video tutorials](https://www.youtube.com/@organized-app)                     | Watch on our YouTube channel video tutorials and guides on using and contributing.     |
-| [How to use guide](https://guide.organized-app.com) | Read text documentation on how to start using the app and learn about different features.       |
-| [Our blog](https://guide.organized-app.com/blog) | Blog with insightful articles filled with tips, tricks, and the latest app update news.       |
-| [Crowdin project](https://crowdin.com/project/organized)                              | Collaborate on translating the Organized app – it's easy and convenient.                   |
+| Link                                                                                      | Description                                                                                                        |
+| ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| [Organized app](https://organized-app.com)                                                | Open and use the Organized app.                                                                                    |
+| [Organized test mode](https://test.organized-app.com)                                     | Preview environment of the app with pre-filled data, where you can test its features without registration.         |
+| [About Organized](https://about.organized-app.com)                                        | Learn more about the goals, features, and benefits of the Organized app. Feel free to share this link with others. |
+| [Contribution guide](https://github.com/sws2apps/organized-app/blob/main/CONTRIBUTING.md) | See how you can contribute to the Organized project.                                                               |
+| [Video tutorials](https://www.youtube.com/@organized-app)                                 | Watch on our YouTube channel video tutorials and guides on using and contributing.                                 |
+| [How to use guide](https://guide.organized-app.com)                                       | Read text documentation on how to start using the app and learn about different features.                          |
+| [Our blog](https://guide.organized-app.com/blog)                                          | Blog with insightful articles filled with tips, tricks, and the latest app update news.                            |
+| [Crowdin project](https://crowdin.com/project/organized)                                  | Collaborate on translating the Organized app – it's easy and convenient.                                           |
