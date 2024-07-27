@@ -1,4 +1,4 @@
-name: CD
+name: CD-Re
 
 on:
   workflow_dispatch:
@@ -6,8 +6,8 @@ on:
 permissions: read-all
 
 jobs:
-  dev_deploy:
-    name: Build and Deploy to Production
+  redeploy_dev:
+    name: Rebuild and Deploy to Production
     if: ${{ github.repository == 'sws2apps/organized-app' && github.ref == 'refs/heads/cpe-archive' }}
     environment:
       name: Production
@@ -33,10 +33,9 @@ jobs:
       - name: Install package dependencies
         run: npm ci
 
-      - name: Run Semantic Release to version and build App
-        run: npx semantic-release
+      - name: Rebuild App
+        run: npm run build
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           VITE_FINGERPRINT_API_CLIENT_KEY: ${{ secrets.VITE_FINGERPRINT_API_CLIENT_KEY }}
           VITE_FIREBASE_APIKEY: ${{ secrets.VITE_FIREBASE_APIKEY }}
           VITE_FIREBASE_AUTHDOMAIN: ${{ secrets.VITE_FIREBASE_AUTHDOMAIN }}
