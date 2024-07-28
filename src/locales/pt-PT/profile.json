@@ -72,10 +72,10 @@
   "tr_2FAQuickSetup": "Configuração rápida",
   "tr_2FAQuickSetupDesc": "Se tiver alguma das aplicações de autenticação mencionadas acima, use este botão para configurá-la rapidamente no seu dispositivo.",
   "tr_2FAQRCode": "Código QR",
-  "tr_2FAQRCodeDesc": "Faça scan do código QR com a sua aplicação de autenticação para configurar a verificação de dois fatores.",
-  "tr_2FASetupKey": "Chave de configuração",
-  "tr_2FASetupKeyDesc": "Copie a chave de configuração e cole-a na sua aplicação de autenticação para configurar a autenticação de dois fatores.",
-  "tr_2FAStep2": "Passo 2: Insira o código 2FA",
-  "tr_timeAwayDesc": "Ainda não há tempo ausente definido. Mantenha o seu calendário atualizado para que os irmãos possam tê-la em conta ao agendar reuniões futuras.",
-  "tr_terminatedDesc": "A sessão neste dispositivo foi terminada"
+  "tr_2FAQRCodeDesc": "Scan the QR code with your authenticator app to set up Two-Factor Authentication.",
+  "tr_2FASetupKey": "Setup key",
+  "tr_2FASetupKeyDesc": "Copy the setup key and paste it into your authenticator app to set up Two-Factor Authentication.",
+  "tr_2FAStep2": "Step 2: Enter the 2FA code",
+  "tr_timeAwayDesc": "No time away set yet. Keep your time away up-to-date so that the brothers can take it into account when scheduling future meetings.",
+  "tr_terminatedDesc": "The session on that device is terminated"
 }
