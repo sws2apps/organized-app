@@ -108,8 +108,10 @@ const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
         const [yearCurrent, monthCurrent] = schedule.weekOf.split('/');
 
         return (
-          (yearCurrent === yearStart && monthCurrent === monthStart) ||
-          (yearCurrent === yearEnd && monthCurrent === monthEnd)
+          yearCurrent >= yearStart &&
+          yearCurrent <= yearEnd &&
+          monthCurrent >= monthStart &&
+          monthCurrent <= monthEnd
         );
       });
 
