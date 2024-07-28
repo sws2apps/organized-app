@@ -1,7 +1,7 @@
 {
   "tr_s89Title": "OUR CHRISTIAN LIFE AND MINISTRY<br />MEETING ASSIGNMENT",
   "tr_s89ToBeGiven": "To be given in",
-  "tr_s89DescFooter": "Note to student: The source material and study point for your assignment can be found in the  Life and Ministry Meeting Workbook. Please review the instructions for the part as outlined in Instructions for Our Christian Life and Ministry Meeting (S-38).",
+  "tr_s89DescFooter": "Note to student: The source material and study point for your assignment can be found in the Life and Ministry Meeting Workbook. Please review the instructions for the part as outlined in Instructions for Our Christian Life and Ministry Meeting (S-38).",
   "tr_date": "Date",
   "tr_assignment": "Assignment",
   "tr_bibleReading": "Pagbabasa ng Bibliya",
@@ -68,5 +68,6 @@
   "tr_chairman": "Chairman",
   "tr_prayer": "Panalangin",
   "tr_partDuration": "({{ time }} min.)",
-  "tr_memorialWeek": "Linggo ng Memoryal"
+  "tr_memorialWeek": "Linggo ng Memoryal",
+  "tr_exportMidweekMeetinDesc": "Choose the schedules and forms you'd like to export and pick your preferred template. Organized saves your template choice for next time to make the export easier."
 }
