@@ -1,7 +1,7 @@
 {
   "tr_s89Title": "ՄԵՐ ՔՐԻՍՏՈՆԵԱԿԱՆ ԿՅԱՆՔԸ ԵՎ ԾԱՌԱՅՈՒԹՅՈՒՆԸ<br />ՀԱՆԴԻՊՄԱՆ ԱՌԱՋԱԴՐԱՆՔ",
   "tr_s89ToBeGiven": "Ներկայացվելու է․",
-  "tr_s89DescFooter": "Note to student: The source material and study point for your assignment can be found in the  Life and Ministry Meeting Workbook. Please review the instructions for the part as outlined in Instructions for Our Christian Life and Ministry Meeting (S-38).",
+  "tr_s89DescFooter": "Note to student: The source material and study point for your assignment can be found in the Life and Ministry Meeting Workbook. Please review the instructions for the part as outlined in Instructions for Our Christian Life and Ministry Meeting (S-38).",
   "tr_date": "Ամսաթիվ",
   "tr_assignment": "Առաջադրանք",
   "tr_bibleReading": "Աստվածաշնչի ընթերցանություն",
@@ -64,9 +64,10 @@
   "tr_demonstration": "Demonstration",
   "tr_partNo": "Part no.:",
   "tr_nameS89": "Name:",
-  "tr_assistant": "Assistant",
+  "tr_assistant": "Assistant:",
   "tr_chairman": "Chairman",
   "tr_prayer": "Prayer",
   "tr_partDuration": "({{ time }} min.)",
-  "tr_memorialWeek": "Week of Memorial"
+  "tr_memorialWeek": "Week of Memorial",
+  "tr_exportMidweekMeetinDesc": "Choose the schedules and forms you'd like to export and pick your preferred template. Organized saves your template choice for next time to make the export easier."
 }
