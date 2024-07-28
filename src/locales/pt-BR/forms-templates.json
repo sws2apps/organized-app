@@ -1,7 +1,7 @@
 {
   "tr_s89Title": "DESIGNAÇÃO PARA A REUNIÃO<br />NOSSA VIDA E MINISTÉRIO CRISTÃO",
   "tr_s89ToBeGiven": "Local",
-  "tr_s89DescFooter": "Note to student: The source material and study point for your assignment can be found in the  Life and Ministry Meeting Workbook. Please review the instructions for the part as outlined in Instructions for Our Christian Life and Ministry Meeting (S-38).",
+  "tr_s89DescFooter": "Note to student: The source material and study point for your assignment can be found in the Life and Ministry Meeting Workbook. Please review the instructions for the part as outlined in Instructions for Our Christian Life and Ministry Meeting (S-38).",
   "tr_date": "Data:",
   "tr_assignment": "Designação",
   "tr_bibleReading": "Leitura da Bíblia",
@@ -64,9 +64,10 @@
   "tr_demonstration": "Demonstração",
   "tr_partNo": "Número da parte:",
   "tr_nameS89": "Nome:",
-  "tr_assistant": "Assistant",
+  "tr_assistant": "Assistant:",
   "tr_chairman": "Presidente",
   "tr_prayer": "Oração inicial",
   "tr_partDuration": "({{ time }} min.)",
-  "tr_memorialWeek": "Week of Memorial"
+  "tr_memorialWeek": "Week of Memorial",
+  "tr_exportMidweekMeetinDesc": "Choose the schedules and forms you'd like to export and pick your preferred template. Organized saves your template choice for next time to make the export easier."
 }
