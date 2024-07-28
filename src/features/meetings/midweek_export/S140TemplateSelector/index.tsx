@@ -2,9 +2,9 @@ import { PhotoProvider, PhotoView } from 'react-photo-view';
 import 'react-photo-view/dist/react-photo-view.css';
 import { Box, FormControlLabel } from '@mui/material';
 import { S140TemplateItemType, S140TemplateSelectorType } from './index.types';
-import Typography from '@components/typography';
 import useS89TemplateSelector from './useS140TemplateSelector';
 import Radio from '@components/radio';
+import Typography from '@components/typography';
 
 const S140TemplateItem = ({
   item,
