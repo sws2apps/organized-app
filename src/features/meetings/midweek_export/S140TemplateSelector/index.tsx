@@ -1,6 +1,7 @@
 import { PhotoProvider, PhotoView } from 'react-photo-view';
 import 'react-photo-view/dist/react-photo-view.css';
 import { Box, FormControlLabel } from '@mui/material';
+import { useBreakpoints } from '@hooks/index';
 import { S140TemplateItemType, S140TemplateSelectorType } from './index.types';
 import useS89TemplateSelector from './useS140TemplateSelector';
 import Radio from '@components/radio';
@@ -68,11 +69,20 @@ const S140TemplateItem = ({
 };
 
 const S140TemplateSelector = (props: S140TemplateSelectorType) => {
+  const { tabletDown } = useBreakpoints();
+
   const { images, handleChange } = useS89TemplateSelector(props);
 
   return (
     <PhotoProvider maskClosable={false} maskOpacity={0.5}>
-      <Box style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: '10px',
+          justifyContent: tabletDown ? 'center' : 'flex-start',
+        }}
+      >
         {images.map((item) => (
           <S140TemplateItem
             key={item.id}

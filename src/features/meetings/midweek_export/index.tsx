@@ -31,54 +31,69 @@ const MidweekExport = ({ open, onClose }: MidweekExportType) => {
   } = useAssignmentsDelete(onClose);
 
   return (
-    <Dialog onClose={onClose} open={open} sx={{ padding: '24px' }}>
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-        <Typography className="h2">{t('tr_exportMidweekMeeting')}</Typography>
-        <Typography color="var(--grey-400)">
-          {t('tr_exportMidweekMeetinDesc')}
-        </Typography>
-      </Box>
+    <Dialog
+      onClose={onClose}
+      open={open}
+      sx={{ padding: '24px', position: 'relative' }}
+    >
+      <Box
+        sx={{
+          display: 'flex',
+          gap: '24px',
+          flexDirection: 'column',
+          width: '100%',
+          marginBottom: '110px',
+          overflow: 'auto',
+        }}
+      >
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <Typography className="h2">{t('tr_exportMidweekMeeting')}</Typography>
+          <Typography color="var(--grey-400)">
+            {t('tr_exportMidweekMeetinDesc')}
+          </Typography>
+        </Box>
 
-      <ScheduleRangeSelector
-        onStartChange={handleSetStartMonth}
-        onEndChange={handleSetEndMonth}
-      />
-
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-        <Checkbox
-          label={t('tr_MMScheduleS140')}
-          checked={exportS140}
-          onChange={handleToggleS140}
+        <ScheduleRangeSelector
+          onStartChange={handleSetStartMonth}
+          onEndChange={handleSetEndMonth}
         />
-        <Checkbox
-          label={t('tr_assignmentFormS89')}
-          checked={exportS89}
-          onChange={handleToggleS89}
+
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <Checkbox
+            label={t('tr_MMScheduleS140')}
+            checked={exportS140}
+            onChange={handleToggleS140}
+          />
+          <Checkbox
+            label={t('tr_assignmentFormS89')}
+            checked={exportS89}
+            onChange={handleToggleS89}
+          />
+        </Box>
+
+        <Tabs
+          tabs={[
+            {
+              label: t('tr_templateS140'),
+              Component: (
+                <S140TemplateSelector
+                  selected={S140Template}
+                  onChange={(value) => handleSelectS140Template(value)}
+                />
+              ),
+            },
+            {
+              label: t('tr_templateS89'),
+              Component: (
+                <S89TemplateSelector
+                  selected={S89Template}
+                  onChange={(value) => handleSelectS89Template(value)}
+                />
+              ),
+            },
+          ]}
         />
       </Box>
-
-      <Tabs
-        tabs={[
-          {
-            label: t('tr_templateS140'),
-            Component: (
-              <S140TemplateSelector
-                selected={S140Template}
-                onChange={(value) => handleSelectS140Template(value)}
-              />
-            ),
-          },
-          {
-            label: t('tr_templateS89'),
-            Component: (
-              <S89TemplateSelector
-                selected={S89Template}
-                onChange={(value) => handleSelectS89Template(value)}
-              />
-            ),
-          },
-        ]}
-      />
 
       <Box
         sx={{
@@ -86,6 +101,10 @@ const MidweekExport = ({ open, onClose }: MidweekExportType) => {
           flexDirection: 'column',
           gap: '8px',
           width: '100%',
+          position: 'absolute',
+          bottom: 0,
+          right: 0,
+          padding: '24px',
         }}
       >
         <Button
