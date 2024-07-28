@@ -31,7 +31,6 @@
   "tr_assignmentsHistory": "Історія завдань",
   "tr_class": "Клас",
   "tr_exportMidweekMeeting": "Export midweek meeting",
-  "tr_exportMidweekMeetinDesc": "Вибери графіки, які ти хочеш експортувати.",
   "tr_startMonth": "Початковий місяць",
   "tr_endMonth": "Кінцевий місяць",
   "tr_MMScheduleS140": "Графік зібрання серед тижня (S-140)",
@@ -112,5 +111,14 @@
   "tr_editParts": "Edit parts",
   "tr_customMeetingPartDesc": "Your custom meeting part. If no info is entered, it won't be displayed in the schedule.",
   "tr_customMeetingPartDelete": "Delete custom part",
-  "tr_clearAllAssignmentsDesc": "Are you sure you want to clear all created assignments for this meeting? You can always reassign them later."
+  "tr_clearAllAssignmentsDesc": "Are you sure you want to clear all created assignments for this meeting? You can always reassign them later.",
+  "tr_templateS89": "S-89 template",
+  "tr_templateS140": "S-140 template",
+  "tr_templateS89Doc1x1Name": "1 assignment",
+  "tr_templateS89Doc1x1Desc": "per page, original size",
+  "tr_templateS89Doc4x1Name": "4 assignments",
+  "tr_templateS89Doc4x1Desc": "per A4 page",
+  "tr_templateS140DefaultName": "S-140",
+  "tr_templateS140DefaultDesc": "Up to 2 weeks",
+  "tr_tgwGems": "Spiritual Gems"
 }

@@ -1,7 +1,7 @@
 {
   "tr_s89Title": "हाम्रो ख्रिष्‍टियन जीवन र सेवा<br />सभाको असाइनमेन्ट",
   "tr_s89ToBeGiven": "प्रस्तुत गर्ने ठाउँ",
-  "tr_s89DescFooter": "Note to student: The source material and study point for your assignment can be found in the  Life and Ministry Meeting Workbook. Please review the instructions for the part as outlined in Instructions for Our Christian Life and Ministry Meeting (S-38).",
+  "tr_s89DescFooter": "Note to student: The source material and study point for your assignment can be found in the Life and Ministry Meeting Workbook. Please review the instructions for the part as outlined in Instructions for Our Christian Life and Ministry Meeting (S-38).",
   "tr_date": "मिति",
   "tr_assignment": "असाइनमेन्ट",
   "tr_bibleReading": "बाइबल पढाइ",
@@ -64,9 +64,10 @@
   "tr_demonstration": "प्रदर्शन",
   "tr_partNo": "असाइनमेन्ट नं.:",
   "tr_nameS89": "नाम:",
-  "tr_assistant": "Assistant",
+  "tr_assistant": "Assistant:",
   "tr_chairman": "चेयरम्यान",
   "tr_prayer": "प्रार्थना",
   "tr_partDuration": "({{ time }} min.)",
-  "tr_memorialWeek": "Week of Memorial"
+  "tr_memorialWeek": "Week of Memorial",
+  "tr_exportMidweekMeetinDesc": "Choose the schedules and forms you'd like to export and pick your preferred template. Organized saves your template choice for next time to make the export easier."
 }

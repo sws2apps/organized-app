@@ -1,8 +1,8 @@
 {
   "tr_s89Title": "HAYATIMIZ VE HİZMETİMİZ İBADETİ<br />GÖREV KÂĞIDI",
   "tr_s89ToBeGiven": "Yapılacağı yer",
-  "tr_s89DescFooter": "Note to student: The source material and study point for your assignment can be found in the  Life and Ministry Meeting Workbook. Please review the instructions for the part as outlined in Instructions for Our Christian Life and Ministry Meeting (S-38).",
-  "tr_date": "Date",
+  "tr_s89DescFooter": "Note to student: The source material and study point for your assignment can be found in the Life and Ministry Meeting Workbook. Please review the instructions for the part as outlined in Instructions for Our Christian Life and Ministry Meeting (S-38).",
+  "tr_date": "Date:",
   "tr_assignment": "Görev",
   "tr_bibleReading": "Kutsal Kitap Okuması",
   "tr_initialCall": "İlk Görüşme",
@@ -64,9 +64,10 @@
   "tr_demonstration": "Gösteri",
   "tr_partNo": "Kısım no.:",
   "tr_nameS89": "Ad soyad:",
-  "tr_assistant": "Assistant",
+  "tr_assistant": "Assistant:",
   "tr_chairman": "Başkanlık eden",
   "tr_prayer": "Dua",
   "tr_partDuration": "({{ time }} min.)",
-  "tr_memorialWeek": "Week of Memorial"
+  "tr_memorialWeek": "Week of Memorial",
+  "tr_exportMidweekMeetinDesc": "Choose the schedules and forms you'd like to export and pick your preferred template. Organized saves your template choice for next time to make the export easier."
 }

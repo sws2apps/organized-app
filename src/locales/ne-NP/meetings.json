@@ -31,7 +31,6 @@
   "tr_assignmentsHistory": "असाइनमेन्ट इतिहास",
   "tr_class": "कक्षा",
   "tr_exportMidweekMeeting": "Export midweek meeting",
-  "tr_exportMidweekMeetinDesc": "Select which schedules you want to export.",
   "tr_startMonth": "Start month",
   "tr_endMonth": "End month",
   "tr_MMScheduleS140": "मध्यहप्ताको सभाको तालिका (S-140)",
@@ -112,5 +111,14 @@
   "tr_editParts": "Edit parts",
   "tr_customMeetingPartDesc": "Your custom meeting part. If no info is entered, it won't be displayed in the schedule.",
   "tr_customMeetingPartDelete": "Delete custom part",
-  "tr_clearAllAssignmentsDesc": "Are you sure you want to clear all created assignments for this meeting? You can always reassign them later."
+  "tr_clearAllAssignmentsDesc": "Are you sure you want to clear all created assignments for this meeting? You can always reassign them later.",
+  "tr_templateS89": "S-89 template",
+  "tr_templateS140": "S-140 template",
+  "tr_templateS89Doc1x1Name": "1 assignment",
+  "tr_templateS89Doc1x1Desc": "per page, original size",
+  "tr_templateS89Doc4x1Name": "4 assignments",
+  "tr_templateS89Doc4x1Desc": "per A4 page",
+  "tr_templateS140DefaultName": "S-140",
+  "tr_templateS140DefaultDesc": "Up to 2 weeks",
+  "tr_tgwGems": "Spiritual Gems"
 }
