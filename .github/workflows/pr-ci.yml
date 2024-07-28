@@ -2,6 +2,7 @@ name: Cypress Tests (PR)
 
 on:
   pull_request:
+    branches: [cpe-archive]
 
 permissions: read-all
 
@@ -18,7 +19,6 @@ jobs:
       - name: Checkout for testing
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
         with:
-          ref: main
           persist-credentials: false
 
       - name: Use Node.js LTS version

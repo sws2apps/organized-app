@@ -9,7 +9,7 @@ updates:
       prefix: 'chore(actions)'
 
   - package-ecosystem: 'github-actions'
-    target-branch: 'main'
+    target-branch: 'cpe-archive'
     directory: '/'
     schedule:
       interval: 'daily'
