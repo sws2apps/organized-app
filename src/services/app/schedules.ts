@@ -990,6 +990,28 @@ export const schedulesPersonNoConsecutivePart = async ({
   return selected;
 };
 
+export const schedulesPersonLatest = ({
+  persons,
+  type,
+  history,
+}: {
+  persons: PersonType[];
+  type: AssignmentCode;
+  history: AssignmentHistoryType[];
+  classroom?: string;
+}) => {
+  const filteredHistory = history.filter(
+    (record) => record.assignment.code === type
+  );
+  const last = filteredHistory.at(0);
+
+  const selected = persons.find(
+    (record) => record.person_uid === last.assignment.person
+  );
+
+  return selected;
+};
+
 export const schedulesSelectRandomPerson = async (data: {
   type: AssignmentCode;
   week: string;
@@ -1071,6 +1093,15 @@ export const schedulesSelectRandomPerson = async (data: {
         persons: personsElligible,
         type: data.type,
         classroom: data.classroom,
+        history: data.history,
+      });
+    }
+
+    //  6th rule: pick the latest
+    if (!selected) {
+      selected = schedulesPersonLatest({
+        persons: personsElligible,
+        type: data.type,
         history: data.history,
       });
     }
