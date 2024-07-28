@@ -3,4 +3,7 @@ pull_request_labels:
   - crowdin
 files:
   - source: /src/shared/locales/en/*.json
+    ignore:
+      - /src/shared/locales/en/source.json
+      - /src/shared/locales/en/ui.json
     translation: /src/shared/locales/%locale%/%original_file_name%
