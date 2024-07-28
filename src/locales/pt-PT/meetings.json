@@ -31,7 +31,6 @@
   "tr_assignmentsHistory": "Histórico de designações",
   "tr_class": "Classe",
   "tr_exportMidweekMeeting": "Export midweek meeting",
-  "tr_exportMidweekMeetinDesc": "Selecione que programas deseja exportar.",
   "tr_startMonth": "Iniciar mês",
   "tr_endMonth": "Finalizar mês",
   "tr_MMScheduleS140": "Programação da reunião do meio da semana (S-140)",
@@ -112,5 +111,13 @@
   "tr_editParts": "Editar partes",
   "tr_customMeetingPartDesc": "Sua parte de reunião personalizada. Se nenhuma informação for inserida, ela não será exibida na programação.",
   "tr_customMeetingPartDelete": "Apagar parte personalizada",
-  "tr_clearAllAssignmentsDesc": "Tem a certeza de que deseja limpar todas as designações criadas? Pode sempre atribui-las posteriormente."
+  "tr_clearAllAssignmentsDesc": "Tem a certeza de que deseja limpar todas as designações criadas? Pode sempre atribui-las posteriormente.",
+  "tr_templateS89": "S-89 template",
+  "tr_templateS140": "S-140 template",
+  "tr_templateS89Doc1x1Name": "1 assignment",
+  "tr_templateS89Doc1x1Desc": "per page, original size",
+  "tr_templateS89Doc4x1Name": "4 assignments",
+  "tr_templateS89Doc4x1Desc": "per A4 page",
+  "tr_templateS140DefaultName": "S-140",
+  "tr_templateS140DefaultDesc": "Up to 2 weeks"
 }
