@@ -2,6 +2,7 @@ import { IconExport } from '@components/icons';
 import { Button } from '@components/index';
 import PageTitle from '@components/page_title';
 import GroupPublisherSelector from '@features/congregation/publisher_records/GroupPublisherSelector';
+import StatisticPanel from '@features/congregation/publisher_records/StatisticsPanel';
 import {
   LeftColumn,
   RightColumn,
@@ -59,6 +60,50 @@ const groups: TerritoryGroup[] = [
   {
     name: 'Emelrightes',
     members: [
+      {
+        id: '1',
+        firstName: 'Alice',
+        lastName: 'Adams',
+        gender: 'female',
+        fieldService: 'Publisher',
+      },
+      {
+        id: '2',
+        firstName: 'Bob',
+        lastName: 'Brown',
+        gender: 'male',
+        fieldService: 'Regular pioneer',
+        responsibility: 'Ministerial Servant',
+      },
+      {
+        id: '3',
+        firstName: 'Charlie',
+        lastName: 'Clark',
+        gender: 'female',
+        fieldService: 'Special pioneer',
+      },
+      {
+        id: '1',
+        firstName: 'Alice',
+        lastName: 'Adams',
+        gender: 'female',
+        fieldService: 'Publisher',
+      },
+      {
+        id: '2',
+        firstName: 'Bob',
+        lastName: 'Brown',
+        gender: 'male',
+        fieldService: 'Regular pioneer',
+        responsibility: 'Ministerial Servant',
+      },
+      {
+        id: '3',
+        firstName: 'Charlie',
+        lastName: 'Clark',
+        gender: 'female',
+        fieldService: 'Special pioneer',
+      },
       {
         id: '1',
         firstName: 'Alice',
@@ -189,7 +234,7 @@ const PublisherRecord = () => {
           </CardSection>
         </LeftColumn>
         <RightColumn>
-          <CardSection>hello</CardSection>
+          <StatisticPanel />
         </RightColumn>
       </Wrapper>
     </>

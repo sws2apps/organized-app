@@ -12,7 +12,13 @@ import {
   ScheduleTitle,
   ScheduleWeekTitle,
 } from './ScheduleComponents';
-import { IconDiamond, IconLivingPart, IconMinistry, IconSong, IconWavingHand } from '@components/icons';
+import {
+  IconDiamond,
+  IconLivingPart,
+  IconMinistry,
+  IconSong,
+  IconWavingHand,
+} from '@components/icons';
 import { Box } from '@mui/material';
 import { Badge } from '@components/index';
 
@@ -56,7 +62,10 @@ const MidweekMeeting = () => {
             />
           </ScheduleWeekTitle>
           <ScheduleMembers>
-            <ScheduleMemberRow type={t('tr_chairman') + ':'} name="Jeremiah Green" />
+            <ScheduleMemberRow
+              type={t('tr_chairman') + ':'}
+              name="Jeremiah Green"
+            />
           </ScheduleMembers>
         </ScheduleItemTitle>
         <ScheduleItem>
@@ -65,10 +74,17 @@ const MidweekMeeting = () => {
             Song 109 – “Jehovah’s Warm Appeal: “Be Wise, My Son”
           </ScheduleTitle>
           <ScheduleMembers>
-            <ScheduleMemberRow type={t('tr_prayer') + ':'} name="Jeremiah Green" />
+            <ScheduleMemberRow
+              type={t('tr_prayer') + ':'}
+              name="Jeremiah Green"
+            />
           </ScheduleMembers>
         </ScheduleItem>
-        <ScheduleHeader text={t('tr_treasuresPart')} color="var(--treasures-from-gods-word)" icon={<IconDiamond />} />
+        <ScheduleHeader
+          text={t('tr_treasuresPart')}
+          color="var(--treasures-from-gods-word)"
+          icon={<IconDiamond />}
+        />
         <ScheduleItem>
           <Box>
             <ScheduleTitle color="black">
@@ -78,7 +94,10 @@ const MidweekMeeting = () => {
           </Box>
         </ScheduleItem>
         <ScheduleItem>
-          <ScheduleTitle cssCounter color="var(--text-treasures-from-gods-word)">
+          <ScheduleTitle
+            cssCounter
+            color="var(--text-treasures-from-gods-word)"
+          >
             “God’s Loyal Love Protects Us From Satan’s Lies”
           </ScheduleTitle>
           <ScheduleMembers>
@@ -86,7 +105,10 @@ const MidweekMeeting = () => {
           </ScheduleMembers>
         </ScheduleItem>
         <ScheduleItem>
-          <ScheduleTitle cssCounter color="var(--text-treasures-from-gods-word)">
+          <ScheduleTitle
+            cssCounter
+            color="var(--text-treasures-from-gods-word)"
+          >
             {t('tr_tgwGems')}
           </ScheduleTitle>
           <ScheduleMembers>
@@ -95,13 +117,21 @@ const MidweekMeeting = () => {
         </ScheduleItem>
         <ScheduleItem>
           <Box>
-            <ScheduleTitle cssCounter color="var(--text-treasures-from-gods-word)">
+            <ScheduleTitle
+              cssCounter
+              color="var(--text-treasures-from-gods-word)"
+            >
               {t('tr_bibleReading')}
             </ScheduleTitle>
-            <ScheduleDescription>(3 Min.) Job 9:20-35 (th study 11)</ScheduleDescription>
+            <ScheduleDescription>
+              (3 Min.) Job 9:20-35 (th study 11)
+            </ScheduleDescription>
           </Box>
           <ScheduleMembers>
-            <ScheduleMemberRow type={t('tr_student') + ':'} name="Jeremiah Green" />
+            <ScheduleMemberRow
+              type={t('tr_student') + ':'}
+              name="Jeremiah Green"
+            />
           </ScheduleMembers>
         </ScheduleItem>
         <ScheduleHeader
@@ -111,35 +141,63 @@ const MidweekMeeting = () => {
         />
         <ScheduleItem>
           <Box>
-            <ScheduleTitle cssCounter color="var(--text-apply-yourself-to-the-field-ministry)">
+            <ScheduleTitle
+              cssCounter
+              color="var(--text-apply-yourself-to-the-field-ministry)"
+            >
               {t('tr_initialCall')}
             </ScheduleTitle>
             <ScheduleDescription>
-              (3 Min.) Begin with the sample conversation topic. Offer a publication from the Teaching Toolbox. (th
-              study 17)
+              (3 Min.) Begin with the sample conversation topic. Offer a
+              publication from the Teaching Toolbox. (th study 17)
             </ScheduleDescription>
           </Box>
           <ScheduleMembers>
             <ScheduleMemberClassRoom classRoomName={t('tr_mainHall')}>
-              <ScheduleMemberRow female type={t('tr_student') + ':'} name="Jeremiah Green" />
-              <ScheduleMemberRow female type={t('tr_assistantS89')} name="Jeremiah Green" />
+              <ScheduleMemberRow
+                female
+                type={t('tr_student') + ':'}
+                name="Jeremiah Green"
+              />
+              <ScheduleMemberRow
+                female
+                type={t('tr_assistantS89')}
+                name="Jeremiah Green"
+              />
             </ScheduleMemberClassRoom>
             <ScheduleMemberClassRoom classRoomName={t('tr_auxClassroom')}>
-              <ScheduleMemberRow female type={t('tr_student') + ':'} name="Jeremiah Green" />
-              <ScheduleMemberRow female type={t('tr_assistantS89')} name="Jeremiah Green" />
+              <ScheduleMemberRow
+                female
+                type={t('tr_student') + ':'}
+                name="Jeremiah Green"
+              />
+              <ScheduleMemberRow
+                female
+                type={t('tr_assistantS89')}
+                name="Jeremiah Green"
+              />
             </ScheduleMemberClassRoom>
           </ScheduleMembers>
         </ScheduleItem>
-        <ScheduleHeader text={t('tr_livingPart')} color="var(--living-as-christians)" icon={<IconLivingPart />} />
+        <ScheduleHeader
+          text={t('tr_livingPart')}
+          color="var(--living-as-christians)"
+          icon={<IconLivingPart />}
+        />
         <ScheduleItem>
           <Box>
             <ScheduleTitle cssCounter color="var(--text_living-as-christians)">
               “Help Nonreligious People Come to Know Their Creator”
             </ScheduleTitle>
-            <ScheduleDescription>(3 Min.) Job 9:20-35 (th study 11)</ScheduleDescription>
+            <ScheduleDescription>
+              (3 Min.) Job 9:20-35 (th study 11)
+            </ScheduleDescription>
           </Box>
           <ScheduleMembers>
-            <ScheduleMemberRow type={t('tr_student') + ':'} name="Jeremiah Green" />
+            <ScheduleMemberRow
+              type={t('tr_student') + ':'}
+              name="Jeremiah Green"
+            />
           </ScheduleMembers>
         </ScheduleItem>
         <ScheduleItem>
@@ -149,7 +207,11 @@ const MidweekMeeting = () => {
           </ScheduleTitle>
 
           <ScheduleMembers>
-            <ScheduleMemberRow active type={t('tr_prayer') + ':'} name="Jeremiah Green" />
+            <ScheduleMemberRow
+              active
+              type={t('tr_prayer') + ':'}
+              name="Jeremiah Green"
+            />
           </ScheduleMembers>
         </ScheduleItem>
       </ScheduleGrid>

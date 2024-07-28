@@ -1,6 +1,11 @@
 import { ChangeEvent } from 'react';
-import { Switch } from '@mui/material';
+import { Switch, SwitchProps } from '@mui/material';
 import { IconOffCircle, IconOnCircle } from '@icons/index';
+
+interface CustomSwitchProps extends SwitchProps {
+  checked: boolean;
+  onChange: (e: ChangeEvent<HTMLInputElement>, checked: boolean) => void;
+}
 
 /**
  * Custom Switch component.
@@ -10,10 +15,8 @@ import { IconOffCircle, IconOnCircle } from '@icons/index';
 const CustomSwitch = ({
   checked,
   onChange,
-}: {
-  checked: boolean;
-  onChange: (e: ChangeEvent<HTMLInputElement>, checked: boolean) => void;
-}) => {
+  ...props
+}: CustomSwitchProps) => {
   return (
     <Switch
       checked={checked}
@@ -43,6 +46,7 @@ const CustomSwitch = ({
           borderRadius: 'var(--radius-max)',
         },
       }}
+      {...props}
     />
   );
 };
