@@ -31,7 +31,6 @@
   "tr_assignmentsHistory": "Assignments history",
   "tr_class": "Klase",
   "tr_exportMidweekMeeting": "Export midweek meeting",
-  "tr_exportMidweekMeetinDesc": "Pumili kung anong iskedyul ang gustong i-export.",
   "tr_startMonth": "Panimulang buwan",
   "tr_endMonth": "Huling buwan",
   "tr_MMScheduleS140": "Midweek meeting schedule (S-140)",
@@ -112,5 +111,13 @@
   "tr_editParts": "I-edit ang mga magbabahagi",
   "tr_customMeetingPartDesc": "Ang iyong binagong bahagi. Kapag walang inilagay, hindi ito lalabas sa iskedyul.",
   "tr_customMeetingPartDelete": "Alisin ang binagong bahagi",
-  "tr_clearAllAssignmentsDesc": "Sigurado ka bang gusto mong i-clear lahat ng nagawang assignment para sa pulong na ito? Maaari silang i-reassign ulit."
+  "tr_clearAllAssignmentsDesc": "Sigurado ka bang gusto mong i-clear lahat ng nagawang assignment para sa pulong na ito? Maaari silang i-reassign ulit.",
+  "tr_templateS89": "S-89 template",
+  "tr_templateS140": "S-140 template",
+  "tr_templateS89Doc1x1Name": "1 assignment",
+  "tr_templateS89Doc1x1Desc": "per page, original size",
+  "tr_templateS89Doc4x1Name": "4 assignments",
+  "tr_templateS89Doc4x1Desc": "per A4 page",
+  "tr_templateS140DefaultName": "S-140",
+  "tr_templateS140DefaultDesc": "Up to 2 weeks"
 }
