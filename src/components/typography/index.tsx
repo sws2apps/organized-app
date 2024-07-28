@@ -1,4 +1,4 @@
-import { Typography } from '@mui/material';
+import { Typography as MUITypography } from '@mui/material';
 import { TypographyTypeProps } from './index.types';
 
 /**
@@ -8,15 +8,15 @@ import { TypographyTypeProps } from './index.types';
  * @param props - The properties for the CustomTypography component.
  * @returns A customized Typography component.
  */
-const CustomTypography = (props: TypographyTypeProps) => {
+const Typography = (props: TypographyTypeProps) => {
   const color = props.color || 'var(--black)';
   const className = props.className || 'body-regular';
 
   return (
-    <Typography {...props} className={className} color={color}>
+    <MUITypography {...props} className={className} color={color}>
       {props.children}
-    </Typography>
+    </MUITypography>
   );
 };
 
-export default CustomTypography;
+export default Typography;

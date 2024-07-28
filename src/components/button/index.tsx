@@ -1,4 +1,4 @@
-import { Button, ButtonProps } from '@mui/material';
+import { Button as MUIButton, ButtonProps } from '@mui/material';
 import { ButtonPropsType } from './index.types';
 import { FC } from 'react';
 
@@ -7,7 +7,7 @@ import { FC } from 'react';
  * @param {ButtonPropsType} props - Props for the CustomButton component.
  * @returns {JSX.Element} CustomButton component.
  */
-const CustomButton: FC<ButtonPropsType> = (props) => {
+const Button: FC<ButtonPropsType> = (props) => {
   let className = props.className || 'button-caps';
   const disabled = props.disabled || false;
   const variant = props.variant || 'main';
@@ -185,7 +185,7 @@ const CustomButton: FC<ButtonPropsType> = (props) => {
   };
 
   return (
-    <Button
+    <MUIButton
       startIcon={props.startIcon}
       endIcon={props.endIcon}
       variant={internalVariant}
@@ -269,8 +269,8 @@ const CustomButton: FC<ButtonPropsType> = (props) => {
       }}
     >
       {props.children}
-    </Button>
+    </MUIButton>
   );
 };
 
-export default CustomButton;
+export default Button;

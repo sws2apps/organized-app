@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { Tabs, Tab, Box } from '@mui/material';
+import { ReactNode, SyntheticEvent, useEffect, useState } from 'react';
+import { Tabs as MUITabs, Tab, Box } from '@mui/material';
 import { TabsPanelProps, CustomTabProps } from './index.types';
 
 /**
@@ -41,7 +41,7 @@ const a11yProps = (index: number) => {
  *
  * @param tabs An array of tabs with label and corresponding component.
  */
-const CustomTabs = ({ tabs, value, onChange }: CustomTabProps) => {
+const Tabs = ({ tabs, value, onChange }: CustomTabProps) => {
   const [valueOfActivePanel, setValueOfActivePanel] = useState(value || 0);
 
   /**
@@ -50,7 +50,7 @@ const CustomTabs = ({ tabs, value, onChange }: CustomTabProps) => {
    * @param event The event object.
    * @param newValue The new value of the active tab.
    */
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChange = (event: SyntheticEvent, newValue: number) => {
     event.preventDefault();
     setValueOfActivePanel(newValue);
 
@@ -64,7 +64,7 @@ const CustomTabs = ({ tabs, value, onChange }: CustomTabProps) => {
   return (
     <Box sx={{ width: '100%' }}>
       <Box>
-        <Tabs
+        <MUITabs
           value={valueOfActivePanel}
           onChange={handleChange}
           TabIndicatorProps={{
@@ -84,7 +84,7 @@ const CustomTabs = ({ tabs, value, onChange }: CustomTabProps) => {
           }}
         >
           {tabs.map(
-            ({ label }, index: number): React.ReactNode => (
+            ({ label }, index: number): ReactNode => (
               <Tab
                 label={label}
                 key={label}
@@ -93,11 +93,11 @@ const CustomTabs = ({ tabs, value, onChange }: CustomTabProps) => {
               />
             )
           )}
-        </Tabs>
+        </MUITabs>
       </Box>
 
       {tabs.map(
-        (tab, i: number): React.ReactNode => (
+        (tab, i: number): ReactNode => (
           <CustomTabPanel value={valueOfActivePanel} index={i} key={tab.label}>
             {tab.Component}
           </CustomTabPanel>
@@ -107,4 +107,4 @@ const CustomTabs = ({ tabs, value, onChange }: CustomTabProps) => {
   );
 };
 
-export default CustomTabs;
+export default Tabs;

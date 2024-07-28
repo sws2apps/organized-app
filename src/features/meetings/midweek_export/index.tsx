@@ -6,7 +6,10 @@ import useAssignmentsDelete from './useMidweekExport';
 import Button from '@components/button';
 import Checkbox from '@components/checkbox';
 import Dialog from '@components/dialog';
+import Tabs from '@components/tabs';
 import Typography from '@components/typography';
+import S89TemplateSelector from './S89TemplateSelector';
+import S140TemplateSelector from './S140TemplateSelector';
 import ScheduleRangeSelector from '../schedule_range_selector';
 
 const MidweekExport = ({ open, onClose }: MidweekExportType) => {
@@ -21,6 +24,10 @@ const MidweekExport = ({ open, onClose }: MidweekExportType) => {
     exportS89,
     handleToggleS140,
     handleToggleS89,
+    S89Template,
+    S140Template,
+    handleSelectS140Template,
+    handleSelectS89Template,
   } = useAssignmentsDelete(onClose);
 
   return (
@@ -49,6 +56,29 @@ const MidweekExport = ({ open, onClose }: MidweekExportType) => {
           onChange={handleToggleS89}
         />
       </Box>
+
+      <Tabs
+        tabs={[
+          {
+            label: t('tr_templateS140'),
+            Component: (
+              <S140TemplateSelector
+                selected={S140Template}
+                onChange={(value) => handleSelectS140Template(value)}
+              />
+            ),
+          },
+          {
+            label: t('tr_templateS89'),
+            Component: (
+              <S89TemplateSelector
+                selected={S89Template}
+                onChange={(value) => handleSelectS89Template(value)}
+              />
+            ),
+          },
+        ]}
+      />
 
       <Box
         sx={{

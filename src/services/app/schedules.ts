@@ -1339,6 +1339,7 @@ export const schedulesS89Data = async (
       const obj = <S89DataType>{};
 
       obj.id = crypto.randomUUID();
+      obj.weekOf = schedule.weekOf;
       obj.student_name = buildPersonFullname(
         person.person_data.person_lastname.value,
         person.person_data.person_firstname.value,
