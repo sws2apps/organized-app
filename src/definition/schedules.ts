@@ -107,6 +107,7 @@ export type AssignmentHistoryType = {
 
 export type S89DataType = {
   id: string;
+  weekOf: string;
   student_name: string;
   assistant_name: string;
   assignment_date: string;

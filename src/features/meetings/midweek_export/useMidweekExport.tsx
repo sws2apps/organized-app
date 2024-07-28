@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { pdf } from '@react-pdf/renderer';
 import { saveAs } from 'file-saver';
+import JSZip from 'jszip';
 import { useAppTranslation } from '@hooks/index';
-import { MidweekExportType } from './index.types';
+import { MidweekExportType, PDFBlobType } from './index.types';
 import { displaySnackNotification } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { useRecoilValue } from 'recoil';
@@ -22,8 +23,10 @@ import {
   midweekMeetingClassCountState,
   userDataViewState,
 } from '@states/settings';
-import { TemplateS140, TemplateS89 } from '@views/index';
+import { TemplateS140, TemplateS89, TemplateS89Doc4in1 } from '@views/index';
 import { JWLangState } from '@states/app';
+import { S140TemplateType } from './S140TemplateSelector/index.types';
+import { S89TemplateType } from './S89TemplateSelector/index.types';
 
 const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
   const { t } = useAppTranslation();
@@ -40,6 +43,9 @@ const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [exportS140, setExportS140] = useState(false);
   const [exportS89, setExportS89] = useState(false);
+  const [S89Template, setS89Template] = useState<S89TemplateType>('S89_1x1');
+  const [S140Template, setS140Template] =
+    useState<S140TemplateType>('S140_default');
 
   const handleSetStartMonth = (value: string) => setStartMonth(value);
 
@@ -49,6 +55,14 @@ const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
 
   const handleToggleS89 = () => setExportS89((prev) => !prev);
 
+  const handleSelectS89Template = (template: S89TemplateType) => {
+    setS89Template(template);
+  };
+
+  const handleSelectS140Template = (template: S140TemplateType) => {
+    setS140Template(template);
+  };
+
   const handleExportS89 = async (weeks: SchedWeekType[]) => {
     const S89: S89DataType[] = [];
 
@@ -57,12 +71,49 @@ const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
       S89.push(...data);
     }
 
-    if (S89.length > 0) {
-      const blob = await pdf(
-        <TemplateS89 s89Data={S89} lang={lang} />
-      ).toBlob();
+    const firstWeek = S89.at(0).weekOf.replaceAll('/', '');
+    const lastWeek = S89.at(-1).weekOf.replaceAll('/', '');
 
-      saveAs(blob, 'S89.pdf');
+    if (S89.length > 0) {
+      if (S89Template === 'S89_4x1') {
+        const blob = await pdf(
+          <TemplateS89Doc4in1 s89Data={S89} lang={lang} />
+        ).toBlob();
+
+        const filename = `S-89_${firstWeek}-${lastWeek}.pdf`;
+
+        saveAs(blob, filename);
+      }
+
+      if (S89Template === 'S89_1x1') {
+        const pdfBlobs: PDFBlobType[] = [];
+
+        for await (const data of S89) {
+          const blob = await pdf(
+            <TemplateS89 data={data} lang={lang} />
+          ).toBlob();
+
+          let filename = 'S-89_';
+          filename += data.weekOf.replaceAll('/', '') + '_';
+          filename += data.student_name.replace(' ', '_') + '.pdf';
+
+          pdfBlobs.push({ pdfBlob: blob, filename });
+        }
+
+        const zip = new JSZip();
+
+        pdfBlobs.forEach((blob) => {
+          zip.file(blob.filename, blob.pdfBlob);
+        });
+
+        const content = await zip.generateAsync({ type: 'blob' });
+
+        const url = URL.createObjectURL(content);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `S-89_${firstWeek}-${lastWeek}.zip`;
+        link.click();
+      }
     }
   };
 
@@ -148,6 +199,10 @@ const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
     exportS89,
     handleToggleS140,
     handleToggleS89,
+    S89Template,
+    handleSelectS89Template,
+    S140Template,
+    handleSelectS140Template,
   };
 };
 
