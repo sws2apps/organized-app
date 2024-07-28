@@ -18,7 +18,7 @@
     "generate:css": "node converter/css/convert.js && prettier  converter/css/tokens.json src/v3/global/global.css src/v3/global/global.ts --write",
     "generate:icons": "node converter/svg/convert.js && prettier src/v3/components/icons --write",
     "locales:unused": "tsx unused-i18n-keys.ts",
-    "lint": "eslint src/v3"
+    "lint": "eslint src"
   },
   "eslintConfig": {
     "extends": [
