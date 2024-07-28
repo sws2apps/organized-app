@@ -326,10 +326,10 @@ export const importDummyPersons = async (showLoading?: boolean) => {
 
     const cnMaleMidweek = 5;
     const cnMaleUnbaptized = 15;
-    const cnElder = 6;
-    const cnElderFR = 3;
-    const cnMinServ = 1;
-    const cnMinServFR = 3;
+    const cnElder = 9;
+    const cnElderFR = 5;
+    const cnMinServ = 4;
+    const cnMinServFR = 8;
     const cnMaleFR = 4;
     const cnMaleFS = 2;
     const cnMaleFMF = 2;

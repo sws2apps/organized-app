@@ -21,13 +21,13 @@ const useStart = () => {
       await dbSpeakersCongregationsDummy();
       await dbVisitingSpeakersDummy();
 
+      await loadApp();
+      await runUpdater();
+
       const { data, status } = await apiFetchSources();
       if (status === 200 && data && data.length) {
         await sourcesImportJW(data);
       }
-
-      await loadApp();
-      await runUpdater();
 
       await setIsAppLoad(false);
     };
