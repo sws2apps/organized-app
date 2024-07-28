@@ -71,10 +71,10 @@ const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
       S89.push(...data);
     }
 
-    const firstWeek = S89.at(0).weekOf.replaceAll('/', '');
-    const lastWeek = S89.at(-1).weekOf.replaceAll('/', '');
-
     if (S89.length > 0) {
+      const firstWeek = S89.at(0).weekOf.replaceAll('/', '');
+      const lastWeek = S89.at(-1).weekOf.replaceAll('/', '');
+
       if (S89Template === 'S89_4x1') {
         const blob = await pdf(
           <TemplateS89Doc4in1 s89Data={S89} lang={lang} />
