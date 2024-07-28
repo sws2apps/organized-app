@@ -31,6 +31,7 @@ import {
   sourcesCBSGetTitle,
   sourcesCheckAYFExplainBeliefsAssignment,
   sourcesCheckLCAssignments,
+  sourcesCountLC,
   sourcesLCGetTitle,
   sourcesPartTiming,
   sourcesSongConclude,
@@ -1713,7 +1714,11 @@ export const schedulesMidweekData = async (
     const fieldTime = `${baseName}_time`;
     const fieldLabel = `${baseName}_label`;
     const fieldNameA = `${baseName}_A_name`;
+    const fieldStudentNameA = `${baseName}_A_student_name`;
+    const fieldAssistantNameA = `${baseName}_A_assistant_name`;
     const fieldNameB = `${baseName}_B_name`;
+    const fieldStudentNameB = `${baseName}_B_student_name`;
+    const fieldAssistantNameB = `${baseName}_B_assistant_name`;
     const fieldStudentA = `MM_AYFPart${i}_Student_A` as AssignmentFieldType;
     const fieldStudentB = `MM_AYFPart${i}_Student_A` as AssignmentFieldType;
     const fieldAssistantA = `MM_AYFPart${i}_Assistant_A` as AssignmentFieldType;
@@ -1767,6 +1772,8 @@ export const schedulesMidweekData = async (
         assignment: fieldStudentA,
       });
 
+      result[fieldStudentNameA] = result[fieldNameA];
+
       let assistant = await schedulesWeekGetAssigned({
         schedule,
         dataView,
@@ -1776,6 +1783,8 @@ export const schedulesMidweekData = async (
       if (assistant?.length > 0) {
         result[fieldNameA] += useDisplayName ? '/' : '\u000A';
         result[fieldNameA] += assistant;
+
+        result[fieldAssistantNameA] = assistant;
       }
 
       if (week_type !== Week.CO_VISIT && class_count === 2) {
@@ -1784,6 +1793,8 @@ export const schedulesMidweekData = async (
           dataView,
           assignment: fieldStudentB,
         });
+
+        result[fieldStudentNameB] = result[fieldNameB];
 
         assistant = await schedulesWeekGetAssigned({
           schedule,
@@ -1794,6 +1805,8 @@ export const schedulesMidweekData = async (
         if (assistant?.length > 0) {
           result[fieldNameB] += useDisplayName ? '/' : '\u000A';
           result[fieldNameB] += assistant;
+
+          result[fieldAssistantNameB] = assistant;
         }
       }
     }
@@ -1803,6 +1816,8 @@ export const schedulesMidweekData = async (
     getTranslation({ key: 'tr_song' }) +
     ' ' +
     source.midweek_meeting.song_middle[lang];
+
+  result.lc_count = sourcesCountLC(source, dataView, lang);
 
   for (let i = 1; i < 3; i++) {
     const baseName = `lc_part${i}`;
@@ -1874,6 +1889,8 @@ export const schedulesMidweekData = async (
       assignment: 'MM_LCCBSConductor',
     });
 
+    result.lc_cbs_conductor_name = result.lc_cbs_name;
+
     const reader = await schedulesWeekGetAssigned({
       schedule,
       dataView,
@@ -1883,6 +1900,8 @@ export const schedulesMidweekData = async (
     if (reader?.length > 0) {
       result.lc_cbs_name += useDisplayName ? '/' : '\u000A';
       result.lc_cbs_name += reader;
+
+      result.lc_cbs_reader_name = reader;
     }
   }
 

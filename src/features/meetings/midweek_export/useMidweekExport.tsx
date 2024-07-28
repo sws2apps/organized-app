@@ -20,10 +20,16 @@ import {
 import {
   congNameState,
   congNumberState,
+  displayNameEnableState,
   midweekMeetingClassCountState,
   userDataViewState,
 } from '@states/settings';
-import { TemplateS140, TemplateS89, TemplateS89Doc4in1 } from '@views/index';
+import {
+  TemplateS140,
+  TemplateS140AppNormal,
+  TemplateS89,
+  TemplateS89Doc4in1,
+} from '@views/index';
 import { JWLangState } from '@states/app';
 import { S140TemplateType } from './S140TemplateSelector/index.types';
 import { S89TemplateType } from './S89TemplateSelector/index.types';
@@ -37,6 +43,7 @@ const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
   const class_count = useRecoilValue(midweekMeetingClassCountState);
   const cong_name = useRecoilValue(congNameState);
   const cong_number = useRecoilValue(congNumberState);
+  const displayNameEnabled = useRecoilValue(displayNameEnableState);
 
   const [startMonth, setStartMonth] = useState('');
   const [endMonth, setEndMonth] = useState('');
@@ -127,12 +134,22 @@ const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
 
     if (S140.length > 0) {
       const blob = await pdf(
-        <TemplateS140
-          class_count={class_count}
-          cong_name={cong_name}
-          cong_number={cong_number}
-          data={S140}
-        />
+        S140Template === 'S140_default' ? (
+          <TemplateS140
+            class_count={class_count}
+            cong_name={cong_name}
+            cong_number={cong_number}
+            data={S140}
+          />
+        ) : (
+          <TemplateS140AppNormal
+            class_count={class_count}
+            cong_name={cong_name}
+            cong_number={cong_number}
+            data={S140}
+            fullname={!displayNameEnabled}
+          />
+        )
       ).toBlob();
 
       const firstWeek = S140.at(0).weekOf.replaceAll('/', '');

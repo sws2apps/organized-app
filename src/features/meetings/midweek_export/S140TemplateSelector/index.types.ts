@@ -1,4 +1,4 @@
-export type S140TemplateType = 'S140_default';
+export type S140TemplateType = 'S140_default' | 'S140_app_normal';
 
 export type S140TemplateSelectorType = {
   selected: S140TemplateType;
