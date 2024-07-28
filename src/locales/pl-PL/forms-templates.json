@@ -1,8 +1,8 @@
 {
   "tr_s89Title": "ZADANIE PODCZAS ZEBRANIA<br />CHRZEŚCIJAŃSKIEGO ŻYCIA I SŁUŻBY",
   "tr_s89ToBeGiven": "Zadanie przedstawisz w sali:",
-  "tr_s89DescFooter": "Note to student: The source material and study point for your assignment can be found in the  Life and Ministry Meeting Workbook. Please review the instructions for the part as outlined in Instructions for Our Christian Life and Ministry Meeting (S-38).",
-  "tr_date": "Date",
+  "tr_s89DescFooter": "Note to student: The source material and study point for your assignment can be found in the Life and Ministry Meeting Workbook. Please review the instructions for the part as outlined in Instructions for Our Christian Life and Ministry Meeting (S-38).",
+  "tr_date": "Date:",
   "tr_assignment": "Zadanie",
   "tr_bibleReading": "Czytanie Biblii",
   "tr_initialCall": "Rozpoczynanie rozmowy",
@@ -64,9 +64,10 @@
   "tr_demonstration": "Scenka",
   "tr_partNo": "Zadanie nr:",
   "tr_nameS89": "Imię i nazwisko:",
-  "tr_assistant": "Assistant",
+  "tr_assistant": "Pomocnik(-ca):",
   "tr_chairman": "Przewodniczący",
   "tr_prayer": "Modlitwa",
   "tr_partDuration": "({{ time }} min.)",
-  "tr_memorialWeek": "Week of Memorial"
+  "tr_memorialWeek": "Week of Memorial",
+  "tr_exportMidweekMeetinDesc": "Choose the schedules and forms you'd like to export and pick your preferred template. Organized saves your template choice for next time to make the export easier."
 }
