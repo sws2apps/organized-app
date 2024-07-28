@@ -102,7 +102,7 @@
   "tr_congregationAccessCodeAsk": "Enter congregation access code",
   "tr_congregationAccessCode": "Код доступа к собранию",
   "tr_congregationMasterKeyLostDesc": "Введи код шифрования твоего собрания для доступа к нему",
-  "tr_congregationMasterKeyAsk": "Введи главный ключ собрания",
+  "tr_congregationMasterKeyAsk": "Enter congregation master key",
   "tr_can'tFindCongregation": "Can't find your congregation?",
   "tr_cantFindCongregationDesc": "Check for mistakes (minimum input is 2 characters). If your congregation isn’t listed on the jw.org search page, contact <a href=\"mailto:support@organized-app.com\">support@organized-app.com</a> for help."
 }
