@@ -1,7 +1,7 @@
 {
   "tr_s89Title": "クリスチャンとしての生活と奉仕<br />の集会の割り当て",
   "tr_s89ToBeGiven": "会場",
-  "tr_s89DescFooter": "Note to student: The source material and study point for your assignment can be found in the  Life and Ministry Meeting Workbook. Please review the instructions for the part as outlined in Instructions for Our Christian Life and Ministry Meeting (S-38).",
+  "tr_s89DescFooter": "Note to student: The source material and study point for your assignment can be found in the Life and Ministry Meeting Workbook. Please review the instructions for the part as outlined in Instructions for Our Christian Life and Ministry Meeting (S-38).",
   "tr_date": "日付：",
   "tr_assignment": "割り当て",
   "tr_bibleReading": "聖書朗読",
@@ -68,5 +68,6 @@
   "tr_chairman": "司会者",
   "tr_prayer": "祈り",
   "tr_partDuration": "({{ time }} min.)",
-  "tr_memorialWeek": "Week of Memorial"
+  "tr_memorialWeek": "Week of Memorial",
+  "tr_exportMidweekMeetinDesc": "Choose the schedules and forms you'd like to export and pick your preferred template. Organized saves your template choice for next time to make the export easier."
 }
