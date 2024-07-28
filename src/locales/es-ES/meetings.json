@@ -31,7 +31,6 @@
   "tr_assignmentsHistory": "Assignments history",
   "tr_class": "Class",
   "tr_exportMidweekMeeting": "Export midweek meeting",
-  "tr_exportMidweekMeetinDesc": "Select which schedules you want to export.",
   "tr_startMonth": "Start month",
   "tr_endMonth": "End month",
   "tr_MMScheduleS140": "Midweek meeting schedule (S-140)",
@@ -112,5 +111,13 @@
   "tr_editParts": "Editar partes",
   "tr_customMeetingPartDesc": "Tu parte personalizada de la reunión. Si no se ingresa ninguna información, no se mostrará en el horario.",
   "tr_customMeetingPartDelete": "Eliminar parte personalizada",
-  "tr_clearAllAssignmentsDesc": "¿Estás seguro de que deseas borrar todas las asignaciones creadas para esta reunión? Siempre puedes volver a asignarlas más tarde."
+  "tr_clearAllAssignmentsDesc": "¿Estás seguro de que deseas borrar todas las asignaciones creadas para esta reunión? Siempre puedes volver a asignarlas más tarde.",
+  "tr_templateS89": "S-89 template",
+  "tr_templateS140": "S-140 template",
+  "tr_templateS89Doc1x1Name": "1 assignment",
+  "tr_templateS89Doc1x1Desc": "per page, original size",
+  "tr_templateS89Doc4x1Name": "4 assignments",
+  "tr_templateS89Doc4x1Desc": "per A4 page",
+  "tr_templateS140DefaultName": "S-140",
+  "tr_templateS140DefaultDesc": "Up to 2 weeks"
 }
