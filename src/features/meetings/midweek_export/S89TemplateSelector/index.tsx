@@ -1,6 +1,7 @@
 import { PhotoProvider, PhotoView } from 'react-photo-view';
 import 'react-photo-view/dist/react-photo-view.css';
 import { Box, FormControlLabel } from '@mui/material';
+import { useBreakpoints } from '@hooks/index';
 import { S89TemplateSelectorType, S89TemplateItemType } from './index.types';
 import useS89TemplateSelector from './useS89TemplateSelector';
 import Radio from '@components/radio';
@@ -65,11 +66,19 @@ const S89TemplateItem = ({ item, onChange, selected }: S89TemplateItemType) => {
 };
 
 const S89TemplateSelector = (props: S89TemplateSelectorType) => {
+  const { tabletDown } = useBreakpoints();
   const { images, handleChange } = useS89TemplateSelector(props);
 
   return (
     <PhotoProvider maskClosable={false} maskOpacity={0.5}>
-      <Box style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: '10px',
+          justifyContent: tabletDown ? 'center' : 'flex-start',
+        }}
+      >
         {images.map((item) => (
           <S89TemplateItem
             key={item.id}
