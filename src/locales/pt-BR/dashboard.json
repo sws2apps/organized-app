@@ -58,7 +58,7 @@
   "tr_remindMeTomorrow": "Lembre-me amanhã",
   "tr_goToReports": "Ir para relatórios",
   "tr_noInternetConnection": "Sem conexão à internet",
-  "tr_noInternetConnectionDesc": "Organized is working offline right now. When you’re back online, any new data you entered will be able to sync.",
+  "tr_noInternetConnectionDesc": "Organized está funcionando em modo offline; todos os dados recém-inseridos serão sincronizados entre os dispositivos assim que a conexão for restaurada.",
   "tr_done": "Concluído",
   "tr_notifications": "Notificações",
   "tr_reject": "Rejeitar",
@@ -71,12 +71,12 @@
   "tr_tertitoryCardRequestDesc": "Por favor, reveja as solicitações para obter um cartão de território:",
   "tr_markAsRead": "Lido",
   "tr_yourRequestAccepted": "O seu pedido foi aceite",
-  "tr_yourRequestAcceptedDesc": "The <strong>{{ congregationNameAndNumber }}</strong> congregation accepted your request to view their outgoing speakers list.",
+  "tr_yourRequestAcceptedDesc": "A congregação <strong>{{ congregationNameAndNumber }}</strong> aceitou sua solicitação de ver sua lista de oradores.",
   "tr_returnedTerritory": "{{ publisherName }} devolveu o território",
   "tr_returnedTerritoryDesc": "O território {{ territoryNumber }} foi coberto e devolvido. O número de casas enviado pelo publicador é {{ numberOfHouses }}. Por favor, atualize as informações do território se necessário.",
   "tr_whatsNew": "Novidades no Organized",
   "tr_shareFeeback": "Compartilhar feedback",
-  "tr_shareFeebackDesc": "Have a brilliant idea? Share it with us! For more technical or in-depth discussions, we encourage you to use our <a href='https://github.com/sws2apps/organized-app/discussions'>GitHub Discussions</a> if possible.",
+  "tr_shareFeebackDesc": "Tem uma ideia brilhante? Compartilhe conosco! Para discussões mais técnicas ou aprofundadas, recomendamos que você use nossas <a href='https://github.com/sws2apps/organized-app/discussions'>Discussões no GitHub</a>, se possível.",
   "tr_feedback": "Opinião",
   "tr_subject": "Assunto",
   "tr_sendFeedback": "Enviar mensagem",
@@ -90,6 +90,6 @@
   "tr_hallCleaning": "Limpeza do Salão",
   "tr_yourEmailField": "Seu e-mail",
   "tr_yourMessage": "Sua mensagem",
-  "tr_reportSubmittedDesc": "Your report for {{ month }} has been submitted",
-  "tr_mainCongregation": "Main congregation"
+  "tr_reportSubmittedDesc": "Seu relatório de {{ month }} foi enviado",
+  "tr_mainCongregation": "Congregação principal"
 }
