@@ -31,6 +31,7 @@
   "tr_assignmentsHistory": "Assignments history",
   "tr_class": "Class",
   "tr_exportMidweekMeeting": "Export midweek meeting",
+  "tr_exportMidweekMeetinDesc": "Choose the schedules and forms you want to export and select a template. Your template choice will be saved for next time.",
   "tr_startMonth": "Start month",
   "tr_endMonth": "End month",
   "tr_MMScheduleS140": "Midweek meeting schedule (S-140)",
@@ -119,6 +120,7 @@
   "tr_templateS89Doc4x1Name": "4 assignments",
   "tr_templateS89Doc4x1Desc": "per A4 page",
   "tr_templateS140DefaultName": "S-140",
-  "tr_templateS140DefaultDesc": "Up to 2 weeks",
+  "tr_templateS140DescUp2Weeks": "Up to 2 weeks",
+  "tr_templateS140AppNormalName": "Normal",
   "tr_tgwGems": "Spiritual Gems"
 }

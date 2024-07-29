@@ -1,7 +1,7 @@
 {
   "tr_s89Title": "DESIGNAÇÃO PARA A REUNIÃO<br />NOSSA VIDA E MINISTÉRIO CRISTÃO",
   "tr_s89ToBeGiven": "Local",
-  "tr_s89DescFooter": "Note to student: The source material and study point for your assignment can be found in the Life and Ministry Meeting Workbook. Please review the instructions for the part as outlined in Instructions for Our Christian Life and Ministry Meeting (S-38).",
+  "tr_s89DescFooter": "Observação para o estudante: A lição e a fonte de matéria para a sua designação estão na Apostila da Reunião Vida e Ministério. Veja as instruções para a parte que estão nas Instruções para a Reunião Nossa Vida e Ministério Cristão (S-38).",
   "tr_date": "Data:",
   "tr_assignment": "Designação",
   "tr_bibleReading": "Leitura da Bíblia",
@@ -31,7 +31,7 @@
   "tr_auxClass": "Sala B",
   "tr_memorialInvite": "Convite da Celebração",
   "tr_normalWeek": "Semana normal",
-  "tr_circuitOverseerWeek": "Visit of Circuit Overseer",
+  "tr_circuitOverseerWeek": "Visita do Superintendente de Circuito",
   "tr_conventionWeek": "Semana do Congresso",
   "tr_assemblyWeek": "Semana da Assembleia de Circuito",
   "tr_shortTimeFormat": "H:MM",
@@ -53,8 +53,8 @@
   "tr_weekendMeetingPrint": "Programação da reunião do fim de semana",
   "tr_publicTalk": "Discurso público",
   "tr_openingPrayerWeekendMeeting": "Oração inicial",
-  "tr_noWMeetingWeek": "There is no weekend meeting for this week",
-  "tr_noMeetingWeek": "There is no meeting for this week",
+  "tr_noWMeetingWeek": "Não há nenhuma reunião de fim de semana para esta semana",
+  "tr_noMeetingWeek": "Não existe reunião para esta semana",
   "tr_substituteSpeaker": "Orador substituto",
   "tr_startingConversation": "Iniciando conversas",
   "tr_followingUp": "Cultivando o interesse",
@@ -64,10 +64,10 @@
   "tr_demonstration": "Demonstração",
   "tr_partNo": "Número da parte:",
   "tr_nameS89": "Nome:",
-  "tr_assistant": "Assistant:",
+  "tr_assistant": "Ajudante:",
   "tr_chairman": "Presidente",
   "tr_prayer": "Oração inicial",
   "tr_partDuration": "({{ time }} min.)",
-  "tr_memorialWeek": "Week of Memorial",
-  "tr_exportMidweekMeetinDesc": "Choose the schedules and forms you'd like to export and pick your preferred template. Organized saves your template choice for next time to make the export easier."
+  "tr_memorialWeek": "Semana da Comemoração",
+  "tr_exportMidweekMeetinDesc": "Escolha as programações e formulários que você gostaria de exportar e escolha seu modelo preferido. O Organized salva sua escolha de modelo para facilitar a exportação."
 }
