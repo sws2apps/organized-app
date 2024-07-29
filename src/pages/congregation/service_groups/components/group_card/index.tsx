@@ -26,7 +26,7 @@ export const GroupCardContainer = (props: GroupCardContainerProps) => {
     <Box
       sx={{
         padding: '8px',
-        gap: '8px',
+        gap: '4px',
         display: 'flex',
         flexDirection: 'column',
         backgroundColor: 'var(--white)',
