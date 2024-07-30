@@ -31,7 +31,7 @@
     "@emotion/styled": "^11.13.0",
     "@mui/icons-material": "^5.16.6",
     "@mui/lab": "^5.0.0-alpha.172",
-    "@mui/material": "^5.16.4",
+    "@mui/material": "^5.16.6",
     "@mui/x-date-pickers": "^7.11.1",
     "@mui/x-tree-view": "^7.11.1",
     "@react-pdf/renderer": "^3.4.4",
