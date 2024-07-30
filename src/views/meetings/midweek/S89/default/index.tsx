@@ -48,14 +48,9 @@ const S89 = ({ data, lang }: S89Type) => {
               <S89DetailsRow
                 field={`${t('tr_date')}:`}
                 value={data.assignment_date}
-                align="center"
               />
 
-              <S89DetailsRow
-                field={t('tr_partNo')}
-                value={data.part_number}
-                align="center"
-              />
+              <S89DetailsRow field={t('tr_partNo')} value={data.part_number} />
             </View>
 
             <S89ToBeGiven
