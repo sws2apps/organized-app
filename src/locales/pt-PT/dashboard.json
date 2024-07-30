@@ -90,6 +90,6 @@
   "tr_hallCleaning": "Limpeza do Salão",
   "tr_yourEmailField": "Seu e-mail",
   "tr_yourMessage": "Sua mensagem",
-  "tr_reportSubmittedDesc": "Your report for {{ month }} has been submitted",
+  "tr_reportSubmittedDesc": "O seu relatório de {{ month }} foi enviado",
   "tr_mainCongregation": "Congregação principal"
 }
