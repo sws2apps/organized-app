@@ -281,7 +281,6 @@
   "tr_avgStudiesMonthly": "Média de estudos por mês",
   "tr_highestHourNumberMonthly": "Número máximo de horas por mês",
   "tr_publishers": "Publicadores",
-  "tr_recordAttendance": "Registar presença",
   "tr_recordAttendanceDesc": "Registo de presença nas reuniões da congregação (S-3)",
   "tr_month": "Mês",
   "tr_details": "Detalhes",
@@ -418,5 +417,6 @@
   "tr_showAwayToAll": "Mostrar os períodos de ausência para todos os utilizadores",
   "tr_importExport": "Importar/exportar",
   "tr_count": "Contagem",
-  "tr_congregationNumberFull": "Número da congregação"
+  "tr_congregationNumberFull": "Número da congregação",
+  "tr_attendance": "Attendance"
 }
