@@ -412,7 +412,7 @@
   "tr_unbaptizedPublishers": "Vaftiz edilmemiş müjdeciler",
   "tr_weekStartDay": "Haftanın başlangıç günü",
   "tr_weekend": "Hafta sonu",
-  "tr_showOutgoingToAll": "Diğer cemaatlere konuşma verebilecek konuşmacıları tüm kullanıcılara göster",
+  "tr_showOutgoingToAll": "Show outgoing speakers schedule to all users",
   "tr_showOutgoingToAllDesc": "Tüm kullanıcıların giden konuşma programını görüntülemesine izin verin. Aksi taktirde sadece tayin edilmiş kardeşler görebilir.",
   "tr_showAwayToAllDesc": "Allow all users to view the time away of other publishers. Otherwise, only appointed brothers can see it.",
   "tr_showAwayToAll": "Show time away to all users",
