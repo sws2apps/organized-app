@@ -281,7 +281,6 @@
   "tr_avgStudiesMonthly": "Average ng mga pag-aaral bawat buwan",
   "tr_highestHourNumberMonthly": "Pinakamataas na bilang ng oras bawat buwan",
   "tr_publishers": "Mga publisher",
-  "tr_recordAttendance": "Record ng attendance",
   "tr_recordAttendanceDesc": "Ulat ng attendance sa pulong ng kongregasyon (S-3)",
   "tr_month": "Buwan",
   "tr_details": "Detalye",
@@ -418,5 +417,6 @@
   "tr_showAwayToAll": "Ipakita ang time away sa lahat ng user",
   "tr_importExport": "Import/export",
   "tr_count": "Bilang",
-  "tr_congregationNumberFull": "Congregation number"
+  "tr_congregationNumberFull": "Congregation number",
+  "tr_attendance": "Attendance"
 }
