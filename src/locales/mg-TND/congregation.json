@@ -281,7 +281,6 @@
   "tr_avgStudiesMonthly": "Salanisan’ny fampianarana Baiboly isam-bolana",
   "tr_highestHourNumberMonthly": "Tampon’isan’ny ora isam-bolana",
   "tr_publishers": "Publishers",
-  "tr_recordAttendance": "Isan’ny mpanatrika fivoriana",
   "tr_recordAttendanceDesc": "Tatitra Momba ny Isan’ny Mpanatrika (S-3)",
   "tr_month": "Volana",
   "tr_details": "Tsipiriany",
@@ -418,5 +417,6 @@
   "tr_showAwayToAll": "Show time away to all users",
   "tr_importExport": "Import/export",
   "tr_count": "Count",
-  "tr_congregationNumberFull": "Congregation number"
+  "tr_congregationNumberFull": "Congregation number",
+  "tr_attendance": "Attendance"
 }
