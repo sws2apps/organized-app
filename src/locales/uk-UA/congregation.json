@@ -412,7 +412,7 @@
   "tr_unbaptizedPublishers": "Неохрещені вісники",
   "tr_weekStartDay": "Week start day",
   "tr_weekend": "На вихідних",
-  "tr_showOutgoingToAll": "Show outgoing speakers to all users",
+  "tr_showOutgoingToAll": "Показувати розклад ваших рекомендованих промовців для всіх користувачів",
   "tr_showOutgoingToAllDesc": "Allow all users to view the outgoing talks schedule. Otherwise, only appointed brothers can see it.",
   "tr_showAwayToAllDesc": "Allow all users to view the time away of other publishers. Otherwise, only appointed brothers can see it.",
   "tr_showAwayToAll": "Показувати час відсутності всім користувачам",
