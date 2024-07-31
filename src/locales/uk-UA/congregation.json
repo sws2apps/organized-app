@@ -281,7 +281,6 @@
   "tr_avgStudiesMonthly": "Average studies per month",
   "tr_highestHourNumberMonthly": "Highest number of hours per month",
   "tr_publishers": "Вісники",
-  "tr_recordAttendance": "Record attendance",
   "tr_recordAttendanceDesc": "Congregation meeting attendance record (S-3)",
   "tr_month": "Month",
   "tr_details": "Details",
@@ -418,5 +417,6 @@
   "tr_showAwayToAll": "Показувати час відсутності всім користувачам",
   "tr_importExport": "Імпорт/Експорт",
   "tr_count": "Кількість",
-  "tr_congregationNumberFull": "Congregation number"
+  "tr_congregationNumberFull": "Congregation number",
+  "tr_attendance": "Attendance"
 }
