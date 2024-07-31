@@ -281,7 +281,6 @@
   "tr_avgStudiesMonthly": "Ortalama aylık tetkik sayısı",
   "tr_highestHourNumberMonthly": "En yüksek aylık saat sayısı",
   "tr_publishers": "Müjdeciler",
-  "tr_recordAttendance": "Katılımı kaydet",
   "tr_recordAttendanceDesc": "Cemaat toplantısı katılım kayıt formu (S-3)",
   "tr_month": "Ay",
   "tr_details": "Detaylar",
@@ -418,5 +417,6 @@
   "tr_showAwayToAll": "Show time away to all users",
   "tr_importExport": "İçe/Dışa aktar",
   "tr_count": "Sayı",
-  "tr_congregationNumberFull": "Congregation number"
+  "tr_congregationNumberFull": "Congregation number",
+  "tr_attendance": "Attendance"
 }
