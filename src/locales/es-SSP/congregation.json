@@ -412,7 +412,7 @@
   "tr_unbaptizedPublishers": "Unbaptized publishers",
   "tr_weekStartDay": "Week start day",
   "tr_weekend": "Fin de semana",
-  "tr_showOutgoingToAll": "Show outgoing speakers to all users",
+  "tr_showOutgoingToAll": "Show outgoing speakers schedule to all users",
   "tr_showOutgoingToAllDesc": "Allow all users to view the outgoing talks schedule. Otherwise, only appointed brothers can see it.",
   "tr_showAwayToAllDesc": "Allow all users to view the time away of other publishers. Otherwise, only appointed brothers can see it.",
   "tr_showAwayToAll": "Show time away to all users",
