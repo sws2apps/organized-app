@@ -281,7 +281,6 @@
   "tr_avgStudiesMonthly": "Average studies per month",
   "tr_highestHourNumberMonthly": "Highest number of hours per month",
   "tr_publishers": "Publicadores",
-  "tr_recordAttendance": "Record attendance",
   "tr_recordAttendanceDesc": "Congregation meeting attendance record (S-3)",
   "tr_month": "Month",
   "tr_details": "Details",
@@ -412,11 +411,12 @@
   "tr_unbaptizedPublishers": "Publicadores não batizados",
   "tr_weekStartDay": "Dia de início da semana",
   "tr_weekend": "Fim de Semana",
-  "tr_showOutgoingToAll": "Mostrar oradores de saída para todos os usuários",
+  "tr_showOutgoingToAll": "Show outgoing speakers schedule to all users",
   "tr_showOutgoingToAllDesc": "Permitir que todos os usuários visualizem a programação dos discursos. Caso contrário, apenas os irmãos designados podem vê-la.",
   "tr_showAwayToAllDesc": "Permitir que todos os usuários visualizem o tempo ausente de outros publicadores. Caso contrário, apenas os irmãos designados podem vê-lo.",
   "tr_showAwayToAll": "Mostrar o tempo ausente para todos os usuários",
   "tr_importExport": "Importar/exportar",
   "tr_count": "Contagem",
-  "tr_congregationNumberFull": "Número da congregação"
+  "tr_congregationNumberFull": "Número da congregação",
+  "tr_attendance": "Attendance"
 }

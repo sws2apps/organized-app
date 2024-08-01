@@ -281,7 +281,6 @@
   "tr_avgStudiesMonthly": "Average studies per month",
   "tr_highestHourNumberMonthly": "Highest number of hours per month",
   "tr_publishers": "Proclamateurs",
-  "tr_recordAttendance": "Record attendance",
   "tr_recordAttendanceDesc": "Congregation meeting attendance record (S-3)",
   "tr_month": "Month",
   "tr_details": "Details",
@@ -412,11 +411,12 @@
   "tr_unbaptizedPublishers": "Unbaptized publishers",
   "tr_weekStartDay": "Week start day",
   "tr_weekend": "Weekend",
-  "tr_showOutgoingToAll": "Show outgoing speakers to all users",
+  "tr_showOutgoingToAll": "Show outgoing speakers schedule to all users",
   "tr_showOutgoingToAllDesc": "Allow all users to view the outgoing talks schedule. Otherwise, only appointed brothers can see it.",
   "tr_showAwayToAllDesc": "Allow all users to view the time away of other publishers. Otherwise, only appointed brothers can see it.",
   "tr_showAwayToAll": "Show time away to all users",
   "tr_importExport": "Import/export",
   "tr_count": "Count",
-  "tr_congregationNumberFull": "Congregation number"
+  "tr_congregationNumberFull": "Congregation number",
+  "tr_attendance": "Attendance"
 }
