@@ -60,7 +60,7 @@
     "react-i18next": "^15.0.0",
     "react-pdf-html": "^2.0.5",
     "react-photo-view": "^1.2.6",
-    "react-router-dom": "^6.25.1",
+    "react-router-dom": "^6.26.0",
     "recoil": "^0.7.7",
     "recoil-outside": "^0.1.1",
     "swiper": "^11.1.9",
