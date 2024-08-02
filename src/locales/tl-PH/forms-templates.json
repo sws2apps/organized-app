@@ -32,8 +32,8 @@
   "tr_memorialInvite": "Kampanya para sa Memoryal",
   "tr_normalWeek": "Normal na linggo",
   "tr_circuitOverseerWeek": "Dalaw ng Tagapangasiwa ng Sirkito",
-  "tr_conventionWeek": "Linggo ng Panrehiyong Kombensiyon",
-  "tr_assemblyWeek": "Linggo ng Pansirkitong Asamblea",
+  "tr_conventionWeek": "Regional convention",
+  "tr_assemblyWeek": "Circuit assembly",
   "tr_shortTimeFormat": "H:MM",
   "tr_initialCallVideo": "Video ng Unang Pag-uusap",
   "tr_returnVisitVideo": "Video ng Pagdalaw-Muli",
@@ -68,6 +68,6 @@
   "tr_chairman": "Chairman",
   "tr_prayer": "Panalangin",
   "tr_partDuration": "({{ time }} min.)",
-  "tr_memorialWeek": "Linggo ng Memoryal",
+  "tr_memorialWeek": "Memorial",
   "tr_exportMidweekMeetinDesc": "Choose the schedules and forms you'd like to export and pick your preferred template. Organized saves your template choice for next time to make the export easier."
 }
