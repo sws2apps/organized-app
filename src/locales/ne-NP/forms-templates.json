@@ -32,8 +32,8 @@
   "tr_memorialInvite": "स्मरणार्थको निम्तो",
   "tr_normalWeek": "नियमित हप्ता",
   "tr_circuitOverseerWeek": "Visit of Circuit Overseer",
-  "tr_conventionWeek": "अधिवेशनको हप्ता",
-  "tr_assemblyWeek": "सम्मेलनको हप्ता",
+  "tr_conventionWeek": "Regional convention",
+  "tr_assemblyWeek": "Circuit assembly",
   "tr_shortTimeFormat": "घ:मिमि",
   "tr_initialCallVideo": "पहिलो भेट भिडियो",
   "tr_returnVisitVideo": "पुनःभेट भिडियो",
@@ -68,6 +68,6 @@
   "tr_chairman": "चेयरम्यान",
   "tr_prayer": "प्रार्थना",
   "tr_partDuration": "({{ time }} min.)",
-  "tr_memorialWeek": "Week of Memorial",
+  "tr_memorialWeek": "Memorial",
   "tr_exportMidweekMeetinDesc": "Choose the schedules and forms you'd like to export and pick your preferred template. Organized saves your template choice for next time to make the export easier."
 }

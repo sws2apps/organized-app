@@ -32,8 +32,8 @@
   "tr_memorialInvite": "記念式への招待",
   "tr_normalWeek": "通常の週",
   "tr_circuitOverseerWeek": "Visit of Circuit Overseer",
-  "tr_conventionWeek": "地区大会の週",
-  "tr_assemblyWeek": "巡回大会の週",
+  "tr_conventionWeek": "Regional convention",
+  "tr_assemblyWeek": "Circuit assembly",
   "tr_shortTimeFormat": "H:MM",
   "tr_initialCallVideo": "最初の話し合いの動画",
   "tr_returnVisitVideo": "再訪問の動画",
@@ -68,6 +68,6 @@
   "tr_chairman": "司会者",
   "tr_prayer": "祈り",
   "tr_partDuration": "({{ time }} min.)",
-  "tr_memorialWeek": "Week of Memorial",
+  "tr_memorialWeek": "Memorial",
   "tr_exportMidweekMeetinDesc": "Choose the schedules and forms you'd like to export and pick your preferred template. Organized saves your template choice for next time to make the export easier."
 }

@@ -32,8 +32,8 @@
   "tr_memorialInvite": "Invitación a la conmemoración",
   "tr_normalWeek": "Semana regular",
   "tr_circuitOverseerWeek": "Visit of Circuit Overseer",
-  "tr_conventionWeek": "Semana de la asamblea regional",
-  "tr_assemblyWeek": "Semana de la asamblea de circuito",
+  "tr_conventionWeek": "Regional convention",
+  "tr_assemblyWeek": "Circuit assembly",
   "tr_shortTimeFormat": "H:MM",
   "tr_initialCallVideo": "Video de la primera conversación",
   "tr_returnVisitVideo": "Video de la revisita",
@@ -68,6 +68,6 @@
   "tr_chairman": "Presidente",
   "tr_prayer": "Oración",
   "tr_partDuration": "({{ time }} mins.)",
-  "tr_memorialWeek": "Week of Memorial",
+  "tr_memorialWeek": "Memorial",
   "tr_exportMidweekMeetinDesc": "Choose the schedules and forms you'd like to export and pick your preferred template. Organized saves your template choice for next time to make the export easier."
 }
