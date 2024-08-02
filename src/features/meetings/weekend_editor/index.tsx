@@ -57,21 +57,16 @@ const WeekendEditor = () => {
 
       {weekDateLocale.length > 0 && (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          <Box
-            sx={{
-              display: 'flex',
-              gap: '16px',
-              alignItems: 'center',
-              flexWrap: 'wrap',
-              justifyContent: 'space-between',
-              flexDirection: laptopUp ? 'row' : 'column',
-            }}
-          >
-            <Typography className="h2" sx={{ flex: 1 }}>
-              {weekDateLocale}
-            </Typography>
-            <WeekTypeSelector week={selectedWeek} meeting="weekend" />
-          </Box>
+          <DoubleFieldContainer laptopUp={laptopUp}>
+            <PrimaryFieldContainer>
+              <Typography className="h2" sx={{ flex: 1 }}>
+                {weekDateLocale}
+              </Typography>
+            </PrimaryFieldContainer>
+            <SecondaryFieldContainer laptopUp={laptopUp}>
+              <WeekTypeSelector week={selectedWeek} meeting="weekend" />
+            </SecondaryFieldContainer>
+          </DoubleFieldContainer>
 
           <Divider color="var(--accent-200)" />
 
@@ -82,12 +77,25 @@ const WeekendEditor = () => {
           {!showEventEditor && (
             <>
               <DoubleFieldContainer laptopUp={laptopUp}>
-                <PrimaryFieldContainer>
+                <PrimaryFieldContainer />
+                <SecondaryFieldContainer laptopUp={laptopUp}>
                   <PersonSelector
                     week={selectedWeek}
                     label={t('tr_chairman')}
                     type={AssignmentCode.WM_Chairman}
                     assignment="WM_Chairman"
+                  />
+                </SecondaryFieldContainer>
+              </DoubleFieldContainer>
+
+              <DoubleFieldContainer laptopUp={laptopUp}>
+                <PrimaryFieldContainer>
+                  <SongSource
+                    label={t('tr_openingSong')}
+                    meeting="weekend"
+                    type="opening"
+                    week={selectedWeek}
+                    isEdit={true}
                   />
                 </PrimaryFieldContainer>
                 <SecondaryFieldContainer laptopUp={laptopUp}>
@@ -100,8 +108,6 @@ const WeekendEditor = () => {
                 </SecondaryFieldContainer>
               </DoubleFieldContainer>
 
-              <Divider color="var(--accent-200)" />
-
               <MeetingSection
                 part={t('tr_publicTalk')}
                 color="var(--weekend-meeting)"
@@ -112,19 +118,6 @@ const WeekendEditor = () => {
                 {weekType !== Week.CO_VISIT && (
                   <PublicTalkTypeSelector week={selectedWeek} />
                 )}
-
-                <DoubleFieldContainer laptopUp={laptopUp}>
-                  <PrimaryFieldContainer>
-                    <SongSource
-                      label={t('tr_openingSong')}
-                      meeting="weekend"
-                      type="opening"
-                      week={selectedWeek}
-                      isEdit={true}
-                    />
-                  </PrimaryFieldContainer>
-                  <SecondaryFieldContainer laptopUp={laptopUp} />
-                </DoubleFieldContainer>
 
                 <DoubleFieldContainer
                   laptopUp={laptopUp}
@@ -151,31 +144,30 @@ const WeekendEditor = () => {
                     )}
                   </PrimaryFieldContainer>
 
-                  {weekType !== Week.CO_VISIT &&
-                    talkType !== 'jwStreamRecording' && (
-                      <SecondaryFieldContainer laptopUp={laptopUp}>
-                        <PersonSelector
-                          week={selectedWeek}
-                          label={t('tr_speaker')}
-                          type={AssignmentCode.WM_SpeakerSymposium}
-                          assignment="WM_Speaker_Part1"
-                          visitingSpeaker={talkType === 'visitingSpeaker'}
-                        />
+                  <SecondaryFieldContainer laptopUp={laptopUp}>
+                    <PersonSelector
+                      week={selectedWeek}
+                      label={
+                        weekType === Week.CO_VISIT
+                          ? t('tr_circuitOverseer')
+                          : t('tr_speaker')
+                      }
+                      type={AssignmentCode.WM_SpeakerSymposium}
+                      assignment="WM_Speaker_Part1"
+                      visitingSpeaker={talkType === 'visitingSpeaker'}
+                    />
 
-                        {showSpeaker2 && (
-                          <PersonSelector
-                            week={selectedWeek}
-                            label={t('tr_speaker')}
-                            type={AssignmentCode.WM_Speaker}
-                            assignment="WM_Speaker_Part2"
-                          />
-                        )}
-                      </SecondaryFieldContainer>
+                    {showSpeaker2 && (
+                      <PersonSelector
+                        week={selectedWeek}
+                        label={t('tr_speaker')}
+                        type={AssignmentCode.WM_Speaker}
+                        assignment="WM_Speaker_Part2"
+                      />
                     )}
+                  </SecondaryFieldContainer>
                 </DoubleFieldContainer>
               </MeetingSection>
-
-              <Divider color="var(--accent-200)" />
 
               <MeetingSection
                 part={t('tr_watchtowerStudy')}
@@ -230,32 +222,35 @@ const WeekendEditor = () => {
               </MeetingSection>
 
               {weekType === Week.CO_VISIT && (
-                <>
-                  <Divider color="var(--accent-200)" />
-
-                  <MeetingSection
-                    part={t('tr_serviceTalk')}
-                    color="var(--weekend-meeting)"
-                    icon={<IconTalk color="var(--always-white)" />}
-                    expanded={openServiceTalk}
-                    onToggle={handleToggleServiceTalk}
-                  >
-                    <DoubleFieldContainer laptopUp={laptopUp}>
-                      <PrimaryFieldContainer>
-                        <TalkTitleSolo
-                          label={t('tr_serviceTalk')}
-                          type="co_service_talk"
-                          week={selectedWeek}
-                        />
-                      </PrimaryFieldContainer>
-                    </DoubleFieldContainer>
-                  </MeetingSection>
-                </>
+                <MeetingSection
+                  part={t('tr_serviceTalk')}
+                  color="var(--ministry)"
+                  icon={<IconTalk color="var(--always-white)" />}
+                  expanded={openServiceTalk}
+                  onToggle={handleToggleServiceTalk}
+                >
+                  <DoubleFieldContainer laptopUp={laptopUp}>
+                    <PrimaryFieldContainer>
+                      <TalkTitleSolo
+                        label={t('tr_serviceTalk')}
+                        type="co_service_talk"
+                        week={selectedWeek}
+                      />
+                    </PrimaryFieldContainer>
+                    <SecondaryFieldContainer laptopUp={laptopUp}>
+                      <PersonSelector
+                        week={selectedWeek}
+                        label={t('tr_circuitOverseer')}
+                        type={AssignmentCode.WM_SpeakerSymposium}
+                        assignment="WM_Speaker_Part1"
+                        visitingSpeaker={talkType === 'visitingSpeaker'}
+                      />
+                    </SecondaryFieldContainer>
+                  </DoubleFieldContainer>
+                </MeetingSection>
               )}
 
-              {weekType === Week.CO_VISIT && (
-                <Divider color="var(--accent-200)" />
-              )}
+              <Divider color="var(--accent-200)" />
 
               <DoubleFieldContainer laptopUp={laptopUp}>
                 <PrimaryFieldContainer>

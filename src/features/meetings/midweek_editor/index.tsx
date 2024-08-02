@@ -208,8 +208,6 @@ const MidweekEditor = () => {
                     </PersonSelectorContainer>
                   </RowContainer>
 
-                  <Divider color="var(--accent-200)" />
-
                   <MeetingSection
                     part={t('tr_treasuresPart')}
                     color="var(--treasures-from-gods-word)"
