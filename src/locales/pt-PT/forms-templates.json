@@ -1,8 +1,8 @@
 {
   "tr_s89Title": "DESIGNAÇÃO PARA A REUNIÃO<br />VIDA E MINISTÉRIO CRISTÃOS",
-  "tr_s89ToBeGiven": "A ser apresentado no(a)",
+  "tr_s89ToBeGiven": "To be given in",
   "tr_s89DescFooter": "Nota ao estudante: A fonte de matéria e o ponto de conselho para a sua designação encontram-se no Manual de Atividades da Reunião Vida e Ministério. Por favor, recapitule as instruções para a designação tal como estão descritas nas Instruções para a Reunião Vida e Ministério Cristãos (S-38).",
-  "tr_date": "Data:",
+  "tr_date": "Date",
   "tr_assignment": "Designação",
   "tr_bibleReading": "Leitura da Bíblia",
   "tr_initialCall": "Primeira conversa",
@@ -32,8 +32,8 @@
   "tr_memorialInvite": "Convite do Memorial",
   "tr_normalWeek": "Semana normal",
   "tr_circuitOverseerWeek": "Visita do Superintendente de Circuito",
-  "tr_conventionWeek": "Regional convention",
-  "tr_assemblyWeek": "Circuit assembly",
+  "tr_conventionWeek": "Week of Regional Convention",
+  "tr_assemblyWeek": "Week of Circuit Assembly",
   "tr_shortTimeFormat": "H:MM",
   "tr_initialCallVideo": "Vídeo da primeira conversa",
   "tr_returnVisitVideo": "Vídeo da revisita",
@@ -68,6 +68,5 @@
   "tr_chairman": "Presidente",
   "tr_prayer": "Oração",
   "tr_partDuration": "({{ time }} min.)",
-  "tr_memorialWeek": "Memorial",
-  "tr_exportMidweekMeetinDesc": "Escolha os programas e formulários que deseja exportar e escolha o seu modelo preferido. O Organized grava a sua escolha de modelo para facilitar as próximas exportações."
+  "tr_memorialWeek": "Week of Memorial"
 }

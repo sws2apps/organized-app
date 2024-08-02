@@ -1,8 +1,8 @@
 {
   "tr_s89Title": "ANJARA AMIN’NY FIVORIANA MOMBA<br />NY FIAINANTSIKA SY NY FANOMPOANA",
-  "tr_s89ToBeGiven": "Hatao ao amin’ny:",
+  "tr_s89ToBeGiven": "To be given in",
   "tr_s89DescFooter": "Ho an’ny mpianatra: Hita ao amin’ny Tari-dalana ho An’ny Fiainantsika sy ny Fanompoana ny loharanon-kevitra sy ny lesona ho an’ny anjaranao. Avereno dinihina, azafady, ny toromarika momba an’ilay anjara, izay hazavaina ao amin’ny Toromarika Mahakasika ny Fivoriana Momba ny Fiainantsika sy ny Fanompoana (S-38).",
-  "tr_date": "Daty:",
+  "tr_date": "Date",
   "tr_assignment": "Anjara",
   "tr_bibleReading": "Famakiana Baiboly",
   "tr_initialCall": "Fitoriana",
@@ -32,8 +32,8 @@
   "tr_memorialInvite": "Fanasana Fahatsiarovana",
   "tr_normalWeek": "Herinandro Mahazatra",
   "tr_circuitOverseerWeek": "Fitsidihan’ny Mpiandraikitra ny Faritra",
-  "tr_conventionWeek": "Fivoriamben’ny Vondrom-paritra",
-  "tr_assemblyWeek": "Fivoriamben’ny Faritra",
+  "tr_conventionWeek": "Week of Regional Convention",
+  "tr_assemblyWeek": "Week of Circuit Assembly",
   "tr_shortTimeFormat": "h:MM",
   "tr_initialCallVideo": "Video Fitoriana",
   "tr_returnVisitVideo": "Video Fiverenana Mitsidika",
@@ -64,10 +64,9 @@
   "tr_demonstration": "Fampisehoana",
   "tr_partNo": "Anjara No.:",
   "tr_nameS89": "Anarana:",
-  "tr_assistant": "Mpanampy:",
+  "tr_assistant": "Assistant",
   "tr_chairman": "Mpitari-draharaha",
   "tr_prayer": "Vavaka",
   "tr_partDuration": "({{ time }} min.)",
-  "tr_memorialWeek": "Fahatsiarovana",
-  "tr_exportMidweekMeetinDesc": "Safidio ny fandaharana na taratasy hofenoina tianao ho atao PDF. Safidio koa ny modely tianao ho ampiasaina. Hotehirizin’ity programa ity mba ho ampiasainao any aoriana izay safidy ataonao."
+  "tr_memorialWeek": "Week of Memorial"
 }

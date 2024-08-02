@@ -1,8 +1,8 @@
 {
   "tr_s89Title": "DESIGNAÇÃO PARA A REUNIÃO<br />NOSSA VIDA E MINISTÉRIO CRISTÃO",
-  "tr_s89ToBeGiven": "Local",
+  "tr_s89ToBeGiven": "To be given in",
   "tr_s89DescFooter": "Observação para o estudante: A lição e a fonte de matéria para a sua designação estão na Apostila da Reunião Vida e Ministério. Veja as instruções para a parte que estão nas Instruções para a Reunião Nossa Vida e Ministério Cristão (S-38).",
-  "tr_date": "Data:",
+  "tr_date": "Date",
   "tr_assignment": "Designação",
   "tr_bibleReading": "Leitura da Bíblia",
   "tr_initialCall": "Primeira conversa",
@@ -32,8 +32,8 @@
   "tr_memorialInvite": "Convite da Celebração",
   "tr_normalWeek": "Semana normal",
   "tr_circuitOverseerWeek": "Visita do Superintendente de Circuito",
-  "tr_conventionWeek": "Regional convention",
-  "tr_assemblyWeek": "Circuit assembly",
+  "tr_conventionWeek": "Week of Regional Convention",
+  "tr_assemblyWeek": "Week of Circuit Assembly",
   "tr_shortTimeFormat": "H:MM",
   "tr_initialCallVideo": "Vídeo da primeira conversa",
   "tr_returnVisitVideo": "Vídeo da revisita",
@@ -64,10 +64,9 @@
   "tr_demonstration": "Demonstração",
   "tr_partNo": "Número da parte:",
   "tr_nameS89": "Nome:",
-  "tr_assistant": "Ajudante:",
+  "tr_assistant": "Ajudante",
   "tr_chairman": "Presidente",
   "tr_prayer": "Oração inicial",
   "tr_partDuration": "({{ time }} min.)",
-  "tr_memorialWeek": "Memorial",
-  "tr_exportMidweekMeetinDesc": "Escolha as programações e formulários que você gostaria de exportar e escolha seu modelo preferido. O Organized salva sua escolha de modelo para facilitar a exportação."
+  "tr_memorialWeek": "Week of Memorial"
 }

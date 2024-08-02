@@ -95,7 +95,7 @@
   "tr_congregationAccessCodeNoticeLength": "Минимум 8 символов",
   "tr_congregationAccessCodeSet": "Установить код доступа",
   "tr_congregationAccessCodeVerify": "Подтвердить код доступа собрания",
-  "tr_congregationAccessCodeNotice": "Please note and safeguard this code. Every user accessing your congregation need it to use the Organized app.",
+  "tr_congregationAccessCodeNotice": "Please note and safeguard this code. Any users accessing your congregation need it to open the app.",
   "tr_congregationAccessCodeLostDesc": "Пожалуйста, введи код доступа к твоему собранию. Этот уникальный код специально для твоего собрания и он необходим для подключения и доступа к нему.",
   "tr_setCongregationMasterKey": "Установить главный ключ собрания",
   "tr_createCongregationMasterKey": "Создай главный ключ собрания",
