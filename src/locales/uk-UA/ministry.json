@@ -62,7 +62,7 @@
   "tr_hourGoalDesc": "Щоб служити до відмови, ціль повинна становити 30 годин. Проте протягом конкретних місяців, оголошених старійшинами, ти можеш подати заявку на 15 годин.",
   "tr_applicationSubmitted": "Заявку подано",
   "tr_applicationSubmittedDesc": "Службовий комітет твого збору перегляне її та якщо затвердить, брати тебе сповістять",
-  "tr_auxiliaryPioneer": "Auxiliary pioneer",
+  "tr_auxiliaryPioneer": "Допоміжний піонер",
   "tr_comments": "Коментарі",
   "tr_PWLocations": "Місця громадського служіння",
   "tr_PW": "Служіння в громадських місцях",
@@ -106,7 +106,7 @@
   "tr_continuousAuxPio": "Continuous Auxiliary Pioneer",
   "tr_receivedReports": "Отримані звіти",
   "tr_reportPageInfo": "On this page, you can view reports from publishers and add reports from those who do not use Organized. Select a publisher to start.",
-  "tr_rejected": "Rejected",
+  "tr_rejected": "Відхилено",
   "tr_alreadySubmittedWarning": "This month's report has already been submitted to the Branch Office. Only late reports can be added, unless you undo the submission.",
-  "tr_publishersCountReport": "Publishers: {{ publishersCount }}"
+  "tr_publishersCountReport": "Вісники: {{ publishersCount }}"
 }
