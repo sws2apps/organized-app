@@ -29,7 +29,7 @@
     "@fontsource/roboto": "^5.0.13",
     "@mui/icons-material": "^5.16.6",
     "@mui/material": "^5.16.6",
-    "@mui/x-date-pickers": "^7.11.1",
+    "@mui/x-date-pickers": "^7.12.0",
     "@mui/x-tree-view": "^7.12.0",
     "@react-pdf/renderer": "^3.4.4",
     "@sws2apps/react-sw-helper": "^1.24.0",
