@@ -1,8 +1,8 @@
 {
   "tr_s89Title": "ЗАВДАННЯ ДЛЯ УЧАСТІ В ЗІБРАННІ<br />НАШЕ ХРИСТИЯНСЬКЕ ЖИТТЯ І СЛУЖІННЯ",
-  "tr_s89ToBeGiven": "To be given in",
+  "tr_s89ToBeGiven": "To be given in:",
   "tr_s89DescFooter": "Note to student: The source material and study point for your assignment can be found in the Life and Ministry Meeting Workbook. Please review the instructions for the part as outlined in Instructions for Our Christian Life and Ministry Meeting (S-38).",
-  "tr_date": "Date",
+  "tr_date": "Date:",
   "tr_assignment": "Завдання",
   "tr_bibleReading": "Читання Біблії",
   "tr_initialCall": "Перша розмова",
@@ -32,8 +32,8 @@
   "tr_memorialInvite": "Запрошення на Спомин",
   "tr_normalWeek": "Звичайний тиждень",
   "tr_circuitOverseerWeek": "Візит районного наглядача",
-  "tr_conventionWeek": "Week of Regional Convention",
-  "tr_assemblyWeek": "Week of Circuit Assembly",
+  "tr_conventionWeek": "Regional convention",
+  "tr_assemblyWeek": "Circuit assembly",
   "tr_shortTimeFormat": "H:MM",
   "tr_initialCallVideo": "Перша розмова. Відео",
   "tr_returnVisitVideo": "Повторні відвідини. Відео",
@@ -64,9 +64,10 @@
   "tr_demonstration": "Діалог",
   "tr_partNo": "Завдання №:",
   "tr_nameS89": "Імʼя:",
-  "tr_assistant": "Assistant",
+  "tr_assistant": "Assistant:",
   "tr_chairman": "Ведучий",
   "tr_prayer": "Молитва",
   "tr_partDuration": "({{ time }} хв.)",
-  "tr_memorialWeek": "Week of Memorial"
+  "tr_memorialWeek": "Memorial",
+  "tr_exportMidweekMeetinDesc": "Choose the schedules and forms you'd like to export and pick your preferred template. Organized saves your template choice for next time to make the export easier."
 }
