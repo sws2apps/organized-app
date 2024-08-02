@@ -100,8 +100,8 @@
   "tr_minLabel": "min.",
   "tr_textCopied": "Information copied to clipboard",
   "tr_longDateWithYearLocale": "{{ date }} {{ month }}, {{ year }}",
-  "tr_edit": "Edit",
-  "tr_noPersonsFound": "No persons found",
-  "tr_noPersonsFoundDesc": "No persons match your search parameters. Please try adjusting the category or date.",
-  "tr_categories": "Categories"
+  "tr_edit": "Редагувати",
+  "tr_noPersonsFound": "Не знайдено жодної особи",
+  "tr_noPersonsFoundDesc": "Жодна особа не відповідає твоїм параметрам пошуку. Будь ласка, спробуй змінити категорію або дату.",
+  "tr_categories": "Категорії"
 }
