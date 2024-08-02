@@ -32,8 +32,8 @@
   "tr_memorialInvite": "Convite da Celebração",
   "tr_normalWeek": "Semana normal",
   "tr_circuitOverseerWeek": "Visita do Superintendente de Circuito",
-  "tr_conventionWeek": "Semana do Congresso",
-  "tr_assemblyWeek": "Semana da Assembleia de Circuito",
+  "tr_conventionWeek": "Regional convention",
+  "tr_assemblyWeek": "Circuit assembly",
   "tr_shortTimeFormat": "H:MM",
   "tr_initialCallVideo": "Vídeo da primeira conversa",
   "tr_returnVisitVideo": "Vídeo da revisita",
@@ -68,6 +68,6 @@
   "tr_chairman": "Presidente",
   "tr_prayer": "Oração inicial",
   "tr_partDuration": "({{ time }} min.)",
-  "tr_memorialWeek": "Semana da Comemoração",
+  "tr_memorialWeek": "Memorial",
   "tr_exportMidweekMeetinDesc": "Escolha as programações e formulários que você gostaria de exportar e escolha seu modelo preferido. O Organized salva sua escolha de modelo para facilitar a exportação."
 }
