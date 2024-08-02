@@ -41,7 +41,12 @@ import {
 } from '@services/app/schedules';
 import { IconMale, IconPersonPlaceholder } from '@components/icons';
 
-const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
+const usePersonSelector = ({
+  type,
+  week,
+  assignment,
+  visitingSpeakear,
+}: PersonSelectorType) => {
   const { t } = useAppTranslation();
 
   const personsAll = useRecoilValue(personsActiveState);
@@ -226,7 +231,9 @@ const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
   }, [type, labelBrothers, labelParticipants]);
 
   useEffect(() => {
-    if (!isAssistant) {
+    setOptions([]);
+
+    if (!isAssistant && !visitingSpeakear) {
       const isMale = gender === 'male';
       const isFemale = gender === 'female';
 
@@ -248,21 +255,10 @@ const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
         return { src, desc };
       };
 
-      const getPersons = (isElder: boolean) => {
-        let persons = personsAll.filter((record) =>
-          record.person_data.assignments
-            .filter((assignment) => assignment._deleted === false)
-            .find((item) => item.code === type)
-        );
-
-        if (isElder) {
-          persons = persons.filter((record) => personIsElder(record));
-        }
-
-        return persons;
-      };
-
-      if (type !== AssignmentCode.MM_LCPart) {
+      if (
+        type !== AssignmentCode.MM_LCPart &&
+        type !== AssignmentCode.WM_SpeakerSymposium
+      ) {
         const persons = personsAll.filter(
           (record) =>
             record.person_data.male.value === isMale &&
@@ -277,10 +273,40 @@ const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
         setOptions(options);
       }
 
+      if (type === AssignmentCode.WM_SpeakerSymposium) {
+        const persons = personsAll.filter((record) =>
+          record.person_data.assignments
+            .filter((assignment) => assignment._deleted === false)
+            .find(
+              (item) =>
+                item.code === AssignmentCode.WM_Speaker ||
+                item.code === AssignmentCode.WM_SpeakerSymposium
+            )
+        );
+
+        const options = handleSortOptions(persons);
+
+        setOptions(options);
+      }
+
       if (type === AssignmentCode.MM_LCPart) {
         const source = sources.find((record) => record.weekOf === week);
         if (source) {
           const lcParts = ['MM_LCPart1', 'MM_LCPart2'];
+
+          const getPersons = (isElder: boolean) => {
+            let persons = personsAll.filter((record) =>
+              record.person_data.assignments
+                .filter((assignment) => assignment._deleted === false)
+                .find((item) => item.code === type)
+            );
+
+            if (isElder) {
+              persons = persons.filter((record) => personIsElder(record));
+            }
+
+            return persons;
+          };
 
           if (lcParts.includes(assignment)) {
             const path = assignment
@@ -327,6 +353,7 @@ const usePersonSelector = ({ type, week, assignment }: PersonSelectorType) => {
     history,
     handleFormatDate,
     handleSortOptions,
+    visitingSpeakear,
   ]);
 
   useEffect(() => {

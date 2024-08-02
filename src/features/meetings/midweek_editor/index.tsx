@@ -965,7 +965,7 @@ const MidweekEditor = () => {
                       week={selectedWeek}
                       meeting="midweek"
                       type="concluding"
-                      isEdit={weekType === Week.CO_VISIT && isEdit}
+                      isEdit={isEdit || weekType === Week.CO_VISIT}
                     />
 
                     <PersonSelectorContainer desktopUp={desktopUp}>

@@ -131,6 +131,13 @@ export const ASSIGNMENT_PATH = {
   MM_LCCBSConductor: 'midweek_meeting.lc_cbs.conductor',
   MM_LCCBSReader: 'midweek_meeting.lc_cbs.reader',
   MM_ClosingPrayer: 'midweek_meeting.closing_prayer',
+  WM_Chairman: 'weekend_meeting.chairman',
+  WM_OpeningPrayer: 'weekend_meeting.opening_prayer',
+  WM_Speaker_Part1: 'weekend_meeting.speaker.part_1',
+  WM_Speaker_Part2: 'weekend_meeting.speaker.part_2',
+  WM_WTStudy_Conductor: 'weekend_meeting.wt_study.conductor',
+  WM_WTStudy_Reader: 'weekend_meeting.wt_study.reader',
+  WM_ClosingPrayer: 'weekend_meeting.closing_prayer',
 };
 
 export const BROTHER_ASSIGNMENT = [
@@ -141,6 +148,12 @@ export const BROTHER_ASSIGNMENT = [
   AssignmentCode.MM_LCPart,
   AssignmentCode.MM_CBSConductor,
   AssignmentCode.MM_CBSReader,
+  AssignmentCode.WM_Chairman,
+  AssignmentCode.WM_Prayer,
+  AssignmentCode.WM_Speaker,
+  AssignmentCode.WM_SpeakerSymposium,
+  AssignmentCode.WM_WTStudyConductor,
+  AssignmentCode.WM_WTStudyReader,
 ];
 
 export const STUDENT_ASSIGNMENT = [

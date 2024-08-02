@@ -35,7 +35,11 @@ const MeetingSection = ({
           }}
         >
           {icon}
-          <Typography className="h2-caps" color="var(--always-white)">
+          <Typography
+            className="h2-caps"
+            color="var(--always-white)"
+            align="center"
+          >
             {part}
           </Typography>
         </Box>

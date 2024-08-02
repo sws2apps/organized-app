@@ -37,15 +37,21 @@ type LanguageNumberType = {
   [language: string]: number;
 };
 
-type CongregationStringType = {
+export type CongregationStringType = {
   type: string;
   value: string;
   updatedAt: string;
 };
 
-type CongregationNumberType = {
+export type CongregationNumberType = {
   type: string;
   value: number;
+  updatedAt: string;
+};
+
+export type CongregationMixteType = {
+  type: string;
+  value: number | string;
   updatedAt: string;
 };
 
@@ -126,13 +132,14 @@ export type SourceWeekType = {
   weekend_meeting: {
     event_name: EventNameType;
     song_first: CongregationStringType[];
-    public_talk: CongregationNumberType[];
+    public_talk: CongregationMixteType[];
     co_talk_title: { public: COTalkTitleType; service: COTalkTitleType };
-    w_study: {
-      title: LanguageStringType;
-      opening_song: LanguageStringType;
-      concluding_song: LanguageStringType;
+    song_middle: LanguageStringType;
+    song_conclude: {
+      default: LanguageStringType;
+      override: CongregationStringType[];
     };
+    w_study: LanguageStringType;
   };
 };
 

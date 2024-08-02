@@ -160,3 +160,6 @@ export const personGetDisplayName = (
 export const createNumbersArray = (length: number) => {
   return Array.from({ length }, (_, i) => i + 1);
 };
+
+export const styledRemoveProps = (prop: PropertyKey, userProp: string[]) =>
+  !userProp.includes(String(prop));

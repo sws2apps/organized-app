@@ -106,4 +106,11 @@ export type AssignmentFieldType =
   | 'MM_LCPart3'
   | 'MM_LCCBSConductor'
   | 'MM_LCCBSReader'
-  | 'MM_ClosingPrayer';
+  | 'MM_ClosingPrayer'
+  | 'WM_Chairman'
+  | 'WM_OpeningPrayer'
+  | 'WM_Speaker_Part1'
+  | 'WM_Speaker_Part2'
+  | 'WM_WTStudy_Conductor'
+  | 'WM_WTStudy_Reader'
+  | 'WM_ClosingPrayer';

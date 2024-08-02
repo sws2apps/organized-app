@@ -7,6 +7,7 @@ export type PersonSelectorType = {
   type: AssignmentCode;
   assignment: AssignmentFieldType;
   readOnly?: boolean;
+  visitingSpeakear?: boolean;
 };
 
 export type GenderType = 'male' | 'female';

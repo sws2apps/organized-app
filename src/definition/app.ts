@@ -33,3 +33,5 @@ export type BadgeColor =
   | 'orange'
   | 'accent'
   | 'transparent';
+
+export type MeetingType = 'midweek' | 'weekend';

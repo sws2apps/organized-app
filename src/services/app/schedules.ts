@@ -11,6 +11,7 @@ import {
   midweekMeetingTimeState,
   midweekMeetingWeekdayState,
   userDataViewState,
+  weekendMeetingOpeningPrayerAutoAssignState,
 } from '@states/settings';
 import { sourcesState } from '@states/sources';
 import { assignmentsHistoryState, schedulesState } from '@states/schedules';
@@ -67,6 +68,25 @@ export const schedulesWeekAssignmentsInfo = async (
   week: string,
   meeting: 'midweek' | 'weekend'
 ) => {
+  let total = 0;
+  let assigned = 0;
+
+  if (meeting === 'midweek') {
+    const data = await schedulesMidweekInfo(week);
+    total = data.total;
+    assigned = data.assigned;
+  }
+
+  if (meeting === 'weekend') {
+    const data = await schedulesWeekendInfo(week);
+    total = data.total;
+    assigned = data.assigned;
+  }
+
+  return { total, assigned };
+};
+
+export const schedulesMidweekInfo = async (week: string) => {
   const classCount: number = await promiseGetRecoil(
     midweekMeetingClassCountState
   );
@@ -78,118 +98,153 @@ export const schedulesWeekAssignmentsInfo = async (
   const dataView: string = await promiseGetRecoil(userDataViewState);
   const lang: string = await promiseGetRecoil(JWLangState);
 
-  let total = 0;
-  let assigned = 0;
-
   const source = sources.find((record) => record.weekOf === week);
   const schedule = schedules.find((record) => record.weekOf === week);
 
-  if (meeting === 'midweek') {
-    const weekType =
-      schedule.midweek_meeting.week_type.find(
-        (record) => record.type === dataView
-      ).value || Week.NORMAL;
-    const hasNoMeeting =
-      weekType === Week.ASSEMBLY ||
-      weekType == Week.CONVENTION ||
-      weekType === Week.MEMORIAL ||
-      weekType === Week.NO_MEETING;
+  let total = 0;
+  let assigned = 0;
 
-    if (!hasNoMeeting) {
-      // chairman main hall
+  const weekType =
+    schedule.midweek_meeting.week_type.find(
+      (record) => record.type === dataView
+    ).value || Week.NORMAL;
+  const hasNoMeeting =
+    weekType === Week.ASSEMBLY ||
+    weekType == Week.CONVENTION ||
+    weekType === Week.MEMORIAL ||
+    weekType === Week.NO_MEETING;
+
+  if (!hasNoMeeting) {
+    // chairman main hall
+    total = total + 1;
+
+    let assignment = schedule.midweek_meeting.chairman.main_hall.find(
+      (record) => record.type === dataView
+    );
+    if (assignment && assignment.value.length > 0) {
+      assigned = assigned + 1;
+    }
+
+    // chairman aux class
+    if (weekType === Week.NORMAL && classCount > 1) {
       total = total + 1;
 
-      let assignment = schedule.midweek_meeting.chairman.main_hall.find(
+      assignment = schedule.midweek_meeting.chairman.aux_class_1;
+      if (assignment && assignment.value.length > 0) {
+        assigned = assigned + 1;
+      }
+    }
+
+    // opening prayer
+    if (!openingPrayerAutoAssign) {
+      total = total + 1;
+
+      assignment = schedule.midweek_meeting.opening_prayer.find(
         (record) => record.type === dataView
       );
       if (assignment && assignment.value.length > 0) {
         assigned = assigned + 1;
       }
+    }
 
-      // chairman aux class
-      if (weekType === Week.NORMAL && classCount > 1) {
+    // tgw talk
+    total = total + 1;
+
+    assignment = schedule.midweek_meeting.tgw_talk.find(
+      (record) => record.type === dataView
+    );
+    if (assignment && assignment.value.length > 0) {
+      assigned = assigned + 1;
+    }
+
+    // tgw gems
+    total = total + 1;
+
+    assignment = schedule.midweek_meeting.tgw_gems.find(
+      (record) => record.type === dataView
+    );
+    if (assignment && assignment.value.length > 0) {
+      assigned = assigned + 1;
+    }
+
+    // tgw bible reading
+    total = total + 1;
+
+    assignment = schedule.midweek_meeting.tgw_bible_reading.main_hall.find(
+      (record) => record.type === dataView
+    );
+    if (assignment && assignment.value.length > 0) {
+      assigned = assigned + 1;
+    }
+
+    // tgw bible reading aux class
+    if (weekType === Week.NORMAL && classCount > 1) {
+      total = total + 1;
+
+      assignment = schedule.midweek_meeting.tgw_bible_reading.aux_class_1;
+      if (assignment && assignment.value.length > 0) {
+        assigned = assigned + 1;
+      }
+    }
+
+    // ayf
+    for (let a = 1; a <= 4; a++) {
+      const type: AssignmentCode =
+        source.midweek_meeting[`ayf_part${a}`].type[lang];
+
+      // discussion part
+      if (type === AssignmentCode.MM_Discussion) {
         total = total + 1;
+      }
 
-        assignment = schedule.midweek_meeting.chairman.aux_class_1;
-        if (assignment && assignment.value.length > 0) {
-          assigned = assigned + 1;
+      // student discussion part
+      if (
+        type === AssignmentCode.MM_InitialCall ||
+        type === AssignmentCode.MM_ReturnVisit ||
+        type === AssignmentCode.MM_BibleStudy ||
+        type === AssignmentCode.MM_Memorial ||
+        type === AssignmentCode.MM_StartingConversation ||
+        type === AssignmentCode.MM_FollowingUp ||
+        type === AssignmentCode.MM_MakingDisciples ||
+        (type >= 140 && type < 170) ||
+        (type >= 170 && type < 200)
+      ) {
+        total = total + 2;
+
+        // aux class
+        if (weekType === Week.NORMAL && classCount > 1) {
+          total = total + 2;
         }
       }
 
-      // opening prayer
-      if (!openingPrayerAutoAssign) {
+      // talk part
+      if (type === AssignmentCode.MM_Talk) {
         total = total + 1;
 
-        assignment = schedule.midweek_meeting.opening_prayer.find(
-          (record) => record.type === dataView
-        );
-        if (assignment && assignment.value.length > 0) {
-          assigned = assigned + 1;
-        }
-      }
-
-      // tgw talk
-      total = total + 1;
-
-      assignment = schedule.midweek_meeting.tgw_talk.find(
-        (record) => record.type === dataView
-      );
-      if (assignment && assignment.value.length > 0) {
-        assigned = assigned + 1;
-      }
-
-      // tgw gems
-      total = total + 1;
-
-      assignment = schedule.midweek_meeting.tgw_gems.find(
-        (record) => record.type === dataView
-      );
-      if (assignment && assignment.value.length > 0) {
-        assigned = assigned + 1;
-      }
-
-      // tgw bible reading
-      total = total + 1;
-
-      assignment = schedule.midweek_meeting.tgw_bible_reading.main_hall.find(
-        (record) => record.type === dataView
-      );
-      if (assignment && assignment.value.length > 0) {
-        assigned = assigned + 1;
-      }
-
-      // tgw bible reading aux class
-      if (weekType === Week.NORMAL && classCount > 1) {
-        total = total + 1;
-
-        assignment = schedule.midweek_meeting.tgw_bible_reading.aux_class_1;
-        if (assignment && assignment.value.length > 0) {
-          assigned = assigned + 1;
-        }
-      }
-
-      // ayf
-      for (let a = 1; a <= 4; a++) {
-        const type: AssignmentCode =
-          source.midweek_meeting[`ayf_part${a}`].type[lang];
-
-        // discussion part
-        if (type === AssignmentCode.MM_Discussion) {
+        // aux class
+        if (weekType === Week.NORMAL && classCount > 1) {
           total = total + 1;
         }
+      }
 
-        // student discussion part
-        if (
-          type === AssignmentCode.MM_InitialCall ||
-          type === AssignmentCode.MM_ReturnVisit ||
-          type === AssignmentCode.MM_BibleStudy ||
-          type === AssignmentCode.MM_Memorial ||
-          type === AssignmentCode.MM_StartingConversation ||
-          type === AssignmentCode.MM_FollowingUp ||
-          type === AssignmentCode.MM_MakingDisciples ||
-          (type >= 140 && type < 170) ||
-          (type >= 170 && type < 200)
-        ) {
+      // explain beliefs part
+      if (type === AssignmentCode.MM_ExplainingBeliefs) {
+        const ayfPart: ApplyMinistryType =
+          source.midweek_meeting[`ayf_part${a}`];
+        const src = ayfPart.src[lang];
+
+        const isTalk = sourcesCheckAYFExplainBeliefsAssignment(src);
+
+        if (isTalk) {
+          total = total + 1;
+
+          // aux class
+          if (weekType === Week.NORMAL && classCount > 1) {
+            total = total + 1;
+          }
+        }
+
+        if (!isTalk) {
           total = total + 2;
 
           // aux class
@@ -197,115 +252,59 @@ export const schedulesWeekAssignmentsInfo = async (
             total = total + 2;
           }
         }
+      }
 
-        // talk part
-        if (type === AssignmentCode.MM_Talk) {
-          total = total + 1;
+      // student main hall
+      assignment = schedule.midweek_meeting[
+        `ayf_part${a}`
+      ].main_hall.student.find((record) => record.type === dataView);
+      if (assignment && assignment.value.length > 0) {
+        assigned = assigned + 1;
+      }
 
-          // aux class
-          if (weekType === Week.NORMAL && classCount > 1) {
-            total = total + 1;
-          }
-        }
+      // assistant main hall
+      assignment = schedule.midweek_meeting[
+        `ayf_part${a}`
+      ].main_hall.assistant.find((record) => record.type === dataView);
+      if (assignment && assignment.value.length > 0) {
+        assigned = assigned + 1;
+      }
 
-        // explain beliefs part
-        if (type === AssignmentCode.MM_ExplainingBeliefs) {
-          const ayfPart: ApplyMinistryType =
-            source.midweek_meeting[`ayf_part${a}`];
-          const src = ayfPart.src[lang];
-
-          const isTalk = sourcesCheckAYFExplainBeliefsAssignment(src);
-
-          if (isTalk) {
-            total = total + 1;
-
-            // aux class
-            if (weekType === Week.NORMAL && classCount > 1) {
-              total = total + 1;
-            }
-          }
-
-          if (!isTalk) {
-            total = total + 2;
-
-            // aux class
-            if (weekType === Week.NORMAL && classCount > 1) {
-              total = total + 2;
-            }
-          }
-        }
-
-        // student main hall
-        assignment = schedule.midweek_meeting[
-          `ayf_part${a}`
-        ].main_hall.student.find((record) => record.type === dataView);
+      // student aux class
+      if (weekType === Week.NORMAL && classCount > 1) {
+        assignment =
+          schedule.midweek_meeting[`ayf_part${a}`].aux_class_1.student;
         if (assignment && assignment.value.length > 0) {
           assigned = assigned + 1;
         }
 
-        // assistant main hall
-        assignment = schedule.midweek_meeting[
-          `ayf_part${a}`
-        ].main_hall.assistant.find((record) => record.type === dataView);
+        // assistant aux class
+        assignment =
+          schedule.midweek_meeting[`ayf_part${a}`].aux_class_1.assistant;
         if (assignment && assignment.value.length > 0) {
           assigned = assigned + 1;
         }
-
-        // student aux class
-        if (weekType === Week.NORMAL && classCount > 1) {
-          assignment =
-            schedule.midweek_meeting[`ayf_part${a}`].aux_class_1.student;
-          if (assignment && assignment.value.length > 0) {
-            assigned = assigned + 1;
-          }
-
-          // assistant aux class
-          assignment =
-            schedule.midweek_meeting[`ayf_part${a}`].aux_class_1.assistant;
-          if (assignment && assignment.value.length > 0) {
-            assigned = assigned + 1;
-          }
-        }
       }
+    }
 
-      // lc part 1 & 2
-      for (let a = 1; a <= 2; a++) {
-        const lcPart: LivingAsChristiansType =
-          source.midweek_meeting[`lc_part${a}`];
+    // lc part 1 & 2
+    for (let a = 1; a <= 2; a++) {
+      const lcPart: LivingAsChristiansType =
+        source.midweek_meeting[`lc_part${a}`];
 
-        const titleOverride = lcPart.title.override.find(
-          (record) => record.type === dataView
-        )?.value;
-        const titleDefault = lcPart.title.default[lang];
-        const title = titleOverride?.length > 0 ? titleOverride : titleDefault;
+      const titleOverride = lcPart.title.override.find(
+        (record) => record.type === dataView
+      )?.value;
+      const titleDefault = lcPart.title.default[lang];
+      const title = titleOverride?.length > 0 ? titleOverride : titleDefault;
 
-        if (title?.length > 0) {
-          const noAssign = sourcesCheckLCAssignments(title);
-
-          if (!noAssign) {
-            total = total + 1;
-
-            assignment = schedule.midweek_meeting[`lc_part${a}`].find(
-              (record) => record.type === dataView
-            );
-            if (assignment && assignment.value.length > 0) {
-              assigned = assigned + 1;
-            }
-          }
-        }
-      }
-
-      // lc part 3
-      const lcPart = source.midweek_meeting.lc_part3;
-      const title =
-        lcPart.title.find((record) => record.type === dataView)?.value || '';
       if (title?.length > 0) {
         const noAssign = sourcesCheckLCAssignments(title);
 
         if (!noAssign) {
           total = total + 1;
 
-          assignment = schedule.midweek_meeting.lc_part3.find(
+          assignment = schedule.midweek_meeting[`lc_part${a}`].find(
             (record) => record.type === dataView
           );
           if (assignment && assignment.value.length > 0) {
@@ -313,37 +312,169 @@ export const schedulesWeekAssignmentsInfo = async (
           }
         }
       }
+    }
 
-      // lc cbs conductor
-      total = total + 1;
+    // lc part 3
+    const lcPart = source.midweek_meeting.lc_part3;
+    const title =
+      lcPart.title.find((record) => record.type === dataView)?.value || '';
+    if (title?.length > 0) {
+      const noAssign = sourcesCheckLCAssignments(title);
 
-      assignment = schedule.midweek_meeting.lc_cbs.conductor.find(
-        (record) => record.type === dataView
-      );
-      if (assignment && assignment.value.length > 0) {
-        assigned = assigned + 1;
-      }
-
-      // lc cbs reader
-      if (weekType === Week.NORMAL) {
+      if (!noAssign) {
         total = total + 1;
 
-        assignment = schedule.midweek_meeting.lc_cbs.reader.find(
+        assignment = schedule.midweek_meeting.lc_part3.find(
           (record) => record.type === dataView
         );
         if (assignment && assignment.value.length > 0) {
           assigned = assigned + 1;
         }
       }
+    }
 
-      // closing prayer
+    // lc cbs conductor
+    total = total + 1;
+
+    assignment = schedule.midweek_meeting.lc_cbs.conductor.find(
+      (record) => record.type === dataView
+    );
+    if (assignment && assignment.value.length > 0) {
+      assigned = assigned + 1;
+    }
+
+    // lc cbs reader
+    if (weekType === Week.NORMAL) {
       total = total + 1;
 
-      assignment = schedule.midweek_meeting.closing_prayer.find(
+      assignment = schedule.midweek_meeting.lc_cbs.reader.find(
         (record) => record.type === dataView
       );
       if (assignment && assignment.value.length > 0) {
         assigned = assigned + 1;
+      }
+    }
+
+    // closing prayer
+    total = total + 1;
+
+    assignment = schedule.midweek_meeting.closing_prayer.find(
+      (record) => record.type === dataView
+    );
+    if (assignment && assignment.value.length > 0) {
+      assigned = assigned + 1;
+    }
+  }
+
+  return { total, assigned };
+};
+
+export const schedulesWeekendInfo = async (week: string) => {
+  const openingPrayerAutoAssign: boolean = await promiseGetRecoil(
+    weekendMeetingOpeningPrayerAutoAssignState
+  );
+  const schedules: SchedWeekType[] = await promiseGetRecoil(schedulesState);
+  const dataView: string = await promiseGetRecoil(userDataViewState);
+
+  const schedule = schedules.find((record) => record.weekOf === week);
+  const talkType =
+    schedule.weekend_meeting.public_talk_type.find(
+      (record) => record.type === dataView
+    )?.value || 'localSpeaker';
+
+  let total = 0;
+  let assigned = 0;
+
+  const weekType =
+    schedule.weekend_meeting.week_type.find(
+      (record) => record.type === dataView
+    )?.value || Week.NORMAL;
+  const hasNoMeeting =
+    weekType === Week.ASSEMBLY ||
+    weekType == Week.CONVENTION ||
+    weekType === Week.MEMORIAL ||
+    weekType === Week.NO_MEETING;
+
+  if (!hasNoMeeting) {
+    // chairman
+    total = total + 1;
+
+    let assignment = schedule.weekend_meeting.chairman.find(
+      (record) => record.type === dataView
+    );
+    if (assignment && assignment.value.length > 0) {
+      assigned = assigned + 1;
+    }
+
+    // opening prayer
+    if (!openingPrayerAutoAssign) {
+      total = total + 1;
+
+      assignment = schedule.weekend_meeting.opening_prayer.find(
+        (record) => record.type === dataView
+      );
+      if (assignment && assignment.value.length > 0) {
+        assigned = assigned + 1;
+      }
+    }
+
+    // speakers
+    if (weekType !== Week.CO_VISIT && talkType !== 'jwStreamRecording') {
+      // speaker 1
+      total = total + 1;
+
+      assignment = schedule.weekend_meeting.speaker.part_1.find(
+        (record) => record.type === dataView
+      );
+      if (assignment && assignment.value.length > 0) {
+        assigned = assigned + 1;
+      }
+
+      // speaker 2
+      assignment = schedule.weekend_meeting.speaker.part_2.find(
+        (record) => record.type === dataView
+      );
+      if (assignment && assignment.value.length > 0) {
+        total = total + 1;
+        assigned = assigned + 1;
+      }
+    }
+
+    // wt study conductor
+    assignment = schedule.weekend_meeting.wt_study.conductor.find(
+      (record) => record.type === dataView
+    );
+    if (assignment && assignment.value.length > 0) {
+      total = total + 1;
+      assigned = assigned + 1;
+    }
+
+    // wt study reader
+    if (weekType !== Week.CO_VISIT) {
+      total = total + 1;
+
+      assignment = schedule.weekend_meeting.wt_study.reader.find(
+        (record) => record.type === dataView
+      );
+      if (assignment && assignment.value.length > 0) {
+        assigned = assigned + 1;
+      }
+    }
+
+    // closing prayer
+    assignment = schedule.weekend_meeting.closing_prayer.find(
+      (record) => record.type === dataView
+    );
+
+    if (talkType === 'jwStreamRecording') {
+      total = total + 1;
+    }
+
+    if (assignment && assignment.value.length > 0) {
+      assigned = assigned + 1;
+
+      if (talkType !== 'jwStreamRecording') {
+        total = total + 1;
       }
     }
   }
@@ -586,6 +717,37 @@ export const schedulesGetHistoryDetails = ({
     history.assignment.code = AssignmentCode.MM_CBSReader;
     history.assignment.title = getTranslation({
       key: 'tr_congregationBibleStudyReader',
+    });
+  }
+
+  if (assignment === 'WM_Chairman') {
+    history.assignment.code = AssignmentCode.WM_Chairman;
+    history.assignment.title = getTranslation({
+      key: 'tr_chairmanWeekendMeetingHistory',
+    });
+  }
+
+  if (assignment.startsWith('WM_') && assignment.endsWith('Prayer')) {
+    history.assignment.code = AssignmentCode.WM_Prayer;
+    history.assignment.title = getTranslation({ key: 'tr_prayer' });
+  }
+
+  if (assignment.includes('WM_Speaker_Part')) {
+    history.assignment.code = AssignmentCode.WM_Speaker;
+    history.assignment.title = getTranslation({ key: 'tr_speaker' });
+  }
+
+  if (assignment === 'WM_WTStudy_Conductor') {
+    history.assignment.code = AssignmentCode.WM_WTStudyConductor;
+    history.assignment.title = getTranslation({
+      key: 'tr_watchtowerStudyConductor',
+    });
+  }
+
+  if (assignment === 'WM_WTStudy_Reader') {
+    history.assignment.code = AssignmentCode.WM_WTStudyReader;
+    history.assignment.title = getTranslation({
+      key: 'tr_watchtowerStudyReader',
     });
   }
 
@@ -1913,7 +2075,12 @@ export const schedulesMidweekData = async (
     result.co_name = useDisplayName ? CODisplayName : COFullname;
   }
 
-  const concluding_song = sourcesSongConclude(source, dataView, lang);
+  const concluding_song = sourcesSongConclude({
+    meeting: 'midweek',
+    source,
+    dataView,
+    lang,
+  });
   const isSongText = isNaN(+concluding_song);
 
   result.lc_concluding_song = isSongText

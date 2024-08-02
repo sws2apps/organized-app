@@ -23,6 +23,7 @@ export const weekTypeLocaleState = selector({
       const obj = <WeekTypeLocale>{};
       obj.id = weekType.id;
       obj.sort_index = weekType.sort_index;
+      obj.meeting = weekType.meeting;
       obj.week_type_name = weekType.week_type_name[appLang.toUpperCase()];
       newList.push(obj);
     }

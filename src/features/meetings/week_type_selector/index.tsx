@@ -8,7 +8,7 @@ import Typography from '@components/typography';
 const WeekTypeSelector = (props: WeekTypeSelectorType) => {
   const { t } = useAppTranslation();
 
-  const { weekType, weekTypeOptions, handleWeekTypeChange } =
+  const { weekType, options, handleWeekTypeChange } =
     useWeekTypeSelector(props);
 
   return (
@@ -19,7 +19,7 @@ const WeekTypeSelector = (props: WeekTypeSelectorType) => {
       value={weekType}
       onChange={(e) => handleWeekTypeChange(+e.target.value)}
     >
-      {weekTypeOptions.map((weekType) => (
+      {options.map((weekType) => (
         <MenuItem key={weekType.id} value={weekType.id}>
           <Typography>{weekType.week_type_name}</Typography>
         </MenuItem>

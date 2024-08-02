@@ -1,11 +1,11 @@
 import { Box, Popper } from '@mui/material';
+import { IconSong } from '@components/icons';
 import { SongType } from '@definition/songs';
 import { SongSourceType } from './index.types';
 import { useAppTranslation } from '@hooks/index';
 import useSongSource from './useSongSource';
 import AutoComplete from '@components/autocomplete';
 import Typography from '@components/typography';
-import { IconSong } from '@components/icons';
 
 const SongSource = (props: SongSourceType) => {
   const { t } = useAppTranslation();
@@ -16,32 +16,26 @@ const SongSource = (props: SongSourceType) => {
   return (
     <>
       {props.isEdit && (
-        <Box sx={{ width: '120px' }}>
-          <AutoComplete
-            options={songs}
-            getOptionLabel={(option: SongType) => option.song_number.toString()}
-            value={selectedSong}
-            onChange={(_, value: SongType) => handleSongChange(value)}
-            PopperComponent={(props) => (
-              <Popper
-                {...props}
-                style={{ minWidth: 250 }}
-                placement="top-start"
-              />
-            )}
-            renderOption={(props, option) => (
-              <Box
-                component="li"
-                {...props}
-                sx={{ margin: 0, padding: 0 }}
-                key={option.song_number}
-              >
-                <Typography>{option.song_title}</Typography>
-              </Box>
-            )}
-            label={t('tr_songs')}
-          />
-        </Box>
+        <AutoComplete
+          label={props.label || t('tr_songs')}
+          options={songs}
+          getOptionLabel={(option: SongType) => option.song_title}
+          value={selectedSong}
+          onChange={(_, value: SongType) => handleSongChange(value)}
+          PopperComponent={(props) => (
+            <Popper {...props} placement="top-start" />
+          )}
+          renderOption={(props, option) => (
+            <Box
+              component="li"
+              {...props}
+              sx={{ margin: 0, padding: 0 }}
+              key={option.song_number}
+            >
+              <Typography>{option.song_title}</Typography>
+            </Box>
+          )}
+        />
       )}
       {!props.isEdit && (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>

@@ -21,6 +21,7 @@ const WeekSelector = () => {
     handleCloseDelete,
     openDelete,
     handleOpenDelete,
+    meeting,
   } = useWeekSelector();
 
   return (
@@ -41,7 +42,7 @@ const WeekSelector = () => {
     >
       {openDelete && (
         <AssignmentsDelete
-          meeting="midweek"
+          meeting={meeting}
           open={openDelete}
           onClose={handleCloseDelete}
         />

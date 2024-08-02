@@ -1,13 +1,16 @@
 import { Box } from '@mui/material';
 import { IconGenerate, IconPrint, IconPublish } from '@components/icons';
 import { WeekSelector } from '@features/index';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useWeekend from './useWeekend';
 import Button from '@components/button';
 import PageTitle from '@components/page_title';
+import WeekendEditor from '@features/meetings/weekend_editor';
 
 const WeekendMeeting = () => {
   const { t } = useAppTranslation();
+
+  const { desktopUp } = useBreakpoints();
 
   const { hasWeeks } = useWeekend();
 
@@ -38,7 +41,17 @@ const WeekendMeeting = () => {
         }
       />
 
-      <WeekSelector />
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: desktopUp ? 'row' : 'column',
+          gap: '16px',
+          alignItems: desktopUp ? 'flex-start' : 'unset',
+        }}
+      >
+        <WeekSelector />
+        <WeekendEditor />
+      </Box>
     </Box>
   );
 };

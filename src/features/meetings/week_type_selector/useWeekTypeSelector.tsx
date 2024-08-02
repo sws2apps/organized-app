@@ -16,6 +16,10 @@ const useWeekTypeSelector = ({ meeting, week }: WeekTypeSelectorType) => {
 
   const [weekType, setWeekType] = useState(Week.NORMAL);
 
+  const options = weekTypeOptions.filter((record) =>
+    record.meeting.includes(meeting)
+  );
+
   const handleWeekTypeChange = async (value: Week) => {
     const schedule = schedules.find((record) => record.weekOf === week);
 
@@ -87,7 +91,7 @@ const useWeekTypeSelector = ({ meeting, week }: WeekTypeSelectorType) => {
     }
   }, [week, schedules, userDataView, meeting]);
 
-  return { weekTypeOptions, weekType, handleWeekTypeChange };
+  return { options, weekType, handleWeekTypeChange };
 };
 
 export default useWeekTypeSelector;

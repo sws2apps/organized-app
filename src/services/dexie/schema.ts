@@ -54,13 +54,18 @@ export const sourceSchema: SourceWeekType = {
   },
   weekend_meeting: {
     event_name: { value: '', updatedAt: '' },
-    song_first: [],
-    public_talk: [],
+    song_first: [{ type: 'main', value: '', updatedAt: '' }],
+    public_talk: [{ type: 'main', value: '', updatedAt: '' }],
     co_talk_title: {
       public: { src: '', updatedAt: '' },
       service: { src: '', updatedAt: '' },
     },
-    w_study: { opening_song: {}, title: {}, concluding_song: {} },
+    song_middle: {},
+    w_study: {},
+    song_conclude: {
+      default: {},
+      override: [{ type: 'main', value: '', updatedAt: '' }],
+    },
   },
 };
 
@@ -149,6 +154,7 @@ export const scheduleSchema: SchedWeekType = {
   weekend_meeting: {
     chairman: [{ type: 'main', value: '', name: '', updatedAt: '' }],
     opening_prayer: [{ type: 'main', value: '', name: '', updatedAt: '' }],
+    public_talk_type: [{ type: 'main', value: 'localSpeaker', updatedAt: '' }],
     speaker: {
       part_1: [{ type: 'main', value: '', name: '', updatedAt: '' }],
       part_2: [{ type: 'main', value: '', name: '', updatedAt: '' }],
@@ -162,6 +168,7 @@ export const scheduleSchema: SchedWeekType = {
       conductor: [{ type: 'main', value: '', name: '', updatedAt: '' }],
       reader: [{ type: 'main', value: '', name: '', updatedAt: '' }],
     },
+    closing_prayer: [{ type: 'main', value: '', name: '', updatedAt: '' }],
     week_type: [{ type: 'main', value: Week.NORMAL, updatedAt: '' }],
   },
 };
