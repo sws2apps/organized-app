@@ -1,8 +1,8 @@
 {
   "tr_s89Title": "クリスチャンとしての生活と奉仕<br />の集会の割り当て",
-  "tr_s89ToBeGiven": "会場",
+  "tr_s89ToBeGiven": "To be given in",
   "tr_s89DescFooter": "Note to student: The source material and study point for your assignment can be found in the Life and Ministry Meeting Workbook. Please review the instructions for the part as outlined in Instructions for Our Christian Life and Ministry Meeting (S-38).",
-  "tr_date": "日付：",
+  "tr_date": "Date",
   "tr_assignment": "割り当て",
   "tr_bibleReading": "聖書朗読",
   "tr_initialCall": "最初の話し合い",
@@ -32,8 +32,8 @@
   "tr_memorialInvite": "記念式への招待",
   "tr_normalWeek": "通常の週",
   "tr_circuitOverseerWeek": "Visit of Circuit Overseer",
-  "tr_conventionWeek": "Regional convention",
-  "tr_assemblyWeek": "Circuit assembly",
+  "tr_conventionWeek": "Week of Regional Convention",
+  "tr_assemblyWeek": "Week of Circuit Assembly",
   "tr_shortTimeFormat": "H:MM",
   "tr_initialCallVideo": "最初の話し合いの動画",
   "tr_returnVisitVideo": "再訪問の動画",
@@ -68,6 +68,5 @@
   "tr_chairman": "司会者",
   "tr_prayer": "祈り",
   "tr_partDuration": "({{ time }} min.)",
-  "tr_memorialWeek": "Memorial",
-  "tr_exportMidweekMeetinDesc": "Choose the schedules and forms you'd like to export and pick your preferred template. Organized saves your template choice for next time to make the export easier."
+  "tr_memorialWeek": "Week of Memorial"
 }
