@@ -31,7 +31,7 @@
   "tr_assignmentsHistory": "Anjara efa nataony",
   "tr_class": "Kilasy",
   "tr_exportMidweekMeeting": "Export midweek meeting",
-  "tr_exportMidweekMeetinDesc": "Select which schedules you want to export.",
+  "tr_exportMidweekMeetinDesc": "Choose the schedules and forms you want to export and select a template. Your template choice will be saved for next time.",
   "tr_startMonth": "Manomboka",
   "tr_endMonth": "Hatramin’ny",
   "tr_MMScheduleS140": "Fandaharam-pivoriana andavanandro (S-140)",
@@ -97,7 +97,7 @@
   "tr_online": "Online",
   "tr_present": "Present",
   "tr_numberOfMeetings": "Number of meetings",
-  "tr_today": "Today",
+  "tr_today": "Now",
   "tr_totalAttendance": "Total attendance",
   "tr_avgAttendance": "Average attendance",
   "tr_avgOnline": "Average online",
@@ -121,5 +121,6 @@
   "tr_templateS89Doc4x1Desc": "per A4 page",
   "tr_templateS140DefaultName": "S-140",
   "tr_templateS140DescUp2Weeks": "Up to 2 weeks",
-  "tr_templateS140AppNormalName": "Normal"
+  "tr_templateS140AppNormalName": "Normal",
+  "tr_tgwGems": "Spiritual Gems"
 }

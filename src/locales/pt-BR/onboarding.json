@@ -95,7 +95,7 @@
   "tr_congregationAccessCodeNoticeLength": "Pelo menos 8 caracteres",
   "tr_congregationAccessCodeSet": "Definir código de acesso",
   "tr_congregationAccessCodeVerify": "Verificar código de acesso da congregação",
-  "tr_congregationAccessCodeNotice": "Please note and safeguard this code. Any users accessing your congregation need it to open the app.",
+  "tr_congregationAccessCodeNotice": "Please note and safeguard this code. Every user accessing your congregation need it to use the Organized app.",
   "tr_congregationAccessCodeLostDesc": "Por favor, digite o código de acesso à sua congregação. Este código único é específico para a sua congregação e é necessário para se conectar e acessá-la.",
   "tr_setCongregationMasterKey": "Definir chave mestra da congregação",
   "tr_createCongregationMasterKey": "Criar chave mestra da congregação",

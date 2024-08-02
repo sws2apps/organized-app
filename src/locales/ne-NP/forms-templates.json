@@ -1,8 +1,8 @@
 {
   "tr_s89Title": "हाम्रो ख्रिष्‍टियन जीवन र सेवा<br />सभाको असाइनमेन्ट",
-  "tr_s89ToBeGiven": "To be given in",
+  "tr_s89ToBeGiven": "To be given in:",
   "tr_s89DescFooter": "Note to student: The source material and study point for your assignment can be found in the Life and Ministry Meeting Workbook. Please review the instructions for the part as outlined in Instructions for Our Christian Life and Ministry Meeting (S-38).",
-  "tr_date": "Date",
+  "tr_date": "Date:",
   "tr_assignment": "असाइनमेन्ट",
   "tr_bibleReading": "बाइबल पढाइ",
   "tr_initialCall": "पहिलो भेट",
@@ -32,8 +32,8 @@
   "tr_memorialInvite": "स्मरणार्थको निम्तो",
   "tr_normalWeek": "नियमित हप्ता",
   "tr_circuitOverseerWeek": "Visit of Circuit Overseer",
-  "tr_conventionWeek": "Week of Regional Convention",
-  "tr_assemblyWeek": "Week of Circuit Assembly",
+  "tr_conventionWeek": "Regional convention",
+  "tr_assemblyWeek": "Circuit assembly",
   "tr_shortTimeFormat": "घ:मिमि",
   "tr_initialCallVideo": "पहिलो भेट भिडियो",
   "tr_returnVisitVideo": "पुनःभेट भिडियो",
@@ -64,9 +64,10 @@
   "tr_demonstration": "प्रदर्शन",
   "tr_partNo": "असाइनमेन्ट नं.:",
   "tr_nameS89": "नाम:",
-  "tr_assistant": "Assistant",
+  "tr_assistant": "Assistant:",
   "tr_chairman": "चेयरम्यान",
   "tr_prayer": "प्रार्थना",
   "tr_partDuration": "({{ time }} min.)",
-  "tr_memorialWeek": "Week of Memorial"
+  "tr_memorialWeek": "Memorial",
+  "tr_exportMidweekMeetinDesc": "Choose the schedules and forms you'd like to export and pick your preferred template. Organized saves your template choice for next time to make the export easier."
 }

@@ -1,8 +1,8 @@
 {
   "tr_s89Title": "OUR CHRISTIAN LIFE AND MINISTRY<br />MEETING ASSIGNMENT",
-  "tr_s89ToBeGiven": "To be given in",
+  "tr_s89ToBeGiven": "To be given in:",
   "tr_s89DescFooter": "Note to student: The source material and study point for your assignment can be found in the Life and Ministry Meeting Workbook. Please review the instructions for the part as outlined in Instructions for Our Christian Life and Ministry Meeting (S-38).",
-  "tr_date": "Date",
+  "tr_date": "Date:",
   "tr_assignment": "Assignment",
   "tr_bibleReading": "Bible reading",
   "tr_initialCall": "Lần gặp đầu tiên",
@@ -32,8 +32,8 @@
   "tr_memorialInvite": "Lời mời Lễ Tưởng niệm",
   "tr_normalWeek": "Tuần bình thường",
   "tr_circuitOverseerWeek": "Visit of Circuit Overseer",
-  "tr_conventionWeek": "Week of Regional Convention",
-  "tr_assemblyWeek": "Week of Circuit Assembly",
+  "tr_conventionWeek": "Regional convention",
+  "tr_assemblyWeek": "Circuit assembly",
   "tr_shortTimeFormat": "H:MM",
   "tr_initialCallVideo": "Initial Call Video",
   "tr_returnVisitVideo": "Return Visit Video",
@@ -64,9 +64,10 @@
   "tr_demonstration": "Demonstration",
   "tr_partNo": "Part no.:",
   "tr_nameS89": "Name:",
-  "tr_assistant": "Assistant",
+  "tr_assistant": "Assistant:",
   "tr_chairman": "Chairman",
   "tr_prayer": "Prayer",
   "tr_partDuration": "({{ time }} phút.)",
-  "tr_memorialWeek": "Week of Memorial"
+  "tr_memorialWeek": "Memorial",
+  "tr_exportMidweekMeetinDesc": "Choose the schedules and forms you'd like to export and pick your preferred template. Organized saves your template choice for next time to make the export easier."
 }
