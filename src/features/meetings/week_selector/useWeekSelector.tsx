@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
+import { MeetingType } from '@definition/app';
 import { sourcesFormattedState } from '@states/sources';
 import { useBreakpoints } from '@hooks/index';
 import { selectedWeekState } from '@states/schedules';
 import MonthsContainer from './months_container';
 
 const useWeekSelector = () => {
+  const location = useLocation();
+
   const { desktopUp } = useBreakpoints();
 
   const resetSelectedWeek = useResetRecoilState(selectedWeekState);
@@ -15,6 +19,9 @@ const useWeekSelector = () => {
 
   const [expanded, setExpanded] = useState(true);
   const [openDelete, setOpenDelete] = useState(false);
+
+  const meeting: MeetingType =
+    location.pathname === '/midweek-meeting' ? 'midweek' : 'weekend';
 
   const tabs = sources.map((year) => ({
     label: year.value.toString(),
@@ -59,6 +66,7 @@ const useWeekSelector = () => {
     openDelete,
     handleCloseDelete,
     handleOpenDelete,
+    meeting,
   };
 };
 

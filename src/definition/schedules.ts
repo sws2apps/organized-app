@@ -35,6 +35,17 @@ export type AssignmentAYFType = {
   };
 };
 
+export type PublicTalkType =
+  | 'localSpeaker'
+  | 'visitingSpeaker'
+  | 'jwStreamRecording';
+
+export type PublicTalkCongregation = {
+  type: string;
+  value: PublicTalkType;
+  updatedAt: string;
+};
+
 export type SchedWeekType = {
   weekOf: string;
   midweek_meeting: {
@@ -67,6 +78,7 @@ export type SchedWeekType = {
   weekend_meeting: {
     chairman: AssignmentCongregation[];
     opening_prayer: AssignmentCongregation[];
+    public_talk_type: PublicTalkCongregation[];
     speaker: {
       part_1: AssignmentCongregation[];
       part_2: AssignmentCongregation[];
@@ -80,6 +92,7 @@ export type SchedWeekType = {
       conductor: AssignmentCongregation[];
       reader: AssignmentCongregation[];
     };
+    closing_prayer: AssignmentCongregation[];
     week_type: WeekTypeCongregation[];
   };
   released: SwitchCongregation[];

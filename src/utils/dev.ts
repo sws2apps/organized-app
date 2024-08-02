@@ -693,16 +693,27 @@ export const importDummyPersons = async (showLoading?: boolean) => {
               _deleted: false,
             },
             {
-              code: AssignmentCode.WM_Speaker,
-              updatedAt: new Date().toISOString(),
-              _deleted: false,
-            },
-            {
               code: AssignmentCode.WM_WTStudyReader,
               updatedAt: new Date().toISOString(),
               _deleted: false,
             }
           );
+        }
+
+        if (maleStatus === 'minServ') {
+          person.person_data.assignments.push({
+            code: AssignmentCode.WM_SpeakerSymposium,
+            updatedAt: new Date().toISOString(),
+            _deleted: false,
+          });
+        }
+
+        if (maleStatus === 'minServFR') {
+          person.person_data.assignments.push({
+            code: AssignmentCode.WM_Speaker,
+            updatedAt: new Date().toISOString(),
+            _deleted: false,
+          });
         }
 
         if (
@@ -740,9 +751,7 @@ export const importDummyPersons = async (showLoading?: boolean) => {
       }
     }
 
-    for await (const person of formattedData) {
-      await appDb.persons.put(person);
-    }
+    await appDb.persons.bulkPut(formattedData);
 
     showProgress && (await promiseSetRecoil(rootModalOpenState, false));
   } catch (err) {

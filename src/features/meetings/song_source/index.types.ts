@@ -3,4 +3,5 @@ export type SongSourceType = {
   meeting: 'midweek' | 'weekend';
   type: 'opening' | 'middle' | 'concluding';
   isEdit?: boolean;
+  label?: string;
 };

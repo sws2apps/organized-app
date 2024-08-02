@@ -1369,7 +1369,7 @@
     },
     "watchtower-study": {
       "type": "color",
-      "value": "#848383ff",
+      "value": "#457bbbff",
       "blendMode": "normal",
       "extensions": {
         "org.lukasoppermann.figmaDesignTokens": {

@@ -14,7 +14,7 @@ import {
 import { PersonType } from '@definition/person';
 
 const personIsElder = (person: PersonType) => {
-  const hasActive = person.person_data.privileges.find(
+  const hasActive = person?.person_data.privileges.find(
     (record) =>
       record.privilege.value === 'elder' &&
       record.end_date.value === null &&
@@ -25,7 +25,7 @@ const personIsElder = (person: PersonType) => {
 };
 
 const personIsMS = (person: PersonType) => {
-  const hasActive = person.person_data.privileges.find(
+  const hasActive = person?.person_data.privileges.find(
     (record) =>
       record.privilege.value === 'ms' &&
       record.end_date.value === null &&
@@ -89,11 +89,11 @@ const dbGetTableData = async () => {
           ...speaker.speaker_data,
           elder: { value: personIsElder(person), updatedAt: '' },
           ministerial_servant: { value: personIsMS(person), updatedAt: '' },
-          person_display_name: person.person_data.person_display_name,
-          person_firstname: person.person_data.person_firstname,
-          person_lastname: person.person_data.person_lastname,
-          person_email: person.person_data.email,
-          person_phone: person.person_data.phone,
+          person_display_name: person?.person_data.person_display_name,
+          person_firstname: person?.person_data.person_firstname,
+          person_lastname: person?.person_data.person_lastname,
+          person_email: person?.person_data.email,
+          person_phone: person?.person_data.phone,
         },
       };
     });

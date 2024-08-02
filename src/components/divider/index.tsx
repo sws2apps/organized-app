@@ -1,4 +1,4 @@
-import { Divider } from '@mui/material';
+import { Divider as MUIDivider } from '@mui/material';
 import { CustomDividerProps } from './divider.types';
 
 /**
@@ -13,12 +13,12 @@ import { CustomDividerProps } from './divider.types';
  * // Example usage of CustomDivider component
  * <CustomDivider color="blue" height={2} />
  */
-const CustomDivider = (props: CustomDividerProps) => {
+const Divider = (props: CustomDividerProps) => {
   const height = props.height || 1;
   const color = props.color || 'var(--accent-main)';
 
   return (
-    <Divider
+    <MUIDivider
       sx={
         props.dashed
           ? {
@@ -38,4 +38,4 @@ const CustomDivider = (props: CustomDividerProps) => {
   );
 };
 
-export default CustomDivider;
+export default Divider;

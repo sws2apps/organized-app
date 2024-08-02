@@ -14,6 +14,7 @@ import { dbSchedCheck } from '@services/dexie/schedules';
 import { AssignmentAYFOnlyType } from '@definition/assignment';
 import { JWLangState } from '@states/app';
 import { getTranslation } from '@services/i18n/translation';
+import { MeetingType } from '@definition/app';
 
 export const sourcesImportEPUB = async (fileEPUB) => {
   const data = await loadEPUB(fileEPUB);
@@ -176,13 +177,14 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
         public: { src: '', updatedAt: '' },
         service: { src: '', updatedAt: '' },
       };
-      obj.weekend_meeting.w_study = {
-        opening_song: { [source_lang]: src.w_study_opening_song.toString() },
-        title: { [source_lang]: src.w_study_title },
-        concluding_song: {
-          [source_lang]: src.w_study_concluding_song.toString(),
-        },
+      obj.weekend_meeting.song_middle = {
+        [source_lang]: src.w_study_opening_song.toString(),
       };
+      (obj.weekend_meeting.w_study = { [source_lang]: src.w_study_title }),
+        (obj.weekend_meeting.song_conclude = {
+          default: { [source_lang]: src.w_study_concluding_song.toString() },
+          override: [],
+        });
     }
 
     await dbSourcesSave(obj);
@@ -372,18 +374,38 @@ export const sourcesCBSGetTitle = (
   return title;
 };
 
-export const sourcesSongConclude = (
-  source: SourceWeekType,
-  dataView: string,
-  lang: string
-) => {
-  const songDefault = source.midweek_meeting.song_conclude.default[lang];
-  const songOverride =
-    source.midweek_meeting.song_conclude.override.find(
-      (record) => record.type === dataView
-    )?.value || '';
+export const sourcesSongConclude = ({
+  dataView,
+  lang,
+  meeting,
+  source,
+}: {
+  meeting: MeetingType;
+  source: SourceWeekType;
+  dataView: string;
+  lang: string;
+}) => {
+  let song: string;
 
-  const song = songOverride.length > 0 ? songOverride : songDefault;
+  if (meeting === 'midweek') {
+    const songDefault = source.midweek_meeting.song_conclude.default[lang];
+    const songOverride =
+      source.midweek_meeting.song_conclude.override.find(
+        (record) => record.type === dataView
+      )?.value || '';
+
+    song = songOverride.length > 0 ? songOverride : songDefault;
+  }
+
+  if (meeting === 'weekend') {
+    const songDefault = source.weekend_meeting.song_conclude.default[lang];
+    const songOverride =
+      source.weekend_meeting.song_conclude.override.find(
+        (record) => record.type === dataView
+      )?.value || '';
+
+    song = songOverride.length > 0 ? songOverride : songDefault;
+  }
 
   return song;
 };
