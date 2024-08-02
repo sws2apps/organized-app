@@ -1,8 +1,8 @@
 {
   "tr_s89Title": "TUFUHIMU KRISTO NYINAA NE ASENKASA ASESAN<br />NHYEHYEE MAHODU",
-  "tr_s89ToBeGiven": "Dɛn saa bɛhodii no mu",
+  "tr_s89ToBeGiven": "To be given in",
   "tr_s89DescFooter": "Note to student: The source material and study point for your assignment can be found in the Life and Ministry Meeting Workbook. Please review the instructions for the part as outlined in Instructions for Our Christian Life and Ministry Meeting (S-38).",
-  "tr_date": "Date:",
+  "tr_date": "Date",
   "tr_assignment": "Nhyehyee",
   "tr_bibleReading": "Bibere atentam",
   "tr_initialCall": "Tumi suman",
@@ -32,8 +32,8 @@
   "tr_memorialInvite": "Nkaedi nhyehyee",
   "tr_normalWeek": "Nnawɔtwe a eni nnawɔtwe mfinfii nhyiam wɔɑ wɔhɔ",
   "tr_circuitOverseerWeek": "Visit of Circuit Overseer",
-  "tr_conventionWeek": "Regional convention",
-  "tr_assemblyWeek": "Circuit assembly",
+  "tr_conventionWeek": "Week of Regional Convention",
+  "tr_assemblyWeek": "Week of Circuit Assembly",
   "tr_shortTimeFormat": "H:MM",
   "tr_initialCallVideo": "Tumi suman bidiow",
   "tr_returnVisitVideo": "Tumi din a edi bidiow",
@@ -64,10 +64,9 @@
   "tr_demonstration": "Nkwa",
   "tr_partNo": "Nhyehyee no nɔ:",
   "tr_nameS89": "Din:",
-  "tr_assistant": "Assistant:",
+  "tr_assistant": "Assistant",
   "tr_chairman": "Dwumadini",
   "tr_prayer": "Mpae",
   "tr_partDuration": "({{ time }} min.)",
-  "tr_memorialWeek": "Memorial",
-  "tr_exportMidweekMeetinDesc": "Choose the schedules and forms you'd like to export and pick your preferred template. Organized saves your template choice for next time to make the export easier."
+  "tr_memorialWeek": "Week of Memorial"
 }
