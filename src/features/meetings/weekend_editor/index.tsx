@@ -3,6 +3,7 @@ import { IconInfo, IconTalk, IconWatchtowerStudy } from '@components/icons';
 import { AssignmentCode } from '@definition/assignment';
 import {
   DoubleFieldContainer,
+  EditorContainer,
   PrimaryFieldContainer,
   SecondaryFieldContainer,
 } from './index.styles';
@@ -44,15 +45,7 @@ const WeekendEditor = () => {
   const { talkType } = usePublicTalkTypeSelector(selectedWeek);
 
   return (
-    <Box
-      sx={{
-        borderRadius: 'var(--radius-xl)',
-        padding: '16px',
-        backgroundColor: 'var(--white)',
-        border: '1px solid var(--accent-300)',
-        flexGrow: 1,
-      }}
-    >
+    <EditorContainer>
       {weekDateLocale.length === 0 && (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <IconInfo color="var(--accent-400)" />
@@ -166,7 +159,7 @@ const WeekendEditor = () => {
                           label={t('tr_speaker')}
                           type={AssignmentCode.WM_SpeakerSymposium}
                           assignment="WM_Speaker_Part1"
-                          visitingSpeakear={talkType === 'visitingSpeaker'}
+                          visitingSpeaker={talkType === 'visitingSpeaker'}
                         />
 
                         {showSpeaker2 && (
@@ -287,7 +280,7 @@ const WeekendEditor = () => {
           )}
         </Box>
       )}
-    </Box>
+    </EditorContainer>
   );
 };
 

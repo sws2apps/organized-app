@@ -9,6 +9,7 @@ import { userDataViewState } from '@states/settings';
 import { SongType } from '@definition/songs';
 import { sourcesSongConclude } from '@services/app/sources';
 import { dbSourcesUpdate } from '@services/dexie/sources';
+import { CongregationStringType } from '@definition/sources';
 
 const useSongSource = ({ meeting, type, week }: SongSourceType) => {
   const { t } = useAppTranslation();
@@ -28,20 +29,24 @@ const useSongSource = ({ meeting, type, week }: SongSourceType) => {
   const handleSongChange = async (song: SongType) => {
     const value = song?.song_number.toString() || '';
 
+    const findOrCreateRecord = (song: CongregationStringType[]) => {
+      let data = song.find((record) => record.type === dataView);
+
+      if (!data) {
+        song.push({ type: dataView, updatedAt: '', value: '' });
+        data = song.find((record) => record.type === dataView);
+      }
+
+      return data;
+    };
+
     if (meeting === 'midweek') {
       if (type === 'concluding') {
         const song = structuredClone(
           source.midweek_meeting.song_conclude.override
         );
 
-        let data = song.find((record) => record.type === dataView);
-
-        if (!data) {
-          song.push({ type: dataView, updatedAt: '', value: '' });
-
-          data = song.find((record) => record.type === dataView);
-        }
-
+        const data = findOrCreateRecord(song);
         data.updatedAt = new Date().toISOString();
         data.value = value;
 
@@ -55,14 +60,7 @@ const useSongSource = ({ meeting, type, week }: SongSourceType) => {
       if (type === 'opening') {
         const song = structuredClone(source.weekend_meeting.song_first);
 
-        let data = song.find((record) => record.type === dataView);
-
-        if (!data) {
-          song.push({ type: dataView, updatedAt: '', value: '' });
-
-          data = song.find((record) => record.type === dataView);
-        }
-
+        const data = findOrCreateRecord(song);
         data.updatedAt = new Date().toISOString();
         data.value = value;
 
@@ -74,14 +72,7 @@ const useSongSource = ({ meeting, type, week }: SongSourceType) => {
           source.weekend_meeting.song_conclude.override
         );
 
-        let data = song.find((record) => record.type === dataView);
-
-        if (!data) {
-          song.push({ type: dataView, updatedAt: '', value: '' });
-
-          data = song.find((record) => record.type === dataView);
-        }
-
+        const data = findOrCreateRecord(song);
         data.updatedAt = new Date().toISOString();
         data.value = value;
 
