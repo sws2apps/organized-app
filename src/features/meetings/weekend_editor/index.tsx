@@ -148,9 +148,11 @@ const WeekendEditor = () => {
                     <PersonSelector
                       week={selectedWeek}
                       label={
-                        weekType === Week.CO_VISIT
-                          ? t('tr_circuitOverseer')
-                          : t('tr_speaker')
+                        showSpeaker2
+                          ? t('tr_firstSpeaker')
+                          : weekType === Week.CO_VISIT
+                            ? t('tr_circuitOverseer')
+                            : t('tr_speaker')
                       }
                       type={AssignmentCode.WM_SpeakerSymposium}
                       assignment="WM_Speaker_Part1"
@@ -160,7 +162,7 @@ const WeekendEditor = () => {
                     {showSpeaker2 && (
                       <PersonSelector
                         week={selectedWeek}
-                        label={t('tr_speaker')}
+                        label={t('tr_secondSpeaker')}
                         type={AssignmentCode.WM_Speaker}
                         assignment="WM_Speaker_Part2"
                       />
