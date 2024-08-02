@@ -32,8 +32,8 @@
   "tr_memorialInvite": "Nkaedi nhyehyee",
   "tr_normalWeek": "Nnawɔtwe a eni nnawɔtwe mfinfii nhyiam wɔɑ wɔhɔ",
   "tr_circuitOverseerWeek": "Visit of Circuit Overseer",
-  "tr_conventionWeek": "Nnawɔtwe a eni konvɛnhyɛn bere akyi wɔɑ wɔhɔ",
-  "tr_assemblyWeek": "Nnawɔtwe a eni kɔkɔɔ asembilikɛ bere akyi wɔɑ wɔhɔ",
+  "tr_conventionWeek": "Regional convention",
+  "tr_assemblyWeek": "Circuit assembly",
   "tr_shortTimeFormat": "H:MM",
   "tr_initialCallVideo": "Tumi suman bidiow",
   "tr_returnVisitVideo": "Tumi din a edi bidiow",
@@ -68,6 +68,6 @@
   "tr_chairman": "Dwumadini",
   "tr_prayer": "Mpae",
   "tr_partDuration": "({{ time }} min.)",
-  "tr_memorialWeek": "Week of Memorial",
+  "tr_memorialWeek": "Memorial",
   "tr_exportMidweekMeetinDesc": "Choose the schedules and forms you'd like to export and pick your preferred template. Organized saves your template choice for next time to make the export easier."
 }
