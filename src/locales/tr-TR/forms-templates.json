@@ -32,8 +32,8 @@
   "tr_memorialInvite": "Anma Yemeği Daveti",
   "tr_normalWeek": "Sıradan bir hafta",
   "tr_circuitOverseerWeek": "Visit of Circuit Overseer",
-  "tr_conventionWeek": "Bölge İbadeti Haftası",
-  "tr_assemblyWeek": "Çevre İbadeti Haftası",
+  "tr_conventionWeek": "Regional convention",
+  "tr_assemblyWeek": "Circuit assembly",
   "tr_shortTimeFormat": "H:MM",
   "tr_initialCallVideo": "Sohbet Başlatmak. Video",
   "tr_returnVisitVideo": "Tekrar Ziyaretler Yapmak. Video",
@@ -68,6 +68,6 @@
   "tr_chairman": "Başkanlık eden",
   "tr_prayer": "Dua",
   "tr_partDuration": "({{ time }} min.)",
-  "tr_memorialWeek": "Week of Memorial",
+  "tr_memorialWeek": "Memorial",
   "tr_exportMidweekMeetinDesc": "Choose the schedules and forms you'd like to export and pick your preferred template. Organized saves your template choice for next time to make the export easier."
 }
