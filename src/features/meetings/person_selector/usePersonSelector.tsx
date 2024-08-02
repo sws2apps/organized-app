@@ -45,7 +45,7 @@ const usePersonSelector = ({
   type,
   week,
   assignment,
-  visitingSpeakear,
+  visitingSpeaker,
 }: PersonSelectorType) => {
   const { t } = useAppTranslation();
 
@@ -233,7 +233,7 @@ const usePersonSelector = ({
   useEffect(() => {
     setOptions([]);
 
-    if (!isAssistant && !visitingSpeakear) {
+    if (!isAssistant && !visitingSpeaker) {
       const isMale = gender === 'male';
       const isFemale = gender === 'female';
 
@@ -353,7 +353,7 @@ const usePersonSelector = ({
     history,
     handleFormatDate,
     handleSortOptions,
-    visitingSpeakear,
+    visitingSpeaker,
   ]);
 
   useEffect(() => {

@@ -20,27 +20,38 @@ const useWeekendEditor = () => {
   const lang = useRecoilValue(JWLangState);
   const persons = useRecoilValue(personsState);
 
-  const [weekDateLocale, setWeekDateLocale] = useState('');
-  const [weekType, setWeekType] = useState(Week.NORMAL);
-  const [wtStudyTitle, setWtStudyTitle] = useState('');
-  const [openPublicTalk, setOpenPublicTalk] = useState(true);
-  const [openWTStudy, setOpenWTStudy] = useState(true);
-  const [openServiceTalk, setOpenServiceTalk] = useState(true);
-  const [showSpeaker2, setShowSpeaker2] = useState(false);
+  const [state, setState] = useState({
+    weekDateLocale: '',
+    weekType: Week.NORMAL,
+    wtStudyTitle: '',
+    openPublicTalk: true,
+    openWTStudy: true,
+    openServiceTalk: true,
+    showSpeaker2: false,
+  });
 
   const schedule = schedules.find((record) => record.weekOf === selectedWeek);
   const source = sources.find((record) => record.weekOf === selectedWeek);
 
   const showEventEditor =
-    weekType !== Week.NORMAL &&
-    weekType !== Week.CO_VISIT &&
-    weekType !== Week.SPECIAL_TALK;
+    state.weekType !== Week.NORMAL &&
+    state.weekType !== Week.CO_VISIT &&
+    state.weekType !== Week.SPECIAL_TALK;
 
-  const handleTogglePulicTalk = () => setOpenPublicTalk((prev) => !prev);
+  const handleTogglePulicTalk = () =>
+    setState((prev) => {
+      return { ...prev, openPublicTalk: !prev.openPublicTalk };
+    });
 
-  const handleToggleWTStudy = () => setOpenWTStudy((prev) => !prev);
+  const handleToggleWTStudy = () =>
+    setState((prev) => {
+      return { ...prev, openWTStudy: !prev.openWTStudy };
+    });
 
-  const handleToggleServiceTalk = () => setOpenServiceTalk((prev) => !prev);
+  const handleToggleServiceTalk = () =>
+    setState((prev) => {
+      return { ...prev, openServiceTalk: !prev.openServiceTalk };
+    });
 
   useEffect(() => {
     if (selectedWeek.length > 0) {
@@ -56,23 +67,32 @@ const useWeekendEditor = () => {
         month: monthName,
         year,
       });
-      setWeekDateLocale(weekDateLocale);
+
+      setState((prev) => {
+        return { ...prev, weekDateLocale };
+      });
     }
   }, [t, selectedWeek, monthNames]);
 
   useEffect(() => {
-    setWtStudyTitle('');
-    setShowSpeaker2(false);
+    setState((prev) => {
+      return { ...prev, wtStudyTitle: '', showSpeaker2: false };
+    });
 
     if (schedule) {
       const weekType =
         schedule.weekend_meeting.week_type.find(
           (record) => record.type === dataView
         )?.value || Week.NORMAL;
-      setWeekType(weekType);
+
+      setState((prev) => {
+        return { ...prev, weekType };
+      });
 
       const wtStudy = source.weekend_meeting.w_study[lang];
-      setWtStudyTitle(wtStudy);
+      setState((prev) => {
+        return { ...prev, wtStudyTitle: wtStudy };
+      });
 
       const speaker1 = schedule.weekend_meeting.speaker.part_1.find(
         (record) => record.type === dataView
@@ -90,25 +110,21 @@ const useWeekendEditor = () => {
               (record) => record.code === AssignmentCode.WM_SpeakerSymposium
             );
 
-          setShowSpeaker2(isSymposium ? true : false);
+          setState((prev) => {
+            return { ...prev, showSpeaker2: !!isSymposium };
+          });
         }
       }
     }
   }, [schedule, dataView, source, lang, persons]);
 
   return {
-    weekDateLocale,
+    ...state,
     selectedWeek,
-    weekType,
-    wtStudyTitle,
     showEventEditor,
-    openPublicTalk,
     handleTogglePulicTalk,
-    openWTStudy,
     handleToggleWTStudy,
-    openServiceTalk,
     handleToggleServiceTalk,
-    showSpeaker2,
   };
 };
 
