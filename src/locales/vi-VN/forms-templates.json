@@ -32,8 +32,8 @@
   "tr_memorialInvite": "Lời mời Lễ Tưởng niệm",
   "tr_normalWeek": "Tuần bình thường",
   "tr_circuitOverseerWeek": "Visit of Circuit Overseer",
-  "tr_conventionWeek": "Tuần lễ Hội nghị Vùng",
-  "tr_assemblyWeek": "Tuần lễ Hội nghị Vòng quanh",
+  "tr_conventionWeek": "Regional convention",
+  "tr_assemblyWeek": "Circuit assembly",
   "tr_shortTimeFormat": "H:MM",
   "tr_initialCallVideo": "Initial Call Video",
   "tr_returnVisitVideo": "Return Visit Video",
@@ -68,6 +68,6 @@
   "tr_chairman": "Chairman",
   "tr_prayer": "Prayer",
   "tr_partDuration": "({{ time }} phút.)",
-  "tr_memorialWeek": "Week of Memorial",
+  "tr_memorialWeek": "Memorial",
   "tr_exportMidweekMeetinDesc": "Choose the schedules and forms you'd like to export and pick your preferred template. Organized saves your template choice for next time to make the export easier."
 }
