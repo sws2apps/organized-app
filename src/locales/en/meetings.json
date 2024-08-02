@@ -130,5 +130,7 @@
   "tr_conductor": "Conductor",
   "tr_serviceTalk": "Service Talk",
   "tr_chairmanWeekendMeetingHistory": "Weekend meeting chairman",
-  "tr_studyArticle": "Study article"
+  "tr_studyArticle": "Study article",
+  "tr_firstSpeaker": "1st speaker",
+  "tr_secondSpeaker": "2nd speaker"
 }
