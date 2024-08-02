@@ -180,11 +180,11 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
       obj.weekend_meeting.song_middle = {
         [source_lang]: src.w_study_opening_song.toString(),
       };
-      (obj.weekend_meeting.w_study = { [source_lang]: src.w_study_title }),
-        (obj.weekend_meeting.song_conclude = {
-          default: { [source_lang]: src.w_study_concluding_song.toString() },
-          override: [],
-        });
+      obj.weekend_meeting.w_study = { [source_lang]: src.w_study_title };
+      obj.weekend_meeting.song_conclude = {
+        default: { [source_lang]: src.w_study_concluding_song.toString() },
+        override: [],
+      };
     }
 
     await dbSourcesSave(obj);
