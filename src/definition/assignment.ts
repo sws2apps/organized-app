@@ -113,4 +113,5 @@ export type AssignmentFieldType =
   | 'WM_Speaker_Part2'
   | 'WM_WTStudy_Conductor'
   | 'WM_WTStudy_Reader'
-  | 'WM_ClosingPrayer';
+  | 'WM_ClosingPrayer'
+  | 'WM_CircuitOverseer';
