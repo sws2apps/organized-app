@@ -130,7 +130,10 @@ const WeekendEditor = () => {
                 >
                   <PrimaryFieldContainer>
                     {weekType === Week.NORMAL && (
-                      <PublicTalkSelector week={selectedWeek} />
+                      <PublicTalkSelector
+                        week={selectedWeek}
+                        showSpeakerCount={talkType === 'visitingSpeaker'}
+                      />
                     )}
                     {weekType !== Week.NORMAL && weekType !== Week.CO_VISIT && (
                       <TalkTitleSolo type="public_talk" week={selectedWeek} />

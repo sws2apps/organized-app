@@ -1,21 +1,37 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { publicTalksState } from '@states/public_talks';
 import { sourcesState } from '@states/sources';
 import { userDataViewState } from '@states/settings';
-import { PublicTalkType } from '@definition/public_talks';
 import { dbSourcesUpdate } from '@services/dexie/sources';
+import { incomingSpeakersState } from '@states/visiting_speakers';
+import { PublicTalkOptionType } from './index.types';
 
 const usePublicTalkSelector = (week: string) => {
-  const talks = useRecoilValue(publicTalksState);
+  const talksData = useRecoilValue(publicTalksState);
   const sources = useRecoilValue(sourcesState);
   const dataView = useRecoilValue(userDataViewState);
+  const speakers = useRecoilValue(incomingSpeakersState);
 
-  const [selectedTalk, setSelectedTalk] = useState<PublicTalkType>(null);
+  const [selectedTalk, setSelectedTalk] = useState<PublicTalkOptionType>(null);
 
   const source = sources.find((record) => record.weekOf === week);
 
-  const handleTalkChange = async (talk: PublicTalkType) => {
+  const talks = useMemo(() => {
+    const data: PublicTalkOptionType[] = talksData.map((talk) => {
+      const cnSpeakers = speakers.filter((record) =>
+        record.speaker_data.talks.find(
+          (item) => item.talk_number === talk.talk_number
+        )
+      );
+
+      return { ...talk, speakers: cnSpeakers.length };
+    });
+
+    return data;
+  }, [talksData, speakers]);
+
+  const handleTalkChange = async (talk: PublicTalkOptionType) => {
     const value = talk?.talk_number;
 
     const talkData = structuredClone(source.weekend_meeting.public_talk);
