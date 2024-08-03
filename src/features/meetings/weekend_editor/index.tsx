@@ -53,6 +53,7 @@ const WeekendEditor = () => {
     clearAll,
     handleCloseClearAll,
     handleOpenClearAll,
+    autoAssignOpeningPrayer,
   } = useWeekendEditor();
 
   const { talkType } = usePublicTalkTypeSelector(selectedWeek);
@@ -101,7 +102,17 @@ const WeekendEditor = () => {
           {!showEventEditor && (
             <>
               <DoubleFieldContainer laptopUp={laptopUp}>
-                <PrimaryFieldContainer />
+                <PrimaryFieldContainer>
+                  {autoAssignOpeningPrayer && (
+                    <SongSource
+                      label={t('tr_openingSong')}
+                      meeting="weekend"
+                      type="opening"
+                      week={selectedWeek}
+                      isEdit={true}
+                    />
+                  )}
+                </PrimaryFieldContainer>
                 <SecondaryFieldContainer laptopUp={laptopUp}>
                   <PersonSelector
                     week={selectedWeek}
@@ -112,25 +123,27 @@ const WeekendEditor = () => {
                 </SecondaryFieldContainer>
               </DoubleFieldContainer>
 
-              <DoubleFieldContainer laptopUp={laptopUp}>
-                <PrimaryFieldContainer>
-                  <SongSource
-                    label={t('tr_openingSong')}
-                    meeting="weekend"
-                    type="opening"
-                    week={selectedWeek}
-                    isEdit={true}
-                  />
-                </PrimaryFieldContainer>
-                <SecondaryFieldContainer laptopUp={laptopUp}>
-                  <PersonSelector
-                    week={selectedWeek}
-                    label={t('tr_prayer')}
-                    type={AssignmentCode.WM_Prayer}
-                    assignment="WM_OpeningPrayer"
-                  />
-                </SecondaryFieldContainer>
-              </DoubleFieldContainer>
+              {!autoAssignOpeningPrayer && (
+                <DoubleFieldContainer laptopUp={laptopUp}>
+                  <PrimaryFieldContainer>
+                    <SongSource
+                      label={t('tr_openingSong')}
+                      meeting="weekend"
+                      type="opening"
+                      week={selectedWeek}
+                      isEdit={true}
+                    />
+                  </PrimaryFieldContainer>
+                  <SecondaryFieldContainer laptopUp={laptopUp}>
+                    <PersonSelector
+                      week={selectedWeek}
+                      label={t('tr_prayer')}
+                      type={AssignmentCode.WM_Prayer}
+                      assignment="WM_OpeningPrayer"
+                    />
+                  </SecondaryFieldContainer>
+                </DoubleFieldContainer>
+              )}
 
               <MeetingSection
                 part={t('tr_publicTalk')}
