@@ -478,6 +478,7 @@ const usePersonSelector = ({
     visitingSpeaker,
   ]);
 
+  // set selected option
   useEffect(() => {
     if (week.length > 0) {
       const path = ASSIGNMENT_PATH[assignment];
@@ -584,6 +585,58 @@ const usePersonSelector = ({
     coName,
   ]);
 
+  // get pre-selected value for assignments
+  useEffect(() => {
+    if (week.length > 0) {
+      // get speaker
+      let assigned: AssignmentCongregation;
+
+      if (assignment === 'WM_ClosingPrayer') {
+        const closingPrayerPath = ASSIGNMENT_PATH[assignment];
+        const scheduleData = schedulesGetData(
+          schedule,
+          closingPrayerPath
+        ) as AssignmentCongregation[];
+        const closingPrayer =
+          scheduleData.find((record) => record.type === dataView)?.value || '';
+
+        if (closingPrayer.length === 0) {
+          const speakerPath = ASSIGNMENT_PATH['WM_Speaker_Part1'];
+          const scheduleData = schedulesGetData(
+            schedule,
+            speakerPath
+          ) as AssignmentCongregation[];
+
+          assigned = scheduleData.find((record) => record.type === dataView);
+        }
+      }
+
+      if (assigned) {
+        if (!assigned?.solo) {
+          const person = options.find(
+            (record) => record.person_uid === assigned?.value
+          );
+
+          if (person && person.person_data.female.value) {
+            setGender('female');
+          }
+
+          if (person && person.person_data.male.value) {
+            setGender('male');
+          }
+
+          setValue(person || null);
+        }
+
+        if (assigned?.solo) {
+          setGender('male');
+          setValue(assigned.value);
+        }
+      }
+    }
+  }, [week, assignment, schedule, dataView, options]);
+
+  // checking overlapping assignments
   useEffect(() => {
     const checkAssignments = () => {
       setDecorator(false);
