@@ -140,7 +140,9 @@ const MidweekEditor = () => {
                 ]}
               />
             </Box>
-            <WeekTypeSelector week={selectedWeek} meeting="midweek" />
+            <Box sx={{ minWidth: laptopUp ? '350px' : '100%' }}>
+              <WeekTypeSelector week={selectedWeek} meeting="midweek" />
+            </Box>
           </Box>
 
           <Divider color="var(--accent-200)" />
