@@ -17,7 +17,7 @@ const useAssignments = () => {
   const male = person.person_data.male.value;
   const disqualified = person.person_data.disqualified.value;
   const checkedItems = person.person_data.assignments
-    .filter((record) => record._deleted === false)
+    .filter((record) => record._deleted === false || record._deleted === null)
     .map((record) => record.code);
 
   const assignments = useMemo(() => {
@@ -193,8 +193,33 @@ const useAssignments = () => {
         });
       }
 
-      if (current && current._deleted !== null) {
-        current._deleted = null;
+      if (current && current._deleted) {
+        current._deleted = false;
+      }
+
+      if (code === AssignmentCode.WM_Speaker) {
+        const symposium = newPerson.person_data.assignments.find(
+          (record) =>
+            record.code === AssignmentCode.WM_SpeakerSymposium &&
+            !record._deleted
+        );
+
+        if (symposium) {
+          symposium.updatedAt = new Date().toISOString();
+          symposium._deleted = true;
+        }
+      }
+
+      if (code === AssignmentCode.WM_SpeakerSymposium) {
+        const speaker = newPerson.person_data.assignments.find(
+          (record) =>
+            record.code === AssignmentCode.WM_Speaker && !record._deleted
+        );
+
+        if (speaker) {
+          speaker.updatedAt = new Date().toISOString();
+          speaker._deleted = true;
+        }
       }
     }
 
