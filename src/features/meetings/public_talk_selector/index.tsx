@@ -42,7 +42,7 @@ const PublicTalkSelector = ({
                 backgroundColor: 'var(--accent-100) !important',
                 '& p': {
                   color:
-                    option.speakers === 0
+                    showSpeakerCount && option.speakers === 0
                       ? 'var(--accent-350)'
                       : 'var(--accent-dark)',
                 },
@@ -51,13 +51,13 @@ const PublicTalkSelector = ({
                 backgroundColor: 'var(--accent-200) !important',
                 '& p:nth-of-type(1)': {
                   color:
-                    option.speakers === 0
+                    showSpeakerCount && option.speakers === 0
                       ? 'var(--accent-350)'
                       : 'var(--accent-dark)',
                 },
                 '& p:nth-of-type(2)': {
                   color:
-                    option.speakers === 0
+                    showSpeakerCount && option.speakers === 0
                       ? 'var(--accent-350)'
                       : 'var(--accent-400)',
                 },
@@ -74,7 +74,9 @@ const PublicTalkSelector = ({
             >
               <Typography
                 color={
-                  option.speakers === 0 ? 'var(--grey-350)' : 'var(--black)'
+                  showSpeakerCount && option.speakers === 0
+                    ? 'var(--grey-350)'
+                    : 'var(--black)'
                 }
               >
                 {option.talk_number}. {option.talk_title}
