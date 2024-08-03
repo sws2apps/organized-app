@@ -108,7 +108,7 @@ const PublisherDetailCard = () => {
             />
             <DateCalcCard>
               {t('tr_yearsNumber', {
-                yearsCount: getYearsFromNow(dateOfBirth),
+                yearsCount: getYearsFromNow(baptismDate),
               })}
             </DateCalcCard>
           </HorizontalFlex>
