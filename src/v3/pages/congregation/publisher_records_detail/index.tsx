@@ -7,7 +7,7 @@ import {
   Wrapper,
 } from '@features/congregation/publisher_records/Wrappers';
 import PublisherDetailCard from '@features/congregation/publisher_records_detail/PublisherDetailCard';
-import { CardSection } from '@features/congregation/settings/CardSection';
+import ServiceYearCard from '@features/congregation/publisher_records_detail/ServiceYearCard';
 import useAppTranslation from '@hooks/useAppTranslation';
 import { Box } from '@mui/material';
 
@@ -34,7 +34,7 @@ const PublisherRecordDetail = () => {
           <PublisherDetailCard />
         </LeftColumn>
         <RightColumn>
-          <CardSection></CardSection>
+          <ServiceYearCard />
         </RightColumn>
       </Wrapper>
     </>

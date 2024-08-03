@@ -1,25 +1,28 @@
+type fieldService =
+  | 'Special pioneer'
+  | 'Regular pioneer'
+  | 'Auxiliary pioneer'
+  | 'Publisher';
+
 export interface Person {
   id: string;
   firstName: string;
   lastName: string;
   gender: 'male' | 'female';
   responsibility?: 'Elder' | 'Ministerial Servant';
-  fieldService?:
-    | 'Special pioneer'
-    | 'Regular pioneer'
-    | 'Auxiliary pioneer'
-    | 'Publisher';
+  fieldService?: fieldService;
   inactiveLastReportDate?: Date;
 }
 
 export interface PersonMonthlyReport {
+  fieldService?: fieldService;
   sharedAnyFormOfTheMinistry: boolean;
   bibleStudies?: number;
   totalHours?: number;
   comments?: string;
 }
 
-interface AnnualReport {
+export interface AnnualReport {
   year: number;
   months: PersonMonthlyReport[];
 }

@@ -68,44 +68,53 @@ const PublisherDetailCard = () => {
   const baptismDate = new Date('01/11/2016');
 
   return (
-    <CardSection>
-      <HorizontalFlex>
-        {data.gender == 'male' ? <UserCardMaleImg /> : <UserCardFemaleImg />}
-        <VerticalFlex sx={{ gap: '4px' }}>
-          <span className="h2" style={{ color: 'var(--black)' }}>
-            {data.firstName} {data.lastName}
-          </span>
+    <Box
+      sx={{
+        position: 'sticky',
+        top: '72px',
+      }}
+    >
+      <CardSection>
+        <HorizontalFlex>
+          {data.gender == 'male' ? <UserCardMaleImg /> : <UserCardFemaleImg />}
+          <VerticalFlex sx={{ gap: '4px' }}>
+            <span className="h2" style={{ color: 'var(--black)' }}>
+              {data.firstName} {data.lastName}
+            </span>
+            <HorizontalFlex>
+              {data.gender == 'male' && (
+                <ResponsibilityBadge responsability={data?.responsibility} />
+              )}
+              <FieldServiceBadge fieldService={data.fieldService} />
+            </HorizontalFlex>
+          </VerticalFlex>
+        </HorizontalFlex>
+        <VerticalFlex>
           <HorizontalFlex>
-            {data.gender == 'male' && (
-              <ResponsibilityBadge responsability={data?.responsibility} />
-            )}
-            <FieldServiceBadge fieldService={data.fieldService} />
+            <DatePicker
+              view={'input'}
+              label={t('tr_dateOfBirth')}
+              value={dateOfBirth}
+            />
+            <DateCalcCard>
+              {t('tr_userAge', { userAge: getYearsFromNow(dateOfBirth) })}
+            </DateCalcCard>
+          </HorizontalFlex>
+          <HorizontalFlex>
+            <DatePicker
+              view={'input'}
+              label={t('tr_baptismDate')}
+              value={baptismDate}
+            />
+            <DateCalcCard>
+              {t('tr_yearsNumber', {
+                yearsCount: getYearsFromNow(dateOfBirth),
+              })}
+            </DateCalcCard>
           </HorizontalFlex>
         </VerticalFlex>
-      </HorizontalFlex>
-      <VerticalFlex>
-        <HorizontalFlex>
-          <DatePicker
-            view={'input'}
-            label={t('tr_dateOfBirth')}
-            value={dateOfBirth}
-          />
-          <DateCalcCard>
-            {t('tr_userAge', { userAge: getYearsFromNow(dateOfBirth) })}
-          </DateCalcCard>
-        </HorizontalFlex>
-        <HorizontalFlex>
-          <DatePicker
-            view={'input'}
-            label={t('tr_baptismDate')}
-            value={baptismDate}
-          />
-          <DateCalcCard>
-            {t('tr_yearsNumber', { yearsCount: getYearsFromNow(dateOfBirth) })}
-          </DateCalcCard>
-        </HorizontalFlex>
-      </VerticalFlex>
-    </CardSection>
+      </CardSection>
+    </Box>
   );
 };
 

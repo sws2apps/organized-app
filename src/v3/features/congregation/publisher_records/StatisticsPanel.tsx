@@ -8,7 +8,7 @@ import { CardSection } from './Wrappers';
 import useAppTranslation from '@hooks/useAppTranslation';
 import { HorizontalFlex, VerticalFlex } from './index.styles';
 import ScrollableTabs from '@components/scrollable_tabs';
-import { MenuItem, Switch, TextField, Typography } from '@components/index';
+import { MenuItem, Switch, TextField } from '@components/index';
 import { useState } from 'react';
 import { MONTHS } from '@constants/index';
 import { CustomTabProps } from '@components/tabs/index.types';
