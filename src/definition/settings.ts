@@ -35,6 +35,7 @@ export type SettingsType = {
       time: string;
       opening_prayer_auto_assigned: { value: boolean; updatedAt: string };
       substitute_speaker_enabled: { value: boolean; updatedAt: string };
+      w_study_conductor_default: { value: string; updatedAt: string };
     }[];
     circuit_overseer: {
       firstname: { value: string; updatedAt: string };
