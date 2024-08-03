@@ -158,11 +158,24 @@ const WeekendEditor = () => {
                                 ? t('tr_circuitOverseer')
                                 : t('tr_speaker')
                           }
-                          type={AssignmentCode.WM_SpeakerSymposium}
-                          assignment="WM_Speaker_Part1"
-                          visitingSpeaker={talkType === 'visitingSpeaker'}
+                          type={
+                            weekType === Week.CO_VISIT
+                              ? null
+                              : AssignmentCode.WM_SpeakerSymposium
+                          }
+                          assignment={
+                            weekType === Week.CO_VISIT
+                              ? 'WM_CircuitOverseer'
+                              : 'WM_Speaker_Part1'
+                          }
+                          visitingSpeaker={
+                            weekType === Week.NORMAL &&
+                            talkType === 'visitingSpeaker'
+                          }
+                          circuitOverseer={weekType === Week.CO_VISIT}
                           talk={selectedTalk?.talk_number}
                           helperNode={
+                            weekType === Week.NORMAL &&
                             talkType === 'visitingSpeaker' ? (
                               <Markup
                                 content={t('tr_visitinSpeakerHelpText')}
@@ -271,9 +284,8 @@ const WeekendEditor = () => {
                       <PersonSelector
                         week={selectedWeek}
                         label={t('tr_circuitOverseer')}
-                        type={AssignmentCode.WM_SpeakerSymposium}
-                        assignment="WM_Speaker_Part1"
-                        visitingSpeaker={talkType === 'visitingSpeaker'}
+                        assignment="WM_CircuitOverseer"
+                        circuitOverseer={weekType === Week.CO_VISIT}
                       />
                     </SecondaryFieldContainer>
                   </DoubleFieldContainer>

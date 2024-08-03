@@ -8,6 +8,7 @@ import { PersonType } from '@definition/person';
 import { useRecoilValue } from 'recoil';
 import { personsActiveState, personsState } from '@states/persons';
 import {
+  COScheduleNameState,
   displayNameEnableState,
   fullnameOptionState,
   userDataViewState,
@@ -51,6 +52,7 @@ const usePersonSelector = ({
   assignment,
   visitingSpeaker,
   talk,
+  circuitOverseer,
 }: PersonSelectorType) => {
   const timerSource = useRef<NodeJS.Timeout>();
 
@@ -68,6 +70,7 @@ const usePersonSelector = ({
   const visitingSpeakers = useRecoilValue(incomingSpeakersState);
   const speakersCongregation = useRecoilValue(speakersCongregationsActiveState);
   const talks = useRecoilValue(publicTalksState);
+  const coName = useRecoilValue(COScheduleNameState);
 
   const [optionHeader, setOptionHeader] = useState('');
   const [options, setOptions] = useState<PersonOptionsType[]>([]);
@@ -82,7 +85,7 @@ const usePersonSelector = ({
   const labelParticipants = t('tr_participants');
   const labelVisitingSpeakers = t('tr_visitingSpeakers');
 
-  const freeSolo = visitingSpeaker;
+  const freeSolo = visitingSpeaker || circuitOverseer;
 
   const placeHolderIcon = STUDENT_ASSIGNMENT.includes(type) ? (
     <IconPersonPlaceholder />
@@ -293,6 +296,13 @@ const usePersonSelector = ({
     visitingSpeaker,
     labelVisitingSpeakers,
   ]);
+
+  // options setter for circuit overseer
+  useEffect(() => {
+    if (circuitOverseer) {
+      setOptions([]);
+    }
+  }, [circuitOverseer]);
 
   // options setter for visiting speakers
   useEffect(() => {
@@ -520,21 +530,19 @@ const usePersonSelector = ({
 
         if (!isAssistant || (isAssistant && mainStudent)) {
           const dataSchedule = schedulesGetData(schedule, path);
-          let person_uid: string;
+          let assigned: AssignmentCongregation;
 
           if (Array.isArray(dataSchedule)) {
-            person_uid = dataSchedule.find(
-              (record) => record.type === dataView
-            )?.value;
+            assigned = dataSchedule.find((record) => record.type === dataView);
           } else {
-            person_uid = dataSchedule.value;
+            assigned = dataSchedule;
           }
 
-          const person = options.find(
-            (record) => record.person_uid === person_uid
-          );
+          if (!assigned?.solo) {
+            const person = options.find(
+              (record) => record.person_uid === assigned?.value
+            );
 
-          if (!freeSolo) {
             if (person && person.person_data.female.value) {
               setGender('female');
             }
@@ -546,9 +554,13 @@ const usePersonSelector = ({
             setValue(person || null);
           }
 
-          if (freeSolo) {
+          if (assigned?.solo) {
             setGender('male');
-            setValue(person || person_uid);
+            setValue(assigned.value);
+
+            if (circuitOverseer && assigned?.value.length === 0) {
+              setValue(coName);
+            }
           }
         }
       }
@@ -566,6 +578,8 @@ const usePersonSelector = ({
     handleSortOptions,
     options,
     freeSolo,
+    circuitOverseer,
+    coName,
   ]);
 
   useEffect(() => {

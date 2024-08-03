@@ -125,6 +125,19 @@ export const COFullnameState = selector({
   },
 });
 
+export const COScheduleNameState = selector({
+  key: 'COScheduleName',
+  get: ({ get }) => {
+    const fullname = get(COFullnameState);
+    const displayName = get(CODisplayNameState);
+    const useDisplayName = get(displayNameEnableState);
+
+    const scheduleName = useDisplayName ? displayName : fullname;
+
+    return scheduleName;
+  },
+});
+
 export const adminRoleState = selector({
   key: 'adminRole',
   get: ({ get }) => {
