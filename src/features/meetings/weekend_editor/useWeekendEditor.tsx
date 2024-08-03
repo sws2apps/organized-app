@@ -5,7 +5,10 @@ import { useAppTranslation } from '@hooks/index';
 import { schedulesState, selectedWeekState } from '@states/schedules';
 import { JWLangState, monthNamesState } from '@states/app';
 import { Week } from '@definition/week_type';
-import { userDataViewState } from '@states/settings';
+import {
+  userDataViewState,
+  weekendMeetingOpeningPrayerAutoAssignState,
+} from '@states/settings';
 import { sourcesState } from '@states/sources';
 import { personsState } from '@states/persons';
 import { AssignmentCode } from '@definition/assignment';
@@ -22,6 +25,9 @@ const useWeekendEditor = () => {
   const dataView = useRecoilValue(userDataViewState);
   const lang = useRecoilValue(JWLangState);
   const persons = useRecoilValue(personsState);
+  const autoAssignOpeningPrayer = useRecoilValue(
+    weekendMeetingOpeningPrayerAutoAssignState
+  );
 
   const [state, setState] = useState({
     weekDateLocale: '',
@@ -146,6 +152,7 @@ const useWeekendEditor = () => {
     handleOpenVisitingSpeakers,
     handleOpenClearAll,
     handleCloseClearAll,
+    autoAssignOpeningPrayer,
   };
 };
 
