@@ -10,6 +10,7 @@ import {
   midweekMeetingClassCountState,
   midweekMeetingOpeningPrayerAutoAssign,
   userDataViewState,
+  weekendMeetingOpeningPrayerAutoAssignState,
 } from '@states/settings';
 import {
   schedulesAutofillSaveAssignment,
@@ -27,6 +28,7 @@ import {
   sourcesCheckLCElderAssignment,
 } from '@services/app/sources';
 import { dbSchedBulkUpdate } from '@services/dexie/schedules';
+import { personsState } from '@states/persons';
 
 const useScheduleAutofill = (
   meeting: ScheduleAutofillType['meeting'],
@@ -38,14 +40,18 @@ const useScheduleAutofill = (
     assignmentsHistoryState
   );
 
+  const persons = useRecoilValue(personsState);
   const schedules = useRecoilValue(schedulesState);
   const sources = useRecoilValue(sourcesState);
   const dataView = useRecoilValue(userDataViewState);
   const classCount = useRecoilValue(midweekMeetingClassCountState);
+  const lang = useRecoilValue(JWLangState);
   const mmOpenPrayerAuto = useRecoilValue(
     midweekMeetingOpeningPrayerAutoAssign
   );
-  const lang = useRecoilValue(JWLangState);
+  const wmOpenPrayerAuto = useRecoilValue(
+    weekendMeetingOpeningPrayerAutoAssignState
+  );
 
   const [startWeek, setStartWeek] = useState('');
   const [endWeek, setEndWeek] = useState('');
@@ -646,6 +652,203 @@ const useScheduleAutofill = (
     setAssignmentsHistory(history);
   };
 
+  const handleAutofillWeekend = async (weeksList: SchedWeekType[]) => {
+    let main = '';
+    let selected: PersonType;
+
+    // create a shallow copy of schedules and history to improve autofill speed
+    const weeksAutofill = structuredClone(weeksList);
+    const historyAutofill = structuredClone(assignmentsHistory);
+
+    // #region Assign Speakers
+    for await (const schedule of weeksAutofill) {
+      const weekType =
+        schedule.midweek_meeting.week_type.find(
+          (record) => record.type === dataView
+        ).value || Week.NORMAL;
+
+      const noMeeting =
+        weekType === Week.ASSEMBLY ||
+        weekType == Week.CONVENTION ||
+        weekType === Week.MEMORIAL ||
+        weekType === Week.NO_MEETING;
+
+      if (!noMeeting) {
+        if (weekType !== Week.CO_VISIT) {
+          const talkType =
+            schedule.weekend_meeting.public_talk_type.find(
+              (record) => record.type === dataView
+            ).value || 'localSpeaker';
+
+          if (talkType === 'localSpeaker') {
+            // #region Speaker 1
+            main =
+              schedule.weekend_meeting.speaker.part_1.find(
+                (record) => record.type === dataView
+              )?.value || '';
+
+            if (main.length === 0) {
+              selected = await schedulesSelectRandomPerson({
+                type: AssignmentCode.WM_SpeakerSymposium,
+                week: schedule.weekOf,
+                history: historyAutofill,
+              });
+
+              if (selected) {
+                await schedulesAutofillSaveAssignment({
+                  assignment: 'WM_Speaker_Part1',
+                  history: historyAutofill,
+                  schedule,
+                  value: selected,
+                });
+              }
+            }
+            // #endregion
+
+            // #region Speaker 2
+            if (selected) {
+              const speaker1 = persons.find(
+                (record) => record.person_uid === selected.person_uid
+              );
+              const speakerSymposium = speaker1.person_data.assignments.find(
+                (record) =>
+                  record._deleted === false &&
+                  record.code === AssignmentCode.WM_SpeakerSymposium
+              );
+
+              if (speakerSymposium) {
+                main =
+                  schedule.weekend_meeting.speaker.part_2.find(
+                    (record) => record.type === dataView
+                  )?.value || '';
+
+                if (main.length === 0) {
+                  selected = await schedulesSelectRandomPerson({
+                    type: AssignmentCode.WM_Speaker,
+                    week: schedule.weekOf,
+                    history: historyAutofill,
+                  });
+
+                  if (selected) {
+                    await schedulesAutofillSaveAssignment({
+                      assignment: 'WM_Speaker_Part2',
+                      history: historyAutofill,
+                      schedule,
+                      value: selected,
+                    });
+                  }
+                }
+              }
+            }
+
+            // #endregion
+          }
+        }
+      }
+    }
+    // #endregion
+
+    // #region Assign other parts
+    for await (const schedule of weeksAutofill) {
+      const weekType =
+        schedule.midweek_meeting.week_type.find(
+          (record) => record.type === dataView
+        ).value || Week.NORMAL;
+
+      const noMeeting =
+        weekType === Week.ASSEMBLY ||
+        weekType == Week.CONVENTION ||
+        weekType === Week.MEMORIAL ||
+        weekType === Week.NO_MEETING;
+
+      if (!noMeeting) {
+        // #region Chairman
+        main =
+          schedule.weekend_meeting.chairman.find(
+            (record) => record.type === dataView
+          )?.value || '';
+
+        if (main.length === 0) {
+          selected = await schedulesSelectRandomPerson({
+            type: AssignmentCode.WM_Chairman,
+            week: schedule.weekOf,
+            history: historyAutofill,
+          });
+
+          if (selected) {
+            await schedulesAutofillSaveAssignment({
+              assignment: 'WM_Chairman',
+              history: historyAutofill,
+              schedule,
+              value: selected,
+            });
+          }
+        }
+        // #endregion
+
+        // #region Opening Prayer
+        if (!wmOpenPrayerAuto) {
+          main =
+            schedule.weekend_meeting.opening_prayer.find(
+              (record) => record.type === dataView
+            )?.value || '';
+
+          if (main.length === 0) {
+            selected = await schedulesSelectRandomPerson({
+              type: AssignmentCode.WM_Prayer,
+              week: schedule.weekOf,
+              history: historyAutofill,
+            });
+
+            if (selected) {
+              await schedulesAutofillSaveAssignment({
+                assignment: 'WM_OpeningPrayer',
+                history: historyAutofill,
+                schedule,
+                value: selected,
+              });
+            }
+          }
+        }
+        // #endregion
+
+        // #region Opening Prayer
+        if (weekType !== Week.CO_VISIT) {
+          main =
+            schedule.weekend_meeting.wt_study.reader.find(
+              (record) => record.type === dataView
+            )?.value || '';
+
+          if (main.length === 0) {
+            selected = await schedulesSelectRandomPerson({
+              type: AssignmentCode.WM_WTStudyReader,
+              week: schedule.weekOf,
+              history: historyAutofill,
+            });
+
+            if (selected) {
+              await schedulesAutofillSaveAssignment({
+                assignment: 'WM_WTStudy_Reader',
+                history: historyAutofill,
+                schedule,
+                value: selected,
+              });
+            }
+          }
+        }
+        // #endregion
+      }
+    }
+    // #endregion
+
+    // save shallow copy to indexeddb
+    await dbSchedBulkUpdate(weeksAutofill);
+
+    // update assignments history
+    const history = await schedulesBuildHistoryList();
+    setAssignmentsHistory(history);
+  };
+
   const handleStartAutoFill = async () => {
     if (startWeek.length === 0 || endWeek.length === 0) return;
 
@@ -658,6 +861,10 @@ const useScheduleAutofill = (
 
       if (meeting === 'midweek') {
         await handleAutofillMidweek(weeksList);
+      }
+
+      if (meeting === 'weekend') {
+        await handleAutofillWeekend(weeksList);
       }
 
       setIsProcessing(false);
