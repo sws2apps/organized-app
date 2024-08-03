@@ -21,8 +21,9 @@ const useWeekRangeSelector = (
     const recentSources = sources.filter(
       (source) =>
         new Date(source.weekOf) >= getWeekDate() &&
-        meeting === 'midweek' &&
-        source.midweek_meeting.week_date_locale['E']
+        ((meeting === 'midweek' &&
+          source.midweek_meeting.week_date_locale['E']) ||
+          meeting === 'weekend')
     );
 
     const result: WeekOptionsType[] = recentSources.map((source) => {
@@ -44,8 +45,9 @@ const useWeekRangeSelector = (
     const endWeekSources = sources.filter(
       (source) =>
         new Date(source.weekOf) >= new Date(startWeek) &&
-        meeting === 'midweek' &&
-        source.midweek_meeting.week_date_locale['E']
+        ((meeting === 'midweek' &&
+          source.midweek_meeting.week_date_locale['E']) ||
+          meeting === 'weekend')
     );
 
     const result: WeekOptionsType[] = endWeekSources.map((source) => {

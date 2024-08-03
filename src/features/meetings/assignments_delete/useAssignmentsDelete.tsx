@@ -8,6 +8,7 @@ import { SchedWeekType } from '@definition/schedules';
 import { AssignmentsDeleteType } from './index.types';
 import {
   scheduleDeleteMidweekWeekAssignments,
+  scheduleDeleteWeekendAssignments,
   schedulesBuildHistoryList,
 } from '@services/app/schedules';
 
@@ -29,9 +30,15 @@ const useAssignmentsDelete = (
 
   const handleSetEndWeek = (value: string) => setEndWeek(value);
 
-  const handleDeleteMidweek = async (weeksList: SchedWeekType[]) => {
+  const handleDeleteMeetingAssignments = async (weeksList: SchedWeekType[]) => {
     for await (const schedule of weeksList) {
-      await scheduleDeleteMidweekWeekAssignments(schedule);
+      if (meeting === 'midweek') {
+        await scheduleDeleteMidweekWeekAssignments(schedule);
+      }
+
+      if (meeting === 'weekend') {
+        await scheduleDeleteWeekendAssignments(schedule);
+      }
     }
 
     // load assignment history
@@ -49,9 +56,7 @@ const useAssignmentsDelete = (
         (record) => record.weekOf >= startWeek && record.weekOf <= endWeek
       );
 
-      if (meeting === 'midweek') {
-        await handleDeleteMidweek(weeksList);
-      }
+      await handleDeleteMeetingAssignments(weeksList);
 
       setIsProcessing(false);
       onClose?.();

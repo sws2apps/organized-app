@@ -1416,6 +1416,47 @@ export const scheduleDeleteMidweekWeekAssignments = async (
   await dbSchedUpdate(schedule.weekOf, dataDb);
 };
 
+export const scheduleDeleteWeekendAssignments = async (
+  schedule: SchedWeekType
+) => {
+  const dataDb = {
+    [ASSIGNMENT_PATH['WM_Chairman']]: await schedulesRemoveAssignment(
+      schedule,
+      'WM_Chairman'
+    ),
+    [ASSIGNMENT_PATH['WM_CircuitOverseer']]: await schedulesRemoveAssignment(
+      schedule,
+      'WM_CircuitOverseer'
+    ),
+    [ASSIGNMENT_PATH['WM_ClosingPrayer']]: await schedulesRemoveAssignment(
+      schedule,
+      'WM_ClosingPrayer'
+    ),
+    [ASSIGNMENT_PATH['WM_OpeningPrayer']]: await schedulesRemoveAssignment(
+      schedule,
+      'WM_OpeningPrayer'
+    ),
+    [ASSIGNMENT_PATH['WM_Speaker_Part1']]: await schedulesRemoveAssignment(
+      schedule,
+      'WM_Speaker_Part1'
+    ),
+    [ASSIGNMENT_PATH['WM_Speaker_Part2']]: await schedulesRemoveAssignment(
+      schedule,
+      'WM_Speaker_Part2'
+    ),
+    [ASSIGNMENT_PATH['WM_WTStudy_Conductor']]: await schedulesRemoveAssignment(
+      schedule,
+      'WM_WTStudy_Conductor'
+    ),
+    [ASSIGNMENT_PATH['WM_WTStudy_Reader']]: await schedulesRemoveAssignment(
+      schedule,
+      'WM_WTStudy_Reader'
+    ),
+  } as unknown as UpdateSpec<SchedWeekType>;
+
+  await dbSchedUpdate(schedule.weekOf, dataDb);
+};
+
 export const schedulesAutofillUpdateHistory = async ({
   schedule,
   assignment,
