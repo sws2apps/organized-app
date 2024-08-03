@@ -9,6 +9,7 @@ import {
 } from './index.styles';
 import { Week } from '@definition/week_type';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import usePublicTalkSelector from '../public_talk_selector/usePublicTalkSelector';
 import usePublicTalkTypeSelector from './public_talk_type_selector/usePublicTalkTypeSelector';
 import useWeekendEditor from './useWeekendEditor';
 import Divider from '@components/divider';
@@ -21,6 +22,7 @@ import SongSource from '../song_source';
 import TalkTitleSolo from './talk_title_solo';
 import Typography from '@components/typography';
 import WeekTypeSelector from '../week_type_selector';
+import Markup from '@components/text_markup';
 
 const WeekendEditor = () => {
   const { t } = useAppTranslation();
@@ -40,9 +42,12 @@ const WeekendEditor = () => {
     handleToggleServiceTalk,
     openServiceTalk,
     showSpeaker2,
+    handleOpenVisitingSpeakers,
   } = useWeekendEditor();
 
   const { talkType } = usePublicTalkTypeSelector(selectedWeek);
+
+  const { selectedTalk } = usePublicTalkSelector(selectedWeek);
 
   return (
     <EditorContainer>
@@ -121,13 +126,7 @@ const WeekendEditor = () => {
 
                 <DoubleFieldContainer
                   laptopUp={laptopUp}
-                  sx={{
-                    alignItems: laptopUp
-                      ? showSpeaker2
-                        ? 'flex-start'
-                        : 'center'
-                      : 'unset',
-                  }}
+                  sx={{ alignItems: laptopUp ? 'flex-start' : 'unset' }}
                 >
                   <PrimaryFieldContainer>
                     {weekType === Week.NORMAL && (
@@ -145,27 +144,44 @@ const WeekendEditor = () => {
                   </PrimaryFieldContainer>
 
                   <SecondaryFieldContainer laptopUp={laptopUp}>
-                    <PersonSelector
-                      week={selectedWeek}
-                      label={
-                        showSpeaker2
-                          ? t('tr_firstSpeaker')
-                          : weekType === Week.CO_VISIT
-                            ? t('tr_circuitOverseer')
-                            : t('tr_speaker')
-                      }
-                      type={AssignmentCode.WM_SpeakerSymposium}
-                      assignment="WM_Speaker_Part1"
-                      visitingSpeaker={talkType === 'visitingSpeaker'}
-                    />
+                    {talkType !== 'jwStreamRecording' && (
+                      <>
+                        <PersonSelector
+                          week={selectedWeek}
+                          label={
+                            showSpeaker2
+                              ? t('tr_firstSpeaker')
+                              : weekType === Week.CO_VISIT
+                                ? t('tr_circuitOverseer')
+                                : t('tr_speaker')
+                          }
+                          type={AssignmentCode.WM_SpeakerSymposium}
+                          assignment="WM_Speaker_Part1"
+                          visitingSpeaker={talkType === 'visitingSpeaker'}
+                          talk={selectedTalk?.talk_number}
+                          helperNode={
+                            talkType === 'visitingSpeaker' ? (
+                              <Markup
+                                content={t('tr_visitinSpeakerHelpText')}
+                                className="label-small-regular"
+                                color="var(--grey-350)"
+                                anchorClassName="label-small-medium"
+                                anchorClick={handleOpenVisitingSpeakers}
+                                style={{ padding: '4px 16px 0 16px' }}
+                              />
+                            ) : null
+                          }
+                        />
 
-                    {showSpeaker2 && (
-                      <PersonSelector
-                        week={selectedWeek}
-                        label={t('tr_secondSpeaker')}
-                        type={AssignmentCode.WM_Speaker}
-                        assignment="WM_Speaker_Part2"
-                      />
+                        {showSpeaker2 && (
+                          <PersonSelector
+                            week={selectedWeek}
+                            label={t('tr_secondSpeaker')}
+                            type={AssignmentCode.WM_Speaker}
+                            assignment="WM_Speaker_Part2"
+                          />
+                        )}
+                      </>
                     )}
                   </SecondaryFieldContainer>
                 </DoubleFieldContainer>
@@ -200,7 +216,16 @@ const WeekendEditor = () => {
                     margin: '8px 0',
                   }}
                 >
-                  <PrimaryFieldContainer>
+                  <PrimaryFieldContainer
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '4px',
+                    }}
+                  >
+                    <Typography className="label-small-regular">
+                      {t('tr_studyArticle')}
+                    </Typography>
                     <Typography className="h4">{wtStudyTitle}</Typography>
                   </PrimaryFieldContainer>
                   <SecondaryFieldContainer laptopUp={laptopUp}>

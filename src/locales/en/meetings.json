@@ -132,5 +132,6 @@
   "tr_chairmanWeekendMeetingHistory": "Weekend meeting chairman",
   "tr_studyArticle": "Study article",
   "tr_firstSpeaker": "1st speaker",
-  "tr_secondSpeaker": "2nd speaker"
+  "tr_secondSpeaker": "2nd speaker",
+  "tr_visitinSpeakerHelpText": "You can add speakers manually, but we recommend adding them in advance on the <a>Visiting speakers</a> page"
 }

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { useAppTranslation } from '@hooks/index';
 import { schedulesState, selectedWeekState } from '@states/schedules';
@@ -11,6 +12,8 @@ import { AssignmentCode } from '@definition/assignment';
 
 const useWeekendEditor = () => {
   const { t } = useAppTranslation();
+
+  const navigate = useNavigate();
 
   const selectedWeek = useRecoilValue(selectedWeekState);
   const monthNames = useRecoilValue(monthNamesState);
@@ -52,6 +55,10 @@ const useWeekendEditor = () => {
     setState((prev) => {
       return { ...prev, openServiceTalk: !prev.openServiceTalk };
     });
+
+  const handleOpenVisitingSpeakers = () => {
+    navigate('/visiting-speakers');
+  };
 
   useEffect(() => {
     if (selectedWeek.length > 0) {
@@ -125,6 +132,7 @@ const useWeekendEditor = () => {
     handleTogglePulicTalk,
     handleToggleWTStudy,
     handleToggleServiceTalk,
+    handleOpenVisitingSpeakers,
   };
 };
 

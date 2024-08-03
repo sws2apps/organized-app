@@ -6,6 +6,7 @@ export type AssignmentCongregation = {
   name: string;
   value: string;
   updatedAt: string;
+  solo?: boolean;
 };
 
 type SwitchCongregation = {
@@ -82,10 +83,6 @@ export type SchedWeekType = {
     speaker: {
       part_1: AssignmentCongregation[];
       part_2: AssignmentCongregation[];
-    };
-    visiting_speaker: {
-      enabled: SwitchCongregation[];
-      speaker: AssignmentCongregation[];
       substitute: AssignmentCongregation[];
     };
     wt_study: {
@@ -93,6 +90,7 @@ export type SchedWeekType = {
       reader: AssignmentCongregation[];
     };
     closing_prayer: AssignmentCongregation[];
+    circuit_overseer: AssignmentCongregation;
     week_type: WeekTypeCongregation[];
   };
   released: SwitchCongregation[];

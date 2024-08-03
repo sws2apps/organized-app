@@ -846,11 +846,16 @@ export const schedulesUpdateHistory = async (
 export const schedulesSaveAssignment = async (
   schedule: SchedWeekType,
   assignment: AssignmentFieldType,
-  value: PersonType
+  value: PersonType | string
 ) => {
   const dataView = await promiseGetRecoil(userDataViewState);
 
-  const toSave = value ? value.person_uid : '';
+  const toSave = value
+    ? typeof value === 'string'
+      ? value
+      : value.person_uid
+    : '';
+
   const path = ASSIGNMENT_PATH[assignment];
   const fieldUpdate = structuredClone(schedulesGetData(schedule, path));
 
@@ -860,10 +865,16 @@ export const schedulesSaveAssignment = async (
     assigned = fieldUpdate.find((record) => record.type === dataView);
     assigned.value = toSave;
     assigned.updatedAt = new Date().toISOString();
+    if (typeof value === 'string') {
+      assigned.solo = true;
+    }
   } else {
     assigned = fieldUpdate;
     fieldUpdate.value = toSave;
     fieldUpdate.updatedAt = new Date().toISOString();
+    if (typeof value === 'string') {
+      assigned.solo = true;
+    }
   }
 
   const dataDb = {
