@@ -1219,6 +1219,13 @@ export const schedulesSelectRandomPerson = async (data: {
     );
   }
 
+  if (data.type === AssignmentCode.WM_SpeakerSymposium) {
+    personsElligible = applyAssignmentFilters(persons, [
+      data.type,
+      AssignmentCode.WM_Speaker,
+    ]);
+  }
+
   if (personsElligible.length > 0) {
     // 1st rule: no part
     selected = await schedulesPersonNoPart({
