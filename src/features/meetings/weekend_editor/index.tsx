@@ -1,5 +1,10 @@
 import { Box } from '@mui/material';
-import { IconInfo, IconTalk, IconWatchtowerStudy } from '@components/icons';
+import {
+  IconClose,
+  IconInfo,
+  IconTalk,
+  IconWatchtowerStudy,
+} from '@components/icons';
 import { AssignmentCode } from '@definition/assignment';
 import {
   DoubleFieldContainer,
@@ -12,6 +17,8 @@ import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import usePublicTalkSelector from '../public_talk_selector/usePublicTalkSelector';
 import usePublicTalkTypeSelector from './public_talk_type_selector/usePublicTalkTypeSelector';
 import useWeekendEditor from './useWeekendEditor';
+import AssignmentsWeekDelete from '../assignments_week_delete';
+import Button from '@components/button';
 import Divider from '@components/divider';
 import EventEditor from '../event_editor';
 import MeetingSection from '../meeting_section';
@@ -43,6 +50,9 @@ const WeekendEditor = () => {
     openServiceTalk,
     showSpeaker2,
     handleOpenVisitingSpeakers,
+    clearAll,
+    handleCloseClearAll,
+    handleOpenClearAll,
   } = useWeekendEditor();
 
   const { talkType } = usePublicTalkTypeSelector(selectedWeek);
@@ -51,6 +61,15 @@ const WeekendEditor = () => {
 
   return (
     <EditorContainer>
+      {clearAll && (
+        <AssignmentsWeekDelete
+          open={clearAll}
+          meeting="weekend"
+          week={selectedWeek}
+          onClose={handleCloseClearAll}
+        />
+      )}
+
       {weekDateLocale.length === 0 && (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <IconInfo color="var(--accent-400)" />
@@ -313,6 +332,17 @@ const WeekendEditor = () => {
                   />
                 </SecondaryFieldContainer>
               </DoubleFieldContainer>
+
+              <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <Button
+                  variant="secondary"
+                  color="red"
+                  startIcon={<IconClose />}
+                  onClick={handleOpenClearAll}
+                >
+                  {t('tr_clearAll')}
+                </Button>
+              </Box>
             </>
           )}
         </Box>

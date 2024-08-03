@@ -31,6 +31,7 @@ const useWeekendEditor = () => {
     openWTStudy: true,
     openServiceTalk: true,
     showSpeaker2: false,
+    clearAll: false,
   });
 
   const schedule = schedules.find((record) => record.weekOf === selectedWeek);
@@ -54,6 +55,16 @@ const useWeekendEditor = () => {
   const handleToggleServiceTalk = () =>
     setState((prev) => {
       return { ...prev, openServiceTalk: !prev.openServiceTalk };
+    });
+
+  const handleOpenClearAll = () =>
+    setState((prev) => {
+      return { ...prev, clearAll: true };
+    });
+
+  const handleCloseClearAll = () =>
+    setState((prev) => {
+      return { ...prev, clearAll: false };
     });
 
   const handleOpenVisitingSpeakers = () => {
@@ -133,6 +144,8 @@ const useWeekendEditor = () => {
     handleToggleWTStudy,
     handleToggleServiceTalk,
     handleOpenVisitingSpeakers,
+    handleOpenClearAll,
+    handleCloseClearAll,
   };
 };
 
