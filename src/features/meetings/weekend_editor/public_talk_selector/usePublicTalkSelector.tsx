@@ -6,6 +6,7 @@ import { userDataViewState } from '@states/settings';
 import { dbSourcesUpdate } from '@services/dexie/sources';
 import { incomingSpeakersState } from '@states/visiting_speakers';
 import { PublicTalkOptionType } from './index.types';
+import { PublicTalkType } from '@definition/public_talks';
 
 const usePublicTalkSelector = (week: string) => {
   const talksData = useRecoilValue(publicTalksState);
@@ -14,6 +15,7 @@ const usePublicTalkSelector = (week: string) => {
   const speakers = useRecoilValue(incomingSpeakersState);
 
   const [selectedTalk, setSelectedTalk] = useState<PublicTalkOptionType>(null);
+  const [openCatalog, setOpenCatalog] = useState(false);
 
   const source = sources.find((record) => record.weekOf === week);
 
@@ -31,7 +33,11 @@ const usePublicTalkSelector = (week: string) => {
     return data;
   }, [talksData, speakers]);
 
-  const handleTalkChange = async (talk: PublicTalkOptionType) => {
+  const handleOpenCatalog = () => setOpenCatalog(true);
+
+  const handleCloseCatalog = () => setOpenCatalog(false);
+
+  const handleTalkChange = async (talk: PublicTalkType) => {
     const value = talk?.talk_number;
 
     const talkData = structuredClone(source.weekend_meeting.public_talk);
@@ -68,7 +74,14 @@ const usePublicTalkSelector = (week: string) => {
     }
   }, [source, dataView, talks]);
 
-  return { talks, selectedTalk, handleTalkChange };
+  return {
+    talks,
+    selectedTalk,
+    handleTalkChange,
+    openCatalog,
+    handleOpenCatalog,
+    handleCloseCatalog,
+  };
 };
 
 export default usePublicTalkSelector;

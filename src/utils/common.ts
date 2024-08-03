@@ -1,5 +1,6 @@
 import { PersonType } from '@definition/person';
 import { FullnameOption } from '@definition/settings';
+import { VisitingSpeakerType } from '@definition/visiting_speakers';
 
 export const convertStringToBoolean = (value) => {
   switch (value) {
@@ -150,6 +151,28 @@ export const personGetDisplayName = (
     result = buildPersonFullname(
       option.person_data.person_lastname.value,
       option.person_data.person_firstname.value,
+      fullnameOption
+    );
+  }
+
+  return result;
+};
+
+export const speakerGetDisplayName = (
+  speaker: VisitingSpeakerType,
+  displayNameEnabled: boolean,
+  fullnameOption: FullnameOption
+) => {
+  let result: string;
+
+  if (displayNameEnabled) {
+    result = speaker.speaker_data.person_display_name.value;
+  }
+
+  if (!displayNameEnabled) {
+    result = buildPersonFullname(
+      speaker.speaker_data.person_lastname.value,
+      speaker.speaker_data.person_firstname.value,
       fullnameOption
     );
   }
