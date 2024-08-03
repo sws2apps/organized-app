@@ -43,7 +43,7 @@ export type AutocompletePropsType<T> = Omit<
 
   styleIcon?: boolean;
 
-  decorator?: 'error' | 'warning';
+  decorator?: boolean;
 };
 
 export type CustomPaperType = PaperProps & {
