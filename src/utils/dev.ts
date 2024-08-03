@@ -328,6 +328,7 @@ export const importDummyPersons = async (showLoading?: boolean) => {
     const cnMaleUnbaptized = 15;
     const cnElder = 9;
     const cnElderFR = 5;
+    const cnElderWTConductor = 3;
     const cnMinServ = 4;
     const cnMinServFR = 8;
     const cnMaleFR = 4;
@@ -338,6 +339,7 @@ export const importDummyPersons = async (showLoading?: boolean) => {
     let activeMaleUnbaptized = 0;
     let activeElder = 0;
     let activeElderFR = 0;
+    let activeElderWTConductor = 0;
     let activeMinServ = 0;
     let activeMinServFR = 0;
     let activeMaleFR = 0;
@@ -352,6 +354,7 @@ export const importDummyPersons = async (showLoading?: boolean) => {
           'baptized',
           'elder',
           'elderFR',
+          'elderWTConductor',
           'minServ',
           'minServFR',
           'FR',
@@ -389,6 +392,14 @@ export const importDummyPersons = async (showLoading?: boolean) => {
           if (maleStatus === 'elderFR' && activeElderFR < cnElderFR) {
             statusPassed = true;
             activeElderFR++;
+          }
+
+          if (
+            maleStatus === 'elderWTConductor' &&
+            activeElderWTConductor < cnElderWTConductor
+          ) {
+            statusPassed = true;
+            activeElderWTConductor++;
           }
 
           if (maleStatus === 'minServ' && activeMinServ < cnMinServ) {
@@ -494,6 +505,7 @@ export const importDummyPersons = async (showLoading?: boolean) => {
           maleStatus === 'baptized' ||
           maleStatus === 'elder' ||
           maleStatus === 'elderFR' ||
+          maleStatus === 'elderWTConductor' ||
           maleStatus === 'minServ' ||
           maleStatus === 'minServFR' ||
           maleStatus === 'FR' ||
@@ -566,6 +578,7 @@ export const importDummyPersons = async (showLoading?: boolean) => {
         if (
           maleStatus === 'elder' ||
           maleStatus === 'elderFR' ||
+          maleStatus === 'elderWTConductor' ||
           maleStatus === 'FS' ||
           maleStatus === 'FMF'
         ) {
@@ -746,6 +759,14 @@ export const importDummyPersons = async (showLoading?: boolean) => {
             },
             end_date: { value: null, updatedAt: new Date().toISOString() },
             _deleted: { value: false, updatedAt: '' },
+          });
+        }
+
+        if (maleStatus === 'elderWTConductor') {
+          person.person_data.assignments.push({
+            code: AssignmentCode.WM_WTStudyConductor,
+            updatedAt: new Date().toISOString(),
+            _deleted: false,
           });
         }
       }

@@ -367,6 +367,18 @@ export const weekendMeetingSubstituteSpeakerState = selector({
   },
 });
 
+export const weekendMeetingWTStudyConductorDefaultState = selector({
+  key: 'weekendMeetingWTStudyConductorDefault',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+    const dataView = get(userDataViewState);
+
+    return settings.cong_settings.weekend_meeting.find(
+      (record) => record.type === dataView
+    ).w_study_conductor_default.value;
+  },
+});
+
 // USER SETTINGS
 
 export const userDataViewState = selector({

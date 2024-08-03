@@ -12,6 +12,7 @@ import {
   displayNameEnableState,
   fullnameOptionState,
   userDataViewState,
+  weekendMeetingWTStudyConductorDefaultState,
 } from '@states/settings';
 import { personGetDisplayName } from '@utils/common';
 import { AssignmentCode } from '@definition/assignment';
@@ -71,6 +72,9 @@ const usePersonSelector = ({
   const speakersCongregation = useRecoilValue(speakersCongregationsActiveState);
   const talks = useRecoilValue(publicTalksState);
   const coName = useRecoilValue(COScheduleNameState);
+  const WTStudyConductorDefault = useRecoilValue(
+    weekendMeetingWTStudyConductorDefaultState
+  );
 
   const [optionHeader, setOptionHeader] = useState('');
   const [options, setOptions] = useState<PersonOptionsType[]>([]);
@@ -611,6 +615,26 @@ const usePersonSelector = ({
         }
       }
 
+      if (assignment === 'WM_WTStudy_Conductor') {
+        const conductorPath = ASSIGNMENT_PATH[assignment];
+        const scheduleData = schedulesGetData(
+          schedule,
+          conductorPath
+        ) as AssignmentCongregation[];
+
+        const conductor = scheduleData.find(
+          (record) => record.type === dataView
+        )?.value;
+
+        if (conductor?.length === 0) {
+          const person = personsAll.find(
+            (record) => record.person_uid === WTStudyConductorDefault
+          );
+          setGender('male');
+          setValue(person || null);
+        }
+      }
+
       if (assigned) {
         if (!assigned?.solo) {
           const person = options.find(
@@ -634,7 +658,15 @@ const usePersonSelector = ({
         }
       }
     }
-  }, [week, assignment, schedule, dataView, options]);
+  }, [
+    week,
+    assignment,
+    schedule,
+    dataView,
+    options,
+    WTStudyConductorDefault,
+    personsAll,
+  ]);
 
   // checking overlapping assignments
   useEffect(() => {

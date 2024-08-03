@@ -256,6 +256,7 @@ export const settingSchema: SettingsType = {
         time: '00:00',
         substitute_speaker_enabled: { value: false, updatedAt: '' },
         weekday: 7,
+        w_study_conductor_default: { value: '', updatedAt: '' },
       },
     ],
     language_groups: [],
