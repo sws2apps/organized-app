@@ -56,9 +56,12 @@ const Select = (props: SelectPropsType) => {
               '& li': {
                 position: 'relative',
                 '&:hover': {
-                  backgroundColor: 'var(--accent-100)',
+                  backgroundColor: 'var(--accent-150)',
                 },
                 borderBottom: '1px solid var(--accent-200)',
+                '&.Mui-selected p': {
+                  color: 'var(--accent-main)',
+                },
               },
               '& li:last-child': {
                 borderBottom: 'none',

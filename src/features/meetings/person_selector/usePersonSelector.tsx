@@ -1,4 +1,4 @@
-import { MouseEvent, useCallback, useEffect, useState } from 'react';
+import { MouseEvent, useCallback, useEffect, useRef, useState } from 'react';
 import {
   GenderType,
   PersonOptionsType,
@@ -40,13 +40,20 @@ import {
   schedulesSaveAssignment,
 } from '@services/app/schedules';
 import { IconMale, IconPersonPlaceholder } from '@components/icons';
+import { incomingSpeakersState } from '@states/visiting_speakers';
+import { personSchema } from '@services/dexie/schema';
+import { speakersCongregationsActiveState } from '@states/speakers_congregations';
+import { publicTalksState } from '@states/public_talks';
 
 const usePersonSelector = ({
   type,
   week,
   assignment,
   visitingSpeaker,
+  talk,
 }: PersonSelectorType) => {
+  const timerSource = useRef<NodeJS.Timeout>();
+
   const { t } = useAppTranslation();
 
   const personsAll = useRecoilValue(personsActiveState);
@@ -58,17 +65,24 @@ const usePersonSelector = ({
   const persons = useRecoilValue(personsState);
   const lang = useRecoilValue(JWLangState);
   const history = useRecoilValue(assignmentsHistoryState);
+  const visitingSpeakers = useRecoilValue(incomingSpeakersState);
+  const speakersCongregation = useRecoilValue(speakersCongregationsActiveState);
+  const talks = useRecoilValue(publicTalksState);
 
   const [optionHeader, setOptionHeader] = useState('');
   const [options, setOptions] = useState<PersonOptionsType[]>([]);
-  const [value, setValue] = useState<PersonOptionsType | null>(null);
+  const [value, setValue] = useState<PersonOptionsType | null | string>(null);
   const [gender, setGender] = useState<GenderType>('male');
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
   const [decorator, setDecorator] = useState<'error' | 'warning'>(null);
   const [helperText, setHelperText] = useState('');
+  const [freeSoloText, setFreeSoloText] = useState('');
 
   const labelBrothers = t('tr_brothers');
   const labelParticipants = t('tr_participants');
+  const labelVisitingSpeakers = t('tr_visitingSpeakers');
+
+  const freeSolo = visitingSpeaker;
 
   const placeHolderIcon = STUDENT_ASSIGNMENT.includes(type) ? (
     <IconPersonPlaceholder />
@@ -82,7 +96,9 @@ const usePersonSelector = ({
   const source = sources.find((record) => record.weekOf === week);
 
   const assignmentsHistory = history.filter(
-    (record) => record.assignment.person === value?.person_uid
+    (record) =>
+      typeof value !== 'string' &&
+      record.assignment.person === value?.person_uid
   );
 
   const checkGenderSelector = () => {
@@ -113,6 +129,10 @@ const usePersonSelector = ({
 
   const getPersonDisplayName = useCallback(
     (option: PersonOptionsType) => {
+      if (freeSolo && typeof option === 'string') {
+        return option as unknown as string;
+      }
+
       const result = personGetDisplayName(
         option,
         displayNameEnabled,
@@ -120,7 +140,7 @@ const usePersonSelector = ({
       );
       return result;
     },
-    [displayNameEnabled, fullnameOption]
+    [displayNameEnabled, fullnameOption, freeSolo]
   );
 
   const handleGenderUpdate = (
@@ -132,7 +152,39 @@ const usePersonSelector = ({
   };
 
   const handleSaveAssignment = async (value: PersonOptionsType) => {
-    await schedulesSaveAssignment(schedule, assignment, value);
+    if (typeof value === 'object') {
+      await schedulesSaveAssignment(schedule, assignment, value);
+    }
+  };
+
+  const handleFreeSoloTextChange = (text: string) => {
+    setFreeSoloText(text);
+
+    if (timerSource.current) clearTimeout(timerSource.current);
+
+    timerSource.current = setTimeout(() => handleSaveSpeaker(text), 1000);
+  };
+
+  const handleSaveSpeaker = async (speaker: string) => {
+    if (speaker.length === 0) {
+      await schedulesSaveAssignment(schedule, assignment, null);
+    }
+
+    if (speaker.length > 0) {
+      // find if text is in options
+      const found = options.find(
+        (record) =>
+          getPersonDisplayName(record).toLowerCase() === speaker.toLowerCase()
+      );
+
+      if (found) {
+        await schedulesSaveAssignment(schedule, assignment, found);
+      }
+
+      if (!found) {
+        schedulesSaveAssignment(schedule, assignment, speaker);
+      }
+    }
   };
 
   const handleFormatDate = useCallback(
@@ -223,17 +275,75 @@ const usePersonSelector = ({
   const handleCloseHistory = () => setIsHistoryOpen(false);
 
   useEffect(() => {
-    if (BROTHER_ASSIGNMENT.includes(type)) {
-      setOptionHeader(labelBrothers);
-    } else {
-      setOptionHeader(labelParticipants);
+    if (visitingSpeaker) {
+      setOptionHeader(labelVisitingSpeakers);
     }
-  }, [type, labelBrothers, labelParticipants]);
 
+    if (!visitingSpeaker) {
+      if (BROTHER_ASSIGNMENT.includes(type)) {
+        setOptionHeader(labelBrothers);
+      } else {
+        setOptionHeader(labelParticipants);
+      }
+    }
+  }, [
+    type,
+    labelBrothers,
+    labelParticipants,
+    visitingSpeaker,
+    labelVisitingSpeakers,
+  ]);
+
+  // options setter for visiting speakers
   useEffect(() => {
-    setOptions([]);
+    if (visitingSpeaker) {
+      setOptions([]);
 
+      const options: PersonOptionsType[] = [];
+
+      for (const person of visitingSpeakers) {
+        if (talk) {
+          const activeTalks = person.speaker_data.talks.filter(
+            (record) => record._deleted === false && record.talk_number === talk
+          );
+
+          if (activeTalks.length === 0) {
+            continue;
+          }
+        }
+
+        const obj: PersonOptionsType = structuredClone(personSchema);
+
+        obj.person_uid = person.person_uid;
+        obj.person_data.person_lastname.value =
+          person.speaker_data.person_lastname.value;
+        obj.person_data.person_firstname.value =
+          person.speaker_data.person_firstname.value;
+        obj.person_data.male.value = true;
+
+        options.push(obj);
+      }
+
+      setOptions(
+        options.sort((a, b) =>
+          getPersonDisplayName(a).localeCompare(getPersonDisplayName(b))
+        )
+      );
+    }
+  }, [
+    visitingSpeaker,
+    visitingSpeakers,
+    speakersCongregation,
+    talks,
+    talk,
+    getPersonDisplayName,
+  ]);
+
+  // options setter for others
+  useEffect(() => {
     if (!isAssistant && !visitingSpeaker) {
+      setOptions([]);
+
       const isMale = gender === 'male';
       const isFemale = gender === 'female';
 
@@ -420,19 +530,26 @@ const usePersonSelector = ({
             person_uid = dataSchedule.value;
           }
 
-          const person = persons.find(
+          const person = options.find(
             (record) => record.person_uid === person_uid
           );
 
-          if (person && person.person_data.female.value) {
-            setGender('female');
+          if (!freeSolo) {
+            if (person && person.person_data.female.value) {
+              setGender('female');
+            }
+
+            if (person && person.person_data.male.value) {
+              setGender('male');
+            }
+
+            setValue(person || null);
           }
 
-          if (person && person.person_data.male.value) {
+          if (freeSolo) {
             setGender('male');
+            setValue(person || person_uid);
           }
-
-          setValue(person || null);
         }
       }
     }
@@ -447,6 +564,8 @@ const usePersonSelector = ({
     handleFormatDate,
     history,
     handleSortOptions,
+    options,
+    freeSolo,
   ]);
 
   useEffect(() => {
@@ -504,6 +623,10 @@ const usePersonSelector = ({
     placeHolderIcon,
     decorator,
     helperText,
+    visitingSpeaker,
+    freeSolo,
+    freeSoloText,
+    handleFreeSoloTextChange,
   };
 };
 

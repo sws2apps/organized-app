@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { AssignmentCode, AssignmentFieldType } from '@definition/assignment';
 import { PersonType } from '@definition/person';
 
@@ -8,6 +9,8 @@ export type PersonSelectorType = {
   assignment: AssignmentFieldType;
   readOnly?: boolean;
   visitingSpeaker?: boolean;
+  talk?: number;
+  helperNode?: ReactNode;
 };
 
 export type GenderType = 'male' | 'female';

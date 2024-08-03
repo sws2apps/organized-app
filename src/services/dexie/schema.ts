@@ -158,10 +158,6 @@ export const scheduleSchema: SchedWeekType = {
     speaker: {
       part_1: [{ type: 'main', value: '', name: '', updatedAt: '' }],
       part_2: [{ type: 'main', value: '', name: '', updatedAt: '' }],
-    },
-    visiting_speaker: {
-      enabled: [{ type: 'main', value: false, updatedAt: '' }],
-      speaker: [{ type: 'main', value: '', name: '', updatedAt: '' }],
       substitute: [{ type: 'main', value: '', name: '', updatedAt: '' }],
     },
     wt_study: {
@@ -169,6 +165,7 @@ export const scheduleSchema: SchedWeekType = {
       reader: [{ type: 'main', value: '', name: '', updatedAt: '' }],
     },
     closing_prayer: [{ type: 'main', value: '', name: '', updatedAt: '' }],
+    circuit_overseer: { type: 'main', value: '', name: '', updatedAt: '' },
     week_type: [{ type: 'main', value: Week.NORMAL, updatedAt: '' }],
   },
 };

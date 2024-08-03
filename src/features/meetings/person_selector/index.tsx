@@ -38,21 +38,26 @@ const PersonSelector = (props: PersonSelectorType) => {
     placeHolderIcon,
     decorator,
     helperText,
+    visitingSpeaker,
+    freeSolo,
+    freeSoloText,
+    handleFreeSoloTextChange,
   } = usePersonSelector(props);
 
   return (
     <Box>
-      {isHistoryOpen && (
+      {isHistoryOpen && !freeSolo && (
         <AssignmentsHistoryDialog
           open={isHistoryOpen}
           onClose={handleCloseHistory}
-          person={getPersonDisplayName(value)}
+          person={getPersonDisplayName(value as PersonOptionsType)}
           history={assignmentsHistory}
         />
       )}
 
       <AutoComplete
         readOnly={props.readOnly}
+        freeSolo={freeSolo}
         label={props.label}
         isOptionEqualToValue={(option, value) =>
           option.person_uid === value.person_uid
@@ -62,12 +67,20 @@ const PersonSelector = (props: PersonSelectorType) => {
         }
         options={options}
         fullWidth={true}
+        inputValue={freeSoloText}
         value={
-          options.find((record) => record.person_uid === value?.person_uid)
+          freeSolo
             ? value
-            : null
+            : options.find(
+                  (record) =>
+                    typeof value !== 'string' &&
+                    record.person_uid === value?.person_uid
+                )
+              ? value
+              : null
         }
         onChange={(_, value: PersonOptionsType) => handleSaveAssignment(value)}
+        onInputChange={(_, value) => handleFreeSoloTextChange(value)}
         PopperComponent={(props) => (
           <Popper
             {...props}
@@ -94,7 +107,7 @@ const PersonSelector = (props: PersonSelectorType) => {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                width: '200px',
+                width: visitingSpeaker ? '100%' : '200px',
               }}
             >
               {option.person_data.male.value ? <IconMale /> : <IconFemale />}
@@ -131,27 +144,29 @@ const PersonSelector = (props: PersonSelectorType) => {
               </Box>
             </Box>
 
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <Typography
-                className="body-small-regular"
-                color="var(--grey-350)"
-                align="center"
-                sx={{ width: '85px' }}
-              >
-                {option.last_assignment}
-              </Typography>
-              {(showGenderSelector ||
-                type === AssignmentCode.MM_BibleReading) && (
+            {!visitingSpeaker && (
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <Typography
                   className="body-small-regular"
                   color="var(--grey-350)"
                   align="center"
-                  sx={{ width: '70px' }}
+                  sx={{ width: '85px' }}
                 >
-                  {option.hall}
+                  {option.last_assignment}
                 </Typography>
-              )}
-            </Box>
+                {(showGenderSelector ||
+                  type === AssignmentCode.MM_BibleReading) && (
+                  <Typography
+                    className="body-small-regular"
+                    color="var(--grey-350)"
+                    align="center"
+                    sx={{ width: '70px' }}
+                  >
+                    {option.hall}
+                  </Typography>
+                )}
+              </Box>
+            )}
           </Box>
         )}
         optionsHeader={
@@ -200,33 +215,36 @@ const PersonSelector = (props: PersonSelectorType) => {
               >
                 {t('tr_name')}
               </Typography>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <Typography
-                  className="body-small-regular"
-                  color="var(--grey-350)"
-                  align="center"
-                  sx={{ width: '85px' }}
-                >
-                  {t('tr_lastAssignment')}
-                </Typography>
-                {(showGenderSelector ||
-                  type === AssignmentCode.MM_BibleReading) && (
+
+              {!visitingSpeaker && (
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <Typography
                     className="body-small-regular"
                     color="var(--grey-350)"
                     align="center"
-                    sx={{ width: '70px' }}
+                    sx={{ width: '85px' }}
                   >
-                    {t('tr_hall')}
+                    {t('tr_lastAssignment')}
                   </Typography>
-                )}
-              </Box>
+                  {(showGenderSelector ||
+                    type === AssignmentCode.MM_BibleReading) && (
+                    <Typography
+                      className="body-small-regular"
+                      color="var(--grey-350)"
+                      align="center"
+                      sx={{ width: '70px' }}
+                    >
+                      {t('tr_hall')}
+                    </Typography>
+                  )}
+                </Box>
+              )}
             </Box>
           </>
         }
         styleIcon={false}
         startIcon={
-          value ? (
+          value && typeof value !== 'string' ? (
             value.person_data.male.value ? (
               <IconMale />
             ) : (
@@ -237,7 +255,7 @@ const PersonSelector = (props: PersonSelectorType) => {
           )
         }
         endIcon={
-          value ? (
+          value && !visitingSpeaker ? (
             <>
               <IconButton sx={{ padding: 0 }} onClick={handleOpenHistory}>
                 <IconAssignmetHistory
@@ -270,6 +288,8 @@ const PersonSelector = (props: PersonSelectorType) => {
           {helperText}
         </Typography>
       )}
+
+      {props.helperNode}
     </Box>
   );
 };

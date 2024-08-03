@@ -33,3 +33,25 @@ export const outgoingSpeakersState = selector({
     return outgoingSpeakers;
   },
 });
+
+export const incomingSpeakersState = selector({
+  key: 'incomingSpeakers',
+  get: ({ get }) => {
+    const speakers = get(visitingSpeakersState);
+    const congregations = get(speakersCongregationsState);
+    const congNumber = get(congNumberState);
+
+    const congId = congregations.find(
+      (record) => record.cong_data.cong_number.value === congNumber
+    )?.id;
+
+    const incomingSpeakers =
+      speakers.filter(
+        (record) =>
+          record.speaker_data.cong_id !== congId &&
+          record._deleted.value === false
+      ) || [];
+
+    return incomingSpeakers;
+  },
+});

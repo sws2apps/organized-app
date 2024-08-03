@@ -1,5 +1,5 @@
 import { LegacyRef, createElement } from 'react';
-import { Markup } from 'interweave';
+import { Markup as InterWeaveMarkup } from 'interweave';
 import { TextMarkupTypeProps } from './index.types';
 
 /**
@@ -8,7 +8,7 @@ import { TextMarkupTypeProps } from './index.types';
  * @param {TextMarkupTypeProps} props - The props for the CustomTextMarkup component.
  * @returns {JSX.Element} A CustomTextMarkup component.
  */
-const CustomTextMarkup = (props: TextMarkupTypeProps) => {
+const Markup = (props: TextMarkupTypeProps) => {
   let content = props.content || '';
   const color = props.color || 'var(--black)';
   const anchorClassName = props.anchorClassName || 'body-small-semibold';
@@ -34,7 +34,11 @@ const CustomTextMarkup = (props: TextMarkupTypeProps) => {
       return (
         <a
           className={anchorClassName}
-          style={{ color: anchorColor, ...props.anchorStyle }}
+          style={{
+            color: anchorColor,
+            ...props.anchorStyle,
+            cursor: 'pointer',
+          }}
           href={node.getAttribute('href')}
           title={node.getAttribute('title')}
           id={node.getAttribute('id')}
@@ -61,7 +65,7 @@ const CustomTextMarkup = (props: TextMarkupTypeProps) => {
     }
   };
 
-  return <Markup content={content} transform={transformText} />;
+  return <InterWeaveMarkup content={content} transform={transformText} />;
 };
 
-export default CustomTextMarkup;
+export default Markup;
