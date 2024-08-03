@@ -125,23 +125,23 @@ const Autocomplete = <T,>(props: AutocompletePropsType<T>) => {
           height={48}
           styleIcon={styleIcon ?? true}
           sx={
-            decorator === 'error'
+            decorator
               ? {
                   '.MuiOutlinedInput-root': {
                     '& fieldset': {
-                      border: '1px solid var(--red-main)',
+                      border: '1px solid var(--orange-dark)',
                     },
                     '&:hover fieldset': {
-                      border: '1px solid var(--red-main)',
+                      border: '1px solid var(--orange-dark)',
                     },
                     '&.Mui-focused fieldset': {
-                      border: '1px solid var(--red-main)',
+                      border: '1px solid var(--orange-dark)',
                     },
                   },
                   '.MuiInputLabel-root': {
-                    color: 'var(--red-main)',
+                    color: 'var(--orange-dark)',
                     '&.Mui-focused': {
-                      color: 'var(--red-main)',
+                      color: 'var(--orange-dark)',
                     },
                   },
                 }

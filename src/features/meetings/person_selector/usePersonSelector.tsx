@@ -77,7 +77,7 @@ const usePersonSelector = ({
   const [value, setValue] = useState<PersonOptionsType | null | string>(null);
   const [gender, setGender] = useState<GenderType>('male');
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
-  const [decorator, setDecorator] = useState<'error' | 'warning'>(null);
+  const [decorator, setDecorator] = useState(false);
   const [helperText, setHelperText] = useState('');
   const [freeSoloText, setFreeSoloText] = useState('');
 
@@ -586,7 +586,7 @@ const usePersonSelector = ({
 
   useEffect(() => {
     const checkAssignments = () => {
-      setDecorator(null);
+      setDecorator(false);
       setHelperText('');
 
       if (value && week.length > 0) {
@@ -596,7 +596,7 @@ const usePersonSelector = ({
         );
 
         if (weekAssignments.length > 1) {
-          setDecorator('error');
+          setDecorator(true);
           setHelperText(t('tr_personAlreadyAssignmentWeek'));
 
           return;
@@ -610,7 +610,7 @@ const usePersonSelector = ({
         });
 
         if (monthAssignments.length > 1) {
-          setDecorator('error');
+          setDecorator(true);
           setHelperText(t('tr_repeatedMonthlyWarningDesc'));
 
           return;

@@ -31,12 +31,12 @@ const PersonSelector = (props: PersonSelectorType) => {
     isHistoryOpen,
     assignmentsHistory,
     placeHolderIcon,
-    decorator,
     helperText,
     visitingSpeaker,
     freeSolo,
     freeSoloText,
     handleFreeSoloTextChange,
+    decorator,
   } = usePersonSelector(props);
 
   return (
@@ -259,11 +259,9 @@ const PersonSelector = (props: PersonSelectorType) => {
               >
                 <IconAssignmetHistory
                   color={
-                    decorator === 'error'
-                      ? 'var(--red-main)'
-                      : decorator === 'warning'
-                        ? 'var(--orange-dark)'
-                        : 'var(--accent-main)'
+                    helperText.length > 0
+                      ? 'var(--orange-dark)'
+                      : 'var(--accent-main)'
                   }
                 />
               </IconButton>
@@ -276,9 +274,7 @@ const PersonSelector = (props: PersonSelectorType) => {
       {helperText.length > 0 && (
         <Typography
           className="label-small-regular"
-          color={
-            decorator === 'error' ? 'var(--red-main)' : 'var(--orange-dark)'
-          }
+          color="var(--orange-dark)"
           sx={{
             padding: '4px 16px 0 16px',
             maxWidth: desktopUp ? '350px' : '100%',
