@@ -1,24 +1,43 @@
-import { Box, IconButton, Popper } from '@mui/material';
+import { Box, Popper } from '@mui/material';
 import { IconClose, IconTalk } from '@components/icons';
 import { PublicTalkOptionType, PublicTalkSelectorType } from './index.types';
 import { useAppTranslation } from '@hooks/index';
 import usePublicTalkSelector from './usePublicTalkSelector';
-import usePublicTalkTypeSelector from '../weekend_editor/public_talk_type_selector/usePublicTalkTypeSelector';
+import usePublicTalkTypeSelector from '../public_talk_type_selector/usePublicTalkTypeSelector';
 import Autocomplete from '@components/autocomplete';
+import IconButton from '@components/icon_button';
+import SpeakersCatalog from '../speakers_catalog';
 import Typography from '@components/typography';
 
 const PublicTalkSelector = ({
   week,
   showSpeakerCount,
+  type,
 }: PublicTalkSelectorType) => {
   const { t } = useAppTranslation();
 
   const { talkType } = usePublicTalkTypeSelector(week);
 
-  const { talks, selectedTalk, handleTalkChange } = usePublicTalkSelector(week);
+  const {
+    talks,
+    selectedTalk,
+    handleTalkChange,
+    handleCloseCatalog,
+    handleOpenCatalog,
+    openCatalog,
+  } = usePublicTalkSelector(week);
 
   return (
     <Box sx={{ position: 'relative' }}>
+      {openCatalog && (
+        <SpeakersCatalog
+          open={openCatalog}
+          onClose={handleCloseCatalog}
+          week={week}
+          type={type}
+        />
+      )}
+
       <Autocomplete
         label={t('tr_publicTalk')}
         options={talks}
@@ -106,7 +125,11 @@ const PublicTalkSelector = ({
         }
       />
       {talkType !== 'jwStreamRecording' && (
-        <IconButton sx={{ position: 'absolute', right: 30, top: 2 }}>
+        <IconButton
+          onClick={handleOpenCatalog}
+          tooltip={t('tr_speakersCatalog')}
+          sx={{ position: 'absolute', right: 30, top: 2 }}
+        >
           <IconTalk color="var(--accent-main)" />
         </IconButton>
       )}

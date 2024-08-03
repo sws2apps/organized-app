@@ -14,7 +14,7 @@ import {
 } from './index.styles';
 import { Week } from '@definition/week_type';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
-import usePublicTalkSelector from '../public_talk_selector/usePublicTalkSelector';
+import usePublicTalkSelector from './public_talk_selector/usePublicTalkSelector';
 import usePublicTalkTypeSelector from './public_talk_type_selector/usePublicTalkTypeSelector';
 import useWeekendEditor from './useWeekendEditor';
 import AssignmentsWeekDelete from '../assignments_week_delete';
@@ -23,7 +23,7 @@ import Divider from '@components/divider';
 import EventEditor from '../event_editor';
 import MeetingSection from '../meeting_section';
 import PersonSelector from '../person_selector';
-import PublicTalkSelector from '../public_talk_selector';
+import PublicTalkSelector from './public_talk_selector';
 import PublicTalkTypeSelector from './public_talk_type_selector';
 import SongSource from '../song_source';
 import TalkTitleSolo from './talk_title_solo';
@@ -165,6 +165,7 @@ const WeekendEditor = () => {
                       <PublicTalkSelector
                         week={selectedWeek}
                         showSpeakerCount={talkType === 'visitingSpeaker'}
+                        type={talkType}
                       />
                     )}
                     {weekType !== Week.NORMAL && weekType !== Week.CO_VISIT && (

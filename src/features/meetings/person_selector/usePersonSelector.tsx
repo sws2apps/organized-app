@@ -169,23 +169,25 @@ const usePersonSelector = ({
   };
 
   const handleSaveSpeaker = async (speaker: string) => {
-    if (speaker.length === 0) {
-      await schedulesSaveAssignment(schedule, assignment, null);
-    }
-
-    if (speaker.length > 0) {
-      // find if text is in options
-      const found = options.find(
-        (record) =>
-          getPersonDisplayName(record).toLowerCase() === speaker.toLowerCase()
-      );
-
-      if (found) {
-        await schedulesSaveAssignment(schedule, assignment, found);
+    if (freeSolo) {
+      if (speaker.length === 0) {
+        await schedulesSaveAssignment(schedule, assignment, null);
       }
 
-      if (!found) {
-        schedulesSaveAssignment(schedule, assignment, speaker);
+      if (speaker.length > 0) {
+        // find if text is in options
+        const found = options.find(
+          (record) =>
+            getPersonDisplayName(record).toLowerCase() === speaker.toLowerCase()
+        );
+
+        if (found) {
+          await schedulesSaveAssignment(schedule, assignment, found);
+        }
+
+        if (!found) {
+          schedulesSaveAssignment(schedule, assignment, speaker);
+        }
       }
     }
   };

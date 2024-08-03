@@ -1,10 +1,4 @@
-import {
-  Box,
-  FormControlLabel,
-  IconButton,
-  Popper,
-  RadioGroup,
-} from '@mui/material';
+import { Box, FormControlLabel, Popper, RadioGroup } from '@mui/material';
 import { PersonOptionsType, PersonSelectorType } from './index.types';
 import { IconAssignmetHistory, IconFemale, IconMale } from '@components/icons';
 import { AssignmentCode } from '@definition/assignment';
@@ -12,6 +6,7 @@ import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import usePersonSelector from './usePersonSelector';
 import AssignmentsHistoryDialog from '../assignments_history_dialog';
 import AutoComplete from '@components/autocomplete';
+import IconButton from '@components/icon_button';
 import Radio from '@components/radio';
 import Typography from '@components/typography';
 
@@ -144,7 +139,7 @@ const PersonSelector = (props: PersonSelectorType) => {
               </Box>
             </Box>
 
-            {!visitingSpeaker && (
+            {!freeSolo && (
               <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <Typography
                   className="body-small-regular"
@@ -257,7 +252,11 @@ const PersonSelector = (props: PersonSelectorType) => {
         endIcon={
           value && !freeSolo ? (
             <>
-              <IconButton sx={{ padding: 0 }} onClick={handleOpenHistory}>
+              <IconButton
+                sx={{ padding: 0 }}
+                onClick={handleOpenHistory}
+                tooltip={t('tr_assignmentHistory')}
+              >
                 <IconAssignmetHistory
                   color={
                     decorator === 'error'

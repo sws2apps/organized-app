@@ -63,6 +63,7 @@ import { personsStateFind } from '@services/recoil/persons';
 import { buildPersonFullname } from '@utils/common';
 import { sourcesFind } from '@services/recoil/sources';
 import { weekTypeLocaleState } from '@states/weekType';
+import { VisitingSpeakerType } from '@definition/visiting_speakers';
 
 export const schedulesWeekAssignmentsInfo = async (
   week: string,
@@ -846,7 +847,7 @@ export const schedulesUpdateHistory = async (
 export const schedulesSaveAssignment = async (
   schedule: SchedWeekType,
   assignment: AssignmentFieldType,
-  value: PersonType | string
+  value: PersonType | VisitingSpeakerType | string
 ) => {
   const dataView = await promiseGetRecoil(userDataViewState);
 
@@ -865,16 +866,12 @@ export const schedulesSaveAssignment = async (
     assigned = fieldUpdate.find((record) => record.type === dataView);
     assigned.value = toSave;
     assigned.updatedAt = new Date().toISOString();
-    if (typeof value === 'string') {
-      assigned.solo = true;
-    }
+    assigned.solo = typeof value === 'string';
   } else {
     assigned = fieldUpdate;
     fieldUpdate.value = toSave;
     fieldUpdate.updatedAt = new Date().toISOString();
-    if (typeof value === 'string') {
-      assigned.solo = true;
-    }
+    fieldUpdate.solo = typeof value === 'string';
   }
 
   const dataDb = {
