@@ -255,7 +255,7 @@ const PersonSelector = (props: PersonSelectorType) => {
           )
         }
         endIcon={
-          value && !visitingSpeaker ? (
+          value && !freeSolo ? (
             <>
               <IconButton sx={{ padding: 0 }} onClick={handleOpenHistory}>
                 <IconAssignmetHistory
