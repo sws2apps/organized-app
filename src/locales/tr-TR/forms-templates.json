@@ -49,7 +49,7 @@
   "tr_lcContentElderVariations": "Bir ihtiyar tarafından ele alınacak",
   "tr_speaker": "Konuşmacı",
   "tr_speakerSymposium": "Speaker (Symposium, part 1)",
-  "tr_wtStudyReader": "Gözcü Kulesi inceleme makalesinin okuyucusu",
+  "tr_wtStudyReader": "Study Reader",
   "tr_weekendMeetingPrint": "Hafta sonu ibadet programı",
   "tr_publicTalk": "Public talk",
   "tr_openingPrayerWeekendMeeting": "Açılış duası",
@@ -70,5 +70,7 @@
   "tr_partDuration": "({{ time }} min.)",
   "tr_memorialWeek": "Memorial",
   "tr_exportMidweekMeetinDesc": "Choose the schedules and forms you'd like to export and pick your preferred template. Organized saves your template choice for next time to make the export easier.",
-  "tr_specialTalkWeek": "Special Talk"
+  "tr_specialTalkWeek": "Special Talk",
+  "tr_wtStudyConductor": "Study conductor",
+  "tr_closingPrayerWeekendMeeting": "Closing Prayer"
 }

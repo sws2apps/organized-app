@@ -49,7 +49,7 @@
   "tr_lcContentElderVariations": "Ataon’ny anti-panahy",
   "tr_speaker": "Mpandahateny",
   "tr_speakerSymposium": "Mpandahateny (Lahateny mifampitohy, tapany 1)",
-  "tr_wtStudyReader": "Mpamaky Fehintsoratra",
+  "tr_wtStudyReader": "Study Reader",
   "tr_weekendMeetingPrint": "Fandaharam-pivoriana Faran’ny Herinandro",
   "tr_publicTalk": "Public talk",
   "tr_openingPrayerWeekendMeeting": "Vavaka Fanokafana",
@@ -70,5 +70,7 @@
   "tr_partDuration": "({{ time }} min.)",
   "tr_memorialWeek": "Fahatsiarovana",
   "tr_exportMidweekMeetinDesc": "Safidio ny fandaharana na taratasy hofenoina tianao ho atao PDF. Safidio koa ny modely tianao ho ampiasaina. Hotehirizin’ity programa ity mba ho ampiasainao any aoriana izay safidy ataonao.",
-  "tr_specialTalkWeek": "Special Talk"
+  "tr_specialTalkWeek": "Special Talk",
+  "tr_wtStudyConductor": "Study conductor",
+  "tr_closingPrayerWeekendMeeting": "Closing Prayer"
 }
