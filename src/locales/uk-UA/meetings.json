@@ -136,6 +136,6 @@
   "tr_visitinSpeakerHelpText": "You can add speakers manually, but we recommend adding them in advance on the <a>Speakers catalog</a> page",
   "tr_noSpeakersYet": "Поки немає промовців",
   "tr_speakersCatalog": "Каталог промовців",
-  "tr_speakersCatalogLocalDesc": "Based on your selection, you see approved visiting speakers list from other congregations. It's linked with the Visiting speakers page.",
+  "tr_speakersCatalogLocalDesc": "Based on your selection, you see visiting speakers from other congregations. To assign another speaker not from the list, simply close this window and select him in the speaker field.",
   "tr_speakersCatalogVisitingDesc": "Based on your selection, you see the outgoing speakers of your congregatiog. To assign another local brother not from the list, simply close this window and select him in the speaker field."
 }
