@@ -49,7 +49,7 @@
   "tr_lcContentElderVariations": "Deɛ wobɛyɛ asomfoɔ bɔne",
   "tr_speaker": "Ɔkasafoɔ",
   "tr_speakerSymposium": "Speaker (Symposium, part 1)",
-  "tr_wtStudyReader": "Watchtower Kasafoɔ",
+  "tr_wtStudyReader": "Study Reader",
   "tr_weekendMeetingPrint": "Nnawɔtwe Awieɛ Nhyiam Nhyehyee",
   "tr_publicTalk": "Public talk",
   "tr_openingPrayerWeekendMeeting": "Anigye Mpae",
@@ -70,5 +70,7 @@
   "tr_partDuration": "({{ time }} min.)",
   "tr_memorialWeek": "Memorial",
   "tr_exportMidweekMeetinDesc": "Choose the schedules and forms you'd like to export and pick your preferred template. Organized saves your template choice for next time to make the export easier.",
-  "tr_specialTalkWeek": "Special Talk"
+  "tr_specialTalkWeek": "Special Talk",
+  "tr_wtStudyConductor": "Study conductor",
+  "tr_closingPrayerWeekendMeeting": "Closing Prayer"
 }
