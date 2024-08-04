@@ -6,14 +6,22 @@ import useWeekend from './useWeekend';
 import Button from '@components/button';
 import PageTitle from '@components/page_title';
 import WeekendEditor from '@features/meetings/weekend_editor';
+import WeekendExport from '@features/meetings/weekend_export';
 
 const WeekendMeeting = () => {
   const { t } = useAppTranslation();
 
   const { desktopUp } = useBreakpoints();
 
-  const { hasWeeks, openAutofill, handleCloseAutofill, handleOpenAutofill } =
-    useWeekend();
+  const {
+    hasWeeks,
+    openAutofill,
+    handleCloseAutofill,
+    handleOpenAutofill,
+    openExport,
+    handleCloseExport,
+    handleOpenExport,
+  } = useWeekend();
 
   return (
     <Box
@@ -23,6 +31,10 @@ const WeekendMeeting = () => {
         flexDirection: 'column',
       }}
     >
+      {openExport && (
+        <WeekendExport open={openExport} onClose={handleCloseExport} />
+      )}
+
       {openAutofill && (
         <ScheduleAutofillDialog
           meeting="weekend"
@@ -36,7 +48,11 @@ const WeekendMeeting = () => {
         buttons={
           hasWeeks && (
             <>
-              <Button variant="secondary" startIcon={<IconPrint />}>
+              <Button
+                variant="secondary"
+                startIcon={<IconPrint />}
+                onClick={handleOpenExport}
+              >
                 {t('tr_export')}
               </Button>
               <Button

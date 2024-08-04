@@ -1,6 +1,6 @@
 import { Svg, Path } from '@react-pdf/renderer';
 
-const WatchtowerIconSVG = () => (
+const IconWatchtower = () => (
   <Svg viewBox="0 0 32 33" style={{ width: 18, height: 18 }}>
     <Path
       fillRule="evenodd"
@@ -10,4 +10,4 @@ const WatchtowerIconSVG = () => (
   </Svg>
 );
 
-export default WatchtowerIconSVG;
+export default IconWatchtower;

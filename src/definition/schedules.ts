@@ -228,3 +228,25 @@ export type MidweekMeetingDataType = {
   lc_concluding_prayer: string;
   co_name?: string;
 };
+
+export type WeekendMeetingDataType = {
+  date_formatted: string;
+  weekOf: string;
+  no_meeting: boolean;
+  week_type: Week;
+  week_type_name: string;
+  event_name: string;
+  chairman_name: string;
+  opening_prayer_name: string;
+  public_talk_title?: string;
+  public_talk_number: string;
+  wtstudy_conductor_name: string;
+  wtstudy_reader_name: string;
+  speaker_1_name: string;
+  speaker_2_name: string;
+  speaker_cong_name: string;
+  substitute_speaker_name: string;
+  co_name?: string;
+  concluding_prayer_name?: string;
+  service_talk_title?: string;
+};
