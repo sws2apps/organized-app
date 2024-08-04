@@ -128,7 +128,7 @@
   "tr_jwStreamRecording": "JW Stream recording",
   "tr_reader": "Reader",
   "tr_conductor": "Conductor",
-  "tr_serviceTalk": "Service Talk",
+  "tr_serviceTalk": "Service talk",
   "tr_chairmanWeekendMeetingHistory": "Weekend meeting chairman",
   "tr_studyArticle": "Study article",
   "tr_firstSpeaker": "1-й промовець",
@@ -136,6 +136,6 @@
   "tr_visitinSpeakerHelpText": "You can add speakers manually, but we recommend adding them in advance on the <a>Speakers catalog</a> page",
   "tr_noSpeakersYet": "Поки немає промовців",
   "tr_speakersCatalog": "Каталог промовців",
-  "tr_speakersCatalogLocalDesc": "Based on your selection, you see visiting speakers from other congregations. To assign another speaker not from the list, simply close this window and select him in the speaker field.",
-  "tr_speakersCatalogVisitingDesc": "Based on your selection, you see the outgoing speakers of your congregatiog. To assign another local brother not from the list, simply close this window and select him in the speaker field."
+  "tr_speakersCatalogLocalDesc": "Based on your selection, you see visiting speakers from other congregations. To assign another speaker not from the catalog, simply close this window and select him in the speaker field.",
+  "tr_speakersCatalogVisitingDesc": "Based on your selection, you see the outgoing speakers of your congregatiog. To assign another local brother not from the catalog, simply close this window and select him in the speaker field."
 }
