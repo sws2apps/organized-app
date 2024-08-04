@@ -31,7 +31,7 @@
   "tr_auxClass": "Efitrano faharoa",
   "tr_memorialInvite": "Fanasana Fahatsiarovana",
   "tr_normalWeek": "Herinandro Mahazatra",
-  "tr_circuitOverseerWeek": "Fitsidihan’ny Mpiandraikitra ny Faritra",
+  "tr_circuitOverseerWeek": "Circuit overseer visit",
   "tr_conventionWeek": "Fivoriamben’ny Vondrom-paritra",
   "tr_assemblyWeek": "Fivoriamben’ny Faritra",
   "tr_shortTimeFormat": "h:MM",
@@ -70,7 +70,7 @@
   "tr_partDuration": "({{ time }} min.)",
   "tr_memorialWeek": "Fahatsiarovana",
   "tr_exportMidweekMeetinDesc": "Safidio ny fandaharana na taratasy hofenoina tianao ho atao PDF. Safidio koa ny modely tianao ho ampiasaina. Hotehirizin’ity programa ity mba ho ampiasainao any aoriana izay safidy ataonao.",
-  "tr_specialTalkWeek": "Special Talk",
+  "tr_specialTalkWeek": "Special talk",
   "tr_wtStudyConductor": "Study conductor",
   "tr_closingPrayerWeekendMeeting": "Closing Prayer"
 }
