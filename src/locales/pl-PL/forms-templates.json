@@ -49,7 +49,7 @@
   "tr_lcContentElderVariations": "Ten punkt przeprowadzi starszy",
   "tr_speaker": "Mówca",
   "tr_speakerSymposium": "Speaker (Symposium, part 1)",
-  "tr_wtStudyReader": "Lektor",
+  "tr_wtStudyReader": "Study Reader",
   "tr_weekendMeetingPrint": "Plan zebrań w weekend",
   "tr_publicTalk": "Public talk",
   "tr_openingPrayerWeekendMeeting": "Modlitwa początkowa",
@@ -70,5 +70,7 @@
   "tr_partDuration": "({{ time }} min.)",
   "tr_memorialWeek": "Memorial",
   "tr_exportMidweekMeetinDesc": "Choose the schedules and forms you'd like to export and pick your preferred template. Organized saves your template choice for next time to make the export easier.",
-  "tr_specialTalkWeek": "Special Talk"
+  "tr_specialTalkWeek": "Special Talk",
+  "tr_wtStudyConductor": "Study conductor",
+  "tr_closingPrayerWeekendMeeting": "Closing Prayer"
 }
