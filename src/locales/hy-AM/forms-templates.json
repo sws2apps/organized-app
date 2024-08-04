@@ -30,8 +30,8 @@
   "tr_coTalk": "Talk given by circuit overseer",
   "tr_auxClass": "Auxiliary Classroom",
   "tr_memorialInvite": "Memorial Invitation",
-  "tr_normalWeek": "Normal Week",
-  "tr_circuitOverseerWeek": "Visit of Circuit Overseer",
+  "tr_normalWeek": "Normal week",
+  "tr_circuitOverseerWeek": "Circuit overseer visit",
   "tr_conventionWeek": "Regional convention",
   "tr_assemblyWeek": "Circuit assembly",
   "tr_shortTimeFormat": "H:MM",
@@ -70,7 +70,7 @@
   "tr_partDuration": "({{ time }} min.)",
   "tr_memorialWeek": "Memorial",
   "tr_exportMidweekMeetinDesc": "Choose the schedules and forms you'd like to export and pick your preferred template. Organized saves your template choice for next time to make the export easier.",
-  "tr_specialTalkWeek": "Special Talk",
+  "tr_specialTalkWeek": "Special talk",
   "tr_wtStudyConductor": "Study conductor",
   "tr_closingPrayerWeekendMeeting": "Closing Prayer"
 }
