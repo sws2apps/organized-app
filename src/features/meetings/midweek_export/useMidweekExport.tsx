@@ -192,7 +192,7 @@ const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
       }
 
       setIsProcessing(false);
-      // onClose?.();
+      onClose?.();
     } catch (error) {
       console.error(error);
 

@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import { IconLoading } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { MidweekExportType } from './index.types';
-import useAssignmentsDelete from './useMidweekExport';
+import useMidweekExport from './useMidweekExport';
 import Button from '@components/button';
 import Checkbox from '@components/checkbox';
 import Dialog from '@components/dialog';
@@ -28,7 +28,7 @@ const MidweekExport = ({ open, onClose }: MidweekExportType) => {
     S140Template,
     handleSelectS140Template,
     handleSelectS89Template,
-  } = useAssignmentsDelete(onClose);
+  } = useMidweekExport(onClose);
 
   return (
     <Dialog

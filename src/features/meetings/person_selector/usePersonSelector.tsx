@@ -307,6 +307,7 @@ const usePersonSelector = ({
   useEffect(() => {
     if (circuitOverseer) {
       setOptions([]);
+      setFreeSoloText('');
     }
   }, [circuitOverseer]);
 

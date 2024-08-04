@@ -40,7 +40,7 @@ const PersonsCard = () => {
       <ListItem disablePadding>
         <DashboardMenu
           icon={<IconVisitingSpeaker color="var(--black)" />}
-          primaryText={t('tr_visitingSpeakers')}
+          primaryText={t('tr_speakersCatalog')}
           path="/visiting-speakers"
         />
       </ListItem>

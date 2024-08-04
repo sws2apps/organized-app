@@ -3,6 +3,7 @@ import { promiseGetRecoil } from 'recoil-outside';
 import {
   CODisplayNameState,
   COFullnameState,
+  COScheduleNameState,
   displayNameEnableState,
   fullnameOptionState,
   midweekMeetingClassCountState,
@@ -12,6 +13,7 @@ import {
   midweekMeetingWeekdayState,
   userDataViewState,
   weekendMeetingOpeningPrayerAutoAssignState,
+  weekendMeetingWeekdayState,
 } from '@states/settings';
 import { sourcesState } from '@states/sources';
 import { assignmentsHistoryState, schedulesState } from '@states/schedules';
@@ -43,6 +45,7 @@ import {
   MidweekMeetingDataType,
   S89DataType,
   SchedWeekType,
+  WeekendMeetingDataType,
 } from '@definition/schedules';
 import { getTranslation } from '@services/i18n/translation';
 import { formatDate } from '@services/dateformat';
@@ -64,6 +67,11 @@ import { buildPersonFullname } from '@utils/common';
 import { sourcesFind } from '@services/recoil/sources';
 import { weekTypeLocaleState } from '@states/weekType';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
+import { incomingSpeakersState } from '@states/visiting_speakers';
+import { SpeakersCongregationsType } from '@definition/speakers_congregations';
+import { speakersCongregationsState } from '@states/speakers_congregations';
+import { publicTalksState } from '@states/public_talks';
+import { PublicTalkType } from '@definition/public_talks';
 
 export const schedulesWeekAssignmentsInfo = async (
   week: string,
@@ -530,13 +538,19 @@ export const schedulesWeekGetAssigned = async ({
 
   if (assigned.value?.length > 0) {
     const person = await personsStateFind(assigned.value);
-    const fullnameOption = await promiseGetRecoil(fullnameOptionState);
+    if (person) {
+      const fullnameOption = await promiseGetRecoil(fullnameOptionState);
 
-    result = buildPersonFullname(
-      person.person_data.person_lastname.value,
-      person.person_data.person_firstname.value,
-      fullnameOption
-    );
+      result = buildPersonFullname(
+        person.person_data.person_lastname.value,
+        person.person_data.person_firstname.value,
+        fullnameOption
+      );
+    }
+
+    if (!person) {
+      result = assigned.value;
+    }
   }
 
   return result;
@@ -2148,6 +2162,173 @@ export const schedulesMidweekData = async (
     dataView,
     assignment: 'MM_ClosingPrayer',
   });
+
+  return result;
+};
+
+export const schedulesWeekendData = async (
+  schedule: SchedWeekType,
+  dataView: string
+) => {
+  const source = await sourcesFind(schedule.weekOf);
+  const meetingDay: number = await promiseGetRecoil(weekendMeetingWeekdayState);
+  const talks: PublicTalkType[] = await promiseGetRecoil(publicTalksState);
+  const speakers: VisitingSpeakerType[] = await promiseGetRecoil(
+    incomingSpeakersState
+  );
+  const congregations: SpeakersCongregationsType[] = await promiseGetRecoil(
+    speakersCongregationsState
+  );
+  const openingPrayerAuto: boolean = await promiseGetRecoil(
+    weekendMeetingOpeningPrayerAutoAssignState
+  );
+
+  const result = <WeekendMeetingDataType>{};
+  result.weekOf = schedule.weekOf;
+
+  const [year, month, day] = schedule.weekOf.split('/');
+  const newDate = new Date(+year, +month - 1, +day + +meetingDay - 1);
+
+  result.date_formatted = formatDate(
+    newDate,
+    getTranslation({ key: 'tr_shortDateFormat' })
+  );
+
+  const week_type = schedule.weekend_meeting.week_type.find(
+    (record) => record.type === dataView
+  ).value;
+  result.week_type = week_type;
+
+  result.no_meeting = schedulesWeekNoMeeting(week_type);
+
+  const event_name = source.weekend_meeting.event_name.value;
+  if (event_name.length > 0) {
+    result.event_name = event_name;
+  }
+
+  if (week_type !== Week.NORMAL) {
+    const weekTypes: WeekTypeLocale[] =
+      await promiseGetRecoil(weekTypeLocaleState);
+    const name = weekTypes.find(
+      (record) => record.id === week_type
+    ).week_type_name;
+
+    result.week_type_name = name;
+  }
+
+  result.chairman_name = await schedulesWeekGetAssigned({
+    schedule,
+    dataView,
+    assignment: 'WM_Chairman',
+  });
+
+  if (!openingPrayerAuto) {
+    result.opening_prayer_name = await schedulesWeekGetAssigned({
+      schedule,
+      dataView,
+      assignment: 'WM_OpeningPrayer',
+    });
+  }
+
+  const talk = source.weekend_meeting.public_talk.find(
+    (record) => record.type === dataView
+  )?.value;
+
+  if (talk) {
+    if (typeof talk === 'string') {
+      result.public_talk_title = talk;
+    }
+
+    if (typeof talk === 'number') {
+      const record = talks.find((data) => data.talk_number === talk);
+      result.public_talk_number =
+        getTranslation({ key: 'tr_shortNumberLabel' }) + ' ' + talk.toString();
+      result.public_talk_title = record.talk_title;
+    }
+  }
+
+  result.speaker_1_name = await schedulesWeekGetAssigned({
+    schedule,
+    dataView,
+    assignment: 'WM_Speaker_Part1',
+  });
+
+  result.speaker_2_name = await schedulesWeekGetAssigned({
+    schedule,
+    dataView,
+    assignment: 'WM_Speaker_Part2',
+  });
+
+  const talkType = schedule.weekend_meeting.public_talk_type.find(
+    (record) => record.type === dataView
+  )?.value;
+
+  if (talkType === 'visitingSpeaker') {
+    const speaker = speakers.find(
+      (record) => record.person_uid === result.speaker_1_name
+    );
+
+    if (speaker) {
+      const cong = congregations.find(
+        (record) => record.id === speaker.speaker_data.cong_id
+      );
+      result.speaker_cong_name = cong.cong_data.cong_name.value;
+    }
+  }
+
+  const substitute = await schedulesWeekGetAssigned({
+    schedule,
+    dataView,
+    assignment: 'WM_SubstituteSpeaker',
+  });
+
+  if (substitute?.length > 0) {
+    result.substitute_speaker_name = substitute;
+  }
+
+  const wtStudyConductor = await schedulesWeekGetAssigned({
+    schedule,
+    dataView,
+    assignment: 'WM_WTStudy_Conductor',
+  });
+
+  if (wtStudyConductor?.length > 0) {
+    result.wtstudy_conductor_name = wtStudyConductor;
+  }
+
+  if (week_type !== Week.CO_VISIT) {
+    result.wtstudy_reader_name = await schedulesWeekGetAssigned({
+      schedule,
+      dataView,
+      assignment: 'WM_WTStudy_Reader',
+    });
+  }
+
+  const closingPrayer = await schedulesWeekGetAssigned({
+    schedule,
+    dataView,
+    assignment: 'WM_ClosingPrayer',
+  });
+
+  if (closingPrayer?.length > 0) {
+    result.concluding_prayer_name = closingPrayer;
+  }
+
+  if (week_type === Week.CO_VISIT) {
+    result.co_name = await schedulesWeekGetAssigned({
+      schedule,
+      dataView,
+      assignment: 'WM_CircuitOverseer',
+    });
+
+    if (result.co_name.length === 0) {
+      result.co_name = await promiseGetRecoil(COScheduleNameState);
+    }
+
+    result.public_talk_title = source.weekend_meeting.co_talk_title.public.src;
+    result.service_talk_title =
+      source.weekend_meeting.co_talk_title.service.src;
+  }
 
   return result;
 };

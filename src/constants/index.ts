@@ -139,6 +139,7 @@ export const ASSIGNMENT_PATH = {
   WM_WTStudy_Reader: 'weekend_meeting.wt_study.reader',
   WM_ClosingPrayer: 'weekend_meeting.closing_prayer',
   WM_CircuitOverseer: 'weekend_meeting.circuit_overseer',
+  WM_SubstituteSpeaker: 'weekend_meeting.speaker.substitute',
 };
 
 export const BROTHER_ASSIGNMENT = [

@@ -1,59 +1,67 @@
-import { useRecoilValue } from 'recoil';
-import { Font, Document } from '@react-pdf/renderer';
+import { Font, Document, Page, View } from '@react-pdf/renderer';
 import { useAppTranslation } from '@hooks/index';
 import { WeekendMeetingTemplateType } from './index.types';
-import { monthNamesState } from '@states/app';
+import { WeekendMeetingDataType } from '@definition/schedules';
 import FontBold from '@assets/fonts/Inter-SemiBold.ttf';
+import FontLight from '@assets/fonts/Inter-Light.ttf';
+import FontMedium from '@assets/fonts/Inter-Medium.ttf';
 import FontRegular from '@assets/fonts/Inter-Regular.ttf';
-import WeekendMeetingContainer from './WeekendMeetingContainer';
+import Header from './Header';
+import WeekData from './WeekData';
+import styles from './index.styles';
 
 Font.register({
   family: 'Inter',
   format: 'truetype',
-  fonts: [{ src: FontRegular }, { src: FontBold }],
+  fonts: [
+    { src: FontRegular },
+    { src: FontLight },
+    { src: FontMedium },
+    { src: FontBold },
+  ],
 });
 
 Font.registerHyphenationCallback((word) => [word]);
 
-const WeekendMeetingTemplate = ({ data }: WeekendMeetingTemplateType) => {
+const WeekendMeetingTemplate = ({
+  data,
+  cong_name,
+  cong_number,
+}: WeekendMeetingTemplateType) => {
   const { t } = useAppTranslation();
 
-  const monthNames = useRecoilValue(monthNamesState);
+  const formatData = () => {
+    const groupedData: WeekendMeetingDataType[][] = [];
 
-  const generateDocumentTitle = () => {
-    let title = t('weekendMeetingPrint');
-
-    const firstWeek = data[0];
-    const lastWeek = data.at(-1);
-
-    const [yearStart, monthStart] = firstWeek.weekOf.split('/');
-    const [yearLast, monthLast] = lastWeek.weekOf.split('/');
-
-    const firstMonth = `${monthNames[+monthStart - 1]} ${yearStart}`;
-    const lastMonth = `${monthNames[+monthLast - 1]} ${yearLast}`;
-
-    title += `: ${firstMonth}`;
-
-    if (firstMonth !== lastMonth) {
-      title += ` - ${lastMonth}`;
+    for (let i = 0; i < data.length; i += 9) {
+      groupedData.push(data.slice(i, i + 9));
     }
 
-    return title;
+    return groupedData;
   };
 
   return (
-    <>
-      {data.length > 0 && (
-        <Document
-          author="sws2apps"
-          title={generateDocumentTitle()}
-          creator="Organized"
-          producer="sws2apps (by react-pdf)"
-        >
-          <WeekendMeetingContainer data={data} />
-        </Document>
-      )}
-    </>
+    <Document
+      author="sws2apps"
+      title={t('tr_weekendMeetingPrint')}
+      creator="Organized"
+      producer="sws2apps (by react-pdf)"
+    >
+      <Page size="A4" style={styles.page}>
+        <Header cong_name={cong_name} cong_number={cong_number} />
+        {formatData().map((groupData, groupIndex) => (
+          <View key={groupIndex} break={groupIndex > 0}>
+            {groupData.map((meetingData, index) => (
+              <WeekData
+                key={`${groupIndex}-${index}`}
+                isLast={index === groupData.length - 1}
+                meetingData={meetingData}
+              />
+            ))}
+          </View>
+        ))}
+      </Page>
+    </Document>
   );
 };
 
