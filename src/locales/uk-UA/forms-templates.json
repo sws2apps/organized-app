@@ -1,8 +1,8 @@
 {
   "tr_s89Title": "ЗАВДАННЯ ДЛЯ УЧАСТІ В ЗІБРАННІ<br />НАШЕ ХРИСТИЯНСЬКЕ ЖИТТЯ І СЛУЖІННЯ",
-  "tr_s89ToBeGiven": "To be given in:",
+  "tr_s89ToBeGiven": "Виступ у:",
   "tr_s89DescFooter": "Note to student: The source material and study point for your assignment can be found in the Life and Ministry Meeting Workbook. Please review the instructions for the part as outlined in Instructions for Our Christian Life and Ministry Meeting (S-38).",
-  "tr_date": "Date:",
+  "tr_date": "Дата:",
   "tr_assignment": "Завдання",
   "tr_bibleReading": "Читання Біблії",
   "tr_initialCall": "Перша розмова",
@@ -70,7 +70,7 @@
   "tr_partDuration": "({{ time }} хв.)",
   "tr_memorialWeek": "Memorial",
   "tr_exportMidweekMeetinDesc": "Choose the schedules and forms you'd like to export and pick your preferred template. Organized saves your template choice for next time to make the export easier.",
-  "tr_specialTalkWeek": "Special Talk",
+  "tr_specialTalkWeek": "Special talk",
   "tr_wtStudyConductor": "Study conductor",
   "tr_closingPrayerWeekendMeeting": "Closing Prayer"
 }

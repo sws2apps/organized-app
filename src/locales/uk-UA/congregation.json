@@ -40,7 +40,7 @@
   "tr_watchtowerStudyConductor": "Вивчення Вартової Башти – ведучий",
   "tr_watchtowerStudyReader": "Читець статті",
   "tr_inBusinessTerritory": "Ділова територія",
-  "tr_ldcDc50": "LDC work",
+  "tr_ldcDc50": "Робота для МВПБ",
   "tr_duties": "Обовʼязки",
   "tr_audio": "Аудіо",
   "tr_video": "Відео",
@@ -416,5 +416,5 @@
   "tr_importExport": "Імпорт/Експорт",
   "tr_count": "Кількість",
   "tr_congregationNumberFull": "Congregation number",
-  "tr_attendance": "Attendance"
+  "tr_attendance": "Відвідуваність"
 }
