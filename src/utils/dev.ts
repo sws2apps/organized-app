@@ -791,6 +791,8 @@ export const removeSecondsFromTime = (time: string) => {
 };
 
 export const dbSettingsAssignMainWTStudyConductor = async () => {
+  const settings = await appDb.app_settings.toArray();
+
   const persons = await appDb.persons.toArray();
   const conductor = persons.find((record) =>
     record.person_data.assignments.find(
@@ -800,10 +802,16 @@ export const dbSettingsAssignMainWTStudyConductor = async () => {
     )
   );
 
+  const weekend_meeting = structuredClone(
+    settings.at(0).cong_settings.weekend_meeting
+  );
+  const setting = weekend_meeting.find((record) => record.type === 'main');
+  setting.w_study_conductor_default = {
+    value: conductor.person_uid,
+    updatedAt: new Date().toISOString(),
+  };
+
   await appDb.app_settings.update(1, {
-    'cong_settings.weekend_meeting.w_study_conductor_default': {
-      value: conductor.person_uid,
-      updatedAt: new Date().toISOString(),
-    },
+    'cong_settings.weekend_meeting': weekend_meeting,
   });
 };
