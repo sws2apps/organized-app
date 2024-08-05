@@ -789,3 +789,21 @@ export const removeSecondsFromTime = (time: string) => {
   }
   return time;
 };
+
+export const dbSettingsAssignMainWTStudyConductor = async () => {
+  const persons = await appDb.persons.toArray();
+  const conductor = persons.find((record) =>
+    record.person_data.assignments.find(
+      (item) =>
+        item._deleted === false &&
+        item.code === AssignmentCode.WM_WTStudyConductor
+    )
+  );
+
+  await appDb.app_settings.update(1, {
+    'cong_settings.weekend_meeting.w_study_conductor_default': {
+      value: conductor.person_uid,
+      updatedAt: new Date().toISOString(),
+    },
+  });
+};
