@@ -1,5 +1,8 @@
 import { useEffect } from 'react';
-import { importDummyPersons } from '@utils/dev';
+import {
+  dbSettingsAssignMainWTStudyConductor,
+  importDummyPersons,
+} from '@utils/dev';
 import { dbAppDelete, dbAppOpen } from '@services/dexie/app';
 import { dbAppSettingsBuildTest } from '@services/dexie/settings';
 import { setIsAppLoad } from '@services/recoil/app';
@@ -20,6 +23,7 @@ const useStart = () => {
       await dbAppSettingsBuildTest();
       await dbSpeakersCongregationsDummy();
       await dbVisitingSpeakersDummy();
+      await dbSettingsAssignMainWTStudyConductor();
 
       await loadApp();
       await runUpdater();
