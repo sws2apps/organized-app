@@ -92,7 +92,7 @@
   "tr_delegatedPersons": "Հրավիրված անհատներ",
   "tr_invitationCodeInstruction": "To add a new user’s device, generate the invitation code, and ask them to open <a href='https://organized-app.com' class='h4' style='color: var(--accent-dark)' >organized-app.com</a>. Next, they should select their user type and enter the invitation code when prompted.",
   "tr_generateInvitationCode": "Գեներացնել հրավիրման կոդ",
-  "tr_terminateSessionAdminDesc": "Օգտատերը կմնա իր սարքում մուտք գործած այնքան ժամանակ, քանի դեռ դուք դուրս չեք եկել իր սարքից: Այնուհետև օգտատերը պետք է նորից մուտք գործի Organized՝ օգտագործելով իր հրավերի կոդը: Օգտագործեք այս հնարավորությունը խիստ անհրաժեշտության և ընտրված դեպքերում, որոնք կապված են անվտանգության հետ:",
+  "tr_terminateSessionAdminDesc": "The user will stay logged in on their device until you terminate the session. After doing so, the user will need to log in to Organized again using their invitation code. Use this feature when absolutely necessary and in selective security-related cases.",
   "tr_baptizedBrotherUserDesc": "Այս մկրտված եղբորը տրվել է <b>Քարոզչի</b> կարգավիճակ: Այս կերպ օգտատերը կարող է դիտել հանդիպումների ժամանակացույցերը և ներկայացնել ծառայության հաշվետվություններ: Ստորև կարող եք տրամադրել օգտատիրոջ լրացուցիչ իրավունքները:",
   "tr_appAdminRoleDesc": "Ունի մուտք դեպի Organized-ի բոլոր գործառույթները՝ ամեն ինչ կարգավորելու և աջակցություն տրամադրելու համար:",
   "tr_roles": "Դերերը",
