@@ -10,7 +10,10 @@
     <link rel="stylesheet" href="inter.css" />
     <link rel="stylesheet" href="notosans.css" />
     <link rel="stylesheet" href="notosansjp.css" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=no"
+    />
     <meta name="theme-color" content="#f8f9ffff" />
     <meta
       name="description"
@@ -486,8 +489,12 @@
 
       document.documentElement.setAttribute('data-theme', newTheme);
 
-      const themeColor = getComputedStyle(document.documentElement).getPropertyValue('--accent-100');
-      document.querySelector("meta[name='theme-color']").setAttribute('content', themeColor);
+      const themeColor = getComputedStyle(
+        document.documentElement
+      ).getPropertyValue('--accent-100');
+      document
+        .querySelector("meta[name='theme-color']")
+        .setAttribute('content', themeColor);
     </script>
   </head>
   <body>
@@ -495,22 +502,35 @@
       <nav>
         <div id="nav-container">
           <div id="nav-brand-container">
-            <img id="svg-icon" src="/img/icon/logo.svg" alt="logo of organized app" />
+            <img
+              id="svg-icon"
+              src="/img/icon/logo.svg"
+              alt="logo of organized app"
+            />
             <h3>Organized</h3>
           </div>
         </div>
       </nav>
       <div id="container">
-        <img id="illustration" src="/noscript/illustration_enable_js.svg" alt="illustration to enable javascript" />
+        <img
+          id="illustration"
+          src="/noscript/illustration_enable_js.svg"
+          alt="illustration to enable javascript"
+        />
         <div id="message-container">
           <h1 class="h1">JavaScript is disabled</h1>
           <p class="body-regular">
-            Organized is a web app that requires JavaScript to work properly. Please enable JavaScript in your browser
-            settings to ensure you can use all of its features.
+            Organized is a web app that requires JavaScript to work properly.
+            Please enable JavaScript in your browser settings to ensure you can
+            use all of its features.
           </p>
           <div id="action-container">
             <a variant="main" class="button-caps variant-main" href="/">
-              <img id="refresh-icon" src="/noscript/refresh_icon.svg" alt="refresh icon" />
+              <img
+                id="refresh-icon"
+                src="/noscript/refresh_icon.svg"
+                alt="refresh icon"
+              />
               refresh the page
             </a>
           </div>
@@ -519,9 +539,21 @@
     </noscript>
     <div id="root">
       <div class="loader-waiting-js">
-        <svg width="154" height="154" viewBox="0 0 154 154" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg
+          width="154"
+          height="154"
+          viewBox="0 0 154 154"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
           <g clip-path="url(#clip0_4686_167575)">
-            <rect x="21.5804" y="21.4773" width="110.839" height="111.045" fill="#FEFEFE" />
+            <rect
+              x="21.5804"
+              y="21.4773"
+              width="110.839"
+              height="111.045"
+              fill="#FEFEFE"
+            />
             <path
               fill-rule="evenodd"
               clip-rule="evenodd"

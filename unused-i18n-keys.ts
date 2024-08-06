@@ -9,11 +9,16 @@ let translationFiles = glob.sync('src/shared/locales/en/*.json');
 
 // Exclude files based on filename
 const excludedFiles = ['source.json', 'ui.json']; // replace with your filenames
-translationFiles = translationFiles.filter((file) => !excludedFiles.includes(file.split('/').pop()));
+translationFiles = translationFiles.filter(
+  (file) => !excludedFiles.includes(file.split('/').pop())
+);
 
 translationFiles.forEach((file) => {
   const translationFile = fs.readFileSync(file);
-  translationKeys = [...translationKeys, ...Object.keys(JSON.parse(translationFile.toString()))];
+  translationKeys = [
+    ...translationKeys,
+    ...Object.keys(JSON.parse(translationFile.toString())),
+  ];
 });
 
 // Step 2: Parse source code to find used keys

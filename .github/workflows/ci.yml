@@ -26,20 +26,27 @@ jobs:
       - name: Use Node.js LTS version
         uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b
         with:
-          node-version: lts/Hydrogen
+          node-version: lts/Iron
 
       - name: Install Dependencies
         run: npm ci
 
-      - name: Cypress run component testing
-        uses: cypress-io/github-action@8d3918616d8ac34caa2b49afc8b408b6a872a6f5
+      - name: Cypress run testing
+        uses: cypress-io/github-action@df7484c5ba85def7eef30db301afa688187bc378
         with:
-          command-prefix: "--"
+          command-prefix: '--'
           install: false
-          component: true
+          build: npm run build
+          start: npm run preview
           browser: chrome
           record: true
         env:
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_CPE_SWS_RECORD_KEY }}
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CYPRESS_PROJECT_ID: vwwffz
+          VITE_FIREBASE_APIKEY: ${{ secrets.VITE_FIREBASE_APIKEY }}
+          VITE_FIREBASE_APPID: ${{ secrets.VITE_FIREBASE_APPID }}
+          VITE_FIREBASE_AUTHDOMAIN: ${{ secrets.VITE_FIREBASE_AUTHDOMAIN }}
+          VITE_FIREBASE_MEASUREMENTID: ${{ secrets.VITE_FIREBASE_MEASUREMENTID }}
+          VITE_FIREBASE_MESSAGINGSENDERID: ${{ secrets.VITE_FIREBASE_MESSAGINGSENDERID }}
+          VITE_FIREBASE_PROJECTID: ${{ vars.VITE_FIREBASE_PROJECTID }}

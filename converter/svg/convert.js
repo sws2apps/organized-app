@@ -62,16 +62,28 @@ for await (const svgFile of svgFiles) {
 
   if (!specialIcons.includes(componentName)) {
     if (componentName === 'IconOnCircle') {
-      svgContent = svgContent.replace(/fill=(?!"#D9D9D9"|"none"|"white"|"#FEFEFE")".*?"(?=\s|\/)/g, 'fill={color}');
+      svgContent = svgContent.replace(
+        /fill=(?!"#D9D9D9"|"none"|"white"|"#FEFEFE")".*?"(?=\s|\/)/g,
+        'fill={color}'
+      );
     }
     if (componentName !== 'IconOnCircle') {
-      svgContent = svgContent.replace(/fill=(?!"#D9D9D9"|"none"|"white")".*?"(?=\s|\/)/g, 'fill={color}');
+      svgContent = svgContent.replace(
+        /fill=(?!"#D9D9D9"|"none"|"white")".*?"(?=\s|\/)/g,
+        'fill={color}'
+      );
     }
 
-    svgContent = svgContent.replace(/stroke=(?!"#D9D9D9"|"none"|"white")".*?"(?=\s|\/)/g, 'stroke={color}');
+    svgContent = svgContent.replace(
+      /stroke=(?!"#D9D9D9"|"none"|"white")".*?"(?=\s|\/)/g,
+      'stroke={color}'
+    );
   }
 
-  svgContent = svgContent.replaceAll('style="mask-type:alpha"', 'style={{maskType:"alpha"}}');
+  svgContent = svgContent.replaceAll(
+    'style="mask-type:alpha"',
+    'style={{maskType:"alpha"}}'
+  );
   svgContent = svgContent.replaceAll('fill-rule', 'fillRule');
   svgContent = svgContent.replaceAll('clip-rule', 'clipRule');
   svgContent = svgContent.replaceAll('clip-path', 'clipPath');
@@ -102,7 +114,10 @@ for await (const svgFile of svgFiles) {
 
   export default ${componentName};`;
 
-  const jsxFile = path.join('./src/v3/components/icons', `${componentName}.tsx`);
+  const jsxFile = path.join(
+    './src/v3/components/icons',
+    `${componentName}.tsx`
+  );
   fs.writeFile(jsxFile, data);
 
   strImport += `export { default as ${componentName}} from './${componentName}';`;

@@ -28,32 +28,35 @@
       "alias": {
         "extensions": [".js", ".jsx", ".ts", ".tsx"],
         "map": [
-          ["@assets", "./src/v3/assets"],
-          ["@components", "./src/v3/components"],
-          ["@icons", "./src/v3/components/icons"],
-          ["@constants", "./src/v3/constants"],
-          ["@features", "./src/v3/features"],
-          ["@hooks", "./src/v3/hooks"],
-          ["@layouts", "./src/v3/layouts"],
-          ["@pages", "./src/v3/pages"],
-          ["@routes", "./src/v3/routes"],
-          ["@services", "./src/v3/services"],
-          ["@states", "./src/v3/states"],
-          ["@utils", "./src/v3/utils"],
-          ["@wrapper", "./src/v3/wrapper"],
-          ["@locales", "./src/shared/locales"],
-          ["@shared", "./src/shared"],
-          ["@definition", "./src/v3/definition"],
-          ["@global", "./src/v3/global"],
-          ["@db", "./src/v3/indexedDb"],
-          ["@talks", "./src/v3/public_talks"]
+          ["@assets", "./src/assets"],
+          ["@components", "./src/components"],
+          ["@icons", "./src/components/icons"],
+          ["@constants", "./src/constants"],
+          ["@features", "./src/features"],
+          ["@hooks", "./src/hooks"],
+          ["@layouts", "./src/layouts"],
+          ["@pages", "./src/pages"],
+          ["@routes", "./src/routes"],
+          ["@services", "./src/services"],
+          ["@states", "./src/states"],
+          ["@utils", "./src/utils"],
+          ["@wrapper", "./src/wrapper"],
+          ["@locales", "./src/locales"],
+          ["@definition", "./src/definition"],
+          ["@global", "./src/global"],
+          ["@db", "./src/indexedDb"],
+          ["@talks", "./src/public_talks"],
+          ["@views", "./src/views"]
         ]
       }
     }
   },
   "plugins": ["react", "react-refresh"],
   "rules": {
-    "react-refresh/only-export-components": ["warn", { "allowConstantExport": true }],
+    "react-refresh/only-export-components": [
+      "warn",
+      { "allowConstantExport": true }
+    ],
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error",
     "import/no-cycle": ["error", { "maxDepth": 9999 }]

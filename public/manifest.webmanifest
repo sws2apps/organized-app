@@ -1,145 +1,145 @@
 {
-	"theme_color": "#f8f9ff",
-	"background_color": "#f8f9ff",
-	"display": "standalone",
-	"launch_handler": {
-		"client_mode": "navigate-existing"
-	},
-	"scope": "/",
-	"start_url": "/",
-	"id": "/",
-	"name": "Organized",
-	"short_name": "Organized",
-	"description": "A universal app to simplify management of Jehovah's Witnesses congregation life. View assignments, schedule meetings, send reports effortlessly and way more. Simplify your routine tasks and focus on what matters most!",
-	"lang": "en",
-	"icons": [
-		{
-			"src": "/img/icon/icon-512x512.png",
-			"sizes": "512x512",
-			"type": "image/png"
-		},
-		{
-			"src": "/img/icon/icon-192x192.png",
-			"sizes": "192x192",
-			"type": "image/png"
-		},
-		{
-			"src": "/img/icon/icon-maskable-512x512.png",
-			"sizes": "512x512",
-			"type": "image/png",
-			"purpose": "maskable"
-		},
-		{
-			"src": "/img/icon/icon-maskable-192x192.png",
-			"sizes": "192x192",
-			"type": "image/png",
-			"purpose": "maskable"
-		},
-		{
-			"src": "/img/icon/logo.svg",
-			"sizes": "any"
-		},
-		{
-			"src": "/img/icon/icon-android-adaptive-108x108.png",
-			"sizes": "108x108",
-			"type": "image/png",
-			"purpose": "monochrome"
-		},
-		{
-			"src": "/img/icon/icon-monochrome-192x192.png",
-			"sizes": "192x192",
-			"type": "image/png",
-			"purpose": "monochrome"
-		},
-		{
-			"src": "/img/icon/icon-monochrome-512x512.png",
-			"sizes": "512x512",
-			"type": "image/png",
-			"purpose": "monochrome"
-		}
-	],
-	"screenshots": [
-		{
-			"src": "/img/screenshot/one_app_for_everyone_desktop.jpg",
-			"sizes": "2919x2000",
-			"type": "image/png",
-			"form_factor": "wide",
-			"label": "one_app_for_everyone_desktop"
-		},
-		{
-			"src": "/img/screenshot/collaborate_with_ease_desktop.jpg",
-			"sizes": "2919x2000",
-			"type": "image/png",
-			"form_factor": "wide",
-			"label": "collaborate_with_ease_desktop"
-		},
-		{
-			"src": "/img/screenshot/instant_reports_desktop.jpg",
-			"sizes": "2919x2000",
-			"type": "image/png",
-			"form_factor": "wide",
-			"label": "instant_reports_desktop"
-		},
-		{
-			"src": "/img/screenshot/light_and_dark_themes_desktop.jpg",
-			"sizes": "2919x2000",
-			"type": "image/png",
-			"form_factor": "wide",
-			"label": "light_and_dark_themes_desktop"
-		},
-		{
-			"src": "/img/screenshot/truly_multi_platform_desktop.jpg",
-			"sizes": "2919x2000",
-			"type": "image/png",
-			"form_factor": "wide",
-			"label": "truly_multi_platform_desktop"
-		},
-		{
-			"src": "/img/screenshot/way_less_stress_desktop.jpg",
-			"sizes": "2919x2000",
-			"type": "image/png",
-			"form_factor": "wide",
-			"label": "way_less_stress_desktop"
-		},
-		{
-			"src": "/img/screenshot/one_app_for_everyone_mobile.jpg",
-			"sizes": "1125x2000",
-			"type": "image/png",
-			"form_factor": "narrow",
-			"label": "one_app_for_everyone_mobile"
-		},
-		{
-			"src": "/img/screenshot/collaborate_with_ease_mobile.jpg",
-			"sizes": "1125x2000",
-			"type": "image/png",
-			"form_factor": "narrow",
-			"label": "collaborate_with_ease_mobile"
-		},
-		{
-			"src": "/img/screenshot/instant_reports_mobile.jpg",
-			"sizes": "1125x2000",
-			"type": "image/png",
-			"form_factor": "narrow",
-			"label": "instant_reports_mobile"
-		},
-		{
-			"src": "/img/screenshot/light_and_dark_themes_mobile.jpg",
-			"sizes": "1125x2000",
-			"type": "image/png",
-			"form_factor": "narrow",
-			"label": "light_and_dark_themes_mobile"
-		},
-		{
-			"src": "/img/screenshot/truly_multi_platform_mobile.jpg",
-			"sizes": "1125x2000",
-			"type": "image/png",
-			"form_factor": "narrow",
-			"label": "truly_multi_platform_mobile"
-		}
-	],
-	"url_handlers": [
-		{ "origin": "https://cpe-web.sws2apps.com" },
-		{ "origin": "https://cpe-sws.web.app" },
-		{ "origin": "https://cpe-sws.firebaseapp.com" }
-	]
+  "theme_color": "#f8f9ff",
+  "background_color": "#f8f9ff",
+  "display": "standalone",
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+  "scope": "/",
+  "start_url": "/",
+  "id": "/",
+  "name": "Organized",
+  "short_name": "Organized",
+  "description": "A universal app to simplify management of Jehovah's Witnesses congregation life. View assignments, schedule meetings, send reports effortlessly and way more. Simplify your routine tasks and focus on what matters most!",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "/img/icon/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/img/icon/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/img/icon/icon-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/img/icon/icon-maskable-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/img/icon/logo.svg",
+      "sizes": "any"
+    },
+    {
+      "src": "/img/icon/icon-android-adaptive-108x108.png",
+      "sizes": "108x108",
+      "type": "image/png",
+      "purpose": "monochrome"
+    },
+    {
+      "src": "/img/icon/icon-monochrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "monochrome"
+    },
+    {
+      "src": "/img/icon/icon-monochrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "monochrome"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/img/screenshot/one_app_for_everyone_desktop.jpg",
+      "sizes": "2919x2000",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "one_app_for_everyone_desktop"
+    },
+    {
+      "src": "/img/screenshot/collaborate_with_ease_desktop.jpg",
+      "sizes": "2919x2000",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "collaborate_with_ease_desktop"
+    },
+    {
+      "src": "/img/screenshot/instant_reports_desktop.jpg",
+      "sizes": "2919x2000",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "instant_reports_desktop"
+    },
+    {
+      "src": "/img/screenshot/light_and_dark_themes_desktop.jpg",
+      "sizes": "2919x2000",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "light_and_dark_themes_desktop"
+    },
+    {
+      "src": "/img/screenshot/truly_multi_platform_desktop.jpg",
+      "sizes": "2919x2000",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "truly_multi_platform_desktop"
+    },
+    {
+      "src": "/img/screenshot/way_less_stress_desktop.jpg",
+      "sizes": "2919x2000",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "way_less_stress_desktop"
+    },
+    {
+      "src": "/img/screenshot/one_app_for_everyone_mobile.jpg",
+      "sizes": "1125x2000",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "one_app_for_everyone_mobile"
+    },
+    {
+      "src": "/img/screenshot/collaborate_with_ease_mobile.jpg",
+      "sizes": "1125x2000",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "collaborate_with_ease_mobile"
+    },
+    {
+      "src": "/img/screenshot/instant_reports_mobile.jpg",
+      "sizes": "1125x2000",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "instant_reports_mobile"
+    },
+    {
+      "src": "/img/screenshot/light_and_dark_themes_mobile.jpg",
+      "sizes": "1125x2000",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "light_and_dark_themes_mobile"
+    },
+    {
+      "src": "/img/screenshot/truly_multi_platform_mobile.jpg",
+      "sizes": "1125x2000",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "truly_multi_platform_mobile"
+    }
+  ],
+  "url_handlers": [
+    { "origin": "https://cpe-web.sws2apps.com" },
+    { "origin": "https://cpe-sws.web.app" },
+    { "origin": "https://cpe-sws.firebaseapp.com" }
+  ]
 }

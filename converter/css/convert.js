@@ -20,7 +20,9 @@ const fixFontPdf = (str) => {
 
 const files = await fs.readdir(ROOT_FOLDER);
 const jsonFiles = files.filter(
-  (file) => path.extname(file) === '.json' && path.basename(file).indexOf('sources.json') === -1
+  (file) =>
+    path.extname(file) === '.json' &&
+    path.basename(file).indexOf('sources.json') === -1
 );
 
 const tokens = {};
@@ -35,7 +37,9 @@ for await (const jsonFile of jsonFiles) {
 
       if (key === 'collections') {
         key = 'colors';
-        const modes = value.find((collection) => collection.name === 'Colors').modes;
+        const modes = value.find(
+          (collection) => collection.name === 'Colors'
+        ).modes;
 
         value = {};
 
@@ -43,7 +47,10 @@ for await (const jsonFile of jsonFiles) {
           const obj = { [mode.name]: {} };
 
           for (const variable of mode.variables) {
-            obj[mode.name] = { ...obj[mode.name], [variable.name]: { value: variable.value } };
+            obj[mode.name] = {
+              ...obj[mode.name],
+              [variable.name]: { value: variable.value },
+            };
           }
 
           Object.assign(value, obj);
@@ -117,12 +124,16 @@ for (const [theme, details] of Object.entries(tokens.colors)) {
 // converting font tokens to css properties
 
 // check if common fonts
-const allFonts = Object.keys(tokens.font).filter((font) => font !== 'mobile' && font !== 'pdf-templates');
+const allFonts = Object.keys(tokens.font).filter(
+  (font) => font !== 'mobile' && font !== 'pdf-templates'
+);
 const mobileFonts = Object.keys(tokens.font.mobile);
 const common = {};
 
 for (const font of allFonts) {
-  const hasMobile = mobileFonts.find((mFont) => mFont.replace('m-', '') === font);
+  const hasMobile = mobileFonts.find(
+    (mFont) => mFont.replace('m-', '') === font
+  );
 
   if (!hasMobile) {
     Object.assign(common, { [font]: tokens.font[font] });
@@ -145,7 +156,8 @@ if (Object.keys(common).length > 0) {
           .map((text) => text.toLocaleLowerCase())
           .join('-');
 
-        if (typeof value === 'number' && key !== 'fontWeight') value = `${value}px`;
+        if (typeof value === 'number' && key !== 'fontWeight')
+          value = `${value}px`;
 
         data += `${property}: ${value};\n`;
       }
@@ -172,7 +184,8 @@ for (const [font, details] of Object.entries(tokens.font.mobile)) {
         .map((text) => text.toLocaleLowerCase())
         .join('-');
 
-      if (typeof value === 'number' && key !== 'fontWeight') value = `${value}px`;
+      if (typeof value === 'number' && key !== 'fontWeight')
+        value = `${value}px`;
 
       data += `${property}: ${value};\n`;
     }
@@ -186,7 +199,11 @@ data += '}\n\n';
 data += `/* font styles used for wider devices */\n`;
 data += `@media (min-width: 768px) {\n`;
 for (const [className, details] of Object.entries(tokens.font)) {
-  if (className !== 'mobile' && className !== 'pdf-templates' && !Object.keys(common).includes(className)) {
+  if (
+    className !== 'mobile' &&
+    className !== 'pdf-templates' &&
+    !Object.keys(common).includes(className)
+  ) {
     data += `.${className} {\n`;
     for (let [key, value] of Object.entries(details.value)) {
       if (key !== 'paragraphSpacing' && key !== 'fontFamily') {
@@ -199,7 +216,8 @@ for (const [className, details] of Object.entries(tokens.font)) {
           .join('-');
 
         if (key === 'margin') value = `${value}px 0px`;
-        if (typeof value === 'number' && key !== 'fontWeight') value = `${value}px`;
+        if (typeof value === 'number' && key !== 'fontWeight')
+          value = `${value}px`;
 
         data += `${property}: ${value};\n`;
       }
@@ -231,7 +249,10 @@ for (const [effectName, details] of Object.entries(tokens.effect)) {
 
         tmp += `${effect.spread}px `;
 
-        const colorShadow = effectName === 'message-glow' ? `rgba(var(--accent-main-base), 0.24)` : effect.color;
+        const colorShadow =
+          effectName === 'message-glow'
+            ? `rgba(var(--accent-main-base), 0.24)`
+            : effect.color;
 
         tmp += colorShadow;
 
@@ -267,7 +288,8 @@ for (let [effectName, details] of Object.entries(tokens.effect.dark)) {
 
       tmp += `${effect.spread}px `;
 
-      const colorShadow = effectName === 'message-glow' ? `var(--accent-main)` : effect.color;
+      const colorShadow =
+        effectName === 'message-glow' ? `var(--accent-main)` : effect.color;
 
       tmp += colorShadow;
 
@@ -300,11 +322,16 @@ for (const [font, details] of Object.entries(tokens.font)) {
     data += `${fontName}: {\n`;
 
     for (let [key, value] of Object.entries(details.value)) {
-      if (key !== 'paragraphSpacing' && key !== 'fontFamily' && key !== 'fontWeight') {
+      if (
+        key !== 'paragraphSpacing' &&
+        key !== 'fontFamily' &&
+        key !== 'fontWeight'
+      ) {
         if (key === 'paragraphIndent') key = 'textIndent';
         if (key === 'textCase') key = 'textTransform';
 
-        if (typeof value === 'number' && key !== 'fontWeight') value = `${value}px`;
+        if (typeof value === 'number' && key !== 'fontWeight')
+          value = `${value}px`;
 
         data += `${key}: '${value}',\n`;
       }
@@ -328,11 +355,16 @@ for (const [font, details] of Object.entries(tokens.font)) {
       data += `${subFontName}: {\n`;
 
       for (let [key, value] of Object.entries(subDetails.value)) {
-        if (key !== 'paragraphSpacing' && key !== 'fontFamily' && key !== 'fontWeight') {
+        if (
+          key !== 'paragraphSpacing' &&
+          key !== 'fontFamily' &&
+          key !== 'fontWeight'
+        ) {
           if (key === 'paragraphIndent') key = 'textIndent';
           if (key === 'textCase') key = 'textTransform';
 
-          if (typeof value === 'number' && key !== 'fontWeight') value = `${value}px`;
+          if (typeof value === 'number' && key !== 'fontWeight')
+            value = `${value}px`;
 
           data += `${key}: '${value}',\n`;
         }

@@ -99,7 +99,7 @@
         "fontSize": 20,
         "textDecoration": "none",
         "fontFamily": "Inter",
-        "fontWeight": 550,
+        "fontWeight": 450,
         "fontStyle": "normal",
         "fontStretch": "normal",
         "letterSpacing": 0.2,
@@ -346,7 +346,7 @@
           "fontSize": 18,
           "textDecoration": "none",
           "fontFamily": "Inter",
-          "fontWeight": 550,
+          "fontWeight": 450,
           "fontStyle": "normal",
           "fontStretch": "normal",
           "letterSpacing": 0.18,
@@ -1369,7 +1369,7 @@
     },
     "watchtower-study": {
       "type": "color",
-      "value": "#848383ff",
+      "value": "#457bbbff",
       "blendMode": "normal",
       "extensions": {
         "org.lukasoppermann.figmaDesignTokens": {

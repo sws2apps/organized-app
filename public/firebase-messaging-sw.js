@@ -3,8 +3,12 @@
 // Create for future FCM use
 
 try {
-  importScripts('https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js');
-  importScripts('https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js');
+  importScripts(
+    'https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js'
+  );
+  importScripts(
+    'https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js'
+  );
 
   class CustomPushEvent extends Event {
     constructor(data) {
@@ -65,7 +69,8 @@ try {
     const notificationTitle = payload.data.title;
     const notificationOptions = {
       body: payload.data.body,
-      icon: payload.data.image || 'https://guide.organized-app.com/img/logo.svg',
+      icon:
+        payload.data.image || 'https://guide.organized-app.com/img/logo.svg',
     };
 
     self.registration.showNotification(notificationTitle, notificationOptions);

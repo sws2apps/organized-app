@@ -1,4 +1,4 @@
-name: CD-Re
+name: Deploy CPE
 
 on:
   workflow_dispatch:
@@ -8,7 +8,7 @@ permissions: read-all
 jobs:
   redeploy_dev:
     name: Rebuild and Deploy to Production
-    if: ${{ github.repository == 'sws2apps/organized-app' && github.ref == 'refs/heads/main' }}
+    if: ${{ github.repository == 'sws2apps/organized-app' && github.ref == 'refs/heads/cpe-archive' }}
     environment:
       name: Production
       url: https://cpe-web.sws2apps.app
@@ -22,13 +22,13 @@ jobs:
       - name: Checkout for release preparation
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
         with:
-          ref: main
+          ref: cpe-archive
           persist-credentials: false
 
       - name: Use Node.js LTS version
         uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b
         with:
-          node-version: lts/Hydrogen
+          node-version: lts/Iron
 
       - name: Install package dependencies
         run: npm ci
