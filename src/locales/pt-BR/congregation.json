@@ -92,7 +92,7 @@
   "tr_delegatedPersons": "Pessoas delegadas",
   "tr_invitationCodeInstruction": "Para adicionar um novo dispositivo do usuário, gere o código de convite e peça a eles para abrir <a href='https://organized-app.com' class='h4' style='color: var(--accent-dark)' >organized-app.com</a>. Em seguida, eles devem selecionar seu tipo de usuário e inserir o código de convite quando solicitado.",
   "tr_generateInvitationCode": "Gerar código de convite",
-  "tr_terminateSessionAdminDesc": "O usuário permanecerá conectado em seu dispositivo até que você encerre a sessão no dispositivo deles. Após isso, o usuário precisará fazer login no Organized novamente usando seu código de convite. Use esta função somente quando for absolutamente necessário e em casos seletivos relacionados à segurança.",
+  "tr_terminateSessionAdminDesc": "The user will stay logged in on their device until you terminate the session. After doing so, the user will need to log in to Organized again using their invitation code. Use this feature when absolutely necessary and in selective security-related cases.",
   "tr_baptizedBrotherUserDesc": "This baptized brother has been assigned a <b>Publisher</b> spiritual status. Therefore, the user can view meeting schedules and submit field service reports by default. You can assign additional user rights below.",
   "tr_appAdminRoleDesc": "Has access to all the Organized features to set everything up and provide support",
   "tr_roles": "Funções",
