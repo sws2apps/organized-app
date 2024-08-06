@@ -92,7 +92,7 @@
   "tr_delegatedPersons": "Yetkilendirilmiş kişiler",
   "tr_invitationCodeInstruction": "Yeni bir kullanıcının cihazını eklemek için davet kodunu oluşturun ve onlardan <a href='https://organized-app.com' class='h4' style='color: var(--accent-dark)'>organized-app.com</a> adresini açmalarını isteyin. Ardından, kullanıcı türlerini seçip kendilerine verilen davet kodunu girmeleri gerektiğinde kodu girsinler.",
   "tr_generateInvitationCode": "Davet kodu oluştur",
-  "tr_terminateSessionAdminDesc": "Siz cihazlarında oturumu sonlandırana kadar kullanıcı, cihazında oturum açmış olarak kalacak, bunu yaptıktan sonra kullanıcı, Organized'a tekrar giriş yapmak için davet kodunu kullanmak zorunda kalacak. Bu özelliği yalnızca gerektiğinde ve güvenlikle ilgili durumlarda kullanın.",
+  "tr_terminateSessionAdminDesc": "The user will stay logged in on their device until you terminate the session. After doing so, the user will need to log in to Organized again using their invitation code. Use this feature when absolutely necessary and in selective security-related cases.",
   "tr_baptizedBrotherUserDesc": "Bu vaftizli kardeşin ruhi durumu <b>Müjdeci</b> olarak atanmıştır. Bu nedenle kullanıcı ibadet programlarını görüntüleyebilir ve saha hizmet raporları gönderebilir. Aşağıda ek kullanıcı hakları atayabilirsiniz.",
   "tr_appAdminRoleDesc": "Her şeyi kurmak ve desteklemek için Organized'ın tüm özelliklerine erişebilir",
   "tr_roles": "Roller",
