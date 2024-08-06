@@ -1,21 +1,20 @@
 import { ChangeEvent } from 'react';
-import { Switch } from '@mui/material';
+import { Switch as MUISwitch, SwitchProps } from '@mui/material';
 import { IconOffCircle, IconOnCircle } from '@icons/index';
+
+interface CustomSwitchProps extends SwitchProps {
+  checked: boolean;
+  onChange: (e: ChangeEvent<HTMLInputElement>, checked: boolean) => void;
+}
 
 /**
  * Custom Switch component.
  * @param checked - The current state of the switch.
  * @param onChange - The function called when the switch state changes.
  */
-const CustomSwitch = ({
-  checked,
-  onChange,
-}: {
-  checked: boolean;
-  onChange: (e: ChangeEvent<HTMLInputElement>, checked: boolean) => void;
-}) => {
+const Switch = ({ checked, onChange, ...props }: CustomSwitchProps) => {
   return (
-    <Switch
+    <MUISwitch
       checked={checked}
       onChange={onChange}
       disableRipple
@@ -45,8 +44,9 @@ const CustomSwitch = ({
           borderRadius: 'var(--radius-max)',
         },
       }}
+      {...props}
     />
   );
 };
 
-export default CustomSwitch;
+export default Switch;

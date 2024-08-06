@@ -98,7 +98,7 @@ _Before booting up the API server, let’s prepare our environment._
 5. Next, let’s authenticate our Firebase Account with the CLI. Type `firebase login`, and you’ll be prompted to complete the authentication in your browser. Ensure that you’re logged into your Google Account and that you have an account on the Firebase Console website.
 6. Once you’ve completed the authentication, the Firebase CLI will be connected to your account.
 7. In VS Code, switch to the `main-e2e` branch for the new Organized app using the `git checkout main-e2e` command.
-> Keep in mind that during the development of the next Organized app release, we still have the current Congregation Program for Everyone app with the `main` branch. After the Organized app release, we'll close the “Congregation Program for Everyone” version, resulting in only one main app and one main branch.
+   > Keep in mind that during the development of the next Organized app release, we still have the current Congregation Program for Everyone app with the `main` branch. After the Organized app release, we'll close the “Congregation Program for Everyone” version, resulting in only one main app and one main branch.
 8. After checking out the correct branch, install the dependencies using the `npm i` command. This will start the installation of all the project’s dependencies.
 
 #### Create a new Firebase project
