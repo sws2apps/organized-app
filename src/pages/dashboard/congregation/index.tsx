@@ -3,6 +3,7 @@ import { DashboardCard, DashboardMenu } from '@features/index';
 import {
   IconGroups,
   IconManageAccess,
+  IconPublisherRecordCard,
   IconSettings,
   IconSynced,
 } from '@icons/index';
@@ -23,6 +24,15 @@ const CongregationCard = () => {
           path="/service-groups"
         />
       </ListItem>
+      {isConnected && (
+        <ListItem disablePadding>
+          <DashboardMenu
+            icon={<IconPublisherRecordCard color="var(--black)" />}
+            primaryText={t('tr_publishersRecords')}
+            path="/publisher-records"
+          />
+        </ListItem>
+      )}
       {isConnected && (
         <ListItem disablePadding>
           <DashboardMenu
