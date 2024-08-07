@@ -108,7 +108,7 @@ const ScheduleWeekTitle = ({
           alignItems: 'center',
           gap: '16px',
           color: color,
-          [theme.breakpoints.down('desktop')]: {
+          [theme.breakpoints.down('md')]: {
             flexDirection: 'column',
             gap: '8px',
             alignItems: 'flex-start',
@@ -319,7 +319,7 @@ const ScheduleMemberRow = ({
           }}
         >
           {female ? <IconFemale /> : <IconMale />}
-          <span style={{ color: 'black' }} className="body-regular">
+          <span style={{ color: 'var(--black)' }} className="body-regular">
             {name}
           </span>
         </Box>
