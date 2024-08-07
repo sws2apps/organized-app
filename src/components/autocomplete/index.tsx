@@ -128,6 +128,7 @@ const Autocomplete = <T,>(props: AutocompletePropsType<T>) => {
             decorator
               ? {
                   '.MuiOutlinedInput-root': {
+                    borderRadius: 'var(--radius-l)',
                     '& fieldset': {
                       border: '1px solid var(--orange-dark)',
                     },
