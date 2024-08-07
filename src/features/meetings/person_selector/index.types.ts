@@ -13,6 +13,7 @@ export type PersonSelectorType = {
   helperNode?: ReactNode;
   circuitOverseer?: boolean;
   jwStreamRecording?: boolean;
+  freeSoloForce?: boolean;
 };
 
 export type GenderType = 'male' | 'female';

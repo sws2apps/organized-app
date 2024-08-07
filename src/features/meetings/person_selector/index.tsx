@@ -284,7 +284,7 @@ const PersonSelector = (props: PersonSelectorType) => {
         </Typography>
       )}
 
-      {props.helperNode}
+      {visitingSpeaker && typeof value === 'string' && props.helperNode}
     </Box>
   );
 };

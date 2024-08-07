@@ -340,6 +340,7 @@ const WeekendEditor = () => {
                     label={t('tr_prayer')}
                     type={AssignmentCode.WM_Prayer}
                     assignment="WM_ClosingPrayer"
+                    freeSoloForce={talkType === 'visitingSpeaker'}
                   />
                 </SecondaryFieldContainer>
               </DoubleFieldContainer>
