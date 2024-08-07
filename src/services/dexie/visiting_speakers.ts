@@ -201,101 +201,210 @@ export const dbVisitingSpeakersDummy = async () => {
       record.cong_data.cong_number.value !== settings.cong_settings.cong_number
   );
 
-  for (const cong of incomingCongs) {
-    const speaker1 = structuredClone(vistingSpeakerSchema);
-    speaker1.person_uid = crypto.randomUUID();
-    speaker1._deleted = { value: false, updatedAt: new Date().toISOString() };
-    speaker1.speaker_data = {
-      cong_id: cong.id,
-      elder: { value: true, updatedAt: new Date().toISOString() },
-      ministerial_servant: {
-        value: false,
+  const speaker1Cong1 = structuredClone(vistingSpeakerSchema);
+  speaker1Cong1.person_uid = crypto.randomUUID();
+  speaker1Cong1._deleted = {
+    value: false,
+    updatedAt: new Date().toISOString(),
+  };
+  speaker1Cong1.speaker_data = {
+    cong_id: incomingCongs.at(0).id,
+    elder: { value: true, updatedAt: new Date().toISOString() },
+    ministerial_servant: {
+      value: false,
+      updatedAt: new Date().toISOString(),
+    },
+    person_firstname: {
+      value: 'Ribeiro',
+      updatedAt: new Date().toISOString(),
+    },
+    person_lastname: {
+      value: 'Gonzaga',
+      updatedAt: new Date().toISOString(),
+    },
+    person_display_name: {
+      value: generateDisplayName('Gonzaga', 'Ribeiro'),
+      updatedAt: new Date().toISOString(),
+    },
+    person_email: {
+      value: 'ribeiro-gonzaga@fakemail.com',
+      updatedAt: new Date().toISOString(),
+    },
+    person_notes: { value: '', updatedAt: new Date().toISOString() },
+    person_phone: {
+      value: '+61 929-572-140',
+      updatedAt: new Date().toISOString(),
+    },
+    talks: [
+      {
+        _deleted: false,
+        talk_number: 40,
+        talk_songs: [8, 16],
         updatedAt: new Date().toISOString(),
       },
-      person_firstname: {
-        value: 'Ribeiro',
+      {
+        _deleted: false,
+        talk_number: 77,
+        talk_songs: [20, 34, 99],
         updatedAt: new Date().toISOString(),
       },
-      person_lastname: {
-        value: 'Gonzaga',
-        updatedAt: new Date().toISOString(),
-      },
-      person_display_name: {
-        value: generateDisplayName('Gonzaga', 'Ribeiro'),
-        updatedAt: new Date().toISOString(),
-      },
-      person_email: {
-        value: 'ribeiro-gonzaga@fakemail.com',
-        updatedAt: new Date().toISOString(),
-      },
-      person_notes: { value: '', updatedAt: new Date().toISOString() },
-      person_phone: {
-        value: '+61 929-572-140',
-        updatedAt: new Date().toISOString(),
-      },
-      talks: [
-        {
-          _deleted: false,
-          talk_number: 40,
-          talk_songs: [8, 16],
-          updatedAt: new Date().toISOString(),
-        },
-        {
-          _deleted: false,
-          talk_number: 77,
-          talk_songs: [20, 34, 99],
-          updatedAt: new Date().toISOString(),
-        },
-      ],
-    };
+    ],
+  };
 
-    const speaker2 = structuredClone(vistingSpeakerSchema);
-    speaker2.person_uid = crypto.randomUUID();
-    speaker2._deleted = { value: false, updatedAt: new Date().toISOString() };
-    speaker2.speaker_data = {
-      cong_id: cong.id,
-      elder: { value: false, updatedAt: new Date().toISOString() },
-      ministerial_servant: { value: true, updatedAt: new Date().toISOString() },
-      person_firstname: {
-        value: 'Konsta',
+  const speaker2Cong1 = structuredClone(vistingSpeakerSchema);
+  speaker2Cong1.person_uid = crypto.randomUUID();
+  speaker2Cong1._deleted = {
+    value: false,
+    updatedAt: new Date().toISOString(),
+  };
+  speaker2Cong1.speaker_data = {
+    cong_id: incomingCongs.at(0).id,
+    elder: { value: false, updatedAt: new Date().toISOString() },
+    ministerial_servant: { value: true, updatedAt: new Date().toISOString() },
+    person_firstname: {
+      value: 'Konsta',
+      updatedAt: new Date().toISOString(),
+    },
+    person_lastname: {
+      value: 'Manninen',
+      updatedAt: new Date().toISOString(),
+    },
+    person_display_name: {
+      value: generateDisplayName('Manninen', 'Konsta'),
+      updatedAt: new Date().toISOString(),
+    },
+    person_email: {
+      value: 'konsta-manninen@fakemail.com',
+      updatedAt: new Date().toISOString(),
+    },
+    person_notes: {
+      value: 'Note about speaker',
+      updatedAt: new Date().toISOString(),
+    },
+    person_phone: {
+      value: '+92 378-326-3439',
+      updatedAt: new Date().toISOString(),
+    },
+    talks: [
+      {
+        _deleted: false,
+        talk_number: 52,
+        talk_songs: [123, 151],
         updatedAt: new Date().toISOString(),
       },
-      person_lastname: {
-        value: 'Manninen',
+      {
+        _deleted: false,
+        talk_number: 85,
+        talk_songs: [11, 38],
         updatedAt: new Date().toISOString(),
       },
-      person_display_name: {
-        value: generateDisplayName('Manninen', 'Konsta'),
-        updatedAt: new Date().toISOString(),
-      },
-      person_email: {
-        value: 'konsta-manninen@fakemail.com',
-        updatedAt: new Date().toISOString(),
-      },
-      person_notes: {
-        value: 'Note about speaker',
-        updatedAt: new Date().toISOString(),
-      },
-      person_phone: {
-        value: '+92 378-326-3439',
-        updatedAt: new Date().toISOString(),
-      },
-      talks: [
-        {
-          _deleted: false,
-          talk_number: 52,
-          talk_songs: [123, 151],
-          updatedAt: new Date().toISOString(),
-        },
-        {
-          _deleted: false,
-          talk_number: 85,
-          talk_songs: [11, 38],
-          updatedAt: new Date().toISOString(),
-        },
-      ],
-    };
+    ],
+  };
 
-    await appDb.visiting_speakers.bulkAdd([speaker1, speaker2]);
-  }
+  const speaker1Cong2 = structuredClone(vistingSpeakerSchema);
+  speaker1Cong2.person_uid = crypto.randomUUID();
+  speaker1Cong2._deleted = {
+    value: false,
+    updatedAt: new Date().toISOString(),
+  };
+  speaker1Cong2.speaker_data = {
+    cong_id: incomingCongs.at(1).id,
+    elder: { value: true, updatedAt: new Date().toISOString() },
+    ministerial_servant: {
+      value: false,
+      updatedAt: new Date().toISOString(),
+    },
+    person_firstname: {
+      value: 'Gary',
+      updatedAt: new Date().toISOString(),
+    },
+    person_lastname: {
+      value: 'Simpson',
+      updatedAt: new Date().toISOString(),
+    },
+    person_display_name: {
+      value: generateDisplayName('Simpson', 'Gary'),
+      updatedAt: new Date().toISOString(),
+    },
+    person_email: {
+      value: 'gary-simpson@fakemail.com',
+      updatedAt: new Date().toISOString(),
+    },
+    person_notes: { value: '', updatedAt: new Date().toISOString() },
+    person_phone: {
+      value: '+61 929-572-140',
+      updatedAt: new Date().toISOString(),
+    },
+    talks: [
+      {
+        _deleted: false,
+        talk_number: 40,
+        talk_songs: [8, 16],
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        _deleted: false,
+        talk_number: 77,
+        talk_songs: [20, 34, 99],
+        updatedAt: new Date().toISOString(),
+      },
+    ],
+  };
+
+  const speaker2Cong2 = structuredClone(vistingSpeakerSchema);
+  speaker2Cong2.person_uid = crypto.randomUUID();
+  speaker2Cong2._deleted = {
+    value: false,
+    updatedAt: new Date().toISOString(),
+  };
+  speaker2Cong2.speaker_data = {
+    cong_id: incomingCongs.at(1).id,
+    elder: { value: false, updatedAt: new Date().toISOString() },
+    ministerial_servant: { value: true, updatedAt: new Date().toISOString() },
+    person_firstname: {
+      value: 'Sylas',
+      updatedAt: new Date().toISOString(),
+    },
+    person_lastname: {
+      value: 'Holmes',
+      updatedAt: new Date().toISOString(),
+    },
+    person_display_name: {
+      value: generateDisplayName('Holmes', 'Sylas'),
+      updatedAt: new Date().toISOString(),
+    },
+    person_email: {
+      value: 'sylas-holmes@fakemail.com',
+      updatedAt: new Date().toISOString(),
+    },
+    person_notes: {
+      value: 'Note about speaker',
+      updatedAt: new Date().toISOString(),
+    },
+    person_phone: {
+      value: '+92 378-326-3439',
+      updatedAt: new Date().toISOString(),
+    },
+    talks: [
+      {
+        _deleted: false,
+        talk_number: 52,
+        talk_songs: [123, 151],
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        _deleted: false,
+        talk_number: 85,
+        talk_songs: [11, 38],
+        updatedAt: new Date().toISOString(),
+      },
+    ],
+  };
+
+  await appDb.visiting_speakers.bulkAdd([
+    speaker1Cong1,
+    speaker2Cong1,
+    speaker1Cong2,
+    speaker2Cong2,
+  ]);
 };
