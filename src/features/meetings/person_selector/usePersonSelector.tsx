@@ -54,6 +54,7 @@ const usePersonSelector = ({
   visitingSpeaker,
   talk,
   circuitOverseer,
+  jwStreamRecording,
 }: PersonSelectorType) => {
   const timerSource = useRef<NodeJS.Timeout>();
 
@@ -89,7 +90,7 @@ const usePersonSelector = ({
   const labelParticipants = t('tr_participants');
   const labelVisitingSpeakers = t('tr_visitingSpeakers');
 
-  const freeSolo = visitingSpeaker || circuitOverseer;
+  const freeSolo = visitingSpeaker || circuitOverseer || jwStreamRecording;
 
   const placeHolderIcon = STUDENT_ASSIGNMENT.includes(type) ? (
     <IconPersonPlaceholder />
@@ -283,33 +284,21 @@ const usePersonSelector = ({
 
   const handleCloseHistory = () => setIsHistoryOpen(false);
 
+  // input reset
   useEffect(() => {
-    if (visitingSpeaker) {
-      setOptionHeader(labelVisitingSpeakers);
-    }
-
-    if (!visitingSpeaker) {
-      if (BROTHER_ASSIGNMENT.includes(type)) {
-        setOptionHeader(labelBrothers);
-      } else {
-        setOptionHeader(labelParticipants);
-      }
-    }
-  }, [
-    type,
-    labelBrothers,
-    labelParticipants,
-    visitingSpeaker,
-    labelVisitingSpeakers,
-  ]);
-
-  // options setter for circuit overseer
-  useEffect(() => {
-    if (circuitOverseer) {
+    if (circuitOverseer || jwStreamRecording) {
       setOptions([]);
       setFreeSoloText('');
     }
-  }, [circuitOverseer]);
+  }, [circuitOverseer, jwStreamRecording]);
+
+  useEffect(() => {
+    if (BROTHER_ASSIGNMENT.includes(type)) {
+      setOptionHeader(labelBrothers);
+    } else {
+      setOptionHeader(labelParticipants);
+    }
+  }, [type, labelBrothers, labelParticipants, labelVisitingSpeakers]);
 
   // options setter for visiting speakers
   useEffect(() => {
@@ -358,7 +347,7 @@ const usePersonSelector = ({
 
   // options setter for others
   useEffect(() => {
-    if (!isAssistant && !visitingSpeaker) {
+    if (!isAssistant && !visitingSpeaker && !jwStreamRecording) {
       setOptions([]);
 
       const isMale = gender === 'male';
@@ -481,6 +470,7 @@ const usePersonSelector = ({
     handleFormatDate,
     handleSortOptions,
     visitingSpeaker,
+    jwStreamRecording,
   ]);
 
   // set selected option
@@ -565,6 +555,7 @@ const usePersonSelector = ({
           if (assigned?.solo) {
             setGender('male');
             setValue(assigned.value);
+            setFreeSoloText(assigned.value);
 
             if (circuitOverseer && assigned?.value.length === 0) {
               setValue(coName);
@@ -637,7 +628,7 @@ const usePersonSelector = ({
       }
 
       if (assigned) {
-        if (!assigned?.solo) {
+        if (!assigned.solo) {
           const person = options.find(
             (record) => record.person_uid === assigned?.value
           );
@@ -653,7 +644,7 @@ const usePersonSelector = ({
           setValue(person || null);
         }
 
-        if (assigned?.solo) {
+        if (assigned.solo) {
           setGender('male');
           setValue(assigned.value);
         }
