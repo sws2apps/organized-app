@@ -1,6 +1,7 @@
 import { Avatar, Box } from '@mui/material';
 import { IconHeaderAccount, IconNoConnection } from '@icons/index';
 import { useAccountHeaderIcon } from './useAccountHeaderIcon';
+import { isDemo } from '@constants/index';
 
 /**
  * Functional component for rendering the user's avatar or a default icon
@@ -22,7 +23,7 @@ const AccountHeaderIcon = () => {
           sx={{
             width: 32,
             height: 32,
-            border: isOffline ? '2px solid var(--red-main)' : 'none',
+            border: !isDemo && isOffline ? '2px solid var(--red-main)' : 'none',
             boxSizing: 'border-box',
           }}
         />
@@ -31,7 +32,8 @@ const AccountHeaderIcon = () => {
         <>
           <Box
             sx={{
-              border: isOffline ? '3px solid var(--red-main)' : 'none',
+              border:
+                !isDemo && isOffline ? '3px solid var(--red-main)' : 'none',
               borderRadius: '20px',
               boxSizing: 'border-box',
               height: '37px',
