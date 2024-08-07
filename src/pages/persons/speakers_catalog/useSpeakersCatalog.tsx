@@ -1,7 +1,7 @@
 import { useSetRecoilState } from 'recoil';
 import { isAddingCongregationState } from '@states/speakers_congregations';
 
-const useVisitingSpeakers = () => {
+const useSpeakersCatalog = () => {
   const setIsAdding = useSetRecoilState(isAddingCongregationState);
 
   const handleIsAddingOpen = () => setIsAdding(true);
@@ -9,4 +9,4 @@ const useVisitingSpeakers = () => {
   return { handleIsAddingOpen };
 };
 
-export default useVisitingSpeakers;
+export default useSpeakersCatalog;
