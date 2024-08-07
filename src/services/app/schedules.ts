@@ -14,6 +14,7 @@ import {
   userDataViewState,
   weekendMeetingOpeningPrayerAutoAssignState,
   weekendMeetingWeekdayState,
+  weekendMeetingWTStudyConductorDefaultState,
 } from '@states/settings';
 import { sourcesState } from '@states/sources';
 import { assignmentsHistoryState, schedulesState } from '@states/schedules';
@@ -398,6 +399,7 @@ export const schedulesWeekendInfo = async (week: string) => {
     schedule.weekend_meeting.week_type.find(
       (record) => record.type === dataView
     )?.value || Week.NORMAL;
+
   const hasNoMeeting =
     weekType === Week.ASSEMBLY ||
     weekType == Week.CONVENTION ||
@@ -411,7 +413,7 @@ export const schedulesWeekendInfo = async (week: string) => {
     let assignment = schedule.weekend_meeting.chairman.find(
       (record) => record.type === dataView
     );
-    if (assignment && assignment.value.length > 0) {
+    if (assignment?.value.length > 0) {
       assigned = assigned + 1;
     }
 
@@ -422,7 +424,7 @@ export const schedulesWeekendInfo = async (week: string) => {
       assignment = schedule.weekend_meeting.opening_prayer.find(
         (record) => record.type === dataView
       );
-      if (assignment && assignment.value.length > 0) {
+      if (assignment?.value.length > 0) {
         assigned = assigned + 1;
       }
     }
@@ -435,7 +437,8 @@ export const schedulesWeekendInfo = async (week: string) => {
       assignment = schedule.weekend_meeting.speaker.part_1.find(
         (record) => record.type === dataView
       );
-      if (assignment && assignment.value.length > 0) {
+
+      if (assignment?.value.length > 0) {
         assigned = assigned + 1;
       }
 
@@ -443,19 +446,29 @@ export const schedulesWeekendInfo = async (week: string) => {
       assignment = schedule.weekend_meeting.speaker.part_2.find(
         (record) => record.type === dataView
       );
-      if (assignment && assignment.value.length > 0) {
+
+      if (assignment?.value.length > 0) {
         total = total + 1;
         assigned = assigned + 1;
       }
     }
 
     // wt study conductor
+    total = total + 1;
     assignment = schedule.weekend_meeting.wt_study.conductor.find(
       (record) => record.type === dataView
     );
-    if (assignment && assignment.value.length > 0) {
-      total = total + 1;
+
+    if (assignment?.value.length > 0) {
       assigned = assigned + 1;
+    } else {
+      const defaultConductor: string = await promiseGetRecoil(
+        weekendMeetingWTStudyConductorDefaultState
+      );
+
+      if (defaultConductor.length > 0) {
+        assigned = assigned + 1;
+      }
     }
 
     // wt study reader
@@ -471,19 +484,21 @@ export const schedulesWeekendInfo = async (week: string) => {
     }
 
     // closing prayer
+    total = total + 1;
+
     assignment = schedule.weekend_meeting.closing_prayer.find(
       (record) => record.type === dataView
     );
 
-    if (talkType === 'jwStreamRecording') {
-      total = total + 1;
-    }
-
-    if (assignment && assignment.value.length > 0) {
+    if (assignment?.value.length > 0) {
       assigned = assigned + 1;
+    } else {
+      const speaker = schedule.weekend_meeting.speaker.part_1.find(
+        (record) => record.type === dataView
+      );
 
-      if (talkType !== 'jwStreamRecording') {
-        total = total + 1;
+      if (speaker?.value.length > 0) {
+        assigned = assigned + 1;
       }
     }
   }
