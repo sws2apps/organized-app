@@ -14,7 +14,7 @@ import {
   userDataViewState,
   weekendMeetingWTStudyConductorDefaultState,
 } from '@states/settings';
-import { personGetDisplayName } from '@utils/common';
+import { personGetDisplayName, speakerGetDisplayName } from '@utils/common';
 import { AssignmentCode } from '@definition/assignment';
 import { useAppTranslation } from '@hooks/index';
 import { assignmentsHistoryState, schedulesState } from '@states/schedules';
@@ -634,20 +634,40 @@ const usePersonSelector = ({
 
       if (assigned) {
         if (!assigned.solo) {
-          const person = options.find(
-            (record) => record.person_uid === assigned?.value
-          );
+          if (!freeSoloForce) {
+            const person = options.find(
+              (record) => record.person_uid === assigned?.value
+            );
 
-          if (person && person.person_data.female.value) {
-            setGender('female');
+            if (person && person.person_data.female.value) {
+              setGender('female');
+            }
+
+            if (person && person.person_data.male.value) {
+              setGender('male');
+            }
+
+            setValue(person || null);
+            setFreeSoloText('');
           }
 
-          if (person && person.person_data.male.value) {
-            setGender('male');
-          }
+          if (freeSoloForce) {
+            setFreeSoloText('');
 
-          setValue(person || null);
-          setFreeSoloText('');
+            const person = visitingSpeakers.find(
+              (record) => record.person_uid === assigned.value
+            );
+
+            if (person) {
+              setFreeSoloText(
+                speakerGetDisplayName(
+                  person,
+                  displayNameEnabled,
+                  fullnameOption
+                )
+              );
+            }
+          }
         }
 
         if (assigned.solo) {
@@ -666,6 +686,10 @@ const usePersonSelector = ({
     WTStudyConductorDefault,
     personsAll,
     jwStreamRecording,
+    freeSoloForce,
+    visitingSpeakers,
+    displayNameEnabled,
+    fullnameOption,
   ]);
 
   // checking overlapping assignments

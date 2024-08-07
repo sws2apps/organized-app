@@ -7,31 +7,65 @@ import { dbSourcesUpdate } from '@services/dexie/sources';
 import { incomingSpeakersState } from '@states/visiting_speakers';
 import { PublicTalkOptionType } from './index.types';
 import { PublicTalkType } from '@definition/public_talks';
+import { schedulesState } from '@states/schedules';
 
 const usePublicTalkSelector = (week: string) => {
   const talksData = useRecoilValue(publicTalksState);
   const sources = useRecoilValue(sourcesState);
   const dataView = useRecoilValue(userDataViewState);
   const speakers = useRecoilValue(incomingSpeakersState);
+  const schedules = useRecoilValue(schedulesState);
 
   const [selectedTalk, setSelectedTalk] = useState<PublicTalkOptionType>(null);
   const [openCatalog, setOpenCatalog] = useState(false);
 
   const source = sources.find((record) => record.weekOf === week);
+  const schedule = schedules.find((record) => record.weekOf === week);
 
   const talks = useMemo(() => {
-    const data: PublicTalkOptionType[] = talksData.map((talk) => {
-      const cnSpeakers = speakers.filter((record) =>
-        record.speaker_data.talks.find(
-          (item) => item.talk_number === talk.talk_number
-        )
-      );
+    const data: PublicTalkOptionType[] = [];
 
-      return { ...talk, speakers: cnSpeakers.length };
-    });
+    if (schedule) {
+      // get assigned speaker
+      const talkType =
+        schedule.weekend_meeting.public_talk_type.find(
+          (record) => record.type === dataView
+        )?.value || 'localSpeaker';
+
+      const speaker =
+        schedule.weekend_meeting.speaker.part_1.find(
+          (record) => record.type === dataView
+        )?.value || '';
+
+      for (const talk of talksData) {
+        const cnSpeakers = speakers.filter((record) =>
+          record.speaker_data.talks.find(
+            (item) => item.talk_number === talk.talk_number
+          )
+        );
+
+        if (talkType !== 'visitingSpeaker') {
+          data.push({ ...talk, speakers: cnSpeakers.length });
+        }
+
+        if (talkType === 'visitingSpeaker') {
+          const visitingSpeaker = speakers.find(
+            (item) =>
+              item._deleted.value === false && item.person_uid === speaker
+          );
+          const talkFound = visitingSpeaker?.speaker_data.talks.find(
+            (item) => item.talk_number === talk.talk_number
+          );
+
+          if (speaker.length === 0 || talkFound) {
+            data.push({ ...talk, speakers: cnSpeakers.length });
+          }
+        }
+      }
+    }
 
     return data;
-  }, [talksData, speakers]);
+  }, [talksData, speakers, schedule, dataView]);
 
   const handleOpenCatalog = () => setOpenCatalog(true);
 
