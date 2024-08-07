@@ -41,7 +41,7 @@ const PersonsCard = () => {
         <DashboardMenu
           icon={<IconVisitingSpeaker color="var(--black)" />}
           primaryText={t('tr_speakersCatalog')}
-          path="/visiting-speakers"
+          path="/speakers-catalog"
         />
       </ListItem>
     </DashboardCard>
