@@ -20,6 +20,13 @@ const GroupAccordion = ({
 }) => {
   return (
     <Accordion
+      slotProps={{
+        transition: {
+          // Without this, when closing fist section, SvgIcon can dispaear on others sections
+          unmountOnExit: true,
+          mountOnEnter: true,
+        },
+      }}
       elevation={0}
       sx={{
         margin: '0px !important',
