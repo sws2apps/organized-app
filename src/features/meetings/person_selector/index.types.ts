@@ -12,6 +12,7 @@ export type PersonSelectorType = {
   talk?: number;
   helperNode?: ReactNode;
   circuitOverseer?: boolean;
+  jwStreamRecording?: boolean;
 };
 
 export type GenderType = 'male' | 'female';

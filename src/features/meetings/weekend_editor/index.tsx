@@ -180,57 +180,54 @@ const WeekendEditor = () => {
                   </PrimaryFieldContainer>
 
                   <SecondaryFieldContainer laptopUp={laptopUp}>
-                    {talkType !== 'jwStreamRecording' && (
-                      <>
-                        <PersonSelector
-                          week={selectedWeek}
-                          label={
-                            showSpeaker2
-                              ? t('tr_firstSpeaker')
-                              : weekType === Week.CO_VISIT
-                                ? t('tr_circuitOverseer')
-                                : t('tr_speaker')
-                          }
-                          type={
-                            weekType === Week.CO_VISIT
-                              ? null
-                              : AssignmentCode.WM_SpeakerSymposium
-                          }
-                          assignment={
-                            weekType === Week.CO_VISIT
-                              ? 'WM_CircuitOverseer'
-                              : 'WM_Speaker_Part1'
-                          }
-                          visitingSpeaker={
-                            weekType === Week.NORMAL &&
-                            talkType === 'visitingSpeaker'
-                          }
-                          circuitOverseer={weekType === Week.CO_VISIT}
-                          talk={selectedTalk?.talk_number}
-                          helperNode={
-                            weekType === Week.NORMAL &&
-                            talkType === 'visitingSpeaker' ? (
-                              <Markup
-                                content={t('tr_visitinSpeakerHelpText')}
-                                className="label-small-regular"
-                                color="var(--grey-350)"
-                                anchorClassName="label-small-medium"
-                                anchorClick={handleOpenVisitingSpeakers}
-                                style={{ padding: '4px 16px 0 16px' }}
-                              />
-                            ) : null
-                          }
-                        />
-
-                        {showSpeaker2 && (
-                          <PersonSelector
-                            week={selectedWeek}
-                            label={t('tr_secondSpeaker')}
-                            type={AssignmentCode.WM_Speaker}
-                            assignment="WM_Speaker_Part2"
+                    <PersonSelector
+                      week={selectedWeek}
+                      label={
+                        showSpeaker2
+                          ? t('tr_firstSpeaker')
+                          : weekType === Week.CO_VISIT
+                            ? t('tr_circuitOverseer')
+                            : t('tr_speaker')
+                      }
+                      type={
+                        weekType === Week.CO_VISIT
+                          ? null
+                          : AssignmentCode.WM_SpeakerSymposium
+                      }
+                      assignment={
+                        weekType === Week.CO_VISIT
+                          ? 'WM_CircuitOverseer'
+                          : 'WM_Speaker_Part1'
+                      }
+                      jwStreamRecording={talkType === 'jwStreamRecording'}
+                      visitingSpeaker={
+                        weekType === Week.NORMAL &&
+                        talkType === 'visitingSpeaker'
+                      }
+                      circuitOverseer={weekType === Week.CO_VISIT}
+                      talk={selectedTalk?.talk_number}
+                      helperNode={
+                        weekType === Week.NORMAL &&
+                        talkType === 'visitingSpeaker' ? (
+                          <Markup
+                            content={t('tr_visitinSpeakerHelpText')}
+                            className="label-small-regular"
+                            color="var(--grey-350)"
+                            anchorClassName="label-small-medium"
+                            anchorClick={handleOpenVisitingSpeakers}
+                            style={{ padding: '4px 16px 0 16px' }}
                           />
-                        )}
-                      </>
+                        ) : null
+                      }
+                    />
+
+                    {showSpeaker2 && (
+                      <PersonSelector
+                        week={selectedWeek}
+                        label={t('tr_secondSpeaker')}
+                        type={AssignmentCode.WM_Speaker}
+                        assignment="WM_Speaker_Part2"
+                      />
                     )}
                   </SecondaryFieldContainer>
                 </DoubleFieldContainer>

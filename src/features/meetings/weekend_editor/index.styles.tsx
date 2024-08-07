@@ -14,7 +14,6 @@ export const DoubleFieldContainer = styled(Box, {
   shouldForwardProp: (prop) => styledRemoveProps(prop, ['laptopUp']),
 })<{ laptopUp: boolean }>(({ laptopUp }) => ({
   display: 'flex',
-  alignItems: laptopUp ? 'center' : 'unset',
   gap: '16px',
   flexDirection: laptopUp ? 'row' : 'column',
 }));
