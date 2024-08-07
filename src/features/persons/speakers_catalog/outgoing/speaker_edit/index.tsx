@@ -8,9 +8,9 @@ import AutocompleteMultiple from '@components/autocomplete_multiple';
 import Button from '@components/button';
 import MenuItem from '@components/menuitem';
 import MiniChip from '@components/mini_chip';
-import PopupSongAdd from '@features/persons/visiting_speakers/song_add_popup';
+import PopupSongAdd from '@features/persons/speakers_catalog/song_add_popup';
 import Select from '@components/select';
-import SpeakerDetails from '@features/persons/visiting_speakers/speaker_details';
+import SpeakerDetails from '@features/persons/speakers_catalog/speaker_details';
 import Typography from '@components/typography';
 import { buildPersonFullname } from '@utils/common';
 

@@ -8,9 +8,9 @@ import useEdit from './useEdit';
 import AutocompleteMultiple from '@components/autocomplete_multiple';
 import Button from '@components/button';
 import MiniChip from '@components/mini_chip';
-import PopupSongAdd from '@features/persons/visiting_speakers/song_add_popup';
+import PopupSongAdd from '@features/persons/speakers_catalog/song_add_popup';
 import Radio from '@components/radio';
-import SpeakerDetails from '@features/persons/visiting_speakers/speaker_details';
+import SpeakerDetails from '@features/persons/speakers_catalog/speaker_details';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
 
