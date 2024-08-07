@@ -72,9 +72,9 @@ export { default as PersonsSearch } from './persons/search';
 export { default as PersonTimeAway } from './persons/time_away';
 export { default as PersonAssignmentsHistory } from './persons/assignments_history';
 
-/* -------------------------------- Visiting Speakers -------------------------------- */
-export { default as IncomingSpeakers } from './persons/visiting_speakers/incoming';
-export { default as OutgoingSpeakers } from './persons/visiting_speakers/outgoing';
+/* -------------------------------- Speakers Catalog -------------------------------- */
+export { default as IncomingSpeakers } from './persons/speakers_catalog/incoming';
+export { default as OutgoingSpeakers } from './persons/speakers_catalog/outgoing';
 
 /* -------------------------------- Ministry -------------------------------- */
 export { default as ButtonSubmitApplication } from './ministry/button_submit';

@@ -5,7 +5,7 @@ import { buildPersonFullname } from '@utils/common';
 import { SpeakerReadOnlyViewType } from './index.types';
 import useSpeakerRowView from './useSpeakerRowView';
 import Button from '@components/button';
-import SpeakerDetails from '@features/persons/visiting_speakers/speaker_details';
+import SpeakerDetails from '@features/persons/speakers_catalog/speaker_details';
 import Typography from '@components/typography';
 
 const SpeakerRowView = ({ speaker }: SpeakerReadOnlyViewType) => {
