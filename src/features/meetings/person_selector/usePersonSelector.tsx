@@ -55,6 +55,7 @@ const usePersonSelector = ({
   talk,
   circuitOverseer,
   jwStreamRecording,
+  freeSoloForce,
 }: PersonSelectorType) => {
   const timerSource = useRef<NodeJS.Timeout>();
 
@@ -90,7 +91,8 @@ const usePersonSelector = ({
   const labelParticipants = t('tr_participants');
   const labelVisitingSpeakers = t('tr_visitingSpeakers');
 
-  const freeSolo = visitingSpeaker || circuitOverseer || jwStreamRecording;
+  const freeSolo =
+    visitingSpeaker || circuitOverseer || jwStreamRecording || freeSoloForce;
 
   const placeHolderIcon = STUDENT_ASSIGNMENT.includes(type) ? (
     <IconPersonPlaceholder />
@@ -588,22 +590,25 @@ const usePersonSelector = ({
       let assigned: AssignmentCongregation;
 
       if (assignment === 'WM_ClosingPrayer') {
-        const closingPrayerPath = ASSIGNMENT_PATH[assignment];
-        const scheduleData = schedulesGetData(
-          schedule,
-          closingPrayerPath
-        ) as AssignmentCongregation[];
-        const closingPrayer =
-          scheduleData.find((record) => record.type === dataView)?.value || '';
-
-        if (closingPrayer.length === 0) {
-          const speakerPath = ASSIGNMENT_PATH['WM_Speaker_Part1'];
+        if (!jwStreamRecording) {
+          const closingPrayerPath = ASSIGNMENT_PATH[assignment];
           const scheduleData = schedulesGetData(
             schedule,
-            speakerPath
+            closingPrayerPath
           ) as AssignmentCongregation[];
+          const closingPrayer =
+            scheduleData.find((record) => record.type === dataView)?.value ||
+            '';
 
-          assigned = scheduleData.find((record) => record.type === dataView);
+          if (closingPrayer.length === 0) {
+            const speakerPath = ASSIGNMENT_PATH['WM_Speaker_Part1'];
+            const scheduleData = schedulesGetData(
+              schedule,
+              speakerPath
+            ) as AssignmentCongregation[];
+
+            assigned = scheduleData.find((record) => record.type === dataView);
+          }
         }
       }
 
@@ -642,11 +647,13 @@ const usePersonSelector = ({
           }
 
           setValue(person || null);
+          setFreeSoloText('');
         }
 
         if (assigned.solo) {
           setGender('male');
           setValue(assigned.value);
+          setFreeSoloText(assigned.value);
         }
       }
     }
@@ -658,6 +665,7 @@ const usePersonSelector = ({
     options,
     WTStudyConductorDefault,
     personsAll,
+    jwStreamRecording,
   ]);
 
   // checking overlapping assignments
