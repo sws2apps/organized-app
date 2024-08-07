@@ -34,7 +34,9 @@ const WeekendMeeting = () => {
       <SchedulePickerHeader lastUpdated={lastUpdated} />
       <ScheduleGrid>
         <ScheduleItemTitle>
-          <ScheduleWeekTitle color="black">8 November 2023</ScheduleWeekTitle>
+          <ScheduleWeekTitle color="var(--black)">
+            8 November 2023
+          </ScheduleWeekTitle>
           <ScheduleMembers>
             <ScheduleMemberRow
               type={t('tr_chairman') + ':'}
@@ -43,8 +45,8 @@ const WeekendMeeting = () => {
           </ScheduleMembers>
         </ScheduleItemTitle>
         <ScheduleItem>
-          <ScheduleTitle color="black">
-            <IconSong />
+          <ScheduleTitle color="var(--black)">
+            <IconSong color="var(--black)" />
             Song 109 – “Jehovah’s Warm Appeal: “Be Wise, My Son”
           </ScheduleTitle>
           <ScheduleMembers>
@@ -79,8 +81,8 @@ const WeekendMeeting = () => {
         />
 
         <ScheduleItem>
-          <ScheduleTitle color="black">
-            <IconSong />
+          <ScheduleTitle color="var(--black)">
+            <IconSong color="var(--black)" />
             Song 109 – “Jehovah’s Warm Appeal: “Be Wise, My Son”
           </ScheduleTitle>
         </ScheduleItem>
@@ -105,8 +107,8 @@ const WeekendMeeting = () => {
           </ScheduleMembers>
         </ScheduleItem>
         <ScheduleItem>
-          <ScheduleTitle color="black">
-            <IconSong />
+          <ScheduleTitle color="var(--black)">
+            <IconSong color="var(--black)" />
             Song 109 – “Jehovah’s Warm Appeal: “Be Wise, My Son”
           </ScheduleTitle>
           <ScheduleMembers>

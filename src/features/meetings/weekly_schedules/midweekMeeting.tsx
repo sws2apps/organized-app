@@ -41,7 +41,7 @@ const MidweekMeeting = () => {
       <SchedulePickerHeader lastUpdated={lastUpdated} />
       <ScheduleGrid>
         <ScheduleItemTitle>
-          <ScheduleWeekTitle color="black">
+          <ScheduleWeekTitle color="var(--black)">
             <Box>
               8 November 2023 |{' '}
               <Box
@@ -69,8 +69,8 @@ const MidweekMeeting = () => {
           </ScheduleMembers>
         </ScheduleItemTitle>
         <ScheduleItem>
-          <ScheduleTitle color="black">
-            <IconSong />
+          <ScheduleTitle color="var(--black)">
+            <IconSong color="var(--black)" />
             Song 109 – “Jehovah’s Warm Appeal: “Be Wise, My Son”
           </ScheduleTitle>
           <ScheduleMembers>
@@ -87,8 +87,8 @@ const MidweekMeeting = () => {
         />
         <ScheduleItem>
           <Box>
-            <ScheduleTitle color="black">
-              <IconSong />
+            <ScheduleTitle color="var(--black)">
+              <IconSong color="var(--black)" />
               Song 109 – “Jehovah’s Warm Appeal: “Be Wise, My Son”
             </ScheduleTitle>
           </Box>
@@ -201,8 +201,8 @@ const MidweekMeeting = () => {
           </ScheduleMembers>
         </ScheduleItem>
         <ScheduleItem>
-          <ScheduleTitle color="black">
-            <IconSong />
+          <ScheduleTitle color="var(--black)">
+            <IconSong color="var(--black)" />
             Song 109 – “Jehovah’s Warm Appeal: “Be Wise, My Son”
           </ScheduleTitle>
 
