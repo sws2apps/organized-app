@@ -321,7 +321,7 @@
   "tr_unbaptizedInvalidRecords": "This person is not an unbaptized publisher but has active records for that status. Add end date or delete these records.",
   "tr_midweekInvalidRecords": "This person is not a midweek meeting student but has active records for that status. Add end date or delete these records.",
   "tr_privilegesActiveMultiple": "Знайдено кілька активних записів про обовʼязки. Переконайся, що активний тільки один.",
-  "tr_enrollemntsActiveMultiple": "Multiple active records are found for the enrollments. Make sure only one is active.",
+  "tr_enrollemntsActiveMultiple": "Multiple active records are found for the enrollments. Make sure that previous records have the end date.",
   "tr_personAdded": "Особу додано",
   "tr_personAddedDesc": "New person was added to the congregation",
   "tr_personDeleted": "Особу видалено",
