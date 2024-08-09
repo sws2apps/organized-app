@@ -104,8 +104,8 @@
   "tr_noPersonsFound": "Не знайдено жодної особи",
   "tr_noPersonsFoundDesc": "Жодна особа не відповідає твоїм параметрам пошуку. Будь ласка, спробуй змінити категорію або дату.",
   "tr_categories": "Категорії",
-  "tr_description": "Description",
-  "tr_day": "Day",
-  "tr_week": "Week",
-  "tr_noThanks": "No, thanks"
+  "tr_description": "Опис",
+  "tr_day": "День",
+  "tr_week": "Тиждень",
+  "tr_noThanks": "Ні, дякую"
 }
