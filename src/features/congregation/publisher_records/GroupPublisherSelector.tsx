@@ -42,6 +42,7 @@ const GroupAccordion = ({
         expandIcon={<IconExpand color="var(--black)" />}
         sx={{
           minHeight: 'unset !important',
+          padding: '0 ',
           '.MuiAccordionSummary-content': {
             margin: '10px 0 !important',
           },
@@ -51,8 +52,7 @@ const GroupAccordion = ({
       </AccordionSummary>
       <AccordionDetails
         sx={{
-          paddingBottom: '8px',
-          paddingTop: '0',
+          padding: '0 0 8px 0',
         }}
       >
         <Typography>{children}</Typography>
@@ -101,22 +101,24 @@ const PublisherTab = ({ groups }: { groups: TerritoryGroup[] }) => {
           amount: amount,
         })}
       </span>
-      {groups.map((group, index) => (
-        <GroupAccordion
-          expanded={expanded === index}
-          onChange={(_, state) => setExpanded(state ? index : false)}
-          key={index}
-          label={
-            'Group ' + (index + 1) + (group.name ? ' – ' + group.name : '')
-          }
-        >
-          <VerticalFlex sx={{ gap: '8px', marginTop: '8px' }}>
-            {group.members.map((member, index) => (
-              <PublisherCard key={index} person={member} />
-            ))}
-          </VerticalFlex>
-        </GroupAccordion>
-      ))}
+      <VerticalFlex sx={{ gap: '8px' }}>
+        {groups.map((group, index) => (
+          <GroupAccordion
+            expanded={expanded === index}
+            onChange={(_, state) => setExpanded(state ? index : false)}
+            key={index}
+            label={
+              'Group ' + (index + 1) + (group.name ? ' – ' + group.name : '')
+            }
+          >
+            <VerticalFlex sx={{ gap: '8px', marginTop: '8px' }}>
+              {group.members.map((member, index) => (
+                <PublisherCard key={index} person={member} />
+              ))}
+            </VerticalFlex>
+          </GroupAccordion>
+        ))}
+      </VerticalFlex>
     </div>
   );
 };

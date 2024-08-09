@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { personsFiltersKeyState, personsTabState } from '@states/persons';
 import { setPersonsFiltersKey } from '@services/recoil/persons';
@@ -16,8 +16,6 @@ const useFilter = () => {
   const checkedItems = filters.filter(
     (record) => typeof record === 'number'
   ) as number[];
-
-  const [isExpanded, setIsExpanded] = useState(false);
 
   const assignments = useMemo(() => {
     return [
@@ -161,10 +159,6 @@ const useFilter = () => {
     ];
   }, [t]);
 
-  const handleExpand = () => {
-    setIsExpanded((prev) => !prev);
-  };
-
   const handleClearFilters = async () => {
     await setPersonsFiltersKey([]);
 
@@ -221,8 +215,6 @@ const useFilter = () => {
   };
 
   return {
-    isExpanded,
-    handleExpand,
     filters,
     handleClearFilters,
     handleToggleGroup,

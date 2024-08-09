@@ -32,7 +32,7 @@ export interface CustomTabProps extends TabOwnProps {
     /**
      * The label of the tab.
      */
-    label: string;
+    label: string | React.ReactNode;
 
     /**
      * The component to be rendered in the tab.
