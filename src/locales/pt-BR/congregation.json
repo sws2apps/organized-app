@@ -321,7 +321,7 @@
   "tr_unbaptizedInvalidRecords": "Esta pessoa não é um publicador não batizado, mas possui registros ativos para esse status. Adicione uma data de término ou exclua esses registros.",
   "tr_midweekInvalidRecords": "Esta pessoa não é um estudante das reuniões do meio de semana, mas possui registros ativos para esse status. Adicione uma data de término ou exclua esses registros.",
   "tr_privilegesActiveMultiple": "Foram encontrados vários registros ativos para os privilégios. Certifique-se de que apenas um esteja ativo.",
-  "tr_enrollemntsActiveMultiple": "Multiple active records are found for the enrollments. Make sure only one is active.",
+  "tr_enrollemntsActiveMultiple": "Multiple active records are found for the enrollments. Make sure that previous records have the end date.",
   "tr_personAdded": "Pessoa adicionada",
   "tr_personAddedDesc": "Uma nova pessoa foi adicionada à congregação",
   "tr_personDeleted": "Pessoa excluída",
