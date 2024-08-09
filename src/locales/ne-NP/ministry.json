@@ -11,7 +11,6 @@
   "tr_SKE": "राज्य प्रचारकका लागि स्कुल",
   "tr_languageCourse": "भाषा पाठ्यक्रम",
   "tr_personalDay": "व्यक्तिगत बिदा",
-  "tr_selectDate": "मिति चयन गर्ने",
   "tr_saveChanges": "परिवर्तनहरू बचत गर्ने",
   "tr_deleteStudy": "अध्ययन हटाउने",
   "tr_timeInService": "सेवामा बिताएको घण्टा",
@@ -72,7 +71,6 @@
   "tr_locationName": "स्थान",
   "tr_GeneralTimeRules": "समय तालिका",
   "tr_maxPublisherLabel": "प्रति शिफ्ट अधिकतम प्रकाशक",
-  "tr_whereGetCart": "कार्टको स्थान",
   "tr_PWShifts": "सार्वजनिक साक्षीकार्यको शिफ्ट",
   "tr_selectDays": "दिन छान्ने",
   "tr_everyDay": "हरेक दिन",
@@ -108,5 +106,6 @@
   "tr_reportPageInfo": "On this page, you can view reports from publishers and add reports from those who do not use Organized. Select a publisher to start.",
   "tr_rejected": "Rejected",
   "tr_alreadySubmittedWarning": "This month's report has already been submitted to the Branch Office. Only late reports can be added, unless you undo the submission.",
-  "tr_publishersCountReport": "Publishers: {{ publishersCount }}"
+  "tr_publishersCountReport": "Publishers: {{ publishersCount }}",
+  "tr_cartStorage": "कार्टको स्थान"
 }
