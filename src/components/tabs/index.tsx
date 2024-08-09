@@ -87,7 +87,7 @@ const Tabs = ({ tabs, value, onChange }: CustomTabProps) => {
             ({ label }, index: number): ReactNode => (
               <Tab
                 label={label}
-                key={label}
+                key={index}
                 className={`${valueOfActivePanel === index ? 'h4' : 'body-regular'}`}
                 {...a11yProps(index)}
               />
@@ -98,7 +98,7 @@ const Tabs = ({ tabs, value, onChange }: CustomTabProps) => {
 
       {tabs.map(
         (tab, i: number): ReactNode => (
-          <CustomTabPanel value={valueOfActivePanel} index={i} key={tab.label}>
+          <CustomTabPanel value={valueOfActivePanel} index={i} key={i}>
             {tab.Component}
           </CustomTabPanel>
         )
