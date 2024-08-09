@@ -4,7 +4,7 @@
   "tr_applicationsAmount": "Applications: {{ amount }}",
   "tr_newApplications": "New applications",
   "tr_approved": "承認済み",
-  "tr_submittedOnDate": "Submitted on {{ date }}",
+  "tr_submittedOnDate": "提出日: {{ date }}",
   "tr_awaiting": "承認待ち",
   "tr_newAPAdded": "新しい補助開拓奉仕者が追加されました",
   "tr_pubApprovedAsAP": "This publisher has been approved as an auxiliary pioneer and is now on the respective list.",
