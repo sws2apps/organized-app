@@ -103,5 +103,9 @@
   "tr_edit": "Editar",
   "tr_noPersonsFound": "Nenhuma pessoa encontrada",
   "tr_noPersonsFoundDesc": "Nenhuma pessoa corresponde aos seus parâmetros de busca. Por favor, tente ajustar a categoria ou a data.",
-  "tr_categories": "Categorias"
+  "tr_categories": "Categorias",
+  "tr_description": "Description",
+  "tr_day": "Day",
+  "tr_week": "Week",
+  "tr_noThanks": "No, thanks"
 }
