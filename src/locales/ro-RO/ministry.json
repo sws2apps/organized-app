@@ -11,7 +11,6 @@
   "tr_SKE": "School for Kingdom Evangelizers",
   "tr_languageCourse": "Language course",
   "tr_personalDay": "Personal day",
-  "tr_selectDate": "Select date",
   "tr_saveChanges": "Save changes",
   "tr_deleteStudy": "Delete the study",
   "tr_timeInService": "Time already in service",
@@ -72,7 +71,6 @@
   "tr_locationName": "Location name",
   "tr_GeneralTimeRules": "General time rules",
   "tr_maxPublisherLabel": "Max. publishers per shift",
-  "tr_whereGetCart": "Where to get a cart",
   "tr_PWShifts": "Public witnessing shifts",
   "tr_selectDays": "Select days",
   "tr_everyDay": "Every day",
@@ -108,5 +106,6 @@
   "tr_reportPageInfo": "On this page, you can view reports from publishers and add reports from those who do not use Organized. Select a publisher to start.",
   "tr_rejected": "Rejected",
   "tr_alreadySubmittedWarning": "This month's report has already been submitted to the Branch Office. Only late reports can be added, unless you undo the submission.",
-  "tr_publishersCountReport": "Publishers: {{ publishersCount }}"
+  "tr_publishersCountReport": "Publishers: {{ publishersCount }}",
+  "tr_cartStorage": "Cart storage location"
 }
