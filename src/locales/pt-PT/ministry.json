@@ -11,7 +11,6 @@
   "tr_SKE": "Escola para Evangelizadores do Reino",
   "tr_languageCourse": "Curso de idioma",
   "tr_personalDay": "Dia pessoal",
-  "tr_selectDate": "Selecionar data",
   "tr_saveChanges": "Gravar alterações",
   "tr_deleteStudy": "Eliminar o estudo",
   "tr_timeInService": "Tempo já em serviço",
@@ -72,7 +71,6 @@
   "tr_locationName": "Nome do local",
   "tr_GeneralTimeRules": "Regras gerais de tempo",
   "tr_maxPublisherLabel": "Máx. publicadores por turno",
-  "tr_whereGetCart": "Onde obter um carrinho",
   "tr_PWShifts": "Turnos de pregação pública",
   "tr_selectDays": "Selecionar dias",
   "tr_everyDay": "Todos os dias",
@@ -108,5 +106,6 @@
   "tr_reportPageInfo": "Nesta página, pode visualizar relatórios de publicadores e adicionar relatórios daqueles que não usam o Organized. Selecione um publicador para começar.",
   "tr_rejected": "Rejeitado",
   "tr_alreadySubmittedWarning": "O relatório deste mês já foi enviado para a Filial. Apenas relatórios atrasados podem ser adicionados, a menos que desfaça o envio.",
-  "tr_publishersCountReport": "Publicadores: {{ publishersCount }}"
+  "tr_publishersCountReport": "Publicadores: {{ publishersCount }}",
+  "tr_cartStorage": "Onde obter um carrinho"
 }
