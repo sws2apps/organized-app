@@ -36,8 +36,6 @@
   "tr_endMonth": "Finalizar mês",
   "tr_MMScheduleS140": "Programação da reunião do meio da semana (S-140)",
   "tr_assignmentFormS89": "Formulário de designação (S-89)",
-  "tr_clearMultipleMM": "Limpar várias reuniões do meio de semana",
-  "tr_clearMultipleWM": "Limpar várias reuniões de fim de semana",
   "tr_clearMultipleDesc": "Escolha as programações que deseja eliminar. As designações dentro do intervalo de datas selecionado serão removidas, mas as semanas em si permanecerão.",
   "tr_clearSelectedWeeks": "Limpar semanas selecionadas",
   "tr_unsavedChanges": "Você tem alterações não gravadas",
@@ -137,5 +135,6 @@
   "tr_noSpeakersYet": "Nenhum orador ainda",
   "tr_speakersCatalog": "Relação de oradores",
   "tr_speakersCatalogLocalDesc": "Com base na sua seleção, você pode ver oradores visitantes de outras congregações. Para atribuir outro orador que não esteja na relação, simplesmente feche esta janela e selecione-o no campo de orador.",
-  "tr_speakersCatalogVisitingDesc": "Com base na sua seleção, você verá os oradores que farão discurso fora da sua congregação. Para não atribuir a outro irmão local a relação, simplesmente feche esta janela e selecione-o no campo de orador."
+  "tr_speakersCatalogVisitingDesc": "Com base na sua seleção, você verá os oradores que farão discurso fora da sua congregação. Para não atribuir a outro irmão local a relação, simplesmente feche esta janela e selecione-o no campo de orador.",
+  "tr_clearMultipleAssignments": "Clear multiple meeting assignments"
 }
