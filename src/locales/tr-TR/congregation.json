@@ -321,7 +321,7 @@
   "tr_unbaptizedInvalidRecords": "Bu kişi vaftiz edilmemiş bir müjdeci değil ama bu duruma ait aktif kayıtları var. Bitiş tarihi ekleyin veya bu kayıtları silin.",
   "tr_midweekInvalidRecords": "Bu kişi hafta içi toplantı öğrencisi değil ama bu duruma ait aktif kayıtları var. Bitiş tarihi ekleyin veya bu kayıtları silin.",
   "tr_privilegesActiveMultiple": "Ayrıcalıklar için birden fazla aktif kayıt bulundu. Sadece birinin aktif olduğundan emin olun.",
-  "tr_enrollemntsActiveMultiple": "Multiple active records are found for the enrollments. Make sure only one is active.",
+  "tr_enrollemntsActiveMultiple": "Multiple active records are found for the enrollments. Make sure that previous records have the end date.",
   "tr_personAdded": "Kişi eklendi",
   "tr_personAddedDesc": "Yeni kişi cemaate eklendi",
   "tr_personDeleted": "Kişi silindi",
