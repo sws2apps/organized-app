@@ -36,8 +36,6 @@
   "tr_endMonth": "End month",
   "tr_MMScheduleS140": "Midweek meeting schedule (S-140)",
   "tr_assignmentFormS89": "Assignment form (S-89)",
-  "tr_clearMultipleMM": "Clear multiple midweek meetings",
-  "tr_clearMultipleWM": "Clear multiple weekend meetings",
   "tr_clearMultipleDesc": "Choose the schedules you want to clear. Assignments within the selected date range will be removed, but the weeks themselves will remain.",
   "tr_clearSelectedWeeks": "Clear selected weeks",
   "tr_unsavedChanges": "You have unsaved changes",
@@ -137,5 +135,6 @@
   "tr_noSpeakersYet": "No speakers yet",
   "tr_speakersCatalog": "Vortragsredner Katalog",
   "tr_speakersCatalogLocalDesc": "Based on your selection, you see visiting speakers from other congregations. To assign another speaker not from the catalog, simply close this window and select him in the speaker field.",
-  "tr_speakersCatalogVisitingDesc": "Based on your selection, you see the outgoing speakers of your congregatiog. To assign another local brother not from the catalog, simply close this window and select him in the speaker field."
+  "tr_speakersCatalogVisitingDesc": "Based on your selection, you see the outgoing speakers of your congregatiog. To assign another local brother not from the catalog, simply close this window and select him in the speaker field.",
+  "tr_clearMultipleAssignments": "Clear multiple meeting assignments"
 }

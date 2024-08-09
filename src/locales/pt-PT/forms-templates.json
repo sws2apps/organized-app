@@ -2,7 +2,6 @@
   "tr_s89Title": "DESIGNAÇÃO PARA A REUNIÃO<br />VIDA E MINISTÉRIO CRISTÃOS",
   "tr_s89ToBeGiven": "To be given in:",
   "tr_s89DescFooter": "Nota ao estudante: A fonte de matéria e o ponto de conselho para a sua designação encontram-se no Manual de Atividades da Reunião Vida e Ministério. Por favor, recapitule as instruções para a designação tal como estão descritas nas Instruções para a Reunião Vida e Ministério Cristãos (S-38).",
-  "tr_date": "Date:",
   "tr_assignment": "Designação",
   "tr_bibleReading": "Leitura da Bíblia",
   "tr_initialCall": "Primeira conversa",
@@ -72,5 +71,6 @@
   "tr_exportMidweekMeetinDesc": "Choose the schedules and forms you'd like to export and pick your preferred template. Organized saves your template choice for next time to make the export easier.",
   "tr_specialTalkWeek": "Special talk",
   "tr_wtStudyConductor": "Study conductor",
-  "tr_closingPrayerWeekendMeeting": "Closing prayer"
+  "tr_closingPrayerWeekendMeeting": "Closing prayer",
+  "tr_s89Date": "Date:"
 }

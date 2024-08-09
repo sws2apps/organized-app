@@ -11,7 +11,6 @@
   "tr_SKE": "École pour Évangélisateurs du Royaume",
   "tr_languageCourse": "Cours de langue",
   "tr_personalDay": "Journée personnelle",
-  "tr_selectDate": "Sélectionner une date",
   "tr_saveChanges": "Enregistrer les modifications",
   "tr_deleteStudy": "Supprimer ce cours",
   "tr_timeInService": "Temps déjà passé en prédication",
@@ -72,7 +71,6 @@
   "tr_locationName": "Nom de l’emplacement",
   "tr_GeneralTimeRules": "Règles générales de temps",
   "tr_maxPublisherLabel": "Maximum de proclamateur par rotation",
-  "tr_whereGetCart": "Où obtenir un présentoir",
   "tr_PWShifts": "Rotation de témoignage public",
   "tr_selectDays": "Sélectionner les jours",
   "tr_everyDay": "Tous les jours",
@@ -108,5 +106,6 @@
   "tr_reportPageInfo": "On this page, you can view reports from publishers and add reports from those who do not use Organized. Select a publisher to start.",
   "tr_rejected": "Rejected",
   "tr_alreadySubmittedWarning": "This month's report has already been submitted to the Branch Office. Only late reports can be added, unless you undo the submission.",
-  "tr_publishersCountReport": "Publishers: {{ publishersCount }}"
+  "tr_publishersCountReport": "Publishers: {{ publishersCount }}",
+  "tr_cartStorage": "Où obtenir un présentoir"
 }

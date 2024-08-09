@@ -36,8 +36,6 @@
   "tr_endMonth": "Кінцевий місяць",
   "tr_MMScheduleS140": "Графік зібрання серед тижня (S-140)",
   "tr_assignmentFormS89": "Бланк завдання (S-89)",
-  "tr_clearMultipleMM": "Очистити кілька зібрань серед тижня",
-  "tr_clearMultipleWM": "Очистити кілька зібрань на вихідних",
   "tr_clearMultipleDesc": "Choose the schedules you want to clear. Assignments within the selected date range will be removed, but the weeks themselves will remain.",
   "tr_clearSelectedWeeks": "Очистити вибрані тижні",
   "tr_unsavedChanges": "Ти маєш незбережені зміни",
@@ -137,5 +135,6 @@
   "tr_noSpeakersYet": "Поки немає промовців",
   "tr_speakersCatalog": "Каталог промовців",
   "tr_speakersCatalogLocalDesc": "Based on your selection, you see visiting speakers from other congregations. To assign another speaker not from the catalog, simply close this window and select him in the speaker field.",
-  "tr_speakersCatalogVisitingDesc": "Based on your selection, you see the outgoing speakers of your congregatiog. To assign another local brother not from the catalog, simply close this window and select him in the speaker field."
+  "tr_speakersCatalogVisitingDesc": "Based on your selection, you see the outgoing speakers of your congregatiog. To assign another local brother not from the catalog, simply close this window and select him in the speaker field.",
+  "tr_clearMultipleAssignments": "Clear multiple meeting assignments"
 }

@@ -36,8 +36,6 @@
   "tr_endMonth": "Huling buwan",
   "tr_MMScheduleS140": "Midweek meeting schedule (S-140)",
   "tr_assignmentFormS89": "Assignment form (S-89)",
-  "tr_clearMultipleMM": "Magbura ng ilang pulong sa gitnang sanlinggo",
-  "tr_clearMultipleWM": "Alisin ang maraming weekend meetings",
   "tr_clearMultipleDesc": "Pumili kung anong mga iskedyul ang aalisin. Ang mga assignment sa loob ng napiling range ng petsa ay aalisin, ngunit ang mga linggo nito ay mananatili.",
   "tr_clearSelectedWeeks": "Linisin ang mga napiling linggo",
   "tr_unsavedChanges": "Mayroon kang hindi nai-save",
@@ -137,5 +135,6 @@
   "tr_noSpeakersYet": "No speakers yet",
   "tr_speakersCatalog": "Speakers catalog",
   "tr_speakersCatalogLocalDesc": "Based on your selection, you see visiting speakers from other congregations. To assign another speaker not from the catalog, simply close this window and select him in the speaker field.",
-  "tr_speakersCatalogVisitingDesc": "Based on your selection, you see the outgoing speakers of your congregatiog. To assign another local brother not from the catalog, simply close this window and select him in the speaker field."
+  "tr_speakersCatalogVisitingDesc": "Based on your selection, you see the outgoing speakers of your congregatiog. To assign another local brother not from the catalog, simply close this window and select him in the speaker field.",
+  "tr_clearMultipleAssignments": "Clear multiple meeting assignments"
 }

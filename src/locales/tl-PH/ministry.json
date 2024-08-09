@@ -11,7 +11,6 @@
   "tr_SKE": "School for Kingdom Evangelizers",
   "tr_languageCourse": "Language course",
   "tr_personalDay": "Personal day",
-  "tr_selectDate": "Pumili ng petsa",
   "tr_saveChanges": "I-save ang mga pagbabago",
   "tr_deleteStudy": "I-delete ang study",
   "tr_timeInService": "Oras na nasa paglilingkod",
@@ -72,7 +71,6 @@
   "tr_locationName": "Pangalan ng lokasyon",
   "tr_GeneralTimeRules": "Itinakdang patakaran sa oras",
   "tr_maxPublisherLabel": "Pinakamaraming publisher sa bawat shift",
-  "tr_whereGetCart": "Saan makakakuha ng cart",
   "tr_PWShifts": "Mga shift ng pampublikong pagpapatotoo",
   "tr_selectDays": "Pumili ng mga araw",
   "tr_everyDay": "Bawat araw",
@@ -108,5 +106,6 @@
   "tr_reportPageInfo": "Dito, makikita mo ang ulat ng mga publisher at mailalagay ang mga ulat ng hindi gumagamit ng Organized. Pumili ng publisher bilang panimula.",
   "tr_rejected": "Tumanggi",
   "tr_alreadySubmittedWarning": "Naipasa na ang ulat para sa buwan na ito sa sangay. Tanging late na mga report ang maidadagdag maliban kung i-undo ang pagpasa.",
-  "tr_publishersCountReport": "Publishers: {{ publishersCount }}"
+  "tr_publishersCountReport": "Publishers: {{ publishersCount }}",
+  "tr_cartStorage": "Saan makakakuha ng cart"
 }

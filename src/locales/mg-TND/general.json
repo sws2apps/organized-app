@@ -103,5 +103,9 @@
   "tr_edit": "Hanova",
   "tr_noPersonsFound": "Tsy misy valiny hita",
   "tr_noPersonsFoundDesc": "Tsy misy olona hita ao amin’ny firaketana mifanaraka amin’ireo sivana ireo. Afaka misafidy sokajy na daty hafa koa ianao.",
-  "tr_categories": "Sokajy"
+  "tr_categories": "Sokajy",
+  "tr_description": "Description",
+  "tr_day": "Day",
+  "tr_week": "Week",
+  "tr_noThanks": "No, thanks"
 }

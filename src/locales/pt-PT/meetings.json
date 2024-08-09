@@ -36,8 +36,6 @@
   "tr_endMonth": "Finalizar mês",
   "tr_MMScheduleS140": "Programação da reunião do meio da semana (S-140)",
   "tr_assignmentFormS89": "Formulário de designação (S-89)",
-  "tr_clearMultipleMM": "Limpar várias reuniões da semana",
-  "tr_clearMultipleWM": "Limpar várias reuniões de fim de semana",
   "tr_clearMultipleDesc": "Escolha a programação que deseja limpar. Designações no intervalo de datas selecionado serão removidas, mas as próprias semanas permanecerão.",
   "tr_clearSelectedWeeks": "Limpar semanas selecionadas",
   "tr_unsavedChanges": "Tem alterações não gravadas",
@@ -137,5 +135,6 @@
   "tr_noSpeakersYet": "No speakers yet",
   "tr_speakersCatalog": "Speakers catalog",
   "tr_speakersCatalogLocalDesc": "Based on your selection, you see visiting speakers from other congregations. To assign another speaker not from the catalog, simply close this window and select him in the speaker field.",
-  "tr_speakersCatalogVisitingDesc": "Based on your selection, you see the outgoing speakers of your congregatiog. To assign another local brother not from the catalog, simply close this window and select him in the speaker field."
+  "tr_speakersCatalogVisitingDesc": "Based on your selection, you see the outgoing speakers of your congregatiog. To assign another local brother not from the catalog, simply close this window and select him in the speaker field.",
+  "tr_clearMultipleAssignments": "Clear multiple meeting assignments"
 }
