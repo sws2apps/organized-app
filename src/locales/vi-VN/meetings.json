@@ -36,8 +36,6 @@
   "tr_endMonth": "Tháng kết thúc",
   "tr_MMScheduleS140": "Lịch trình cuộc họp giữa tuần (S-140)",
   "tr_assignmentFormS89": "Biểu mẫu nhiệm vụ (S-89)",
-  "tr_clearMultipleMM": "Clear multiple midweek meetings",
-  "tr_clearMultipleWM": "Xóa nhiều cuộc họp cuối tuần",
   "tr_clearMultipleDesc": "Choose the schedules you want to clear. Assignments within the selected date range will be removed, but the weeks themselves will remain.",
   "tr_clearSelectedWeeks": "Xóa các tuần đã chọn",
   "tr_unsavedChanges": "Anh/chị có thay đổi chưa lưu",
@@ -137,5 +135,6 @@
   "tr_noSpeakersYet": "No speakers yet",
   "tr_speakersCatalog": "Speakers catalog",
   "tr_speakersCatalogLocalDesc": "Based on your selection, you see visiting speakers from other congregations. To assign another speaker not from the catalog, simply close this window and select him in the speaker field.",
-  "tr_speakersCatalogVisitingDesc": "Based on your selection, you see the outgoing speakers of your congregatiog. To assign another local brother not from the catalog, simply close this window and select him in the speaker field."
+  "tr_speakersCatalogVisitingDesc": "Based on your selection, you see the outgoing speakers of your congregatiog. To assign another local brother not from the catalog, simply close this window and select him in the speaker field.",
+  "tr_clearMultipleAssignments": "Clear multiple meeting assignments"
 }
