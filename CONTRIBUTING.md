@@ -1,6 +1,6 @@
 # How to Contribute
 
-Organized is a modern program for Jehovah’s Witnesses congregation, developped by the [Scheduling Workbox System (SWS2APPS)](https://github.com/sws2apps) team. Our main goal is to create a software that covers all the congregation needs and stands out with excellent user experience. If you're interested to collaborate – we're more than happy to receive a support from you!. This document makes the process for contributing clearer and answers some questions that you may have.
+Organized is a modern program for Jehovah’s Witnesses congregation, developped by the [Scheduling Workbox System (SWS2APPS)](https://github.com/sws2apps) team. Our main goal is to create a software that covers all the congregation needs and stands out with excellent user experience. If you're interested in collaborating, we're more than happy to receive support from you. This document makes the process for contributing clearer and answers some questions that you may have.
 
 Please make sure that you have read the [code of conduct](https://github.com/sws2apps/organized-app/blob/main/CODE_OF_CONDUCT.md) before continuing.
 
