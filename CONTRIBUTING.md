@@ -32,7 +32,7 @@ If you’re only fixing a bug, it’s fine to submit a pull request right away b
 ## Contribution Requirements
 
 - Focus on one item, feature, or task at a time, and work within a dedicated branch for that specific task.
-- If you haven't done so already, fork the repository. Clone it locally if you'll be working on your machine. Check our [local envitornment setup guide](./LOCAL_ENVIRONMENT_SETUP.md) for step-by-step guide on how to setup the local environmentboth with [frontend app](https://github.com/sws2apps/organized-app) and [API backend](https://github.com/sws2apps/sws2apps-api) for Organized.
+Check our [local environment setup guide](./LOCAL_ENVIRONMENT_SETUP.md) for a step-by-step guide on how to set up the local environment with both the [frontend app](https://github.com/sws2apps/organized-app) and [API backend](https://github.com/sws2apps/sws2apps-api) for Organized.
 - Make sure that your fork is in sync with the upstream repository ([Syncing a fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork)).
 
 ## Sending a Pull Request (PR)
