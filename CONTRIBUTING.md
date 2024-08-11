@@ -1,6 +1,6 @@
 # How to Contribute
 
-Organized (formerly CPE) is a program for Jehovah’s Witnesses congregation, developped by the [Scheduling Workbox System (SWS2APPS)](https://github.com/sws2apps) team. We are more than happy to receive support from those who are very intersted to collaborate. This document makes the process for contributing clearer and answers some questions that you may have.
+Organized is a modern program for Jehovah’s Witnesses congregation, developped by the [Scheduling Workbox System (SWS2APPS)](https://github.com/sws2apps) team. Our main goal is to create a software that covers all the congregation needs and stands out with excellent user experience. If you're interested in collaborating, we're more than happy to receive support from you. This document makes the process for contributing clearer and answers some questions that you may have.
 
 Please make sure that you have read the [code of conduct](https://github.com/sws2apps/organized-app/blob/main/CODE_OF_CONDUCT.md) before continuing.
 
@@ -10,7 +10,7 @@ This module follows semantic versioning. We release patch versions for bugfixes,
 
 ## Branch Organization
 
-We use the `main` branch for the current version (CPE), but for the new Organized version it's important to use `main-next` branch.
+We use the `main` branch for the Organized app development. You are encouraged to create your own branches featuring in the title either `[FEAT]` for new features, `[FIX]` for bug fixes, or `[UI]` for UI improvements that don't change the functionality.
 Flags are used to test new features. (**Note**: Feature flags is in process of being developped.)
 
 ## Bugs
@@ -31,29 +31,9 @@ If you’re only fixing a bug, it’s fine to submit a pull request right away b
 
 ## Contribution Requirements
 
-- You have the latest version of [Node](https://nodejs.org) and [Git](https://git-scm.com) installed.
-- You will be working on one item at a time.
-- If you do not have it yet, fork the repository. Clone it if you will work locally.
-- If you have already forked and clone the repository, make sure that it is in sync with the upstream repository ([Syncing a fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork)).
-- Local [API backend](https://github.com/sws2apps/sws2apps-api) server already setup and running. The backend is used mainly for login and sync functionality. See our [API backend local setup guide](https://github.com/sws2apps/sws2apps-api/blob/main/CONTRIBUTING.md).)
-- Run `npm i` to install the needed dependencies
-
-Check [this page](./LOCAL_ENVIRONMENT_SETUP.md) for step-by-step guide on how to setup the local environment for Organized.
-
-### Setup Environment Variables
-
-Create your own Firebase project and get the values for the local environment. They will also be used for the [backend server](https://github.com/sws2apps/sws2apps-api/blob/main/CONTRIBUTING.md#setup-environment-variables).
-
-- VITE_FIREBASE_APIKEY: your Firebase apiKey defined in the Firebase Console.
-- VITE_FIREBASE_AUTHDOMAIN: your Firebase authDomain defined in the Firebase Console.
-- VITE_FIREBASE_PROJECTID: your Firebase projectId defined in the Firebase Console.
-- VITE_FIREBASE_APPID: your Firebase appId defined in the Firebase Console.
-- VITE_FIREBASE_MEASUREMENTID: your Firebase measurementId defined in the Firebase Console.
-- VITE_FIREBASE_MESSAGINGSENDERID: your Firebase messagingSenderId defined in the Firebase Console.
-
-### Starting the Development Server
-
-Open a terminal and run `npm run dev` to start the development server, and start using the local version of CPE.
+- Focus on one item, feature, or task at a time, and work within a dedicated branch for that specific task.
+Check our [local environment setup guide](./LOCAL_ENVIRONMENT_SETUP.md) for a step-by-step guide on how to set up the local environment with both the [frontend app](https://github.com/sws2apps/organized-app) and [API backend](https://github.com/sws2apps/sws2apps-api) for Organized.
+- Make sure that your fork is in sync with the upstream repository ([Syncing a fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork)).
 
 ## Sending a Pull Request (PR)
 
