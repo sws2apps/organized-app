@@ -6,15 +6,16 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
+import { TalksTableViewType } from './index.types';
 import { useAppTranslation } from '@hooks/index';
-import Typography from '@components/typography';
+import useTableView from './useTableView';
 import TalkRow from './talk_row';
-import useTableView from './talk_row/useTableView';
+import Typography from '@components/typography';
 
-const TalksTableView = () => {
+const TalksTableView = (props: TalksTableViewType) => {
   const { t } = useAppTranslation();
 
-  const { talksList } = useTableView();
+  const { talksList, yearslist } = useTableView(props);
 
   return (
     <TableContainer>
@@ -73,12 +74,11 @@ const TalksTableView = () => {
                 {t('tr_title')}
               </Typography>
             </TableCell>
-            {[2020, 2021, 2022, 2023, 2024].map((year) => (
+            {yearslist.map((year) => (
               <TableCell
                 key={year}
                 align="center"
                 sx={{
-                  width: '120px',
                   minWidth: '120px',
                   padding: '8px 0 !important',
                   backgroundColor: 'var(--white)',

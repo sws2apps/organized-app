@@ -15,7 +15,7 @@ const PublicTalks = ({ view }: PublicTalksType) => {
   const { laptopUp } = useBreakpoints();
 
   const {
-    talksList,
+    talks,
     handleToggleExpandAll,
     isExpandAll,
     handleSearch,
@@ -66,7 +66,7 @@ const PublicTalks = ({ view }: PublicTalksType) => {
         }}
       >
         <Typography className="h2">
-          {t(labelSearch, { count: talksList.length })}
+          {t(labelSearch, { count: talks.length })}
         </Typography>
 
         {view === 'list' && laptopUp && (
@@ -101,8 +101,10 @@ const PublicTalks = ({ view }: PublicTalksType) => {
         )}
       </Box>
 
-      {view === 'list' && <TalksListView isExpandAll={isExpandAll} />}
-      {view === 'table' && <TalksTableView />}
+      {view === 'list' && (
+        <TalksListView talks={talks} isExpandAll={isExpandAll} />
+      )}
+      {view === 'table' && <TalksTableView talks={talks} />}
     </Box>
   );
 };

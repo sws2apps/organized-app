@@ -578,6 +578,7 @@ export const schedulesGetHistoryDetails = ({
   assignment,
   lang,
   assignmentOptions,
+  dataView,
 }: {
   schedule: SchedWeekType;
   source: SourceWeekType;
@@ -585,6 +586,7 @@ export const schedulesGetHistoryDetails = ({
   assignment: AssignmentFieldType;
   lang: string;
   assignmentOptions: AssignmentLocalType[];
+  dataView?: string;
 }) => {
   const history = {} as AssignmentHistoryType;
 
@@ -765,6 +767,11 @@ export const schedulesGetHistoryDetails = ({
   if (assignment.includes('WM_Speaker_Part')) {
     history.assignment.code = AssignmentCode.WM_Speaker;
     history.assignment.title = getTranslation({ key: 'tr_speaker' });
+
+    const publicTalk = source.weekend_meeting.public_talk.find(
+      (record) => record.type === dataView
+    )?.value;
+    history.assignment.public_talk = publicTalk as number;
   }
 
   if (assignment === 'WM_WTStudy_Conductor') {
@@ -799,6 +806,7 @@ export const schedulesBuildHistoryList = async () => {
     assignmentTypeLocaleState
   );
   const lang: string = await promiseGetRecoil(JWLangState);
+  const dataView: string = await promiseGetRecoil(userDataViewState);
 
   for (const schedule of schedules) {
     const source = sources.find((record) => record.weekOf === schedule.weekOf);
@@ -816,6 +824,7 @@ export const schedulesBuildHistoryList = async () => {
             lang,
             schedule,
             source,
+            dataView,
           });
 
           result.push(history);
@@ -860,6 +869,7 @@ export const schedulesUpdateHistory = async (
       assignmentTypeLocaleState
     );
     const lang: string = await promiseGetRecoil(JWLangState);
+    const dataView: string = await promiseGetRecoil(userDataViewState);
 
     const schedule = schedules.find((record) => record.weekOf === week);
     const source = sources.find((record) => record.weekOf === week);
@@ -871,6 +881,7 @@ export const schedulesUpdateHistory = async (
       lang,
       schedule,
       source,
+      dataView,
     });
 
     historyStale.push(historyDetails);
@@ -1564,6 +1575,7 @@ export const schedulesAutofillUpdateHistory = async ({
       assignmentTypeLocaleState
     );
     const lang: string = await promiseGetRecoil(JWLangState);
+    const dataView: string = await promiseGetRecoil(userDataViewState);
 
     const sources: SourceWeekType[] = await promiseGetRecoil(sourcesState);
     const source = sources.find((record) => record.weekOf === schedule.weekOf);
@@ -1575,6 +1587,7 @@ export const schedulesAutofillUpdateHistory = async ({
       lang,
       schedule,
       source,
+      dataView,
     });
 
     history.push(historyDetails);

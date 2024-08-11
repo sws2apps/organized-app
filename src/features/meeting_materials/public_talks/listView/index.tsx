@@ -1,15 +1,12 @@
 import { Table, TableBody, TableContainer } from '@mui/material';
+import { TalksListViewType } from './index.types';
 import useListView from './useListView';
 import TalkRow from './talk_row';
 import TableHead from '@components/table/TableHead';
 
-type TalksListViewType = {
-  isExpandAll: boolean;
-};
-
-const TalksListView = ({ isExpandAll }: TalksListViewType) => {
+const TalksListView = ({ isExpandAll, talks }: TalksListViewType) => {
   const { talksList, handleRequestSort, order, orderBy, tableColumns } =
-    useListView();
+    useListView(talks);
 
   return (
     <TableContainer>

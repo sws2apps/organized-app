@@ -1,8 +1,12 @@
 import { Box, TableCell, TableRow } from '@mui/material';
-import Typography from '@components/typography';
+import { formatDate } from '@services/dateformat';
+import { useAppTranslation } from '@hooks/index';
 import { TalkRowType } from './index.types';
+import Typography from '@components/typography';
 
 const TalkRow = ({ talk }: TalkRowType) => {
+  const { t } = useAppTranslation();
+
   return (
     <TableRow
       sx={{
@@ -33,30 +37,30 @@ const TalkRow = ({ talk }: TalkRowType) => {
           <Typography className="h4">{talk.talk_title}</Typography>
         </Box>
       </TableCell>
-      {[
-        { date: '09/30', name: 'R. Alexander' },
-        {},
-        { date: '03/15', name: 'J. Emmanuel' },
-        {},
-        { date: '11/03', name: 'A. Cody' },
-      ].map((history, index) => (
-        <TableCell key={`${history.date}-${index}`}>
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '4px',
-              flexWrap: 'wrap',
-              justifyContent: 'center',
-            }}
-          >
-            <Typography className="body-small-semibold">
-              {history.date}
-            </Typography>
-            <Typography align="center" className="body-small-regular">
-              {history.name}
-            </Typography>
-          </Box>
+      {talk.history.map((history) => (
+        <TableCell key={history.year}>
+          {history.records.map((record) => (
+            <Box
+              key={`${record.date}-${record.person}`}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px',
+                flexWrap: 'wrap',
+                justifyContent: 'center',
+              }}
+            >
+              <Typography className="body-small-semibold">
+                {formatDate(
+                  new Date(record.date),
+                  t('tr_shortDateFormatNoYear')
+                )}
+              </Typography>
+              <Typography align="center" className="body-small-regular">
+                {record.person}
+              </Typography>
+            </Box>
+          ))}
         </TableCell>
       ))}
     </TableRow>
