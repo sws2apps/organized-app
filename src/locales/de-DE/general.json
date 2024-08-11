@@ -107,5 +107,7 @@
   "tr_description": "Description",
   "tr_day": "Tag",
   "tr_week": "Woche",
-  "tr_noThanks": "No, thanks"
+  "tr_noThanks": "No, thanks",
+  "tr_shortDateFormatAlt": "MM/dd/yy",
+  "tr_shortDateFormatNoYear": "MM/dd"
 }
