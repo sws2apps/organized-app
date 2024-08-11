@@ -99,6 +99,7 @@ const Autocomplete = <T,>(props: AutocompletePropsType<T>) => {
         '.MuiAutocomplete-input': {
           padding: '0px !important',
         },
+        ...props.sx,
       }}
       PaperComponent={(paperProps) => (
         <CustomPaper {...paperProps} optionsHeader={optionsHeader} />
