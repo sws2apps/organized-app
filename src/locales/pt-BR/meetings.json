@@ -102,7 +102,7 @@
   "tr_meetingWeeks": "Reuniões semanais",
   "tr_meetingMaterialsNotAvailable": "Os materiais da reunião desta semana ainda não foram importados para o Organized. Se eles já estão acessíveis, importe-os do jw.org ou de um arquivo .epub.",
   "tr_assistant": "Ajudante",
-  "tr_tgw10TalkHistory": "Treasures – 10 min talk",
+  "tr_tgw10TalkHistory": "Tesouros - Discurso de 10 min",
   "tr_chairmanMidwekMeetingHistory": "Presidente da reunião do meio de semana",
   "tr_meetingPartsEdit": "Editar partes da reunião",
   "tr_assignmentsDeleteMultiple": "Excluir múltiplas designações",
@@ -119,7 +119,7 @@
   "tr_templateS89Doc4x1Desc": "por página A4",
   "tr_templateS140DefaultName": "S-140",
   "tr_templateS140DescUp2Weeks": "Até 2 semanas",
-  "tr_templateS140AppNormalName": "Normal",
+  "tr_templateS140AppNormalName": "Standard",
   "tr_tgwGems": "Joias espirituais",
   "tr_localSpeaker": "Orador local",
   "tr_visitingSpeaker": "Orador visitante",
@@ -136,5 +136,5 @@
   "tr_speakersCatalog": "Relação de oradores",
   "tr_speakersCatalogLocalDesc": "Com base na sua seleção, você pode ver oradores visitantes de outras congregações. Para atribuir outro orador que não esteja na relação, simplesmente feche esta janela e selecione-o no campo de orador.",
   "tr_speakersCatalogVisitingDesc": "Com base na sua seleção, você verá os oradores que farão discurso fora da sua congregação. Para não atribuir a outro irmão local a relação, simplesmente feche esta janela e selecione-o no campo de orador.",
-  "tr_clearMultipleAssignments": "Clear multiple meeting assignments"
+  "tr_clearMultipleAssignments": "Limpar várias designações da reunião"
 }

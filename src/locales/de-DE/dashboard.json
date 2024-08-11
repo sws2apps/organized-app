@@ -84,11 +84,11 @@
   "tr_successfullyDesc": "Dein Feedback wurde erfolgreich übermittelt",
   "tr_manageAccess": "Zugriff verwalten",
   "tr_submitted": "Erfolgreich übermittelt",
-  "tr_meetingAssignments": "<p>You have <a href='#' title='Meeting Assignment'>{{ assignment }} meeting assignments</a> at the moment</p>",
+  "tr_meetingAssignments": "<p>Du hast <a href='#' title='Meeting Assignment'>{{ assignment }} Versammlungsaufgabe(n)</a> im Moment</p>",
   "tr_activitiesCard": "Aktivitäten",
-  "tr_hallCleaning": "Hall cleaning",
+  "tr_hallCleaning": "Saalreinigung",
   "tr_yourEmailField": "Deine E-Mail-Adresse",
   "tr_yourMessage": "Deine Nachricht",
-  "tr_reportSubmittedDesc": "Your report for {{ month }} has been submitted",
+  "tr_reportSubmittedDesc": "Dein Bericht für {{ month }} wurde übermittelt",
   "tr_mainCongregation": "Hauptversammlung"
 }
