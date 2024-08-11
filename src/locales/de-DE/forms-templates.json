@@ -48,12 +48,12 @@
   "tr_lcContentElderVariations": "Um von einem Ältesten zu behandeln",
   "tr_speaker": "Redner",
   "tr_speakerSymposium": "Speaker (Symposium, part 1)",
-  "tr_wtStudyReader": "Study reader",
+  "tr_wtStudyReader": "Studienleiter",
   "tr_weekendMeetingPrint": "Zusammenkunft am Wochenende",
   "tr_publicTalk": "Öffentlicher Vortrag",
   "tr_openingPrayerWeekendMeeting": "Erstes Gebet",
-  "tr_noWMeetingWeek": "There is no weekend meeting for this week",
-  "tr_noMeetingWeek": "There is no meeting for this week",
+  "tr_noWMeetingWeek": "In dieser Woche findet keine Zusammenkunft am Wochenende statt",
+  "tr_noMeetingWeek": "In dieser Woche findet keine Zusammenkunft unter der Woche statt",
   "tr_substituteSpeaker": "Ersatzredner",
   "tr_startingConversation": "Gespräche beginnen",
   "tr_followingUp": "Interesse fördern",
@@ -68,9 +68,9 @@
   "tr_prayer": "Gebet",
   "tr_partDuration": "({{ time }} Min.)",
   "tr_memorialWeek": "Gedächtnismahl",
-  "tr_exportMidweekMeetinDesc": "Choose the schedules and forms you'd like to export and pick your preferred template. Organized saves your template choice for next time to make the export easier.",
+  "tr_exportMidweekMeetinDesc": "Wähle die Pläne und Formulare aus, die du exportieren möchtest, und wähle deine bevorzugte Vorlage. Organized speichert deine Vorlagenauswahl für das nächste Mal, um den Export zu erleichtern.",
   "tr_specialTalkWeek": "Sondervortrag",
   "tr_wtStudyConductor": "Studienleiter",
   "tr_closingPrayerWeekendMeeting": "Letztes Gebet",
-  "tr_s89Date": "Date:"
+  "tr_s89Date": "Datum:"
 }
