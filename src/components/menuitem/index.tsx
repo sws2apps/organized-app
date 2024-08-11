@@ -1,4 +1,4 @@
-import { MenuItem, MenuItemProps } from '@mui/material';
+import { MenuItem as MUIMenuItem, MenuItemProps } from '@mui/material';
 import { FC } from 'react';
 
 /**
@@ -6,9 +6,9 @@ import { FC } from 'react';
  * @param props - Props for the MenuItem component.
  * @returns JSX element for the CustomMenuItem component.
  */
-const CustomMenuItem: FC<MenuItemProps> = (props) => {
+const MenuItem: FC<MenuItemProps> = (props) => {
   return (
-    <MenuItem
+    <MUIMenuItem
       disableRipple
       sx={{
         padding: '8px 12px 8px 16px',
@@ -26,4 +26,4 @@ const CustomMenuItem: FC<MenuItemProps> = (props) => {
   );
 };
 
-export default CustomMenuItem;
+export default MenuItem;

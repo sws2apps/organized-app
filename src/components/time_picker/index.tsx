@@ -101,16 +101,16 @@ const TimePickerActionBar = (
  * @param props.label The label for the time picker.
  * @param props.value The value of the time picker.
  * @param props.onChange Function to handle value change.
- * @param props.isValueOnOpen Whether to set the value when the time picker opens.
  */
-const CustomTimePicker = ({
+const TimePicker = ({
   ampm,
   label,
   value = null,
   onChange,
-  isValueOnOpen = false,
+  sx,
 }: CustomTimePickerProps) => {
   const { t } = useAppTranslation();
+
   const [currentValue, setCurrentValue] = useState(value);
   const [innerValue, setInnerValue] = useState(value);
   const [open, setOpen] = useState<boolean>(false);
@@ -121,16 +121,31 @@ const CustomTimePicker = ({
     if (open) setOpen(false);
   };
 
+  const handleValueChange = (value: Date) => {
+    setInnerValue(value);
+  };
+
+  const handleSave = () => {
+    setCurrentValue(innerValue);
+    onChange?.(innerValue);
+    setOpen(false);
+  };
+
+  const handleClear = () => {
+    setCurrentValue(null);
+    setInnerValue(null);
+    onChange?.(null);
+    setOpen(false);
+  };
+
   useEffect(() => {
-    if (value === null && isValueOnOpen && open && innerValue === null) {
-      setCurrentValue(new Date());
-      setInnerValue(new Date());
-    }
-  }, [value, open, isValueOnOpen, innerValue]);
+    setInnerValue(value);
+    setCurrentValue(value);
+  }, [value]);
 
   return (
     <ClickAwayListener onClickAway={handleClickAway}>
-      <Box sx={{ flex: 1, minWidth: '120px', width: '100%' }}>
+      <Box sx={{ flex: 1, minWidth: '120px', width: '100%', ...sx }}>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <DesktopTimePicker
             key={value ? value.toISOString() : crypto.randomUUID()}
@@ -141,7 +156,7 @@ const CustomTimePicker = ({
             orientation={isMobile ? 'portrait' : 'landscape'}
             value={innerValue}
             ampm={ampm}
-            onChange={(value) => setInnerValue(value)}
+            onChange={handleValueChange}
             onOpen={() => setOpen(true)}
             viewRenderers={{
               hours: renderTimeViewClock,
@@ -153,17 +168,8 @@ const CustomTimePicker = ({
             }}
             slotProps={{
               actionBar: {
-                onSave: () => {
-                  setCurrentValue(innerValue);
-                  onChange && onChange(innerValue);
-                  setOpen(false);
-                },
-                onClear: () => {
-                  setCurrentValue(null);
-                  setInnerValue(null);
-                  onChange && onChange(null);
-                  setOpen(false);
-                },
+                onSave: handleSave,
+                onClear: handleClear,
               } as never,
               textField: {
                 label: label,
@@ -237,4 +243,4 @@ const CustomTimePicker = ({
   );
 };
 
-export default CustomTimePicker;
+export default TimePicker;

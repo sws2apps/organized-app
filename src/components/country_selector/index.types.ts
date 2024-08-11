@@ -8,3 +8,9 @@ export type CountryType = {
   /** The code of the country. */
   code: string;
 };
+
+export type CountrySelectorType = {
+  handleCountryChange: (value: CountryType) => void;
+  value?: CountryType;
+  autoLoad?: boolean;
+};

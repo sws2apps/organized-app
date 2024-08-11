@@ -47,6 +47,25 @@ export type PublicTalkCongregation = {
   updatedAt: string;
 };
 
+export type OutgoingTalkScheduleType = {
+  _deleted: boolean;
+  updatedAt: string;
+  id: string;
+  synced: boolean;
+  opening_song: string;
+  public_talk: number;
+  speaker: string;
+  type: string;
+  congregation: {
+    name: string;
+    number: string;
+    country: string;
+    address: string;
+    weekday: number;
+    time: string;
+  };
+};
+
 export type SchedWeekType = {
   weekOf: string;
   midweek_meeting: {
@@ -92,6 +111,7 @@ export type SchedWeekType = {
     closing_prayer: AssignmentCongregation[];
     circuit_overseer: AssignmentCongregation;
     week_type: WeekTypeCongregation[];
+    outgoing_talks: OutgoingTalkScheduleType[];
   };
   released: SwitchCongregation[];
 };
@@ -109,6 +129,7 @@ export type AssignmentHistoryType = {
     person: string;
     category: string;
     classroom?: string;
+    schedule_id?: string;
     ayf?: {
       student?: string;
       assistant?: string;

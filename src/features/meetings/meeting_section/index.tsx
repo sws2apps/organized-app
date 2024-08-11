@@ -11,6 +11,7 @@ const MeetingSection = ({
   expanded,
   onToggle,
   children,
+  alwaysExpanded,
 }: MeetingSectionType & PropsWithChildren) => {
   return (
     <>
@@ -43,15 +44,17 @@ const MeetingSection = ({
             {part}
           </Typography>
         </Box>
-        <IconExpand
-          color="var(--always-white)"
-          sx={{
-            transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
-            transition: 'transform 0.3s',
-          }}
-        />
+        {!alwaysExpanded && (
+          <IconExpand
+            color="var(--always-white)"
+            sx={{
+              transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
+              transition: 'transform 0.3s',
+            }}
+          />
+        )}
       </Box>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
+      <Collapse in={alwaysExpanded || expanded} timeout="auto" unmountOnExit>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           {children}
         </Box>

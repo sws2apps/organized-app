@@ -4,16 +4,21 @@ import { publicTalksState } from '@states/public_talks';
 import { sourcesState } from '@states/sources';
 import { userDataViewState } from '@states/settings';
 import { dbSourcesUpdate } from '@services/dexie/sources';
-import { incomingSpeakersState } from '@states/visiting_speakers';
+import {
+  incomingSpeakersState,
+  outgoingSpeakersState,
+} from '@states/visiting_speakers';
 import { PublicTalkOptionType } from './index.types';
 import { PublicTalkType } from '@definition/public_talks';
 import { schedulesState } from '@states/schedules';
+import { dbSchedUpdate } from '@services/dexie/schedules';
 
-const usePublicTalkSelector = (week: string) => {
+const usePublicTalkSelector = (week: string, schedule_id?: string) => {
   const talksData = useRecoilValue(publicTalksState);
   const sources = useRecoilValue(sourcesState);
   const dataView = useRecoilValue(userDataViewState);
-  const speakers = useRecoilValue(incomingSpeakersState);
+  const incomingSpeakers = useRecoilValue(incomingSpeakersState);
+  const outgoingSpeakers = useRecoilValue(outgoingSpeakersState);
   const schedules = useRecoilValue(schedulesState);
 
   const [selectedTalk, setSelectedTalk] = useState<PublicTalkOptionType>(null);
@@ -36,6 +41,9 @@ const usePublicTalkSelector = (week: string) => {
         schedule.weekend_meeting.speaker.part_1.find(
           (record) => record.type === dataView
         )?.value || '';
+
+      const speakers =
+        talkType === 'localSpeaker' ? outgoingSpeakers : incomingSpeakers;
 
       for (const talk of talksData) {
         const cnSpeakers = speakers.filter((record) =>
@@ -65,7 +73,7 @@ const usePublicTalkSelector = (week: string) => {
     }
 
     return data;
-  }, [talksData, speakers, schedule, dataView]);
+  }, [talksData, outgoingSpeakers, schedule, dataView, incomingSpeakers]);
 
   const handleOpenCatalog = () => setOpenCatalog(true);
 
@@ -74,28 +82,47 @@ const usePublicTalkSelector = (week: string) => {
   const handleTalkChange = async (talk: PublicTalkType) => {
     const value = talk?.talk_number;
 
-    const talkData = structuredClone(source.weekend_meeting.public_talk);
+    if (!schedule_id) {
+      const talkData = structuredClone(source.weekend_meeting.public_talk);
 
-    let data = talkData.find((record) => record.type === dataView);
+      let data = talkData.find((record) => record.type === dataView);
 
-    if (!data) {
-      talkData.push({ type: dataView, updatedAt: '', value: '' });
+      if (!data) {
+        talkData.push({ type: dataView, updatedAt: '', value: '' });
 
-      data = talkData.find((record) => record.type === dataView);
+        data = talkData.find((record) => record.type === dataView);
+      }
+
+      data.updatedAt = new Date().toISOString();
+      data.value = value;
+
+      await dbSourcesUpdate(week, {
+        'weekend_meeting.public_talk': talkData,
+      });
     }
 
-    data.updatedAt = new Date().toISOString();
-    data.value = value;
+    if (schedule_id) {
+      const outgoingTalks = structuredClone(
+        schedule.weekend_meeting.outgoing_talks
+      );
 
-    await dbSourcesUpdate(week, {
-      'weekend_meeting.public_talk': talkData,
-    });
+      const outgoingSchedule = outgoingTalks.find(
+        (record) => record.id === schedule_id
+      );
+
+      outgoingSchedule.updatedAt = new Date().toISOString();
+      outgoingSchedule.public_talk = value;
+
+      await dbSchedUpdate(week, {
+        'weekend_meeting.outgoing_talks': outgoingTalks,
+      });
+    }
   };
 
   useEffect(() => {
     setSelectedTalk(null);
 
-    if (source) {
+    if (source && !schedule_id) {
       const talk = source.weekend_meeting.public_talk.find(
         (record) => record.type === dataView
       )?.value as number;
@@ -106,7 +133,20 @@ const usePublicTalkSelector = (week: string) => {
         setSelectedTalk(selectedTalk);
       }
     }
-  }, [source, dataView, talks]);
+
+    if (schedule_id) {
+      const outgoingSchedule = schedule.weekend_meeting.outgoing_talks.find(
+        (record) => record.id === schedule_id
+      );
+
+      if (outgoingSchedule?.public_talk) {
+        const selectedTalk = talks.find(
+          (record) => record.talk_number === outgoingSchedule.public_talk
+        );
+        setSelectedTalk(selectedTalk);
+      }
+    }
+  }, [source, dataView, talks, schedule, schedule_id]);
 
   return {
     talks,

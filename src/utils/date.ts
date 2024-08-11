@@ -169,3 +169,12 @@ export const timeAddMinutes = (prev: string, min: number) => {
 
   return result;
 };
+
+export const removeSecondsFromTime = (time: string) => {
+  const parts = time.split(':');
+
+  if (parts.length > 2) {
+    return parts.slice(0, 2).join(':');
+  }
+  return time;
+};

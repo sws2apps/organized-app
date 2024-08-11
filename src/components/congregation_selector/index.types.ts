@@ -7,4 +7,6 @@ export type CongregationSelectorType = {
   cong_number?: string;
   freeSolo?: boolean;
   freeSoloChange?: (cong_name: string) => void;
+  freeSoloValue?: string;
+  readOnly?: boolean;
 };

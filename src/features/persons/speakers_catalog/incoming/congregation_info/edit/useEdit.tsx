@@ -104,7 +104,7 @@ const useEdit = (cong_number: string) => {
     await dbSpeakersCongregationsUpdate(
       {
         'cong_data.midweek_meeting.time': {
-          value: formatDate(value, 'HH:MM'),
+          value: formatDate(value, 'HH:mm'),
           updatedAt: new Date().toISOString(),
         },
       },
@@ -128,7 +128,7 @@ const useEdit = (cong_number: string) => {
     await dbSpeakersCongregationsUpdate(
       {
         'cong_data.weekend_meeting.time': {
-          value: formatDate(value, 'HH:MM'),
+          value: formatDate(value, 'HH:mm'),
           updatedAt: new Date().toISOString(),
         },
       },

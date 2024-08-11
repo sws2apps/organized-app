@@ -37,6 +37,7 @@ const PersonSelector = (props: PersonSelectorType) => {
     freeSoloText,
     handleFreeSoloTextChange,
     decorator,
+    schedule_id,
   } = usePersonSelector(props);
 
   return (
@@ -211,7 +212,7 @@ const PersonSelector = (props: PersonSelectorType) => {
                 {t('tr_name')}
               </Typography>
 
-              {!visitingSpeaker && (
+              {!visitingSpeaker && !schedule_id && (
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <Typography
                     className="body-small-regular"

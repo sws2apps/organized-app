@@ -23,21 +23,28 @@ const CongregationSelector = ({
   cong_number,
   freeSolo = false,
   freeSoloChange,
+  freeSoloValue,
+  readOnly,
 }: CongregationSelectorType) => {
   const { t } = useAppTranslation();
 
-  const { setValue, value, setInputValue, options, isLoading } =
-    useCongregation(country_code, cong_number);
+  const { setValue, value, setInputValue, options, isLoading, inputValue } =
+    useCongregation(country_code, cong_number, freeSoloValue);
 
   const selectorLabel = label || t('tr_yourCongregation');
 
   return (
     <AutoComplete
       freeSolo={freeSolo}
+      readOnly={readOnly}
       isOptionEqualToValue={(option, value) =>
         option.congNumber === value.congNumber
       }
       getOptionLabel={(option: CongregationResponseType) => {
+        if (typeof option === 'string') {
+          return option;
+        }
+
         let label = option.congName.trim();
 
         if (option.congNumber.length > 0) {
@@ -67,14 +74,16 @@ const CongregationSelector = ({
       options={options}
       autoComplete={true}
       includeInputInList={true}
+      inputValue={inputValue}
       value={value}
       onChange={(_, newValue: CongregationResponseType) => {
         const isCongExist = options.find(
           (record) => record.congName === newValue.congName
         );
 
-        if (freeSolo && !isCongExist)
-          return freeSoloChange && freeSoloChange(newValue.congName);
+        if (freeSolo && !isCongExist) {
+          return freeSoloChange?.(newValue?.congName || '');
+        }
 
         setValue(newValue);
         setCongregation(newValue);

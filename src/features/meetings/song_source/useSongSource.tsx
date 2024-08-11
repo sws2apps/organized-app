@@ -10,14 +10,22 @@ import { SongType } from '@definition/songs';
 import { sourcesSongConclude } from '@services/app/sources';
 import { dbSourcesUpdate } from '@services/dexie/sources';
 import { CongregationStringType } from '@definition/sources';
+import { schedulesState } from '@states/schedules';
+import { dbSchedUpdate } from '@services/dexie/schedules';
 
-const useSongSource = ({ meeting, type, week }: SongSourceType) => {
+const useSongSource = ({
+  meeting,
+  type,
+  week,
+  schedule_id,
+}: SongSourceType) => {
   const { t } = useAppTranslation();
 
   const sources = useRecoilValue(sourcesState);
   const songs = useRecoilValue(songsState);
   const lang = useRecoilValue(JWLangState);
   const dataView = useRecoilValue(userDataViewState);
+  const schedules = useRecoilValue(schedulesState);
 
   const [songTitle, setSongTitle] = useState('');
   const [selectedSong, setSelectedSong] = useState<SongType>(null);
@@ -25,6 +33,7 @@ const useSongSource = ({ meeting, type, week }: SongSourceType) => {
   const songLocale = t('tr_song');
 
   const source = sources.find((record) => record.weekOf === week);
+  const schedule = schedules.find((record) => record.weekOf === week);
 
   const handleSongChange = async (song: SongType) => {
     const value = song?.song_number.toString() || '';
@@ -80,6 +89,23 @@ const useSongSource = ({ meeting, type, week }: SongSourceType) => {
           'weekend_meeting.song_conclude.override': song,
         });
       }
+
+      if (type === 'outgoing') {
+        const outgoingTalks = structuredClone(
+          schedule.weekend_meeting.outgoing_talks
+        );
+
+        const outgoingSchedule = outgoingTalks.find(
+          (record) => record.id === schedule_id
+        );
+
+        outgoingSchedule.updatedAt = new Date().toISOString();
+        outgoingSchedule.opening_song = value;
+
+        await dbSchedUpdate(week, {
+          'weekend_meeting.outgoing_talks': outgoingTalks,
+        });
+      }
     }
   };
 
@@ -126,6 +152,13 @@ const useSongSource = ({ meeting, type, week }: SongSourceType) => {
             lang,
           });
         }
+
+        if (type === 'outgoing') {
+          const outgoingSchedule = schedule.weekend_meeting.outgoing_talks.find(
+            (record) => record.id === schedule_id
+          );
+          song = outgoingSchedule.opening_song;
+        }
       }
 
       const title = songs.find((record) => record.song_number === +song);
@@ -134,7 +167,17 @@ const useSongSource = ({ meeting, type, week }: SongSourceType) => {
       setSongTitle(result as string);
       setSelectedSong(title ? title : null);
     }
-  }, [meeting, songs, source, lang, type, songLocale, dataView]);
+  }, [
+    meeting,
+    songs,
+    source,
+    lang,
+    type,
+    songLocale,
+    dataView,
+    schedule,
+    schedule_id,
+  ]);
 
   return { songTitle, songs, selectedSong, handleSongChange };
 };

@@ -781,6 +781,13 @@ export const schedulesGetHistoryDetails = ({
     });
   }
 
+  if (assignment === 'WM_Speaker_Outgoing') {
+    history.assignment.code = AssignmentCode.WM_Speaker;
+    history.assignment.title = getTranslation({
+      key: 'tr_visitingSpeaker',
+    });
+  }
+
   return history;
 };
 
@@ -827,7 +834,8 @@ export const schedulesBuildHistoryList = async () => {
 export const schedulesUpdateHistory = async (
   week: string,
   assignment: AssignmentFieldType,
-  assigned: AssignmentCongregation
+  assigned: AssignmentCongregation,
+  schedule_id?: string
 ) => {
   const history: AssignmentHistoryType[] = await promiseGetRecoil(
     assignmentsHistoryState
@@ -837,8 +845,12 @@ export const schedulesUpdateHistory = async (
 
   // remove record from history
   const previousIndex = historyStale.findIndex(
-    (record) => record.weekOf === week && record.assignment.key === assignment
+    (record) =>
+      record.weekOf === week &&
+      record.assignment.key === assignment &&
+      record.assignment.schedule_id === schedule_id
   );
+
   if (previousIndex !== -1) historyStale.splice(previousIndex, 1);
 
   if (assigned.value !== '') {
@@ -876,41 +888,80 @@ export const schedulesUpdateHistory = async (
 export const schedulesSaveAssignment = async (
   schedule: SchedWeekType,
   assignment: AssignmentFieldType,
-  value: PersonType | VisitingSpeakerType | string
+  value: PersonType | VisitingSpeakerType | string,
+  schedule_id?: string
 ) => {
   const dataView = await promiseGetRecoil(userDataViewState);
 
-  const toSave = value
-    ? typeof value === 'string'
-      ? value
-      : value.person_uid
-    : '';
-
-  const path = ASSIGNMENT_PATH[assignment];
-  const fieldUpdate = structuredClone(schedulesGetData(schedule, path));
-
   let assigned: AssignmentCongregation;
 
-  if (Array.isArray(fieldUpdate)) {
-    assigned = fieldUpdate.find((record) => record.type === dataView);
-    assigned.value = toSave;
-    assigned.updatedAt = new Date().toISOString();
-    assigned.solo = typeof value === 'string';
-  } else {
-    assigned = fieldUpdate;
-    fieldUpdate.value = toSave;
-    fieldUpdate.updatedAt = new Date().toISOString();
-    fieldUpdate.solo = typeof value === 'string';
+  if (!schedule_id) {
+    const toSave = value
+      ? typeof value === 'string'
+        ? value
+        : value.person_uid
+      : '';
+
+    const path = ASSIGNMENT_PATH[assignment];
+    const fieldUpdate = structuredClone(schedulesGetData(schedule, path));
+
+    if (Array.isArray(fieldUpdate)) {
+      assigned = fieldUpdate.find((record) => record.type === dataView);
+      assigned.value = toSave;
+      assigned.updatedAt = new Date().toISOString();
+      assigned.solo = typeof value === 'string';
+    } else {
+      assigned = fieldUpdate;
+      fieldUpdate.value = toSave;
+      fieldUpdate.updatedAt = new Date().toISOString();
+      fieldUpdate.solo = typeof value === 'string';
+    }
+
+    const dataDb = {
+      [path]: fieldUpdate,
+    } as unknown as UpdateSpec<SchedWeekType>;
+
+    await dbSchedUpdate(schedule.weekOf, dataDb);
   }
 
-  const dataDb = {
-    [path]: fieldUpdate,
-  } as unknown as UpdateSpec<SchedWeekType>;
+  if (schedule_id) {
+    const schedules: SchedWeekType[] = await promiseGetRecoil(schedulesState);
+    const newSchedule = schedules.find(
+      (record) => record.weekOf === schedule.weekOf
+    );
 
-  await dbSchedUpdate(schedule.weekOf, dataDb);
+    const outgoingTalks = structuredClone(
+      newSchedule.weekend_meeting.outgoing_talks
+    );
+
+    const outgoingSchedule = outgoingTalks.find(
+      (record) => record.id === schedule_id
+    );
+
+    const speaker = value as PersonType;
+
+    outgoingSchedule.updatedAt = new Date().toISOString();
+    outgoingSchedule.speaker = speaker === null ? '' : speaker.person_uid;
+
+    await dbSchedUpdate(schedule.weekOf, {
+      'weekend_meeting.outgoing_talks': outgoingTalks,
+    });
+
+    assigned = {
+      name: '',
+      type: outgoingSchedule.type,
+      updatedAt: outgoingSchedule.updatedAt,
+      value: outgoingSchedule.speaker,
+    };
+  }
 
   // update history
-  await schedulesUpdateHistory(schedule.weekOf, assignment, assigned);
+  await schedulesUpdateHistory(
+    schedule.weekOf,
+    assignment,
+    assigned,
+    schedule_id
+  );
 };
 
 export const schedulesPersonNoPart = ({
@@ -2346,4 +2397,34 @@ export const schedulesWeekendData = async (
   }
 
   return result;
+};
+
+export const scheduleDeleteWeekendOutgoingTalk = async (
+  schedule: SchedWeekType,
+  schedule_id: string
+) => {
+  const outgoingSchedule = structuredClone(
+    schedule.weekend_meeting.outgoing_talks
+  );
+
+  const outgoingTalk = outgoingSchedule.find(
+    (record) => record.id === schedule_id
+  );
+
+  outgoingTalk.congregation = {
+    name: '',
+    address: '',
+    country: '',
+    number: '',
+    time: '',
+    weekday: undefined,
+  };
+  outgoingTalk.opening_song = '';
+  outgoingTalk.public_talk = undefined;
+  outgoingTalk.speaker = '';
+  outgoingTalk.updatedAt = new Date().toISOString();
+
+  await dbSchedUpdate(schedule.weekOf, {
+    'weekend_meeting.outgoing_talks': outgoingSchedule,
+  });
 };

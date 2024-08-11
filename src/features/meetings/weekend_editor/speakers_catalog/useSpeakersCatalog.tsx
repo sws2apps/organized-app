@@ -15,8 +15,13 @@ import { schedulesSaveAssignment } from '@services/app/schedules';
 import { schedulesState } from '@states/schedules';
 import usePublicTalkSelector from '../public_talk_selector/usePublicTalkSelector';
 
-const useSpeakersCatalog = ({ type, week, onClose }: SpeakersCatalogType) => {
-  const { handleTalkChange } = usePublicTalkSelector(week);
+const useSpeakersCatalog = ({
+  type,
+  week,
+  onClose,
+  schedule_id,
+}: SpeakersCatalogType) => {
+  const { handleTalkChange } = usePublicTalkSelector(week, schedule_id);
 
   const incomingSpeakers = useRecoilValue(incomingSpeakersState);
   const outgoingSpeakers = useRecoilValue(outgoingSpeakersState);
@@ -126,7 +131,18 @@ const useSpeakersCatalog = ({ type, week, onClose }: SpeakersCatalogType) => {
 
     await handleTalkChange(talk);
 
-    await schedulesSaveAssignment(schedule, 'WM_Speaker_Part1', speaker);
+    if (!schedule_id) {
+      await schedulesSaveAssignment(schedule, 'WM_Speaker_Part1', speaker);
+    }
+
+    if (schedule_id) {
+      await schedulesSaveAssignment(
+        schedule,
+        'WM_Speaker_Outgoing',
+        speaker,
+        schedule_id
+      );
+    }
 
     onClose();
   };
