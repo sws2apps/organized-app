@@ -167,6 +167,7 @@ export const scheduleSchema: SchedWeekType = {
     closing_prayer: [{ type: 'main', value: '', name: '', updatedAt: '' }],
     circuit_overseer: { type: 'main', value: '', name: '', updatedAt: '' },
     week_type: [{ type: 'main', value: Week.NORMAL, updatedAt: '' }],
+    outgoing_talks: [],
   },
 };
 

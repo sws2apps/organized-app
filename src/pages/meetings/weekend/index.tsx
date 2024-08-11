@@ -7,6 +7,7 @@ import Button from '@components/button';
 import PageTitle from '@components/page_title';
 import WeekendEditor from '@features/meetings/weekend_editor';
 import WeekendExport from '@features/meetings/weekend_export';
+import OutgoingTalks from '@features/meetings/outgoing_talks';
 
 const WeekendMeeting = () => {
   const { t } = useAppTranslation();
@@ -79,7 +80,18 @@ const WeekendMeeting = () => {
         }}
       >
         <WeekSelector />
-        <WeekendEditor />
+
+        <Box
+          sx={{
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '16px',
+          }}
+        >
+          <WeekendEditor />
+          <OutgoingTalks />
+        </Box>
       </Box>
     </Box>
   );

@@ -254,17 +254,10 @@ const useCongregationAdd = (onClose: VoidFunction) => {
 
   useEffect(() => {
     if (congregation) {
-      const addressWithoutTags = congregation.cong_location.address.replace(
-        /<\/?[^>]+(>|$)/g,
-        ''
-      );
-      const address = addressWithoutTags.replace(/(\r\n|\n|\r)/gm, ' ');
-
       const obj: CongregationIncomingDetailsType = {
         ...congregation,
         coordinator: { email: '', name: '', phone: '' },
         public_talk_coordinator: { email: '', name: '', phone: '' },
-        cong_location: { ...congregation.cong_location, address },
       };
 
       setIncomingCongregation(obj);

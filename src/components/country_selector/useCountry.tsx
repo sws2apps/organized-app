@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { apiFetchCountries } from '@services/api/congregation';
 import { displaySnackNotification } from '@services/recoil/app';
-import useAppTranslation from '@hooks/useAppTranslation';
 import { CountryResponseType } from '@definition/api';
-import { CountryType } from './index.types';
+import { CountrySelectorType, CountryType } from './index.types';
+import useAppTranslation from '@hooks/useAppTranslation';
 
 /**
  * Hook for managing country data and selection.
@@ -14,17 +14,17 @@ import { CountryType } from './index.types';
  */
 const useCountry = ({
   handleCountryChange,
-}: {
-  handleCountryChange: (value: CountryType) => void;
-}) => {
+  value,
+  autoLoad,
+}: CountrySelectorType) => {
   const queryClient = useQueryClient();
 
   const { t } = useAppTranslation();
 
   const [countries, setCountries] = useState<CountryResponseType[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(autoLoad ?? false);
   const [openPicker, setOpenPicker] = useState(false);
-  const [selected, setSelected] = useState<CountryType>(null);
+  const [selected, setSelected] = useState<CountryType>(value || null);
 
   const options: CountryType[] = countries.map(
     (country: CountryResponseType) => {
@@ -38,13 +38,31 @@ const useCountry = ({
   };
 
   useEffect(() => {
+    if (countries.length > 0) {
+      const selected = countries.find(
+        (record) => record.countryCode === value?.code
+      );
+
+      setSelected(
+        selected
+          ? { code: selected.countryCode, name: selected.countryName }
+          : null
+      );
+    }
+  }, [value, countries]);
+
+  useEffect(() => {
+    setIsLoading(autoLoad ?? false);
+  }, [autoLoad]);
+
+  useEffect(() => {
     let active = true;
 
     if (!isLoading) {
       return undefined;
     }
 
-    const fetchCongregations = async () => {
+    const fetchCountries = async () => {
       setIsLoading(true);
       await queryClient.prefetchQuery({
         queryKey: ['countries'],
@@ -69,7 +87,7 @@ const useCountry = ({
       setIsLoading(false);
     };
 
-    fetchCongregations();
+    fetchCountries();
 
     return () => {
       active = false;
@@ -77,12 +95,14 @@ const useCountry = ({
   }, [isLoading, queryClient, t]);
 
   useEffect(() => {
-    if (openPicker && countries.length === 0) {
-      setIsLoading(true);
-    } else {
-      setIsLoading(false);
+    if (!autoLoad) {
+      if (openPicker && countries.length === 0) {
+        setIsLoading(true);
+      } else {
+        setIsLoading(false);
+      }
     }
-  }, [countries, openPicker]);
+  }, [autoLoad, countries, openPicker]);
 
   return {
     setOpenPicker,

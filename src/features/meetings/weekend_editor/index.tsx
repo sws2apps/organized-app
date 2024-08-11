@@ -6,13 +6,13 @@ import {
   IconWatchtowerStudy,
 } from '@components/icons';
 import { AssignmentCode } from '@definition/assignment';
+import { EditorContainer } from './index.styles';
+import { Week } from '@definition/week_type';
 import {
   DoubleFieldContainer,
-  EditorContainer,
   PrimaryFieldContainer,
   SecondaryFieldContainer,
-} from './index.styles';
-import { Week } from '@definition/week_type';
+} from '../shared_styles';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import usePublicTalkSelector from './public_talk_selector/usePublicTalkSelector';
 import usePublicTalkTypeSelector from './public_talk_type_selector/usePublicTalkTypeSelector';
@@ -75,7 +75,7 @@ const WeekendEditor = () => {
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <IconInfo color="var(--accent-400)" />
           <Typography color="var(--grey-400)">
-            {t('tr_infoPlanMidweekMeeting')}
+            {t('tr_infoSecondPlanMidweekMeeting')}
           </Typography>
         </Box>
       )}
@@ -156,10 +156,7 @@ const WeekendEditor = () => {
                   <PublicTalkTypeSelector week={selectedWeek} />
                 )}
 
-                <DoubleFieldContainer
-                  laptopUp={laptopUp}
-                  sx={{ alignItems: laptopUp ? 'flex-start' : 'unset' }}
-                >
+                <DoubleFieldContainer laptopUp={laptopUp}>
                   <PrimaryFieldContainer>
                     {weekType === Week.NORMAL && (
                       <PublicTalkSelector
@@ -253,14 +250,7 @@ const WeekendEditor = () => {
 
                 <DoubleFieldContainer
                   laptopUp={laptopUp}
-                  sx={{
-                    alignItems: laptopUp
-                      ? weekType !== Week.CO_VISIT
-                        ? 'flex-start'
-                        : 'center'
-                      : 'unset',
-                    margin: '8px 0',
-                  }}
+                  sx={{ margin: '8px 0' }}
                 >
                   <PrimaryFieldContainer
                     sx={{

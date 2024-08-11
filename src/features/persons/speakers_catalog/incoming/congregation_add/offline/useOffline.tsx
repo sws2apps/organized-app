@@ -6,7 +6,7 @@ import {
   CongregationResponseType,
   IncomingCongregationResponseType,
 } from '@definition/api';
-import { removeSecondsFromTime } from '@utils/dev';
+import { removeSecondsFromTime } from '@utils/date';
 import { CountryType } from '@components/country_selector/index.types';
 import { isDemo } from '@constants/index';
 

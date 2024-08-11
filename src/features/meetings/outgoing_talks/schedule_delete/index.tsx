@@ -1,36 +1,23 @@
 import { Box } from '@mui/material';
 import { IconLoading } from '@components/icons';
-import { AssignmentsWeekDeleteType } from './index.types';
 import { useAppTranslation } from '@hooks/index';
-import useAssignmentsDelete from './useAssignmentsWeekDelete';
+import { ScheduleDeleteType } from './index.types';
+import useAssignmentsDelete from './useScheduleDelete';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
 import Typography from '@components/typography';
 
-const AssignmentsWeekDelete = ({
-  open,
-  onClose,
-  meeting,
-  week,
-  schedule_id,
-}: AssignmentsWeekDeleteType) => {
+const ScheduleDelete = (props: ScheduleDeleteType) => {
   const { t } = useAppTranslation();
 
-  const { isProcessing, handleClearAssignments } = useAssignmentsDelete(
-    week,
-    meeting,
-    onClose,
-    schedule_id
-  );
+  const { isProcessing, handleDeleteSchedule } = useAssignmentsDelete(props);
 
   return (
-    <Dialog onClose={onClose} open={open} sx={{ padding: '24px' }}>
+    <Dialog onClose={props.onClose} open={props.open} sx={{ padding: '24px' }}>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-        <Typography className="h2">{t('tr_clearAllAssignments')}</Typography>
+        <Typography className="h2">{t('tr_outgoingTalkDelete')}</Typography>
         <Typography color="var(--grey-400)">
-          {schedule_id
-            ? t('tr_clearOutgoingTalkDesc')
-            : t('tr_clearAllAssignmentsDesc')}
+          {t('tr_outgoingTalkDeleteDesc')}
         </Typography>
       </Box>
 
@@ -47,11 +34,11 @@ const AssignmentsWeekDelete = ({
           color="red"
           disabled={isProcessing}
           endIcon={isProcessing && <IconLoading />}
-          onClick={handleClearAssignments}
+          onClick={handleDeleteSchedule}
         >
-          {t('tr_clear')}
+          {t('tr_delete')}
         </Button>
-        <Button variant="secondary" onClick={onClose}>
+        <Button variant="secondary" onClick={props.onClose}>
           {t('tr_cancel')}
         </Button>
       </Box>
@@ -59,4 +46,4 @@ const AssignmentsWeekDelete = ({
   );
 };
 
-export default AssignmentsWeekDelete;
+export default ScheduleDelete;

@@ -3,4 +3,5 @@ export type AssignmentsWeekDeleteType = {
   onClose: VoidFunction;
   meeting: 'midweek' | 'weekend';
   week: string;
+  schedule_id?: string;
 };

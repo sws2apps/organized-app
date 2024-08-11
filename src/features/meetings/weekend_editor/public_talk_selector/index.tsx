@@ -13,6 +13,7 @@ const PublicTalkSelector = ({
   week,
   showSpeakerCount,
   type,
+  schedule_id,
 }: PublicTalkSelectorType) => {
   const { t } = useAppTranslation();
 
@@ -25,7 +26,7 @@ const PublicTalkSelector = ({
     handleCloseCatalog,
     handleOpenCatalog,
     openCatalog,
-  } = usePublicTalkSelector(week);
+  } = usePublicTalkSelector(week, schedule_id);
 
   return (
     <Box sx={{ position: 'relative' }}>
@@ -34,6 +35,7 @@ const PublicTalkSelector = ({
           open={openCatalog}
           onClose={handleCloseCatalog}
           week={week}
+          schedule_id={schedule_id}
           type={type}
         />
       )}

@@ -7,6 +7,7 @@ export type SpeakersCatalogType = {
   onClose: VoidFunction;
   type: PublicTalkType;
   week: string;
+  schedule_id: string;
 };
 
 export type TalkOptionType = PublicTalkTypeDefault & {

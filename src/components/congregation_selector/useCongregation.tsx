@@ -6,7 +6,11 @@ import { useAppTranslation } from '@hooks/index';
 import { CongregationResponseType } from '@definition/api';
 import { speakersCongregationsActiveState } from '@states/speakers_congregations';
 
-const useCongregation = (country_code: string, cong_number?: string) => {
+const useCongregation = (
+  country_code: string,
+  cong_number?: string,
+  freeSoloValue?: string
+) => {
   const { t } = useAppTranslation();
 
   const congregations = useRecoilValue(speakersCongregationsActiveState);
@@ -15,6 +19,10 @@ const useCongregation = (country_code: string, cong_number?: string) => {
   const [inputValue, setInputValue] = useState('');
   const [options, setOptions] = useState<CongregationResponseType[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setInputValue(freeSoloValue || '');
+  }, [freeSoloValue]);
 
   useEffect(() => {
     let active = true;
@@ -85,7 +93,7 @@ const useCongregation = (country_code: string, cong_number?: string) => {
     };
   }, [country_code, value, inputValue, t, cong_number, congregations]);
 
-  return { setValue, value, setInputValue, options, isLoading };
+  return { setValue, value, setInputValue, options, isLoading, inputValue };
 };
 
 export default useCongregation;

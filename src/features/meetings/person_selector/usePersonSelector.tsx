@@ -14,7 +14,7 @@ import {
   userDataViewState,
   weekendMeetingWTStudyConductorDefaultState,
 } from '@states/settings';
-import { personGetDisplayName } from '@utils/common';
+import { personGetDisplayName, speakerGetDisplayName } from '@utils/common';
 import { AssignmentCode } from '@definition/assignment';
 import { useAppTranslation } from '@hooks/index';
 import { assignmentsHistoryState, schedulesState } from '@states/schedules';
@@ -42,7 +42,10 @@ import {
   schedulesSaveAssignment,
 } from '@services/app/schedules';
 import { IconMale, IconPersonPlaceholder } from '@components/icons';
-import { incomingSpeakersState } from '@states/visiting_speakers';
+import {
+  incomingSpeakersState,
+  outgoingSpeakersState,
+} from '@states/visiting_speakers';
 import { personSchema } from '@services/dexie/schema';
 import { speakersCongregationsActiveState } from '@states/speakers_congregations';
 import { publicTalksState } from '@states/public_talks';
@@ -56,6 +59,7 @@ const usePersonSelector = ({
   circuitOverseer,
   jwStreamRecording,
   freeSoloForce,
+  schedule_id,
 }: PersonSelectorType) => {
   const timerSource = useRef<NodeJS.Timeout>();
 
@@ -71,6 +75,7 @@ const usePersonSelector = ({
   const lang = useRecoilValue(JWLangState);
   const history = useRecoilValue(assignmentsHistoryState);
   const visitingSpeakers = useRecoilValue(incomingSpeakersState);
+  const outgoingSpeakers = useRecoilValue(outgoingSpeakersState);
   const speakersCongregation = useRecoilValue(speakersCongregationsActiveState);
   const talks = useRecoilValue(publicTalksState);
   const coName = useRecoilValue(COScheduleNameState);
@@ -163,7 +168,7 @@ const usePersonSelector = ({
 
   const handleSaveAssignment = async (value: PersonOptionsType) => {
     if (typeof value === 'object') {
-      await schedulesSaveAssignment(schedule, assignment, value);
+      await schedulesSaveAssignment(schedule, assignment, value, schedule_id);
     }
   };
 
@@ -294,13 +299,23 @@ const usePersonSelector = ({
     }
   }, [circuitOverseer, jwStreamRecording]);
 
+  // set selector label
   useEffect(() => {
-    if (BROTHER_ASSIGNMENT.includes(type)) {
+    if (
+      BROTHER_ASSIGNMENT.includes(type) ||
+      assignment === 'WM_Speaker_Outgoing'
+    ) {
       setOptionHeader(labelBrothers);
     } else {
       setOptionHeader(labelParticipants);
     }
-  }, [type, labelBrothers, labelParticipants, labelVisitingSpeakers]);
+  }, [
+    type,
+    labelBrothers,
+    labelParticipants,
+    labelVisitingSpeakers,
+    assignment,
+  ]);
 
   // options setter for visiting speakers
   useEffect(() => {
@@ -347,31 +362,49 @@ const usePersonSelector = ({
     getPersonDisplayName,
   ]);
 
+  // options setter for outgoing speakers
+  useEffect(() => {
+    if (assignment === 'WM_Speaker_Outgoing') {
+      const options: PersonOptionsType[] = [];
+
+      for (const speaker of outgoingSpeakers) {
+        if (talk) {
+          const activeTalks = speaker.speaker_data.talks.filter(
+            (record) => record._deleted === false && record.talk_number === talk
+          );
+
+          if (activeTalks.length === 0) {
+            continue;
+          }
+        }
+
+        const person = personsAll.find(
+          (record) => record.person_uid === speaker.person_uid
+        );
+
+        options.push(person);
+      }
+
+      setOptions(
+        options.sort((a, b) =>
+          getPersonDisplayName(a).localeCompare(getPersonDisplayName(b))
+        )
+      );
+    }
+  }, [assignment, getPersonDisplayName, outgoingSpeakers, talk, personsAll]);
+
   // options setter for others
   useEffect(() => {
-    if (!isAssistant && !visitingSpeaker && !jwStreamRecording) {
+    if (
+      !isAssistant &&
+      !visitingSpeaker &&
+      !jwStreamRecording &&
+      assignment !== 'WM_Speaker_Outgoing'
+    ) {
       setOptions([]);
 
       const isMale = gender === 'male';
       const isFemale = gender === 'female';
-
-      const getLCSources = (part: LivingAsChristiansType) => {
-        const srcOverride = part.title.override.find(
-          (record) => record.type === dataView
-        );
-        const srcDefault = part.title.default[lang];
-        const src =
-          srcOverride?.value.length > 0 ? srcOverride.value : srcDefault;
-
-        const descOverride = part.desc.override.find(
-          (record) => record.type === dataView
-        );
-        const descDefault = part.desc.default[lang];
-        const desc =
-          descOverride?.value.length > 0 ? descOverride.value : descDefault;
-
-        return { src, desc };
-      };
 
       if (
         type !== AssignmentCode.MM_LCPart &&
@@ -408,6 +441,24 @@ const usePersonSelector = ({
       }
 
       if (type === AssignmentCode.MM_LCPart) {
+        const getLCSources = (part: LivingAsChristiansType) => {
+          const srcOverride = part.title.override.find(
+            (record) => record.type === dataView
+          );
+          const srcDefault = part.title.default[lang];
+          const src =
+            srcOverride?.value.length > 0 ? srcOverride.value : srcDefault;
+
+          const descOverride = part.desc.override.find(
+            (record) => record.type === dataView
+          );
+          const descDefault = part.desc.default[lang];
+          const desc =
+            descOverride?.value.length > 0 ? descOverride.value : descDefault;
+
+          return { src, desc };
+        };
+
         const source = sources.find((record) => record.weekOf === week);
         if (source) {
           const lcParts = ['MM_LCPart1', 'MM_LCPart2'];
@@ -475,9 +526,27 @@ const usePersonSelector = ({
     jwStreamRecording,
   ]);
 
-  // set selected option
+  // set selected option for outgoing speaker
   useEffect(() => {
-    if (week.length > 0) {
+    if (week.length > 0 && assignment === 'WM_Speaker_Outgoing') {
+      setValue(null);
+
+      const outgoingSchedule = schedule.weekend_meeting.outgoing_talks.find(
+        (record) => record.id === schedule_id
+      );
+
+      if (outgoingSchedule?.speaker.length > 0) {
+        const person = personsAll.find(
+          (record) => record.person_uid === outgoingSchedule.speaker
+        );
+        setValue(person);
+      }
+    }
+  }, [week, schedule, schedule_id, personsAll, assignment]);
+
+  // set selected option for others
+  useEffect(() => {
+    if (week.length > 0 && assignment !== 'WM_Speaker_Outgoing') {
       const path = ASSIGNMENT_PATH[assignment];
 
       if (path) {
@@ -634,20 +703,40 @@ const usePersonSelector = ({
 
       if (assigned) {
         if (!assigned.solo) {
-          const person = options.find(
-            (record) => record.person_uid === assigned?.value
-          );
+          if (!freeSoloForce) {
+            const person = options.find(
+              (record) => record.person_uid === assigned?.value
+            );
 
-          if (person && person.person_data.female.value) {
-            setGender('female');
+            if (person && person.person_data.female.value) {
+              setGender('female');
+            }
+
+            if (person && person.person_data.male.value) {
+              setGender('male');
+            }
+
+            setValue(person || null);
+            setFreeSoloText('');
           }
 
-          if (person && person.person_data.male.value) {
-            setGender('male');
-          }
+          if (freeSoloForce) {
+            setFreeSoloText('');
 
-          setValue(person || null);
-          setFreeSoloText('');
+            const person = visitingSpeakers.find(
+              (record) => record.person_uid === assigned.value
+            );
+
+            if (person) {
+              setFreeSoloText(
+                speakerGetDisplayName(
+                  person,
+                  displayNameEnabled,
+                  fullnameOption
+                )
+              );
+            }
+          }
         }
 
         if (assigned.solo) {
@@ -666,6 +755,10 @@ const usePersonSelector = ({
     WTStudyConductorDefault,
     personsAll,
     jwStreamRecording,
+    freeSoloForce,
+    visitingSpeakers,
+    displayNameEnabled,
+    fullnameOption,
   ]);
 
   // checking overlapping assignments
@@ -728,6 +821,7 @@ const usePersonSelector = ({
     freeSolo,
     freeSoloText,
     handleFreeSoloTextChange,
+    schedule_id,
   };
 };
 

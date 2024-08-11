@@ -14,6 +14,7 @@ export type PersonSelectorType = {
   circuitOverseer?: boolean;
   jwStreamRecording?: boolean;
   freeSoloForce?: boolean;
+  schedule_id?: string;
 };
 
 export type GenderType = 'male' | 'female';
