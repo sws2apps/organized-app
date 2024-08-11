@@ -130,6 +130,7 @@ export type AssignmentHistoryType = {
     category: string;
     classroom?: string;
     schedule_id?: string;
+    public_talk?: number;
     ayf?: {
       student?: string;
       assistant?: string;

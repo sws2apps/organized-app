@@ -1,3 +1,3 @@
-import { PublicTalkType } from '@definition/public_talks';
+import { TalkItemType } from '../../index.types';
 
-export type TalkRowType = { talk: PublicTalkType; isExpandAll: boolean };
+export type TalkRowType = { talk: TalkItemType; isExpandAll: boolean };

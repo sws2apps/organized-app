@@ -7,11 +7,15 @@ import {
   TableRow,
 } from '@mui/material';
 import { IconCollapse, IconExpand } from '@components/icons';
-import Typography from '@components/typography';
-import useTalkRow from './useTalkRow';
 import { TalkRowType } from './index.types';
+import { formatDate } from '@services/dateformat';
+import { useAppTranslation } from '@hooks/index';
+import useTalkRow from './useTalkRow';
+import Typography from '@components/typography';
 
 const TalkRow = ({ talk, isExpandAll }: TalkRowType) => {
+  const { t } = useAppTranslation();
+
   const {
     collapseOpen,
     handleToggleCollapse,
@@ -24,7 +28,7 @@ const TalkRow = ({ talk, isExpandAll }: TalkRowType) => {
     <>
       <TableRow
         className="talk-list-item"
-        onClick={handleToggleCollapse}
+        onClick={talk.history.length > 0 ? () => handleToggleCollapse() : null}
         sx={{
           cursor: 'pointer',
           height: '48px',
@@ -52,39 +56,41 @@ const TalkRow = ({ talk, isExpandAll }: TalkRowType) => {
           },
         }}
       >
-        <TableCell component="th" scope="row">
+        <TableCell
+          component="th"
+          scope="row"
+          sx={{ width: '30px', minWidth: '30px' }}
+        >
           <Typography className="h4">{talk.talk_number}</Typography>
         </TableCell>
-        <TableCell>
-          <Typography className="h4" sx={{ minWidth: '138px' }}>
-            {talk.talk_title}
+        <TableCell sx={{ minWidth: '138px' }}>
+          <Typography className="h4">{talk.talk_title}</Typography>
+        </TableCell>
+        <TableCell sx={{ width: '50px', minWidth: '50px' }}>
+          <Typography className="body-small-regular">
+            {talk.last_date.length > 0 &&
+              formatDate(new Date(talk.last_date), t('tr_shortDateFormatAlt'))}
           </Typography>
         </TableCell>
-        <TableCell>
-          <Typography className="body-small-regular" sx={{ minWidth: '50px' }}>
-            01/01/24
+        <TableCell sx={{ width: '205px', minWidth: '205px' }}>
+          <Typography className="body-small-regular">
+            {talk.last_speaker}
           </Typography>
         </TableCell>
-        <TableCell>
-          <Typography
-            className="body-small-regular"
-            sx={{ flexGrow: 1, minWidth: '60px' }}
-          >
-            B. Jason
-          </Typography>
-        </TableCell>
-        <TableCell>
-          <Box
-            className="row-btn"
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            {!collapseOpen && <IconExpand color="var(--black)" />}
-            {collapseOpen && <IconCollapse color="var(--black)" />}
-          </Box>
+        <TableCell sx={{ width: '25px', minWidth: '25px' }}>
+          {talk.history.slice(1).length > 0 && (
+            <Box
+              className="row-btn"
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              {!collapseOpen && <IconExpand color="var(--black)" />}
+              {collapseOpen && <IconCollapse color="var(--black)" />}
+            </Box>
+          )}
         </TableCell>
       </TableRow>
       <TableRow
@@ -100,14 +106,17 @@ const TalkRow = ({ talk, isExpandAll }: TalkRowType) => {
         onMouseEnter={handleHistoryFocused}
         onMouseLeave={handleHistoryUnfocused}
       >
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={5}>
-          <Collapse in={collapseOpen} timeout="auto" unmountOnExit>
+        <TableCell style={{ padding: 0 }} colSpan={5}>
+          <Collapse
+            in={talk.history.slice(1).length > 0 && collapseOpen}
+            timeout="auto"
+            unmountOnExit
+          >
             <Table
               size="small"
               sx={{
                 marginBottom: '16px',
                 '& .MuiTableCell-root': {
-                  padding: 0,
                   boxSizing: 'content-box',
                 },
                 '& .MuiTableRow-root > .MuiTableCell-root': {
@@ -116,10 +125,7 @@ const TalkRow = ({ talk, isExpandAll }: TalkRowType) => {
               }}
             >
               <TableBody>
-                {[
-                  { date: '12/08/22', name: 'F. Miles' },
-                  { date: '06/08/20', name: 'J. Brendon' },
-                ].map((history) => (
+                {talk.history.slice(1).map((history) => (
                   <TableRow
                     key={history.date}
                     sx={{
@@ -130,23 +136,49 @@ const TalkRow = ({ talk, isExpandAll }: TalkRowType) => {
                     }}
                   >
                     <TableCell
-                      sx={{ minWidth: '195px', flexGrow: 1 }}
-                      align="left"
+                      component="th"
+                      scope="row"
+                      sx={{
+                        minWidth: '46px',
+                        width: '46px',
+                        padding: '0 !important',
+                      }}
                     />
-                    <TableCell align="left" sx={{ width: '78px' }}>
-                      <Typography
-                        className="body-small-regular"
-                        sx={{ minWidth: '50px' }}
-                      >
-                        {history.date}
-                      </Typography>
-                    </TableCell>
-                    <TableCell align="left" sx={{ width: '210px' }}>
+                    <TableCell
+                      sx={{ minWidth: '138px', padding: '0 !important' }}
+                    />
+                    <TableCell
+                      sx={{
+                        width: '58px',
+                        minWidth: '58px',
+                        padding: '0 8px !important',
+                      }}
+                    >
                       <Typography className="body-small-regular">
-                        {history.name}
+                        {formatDate(
+                          new Date(history.date),
+                          t('tr_shortDateFormatAlt')
+                        )}
                       </Typography>
                     </TableCell>
-                    <TableCell sx={{ width: '16px' }} />
+                    <TableCell
+                      sx={{
+                        width: '206px',
+                        minWidth: '206px',
+                        padding: '0 8px !important',
+                      }}
+                    >
+                      <Typography className="body-small-regular">
+                        {history.person}
+                      </Typography>
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        width: '41px',
+                        minWidth: '41px',
+                        padding: '0 !important',
+                      }}
+                    />
                   </TableRow>
                 ))}
               </TableBody>
