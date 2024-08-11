@@ -107,5 +107,7 @@
   "tr_description": "Опис",
   "tr_day": "День",
   "tr_week": "Тиждень",
-  "tr_noThanks": "Ні, дякую"
+  "tr_noThanks": "Ні, дякую",
+  "tr_shortDateFormatAlt": "MM/dd/yy",
+  "tr_shortDateFormatNoYear": "MM/dd"
 }
