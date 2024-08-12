@@ -9,17 +9,19 @@ export const apiFetchCountries = async () => {
     idToken,
   } = await apiDefault();
 
-  const res = await fetch(`${apiHost}api/v3/congregations/countries`, {
-    method: 'GET',
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${idToken}`,
-      appclient: 'organized',
-      appversion,
-      language: JWLang.toUpperCase(),
-    },
-  });
+  const res = await fetch(
+    `${apiHost}api/v3/congregations/countries?language=${JWLang.toUpperCase()}`,
+    {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${idToken}`,
+        appclient: 'organized',
+        appversion,
+      },
+    }
+  );
   const data = await res.json();
 
   return { status: res.status, data };
@@ -37,19 +39,19 @@ export const apiFetchCongregations = async (country, name) => {
     return { data: [] };
   }
 
-  const res = await fetch(`${apiHost}api/v3/congregations/list-by-country`, {
-    method: 'GET',
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${idToken}`,
-      appclient: 'organized',
-      appversion,
-      language: JWLang.toUpperCase(),
-      country,
-      name,
-    },
-  });
+  const res = await fetch(
+    `${apiHost}api/v3/congregations/search?language=${JWLang.toUpperCase()}&country=${country}&name=${name}`,
+    {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${idToken}`,
+        appclient: 'organized',
+        appversion,
+      },
+    }
+  );
 
   const data = await res.json();
 
