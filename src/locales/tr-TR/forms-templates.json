@@ -47,7 +47,7 @@
   "tr_lcSourceElderVariations": "Yerel İhtiyaçlar",
   "tr_lcContentElderVariations": "Bir ihtiyar tarafından ele alınacak",
   "tr_speaker": "Konuşmacı",
-  "tr_speakerSymposium": "Speaker (Symposium, part 1)",
+  "tr_speakerSymposium": "Konuşmacı (15 dk.)",
   "tr_wtStudyReader": "Cemaat Kutsal Kitap okuyucusu",
   "tr_weekendMeetingPrint": "Hafta sonu ibadet programı",
   "tr_publicTalk": "Halka yönelik konuşma",
@@ -63,7 +63,7 @@
   "tr_demonstration": "Gösteri",
   "tr_partNo": "Kısım no.:",
   "tr_nameS89": "Ad soyad:",
-  "tr_assistant": "Assistant:",
+  "tr_assistant": "Yardımcı:",
   "tr_chairman": "Başkanlık eden",
   "tr_prayer": "Dua",
   "tr_partDuration": "({{ time }} dk.)",
@@ -72,5 +72,5 @@
   "tr_specialTalkWeek": "Özel konuşma",
   "tr_wtStudyConductor": "Cemaat Kutsal Kitap inceleme idarecisi",
   "tr_closingPrayerWeekendMeeting": "Kapanış duası",
-  "tr_date": "Date"
+  "tr_date": "Tarih:"
 }
