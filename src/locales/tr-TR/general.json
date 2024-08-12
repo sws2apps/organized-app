@@ -107,5 +107,7 @@
   "tr_description": "Açıklama",
   "tr_day": "Gün",
   "tr_week": "Hafta",
-  "tr_noThanks": "Hayır, teşekkürler"
+  "tr_noThanks": "Hayır, teşekkürler",
+  "tr_shortDateFormatAlt": "MM/dd/yy",
+  "tr_shortDateFormatNoYear": "MM/dd"
 }
