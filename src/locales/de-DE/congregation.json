@@ -270,7 +270,7 @@
   "tr_addManualCongregationDesc": "Manually add a congregation that isn’t on Organized yet. Once they join the app, you can sync their outgoing speakers list.",
   "tr_auxiliaryPioneersContinuous": "Auxiliary pioneers (serving continuously)",
   "tr_highestAuxPioNumber": "Highest number of auxiliary pioneers",
-  "tr_bibleStudies": "Bible studies",
+  "tr_bibleStudies": "Bibelstudien",
   "tr_bibleStudiesCount": "Bible studies: {{ StudiesCount }}",
   "tr_activePublishers": "Active publishers",
   "tr_avgAuxPioMonthly": "Average auxiliary pioneers per month",
