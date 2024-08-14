@@ -108,6 +108,6 @@
   "tr_day": "Dia",
   "tr_week": "Semana",
   "tr_noThanks": "Não, obrigado",
-  "tr_shortDateFormatAlt": "MM/dd/yy",
-  "tr_shortDateFormatNoYear": "MM/dd"
+  "tr_shortDateFormatAlt": "dd/MM/yy",
+  "tr_shortDateFormatNoYear": "dd/MM"
 }
