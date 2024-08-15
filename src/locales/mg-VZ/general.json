@@ -105,9 +105,9 @@
   "tr_noPersonsFoundDesc": "Tsy misy olona hita ao amin’ny firaketana mifanaraka amin’ireo sivana ireo. Afaka misafidy sokajy na daty hafa koa ianao.",
   "tr_categories": "Sokajy",
   "tr_description": "Description",
-  "tr_day": "Day",
-  "tr_week": "Week",
-  "tr_noThanks": "No, thanks",
-  "tr_shortDateFormatAlt": "MM/dd/yy",
-  "tr_shortDateFormatNoYear": "MM/dd"
+  "tr_day": "Andro",
+  "tr_week": "Herinandro",
+  "tr_noThanks": "Aoka ihany",
+  "tr_shortDateFormatAlt": "dd/MM/yy",
+  "tr_shortDateFormatNoYear": "dd/MM"
 }
