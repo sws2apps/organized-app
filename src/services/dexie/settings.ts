@@ -147,50 +147,6 @@ export const dbAppSettingsUpdateUserInfoAfterLogin = async (
     });
   }
 
-  const midweekMeeting = structuredClone(
-    settings.cong_settings.midweek_meeting
-  );
-
-  for (const item of midweekMeeting) {
-    const remoteItem = data.result.midweek_meeting.find(
-      (record) => record.type === item.type
-    );
-
-    if (item?.time.updatedAt < remoteItem?.time.updatedAt) {
-      item.time = remoteItem.time;
-    }
-
-    if (item?.weekday.updatedAt < remoteItem?.weekday.updatedAt) {
-      item.weekday = remoteItem.weekday;
-    }
-  }
-
-  await dbAppSettingsUpdate({
-    'cong_settings.midweek_meeting': midweekMeeting,
-  });
-
-  const weekendMeeting = structuredClone(
-    settings.cong_settings.weekend_meeting
-  );
-
-  for (const item of weekendMeeting) {
-    const remoteItem = data.result.weekend_meeting.find(
-      (record) => record.type === item.type
-    );
-
-    if (item?.time.updatedAt < remoteItem?.time.updatedAt) {
-      item.time = remoteItem.time;
-    }
-
-    if (item?.weekday.updatedAt < remoteItem?.weekday.updatedAt) {
-      item.weekday = remoteItem.weekday;
-    }
-  }
-
-  await dbAppSettingsUpdate({
-    'cong_settings.weekend_meeting': weekendMeeting,
-  });
-
   const congCircuit = structuredClone(settings.cong_settings.cong_circuit);
 
   for (const item of congCircuit) {
@@ -204,8 +160,46 @@ export const dbAppSettingsUpdateUserInfoAfterLogin = async (
     }
   }
 
+  const midweekMeeting = structuredClone(
+    settings.cong_settings.midweek_meeting
+  );
+
+  for (const item of midweekMeeting) {
+    const remoteItem = data.result.midweek_meeting.find(
+      (record) => record.type === item.type
+    );
+
+    if (item.time.updatedAt < remoteItem?.time.updatedAt) {
+      item.time = remoteItem.time;
+    }
+
+    if (item?.weekday.updatedAt < remoteItem?.weekday.updatedAt) {
+      item.weekday = remoteItem.weekday;
+    }
+  }
+
+  const weekendMeeting = structuredClone(
+    settings.cong_settings.weekend_meeting
+  );
+
+  for (const item of weekendMeeting) {
+    const remoteItem = data.result.weekend_meeting.find(
+      (record) => record.type === item.type
+    );
+
+    if (item.time.updatedAt < remoteItem.time.updatedAt) {
+      item.time = remoteItem.time;
+    }
+
+    if (item.weekday.updatedAt < remoteItem.weekday.updatedAt) {
+      item.weekday = remoteItem.weekday;
+    }
+  }
+
   await dbAppSettingsUpdate({
     'cong_settings.cong_circuit': congCircuit,
+    'cong_settings.midweek_meeting': midweekMeeting,
+    'cong_settings.weekend_meeting': weekendMeeting,
   });
 
   await setIsMFAEnabled(data.result.mfaEnabled);
