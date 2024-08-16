@@ -9,7 +9,7 @@ import { useRecoilValue } from 'recoil';
 import { personsActiveState, personsState } from '@states/persons';
 import {
   COScheduleNameState,
-  displayNameEnableState,
+  displayNameMeetingsEnableState,
   fullnameOptionState,
   userDataViewState,
   weekendMeetingWTStudyConductorDefaultState,
@@ -66,7 +66,7 @@ const usePersonSelector = ({
   const { t } = useAppTranslation();
 
   const personsAll = useRecoilValue(personsActiveState);
-  const displayNameEnabled = useRecoilValue(displayNameEnableState);
+  const displayNameEnabled = useRecoilValue(displayNameMeetingsEnableState);
   const fullnameOption = useRecoilValue(fullnameOptionState);
   const schedules = useRecoilValue(schedulesState);
   const sources = useRecoilValue(sourcesState);

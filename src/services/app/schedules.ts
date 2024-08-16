@@ -4,9 +4,10 @@ import {
   CODisplayNameState,
   COFullnameState,
   COScheduleNameState,
-  displayNameEnableState,
+  displayNameMeetingsEnableState,
   fullnameOptionState,
   midweekMeetingClassCountState,
+  midweekMeetingClosingPrayerAutoAssign,
   midweekMeetingExactDateState,
   midweekMeetingOpeningPrayerAutoAssign,
   midweekMeetingTimeState,
@@ -102,6 +103,9 @@ export const schedulesMidweekInfo = async (week: string) => {
   );
   const openingPrayerAutoAssign: boolean = await promiseGetRecoil(
     midweekMeetingOpeningPrayerAutoAssign
+  );
+  const closingPrayerAutoAssign: boolean = await promiseGetRecoil(
+    midweekMeetingClosingPrayerAutoAssign
   );
   const sources: SourceWeekType[] = await promiseGetRecoil(sourcesState);
   const schedules: SchedWeekType[] = await promiseGetRecoil(schedulesState);
@@ -366,13 +370,15 @@ export const schedulesMidweekInfo = async (week: string) => {
     }
 
     // closing prayer
-    total = total + 1;
+    if (!closingPrayerAutoAssign) {
+      total = total + 1;
 
-    assignment = schedule.midweek_meeting.closing_prayer.find(
-      (record) => record.type === dataView
-    );
-    if (assignment && assignment.value.length > 0) {
-      assigned = assigned + 1;
+      assignment = schedule.midweek_meeting.closing_prayer.find(
+        (record) => record.type === dataView
+      );
+      if (assignment && assignment.value.length > 0) {
+        assigned = assigned + 1;
+      }
     }
   }
 
@@ -1889,7 +1895,7 @@ export const schedulesMidweekData = async (
     midweekMeetingOpeningPrayerAutoAssign
   );
   const useDisplayName: boolean = await promiseGetRecoil(
-    displayNameEnableState
+    displayNameMeetingsEnableState
   );
 
   const minLabel = getTranslation({ key: 'tr_minLabel' });

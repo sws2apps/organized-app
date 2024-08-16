@@ -6,12 +6,12 @@ import { personCurrentDetailsState } from '@states/persons';
 import { computeYearsDiff } from '@utils/date';
 import { generateDisplayName } from '@utils/common';
 import { appLangState } from '@states/app';
-import { displayNameEnableState } from '@states/settings';
+import { displayNameMeetingsEnableState } from '@states/settings';
 
 const useBasicInfo = () => {
   const person = useRecoilValue(personCurrentDetailsState);
   const appLang = useRecoilValue(appLangState);
-  const displayNameEnabled = useRecoilValue(displayNameEnableState);
+  const displayNameEnabled = useRecoilValue(displayNameMeetingsEnableState);
 
   const { tabletDown } = useBreakpoints();
 

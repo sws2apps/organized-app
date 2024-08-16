@@ -9,14 +9,17 @@ import { assignmentsHistoryState } from '@states/schedules';
 import { TalkItemType } from './index.types';
 import { personsAllState } from '@states/persons';
 import { personGetDisplayName } from '@utils/common';
-import { displayNameEnableState, fullnameOptionState } from '@states/settings';
+import {
+  displayNameMeetingsEnableState,
+  fullnameOptionState,
+} from '@states/settings';
 
 const usePublicTalks = () => {
   const talksList = useRecoilValue(publicTalksState);
   const txtSearch = useRecoilValue(publicTalksSearchKeyState);
   const assignmentsHistory = useRecoilValue(assignmentsHistoryState);
   const persons = useRecoilValue(personsAllState);
-  const useDisplayName = useRecoilValue(displayNameEnableState);
+  const useDisplayName = useRecoilValue(displayNameMeetingsEnableState);
   const fullnameOption = useRecoilValue(fullnameOptionState);
 
   const [isExpandAll, setIsExpandAll] = useState(false);

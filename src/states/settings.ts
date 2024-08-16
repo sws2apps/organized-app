@@ -31,6 +31,30 @@ export const congNameState = selector({
   },
 });
 
+export const congFullnameState = selector({
+  key: 'congFullname',
+  get: ({ get }) => {
+    const congName = get(congNameState);
+    const congNumber = get(congNumberState);
+
+    return `${congName}, ${congNumber}`;
+  },
+});
+
+export const circuitNumberState = selector({
+  key: 'circuitNumber',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+    const dataView = get(userDataViewState);
+
+    const circuit = settings.cong_settings.cong_circuit.find(
+      (record) => record.type === dataView
+    );
+
+    return circuit?.value || '';
+  },
+});
+
 export const countryCodeState = selector({
   key: 'countryCode',
   get: ({ get }) => {
@@ -80,8 +104,23 @@ export const fullnameOptionState = selector({
   key: 'fullnameOption',
   get: ({ get }) => {
     const settings = get(settingsState);
+    const dataView = get(userDataViewState);
 
-    return settings.cong_settings.fullname_option.value;
+    return settings.cong_settings.fullname_option.find(
+      (record) => record.type === dataView
+    ).value;
+  },
+});
+
+export const shortDateFormatState = selector({
+  key: 'shortDateFormat',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+    const dataView = get(userDataViewState);
+
+    return settings.cong_settings.short_date_format.find(
+      (record) => record.type === dataView
+    ).value;
   },
 });
 
@@ -130,7 +169,7 @@ export const COScheduleNameState = selector({
   get: ({ get }) => {
     const fullname = get(COFullnameState);
     const displayName = get(CODisplayNameState);
-    const useDisplayName = get(displayNameEnableState);
+    const useDisplayName = get(displayNameMeetingsEnableState);
 
     const scheduleName = useDisplayName ? displayName : fullname;
 
@@ -258,12 +297,12 @@ export const congDiscoverableState = selector({
   },
 });
 
-export const displayNameEnableState = selector({
-  key: 'displayNameEnable',
+export const displayNameMeetingsEnableState = selector({
+  key: 'displayNameMeetingsEnable',
   get: ({ get }) => {
     const settings = get(settingsState);
 
-    return settings.cong_settings.display_name_enabled.value;
+    return settings.cong_settings.display_name_enabled.meetings.value;
   },
 });
 
@@ -289,7 +328,7 @@ export const midweekMeetingWeekdayState = selector({
 
     return settings.cong_settings.midweek_meeting.find(
       (record) => record.type === dataView
-    ).weekday;
+    ).weekday.value;
   },
 });
 
@@ -301,7 +340,7 @@ export const midweekMeetingTimeState = selector({
 
     return settings.cong_settings.midweek_meeting.find(
       (record) => record.type === dataView
-    ).time;
+    ).time.value;
   },
 });
 
@@ -313,7 +352,19 @@ export const midweekMeetingOpeningPrayerAutoAssign = selector({
 
     return settings.cong_settings.midweek_meeting.find(
       (record) => record.type === dataView
-    ).opening_prayer_auto_assign.value;
+    ).opening_prayer_auto_assigned.value;
+  },
+});
+
+export const midweekMeetingClosingPrayerAutoAssign = selector({
+  key: 'closingPrayerMMAutoAssign',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+    const dataView = get(userDataViewState);
+
+    return settings.cong_settings.midweek_meeting.find(
+      (record) => record.type === dataView
+    ).closing_prayer_auto_assigned.value;
   },
 });
 
@@ -321,11 +372,8 @@ export const midweekMeetingExactDateState = selector({
   key: 'midweekMeetingExactDate',
   get: ({ get }) => {
     const settings = get(settingsState);
-    const dataView = get(userDataViewState);
 
-    return settings.cong_settings.midweek_meeting.find(
-      (record) => record.type === dataView
-    ).schedule_exact_date_enabled.value;
+    return settings.cong_settings.schedule_exact_date_enabled.value;
   },
 });
 
@@ -351,7 +399,7 @@ export const weekendMeetingWeekdayState = selector({
 
     return settings.cong_settings.weekend_meeting.find(
       (record) => record.type === dataView
-    ).weekday;
+    ).weekday.value;
   },
 });
 
@@ -363,7 +411,7 @@ export const weekendMeetingSubstituteSpeakerState = selector({
 
     return settings.cong_settings.weekend_meeting.find(
       (record) => record.type === dataView
-    ).substitute_speaker_enabled;
+    ).substitute_speaker_enabled.value;
   },
 });
 

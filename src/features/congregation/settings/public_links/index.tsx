@@ -1,14 +1,14 @@
-import { useTranslation } from 'react-i18next';
+import { useState } from 'react';
+import { Box } from '@mui/material';
+import { Button, SnackBar } from '@components/index';
+import { IconCheckCircle, IconCopy } from '@components/icons';
 import {
   CardSection,
   CardSectionContent,
   CardSectionHeader,
-} from './CardSection';
-import { Box } from '@mui/material';
-import SwitchItem from './SwitchItem';
-import { useState } from 'react';
-import { Button, SnackBar } from '@components/index';
-import { IconCheckCircle, IconCopy } from '@components/icons';
+} from '../shared_styles/components';
+import { useAppTranslation } from '@hooks/index';
+import SwitchWithLabel from '@components/switch_with_label';
 
 const PageLinkItem = ({
   label,
@@ -21,7 +21,7 @@ const PageLinkItem = ({
   link: string;
   isPublic: boolean;
 }) => {
-  const { t } = useTranslation();
+  const { t } = useAppTranslation();
   const [isPublic, setIsPublic] = useState(initialPublic);
   const [isCopied, setIsCopied] = useState(false);
 
@@ -43,11 +43,11 @@ const PageLinkItem = ({
 
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', minHeight: '32px' }}>
-      <SwitchItem
+      <SwitchWithLabel
         label={label}
         helper={helper}
-        value={isPublic}
-        setValue={setIsPublic}
+        checked={isPublic}
+        onChange={setIsPublic}
       />
       {isPublic && (
         <Button
@@ -72,7 +72,7 @@ const PageLinkItem = ({
 };
 
 const PublicLinksSection = () => {
-  const { t } = useTranslation();
+  const { t } = useAppTranslation();
 
   const links = [
     {

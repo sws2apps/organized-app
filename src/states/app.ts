@@ -78,15 +78,6 @@ export const monthNamesState = selector({
   },
 });
 
-export const shortDateFormatState = selector({
-  key: 'shortDateFormat',
-  get: ({ get }) => {
-    const appLang = get(appLangState);
-
-    return getTranslation({ key: 'shortDateFormat', language: appLang });
-  },
-});
-
 export const shortDatePickerFormatState = atom({
   key: 'shortDatePickerFormat',
   default: getShortDatePickerFormat(),

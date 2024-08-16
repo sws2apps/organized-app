@@ -158,7 +158,7 @@ const CustomDatePicker = ({
                           className="body-small-semibold"
                           color={'var(--grey-400)'}
                         >
-                          {t('tr_selectDate')}
+                          {t('tr_pickerSelectDate')}
                         </Typography>
                         <Typography className="h2">{`${handleFormatSelected(innerValue)}`}</Typography>
                       </Stack>

@@ -31,6 +31,11 @@ const useWebWorker = () => {
           await setIsAppDataSyncing(false);
         }
 
+        if (event.data.error === 'BACKUP_FAILED') {
+          await setIsAppDataSyncing(false);
+          setLastBackup('error');
+        }
+
         if (event.data.lastBackup) {
           setLastBackup(event.data.lastBackup);
         }
@@ -58,11 +63,11 @@ const useWebWorker = () => {
     const runCheckLastBackup = setInterval(() => {
       let result: string | number = 0;
 
-      if (lastBackup.length === 0) {
+      if (lastBackup.length === 0 || lastBackup === 'error') {
         result = lastBackup;
       }
 
-      if (lastBackup.length > 0) {
+      if (lastBackup.length > 0 && lastBackup !== 'error') {
         const lastDate = new Date(lastBackup).getTime();
         const currentDate = new Date().getTime();
 

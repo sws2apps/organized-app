@@ -1,6 +1,10 @@
 import { PersonType } from '@definition/person';
 import { SchedWeekType } from '@definition/schedules';
-import { FullnameOption, SettingsType } from '@definition/settings';
+import {
+  FullnameOption,
+  SettingsType,
+  SourceFrequency,
+} from '@definition/settings';
 import { SourceWeekType } from '@definition/sources';
 import { SpeakersCongregationsType } from '@definition/speakers_congregations';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
@@ -229,35 +233,58 @@ export const settingSchema: SettingsType = {
     cong_name: '',
     cong_master_key: '',
     cong_access_code: '',
-    cong_location: { address: '', lat: 0, lng: 0 },
+    cong_location: { address: '', lat: 0, lng: 0, updatedAt: '' },
     cong_new: true,
-    cong_circuit: [{ type: 'main', value: '' }],
-    display_name_enabled: { value: false, updatedAt: '' },
-    fullname_option: { value: FullnameOption.FIRST_BEFORE_LAST, updatedAt: '' },
+    cong_circuit: [{ type: 'main', value: '', updatedAt: '' }],
+    display_name_enabled: {
+      meetings: { value: false, updatedAt: '' },
+      others: { value: false, updatedAt: '' },
+    },
+    schedule_exact_date_enabled: { value: false, updatedAt: '' },
+    fullname_option: [
+      { type: 'main', value: FullnameOption.FIRST_BEFORE_LAST, updatedAt: '' },
+    ],
+    short_date_format: [{ type: 'main', value: 'MM/dd/yyyy', updatedAt: '' }],
+    cong_discoverable: { value: false, updatedAt: '' },
+    time_away_public: { value: false, updatedAt: '' },
+    format_24h_enabled: [{ type: 'main', value: true, updatedAt: '' }],
+    week_start_sunday: [{ type: 'main', value: false, updatedAt: '' }],
+    attendance_online_record: { value: false, updatedAt: '' },
+    source_material_auto_import: {
+      enabled: { value: false, updatedAt: '' },
+      frequency: { value: SourceFrequency.WEEKLY, updatedAt: '' },
+    },
     circuit_overseer: {
       firstname: { value: '', updatedAt: '' },
       lastname: { value: '', updatedAt: '' },
       display_name: { value: '', updatedAt: '' },
+      visits: [],
     },
-    cong_discoverable: { value: false, updatedAt: '' },
     midweek_meeting: [
       {
         type: 'main',
         class_count: { value: 1, updatedAt: '' },
-        opening_prayer_auto_assign: { value: false, updatedAt: '' },
-        time: '00:00',
-        schedule_exact_date_enabled: { value: false, updatedAt: '' },
-        weekday: 2,
+        opening_prayer_auto_assigned: { value: false, updatedAt: '' },
+        closing_prayer_auto_assigned: { value: false, updatedAt: '' },
+        time: { value: '00:00', updatedAt: '' },
+        weekday: { value: 2, updatedAt: '' },
+        aux_class_counselor_default: {
+          enabled: { value: false, updatedAt: '' },
+          person: { value: '', updatedAt: '' },
+        },
       },
     ],
     weekend_meeting: [
       {
         type: 'main',
         opening_prayer_auto_assigned: { value: false, updatedAt: '' },
-        time: '00:00',
+        time: { value: '00:00', updatedAt: '' },
         substitute_speaker_enabled: { value: false, updatedAt: '' },
-        weekday: 7,
+        weekday: { value: 7, updatedAt: '' },
         w_study_conductor_default: { value: '', updatedAt: '' },
+        substitute_w_study_conductor_displayed: { value: true, updatedAt: '' },
+        consecutive_monthly_parts_notice_shown: { value: true, updatedAt: '' },
+        outgoing_talks_schedule_public: { value: false, updatedAt: '' },
       },
     ],
     language_groups: [],

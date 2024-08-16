@@ -6,6 +6,8 @@ import { useAppTranslation } from '@hooks/index';
 import { sourcesState } from '@states/sources';
 import {
   midweekMeetingClassCountState,
+  midweekMeetingClosingPrayerAutoAssign,
+  midweekMeetingOpeningPrayerAutoAssign,
   userDataViewState,
 } from '@states/settings';
 import { AssignmentCode } from '@definition/assignment';
@@ -26,6 +28,12 @@ const useMidweekEditor = () => {
   const dataView = useRecoilValue(userDataViewState);
   const classCount = useRecoilValue(midweekMeetingClassCountState);
   const schedules = useRecoilValue(schedulesState);
+  const openingPrayerAuto = useRecoilValue(
+    midweekMeetingOpeningPrayerAutoAssign
+  );
+  const closingPrayerAuto = useRecoilValue(
+    midweekMeetingClosingPrayerAutoAssign
+  );
 
   const [isEdit, setIsEdit] = useState(false);
 
@@ -463,6 +471,8 @@ const useMidweekEditor = () => {
     clearAll,
     handleOpenClearAll,
     handleCloseClearAll,
+    openingPrayerAuto,
+    closingPrayerAuto,
   };
 };
 
