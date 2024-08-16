@@ -35,10 +35,15 @@ export type CongregationCreateResponseType = {
   cong_number: string;
   cong_role: string[];
   id: string;
-  cong_circuit: string;
-  cong_location: { address: string; lat: number; lng: number };
-  midweek_meeting: { weekday: number; time: string };
-  weekend_meeting: { weekday: number; time: string };
+  cong_circuit: { type: string; value: string; updatedAt: string }[];
+  cong_location: {
+    address: string;
+    lat: number;
+    lng: number;
+    updatedAt: string;
+  };
+  midweek_meeting: MeetingResponseType[];
+  weekend_meeting: MeetingResponseType[];
 };
 
 type MeetingResponseType = {

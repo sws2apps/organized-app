@@ -6,6 +6,7 @@ import { LANGUAGE_LIST } from '@constants/index';
 import { getTranslation } from '@services/i18n/translation';
 import { FullnameOption } from '@definition/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
+import { settingsState, userDataViewState } from '@states/settings';
 
 const useLanguage = () => {
   const { i18n } = useAppTranslation();
@@ -15,6 +16,8 @@ const useLanguage = () => {
   const [appLang, setAppLang] = useRecoilState(appLangState);
 
   const isAppLoad = useRecoilValue(isAppLoadState);
+  const dataView = useRecoilValue(userDataViewState);
+  const settings = useRecoilValue(settingsState);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [appLangLocal, setAppLangLocal] = useState(appLang);
@@ -29,11 +32,15 @@ const useLanguage = () => {
     const fullnameOption =
       LANGUAGE_LIST.find((record) => record.locale === app_lang)
         .fullnameOption || FullnameOption.FIRST_BEFORE_LAST;
+
+    const nameOption = structuredClone(settings.cong_settings.fullname_option);
+    const current = nameOption.find((record) => record.type === dataView);
+
+    current.value = fullnameOption;
+    current.updatedAt = new Date().toISOString();
+
     await dbAppSettingsUpdate({
-      'cong_settings.fullname_option': {
-        value: fullnameOption,
-        updatedAt: new Date().toISOString(),
-      },
+      'cong_settings.fullname_option': nameOption,
     });
 
     handleClose();

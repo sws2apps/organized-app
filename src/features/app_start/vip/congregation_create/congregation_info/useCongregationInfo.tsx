@@ -103,33 +103,52 @@ const useCongregationInfo = () => {
         setCongID(result.cong_id);
         worker.postMessage({ field: 'congID', value: result.cong_id });
 
+        const congCircuit = structuredClone(
+          settings.cong_settings.cong_circuit
+        );
+
+        for (const circuitRemote of result.cong_circuit) {
+          const circuitLocal = congCircuit.find(
+            (record) => record.type === circuitRemote.type
+          );
+
+          circuitLocal.value = circuitRemote.value;
+          circuitLocal.updatedAt = circuitRemote.updatedAt;
+        }
+
         const midweekMeeting = structuredClone(
           settings.cong_settings.midweek_meeting
         );
-        const midweekMain = midweekMeeting.find(
-          (record) => record.type === 'main'
-        );
-        midweekMain.time = result.midweek_meeting.time;
-        midweekMain.weekday = result.midweek_meeting.weekday;
+
+        for (const midweekRemote of result.midweek_meeting) {
+          const midweekLocal = midweekMeeting.find(
+            (record) => record.type === midweekRemote.type
+          );
+
+          midweekLocal.time = midweekRemote.time;
+          midweekLocal.weekday = midweekRemote.weekday;
+        }
 
         const weekendMeeting = structuredClone(
           settings.cong_settings.weekend_meeting
         );
-        const weekendMain = weekendMeeting.find(
-          (record) => record.type === 'main'
-        );
-        weekendMain.time = result.weekend_meeting.time;
-        weekendMain.weekday = result.weekend_meeting.weekday;
+
+        for (const weekendRemote of result.weekend_meeting) {
+          const weekendLocal = weekendMeeting.find(
+            (record) => record.type === weekendRemote.type
+          );
+
+          weekendLocal.time = weekendRemote.time;
+          weekendLocal.weekday = weekendRemote.weekday;
+        }
 
         await dbAppSettingsUpdate({
           'cong_settings.country_code': result.country_code,
           'cong_settings.cong_name': result.cong_name,
           'cong_settings.cong_number': result.cong_number,
           'user_settings.cong_role': result.cong_role,
-          'cong_settings.cong_circuit': [
-            { type: 'main', value: result.cong_circuit },
-          ],
           'cong_settings.cong_location': result.cong_location,
+          'cong_settings.cong_circuit': congCircuit,
           'cong_settings.midweek_meeting': midweekMeeting,
           'cong_settings.weekend_meeting': weekendMeeting,
         });
