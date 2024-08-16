@@ -306,6 +306,24 @@ export const displayNameMeetingsEnableState = selector({
   },
 });
 
+export const sourcesJWAutoImportState = selector({
+  key: 'sourcesJWAutoImport',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+
+    return settings.cong_settings.source_material_auto_import.enabled.value;
+  },
+});
+
+export const sourcesJWAutoImportFrequencyState = selector({
+  key: 'sourcesJWAutoImportFrequency',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+
+    return settings.cong_settings.source_material_auto_import.frequency.value;
+  },
+});
+
 // MIDWEEK MEETING
 
 export const midweekMeetingClassCountState = selector({

@@ -9,8 +9,6 @@ import { setIsAppLoad } from '@services/recoil/app';
 import { loadApp, runUpdater } from '@services/app';
 import { dbSpeakersCongregationsDummy } from '@services/dexie/speakers_congregations';
 import { dbVisitingSpeakersDummy } from '@services/dexie/visiting_speakers';
-import { apiFetchSources } from '@services/api/sources';
-import { sourcesImportJW } from '@services/app/sources';
 
 const useStart = () => {
   useEffect(() => {
@@ -27,11 +25,6 @@ const useStart = () => {
 
       await loadApp();
       await runUpdater();
-
-      const { data, status } = await apiFetchSources();
-      if (status === 200 && data && data.length) {
-        await sourcesImportJW(data);
-      }
 
       await setIsAppLoad(false);
     };
