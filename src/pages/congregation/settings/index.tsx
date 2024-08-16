@@ -1,59 +1,52 @@
-import PageTitle from '@components/page_title';
-import CongregationPrivacySection from '@features/congregation/settings/CongregationPrivacySection';
-import CongregationSection from '@features/congregation/settings/CongregationSection';
-import MeetingSection from '@features/congregation/settings/MeetingSection';
-import OverseerSection from '@features/congregation/settings/OverseerSection';
-import PublicLinksSection from '@features/congregation/settings/PublicLinksSection';
-import useAppTranslation from '@hooks/useAppTranslation';
 import { Box } from '@mui/material';
+import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import CircuitOverseer from '@features/congregation/settings/circuit_overseer';
+import CongregationBasic from '@features/congregation/settings/congregation_basic';
+import CongregationPrivacy from '@features/congregation/settings/congregation_privacy';
+import MeetingForms from '@features/congregation/settings/meeting_forms';
+import PageTitle from '@components/page_title';
 
 const CongregationSettings = () => {
   const { t } = useAppTranslation();
 
+  const { desktopUp } = useBreakpoints();
+
   return (
-    <div
-      style={{
-        padding: '16px',
-      }}
-    >
-      <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
-        <PageTitle title={t('tr_meetingSchedules')} />
-      </Box>
+    <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
+      <PageTitle title={t('tr_congregationSettings')} />
+
       <Box
-        sx={(theme) => ({
+        sx={{
           display: 'flex',
           gap: '16px',
-          '& > *': { flexBasis: 0 },
-          [theme.breakpoints.down(1000)]: {
-            '& > *': { flexBasis: 0, flexGrow: 1 },
-          },
-          [theme.breakpoints.down(800)]: {
-            flexDirection: 'column',
-            gap: '0',
-          },
-        })}
+          flexDirection: desktopUp ? 'row' : 'column',
+        }}
       >
-        <Box sx={{ flexGrow: 1 }}>
-          <CongregationSection />
-          <CongregationPrivacySection />
-        </Box>
         <Box
-          sx={(theme) => ({
-            [theme.breakpoints.down('desktop')]: {
-              minWidth: '400px',
-            },
-            minWidth: '560px',
-            [theme.breakpoints.down(1000)]: {
-              minWidth: '300px',
-            },
-          })}
+          sx={{
+            flex: 1,
+            display: 'flex',
+            gap: '16px',
+            flexDirection: 'column',
+          }}
         >
-          <MeetingSection />
-          <OverseerSection />
-          <PublicLinksSection />
+          <CongregationBasic />
+          <CongregationPrivacy />
+        </Box>
+
+        <Box
+          sx={{
+            flex: 0.8,
+            display: 'flex',
+            gap: '16px',
+            flexDirection: 'column',
+          }}
+        >
+          <MeetingForms />
+          <CircuitOverseer />
         </Box>
       </Box>
-    </div>
+    </Box>
   );
 };
 

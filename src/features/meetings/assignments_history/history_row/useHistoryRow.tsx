@@ -4,7 +4,10 @@ import { FormattedHistoryType } from '../index.types';
 import { useAppTranslation } from '@hooks/index';
 import { personsState } from '@states/persons';
 import { personGetDisplayName } from '@utils/common';
-import { displayNameEnableState, fullnameOptionState } from '@states/settings';
+import {
+  displayNameMeetingsEnableState,
+  fullnameOptionState,
+} from '@states/settings';
 import { HistoryRowType } from './index.types';
 import { CustomClassName } from '@definition/app';
 
@@ -12,7 +15,7 @@ const useHistoryRow = ({ assignment, isDialog }: HistoryRowType) => {
   const { t } = useAppTranslation();
 
   const persons = useRecoilValue(personsState);
-  const displayNameEnable = useRecoilValue(displayNameEnableState);
+  const displayNameEnable = useRecoilValue(displayNameMeetingsEnableState);
   const fullnameOption = useRecoilValue(fullnameOptionState);
 
   const student = persons.find(

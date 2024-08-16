@@ -55,7 +55,17 @@ const runBackup = async () => {
           lastBackup: backupData.last_backup,
         });
 
-        if (data?.message === 'BACKUP_SENT') backup = 'completed';
+        if (data.message === 'UNAUTHORIZED_REQUEST') {
+          backup = 'failed';
+          self.postMessage({
+            error: 'BACKUP_FAILED',
+            details: 'UNAUTHORIZED_ACCESS',
+          });
+        }
+
+        if (data.message !== 'UNAUTHORIZED_REQUEST') {
+          if (data?.message === 'BACKUP_SENT') backup = 'completed';
+        }
 
         if (backup !== 'completed') {
           await delay(5000);

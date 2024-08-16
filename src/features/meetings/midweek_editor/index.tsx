@@ -78,6 +78,8 @@ const MidweekEditor = () => {
     clearAll,
     handleCloseClearAll,
     handleOpenClearAll,
+    closingPrayerAuto,
+    openingPrayerAuto,
   } = useMidweekEditor();
 
   return (
@@ -179,7 +181,7 @@ const MidweekEditor = () => {
                         <PersonSelector
                           week={selectedWeek}
                           label={t('tr_auxClassCounselor')}
-                          type={AssignmentCode.MM_Chairman}
+                          type={AssignmentCode.MM_AuxiliaryCounselor}
                           assignment="MM_Chairman_B"
                           readOnly={isEdit}
                         />
@@ -200,13 +202,15 @@ const MidweekEditor = () => {
                     />
 
                     <PersonSelectorContainer desktopUp={desktopUp}>
-                      <PersonSelector
-                        week={selectedWeek}
-                        label={t('tr_prayer')}
-                        type={AssignmentCode.MM_Prayer}
-                        assignment="MM_OpeningPrayer"
-                        readOnly={isEdit}
-                      />
+                      {!openingPrayerAuto && (
+                        <PersonSelector
+                          week={selectedWeek}
+                          label={t('tr_prayer')}
+                          type={AssignmentCode.MM_Prayer}
+                          assignment="MM_OpeningPrayer"
+                          readOnly={isEdit}
+                        />
+                      )}
                     </PersonSelectorContainer>
                   </RowContainer>
 
@@ -969,13 +973,15 @@ const MidweekEditor = () => {
                     />
 
                     <PersonSelectorContainer desktopUp={desktopUp}>
-                      <PersonSelector
-                        week={selectedWeek}
-                        label={t('tr_prayer')}
-                        type={AssignmentCode.MM_Prayer}
-                        assignment="MM_ClosingPrayer"
-                        readOnly={isEdit}
-                      />
+                      {!closingPrayerAuto && (
+                        <PersonSelector
+                          week={selectedWeek}
+                          label={t('tr_prayer')}
+                          type={AssignmentCode.MM_Prayer}
+                          assignment="MM_ClosingPrayer"
+                          readOnly={isEdit}
+                        />
+                      )}
                     </PersonSelectorContainer>
                   </RowContainer>
 

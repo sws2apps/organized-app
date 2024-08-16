@@ -1,7 +1,8 @@
-import { TextMarkup } from '@components/index';
+import { PropsWithChildren } from 'react';
 import { Box, Divider, SxProps } from '@mui/material';
+import Markup from '@components/text_markup';
 
-const CardSection = ({ children }: { children?: React.ReactNode }) => {
+export const CardSection = ({ children }: PropsWithChildren) => {
   return (
     <Box
       sx={{
@@ -20,11 +21,10 @@ const CardSection = ({ children }: { children?: React.ReactNode }) => {
   );
 };
 
-const CardSectionContent = ({
+export const CardSectionContent = ({
   children,
   sx,
-}: {
-  children?: React.ReactNode;
+}: PropsWithChildren & {
   sx?: SxProps;
 }) => {
   return (
@@ -53,7 +53,7 @@ const CardSectionContent = ({
   );
 };
 
-const CardSectionTitle = ({ children }: { children?: React.ReactNode }) => {
+export const CardSectionTitle = ({ children }: PropsWithChildren) => {
   return (
     <p
       style={{
@@ -68,9 +68,9 @@ const CardSectionTitle = ({ children }: { children?: React.ReactNode }) => {
   );
 };
 
-const CardSectionDescription = ({ content }: { content: string }) => {
+export const CardSectionDescription = ({ content }: { content: string }) => {
   return (
-    <TextMarkup
+    <Markup
       anchorStyle={{
         fontSize: 'inherit',
       }}
@@ -81,13 +81,13 @@ const CardSectionDescription = ({ content }: { content: string }) => {
   );
 };
 
-const CardSectionHeader = ({
+export const CardSectionHeader = ({
   title,
   description,
   sx,
 }: {
   title: string;
-  description: string;
+  description?: string;
   sx?: SxProps;
 }) => {
   return (
@@ -105,7 +105,12 @@ const CardSectionHeader = ({
   );
 };
 
-const TwoColumnsRow = ({ children }: { children?: React.ReactNode }) => {
+export const TwoColumnsRow = ({
+  children,
+  sx,
+}: PropsWithChildren & {
+  sx?: SxProps;
+}) => {
   return (
     <Box
       sx={{
@@ -115,18 +120,10 @@ const TwoColumnsRow = ({ children }: { children?: React.ReactNode }) => {
         '> *': {
           flex: '1 0 0',
         },
+        ...sx,
       }}
     >
       {children}
     </Box>
   );
-};
-
-export {
-  CardSection,
-  CardSectionContent,
-  CardSectionTitle,
-  CardSectionDescription,
-  CardSectionHeader,
-  TwoColumnsRow,
 };

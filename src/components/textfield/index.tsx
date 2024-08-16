@@ -58,8 +58,6 @@ const TextField = (props: TextFieldTypeProps) => {
     <MUITextField
       {...defaultProps}
       type={inputType}
-      placeholder={props.placeholder}
-      label={props.label}
       fullWidth
       sx={{
         '.MuiInputBase-root': {

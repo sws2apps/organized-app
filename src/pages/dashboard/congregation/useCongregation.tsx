@@ -7,6 +7,7 @@ import {
 } from '@states/app';
 import { useAppTranslation, useFirebaseAuth } from '@hooks/index';
 import worker from '@services/worker/backupWorker';
+import { adminRoleState } from '@states/settings';
 
 const useCongregation = () => {
   const { t } = useAppTranslation();
@@ -16,6 +17,7 @@ const useCongregation = () => {
   const isSyncing = useRecoilValue(isAppDataSyncingState);
   const lastSync = useRecoilValue(lastAppDataSyncState);
   const isConnected = useRecoilValue(congAccountConnectedState);
+  const isUserAdmin = useRecoilValue(adminRoleState);
 
   const getSecondaryText = () => {
     let label = t('tr_syncAppDataInProgress');
@@ -27,6 +29,10 @@ const useCongregation = () => {
 
       if (lastSync === 'recently') {
         label = t('tr_lastSyncAppDataRecently');
+      }
+
+      if (lastSync === 'error') {
+        label = t('tr_errorTitle');
       }
 
       if (lastSync >= 1) {
@@ -85,10 +91,10 @@ const useCongregation = () => {
   }, [isSyncing, isConnected]);
 
   return {
-    isSyncing,
     secondaryText: getSecondaryText(),
     handleManualSync,
     isConnected,
+    isUserAdmin,
   };
 };
 

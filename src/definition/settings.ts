@@ -7,6 +7,19 @@ export enum FullnameOption {
 
 export type AccountTypeState = 'vip' | 'pocket';
 
+export enum SourceFrequency {
+  WEEKLY = 1,
+  BIWEEKLY = 2,
+  MONTHLY = 4,
+}
+
+export type CircuitOverseerVisitType = {
+  _deleted: boolean;
+  id: string;
+  weekOf: string;
+  updatedAt: string;
+};
+
 export type SettingsType = {
   id: number;
   cong_settings: {
@@ -15,34 +28,73 @@ export type SettingsType = {
     cong_name: string;
     cong_master_key: string;
     cong_access_code: string;
-    cong_location: { address: string; lat: number; lng: number };
+    cong_location: {
+      address: string;
+      lat: number;
+      lng: number;
+      updatedAt: string;
+    };
     cong_new: boolean;
-    cong_circuit: { type: string; value: string }[];
+    cong_circuit: { type: string; value: string; updatedAt: string }[];
     cong_discoverable: { value: boolean; updatedAt: string };
-    fullname_option: { value: FullnameOption; updatedAt: string };
-    display_name_enabled: { value: boolean; updatedAt: string };
+    fullname_option: {
+      type: string;
+      value: FullnameOption;
+      updatedAt: string;
+    }[];
+    short_date_format: { type: string; value: string; updatedAt: string }[];
+    display_name_enabled: {
+      meetings: { value: boolean; updatedAt: string };
+      others: { value: boolean; updatedAt: string };
+    };
+    schedule_exact_date_enabled: { value: boolean; updatedAt: string };
+    time_away_public: { value: boolean; updatedAt: string };
+    source_material_auto_import: {
+      enabled: { value: boolean; updatedAt: string };
+      frequency: { value: SourceFrequency; updatedAt: string };
+    };
     midweek_meeting: {
       type: string;
-      weekday: number;
-      time: string;
+      weekday: { value: number; updatedAt: string };
+      time: { value: string; updatedAt: string };
       class_count: { value: number; updatedAt: string };
-      opening_prayer_auto_assign: { value: boolean; updatedAt: string };
-      schedule_exact_date_enabled: { value: boolean; updatedAt: string };
+      opening_prayer_auto_assigned: { value: boolean; updatedAt: string };
+      closing_prayer_auto_assigned: { value: boolean; updatedAt: string };
+      aux_class_counselor_default: {
+        enabled: { value: boolean; updatedAt: string };
+        person: { value: string; updatedAt: string };
+      };
     }[];
     weekend_meeting: {
       type: string;
-      weekday: number;
-      time: string;
+      weekday: { value: number; updatedAt: string };
+      time: { value: string; updatedAt: string };
       opening_prayer_auto_assigned: { value: boolean; updatedAt: string };
       substitute_speaker_enabled: { value: boolean; updatedAt: string };
       w_study_conductor_default: { value: string; updatedAt: string };
+      substitute_w_study_conductor_displayed: {
+        value: boolean;
+        updatedAt: string;
+      };
+      consecutive_monthly_parts_notice_shown: {
+        value: boolean;
+        updatedAt: string;
+      };
+      outgoing_talks_schedule_public: {
+        value: boolean;
+        updatedAt: string;
+      };
     }[];
     circuit_overseer: {
       firstname: { value: string; updatedAt: string };
       lastname: { value: string; updatedAt: string };
       display_name: { value: string; updatedAt: string };
+      visits: CircuitOverseerVisitType[];
     };
     language_groups: { id: string; name: string; language: string }[];
+    format_24h_enabled: { type: string; value: boolean; updatedAt: string }[];
+    week_start_sunday: { type: string; value: boolean; updatedAt: string }[];
+    attendance_online_record: { value: boolean; updatedAt: string };
   };
   user_settings: {
     cong_role: string[];

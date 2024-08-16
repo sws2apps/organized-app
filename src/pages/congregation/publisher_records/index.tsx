@@ -9,7 +9,7 @@ import {
   Wrapper,
 } from '@features/congregation/publisher_records/Wrappers';
 import { TerritoryGroup } from '@features/congregation/publisher_records/index.types';
-import { CardSection } from '@features/congregation/settings/CardSection';
+import { CardSection } from '@features/congregation/settings/index.styles';
 import useAppTranslation from '@hooks/useAppTranslation';
 import { Box } from '@mui/material';
 

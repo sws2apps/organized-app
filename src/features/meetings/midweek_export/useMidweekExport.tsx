@@ -20,7 +20,7 @@ import {
 import {
   congNameState,
   congNumberState,
-  displayNameEnableState,
+  displayNameMeetingsEnableState,
   midweekMeetingClassCountState,
   userDataViewState,
 } from '@states/settings';
@@ -43,7 +43,7 @@ const useMidweekExport = (onClose: MidweekExportType['onClose']) => {
   const class_count = useRecoilValue(midweekMeetingClassCountState);
   const cong_name = useRecoilValue(congNameState);
   const cong_number = useRecoilValue(congNumberState);
-  const displayNameEnabled = useRecoilValue(displayNameEnableState);
+  const displayNameEnabled = useRecoilValue(displayNameMeetingsEnableState);
 
   const [startMonth, setStartMonth] = useState('');
   const [endMonth, setEndMonth] = useState('');
