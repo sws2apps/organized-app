@@ -2,7 +2,7 @@ import {
   CardSection,
   CardSectionContent,
   CardSectionHeader,
-} from '../shared_styles/components';
+} from '../../shared_styles/components';
 import { useAppTranslation } from '@hooks/index';
 import useCongregationPrivacy from './useCongregationPrivacy';
 import AccessCodeView from './access_code_view';

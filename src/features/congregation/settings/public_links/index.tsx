@@ -6,7 +6,7 @@ import {
   CardSection,
   CardSectionContent,
   CardSectionHeader,
-} from '../shared_styles/components';
+} from '../../shared_styles/components';
 import { useAppTranslation } from '@hooks/index';
 import SwitchWithLabel from '@components/switch_with_label';
 

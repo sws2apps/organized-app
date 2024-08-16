@@ -4,7 +4,7 @@ import {
   CardSection,
   CardSectionContent,
   CardSectionHeader,
-} from '../shared_styles/components';
+} from '../../shared_styles/components';
 import { FullnameOption, SourceFrequency } from '@definition/settings';
 import useMeetingForms from './useMeetingForms';
 import MenuItem from '@components/menuitem';

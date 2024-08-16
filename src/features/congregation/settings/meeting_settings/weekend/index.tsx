@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
-import { TwoColumnsRow } from '../../shared_styles/components';
+import { TwoColumnsRow } from '../../../shared_styles/components';
 import useWeekendSettings from './useWeekend';
 import DaySelector from '@components/day_selector';
 import MenuItem from '@components/menuitem';
