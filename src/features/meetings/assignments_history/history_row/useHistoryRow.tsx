@@ -7,6 +7,7 @@ import { personGetDisplayName } from '@utils/common';
 import {
   displayNameMeetingsEnableState,
   fullnameOptionState,
+  shortDateFormatState,
 } from '@states/settings';
 import { HistoryRowType } from './index.types';
 import { CustomClassName } from '@definition/app';
@@ -17,6 +18,7 @@ const useHistoryRow = ({ assignment, isDialog }: HistoryRowType) => {
   const persons = useRecoilValue(personsState);
   const displayNameEnable = useRecoilValue(displayNameMeetingsEnableState);
   const fullnameOption = useRecoilValue(fullnameOptionState);
+  const shortDateFormat = useRecoilValue(shortDateFormatState);
 
   const student = persons.find(
     (record) => record.person_uid === assignment.history_misc.ayf?.student
@@ -26,10 +28,11 @@ const useHistoryRow = ({ assignment, isDialog }: HistoryRowType) => {
   );
 
   const history: FormattedHistoryType = {
+    history_id: assignment.history_id,
     history_assignment: assignment.history_assignment,
     history_date: formatDate(
       new Date(assignment.history_date),
-      t('tr_shortDateFormat')
+      shortDateFormat
     ),
     history_hall:
       assignment.history_hall === '1'

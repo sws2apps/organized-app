@@ -21,6 +21,8 @@ import {
   StyleDatePickerToolbar,
 } from './date_picker.styles';
 import { useAppTranslation } from '@hooks/index';
+import { useRecoilValue } from 'recoil';
+import { shortDateFormatState } from '@states/settings';
 
 /**
  * Component for a custom date picker.
@@ -49,7 +51,9 @@ const CustomDatePicker = ({
 }: CustomDatePickerProps) => {
   const { t } = useAppTranslation();
 
-  const shortDateFormatLocale = shortDateFormat || t('tr_shortDateFormat');
+  const shortDateFormatDefault = useRecoilValue(shortDateFormatState);
+
+  const shortDateFormatLocale = shortDateFormat || shortDateFormatDefault;
   const longDateFormatLocale = longDateFormat || t('tr_longDateFormat');
 
   const [open, setOpen] = useState<boolean>(false);

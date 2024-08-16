@@ -11,6 +11,7 @@ import {
   COScheduleNameState,
   displayNameMeetingsEnableState,
   fullnameOptionState,
+  shortDateFormatState,
   userDataViewState,
   weekendMeetingWTStudyConductorDefaultState,
 } from '@states/settings';
@@ -65,6 +66,7 @@ const usePersonSelector = ({
 
   const { t } = useAppTranslation();
 
+  const shortDateFormat = useRecoilValue(shortDateFormatState);
   const personsAll = useRecoilValue(personsActiveState);
   const displayNameEnabled = useRecoilValue(displayNameMeetingsEnableState);
   const fullnameOption = useRecoilValue(fullnameOptionState);
@@ -206,9 +208,9 @@ const usePersonSelector = ({
 
   const handleFormatDate = useCallback(
     (value: string) => {
-      return formatDate(new Date(value), t('tr_shortDateFormat'));
+      return formatDate(new Date(value), shortDateFormat);
     },
-    [t]
+    [shortDateFormat]
   );
 
   const handleSortOptions = useCallback(
