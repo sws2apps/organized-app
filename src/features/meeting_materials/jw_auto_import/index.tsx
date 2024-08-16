@@ -27,7 +27,7 @@ const JWAutoImport = () => {
 
   const handleJWAutoImport = useCallback(async () => {
     const { data, status } = await apiFetchSources();
-    if (status === 200 && data && data.length) {
+    if (status === 200 && data?.length) {
       await sourcesImportJW(data);
     }
   }, []);
