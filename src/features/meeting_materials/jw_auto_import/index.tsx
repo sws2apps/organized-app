@@ -4,7 +4,9 @@ import { isDemo } from '@constants/index';
 import { isAppLoadState } from '@states/app';
 import {
   adminRoleState,
+  coordinatorRoleState,
   lmmoRoleState,
+  publicTalkCoordinatorRoleState,
   sourcesJWAutoImportState,
 } from '@states/settings';
 import { apiFetchSources } from '@services/api/sources';
@@ -14,7 +16,14 @@ const JWAutoImport = () => {
   const isAppLoad = useRecoilValue(isAppLoadState);
   const isAdmin = useRecoilValue(adminRoleState);
   const isLMMO = useRecoilValue(lmmoRoleState);
+  const isCoordinator = useRecoilValue(coordinatorRoleState);
+  const isPublicTalkCoordinator = useRecoilValue(
+    publicTalkCoordinatorRoleState
+  );
   const isAutoImportEnabled = useRecoilValue(sourcesJWAutoImportState);
+
+  const approvedRole =
+    isAdmin || isLMMO || isCoordinator || isPublicTalkCoordinator;
 
   const handleJWAutoImport = useCallback(async () => {
     const { data, status } = await apiFetchSources();
@@ -29,7 +38,7 @@ const JWAutoImport = () => {
         handleJWAutoImport();
       }
 
-      if (!isDemo && isAutoImportEnabled && (isAdmin || isLMMO)) {
+      if (!isDemo && isAutoImportEnabled && approvedRole) {
         const now = new Date().toISOString();
         const nextSync = localStorage.getItem('organized_jw-import-next-sync');
 
@@ -38,7 +47,7 @@ const JWAutoImport = () => {
         }
       }
     }
-  }, [handleJWAutoImport, isAppLoad, isAdmin, isLMMO, isAutoImportEnabled]);
+  }, [handleJWAutoImport, isAppLoad, isAutoImportEnabled, approvedRole]);
 
   return <></>;
 };
