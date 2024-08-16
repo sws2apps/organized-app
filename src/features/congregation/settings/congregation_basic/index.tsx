@@ -4,7 +4,7 @@ import {
   CardSection,
   CardSectionContent,
   CardSectionHeader,
-} from '../shared_styles/components';
+} from '../../shared_styles/components';
 import useCongregationBasic from './useCongregationBasic';
 import MeettingSettings from '../meeting_settings';
 import SwitchWithLabel from '@components/switch_with_label';

@@ -1,7 +1,7 @@
 import {
   CardSectionContent,
   CardSectionHeader,
-} from '../../shared_styles/components';
+} from '../../../shared_styles/components';
 import { IconEncryptionKey, IconPinCode } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import useAccessCodeView from './useAccessCodeView';

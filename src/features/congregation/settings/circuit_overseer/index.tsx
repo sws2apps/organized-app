@@ -5,7 +5,7 @@ import {
   CardSectionContent,
   CardSectionHeader,
   TwoColumnsRow,
-} from '../shared_styles/components';
+} from '../../shared_styles/components';
 import useCircuitOverseer from './useCircuitOverseer';
 import TextField from '@components/textfield';
 import WeeksList from './weeks_list';

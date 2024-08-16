@@ -1,7 +1,7 @@
 import {
   CardSectionContent,
   CardSectionTitle,
-} from '../shared_styles/components';
+} from '../../shared_styles/components';
 import { useAppTranslation } from '@hooks/index';
 import MidweekSettings from './midweek';
 import WeekendSettings from './weekend';
