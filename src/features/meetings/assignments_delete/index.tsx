@@ -26,9 +26,7 @@ const AssignmentsDelete = ({
     <Dialog onClose={onClose} open={open} sx={{ padding: '24px' }}>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
         <Typography className="h2">
-          {meeting === 'midweek'
-            ? t('tr_clearMultipleMM')
-            : t('tr_clearMultipleWM')}
+          {t('tr_clearMultipleAssignments')}
         </Typography>
         <Typography color="var(--grey-400)">
           {t('tr_clearMultipleDesc')}

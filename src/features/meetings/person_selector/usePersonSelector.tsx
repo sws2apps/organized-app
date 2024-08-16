@@ -257,31 +257,32 @@ const usePersonSelector = ({
           ...record,
           last_assignment: lastAssignmentFormat,
           last_assistant: lastAssistantFormat,
+          weekOf: lastAssignment?.weekOf || '',
           hall,
         };
       });
 
       newPersons.sort((a, b) => {
-        // If both 'last_assignment' fields are empty, sort by name
-        if (a.last_assignment.length === 0 && b.last_assignment.length === 0) {
+        // If both 'weekOf' fields are empty, sort by name
+        if (a.weekOf.length === 0 && b.weekOf.length === 0) {
           return getPersonDisplayName(a).localeCompare(getPersonDisplayName(b));
         }
 
-        // If 'last_assignment' of 'a' is empty, 'a' should come first
-        if (a.last_assignment.length === 0) {
+        // If 'weekOf' of 'a' is empty, 'a' should come first
+        if (a.weekOf.length === 0) {
           return -1;
         }
 
-        // If 'last_assignment' of 'b' is empty, 'b' should come first
-        if (b.last_assignment.length === 0) {
+        // If 'weekOf' of 'b' is empty, 'b' should come first
+        if (b.weekOf.length === 0) {
           return 1;
         }
 
-        // If both 'last_assignment' fields are not empty, sort by date
+        // If both 'weekOf' fields are not empty, sort by date
 
-        return new Date(a.last_assignment)
+        return new Date(a.weekOf)
           .toISOString()
-          .localeCompare(new Date(b.last_assignment).toISOString());
+          .localeCompare(new Date(b.weekOf).toISOString());
       });
 
       return newPersons;
