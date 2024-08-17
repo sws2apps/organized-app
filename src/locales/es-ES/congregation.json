@@ -393,7 +393,7 @@
   "tr_congregationPrivacy": "Privacidad de la congregación",
   "tr_removePublisher": "Eliminar editor: {PersonName}",
   "tr_autoCheckUpdate": "Auto-check for meeting materials updates",
-  "tr_autoCheckUpdateDesc": "Automatically import meeting materials from jw.org at intervals you choose",
+  "tr_autoCheckUpdateDesc": "Automatically import meeting materials from jw.org at your selected interval",
   "tr_confirmRemoving": "Do you want to remove the publisher from the <b>Group {{ GroupNumber }} – {{ GroupName }}</b>?",
   "tr_everyWeek": "Every week",
   "tr_everyTwoWeeks": "Every two weeks",
