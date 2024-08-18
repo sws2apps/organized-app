@@ -50,7 +50,7 @@
   "tr_speakerSymposium": "Промовець (15 хв. публічна промова, перша частина)",
   "tr_wtStudyReader": "Читець статті",
   "tr_weekendMeetingPrint": "Розклад зібрання на вихідних",
-  "tr_publicTalk": "Public talk",
+  "tr_publicTalk": "Публічна промова",
   "tr_openingPrayerWeekendMeeting": "Всупна молитва",
   "tr_noWMeetingWeek": "Цього тижня немає зібрання на вихідних",
   "tr_noMeetingWeek": "Цього тижня немає зібрання",
@@ -72,5 +72,5 @@
   "tr_specialTalkWeek": "Спеціальна промова",
   "tr_wtStudyConductor": "Ведучий Вартової",
   "tr_closingPrayerWeekendMeeting": "Заключна молитва",
-  "tr_date": "Date"
+  "tr_date": "Дата:"
 }
