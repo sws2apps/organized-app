@@ -15,8 +15,8 @@
     "test": "npm run cypress:test",
     "cypress:open": "cypress open",
     "cypress:test": "cypress run --browser chrome",
-    "generate:css": "node converter/css/convert.js && prettier  converter/css/tokens.json src/v3/global/global.css src/v3/global/global.ts --write",
-    "generate:icons": "node converter/svg/convert.js && prettier src/v3/components/icons --write",
+    "generate:css": "node converter/css/convert.js && prettier  converter/css/tokens.json src/global/global.css src/global/global.ts --write",
+    "generate:icons": "node converter/svg/convert.js && prettier src/components/icons --write",
     "locales:unused": "tsx unused-i18n-keys.ts",
     "lint": "eslint src"
   },
@@ -35,6 +35,7 @@
     "@mui/x-date-pickers": "^7.13.0",
     "@mui/x-tree-view": "^7.13.0",
     "@react-pdf/renderer": "^3.4.4",
+    "@smakss/random-string": "^2.0.2",
     "@sws2apps/react-sw-helper": "^1.24.0",
     "@tanstack/react-query": "^5.51.23",
     "comlink": "^4.4.1",

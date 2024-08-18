@@ -18,6 +18,7 @@ const CongregationPrivacy = () => {
     outgoingTalksPublic,
     handleOutgoingTalksPublicToggle,
     isUserAdmin,
+    isConnected,
   } = useCongregationPrivacy();
 
   return (
@@ -41,7 +42,7 @@ const CongregationPrivacy = () => {
         />
       </CardSectionContent>
 
-      {isUserAdmin && (
+      {isConnected && isUserAdmin && (
         <>
           <MasterKeyView />
           <AccessCodeView />

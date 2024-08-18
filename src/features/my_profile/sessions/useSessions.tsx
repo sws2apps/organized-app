@@ -1,11 +1,16 @@
 import { useRecoilValue } from 'recoil';
-import { useQuery } from '@tanstack/react-query';
-import { apiGetUserSessions } from '@services/api/user';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { apiGetUserSessions, apiRevokeVIPSession } from '@services/api/user';
 import { userIDState } from '@states/app';
 import { getMessageByCode } from '@services/i18n/translation';
+import { accountTypeState } from '@states/settings';
+import { SessionResponseType } from '@definition/api';
 
 const useSessions = () => {
+  const queryClient = useQueryClient();
+
   const userID = useRecoilValue(userIDState);
+  const accountType = useRecoilValue(accountTypeState);
 
   const { isLoading, data, error } = useQuery({
     queryKey: ['sessions'],
@@ -22,7 +27,23 @@ const useSessions = () => {
 
   const sessions = data?.result?.sessions || [];
 
-  return { sessions, isLoading, errorMsg };
+  const handleTerminate = async (session: SessionResponseType) => {
+    try {
+      if (accountType === 'vip') {
+        const result = await apiRevokeVIPSession(session.identifier);
+
+        if (result.status !== 200) {
+          throw new Error(result.data.message);
+        }
+
+        await queryClient.refetchQueries({ queryKey: ['sessions'] });
+      }
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  };
+
+  return { sessions, isLoading, errorMsg, handleTerminate };
 };
 
 export default useSessions;

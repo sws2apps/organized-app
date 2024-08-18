@@ -5,12 +5,18 @@ type IconProps = {
   width?: number;
   height?: number;
   sx?: SxProps<Theme>;
+  className?: string;
 };
 
-const IconLogo = ({ width = 24, height = 24, sx = {} }: IconProps) => {
+const IconLogo = ({
+  width = 24,
+  height = 24,
+  sx = {},
+  className,
+}: IconProps) => {
   return (
     <SvgIcon
-      id="organized-icon-logo"
+      className={`organized-icon-logo ${className}`}
       sx={{ width: `${width}px`, height: `${height}px`, ...sx }}
     >
       <svg

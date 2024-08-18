@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { Dialog, DialogContent, SxProps } from '@mui/material';
+import { Dialog as MUIDialog, DialogContent, SxProps } from '@mui/material';
 
 /**
  * Component for rendering a custom dialog.
@@ -10,7 +10,7 @@ import { Dialog, DialogContent, SxProps } from '@mui/material';
  * @param {SxProps} props.sx - Custom styling for the dialog content.
  * @returns {JSX.Element} CustomDialog component.
  */
-const CustomDialog = ({
+const Dialog = ({
   open,
   onClose,
   children,
@@ -35,7 +35,7 @@ const CustomDialog = ({
   };
 
   return (
-    <Dialog
+    <MUIDialog
       fullWidth
       open={open}
       onClose={handleClose}
@@ -73,8 +73,8 @@ const CustomDialog = ({
       >
         {children}
       </DialogContent>
-    </Dialog>
+    </MUIDialog>
   );
 };
 
-export default CustomDialog;
+export default Dialog;
