@@ -90,7 +90,7 @@
   "tr_delegatePersons": "Hisolo tena an’ireto olona ireto",
   "tr_delegatePersonsDesc": "Afaka mijery ny anjara amin’ny fivoriana sy mandefa ny tatitra momba ny fanompoana ho an’ireo olona ireo ny solontenany.",
   "tr_delegatedPersons": "Lisitra",
-  "tr_invitationCodeInstruction": "To add a new user’s device, generate the invitation code, and ask them to open <a href='https://organized-app.com' class='h4' style='color: var(--accent-dark)' >organized-app.com</a>. Next, they should select their user type and enter the invitation code when prompted.",
+  "tr_invitationCodeInstruction": "To add a new user’s device, generate the invitation code, and ask them to open <a href='https://organized-app.com' style='color: var(--accent-dark)'>organized-app.com</a>. Next, they should select their user type and enter the invitation code when prompted.",
   "tr_generateInvitationCode": "Hamorona kaody",
   "tr_terminateSessionAdminDesc": "The user will stay logged in on their device until you terminate the session. After doing so, the user will need to log in to Organized again using their invitation code. Use this feature when absolutely necessary and in selective security-related cases.",
   "tr_baptizedBrotherUserDesc": "<b>Mpitory</b> vita batisa ity rahalaha ity. Afaka mijery ny fandaharam-pivoriana sy mandefa tatitra momba ny fanompoana foana izy noho izany. Afaka omenao andraikitra hafa koa izy eto ambany.",
@@ -421,5 +421,8 @@
   "tr_masterKeyConfirm": "Confirm master key",
   "tr_accessCodeCurrent": "Current access code",
   "tr_accessCodeNew": "New access code",
-  "tr_accessCodeConfirm": "Confirm access code"
+  "tr_accessCodeConfirm": "Confirm access code",
+  "tr_settingsAutoSaved": "All settings adjustments are saved automatically",
+  "tr_serviceGroupOverseerRole": "Field service group overseer",
+  "tr_publicTalkScheduling": "Public talk scheduling"
 }

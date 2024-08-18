@@ -113,7 +113,7 @@
   "tr_service": "Service",
   "tr_events": "Events",
   "tr_midweekMeetingScheduling": "Midweek meeting scheduling",
-  "tr_weekendMeetingScheduling": "Public talk scheduling",
+  "tr_weekendMeetingScheduling": "Weekend meeting scheduling",
   "tr_meetingDutiesScheduling": "Meeting duties scheduling",
   "tr_attendanceRecordTracking": "Attendance record tracking",
   "tr_fieldServiceMeetingsScheduling": "Field service meetings scheduling",
@@ -423,5 +423,6 @@
   "tr_accessCodeNew": "New access code",
   "tr_accessCodeConfirm": "Confirm access code",
   "tr_settingsAutoSaved": "All settings adjustments are saved automatically",
-  "tr_serviceGroupOverseerRole": "Field service group overseer"
+  "tr_serviceGroupOverseerRole": "Field service group overseer",
+  "tr_publicTalkScheduling": "Public talk scheduling"
 }

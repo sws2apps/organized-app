@@ -5,7 +5,7 @@
   "tr_addMonthDesc": "Primeiro, escolha os meses que deseja agendar. Em seguida, crie um plano para cada data específica de reunião.",
   "tr_responsiblePerson": "Responsável",
   "tr_deleteDate": "Apagar a data",
-  "tr_deleteDateDecs": "Você não pode desfazer esta ação, mas pode criar uma nova data a qualquer momento.",
-  "tr_deleteMonth": "Apagar o mês",
+  "tr_deleteDateDecs": "Você não pode desfazer esta ação, mas pode criar uma data a qualquer momento.",
+  "tr_deleteMonth": "Excluir este mês",
   "tr_deleteMonthDesc": "Você não pode desfazer esta ação, mas pode adicionar um novo mês a qualquer momento."
 }
