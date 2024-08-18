@@ -5,6 +5,7 @@ type IconProps = {
   width?: number;
   height?: number;
   sx?: SxProps<Theme>;
+  className?: string;
 };
 
 const IconWatchtowerStudy = ({
@@ -12,10 +13,11 @@ const IconWatchtowerStudy = ({
   width = 24,
   height = 24,
   sx = {},
+  className,
 }: IconProps) => {
   return (
     <SvgIcon
-      id="organized-icon-watchtower-study"
+      className={`organized-icon-watchtower-study ${className}`}
       sx={{ width: `${width}px`, height: `${height}px`, ...sx }}
     >
       <svg

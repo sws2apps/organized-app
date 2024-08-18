@@ -21,6 +21,7 @@ const TextField = (props: TextFieldTypeProps) => {
     styleIcon,
     InputProps,
     resetHelperPadding,
+    success,
     ...defaultProps
   } = props;
   const [showAccessCode, setShowAccessCode] = useState(false);
@@ -94,19 +95,36 @@ const TextField = (props: TextFieldTypeProps) => {
             boxSizing: 'content-box',
           },
           '& fieldset': {
-            border: '1px solid var(--accent-350)',
+            border: success
+              ? '1px solid var(--green-main)'
+              : '1px solid var(--accent-350)',
           },
           '&:hover fieldset': {
-            border: '1px solid var(--accent-main)',
+            border: success
+              ? '1px solid var(--green-main)'
+              : '1px solid var(--accent-main)',
           },
           '&.Mui-focused fieldset': {
-            border: '1px solid var(--accent-main)',
+            border: success
+              ? '1px solid var(--green-main)'
+              : '1px solid var(--accent-main)',
+          },
+          '&.Mui-error': {
+            '&:hover fieldset': {
+              border: '1px solid var(--red-main)',
+            },
+            '&.Mui-focused fieldset': {
+              border: '1px solid var(--red-main)',
+            },
           },
         },
         '.MuiInputLabel-root': {
-          color: 'var(--accent-350)',
+          color: success ? 'var(--green-main)' : 'var(--accent-350)',
           '&.Mui-focused': {
-            color: 'var(--accent-main)',
+            color: success ? 'var(--green-main)' : 'var(--accent-350)',
+          },
+          '&.Mui-error': {
+            color: 'var(--red-main)',
           },
         },
 
@@ -188,6 +206,11 @@ const TextField = (props: TextFieldTypeProps) => {
         style: {
           margin: 0,
           padding: resetHelperPadding ? 0 : '4px 16px 0px 16px',
+          color: success
+            ? 'var(--green-main)'
+            : props.error
+              ? 'var(--red-main)'
+              : 'inherit',
         },
       }}
     />

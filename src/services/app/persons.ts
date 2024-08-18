@@ -553,3 +553,15 @@ export const updateRecentPersons = (
 
   return recentPersons;
 };
+
+export const personIsBaptizedPublisher = (person: PersonType) => {
+  return person.person_data.publisher_baptized.active.value;
+};
+
+export const personIsUnbaptizedPublisher = (person: PersonType) => {
+  return person.person_data.publisher_unbaptized.active.value;
+};
+
+export const personIsMidweekStudent = (person: PersonType) => {
+  return person.person_data.midweek_meeting_student.active.value;
+};

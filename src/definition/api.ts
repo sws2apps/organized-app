@@ -1,3 +1,5 @@
+import { AppRoleType } from './app';
+
 export type CongregationResponseType = {
   address: string;
   circuit: string;
@@ -179,4 +181,53 @@ export type CongregationUpdatesResponseType = {
 export type APIResponseMessageString = {
   status: number;
   message: string;
+};
+
+export type UserGlobalRoleType = 'vip' | 'pocket' | 'admin';
+
+export type UserSession = {
+  mfaVerified?: boolean;
+  sws_last_seen: string;
+  visitor_details: {
+    browser: string;
+    ip: string;
+    ipLocation: {
+      city: string;
+      continent_code: string;
+      country_code: string;
+      country_name: string;
+      timezone: string;
+    };
+    isMobile: boolean;
+    os: string;
+  };
+  visitorid: string;
+  identifier: string;
+};
+
+export type CongregationUserType = {
+  id: string;
+  user_email: string;
+  user_local_uid: string;
+  pocket_oCode: string;
+  cong_id: string;
+  cong_country: string;
+  cong_name: string;
+  cong_number: string;
+  cong_role: AppRoleType[];
+  mfaEnabled: boolean;
+  firstname: { value: string; updatedAt: string };
+  lastname: { value: string; updatedAt: string };
+  global_role: UserGlobalRoleType;
+  sessions?: SessionResponseType[];
+  last_seen: string;
+  auth_uid: string;
+  secret: string;
+  pocket_invitation_code: string;
+  user_delegates: string[];
+};
+
+export type APICongregationUserType = {
+  status: number;
+  users: CongregationUserType[];
 };

@@ -57,7 +57,12 @@ const CongregationCard = () => {
       {isConnected && (
         <ListItem disablePadding>
           <DashboardMenu
-            icon={<IconSynced color="var(--black)" />}
+            icon={
+              <IconSynced
+                color="var(--black)"
+                className="organized-sync-icon"
+              />
+            }
             primaryText={t('tr_syncAppData')}
             secondaryText={secondaryText}
             onClick={handleManualSync}

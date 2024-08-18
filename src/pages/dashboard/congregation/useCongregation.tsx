@@ -53,7 +53,7 @@ const useCongregation = () => {
 
   useEffect(() => {
     if (isConnected) {
-      const svgIcon = document.querySelector('#organized-icon-synced');
+      const svgIcon = document.querySelector('.organized-sync-icon');
       const g = svgIcon.querySelector('g');
       const checkMark = g.querySelector('path');
       checkMark.style.animation = 'fade-out 0s ease-in-out forwards';
@@ -63,7 +63,7 @@ const useCongregation = () => {
   useEffect(() => {
     if (isSyncing) {
       const svgIcon = document.querySelector<SVGElement>(
-        '#organized-icon-synced'
+        '.organized-sync-icon'
       );
       if (svgIcon) {
         const g = svgIcon.querySelector('g');
@@ -78,7 +78,7 @@ const useCongregation = () => {
   useEffect(() => {
     if (!isSyncing && isConnected) {
       const svgIcon = document.querySelector<SVGElement>(
-        '#organized-icon-synced'
+        '.organized-sync-icon'
       );
       if (svgIcon) {
         const g = svgIcon.querySelector('g');

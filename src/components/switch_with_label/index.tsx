@@ -12,7 +12,10 @@ const SwitchWithLabel = ({
 }: SwitchWithLabelProps) => {
   return (
     <SwitcherContainer>
-      <Switch checked={checked} onChange={(e) => onChange(e.target.checked)} />
+      <Switch
+        checked={checked}
+        onChange={(e) => onChange?.(e.target.checked)}
+      />
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
         <Typography color="var(--black)">{label}</Typography>
         {helper && (

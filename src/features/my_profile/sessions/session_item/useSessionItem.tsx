@@ -1,20 +1,12 @@
 import { useEffect, useState } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
-import { SessionResponseType } from '@definition/api';
 import { formatDate } from '@services/dateformat';
 import { useAppTranslation } from '@hooks/index';
-import { useRecoilValue } from 'recoil';
 import { displaySnackNotification } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
-import { accountTypeState } from '@states/settings';
-import { apiRevokeVIPSession } from '@services/api/user';
+import { SessionItemType } from './index.types';
 
-const useSessionItem = (session: SessionResponseType) => {
+const useSessionItem = ({ onTerminate, session }: SessionItemType) => {
   const { t } = useAppTranslation();
-
-  const queryClient = useQueryClient();
-
-  const accountType = useRecoilValue(accountTypeState);
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [isCurrent, setIsCurrent] = useState(false);
@@ -28,20 +20,9 @@ const useSessionItem = (session: SessionResponseType) => {
     try {
       setIsProcessing(true);
 
-      if (accountType === 'vip') {
-        const result = await apiRevokeVIPSession(session.identifier);
+      await onTerminate?.(session);
 
-        if (result.status === 200) {
-          await queryClient.refetchQueries({ queryKey: ['sessions'] });
-          return;
-        }
-
-        await displaySnackNotification({
-          header: t('tr_errorTitle'),
-          message: getMessageByCode(result.data.message),
-          severity: 'error',
-        });
-      }
+      setIsProcessing(false);
     } catch (error) {
       setIsProcessing(false);
 

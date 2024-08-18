@@ -186,3 +186,7 @@ export const createNumbersArray = (length: number) => {
 
 export const styledRemoveProps = (prop: PropertyKey, userProp: string[]) =>
   !userProp.includes(String(prop));
+
+export const copyToClipboard = async (value: string) => {
+  await navigator.clipboard.writeText(value);
+};

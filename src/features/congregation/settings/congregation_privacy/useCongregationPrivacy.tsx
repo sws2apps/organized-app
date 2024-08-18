@@ -6,11 +6,13 @@ import {
   userDataViewState,
 } from '@states/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
+import { congAccountConnectedState } from '@states/app';
 
 const useCongregationPrivacy = () => {
   const settings = useRecoilValue(settingsState);
   const dataView = useRecoilValue(userDataViewState);
   const isUserAdmin = useRecoilValue(adminRoleState);
+  const isConnected = useRecoilValue(congAccountConnectedState);
 
   const [timeAwayPublic, setTimeAwayPublic] = useState(false);
   const [outgoingTalksPublic, setOutgoingTalksPublic] = useState(false);
@@ -59,6 +61,7 @@ const useCongregationPrivacy = () => {
     handleTimeAwayPublicToggle,
     handleOutgoingTalksPublicToggle,
     isUserAdmin,
+    isConnected,
   };
 };
 

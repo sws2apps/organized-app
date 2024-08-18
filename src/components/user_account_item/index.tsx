@@ -1,54 +1,53 @@
-import { Box, IconButton } from '@mui/material';
-import { UserAccountItemProps } from './user_account_item.types';
-import CustomTypography from '@components/typography';
-import { StyledBoxWrapper } from './user_account_item.styled';
 import { useState } from 'react';
+import { Box, IconButton } from '@mui/material';
+import { StyledBoxWrapper } from './index.styles';
+import {
+  UserAccountItemIconType,
+  UserAccountItemProps,
+  UserAccountItemTextContentType,
+} from './index.types';
 import {
   IconAccount,
   IconAdmin,
   IconArrowLink,
   IconAssignment,
 } from '@components/icons';
+import Typography from '@components/typography';
 
 /**
  * Renders user account information based on the variant.
  * @param {Object} props - The props for the component.
  * @param {('user' | 'admin' | 'baptized')} props.variant - The variant of the user account item.
  * @param {string} props.userName - The name of the user.
- * @param {string} [props.userPosition] - The position of the user (applicable for 'admin' variant).
+ * @param {string} [props.secondary] - The position of the user (applicable for 'admin' variant).
  * @returns {JSX.Element} - JSX element representing the user account information.
  * @example
  * // Renders user name for a regular user:
  * <UserAccountItemTextContent variant="user" userName="John Doe" />
  *
  * // Renders user name and position for an admin user:
- * <UserAccountItemTextContent variant="admin" userName="Admin" userPosition="Administrator" />
+ * <UserAccountItemTextContent variant="admin" userName="Admin" secondary="Administrator" />
  *
  * // Renders user name for a baptized user:
  * <UserAccountItemTextContent variant="baptized" userName="Jane Doe" />
  */
-const UserAccountItemTextContent = (props: {
-  variant: 'user' | 'admin' | 'baptized';
-  userName: string;
-  userPosition: string;
-  color?: string;
-}) => {
+const UserAccountItemTextContent = (props: UserAccountItemTextContentType) => {
   switch (props.variant) {
     case 'user':
     case 'baptized':
       return (
-        <CustomTypography
+        <Typography
           className="h4"
           style={{ fontWeight: '550', color: props.color || 'var(--black)' }}
         >
-          {props.userName}
-        </CustomTypography>
+          {props.name}
+        </Typography>
       );
 
     case 'admin':
       return (
         <Box>
-          <CustomTypography
+          <Typography
             className="h4"
             style={{
               fontWeight: '550',
@@ -56,9 +55,9 @@ const UserAccountItemTextContent = (props: {
               color: props.color || 'var(--black)',
             }}
           >
-            {props.userName}
-          </CustomTypography>
-          <CustomTypography
+            {props.name}
+          </Typography>
+          <Typography
             className="body-small-regular"
             style={{
               color:
@@ -67,8 +66,8 @@ const UserAccountItemTextContent = (props: {
                   : props.color,
             }}
           >
-            {props.userPosition}
-          </CustomTypography>
+            {props.secondary}
+          </Typography>
         </Box>
       );
   }
@@ -93,10 +92,7 @@ const UserAccountItemTextContent = (props: {
  * // Renders a baptized icon with green color:
  * <UserAccountItemIcon variant="baptized" color="green" />
  */
-const UserAccountItemIcon = (props: {
-  variant: 'user' | 'admin' | 'baptized';
-  color: string;
-}) => {
+const UserAccountItemIcon = (props: UserAccountItemIconType) => {
   switch (props.variant) {
     case 'user':
       return <IconAssignment color={props.color} />;
@@ -121,15 +117,15 @@ const UserAccountItemIcon = (props: {
  * <UserAccountItem userName="John Doe" />
  *
  * // Renders a user account item for an administrator with a position:
- * <UserAccountItem variant="admin" userName="Admin" userPosition="Administrator" />
+ * <UserAccountItem variant="admin" userName="Admin" secondary="Administrator" />
  *
  * // Renders a user account item for a baptized user:
  * <UserAccountItem variant="baptized" userName="Jane Doe" />
  */
 const UserAccountItem = (props: UserAccountItemProps) => {
   const variant = props.variant || 'user';
-  const userPosition = props.userPosition || null;
-  const userName = props.userName;
+  const secondary = props.secondary || null;
+  const name = props.name;
   const clickOnArrow = props.clickOnArrow || null;
   const clickOnUserAccountItem = props.clickOnUserAccountItem || null;
 
@@ -156,8 +152,8 @@ const UserAccountItem = (props: UserAccountItemProps) => {
         />
         <UserAccountItemTextContent
           variant={variant}
-          userName={userName}
-          userPosition={userPosition}
+          name={name}
+          secondary={secondary}
           color={isHovered ? 'var(--accent-dark)' : 'var(--black)'}
         />
       </Box>
