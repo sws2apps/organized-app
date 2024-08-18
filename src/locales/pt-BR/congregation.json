@@ -421,5 +421,8 @@
   "tr_masterKeyConfirm": "Confirmar chave mestra",
   "tr_accessCodeCurrent": "Código de acesso atual",
   "tr_accessCodeNew": "Novo código de acesso",
-  "tr_accessCodeConfirm": "Confirmar código de acesso"
+  "tr_accessCodeConfirm": "Confirmar código de acesso",
+  "tr_settingsAutoSaved": "All settings adjustments are saved automatically",
+  "tr_serviceGroupOverseerRole": "Field service group overseer",
+  "tr_publicTalkScheduling": "Public talk scheduling"
 }
