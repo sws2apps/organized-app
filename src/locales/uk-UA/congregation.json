@@ -422,7 +422,7 @@
   "tr_accessCodeCurrent": "Актуальний код доступу",
   "tr_accessCodeNew": "Новий код доступу",
   "tr_accessCodeConfirm": "Підтвердити код доступу",
-  "tr_settingsAutoSaved": "All settings adjustments are saved automatically",
-  "tr_serviceGroupOverseerRole": "Field service group overseer",
-  "tr_publicTalkScheduling": "Public talk scheduling"
+  "tr_settingsAutoSaved": "Усі зміни налаштувань зберігаються автоматично",
+  "tr_serviceGroupOverseerRole": "Наглядач групи до служіння",
+  "tr_publicTalkScheduling": "Планування публічних промов"
 }

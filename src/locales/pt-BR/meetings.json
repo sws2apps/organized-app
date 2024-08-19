@@ -134,7 +134,7 @@
   "tr_visitinSpeakerHelpText": "Você pode adicionar oradores manualmente, mas recomendamos adicioná-los com antecedência na página <a>Relação de Oradores</a>",
   "tr_noSpeakersYet": "Nenhum orador ainda",
   "tr_speakersCatalog": "Relação de oradores",
-  "tr_speakersCatalogLocalDesc": "Com base na sua seleção, você pode ver oradores visitantes de outras congregações. Para atribuir outro orador que não esteja na relação, simplesmente feche esta janela e selecione-o no campo de orador.",
+  "tr_speakersCatalogLocalDesc": "Based on your selection, you see visiting speakers from other congregations. To assign another speaker not from the catalog, simply close this window and select him in the 'Speaker' field.",
   "tr_speakersCatalogVisitingDesc": "Com base na sua seleção, você verá os oradores que farão discurso fora da sua congregação. Para não atribuir a outro irmão local a relação, simplesmente feche esta janela e selecione-o no campo de orador.",
   "tr_clearMultipleAssignments": "Limpar várias designações da reunião",
   "tr_outgoingTalk": "Discurso fora",

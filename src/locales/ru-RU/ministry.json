@@ -91,7 +91,7 @@
   "tr_deletePWLocationDesc": "Deleting this location permanently removes all its data and arrangements. This action cannot be undone.",
   "tr_changeImage": "Изменить изображение",
   "tr_addImage": "Добавить изображение",
-  "tr_cantDeductStudiesDesc": "Вы не можете выбрать меньше Библейских изучений, чем уже выбрали в выпадающем меню «Отдельные Библейские изучения».",
+  "tr_cantDeductStudiesDesc": "You can’t select fewer studies than you already have selected in the “Individual Bible studies” menu.",
   "tr_cantDeductStudiesTitle": "Невозможно уменьшить Библейские изучения",
   "tr_includesServiceAndCredit": "Включить служение и кредитное время",
   "tr_noDailyRecordsDesc": "У тебя еще нет ежедневных записей о служении. Добавь запись, чтобы включить её в свой ежемесячный отчет.",
