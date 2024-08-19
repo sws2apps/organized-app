@@ -95,7 +95,7 @@
   "tr_congregationAccessCodeNoticeLength": "Мінімум 8 символів",
   "tr_congregationAccessCodeSet": "Встановити код доступу",
   "tr_congregationAccessCodeVerify": "Перевірити код доступу збору",
-  "tr_congregationAccessCodeNotice": "Будь ласка, запам'ятай і збережи цей код. Усі користувачі, які отримують доступ до твого збору, потребують його для початку користування додатком.",
+  "tr_congregationAccessCodeNotice": "Будь ласка, запам'ятай і збережи цей код. Він потрібен всім користувачам, які отримують доступ до твого збору, щоб користуватися додатком.",
   "tr_congregationAccessCodeLostDesc": "Введи код доступу до твого збору. Цей унікальний код лише для твого збору і необхідний для підключення та доступу до нього.",
   "tr_setCongregationMasterKey": "Встановити головний ключ збору",
   "tr_createCongregationMasterKey": "Створити головний ключ збору",
