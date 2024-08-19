@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { personsActiveState } from '@states/persons';
 import { UsersOption } from './index.types';
@@ -14,14 +15,19 @@ import {
   personIsUnbaptizedPublisher,
 } from '@services/app/persons';
 import useUserDetails from '../useUserDetails';
+import { userIDState } from '@states/app';
+import { dbAppSettingsUpdate } from '@services/dexie/settings';
 
 const useProfileSettings = (user: CongregationUserType) => {
+  const { id } = useParams();
+
   const { t } = useAppTranslation();
 
   const { handleSaveDetails } = useUserDetails();
 
   const personsActive = useRecoilValue(personsActiveState);
   const fullnameOption = useRecoilValue(fullnameOptionState);
+  const userID = useRecoilValue(userIDState);
 
   const [selectedPerson, setSelectedPerson] = useState<UsersOption>(null);
   const [delegatedPersons, setDelegatedPersons] = useState<UsersOption[]>([]);
@@ -44,6 +50,12 @@ const useProfileSettings = (user: CongregationUserType) => {
       (record) => record.person_uid !== user.user_local_uid
     );
   }, [persons, user]);
+
+  const handleUpdateLocalUID = async (value: string) => {
+    await dbAppSettingsUpdate({
+      'user_settings.user_local_uid': value,
+    });
+  };
 
   const handleSelectPerson = async (value: UsersOption) => {
     try {
@@ -69,6 +81,10 @@ const useProfileSettings = (user: CongregationUserType) => {
       }
 
       await handleSaveDetails(user);
+
+      if (userID === id) {
+        await handleUpdateLocalUID(value.person_uid);
+      }
     } catch (error) {
       console.error(error);
 
