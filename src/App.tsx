@@ -34,11 +34,11 @@ const PublisherRecord = lazy(
 const PublisherRecordDetail = lazy(
   () => import('@pages/congregation/publisher_records_detail')
 );
-const ManageAccessAll = lazy(
-  () => import('@pages/manage_access/manage_access_all')
+const UsersAll = lazy(
+  () => import('@pages/congregation/manage_access/all_users')
 );
-const ManageAccessPersonDetails = lazy(
-  () => import('@pages/manage_access/manage_access_person_details')
+const UserDetails = lazy(
+  () => import('@pages/congregation/manage_access/user_details')
 );
 const WeeklySchedules = lazy(() => import('@pages/meetings/schedules'));
 const CongregationSettings = lazy(() => import('@pages/congregation/settings'));
@@ -93,10 +93,10 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
               path: '/publisher-records/:id',
               element: <PublisherRecordDetail />,
             },
-            { path: '/manage-access', element: <ManageAccessAll /> },
+            { path: '/manage-access', element: <UsersAll /> },
             {
               path: '/manage-access/:id',
-              element: <ManageAccessPersonDetails />,
+              element: <UserDetails />,
             },
             { path: '/service-year', element: <ServiceYear /> },
             { path: '/weekly-schedules', element: <WeeklySchedules /> },

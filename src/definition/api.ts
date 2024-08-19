@@ -1,3 +1,5 @@
+import { AppRoleType } from './app';
+
 export type CongregationResponseType = {
   address: string;
   circuit: string;
@@ -35,13 +37,22 @@ export type CongregationCreateResponseType = {
   cong_number: string;
   cong_role: string[];
   id: string;
-  cong_circuit: string;
-  cong_location: { address: string; lat: number; lng: number };
-  midweek_meeting: { weekday: number; time: string };
-  weekend_meeting: { weekday: number; time: string };
+  cong_circuit: { type: string; value: string; updatedAt: string }[];
+  cong_location: {
+    address: string;
+    lat: number;
+    lng: number;
+    updatedAt: string;
+  };
+  midweek_meeting: MeetingResponseType[];
+  weekend_meeting: MeetingResponseType[];
 };
 
-type MeetingResponseType = { type: string; weekday: number; time: string };
+type MeetingResponseType = {
+  type: string;
+  weekday: { value: number; updatedAt: string };
+  time: { value: string; updatedAt: string };
+};
 
 export type ValidateMeResponseType = {
   status: number;
@@ -56,8 +67,13 @@ export type ValidateMeResponseType = {
     cong_role: string[];
     id: string;
     mfaEnabled: boolean;
-    cong_circuit: { type: string; value: string }[];
-    cong_location: { address: string; lat: number; lng: number };
+    cong_circuit: { type: string; value: string; updatedAt: string }[];
+    cong_location: {
+      address: string;
+      lat: number;
+      lng: number;
+      updatedAt: string;
+    };
     midweek_meeting: MeetingResponseType[];
     weekend_meeting: MeetingResponseType[];
     cong_master_key: string;
@@ -160,4 +176,58 @@ export type CongregationUpdatesResponseType = {
     remote_congregations?: RemoteCongregationType[];
     rejected_requests?: RemoteCongregationType[];
   };
+};
+
+export type APIResponseMessageString = {
+  status: number;
+  message: string;
+};
+
+export type UserGlobalRoleType = 'vip' | 'pocket' | 'admin';
+
+export type UserSession = {
+  mfaVerified?: boolean;
+  sws_last_seen: string;
+  visitor_details: {
+    browser: string;
+    ip: string;
+    ipLocation: {
+      city: string;
+      continent_code: string;
+      country_code: string;
+      country_name: string;
+      timezone: string;
+    };
+    isMobile: boolean;
+    os: string;
+  };
+  visitorid: string;
+  identifier: string;
+};
+
+export type CongregationUserType = {
+  id: string;
+  user_email: string;
+  user_local_uid: string;
+  pocket_oCode: string;
+  cong_id: string;
+  cong_country: string;
+  cong_name: string;
+  cong_number: string;
+  cong_role: AppRoleType[];
+  mfaEnabled: boolean;
+  firstname: { value: string; updatedAt: string };
+  lastname: { value: string; updatedAt: string };
+  global_role: UserGlobalRoleType;
+  sessions?: SessionResponseType[];
+  last_seen: string;
+  auth_uid: string;
+  secret: string;
+  pocket_invitation_code: string;
+  user_delegates: string[];
+};
+
+export type APICongregationUserType = {
+  status: number;
+  users: CongregationUserType[];
 };

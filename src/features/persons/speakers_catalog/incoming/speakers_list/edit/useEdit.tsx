@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { displayNameEnableState, fullnameOptionState } from '@states/settings';
+import {
+  displayNameMeetingsEnableState,
+  fullnameOptionState,
+} from '@states/settings';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
 import {
   dbVisitingSpeakersDelete,
@@ -13,7 +16,7 @@ import { SongType } from '@definition/songs';
 
 const useEdit = (speaker: VisitingSpeakerType) => {
   const fullnameOption = useRecoilValue(fullnameOptionState);
-  const displayNameEnabled = useRecoilValue(displayNameEnableState);
+  const displayNameEnabled = useRecoilValue(displayNameMeetingsEnableState);
   const publicTalks = useRecoilValue(publicTalksState);
 
   const [firstname, setFirstname] = useState(

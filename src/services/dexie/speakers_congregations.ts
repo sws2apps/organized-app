@@ -61,30 +61,30 @@ export const dbSpeakersCongregationsDummy = async () => {
   const cong0 = structuredClone(speakersCongregationSchema);
   cong0.id = crypto.randomUUID();
   cong0._deleted.updatedAt = new Date().toISOString();
-  cong0.cong_data.cong_number = { value: '123456', updatedAt: '' };
+  cong0.cong_data.cong_number = { value: '11163', updatedAt: '' };
   cong0.cong_data.request_status = 'approved';
 
   const cong1 = structuredClone(speakersCongregationSchema);
   cong1.id = crypto.randomUUID();
   cong1._deleted.updatedAt = new Date().toISOString();
   cong1.cong_data.cong_circuit = {
-    value: '01-A',
+    value: 'WA- 5',
     updatedAt: new Date().toISOString(),
   };
   cong1.cong_data.cong_location = {
     address: {
-      value: 'Congregation 1 Kingdom Hall Address',
+      value: '5933 39th Ave S Seattle WA  98118-2616',
       updatedAt: new Date().toISOString(),
     },
-    lat: -18.91,
-    lng: 47.64,
+    lat: 47.54865,
+    lng: -122.28381,
   };
   cong1.cong_data.cong_name = {
-    value: 'Congregation 1',
+    value: 'Yesler - Seattle WA',
     updatedAt: new Date().toISOString(),
   };
   cong1.cong_data.cong_number = {
-    value: '10001',
+    value: '11338',
     updatedAt: new Date().toISOString(),
   };
   cong1.cong_data.coordinator = {
@@ -112,23 +112,23 @@ export const dbSpeakersCongregationsDummy = async () => {
   cong2.id = crypto.randomUUID();
   cong2._deleted.updatedAt = new Date().toISOString();
   cong2.cong_data.cong_circuit = {
-    value: '26-D',
+    value: 'WA- 8-B',
     updatedAt: new Date().toISOString(),
   };
   cong2.cong_data.cong_location = {
     address: {
-      value: 'Congregation 2 Kingdom Hall Address',
+      value: '13006 NE 100th St Kirkland WA  98033-5255',
       updatedAt: new Date().toISOString(),
     },
-    lat: -18.91,
-    lng: 47.64,
+    lat: 47.690079,
+    lng: -122.167178,
   };
   cong2.cong_data.cong_name = {
-    value: 'Congregation 2',
+    value: 'Lake Hills - Bellevue WA',
     updatedAt: new Date().toISOString(),
   };
   cong2.cong_data.cong_number = {
-    value: '56239',
+    value: '10066',
     updatedAt: new Date().toISOString(),
   };
   cong2.cong_data.coordinator = {

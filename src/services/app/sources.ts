@@ -15,6 +15,12 @@ import { AssignmentAYFOnlyType } from '@definition/assignment';
 import { JWLangState } from '@states/app';
 import { getTranslation } from '@services/i18n/translation';
 import { MeetingType } from '@definition/app';
+import {
+  sourcesJWAutoImportFrequencyState,
+  sourcesJWAutoImportState,
+} from '@states/settings';
+import { SourceFrequency } from '@definition/settings';
+import { addWeeks } from '@utils/date';
 
 export const sourcesImportEPUB = async (fileEPUB) => {
   const data = await loadEPUB(fileEPUB);
@@ -23,6 +29,23 @@ export const sourcesImportEPUB = async (fileEPUB) => {
 
 export const sourcesImportJW = async (dataJw) => {
   await sourcesFormatAndSaveData(dataJw);
+
+  const isAutoImportEnabled: boolean = await promiseGetRecoil(
+    sourcesJWAutoImportState
+  );
+
+  const autoImportFrequency: SourceFrequency = await promiseGetRecoil(
+    sourcesJWAutoImportFrequencyState
+  );
+
+  if (isAutoImportEnabled) {
+    const nextSync = addWeeks(new Date(), autoImportFrequency);
+
+    localStorage.setItem(
+      'organized_jw-import-next-sync',
+      nextSync.toISOString()
+    );
+  }
 };
 
 const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {

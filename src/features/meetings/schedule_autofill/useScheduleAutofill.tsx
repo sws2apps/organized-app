@@ -8,6 +8,7 @@ import { PersonType } from '@definition/person';
 import { AssignmentCode, AssignmentFieldType } from '@definition/assignment';
 import {
   midweekMeetingClassCountState,
+  midweekMeetingClosingPrayerAutoAssign,
   midweekMeetingOpeningPrayerAutoAssign,
   userDataViewState,
   weekendMeetingOpeningPrayerAutoAssignState,
@@ -48,6 +49,9 @@ const useScheduleAutofill = (
   const lang = useRecoilValue(JWLangState);
   const mmOpenPrayerAuto = useRecoilValue(
     midweekMeetingOpeningPrayerAutoAssign
+  );
+  const mmClosingPrayerAuto = useRecoilValue(
+    midweekMeetingClosingPrayerAutoAssign
   );
   const wmOpenPrayerAuto = useRecoilValue(
     weekendMeetingOpeningPrayerAutoAssignState
@@ -110,7 +114,7 @@ const useScheduleAutofill = (
 
           if (weekType === Week.NORMAL && main.length === 0) {
             selected = await schedulesSelectRandomPerson({
-              type: AssignmentCode.MM_Chairman,
+              type: AssignmentCode.MM_AuxiliaryCounselor,
               week: schedule.weekOf,
               history: historyAutofill,
             });
@@ -398,23 +402,25 @@ const useScheduleAutofill = (
         }
 
         // Assign Closing Prayer
-        main =
-          schedule.midweek_meeting.closing_prayer.find(
-            (record) => record.type === dataView
-          )?.value || '';
-        if (main.length === 0) {
-          selected = await schedulesSelectRandomPerson({
-            type: AssignmentCode.MM_Prayer,
-            week: schedule.weekOf,
-            history: historyAutofill,
-          });
-          if (selected) {
-            await schedulesAutofillSaveAssignment({
-              assignment: 'MM_ClosingPrayer',
+        if (!mmClosingPrayerAuto) {
+          main =
+            schedule.midweek_meeting.closing_prayer.find(
+              (record) => record.type === dataView
+            )?.value || '';
+          if (main.length === 0) {
+            selected = await schedulesSelectRandomPerson({
+              type: AssignmentCode.MM_Prayer,
+              week: schedule.weekOf,
               history: historyAutofill,
-              schedule,
-              value: selected,
             });
+            if (selected) {
+              await schedulesAutofillSaveAssignment({
+                assignment: 'MM_ClosingPrayer',
+                history: historyAutofill,
+                schedule,
+                value: selected,
+              });
+            }
           }
         }
 

@@ -134,12 +134,12 @@
   "tr_visitinSpeakerHelpText": "Konuşmacıları manuel olarak ekleyebilirsiniz, ancak onları önceden <a>Konuşmacılar listesi</a> sayfasına eklemenizi öneririz",
   "tr_noSpeakersYet": "Henüz konuşmacı yok",
   "tr_speakersCatalog": "Konuşmacı listesi",
-  "tr_speakersCatalogLocalDesc": "Seçiminize göre, diğer cemaatlerden gelen misafir konuşmacıları görüyorsunuz. Listede yer almayan başka bir konuşmacıyı atamak için bu pencereyi kapatın ve konuşmacı alanında onu seçin.",
+  "tr_speakersCatalogLocalDesc": "Based on your selection, you see visiting speakers from other congregations. To assign another speaker not from the catalog, simply close this window and select him in the 'Speaker' field.",
   "tr_speakersCatalogVisitingDesc": "Seçiminize göre, cemaatinizden giden konuşmacıları görüyorsunuz. Listede yer almayan başka bir biraderi atamak için bu pencereyi kapatın ve konuşmacı alanında onu seçin.",
   "tr_clearMultipleAssignments": "Birden fazla ibadet görevini sil",
   "tr_outgoingTalk": "Giden konuşmalar",
   "tr_outgoingTalkSynced": "Bu giden konuşma, <strong>{{ congregation }}</strong> cemaatinin programıyla senkronize edilmiştir. Herhangi bir düzeltme veya güncelleme için, cemaatin halka açık konuşma koordinatörü ile iletişime geçiniz.",
-  "tr_clearOutgoingTalkDesc": "Bu giden konuşma için tüm görevleri ve cemaat bilgilerini silmek istediğinizden emin misiniz? Bilgileri daha sonra doldurabilirsiniz",
+  "tr_clearOutgoingTalkDesc": "Are you sure you want to clear all assignments and congregation details for this outgoing talk? You can always fill out them later.",
   "tr_outgoingTalkDelete": "Giden konuşmayı sil",
   "tr_outgoingTalkDeleteDesc": "Bu giden konuşma programını silmek istediğinizden emin misiniz?"
 }

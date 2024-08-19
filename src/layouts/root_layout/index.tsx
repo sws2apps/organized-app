@@ -20,6 +20,7 @@ import {
 import { isDemo } from '@constants/index';
 import useGlobal from '@hooks/useGlobal';
 import useRootLayout from './useRootLayout';
+import JWAutoImport from '@features/meeting_materials/jw_auto_import';
 import NavBar from '@layouts/navbar';
 import WaitingCircular from '@components/waiting_circular';
 
@@ -43,8 +44,11 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
       <AppFeedback />
 
       <WorkInProgressNotif />
+
       {isImportJWOrg && <JWMaterialsImport />}
       {isImportEPUB && <EPUBMaterialsImport />}
+
+      <JWAutoImport />
 
       <Toolbar sx={{ padding: 0 }}>
         {/* temporary workaround while page components are being built */}

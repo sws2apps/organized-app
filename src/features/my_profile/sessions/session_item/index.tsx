@@ -5,14 +5,12 @@ import {
   IconLoading,
   IconPhone,
 } from '@components/icons';
-import { SessionResponseType } from '@definition/api';
+import { SessionItemType } from './index.types';
+import useSessionItem from './useSessionItem';
 import Button from '@components/button';
 import Typography from '@components/typography';
-import useSessionItem from './useSessionItem';
 
-const SessionItem = (props: { session: SessionResponseType }) => {
-  const { session } = props;
-
+const SessionItem = (props: SessionItemType) => {
   const {
     isProcessing,
     handleTerminate,
@@ -20,7 +18,7 @@ const SessionItem = (props: { session: SessionResponseType }) => {
     browser,
     lastSeen,
     location,
-  } = useSessionItem(session);
+  } = useSessionItem(props);
 
   return (
     <Box
@@ -41,10 +39,10 @@ const SessionItem = (props: { session: SessionResponseType }) => {
           boxSizing: 'content-box',
         }}
       >
-        {session.device.isMobile && (
+        {props.session.device.isMobile && (
           <IconPhone height={40} width={40} color="var(--accent-dark)" />
         )}
-        {!session.device.isMobile && (
+        {!props.session.device.isMobile && (
           <IconComputer height={40} width={40} color="var(--accent-dark)" />
         )}
       </Box>

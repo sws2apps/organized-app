@@ -1,5 +1,10 @@
-import { CongregationUpdatesResponseType } from '@definition/api';
+import {
+  APICongregationUserType,
+  APIResponseMessageString,
+  CongregationUpdatesResponseType,
+} from '@definition/api';
 import { apiDefault } from './common';
+import { AppRoleType } from '@definition/app';
 
 export const apiFetchCountries = async () => {
   const {
@@ -206,3 +211,333 @@ export const apiGetCongregationUpdates =
 
     return { status: res.status, result: data };
   };
+
+export const apiGetCongregationMasterKey =
+  async (): Promise<APIResponseMessageString> => {
+    const {
+      apiHost,
+      appVersion: appversion,
+      congID,
+      idToken,
+    } = await apiDefault();
+
+    const res = await fetch(
+      `${apiHost}api/v3/congregations/admin/${congID}/master-key`,
+      {
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${idToken}`,
+          appclient: 'organized',
+          appversion,
+        },
+      }
+    );
+
+    const data = await res.json();
+
+    return { status: res.status, message: data?.message };
+  };
+
+export const apiGetCongregationAccessCode =
+  async (): Promise<APIResponseMessageString> => {
+    const {
+      apiHost,
+      appVersion: appversion,
+      congID,
+      idToken,
+    } = await apiDefault();
+
+    const res = await fetch(
+      `${apiHost}api/v3/congregations/admin/${congID}/access-code`,
+      {
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${idToken}`,
+          appclient: 'organized',
+          appversion,
+        },
+      }
+    );
+
+    const data = await res.json();
+
+    return { status: res.status, message: data?.message };
+  };
+
+export const apiPocketUserCreate = async ({
+  cong_person_uid,
+  cong_role,
+  user_firstname,
+  user_lastname,
+  user_secret_code,
+}: {
+  user_firstname: string;
+  user_lastname: string;
+  user_secret_code: string;
+  cong_role: string[];
+  cong_person_uid: string;
+}) => {
+  const {
+    apiHost,
+    appVersion: appversion,
+    congID,
+    idToken,
+  } = await apiDefault();
+
+  const res = await fetch(
+    `${apiHost}api/v3/congregations/admin/${congID}/pocket-user`,
+    {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${idToken}`,
+        appclient: 'organized',
+        appversion,
+      },
+      body: JSON.stringify({
+        cong_person_uid,
+        cong_role,
+        user_firstname,
+        user_lastname,
+        user_secret_code,
+      }),
+    }
+  );
+
+  const data = await res.json();
+
+  return { status: res.status, message: data?.message as string };
+};
+
+export const apiCongregationUsersGet =
+  async (): Promise<APICongregationUserType> => {
+    const {
+      apiHost,
+      appVersion: appversion,
+      congID,
+      idToken,
+    } = await apiDefault();
+
+    const res = await fetch(
+      `${apiHost}api/v3/congregations/admin/${congID}/users`,
+      {
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${idToken}`,
+          appclient: 'organized',
+          appversion,
+        },
+      }
+    );
+
+    const data = await res.json();
+
+    return { status: res.status, users: data };
+  };
+
+export const apiCongregationUserUpdate = async ({
+  user_id,
+  cong_person_uid,
+  cong_role,
+  cong_person_delegates,
+  user_secret_code,
+}: {
+  user_id: string;
+  user_secret_code: string;
+  cong_role: AppRoleType[];
+  cong_person_uid: string;
+  cong_person_delegates: string[];
+}) => {
+  const {
+    apiHost,
+    appVersion: appversion,
+    congID,
+    idToken,
+  } = await apiDefault();
+
+  const res = await fetch(
+    `${apiHost}api/v3/congregations/admin/${congID}/users/${user_id}`,
+    {
+      method: 'PATCH',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${idToken}`,
+        appclient: 'organized',
+        appversion,
+      },
+      body: JSON.stringify({
+        cong_person_uid,
+        cong_role,
+        cong_person_delegates,
+        user_secret_code,
+      }),
+    }
+  );
+
+  const data = await res.json();
+
+  return { status: res.status, message: data?.message as string };
+};
+
+export const apiAdminRevokeUserSession = async (
+  user_id: string,
+  identifier: string
+) => {
+  const {
+    apiHost,
+    appVersion: appversion,
+    congID,
+    idToken,
+  } = await apiDefault();
+
+  const res = await fetch(
+    `${apiHost}api/v3/congregations/admin/${congID}/users/${user_id}/sessions`,
+    {
+      method: 'DELETE',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${idToken}`,
+        appclient: 'organized',
+        appversion,
+      },
+      body: JSON.stringify({ identifier }),
+    }
+  );
+
+  const data = await res.json();
+
+  return { status: res.status, data };
+};
+
+export const apiAdminDeletePocketCode = async (user_id: string) => {
+  const {
+    apiHost,
+    appVersion: appversion,
+    congID,
+    idToken,
+  } = await apiDefault();
+
+  const res = await fetch(
+    `${apiHost}api/v3/congregations/admin/${congID}/pocket-user/${user_id}`,
+    {
+      method: 'DELETE',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${idToken}`,
+        appclient: 'organized',
+        appversion,
+      },
+    }
+  );
+
+  const data = await res.json();
+
+  return { status: res.status, message: data?.message };
+};
+
+export const apiAdminGlobalSearchUser = async (email: string) => {
+  const {
+    apiHost,
+    appVersion: appversion,
+    congID,
+    idToken,
+  } = await apiDefault();
+
+  const res = await fetch(
+    `${apiHost}api/v3/congregations/admin/${congID}/users/global?email=${email}`,
+    {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${idToken}`,
+        appclient: 'organized',
+        appversion,
+      },
+    }
+  );
+
+  const data = await res.json();
+
+  return { status: res.status, data };
+};
+
+export const apiCreateUser = async ({
+  cong_person_uid,
+  cong_role,
+  user_firstname,
+  user_lastname,
+  user_id,
+}: {
+  user_firstname: string;
+  user_lastname: string;
+  user_id: string;
+  cong_role: string[];
+  cong_person_uid: string;
+}) => {
+  const {
+    apiHost,
+    appVersion: appversion,
+    congID,
+    idToken,
+  } = await apiDefault();
+
+  const res = await fetch(
+    `${apiHost}api/v3/congregations/admin/${congID}/users`,
+    {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${idToken}`,
+        appclient: 'organized',
+        appversion,
+      },
+      body: JSON.stringify({
+        cong_person_uid,
+        cong_role,
+        user_firstname,
+        user_lastname,
+        user_id,
+      }),
+    }
+  );
+
+  const data = await res.json();
+
+  return { status: res.status, message: data?.message as string };
+};
+
+export const apiCongregationUserDelete = async (user_id: string) => {
+  const {
+    apiHost,
+    appVersion: appversion,
+    congID,
+    idToken,
+  } = await apiDefault();
+
+  const res = await fetch(
+    `${apiHost}api/v3/congregations/admin/${congID}/users/${user_id}`,
+    {
+      method: 'DELETE',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${idToken}`,
+        appclient: 'organized',
+        appversion,
+      },
+    }
+  );
+
+  const data = await res.json();
+
+  return { status: res.status, message: data?.message as string };
+};

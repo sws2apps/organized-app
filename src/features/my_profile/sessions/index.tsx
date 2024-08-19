@@ -13,7 +13,7 @@ import WaitingCircular from '@components/waiting_circular';
 const UserSessions = () => {
   const { t } = useAppTranslation();
 
-  const { sessions, errorMsg, isLoading } = useSessions();
+  const { sessions, errorMsg, isLoading, handleTerminate } = useSessions();
 
   return (
     <ProfileItemContainer>
@@ -33,7 +33,11 @@ const UserSessions = () => {
       {!isLoading && sessions.length > 0 && (
         <SettingWithBorderContainer>
           {sessions.map((session: SessionResponseType) => (
-            <SessionItem key={session.identifier} session={session} />
+            <SessionItem
+              key={session.identifier}
+              session={session}
+              onTerminate={handleTerminate}
+            />
           ))}
         </SettingWithBorderContainer>
       )}

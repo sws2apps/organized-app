@@ -120,8 +120,6 @@ export const dbAppSettingsUpdateUserInfoAfterLogin = async (
     'cong_settings.cong_number': data.result.cong_number,
     'user_settings.cong_role': data.result.cong_role,
     'user_settings.account_type': 'vip',
-    'cong_settings.cong_location': data.result.cong_location,
-    'cong_settings.cong_circuit': data.result.cong_circuit,
   });
 
   if (
@@ -140,35 +138,67 @@ export const dbAppSettingsUpdateUserInfoAfterLogin = async (
     });
   }
 
+  if (
+    settings.cong_settings.cong_location.updatedAt <
+    data.result.cong_location.updatedAt
+  ) {
+    await dbAppSettingsUpdate({
+      'cong_settings.cong_location': data.result.cong_location,
+    });
+  }
+
+  const congCircuit = structuredClone(settings.cong_settings.cong_circuit);
+
+  for (const item of congCircuit) {
+    const remoteItem = data.result.cong_circuit.find(
+      (record) => record.type === item.type
+    );
+
+    if (item?.updatedAt < remoteItem?.updatedAt) {
+      item.updatedAt = remoteItem.updatedAt;
+      item.value = remoteItem.value;
+    }
+  }
+
   const midweekMeeting = structuredClone(
     settings.cong_settings.midweek_meeting
   );
+
   for (const item of midweekMeeting) {
     const remoteItem = data.result.midweek_meeting.find(
       (record) => record.type === item.type
     );
-    if (remoteItem) {
+
+    if (item.time.updatedAt < remoteItem?.time.updatedAt) {
       item.time = remoteItem.time;
+    }
+
+    if (item?.weekday.updatedAt < remoteItem?.weekday.updatedAt) {
       item.weekday = remoteItem.weekday;
     }
   }
-  await dbAppSettingsUpdate({
-    'cong_settings.midweek_meeting': midweekMeeting,
-  });
 
   const weekendMeeting = structuredClone(
     settings.cong_settings.weekend_meeting
   );
+
   for (const item of weekendMeeting) {
     const remoteItem = data.result.weekend_meeting.find(
       (record) => record.type === item.type
     );
-    if (remoteItem) {
+
+    if (item.time.updatedAt < remoteItem.time.updatedAt) {
       item.time = remoteItem.time;
+    }
+
+    if (item.weekday.updatedAt < remoteItem.weekday.updatedAt) {
       item.weekday = remoteItem.weekday;
     }
   }
+
   await dbAppSettingsUpdate({
+    'cong_settings.cong_circuit': congCircuit,
+    'cong_settings.midweek_meeting': midweekMeeting,
     'cong_settings.weekend_meeting': weekendMeeting,
   });
 
@@ -196,9 +226,65 @@ export const dbAppSettingsBuildTest = async () => {
     updatedAt: new Date().toISOString(),
   };
   baseSettings.cong_settings.country_code = 'USA';
-  baseSettings.cong_settings.cong_name = 'Congregation Test';
-  baseSettings.cong_settings.cong_number = '123456';
-  baseSettings.cong_settings.cong_circuit = [{ type: 'main', value: '01 - A' }];
+  baseSettings.cong_settings.cong_name = 'Central English - Seattle WA';
+  baseSettings.cong_settings.cong_number = '11163';
+  baseSettings.cong_settings.cong_circuit = [
+    { type: 'main', value: 'WA- 5', updatedAt: new Date().toISOString() },
+  ];
+  baseSettings.cong_settings.cong_location = {
+    address: '333 19th Ave E Seattle WA  98112-5307',
+    lat: 47.621731,
+    lng: -122.307599,
+    updatedAt: new Date().toISOString(),
+  };
+  baseSettings.cong_settings.midweek_meeting = [
+    {
+      type: 'main',
+      class_count: { updatedAt: new Date().toISOString(), value: 1 },
+      opening_prayer_auto_assigned: {
+        value: false,
+        updatedAt: new Date().toISOString(),
+      },
+      closing_prayer_auto_assigned: {
+        value: false,
+        updatedAt: new Date().toISOString(),
+      },
+      time: { value: '19:30', updatedAt: new Date().toISOString() },
+      weekday: { value: 4, updatedAt: new Date().toISOString() },
+      aux_class_counselor_default: {
+        enabled: { value: false, updatedAt: '' },
+        person: { value: '', updatedAt: '' },
+      },
+    },
+  ];
+  baseSettings.cong_settings.weekend_meeting = [
+    {
+      type: 'main',
+      opening_prayer_auto_assigned: {
+        value: false,
+        updatedAt: new Date().toISOString(),
+      },
+      substitute_speaker_enabled: {
+        value: false,
+        updatedAt: new Date().toISOString(),
+      },
+      w_study_conductor_default: { value: '', updatedAt: '' },
+      time: { value: '13:00', updatedAt: new Date().toISOString() },
+      weekday: { value: 7, updatedAt: new Date().toISOString() },
+      consecutive_monthly_parts_notice_shown: {
+        value: true,
+        updatedAt: new Date().toISOString(),
+      },
+      substitute_w_study_conductor_displayed: {
+        value: true,
+        updatedAt: new Date().toISOString(),
+      },
+      outgoing_talks_schedule_public: {
+        value: false,
+        updatedAt: new Date().toISOString(),
+      },
+    },
+  ];
   baseSettings.user_settings.cong_role = ['admin'];
 
   await appDb.app_settings.put(baseSettings, 1);

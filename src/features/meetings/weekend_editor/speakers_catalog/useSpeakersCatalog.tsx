@@ -7,7 +7,10 @@ import {
 } from '@states/visiting_speakers';
 import { publicTalksState } from '@states/public_talks';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
-import { displayNameEnableState, fullnameOptionState } from '@states/settings';
+import {
+  displayNameMeetingsEnableState,
+  fullnameOptionState,
+} from '@states/settings';
 import { speakerGetDisplayName } from '@utils/common';
 import { personsState } from '@states/persons';
 import { PublicTalkType } from '@definition/public_talks';
@@ -26,7 +29,7 @@ const useSpeakersCatalog = ({
   const incomingSpeakers = useRecoilValue(incomingSpeakersState);
   const outgoingSpeakers = useRecoilValue(outgoingSpeakersState);
   const talksData = useRecoilValue(publicTalksState);
-  const useDisplayName = useRecoilValue(displayNameEnableState);
+  const useDisplayName = useRecoilValue(displayNameMeetingsEnableState);
   const fullnameOption = useRecoilValue(fullnameOptionState);
   const persons = useRecoilValue(personsState);
   const schedules = useRecoilValue(schedulesState);
