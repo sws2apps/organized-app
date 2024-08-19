@@ -11,6 +11,8 @@ import PersonsCard from './persons';
 import ReportsCard from './reports';
 import useDashboard from './useDashboard';
 import { DemoNotice } from '@features/index';
+import DashboardSkeletonLoader from './skeleton_loader';
+import { Suspense } from 'react';
 
 const Dashboard = () => {
   const { t } = useAppTranslation();
@@ -23,47 +25,49 @@ const Dashboard = () => {
   } = useDashboard();
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      <Box>
-        <Typography className="h1">
-          {t('tr_greeting', { firstName })} &#128075;
-        </Typography>
-        <TextMarkup
-          content={t('tr_meetingAssignments', { assignment: 3 })}
-          className="h3"
-          anchorClassName="h3"
-          anchorColor="var(--accent-main)"
-          anchorClick={handleOpenMyAssignments}
-        />
-      </Box>
-      <Box
-        sx={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-          gridGap: '24px',
-        }}
-      >
-        <MinistryCard />
-        <MeetingsCard />
-        <PersonsCard />
-        <MeetingsMaterialsCard />
-        <ReportsCard />
-        <CongregationCard />
-      </Box>
+    <Suspense fallback={<DashboardSkeletonLoader />}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <Box>
+          <Typography className="h1">
+            {t('tr_greeting', { firstName })} &#128075;
+          </Typography>
+          <TextMarkup
+            content={t('tr_meetingAssignments', { assignment: 3 })}
+            className="h3"
+            anchorClassName="h3"
+            anchorColor="var(--accent-main)"
+            anchorClick={handleOpenMyAssignments}
+          />
+        </Box>
+        <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+            gridGap: '24px',
+          }}
+        >
+          <MinistryCard />
+          <MeetingsCard />
+          <PersonsCard />
+          <MeetingsMaterialsCard />
+          <ReportsCard />
+          <CongregationCard />
+        </Box>
 
-      {isCongNew && !isDemo && (
-        <SnackBar
-          open={isCongNew}
-          variant="success"
-          messageIcon={<IconCheckCircle color="var(--always-white)" />}
-          messageHeader={t('tr_welcomeCongregationTitle')}
-          message={t('tr_welcomeCongregationDesc')}
-          onClose={handleCloseNewCongNotice}
-        />
-      )}
+        {isCongNew && !isDemo && (
+          <SnackBar
+            open={isCongNew}
+            variant="success"
+            messageIcon={<IconCheckCircle color="var(--always-white)" />}
+            messageHeader={t('tr_welcomeCongregationTitle')}
+            message={t('tr_welcomeCongregationDesc')}
+            onClose={handleCloseNewCongNotice}
+          />
+        )}
 
-      {isCongNew && isDemo && <DemoNotice />}
-    </Box>
+        {isCongNew && isDemo && <DemoNotice />}
+      </Box>
+    </Suspense>
   );
 };
 
