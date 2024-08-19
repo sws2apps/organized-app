@@ -35,6 +35,8 @@ const useRootLayout = () => {
   const isOpenSupport = useRecoilValue(isSupportOpenState);
   const isOnline = useRecoilValue(isOnlineState);
 
+  const isDashboard = location.pathname === '/';
+
   useEffect(() => {
     if (import.meta.env.PROD && isOnline) checkPwaUpdate();
   }, [isOnline, location]);
@@ -57,6 +59,7 @@ const useRootLayout = () => {
     isBackupDb,
     isRestoreDb,
     isOpenSupport,
+    isDashboard,
   };
 };
 

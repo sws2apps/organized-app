@@ -9,7 +9,7 @@ import {
   SkeletonLoaderCardText,
   SkeletonLoaderCardTitle,
 } from './index.styled';
-import { CustomDivider } from '@components/index';
+import Divider from '@components/divider';
 
 const ReportCardSkeletonLoader = () => {
   return (
@@ -20,17 +20,17 @@ const ReportCardSkeletonLoader = () => {
         </SkeletonLoaderCardBlueArea>
       </SkeletonLoaderCardTitle>
       <SkeletonLoaderCardItems>
-        <CustomDivider color="var(--accent-200)" />
+        <Divider color="var(--accent-200)" />
         <SkeletonLoaderCardItem>
           <SkeletonLoaderCardCircle variant="circular" />
           <SkeletonLoaderCardText variant="rectangular" width={121} />
         </SkeletonLoaderCardItem>
-        <CustomDivider color="var(--accent-200)" />
+        <Divider color="var(--accent-200)" />
         <SkeletonLoaderCardItem>
           <SkeletonLoaderCardCircle variant="circular" />
           <SkeletonLoaderCardText variant="rectangular" width={128} />
         </SkeletonLoaderCardItem>
-        <CustomDivider color="var(--accent-200)" />
+        <Divider color="var(--accent-200)" />
         <SkeletonLoaderCardItem>
           <SkeletonLoaderCardCircle variant="circular" />
           <SkeletonLoaderCardText variant="rectangular" width={191} />
@@ -43,7 +43,7 @@ const ReportCardSkeletonLoader = () => {
             }}
           />
         </SkeletonLoaderCardItem>
-        <CustomDivider color="var(--accent-200)" />
+        <Divider color="var(--accent-200)" />
         <SkeletonLoaderCardItem>
           <SkeletonLoaderCardCircle variant="circular" />
           <SkeletonLoaderCardText variant="rectangular" width={171} />

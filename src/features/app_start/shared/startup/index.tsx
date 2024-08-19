@@ -6,6 +6,7 @@ import VipStartup from '@features/app_start/vip/startup';
 import StartupIllustration from '../illustration';
 import UnauthorizedRole from '../unauthorized_role';
 import useStartup from './useStartup';
+import DashboardSkeletonLoader from '@features/dashboard/skeleton_loader';
 
 const Startup = () => {
   const { isSetup, isAuth, isAccountChoose, accountType, isUnauthorizedRole } =
@@ -62,7 +63,12 @@ const Startup = () => {
     );
   }
 
-  return <WaitingCircular />;
+  return (
+    <>
+      {accountType.length === 0 && <WaitingCircular />}
+      {accountType.length > 0 && <DashboardSkeletonLoader />}
+    </>
+  );
 };
 
 export default Startup;
