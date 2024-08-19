@@ -11,6 +11,7 @@ const useUserAdditionalRights = (user: CongregationUserType) => {
   const { handleSaveDetails } = useUserDetails();
 
   const [isMidweek, setIsMidweek] = useState(false);
+  const [isWeekend, setIsWeekend] = useState(false);
   const [isPublicTalk, setIsPublicTalk] = useState(false);
   const [isAttendance, setIsAttendance] = useState(false);
 
@@ -25,6 +26,32 @@ const useUserAdditionalRights = (user: CongregationUserType) => {
       if (!value) {
         user.cong_role = user.cong_role.filter(
           (role) => role !== 'midweek_schedule'
+        );
+      }
+
+      await handleSaveDetails(user);
+    } catch (error) {
+      console.error(error);
+
+      await displaySnackNotification({
+        header: t('tr_errorTitle'),
+        message: getMessageByCode(error.message),
+        severity: 'error',
+      });
+    }
+  };
+
+  const handleToggleWeekend = async (value: boolean) => {
+    try {
+      setIsMidweek(value);
+
+      if (value) {
+        user.cong_role.push('weekend_schedule');
+      }
+
+      if (!value) {
+        user.cong_role = user.cong_role.filter(
+          (role) => role !== 'weekend_schedule'
         );
       }
 
@@ -96,6 +123,9 @@ const useUserAdditionalRights = (user: CongregationUserType) => {
     const isMidweek = user.cong_role.includes('midweek_schedule');
     setIsMidweek(isMidweek);
 
+    const isWeekend = user.cong_role.includes('weekend_schedule');
+    setIsWeekend(isWeekend);
+
     const isPublicTalk = user.cong_role.includes('public_talk_schedule');
     setIsPublicTalk(isPublicTalk);
 
@@ -106,6 +136,8 @@ const useUserAdditionalRights = (user: CongregationUserType) => {
   return {
     isMidweek,
     handleToggleMidweek,
+    isWeekend,
+    handleToggleWeekend,
     isPublicTalk,
     handleTogglePublicTalk,
     isAttendance,
