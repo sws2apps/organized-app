@@ -7,8 +7,6 @@ import ReportCardSkeletonLoader from './components/reports_skeleton_loader';
 import CongregationCardSkeletonLoader from './components/congregation_skeleton_loader';
 
 const DashboardSkeletonLoader = () => {
-  console.log('hello, ddwd');
-
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
       <Box

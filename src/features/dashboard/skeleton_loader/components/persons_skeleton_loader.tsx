@@ -9,9 +9,9 @@ import {
   SkeletonLoaderCardText,
   SkeletonLoaderCardTitle,
 } from './index.styled';
-import { CustomDivider } from '@components/index';
+import Divider from '@components/divider';
 
-const MeetingCardSkeletonLoader = () => {
+const PersonsCardSkeletonLoader = () => {
   return (
     <SkeletonLoaderCardContainer className="big-card-shadow">
       <SkeletonLoaderCardTitle>
@@ -22,8 +22,17 @@ const MeetingCardSkeletonLoader = () => {
       <SkeletonLoaderCardItems>
         <SkeletonLoaderCardItem>
           <SkeletonLoaderCardCircle variant="circular" />
-          <SkeletonLoaderCardText variant="rectangular" width={158} />
-          <Box width={11} height={20} />
+          <SkeletonLoaderCardText variant="rectangular" width={121} />
+        </SkeletonLoaderCardItem>
+        <Divider color="var(--accent-200)" />
+        <SkeletonLoaderCardItem>
+          <SkeletonLoaderCardCircle variant="circular" />
+          <SkeletonLoaderCardText variant="rectangular" width={128} />
+        </SkeletonLoaderCardItem>
+        <Divider color="var(--accent-200)" />
+        <SkeletonLoaderCardItem>
+          <SkeletonLoaderCardCircle variant="circular" />
+          <SkeletonLoaderCardText variant="rectangular" width={191} />
           <Box
             sx={{
               width: '48px',
@@ -33,29 +42,14 @@ const MeetingCardSkeletonLoader = () => {
             }}
           />
         </SkeletonLoaderCardItem>
-        <CustomDivider color="var(--accent-200)" />
-        <SkeletonLoaderCardItem>
-          <SkeletonLoaderCardCircle variant="circular" />
-          <SkeletonLoaderCardText variant="rectangular" width={149} />
-        </SkeletonLoaderCardItem>
-        <CustomDivider color="var(--accent-200)" />
-        <SkeletonLoaderCardItem>
-          <SkeletonLoaderCardCircle variant="circular" />
-          <SkeletonLoaderCardText variant="rectangular" width={151} />
-        </SkeletonLoaderCardItem>
-        <CustomDivider color="var(--accent-200)" />
+        <Divider color="var(--accent-200)" />
         <SkeletonLoaderCardItem>
           <SkeletonLoaderCardCircle variant="circular" />
           <SkeletonLoaderCardText variant="rectangular" width={171} />
-        </SkeletonLoaderCardItem>
-        <CustomDivider color="var(--accent-200)" />
-        <SkeletonLoaderCardItem>
-          <SkeletonLoaderCardCircle variant="circular" />
-          <SkeletonLoaderCardText variant="rectangular" width={144} />
         </SkeletonLoaderCardItem>
       </SkeletonLoaderCardItems>
     </SkeletonLoaderCardContainer>
   );
 };
 
-export default MeetingCardSkeletonLoader;
+export default PersonsCardSkeletonLoader;

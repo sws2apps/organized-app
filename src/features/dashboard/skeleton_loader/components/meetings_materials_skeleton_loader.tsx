@@ -9,7 +9,7 @@ import {
   SkeletonLoaderCardText,
   SkeletonLoaderCardTitle,
 } from './index.styled';
-import { CustomDivider } from '@components/index';
+import Divider from '@components/divider';
 
 const MeetingMaterialsCardSkeletonLoader = () => {
   return (
@@ -33,22 +33,22 @@ const MeetingMaterialsCardSkeletonLoader = () => {
             }}
           />
         </SkeletonLoaderCardItem>
-        <CustomDivider color="var(--accent-200)" />
+        <Divider color="var(--accent-200)" />
         <SkeletonLoaderCardItem>
           <SkeletonLoaderCardCircle variant="circular" />
           <SkeletonLoaderCardText variant="rectangular" width={149} />
         </SkeletonLoaderCardItem>
-        <CustomDivider color="var(--accent-200)" />
+        <Divider color="var(--accent-200)" />
         <SkeletonLoaderCardItem>
           <SkeletonLoaderCardCircle variant="circular" />
           <SkeletonLoaderCardText variant="rectangular" width={151} />
         </SkeletonLoaderCardItem>
-        <CustomDivider color="var(--accent-200)" />
+        <Divider color="var(--accent-200)" />
         <SkeletonLoaderCardItem>
           <SkeletonLoaderCardCircle variant="circular" />
           <SkeletonLoaderCardText variant="rectangular" width={171} />
         </SkeletonLoaderCardItem>
-        <CustomDivider color="var(--accent-200)" />
+        <Divider color="var(--accent-200)" />
         <SkeletonLoaderCardItem>
           <SkeletonLoaderCardCircle variant="circular" />
           <SkeletonLoaderCardText variant="rectangular" width={144} />
