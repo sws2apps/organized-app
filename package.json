@@ -33,7 +33,7 @@
     "@mui/x-tree-view": "^7.13.0",
     "@react-pdf/renderer": "^3.4.4",
     "@sws2apps/react-sw-helper": "^1.24.0",
-    "@tanstack/react-query": "^5.51.23",
+    "@tanstack/react-query": "^5.51.24",
     "@thumbmarkjs/thumbmarkjs": "^0.14.8",
     "comlink": "^4.4.1",
     "date-fns": "^2.30.0",
