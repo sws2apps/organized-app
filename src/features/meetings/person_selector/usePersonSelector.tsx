@@ -553,8 +553,6 @@ const usePersonSelector = ({
       const path = ASSIGNMENT_PATH[assignment];
 
       if (path) {
-        setGender('male');
-
         let mainStudent: PersonType;
 
         if (isAssistant) {
