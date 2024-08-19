@@ -43,6 +43,7 @@ export type AppRoleType =
   | 'service_overseer'
   | 'field_service_group_overseer'
   | 'midweek_schedule'
+  | 'weekend_schedule'
   | 'public_talk_schedule'
   | 'attendance_tracking'
   | 'publisher'

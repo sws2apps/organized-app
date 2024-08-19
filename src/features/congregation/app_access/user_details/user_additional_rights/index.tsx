@@ -15,6 +15,8 @@ const UserAdditionalRights = ({ user }: UserMemberDetailsType) => {
     handleTogglePublicTalk,
     isAttendance,
     handleToggleAttendance,
+    isWeekend,
+    handleToggleWeekend,
   } = useUserAdditionalRights(user);
 
   return (
@@ -36,6 +38,12 @@ const UserAdditionalRights = ({ user }: UserMemberDetailsType) => {
 
         <SwitchWithLabel
           label={t('tr_weekendMeetingScheduling')}
+          checked={isWeekend}
+          onChange={handleToggleWeekend}
+        />
+
+        <SwitchWithLabel
+          label={t('tr_publicTalkScheduling')}
           checked={isPublicTalk}
           onChange={handleTogglePublicTalk}
         />
