@@ -75,6 +75,6 @@
   "tr_2FASetupKey": "セットアップキー",
   "tr_2FASetupKeyDesc": "キーをコピーして、Authenticatorアプリにペーストして、2段階認証を設定してください。",
   "tr_2FAStep2": "ステップ2：ワンタイムパスコードを入力",
-  "tr_timeAwayDesc": "No time away set yet. Keep your time away up-to-date so that the brothers can take it into account when scheduling future meetings.",
+  "tr_timeAwayDesc": "No time away added yet. Keep your time away up-to-date so that the brothers can take it into account when scheduling future meetings.",
   "tr_terminatedDesc": "セッションが終了しました"
 }
