@@ -91,7 +91,7 @@
   "tr_deletePWLocationDesc": "La suppression de cet emplacement supprime définitivement toutes ses données et arrangements. Cette action est irréversible.",
   "tr_changeImage": "Modifier l’image",
   "tr_addImage": "Ajouter une image",
-  "tr_cantDeductStudiesDesc": "You can’t select fewer Bible studies than you already have selected in the “Individual Bible studies” dropdown menu.",
+  "tr_cantDeductStudiesDesc": "You can’t select fewer studies than you already have selected in the “Individual Bible studies” menu.",
   "tr_cantDeductStudiesTitle": "Cannot deduct Bible studies",
   "tr_includesServiceAndCredit": "Includes field service and credit hours",
   "tr_noDailyRecordsDesc": "No daily service records yet. Add the record to include it in your monthly report.",
