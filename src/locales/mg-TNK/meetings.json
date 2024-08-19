@@ -134,12 +134,12 @@
   "tr_visitinSpeakerHelpText": "Azonao ampidirina eto izay anarana tianao, fa tsara kokoa anefa raha efa tafiditra mialoha ao amin’ny <a>Listra mpandahateny</a> izy ireo",
   "tr_noSpeakersYet": "Tsy mbola misy mpandahateny",
   "tr_speakersCatalog": "Lisitra mpandahateny",
-  "tr_speakersCatalogLocalDesc": "Based on your selection, you see visiting speakers from other congregations. To assign another speaker not from the catalog, simply close this window and select him in the speaker field.",
+  "tr_speakersCatalogLocalDesc": "Based on your selection, you see visiting speakers from other congregations. To assign another speaker not from the catalog, simply close this window and select him in the 'Speaker' field.",
   "tr_speakersCatalogVisitingDesc": "Nisafidy ny hijery ny lisitry ny mpandahateny afaka mandahateny any amin’ny fiangonana hafa ianao. Hidio ity raha hanendry rahalahy eo an-toerana hafa ianao, ary safidio avy hatrany eo amin’ilay lisitra ny anarany.",
   "tr_clearMultipleAssignments": "Hamafa anjara maromaro",
   "tr_outgoingTalk": "Lahateny any amin’ny fiangonana hafa",
   "tr_outgoingTalkSynced": "Fandaharana avy any amin’ny fiangonana <strong>{{ congregation }}</strong> ity. Miresaha amin’ny mpandrindra lahateny ho an’ny besinimaro ao amin’io fiangonana io raha misy fanamboarana tokony atao.",
-  "tr_clearOutgoingTalkDesc": "Are you sure you want to clear all assignments and congregation details for this outgoing talk? You can always fill out them later",
+  "tr_clearOutgoingTalkDesc": "Are you sure you want to clear all assignments and congregation details for this outgoing talk? You can always fill out them later.",
   "tr_outgoingTalkDelete": "Hamafa lahateny",
   "tr_outgoingTalkDeleteDesc": "Tianao fafana ve ity lahateny any amin’ny fiangonana hafa ity?"
 }
