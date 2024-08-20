@@ -6,6 +6,8 @@ import {
   COScheduleNameState,
   displayNameMeetingsEnableState,
   fullnameOptionState,
+  midweekMeetingAuxCounselorDefaultEnabledState,
+  midweekMeetingAuxCounselorDefaultState,
   midweekMeetingClassCountState,
   midweekMeetingClosingPrayerAutoAssign,
   midweekMeetingExactDateState,
@@ -145,8 +147,19 @@ export const schedulesMidweekInfo = async (week: string) => {
       total = total + 1;
 
       assignment = schedule.midweek_meeting.chairman.aux_class_1;
-      if (assignment && assignment.value.length > 0) {
+      if (assignment?.value.length > 0) {
         assigned = assigned + 1;
+      } else {
+        const defaultCounselorEnabled: boolean = await promiseGetRecoil(
+          midweekMeetingAuxCounselorDefaultEnabledState
+        );
+        const defaultCounselor: string = await promiseGetRecoil(
+          midweekMeetingAuxCounselorDefaultState
+        );
+
+        if (defaultCounselorEnabled && defaultCounselor?.length > 0) {
+          assigned = assigned + 1;
+        }
       }
     }
 
@@ -394,10 +407,6 @@ export const schedulesWeekendInfo = async (week: string) => {
   const dataView: string = await promiseGetRecoil(userDataViewState);
 
   const schedule = schedules.find((record) => record.weekOf === week);
-  const talkType =
-    schedule.weekend_meeting.public_talk_type.find(
-      (record) => record.type === dataView
-    )?.value || 'localSpeaker';
 
   let total = 0;
   let assigned = 0;
@@ -437,7 +446,7 @@ export const schedulesWeekendInfo = async (week: string) => {
     }
 
     // speakers
-    if (weekType !== Week.CO_VISIT && talkType !== 'jwStreamRecording') {
+    if (weekType !== Week.CO_VISIT) {
       // speaker 1
       total = total + 1;
 

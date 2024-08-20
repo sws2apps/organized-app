@@ -1,25 +1,41 @@
-import { RowContainer } from '../index.styles';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import {
+  DoubleFieldContainer,
+  PrimaryFieldContainer,
+  SecondaryFieldContainer,
+} from '@features/meetings/shared_styles';
 import { COTalkType } from './index.types';
 import useCOTalk from './useCOTalk';
 import TextField from '@components/textfield';
+import PersonSelector from '@features/meetings/person_selector';
 
 const COTalk = (props: COTalkType) => {
   const { t } = useAppTranslation();
 
-  const { desktopUp } = useBreakpoints();
+  const { laptopUp } = useBreakpoints();
 
   const { handleTextChange, handleTextSave, talkTitle } = useCOTalk(props);
 
   return (
-    <RowContainer desktopUp={desktopUp} sx={{ alignItems: 'flex-start' }}>
-      <TextField
-        label={t('tr_coTalk')}
-        value={talkTitle}
-        onChange={(e) => handleTextChange(e.target.value)}
-        onKeyUp={handleTextSave}
-      />
-    </RowContainer>
+    <DoubleFieldContainer laptopUp={laptopUp}>
+      <PrimaryFieldContainer>
+        <TextField
+          label={t('tr_coTalk')}
+          height={48}
+          value={talkTitle}
+          onChange={(e) => handleTextChange(e.target.value)}
+          onKeyUp={handleTextSave}
+        />
+      </PrimaryFieldContainer>
+      <SecondaryFieldContainer laptopUp={laptopUp}>
+        <PersonSelector
+          week={props.week}
+          label={t('tr_circuitOverseer')}
+          assignment="MM_CircuitOverseer"
+          circuitOverseer={true}
+        />
+      </SecondaryFieldContainer>
+    </DoubleFieldContainer>
   );
 };
 

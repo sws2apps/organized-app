@@ -7,6 +7,7 @@ import { assignmentsHistoryState, schedulesState } from '@states/schedules';
 import { PersonType } from '@definition/person';
 import { AssignmentCode, AssignmentFieldType } from '@definition/assignment';
 import {
+  midweekMeetingAuxCounselorDefaultEnabledState,
   midweekMeetingClassCountState,
   midweekMeetingClosingPrayerAutoAssign,
   midweekMeetingOpeningPrayerAutoAssign,
@@ -55,6 +56,9 @@ const useScheduleAutofill = (
   );
   const wmOpenPrayerAuto = useRecoilValue(
     weekendMeetingOpeningPrayerAutoAssignState
+  );
+  const mmDefaultAuxCounselorEnabled = useRecoilValue(
+    midweekMeetingAuxCounselorDefaultEnabledState
   );
 
   const [startWeek, setStartWeek] = useState('');
@@ -109,7 +113,7 @@ const useScheduleAutofill = (
         }
 
         // Aux Class
-        if (classCount === 2) {
+        if (classCount === 2 && !mmDefaultAuxCounselorEnabled) {
           main = schedule.midweek_meeting.chairman.aux_class_1.value;
 
           if (weekType === Week.NORMAL && main.length === 0) {
@@ -613,7 +617,7 @@ const useScheduleAutofill = (
             if (classCount === 2) {
               if (
                 validTypes.includes(type) ||
-                (type === AssignmentCode.MM_ExplainingBeliefs && isTalk)
+                (type === AssignmentCode.MM_ExplainingBeliefs && !isTalk)
               ) {
                 const mainStudent = ayfPart.aux_class_1.student.value;
 

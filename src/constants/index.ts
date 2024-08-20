@@ -131,6 +131,7 @@ export const ASSIGNMENT_PATH = {
   MM_LCCBSConductor: 'midweek_meeting.lc_cbs.conductor',
   MM_LCCBSReader: 'midweek_meeting.lc_cbs.reader',
   MM_ClosingPrayer: 'midweek_meeting.closing_prayer',
+  MM_CircuitOverseer: 'midweek_meeting.circuit_overseer',
   WM_Chairman: 'weekend_meeting.chairman',
   WM_OpeningPrayer: 'weekend_meeting.opening_prayer',
   WM_Speaker_Part1: 'weekend_meeting.speaker.part_1',
@@ -144,6 +145,7 @@ export const ASSIGNMENT_PATH = {
 
 export const BROTHER_ASSIGNMENT = [
   AssignmentCode.MM_Chairman,
+  AssignmentCode.MM_AuxiliaryCounselor,
   AssignmentCode.MM_Prayer,
   AssignmentCode.MM_TGWTalk,
   AssignmentCode.MM_TGWGems,

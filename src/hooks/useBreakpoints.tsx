@@ -1,6 +1,6 @@
 import { useMediaQuery, useTheme } from '@mui/material';
 
-const useBreakpoints = () => {
+const useHookBreakpoints = () => {
   const theme = useTheme();
 
   const mobile400Down = useMediaQuery(theme.breakpoints.down('mobile400'), {
@@ -52,4 +52,4 @@ const useBreakpoints = () => {
   };
 };
 
-export default useBreakpoints;
+export default useHookBreakpoints;

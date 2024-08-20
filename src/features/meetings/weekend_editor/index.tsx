@@ -205,7 +205,7 @@ const WeekendEditor = () => {
                       talk={selectedTalk?.talk_number}
                       helperNode={
                         weekType === Week.NORMAL &&
-                        talkType === 'visitingSpeaker' ? (
+                        talkType === 'visitingSpeaker' && (
                           <Markup
                             content={t('tr_visitinSpeakerHelpText')}
                             className="label-small-regular"
@@ -214,7 +214,7 @@ const WeekendEditor = () => {
                             anchorClick={handleOpenVisitingSpeakers}
                             style={{ padding: '4px 16px 0 16px' }}
                           />
-                        ) : null
+                        )
                       }
                     />
 
@@ -330,7 +330,6 @@ const WeekendEditor = () => {
                     label={t('tr_prayer')}
                     type={AssignmentCode.WM_Prayer}
                     assignment="WM_ClosingPrayer"
-                    freeSoloForce={talkType === 'visitingSpeaker'}
                   />
                 </SecondaryFieldContainer>
               </DoubleFieldContainer>

@@ -13,14 +13,14 @@ export type PersonSelectorType = {
   helperNode?: ReactNode;
   circuitOverseer?: boolean;
   jwStreamRecording?: boolean;
-  freeSoloForce?: boolean;
   schedule_id?: string;
 };
 
-export type GenderType = 'male' | 'female';
-
 export type PersonOptionsType = PersonType & {
+  person_name?: string;
+  weekOf?: string;
   last_assignment?: string;
   last_assistant?: string;
+  last_assistant_weekOf?: string;
   hall?: string;
 };

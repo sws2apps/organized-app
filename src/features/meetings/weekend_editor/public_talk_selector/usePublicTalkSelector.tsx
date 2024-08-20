@@ -31,33 +31,63 @@ const usePublicTalkSelector = (week: string, schedule_id?: string) => {
     const data: PublicTalkOptionType[] = [];
 
     if (schedule) {
-      // get assigned speaker
-      const talkType =
-        schedule.weekend_meeting.public_talk_type.find(
-          (record) => record.type === dataView
-        )?.value || 'localSpeaker';
+      if (!schedule_id) {
+        // get assigned speaker
+        const talkType =
+          schedule.weekend_meeting.public_talk_type.find(
+            (record) => record.type === dataView
+          )?.value || 'localSpeaker';
 
-      const speaker =
-        schedule.weekend_meeting.speaker.part_1.find(
-          (record) => record.type === dataView
-        )?.value || '';
+        const speaker =
+          schedule.weekend_meeting.speaker.part_1.find(
+            (record) => record.type === dataView
+          )?.value || '';
 
-      const speakers =
-        talkType === 'localSpeaker' ? outgoingSpeakers : incomingSpeakers;
+        const speakers =
+          talkType === 'localSpeaker' ? outgoingSpeakers : incomingSpeakers;
 
-      for (const talk of talksData) {
-        const cnSpeakers = speakers.filter((record) =>
-          record.speaker_data.talks.find(
-            (item) => item.talk_number === talk.talk_number
-          )
+        for (const talk of talksData) {
+          const cnSpeakers = speakers.filter((record) =>
+            record.speaker_data.talks.find(
+              (item) => item.talk_number === talk.talk_number
+            )
+          );
+
+          if (talkType !== 'visitingSpeaker') {
+            data.push({ ...talk, speakers: cnSpeakers.length });
+          }
+
+          if (talkType === 'visitingSpeaker') {
+            const visitingSpeaker = speakers.find(
+              (item) =>
+                item._deleted.value === false && item.person_uid === speaker
+            );
+            const talkFound = visitingSpeaker?.speaker_data.talks.find(
+              (item) => item.talk_number === talk.talk_number
+            );
+
+            if (speaker.length === 0 || talkFound) {
+              data.push({ ...talk, speakers: cnSpeakers.length });
+            }
+          }
+        }
+      }
+
+      if (schedule_id) {
+        const outgoingSchedule = schedule.weekend_meeting.outgoing_talks.find(
+          (record) => record.id === schedule_id
         );
 
-        if (talkType !== 'visitingSpeaker') {
-          data.push({ ...talk, speakers: cnSpeakers.length });
-        }
+        const speaker = outgoingSchedule.speaker;
 
-        if (talkType === 'visitingSpeaker') {
-          const visitingSpeaker = speakers.find(
+        for (const talk of talksData) {
+          const cnSpeakers = outgoingSpeakers.filter((record) =>
+            record.speaker_data.talks.find(
+              (item) => item.talk_number === talk.talk_number
+            )
+          );
+
+          const visitingSpeaker = outgoingSpeakers.find(
             (item) =>
               item._deleted.value === false && item.person_uid === speaker
           );
@@ -73,7 +103,14 @@ const usePublicTalkSelector = (week: string, schedule_id?: string) => {
     }
 
     return data;
-  }, [talksData, outgoingSpeakers, schedule, dataView, incomingSpeakers]);
+  }, [
+    talksData,
+    outgoingSpeakers,
+    schedule,
+    dataView,
+    incomingSpeakers,
+    schedule_id,
+  ]);
 
   const handleOpenCatalog = () => setOpenCatalog(true);
 
