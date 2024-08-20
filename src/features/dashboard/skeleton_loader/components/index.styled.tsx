@@ -1,8 +1,7 @@
 import { Box, Skeleton, styled } from '@mui/material';
 
 export const SkeletonLoaderCardContainer = styled(Box)({
-  width: '326px',
-  height: '336px',
+  width: '100%',
   borderRadius: 'var(--radius-xl)',
   border: '1px solid var(--accent-200)',
   backgroundColor: 'var(--white)',
@@ -37,6 +36,7 @@ export const SkeletonLoaderCardItems = styled(Box)({
 
 export const SkeletonLoaderCardItem = styled(Box)({
   borderRadius: 'var(--radius-s)',
+  justifyContent: 'space-between',
   padding: '10px 8px 10px 16px',
   display: 'flex',
   alignItems: 'center',
@@ -55,4 +55,10 @@ export const SkeletonLoaderCardText = styled(Skeleton)({
   background: 'var(--accent-200)',
   borderRadius: 'var(--radius-max)',
   height: '20px',
+});
+
+export const SkeletonLoaderCardGroup = styled(Box)({
+  display: 'flex',
+  flexDirection: 'row',
+  gap: '10px',
 });

@@ -4,6 +4,7 @@ import {
   SkeletonLoaderCardBlueAreaRect,
   SkeletonLoaderCardCircle,
   SkeletonLoaderCardContainer,
+  SkeletonLoaderCardGroup,
   SkeletonLoaderCardItem,
   SkeletonLoaderCardItems,
   SkeletonLoaderCardText,
@@ -22,18 +23,24 @@ const ReportCardSkeletonLoader = () => {
       <SkeletonLoaderCardItems>
         <Divider color="var(--accent-200)" />
         <SkeletonLoaderCardItem>
-          <SkeletonLoaderCardCircle variant="circular" />
-          <SkeletonLoaderCardText variant="rectangular" width={121} />
+          <SkeletonLoaderCardGroup>
+            <SkeletonLoaderCardCircle variant="circular" />
+            <SkeletonLoaderCardText variant="rectangular" width={121} />
+          </SkeletonLoaderCardGroup>
         </SkeletonLoaderCardItem>
         <Divider color="var(--accent-200)" />
         <SkeletonLoaderCardItem>
-          <SkeletonLoaderCardCircle variant="circular" />
-          <SkeletonLoaderCardText variant="rectangular" width={128} />
+          <SkeletonLoaderCardGroup>
+            <SkeletonLoaderCardCircle variant="circular" />
+            <SkeletonLoaderCardText variant="rectangular" width={128} />
+          </SkeletonLoaderCardGroup>
         </SkeletonLoaderCardItem>
         <Divider color="var(--accent-200)" />
         <SkeletonLoaderCardItem>
-          <SkeletonLoaderCardCircle variant="circular" />
-          <SkeletonLoaderCardText variant="rectangular" width={191} />
+          <SkeletonLoaderCardGroup>
+            <SkeletonLoaderCardCircle variant="circular" />
+            <SkeletonLoaderCardText variant="rectangular" width={191} />
+          </SkeletonLoaderCardGroup>
           <Box
             sx={{
               width: '48px',
@@ -45,8 +52,10 @@ const ReportCardSkeletonLoader = () => {
         </SkeletonLoaderCardItem>
         <Divider color="var(--accent-200)" />
         <SkeletonLoaderCardItem>
-          <SkeletonLoaderCardCircle variant="circular" />
-          <SkeletonLoaderCardText variant="rectangular" width={171} />
+          <SkeletonLoaderCardGroup>
+            <SkeletonLoaderCardCircle variant="circular" />
+            <SkeletonLoaderCardText variant="rectangular" width={171} />
+          </SkeletonLoaderCardGroup>
         </SkeletonLoaderCardItem>
       </SkeletonLoaderCardItems>
     </SkeletonLoaderCardContainer>
