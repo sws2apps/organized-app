@@ -4,7 +4,7 @@ import usePersonSelector from './usePersonSelector';
 import BrotherSelector from './brother_selector';
 import CircuitOverseer from './circuit_overseer';
 import OutgoingSpeaker from './outgoing_speaker';
-import StreamSpeaker from './stream_sepeaker';
+import StreamSpeaker from './stream_speaker';
 import StudentSelector from './student_selector';
 import VisitingSpeaker from './visiting_speaker';
 
