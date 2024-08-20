@@ -210,7 +210,7 @@ const ComponentPreview = () => {
 
   return (
     <Box>
-      <NavBar />
+      <NavBar isSupported={false} />
       <Container
         maxWidth={false}
         sx={{

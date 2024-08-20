@@ -4,6 +4,7 @@ import {
   SkeletonLoaderCardBlueAreaRect,
   SkeletonLoaderCardCircle,
   SkeletonLoaderCardContainer,
+  SkeletonLoaderCardGroup,
   SkeletonLoaderCardItem,
   SkeletonLoaderCardItems,
   SkeletonLoaderCardText,
@@ -23,6 +24,7 @@ const MinistryCardSkeletonLoader = () => {
         <Box
           sx={{
             display: 'flex',
+            justifyContent: 'space-between',
             flexDirection: 'row',
             alignItems: 'center',
             padding: '4px 8px 12px 8px',
@@ -59,9 +61,10 @@ const MinistryCardSkeletonLoader = () => {
         </Box>
         <Divider color="var(--accent-200)" />
         <SkeletonLoaderCardItem>
-          <SkeletonLoaderCardCircle variant="circular" />
-          <SkeletonLoaderCardText variant="rectangular" width={92} />
-          <Box width={77} height={20} />
+          <SkeletonLoaderCardGroup>
+            <SkeletonLoaderCardCircle variant="circular" />
+            <SkeletonLoaderCardText variant="rectangular" width={92} />
+          </SkeletonLoaderCardGroup>
           <Box
             sx={{
               width: '48px',
@@ -73,13 +76,17 @@ const MinistryCardSkeletonLoader = () => {
         </SkeletonLoaderCardItem>
         <Divider color="var(--accent-200)" />
         <SkeletonLoaderCardItem>
-          <SkeletonLoaderCardCircle variant="circular" />
-          <SkeletonLoaderCardText variant="rectangular" width={145} />
+          <SkeletonLoaderCardGroup>
+            <SkeletonLoaderCardCircle variant="circular" />
+            <SkeletonLoaderCardText variant="rectangular" width={145} />
+          </SkeletonLoaderCardGroup>
         </SkeletonLoaderCardItem>
         <Divider color="var(--accent-200)" />
         <SkeletonLoaderCardItem>
-          <SkeletonLoaderCardCircle variant="circular" />
-          <SkeletonLoaderCardText variant="rectangular" width={138} />
+          <SkeletonLoaderCardGroup>
+            <SkeletonLoaderCardCircle variant="circular" />
+            <SkeletonLoaderCardText variant="rectangular" width={138} />
+          </SkeletonLoaderCardGroup>
         </SkeletonLoaderCardItem>
       </SkeletonLoaderCardItems>
     </SkeletonLoaderCardContainer>
