@@ -93,6 +93,7 @@ export type SchedWeekType = {
       reader: AssignmentCongregation[];
     };
     closing_prayer: AssignmentCongregation[];
+    circuit_overseer: AssignmentCongregation;
     week_type: WeekTypeCongregation[];
   };
   weekend_meeting: {

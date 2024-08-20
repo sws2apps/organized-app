@@ -139,7 +139,7 @@ const PublicTalkSelector = ({
       {talkType !== 'jwStreamRecording' && (
         <IconButton
           onClick={handleOpenCatalog}
-          tooltip={t('tr_speakersCatalog')}
+          title={t('tr_speakersCatalog')}
           sx={{ position: 'absolute', right: 30, top: 2 }}
         >
           <IconTalk color="var(--accent-main)" />

@@ -70,11 +70,17 @@ const useMidweekEditor = () => {
       ayfPart1 !== AssignmentCode.MM_Discussion) ||
     (ayfPart1 === AssignmentCode.MM_ExplainingBeliefs && !isTalkAYFPart1);
 
+  const showAYFPart1DoublePerson =
+    showDoublePerson && ayfPart1 !== AssignmentCode.MM_Discussion;
+
   const showAYFPart2Assistant =
     (ayfPart2 !== AssignmentCode.MM_ExplainingBeliefs &&
       ayfPart2 !== AssignmentCode.MM_Talk &&
       ayfPart2 !== AssignmentCode.MM_Discussion) ||
     (ayfPart2 === AssignmentCode.MM_ExplainingBeliefs && !isTalkAYFPart2);
+
+  const showAYFPart2DoublePerson =
+    showDoublePerson && ayfPart2 !== AssignmentCode.MM_Discussion;
 
   const showAYFPart3Assistant =
     (ayfPart3 !== AssignmentCode.MM_ExplainingBeliefs &&
@@ -82,11 +88,17 @@ const useMidweekEditor = () => {
       ayfPart3 !== AssignmentCode.MM_Discussion) ||
     (ayfPart3 === AssignmentCode.MM_ExplainingBeliefs && !isTalkAYFPart3);
 
+  const showAYFPart3DoublePerson =
+    showDoublePerson && ayfPart3 !== AssignmentCode.MM_Discussion;
+
   const showAYFPart4Assistant =
     (ayfPart4 !== AssignmentCode.MM_ExplainingBeliefs &&
       ayfPart4 !== AssignmentCode.MM_Talk &&
       ayfPart4 !== AssignmentCode.MM_Discussion) ||
     (ayfPart4 === AssignmentCode.MM_ExplainingBeliefs && !isTalkAYFPart4);
+
+  const showAYFPart4DoublePerson =
+    showDoublePerson && ayfPart4 !== AssignmentCode.MM_Discussion;
 
   const handleEditAssignments = () => setIsEdit(false);
 
@@ -473,6 +485,10 @@ const useMidweekEditor = () => {
     handleCloseClearAll,
     openingPrayerAuto,
     closingPrayerAuto,
+    showAYFPart1DoublePerson,
+    showAYFPart2DoublePerson,
+    showAYFPart3DoublePerson,
+    showAYFPart4DoublePerson,
   };
 };
 

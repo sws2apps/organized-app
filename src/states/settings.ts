@@ -395,6 +395,34 @@ export const midweekMeetingExactDateState = selector({
   },
 });
 
+export const midweekMeetingAuxCounselorDefaultEnabledState = selector({
+  key: 'midweekMeetingAuxCounselorDefaultEnabled',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+    const dataView = get(userDataViewState);
+
+    return (
+      settings.cong_settings.midweek_meeting.find(
+        (record) => record.type === dataView
+      )?.aux_class_counselor_default.enabled.value ?? false
+    );
+  },
+});
+
+export const midweekMeetingAuxCounselorDefaultState = selector({
+  key: 'midweekMeetingAuxCounselorDefault',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+    const dataView = get(userDataViewState);
+
+    return (
+      settings.cong_settings.midweek_meeting.find(
+        (record) => record.type === dataView
+      )?.aux_class_counselor_default.person.value || ''
+    );
+  },
+});
+
 // WEEKEND MEETING
 
 export const weekendMeetingOpeningPrayerAutoAssignState = selector({

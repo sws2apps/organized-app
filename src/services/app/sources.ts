@@ -432,3 +432,26 @@ export const sourcesSongConclude = ({
 
   return song;
 };
+
+export const sourcesLCGet = (
+  part: LivingAsChristiansType,
+  dataView: string,
+  lang: string
+) => {
+  const srcOverride = part.title.override.find(
+    (record) => record.type === dataView
+  );
+
+  const srcDefault = part.title.default[lang];
+  const src = srcOverride?.value.length > 0 ? srcOverride.value : srcDefault;
+
+  const descOverride = part.desc.override.find(
+    (record) => record.type === dataView
+  );
+
+  const descDefault = part.desc.default[lang];
+  const desc =
+    descOverride?.value.length > 0 ? descOverride.value : descDefault;
+
+  return { src, desc };
+};

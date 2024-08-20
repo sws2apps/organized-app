@@ -11,6 +11,7 @@ const TalkTitleSolo = (props: TalkTitleSoloType) => {
   return (
     <TextField
       sx={{ width: '100%' }}
+      height={48}
       label={props.label || t('tr_publicTalk')}
       value={title}
       onChange={(e) => handleTitleChange(e.target.value)}
