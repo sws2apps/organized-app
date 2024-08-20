@@ -8,9 +8,10 @@ import {
   IconTalk,
 } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
+import { MeetingsCardProps } from './index.types';
 import useMeetings from './useMeetings';
 
-const MeetingsCard = () => {
+const MeetingsCard = ({ assignmentCount }: MeetingsCardProps) => {
   const { t } = useAppTranslation();
 
   const { handleOpenMyAssignments, isConnected } = useMeetings();
@@ -21,7 +22,7 @@ const MeetingsCard = () => {
         <DashboardMenu
           icon={<IconAssignment color="var(--black)" />}
           primaryText={t('tr_viewMyAssignments')}
-          badgeText="3"
+          badgeText={assignmentCount.toString()}
           onClick={handleOpenMyAssignments}
         />
       </ListItem>
