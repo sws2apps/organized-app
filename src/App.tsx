@@ -1,7 +1,7 @@
-import { Suspense, lazy } from 'react';
+import { lazy } from 'react';
 import { RouterProvider, createHashRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ErrorBoundary, WaitingCircular } from '@components/index';
+import { ErrorBoundary } from '@components/index';
 import { RootLayout } from '@layouts/index';
 
 // lazy loading
@@ -113,9 +113,7 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Suspense fallback={<WaitingCircular />}>
-        <RouterProvider router={router} />
-      </Suspense>
+      <RouterProvider router={router} />
     </QueryClientProvider>
   );
 };
