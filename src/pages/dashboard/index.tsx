@@ -47,7 +47,7 @@ const Dashboard = () => {
         }}
       >
         <MinistryCard />
-        <MeetingsCard />
+        <MeetingsCard assignmentCount={countFutureAssignments} />
         <PersonsCard />
         <MeetingsMaterialsCard />
         <ReportsCard />
