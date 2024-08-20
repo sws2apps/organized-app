@@ -20,6 +20,7 @@ const Dashboard = () => {
     isCongNew,
     handleCloseNewCongNotice,
     handleOpenMyAssignments,
+    countFutureAssignments,
   } = useDashboard();
 
   return (
@@ -29,7 +30,9 @@ const Dashboard = () => {
           {t('tr_greeting', { firstName })} &#128075;
         </Typography>
         <TextMarkup
-          content={t('tr_meetingAssignments', { assignment: 3 })}
+          content={t('tr_meetingAssignments', {
+            assignment: countFutureAssignments,
+          })}
           className="h3"
           anchorClassName="h3"
           anchorColor="var(--accent-main)"
