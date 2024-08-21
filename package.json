@@ -93,7 +93,7 @@
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-react": "^7.35.0",
     "eslint-plugin-react-refresh": "^0.4.10",
-    "husky": "^9.1.4",
+    "husky": "^9.1.5",
     "lint-staged": "^15.2.9",
     "prettier": "^3.3.3",
     "prop-types": "^15.8.1",
