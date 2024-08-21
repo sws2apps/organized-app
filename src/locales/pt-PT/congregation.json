@@ -424,5 +424,9 @@
   "tr_accessCodeConfirm": "Confirme o código de acesso",
   "tr_settingsAutoSaved": "Todos os ajustes das configurações são gravados automaticamente",
   "tr_serviceGroupOverseerRole": "Dirigente grupo de serviço de campo",
-  "tr_publicTalkScheduling": "Agenda de discursos públicos"
+  "tr_publicTalkScheduling": "Agenda de discursos públicos",
+  "tr_bindUserRecordAssignmentsNotice": "<p>To view your upcoming assignments, make sure first that your device is connected to the internet. Then open the <a>Manage access</a> page to locate your user account and bind it with a record from your congregation persons list.</p>",
+  "tr_next3MonthsLabel": "Next 3 months",
+  "tr_next6MonthsLabel": "Next 6 months",
+  "tr_next12MonthsLabel": "Next 12 months"
 }
