@@ -51,7 +51,7 @@
   "tr_wtStudyReader": "Study reader",
   "tr_weekendMeetingPrint": "सप्ताहन्तको सभाको तालिका",
   "tr_publicTalk": "Public talk",
-  "tr_openingPrayerWeekendMeeting": "सुरुको प्रार्थना",
+  "tr_openingPrayer": "Opening Prayer",
   "tr_noWMeetingWeek": "There is no weekend meeting for this week",
   "tr_noMeetingWeek": "There is no meeting for this week",
   "tr_substituteSpeaker": "वैकल्पिक वक्ता",
@@ -71,6 +71,6 @@
   "tr_exportMidweekMeetinDesc": "Choose the schedules and forms you'd like to export and pick your preferred template. Organized saves your template choice for next time to make the export easier.",
   "tr_specialTalkWeek": "Special talk",
   "tr_wtStudyConductor": "Study conductor",
-  "tr_closingPrayerWeekendMeeting": "Closing prayer",
+  "tr_closingPrayer": "Closing prayer",
   "tr_date": "Date"
 }
