@@ -49,6 +49,7 @@ const AutocompleteMultiple = <T,>(props: AutocompleteMutilePropsType<T>) => {
               paddingTop: `calc(14.5px - ${varHeight}px)`,
               paddingBottom: `calc(14.5px - ${varHeight}px)`,
               flex: '1 0 0',
+              color: 'var(--black)',
             },
             '.MuiInput-root:hover:before': {
               borderBottom: '1px solid var(--accent-main)',
