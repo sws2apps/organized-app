@@ -43,7 +43,7 @@ const MyAssignments = () => {
       )}
 
       {!isSetup && (
-        <Stack spacing={2.3}>
+        <>
           <Select
             label={t('tr_display')}
             value={displayRange}
@@ -60,10 +60,23 @@ const MyAssignments = () => {
             </MenuItem>
           </Select>
 
-          {personAssignments.map((month) => (
-            <MonthContainer key={month.month} monthData={month} />
-          ))}
-        </Stack>
+          <Box
+            sx={{
+              marginTop: '16px',
+              height: 'calc(100vh - 224px)',
+              overflow: 'auto',
+              '&::-webkit-scrollbar': {
+                width: '4px',
+              },
+            }}
+          >
+            <Stack spacing={2.3}>
+              {personAssignments.map((month) => (
+                <MonthContainer key={month.month} monthData={month} />
+              ))}
+            </Stack>
+          </Box>
+        </>
       )}
     </Drawer>
   );

@@ -73,7 +73,6 @@ const Drawer: FC<DrawerProps & CustomDrawerProps> = ({
           margin: laptopUp ? '10px' : 'unset',
           borderRadius: laptopUp ? 'var(--radius-xxl)' : 'unset',
           padding: '12px',
-          overflow: 'auto',
           paddingBottom: '24px',
           '&::-webkit-scrollbar': {
             width: '8px',
@@ -95,7 +94,8 @@ const Drawer: FC<DrawerProps & CustomDrawerProps> = ({
             </ButtonIcon>
           </Stack>
         </Stack>
-        <Box sx={{ paddingTop: '5px' }}>{children}</Box>
+
+        {children}
       </Box>
     </MUIDrawer>
   );
