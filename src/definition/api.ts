@@ -78,6 +78,7 @@ export type ValidateMeResponseType = {
     weekend_meeting: MeetingResponseType[];
     cong_master_key: string;
     cong_access_code: string;
+    user_local_uid: string;
   };
 };
 
