@@ -58,7 +58,7 @@ const BadgeTypography = (props: BadgeTypographyPropsType) => {
   );
 };
 
-const CustomBadge = (props: BadgePropsType) => {
+const Badge = (props: BadgePropsType) => {
   const {
     icon,
     size,
@@ -227,4 +227,4 @@ const CustomBadge = (props: BadgePropsType) => {
   );
 };
 
-export default CustomBadge;
+export default Badge;

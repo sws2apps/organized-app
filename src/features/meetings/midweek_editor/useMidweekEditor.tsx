@@ -41,10 +41,10 @@ const useMidweekEditor = () => {
   const [hasSource, setHasSource] = useState(false);
   const [weekType, setWeekType] = useState(Week.NORMAL);
   const [ayfCount, setAyfCount] = useState(1);
-  const [ayfPart1, setAyfPart1] = useState(null);
-  const [ayfPart2, setAyfPart2] = useState(null);
-  const [ayfPart3, setAyfPart3] = useState(null);
-  const [ayfPart4, setAyfPart4] = useState(null);
+  const [ayfPart1, setAyfPart1] = useState<AssignmentCode>(null);
+  const [ayfPart2, setAyfPart2] = useState<AssignmentCode>(null);
+  const [ayfPart3, setAyfPart3] = useState<AssignmentCode>(null);
+  const [ayfPart4, setAyfPart4] = useState<AssignmentCode>(null);
   const [isTalkAYFPart1, setIsTalkAYFPart1] = useState(false);
   const [isTalkAYFPart2, setIsTalkAYFPart2] = useState(false);
   const [isTalkAYFPart3, setIsTalkAYFPart3] = useState(false);

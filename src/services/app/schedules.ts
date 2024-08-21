@@ -10,7 +10,7 @@ import {
   midweekMeetingAuxCounselorDefaultState,
   midweekMeetingClassCountState,
   midweekMeetingClosingPrayerAutoAssign,
-  midweekMeetingExactDateState,
+  meetingExactDateState,
   midweekMeetingOpeningPrayerAutoAssign,
   midweekMeetingTimeState,
   midweekMeetingWeekdayState,
@@ -40,6 +40,7 @@ import {
   sourcesCheckAYFExplainBeliefsAssignment,
   sourcesCheckLCAssignments,
   sourcesCountLC,
+  sourcesLCGet,
   sourcesLCGetTitle,
   sourcesPartTiming,
   sourcesSongConclude,
@@ -596,6 +597,7 @@ export const schedulesGetHistoryDetails = ({
   assignmentOptions,
   dataView,
   shortDateFormat,
+  talks,
 }: {
   schedule: SchedWeekType;
   source: SourceWeekType;
@@ -605,6 +607,7 @@ export const schedulesGetHistoryDetails = ({
   assignmentOptions: AssignmentLocalType[];
   dataView?: string;
   shortDateFormat: string;
+  talks: PublicTalkType[];
 }) => {
   const history = {} as AssignmentHistoryType;
 
@@ -644,13 +647,20 @@ export const schedulesGetHistoryDetails = ({
 
   if (assignment.startsWith('MM_') && assignment.endsWith('Prayer')) {
     history.assignment.code = AssignmentCode.MM_Prayer;
-    history.assignment.title = getTranslation({ key: 'tr_prayer' });
+  }
+
+  if (assignment.endsWith('_OpeningPrayer')) {
+    history.assignment.title = getTranslation({ key: 'tr_openingPrayer' });
+  }
+
+  if (assignment.endsWith('_ClosingPrayer')) {
+    history.assignment.title = getTranslation({ key: 'tr_closingPrayer' });
   }
 
   if (assignment === 'MM_TGWTalk') {
     history.assignment.code = AssignmentCode.MM_TGWTalk;
     history.assignment.title = getTranslation({ key: 'tr_tgw10TalkHistory' });
-    history.assignment.src = source.midweek_meeting.tgw_gems.title[lang];
+    history.assignment.src = source.midweek_meeting.tgw_talk.src[lang];
   }
 
   if (assignment === 'MM_TGWGems') {
@@ -688,7 +698,14 @@ export const schedulesGetHistoryDetails = ({
           ? assistantValue
           : [assistantValue];
 
-        history.assignment.title = title;
+        if (code === AssignmentCode.MM_Discussion) {
+          const titleOverride =
+            source.midweek_meeting[`ayf_part${partNum}`].title[lang];
+          history.assignment.title = titleOverride;
+        } else {
+          history.assignment.title = title;
+        }
+
         history.assignment.code = code;
         history.assignment.ayf.assistant = asistants.find(
           (record) => record.type === assigned.type
@@ -721,22 +738,16 @@ export const schedulesGetHistoryDetails = ({
 
   if (assignment.startsWith('MM_LCPart') && assignment !== 'MM_LCPart3') {
     const partNum = assignment.match(/\d+\.?\d*/g).at(0);
-    const lcPart: LivingAsChristiansType =
-      source.midweek_meeting[`lc_part${partNum}`];
+    const lcPartLabel = `lc_part${partNum}`;
 
-    const srcOverride = lcPart.title.override.find(
-      (record) => record.type === assigned.type
-    )?.value;
-    const srcDefault = lcPart.title.default[lang];
-    const src = srcOverride?.length > 0 ? srcOverride : srcDefault;
+    const lcPart: LivingAsChristiansType = source.midweek_meeting[lcPartLabel];
 
-    const descOverride = lcPart.desc.override.find(
-      (record) => record.type === assigned.type
-    )?.value;
-    const descDefault = lcPart.desc.default[lang];
-    const desc = descOverride?.length > 0 ? descOverride : descDefault;
+    const type = lcPartLabel as SourceAssignmentType;
 
-    history.assignment.src = src;
+    const { src, desc } = sourcesLCGet(lcPart, dataView, lang);
+    const time = sourcesPartTiming(source, type, dataView, lang);
+
+    history.assignment.src = `${src} ${getTranslation({ key: 'tr_partDuration', params: { time } })}`;
     history.assignment.desc = desc;
   }
 
@@ -748,7 +759,9 @@ export const schedulesGetHistoryDetails = ({
     const desc =
       lcPart.desc.find((record) => record.type === assigned.type)?.value || '';
 
-    history.assignment.src = src;
+    const time = sourcesPartTiming(source, 'lc_part3', dataView, lang);
+
+    history.assignment.src = `${src} ${getTranslation({ key: 'tr_partDuration', params: { time } })}`;
     history.assignment.desc = desc;
   }
 
@@ -779,17 +792,19 @@ export const schedulesGetHistoryDetails = ({
 
   if (assignment.startsWith('WM_') && assignment.endsWith('Prayer')) {
     history.assignment.code = AssignmentCode.WM_Prayer;
-    history.assignment.title = getTranslation({ key: 'tr_prayer' });
   }
 
   if (assignment.includes('WM_Speaker_Part')) {
     history.assignment.code = AssignmentCode.WM_Speaker;
-    history.assignment.title = getTranslation({ key: 'tr_speaker' });
+    history.assignment.title = getTranslation({ key: 'tr_publicTalk' });
 
     const publicTalk = source.weekend_meeting.public_talk.find(
       (record) => record.type === dataView
     )?.value;
     history.assignment.public_talk = publicTalk as number;
+    history.assignment.src =
+      talks.find((record) => record.talk_number === publicTalk)?.talk_title ||
+      '';
   }
 
   if (assignment === 'WM_WTStudy_Conductor') {
@@ -797,6 +812,9 @@ export const schedulesGetHistoryDetails = ({
     history.assignment.title = getTranslation({
       key: 'tr_watchtowerStudyConductor',
     });
+
+    const src = source.weekend_meeting.w_study[lang];
+    history.assignment.src = src;
   }
 
   if (assignment === 'WM_WTStudy_Reader') {
@@ -804,6 +822,9 @@ export const schedulesGetHistoryDetails = ({
     history.assignment.title = getTranslation({
       key: 'tr_watchtowerStudyReader',
     });
+
+    const src = source.weekend_meeting.w_study[lang];
+    history.assignment.src = src;
   }
 
   if (assignment === 'WM_Speaker_Outgoing') {
@@ -826,6 +847,7 @@ export const schedulesBuildHistoryList = async () => {
   const lang: string = await promiseGetRecoil(JWLangState);
   const dataView: string = await promiseGetRecoil(userDataViewState);
   const shortDateFormat: string = await promiseGetRecoil(shortDateFormatState);
+  const talks: PublicTalkType[] = await promiseGetRecoil(publicTalksState);
 
   for (const schedule of schedules) {
     const source = sources.find((record) => record.weekOf === schedule.weekOf);
@@ -845,6 +867,7 @@ export const schedulesBuildHistoryList = async () => {
             source,
             dataView,
             shortDateFormat,
+            talks,
           });
 
           result.push(history);
@@ -863,7 +886,6 @@ export const schedulesBuildHistoryList = async () => {
 export const schedulesUpdateHistory = async (
   week: string,
   assignment: AssignmentFieldType,
-  assigned: AssignmentCongregation,
   schedule_id?: string
 ) => {
   const history: AssignmentHistoryType[] = await promiseGetRecoil(
@@ -872,42 +894,79 @@ export const schedulesUpdateHistory = async (
 
   const historyStale = structuredClone(history);
 
-  // remove record from history
-  const previousIndex = historyStale.findIndex(
-    (record) =>
-      record.weekOf === week &&
-      record.assignment.key === assignment &&
-      record.assignment.schedule_id === schedule_id
-  );
+  const assignments = [assignment];
 
-  if (previousIndex !== -1) historyStale.splice(previousIndex, 1);
+  if (assignment.includes('Student')) {
+    const assistantField = assignment.replace(
+      'Student',
+      'Assistant'
+    ) as AssignmentFieldType;
 
-  if (assigned.value !== '') {
-    const schedules: SchedWeekType[] = await promiseGetRecoil(schedulesState);
-    const sources: SourceWeekType[] = await promiseGetRecoil(sourcesState);
-    const assignmentOptions: AssignmentLocalType[] = await promiseGetRecoil(
-      assignmentTypeLocaleState
+    assignments.push(assistantField);
+  }
+
+  if (assignment.includes('Assistant')) {
+    const studentField = assignment.replace(
+      'Assistant',
+      'Student'
+    ) as AssignmentFieldType;
+
+    assignments.push(studentField);
+  }
+
+  for await (const item of assignments) {
+    // remove record from history
+    const previousIndex = historyStale.findIndex(
+      (record) =>
+        record.weekOf === week &&
+        record.assignment.key === item &&
+        record.assignment.schedule_id === schedule_id
     );
-    const lang: string = await promiseGetRecoil(JWLangState);
+
+    if (previousIndex !== -1) historyStale.splice(previousIndex, 1);
+
     const dataView: string = await promiseGetRecoil(userDataViewState);
-    const shortDateFormat: string =
-      await promiseGetRecoil(shortDateFormatState);
-
+    const schedules: SchedWeekType[] = await promiseGetRecoil(schedulesState);
     const schedule = schedules.find((record) => record.weekOf === week);
-    const source = sources.find((record) => record.weekOf === week);
 
-    const historyDetails = schedulesGetHistoryDetails({
-      assigned,
-      assignment,
-      assignmentOptions,
-      lang,
-      schedule,
-      source,
-      dataView,
-      shortDateFormat,
-    });
+    const path = ASSIGNMENT_PATH[item];
+    const dataSchedule = structuredClone(schedulesGetData(schedule, path));
 
-    historyStale.push(historyDetails);
+    let assigned: AssignmentCongregation;
+
+    if (Array.isArray(dataSchedule)) {
+      assigned = dataSchedule.find((record) => record.type === dataView);
+    } else {
+      assigned = dataSchedule;
+    }
+
+    if (assigned.value !== '') {
+      const sources: SourceWeekType[] = await promiseGetRecoil(sourcesState);
+      const assignmentOptions: AssignmentLocalType[] = await promiseGetRecoil(
+        assignmentTypeLocaleState
+      );
+      const lang: string = await promiseGetRecoil(JWLangState);
+      const talks: PublicTalkType[] = await promiseGetRecoil(publicTalksState);
+
+      const shortDateFormat: string =
+        await promiseGetRecoil(shortDateFormatState);
+
+      const source = sources.find((record) => record.weekOf === week);
+
+      const historyDetails = schedulesGetHistoryDetails({
+        assigned,
+        assignment: item,
+        assignmentOptions,
+        lang,
+        schedule,
+        source,
+        dataView,
+        shortDateFormat,
+        talks,
+      });
+
+      historyStale.push(historyDetails);
+    }
   }
 
   historyStale.sort((a, b) =>
@@ -927,8 +986,6 @@ export const schedulesSaveAssignment = async (
 ) => {
   const dataView = await promiseGetRecoil(userDataViewState);
 
-  let assigned: AssignmentCongregation;
-
   if (!schedule_id) {
     const toSave = value
       ? typeof value === 'string'
@@ -940,12 +997,11 @@ export const schedulesSaveAssignment = async (
     const fieldUpdate = structuredClone(schedulesGetData(schedule, path));
 
     if (Array.isArray(fieldUpdate)) {
-      assigned = fieldUpdate.find((record) => record.type === dataView);
+      const assigned = fieldUpdate.find((record) => record.type === dataView);
       assigned.value = toSave;
       assigned.updatedAt = new Date().toISOString();
       assigned.solo = typeof value === 'string';
     } else {
-      assigned = fieldUpdate;
       fieldUpdate.value = toSave;
       fieldUpdate.updatedAt = new Date().toISOString();
       fieldUpdate.solo = typeof value === 'string';
@@ -980,22 +1036,10 @@ export const schedulesSaveAssignment = async (
     await dbSchedUpdate(schedule.weekOf, {
       'weekend_meeting.outgoing_talks': outgoingTalks,
     });
-
-    assigned = {
-      name: '',
-      type: outgoingSchedule.type,
-      updatedAt: outgoingSchedule.updatedAt,
-      value: outgoingSchedule.speaker,
-    };
   }
 
   // update history
-  await schedulesUpdateHistory(
-    schedule.weekOf,
-    assignment,
-    assigned,
-    schedule_id
-  );
+  await schedulesUpdateHistory(schedule.weekOf, assignment, schedule_id);
 };
 
 export const schedulesPersonNoPart = ({
@@ -1601,8 +1645,9 @@ export const schedulesAutofillUpdateHistory = async ({
     const dataView: string = await promiseGetRecoil(userDataViewState);
     const shortDateFormat: string =
       await promiseGetRecoil(shortDateFormatState);
-
     const sources: SourceWeekType[] = await promiseGetRecoil(sourcesState);
+    const talks: PublicTalkType[] = await promiseGetRecoil(publicTalksState);
+
     const source = sources.find((record) => record.weekOf === schedule.weekOf);
 
     const historyDetails = schedulesGetHistoryDetails({
@@ -1614,6 +1659,7 @@ export const schedulesAutofillUpdateHistory = async ({
       source,
       dataView,
       shortDateFormat,
+      talks,
     });
 
     history.push(historyDetails);
@@ -1904,9 +1950,7 @@ export const schedulesMidweekData = async (
   lang: string
 ) => {
   const source = await sourcesFind(schedule.weekOf);
-  const useExactDate: boolean = await promiseGetRecoil(
-    midweekMeetingExactDateState
-  );
+  const useExactDate: boolean = await promiseGetRecoil(meetingExactDateState);
   const months: string[] = await promiseGetRecoil(monthNamesState);
   const class_count: number = await promiseGetRecoil(
     midweekMeetingClassCountState

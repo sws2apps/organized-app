@@ -1,46 +1,144 @@
-import { useEffect } from 'react';
-import { useRecoilValue } from 'recoil';
-import { congAccountConnectedState, isAppDataSyncingState } from '@states/app';
-import { setIsAppDataSyncing } from '@services/recoil/app';
-import { delay } from '@utils/common';
+import { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { isMyAssignmentOpenState } from '@states/app';
+import {
+  meetingExactDateState,
+  midweekMeetingWeekdayState,
+  shortDateFormatState,
+  userLocalUIDState,
+  weekendMeetingWeekdayState,
+} from '@states/settings';
+import { DisplayRange } from './indextypes';
+import { localStorageGetItem } from '@utils/common';
+import { assignmentsHistoryState } from '@states/schedules';
+import { addWeeks, getWeekDate } from '@utils/date';
+import { AssignmentHistoryType } from '@definition/schedules';
+import { formatDate } from '@services/dateformat';
 
-const useAssignments = () => {
-  const isSyncing = useRecoilValue(isAppDataSyncingState);
-  const isConnected = useRecoilValue(congAccountConnectedState);
+const useMyAssignments = () => {
+  const navigate = useNavigate();
 
-  const handleManualRefresh = async () => {
-    try {
-      await setIsAppDataSyncing(true);
+  const LOCAL_STORAGE_KEY = 'organized_my-assignments-range';
 
-      await delay(5000);
+  const [open, setOpen] = useRecoilState(isMyAssignmentOpenState);
 
-      await setIsAppDataSyncing(false);
-    } catch (err) {
-      await setIsAppDataSyncing(false);
+  const userUID = useRecoilValue(userLocalUIDState);
+  const assignmentsHistory = useRecoilValue(assignmentsHistoryState);
+  const exactDate = useRecoilValue(meetingExactDateState);
+  const midweekMeetingDay = useRecoilValue(midweekMeetingWeekdayState);
+  const weekendMeetingDay = useRecoilValue(weekendMeetingWeekdayState);
+  const shortDateFormat = useRecoilValue(shortDateFormatState);
+
+  const storageValue = localStorageGetItem(LOCAL_STORAGE_KEY);
+  const intialValue: DisplayRange = storageValue
+    ? +storageValue
+    : DisplayRange.MONTHS_3;
+
+  const [displayRange, setDisplayRange] = useState(intialValue);
+
+  const isSetup = useMemo(() => {
+    return userUID.length === 0;
+  }, [userUID]);
+
+  const personAssignments = useMemo(() => {
+    const now = getWeekDate();
+    const maxDate = addWeeks(now, displayRange);
+
+    let personAssignments = assignmentsHistory.filter(
+      (record) =>
+        record.assignment.person === userUID &&
+        new Date(record.weekOf).toISOString() >= now.toISOString() &&
+        new Date(record.weekOf).toISOString() <= maxDate.toISOString()
+    );
+
+    if (exactDate) {
+      personAssignments = personAssignments.map((record) => {
+        const isMidweek = record.assignment.key.startsWith('MM_');
+        const isWeekend = record.assignment.key.startsWith('WM_');
+
+        const [year, month, day] = record.weekOf.split('/');
+
+        let meetingDate: Date;
+
+        if (isMidweek) {
+          meetingDate = new Date(
+            +year,
+            +month - 1,
+            +day + +midweekMeetingDay - 1
+          );
+        }
+
+        if (isWeekend) {
+          meetingDate = new Date(
+            +year,
+            +month - 1,
+            +day + +weekendMeetingDay - 1
+          );
+        }
+
+        return {
+          ...record,
+          weekOf: formatDate(meetingDate, 'yyyy/MM/dd'),
+          weekOfFormatted: formatDate(meetingDate, shortDateFormat),
+        };
+      });
     }
+
+    const groupedByMonth = personAssignments.reduce<
+      Record<string, AssignmentHistoryType[]>
+    >((acc, obj) => {
+      const [year, month] = obj.weekOf.split('/').slice(0, 2);
+      const key = `${year}/${month}`;
+      if (!acc[key]) {
+        acc[key] = [];
+      }
+      acc[key].push(obj);
+      return acc;
+    }, {});
+
+    const sortedGroups = Object.keys(groupedByMonth)
+      .sort()
+      .map((key) => ({
+        month: key,
+        children: groupedByMonth[key].sort((a, b) =>
+          a.weekOf.localeCompare(b.weekOf)
+        ),
+      }));
+
+    return sortedGroups;
+  }, [
+    assignmentsHistory,
+    displayRange,
+    userUID,
+    shortDateFormat,
+    exactDate,
+    midweekMeetingDay,
+    weekendMeetingDay,
+  ]);
+
+  const handleClose = () => setOpen(false);
+
+  const handleOpenManageAccess = () => {
+    navigate('/manage-access');
+    setOpen(false);
   };
 
-  useEffect(() => {
-    if (isSyncing) {
-      const svgIcon = document.querySelector<SVGElement>(
-        '#organized-icon-sync'
-      );
-      if (svgIcon) {
-        svgIcon.style.animation = 'rotate 2s linear infinite';
-      }
-    }
-  }, [isSyncing]);
+  const handleRangeChange = (value: DisplayRange) => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, value.toString());
 
-  useEffect(() => {
-    if (!isSyncing && isConnected) {
-      const svgIcon = document.querySelector<SVGElement>(
-        '#organized-icon-sync'
-      );
-      if (svgIcon) svgIcon.style.animation = '';
-    }
-  }, [isSyncing, isConnected]);
+    setDisplayRange(value);
+  };
 
-  return { isSyncing, handleManualRefresh, isConnected };
+  return {
+    handleOpenManageAccess,
+    open,
+    handleClose,
+    isSetup,
+    displayRange,
+    handleRangeChange,
+    personAssignments,
+  };
 };
 
-export default useAssignments;
+export default useMyAssignments;

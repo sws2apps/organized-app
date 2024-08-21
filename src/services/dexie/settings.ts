@@ -12,6 +12,7 @@ import { settingSchema } from './schema';
 import { ValidateMeResponseType } from '@definition/api';
 import appDb from '@db/appDb';
 import worker from '@services/worker/backupWorker';
+import { AssignmentCode } from '@definition/assignment';
 
 export const dbAppSettingsSave = async (setting: SettingsType) => {
   const current = await appDb.app_settings.get(1);
@@ -216,13 +217,23 @@ export const dbAppSettingsUpdateUserInfoAfterLogin = async (
 
 export const dbAppSettingsBuildTest = async () => {
   const baseSettings = structuredClone(settingSchema);
+  const persons = await appDb.persons.toArray();
+
+  const person = persons.find((record) =>
+    record.person_data.assignments.find(
+      (item) => item.code === AssignmentCode.WM_WTStudyConductor
+    )
+  );
+
+  baseSettings.user_settings.user_local_uid = person.person_uid;
+  baseSettings.user_settings.cong_role = ['admin'];
   baseSettings.user_settings.account_type = 'vip';
   baseSettings.user_settings.firstname = {
-    value: 'Test',
+    value: person.person_data.person_firstname.value,
     updatedAt: new Date().toISOString(),
   };
   baseSettings.user_settings.lastname = {
-    value: 'User',
+    value: person.person_data.person_lastname.value,
     updatedAt: new Date().toISOString(),
   };
   baseSettings.cong_settings.country_code = 'USA';
@@ -235,6 +246,10 @@ export const dbAppSettingsBuildTest = async () => {
     address: '333 19th Ave E Seattle WA  98112-5307',
     lat: 47.621731,
     lng: -122.307599,
+    updatedAt: new Date().toISOString(),
+  };
+  baseSettings.cong_settings.schedule_exact_date_enabled = {
+    value: true,
     updatedAt: new Date().toISOString(),
   };
   baseSettings.cong_settings.midweek_meeting = [
@@ -285,7 +300,6 @@ export const dbAppSettingsBuildTest = async () => {
       },
     },
   ];
-  baseSettings.user_settings.cong_role = ['admin'];
 
   await appDb.app_settings.put(baseSettings, 1);
 };
