@@ -698,7 +698,14 @@ export const schedulesGetHistoryDetails = ({
           ? assistantValue
           : [assistantValue];
 
-        history.assignment.title = title;
+        if (code === AssignmentCode.MM_Discussion) {
+          const titleOverride =
+            source.midweek_meeting[`ayf_part${partNum}`].title[lang];
+          history.assignment.title = titleOverride;
+        } else {
+          history.assignment.title = title;
+        }
+
         history.assignment.code = code;
         history.assignment.ayf.assistant = asistants.find(
           (record) => record.type === assigned.type
