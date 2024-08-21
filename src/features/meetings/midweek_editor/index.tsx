@@ -385,16 +385,23 @@ const MidweekEditor = () => {
                       </PrimaryFieldContainer>
                       <SecondaryFieldContainer laptopUp={laptopUp}>
                         <ClassAssignmentContainer>
-                          <Typography
-                            className="body-small-semibold"
-                            color="var(--grey-350)"
-                          >
-                            {t('tr_mainHall')}
-                          </Typography>
+                          {ayfPart1 !== AssignmentCode.MM_Discussion && (
+                            <Typography
+                              className="body-small-semibold"
+                              color="var(--grey-350)"
+                            >
+                              {t('tr_mainHall')}
+                            </Typography>
+                          )}
+
                           <PersonDoubleContainer>
                             <PersonSelector
                               week={selectedWeek}
-                              label={t('tr_student')}
+                              label={
+                                ayfPart1 === AssignmentCode.MM_Discussion
+                                  ? t('tr_brother')
+                                  : t('tr_student')
+                              }
                               type={ayfPart1}
                               assignment="MM_AYFPart1_Student_A"
                               readOnly={isEdit}
@@ -459,16 +466,22 @@ const MidweekEditor = () => {
                           </PrimaryFieldContainer>
                           <SecondaryFieldContainer laptopUp={laptopUp}>
                             <ClassAssignmentContainer>
-                              <Typography
-                                className="body-small-semibold"
-                                color="var(--grey-350)"
-                              >
-                                {t('tr_mainHall')}
-                              </Typography>
+                              {ayfPart2 !== AssignmentCode.MM_Discussion && (
+                                <Typography
+                                  className="body-small-semibold"
+                                  color="var(--grey-350)"
+                                >
+                                  {t('tr_mainHall')}
+                                </Typography>
+                              )}
                               <PersonDoubleContainer>
                                 <PersonSelector
                                   week={selectedWeek}
-                                  label={t('tr_student')}
+                                  label={
+                                    ayfPart2 === AssignmentCode.MM_Discussion
+                                      ? t('tr_brother')
+                                      : t('tr_student')
+                                  }
                                   type={ayfPart2}
                                   assignment="MM_AYFPart2_Student_A"
                                   readOnly={isEdit}

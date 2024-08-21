@@ -647,7 +647,14 @@ export const schedulesGetHistoryDetails = ({
 
   if (assignment.startsWith('MM_') && assignment.endsWith('Prayer')) {
     history.assignment.code = AssignmentCode.MM_Prayer;
-    history.assignment.title = getTranslation({ key: 'tr_prayer' });
+  }
+
+  if (assignment.endsWith('_OpeningPrayer')) {
+    history.assignment.title = getTranslation({ key: 'tr_openingPrayer' });
+  }
+
+  if (assignment.endsWith('_ClosingPrayer')) {
+    history.assignment.title = getTranslation({ key: 'tr_closingPrayer' });
   }
 
   if (assignment === 'MM_TGWTalk') {
@@ -778,7 +785,6 @@ export const schedulesGetHistoryDetails = ({
 
   if (assignment.startsWith('WM_') && assignment.endsWith('Prayer')) {
     history.assignment.code = AssignmentCode.WM_Prayer;
-    history.assignment.title = getTranslation({ key: 'tr_prayer' });
   }
 
   if (assignment.includes('WM_Speaker_Part')) {

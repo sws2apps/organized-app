@@ -51,7 +51,7 @@
   "tr_wtStudyReader": "Читець статті",
   "tr_weekendMeetingPrint": "Розклад зібрання на вихідних",
   "tr_publicTalk": "Публічна промова",
-  "tr_openingPrayerWeekendMeeting": "Всупна молитва",
+  "tr_openingPrayer": "Всупна молитва",
   "tr_noWMeetingWeek": "Цього тижня немає зібрання на вихідних",
   "tr_noMeetingWeek": "Цього тижня немає зібрання",
   "tr_substituteSpeaker": "Запасний промовець",
@@ -71,6 +71,6 @@
   "tr_exportMidweekMeetinDesc": "Вибери графіки та бланки, які ти хочеш експортувати, а також шаблони які підходять найкраще. Organized зберігає твій вибір шаблону для наступного разу, щоб полегшити експорт.",
   "tr_specialTalkWeek": "Спеціальна промова",
   "tr_wtStudyConductor": "Ведучий Вартової",
-  "tr_closingPrayerWeekendMeeting": "Заключна молитва",
+  "tr_closingPrayer": "Заключна молитва",
   "tr_date": "Дата"
 }
