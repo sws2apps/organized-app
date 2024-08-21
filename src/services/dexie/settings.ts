@@ -122,6 +122,7 @@ export const dbAppSettingsUpdateUserInfoAfterLogin = async (
     'user_settings.cong_role': data.result.cong_role,
     'user_settings.account_type': 'vip',
     'user_settings.user_local_uid': data.result.user_local_uid || '',
+    'user_settings.user_members_delegate': data.result.user_delegates || [],
   });
 
   if (

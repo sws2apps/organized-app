@@ -4,11 +4,12 @@ import { formatDate } from '@services/dateformat';
 import { useRecoilValue } from 'recoil';
 import { personsState } from '@states/persons';
 import { buildPersonFullname } from '@utils/common';
-import { fullnameOptionState } from '@states/settings';
+import { fullnameOptionState, userLocalUIDState } from '@states/settings';
 
 const useAssignmentItem = (assignment: AssignmentHistoryType) => {
   const persons = useRecoilValue(personsState);
   const fullnameOption = useRecoilValue(fullnameOptionState);
+  const userUID = useRecoilValue(userLocalUIDState);
 
   const isMidweek = useMemo(() => {
     return assignment.assignment.key.startsWith('MM_');
@@ -29,7 +30,7 @@ const useAssignmentItem = (assignment: AssignmentHistoryType) => {
     return name;
   };
 
-  return { assignmentDate, isMidweek, personGetName };
+  return { assignmentDate, isMidweek, personGetName, userUID };
 };
 
 export default useAssignmentItem;

@@ -7,6 +7,7 @@ import {
   midweekMeetingWeekdayState,
   shortDateFormatState,
   userLocalUIDState,
+  userMembersDelegateState,
   weekendMeetingWeekdayState,
 } from '@states/settings';
 import { DisplayRange } from './indextypes';
@@ -24,6 +25,7 @@ const useMyAssignments = () => {
   const [open, setOpen] = useRecoilState(isMyAssignmentOpenState);
 
   const userUID = useRecoilValue(userLocalUIDState);
+  const delegateMembers = useRecoilValue(userMembersDelegateState);
   const assignmentsHistory = useRecoilValue(assignmentsHistoryState);
   const exactDate = useRecoilValue(meetingExactDateState);
   const midweekMeetingDay = useRecoilValue(midweekMeetingWeekdayState);
@@ -47,7 +49,8 @@ const useMyAssignments = () => {
 
     let personAssignments = assignmentsHistory.filter(
       (record) =>
-        record.assignment.person === userUID &&
+        (record.assignment.person === userUID ||
+          delegateMembers.includes(record.assignment.person)) &&
         new Date(record.weekOf).toISOString() >= now.toISOString() &&
         new Date(record.weekOf).toISOString() <= maxDate.toISOString()
     );
@@ -111,6 +114,7 @@ const useMyAssignments = () => {
     assignmentsHistory,
     displayRange,
     userUID,
+    delegateMembers,
     shortDateFormat,
     exactDate,
     midweekMeetingDay,

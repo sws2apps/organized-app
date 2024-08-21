@@ -79,6 +79,7 @@ export type ValidateMeResponseType = {
     cong_master_key: string;
     cong_access_code: string;
     user_local_uid: string;
+    user_delegates: string[];
   };
 };
 
