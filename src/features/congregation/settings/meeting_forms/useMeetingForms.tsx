@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { settingsState, userDataViewState } from '@states/settings';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { FullnameOption, SourceFrequency } from '@definition/settings';
+import { schedulesBuildHistoryList } from '@services/app/schedules';
+import { assignmentsHistoryState } from '@states/schedules';
 
 const useMeetingForms = () => {
+  const setAssignmentsHistory = useSetRecoilState(assignmentsHistoryState);
+
   const settings = useRecoilValue(settingsState);
   const dataView = useRecoilValue(userDataViewState);
 
@@ -109,6 +113,10 @@ const useMeetingForms = () => {
     await dbAppSettingsUpdate({
       'cong_settings.short_date_format': shortDateFormat,
     });
+
+    // reload assignments history because of date format change
+    const history = await schedulesBuildHistoryList();
+    setAssignmentsHistory(history);
   };
 
   useEffect(() => {
