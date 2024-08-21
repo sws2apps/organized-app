@@ -424,5 +424,9 @@
   "tr_accessCodeConfirm": "Підтвердити код доступу",
   "tr_settingsAutoSaved": "Усі зміни налаштувань зберігаються автоматично",
   "tr_serviceGroupOverseerRole": "Наглядач групи до служіння",
-  "tr_publicTalkScheduling": "Планування публічних промов"
+  "tr_publicTalkScheduling": "Планування публічних промов",
+  "tr_bindUserRecordAssignmentsNotice": "<p>To view your upcoming assignments, make sure first that your device is connected to the internet. Then open the <a>Manage access</a> page to locate your user account and bind it with a record from your congregation persons list.</p>",
+  "tr_next3MonthsLabel": "Next 3 months",
+  "tr_next6MonthsLabel": "Next 6 months",
+  "tr_next12MonthsLabel": "Next 12 months"
 }
