@@ -386,8 +386,8 @@ export const midweekMeetingClosingPrayerAutoAssign = selector({
   },
 });
 
-export const midweekMeetingExactDateState = selector({
-  key: 'midweekMeetingExactDate',
+export const meetingExactDateState = selector({
+  key: 'meetingExactDate',
   get: ({ get }) => {
     const settings = get(settingsState);
 
