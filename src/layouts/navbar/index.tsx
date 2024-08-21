@@ -143,13 +143,14 @@ const NavBar = ({ isSupported }: NavBarType) => {
                 <IconButton
                   color="inherit"
                   edge="start"
+                  disableRipple
                   sx={{
-                    padding: '0px 8px',
+                    padding: '2px 8px',
                     marginLeft: '0px',
                     borderRadius: '8px',
-                    '.MuiTouchRipple-ripple .MuiTouchRipple-child': {
-                      borderRadius: 0,
-                      backgroundColor: 'rgba(23, 32, 42, .3)',
+                    '&:hover': {
+                      backgroundColor: 'var(--accent-200)',
+                      borderRadius: 'var(--radius-l)',
                     },
                   }}
                   onClick={handleOpenMoreMenu}
