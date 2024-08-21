@@ -12,7 +12,7 @@ import { AssignmentCode } from '@definition/assignment';
 const AssignmentItem = ({ history }: AssignmentItemProps) => {
   const { t } = useAppTranslation();
 
-  const { assignmentDate, isMidweek, personGetName } =
+  const { assignmentDate, isMidweek, personGetName, userUID } =
     useAssignmentItem(history);
 
   return (
@@ -65,6 +65,18 @@ const AssignmentItem = ({ history }: AssignmentItemProps) => {
               )}
           </Stack>
 
+          {userUID !== history.assignment.person && (
+            <Badge
+              size="small"
+              filled
+              color="orange"
+              sx={{ width: 'fit-content', height: 'auto' }}
+              text={t('tr_deliveredBy', {
+                name: personGetName(history.assignment.person),
+              })}
+            />
+          )}
+
           {history.assignment.ayf?.student && (
             <Typography
               className={'body-small-semibold'}
@@ -73,6 +85,7 @@ const AssignmentItem = ({ history }: AssignmentItemProps) => {
               {`${t('tr_student')}: ${personGetName(history.assignment.ayf.student)}`}
             </Typography>
           )}
+
           {history.assignment.ayf?.assistant && (
             <Typography
               className={'body-small-semibold'}

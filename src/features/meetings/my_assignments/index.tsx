@@ -1,14 +1,14 @@
 import { Box, Stack } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
 import { IconInfo } from '@components/icons';
+import { DisplayRange } from './indextypes';
+import useMyAssignments from './useAssignments';
 import Drawer from '@components/drawer';
+import Markup from '@components/text_markup';
+import MenuItem from '@components/menuitem';
+import MonthContainer from './month_container';
 import Select from '@components/select';
 import Typography from '@components/typography';
-import Markup from '@components/text_markup';
-import useMyAssignments from './useAssignments';
-import MenuItem from '@components/menuitem';
-import { DisplayRange } from './indextypes';
-import MonthContainer from './month_container';
 
 const MyAssignments = () => {
   const { t } = useAppTranslation();

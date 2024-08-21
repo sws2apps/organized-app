@@ -1,6 +1,13 @@
 import { FC, ReactNode } from 'react';
-import { Stack, Toolbar, Box, Drawer, DrawerProps } from '@mui/material';
+import {
+  Stack,
+  Toolbar,
+  Box,
+  Drawer as MUIDrawer,
+  DrawerProps,
+} from '@mui/material';
 import { IconClose } from '@icons/index';
+import { useBreakpoints } from '@hooks/index';
 import Typography from '@components/typography';
 import ButtonIcon from '@components/icon_button';
 
@@ -30,19 +37,21 @@ interface CustomDrawerProps {
  * @param {CustomDrawerProps & DrawerProps} props - Props for the CustomDrawer component.
  * @returns {JSX.Element} Custom drawer component.
  */
-const CustomDrawer: FC<DrawerProps & CustomDrawerProps> = ({
+const Drawer: FC<DrawerProps & CustomDrawerProps> = ({
   title,
   headActions,
   onClose,
   children,
   ...props
 }) => {
+  const { laptopUp } = useBreakpoints();
+
   const handleClose = () => {
     onClose();
   };
 
   return (
-    <Drawer
+    <MUIDrawer
       {...props}
       onClose={handleClose}
       PaperProps={{
@@ -50,33 +59,26 @@ const CustomDrawer: FC<DrawerProps & CustomDrawerProps> = ({
           backgroundColor: 'unset',
           boxShadow: 'unset',
           overflowY: 'unset',
+          width: laptopUp ? 'unset' : '100%',
         },
       }}
     >
       <Toolbar sx={{ padding: 0 }} />
       <Box
         className="pop-up-shadow"
-        sx={(theme) => ({
+        sx={{
           backgroundColor: 'var(--accent-100)',
           height: '100%',
-          paddingBottom: '0 !important',
-          [theme.breakpoints.down('tablet')]: {
-            width: '100vw !important',
-            padding: '12px',
+          width: laptopUp ? '600px' : '100%',
+          margin: laptopUp ? '10px' : 'unset',
+          borderRadius: laptopUp ? 'var(--radius-xxl)' : 'unset',
+          padding: '12px',
+          overflow: 'auto',
+          paddingBottom: '24px',
+          '&::-webkit-scrollbar': {
+            width: '8px',
           },
-          [theme.breakpoints.down(769)]: {
-            width: '60vw',
-          },
-          [theme.breakpoints.up('laptop')]: {
-            width: '40vw',
-            margin: '10px',
-            borderRadius: 'var(--radius-xxl)',
-            padding: '24px',
-            position: 'relative',
-            overflowY: 'auto',
-            overflowX: 'hidden',
-          },
-        })}
+        }}
         role="presentation"
       >
         <Stack
@@ -93,36 +95,10 @@ const CustomDrawer: FC<DrawerProps & CustomDrawerProps> = ({
             </ButtonIcon>
           </Stack>
         </Stack>
-        <Box
-          sx={(theme) => ({
-            paddingTop: '5px',
-            [theme.breakpoints.only('mobile')]: {
-              overflowY: 'auto',
-              height: 'calc(100% - 120px)',
-              width: '100%',
-              scrollbarWidth: 'none',
-              paddingBottom: '12px',
-            },
-            [theme.breakpoints.up('tablet')]: {
-              overflowY: 'auto',
-              height: 'calc(100% - 64px)',
-              paddingRight: '8px',
-              width: '101.5%',
-              paddingBottom: '24px',
-              '&::-webkit-scrollbar': {
-                width: '4px',
-              },
-              '&::-webkit-scrollbar-track': {
-                backgroundColor: 'transparent',
-              },
-            },
-          })}
-        >
-          {children}
-        </Box>
+        <Box sx={{ paddingTop: '5px' }}>{children}</Box>
       </Box>
-    </Drawer>
+    </MUIDrawer>
   );
 };
 
-export default CustomDrawer;
+export default Drawer;
