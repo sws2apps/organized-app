@@ -7,6 +7,7 @@ import useAssignmentItem from './useAssignmentItem';
 import Badge from '@components/badge';
 import IconButton from '@components/icon_button';
 import Typography from '@components/typography';
+import { AssignmentCode } from '@definition/assignment';
 
 const AssignmentItem = ({ history }: AssignmentItemProps) => {
   const { t } = useAppTranslation();
@@ -53,9 +54,15 @@ const AssignmentItem = ({ history }: AssignmentItemProps) => {
         <Stack justifyContent="center">
           <Stack direction="row" spacing={1} alignItems="center">
             <Typography className="h3">{history.assignment.title}</Typography>
-            {!BROTHER_ASSIGNMENT.includes(history.assignment.code) && (
-              <Badge text="Hall A" color="accent" size="medium" centerContent />
-            )}
+            {!BROTHER_ASSIGNMENT.includes(history.assignment.code) &&
+              history.assignment.code !== AssignmentCode.MM_Discussion && (
+                <Badge
+                  text="Hall A"
+                  color="accent"
+                  size="medium"
+                  centerContent
+                />
+              )}
           </Stack>
 
           {history.assignment.ayf?.student && (
