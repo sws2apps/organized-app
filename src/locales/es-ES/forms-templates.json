@@ -51,7 +51,7 @@
   "tr_wtStudyReader": "Study reader",
   "tr_weekendMeetingPrint": "Horario de reunión entre semana",
   "tr_publicTalk": "Public talk",
-  "tr_openingPrayerWeekendMeeting": "Opening Prayer",
+  "tr_openingPrayer": "Opening Prayer",
   "tr_noWMeetingWeek": "No hay reunión de fin de semana para esta semana",
   "tr_noMeetingWeek": "No hay reunión para esta semana",
   "tr_substituteSpeaker": "Substitute Speaker",
@@ -71,6 +71,6 @@
   "tr_exportMidweekMeetinDesc": "Choose the schedules and forms you'd like to export and pick your preferred template. Organized saves your template choice for next time to make the export easier.",
   "tr_specialTalkWeek": "Special talk",
   "tr_wtStudyConductor": "Study conductor",
-  "tr_closingPrayerWeekendMeeting": "Closing prayer",
+  "tr_closingPrayer": "Closing prayer",
   "tr_date": "Date"
 }

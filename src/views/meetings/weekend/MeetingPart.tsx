@@ -22,7 +22,7 @@ const MeetingPart = ({ meetingData }: MeetingPartType) => {
         {meetingData.opening_prayer_name && (
           <View style={styles.meetingPartContainer}>
             <Text style={styles.meetingPartLabel}>
-              {t('tr_openingPrayerWeekendMeeting')}:
+              {t('tr_openingPrayer')}:
             </Text>
             <Text style={styles.meetingPartName}>
               {meetingData.opening_prayer_name}
@@ -76,7 +76,7 @@ const MeetingPart = ({ meetingData }: MeetingPartType) => {
           {/* Closing prayer */}
           <View style={styles.meetingPartContainer}>
             <Text style={styles.meetingPartLabel}>
-              {t('tr_closingPrayerWeekendMeeting')}:
+              {t('tr_closingPrayer')}:
             </Text>
             <Text style={styles.meetingPartName}>
               {meetingData.concluding_prayer_name}
