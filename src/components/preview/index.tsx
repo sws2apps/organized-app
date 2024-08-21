@@ -18,15 +18,9 @@ import {
   DatePicker,
   Reminders,
   ReminderItem,
-  Tabs,
-  SearchBar,
   PublicWitnessingTimeCard,
   PublicWitnessingPlaceCard,
-  ScrollableTabs,
-  ProgressBarSmall,
-  TimePicker,
   AssignmentsCheckList,
-  UserAccountItem,
   CustomTimeTextField,
 } from '@components/index';
 import { useEffect, useState } from 'react';
@@ -43,153 +37,17 @@ import {
 
 import NavBar from '@layouts/navbar';
 import TableDemo from './Table';
-import DrawerAssignments from '@components/preview/DrawerAssignments';
 import CPETimePickerSlider from '@components/time_picker_slider';
 
 const themes = ['blue', 'green', 'orange', 'purple'];
-
-const names = [
-  { name: 'Michael', color: 'grey' as const, size: 'small' as const },
-  { name: 'Alex', color: 'green' as const, size: 'small' as const },
-  { name: 'Eleonor', color: 'orange' as const, size: 'small' as const },
-  { name: 'Olga', color: 'accent' as const, size: 'small' as const },
-  { name: 'Marcus', color: 'red' as const, size: 'small' as const },
-];
-
-const tabs = [
-  {
-    label: 'Midweek meeting',
-    Component: (
-      <div>
-        <h1>Hello, Here is a content of Midweek meeting</h1>
-        <span>
-          So just pass an array of Components to Tabs and you will see them here
-        </span>
-      </div>
-    ),
-  },
-  {
-    label: 'Weekend meeting',
-    Component: <div>Hello, Here is a content of Weekend meeting</div>,
-  },
-  {
-    label: 'Another one meeting...',
-    Component: <div>Hello, Here is a content of another one meeting</div>,
-  },
-];
-
-const scrollableTabs = {
-  years: [
-    {
-      label: '2020',
-      Component: <></>,
-    },
-    {
-      label: '2021',
-      Component: <></>,
-    },
-    {
-      label: '2022',
-      Component: <></>,
-    },
-    {
-      label: '2023',
-      Component: <></>,
-    },
-    {
-      label: '2024',
-      Component: <></>,
-    },
-    {
-      label: '2025',
-      Component: <></>,
-    },
-    {
-      label: '2026',
-      Component: <></>,
-    },
-    {
-      label: '2027',
-      Component: <></>,
-    },
-  ],
-  months: [
-    {
-      label: 'January',
-      Component: <></>,
-    },
-    {
-      label: 'February',
-      Component: <></>,
-    },
-    {
-      label: 'March',
-      Component: <></>,
-    },
-    {
-      label: 'April',
-      Component: <></>,
-    },
-    {
-      label: 'May',
-      Component: <></>,
-    },
-    {
-      label: 'June',
-      Component: <></>,
-    },
-    {
-      label: 'July',
-      Component: <></>,
-    },
-    {
-      label: 'August',
-      Component: <></>,
-    },
-    {
-      label: 'September',
-      Component: <></>,
-    },
-    {
-      label: 'October',
-      Component: <></>,
-    },
-    {
-      label: 'November',
-      Component: <></>,
-    },
-    {
-      label: 'December',
-      Component: <></>,
-    },
-  ],
-};
 
 const ComponentPreview = () => {
   const [currentTheme, setCurrentTheme] = useState('blue');
   const [checked, setChecked] = useState(false);
   const [filterEnabled, setFilterEnabled] = useState(true);
-  const [filteredNames, setFilteredNames] = useState(names);
-  const [inputField, setInputField] = useState(0);
 
-  const handleInput = (e) => {
-    setInputField(e.target.value);
-    console.log(e.target.value);
-  };
   const handleChange = (e) => {
     setCurrentTheme(e.target.value);
-  };
-
-  const onSearch = (query) => {
-    // Write logic for filtration here
-    if (!query) {
-      setFilteredNames(names);
-    } else {
-      const filteredNames = names.filter((item) =>
-        item.name.toLowerCase().includes(query.toLowerCase())
-      );
-      setFilteredNames(filteredNames);
-    }
   };
 
   useEffect(() => {
@@ -273,10 +131,7 @@ const ComponentPreview = () => {
 
       <Container maxWidth={false} sx={{ maxWidth: '1440px' }}>
         <Box sx={{ margin: '80px 0px' }}>
-          <Box>
-            <DrawerAssignments />
-            <TableDemo />
-          </Box>
+          <TableDemo />
           <Box
             marginBottom={2}
             sx={{ display: 'flex', flexDirection: 'row', gap: '25px' }}
@@ -1187,81 +1042,6 @@ const ComponentPreview = () => {
             ]}
           </Reminders>
         </Box>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            gap: '20px',
-            marginTop: '40px',
-            marginBottom: '40px',
-          }}
-        >
-          <TimePicker ampm={true} label={'Time'} />
-          <TimePicker ampm={true} label={'Time'} isValueOnOpen />
-          <TimePicker ampm={false} label={'Time'} />
-          <TimePicker ampm={false} label={'Time'} isValueOnOpen />
-        </Box>
-        <Box sx={{ mb: 5 }}>
-          Tabs:
-          <Tabs tabs={tabs} />
-        </Box>
-
-        <Box sx={{ mb: 5, display: 'flex', flexDirection: 'column', gap: 3 }}>
-          <ScrollableTabs tabs={scrollableTabs.years}></ScrollableTabs>
-          <ScrollableTabs tabs={scrollableTabs.months}></ScrollableTabs>
-        </Box>
-
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '20px',
-            marginTop: '40px',
-            marginBottom: '40px',
-          }}
-        >
-          <Typography className="body-regular">Search_bar:</Typography>
-          {/* The onSearch function handles the search functionality. It filters the list  on the search query. */}
-          <SearchBar
-            placeholder={'Search by number, name or city'}
-            onSearch={onSearch}
-          />
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column;',
-              gap: '8px',
-              width: '150px',
-            }}
-          >
-            {filteredNames.map((item) => (
-              <Badge
-                key={item.name}
-                text={item.name}
-                color={item.color}
-                size={item.size}
-                filled
-                icon={<IconVisitors />}
-              />
-            ))}
-          </Box>
-        </Box>
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography className="label-small-regular">
-            input for testing progressbar
-          </Typography>
-          <TextField
-            type="number"
-            onChange={handleInput}
-            value={inputField}
-          ></TextField>
-          <Typography className="label-small-regular">
-            progress-bar-small
-          </Typography>
-          <ProgressBarSmall value={inputField} maxValue={100} />
-          <ProgressBarSmall value={60} maxValue={135} />
-          <ProgressBarSmall value={100} maxValue={120} />
-        </Box>
 
         <br />
         <br />
@@ -1359,45 +1139,6 @@ const ComponentPreview = () => {
                 onChange={(e, checked) => console.log(checked)}
               />
             </AssignmentsCheckList>
-          </Box>
-        </Box>
-        <Box
-          sx={{
-            display: 'flex',
-            gap: '20px',
-            flexWrap: 'wrap',
-            marginTop: '10px',
-          }}
-        >
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <Typography className="label-small-regular">
-              user-buttons:
-            </Typography>
-
-            <Typography className="label-small-regular">
-              admin-account-item
-            </Typography>
-            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-              <UserAccountItem
-                variant="admin"
-                userName="Jeremiah Green"
-                userPosition="App administrator"
-              />
-            </Box>
-
-            <Typography className="label-small-regular">
-              user-account-item
-            </Typography>
-            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-              <UserAccountItem variant="user" userName="Floyd Miles" />
-            </Box>
-
-            <Typography className="label-small-regular">
-              baptized-account-item
-            </Typography>
-            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-              <UserAccountItem variant="baptized" userName="Ronald Richards" />
-            </Box>
           </Box>
         </Box>
 
