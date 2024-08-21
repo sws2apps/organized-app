@@ -57,7 +57,7 @@ const CongregationBasic = () => {
           label={t('tr_kingdomHallAddress')}
           sx={{
             '.MuiFormHelperText-root': {
-              color: 'var(--accent-350)',
+              color: 'var(--accent-350) !important',
             },
           }}
           helperText={t('tr_kingdomHallAddressDesc')}
