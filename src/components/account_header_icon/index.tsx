@@ -46,7 +46,7 @@ const AccountHeaderIcon = () => {
           <IconHeaderAccount
             width={32}
             height={32}
-            color="#5065D0"
+            color="var(--accent-main)"
             sx={{ zIndex: 1 }}
           />
         </>
