@@ -986,8 +986,6 @@ export const schedulesSaveAssignment = async (
 ) => {
   const dataView = await promiseGetRecoil(userDataViewState);
 
-  let assigned: AssignmentCongregation;
-
   if (!schedule_id) {
     const toSave = value
       ? typeof value === 'string'
@@ -999,12 +997,11 @@ export const schedulesSaveAssignment = async (
     const fieldUpdate = structuredClone(schedulesGetData(schedule, path));
 
     if (Array.isArray(fieldUpdate)) {
-      assigned = fieldUpdate.find((record) => record.type === dataView);
+      const assigned = fieldUpdate.find((record) => record.type === dataView);
       assigned.value = toSave;
       assigned.updatedAt = new Date().toISOString();
       assigned.solo = typeof value === 'string';
     } else {
-      assigned = fieldUpdate;
       fieldUpdate.value = toSave;
       fieldUpdate.updatedAt = new Date().toISOString();
       fieldUpdate.solo = typeof value === 'string';
@@ -1039,13 +1036,6 @@ export const schedulesSaveAssignment = async (
     await dbSchedUpdate(schedule.weekOf, {
       'weekend_meeting.outgoing_talks': outgoingTalks,
     });
-
-    assigned = {
-      name: '',
-      type: outgoingSchedule.type,
-      updatedAt: outgoingSchedule.updatedAt,
-      value: outgoingSchedule.speaker,
-    };
   }
 
   // update history

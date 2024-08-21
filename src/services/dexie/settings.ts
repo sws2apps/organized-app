@@ -248,30 +248,30 @@ export const dbAppSettingsBuildTest = async () => {
     lng: -122.307599,
     updatedAt: new Date().toISOString(),
   };
-  (baseSettings.cong_settings.schedule_exact_date_enabled = {
+  baseSettings.cong_settings.schedule_exact_date_enabled = {
     value: true,
     updatedAt: new Date().toISOString(),
-  }),
-    (baseSettings.cong_settings.midweek_meeting = [
-      {
-        type: 'main',
-        class_count: { updatedAt: new Date().toISOString(), value: 1 },
-        opening_prayer_auto_assigned: {
-          value: false,
-          updatedAt: new Date().toISOString(),
-        },
-        closing_prayer_auto_assigned: {
-          value: false,
-          updatedAt: new Date().toISOString(),
-        },
-        time: { value: '19:30', updatedAt: new Date().toISOString() },
-        weekday: { value: 4, updatedAt: new Date().toISOString() },
-        aux_class_counselor_default: {
-          enabled: { value: false, updatedAt: '' },
-          person: { value: '', updatedAt: '' },
-        },
+  };
+  baseSettings.cong_settings.midweek_meeting = [
+    {
+      type: 'main',
+      class_count: { updatedAt: new Date().toISOString(), value: 1 },
+      opening_prayer_auto_assigned: {
+        value: false,
+        updatedAt: new Date().toISOString(),
       },
-    ]);
+      closing_prayer_auto_assigned: {
+        value: false,
+        updatedAt: new Date().toISOString(),
+      },
+      time: { value: '19:30', updatedAt: new Date().toISOString() },
+      weekday: { value: 4, updatedAt: new Date().toISOString() },
+      aux_class_counselor_default: {
+        enabled: { value: false, updatedAt: '' },
+        person: { value: '', updatedAt: '' },
+      },
+    },
+  ];
   baseSettings.cong_settings.weekend_meeting = [
     {
       type: 'main',
