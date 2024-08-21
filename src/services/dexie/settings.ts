@@ -121,6 +121,7 @@ export const dbAppSettingsUpdateUserInfoAfterLogin = async (
     'cong_settings.cong_number': data.result.cong_number,
     'user_settings.cong_role': data.result.cong_role,
     'user_settings.account_type': 'vip',
+    'user_settings.user_local_uid': data.result.user_local_uid || '',
   });
 
   if (
