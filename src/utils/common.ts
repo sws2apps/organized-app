@@ -190,3 +190,7 @@ export const styledRemoveProps = (prop: PropertyKey, userProp: string[]) =>
 export const copyToClipboard = async (value: string) => {
   await navigator.clipboard.writeText(value);
 };
+
+export const getRandomArrayItem = <T>(array: T[]) => {
+  return array[Math.floor(Math.random() * array.length)];
+};

@@ -13,6 +13,7 @@ import { ValidateMeResponseType } from '@definition/api';
 import appDb from '@db/appDb';
 import worker from '@services/worker/backupWorker';
 import { AssignmentCode } from '@definition/assignment';
+import { getRandomArrayItem } from '@utils/common';
 
 export const dbAppSettingsSave = async (setting: SettingsType) => {
   const current = await appDb.app_settings.get(1);
@@ -227,7 +228,22 @@ export const dbAppSettingsBuildTest = async () => {
     )
   );
 
+  const filteredPersons = persons.filter(
+    (record) => record.person_uid !== person.person_uid
+  );
+
+  const delegates: string[] = [];
+
+  do {
+    const delegate = getRandomArrayItem(filteredPersons).person_uid;
+
+    if (!delegates.includes(delegate)) {
+      delegates.push(delegate);
+    }
+  } while (delegates.length < 3);
+
   baseSettings.user_settings.user_local_uid = person.person_uid;
+  baseSettings.user_settings.user_members_delegate = delegates;
   baseSettings.user_settings.cong_role = ['admin'];
   baseSettings.user_settings.account_type = 'vip';
   baseSettings.user_settings.firstname = {
