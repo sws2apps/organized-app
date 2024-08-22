@@ -141,5 +141,6 @@
   "tr_outgoingTalkSynced": "Este discurso foi sincronizado com a programação da congregação <strong>{{ congregation }}</strong>. Por favor, entre em contato com o coordenador de discursos públicos para quaisquer correções ou atualizações.",
   "tr_clearOutgoingTalkDesc": "Are you sure you want to clear all assignments and congregation details for this outgoing talk? You can always fill out them later.",
   "tr_outgoingTalkDelete": "Excluir discurso fora",
-  "tr_outgoingTalkDeleteDesc": "Tem certeza de que deseja excluir esta programação de discurso fora?"
+  "tr_outgoingTalkDeleteDesc": "Tem certeza de que deseja excluir esta programação de discurso fora?",
+  "tr_deliveredBy": "Delivered by {{ name }}"
 }
