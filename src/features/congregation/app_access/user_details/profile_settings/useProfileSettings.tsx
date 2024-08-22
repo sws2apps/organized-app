@@ -57,6 +57,12 @@ const useProfileSettings = (user: CongregationUserType) => {
     });
   };
 
+  const handleUpdateMembers = async (value: string[]) => {
+    await dbAppSettingsUpdate({
+      'user_settings.user_members_delegate': value,
+    });
+  };
+
   const handleSelectPerson = async (value: UsersOption) => {
     try {
       setSelectedPerson(value);
@@ -105,6 +111,10 @@ const useProfileSettings = (user: CongregationUserType) => {
       user.user_delegates = persons;
 
       await handleSaveDetails(user);
+
+      if (userID === id) {
+        await handleUpdateMembers(persons);
+      }
     } catch (error) {
       console.error(error);
 
