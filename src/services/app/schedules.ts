@@ -2123,7 +2123,9 @@ export const schedulesMidweekData = async (
           ? sourcesCheckAYFExplainBeliefsAssignment(src)
           : false;
 
-      if (
+      if (ayfType === AssignmentCode.MM_Discussion) {
+        result[fieldLabel] = '';
+      } else if (
         ayfType === AssignmentCode.MM_Talk ||
         (ayfType === AssignmentCode.MM_ExplainingBeliefs && isTalk)
       ) {
