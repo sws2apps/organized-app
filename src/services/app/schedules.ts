@@ -2331,6 +2331,7 @@ export const schedulesWeekendData = async (
   const openingPrayerAuto: boolean = await promiseGetRecoil(
     weekendMeetingOpeningPrayerAutoAssignState
   );
+  const shortDateFormat: string = await promiseGetRecoil(shortDateFormatState);
 
   const result = <WeekendMeetingDataType>{};
   result.weekOf = schedule.weekOf;
@@ -2338,10 +2339,7 @@ export const schedulesWeekendData = async (
   const [year, month, day] = schedule.weekOf.split('/');
   const newDate = new Date(+year, +month - 1, +day + +meetingDay - 1);
 
-  result.date_formatted = formatDate(
-    newDate,
-    getTranslation({ key: 'tr_shortDateFormat' })
-  );
+  result.date_formatted = formatDate(newDate, shortDateFormat);
 
   const week_type = schedule.weekend_meeting.week_type.find(
     (record) => record.type === dataView
