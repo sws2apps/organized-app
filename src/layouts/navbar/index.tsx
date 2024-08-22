@@ -135,7 +135,15 @@ const NavBar = ({ isSupported }: NavBarType) => {
             <ThemeSwitcher />
 
             {tabletUp && (isAppLoad || isDemo) && (
-              <LanguageSwitcher menuStyle={baseMenuStyle} />
+              <LanguageSwitcher
+                menuStyle={{
+                  ...baseMenuStyle,
+                  '&:hover': {
+                    backgroundColor: 'var(--accent-200)',
+                    borderRadius: 'var(--radius-l)',
+                  },
+                }}
+              />
             )}
 
             {isSupported && (
