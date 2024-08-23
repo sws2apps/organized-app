@@ -14,7 +14,7 @@ import Divider from '@components/divider';
 import MeetingPart from '@features/meetings/meeting_part';
 import MeetingSection from '@features/meetings/meeting_section';
 import PartRow from './part_row';
-import PartTiming from '../part_timing';
+import PartTiming from '../../part_timing';
 import PersonComponent from '../../person_component';
 import SongSource from '@features/meetings/song_source';
 

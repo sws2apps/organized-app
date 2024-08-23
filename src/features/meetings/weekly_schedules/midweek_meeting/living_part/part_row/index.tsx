@@ -7,7 +7,7 @@ import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { PartRowProps } from './index.types';
 import usePartRow from './usePartRow';
 import MeetingPart from '@features/meetings/meeting_part';
-import PartTiming from '../../part_timing';
+import PartTiming from '../../../part_timing';
 import PersonComponent from '@features/meetings/weekly_schedules/person_component';
 
 const PartRow = (props: PartRowProps) => {

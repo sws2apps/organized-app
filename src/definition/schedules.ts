@@ -252,6 +252,15 @@ export type MidweekMeetingDataType = {
   co_name?: string;
 };
 
+export type WeekendMeetingTimingsType = {
+  pgm_start: string;
+  public_talk: string;
+  middle_song: string;
+  w_study: string;
+  service_talk?: string;
+  pgm_end: string;
+};
+
 export type WeekendMeetingDataType = {
   date_formatted: string;
   weekOf: string;

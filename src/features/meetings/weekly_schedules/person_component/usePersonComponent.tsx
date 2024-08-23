@@ -9,12 +9,16 @@ import {
   COFullnameState,
   displayNameMeetingsEnableState,
   fullnameOptionState,
+  midweekMeetingAuxCounselorDefaultEnabledState,
+  midweekMeetingAuxCounselorDefaultState,
   userDataViewState,
   userLocalUIDState,
+  weekendMeetingWTStudyConductorDefaultState,
 } from '@states/settings';
 import { AssignmentCongregation } from '@definition/schedules';
 import { personsState } from '@states/persons';
-import { personGetDisplayName } from '@utils/common';
+import { personGetDisplayName, speakerGetDisplayName } from '@utils/common';
+import { incomingSpeakersState } from '@states/visiting_speakers';
 
 const usePersonComponent = ({ week, assignment }: PersonComponentProps) => {
   const schedules = useRecoilValue(schedulesState);
@@ -25,9 +29,23 @@ const usePersonComponent = ({ week, assignment }: PersonComponentProps) => {
   const userUID = useRecoilValue(userLocalUIDState);
   const coDisplayName = useRecoilValue(CODisplayNameState);
   const coFullname = useRecoilValue(COFullnameState);
+  const mmAuxCounselorDefaultEnabled = useRecoilValue(
+    midweekMeetingAuxCounselorDefaultEnabledState
+  );
+  const mmAuxCounselorDefault = useRecoilValue(
+    midweekMeetingAuxCounselorDefaultState
+  );
+  const wsConductor = useRecoilValue(
+    weekendMeetingWTStudyConductorDefaultState
+  );
+  const incomingSpeakers = useRecoilValue(incomingSpeakersState);
 
   const personData = useMemo(() => {
-    const result = {} as PersonDataType;
+    const result: PersonDataType = {
+      name: undefined,
+      active: undefined,
+      female: undefined,
+    };
 
     const schedule = schedules.find((record) => record.weekOf === week);
     if (!schedule) return result;
@@ -52,10 +70,8 @@ const usePersonComponent = ({ week, assignment }: PersonComponentProps) => {
       };
     }
 
-    if (!assigned || assigned.value.length === 0) return result;
-
     // return immediately if solo value
-    if (assigned.solo) {
+    if (assigned?.solo) {
       return {
         name: assigned.value,
         female: false,
@@ -72,7 +88,21 @@ const usePersonComponent = ({ week, assignment }: PersonComponentProps) => {
       assignment === 'WM_Speaker_Part1' &&
       talkType?.value === 'visitingSpeaker'
     ) {
-      return result;
+      const speaker = incomingSpeakers.find(
+        (record) => record.person_uid === assigned?.value
+      );
+
+      if (speaker) {
+        return {
+          name: speakerGetDisplayName(
+            speaker,
+            displayNameEnabled,
+            fullnameOption
+          ),
+          female: false,
+          active: false,
+        };
+      }
     }
 
     const person = persons.find(
@@ -90,6 +120,83 @@ const usePersonComponent = ({ week, assignment }: PersonComponentProps) => {
     }
 
     // get default values for some field if blank
+    if (
+      assignment === 'MM_Chairman_B' &&
+      !result?.name &&
+      mmAuxCounselorDefaultEnabled
+    ) {
+      const person = persons.find(
+        (record) => record.person_uid === mmAuxCounselorDefault
+      );
+
+      if (person) {
+        result.name = personGetDisplayName(
+          person,
+          displayNameEnabled,
+          fullnameOption
+        );
+        result.female = false;
+        result.active = assigned.value === userUID;
+      }
+    }
+
+    if (assignment === 'WM_WTStudy_Conductor' && !result?.name) {
+      const person = persons.find(
+        (record) => record.person_uid === wsConductor
+      );
+
+      if (person) {
+        result.name = personGetDisplayName(
+          person,
+          displayNameEnabled,
+          fullnameOption
+        );
+        result.female = false;
+        result.active = assigned.value === userUID;
+      }
+    }
+
+    if (assignment === 'WM_ClosingPrayer' && !result?.name) {
+      const path = ASSIGNMENT_PATH['WM_Speaker_Part1'];
+      const assigned = schedulesGetData(
+        schedule,
+        path,
+        dataView
+      ) as AssignmentCongregation;
+
+      if (talkType?.value !== 'visitingSpeaker') {
+        const person = persons.find(
+          (record) => record.person_uid === assigned?.value
+        );
+
+        if (person) {
+          result.name = personGetDisplayName(
+            person,
+            displayNameEnabled,
+            fullnameOption
+          );
+          result.female = false;
+          result.active = assigned.value === userUID;
+        }
+      }
+
+      if (talkType?.value === 'visitingSpeaker') {
+        const speaker = incomingSpeakers.find(
+          (record) => record.person_uid === assigned?.value
+        );
+
+        if (speaker) {
+          result.name = speakerGetDisplayName(
+            speaker,
+            displayNameEnabled,
+            fullnameOption
+          );
+          result.female = false;
+          result.active = false;
+        }
+      }
+    }
+
     return result;
   }, [
     dataView,
@@ -102,6 +209,10 @@ const usePersonComponent = ({ week, assignment }: PersonComponentProps) => {
     userUID,
     coDisplayName,
     coFullname,
+    wsConductor,
+    incomingSpeakers,
+    mmAuxCounselorDefaultEnabled,
+    mmAuxCounselorDefault,
   ]);
 
   return { personData };

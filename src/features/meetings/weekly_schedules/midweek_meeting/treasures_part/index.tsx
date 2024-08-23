@@ -11,7 +11,7 @@ import useTreasuresPart from './useTreasuresPart';
 import Divider from '@components/divider';
 import MeetingPart from '@features/meetings/meeting_part';
 import MeetingSection from '@features/meetings/meeting_section';
-import PartTiming from '../part_timing';
+import PartTiming from '../../part_timing';
 import PersonComponent from '../../person_component';
 import Typography from '@components/typography';
 
