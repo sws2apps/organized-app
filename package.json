@@ -92,7 +92,7 @@
     "eslint-plugin-cypress": "^3.5.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-react": "^7.35.0",
-    "eslint-plugin-react-refresh": "^0.4.10",
+    "eslint-plugin-react-refresh": "^0.4.11",
     "husky": "^9.1.5",
     "lint-staged": "^15.2.9",
     "prettier": "^3.3.3",
