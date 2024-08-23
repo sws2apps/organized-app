@@ -79,7 +79,7 @@ function ScrollableTabs({
                 iconPosition="end"
                 sx={{
                   fontSize: 16,
-                  textTransform: 'capitalize',
+                  textTransform: 'none',
                   ':not(&.Mui-selected)': { fontWeight: 400 },
                   '&.Mui-Selected': {
                     fontWeight: 600,

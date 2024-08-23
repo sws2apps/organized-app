@@ -42,13 +42,13 @@ export const dbWeekTypeUpdate = async () => {
       id: 3,
       sort_index: 4,
       meeting: ['midweek', 'weekend'],
-      week_type_name: { ...coWeekObj },
+      week_type_name: { ...caWeekObj },
     },
     {
       id: 4,
       sort_index: 3,
       meeting: ['midweek', 'weekend'],
-      week_type_name: { ...caWeekObj },
+      week_type_name: { ...coWeekObj },
     },
     {
       id: 5,

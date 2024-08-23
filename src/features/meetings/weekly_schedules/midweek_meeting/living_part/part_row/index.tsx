@@ -1,17 +1,20 @@
 import {
   DoubleFieldContainer,
-  PersonContainer,
   PrimaryFieldContainer,
   SecondaryFieldContainer,
 } from '../../../shared_styles';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { PartRowProps } from './index.types';
+import usePartRow from './usePartRow';
 import MeetingPart from '@features/meetings/meeting_part';
+import PersonComponent from '@features/meetings/weekly_schedules/person_component';
 
 const PartRow = (props: PartRowProps) => {
   const { t } = useAppTranslation();
 
   const { laptopUp } = useBreakpoints();
+
+  const { lcField } = usePartRow(props);
 
   return (
     <DoubleFieldContainer laptopUp={laptopUp}>
@@ -23,7 +26,11 @@ const PartRow = (props: PartRowProps) => {
         />
       </PrimaryFieldContainer>
       <SecondaryFieldContainer laptopUp={laptopUp}>
-        <PersonContainer label={`${t('tr_brother')}:`} name="Jeremiah Green" />
+        <PersonComponent
+          label={`${t('tr_brother')}:`}
+          week={props.week}
+          assignment={lcField}
+        />
       </SecondaryFieldContainer>
     </DoubleFieldContainer>
   );

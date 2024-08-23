@@ -3,20 +3,23 @@ import { IconTreasuresPart } from '@components/icons';
 import { TreasuresPartProps } from './index.types';
 import {
   DoubleFieldContainer,
-  PersonContainer,
   PrimaryFieldContainer,
   SecondaryFieldContainer,
 } from '../../shared_styles';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import useTreasuresPart from './useTreasuresPart';
 import Divider from '@components/divider';
 import MeetingPart from '@features/meetings/meeting_part';
 import MeetingSection from '@features/meetings/meeting_section';
+import PersonComponent from '../../person_component';
 import Typography from '@components/typography';
 
 const TreasuresPart = ({ week }: TreasuresPartProps) => {
   const { t } = useAppTranslation();
 
   const { laptopUp } = useBreakpoints();
+
+  const { showAuxClass } = useTreasuresPart(week);
 
   return (
     <MeetingSection
@@ -35,9 +38,10 @@ const TreasuresPart = ({ week }: TreasuresPartProps) => {
             />
           </PrimaryFieldContainer>
           <SecondaryFieldContainer laptopUp={laptopUp}>
-            <PersonContainer
+            <PersonComponent
               label={`${t('tr_brother')}:`}
-              name="Jeremiah Green"
+              week={week}
+              assignment="MM_TGWTalk"
             />
           </SecondaryFieldContainer>
         </DoubleFieldContainer>
@@ -50,10 +54,10 @@ const TreasuresPart = ({ week }: TreasuresPartProps) => {
             />
           </PrimaryFieldContainer>
           <SecondaryFieldContainer laptopUp={laptopUp}>
-            <PersonContainer
+            <PersonComponent
               label={`${t('tr_brother')}:`}
-              name="Jeremiah Green"
-              active
+              week={week}
+              assignment="MM_TGWGems"
             />
           </SecondaryFieldContainer>
         </DoubleFieldContainer>
@@ -74,23 +78,27 @@ const TreasuresPart = ({ week }: TreasuresPartProps) => {
                 >
                   {t('tr_mainHall')}
                 </Typography>
-                <PersonContainer
+                <PersonComponent
                   label={`${t('tr_student')}:`}
-                  name="Jeremiah Green"
+                  week={week}
+                  assignment="MM_TGWBibleReading_A"
                 />
               </Stack>
-              <Stack spacing="4px">
-                <Typography
-                  className="body-small-semibold"
-                  color="var(--grey-350)"
-                >
-                  {t('tr_auxClassroom')}
-                </Typography>
-                <PersonContainer
-                  label={`${t('tr_student')}:`}
-                  name="Jeremiah Green"
-                />
-              </Stack>
+              {showAuxClass && (
+                <Stack spacing="4px">
+                  <Typography
+                    className="body-small-semibold"
+                    color="var(--grey-350)"
+                  >
+                    {t('tr_auxClassroom')}
+                  </Typography>
+                  <PersonComponent
+                    label={`${t('tr_student')}:`}
+                    week={week}
+                    assignment="MM_TGWBibleReading_B"
+                  />
+                </Stack>
+              )}
             </Stack>
           </SecondaryFieldContainer>
         </DoubleFieldContainer>
