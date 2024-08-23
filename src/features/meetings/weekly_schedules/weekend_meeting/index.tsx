@@ -1,6 +1,6 @@
 import useAppTranslation from '@hooks/useAppTranslation';
 import { Box } from '@mui/material';
-import SchedulePickerHeader from './SchedulePickerHeader';
+import SchedulePickerHeader from '../week_selector';
 import {
   ScheduleDescription,
   ScheduleGrid,
@@ -12,7 +12,7 @@ import {
   ScheduleSubtitle,
   ScheduleTitle,
   ScheduleWeekTitle,
-} from './ScheduleComponents';
+} from '../shared_components';
 import { IconSong, IconTalker, IconWatchtowerStudy } from '@components/icons';
 
 const WeekendMeeting = () => {

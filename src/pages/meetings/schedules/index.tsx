@@ -1,54 +1,45 @@
 import { Box } from '@mui/material';
+import { getTranslation } from '@services/i18n/translation';
 import { useAppTranslation } from '@hooks/index';
+import OutgoingTalks from '@features/meetings/weekly_schedules/outgoing_talks';
 import PageTitle from '@components/page_title';
-import { Tabs } from '@components/index';
-import { lazy } from 'react';
+import ScrollableTabs from '@components/scrollable_tabs';
+import WeekendMeeting from '@features/meetings/weekly_schedules/weekend_meeting';
+import WeekSelector from '@features/meetings/weekly_schedules/week_selector';
 
-const MidweekMeeting = lazy(
-  () => import('@features/meetings/weekly_schedules/midweekMeeting')
-);
-const WeekendMeeting = lazy(
-  () => import('@features/meetings/weekly_schedules/weekendMeeting')
-);
-const OutgoingTalks = lazy(
-  () => import('@features/meetings/weekly_schedules/outgoingTalks')
-);
+const tabs = [
+  {
+    label: getTranslation({ key: 'tr_midweekMeeting' }),
+    Component: <WeekSelector />,
+  },
+  {
+    label: getTranslation({ key: 'tr_weekendMeeting' }),
+    Component: <WeekendMeeting />,
+  },
+  {
+    label: getTranslation({ key: 'tr_outgoingTalks' }),
+    Component: <OutgoingTalks />,
+  },
+];
 
 const WeeklySchedules = () => {
   const { t } = useAppTranslation();
 
-  const tabs = [
-    {
-      label: t('tr_midweekMeeting'),
-      Component: <MidweekMeeting />,
-    },
-    {
-      label: t('tr_weekendMeeting'),
-      Component: <WeekendMeeting />,
-    },
-    {
-      label: t('tr_outgoingTalks'),
-      Component: <OutgoingTalks />,
-    },
-  ];
-
   return (
-    <>
-      <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
-        <PageTitle title={t('tr_meetingSchedules')} />
-      </Box>
+    <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
+      <PageTitle title={t('tr_meetingSchedules')} />
+
       <Box
         sx={{
-          marginTop: '16px',
           backgroundColor: 'var(--white)',
           padding: '15px',
           border: '1px solid var(--accent-300)',
           borderRadius: 'var(--radius-l)',
         }}
       >
-        <Tabs tabs={tabs} />
+        <ScrollableTabs tabs={tabs} />
       </Box>
-    </>
+    </Box>
   );
 };
 

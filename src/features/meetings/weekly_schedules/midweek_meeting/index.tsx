@@ -1,5 +1,13 @@
-import useAppTranslation from '@hooks/useAppTranslation';
-import SchedulePickerHeader from './SchedulePickerHeader';
+import { Box } from '@mui/material';
+import {
+  IconDate,
+  IconDiamond,
+  IconLivingPart,
+  IconMinistry,
+  IconSong,
+  IconWavingHand,
+} from '@components/icons';
+import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import {
   ScheduleDescription,
   ScheduleGrid,
@@ -11,35 +19,85 @@ import {
   ScheduleMembers,
   ScheduleTitle,
   ScheduleWeekTitle,
-} from './ScheduleComponents';
+} from '../shared_components';
+import { MidweekMeetingProps } from './index.types';
+import Badge from '@components/badge';
+import Typography from '@components/typography';
 import {
-  IconDiamond,
-  IconLivingPart,
-  IconMinistry,
-  IconSong,
-  IconWavingHand,
-} from '@components/icons';
-import { Box } from '@mui/material';
-import { Badge } from '@components/index';
+  DoubleFieldContainer,
+  PrimaryFieldContainer,
+  SecondaryFieldContainer,
+} from '../shared_styles';
+import WeekHeader from '@features/meetings/midweek_editor/week_header';
 
-const MidweekMeeting = () => {
-  const lastUpdated = new Date().toLocaleString('en-US', {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-  });
+const MidweekMeeting = ({
+  week,
+  currentVisible,
+  onCurrent,
+}: MidweekMeetingProps) => {
   const { t } = useAppTranslation();
 
+  const { laptopUp } = useBreakpoints();
+
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '16px',
-      }}
-    >
-      <SchedulePickerHeader lastUpdated={lastUpdated} />
-      <ScheduleGrid>
+    <Box sx={{ marginTop: '-16px' }}>
+      <Box
+        sx={{
+          position: 'relative',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minHeight: '40px',
+          marginBottom: '16px',
+        }}
+      >
+        {!currentVisible && (
+          <Box
+            onClick={onCurrent}
+            sx={{
+              borderRadius: 'var(--radius-max)',
+              backgroundColor: 'var(--accent-150)',
+              display: 'flex',
+              gap: '4px',
+              alignItems: 'center',
+              padding: '4px 8px',
+              cursor: 'pointer',
+              userSelect: 'none',
+            }}
+          >
+            <IconDate width={22} height={22} color="var(--accent-dark)" />
+            <Typography
+              className="body-small-semibold"
+              color="var(--accent-dark)"
+            >
+              {t('tr_toCurrentWeek')}
+            </Typography>
+          </Box>
+        )}
+
+        <Badge
+          text={`${t('tr_lastUpdated')} Aug 22, 2024`}
+          color="grey"
+          size="small"
+          filled={false}
+          sx={{ position: 'absolute', left: 0 }}
+        />
+      </Box>
+
+      {week && (
+        <Box>
+          <DoubleFieldContainer laptopUp={laptopUp}>
+            <PrimaryFieldContainer>
+              <WeekHeader week={week} />
+            </PrimaryFieldContainer>
+            <SecondaryFieldContainer
+              laptopUp={laptopUp}
+            ></SecondaryFieldContainer>
+          </DoubleFieldContainer>
+        </Box>
+      )}
+
+      {/* <ScheduleGrid>
         <ScheduleItemTitle>
           <ScheduleWeekTitle color="var(--black)">
             <Box>
@@ -214,7 +272,7 @@ const MidweekMeeting = () => {
             />
           </ScheduleMembers>
         </ScheduleItem>
-      </ScheduleGrid>
+      </ScheduleGrid> */}
     </Box>
   );
 };

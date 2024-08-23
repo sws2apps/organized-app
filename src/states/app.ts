@@ -78,6 +78,32 @@ export const monthNamesState = selector({
   },
 });
 
+export const monthShortNamesState = selector({
+  key: 'monthShortNames',
+  get: ({ get }) => {
+    const appLang = get(appLangState);
+
+    const months: string[] = [];
+
+    months.push(getTranslation({ key: 'tr_januaryShort', language: appLang }));
+    months.push(getTranslation({ key: 'tr_februaryShort', language: appLang }));
+    months.push(getTranslation({ key: 'tr_marchShort', language: appLang }));
+    months.push(getTranslation({ key: 'tr_aprilShort', language: appLang }));
+    months.push(getTranslation({ key: 'tr_mayShort', language: appLang }));
+    months.push(getTranslation({ key: 'tr_juneShort', language: appLang }));
+    months.push(getTranslation({ key: 'tr_julyShort', language: appLang }));
+    months.push(getTranslation({ key: 'tr_augustShort', language: appLang }));
+    months.push(
+      getTranslation({ key: 'tr_septemberShort', language: appLang })
+    );
+    months.push(getTranslation({ key: 'tr_octoberShort', language: appLang }));
+    months.push(getTranslation({ key: 'tr_novemberShort', language: appLang }));
+    months.push(getTranslation({ key: 'tr_decemberShort', language: appLang }));
+
+    return months;
+  },
+});
+
 export const shortDatePickerFormatState = atom({
   key: 'shortDatePickerFormat',
   default: getShortDatePickerFormat(),

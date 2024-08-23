@@ -1,4 +1,4 @@
-import { ReactElement } from 'react';
+import { ReactElement, ReactNode } from 'react';
 import { TabOwnProps } from '@mui/material';
 
 /**
@@ -8,7 +8,7 @@ export type TabsPanelProps = {
   /**
    * The content of the tab panel.
    */
-  children?: React.ReactNode;
+  children?: ReactNode;
 
   /**
    * The index of the tab panel.
@@ -32,17 +32,19 @@ export interface CustomTabProps extends TabOwnProps {
     /**
      * The label of the tab.
      */
-    label: string | React.ReactNode;
+    label: string | ReactNode;
 
     /**
      * The component to be rendered in the tab.
      */
-    Component: React.ReactNode;
+    Component: ReactNode;
 
     /**
      * The icon element to be displayed with the tab.
      */
     icon?: ReactElement;
+
+    className?: string;
   }[];
 
   /**

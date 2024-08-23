@@ -10,12 +10,8 @@ import {
   ScheduleMembers,
   ScheduleSubtitle,
   ScheduleTitle,
-} from './ScheduleComponents';
-import {
-  IconCongregation,
-  IconInfo,
-  IconWatchtowerStudy,
-} from '@components/icons';
+} from '../shared_components';
+import { IconCongregation, IconInfo } from '@components/icons';
 
 const OutgoingTalks = () => {
   const { t } = useAppTranslation();
