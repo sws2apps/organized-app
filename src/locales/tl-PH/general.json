@@ -103,10 +103,10 @@
   "tr_noPersonsFound": "Walang nakitang user",
   "tr_noPersonsFoundDesc": "Walang nakitang user na tugma sa parameters. Pakisuyong ibahin ang category o petsa.",
   "tr_categories": "Categories",
-  "tr_description": "Description",
-  "tr_day": "Day",
-  "tr_week": "Week",
-  "tr_noThanks": "No, thanks",
+  "tr_description": "Deskripsiyon",
+  "tr_day": "Araw",
+  "tr_week": "Linggo",
+  "tr_noThanks": "Hindi na, salamat",
   "tr_shortDateFormatAlt": "MM/dd/yy",
   "tr_shortDateFormatNoYear": "MM/dd"
 }
