@@ -1,1 +1,4 @@
-export type ScheduleType = 'midweek' | 'weekend' | 'outgoing';
+export type WeekSelectorProps = {
+  value: number | boolean;
+  onChange?: (value: number) => void;
+};

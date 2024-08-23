@@ -18,7 +18,7 @@ export type TabsPanelProps = {
   /**
    * The current value of the tab.
    */
-  value: number;
+  value: number | boolean;
 };
 
 /**
@@ -50,7 +50,7 @@ export interface CustomTabProps extends TabOwnProps {
   /**
    * The index of the currently selected tab.
    */
-  value?: number;
+  value?: number | boolean;
 
   /**
    * A boolean indicating whether to display the indicator.
@@ -58,4 +58,6 @@ export interface CustomTabProps extends TabOwnProps {
   indicatorMode?: boolean;
 
   onChange?: (activeTab: number) => void;
+
+  className?: string;
 }

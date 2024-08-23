@@ -14,6 +14,7 @@ function ScrollableTabs({
   value,
   indicatorMode,
   onChange,
+  className,
 }: CustomTabProps) {
   const [valueOfActivePanel, setValueOfActivePanel] = useState(value || 0);
 
@@ -43,6 +44,7 @@ function ScrollableTabs({
           onChange={handleChange}
           variant="scrollable"
           scrollButtons="auto"
+          className={className}
           TabIndicatorProps={{ hidden: true }}
           slots={{
             EndScrollButtonIcon: ArrowForwardIosIcon,

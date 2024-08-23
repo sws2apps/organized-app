@@ -1,6 +1,5 @@
-import useAppTranslation from '@hooks/useAppTranslation';
 import { Box } from '@mui/material';
-import SchedulePickerHeader from '../week_selector';
+import { IconSong, IconTalker, IconWatchtowerStudy } from '@components/icons';
 import {
   ScheduleDescription,
   ScheduleGrid,
@@ -13,25 +12,31 @@ import {
   ScheduleTitle,
   ScheduleWeekTitle,
 } from '../shared_components';
-import { IconSong, IconTalker, IconWatchtowerStudy } from '@components/icons';
+import { useAppTranslation } from '@hooks/index';
+import useWeekendMeeting from './useWeekendMeeting';
+import WeekScheduleHeader from '../week_schedule_header';
+import WeekSelector from '../week_selector';
 
 const WeekendMeeting = () => {
   const { t } = useAppTranslation();
-  const lastUpdated = new Date().toLocaleString('en-US', {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-  });
+
+  const {
+    currentWeekVisible,
+    handleGoCurrent,
+    handleValueChange,
+    value,
+    week,
+  } = useWeekendMeeting();
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '16px',
-      }}
-    >
-      <SchedulePickerHeader lastUpdated={lastUpdated} />
+    <Box>
+      <WeekSelector value={value} onChange={handleValueChange} />
+
+      <WeekScheduleHeader
+        currentVisible={currentWeekVisible}
+        week={week}
+        onCurrent={handleGoCurrent}
+      />
       <ScheduleGrid>
         <ScheduleItemTitle>
           <ScheduleWeekTitle color="var(--black)">

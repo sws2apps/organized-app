@@ -1,37 +1,19 @@
-import { useMemo, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useEffect, useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { schedulesState } from '@states/schedules';
 import { monthShortNamesState } from '@states/app';
-import { useAppTranslation, useIntersectionObserver } from '@hooks/index';
+import { useAppTranslation } from '@hooks/index';
 import { getWeekDate } from '@utils/date';
 import { formatDate } from '@services/dateformat';
-import { ScheduleType } from './index.types';
-import MidweekMeeting from '../midweek_meeting';
+import { WeekSelectorProps } from './index.types';
 
-const useWeekSelector = () => {
+const useWeekSelector = ({ onChange, value }: WeekSelectorProps) => {
   const { t } = useAppTranslation();
-
-  const [URLSearchParams] = useSearchParams();
-
-  const currentWeekVisible = useIntersectionObserver({
-    root: 'MuiTabs-scroller',
-    selector: '.schedules-current-week',
-    rootMargin: '0px -150px 0px -150px',
-  });
 
   const schedules = useRecoilValue(schedulesState);
   const months = useRecoilValue(monthShortNamesState);
 
-  const scheduleType = (URLSearchParams.get('type') ||
-    'midweek') as ScheduleType;
-
-  const [value, setValue] = useState(() => {
-    const now = getWeekDate();
-    const weekOf = formatDate(now, 'yyyy/MM/dd');
-
-    return schedules.findIndex((record) => record.weekOf === weekOf);
-  });
+  const [currentTab, setCurrentTab] = useState<number | boolean>(false);
 
   const defaultValue = useMemo(() => {
     const now = getWeekDate();
@@ -48,28 +30,28 @@ const useWeekSelector = () => {
       return {
         label: t('tr_longDateNoYearLocale', { month: monthName, date: +date }),
         className: defaultValue === index ? 'schedules-current-week' : '',
-        Component:
-          scheduleType === 'midweek' ? (
-            <MidweekMeeting
-              week={schedule.weekOf}
-              onCurrent={() => {
-                setValue(null);
-                setTimeout(() => {
-                  setValue(defaultValue);
-                }, 1000);
-              }}
-              currentVisible={currentWeekVisible}
-            />
-          ) : (
-            <></>
-          ),
+        Component: <></>,
       };
     });
-  }, [schedules, months, t, defaultValue, currentWeekVisible, scheduleType]);
+  }, [schedules, months, t, defaultValue]);
 
-  const handleWeekChange = (value) => setValue(value);
+  const handleWeekChange = (value: number) => {
+    setCurrentTab(value);
+    onChange?.(value);
+  };
 
-  return { weeksTab, value, handleWeekChange };
+  useEffect(() => {
+    if (!value) {
+      setCurrentTab(defaultValue);
+      onChange?.(defaultValue);
+    }
+
+    if (value) {
+      setCurrentTab(value);
+    }
+  }, [value, defaultValue, onChange]);
+
+  return { weeksTab, currentTab, handleWeekChange };
 };
 
 export default useWeekSelector;
