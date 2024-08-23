@@ -475,6 +475,20 @@ export const weekendMeetingWTStudyConductorDefaultState = selector({
   },
 });
 
+export const weekendMeetingShowMonthlyWarningState = selector({
+  key: 'weekendMeetingShowMonthlyWarning',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+    const dataView = get(userDataViewState);
+
+    return (
+      settings.cong_settings.weekend_meeting.find(
+        (record) => record.type === dataView
+      )?.consecutive_monthly_parts_notice_shown.value ?? false
+    );
+  },
+});
+
 // USER SETTINGS
 
 export const userDataViewState = selector({
