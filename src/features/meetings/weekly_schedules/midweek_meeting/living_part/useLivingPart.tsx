@@ -5,7 +5,10 @@ import { SourceAssignmentType } from '@definition/sources';
 import { JWLangState } from '@states/app';
 import { createNumbersArray } from '@utils/common';
 import { sourcesCountLC } from '@services/app/sources';
-import { userDataViewState } from '@states/settings';
+import {
+  midweekMeetingClosingPrayerAutoAssign,
+  userDataViewState,
+} from '@states/settings';
 import { Week } from '@definition/week_type';
 import { schedulesState } from '@states/schedules';
 
@@ -14,6 +17,9 @@ const useLivingPart = (week: string) => {
   const lang = useRecoilValue(JWLangState);
   const dataView = useRecoilValue(userDataViewState);
   const schedules = useRecoilValue(schedulesState);
+  const closingPrayerAuto = useRecoilValue(
+    midweekMeetingClosingPrayerAutoAssign
+  );
 
   const parts = useMemo(() => {
     const source = sources.find((record) => record.weekOf === week);
@@ -46,7 +52,7 @@ const useLivingPart = (week: string) => {
     return type?.value || Week.NORMAL;
   }, [schedule, dataView]);
 
-  return { parts, weekType };
+  return { parts, weekType, closingPrayerAuto };
 };
 
 export default useLivingPart;

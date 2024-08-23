@@ -23,7 +23,7 @@ const LivingPart = ({ week, timings }: LivingPartProps) => {
 
   const { laptopUp } = useBreakpoints();
 
-  const { parts, weekType } = useLivingPart(week);
+  const { parts, weekType, closingPrayerAuto } = useLivingPart(week);
 
   return (
     <MeetingSection
@@ -100,11 +100,13 @@ const LivingPart = ({ week, timings }: LivingPartProps) => {
             <SongSource meeting="midweek" week={week} type="concluding" />
           </PrimaryFieldContainer>
           <SecondaryFieldContainer laptopUp={laptopUp}>
-            <PersonComponent
-              label={`${t('tr_prayer')}:`}
-              week={week}
-              assignment="MM_ClosingPrayer"
-            />
+            {!closingPrayerAuto && (
+              <PersonComponent
+                label={`${t('tr_prayer')}:`}
+                week={week}
+                assignment="MM_ClosingPrayer"
+              />
+            )}
           </SecondaryFieldContainer>
         </DoubleFieldContainer>
       </Stack>

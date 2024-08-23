@@ -6,6 +6,7 @@ import { getWeekDate } from '@utils/date';
 import { formatDate } from '@services/dateformat';
 import {
   midweekMeetingClassCountState,
+  midweekMeetingOpeningPrayerAutoAssign,
   midweekMeetingTimeState,
   userDataViewState,
   userLocalUIDState,
@@ -37,6 +38,9 @@ const useMidweekMeeting = () => {
   const userUID = useRecoilValue(userLocalUIDState);
   const pgmStart = useRecoilValue(midweekMeetingTimeState);
   const lang = useRecoilValue(JWLangState);
+  const openingPrayerAuto = useRecoilValue(
+    midweekMeetingOpeningPrayerAutoAssign
+  );
 
   const [value, setValue] = useState<number | boolean>(false);
 
@@ -190,6 +194,7 @@ const useMidweekMeeting = () => {
     noMeetingInfo,
     myAssignmentsTotal,
     partTimings,
+    openingPrayerAuto,
   };
 };
 
