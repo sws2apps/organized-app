@@ -73,7 +73,7 @@
   "tr_publishSchedulesDesc": "Выбери расписания, которые ты хочешь опубликовать для всех в собрании. Старые расписания будут доступны всем в течение 3 месяцев после даты истечения срока их действия.",
   "tr_successfullyPublished": "Успешно опубликовано",
   "tr_successfullyPublishedDesc": "Теперь все в твоём собрании могут просматривать расписание и готовиться к заданиям",
-  "tr_lastUpdated": "Last updated: {{ date }}",
+  "tr_lastUpdated": "Последнее обновление: {{ date }}",
   "tr_outgoingTalks": "Выездные речи",
   "tr_infoOutgoingTalk": "Братья, которые посетят другое собрание с публичной речью",
   "tr_speakersWithCount": "Докладчики: {{ speakersCount }}",
@@ -143,5 +143,5 @@
   "tr_outgoingTalkDelete": "Delete outgoing talk",
   "tr_outgoingTalkDeleteDesc": "Are you sure you want to delete this outgoing talk schedule?",
   "tr_deliveredBy": "Delivered by {{ name }}",
-  "tr_toCurrentWeek": "To current week"
+  "tr_toCurrentWeek": "К текущей неделе"
 }
