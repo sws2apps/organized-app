@@ -73,7 +73,7 @@
   "tr_publishSchedulesDesc": "Вибери графіки, які ти хочеш опублікувати для всіх у зборі для їх перегляду. Старі розклади доступні для всіх протягом 3 місяців після закінчення терміну їх дії.",
   "tr_successfullyPublished": "Успішно опубліковано",
   "tr_successfullyPublishedDesc": "Тепер всі у вашому зборі можуть переглянути графік і підготуватися до завдань",
-  "tr_lastUpdated": "Останнє оновлення:",
+  "tr_lastUpdated": "Last updated: {{ date }}",
   "tr_outgoingTalks": "Виїздні промови",
   "tr_infoOutgoingTalk": "Брати, які будуть відвідувати інші збори з публічною промовою",
   "tr_speakersWithCount": "Промові: {{ speakersCount }}",
@@ -142,5 +142,6 @@
   "tr_clearOutgoingTalkDesc": "Are you sure you want to clear all assignments and congregation details for this outgoing talk? You can always fill out them later.",
   "tr_outgoingTalkDelete": "Видалити промову в іншому зборі",
   "tr_outgoingTalkDeleteDesc": "Ти дійсно хочеш видалити цей графік промови у іншому зборі?",
-  "tr_deliveredBy": "Delivered by {{ name }}"
+  "tr_deliveredBy": "Delivered by {{ name }}",
+  "tr_toCurrentWeek": "To current week"
 }
