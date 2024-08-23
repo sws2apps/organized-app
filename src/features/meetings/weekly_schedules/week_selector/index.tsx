@@ -1,49 +1,25 @@
-import { IconDate } from '@components/icons';
-import { Badge } from '@components/index';
-import ScrollableTabs from '@components/scrollable_tabs';
-import useAppTranslation from '@hooks/useAppTranslation';
 import { Box } from '@mui/material';
+import useWeekSelector from './useWeekSelector';
+import ScrollableTabs from '@components/scrollable_tabs';
 
-const days = [];
-for (let i = 0; i < 30; i++) {
-  days.push({
-    label: new Date(
-      new Date('9 oct 2024').getTime() + 1000 * 60 * 60 * 24 * 7 * i
-    ).toLocaleString('en-US', {
-      month: 'short',
-      day: 'numeric',
-    }),
-  });
-}
+const WeekSelector = () => {
+  const { weeksTab, value, handleWeekChange } = useWeekSelector();
 
-const SchedulePickerHeader = ({ lastUpdated }: { lastUpdated: string }) => {
-  const { t } = useAppTranslation();
   return (
-    <>
-      <Box
-        sx={{
-          '& > *': { maxWidth: '100% !important' },
-          // Math for the gap :
-          // Screen = 1144px ; gap = 0px
-          // Screen = 1250px ; gap = 10px (106px => 10px)
-          // Screen = 1338px ; gap = ~20px (194px => 20px)
-          '@media (min-width: 1144px)': {
-            '.MuiTabs-flexContainer': {
-              gap: 'min(calc((100vw - 1144px)*10/106), 32px)',
-            },
-          },
-          '& > * > * > *:first-of-type, & > * > * > *:last-child': {
-            padding: '0 10px',
-            justifyContent: 'flex-start',
-          },
-          '& > * > * > *:last-child': {
-            justifyContent: 'flex-end',
-          },
-        }}
-      >
-        <ScrollableTabs tabs={days} />
-      </Box>
-      <Box
+    <Box sx={{ marginTop: '-16px' }}>
+      <ScrollableTabs
+        tabs={weeksTab}
+        value={value}
+        onChange={handleWeekChange}
+      />
+    </Box>
+  );
+};
+
+export default WeekSelector;
+
+{
+  /* <Box
         sx={{
           display: 'flex',
           flexDirection: 'row',
@@ -93,9 +69,5 @@ const SchedulePickerHeader = ({ lastUpdated }: { lastUpdated: string }) => {
           />
           To current week
         </Box>
-      </Box>
-    </>
-  );
-};
-
-export default SchedulePickerHeader;
+      </Box> */
+}

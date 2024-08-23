@@ -91,3 +91,22 @@ export const generateMonthNames = () => {
 
   return months;
 };
+
+export const generateMonthShortNames = () => {
+  const months: string[] = [
+    getTranslation({ key: 'tr_januaryShort' }),
+    getTranslation({ key: 'tr_februaryShort' }),
+    getTranslation({ key: 'tr_marchShort' }),
+    getTranslation({ key: 'tr_aprilShort' }),
+    getTranslation({ key: 'tr_mayShort' }),
+    getTranslation({ key: 'tr_juneShort' }),
+    getTranslation({ key: 'tr_julyShort' }),
+    getTranslation({ key: 'tr_augustShort' }),
+    getTranslation({ key: 'tr_septemberShort' }),
+    getTranslation({ key: 'tr_octoberShort' }),
+    getTranslation({ key: 'tr_novemberShort' }),
+    getTranslation({ key: 'tr_decemberShort' }),
+  ];
+
+  return months;
+};

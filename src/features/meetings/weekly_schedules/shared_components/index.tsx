@@ -1,3 +1,4 @@
+import { ReactNode, useState } from 'react';
 import { Box, IconButton } from '@mui/material';
 import {
   IconCheckCircle,
@@ -6,10 +7,9 @@ import {
   IconMale,
 } from '@components/icons';
 import { SnackBar } from '@components/index';
-import { useState } from 'react';
 import useAppTranslation from '@hooks/useAppTranslation';
 
-const ScheduleGrid = ({ children }: { children?: React.ReactNode }) => {
+const ScheduleGrid = ({ children }: { children?: ReactNode }) => {
   return (
     <Box
       sx={{
@@ -31,7 +31,7 @@ const ScheduleHeader = ({
 }: {
   text: string;
   color: string;
-  icon?: React.ReactNode;
+  icon?: ReactNode;
 }) => {
   return (
     <Box
@@ -57,7 +57,7 @@ const ScheduleHeader = ({
   );
 };
 
-const ScheduleItem = ({ children }: { children: React.ReactNode }) => {
+const ScheduleItem = ({ children }: { children: ReactNode }) => {
   return (
     <Box
       sx={{
@@ -79,7 +79,7 @@ const ScheduleItem = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-const ScheduleItemTitle = ({ children }: { children: React.ReactNode }) => {
+const ScheduleItemTitle = ({ children }: { children: ReactNode }) => {
   return (
     <Box
       sx={{
@@ -97,7 +97,7 @@ const ScheduleWeekTitle = ({
   children,
   color,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   color: string;
 }) => {
   return (
@@ -108,7 +108,7 @@ const ScheduleWeekTitle = ({
           alignItems: 'center',
           gap: '16px',
           color: color,
-          [theme.breakpoints.down('md')]: {
+          [theme.breakpoints.down('desktop')]: {
             flexDirection: 'column',
             gap: '8px',
             alignItems: 'flex-start',
@@ -126,7 +126,7 @@ const ScheduleTitle = ({
   color,
   cssCounter,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   color: string;
   cssCounter?: boolean;
 }) => {
@@ -184,7 +184,7 @@ const ScheduleSubtitle = ({
   children,
   isCopyable,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   isCopyable?: boolean;
 }) => {
   return (
@@ -203,7 +203,7 @@ const ScheduleSubtitle = ({
   );
 };
 
-const ScheduleDescription = ({ children }: { children: React.ReactNode }) => {
+const ScheduleDescription = ({ children }: { children: ReactNode }) => {
   return (
     <span className="body-small-regular" style={{ color: 'var(--grey-400)' }}>
       {children}
@@ -216,7 +216,7 @@ const ScheduleMemberClassRoom = ({
   children,
   classRoomName,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   classRoomName: string;
 }) => {
   return (
@@ -250,7 +250,7 @@ const ScheduleMemberClassRoom = ({
 };
 
 // Use Multiple <ScheduleMemberRow /> or <ScheduleMemberClassRoom /> as Children :)
-const ScheduleMembers = ({ children }: { children: React.ReactNode }) => {
+const ScheduleMembers = ({ children }: { children: ReactNode }) => {
   return (
     <Box
       sx={{

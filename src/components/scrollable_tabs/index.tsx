@@ -42,7 +42,7 @@ function ScrollableTabs({
           value={valueOfActivePanel}
           onChange={handleChange}
           variant="scrollable"
-          scrollButtons
+          scrollButtons="auto"
           TabIndicatorProps={{ hidden: true }}
           slots={{
             EndScrollButtonIcon: ArrowForwardIosIcon,
@@ -68,10 +68,11 @@ function ScrollableTabs({
           }}
         >
           {tabs.map(
-            ({ label, icon }): ReactNode => (
+            ({ label, icon, className }, index): ReactNode => (
               <Tab
                 label={label}
-                key={label}
+                key={index}
+                className={className}
                 icon={icon}
                 iconPosition="end"
                 sx={{
@@ -94,7 +95,7 @@ function ScrollableTabs({
 
       {tabs.map(
         (tab, i: number): ReactNode => (
-          <CustomTabPanel value={valueOfActivePanel} index={i} key={tab.label}>
+          <CustomTabPanel value={valueOfActivePanel} index={i} key={i}>
             {tab.Component}
           </CustomTabPanel>
         )
