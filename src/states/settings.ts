@@ -489,6 +489,18 @@ export const weekendMeetingShowMonthlyWarningState = selector({
   },
 });
 
+export const weekendMeetingTimeState = selector({
+  key: 'weekendMeetingTime',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+    const dataView = get(userDataViewState);
+
+    return settings.cong_settings.weekend_meeting.find(
+      (record) => record.type === dataView
+    ).time.value;
+  },
+});
+
 // USER SETTINGS
 
 export const userDataViewState = selector({

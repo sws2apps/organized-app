@@ -12,7 +12,7 @@ import Divider from '@components/divider';
 import MeetingPart from '@features/meetings/meeting_part';
 import PersonComponent from '@features/meetings/weekly_schedules/person_component';
 import Typography from '@components/typography';
-import PartTiming from '../../part_timing';
+import PartTiming from '../../../part_timing';
 
 const PartRow = (props: PartRowProps) => {
   const { t } = useAppTranslation();

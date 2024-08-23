@@ -1,24 +1,29 @@
-import { Box } from '@mui/material';
-import { IconSong, IconTalker, IconWatchtowerStudy } from '@components/icons';
+import { Box, Stack } from '@mui/material';
+import { IconWavingHand } from '@components/icons';
+import { Week } from '@definition/week_type';
 import {
-  ScheduleDescription,
-  ScheduleGrid,
-  ScheduleHeader,
-  ScheduleItem,
-  ScheduleItemTitle,
-  ScheduleMemberRow,
-  ScheduleMembers,
-  ScheduleSubtitle,
-  ScheduleTitle,
-  ScheduleWeekTitle,
-} from '../shared_components';
-import { useAppTranslation } from '@hooks/index';
+  DoubleFieldContainer,
+  PrimaryFieldContainer,
+  SecondaryFieldContainer,
+} from '../shared_styles';
+import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useWeekendMeeting from './useWeekendMeeting';
+import AssignmentBadge from '../assignment_badge';
+import Badge from '@components/badge';
+import PartTiming from '../part_timing';
+import PersonComponent from '../person_component';
+import SongSource from '@features/meetings/song_source';
+import Typography from '@components/typography';
+import ServiceTalk from './service_talk';
+import PublicTalk from './public_talk';
+import WatchtowerStudy from './watchtower_study';
 import WeekScheduleHeader from '../week_schedule_header';
 import WeekSelector from '../week_selector';
 
 const WeekendMeeting = () => {
   const { t } = useAppTranslation();
+
+  const { laptopUp, desktopUp } = useBreakpoints();
 
   const {
     currentWeekVisible,
@@ -26,6 +31,13 @@ const WeekendMeeting = () => {
     handleValueChange,
     value,
     week,
+    myAssignmentsTotal,
+    noMeetingInfo,
+    openingPrayerAuto,
+    partTimings,
+    scheduleLastUpdated,
+    weekType,
+    weekDateLocale,
   } = useWeekendMeeting();
 
   return (
@@ -36,95 +48,130 @@ const WeekendMeeting = () => {
         currentVisible={currentWeekVisible}
         week={week}
         onCurrent={handleGoCurrent}
+        lastUpdated={scheduleLastUpdated}
       />
-      <ScheduleGrid>
-        <ScheduleItemTitle>
-          <ScheduleWeekTitle color="var(--black)">
-            8 November 2023
-          </ScheduleWeekTitle>
-          <ScheduleMembers>
-            <ScheduleMemberRow
-              type={t('tr_chairman') + ':'}
-              name="Jeremiah Green"
-            />
-          </ScheduleMembers>
-        </ScheduleItemTitle>
-        <ScheduleItem>
-          <ScheduleTitle color="var(--black)">
-            <IconSong color="var(--black)" />
-            Song 109 – “Jehovah’s Warm Appeal: “Be Wise, My Son”
-          </ScheduleTitle>
-          <ScheduleMembers>
-            <ScheduleMemberRow
-              type={t('tr_prayer') + ':'}
-              name="Jeremiah Green"
-            />
-          </ScheduleMembers>
-        </ScheduleItem>
-        <ScheduleHeader
-          text={t('tr_publicTalk')}
-          color="var(--weekend-meeting)"
-          icon={<IconTalker />}
-        />
-        <ScheduleItem>
-          <Box>
-            <ScheduleTitle color="var(--weekend-meeting)">
-              Public talk
-            </ScheduleTitle>
-            <ScheduleSubtitle isCopyable>
-              “The Resurrection — Why That Hope Should Be Real to You”
-            </ScheduleSubtitle>
-          </Box>
-          <ScheduleMembers>
-            <ScheduleMemberRow name="Jeremiah Green" />
-          </ScheduleMembers>
-        </ScheduleItem>
-        <ScheduleHeader
-          text={t('tr_watchtowerStudy')}
-          color="var(--watchtower-study)"
-          icon={<IconWatchtowerStudy />}
-        />
 
-        <ScheduleItem>
-          <ScheduleTitle color="var(--black)">
-            <IconSong color="var(--black)" />
-            Song 109 – “Jehovah’s Warm Appeal: “Be Wise, My Son”
-          </ScheduleTitle>
-        </ScheduleItem>
-        <ScheduleItem>
-          <Box>
-            <ScheduleTitle cssCounter color="var(--black)">
-              {t('tr_watchtowerStudy')}
-            </ScheduleTitle>
-            <ScheduleDescription>
-              “Carry What You Must, and Throw Off the Rest”
-            </ScheduleDescription>
-          </Box>
-          <ScheduleMembers>
-            <ScheduleMemberRow
-              type={t('tr_student') + ':'}
-              name="Jeremiah Green"
-            />
-            <ScheduleMemberRow
-              type={t('tr_assistantS89')}
-              name="Jeremiah Green"
-            />
-          </ScheduleMembers>
-        </ScheduleItem>
-        <ScheduleItem>
-          <ScheduleTitle color="var(--black)">
-            <IconSong color="var(--black)" />
-            Song 109 – “Jehovah’s Warm Appeal: “Be Wise, My Son”
-          </ScheduleTitle>
-          <ScheduleMembers>
-            <ScheduleMemberRow
-              active
-              type={t('tr_prayer') + ':'}
-              name="Jeremiah Green"
-            />
-          </ScheduleMembers>
-        </ScheduleItem>
-      </ScheduleGrid>
+      {week && (
+        <Stack spacing="8px">
+          <DoubleFieldContainer laptopUp={laptopUp}>
+            <PrimaryFieldContainer
+              sx={{
+                display: 'flex',
+                alignItems: desktopUp ? 'center' : 'unset',
+                gap: desktopUp ? '16px' : '4px',
+                flexDirection: desktopUp ? 'row' : 'column',
+              }}
+            >
+              <Typography className="h2">{weekDateLocale}</Typography>
+
+              {weekType === Week.CO_VISIT && (
+                <Badge
+                  text={t('tr_circuitOverseerWeek')}
+                  color="accent"
+                  size="medium"
+                  multiLine
+                  filled={false}
+                  icon={<IconWavingHand />}
+                  sx={{ width: 'fit-content' }}
+                />
+              )}
+
+              {weekType === Week.ASSEMBLY && (
+                <Badge
+                  text={t('tr_assemblyWeek')}
+                  color="accent"
+                  size="medium"
+                  multiLine
+                  filled={false}
+                  sx={{ width: 'fit-content' }}
+                />
+              )}
+
+              {weekType === Week.CONVENTION && (
+                <Badge
+                  text={t('tr_conventionWeek')}
+                  color="accent"
+                  size="medium"
+                  multiLine
+                  filled={false}
+                  sx={{ width: 'fit-content' }}
+                />
+              )}
+
+              {weekType === Week.MEMORIAL && (
+                <Badge
+                  text={t('tr_memorialWeek')}
+                  color="accent"
+                  size="medium"
+                  multiLine
+                  filled={false}
+                  sx={{ width: 'fit-content' }}
+                />
+              )}
+
+              {weekType === Week.NO_MEETING && (
+                <Badge
+                  text={t('tr_noMeetingWeek')}
+                  color="grey"
+                  size="medium"
+                  multiLine
+                  filled={false}
+                  sx={{ width: 'fit-content' }}
+                />
+              )}
+
+              {myAssignmentsTotal && (
+                <AssignmentBadge count={myAssignmentsTotal} />
+              )}
+            </PrimaryFieldContainer>
+
+            {!noMeetingInfo.value && (
+              <SecondaryFieldContainer laptopUp={laptopUp}>
+                <PersonComponent
+                  label={`${t('tr_chairman')}:`}
+                  week={week}
+                  assignment="WM_Chairman"
+                />
+              </SecondaryFieldContainer>
+            )}
+          </DoubleFieldContainer>
+
+          {noMeetingInfo.value && (
+            <Typography>{noMeetingInfo.event}</Typography>
+          )}
+
+          {!noMeetingInfo.value && (
+            <>
+              <DoubleFieldContainer laptopUp={laptopUp}>
+                <PrimaryFieldContainer>
+                  {partTimings?.pgm_start && (
+                    <PartTiming time={partTimings.pgm_start} />
+                  )}
+
+                  <SongSource meeting="weekend" week={week} type="opening" />
+                </PrimaryFieldContainer>
+                <SecondaryFieldContainer laptopUp={laptopUp}>
+                  {!openingPrayerAuto && (
+                    <PersonComponent
+                      label={`${t('tr_prayer')}:`}
+                      week={week}
+                      assignment="WM_OpeningPrayer"
+                    />
+                  )}
+                </SecondaryFieldContainer>
+              </DoubleFieldContainer>
+
+              <PublicTalk week={week} timings={partTimings} />
+
+              <WatchtowerStudy week={week} timings={partTimings} />
+
+              {weekType === Week.CO_VISIT && (
+                <ServiceTalk week={week} timings={partTimings} />
+              )}
+            </>
+          )}
+        </Stack>
+      )}
     </Box>
   );
 };

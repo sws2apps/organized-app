@@ -13,7 +13,7 @@ import Badge from '@components/badge';
 import LivingPart from './living_part';
 import MinistryPart from './ministry_part';
 import PersonComponent from '../person_component';
-import PartTiming from './part_timing';
+import PartTiming from '../part_timing';
 import SongSource from '@features/meetings/song_source';
 import TreasuresPart from './treasures_part';
 import Typography from '@components/typography';
