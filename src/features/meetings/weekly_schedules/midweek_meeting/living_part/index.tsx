@@ -1,18 +1,20 @@
 import { Stack } from '@mui/material';
 import { IconLivingPart } from '@components/icons';
-import { LivingPartProps } from './index.types';
+import { Week } from '@definition/week_type';
 import {
   DoubleFieldContainer,
-  PersonContainer,
   PrimaryFieldContainer,
   SecondaryFieldContainer,
 } from '../../shared_styles';
+import { LivingPartProps } from './index.types';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useLivingPart from './useLivingPart';
+import COTalk from '../../co_talk';
 import Divider from '@components/divider';
 import MeetingPart from '@features/meetings/meeting_part';
 import MeetingSection from '@features/meetings/meeting_section';
 import PartRow from './part_row';
+import PersonComponent from '../../person_component';
 import SongSource from '@features/meetings/song_source';
 
 const LivingPart = ({ week }: LivingPartProps) => {
@@ -20,7 +22,7 @@ const LivingPart = ({ week }: LivingPartProps) => {
 
   const { laptopUp } = useBreakpoints();
 
-  const { parts } = useLivingPart(week);
+  const { parts, weekType } = useLivingPart(week);
 
   return (
     <MeetingSection
@@ -41,39 +43,60 @@ const LivingPart = ({ week }: LivingPartProps) => {
           <PartRow key={part} week={week} type={part} />
         ))}
 
-        <DoubleFieldContainer laptopUp={laptopUp}>
-          <PrimaryFieldContainer>
-            <MeetingPart
-              week={week}
-              type="lc_cbs"
-              color="var(--living-as-christians)"
-            />
-          </PrimaryFieldContainer>
-          <SecondaryFieldContainer laptopUp={laptopUp}>
-            <Stack spacing="8px" divider={<Divider color="var(--grey-200)" />}>
+        {weekType === Week.NORMAL && (
+          <DoubleFieldContainer laptopUp={laptopUp}>
+            <PrimaryFieldContainer>
+              <MeetingPart
+                week={week}
+                type="lc_cbs"
+                color="var(--living-as-christians)"
+              />
+            </PrimaryFieldContainer>
+            <SecondaryFieldContainer laptopUp={laptopUp}>
               <Stack>
-                <PersonContainer
+                <PersonComponent
                   label={`${t('tr_conductor')}:`}
-                  name="Jeremiah Green"
+                  week={week}
+                  assignment="MM_LCCBSConductor"
                 />
-                <PersonContainer
+                <PersonComponent
                   label={`${t('tr_reader')}:`}
-                  name="Jeremiah Green"
-                  active
+                  week={week}
+                  assignment="MM_LCCBSReader"
                 />
               </Stack>
-            </Stack>
-          </SecondaryFieldContainer>
-        </DoubleFieldContainer>
+            </SecondaryFieldContainer>
+          </DoubleFieldContainer>
+        )}
+
+        {weekType === Week.CO_VISIT && (
+          <DoubleFieldContainer laptopUp={laptopUp}>
+            <PrimaryFieldContainer>
+              <COTalk
+                color="var(--living-as-christians)"
+                week={week}
+                meeting="midweek"
+              />
+            </PrimaryFieldContainer>
+            <SecondaryFieldContainer laptopUp={laptopUp}>
+              <PersonComponent
+                label={`${t('tr_brother')}:`}
+                week={week}
+                assignment="MM_CircuitOverseer"
+              />
+            </SecondaryFieldContainer>
+          </DoubleFieldContainer>
+        )}
 
         <DoubleFieldContainer laptopUp={laptopUp}>
           <PrimaryFieldContainer>
             <SongSource meeting="midweek" week={week} type="concluding" />
           </PrimaryFieldContainer>
           <SecondaryFieldContainer laptopUp={laptopUp}>
-            <PersonContainer
+            <PersonComponent
               label={`${t('tr_prayer')}:`}
-              name="Jeremiah Green"
+              week={week}
+              assignment="MM_ClosingPrayer"
             />
           </SecondaryFieldContainer>
         </DoubleFieldContainer>

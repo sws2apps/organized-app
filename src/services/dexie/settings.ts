@@ -318,6 +318,12 @@ export const dbAppSettingsBuildTest = async () => {
       },
     },
   ];
+  baseSettings.cong_settings.circuit_overseer = {
+    firstname: { value: 'Alexander', updatedAt: new Date().toISOString() },
+    lastname: { value: 'Olivier', updatedAt: new Date().toISOString() },
+    display_name: { value: 'A. Olivier', updatedAt: new Date().toISOString() },
+    visits: [],
+  };
 
   await appDb.app_settings.put(baseSettings, 1);
 };

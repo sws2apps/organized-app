@@ -1,20 +1,25 @@
 import { Stack } from '@mui/material';
 import {
   DoubleFieldContainer,
-  PersonContainer,
   PrimaryFieldContainer,
   SecondaryFieldContainer,
 } from '../../../shared_styles';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { PartRowProps } from './index.types';
+import usePartRow from './usePartRow';
 import Divider from '@components/divider';
 import MeetingPart from '@features/meetings/meeting_part';
+import PersonComponent from '@features/meetings/weekly_schedules/person_component';
 import Typography from '@components/typography';
+import { AssignmentCode } from '@definition/assignment';
 
 const PartRow = (props: PartRowProps) => {
   const { t } = useAppTranslation();
 
   const { laptopUp } = useBreakpoints();
+
+  const { showAuxClass, studentField, ayfType, showAssistant } =
+    usePartRow(props);
 
   return (
     <DoubleFieldContainer laptopUp={laptopUp}>
@@ -28,39 +33,60 @@ const PartRow = (props: PartRowProps) => {
       <SecondaryFieldContainer laptopUp={laptopUp}>
         <Stack spacing="8px" divider={<Divider color="var(--grey-200)" />}>
           <Stack spacing="4px">
-            <Typography className="body-small-semibold" color="var(--grey-350)">
-              {t('tr_mainHall')}
-            </Typography>
+            {ayfType !== AssignmentCode.MM_Discussion && (
+              <Typography
+                className="body-small-semibold"
+                color="var(--grey-350)"
+              >
+                {t('tr_mainHall')}
+              </Typography>
+            )}
+
             <Stack>
-              <PersonContainer
-                label={`${t('tr_student')}:`}
-                name="Jeremiah Green"
-                female
+              <PersonComponent
+                label={`${ayfType === AssignmentCode.MM_Discussion ? t('tr_brother') : t('tr_student')}:`}
+                week={props.week}
+                assignment={studentField.main_hall.student}
               />
-              <PersonContainer
-                label={`${t('tr_assistant')}:`}
-                name="Jeremiah Green"
-                female
-              />
+
+              {showAssistant && (
+                <PersonComponent
+                  label={`${t('tr_assistant')}:`}
+                  week={props.week}
+                  assignment={studentField.main_hall.assistant}
+                />
+              )}
             </Stack>
           </Stack>
-          <Stack spacing="4px">
-            <Typography className="body-small-semibold" color="var(--grey-350)">
-              {t('tr_auxClassroom')}
-            </Typography>
-            <Stack>
-              <PersonContainer
-                label={`${t('tr_student')}:`}
-                name="Jeremiah Green"
-                female
-              />
-              <PersonContainer
-                label={`${t('tr_assistant')}:`}
-                name="Jeremiah Green"
-                female
-              />
+
+          {showAuxClass && (
+            <Stack spacing="4px">
+              {ayfType !== AssignmentCode.MM_Discussion && (
+                <Typography
+                  className="body-small-semibold"
+                  color="var(--grey-350)"
+                >
+                  {t('tr_auxClassroom')}
+                </Typography>
+              )}
+
+              <Stack>
+                <PersonComponent
+                  label={`${t('tr_student')}:`}
+                  week={props.week}
+                  assignment={studentField.aux_class.student}
+                />
+
+                {showAssistant && (
+                  <PersonComponent
+                    label={`${t('tr_assistant')}:`}
+                    week={props.week}
+                    assignment={studentField.aux_class.assistant}
+                  />
+                )}
+              </Stack>
             </Stack>
-          </Stack>
+          )}
         </Stack>
       </SecondaryFieldContainer>
     </DoubleFieldContainer>

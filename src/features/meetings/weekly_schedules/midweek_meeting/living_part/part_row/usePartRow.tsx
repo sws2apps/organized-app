@@ -1,26 +1,15 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
-import { ApplyMinistryType } from '@definition/sources';
-import { sourcesState } from '@states/sources';
 import { PartRowProps } from './index.types';
-import { JWLangState } from '@states/app';
+import { AssignmentFieldType } from '@definition/assignment';
 
-const usePartRow = ({ type, week }: PartRowProps) => {
-  const sources = useRecoilValue(sourcesState);
-  const lang = useRecoilValue(JWLangState);
+const usePartRow = ({ type }: PartRowProps) => {
+  const lcField = useMemo(() => {
+    const field = type.toString().replace('lc_part', 'MM_LCPart');
 
-  const ayfType = useMemo(() => {
-    const source = sources.find((record) => record.weekOf === week);
+    return field as AssignmentFieldType;
+  }, [type]);
 
-    if (!source) return;
-
-    const ayfField = type.toString();
-
-    const ayf = source.midweek_meeting[ayfField] as ApplyMinistryType;
-    return ayf.type[lang];
-  }, [sources, week, lang, type]);
-
-  return { ayfType };
+  return { lcField };
 };
 
 export default usePartRow;

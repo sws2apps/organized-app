@@ -19,7 +19,12 @@ const WeekScheduleHeader = (props: WeekScheduleHeaderProps) => {
         position: 'relative',
         display: 'flex',
         justifyContent: 'center',
-        minHeight: showToCurrent && laptopDown ? '70px' : '40px',
+        minHeight:
+          showToCurrent && laptopDown
+            ? '70px'
+            : props.lastUpdated
+              ? '40px'
+              : '0px',
         marginBottom: '16px',
       }}
     >
@@ -48,17 +53,19 @@ const WeekScheduleHeader = (props: WeekScheduleHeaderProps) => {
         </Box>
       )}
 
-      <Badge
-        text={`${t('tr_lastUpdated')} Aug 22, 2024`}
-        color="grey"
-        size="small"
-        filled={false}
-        sx={{
-          position: 'absolute',
-          left: 0,
-          top: showToCurrent && laptopDown ? 40 : 10,
-        }}
-      />
+      {props.lastUpdated && (
+        <Badge
+          text={t('tr_lastUpdated', { date: props.lastUpdated })}
+          color="grey"
+          size="small"
+          filled={false}
+          sx={{
+            position: 'absolute',
+            left: 0,
+            top: showToCurrent && laptopDown ? 40 : 10,
+          }}
+        />
+      )}
     </Box>
   );
 };

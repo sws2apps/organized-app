@@ -6,11 +6,14 @@ import { JWLangState } from '@states/app';
 import { createNumbersArray } from '@utils/common';
 import { sourcesCountLC } from '@services/app/sources';
 import { userDataViewState } from '@states/settings';
+import { Week } from '@definition/week_type';
+import { schedulesState } from '@states/schedules';
 
 const useLivingPart = (week: string) => {
   const sources = useRecoilValue(sourcesState);
   const lang = useRecoilValue(JWLangState);
   const dataView = useRecoilValue(userDataViewState);
+  const schedules = useRecoilValue(schedulesState);
 
   const parts = useMemo(() => {
     const source = sources.find((record) => record.weekOf === week);
@@ -29,7 +32,21 @@ const useLivingPart = (week: string) => {
     return results;
   }, [sources, week, dataView, lang]);
 
-  return { parts };
+  const schedule = useMemo(() => {
+    return schedules.find((record) => record.weekOf === week);
+  }, [schedules, week]);
+
+  const weekType = useMemo(() => {
+    if (!schedule) return Week.NORMAL;
+
+    const type = schedule.midweek_meeting.week_type.find(
+      (record) => record.type === dataView
+    );
+
+    return type?.value || Week.NORMAL;
+  }, [schedule, dataView]);
+
+  return { parts, weekType };
 };
 
 export default useLivingPart;
