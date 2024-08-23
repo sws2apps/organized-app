@@ -16,9 +16,9 @@ const useMidweekMeeting = () => {
   const [value, setValue] = useState<number | boolean>(false);
 
   const week = useMemo(() => {
-    if (typeof value === 'boolean') return '';
+    if (typeof value === 'boolean') return null;
 
-    return schedules.at(value).weekOf;
+    return schedules.at(value)?.weekOf || null;
   }, [value, schedules]);
 
   const handleGoCurrent = () => {
