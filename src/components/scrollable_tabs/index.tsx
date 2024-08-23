@@ -43,9 +43,12 @@ function ScrollableTabs({
           value={valueOfActivePanel}
           onChange={handleChange}
           variant="scrollable"
-          scrollButtons="auto"
+          scrollButtons
           className={className}
-          TabIndicatorProps={{ hidden: true }}
+          TabIndicatorProps={{
+            hidden: true,
+            sx: { backgroundColor: 'transparent' },
+          }}
           slots={{
             EndScrollButtonIcon: ArrowForwardIosIcon,
             StartScrollButtonIcon: ArrowBackIosIcon,

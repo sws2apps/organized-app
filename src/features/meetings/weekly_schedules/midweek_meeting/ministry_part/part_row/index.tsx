@@ -4,14 +4,15 @@ import {
   PrimaryFieldContainer,
   SecondaryFieldContainer,
 } from '../../../shared_styles';
-import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import { AssignmentCode } from '@definition/assignment';
 import { PartRowProps } from './index.types';
+import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import usePartRow from './usePartRow';
 import Divider from '@components/divider';
 import MeetingPart from '@features/meetings/meeting_part';
 import PersonComponent from '@features/meetings/weekly_schedules/person_component';
 import Typography from '@components/typography';
-import { AssignmentCode } from '@definition/assignment';
+import PartTiming from '../../part_timing';
 
 const PartRow = (props: PartRowProps) => {
   const { t } = useAppTranslation();
@@ -24,6 +25,9 @@ const PartRow = (props: PartRowProps) => {
   return (
     <DoubleFieldContainer laptopUp={laptopUp}>
       <PrimaryFieldContainer>
+        {props.timings?.[props.type.toString()] && (
+          <PartTiming time={props.timings[props.type.toString()]} />
+        )}
         <MeetingPart
           week={props.week}
           type={props.type}

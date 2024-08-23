@@ -12,6 +12,9 @@ export const DoubleFieldContainer = styled(Box, {
 
 export const PrimaryFieldContainer = styled(Box)({
   flex: 1,
+  display: 'flex',
+  alignItems: 'center',
+  gap: '8px',
 });
 
 export const SecondaryFieldContainer = styled(Box, {

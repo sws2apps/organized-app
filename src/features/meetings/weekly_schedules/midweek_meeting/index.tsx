@@ -13,12 +13,13 @@ import Badge from '@components/badge';
 import LivingPart from './living_part';
 import MinistryPart from './ministry_part';
 import PersonComponent from '../person_component';
+import PartTiming from './part_timing';
 import SongSource from '@features/meetings/song_source';
 import TreasuresPart from './treasures_part';
+import Typography from '@components/typography';
 import WeekHeader from '@features/meetings/midweek_editor/week_header';
 import WeekScheduleHeader from '../week_schedule_header';
 import WeekSelector from '../week_selector';
-import Typography from '@components/typography';
 
 const MidweekMeeting = () => {
   const { t } = useAppTranslation();
@@ -36,6 +37,7 @@ const MidweekMeeting = () => {
     scheduleLastUpdated,
     noMeetingInfo,
     myAssignmentsTotal,
+    partTimings,
   } = useMidweekMeeting();
 
   return (
@@ -148,6 +150,10 @@ const MidweekMeeting = () => {
             <>
               <DoubleFieldContainer laptopUp={laptopUp}>
                 <PrimaryFieldContainer>
+                  {partTimings?.pgm_start && (
+                    <PartTiming time={partTimings.pgm_start} />
+                  )}
+
                   <SongSource meeting="midweek" week={week} type="opening" />
                 </PrimaryFieldContainer>
                 <SecondaryFieldContainer laptopUp={laptopUp}>
@@ -159,11 +165,11 @@ const MidweekMeeting = () => {
                 </SecondaryFieldContainer>
               </DoubleFieldContainer>
 
-              <TreasuresPart week={week} />
+              <TreasuresPart week={week} timings={partTimings} />
 
-              <MinistryPart week={week} />
+              <MinistryPart week={week} timings={partTimings} />
 
-              <LivingPart week={week} />
+              <LivingPart week={week} timings={partTimings} />
             </>
           )}
         </Stack>

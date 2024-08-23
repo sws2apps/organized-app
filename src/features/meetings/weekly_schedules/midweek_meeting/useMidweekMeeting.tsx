@@ -6,6 +6,7 @@ import { getWeekDate } from '@utils/date';
 import { formatDate } from '@services/dateformat';
 import {
   midweekMeetingClassCountState,
+  midweekMeetingTimeState,
   userDataViewState,
   userLocalUIDState,
 } from '@states/settings';
@@ -13,10 +14,11 @@ import { Week } from '@definition/week_type';
 import { ASSIGNMENT_PATH } from '@constants/index';
 import {
   schedulesGetData,
+  schedulesMidweekGetTiming,
   schedulesWeekNoMeeting,
 } from '@services/app/schedules';
 import { AssignmentCongregation } from '@definition/schedules';
-import { monthShortNamesState } from '@states/app';
+import { JWLangState, monthShortNamesState } from '@states/app';
 import { sourcesState } from '@states/sources';
 
 const useMidweekMeeting = () => {
@@ -33,6 +35,8 @@ const useMidweekMeeting = () => {
   const monthNames = useRecoilValue(monthShortNamesState);
   const sources = useRecoilValue(sourcesState);
   const userUID = useRecoilValue(userLocalUIDState);
+  const pgmStart = useRecoilValue(midweekMeetingTimeState);
+  const lang = useRecoilValue(JWLangState);
 
   const [value, setValue] = useState<number | boolean>(false);
 
@@ -147,6 +151,20 @@ const useMidweekMeeting = () => {
     return { value: true, event };
   }, [weekType, source]);
 
+  const partTimings = useMemo(() => {
+    if (!schedule && !source) return;
+
+    const result = schedulesMidweekGetTiming({
+      schedule,
+      dataView,
+      pgmStart,
+      source,
+      lang,
+    });
+
+    return result;
+  }, [schedule, source, dataView, pgmStart, lang]);
+
   const handleGoCurrent = () => {
     const now = getWeekDate();
     const weekOf = formatDate(now, 'yyyy/MM/dd');
@@ -171,6 +189,7 @@ const useMidweekMeeting = () => {
     scheduleLastUpdated,
     noMeetingInfo,
     myAssignmentsTotal,
+    partTimings,
   };
 };
 

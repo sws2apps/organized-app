@@ -11,10 +11,11 @@ import useTreasuresPart from './useTreasuresPart';
 import Divider from '@components/divider';
 import MeetingPart from '@features/meetings/meeting_part';
 import MeetingSection from '@features/meetings/meeting_section';
+import PartTiming from '../part_timing';
 import PersonComponent from '../../person_component';
 import Typography from '@components/typography';
 
-const TreasuresPart = ({ week }: TreasuresPartProps) => {
+const TreasuresPart = ({ week, timings }: TreasuresPartProps) => {
   const { t } = useAppTranslation();
 
   const { laptopUp } = useBreakpoints();
@@ -31,6 +32,7 @@ const TreasuresPart = ({ week }: TreasuresPartProps) => {
       <Stack spacing="8px" divider={<Divider color="var(--grey-200)" />}>
         <DoubleFieldContainer laptopUp={laptopUp}>
           <PrimaryFieldContainer>
+            {timings?.tgw_talk && <PartTiming time={timings.tgw_talk} />}
             <MeetingPart
               week={week}
               type="tgw_talk"
@@ -47,6 +49,7 @@ const TreasuresPart = ({ week }: TreasuresPartProps) => {
         </DoubleFieldContainer>
         <DoubleFieldContainer laptopUp={laptopUp}>
           <PrimaryFieldContainer>
+            {timings?.tgw_gems && <PartTiming time={timings.tgw_gems} />}
             <MeetingPart
               week={week}
               type="tgw_gems"
@@ -63,6 +66,9 @@ const TreasuresPart = ({ week }: TreasuresPartProps) => {
         </DoubleFieldContainer>
         <DoubleFieldContainer laptopUp={laptopUp}>
           <PrimaryFieldContainer>
+            {timings?.tgw_bible_reading && (
+              <PartTiming time={timings.tgw_bible_reading} />
+            )}
             <MeetingPart
               week={week}
               type="tgw_bible_reading"
