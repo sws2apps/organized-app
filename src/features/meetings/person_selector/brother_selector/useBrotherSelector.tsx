@@ -16,6 +16,7 @@ import {
   midweekMeetingAuxCounselorDefaultState,
   shortDateFormatState,
   userDataViewState,
+  weekendMeetingShowMonthlyWarningState,
   weekendMeetingWTStudyConductorDefaultState,
 } from '@states/settings';
 import { JWLangState } from '@states/app';
@@ -50,6 +51,9 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
   );
   const defaultAuxCounselorEnabled = useRecoilValue(
     midweekMeetingAuxCounselorDefaultEnabledState
+  );
+  const wmShowMonthlyWarning = useRecoilValue(
+    weekendMeetingShowMonthlyWarningState
   );
 
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
@@ -264,19 +268,21 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
       return t('tr_personAlreadyAssignmentWeek');
     }
 
-    const [currentYear, currentMonth] = week.split('/');
+    if (assignment.startsWith('WM_') && wmShowMonthlyWarning) {
+      const [currentYear, currentMonth] = week.split('/');
 
-    const monthAssignments = personHistory.filter((record) => {
-      const [tmpYear, tmpMonth] = record.weekOf.split('/');
-      return tmpYear === currentYear && currentMonth === tmpMonth;
-    });
+      const monthAssignments = personHistory.filter((record) => {
+        const [tmpYear, tmpMonth] = record.weekOf.split('/');
+        return tmpYear === currentYear && currentMonth === tmpMonth;
+      });
 
-    if (monthAssignments.length > 1) {
-      return t('tr_repeatedMonthlyWarningDesc');
+      if (monthAssignments.length > 1) {
+        return t('tr_repeatedMonthlyWarningDesc');
+      }
     }
 
     return '';
-  }, [value, week, personHistory, t]);
+  }, [value, week, personHistory, t, wmShowMonthlyWarning, assignment]);
 
   const talkType = useMemo(() => {
     const type = schedule?.weekend_meeting.public_talk_type.find(
