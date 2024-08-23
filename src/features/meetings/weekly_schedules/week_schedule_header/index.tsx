@@ -9,7 +9,7 @@ import Typography from '@components/typography';
 const WeekScheduleHeader = (props: WeekScheduleHeaderProps) => {
   const { t } = useAppTranslation();
 
-  const { laptopUp } = useBreakpoints();
+  const { laptopDown } = useBreakpoints();
 
   const { showToCurrent } = useWeekScheduleHeader(props);
 
@@ -19,7 +19,7 @@ const WeekScheduleHeader = (props: WeekScheduleHeaderProps) => {
         position: 'relative',
         display: 'flex',
         justifyContent: 'center',
-        minHeight: laptopUp ? '40px' : '70px',
+        minHeight: showToCurrent && laptopDown ? '70px' : '40px',
         marginBottom: '16px',
       }}
     >
@@ -53,7 +53,11 @@ const WeekScheduleHeader = (props: WeekScheduleHeaderProps) => {
         color="grey"
         size="small"
         filled={false}
-        sx={{ position: 'absolute', left: 0, top: laptopUp ? 10 : 40 }}
+        sx={{
+          position: 'absolute',
+          left: 0,
+          top: showToCurrent && laptopDown ? 40 : 10,
+        }}
       />
     </Box>
   );
