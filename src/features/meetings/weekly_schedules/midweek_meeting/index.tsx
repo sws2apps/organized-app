@@ -38,6 +38,7 @@ const MidweekMeeting = () => {
     noMeetingInfo,
     myAssignmentsTotal,
     partTimings,
+    openingPrayerAuto,
   } = useMidweekMeeting();
 
   return (
@@ -157,11 +158,13 @@ const MidweekMeeting = () => {
                   <SongSource meeting="midweek" week={week} type="opening" />
                 </PrimaryFieldContainer>
                 <SecondaryFieldContainer laptopUp={laptopUp}>
-                  <PersonComponent
-                    label={`${t('tr_prayer')}:`}
-                    week={week}
-                    assignment="MM_OpeningPrayer"
-                  />
+                  {!openingPrayerAuto && (
+                    <PersonComponent
+                      label={`${t('tr_prayer')}:`}
+                      week={week}
+                      assignment="MM_OpeningPrayer"
+                    />
+                  )}
                 </SecondaryFieldContainer>
               </DoubleFieldContainer>
 
