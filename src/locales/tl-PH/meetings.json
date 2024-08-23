@@ -73,7 +73,7 @@
   "tr_publishSchedulesDesc": "Pumili ng iskedyul na nais i-publish para sa kongregasyon upang makita nila ito. Ang mga nakaraang iskedyul ay visible sa lahat sa loob ng tatlong buwan matapos ang expiration date.",
   "tr_successfullyPublished": "Nai-publish na",
   "tr_successfullyPublishedDesc": "Makikita na ng lahat sa kongregasyon ang iskedyul upang mapaghandaan na nila ang mga bahagi",
-  "tr_lastUpdated": "Huling update:",
+  "tr_lastUpdated": "Last updated: {{ date }}",
   "tr_outgoingTalks": "Mga pahayag sa ibang kongregasyon",
   "tr_infoOutgoingTalk": "Mga kapatid na pupunta sa ibang kongregasyon upang magbigay ng pahayag pangmadla",
   "tr_speakersWithCount": "Mga speaker: {{ speakersCount }}",
@@ -142,5 +142,6 @@
   "tr_clearOutgoingTalkDesc": "Sigurado ka bang i-clear ang lahat ng mga assignment at detalye ng kongregasyon para dito sa pahayag sa ibang kongregasyon? Maaaring punan sa susunod.",
   "tr_outgoingTalkDelete": "Alisin ang pahayag sa ibang kongregasyon",
   "tr_outgoingTalkDeleteDesc": "Sigurado ka bang gusto mong tanggalin ang iskedyul ng pahayag sa ibang kongregasyon?",
-  "tr_deliveredBy": "Ginampanan ni {{ name }}"
+  "tr_deliveredBy": "Ginampanan ni {{ name }}",
+  "tr_toCurrentWeek": "To current week"
 }
