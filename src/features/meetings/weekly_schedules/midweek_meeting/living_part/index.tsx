@@ -14,10 +14,11 @@ import Divider from '@components/divider';
 import MeetingPart from '@features/meetings/meeting_part';
 import MeetingSection from '@features/meetings/meeting_section';
 import PartRow from './part_row';
+import PartTiming from '../part_timing';
 import PersonComponent from '../../person_component';
 import SongSource from '@features/meetings/song_source';
 
-const LivingPart = ({ week }: LivingPartProps) => {
+const LivingPart = ({ week, timings }: LivingPartProps) => {
   const { t } = useAppTranslation();
 
   const { laptopUp } = useBreakpoints();
@@ -34,18 +35,22 @@ const LivingPart = ({ week }: LivingPartProps) => {
       <Stack spacing="8px" divider={<Divider color="var(--grey-200)" />}>
         <DoubleFieldContainer laptopUp={laptopUp}>
           <PrimaryFieldContainer>
+            {timings?.lc_middle_song && (
+              <PartTiming time={timings.lc_middle_song} />
+            )}
             <SongSource meeting="midweek" week={week} type="middle" />
           </PrimaryFieldContainer>
           <SecondaryFieldContainer laptopUp={laptopUp} />
         </DoubleFieldContainer>
 
         {parts.map((part) => (
-          <PartRow key={part} week={week} type={part} />
+          <PartRow key={part} week={week} type={part} timings={timings} />
         ))}
 
         {weekType === Week.NORMAL && (
           <DoubleFieldContainer laptopUp={laptopUp}>
             <PrimaryFieldContainer>
+              {timings?.cbs && <PartTiming time={timings.cbs} />}
               <MeetingPart
                 week={week}
                 type="lc_cbs"
@@ -72,6 +77,7 @@ const LivingPart = ({ week }: LivingPartProps) => {
         {weekType === Week.CO_VISIT && (
           <DoubleFieldContainer laptopUp={laptopUp}>
             <PrimaryFieldContainer>
+              {timings?.co_talk && <PartTiming time={timings.co_talk} />}
               <COTalk
                 color="var(--living-as-christians)"
                 week={week}
@@ -90,6 +96,7 @@ const LivingPart = ({ week }: LivingPartProps) => {
 
         <DoubleFieldContainer laptopUp={laptopUp}>
           <PrimaryFieldContainer>
+            {timings?.pgm_end && <PartTiming time={timings.pgm_end} />}
             <SongSource meeting="midweek" week={week} type="concluding" />
           </PrimaryFieldContainer>
           <SecondaryFieldContainer laptopUp={laptopUp}>
