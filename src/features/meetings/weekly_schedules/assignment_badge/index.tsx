@@ -7,6 +7,7 @@ const AssignmentBadge = ({ count }: AssignmentBadgeProps) => {
   return (
     <Box
       sx={{
+        width: 'fit-content',
         borderRadius: 'var(--radius-xxl)',
         backgroundColor: 'var(--accent-150)',
         padding: '4px 12px',
