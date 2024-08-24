@@ -23,7 +23,7 @@
   "tr_howToContribute": "Paano makatulong",
   "tr_changeLanguage": "Wika",
   "tr_languageMissing": "Idagdag ang aking wika",
-  "tr_internalError": "May naganap na internal na error sa amin. Subukan muli mamaya.",
+  "tr_internalError": "Mayroong internal na error sa amin. Subukan muli mamaya.",
   "tr_loading": "Loading...",
   "tr_noOptions": "Walang opsyon",
   "tr_pleaseWait": "Pakisuyong maghintay ...",
@@ -119,6 +119,6 @@
   "tr_augustShort": "Ago",
   "tr_septemberShort": "Set",
   "tr_octoberShort": "Okt",
-  "tr_novemberShort": "Nov",
-  "tr_decemberShort": "Dec"
+  "tr_novemberShort": "Nob",
+  "tr_decemberShort": "Dis"
 }
