@@ -163,7 +163,6 @@
   "tr_congregationEncryptionTitle": "Congregation data encryption code",
   "tr_congregationEncryptionDesc": "Keep this important code safe – it’s for encrypting your congregation data, so nobody without the code can view it. If lost, you’ll need to create your congregation again. <a href='https://guide.organized-app.com/faq/security'>Learn more</a> how we protect all your data.",
   "tr_meetinMaterialsTitle": "Meeting materials, forms and schedules",
-  "tr_meetinMaterialsDesc": "Select the language for importing meeting materials, such as schedules (S-140), assignment forms (S-89), public talks, and others.",
   "tr_dateFormatSelect": "Date format",
   "tr_circuitOverseer": "Circuit overseer",
   "tr_circuitOverseerSettingDesc": "Overseer name is used for the schedules. The week of the next visit will be displayed on the corresponding pages, keeping publishers informed.",
