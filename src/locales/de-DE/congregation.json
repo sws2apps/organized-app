@@ -163,7 +163,6 @@
   "tr_congregationEncryptionTitle": "Verschlüsselungscode für Versammlungsdaten",
   "tr_congregationEncryptionDesc": "Bewahre diesen wichtigen Code sicher auf – er dient zur Verschlüsselung deiner Gemeindedaten, sodass niemand ohne den Code darauf zugreifen kann. Wenn er verloren geht, musst du deine Versammlung erneut erstellen. <a href='https://guide.organized-app.com/faq/security'>Erfahre mehr</a> darüber, wie wir alle deine Daten schützen.",
   "tr_meetinMaterialsTitle": "Zusammenkunft Materialien, Formulare und Pläne",
-  "tr_meetinMaterialsDesc": "Select the language for importing meeting materials, such as schedules (S-140), assignment forms (S-89), public talks, and others.",
   "tr_dateFormatSelect": "Datumsformat",
   "tr_circuitOverseer": "Kreisaufseher",
   "tr_circuitOverseerSettingDesc": "Overseer name is used for the schedules. The week of the next visit will be displayed on the corresponding pages, keeping publishers informed.",
