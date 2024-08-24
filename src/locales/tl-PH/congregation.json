@@ -163,7 +163,6 @@
   "tr_congregationEncryptionTitle": "Congregation data encryption code",
   "tr_congregationEncryptionDesc": "Ingatan ang mahalagang code na ito – para ito sa pag-encrypt ng datos ng kongregasyon, upang hindi ito makita ng sinumang walang code. Kung mawala ito, kailangang gumawa muli ng kongregasyon. <a href='https://guide.organized-app.com/faq/security'>Matuto ng higit pa</a> kung paano namin pinoprotektahan ang lahat ng data.",
   "tr_meetinMaterialsTitle": "Mga gamit sa pulong, mga form, at mga iskedyul",
-  "tr_meetinMaterialsDesc": "Pumili ng wika para sa pag-import ng mga gamit sa pulong, tulad ng mga iskedyul (S-140), mga assignment forms (S-89), mga public talks, at iba pa.",
   "tr_dateFormatSelect": "Date format",
   "tr_circuitOverseer": "Circuit Overseer",
   "tr_circuitOverseerSettingDesc": "Gagamitin ang pangalan ng tagapangasiwa para sa mga iskedyul. Ang linggo ng susunod na dalaw ay ipapakita sa mga nakatalagang pahina, upang ma-inform ang mga publisher.",
