@@ -16,35 +16,39 @@ const useFirebaseAuth = () => {
     const auth = getAuth();
 
     onAuthStateChanged(auth, async (user: User) => {
-      setUser(user);
+      try {
+        setUser(user);
 
-      if (user) {
-        worker.postMessage({
-          field: 'idToken',
-          value: await user.getIdToken(),
-        });
-
-        if (user.providerData.length > 1) {
-          await displaySnackNotification({
-            header: getTranslation({ key: 'tr_errorTitle' }),
-            message: getTranslation({
-              key: 'oauthAccountExistsWithDifferentCredential',
-            }),
-            severity: 'error',
+        if (user) {
+          worker.postMessage({
+            field: 'idToken',
+            value: await user.getIdToken(),
           });
 
+          if (user.providerData.length > 1) {
+            await displaySnackNotification({
+              header: getTranslation({ key: 'tr_errorTitle' }),
+              message: getTranslation({
+                key: 'oauthAccountExistsWithDifferentCredential',
+              }),
+              severity: 'error',
+            });
+
+            setIsAuthenticated(false);
+            return;
+          }
+
+          const provider = user.providerData[0]?.providerId || 'none';
+          await setCurrentProvider(provider);
+
+          const photoURL = user.providerData[0]?.photoURL;
+          dbAppSettingsSaveProfilePic(photoURL, provider);
+          setIsAuthenticated(true);
+        } else {
           setIsAuthenticated(false);
-          return;
         }
-
-        const provider = user.providerData[0]?.providerId || 'none';
-        await setCurrentProvider(provider);
-
-        const photoURL = user.providerData[0]?.photoURL;
-        dbAppSettingsSaveProfilePic(photoURL, provider);
-        setIsAuthenticated(true);
-      } else {
-        setIsAuthenticated(false);
+      } catch (error) {
+        console.error(error);
       }
     });
   }, []);

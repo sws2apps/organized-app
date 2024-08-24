@@ -1329,16 +1329,41 @@ export const schedulesPersonLatest = ({
   history: AssignmentHistoryType[];
   classroom?: string;
 }) => {
-  const filteredHistory = history.filter(
-    (record) => record.assignment.code === type
-  );
-  const last = filteredHistory.at(0);
+  // sort persons by last assignment type
+  const personsWithDate = persons.map((person) => {
+    const lastAssignment = history.find(
+      (record) =>
+        record.assignment.code === type &&
+        record.assignment.person === person.person_uid
+    );
 
-  const selected = persons.find(
-    (record) => record.person_uid === last.assignment.person
-  );
+    return {
+      person,
+      last_assignment: lastAssignment?.weekOf || '',
+    };
+  });
 
-  return selected;
+  personsWithDate.sort((a, b) => {
+    // If 'weekOf' of 'a' is empty, 'a' should come first
+    if (a.last_assignment.length === 0) {
+      return -1;
+    }
+
+    // If 'weekOf' of 'b' is empty, 'b' should come first
+    if (b.last_assignment.length === 0) {
+      return 1;
+    }
+
+    // If both 'weekOf' fields are not empty, sort by date
+
+    return new Date(a.last_assignment)
+      .toISOString()
+      .localeCompare(new Date(b.last_assignment).toISOString());
+  });
+
+  const last = personsWithDate.at(0);
+
+  return last.person;
 };
 
 export const schedulesSelectRandomPerson = async (data: {
