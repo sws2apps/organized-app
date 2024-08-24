@@ -73,7 +73,7 @@
   "tr_publishSchedulesDesc": "Selecione os programas que deseja publicar para que todos na congregação possam visualizá-los. Os programas mais antigos estarão disponíveis para todos até 3 meses após a data de expiração.",
   "tr_successfullyPublished": "Publicado com sucesso",
   "tr_successfullyPublishedDesc": "Agora todos na sua congregação podem ver o programa e se preparar para as designações",
-  "tr_lastUpdated": "Last updated: {{ date }}",
+  "tr_lastUpdated": "Última atualização: {{ date }}",
   "tr_outgoingTalks": "Discursos fora",
   "tr_infoOutgoingTalk": "Irmãos que visitarão outra congregação para proferir um discurso público",
   "tr_speakersWithCount": "Oradores: {{ speakersCount }}",
@@ -134,14 +134,14 @@
   "tr_visitinSpeakerHelpText": "Você pode adicionar oradores manualmente, mas recomendamos adicioná-los com antecedência na página <a>Relação de Oradores</a>",
   "tr_noSpeakersYet": "Nenhum orador ainda",
   "tr_speakersCatalog": "Relação de oradores",
-  "tr_speakersCatalogLocalDesc": "Based on your selection, you see visiting speakers from other congregations. To assign another speaker not from the catalog, simply close this window and select him in the 'Speaker' field.",
+  "tr_speakersCatalogLocalDesc": "Com base na sua seleção, você verá oradores visitantes de outras congregações. Para atribuir outro orador que não esteja na relação, simplesmente feche esta janela e selecione-o no campo 'Orador'.",
   "tr_speakersCatalogVisitingDesc": "Com base na sua seleção, você verá os oradores que farão discurso fora da sua congregação. Para não atribuir a outro irmão local a relação, simplesmente feche esta janela e selecione-o no campo de orador.",
   "tr_clearMultipleAssignments": "Limpar várias designações da reunião",
   "tr_outgoingTalk": "Discurso fora",
   "tr_outgoingTalkSynced": "Este discurso foi sincronizado com a programação da congregação <strong>{{ congregation }}</strong>. Por favor, entre em contato com o coordenador de discursos públicos para quaisquer correções ou atualizações.",
-  "tr_clearOutgoingTalkDesc": "Are you sure you want to clear all assignments and congregation details for this outgoing talk? You can always fill out them later.",
+  "tr_clearOutgoingTalkDesc": "Tem certeza de que deseja limpar todas as designações e detalhes da congregação para este discurso em andamento? Você sempre pode preenchê-los depois.",
   "tr_outgoingTalkDelete": "Excluir discurso fora",
   "tr_outgoingTalkDeleteDesc": "Tem certeza de que deseja excluir esta programação de discurso fora?",
-  "tr_deliveredBy": "Delivered by {{ name }}",
-  "tr_toCurrentWeek": "To current week"
+  "tr_deliveredBy": "Entregue por {{ name }}",
+  "tr_toCurrentWeek": "Até esta semana"
 }

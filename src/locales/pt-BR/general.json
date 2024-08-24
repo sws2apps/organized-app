@@ -110,15 +110,15 @@
   "tr_shortDateFormatAlt": "dd/MM/yy",
   "tr_shortDateFormatNoYear": "dd/MM",
   "tr_januaryShort": "Jan",
-  "tr_februaryShort": "Feb",
+  "tr_februaryShort": "Fev",
   "tr_marchShort": "Mar",
-  "tr_aprilShort": "Apr",
-  "tr_mayShort": "May",
+  "tr_aprilShort": "Abr",
+  "tr_mayShort": "Mai",
   "tr_juneShort": "Jun",
   "tr_julyShort": "Jul",
-  "tr_augustShort": "Aug",
-  "tr_septemberShort": "Sep",
-  "tr_octoberShort": "Oct",
+  "tr_augustShort": "Ago",
+  "tr_septemberShort": "Set",
+  "tr_octoberShort": "Out",
   "tr_novemberShort": "Nov",
-  "tr_decemberShort": "Dec"
+  "tr_decemberShort": "Dez"
 }

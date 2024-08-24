@@ -163,7 +163,6 @@
   "tr_congregationEncryptionTitle": "Cemaat veri şifreleme kodu",
   "tr_congregationEncryptionDesc": "Bu önemli kodu güvende tutun – bu kod, cemaat verilerinizi şifrelemek için kullanılır, bu yüzden kodu olmayan hiç kimse verilerinizi göremez. Kaybolursa, cemaatinizi tekrar oluşturmanız gerekir. <a href='https://guide.organized-app.com/faq/security'>Verilerinizi nasıl koruduğumuzu öğrenin</a>.",
   "tr_meetinMaterialsTitle": "İbadet materyalleri, formlar ve programlar",
-  "tr_meetinMaterialsDesc": "İbadet materyalleri, örneğin programlar (S-140), atama formları (S-89), halka açık konuşmalar ve diğerleri gibi belgelerin içe aktarımı için dil seçiniz.",
   "tr_dateFormatSelect": "Tarih formatı",
   "tr_circuitOverseer": "Çevre gözetmeni",
   "tr_circuitOverseerSettingDesc": "Gözetmen ismi programlarda kullanılır. Bir sonraki ziyaret haftası ilgili sayfalarda gösterilir ve müjdecilerin bilgilendirilmesi sağlanır.",

@@ -51,7 +51,7 @@
   "tr_wtStudyReader": "Studienleiter",
   "tr_weekendMeetingPrint": "Zusammenkunft am Wochenende",
   "tr_publicTalk": "Öffentlicher Vortrag",
-  "tr_openingPrayer": "Erstes Gebet",
+  "tr_openingPrayer": "Opening Prayer",
   "tr_noWMeetingWeek": "In dieser Woche findet keine Zusammenkunft am Wochenende statt",
   "tr_noMeetingWeek": "In dieser Woche findet keine Zusammenkunft unter der Woche statt",
   "tr_substituteSpeaker": "Ersatzredner",
@@ -71,6 +71,6 @@
   "tr_exportMidweekMeetinDesc": "Wähle die Pläne und Formulare aus, die du exportieren möchtest, und wähle deine bevorzugte Vorlage. Organized speichert deine Vorlagenauswahl für das nächste Mal, um den Export zu erleichtern.",
   "tr_specialTalkWeek": "Sondervortrag",
   "tr_wtStudyConductor": "Studienleiter",
-  "tr_closingPrayer": "Letztes Gebet",
+  "tr_closingPrayer": "Closing prayer",
   "tr_date": "Datum:"
 }
