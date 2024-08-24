@@ -327,7 +327,7 @@
   "tr_personDeleted": "Person deleted",
   "tr_personDeletedDesc": "If deleted by mistake, add the person again",
   "tr_personSaved": "Person saved",
-  "tr_personSavedDesc": "Changes saved successfully",
+  "tr_personSavedDesc": "Voatahiry soa aman-tsara ny fanovana",
   "tr_privilege": "Privilege",
   "tr_userDeletedDesc": "{{ UserName }} no longer has a user profile and cannot log in to your congregation’s account",
   "tr_userDeletedTitle": "User profile deleted: {{ UserName }}",
