@@ -379,7 +379,7 @@
   "tr_FR": "Regular Pioneer",
   "tr_FS": "Special Pioneer",
   "tr_incomingCongregationOnlineNoSpeakers": "Wala pang record ng naimbitahang mga speaker ang kongregasyong ito. Kung maaari, maaari mo silang kontakin.",
-  "tr_incomingCongregationOnlinePending": "This congregation did not yet approve your request to access their outgoing speakers list. If necessary, you can personally contact them.",
+  "tr_incomingCongregationOnlinePending": "Hindi pa naaprubahan ng kongregasyong ito ang request para sa listahan ng kanilang mga lumalabas na speaker. Kung maaari, kontakin sila.",
   "tr_incomingCongregationOnlineDisapproved": "Tinanggihan ng kongregasyong ito ang iyong request para sa listahan ng kanilang mga lumalabas na speaker. Kung maaari, maaari mo silang kontakin.",
   "tr_congregationRequestRejected": "Na-reject ang iyong request",
   "tr_congregationRequestRejectedDesc": "Tumanggi ang <strong>{{ congregationNameAndNumber }}</strong> congregation sa iyong request na makita ang listahan ng mga lumalabas na speaker. Kung maaari, maaari mo silang kontakin.",
