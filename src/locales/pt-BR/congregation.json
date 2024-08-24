@@ -163,7 +163,6 @@
   "tr_congregationEncryptionTitle": "Código de criptografia de dados da congregação",
   "tr_congregationEncryptionDesc": "Mantenha este código importante em segurança – ele é usado para criptografar os dados da sua congregação, para que ninguém sem o código possa visualizá-los. Se perdido, você precisará criar sua congregação novamente. <a href='https://guide.organized-app.com/faq/security'>Saiba mais</a> sobre como protegemos todos os seus dados.",
   "tr_meetinMaterialsTitle": "Matérias da reunião, formulários e programação",
-  "tr_meetinMaterialsDesc": "Selecione o idioma para importar matérias da reunião, como programação (S-140), formulários de designação (S-89), discursos públicos e outros.",
   "tr_dateFormatSelect": "Selecionar formato da data",
   "tr_circuitOverseer": "Superintendente de circuito",
   "tr_circuitOverseerSettingDesc": "O nome do superintendente é usado nas programações. A semana da próxima visita será exibida nas páginas correspondentes, mantendo os publicadores informados.",
