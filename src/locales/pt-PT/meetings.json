@@ -143,5 +143,6 @@
   "tr_outgoingTalkDelete": "Excluir discurso fora",
   "tr_outgoingTalkDeleteDesc": "Tem certeza de que deseja excluir este programa de discurso fora?",
   "tr_deliveredBy": "Delivered by {{ name }}",
-  "tr_toCurrentWeek": "To current week"
+  "tr_toCurrentWeek": "To current week",
+  "tr_recordAttendance": "Record attendance"
 }
