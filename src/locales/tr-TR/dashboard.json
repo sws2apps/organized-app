@@ -90,5 +90,6 @@
   "tr_yourEmailField": "Eposta adresiniz",
   "tr_yourMessage": "Mesajınız",
   "tr_reportSubmittedDesc": "{{ month }} ayı raporunuz gönderilmiştir",
-  "tr_mainCongregation": "Ana cemaat"
+  "tr_mainCongregation": "Ana cemaat",
+  "tr_noMeetingAssignments": "You have no meeting assignments at the moment"
 }
