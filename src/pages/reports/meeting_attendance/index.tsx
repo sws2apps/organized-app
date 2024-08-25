@@ -5,11 +5,19 @@ import Button from '@components/button';
 import MonthlyHistory from '@features/reports/meeting_attendance/monthly_history';
 import MonthlyRecord from '@features/reports/meeting_attendance/monthly_record';
 import PageTitle from '@components/page_title';
+import useMeetingAttendance from './useMeetingAttendance';
+import QuickSettingsMeetingAttendanceRecord from '@features/reports/meeting_attendance/quick_settings';
 
-const MeetingAttendanceReportsPage = () => {
+const MeetingAttendance = () => {
   const { t } = useAppTranslation();
 
   const { desktopUp } = useBreakpoints();
+
+  const {
+    quickSettingsOpen,
+    handleCloseQuickSettings,
+    handleOpenQuickSettings,
+  } = useMeetingAttendance();
 
   return (
     <Box
@@ -19,8 +27,16 @@ const MeetingAttendanceReportsPage = () => {
         flexDirection: 'column',
       }}
     >
+      {quickSettingsOpen && (
+        <QuickSettingsMeetingAttendanceRecord
+          open={quickSettingsOpen}
+          onClose={handleCloseQuickSettings}
+        />
+      )}
+
       <PageTitle
         title={t('tr_meetingAttendanceRecord')}
+        quickAction={handleOpenQuickSettings}
         buttons={
           <Button
             variant="main"
@@ -47,4 +63,4 @@ const MeetingAttendanceReportsPage = () => {
   );
 };
 
-export default MeetingAttendanceReportsPage;
+export default MeetingAttendance;

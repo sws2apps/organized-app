@@ -12,4 +12,6 @@ export type PageTitleProps = {
    * Optional buttons to be displayed in the page title.
    */
   buttons?: ReactElement;
+
+  quickAction?: VoidFunction;
 };

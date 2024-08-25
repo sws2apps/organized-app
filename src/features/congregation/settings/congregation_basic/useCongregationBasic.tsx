@@ -17,7 +17,6 @@ const useCongregationBasic = () => {
   const [circuitNumber, setCircuitNumber] = useState('');
   const [address, setAddress] = useState('');
   const [hour24, setHour24] = useState(false);
-  const [recordOnline, setRecordOnline] = useState(false);
 
   const handleCircuitChange = (value: string) => setCircuitNumber(value);
 
@@ -73,19 +72,6 @@ const useCongregationBasic = () => {
     });
   };
 
-  const handleRecordOnlineToggle = async () => {
-    const newRecordOnline = structuredClone(
-      settings.cong_settings.attendance_online_record
-    );
-
-    newRecordOnline.value = !recordOnline;
-    newRecordOnline.updatedAt = new Date().toISOString();
-
-    await dbAppSettingsUpdate({
-      'cong_settings.attendance_online_record': newRecordOnline,
-    });
-  };
-
   useEffect(() => {
     const currentCircuit = settings.cong_settings.cong_circuit.find(
       (record) => record.type === dataView
@@ -98,8 +84,6 @@ const useCongregationBasic = () => {
       (record) => record.type === dataView
     );
     setHour24(hourFormat?.value ?? false);
-
-    setRecordOnline(settings.cong_settings.attendance_online_record.value);
   }, [settings, dataView]);
 
   return {
@@ -112,8 +96,6 @@ const useCongregationBasic = () => {
     handleAddressSave,
     handleHour24Toggle,
     hour24,
-    recordOnline,
-    handleRecordOnlineToggle,
   };
 };
 
