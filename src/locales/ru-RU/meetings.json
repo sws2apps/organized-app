@@ -143,5 +143,6 @@
   "tr_outgoingTalkDelete": "Delete outgoing talk",
   "tr_outgoingTalkDeleteDesc": "Are you sure you want to delete this outgoing talk schedule?",
   "tr_deliveredBy": "Delivered by {{ name }}",
-  "tr_toCurrentWeek": "К текущей неделе"
+  "tr_toCurrentWeek": "К текущей неделе",
+  "tr_recordAttendance": "Record attendance"
 }
