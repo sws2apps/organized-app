@@ -324,6 +324,15 @@ export const sourcesJWAutoImportFrequencyState = selector({
   },
 });
 
+export const attendanceOnlineRecordState = selector({
+  key: 'attendanceOnlineRecord',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+
+    return settings.cong_settings.attendance_online_record.value;
+  },
+});
+
 // MIDWEEK MEETING
 
 export const midweekMeetingClassCountState = selector({

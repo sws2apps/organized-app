@@ -1,7 +1,5 @@
 import { MeetingType } from '@definition/app';
 
-export type WeekBoxProps = {
-  index: number;
-  month: string;
+export type NowIndicatorProps = {
   type: MeetingType;
 };

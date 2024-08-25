@@ -22,6 +22,10 @@ const useDetailsRow = ({ type, month, meeting }: DetailsRowProps) => {
     if (type === 'average') {
       return t('tr_avgAttendance');
     }
+
+    if (type === 'average_online') {
+      return t('tr_avgOnline');
+    }
   }, [type, t]);
 
   const attendance = useMemo(() => {
@@ -33,6 +37,8 @@ const useDetailsRow = ({ type, month, meeting }: DetailsRowProps) => {
 
     const values: number[] = [];
 
+    let cnOnline = 0;
+
     for (let i = 1; i <= 5; i++) {
       const weekData = attendance[`week_${i}`] as WeeklyAttendance;
       const meetingData = weekData[meeting];
@@ -43,6 +49,7 @@ const useDetailsRow = ({ type, month, meeting }: DetailsRowProps) => {
         if (data?.present || data?.online) {
           total += data?.present || 0;
           total += data?.online || 0;
+          cnOnline += data?.online || 0;
         }
       }
 
@@ -64,7 +71,19 @@ const useDetailsRow = ({ type, month, meeting }: DetailsRowProps) => {
     }
 
     const cnMeet = values.length;
-    return grandTotal === 0 ? 0 : Math.round(grandTotal / cnMeet);
+    const avgPresent = grandTotal === 0 ? 0 : Math.round(grandTotal / cnMeet);
+    if (type === 'average') {
+      return avgPresent;
+    }
+
+    if (type === 'average_online') {
+      const avgOnline = cnOnline === 0 ? 0 : Math.round(cnOnline / cnMeet);
+
+      const percent =
+        avgPresent === 0 ? 0 : Math.round((avgOnline * 100) / avgPresent);
+
+      return `${avgOnline} (${percent}%)`;
+    }
   }, [attendance, type, meeting]);
 
   return { label, value };
