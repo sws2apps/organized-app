@@ -43,7 +43,6 @@ function ScrollableTabs({
           value={valueOfActivePanel}
           onChange={handleChange}
           variant="scrollable"
-          scrollButtons
           className={className}
           TabIndicatorProps={{
             hidden: true,

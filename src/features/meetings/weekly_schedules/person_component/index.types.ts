@@ -3,7 +3,8 @@ import { AssignmentFieldType } from '@definition/assignment';
 export type PersonComponentProps = {
   label?: string;
   week: string;
-  assignment: AssignmentFieldType;
+  assignment?: AssignmentFieldType;
+  schedule_id?: string;
 };
 
 export type PersonDataType = {
