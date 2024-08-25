@@ -154,7 +154,7 @@ const useScheduleItem = ({ schedule, week }: ScheduleItemType) => {
     outgoingSchedule.congregation.weekday =
       value?.weekendMeetingTime.weekday || undefined;
     outgoingSchedule.congregation.time = value
-      ? removeSecondsFromTime(value.midweekMeetingTime.time)
+      ? removeSecondsFromTime(value.weekendMeetingTime.time)
       : '';
     outgoingSchedule.updatedAt = new Date().toISOString();
 

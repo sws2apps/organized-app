@@ -925,19 +925,35 @@ export const schedulesUpdateHistory = async (
 
     if (previousIndex !== -1) historyStale.splice(previousIndex, 1);
 
+    let assigned: AssignmentCongregation;
     const dataView: string = await promiseGetRecoil(userDataViewState);
     const schedules: SchedWeekType[] = await promiseGetRecoil(schedulesState);
     const schedule = schedules.find((record) => record.weekOf === week);
 
-    const path = ASSIGNMENT_PATH[item];
-    const dataSchedule = structuredClone(schedulesGetData(schedule, path));
+    if (!schedule_id) {
+      const path = ASSIGNMENT_PATH[item];
+      const dataSchedule = structuredClone(schedulesGetData(schedule, path));
 
-    let assigned: AssignmentCongregation;
+      if (Array.isArray(dataSchedule)) {
+        assigned = dataSchedule.find((record) => record.type === dataView);
+      } else {
+        assigned = dataSchedule;
+      }
+    }
 
-    if (Array.isArray(dataSchedule)) {
-      assigned = dataSchedule.find((record) => record.type === dataView);
-    } else {
-      assigned = dataSchedule;
+    if (schedule_id) {
+      const talkSchedule = schedule.weekend_meeting.outgoing_talks.find(
+        (record) => record.id === schedule_id
+      );
+
+      if (talkSchedule) {
+        assigned = {
+          name: '',
+          type: talkSchedule.type,
+          updatedAt: talkSchedule.updatedAt,
+          value: talkSchedule.speaker,
+        };
+      }
     }
 
     if (assigned.value !== '') {
