@@ -143,5 +143,6 @@
   "tr_outgoingTalkDelete": "Giden konuşmayı sil",
   "tr_outgoingTalkDeleteDesc": "Bu giden konuşma programını silmek istediğinizden emin misiniz?",
   "tr_deliveredBy": "Delivered by {{ name }}",
-  "tr_toCurrentWeek": "To current week"
+  "tr_toCurrentWeek": "To current week",
+  "tr_recordAttendance": "Record attendance"
 }
