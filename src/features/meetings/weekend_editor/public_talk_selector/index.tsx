@@ -49,7 +49,7 @@ const PublicTalkSelector = ({
         getOptionLabel={(option: PublicTalkOptionType) =>
           `${option.talk_number}. ${option.talk_title}`
         }
-        value={selectedTalk}
+        value={talks.length > 0 ? selectedTalk : null}
         onChange={(_, value: PublicTalkOptionType) => handleTalkChange(value)}
         PopperComponent={(props) => <Popper {...props} placement="top-start" />}
         renderOption={(props, option) => (

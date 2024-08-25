@@ -163,6 +163,7 @@ const usePublicTalkSelector = (week: string, schedule_id?: string) => {
       const talk = source.weekend_meeting.public_talk.find(
         (record) => record.type === dataView
       )?.value as number;
+
       if (talk) {
         const selectedTalk = talks.find(
           (record) => record.talk_number === talk

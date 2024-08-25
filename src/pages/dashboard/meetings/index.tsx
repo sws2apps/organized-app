@@ -4,7 +4,6 @@ import {
   IconAssignment,
   IconCalendarWeek,
   IconDiamond,
-  IconRefreshSchedule,
   IconTalk,
 } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
@@ -14,7 +13,7 @@ import useMeetings from './useMeetings';
 const MeetingsCard = ({ assignmentCount }: MeetingsCardProps) => {
   const { t } = useAppTranslation();
 
-  const { handleOpenMyAssignments, isConnected } = useMeetings();
+  const { handleOpenMyAssignments } = useMeetings();
 
   return (
     <DashboardCard header={t('tr_meetings')}>
@@ -47,14 +46,6 @@ const MeetingsCard = ({ assignmentCount }: MeetingsCardProps) => {
           path="/weekend-meeting"
         />
       </ListItem>
-      {isConnected && (
-        <ListItem disablePadding>
-          <DashboardMenu
-            icon={<IconRefreshSchedule color="var(--black)" />}
-            primaryText={t('tr_refreshSchedule')}
-          />
-        </ListItem>
-      )}
     </DashboardCard>
   );
 };

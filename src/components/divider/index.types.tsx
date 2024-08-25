@@ -1,9 +1,9 @@
-import { SxProps, Theme } from '@mui/material';
+import { DividerProps, SxProps, Theme } from '@mui/material';
 
 /**
  * Props for a custom divider component.
  */
-export type CustomDividerProps = {
+export type CustomDividerProps = DividerProps & {
   /**
    * The color of the divider.
    */
