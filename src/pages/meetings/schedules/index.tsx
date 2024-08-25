@@ -41,6 +41,7 @@ const WeeklySchedules = () => {
         }}
       >
         <ScrollableTabs
+          indicatorMode
           tabs={tabs}
           value={value}
           onChange={handleScheduleChange}

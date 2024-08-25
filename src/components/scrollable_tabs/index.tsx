@@ -27,9 +27,10 @@ function ScrollableTabs({
   const handleChange = (event: SyntheticEvent, newValue: number) => {
     if (!indicatorMode) {
       event.preventDefault();
-      setValueOfActivePanel(newValue);
-      onChange && onChange(newValue);
     }
+
+    setValueOfActivePanel(newValue);
+    onChange && onChange(newValue);
   };
 
   useEffect(() => {
@@ -45,8 +46,14 @@ function ScrollableTabs({
           variant="scrollable"
           className={className}
           TabIndicatorProps={{
-            hidden: true,
-            sx: { backgroundColor: 'transparent' },
+            hidden: !indicatorMode,
+            sx: {
+              backgroundColor: indicatorMode
+                ? 'var(--accent-main)'
+                : 'transparent',
+              borderRadius: indicatorMode && '16px 16px 0px 0px',
+              height: '4px',
+            },
           }}
           slots={{
             EndScrollButtonIcon: ArrowForwardIosIcon,
