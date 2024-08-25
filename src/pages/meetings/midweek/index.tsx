@@ -10,6 +10,7 @@ import useMidweek from './useMidweek';
 import Button from '@components/button';
 import MidweekEditor from '@features/meetings/midweek_editor';
 import PageTitle from '@components/page_title';
+import SchedulePublish from '@features/meetings/schedule_publish';
 
 const MidweekMeeting = () => {
   const { t } = useAppTranslation();
@@ -24,6 +25,10 @@ const MidweekMeeting = () => {
     handleCloseExport,
     handleOpenExport,
     openExport,
+    handleClosePublish,
+    handleOpenPublish,
+    openPublish,
+    isConnected,
   } = useMidweek();
 
   return (
@@ -36,6 +41,14 @@ const MidweekMeeting = () => {
     >
       {openExport && (
         <MidweekExport open={openExport} onClose={handleCloseExport} />
+      )}
+
+      {isConnected && openPublish && (
+        <SchedulePublish
+          type="midweek"
+          open={openPublish}
+          onClose={handleClosePublish}
+        />
       )}
 
       {openAutofill && (
@@ -65,9 +78,15 @@ const MidweekMeeting = () => {
               >
                 {t('tr_autofill')}
               </Button>
-              <Button variant="main" startIcon={<IconPublish />}>
-                {t('tr_publish')}
-              </Button>
+              {isConnected && (
+                <Button
+                  variant="main"
+                  startIcon={<IconPublish />}
+                  onClick={handleOpenPublish}
+                >
+                  {t('tr_publish')}
+                </Button>
+              )}
             </>
           )
         }

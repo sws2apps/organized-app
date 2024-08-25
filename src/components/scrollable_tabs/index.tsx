@@ -1,4 +1,10 @@
-import { ReactNode, SyntheticEvent, useEffect, useState } from 'react';
+import {
+  Fragment,
+  ReactNode,
+  SyntheticEvent,
+  useEffect,
+  useState,
+} from 'react';
 import { Box, Tab, Tabs, tabsClasses } from '@mui/material';
 import { CustomTabPanel } from '@components/tabs';
 import { CustomTabProps } from '@components/tabs/index.types';
@@ -106,9 +112,13 @@ function ScrollableTabs({
 
       {tabs.map(
         (tab, i: number): ReactNode => (
-          <CustomTabPanel value={valueOfActivePanel} index={i} key={i}>
-            {tab.Component}
-          </CustomTabPanel>
+          <Fragment key={i}>
+            {tab.Component && (
+              <CustomTabPanel value={valueOfActivePanel} index={i}>
+                {tab.Component}
+              </CustomTabPanel>
+            )}
+          </Fragment>
         )
       )}
     </Box>

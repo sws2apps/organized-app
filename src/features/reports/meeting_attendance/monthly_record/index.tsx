@@ -1,0 +1,45 @@
+import { Box, Stack } from '@mui/material';
+import { useAppTranslation } from '@hooks/index';
+import { CardContainer } from '../shared_styles';
+import useMonthlyRecord from './useMonthlyRecord';
+import DateSelector from './date_selector';
+import Divider from '@components/divider';
+import MeetingItem from './meeting_item';
+import Typography from '@components/typography';
+
+const MonthlyRecord = () => {
+  const { t } = useAppTranslation();
+
+  const { meetings, year, month, handleMonthChange, handleYearChange } =
+    useMonthlyRecord();
+
+  return (
+    <CardContainer sx={{ flex: 1 }}>
+      <Stack spacing="24px" divider={<Divider color="var(--accent-200)" />}>
+        <Stack spacing="24px">
+          <Stack spacing="8px">
+            <Typography className="h2">{t('tr_recordAttendance')}</Typography>
+            <Typography color="var(--grey-400)">
+              {t('tr_recordAttendanceDesc')}
+            </Typography>
+          </Stack>
+
+          <DateSelector
+            year={year}
+            month={month}
+            onYearChange={handleYearChange}
+            onMonthChange={handleMonthChange}
+          />
+        </Stack>
+
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+          {meetings.map((meeting) => (
+            <MeetingItem key={meeting} type={meeting} month={month} />
+          ))}
+        </Box>
+      </Stack>
+    </CardContainer>
+  );
+};
+
+export default MonthlyRecord;

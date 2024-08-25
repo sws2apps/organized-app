@@ -1,3 +1,4 @@
+import { MeetingAttendanceType } from '@definition/meeting_attendance';
 import { PersonType } from '@definition/person';
 import { SchedWeekType } from '@definition/schedules';
 import {
@@ -358,5 +359,49 @@ export const speakersCongregationSchema: SpeakersCongregationsType = {
     },
     request_status: 'pending',
     request_id: '',
+  },
+};
+
+export const meetingAttendanceSchema: MeetingAttendanceType = {
+  month_date: '',
+  week_1: {
+    midweek: [
+      { type: 'main', online: undefined, present: undefined, updatedAt: '' },
+    ],
+    weekend: [
+      { type: 'main', online: undefined, present: undefined, updatedAt: '' },
+    ],
+  },
+  week_2: {
+    midweek: [
+      { type: 'main', online: undefined, present: undefined, updatedAt: '' },
+    ],
+    weekend: [
+      { type: 'main', online: undefined, present: undefined, updatedAt: '' },
+    ],
+  },
+  week_3: {
+    midweek: [
+      { type: 'main', online: undefined, present: undefined, updatedAt: '' },
+    ],
+    weekend: [
+      { type: 'main', online: undefined, present: undefined, updatedAt: '' },
+    ],
+  },
+  week_4: {
+    midweek: [
+      { type: 'main', online: undefined, present: undefined, updatedAt: '' },
+    ],
+    weekend: [
+      { type: 'main', online: undefined, present: undefined, updatedAt: '' },
+    ],
+  },
+  week_5: {
+    midweek: [
+      { type: 'main', online: undefined, present: undefined, updatedAt: '' },
+    ],
+    weekend: [
+      { type: 'main', online: undefined, present: undefined, updatedAt: '' },
+    ],
   },
 };

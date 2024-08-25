@@ -1,10 +1,16 @@
-type WeeklyAttendance = {
-  midweek: { present: number; online: number };
-  weekend: { present: number; online: number };
+export type AttendanceCongregation = {
+  present: number;
+  online: number;
+  type: string;
+  updatedAt: string;
+};
+
+export type WeeklyAttendance = {
+  midweek: AttendanceCongregation[];
+  weekend: AttendanceCongregation[];
 };
 
 export type MeetingAttendanceType = {
-  id?: string;
   month_date: string;
   week_1: WeeklyAttendance;
   week_2: WeeklyAttendance;

@@ -37,7 +37,7 @@ export interface CustomTabProps extends TabOwnProps {
     /**
      * The component to be rendered in the tab.
      */
-    Component: ReactNode;
+    Component?: ReactNode;
 
     /**
      * The icon element to be displayed with the tab.

@@ -10,6 +10,7 @@ import { schedulesState } from '@states/schedules';
 import { visitingSpeakersState } from '@states/visiting_speakers';
 import { speakersCongregationsState } from '@states/speakers_congregations';
 import appDb from '@db/appDb';
+import { meetingAttendanceState } from '@states/meeting_attendance';
 
 const useIndexedDb = () => {
   const dbSettings = useLiveQuery(() => appDb.app_settings.toArray());
@@ -24,6 +25,9 @@ const useIndexedDb = () => {
   const dbVisitingSpeakers = useLiveQuery(() =>
     appDb.visiting_speakers.toArray()
   );
+  const dbMeetingAttendance = useLiveQuery(() =>
+    appDb.meeting_attendance.toArray()
+  );
 
   const setSettings = useSetRecoilState(settingsState);
   const setPersons = useSetRecoilState(personsState);
@@ -35,6 +39,7 @@ const useIndexedDb = () => {
   const setSpeakersCongregations = useSetRecoilState(
     speakersCongregationsState
   );
+  const setMeetingAttendance = useSetRecoilState(meetingAttendanceState);
 
   const loadSettings = useCallback(() => {
     if (dbSettings && dbSettings[0]) {
@@ -84,6 +89,12 @@ const useIndexedDb = () => {
     }
   }, [dbSpeakersCongregations, setSpeakersCongregations]);
 
+  const loadMeetingAttendance = useCallback(() => {
+    if (dbMeetingAttendance) {
+      setMeetingAttendance(dbMeetingAttendance);
+    }
+  }, [dbMeetingAttendance, setMeetingAttendance]);
+
   return {
     loadSettings,
     loadPersons,
@@ -93,6 +104,7 @@ const useIndexedDb = () => {
     loadSchedules,
     loadVisitingSpeakers,
     loadSpeakersCongregations,
+    loadMeetingAttendance,
   };
 };
 

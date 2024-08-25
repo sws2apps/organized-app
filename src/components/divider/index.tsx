@@ -1,5 +1,6 @@
+import { FC } from 'react';
 import { Divider as MUIDivider } from '@mui/material';
-import { CustomDividerProps } from './divider.types';
+import { CustomDividerProps } from './index.types';
 
 /**
  * A customizable divider component.
@@ -13,25 +14,31 @@ import { CustomDividerProps } from './divider.types';
  * // Example usage of CustomDivider component
  * <CustomDivider color="blue" height={2} />
  */
-const Divider = (props: CustomDividerProps) => {
-  const height = props.height || 1;
-  const color = props.color || 'var(--accent-main)';
-
+const Divider: FC<CustomDividerProps> = ({
+  height = 1,
+  color = 'var(--accent-main)',
+  dashed,
+  sx,
+  ...props
+}: CustomDividerProps) => {
   return (
     <MUIDivider
+      {...props}
       sx={
-        props.dashed
+        dashed
           ? {
               backgroundImage: `repeating-linear-gradient(0deg, ${color}, ${color} 5px, transparent 5px, transparent 10px, ${color} 10px), repeating-linear-gradient(90deg, ${color}, ${color} 5px, transparent 5px, transparent 10px, ${color} 10px), repeating-linear-gradient(180deg, ${color}, ${color} 5px, transparent 5px, transparent 10px, ${color} 10px), repeating-linear-gradient(270deg, ${color}, ${color} 5px, transparent 5px, transparent 10px, ${color} 10px)`,
               backgroundSize: `1px 100%, 100% 1px, 1px 100% , 100% 1px`,
               backgroundPosition: `0 0, 0 0, 100% 0, 0 100%`,
               backgroundRepeat: `no-repeat`,
               borderColor: 'transparent',
+              ...sx,
             }
           : {
-              ...props.sx,
-              border: 'none',
-              borderBottom: `${height}px solid ${color}`,
+              borderColor: color,
+              borderRightWidth: height,
+              borderBottomWidth: height,
+              ...sx,
             }
       }
     />

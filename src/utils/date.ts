@@ -1,3 +1,4 @@
+import { ServiceYearType } from '@definition/report';
 import { generateMonthNames, getTranslation } from '@services/i18n/translation';
 
 export const dateFirstDayMonth = (date: Date = new Date()) => {
@@ -177,4 +178,88 @@ export const removeSecondsFromTime = (time: string) => {
     return parts.slice(0, 2).join(':');
   }
   return time;
+};
+
+export const currentServiceYear = () => {
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = date.getMonth();
+
+  let value: string;
+
+  if (month < 8) {
+    value = year.toString();
+  } else {
+    value = String(year + 1).toString();
+  }
+
+  return value;
+};
+
+export const currentMonthServiceYear = () => {
+  const currentYear = new Date().getFullYear();
+  const currentMonth = new Date().getMonth();
+  const monthIndex = String(currentMonth + 1).padStart(2, '0');
+  const monthValue = `${currentYear}/${monthIndex}`;
+
+  return monthValue;
+};
+
+export const buildServiceYearsList = () => {
+  const monthNames = generateMonthNames();
+  const currentSY = currentServiceYear();
+
+  const years: string[] = [];
+
+  let year = +currentSY;
+  years.push(year.toString());
+
+  do {
+    year = year - 1;
+
+    years.push(year.toString());
+  } while (years.length < 4);
+
+  years.sort();
+
+  const result: ServiceYearType[] = [];
+
+  for (const year of years) {
+    const monthsList: { value: string; label: string }[] = [];
+
+    const isCurrent = year === currentSY;
+    let maxIndex: number;
+
+    if (!isCurrent) {
+      maxIndex = 13;
+    } else {
+      const currentMonth = new Date().getMonth();
+      maxIndex = currentMonth < 9 ? currentMonth + 6 : currentMonth - 7;
+    }
+
+    for (let i = 1; i < maxIndex; i++) {
+      const monthIndex = i < 5 ? i + 8 : i - 4;
+      const newYear = i < 5 ? +year - 1 : year;
+
+      let month = `${newYear}/`;
+      month += String(monthIndex).padStart(2, '0');
+
+      const monthName = monthNames[monthIndex - 1];
+
+      monthsList.push({
+        value: month,
+        label: getTranslation({
+          key: 'tr_monthYear',
+          params: { year: newYear, month: monthName },
+        }),
+      });
+    }
+
+    result.push({
+      year,
+      months: monthsList,
+    });
+  }
+
+  return result;
 };
