@@ -143,5 +143,6 @@
   "tr_outgoingTalkDelete": "Alisin ang pahayag sa ibang kongregasyon",
   "tr_outgoingTalkDeleteDesc": "Sigurado ka bang gusto mong tanggalin ang iskedyul ng pahayag sa ibang kongregasyon?",
   "tr_deliveredBy": "Ginampanan ni {{ name }}",
-  "tr_toCurrentWeek": "Kasalukuyang linggo"
+  "tr_toCurrentWeek": "Kasalukuyang linggo",
+  "tr_recordAttendance": "Record attendance"
 }
