@@ -143,5 +143,6 @@
   "tr_outgoingTalkDelete": "Видалити промову в іншому зборі",
   "tr_outgoingTalkDeleteDesc": "Ти дійсно хочеш видалити цей графік промови у іншому зборі?",
   "tr_deliveredBy": "Delivered by {{ name }}",
-  "tr_toCurrentWeek": "До поточного тижня"
+  "tr_toCurrentWeek": "До поточного тижня",
+  "tr_recordAttendance": "Record attendance"
 }
