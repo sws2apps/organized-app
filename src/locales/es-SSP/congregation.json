@@ -345,7 +345,6 @@
   "tr_noPersonsAdded": "No hay personas añadidas aún",
   "tr_noPersonsAddedDesc": "Empieza a añadir personas a tu congestión haciendo clic en 'Añadir persona' y rellenando su información. Esto facilitará la programación y la información.",
   "tr_searchResultsNone": "Sin resultados",
-  "tr_quickSettingsFieldServiceGroupsDesc": "Easily update your settings for this page on-the-go. These settings are synced with the congregation settings page, so you can manage them from either location at any time.",
   "tr_searchResultsNoneDesc": "Intente cambiar la entrada o los filtros de búsqueda, y compruebe si hay errores tipográficos.",
   "tr_personRecordExists": "Esta persona ya existe en su lista de personas de congestión.",
   "tr_speakersAdd": "Agregar altavoz",
@@ -427,5 +426,7 @@
   "tr_bindUserRecordAssignmentsNotice": "<p>To view your upcoming assignments, make sure first that your device is connected to the internet. Then open the <a>Manage access</a> page to locate your user account and bind it with a record from your congregation persons list.</p>",
   "tr_next3MonthsLabel": "Next 3 months",
   "tr_next6MonthsLabel": "Next 6 months",
-  "tr_next12MonthsLabel": "Next 12 months"
+  "tr_next12MonthsLabel": "Next 12 months",
+  "tr_quickSettings": "Quick settings",
+  "tr_quickSettingsDesc": "Easily update your settings for this page on-the-go. These settings are synced with the congregation settings page, so you can manage them from either location at any time."
 }
