@@ -43,7 +43,7 @@ const MidweekMeeting = () => {
         <MidweekExport open={openExport} onClose={handleCloseExport} />
       )}
 
-      {!isConnected && openPublish && (
+      {isConnected && openPublish && (
         <SchedulePublish
           type="midweek"
           open={openPublish}
@@ -78,7 +78,7 @@ const MidweekMeeting = () => {
               >
                 {t('tr_autofill')}
               </Button>
-              {!isConnected && (
+              {isConnected && (
                 <Button
                   variant="main"
                   startIcon={<IconPublish />}

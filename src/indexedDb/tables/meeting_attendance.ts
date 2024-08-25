@@ -6,6 +6,5 @@ export type MeetingAttendanceTable = {
 };
 
 export const meetingAttendanceSchema = {
-  meeting_attendance:
-    '++id, month_date, week_1, week_2, week_3, week_4, week_5',
+  meeting_attendance: '&month_date, week_1, week_2, week_3, week_4, week_5',
 };

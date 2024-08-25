@@ -8,7 +8,7 @@ import Secretary from '@assets/img/illustration_secretary.svg?url';
 import useIllustration from './useIllustration';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper/modules';
-import { createArray } from '@utils/common';
+import { createNumbersArray } from '@utils/common';
 import { IconEllipse } from '@icons/index';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -163,7 +163,7 @@ const StartupIllustration = () => {
           gap: { mobile: '12px', laptop: '16px' },
         }}
       >
-        {createArray(4).map((n) => (
+        {createNumbersArray(4).map((n) => (
           <IconButton
             key={n}
             disableRipple

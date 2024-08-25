@@ -91,8 +91,6 @@ export const generateDisplayName = (lastname: string, firstname: string) => {
   return varDisplay;
 };
 
-export const createArray = (n) => Array.from({ length: n }, (_, b) => b);
-
 export const localStorageGetItem = (key: string) => {
   if (typeof localStorage === 'undefined') {
     return;

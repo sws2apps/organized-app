@@ -15,6 +15,7 @@ const DatabaseWrapper = ({ children }: PropsWithChildren) => {
     loadWeekType,
     loadVisitingSpeakers,
     loadSpeakersCongregations,
+    loadMeetingAttendance,
   } = useIndexedDb();
 
   useEffect(() => {
@@ -26,6 +27,7 @@ const DatabaseWrapper = ({ children }: PropsWithChildren) => {
     loadSources();
     loadSpeakersCongregations();
     loadVisitingSpeakers();
+    loadMeetingAttendance();
   }, [
     loadSettings,
     loadAssignment,
@@ -35,6 +37,7 @@ const DatabaseWrapper = ({ children }: PropsWithChildren) => {
     loadSources,
     loadSpeakersCongregations,
     loadVisitingSpeakers,
+    loadMeetingAttendance,
   ]);
 
   return children;
