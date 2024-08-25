@@ -90,5 +90,6 @@
   "tr_yourEmailField": "Iyong email address",
   "tr_yourMessage": "Iyong mensahe",
   "tr_reportSubmittedDesc": "Ang iyong ulat sa buwan ng {{ month }} ay naipasa na",
-  "tr_mainCongregation": "Main congregation"
+  "tr_mainCongregation": "Main congregation",
+  "tr_noMeetingAssignments": "You have no meeting assignments at the moment"
 }
