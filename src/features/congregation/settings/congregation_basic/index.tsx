@@ -6,7 +6,8 @@ import {
   CardSectionHeader,
 } from '../../shared_styles/components';
 import useCongregationBasic from './useCongregationBasic';
-import MeettingSettings from '../meeting_settings';
+import MeetingSettings from '../meeting_settings';
+import MeetingAttendance from './meeting_attendance';
 import SwitchWithLabel from '@components/switch_with_label';
 import TextField from '@components/textfield';
 
@@ -23,8 +24,6 @@ const CongregationBasic = () => {
     handleAddressSave,
     hour24,
     handleHour24Toggle,
-    recordOnline,
-    handleRecordOnlineToggle,
   } = useCongregationBasic();
 
   return (
@@ -79,16 +78,11 @@ const CongregationBasic = () => {
             onChange={handleHour24Toggle}
           />
 
-          <SwitchWithLabel
-            label={t('tr_recordOnlineAttendance')}
-            helper={t('tr_recordOnlineAttendanceDesc')}
-            checked={recordOnline}
-            onChange={handleRecordOnlineToggle}
-          />
+          <MeetingAttendance />
         </Box>
       </CardSectionContent>
 
-      <MeettingSettings />
+      <MeetingSettings />
     </CardSection>
   );
 };

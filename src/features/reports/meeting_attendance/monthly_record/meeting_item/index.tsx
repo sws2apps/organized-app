@@ -34,7 +34,6 @@ const MeetingItem = ({ type, month }: MeetingItemProps) => {
         {weeksCount.map((week) => (
           <WeekBox
             key={`present-${week.toString()}`}
-            record="present"
             index={week}
             month={month}
             type={type}

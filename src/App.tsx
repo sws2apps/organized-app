@@ -13,7 +13,7 @@ const PublicTalksList = lazy(
   () => import('@pages/meeting_materials/public_talks_list')
 );
 const BranchOfficeReports = lazy(() => import('@pages/reports/branch_office'));
-const MeetingAttendanceReports = lazy(
+const MeetingAttendance = lazy(
   () => import('@pages/reports/meeting_attendance')
 );
 const FieldServiceReportsPage = lazy(
@@ -69,7 +69,7 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
             },
             {
               path: '/reports/meeting-attendance',
-              element: <MeetingAttendanceReports />,
+              element: <MeetingAttendance />,
             },
             {
               path: '/reports/field-service',

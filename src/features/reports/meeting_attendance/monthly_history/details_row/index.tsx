@@ -13,10 +13,13 @@ const DetailsRow = (props: DetailsRowProps) => {
         alignItems: 'center',
         justifyContent: 'space-between',
         padding: '8px 4px',
+        gap: '8px',
       }}
     >
       <Typography color="var(--grey-400)">{label}</Typography>
-      <Typography className="h4">{value}</Typography>
+      <Typography className="h4" sx={{ textWrap: 'nowrap' }}>
+        {value}
+      </Typography>
     </Box>
   );
 };
