@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
+import { useQuery } from '@tanstack/react-query';
 import { addMonths, getWeekDate } from '@utils/date';
 import { sourcesState } from '@states/sources';
 import {
@@ -14,14 +15,25 @@ import { SourceWeekType } from '@definition/sources';
 import { schedulesState } from '@states/schedules';
 import { SchedWeekType } from '@definition/schedules';
 import { incomingSpeakersState } from '@states/visiting_speakers';
-import { speakerGetDisplayName } from '@utils/common';
+import { speakerGetDisplayName, updateObject } from '@utils/common';
 import {
   displayNameMeetingsEnableState,
   fullnameOptionState,
 } from '@states/settings';
+import {
+  apiPublicScheduleGet,
+  apiPublishSchedule,
+} from '@services/api/schedule';
+import { formatDate } from '@services/dateformat';
 
 const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
   const { t } = useAppTranslation();
+
+  const { data, refetch } = useQuery({
+    queryKey: ['public_schedules'],
+    queryFn: apiPublicScheduleGet,
+    refetchOnMount: 'always',
+  });
 
   const sources = useRecoilValue(sourcesState);
   const schedules = useRecoilValue(schedulesState);
@@ -169,6 +181,34 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
     });
   };
 
+  const handleUpdateMaterialsFromRemote = <
+    T extends SchedWeekType | SourceWeekType,
+  >(
+    local: T[],
+    remote: T[]
+  ) => {
+    const now = getWeekDate();
+    const lastDate = formatDate(addMonths(now, -3), 'yyyy/MM/dd');
+
+    const filteredData = remote.filter((record) => record.weekOf >= lastDate);
+
+    for (const item of local) {
+      const remoteItem = filteredData.find(
+        (record) => record.weekOf === item.weekOf
+      );
+
+      if (!remoteItem) {
+        filteredData.push(item);
+      }
+
+      if (remoteItem) {
+        updateObject(remoteItem, item);
+      }
+    }
+
+    return filteredData;
+  };
+
   const handlePublishSchedule = async () => {
     if (checkedItems.length === 0 || isProcessing) return;
 
@@ -177,14 +217,45 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
 
       const months = checkedItems.toSorted();
 
-      const sourcesPublish = handleGetMaterials(sources, months);
-      const schedulesBasePublish = handleGetMaterials(schedules, months);
-      const schedulesPublish = handleUpdateSchedules(schedulesBasePublish);
+      const sourcesLocalPublish = handleGetMaterials(sources, months);
+      const schedulesLocalPublish = handleGetMaterials(schedules, months);
 
-      console.log({ sources: sourcesPublish, schedules: schedulesPublish });
+      const { data } = await refetch();
 
-      setIsProcessing(false);
-      onClose?.();
+      if (Array.isArray(data?.schedules) && Array.isArray(data?.sources)) {
+        const sourcesRemote = data.sources;
+        const schedulesRemote = data.schedules;
+
+        const sourcesPublish = handleUpdateMaterialsFromRemote(
+          sourcesLocalPublish,
+          sourcesRemote
+        );
+
+        const schedulesBasePublish = handleUpdateMaterialsFromRemote(
+          schedulesLocalPublish,
+          schedulesRemote
+        );
+
+        const schedulesPublish = handleUpdateSchedules(schedulesBasePublish);
+
+        const { status, message } = await apiPublishSchedule(
+          sourcesPublish,
+          schedulesPublish
+        );
+
+        if (status !== 200) {
+          throw new Error(message);
+        }
+
+        await displaySnackNotification({
+          header: t('tr_successfullyPublished'),
+          message: t('tr_successfullyPublishedDesc'),
+          severity: 'success',
+        });
+
+        setIsProcessing(false);
+        onClose?.();
+      }
     } catch (error) {
       console.error(error);
 
@@ -200,11 +271,25 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
   };
 
   useEffect(() => {
-    // fetch published schedules from server
-    setPublishedItems(['2024/05', '2024/11']);
-  }, []);
+    if (Array.isArray(data?.schedules) && Array.isArray(data?.sources)) {
+      const published = data.schedules.reduce((acc: string[], { weekOf }) => {
+        const month = weekOf.slice(0, 7);
+        if (!acc.includes(month)) {
+          acc.push(month);
+        }
+        return acc;
+      }, []);
 
-  return { schedulesList, handleCheckedChange, handlePublishSchedule };
+      setPublishedItems(published);
+    }
+  }, [data]);
+
+  return {
+    schedulesList,
+    handleCheckedChange,
+    handlePublishSchedule,
+    isProcessing,
+  };
 };
 
 export default useSchedulePublish;
