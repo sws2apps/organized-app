@@ -345,7 +345,6 @@
   "tr_noPersonsAdded": "Henüz kişi eklenmedi",
   "tr_noPersonsAddedDesc": "Kişi ekle’ seçeneğine tıklayarak ve bilgilerini doldurarak cemaate kişi eklemeye başlayın. Bu, program yapma ve rapor işlemlerini kolaylaştıracaktır.",
   "tr_searchResultsNone": "Arama sonucu yok",
-  "tr_quickSettingsFieldServiceGroupsDesc": "Bu sayfa için ayarları kolayca güncelleyebilirsiniz. Bu ayarlar cemaat ayarları sayfası ile senkronizedir, bu yüzden her iki yerden de istediğiniz zaman yönetebilirsiniz.",
   "tr_searchResultsNoneDesc": "Arama girdinizi veya filtrelerinizi değiştirmeyi deneyin ve yazım hatalarını kontrol edin.",
   "tr_personRecordExists": "Bu kişi, cemaatinizin kişi listesinde zaten mevcut.",
   "tr_speakersAdd": "Konuşmacı ekle",
@@ -427,5 +426,7 @@
   "tr_bindUserRecordAssignmentsNotice": "<p>To view your upcoming assignments, make sure first that your device is connected to the internet. Then open the <a>Manage access</a> page to locate your user account and bind it with a record from your congregation persons list.</p>",
   "tr_next3MonthsLabel": "Next 3 months",
   "tr_next6MonthsLabel": "Next 6 months",
-  "tr_next12MonthsLabel": "Next 12 months"
+  "tr_next12MonthsLabel": "Next 12 months",
+  "tr_quickSettings": "Quick settings",
+  "tr_quickSettingsDesc": "Easily update your settings for this page on-the-go. These settings are synced with the congregation settings page, so you can manage them from either location at any time."
 }
