@@ -90,5 +90,6 @@
   "tr_yourEmailField": "Seu e-mail",
   "tr_yourMessage": "Sua mensagem",
   "tr_reportSubmittedDesc": "Seu relatório de {{ month }} foi enviado",
-  "tr_mainCongregation": "Congregação principal"
+  "tr_mainCongregation": "Congregação principal",
+  "tr_noMeetingAssignments": "You have no meeting assignments at the moment"
 }
