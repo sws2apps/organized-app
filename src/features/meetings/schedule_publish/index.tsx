@@ -1,4 +1,5 @@
 import { Box, Stack } from '@mui/material';
+import { IconLoading } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { SchedulePublishProps } from './index.types';
 import useSchedulePublish from './useSchedulePublish';
@@ -11,8 +12,12 @@ import YearContainer from './year_container';
 const SchedulePublish = (props: SchedulePublishProps) => {
   const { t } = useAppTranslation();
 
-  const { schedulesList, handleCheckedChange, handlePublishSchedule } =
-    useSchedulePublish(props);
+  const {
+    schedulesList,
+    handleCheckedChange,
+    handlePublishSchedule,
+    isProcessing,
+  } = useSchedulePublish(props);
 
   return (
     <Dialog onClose={props.onClose} open={props.open} sx={{ padding: '24px' }}>
@@ -48,7 +53,12 @@ const SchedulePublish = (props: SchedulePublishProps) => {
           width: '100%',
         }}
       >
-        <Button variant="main" onClick={handlePublishSchedule}>
+        <Button
+          variant="main"
+          disabled={isProcessing}
+          onClick={handlePublishSchedule}
+          endIcon={isProcessing && <IconLoading />}
+        >
           {t('tr_publish')}
         </Button>
         <Button variant="secondary" onClick={props.onClose}>
