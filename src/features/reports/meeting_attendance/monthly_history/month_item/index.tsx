@@ -4,8 +4,8 @@ import { useBreakpoints } from '@hooks/index';
 import { MonthItemProps } from './index.types';
 import useMonthItem from './useMonthItem';
 import Divider from '@components/divider';
-import Typography from '@components/typography';
 import MeetingContainer from '../meeting_container';
+import Typography from '@components/typography';
 
 const MonthItem = ({ data }: MonthItemProps) => {
   const { tablet600Up } = useBreakpoints();

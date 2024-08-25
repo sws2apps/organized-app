@@ -2,9 +2,9 @@ import { Stack } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
 import { CardContainer } from '../shared_styles';
 import useMonthlyHistory from './useMonthlyHistory';
+import MonthItem from './month_item';
 import Typography from '@components/typography';
 import YearSelector from './year_selector';
-import MonthItem from './month_item';
 
 const MonthlyHistory = () => {
   const { t } = useAppTranslation();

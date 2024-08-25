@@ -2,9 +2,9 @@ import { Box } from '@mui/material';
 import { IconPrepareReport } from '@components/icons';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import Button from '@components/button';
+import MonthlyHistory from '@features/reports/meeting_attendance/monthly_history';
 import MonthlyRecord from '@features/reports/meeting_attendance/monthly_record';
 import PageTitle from '@components/page_title';
-import MonthlyHistory from '@features/reports/meeting_attendance/monthly_history';
 
 const MeetingAttendanceReportsPage = () => {
   const { t } = useAppTranslation();
@@ -43,12 +43,6 @@ const MeetingAttendanceReportsPage = () => {
         <MonthlyRecord />
         <MonthlyHistory />
       </Box>
-
-      {/* <StyledBox row={desktopView}>
-        <Box sx={{ flex: desktopView && 15 }}>
-          {MeetingAttendanceReportHistory(t, history, onChangeHistoryYear)}
-        </Box>
-      </StyledBox> */}
     </Box>
   );
 };

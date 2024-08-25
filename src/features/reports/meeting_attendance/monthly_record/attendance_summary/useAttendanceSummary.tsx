@@ -16,7 +16,7 @@ const useAttendanceSummary = ({
   }, [attendances, month]);
 
   const value = useMemo(() => {
-    if (!attendance) return '';
+    if (!attendance) return 0;
 
     const values: number[] = [];
 
