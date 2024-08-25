@@ -345,7 +345,6 @@
   "tr_noPersonsAdded": "Поки що не додано жодної особи",
   "tr_noPersonsAddedDesc": "Почни додавати осіб до свого збору, натиснувши ’Додати особу’ та заповнивши їхню інформацію. Це спростить планування і звітування.",
   "tr_searchResultsNone": "Результатів пошуку немає",
-  "tr_quickSettingsFieldServiceGroupsDesc": "Легко оновлюйте свої налаштування для цієї сторінки у режимі реального часу. Ці налаштування синхронізуються зі сторінкою налаштувань збору, тому ти можеш в будь-який час керувати ними з будь-якого місця.",
   "tr_searchResultsNoneDesc": "Спробуй змінити пошуковий запит або фільтри та перевірити наявність помилок.",
   "tr_personRecordExists": "Ця особа вже є в списку осіб твого збору.",
   "tr_speakersAdd": "Додати промовця",
@@ -427,5 +426,7 @@
   "tr_bindUserRecordAssignmentsNotice": "<p>Щоб переглянути твої майбутні завдання, спочатку переконайся, що ти маєш доступ до Інтернету. Потім відкрий сторінку <a>Керування доступом</a>, щоб знайти твій обліковий запис користувача та зв'язати його з записом зі списку осіб твого збору.</p>",
   "tr_next3MonthsLabel": "Наступні 3 місяці",
   "tr_next6MonthsLabel": "Наступні 6 місяців",
-  "tr_next12MonthsLabel": "Наступні 12 місяців"
+  "tr_next12MonthsLabel": "Наступні 12 місяців",
+  "tr_quickSettings": "Quick settings",
+  "tr_quickSettingsDesc": "Easily update your settings for this page on-the-go. These settings are synced with the congregation settings page, so you can manage them from either location at any time."
 }
