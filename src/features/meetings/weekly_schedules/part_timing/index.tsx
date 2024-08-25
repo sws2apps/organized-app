@@ -12,6 +12,7 @@ const PartTiming = ({ time }: PartTimingProps) => {
         width: '45px',
         borderRadius: 'var(--radius-max)',
         padding: '12px 6px',
+        alignSelf: 'self-start',
       }}
     />
   );
