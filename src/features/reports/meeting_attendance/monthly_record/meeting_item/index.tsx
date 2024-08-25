@@ -41,21 +41,6 @@ const MeetingItem = ({ type, month }: MeetingItemProps) => {
         ))}
       </Stack>
 
-      {/* {recordOnline && (
-        <Stack spacing="16px" direction={tablet600Up ? 'row' : 'column'}>
-          {weeksCount.map((week) => (
-            <WeekBox
-              key={`online-${week.toString()}`}
-              label={t('tr_online')}
-              record="online"
-              index={week}
-              month={month}
-              type={type}
-            />
-          ))}
-        </Stack>
-      )} */}
-
       <Stack spacing="16px" direction={tablet600Up ? 'row' : 'column'}>
         <AttendanceSummary month={month} type={type} summary="total" />
         <AttendanceSummary month={month} type={type} summary="average" />
