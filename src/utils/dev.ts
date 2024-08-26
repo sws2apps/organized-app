@@ -2,8 +2,8 @@ import { promiseSetRecoil } from 'recoil-outside';
 import { rootModalOpenState } from '@states/app';
 import { PersonType } from '@definition/person';
 import { AssignmentCode } from '@definition/assignment';
-import appDb from '@db/appDb';
 import { generateDisplayName } from './common';
+import appDb from '@db/appDb';
 
 const getRandomDate = (
   start_date = new Date(1970, 0, 1),
@@ -60,8 +60,8 @@ export const importDummyPersons = async (showLoading?: boolean) => {
             updatedAt: new Date().toISOString(),
           },
           person_display_name: {
-            value: generateDisplayName(user.lastName, user.firstname),
-            updatedAt: '',
+            value: generateDisplayName(user.lastName, user.firstName),
+            updatedAt: new Date().toISOString(),
           },
           birth_date: {
             value: new Date(user.birthDate).toISOString(),
