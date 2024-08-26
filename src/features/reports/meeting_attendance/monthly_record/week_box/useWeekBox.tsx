@@ -1,34 +1,46 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { ChangeEvent, useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { formatDate } from '@services/dateformat';
 import { getWeekDate } from '@utils/date';
-import { displaySnackNotification } from '@services/recoil/app';
 import { WeekBoxProps } from './index.types';
-import { useAppTranslation } from '@hooks/index';
-import { getMessageByCode } from '@services/i18n/translation';
 import { meetingAttendanceState } from '@states/meeting_attendance';
-import { meetingAttendanceSchema } from '@services/dexie/schema';
-import {
-  MeetingAttendanceType,
-  WeeklyAttendance,
-} from '@definition/meeting_attendance';
+import { WeeklyAttendance } from '@definition/meeting_attendance';
 import {
   attendanceOnlineRecordState,
   userDataViewState,
 } from '@states/settings';
-import { dbMeetingAttendanceSave } from '@services/dexie/meeting_attendance';
+import { meetingAttendancePresentSave } from '@services/app/meeting_attendance';
 
 const useWeekBox = ({ month, index, type }: WeekBoxProps) => {
-  const { t } = useAppTranslation();
-
-  const timer = useRef<NodeJS.Timeout>();
-
   const attendances = useRecoilValue(meetingAttendanceState);
   const dataView = useRecoilValue(userDataViewState);
   const recordOnline = useRecoilValue(attendanceOnlineRecordState);
 
-  const [present, setPresent] = useState('');
-  const [online, setOnline] = useState('');
+  const [present, setPresent] = useState(() => {
+    const attendance = attendances.find(
+      (record) => record.month_date === month
+    );
+
+    const weeklyAttendance = attendance[`week_${index}`] as WeeklyAttendance;
+    const currentRecord = weeklyAttendance[type].find(
+      (record) => record.type === dataView
+    );
+    const present = currentRecord.present?.toString() || '';
+    return present;
+  });
+
+  const [online, setOnline] = useState(() => {
+    const attendance = attendances.find(
+      (record) => record.month_date === month
+    );
+
+    const weeklyAttendance = attendance[`week_${index}`] as WeeklyAttendance;
+    const currentRecord = weeklyAttendance[type].find(
+      (record) => record.type === dataView
+    );
+    const online = currentRecord.online?.toString() || '';
+    return online;
+  });
 
   const total = useMemo(() => {
     let cnTotal = 0;
@@ -43,10 +55,6 @@ const useWeekBox = ({ month, index, type }: WeekBoxProps) => {
 
     return cnTotal;
   }, [present, online]);
-
-  const attendance = useMemo(() => {
-    return attendances.find((record) => record.month_date === month);
-  }, [attendances, month]);
 
   const weeksList = useMemo(() => {
     const [year, monthValue] = month.split('/').map(Number);
@@ -98,130 +106,53 @@ const useWeekBox = ({ month, index, type }: WeekBoxProps) => {
     }
   }, [weeksList, index, type, isMidweek, isWeekend]);
 
-  const handleUpdateRecord = (record: 'present' | 'online', value: number) => {
-    const dbAttendance = attendances.find(
-      (record) => record.month_date === month
-    );
+  const handlePresentChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value.match(/[^0-9]/)) {
+      e.preventDefault();
 
-    let attendance: MeetingAttendanceType;
-
-    if (!dbAttendance) {
-      attendance = structuredClone(meetingAttendanceSchema);
-      attendance.month_date = month;
-    } else {
-      attendance = structuredClone(dbAttendance);
+      return;
     }
 
-    const weekRecord = attendance[`week_${index}`] as WeeklyAttendance;
-    const meetingRecord = weekRecord[type];
+    const tmpValue = e.target.value;
+    const value = tmpValue === '' ? '' : String(+tmpValue).toString();
+    setPresent(value);
 
-    let current = meetingRecord.find((record) => record.type === dataView);
+    meetingAttendancePresentSave({
+      count: value,
+      index,
+      month,
+      type,
+      record: 'present',
+    });
+  };
 
-    if (!current) {
-      meetingRecord.push({
-        type: dataView,
-        online: undefined,
-        present: undefined,
-        updatedAt: '',
-      });
-      current = meetingRecord.find((record) => record.type === dataView);
+  const handleOnlineChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value.match(/[^0-9]/)) {
+      e.preventDefault();
+
+      return;
     }
 
-    current[record] = value;
-    current.updatedAt = new Date().toISOString();
+    const tmpValue = e.target.value;
+    const value = tmpValue === '' ? '' : String(+tmpValue).toString();
+    setOnline(value);
 
-    return attendance;
+    meetingAttendancePresentSave({
+      count: value,
+      index,
+      month,
+      type,
+      record: 'online',
+    });
   };
-
-  const handlePresentChange = (value: string) => setPresent(value);
-
-  const handlePresentSave = () => {
-    if (timer.current) clearTimeout(timer.current);
-
-    timer.current = setTimeout(handlePresentSaveDb, 1000);
-  };
-
-  const handlePresentSaveDb = async () => {
-    try {
-      const value = present.length === 0 ? undefined : +present;
-      const attendance = handleUpdateRecord('present', value);
-
-      await dbMeetingAttendanceSave(attendance);
-
-      await displaySnackNotification({
-        header: t('tr_attendanceRecordAdded'),
-        message: t('tr_attendanceRecordAddedDesc'),
-        severity: 'success',
-      });
-    } catch (error) {
-      console.error(error);
-
-      await displaySnackNotification({
-        header: t('tr_errorTitle'),
-        message: getMessageByCode(error.message),
-        severity: 'error',
-      });
-    }
-  };
-
-  const handleOnlineChange = (value: string) => setOnline(value);
-
-  const handleOnlineSave = () => {
-    if (timer.current) clearTimeout(timer.current);
-
-    timer.current = setTimeout(handleOnlineSaveDb, 1000);
-  };
-
-  const handleOnlineSaveDb = async () => {
-    try {
-      const value = online.length === 0 ? undefined : +online;
-      const attendance = handleUpdateRecord('online', value);
-
-      await dbMeetingAttendanceSave(attendance);
-
-      await displaySnackNotification({
-        header: t('tr_attendanceRecordAdded'),
-        message: t('tr_attendanceRecordAddedDesc'),
-        severity: 'success',
-      });
-    } catch (error) {
-      console.error(error);
-
-      await displaySnackNotification({
-        header: t('tr_errorTitle'),
-        message: getMessageByCode(error.message),
-        severity: 'error',
-      });
-    }
-  };
-
-  useEffect(() => {
-    setPresent('');
-    setOnline('');
-
-    if (!attendance) return;
-
-    const weeklyAttendance = attendance[`week_${index}`] as WeeklyAttendance;
-    const currentRecord = weeklyAttendance[type].find(
-      (record) => record.type === dataView
-    );
-
-    const present = currentRecord.present?.toString() || '';
-    setPresent(present);
-
-    const online = currentRecord.online?.toString() || '';
-    setOnline(online);
-  }, [month, type, index, dataView, attendance]);
 
   return {
     isCurrent,
     handlePresentChange,
-    handlePresentSave,
     present,
     recordOnline,
     online,
     handleOnlineChange,
-    handleOnlineSave,
     total,
     isMidweek,
     isWeekend,

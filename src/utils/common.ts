@@ -192,3 +192,17 @@ export const copyToClipboard = async (value: string) => {
 export const getRandomArrayItem = <T>(array: T[]) => {
   return array[Math.floor(Math.random() * array.length)];
 };
+
+export const debounce = <T extends (...args: unknown[]) => void>(
+  func: T,
+  delay: number
+): ((...args: Parameters<T>) => void) => {
+  let timeoutId: NodeJS.Timeout;
+
+  return (...args: Parameters<T>) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => {
+      func(...args);
+    }, delay);
+  };
+};

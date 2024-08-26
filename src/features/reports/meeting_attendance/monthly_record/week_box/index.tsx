@@ -6,6 +6,7 @@ import useWeekBox from './useWeekBox';
 import NowIndicator from './now_indicator';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
+import { memo } from 'react';
 
 const WeekBox = (props: WeekBoxProps) => {
   const { t } = useAppTranslation();
@@ -14,11 +15,9 @@ const WeekBox = (props: WeekBoxProps) => {
     isCurrent,
     recordOnline,
     handlePresentChange,
-    handlePresentSave,
     present,
     online,
     handleOnlineChange,
-    handleOnlineSave,
     total,
     isMidweek,
     isWeekend,
@@ -55,8 +54,7 @@ const WeekBox = (props: WeekBoxProps) => {
               : t('tr_weekNumber', { weekNumber: props.index })
           }
           value={present}
-          onChange={(e) => handlePresentChange(e.target.value)}
-          onKeyUp={handlePresentSave}
+          onChange={handlePresentChange}
           inputProps={{ className: 'h4' }}
           sx={TextFieldStyles}
         />
@@ -75,8 +73,7 @@ const WeekBox = (props: WeekBoxProps) => {
               type="number"
               label={t('tr_online')}
               value={online}
-              onChange={(e) => handleOnlineChange(e.target.value)}
-              onKeyUp={handleOnlineSave}
+              onChange={handleOnlineChange}
               inputProps={{ className: 'h4' }}
               sx={TextFieldStyles}
             />
@@ -115,4 +112,4 @@ const WeekBox = (props: WeekBoxProps) => {
   );
 };
 
-export default WeekBox;
+export default memo(WeekBox);
