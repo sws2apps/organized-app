@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { monthShortNamesState } from '@states/app';
 import { useAppTranslation } from '@hooks/index';
@@ -7,13 +6,14 @@ import { getWeekDate } from '@utils/date';
 import { formatDate } from '@services/dateformat';
 import { WeeklySchedulesType, WeekSelectorProps } from './index.types';
 import { sourcesState } from '@states/sources';
+import { localStorageGetItem } from '@utils/common';
+
+const LOCALSTORAGE_KEY = 'organized_weekly_schedules';
 
 const useWeekSelector = ({ onChange, value }: WeekSelectorProps) => {
   const { t } = useAppTranslation();
 
-  const [searchParams] = useSearchParams();
-
-  const scheduleType = (searchParams.get('type') ||
+  const scheduleType = (localStorageGetItem(LOCALSTORAGE_KEY) ||
     'midweek') as WeeklySchedulesType;
 
   const months = useRecoilValue(monthShortNamesState);
