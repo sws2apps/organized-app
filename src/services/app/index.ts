@@ -68,3 +68,10 @@ export const checkPwaUpdate = () => {
     });
   }
 };
+
+export const getUserDataView = <T extends { type: string }>(
+  data: T[],
+  dataView: string
+) => {
+  return data.find((record) => record.type === dataView);
+};

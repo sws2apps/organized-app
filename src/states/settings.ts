@@ -333,6 +333,24 @@ export const attendanceOnlineRecordState = selector({
   },
 });
 
+export const congAddressState = selector({
+  key: 'congAddress',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+
+    return settings.cong_settings.cong_location.address;
+  },
+});
+
+export const congCountryState = selector({
+  key: 'congCountry',
+  get: ({ get }) => {
+    const settings = get(settingsState);
+
+    return settings.cong_settings.country_code;
+  },
+});
+
 // MIDWEEK MEETING
 
 export const midweekMeetingClassCountState = selector({

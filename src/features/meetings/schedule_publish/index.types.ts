@@ -1,4 +1,5 @@
 import { MeetingType } from '@definition/app';
+import { OutgoingTalkScheduleType } from '@definition/schedules';
 
 export type SchedulePublishProps = {
   open: boolean;
@@ -18,4 +19,9 @@ export type ScheduleListType = {
     checked: boolean;
     published: boolean;
   }[];
+};
+
+export type OutgoingTalkExportScheduleType = OutgoingTalkScheduleType & {
+  recipient: string;
+  week: string;
 };

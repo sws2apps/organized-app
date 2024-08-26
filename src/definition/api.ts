@@ -125,8 +125,14 @@ export type IncomingCongregationResponseType = {
   country_code: string;
   cong_circuit: string;
   cong_location: { address: string; lat: number; lng: number };
-  midweek_meeting: { weekday: number; time: string };
-  weekend_meeting: { weekday: number; time: string };
+  midweek_meeting: {
+    weekday: { value: number; updatedAt: string };
+    time: { value: string; updatedAt: string };
+  };
+  weekend_meeting: {
+    weekday: { value: number; updatedAt: string };
+    time: { value: string; updatedAt: string };
+  };
 };
 
 export type CongregationRequestType = {
