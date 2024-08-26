@@ -137,7 +137,7 @@ const useMidweekMeeting = () => {
         dataView
       ) as AssignmentCongregation;
 
-      if (assigned?.value === userUID) {
+      if (assigned?.value.length > 0 && assigned?.value === userUID) {
         cn++;
       }
     }
