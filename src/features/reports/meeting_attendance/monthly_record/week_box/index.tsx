@@ -31,7 +31,10 @@ const WeekBox = (props: WeekBoxProps) => {
           <Box
             sx={{
               padding: '4px 16px',
-              backgroundColor: 'var(--accent-150)',
+              backgroundColor:
+                props.type === 'midweek'
+                  ? 'var(--accent-150)'
+                  : 'var(--green-secondary)',
               borderRadius: 'var(--radius-m)',
             }}
           >
@@ -85,14 +88,21 @@ const WeekBox = (props: WeekBoxProps) => {
           <Box
             sx={{
               padding: '4px 16px',
-              backgroundColor: 'var(--accent-100)',
+              backgroundColor:
+                props.type === 'midweek'
+                  ? 'var(--accent-100)'
+                  : 'rgba(var(--green-secondary-base), 0.5)',
               borderRadius: 'var(--radius-m)',
             }}
           >
             <Typography
               className="h4"
               textAlign="center"
-              color={`var(--accent-dark)`}
+              color={
+                props.type === 'midweek'
+                  ? 'var(--accent-dark)'
+                  : 'var(--weekend-meeting)'
+              }
             >
               {total}
             </Typography>

@@ -14,7 +14,11 @@ const AttendanceSummary = (props: AttendanceSummaryProps) => {
       spacing="2px"
       borderRadius="var(--radius-l)"
       padding="4px 8px"
-      bgcolor="var(--accent-150)"
+      bgcolor={
+        props.type === 'midweek'
+          ? 'var(--accent-150)'
+          : 'var(--green-secondary)'
+      }
       height="48px"
       flex={1}
     >
