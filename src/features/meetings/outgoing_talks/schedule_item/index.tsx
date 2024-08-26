@@ -128,7 +128,7 @@ const ScheduleItem = (props: ScheduleItemType) => {
               type="outgoing"
               schedule_id={schedule.id}
               week={week}
-              isEdit={true}
+              isEdit={!schedule.synced}
             />
           </PrimaryFieldContainer>
           <SecondaryFieldContainer laptopUp={laptopUp} />
@@ -137,6 +137,7 @@ const ScheduleItem = (props: ScheduleItemType) => {
         <DoubleFieldContainer laptopUp={laptopUp}>
           <PrimaryFieldContainer>
             <PublicTalkSelector
+              readOnly={schedule.synced}
               week={week}
               showSpeakerCount={true}
               type="localSpeaker"
@@ -145,6 +146,7 @@ const ScheduleItem = (props: ScheduleItemType) => {
           </PrimaryFieldContainer>
           <SecondaryFieldContainer laptopUp={laptopUp}>
             <PersonSelector
+              readOnly={schedule.synced}
               week={week}
               label={t('tr_speaker')}
               assignment="WM_Speaker_Outgoing"
@@ -167,13 +169,15 @@ const ScheduleItem = (props: ScheduleItemType) => {
             }}
           >
             <CountrySelector
+              readOnly={schedule.synced}
               value={country}
               handleCountryChange={handleCountryChange}
               autoLoad={true}
             />
+
             <CongregationSelector
               freeSolo={true}
-              readOnly={country === null}
+              readOnly={country === null || schedule.synced}
               label={t('tr_congregation')}
               country_code={country?.code}
               setCongregation={handleSelectCongregation}
@@ -191,6 +195,7 @@ const ScheduleItem = (props: ScheduleItemType) => {
           >
             <TextField
               label={t('tr_kingdomHallAddress')}
+              InputProps={{ readOnly: schedule.synced }}
               value={congAddress}
               onChange={(e) => handleCongAddressChange(e.target.value)}
               onKeyUp={handleCongAddressSave}
@@ -198,6 +203,7 @@ const ScheduleItem = (props: ScheduleItemType) => {
             />
 
             <DaySelector
+              readOnly={schedule.synced}
               label={t('tr_weekendMeeting')}
               value={meetingDay}
               onChange={handleMeetingDayChange}
@@ -205,6 +211,7 @@ const ScheduleItem = (props: ScheduleItemType) => {
             />
 
             <TimePicker
+              readOnly={schedule.synced}
               ampm={!use24hFormat}
               label={t('tr_timerLabelTime')}
               value={meetingTime}
@@ -226,6 +233,7 @@ const ScheduleItem = (props: ScheduleItemType) => {
           >
             <TextField
               label={t('tr_congregation')}
+              InputProps={{ readOnly: schedule.synced }}
               value={congName}
               onChange={(e) => handleCongNameChange(e.target.value)}
               onKeyUp={handleCongNameSave}
@@ -233,6 +241,7 @@ const ScheduleItem = (props: ScheduleItemType) => {
 
             <TextField
               label={t('tr_kingdomHallAddress')}
+              InputProps={{ readOnly: schedule.synced }}
               value={congAddress}
               onChange={(e) => handleCongAddressChange(e.target.value)}
               onKeyUp={handleCongAddressSave}
@@ -247,12 +256,14 @@ const ScheduleItem = (props: ScheduleItemType) => {
             }}
           >
             <DaySelector
+              readOnly={schedule.synced}
               label={t('tr_weekendMeeting')}
               value={meetingDay}
               onChange={handleMeetingDayChange}
             />
 
             <TimePicker
+              readOnly={schedule.synced}
               ampm={!use24hFormat}
               label={t('tr_timerLabelTime')}
               value={meetingTime}
@@ -262,16 +273,18 @@ const ScheduleItem = (props: ScheduleItemType) => {
         </>
       )}
 
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <Button
-          variant="secondary"
-          color="red"
-          startIcon={<IconClose />}
-          onClick={handleOpenClearAll}
-        >
-          {t('tr_clearAll')}
-        </Button>
-      </Box>
+      {!schedule.synced && (
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Button
+            variant="secondary"
+            color="red"
+            startIcon={<IconClose />}
+            onClick={handleOpenClearAll}
+          >
+            {t('tr_clearAll')}
+          </Button>
+        </Box>
+      )}
     </Box>
   );
 };

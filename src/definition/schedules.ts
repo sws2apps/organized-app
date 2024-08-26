@@ -55,7 +55,6 @@ export type OutgoingTalkScheduleType = {
   opening_song: string;
   public_talk: number;
   speaker: string;
-  type: string;
   congregation: {
     name: string;
     number: string;
@@ -64,6 +63,12 @@ export type OutgoingTalkScheduleType = {
     weekday: number;
     time: string;
   };
+};
+
+export type OutgoingTalkExportScheduleType = OutgoingTalkScheduleType & {
+  sender: string;
+  recipient: string;
+  weekOf: string;
 };
 
 export type SchedWeekType = {

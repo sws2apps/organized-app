@@ -108,6 +108,7 @@ const TimePicker = ({
   value = null,
   onChange,
   sx,
+  readOnly = false,
 }: CustomTimePickerProps) => {
   const { t } = useAppTranslation();
 
@@ -149,8 +150,9 @@ const TimePicker = ({
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <DesktopTimePicker
             key={value ? value.toISOString() : crypto.randomUUID()}
+            readOnly={readOnly}
             localeText={{ toolbarTitle: t('tr_pickerSelectTime') }}
-            open={open}
+            open={!readOnly && open}
             label={label}
             views={['hours', 'minutes']}
             orientation={isMobile ? 'portrait' : 'landscape'}

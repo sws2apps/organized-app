@@ -6,6 +6,7 @@ export type PublicTalkSelectorType = {
   showSpeakerCount?: boolean;
   type: PublicTalkType;
   schedule_id?: string;
+  readOnly?: boolean;
 };
 
 export type PublicTalkOptionType = PublicTalkTypeDefault & {

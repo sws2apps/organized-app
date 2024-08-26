@@ -5,4 +5,5 @@ export type DaySelectorType = {
   value?: number | string;
   onChange?: (value: number) => void;
   sx?: SxProps<Theme>;
+  readOnly?: boolean;
 };

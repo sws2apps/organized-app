@@ -4,7 +4,6 @@ import { useQuery } from '@tanstack/react-query';
 import { addMonths, getWeekDate } from '@utils/date';
 import { sourcesState } from '@states/sources';
 import {
-  OutgoingTalkExportScheduleType,
   ScheduleListType,
   SchedulePublishProps,
   YearGroupType,
@@ -14,7 +13,10 @@ import { getMessageByCode } from '@services/i18n/translation';
 import { useAppTranslation } from '@hooks/index';
 import { SourceWeekType } from '@definition/sources';
 import { schedulesState } from '@states/schedules';
-import { SchedWeekType } from '@definition/schedules';
+import {
+  OutgoingTalkExportScheduleType,
+  SchedWeekType,
+} from '@definition/schedules';
 import { incomingSpeakersState } from '@states/visiting_speakers';
 import { speakerGetDisplayName, updateObject } from '@utils/common';
 import {
@@ -30,6 +32,7 @@ import {
 import { formatDate } from '@services/dateformat';
 import { speakersCongregationsState } from '@states/speakers_congregations';
 import { getUserDataView } from '@services/app';
+import { congIDState } from '@states/app';
 
 const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
   const { t } = useAppTranslation();
@@ -48,6 +51,7 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
   const dataView = useRecoilValue(userDataViewState);
   const congregations = useRecoilValue(speakersCongregationsState);
   const settings = useRecoilValue(settingsState);
+  const congID = useRecoilValue(congIDState);
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
@@ -189,9 +193,7 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
     });
   };
 
-  const handleUpdateMaterialsFromRemote = <
-    T extends SchedWeekType | SourceWeekType,
-  >(
+  const handleUpdateMaterialsFromRemote = <T extends { weekOf: string }>(
     local: T[],
     remote: T[]
   ) => {
@@ -245,10 +247,11 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
 
         const obj = {} as OutgoingTalkExportScheduleType;
 
-        obj.week = schedule.weekOf;
+        obj.weekOf = schedule.weekOf;
+        obj.sender = congID;
         obj.recipient = congregation.cong_data.cong_id;
         obj._deleted = false;
-        obj.id = crypto.randomUUID();
+        obj.id = assigned.value;
         obj.opening_song = getUserDataView(
           source.weekend_meeting.song_first,
           dataView
@@ -259,7 +262,6 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
         ).value as number;
         obj.synced = true;
         obj.speaker = assigned.value;
-        obj.type = 'main';
         obj.updatedAt = assigned.updatedAt;
         obj.congregation = {
           address: settings.cong_settings.cong_location.address,
@@ -280,7 +282,7 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
       }
     }
 
-    console.log(talks);
+    return talks;
   };
 
   const handlePublishSchedule = async () => {
@@ -312,11 +314,12 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
 
         const schedulesPublish = handleUpdateSchedules(schedulesBasePublish);
 
-        handleGetOutgoingTalks(schedulesPublish);
+        const talksPublish = handleGetOutgoingTalks(schedulesPublish);
 
         const { status, message } = await apiPublishSchedule(
           sourcesPublish,
-          schedulesPublish
+          schedulesPublish,
+          talksPublish
         );
 
         if (status !== 200) {
