@@ -107,7 +107,7 @@ const useWeekBox = ({ month, index, type }: WeekBoxProps) => {
   }, [weeksList, index, type, isMidweek, isWeekend]);
 
   const handlePresentChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.match(/[^0-9]/)) {
+    if (e.target.value.match(/\D/)) {
       e.preventDefault();
 
       return;
@@ -127,7 +127,7 @@ const useWeekBox = ({ month, index, type }: WeekBoxProps) => {
   };
 
   const handleOnlineChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.match(/[^0-9]/)) {
+    if (e.target.value.match(/\D/)) {
       e.preventDefault();
 
       return;
