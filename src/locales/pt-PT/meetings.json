@@ -144,5 +144,6 @@
   "tr_outgoingTalkDeleteDesc": "Tem certeza de que deseja excluir este programa de discurso fora?",
   "tr_deliveredBy": "Delivered by {{ name }}",
   "tr_toCurrentWeek": "To current week",
-  "tr_recordAttendance": "Record attendance"
+  "tr_recordAttendance": "Record attendance",
+  "tr_assignmentPreferences": "Assignment preferences"
 }
