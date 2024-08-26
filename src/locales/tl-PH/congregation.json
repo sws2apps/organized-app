@@ -345,7 +345,6 @@
   "tr_noPersonsAdded": "Wala pang naidadagdag na tao",
   "tr_noPersonsAddedDesc": "Simulang magdagdag ng mga tao sa iyong kongregasyon sa pamamagitan ng pag-click sa 'Add person' at lagyan ng kanilang impormasyon. Ito ay magpapadali sa pagschedule at pagre-report.",
   "tr_searchResultsNone": "Walang mga resulta ng paghahanap",
-  "tr_quickSettingsFieldServiceGroupsDesc": "I-update ang settings mula sa on-the-go page na ito. Naka-sync ito kasama ng congregation settings, upang mapadali ang pag-ayos saanman",
   "tr_searchResultsNoneDesc": "Subukan baguhin ang iyong input sa paghahanap o mga filter, at siguraduhing tama ang pag-type.",
   "tr_personRecordExists": "Ang taong ito ay kasama na sa listahan ng mga tao sa inyong kongregasyon.",
   "tr_speakersAdd": "Magdagdag ng speaker",
@@ -427,5 +426,7 @@
   "tr_bindUserRecordAssignmentsNotice": "<p>Upang makita ang mga darating na mga bahagi, siguraduhing connected ang iyong device sa internet. Pagkatapos, buksan ang <a>Manage access</a> page upang hanapin ang iyong user account at i-bind itong kasama sa record ng kongregasyon.</p>",
   "tr_next3MonthsLabel": "Susunod na 3 buwan",
   "tr_next6MonthsLabel": "Susunod na 6 buwan",
-  "tr_next12MonthsLabel": "Susunod na 12 buwan"
+  "tr_next12MonthsLabel": "Susunod na 12 buwan",
+  "tr_quickSettings": "Quick settings",
+  "tr_quickSettingsDesc": "Easily update your settings for this page on-the-go. These settings are synced with the congregation settings page, so you can manage them from either location at any time."
 }
