@@ -27,16 +27,13 @@ const useBasicInfo = () => {
     newPerson.person_data.person_firstname.value = value;
     newPerson.person_data.person_firstname.updatedAt = new Date().toISOString();
 
-    if (displayNameEnabled) {
-      const dispName = generateDisplayName(
-        newPerson.person_data.person_lastname.value,
-        value
-      );
-      newPerson.person_data.person_display_name.value = dispName;
-      newPerson.person_data.person_display_name.updatedAt =
-        new Date().toISOString();
-    }
-
+    const dispName = generateDisplayName(
+      newPerson.person_data.person_lastname.value,
+      value
+    );
+    newPerson.person_data.person_display_name.value = dispName;
+    newPerson.person_data.person_display_name.updatedAt =
+      new Date().toISOString();
     await setPersonCurrentDetails(newPerson);
   };
 
@@ -45,15 +42,13 @@ const useBasicInfo = () => {
     newPerson.person_data.person_lastname.value = value;
     newPerson.person_data.person_lastname.updatedAt = new Date().toISOString();
 
-    if (displayNameEnabled) {
-      const dispName = generateDisplayName(
-        value,
-        newPerson.person_data.person_firstname.value
-      );
-      newPerson.person_data.person_display_name.value = dispName;
-      newPerson.person_data.person_display_name.updatedAt =
-        new Date().toISOString();
-    }
+    const dispName = generateDisplayName(
+      value,
+      newPerson.person_data.person_firstname.value
+    );
+    newPerson.person_data.person_display_name.value = dispName;
+    newPerson.person_data.person_display_name.updatedAt =
+      new Date().toISOString();
 
     await setPersonCurrentDetails(newPerson);
   };
