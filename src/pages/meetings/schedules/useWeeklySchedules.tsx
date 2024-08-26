@@ -1,11 +1,13 @@
 import { useMemo } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import { WeeklySchedulesType } from './index.types';
+import { localStorageGetItem } from '@utils/common';
+
+const LOCALSTORAGE_KEY = 'organized_weekly_schedules';
 
 const useWeeklySchedules = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const scheduleType = searchParams.get('type') as WeeklySchedulesType;
+  const scheduleType = localStorageGetItem(
+    LOCALSTORAGE_KEY
+  ) as WeeklySchedulesType;
 
   const value = useMemo(() => {
     if (scheduleType === 'midweek') return 0;
@@ -20,11 +22,7 @@ const useWeeklySchedules = () => {
     if (value === 1) type = 'weekend';
     if (value === 2) type = 'outgoing';
 
-    setSearchParams((params) => {
-      params.set('type', type);
-
-      return params;
-    });
+    localStorage.setItem(LOCALSTORAGE_KEY, type);
   };
 
   return { value, handleScheduleChange };
