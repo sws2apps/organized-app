@@ -21,12 +21,16 @@ const useWeekBox = ({ month, index, type }: WeekBoxProps) => {
       (record) => record.month_date === month
     );
 
-    const weeklyAttendance = attendance[`week_${index}`] as WeeklyAttendance;
-    const currentRecord = weeklyAttendance[type].find(
-      (record) => record.type === dataView
-    );
-    const present = currentRecord.present?.toString() || '';
-    return present;
+    if (attendance) {
+      const weeklyAttendance = attendance[`week_${index}`] as WeeklyAttendance;
+      const currentRecord = weeklyAttendance[type].find(
+        (record) => record.type === dataView
+      );
+      const present = currentRecord.present?.toString() || '';
+      return present;
+    }
+
+    return '';
   });
 
   const [online, setOnline] = useState(() => {
@@ -34,12 +38,16 @@ const useWeekBox = ({ month, index, type }: WeekBoxProps) => {
       (record) => record.month_date === month
     );
 
-    const weeklyAttendance = attendance[`week_${index}`] as WeeklyAttendance;
-    const currentRecord = weeklyAttendance[type].find(
-      (record) => record.type === dataView
-    );
-    const online = currentRecord.online?.toString() || '';
-    return online;
+    if (attendance) {
+      const weeklyAttendance = attendance[`week_${index}`] as WeeklyAttendance;
+      const currentRecord = weeklyAttendance[type].find(
+        (record) => record.type === dataView
+      );
+      const online = currentRecord.online?.toString() || '';
+      return online;
+    }
+
+    return '';
   });
 
   const total = useMemo(() => {
