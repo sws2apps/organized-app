@@ -70,6 +70,8 @@ const TextField = (props: TextFieldTypeProps) => {
           gap: '8px',
         },
         '.MuiInputBase-input': {
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
           paddingTop: `calc(14.5px - ${varHeight}px)`,
           paddingBottom: `calc(14.5px - ${varHeight}px)`,
           flex: '1 0 0',
