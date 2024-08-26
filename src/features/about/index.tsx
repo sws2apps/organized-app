@@ -1,15 +1,23 @@
-import { Box, IconButton } from '@mui/material';
+import { Box } from '@mui/material';
+import { IconClose, IconInfo, IconLogo, IconRestart } from '@icons/index';
+import { useAppTranslation } from '@hooks/index';
+import { AboutProps } from './index.types';
+import useAbout from './useAbout';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
+import IconButton from '@components/icon_button';
 import TextMarkup from '@components/text_markup';
 import Typography from '@components/typography';
-import { IconClose, IconInfo, IconLogo } from '@icons/index';
-import { useAppTranslation } from '@hooks/index';
-import useAbout from './useAbout';
 
-const About = () => {
-  const { currentYear, handleClose, isOpen, handleOpenDoc, handleOpenSupport } =
-    useAbout();
+const About = (props: AboutProps) => {
+  const {
+    currentYear,
+    handleClose,
+    isOpen,
+    handleOpenDoc,
+    handleOpenSupport,
+    handleForceReload,
+  } = useAbout(props);
 
   const { t } = useAppTranslation();
 
@@ -47,18 +55,31 @@ const About = () => {
       <Box
         sx={{
           display: 'flex',
-          padding: 'var(--radius-none)',
           alignItems: 'center',
-          gap: '16px',
+          justifyContent: 'space-between',
+          width: '100%',
         }}
       >
-        <IconLogo width={40} height={40} />
-        <Box>
-          <Typography className="h3">Organized</Typography>
-          <Typography className="body-regular" color="var(--grey-350)">
-            {import.meta.env.PACKAGE_VERSION}
-          </Typography>
+        <Box
+          sx={{
+            display: 'flex',
+            padding: 'var(--radius-none)',
+            alignItems: 'center',
+            gap: '16px',
+          }}
+        >
+          <IconLogo width={40} height={40} />
+          <Box>
+            <Typography className="h3">Organized</Typography>
+            <Typography className="body-regular" color="var(--grey-350)">
+              {import.meta.env.PACKAGE_VERSION}
+            </Typography>
+          </Box>
         </Box>
+
+        <IconButton onClick={handleForceReload}>
+          <IconRestart color="var(--black)" />
+        </IconButton>
       </Box>
 
       <TextMarkup content={t('tr_appAboutDesc')} className="body-regular" />

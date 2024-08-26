@@ -10,6 +10,7 @@ import useMidweek from './useMidweek';
 import Button from '@components/button';
 import MidweekEditor from '@features/meetings/midweek_editor';
 import PageTitle from '@components/page_title';
+import QuickSettingsMidweekMeeting from '@features/meetings/midweek_editor/quick_settings';
 import SchedulePublish from '@features/meetings/schedule_publish';
 
 const MidweekMeeting = () => {
@@ -29,6 +30,9 @@ const MidweekMeeting = () => {
     handleOpenPublish,
     openPublish,
     isConnected,
+    handleCloseQuickSettings,
+    handleOpenQuickSettings,
+    quickSettingsOpen,
   } = useMidweek();
 
   return (
@@ -39,6 +43,13 @@ const MidweekMeeting = () => {
         flexDirection: 'column',
       }}
     >
+      {quickSettingsOpen && (
+        <QuickSettingsMidweekMeeting
+          open={quickSettingsOpen}
+          onClose={handleCloseQuickSettings}
+        />
+      )}
+
       {openExport && (
         <MidweekExport open={openExport} onClose={handleCloseExport} />
       )}
@@ -61,6 +72,7 @@ const MidweekMeeting = () => {
 
       <PageTitle
         title={t('tr_midweekMeeting')}
+        quickAction={handleOpenQuickSettings}
         buttons={
           hasWeeks && (
             <>

@@ -6,9 +6,7 @@ import {
   settingsState,
   userDataViewState,
 } from '@states/settings';
-import { generateDateFromTime } from '@utils/date';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
-import { formatDate } from '@services/dateformat';
 import { personsActiveState } from '@states/persons';
 import { AssignmentCode } from '@definition/assignment';
 import { personGetDisplayName } from '@utils/common';
@@ -20,11 +18,6 @@ const useMidweekSettings = () => {
   const useDisplayName = useRecoilValue(displayNameMeetingsEnableState);
   const fullnameOption = useRecoilValue(fullnameOptionState);
 
-  const [hour24, setHour24] = useState(false);
-  const [meetingDay, setMeetingDay] = useState<number | string>('');
-  const [meetingTime, setMeetingTime] = useState<Date>(null);
-  const [autoAssignOpeningPrayer, setAutoAssignOpeningPrayer] = useState(false);
-  const [autoAssignClosingPrayer, setAutoAssignClosingPrayer] = useState(false);
   const [auxClassEnabled, setAuxClassEnabled] = useState(false);
   const [auxCounselorMainEnabled, setAuxCounselorMainEnabled] = useState(false);
   const [auxCounselorMainPerson, setAuxCounselorMainPerson] = useState('');
@@ -47,68 +40,6 @@ const useMidweekSettings = () => {
 
     return result;
   }, [persons, useDisplayName, fullnameOption]);
-
-  const handleMeetingDayChange = async (value: number) => {
-    const midweekSettings = structuredClone(
-      settings.cong_settings.midweek_meeting
-    );
-
-    const current = midweekSettings.find((record) => record.type === dataView);
-
-    current.weekday.value = value;
-    current.weekday.updatedAt = new Date().toISOString();
-
-    await dbAppSettingsUpdate({
-      'cong_settings.midweek_meeting': midweekSettings,
-    });
-  };
-
-  const handleMeetingTimeChange = async (value: Date) => {
-    const time = value ? formatDate(value, 'HH:mm') : '00:00';
-
-    const midweekSettings = structuredClone(
-      settings.cong_settings.midweek_meeting
-    );
-
-    const current = midweekSettings.find((record) => record.type === dataView);
-
-    current.time.value = time;
-    current.time.updatedAt = new Date().toISOString();
-
-    await dbAppSettingsUpdate({
-      'cong_settings.midweek_meeting': midweekSettings,
-    });
-  };
-
-  const handleAutoOpeningPrayerToggle = async () => {
-    const midweekSettings = structuredClone(
-      settings.cong_settings.midweek_meeting
-    );
-
-    const current = midweekSettings.find((record) => record.type === dataView);
-
-    current.opening_prayer_auto_assigned.value = !autoAssignOpeningPrayer;
-    current.opening_prayer_auto_assigned.updatedAt = new Date().toISOString();
-
-    await dbAppSettingsUpdate({
-      'cong_settings.midweek_meeting': midweekSettings,
-    });
-  };
-
-  const handleAutoClosingPrayerToggle = async () => {
-    const midweekSettings = structuredClone(
-      settings.cong_settings.midweek_meeting
-    );
-
-    const current = midweekSettings.find((record) => record.type === dataView);
-
-    current.closing_prayer_auto_assigned.value = !autoAssignClosingPrayer;
-    current.closing_prayer_auto_assigned.updatedAt = new Date().toISOString();
-
-    await dbAppSettingsUpdate({
-      'cong_settings.midweek_meeting': midweekSettings,
-    });
-  };
 
   const handleAuxClassToggle = async () => {
     const midweekSettings = structuredClone(
@@ -159,24 +90,10 @@ const useMidweekSettings = () => {
   };
 
   useEffect(() => {
-    const hourFormat = settings.cong_settings.format_24h_enabled.find(
-      (record) => record.type === dataView
-    );
-
-    setHour24(hourFormat.value);
-
     const midweekSettings = settings.cong_settings.midweek_meeting.find(
       (record) => record.type === dataView
     );
 
-    setMeetingDay(midweekSettings.weekday.value);
-    setMeetingTime(generateDateFromTime(midweekSettings.time.value));
-    setAutoAssignOpeningPrayer(
-      midweekSettings.opening_prayer_auto_assigned.value
-    );
-    setAutoAssignClosingPrayer(
-      midweekSettings.closing_prayer_auto_assigned.value
-    );
     setAuxClassEnabled(midweekSettings.class_count.value === 2);
     setAuxCounselorMainEnabled(
       midweekSettings.aux_class_counselor_default.enabled.value
@@ -187,15 +104,6 @@ const useMidweekSettings = () => {
   }, [settings, dataView]);
 
   return {
-    meetingDay,
-    handleMeetingDayChange,
-    hour24,
-    meetingTime,
-    handleMeetingTimeChange,
-    autoAssignOpeningPrayer,
-    handleAutoOpeningPrayerToggle,
-    autoAssignClosingPrayer,
-    handleAutoClosingPrayerToggle,
     auxClassEnabled,
     handleAuxClassToggle,
     auxCounselorMainEnabled,
