@@ -144,5 +144,6 @@
   "tr_outgoingTalkDeleteDesc": "Ти дійсно хочеш видалити цей графік промови у іншому зборі?",
   "tr_deliveredBy": "Delivered by {{ name }}",
   "tr_toCurrentWeek": "До поточного тижня",
-  "tr_recordAttendance": "Record attendance"
+  "tr_recordAttendance": "Record attendance",
+  "tr_assignmentPreferences": "Assignment preferences"
 }
