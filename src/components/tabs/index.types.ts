@@ -1,5 +1,5 @@
 import { ReactElement, ReactNode } from 'react';
-import { TabOwnProps } from '@mui/material';
+import { TabOwnProps, TabsOwnProps } from '@mui/material';
 
 /**
  * Props for the TabsPanel component.
@@ -60,4 +60,6 @@ export interface CustomTabProps extends TabOwnProps {
   onChange?: (activeTab: number) => void;
 
   className?: string;
+
+  variant?: TabsOwnProps['variant'];
 }
