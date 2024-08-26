@@ -42,7 +42,7 @@ export const sourcesImportJW = async (dataJw) => {
     const nextSync = addWeeks(new Date(), autoImportFrequency);
 
     localStorage.setItem(
-      'organized_jw-import-next-sync',
+      'organized_jw_import_next_sync',
       nextSync.toISOString()
     );
   }

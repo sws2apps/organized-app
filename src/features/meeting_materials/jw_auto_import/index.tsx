@@ -40,7 +40,7 @@ const JWAutoImport = () => {
 
       if (!isDemo && isAutoImportEnabled && approvedRole) {
         const now = new Date().toISOString();
-        const nextSync = localStorage.getItem('organized_jw-import-next-sync');
+        const nextSync = localStorage.getItem('organized_jw_import_next_sync');
 
         if (!nextSync || (nextSync && nextSync <= now)) {
           handleJWAutoImport();
