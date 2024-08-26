@@ -31,7 +31,7 @@ const PageTitle = ({ title, buttons, quickAction }: PageTitleProps) => {
               quickAction();
             }}
           >
-            <IconSettings />
+            <IconSettings color="var(--black)" />
           </IconButton>
         )}
       </PageTitleBlock>
