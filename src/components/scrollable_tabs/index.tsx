@@ -21,6 +21,7 @@ function ScrollableTabs({
   indicatorMode,
   onChange,
   className,
+  variant = 'scrollable',
 }: CustomTabProps) {
   const [valueOfActivePanel, setValueOfActivePanel] = useState(value || 0);
 
@@ -49,7 +50,7 @@ function ScrollableTabs({
         <Tabs
           value={valueOfActivePanel}
           onChange={handleChange}
-          variant="scrollable"
+          variant={variant}
           className={className}
           TabIndicatorProps={{
             hidden: !indicatorMode,
