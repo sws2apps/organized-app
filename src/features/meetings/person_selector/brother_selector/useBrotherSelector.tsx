@@ -22,7 +22,7 @@ import {
 import { JWLangState } from '@states/app';
 import { assignmentsHistoryState, schedulesState } from '@states/schedules';
 import { formatDate } from '@services/dateformat';
-import { personGetDisplayName } from '@utils/common';
+import { personGetDisplayName, speakerGetDisplayName } from '@utils/common';
 import {
   schedulesGetData,
   schedulesSaveAssignment,
@@ -30,11 +30,13 @@ import {
 import { ASSIGNMENT_PATH } from '@constants/index';
 import { AssignmentCongregation } from '@definition/schedules';
 import { useAppTranslation } from '@hooks/index';
+import { incomingSpeakersState } from '@states/visiting_speakers';
 
 const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
   const { t } = useAppTranslation();
 
   const persons = useRecoilValue(personsActiveState);
+  const incomingSpeakers = useRecoilValue(incomingSpeakersState);
   const sources = useRecoilValue(sourcesState);
   const dataView = useRecoilValue(userDataViewState);
   const lang = useRecoilValue(JWLangState);
@@ -233,7 +235,15 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
         assigned = dataSchedule;
       }
 
-      person = options.find((record) => record.person_uid === assigned?.value);
+      const talkType = schedule.weekend_meeting.public_talk_type.find(
+        (record) => record.type === dataView
+      );
+
+      if (!talkType || talkType.value !== 'visitingSpeaker') {
+        person = options.find(
+          (record) => record.person_uid === assigned?.value
+        );
+      }
     }
 
     return person || null;
@@ -312,8 +322,25 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
       assigned = dataSchedule;
     }
 
+    const speaker = incomingSpeakers.find(
+      (record) => record.person_uid === assigned?.value
+    );
+
+    if (speaker) {
+      return speakerGetDisplayName(speaker, displayNameEnabled, fullnameOption);
+    }
+
     return assigned?.value || '';
-  }, [week, assignment, dataView, schedule, talkType]);
+  }, [
+    week,
+    assignment,
+    dataView,
+    schedule,
+    talkType,
+    incomingSpeakers,
+    displayNameEnabled,
+    fullnameOption,
+  ]);
 
   const handleSaveAssignment = async (value: PersonOptionsType) => {
     await schedulesSaveAssignment(schedule, assignment, value);

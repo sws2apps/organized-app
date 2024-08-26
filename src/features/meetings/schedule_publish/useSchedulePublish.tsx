@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { addMonths, getWeekDate } from '@utils/date';
 import { sourcesState } from '@states/sources';
 import {
+  OutgoingTalkExportScheduleType,
   ScheduleListType,
   SchedulePublishProps,
   YearGroupType,
@@ -19,12 +20,16 @@ import { speakerGetDisplayName, updateObject } from '@utils/common';
 import {
   displayNameMeetingsEnableState,
   fullnameOptionState,
+  settingsState,
+  userDataViewState,
 } from '@states/settings';
 import {
   apiPublicScheduleGet,
   apiPublishSchedule,
 } from '@services/api/schedule';
 import { formatDate } from '@services/dateformat';
+import { speakersCongregationsState } from '@states/speakers_congregations';
+import { getUserDataView } from '@services/app';
 
 const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
   const { t } = useAppTranslation();
@@ -40,6 +45,9 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
   const incomingSpeakers = useRecoilValue(incomingSpeakersState);
   const displayNameEnabled = useRecoilValue(displayNameMeetingsEnableState);
   const fullnameOption = useRecoilValue(fullnameOptionState);
+  const dataView = useRecoilValue(userDataViewState);
+  const congregations = useRecoilValue(speakersCongregationsState);
+  const settings = useRecoilValue(settingsState);
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
@@ -209,6 +217,72 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
     return filteredData;
   };
 
+  const handleGetOutgoingTalks = (schedules: SchedWeekType[]) => {
+    const talks: OutgoingTalkExportScheduleType[] = [];
+
+    const outgoingTalks = schedules.filter(
+      (record) =>
+        record.weekend_meeting.public_talk_type.find(
+          (item) => item.type === dataView
+        )?.value === 'visitingSpeaker'
+    );
+
+    for (const schedule of outgoingTalks) {
+      const assigned = schedule.weekend_meeting.speaker.part_1.find(
+        (record) => record.type === dataView
+      );
+      const speaker = incomingSpeakers.find(
+        (record) => record.person_uid === assigned?.value
+      );
+      const congregation = congregations.find(
+        (record) => record.id === speaker?.speaker_data.cong_id
+      );
+
+      if (congregation?.cong_data.cong_id.length > 0) {
+        const source = sources.find(
+          (record) => record.weekOf === schedule.weekOf
+        );
+
+        const obj = {} as OutgoingTalkExportScheduleType;
+
+        obj.week = schedule.weekOf;
+        obj.recipient = congregation.cong_data.cong_id;
+        obj._deleted = false;
+        obj.id = crypto.randomUUID();
+        obj.opening_song = getUserDataView(
+          source.weekend_meeting.song_first,
+          dataView
+        ).value;
+        obj.public_talk = getUserDataView(
+          source.weekend_meeting.public_talk,
+          dataView
+        ).value as number;
+        obj.synced = true;
+        obj.speaker = assigned.value;
+        obj.type = 'main';
+        obj.updatedAt = assigned.updatedAt;
+        obj.congregation = {
+          address: settings.cong_settings.cong_location.address,
+          country: settings.cong_settings.country_code,
+          name: settings.cong_settings.cong_name,
+          number: settings.cong_settings.cong_number,
+          weekday: getUserDataView(
+            settings.cong_settings.weekend_meeting,
+            dataView
+          ).weekday.value,
+          time: getUserDataView(
+            settings.cong_settings.weekend_meeting,
+            dataView
+          ).time.value,
+        };
+
+        talks.push(obj);
+      }
+    }
+
+    console.log(talks);
+  };
+
   const handlePublishSchedule = async () => {
     if (checkedItems.length === 0 || isProcessing) return;
 
@@ -237,6 +311,8 @@ const useSchedulePublish = ({ type, onClose }: SchedulePublishProps) => {
         );
 
         const schedulesPublish = handleUpdateSchedules(schedulesBasePublish);
+
+        handleGetOutgoingTalks(schedulesPublish);
 
         const { status, message } = await apiPublishSchedule(
           sourcesPublish,

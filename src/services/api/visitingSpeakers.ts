@@ -70,7 +70,7 @@ export const apiFindCongregationSpeakers = async (name: string) => {
   } = await apiDefault();
 
   const res = await fetch(
-    `${apiHost}api/v3/congregations/meeting/${congID}/visiting-speakers/congregations`,
+    `${apiHost}api/v3/congregations/meeting/${congID}/visiting-speakers/congregations?name=${name}`,
     {
       method: 'GET',
       credentials: 'include',
@@ -79,7 +79,6 @@ export const apiFindCongregationSpeakers = async (name: string) => {
         Authorization: `Bearer ${idToken}`,
         appclient: 'organized',
         appversion,
-        name: name,
       },
     }
   );
