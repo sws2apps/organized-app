@@ -57,6 +57,8 @@ export const handleDeleteDatabase = async () => {
   await dbAppDelete();
   await userSignOut();
   localStorage.removeItem('email');
+  localStorage.removeItem('organized_jw_import_next_sync');
+  localStorage.removeItem('organized_weekly_schedules');
   window.location.href = './';
 };
 
