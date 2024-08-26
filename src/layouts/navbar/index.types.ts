@@ -1,3 +1,3 @@
 export type NavBarType = {
-  isSupported: boolean;
+  isSupported?: boolean;
 };

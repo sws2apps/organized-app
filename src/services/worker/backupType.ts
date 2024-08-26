@@ -1,3 +1,5 @@
+import { OutgoingTalkExportScheduleType } from '@definition/schedules';
+
 export type PersonBackupType = {
   _deleted: string;
   person_uid: string;
@@ -36,6 +38,7 @@ export type BackupDataType = {
   speakers_congregations?: SpeakersCongregationBackupType[];
   visiting_speakers?: VisitingSpeakerBackupType[];
   outgoing_speakers?: VisitingSpeakerBackupType[];
+  outgoing_talks?: OutgoingTalkExportScheduleType[];
 };
 
 export type SpeakersCongregationBackupType = {

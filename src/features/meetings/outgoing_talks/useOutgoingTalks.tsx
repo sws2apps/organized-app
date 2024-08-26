@@ -1,12 +1,10 @@
 import { useRecoilValue } from 'recoil';
 import { schedulesState, selectedWeekState } from '@states/schedules';
 import { OutgoingTalkScheduleType } from '@definition/schedules';
-import { userDataViewState } from '@states/settings';
 import { dbSchedUpdate } from '@services/dexie/schedules';
 
 const useOutgoingTalks = () => {
   const selectedWeek = useRecoilValue(selectedWeekState);
-  const dataView = useRecoilValue(userDataViewState);
   const schedules = useRecoilValue(schedulesState);
 
   const schedule = schedules.find((record) => record.weekOf === selectedWeek);
@@ -25,7 +23,6 @@ const useOutgoingTalks = () => {
       opening_song: '',
       public_talk: undefined,
       speaker: '',
-      type: dataView,
       congregation: {
         address: '',
         country: '',

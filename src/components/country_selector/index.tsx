@@ -26,6 +26,7 @@ const CountrySelector = (props: CountrySelectorType) => {
 
   return (
     <AutoComplete
+      readOnly={props.readOnly ?? false}
       open={openPicker}
       onOpen={() => setOpenPicker(true)}
       onClose={() => setOpenPicker(false)}

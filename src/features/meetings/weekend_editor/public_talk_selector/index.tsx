@@ -14,6 +14,7 @@ const PublicTalkSelector = ({
   showSpeakerCount,
   type,
   schedule_id,
+  readOnly = false,
 }: PublicTalkSelectorType) => {
   const { t } = useAppTranslation();
 
@@ -30,7 +31,7 @@ const PublicTalkSelector = ({
 
   return (
     <Box sx={{ position: 'relative' }}>
-      {openCatalog && (
+      {!readOnly && openCatalog && (
         <SpeakersCatalog
           open={openCatalog}
           onClose={handleCloseCatalog}
@@ -41,6 +42,7 @@ const PublicTalkSelector = ({
       )}
 
       <Autocomplete
+        readOnly={readOnly}
         label={t('tr_publicTalk')}
         options={talks}
         isOptionEqualToValue={(option, value) =>
@@ -136,7 +138,7 @@ const PublicTalkSelector = ({
           },
         }}
       />
-      {talkType !== 'jwStreamRecording' && (
+      {!readOnly && talkType !== 'jwStreamRecording' && (
         <IconButton
           onClick={handleOpenCatalog}
           title={t('tr_speakersCatalog')}

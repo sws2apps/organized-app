@@ -12,6 +12,13 @@ import {
   encryptVisitingSpeakers,
 } from './backupEncryption';
 import { PersonType } from '@definition/person';
+import {
+  OutgoingTalkExportScheduleType,
+  OutgoingTalkScheduleType,
+  SchedWeekType,
+} from '@definition/schedules';
+import { SpeakersCongregationsType } from '@definition/speakers_congregations';
+import { VisitingSpeakerType } from '@definition/visiting_speakers';
 
 const personIsElder = (person: PersonType) => {
   const hasActive = person?.person_data.privileges.find(
@@ -107,6 +114,72 @@ const dbGetTableData = async () => {
   };
 };
 
+const dbInsertOutgoingTalks = async (
+  talks: OutgoingTalkExportScheduleType[]
+) => {
+  // get all records with synced data
+  const schedules = await appDb.sched.toArray();
+  const syncedSchedules = schedules.filter((record) =>
+    record.weekend_meeting.outgoing_talks.some((talk) => talk.synced)
+  );
+
+  const schedulesToUpdate: SchedWeekType[] = [];
+
+  // remove deleted schedules
+  for (const schedule of syncedSchedules) {
+    const isValid = talks.find((record) => record.weekOf === schedule.weekOf);
+
+    if (!isValid) {
+      schedule.weekend_meeting.outgoing_talks =
+        schedule.weekend_meeting.outgoing_talks.filter(
+          (record) => !record.synced
+        );
+      schedulesToUpdate.push(schedule);
+    }
+  }
+
+  // add or update schedule
+  for await (const talk of talks) {
+    const dbSchedule = await appDb.sched.get(talk.weekOf);
+
+    if (dbSchedule) {
+      const tmpSched = talk;
+
+      delete tmpSched.recipient;
+      delete tmpSched.sender;
+      delete tmpSched.weekOf;
+
+      const addSched = tmpSched as OutgoingTalkScheduleType;
+
+      const schedule = structuredClone(dbSchedule);
+
+      const localSched = schedule.weekend_meeting.outgoing_talks.find(
+        (record) => record.id === talk.id
+      );
+
+      if (!localSched) {
+        schedule.weekend_meeting.outgoing_talks.push(addSched);
+      }
+
+      if (localSched) {
+        schedule.weekend_meeting.outgoing_talks =
+          schedule.weekend_meeting.outgoing_talks.filter(
+            (record) => record.id !== talk.id
+          );
+
+        schedule.weekend_meeting.outgoing_talks.push(addSched);
+      }
+
+      schedulesToUpdate.push(schedule);
+    }
+  }
+
+  // save to db
+  if (schedulesToUpdate.length > 0) {
+    await appDb.sched.bulkPut(schedulesToUpdate);
+  }
+};
+
 const dbRestoreFromBackup = async (
   backupData: BackupDataType,
   accessCode: string,
@@ -137,20 +210,27 @@ const dbRestoreFromBackup = async (
       masterKey
     );
 
-    for await (const remotePerson of remotePersons) {
+    const personToUpdate: PersonType[] = [];
+
+    for (const remotePerson of remotePersons) {
       const localPerson = persons.find(
         (record) => record.person_uid === remotePerson.person_uid
       );
+
       if (!localPerson) {
-        await appDb.persons.put(remotePerson);
+        personToUpdate.push(remotePerson);
       }
 
       if (localPerson) {
         const newPerson = structuredClone(localPerson);
         syncFromRemote(newPerson, remotePerson);
 
-        await appDb.persons.put(newPerson);
+        personToUpdate.push(newPerson);
       }
+    }
+
+    if (personToUpdate.length > 0) {
+      await appDb.persons.bulkPut(personToUpdate);
     }
   }
 
@@ -161,20 +241,26 @@ const dbRestoreFromBackup = async (
       masterKey
     );
 
-    for await (const remoteCongregation of remoteCongregations) {
+    const congsToUpdate: SpeakersCongregationsType[] = [];
+
+    for (const remoteCongregation of remoteCongregations) {
       const localCongregation = congregations.find(
         (record) => record.id === remoteCongregation.id
       );
       if (!localCongregation) {
-        await appDb.speakers_congregations.put(remoteCongregation);
+        congsToUpdate.push(remoteCongregation);
       }
 
       if (localCongregation) {
         const newCongregation = structuredClone(localCongregation);
         syncFromRemote(newCongregation, remoteCongregation);
 
-        await appDb.speakers_congregations.put(newCongregation);
+        congsToUpdate.push(newCongregation);
       }
+    }
+
+    if (congsToUpdate.length > 0) {
+      await appDb.speakers_congregations.bulkPut(congsToUpdate);
     }
   }
 
@@ -185,21 +271,31 @@ const dbRestoreFromBackup = async (
       masterKey
     );
 
+    const speakersToUpdate: VisitingSpeakerType[] = [];
+
     for await (const remoteSpeaker of remoteSpeakers) {
       const localSpeaker = speakers.find(
         (record) => record.person_uid === remoteSpeaker.person_uid
       );
       if (!localSpeaker) {
-        await appDb.visiting_speakers.put(remoteSpeaker);
+        speakersToUpdate.push(remoteSpeaker);
       }
 
       if (localSpeaker) {
         const newSpeaker = structuredClone(localSpeaker);
         syncFromRemote(newSpeaker, remoteSpeaker);
 
-        await appDb.visiting_speakers.put(newSpeaker);
+        speakersToUpdate.push(newSpeaker);
       }
     }
+
+    if (speakersToUpdate.length > 0) {
+      await appDb.visiting_speakers.bulkPut(speakersToUpdate);
+    }
+  }
+
+  if (backupData.outgoing_talks) {
+    await dbInsertOutgoingTalks(backupData.outgoing_talks);
   }
 };
 
