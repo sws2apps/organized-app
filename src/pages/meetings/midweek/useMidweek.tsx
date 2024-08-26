@@ -10,6 +10,11 @@ const useMidweek = () => {
   const [openAutofill, setOpenAutofill] = useState(false);
   const [openExport, setOpenExport] = useState(false);
   const [openPublish, setOpenPublish] = useState(false);
+  const [quickSettingsOpen, setQuickSettingsOpen] = useState(false);
+
+  const handleOpenQuickSettings = () => setQuickSettingsOpen(true);
+
+  const handleCloseQuickSettings = () => setQuickSettingsOpen(false);
 
   const hasWeeks = sources.length > 0;
 
@@ -37,6 +42,9 @@ const useMidweek = () => {
     handleOpenPublish,
     handleClosePublish,
     isConnected,
+    quickSettingsOpen,
+    handleOpenQuickSettings,
+    handleCloseQuickSettings,
   };
 };
 

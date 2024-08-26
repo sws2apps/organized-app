@@ -1,11 +1,24 @@
 import { useRecoilValue } from 'recoil';
 import { isAboutOpenState } from '@states/app';
 import { setIsAboutOpen, setIsSupportOpen } from '@services/recoil/app';
+import { AboutProps } from './index.types';
 
 const currentYear = new Date().getFullYear();
 
-const useAbout = () => {
+const useAbout = ({ updatePwa }: AboutProps) => {
   const isOpen = useRecoilValue(isAboutOpenState);
+
+  const handleForceReload = () => {
+    try {
+      updatePwa();
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
 
   const handleClose = async () => {
     await setIsAboutOpen(false);
@@ -20,7 +33,14 @@ const useAbout = () => {
     window.open(`https://guide.organized-app.com`, '_blank');
   };
 
-  return { isOpen, handleClose, currentYear, handleOpenDoc, handleOpenSupport };
+  return {
+    isOpen,
+    handleClose,
+    currentYear,
+    handleOpenDoc,
+    handleOpenSupport,
+    handleForceReload,
+  };
 };
 
 export default useAbout;

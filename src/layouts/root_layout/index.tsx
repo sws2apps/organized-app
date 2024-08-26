@@ -72,7 +72,7 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
         {isSupported && (
           <>
             {isOpenContact && <Contact />}
-            {isOpenAbout && <About />}
+            {isOpenAbout && <About updatePwa={updatePwa} />}
             {isOpenSupport && <Support />}
 
             {isAppLoad && !isDemo && <Startup />}

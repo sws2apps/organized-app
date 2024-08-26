@@ -16,8 +16,6 @@ const useMeetingForms = () => {
   const [sourceUpdateFrequency, setSourceUpdateFrequency] = useState(
     SourceFrequency.WEEKLY
   );
-  const [displayExactDate, setDisplayExactDate] = useState(false);
-  const [displayNameMeeting, setDisplayNameMeeting] = useState(false);
   const [fullnameOption, setFullnameOption] = useState(
     FullnameOption.FIRST_BEFORE_LAST
   );
@@ -56,32 +54,6 @@ const useMeetingForms = () => {
 
     await dbAppSettingsUpdate({
       'cong_settings.source_material_auto_import.frequency': updateFrequency,
-    });
-  };
-
-  const handleDisplayExactDateToggle = async () => {
-    const exactDate = structuredClone(
-      settings.cong_settings.schedule_exact_date_enabled
-    );
-
-    exactDate.value = !displayExactDate;
-    exactDate.updatedAt = new Date().toISOString();
-
-    await dbAppSettingsUpdate({
-      'cong_settings.schedule_exact_date_enabled': exactDate,
-    });
-  };
-
-  const handleDisplayNameMeetingToggle = async () => {
-    const displayNameEnabled = structuredClone(
-      settings.cong_settings.display_name_enabled.meetings
-    );
-
-    displayNameEnabled.value = !displayNameMeeting;
-    displayNameEnabled.updatedAt = new Date().toISOString();
-
-    await dbAppSettingsUpdate({
-      'cong_settings.display_name_enabled.meetings': displayNameEnabled,
     });
   };
 
@@ -128,14 +100,6 @@ const useMeetingForms = () => {
       settings.cong_settings.source_material_auto_import.frequency.value
     );
 
-    setDisplayExactDate(
-      settings.cong_settings.schedule_exact_date_enabled.value
-    );
-
-    setDisplayNameMeeting(
-      settings.cong_settings.display_name_enabled.meetings.value
-    );
-
     const fullname = settings.cong_settings.fullname_option.find(
       (record) => record.type === dataView
     );
@@ -154,10 +118,6 @@ const useMeetingForms = () => {
     handleSourceAutoUpdateToggle,
     sourceUpdateFrequency,
     handleSourceUpdateFrequencyChange,
-    displayExactDate,
-    handleDisplayExactDateToggle,
-    displayNameMeeting,
-    handleDisplayNameMeetingToggle,
     fullnameOption,
     handleFullnameOptionChange,
     shortDateFormat,

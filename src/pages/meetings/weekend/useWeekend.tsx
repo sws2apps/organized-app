@@ -10,8 +10,13 @@ const useWeekend = () => {
   const [openAutofill, setOpenAutofill] = useState(false);
   const [openExport, setOpenExport] = useState(false);
   const [openPublish, setOpenPublish] = useState(false);
+  const [quickSettingsOpen, setQuickSettingsOpen] = useState(false);
 
   const hasWeeks = sources.length > 0;
+
+  const handleOpenQuickSettings = () => setQuickSettingsOpen(true);
+
+  const handleCloseQuickSettings = () => setQuickSettingsOpen(false);
 
   const handleOpenAutofill = () => setOpenAutofill(true);
 
@@ -37,6 +42,9 @@ const useWeekend = () => {
     handleOpenPublish,
     handleClosePublish,
     isConnected,
+    quickSettingsOpen,
+    handleOpenQuickSettings,
+    handleCloseQuickSettings,
   };
 };
 

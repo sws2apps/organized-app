@@ -4,8 +4,9 @@ import { ScheduleAutofillDialog, WeekSelector } from '@features/index';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useWeekend from './useWeekend';
 import Button from '@components/button';
-import PageTitle from '@components/page_title';
 import OutgoingTalks from '@features/meetings/outgoing_talks';
+import PageTitle from '@components/page_title';
+import QuickSettingsWeekendMeeting from '@features/meetings/weekend_editor/quick_settings';
 import SchedulePublish from '@features/meetings/schedule_publish';
 import WeekendEditor from '@features/meetings/weekend_editor';
 import WeekendExport from '@features/meetings/weekend_export';
@@ -27,6 +28,9 @@ const WeekendMeeting = () => {
     handleOpenPublish,
     isConnected,
     openPublish,
+    handleCloseQuickSettings,
+    handleOpenQuickSettings,
+    quickSettingsOpen,
   } = useWeekend();
 
   return (
@@ -37,6 +41,13 @@ const WeekendMeeting = () => {
         flexDirection: 'column',
       }}
     >
+      {quickSettingsOpen && (
+        <QuickSettingsWeekendMeeting
+          open={quickSettingsOpen}
+          onClose={handleCloseQuickSettings}
+        />
+      )}
+
       {openExport && (
         <WeekendExport open={openExport} onClose={handleCloseExport} />
       )}
@@ -59,6 +70,7 @@ const WeekendMeeting = () => {
 
       <PageTitle
         title={t('tr_weekendMeeting')}
+        quickAction={handleOpenQuickSettings}
         buttons={
           hasWeeks && (
             <>
