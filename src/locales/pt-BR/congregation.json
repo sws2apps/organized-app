@@ -345,7 +345,6 @@
   "tr_noPersonsAdded": "Nenhuma pessoa adicionada ainda",
   "tr_noPersonsAddedDesc": "Comece a adicionar pessoas à sua congregação clicando em 'Adicionar pessoa' e preenchendo suas informações. Isso facilitará a programação e a elaboração de relatórios.",
   "tr_searchResultsNone": "Nenhum resultado para a busca",
-  "tr_quickSettingsFieldServiceGroupsDesc": "Atualize facilmente suas configurações para esta página em qualquer lugar. Essas configurações estão sincronizadas com a página de configurações da congregação, para que você possa gerenciá-las de qualquer localização a qualquer momento.",
   "tr_searchResultsNoneDesc": "Tente alterar sua pesquisa ou filtros e verifique se há erros de digitação.",
   "tr_personRecordExists": "Esta pessoa já existe na lista de pessoas da sua congregação.",
   "tr_speakersAdd": "Adicionar orador",
@@ -427,5 +426,7 @@
   "tr_bindUserRecordAssignmentsNotice": "<p>Para visualizar suas designações futuras, verifique primeiro se seu dispositivo está conectado à internet. Em seguida, abra a página <a>Gerenciar acesso</a> para localizar sua conta de usuário e vinculá-la a um registro da lista de pessoas de sua congregação.</p>",
   "tr_next3MonthsLabel": "Próximos 3 meses",
   "tr_next6MonthsLabel": "Próximos 6 meses",
-  "tr_next12MonthsLabel": "Próximos 12 meses"
+  "tr_next12MonthsLabel": "Próximos 12 meses",
+  "tr_quickSettings": "Configurações rápidas",
+  "tr_quickSettingsDesc": "Atualize facilmente suas configurações para esta página em qualquer lugar. Essas configurações estão sincronizadas com a página de configurações da congregação, para você poder gerenciá-las de qualquer localização a qualquer momento."
 }
