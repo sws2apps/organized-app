@@ -144,5 +144,6 @@
   "tr_outgoingTalkDeleteDesc": "Tem certeza de que deseja excluir esta programação de discurso fora?",
   "tr_deliveredBy": "Entregue por {{ name }}",
   "tr_toCurrentWeek": "Até esta semana",
-  "tr_recordAttendance": "Registrar assistência"
+  "tr_recordAttendance": "Registrar assistência",
+  "tr_assignmentPreferences": "Assignment preferences"
 }
