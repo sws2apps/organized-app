@@ -47,4 +47,8 @@ export type AppRoleType =
   | 'public_talk_schedule'
   | 'attendance_tracking'
   | 'publisher'
-  | 'view_schedules';
+  | 'view_schedules'
+  | 'auxiliary_pioneer'
+  | 'regular_pionner'
+  | 'special_pioneer'
+  | 'missionary';
