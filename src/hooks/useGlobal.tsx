@@ -14,10 +14,6 @@ import {
 import {
   adminRoleState,
   coordinatorRoleState,
-  elderLocalRoleState,
-  lmmoRoleState,
-  publicTalkCoordinatorRoleState,
-  publisherRoleState,
   secretaryRoleState,
 } from '@states/settings';
 import logger from '@services/logger/index';
@@ -36,14 +32,7 @@ const useGlobal = () => {
   const appSnackOpen = useRecoilValue(appSnackOpenState);
   const adminRole = useRecoilValue(adminRoleState);
   const coordinatorRole = useRecoilValue(coordinatorRoleState);
-  const elderLocalRole = useRecoilValue(elderLocalRoleState);
-  const lmmoRole = useRecoilValue(lmmoRoleState);
-  const publicTalkCoordinatorRole = useRecoilValue(
-    publicTalkCoordinatorRoleState
-  );
-  const publisherRole = useRecoilValue(publisherRoleState);
   const secretaryRole = useRecoilValue(secretaryRoleState);
-  const weekendEditorRole = coordinatorRole || publicTalkCoordinatorRole;
   const isCongAccountConnected = useRecoilValue(congAccountConnectedState);
 
   const [activeTheme, setActiveTheme] = useState(darkTheme);
@@ -142,13 +131,8 @@ const useGlobal = () => {
     appSnackOpen,
     adminRole,
     coordinatorRole,
-    elderLocalRole,
-    lmmoRole,
-    publicTalkCoordinatorRole,
-    publisherRole,
     secretaryRole,
     isCongAccountConnected,
-    weekendEditorRole,
   };
 };
 

@@ -185,14 +185,6 @@ export const adminRoleState = selector({
   },
 });
 
-export const lmmoRoleState = selector({
-  key: 'lmmoRole',
-  get: ({ get }) => {
-    const congRole = get(congRoleState);
-    return congRole.includes('lmmo') || congRole.includes('lmmo-backup');
-  },
-});
-
 export const secretaryRoleState = selector({
   key: 'secretaryRole',
   get: ({ get }) => {
@@ -209,82 +201,11 @@ export const coordinatorRoleState = selector({
   },
 });
 
-export const publicTalkCoordinatorRoleState = selector({
-  key: 'publicTalkCoordinatorRole',
+export const pioneerRoleState = selector({
+  key: 'pioneerRole',
   get: ({ get }) => {
     const congRole = get(congRoleState);
-    return congRole.includes('public_talk_coordinator');
-  },
-});
-
-export const elderRoleState = selector({
-  key: 'elderRole',
-  get: ({ get }) => {
-    const congRole = get(congRoleState);
-    return congRole.includes('elder');
-  },
-});
-
-export const msRoleState = selector({
-  key: 'msRole',
-  get: ({ get }) => {
-    const congRole = get(congRoleState);
-    return congRole.includes('ms');
-  },
-});
-
-export const publisherRoleState = selector({
-  key: 'publisherRole',
-  get: ({ get }) => {
-    const congRole = get(congRoleState);
-    const elderRole = get(elderRoleState);
-    const msRole = get(msRoleState);
-
-    return congRole.includes('publisher') || msRole || elderRole;
-  },
-});
-
-export const elderLocalRoleState = selector({
-  key: 'elderLocalRole',
-  get: ({ get }) => {
-    const elderRole = get(elderRoleState);
-    const secretaryRole = get(secretaryRoleState);
-    const lmmoRole = get(lmmoRoleState);
-    const coordinatorRole = get(coordinatorRoleState);
-    const publicTalkCoordinatorRole = get(publicTalkCoordinatorRoleState);
-
-    return (
-      elderRole ||
-      secretaryRole ||
-      lmmoRole ||
-      coordinatorRole ||
-      publicTalkCoordinatorRole
-    );
-  },
-});
-
-export const personEditorRoleState = selector({
-  key: 'personEditorRole',
-  get: ({ get }) => {
-    const secretaryRole = get(secretaryRoleState);
-    const lmmoRole = get(lmmoRoleState);
-    const coordinatorRole = get(coordinatorRoleState);
-    const publicTalkCoordinatorRole = get(publicTalkCoordinatorRoleState);
-
-    return (
-      secretaryRole || lmmoRole || coordinatorRole || publicTalkCoordinatorRole
-    );
-  },
-});
-
-export const meetingEditorRoleState = selector({
-  key: 'meetingEditorRole',
-  get: ({ get }) => {
-    const lmmoRole = get(lmmoRoleState);
-    const coordinatorRole = get(coordinatorRoleState);
-    const publicTalkCoordinatorRole = get(publicTalkCoordinatorRoleState);
-
-    return lmmoRole || coordinatorRole || publicTalkCoordinatorRole;
+    return congRole.some((role) => role.includes('pioneer'));
   },
 });
 

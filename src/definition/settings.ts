@@ -1,3 +1,4 @@
+import { AppRoleType } from './app';
 import { TimeAwayType } from './person';
 
 export enum FullnameOption {
@@ -97,7 +98,7 @@ export type SettingsType = {
     attendance_online_record: { value: boolean; updatedAt: string };
   };
   user_settings: {
-    cong_role: string[];
+    cong_role: AppRoleType[];
     account_type: '' | AccountTypeState;
     user_avatar: ArrayBuffer;
     user_local_uid: string;

@@ -2,28 +2,13 @@ import { useCallback, useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 import { isDemo } from '@constants/index';
 import { isAppLoadState } from '@states/app';
-import {
-  adminRoleState,
-  coordinatorRoleState,
-  lmmoRoleState,
-  publicTalkCoordinatorRoleState,
-  sourcesJWAutoImportState,
-} from '@states/settings';
+import { sourcesJWAutoImportState } from '@states/settings';
 import { apiFetchSources } from '@services/api/sources';
 import { sourcesImportJW } from '@services/app/sources';
 
 const JWAutoImport = () => {
   const isAppLoad = useRecoilValue(isAppLoadState);
-  const isAdmin = useRecoilValue(adminRoleState);
-  const isLMMO = useRecoilValue(lmmoRoleState);
-  const isCoordinator = useRecoilValue(coordinatorRoleState);
-  const isPublicTalkCoordinator = useRecoilValue(
-    publicTalkCoordinatorRoleState
-  );
   const isAutoImportEnabled = useRecoilValue(sourcesJWAutoImportState);
-
-  const approvedRole =
-    isAdmin || isLMMO || isCoordinator || isPublicTalkCoordinator;
 
   const handleJWAutoImport = useCallback(async () => {
     const { data, status } = await apiFetchSources();
@@ -38,7 +23,7 @@ const JWAutoImport = () => {
         handleJWAutoImport();
       }
 
-      if (!isDemo && isAutoImportEnabled && approvedRole) {
+      if (!isDemo && isAutoImportEnabled) {
         const now = new Date().toISOString();
         const nextSync = localStorage.getItem('organized_jw_import_next_sync');
 
@@ -47,7 +32,7 @@ const JWAutoImport = () => {
         }
       }
     }
-  }, [handleJWAutoImport, isAppLoad, isAutoImportEnabled, approvedRole]);
+  }, [handleJWAutoImport, isAppLoad, isAutoImportEnabled]);
 
   return <></>;
 };
