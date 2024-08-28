@@ -1,13 +1,14 @@
 import { SxProps, Theme } from '@mui/material';
 
 export const TextFieldStyles: SxProps<Theme> = {
+  '.MuiInputBase-root': {
+    padding: '0! important',
+  },
   '.MuiInputBase-input': {
     textAlign: 'center',
-    padding: '0! important',
-    paddingLeft: '5px !important',
   },
   '& input': {
-    padding: '0! important',
+    padding: '10.5px 2px',
   },
   '& input::-webkit-outer-spin-button': {
     WebkitAppearance: 'none',
