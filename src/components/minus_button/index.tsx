@@ -6,7 +6,7 @@ import { IconRemove } from '@icons/index';
  * @param onClick - Callback function for the click event.
  * @returns JSX element for the CustomMinusButton component.
  */
-const CustomMinusButton = (props: { onClick?: VoidFunction }) => {
+const MinusButton = (props: { onClick?: VoidFunction }) => {
   return (
     <IconButton
       disableRipple
@@ -40,4 +40,4 @@ const CustomMinusButton = (props: { onClick?: VoidFunction }) => {
   );
 };
 
-export default CustomMinusButton;
+export default MinusButton;

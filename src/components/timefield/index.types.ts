@@ -12,11 +12,11 @@ export type CustomTimeTextFieldProps = {
    * @param {object} event The event source of the callback.
    * You can pull out the new value by accessing `event.target.value` (string).
    */
-  onChange?: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+  onChange?: ChangeEventHandler<HTMLInputElement>;
 
   /**
    * The color of the `input` element.
    * This optional prop can be used to set a specific color for the input field.
    */
-  color?: string;
+  fontColor?: string;
 };

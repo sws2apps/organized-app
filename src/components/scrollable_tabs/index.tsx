@@ -23,7 +23,7 @@ function ScrollableTabs({
   className,
   variant = 'scrollable',
 }: CustomTabProps) {
-  const [valueOfActivePanel, setValueOfActivePanel] = useState(value || 0);
+  const [valueOfActivePanel, setValueOfActivePanel] = useState(value || false);
 
   /**
    * Handles tab change event.
@@ -41,7 +41,7 @@ function ScrollableTabs({
   };
 
   useEffect(() => {
-    setValueOfActivePanel(value || 0);
+    setValueOfActivePanel(value || false);
   }, [value]);
 
   return (

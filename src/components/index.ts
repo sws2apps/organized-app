@@ -54,6 +54,4 @@ export {
   CustomDropdownItem,
 } from './dropdown/index';
 export { default as CardHeader } from './card_header/index';
-export { default as CustomTextarea } from './textarea/index';
 export { default as CustomDivider } from './divider/index';
-export { default as CustomTimeTextField } from './time_textfield/index';

@@ -70,4 +70,6 @@ export type ButtonPropsType = {
    * The URL of the linked document when the button is used as an anchor element.
    */
   href?: string;
+
+  minHeight?: number;
 };

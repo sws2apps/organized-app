@@ -1,5 +1,5 @@
-import { ReactNode } from 'react';
-import { Dialog as MUIDialog, DialogContent, SxProps } from '@mui/material';
+import { Dialog as MUIDialog, DialogContent } from '@mui/material';
+import { DialogProps } from './index.types';
 
 /**
  * Component for rendering a custom dialog.
@@ -10,23 +10,12 @@ import { Dialog as MUIDialog, DialogContent, SxProps } from '@mui/material';
  * @param {SxProps} props.sx - Custom styling for the dialog content.
  * @returns {JSX.Element} CustomDialog component.
  */
-const Dialog = ({
-  open,
-  onClose,
-  children,
-  sx,
-}: {
-  open: boolean;
-  onClose: VoidFunction;
-  children: ReactNode;
-  sx?: SxProps;
-}) => {
+const Dialog = ({ open, onClose, children, sx, PaperProps }: DialogProps) => {
   /**
    * Handles the dialog close event.
-   * @param {Event} event - The event object.
    * @param {string} reason - The reason for closing the dialog.
    */
-  const handleClose = (event, reason) => {
+  const handleClose = (_, reason) => {
     if (reason === 'clickaway' || reason === 'backdropClick') {
       return;
     }
@@ -45,14 +34,16 @@ const Dialog = ({
           margin: { mobile: '16px', tablet: '24px', desktop: '32px' },
         },
       }}
-      PaperProps={{
-        className: 'pop-up-shadow',
-        style: {
-          maxWidth: '560px',
-          borderRadius: 'var(--radius-xl)',
-          backgroundColor: 'var(--white)',
-        },
-      }}
+      PaperProps={
+        PaperProps || {
+          className: 'pop-up-shadow',
+          style: {
+            maxWidth: '560px',
+            borderRadius: 'var(--radius-xl)',
+            backgroundColor: 'var(--white)',
+          },
+        }
+      }
       slotProps={{
         backdrop: {
           style: {

@@ -1,4 +1,4 @@
-import { ServiceYearType } from '@definition/report';
+import { ReportMonthType, ServiceYearType } from '@definition/report';
 import { generateMonthNames, getTranslation } from '@services/i18n/translation';
 
 export const dateFirstDayMonth = (date: Date = new Date()) => {
@@ -112,26 +112,6 @@ const getMonthName = (month: number) => {
   return monthNames[month];
 };
 
-export const getTheocraticalMonthDate = (monthIndex: number, year: number) => {
-  let month = 0;
-
-  if (monthIndex < 4) {
-    month = monthIndex + 9;
-  } else {
-    year = year + 1;
-    month = monthIndex - 3;
-  }
-
-  return `${year}-${month.toString().padStart(2, '0')}`;
-};
-
-export function getWeekNumberInMonthForDate(date: Date) {
-  const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
-  const dayOfWeek = firstDayOfMonth.getDay();
-  const firstSunday = 1 + (7 - dayOfWeek);
-  const diff = date.getDate() - firstSunday;
-  return Math.ceil(diff / 7) + 1;
-}
 export const generateDateFromTime = (time: string) => {
   const timeParts = time.split(':');
   const date = new Date();
@@ -205,6 +185,28 @@ export const currentMonthServiceYear = () => {
   return monthValue;
 };
 
+export const currentReportMonth = () => {
+  const currentYear = new Date().getFullYear();
+  const currentMonth = new Date().getMonth();
+  const currentDate = new Date().getDate();
+
+  let reportMonth = currentMonth;
+  let reportYear = currentYear;
+
+  if (currentDate <= 20) {
+    reportMonth = reportMonth - 1;
+
+    if (reportMonth === -1) {
+      reportMonth = 11;
+      reportYear = reportYear - 1;
+    }
+  }
+
+  const monthValue = String(reportMonth + 1).padStart(2, '0');
+
+  return `${reportYear}/${monthValue}`;
+};
+
 export const buildServiceYearsList = () => {
   const monthNames = generateMonthNames();
   const currentSY = currentServiceYear();
@@ -262,4 +264,32 @@ export const buildServiceYearsList = () => {
   }
 
   return result;
+};
+
+export const buildPublisherReportMonths = () => {
+  const results: ReportMonthType[] = [];
+
+  const monthNames = generateMonthNames();
+
+  const initialMonth = currentMonthServiceYear();
+  const [initYear, initMonth] = initialMonth.split('/');
+
+  let year = +initYear;
+  let month = +initMonth - 1;
+
+  for (let i = 0; i < 12; i++) {
+    results.push({
+      label: monthNames[month],
+      value: `${year}/${String(month + 1).padStart(2, '0')}`,
+    });
+
+    month--;
+
+    if (month === -1) {
+      month = 11;
+      year = year - 1;
+    }
+  }
+
+  return results.sort((a, b) => a.value.localeCompare(b.value));
 };

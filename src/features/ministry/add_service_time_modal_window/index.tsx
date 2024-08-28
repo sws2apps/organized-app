@@ -31,8 +31,8 @@ import CustomButton from '@components/button';
 import CustomDatePicker from '@components/date_picker';
 import CustomInfoMessage from '@components/info-message';
 import MiniChip from '@components/mini_chip';
-import { MinistryRecord } from '@pages/ministry/ministry_report/ministry_report.types';
-import CustomTimeTextField from '@components/time_textfield';
+import { MinistryRecord } from '@pages/ministry/ministry_report/old/ministry_report.types';
+import CustomTimeTextField from '@components/timefield';
 import { EditAndAddBibleStudyContext } from './EditAndAddBibleStudyContext';
 import {
   convertDurationInSecondsToString,
@@ -362,7 +362,7 @@ export const AddServiceTimeModalWindow = (
                     convertDurationStringToSeconds(event.target.value)
                   );
                 }}
-                color={
+                fontColor={
                   convertDurationInSecondsToString(localDurationInSeconds) !=
                   '00:00'
                     ? 'var(--black)'

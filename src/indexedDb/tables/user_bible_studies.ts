@@ -6,5 +6,5 @@ export type UserBibleStudiesTable = {
 };
 
 export const userBibleStudiesSchema = {
-  user_bible_studies: '++id, _deleted, person_name',
+  user_bible_studies: '&person_uid, person_data',
 };

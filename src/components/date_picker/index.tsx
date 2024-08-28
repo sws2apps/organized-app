@@ -38,7 +38,7 @@ import { shortDateFormatState } from '@states/settings';
  * @param {(value: Date) => void | Promise<void>} props.onChange - Function called when the selected date changes.
  * @returns {JSX.Element} CustomDatePicker component.
  */
-const CustomDatePicker = ({
+const DatePicker = ({
   value = null,
   onChange,
   view = 'input',
@@ -216,4 +216,4 @@ const CustomDatePicker = ({
   );
 };
 
-export default CustomDatePicker;
+export default DatePicker;

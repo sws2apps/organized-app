@@ -1,6 +1,5 @@
 import CustomCheckbox from '@components/checkbox';
 import ScrollableTabs from '@components/scrollable_tabs';
-import CustomTextarea from '@components/textarea';
 import CustomTypography from '@components/typography';
 import useAppTranslation from '@hooks/useAppTranslation';
 import { Box } from '@mui/material';
@@ -20,7 +19,7 @@ import { CustomDivider, MiniChip } from '@components/index';
 // import { EditAndAddBibleStudyContext } from '@features/ministry/EditAndAddBibleStudyContext';
 import CustomBadge from '@components/badge';
 import { convertDurationInSecondsToString } from '@features/ministry/add_service_time_modal_window/utils';
-import { getMonthIndexFromDate } from '@pages/ministry/ministry_report/utils';
+import { getMonthIndexFromDate } from '@pages/ministry/ministry_report/old/utils';
 // import { hoursToSeconds } from 'date-fns';
 
 /**
@@ -641,10 +640,6 @@ const MonthlyReport = (props: MonthlyReportProps) => {
         onClose={() => {
           setInfoMessageBoxOpen(false);
         }}
-      />
-      <CustomTextarea
-        placeholder={t('tr_comments')}
-        onChange={props.commentOnChange}
       />
     </Box>
   );

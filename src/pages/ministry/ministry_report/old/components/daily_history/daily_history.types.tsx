@@ -1,4 +1,4 @@
-import { MinistryRecord } from '@pages/ministry/ministry_report/ministry_report.types';
+import { MinistryRecord } from '@pages/ministry/ministry_report/old/ministry_report.types';
 
 /**
  * DailyHistoryProps represents the props that can be passed to the DailyHistory component.

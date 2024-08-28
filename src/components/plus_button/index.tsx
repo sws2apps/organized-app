@@ -5,7 +5,7 @@ import { IconAdd } from '@icons/index';
  * Custom button component with a plus icon.
  * @param onClick - Optional function to handle click events.
  */
-const CustomPlusButton = (props: { onClick?: VoidFunction }) => {
+const PlusButton = (props: { onClick?: VoidFunction }) => {
   return (
     <IconButton
       disableRipple
@@ -39,4 +39,4 @@ const CustomPlusButton = (props: { onClick?: VoidFunction }) => {
   );
 };
 
-export default CustomPlusButton;
+export default PlusButton;

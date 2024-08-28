@@ -1,6 +1,8 @@
 import { useCallback } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { useLiveQuery } from 'dexie-react-hooks';
+import appDb from '@db/appDb';
+
 import { settingsState } from '@states/settings';
 import { personsState } from '@states/persons';
 import { weekTypeState } from '@states/weekType';
@@ -9,8 +11,8 @@ import { sourcesState } from '@states/sources';
 import { schedulesState } from '@states/schedules';
 import { visitingSpeakersState } from '@states/visiting_speakers';
 import { speakersCongregationsState } from '@states/speakers_congregations';
-import appDb from '@db/appDb';
 import { meetingAttendanceState } from '@states/meeting_attendance';
+import { userFieldServiceReportsState } from '@states/user_field_service_reports';
 
 const useIndexedDb = () => {
   const dbSettings = useLiveQuery(() => appDb.app_settings.toArray());
@@ -28,6 +30,9 @@ const useIndexedDb = () => {
   const dbMeetingAttendance = useLiveQuery(() =>
     appDb.meeting_attendance.toArray()
   );
+  const dbUserFieldServiceReports = useLiveQuery(() =>
+    appDb.user_field_service_reports.toArray()
+  );
 
   const setSettings = useSetRecoilState(settingsState);
   const setPersons = useSetRecoilState(personsState);
@@ -40,6 +45,9 @@ const useIndexedDb = () => {
     speakersCongregationsState
   );
   const setMeetingAttendance = useSetRecoilState(meetingAttendanceState);
+  const setUserFieldServiceReports = useSetRecoilState(
+    userFieldServiceReportsState
+  );
 
   const loadSettings = useCallback(() => {
     if (dbSettings && dbSettings[0]) {
@@ -95,6 +103,12 @@ const useIndexedDb = () => {
     }
   }, [dbMeetingAttendance, setMeetingAttendance]);
 
+  const loadUserFieldServiceReports = useCallback(() => {
+    if (dbUserFieldServiceReports) {
+      setUserFieldServiceReports(dbUserFieldServiceReports);
+    }
+  }, [dbUserFieldServiceReports, setUserFieldServiceReports]);
+
   return {
     loadSettings,
     loadPersons,
@@ -105,6 +119,7 @@ const useIndexedDb = () => {
     loadVisitingSpeakers,
     loadSpeakersCongregations,
     loadMeetingAttendance,
+    loadUserFieldServiceReports,
   };
 };
 

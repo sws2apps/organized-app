@@ -197,7 +197,7 @@ const Button: FC<ButtonPropsType> = (props) => {
       href={props.href}
       sx={{
         cursor: 'pointer',
-        minHeight: '44px',
+        minHeight: props.minHeight ? `${props.minHeight}px` : '44px',
         fontFeatureSettings: '"cv05"',
         padding: variant === 'small' ? '4px 8px' : '8px 16px',
         backgroundColor: getBackgroundColor(),

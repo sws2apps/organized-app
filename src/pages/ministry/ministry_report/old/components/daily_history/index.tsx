@@ -4,7 +4,7 @@ import CustomTypography from '@components/typography';
 import useAppTranslation from '@hooks/useAppTranslation';
 import CustomButton from '@components/button';
 import { IconAdd, IconEdit, IconInfo } from '@components/icons';
-import { FormatStringForDailyHistory } from '@pages/ministry/ministry_report/utils';
+import { FormatStringForDailyHistory } from '@pages/ministry/ministry_report/old/utils';
 import CustomBadge from '@components/badge';
 import { convertDurationInSecondsToString } from '@features/ministry/add_service_time_modal_window/utils';
 import { CustomDivider } from '@components/index';

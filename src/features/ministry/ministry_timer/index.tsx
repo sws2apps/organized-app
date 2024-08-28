@@ -15,7 +15,7 @@ import {
 } from './ministry_timer.types';
 import DarkOverlay from '@components/dark_overlay';
 import CustomTypography from '@components/typography';
-import { MinistryRecord } from '@pages/ministry/ministry_report/ministry_report.types';
+import { MinistryRecord } from '@pages/ministry/ministry_report/old/ministry_report.types';
 import {
   convertDurationInSecondsToString,
   convertDurationStringToSeconds,
