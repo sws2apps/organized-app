@@ -8,6 +8,11 @@ import {
 } from '@definition/settings';
 import { SourceWeekType } from '@definition/sources';
 import { SpeakersCongregationsType } from '@definition/speakers_congregations';
+import { UserBibleStudyType } from '@definition/user_bible_studies';
+import {
+  UserFieldServiceDailyReportType,
+  UserFieldServiceMonthlyReportType,
+} from '@definition/user_field_service_reports';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
 import { Week } from '@definition/week_type';
 
@@ -405,3 +410,37 @@ export const meetingAttendanceSchema: MeetingAttendanceType = {
     ],
   },
 };
+
+export const userBibleStudySchema: UserBibleStudyType = {
+  person_uid: '',
+  person_data: { _deleted: false, person_name: '', updatedAt: '' },
+};
+
+export const UserFieldServiceDailyReportSchema: UserFieldServiceDailyReportType =
+  {
+    report_date: '',
+    report_data: {
+      _deleted: false,
+      bible_studies: { value: undefined, records: [] },
+      duration_start: '',
+      hours: '',
+      hours_credits: '',
+      record_type: 'daily',
+      updatedAt: '',
+    },
+  };
+
+export const UserFieldServiceMonthlyReportSchema: UserFieldServiceMonthlyReportType =
+  {
+    report_date: '',
+    report_data: {
+      _deleted: false,
+      updatedAt: '',
+      bible_studies: undefined,
+      comments: '',
+      hours: undefined,
+      hours_credits: undefined,
+      record_type: 'monthly',
+      shared_ministry: false,
+    },
+  };

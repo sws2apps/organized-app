@@ -17,6 +17,7 @@ const DatabaseWrapper = ({ children }: PropsWithChildren) => {
     loadSpeakersCongregations,
     loadMeetingAttendance,
     loadUserFieldServiceReports,
+    loadUserBibleStudies,
   } = useIndexedDb();
 
   useEffect(() => {
@@ -29,6 +30,7 @@ const DatabaseWrapper = ({ children }: PropsWithChildren) => {
     loadSpeakersCongregations();
     loadVisitingSpeakers();
     loadMeetingAttendance();
+    loadUserBibleStudies();
     loadUserFieldServiceReports();
   }, [
     loadSettings,
@@ -41,6 +43,7 @@ const DatabaseWrapper = ({ children }: PropsWithChildren) => {
     loadVisitingSpeakers,
     loadMeetingAttendance,
     loadUserFieldServiceReports,
+    loadUserBibleStudies,
   ]);
 
   return children;

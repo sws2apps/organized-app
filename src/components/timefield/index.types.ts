@@ -1,22 +1,9 @@
-import { ChangeEventHandler } from 'react';
+import { SxProps, Theme } from '@mui/material';
+import { CustomClassName } from '@definition/app';
 
-export type CustomTimeTextFieldProps = {
-  /**
-   * The value of the `input` element, required for a controlled component.
-   */
+export type TimeFieldProps = {
+  className?: CustomClassName;
   value?: string;
-
-  /**
-   * Callback fired when the value is changed.
-   *
-   * @param {object} event The event source of the callback.
-   * You can pull out the new value by accessing `event.target.value` (string).
-   */
-  onChange?: ChangeEventHandler<HTMLInputElement>;
-
-  /**
-   * The color of the `input` element.
-   * This optional prop can be used to set a specific color for the input field.
-   */
-  fontColor?: string;
+  onChange?: (value: string) => void;
+  sx?: SxProps<Theme>;
 };

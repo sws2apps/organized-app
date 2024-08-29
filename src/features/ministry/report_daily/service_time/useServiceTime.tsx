@@ -1,9 +1,11 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { reportUserSelectedMonthState } from '@states/user_field_service_reports';
 
 const useServiceTime = () => {
   const reportMonth = useRecoilValue(reportUserSelectedMonthState);
+
+  const bibleStudyRef = useRef<Element>(null);
 
   const [date, setDate] = useState(() => {
     const [year, month] = reportMonth.split('/');
@@ -50,7 +52,7 @@ const useServiceTime = () => {
 
   const handleDateChange = (value: Date) => setDate(value);
 
-  return { date, handleDateChange, minDate, maxDate };
+  return { date, handleDateChange, minDate, maxDate, bibleStudyRef };
 };
 
 export default useServiceTime;

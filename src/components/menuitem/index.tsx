@@ -10,6 +10,7 @@ const MenuItem: FC<MenuItemProps> = (props) => {
   return (
     <MUIMenuItem
       disableRipple
+      {...props}
       sx={{
         padding: '8px 12px 8px 16px',
         height: '36px',
@@ -20,8 +21,8 @@ const MenuItem: FC<MenuItemProps> = (props) => {
             color: 'var(--accent-dark)',
           },
         },
+        ...props.sx,
       }}
-      {...props}
     />
   );
 };

@@ -3,6 +3,8 @@ import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { FieldContainer } from './index.styles';
 import { ServiceTimeProps } from './index.types';
 import useServiceTime from './useServiceTime';
+import BibleStudiesEditor from '@features/ministry/bible_studies_editor';
+import BibleStudySelector from './bible_study_selector';
 import Button from '@components/button';
 import DatePicker from '@components/date_picker';
 import HoursEditor from '@features/ministry/hours_editor';
@@ -13,7 +15,8 @@ const ServiceTime = ({ isEdit, onClose }: ServiceTimeProps) => {
 
   const { tabletUp } = useBreakpoints();
 
-  const { date, handleDateChange, maxDate, minDate } = useServiceTime();
+  const { date, handleDateChange, maxDate, minDate, bibleStudyRef } =
+    useServiceTime();
 
   return (
     <Box
@@ -26,6 +29,7 @@ const ServiceTime = ({ isEdit, onClose }: ServiceTimeProps) => {
         flexDirection: 'column',
         gap: '16px',
       }}
+      className="pop-up-shadow"
     >
       <Stack spacing="8px">
         <Typography className="h2">
@@ -43,7 +47,15 @@ const ServiceTime = ({ isEdit, onClose }: ServiceTimeProps) => {
 
       <FieldContainer sx={{ flexDirection: tabletUp ? 'row' : 'column' }}>
         <Typography sx={{ flex: 1 }}>{t('tr_hours')}</Typography>
-        <HoursEditor />
+        <HoursEditor date={date} />
+      </FieldContainer>
+
+      <FieldContainer
+        sx={{ flexDirection: tabletUp ? 'row' : 'column' }}
+        ref={bibleStudyRef}
+      >
+        <BibleStudySelector anchorEl={bibleStudyRef} date={date} />
+        <BibleStudiesEditor />
       </FieldContainer>
 
       <Box

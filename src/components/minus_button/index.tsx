@@ -1,16 +1,17 @@
 import { IconButton } from '@mui/material';
 import { IconRemove } from '@icons/index';
+import { MinusButtonProps } from './index.types';
 
 /**
  * Custom minus button component.
  * @param onClick - Callback function for the click event.
  * @returns JSX element for the CustomMinusButton component.
  */
-const MinusButton = (props: { onClick?: VoidFunction }) => {
+const MinusButton = ({ onClick, sx }: MinusButtonProps) => {
   return (
     <IconButton
       disableRipple
-      onClick={props.onClick}
+      onClick={onClick}
       sx={{
         border: '1px solid var(--accent-350)',
         borderRadius: 'var(--radius-m)',
@@ -33,6 +34,7 @@ const MinusButton = (props: { onClick?: VoidFunction }) => {
         '& svg, & svg g, & svg g path': {
           fill: 'var(--accent-350)',
         },
+        ...sx,
       }}
     >
       <IconRemove />

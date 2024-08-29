@@ -91,6 +91,7 @@ const DatePicker = ({
     if (view === 'button') {
       setValueTmp(value);
       setOpen(false);
+      onChange?.(value);
     }
   };
 
@@ -130,7 +131,7 @@ const DatePicker = ({
                           onClick={() => {
                             setOpen(false);
                             setValueTmp(null);
-                            onChange && onChange(null);
+                            onChange?.(null);
                           }}
                         >
                           {t('tr_clear')}
@@ -139,7 +140,7 @@ const DatePicker = ({
                           variant="main"
                           onClick={() => {
                             setValueTmp(innerValue);
-                            onChange && onChange(innerValue);
+                            onChange?.(innerValue);
                             setOpen(false);
                           }}
                         >

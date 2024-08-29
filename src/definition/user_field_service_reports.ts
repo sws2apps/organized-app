@@ -1,18 +1,12 @@
-export type BibleStudyReportType = {
-  _deleted: boolean;
-  person_uid: string;
-  updatedAt: string;
-};
-
 export type UserFieldServiceDailyReportType = {
   report_date: string;
   report_data: {
     _deleted: boolean;
     updatedAt: string;
-    hours: number;
-    hours_credits: number;
+    hours: string;
+    hours_credits: string;
     duration_start: string;
-    bible_studies: { value: number; records: BibleStudyReportType[] };
+    bible_studies: { value: number; records: string[] };
     record_type: 'daily';
   };
 };

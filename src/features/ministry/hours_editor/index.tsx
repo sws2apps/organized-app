@@ -1,21 +1,26 @@
 import { Box } from '@mui/material';
+import useHoursEditor from './useHoursEditor';
 import MinusButton from '@components/minus_button';
 import PlusButton from '@components/plus_button';
 import TimeField from '@components/timefield';
+import { HoursEditorProps } from './index.types';
 
-const HoursEditor = () => {
+const HoursEditor = (props: HoursEditorProps) => {
+  const { handleDecrement, handleIncrement, handleValueChange, value } =
+    useHoursEditor(props);
+
   return (
     <Box
       sx={{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        width: '168px',
+        width: '180px',
       }}
     >
-      <MinusButton />
-      <TimeField />
-      <PlusButton />
+      <MinusButton onClick={handleDecrement} sx={{ padding: '7px' }} />
+      <TimeField className="h2" value={value} onChange={handleValueChange} />
+      <PlusButton onClick={handleIncrement} sx={{ padding: '7px' }} />
     </Box>
   );
 };

@@ -1,12 +1,15 @@
 import { useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import {
   reportUserSelectedMonthState,
   userFieldServiceReportsState,
 } from '@states/user_field_service_reports';
 import { UserFieldServiceDailyReportType } from '@definition/user_field_service_reports';
+import { bibleStudyEditorOpenState } from '@states/user_bible_studies';
 
 const useDailyHistory = () => {
+  const setBibleStudyEditorOpen = useSetRecoilState(bibleStudyEditorOpenState);
+
   const reportMonth = useRecoilValue(reportUserSelectedMonthState);
   const reports = useRecoilValue(userFieldServiceReportsState);
 
@@ -26,7 +29,10 @@ const useDailyHistory = () => {
 
   const handleOpenEditor = () => setEditorOpen(true);
 
-  const handleCloseEditor = () => setEditorOpen(false);
+  const handleCloseEditor = () => {
+    setEditorOpen(false);
+    setBibleStudyEditorOpen(false);
+  };
 
   return {
     reportMonth,

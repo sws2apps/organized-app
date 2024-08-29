@@ -13,6 +13,7 @@ import { visitingSpeakersState } from '@states/visiting_speakers';
 import { speakersCongregationsState } from '@states/speakers_congregations';
 import { meetingAttendanceState } from '@states/meeting_attendance';
 import { userFieldServiceReportsState } from '@states/user_field_service_reports';
+import { userBibleStudiesState } from '@states/user_bible_studies';
 
 const useIndexedDb = () => {
   const dbSettings = useLiveQuery(() => appDb.app_settings.toArray());
@@ -29,6 +30,9 @@ const useIndexedDb = () => {
   );
   const dbMeetingAttendance = useLiveQuery(() =>
     appDb.meeting_attendance.toArray()
+  );
+  const dbUserBibleStudies = useLiveQuery(() =>
+    appDb.user_bible_studies.toArray()
   );
   const dbUserFieldServiceReports = useLiveQuery(() =>
     appDb.user_field_service_reports.toArray()
@@ -48,6 +52,7 @@ const useIndexedDb = () => {
   const setUserFieldServiceReports = useSetRecoilState(
     userFieldServiceReportsState
   );
+  const setUserBibleStudies = useSetRecoilState(userBibleStudiesState);
 
   const loadSettings = useCallback(() => {
     if (dbSettings && dbSettings[0]) {
@@ -109,6 +114,12 @@ const useIndexedDb = () => {
     }
   }, [dbUserFieldServiceReports, setUserFieldServiceReports]);
 
+  const loadUserBibleStudies = useCallback(() => {
+    if (dbUserBibleStudies) {
+      setUserBibleStudies(dbUserBibleStudies);
+    }
+  }, [dbUserBibleStudies, setUserBibleStudies]);
+
   return {
     loadSettings,
     loadPersons,
@@ -120,6 +131,7 @@ const useIndexedDb = () => {
     loadSpeakersCongregations,
     loadMeetingAttendance,
     loadUserFieldServiceReports,
+    loadUserBibleStudies,
   };
 };
 
