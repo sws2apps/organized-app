@@ -3,11 +3,12 @@ import useTimeField from './useTimeField';
 import TextField from '@components/textfield';
 
 const TimeField = (props: TimeFieldProps) => {
-  const { handleKeyDown, inputRef, handleClick, handleBlur } =
+  const { handleKeyDown, inputRef, handleClick, handleBlur, handleWheel } =
     useTimeField(props);
 
   return (
     <TextField
+      onWheel={handleWheel}
       onKeyDown={handleKeyDown}
       onClick={handleClick}
       onBlur={handleBlur}

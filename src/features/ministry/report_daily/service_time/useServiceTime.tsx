@@ -1,58 +1,92 @@
-import { useMemo, useRef, useState } from 'react';
-import { useRecoilValue } from 'recoil';
-import { reportUserSelectedMonthState } from '@states/user_field_service_reports';
+import { useMemo, useRef } from 'react';
+import { useRecoilState } from 'recoil';
+import { reportUserDraftState } from '@states/user_field_service_reports';
+import { displaySnackNotification } from '@services/recoil/app';
+import { useAppTranslation } from '@hooks/index';
+import { getMessageByCode } from '@services/i18n/translation';
+import { ServiceTimeProps } from './index.types';
+import { dbUserFieldServiceReportsSave } from '@services/dexie/user_field_service_reports';
 
-const useServiceTime = () => {
-  const reportMonth = useRecoilValue(reportUserSelectedMonthState);
+const useServiceTime = ({ onClose }: ServiceTimeProps) => {
+  const { t } = useAppTranslation();
 
   const bibleStudyRef = useRef<Element>(null);
 
-  const [date, setDate] = useState(() => {
-    const [year, month] = reportMonth.split('/');
+  const [currentReport, setCurrentReport] =
+    useRecoilState(reportUserDraftState);
 
-    const selectedYear = +year;
-    const selectedMonth = +month - 1;
+  const hours = useMemo(() => {
+    return currentReport.report_data.hours;
+  }, [currentReport]);
 
-    const now = new Date();
+  const bibleStudies = useMemo(() => {
+    return currentReport.report_data.bible_studies.value;
+  }, [currentReport]);
 
-    const currentYear = now.getFullYear();
-    const currentMonth = now.getMonth();
+  const handleHoursChange = (value: string) => {
+    const newReport = structuredClone(currentReport);
 
-    if (selectedYear === currentYear && selectedMonth === currentMonth) {
-      return now;
+    newReport.report_data.hours = value;
+    setCurrentReport(newReport);
+  };
+
+  const bibleStudiesValidator = async (value: number) => {
+    if (!currentReport) return true;
+
+    const result = currentReport.report_data.bible_studies.records.length;
+
+    if (value < result) {
+      await displaySnackNotification({
+        header: t('tr_cantDeductStudiesTitle'),
+        message: t('tr_cantDeductStudiesDesc'),
+        severity: 'error',
+      });
+
+      return false;
     }
 
-    return new Date(selectedYear, selectedMonth, 1);
-  });
+    return true;
+  };
 
-  const minDate = useMemo(() => {
-    const [year, month] = reportMonth.split('/');
-    const result = new Date(+year, +month - 1, 1);
+  const handleBibleStudiesChange = async (value: number) => {
+    const newReport = structuredClone(currentReport);
 
-    return result;
-  }, [reportMonth]);
+    newReport.report_data.bible_studies.value = value;
+    setCurrentReport(newReport);
+  };
 
-  const maxDate = useMemo(() => {
-    const [currentYear, currentMonth] = reportMonth.split('/');
+  const handleSaveReport = async () => {
+    if (currentReport.report_date.length === 0) return;
 
-    let year = +currentYear;
-    let month = +currentMonth - 1;
-
-    if (month === 11) {
-      month = 0;
-      year = year + 1;
-    } else {
-      month = month + 1;
+    if (
+      !currentReport.report_data.bible_studies.value &&
+      currentReport.report_data.hours.length === 0
+    ) {
+      return;
     }
 
-    const result = new Date(year, month, -1);
+    try {
+      await dbUserFieldServiceReportsSave(currentReport);
 
-    return result;
-  }, [reportMonth]);
+      onClose();
+    } catch (error) {
+      await displaySnackNotification({
+        header: t('tr_errorTitle'),
+        message: getMessageByCode(error.message),
+        severity: 'error',
+      });
+    }
+  };
 
-  const handleDateChange = (value: Date) => setDate(value);
-
-  return { date, handleDateChange, minDate, maxDate, bibleStudyRef };
+  return {
+    bibleStudyRef,
+    hours,
+    handleHoursChange,
+    bibleStudies,
+    handleBibleStudiesChange,
+    bibleStudiesValidator,
+    handleSaveReport,
+  };
 };
 
 export default useServiceTime;

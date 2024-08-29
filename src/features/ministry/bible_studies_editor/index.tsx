@@ -1,12 +1,13 @@
 import { Box } from '@mui/material';
+import { BibleStudiesEditorProps } from './index.types';
+import { TextFieldBibleStudies } from './index.styles';
 import useBibleStudiesEditor from './useBibleStudiesEditor';
 import MinusButton from '@components/minus_button';
 import PlusButton from '@components/plus_button';
-import TextField from '@components/textfield';
 
-const BibleStudiesEditor = () => {
-  const { handleDecrement, handleIncrement, handleValueChange, value } =
-    useBibleStudiesEditor();
+const BibleStudiesEditor = (props: BibleStudiesEditorProps) => {
+  const { handleDecrement, handleIncrement, handleValueChange, inputValue } =
+    useBibleStudiesEditor(props);
 
   return (
     <Box
@@ -18,25 +19,18 @@ const BibleStudiesEditor = () => {
       }}
     >
       <MinusButton onClick={handleDecrement} sx={{ padding: '7px' }} />
-      <TextField
-        value={value}
-        onChange={(e) => handleValueChange(e.target.value)}
+      <TextFieldBibleStudies
+        type="number"
+        value={inputValue}
+        onChange={handleValueChange}
         inputProps={{
           className: 'h2',
-          style: { color: value === 0 ? 'var(--accent-350)' : 'var(--black)' },
-        }}
-        sx={{
-          '.MuiInputBase-input': {
-            textAlign: 'center',
-          },
-          '.MuiOutlinedInput-root': {
-            paddingRight: 'unset !important',
-          },
-          '& fieldset': {
-            border: 'none',
+          style: {
+            color: inputValue === 0 ? 'var(--accent-350)' : 'var(--black)',
           },
         }}
       />
+
       <PlusButton onClick={handleIncrement} sx={{ padding: '7px' }} />
     </Box>
   );

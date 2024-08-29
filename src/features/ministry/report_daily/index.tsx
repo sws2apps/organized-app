@@ -5,13 +5,14 @@ import Dialog from '@components/dialog';
 import ServiceTime from './service_time';
 import BibleStudy from './bible_study';
 
-const ReportDaily = ({ open, onClose, isEdit }: ReportDailyProps) => {
-  const { bibleStudyOpen } = useReportDaily();
+const ReportDaily = (props: ReportDailyProps) => {
+  const { bibleStudyOpen, dateValue, handleDateChange, maxDate, minDate } =
+    useReportDaily(props);
 
   return (
     <Dialog
-      open={open}
-      onClose={onClose}
+      open={props.open}
+      onClose={props.onClose}
       sx={{ padding: 0 }}
       PaperProps={{
         className: 'pop-up-shadow',
@@ -22,7 +23,14 @@ const ReportDaily = ({ open, onClose, isEdit }: ReportDailyProps) => {
       }}
     >
       <Stack spacing="16px" width="100%">
-        <ServiceTime isEdit={isEdit} onClose={onClose} />
+        <ServiceTime
+          isEdit={props.isEdit}
+          onClose={props.onClose}
+          date={dateValue}
+          maxDate={maxDate}
+          minDate={minDate}
+          onDateChange={handleDateChange}
+        />
 
         {bibleStudyOpen && <BibleStudy />}
       </Stack>

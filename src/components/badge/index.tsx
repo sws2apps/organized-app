@@ -41,12 +41,14 @@ const BadgeContent = (props: BadgeContentPropsType) => {
   );
 };
 
-const BadgeTypography = (props: BadgeTypographyPropsType) => {
-  const { children, sx } = props;
-
+const BadgeTypography = ({
+  children,
+  className = 'label-small-medium',
+  sx,
+}: BadgeTypographyPropsType) => {
   return (
     <Typography
-      className="label-small-medium"
+      className={className}
       sx={{
         display: 'flex',
         alignItems: 'center',
@@ -68,6 +70,7 @@ const Badge = (props: BadgePropsType) => {
     fullWidth,
     centerContent,
     borderStyle,
+    className,
     sx = {},
   } = props;
 
@@ -134,6 +137,7 @@ const Badge = (props: BadgePropsType) => {
             color={getColor()}
           >
             <BadgeTypography
+              className={className}
               sx={{
                 fontSize: '12px',
                 fontWeight: '500',
@@ -172,6 +176,7 @@ const Badge = (props: BadgePropsType) => {
             color={getColor()}
           >
             <BadgeTypography
+              className={className}
               sx={{
                 fontSize: '14px',
                 fontWeight: '520',
@@ -210,6 +215,7 @@ const Badge = (props: BadgePropsType) => {
               color={getColor()}
             >
               <BadgeTypography
+                className={className}
                 sx={{
                   fontSize: '16px',
                   fontWeight: '420',

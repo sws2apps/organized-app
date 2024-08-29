@@ -1,4 +1,4 @@
-import { KeyboardEvent, useEffect, useRef } from 'react';
+import { KeyboardEvent, WheelEvent, useEffect, useRef } from 'react';
 import { TimeFieldProps } from './index.types';
 
 const useTimeField = ({ value, onChange }: TimeFieldProps) => {
@@ -121,7 +121,7 @@ const useTimeField = ({ value, onChange }: TimeFieldProps) => {
     }
   };
 
-  const handleArrowUpDown = (type: 'ArrowUp' | 'ArrowDown') => {
+  const handleArrowWheel = (type: 'increase' | 'decrease') => {
     const inputElement = inputRef.current;
 
     const selectionStart = inputElement.selectionStart || 0;
@@ -131,7 +131,7 @@ const useTimeField = ({ value, onChange }: TimeFieldProps) => {
 
     // update hours
     if (selectionStart < colonPosition) {
-      if (type === 'ArrowUp') {
+      if (type === 'increase') {
         if (hours === 'H') {
           inputElement.value = inputElement.value.replace('H', '1');
 
@@ -152,7 +152,7 @@ const useTimeField = ({ value, onChange }: TimeFieldProps) => {
         }
       }
 
-      if (type === 'ArrowDown') {
+      if (type === 'decrease') {
         if (hours === 'H') {
           inputElement.value = inputElement.value.replace('H', '0');
 
@@ -176,7 +176,7 @@ const useTimeField = ({ value, onChange }: TimeFieldProps) => {
 
     // update minutes
     if (selectionStart > colonPosition) {
-      if (type === 'ArrowUp') {
+      if (type === 'increase') {
         if (minutes === 'MM') {
           inputElement.value = inputElement.value.replace('MM', '01');
 
@@ -197,7 +197,7 @@ const useTimeField = ({ value, onChange }: TimeFieldProps) => {
         }
       }
 
-      if (type === 'ArrowDown') {
+      if (type === 'decrease') {
         if (minutes === 'MM') {
           inputElement.value = inputElement.value.replace('MM', '00');
 
@@ -218,6 +218,28 @@ const useTimeField = ({ value, onChange }: TimeFieldProps) => {
         }
       }
     }
+  };
+
+  const handleArrowUpDown = (type: 'ArrowUp' | 'ArrowDown') => {
+    const value = type === 'ArrowUp' ? 'increase' : 'decrease';
+
+    handleArrowWheel(value);
+  };
+
+  const handleWheel = (e: WheelEvent<HTMLInputElement>) => {
+    const inputElement = inputRef.current;
+
+    const selectionStart = inputElement.selectionStart || 0;
+
+    const value = e.deltaY < 0 ? 'increase' : 'decrease';
+
+    handleArrowWheel(value);
+
+    onChange?.(inputElement.value);
+
+    // restore selection
+    inputElement.setSelectionRange(selectionStart, selectionStart);
+    handleClick();
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -278,6 +300,7 @@ const useTimeField = ({ value, onChange }: TimeFieldProps) => {
     handleKeyDown,
     handleClick,
     handleBlur,
+    handleWheel,
   };
 };
 

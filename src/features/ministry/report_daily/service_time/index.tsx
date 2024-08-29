@@ -4,19 +4,29 @@ import { FieldContainer } from './index.styles';
 import { ServiceTimeProps } from './index.types';
 import useServiceTime from './useServiceTime';
 import BibleStudiesEditor from '@features/ministry/bible_studies_editor';
+import BibleStudiesList from './bible_studies_list';
 import BibleStudySelector from './bible_study_selector';
 import Button from '@components/button';
 import DatePicker from '@components/date_picker';
 import HoursEditor from '@features/ministry/hours_editor';
 import Typography from '@components/typography';
 
-const ServiceTime = ({ isEdit, onClose }: ServiceTimeProps) => {
+const ServiceTime = (props: ServiceTimeProps) => {
+  const { isEdit, onClose, date, maxDate, minDate, onDateChange } = props;
+
   const { t } = useAppTranslation();
 
   const { tabletUp } = useBreakpoints();
 
-  const { date, handleDateChange, maxDate, minDate, bibleStudyRef } =
-    useServiceTime();
+  const {
+    bibleStudyRef,
+    handleHoursChange,
+    hours,
+    bibleStudies,
+    handleBibleStudiesChange,
+    bibleStudiesValidator,
+    handleSaveReport,
+  } = useServiceTime(props);
 
   return (
     <Box
@@ -40,22 +50,42 @@ const ServiceTime = ({ isEdit, onClose }: ServiceTimeProps) => {
           minDate={minDate}
           maxDate={maxDate}
           view="button"
-          value={date}
-          onChange={handleDateChange}
+          value={new Date(date)}
+          onChange={onDateChange}
         />
       </Stack>
 
       <FieldContainer sx={{ flexDirection: tabletUp ? 'row' : 'column' }}>
         <Typography sx={{ flex: 1 }}>{t('tr_hours')}</Typography>
-        <HoursEditor date={date} />
+        <HoursEditor value={hours} onChange={handleHoursChange} />
       </FieldContainer>
 
       <FieldContainer
-        sx={{ flexDirection: tabletUp ? 'row' : 'column' }}
+        sx={{
+          flexDirection: 'column',
+          gap: '8px',
+          alignItems: tabletUp ? 'flex-start' : 'center',
+        }}
         ref={bibleStudyRef}
       >
-        <BibleStudySelector anchorEl={bibleStudyRef} date={date} />
-        <BibleStudiesEditor />
+        <Box
+          sx={{
+            width: '100%',
+            display: 'flex',
+            flexDirection: tabletUp ? 'row' : 'column',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            gap: '8px',
+          }}
+        >
+          <BibleStudySelector anchorEl={bibleStudyRef} />
+          <BibleStudiesEditor
+            value={bibleStudies}
+            onChange={handleBibleStudiesChange}
+            validator={bibleStudiesValidator}
+          />
+        </Box>
+        <BibleStudiesList />
       </FieldContainer>
 
       <Box
@@ -69,7 +99,9 @@ const ServiceTime = ({ isEdit, onClose }: ServiceTimeProps) => {
         <Button variant="secondary" onClick={onClose}>
           {t('tr_cancel')}
         </Button>
-        <Button variant="main">{t('tr_add')}</Button>
+        <Button variant="main" onClick={handleSaveReport}>
+          {t('tr_add')}
+        </Button>
       </Box>
     </Box>
   );

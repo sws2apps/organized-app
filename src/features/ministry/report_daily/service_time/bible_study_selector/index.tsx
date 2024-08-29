@@ -3,7 +3,7 @@ import { IconAdd, IconArrowDown } from '@components/icons';
 import { BibleStudySelectorProps } from './index.types';
 import { useAppTranslation } from '@hooks/index';
 import useBibleSelector from './useBibleSelector';
-import BibleStudyItem from '../bible_study_item';
+import BibleStudyItem from './bible_study_item';
 import MenuItem from '@components/menuitem';
 import Typography from '@components/typography';
 
@@ -22,7 +22,6 @@ const BibleStudySelector = (props: BibleStudySelectorProps) => {
       <Box
         onClick={handleToggleSelector}
         sx={{
-          flex: 1,
           display: 'flex',
           alignItems: 'center',
           gap: '8px',
@@ -71,7 +70,6 @@ const BibleStudySelector = (props: BibleStudySelectorProps) => {
               key={study.person_uid}
               bibleStudy={study}
               onSelectorClose={handleToggleSelector}
-              date={props.date}
             />
           ))}
 

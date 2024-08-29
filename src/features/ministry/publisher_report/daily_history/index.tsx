@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import { IconAdd, IconInfo } from '@components/icons';
 import { CardContainer } from '../shared_styles';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
@@ -6,6 +6,8 @@ import useDailyHistory from './useDailyHistory';
 import Button from '@components/button';
 import ReportDaily from '@features/ministry/report_daily';
 import Typography from '@components/typography';
+import DailyRecord from './daily_record';
+import Divider from '@components/divider';
 
 const DailyHistory = () => {
   const { t } = useAppTranslation();
@@ -59,6 +61,17 @@ const DailyHistory = () => {
             {t('tr_noDailyRecordsDesc')}
           </Typography>
         </Box>
+      )}
+
+      {dailyReports.length > 0 && (
+        <Stack spacing="8px">
+          <Divider color="var(--accent-200)" />
+          <Stack spacing="8px" divider={<Divider color="var(--accent-200)" />}>
+            {dailyReports.map((report) => (
+              <DailyRecord key={report.report_date} report={report} />
+            ))}
+          </Stack>
+        </Stack>
       )}
     </CardContainer>
   );

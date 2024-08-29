@@ -6,7 +6,7 @@ import TimeField from '@components/timefield';
 import { HoursEditorProps } from './index.types';
 
 const HoursEditor = (props: HoursEditorProps) => {
-  const { handleDecrement, handleIncrement, handleValueChange, value } =
+  const { handleDecrement, handleIncrement, handleValueChange, inputValue } =
     useHoursEditor(props);
 
   return (
@@ -19,7 +19,11 @@ const HoursEditor = (props: HoursEditorProps) => {
       }}
     >
       <MinusButton onClick={handleDecrement} sx={{ padding: '7px' }} />
-      <TimeField className="h2" value={value} onChange={handleValueChange} />
+      <TimeField
+        className="h2"
+        value={inputValue}
+        onChange={handleValueChange}
+      />
       <PlusButton onClick={handleIncrement} sx={{ padding: '7px' }} />
     </Box>
   );

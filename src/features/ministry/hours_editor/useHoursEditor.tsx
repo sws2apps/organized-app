@@ -1,40 +1,40 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
 import { HoursEditorProps } from './index.types';
-import { userFieldServiceReportsState } from '@states/user_field_service_reports';
-import { formatDate } from '@services/dateformat';
-import { UserFieldServiceDailyReportType } from '@definition/user_field_service_reports';
 
-const useHoursEditor = ({ date }: HoursEditorProps) => {
-  const reports = useRecoilValue(userFieldServiceReportsState);
-
-  const [value, setValue] = useState('');
+const useHoursEditor = ({ value, onChange }: HoursEditorProps) => {
+  const [inputValue, setInputValue] = useState(value);
 
   const handleValueChange = (value: string) => {
-    setValue(value);
+    setInputValue(value);
+    onChange?.(value);
   };
 
   const handleIncrement = () => {
-    if (value.length === 0) {
-      setValue('0:01');
+    if (inputValue.length === 0) {
+      setInputValue('1:00');
+      onChange?.('1:00');
       return;
     }
 
-    const [hours, minutes] = value.split(':');
+    const [hours, minutes] = inputValue.split(':');
 
     const newHours = +hours + 1;
     const newMinutes = +minutes;
 
-    setValue(`${newHours}:${String(newMinutes).padStart(2, '0')}`);
+    const value = `${newHours}:${String(newMinutes).padStart(2, '0')}`;
+
+    setInputValue(value);
+    onChange?.(value);
   };
 
   const handleDecrement = () => {
-    if (value.length === 0) {
-      setValue('0:00');
+    if (inputValue.length === 0) {
+      setInputValue('0:00');
+      onChange?.('0:00');
       return;
     }
 
-    const [hours, minutes] = value.split(':');
+    const [hours, minutes] = inputValue.split(':');
 
     let newHours = +hours - 1;
     let newMinutes = +minutes;
@@ -44,21 +44,17 @@ const useHoursEditor = ({ date }: HoursEditorProps) => {
       newHours = 0;
     }
 
-    setValue(`${newHours}:${String(newMinutes).padStart(2, '0')}`);
+    const value = `${newHours}:${String(newMinutes).padStart(2, '0')}`;
+
+    setInputValue(value);
+    onChange?.(value);
   };
 
   useEffect(() => {
-    const reportDate = formatDate(date, 'yyyy/MM/dd');
-    const report = reports.find(
-      (record) => record.report_date === reportDate
-    ) as UserFieldServiceDailyReportType;
+    setInputValue(value);
+  }, [value]);
 
-    if (report) {
-      setValue(report.report_data.hours);
-    }
-  }, [date, reports]);
-
-  return { value, handleIncrement, handleDecrement, handleValueChange };
+  return { inputValue, handleIncrement, handleDecrement, handleValueChange };
 };
 
 export default useHoursEditor;

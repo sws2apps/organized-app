@@ -1,3 +1,4 @@
 export type HoursEditorProps = {
-  date: Date;
+  value: string;
+  onChange?: (value: string) => void;
 };

@@ -421,7 +421,7 @@ export const UserFieldServiceDailyReportSchema: UserFieldServiceDailyReportType 
     report_date: '',
     report_data: {
       _deleted: false,
-      bible_studies: { value: undefined, records: [] },
+      bible_studies: { value: 0, records: [] },
       duration_start: '',
       hours: '',
       hours_credits: '',
@@ -436,10 +436,10 @@ export const UserFieldServiceMonthlyReportSchema: UserFieldServiceMonthlyReportT
     report_data: {
       _deleted: false,
       updatedAt: '',
-      bible_studies: undefined,
+      bible_studies: 0,
       comments: '',
-      hours: undefined,
-      hours_credits: undefined,
+      hours: 0,
+      hours_credits: 0,
       record_type: 'monthly',
       shared_ministry: false,
     },

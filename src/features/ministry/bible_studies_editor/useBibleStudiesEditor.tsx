@@ -1,24 +1,52 @@
-import { useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
+import { BibleStudiesEditorProps } from './index.types';
 
-const useBibleStudiesEditor = () => {
-  const [value, setValue] = useState(0);
+const useBibleStudiesEditor = ({
+  value,
+  onChange,
+  validator,
+}: BibleStudiesEditorProps) => {
+  const [inputValue, setInputValue] = useState(value || 0);
 
-  const handleValueChange = (value: string) => {
-    setValue(+value);
+  const handleValueChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    const value = +e.target.value;
+
+    if (value < 0) {
+      e.preventDefault();
+      return;
+    }
+
+    setInputValue(+value);
+    onChange?.(value);
   };
 
   const handleIncrement = () => {
-    setValue((prev) => prev + 1);
+    const value = inputValue + 1;
+
+    setInputValue(value);
+    onChange?.(value);
   };
 
-  const handleDecrement = () => {
-    setValue((prev) => {
-      const newValue = prev === 0 ? 0 : prev - 1;
-      return newValue;
-    });
+  const handleDecrement = async () => {
+    const value = inputValue - 1;
+
+    if (value < 0) {
+      return;
+    }
+
+    const valid = await validator(value);
+
+    if (!valid) return;
+
+    setInputValue(value);
+    onChange?.(value);
   };
 
-  return { value, handleIncrement, handleDecrement, handleValueChange };
+  useEffect(() => {
+    setInputValue(value);
+  }, [value]);
+
+  return { inputValue, handleIncrement, handleDecrement, handleValueChange };
 };
 
 export default useBibleStudiesEditor;

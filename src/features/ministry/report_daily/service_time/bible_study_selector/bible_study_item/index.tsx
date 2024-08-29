@@ -13,7 +13,7 @@ const BibleStudyItem = (props: BibleStudyItemProps) => {
   return (
     <MenuItem
       sx={{ height: '40px', minHeight: '40px' }}
-      onClick={handleSelectStudy}
+      onClick={selected ? null : handleSelectStudy}
     >
       <Box
         sx={{
