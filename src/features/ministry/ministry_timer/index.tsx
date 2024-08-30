@@ -16,14 +16,7 @@ import {
 import DarkOverlay from '@components/dark_overlay';
 import CustomTypography from '@components/typography';
 import { MinistryRecord } from '@pages/ministry/ministry_report/old/ministry_report.types';
-import {
-  convertDurationInSecondsToString,
-  convertDurationStringToSeconds,
-} from '@features/ministry/add_service_time_modal_window/utils';
-import { EditAndAddBibleStudyContext } from '@features/ministry/add_service_time_modal_window/EditAndAddBibleStudyContext';
-import PopUpForEditOrCreateBibleStudy from '../pop_up_for_edit_or_create_bible_study';
 import TimeAlreadyInServiceModalWindow from '../time_already_in_service_modal_window';
-import { AddServiceTimeModalWindow } from '../add_service_time_modal_window';
 
 /**
  * Left Ministry Timer Button component.
@@ -31,30 +24,30 @@ import { AddServiceTimeModalWindow } from '../add_service_time_modal_window';
  * @param {MinistryTimerButtonProps} props - The props for the component.
  * @returns {JSX.Element} The JSX representation of the component.
  */
-const LeftMinistryTimerButton = (props: MinistryTimerButtonProps) => {
-  const { t } = useAppTranslation();
+// const LeftMinistryTimerButton = (props: MinistryTimerButtonProps) => {
+//   const { t } = useAppTranslation();
 
-  switch (props.state) {
-    case MinistryTimerStates.Zero:
-      return (
-        <TimerButton
-          text={t('tr_timerLabelTime')}
-          icon={<IconAddTime color="var(--accent-dark)" />}
-          onClick={props.onClick}
-        />
-      );
+//   switch (props.state) {
+//     case MinistryTimerStates.Zero:
+//       return (
+//         <TimerButton
+//           text={t('tr_timerLabelTime')}
+//           icon={<IconAddTime color="var(--accent-dark)" />}
+//           onClick={props.onClick}
+//         />
+//       );
 
-    case MinistryTimerStates.Started:
-    case MinistryTimerStates.Paused:
-      return (
-        <TimerButton
-          text={t('tr_timerLabelStop')}
-          icon={<IconStop color="var(--accent-dark)" />}
-          onClick={props.onClick}
-        />
-      );
-  }
-};
+//     case MinistryTimerStates.Started:
+//     case MinistryTimerStates.Paused:
+//       return (
+//         <TimerButton
+//           text={t('tr_timerLabelStop')}
+//           icon={<IconStop color="var(--accent-dark)" />}
+//           onClick={props.onClick}
+//         />
+//       );
+//   }
+// };
 
 /**
  * Right Ministry Timer Button component.
@@ -62,38 +55,38 @@ const LeftMinistryTimerButton = (props: MinistryTimerButtonProps) => {
  * @param {MinistryTimerButtonProps} props - The props for the component.
  * @returns {JSX.Element} The JSX representation of the component.
  */
-const RightMinistryTimerButton = (props: MinistryTimerButtonProps) => {
-  const { t } = useAppTranslation();
+// const RightMinistryTimerButton = (props: MinistryTimerButtonProps) => {
+//   const { t } = useAppTranslation();
 
-  switch (props.state) {
-    case MinistryTimerStates.Zero:
-      return (
-        <TimerButton
-          text={t('tr_timerLabelStart')}
-          icon={<IconStart color="var(--accent-dark)" />}
-          onClick={props.onClick}
-        />
-      );
+//   switch (props.state) {
+//     case MinistryTimerStates.Zero:
+//       return (
+//         <TimerButton
+//           text={t('tr_timerLabelStart')}
+//           icon={<IconStart color="var(--accent-dark)" />}
+//           onClick={props.onClick}
+//         />
+//       );
 
-    case MinistryTimerStates.Started:
-      return (
-        <TimerButton
-          text={t('tr_timerLabelPause')}
-          icon={<IconPause color="var(--accent-dark)" />}
-          onClick={props.onClick}
-        />
-      );
+//     case MinistryTimerStates.Started:
+//       return (
+//         <TimerButton
+//           text={t('tr_timerLabelPause')}
+//           icon={<IconPause color="var(--accent-dark)" />}
+//           onClick={props.onClick}
+//         />
+//       );
 
-    case MinistryTimerStates.Paused:
-      return (
-        <TimerButton
-          text={t('tr_timerLabelResume')}
-          icon={<IconResume color="var(--accent-dark)" />}
-          onClick={props.onClick}
-        />
-      );
-  }
-};
+//     case MinistryTimerStates.Paused:
+//       return (
+//         <TimerButton
+//           text={t('tr_timerLabelResume')}
+//           icon={<IconResume color="var(--accent-dark)" />}
+//           onClick={props.onClick}
+//         />
+//       );
+//   }
+// };
 
 /**
  * Ministry Timer component.
@@ -103,132 +96,133 @@ const RightMinistryTimerButton = (props: MinistryTimerButtonProps) => {
  * @returns {JSX.Element} The JSX representation of the component.
  */
 const MinistryTimer = ({ duration = '00:00' }: { duration?: string }) => {
-  const [timerState, setTimerState] = useState(MinistryTimerStates.Zero);
-  const [timerTextOpacity, setTimerTextOpacity] = useState(1);
+  // const [timerState, setTimerState] = useState(MinistryTimerStates.Zero);
+  // const [timerTextOpacity, setTimerTextOpacity] = useState(1);
 
-  const changeButtonStates = () => {
-    const numberOfStates = Object.keys(MinistryTimerStates).length / 2; // Divide by 2 because enums in TypeScript are bi-directional
-    if (timerState !== numberOfStates - 1) {
-      setTimerState(timerState + 1);
-    } else {
-      setTimerState(MinistryTimerStates.Started);
-    }
-  };
+  // const changeButtonStates = () => {
+  //   const numberOfStates = Object.keys(MinistryTimerStates).length / 2; // Divide by 2 because enums in TypeScript are bi-directional
+  //   if (timerState !== numberOfStates - 1) {
+  //     setTimerState(timerState + 1);
+  //   } else {
+  //     setTimerState(MinistryTimerStates.Started);
+  //   }
+  // };
 
-  const [durationInSeconds, setDurationInSeconds] = useState(() => {
-    return convertDurationStringToSeconds(duration);
-  });
+  // const [durationInSeconds, setDurationInSeconds] = useState(() => {
+  //   return convertDurationStringToSeconds(duration);
+  // });
 
-  const resetDurationToNull = () => {
-    setTimerState(MinistryTimerStates.Zero);
-    setDurationInSeconds(convertDurationStringToSeconds('00:00'));
-  };
+  // const resetDurationToNull = () => {
+  //   setTimerState(MinistryTimerStates.Zero);
+  //   setDurationInSeconds(convertDurationStringToSeconds('00:00'));
+  // };
 
-  // For timer ticks
-  useEffect(() => {
-    let lastTime = 0;
-    let requestId: number;
+  // // For timer ticks
+  // useEffect(() => {
+  //   let lastTime = 0;
+  //   let requestId: number;
 
-    const tick = (timestamp: number) => {
-      if (
-        timerState === MinistryTimerStates.Zero ||
-        timerState === MinistryTimerStates.Paused
-      ) {
-        lastTime = timestamp;
-        return;
-      }
+  //   const tick = (timestamp: number) => {
+  //     if (
+  //       timerState === MinistryTimerStates.Zero ||
+  //       timerState === MinistryTimerStates.Paused
+  //     ) {
+  //       lastTime = timestamp;
+  //       return;
+  //     }
 
-      const deltaTime = timestamp - lastTime;
-      if (deltaTime >= 1000) {
-        setDurationInSeconds((prev) => prev + Math.floor(deltaTime / 1000));
-        lastTime = timestamp;
-      }
+  //     const deltaTime = timestamp - lastTime;
+  //     if (deltaTime >= 1000) {
+  //       setDurationInSeconds((prev) => prev + Math.floor(deltaTime / 1000));
+  //       lastTime = timestamp;
+  //     }
 
-      requestId = requestAnimationFrame(tick);
-    };
+  //     requestId = requestAnimationFrame(tick);
+  //   };
 
-    if (timerState === MinistryTimerStates.Started) {
-      lastTime = performance.now();
-      requestId = requestAnimationFrame(tick);
-    }
+  //   if (timerState === MinistryTimerStates.Started) {
+  //     lastTime = performance.now();
+  //     requestId = requestAnimationFrame(tick);
+  //   }
 
-    return () => {
-      cancelAnimationFrame(requestId);
-    };
-  }, [timerState]);
+  //   return () => {
+  //     cancelAnimationFrame(requestId);
+  //   };
+  // }, [timerState]);
 
-  // For timer text opacity
-  useEffect(() => {
-    let lastTime = 0;
-    let requestId: number;
+  // // For timer text opacity
+  // useEffect(() => {
+  //   let lastTime = 0;
+  //   let requestId: number;
 
-    const blink = (timestamp: number) => {
-      if (timerState !== MinistryTimerStates.Paused) {
-        setTimerTextOpacity(1);
-        return;
-      }
+  //   const blink = (timestamp: number) => {
+  //     if (timerState !== MinistryTimerStates.Paused) {
+  //       setTimerTextOpacity(1);
+  //       return;
+  //     }
 
-      const deltaTime = timestamp - lastTime;
-      if (deltaTime >= 1000) {
-        setTimerTextOpacity((prev) => (prev === 0 ? 1 : 0));
-        lastTime = timestamp;
-      }
+  //     const deltaTime = timestamp - lastTime;
+  //     if (deltaTime >= 1000) {
+  //       setTimerTextOpacity((prev) => (prev === 0 ? 1 : 0));
+  //       lastTime = timestamp;
+  //     }
 
-      requestId = requestAnimationFrame(blink);
-    };
+  //     requestId = requestAnimationFrame(blink);
+  //   };
 
-    if (timerState === MinistryTimerStates.Paused) {
-      lastTime = performance.now();
-      requestId = requestAnimationFrame(blink);
-    } else {
-      setTimerTextOpacity(1);
-    }
+  //   if (timerState === MinistryTimerStates.Paused) {
+  //     lastTime = performance.now();
+  //     requestId = requestAnimationFrame(blink);
+  //   } else {
+  //     setTimerTextOpacity(1);
+  //   }
 
-    return () => {
-      cancelAnimationFrame(requestId);
-    };
-  }, [timerState]);
+  //   return () => {
+  //     cancelAnimationFrame(requestId);
+  //   };
+  // }, [timerState]);
 
-  const timerDuration = convertDurationInSecondsToString(durationInSeconds);
+  // const timerDuration = convertDurationInSecondsToString(durationInSeconds);
 
-  const [addServiceTimeModalWindowOpen, setAddServiceTimeModalWindowOpen] =
-    useState(false);
+  // const [addServiceTimeModalWindowOpen, setAddServiceTimeModalWindowOpen] =
+  //   useState(false);
 
-  const addServiceTimeModalWindowRef = useRef(null);
+  // const addServiceTimeModalWindowRef = useRef(null);
 
-  const [bibleStudiesList, setBibleStudiesList] = useState(
-    [] /** Connect to API */
-  );
+  // const [bibleStudiesList, setBibleStudiesList] = useState(
+  //   [] /** Connect to API */
+  // );
 
-  const defaultEAABSValue = {
-    popUpWindowOpen: false,
-    variant: 'add',
-    itemValue: '',
-    itemIndex: 0,
-  };
+  // const defaultEAABSValue = {
+  //   popUpWindowOpen: false,
+  //   variant: 'add',
+  //   itemValue: '',
+  //   itemIndex: 0,
+  // };
 
-  const [editAndAddBibleStudyData, setEditAndAddBibleStudyData] = useState(
-    () => {
-      return defaultEAABSValue;
-    }
-  );
+  // const [editAndAddBibleStudyData, setEditAndAddBibleStudyData] = useState(
+  //   () => {
+  //     return defaultEAABSValue;
+  //   }
+  // );
 
-  // Memoize the context value to prevent unnecessary re-renders
-  const contextValue = useMemo(
-    () => ({
-      editAndAddBibleStudyData,
-      setEditAndAddBibleStudyData,
-    }),
-    [editAndAddBibleStudyData]
-  );
+  // // Memoize the context value to prevent unnecessary re-renders
+  // const contextValue = useMemo(
+  //   () => ({
+  //     editAndAddBibleStudyData,
+  //     setEditAndAddBibleStudyData,
+  //   }),
+  //   [editAndAddBibleStudyData]
+  // );
 
-  const [
-    timeAlreadyInServiceModalWindowOpen,
-    setTimeAlreadyInServiceModalWindowOpen,
-  ] = useState(false);
+  // const [
+  //   timeAlreadyInServiceModalWindowOpen,
+  //   setTimeAlreadyInServiceModalWindowOpen,
+  // ] = useState(false);
 
   return (
-    <EditAndAddBibleStudyContext.Provider value={contextValue}>
+    <>
+      {/* <EditAndAddBibleStudyContext.Provider value={contextValue}>
       <Box
         sx={{
           display: 'flex',
@@ -293,7 +287,6 @@ const MinistryTimer = ({ duration = '00:00' }: { duration?: string }) => {
           }}
         />
         <DarkOverlay overlayIsOpened={addServiceTimeModalWindowOpen}>
-          {/** TODO: Connect to API  | Add variant */}
           <AddServiceTimeModalWindow
             showCreditHours={true}
             duration={durationInSeconds}
@@ -304,7 +297,7 @@ const MinistryTimer = ({ duration = '00:00' }: { duration?: string }) => {
                 0,
                 0,
                 null
-              ) /* Dont delete! Not used data. */
+              )
             }
             bibleStudiesList={bibleStudiesList}
             cancelButtonClick={() => {
@@ -370,7 +363,8 @@ const MinistryTimer = ({ duration = '00:00' }: { duration?: string }) => {
           />
         </DarkOverlay>
       </Box>
-    </EditAndAddBibleStudyContext.Provider>
+    </EditAndAddBibleStudyContext.Provider> */}
+    </>
   );
 };
 

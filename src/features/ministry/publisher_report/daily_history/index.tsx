@@ -4,7 +4,7 @@ import { CardContainer } from '../shared_styles';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useDailyHistory from './useDailyHistory';
 import Button from '@components/button';
-import ReportDaily from '@features/ministry/report_daily';
+import ReportFormDialog from '@features/ministry/report_form_dialog';
 import Typography from '@components/typography';
 import DailyRecord from './daily_record';
 import Divider from '@components/divider';
@@ -25,7 +25,7 @@ const DailyHistory = () => {
   return (
     <CardContainer>
       {editorOpen && (
-        <ReportDaily
+        <ReportFormDialog
           isEdit={false}
           open={editorOpen}
           onClose={handleCloseEditor}

@@ -7,11 +7,11 @@ import {
   userFieldServiceReportsState,
 } from '@states/user_field_service_reports';
 import { formatDate } from '@services/dateformat';
-import { ReportDailyProps } from './index.types';
+import { ReportFormDialogProps } from './index.types';
 import { UserFieldServiceDailyReportSchema } from '@services/dexie/schema';
 import { UserFieldServiceDailyReportType } from '@definition/user_field_service_reports';
 
-const useReportDaily = ({ isEdit, date }: ReportDailyProps) => {
+const useReportFormDialog = ({ isEdit, date }: ReportFormDialogProps) => {
   const reportMonth = useRecoilValue(reportUserSelectedMonthState);
   const bibleStudyOpen = useRecoilValue(bibleStudyEditorOpenState);
   const reports = useRecoilValue(userFieldServiceReportsState);
@@ -100,4 +100,4 @@ const useReportDaily = ({ isEdit, date }: ReportDailyProps) => {
   };
 };
 
-export default useReportDaily;
+export default useReportFormDialog;

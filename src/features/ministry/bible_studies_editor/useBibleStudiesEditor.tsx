@@ -16,6 +16,10 @@ const useBibleStudiesEditor = ({
       return;
     }
 
+    const valid = await validator(value);
+
+    if (!valid) return;
+
     setInputValue(+value);
     onChange?.(value);
   };

@@ -5,7 +5,7 @@ import { DailyRecordProps } from './index.types';
 import useDailyRecords from './useDailyRecord';
 import IconButton from '@components/icon_button';
 import MinistryDetails from '../ministry_details';
-import ReportDaily from '@features/ministry/report_daily';
+import ReportFormDialog from '@features/ministry/report_form_dialog';
 import Typography from '@components/typography';
 
 const DailyRecord = ({ report }: DailyRecordProps) => {
@@ -40,7 +40,7 @@ const DailyRecord = ({ report }: DailyRecordProps) => {
       }}
     >
       {editorOpen && (
-        <ReportDaily
+        <ReportFormDialog
           isEdit={true}
           open={editorOpen}
           onClose={handleCloseEditor}

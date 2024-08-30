@@ -1,13 +1,13 @@
 import { Stack } from '@mui/material';
-import { ReportDailyProps } from './index.types';
-import useReportDaily from './useReportDaily';
+import { ReportFormDialogProps } from './index.types';
+import useReportFormDialog from './useReportFormDialog';
 import Dialog from '@components/dialog';
 import ServiceTime from './service_time';
 import BibleStudy from './bible_study';
 
-const ReportDaily = (props: ReportDailyProps) => {
+const ReportFormDialog = (props: ReportFormDialogProps) => {
   const { bibleStudyOpen, dateValue, handleDateChange, maxDate, minDate } =
-    useReportDaily(props);
+    useReportFormDialog(props);
 
   return (
     <Dialog
@@ -38,4 +38,4 @@ const ReportDaily = (props: ReportDailyProps) => {
   );
 };
 
-export default ReportDaily;
+export default ReportFormDialog;
