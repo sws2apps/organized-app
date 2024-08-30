@@ -68,17 +68,11 @@ export type NewUpdateModalWindowProps = {
    * An optional event handler that triggers when the close button is clicked.
    * This handler allows you to define custom behavior when the user closes the modal.
    */
-  onCloseButtonClick?: MouseEventHandler<HTMLButtonElement>;
+  onCloseButtonClick: VoidFunction;
 
   /**
-   * An optional event handler that triggers when the next button is clicked.
-   * This handler allows you to define custom behavior for navigating to the next update or screen.
+   * An optional event handler that triggers when the Ok button is clicked.
+   * This handler allows you to define custom behavior for navigating to the Ok update or screen.
    */
-  onNextButtonClick?: MouseEventHandler<HTMLAnchorElement>;
-
-  /**
-   * An optional event handler that triggers when the back button is clicked.
-   * This handler allows you to define custom behavior for navigating to the previous update or screen.
-   */
-  onBackButtonClick?: MouseEventHandler<HTMLAnchorElement>;
+  onOkButtonClick: MouseEventHandler<HTMLAnchorElement>;
 };

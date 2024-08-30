@@ -5,7 +5,7 @@ import IconButton from '@components/icon_button';
 import { IconClose } from '@components/icons';
 import Typography from '@components/typography';
 import Button from '@components/button';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Dialog from '@components/dialog';
 
 /**
@@ -61,115 +61,10 @@ const NewUpdateModalWindow = (props: NewUpdateModalWindowProps) => {
     );
   };
 
-  /**
-   * Renders a slider with indicators.
-   * Automatically cycles through the slides at a set interval.
-   */
-  const SliderWithIndicators = () => {
-    const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
 
-    // Ensure slides is not undefined or empty
-    const validSlides = slides && slides.length > 0 ? slides : [];
-
-    // Use useEffect to manage the interval and cleanup
-    useEffect(() => {
-      const intervalId = setInterval(() => {
-        setCurrentSlideIndex((prev) =>
-          prev < validSlides.length - 1 ? prev + 1 : 0
-        );
-      }, 3000);
-
-      return () => clearInterval(intervalId); // Cleanup on component unmount
-    }, [validSlides.length]);
-
-    if (validSlides.length === 0) {
-      return null; // Render nothing if there are no slides
-    }
-
-    return (
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '24px',
-        }}
-      >
-        <Box
-          sx={{
-            padding: '24px',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '24px',
-            borderRadius: 'var(--radius-l)',
-            backgroundColor:
-              validSlides[currentSlideIndex].backgroundColor ||
-              'var(--accent-150)',
-            width: '100%',
-          }}
-        >
-          <Box
-            component={'img'}
-            src={validSlides[currentSlideIndex].imageSrc}
-            sx={{
-              width: '100%',
-            }}
-          />
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '4px',
-              textAlign: 'center',
-            }}
-          >
-            <Typography
-              color={
-                validSlides[currentSlideIndex].titleColor ||
-                'var(--accent-dark)'
-              }
-              className="h4"
-            >
-              {validSlides[currentSlideIndex].title}
-            </Typography>
-            <Typography
-              color={
-                validSlides[currentSlideIndex].descriptionColor ||
-                'var(--accent-400)'
-              }
-              className="body-small-regular"
-            >
-              {validSlides[currentSlideIndex].description}
-            </Typography>
-          </Box>
-        </Box>
-
-        <Box
-          sx={{
-            display: 'flex',
-            gap: '8px',
-            justifyContent: 'center',
-          }}
-        >
-          {validSlides.map((item, index) => (
-            <Box
-              onClick={() => setCurrentSlideIndex(index)}
-              sx={{
-                width: '12px',
-                height: '12px',
-                cursor: 'pointer',
-                borderRadius: '50%',
-                backgroundColor:
-                  currentSlideIndex === index
-                    ? 'var(--accent-main)'
-                    : 'var(--accent-200)',
-              }}
-              key={index}
-            />
-          ))}
-        </Box>
-      </Box>
-    );
-  };
+  // Ensure slides is not undefined or empty
+  const validSlides = slides && slides.length > 0 ? slides : [];
 
   return (
     <Dialog
@@ -189,6 +84,7 @@ const NewUpdateModalWindow = (props: NewUpdateModalWindowProps) => {
           gap: '24px',
           borderRadius: 'var(--radius-xl)',
           backgroundColor: 'var(--white)',
+          width: '100%',
         }}
       >
         <Box
@@ -210,29 +106,128 @@ const NewUpdateModalWindow = (props: NewUpdateModalWindowProps) => {
               {t('tr_newOrganizedUpdate')}
             </Typography>
             <IconButton onClick={props.onCloseButtonClick}>
-              <IconClose />
+              <IconClose color="var(--black)" />
             </IconButton>
           </Box>
           <Typography className="body-regular" color={'var(--grey-400)'}>
             {t('tr_newOrganizedUpdateDesc')}
           </Typography>
         </Box>
-        {props.sliderCards.length != 0 ? SliderWithIndicators() : null}
-        {props.improvements.length != 0 ? improvementList() : null}
-
         <Box
           sx={{
             display: 'flex',
             flexDirection: 'column',
-            gap: '8px',
+            gap: '24px',
+            width: '100%',
           }}
         >
-          <Button variant="main" onClick={props.onNextButtonClick}>
-            {t('tr_next')}
-          </Button>
-          <Button variant="secondary" onClick={props.onBackButtonClick}>
-            {t('tr_back')}
-          </Button>
+          <Box
+            sx={{
+              padding: '24px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '24px',
+              borderRadius: 'var(--radius-l)',
+              backgroundColor:
+                validSlides[currentSlideIndex].backgroundColor ||
+                'var(--accent-150)',
+              width: '100%',
+            }}
+          >
+            <Box
+              component={'img'}
+              src={validSlides[currentSlideIndex].imageSrc}
+              sx={{
+                width: '100%',
+              }}
+            />
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '4px',
+                textAlign: 'center',
+              }}
+            >
+              <Typography
+                color={
+                  validSlides[currentSlideIndex].titleColor ||
+                  'var(--accent-dark)'
+                }
+                className="h4"
+              >
+                {validSlides[currentSlideIndex].title}
+              </Typography>
+              <Typography
+                color={
+                  validSlides[currentSlideIndex].descriptionColor ||
+                  'var(--accent-400)'
+                }
+                className="body-small-regular"
+              >
+                {validSlides[currentSlideIndex].description}
+              </Typography>
+            </Box>
+          </Box>
+
+          <Box
+            sx={{
+              display: 'flex',
+              gap: '8px',
+              justifyContent: 'center',
+            }}
+          >
+            {validSlides.map((item, index) => (
+              <Box
+                sx={{
+                  width: '12px',
+                  height: '12px',
+                  borderRadius: '50%',
+                  backgroundColor:
+                    currentSlideIndex === index
+                      ? 'var(--accent-main)'
+                      : 'var(--accent-200)',
+                }}
+                key={index}
+              />
+            ))}
+          </Box>
+          {props.improvements.length != 0 ? improvementList() : null}
+
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '8px',
+            }}
+          >
+            <Button
+              variant="main"
+              onClick={(event) => {
+                if (currentSlideIndex != validSlides.length - 1) {
+                  setCurrentSlideIndex((prev) => prev + 1);
+                } else {
+                  props.onOkButtonClick(event);
+                }
+              }}
+            >
+              {currentSlideIndex != validSlides.length - 1
+                ? t('tr_next')
+                : t('tr_ok')}
+            </Button>
+            <Button
+              variant="secondary"
+              onClick={() => {
+                if (currentSlideIndex != 0) {
+                  setCurrentSlideIndex((prev) => prev - 1);
+                } else {
+                  props.onCloseButtonClick();
+                }
+              }}
+            >
+              {t('tr_back')}
+            </Button>
+          </Box>
         </Box>
       </Box>
     </Dialog>
