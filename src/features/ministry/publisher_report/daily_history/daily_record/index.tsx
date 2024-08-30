@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import { IconEdit } from '@components/icons';
 import { useBreakpoints } from '@hooks/index';
 import { DailyRecordProps } from './index.types';
-import useDailyRecords from './useDailyRecord';
+import useDailyRecord from './useDailyRecord';
 import IconButton from '@components/icon_button';
 import MinistryDetails from '../ministry_details';
 import ReportFormDialog from '@features/ministry/report_form_dialog';
@@ -19,7 +19,8 @@ const DailyRecord = ({ report }: DailyRecordProps) => {
     editorOpen,
     handleCloseEditor,
     handleOpenEditor,
-  } = useDailyRecords(report);
+    total_hours,
+  } = useDailyRecord(report);
 
   return (
     <Box
@@ -61,7 +62,7 @@ const DailyRecord = ({ report }: DailyRecordProps) => {
             }}
           >
             <MinistryDetails
-              hours={report.report_data.hours}
+              hours={total_hours}
               studies={report.report_data.bible_studies.value}
               hovered={showEdit}
             />
@@ -79,7 +80,7 @@ const DailyRecord = ({ report }: DailyRecordProps) => {
         {!laptopDown && (
           <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <MinistryDetails
-              hours={report.report_data.hours}
+              hours={total_hours}
               studies={report.report_data.bible_studies.value}
               hovered={showEdit}
             />

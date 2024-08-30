@@ -8,7 +8,7 @@ import {
 } from '@states/user_field_service_reports';
 import { formatDate } from '@services/dateformat';
 import { ReportFormDialogProps } from './index.types';
-import { UserFieldServiceDailyReportSchema } from '@services/dexie/schema';
+import { userFieldServiceDailyReportSchema } from '@services/dexie/schema';
 import { UserFieldServiceDailyReportType } from '@definition/user_field_service_reports';
 
 const useReportFormDialog = ({ isEdit, date }: ReportFormDialogProps) => {
@@ -65,7 +65,7 @@ const useReportFormDialog = ({ isEdit, date }: ReportFormDialogProps) => {
 
   const currentReport = useMemo(() => {
     if (!isEdit) {
-      const report = structuredClone(UserFieldServiceDailyReportSchema);
+      const report = structuredClone(userFieldServiceDailyReportSchema);
       report.report_date = dateValue;
 
       return report;

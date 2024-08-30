@@ -62,4 +62,6 @@ export interface CustomTabProps extends TabOwnProps {
   className?: string;
 
   variant?: TabsOwnProps['variant'];
+
+  minHeight?: string;
 }

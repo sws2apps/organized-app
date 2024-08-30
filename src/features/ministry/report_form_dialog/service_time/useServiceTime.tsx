@@ -6,6 +6,8 @@ import { useAppTranslation } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
 import { ServiceTimeProps } from './index.types';
 import { dbUserFieldServiceReportsSave } from '@services/dexie/user_field_service_reports';
+import useMinistryDailyRecord from '@features/ministry/hooks/useMinistryDailyRecord';
+import useMinistryMonthlyRecord from '@features/ministry/hooks/useMinistryMonthlyRecord';
 
 const useServiceTime = ({ onClose }: ServiceTimeProps) => {
   const { t } = useAppTranslation();
@@ -15,18 +17,29 @@ const useServiceTime = ({ onClose }: ServiceTimeProps) => {
   const [currentReport, setCurrentReport] =
     useRecoilState(reportUserDraftState);
 
-  const hours = useMemo(() => {
-    return currentReport.report_data.hours;
+  const { hours, bibleStudies, approved_assignments } =
+    useMinistryDailyRecord(currentReport);
+
+  const monthReport = useMemo(() => {
+    const date = currentReport.report_date;
+    return date.substring(0, date.length - 3);
   }, [currentReport]);
 
-  const bibleStudies = useMemo(() => {
-    return currentReport.report_data.bible_studies.value;
-  }, [currentReport]);
+  const { refreshMonthlyReport } = useMinistryMonthlyRecord(monthReport);
 
   const handleHoursChange = (value: string) => {
     const newReport = structuredClone(currentReport);
 
     newReport.report_data.hours = value;
+    newReport.report_data.updatedAt = new Date().toISOString();
+    setCurrentReport(newReport);
+  };
+
+  const handleApprovedAssignmentsChange = (value: string) => {
+    const newReport = structuredClone(currentReport);
+
+    newReport.report_data.approved_assignments = value;
+    newReport.report_data.updatedAt = new Date().toISOString();
     setCurrentReport(newReport);
   };
 
@@ -52,6 +65,7 @@ const useServiceTime = ({ onClose }: ServiceTimeProps) => {
     const newReport = structuredClone(currentReport);
 
     newReport.report_data.bible_studies.value = value;
+    newReport.report_data.updatedAt = new Date().toISOString();
     setCurrentReport(newReport);
   };
 
@@ -67,6 +81,9 @@ const useServiceTime = ({ onClose }: ServiceTimeProps) => {
 
     try {
       await dbUserFieldServiceReportsSave(currentReport);
+
+      const monthReport = await refreshMonthlyReport();
+      await dbUserFieldServiceReportsSave(monthReport);
 
       onClose();
     } catch (error) {
@@ -86,6 +103,8 @@ const useServiceTime = ({ onClose }: ServiceTimeProps) => {
     handleBibleStudiesChange,
     bibleStudiesValidator,
     handleSaveReport,
+    handleApprovedAssignmentsChange,
+    approved_assignments,
   };
 };
 

@@ -107,5 +107,6 @@
   "tr_rejected": "Rejected",
   "tr_alreadySubmittedWarning": "This month's report has already been submitted to the Branch Office. Only late reports can be added, unless you undo the submission.",
   "tr_publishersCountReport": "Publishers: {{ publishersCount }}",
-  "tr_cartStorage": "Cart storage location"
+  "tr_cartStorage": "Cart storage location",
+  "tr_approvedAssignments": "Approved assignments"
 }

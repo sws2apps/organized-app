@@ -416,7 +416,7 @@ export const userBibleStudySchema: UserBibleStudyType = {
   person_data: { _deleted: false, person_name: '', updatedAt: '' },
 };
 
-export const UserFieldServiceDailyReportSchema: UserFieldServiceDailyReportType =
+export const userFieldServiceDailyReportSchema: UserFieldServiceDailyReportType =
   {
     report_date: '',
     report_data: {
@@ -424,13 +424,13 @@ export const UserFieldServiceDailyReportSchema: UserFieldServiceDailyReportType 
       bible_studies: { value: 0, records: [] },
       duration_start: '',
       hours: '',
-      hours_credits: '',
+      approved_assignments: '',
       record_type: 'daily',
       updatedAt: '',
     },
   };
 
-export const UserFieldServiceMonthlyReportSchema: UserFieldServiceMonthlyReportType =
+export const userFieldServiceMonthlyReportSchema: UserFieldServiceMonthlyReportType =
   {
     report_date: '',
     report_data: {
@@ -439,7 +439,10 @@ export const UserFieldServiceMonthlyReportSchema: UserFieldServiceMonthlyReportT
       bible_studies: 0,
       comments: '',
       hours: 0,
-      hours_credits: 0,
+      hours_credits: {
+        approved_assignments: 0,
+        events: [],
+      },
       record_type: 'monthly',
       shared_ministry: false,
     },

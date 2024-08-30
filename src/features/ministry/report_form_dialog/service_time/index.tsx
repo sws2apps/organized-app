@@ -1,6 +1,6 @@
 import { Box, Stack } from '@mui/material';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
-import { FieldContainer } from './index.styles';
+import { Field, FieldContainer } from './index.styles';
 import { ServiceTimeProps } from './index.types';
 import useServiceTime from './useServiceTime';
 import BibleStudiesEditor from '@features/ministry/bible_studies_editor';
@@ -26,6 +26,8 @@ const ServiceTime = (props: ServiceTimeProps) => {
     handleBibleStudiesChange,
     bibleStudiesValidator,
     handleSaveReport,
+    approved_assignments,
+    handleApprovedAssignmentsChange,
   } = useServiceTime(props);
 
   return (
@@ -55,17 +57,25 @@ const ServiceTime = (props: ServiceTimeProps) => {
         />
       </Stack>
 
-      <FieldContainer sx={{ flexDirection: tabletUp ? 'row' : 'column' }}>
-        <Typography sx={{ flex: 1 }}>{t('tr_hours')}</Typography>
-        <HoursEditor value={hours} onChange={handleHoursChange} />
+      <FieldContainer>
+        <Field sx={{ flexDirection: tabletUp ? 'row' : 'column' }}>
+          <Typography sx={{ flex: 1 }}>{t('tr_hours')}</Typography>
+          <HoursEditor value={hours} onChange={handleHoursChange} />
+        </Field>
+
+        <Field sx={{ flexDirection: tabletUp ? 'row' : 'column' }}>
+          <Typography sx={{ flex: 1 }}>
+            {t('tr_approvedAssignments')}
+          </Typography>
+          <HoursEditor
+            value={approved_assignments}
+            onChange={handleApprovedAssignmentsChange}
+          />
+        </Field>
       </FieldContainer>
 
       <FieldContainer
-        sx={{
-          flexDirection: 'column',
-          gap: '8px',
-          alignItems: tabletUp ? 'flex-start' : 'center',
-        }}
+        sx={{ gap: '8px', alignItems: tabletUp ? 'flex-start' : 'center' }}
         ref={bibleStudyRef}
       >
         <Box
@@ -80,7 +90,7 @@ const ServiceTime = (props: ServiceTimeProps) => {
         >
           <BibleStudySelector anchorEl={bibleStudyRef} />
           <BibleStudiesEditor
-            value={bibleStudies}
+            value={bibleStudies.value}
             onChange={handleBibleStudiesChange}
             validator={bibleStudiesValidator}
           />

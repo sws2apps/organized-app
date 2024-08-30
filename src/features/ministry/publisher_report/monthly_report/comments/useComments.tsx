@@ -2,33 +2,33 @@ import { useEffect, useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import {
   reportUserSelectedMonthState,
-  userFieldServiceReportsState,
+  userFieldServiceMonthlyReportsState,
 } from '@states/user_field_service_reports';
 import { UserFieldServiceMonthlyReportType } from '@definition/user_field_service_reports';
 import { userFieldServiceMonthlyReportSchema } from '@services/dexie/schema';
-import { dbUserFieldServiceReportsSave } from '@services/dexie/user_field_service_reports';
+import { debounceUserFieldServiceSave } from '@services/app/user_field_service_reports';
 import { displaySnackNotification } from '@services/recoil/app';
-import { useAppTranslation } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
+import { useAppTranslation } from '@hooks/index';
 import useMinistryMonthlyRecord from '@features/ministry/hooks/useMinistryMonthlyRecord';
 
-const useMinistryShared = () => {
+const useComments = () => {
   const { t } = useAppTranslation();
 
   const currentMonth = useRecoilValue(reportUserSelectedMonthState);
-  const reports = useRecoilValue(userFieldServiceReportsState);
+  const reports = useRecoilValue(userFieldServiceMonthlyReportsState);
 
   const stats = useMinistryMonthlyRecord(currentMonth);
 
-  const [checked, setChecked] = useState(stats.shared_ministry);
+  const [comments, setComments] = useState(stats.comments);
 
   const monthReport = useMemo(() => {
-    return reports.find(
-      (record) => record.report_date === currentMonth
-    ) as UserFieldServiceMonthlyReportType;
+    return reports.find((record) => record.report_date === currentMonth);
   }, [reports, currentMonth]);
 
-  const handleToggleChecked = async (value: boolean) => {
+  const handleCommentsChange = async (value: string) => {
+    setComments(value);
+
     try {
       let report: UserFieldServiceMonthlyReportType;
 
@@ -41,17 +41,17 @@ const useMinistryShared = () => {
         report = structuredClone(monthReport);
       }
 
-      report.report_data.comments = stats.comments;
+      report.report_data.shared_ministry = stats.shared_ministry;
       report.report_data.bible_studies = stats.bible_studies;
       report.report_data.hours = stats.hours;
       report.report_data.hours_credits = {
         approved_assignments: stats.approved_assignments,
         events: stats.hours_credits,
       };
-      report.report_data.shared_ministry = value;
+      report.report_data.comments = value;
       report.report_data.updatedAt = new Date().toISOString();
 
-      await dbUserFieldServiceReportsSave(report);
+      debounceUserFieldServiceSave(report);
     } catch (error) {
       await displaySnackNotification({
         header: t('tr_errorTitle'),
@@ -62,10 +62,10 @@ const useMinistryShared = () => {
   };
 
   useEffect(() => {
-    setChecked(stats.shared_ministry);
-  }, [stats.shared_ministry]);
+    setComments(stats.comments);
+  }, [stats.comments]);
 
-  return { checked, handleToggleChecked };
+  return { comments, handleCommentsChange };
 };
 
-export default useMinistryShared;
+export default useComments;

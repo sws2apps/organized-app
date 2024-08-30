@@ -22,6 +22,7 @@ function ScrollableTabs({
   onChange,
   className,
   variant = 'scrollable',
+  minHeight = '48px',
 }: CustomTabProps) {
   const [valueOfActivePanel, setValueOfActivePanel] = useState(value || false);
 
@@ -94,6 +95,7 @@ function ScrollableTabs({
                 icon={icon}
                 iconPosition="end"
                 sx={{
+                  minHeight,
                   fontSize: 16,
                   textTransform: 'none',
                   ':not(&.Mui-selected)': { fontWeight: 400 },

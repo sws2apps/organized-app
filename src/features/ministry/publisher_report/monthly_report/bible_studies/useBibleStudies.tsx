@@ -11,6 +11,9 @@ import {
 import { displaySnackNotification } from '@services/recoil/app';
 import { useAppTranslation } from '@hooks/index';
 import { userBibleStudiesState } from '@states/user_bible_studies';
+import { userFieldServiceMonthlyReportSchema } from '@services/dexie/schema';
+import { dbUserFieldServiceReportsSave } from '@services/dexie/user_field_service_reports';
+import { getMessageByCode } from '@services/i18n/translation';
 
 const useBibleStudies = () => {
   const { t } = useAppTranslation();
@@ -20,6 +23,12 @@ const useBibleStudies = () => {
   const bibleStudies = useRecoilValue(userBibleStudiesState);
 
   const [value, setValue] = useState(0);
+
+  const monthReport = useMemo(() => {
+    return reports.find(
+      (record) => record.report_date === currentMonth
+    ) as UserFieldServiceMonthlyReportType;
+  }, [reports, currentMonth]);
 
   const namedRecords = useMemo(() => {
     const dailyReports = reports.filter(
@@ -57,9 +66,6 @@ const useBibleStudies = () => {
     if (!currentMonth || currentMonth?.length === 0) return 0;
 
     // check if month reports already exists
-    const monthReport = reports.find(
-      (record) => record.report_date === currentMonth
-    ) as UserFieldServiceMonthlyReportType;
     if (monthReport) {
       return monthReport.report_data.bible_studies;
     }
@@ -86,10 +92,32 @@ const useBibleStudies = () => {
     }
 
     return 0;
-  }, [currentMonth, reports, namedRecordsCount]);
+  }, [currentMonth, reports, namedRecordsCount, monthReport]);
 
-  const handleValueChange = (value: number) => {
-    setValue(value);
+  const handleValueChange = async (value: number) => {
+    try {
+      let report: UserFieldServiceMonthlyReportType;
+
+      if (!monthReport) {
+        report = structuredClone(userFieldServiceMonthlyReportSchema);
+        report.report_date = currentMonth;
+      }
+
+      if (monthReport) {
+        report = structuredClone(monthReport);
+      }
+
+      report.report_data.bible_studies = value;
+      report.report_data.updatedAt = new Date().toISOString();
+
+      await dbUserFieldServiceReportsSave(report);
+    } catch (error) {
+      await displaySnackNotification({
+        header: t('tr_errorTitle'),
+        message: getMessageByCode(error.message),
+        severity: 'error',
+      });
+    }
   };
 
   const bibleStudiesValidator = async (value: number) => {

@@ -2,9 +2,10 @@
 This file holds the source of the truth from the table "user_field_service_reports".
 */
 
-import { atom } from 'recoil';
+import { atom, selector } from 'recoil';
 import {
   UserFieldServiceDailyReportType,
+  UserFieldServiceMonthlyReportType,
   UserFieldServiceReportType,
 } from '@definition/user_field_service_reports';
 
@@ -21,4 +22,30 @@ export const reportUserSelectedMonthState = atom({
 export const reportUserDraftState = atom<UserFieldServiceDailyReportType>({
   key: 'reportUserDraftState',
   default: undefined,
+});
+
+export const userFieldServiceDailyReportsState = selector({
+  key: 'userFieldServiceDailyReports',
+  get: ({ get }) => {
+    const reports = get(userFieldServiceReportsState);
+
+    const dailyRecords = reports.filter(
+      (record) => record.report_data.record_type === 'daily'
+    );
+
+    return dailyRecords as UserFieldServiceDailyReportType[];
+  },
+});
+
+export const userFieldServiceMonthlyReportsState = selector({
+  key: 'userFieldServiceMonthlyReports',
+  get: ({ get }) => {
+    const reports = get(userFieldServiceReportsState);
+
+    const dailyRecords = reports.filter(
+      (record) => record.report_data.record_type === 'monthly'
+    );
+
+    return dailyRecords as UserFieldServiceMonthlyReportType[];
+  },
 });
