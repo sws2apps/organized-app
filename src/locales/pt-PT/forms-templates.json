@@ -51,7 +51,7 @@
   "tr_wtStudyReader": "Leitor do Estudo",
   "tr_weekendMeetingPrint": "Programação da reunião do fim de semana",
   "tr_publicTalk": "Discurso público",
-  "tr_openingPrayer": "Opening Prayer",
+  "tr_openingPrayer": "Oração inicial",
   "tr_noWMeetingWeek": "Não há nenhuma reunião de fim de semana para esta semana",
   "tr_noMeetingWeek": "Não existe reunião para esta semana",
   "tr_substituteSpeaker": "Orador substituto",
@@ -71,6 +71,6 @@
   "tr_exportMidweekMeetinDesc": "Escolha os programas e formulários que deseja exportar e escolha o seu modelo preferido. O Organized grava a sua escolha de modelo para facilitar as próximas exportações.",
   "tr_specialTalkWeek": "Discurso Especial",
   "tr_wtStudyConductor": "Dirigente do Estudo",
-  "tr_closingPrayer": "Closing prayer",
+  "tr_closingPrayer": "Oração Final",
   "tr_date": "Data"
 }
