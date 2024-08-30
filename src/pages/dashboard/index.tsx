@@ -10,7 +10,7 @@ import MeetingsMaterialsCard from './meeting_materials';
 import PersonsCard from './persons';
 import ReportsCard from './reports';
 import useDashboard from './useDashboard';
-import { DemoNotice } from '@features/index';
+import { DemoNotice, InitialSetupModalWindow } from '@features/index';
 
 const Dashboard = () => {
   const { t } = useAppTranslation();
@@ -70,6 +70,8 @@ const Dashboard = () => {
       )}
 
       {isCongNew && isDemo && <DemoNotice />}
+
+      <InitialSetupModalWindow isOpen></InitialSetupModalWindow>
     </Box>
   );
 };

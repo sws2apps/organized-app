@@ -24,6 +24,8 @@ export { default as Contact } from './contact';
 export { default as DashboardCard } from './dashboard/card';
 export { default as DashboardMenu } from './dashboard/menu';
 
+export { default as InitialSetupModalWindow } from './dashboard/initial_setup_modal_window';
+
 /* -------------------------------- Demo ------------------------------- */
 export { default as DemoBanner } from './demo/banner';
 export { default as DemoNotice } from './demo/notice';
