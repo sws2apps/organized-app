@@ -10,8 +10,7 @@ import MeetingsMaterialsCard from './meeting_materials';
 import PersonsCard from './persons';
 import ReportsCard from './reports';
 import useDashboard from './useDashboard';
-import { DemoNotice, NewUpdateModalWindow } from '@features/index';
-import { MouseEvent } from 'react';
+import { DemoNotice } from '@features/index';
 
 const Dashboard = () => {
   const { t } = useAppTranslation();
