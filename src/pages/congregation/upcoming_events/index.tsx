@@ -1,10 +1,15 @@
 import Button from '@components/button';
 import { IconAdd, IconPrint } from '@components/icons';
 import PageTitle from '@components/page_title';
+import AddEvent from '@features/congregation/upcoming_events/AddEvent';
 import EventList from '@features/congregation/upcoming_events/EventList';
 import { VerticalFlex } from '@features/congregation/upcoming_events/index.styles';
-import { EventListType } from '@features/congregation/upcoming_events/index.types';
+import {
+  EventListType,
+  EventType,
+} from '@features/congregation/upcoming_events/index.types';
 import { useAppTranslation } from '@hooks/index';
+import { useState } from 'react';
 
 const data: EventListType = [
   {
@@ -15,13 +20,12 @@ const data: EventListType = [
         events: [
           {
             time: '10:00',
-            icon: 'IconDistance',
-            title: 'Circuit Assembly',
+            type: 'tr_assemblyWeek',
             description: 'Dortmund Stadium, Mayday Str. 253',
           },
           {
             time: '10:30',
-            icon: 'IconCalendarClock',
+            type: 'tr_custom',
             title:
               'Can also be two custom input events during the same day (no additional info added)',
           },
@@ -32,8 +36,7 @@ const data: EventListType = [
         events: [
           {
             time: '10:30',
-            icon: 'IconDistance',
-            title: 'Circuit Assembly',
+            type: 'tr_assemblyWeek',
             description: '"Resurrection – a victory over death"',
           },
         ],
@@ -48,8 +51,7 @@ const data: EventListType = [
         events: [
           {
             time: '10:30',
-            icon: 'IconDistance',
-            title: 'Circuit Assembly',
+            type: 'tr_assemblyWeek',
             description: '12-17 February',
           },
         ],
@@ -59,7 +61,7 @@ const data: EventListType = [
         events: [
           {
             time: '10:30',
-            icon: 'IconCart',
+            type: 'tr_publicWitnessing',
             title: 'Public witnessing training',
             description:
               'In Kingdom Hall. The whole congregation is welcomed. The program will be from 13:00 to 15:00 with a 15-m break',
@@ -71,7 +73,7 @@ const data: EventListType = [
         events: [
           {
             time: '17:50',
-            icon: 'IconWine',
+            type: 'tr_memorialWeek',
             title: 'Memorial',
             description: 'After the sunset',
           },
@@ -82,11 +84,14 @@ const data: EventListType = [
 ];
 
 const UpcomingEvents = () => {
+  const [isAddingEvent, setIsAddingEvent] = useState(false);
+
   const { t } = useAppTranslation();
 
   const isAdmin = true;
 
-  const handleAddEvent = () => true;
+  const handleCancelEvent = () => setIsAddingEvent(false);
+  const handleAddEvent = (data: EventType) => setIsAddingEvent(data && false);
 
   return (
     <VerticalFlex>
@@ -95,17 +100,13 @@ const UpcomingEvents = () => {
         buttons={
           isAdmin && (
             <>
-              <Button
-                variant="secondary"
-                startIcon={<IconPrint />}
-                onClick={handleAddEvent}
-              >
+              <Button variant="secondary" startIcon={<IconPrint />}>
                 {t('tr_export')}
               </Button>
               <Button
                 variant="main"
                 startIcon={<IconAdd />}
-                onClick={handleAddEvent}
+                onClick={() => setIsAddingEvent(true)}
               >
                 {t('tr_addEvent')}
               </Button>
@@ -114,6 +115,9 @@ const UpcomingEvents = () => {
         }
       />
       <EventList data={data} isAdmin={isAdmin} />
+      {isAddingEvent && (
+        <AddEvent onCancel={handleCancelEvent} onDone={handleAddEvent} />
+      )}
     </VerticalFlex>
   );
 };

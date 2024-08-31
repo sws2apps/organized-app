@@ -1,6 +1,6 @@
 import InfoTip from '@components/info_tip';
 import { HorizontalFlex, StyledCardBox, VerticalFlex } from './index.styles';
-import { IconAddMonth, IconInfo } from '@components/icons';
+import { IconAddMonth, IconEdit, IconInfo } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import {
   EventDateType,
@@ -9,9 +9,10 @@ import {
   YearlyEventsType,
 } from './index.types';
 import { formatDate } from '@services/dateformat';
-import { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import Button from '@components/button';
+import IconButton from '@components/icon_button';
+import EventIcon from './EventIcon';
 
 const EventList = ({
   data,
@@ -33,34 +34,63 @@ const EventList = ({
       )}
       <VerticalFlex sx={{ gap: '32px' }}>
         {data.map((yearlyEvent, index) => (
-          <YearlyEvent yearlyEvent={yearlyEvent} key={index} />
+          <YearlyEvent
+            isAdmin={isAdmin}
+            yearlyEvent={yearlyEvent}
+            key={index}
+          />
         ))}
       </VerticalFlex>
     </VerticalFlex>
   );
 };
 
-const YearlyEvent = ({ yearlyEvent }: { yearlyEvent: YearlyEventsType }) => {
+const YearlyEvent = ({
+  yearlyEvent,
+  isAdmin,
+}: {
+  yearlyEvent: YearlyEventsType;
+  isAdmin: boolean;
+}) => {
   return (
     <VerticalFlex>
       <span className="h4" style={{ color: 'var(--accent-400)' }}>
         {yearlyEvent.year}
       </span>
       {yearlyEvent.dates.map((eventDate, index) => (
-        <EventDate eventDate={eventDate} key={index} />
+        <EventDate isAdmin={isAdmin} eventDate={eventDate} key={index} />
       ))}
     </VerticalFlex>
   );
 };
 
-const EventDate = ({ eventDate }: { eventDate: EventDateType }) => {
+const EventDate = ({
+  eventDate,
+  isAdmin,
+}: {
+  eventDate: EventDateType;
+  isAdmin: boolean;
+}) => {
   const { t } = useAppTranslation();
+
+  const handleEdit = () => true;
 
   return (
     <StyledCardBox>
-      <span className="h2" style={{ color: 'var(--black)' }}>
-        {formatDate(new Date(eventDate.date), t('tr_longDateFormat'))}
-      </span>
+      <HorizontalFlex sx={{ justifyContent: 'space-between' }}>
+        <span className="h2" style={{ color: 'var(--black)' }}>
+          {formatDate(new Date(eventDate.date), t('tr_longDateFormat'))}
+        </span>
+        {isAdmin && (
+          <IconButton
+            onClick={handleEdit}
+            color="primary"
+            sx={{ borderRadius: '100px' }}
+          >
+            <IconEdit color={'var(--accent-main)'} />
+          </IconButton>
+        )}
+      </HorizontalFlex>
       {eventDate.events.map((event, index) => (
         <Event event={event} key={index} />
       ))}
@@ -97,10 +127,10 @@ const Event = ({ event }: { event: EventType }) => {
       <VerticalFlex
         sx={{ gap: '4px', flexGrow: '1', justifyContent: 'center' }}
       >
-        <HorizontalFlex sx={{ gap: '4px' }}>
-          {<DynamicIcon name={event.icon} color="var(--black)" />}
+        <HorizontalFlex sx={{ gap: '4px', alignItems: 'center' }}>
+          <EventIcon type={event.type} color="var(--black)" />
           <span className="h4" style={{ color: 'var(--black)' }}>
-            {event.title}
+            {event.title ?? t(event.type)}
           </span>
         </HorizontalFlex>
         {event.description && (
@@ -110,7 +140,7 @@ const Event = ({ event }: { event: EventType }) => {
         )}
       </VerticalFlex>
       <Button
-        sx={{ minHeight: '0px', flexShrink: '0' }}
+        sx={{ minHeight: '0px', flexShrink: '0', alignSelf: 'center' }}
         variant="secondary"
         startIcon={<IconAddMonth />}
       >
@@ -118,28 +148,6 @@ const Event = ({ event }: { event: EventType }) => {
       </Button>
     </Box>
   );
-};
-
-const DynamicIcon = ({ name, ...props }: { name: string; color: string }) => {
-  const [Icon, setIcon] = useState(null);
-
-  useEffect(() => {
-    const importIcon = async () => {
-      try {
-        const importedIcon = await import(`@components/icons/${name}.tsx`);
-        setIcon(() => importedIcon.default || importedIcon[name]);
-      } catch (err) {
-        console.error(`Erreur lors de l'importation de l'icône ${name}:`, err);
-        setIcon(null);
-      }
-    };
-
-    importIcon();
-  }, [name]);
-
-  if (!Icon) return 'loading... ' + name;
-
-  return <Icon {...props} />;
 };
 
 export default EventList;
