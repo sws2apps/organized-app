@@ -1,7 +1,7 @@
 {
   "tr_login": "Anmelden",
   "tr_welcomeApp": "Willkommen bei Organized – deinem Versammlungsmanagement-Tool",
-  "tr_whatIsApp": "Is Organized an official app by Jehovah’s Witnesses organization?",
+  "tr_whatIsApp": "Ist Organized eine offizielle Anwendung der Organisation der Zeugen Jehovas?",
   "tr_descApp": "<p>No, it’s not an official app. Feel free to decide if it’s right for you. If you’d like the whole congregation to use it, we suggest getting approval from the body of elders. We’re aware that there are other apps designed to help with similar tasks and believe each has its strengths and methods, but they all share the same goal. </p>",
   "tr_appPWA": "Organized ist eine PWA-App. Was bedeutet das?",
   "tr_appPWADesc": "<p>Als Progressive Web Application (PWA) funktioniert Organized direkt in deinem Webbrowser. Sie ist darauf ausgelegt, über verschiedene Betriebssysteme hinweg zu arbeiten und unterstützt sowohl Desktop- als auch Mobilgeräte.</p><p>Nach der Installation auf deinem Gerät und dem Abschluss der anfänglichen Einrichtung bleibt Organized offline zugänglich. Dadurch kannst du die Hauptfunktionen auch ohne Internetverbindung nutzen.</p>",
