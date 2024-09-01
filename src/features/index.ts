@@ -77,8 +77,8 @@ export { default as IncomingSpeakers } from './persons/speakers_catalog/incoming
 export { default as OutgoingSpeakers } from './persons/speakers_catalog/outgoing';
 
 /* -------------------------------- Ministry -------------------------------- */
-export { default as ButtonSubmitApplication } from './ministry/button_submit';
-export { default as MinistryTimer } from './ministry/ministry_timer';
+export { default as ButtonSubmitApplication } from './ministry/report/button_submit';
+export { default as MinistryTimer } from './ministry/report/ministry_timer';
 
 /* -------------------------------- Work In Progress -------------------------------- */
 export { default as WorkInProgressNotif } from './wip';

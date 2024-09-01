@@ -2,7 +2,6 @@ import { debounce } from '@utils/common';
 import {
   UserFieldServiceDailyReportType,
   UserFieldServiceMonthlyReportType,
-  UserFieldServiceReportType,
 } from '@definition/user_field_service_reports';
 import {
   dbUserFieldServiceReportsGet,
@@ -23,8 +22,8 @@ export const debounceUserFieldServiceSave = debounce(
 
 const refreshHours = (reports: UserFieldServiceDailyReportType[]) => {
   const hoursMinutes = reports
-    .filter((record) => record.report_data.hours.length > 0)
-    .map((record) => record.report_data.hours.split(':'));
+    .filter((record) => record.report_data.hours.field_service.length > 0)
+    .map((record) => record.report_data.hours.field_service.split(':'));
 
   let sumHours = hoursMinutes.reduce((prev, current) => prev + +current[0], 0);
 
@@ -39,12 +38,10 @@ const refreshHours = (reports: UserFieldServiceDailyReportType[]) => {
   return sumHours;
 };
 
-const refreshApprovedAssignments = (
-  reports: UserFieldServiceDailyReportType[]
-) => {
+const refreshHoursCredit = (reports: UserFieldServiceDailyReportType[]) => {
   const hoursMinutes = reports
-    .filter((record) => record.report_data.approved_assignments.length > 0)
-    .map((record) => record.report_data.approved_assignments.split(':'));
+    .filter((record) => record.report_data.hours.credit.length > 0)
+    .map((record) => record.report_data.hours.credit.split(':'));
 
   let sumHours = hoursMinutes.reduce(
     (prev: number, current) => prev + +current[0],
@@ -62,53 +59,25 @@ const refreshApprovedAssignments = (
 };
 
 const refreshBibleStudies = (reports: UserFieldServiceDailyReportType[]) => {
-  const results = reports
-    .filter((record) => record.report_data.bible_studies.records.length > 0)
-    .reduce((names: string[], current) => {
-      for (const name of current.report_data.bible_studies.records) {
-        const found = names.find((record) => record === name);
-
-        if (!found) {
-          names.push(name);
-        }
-      }
-
-      return names;
-    }, []);
-
-  if (results.length > 0) {
-    return results.length;
-  }
-
-  // otherwise calculate the average
   const values = reports
     .filter((record) => record.report_data.bible_studies.value > 0)
     .map((record) => record.report_data.bible_studies.value);
 
-  if (values.length > 0) {
-    const sumValues = values.reduce((total, current) => total + current, 0);
-    return Math.round(sumValues / values.length);
-  }
+  const total = values.reduce((total, current) => total + current, 0);
 
-  return 0;
+  return total;
 };
 
-const refreshSharedMinistry = (report: UserFieldServiceMonthlyReportType) => {
-  const hours = report.report_data.hours;
-  const approvedAssignments =
-    report.report_data.hours_credits.approved_assignments.total;
-  const hoursCredits = report.report_data.hours_credits.events.reduce(
-    (acc, current) => acc + current.value,
-    0
-  );
+export const refreshSharedMinistry = (
+  report: UserFieldServiceMonthlyReportType
+) => {
+  const hours = report.report_data.hours.field_service;
+
+  const hoursCredit = report.report_data.hours.credit.value;
+
   const bibleStudies = report.report_data.bible_studies;
 
-  if (
-    hours === 0 &&
-    approvedAssignments === 0 &&
-    hoursCredits === 0 &&
-    bibleStudies === 0
-  ) {
+  if (hours === 0 && hoursCredit === 0 && bibleStudies === 0) {
     return false;
   }
 
@@ -116,9 +85,14 @@ const refreshSharedMinistry = (report: UserFieldServiceMonthlyReportType) => {
 };
 
 export const handleSaveDailyFieldServiceReport = async (
-  report: UserFieldServiceReportType
+  report: UserFieldServiceDailyReportType
 ) => {
-  await dbUserFieldServiceReportsSave(report);
+  let comments = report.report_data.comments;
+
+  const dailyReport = structuredClone(report);
+  dailyReport.report_data.comments = '';
+
+  await dbUserFieldServiceReportsSave(dailyReport);
 
   // refresh monthly
   const reports = await dbUserFieldServiceReportsGet();
@@ -142,12 +116,27 @@ export const handleSaveDailyFieldServiceReport = async (
       record.report_date.includes(month) && record.report_date !== month
   ) as UserFieldServiceDailyReportType[];
 
-  monthReport.report_data.hours = refreshHours(dailyReports);
-  monthReport.report_data.hours_credits.approved_assignments.total =
-    refreshApprovedAssignments(dailyReports);
+  monthReport.report_data.hours.field_service = refreshHours(dailyReports);
+  monthReport.report_data.hours.credit.value = refreshHoursCredit(dailyReports);
   monthReport.report_data.bible_studies = refreshBibleStudies(dailyReports);
-  monthReport.report_data.updatedAt = new Date().toISOString();
   monthReport.report_data.shared_ministry = refreshSharedMinistry(monthReport);
+  monthReport.report_data.updatedAt = new Date().toISOString();
+
+  if (comments.length > 0) {
+    const monthComments = monthReport.report_data.comments;
+    comments = comments.replace(
+      '{{ hours }}',
+      report.report_data.hours.credit.split(':')[0]
+    );
+
+    if (monthComments.length === 0) {
+      monthReport.report_data.comments = comments;
+    }
+
+    if (monthComments.length > 0) {
+      monthReport.report_data.comments = `${comments}; ${monthComments}`;
+    }
+  }
 
   await dbUserFieldServiceReportsSave(monthReport);
 };

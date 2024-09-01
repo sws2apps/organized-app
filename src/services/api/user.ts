@@ -227,13 +227,11 @@ export const apiUserFieldServiceReportPost = async ({
   comments,
   hours,
   hours_credits,
-  approved_assignments,
 }: {
   report_month: string;
   shared_ministry: boolean;
   hours: number;
   hours_credits: number;
-  approved_assignments: number;
   bible_studies: number;
   comments: string;
 }) => {
@@ -262,7 +260,6 @@ export const apiUserFieldServiceReportPost = async ({
         comments,
         hours,
         hours_credits,
-        approved_assignments,
       }),
     }
   );

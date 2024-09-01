@@ -23,6 +23,7 @@ const MyProfile = () => {
     handleCloseConfirm,
     handleOpenLogoutConfirm,
     isConnected,
+    hoursCreditEnabled,
   } = useMyProfile();
 
   return (
@@ -67,7 +68,9 @@ const MyProfile = () => {
           }}
         >
           <UserProfileDetails />
-          <MinistryPreferences />
+
+          {hoursCreditEnabled && <MinistryPreferences />}
+
           <UserTimeAway />
         </Box>
 

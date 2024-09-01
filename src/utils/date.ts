@@ -176,6 +176,21 @@ export const currentServiceYear = () => {
   return value;
 };
 
+export const getMonthServiceYear = (month: string) => {
+  const varYear = +month.split('/')[0];
+  const varMonth = +month.split('/')[1] - 1;
+
+  let value: string;
+
+  if (varMonth < 8) {
+    value = varYear.toString();
+  } else {
+    value = String(varYear + 1).toString();
+  }
+
+  return value;
+};
+
 export const currentMonthServiceYear = () => {
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth();
@@ -236,7 +251,7 @@ export const buildServiceYearsList = () => {
       maxIndex = 13;
     } else {
       const currentMonth = new Date().getMonth();
-      maxIndex = currentMonth < 9 ? currentMonth + 6 : currentMonth - 7;
+      maxIndex = currentMonth < 9 ? currentMonth - 6 : currentMonth + 7;
     }
 
     for (let i = 1; i < maxIndex; i++) {
@@ -292,4 +307,11 @@ export const buildPublisherReportMonths = () => {
   }
 
   return results.sort((a, b) => a.value.localeCompare(b.value));
+};
+
+export const computeMonthsDiff = (startDate: Date, endDate: Date) => {
+  const monthsDiff = endDate.getMonth() - startDate.getMonth();
+  const yearsDiff = endDate.getFullYear() - startDate.getFullYear();
+
+  return monthsDiff + 12 * yearsDiff;
 };

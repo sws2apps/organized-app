@@ -24,7 +24,7 @@ function ScrollableTabs({
   variant = 'scrollable',
   minHeight = '48px',
 }: CustomTabProps) {
-  const [valueOfActivePanel, setValueOfActivePanel] = useState(value || false);
+  const [valueOfActivePanel, setValueOfActivePanel] = useState(value ?? false);
 
   /**
    * Handles tab change event.
@@ -42,7 +42,7 @@ function ScrollableTabs({
   };
 
   useEffect(() => {
-    setValueOfActivePanel(value || false);
+    setValueOfActivePanel(value ?? false);
   }, [value]);
 
   return (
@@ -84,6 +84,12 @@ function ScrollableTabs({
               color: 'var(--accent-main)',
             },
             '& span.MuiTouchRipple-root': { borderRadius: 'var(--radius-max)' },
+            '& .MuiSvgIcon-root g path': {
+              fill: 'var(--accent-400)',
+            },
+            '& .Mui-selected > .MuiSvgIcon-root g path': {
+              fill: 'var(--accent-dark)',
+            },
           }}
         >
           {tabs.map(
@@ -102,9 +108,6 @@ function ScrollableTabs({
                   '&.Mui-Selected': {
                     fontWeight: 600,
                     fontSize: 18,
-                  },
-                  path: {
-                    fill: 'var(--accent-main)',
                   },
                 }}
               />

@@ -20,6 +20,9 @@ const MenuItem: FC<MenuItemProps> = (props) => {
           '& p': {
             color: 'var(--accent-dark)',
           },
+          '& svg, & svg g, & svg g path': {
+            fill: 'var(--accent-dark)',
+          },
         },
         ...props.sx,
       }}

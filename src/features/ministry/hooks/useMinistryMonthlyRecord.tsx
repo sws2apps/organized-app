@@ -5,10 +5,6 @@ import {
   userFieldServiceMonthlyReportsState,
 } from '@states/user_field_service_reports';
 import { userBibleStudiesState } from '@states/user_bible_studies';
-import {
-  PioneerMonthlyEventReportType,
-  UserFieldServiceMonthlyReportType,
-} from '@definition/user_field_service_reports';
 import { monthNamesState } from '@states/app';
 
 const useMinistryMonthlyRecord = (month: string) => {
@@ -34,8 +30,8 @@ const useMinistryMonthlyRecord = (month: string) => {
 
   const minutes_remains = useMemo(() => {
     const hoursMinutes = monthDailyRecords
-      .filter((record) => record.report_data.hours.length > 0)
-      .map((record) => record.report_data.hours.split(':'));
+      .filter((record) => record.report_data.hours.field_service.length > 0)
+      .map((record) => record.report_data.hours.field_service.split(':'));
 
     const sumMinutes = hoursMinutes.reduce(
       (prev, current) => prev + +current[1],
@@ -48,52 +44,24 @@ const useMinistryMonthlyRecord = (month: string) => {
   const hours = useMemo(() => {
     if (!monthReport) return 0;
 
-    return monthReport.report_data.hours;
+    return monthReport.report_data.hours.field_service;
   }, [monthReport]);
 
-  const approved_assignments = useMemo(() => {
+  const hours_credit = useMemo(() => {
     if (!monthReport) return 0;
 
-    return monthReport.report_data.hours_credits.approved_assignments.total;
+    const approved = monthReport.report_data.hours.credit.approved;
+
+    if (approved > 0) {
+      return approved;
+    }
+
+    return monthReport.report_data.hours.credit.value;
   }, [monthReport]);
 
-  const approved_assignments_included = useMemo(() => {
-    if (!monthReport) return 0;
-
-    return monthReport.report_data.hours_credits.approved_assignments.credit;
-  }, [monthReport]);
-
-  const hours_credits = useMemo(() => {
-    if (!monthReport) return [];
-
-    const events = monthReport.report_data.hours_credits.events;
-    const group = events.reduce(
-      (acc: PioneerMonthlyEventReportType[], current) => {
-        const event = acc.find((record) => record.event === current.event);
-
-        if (!event) {
-          acc.push({ event: current.event, value: current.value });
-        }
-
-        if (event) {
-          event.value += current.value;
-        }
-
-        return acc;
-      },
-      []
-    );
-
-    return group;
-  }, [monthReport]);
-
-  const hours_credits_total = useMemo(() => {
-    const total = hours_credits.reduce(
-      (acc, current) => acc + current.value,
-      0
-    );
-    return total;
-  }, [hours_credits]);
+  const total_hours = useMemo(() => {
+    return hours + hours_credit;
+  }, [hours, hours_credit]);
 
   const bible_studies_names = useMemo(() => {
     const results: string[] = [];
@@ -123,18 +91,10 @@ const useMinistryMonthlyRecord = (month: string) => {
   }, [monthDailyRecords, bibleStudies]);
 
   const bible_studies = useMemo(() => {
-    // check if month reports already exists
-    if (monthReport) {
-      return monthReport.report_data.bible_studies;
-    }
+    if (!monthReport) return 0;
 
-    // check if we have named bible studies
-    if (bible_studies_names.length > 0) {
-      return bible_studies_names.length;
-    }
-
-    return 0;
-  }, [monthReport, bible_studies_names]);
+    return monthReport.report_data.bible_studies;
+  }, [monthReport]);
 
   const shared_ministry = useMemo(() => {
     if (!monthReport) return false;
@@ -154,42 +114,17 @@ const useMinistryMonthlyRecord = (month: string) => {
     return monthReport.report_data.status;
   }, [monthReport]);
 
-  const refreshSharedMinistry = (report: UserFieldServiceMonthlyReportType) => {
-    const hours = report.report_data.hours;
-    const approvedAssignments =
-      report.report_data.hours_credits.approved_assignments.total;
-    const hoursCredits = report.report_data.hours_credits.events.reduce(
-      (acc, current) => acc + current.value,
-      0
-    );
-    const bibleStudies = report.report_data.bible_studies;
-
-    if (
-      hours === 0 &&
-      approvedAssignments === 0 &&
-      hoursCredits === 0 &&
-      bibleStudies === 0
-    ) {
-      return false;
-    }
-
-    return true;
-  };
-
   return {
     shared_ministry,
     hours,
     minutes_remains,
-    approved_assignments,
-    hours_credits,
     bible_studies_names,
     bible_studies,
     comments,
-    refreshSharedMinistry,
-    approved_assignments_included,
     monthname,
-    hours_credits_total,
     status,
+    hours_credit,
+    total_hours,
   };
 };
 

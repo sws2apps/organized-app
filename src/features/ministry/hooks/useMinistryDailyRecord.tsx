@@ -35,11 +35,11 @@ const useMinistryDailyRecord = (report: UserFieldServiceDailyReportType) => {
   }, [report, monthNames, dayNames, t]);
 
   const hours = useMemo(() => {
-    return report.report_data.hours || '';
+    return report.report_data.hours.field_service || '';
   }, [report]);
 
-  const approved_assignments = useMemo(() => {
-    return report.report_data.approved_assignments || '';
+  const hoursCredit = useMemo(() => {
+    return report.report_data.hours.credit || '';
   }, [report]);
 
   const total_hours = useMemo(() => {
@@ -51,9 +51,9 @@ const useMinistryDailyRecord = (report: UserFieldServiceDailyReportType) => {
       tMinutes = +hours.split(':')[1];
     }
 
-    if (approved_assignments.length > 0) {
-      tHours += +approved_assignments.split(':')[0];
-      tMinutes += +approved_assignments.split(':')[1];
+    if (hoursCredit.length > 0) {
+      tHours += +hoursCredit.split(':')[0];
+      tMinutes += +hoursCredit.split(':')[1];
     }
 
     const remain = tMinutes % 60;
@@ -65,7 +65,7 @@ const useMinistryDailyRecord = (report: UserFieldServiceDailyReportType) => {
     const value = `${tHours}:${String(tMinutes).padStart(2, '0')}`;
 
     return value;
-  }, [hours, approved_assignments]);
+  }, [hours, hoursCredit]);
 
   const bibleStudies = useMemo(() => {
     const studies: UserBibleStudyType[] = [];
@@ -84,7 +84,7 @@ const useMinistryDailyRecord = (report: UserFieldServiceDailyReportType) => {
     };
   }, [report, bibleStudiesRecords]);
 
-  return { hours, approved_assignments, bibleStudies, fullDate, total_hours };
+  return { hours, hoursCredit, bibleStudies, fullDate, total_hours };
 };
 
 export default useMinistryDailyRecord;

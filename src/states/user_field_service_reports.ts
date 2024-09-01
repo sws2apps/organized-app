@@ -53,3 +53,8 @@ export const userFieldServiceMonthlyReportsState = selector({
     return dailyRecords as UserFieldServiceMonthlyReportType[];
   },
 });
+
+export const serviceYearSelectedState = atom<string>({
+  key: 'serviceYearSelected',
+  default: undefined,
+});

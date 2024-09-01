@@ -422,11 +422,14 @@ export const userFieldServiceDailyReportSchema: UserFieldServiceDailyReportType 
     report_date: '',
     report_data: {
       _deleted: false,
+      hours: {
+        field_service: '',
+        credit: '',
+        timer_start: '',
+      },
       bible_studies: { value: 0, records: [] },
-      duration_start: '',
-      hours: '',
-      approved_assignments: '',
       record_type: 'daily',
+      comments: '',
       updatedAt: '',
     },
   };
@@ -437,15 +440,14 @@ export const userFieldServiceMonthlyReportSchema: UserFieldServiceMonthlyReportT
     report_data: {
       _deleted: false,
       updatedAt: '',
+      shared_ministry: false,
+      hours: {
+        field_service: 0,
+        credit: { value: 0, approved: 0 },
+      },
       bible_studies: 0,
       comments: '',
-      hours: 0,
-      hours_credits: {
-        approved_assignments: { total: 0, credit: 0 },
-        events: [],
-      },
       record_type: 'monthly',
-      shared_ministry: false,
       status: 'pending',
     },
   };

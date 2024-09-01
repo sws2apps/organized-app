@@ -3,11 +3,11 @@ import { IconSend, IconUndo } from '@components/icons';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useMinistryReport from './useMinistryReport';
 import Button from '@components/button';
-import DailyHistory from '@features/ministry/publisher_report/daily_history';
-import MonthlyReport from '@features/ministry/publisher_report/monthly_report';
+import DailyHistory from '@features/ministry/report/publisher_report/daily_history';
+import MonthlyReport from '@features/ministry/report/publisher_report/monthly_report';
 import PageTitle from '@components/page_title';
-import SubmitReport from '@features/ministry/publisher_report/monthly_report/submit_report';
-import WithdrawReportDialog from '@features/ministry/publisher_report/monthly_report/withdraw_report';
+import SubmitReport from '@features/ministry/report/publisher_report/monthly_report/submit_report';
+import WithdrawReportDialog from '@features/ministry/report/publisher_report/monthly_report/withdraw_report';
 
 const MinistryReport = () => {
   const { t } = useAppTranslation();
