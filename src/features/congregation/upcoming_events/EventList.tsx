@@ -160,6 +160,9 @@ const Event = ({ event }: { event: EventType }) => {
           borderTop: '1px solid var(--accent-200)',
           paddingTop: '16px',
         },
+        '&:hover #add-calendar-btn': {
+          opacity: '1',
+        },
       }}
     >
       <span
@@ -190,13 +193,25 @@ const Event = ({ event }: { event: EventType }) => {
           </span>
         )}
       </VerticalFlex>
-      <Button
-        sx={{ minHeight: '0px', flexShrink: '0', alignSelf: 'center' }}
-        variant="secondary"
-        startIcon={<IconAddMonth />}
+      <Box
+        id="add-calendar-btn"
+        sx={{
+          flexShrink: '0',
+          alignSelf: 'center',
+          ['@media (hover: hover)']: {
+            opacity: '0',
+            transition: 'opacity 0.3s',
+          },
+        }}
       >
-        {t('tr_addToCalendar')}
-      </Button>
+        <Button
+          sx={{ minHeight: '0px' }}
+          variant="secondary"
+          startIcon={<IconAddMonth />}
+        >
+          {t('tr_addToCalendar')}
+        </Button>
+      </Box>
     </Box>
   );
 };
