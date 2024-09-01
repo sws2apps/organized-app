@@ -10,7 +10,7 @@ import {
 } from '@components/index';
 import { EventType, eventValue } from './index.types';
 import EventIcon from './EventIcon';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IconAdd, IconCheck, IconClose, IconDelete } from '@components/icons';
 import { Box } from '@mui/material';
 
@@ -34,7 +34,9 @@ const options: eventValue[] = [
   'tr_custom',
 ];
 
-interface ValuesState {
+// Should look the same as EventType
+// But this contain the date, and title is named "custom"
+export interface EventValues {
   date?: Date | null;
   time?: Date | null;
   type?: eventValue;
@@ -43,20 +45,25 @@ interface ValuesState {
 }
 
 const AddEvent = ({
+  data = [{}],
+  titleTextKey = 'tr_addUpcomingEvent',
   onDone,
   onCancel,
 }: {
+  data?: EventValues[];
+  titleTextKey?: string;
   onDone?: (data: EventType[]) => void;
   onCancel?: () => void;
 }) => {
-  const [values, setValues] = useState<ValuesState[]>([{}]);
+  const [values, setValues] = useState<EventValues[]>(data);
+
+  useEffect(() => {
+    setValues(data);
+  }, [data]);
 
   const { t } = useAppTranslation();
 
-  const resetState = () => setValues([{}]);
-
   const handleDone = () => {
-    resetState();
     onDone &&
       onDone(
         values.map((v) => ({
@@ -68,12 +75,9 @@ const AddEvent = ({
       );
   };
 
-  const handleCancel = () => {
-    resetState();
-    onCancel && onCancel();
-  };
+  const handleCancel = () => onCancel && onCancel();
 
-  const updateValues = (index: number, newData: ValuesState) => {
+  const updateValues = (index: number, newData: EventValues) => {
     const newValues = [...values];
     newValues[index] = newData;
     setValues(newValues);
@@ -93,14 +97,14 @@ const AddEvent = ({
   return (
     <StyledCardBox>
       <span className="h2" style={{ color: 'var(--black)' }}>
-        {t('tr_addUpcomingEvent')}
+        {t(titleTextKey)}
       </span>
       <VerticalFlex>
         {values.map((value, index) => (
           <EventFields
             key={index}
             values={value}
-            setValues={(data: ValuesState) => updateValues(index, data)}
+            setValues={(data: EventValues) => updateValues(index, data)}
             addValues={addValues}
             removeValues={() => removeValues(index)}
           />
@@ -126,8 +130,8 @@ const EventFields = ({
   addValues,
   removeValues,
 }: {
-  values: ValuesState;
-  setValues: (data: ValuesState) => void;
+  values: EventValues;
+  setValues: (data: EventValues) => void;
   addValues: () => void;
   removeValues: () => void;
 }) => {

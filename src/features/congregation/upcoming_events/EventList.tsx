@@ -13,6 +13,9 @@ import { Box } from '@mui/material';
 import Button from '@components/button';
 import IconButton from '@components/icon_button';
 import EventIcon from './EventIcon';
+import { useState } from 'react';
+import AddEvent, { EventValues } from './AddEvent';
+import { parse } from 'date-fns';
 
 const EventList = ({
   data,
@@ -22,6 +25,26 @@ const EventList = ({
   isAdmin: boolean;
 }) => {
   const { t } = useAppTranslation();
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [editData, setEditData] = useState<EventValues[]>();
+
+  const handleEdit = (event: EventValues[]) => {
+    console.log('has clicked');
+    setEditData([...event]);
+    setIsEditing(true);
+  };
+
+  const handleEditDone = (data: EventType[]) => {
+    setIsEditing(false);
+    console.log(data);
+  };
+
+  const handleCancelEdit = () => {
+    setIsEditing(false);
+    setEditData(undefined);
+  };
+
   return (
     <VerticalFlex>
       {data.length == 0 && (
@@ -37,19 +60,30 @@ const EventList = ({
           <YearlyEvent
             isAdmin={isAdmin}
             yearlyEvent={yearlyEvent}
+            handleEdit={handleEdit}
             key={index}
           />
         ))}
       </VerticalFlex>
+      {isAdmin && isEditing && (
+        <AddEvent
+          data={editData}
+          titleTextKey="tr_editUpcomingEvent"
+          onDone={handleEditDone}
+          onCancel={handleCancelEdit}
+        />
+      )}
     </VerticalFlex>
   );
 };
 
 const YearlyEvent = ({
   yearlyEvent,
+  handleEdit,
   isAdmin,
 }: {
   yearlyEvent: YearlyEventsType;
+  handleEdit: (event: EventValues[]) => void;
   isAdmin: boolean;
 }) => {
   return (
@@ -58,7 +92,12 @@ const YearlyEvent = ({
         {yearlyEvent.year}
       </span>
       {yearlyEvent.dates.map((eventDate, index) => (
-        <EventDate isAdmin={isAdmin} eventDate={eventDate} key={index} />
+        <EventDate
+          isAdmin={isAdmin}
+          eventDate={eventDate}
+          handleEdit={handleEdit}
+          key={index}
+        />
       ))}
     </VerticalFlex>
   );
@@ -66,14 +105,26 @@ const YearlyEvent = ({
 
 const EventDate = ({
   eventDate,
+  handleEdit,
   isAdmin,
 }: {
   eventDate: EventDateType;
+  handleEdit: (event: EventValues[]) => void;
   isAdmin: boolean;
 }) => {
   const { t } = useAppTranslation();
 
-  const handleEdit = () => true;
+  const editEvent = () => {
+    handleEdit(
+      eventDate.events.map((event) => ({
+        date: new Date(eventDate.date),
+        time: parse(event.time, 'HH:mm', new Date()),
+        type: event.type,
+        custom: event.title,
+        description: event.description,
+      }))
+    );
+  };
 
   return (
     <StyledCardBox>
@@ -83,7 +134,7 @@ const EventDate = ({
         </span>
         {isAdmin && (
           <IconButton
-            onClick={handleEdit}
+            onClick={editEvent}
             color="primary"
             sx={{ borderRadius: '100px' }}
           >
