@@ -1,5 +1,5 @@
 import { useAppTranslation } from '@hooks/index';
-import { HorizontalFlex, StyledCardBox } from './index.styles';
+import { HorizontalFlex, StyledCardBox, VerticalFlex } from './index.styles';
 import {
   Button,
   DatePicker,
@@ -11,7 +11,8 @@ import {
 import { EventType, eventValue } from './index.types';
 import EventIcon from './EventIcon';
 import { useState } from 'react';
-import { IconCheck, IconClose, IconDelete } from '@components/icons';
+import { IconAdd, IconCheck, IconClose, IconDelete } from '@components/icons';
+import { Box } from '@mui/material';
 
 const options: eventValue[] = [
   'tr_circuitOverseerWeek',
@@ -33,38 +34,38 @@ const options: eventValue[] = [
   'tr_custom',
 ];
 
+interface ValuesState {
+  date?: Date | null;
+  time?: Date | null;
+  type?: eventValue;
+  custom?: string;
+  description?: string;
+}
+
 const AddEvent = ({
   onDone,
   onCancel,
 }: {
-  onDone?: (data: EventType) => void;
+  onDone?: (data: EventType[]) => void;
   onCancel?: () => void;
 }) => {
-  const [date, setDate] = useState<Date | null>();
-  const [time, setTime] = useState<Date | null>();
-  const [type, setType] = useState<eventValue>('tr_circuitOverseerWeek');
-  const [custom, setCustom] = useState<string>('');
-  const [additionalInfo, setAdditionalInfo] = useState<string>('');
+  const [values, setValues] = useState<ValuesState[]>([{}]);
 
   const { t } = useAppTranslation();
 
-  const resetState = () => {
-    setDate(null);
-    setTime(null);
-    setType('tr_circuitOverseerWeek');
-    setCustom('');
-    setAdditionalInfo('');
-  };
+  const resetState = () => setValues([{}]);
 
   const handleDone = () => {
-    const data: EventType = {
-      time: time ? time.toLocaleTimeString() : '',
-      type,
-      title: type === 'tr_custom' ? custom : undefined,
-      description: additionalInfo,
-    };
     resetState();
-    onDone && onDone(data);
+    onDone &&
+      onDone(
+        values.map((v) => ({
+          type: v.type,
+          description: v.description,
+          time: v.time ? v.time.toLocaleTimeString() : '',
+          title: v.type === 'tr_custom' ? v.custom : undefined,
+        }))
+      );
   };
 
   const handleCancel = () => {
@@ -72,23 +73,88 @@ const AddEvent = ({
     onCancel && onCancel();
   };
 
+  const updateValues = (index: number, newData: ValuesState) => {
+    const newValues = [...values];
+    newValues[index] = newData;
+    setValues(newValues);
+  };
+
+  const addValues = () => setValues([...values, {}]);
+
+  const removeValues = (index: number) => {
+    const newValues = [...values];
+    newValues.splice(index, 1);
+    setValues(newValues);
+    if (newValues.length === 0) {
+      handleDone();
+    }
+  };
+
   return (
     <StyledCardBox>
       <span className="h2" style={{ color: 'var(--black)' }}>
         {t('tr_addUpcomingEvent')}
       </span>
+      <VerticalFlex>
+        {values.map((value, index) => (
+          <EventFields
+            key={index}
+            values={value}
+            setValues={(data: ValuesState) => updateValues(index, data)}
+            addValues={addValues}
+            removeValues={() => removeValues(index)}
+          />
+        ))}
+      </VerticalFlex>
+      <HorizontalFlex sx={{ justifyContent: 'flex-end' }}>
+        <Button variant="secondary" color="red" onClick={handleCancel}>
+          <IconClose sx={{ marginRight: '8px' }} />
+          {t('tr_cancel')}
+        </Button>
+        <Button variant="secondary" onClick={handleDone}>
+          <IconCheck sx={{ marginRight: '8px' }} />
+          {t('tr_done')}
+        </Button>
+      </HorizontalFlex>
+    </StyledCardBox>
+  );
+};
+
+const EventFields = ({
+  values,
+  setValues,
+  addValues,
+  removeValues,
+}: {
+  values: ValuesState;
+  setValues: (data: ValuesState) => void;
+  addValues: () => void;
+  removeValues: () => void;
+}) => {
+  const { t } = useAppTranslation();
+
+  return (
+    <VerticalFlex
+      sx={{
+        paddingBlock: '16px',
+        borderBottom: '1px solid var(--accent-200)',
+        '&:not(:last-child) #add-btn': {
+          display: 'none',
+        },
+      }}
+    >
       <HorizontalFlex>
         <DatePicker
           view="input"
           label={t('tr_date')}
-          value={date}
-          onChange={(value) => setDate(value)}
+          value={values.date}
+          onChange={(value) => setValues({ ...values, date: value })}
         />
         <TimePicker
           ampm
           label={t('tr_timerLabelTime')}
-          value={time}
-          onChange={(value) => setTime(value)}
+          value={values.time}
+          onChange={(value) => setValues({ ...values, time: value })}
           sx={{
             flexBasis: 'unset',
             flexGrow: 'unset',
@@ -97,8 +163,10 @@ const AddEvent = ({
         />
         <Select
           label={t('tr_eventType')}
-          value={type}
-          onChange={(event) => setType(event.target.value as eventValue)}
+          value={values.type}
+          onChange={(event) =>
+            setValues({ ...values, type: event.target.value as eventValue })
+          }
         >
           {options.map((option) => (
             <MenuItem value={option} key={option}>
@@ -110,37 +178,46 @@ const AddEvent = ({
           ))}
         </Select>
       </HorizontalFlex>
-      {type === 'tr_custom' && (
+      {values.type === 'tr_custom' && (
         <TextField
           sx={{ input: { color: 'var(--black) !important' } }}
           label={t('tr_custom')}
-          value={custom}
-          onChange={(event) => setCustom(event.target.value)}
+          value={values.custom}
+          onChange={(event) =>
+            setValues({ ...values, custom: event.target.value })
+          }
         />
       )}
       <TextField
         sx={{ input: { color: 'var(--black) !important' } }}
         label={t('tr_additionalInfo')}
-        value={additionalInfo}
-        onChange={(event) => setAdditionalInfo(event.target.value)}
+        value={values.description}
+        onChange={(event) =>
+          setValues({ ...values, description: event.target.value })
+        }
       />
       <HorizontalFlex sx={{ justifyContent: 'space-between' }}>
-        <Button variant="secondary" color="red">
+        <Button
+          sx={{ minHeight: 'auto' }}
+          variant="small"
+          color="red"
+          onClick={removeValues}
+        >
           <IconDelete sx={{ marginRight: '8px' }} />
-          {t('tr_cancel')}
+          {t('tr_remove')}
         </Button>
-        <HorizontalFlex>
-          <Button variant="secondary" color="red" onClick={handleCancel}>
-            <IconClose sx={{ marginRight: '8px' }} />
-            {t('tr_cancel')}
+        <Box id="add-btn">
+          <Button
+            sx={{ minHeight: 'auto' }}
+            variant="small"
+            onClick={addValues}
+          >
+            <IconAdd sx={{ marginRight: '8px' }} />
+            {t('tr_add')}
           </Button>
-          <Button variant="secondary" onClick={handleDone}>
-            <IconCheck sx={{ marginRight: '8px' }} />
-            {t('tr_done')}
-          </Button>
-        </HorizontalFlex>
+        </Box>
       </HorizontalFlex>
-    </StyledCardBox>
+    </VerticalFlex>
   );
 };
 

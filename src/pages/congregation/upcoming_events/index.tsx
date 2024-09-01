@@ -91,7 +91,7 @@ const UpcomingEvents = () => {
   const isAdmin = true;
 
   const handleCancelEvent = () => setIsAddingEvent(false);
-  const handleAddEvent = (data: EventType) => setIsAddingEvent(data && false);
+  const handleAddEvent = (data: EventType[]) => setIsAddingEvent(data && false);
 
   return (
     <VerticalFlex>
