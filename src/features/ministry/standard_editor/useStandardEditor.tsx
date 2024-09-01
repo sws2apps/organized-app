@@ -1,11 +1,11 @@
 import { ChangeEvent, useEffect, useState } from 'react';
-import { BibleStudiesEditorProps } from './index.types';
+import { TextFieldStandardProps } from './index.types';
 
-const useBibleStudiesEditor = ({
+const useStandardEditor = ({
   value,
   onChange,
   validator,
-}: BibleStudiesEditorProps) => {
+}: TextFieldStandardProps) => {
   const [inputValue, setInputValue] = useState(value || 0);
 
   const handleValueChange = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -16,16 +16,24 @@ const useBibleStudiesEditor = ({
       return;
     }
 
-    const valid = await validator(value);
+    if (validator) {
+      const valid = await validator(value);
 
-    if (!valid) return;
+      if (!valid) return;
+    }
 
     setInputValue(+value);
     onChange?.(value);
   };
 
-  const handleIncrement = () => {
+  const handleIncrement = async () => {
     const value = inputValue + 1;
+
+    if (validator) {
+      const valid = await validator(value);
+
+      if (!valid) return;
+    }
 
     setInputValue(value);
     onChange?.(value);
@@ -38,9 +46,11 @@ const useBibleStudiesEditor = ({
       return;
     }
 
-    const valid = await validator(value);
+    if (validator) {
+      const valid = await validator(value);
 
-    if (!valid) return;
+      if (!valid) return;
+    }
 
     setInputValue(value);
     onChange?.(value);
@@ -53,4 +63,4 @@ const useBibleStudiesEditor = ({
   return { inputValue, handleIncrement, handleDecrement, handleValueChange };
 };
 
-export default useBibleStudiesEditor;
+export default useStandardEditor;

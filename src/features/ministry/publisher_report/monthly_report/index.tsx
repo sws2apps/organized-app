@@ -3,6 +3,7 @@ import { useAppTranslation } from '@hooks/index';
 import useMonthlyReport from './useMonthlyReport';
 import BibleStudies from './bible_studies';
 import Comments from './comments';
+import HoursFields from './hours_fields';
 import MinistryShared from './ministry_shared';
 import ScrollableTabs from '@components/scrollable_tabs';
 import Typography from '@components/typography';
@@ -10,8 +11,13 @@ import Typography from '@components/typography';
 const MonthlyReport = () => {
   const { t } = useAppTranslation();
 
-  const { monthsTab, initialValue, handleMonthChange, selectedMonth } =
-    useMonthlyReport();
+  const {
+    monthsTab,
+    initialValue,
+    handleMonthChange,
+    selectedMonth,
+    isHourEnabled,
+  } = useMonthlyReport();
 
   return (
     <CardContainer>
@@ -25,7 +31,10 @@ const MonthlyReport = () => {
 
       {selectedMonth.length > 0 && (
         <>
-          <MinistryShared />
+          {isHourEnabled && <HoursFields />}
+
+          {!isHourEnabled && <MinistryShared />}
+
           <BibleStudies />
           <Comments />
         </>

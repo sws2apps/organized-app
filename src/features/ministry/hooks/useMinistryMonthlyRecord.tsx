@@ -1,18 +1,28 @@
 import { useMemo } from 'react';
 import { useRecoilValue } from 'recoil';
-import { promiseGetRecoil } from 'recoil-outside';
 import {
   userFieldServiceDailyReportsState,
   userFieldServiceMonthlyReportsState,
 } from '@states/user_field_service_reports';
 import { userBibleStudiesState } from '@states/user_bible_studies';
-import { EventHoursType } from './index.types';
-import { UserFieldServiceDailyReportType } from '@definition/user_field_service_reports';
+import {
+  PioneerMonthlyEventReportType,
+  UserFieldServiceMonthlyReportType,
+} from '@definition/user_field_service_reports';
+import { monthNamesState } from '@states/app';
 
 const useMinistryMonthlyRecord = (month: string) => {
   const bibleStudies = useRecoilValue(userBibleStudiesState);
   const monthlyReports = useRecoilValue(userFieldServiceMonthlyReportsState);
   const dailyReports = useRecoilValue(userFieldServiceDailyReportsState);
+  const monthNames = useRecoilValue(monthNamesState);
+
+  const monthname = useMemo(() => {
+    if (!month) return '';
+
+    const monthIndex = +month.split('/')[1] - 1;
+    return monthNames[monthIndex];
+  }, [monthNames, month]);
 
   const monthReport = useMemo(() => {
     return monthlyReports.find((record) => record.report_date === month);
@@ -36,78 +46,54 @@ const useMinistryMonthlyRecord = (month: string) => {
   }, [monthDailyRecords]);
 
   const hours = useMemo(() => {
-    // check if month reports already exists
-    if (monthReport) {
-      return monthReport.report_data.hours;
-    }
+    if (!monthReport) return 0;
 
-    // default to daily reports to determine the value
-    const hoursMinutes = monthDailyRecords
-      .filter((record) => record.report_data.hours.length > 0)
-      .map((record) => record.report_data.hours.split(':'));
-
-    let sumHours = hoursMinutes.reduce(
-      (prev, current) => prev + +current[0],
-      0
-    );
-
-    const sumMinutes = hoursMinutes.reduce(
-      (prev, current) => prev + +current[1],
-      0
-    );
-
-    const remain = sumMinutes % 60;
-    sumHours += (sumMinutes - remain) / 60;
-
-    return sumHours;
-  }, [monthReport, monthDailyRecords]);
+    return monthReport.report_data.hours;
+  }, [monthReport]);
 
   const approved_assignments = useMemo(() => {
-    // check if month reports already exists
-    if (monthReport) {
-      return monthReport.report_data.hours_credits.approved_assignments;
-    }
+    if (!monthReport) return 0;
 
-    // default to daily reports to determine the value
-    const hoursMinutes = monthDailyRecords
-      .filter((record) => record.report_data.approved_assignments.length > 0)
-      .map((record) => record.report_data.approved_assignments.split(':'));
+    return monthReport.report_data.hours_credits.approved_assignments.total;
+  }, [monthReport]);
 
-    let sumHours = hoursMinutes.reduce(
-      (prev: number, current) => prev + +current[0],
-      0
-    );
+  const approved_assignments_included = useMemo(() => {
+    if (!monthReport) return 0;
 
-    const sumMinutes = hoursMinutes.reduce(
-      (prev, current) => prev + +current[1],
-      0
-    );
-
-    sumHours += Math.round(sumMinutes / 60);
-
-    return sumHours;
-  }, [monthReport, monthDailyRecords]);
+    return monthReport.report_data.hours_credits.approved_assignments.credit;
+  }, [monthReport]);
 
   const hours_credits = useMemo(() => {
     if (!monthReport) return [];
 
     const events = monthReport.report_data.hours_credits.events;
-    const group = events.reduce((acc: EventHoursType[], current) => {
-      const event = acc.find((record) => record.event === current.event);
+    const group = events.reduce(
+      (acc: PioneerMonthlyEventReportType[], current) => {
+        const event = acc.find((record) => record.event === current.event);
 
-      if (!event) {
-        acc.push({ event: current.event, value: current.value });
-      }
+        if (!event) {
+          acc.push({ event: current.event, value: current.value });
+        }
 
-      if (event) {
-        event.value += current.value;
-      }
+        if (event) {
+          event.value += current.value;
+        }
 
-      return acc;
-    }, []);
+        return acc;
+      },
+      []
+    );
 
     return group;
   }, [monthReport]);
+
+  const hours_credits_total = useMemo(() => {
+    const total = hours_credits.reduce(
+      (acc, current) => acc + current.value,
+      0
+    );
+    return total;
+  }, [hours_credits]);
 
   const bible_studies_names = useMemo(() => {
     const results: string[] = [];
@@ -147,159 +133,48 @@ const useMinistryMonthlyRecord = (month: string) => {
       return bible_studies_names.length;
     }
 
-    // otherwise calculate the average
-    const values = monthDailyRecords
-      .filter((record) => record.report_data.bible_studies.value > 0)
-      .map((record) => record.report_data.bible_studies.value);
-
-    if (values.length > 0) {
-      const sumValues = values.reduce((total, current) => total + current, 0);
-      return Math.round(sumValues / values.length);
-    }
-
     return 0;
-  }, [monthReport, monthDailyRecords, bible_studies_names]);
+  }, [monthReport, bible_studies_names]);
 
   const shared_ministry = useMemo(() => {
-    // check if month reports already exists
-    if (monthReport) {
-      return monthReport.report_data.shared_ministry;
-    }
+    if (!monthReport) return false;
 
-    // default to daily reports to determine the value
-    const sumHoursCredit = hours_credits.reduce(
-      (acc, current) => acc + current.value,
-      0
-    );
-
-    if (
-      minutes_remains === 0 &&
-      hours === 0 &&
-      approved_assignments === 0 &&
-      bible_studies === 0 &&
-      sumHoursCredit === 0
-    ) {
-      return false;
-    }
-
-    return true;
-  }, [
-    monthReport,
-    hours_credits,
-    minutes_remains,
-    hours,
-    approved_assignments,
-    bible_studies,
-  ]);
-
-  const refreshHours = (reports: UserFieldServiceDailyReportType[]) => {
-    const hoursMinutes = reports
-      .filter((record) => record.report_data.hours.length > 0)
-      .map((record) => record.report_data.hours.split(':'));
-
-    let sumHours = hoursMinutes.reduce(
-      (prev, current) => prev + +current[0],
-      0
-    );
-
-    const sumMinutes = hoursMinutes.reduce(
-      (prev, current) => prev + +current[1],
-      0
-    );
-
-    const remain = sumMinutes % 60;
-    sumHours += (sumMinutes - remain) / 60;
-
-    return sumHours;
-  };
-
-  const refreshApprovedAssignments = (
-    reports: UserFieldServiceDailyReportType[]
-  ) => {
-    const hoursMinutes = reports
-      .filter((record) => record.report_data.approved_assignments.length > 0)
-      .map((record) => record.report_data.approved_assignments.split(':'));
-
-    let sumHours = hoursMinutes.reduce(
-      (prev: number, current) => prev + +current[0],
-      0
-    );
-
-    const sumMinutes = hoursMinutes.reduce(
-      (prev, current) => prev + +current[1],
-      0
-    );
-
-    sumHours += Math.round(sumMinutes / 60);
-
-    return sumHours;
-  };
-
-  const refreshBibleStudies = (reports: UserFieldServiceDailyReportType[]) => {
-    const results: string[] = [];
-
-    const bibleStudiesWithNames = reports
-      .filter((record) => record.report_data.bible_studies.records.length > 0)
-      .reduce((names: string[], current) => {
-        for (const name of current.report_data.bible_studies.records) {
-          const found = names.find((record) => record === name);
-
-          if (!found) {
-            names.push(name);
-          }
-        }
-
-        return names;
-      }, []);
-
-    for (const record of bibleStudiesWithNames) {
-      const person = bibleStudies.find((study) => study.person_uid === record);
-      if (person) {
-        results.push(person.person_data.person_name);
-      }
-    }
-
-    if (results.length > 0) {
-      return bible_studies_names.length;
-    }
-
-    // otherwise calculate the average
-    const values = reports
-      .filter((record) => record.report_data.bible_studies.value > 0)
-      .map((record) => record.report_data.bible_studies.value);
-
-    if (values.length > 0) {
-      const sumValues = values.reduce((total, current) => total + current, 0);
-      return Math.round(sumValues / values.length);
-    }
-
-    return 0;
-  };
-
-  const refreshMonthlyReport = async () => {
-    const reports: UserFieldServiceDailyReportType[] = await promiseGetRecoil(
-      userFieldServiceDailyReportsState
-    );
-
-    const dailyReports = reports.filter((record) =>
-      record.report_date.includes(month)
-    );
-
-    const report = structuredClone(monthReport);
-    report.report_data.hours = refreshHours(dailyReports);
-    report.report_data.hours_credits.approved_assignments =
-      refreshApprovedAssignments(dailyReports);
-    report.report_data.bible_studies = refreshBibleStudies(dailyReports);
-    report.report_data.updatedAt = new Date().toISOString();
-
-    return report;
-  };
+    return monthReport.report_data.shared_ministry;
+  }, [monthReport]);
 
   const comments = useMemo(() => {
     if (!monthReport) return '';
 
     return monthReport.report_data.comments;
   }, [monthReport]);
+
+  const status = useMemo(() => {
+    if (!monthReport) return 'pending';
+
+    return monthReport.report_data.status;
+  }, [monthReport]);
+
+  const refreshSharedMinistry = (report: UserFieldServiceMonthlyReportType) => {
+    const hours = report.report_data.hours;
+    const approvedAssignments =
+      report.report_data.hours_credits.approved_assignments.total;
+    const hoursCredits = report.report_data.hours_credits.events.reduce(
+      (acc, current) => acc + current.value,
+      0
+    );
+    const bibleStudies = report.report_data.bible_studies;
+
+    if (
+      hours === 0 &&
+      approvedAssignments === 0 &&
+      hoursCredits === 0 &&
+      bibleStudies === 0
+    ) {
+      return false;
+    }
+
+    return true;
+  };
 
   return {
     shared_ministry,
@@ -310,7 +185,11 @@ const useMinistryMonthlyRecord = (month: string) => {
     bible_studies_names,
     bible_studies,
     comments,
-    refreshMonthlyReport,
+    refreshSharedMinistry,
+    approved_assignments_included,
+    monthname,
+    hours_credits_total,
+    status,
   };
 };
 

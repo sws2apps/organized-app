@@ -10,10 +10,10 @@ import {
 } from '@services/recoil/app';
 import { settingSchema } from './schema';
 import { ValidateMeResponseType } from '@definition/api';
-import appDb from '@db/appDb';
-import worker from '@services/worker/backupWorker';
 import { AssignmentCode } from '@definition/assignment';
 import { getRandomArrayItem } from '@utils/common';
+import appDb from '@db/appDb';
+import worker from '@services/worker/backupWorker';
 
 export const dbAppSettingsSave = async (setting: SettingsType) => {
   const current = await appDb.app_settings.get(1);
@@ -244,8 +244,7 @@ export const dbAppSettingsBuildTest = async () => {
 
   baseSettings.user_settings.user_local_uid = person.person_uid;
   baseSettings.user_settings.user_members_delegate = delegates;
-  baseSettings.user_settings.cong_role = ['admin'];
-  baseSettings.user_settings.account_type = 'vip';
+
   baseSettings.user_settings.firstname = {
     value: person.person_data.person_firstname.value,
     updatedAt: new Date().toISOString(),
@@ -254,6 +253,8 @@ export const dbAppSettingsBuildTest = async () => {
     value: person.person_data.person_lastname.value,
     updatedAt: new Date().toISOString(),
   };
+  baseSettings.user_settings.cong_role = ['admin', 'elder', 'publisher'];
+  baseSettings.user_settings.account_type = 'vip';
   baseSettings.cong_settings.country_code = 'USA';
   baseSettings.cong_settings.cong_name = 'Central English - Seattle WA';
   baseSettings.cong_settings.cong_number = '11163';

@@ -1,7 +1,5 @@
-import {
-  CardSectionContent,
-  CardSectionHeader,
-} from '../../../shared_styles/components';
+import { Stack } from '@mui/material';
+import { CardSubSectionHeader } from '../../shared_styles';
 import { IconEncryptionKey, IconPinCode } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import useMasterKeyView from './useMasterKeyView';
@@ -16,8 +14,8 @@ const MasterKeyView = () => {
     useMasterKeyView();
 
   return (
-    <CardSectionContent sx={{ gap: '16px' }}>
-      <CardSectionHeader
+    <Stack spacing="16px">
+      <CardSubSectionHeader
         title={t('tr_congregationMasterKey')}
         description={t('tr_congregationMasterKeyDesc')}
       />
@@ -46,7 +44,7 @@ const MasterKeyView = () => {
       {changeOpen && (
         <MasterKeyChange open={changeOpen} onClose={handleCloseChange} />
       )}
-    </CardSectionContent>
+    </Stack>
   );
 };
 

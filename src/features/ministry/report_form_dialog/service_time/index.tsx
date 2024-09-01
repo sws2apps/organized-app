@@ -3,12 +3,12 @@ import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { Field, FieldContainer } from './index.styles';
 import { ServiceTimeProps } from './index.types';
 import useServiceTime from './useServiceTime';
-import BibleStudiesEditor from '@features/ministry/bible_studies_editor';
 import BibleStudiesList from './bible_studies_list';
 import BibleStudySelector from './bible_study_selector';
 import Button from '@components/button';
 import DatePicker from '@components/date_picker';
 import HoursEditor from '@features/ministry/hours_editor';
+import StandardEditor from '@features/ministry/standard_editor';
 import Typography from '@components/typography';
 
 const ServiceTime = (props: ServiceTimeProps) => {
@@ -28,6 +28,8 @@ const ServiceTime = (props: ServiceTimeProps) => {
     handleSaveReport,
     approved_assignments,
     handleApprovedAssignmentsChange,
+    hoursCreditEnabled,
+    hoursEnabled,
   } = useServiceTime(props);
 
   return (
@@ -57,22 +59,26 @@ const ServiceTime = (props: ServiceTimeProps) => {
         />
       </Stack>
 
-      <FieldContainer>
-        <Field sx={{ flexDirection: tabletUp ? 'row' : 'column' }}>
-          <Typography sx={{ flex: 1 }}>{t('tr_hours')}</Typography>
-          <HoursEditor value={hours} onChange={handleHoursChange} />
-        </Field>
+      {hoursEnabled && (
+        <FieldContainer>
+          <Field sx={{ flexDirection: tabletUp ? 'row' : 'column' }}>
+            <Typography sx={{ flex: 1 }}>{t('tr_hours')}</Typography>
+            <HoursEditor value={hours} onChange={handleHoursChange} />
+          </Field>
 
-        <Field sx={{ flexDirection: tabletUp ? 'row' : 'column' }}>
-          <Typography sx={{ flex: 1 }}>
-            {t('tr_approvedAssignments')}
-          </Typography>
-          <HoursEditor
-            value={approved_assignments}
-            onChange={handleApprovedAssignmentsChange}
-          />
-        </Field>
-      </FieldContainer>
+          {hoursCreditEnabled && (
+            <Field sx={{ flexDirection: tabletUp ? 'row' : 'column' }}>
+              <Typography sx={{ flex: 1 }}>
+                {t('tr_approvedAssignments')}
+              </Typography>
+              <HoursEditor
+                value={approved_assignments}
+                onChange={handleApprovedAssignmentsChange}
+              />
+            </Field>
+          )}
+        </FieldContainer>
+      )}
 
       <FieldContainer
         sx={{ gap: '8px', alignItems: tabletUp ? 'flex-start' : 'center' }}
@@ -89,7 +95,7 @@ const ServiceTime = (props: ServiceTimeProps) => {
           }}
         >
           <BibleStudySelector anchorEl={bibleStudyRef} />
-          <BibleStudiesEditor
+          <StandardEditor
             value={bibleStudies.value}
             onChange={handleBibleStudiesChange}
             validator={bibleStudiesValidator}

@@ -51,4 +51,5 @@ export type AppRoleType =
   | 'auxiliary_pioneer'
   | 'regular_pionner'
   | 'special_pioneer'
-  | 'missionary';
+  | 'missionary'
+  | 'elder';

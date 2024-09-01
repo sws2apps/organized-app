@@ -7,9 +7,9 @@
   "tr_addNewStudy": "Add new Bible study",
   "tr_editBibleStudy": "Edit Bible study",
   "tr_pioneerSchool": "Pioneer school",
-  "tr_ministryTimeHours": "{{ ministryTime }} hours",
+  "tr_ministryTimeHours": "Remaining credits: {{ ministryTime }}",
   "tr_SKE": "School for Kingdom Evangelizers",
-  "tr_languageCourse": "Language course",
+  "tr_languageCourse": "Language class",
   "tr_personalDay": "Personal day",
   "tr_saveChanges": "Save changes",
   "tr_deleteStudy": "Delete the study",
@@ -108,5 +108,15 @@
   "tr_alreadySubmittedWarning": "This month's report has already been submitted to the Branch Office. Only late reports can be added, unless you undo the submission.",
   "tr_publishersCountReport": "Publishers: {{ publishersCount }}",
   "tr_cartStorage": "Cart storage location",
-  "tr_approvedAssignments": "Approved assignments"
+  "tr_approvedAssignments": "Approved assignments",
+  "tr_creditHoursMaxReached": "Cannot add more hours",
+  "tr_creditHoursMaxReachedDesc": "You reached the maximum credit hours for this item",
+  "tr_approvedAssignmentsIncluded": "Hours included in total: {{ hours }}",
+  "tr_submitReportDesc": "Do you want to submit this report to the secretary?",
+  "tr_noDailyRecordsMonthClosed": "No daily service records for this month.",
+  "tr_undoSubmissionDesc": "Are you sure to undo the submission of this report? Please note that this will also remove the report already sent to the secretary.",
+  "tr_undoSubmissionDone": "Please make any necessary adjustments to this report and submit it again as soon as possible",
+  "tr_specialMonths": "Special months",
+  "tr_specialMonthsDesc": "List of months where auxiliary pioneers can report 15 hours",
+  "tr_reportHoursCredit": "Report hours credit"
 }

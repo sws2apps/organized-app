@@ -1,7 +1,5 @@
-import {
-  CardSectionContent,
-  CardSectionTitle,
-} from '../../shared_styles/components';
+import { Stack } from '@mui/material';
+import { CardSectionTitle } from '../shared_styles';
 import { useAppTranslation } from '@hooks/index';
 import MidweekSettings from './midweek';
 import WeekendSettings from './weekend';
@@ -11,7 +9,7 @@ const MeettingSettings = () => {
   const { t } = useAppTranslation();
 
   return (
-    <CardSectionContent>
+    <Stack spacing="16px">
       <CardSectionTitle>{t('tr_meetingSettings')}</CardSectionTitle>
       <Tabs
         tabs={[
@@ -25,7 +23,7 @@ const MeettingSettings = () => {
           },
         ]}
       />
-    </CardSectionContent>
+    </Stack>
   );
 };
 

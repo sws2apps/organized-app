@@ -257,6 +257,7 @@ export const settingSchema: SettingsType = {
     format_24h_enabled: [{ type: 'main', value: true, updatedAt: '' }],
     week_start_sunday: [{ type: 'main', value: false, updatedAt: '' }],
     attendance_online_record: { value: false, updatedAt: '' },
+    special_months: [],
     source_material_auto_import: {
       enabled: { value: true, updatedAt: '' },
       frequency: { value: SourceFrequency.BIWEEKLY, updatedAt: '' },
@@ -440,10 +441,11 @@ export const userFieldServiceMonthlyReportSchema: UserFieldServiceMonthlyReportT
       comments: '',
       hours: 0,
       hours_credits: {
-        approved_assignments: 0,
+        approved_assignments: { total: 0, credit: 0 },
         events: [],
       },
       record_type: 'monthly',
       shared_ministry: false,
+      status: 'pending',
     },
   };

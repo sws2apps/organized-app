@@ -2,15 +2,18 @@ import { useMemo, useRef } from 'react';
 import { useRecoilState } from 'recoil';
 import { reportUserDraftState } from '@states/user_field_service_reports';
 import { displaySnackNotification } from '@services/recoil/app';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
 import { ServiceTimeProps } from './index.types';
-import { dbUserFieldServiceReportsSave } from '@services/dexie/user_field_service_reports';
 import useMinistryDailyRecord from '@features/ministry/hooks/useMinistryDailyRecord';
-import useMinistryMonthlyRecord from '@features/ministry/hooks/useMinistryMonthlyRecord';
+import { AssignmentCode } from '@definition/assignment';
+import { personIsEnrollmentActive } from '@services/app/persons';
+import { handleSaveDailyFieldServiceReport } from '@services/app/user_field_service_reports';
 
 const useServiceTime = ({ onClose }: ServiceTimeProps) => {
   const { t } = useAppTranslation();
+
+  const { person } = useCurrentUser();
 
   const bibleStudyRef = useRef<Element>(null);
 
@@ -25,7 +28,26 @@ const useServiceTime = ({ onClose }: ServiceTimeProps) => {
     return date.substring(0, date.length - 3);
   }, [currentReport]);
 
-  const { refreshMonthlyReport } = useMinistryMonthlyRecord(monthReport);
+  const hoursEnabled = useMemo(() => {
+    const isAP = personIsEnrollmentActive(person, 'AP', monthReport);
+    const isFR = personIsEnrollmentActive(person, 'FR', monthReport);
+    const isFMF = personIsEnrollmentActive(person, 'FMF', monthReport);
+    const isFS = personIsEnrollmentActive(person, 'FS', monthReport);
+
+    return isAP || isFR || isFMF || isFS;
+  }, [person, monthReport]);
+
+  const hoursCreditEnabled = useMemo(() => {
+    if (!hoursEnabled) return false;
+
+    const assignments = person.person_data.assignments.filter(
+      (record) => record._deleted === false
+    );
+
+    return assignments.find(
+      (record) => record.code === AssignmentCode.MINISTRY_HOURS_CREDIT
+    );
+  }, [person, hoursEnabled]);
 
   const handleHoursChange = (value: string) => {
     const newReport = structuredClone(currentReport);
@@ -74,19 +96,19 @@ const useServiceTime = ({ onClose }: ServiceTimeProps) => {
 
     if (
       !currentReport.report_data.bible_studies.value &&
-      currentReport.report_data.hours.length === 0
+      currentReport.report_data.hours.length === 0 &&
+      currentReport.report_data.approved_assignments.length === 0
     ) {
       return;
     }
 
     try {
-      await dbUserFieldServiceReportsSave(currentReport);
-
-      const monthReport = await refreshMonthlyReport();
-      await dbUserFieldServiceReportsSave(monthReport);
+      await handleSaveDailyFieldServiceReport(currentReport);
 
       onClose();
     } catch (error) {
+      console.error(error);
+
       await displaySnackNotification({
         header: t('tr_errorTitle'),
         message: getMessageByCode(error.message),
@@ -105,6 +127,8 @@ const useServiceTime = ({ onClose }: ServiceTimeProps) => {
     handleSaveReport,
     handleApprovedAssignmentsChange,
     approved_assignments,
+    hoursCreditEnabled,
+    hoursEnabled,
   };
 };
 

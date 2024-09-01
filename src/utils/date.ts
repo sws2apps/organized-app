@@ -31,16 +31,16 @@ export const getOldestWeekDate = () => {
 
 export const addMonths = (date: Date | string, value: number) => {
   const start_date = new Date(date);
-  const result = start_date.setMonth(start_date.getMonth() + value);
+  start_date.setMonth(start_date.getMonth() + value);
 
-  return new Date(result);
+  return start_date;
 };
 
 export const addWeeks = (date: Date | string, value: number) => {
   const startDate = new Date(date);
-  const result = startDate.setDate(startDate.getDate() + value * 7);
+  startDate.setDate(startDate.getDate() + value * 7);
 
-  return new Date(result);
+  return startDate;
 };
 
 export const computeYearsDiff = (date: string) => {

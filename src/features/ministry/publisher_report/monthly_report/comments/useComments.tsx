@@ -18,16 +18,18 @@ const useComments = () => {
   const currentMonth = useRecoilValue(reportUserSelectedMonthState);
   const reports = useRecoilValue(userFieldServiceMonthlyReportsState);
 
-  const stats = useMinistryMonthlyRecord(currentMonth);
+  const { comments, status } = useMinistryMonthlyRecord(currentMonth);
 
-  const [comments, setComments] = useState(stats.comments);
+  const [value, setValue] = useState(comments);
 
   const monthReport = useMemo(() => {
     return reports.find((record) => record.report_date === currentMonth);
   }, [reports, currentMonth]);
 
   const handleCommentsChange = async (value: string) => {
-    setComments(value);
+    if (status !== 'pending') return;
+
+    setValue(value);
 
     try {
       let report: UserFieldServiceMonthlyReportType;
@@ -41,13 +43,6 @@ const useComments = () => {
         report = structuredClone(monthReport);
       }
 
-      report.report_data.shared_ministry = stats.shared_ministry;
-      report.report_data.bible_studies = stats.bible_studies;
-      report.report_data.hours = stats.hours;
-      report.report_data.hours_credits = {
-        approved_assignments: stats.approved_assignments,
-        events: stats.hours_credits,
-      };
       report.report_data.comments = value;
       report.report_data.updatedAt = new Date().toISOString();
 
@@ -62,10 +57,10 @@ const useComments = () => {
   };
 
   useEffect(() => {
-    setComments(stats.comments);
-  }, [stats.comments]);
+    setValue(comments);
+  }, [comments]);
 
-  return { comments, handleCommentsChange };
+  return { value, handleCommentsChange, status };
 };
 
 export default useComments;

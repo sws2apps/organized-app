@@ -57,4 +57,6 @@ export interface CustomDatePickerProps {
    * The maximum selectable date.
    */
   maxDate?: Date | null;
+
+  readOnly?: boolean;
 }

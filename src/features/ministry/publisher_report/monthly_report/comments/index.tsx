@@ -5,14 +5,15 @@ import TextField from '@components/textfield';
 const Comments = () => {
   const { t } = useAppTranslation();
 
-  const { comments, handleCommentsChange } = useComments();
+  const { status, value, handleCommentsChange } = useComments();
 
   return (
     <TextField
       placeholder={t('tr_comments')}
       multiline
       rows={2}
-      value={comments}
+      InputProps={{ readOnly: status !== 'pending' }}
+      value={value}
       onChange={(e) => handleCommentsChange(e.target.value)}
     />
   );

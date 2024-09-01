@@ -1,4 +1,4 @@
-import { PersonType } from '@definition/person';
+import { EnrollmentType, PersonType } from '@definition/person';
 import { formatDate } from '@services/dateformat';
 import { dateFirstDayMonth, dateLastDatePreviousMonth } from '@utils/date';
 
@@ -284,6 +284,48 @@ export const personIsMS = (person: PersonType) => {
   return hasActive ? true : false;
 };
 
+export const personIsEnrollmentActive = (
+  person: PersonType,
+  enrollment: EnrollmentType,
+  month?: string
+) => {
+  if (!month) {
+    const hasActive = person.person_data.enrollments.find(
+      (record) =>
+        record.enrollment.value === enrollment &&
+        record.end_date.value === null &&
+        record._deleted.value === false
+    );
+
+    return hasActive ? true : false;
+  }
+
+  // month provided
+  const date = `${month}/01`;
+
+  const baseList = person.person_data.enrollments.filter(
+    (record) =>
+      record.enrollment.value === enrollment &&
+      record._deleted.value === false &&
+      record.start_date.value.length > 0
+  );
+
+  const found = baseList.find((record) => {
+    const dateStart = formatDate(
+      new Date(record.start_date.value),
+      'yyyy/MM/dd'
+    );
+    const dateEndValue = record.end_date.value
+      ? new Date(record.end_date.value)
+      : new Date();
+    const dateEnd = formatDate(dateEndValue, 'yyyy/MM/dd');
+
+    return date >= dateStart && date <= dateEnd;
+  });
+
+  return found ? true : false;
+};
+
 export const personIsAP = (person: PersonType) => {
   const hasActive = person.person_data.enrollments.find(
     (record) =>
@@ -560,6 +602,12 @@ export const personIsBaptizedPublisher = (person: PersonType) => {
 
 export const personIsUnbaptizedPublisher = (person: PersonType) => {
   return person.person_data.publisher_unbaptized.active.value;
+};
+
+export const personIsPublisher = (person: PersonType) => {
+  return (
+    personIsBaptizedPublisher(person) || personIsUnbaptizedPublisher(person)
+  );
 };
 
 export const personIsMidweekStudent = (person: PersonType) => {

@@ -48,6 +48,7 @@ const DatePicker = ({
   longDateFormat,
   maxDate = null,
   minDate = null,
+  readOnly = false,
 }: CustomDatePickerProps) => {
   const { t } = useAppTranslation();
 
@@ -114,6 +115,7 @@ const DatePicker = ({
       <Box sx={{ width: '100%' }}>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <DesktopDatePicker
+            readOnly={readOnly}
             slots={{
               ...viewProps,
               actionBar:
@@ -169,7 +171,7 @@ const DatePicker = ({
                       </Stack>
                     ),
             }}
-            open={open}
+            open={!readOnly && open}
             minDate={minDate}
             maxDate={maxDate}
             disablePast={disablePast}
@@ -177,13 +179,20 @@ const DatePicker = ({
             showDaysOutsideCurrentMonth={true}
             onMonthChange={changeHeight}
             onChange={handleValueChange}
-            onOpen={() => setOpen(true)}
+            onOpen={() => {
+              if (readOnly) return;
+              setOpen(true);
+            }}
             value={valueTmp}
             slotProps={{
               textField: {
-                onClick: () => setOpen(true),
+                onClick: () => {
+                  if (readOnly) return;
+                  setOpen(true);
+                },
                 label: label,
                 value: valueTmp,
+                InputProps: { readOnly },
               },
               field: {
                 format: shortDateFormatLocale,

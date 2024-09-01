@@ -6,8 +6,12 @@ import {
   reportUserSelectedMonthState,
   userFieldServiceMonthlyReportsState,
 } from '@states/user_field_service_reports';
+import { personIsEnrollmentActive } from '@services/app/persons';
+import { useCurrentUser } from '@hooks/index';
 
 const useMonthlyReport = () => {
+  const { person } = useCurrentUser();
+
   const [selectedMonth, setSelectedMonth] = useRecoilState(
     reportUserSelectedMonthState
   );
@@ -16,10 +20,28 @@ const useMonthlyReport = () => {
 
   const [initialValue, setInitialValue] = useState<number | boolean>(false);
 
+  const isHourEnabled = useMemo(() => {
+    if (!person) return false;
+
+    const isAP = personIsEnrollmentActive(person, 'AP', selectedMonth);
+    const isFMF = personIsEnrollmentActive(person, 'FMF', selectedMonth);
+    const isFR = personIsEnrollmentActive(person, 'FR', selectedMonth);
+    const isFS = personIsEnrollmentActive(person, 'FS', selectedMonth);
+
+    return isAP || isFMF || isFR || isFS;
+  }, [person, selectedMonth]);
+
   const monthsList = useMemo(() => {
+    const firstMonthReport = person.person_data.first_month_report.value;
+    const date = new Date(firstMonthReport);
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+
+    const miniMonth = `${year}/${String(month).padStart(2, '0')}`;
+
     const results = buildPublisherReportMonths();
-    return results;
-  }, []);
+    return results.filter((record) => record.value >= miniMonth);
+  }, [person]);
 
   const monthsTab = useMemo(() => {
     const currentMonth = currentReportMonth();
@@ -27,26 +49,26 @@ const useMonthlyReport = () => {
     return monthsList.map((month) => {
       let icon: ReactElement;
 
-      if (month.value < currentMonth) {
-        const monthInReport = reports.find(
-          (record) => record.report_date === month.value
-        );
-        if (monthInReport) {
-          if (monthInReport.report_data.shared_ministry) {
-            icon = (
-              <IconCheck height={20} width={20} color="var(--accent-400)" />
-            );
-          }
+      const monthInReport = reports.find(
+        (record) => record.report_date === month.value
+      );
 
-          if (!monthInReport.report_data.shared_ministry) {
-            icon = (
-              <IconReportNotSent
-                height={20}
-                width={20}
-                color="var(--red-main) !important"
-              />
-            );
-          }
+      if (monthInReport) {
+        if (monthInReport.report_data.status !== 'pending') {
+          icon = <IconCheck height={20} width={20} color="var(--accent-400)" />;
+        }
+
+        if (
+          monthInReport.report_data.status === 'pending' &&
+          month.value < currentMonth
+        ) {
+          icon = (
+            <IconReportNotSent
+              height={20}
+              width={20}
+              color="var(--red-main) !important"
+            />
+          );
         }
       }
 
@@ -74,7 +96,13 @@ const useMonthlyReport = () => {
     }, 500);
   }, [monthsList, setSelectedMonth]);
 
-  return { monthsTab, initialValue, handleMonthChange, selectedMonth };
+  return {
+    monthsTab,
+    initialValue,
+    handleMonthChange,
+    selectedMonth,
+    isHourEnabled,
+  };
 };
 
 export default useMonthlyReport;

@@ -40,7 +40,6 @@
   "tr_watchtowerStudyConductor": "Watchtower study – conductor",
   "tr_watchtowerStudyReader": "Watchtower study – reader",
   "tr_inBusinessTerritory": "Business territory",
-  "tr_ldcDc50": "LDC work",
   "tr_duties": "Duties",
   "tr_audio": "Audio",
   "tr_video": "Video",
@@ -428,5 +427,7 @@
   "tr_next6MonthsLabel": "Next 6 months",
   "tr_next12MonthsLabel": "Next 12 months",
   "tr_quickSettings": "Quick settings",
-  "tr_quickSettingsDesc": "Easily update your settings for this page on-the-go. These settings are synced with the congregation settings page, so you can manage them from either location at any time."
+  "tr_quickSettingsDesc": "Easily update your settings for this page on-the-go. These settings are synced with the congregation settings page, so you can manage them from either location at any time.",
+  "tr_pioneerEvents": "Pioneer events",
+  "tr_event": "Event"
 }

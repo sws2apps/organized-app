@@ -15,7 +15,6 @@ import {
 } from './ministry_timer.types';
 import DarkOverlay from '@components/dark_overlay';
 import CustomTypography from '@components/typography';
-import { MinistryRecord } from '@pages/ministry/ministry_report/old/ministry_report.types';
 import TimeAlreadyInServiceModalWindow from '../time_already_in_service_modal_window';
 
 /**

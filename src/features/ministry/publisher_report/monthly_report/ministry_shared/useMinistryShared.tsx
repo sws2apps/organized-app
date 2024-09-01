@@ -18,9 +18,9 @@ const useMinistryShared = () => {
   const currentMonth = useRecoilValue(reportUserSelectedMonthState);
   const reports = useRecoilValue(userFieldServiceReportsState);
 
-  const stats = useMinistryMonthlyRecord(currentMonth);
+  const { shared_ministry, status } = useMinistryMonthlyRecord(currentMonth);
 
-  const [checked, setChecked] = useState(stats.shared_ministry);
+  const [checked, setChecked] = useState(shared_ministry);
 
   const monthReport = useMemo(() => {
     return reports.find(
@@ -29,6 +29,8 @@ const useMinistryShared = () => {
   }, [reports, currentMonth]);
 
   const handleToggleChecked = async (value: boolean) => {
+    if (status !== 'pending') return;
+
     try {
       let report: UserFieldServiceMonthlyReportType;
 
@@ -41,13 +43,6 @@ const useMinistryShared = () => {
         report = structuredClone(monthReport);
       }
 
-      report.report_data.comments = stats.comments;
-      report.report_data.bible_studies = stats.bible_studies;
-      report.report_data.hours = stats.hours;
-      report.report_data.hours_credits = {
-        approved_assignments: stats.approved_assignments,
-        events: stats.hours_credits,
-      };
       report.report_data.shared_ministry = value;
       report.report_data.updatedAt = new Date().toISOString();
 
@@ -62,10 +57,10 @@ const useMinistryShared = () => {
   };
 
   useEffect(() => {
-    setChecked(stats.shared_ministry);
-  }, [stats.shared_ministry]);
+    setChecked(shared_ministry);
+  }, [shared_ministry]);
 
-  return { checked, handleToggleChecked };
+  return { checked, handleToggleChecked, status };
 };
 
 export default useMinistryShared;

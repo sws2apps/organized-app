@@ -1,10 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { MeetingType } from '@definition/app';
-import {
-  buildServiceYearsList,
-  currentMonthServiceYear,
-  currentServiceYear,
-} from '@utils/date';
+import { buildServiceYearsList, getWeekDate } from '@utils/date';
 
 const useMonthlyRecord = () => {
   const [year, setYear] = useState('');
@@ -33,10 +29,17 @@ const useMonthlyRecord = () => {
   };
 
   useEffect(() => {
-    const currentSY = currentServiceYear();
-    setYear(currentSY);
+    const currentWeek = getWeekDate();
+    let year = currentWeek.getFullYear().toString();
+    const month = (currentWeek.getMonth() + 1).toString().padStart(2, '0');
 
-    const monthValue = currentMonthServiceYear();
+    const monthValue = `${year}/${month}`;
+
+    if (+month >= 9) {
+      year = String(+year + 1).toString();
+    }
+
+    setYear(year);
     setMonth(monthValue);
   }, []);
 

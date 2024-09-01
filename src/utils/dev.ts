@@ -3,6 +3,7 @@ import { rootModalOpenState } from '@states/app';
 import { PersonType } from '@definition/person';
 import { AssignmentCode } from '@definition/assignment';
 import { generateDisplayName } from './common';
+import PERSON_MOCK from '@constants/person_mock';
 import appDb from '@db/appDb';
 
 const getRandomDate = (
@@ -25,18 +26,13 @@ export const importDummyPersons = async (showLoading?: boolean) => {
 
     await appDb.persons.clear();
 
-    const url = 'https://dummyjson.com/users?limit=100';
-
-    const res = await fetch(url);
-    const data = await res.json();
-
     const startDateTemp = new Date(
       new Date().getUTCFullYear(),
       new Date().getMonth() - 1,
       1
     ).toISOString();
 
-    const formattedData: PersonType[] = data.users.map((user) => {
+    const formattedData: PersonType[] = PERSON_MOCK.map((user) => {
       const obj = {
         _deleted: { value: false, updatedAt: '' },
         person_uid: crypto.randomUUID(),
@@ -68,7 +64,7 @@ export const importDummyPersons = async (showLoading?: boolean) => {
             updatedAt: new Date().toISOString(),
           },
           address: {
-            value: `${user.address.address} ${user.address.city}`,
+            value: user.address,
             updatedAt: new Date().toISOString(),
           },
           email: { value: user.email, updatedAt: new Date().toISOString() },
@@ -323,6 +319,14 @@ export const importDummyPersons = async (showLoading?: boolean) => {
             },
             end_date: { value: null, updatedAt: new Date().toISOString() },
             _deleted: { value: false, updatedAt: '' },
+          });
+        }
+
+        if (femaleStatus === 'FR') {
+          person.person_data.assignments.push({
+            code: AssignmentCode.MINISTRY_HOURS_CREDIT,
+            _deleted: false,
+            updatedAt: new Date().toISOString(),
           });
         }
       }
@@ -773,6 +777,14 @@ export const importDummyPersons = async (showLoading?: boolean) => {
             _deleted: false,
           });
         }
+
+        if (maleStatus === 'FR') {
+          person.person_data.assignments.push({
+            code: AssignmentCode.MINISTRY_HOURS_CREDIT,
+            _deleted: false,
+            updatedAt: new Date().toISOString(),
+          });
+        }
       }
     }
 
@@ -789,6 +801,7 @@ export const dbSettingsAssignMainWTStudyConductor = async () => {
   const settings = await appDb.app_settings.toArray();
 
   const persons = await appDb.persons.toArray();
+
   const conductor = persons.find((record) =>
     record.person_data.assignments.find(
       (item) =>

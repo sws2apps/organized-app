@@ -1,9 +1,11 @@
+import { AssignmentCode } from './assignment';
+
 export type PrivilegeType = 'elder' | 'ms';
 
 export type EnrollmentType = 'AP' | 'FR' | 'FS' | 'FMF';
 
 export type AssignmentType = {
-  code: number;
+  code: AssignmentCode;
   updatedAt: string;
   _deleted: boolean;
 };

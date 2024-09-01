@@ -26,12 +26,13 @@ export type UserFieldServiceMonthlyReportType = {
     shared_ministry: boolean;
     hours: number;
     hours_credits: {
-      approved_assignments: number;
+      approved_assignments: { total: number; credit: number };
       events: PioneerMonthlyEventReportType[];
     };
     bible_studies: number;
     comments: string;
     record_type: 'monthly';
+    status: 'pending' | 'submitted' | 'confirmed';
   };
 };
 

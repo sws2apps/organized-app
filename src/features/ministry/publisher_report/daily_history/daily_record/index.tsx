@@ -24,6 +24,7 @@ const DailyRecord = ({ report }: DailyRecordProps) => {
 
   return (
     <Box
+      onClick={handleOpenEditor}
       onMouseEnter={handleShowEdit}
       onMouseLeave={handleHideEdit}
       sx={{

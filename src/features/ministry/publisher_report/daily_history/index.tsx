@@ -20,6 +20,7 @@ const DailyHistory = () => {
     editorOpen,
     handleCloseEditor,
     handleOpenEditor,
+    status,
   } = useDailyHistory();
 
   return (
@@ -42,7 +43,7 @@ const DailyHistory = () => {
         }}
       >
         <Typography className="h2">{t('tr_dailyHistory')}</Typography>
-        {reportMonth.length > 0 && (
+        {status === 'pending' && reportMonth.length > 0 && (
           <Button
             variant="secondary"
             minHeight={38}
@@ -58,7 +59,9 @@ const DailyHistory = () => {
         <Box sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
           <IconInfo color="var(--grey-350)" />
           <Typography color="var(--grey-350)">
-            {t('tr_noDailyRecordsDesc')}
+            {status === 'pending'
+              ? t('tr_noDailyRecordsDesc')
+              : t('tr_noDailyRecordsMonthClosed')}
           </Typography>
         </Box>
       )}

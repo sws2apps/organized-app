@@ -52,4 +52,6 @@ export type CheckboxPropsType = {
    * Custom styling for the checkbox.
    */
   sx?: SxProps;
+
+  readOnly?: boolean;
 };

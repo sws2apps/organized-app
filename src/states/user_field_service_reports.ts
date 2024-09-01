@@ -30,7 +30,9 @@ export const userFieldServiceDailyReportsState = selector({
     const reports = get(userFieldServiceReportsState);
 
     const dailyRecords = reports.filter(
-      (record) => record.report_data.record_type === 'daily'
+      (record) =>
+        record.report_data.record_type === 'daily' &&
+        record.report_data._deleted === false
     );
 
     return dailyRecords as UserFieldServiceDailyReportType[];
@@ -43,7 +45,9 @@ export const userFieldServiceMonthlyReportsState = selector({
     const reports = get(userFieldServiceReportsState);
 
     const dailyRecords = reports.filter(
-      (record) => record.report_data.record_type === 'monthly'
+      (record) =>
+        record.report_data.record_type === 'monthly' &&
+        record.report_data._deleted === false
     );
 
     return dailyRecords as UserFieldServiceMonthlyReportType[];

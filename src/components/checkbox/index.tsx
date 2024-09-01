@@ -42,6 +42,7 @@ const Checkbox = (props: CheckboxPropsType) => {
       }}
       control={
         <MUICheckbox
+          readOnly={props.readOnly ?? false}
           checked={checked}
           indeterminate={indeterminate}
           disabled={disabled}

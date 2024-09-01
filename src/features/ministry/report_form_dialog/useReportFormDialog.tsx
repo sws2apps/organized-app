@@ -58,7 +58,7 @@ const useReportFormDialog = ({ isEdit, date }: ReportFormDialogProps) => {
       month = month + 1;
     }
 
-    const result = new Date(year, month, -1);
+    const result = new Date(year, month, 0);
 
     return result;
   }, [reportMonth]);

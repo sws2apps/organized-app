@@ -5,11 +5,12 @@ import useMinistryShared from './useMinistryShared';
 const MinistryShared = () => {
   const { t } = useAppTranslation();
 
-  const { checked, handleToggleChecked } = useMinistryShared();
+  const { checked, handleToggleChecked, status } = useMinistryShared();
 
   return (
     <Checkbox
       label={t('tr_sharedMinistry')}
+      readOnly={status !== 'pending'}
       checked={checked}
       onChange={(e) => handleToggleChecked(e.target.checked)}
     />

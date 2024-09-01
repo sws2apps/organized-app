@@ -111,6 +111,17 @@ const useAssignments = () => {
           },
         ],
       },
+      {
+        header: t('tr_ministry'),
+        id: 'ministry',
+        color: 'ministry' as AssignmentCheckListColors,
+        items: [
+          {
+            code: AssignmentCode.MINISTRY_HOURS_CREDIT,
+            name: t('tr_reportHoursCredit'),
+          },
+        ],
+      },
     ];
   }, [t]);
 

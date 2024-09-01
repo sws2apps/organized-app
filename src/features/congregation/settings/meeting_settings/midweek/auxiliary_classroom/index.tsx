@@ -1,4 +1,4 @@
-import { TwoColumnsRow } from '@features/congregation/shared_styles/components';
+import { TwoColumnsRow } from '@features/congregation/settings/shared_styles';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useAuxiliaryClassroom from './useAuxiliaryClassroom';
 import MenuItem from '@components/menuitem';

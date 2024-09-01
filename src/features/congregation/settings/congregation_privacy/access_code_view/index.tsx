@@ -1,7 +1,5 @@
-import {
-  CardSectionContent,
-  CardSectionHeader,
-} from '../../../shared_styles/components';
+import { Stack } from '@mui/material';
+import { CardSubSectionHeader } from '../../shared_styles';
 import { IconEncryptionKey, IconPinCode } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import useAccessCodeView from './useAccessCodeView';
@@ -16,8 +14,8 @@ const AccessCodeView = () => {
     useAccessCodeView();
 
   return (
-    <CardSectionContent sx={{ gap: '16px' }}>
-      <CardSectionHeader
+    <Stack spacing="16px">
+      <CardSubSectionHeader
         title={t('tr_congregationAccessCode')}
         description={t('tr_congregationAccessCodeDesc')}
       />
@@ -46,7 +44,7 @@ const AccessCodeView = () => {
       {changeOpen && (
         <AccessCodeChange open={changeOpen} onClose={handleCloseChange} />
       )}
-    </CardSectionContent>
+    </Stack>
   );
 };
 
