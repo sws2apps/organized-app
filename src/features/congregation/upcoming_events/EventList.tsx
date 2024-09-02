@@ -30,9 +30,16 @@ const EventList = ({
   const [editData, setEditData] = useState<EventValues[]>();
 
   const handleEdit = (event: EventValues[]) => {
-    console.log('has clicked');
-    setEditData([...event]);
-    setIsEditing(true);
+    if (!isEditing) {
+      setEditData([...event]);
+      setIsEditing(true);
+    } else {
+      handleCancelEdit();
+      setTimeout(() => {
+        setEditData([...event]);
+        setIsEditing(true);
+      }, 0);
+    }
   };
 
   const handleEditDone = (data: EventType[]) => {
@@ -42,7 +49,6 @@ const EventList = ({
 
   const handleCancelEdit = () => {
     setIsEditing(false);
-    setEditData(undefined);
   };
 
   return (

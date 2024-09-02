@@ -10,7 +10,7 @@ import {
 } from '@components/index';
 import { EventType, eventValue } from './index.types';
 import EventIcon from './EventIcon';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { IconAdd, IconCheck, IconClose, IconDelete } from '@components/icons';
 import { Box } from '@mui/material';
 
@@ -56,10 +56,6 @@ const AddEvent = ({
   onCancel?: () => void;
 }) => {
   const [values, setValues] = useState<EventValues[]>(data);
-
-  useEffect(() => {
-    setValues(data);
-  }, [data]);
 
   const { t } = useAppTranslation();
 
@@ -175,31 +171,39 @@ const EventFields = ({
           {options.map((option) => (
             <MenuItem value={option} key={option}>
               <HorizontalFlex sx={{ gap: '8px' }}>
-                <EventIcon type={option} />
+                <EventIcon type={option} color={'var(--black)'} />
                 <span style={{ color: 'var(--black)' }}>{t(option)}</span>
               </HorizontalFlex>
             </MenuItem>
           ))}
         </Select>
       </HorizontalFlex>
-      {values.type === 'tr_custom' && (
+      <HorizontalFlex
+        sx={{
+          '@media (max-width: 700px)': {
+            flexDirection: 'column',
+          },
+        }}
+      >
+        {values.type === 'tr_custom' && (
+          <TextField
+            sx={{ input: { color: 'var(--black) !important' } }}
+            label={t('tr_custom')}
+            value={values.custom}
+            onChange={(event) =>
+              setValues({ ...values, custom: event.target.value })
+            }
+          />
+        )}
         <TextField
           sx={{ input: { color: 'var(--black) !important' } }}
-          label={t('tr_custom')}
-          value={values.custom}
+          label={t('tr_additionalInfo')}
+          value={values.description}
           onChange={(event) =>
-            setValues({ ...values, custom: event.target.value })
+            setValues({ ...values, description: event.target.value })
           }
         />
-      )}
-      <TextField
-        sx={{ input: { color: 'var(--black) !important' } }}
-        label={t('tr_additionalInfo')}
-        value={values.description}
-        onChange={(event) =>
-          setValues({ ...values, description: event.target.value })
-        }
-      />
+      </HorizontalFlex>
       <HorizontalFlex sx={{ justifyContent: 'space-between' }}>
         <Button
           sx={{ minHeight: 'auto' }}
