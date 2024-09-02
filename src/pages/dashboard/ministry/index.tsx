@@ -17,7 +17,7 @@ const MinistryCard = () => {
     <DashboardCard header={t('tr_ministry')}>
       {isPioneer && (
         <ListItem disablePadding>
-          <MinistryTimer duration="00:00" />
+          <MinistryTimer />
         </ListItem>
       )}
 
