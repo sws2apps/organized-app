@@ -17,7 +17,7 @@ const MeetingAttendance = lazy(
   () => import('@pages/reports/meeting_attendance')
 );
 const FieldServiceReportsPage = lazy(
-  () => import('@pages/reports/field-service')
+  () => import('@pages/reports/field_service')
 );
 const MidweekMeeting = lazy(() => import('@pages/meetings/midweek'));
 const MinistryReport = lazy(() => import('@pages/ministry/ministry_report'));

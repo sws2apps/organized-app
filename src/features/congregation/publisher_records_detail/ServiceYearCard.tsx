@@ -11,7 +11,7 @@ import {
 } from '../publisher_records/index.types';
 import { IconCheck, IconClose } from '@components/icons';
 import { MONTHS } from '@constants/index';
-import { FieldServiceBadge } from '@pages/reports/field-service/PersonBadge';
+import { FieldServiceBadge } from '@pages/reports/field_service/old/PersonBadge';
 import { Badge } from '@components/index';
 import { BadgeColor } from '@definition/app';
 import { Box } from '@mui/material';

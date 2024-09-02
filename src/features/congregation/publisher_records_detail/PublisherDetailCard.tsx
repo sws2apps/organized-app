@@ -5,7 +5,7 @@ import { HorizontalFlex, VerticalFlex } from './index.styles';
 import {
   FieldServiceBadge,
   ResponsibilityBadge,
-} from '@pages/reports/field-service/PersonBadge';
+} from '@pages/reports/field_service/old/PersonBadge';
 import { PersonWithAnnualReport } from '../publisher_records/index.types';
 import { DatePicker } from '@components/index';
 import useAppTranslation from '@hooks/useAppTranslation';

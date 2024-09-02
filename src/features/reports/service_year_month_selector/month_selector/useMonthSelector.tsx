@@ -1,11 +1,9 @@
 import { useMemo } from 'react';
 import { buildServiceYearsList } from '@utils/date';
 
-const useDateSelector = (year: string) => {
+const useMonthSelector = (year: string) => {
   const serviceYears = useMemo(() => {
-    const result = buildServiceYearsList();
-
-    return result;
+    return buildServiceYearsList();
   }, []);
 
   const months = useMemo(() => {
@@ -15,4 +13,4 @@ const useDateSelector = (year: string) => {
   return { serviceYears, months };
 };
 
-export default useDateSelector;
+export default useMonthSelector;

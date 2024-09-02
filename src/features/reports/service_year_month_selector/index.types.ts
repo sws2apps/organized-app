@@ -1,4 +1,4 @@
-export type DateSelectorProps = {
+export type ServiceYearMonthSelectorProps = {
   year: string;
   month: string;
   onYearChange: (value: string) => void;
