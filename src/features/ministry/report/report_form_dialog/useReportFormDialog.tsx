@@ -12,11 +12,12 @@ import { userFieldServiceDailyReportSchema } from '@services/dexie/schema';
 import { UserFieldServiceDailyReportType } from '@definition/user_field_service_reports';
 
 const useReportFormDialog = ({ isEdit, date }: ReportFormDialogProps) => {
+  const setDraftReport = useSetRecoilState(reportUserDraftState);
+  
   const reportMonth = useRecoilValue(reportUserSelectedMonthState);
   const bibleStudyOpen = useRecoilValue(bibleStudyEditorOpenState);
   const reports = useRecoilValue(userFieldServiceReportsState);
 
-  const setDraftReport = useSetRecoilState(reportUserDraftState);
 
   const [dateValue, setDateValue] = useState(() => {
     if (date?.length > 0) return date;

@@ -1,7 +1,7 @@
 /**
- * Props for the CPETimePickerSlider component.
+ * Props for the TimePickerSlider component.
  */
-export interface CPETimePickerSliderProps {
+export interface TimePickerSliderProps {
   /**
    * Boolean flag indicating whether the component should include an AM/PM selector.
    */

@@ -8,9 +8,10 @@ const blink = keyframes`
   100% { opacity: 1; }
 `;
 
-const Duration = ({ value, paused }: DurationProps) => {
+const Duration = ({ value, paused, onClick }: DurationProps) => {
   return (
     <Typography
+      onClick={onClick}
       className="h3"
       color={value === '00:00' ? 'var(--accent-300)' : 'var(--accent-dark)'}
       sx={{

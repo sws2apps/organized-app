@@ -1,6 +1,9 @@
 import { useMemo } from 'react';
 import { useRecoilValue } from 'recoil';
-import { UserFieldServiceDailyReportType } from '@definition/user_field_service_reports';
+import {
+  TimerRecordType,
+  UserFieldServiceDailyReportType,
+} from '@definition/user_field_service_reports';
 import { userBibleStudiesState } from '@states/user_bible_studies';
 import { UserBibleStudyType } from '@definition/user_bible_studies';
 import { dayNamesState, monthNamesState } from '@states/app';
@@ -35,11 +38,15 @@ const useMinistryDailyRecord = (report: UserFieldServiceDailyReportType) => {
   }, [report, monthNames, dayNames, t]);
 
   const hours = useMemo(() => {
-    return report.report_data.hours.field_service || '';
+    if (!report) return '';
+
+    return report.report_data.hours.field_service;
   }, [report]);
 
   const hoursCredit = useMemo(() => {
-    return report.report_data.hours.credit || '';
+    if (!report) return '';
+
+    return report.report_data.hours.credit;
   }, [report]);
 
   const total_hours = useMemo(() => {
@@ -68,6 +75,8 @@ const useMinistryDailyRecord = (report: UserFieldServiceDailyReportType) => {
   }, [hours, hoursCredit]);
 
   const bibleStudies = useMemo(() => {
+    if (!report) return { value: 0, records: [] };
+
     const studies: UserBibleStudyType[] = [];
 
     for (const study of report.report_data.bible_studies.records) {
@@ -84,7 +93,15 @@ const useMinistryDailyRecord = (report: UserFieldServiceDailyReportType) => {
     };
   }, [report, bibleStudiesRecords]);
 
-  return { hours, hoursCredit, bibleStudies, fullDate, total_hours };
+  const timer: TimerRecordType = useMemo(() => {
+    if (!report) {
+      return { state: 'not_started', value: 0, start: '' };
+    }
+
+    return report.report_data.timer;
+  }, [report]);
+
+  return { hours, hoursCredit, bibleStudies, fullDate, total_hours, timer };
 };
 
 export default useMinistryDailyRecord;

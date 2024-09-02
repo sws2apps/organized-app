@@ -422,11 +422,8 @@ export const userFieldServiceDailyReportSchema: UserFieldServiceDailyReportType 
     report_date: '',
     report_data: {
       _deleted: false,
-      hours: {
-        field_service: '',
-        credit: '',
-        timer_start: '',
-      },
+      hours: { field_service: '', credit: '' },
+      timer: { start: 0, state: 'not_started', value: 0 },
       bible_studies: { value: 0, records: [] },
       record_type: 'daily',
       comments: '',

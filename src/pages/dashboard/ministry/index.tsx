@@ -11,7 +11,7 @@ import useMinistry from './useMinistry';
 const MinistryCard = () => {
   const { t } = useAppTranslation();
 
-  const { isPioneer } = useMinistry();
+  const { isPioneer, hours } = useMinistry();
 
   return (
     <DashboardCard header={t('tr_ministry')}>
@@ -25,7 +25,7 @@ const MinistryCard = () => {
         <DashboardMenu
           icon={<IconMinistryReport color="var(--black)" />}
           primaryText={t('tr_report')}
-          badgeText={isPioneer && '24:56'}
+          badgeText={isPioneer && hours}
           path="/ministry-report"
         />
       </ListItem>

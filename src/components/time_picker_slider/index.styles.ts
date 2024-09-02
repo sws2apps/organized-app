@@ -1,5 +1,5 @@
-import { SxProps, Theme } from '@mui/material';
 import { CSSProperties } from 'react';
+import { SxProps, Theme } from '@mui/material';
 
 export const CASE_SIZE = 40;
 
@@ -9,6 +9,7 @@ export const TimePickerTypography: SxProps<Theme> = {
   display: 'flex',
   alignItems: 'center',
   color: 'var(--black)',
+  userSelect: 'none',
 };
 
 export const ActiveCaseFilter: SxProps<Theme> = {
@@ -43,11 +44,9 @@ export const CaseContainerStyle: CSSProperties = {
   scrollSnapType: 'y mandatory',
   maxHeight: CASE_SIZE * 3,
   scrollbarWidth: 'none',
-  // '&::-webkit-scrollbar': {
-  //   display: 'none',
-  // },
   msOverflowStyle: 'none',
   position: 'relative',
+  userSelect: 'none',
 };
 
 export const TimePickerContainerStyle: SxProps<Theme> = {

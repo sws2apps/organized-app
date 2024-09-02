@@ -1,3 +1,11 @@
+export type TimerState = 'started' | 'not_started' | 'paused';
+
+export type TimerRecordType = {
+  state: TimerState;
+  value: number;
+  start: number;
+};
+
 export type UserFieldServiceDailyReportType = {
   report_date: string;
   report_data: {
@@ -6,8 +14,8 @@ export type UserFieldServiceDailyReportType = {
     hours: {
       field_service: string;
       credit: string;
-      timer_start: string;
     };
+    timer: TimerRecordType;
     bible_studies: { value: number; records: string[] };
     comments: string;
     record_type: 'daily';
