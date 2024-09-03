@@ -32,7 +32,7 @@ jobs:
         run: npm ci
 
       - name: Cypress run testing
-        uses: cypress-io/github-action@c47c901a2599f422565b5441a9b77cf63d7467d0
+        uses: cypress-io/github-action@496e7dc0edc421a9de8a36a31c793340e00c61bf
         with:
           command-prefix: '--'
           install: false

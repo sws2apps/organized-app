@@ -80,7 +80,7 @@
   "tr_havePartner": "奉仕のパートナーが決まっています",
   "tr_havePartnerDesc": "リストから奉仕のパートナーを選択するか、名前を入力してください",
   "tr_arrangementWith": "With: {{ publisherName }}",
-  "tr_addToCalendar": "カレンダーに追加",
+  "tr_addToCalendar": "Add to calendar",
   "tr_addToCalendarDesc": "Do you want to add this event to your personal calendar? You should have a calendar app installed on your device.",
   "tr_forMyself": "自分の予定",
   "tr_forOthers": "他の伝道者の予定",
