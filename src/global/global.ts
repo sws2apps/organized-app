@@ -1,5 +1,5 @@
 // Do not edit directly
-// Generated on 4/17/2024, 10:37:54 PM
+// Generated on 9/3/2024, 9:50:20 PM
 
 const styles = {
   font: {
@@ -50,7 +50,7 @@ const styles = {
     h2Caps: {
       fontSize: '20px',
       textDecoration: 'none',
-      fontWeight: 550,
+      fontWeight: 450,
       fontStyle: 'normal',
       fontStretch: 'normal',
       letterSpacing: '0.2px',
@@ -172,7 +172,7 @@ const styles = {
       h2Caps: {
         fontSize: '18px',
         textDecoration: 'none',
-        fontWeight: 550,
+        fontWeight: 450,
         fontStyle: 'normal',
         fontStretch: 'normal',
         letterSpacing: '0.18px',

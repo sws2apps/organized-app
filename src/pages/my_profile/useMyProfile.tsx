@@ -10,6 +10,8 @@ const useMyProfile = () => {
   const isConnected = useRecoilValue(congAccountConnectedState);
 
   const hoursCreditEnabled = useMemo(() => {
+    if (!person) return false;
+
     const find = person.person_data.assignments.find(
       (record) =>
         record._deleted === false &&

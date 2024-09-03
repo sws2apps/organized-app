@@ -106,6 +106,79 @@ for (const [key, details] of Object.entries(tokens['print-pdf-templates'])) {
   data += `--${key}: ${details.value};\n`;
 }
 
+// box-shadow effect variables
+data += `\n/* box-shadow effect variables */\n`;
+for (const [effectName, details] of Object.entries(tokens.effect)) {
+  if (effectName !== 'dark') {
+    const varValue = [];
+    let effectsArray = [];
+
+    if (details.type === 'custom-shadow') {
+      effectsArray = [details];
+    } else {
+      effectsArray = Object.values(details);
+    }
+
+    for (const props of effectsArray) {
+      if (props && props.value) {
+        const effect = props.value;
+        let tmp = '';
+        tmp = `${effect.offsetX}px ${effect.offsetY}px ${effect.radius}px `;
+
+        tmp += `${effect.spread}px `;
+
+        const colorShadow =
+          effectName === 'message-glow'
+            ? `rgba(var(--accent-main-base), 0.24)`
+            : effect.color;
+
+        tmp += colorShadow;
+
+        varValue.push(tmp);
+      }
+    }
+
+    data += `--${effectName}:${varValue.join(', ')};\n`;
+  }
+}
+
+data += '}\n\n';
+
+// box-shadow effect variables for all dark modes
+data += `[data-theme$='dark'] {\n`;
+
+for (let [effectName, details] of Object.entries(tokens.effect.dark)) {
+  effectName = effectName.replace('dark-', '');
+
+  const varValue = [];
+  let effectsArray = [];
+
+  if (details.type === 'custom-shadow') {
+    effectsArray = [details];
+  } else {
+    effectsArray = Object.values(details);
+  }
+
+  for (const props of effectsArray) {
+    if (props && props.value) {
+      const effect = props.value;
+      let tmp = '';
+      tmp = `${effect.offsetX}px ${effect.offsetY}px ${effect.radius}px `;
+
+      tmp += `${effect.spread}px `;
+
+      const colorShadow =
+        effectName === 'message-glow' ? `var(--accent-main)` : effect.color;
+
+      tmp += colorShadow;
+
+      varValue.push(tmp);
+    }
+  }
+
+  data += `--${effectName}:${varValue.join(', ')};\n`;
+}
+
 data += '}\n\n';
 
 // converting colors tokens to css variables
@@ -303,7 +376,7 @@ for (let [effectName, details] of Object.entries(tokens.effect.dark)) {
 }
 data += '}\n\n';
 
-fs.writeFile('./src/v3//global/global.css', data);
+fs.writeFile('./src/global/global.css', data);
 
 // convert json to js
 data = '';
@@ -395,4 +468,4 @@ data += '},\n';
 data += `}\n
 export default styles`;
 
-fs.writeFile('./src/v3/global/global.ts', data);
+fs.writeFile('./src/global/global.ts', data);
