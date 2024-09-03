@@ -91,5 +91,19 @@
   "tr_yourMessage": "Your message",
   "tr_reportSubmittedDesc": "Your report for {{ month }} has been submitted",
   "tr_mainCongregation": "Main congregation",
-  "tr_noMeetingAssignments": "You have no meeting assignments at the moment"
+  "tr_noMeetingAssignments": "You have no meeting assignments at the moment",
+  "tr_initialOrganizedSetupTitle": "Initial Organized setup",
+  "tr_initialOrganizedSetupDescStep_1": "Define basic settings for your congregation in Organized. You can change that later on the Congregation settings page.",
+  "tr_initialOrganizedSetupDescStep_2": "Finally, create your first Person record by adding yourself. As the administrator, you need to do this manually, just this once. Enter your basic info now, and you can add more details later on the Persons page.",
+  "tr_receivePushNotifications": "Receive push notifications",
+  "tr_receivePushNotificationsDesc": "Allow Organized to send you useful notifications",
+  "tr_weekStartDay": "Week start day",
+  "tr_firstLast": "First Last",
+  "tr_lastFirst": "Last First",
+  "tr_saveAndContinueBtn": "Save and continue",
+  "tr_skipThisStepBtn": "Skip this step"
+  "tr_newOrganizedUpdate": "New Organized update",
+  "tr_newOrganizedUpdateDesc": "Organized just got better! See what’s new in this update!",
+  "tr_improvements": "Improvements:",
+  "tr_ok": "OK"
 }
