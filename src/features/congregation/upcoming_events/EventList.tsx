@@ -134,7 +134,9 @@ const EventDate = ({
 
   return (
     <StyledCardBox>
-      <HorizontalFlex sx={{ justifyContent: 'space-between' }}>
+      <HorizontalFlex
+        sx={{ justifyContent: 'space-between', alignItems: 'center' }}
+      >
         <span className="h2" style={{ color: 'var(--black)' }}>
           {formatDate(new Date(eventDate.date), t('tr_longDateFormat'))}
         </span>
@@ -211,12 +213,27 @@ const Event = ({ event }: { event: EventType }) => {
         }}
       >
         <Button
-          sx={{ minHeight: '0px' }}
-          variant="secondary"
+          sx={{
+            minHeight: '0px',
+            '@media (hover: none)': {
+              display: 'none',
+            },
+          }}
+          variant="small"
           startIcon={<IconAddMonth />}
         >
           {t('tr_addToCalendar')}
         </Button>
+        <IconButton
+          sx={{
+            display: 'none',
+            ['@media (hover: none)']: {
+              display: 'block',
+            },
+          }}
+        >
+          <IconAddMonth color="var(--accent-main)" />
+        </IconButton>
       </Box>
     </Box>
   );
