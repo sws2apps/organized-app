@@ -20,7 +20,9 @@ const useReceivedReports = () => {
 
   const received_reports = useMemo(() => {
     const results = reports.filter(
-      (record) => record.report_date === currentMonth
+      (record) =>
+        record.report_date === currentMonth &&
+        record.report_data.shared_ministry
     );
 
     return results.length;

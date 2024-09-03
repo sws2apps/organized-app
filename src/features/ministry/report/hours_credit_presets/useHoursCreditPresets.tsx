@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import {
   IconDuties,
   IconLanguageCourse,
@@ -8,12 +9,14 @@ import {
 import { useAppTranslation } from '@hooks/index';
 
 const useHoursCreditPresets = () => {
+  const location = useLocation();
+
   const { t } = useAppTranslation();
 
   const [presetsOpen, setPresetsOpen] = useState(false);
 
   const presets = useMemo(() => {
-    return [
+    const list = [
       {
         icon: <IconSchool color="var(--black)" />,
         name: t('tr_pioneerSchool'),
@@ -29,13 +32,18 @@ const useHoursCreditPresets = () => {
         name: t('tr_languageCourse'),
         value: 25,
       },
-      {
+    ];
+
+    if (location.pathname === '/ministry-report') {
+      list.push({
         icon: <IconDuties color="var(--black)" />,
         name: t('tr_theocraticAssignments'),
         value: 8,
-      },
-    ];
-  }, [t]);
+      });
+    }
+
+    return list;
+  }, [t, location.pathname]);
 
   const handleTogglePresets = () => setPresetsOpen((prev) => !prev);
 

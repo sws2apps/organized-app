@@ -7,4 +7,5 @@ export type PresetItemProps = {
     value: number;
   };
   onClose: VoidFunction;
+  onSelect: (value: number, name?: string) => void;
 };

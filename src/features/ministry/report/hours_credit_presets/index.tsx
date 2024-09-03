@@ -75,6 +75,7 @@ const HoursCreditPresets = (props: HoursCreditPresetsProps) => {
               key={preset.name}
               preset={preset}
               onClose={handleClosePreset}
+              onSelect={props.onSelect}
             />
           ))}
         </Menu>

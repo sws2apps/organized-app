@@ -1,6 +1,7 @@
-import { Box } from '@mui/material';
+import { Box, Slide } from '@mui/material';
 import { IconPrepareReport } from '@components/icons';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import useFieldService from './useFieldService';
 import Button from '@components/button';
 import PageTitle from '@components/page_title';
 import PersonsList from '@features/reports/field_service/persons_list';
@@ -11,6 +12,8 @@ const FieldService = () => {
   const { t } = useAppTranslation();
 
   const { desktopUp } = useBreakpoints();
+
+  const { editorOpen } = useFieldService();
 
   return (
     <Box
@@ -31,8 +34,7 @@ const FieldService = () => {
         sx={{
           display: 'flex',
           gap: '16px',
-          flexDirection: desktopUp ? 'row' : 'column',
-          alignItems: desktopUp ? 'flex-start' : 'stretch',
+          alignItems: 'flex-start',
           '& > .MuiBox-root': {
             width: desktopUp ? '50%' : '100%',
           },
@@ -40,10 +42,46 @@ const FieldService = () => {
       >
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           <SelectorStats />
-          <PersonsList />
+
+          {desktopUp && <PersonsList />}
+
+          {/* < desktop view */}
+          {!desktopUp && (
+            <Box
+              sx={{
+                position: 'relative',
+                overflowX: 'clip',
+              }}
+            >
+              <Slide direction="right" in={!editorOpen} unmountOnExit>
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    left: 0,
+                    right: 0,
+                    paddingBottom: '32px',
+                  }}
+                >
+                  <PersonsList />
+                </Box>
+              </Slide>
+              <Slide direction="left" in={editorOpen} unmountOnExit>
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    left: 0,
+                    right: 0,
+                    paddingBottom: '32px',
+                  }}
+                >
+                  <ReportDetails />
+                </Box>
+              </Slide>
+            </Box>
+          )}
         </Box>
 
-        <ReportDetails />
+        {desktopUp && <ReportDetails />}
       </Box>
     </Box>
   );

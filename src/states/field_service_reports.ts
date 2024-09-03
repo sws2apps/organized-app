@@ -3,7 +3,10 @@ This file holds the source of the truth from the table "fieldServiceReports".
 */
 
 import { atom, selector } from 'recoil';
-import { CongFieldServiceReportType } from '@definition/cong_field_service_reports';
+import {
+  CongFieldServiceReportType,
+  PersonFilterOption,
+} from '@definition/cong_field_service_reports';
 
 export const fieldServiceReportsState = atom<CongFieldServiceReportType[]>({
   key: 'fieldServiceReports',
@@ -27,7 +30,12 @@ export const selectedMonthFieldServiceReportState = atom<string>({
   default: undefined,
 });
 
-export const personFilterFieldServiceReportState = atom<string>({
+export const personFilterFieldServiceReportState = atom<PersonFilterOption>({
   key: 'personFilterFieldServiceReport',
   default: 'active',
+});
+
+export const selectedPublisherReportState = atom<string>({
+  key: 'selectedPublisherReport',
+  default: undefined,
 });

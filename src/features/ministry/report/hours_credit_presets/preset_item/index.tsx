@@ -1,14 +1,14 @@
 import { Stack } from '@mui/material';
 import { PresetItemProps } from './index.types';
 import { useAppTranslation } from '@hooks/index';
-import usePreestItem from './usePresetItem';
+import usePresetItem from './usePresetItem';
 import MenuItem from '@components/menuitem';
 import Typography from '@components/typography';
 
 const PresetItem = (props: PresetItemProps) => {
   const { t } = useAppTranslation();
 
-  const { preset, handleSelectPreset } = usePreestItem(props);
+  const { preset, handleSelectPreset } = usePresetItem(props);
 
   return (
     <MenuItem

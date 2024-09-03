@@ -2,6 +2,8 @@ import { useMemo } from 'react';
 import { useRecoilState } from 'recoil';
 import { useAppTranslation } from '@hooks/index';
 import { personFilterFieldServiceReportState } from '@states/field_service_reports';
+import { FilterType } from './index.types';
+import { PersonFilterOption } from '@definition/cong_field_service_reports';
 
 const usePersonFilter = () => {
   const { t } = useAppTranslation();
@@ -11,7 +13,9 @@ const usePersonFilter = () => {
   );
 
   const filters = useMemo(() => {
-    return [
+    const result: FilterType[] = [];
+
+    result.push(
       {
         key: 'publishers',
         options: [
@@ -29,11 +33,13 @@ const usePersonFilter = () => {
           { key: 'AP', name: t('tr_APs') },
           { key: 'FR', name: t('tr_FRs') },
         ],
-      },
-    ];
+      }
+    );
+
+    return result;
   }, [t]);
 
-  const handleChangeFilter = (value: string) => setFilter(value);
+  const handleChangeFilter = (value: PersonFilterOption) => setFilter(value);
 
   return { filters, handleChangeFilter, filter };
 };

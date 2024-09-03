@@ -7,7 +7,7 @@ import BibleStudiesList from './bible_studies_list';
 import BibleStudySelector from './bible_study_selector';
 import Button from '@components/button';
 import DatePicker from '@components/date_picker';
-import HoursCreditPresets from '../hours_credit_presets';
+import HoursCreditPresets from '../../hours_credit_presets';
 import HoursEditor from '@features/ministry/report/hours_editor';
 import StandardEditor from '@features/ministry/report/standard_editor';
 import Typography from '@components/typography';
@@ -32,6 +32,7 @@ const ServiceTime = (props: ServiceTimeProps) => {
     handleHoursCreditChange,
     hoursCredit,
     hoursRef,
+    handleSelectPreset,
   } = useServiceTime(props);
 
   return (
@@ -70,7 +71,10 @@ const ServiceTime = (props: ServiceTimeProps) => {
 
           {hoursCreditEnabled && (
             <Field sx={{ flexDirection: tabletUp ? 'row' : 'column' }}>
-              <HoursCreditPresets anchorEl={hoursRef} />
+              <HoursCreditPresets
+                anchorEl={hoursRef}
+                onSelect={handleSelectPreset}
+              />
               <HoursEditor
                 value={hoursCredit}
                 onChange={handleHoursCreditChange}

@@ -463,8 +463,10 @@ export const congFieldServiceReportSchema: CongFieldServiceReportType = {
     },
     bible_studies: 0,
     comments: '',
-    late: false,
-    submitted: '',
+    late: {
+      value: false,
+      submitted: '',
+    },
     status: 'confirmed',
   },
 };

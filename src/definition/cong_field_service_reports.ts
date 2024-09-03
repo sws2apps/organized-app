@@ -1,3 +1,18 @@
+export type PersonFixedFilterOption =
+  | 'active'
+  | 'inactive'
+  | 'baptized'
+  | 'unbaptized'
+  | 'AP'
+  | 'FR'
+  | 'not_submitted'
+  | 'appointed';
+
+export type PersonFilterOption =
+  | PersonFixedFilterOption
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  | (string & {});
+
 export type CongFieldServiceReportType = {
   report_date: string;
   report_data: {
@@ -12,10 +27,12 @@ export type CongFieldServiceReportType = {
         approved: number;
       };
     };
-    submitted: string;
-    late: boolean;
     bible_studies: number;
     comments: string;
+    late: {
+      value: boolean;
+      submitted: string;
+    };
     status: 'received' | 'confirmed';
   };
 };

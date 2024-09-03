@@ -72,13 +72,18 @@ const Checkbox = (props: CheckboxPropsType) => {
       }
       label={
         <>
-          <Typography className={className} color="var(--black)">
+          <Typography
+            sx={{ userSelect: 'none' }}
+            className={className}
+            color="var(--black)"
+          >
             {label}
           </Typography>
           {labelDescription != '' ? (
             <Typography
               className="body-small-regular"
               color={'var(--grey-400)'}
+              sx={{ userSelect: 'none' }}
             >
               {labelDescription}
             </Typography>

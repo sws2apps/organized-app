@@ -83,6 +83,21 @@ const useServiceTime = ({ onClose }: ServiceTimeProps) => {
     setCurrentReport(newReport);
   };
 
+  const handleSelectPreset = (value: number, name: string) => {
+    const newReport = structuredClone(currentReport);
+
+    newReport.report_data.hours.credit = `${value}:00`;
+    newReport.report_data.comments = `${name}: {{ hours }}h`;
+    newReport.report_data.updatedAt = new Date().toISOString();
+    setCurrentReport(newReport);
+
+    displaySnackNotification({
+      header: t('tr_ministry'),
+      message: t('tr_hoursCreditPresetAddedInfo'),
+      severity: 'success',
+    });
+  };
+
   const handleSaveReport = async () => {
     if (currentReport.report_date.length === 0) return;
 
@@ -122,6 +137,7 @@ const useServiceTime = ({ onClose }: ServiceTimeProps) => {
     hoursCreditEnabled,
     hoursEnabled,
     hoursRef,
+    handleSelectPreset,
   };
 };
 

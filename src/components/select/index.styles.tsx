@@ -2,6 +2,10 @@ import { FC } from 'react';
 import { Select, SelectProps, styled } from '@mui/material';
 
 const SelectStyled: FC<SelectProps> = styled(Select)({
+  '.MuiSelect-select p': {
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+  },
   '.MuiSelect-icon': {
     color: 'var(--black)',
   },
