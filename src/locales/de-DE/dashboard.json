@@ -91,5 +91,9 @@
   "tr_yourMessage": "Deine Nachricht",
   "tr_reportSubmittedDesc": "Dein Bericht für {{ month }} wurde übermittelt",
   "tr_mainCongregation": "Hauptversammlung",
-  "tr_noMeetingAssignments": "Zurzeit hast du keine Zusammenkunftsaufgaben"
+  "tr_noMeetingAssignments": "Zurzeit hast du keine Zusammenkunftsaufgaben",
+  "tr_newOrganizedUpdate": "New Organized update",
+  "tr_newOrganizedUpdateDesc": "Organized just got better! See what’s new in this update!",
+  "tr_improvements": "Improvements:",
+  "tr_ok": "OK"
 }
