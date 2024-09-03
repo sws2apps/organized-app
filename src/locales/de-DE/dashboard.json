@@ -42,7 +42,7 @@
   "tr_assign": "Zuteilen",
   "tr_return": "Rückgabe",
   "tr_assignmentHistory": "Aufgabenhistorie",
-  "tr_coverageStatistics": "Coverage statistics",
+  "tr_coverageStatistics": "Gebietsbearbeitungsstatistik",
   "tr_persons": "Personen",
   "tr_reports": "Berichte",
   "tr_congregation": "Versammlung",
@@ -50,7 +50,7 @@
   "tr_lastSynced": "Synchronisiert vor {{ durationt }} Minuten",
   "tr_myProfile": "Mein Profil",
   "tr_reminders": "Erinnerungen",
-  "tr_reminderS1NotReady": "The Congregation Field Service and Meeting Attendance (S-1) report has not been submitted yet.",
+  "tr_reminderS1NotReady": "Der Bericht über den Versammlungspredigtdienst und die Teilnahme an den Versammlungen (S-1) wurde noch nicht gesendet.",
   "tr_reminderS1NotReadyDesc": "Es sollte spätestens am 20. Tag des Monats im Zweigbüro eingereicht werden.",
   "tr_reminderS4NotReady": "Dein monatlicher Bericht wurde noch nicht übermittelt.",
   "tr_reminderS4NotReadyDesc": "Du solltest dem Sekretär spätestens am 6. Tag des Monats vorlegen.",
@@ -91,5 +91,5 @@
   "tr_yourMessage": "Deine Nachricht",
   "tr_reportSubmittedDesc": "Dein Bericht für {{ month }} wurde übermittelt",
   "tr_mainCongregation": "Hauptversammlung",
-  "tr_noMeetingAssignments": "You have no meeting assignments at the moment"
+  "tr_noMeetingAssignments": "Zurzeit hast du keine Zusammenkunftsaufgaben"
 }
