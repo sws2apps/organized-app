@@ -26,6 +26,8 @@ export { default as DashboardMenu } from './dashboard/menu';
 export { default as DashboardSkeletonLoader } from './dashboard/skeleton_loader';
 export { default as NewUpdateModalWindow } from './dashboard/new_update_modal_window';
 
+export { default as InitialSetupModalWindow } from './dashboard/initial_setup_modal_window';
+
 /* -------------------------------- Demo ------------------------------- */
 export { default as DemoBanner } from './demo/banner';
 export { default as DemoNotice } from './demo/notice';

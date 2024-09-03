@@ -48,6 +48,7 @@ const Select = (props: SelectPropsType) => {
               background: 'var(--white)',
               backgroundColor: 'var(--white)',
               borderRadius: 'var(--radius-l)',
+              color: 'var(--black)',
               border: '1px solid var(--accent-200)',
               padding: '8px 0px',
               marginTop: '2px',
@@ -57,6 +58,7 @@ const Select = (props: SelectPropsType) => {
                 position: 'relative',
                 '&:hover': {
                   backgroundColor: 'var(--accent-150)',
+                  color: 'var(--accent-dark)',
                 },
                 borderBottom: '1px solid var(--accent-200)',
                 '&.Mui-selected p': {
