@@ -147,13 +147,13 @@ const EventFields = ({
         <DatePicker
           view="input"
           label={t('tr_date')}
-          value={values.date}
+          value={values.date ?? null}
           onChange={(value) => setValues({ ...values, date: value })}
         />
         <TimePicker
           ampm
           label={t('tr_timerLabelTime')}
-          value={values.time}
+          value={values.time ?? null}
           onChange={(value) => setValues({ ...values, time: value })}
           sx={{
             flexBasis: 'unset',
@@ -163,7 +163,7 @@ const EventFields = ({
         />
         <Select
           label={t('tr_eventType')}
-          value={values.type}
+          value={values.type ?? 'tr_circuitOverseerWeek'}
           onChange={(event) =>
             setValues({ ...values, type: event.target.value as eventValue })
           }
@@ -189,7 +189,7 @@ const EventFields = ({
           <TextField
             sx={{ input: { color: 'var(--black) !important' } }}
             label={t('tr_custom')}
-            value={values.custom}
+            value={values.custom ?? ''}
             onChange={(event) =>
               setValues({ ...values, custom: event.target.value })
             }
@@ -198,7 +198,7 @@ const EventFields = ({
         <TextField
           sx={{ input: { color: 'var(--black) !important' } }}
           label={t('tr_additionalInfo')}
-          value={values.description}
+          value={values.description ?? ''}
           onChange={(event) =>
             setValues({ ...values, description: event.target.value })
           }
