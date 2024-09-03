@@ -91,5 +91,9 @@
   "tr_yourMessage": "Sua mensagem",
   "tr_reportSubmittedDesc": "O seu relatório de {{ month }} foi enviado",
   "tr_mainCongregation": "Congregação principal",
-  "tr_noMeetingAssignments": "Não tem designações de reunião neste momento"
+  "tr_noMeetingAssignments": "Não tem designações de reunião neste momento",
+  "tr_newOrganizedUpdate": "New Organized update",
+  "tr_newOrganizedUpdateDesc": "Organized just got better! See what’s new in this update!",
+  "tr_improvements": "Improvements:",
+  "tr_ok": "OK"
 }
