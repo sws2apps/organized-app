@@ -21,7 +21,7 @@ const useComments = (person: PersonType) => {
   const currentReport = useMemo(() => {
     return reports.find(
       (record) =>
-        record.report_date === currentMonth &&
+        record.report_data.report_date === currentMonth &&
         record.report_data.person_uid === person.person_uid
     );
   }, [reports, currentMonth, person]);
@@ -42,7 +42,8 @@ const useComments = (person: PersonType) => {
 
       if (!currentReport) {
         report = structuredClone(congFieldServiceReportSchema);
-        report.report_date = currentMonth;
+        report.report_id = crypto.randomUUID();
+        report.report_data.report_date = currentMonth;
         report.report_data.person_uid = person.person_uid;
       }
 

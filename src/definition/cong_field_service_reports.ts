@@ -14,10 +14,11 @@ export type PersonFilterOption =
   | (string & {});
 
 export type CongFieldServiceReportType = {
-  report_date: string;
+  report_id: string;
   report_data: {
     _deleted: boolean;
     updatedAt: string;
+    report_date: string;
     person_uid: string;
     shared_ministry: boolean;
     hours: {

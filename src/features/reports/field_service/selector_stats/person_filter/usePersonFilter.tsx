@@ -1,7 +1,10 @@
 import { useMemo } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { useAppTranslation } from '@hooks/index';
-import { personFilterFieldServiceReportState } from '@states/field_service_reports';
+import {
+  personFilterFieldServiceReportState,
+  selectedPublisherReportState,
+} from '@states/field_service_reports';
 import { FilterType } from './index.types';
 import { PersonFilterOption } from '@definition/cong_field_service_reports';
 
@@ -11,6 +14,8 @@ const usePersonFilter = () => {
   const [filter, setFilter] = useRecoilState(
     personFilterFieldServiceReportState
   );
+
+  const setSelectedPublisher = useSetRecoilState(selectedPublisherReportState);
 
   const filters = useMemo(() => {
     const result: FilterType[] = [];
@@ -39,7 +44,11 @@ const usePersonFilter = () => {
     return result;
   }, [t]);
 
-  const handleChangeFilter = (value: PersonFilterOption) => setFilter(value);
+  const handleChangeFilter = (value: PersonFilterOption) => {
+    setSelectedPublisher(undefined);
+
+    setFilter(value);
+  };
 
   return { filters, handleChangeFilter, filter };
 };

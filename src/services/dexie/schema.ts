@@ -451,10 +451,11 @@ export const userFieldServiceMonthlyReportSchema: UserFieldServiceMonthlyReportT
   };
 
 export const congFieldServiceReportSchema: CongFieldServiceReportType = {
-  report_date: '',
+  report_id: '',
   report_data: {
     _deleted: false,
     updatedAt: '',
+    report_date: '',
     person_uid: '',
     shared_ministry: false,
     hours: {

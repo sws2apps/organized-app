@@ -22,7 +22,7 @@ const usePersonItem = ({ person }: PersonItemProps) => {
 
     const report = reports.find(
       (record) =>
-        record.report_date === currentMonth &&
+        record.report_data.report_date === currentMonth &&
         record.report_data.person_uid === person.person_uid
     );
 

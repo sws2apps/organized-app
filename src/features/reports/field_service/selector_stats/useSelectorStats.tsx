@@ -4,10 +4,15 @@ import {
   getMonthServiceYear,
   buildServiceYearsList,
 } from '@utils/date';
-import { useRecoilState } from 'recoil';
-import { selectedMonthFieldServiceReportState } from '@states/field_service_reports';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import {
+  selectedMonthFieldServiceReportState,
+  selectedPublisherReportState,
+} from '@states/field_service_reports';
 
 const useSelectorStats = () => {
+  const setSelectedPublisher = useSetRecoilState(selectedPublisherReportState);
+
   const monthDefault = useMemo(() => {
     return currentReportMonth();
   }, []);
@@ -29,6 +34,8 @@ const useSelectorStats = () => {
   }, []);
 
   const handleYearChange = (value: string) => {
+    setSelectedPublisher(undefined);
+
     setYear(value);
 
     const month = serviceYears
@@ -38,7 +45,11 @@ const useSelectorStats = () => {
     setMonth(month.value);
   };
 
-  const handleMonthChange = (value: string) => setMonth(value);
+  const handleMonthChange = (value: string) => {
+    setSelectedPublisher(undefined);
+
+    setMonth(value);
+  };
 
   useEffect(() => {
     setMonth(monthDefault);

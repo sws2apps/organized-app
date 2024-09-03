@@ -25,7 +25,7 @@ const useLateReport = (person: PersonType) => {
   const report = useMemo(() => {
     return reports.find(
       (record) =>
-        record.report_date === currentMonth &&
+        record.report_data.report_date === currentMonth &&
         record.report_data.person_uid === person.person_uid
     );
   }, [reports, currentMonth, person]);
@@ -67,7 +67,8 @@ const useLateReport = (person: PersonType) => {
 
       if (!report) {
         lateReport = structuredClone(congFieldServiceReportSchema);
-        lateReport.report_date = currentMonth;
+        report.report_id = crypto.randomUUID();
+        lateReport.report_data.report_date = currentMonth;
         lateReport.report_data.person_uid = person.person_uid;
       }
 
