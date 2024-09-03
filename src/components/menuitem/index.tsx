@@ -24,6 +24,15 @@ const MenuItem: FC<MenuItemProps> = (props) => {
             fill: 'var(--accent-dark)',
           },
         },
+        '&.Mui-selected': {
+          backgroundColor: 'var(--accent-100)',
+          '&:hover': {
+            backgroundColor: 'var(--accent-100)',
+          },
+          '& p': {
+            color: 'var(--accent-main)',
+          },
+        },
         ...props.sx,
       }}
     />

@@ -14,6 +14,7 @@ import { speakersCongregationsState } from '@states/speakers_congregations';
 import { meetingAttendanceState } from '@states/meeting_attendance';
 import { userFieldServiceReportsState } from '@states/user_field_service_reports';
 import { userBibleStudiesState } from '@states/user_bible_studies';
+import { fieldServiceReportsState } from '@states/field_service_reports';
 
 const useIndexedDb = () => {
   const dbSettings = useLiveQuery(() => appDb.app_settings.toArray());
@@ -37,6 +38,9 @@ const useIndexedDb = () => {
   const dbUserFieldServiceReports = useLiveQuery(() =>
     appDb.user_field_service_reports.toArray()
   );
+  const dbCongFieldServiceReports = useLiveQuery(() =>
+    appDb.cong_field_service_reports.toArray()
+  );
 
   const setSettings = useSetRecoilState(settingsState);
   const setPersons = useSetRecoilState(personsState);
@@ -53,6 +57,9 @@ const useIndexedDb = () => {
     userFieldServiceReportsState
   );
   const setUserBibleStudies = useSetRecoilState(userBibleStudiesState);
+  const setCongFieldServiceReports = useSetRecoilState(
+    fieldServiceReportsState
+  );
 
   const loadSettings = useCallback(() => {
     if (dbSettings && dbSettings[0]) {
@@ -120,6 +127,12 @@ const useIndexedDb = () => {
     }
   }, [dbUserBibleStudies, setUserBibleStudies]);
 
+  const loadCongFieldServiceReports = useCallback(() => {
+    if (dbCongFieldServiceReports) {
+      setCongFieldServiceReports(dbCongFieldServiceReports);
+    }
+  }, [dbCongFieldServiceReports, setCongFieldServiceReports]);
+
   return {
     loadSettings,
     loadPersons,
@@ -132,6 +145,7 @@ const useIndexedDb = () => {
     loadMeetingAttendance,
     loadUserFieldServiceReports,
     loadUserBibleStudies,
+    loadCongFieldServiceReports,
   };
 };
 

@@ -2,7 +2,6 @@ import { useMemo } from 'react';
 import { useRecoilState } from 'recoil';
 import { useAppTranslation } from '@hooks/index';
 import { personFilterFieldServiceReportState } from '@states/field_service_reports';
-import { PersonFilterOption } from './index.types';
 
 const usePersonFilter = () => {
   const { t } = useAppTranslation();
@@ -11,23 +10,30 @@ const usePersonFilter = () => {
     personFilterFieldServiceReportState
   );
 
-  const filters: PersonFilterOption[] = useMemo(() => {
+  const filters = useMemo(() => {
     return [
       {
         key: 'publishers',
-        group: t('tr_publishers'),
         options: [
           { key: 'active', name: t('tr_activePublishers') },
           { key: 'inactive', name: t('tr_inactivePublishers') },
+          { key: 'unbaptized', name: t('tr_unbaptizedPublishers') },
+          { key: 'baptized', name: t('tr_baptizedPublishers') },
+          { key: 'not_submitted', name: t('tr_reportNotSubmitted') },
+          { key: 'appointed', name: t('tr_appointedBrothers') },
+        ],
+      },
+      {
+        key: 'pioneers',
+        options: [
+          { key: 'AP', name: t('tr_APs') },
+          { key: 'FR', name: t('tr_FRs') },
         ],
       },
     ];
   }, [t]);
 
-  const handleChangeFilter = (value: string) => {
-    console.log(value);
-    setFilter(value);
-  };
+  const handleChangeFilter = (value: string) => setFilter(value);
 
   return { filters, handleChangeFilter, filter };
 };

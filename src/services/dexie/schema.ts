@@ -1,3 +1,4 @@
+import { CongFieldServiceReportType } from '@definition/cong_field_service_reports';
 import { MeetingAttendanceType } from '@definition/meeting_attendance';
 import { PersonType } from '@definition/person';
 import { SchedWeekType } from '@definition/schedules';
@@ -448,3 +449,22 @@ export const userFieldServiceMonthlyReportSchema: UserFieldServiceMonthlyReportT
       status: 'pending',
     },
   };
+
+export const congFieldServiceReportSchema: CongFieldServiceReportType = {
+  report_date: '',
+  report_data: {
+    _deleted: false,
+    updatedAt: '',
+    person_uid: '',
+    shared_ministry: false,
+    hours: {
+      field_service: 0,
+      credit: { value: 0, approved: 0 },
+    },
+    bible_studies: 0,
+    comments: '',
+    late: false,
+    submitted: '',
+    status: 'confirmed',
+  },
+};

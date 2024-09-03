@@ -16,6 +16,8 @@ const useYearlyStats = () => {
   const setSelectedYear = useSetRecoilState(serviceYearSelectedState);
 
   const yearsList = useMemo(() => {
+    if (!person) return [];
+
     const firstMonthReport = person.person_data.first_month_report.value;
     const date = new Date(firstMonthReport);
     const year = date.getFullYear();
@@ -63,7 +65,7 @@ const useYearlyStats = () => {
       record.months.some((month) => month.value === reportMonth)
     );
 
-    return data.year;
+    return data?.year || '';
   }, [yearsList]);
 
   const handleYearChange = (value: number) => {

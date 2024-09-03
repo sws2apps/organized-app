@@ -1,12 +1,21 @@
 export type CongFieldServiceReportType = {
-  id?: string;
-  _deleted: { value: boolean; updatedAt: string };
-  person_uid: string;
-  shared_ministry: { value: boolean; updatedAt: string };
-  month_date: { value: string; updatedAt: string };
-  hours?: { value: number; updatedAt: string };
-  hours_credits?: { value: number; updatedAt: string };
-  bible_studies: { value: number; updatedAt: string };
-  comments: { value: string; updatedAt: string };
-  posted_date: { value: string; updatedAt: string };
+  report_date: string;
+  report_data: {
+    _deleted: boolean;
+    updatedAt: string;
+    person_uid: string;
+    shared_ministry: boolean;
+    hours: {
+      field_service: number;
+      credit: {
+        value: number;
+        approved: number;
+      };
+    };
+    submitted: string;
+    late: boolean;
+    bible_studies: number;
+    comments: string;
+    status: 'received' | 'confirmed';
+  };
 };

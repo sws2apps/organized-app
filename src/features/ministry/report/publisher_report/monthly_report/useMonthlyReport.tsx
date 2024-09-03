@@ -33,6 +33,8 @@ const useMonthlyReport = () => {
   }, [person, selectedMonth]);
 
   const monthsList = useMemo(() => {
+    if (!person) return [];
+
     const firstMonthReport = person.person_data.first_month_report.value;
     const date = new Date(firstMonthReport);
     const year = date.getFullYear();

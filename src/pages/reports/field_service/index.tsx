@@ -3,6 +3,7 @@ import { IconPrepareReport } from '@components/icons';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import Button from '@components/button';
 import PageTitle from '@components/page_title';
+import PersonsList from '@features/reports/field_service/persons_list';
 import ReportDetails from '@features/reports/field_service/report_details';
 import SelectorStats from '@features/reports/field_service/selector_stats';
 
@@ -37,8 +38,9 @@ const FieldService = () => {
           },
         }}
       >
-        <Box>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           <SelectorStats />
+          <PersonsList />
         </Box>
 
         <ReportDetails />
