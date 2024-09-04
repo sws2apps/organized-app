@@ -1,6 +1,5 @@
 import { Box } from '@mui/material';
 import { DetailsContainer } from '../shared_styles';
-import { UserMemberDetailsType } from '../index.types';
 import { UsersOption } from './index.types';
 import { useAppTranslation } from '@hooks/index';
 import useProfileSettings from './useProfileSettings';
@@ -10,7 +9,7 @@ import Typography from '@components/typography';
 import AutocompleteMultiple from '@components/autocomplete_multiple';
 import MiniChip from '@components/mini_chip';
 
-const ProfileSettings = ({ user }: UserMemberDetailsType) => {
+const ProfileSettings = () => {
   const { t } = useAppTranslation();
 
   const {
@@ -21,7 +20,7 @@ const ProfileSettings = ({ user }: UserMemberDetailsType) => {
     handleDelegatedPersonsChange,
     handleDeletePerson,
     delegateOptions,
-  } = useProfileSettings(user);
+  } = useProfileSettings();
 
   return (
     <DetailsContainer>

@@ -6,6 +6,5 @@ export type BranchFieldServiceReportsTable = {
 };
 
 export const branchFieldServiceReportsSchema = {
-  branch_field_service_reports:
-    '++id, updateAt, month_date, active_publishers, average_weekend_meeting, publishers, APs, FRs, isSubmitted',
+  branch_field_service_reports: '&report_date, report_data',
 };

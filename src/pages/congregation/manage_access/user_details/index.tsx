@@ -47,7 +47,7 @@ const UserDetails = () => {
         />
       )}
 
-      {user && <UserMemberDetails user={user} />}
+      {user && <UserMemberDetails />}
     </Box>
   );
 };

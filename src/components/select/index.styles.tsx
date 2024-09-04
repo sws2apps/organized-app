@@ -1,7 +1,7 @@
-import { FC } from 'react';
-import { Select, SelectProps, styled } from '@mui/material';
+import { styled } from '@mui/system';
+import { Select } from '@mui/material';
 
-const SelectStyled: FC<SelectProps> = styled(Select)({
+const SelectStyled = styled(Select)({
   '.MuiSelect-select p': {
     overflow: 'hidden',
     textOverflow: 'ellipsis',

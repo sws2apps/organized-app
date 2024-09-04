@@ -120,5 +120,7 @@
   "tr_bibleStudiesNotice": "Report one study per student each month",
   "tr_presets": "Presets",
   "tr_hoursCreditPresetAddedInfo": "The chosen credit hours preset will appear in the monthly report's comment field. Edit it there if needed.",
-  "tr_lateReportSent": "Sent to Bethel on: {{ date }}"
+  "tr_lateReportSent": "Sent to Bethel on: {{ date }}",
+  "tr_fieldService": "Field service",
+  "tr_S10ReportNotGenerated": "This year’s report hasn’t been generated yet. Generate it to see all the details and then submit."
 }

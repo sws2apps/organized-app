@@ -1,7 +1,7 @@
-import { FC } from 'react';
-import { Box, BoxProps, styled } from '@mui/material';
+import { styled } from '@mui/system';
+import { Box } from '@mui/material';
 
-export const Field: FC<BoxProps> = styled(Box)({
+export const Field = styled(Box)({
   width: '100%',
   display: 'flex',
   alignItems: 'center',

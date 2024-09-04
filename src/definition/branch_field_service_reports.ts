@@ -5,13 +5,15 @@ type ReportType = {
 };
 
 export type BranchFieldServiceReportType = {
-  id?: string;
-  updatedAt: string;
-  month_date: string;
-  active_publishers: number;
-  average_weekend_meeting: number;
-  publishers: ReportType;
-  APs: ReportType;
-  FRs: ReportType;
-  isSubmitted: { value: boolean; updatedAt: string };
+  report_date: string;
+  report_data: {
+    _deleted: boolean;
+    updatedAt: string;
+    publishers_active: number;
+    weekend_meeting_average: number;
+    publishers: ReportType;
+    APs: ReportType;
+    FRs: ReportType;
+    submitted: boolean;
+  };
 };

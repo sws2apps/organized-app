@@ -6,6 +6,5 @@ export type BranchCongAnalysisTable = {
 };
 
 export const branchCongAnalysisSchema = {
-  branch_cong_analysis:
-    '++id, updateAt, month_date, isSubmitted, average_meeting_attendace, congregation_totals, territory_coverage',
+  branch_cong_analysis: '&report_date, report_data',
 };

@@ -1,11 +1,10 @@
 import { useAppTranslation } from '@hooks/index';
 import { SwitchContainer } from '../shared_styles';
-import { UserMemberDetailsType } from '../index.types';
 import useUserAdditionalRights from './useUserAdditionalRights';
 import SwitchWithLabel from '@components/switch_with_label';
 import Typography from '@components/typography';
 
-const UserAdditionalRights = ({ user }: UserMemberDetailsType) => {
+const UserAdditionalRights = () => {
   const { t } = useAppTranslation();
 
   const {
@@ -17,7 +16,7 @@ const UserAdditionalRights = ({ user }: UserMemberDetailsType) => {
     handleToggleAttendance,
     isWeekend,
     handleToggleWeekend,
-  } = useUserAdditionalRights(user);
+  } = useUserAdditionalRights();
 
   return (
     <>

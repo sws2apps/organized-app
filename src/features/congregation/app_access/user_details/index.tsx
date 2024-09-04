@@ -1,13 +1,15 @@
 import { Box } from '@mui/material';
 import { useBreakpoints } from '@hooks/index';
-import { UserMemberDetailsType } from './index.types';
 import InvitationCode from './invitation_code';
 import ProfileSettings from './profile_settings';
 import UserRights from './user_rights';
 import UserSessions from './user_sessions';
+import useUserDetails from './useUserDetails';
 
-const UserMemberDetails = ({ user }: UserMemberDetailsType) => {
+const UserMemberDetails = () => {
   const { desktopUp } = useBreakpoints();
+
+  const { user } = useUserDetails();
 
   return (
     <Box
@@ -19,7 +21,7 @@ const UserMemberDetails = ({ user }: UserMemberDetailsType) => {
         alignItems: 'flex-start',
       }}
     >
-      <UserRights user={user} />
+      <UserRights />
 
       <Box
         sx={{
@@ -30,11 +32,11 @@ const UserMemberDetails = ({ user }: UserMemberDetailsType) => {
           justifyContent: 'flex-start',
         }}
       >
-        <ProfileSettings user={user} />
+        <ProfileSettings />
 
-        {user.global_role === 'pocket' && <InvitationCode user={user} />}
+        {user.global_role === 'pocket' && <InvitationCode />}
 
-        <UserSessions user={user} />
+        <UserSessions />
       </Box>
     </Box>
   );

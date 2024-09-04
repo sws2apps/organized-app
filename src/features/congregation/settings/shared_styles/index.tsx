@@ -1,17 +1,11 @@
 import { FC, PropsWithChildren } from 'react';
-import {
-  Box,
-  BoxProps,
-  Stack,
-  StackProps,
-  styled,
-  SxProps,
-} from '@mui/material';
+import { styled } from '@mui/system';
+import { Box, Stack, StackProps, SxProps } from '@mui/material';
 import Markup from '@components/text_markup';
 import Typography from '@components/typography';
 import Divider from '@components/divider';
 
-export const CardSection: FC<BoxProps> = styled(Box)({
+export const CardSection = styled(Box)({
   marginTop: '16px',
   backgroundColor: 'var(--white)',
   padding: '15px',
@@ -22,7 +16,7 @@ export const CardSection: FC<BoxProps> = styled(Box)({
   gap: '24px',
 });
 
-export const TwoColumnsRow: FC<BoxProps> = styled(Box)({
+export const TwoColumnsRow = styled(Box)({
   display: 'flex',
   gap: '16px',
   alignItems: 'center',

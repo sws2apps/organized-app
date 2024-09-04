@@ -1,9 +1,7 @@
-import { FC } from 'react';
-import { styled } from '@mui/material';
-import { TextFieldTypeProps } from '@components/textfield/index.types';
+import { styled } from '@mui/system';
 import TextField from '@components/textfield';
 
-export const TextFieldStandard: FC<TextFieldTypeProps> = styled(TextField)({
+export const TextFieldStandard = styled(TextField)({
   '.MuiInputBase-input': {
     textAlign: 'center',
   },

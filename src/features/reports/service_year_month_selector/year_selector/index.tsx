@@ -5,7 +5,7 @@ import MenuItem from '@components/menuitem';
 import Select from '@components/select';
 import Typography from '@components/typography';
 
-const YearSelector = ({ onChange, value }: YearSelectorProps) => {
+const YearSelector = ({ onChange, value, sx }: YearSelectorProps) => {
   const { t } = useAppTranslation();
 
   const { serviceYears } = useYearSelector();
@@ -15,6 +15,7 @@ const YearSelector = ({ onChange, value }: YearSelectorProps) => {
       label={t('tr_serviceYear')}
       value={value}
       onChange={(e) => onChange(e.target.value)}
+      sx={sx}
     >
       {serviceYears.map((record) => (
         <MenuItem key={record.year} value={record.year}>

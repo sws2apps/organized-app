@@ -11,7 +11,7 @@ import SelectStyled from './index.styles';
  */
 const Select = (props: SelectPropsType) => {
   return (
-    <FormControl fullWidth>
+    <FormControl fullWidth sx={props.sx}>
       <InputLabel
         className="body-regular"
         sx={{

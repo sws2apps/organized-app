@@ -15,6 +15,8 @@ import { meetingAttendanceState } from '@states/meeting_attendance';
 import { userFieldServiceReportsState } from '@states/user_field_service_reports';
 import { userBibleStudiesState } from '@states/user_bible_studies';
 import { fieldServiceReportsState } from '@states/field_service_reports';
+import { branchFieldServiceReportsState } from '@states/branch_field_service_reports';
+import { branchCongAnalysisReportsState } from '@states/branch_cong_analysis';
 
 const useIndexedDb = () => {
   const dbSettings = useLiveQuery(() => appDb.app_settings.toArray());
@@ -41,6 +43,12 @@ const useIndexedDb = () => {
   const dbCongFieldServiceReports = useLiveQuery(() =>
     appDb.cong_field_service_reports.toArray()
   );
+  const dbBranchFieldReports = useLiveQuery(() =>
+    appDb.branch_field_service_reports.toArray()
+  );
+  const dbBranchCongAnalysis = useLiveQuery(() =>
+    appDb.branch_cong_analysis.toArray()
+  );
 
   const setSettings = useSetRecoilState(settingsState);
   const setPersons = useSetRecoilState(personsState);
@@ -59,6 +67,12 @@ const useIndexedDb = () => {
   const setUserBibleStudies = useSetRecoilState(userBibleStudiesState);
   const setCongFieldServiceReports = useSetRecoilState(
     fieldServiceReportsState
+  );
+  const setBranchFieldReports = useSetRecoilState(
+    branchFieldServiceReportsState
+  );
+  const setBranchCongAnalysis = useSetRecoilState(
+    branchCongAnalysisReportsState
   );
 
   const loadSettings = useCallback(() => {
@@ -133,6 +147,18 @@ const useIndexedDb = () => {
     }
   }, [dbCongFieldServiceReports, setCongFieldServiceReports]);
 
+  const loadBranchFieldReports = useCallback(() => {
+    if (dbBranchFieldReports) {
+      setBranchFieldReports(dbBranchFieldReports);
+    }
+  }, [dbBranchFieldReports, setBranchFieldReports]);
+
+  const loadBranchCongAnalysis = useCallback(() => {
+    if (dbBranchCongAnalysis) {
+      setBranchCongAnalysis(dbBranchCongAnalysis);
+    }
+  }, [dbBranchCongAnalysis, setBranchCongAnalysis]);
+
   return {
     loadSettings,
     loadPersons,
@@ -146,6 +172,8 @@ const useIndexedDb = () => {
     loadUserFieldServiceReports,
     loadUserBibleStudies,
     loadCongFieldServiceReports,
+    loadBranchFieldReports,
+    loadBranchCongAnalysis,
   };
 };
 

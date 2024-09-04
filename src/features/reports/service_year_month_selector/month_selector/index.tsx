@@ -5,7 +5,7 @@ import MenuItem from '@components/menuitem';
 import Select from '@components/select';
 import Typography from '@components/typography';
 
-const MonthSelector = ({ onChange, value, year }: MonthSelectorProps) => {
+const MonthSelector = ({ onChange, value, year, sx }: MonthSelectorProps) => {
   const { t } = useAppTranslation();
 
   const { months } = useDateSelector(year);
@@ -15,6 +15,7 @@ const MonthSelector = ({ onChange, value, year }: MonthSelectorProps) => {
       label={t('tr_month')}
       value={value}
       onChange={(e) => onChange(e.target.value)}
+      sx={sx}
     >
       {months.map((record) => (
         <MenuItem key={record.value} value={record.value}>

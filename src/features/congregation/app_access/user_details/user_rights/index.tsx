@@ -1,15 +1,17 @@
 import { Box } from '@mui/material';
 import { DetailsContainer } from '../shared_styles';
-import { UserMemberDetailsType } from '../index.types';
 import { IconInfo } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
-import Typography from '@components/typography';
+import useUserDetails from '../useUserDetails';
 import Markup from '@components/text_markup';
+import Typography from '@components/typography';
 import UserAdditionalRights from '../user_additional_rights';
 import UserMainRoles from '../user_main_roles';
 
-const UserRights = ({ user }: UserMemberDetailsType) => {
+const UserRights = () => {
   const { t } = useAppTranslation();
+
+  const { user } = useUserDetails();
 
   return (
     <DetailsContainer>
@@ -53,8 +55,8 @@ const UserRights = ({ user }: UserMemberDetailsType) => {
             gap: '12px',
           }}
         >
-          <UserMainRoles user={user} />
-          <UserAdditionalRights user={user} />
+          <UserMainRoles />
+          <UserAdditionalRights />
         </Box>
       )}
     </DetailsContainer>

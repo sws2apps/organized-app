@@ -11,12 +11,16 @@ import { useAppTranslation } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
 import { currentReportMonth } from '@utils/date';
 import {
+  congFieldServiceReportSchema,
   userFieldServiceDailyReportSchema,
   userFieldServiceMonthlyReportSchema,
 } from '@services/dexie/schema';
 import useMinistryMonthlyRecord from '@features/ministry/hooks/useMinistryMonthlyRecord';
 import { dbUserFieldServiceReportsSave } from '@services/dexie/user_field_service_reports';
 import { apiUserFieldServiceReportPost } from '@services/api/user';
+import { secretaryRoleState, userLocalUIDState } from '@states/settings';
+import { congFieldServiceReportsState } from '@states/field_service_reports';
+import { handleSaveFieldServiceReports } from '@services/app/cong_field_service_reports';
 
 const useSubmitReport = ({ onClose }: SubmitReportProps) => {
   const { t } = useAppTranslation();
@@ -24,6 +28,9 @@ const useSubmitReport = ({ onClose }: SubmitReportProps) => {
   const selectedMonth = useRecoilValue(reportUserSelectedMonthState);
   const dailyReports = useRecoilValue(userFieldServiceDailyReportsState);
   const monthlyReports = useRecoilValue(userFieldServiceMonthlyReportsState);
+  const secretary = useRecoilValue(secretaryRoleState);
+  const congReports = useRecoilValue(congFieldServiceReportsState);
+  const userUID = useRecoilValue(userLocalUIDState);
 
   const {
     minutes_remains,
@@ -121,15 +128,53 @@ const useSubmitReport = ({ onClose }: SubmitReportProps) => {
     await handleNextDateUpdate(nextReportDate);
   };
 
+  const handleSubmitSelf = async () => {
+    let report = congReports.find(
+      (record) =>
+        record.report_data.person_uid === userUID &&
+        record.report_data.report_date === selectedMonth
+    );
+
+    if (!report) {
+      report = structuredClone(congFieldServiceReportSchema);
+      report.report_id = crypto.randomUUID();
+      report.report_data.report_date = selectedMonth;
+      report.report_data.person_uid = userUID;
+    }
+
+    report.report_data.bible_studies = bible_studies;
+    report.report_data.comments = comments;
+    report.report_data.hours = {
+      credit: { value: hours_credit, approved: 0 },
+      field_service: hours,
+    };
+    report.report_data.shared_ministry = shared_ministry;
+    report.report_data.status = 'received';
+    report.report_data.updatedAt = new Date().toISOString();
+
+    await handleSaveFieldServiceReports(report);
+  };
+
+  const handleSubmitPublisher = async () => {
+    await apiUserFieldServiceReportPost({
+      bible_studies,
+      comments: comments,
+      hours,
+      hours_credits: hours_credit,
+      report_month: selectedMonth,
+      shared_ministry,
+    });
+  };
+
   const handleSubmit = async () => {
-    // await apiUserFieldServiceReportPost({
-    //   bible_studies,
-    //   comments: comments,
-    //   hours,
-    //   hours_credits: hours_credit,
-    //   report_month: selectedMonth,
-    //   shared_ministry,
-    // });
+    // check if current role is secretary
+    if (secretary) {
+      await handleSubmitSelf();
+    }
+
+    if (!secretary) {
+      await handleSubmitPublisher();
+    }
 
     let report = monthlyReports.find(
       (record) => record.report_date === selectedMonth

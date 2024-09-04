@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useSetRecoilState } from 'recoil';
 import { useQueryClient } from '@tanstack/react-query';
 import { useAppTranslation } from '@hooks/index';
 import { DeleteCodeType } from './index.types';
@@ -7,7 +6,7 @@ import { displaySnackNotification } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { apiAdminDeletePocketCode } from '@services/api/congregation';
 import { CongregationUserType } from '@definition/api';
-import { refreshScreenState } from '@states/app';
+import useUserDetails from '../../useUserDetails';
 
 const useDeleteCode = (
   user: CongregationUserType,
@@ -17,7 +16,7 @@ const useDeleteCode = (
 
   const queryClient = useQueryClient();
 
-  const forceRefresh = useSetRecoilState(refreshScreenState);
+  const { refetchUser } = useUserDetails();
 
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -38,7 +37,7 @@ const useDeleteCode = (
       });
 
       await queryClient.refetchQueries({ queryKey: ['congregation_users'] });
-      forceRefresh((prev) => !prev);
+      refetchUser();
 
       setIsProcessing(false);
       onClose?.();

@@ -1,7 +1,7 @@
-import { FC } from 'react';
-import { Box, BoxProps, styled } from '@mui/material';
+import { styled } from '@mui/system';
+import { Box } from '@mui/material';
 
-const Card: FC<BoxProps> = styled(Box)({
+const Card = styled(Box)({
   border: '1px solid var(--accent-300)',
   borderRadius: 'var(--radius-xl)',
   backgroundColor: 'var(--white)',

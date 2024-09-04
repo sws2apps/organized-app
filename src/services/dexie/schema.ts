@@ -1,3 +1,5 @@
+import { BranchCongAnalysisType } from '@definition/branch_cong_analysis';
+import { BranchFieldServiceReportType } from '@definition/branch_field_service_reports';
 import { CongFieldServiceReportType } from '@definition/cong_field_service_reports';
 import { MeetingAttendanceType } from '@definition/meeting_attendance';
 import { PersonType } from '@definition/person';
@@ -469,5 +471,31 @@ export const congFieldServiceReportSchema: CongFieldServiceReportType = {
       submitted: '',
     },
     status: 'confirmed',
+  },
+};
+
+export const SchemaBranchFieldServiceReport: BranchFieldServiceReportType = {
+  report_date: '',
+  report_data: {
+    _deleted: false,
+    updatedAt: '',
+    submitted: false,
+    publishers_active: 0,
+    weekend_meeting_average: 0,
+    publishers: { report_count: 0, bible_studies: 0 },
+    APs: { report_count: 0, bible_studies: 0, hours: 0 },
+    FRs: { report_count: 0, bible_studies: 0, hours: 0 },
+  },
+};
+
+export const SchemaBranchCongAnalysis: BranchCongAnalysisType = {
+  report_date: '',
+  report_data: {
+    _deleted: false,
+    updatedAt: '',
+    submitted: false,
+    meeting_average: { midweek: 0, weekend: 0 },
+    publishers: { active: 0, inactive: 0, reactivated: 0 },
+    territories: { total: 0, uncovered: 0 },
   },
 };

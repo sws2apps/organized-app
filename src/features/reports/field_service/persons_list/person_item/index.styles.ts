@@ -1,8 +1,7 @@
-import { FC } from 'react';
-import { styled } from '@mui/material/styles';
-import { Box, BoxProps } from '@mui/material';
+import { styled } from '@mui/system';
+import { Box } from '@mui/material';
 
-export const UserCard: FC<BoxProps> = styled(Box)({
+export const UserCard = styled(Box)({
   border: '1px solid var(--accent-300)',
   borderRadius: 'var(--radius-l)',
   display: 'flex',

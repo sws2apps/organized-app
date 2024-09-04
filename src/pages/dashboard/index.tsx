@@ -21,6 +21,7 @@ const Dashboard = () => {
     handleCloseNewCongNotice,
     handleOpenMyAssignments,
     countFutureAssignments,
+    publisher,
   } = useDashboard();
 
   return (
@@ -50,7 +51,8 @@ const Dashboard = () => {
           gridGap: '24px',
         }}
       >
-        <MinistryCard />
+        {publisher && <MinistryCard />}
+
         <MeetingsCard assignmentCount={countFutureAssignments} />
         <PersonsCard />
         <MeetingsMaterialsCard />
