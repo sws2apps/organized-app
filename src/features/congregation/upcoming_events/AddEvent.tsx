@@ -149,6 +149,11 @@ const EventFields = ({
           label={t('tr_date')}
           value={values.date ?? null}
           onChange={(value) => setValues({ ...values, date: value })}
+          sx={{
+            '.MuiFormLabel-root[data-shrink=false]': {
+              top: '-3px !important',
+            },
+          }}
         />
         <TimePicker
           ampm
@@ -159,6 +164,12 @@ const EventFields = ({
             flexBasis: 'unset',
             flexGrow: 'unset',
             flexShrink: 'unset',
+            '.MuiInputBase-root': {
+              height: '48px !important',
+            },
+            '.MuiFormLabel-root[data-shrink=false]': {
+              top: '-3px !important',
+            },
           }}
         />
         <Select
@@ -167,6 +178,11 @@ const EventFields = ({
           onChange={(event) =>
             setValues({ ...values, type: event.target.value as eventValue })
           }
+          sx={{
+            '.MuiInputBase-root': {
+              height: '48px',
+            },
+          }}
         >
           {options.map((option) => (
             <MenuItem value={option} key={option}>
