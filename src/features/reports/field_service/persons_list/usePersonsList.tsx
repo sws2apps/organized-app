@@ -12,6 +12,7 @@ import { CongFieldServiceReportType } from '@definition/cong_field_service_repor
 import { congFieldServiceReportSchema } from '@services/dexie/schema';
 import { dbFieldServiceReportsBulkSave } from '@services/dexie/cong_field_service_reports';
 import { getRandomNumber } from '@utils/common';
+import { branchFieldReportsState } from '@states/branch_field_service_reports';
 import usePersons from '@features/persons/hooks/usePersons';
 import usePerson from '@features/persons/hooks/usePerson';
 
@@ -35,6 +36,7 @@ const usePersonsList = () => {
   const currentFilter = useRecoilValue(personFilterFieldServiceReportState);
   const currentMonth = useRecoilValue(selectedMonthFieldServiceReportState);
   const reports = useRecoilValue(congFieldServiceReportsState);
+  const branchReports = useRecoilValue(branchFieldReportsState);
 
   const active_publishers = useMemo(() => {
     const result = getPublishersActive(currentMonth);
@@ -134,6 +136,18 @@ const usePersonsList = () => {
     regular_pioneers,
   ]);
 
+  const report_editable = useMemo(() => {
+    if (active_publishers.length === 0) return false;
+
+    const report = branchReports.find(
+      (record) => record.report_date === currentMonth
+    );
+
+    if (!report) return true;
+
+    return !report.report_data.submitted;
+  }, [branchReports, currentMonth, active_publishers]);
+
   const handleAddRandomData = async () => {
     const reportsToSave: CongFieldServiceReportType[] = [];
 
@@ -228,7 +242,7 @@ const usePersonsList = () => {
     };
   }, [desktopUp]);
 
-  return { persons, handleAddRandomData };
+  return { persons, handleAddRandomData, report_editable };
 };
 
 export default usePersonsList;

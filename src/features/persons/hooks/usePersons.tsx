@@ -1,27 +1,26 @@
 import { useRecoilValue } from 'recoil';
 import { personsActiveState } from '@states/persons';
+import { formatDate } from '@services/dateformat';
+import { congFieldServiceReportsState } from '@states/field_service_reports';
 import usePerson from './usePerson';
 
 const usePersons = () => {
   const {
-    personIsActivePublisher,
     personIsPublisher,
-    personIsInactivePublisher,
     personIsBaptizedPublisher,
     personIsUnbaptizedPublisher,
     personIsPrivilegeActive,
     personIsEnrollmentActive,
+    personIsMidweekStudent,
   } = usePerson();
 
   const persons = useRecoilValue(personsActiveState);
+  const reports = useRecoilValue(congFieldServiceReportsState);
 
   const getPublishersActive = (month: string) => {
     const result = persons.filter((record) => {
       const isPublisher = personIsPublisher(record, month);
-      if (!isPublisher) return false;
-
-      const isActive = personIsActivePublisher(record, month);
-      return isActive;
+      return isPublisher;
     });
 
     return result;
@@ -30,10 +29,9 @@ const usePersons = () => {
   const getPublishersInactive = (month: string) => {
     const result = persons.filter((record) => {
       const isPublisher = personIsPublisher(record, month);
-      if (!isPublisher) return false;
+      const isMidweek = personIsMidweekStudent(record);
 
-      const isInactive = personIsInactivePublisher(record, month);
-      return isInactive;
+      return !isMidweek && !isPublisher;
     });
 
     return result;
@@ -41,9 +39,6 @@ const usePersons = () => {
 
   const getPublishersBaptized = (month: string) => {
     const result = persons.filter((record) => {
-      const isPublisher = personIsPublisher(record, month);
-      if (!isPublisher) return false;
-
       const isBaptized = personIsBaptizedPublisher(record, month);
       return isBaptized;
     });
@@ -53,9 +48,6 @@ const usePersons = () => {
 
   const getPublishersUnbaptized = (month: string) => {
     const result = persons.filter((record) => {
-      const isPublisher = personIsPublisher(record, month);
-      if (!isPublisher) return false;
-
       const isUnbaptized = personIsUnbaptizedPublisher(record, month);
       return isUnbaptized;
     });
@@ -93,6 +85,72 @@ const usePersons = () => {
     return result;
   };
 
+  const getPublishersInactiveYears = (year: string) => {
+    const startMonth = `${+year - 1}/09`;
+    const endMonth = ` ${year}/08`;
+
+    const result = persons.filter((record) => {
+      const isMidweek = personIsMidweekStudent(record);
+      if (isMidweek) return false;
+
+      const history = [
+        ...record.person_data.publisher_baptized.history,
+        ...record.person_data.publisher_unbaptized.history,
+      ];
+
+      if (
+        history.length === 1 &&
+        history.at(0)._deleted === false &&
+        history.at(0).end_date === null
+      ) {
+        return false;
+      }
+
+      const active = history.some((data) => {
+        if (data._deleted) return false;
+        if (data.start_date === null) return false;
+
+        const startTmp = new Date(data.start_date);
+        const endTmp =
+          data.end_date === null ? new Date() : new Date(data.end_date);
+
+        const startTmpDate = formatDate(startTmp, 'yyyy/MM');
+        const endTmpDate = formatDate(endTmp, 'yyyy/MM');
+
+        return startMonth >= startTmpDate && endMonth <= endTmpDate;
+      });
+
+      return !active;
+    });
+
+    return result;
+  };
+
+  const getPublishersReactivatedYears = (year: string) => {
+    const lastYearInactives = getPublishersInactiveYears(String(+year - 1));
+
+    const startMonth = `${+year - 1}/09`;
+    const endMonth = `${year}/08`;
+
+    // find if publisher has at least one report this service year
+
+    const result = lastYearInactives.filter((person) => {
+      const hasReport = reports.some((report) => {
+        if (report.report_data._deleted) return false;
+        if (report.report_data.person_uid !== person.person_uid) return false;
+        if (!report.report_data.shared_ministry) return false;
+
+        const reportDate = report.report_data.report_date;
+
+        return reportDate >= startMonth && reportDate <= endMonth;
+      });
+
+      return hasReport;
+    });
+
+    return result;
+  };
+
   return {
     getPublishersActive,
     getPublishersInactive,
@@ -101,6 +159,8 @@ const usePersons = () => {
     getAppointedBrothers,
     getAuxiliaryPioneers,
     getRegularPioneers,
+    getPublishersInactiveYears,
+    getPublishersReactivatedYears,
   };
 };
 

@@ -18,7 +18,11 @@ import usePerson from '@features/persons/hooks/usePerson';
 const useReportDetails = () => {
   const { t } = useAppTranslation();
 
-  const { personIsEnrollmentActive, personIsBaptizedPublisher } = usePerson();
+  const {
+    personIsEnrollmentActive,
+    personIsBaptizedPublisher,
+    personIsUnbaptizedPublisher,
+  } = usePerson();
 
   const [publisher, setPublisher] = useRecoilState(
     selectedPublisherReportState
@@ -71,6 +75,22 @@ const useReportDetails = () => {
   const hoursEnabled = useMemo(() => {
     return isAP || isFMF || isFR || isFS;
   }, [isAP, isFMF, isFR, isFS]);
+
+  const isInactive = useMemo(() => {
+    if (!person) return true;
+
+    const isBaptized = personIsBaptizedPublisher(person, currentMonth);
+    const isUnbaptized = personIsUnbaptizedPublisher(person, currentMonth);
+
+    const active = isBaptized || isUnbaptized;
+
+    return !active;
+  }, [
+    person,
+    currentMonth,
+    personIsBaptizedPublisher,
+    personIsUnbaptizedPublisher,
+  ]);
 
   const report_editable = useMemo(() => {
     const report = branchReports.find(
@@ -191,6 +211,7 @@ const useReportDetails = () => {
     handleAssignAP,
     handleVerifyReport,
     report_editable,
+    isInactive,
   };
 };
 

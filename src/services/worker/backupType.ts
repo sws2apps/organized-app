@@ -17,7 +17,6 @@ export type PersonBackupType = {
     email: string;
     address: string;
     phone: string;
-    first_month_report: string;
     publisher_baptized: string;
     publisher_unbaptized: string;
     midweek_meeting_student: string;

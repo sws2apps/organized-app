@@ -14,18 +14,28 @@ import { congFieldServiceReportsState } from '@states/field_service_reports';
 import { CongFieldServiceReportType } from '@definition/cong_field_service_reports';
 import { personsState } from '@states/persons';
 import { BranchFieldServiceReportType } from '@definition/branch_field_service_reports';
-import { SchemaBranchFieldServiceReport } from '@services/dexie/schema';
+import {
+  SchemaBranchCongAnalysis,
+  SchemaBranchFieldServiceReport,
+} from '@services/dexie/schema';
 import { dbBranchFieldReportSave } from '@services/dexie/branch_field_service_reports';
+import { BranchCongAnalysisType } from '@definition/branch_cong_analysis';
+import { dbBranchCongAnalysisSave } from '@services/dexie/branch_cong_analysis';
 import usePerson from '@features/persons/hooks/usePerson';
 import usePersons from '@features/persons/hooks/usePersons';
 import useMeetingAttendance from '@features/reports/meeting_attendance/hooks/useMeetingAttendance';
+import useYearlyAttendance from '@features/reports/meeting_attendance/hooks/useYearlyAttendance';
 
 const useReportSection = () => {
   const { t } = useAppTranslation();
 
   const { personIsEnrollmentActive } = usePerson();
 
-  const { getPublishersActive } = usePersons();
+  const {
+    getPublishersActive,
+    getPublishersInactiveYears,
+    getPublishersReactivatedYears,
+  } = usePersons();
 
   const report = useRecoilValue(branchSelectedReportState);
   const year = useRecoilValue(branchSelectedYearState);
@@ -36,6 +46,8 @@ const useReportSection = () => {
   const persons = useRecoilValue(personsState);
 
   const { weekend } = useMeetingAttendance(month);
+
+  const { getMeetingAverage } = useYearlyAttendance(year);
 
   const fieldReport = useMemo(() => {
     if (report !== 'S-1') return;
@@ -182,7 +194,34 @@ const useReportSection = () => {
   };
 
   const handleGenerateS10 = async () => {
-    // calc S-10
+    // create analysis report
+    let analysis: BranchCongAnalysisType;
+
+    if (!analysisReport) {
+      analysis = structuredClone(SchemaBranchCongAnalysis);
+      analysis.report_date = year;
+    }
+
+    if (analysisReport) {
+      analysis = structuredClone(analysisReport);
+    }
+
+    // meeting
+    analysis.report_data.meeting_average.midweek = getMeetingAverage('midweek');
+    analysis.report_data.meeting_average.weekend = getMeetingAverage('weekend');
+
+    // field service
+    const lastMonth = `${year}/08`;
+    analysis.report_data.publishers.active =
+      getPublishersActive(lastMonth).length;
+    analysis.report_data.publishers.inactive =
+      getPublishersInactiveYears(year).length;
+    analysis.report_data.publishers.reactivated =
+      getPublishersReactivatedYears(year).length;
+
+    analysis.report_data.updatedAt = new Date().toISOString();
+
+    await dbBranchCongAnalysisSave(analysis);
   };
 
   const handleGenerate = async () => {

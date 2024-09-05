@@ -4,6 +4,7 @@ import { useAppTranslation } from '@hooks/index';
 import { YearlyReportProps } from './index.types';
 import useYearlyReport from './useYearlyReport';
 import Card from '@components/card';
+import Divider from '@components/divider';
 import RowStats from '../row_stats';
 import Typography from '@components/typography';
 
@@ -52,15 +53,17 @@ const YearlyReport = (props: YearlyReportProps) => {
                 {section.section}
               </Typography>
 
-              {section.reports.map((report) => (
-                <RowStats
-                  key={report.label}
-                  title={report.label}
-                  value={report.value}
-                  color="var(--grey-400)"
-                  sx={{ padding: '8px' }}
-                />
-              ))}
+              <Stack divider={<Divider color="var(--accent-200)" />}>
+                {section.reports.map((report) => (
+                  <RowStats
+                    key={report.label}
+                    title={report.label}
+                    value={report.value}
+                    color="var(--grey-400)"
+                    sx={{ padding: '8px' }}
+                  />
+                ))}
+              </Stack>
             </Stack>
           ))}
         </>

@@ -11,14 +11,14 @@ import { serviceYearSelectedState } from '@states/user_field_service_reports';
 import YearItem from './year_item';
 
 const useYearlyStats = () => {
-  const { person } = useCurrentUser();
+  const { person, first_report } = useCurrentUser();
 
   const setSelectedYear = useSetRecoilState(serviceYearSelectedState);
 
   const yearsList = useMemo(() => {
     if (!person) return [];
 
-    const firstMonthReport = person.person_data.first_month_report.value;
+    const firstMonthReport = first_report;
     const date = new Date(firstMonthReport);
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
@@ -37,7 +37,7 @@ const useYearlyStats = () => {
     });
 
     return result;
-  }, [person]);
+  }, [person, first_report]);
 
   const yearsTab = useMemo(() => {
     return yearsList.map((year) => {

@@ -33,6 +33,7 @@ const ReportDetails = () => {
     unverified,
     handleAssignAP,
     handleVerifyReport,
+    isInactive,
   } = useReportDetails();
 
   return (
@@ -120,6 +121,12 @@ const ReportDetails = () => {
                 </Button>
               )}
             </Stack>
+          )}
+
+          {isInactive && (
+            <Button variant="main" startIcon={<IconCheck />}>
+              {t('tr_reactivatePublisher')}
+            </Button>
           )}
         </Stack>
       )}

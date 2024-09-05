@@ -202,7 +202,6 @@ export const personSchema: PersonType = {
     email: { value: '', updatedAt: '' },
     address: { value: '', updatedAt: '' },
     phone: { value: '', updatedAt: '' },
-    first_month_report: { value: null, updatedAt: '' },
     publisher_baptized: {
       active: { value: false, updatedAt: '' },
       anointed: { value: false, updatedAt: '' },

@@ -4,7 +4,6 @@ import { BaptizedPublisherType } from './index.types';
 import useBaptizedPublisher from './useBaptizedPublisher';
 import DateHistory from '../../date_history';
 import DatePicker from '@components/date_picker';
-import FirstReport from '../first_report';
 import Radio from '@components/radio';
 import SpiritualStatusTitle from '../title';
 import Typography from '@components/typography';
@@ -26,7 +25,6 @@ const BaptizedPublisher = ({
     handleDeleteHistory,
     handleEndDateChange,
     handleStartDateChange,
-    handleFirstReportChange,
     handleToggleHope,
     handleChangeBaptismDate,
     age,
@@ -137,11 +135,6 @@ const BaptizedPublisher = ({
               </Typography>
             </Box>
           </Box>
-
-          <FirstReport
-            value={person.person_data.first_month_report.value}
-            onChange={handleFirstReportChange}
-          />
 
           <StatusHistory
             active={isActive}

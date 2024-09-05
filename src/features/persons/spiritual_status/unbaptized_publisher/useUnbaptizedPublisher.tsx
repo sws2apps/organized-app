@@ -67,17 +67,6 @@ const useUnbaptizedPublisher = () => {
     }
   };
 
-  const handleFirstReportChange = async (value: Date | null) => {
-    const newPerson = structuredClone(person);
-
-    newPerson.person_data.first_month_report = {
-      value: value === null ? null : value.toISOString(),
-      updatedAt: new Date().toISOString(),
-    };
-
-    await setPersonCurrentDetails(newPerson);
-  };
-
   const handleAddHistory = async () => {
     const newPerson = structuredClone(person);
 
@@ -141,12 +130,10 @@ const useUnbaptizedPublisher = () => {
   };
 
   return {
-    person,
     handleAddHistory,
     handleDeleteHistory,
     handleStartDateChange,
     handleEndDateChange,
-    handleFirstReportChange,
     activeHistory,
     isExpanded,
     handleToggleExpand,

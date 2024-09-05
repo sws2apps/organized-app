@@ -116,7 +116,7 @@
   "tr_specialMonths": "Special months",
   "tr_specialMonthsDesc": "List of months where auxiliary pioneers can report 15 hours",
   "tr_reportHoursCredit": "Report hours credit",
-  "tr_averageMonthlyHourss": "Average monthly hours",
+  "tr_averageMonthlyHourss": "Average monthly ",
   "tr_bibleStudiesNotice": "Report one study per student each month",
   "tr_presets": "Presets",
   "tr_hoursCreditPresetAddedInfo": "The chosen credit hours preset will appear in the monthly report's comment field. Edit it there if needed.",
@@ -124,5 +124,6 @@
   "tr_fieldService": "Field service",
   "tr_S10ReportNotGenerated": "This year’s report hasn’t been generated yet. Generate it to see all the details and then submit.",
   "tr_quickAssignAP": "Auxiliary pioneer assigned",
-  "tr_quickAssignAPDesc": "This publisher is assigned as an auxiliary pioneer this month. You can change this on the publisher's enrollments window on the Persons page."
+  "tr_quickAssignAPDesc": "This publisher is assigned as an auxiliary pioneer this month. You can change this on the publisher's enrollments window on the Persons page.",
+  "tr_reactivatePublisher": "Reactivate this publisher"
 }

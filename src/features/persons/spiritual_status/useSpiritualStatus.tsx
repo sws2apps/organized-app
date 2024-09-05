@@ -200,13 +200,6 @@ const useSpiritualStatus = () => {
           end_date: null,
         });
       }
-
-      if (newPerson.person_data.first_month_report.value === null) {
-        newPerson.person_data.first_month_report = {
-          value: dateFirstDayMonth().toISOString(),
-          updatedAt: new Date().toISOString(),
-        };
-      }
     }
 
     if (!checked) {
@@ -215,10 +208,6 @@ const useSpiritualStatus = () => {
       );
 
       if (current && isAddPerson) {
-        newPerson.person_data.first_month_report = {
-          value: null,
-          updatedAt: '',
-        };
         newPerson.person_data.publisher_unbaptized.history =
           newPerson.person_data.publisher_unbaptized.history.filter(
             (record) => record.id !== current.id
@@ -334,13 +323,6 @@ const useSpiritualStatus = () => {
           end_date: null,
         });
       }
-
-      if (newPerson.person_data.first_month_report.value === null) {
-        newPerson.person_data.first_month_report = {
-          value: dateFirstDayMonth().toISOString(),
-          updatedAt: new Date().toISOString(),
-        };
-      }
     }
 
     if (!checked) {
@@ -349,10 +331,6 @@ const useSpiritualStatus = () => {
       );
 
       if (current && isAddPerson) {
-        newPerson.person_data.first_month_report = {
-          value: null,
-          updatedAt: '',
-        };
         newPerson.person_data.publisher_baptized.history =
           newPerson.person_data.publisher_baptized.history.filter(
             (record) => record.id !== current.id

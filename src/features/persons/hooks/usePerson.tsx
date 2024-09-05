@@ -27,98 +27,67 @@ const usePerson = () => {
   };
 
   const personIsBaptizedPublisher = (person: PersonType, month?: string) => {
-    if (!month) {
-      return person.person_data.publisher_baptized.active.value;
-    }
-
-    const history = person.person_data.publisher_baptized.history.filter(
-      (record) => record._deleted === false && record.start_date?.length > 0
-    );
-
-    const isValid = history.some((record) => {
-      const startDate = new Date(record.start_date);
-      const endDate = record.end_date ? new Date(record.end_date) : new Date();
-
-      const startMonth = formatDate(startDate, 'yyyy/MM');
-      const endMonth = formatDate(endDate, 'yyyy/MM');
-
-      return month >= startMonth && month <= endMonth;
-    });
-
-    return isValid;
-  };
-
-  const personIsUnbaptizedPublisher = (person: PersonType, month?: string) => {
-    if (!month) {
-      return person.person_data.publisher_unbaptized.active.value;
-    }
-
-    const history = person.person_data.publisher_unbaptized.history.filter(
-      (record) => record._deleted === false && record.start_date?.length > 0
-    );
-
-    const isValid = history.some((record) => {
-      const startDate = new Date(record.start_date);
-      const endDate = record.end_date ? new Date(record.end_date) : new Date();
-
-      const startMonth = formatDate(startDate, 'yyyy/MM');
-      const endMonth = formatDate(endDate, 'yyyy/MM');
-
-      return month >= startMonth && month <= endMonth;
-    });
-
-    return isValid;
-  };
-
-  const personIsPublisher = (person: PersonType, month?: string) => {
-    const isBaptized = personIsBaptizedPublisher(person, month);
-    const isUnbaptized = personIsUnbaptizedPublisher(person, month);
-
-    return isBaptized || isUnbaptized;
-  };
-
-  const personIsActivePublisher = (person: PersonType, month?: string) => {
     // default month to current month if undefined
     if (!month) {
       month = formatDate(new Date(), 'yyyy/MM');
     }
 
-    // get first month of report
-    let firstReport = person.person_data.first_month_report.value;
-    firstReport = firstReport
-      ? formatDate(new Date(firstReport), 'yyyy/MM')
-      : undefined;
+    const isValid = person.person_data.publisher_baptized.history.some(
+      (record) => {
+        if (record._deleted) return false;
+        if (!record.start_date) return false;
 
-    let isActive = false;
-    let countReport = 0;
+        const startDate = new Date(record.start_date);
+        const endDate = record.end_date
+          ? new Date(record.end_date)
+          : new Date();
 
-    do {
-      // exit and count reports if it reaches first month report
-      if (month === firstReport) {
-        isActive = countReport < 5;
-        break;
+        const startMonth = formatDate(startDate, 'yyyy/MM');
+        const endMonth = formatDate(endDate, 'yyyy/MM');
+
+        return month >= startMonth && month <= endMonth;
       }
+    );
 
-      // find report and check shared_ministry
-      const report = reports.find(
-        (record) =>
-          record.report_data.person_uid === person.person_uid &&
-          record.report_data.report_date === month
-      );
+    return isValid;
+  };
 
-      if (report?.report_data.shared_ministry) {
-        isActive = true;
-        break;
+  const personIsUnbaptizedPublisher = (person: PersonType, month?: string) => {
+    // default month to current month if undefined
+    if (!month) {
+      month = formatDate(new Date(), 'yyyy/MM');
+    }
+
+    const isValid = person.person_data.publisher_unbaptized.history.some(
+      (record) => {
+        if (record._deleted) return false;
+        if (!record.start_date) return false;
+
+        const startDate = new Date(record.start_date);
+        const endDate = record.end_date
+          ? new Date(record.end_date)
+          : new Date();
+
+        const startMonth = formatDate(startDate, 'yyyy/MM');
+        const endMonth = formatDate(endDate, 'yyyy/MM');
+
+        return month >= startMonth && month <= endMonth;
       }
+    );
 
-      // decrease month
-      const date = addMonths(`${month}/01`, -1);
-      month = formatDate(date, 'yyyy/MM');
+    return isValid;
+  };
 
-      countReport++;
-    } while (countReport <= 5);
+  const personIsPublisher = (person: PersonType, month?: string) => {
+    // default month to current month if undefined
+    if (!month) {
+      month = formatDate(new Date(), 'yyyy/MM');
+    }
 
-    return isActive;
+    const isBaptized = personIsBaptizedPublisher(person, month);
+    const isUnbaptized = personIsUnbaptizedPublisher(person, month);
+
+    return isBaptized || isUnbaptized;
   };
 
   const personIsPrivilegeActive = (
@@ -193,24 +162,40 @@ const usePerson = () => {
     return isActive;
   };
 
-  const personIsInactivePublisher = (person: PersonType, month?: string) => {
+  const personCheckInactivityState = (person: PersonType, month: string) => {
     // default month to current month if undefined
     if (!month) {
       month = formatDate(new Date(), 'yyyy/MM');
     }
 
-    // get first month of report
-    let firstReport = person.person_data.first_month_report.value;
-    firstReport = firstReport
-      ? formatDate(new Date(firstReport), 'yyyy/MM')
-      : undefined;
+    let startDate: string;
 
+    const isBaptized = personIsBaptizedPublisher(person, month);
+    const isUnaptized = personIsUnbaptizedPublisher(person, month);
+
+    if (isBaptized) {
+      const record = person.person_data.publisher_baptized.history.find(
+        (record) => record._deleted === false && record.start_date?.length > 0
+      );
+      startDate = record?.start_date;
+    }
+
+    if (isUnaptized) {
+      const record = person.person_data.publisher_unbaptized.history.find(
+        (record) => record._deleted === false && record.start_date?.length > 0
+      );
+      startDate = record?.start_date;
+    }
+
+    if (!startDate) return false;
+
+    startDate = formatDate(new Date(startDate), 'yyyy/MM');
     let isInactive = true;
     let countReport = 0;
 
     do {
       // exit and count reports if it reaches first month report
-      if (month === firstReport) {
+      if (month === startDate) {
         isInactive = countReport === 5;
         break;
       }
@@ -251,7 +236,7 @@ const usePerson = () => {
     const isUnbaptized = personIsUnbaptizedPublisher(person, month);
     const isMidweek = person.person_data.midweek_meeting_student.active.value;
     const isDisqualified = person.person_data.disqualified.value;
-    const isInactivePublisher = personIsInactivePublisher(person, month);
+    const isInactivePublisher = !isMidweek && !isBaptized && !isUnbaptized;
 
     if (isDisqualified) {
       badges.push({ name: t('tr_disqualified'), color: 'red' });
@@ -316,13 +301,12 @@ const usePerson = () => {
 
   return {
     personIsPublisher,
-    personIsActivePublisher,
+    personCheckInactivityState,
     personIsBaptizedPublisher,
     personIsUnbaptizedPublisher,
     personIsPrivilegeActive,
     personIsEnrollmentActive,
     personIsMidweekStudent,
-    personIsInactivePublisher,
     getBadges,
     getName,
   };

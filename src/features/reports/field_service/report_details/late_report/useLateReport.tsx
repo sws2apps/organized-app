@@ -42,20 +42,16 @@ const useLateReport = (person: PersonType) => {
   }, [reports, currentMonth, person]);
 
   const readOnly = useMemo(() => {
-    if (!report) false;
+    if (!report) return false;
 
     return report.report_data.late.submitted.length > 0;
   }, [report]);
 
   const late = useMemo(() => {
-    if (!report) {
-      if (branch_submitted) return true;
-
-      return false;
-    }
+    if (!report) return false;
 
     return report.report_data.late.value;
-  }, [report, branch_submitted]);
+  }, [report]);
 
   const [checked, setChecked] = useState(late);
 
@@ -76,8 +72,9 @@ const useLateReport = (person: PersonType) => {
 
     if (report.report_data.late.submitted.length === 0) return '';
 
-    const date = new Date(report.report_data.late.submitted);
-    const sent = formatDate(date, shortDateFormat);
+    const [year, month] = report.report_data.late.submitted.split('/');
+    const dateSent = new Date(+year, +month, 0);
+    const sent = formatDate(dateSent, shortDateFormat);
 
     return t('tr_lateReportSent', { date: sent });
   }, [report, t, shortDateFormat]);
@@ -90,7 +87,7 @@ const useLateReport = (person: PersonType) => {
 
       if (!report) {
         lateReport = structuredClone(congFieldServiceReportSchema);
-        report.report_id = crypto.randomUUID();
+        lateReport.report_id = crypto.randomUUID();
         lateReport.report_data.report_date = currentMonth;
         lateReport.report_data.person_uid = person.person_uid;
       }

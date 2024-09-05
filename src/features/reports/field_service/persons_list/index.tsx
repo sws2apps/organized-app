@@ -12,7 +12,7 @@ import Typography from '@components/typography';
 const PersonsList = () => {
   const { t } = useAppTranslation();
 
-  const { persons, handleAddRandomData } = usePersonsList();
+  const { persons, handleAddRandomData, report_editable } = usePersonsList();
 
   return (
     <Card>
@@ -27,7 +27,7 @@ const PersonsList = () => {
           {t('tr_personsAmount', { amount: persons.length })}
         </Typography>
 
-        {(isDEV || isDemo) && (
+        {report_editable && (isDEV || isDemo) && (
           <Button
             variant="small"
             startIcon={<IconGenerate />}

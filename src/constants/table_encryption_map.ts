@@ -13,13 +13,11 @@ export const TABLE_ENCRYPTION_MAP = {
     email: 'shared',
     address: 'shared',
     phone: 'shared',
-    first_month_report: 'shared',
     publisher_baptized: 'shared',
     publisher_unbaptized: 'shared',
     midweek_meeting_student: 'shared',
     privileges: 'shared',
     enrollments: 'shared',
     emergency_contacts: 'shared',
-    pioneer_events: 'shared',
   },
 };

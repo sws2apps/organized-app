@@ -12,6 +12,8 @@ import { branchFieldReportsState } from '@states/branch_field_service_reports';
 import { dbBranchFieldReportSave } from '@services/dexie/branch_field_service_reports';
 import { branchCongAnalysisState } from '@states/branch_cong_analysis';
 import { dbBranchCongAnalysisSave } from '@services/dexie/branch_cong_analysis';
+import { congFieldServiceReportsState } from '@states/field_service_reports';
+import { dbFieldServiceReportsBulkSave } from '@services/dexie/cong_field_service_reports';
 
 const useWithdrawReport = ({ onClose }: WithdrawReportProps) => {
   const { t } = useAppTranslation();
@@ -21,8 +23,27 @@ const useWithdrawReport = ({ onClose }: WithdrawReportProps) => {
   const year = useRecoilValue(branchSelectedYearState);
   const reports = useRecoilValue(branchFieldReportsState);
   const congAnalysis = useRecoilValue(branchCongAnalysisState);
+  const congReports = useRecoilValue(congFieldServiceReportsState);
 
   const handleS1 = async () => {
+    // mark all late reports submitted this month as pending
+    const lateReports = congReports.filter(
+      (record) =>
+        record.report_data.status === 'confirmed' &&
+        record.report_data.late &&
+        record.report_data.late.submitted === month
+    );
+
+    const reportsToSave = lateReports.map((report) => {
+      const obj = structuredClone(report);
+      obj.report_data.late.submitted = '';
+
+      return obj;
+    });
+
+    await dbFieldServiceReportsBulkSave(reportsToSave);
+
+    // save status
     const currentReport = reports.find(
       (record) => record.report_date === month
     );

@@ -19,7 +19,7 @@ export type TimeAwayType = {
   comments: string;
 };
 
-type StatusHistoryType = {
+export type StatusHistoryType = {
   id: string;
   _deleted: boolean;
   updatedAt: string;
@@ -70,7 +70,6 @@ export type PersonType = {
     email: { value: string; updatedAt: string };
     address: { value: string; updatedAt: string };
     phone: { value: string; updatedAt: string };
-    first_month_report: { value: string | null; updatedAt: string };
     publisher_baptized: {
       active: { value: boolean; updatedAt: string };
       anointed: { value: boolean; updatedAt: string };

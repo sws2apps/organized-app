@@ -69,7 +69,6 @@ export const importDummyPersons = async (showLoading?: boolean) => {
           },
           email: { value: user.email, updatedAt: new Date().toISOString() },
           phone: { value: user.phone, updatedAt: new Date().toISOString() },
-          first_month_report: { value: null, updatedAt: '' },
           publisher_baptized: {
             active: { value: false, updatedAt: new Date().toISOString() },
             anointed: { value: false, updatedAt: new Date().toISOString() },
@@ -192,11 +191,6 @@ export const importDummyPersons = async (showLoading?: boolean) => {
         }
 
         if (femaleStatus === 'unbaptized') {
-          person.person_data.first_month_report = {
-            value: startDateTemp,
-            updatedAt: new Date().toISOString(),
-          };
-
           person.person_data.publisher_unbaptized = {
             active: { value: true, updatedAt: new Date().toISOString() },
             history: [
@@ -241,11 +235,6 @@ export const importDummyPersons = async (showLoading?: boolean) => {
           femaleStatus === 'FS' ||
           femaleStatus === 'FMF'
         ) {
-          person.person_data.first_month_report = {
-            value: startDateTemp,
-            updatedAt: new Date().toISOString(),
-          };
-
           const baptismStartDate = new Date(
             new Date(person.person_data.birth_date.value).setFullYear(
               new Date(person.person_data.birth_date.value).getFullYear() + 11
@@ -447,11 +436,6 @@ export const importDummyPersons = async (showLoading?: boolean) => {
         }
 
         if (maleStatus === 'unbaptized') {
-          person.person_data.first_month_report = {
-            value: startDateTemp,
-            updatedAt: new Date().toISOString(),
-          };
-
           person.person_data.publisher_unbaptized = {
             active: { value: true, updatedAt: new Date().toISOString() },
             history: [
@@ -505,11 +489,6 @@ export const importDummyPersons = async (showLoading?: boolean) => {
           maleStatus === 'FS' ||
           maleStatus === 'FMF'
         ) {
-          person.person_data.first_month_report = {
-            value: startDateTemp,
-            updatedAt: new Date().toISOString(),
-          };
-
           const baptismStartDate = new Date(
             new Date(person.person_data.birth_date.value).setFullYear(
               new Date(person.person_data.birth_date.value).getFullYear() + 11

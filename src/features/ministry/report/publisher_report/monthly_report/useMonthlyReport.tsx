@@ -13,7 +13,7 @@ import { personIsEnrollmentActive } from '@services/app/persons';
 import { useCurrentUser } from '@hooks/index';
 
 const useMonthlyReport = () => {
-  const { person } = useCurrentUser();
+  const { person, first_report } = useCurrentUser();
 
   const [selectedMonth, setSelectedMonth] = useRecoilState(
     reportUserSelectedMonthState
@@ -35,7 +35,7 @@ const useMonthlyReport = () => {
   const monthsList = useMemo(() => {
     if (!person) return [];
 
-    const firstMonthReport = person.person_data.first_month_report.value;
+    const firstMonthReport = first_report;
     const date = new Date(firstMonthReport);
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
@@ -44,7 +44,7 @@ const useMonthlyReport = () => {
 
     const results = buildPublisherReportMonths();
     return results.filter((record) => record.value >= miniMonth);
-  }, [person]);
+  }, [person, first_report]);
 
   const monthsTab = useMemo(() => {
     const currentMonth = currentMonthServiceYear();
