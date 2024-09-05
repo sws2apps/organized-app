@@ -11,12 +11,14 @@ import { congFieldServiceReportSchema } from '@services/dexie/schema';
 import { handleSaveFieldServiceReports } from '@services/app/cong_field_service_reports';
 import { displaySnackNotification } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
+import { branchFieldReportsState } from '@states/branch_field_service_reports';
 
 const useHoursField = (person: PersonType) => {
   const { t } = useAppTranslation();
 
   const reports = useRecoilValue(congFieldServiceReportsState);
   const currentMonth = useRecoilValue(selectedMonthFieldServiceReportState);
+  const branchReports = useRecoilValue(branchFieldReportsState);
 
   const currentReport = useMemo(() => {
     return reports.find(
@@ -25,6 +27,22 @@ const useHoursField = (person: PersonType) => {
         record.report_data.person_uid === person.person_uid
     );
   }, [reports, currentMonth, person]);
+
+  const readOnly = useMemo(() => {
+    const branchReport = branchReports.find(
+      (record) => record.report_date === currentMonth
+    );
+
+    if (!branchReport) return false;
+
+    const isLate =
+      currentReport?.report_data.late.value &&
+      currentReport?.report_data.late.submitted.length === 0;
+
+    if (isLate) return false;
+
+    return branchReport.report_data.submitted;
+  }, [branchReports, currentMonth, currentReport]);
 
   const hours = useMemo(() => {
     if (!currentReport) return 0;
@@ -61,7 +79,7 @@ const useHoursField = (person: PersonType) => {
     }
   };
 
-  return { hours, handleHoursChange };
+  return { hours, handleHoursChange, readOnly };
 };
 
 export default useHoursField;

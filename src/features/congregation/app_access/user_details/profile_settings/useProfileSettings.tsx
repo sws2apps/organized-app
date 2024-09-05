@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { personsActiveState } from '@states/persons';
 import { UsersOption } from './index.types';
@@ -14,19 +13,14 @@ import {
   personIsUnbaptizedPublisher,
 } from '@services/app/persons';
 import useUserDetails from '../useUserDetails';
-import { userIDState } from '@states/app';
-import { dbAppSettingsUpdate } from '@services/dexie/settings';
 
 const useProfileSettings = () => {
-  const { id } = useParams();
-
   const { t } = useAppTranslation();
 
   const { handleSaveDetails, user } = useUserDetails();
 
   const personsActive = useRecoilValue(personsActiveState);
   const fullnameOption = useRecoilValue(fullnameOptionState);
-  const userID = useRecoilValue(userIDState);
 
   const [selectedPerson, setSelectedPerson] = useState<UsersOption>(null);
   const [delegatedPersons, setDelegatedPersons] = useState<UsersOption[]>([]);
@@ -49,18 +43,6 @@ const useProfileSettings = () => {
       (record) => record.person_uid !== user.user_local_uid
     );
   }, [persons, user]);
-
-  const handleUpdateLocalUID = async (value: string) => {
-    await dbAppSettingsUpdate({
-      'user_settings.user_local_uid': value,
-    });
-  };
-
-  const handleUpdateMembers = async (value: string[]) => {
-    await dbAppSettingsUpdate({
-      'user_settings.user_members_delegate': value,
-    });
-  };
 
   const handleSelectPerson = async (value: UsersOption) => {
     try {
@@ -91,10 +73,6 @@ const useProfileSettings = () => {
       }
 
       await handleSaveDetails(newUser);
-
-      if (userID === id) {
-        await handleUpdateLocalUID(value.person_uid);
-      }
     } catch (error) {
       console.error(error);
 
@@ -116,10 +94,6 @@ const useProfileSettings = () => {
       newUser.user_delegates = persons;
 
       await handleSaveDetails(newUser);
-
-      if (userID === id) {
-        await handleUpdateMembers(persons);
-      }
     } catch (error) {
       console.error(error);
 

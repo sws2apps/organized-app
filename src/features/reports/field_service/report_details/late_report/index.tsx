@@ -8,7 +8,7 @@ import Typography from '@components/typography';
 const LateReport = ({ person }: LateReportProps) => {
   const { t } = useAppTranslation();
 
-  const { show_late, late_sent, checked, handleChecked } =
+  const { show_late, late_sent, checked, handleChecked, readOnly } =
     useLateReport(person);
 
   return (
@@ -16,6 +16,7 @@ const LateReport = ({ person }: LateReportProps) => {
       {show_late && (
         <Stack spacing="4px" alignItems="flex-end">
           <Checkbox
+            readOnly={readOnly}
             label={t('tr_lateReport')}
             checked={checked}
             onChange={(e) => handleChecked(e.target.checked)}

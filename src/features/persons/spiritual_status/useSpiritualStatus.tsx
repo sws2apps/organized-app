@@ -93,18 +93,16 @@ const useSpiritualStatus = () => {
     if (checked) {
       const current =
         newPerson.person_data.midweek_meeting_student.history.find(
-          (record) => record.end_date.value === null
+          (record) => record.end_date === null
         );
 
       if (!current) {
         newPerson.person_data.midweek_meeting_student.history.push({
           id: crypto.randomUUID(),
-          start_date: {
-            value: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-          },
-          end_date: { value: null, updatedAt: new Date().toISOString() },
-          _deleted: { value: false, updatedAt: '' },
+          _deleted: false,
+          updatedAt: new Date().toISOString(),
+          start_date: new Date().toISOString(),
+          end_date: null,
         });
       }
     }
@@ -112,7 +110,7 @@ const useSpiritualStatus = () => {
     if (!checked) {
       const current =
         newPerson.person_data.midweek_meeting_student.history.find(
-          (record) => record.end_date.value === null
+          (record) => record.end_date === null
         );
 
       if (current && isAddPerson) {
@@ -123,8 +121,8 @@ const useSpiritualStatus = () => {
       }
 
       if (current && !isAddPerson) {
-        current.end_date.value = new Date().toISOString();
-        current.end_date.updatedAt = new Date().toISOString();
+        current.end_date = new Date().toISOString();
+        current.updatedAt = new Date().toISOString();
       }
     }
 
@@ -149,15 +147,15 @@ const useSpiritualStatus = () => {
     if (checked) {
       const currentMidweek =
         newPerson.person_data.midweek_meeting_student.history.find(
-          (record) => record.end_date.value === null
+          (record) => record.end_date === null
         );
 
       if (currentMidweek) {
         const start_date = formatDate(
-          new Date(currentMidweek.start_date.value),
-          'MM/dd/yyyy'
+          new Date(currentMidweek.start_date),
+          'yyyy/MM/dd'
         );
-        const nowDate = formatDate(dateFirstDayMonth(), 'MM/dd/yyyy');
+        const nowDate = formatDate(dateFirstDayMonth(), 'yyyy/MM/dd');
 
         if (start_date === nowDate) {
           if (isAddPerson) {
@@ -168,16 +166,14 @@ const useSpiritualStatus = () => {
           }
 
           if (!isAddPerson) {
-            currentMidweek._deleted = {
-              value: true,
-              updatedAt: new Date().toISOString(),
-            };
+            currentMidweek._deleted = true;
+            currentMidweek.updatedAt = new Date().toISOString();
           }
         }
 
         if (start_date !== nowDate) {
-          currentMidweek.end_date.value = new Date().toISOString();
-          currentMidweek.end_date.updatedAt = new Date().toISOString();
+          currentMidweek.end_date = new Date().toISOString();
+          currentMidweek.updatedAt = new Date().toISOString();
         }
       }
 
@@ -192,18 +188,16 @@ const useSpiritualStatus = () => {
 
     if (checked) {
       const current = newPerson.person_data.publisher_unbaptized.history.find(
-        (record) => record.end_date.value === null
+        (record) => record.end_date === null
       );
 
       if (!current) {
         newPerson.person_data.publisher_unbaptized.history.push({
           id: crypto.randomUUID(),
-          start_date: {
-            value: dateFirstDayMonth().toISOString(),
-            updatedAt: new Date().toISOString(),
-          },
-          end_date: { value: null, updatedAt: new Date().toISOString() },
-          _deleted: { value: false, updatedAt: '' },
+          _deleted: false,
+          updatedAt: new Date().toISOString(),
+          start_date: dateFirstDayMonth().toISOString(),
+          end_date: null,
         });
       }
 
@@ -217,7 +211,7 @@ const useSpiritualStatus = () => {
 
     if (!checked) {
       const current = newPerson.person_data.publisher_unbaptized.history.find(
-        (record) => record.end_date.value === null
+        (record) => record.end_date === null
       );
 
       if (current && isAddPerson) {
@@ -232,8 +226,8 @@ const useSpiritualStatus = () => {
       }
 
       if (current && !isAddPerson) {
-        current.end_date.value = new Date().toISOString();
-        current.end_date.updatedAt = new Date().toISOString();
+        current.end_date = new Date().toISOString();
+        current.updatedAt = new Date().toISOString();
       }
     }
 
@@ -247,15 +241,15 @@ const useSpiritualStatus = () => {
     if (checked) {
       const currentUnbaptized =
         newPerson.person_data.publisher_unbaptized.history.find(
-          (record) => record.end_date.value === null
+          (record) => record.end_date === null
         );
 
       if (currentUnbaptized) {
         const start_date = formatDate(
-          new Date(currentUnbaptized.start_date.value),
-          'MM/dd/yyyy'
+          new Date(currentUnbaptized.start_date),
+          'yyyy/MM/dd'
         );
-        const nowDate = formatDate(dateFirstDayMonth(), 'MM/dd/yyyy');
+        const nowDate = formatDate(dateFirstDayMonth(), 'yyyy/MM/dd');
 
         if (start_date === nowDate) {
           if (isAddPerson) {
@@ -266,16 +260,14 @@ const useSpiritualStatus = () => {
           }
 
           if (!isAddPerson) {
-            currentUnbaptized._deleted = {
-              value: true,
-              updatedAt: new Date().toISOString(),
-            };
+            currentUnbaptized._deleted = true;
+            currentUnbaptized.updatedAt = new Date().toISOString();
           }
         }
 
         if (start_date !== nowDate) {
-          currentUnbaptized.end_date.value = new Date().toISOString();
-          currentUnbaptized.end_date.updatedAt = new Date().toISOString();
+          currentUnbaptized.end_date = new Date().toISOString();
+          currentUnbaptized.updatedAt = new Date().toISOString();
         }
       }
 
@@ -287,15 +279,15 @@ const useSpiritualStatus = () => {
 
       const currentMidweek =
         newPerson.person_data.midweek_meeting_student.history.find(
-          (record) => record.end_date.value === null
+          (record) => record.end_date === null
         );
 
       if (currentMidweek) {
         const start_date = formatDate(
-          new Date(currentMidweek.start_date.value),
-          'MM/dd/yyyy'
+          new Date(currentMidweek.start_date),
+          'yyyy/MM/dd'
         );
-        const nowDate = formatDate(dateFirstDayMonth(), 'MM/dd/yyyy');
+        const nowDate = formatDate(dateFirstDayMonth(), 'yyyy/MM/dd');
 
         if (start_date === nowDate) {
           if (isAddPerson) {
@@ -306,16 +298,14 @@ const useSpiritualStatus = () => {
           }
 
           if (!isAddPerson) {
-            currentMidweek._deleted = {
-              value: true,
-              updatedAt: new Date().toISOString(),
-            };
+            currentMidweek._deleted = true;
+            currentMidweek.updatedAt = new Date().toISOString();
           }
         }
 
         if (start_date !== nowDate) {
-          currentMidweek.end_date.value = new Date().toISOString();
-          currentMidweek.end_date.updatedAt = new Date().toISOString();
+          currentMidweek.end_date = new Date().toISOString();
+          currentMidweek.updatedAt = new Date().toISOString();
         }
       }
 
@@ -332,18 +322,16 @@ const useSpiritualStatus = () => {
 
     if (checked) {
       const current = newPerson.person_data.publisher_baptized.history.find(
-        (record) => record.end_date.value === null
+        (record) => record.end_date === null
       );
 
       if (!current) {
         newPerson.person_data.publisher_baptized.history.push({
           id: crypto.randomUUID(),
-          start_date: {
-            value: dateFirstDayMonth().toISOString(),
-            updatedAt: new Date().toISOString(),
-          },
-          end_date: { value: null, updatedAt: new Date().toISOString() },
-          _deleted: { value: false, updatedAt: '' },
+          _deleted: false,
+          updatedAt: new Date().toISOString(),
+          start_date: dateFirstDayMonth().toISOString(),
+          end_date: null,
         });
       }
 
@@ -357,7 +345,7 @@ const useSpiritualStatus = () => {
 
     if (!checked) {
       const current = newPerson.person_data.publisher_baptized.history.find(
-        (record) => record.end_date.value === null
+        (record) => record.end_date === null
       );
 
       if (current && isAddPerson) {
@@ -372,8 +360,8 @@ const useSpiritualStatus = () => {
       }
 
       if (current && !isAddPerson) {
-        current.end_date.value = new Date().toISOString();
-        current.end_date.updatedAt = new Date().toISOString();
+        current.end_date = new Date().toISOString();
+        current.updatedAt = new Date().toISOString();
       }
     }
 

@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { IconArrowLink, IconCheckCircle, IconUndo } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
@@ -19,6 +19,9 @@ const useBranchOffice = () => {
   const month = useRecoilValue(branchSelectedMonthState);
   const fieldReports = useRecoilValue(branchFieldReportsState);
   const congAnalysis = useRecoilValue(branchCongAnalysisState);
+
+  const [submitOpen, setSubmitOpen] = useState(false);
+  const [withdrawOpen, setWithdrawOpen] = useState(false);
 
   const fieldReport = useMemo(() => {
     if (report !== 'S-1') return;
@@ -58,6 +61,18 @@ const useBranchOffice = () => {
     return false;
   }, [report, generated, fieldReport, analysisReport]);
 
+  const handleOpenHuB = () => {
+    window.open('https://hub.jw.org', '_blank');
+  };
+
+  const handleOpenSubmit = () => setSubmitOpen(true);
+
+  const handleCloseSubmit = () => setSubmitOpen(false);
+
+  const handleOpenWithdraw = () => setWithdrawOpen(true);
+
+  const handleCloseWithdraw = () => setWithdrawOpen(false);
+
   const buttons = useMemo(() => {
     return (
       <>
@@ -67,6 +82,7 @@ const useBranchOffice = () => {
               variant="secondary"
               disabled={!generated}
               startIcon={<IconArrowLink />}
+              onClick={handleOpenHuB}
             >
               {t('tr_submitOnHub')}
             </Button>
@@ -74,6 +90,7 @@ const useBranchOffice = () => {
               variant="main"
               disabled={!generated}
               startIcon={<IconCheckCircle />}
+              onClick={handleOpenSubmit}
             >
               {t('tr_markAsSubmitted')}
             </Button>
@@ -81,7 +98,12 @@ const useBranchOffice = () => {
         )}
 
         {submitted && (
-          <Button variant="main" color="orange" startIcon={<IconUndo />}>
+          <Button
+            variant="main"
+            color="orange"
+            startIcon={<IconUndo />}
+            onClick={handleOpenWithdraw}
+          >
             {t('tr_undoSubmission')}
           </Button>
         )}
@@ -89,7 +111,13 @@ const useBranchOffice = () => {
     );
   }, [t, submitted, generated]);
 
-  return { buttons };
+  return {
+    buttons,
+    submitOpen,
+    handleCloseSubmit,
+    handleCloseWithdraw,
+    withdrawOpen,
+  };
 };
 
 export default useBranchOffice;

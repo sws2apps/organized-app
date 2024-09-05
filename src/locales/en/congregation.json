@@ -289,7 +289,7 @@
   "tr_filters": "Filters",
   "tr_pioneers": "Pioneers",
   "tr_markToBranchOffice": "Mark report as submitted to the branch office",
-  "tr_markToBranchOfficeDesc": "You’re about to mark this report as submitted to the branch office. All late reports submitted this month will be deleted. To undo submission, find the publishers’ reports, mark them late, and resubmit.",
+  "tr_markToBranchOfficeDesc": "You’re about to mark this report as submitted to the branch office. Are you sure to continue?",
   "tr_markAsSubmitted": "Mark as submitted",
   "tr_undoSubmission": "Undo submission",
   "tr_chooseReport": "Choose report",
@@ -429,5 +429,8 @@
   "tr_quickSettings": "Quick settings",
   "tr_quickSettingsDesc": "Easily update your settings for this page on-the-go. These settings are synced with the congregation settings page, so you can manage them from either location at any time.",
   "tr_pioneerEvents": "Pioneer events",
-  "tr_event": "Event"
+  "tr_event": "Event",
+  "tr_markAsVerified": "Mark as verified",
+  "tr_undoS1ReportSubmissionDesc": "This action will enable you to include any new reports entered for this month. Are you sure to continue?",
+  "tr_undoS10ReportSubmissionDesc": "This action will enable you to include any new reports entered for this service year. Are you sure to continue?"
 }

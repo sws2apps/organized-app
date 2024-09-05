@@ -6,11 +6,12 @@ import Checkbox from '@components/checkbox';
 const MinistryShared = ({ person }: MinistrySharedProps) => {
   const { t } = useAppTranslation();
 
-  const { checked, handleCheckedChange } = useMinistryShared(person);
+  const { checked, handleCheckedChange, readOnly } = useMinistryShared(person);
 
   return (
     <Checkbox
       label={t('tr_sharedMinistry')}
+      readOnly={readOnly}
       checked={checked}
       onChange={(e) => handleCheckedChange(e.target.checked)}
     />

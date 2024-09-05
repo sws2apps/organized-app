@@ -21,7 +21,7 @@ const ReportSection = ({
 
   const { laptopUp, tabletUp } = useBreakpoints();
 
-  const { generated, submitted } = useReportSection();
+  const { generated, submitted, handleGenerate } = useReportSection();
 
   return (
     <Card sx={{ flex: 1 }}>
@@ -52,6 +52,7 @@ const ReportSection = ({
           <Button
             variant="tertiary"
             disabled={submitted}
+            onClick={handleGenerate}
             startIcon={!generated ? <IconRegenerate /> : <IconGenerate />}
             sx={{ flex: report === 'S-1' ? 0.7 : 1 }}
           >

@@ -57,9 +57,9 @@ const Privileges = () => {
           <PrivilegeItem
             key={history.id}
             id={history.id}
-            privilege={history.privilege.value}
-            start_date={history.start_date.value}
-            end_date={history.end_date.value}
+            privilege={history.privilege}
+            start_date={history.start_date}
+            end_date={history.end_date}
             isLast={index === activeHistory.length - 1}
             onAdd={handleAddHistory}
             onDelete={handleDeleteHistory}

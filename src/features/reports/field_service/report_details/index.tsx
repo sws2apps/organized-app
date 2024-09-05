@@ -1,5 +1,10 @@
 import { Box, Stack } from '@mui/material';
-import { IconArrowBack, IconInfo } from '@components/icons';
+import {
+  IconArrowBack,
+  IconAuxiliaryPioneer,
+  IconCheck,
+  IconInfo,
+} from '@components/icons';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import useReportDetails from './useReportDetails';
 import BibleStudies from './bible_studies';
@@ -19,8 +24,16 @@ const ReportDetails = () => {
 
   const { desktopUp } = useBreakpoints();
 
-  const { person, hoursEnabled, creditEnabled, handleBack } =
-    useReportDetails();
+  const {
+    person,
+    hoursEnabled,
+    creditEnabled,
+    handleBack,
+    enable_quick_AP,
+    unverified,
+    handleAssignAP,
+    handleVerifyReport,
+  } = useReportDetails();
 
   return (
     <Card sx={{ position: 'sticky', top: '72px' }}>
@@ -84,6 +97,30 @@ const ReportDetails = () => {
           </Stack>
 
           <Comments person={person} />
+
+          {(enable_quick_AP || unverified) && (
+            <Stack spacing="8px">
+              {enable_quick_AP && (
+                <Button
+                  variant="tertiary"
+                  startIcon={<IconAuxiliaryPioneer />}
+                  onClick={handleAssignAP}
+                >
+                  {t('tr_assignAuxPioBtn')}
+                </Button>
+              )}
+
+              {unverified && (
+                <Button
+                  variant="main"
+                  startIcon={<IconCheck />}
+                  onClick={handleVerifyReport}
+                >
+                  {t('tr_markAsVerified')}
+                </Button>
+              )}
+            </Stack>
+          )}
         </Stack>
       )}
     </Card>

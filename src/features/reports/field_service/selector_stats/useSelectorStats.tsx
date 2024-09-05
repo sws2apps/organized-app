@@ -4,14 +4,17 @@ import {
   getMonthServiceYear,
   buildServiceYearsList,
 } from '@utils/date';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
   selectedMonthFieldServiceReportState,
   selectedPublisherReportState,
 } from '@states/field_service_reports';
+import { branchFieldReportsState } from '@states/branch_field_service_reports';
 
 const useSelectorStats = () => {
   const setSelectedPublisher = useSetRecoilState(selectedPublisherReportState);
+
+  const reports = useRecoilValue(branchFieldReportsState);
 
   const monthDefault = useMemo(() => {
     return currentReportMonth();
@@ -32,6 +35,14 @@ const useSelectorStats = () => {
 
     return result;
   }, []);
+
+  const month_locked = useMemo(() => {
+    const report = reports.find((record) => record.report_date === month);
+
+    if (!report) return false;
+
+    return report.report_data.submitted;
+  }, [month, reports]);
 
   const handleYearChange = (value: string) => {
     setSelectedPublisher(undefined);
@@ -55,7 +66,7 @@ const useSelectorStats = () => {
     setMonth(monthDefault);
   }, [setMonth, monthDefault]);
 
-  return { year, month, handleYearChange, handleMonthChange };
+  return { year, month, handleYearChange, handleMonthChange, month_locked };
 };
 
 export default useSelectorStats;

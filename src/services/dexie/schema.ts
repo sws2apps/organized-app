@@ -219,12 +219,10 @@ export const personSchema: PersonType = {
       history: [
         {
           id: crypto.randomUUID(),
-          start_date: {
-            value: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-          },
-          end_date: { value: null, updatedAt: new Date().toISOString() },
-          _deleted: { value: false, updatedAt: '' },
+          _deleted: false,
+          updatedAt: new Date().toISOString(),
+          start_date: new Date().toISOString(),
+          end_date: new Date().toISOString(),
         },
       ],
     },

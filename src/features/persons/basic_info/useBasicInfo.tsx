@@ -15,11 +15,11 @@ const useBasicInfo = () => {
 
   const { tabletDown } = useBreakpoints();
 
+  const [isInactive, setIsInactive] = useState(false);
   const [age, setAge] = useState('0');
   const [nameFlex, setNameFlex] = useState<
     'row' | 'row-reverse' | 'column' | 'column-reverse'
   >('row');
-  const [isInactive, setIsInactive] = useState(false);
 
   const handleChangeFirstname = async (value: string) => {
     const newPerson = structuredClone(person);
@@ -155,8 +155,7 @@ const useBasicInfo = () => {
     if (person.person_data.publisher_baptized.active.value) {
       const isActive =
         person.person_data.publisher_baptized.history.filter(
-          (record) =>
-            record._deleted.value === false && record.end_date.value === null
+          (record) => record._deleted === false && record.end_date === null
         ).length === 1;
 
       setIsInactive(!isActive);
@@ -165,8 +164,7 @@ const useBasicInfo = () => {
     if (person.person_data.publisher_unbaptized.active.value) {
       const isActive =
         person.person_data.publisher_unbaptized.history.filter(
-          (record) =>
-            record._deleted.value === false && record.end_date.value === null
+          (record) => record._deleted === false && record.end_date === null
         ).length === 1;
       setIsInactive(!isActive);
     }

@@ -55,9 +55,9 @@ const Enrollments = () => {
           <EnrollmentItem
             key={history.id}
             id={history.id}
-            enrollment={history.enrollment.value}
-            start_date={history.start_date.value}
-            end_date={history.end_date.value}
+            enrollment={history.enrollment}
+            start_date={history.start_date}
+            end_date={history.end_date}
             isLast={index === activeHistory.length - 1}
             onAdd={handleAddHistory}
             onDelete={handleDeleteHistory}

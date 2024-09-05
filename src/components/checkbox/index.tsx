@@ -46,7 +46,9 @@ const Checkbox = (props: CheckboxPropsType) => {
           checked={checked}
           indeterminate={indeterminate}
           disabled={disabled}
-          onChange={props.onChange ? props.onChange : null}
+          onChange={
+            props.readOnly ? null : (e, checked) => props.onChange?.(e, checked)
+          }
           sx={{
             padding: 0,
             '&.Mui-disabled': {

@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { useQueryClient } from '@tanstack/react-query';
 import {
   apiAdminRevokeUserSession,
@@ -9,6 +9,8 @@ import { APICongregationUserType, CongregationUserType } from '@definition/api';
 import { displaySnackNotification } from '@services/recoil/app';
 import { useAppTranslation } from '@hooks/index';
 import { currentCongregationUserState } from '@states/congregation';
+import { userIDState } from '@states/app';
+import { dbAppSettingsUpdate } from '@services/dexie/settings';
 
 const useUserDetails = () => {
   const { id } = useParams();
@@ -18,6 +20,8 @@ const useUserDetails = () => {
   const queryClient = useQueryClient();
 
   const [user, setUser] = useRecoilState(currentCongregationUserState);
+
+  const userID = useRecoilValue(userIDState);
 
   const refetchUser = () => {
     const congregation_users: APICongregationUserType =
@@ -45,6 +49,15 @@ const useUserDetails = () => {
 
       if (status !== 200) {
         throw new Error(message);
+      }
+
+      // update local record
+      if (userID === id) {
+        await dbAppSettingsUpdate({
+          'user_settings.user_local_uid': user.user_local_uid,
+          'user_settings.user_members_delegate': user.user_delegates,
+          'user_settings.cong_role': user.cong_role,
+        });
       }
 
       await queryClient.invalidateQueries({ queryKey: ['congregation_users'] });

@@ -63,14 +63,16 @@ const MonthlyReport = (props: MonthlyReportProps) => {
                 {section.section}
               </Typography>
 
-              {section.reports.map((report) => (
-                <RowStats
-                  key={report.label}
-                  title={report.label}
-                  value={report.value}
-                  sx={{ padding: '8px' }}
-                />
-              ))}
+              <Stack divider={<Divider color="var(--accent-200)" />}>
+                {section.reports.map((report) => (
+                  <RowStats
+                    key={report.label}
+                    title={report.label}
+                    value={report.value}
+                    sx={{ padding: '8px' }}
+                  />
+                ))}
+              </Stack>
             </Stack>
           ))}
         </Card>

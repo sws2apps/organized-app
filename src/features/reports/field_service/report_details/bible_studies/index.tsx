@@ -10,12 +10,17 @@ const BibleStudies = ({ person }: BibleStudiesProps) => {
 
   const { tabletUp } = useBreakpoints();
 
-  const { bible_studies, handleBibleStudyChange } = useBibleStudies(person);
+  const { bible_studies, handleBibleStudyChange, readOnly } =
+    useBibleStudies(person);
 
   return (
     <Field sx={{ flexDirection: tabletUp ? 'row' : 'column' }}>
       <Typography sx={{ flex: 1 }}>{t('tr_individualBibleStudies')}</Typography>
-      <StandardEditor value={bible_studies} onChange={handleBibleStudyChange} />
+      <StandardEditor
+        readOnly={readOnly}
+        value={bible_studies}
+        onChange={handleBibleStudyChange}
+      />
     </Field>
   );
 };

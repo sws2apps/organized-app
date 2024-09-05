@@ -106,12 +106,10 @@ export const personCurrentDetailsState = atom<PersonType>({
         history: [
           {
             id: crypto.randomUUID(),
-            start_date: {
-              value: new Date().toISOString(),
-              updatedAt: new Date().toISOString(),
-            },
-            end_date: { value: null, updatedAt: new Date().toISOString() },
-            _deleted: { value: false, updatedAt: '' },
+            _deleted: false,
+            updatedAt: '',
+            start_date: new Date().toISOString(),
+            end_date: null,
           },
         ],
       },

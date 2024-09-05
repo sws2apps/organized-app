@@ -11,6 +11,7 @@ import { congFieldServiceReportSchema } from '@services/dexie/schema';
 import { handleSaveFieldServiceReports } from '@services/app/cong_field_service_reports';
 import { displaySnackNotification } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
+import { branchFieldReportsState } from '@states/branch_field_service_reports';
 
 const useCreditField = (person: PersonType) => {
   const creditRef = useRef<Element>(null);
@@ -19,6 +20,7 @@ const useCreditField = (person: PersonType) => {
 
   const reports = useRecoilValue(congFieldServiceReportsState);
   const currentMonth = useRecoilValue(selectedMonthFieldServiceReportState);
+  const branchReports = useRecoilValue(branchFieldReportsState);
 
   const currentReport = useMemo(() => {
     return reports.find(
@@ -27,6 +29,22 @@ const useCreditField = (person: PersonType) => {
         record.report_data.person_uid === person.person_uid
     );
   }, [reports, currentMonth, person]);
+
+  const readOnly = useMemo(() => {
+    const branchReport = branchReports.find(
+      (record) => record.report_date === currentMonth
+    );
+
+    if (!branchReport) return false;
+
+    const isLate =
+      currentReport?.report_data.late.value &&
+      currentReport?.report_data.late.submitted.length === 0;
+
+    if (isLate) return false;
+
+    return branchReport.report_data.submitted;
+  }, [branchReports, currentMonth, currentReport]);
 
   const credit = useMemo(() => {
     if (!currentReport) return 0;
@@ -104,7 +122,13 @@ const useCreditField = (person: PersonType) => {
     }
   };
 
-  return { credit, handleCreditChange, handleSelectPreset, creditRef };
+  return {
+    credit,
+    handleCreditChange,
+    handleSelectPreset,
+    creditRef,
+    readOnly,
+  };
 };
 
 export default useCreditField;

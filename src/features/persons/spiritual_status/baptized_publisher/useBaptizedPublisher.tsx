@@ -17,12 +17,10 @@ const useBaptizedPublisher = () => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const activeHistory = person.person_data.publisher_baptized.history.filter(
-    (record) => record._deleted.value === false
+    (record) => record._deleted === false
   );
 
-  const isActive = activeHistory.find(
-    (record) => record.end_date.value === null
-  )
+  const isActive = activeHistory.find((record) => record.end_date === null)
     ? true
     : false;
 
@@ -34,14 +32,14 @@ const useBaptizedPublisher = () => {
     if (isActive) {
       const activeRecord =
         newPerson.person_data.publisher_baptized.history.find(
-          (record) => record.end_date.value === null
+          (record) => record.end_date === null
         );
 
       const start_date = formatDate(
-        new Date(activeRecord.start_date.value),
-        'MM/dd/yyyy'
+        new Date(activeRecord.start_date),
+        'yyyy/MM/dd'
       );
-      const nowDate = formatDate(new Date(), 'MM/dd/yyyy');
+      const nowDate = formatDate(new Date(), 'yyyy/MM/dd');
 
       if (start_date === nowDate) {
         if (isAddPerson) {
@@ -52,16 +50,14 @@ const useBaptizedPublisher = () => {
         }
 
         if (!isAddPerson) {
-          activeRecord._deleted = {
-            value: true,
-            updatedAt: new Date().toISOString(),
-          };
+          activeRecord._deleted = true;
+          activeRecord.updatedAt = new Date().toISOString();
         }
       }
 
       if (start_date !== nowDate) {
-        activeRecord.end_date.value = new Date().toISOString();
-        activeRecord.end_date.updatedAt = new Date().toISOString();
+        activeRecord.end_date = new Date().toISOString();
+        activeRecord.updatedAt = new Date().toISOString();
       }
 
       await setPersonCurrentDetails(newPerson);
@@ -88,12 +84,10 @@ const useBaptizedPublisher = () => {
 
     newPerson.person_data.publisher_baptized.history.push({
       id: crypto.randomUUID(),
-      start_date: {
-        value: dateFirstDayMonth().toISOString(),
-        updatedAt: new Date().toISOString(),
-      },
-      end_date: { value: null, updatedAt: new Date().toISOString() },
-      _deleted: { value: false, updatedAt: '' },
+      _deleted: false,
+      updatedAt: new Date().toISOString(),
+      start_date: dateFirstDayMonth().toISOString(),
+      end_date: null,
     });
 
     await setPersonCurrentDetails(newPerson);
@@ -106,7 +100,9 @@ const useBaptizedPublisher = () => {
       const current = newPerson.person_data.publisher_baptized.history.find(
         (history) => history.id === id
       );
-      current._deleted = { value: true, updatedAt: new Date().toISOString() };
+
+      current._deleted = true;
+      current.updatedAt = new Date().toISOString();
     }
 
     if (isAddPerson) {
@@ -125,10 +121,9 @@ const useBaptizedPublisher = () => {
     const current = newPerson.person_data.publisher_baptized.history.find(
       (history) => history.id === id
     );
-    current.start_date = {
-      value: value.toISOString(),
-      updatedAt: new Date().toISOString(),
-    };
+
+    current.start_date = value.toISOString();
+    current.updatedAt = new Date().toISOString();
 
     await setPersonCurrentDetails(newPerson);
   };
@@ -139,10 +134,9 @@ const useBaptizedPublisher = () => {
     const current = newPerson.person_data.publisher_baptized.history.find(
       (history) => history.id === id
     );
-    current.end_date = {
-      value: value === null ? null : value.toISOString(),
-      updatedAt: new Date().toISOString(),
-    };
+
+    current.end_date = value === null ? null : value.toISOString();
+    current.updatedAt = new Date().toISOString();
 
     await setPersonCurrentDetails(newPerson);
   };

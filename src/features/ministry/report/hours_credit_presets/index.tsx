@@ -14,22 +14,30 @@ const HoursCreditPresets = (props: HoursCreditPresetsProps) => {
 
   return (
     <>
-      <Box onClick={handleTogglePresets} sx={{ flex: 1 }}>
+      <Box
+        onClick={props.readOnly ? null : handleTogglePresets}
+        sx={{ flex: 1 }}
+      >
         <Box
           sx={{
             display: 'flex',
             alignItems: 'center',
             gap: '16px',
-            cursor: 'pointer',
+            cursor: !props.readOnly && 'pointer',
           }}
         >
           <Typography sx={{ userSelect: 'none' }}>
             {t('tr_creditHours')}
           </Typography>
-          <IconArrowDown
-            color="var(--black)"
-            sx={{ transform: presetsOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
-          />
+
+          {!props.readOnly && (
+            <IconArrowDown
+              color="var(--black)"
+              sx={{
+                transform: presetsOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+              }}
+            />
+          )}
         </Box>
       </Box>
 

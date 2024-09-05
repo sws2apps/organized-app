@@ -11,7 +11,7 @@ const usePrivileges = () => {
   const person = useRecoilValue(personCurrentDetailsState);
 
   const activeHistory = person.person_data.privileges.filter(
-    (record) => record._deleted.value === false
+    (record) => record._deleted === false
   );
 
   const handleAddHistory = async () => {
@@ -19,13 +19,11 @@ const usePrivileges = () => {
 
     newPerson.person_data.privileges.push({
       id: crypto.randomUUID(),
-      privilege: { value: 'ms', updatedAt: new Date().toISOString() },
-      start_date: {
-        value: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      },
-      end_date: { value: null, updatedAt: new Date().toISOString() },
-      _deleted: { value: false, updatedAt: '' },
+      _deleted: false,
+      updatedAt: new Date().toISOString(),
+      privilege: 'ms',
+      start_date: new Date().toISOString(),
+      end_date: null,
     });
 
     await setPersonCurrentDetails(newPerson);
@@ -38,7 +36,9 @@ const usePrivileges = () => {
       const current = newPerson.person_data.privileges.find(
         (history) => history.id === id
       );
-      current._deleted = { value: true, updatedAt: new Date().toISOString() };
+
+      current._deleted = true;
+      current.updatedAt = new Date().toISOString();
     }
 
     if (isAddPerson) {
@@ -55,10 +55,9 @@ const usePrivileges = () => {
     const current = newPerson.person_data.privileges.find(
       (history) => history.id === id
     );
-    current.start_date = {
-      value: value.toISOString(),
-      updatedAt: new Date().toISOString(),
-    };
+
+    current.start_date = value.toISOString();
+    current.updatedAt = new Date().toISOString();
 
     await setPersonCurrentDetails(newPerson);
   };
@@ -69,10 +68,9 @@ const usePrivileges = () => {
     const current = newPerson.person_data.privileges.find(
       (history) => history.id === id
     );
-    current.end_date = {
-      value: value === null ? null : value.toISOString(),
-      updatedAt: new Date().toISOString(),
-    };
+
+    current.end_date = value === null ? null : value.toISOString();
+    current.updatedAt = new Date().toISOString();
 
     await setPersonCurrentDetails(newPerson);
   };
@@ -85,10 +83,9 @@ const usePrivileges = () => {
     const current = newPerson.person_data.privileges.find(
       (history) => history.id === id
     );
-    current.privilege = {
-      value: newValue,
-      updatedAt: new Date().toISOString(),
-    };
+
+    current.privilege = newValue;
+    current.updatedAt = new Date().toISOString();
 
     await setPersonCurrentDetails(newPerson);
   };

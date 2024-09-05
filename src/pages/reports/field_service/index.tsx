@@ -13,7 +13,7 @@ const FieldService = () => {
 
   const { desktopUp } = useBreakpoints();
 
-  const { editorOpen } = useFieldService();
+  const { editorOpen, handleOpenBranchReport } = useFieldService();
 
   return (
     <Box
@@ -26,7 +26,12 @@ const FieldService = () => {
       <PageTitle
         title={t('tr_fieldServiceReports')}
         buttons={
-          <Button startIcon={<IconPrepareReport />}>{t('tr_createS1')}</Button>
+          <Button
+            startIcon={<IconPrepareReport />}
+            onClick={handleOpenBranchReport}
+          >
+            {t('tr_createS1')}
+          </Button>
         }
       />
 

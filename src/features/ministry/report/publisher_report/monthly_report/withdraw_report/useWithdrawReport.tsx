@@ -10,12 +10,14 @@ import { useAppTranslation } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
 import { dbUserFieldServiceReportsSave } from '@services/dexie/user_field_service_reports';
 import { apiUserFieldServiceReportDelete } from '@services/api/user';
+import { secretaryRoleState } from '@states/settings';
 
 const useWithdrawReport = ({ onClose }: WithdrawReportProps) => {
   const { t } = useAppTranslation();
 
   const selectedMonth = useRecoilValue(reportUserSelectedMonthState);
   const monthlyReports = useRecoilValue(userFieldServiceMonthlyReportsState);
+  const secretary = useRecoilValue(secretaryRoleState);
 
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -23,7 +25,9 @@ const useWithdrawReport = ({ onClose }: WithdrawReportProps) => {
     try {
       setIsProcessing(true);
 
-      // await apiUserFieldServiceReportDelete({ report_month: selectedMonth });
+      if (!secretary) {
+        await apiUserFieldServiceReportDelete({ report_month: selectedMonth });
+      }
 
       let report = monthlyReports.find(
         (record) => record.report_date === selectedMonth

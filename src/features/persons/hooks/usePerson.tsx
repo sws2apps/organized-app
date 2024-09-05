@@ -32,15 +32,12 @@ const usePerson = () => {
     }
 
     const history = person.person_data.publisher_baptized.history.filter(
-      (record) =>
-        record._deleted.value === false && record.start_date.value?.length > 0
+      (record) => record._deleted === false && record.start_date?.length > 0
     );
 
     const isValid = history.some((record) => {
-      const startDate = new Date(record.start_date.value);
-      const endDate = record.end_date.value
-        ? new Date(record.end_date.value)
-        : new Date();
+      const startDate = new Date(record.start_date);
+      const endDate = record.end_date ? new Date(record.end_date) : new Date();
 
       const startMonth = formatDate(startDate, 'yyyy/MM');
       const endMonth = formatDate(endDate, 'yyyy/MM');
@@ -57,15 +54,12 @@ const usePerson = () => {
     }
 
     const history = person.person_data.publisher_unbaptized.history.filter(
-      (record) =>
-        record._deleted.value === false && record.start_date.value?.length > 0
+      (record) => record._deleted === false && record.start_date?.length > 0
     );
 
     const isValid = history.some((record) => {
-      const startDate = new Date(record.start_date.value);
-      const endDate = record.end_date.value
-        ? new Date(record.end_date.value)
-        : new Date();
+      const startDate = new Date(record.start_date);
+      const endDate = record.end_date ? new Date(record.end_date) : new Date();
 
       const startMonth = formatDate(startDate, 'yyyy/MM');
       const endMonth = formatDate(endDate, 'yyyy/MM');
@@ -109,7 +103,7 @@ const usePerson = () => {
       const report = reports.find(
         (record) =>
           record.report_data.person_uid === person.person_uid &&
-          record.report_date === month
+          record.report_data.report_date === month
       );
 
       if (report?.report_data.shared_ministry) {
@@ -135,9 +129,9 @@ const usePerson = () => {
     if (!month) {
       const isActive = person.person_data.privileges.some(
         (record) =>
-          record.privilege.value === privilege &&
-          record.end_date.value === null &&
-          record._deleted.value === false
+          record.privilege === privilege &&
+          record.end_date === null &&
+          record._deleted === false
       );
 
       return isActive;
@@ -145,16 +139,14 @@ const usePerson = () => {
 
     const history = person.person_data.privileges.filter(
       (record) =>
-        record._deleted.value === false &&
-        record.privilege.value === privilege &&
-        record.start_date.value?.length > 0
+        record._deleted === false &&
+        record.privilege === privilege &&
+        record.start_date?.length > 0
     );
 
     const isActive = history.some((record) => {
-      const startDate = new Date(record.start_date.value);
-      const endDate = record.end_date.value
-        ? new Date(record.end_date.value)
-        : new Date();
+      const startDate = new Date(record.start_date);
+      const endDate = record.end_date ? new Date(record.end_date) : new Date();
 
       const startMonth = formatDate(startDate, 'yyyy/MM');
       const endMonth = formatDate(endDate, 'yyyy/MM');
@@ -173,9 +165,9 @@ const usePerson = () => {
     if (!month) {
       const isActive = person.person_data.enrollments.some(
         (record) =>
-          record.enrollment.value === enrollment &&
-          record.end_date.value === null &&
-          record._deleted.value === false
+          record.enrollment === enrollment &&
+          record.end_date === null &&
+          record._deleted === false
       );
 
       return isActive;
@@ -183,16 +175,14 @@ const usePerson = () => {
 
     const history = person.person_data.enrollments.filter(
       (record) =>
-        record._deleted.value === false &&
-        record.enrollment.value === enrollment &&
-        record.start_date.value?.length > 0
+        record._deleted === false &&
+        record.enrollment === enrollment &&
+        record.start_date?.length > 0
     );
 
     const isActive = history.some((record) => {
-      const startDate = new Date(record.start_date.value);
-      const endDate = record.end_date.value
-        ? new Date(record.end_date.value)
-        : new Date();
+      const startDate = new Date(record.start_date);
+      const endDate = record.end_date ? new Date(record.end_date) : new Date();
 
       const startMonth = formatDate(startDate, 'yyyy/MM');
       const endMonth = formatDate(endDate, 'yyyy/MM');
@@ -229,7 +219,7 @@ const usePerson = () => {
       const report = reports.find(
         (record) =>
           record.report_data.person_uid === person.person_uid &&
-          record.report_date === month
+          record.report_data.report_date === month
       );
 
       if (report?.report_data.shared_ministry) {

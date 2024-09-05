@@ -6,10 +6,11 @@ import TextField from '@components/textfield';
 const Comments = ({ person }: CommentsProps) => {
   const { t } = useAppTranslation();
 
-  const { value, handleCommentsChange } = useComments(person);
+  const { value, handleCommentsChange, readOnly } = useComments(person);
 
   return (
     <TextField
+      InputProps={{ readOnly }}
       placeholder={t('tr_comments')}
       multiline
       rows={2}

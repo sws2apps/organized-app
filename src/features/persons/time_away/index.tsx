@@ -69,9 +69,9 @@ const PersonTimeAway = () => {
             <TimeAwayItem
               key={timeAwayItem.id}
               id={timeAwayItem.id}
-              start_date={timeAwayItem.start_date.value}
-              end_date={timeAwayItem.end_date.value}
-              comments={timeAwayItem.comments.value}
+              start_date={timeAwayItem.start_date}
+              end_date={timeAwayItem.end_date}
+              comments={timeAwayItem.comments}
               isLast={index === activeTimeAway.length - 1}
               onAdd={handleAddTimeAway}
               onCommentsChange={handleCommentsChange}

@@ -6,7 +6,6 @@ import {
   selectedMonthFieldServiceReportState,
 } from '@states/field_service_reports';
 import { PersonType } from '@definition/person';
-import { currentReportMonth } from '@utils/date';
 import { shortDateFormatState } from '@states/settings';
 import { formatDate } from '@services/dateformat';
 import { CongFieldServiceReportType } from '@definition/cong_field_service_reports';
@@ -14,6 +13,7 @@ import { congFieldServiceReportSchema } from '@services/dexie/schema';
 import { displaySnackNotification } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { handleSaveFieldServiceReports } from '@services/app/cong_field_service_reports';
+import { branchFieldReportsState } from '@states/branch_field_service_reports';
 
 const useLateReport = (person: PersonType) => {
   const { t } = useAppTranslation();
@@ -21,6 +21,17 @@ const useLateReport = (person: PersonType) => {
   const reports = useRecoilValue(congFieldServiceReportsState);
   const currentMonth = useRecoilValue(selectedMonthFieldServiceReportState);
   const shortDateFormat = useRecoilValue(shortDateFormatState);
+  const branchReports = useRecoilValue(branchFieldReportsState);
+
+  const branch_submitted = useMemo(() => {
+    const report = branchReports.find(
+      (record) => record.report_date === currentMonth
+    );
+
+    if (!report) return false;
+
+    return report.report_data.submitted;
+  }, [branchReports, currentMonth]);
 
   const report = useMemo(() => {
     return reports.find(
@@ -30,23 +41,35 @@ const useLateReport = (person: PersonType) => {
     );
   }, [reports, currentMonth, person]);
 
+  const readOnly = useMemo(() => {
+    if (!report) false;
+
+    return report.report_data.late.submitted.length > 0;
+  }, [report]);
+
   const late = useMemo(() => {
-    if (!report) return false;
+    if (!report) {
+      if (branch_submitted) return true;
+
+      return false;
+    }
 
     return report.report_data.late.value;
-  }, [report]);
+  }, [report, branch_submitted]);
 
   const [checked, setChecked] = useState(late);
 
   const show_late = useMemo(() => {
-    const currentReport = currentReportMonth();
+    if (!report) {
+      if (branch_submitted) return true;
 
-    if (currentMonth >= currentReport) return false;
+      return false;
+    }
 
-    if (!report) return true;
+    if (report.report_data.late.value) return true;
 
-    return !report.report_data.shared_ministry;
-  }, [currentMonth, report]);
+    return branch_submitted && !report.report_data.shared_ministry;
+  }, [report, branch_submitted]);
 
   const late_sent = useMemo(() => {
     if (!report) return '';
@@ -89,7 +112,7 @@ const useLateReport = (person: PersonType) => {
     }
   };
 
-  return { show_late, late_sent, checked, handleChecked };
+  return { show_late, late_sent, checked, handleChecked, readOnly };
 };
 
 export default useLateReport;

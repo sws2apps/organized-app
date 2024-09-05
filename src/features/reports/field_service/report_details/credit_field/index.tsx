@@ -8,13 +8,26 @@ import StandardEditor from '@features/ministry/report/standard_editor';
 const CreditField = ({ person }: HoursFieldProps) => {
   const { tabletUp } = useBreakpoints();
 
-  const { credit, handleCreditChange, handleSelectPreset, creditRef } =
-    useCreditField(person);
+  const {
+    credit,
+    handleCreditChange,
+    handleSelectPreset,
+    creditRef,
+    readOnly,
+  } = useCreditField(person);
 
   return (
     <Field ref={creditRef} sx={{ flexDirection: tabletUp ? 'row' : 'column' }}>
-      <HoursCreditPresets anchorEl={creditRef} onSelect={handleSelectPreset} />
-      <StandardEditor value={credit} onChange={handleCreditChange} />
+      <HoursCreditPresets
+        readOnly={readOnly}
+        anchorEl={creditRef}
+        onSelect={handleSelectPreset}
+      />
+      <StandardEditor
+        readOnly={readOnly}
+        value={credit}
+        onChange={handleCreditChange}
+      />
     </Field>
   );
 };

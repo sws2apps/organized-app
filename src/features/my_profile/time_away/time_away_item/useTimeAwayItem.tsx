@@ -11,10 +11,8 @@ const useTimeAwayItem = (timeAway: TimeAwayType) => {
     setStartDate(value);
 
     const obj = structuredClone(timeAway);
-    obj.start_date = {
-      value: new Date(value).toISOString(),
-      updatedAt: new Date().toISOString(),
-    };
+    obj.updatedAt = new Date().toISOString();
+    obj.start_date = new Date(value).toISOString();
 
     await dbAppSettingsTimeAwayUpdate(obj);
   };
@@ -23,10 +21,8 @@ const useTimeAwayItem = (timeAway: TimeAwayType) => {
     setEndDate(value);
 
     const obj = structuredClone(timeAway);
-    obj.end_date = {
-      value: new Date(value).toISOString(),
-      updatedAt: new Date().toISOString(),
-    };
+    obj.updatedAt = new Date().toISOString();
+    obj.end_date = new Date(value).toISOString();
 
     await dbAppSettingsTimeAwayUpdate(obj);
   };
@@ -35,7 +31,9 @@ const useTimeAwayItem = (timeAway: TimeAwayType) => {
     setComments(value);
 
     const obj = structuredClone(timeAway);
-    obj.comments = { value, updatedAt: new Date().toISOString() };
+
+    obj.updatedAt = new Date().toISOString();
+    obj.comments = value;
 
     await dbAppSettingsTimeAwayUpdate(obj);
   };
