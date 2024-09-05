@@ -1,13 +1,19 @@
 import { useEffect, useMemo } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useBreakpoints } from '@hooks/index';
+import { AssignmentCode } from '@definition/assignment';
 import {
   congFieldServiceReportsState,
   personFilterFieldServiceReportState,
   selectedMonthFieldServiceReportState,
 } from '@states/field_service_reports';
 import { PersonType } from '@definition/person';
+import { CongFieldServiceReportType } from '@definition/cong_field_service_reports';
+import { congFieldServiceReportSchema } from '@services/dexie/schema';
+import { dbFieldServiceReportsBulkSave } from '@services/dexie/cong_field_service_reports';
+import { getRandomNumber } from '@utils/common';
 import usePersons from '@features/persons/hooks/usePersons';
+import usePerson from '@features/persons/hooks/usePerson';
 
 let scrollPosition = 0;
 
@@ -23,6 +29,8 @@ const usePersonsList = () => {
     getAuxiliaryPioneers,
     getRegularPioneers,
   } = usePersons();
+
+  const { personIsEnrollmentActive, personIsBaptizedPublisher } = usePerson();
 
   const currentFilter = useRecoilValue(personFilterFieldServiceReportState);
   const currentMonth = useRecoilValue(selectedMonthFieldServiceReportState);
@@ -126,6 +134,78 @@ const usePersonsList = () => {
     regular_pioneers,
   ]);
 
+  const handleAddRandomData = async () => {
+    const reportsToSave: CongFieldServiceReportType[] = [];
+
+    for (const person of active_publishers) {
+      let report = reports.find(
+        (record) =>
+          record.report_data.person_uid === person.person_uid &&
+          record.report_data.report_date === currentMonth
+      );
+
+      if (!report) {
+        report = structuredClone(congFieldServiceReportSchema);
+        report.report_id = crypto.randomUUID();
+        report.report_data.person_uid = person.person_uid;
+        report.report_data.report_date = currentMonth;
+      }
+
+      if (report) report = structuredClone(report);
+
+      const isAP = personIsEnrollmentActive(person, 'AP', currentMonth);
+      const isFMF = personIsEnrollmentActive(person, 'FMF', currentMonth);
+      const isFR = personIsEnrollmentActive(person, 'FR', currentMonth);
+      const isFS = personIsEnrollmentActive(person, 'FS', currentMonth);
+      const isBaptized = personIsBaptizedPublisher(person, currentMonth);
+
+      if (isFMF || isFS) {
+        report.report_data.hours.field_service = getRandomNumber(100, 115);
+
+        if (isFMF) report.report_data.bible_studies = getRandomNumber(20, 30);
+        if (isFS) report.report_data.bible_studies = getRandomNumber(15, 20);
+      }
+
+      if (isFR) {
+        const reportCredit = person.person_data.assignments.some(
+          (record) =>
+            record._deleted === false &&
+            record.code === AssignmentCode.MINISTRY_HOURS_CREDIT
+        );
+
+        if (reportCredit) {
+          const service = getRandomNumber(20, 40);
+          const credit = 55 - service;
+
+          report.report_data.hours.field_service = service;
+          report.report_data.hours.credit = { approved: credit, value: 0 };
+        }
+
+        if (!reportCredit) {
+          report.report_data.hours.field_service = getRandomNumber(50, 60);
+        }
+
+        report.report_data.bible_studies = getRandomNumber(10, 15);
+      }
+
+      if (isAP) {
+        report.report_data.hours.field_service = getRandomNumber(30, 40);
+        report.report_data.bible_studies = getRandomNumber(5, 10);
+      }
+
+      if (!isFMF && !isFS && !isFR && !isAP && isBaptized) {
+        report.report_data.bible_studies = getRandomNumber(1, 5);
+      }
+
+      report.report_data.shared_ministry = true;
+      report.report_data.status = 'confirmed';
+      report.report_data.updatedAt = new Date().toISOString();
+      reportsToSave.push(report);
+    }
+
+    await dbFieldServiceReportsBulkSave(reportsToSave);
+  };
+
   useEffect(() => {
     setTimeout(() => {
       if (!desktopUp) {
@@ -148,7 +228,7 @@ const usePersonsList = () => {
     };
   }, [desktopUp]);
 
-  return { persons };
+  return { persons, handleAddRandomData };
 };
 
 export default usePersonsList;

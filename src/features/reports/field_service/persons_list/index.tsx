@@ -1,6 +1,9 @@
 import { Box, Stack } from '@mui/material';
+import { IconGenerate } from '@components/icons';
+import { isDEV, isDemo } from '@constants/index';
 import { useAppTranslation } from '@hooks/index';
 import usePersonsList from './usePersonsList';
+import Button from '@components/button';
 import Card from '@components/card';
 import NoSearchResults from '@assets/img/illustration_no_search_results.svg?component';
 import PersonItem from './person_item';
@@ -9,15 +12,32 @@ import Typography from '@components/typography';
 const PersonsList = () => {
   const { t } = useAppTranslation();
 
-  const { persons } = usePersonsList();
+  const { persons, handleAddRandomData } = usePersonsList();
 
   return (
     <Card>
-      <Stack spacing="16px">
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}
+      >
         <Typography className="h3">
           {t('tr_personsAmount', { amount: persons.length })}
         </Typography>
-      </Stack>
+
+        {(isDEV || isDemo) && (
+          <Button
+            variant="small"
+            startIcon={<IconGenerate />}
+            onClick={handleAddRandomData}
+            sx={{ minHeight: '32px', height: '32px' }}
+          >
+            Random data
+          </Button>
+        )}
+      </Box>
 
       {persons.length === 0 && (
         <Box sx={{ display: 'flex', gap: '16px', alignItems: 'center' }}>

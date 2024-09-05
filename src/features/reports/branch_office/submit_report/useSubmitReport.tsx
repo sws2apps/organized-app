@@ -13,6 +13,7 @@ import { dbBranchFieldReportSave } from '@services/dexie/branch_field_service_re
 import { branchCongAnalysisState } from '@states/branch_cong_analysis';
 import { dbBranchCongAnalysisSave } from '@services/dexie/branch_cong_analysis';
 import { congFieldServiceReportsState } from '@states/field_service_reports';
+import { dbFieldServiceReportsBulkSave } from '@services/dexie/cong_field_service_reports';
 
 const useSubmitReport = ({ onClose }: SubmitReportProps) => {
   const { t } = useAppTranslation();
@@ -32,6 +33,15 @@ const useSubmitReport = ({ onClose }: SubmitReportProps) => {
         record.report_data.late &&
         record.report_data.late.submitted.length === 0
     );
+
+    const reportsToSave = lateReports.map((report) => {
+      const obj = structuredClone(report);
+      obj.report_data.late.submitted = month;
+
+      return obj;
+    });
+
+    await dbFieldServiceReportsBulkSave(reportsToSave);
 
     // save status
     const currentReport = reports.find(

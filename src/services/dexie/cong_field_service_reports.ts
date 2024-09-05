@@ -6,3 +6,9 @@ export const dbFieldServiceReportsSave = async (
 ) => {
   await appDb.cong_field_service_reports.put(report);
 };
+
+export const dbFieldServiceReportsBulkSave = async (
+  reports: CongFieldServiceReportType[]
+) => {
+  await appDb.cong_field_service_reports.bulkPut(reports);
+};
