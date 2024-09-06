@@ -1,5 +1,6 @@
 import { PersonType } from '@definition/person';
 
-export type PersonDetailsProps = {
+export type PersonItemProps = {
   person: PersonType;
+  month: string
 };

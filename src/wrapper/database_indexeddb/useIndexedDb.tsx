@@ -17,6 +17,7 @@ import { userBibleStudiesState } from '@states/user_bible_studies';
 import { fieldServiceReportsState } from '@states/field_service_reports';
 import { branchFieldServiceReportsState } from '@states/branch_field_service_reports';
 import { branchCongAnalysisReportsState } from '@states/branch_cong_analysis';
+import { fieldServiceGroupsState } from '@states/field_service_groups';
 
 const useIndexedDb = () => {
   const dbSettings = useLiveQuery(() => appDb.app_settings.toArray());
@@ -49,6 +50,9 @@ const useIndexedDb = () => {
   const dbBranchCongAnalysis = useLiveQuery(() =>
     appDb.branch_cong_analysis.toArray()
   );
+  const dbFieldGroups = useLiveQuery(() =>
+    appDb.field_service_groups.toArray()
+  );
 
   const setSettings = useSetRecoilState(settingsState);
   const setPersons = useSetRecoilState(personsState);
@@ -74,6 +78,7 @@ const useIndexedDb = () => {
   const setBranchCongAnalysis = useSetRecoilState(
     branchCongAnalysisReportsState
   );
+  const setFieldGroups = useSetRecoilState(fieldServiceGroupsState);
 
   const loadSettings = useCallback(() => {
     if (dbSettings && dbSettings[0]) {
@@ -159,6 +164,12 @@ const useIndexedDb = () => {
     }
   }, [dbBranchCongAnalysis, setBranchCongAnalysis]);
 
+  const loadFieldGroups = useCallback(() => {
+    if (dbFieldGroups) {
+      setFieldGroups(dbFieldGroups);
+    }
+  }, [dbFieldGroups, setFieldGroups]);
+
   return {
     loadSettings,
     loadPersons,
@@ -174,6 +185,7 @@ const useIndexedDb = () => {
     loadCongFieldServiceReports,
     loadBranchFieldReports,
     loadBranchCongAnalysis,
+    loadFieldGroups,
   };
 };
 

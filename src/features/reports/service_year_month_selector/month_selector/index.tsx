@@ -5,13 +5,20 @@ import MenuItem from '@components/menuitem';
 import Select from '@components/select';
 import Typography from '@components/typography';
 
-const MonthSelector = ({ onChange, value, year, sx }: MonthSelectorProps) => {
+const MonthSelector = ({
+  onChange,
+  value,
+  year,
+  sx,
+  readOnly,
+}: MonthSelectorProps) => {
   const { t } = useAppTranslation();
 
   const { months } = useDateSelector(year);
 
   return (
     <Select
+      readOnly={readOnly}
       label={t('tr_month')}
       value={value}
       onChange={(e) => onChange(e.target.value)}

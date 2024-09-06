@@ -253,7 +253,7 @@ const useReportDetails = () => {
     handleAssignAP,
     handleVerifyReport,
     isInactive,
-    handleMarkAsActive,
+    handleMarkAsActive,currentMonth
   };
 };
 

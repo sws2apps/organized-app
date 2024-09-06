@@ -6,8 +6,8 @@ import Typography from '@components/typography';
 import UserCardMaleImg from '@assets/img/illustration_male.svg?url';
 import UserCardFemaleImg from '@assets/img/illustration_female.svg?url';
 
-const PersonDetails = ({ person }: PersonDetailsProps) => {
-  const { name, female, badges } = usePersonDetails(person);
+const PersonDetails = (props: PersonDetailsProps) => {
+  const { name, female, badges } = usePersonDetails(props);
 
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: '13px' }}>

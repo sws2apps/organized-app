@@ -45,6 +45,7 @@ const usePersonItem = ({ person }: PersonItemProps) => {
     report_status,
     isSelected,
     handleToggleSelect,
+    currentMonth,
   };
 };
 

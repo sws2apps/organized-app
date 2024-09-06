@@ -1,13 +1,9 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
-import { PersonType } from '@definition/person';
-import { selectedMonthFieldServiceReportState } from '@states/field_service_reports';
+import { PersonDetailsProps } from './index.types';
 import usePerson from '@features/persons/hooks/usePerson';
 
-const usePersonDetails = (person: PersonType) => {
+const usePersonDetails = ({ month, person }: PersonDetailsProps) => {
   const { getName, getBadges } = usePerson();
-
-  const currentMonth = useRecoilValue(selectedMonthFieldServiceReportState);
 
   const name = useMemo(() => {
     if (!person) return '';
@@ -24,8 +20,8 @@ const usePersonDetails = (person: PersonType) => {
   const badges = useMemo(() => {
     if (!person) return [];
 
-    return getBadges(person, currentMonth);
-  }, [person, getBadges, currentMonth]);
+    return getBadges(person, month);
+  }, [person, getBadges, month]);
 
   return { name, female, badges };
 };

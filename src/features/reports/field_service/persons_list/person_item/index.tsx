@@ -6,10 +6,10 @@ import {
 import { UserCard } from './index.styles';
 import { PersonItemProps } from './index.types';
 import usePersonItem from './usePersonItem';
-import PersonDetails from '../../person_details';
+import PersonDetails from '@features/persons/person_details';
 
 const PersonItem = (props: PersonItemProps) => {
-  const { report_status, isSelected, handleToggleSelect } =
+  const { report_status, isSelected, handleToggleSelect, currentMonth } =
     usePersonItem(props);
 
   return (
@@ -20,7 +20,7 @@ const PersonItem = (props: PersonItemProps) => {
         backgroundColor: isSelected && 'var(--accent-100)',
       }}
     >
-      <PersonDetails person={props.person} />
+      <PersonDetails person={props.person} month={currentMonth} />
 
       {report_status === 'confirmed' && (
         <IconCheckmarkCircleAlt color="var(--accent-main)" />

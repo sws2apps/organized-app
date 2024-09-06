@@ -5,9 +5,9 @@ import {
   LeftColumn,
   RightColumn,
   Wrapper,
-} from '@features/congregation/publisher_records/Wrappers';
-import PublisherDetailCard from '@features/congregation/publisher_records_detail/PublisherDetailCard';
-import ServiceYearCard from '@features/congregation/publisher_records_detail/ServiceYearCard';
+} from '@features/congregation/old/publisher_records/Wrappers';
+import PublisherDetailCard from '@features/congregation/old/publisher_records_detail/PublisherDetailCard';
+import ServiceYearCard from '@features/congregation/old/publisher_records_detail/ServiceYearCard';
 import useAppTranslation from '@hooks/useAppTranslation';
 import { Box } from '@mui/material';
 

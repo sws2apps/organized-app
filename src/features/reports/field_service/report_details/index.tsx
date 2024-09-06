@@ -16,7 +16,7 @@ import Divider from '@components/divider';
 import HoursField from './hours_field';
 import LateReport from './late_report';
 import MinistryShared from './ministry_shared';
-import PersonDetails from '../person_details';
+import PersonDetails from '@features/persons/person_details';
 import Typography from '@components/typography';
 
 const ReportDetails = () => {
@@ -35,6 +35,7 @@ const ReportDetails = () => {
     handleVerifyReport,
     isInactive,
     handleMarkAsActive,
+    currentMonth,
   } = useReportDetails();
 
   return (
@@ -77,7 +78,7 @@ const ReportDetails = () => {
                   flexWrap: 'wrap',
                 }}
               >
-                <PersonDetails person={person} />
+                <PersonDetails person={person} month={currentMonth} />
                 <LateReport person={person} />
               </Box>
             </Stack>

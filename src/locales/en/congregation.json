@@ -432,5 +432,6 @@
   "tr_event": "Event",
   "tr_markAsVerified": "Mark as verified",
   "tr_undoS1ReportSubmissionDesc": "This action will enable you to include any new reports entered for this month. Are you sure to continue?",
-  "tr_undoS10ReportSubmissionDesc": "This action will enable you to include any new reports entered for this service year. Are you sure to continue?"
+  "tr_undoS10ReportSubmissionDesc": "This action will enable you to include any new reports entered for this service year. Are you sure to continue?",
+  "tr_groupNotAssigned": "Group not assigned"
 }
