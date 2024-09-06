@@ -12,9 +12,13 @@ import { handleSaveFieldServiceReports } from '@services/app/cong_field_service_
 import { displaySnackNotification } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { branchFieldReportsState } from '@states/branch_field_service_reports';
+import usePerson from '@features/persons/hooks/usePerson';
 
 const useBibleStudies = (person: PersonType) => {
   const { t } = useAppTranslation();
+
+  const { personIsBaptizedPublisher, personIsUnbaptizedPublisher } =
+    usePerson();
 
   const reports = useRecoilValue(congFieldServiceReportsState);
   const currentMonth = useRecoilValue(selectedMonthFieldServiceReportState);
@@ -28,7 +32,25 @@ const useBibleStudies = (person: PersonType) => {
     );
   }, [reports, currentMonth, person]);
 
+  const isInactive = useMemo(() => {
+    if (!person) return true;
+
+    const isBaptized = personIsBaptizedPublisher(person, currentMonth);
+    const isUnbaptized = personIsUnbaptizedPublisher(person, currentMonth);
+
+    const active = isBaptized || isUnbaptized;
+
+    return !active;
+  }, [
+    person,
+    currentMonth,
+    personIsBaptizedPublisher,
+    personIsUnbaptizedPublisher,
+  ]);
+
   const readOnly = useMemo(() => {
+    if (isInactive) return true;
+
     const branchReport = branchReports.find(
       (record) => record.report_date === currentMonth
     );
@@ -42,7 +64,7 @@ const useBibleStudies = (person: PersonType) => {
     if (isLate) return false;
 
     return branchReport.report_data.submitted;
-  }, [branchReports, currentMonth, currentReport]);
+  }, [branchReports, currentMonth, currentReport, isInactive]);
 
   const bible_studies = useMemo(() => {
     if (!currentReport) return 0;

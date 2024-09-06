@@ -34,6 +34,7 @@ const ReportDetails = () => {
     handleAssignAP,
     handleVerifyReport,
     isInactive,
+    handleMarkAsActive,
   } = useReportDetails();
 
   return (
@@ -124,7 +125,11 @@ const ReportDetails = () => {
           )}
 
           {isInactive && (
-            <Button variant="main" startIcon={<IconCheck />}>
+            <Button
+              variant="main"
+              onClick={handleMarkAsActive}
+              startIcon={<IconCheck />}
+            >
               {t('tr_reactivatePublisher')}
             </Button>
           )}

@@ -4,7 +4,7 @@ import { personsState } from '@states/persons';
 import { userLocalUIDState } from '@states/settings';
 import { formatDate } from '@services/dateformat';
 
-const useHookCurrentUser = () => {
+const useCurrentUser = () => {
   const userUID = useRecoilValue(userLocalUIDState);
   const persons = useRecoilValue(personsState);
 
@@ -15,31 +15,26 @@ const useHookCurrentUser = () => {
   const first_report = useMemo(() => {
     if (!person) return;
 
-    const isBaptized = person.person_data.publisher_baptized.active.value;
-    const isUnbaptized = person.person_data.publisher_unbaptized.active.value;
+    // get all status history
+    let history = [
+      ...person.person_data.publisher_unbaptized.history,
+      ...person.person_data.publisher_baptized.history,
+    ];
 
-    const isPublisher = isBaptized || isUnbaptized;
+    history = history.filter(
+      (record) => !record._deleted && record.start_date?.length > 0
+    );
 
-    if (!isPublisher) return;
+    history.sort((a, b) => a.start_date.localeCompare(b.start_date));
 
-    if (isBaptized) {
-      const record = person.person_data.publisher_baptized.history.find(
-        (record) => record._deleted === false && record.start_date?.length > 0
-      );
+    if (history.length === 0) return;
 
-      return formatDate(new Date(record.start_date), 'yyyy/MM');
-    }
+    const firstDate = new Date(history.at(0).start_date);
 
-    if (!isBaptized) {
-      const record = person.person_data.publisher_unbaptized.history.find(
-        (record) => record._deleted === false && record.start_date?.length > 0
-      );
-
-      return formatDate(new Date(record.start_date), 'yyyy/MM');
-    }
+    return formatDate(firstDate, 'yyyy/MM');
   }, [person]);
 
   return { person, first_report };
 };
 
-export default useHookCurrentUser;
+export default useCurrentUser;

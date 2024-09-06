@@ -94,8 +94,9 @@ const useReportSection = () => {
     const reports = congReports.filter(
       (record) =>
         record.report_data.status === 'confirmed' &&
-        (record.report_data.report_date === month ||
-          (record.report_data.late &&
+        ((record.report_data.shared_ministry &&
+          record.report_data.report_date === month) ||
+          (record.report_data.late.value &&
             record.report_data.late.submitted.length === 0))
     );
 

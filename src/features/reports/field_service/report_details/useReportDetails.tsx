@@ -201,6 +201,48 @@ const useReportDetails = () => {
     }
   };
 
+  const handleMarkAsActive = async () => {
+    try {
+      const newPerson = structuredClone(person);
+
+      const isBaptized = newPerson.person_data.publisher_baptized.active.value;
+      const isUnbaptized =
+        newPerson.person_data.publisher_unbaptized.active.value;
+
+      const startDate = new Date(`${currentMonth}/01`).toISOString();
+
+      if (isBaptized) {
+        newPerson.person_data.publisher_baptized.history.push({
+          id: crypto.randomUUID(),
+          _deleted: false,
+          updatedAt: new Date().toISOString(),
+          start_date: startDate,
+          end_date: null,
+        });
+      }
+
+      if (isUnbaptized) {
+        newPerson.person_data.publisher_unbaptized.history.push({
+          id: crypto.randomUUID(),
+          _deleted: false,
+          updatedAt: new Date().toISOString(),
+          start_date: startDate,
+          end_date: null,
+        });
+      }
+
+      await dbPersonsSave(newPerson);
+    } catch (error) {
+      console.error(error);
+
+      await displaySnackNotification({
+        header: t('tr_errorTitle'),
+        message: getMessageByCode(error.message),
+        severity: 'error',
+      });
+    }
+  };
+
   return {
     person,
     hoursEnabled,
@@ -210,8 +252,8 @@ const useReportDetails = () => {
     unverified,
     handleAssignAP,
     handleVerifyReport,
-    report_editable,
     isInactive,
+    handleMarkAsActive,
   };
 };
 

@@ -12,9 +12,13 @@ import {
 import { CongFieldServiceReportType } from '@definition/cong_field_service_reports';
 import { debounceFieldServiceSave } from '@services/app/cong_field_service_reports';
 import { branchFieldReportsState } from '@states/branch_field_service_reports';
+import usePerson from '@features/persons/hooks/usePerson';
 
 const useComments = (person: PersonType) => {
   const { t } = useAppTranslation();
+
+  const { personIsBaptizedPublisher, personIsUnbaptizedPublisher } =
+    usePerson();
 
   const reports = useRecoilValue(congFieldServiceReportsState);
   const currentMonth = useRecoilValue(selectedMonthFieldServiceReportState);
@@ -28,7 +32,25 @@ const useComments = (person: PersonType) => {
     );
   }, [reports, currentMonth, person]);
 
+  const isInactive = useMemo(() => {
+    if (!person) return true;
+
+    const isBaptized = personIsBaptizedPublisher(person, currentMonth);
+    const isUnbaptized = personIsUnbaptizedPublisher(person, currentMonth);
+
+    const active = isBaptized || isUnbaptized;
+
+    return !active;
+  }, [
+    person,
+    currentMonth,
+    personIsBaptizedPublisher,
+    personIsUnbaptizedPublisher,
+  ]);
+
   const readOnly = useMemo(() => {
+    if (isInactive) return true;
+
     const branchReport = branchReports.find(
       (record) => record.report_date === currentMonth
     );
@@ -42,7 +64,7 @@ const useComments = (person: PersonType) => {
     if (isLate) return false;
 
     return branchReport.report_data.submitted;
-  }, [branchReports, currentMonth, currentReport]);
+  }, [branchReports, currentMonth, currentReport, isInactive]);
 
   const comments = useMemo(() => {
     if (!currentReport) return '';

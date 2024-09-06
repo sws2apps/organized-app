@@ -299,6 +299,26 @@ const usePerson = () => {
     return badges.sort((a, b) => a.name.localeCompare(b.name));
   };
 
+  const personGetFirstReport = (person: PersonType) => {
+    // get all status history
+    let history = [
+      ...person.person_data.publisher_unbaptized.history,
+      ...person.person_data.publisher_baptized.history,
+    ];
+
+    history = history.filter(
+      (record) => !record._deleted && record.start_date?.length > 0
+    );
+
+    history.sort((a, b) => a.start_date.localeCompare(b.start_date));
+
+    if (history.length === 0) return;
+
+    const firstDate = new Date(history.at(0).start_date);
+
+    return formatDate(firstDate, 'yyyy/MM');
+  };
+
   return {
     personIsPublisher,
     personCheckInactivityState,
@@ -309,6 +329,7 @@ const usePerson = () => {
     personIsMidweekStudent,
     getBadges,
     getName,
+    personGetFirstReport,
   };
 };
 

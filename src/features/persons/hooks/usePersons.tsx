@@ -12,6 +12,7 @@ const usePersons = () => {
     personIsPrivilegeActive,
     personIsEnrollmentActive,
     personIsMidweekStudent,
+    personGetFirstReport,
   } = usePerson();
 
   const persons = useRecoilValue(personsActiveState);
@@ -28,9 +29,13 @@ const usePersons = () => {
 
   const getPublishersInactive = (month: string) => {
     const result = persons.filter((record) => {
-      const isPublisher = personIsPublisher(record, month);
       const isMidweek = personIsMidweekStudent(record);
+      if (isMidweek) return false;
 
+      const firstReport = personGetFirstReport(record);
+      if (firstReport > month) return false;
+
+      const isPublisher = personIsPublisher(record, month);
       return !isMidweek && !isPublisher;
     });
 
@@ -87,11 +92,15 @@ const usePersons = () => {
 
   const getPublishersInactiveYears = (year: string) => {
     const startMonth = `${+year - 1}/09`;
-    const endMonth = ` ${year}/08`;
+    const endMonth = `${year}/08`;
 
     const result = persons.filter((record) => {
       const isMidweek = personIsMidweekStudent(record);
       if (isMidweek) return false;
+
+      const firstReport = personGetFirstReport(record);
+
+      if (firstReport > endMonth) return false;
 
       const history = [
         ...record.person_data.publisher_baptized.history,
@@ -106,21 +115,19 @@ const usePersons = () => {
         return false;
       }
 
-      const active = history.some((data) => {
+      const inactive = history.some((data) => {
         if (data._deleted) return false;
         if (data.start_date === null) return false;
+        if (data.end_date === null) return false;
 
-        const startTmp = new Date(data.start_date);
-        const endTmp =
-          data.end_date === null ? new Date() : new Date(data.end_date);
+        const endTmp = new Date(data.end_date);
 
-        const startTmpDate = formatDate(startTmp, 'yyyy/MM');
         const endTmpDate = formatDate(endTmp, 'yyyy/MM');
 
-        return startMonth >= startTmpDate && endMonth <= endTmpDate;
+        return endTmpDate >= startMonth && endTmpDate <= endMonth;
       });
 
-      return !active;
+      return inactive;
     });
 
     return result;
