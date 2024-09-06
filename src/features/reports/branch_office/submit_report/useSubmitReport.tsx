@@ -14,6 +14,10 @@ import { branchCongAnalysisState } from '@states/branch_cong_analysis';
 import { dbBranchCongAnalysisSave } from '@services/dexie/branch_cong_analysis';
 import { congFieldServiceReportsState } from '@states/field_service_reports';
 import { dbFieldServiceReportsBulkSave } from '@services/dexie/cong_field_service_reports';
+import { PersonType } from '@definition/person';
+import { dbPersonsBulkSave } from '@services/dexie/persons';
+import usePersons from '@features/persons/hooks/usePersons';
+import usePerson from '@features/persons/hooks/usePerson';
 
 const useSubmitReport = ({ onClose }: SubmitReportProps) => {
   const { t } = useAppTranslation();
@@ -25,8 +29,53 @@ const useSubmitReport = ({ onClose }: SubmitReportProps) => {
   const congAnalysis = useRecoilValue(branchCongAnalysisState);
   const congReports = useRecoilValue(congFieldServiceReportsState);
 
-  const handleS1 = async () => {
-    // mark all late reports as submitted
+  const { getPublishersActive } = usePersons();
+  const { personCheckInactivityState } = usePerson();
+
+  const handleUpdateInactiveState = async () => {
+    const personsInactive: PersonType[] = [];
+
+    const active = getPublishersActive(month);
+
+    for (const person of active) {
+      const isInactive = personCheckInactivityState(person, month);
+
+      if (!isInactive) continue;
+
+      const [year, varMonth] = month.split('/');
+      const endDate = new Date(+year, +varMonth, 0).toISOString();
+
+      const newPerson = structuredClone(person);
+
+      const baptizedActive =
+        newPerson.person_data.publisher_baptized.history.find(
+          (record) => record._deleted === false && record.end_date === null
+        );
+
+      if (baptizedActive) {
+        baptizedActive.end_date = endDate;
+        baptizedActive.updatedAt = new Date().toISOString();
+      }
+
+      const unbaptizedActive =
+        newPerson.person_data.publisher_unbaptized.history.find(
+          (record) => record._deleted === false && record.end_date === null
+        );
+
+      if (unbaptizedActive) {
+        unbaptizedActive.end_date = endDate;
+        unbaptizedActive.updatedAt = new Date().toISOString();
+      }
+
+      personsInactive.push(newPerson);
+    }
+
+    if (personsInactive.length > 0) {
+      await dbPersonsBulkSave(personsInactive);
+    }
+  };
+
+  const handleLateReports = async () => {
     const lateReports = congReports.filter(
       (record) =>
         record.report_data.status === 'confirmed' &&
@@ -42,6 +91,11 @@ const useSubmitReport = ({ onClose }: SubmitReportProps) => {
     });
 
     await dbFieldServiceReportsBulkSave(reportsToSave);
+  };
+
+  const handleS1 = async () => {
+    // mark all late reports as submitted
+    await handleLateReports();
 
     // save status
     const currentReport = reports.find(
@@ -53,6 +107,9 @@ const useSubmitReport = ({ onClose }: SubmitReportProps) => {
     report.report_data.updatedAt = new Date().toISOString();
 
     await dbBranchFieldReportSave(report);
+
+    // update publishers inactive state
+    await handleUpdateInactiveState();
   };
 
   const handleS10 = async () => {

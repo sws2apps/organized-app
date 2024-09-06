@@ -2,6 +2,7 @@ import { useRecoilValue } from 'recoil';
 import { personsActiveState } from '@states/persons';
 import { formatDate } from '@services/dateformat';
 import { congFieldServiceReportsState } from '@states/field_service_reports';
+import { PersonType } from '@definition/person';
 import usePerson from './usePerson';
 
 const usePersons = () => {
@@ -13,6 +14,7 @@ const usePersons = () => {
     personIsEnrollmentActive,
     personIsMidweekStudent,
     personGetFirstReport,
+    personCheckInactivityState,
   } = usePerson();
 
   const persons = useRecoilValue(personsActiveState);
@@ -158,6 +160,22 @@ const usePersons = () => {
     return result;
   };
 
+  const getPublishersActiveForBranch = (month: string) => {
+    const personActive: PersonType[] = [];
+
+    const active = getPublishersActive(month);
+
+    for (const person of active) {
+      const isInactive = personCheckInactivityState(person, month);
+
+      if (!isInactive) {
+        personActive.push(person);
+      }
+    }
+
+    return personActive;
+  };
+
   return {
     getPublishersActive,
     getPublishersInactive,
@@ -168,6 +186,7 @@ const usePersons = () => {
     getRegularPioneers,
     getPublishersInactiveYears,
     getPublishersReactivatedYears,
+    getPublishersActiveForBranch,
   };
 };
 

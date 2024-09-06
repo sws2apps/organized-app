@@ -35,6 +35,7 @@ const useReportSection = () => {
     getPublishersActive,
     getPublishersInactiveYears,
     getPublishersReactivatedYears,
+    getPublishersActiveForBranch,
   } = usePersons();
 
   const report = useRecoilValue(branchSelectedReportState);
@@ -171,7 +172,7 @@ const useReportSection = () => {
     }
 
     branchReport.report_data.publishers_active =
-      getPublishersActive(month).length;
+      getPublishersActiveForBranch(month).length;
 
     branchReport.report_data.weekend_meeting_average = weekend.average;
 

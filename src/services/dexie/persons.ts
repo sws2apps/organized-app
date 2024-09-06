@@ -105,3 +105,7 @@ export const dbPersonsGetAll = async () => {
   const persons = await appDb.persons.toArray();
   return persons;
 };
+
+export const dbPersonsBulkSave = async (persons: PersonType[]) => {
+  await appDb.persons.bulkPut(persons);
+};
