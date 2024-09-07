@@ -1,16 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { CongregationUserType } from '@definition/api';
 import { displaySnackNotification } from '@services/recoil/app';
 import { useAppTranslation } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
 import { userIDState } from '@states/app';
 import useUserDetails from '../useUserDetails';
 
-const useUserMainRoles = (user: CongregationUserType) => {
+const useUserMainRoles = () => {
   const { t } = useAppTranslation();
 
-  const { handleSaveDetails } = useUserDetails();
+  const { handleSaveDetails, user } = useUserDetails();
 
   const userID = useRecoilValue(userIDState);
 
@@ -24,15 +23,19 @@ const useUserMainRoles = (user: CongregationUserType) => {
       if (userID !== user.id) {
         setIsAdmin(value);
 
+        const newUser = structuredClone(user);
+
         if (value) {
-          user.cong_role.push('admin');
+          newUser.cong_role.push('admin');
         }
 
         if (!value) {
-          user.cong_role = user.cong_role.filter((role) => role !== 'admin');
+          newUser.cong_role = newUser.cong_role.filter(
+            (role) => role !== 'admin'
+          );
         }
 
-        await handleSaveDetails(user);
+        await handleSaveDetails(newUser);
       }
     } catch (error) {
       console.error(error);
@@ -49,17 +52,19 @@ const useUserMainRoles = (user: CongregationUserType) => {
     try {
       setIsCoordinator(value);
 
+      const newUser = structuredClone(user);
+
       if (value) {
-        user.cong_role.push('coordinator');
+        newUser.cong_role.push('coordinator');
       }
 
       if (!value) {
-        user.cong_role = user.cong_role.filter(
+        newUser.cong_role = newUser.cong_role.filter(
           (role) => role !== 'coordinator'
         );
       }
 
-      await handleSaveDetails(user);
+      await handleSaveDetails(newUser);
     } catch (error) {
       console.error(error);
 
@@ -75,15 +80,19 @@ const useUserMainRoles = (user: CongregationUserType) => {
     try {
       setIsSecretary(value);
 
+      const newUser = structuredClone(user);
+
       if (value) {
-        user.cong_role.push('secretary');
+        newUser.cong_role.push('secretary');
       }
 
       if (!value) {
-        user.cong_role = user.cong_role.filter((role) => role !== 'secretary');
+        newUser.cong_role = user.cong_role.filter(
+          (role) => role !== 'secretary'
+        );
       }
 
-      await handleSaveDetails(user);
+      await handleSaveDetails(newUser);
     } catch (error) {
       console.error(error);
 
@@ -99,17 +108,19 @@ const useUserMainRoles = (user: CongregationUserType) => {
     try {
       setIsFieldOverseer(value);
 
+      const newUser = structuredClone(user);
+
       if (value) {
-        user.cong_role.push('field_service_group_overseer');
+        newUser.cong_role.push('field_service_group_overseer');
       }
 
       if (!value) {
-        user.cong_role = user.cong_role.filter(
+        newUser.cong_role = newUser.cong_role.filter(
           (role) => role !== 'field_service_group_overseer'
         );
       }
 
-      await handleSaveDetails(user);
+      await handleSaveDetails(newUser);
     } catch (error) {
       console.error(error);
 

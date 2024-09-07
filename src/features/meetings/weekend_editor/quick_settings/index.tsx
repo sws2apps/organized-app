@@ -20,7 +20,7 @@ const QuickSettingsWeekendMeeting = ({
   return (
     <QuickSettings title={t('tr_weekendMeeting')} open={open} onClose={onClose}>
       <Stack
-        spacing="24px"
+        spacing="16px"
         width="100%"
         divider={<Divider color="var(--accent-200)" />}
       >

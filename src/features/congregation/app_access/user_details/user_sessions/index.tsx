@@ -1,15 +1,14 @@
 import { Box } from '@mui/material';
 import { DetailsContainer } from '../shared_styles';
-import { UserMemberDetailsType } from '../index.types';
 import { useAppTranslation } from '@hooks/index';
 import useUserSessions from './useUserSessions';
 import SessionItem from '@features/my_profile/sessions/session_item';
 import Typography from '@components/typography';
 
-const UserSessions = ({ user }: UserMemberDetailsType) => {
+const UserSessions = () => {
   const { t } = useAppTranslation();
 
-  const { handleTerminate } = useUserSessions(user);
+  const { handleTerminate, user } = useUserSessions();
 
   return (
     <DetailsContainer>

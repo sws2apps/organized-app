@@ -1,8 +1,9 @@
+import { Stack } from '@mui/material';
 import {
   CardSection,
   CardSectionContent,
   CardSectionHeader,
-} from '../../shared_styles/components';
+} from '../shared_styles';
 import { useAppTranslation } from '@hooks/index';
 import useCongregationPrivacy from './useCongregationPrivacy';
 import AccessCodeView from './access_code_view';
@@ -22,27 +23,27 @@ const CongregationPrivacy = () => {
 
   return (
     <CardSection>
-      <CardSectionContent sx={{ gap: '16px' }}>
-        <CardSectionHeader
-          title={t('tr_congregationPrivacy')}
-          description={t('tr_congregationSecurityDesc')}
-        />
-        <SwitchWithLabel
-          label={t('tr_showAwayToAll')}
-          helper={t('tr_showAwayToAllDesc')}
-          checked={timeAwayPublic}
-          onChange={handleTimeAwayPublicToggle}
-        />
+      <CardSectionHeader
+        title={t('tr_congregationPrivacy')}
+        description={t('tr_congregationSecurityDesc')}
+      />
 
-        <OutgoingTalkAccess />
+      <CardSectionContent spacing="16px">
+        <Stack spacing="16px">
+          <SwitchWithLabel
+            label={t('tr_showAwayToAll')}
+            helper={t('tr_showAwayToAllDesc')}
+            checked={timeAwayPublic}
+            onChange={handleTimeAwayPublicToggle}
+          />
+
+          <OutgoingTalkAccess />
+        </Stack>
+
+        {isConnected && isUserAdmin && <MasterKeyView />}
+
+        {isConnected && isUserAdmin && <AccessCodeView />}
       </CardSectionContent>
-
-      {isConnected && isUserAdmin && (
-        <>
-          <MasterKeyView />
-          <AccessCodeView />
-        </>
-      )}
     </CardSection>
   );
 };

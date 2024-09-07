@@ -4,6 +4,7 @@ import CircuitOverseer from '@features/congregation/settings/circuit_overseer';
 import CongregationBasic from '@features/congregation/settings/congregation_basic';
 import CongregationPrivacy from '@features/congregation/settings/congregation_privacy';
 import MeetingForms from '@features/congregation/settings/meeting_forms';
+import MinistrySettings from '@features/congregation/settings/ministry_settings';
 import PageTitle from '@components/page_title';
 
 const CongregationSettings = () => {
@@ -43,6 +44,7 @@ const CongregationSettings = () => {
           }}
         >
           <MeetingForms />
+          <MinistrySettings />
           <CircuitOverseer />
         </Box>
       </Box>

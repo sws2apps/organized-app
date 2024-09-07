@@ -64,7 +64,7 @@ export type ValidateMeResponseType = {
     country_code: string;
     cong_name: string;
     cong_number: string;
-    cong_role: string[];
+    cong_role: AppRoleType[];
     id: string;
     mfaEnabled: boolean;
     cong_circuit: { type: string; value: string; updatedAt: string }[];

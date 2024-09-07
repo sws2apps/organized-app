@@ -1,24 +1,14 @@
+import { ProgressBarProps } from './index.types';
 import {
   StyledProgressBar,
   StyledProgressBarFill,
   StyledProgressBarBox,
   StyledProgressBarToFill,
-} from './progress_bar.styled';
+} from './index.styles';
 
 /**
  * Props for the ProgressBarSmall component.
  */
-interface ProgressBarProps {
-  /**
-   * The current value of the progress bar.
-   */
-  value: number;
-
-  /**
-   * The maximum value of the progress bar.
-   */
-  maxValue: number;
-}
 
 /**
  * A small progress bar component.
@@ -31,10 +21,15 @@ const ProgressBar = ({ value, maxValue }: ProgressBarProps) => {
   return (
     <StyledProgressBarBox>
       <StyledProgressBar>
-        <StyledProgressBarFill style={{ width: `${progressValue}%` }}>
-          {value}
-        </StyledProgressBarFill>
-        <StyledProgressBarToFill>{maxValue - value}</StyledProgressBarToFill>
+        {value > 0 && (
+          <StyledProgressBarFill style={{ width: `${progressValue}%` }}>
+            {value}
+          </StyledProgressBarFill>
+        )}
+
+        {maxValue - value > 0 && (
+          <StyledProgressBarToFill>{maxValue - value}</StyledProgressBarToFill>
+        )}
       </StyledProgressBar>
     </StyledProgressBarBox>
   );

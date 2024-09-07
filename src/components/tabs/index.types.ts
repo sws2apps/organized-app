@@ -1,5 +1,5 @@
 import { ReactElement, ReactNode } from 'react';
-import { TabOwnProps, TabsOwnProps } from '@mui/material';
+import { SxProps, TabOwnProps, TabsOwnProps, Theme } from '@mui/material';
 
 /**
  * Props for the TabsPanel component.
@@ -62,4 +62,8 @@ export interface CustomTabProps extends TabOwnProps {
   className?: string;
 
   variant?: TabsOwnProps['variant'];
+
+  minHeight?: string;
+
+  sx?: SxProps<Theme>;
 }

@@ -1,6 +1,8 @@
 import { useCallback } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { useLiveQuery } from 'dexie-react-hooks';
+import appDb from '@db/appDb';
+
 import { settingsState } from '@states/settings';
 import { personsState } from '@states/persons';
 import { weekTypeState } from '@states/weekType';
@@ -9,8 +11,13 @@ import { sourcesState } from '@states/sources';
 import { schedulesState } from '@states/schedules';
 import { visitingSpeakersState } from '@states/visiting_speakers';
 import { speakersCongregationsState } from '@states/speakers_congregations';
-import appDb from '@db/appDb';
 import { meetingAttendanceState } from '@states/meeting_attendance';
+import { userFieldServiceReportsState } from '@states/user_field_service_reports';
+import { userBibleStudiesState } from '@states/user_bible_studies';
+import { fieldServiceReportsState } from '@states/field_service_reports';
+import { branchFieldServiceReportsState } from '@states/branch_field_service_reports';
+import { branchCongAnalysisReportsState } from '@states/branch_cong_analysis';
+import { fieldServiceGroupsState } from '@states/field_service_groups';
 
 const useIndexedDb = () => {
   const dbSettings = useLiveQuery(() => appDb.app_settings.toArray());
@@ -28,6 +35,24 @@ const useIndexedDb = () => {
   const dbMeetingAttendance = useLiveQuery(() =>
     appDb.meeting_attendance.toArray()
   );
+  const dbUserBibleStudies = useLiveQuery(() =>
+    appDb.user_bible_studies.toArray()
+  );
+  const dbUserFieldServiceReports = useLiveQuery(() =>
+    appDb.user_field_service_reports.toArray()
+  );
+  const dbCongFieldServiceReports = useLiveQuery(() =>
+    appDb.cong_field_service_reports.toArray()
+  );
+  const dbBranchFieldReports = useLiveQuery(() =>
+    appDb.branch_field_service_reports.toArray()
+  );
+  const dbBranchCongAnalysis = useLiveQuery(() =>
+    appDb.branch_cong_analysis.toArray()
+  );
+  const dbFieldGroups = useLiveQuery(() =>
+    appDb.field_service_groups.toArray()
+  );
 
   const setSettings = useSetRecoilState(settingsState);
   const setPersons = useSetRecoilState(personsState);
@@ -40,6 +65,20 @@ const useIndexedDb = () => {
     speakersCongregationsState
   );
   const setMeetingAttendance = useSetRecoilState(meetingAttendanceState);
+  const setUserFieldServiceReports = useSetRecoilState(
+    userFieldServiceReportsState
+  );
+  const setUserBibleStudies = useSetRecoilState(userBibleStudiesState);
+  const setCongFieldServiceReports = useSetRecoilState(
+    fieldServiceReportsState
+  );
+  const setBranchFieldReports = useSetRecoilState(
+    branchFieldServiceReportsState
+  );
+  const setBranchCongAnalysis = useSetRecoilState(
+    branchCongAnalysisReportsState
+  );
+  const setFieldGroups = useSetRecoilState(fieldServiceGroupsState);
 
   const loadSettings = useCallback(() => {
     if (dbSettings && dbSettings[0]) {
@@ -95,6 +134,42 @@ const useIndexedDb = () => {
     }
   }, [dbMeetingAttendance, setMeetingAttendance]);
 
+  const loadUserFieldServiceReports = useCallback(() => {
+    if (dbUserFieldServiceReports) {
+      setUserFieldServiceReports(dbUserFieldServiceReports);
+    }
+  }, [dbUserFieldServiceReports, setUserFieldServiceReports]);
+
+  const loadUserBibleStudies = useCallback(() => {
+    if (dbUserBibleStudies) {
+      setUserBibleStudies(dbUserBibleStudies);
+    }
+  }, [dbUserBibleStudies, setUserBibleStudies]);
+
+  const loadCongFieldServiceReports = useCallback(() => {
+    if (dbCongFieldServiceReports) {
+      setCongFieldServiceReports(dbCongFieldServiceReports);
+    }
+  }, [dbCongFieldServiceReports, setCongFieldServiceReports]);
+
+  const loadBranchFieldReports = useCallback(() => {
+    if (dbBranchFieldReports) {
+      setBranchFieldReports(dbBranchFieldReports);
+    }
+  }, [dbBranchFieldReports, setBranchFieldReports]);
+
+  const loadBranchCongAnalysis = useCallback(() => {
+    if (dbBranchCongAnalysis) {
+      setBranchCongAnalysis(dbBranchCongAnalysis);
+    }
+  }, [dbBranchCongAnalysis, setBranchCongAnalysis]);
+
+  const loadFieldGroups = useCallback(() => {
+    if (dbFieldGroups) {
+      setFieldGroups(dbFieldGroups);
+    }
+  }, [dbFieldGroups, setFieldGroups]);
+
   return {
     loadSettings,
     loadPersons,
@@ -105,6 +180,12 @@ const useIndexedDb = () => {
     loadVisitingSpeakers,
     loadSpeakersCongregations,
     loadMeetingAttendance,
+    loadUserFieldServiceReports,
+    loadUserBibleStudies,
+    loadCongFieldServiceReports,
+    loadBranchFieldReports,
+    loadBranchCongAnalysis,
+    loadFieldGroups,
   };
 };
 

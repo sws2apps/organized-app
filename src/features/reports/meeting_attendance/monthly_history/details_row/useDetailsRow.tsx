@@ -3,10 +3,12 @@ import { useRecoilValue } from 'recoil';
 import { useAppTranslation } from '@hooks/index';
 import { DetailsRowProps } from './index.types';
 import { meetingAttendanceState } from '@states/meeting_attendance';
-import { WeeklyAttendance } from '@definition/meeting_attendance';
+import useMeetingAttendance from '../../hooks/useMeetingAttendance';
 
 const useDetailsRow = ({ type, month, meeting }: DetailsRowProps) => {
   const { t } = useAppTranslation();
+
+  const { midweek, weekend } = useMeetingAttendance(month);
 
   const attendances = useRecoilValue(meetingAttendanceState);
 
@@ -35,56 +37,46 @@ const useDetailsRow = ({ type, month, meeting }: DetailsRowProps) => {
   const value = useMemo(() => {
     if (!attendance) return '';
 
-    const values: number[] = [];
-
-    let cnOnline = 0;
-
-    for (let i = 1; i <= 5; i++) {
-      const weekData = attendance[`week_${i}`] as WeeklyAttendance;
-      const meetingData = weekData[meeting];
-
-      let total = 0;
-
-      for (const data of meetingData) {
-        if (data?.present || data?.online) {
-          total += data?.present || 0;
-          total += data?.online || 0;
-          cnOnline += data?.online || 0;
-        }
-      }
-
-      if (total > 0) {
-        values.push(total);
-      }
-    }
-
     if (type === 'count') {
-      return values.length;
-    }
+      if (meeting === 'midweek') {
+        return midweek.count;
+      }
 
-    const grandTotal = values.reduce((value, current) => {
-      return value + current;
-    }, 0);
+      if (meeting === 'weekend') {
+        return weekend.count;
+      }
+    }
 
     if (type === 'total') {
-      return grandTotal;
+      if (meeting === 'midweek') {
+        return midweek.total;
+      }
+
+      if (meeting === 'weekend') {
+        return weekend.total;
+      }
     }
 
-    const cnMeet = values.length;
-    const avgPresent = grandTotal === 0 ? 0 : Math.round(grandTotal / cnMeet);
     if (type === 'average') {
-      return avgPresent;
+      if (meeting === 'midweek') {
+        return midweek.average;
+      }
+
+      if (meeting === 'weekend') {
+        return weekend.average;
+      }
     }
 
     if (type === 'average_online') {
-      const avgOnline = cnOnline === 0 ? 0 : Math.round(cnOnline / cnMeet);
+      if (meeting === 'midweek') {
+        return midweek.average_online;
+      }
 
-      const percent =
-        avgPresent === 0 ? 0 : Math.round((avgOnline * 100) / avgPresent);
-
-      return `${avgOnline} (${percent}%)`;
+      if (meeting === 'weekend') {
+        return weekend.average_online;
+      }
     }
-  }, [attendance, type, meeting]);
+  }, [attendance, type, meeting, midweek, weekend]);
 
   return { label, value };
 };

@@ -68,8 +68,8 @@ const PersonEmergencyContacts = () => {
             <ContactItem
               key={contactItem.id}
               id={contactItem.id}
-              name={contactItem.name.value}
-              contact={contactItem.contact.value}
+              name={contactItem.name}
+              contact={contactItem.contact}
               isLast={index === activeContacts.length - 1}
               onAdd={handleAddContact}
               onDelete={handleDeleteContact}

@@ -1,7 +1,7 @@
 import { styled } from '@mui/system';
 import { ButtonBase } from '@mui/material';
 import { ButtonBaseProps } from '@mui/material/ButtonBase/ButtonBase';
-import { CustomAccordionVariant } from '@components/accordion/accordion.types';
+import { CustomAccordionVariant } from './public_witnessing_card.types';
 
 export const StyledIconWrapper = styled(ButtonBase)<ButtonBaseProps>(
   (props) => ({

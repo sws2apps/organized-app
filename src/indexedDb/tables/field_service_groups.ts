@@ -6,5 +6,5 @@ export type FieldServiceGroupsTable = {
 };
 
 export const fieldServiceGroupsSchema = {
-  field_service_groups: '++id, _deleted, name, sort_index, members',
+  field_service_groups: '&group_id, group_data',
 };

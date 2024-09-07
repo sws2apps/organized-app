@@ -1,11 +1,14 @@
 import { Stack } from '@mui/material';
 import { formatDate } from '@services/dateformat';
 import { useAppTranslation } from '@hooks/index';
-import { CardSection, CardSectionHeader } from '../../shared_styles/components';
+import {
+  CardSection,
+  CardSectionContent,
+  CardSectionHeader,
+} from '../shared_styles';
 import { FullnameOption, SourceFrequency } from '@definition/settings';
 import useMeetingForms from './useMeetingForms';
 import DisplayName from './display_name';
-import Divider from '@components/divider';
 import MenuItem from '@components/menuitem';
 import MidweekExactDate from './midweek_exact_date';
 import Select from '@components/select';
@@ -28,10 +31,10 @@ const MeetingForms = () => {
 
   return (
     <CardSection>
-      <Stack spacing="24px" divider={<Divider color="var(-accent-200)" />}>
-        <Stack spacing="16px">
-          <CardSectionHeader title={t('tr_meetinMaterialsTitle')} />
+      <CardSectionHeader title={t('tr_meetinMaterialsTitle')} />
 
+      <CardSectionContent marginTop="-8px !important">
+        <Stack spacing="16px">
           <SwitchWithLabel
             label={t('tr_autoCheckUpdate')}
             helper={t('tr_autoCheckUpdateDesc')}
@@ -66,7 +69,7 @@ const MeetingForms = () => {
           <DisplayName />
         </Stack>
 
-        <Stack spacing="16px">
+        <Stack spacing="16px" marginTop="24px !important">
           <Select
             label={t('tr_nameFormat')}
             value={fullnameOption}
@@ -92,7 +95,7 @@ const MeetingForms = () => {
             ))}
           </Select>
         </Stack>
-      </Stack>
+      </CardSectionContent>
     </CardSection>
   );
 };

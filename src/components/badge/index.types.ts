@@ -1,11 +1,12 @@
-import { ReactElement, ReactNode } from 'react';
+import { PropsWithChildren, ReactElement, ReactNode } from 'react';
 import { SxProps, Theme } from '@mui/material';
-import { BadgeColor } from '@definition/app';
+import { BadgeColor, CustomClassName } from '@definition/app';
 
 /**
  * Props type for the Badge component.
  */
 export type BadgePropsType = {
+  className?: CustomClassName;
   /**
    * Size of the badge.
    */
@@ -65,16 +66,13 @@ export type BadgePropsType = {
 /**
  * Props type for the typography component within the Badge.
  */
-export type BadgeTypographyPropsType = {
-  /**
-   * Children elements to be rendered within the typography component.
-   */
-  children: ReactNode;
-
+export type BadgeTypographyPropsType = PropsWithChildren & {
   /**
    * Custom styles for the typography component.
    */
   sx?: SxProps<Theme>;
+
+  className?: CustomClassName;
 };
 
 /**

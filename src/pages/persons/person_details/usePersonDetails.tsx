@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { personCurrentDetailsState, personsActiveState } from '@states/persons';
@@ -17,8 +17,13 @@ const usePersonDetails = () => {
   const person = useRecoilValue(personCurrentDetailsState);
   const persons = useRecoilValue(personsActiveState);
 
-  const isBaptized = person.person_data.publisher_baptized.active.value;
-  const male = person.person_data.male.value;
+  const isBaptized = useMemo(() => {
+    return person.person_data.publisher_baptized.active.value;
+  }, [person]);
+
+  const male = useMemo(() => {
+    return person.person_data.male.value;
+  }, [person]);
 
   useEffect(() => {
     const handleCheckPerson = async () => {

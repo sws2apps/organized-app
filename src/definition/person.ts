@@ -1,49 +1,56 @@
+import { AssignmentCode } from './assignment';
+
 export type PrivilegeType = 'elder' | 'ms';
 
 export type EnrollmentType = 'AP' | 'FR' | 'FS' | 'FMF';
 
 export type AssignmentType = {
-  code: number;
+  code: AssignmentCode;
   updatedAt: string;
   _deleted: boolean;
 };
 
 export type TimeAwayType = {
   id: string;
-  start_date: { value: string; updatedAt: string };
-  end_date: { value: string | null; updatedAt: string };
-  comments: { value: string; updatedAt: string };
-  _deleted: { value: boolean; updatedAt: string };
+  _deleted: boolean;
+  updatedAt: string;
+  start_date: string;
+  end_date: string;
+  comments: string;
 };
 
-type StatusHistoryType = {
+export type StatusHistoryType = {
   id: string;
-  start_date: { value: string; updatedAt: string };
-  end_date: { value: string | null; updatedAt: string };
-  _deleted: { value: boolean; updatedAt: string };
+  _deleted: boolean;
+  updatedAt: string;
+  start_date: string;
+  end_date: string;
 };
 
 type PrivilegeHistoryType = {
   id: string;
-  privilege: { value: PrivilegeType; updatedAt: string };
-  start_date: { value: string; updatedAt: string };
-  end_date: { value: string | null; updatedAt: string };
-  _deleted: { value: boolean; updatedAt: string };
+  _deleted: boolean;
+  updatedAt: string;
+  privilege: PrivilegeType;
+  start_date: string;
+  end_date: string;
 };
 
 type EnrollmentHistoryType = {
   id: string;
-  enrollment: { value: EnrollmentType; updatedAt: string };
-  start_date: { value: string; updatedAt: string };
-  end_date: { value: string | null; updatedAt: string };
-  _deleted: { value: boolean; updatedAt: string };
+  _deleted: boolean;
+  updatedAt: string;
+  enrollment: EnrollmentType;
+  start_date: string;
+  end_date: string;
 };
 
 type EmergencyContactsType = {
   id: string;
-  name: { value: string; updatedAt: string };
-  contact: { value: string; updatedAt: string };
-  _deleted: { value: boolean; updatedAt: string };
+  _deleted: boolean;
+  updatedAt: string;
+  name: string;
+  contact: string;
 };
 
 export type PersonType = {
@@ -63,7 +70,6 @@ export type PersonType = {
     email: { value: string; updatedAt: string };
     address: { value: string; updatedAt: string };
     phone: { value: string; updatedAt: string };
-    first_month_report: { value: string | null; updatedAt: string };
     publisher_baptized: {
       active: { value: boolean; updatedAt: string };
       anointed: { value: boolean; updatedAt: string };

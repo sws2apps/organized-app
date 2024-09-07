@@ -1,188 +1,43 @@
-import { Box, MenuItem, useTheme } from '@mui/material';
-import { Button, PageTitle, InfoTip } from '@components/index';
-import {
-  IconArrowLink,
-  IconCheckCircle,
-  IconInfo,
-  IconUndo,
-} from '@components/icons';
-import Typography from '@components/typography';
-import Select from '@components/select';
+import { Box } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
-import { useState } from 'react';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import SubmitReport from './submit_report';
-import {
-  BranchOfficePageStateType,
-  BranchReportsList,
-  type BranchOfficeReportType,
-} from './index.types';
-import { BranchS10ReportResult, BranchS1ReportResult } from './report_results';
-import { s10reportMockData, s1reportMockData } from './index.mock';
-import BranchReportToolbar from './report_toolbar';
-import { BranchOfficeReportToolbarData } from './report_toolbar/index.types';
-import { congNameState } from '@states/settings';
-import { useRecoilValue } from 'recoil';
-import { displaySnackNotification } from '@services/recoil/app';
-import {
-  StyledContentBox,
-  StyledDivider,
-  StyledPageContentBox,
-  StyledReportBox,
-} from './index.styles';
+import useBranchOffice from './useBranchOffice';
+import BranchOfficeContainer from '@features/reports/branch_office';
+import PageTitle from '@components/page_title';
+import SubmitReport from '@features/reports/branch_office/submit_report';
+import WithdrawReport from '@features/reports/branch_office/withdraw_report';
 
-const BranshOfficeReportsPage = () => {
-  const theme = useTheme();
-  const congName = useRecoilValue(congNameState);
-  const desktopView = useMediaQuery(theme.breakpoints.up('desktop'), {
-    noSsr: true,
-  });
-
+const BranchOffice = () => {
   const { t } = useAppTranslation();
 
-  const [pageState, setPageState] =
-    useState<BranchOfficePageStateType>('initial');
-
-  const [reportType, setReportType] = useState<BranchOfficeReportType>('s1');
-
-  const [isReportSubmit, setIsReportSubmit] = useState<boolean>(false);
-  const [reportSubmitted, setReportSubmitted] = useState<boolean>(false);
-
-  //This should be refactored adter implementing the real data
-  const [reportResultData, setReportResultData] = useState({
-    year: 0,
-    month: 0,
-    yearRepresentation: '',
-    monthRepresentation: '',
-  });
-
-  const onSubmitReport = async () => {
-    setIsReportSubmit(false);
-    setReportSubmitted(true);
-    await displaySnackNotification({
-      header: t('tr_done'),
-      message: t('tr_reportSubmittedGeneralDesc'),
-      severity: 'success',
-    });
-  };
-
-  const onGenerateReport = (
-    result: BranchOfficeReportToolbarData,
-    yearRepresentation: string,
-    monthRepresentation: string
-  ) => {
-    setPageState('generating');
-    const timer = setTimeout(() => {
-      setPageState('generated');
-      setReportResultData({
-        year: result.selectedYear,
-        month: result.selectedMonth,
-        yearRepresentation,
-        monthRepresentation,
-      });
-    }, 5000);
-
-    return () => clearTimeout(timer);
-  };
+  const {
+    buttons,
+    handleCloseSubmit,
+    submitOpen,
+    handleCloseWithdraw,
+    withdrawOpen,
+  } = useBranchOffice();
 
   return (
-    <StyledContentBox>
-      <PageTitle
-        title={t('tr_branchOfficeReport')}
-        buttons={
-          reportSubmitted ? (
-            <Button
-              variant="main"
-              color="orange"
-              startIcon={<IconUndo />}
-              onClick={() => setReportSubmitted(false)}
-            >
-              {t('tr_undoSubmission')}
-            </Button>
-          ) : (
-            <>
-              <Button
-                variant="secondary"
-                disabled={pageState !== 'generated'}
-                startIcon={<IconArrowLink />}
-              >
-                {t('tr_submitOnHub')}
-              </Button>
-              <Button
-                variant="main"
-                disabled={pageState !== 'generated'}
-                onClick={() => setIsReportSubmit(true)}
-                startIcon={<IconCheckCircle />}
-              >
-                {t('tr_markAsSubmitted')}
-              </Button>
-            </>
-          )
-        }
-      />
-
-      {isReportSubmit && (
-        <SubmitReport
-          open={isReportSubmit}
-          onSubmit={onSubmitReport}
-          onClose={() => setIsReportSubmit(false)}
-          header={t('tr_markToBranchOffice')}
-          body={t('tr_markToBranchOfficeDesc')}
-        />
+    <Box
+      sx={{
+        display: 'flex',
+        gap: '16px',
+        flexDirection: 'column',
+      }}
+    >
+      {submitOpen && (
+        <SubmitReport open={submitOpen} onClose={handleCloseSubmit} />
       )}
 
-      <StyledPageContentBox desktopView={desktopView}>
-        <StyledReportBox desktopView={desktopView}>
-          <Select
-            label={t('tr_chooseReport')}
-            value={reportType}
-            onChange={(e) =>
-              setReportType(e.target.value as BranchOfficeReportType)
-            }
-          >
-            {BranchReportsList.map((reportName, index) => (
-              <MenuItem key={`report-${index.toString()}`} value={reportName}>
-                <Typography className="body-regular" color="var(--black)">
-                  {t('tr_' + reportName + 'Report')}
-                </Typography>
-              </MenuItem>
-            ))}
-          </Select>
-          <StyledDivider />
-          <BranchReportToolbar
-            pageState={pageState}
-            reportType={reportType}
-            disabledGenerateButton={reportSubmitted}
-            onGenerateReport={onGenerateReport}
-            t={t}
-          />
-        </StyledReportBox>
-        <Box sx={{ flex: desktopView && 15 }}>
-          {pageState !== 'generated' ? (
-            <InfoTip
-              isBig={false}
-              icon={<IconInfo />}
-              color="white"
-              text={t('tr_branchOfficeReportMonthsDesc')}
-            />
-          ) : reportType === 's1' ? (
-            BranchS1ReportResult(
-              s1reportMockData,
-              t,
-              reportResultData.monthRepresentation
-            )
-          ) : (
-            BranchS10ReportResult(
-              s10reportMockData,
-              t,
-              reportResultData.yearRepresentation,
-              congName
-            )
-          )}
-        </Box>
-      </StyledPageContentBox>
-    </StyledContentBox>
+      {withdrawOpen && (
+        <WithdrawReport open={withdrawOpen} onClose={handleCloseWithdraw} />
+      )}
+
+      <PageTitle title={t('tr_branchOfficeReport')} buttons={buttons} />
+
+      <BranchOfficeContainer />
+    </Box>
   );
 };
 
-export default BranshOfficeReportsPage;
+export default BranchOffice;

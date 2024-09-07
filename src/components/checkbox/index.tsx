@@ -42,10 +42,13 @@ const Checkbox = (props: CheckboxPropsType) => {
       }}
       control={
         <MUICheckbox
+          readOnly={props.readOnly ?? false}
           checked={checked}
           indeterminate={indeterminate}
           disabled={disabled}
-          onChange={props.onChange ? props.onChange : null}
+          onChange={
+            props.readOnly ? null : (e, checked) => props.onChange?.(e, checked)
+          }
           sx={{
             padding: 0,
             '&.Mui-disabled': {
@@ -71,13 +74,18 @@ const Checkbox = (props: CheckboxPropsType) => {
       }
       label={
         <>
-          <Typography className={className} color="var(--black)">
+          <Typography
+            sx={{ userSelect: 'none' }}
+            className={className}
+            color="var(--black)"
+          >
             {label}
           </Typography>
           {labelDescription != '' ? (
             <Typography
               className="body-small-regular"
               color={'var(--grey-400)'}
+              sx={{ userSelect: 'none' }}
             >
               {labelDescription}
             </Typography>

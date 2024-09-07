@@ -1,10 +1,10 @@
 import { Box, Container } from '@mui/material';
-import Button from '@components/button';
-import Typography from '@components/typography';
 import { NavBar } from '@layouts/index';
 import { IconRefresh, IconRestart } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
 import useError from './useError';
+import Button from '@components/button';
+import Typography from '@components/typography';
 
 /**
  * Error boundary component to handle errors gracefully.

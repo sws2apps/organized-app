@@ -206,3 +206,7 @@ export const debounce = <T extends (...args: unknown[]) => void>(
     }, delay);
   };
 };
+
+export const getRandomNumber = (min: number, max: number) => {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};

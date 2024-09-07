@@ -17,7 +17,7 @@ const MeetingAttendance = lazy(
   () => import('@pages/reports/meeting_attendance')
 );
 const FieldServiceReportsPage = lazy(
-  () => import('@pages/reports/field-service')
+  () => import('@pages/reports/field_service')
 );
 const MidweekMeeting = lazy(() => import('@pages/meetings/midweek'));
 const MinistryReport = lazy(() => import('@pages/ministry/ministry_report'));
@@ -31,8 +31,8 @@ const ServiceGroups = lazy(() => import('@pages/congregation/service_groups'));
 const PublisherRecord = lazy(
   () => import('@pages/congregation/publisher_records')
 );
-const PublisherRecordDetail = lazy(
-  () => import('@pages/congregation/publisher_records_detail')
+const PublisherRecordDetails = lazy(
+  () => import('@pages/congregation/publisher_records_details')
 );
 const UsersAll = lazy(
   () => import('@pages/congregation/manage_access/all_users')
@@ -46,9 +46,6 @@ const UpcomingEvents = lazy(
   () => import('@pages/congregation/upcoming_events')
 );
 
-const ComponentsPreview = lazy(() => import('@components/preview'));
-const PdfPreview = lazy(() => import('@components/preview/PDF_Peview'));
-
 const queryClient = new QueryClient();
 
 const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
@@ -56,11 +53,6 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
     {
       errorElement: <ErrorBoundary />,
       children: [
-        { path: '/components-preview', element: <ComponentsPreview /> },
-        {
-          path: '/pdf-document',
-          element: <PdfPreview />,
-        },
         {
           element: <RootLayout updatePwa={updatePwa} />,
           children: [
@@ -95,7 +87,7 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
             { path: '/publisher-records', element: <PublisherRecord /> },
             {
               path: '/publisher-records/:id',
-              element: <PublisherRecordDetail />,
+              element: <PublisherRecordDetails />,
             },
             { path: '/manage-access', element: <UsersAll /> },
             {

@@ -1,15 +1,16 @@
 import { IconButton } from '@mui/material';
 import { IconAdd } from '@icons/index';
+import { PlusButtonProps } from './index.types';
 
 /**
  * Custom button component with a plus icon.
  * @param onClick - Optional function to handle click events.
  */
-const CustomPlusButton = (props: { onClick?: VoidFunction }) => {
+const PlusButton = ({ onClick, sx }: PlusButtonProps) => {
   return (
     <IconButton
       disableRipple
-      onClick={props.onClick}
+      onClick={onClick}
       sx={{
         border: '1px solid var(--accent-350)',
         borderRadius: 'var(--radius-m)',
@@ -32,6 +33,7 @@ const CustomPlusButton = (props: { onClick?: VoidFunction }) => {
         '& svg, & svg g, & svg g path': {
           fill: 'var(--accent-350)',
         },
+        ...sx,
       }}
     >
       <IconAdd />
@@ -39,4 +41,4 @@ const CustomPlusButton = (props: { onClick?: VoidFunction }) => {
   );
 };
 
-export default CustomPlusButton;
+export default PlusButton;

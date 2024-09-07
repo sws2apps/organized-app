@@ -16,7 +16,7 @@ const DaySelector = ({
   return (
     <Select
       label={label}
-      InputProps={{ readOnly }}
+      readOnly={readOnly}
       value={value}
       onChange={(e) => onChange(+e.target.value)}
       sx={{ flex: 1, ...sx }}

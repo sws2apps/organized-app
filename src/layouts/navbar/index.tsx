@@ -29,10 +29,10 @@ import {
 import { useAppTranslation } from '@hooks/index';
 import { isDemo } from '@constants/index';
 import { NavBarType } from './index.types';
+import useNavbar from './useNavbar';
 import AccountHeaderIcon from '@components/account_header_icon';
 import Button from '@components/button';
 import Typography from '@components/typography';
-import useNavbar from './useNavbar';
 
 const baseMenuStyle = {
   padding: '8px 12px 8px 16px',

@@ -1,10 +1,9 @@
 import { Box, Collapse } from '@mui/material';
-import DateHistory from '../../date_history';
-import SpiritualStatusTitle from '../title';
 import { UnbaptizedPublisherType } from './index.types';
 import { useAppTranslation } from '@hooks/index';
 import useUnbaptizedPublisher from './useUnbaptizedPublisher';
-import FirstReport from '../first_report';
+import DateHistory from '../../date_history';
+import SpiritualStatusTitle from '../title';
 import StatusHistory from '../history';
 
 const UnbaptizedPublisher = ({
@@ -16,12 +15,10 @@ const UnbaptizedPublisher = ({
   const { t } = useAppTranslation();
 
   const {
-    person,
     handleAddHistory,
     handleDeleteHistory,
     handleEndDateChange,
     handleStartDateChange,
-    handleFirstReportChange,
     activeHistory,
     handleToggleActive,
     handleToggleExpand,
@@ -48,11 +45,6 @@ const UnbaptizedPublisher = ({
             gap: '16px',
           }}
         >
-          <FirstReport
-            value={person.person_data.first_month_report.value}
-            onChange={handleFirstReportChange}
-          />
-
           <StatusHistory
             active={isActive}
             onChange={handleToggleActive}
@@ -73,8 +65,8 @@ const UnbaptizedPublisher = ({
                   <DateHistory
                     key={history.id}
                     id={history.id}
-                    start_date={history.start_date.value}
-                    end_date={history.end_date.value}
+                    start_date={history.start_date}
+                    end_date={history.end_date}
                     isLast={index === activeHistory.length - 1}
                     onAdd={handleAddHistory}
                     onDelete={handleDeleteHistory}

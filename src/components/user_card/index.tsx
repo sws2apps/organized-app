@@ -1,11 +1,3 @@
-import type { CustomUserCardProps } from './user_card.types';
-import UserCardMaleImg from '@assets/img/illustration_male.svg?component';
-import UserCardFemaleImg from '@assets/img/illustration_female.svg?component';
-import IconDelete from '../icons/IconDelete';
-import IconArrowLink from '../icons/IconArrowLink';
-import MiniChip from '../mini_chip';
-import Typography from '../typography';
-import React from 'react';
 import {
   StyledCard,
   StyledCardContent,
@@ -15,6 +7,13 @@ import {
   StyledImgContainer,
   StyledCardBox,
 } from './user_card.styles';
+import type { CustomUserCardProps } from './user_card.types';
+import IconDelete from '../icons/IconDelete';
+import IconArrowLink from '../icons/IconArrowLink';
+import MiniChip from '../mini_chip';
+import Typography from '../typography';
+import UserCardMaleImg from '@assets/img/illustration_male.svg?component';
+import UserCardFemaleImg from '@assets/img/illustration_female.svg?component';
 
 /**
  * A custom user card component.
@@ -27,7 +26,7 @@ import {
  * @param chipLabels Optional chip labels to display on the user card.
  * @param children Additional content to render inside the user card.
  */
-export const CustomUserCard = ({
+const UserCard = ({
   name,
   type,
   female,
@@ -38,7 +37,7 @@ export const CustomUserCard = ({
 }: CustomUserCardProps) => {
   return (
     <StyledCardBox>
-      <StyledCard onClick={() => onClick && onClick()}>
+      <StyledCard onClick={() => onClick?.()}>
         <StyledCardContent>
           <StyledBox gap="13px" sx={{ flexWrap: 'nowrap' }}>
             <StyledBox gap="12px" sx={{ width: '100%' }}>
@@ -50,7 +49,7 @@ export const CustomUserCard = ({
                   <StyledBoxSpaceBetween flexDirection="column">
                     <Typography className="h4">{name}</Typography>
                   </StyledBoxSpaceBetween>
-                  {type == 'person' && (
+                  {type === 'person' && onDelete && (
                     <StyledBox
                       sx={{ flexGrow: '1', flexDirection: 'row-reverse' }}
                     >
@@ -60,7 +59,7 @@ export const CustomUserCard = ({
                           iconColor="var(--red-main)"
                           onClick={(e) => {
                             e.stopPropagation();
-                            onDelete && onDelete(e);
+                            onDelete?.(e);
                           }}
                         >
                           <IconDelete />
@@ -73,7 +72,7 @@ export const CustomUserCard = ({
                   {children}
                 </StyledBox>
               </StyledBoxSpaceBetween>
-              {type != 'person' && (
+              {type !== 'person' && (
                 <StyledBox
                   gap="8px"
                   sx={{
@@ -93,7 +92,7 @@ export const CustomUserCard = ({
             </StyledBox>
           </StyledBox>
 
-          {type == 'person' && chipLabels.length > 0 && (
+          {type === 'person' && chipLabels.length > 0 && (
             <StyledBox gap="13px">
               <StyledBox
                 gap="8px"
@@ -111,4 +110,4 @@ export const CustomUserCard = ({
   );
 };
 
-export default CustomUserCard;
+export default UserCard;

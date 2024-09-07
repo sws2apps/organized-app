@@ -92,7 +92,7 @@ const useWeekBox = ({ month, index, type }: WeekBoxProps) => {
   const isMidweek = useMemo(() => {
     const today = new Date().getDay();
 
-    return today > 0 && today < 5;
+    return today > 0 && today < 6;
   }, []);
 
   const isWeekend = useMemo(() => {

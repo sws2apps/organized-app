@@ -1,0 +1,207 @@
+import { useRecoilValue } from 'recoil';
+import { PersonType } from '@definition/person';
+import { formatDate } from '@services/dateformat';
+import { congFieldServiceReportsState } from '@states/field_service_reports';
+import { addMonths } from '@utils/date';
+import { CongFieldServiceReportType } from '@definition/cong_field_service_reports';
+import { personsState } from '@states/persons';
+import usePerson from '@features/persons/hooks/usePerson';
+import usePersons from '@features/persons/hooks/usePersons';
+
+const useReportMonthly = () => {
+  const { getPublishersActive } = usePersons();
+  const { personGetFirstReport, personIsEnrollmentActive } = usePerson();
+
+  const reports = useRecoilValue(congFieldServiceReportsState);
+  const persons = useRecoilValue(personsState);
+
+  const personCheckInactivityState = (person: PersonType, month: string) => {
+    // default month to current month if undefined
+    if (!month) {
+      month = formatDate(new Date(), 'yyyy/MM');
+    }
+
+    const startDate = personGetFirstReport(person);
+    if (!startDate) return false;
+
+    let isInactive = true;
+    let countReport = 0;
+
+    do {
+      // exit and count reports if it reaches first month report
+      if (month === startDate) {
+        isInactive = countReport === 5;
+        break;
+      }
+
+      // find report and check shared_ministry
+      const report = reports.find(
+        (record) =>
+          record.report_data.person_uid === person.person_uid &&
+          record.report_data.report_date === month
+      );
+
+      if (report?.report_data.shared_ministry) {
+        isInactive = false;
+        break;
+      }
+
+      // decrease month
+      const date = addMonths(`${month}/01`, -1);
+      month = formatDate(date, 'yyyy/MM');
+
+      countReport++;
+    } while (countReport <= 5);
+
+    return isInactive;
+  };
+
+  const getPublishersActiveForBranch = (month: string) => {
+    const personActive: PersonType[] = [];
+
+    const active = getPublishersActive(month);
+
+    for (const person of active) {
+      const isInactive = personCheckInactivityState(person, month);
+
+      if (!isInactive) {
+        personActive.push(person);
+      }
+    }
+
+    return personActive;
+  };
+
+  const personHasReport = (person: PersonType, month: string) => {
+    const hasReport = reports.some((report) => {
+      if (report.report_data.person_uid !== person.person_uid) return false;
+      if (!report.report_data.shared_ministry) return false;
+
+      return report.report_data.report_date === month;
+    });
+
+    return hasReport;
+  };
+
+  const getFTSReportsMonth = (month: string) => {
+    const data = reports.filter(
+      (record) => record.report_data.report_date === month
+    );
+
+    const result: CongFieldServiceReportType[] = [];
+
+    for (const report of data) {
+      const person = persons.find(
+        (record) => record.person_uid === report.report_data.person_uid
+      );
+      if (!person) continue;
+
+      const isFMF = personIsEnrollmentActive(
+        person,
+        'FMF',
+        report.report_data.report_date
+      );
+
+      const isFR = personIsEnrollmentActive(
+        person,
+        'FR',
+        report.report_data.report_date
+      );
+
+      const isFS = personIsEnrollmentActive(
+        person,
+        'FS',
+        report.report_data.report_date
+      );
+
+      if (isFMF || isFR || isFS) {
+        result.push(report);
+      }
+    }
+
+    return result;
+  };
+
+  const getAPReportsMonth = (month: string) => {
+    const data = reports.filter(
+      (record) => record.report_data.report_date === month
+    );
+
+    const result: CongFieldServiceReportType[] = [];
+
+    for (const report of data) {
+      const person = persons.find(
+        (record) => record.person_uid === report.report_data.person_uid
+      );
+      if (!person) continue;
+
+      const isAP = personIsEnrollmentActive(
+        person,
+        'AP',
+        report.report_data.report_date
+      );
+
+      if (isAP) {
+        result.push(report);
+      }
+    }
+
+    return result;
+  };
+
+  const getPublisherReportsMonth = (month: string) => {
+    const data = reports.filter(
+      (record) => record.report_data.report_date === month
+    );
+
+    const result: CongFieldServiceReportType[] = [];
+
+    for (const report of data) {
+      const person = persons.find(
+        (record) => record.person_uid === report.report_data.person_uid
+      );
+      if (!person) continue;
+
+      const isFMF = personIsEnrollmentActive(
+        person,
+        'FMF',
+        report.report_data.report_date
+      );
+
+      const isFR = personIsEnrollmentActive(
+        person,
+        'FR',
+        report.report_data.report_date
+      );
+
+      const isFS = personIsEnrollmentActive(
+        person,
+        'FS',
+        report.report_data.report_date
+      );
+
+      const isAP = personIsEnrollmentActive(
+        person,
+        'AP',
+        report.report_data.report_date
+      );
+
+      if (isFMF || isFR || isFS || isAP) continue;
+
+      result.push(report);
+    }
+
+    return result;
+  };
+
+  return {
+    personCheckInactivityState,
+    getPublishersActiveForBranch,
+    personHasReport,
+    getFTSReportsMonth,
+    getAPReportsMonth,
+    getPublisherReportsMonth,
+  };
+};
+
+export default useReportMonthly;

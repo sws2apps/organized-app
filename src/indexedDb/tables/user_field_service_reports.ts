@@ -6,6 +6,5 @@ export type UserFieldServiceReportsTable = {
 };
 
 export const userFieldServiceReportsSchema = {
-  user_field_service_reports:
-    '++id, _deleted, month_date, shared_ministry, hours, duration_start, hours_credits, bible_studies, bible_studies_record, comments, isSubmitted, record_type',
+  user_field_service_reports: '&report_date, report_data',
 };

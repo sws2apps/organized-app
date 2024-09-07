@@ -1,6 +1,6 @@
 /**
 * Do not edit directly
-* Generated on 4/17/2024, 10:37:54 PM
+* Generated on 9/3/2024, 9:50:20 PM
 */
 
 :root {
@@ -56,6 +56,28 @@
   --pdf-green-main: #498457ff;
   --pdf-green-light: #f1f8f2ff;
   --pdf-green-neutral: #d7e3daff;
+
+  /* box-shadow effect variables */
+  --big-card-shadow: 0px 8px 12px 0px #1c1c1c0a, 0px 2px 4px 0px #1c1c1c0a;
+  --small-card-shadow: 0px 4px 12px 0px #1c1c1c14, 0px 2px 4px 0px #1c1c1c14;
+  --right-sidebar-shadow: -4px 0px 24px 0px #1c1c1c29;
+  --left-sidebar-shadow: 4px 0px 24px 0px #070a1629;
+  --btn-shadow: 0px 2px 8px 0px #1c1c1c29;
+  --hover-shadow: 0px 2px 8px 0px #1c1c1c1f;
+  --pop-up-shadow: 0px 16px 24px 0px #1c1c1c29;
+  --error-glow: 0px 8px 24px 0px #ca26263d;
+  --warning-glow: 0px 8px 24px 0px #e2973e3d;
+  --success-glow: 0px 8px 24px 0px #489d2b3d;
+  --message-glow: 0px 8px 24px 0px rgba(var(--accent-main-base), 0.24);
+}
+
+[data-theme$='dark'] {
+  --big-card-shadow: 0px 8px 12px 0px #00000052, 0px 2px 4px 0px #00000014;
+  --small-card-shadow: 0px 4px 12px 0px #0000003d, 0px 2px 4px 0px #00000029;
+  --pop-up-shadow: 0px 16px 24px 0px #0000003d;
+  --right-sidebar-shadow: -4px 0px 24px 0px #0000003d;
+  --left-sidebar-shadow: 4px 0px 24px 0px #0000003d;
+  --hover-shadow: 0px 2px 8px 0px #0e1227a3;
 }
 
 /* colors for blue-light theme */

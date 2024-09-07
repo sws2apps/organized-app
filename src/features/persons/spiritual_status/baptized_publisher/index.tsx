@@ -1,13 +1,12 @@
 import { Box, Collapse, FormControlLabel, RadioGroup } from '@mui/material';
+import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import { BaptizedPublisherType } from './index.types';
+import useBaptizedPublisher from './useBaptizedPublisher';
 import DateHistory from '../../date_history';
 import DatePicker from '@components/date_picker';
-import FirstReport from '../first_report';
 import Radio from '@components/radio';
 import SpiritualStatusTitle from '../title';
 import Typography from '@components/typography';
-import { BaptizedPublisherType } from './index.types';
-import { useAppTranslation, useBreakpoints } from '@hooks/index';
-import useBaptizedPublisher from './useBaptizedPublisher';
 import StatusHistory from '../history';
 
 const BaptizedPublisher = ({
@@ -26,7 +25,6 @@ const BaptizedPublisher = ({
     handleDeleteHistory,
     handleEndDateChange,
     handleStartDateChange,
-    handleFirstReportChange,
     handleToggleHope,
     handleChangeBaptismDate,
     age,
@@ -138,11 +136,6 @@ const BaptizedPublisher = ({
             </Box>
           </Box>
 
-          <FirstReport
-            value={person.person_data.first_month_report.value}
-            onChange={handleFirstReportChange}
-          />
-
           <StatusHistory
             active={isActive}
             onChange={handleToggleActive}
@@ -163,8 +156,8 @@ const BaptizedPublisher = ({
                   <DateHistory
                     key={history.id}
                     id={history.id}
-                    start_date={history.start_date.value}
-                    end_date={history.end_date.value}
+                    start_date={history.start_date}
+                    end_date={history.end_date}
                     isLast={index === activeHistory.length - 1}
                     onAdd={handleAddHistory}
                     onDelete={handleDeleteHistory}

@@ -1,4 +1,4 @@
-import { ServiceYearType } from '@definition/report';
+import { ReportMonthType, ServiceYearType } from '@definition/report';
 import { generateMonthNames, getTranslation } from '@services/i18n/translation';
 
 export const dateFirstDayMonth = (date: Date = new Date()) => {
@@ -31,16 +31,16 @@ export const getOldestWeekDate = () => {
 
 export const addMonths = (date: Date | string, value: number) => {
   const start_date = new Date(date);
-  const result = start_date.setMonth(start_date.getMonth() + value);
+  start_date.setMonth(start_date.getMonth() + value);
 
-  return new Date(result);
+  return start_date;
 };
 
 export const addWeeks = (date: Date | string, value: number) => {
   const startDate = new Date(date);
-  const result = startDate.setDate(startDate.getDate() + value * 7);
+  startDate.setDate(startDate.getDate() + value * 7);
 
-  return new Date(result);
+  return startDate;
 };
 
 export const computeYearsDiff = (date: string) => {
@@ -112,26 +112,6 @@ const getMonthName = (month: number) => {
   return monthNames[month];
 };
 
-export const getTheocraticalMonthDate = (monthIndex: number, year: number) => {
-  let month = 0;
-
-  if (monthIndex < 4) {
-    month = monthIndex + 9;
-  } else {
-    year = year + 1;
-    month = monthIndex - 3;
-  }
-
-  return `${year}-${month.toString().padStart(2, '0')}`;
-};
-
-export function getWeekNumberInMonthForDate(date: Date) {
-  const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
-  const dayOfWeek = firstDayOfMonth.getDay();
-  const firstSunday = 1 + (7 - dayOfWeek);
-  const diff = date.getDate() - firstSunday;
-  return Math.ceil(diff / 7) + 1;
-}
 export const generateDateFromTime = (time: string) => {
   const timeParts = time.split(':');
   const date = new Date();
@@ -196,6 +176,21 @@ export const currentServiceYear = () => {
   return value;
 };
 
+export const getMonthServiceYear = (month: string) => {
+  const varYear = +month.split('/')[0];
+  const varMonth = +month.split('/')[1] - 1;
+
+  let value: string;
+
+  if (varMonth < 8) {
+    value = varYear.toString();
+  } else {
+    value = String(varYear + 1).toString();
+  }
+
+  return value;
+};
+
 export const currentMonthServiceYear = () => {
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth();
@@ -203,6 +198,28 @@ export const currentMonthServiceYear = () => {
   const monthValue = `${currentYear}/${monthIndex}`;
 
   return monthValue;
+};
+
+export const currentReportMonth = () => {
+  const currentYear = new Date().getFullYear();
+  const currentMonth = new Date().getMonth();
+  const currentDate = new Date().getDate();
+
+  let reportMonth = currentMonth;
+  let reportYear = currentYear;
+
+  if (currentDate <= 20) {
+    reportMonth = reportMonth - 1;
+
+    if (reportMonth === -1) {
+      reportMonth = 11;
+      reportYear = reportYear - 1;
+    }
+  }
+
+  const monthValue = String(reportMonth + 1).padStart(2, '0');
+
+  return `${reportYear}/${monthValue}`;
 };
 
 export const buildServiceYearsList = () => {
@@ -234,7 +251,7 @@ export const buildServiceYearsList = () => {
       maxIndex = 13;
     } else {
       const currentMonth = new Date().getMonth();
-      maxIndex = currentMonth < 9 ? currentMonth + 6 : currentMonth - 7;
+      maxIndex = currentMonth < 9 ? currentMonth - 6 : currentMonth + 7;
     }
 
     for (let i = 1; i < maxIndex; i++) {
@@ -262,4 +279,45 @@ export const buildServiceYearsList = () => {
   }
 
   return result;
+};
+
+export const buildPublisherReportMonths = () => {
+  const results: ReportMonthType[] = [];
+
+  const monthNames = generateMonthNames();
+
+  const initialMonth = currentMonthServiceYear();
+  const [initYear, initMonth] = initialMonth.split('/');
+
+  let year = +initYear;
+  let month = +initMonth - 1;
+
+  // add 1 month ahead
+  month = month + 1;
+  if (month === 12) {
+    year++;
+  }
+
+  for (let i = 0; i < 13; i++) {
+    results.push({
+      label: monthNames[month],
+      value: `${year}/${String(month + 1).padStart(2, '0')}`,
+    });
+
+    month--;
+
+    if (month === -1) {
+      month = 11;
+      year = year - 1;
+    }
+  }
+
+  return results.sort((a, b) => a.value.localeCompare(b.value));
+};
+
+export const computeMonthsDiff = (startDate: Date, endDate: Date) => {
+  const monthsDiff = endDate.getMonth() - startDate.getMonth();
+  const yearsDiff = endDate.getFullYear() - startDate.getFullYear();
+
+  return monthsDiff + 12 * yearsDiff;
 };

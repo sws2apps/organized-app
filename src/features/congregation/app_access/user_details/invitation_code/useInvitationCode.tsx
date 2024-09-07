@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import randomString from '@smakss/random-string';
 import {
@@ -7,46 +7,25 @@ import {
   countryCodeState,
 } from '@states/settings';
 import { decryptData, encryptData } from '@services/encryption';
-import { CongregationUserType } from '@definition/api';
 import { apiGetCongregationAccessCode } from '@services/api/congregation';
 import { displaySnackNotification } from '@services/recoil/app';
 import { useAppTranslation } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
-import { refreshScreenState } from '@states/app';
 import useUserDetails from '../useUserDetails';
 
-const useInvitationCode = (user: CongregationUserType) => {
+const useInvitationCode = () => {
   const { t } = useAppTranslation();
 
-  const { handleSaveDetails } = useUserDetails();
+  const { handleSaveDetails, user } = useUserDetails();
 
   const congLocalAccessCode = useRecoilValue(congAccessCodeState);
   const countryCode = useRecoilValue(countryCodeState);
   const congNumber = useRecoilValue(congNumberState);
-  const forceRefresh = useRecoilValue(refreshScreenState);
 
   const [code, setCode] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [remoteAccessCode, setRemoteAccessCode] = useState('');
   const [isDelete, setIsDelete] = useState(false);
-
-  const handleGetCode = useCallback(async () => {
-    const { status, message } = await apiGetCongregationAccessCode();
-
-    if (status === 200) {
-      const remoteCode = decryptData(message, congLocalAccessCode);
-      setRemoteAccessCode(remoteCode);
-
-      if (user.pocket_invitation_code?.length > 0) {
-        const invitationCode = decryptData(
-          user.pocket_invitation_code,
-          remoteCode
-        );
-
-        setCode(invitationCode);
-      }
-    }
-  }, [congLocalAccessCode, user]);
 
   const handleRegenerateCode = async () => {
     if (isProcessing) return;
@@ -65,7 +44,9 @@ const useInvitationCode = (user: CongregationUserType) => {
 
       const code = encryptData(codeNew, remoteAccessCode);
 
-      await handleSaveDetails(user, code);
+      const newUser = structuredClone(user);
+
+      await handleSaveDetails(newUser, code);
 
       setIsProcessing(false);
     } catch (error) {
@@ -86,8 +67,26 @@ const useInvitationCode = (user: CongregationUserType) => {
   const handleCloseDelete = () => setIsDelete(false);
 
   useEffect(() => {
+    const handleGetCode = async () => {
+      const { status, message } = await apiGetCongregationAccessCode();
+
+      if (status === 200) {
+        const remoteCode = decryptData(message, congLocalAccessCode);
+        setRemoteAccessCode(remoteCode);
+
+        if (user.pocket_invitation_code?.length > 0) {
+          const invitationCode = decryptData(
+            user.pocket_invitation_code,
+            remoteCode
+          );
+
+          setCode(invitationCode);
+        }
+      }
+    };
+
     handleGetCode();
-  }, [handleGetCode, forceRefresh]);
+  }, [congLocalAccessCode, user]);
 
   useEffect(() => {
     const svgIcon = document.querySelector<SVGElement>(
@@ -112,6 +111,7 @@ const useInvitationCode = (user: CongregationUserType) => {
     handleOpenDelete,
     handleCloseDelete,
     isProcessing,
+    user,
   };
 };
 

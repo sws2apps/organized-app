@@ -1,11 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { personsActiveState } from '@states/persons';
 import { UsersOption } from './index.types';
 import { buildPersonFullname } from '@utils/common';
 import { fullnameOptionState } from '@states/settings';
-import { CongregationUserType } from '@definition/api';
 import { displaySnackNotification } from '@services/recoil/app';
 import { useAppTranslation } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
@@ -15,19 +13,14 @@ import {
   personIsUnbaptizedPublisher,
 } from '@services/app/persons';
 import useUserDetails from '../useUserDetails';
-import { userIDState } from '@states/app';
-import { dbAppSettingsUpdate } from '@services/dexie/settings';
 
-const useProfileSettings = (user: CongregationUserType) => {
-  const { id } = useParams();
-
+const useProfileSettings = () => {
   const { t } = useAppTranslation();
 
-  const { handleSaveDetails } = useUserDetails();
+  const { handleSaveDetails, user } = useUserDetails();
 
   const personsActive = useRecoilValue(personsActiveState);
   const fullnameOption = useRecoilValue(fullnameOptionState);
-  const userID = useRecoilValue(userIDState);
 
   const [selectedPerson, setSelectedPerson] = useState<UsersOption>(null);
   const [delegatedPersons, setDelegatedPersons] = useState<UsersOption[]>([]);
@@ -51,30 +44,23 @@ const useProfileSettings = (user: CongregationUserType) => {
     );
   }, [persons, user]);
 
-  const handleUpdateLocalUID = async (value: string) => {
-    await dbAppSettingsUpdate({
-      'user_settings.user_local_uid': value,
-    });
-  };
-
-  const handleUpdateMembers = async (value: string[]) => {
-    await dbAppSettingsUpdate({
-      'user_settings.user_members_delegate': value,
-    });
-  };
-
   const handleSelectPerson = async (value: UsersOption) => {
     try {
       setSelectedPerson(value);
-      user.user_local_uid = value.person_uid;
 
-      if (user.cong_role.includes('admin') && user.cong_role.length === 1) {
+      const newUser = structuredClone(user);
+      newUser.user_local_uid = value.person_uid;
+
+      if (
+        newUser.cong_role.includes('admin') &&
+        newUser.cong_role.length === 1
+      ) {
         const person = personsActive.find(
           (record) => record.person_uid === value.person_uid
         );
 
         if (personIsMidweekStudent(person)) {
-          user.cong_role.push('view_schedules');
+          newUser.cong_role.push('view_schedules');
         }
 
         const isPublisher =
@@ -82,15 +68,11 @@ const useProfileSettings = (user: CongregationUserType) => {
           personIsUnbaptizedPublisher(person);
 
         if (isPublisher) {
-          user.cong_role.push('publisher', 'view_schedules');
+          newUser.cong_role.push('publisher', 'view_schedules');
         }
       }
 
-      await handleSaveDetails(user);
-
-      if (userID === id) {
-        await handleUpdateLocalUID(value.person_uid);
-      }
+      await handleSaveDetails(newUser);
     } catch (error) {
       console.error(error);
 
@@ -108,13 +90,10 @@ const useProfileSettings = (user: CongregationUserType) => {
 
       const persons = value.map((record) => record.person_uid);
 
-      user.user_delegates = persons;
+      const newUser = structuredClone(user);
+      newUser.user_delegates = persons;
 
-      await handleSaveDetails(user);
-
-      if (userID === id) {
-        await handleUpdateMembers(persons);
-      }
+      await handleSaveDetails(newUser);
     } catch (error) {
       console.error(error);
 
@@ -134,9 +113,10 @@ const useProfileSettings = (user: CongregationUserType) => {
 
       setDelegatedPersons(values);
 
-      user.user_delegates = values.map((record) => record.person_uid);
+      const newUser = structuredClone(user);
+      newUser.user_delegates = values.map((record) => record.person_uid);
 
-      await handleSaveDetails(user);
+      await handleSaveDetails(newUser);
     } catch (error) {
       console.error(error);
 

@@ -21,6 +21,14 @@ export type CircuitOverseerVisitType = {
   updatedAt: string;
 };
 
+export type SpecialMonthType = {
+  _deleted: boolean;
+  updatedAt: string;
+  id: string;
+  month_start: string;
+  month_end: string;
+};
+
 export type SettingsType = {
   id: number;
   cong_settings: {
@@ -54,6 +62,7 @@ export type SettingsType = {
       enabled: { value: boolean; updatedAt: string };
       frequency: { value: SourceFrequency; updatedAt: string };
     };
+    special_months: SpecialMonthType[];
     midweek_meeting: {
       type: string;
       weekday: { value: number; updatedAt: string };

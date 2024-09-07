@@ -89,7 +89,6 @@ export const personCurrentDetailsState = atom<PersonType>({
       email: { value: '', updatedAt: '' },
       address: { value: '', updatedAt: '' },
       phone: { value: '', updatedAt: '' },
-      first_month_report: { value: null, updatedAt: '' },
       publisher_baptized: {
         active: { value: false, updatedAt: '' },
         anointed: { value: false, updatedAt: '' },
@@ -106,12 +105,10 @@ export const personCurrentDetailsState = atom<PersonType>({
         history: [
           {
             id: crypto.randomUUID(),
-            start_date: {
-              value: new Date().toISOString(),
-              updatedAt: new Date().toISOString(),
-            },
-            end_date: { value: null, updatedAt: new Date().toISOString() },
-            _deleted: { value: false, updatedAt: '' },
+            _deleted: false,
+            updatedAt: '',
+            start_date: new Date().toISOString(),
+            end_date: null,
           },
         ],
       },

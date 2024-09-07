@@ -1,15 +1,3 @@
-import { Box, IconButton, Typography } from '@mui/material';
-import { CPETimePickerSliderProps } from './time_picker_slider.types';
-import {
-  ActiveCaseFilter,
-  CASE_SIZE,
-  CaseContainerStyle,
-  TimePickerArrowStyle,
-  TimePickerCaseStyle,
-  TimePickerContainerStyle,
-  TimePickerSelectorStyle,
-  TimePickerTypography,
-} from './time_picker.styles';
 import {
   createContext,
   useCallback,
@@ -19,7 +7,19 @@ import {
   useRef,
   useState,
 } from 'react';
+import { Box, IconButton, Typography } from '@mui/material';
 import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
+import { TimePickerSliderProps } from './index.types';
+import {
+  ActiveCaseFilter,
+  CASE_SIZE,
+  CaseContainerStyle,
+  TimePickerArrowStyle,
+  TimePickerCaseStyle,
+  TimePickerContainerStyle,
+  TimePickerSelectorStyle,
+  TimePickerTypography,
+} from './index.styles';
 
 /**
  * Context for TimePickerSlider to manage state and communication between components.
@@ -201,10 +201,10 @@ const TimePickerMinutes = () => {
 /**
  * Component for selecting time using a slider interface.
  *
- * @param props - The properties for the CPETimePickerSlider component.
+ * @param props - The properties for the TimePickerSlider component.
  * @returns A component for selecting time using a slider interface.
  */
-const CPETimePickerSlider = ({ ampm, onChange }: CPETimePickerSliderProps) => {
+const TimePickerSlider = ({ ampm, onChange }: TimePickerSliderProps) => {
   const [timePickerSliderData, setTimePickerSliderData] = useState({
     hours: '00',
     minutes: '00',
@@ -247,4 +247,4 @@ const CPETimePickerSlider = ({ ampm, onChange }: CPETimePickerSliderProps) => {
   );
 };
 
-export default CPETimePickerSlider;
+export default TimePickerSlider;

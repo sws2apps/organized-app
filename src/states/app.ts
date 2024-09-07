@@ -104,6 +104,25 @@ export const monthShortNamesState = selector({
   },
 });
 
+export const dayNamesState = selector({
+  key: 'dayNames',
+  get: ({ get }) => {
+    const appLang = get(appLangState);
+
+    const days: string[] = [];
+
+    days.push(getTranslation({ key: 'tr_sunday', language: appLang }));
+    days.push(getTranslation({ key: 'tr_monday', language: appLang }));
+    days.push(getTranslation({ key: 'tr_tuesday', language: appLang }));
+    days.push(getTranslation({ key: 'tr_wednesday', language: appLang }));
+    days.push(getTranslation({ key: 'tr_thursday', language: appLang }));
+    days.push(getTranslation({ key: 'tr_friday', language: appLang }));
+    days.push(getTranslation({ key: 'tr_saturday', language: appLang }));
+
+    return days;
+  },
+});
+
 export const shortDatePickerFormatState = atom({
   key: 'shortDatePickerFormat',
   default: getShortDatePickerFormat(),

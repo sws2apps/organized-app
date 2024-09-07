@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react';
-import { CongregationUserType } from '@definition/api';
 import { displaySnackNotification } from '@services/recoil/app';
 import { useAppTranslation } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
 import useUserDetails from '../useUserDetails';
 
-const useUserAdditionalRights = (user: CongregationUserType) => {
+const useUserAdditionalRights = () => {
   const { t } = useAppTranslation();
 
-  const { handleSaveDetails } = useUserDetails();
+  const { handleSaveDetails, user } = useUserDetails();
 
   const [isMidweek, setIsMidweek] = useState(false);
   const [isWeekend, setIsWeekend] = useState(false);
@@ -19,17 +18,19 @@ const useUserAdditionalRights = (user: CongregationUserType) => {
     try {
       setIsMidweek(value);
 
+      const newUser = structuredClone(user);
+
       if (value) {
-        user.cong_role.push('midweek_schedule');
+        newUser.cong_role.push('midweek_schedule');
       }
 
       if (!value) {
-        user.cong_role = user.cong_role.filter(
+        newUser.cong_role = newUser.cong_role.filter(
           (role) => role !== 'midweek_schedule'
         );
       }
 
-      await handleSaveDetails(user);
+      await handleSaveDetails(newUser);
     } catch (error) {
       console.error(error);
 
@@ -45,17 +46,19 @@ const useUserAdditionalRights = (user: CongregationUserType) => {
     try {
       setIsMidweek(value);
 
+      const newUser = structuredClone(user);
+
       if (value) {
-        user.cong_role.push('weekend_schedule');
+        newUser.cong_role.push('weekend_schedule');
       }
 
       if (!value) {
-        user.cong_role = user.cong_role.filter(
+        newUser.cong_role = newUser.cong_role.filter(
           (role) => role !== 'weekend_schedule'
         );
       }
 
-      await handleSaveDetails(user);
+      await handleSaveDetails(newUser);
     } catch (error) {
       console.error(error);
 
@@ -71,17 +74,19 @@ const useUserAdditionalRights = (user: CongregationUserType) => {
     try {
       setIsPublicTalk(value);
 
+      const newUser = structuredClone(user);
+
       if (value) {
-        user.cong_role.push('public_talk_schedule');
+        newUser.cong_role.push('public_talk_schedule');
       }
 
       if (!value) {
-        user.cong_role = user.cong_role.filter(
+        newUser.cong_role = newUser.cong_role.filter(
           (role) => role !== 'public_talk_schedule'
         );
       }
 
-      await handleSaveDetails(user);
+      await handleSaveDetails(newUser);
     } catch (error) {
       console.error(error);
 
@@ -97,17 +102,19 @@ const useUserAdditionalRights = (user: CongregationUserType) => {
     try {
       setIsAttendance(value);
 
+      const newUser = structuredClone(user);
+
       if (value) {
-        user.cong_role.push('attendance_tracking');
+        newUser.cong_role.push('attendance_tracking');
       }
 
       if (!value) {
-        user.cong_role = user.cong_role.filter(
+        newUser.cong_role = newUser.cong_role.filter(
           (role) => role !== 'attendance_tracking'
         );
       }
 
-      await handleSaveDetails(user);
+      await handleSaveDetails(newUser);
     } catch (error) {
       console.error(error);
 

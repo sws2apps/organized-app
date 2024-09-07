@@ -2,9 +2,9 @@ import { Box, Stack } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
 import { CardContainer } from '../shared_styles';
 import useMonthlyRecord from './useMonthlyRecord';
-import DateSelector from './date_selector';
 import Divider from '@components/divider';
 import MeetingItem from './meeting_item';
+import ServiceYearMonthSelector from '@features/reports/service_year_month_selector';
 import Typography from '@components/typography';
 
 const MonthlyRecord = () => {
@@ -24,7 +24,7 @@ const MonthlyRecord = () => {
             </Typography>
           </Stack>
 
-          <DateSelector
+          <ServiceYearMonthSelector
             year={year}
             month={month}
             onYearChange={handleYearChange}

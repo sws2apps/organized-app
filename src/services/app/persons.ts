@@ -1,23 +1,20 @@
-import { PersonType } from '@definition/person';
+import { EnrollmentType, PersonType } from '@definition/person';
 import { formatDate } from '@services/dateformat';
 import { dateFirstDayMonth, dateLastDatePreviousMonth } from '@utils/date';
 
 const personUnarchiveMidweekMeeting = (person: PersonType) => {
   if (person.person_data.midweek_meeting_student.active.value) {
     const current = person.person_data.midweek_meeting_student.history.find(
-      (record) =>
-        record._deleted.value === false && record.end_date.value === null
+      (record) => record._deleted === false && record.end_date === null
     );
 
     if (!current) {
       person.person_data.midweek_meeting_student.history.push({
         id: crypto.randomUUID(),
-        start_date: {
-          value: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        },
-        end_date: { value: null, updatedAt: new Date().toISOString() },
-        _deleted: { value: false, updatedAt: '' },
+        _deleted: false,
+        updatedAt: new Date().toISOString(),
+        start_date: new Date().toISOString(),
+        end_date: null,
       });
     }
   }
@@ -26,19 +23,16 @@ const personUnarchiveMidweekMeeting = (person: PersonType) => {
 const personUnarchiveUnbaptizedPublisher = (person: PersonType) => {
   if (person.person_data.publisher_unbaptized.active.value) {
     const current = person.person_data.publisher_unbaptized.history.find(
-      (record) =>
-        record._deleted.value === false && record.end_date.value === null
+      (record) => record._deleted === false && record.end_date === null
     );
 
     if (!current) {
       person.person_data.publisher_unbaptized.history.push({
         id: crypto.randomUUID(),
-        start_date: {
-          value: dateFirstDayMonth().toISOString(),
-          updatedAt: new Date().toISOString(),
-        },
-        end_date: { value: null, updatedAt: new Date().toISOString() },
-        _deleted: { value: false, updatedAt: '' },
+        _deleted: false,
+        updatedAt: new Date().toISOString(),
+        start_date: dateFirstDayMonth().toISOString(),
+        end_date: null,
       });
     }
   }
@@ -47,19 +41,16 @@ const personUnarchiveUnbaptizedPublisher = (person: PersonType) => {
 const personUnarchiveBaptizedPublisher = (person: PersonType) => {
   if (person.person_data.publisher_baptized.active.value) {
     const current = person.person_data.publisher_baptized.history.find(
-      (record) =>
-        record._deleted.value === false && record.end_date.value === null
+      (record) => record._deleted === false && record.end_date === null
     );
 
     if (!current) {
       person.person_data.publisher_baptized.history.push({
         id: crypto.randomUUID(),
-        start_date: {
-          value: dateFirstDayMonth().toISOString(),
-          updatedAt: new Date().toISOString(),
-        },
-        end_date: { value: null, updatedAt: new Date().toISOString() },
-        _deleted: { value: false, updatedAt: '' },
+        _deleted: false,
+        updatedAt: new Date().toISOString(),
+        start_date: dateFirstDayMonth().toISOString(),
+        end_date: null,
       });
     }
   }
@@ -71,15 +62,12 @@ const personArchiveMidweekMeeting = (
 ) => {
   if (person.person_data.midweek_meeting_student.active.value) {
     const current = person.person_data.midweek_meeting_student.history.find(
-      (record) =>
-        record._deleted.value === false && record.end_date.value === null
+      (record) => record._deleted === false && record.end_date === null
     );
 
-    const start_date = formatDate(
-      new Date(current.start_date.value),
-      'MM/dd/yyyy'
-    );
-    const nowDate = formatDate(new Date(), 'MM/dd/yyyy');
+    const start_date = formatDate(new Date(current.start_date), 'yyyy/MM/dd');
+
+    const nowDate = formatDate(new Date(), 'yyyy/MM/dd');
 
     if (start_date === nowDate) {
       if (isAddPerson) {
@@ -90,13 +78,14 @@ const personArchiveMidweekMeeting = (
       }
 
       if (!isAddPerson) {
-        current._deleted = { value: true, updatedAt: new Date().toISOString() };
+        current._deleted = true;
+        current.updatedAt = new Date().toISOString();
       }
     }
 
     if (start_date !== nowDate) {
-      current.end_date.value = new Date().toISOString();
-      current.end_date.updatedAt = new Date().toISOString();
+      current.end_date = new Date().toISOString();
+      current.updatedAt = new Date().toISOString();
     }
   }
 };
@@ -107,15 +96,11 @@ const personArchiveUnbaptizedPublisher = (
 ) => {
   if (person.person_data.publisher_unbaptized.active.value) {
     const current = person.person_data.publisher_unbaptized.history.find(
-      (record) =>
-        record._deleted.value === false && record.end_date.value === null
+      (record) => record._deleted === false && record.end_date === null
     );
 
-    const start_date = formatDate(
-      new Date(current.start_date.value),
-      'MM/dd/yyyy'
-    );
-    const nowDate = formatDate(new Date(), 'MM/dd/yyyy');
+    const start_date = formatDate(new Date(current.start_date), 'yyyy/MM/dd');
+    const nowDate = formatDate(new Date(), 'yyyy/MM/dd');
 
     if (start_date === nowDate) {
       if (isAddPerson) {
@@ -126,13 +111,14 @@ const personArchiveUnbaptizedPublisher = (
       }
 
       if (!isAddPerson) {
-        current._deleted = { value: true, updatedAt: new Date().toISOString() };
+        current._deleted = true;
+        current.updatedAt = new Date().toISOString();
       }
     }
 
     if (start_date !== nowDate) {
-      current.end_date.value = dateLastDatePreviousMonth().toISOString();
-      current.end_date.updatedAt = new Date().toISOString();
+      current.end_date = dateLastDatePreviousMonth().toISOString();
+      current.updatedAt = new Date().toISOString();
     }
   }
 };
@@ -143,15 +129,11 @@ const personArchiveBaptizedPublisher = (
 ) => {
   if (person.person_data.publisher_baptized.active.value) {
     const current = person.person_data.publisher_baptized.history.find(
-      (record) =>
-        record._deleted.value === false && record.end_date.value === null
+      (record) => record._deleted === false && record.end_date === null
     );
 
-    const start_date = formatDate(
-      new Date(current.start_date.value),
-      'MM/dd/yyyy'
-    );
-    const nowDate = formatDate(new Date(), 'MM/dd/yyyy');
+    const start_date = formatDate(new Date(current.start_date), 'yyyy/MM/dd');
+    const nowDate = formatDate(new Date(), 'yyyy/MM/dd');
 
     if (start_date === nowDate) {
       if (isAddPerson) {
@@ -162,42 +144,37 @@ const personArchiveBaptizedPublisher = (
       }
 
       if (!isAddPerson) {
-        current._deleted = { value: true, updatedAt: new Date().toISOString() };
+        current._deleted = true;
+        current.updatedAt = new Date().toISOString();
       }
     }
 
     if (start_date !== nowDate) {
-      current.end_date.value = dateLastDatePreviousMonth().toISOString();
-      current.end_date.updatedAt = new Date().toISOString();
+      current.end_date = dateLastDatePreviousMonth().toISOString();
+      current.updatedAt = new Date().toISOString();
     }
   }
 };
 
 const personEndActiveEnrollments = (person: PersonType) => {
   const activeEnrollments = person.person_data.enrollments.filter(
-    (record) =>
-      record._deleted.value === false && record.end_date.value === null
+    (record) => record._deleted === false && record.end_date === null
   );
 
   for (const enrollment of activeEnrollments) {
-    enrollment.end_date = {
-      value: dateLastDatePreviousMonth().toISOString(),
-      updatedAt: new Date().toISOString(),
-    };
+    enrollment.end_date = dateLastDatePreviousMonth().toISOString();
+    enrollment.updatedAt = new Date().toISOString();
   }
 };
 
 const personEndActivePrivileges = (person: PersonType) => {
   const activePrivileges = person.person_data.privileges.filter(
-    (record) =>
-      record._deleted.value === false && record.end_date.value === null
+    (record) => record._deleted === false && record.end_date === null
   );
 
   for (const privilege of activePrivileges) {
-    privilege.end_date = {
-      value: dateLastDatePreviousMonth().toISOString(),
-      updatedAt: new Date().toISOString(),
-    };
+    privilege.end_date = dateLastDatePreviousMonth().toISOString();
+    privilege.updatedAt = new Date().toISOString();
   }
 };
 
@@ -246,16 +223,14 @@ export const personIsInactive = (person: PersonType) => {
   if (isBaptized) {
     isInactive =
       person.person_data.publisher_baptized.history.filter(
-        (record) =>
-          record._deleted.value === false && record.end_date.value === null
+        (record) => record._deleted === false && record.end_date === null
       ).length === 0;
   }
 
   if (isUnbaptized) {
     isInactive =
       person.person_data.publisher_unbaptized.history.filter(
-        (record) =>
-          record._deleted.value === false && record.end_date.value === null
+        (record) => record._deleted === false && record.end_date === null
       ).length === 0;
   }
 
@@ -265,9 +240,9 @@ export const personIsInactive = (person: PersonType) => {
 export const personIsElder = (person: PersonType) => {
   const hasActive = person.person_data.privileges.find(
     (record) =>
-      record.privilege.value === 'elder' &&
-      record.end_date.value === null &&
-      record._deleted.value === false
+      record.privilege === 'elder' &&
+      record.end_date === null &&
+      record._deleted === false
   );
 
   return hasActive ? true : false;
@@ -276,20 +251,59 @@ export const personIsElder = (person: PersonType) => {
 export const personIsMS = (person: PersonType) => {
   const hasActive = person.person_data.privileges.find(
     (record) =>
-      record.privilege.value === 'ms' &&
-      record.end_date.value === null &&
-      record._deleted.value === false
+      record.privilege === 'ms' &&
+      record.end_date === null &&
+      record._deleted === false
   );
 
   return hasActive ? true : false;
 };
 
+export const personIsEnrollmentActive = (
+  person: PersonType,
+  enrollment: EnrollmentType,
+  month?: string
+) => {
+  if (!month) {
+    const hasActive = person.person_data.enrollments.find(
+      (record) =>
+        record.enrollment === enrollment &&
+        record.end_date === null &&
+        record._deleted === false
+    );
+
+    return hasActive ? true : false;
+  }
+
+  // month provided
+  const date = `${month}/01`;
+
+  const baseList = person.person_data.enrollments.filter(
+    (record) =>
+      record.enrollment === enrollment &&
+      record._deleted === false &&
+      record.start_date.length > 0
+  );
+
+  const found = baseList.find((record) => {
+    const dateStart = formatDate(new Date(record.start_date), 'yyyy/MM/dd');
+    const dateEndValue = record.end_date
+      ? new Date(record.end_date)
+      : new Date();
+    const dateEnd = formatDate(dateEndValue, 'yyyy/MM/dd');
+
+    return date >= dateStart && date <= dateEnd;
+  });
+
+  return found ? true : false;
+};
+
 export const personIsAP = (person: PersonType) => {
   const hasActive = person.person_data.enrollments.find(
     (record) =>
-      record.enrollment.value === 'AP' &&
-      record.end_date.value === null &&
-      record._deleted.value === false
+      record.enrollment === 'AP' &&
+      record.end_date === null &&
+      record._deleted === false
   );
 
   return hasActive ? true : false;
@@ -298,9 +312,9 @@ export const personIsAP = (person: PersonType) => {
 export const personIsFMF = (person: PersonType) => {
   const hasActive = person.person_data.enrollments.find(
     (record) =>
-      record.enrollment.value === 'FMF' &&
-      record.end_date.value === null &&
-      record._deleted.value === false
+      record.enrollment === 'FMF' &&
+      record.end_date === null &&
+      record._deleted === false
   );
 
   return hasActive ? true : false;
@@ -309,9 +323,9 @@ export const personIsFMF = (person: PersonType) => {
 export const personIsFR = (person: PersonType) => {
   const hasActive = person.person_data.enrollments.find(
     (record) =>
-      record.enrollment.value === 'FR' &&
-      record.end_date.value === null &&
-      record._deleted.value === false
+      record.enrollment === 'FR' &&
+      record.end_date === null &&
+      record._deleted === false
   );
 
   return hasActive ? true : false;
@@ -320,9 +334,9 @@ export const personIsFR = (person: PersonType) => {
 export const personIsFS = (person: PersonType) => {
   const hasActive = person.person_data.enrollments.find(
     (record) =>
-      record.enrollment.value === 'FS' &&
-      record.end_date.value === null &&
-      record._deleted.value === false
+      record.enrollment === 'FS' &&
+      record.end_date === null &&
+      record._deleted === false
   );
 
   return hasActive ? true : false;
@@ -560,6 +574,12 @@ export const personIsBaptizedPublisher = (person: PersonType) => {
 
 export const personIsUnbaptizedPublisher = (person: PersonType) => {
   return person.person_data.publisher_unbaptized.active.value;
+};
+
+export const personIsPublisher = (person: PersonType) => {
+  return (
+    personIsBaptizedPublisher(person) || personIsUnbaptizedPublisher(person)
+  );
 };
 
 export const personIsMidweekStudent = (person: PersonType) => {

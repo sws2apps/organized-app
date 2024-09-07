@@ -1,3 +1,6 @@
+import { BranchCongAnalysisType } from '@definition/branch_cong_analysis';
+import { BranchFieldServiceReportType } from '@definition/branch_field_service_reports';
+import { CongFieldServiceReportType } from '@definition/cong_field_service_reports';
 import { MeetingAttendanceType } from '@definition/meeting_attendance';
 import { PersonType } from '@definition/person';
 import { SchedWeekType } from '@definition/schedules';
@@ -8,6 +11,11 @@ import {
 } from '@definition/settings';
 import { SourceWeekType } from '@definition/sources';
 import { SpeakersCongregationsType } from '@definition/speakers_congregations';
+import { UserBibleStudyType } from '@definition/user_bible_studies';
+import {
+  UserFieldServiceDailyReportType,
+  UserFieldServiceMonthlyReportType,
+} from '@definition/user_field_service_reports';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
 import { Week } from '@definition/week_type';
 
@@ -194,7 +202,6 @@ export const personSchema: PersonType = {
     email: { value: '', updatedAt: '' },
     address: { value: '', updatedAt: '' },
     phone: { value: '', updatedAt: '' },
-    first_month_report: { value: null, updatedAt: '' },
     publisher_baptized: {
       active: { value: false, updatedAt: '' },
       anointed: { value: false, updatedAt: '' },
@@ -211,12 +218,10 @@ export const personSchema: PersonType = {
       history: [
         {
           id: crypto.randomUUID(),
-          start_date: {
-            value: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-          },
-          end_date: { value: null, updatedAt: new Date().toISOString() },
-          _deleted: { value: false, updatedAt: '' },
+          _deleted: false,
+          updatedAt: new Date().toISOString(),
+          start_date: new Date().toISOString(),
+          end_date: new Date().toISOString(),
         },
       ],
     },
@@ -252,6 +257,7 @@ export const settingSchema: SettingsType = {
     format_24h_enabled: [{ type: 'main', value: true, updatedAt: '' }],
     week_start_sunday: [{ type: 'main', value: false, updatedAt: '' }],
     attendance_online_record: { value: false, updatedAt: '' },
+    special_months: [],
     source_material_auto_import: {
       enabled: { value: true, updatedAt: '' },
       frequency: { value: SourceFrequency.BIWEEKLY, updatedAt: '' },
@@ -403,5 +409,90 @@ export const meetingAttendanceSchema: MeetingAttendanceType = {
     weekend: [
       { type: 'main', online: undefined, present: undefined, updatedAt: '' },
     ],
+  },
+};
+
+export const userBibleStudySchema: UserBibleStudyType = {
+  person_uid: '',
+  person_data: { _deleted: false, person_name: '', updatedAt: '' },
+};
+
+export const userFieldServiceDailyReportSchema: UserFieldServiceDailyReportType =
+  {
+    report_date: '',
+    report_data: {
+      _deleted: false,
+      hours: { field_service: '', credit: '' },
+      timer: { start: 0, state: 'not_started', value: 0 },
+      bible_studies: { value: 0, records: [] },
+      record_type: 'daily',
+      comments: '',
+      updatedAt: '',
+    },
+  };
+
+export const userFieldServiceMonthlyReportSchema: UserFieldServiceMonthlyReportType =
+  {
+    report_date: '',
+    report_data: {
+      _deleted: false,
+      updatedAt: '',
+      shared_ministry: false,
+      hours: {
+        field_service: 0,
+        credit: { value: 0, approved: 0 },
+      },
+      bible_studies: 0,
+      comments: '',
+      record_type: 'monthly',
+      status: 'pending',
+    },
+  };
+
+export const congFieldServiceReportSchema: CongFieldServiceReportType = {
+  report_id: '',
+  report_data: {
+    _deleted: false,
+    updatedAt: '',
+    report_date: '',
+    person_uid: '',
+    shared_ministry: false,
+    hours: {
+      field_service: 0,
+      credit: { value: 0, approved: 0 },
+    },
+    bible_studies: 0,
+    comments: '',
+    late: {
+      value: false,
+      submitted: '',
+    },
+    status: 'confirmed',
+  },
+};
+
+export const SchemaBranchFieldServiceReport: BranchFieldServiceReportType = {
+  report_date: '',
+  report_data: {
+    _deleted: false,
+    updatedAt: '',
+    submitted: false,
+    publishers_active: 0,
+    weekend_meeting_average: 0,
+    publishers: { report_count: 0, bible_studies: 0 },
+    APs: { report_count: 0, bible_studies: 0, hours: 0 },
+    FRs: { report_count: 0, bible_studies: 0, hours: 0 },
+  },
+};
+
+export const SchemaBranchCongAnalysis: BranchCongAnalysisType = {
+  report_date: '',
+  report_data: {
+    _deleted: false,
+    updatedAt: '',
+    submitted: false,
+    meeting_average: { midweek: 0, weekend: 0 },
+    publishers: { active: 0, inactive: 0, reactivated: 0 },
+    territories: { total: 0, uncovered: 0 },
   },
 };

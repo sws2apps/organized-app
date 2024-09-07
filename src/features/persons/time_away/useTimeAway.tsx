@@ -10,7 +10,7 @@ const useTimeAway = () => {
   const person = useRecoilValue(personCurrentDetailsState);
 
   const activeTimeAway = person.person_data.timeAway.filter(
-    (record) => record._deleted.value === false
+    (record) => record._deleted === false
   );
 
   const handleAddTimeAway = async () => {
@@ -18,13 +18,11 @@ const useTimeAway = () => {
 
     newPerson.person_data.timeAway.push({
       id: crypto.randomUUID(),
-      start_date: {
-        value: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      },
-      end_date: { value: null, updatedAt: '' },
-      comments: { value: '', updatedAt: '' },
-      _deleted: { value: false, updatedAt: '' },
+      _deleted: false,
+      updatedAt: new Date().toISOString(),
+      start_date: new Date().toISOString(),
+      end_date: null,
+      comments: '',
     });
 
     await setPersonCurrentDetails(newPerson);
@@ -37,7 +35,9 @@ const useTimeAway = () => {
       const current = newPerson.person_data.timeAway.find(
         (history) => history.id === id
       );
-      current._deleted = { value: true, updatedAt: new Date().toISOString() };
+
+      current._deleted = true;
+      current.updatedAt = new Date().toISOString();
     }
 
     if (isAddPerson) {
@@ -55,10 +55,9 @@ const useTimeAway = () => {
     const current = newPerson.person_data.timeAway.find(
       (history) => history.id === id
     );
-    current.start_date = {
-      value: value.toISOString(),
-      updatedAt: new Date().toISOString(),
-    };
+
+    current.start_date = value.toISOString();
+    current.updatedAt = new Date().toISOString();
 
     await setPersonCurrentDetails(newPerson);
   };
@@ -69,10 +68,9 @@ const useTimeAway = () => {
     const current = newPerson.person_data.timeAway.find(
       (history) => history.id === id
     );
-    current.end_date = {
-      value: value === null ? null : value.toISOString(),
-      updatedAt: new Date().toISOString(),
-    };
+
+    current.end_date = value === null ? null : value.toISOString();
+    current.updatedAt = new Date().toISOString();
 
     await setPersonCurrentDetails(newPerson);
   };
@@ -83,7 +81,9 @@ const useTimeAway = () => {
     const current = newPerson.person_data.timeAway.find(
       (history) => history.id === id
     );
-    current.comments = { value, updatedAt: new Date().toISOString() };
+
+    current.comments = value;
+    current.updatedAt = new Date().toISOString();
 
     await setPersonCurrentDetails(newPerson);
   };

@@ -9,14 +9,18 @@ import { setIsAppLoad } from '@services/recoil/app';
 import { loadApp, runUpdater } from '@services/app';
 import { dbSpeakersCongregationsDummy } from '@services/dexie/speakers_congregations';
 import { dbVisitingSpeakersDummy } from '@services/dexie/visiting_speakers';
+import useInternetChecker from '@hooks/useInternetChecker';
 
 const useStart = () => {
+  const { isNavigatorOnline } = useInternetChecker();
+
   useEffect(() => {
     document.title = 'Test Organized app (sws2apps)';
 
     const handlePrepareTest = async () => {
       await dbAppDelete();
       await dbAppOpen();
+
       await importDummyPersons(false);
       await dbAppSettingsBuildTest();
       await dbSpeakersCongregationsDummy();
@@ -34,7 +38,7 @@ const useStart = () => {
     return () => {
       clearTimeout(timeOut);
     };
-  }, []);
+  }, [isNavigatorOnline]);
 
   return {};
 };

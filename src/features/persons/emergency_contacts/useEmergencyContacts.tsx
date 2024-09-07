@@ -10,7 +10,7 @@ const useEmergencyContacts = () => {
   const person = useRecoilValue(personCurrentDetailsState);
 
   const activeContacts = person.person_data.emergency_contacts.filter(
-    (record) => record._deleted.value === false
+    (record) => record._deleted === false
   );
 
   const handleAddContact = async () => {
@@ -18,9 +18,10 @@ const useEmergencyContacts = () => {
 
     newPerson.person_data.emergency_contacts.push({
       id: crypto.randomUUID(),
-      name: { value: '', updatedAt: '' },
-      contact: { value: '', updatedAt: '' },
-      _deleted: { value: false, updatedAt: '' },
+      _deleted: false,
+      updatedAt: '',
+      name: '',
+      contact: '',
     });
 
     await setPersonCurrentDetails(newPerson);
@@ -33,7 +34,9 @@ const useEmergencyContacts = () => {
       const current = newPerson.person_data.emergency_contacts.find(
         (contact) => contact.id === id
       );
-      current._deleted = { value: true, updatedAt: new Date().toISOString() };
+
+      current._deleted = true;
+      current.updatedAt = new Date().toISOString();
     }
 
     if (isAddPerson) {
@@ -52,7 +55,8 @@ const useEmergencyContacts = () => {
     const current = newPerson.person_data.emergency_contacts.find(
       (contact) => contact.id === id
     );
-    current.name = { value, updatedAt: new Date().toISOString() };
+    current.name = value;
+    current.updatedAt = new Date().toISOString();
 
     await setPersonCurrentDetails(newPerson);
   };
@@ -63,7 +67,9 @@ const useEmergencyContacts = () => {
     const current = newPerson.person_data.emergency_contacts.find(
       (history) => history.id === id
     );
-    current.contact = { value, updatedAt: new Date().toISOString() };
+
+    current.contact = value;
+    current.updatedAt = new Date().toISOString();
 
     await setPersonCurrentDetails(newPerson);
   };

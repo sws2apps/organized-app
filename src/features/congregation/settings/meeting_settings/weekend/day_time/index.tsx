@@ -1,4 +1,4 @@
-import { TwoColumnsRow } from '@features/congregation/shared_styles/components';
+import { TwoColumnsRow } from '@features/congregation/settings/shared_styles';
 import { useAppTranslation } from '@hooks/index';
 import useDayTime from './useDayTime';
 import DaySelector from '@components/day_selector';

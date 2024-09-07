@@ -6,8 +6,7 @@ export const dbPersonsSave = async (person: PersonType, isNew?: boolean) => {
   try {
     // CHECK FOR MULTIPLE RECORDS HISTORY FOR ALL SPIRITUAL STATUS
     const baptizedActive = person.person_data.publisher_baptized.history.filter(
-      (record) =>
-        record._deleted.value === false && record.end_date.value === null
+      (record) => record._deleted === false && record.end_date === null
     ).length;
 
     if (baptizedActive > 1) {
@@ -16,8 +15,7 @@ export const dbPersonsSave = async (person: PersonType, isNew?: boolean) => {
 
     const unbaptizedActive =
       person.person_data.publisher_unbaptized.history.filter(
-        (record) =>
-          record._deleted.value === false && record.end_date.value === null
+        (record) => record._deleted === false && record.end_date === null
       ).length;
 
     if (unbaptizedActive > 1) {
@@ -26,8 +24,7 @@ export const dbPersonsSave = async (person: PersonType, isNew?: boolean) => {
 
     const midweekActive =
       person.person_data.midweek_meeting_student.history.filter(
-        (record) =>
-          record._deleted.value === false && record.end_date.value === null
+        (record) => record._deleted === false && record.end_date === null
       ).length;
 
     if (midweekActive > 1) {
@@ -55,8 +52,7 @@ export const dbPersonsSave = async (person: PersonType, isNew?: boolean) => {
 
     // CHECK FOR MULTIPLE ACTIVE PRIVILEGES
     const privilegesActive = person.person_data.privileges.filter(
-      (record) =>
-        record._deleted.value === false && record.end_date.value === null
+      (record) => record._deleted === false && record.end_date === null
     ).length;
 
     if (privilegesActive > 1) {
@@ -65,8 +61,7 @@ export const dbPersonsSave = async (person: PersonType, isNew?: boolean) => {
 
     // CHECK FOR MULTIPLE ACTIVE ENROLLMENTS
     const enrollmentsActive = person.person_data.enrollments.filter(
-      (record) =>
-        record._deleted.value === false && record.end_date.value === null
+      (record) => record._deleted === false && record.end_date === null
     ).length;
 
     if (enrollmentsActive > 1) {
@@ -109,4 +104,8 @@ export const dbPersonsDelete = async (person_uid: string) => {
 export const dbPersonsGetAll = async () => {
   const persons = await appDb.persons.toArray();
   return persons;
+};
+
+export const dbPersonsBulkSave = async (persons: PersonType[]) => {
+  await appDb.persons.bulkPut(persons);
 };

@@ -1,11 +1,10 @@
 import { useAppTranslation } from '@hooks/index';
-import { UserMemberDetailsType } from '../index.types';
 import useUserMainRoles from './useUserMainRoles';
 import Checkbox from '@components/checkbox';
 import Divider from '@components/divider';
 import Typography from '@components/typography';
 
-const UserMainRoles = ({ user }: UserMemberDetailsType) => {
+const UserMainRoles = () => {
   const { t } = useAppTranslation();
 
   const {
@@ -17,7 +16,7 @@ const UserMainRoles = ({ user }: UserMemberDetailsType) => {
     handleToggleSecretary,
     isFieldOverseer,
     isSecretary,
-  } = useUserMainRoles(user);
+  } = useUserMainRoles();
 
   return (
     <>

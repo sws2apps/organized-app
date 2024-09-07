@@ -5,8 +5,11 @@ import { isAppLoadState } from '@states/app';
 import { sourcesJWAutoImportState } from '@states/settings';
 import { apiFetchSources } from '@services/api/sources';
 import { sourcesImportJW } from '@services/app/sources';
+import useInternetChecker from '@hooks/useInternetChecker';
 
 const JWAutoImport = () => {
+  const { isNavigatorOnline } = useInternetChecker();
+
   const isAppLoad = useRecoilValue(isAppLoadState);
   const isAutoImportEnabled = useRecoilValue(sourcesJWAutoImportState);
 
@@ -18,7 +21,7 @@ const JWAutoImport = () => {
   }, []);
 
   useEffect(() => {
-    if (!isAppLoad) {
+    if (!isAppLoad && isNavigatorOnline) {
       if (isDemo) {
         handleJWAutoImport();
       }
@@ -32,7 +35,7 @@ const JWAutoImport = () => {
         }
       }
     }
-  }, [handleJWAutoImport, isAppLoad, isAutoImportEnabled]);
+  }, [handleJWAutoImport, isAppLoad, isAutoImportEnabled, isNavigatorOnline]);
 
   return <></>;
 };

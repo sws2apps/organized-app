@@ -1,18 +1,17 @@
 import { Box, InputAdornment } from '@mui/material';
-import { DetailsContainer } from '../shared_styles';
-import { UserMemberDetailsType } from '../index.types';
 import { IconCopy, IconInvite, IconLoading, IconSync } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
+import { DetailsContainer } from '../shared_styles';
+import { copyToClipboard } from '@utils/common';
 import useInvitationCode from './useInvitationCode';
 import Button from '@components/button';
+import DeleteCode from './delete_code';
 import IconButton from '@components/icon_button';
 import Markup from '@components/text_markup';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
-import { copyToClipboard } from '@utils/common';
-import DeleteCode from './delete_code';
 
-const InvitationCode = ({ user }: UserMemberDetailsType) => {
+const InvitationCode = () => {
   const { t } = useAppTranslation();
 
   const {
@@ -22,7 +21,8 @@ const InvitationCode = ({ user }: UserMemberDetailsType) => {
     handleOpenDelete,
     isDelete,
     isProcessing,
-  } = useInvitationCode(user);
+    user,
+  } = useInvitationCode();
 
   return (
     <DetailsContainer>

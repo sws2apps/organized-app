@@ -16,6 +16,12 @@ const DatabaseWrapper = ({ children }: PropsWithChildren) => {
     loadVisitingSpeakers,
     loadSpeakersCongregations,
     loadMeetingAttendance,
+    loadUserFieldServiceReports,
+    loadUserBibleStudies,
+    loadCongFieldServiceReports,
+    loadBranchCongAnalysis,
+    loadBranchFieldReports,
+    loadFieldGroups,
   } = useIndexedDb();
 
   useEffect(() => {
@@ -28,6 +34,12 @@ const DatabaseWrapper = ({ children }: PropsWithChildren) => {
     loadSpeakersCongregations();
     loadVisitingSpeakers();
     loadMeetingAttendance();
+    loadUserBibleStudies();
+    loadUserFieldServiceReports();
+    loadCongFieldServiceReports();
+    loadBranchFieldReports();
+    loadBranchCongAnalysis();
+    loadFieldGroups();
   }, [
     loadSettings,
     loadAssignment,
@@ -38,6 +50,12 @@ const DatabaseWrapper = ({ children }: PropsWithChildren) => {
     loadSpeakersCongregations,
     loadVisitingSpeakers,
     loadMeetingAttendance,
+    loadUserFieldServiceReports,
+    loadUserBibleStudies,
+    loadCongFieldServiceReports,
+    loadBranchFieldReports,
+    loadBranchCongAnalysis,
+    loadFieldGroups,
   ]);
 
   return children;
