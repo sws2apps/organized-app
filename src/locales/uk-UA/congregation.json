@@ -428,5 +428,11 @@
   "tr_next6MonthsLabel": "Наступні 6 місяців",
   "tr_next12MonthsLabel": "Наступні 12 місяців",
   "tr_quickSettings": "Швидкі налаштування",
-  "tr_quickSettingsDesc": "Легко оновлюй налаштування для цієї сторінки на ходу. Ці налаштування синхронізуються зі основною сторінкою налаштувань збору, тому ти можеш керувати ними з будь-якого місця в будь-який час."
+  "tr_quickSettingsDesc": "Easily update your settings for this page on-the-go. These settings are synced with the congregation settings page, so you can manage them from either location at any time.",
+  "tr_upcomingEvents": "Upcoming events",
+  "tr_addEvent": "Add event",
+  "tr_upcomingEventsEmpty": "The upcoming events list is empty for now. Once elders add new events, they will appear here.",
+  "tr_addUpcomingEvent": "Add an upcoming event",
+  "tr_editUpcomingEvent": "Edit an upcoming event",
+  "tr_eventType": "Event type"
 }
