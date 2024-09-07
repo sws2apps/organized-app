@@ -65,13 +65,7 @@ const useMonthlyReport = () => {
           monthInReport.report_data.status === 'pending' &&
           month.value < currentMonth
         ) {
-          icon = (
-            <IconClose
-              height={20}
-              width={20}
-              // color="var(--accent-400) !important"
-            />
-          );
+          icon = <IconClose height={20} width={20} />;
         }
       }
 

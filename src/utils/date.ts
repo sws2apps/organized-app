@@ -292,7 +292,13 @@ export const buildPublisherReportMonths = () => {
   let year = +initYear;
   let month = +initMonth - 1;
 
-  for (let i = 0; i < 12; i++) {
+  // add 1 month ahead
+  month = month + 1;
+  if (month === 12) {
+    year++;
+  }
+
+  for (let i = 0; i < 13; i++) {
     results.push({
       label: monthNames[month],
       value: `${year}/${String(month + 1).padStart(2, '0')}`,

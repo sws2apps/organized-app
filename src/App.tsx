@@ -46,9 +46,6 @@ const UpcomingEvents = lazy(
   () => import('@pages/congregation/upcoming_events')
 );
 
-const ComponentsPreview = lazy(() => import('@components/preview'));
-const PdfPreview = lazy(() => import('@components/preview/PDF_Peview'));
-
 const queryClient = new QueryClient();
 
 const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
@@ -56,11 +53,6 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
     {
       errorElement: <ErrorBoundary />,
       children: [
-        { path: '/components-preview', element: <ComponentsPreview /> },
-        {
-          path: '/pdf-document',
-          element: <PdfPreview />,
-        },
         {
           element: <RootLayout updatePwa={updatePwa} />,
           children: [
