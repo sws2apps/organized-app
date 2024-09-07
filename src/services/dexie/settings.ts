@@ -33,13 +33,11 @@ export const dbAppSettingsTimeAwayAdd = async () => {
 
   setting.user_settings.user_time_away.push({
     id: crypto.randomUUID(),
-    start_date: {
-      value: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    },
-    end_date: { value: null, updatedAt: '' },
-    comments: { value: '', updatedAt: '' },
-    _deleted: { value: false, updatedAt: '' },
+    _deleted: false,
+    updatedAt: new Date().toISOString(),
+    start_date: new Date().toISOString(),
+    end_date: null,
+    comments: '',
   });
 
   await appDb.app_settings.put(setting);
@@ -51,10 +49,8 @@ export const dbAppSettingsTimeAwayDelete = async (id) => {
   const currentTimeAway = setting.user_settings.user_time_away.find(
     (record) => record.id === id
   );
-  currentTimeAway._deleted = {
-    value: true,
-    updatedAt: new Date().toISOString(),
-  };
+  currentTimeAway._deleted = true;
+  currentTimeAway.updatedAt = new Date().toISOString();
 
   await appDb.app_settings.put(setting);
 };
@@ -253,7 +249,12 @@ export const dbAppSettingsBuildTest = async () => {
     value: person.person_data.person_lastname.value,
     updatedAt: new Date().toISOString(),
   };
-  baseSettings.user_settings.cong_role = ['admin', 'elder', 'publisher'];
+  baseSettings.user_settings.cong_role = [
+    'admin',
+    'elder',
+    'publisher',
+    'secretary',
+  ];
   baseSettings.user_settings.account_type = 'vip';
   baseSettings.cong_settings.country_code = 'USA';
   baseSettings.cong_settings.cong_name = 'Central English - Seattle WA';
