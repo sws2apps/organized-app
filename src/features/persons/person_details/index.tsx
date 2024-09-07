@@ -13,7 +13,7 @@ const PersonDetails = (props: PersonDetailsProps) => {
     <Box sx={{ display: 'flex', alignItems: 'center', gap: '13px' }}>
       {female ? <img src={UserCardFemaleImg} /> : <img src={UserCardMaleImg} />}
       <Stack spacing="4px">
-        <Typography className="h4">{name}</Typography>
+        <Typography className={props.className || 'h4'}>{name}</Typography>
         <Box
           sx={{
             display: 'flex',

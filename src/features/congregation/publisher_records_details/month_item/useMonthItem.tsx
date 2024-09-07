@@ -4,13 +4,22 @@ import { MonthItemProps, MonthStatusType } from './index.types';
 import { monthNamesState } from '@states/app';
 import { currentMonthServiceYear } from '@utils/date';
 import { personIsEnrollmentActive } from '@services/app/persons';
-import useMinistryMonthlyRecord from '@features/ministry/hooks/useMinistryMonthlyRecord';
+import { congFieldServiceReportsState } from '@states/field_service_reports';
 
 const useMonthItem = ({ month, person }: MonthItemProps) => {
   const monthNames = useRecoilValue(monthNamesState);
 
-  const { status, bible_studies, total_hours, comments } =
-    useMinistryMonthlyRecord(month);
+  const reports = useRecoilValue(congFieldServiceReportsState);
+
+  const report = useMemo(() => {
+    if (!person) return;
+
+    return reports.find(
+      (record) =>
+        record.report_data.report_date === month &&
+        record.report_data.person_uid === person.person_uid
+    );
+  }, [reports, month, person]);
 
   const monthname = useMemo(() => {
     const monthIndex = +month.split('/')[1] - 1;
@@ -24,22 +33,36 @@ const useMonthItem = ({ month, person }: MonthItemProps) => {
   }, [month]);
 
   const monthStatus: MonthStatusType = useMemo(() => {
-    if (status !== 'pending') return status;
+    if (!report) return;
 
-    const currentMonth = currentMonthServiceYear();
-
-    if (month >= currentMonth) return status;
-
-    return 'late';
-  }, [status, month]);
+    const status = report.report_data.shared_ministry ? 'shared' : 'not_shared';
+    return status;
+  }, [report]);
 
   const isAP = useMemo(() => {
     return personIsEnrollmentActive(person, 'AP', month);
   }, [person, month]);
 
-  const isFR = useMemo(() => {
-    return personIsEnrollmentActive(person, 'FR', month);
-  }, [person, month]);
+  const total_hours = useMemo(() => {
+    if (!report) return 0;
+
+    const field = report.report_data.hours.field_service;
+    const credit = report.report_data.hours.credit.approved;
+
+    return field + credit;
+  }, [report]);
+
+  const bible_studies = useMemo(() => {
+    if (!report) return 0;
+
+    return report.report_data.bible_studies;
+  }, [report]);
+
+  const comments = useMemo(() => {
+    if (!report) return '';
+
+    return report.report_data.comments;
+  }, [report]);
 
   return {
     monthname,
@@ -48,7 +71,6 @@ const useMonthItem = ({ month, person }: MonthItemProps) => {
     total_hours,
     isAP,
     comments,
-    isFR,
     isCurrent,
   };
 };

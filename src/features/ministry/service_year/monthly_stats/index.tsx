@@ -9,7 +9,7 @@ import Typography from '@components/typography';
 const MonthlyStats = () => {
   const { t } = useAppTranslation();
 
-  const { monthsList } = useMonthlyStats();
+  const { monthsList, person } = useMonthlyStats();
 
   return (
     <CardContainer>
@@ -18,7 +18,11 @@ const MonthlyStats = () => {
       {monthsList.length > 0 && (
         <Stack spacing="8px" divider={<Divider color="var(--accent-200)" />}>
           {monthsList.map((record) => (
-            <MonthItem key={record.value} month={record.value} />
+            <MonthItem
+              key={record.value}
+              person={person}
+              month={record.value}
+            />
           ))}
         </Stack>
       )}

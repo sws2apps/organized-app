@@ -5,7 +5,7 @@ import { buildServiceYearsList } from '@utils/date';
 import { serviceYearSelectedState } from '@states/user_field_service_reports';
 
 const useMonthlyStats = () => {
-  const { first_report } = useCurrentUser();
+  const { first_report, person } = useCurrentUser();
 
   const selectedYear = useRecoilValue(serviceYearSelectedState);
 
@@ -29,7 +29,7 @@ const useMonthlyStats = () => {
     return result;
   }, [selectedYear, first_report]);
 
-  return { monthsList };
+  return { monthsList, person };
 };
 
 export default useMonthlyStats;
