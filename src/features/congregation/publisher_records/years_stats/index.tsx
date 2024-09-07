@@ -12,7 +12,7 @@ const YearsStats = () => {
   const { tabs, intial_value } = useYearsStats();
 
   return (
-    <Card sx={{ flex: 0.7, width: '100%' }}>
+    <Card sx={{ flex: 0.8, width: '100%' }}>
       <Typography className="h2">{t('tr_statistics')}</Typography>
 
       <ScrollableTabs

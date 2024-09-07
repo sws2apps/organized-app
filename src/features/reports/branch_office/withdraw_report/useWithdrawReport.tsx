@@ -30,7 +30,7 @@ const useWithdrawReport = ({ onClose }: WithdrawReportProps) => {
     const lateReports = congReports.filter(
       (record) =>
         record.report_data.status === 'confirmed' &&
-        record.report_data.late &&
+        record.report_data.late.value &&
         record.report_data.late.submitted === month
     );
 

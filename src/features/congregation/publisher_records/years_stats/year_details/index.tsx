@@ -2,8 +2,12 @@ import { Box, Stack } from '@mui/material';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { YearDetailsProps } from './index.types';
 import useYearDetails from './useYearDetails';
+import AuxiliaryPioneers from '../auxiliary_pioneers';
+import FulltimeServants from '../fulltime_servants';
 import MonthSelector from '@features/reports/service_year_month_selector/month_selector';
+import Publishers from '../publishers';
 import SwitchWithLabel from '@components/switch_with_label';
+import TotalStatistics from '../total_statistics';
 
 const YearDetails = (props: YearDetailsProps) => {
   const { t } = useAppTranslation();
@@ -36,6 +40,14 @@ const YearDetails = (props: YearDetailsProps) => {
           />
         </Box>
       </Stack>
+
+      <FulltimeServants month={month} year={year} wholeYear={wholeYear} />
+
+      <AuxiliaryPioneers month={month} year={year} wholeYear={wholeYear} />
+
+      <Publishers month={month} year={year} wholeYear={wholeYear} />
+
+      <TotalStatistics year={year} />
     </Stack>
   );
 };

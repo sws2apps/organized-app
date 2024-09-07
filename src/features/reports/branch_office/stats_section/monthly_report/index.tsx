@@ -5,7 +5,7 @@ import { useAppTranslation } from '@hooks/index';
 import useMonthlyReport from './useMonthlyReport';
 import Card from '@components/card';
 import Divider from '@components/divider';
-import RowStats from '../row_stats';
+import StatsRow from '@features/reports/stats_row';
 import Typography from '@components/typography';
 
 const MonthlyReport = (props: MonthlyReportProps) => {
@@ -31,7 +31,7 @@ const MonthlyReport = (props: MonthlyReportProps) => {
         {generated && (
           <Stack spacing="4px" divider={<Divider color="var(--accent-200)" />}>
             {month_overview.map((report) => (
-              <RowStats
+              <StatsRow
                 key={report.label}
                 title={report.label}
                 value={report.value}
@@ -65,7 +65,7 @@ const MonthlyReport = (props: MonthlyReportProps) => {
 
               <Stack divider={<Divider color="var(--accent-200)" />}>
                 {section.reports.map((report) => (
-                  <RowStats
+                  <StatsRow
                     key={report.label}
                     title={report.label}
                     value={report.value}

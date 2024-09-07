@@ -11,6 +11,7 @@ const MinistryShared = ({ person }: MinistrySharedProps) => {
   return (
     <Checkbox
       label={t('tr_sharedMinistry')}
+      disabled={!checked && readOnly}
       readOnly={readOnly}
       checked={checked}
       onChange={(e) => handleCheckedChange(e.target.checked)}

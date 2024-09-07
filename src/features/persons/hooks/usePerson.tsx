@@ -1,8 +1,6 @@
 import { useRecoilValue } from 'recoil';
 import { EnrollmentType, PersonType, PrivilegeType } from '@definition/person';
 import { formatDate } from '@services/dateformat';
-import { congFieldServiceReportsState } from '@states/field_service_reports';
-import { addMonths } from '@utils/date';
 import { useAppTranslation } from '@hooks/index';
 import { BadgeColor } from '@definition/app';
 import { fullnameOptionState } from '@states/settings';
@@ -11,7 +9,6 @@ import { buildPersonFullname } from '@utils/common';
 const usePerson = () => {
   const { t } = useAppTranslation();
 
-  const reports = useRecoilValue(congFieldServiceReportsState);
   const fullnameOption = useRecoilValue(fullnameOptionState);
 
   const getName = (person: PersonType) => {
@@ -182,47 +179,6 @@ const usePerson = () => {
     return formatDate(firstDate, 'yyyy/MM');
   };
 
-  const personCheckInactivityState = (person: PersonType, month: string) => {
-    // default month to current month if undefined
-    if (!month) {
-      month = formatDate(new Date(), 'yyyy/MM');
-    }
-
-    const startDate = personGetFirstReport(person);
-    if (!startDate) return false;
-
-    let isInactive = true;
-    let countReport = 0;
-
-    do {
-      // exit and count reports if it reaches first month report
-      if (month === startDate) {
-        isInactive = countReport === 5;
-        break;
-      }
-
-      // find report and check shared_ministry
-      const report = reports.find(
-        (record) =>
-          record.report_data.person_uid === person.person_uid &&
-          record.report_data.report_date === month
-      );
-
-      if (report?.report_data.shared_ministry) {
-        isInactive = false;
-        break;
-      }
-
-      // decrease month
-      const date = addMonths(`${month}/01`, -1);
-      month = formatDate(date, 'yyyy/MM');
-
-      countReport++;
-    } while (countReport <= 5);
-
-    return isInactive;
-  };
-
   const getBadges = (person: PersonType, month?: string) => {
     const badges: { name: string; color: BadgeColor }[] = [];
 
@@ -300,9 +256,113 @@ const usePerson = () => {
     return badges.sort((a, b) => a.name.localeCompare(b.name));
   };
 
+  const personIsEnrollmentYearActive = (
+    person: PersonType,
+    enrollment: EnrollmentType,
+    year: string
+  ) => {
+    const startMonth = `${+year - 1}/09`;
+    const endMonth = `${year}/08`;
+
+    const history = person.person_data.enrollments.filter(
+      (record) =>
+        record._deleted === false &&
+        record.enrollment === enrollment &&
+        record.start_date?.length > 0
+    );
+
+    const isActive = history.some((record) => {
+      const startDate = new Date(record.start_date);
+      const recordStart = formatDate(startDate, 'yyyy/MM');
+
+      if (recordStart <= startMonth && record.end_date === null) return true;
+
+      return recordStart >= startMonth && recordStart <= endMonth;
+    });
+
+    return isActive;
+  };
+
+  const personIsPrivilegeYearActive = (
+    person: PersonType,
+    privilege: PrivilegeType,
+    year: string
+  ) => {
+    const startMonth = `${+year - 1}/09`;
+    const endMonth = `${year}/08`;
+
+    const history = person.person_data.privileges.filter(
+      (record) =>
+        record._deleted === false &&
+        record.privilege === privilege &&
+        record.start_date?.length > 0
+    );
+
+    const isActive = history.some((record) => {
+      const startDate = new Date(record.start_date);
+      const recordStart = formatDate(startDate, 'yyyy/MM');
+
+      if (recordStart <= startMonth && record.end_date === null) return true;
+
+      return recordStart >= startMonth && recordStart <= endMonth;
+    });
+
+    return isActive;
+  };
+
+  const personIsPublisherYear = (person: PersonType, year: string) => {
+    const startMonth = `${+year - 1}/09`;
+    const endMonth = `${year}/08`;
+
+    const history = [
+      ...person.person_data.publisher_baptized.history,
+      ...person.person_data.publisher_unbaptized.history,
+    ].filter((record) => !record._deleted && record.start_date?.length > 0);
+
+    const isActive = history.some((record) => {
+      const startDate = new Date(record.start_date);
+      const recordStart = formatDate(startDate, 'yyyy/MM');
+
+      if (recordStart <= startMonth && record.end_date === null) return true;
+
+      return recordStart >= startMonth && recordStart <= endMonth;
+    });
+
+    return isActive;
+  };
+
+  const personIsAPContinuousYearActive = (person: PersonType, year: string) => {
+    const startMonth = `${+year - 1}/09`;
+    const endMonth = `${+year}/08`;
+
+    const history = person.person_data.enrollments.filter(
+      (record) =>
+        record._deleted === false &&
+        record.enrollment === 'AP' &&
+        record.start_date?.length > 0
+    );
+
+    const isActive = history.some((record) => {
+      const startDate = new Date(record.start_date);
+      const recordStart = formatDate(startDate, 'yyyy/MM');
+
+      if (recordStart <= startMonth && record.end_date === null) return true;
+
+      const endDate = new Date(record.end_date);
+      const recordEnd = formatDate(endDate, 'yyyy/MM');
+
+      return (
+        recordStart >= startMonth &&
+        recordStart <= endMonth &&
+        recordEnd !== recordStart
+      );
+    });
+
+    return isActive;
+  };
+
   return {
     personIsPublisher,
-    personCheckInactivityState,
     personIsBaptizedPublisher,
     personIsUnbaptizedPublisher,
     personIsPrivilegeActive,
@@ -311,6 +371,10 @@ const usePerson = () => {
     getBadges,
     getName,
     personGetFirstReport,
+    personIsEnrollmentYearActive,
+    personIsPublisherYear,
+    personIsPrivilegeYearActive,
+    personIsAPContinuousYearActive,
   };
 };
 

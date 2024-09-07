@@ -46,10 +46,6 @@ const useListByGroups = ({ type }: ListByGroupsProps) => {
     return result;
   }, [persons, type, personIsPublisher]);
 
-  const count = useMemo(() => {
-    return publishers.length;
-  }, [publishers]);
-
   const groups = useMemo(() => {
     const validGroups = fieldGroups.filter(
       (record) => record.group_data.members.length > 0
@@ -87,7 +83,7 @@ const useListByGroups = ({ type }: ListByGroupsProps) => {
 
   const handleExpandedChange = (value: string | false) => setExpanded(value);
 
-  return { groups, month, count, expanded, handleExpandedChange };
+  return { groups, month, expanded, handleExpandedChange };
 };
 
 export default useListByGroups;

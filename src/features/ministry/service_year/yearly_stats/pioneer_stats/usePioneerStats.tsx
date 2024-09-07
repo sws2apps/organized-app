@@ -33,23 +33,20 @@ const usePioneerStats = (year: string) => {
 
   const goal = useMemo(() => {
     const enrollment = person.person_data.enrollments.find((record) => {
-      if (record._deleted.value) return false;
+      if (record._deleted) return false;
 
-      if (record.enrollment.value === 'FR') {
-        let startDate = formatDate(
-          new Date(record.start_date.value),
-          'yyyy/MM'
-        );
+      if (record.enrollment === 'FR') {
+        let startDate = formatDate(new Date(record.start_date), 'yyyy/MM');
 
         let endDate: string;
 
-        if (record.end_date.value === null) {
+        if (record.end_date === null) {
           startDate = start_month;
           endDate = end_month;
         }
 
-        if (record.end_date.value) {
-          endDate = formatDate(new Date(record.end_date.value), 'yyyy/MM');
+        if (record.end_date) {
+          endDate = formatDate(new Date(record.end_date), 'yyyy/MM');
         }
 
         return startDate >= start_month && endDate <= end_month;
@@ -58,7 +55,7 @@ const usePioneerStats = (year: string) => {
 
     if (!enrollment) return 0;
 
-    let tmpStart = formatDate(new Date(enrollment.start_date.value), 'yyyy/MM');
+    let tmpStart = formatDate(new Date(enrollment.start_date), 'yyyy/MM');
 
     if (tmpStart < start_month) {
       tmpStart = start_month;
@@ -73,6 +70,8 @@ const usePioneerStats = (year: string) => {
   }, [person, start_month, end_month]);
 
   const hours_left = useMemo(() => {
+    if (hours.total > goal) return 0;
+
     let sumHours = goal - hours.total;
 
     if (!isCurrentSY) return sumHours;

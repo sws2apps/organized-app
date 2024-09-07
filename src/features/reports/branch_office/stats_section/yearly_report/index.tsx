@@ -5,7 +5,7 @@ import { YearlyReportProps } from './index.types';
 import useYearlyReport from './useYearlyReport';
 import Card from '@components/card';
 import Divider from '@components/divider';
-import RowStats from '../row_stats';
+import StatsRow from '@features/reports/stats_row';
 import Typography from '@components/typography';
 
 const YearlyReport = (props: YearlyReportProps) => {
@@ -55,7 +55,7 @@ const YearlyReport = (props: YearlyReportProps) => {
 
               <Stack divider={<Divider color="var(--accent-200)" />}>
                 {section.reports.map((report) => (
-                  <RowStats
+                  <StatsRow
                     key={report.label}
                     title={report.label}
                     value={report.value}

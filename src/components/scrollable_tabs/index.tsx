@@ -23,6 +23,7 @@ function ScrollableTabs({
   className,
   variant = 'scrollable',
   minHeight = '48px',
+  sx,
 }: CustomTabProps) {
   const [valueOfActivePanel, setValueOfActivePanel] = useState(value ?? false);
 
@@ -90,6 +91,7 @@ function ScrollableTabs({
             '& .Mui-selected > .MuiSvgIcon-root g path': {
               fill: 'var(--accent-dark)',
             },
+            ...sx,
           }}
         >
           {tabs.map(

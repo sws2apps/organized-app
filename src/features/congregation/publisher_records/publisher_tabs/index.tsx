@@ -7,7 +7,19 @@ const PublisherTabs = () => {
 
   return (
     <Card sx={{ flex: 1, width: '100%' }}>
-      <ScrollableTabs indicatorMode tabs={tabs} value={0} />
+      <ScrollableTabs
+        indicatorMode
+        tabs={tabs}
+        value={0}
+        sx={{
+          '& button.Mui-selected': {
+            color: 'var(--accent-main)',
+            background: 'unset',
+            borderRadius: 'unset',
+          },
+          '& span.MuiTouchRipple-root': { borderRadius: 'unset' },
+        }}
+      />
     </Card>
   );
 };

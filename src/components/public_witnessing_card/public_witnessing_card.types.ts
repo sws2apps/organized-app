@@ -1,4 +1,48 @@
-import { CustomAccordionProps } from '@components/accordion/accordion.types';
+import { ReactNode } from 'react';
+
+export type CustomAccordionVariant =
+  | 'accent'
+  | 'orange'
+  | 'dashed'
+  | 'silver'
+  | 'disabled';
+
+export interface CustomAccordionProps {
+  /**
+   * A unique identifier for the accordion.
+   */
+  value?: string;
+
+  /**
+   * The variant of the accordion. Determines its visual appearance.
+   */
+  variant: CustomAccordionVariant;
+
+  /**
+   * The label displayed for the accordion.
+   */
+  label: string;
+
+  /**
+   * Callback function invoked when the accordion state changes.
+   */
+  onChange?: () => void;
+
+  /**
+   * Callback function invoked when the accordion is clicked.
+   */
+  onClick?: () => void;
+
+  /**
+   * The content to be displayed inside the accordion.
+   */
+  children?: ReactNode;
+
+  /**
+   * Specifies whether the accordion is disabled or not.
+   */
+  disabled?: boolean;
+}
 
 /*
  * Props for the PublicWitnessingPlaceCard component.

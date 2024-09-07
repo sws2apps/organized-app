@@ -25,18 +25,19 @@ import usePerson from '@features/persons/hooks/usePerson';
 import usePersons from '@features/persons/hooks/usePersons';
 import useMeetingAttendance from '@features/reports/meeting_attendance/hooks/useMeetingAttendance';
 import useYearlyAttendance from '@features/reports/meeting_attendance/hooks/useYearlyAttendance';
+import useReportYearly from '@features/reports/hooks/useReportYearly';
+import useReportMonthly from '@features/reports/hooks/useReportMonthly';
 
 const useReportSection = () => {
   const { t } = useAppTranslation();
 
   const { personIsEnrollmentActive } = usePerson();
 
-  const {
-    getPublishersActive,
-    getPublishersInactiveYears,
-    getPublishersReactivatedYears,
-    getPublishersActiveForBranch,
-  } = usePersons();
+  const { getPublishersActive, getPublishersInactiveYears } = usePersons();
+
+  const { getPublishersReactivatedYears } = useReportYearly();
+
+  const { getPublishersActiveForBranch } = useReportMonthly();
 
   const report = useRecoilValue(branchSelectedReportState);
   const year = useRecoilValue(branchSelectedYearState);

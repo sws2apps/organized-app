@@ -17,7 +17,13 @@ const useYearDetails = ({ year }: YearDetailsProps) => {
     }
   }, [wholeYear, year]);
 
-  return { wholeYear, month, handleMonthChange, handleToggleWholeYear, year };
+  return {
+    wholeYear,
+    month,
+    handleMonthChange,
+    handleToggleWholeYear,
+    year,
+  };
 };
 
 export default useYearDetails;

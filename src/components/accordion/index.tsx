@@ -14,6 +14,7 @@ const Accordion = ({
   label,
   id,
   children,
+  summaryTextProps,
   ...props
 }: AccordionProps) => {
   const handleChange = (panel: string) => (_, isExpanded: boolean) => {
@@ -23,20 +24,35 @@ const Accordion = ({
   return (
     <MUIAccordion
       onChange={handleChange(id)}
+      elevation={0}
       sx={{
+        margin: '0px !important',
         boxShadow: 'none',
         backgroundColor: 'unset',
-        '::before': { backgroundColor: 'unset' },
+        '::before': { backgroundColor: 'unset', content: 'unset' },
       }}
       {...props}
     >
       <AccordionSummary
         expandIcon={<IconExpand color="var(--black)" />}
-        sx={{ '&.Mui-expanded': { minHeight: 'unset' }, padding: 'unset' }}
+        {...summaryProps}
+        sx={{
+          minHeight: 'unset !important',
+          padding: 'unset',
+          '&.Mui-expanded': { minHeight: 'unset' },
+          '.MuiAccordionSummary-content': {
+            margin: '10px 0 !important',
+          },
+          ...summaryProps?.sx,
+        }}
       >
-        <Typography className="h4" {...summaryProps}>
-          {label}
-        </Typography>
+        {typeof label === 'string' && (
+          <Typography className="h4" {...summaryTextProps}>
+            {label}
+          </Typography>
+        )}
+
+        {typeof label !== 'string' && label}
       </AccordionSummary>
       <AccordionDetails
         sx={{ padding: 'unset', paddingTop: '8px' }}

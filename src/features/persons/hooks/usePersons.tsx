@@ -1,8 +1,6 @@
 import { useRecoilValue } from 'recoil';
 import { personsActiveState } from '@states/persons';
 import { formatDate } from '@services/dateformat';
-import { congFieldServiceReportsState } from '@states/field_service_reports';
-import { PersonType } from '@definition/person';
 import usePerson from './usePerson';
 
 const usePersons = () => {
@@ -14,11 +12,11 @@ const usePersons = () => {
     personIsEnrollmentActive,
     personIsMidweekStudent,
     personGetFirstReport,
-    personCheckInactivityState,
+    personIsEnrollmentYearActive,
+    personIsPublisherYear,
   } = usePerson();
 
   const persons = useRecoilValue(personsActiveState);
-  const reports = useRecoilValue(congFieldServiceReportsState);
 
   const getPublishersActive = (month: string) => {
     const result = persons.filter((record) => {
@@ -107,18 +105,13 @@ const usePersons = () => {
       const history = [
         ...record.person_data.publisher_baptized.history,
         ...record.person_data.publisher_unbaptized.history,
-      ];
+      ].filter((record) => !record._deleted);
 
-      if (
-        history.length === 1 &&
-        history.at(0)._deleted === false &&
-        history.at(0).end_date === null
-      ) {
+      if (history.length === 1 && history.at(0).end_date === null) {
         return false;
       }
 
       const inactive = history.some((data) => {
-        if (data._deleted) return false;
         if (data.start_date === null) return false;
         if (data.end_date === null) return false;
 
@@ -135,45 +128,88 @@ const usePersons = () => {
     return result;
   };
 
-  const getPublishersReactivatedYears = (year: string) => {
-    const lastYearInactives = getPublishersInactiveYears(String(+year - 1));
+  const getFTSYears = (year: string) => {
+    const result = persons.filter((person) => {
+      const isFMF = personIsEnrollmentYearActive(person, 'FMF', year);
+      const isFR = personIsEnrollmentYearActive(person, 'FR', year);
+      const isFS = personIsEnrollmentYearActive(person, 'FS', year);
 
-    const startMonth = `${+year - 1}/09`;
-    const endMonth = `${year}/08`;
-
-    // find if publisher has at least one report this service year
-
-    const result = lastYearInactives.filter((person) => {
-      const hasReport = reports.some((report) => {
-        if (report.report_data._deleted) return false;
-        if (report.report_data.person_uid !== person.person_uid) return false;
-        if (!report.report_data.shared_ministry) return false;
-
-        const reportDate = report.report_data.report_date;
-
-        return reportDate >= startMonth && reportDate <= endMonth;
-      });
-
-      return hasReport;
+      return isFMF || isFR || isFS;
     });
 
     return result;
   };
 
-  const getPublishersActiveForBranch = (month: string) => {
-    const personActive: PersonType[] = [];
+  const getFTSMonths = (month: string) => {
+    const result = persons.filter((person) => {
+      const isFMF = personIsEnrollmentActive(person, 'FMF', month);
+      const isFR = personIsEnrollmentActive(person, 'FR', month);
+      const isFS = personIsEnrollmentActive(person, 'FS', month);
 
-    const active = getPublishersActive(month);
+      return isFMF || isFR || isFS;
+    });
 
-    for (const person of active) {
-      const isInactive = personCheckInactivityState(person, month);
+    return result;
+  };
 
-      if (!isInactive) {
-        personActive.push(person);
-      }
-    }
+  const getAPYears = (year: string) => {
+    const result = persons.filter((person) => {
+      const isAP = personIsEnrollmentYearActive(person, 'AP', year);
 
-    return personActive;
+      return isAP;
+    });
+
+    return result;
+  };
+
+  const getAPMonths = (month: string) => {
+    const result = persons.filter((person) => {
+      const isAP = personIsEnrollmentActive(person, 'AP', month);
+      return isAP;
+    });
+
+    return result;
+  };
+
+  const getPublisherYears = (year: string) => {
+    const result = persons.filter((person) => {
+      const isFMF = personIsEnrollmentYearActive(person, 'FMF', year);
+      const isFR = personIsEnrollmentYearActive(person, 'FR', year);
+      const isFS = personIsEnrollmentYearActive(person, 'FS', year);
+      const isAP = personIsEnrollmentYearActive(person, 'AP', year);
+
+      if (isFMF || isFR || isFS || isAP) return false;
+
+      const isPublisher = personIsPublisherYear(person, year);
+      return isPublisher;
+    });
+
+    return result;
+  };
+
+  const getPublisherMonths = (month: string) => {
+    const result = persons.filter((person) => {
+      const isFMF = personIsEnrollmentActive(person, 'FMF', month);
+      const isFR = personIsEnrollmentActive(person, 'FR', month);
+      const isFS = personIsEnrollmentActive(person, 'FS', month);
+      const isAP = personIsEnrollmentActive(person, 'AP', month);
+
+      if (isFMF || isFR || isFS || isAP) return false;
+
+      const isPublisher = personIsPublisher(person, month);
+      return isPublisher;
+    });
+
+    return result;
+  };
+
+  const getPublisherAllYears = (year: string) => {
+    const result = persons.filter((person) => {
+      const isPublisher = personIsPublisherYear(person, year);
+      return isPublisher;
+    });
+
+    return result;
   };
 
   return {
@@ -185,8 +221,13 @@ const usePersons = () => {
     getAuxiliaryPioneers,
     getRegularPioneers,
     getPublishersInactiveYears,
-    getPublishersReactivatedYears,
-    getPublishersActiveForBranch,
+    getFTSYears,
+    getFTSMonths,
+    getAPYears,
+    getAPMonths,
+    getPublisherYears,
+    getPublisherMonths,
+    getPublisherAllYears,
   };
 };
 

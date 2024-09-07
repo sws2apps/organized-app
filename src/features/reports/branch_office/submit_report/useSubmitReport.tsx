@@ -17,7 +17,7 @@ import { dbFieldServiceReportsBulkSave } from '@services/dexie/cong_field_servic
 import { PersonType } from '@definition/person';
 import { dbPersonsBulkSave } from '@services/dexie/persons';
 import usePersons from '@features/persons/hooks/usePersons';
-import usePerson from '@features/persons/hooks/usePerson';
+import useReportMonthly from '@features/reports/hooks/useReportMonthly';
 
 const useSubmitReport = ({ onClose }: SubmitReportProps) => {
   const { t } = useAppTranslation();
@@ -30,7 +30,7 @@ const useSubmitReport = ({ onClose }: SubmitReportProps) => {
   const congReports = useRecoilValue(congFieldServiceReportsState);
 
   const { getPublishersActive } = usePersons();
-  const { personCheckInactivityState } = usePerson();
+  const { personCheckInactivityState } = useReportMonthly();
 
   const handleUpdateInactiveState = async () => {
     const personsInactive: PersonType[] = [];
@@ -79,7 +79,7 @@ const useSubmitReport = ({ onClose }: SubmitReportProps) => {
     const lateReports = congReports.filter(
       (record) =>
         record.report_data.status === 'confirmed' &&
-        record.report_data.late &&
+        record.report_data.late.value &&
         record.report_data.late.submitted.length === 0
     );
 
