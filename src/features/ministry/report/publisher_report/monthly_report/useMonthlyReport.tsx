@@ -9,11 +9,13 @@ import {
   reportUserSelectedMonthState,
   userFieldServiceMonthlyReportsState,
 } from '@states/user_field_service_reports';
-import { personIsEnrollmentActive } from '@services/app/persons';
 import { useCurrentUser } from '@hooks/index';
+import usePerson from '@features/persons/hooks/usePerson';
 
 const useMonthlyReport = () => {
   const { person, first_report } = useCurrentUser();
+
+  const { personIsEnrollmentActive } = usePerson();
 
   const [selectedMonth, setSelectedMonth] = useRecoilState(
     reportUserSelectedMonthState
@@ -30,7 +32,7 @@ const useMonthlyReport = () => {
     const isFS = personIsEnrollmentActive(person, 'FS', selectedMonth);
 
     return isAP || isFMF || isFR || isFS;
-  }, [person, selectedMonth]);
+  }, [person, selectedMonth, personIsEnrollmentActive]);
 
   const monthsList = useMemo(() => {
     if (!person) return [];

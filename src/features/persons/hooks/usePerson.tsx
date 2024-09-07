@@ -37,7 +37,7 @@ const usePerson = () => {
         const startDate = new Date(record.start_date);
         const endDate = record.end_date
           ? new Date(record.end_date)
-          : new Date();
+          : new Date(`${month}/01`);
 
         const startMonth = formatDate(startDate, 'yyyy/MM');
         const endMonth = formatDate(endDate, 'yyyy/MM');
@@ -63,7 +63,7 @@ const usePerson = () => {
         const startDate = new Date(record.start_date);
         const endDate = record.end_date
           ? new Date(record.end_date)
-          : new Date();
+          : new Date(`${month}/01`);
 
         const startMonth = formatDate(startDate, 'yyyy/MM');
         const endMonth = formatDate(endDate, 'yyyy/MM');
@@ -112,7 +112,9 @@ const usePerson = () => {
 
     const isActive = history.some((record) => {
       const startDate = new Date(record.start_date);
-      const endDate = record.end_date ? new Date(record.end_date) : new Date();
+      const endDate = record.end_date
+        ? new Date(record.end_date)
+        : new Date(`${month}/01`);
 
       const startMonth = formatDate(startDate, 'yyyy/MM');
       const endMonth = formatDate(endDate, 'yyyy/MM');
@@ -148,7 +150,9 @@ const usePerson = () => {
 
     const isActive = history.some((record) => {
       const startDate = new Date(record.start_date);
-      const endDate = record.end_date ? new Date(record.end_date) : new Date();
+      const endDate = record.end_date
+        ? new Date(record.end_date)
+        : new Date(`${month}/01`);
 
       const startMonth = formatDate(startDate, 'yyyy/MM');
       const endMonth = formatDate(endDate, 'yyyy/MM');
