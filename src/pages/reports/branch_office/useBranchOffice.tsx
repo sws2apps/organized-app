@@ -62,7 +62,7 @@ const useBranchOffice = () => {
   }, [report, generated, fieldReport, analysisReport]);
 
   const handleOpenHuB = () => {
-    window.open('https://hub.jw.org', '_blank');
+    window.open('https://hub.jw.org', '_blank', 'noopener');
   };
 
   const handleOpenSubmit = () => setSubmitOpen(true);

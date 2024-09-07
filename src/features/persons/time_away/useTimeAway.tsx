@@ -57,8 +57,9 @@ const useTimeAway = () => {
     );
 
     current.start_date = value.toISOString();
-    (current.updatedAt = new Date().toISOString()),
-      await setPersonCurrentDetails(newPerson);
+    current.updatedAt = new Date().toISOString();
+
+    await setPersonCurrentDetails(newPerson);
   };
 
   const handleEndDateChange = async (id: string, value: Date | null) => {
@@ -69,8 +70,9 @@ const useTimeAway = () => {
     );
 
     current.end_date = value === null ? null : value.toISOString();
-    (current.updatedAt = new Date().toISOString()),
-      await setPersonCurrentDetails(newPerson);
+    current.updatedAt = new Date().toISOString();
+
+    await setPersonCurrentDetails(newPerson);
   };
 
   const handleCommentsChange = async (id: string, value: string) => {
