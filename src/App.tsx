@@ -42,6 +42,9 @@ const UserDetails = lazy(
 );
 const WeeklySchedules = lazy(() => import('@pages/meetings/schedules'));
 const CongregationSettings = lazy(() => import('@pages/congregation/settings'));
+const UpcomingEvents = lazy(
+  () => import('@pages/congregation/upcoming_events')
+);
 
 const ComponentsPreview = lazy(() => import('@components/preview'));
 const PdfPreview = lazy(() => import('@components/preview/PDF_Peview'));
@@ -80,6 +83,7 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
             { path: '/user-profile', element: <MyProfile /> },
             { path: '/public-talks-list', element: <PublicTalksList /> },
             { path: '/ministry-report', element: <MinistryReport /> },
+            { path: '/upcoming-events', element: <UpcomingEvents /> },
             {
               path: '/auxiliary-pioneer-application',
               element: <AuxiliaryPioneerApplication />,
