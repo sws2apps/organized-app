@@ -80,7 +80,7 @@
   "tr_havePartner": "I have a partner",
   "tr_havePartnerDesc": "Select your partner from the list or enter their name",
   "tr_arrangementWith": "С: {{ publisherName }}",
-  "tr_addToCalendar": "Добавить в календарь",
+  "tr_addToCalendar": "Add to calendar",
   "tr_addToCalendarDesc": "Do you want to add this event to your personal calendar? You should have a calendar app installed on your device.",
   "tr_forMyself": "Для себя",
   "tr_forOthers": "Для других",

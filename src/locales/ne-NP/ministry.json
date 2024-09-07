@@ -80,7 +80,7 @@
   "tr_havePartner": "साथी छ",
   "tr_havePartnerDesc": "सूचीबाट साथी छान्नुहोस् वा नाम टाइप गर्नुहोस्",
   "tr_arrangementWith": "साथी: {{ publisherName }}",
-  "tr_addToCalendar": "क्यालेन्डरमा थप्ने",
+  "tr_addToCalendar": "Add to calendar",
   "tr_addToCalendarDesc": "Do you want to add this event to your personal calendar? You should have a calendar app installed on your device.",
   "tr_forMyself": "मेरो लागि",
   "tr_forOthers": "अरूको लागि",

@@ -80,7 +80,7 @@
   "tr_havePartner": "Bir hizmet arkadaşım var",
   "tr_havePartnerDesc": "Hizmet arkadaşınızı listeden seçin veya adını girin",
   "tr_arrangementWith": "{{ publisherName }} ile",
-  "tr_addToCalendar": "Takviminize ekleyin",
+  "tr_addToCalendar": "Add to calendar",
   "tr_addToCalendarDesc": "Bu etkinliği kişisel takviminize eklemek istiyor musunuz? Bunun için cihazınızda bir takvim uygulaması olmalıdır.",
   "tr_forMyself": "Kendim için",
   "tr_forOthers": "Başkaları için",

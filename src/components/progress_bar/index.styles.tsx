@@ -22,6 +22,7 @@ export const StyledProgressBarFill = styled(Box)({
   minWidth: 'fit-content',
   justifyContent: 'center',
 });
+
 export const StyledProgressBarToFill = styled(Box)({
   padding: '0 8px',
   height: '100%',

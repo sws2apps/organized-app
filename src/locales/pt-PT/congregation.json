@@ -423,10 +423,10 @@
   "tr_settingsAutoSaved": "Todos os ajustes das configurações são gravados automaticamente",
   "tr_serviceGroupOverseerRole": "Dirigente grupo de serviço de campo",
   "tr_publicTalkScheduling": "Agenda de discursos públicos",
-  "tr_bindUserRecordAssignmentsNotice": "<p>To view your upcoming assignments, make sure first that your device is connected to the internet. Then open the <a>Manage access</a> page to locate your user account and bind it with a record from your congregation persons list.</p>",
-  "tr_next3MonthsLabel": "Next 3 months",
-  "tr_next6MonthsLabel": "Next 6 months",
-  "tr_next12MonthsLabel": "Next 12 months",
-  "tr_quickSettings": "Quick settings",
-  "tr_quickSettingsDesc": "Easily update your settings for this page on-the-go. These settings are synced with the congregation settings page, so you can manage them from either location at any time."
+  "tr_bindUserRecordAssignmentsNotice": "<p>Para visualizar as suas tarefas futuras, certifique-se primeiro de que o seu dispositivo está conectado à internet. Em seguida, abra a página <a>Gerir acesso</a> para localizar a sua conta de utilizador e vinculá-la a um registo da lista de pessoas da sua congregação.</p>",
+  "tr_next3MonthsLabel": "Próximos 3 meses",
+  "tr_next6MonthsLabel": "Próximos 6 meses",
+  "tr_next12MonthsLabel": "Próximos 12 meses",
+  "tr_quickSettings": "Configurações rápidas",
+  "tr_quickSettingsDesc": "Easily update your settings for this page on-the-go. These settings are synced with the main congregation settings page, so you can manage them from either location at any time."
 }
