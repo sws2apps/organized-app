@@ -7,7 +7,7 @@ const useTimeField = ({ value, onChange }: TimeFieldProps) => {
   const handleBlur = () => {
     const inputElement = inputRef.current;
 
-    if (inputElement.value === 'H:MM') {
+    if (inputElement.value === '0:00') {
       inputElement.value = '';
     }
   };
@@ -17,7 +17,7 @@ const useTimeField = ({ value, onChange }: TimeFieldProps) => {
 
     // If blank set default value and select hours part
     if (inputElement.value === '') {
-      inputElement.value = 'H:MM';
+      inputElement.value = '0:00';
       const colonPosition = inputElement.value.indexOf(':');
       return inputElement.setSelectionRange(0, colonPosition);
     }
@@ -52,24 +52,14 @@ const useTimeField = ({ value, onChange }: TimeFieldProps) => {
     // update hours
     if (selectionStart < colonPosition) {
       if (hours.length < 3) {
-        if (hours === 'H') {
-          inputElement.value = `${key}:${minutes}`;
+        const currentHours = +hours;
 
-          if (minutes === 'MM') {
-            inputElement.value = inputElement.value.replace('MM', '00');
-          }
+        if (currentHours === 0) {
+          inputElement.value = `${key}:${minutes}`;
         }
 
-        if (hours !== 'H') {
-          const currentHours = +hours;
-
-          if (currentHours === 0) {
-            inputElement.value = `${key}:${minutes}`;
-          }
-
-          if (currentHours > 0) {
-            inputElement.value = `${hours}${key}:${minutes}`;
-          }
+        if (currentHours > 0) {
+          inputElement.value = `${hours}${key}:${minutes}`;
         }
       }
 
@@ -80,24 +70,14 @@ const useTimeField = ({ value, onChange }: TimeFieldProps) => {
 
     // update minutes
     if (selectionStart > colonPosition) {
-      if (minutes === 'MM') {
-        inputElement.value = `${hours}:0${key}`;
+      const newMinutes = String(`${minutes}${key}`).slice(-2);
 
-        if (hours === 'H') {
-          inputElement.value = inputElement.value.replace('H', '0');
-        }
+      if (+newMinutes < 60) {
+        inputElement.value = `${hours}:${newMinutes}`;
       }
 
-      if (minutes !== 'MM') {
-        const newMinutes = String(`${minutes}${key}`).slice(-2);
-
-        if (+newMinutes < 60) {
-          inputElement.value = `${hours}:${newMinutes}`;
-        }
-
-        if (+newMinutes >= 60) {
-          inputElement.value = `${hours}:0${key}`;
-        }
+      if (+newMinutes >= 60) {
+        inputElement.value = `${hours}:0${key}`;
       }
     }
   };
@@ -111,12 +91,12 @@ const useTimeField = ({ value, onChange }: TimeFieldProps) => {
     const [hours, minutes] = inputElement.value.split(':');
 
     // hours delete
-    if (selectionStart < colonPosition && hours !== 'H') {
+    if (selectionStart < colonPosition) {
       inputElement.value = `0:${minutes}`;
     }
 
     // minutes delete
-    if (selectionStart > colonPosition && minutes !== 'MM') {
+    if (selectionStart > colonPosition) {
       inputElement.value = `${hours}:00`;
     }
   };
@@ -132,44 +112,24 @@ const useTimeField = ({ value, onChange }: TimeFieldProps) => {
     // update hours
     if (selectionStart < colonPosition) {
       if (type === 'increase') {
-        if (hours === 'H') {
-          inputElement.value = inputElement.value.replace('H', '1');
-
-          if (minutes === 'MM') {
-            inputElement.value = inputElement.value.replace('MM', '00');
-          }
+        const newHours = +hours + 1;
+        if (newHours < 1000) {
+          inputElement.value = `${newHours}:${minutes}`;
         }
 
-        if (hours !== 'H') {
-          const newHours = +hours + 1;
-          if (newHours < 1000) {
-            inputElement.value = `${newHours}:${minutes}`;
-          }
-
-          if (newHours === 1000) {
-            inputElement.value = `0:${minutes}`;
-          }
+        if (newHours === 1000) {
+          inputElement.value = `0:${minutes}`;
         }
       }
 
       if (type === 'decrease') {
-        if (hours === 'H') {
-          inputElement.value = inputElement.value.replace('H', '0');
-
-          if (minutes === 'MM') {
-            inputElement.value = inputElement.value.replace('MM', '00');
-          }
+        const newHours = +hours - 1;
+        if (newHours > -1) {
+          inputElement.value = `${newHours}:${minutes}`;
         }
 
-        if (hours !== 'H') {
-          const newHours = +hours - 1;
-          if (newHours > -1) {
-            inputElement.value = `${newHours}:${minutes}`;
-          }
-
-          if (newHours === -1) {
-            inputElement.value = `0:${minutes}`;
-          }
+        if (newHours === -1) {
+          inputElement.value = `0:${minutes}`;
         }
       }
     }
@@ -177,44 +137,24 @@ const useTimeField = ({ value, onChange }: TimeFieldProps) => {
     // update minutes
     if (selectionStart > colonPosition) {
       if (type === 'increase') {
-        if (minutes === 'MM') {
-          inputElement.value = inputElement.value.replace('MM', '01');
-
-          if (hours === 'H') {
-            inputElement.value = inputElement.value.replace('H', '0');
-          }
+        const newMinutes = +minutes + 1;
+        if (newMinutes < 60) {
+          inputElement.value = `${hours}:${String(newMinutes).padStart(2, '0')}`;
         }
 
-        if (minutes !== 'MM') {
-          const newMinutes = +minutes + 1;
-          if (newMinutes < 60) {
-            inputElement.value = `${hours}:${String(newMinutes).padStart(2, '0')}`;
-          }
-
-          if (newMinutes === 60) {
-            inputElement.value = `${hours}:00`;
-          }
+        if (newMinutes === 60) {
+          inputElement.value = `${hours}:00`;
         }
       }
 
       if (type === 'decrease') {
-        if (minutes === 'MM') {
-          inputElement.value = inputElement.value.replace('MM', '00');
-
-          if (hours === 'H') {
-            inputElement.value = inputElement.value.replace('H', '0');
-          }
+        const newMinutes = +minutes - 1;
+        if (newMinutes > -1) {
+          inputElement.value = `${hours}:${String(newMinutes).padStart(2, '0')}`;
         }
 
-        if (minutes !== 'MM') {
-          const newMinutes = +minutes - 1;
-          if (newMinutes > -1) {
-            inputElement.value = `${hours}:${String(newMinutes).padStart(2, '0')}`;
-          }
-
-          if (newMinutes === -1) {
-            inputElement.value = `${hours}:59`;
-          }
+        if (newMinutes === -1) {
+          inputElement.value = `${hours}:59`;
         }
       }
     }

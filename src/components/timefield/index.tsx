@@ -14,7 +14,7 @@ const TimeField = (props: TimeFieldProps) => {
       onBlur={handleBlur}
       onDragStart={(e) => e.preventDefault()}
       onDrop={(e) => e.preventDefault()}
-      placeholder="H:MM"
+      placeholder="0:00"
       inputProps={{
         maxLength: 7,
         ref: inputRef,
