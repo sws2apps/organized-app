@@ -83,7 +83,7 @@ const useListByGroups = ({ type }: ListByGroupsProps) => {
 
   const handleExpandedChange = (value: string | false) => setExpanded(value);
 
-  return { groups, month, expanded, handleExpandedChange };
+  return { groups, month, expanded, handleExpandedChange, type };
 };
 
 export default useListByGroups;

@@ -2,7 +2,11 @@ import { useMemo } from 'react';
 import { PersonDetailsProps } from './index.types';
 import usePerson from '@features/persons/hooks/usePerson';
 
-const usePersonDetails = ({ month, person }: PersonDetailsProps) => {
+const usePersonDetails = ({
+  month,
+  person,
+  badgesOverride,
+}: PersonDetailsProps) => {
   const { getName, getBadges } = usePerson();
 
   const name = useMemo(() => {
@@ -20,8 +24,10 @@ const usePersonDetails = ({ month, person }: PersonDetailsProps) => {
   const badges = useMemo(() => {
     if (!person) return [];
 
+    if (badgesOverride) return badgesOverride;
+
     return getBadges(person, month);
-  }, [person, getBadges, month]);
+  }, [person, getBadges, month, badgesOverride]);
 
   return { name, female, badges };
 };
