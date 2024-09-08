@@ -18,8 +18,6 @@ import {
 const ProgressBar = ({ value, maxValue }: ProgressBarProps) => {
   const progressValue = Math.round((value * 100) / maxValue);
 
-  console.log(value, maxValue);
-
   return (
     <StyledProgressBarBox>
       <StyledProgressBar>

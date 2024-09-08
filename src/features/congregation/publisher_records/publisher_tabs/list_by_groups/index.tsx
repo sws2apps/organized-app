@@ -6,7 +6,7 @@ import Divider from '@components/divider';
 import PersonItem from '../person_item';
 
 const ListByGroups = (props: ListByGroupsProps) => {
-  const { groups, month, expanded, handleExpandedChange } =
+  const { groups, month, expanded, handleExpandedChange, type } =
     useListByGroups(props);
 
   return (
@@ -28,6 +28,7 @@ const ListByGroups = (props: ListByGroupsProps) => {
                 key={person.person_uid}
                 person={person}
                 month={month}
+                type={type}
               />
             ))}
           </Stack>

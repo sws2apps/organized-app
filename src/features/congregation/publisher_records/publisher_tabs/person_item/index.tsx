@@ -4,12 +4,12 @@ import { PersonItemProps } from './index.types';
 import usePersonItem from './usePersonItem';
 import PersonDetails from '@features/persons/person_details';
 
-const PersonItem = ({ person, month }: PersonItemProps) => {
-  const { handleOpenPublisher } = usePersonItem(person);
+const PersonItem = (props: PersonItemProps) => {
+  const { handleOpenPublisher, month, person, badges } = usePersonItem(props);
 
   return (
     <UserCard onClick={handleOpenPublisher}>
-      <PersonDetails person={person} month={month} />
+      <PersonDetails person={person} month={month} badgesOverride={badges} />
 
       <IconArrowLink color="var(--black)" />
     </UserCard>
