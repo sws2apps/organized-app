@@ -433,5 +433,6 @@
   "tr_editUpcomingEvent": "Editar um evento futuro",
   "tr_eventType": "Tipo de evento",
   "tr_averageAttendanceMM": "Média da assistência nas reuniões do meio de semana",
-  "tr_S10ReportWithYear": "Congregation analysis report: {{ year }}"
+  "tr_S10ReportWithYear": "Congregation analysis report: {{ year }}",
+  "tr_groupNotAssigned": "Group not assigned"
 }
