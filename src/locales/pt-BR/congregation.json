@@ -428,11 +428,11 @@
   "tr_next6MonthsLabel": "Próximos 6 meses",
   "tr_next12MonthsLabel": "Próximos 12 meses",
   "tr_quickSettings": "Configurações rápidas",
-  "tr_quickSettingsDesc": "Easily update your settings for this page on-the-go. These settings are synced with the congregation settings page, so you can manage them from either location at any time.",
-  "tr_upcomingEvents": "Upcoming events",
-  "tr_addEvent": "Add event",
-  "tr_upcomingEventsEmpty": "The upcoming events list is empty for now. Once elders add new events, they will appear here.",
-  "tr_addUpcomingEvent": "Add an upcoming event",
-  "tr_editUpcomingEvent": "Edit an upcoming event",
-  "tr_eventType": "Event type"
+  "tr_quickSettingsDesc": "Atualize facilmente suas configurações para esta página em qualquer lugar. Essas configurações estão sincronizadas com a página de configurações da congregação, para você poder gerenciá-las de qualquer localização a qualquer momento.",
+  "tr_upcomingEvents": "Próximos eventos",
+  "tr_addEvent": "Adicionar evento",
+  "tr_upcomingEventsEmpty": "A lista de eventos futuros está vazia por enquanto. Assim que os anciãos adicionarem novos eventos, eles aparecerão aqui.",
+  "tr_addUpcomingEvent": "Adicionar um evento futuro",
+  "tr_editUpcomingEvent": "Editar um evento futuro",
+  "tr_eventType": "Tipo de evento"
 }
