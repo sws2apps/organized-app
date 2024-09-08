@@ -289,7 +289,7 @@
   "tr_filters": "Фільтри",
   "tr_pioneers": "Піонери",
   "tr_markToBranchOffice": "Позначити звіт як відправлений до філіалу",
-  "tr_markToBranchOfficeDesc": "You’re about to mark this report as submitted to the branch office. Are you sure to continue?",
+  "tr_markToBranchOfficeDesc": "Ти збираєшся позначити цей звіт як відправлений до філіалу. Продовжити?",
   "tr_markAsSubmitted": "Позначити відправленим",
   "tr_undoSubmission": "Скасувати відправку",
   "tr_chooseReport": "Обери звіт",
@@ -433,7 +433,7 @@
   "tr_editUpcomingEvent": "Редагувати майбутню подію",
   "tr_eventType": "Тип події",
   "tr_averageAttendanceMM": "Середня відвідуваність зібрань серед тижня",
-  "tr_S10ReportWithYear": "Congregation analysis report: {{ year }}",
+  "tr_S10ReportWithYear": "Звіт про аналіз збору: {{ year }}",
   "tr_groupNotAssigned": "Група не призначена",
   "tr_publisherLastReport": "Останній звіт за {{ month }}"
 }
