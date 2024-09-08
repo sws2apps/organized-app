@@ -1,6 +1,7 @@
 import { useRecoilValue } from 'recoil';
 import { personsActiveState } from '@states/persons';
 import { formatDate } from '@services/dateformat';
+import { addMonths } from '@utils/date';
 import usePerson from './usePerson';
 
 const usePersons = () => {
@@ -94,35 +95,35 @@ const usePersons = () => {
     const startMonth = `${+year - 1}/09`;
     const endMonth = `${year}/08`;
 
-    const result = persons.filter((record) => {
-      const isMidweek = personIsMidweekStudent(record);
+    const result = persons.filter((person) => {
+      const isMidweek = personIsMidweekStudent(person);
       if (isMidweek) return false;
 
-      const firstReport = personGetFirstReport(record);
-
-      if (firstReport > endMonth) return false;
-
+      // get all histories with end date
       const history = [
-        ...record.person_data.publisher_baptized.history,
-        ...record.person_data.publisher_unbaptized.history,
-      ].filter((record) => !record._deleted);
+        ...person.person_data.publisher_baptized.history,
+        ...person.person_data.publisher_unbaptized.history,
+      ].filter((record) => !record._deleted && record.start_date?.length > 0);
 
-      if (history.length === 1 && history.at(0).end_date === null) {
-        return false;
-      }
+      const historyWithEndDate = history.filter(
+        (record) => record.end_date?.length > 0
+      );
 
-      const inactive = history.some((data) => {
-        if (data.start_date === null) return false;
-        if (data.end_date === null) return false;
+      const isInactive = historyWithEndDate.some((record) => {
+        const monthNext = formatDate(addMonths(record.end_date, 1), 'yyyy/MM');
 
-        const endTmp = new Date(data.end_date);
+        const isActive = history.some((active) => {
+          const date = formatDate(new Date(active.start_date), 'yyyy/MM');
 
-        const endTmpDate = formatDate(endTmp, 'yyyy/MM');
+          return date === monthNext;
+        });
 
-        return endTmpDate >= startMonth && endTmpDate <= endMonth;
+        if (isActive) return false;
+
+        return monthNext >= startMonth && monthNext <= endMonth;
       });
 
-      return inactive;
+      return isInactive;
     });
 
     return result;
