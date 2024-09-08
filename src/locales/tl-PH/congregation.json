@@ -434,5 +434,6 @@
   "tr_eventType": "Event type",
   "tr_averageAttendanceMM": "Average attendance ng mga pulong sa midweek",
   "tr_S10ReportWithYear": "Congregation analysis report: {{ year }}",
-  "tr_groupNotAssigned": "Group not assigned"
+  "tr_groupNotAssigned": "Group not assigned",
+  "tr_publisherLastReport": "Last report on {{ month }}"
 }
