@@ -426,14 +426,14 @@
   "tr_next12MonthsLabel": "Наступні 12 місяців",
   "tr_quickSettings": "Швидкі налаштування",
   "tr_quickSettingsDesc": "Easily update your settings for this page on-the-go. These settings are synced with the congregation settings page, so you can manage them from either location at any time.",
-  "tr_upcomingEvents": "Upcoming events",
-  "tr_addEvent": "Add event",
-  "tr_upcomingEventsEmpty": "The upcoming events list is empty for now. Once elders add new events, they will appear here.",
-  "tr_addUpcomingEvent": "Add an upcoming event",
-  "tr_editUpcomingEvent": "Edit an upcoming event",
-  "tr_eventType": "Event type",
+  "tr_upcomingEvents": "Майбутні події",
+  "tr_addEvent": "Додати подію",
+  "tr_upcomingEventsEmpty": "Список майбутніх подій наразі порожній. Як тільки старішини додадуть нові події, вони з'являться тут.",
+  "tr_addUpcomingEvent": "Додати майбутню подію",
+  "tr_editUpcomingEvent": "Редагувати майбутню подію",
+  "tr_eventType": "Тип події",
   "tr_averageAttendanceMM": "Середня відвідуваність зібрань серед тижня",
   "tr_S10ReportWithYear": "Congregation analysis report: {{ year }}",
-  "tr_groupNotAssigned": "Group not assigned",
-  "tr_publisherLastReport": "Last report on {{ month }}"
+  "tr_groupNotAssigned": "Група не призначена",
+  "tr_publisherLastReport": "Останній звіт за {{ month }}"
 }
