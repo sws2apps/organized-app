@@ -29,8 +29,8 @@ const usePersonItem = ({ month, person, type }: PersonItemProps) => {
     );
     const lastReport = userReports.at(0).report_data.report_date;
 
-    const [year, month] = lastReport.split('/');
-    const monthname = monthNames[+month - 1];
+    const [year, reportMonth] = lastReport.split('/');
+    const monthname = monthNames[+reportMonth - 1];
 
     const date = t('tr_monthYear', { month: monthname, year });
 
