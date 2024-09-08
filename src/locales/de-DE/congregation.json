@@ -433,5 +433,6 @@
   "tr_editUpcomingEvent": "Edit an upcoming event",
   "tr_eventType": "Event type",
   "tr_averageAttendanceMM": "Durchschnittliche Besucher unter der Woche",
-  "tr_S10ReportWithYear": "Congregation analysis report: {{ year }}"
+  "tr_S10ReportWithYear": "Congregation analysis report: {{ year }}",
+  "tr_groupNotAssigned": "Group not assigned"
 }
