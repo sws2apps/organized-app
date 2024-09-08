@@ -43,7 +43,7 @@ const useSubmitReport = ({ onClose }: SubmitReportProps) => {
       if (!isInactive) continue;
 
       const [year, varMonth] = month.split('/');
-      const endDate = new Date(+year, +varMonth, 0).toISOString();
+      const endDate = new Date(+year, +varMonth - 1, 0).toISOString();
 
       const newPerson = structuredClone(person);
 

@@ -18,6 +18,8 @@ import {
 const ProgressBar = ({ value, maxValue }: ProgressBarProps) => {
   const progressValue = Math.round((value * 100) / maxValue);
 
+  console.log(value, maxValue);
+
   return (
     <StyledProgressBarBox>
       <StyledProgressBar>
@@ -28,7 +30,9 @@ const ProgressBar = ({ value, maxValue }: ProgressBarProps) => {
         )}
 
         {maxValue - value > 0 && (
-          <StyledProgressBarToFill>{maxValue - value}</StyledProgressBarToFill>
+          <StyledProgressBarToFill>
+            {value === 0 ? 0 : maxValue - value}
+          </StyledProgressBarToFill>
         )}
       </StyledProgressBar>
     </StyledProgressBarBox>
