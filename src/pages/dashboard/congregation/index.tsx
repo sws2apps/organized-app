@@ -26,15 +26,13 @@ const CongregationCard = () => {
         />
       </ListItem>
 
-      {isConnected && (
-        <ListItem disablePadding>
-          <DashboardMenu
-            icon={<IconPublisherRecordCard color="var(--black)" />}
-            primaryText={t('tr_publishersRecords')}
-            path="/publisher-records"
-          />
-        </ListItem>
-      )}
+      <ListItem disablePadding>
+        <DashboardMenu
+          icon={<IconPublisherRecordCard color="var(--black)" />}
+          primaryText={t('tr_publishersRecords')}
+          path="/publisher-records"
+        />
+      </ListItem>
 
       {isConnected && isUserAdmin && (
         <ListItem disablePadding>
