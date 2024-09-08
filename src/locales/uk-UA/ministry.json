@@ -1,7 +1,6 @@
 {
   "tr_addServiceTime": "Додати час служіння",
   "tr_hours": "Години",
-  "tr_bibleStudies": "Окремі біблійні вивчення",
   "tr_btnAdd": "Додати",
   "tr_creditHours": "Кредитні години",
   "tr_addNewStudy": "Додати нове біблійне вивчення",
@@ -107,5 +106,24 @@
   "tr_rejected": "Відхилено",
   "tr_alreadySubmittedWarning": "Звіт за цей місяць вже надіслано до філіалу. Додати можна лише запізнілі звіти, лише якщо ти не скасуєш відправлення.",
   "tr_publishersCountReport": "Вісники: {{ publishersCount }}",
-  "tr_cartStorage": "Де взяти стенд"
+  "tr_cartStorage": "Де взяти стенд",
+  "tr_individualBibleStudies": "Окремі біблійні вивчення",
+  "tr_theocraticAssignments": "Theocratic assignments",
+  "tr_submitReportDesc": "Do you want to submit this report to the secretary?",
+  "tr_noDailyRecordsMonthClosed": "No daily service records for this month.",
+  "tr_undoSubmissionDesc": "Are you sure to undo the submission of this report? Please note that this will also remove the report already sent to the secretary.",
+  "tr_undoSubmissionDone": "Please make any necessary adjustments to this report and submit it again as soon as possible",
+  "tr_specialMonths": "Special months",
+  "tr_specialMonthsDesc": "List of months where auxiliary pioneers can report 15 hours",
+  "tr_reportHoursCredit": "Report hours credit",
+  "tr_averageMonthlyHourss": "Average monthly",
+  "tr_bibleStudiesNotice": "Report one study per student each month",
+  "tr_presets": "Presets",
+  "tr_hoursCreditPresetAddedInfo": "The chosen credit hours preset will appear in the monthly report's comment field. Edit it there if needed.",
+  "tr_lateReportSent": "Sent to Bethel on: {{ date }}",
+  "tr_fieldService": "Field service",
+  "tr_S10ReportNotGenerated": "This year’s report hasn’t been generated yet. Generate it to see all the details and then submit.",
+  "tr_quickAssignAP": "Auxiliary pioneer assigned",
+  "tr_quickAssignAPDesc": "This publisher is assigned as an auxiliary pioneer this month. You can change this on the publisher's enrollments window on the Persons page.",
+  "tr_reactivatePublisher": "Reactivate this publisher"
 }

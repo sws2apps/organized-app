@@ -121,5 +121,6 @@
   "tr_octoberShort": "Oct",
   "tr_novemberShort": "Nov",
   "tr_decemberShort": "Dec",
-  "tr_published": "Published"
+  "tr_published": "Published",
+  "tr_longDateWithYearAndDayLocale": "{{ day }}, {{ month }} {{ date }}, {{ year }}"
 }

@@ -121,5 +121,6 @@
   "tr_octoberShort": "Жов",
   "tr_novemberShort": "Лис",
   "tr_decemberShort": "Гру",
-  "tr_published": "Опубліковано"
+  "tr_published": "Опубліковано",
+  "tr_longDateWithYearAndDayLocale": "{{ day }}, {{ month }} {{ date }}, {{ year }}"
 }
