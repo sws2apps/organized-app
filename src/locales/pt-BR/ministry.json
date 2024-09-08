@@ -80,7 +80,7 @@
   "tr_havePartner": "Eu tenho um companheiro",
   "tr_havePartnerDesc": "Selecione seu companheiro na lista ou digite seu nome",
   "tr_arrangementWith": "Com: {{ publisherName }}",
-  "tr_addToCalendar": "Add to calendar",
+  "tr_addToCalendar": "Adicionar ao calendário",
   "tr_addToCalendarDesc": "Deseja adicionar este evento ao seu calendário pessoal? Precisa de ter uma aplicação de calendário instalado no seu dispositivo.",
   "tr_forMyself": "Para mim",
   "tr_forOthers": "Para outros",
