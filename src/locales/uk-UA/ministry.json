@@ -119,11 +119,11 @@
   "tr_averageMonthlyHourss": "В середньому щомісяця",
   "tr_bibleStudiesNotice": "Звітуй одне вивчення на одного учня щомісяця",
   "tr_presets": "Шаблони",
-  "tr_hoursCreditPresetAddedInfo": "The chosen credit hours preset will appear in the monthly report's comment field. Edit it there if needed.",
-  "tr_lateReportSent": "Sent to Bethel on: {{ date }}",
-  "tr_fieldService": "Field service",
-  "tr_S10ReportNotGenerated": "This year’s report hasn’t been generated yet. Generate it to see all the details and then submit.",
-  "tr_quickAssignAP": "Auxiliary pioneer assigned",
-  "tr_quickAssignAPDesc": "This publisher is assigned as an auxiliary pioneer this month. You can change this on the publisher's enrollments window on the Persons page.",
-  "tr_reactivatePublisher": "Reactivate this publisher"
+  "tr_hoursCreditPresetAddedInfo": "Обраний шаблон кредиту годин буде відображатися в полі \"Коментарі\" у твоєму щомісячному звіті. Редагуй його там, якщо потрібно.",
+  "tr_lateReportSent": "Надіслано до Бетелю: {{ date }}",
+  "tr_fieldService": "Служіння",
+  "tr_S10ReportNotGenerated": "Цьогорічний звіт ще не згенеровано. Згенеруй його, щоб побачити всі деталі, і потім подати його.",
+  "tr_quickAssignAP": "Допоміжний піонера призначений",
+  "tr_quickAssignAPDesc": "Цей вісник призначений допоміжним піонером цього місяця. Ти можеш змінити це у вікні види служіння вісника на сторінці \"Особи\".",
+  "tr_reactivatePublisher": "Ре-активувати цього вісника"
 }

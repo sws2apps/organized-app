@@ -289,7 +289,7 @@
   "tr_filters": "Фільтри",
   "tr_pioneers": "Піонери",
   "tr_markToBranchOffice": "Позначити звіт як відправлений до філіалу",
-  "tr_markToBranchOfficeDesc": "You’re about to mark this report as submitted to the branch office. Are you sure to continue?",
+  "tr_markToBranchOfficeDesc": "Ти збираєшся позначити цей звіт як відправлений до філіалу. Продовжити?",
   "tr_markAsSubmitted": "Позначити відправленим",
   "tr_undoSubmission": "Скасувати відправку",
   "tr_chooseReport": "Обери звіт",
@@ -425,7 +425,7 @@
   "tr_next6MonthsLabel": "Наступні 6 місяців",
   "tr_next12MonthsLabel": "Наступні 12 місяців",
   "tr_quickSettings": "Швидкі налаштування",
-  "tr_quickSettingsDesc": "Easily update your settings for this page on-the-go. These settings are synced with the congregation settings page, so you can manage them from either location at any time.",
+  "tr_quickSettingsDesc": "Легко оновлюй налаштування для цієї сторінки в реальному часі. Ці налаштування синхронізуються з основною сторінкою налаштувань збору, тому ти можеш керувати ними з будь-якого місця в будь-який час.",
   "tr_upcomingEvents": "Майбутні події",
   "tr_addEvent": "Додати подію",
   "tr_upcomingEventsEmpty": "Список майбутніх подій наразі порожній. Як тільки старішини додадуть нові події, вони з'являться тут.",
@@ -433,7 +433,7 @@
   "tr_editUpcomingEvent": "Редагувати майбутню подію",
   "tr_eventType": "Тип події",
   "tr_averageAttendanceMM": "Середня відвідуваність зібрань серед тижня",
-  "tr_S10ReportWithYear": "Congregation analysis report: {{ year }}",
+  "tr_S10ReportWithYear": "Звіт про аналіз збору: {{ year }}",
   "tr_groupNotAssigned": "Група не призначена",
   "tr_publisherLastReport": "Останній звіт за {{ month }}"
 }
