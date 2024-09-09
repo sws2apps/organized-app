@@ -209,7 +209,7 @@
   "tr_createNewGroupDesc": "The group number is defined by its order in the list. Optionally, give the group a name if your congregation uses one, for example, a location-based name. Select a group overseer and his assistant. ",
   "tr_createNewGroupLastStep": "Füge abschließend Verkündiger zur Gruppe hinzu. Du kannst diese Details später bei Bedarf bearbeiten.",
   "tr_groupOverseer": "Gruppenaufseher",
-  "tr_groupOverseerAssistant": "Overseer assistant",
+  "tr_groupOverseerAssistant": "Gehilfe des Aufsehers",
   "tr_create": "Erstellen",
   "tr_inactivePublishers": "Inaktive Verkündiger",
   "tr_wholeYearSetting": "Ganzes Jahr",
@@ -386,7 +386,7 @@
   "tr_createUser": "Benutzer erstellen",
   "tr_deleteUser": "Benutzer löschen",
   "tr_congregationPrivacy": "Versammlungsdatenschutz",
-  "tr_removePublisher": "Remove publisher: {{ PersonName }}",
+  "tr_removePublisher": "Verkündiger entfernen: {{ PersonName }}",
   "tr_autoCheckUpdate": "Auto-check for meeting materials updates",
   "tr_autoCheckUpdateDesc": "Meetingmaterial automatisch aus jw.org in deinem ausgewählten Intervall importieren",
   "tr_groupRemoveConfirm": "Do you want to remove the publisher from the <strong>Group {{ group }}</strong>?",
@@ -436,5 +436,5 @@
   "tr_S10ReportWithYear": "Congregation analysis report: {{ year }}",
   "tr_groupNotAssigned": "Gruppe nicht zugewiesen",
   "tr_publisherLastReport": "Letzter Bericht im {{ month }}",
-  "tr_myGroup": "My group"
+  "tr_myGroup": "Meine Gruppe"
 }
