@@ -48,6 +48,15 @@ const PersonFilter = () => {
             <Typography>{option.name}</Typography>
           </MenuItem>
         ))}
+
+      <MenuSubHeader>{t('tr_fieldServiceGroups')}</MenuSubHeader>
+      {filters
+        .find((f) => f.key === 'groups')
+        .options.map((option) => (
+          <MenuItem key={option.key} value={option.key}>
+            <Typography>{option.name}</Typography>
+          </MenuItem>
+        ))}
     </Select>
   );
 };

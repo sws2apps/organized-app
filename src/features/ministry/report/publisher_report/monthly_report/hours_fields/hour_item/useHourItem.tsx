@@ -3,12 +3,14 @@ import { useRecoilValue } from 'recoil';
 import { AssignmentCode } from '@definition/assignment';
 import { reportUserSelectedMonthState } from '@states/user_field_service_reports';
 import { congSpecialMonthsState } from '@states/settings';
-import { personIsEnrollmentActive } from '@services/app/persons';
 import { useCurrentUser } from '@hooks/index';
 import useMinistryMonthlyRecord from '@features/ministry/hooks/useMinistryMonthlyRecord';
+import usePerson from '@features/persons/hooks/usePerson';
 
 const useHourItem = () => {
   const { person } = useCurrentUser();
+
+  const { personIsEnrollmentActive } = usePerson();
 
   const currentMonth = useRecoilValue(reportUserSelectedMonthState);
   const specialMonths = useRecoilValue(congSpecialMonthsState);
@@ -38,7 +40,7 @@ const useHourItem = () => {
     }
 
     return value;
-  }, [person, currentMonth, specialMonths]);
+  }, [person, currentMonth, specialMonths, personIsEnrollmentActive]);
 
   const total_hours = useMemo(() => {
     const tHours = hours + hours_credit;

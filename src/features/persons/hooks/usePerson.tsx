@@ -365,6 +365,28 @@ const usePerson = () => {
     return isActive;
   };
 
+  const personIsElder = (person: PersonType) => {
+    const isActive = person.person_data.privileges.some(
+      (record) =>
+        record._deleted === false &&
+        record.end_date === null &&
+        record.privilege === 'elder'
+    );
+
+    return isActive;
+  };
+
+  const personIsMS = (person: PersonType) => {
+    const isActive = person.person_data.privileges.some(
+      (record) =>
+        record._deleted === false &&
+        record.end_date === null &&
+        record.privilege === 'ms'
+    );
+
+    return isActive;
+  };
+
   return {
     personIsPublisher,
     personIsBaptizedPublisher,
@@ -379,6 +401,8 @@ const usePerson = () => {
     personIsPublisherYear,
     personIsPrivilegeYearActive,
     personIsAPContinuousYearActive,
+    personIsElder,
+    personIsMS,
   };
 };
 

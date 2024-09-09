@@ -1,6 +1,4 @@
 export type FieldServiceGroupMemberType = {
-  _deleted: boolean;
-  updatedAt: string;
   person_uid: string;
   sort_index: number;
   isOverseer: boolean;

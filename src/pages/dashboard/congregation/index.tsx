@@ -22,7 +22,7 @@ const CongregationCard = () => {
         <DashboardMenu
           icon={<IconGroups color="var(--black)" />}
           primaryText={t('tr_fieldServiceGroups')}
-          path="/service-groups"
+          path="/field-service-groups"
         />
       </ListItem>
 

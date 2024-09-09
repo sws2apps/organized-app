@@ -27,7 +27,9 @@ const AuxiliaryPioneerApplication = lazy(
 );
 const SpeakersCatalog = lazy(() => import('@pages/persons/speakers_catalog'));
 const WeekendMeeting = lazy(() => import('@pages/meetings/weekend'));
-const ServiceGroups = lazy(() => import('@pages/congregation/service_groups'));
+const FieldServiceGroups = lazy(
+  () => import('@pages/congregation/field_service_groups')
+);
 const PublisherRecord = lazy(
   () => import('@pages/congregation/publisher_records')
 );
@@ -83,7 +85,7 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
             { path: '/speakers-catalog', element: <SpeakersCatalog /> },
             { path: '/midweek-meeting', element: <MidweekMeeting /> },
             { path: '/weekend-meeting', element: <WeekendMeeting /> },
-            { path: '/service-groups', element: <ServiceGroups /> },
+            { path: '/field-service-groups', element: <FieldServiceGroups /> },
             { path: '/publisher-records', element: <PublisherRecord /> },
             {
               path: '/publisher-records/:id',
