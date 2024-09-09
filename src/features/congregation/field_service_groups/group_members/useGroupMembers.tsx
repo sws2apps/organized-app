@@ -79,6 +79,8 @@ const useGroupMembers = ({ group, onChange }: GroupMembersProps) => {
       sort_index: index,
     });
 
+    newGroup.group_data.updatedAt = new Date().toISOString();
+
     onChange(newGroup);
   };
 
@@ -119,6 +121,8 @@ const useGroupMembers = ({ group, onChange }: GroupMembersProps) => {
       startIndex++;
     }
 
+    newGroup.group_data.updatedAt = new Date().toISOString();
+
     onChange(newGroup);
   };
 
@@ -137,6 +141,8 @@ const useGroupMembers = ({ group, onChange }: GroupMembersProps) => {
 
       member.sort_index = member.sort_index - 1;
     }
+
+    newGroup.group_data.updatedAt = new Date().toISOString();
 
     onChange(newGroup);
   };

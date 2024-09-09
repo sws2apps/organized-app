@@ -5,18 +5,24 @@ import { useAppTranslation } from '@hooks/index';
 import { buildPersonFullname } from '@utils/common';
 import { personsState } from '@states/persons';
 import { fullnameOptionState } from '@states/settings';
+import { fieldGroupsState } from '@states/field_service_groups';
+import { displaySnackNotification } from '@services/recoil/app';
+import { getMessageByCode } from '@services/i18n/translation';
 import { GroupMemberProps } from './index.types';
+import { dbFieldServiceGroupSave } from '@services/dexie/field_service_groups';
 import usePerson from '@features/persons/hooks/usePerson';
 
-const useMember = ({ member, index }: GroupMemberProps) => {
+const useMember = ({ member, index, group_id }: GroupMemberProps) => {
   const { t } = useAppTranslation();
 
   const { personIsElder, personIsMS, personIsBaptizedPublisher } = usePerson();
 
   const persons = useRecoilValue(personsState);
   const fullnameOption = useRecoilValue(fullnameOptionState);
+  const groups = useRecoilValue(fieldGroupsState);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [removeOpen, setRemoveOpen] = useState(false);
 
   const open = Boolean(anchorEl);
 
@@ -90,11 +96,164 @@ const useMember = ({ member, index }: GroupMemberProps) => {
     return isBaptized;
   }, [person, personIsBaptizedPublisher, member]);
 
+  const current_group = useMemo(() => {
+    return groups.find((record) => record.group_id === group_id);
+  }, [groups, group_id]);
+
   const handleOpenMenu = (e: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(e.currentTarget);
   };
 
   const handleCloseMenu = () => setAnchorEl(null);
+
+  const handleMakeOverseer = async () => {
+    handleCloseMenu();
+
+    try {
+      const group = structuredClone(current_group);
+
+      const current = group.group_data.members.find(
+        (record) => record.person_uid === member.person_uid
+      );
+
+      const overseer = group.group_data.members.find(
+        (record) => record.isOverseer
+      );
+
+      if (overseer) {
+        overseer.isOverseer = false;
+        overseer.sort_index = current.sort_index;
+
+        if (current.isAssistant) {
+          overseer.isAssistant = true;
+        }
+      }
+
+      if (!overseer) {
+        const currentIndex = current.sort_index;
+        let index = currentIndex;
+
+        for (const member of group.group_data.members) {
+          if (member.sort_index < currentIndex) continue;
+
+          member.sort_index = index;
+          index++;
+        }
+      }
+
+      current.isOverseer = true;
+      current.isAssistant = false;
+      current.sort_index = 0;
+
+      group.group_data.updatedAt = new Date().toISOString();
+
+      await dbFieldServiceGroupSave(group);
+    } catch (error) {
+      console.error(error);
+
+      await displaySnackNotification({
+        header: t('tr_errorTitle'),
+        message: getMessageByCode(error.message),
+        severity: 'error',
+      });
+    }
+  };
+
+  const handleMakeAssistant = async () => {
+    handleCloseMenu();
+
+    try {
+      const group = structuredClone(current_group);
+
+      const current = group.group_data.members.find(
+        (record) => record.person_uid === member.person_uid
+      );
+
+      const assistant = group.group_data.members.find(
+        (record) => record.isAssistant
+      );
+
+      if (assistant) {
+        assistant.isAssistant = false;
+        assistant.sort_index = current.sort_index;
+
+        if (current.isOverseer) {
+          assistant.isOverseer = true;
+        }
+      }
+
+      if (!assistant) {
+        const currentIndex = current.sort_index;
+        let index = currentIndex;
+
+        for (const member of group.group_data.members) {
+          if (member.sort_index < currentIndex) continue;
+
+          member.sort_index = index;
+          index++;
+        }
+      }
+
+      current.isOverseer = false;
+      current.isAssistant = true;
+      current.sort_index = 1;
+
+      group.group_data.updatedAt = new Date().toISOString();
+
+      await dbFieldServiceGroupSave(group);
+    } catch (error) {
+      console.error(error);
+
+      await displaySnackNotification({
+        header: t('tr_errorTitle'),
+        message: getMessageByCode(error.message),
+        severity: 'error',
+      });
+    }
+  };
+
+  const handleOpenRemove = () => {
+    handleCloseMenu();
+    setRemoveOpen(true);
+  };
+
+  const handleCloseRemove = () => setRemoveOpen(false);
+
+  const handlePersonRemove = async () => {
+    try {
+      const group = structuredClone(current_group);
+
+      group.group_data.members = group.group_data.members.filter(
+        (record) => record.person_uid !== member.person_uid
+      );
+
+      if (!member.isAssistant && !member.isOverseer) {
+        const currentIndex = member.sort_index;
+        let index = currentIndex;
+
+        for (const member of group.group_data.members) {
+          if (member.sort_index < currentIndex) continue;
+
+          member.sort_index = index;
+          index++;
+        }
+      }
+
+      group.group_data.updatedAt = new Date().toISOString();
+
+      await dbFieldServiceGroupSave(group);
+
+      setRemoveOpen(false);
+    } catch (error) {
+      console.error(error);
+
+      await displaySnackNotification({
+        header: t('tr_errorTitle'),
+        message: getMessageByCode(error.message),
+        severity: 'error',
+      });
+    }
+  };
 
   return {
     member_icon,
@@ -108,6 +267,12 @@ const useMember = ({ member, index }: GroupMemberProps) => {
     item_hover_color,
     make_overseer,
     make_assistant,
+    handleMakeOverseer,
+    handleMakeAssistant,
+    handleOpenRemove,
+    handleCloseRemove,
+    handlePersonRemove,
+    removeOpen,
   };
 };
 

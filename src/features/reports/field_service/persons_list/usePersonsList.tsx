@@ -13,6 +13,7 @@ import { congFieldServiceReportSchema } from '@services/dexie/schema';
 import { dbFieldServiceReportsBulkSave } from '@services/dexie/cong_field_service_reports';
 import { getRandomNumber } from '@utils/common';
 import { branchFieldReportsState } from '@states/branch_field_service_reports';
+import { fieldGroupsState } from '@states/field_service_groups';
 import usePersons from '@features/persons/hooks/usePersons';
 import usePerson from '@features/persons/hooks/usePerson';
 
@@ -37,6 +38,7 @@ const usePersonsList = () => {
   const currentMonth = useRecoilValue(selectedMonthFieldServiceReportState);
   const reports = useRecoilValue(congFieldServiceReportsState);
   const branchReports = useRecoilValue(branchFieldReportsState);
+  const groups = useRecoilValue(fieldGroupsState);
 
   const active_publishers = useMemo(() => {
     const result = getPublishersActive(currentMonth);
@@ -88,6 +90,31 @@ const usePersonsList = () => {
     return result;
   }, [getRegularPioneers, currentMonth]);
 
+  const group_members = useMemo(() => {
+    if (!currentFilter.includes('group-')) return [];
+
+    const index = +currentFilter.split('-')[1] - 1;
+    const group = groups.find(
+      (record) => record.group_data.sort_index === index
+    );
+
+    if (!group) return [];
+
+    const result: PersonType[] = [];
+
+    for (const member of group.group_data.members) {
+      const person = active_publishers.find(
+        (record) => record.person_uid === member.person_uid
+      );
+
+      if (!person) continue;
+
+      result.push(person);
+    }
+
+    return result;
+  }, [currentFilter, groups, active_publishers]);
+
   const persons = useMemo(() => {
     const result: PersonType[] = [];
 
@@ -123,6 +150,10 @@ const usePersonsList = () => {
       result.push(...regular_pioneers);
     }
 
+    if (currentFilter.includes('group-')) {
+      result.push(...group_members);
+    }
+
     return result;
   }, [
     currentFilter,
@@ -134,6 +165,7 @@ const usePersonsList = () => {
     appointed_brothers,
     auxiliary_pioneers,
     regular_pioneers,
+    group_members,
   ]);
 
   const report_editable = useMemo(() => {

@@ -11,7 +11,7 @@ const FieldServiceGroupsContainer = () => {
 
   const { desktopUp } = useBreakpoints();
 
-  const { groups } = useFieldServiceGroups();
+  const { groups, masonry_columns } = useFieldServiceGroups();
 
   return (
     <Box sx={{ flex: 1 }}>
@@ -34,11 +34,13 @@ const FieldServiceGroupsContainer = () => {
       )}
 
       {groups.length > 0 && (
-        <GroupsContainer spacing={2} sequential>
-          {groups.map((group, index) => (
-            <GroupItem key={group.group_id} group={group} index={index + 1} />
-          ))}
-        </GroupsContainer>
+        <Box sx={{ width: '100%' }}>
+          <GroupsContainer columns={masonry_columns} spacing={2} sequential>
+            {groups.map((group, index) => (
+              <GroupItem key={group.group_id} group={group} index={index + 1} />
+            ))}
+          </GroupsContainer>
+        </Box>
       )}
     </Box>
   );

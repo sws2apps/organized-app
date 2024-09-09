@@ -20,7 +20,11 @@ const useGroupItem = ({ group, index }: GroupItemProps) => {
     );
   }, [group]);
 
-  return { border_color, divider_color, members };
+  return {
+    border_color,
+    divider_color,
+    members,
+  };
 };
 
 export default useGroupItem;

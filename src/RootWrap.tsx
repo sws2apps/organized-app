@@ -62,6 +62,7 @@ const theme = createTheme({
       tablet688: 688,
       laptop: 768,
       desktop: 1200,
+      desktopLarge: 1400,
     },
   },
 });

@@ -19,7 +19,7 @@ const GroupMembers = (props: GroupMembersProps) => {
   } = useGroupMembers(props);
 
   return (
-    <Stack spacing="8px">
+    <Stack spacing="8px" width="100%">
       {members.length > 0 && (
         <ReactSortable list={members} setList={handleDragChange}>
           {members.map((member) => (

@@ -15,6 +15,7 @@ declare module '@mui/system/createTheme/createBreakpoints' {
     tablet688: true;
     laptop: true;
     desktop: true;
+    desktopLarge: true;
   }
 }
 

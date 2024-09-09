@@ -4,7 +4,7 @@ import { personsActiveState } from '@states/persons';
 import { GroupDetailsProps, UsersOption } from './index.types';
 import { fullnameOptionState } from '@states/settings';
 import { buildPersonFullname } from '@utils/common';
-import { fieldServiceGroupsState } from '@states/field_service_groups';
+import { fieldGroupsState } from '@states/field_service_groups';
 import { FieldServiceGroupMemberType } from '@definition/field_service_groups';
 import usePerson from '@features/persons/hooks/usePerson';
 
@@ -13,7 +13,7 @@ const useGroupDetails = ({ group, onChange }: GroupDetailsProps) => {
 
   const persons = useRecoilValue(personsActiveState);
   const fullnameOption = useRecoilValue(fullnameOptionState);
-  const groups = useRecoilValue(fieldServiceGroupsState);
+  const groups = useRecoilValue(fieldGroupsState);
 
   const groups_members = useMemo(() => {
     const assigned = groups.reduce(

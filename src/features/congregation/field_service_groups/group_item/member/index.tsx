@@ -10,6 +10,7 @@ import { GroupMemberProps } from './index.types';
 import useMember from './useMember';
 import IconButton from '@components/icon_button';
 import MenuItem from '@components/menuitem';
+import RemovePerson from '../remove_person';
 import Typography from '@components/typography';
 
 const GroupMember = (props: GroupMemberProps) => {
@@ -27,6 +28,12 @@ const GroupMember = (props: GroupMemberProps) => {
     item_hover_color,
     make_assistant,
     make_overseer,
+    handleMakeOverseer,
+    handleMakeAssistant,
+    handleCloseRemove,
+    handleOpenRemove,
+    handlePersonRemove,
+    removeOpen,
   } = useMember(props);
 
   return (
@@ -43,6 +50,17 @@ const GroupMember = (props: GroupMemberProps) => {
         },
       }}
     >
+      {removeOpen && (
+        <RemovePerson
+          action={handlePersonRemove}
+          group_id={props.group_id}
+          index={props.index}
+          member={props.member}
+          onClose={handleCloseRemove}
+          open={removeOpen}
+        />
+      )}
+
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
         {member_icon}
 
@@ -92,20 +110,29 @@ const GroupMember = (props: GroupMemberProps) => {
         }}
       >
         {make_overseer && (
-          <MenuItem sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <MenuItem
+            onClick={handleMakeOverseer}
+            sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+          >
             <IconOverseer color="var(--black)" />
             <Typography>{t('tr_makeOverseer')}</Typography>
           </MenuItem>
         )}
 
         {make_assistant && (
-          <MenuItem sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <MenuItem
+            onClick={handleMakeAssistant}
+            sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+          >
             <IconAssistant color="var(--black)" />
             <Typography>{t('tr_makeAssistant')}</Typography>
           </MenuItem>
         )}
 
-        <MenuItem sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <MenuItem
+          onClick={handleOpenRemove}
+          sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+        >
           <IconRemovePerson color="var(--red-main)" />
           <Typography color="var(--red-main)">
             {t('tr_removeFromGroups')}

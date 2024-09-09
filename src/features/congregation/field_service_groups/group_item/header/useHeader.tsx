@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useAppTranslation } from '@hooks/index';
 import { userLocalUIDState } from '@states/settings';
@@ -8,6 +8,9 @@ const useHeader = ({ group, index }: GroupHeaderProps) => {
   const { t } = useAppTranslation();
 
   const userUID = useRecoilValue(userLocalUIDState);
+
+  const [edit, setEdit] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
 
   const bg_color = useMemo(() => {
     const css = `--group-${index}-base`;
@@ -40,7 +43,30 @@ const useHeader = ({ group, index }: GroupHeaderProps) => {
     return isMyGroup;
   }, [group, userUID]);
 
-  return { bg_color, color, group_index, group_name, my_group };
+  const handleOpenEdit = () => setEdit(true);
+
+  const handleCloseEdit = () => setEdit(false);
+
+  const handleOpenDelete = () => {
+    setIsDelete(true);
+    setEdit(false);
+  };
+
+  const handleCloseDelete = () => setIsDelete(false);
+
+  return {
+    bg_color,
+    color,
+    group_index,
+    group_name,
+    my_group,
+    handleOpenEdit,
+    handleCloseEdit,
+    edit,
+    isDelete,
+    handleOpenDelete,
+    handleCloseDelete,
+  };
 };
 
 export default useHeader;

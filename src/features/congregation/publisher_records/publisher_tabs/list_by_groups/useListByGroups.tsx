@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useAppTranslation } from '@hooks/index';
-import { ListByGroupsProps } from './index.types';
+import { GroupOption, ListByGroupsProps } from './index.types';
 import { fieldGroupsState } from '@states/field_service_groups';
 import { personsActiveState } from '@states/persons';
 import { PersonType } from '@definition/person';
@@ -47,19 +47,38 @@ const useListByGroups = ({ type }: ListByGroupsProps) => {
   }, [persons, type, personIsPublisher]);
 
   const groups = useMemo(() => {
+    if (publishers.length === 0) return [];
+
     const validGroups = fieldGroups.filter(
       (record) => record.group_data.members.length > 0
     );
 
-    const groups_members = validGroups.map((group) => {
-      return {
+    const groups_members: GroupOption[] = [];
+
+    for (const group of validGroups) {
+      const valid_members = group.group_data.members.filter((record) => {
+        const valid = publishers.some(
+          (person) => person.person_uid === record.person_uid
+        );
+        return valid;
+      });
+
+      if (valid_members.length === 0) continue;
+
+      let group_name = String(group.group_data.sort_index + 1);
+
+      if (group.group_data.name.length > 0) {
+        group_name += ` — ${group.group_data.name}`;
+      }
+
+      groups_members.push({
         group_id: group.group_id,
-        group_name: group.group_data.name,
-        group_members: group.group_data.members.map((record) =>
+        group_name: t('tr_groupName', { groupName: group_name }),
+        group_members: valid_members.map((record) =>
           publishers.find((person) => person.person_uid === record.person_uid)
         ),
-      };
-    });
+      });
+    }
 
     const unassigned_members = publishers.filter(
       (person) =>

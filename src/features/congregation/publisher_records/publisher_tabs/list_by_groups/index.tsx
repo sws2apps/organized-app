@@ -22,7 +22,7 @@ const ListByGroups = (props: ListByGroupsProps) => {
           expanded={expanded === group.group_id}
           onChange={handleExpandedChange}
         >
-          <Stack spacing="8px">
+          <Stack spacing="8px" marginBottom="16px">
             {group.group_members.map((person) => (
               <PersonItem
                 key={person.person_uid}

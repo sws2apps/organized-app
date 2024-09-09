@@ -386,10 +386,10 @@
   "tr_createUser": "Create user",
   "tr_deleteUser": "Delete user",
   "tr_congregationPrivacy": "Congregation privacy",
-  "tr_removePublisher": "Remove publisher: {PersonName}",
+  "tr_removePublisher": "Remove publisher: {{ PersonName }}",
   "tr_autoCheckUpdate": "Auto-check for meeting materials updates",
   "tr_autoCheckUpdateDesc": "Automatically import meeting materials from jw.org at your selected interval",
-  "tr_confirmRemoving": "Do you want to remove the publisher from the <b>Group {{ GroupNumber }} – {{ GroupName }}</b>?",
+  "tr_groupRemoveConfirm": "Do you want to remove the publisher from the <strong>Group {{ group }}</strong>?",
   "tr_everyWeek": "Every week",
   "tr_everyTwoWeeks": "Every two weeks",
   "tr_everyMonth": "Every month",
@@ -435,5 +435,6 @@
   "tr_averageAttendanceMM": "Average midweek meeting attendance",
   "tr_S10ReportWithYear": "Congregation analysis report: {{ year }}",
   "tr_groupNotAssigned": "Group not assigned",
-  "tr_publisherLastReport": "Last report on {{ month }}"
+  "tr_publisherLastReport": "Last report on {{ month }}",
+  "tr_myGroup": "My group"
 }
