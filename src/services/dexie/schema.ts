@@ -1,6 +1,7 @@
 import { BranchCongAnalysisType } from '@definition/branch_cong_analysis';
 import { BranchFieldServiceReportType } from '@definition/branch_field_service_reports';
 import { CongFieldServiceReportType } from '@definition/cong_field_service_reports';
+import { FieldServiceGroupType } from '@definition/field_service_groups';
 import { MeetingAttendanceType } from '@definition/meeting_attendance';
 import { PersonType } from '@definition/person';
 import { SchedWeekType } from '@definition/schedules';
@@ -494,5 +495,16 @@ export const SchemaBranchCongAnalysis: BranchCongAnalysisType = {
     meeting_average: { midweek: 0, weekend: 0 },
     publishers: { active: 0, inactive: 0, reactivated: 0 },
     territories: { total: 0, uncovered: 0 },
+  },
+};
+
+export const SchemaFieldServiceGroup: FieldServiceGroupType = {
+  group_id: '',
+  group_data: {
+    _deleted: false,
+    updatedAt: '',
+    sort_index: 0,
+    name: '',
+    members: [],
   },
 };

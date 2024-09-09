@@ -82,6 +82,7 @@ const Autocomplete = <T,>(props: AutocompletePropsType<T>) => {
     optionsHeader,
     styleIcon,
     decorator,
+    variant,
     ...defaultProps
   } = props;
 
@@ -118,6 +119,7 @@ const Autocomplete = <T,>(props: AutocompletePropsType<T>) => {
       renderInput={(params) => (
         <TextField
           {...params}
+          variant={variant || 'outlined'}
           label={props.value ? label : ''}
           placeholder={props.value ? '' : label}
           InputProps={{ ...params.InputProps }}

@@ -3,6 +3,7 @@ import {
   AutocompleteProps,
   AutocompleteRenderInputParams,
   PaperProps,
+  TextFieldProps,
 } from '@mui/material';
 
 /**
@@ -44,6 +45,8 @@ export type AutocompletePropsType<T> = Omit<
   styleIcon?: boolean;
 
   decorator?: boolean;
+
+  variant?: TextFieldProps['variant'];
 };
 
 export type CustomPaperType = PaperProps & {
