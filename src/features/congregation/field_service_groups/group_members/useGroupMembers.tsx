@@ -36,8 +36,14 @@ const useGroupMembers = ({ group, onChange }: GroupMembersProps) => {
       .sort((a, b) => a.sort_index - b.sort_index);
   }, [group]);
 
+  const overseers = useMemo(() => {
+    return group.group_data.members.filter(
+      (record) => record.isOverseer || record.isAssistant
+    );
+  }, [group]);
+
   const publishers_unassigned = useMemo(() => {
-    const assigned = [...other_groups_members, ...groups_members];
+    const assigned = [...other_groups_members, ...groups_members, ...overseers];
 
     const result = persons.filter(
       (person) =>
@@ -55,7 +61,13 @@ const useGroupMembers = ({ group, onChange }: GroupMembersProps) => {
         ),
       };
     });
-  }, [fullnameOption, other_groups_members, groups_members, persons]);
+  }, [
+    fullnameOption,
+    other_groups_members,
+    groups_members,
+    persons,
+    overseers,
+  ]);
 
   const getIndex = () => {
     const lastMember = group.group_data.members.findLast(
