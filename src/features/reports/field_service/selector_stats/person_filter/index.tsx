@@ -26,7 +26,7 @@ const MenuSubHeader = ({ children }: PropsWithChildren) => {
 const PersonFilter = () => {
   const { t } = useAppTranslation();
 
-  const { filter, handleChangeFilter, filters } = usePersonFilter();
+  const { filter, handleChangeFilter, filters, show_group } = usePersonFilter();
 
   return (
     <Select value={filter} onChange={(e) => handleChangeFilter(e.target.value)}>
@@ -49,14 +49,18 @@ const PersonFilter = () => {
           </MenuItem>
         ))}
 
-      <MenuSubHeader>{t('tr_fieldServiceGroups')}</MenuSubHeader>
-      {filters
-        .find((f) => f.key === 'groups')
-        .options.map((option) => (
-          <MenuItem key={option.key} value={option.key}>
-            <Typography>{option.name}</Typography>
-          </MenuItem>
-        ))}
+      {show_group && (
+        <MenuSubHeader>{t('tr_fieldServiceGroups')}</MenuSubHeader>
+      )}
+
+      {show_group &&
+        filters
+          .find((f) => f.key === 'groups')
+          .options.map((option) => (
+            <MenuItem key={option.key} value={option.key}>
+              <Typography>{option.name}</Typography>
+            </MenuItem>
+          ))}
     </Select>
   );
 };

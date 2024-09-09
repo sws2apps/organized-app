@@ -68,13 +68,17 @@ const usePersonFilter = () => {
     return result;
   }, [t, groups]);
 
+  const show_group = useMemo(() => {
+    return filters.some((record) => record.key === 'groups');
+  }, [filters]);
+
   const handleChangeFilter = (value: PersonFilterOption) => {
     setSelectedPublisher(undefined);
 
     setFilter(value);
   };
 
-  return { filters, handleChangeFilter, filter };
+  return { filters, handleChangeFilter, filter, show_group };
 };
 
 export default usePersonFilter;
