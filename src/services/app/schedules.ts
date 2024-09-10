@@ -949,7 +949,7 @@ export const schedulesUpdateHistory = async (
       if (talkSchedule) {
         assigned = {
           name: '',
-          type: talkSchedule.type,
+          type: 'main',
           updatedAt: talkSchedule.updatedAt,
           value: talkSchedule.speaker,
         };
