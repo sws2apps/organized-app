@@ -58,6 +58,7 @@ const ReportDetails = () => {
                   variant="small"
                   onClick={handleBack}
                   startIcon={<IconArrowBack width={18} height={18} />}
+                  disableAutoStretch
                   sx={{
                     height: '32px',
                     minHeight: '32px',

@@ -40,6 +40,7 @@ const GroupEdit = (props: GroupEditProps) => {
           color="red"
           startIcon={<IconDelete />}
           onClick={props.onDelete}
+          disableAutoStretch
           sx={{ minHeight: '32px', height: '32px' }}
         >
           {t('tr_delete')}
