@@ -131,7 +131,7 @@ const useMember = ({ member, index, group_id }: GroupMemberProps) => {
 
       if (!overseer) {
         const currentIndex = current.sort_index;
-        let index = currentIndex;
+        let index = currentIndex < 2 ? 2 : currentIndex;
 
         for (const member of group.group_data.members) {
           if (member.sort_index < currentIndex) continue;
@@ -184,7 +184,7 @@ const useMember = ({ member, index, group_id }: GroupMemberProps) => {
 
       if (!assistant) {
         const currentIndex = current.sort_index;
-        let index = currentIndex;
+        let index = currentIndex < 2 ? 2 : currentIndex;
 
         for (const member of group.group_data.members) {
           if (member.sort_index < currentIndex) continue;
