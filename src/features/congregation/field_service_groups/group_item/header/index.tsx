@@ -4,10 +4,9 @@ import { useAppTranslation } from '@hooks/index';
 import { GroupHeaderProps } from './index.types';
 import useHeader from './useHeader';
 import GroupBadge from '../badge';
-import GroupDelete from '../../group_delete';
-import GroupEdit from '../../group_edit';
 import IconButton from '@components/icon_button';
 import Typography from '@components/typography';
+import EditDeleteDialog from '../edit_delete_dialog';
 
 const GroupHeader = (props: GroupHeaderProps) => {
   const { t } = useAppTranslation();
@@ -18,12 +17,11 @@ const GroupHeader = (props: GroupHeaderProps) => {
     group_index,
     group_name,
     my_group,
-    edit,
-    handleCloseEdit,
     handleOpenEdit,
-    isDelete,
-    handleCloseDelete,
     handleOpenDelete,
+    dlgOpen,
+    handleCloseDialog,
+    type,
   } = useHeader(props);
 
   return (
@@ -37,22 +35,14 @@ const GroupHeader = (props: GroupHeaderProps) => {
         alignItems: 'center',
       }}
     >
-      {edit && (
-        <GroupEdit
-          onClose={handleCloseEdit}
+      {dlgOpen && (
+        <EditDeleteDialog
+          type={type}
+          onClose={handleCloseDialog}
           onDelete={handleOpenDelete}
           index={props.index}
           group={props.group}
-          open={edit}
-        />
-      )}
-
-      {isDelete && (
-        <GroupDelete
-          onClose={handleCloseDelete}
-          index={props.index}
-          group_id={props.group.group_id}
-          open={isDelete}
+          open={dlgOpen}
         />
       )}
 

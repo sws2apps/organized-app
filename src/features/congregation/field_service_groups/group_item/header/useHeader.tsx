@@ -9,8 +9,8 @@ const useHeader = ({ group, index }: GroupHeaderProps) => {
 
   const userUID = useRecoilValue(userLocalUIDState);
 
-  const [edit, setEdit] = useState(false);
-  const [isDelete, setIsDelete] = useState(false);
+  const [dlgOpen, setDlgOpen] = useState(false);
+  const [type, setType] = useState<'edit' | 'delete'>('edit');
 
   const bg_color = useMemo(() => {
     const css = `--group-${index}-base`;
@@ -43,16 +43,16 @@ const useHeader = ({ group, index }: GroupHeaderProps) => {
     return isMyGroup;
   }, [group, userUID]);
 
-  const handleOpenEdit = () => setEdit(true);
-
-  const handleCloseEdit = () => setEdit(false);
-
-  const handleOpenDelete = () => {
-    setIsDelete(true);
-    setEdit(false);
+  const handleOpenEdit = () => {
+    setType('edit');
+    setDlgOpen(true);
   };
 
-  const handleCloseDelete = () => setIsDelete(false);
+  const handleCloseDialog = () => setDlgOpen(false);
+
+  const handleOpenDelete = () => {
+    setType('delete');
+  };
 
   return {
     bg_color,
@@ -61,11 +61,10 @@ const useHeader = ({ group, index }: GroupHeaderProps) => {
     group_name,
     my_group,
     handleOpenEdit,
-    handleCloseEdit,
-    edit,
-    isDelete,
+    dlgOpen,
+    handleCloseDialog,
     handleOpenDelete,
-    handleCloseDelete,
+    type,
   };
 };
 

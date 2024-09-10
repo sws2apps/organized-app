@@ -4,7 +4,6 @@ import { useAppTranslation } from '@hooks/index';
 import { GroupEditProps } from './index.types';
 import useGroupEdit from './useGroupEdit';
 import Button from '@components/button';
-import Dialog from '@components/dialog';
 import GroupMembers from '../group_members';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
@@ -21,7 +20,7 @@ const GroupEdit = (props: GroupEditProps) => {
   } = useGroupEdit(props);
 
   return (
-    <Dialog onClose={props.onClose} open={props.open} sx={{ padding: '24px' }}>
+    <>
       <Box
         sx={{
           width: '100%',
@@ -63,7 +62,7 @@ const GroupEdit = (props: GroupEditProps) => {
           {t('tr_cancel')}
         </Button>
       </Stack>
-    </Dialog>
+    </>
   );
 };
 
