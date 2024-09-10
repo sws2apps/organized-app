@@ -75,7 +75,6 @@
   "tr_discussion": "Fiaraha-midinika",
   "tr_demonstration": "Fampisehoana",
   "tr_partNo": "Anjara No.:",
-  "tr_nameS89": "Anarana:",
   "tr_assistant": "Mpanampy",
   "tr_chairman": "Mpitari-draharaha",
   "tr_prayer": "Vavaka",
@@ -85,5 +84,10 @@
   "tr_specialTalkWeek": "Lahateny manokana",
   "tr_wtStudyConductor": "Mpitarika ny fianarana",
   "tr_closingPrayer": "Vavaka famaranana",
-  "tr_date": "Daty"
+  "tr_date": "Daty",
+  "tr_S21Header": "CONGREGATION’S PUBLISHER RECORD",
+  "tr_S21HoursComment": "(If pioneer or field missionary)",
+  "tr_remarks": "Remarks",
+  "tr_approvedAssignments": "Approved assignments",
+  "tr_credit": "Credit"
 }
