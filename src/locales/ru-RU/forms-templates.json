@@ -75,7 +75,6 @@
   "tr_discussion": "Обсуждение",
   "tr_demonstration": "Диалог",
   "tr_partNo": "Задание №:",
-  "tr_nameS89": "Имя:",
   "tr_assistant": "Assistant",
   "tr_chairman": "Председатель",
   "tr_prayer": "Молитва",
@@ -85,5 +84,10 @@
   "tr_specialTalkWeek": "Special talk",
   "tr_wtStudyConductor": "Study conductor",
   "tr_closingPrayer": "Closing prayer",
-  "tr_date": "Date"
+  "tr_date": "Date",
+  "tr_S21Header": "CONGREGATION’S PUBLISHER RECORD",
+  "tr_S21HoursComment": "(If pioneer or field missionary)",
+  "tr_remarks": "Remarks",
+  "tr_approvedAssignments": "Approved assignments",
+  "tr_credit": "Credit"
 }
