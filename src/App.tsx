@@ -30,11 +30,9 @@ const WeekendMeeting = lazy(() => import('@pages/meetings/weekend'));
 const FieldServiceGroups = lazy(
   () => import('@pages/congregation/field_service_groups')
 );
-const PublisherRecord = lazy(
-  () => import('@pages/congregation/publisher_records')
-);
+const PublisherRecord = lazy(() => import('@pages/reports/publisher_records'));
 const PublisherRecordDetails = lazy(
-  () => import('@pages/congregation/publisher_records_details')
+  () => import('@pages/reports/publisher_records_details')
 );
 const UsersAll = lazy(
   () => import('@pages/congregation/manage_access/all_users')

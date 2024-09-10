@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-named-as-default
 import Dexie from 'dexie';
 import appDb from '@db/appDb';
 
@@ -8,8 +9,4 @@ export const dbAppDelete = async () => {
 
 export const dbAppOpen = async () => {
   await appDb.open();
-};
-
-export const dbExportDataOnline = async () => {
-  // NEW BACKUP ACTION
 };

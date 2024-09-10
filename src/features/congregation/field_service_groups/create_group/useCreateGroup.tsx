@@ -25,11 +25,7 @@ const useCreateGroup = ({ onClose }: CreateGroupProps) => {
   const [state, setState] = useState<CreateState>('start');
   const [group, setGroup] = useState(newGroup);
 
-  const handleNext = () => {
-    if (group.group_data.members.length < 2) return;
-
-    setState('final');
-  };
+  const handleNext = () => setState('final');
 
   const handleBack = () => setState('start');
 

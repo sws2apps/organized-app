@@ -20,17 +20,19 @@ const GroupMembers = (props: GroupMembersProps) => {
 
   return (
     <Stack spacing="8px" width="100%">
-      {members.length > 0 && (
-        <ReactSortable list={members} setList={handleDragChange}>
-          {members.map((member) => (
-            <MemberItem
-              key={member.id}
-              member={member.id}
-              onDelete={handleRemove}
-            />
-          ))}
-        </ReactSortable>
-      )}
+      <Box sx={{ maxHeight: '300px', overflow: 'auto' }}>
+        {members.length > 0 && (
+          <ReactSortable list={members} setList={handleDragChange}>
+            {members.map((member) => (
+              <MemberItem
+                key={member.id}
+                member={member.id}
+                onDelete={handleRemove}
+              />
+            ))}
+          </ReactSortable>
+        )}
+      </Box>
 
       <Autocomplete
         variant="standard"
