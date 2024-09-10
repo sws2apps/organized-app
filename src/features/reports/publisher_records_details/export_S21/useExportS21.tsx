@@ -142,6 +142,8 @@ const useExportS21 = () => {
           if (comments.length === 0) comments += '; ';
           comments += `${t('tr_credit')}: ${credits}`;
         }
+
+        obj.remarks = comments;
       }
 
       card.months.push(obj);
