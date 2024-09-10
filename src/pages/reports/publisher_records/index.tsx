@@ -3,8 +3,8 @@ import { IconExport } from '@components/icons';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import Button from '@components/button';
 import PageTitle from '@components/page_title';
-import PublisherTabs from '@features/congregation/publisher_records/publisher_tabs';
-import YearsStats from '@features/congregation/publisher_records/years_stats';
+import PublisherTabs from '@features/reports/publisher_records/publisher_tabs';
+import YearsStats from '@features/reports/publisher_records/years_stats';
 
 const PublisherRecords = () => {
   const { t } = useAppTranslation();

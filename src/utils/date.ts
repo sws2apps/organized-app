@@ -1,4 +1,5 @@
 import { ReportMonthType, ServiceYearType } from '@definition/report';
+import { formatDate } from '@services/dateformat';
 import { generateMonthNames, getTranslation } from '@services/i18n/translation';
 
 export const dateFirstDayMonth = (date: Date = new Date()) => {
@@ -320,4 +321,22 @@ export const computeMonthsDiff = (startDate: Date, endDate: Date) => {
   const yearsDiff = endDate.getFullYear() - startDate.getFullYear();
 
   return monthsDiff + 12 * yearsDiff;
+};
+
+export const createArrayFromMonths = (startMonth: string, endMonth: string) => {
+  const result: string[] = [];
+
+  let currentMonth = startMonth;
+
+  do {
+    result.push(currentMonth);
+
+    const date = new Date(`${currentMonth}/01`);
+    const nextMonth = addMonths(date, 1);
+    currentMonth = formatDate(nextMonth, 'yyyy/MM');
+  } while (currentMonth !== endMonth);
+
+  result.push(endMonth);
+
+  return result;
 };

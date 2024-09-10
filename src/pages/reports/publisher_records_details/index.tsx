@@ -1,10 +1,9 @@
 import { Box } from '@mui/material';
-import { IconExport } from '@components/icons';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
-import Button from '@components/button';
 import PageTitle from '@components/page_title';
-import PublisherDetails from '@features/congregation/publisher_records_details/publisher_details';
-import YearsStats from '@features/congregation/publisher_records_details/years_stats';
+import PublisherDetails from '@features/reports/publisher_records_details/publisher_details';
+import YearsStats from '@features/reports/publisher_records_details/years_stats';
+import ExportS21 from '@features/reports/publisher_records_details/export_S21';
 
 const PublisherRecordsDetails = () => {
   const { t } = useAppTranslation();
@@ -19,12 +18,7 @@ const PublisherRecordsDetails = () => {
         flexDirection: 'column',
       }}
     >
-      <PageTitle
-        title={t('tr_publishersRecords')}
-        buttons={
-          <Button startIcon={<IconExport />}>{t('tr_exportS21')}</Button>
-        }
-      />
+      <PageTitle title={t('tr_publishersRecords')} buttons={<ExportS21 />} />
 
       <Box
         sx={{

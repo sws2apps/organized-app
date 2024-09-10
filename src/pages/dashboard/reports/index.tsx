@@ -1,6 +1,7 @@
 import { ListItem } from '@mui/material';
 import { DashboardCard, DashboardMenu } from '@features/index';
 import {
+  IconPublisherRecordCard,
   IconPublishersReports,
   IconReportToBranch,
   IconVisitors,
@@ -31,6 +32,13 @@ const ReportsCard = () => {
           icon={<IconReportToBranch color="var(--black)" />}
           primaryText={t('tr_branchOfficeReport')}
           path="/reports/branch-office"
+        />
+      </ListItem>
+      <ListItem disablePadding>
+        <DashboardMenu
+          icon={<IconPublisherRecordCard color="var(--black)" />}
+          primaryText={t('tr_publishersRecords')}
+          path="/publisher-records"
         />
       </ListItem>
     </DashboardCard>
