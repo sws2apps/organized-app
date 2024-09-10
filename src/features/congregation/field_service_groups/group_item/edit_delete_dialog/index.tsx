@@ -1,4 +1,3 @@
-import { useAppTranslation } from '@hooks/index';
 import { EditDeleteDialogProps } from './index.types';
 import Dialog from '@components/dialog';
 import GroupEdit from '../../group_edit';
@@ -12,8 +11,6 @@ const EditDeleteDialog = ({
   open,
   type,
 }: EditDeleteDialogProps) => {
-  const { t } = useAppTranslation();
-
   return (
     <Dialog onClose={onClose} open={open} sx={{ padding: '24px' }}>
       {type === 'edit' && (
