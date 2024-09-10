@@ -3,7 +3,6 @@ import { useAppTranslation } from '@hooks/index';
 import { GroupDeleteProps } from './index.types';
 import useGroupDelete from './useGroupDelete';
 import Button from '@components/button';
-import Dialog from '@components/dialog';
 import Typography from '@components/typography';
 
 const GroupDelete = (props: GroupDeleteProps) => {
@@ -12,7 +11,7 @@ const GroupDelete = (props: GroupDeleteProps) => {
   const { handleDeleteGroup } = useGroupDelete(props);
 
   return (
-    <Dialog onClose={props.onClose} open={props.open} sx={{ padding: '24px' }}>
+    <>
       <Stack spacing="16px">
         <Typography className="h2">
           {t('tr_deleteServiceGroupTitle', { GroupNumber: props.index })}
@@ -31,7 +30,7 @@ const GroupDelete = (props: GroupDeleteProps) => {
           {t('tr_cancel')}
         </Button>
       </Stack>
-    </Dialog>
+    </>
   );
 };
 
