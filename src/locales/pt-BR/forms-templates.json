@@ -75,7 +75,6 @@
   "tr_discussion": "Consideração",
   "tr_demonstration": "Demonstração",
   "tr_partNo": "Número da parte:",
-  "tr_nameS89": "Nome:",
   "tr_assistant": "Ajudante",
   "tr_chairman": "Presidente",
   "tr_prayer": "Oração inicial",
@@ -85,5 +84,10 @@
   "tr_specialTalkWeek": "Discurso especial",
   "tr_wtStudyConductor": "Dirigente do estudo",
   "tr_closingPrayer": "Oração final",
-  "tr_date": "Data"
+  "tr_date": "Data",
+  "tr_S21Header": "CONGREGATION’S PUBLISHER RECORD",
+  "tr_S21HoursComment": "(If pioneer or field missionary)",
+  "tr_remarks": "Remarks",
+  "tr_approvedAssignments": "Approved assignments",
+  "tr_credit": "Credit"
 }
