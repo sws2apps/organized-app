@@ -75,7 +75,6 @@
   "tr_discussion": "छलफल",
   "tr_demonstration": "प्रदर्शन",
   "tr_partNo": "असाइनमेन्ट नं.:",
-  "tr_nameS89": "नाम:",
   "tr_assistant": "साथी",
   "tr_chairman": "चेयरम्यान",
   "tr_prayer": "प्रार्थना",
@@ -85,5 +84,10 @@
   "tr_specialTalkWeek": "विशेष भाषण",
   "tr_wtStudyConductor": "प्रहरीधरहरा अध्ययन सञ्चालक",
   "tr_closingPrayer": "समापन प्रार्थना",
-  "tr_date": "मिति"
+  "tr_date": "मिति",
+  "tr_S21Header": "CONGREGATION’S PUBLISHER RECORD",
+  "tr_S21HoursComment": "(If pioneer or field missionary)",
+  "tr_remarks": "Remarks",
+  "tr_approvedAssignments": "Approved assignments",
+  "tr_credit": "Credit"
 }
