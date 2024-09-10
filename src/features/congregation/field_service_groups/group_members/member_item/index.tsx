@@ -11,7 +11,6 @@ const MemberItem = (props: MemberItemProps) => {
   return (
     <Box
       sx={{
-        borderRadius: '12px',
         padding: '8px',
         display: 'flex',
         gap: '8px',
