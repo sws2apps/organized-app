@@ -32,7 +32,6 @@ const useStart = () => {
       await loadApp();
       await runUpdater();
 
-
       await setIsAppLoad(false);
     };
 

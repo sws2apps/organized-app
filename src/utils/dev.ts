@@ -778,10 +778,10 @@ export const dbSettingsAssignMainWTStudyConductor = async () => {
 };
 
 export const dbFieldGroupAutoAssign = async () => {
+  await appDb.field_service_groups.clear();
+
   const groups = await appDb.field_service_groups.toArray();
   const persons = await appDb.persons.toArray();
-
-  if (groups.length > 0 || persons.length === 0) return;
 
   for (let i = 1; i <= 5; i++) {
     const assigned_members = groups.reduce(

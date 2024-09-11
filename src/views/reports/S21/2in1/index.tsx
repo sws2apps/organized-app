@@ -12,7 +12,14 @@ const TemplateS21Doc2in1 = ({ data }: TemplateS21Doc2in1Props) => {
       producer="sws2apps (by react-pdf)"
     >
       <Page size="A4" style={styles.body}>
-        <View style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '24px',
+            alignItems: 'center',
+          }}
+        >
           {data.map((card) => (
             <CardS21 key={card.year} data={card} />
           ))}

@@ -7,6 +7,7 @@ export const styles = StyleSheet.create({
     fontSize: '10px',
   },
   cardContainer: {
+    width: '550px',
     height: '390px',
     display: 'flex',
     flexDirection: 'column',

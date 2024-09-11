@@ -7,7 +7,7 @@ const Header = () => {
 
   return (
     <View style={styles.header}>
-      <Text>{t('tr_S21Header')}</Text>
+      <Text>{t('tr_S21Header').toUpperCase()}</Text>
     </View>
   );
 };
