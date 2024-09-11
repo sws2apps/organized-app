@@ -2,7 +2,10 @@ import { promiseSetRecoil } from 'recoil-outside';
 import { rootModalOpenState } from '@states/app';
 import { PersonType } from '@definition/person';
 import { AssignmentCode } from '@definition/assignment';
-import { FieldServiceGroupMemberType } from '@definition/field_service_groups';
+import {
+  FieldServiceGroupMemberType,
+  FieldServiceGroupType,
+} from '@definition/field_service_groups';
 import { generateDisplayName, getRandomArrayItem } from './common';
 import { personIsElder, personIsMS } from '@services/app/persons';
 import PERSON_MOCK from '@constants/person_mock';
@@ -780,9 +783,10 @@ export const dbSettingsAssignMainWTStudyConductor = async () => {
 export const dbFieldGroupAutoAssign = async () => {
   await appDb.field_service_groups.clear();
 
-  const groups = await appDb.field_service_groups.toArray();
+  const groups: FieldServiceGroupType[] = [];
   const persons = await appDb.persons.toArray();
 
+  // assign overseers and assistants first
   for (let i = 1; i <= 5; i++) {
     const assigned_members = groups.reduce(
       (acc: FieldServiceGroupMemberType[], current) => {
@@ -799,7 +803,7 @@ export const dbFieldGroupAutoAssign = async () => {
     const ms = persons.filter((person) => personIsMS(person));
 
     // assign overseer
-    let assigned = false;
+    let assigned: FieldServiceGroupMemberType;
     do {
       const person = getRandomArrayItem(elders);
       const find = assigned_members.some(
@@ -807,21 +811,20 @@ export const dbFieldGroupAutoAssign = async () => {
       );
 
       if (!find) {
-        members.push({
+        assigned = {
           isAssistant: false,
           isOverseer: true,
           person_uid: person.person_uid,
           sort_index: 0,
-        });
+        };
 
-        assigned_members.push(...members);
-
-        assigned = true;
+        members.push(assigned);
+        assigned_members.push(assigned);
       }
     } while (!assigned);
 
     // assign assistant
-    assigned = false;
+    assigned = undefined;
     do {
       const person = getRandomArrayItem(ms);
       const find = assigned_members.some(
@@ -829,37 +832,17 @@ export const dbFieldGroupAutoAssign = async () => {
       );
 
       if (!find) {
-        members.push({
+        assigned = {
           isAssistant: true,
           isOverseer: false,
           person_uid: person.person_uid,
           sort_index: 1,
-        });
+        };
 
-        assigned_members.push(...members);
-
-        assigned = true;
+        members.push(assigned);
+        assigned_members.push(assigned);
       }
     } while (!assigned);
-
-    // assign members
-    do {
-      const person = getRandomArrayItem(persons);
-      const find = assigned_members.some(
-        (record) => record.person_uid === person.person_uid
-      );
-
-      if (!find) {
-        members.push({
-          isAssistant: false,
-          isOverseer: false,
-          person_uid: person.person_uid,
-          sort_index: members.length,
-        });
-
-        assigned_members.push(...members);
-      }
-    } while (members.length < 20);
 
     groups.push({
       group_id: crypto.randomUUID(),
@@ -871,6 +854,39 @@ export const dbFieldGroupAutoAssign = async () => {
         members,
       },
     });
+  }
+
+  // assign group members
+  for (const group of groups) {
+    const assigned_members = groups.reduce(
+      (acc: FieldServiceGroupMemberType[], current) => {
+        acc.push(...current.group_data.members);
+
+        return acc;
+      },
+      []
+    );
+
+    const members = group.group_data.members;
+
+    do {
+      const person = getRandomArrayItem(persons);
+      const find = assigned_members.some(
+        (record) => record.person_uid === person.person_uid
+      );
+
+      if (!find) {
+        const assigned = {
+          isAssistant: false,
+          isOverseer: false,
+          person_uid: person.person_uid,
+          sort_index: members.length,
+        };
+
+        members.push(assigned);
+        assigned_members.push(assigned);
+      }
+    } while (members.length < 20);
   }
 
   await appDb.field_service_groups.bulkPut(groups);

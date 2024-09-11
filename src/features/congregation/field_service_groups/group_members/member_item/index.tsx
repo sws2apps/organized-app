@@ -20,7 +20,10 @@ const MemberItem = (props: MemberItemProps) => {
       }}
     >
       <Box sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-        <IconDragHandle color="var(--accent-main)" />
+        <IconDragHandle
+          color="var(--accent-main)"
+          className="scrollable-icon"
+        />
         <Typography>{name}</Typography>
       </Box>
 

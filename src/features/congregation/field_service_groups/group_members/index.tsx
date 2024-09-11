@@ -22,7 +22,11 @@ const GroupMembers = (props: GroupMembersProps) => {
     <Stack spacing="8px" width="100%">
       <Box sx={{ maxHeight: '300px', overflow: 'auto' }}>
         {members.length > 0 && (
-          <ReactSortable list={members} setList={handleDragChange}>
+          <ReactSortable
+            list={members}
+            setList={handleDragChange}
+            handle=".scrollable-icon"
+          >
             {members.map((member) => (
               <MemberItem
                 key={member.id}

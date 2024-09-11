@@ -20,7 +20,11 @@ const GroupsReorder = (props: GroupsReorderProps) => {
       <Typography className="h2">{t('tr_reorderGroupsTitle')}</Typography>
 
       <GroupsContainer>
-        <ReactSortable list={groups} setList={handleDragChange}>
+        <ReactSortable
+          list={groups}
+          setList={handleDragChange}
+          handle=".scrollable-icon"
+        >
           {groups.map((group) => (
             <GroupItem key={group.id} name={group.name} />
           ))}

@@ -11,7 +11,7 @@ const GroupItem = ({ name }: GroupItemProps) => {
     <Box
       sx={{ padding: '8px', display: 'flex', gap: '8px', alignItems: 'center' }}
     >
-      <IconDragHandle color="var(--accent-main)" />
+      <IconDragHandle color="var(--accent-main)" className="scrollable-icon" />
       <Typography>{t('tr_groupName', { groupName: name })}</Typography>
     </Box>
   );
