@@ -22,7 +22,7 @@
   "tr_btnSubmitReport": "Отправить отчёт",
   "tr_badgeGoalHours": "из {{ ministryTime }} ч",
   "tr_btnAddCreditHours": "Добавить кредитные часы",
-  "tr_extraTime": "You have extra {{ ministryTime }} minutes",
+  "tr_extraTime": "У тебя есть дополнительные минуты: {{ ministryTime }}",
   "tr_extraTimeDesc": "Do you want to transfer this time over to the next month?",
   "tr_btnTransfer": "Перенести",
   "tr_btnNoKeepIt": "Нет, оставить",
