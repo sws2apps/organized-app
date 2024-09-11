@@ -22,7 +22,7 @@
   "tr_btnSubmitReport": "Ipasa ang ulat",
   "tr_badgeGoalHours": "sa {{ ministryTime }} h",
   "tr_btnAddCreditHours": "Magdagdag ng Credit na Oras",
-  "tr_extraTime": "Mayroon kang labis na {{ ministryTime }} minuto",
+  "tr_extraTime": "You have extra minutes: {{ ministryTime }}",
   "tr_extraTimeDesc": "Nais mo bang ilipat ang oras na ito sa susunod na buwan?",
   "tr_btnTransfer": "Ilipat",
   "tr_btnNoKeepIt": "Hindi, panatilihin ito",
