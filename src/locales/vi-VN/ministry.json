@@ -22,7 +22,7 @@
   "tr_btnSubmitReport": "Gửi báo cáo",
   "tr_badgeGoalHours": "trong số {{ ministryTime }} giờ",
   "tr_btnAddCreditHours": "Thêm giờ tích lũy",
-  "tr_extraTime": "Anh/chị có thêm {{ ministryTime }} phút",
+  "tr_extraTime": "You have extra minutes: {{ ministryTime }}",
   "tr_extraTimeDesc": "Anh/chị có muốn chuyển thời gian này sang tháng tiếp theo không?",
   "tr_btnTransfer": "Chuyển",
   "tr_btnNoKeepIt": "Không, giữ lại",
