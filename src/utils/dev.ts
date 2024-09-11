@@ -2,10 +2,7 @@ import { promiseSetRecoil } from 'recoil-outside';
 import { rootModalOpenState } from '@states/app';
 import { PersonType } from '@definition/person';
 import { AssignmentCode } from '@definition/assignment';
-import {
-  FieldServiceGroupMemberType,
-  FieldServiceGroupType,
-} from '@definition/field_service_groups';
+import { FieldServiceGroupMemberType } from '@definition/field_service_groups';
 import { generateDisplayName, getRandomArrayItem } from './common';
 import { personIsElder, personIsMS } from '@services/app/persons';
 import PERSON_MOCK from '@constants/person_mock';
@@ -781,100 +778,100 @@ export const dbSettingsAssignMainWTStudyConductor = async () => {
 };
 
 export const dbFieldGroupAutoAssign = async () => {
-  const groups: FieldServiceGroupType[] = [];
+  const groups = await appDb.field_service_groups.toArray();
   const persons = await appDb.persons.toArray();
 
-  if (persons.length === 100) {
-    for (let i = 1; i <= 5; i++) {
-      const assigned_members = groups.reduce(
-        (acc: FieldServiceGroupMemberType[], current) => {
-          acc.push(...current.group_data.members);
+  if (groups.length > 0 || persons.length === 0) return;
 
-          return acc;
-        },
-        []
+  for (let i = 1; i <= 5; i++) {
+    const assigned_members = groups.reduce(
+      (acc: FieldServiceGroupMemberType[], current) => {
+        acc.push(...current.group_data.members);
+
+        return acc;
+      },
+      []
+    );
+
+    const members: FieldServiceGroupMemberType[] = [];
+
+    const elders = persons.filter((person) => personIsElder(person));
+    const ms = persons.filter((person) => personIsMS(person));
+
+    // assign overseer
+    let assigned = false;
+    do {
+      const person = getRandomArrayItem(elders);
+      const find = assigned_members.some(
+        (record) => record.person_uid === person.person_uid
       );
 
-      const members: FieldServiceGroupMemberType[] = [];
+      if (!find) {
+        members.push({
+          isAssistant: false,
+          isOverseer: true,
+          person_uid: person.person_uid,
+          sort_index: 0,
+        });
 
-      const elders = persons.filter((person) => personIsElder(person));
-      const ms = persons.filter((person) => personIsMS(person));
+        assigned_members.push(...members);
 
-      // assign overseer
-      let assigned = false;
-      do {
-        const person = getRandomArrayItem(elders);
-        const find = assigned_members.some(
-          (record) => record.person_uid === person.person_uid
-        );
+        assigned = true;
+      }
+    } while (!assigned);
 
-        if (!find) {
-          members.push({
-            isAssistant: false,
-            isOverseer: true,
-            person_uid: person.person_uid,
-            sort_index: 0,
-          });
+    // assign assistant
+    assigned = false;
+    do {
+      const person = getRandomArrayItem(ms);
+      const find = assigned_members.some(
+        (record) => record.person_uid === person.person_uid
+      );
 
-          assigned_members.push(...members);
+      if (!find) {
+        members.push({
+          isAssistant: true,
+          isOverseer: false,
+          person_uid: person.person_uid,
+          sort_index: 1,
+        });
 
-          assigned = true;
-        }
-      } while (!assigned);
+        assigned_members.push(...members);
 
-      // assign assistant
-      assigned = false;
-      do {
-        const person = getRandomArrayItem(ms);
-        const find = assigned_members.some(
-          (record) => record.person_uid === person.person_uid
-        );
+        assigned = true;
+      }
+    } while (!assigned);
 
-        if (!find) {
-          members.push({
-            isAssistant: true,
-            isOverseer: false,
-            person_uid: person.person_uid,
-            sort_index: 1,
-          });
+    // assign members
+    do {
+      const person = getRandomArrayItem(persons);
+      const find = assigned_members.some(
+        (record) => record.person_uid === person.person_uid
+      );
 
-          assigned_members.push(...members);
+      if (!find) {
+        members.push({
+          isAssistant: false,
+          isOverseer: false,
+          person_uid: person.person_uid,
+          sort_index: members.length,
+        });
 
-          assigned = true;
-        }
-      } while (!assigned);
+        assigned_members.push(...members);
+      }
+    } while (members.length < 20);
 
-      // assign members
-      do {
-        const person = getRandomArrayItem(persons);
-        const find = assigned_members.some(
-          (record) => record.person_uid === person.person_uid
-        );
-
-        if (!find) {
-          members.push({
-            isAssistant: false,
-            isOverseer: false,
-            person_uid: person.person_uid,
-            sort_index: members.length,
-          });
-
-          assigned_members.push(...members);
-        }
-      } while (members.length < 20);
-
-      groups.push({
-        group_id: crypto.randomUUID(),
-        group_data: {
-          _deleted: false,
-          updatedAt: new Date().toISOString(),
-          name: '',
-          sort_index: i - 1,
-          members,
-        },
-      });
-    }
-
-    await appDb.field_service_groups.bulkPut(groups);
+    groups.push({
+      group_id: crypto.randomUUID(),
+      group_data: {
+        _deleted: false,
+        updatedAt: new Date().toISOString(),
+        name: '',
+        sort_index: i - 1,
+        members,
+      },
+    });
   }
+
+  await appDb.field_service_groups.bulkPut(groups);
 };
