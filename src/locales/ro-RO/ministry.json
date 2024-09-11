@@ -22,7 +22,7 @@
   "tr_btnSubmitReport": "Submit report",
   "tr_badgeGoalHours": "out of {{ ministryTime }} h",
   "tr_btnAddCreditHours": "Add hours credit",
-  "tr_extraTime": "You have extra {{ ministryTime }} minutes",
+  "tr_extraTime": "You have extra minutes: {{ ministryTime }}",
   "tr_extraTimeDesc": "Do you want to transfer this time over to the next month?",
   "tr_btnTransfer": "Transfer",
   "tr_btnNoKeepIt": "No, keep it",
