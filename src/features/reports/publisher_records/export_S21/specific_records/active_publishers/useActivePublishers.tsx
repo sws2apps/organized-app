@@ -1,20 +1,25 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
+import { useRecoilValue } from 'recoil';
+import { TreeViewBaseItem } from '@mui/x-tree-view';
+import { useTreeViewApiRef } from '@mui/x-tree-view/hooks';
 import { currentReportMonth } from '@utils/date';
-import { GroupOption, GroupSelectedValue, SelectedOption } from './index.types';
 import { useAppTranslation } from '@hooks/index';
+import { fullnameOptionState } from '@states/settings';
+import { buildPersonFullname } from '@utils/common';
 import usePersons from '@features/persons/hooks/usePersons';
 
 const useActivePublishers = () => {
   const { t } = useAppTranslation();
 
-  const { getFTSMonths, getAPMonths } = usePersons();
+  const { getFTSMonths, getAPMonths, getPublisherMonths } = usePersons();
 
-  const [expanded, setExpanded] = useState<string | false>(false);
-  const [selected, setSelected] = useState<SelectedOption>({
-    FTS: { all: false, persons: [] },
-    AP: { all: false, persons: [] },
-    other_publishers: { all: false, persons: [] },
-  });
+  const fullnameOption = useRecoilValue(fullnameOptionState);
+
+  const [selected, setSelected] = useState<string[]>([]);
+
+  const toggledItemRef = useRef<{ [itemId: string]: boolean }>({});
+
+  const apiRef = useTreeViewApiRef();
 
   const month = useMemo(() => {
     return currentReportMonth();
@@ -28,59 +33,119 @@ const useActivePublishers = () => {
     return getAPMonths(month);
   }, [getAPMonths, month]);
 
+  const person_publishers = useMemo(() => {
+    return getPublisherMonths(month);
+  }, [getPublisherMonths, month]);
+
   const groups = useMemo(() => {
-    const result: GroupOption[] = [];
+    const result: TreeViewBaseItem[] = [];
 
     if (person_FTS.length > 0) {
       result.push({
-        group_id: 'FTS',
-        group_members: person_FTS,
-        group_name: t('tr_fulltimeServants'),
+        id: 'FTS',
+        label: t('tr_fulltimeServants'),
+        children: person_FTS.map((person) => {
+          return {
+            id: person.person_uid,
+            label: buildPersonFullname(
+              person.person_data.person_lastname.value,
+              person.person_data.person_firstname.value,
+              fullnameOption
+            ),
+          };
+        }),
       });
     }
 
     if (person_AP.length > 0) {
       result.push({
-        group_id: 'AP',
-        group_members: person_AP,
-        group_name: t('tr_APs'),
+        id: 'AP',
+        label: t('tr_APs'),
+        children: person_AP.map((person) => {
+          return {
+            id: person.person_uid,
+            label: buildPersonFullname(
+              person.person_data.person_lastname.value,
+              person.person_data.person_firstname.value,
+              fullnameOption
+            ),
+          };
+        }),
+      });
+    }
+
+    if (person_publishers.length > 0) {
+      result.push({
+        id: 'publishers',
+        label: t('tr_activePublishersAll'),
+        children: person_publishers.map((person) => {
+          return {
+            id: person.person_uid,
+            label: buildPersonFullname(
+              person.person_data.person_lastname.value,
+              person.person_data.person_firstname.value,
+              fullnameOption
+            ),
+          };
+        }),
       });
     }
 
     return result;
-  }, [person_FTS, person_AP, t]);
+  }, [person_FTS, person_AP, t, fullnameOption, person_publishers]);
 
-  const handleExpandedChange = (value: string | false) => setExpanded(value);
+  const getItemDescendantsIds = (item: TreeViewBaseItem) => {
+    const ids: string[] = [];
 
-  const handleCheckedChange = (value: string, checked: boolean) => {
-    const data = structuredClone(selected);
+    item.children?.forEach((child) => {
+      ids.push(child.id);
+      ids.push(...getItemDescendantsIds(child));
+    });
 
-    if (value === 'FTS' || value === 'AP' || value === 'other') {
-      const group: GroupSelectedValue = data[value];
-      group.all = checked;
+    return ids;
+  };
 
-      if (!checked) {
-        group.persons = [];
+  const handleItemSelectionToggle = (itemId: string, isSelected: boolean) => {
+    toggledItemRef.current[itemId] = isSelected;
+  };
+
+  const handleSelectionChange = (newSelectedItems: string[]) => {
+    setSelected(newSelectedItems);
+
+    // Select / unselect the children of the toggled item
+    const itemsToSelect: string[] = [];
+    const itemsToUnSelect: { [itemId: string]: boolean } = {};
+
+    Object.entries(toggledItemRef.current).forEach(([itemId, isSelected]) => {
+      const item = apiRef.current.getItem(itemId);
+      if (isSelected) {
+        itemsToSelect.push(...getItemDescendantsIds(item));
+      } else {
+        getItemDescendantsIds(item).forEach((descendantId) => {
+          itemsToUnSelect[descendantId] = true;
+        });
       }
+    });
 
-      if (checked) {
-        if (value === 'FTS') {
-          group.persons = person_FTS.map((record) => record.person_uid);
-        }
-      }
-    }
+    const newSelectedItemsWithChildren = Array.from(
+      new Set(
+        [...newSelectedItems, ...itemsToSelect].filter(
+          (itemId) => !itemsToUnSelect[itemId]
+        )
+      )
+    );
 
-    // handle individual check
+    setSelected(newSelectedItemsWithChildren);
 
-    setSelected(data);
+    toggledItemRef.current = {};
   };
 
   return {
-    expanded,
-    handleExpandedChange,
     groups,
+    handleSelectionChange,
     selected,
-    handleCheckedChange,
+    apiRef,
+    handleItemSelectionToggle,
   };
 };
 

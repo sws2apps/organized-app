@@ -128,5 +128,6 @@
   "tr_S21CardTitleDesc": "Select ‘All records’ to export and sort all records for publishers, full-time, and auxiliary servants, or ‘Specific records’ to export records only for selected publishers.",
   "tr_allPublisherRecords": "All publisher records",
   "tr_specificPublisherRecords": "Specific publisher records",
-  "tr_S21ExportMultipleDesc": "Select the publishers you want to include in the exported records. Each publisher will have a separate file."
+  "tr_S21ExportMultipleDesc": "Select the publishers you want to include in the exported records. Each publisher will have a separate file.",
+  "tr_activePublishersAll": "All other active publishers"
 }
