@@ -433,7 +433,7 @@
   "tr_editUpcomingEvent": "Редагувати майбутню подію",
   "tr_eventType": "Тип події",
   "tr_averageAttendanceMM": "Середня відвідуваність зібрань серед тижня",
-  "tr_S10ReportWithYear": "Звіт про аналіз збору: {{ year }}",
+  "tr_S10ReportWithYear": "Congregation analysis report: {{ year }}",
   "tr_groupNotAssigned": "Група не призначена",
   "tr_publisherLastReport": "Останній звіт за {{ month }}",
   "tr_myGroup": "Моя група"

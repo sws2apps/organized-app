@@ -22,7 +22,7 @@
   "tr_btnSubmitReport": "Handefa tatitra",
   "tr_badgeGoalHours": "amin’ny {{ ministryTime }} ora",
   "tr_btnAddCreditHours": "Hampiditra ora omena",
-  "tr_extraTime": "Manana {{ ministryTime }} minitra ambiny ianao",
+  "tr_extraTime": "You have extra minutes: {{ ministryTime }}",
   "tr_extraTimeDesc": "Tianao afindra ho an’ny volana manaraka ve izany?",
   "tr_btnTransfer": "Afindra",
   "tr_btnNoKeepIt": "Tsia, avela amin’izao",

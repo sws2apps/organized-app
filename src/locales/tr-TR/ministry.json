@@ -22,7 +22,7 @@
   "tr_btnSubmitReport": "Raporu gönder",
   "tr_badgeGoalHours": "{{ ministryTime }}s/den {{ goalHours }} saat",
   "tr_btnAddCreditHours": "Kredi saat ekle",
-  "tr_extraTime": "{{ ministryTime }} dakika fazladan zamanınız var",
+  "tr_extraTime": "You have extra minutes: {{ ministryTime }}",
   "tr_extraTimeDesc": "Bu süreyi gelecek aya aktarmak ister misiniz?",
   "tr_btnTransfer": "Aktar",
   "tr_btnNoKeepIt": "Hayır, kalsın",
