@@ -18,7 +18,7 @@
   "tr_collabActivitiesDesc": "サポートが必要な活動に関するお知らせを受け取ります。例：王国会館のメンテナンスや、開拓者学校の昼食援助",
   "tr_myAssignmentsDesc": "Get instant notifications about all your new assignments",
   "tr_infoBoardAnnouncements": "掲示された新しい情報のお知らせ",
-  "tr_infoBoardAnnouncementsDesc": "If turned off, you won’t receive notifications for new announcements, unless elders choose to notify the entire congregation about something important",
+  "tr_infoBoardAnnouncementsDesc": "オフにされている場合、長老が重要なお知らせとして配信する場合を除き、新しいお知らせは届きません。",
   "tr_partnerSearch": "奉仕のパートナーを求める通知",
   "tr_partnerSearchDesc": "Get a notification as soon as somebody publishes a partner request",
   "tr_organizedSettings": "Organizedの設定",
