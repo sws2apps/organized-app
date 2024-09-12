@@ -54,4 +54,6 @@ export type CheckboxPropsType = {
   sx?: SxProps;
 
   readOnly?: boolean;
+
+  stopPropagation?: boolean;
 };
