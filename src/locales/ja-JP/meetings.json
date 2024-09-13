@@ -75,7 +75,7 @@
   "tr_successfullyPublishedDesc": "Now everybody in your congregation can view the schedule and prepare for the assignments",
   "tr_lastUpdated": "Last updated: {{ date }}",
   "tr_outgoingTalks": "訪問講演",
-  "tr_infoOutgoingTalk": "Brothers that will visit other congregation with a public talk",
+  "tr_infoOutgoingTalk": "Brothers that will visit other congregations with a public talk",
   "tr_speakersWithCount": "Speakers: {{ speakersCount }}",
   "tr_JWImport": "Importing materials from jw.org",
   "tr_JWImportDesc": "Downloading meeting materials, please wait",
@@ -144,6 +144,6 @@
   "tr_outgoingTalkDeleteDesc": "Are you sure you want to delete this outgoing talk schedule?",
   "tr_deliveredBy": "Delivers: {{ name }}",
   "tr_toCurrentWeek": "To current week",
-  "tr_recordAttendance": "Record attendance",
+  "tr_recordAttendance": "Attendance records",
   "tr_assignmentPreferences": "割り当ての設定"
 }
