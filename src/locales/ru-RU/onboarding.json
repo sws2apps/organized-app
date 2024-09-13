@@ -82,7 +82,7 @@
   "tr_reconnectAccount": "Переподключиться к аккаунту",
   "tr_registeringApproved": "Совет старейшин утвердил регистрацию этого собрания в Organized",
   "tr_testAppMode": "Тестовый режим Organized",
-  "tr_testAppWaitForData": "Подготовка данных, необходимых для лучшего опыта тестирования",
+  "tr_testAppWaitForData": "Готовим все, чтобы ты мог попробовать Organized в действии. Это может занять некоторое время...",
   "tr_tryOrganized": "Попробуйте Organized в тестовом режиме",
   "tr_testStart": "Начать тестирование",
   "tr_testAppWelcome": "Добро пожаловать в Тестовый режим Organized!",
@@ -95,7 +95,7 @@
   "tr_congregationAccessCodeNoticeLength": "Минимум 8 символов",
   "tr_congregationAccessCodeSet": "Установить код доступа",
   "tr_congregationAccessCodeVerify": "Подтвердить код доступа собрания",
-  "tr_congregationAccessCodeNotice": "Пожалуйста, сохрани и защити этот код. Каждому пользователю, получающему доступ к твоему собранию, необходимо его использовать в приложении Organized.",
+  "tr_congregationAccessCodeNotice": "Пожалуйста, сохрани и защити этот код. Он нужен каждому пользователю, получающему доступ к твоему собранию, чтобы пользоваться приложением Organized.",
   "tr_congregationAccessCodeLostDesc": "Пожалуйста, введи код доступа к твоему собранию. Этот уникальный код специально для твоего собрания и он необходим для подключения и доступа к нему.",
   "tr_setCongregationMasterKey": "Установить главный ключ собрания",
   "tr_createCongregationMasterKey": "Создай главный ключ собрания",
@@ -104,5 +104,5 @@
   "tr_congregationMasterKeyLostDesc": "Введи код шифрования твоего собрания для доступа к нему",
   "tr_congregationMasterKeyAsk": "Введи главный ключ собрания",
   "tr_can'tFindCongregation": "Не удается найти свое собрание?",
-  "tr_cantFindCongregationDesc": "Проверьте наличие ошибок (минимальное количество символов - 2). Если ваше собрание отсутствует на странице поиска jw.org, свяжитесь с <a href=\"mailto:support@organized-app.com\">support@organized-app.com</a> для получения помощи."
+  "tr_cantFindCongregationDesc": "Проверь наличие ошибок (минимальное количество символов – 2). Если твоё собрание отсутствует на странице поиска jw.org, свяжись с <a href=\"mailto:support@organized-app.com\">support@organized-app.com</a> для получения помощи."
 }
