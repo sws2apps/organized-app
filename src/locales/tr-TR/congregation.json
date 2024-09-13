@@ -128,7 +128,7 @@
   "tr_userEmailAddress": "Kullanıcının e-posta adresi",
   "tr_searchUser": "Kullanıcı ara",
   "tr_noUserError": "Bu e-posta adresiyle kullanıcı bulunamadı",
-  "tr_userFoundSuccess": "Kullanıcı bulundu! Kullanıcıyı oluşturun ve profilini ile haklarını ayarlayın",
+  "tr_userFoundSuccess": "User found! Set up his user profile and rights",
   "tr_addNewPublisherDesc": "Cemaatinizin Kişiler listesinden bir üyeyi seçerek onların benzersiz davet kodunu oluşturun ve paylaşın.",
   "tr_inviteUserDesc": "Onlara cemaatinize erişim sağlamak için bu kişisel davet kodunu verin. Bu kod ayrıca kullanıcı sayfasında da mevcuttur.",
   "tr_invitePersonTitle": "Davet edin: {{ PersonName }}",
