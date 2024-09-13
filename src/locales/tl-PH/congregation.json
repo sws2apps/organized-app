@@ -128,7 +128,7 @@
   "tr_userEmailAddress": "Email address ng user",
   "tr_searchUser": "Maghanap ng user",
   "tr_noUserError": "Walang user na nakita sa email address na ito",
-  "tr_userFoundSuccess": "User found! Set up his user profile and rights",
+  "tr_userFoundSuccess": "Nakita ang user! I-set up na ang kaniyang profile at access",
   "tr_addNewPublisherDesc": "Pumili ng isa mula sa listahan ng mga tao sa iyong kongregasyon upang gumawa at i-share sa kanila ang unique na invitation code.",
   "tr_inviteUserDesc": "Ibigay ang personal invitation code na ito para magka-access sila sa inyong kongregasyon sa Organized. Ito rin ay makikita sa kanilang user page.",
   "tr_invitePersonTitle": "Invite: {{ PersonName }}",
