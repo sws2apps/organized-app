@@ -434,5 +434,6 @@
   "tr_S10ReportWithYear": "Congregation analysis report: {{ year }}",
   "tr_groupNotAssigned": "Wala pang grupo",
   "tr_publisherLastReport": "Huling ulat sa {{ month }}",
-  "tr_myGroup": "My group"
+  "tr_myGroup": "My group",
+  "tr_publishers": "Mga publisher"
 }
