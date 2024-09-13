@@ -128,7 +128,7 @@
   "tr_userEmailAddress": "ユーザーのメールアドレス",
   "tr_searchUser": "ユーザーを検索",
   "tr_noUserError": "このメールアドレスで登録されているユーザーが見つかりませんでした",
-  "tr_userFoundSuccess": "User found! Create user and set up his profile and rights",
+  "tr_userFoundSuccess": "User found! Set up his user profile and rights",
   "tr_addNewPublisherDesc": "Select a member from your congregation’s Persons list to generate and share their unique invitation code.",
   "tr_inviteUserDesc": "Provide this personal invitation code to grant the user access to your congregation on Organized. It’s also available on their user page.",
   "tr_invitePersonTitle": "招待：{{ PersonName }}",
