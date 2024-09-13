@@ -1,13 +1,13 @@
 import { Stack } from '@mui/material';
 import { IconLoading } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
-import { ActivePublishersProps } from './index.types';
-import useActivePublishers from './useActivePublishers';
+import { InactivePublishersProps } from './index.types';
+import useActivePublishers from './useInactivePublishers';
 import Button from '@components/button';
 import SearchBar from '@components/search_bar';
 import RichTreeViewCheckboxes from '@components/rich_tree_view/checkboxes';
 
-const ActivePublishers = (props: ActivePublishersProps) => {
+const InactivePublishers = (props: InactivePublishersProps) => {
   const { t } = useAppTranslation();
 
   const {
@@ -35,19 +35,25 @@ const ActivePublishers = (props: ActivePublishersProps) => {
         <RichTreeViewCheckboxes
           apiRef={apiRef}
           items={groups}
+          expandedItems={['inactive_all']}
           selectedItems={selected}
           onSelectedItemsChange={(_, values) => handleSelectionChange(values)}
           onItemSelectionToggle={(_, id, checked) =>
             handleItemSelectionToggle(id, checked)
           }
+          slotProps={{
+            item: {
+              sx: { '.MuiTreeItem-iconContainer': { display: 'none' } },
+            },
+          }}
         />
       </Stack>
 
       <Stack spacing="8px" width="100%">
         <Button
           variant="main"
-          onClick={handleExport}
           disabled={isProcessing}
+          onClick={handleExport}
           endIcon={isProcessing && <IconLoading />}
         >
           {btnLabel}
@@ -64,4 +70,4 @@ const ActivePublishers = (props: ActivePublishersProps) => {
   );
 };
 
-export default ActivePublishers;
+export default InactivePublishers;

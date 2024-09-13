@@ -1,13 +1,13 @@
 import { Stack } from '@mui/material';
 import { IconLoading } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
-import { ActivePublishersProps } from './index.types';
-import useActivePublishers from './useActivePublishers';
+import { FieldServiceGroupsProps } from './index.types';
+import useFieldServiceGroups from './useFieldServiceGroups';
 import Button from '@components/button';
-import SearchBar from '@components/search_bar';
 import RichTreeViewCheckboxes from '@components/rich_tree_view/checkboxes';
+import SearchBar from '@components/search_bar';
 
-const ActivePublishers = (props: ActivePublishersProps) => {
+const FieldServiceGroups = (props: FieldServiceGroupsProps) => {
   const { t } = useAppTranslation();
 
   const {
@@ -21,7 +21,7 @@ const ActivePublishers = (props: ActivePublishersProps) => {
     search,
     handleExport,
     isProcessing,
-  } = useActivePublishers(props);
+  } = useFieldServiceGroups(props);
 
   return (
     <Stack spacing="24px" marginBottom="-24px">
@@ -46,8 +46,8 @@ const ActivePublishers = (props: ActivePublishersProps) => {
       <Stack spacing="8px" width="100%">
         <Button
           variant="main"
-          onClick={handleExport}
           disabled={isProcessing}
+          onClick={handleExport}
           endIcon={isProcessing && <IconLoading />}
         >
           {btnLabel}
@@ -64,4 +64,4 @@ const ActivePublishers = (props: ActivePublishersProps) => {
   );
 };
 
-export default ActivePublishers;
+export default FieldServiceGroups;

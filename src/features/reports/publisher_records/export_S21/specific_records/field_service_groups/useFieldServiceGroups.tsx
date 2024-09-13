@@ -6,19 +6,24 @@ import { currentReportMonth } from '@utils/date';
 import { useAppTranslation } from '@hooks/index';
 import { fullnameOptionState } from '@states/settings';
 import { buildPersonFullname } from '@utils/common';
-import { ActivePublishersProps } from './index.types';
+import { fieldGroupsState } from '@states/field_service_groups';
+import { FieldServiceGroupType } from '@definition/field_service_groups';
+import { personsState } from '@states/persons';
+import { FieldServiceGroupsProps } from './index.types';
 import usePersons from '@features/persons/hooks/usePersons';
 
-const useActivePublishers = ({ onExport }: ActivePublishersProps) => {
+const useFieldServiceGroups = ({ onExport }: FieldServiceGroupsProps) => {
   const { t } = useAppTranslation();
 
-  const { getFTSMonths, getAPMonths, getPublisherMonths } = usePersons();
+  const { getPublishersActive } = usePersons();
 
   const toggledItemRef = useRef<{ [itemId: string]: boolean }>({});
 
   const apiRef = useTreeViewApiRef();
 
   const fullnameOption = useRecoilValue(fullnameOptionState);
+  const fieldGroups = useRecoilValue(fieldGroupsState);
+  const persons = useRecoilValue(personsState);
 
   const [selected, setSelected] = useState<string[]>([]);
   const [search, setSearch] = useState('');
@@ -28,27 +33,48 @@ const useActivePublishers = ({ onExport }: ActivePublishersProps) => {
     return currentReportMonth();
   }, []);
 
-  const person_FTS = useMemo(() => {
-    return getFTSMonths(month);
-  }, [getFTSMonths, month]);
+  const active_publishers = useMemo(() => {
+    if (fieldGroups.length === 0) return [];
 
-  const person_AP = useMemo(() => {
-    return getAPMonths(month);
-  }, [getAPMonths, month]);
+    const persons = getPublishersActive(month);
 
-  const person_publishers = useMemo(() => {
-    return getPublisherMonths(month);
-  }, [getPublisherMonths, month]);
+    const result: FieldServiceGroupType[] = [];
+
+    for (const group of fieldGroups) {
+      const members = group.group_data.members.filter((record) =>
+        persons.some((person) => record.person_uid === person.person_uid)
+      );
+
+      if (members.length > 0) {
+        const obj = structuredClone(group);
+
+        obj.group_data.members = members;
+        result.push(obj);
+      }
+    }
+
+    return result.sort(
+      (a, b) => a.group_data.sort_index - b.group_data.sort_index
+    );
+  }, [fieldGroups, getPublishersActive, month]);
 
   const groups = useMemo(() => {
-    const result: TreeViewBaseItem[] = [];
+    const result: TreeViewBaseItem[] = active_publishers.map((group, index) => {
+      let group_name = t('tr_groupName', { groupName: index + 1 });
 
-    if (person_FTS.length > 0) {
-      result.push({
-        id: 'FTS',
-        label: t('tr_fulltimeServants'),
-        children: person_FTS
-          .map((person) => {
+      if (group.group_data.name.length > 0) {
+        group_name += ` — ${group.group_data.name}`;
+      }
+
+      return {
+        id: `group-${index}`,
+        label: group_name,
+        children: group.group_data.members
+          .map((member) => {
+            const person = persons.find(
+              (record) => record.person_uid === member.person_uid
+            );
+
             return {
               id: person.person_uid,
               label: buildPersonFullname(
@@ -58,56 +84,21 @@ const useActivePublishers = ({ onExport }: ActivePublishersProps) => {
               ),
             };
           })
+          .sort((a, b) => a.label.localeCompare(b.label))
           .filter((record) =>
             record.label.toLowerCase().includes(search.toLowerCase())
           ),
-      });
-    }
-
-    if (person_AP.length > 0) {
-      result.push({
-        id: 'AP',
-        label: t('tr_APs'),
-        children: person_AP.map((person) => {
-          return {
-            id: person.person_uid,
-            label: buildPersonFullname(
-              person.person_data.person_lastname.value,
-              person.person_data.person_firstname.value,
-              fullnameOption
-            ),
-          };
-        }),
-      });
-    }
-
-    if (person_publishers.length > 0) {
-      result.push({
-        id: 'publishers',
-        label: t('tr_activePublishersAll'),
-        children: person_publishers.map((person) => {
-          return {
-            id: person.person_uid,
-            label: buildPersonFullname(
-              person.person_data.person_lastname.value,
-              person.person_data.person_firstname.value,
-              fullnameOption
-            ),
-          };
-        }),
-      });
-    }
+      };
+    });
 
     return result;
-  }, [person_FTS, person_AP, t, fullnameOption, person_publishers, search]);
+  }, [t, fullnameOption, persons, active_publishers, search]);
 
   const btnLabel = useMemo(() => {
     let label = t('tr_export');
     if (selected.length === 0) return label;
 
-    const cn = selected.filter(
-      (record) => record !== 'FTS' && record !== 'AP' && record !== 'publishers'
-    );
+    const cn = selected.filter((record) => record.includes('group') === false);
 
     label += `: ${cn.length}`;
 
@@ -166,7 +157,7 @@ const useActivePublishers = ({ onExport }: ActivePublishersProps) => {
     if (selected.length === 0) return;
 
     setIsProcessing(true);
-    await onExport(selected, 'active');
+    await onExport(selected, 'groups');
   };
 
   return {
@@ -183,4 +174,4 @@ const useActivePublishers = ({ onExport }: ActivePublishersProps) => {
   };
 };
 
-export default useActivePublishers;
+export default useFieldServiceGroups;

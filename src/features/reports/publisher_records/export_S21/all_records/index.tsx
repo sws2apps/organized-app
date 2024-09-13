@@ -1,18 +1,19 @@
 import { FormControlLabel, RadioGroup, Stack } from '@mui/material';
+import { IconLoading } from '@components/icons';
 import { useAppTranslation } from '@hooks/index';
 import { AllRecordsProps } from './index.types';
 import { ExportType } from '../index.types';
+import useAllRecords from './useAllRecords';
 import Button from '@components/button';
 import Radio from '@components/radio';
 import Typography from '@components/typography';
 
-const AllRecords = ({
-  action,
-  onClose,
-  onTypeChange,
-  type,
-}: AllRecordsProps) => {
+const AllRecords = (props: AllRecordsProps) => {
   const { t } = useAppTranslation();
+
+  const { onClose, onTypeChange, type } = props;
+
+  const { handleExport, isProcessing } = useAllRecords(props);
 
   return (
     <>
@@ -42,10 +43,15 @@ const AllRecords = ({
       </RadioGroup>
 
       <Stack spacing="8px" width="100%">
-        <Button variant="main" onClick={action}>
+        <Button
+          variant="main"
+          onClick={handleExport}
+          disabled={isProcessing}
+          endIcon={isProcessing && <IconLoading />}
+        >
           {type === 'all' ? t('tr_export') : t('tr_next')}
         </Button>
-        <Button variant="secondary" onClick={onClose}>
+        <Button variant="secondary" disabled={isProcessing} onClick={onClose}>
           {t('tr_cancel')}
         </Button>
       </Stack>

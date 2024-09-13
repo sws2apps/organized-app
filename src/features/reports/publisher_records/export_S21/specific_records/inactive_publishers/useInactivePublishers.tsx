@@ -6,13 +6,13 @@ import { currentReportMonth } from '@utils/date';
 import { useAppTranslation } from '@hooks/index';
 import { fullnameOptionState } from '@states/settings';
 import { buildPersonFullname } from '@utils/common';
-import { ActivePublishersProps } from './index.types';
+import { InactivePublishersProps } from './index.types';
 import usePersons from '@features/persons/hooks/usePersons';
 
-const useActivePublishers = ({ onExport }: ActivePublishersProps) => {
+const useInactivePublishers = ({ onExport }: InactivePublishersProps) => {
   const { t } = useAppTranslation();
 
-  const { getFTSMonths, getAPMonths, getPublisherMonths } = usePersons();
+  const { getPublishersInactive } = usePersons();
 
   const toggledItemRef = useRef<{ [itemId: string]: boolean }>({});
 
@@ -28,26 +28,18 @@ const useActivePublishers = ({ onExport }: ActivePublishersProps) => {
     return currentReportMonth();
   }, []);
 
-  const person_FTS = useMemo(() => {
-    return getFTSMonths(month);
-  }, [getFTSMonths, month]);
-
-  const person_AP = useMemo(() => {
-    return getAPMonths(month);
-  }, [getAPMonths, month]);
-
   const person_publishers = useMemo(() => {
-    return getPublisherMonths(month);
-  }, [getPublisherMonths, month]);
+    return getPublishersInactive(month);
+  }, [getPublishersInactive, month]);
 
   const groups = useMemo(() => {
     const result: TreeViewBaseItem[] = [];
 
-    if (person_FTS.length > 0) {
+    if (person_publishers.length > 0) {
       result.push({
-        id: 'FTS',
-        label: t('tr_fulltimeServants'),
-        children: person_FTS
+        id: 'inactive_all',
+        label: t('tr_selectAll'),
+        children: person_publishers
           .map((person) => {
             return {
               id: person.person_uid,
@@ -64,50 +56,14 @@ const useActivePublishers = ({ onExport }: ActivePublishersProps) => {
       });
     }
 
-    if (person_AP.length > 0) {
-      result.push({
-        id: 'AP',
-        label: t('tr_APs'),
-        children: person_AP.map((person) => {
-          return {
-            id: person.person_uid,
-            label: buildPersonFullname(
-              person.person_data.person_lastname.value,
-              person.person_data.person_firstname.value,
-              fullnameOption
-            ),
-          };
-        }),
-      });
-    }
-
-    if (person_publishers.length > 0) {
-      result.push({
-        id: 'publishers',
-        label: t('tr_activePublishersAll'),
-        children: person_publishers.map((person) => {
-          return {
-            id: person.person_uid,
-            label: buildPersonFullname(
-              person.person_data.person_lastname.value,
-              person.person_data.person_firstname.value,
-              fullnameOption
-            ),
-          };
-        }),
-      });
-    }
-
     return result;
-  }, [person_FTS, person_AP, t, fullnameOption, person_publishers, search]);
+  }, [person_publishers, t, fullnameOption, search]);
 
   const btnLabel = useMemo(() => {
     let label = t('tr_export');
     if (selected.length === 0) return label;
 
-    const cn = selected.filter(
-      (record) => record !== 'FTS' && record !== 'AP' && record !== 'publishers'
-    );
+    const cn = selected.filter((record) => record !== 'inactive_all');
 
     label += `: ${cn.length}`;
 
@@ -166,7 +122,7 @@ const useActivePublishers = ({ onExport }: ActivePublishersProps) => {
     if (selected.length === 0) return;
 
     setIsProcessing(true);
-    await onExport(selected, 'active');
+    await onExport(selected, 'inactive');
   };
 
   return {
@@ -178,9 +134,9 @@ const useActivePublishers = ({ onExport }: ActivePublishersProps) => {
     btnLabel,
     handleSearchChange,
     search,
-    handleExport,
     isProcessing,
+    handleExport,
   };
 };
 
-export default useActivePublishers;
+export default useInactivePublishers;

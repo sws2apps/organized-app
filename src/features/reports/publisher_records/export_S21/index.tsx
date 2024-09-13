@@ -6,8 +6,14 @@ import AllRecords from './all_records';
 import SpecificRecords from './specific_records';
 
 const ExportS21 = (props: ExportS21Props) => {
-  const { allOpen, handleAction, handleChangeType, selectOpen, type } =
-    useExportS21(props);
+  const {
+    allOpen,
+    handleAction,
+    handleChangeType,
+    selectOpen,
+    type,
+    handleExportCards,
+  } = useExportS21(props);
 
   return (
     <Dialog onClose={props.onClose} open={props.open} sx={{ padding: '24px' }}>
@@ -20,7 +26,9 @@ const ExportS21 = (props: ExportS21Props) => {
         />
       )}
 
-      {selectOpen && <SpecificRecords onClose={props.onClose} />}
+      {selectOpen && (
+        <SpecificRecords onClose={props.onClose} onExport={handleExportCards} />
+      )}
     </Dialog>
   );
 };
