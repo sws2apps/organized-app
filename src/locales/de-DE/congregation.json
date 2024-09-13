@@ -434,5 +434,6 @@
   "tr_S10ReportWithYear": "Congregation analysis report: {{ year }}",
   "tr_groupNotAssigned": "Gruppe nicht zugewiesen",
   "tr_publisherLastReport": "Letzter Bericht im {{ month }}",
-  "tr_myGroup": "Meine Gruppe"
+  "tr_myGroup": "Meine Gruppe",
+  "tr_publishers": "Verkündiger"
 }
