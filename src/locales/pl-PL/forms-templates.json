@@ -75,7 +75,6 @@
   "tr_discussion": "Omówienie z udziałem obecnych",
   "tr_demonstration": "Scenka",
   "tr_partNo": "Zadanie nr:",
-  "tr_assistant": "Assistant",
   "tr_chairman": "Przewodniczący",
   "tr_prayer": "Modlitwa",
   "tr_partDuration": "({{ time }} min.)",
@@ -89,5 +88,6 @@
   "tr_S21HoursComment": "(If pioneer or field missionary)",
   "tr_remarks": "Remarks",
   "tr_approvedAssignments": "Approved assignments",
-  "tr_credit": "Credit"
+  "tr_credit": "Credit",
+  "tr_assistantS89": "Assistant"
 }

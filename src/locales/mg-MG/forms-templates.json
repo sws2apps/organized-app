@@ -75,7 +75,6 @@
   "tr_discussion": "Fiaraha-midinika",
   "tr_demonstration": "Fampisehoana",
   "tr_partNo": "Anjara No.:",
-  "tr_assistant": "Mpanampy",
   "tr_chairman": "Mpitari-draharaha",
   "tr_prayer": "Vavaka",
   "tr_partDuration": "({{ time }} min.)",
@@ -89,5 +88,6 @@
   "tr_S21HoursComment": "(If pioneer or field missionary)",
   "tr_remarks": "Remarks",
   "tr_approvedAssignments": "Approved assignments",
-  "tr_credit": "Credit"
+  "tr_credit": "Credit",
+  "tr_assistantS89": "Mpanampy"
 }

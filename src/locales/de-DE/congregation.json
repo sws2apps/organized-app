@@ -276,7 +276,6 @@
   "tr_highestStudiesNumberMonthly": "Höchste Anzahl von Studien pro Monat",
   "tr_avgStudiesMonthly": "Durchschnittliche monatliche Bibelstudien",
   "tr_highestHourNumberMonthly": "Höchste Anzahl von Stunden pro Monat",
-  "tr_publishers": "Verkündiger",
   "tr_recordAttendanceDesc": "Zusammenkunftsbesuchzahl (S-3)",
   "tr_month": "Monat",
   "tr_details": "Details",
@@ -287,7 +286,6 @@
   "tr_averageAttendanceWM": "Durchschnittliche Besucher am Wochenende",
   "tr_numberReports": "Anzahl der Berichte",
   "tr_filters": "Filtern",
-  "tr_pioneers": "Pioniere",
   "tr_markToBranchOffice": "Bericht als bei der Filiale eingereicht markieren",
   "tr_markToBranchOfficeDesc": "You’re about to mark this report as submitted to the branch office. Are you sure to continue?",
   "tr_markAsSubmitted": "Als gesendet markieren",
@@ -375,9 +373,9 @@
   "tr_FS": "Sonderpionier",
   "tr_incomingCongregationOnlineNoSpeakers": "This congregation does not have any visiting speakers yet added to their records. If necessary, you can contact them.",
   "tr_incomingCongregationOnlinePending": "This congregation did not yet approve your request to access their outgoing speakers list. If necessary, you can personally contact them.",
-  "tr_incomingCongregationOnlineDisapproved": "This congregation disapproved your request to access their outgoing speakers list. If necessary, you can personally contact them.",
+  "tr_incomingCongregationOnlineDisapproved": "This congregation disapproved your request to access their outgoing speakers list. If necessary, you can contact them personally.",
   "tr_congregationRequestRejected": "Deine Anfrage wurde abgelehnt",
-  "tr_congregationRequestRejectedDesc": "The <strong>{{ congregationNameAndNumber }}</strong> congregation rejected your request to view their outgoing speakers list. If necessary, you can contact them.",
+  "tr_congregationRequestRejectedDesc": "The <strong>{{ congregationNameAndNumber }}</strong> congregation rejected your request to view their outgoing speakers list. If necessary, you can contact them personally.",
   "tr_congregationAccessRevoke": "Revoke access for this congregation",
   "tr_congregationAccessRevokeDesc": "Revoke access to your speakers list for <strong>{{ congregationName }}</strong> congregation? They won't be able to see it anymore, but you can share it with them again later if they make a new request.",
   "tr_noGroupsYet": "You don’t have any field service groups created yet. Create a group first to start adding publishers and reordering groups.",
@@ -436,5 +434,6 @@
   "tr_S10ReportWithYear": "Congregation analysis report: {{ year }}",
   "tr_groupNotAssigned": "Gruppe nicht zugewiesen",
   "tr_publisherLastReport": "Letzter Bericht im {{ month }}",
-  "tr_myGroup": "Meine Gruppe"
+  "tr_myGroup": "Meine Gruppe",
+  "tr_publishers": "Verkündiger"
 }

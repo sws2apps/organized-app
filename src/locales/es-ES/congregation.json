@@ -276,7 +276,6 @@
   "tr_highestStudiesNumberMonthly": "Mayor número de estudios por mes",
   "tr_avgStudiesMonthly": "Promedio de estudios por mes",
   "tr_highestHourNumberMonthly": "Mayor número de horas por mes",
-  "tr_publishers": "Publishers",
   "tr_recordAttendanceDesc": "Registro de asistencia (S-3)",
   "tr_month": "Mes",
   "tr_details": "Detalles",
@@ -287,7 +286,6 @@
   "tr_averageAttendanceWM": "Asistencia promedio a las reuniones de fin de semana",
   "tr_numberReports": "Número de informes",
   "tr_filters": "Filtros",
-  "tr_pioneers": "Pioneers",
   "tr_markToBranchOffice": "Marcar informe como enviado a la sucursal",
   "tr_markToBranchOfficeDesc": "You’re about to mark this report as submitted to the branch office. Are you sure to continue?",
   "tr_markAsSubmitted": "Marcar como enviado",
@@ -377,7 +375,7 @@
   "tr_incomingCongregationOnlinePending": "This congregation did not yet approve your request to access their outgoing speakers list. If necessary, you can personally contact them.",
   "tr_incomingCongregationOnlineDisapproved": "Esta congregación desaprobó tu solicitud para acceder a su lista de oradores salientes. Si es necesario, puedes ponerte en contacto con ellos.",
   "tr_congregationRequestRejected": "Tu solicitud fue rechazada",
-  "tr_congregationRequestRejectedDesc": "La congregación <strong>{{ congregationNameAndNumber }}</strong> ha rechazado tu solicitud para ver su lista de oradores salientes. Si es necesario, puedes ponerte en contacto con ellos.",
+  "tr_congregationRequestRejectedDesc": "The <strong>{{ congregationNameAndNumber }}</strong> congregation rejected your request to view their outgoing speakers list. If necessary, you can contact them personally.",
   "tr_congregationAccessRevoke": "Revocar acceso para esta congregación",
   "tr_congregationAccessRevokeDesc": "¿Revocar el acceso a tu lista de oradores para la congregación <strong>{{ congregationName }}</strong>? No podrán verla más, pero podrás compartirla con ellos nuevamente más adelante si hacen una nueva solicitud.",
   "tr_noGroupsYet": "You don’t have any field service groups created yet. Create a group first to start adding publishers and reordering groups.",
@@ -436,5 +434,6 @@
   "tr_S10ReportWithYear": "Congregation analysis report: {{ year }}",
   "tr_groupNotAssigned": "Group not assigned",
   "tr_publisherLastReport": "Last report on {{ month }}",
-  "tr_myGroup": "My group"
+  "tr_myGroup": "My group",
+  "tr_publishers": "Publishers"
 }

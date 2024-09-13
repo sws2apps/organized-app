@@ -276,7 +276,6 @@
   "tr_highestStudiesNumberMonthly": "En yüksek aylık tetkik sayısı",
   "tr_avgStudiesMonthly": "Ortalama aylık tetkik sayısı",
   "tr_highestHourNumberMonthly": "En yüksek aylık saat sayısı",
-  "tr_publishers": "Müjdeciler",
   "tr_recordAttendanceDesc": "Cemaat toplantısı katılım kayıt formu (S-3)",
   "tr_month": "Ay",
   "tr_details": "Detaylar",
@@ -287,7 +286,6 @@
   "tr_averageAttendanceWM": "Ortalama hafta sonu ibadet katılım sayısı",
   "tr_numberReports": "Rapor sayısı",
   "tr_filters": "Filtreler",
-  "tr_pioneers": "Öncüler",
   "tr_markToBranchOffice": "Rapor büroya gönderildi olarak işaretle",
   "tr_markToBranchOfficeDesc": "You’re about to mark this report as submitted to the branch office. Are you sure to continue?",
   "tr_markAsSubmitted": "Gönderildi olarak işaretle",
@@ -377,7 +375,7 @@
   "tr_incomingCongregationOnlinePending": "Bu cemaat, diğer cemaatlere konuşma verebilecek biraderler listelerine erişim talebinizi henüz onaylamadı. Gerekirse, onlarla iletişime geçebilirsiniz.",
   "tr_incomingCongregationOnlineDisapproved": "Bu cemaat, giden konuşmacılar listelerine erişim talebinizi reddetti. Gerekirse, onlarla iletişime geçebilirsiniz.",
   "tr_congregationRequestRejected": "Talebiniz reddedildi",
-  "tr_congregationRequestRejectedDesc": "<strong>{{ congregationNameAndNumber }}</strong> cemaati, giden konuşmacılar listelerini görüntüleme talebinizi reddetti. Gerekirse, onlarla iletişime geçebilirsiniz.",
+  "tr_congregationRequestRejectedDesc": "The <strong>{{ congregationNameAndNumber }}</strong> congregation rejected your request to view their outgoing speakers list. If necessary, you can contact them personally.",
   "tr_congregationAccessRevoke": "Bu cemaatin erişimini iptal et",
   "tr_congregationAccessRevokeDesc": "<strong>{{ congregationName }}</strong> cemaatinin konuşmacı listenize erişimini iptal etmek istiyor musunuz? Artık göremeyecekler, ancak yeni bir talepte bulunurlarsa tekrar paylaşabilirsiniz.",
   "tr_noGroupsYet": "You don’t have any field service groups created yet. Create a group first to start adding publishers and reordering groups.",
@@ -436,5 +434,6 @@
   "tr_S10ReportWithYear": "Congregation analysis report: {{ year }}",
   "tr_groupNotAssigned": "Group not assigned",
   "tr_publisherLastReport": "Last report on {{ month }}",
-  "tr_myGroup": "My group"
+  "tr_myGroup": "My group",
+  "tr_publishers": "Müjdeciler"
 }

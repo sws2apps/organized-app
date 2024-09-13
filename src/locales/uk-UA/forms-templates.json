@@ -60,7 +60,7 @@
   "tr_lcSourceElderVariations": "Місцеві потреби",
   "tr_lcContentElderVariations": "Виголошує старійшина",
   "tr_speaker": "Промовець",
-  "tr_speakerSymposium": "Промовець (15 хв. публічна промова, перша частина)",
+  "tr_speakerSymposium": "Промовець (15 хв. публічна промова, частина 1)",
   "tr_wtStudyReader": "Читець статті",
   "tr_weekendMeetingPrint": "Розклад зібрання на вихідних",
   "tr_publicTalk": "Публічна промова",
@@ -75,7 +75,6 @@
   "tr_discussion": "Обговорення",
   "tr_demonstration": "Діалог",
   "tr_partNo": "Завдання №:",
-  "tr_assistant": "Помічник",
   "tr_chairman": "Ведучий",
   "tr_prayer": "Молитва",
   "tr_partDuration": "({{ time }} хв.)",
@@ -89,5 +88,6 @@
   "tr_S21HoursComment": "(Якщо піонер або місіонер)",
   "tr_remarks": "Примітки",
   "tr_approvedAssignments": "Схвалені завдання",
-  "tr_credit": "Кредит"
+  "tr_credit": "Кредит",
+  "tr_assistantS89": "Помічник"
 }

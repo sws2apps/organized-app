@@ -75,7 +75,6 @@
   "tr_discussion": "Análisis con el auditorio",
   "tr_demonstration": "Demostración",
   "tr_partNo": "Intervención núm.:",
-  "tr_assistant": "Ayudante",
   "tr_chairman": "Presidente",
   "tr_prayer": "Oración",
   "tr_partDuration": "({{ time }} mins.)",
@@ -89,5 +88,6 @@
   "tr_S21HoursComment": "(If pioneer or field missionary)",
   "tr_remarks": "Remarks",
   "tr_approvedAssignments": "Approved assignments",
-  "tr_credit": "Credit"
+  "tr_credit": "Credit",
+  "tr_assistantS89": "Ayudante"
 }

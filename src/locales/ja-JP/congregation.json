@@ -276,7 +276,6 @@
   "tr_highestStudiesNumberMonthly": "Highest number of studies per month",
   "tr_avgStudiesMonthly": "Average studies per month",
   "tr_highestHourNumberMonthly": "Highest number of hours per month",
-  "tr_publishers": "伝道者",
   "tr_recordAttendanceDesc": "Congregation meeting attendance record (S-3)",
   "tr_month": "月",
   "tr_details": "詳細",
@@ -287,7 +286,6 @@
   "tr_averageAttendanceWM": "Average weekend meeting attendance",
   "tr_numberReports": "報告数",
   "tr_filters": "フィルター",
-  "tr_pioneers": "開拓者",
   "tr_markToBranchOffice": "支部事務所に提出した報告として記録",
   "tr_markToBranchOfficeDesc": "You’re about to mark this report as submitted to the branch office. Are you sure to continue?",
   "tr_markAsSubmitted": "提出済みと記録",
@@ -375,9 +373,9 @@
   "tr_FS": "特別開拓者",
   "tr_incomingCongregationOnlineNoSpeakers": "This congregation does not have any visiting speakers yet added to their records. If necessary, you can contact them.",
   "tr_incomingCongregationOnlinePending": "This congregation did not yet approve your request to access their outgoing speakers list. If necessary, you can personally contact them.",
-  "tr_incomingCongregationOnlineDisapproved": "This congregation disapproved your request to access their outgoing speakers list. If necessary, you can personally contact them.",
+  "tr_incomingCongregationOnlineDisapproved": "This congregation disapproved your request to access their outgoing speakers list. If necessary, you can contact them personally.",
   "tr_congregationRequestRejected": "このリクエストは承認されませんでした。",
-  "tr_congregationRequestRejectedDesc": "<strong>{{ congregationNameAndNumber }}</strong>会衆は訪問講演者のリストを表示するためのあなたの会衆のリクエストを拒否しました。必要な場合は、この会衆に連絡してください。",
+  "tr_congregationRequestRejectedDesc": "The <strong>{{ congregationNameAndNumber }}</strong> congregation rejected your request to view their outgoing speakers list. If necessary, you can contact them personally.",
   "tr_congregationAccessRevoke": "この会衆のアクセスを取り消す",
   "tr_congregationAccessRevokeDesc": "<strong>{{ congregationName }}</strong>会衆へ共有されている訪問講演者のリストへのアクセスを取り消しますか？この会衆はリストを見ることができなくなりますが、新しいリクエストがあった場合は再び共有することができます。",
   "tr_noGroupsYet": "野外奉仕グループがまだ作成されていません。まずグループを作成してから、伝道者を追加し並べ替えることができます。",
@@ -436,5 +434,6 @@
   "tr_S10ReportWithYear": "Congregation analysis report: {{ year }}",
   "tr_groupNotAssigned": "グループが割り当てられていません",
   "tr_publisherLastReport": "Last report on {{ month }}",
-  "tr_myGroup": "私のグループ"
+  "tr_myGroup": "私のグループ",
+  "tr_publishers": "伝道者"
 }

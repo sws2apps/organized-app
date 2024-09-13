@@ -75,7 +75,6 @@
   "tr_discussion": "討議",
   "tr_demonstration": "実演",
   "tr_partNo": "担当部分:",
-  "tr_assistant": "相手",
   "tr_chairman": "司会者",
   "tr_prayer": "祈り",
   "tr_partDuration": "({{ time }} min.)",
@@ -89,5 +88,6 @@
   "tr_S21HoursComment": "（開拓者か野外の宣教者のみ）",
   "tr_remarks": "備考",
   "tr_approvedAssignments": "Approved assignments",
-  "tr_credit": "Credit"
+  "tr_credit": "Credit",
+  "tr_assistantS89": "相手"
 }

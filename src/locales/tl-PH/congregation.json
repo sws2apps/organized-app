@@ -276,7 +276,6 @@
   "tr_highestStudiesNumberMonthly": "Pinakamataas na bilang ng mga pag-aaral bawat buwan",
   "tr_avgStudiesMonthly": "Average ng mga pag-aaral bawat buwan",
   "tr_highestHourNumberMonthly": "Pinakamataas na bilang ng oras bawat buwan",
-  "tr_publishers": "Mga publisher",
   "tr_recordAttendanceDesc": "Ulat ng attendance sa pulong ng kongregasyon (S-3)",
   "tr_month": "Buwan",
   "tr_details": "Detalye",
@@ -287,7 +286,6 @@
   "tr_averageAttendanceWM": "Average attendance ng mga pulong sa weekend",
   "tr_numberReports": "Bilang ng mga ulat",
   "tr_filters": "Filters",
-  "tr_pioneers": "Mga pioneer",
   "tr_markToBranchOffice": "Markahan ang ulat bilang naisumite sa branch office",
   "tr_markToBranchOfficeDesc": "Mamarkahan na ang ulat na ito bilang naipasa na sa sangay. Nais mo bang magpatuloy?",
   "tr_markAsSubmitted": "Markahan bilang naipasa",
@@ -377,7 +375,7 @@
   "tr_incomingCongregationOnlinePending": "Hindi pa naaprubahan ng kongregasyong ito ang request para sa listahan ng kanilang mga lumalabas na speaker. Kung maaari, kontakin sila.",
   "tr_incomingCongregationOnlineDisapproved": "Tinanggihan ng kongregasyong ito ang iyong request para sa listahan ng kanilang mga lumalabas na speaker. Kung maaari, maaari mo silang kontakin.",
   "tr_congregationRequestRejected": "Na-reject ang iyong request",
-  "tr_congregationRequestRejectedDesc": "Tumanggi ang <strong>{{ congregationNameAndNumber }}</strong> congregation sa iyong request na makita ang listahan ng mga lumalabas na speaker. Kung maaari, maaari mo silang kontakin.",
+  "tr_congregationRequestRejectedDesc": "The <strong>{{ congregationNameAndNumber }}</strong> congregation rejected your request to view their outgoing speakers list. If necessary, you can contact them personally.",
   "tr_congregationAccessRevoke": "Alisin ang access sa kongregasyon",
   "tr_congregationAccessRevokeDesc": "Alisin ang access sa listahan ng mga speaker sa <strong>{{ congregationName }}</strong> congregation? Hindi na nila ito makikita, pero makikita ulit ito kapag nag-request silang muli.",
   "tr_noGroupsYet": "Wala pang nagagawang mga field service group. Gumawa muna upang makapaglagay ng mga publisher at maiayos ang mga ito.",
@@ -436,5 +434,6 @@
   "tr_S10ReportWithYear": "Congregation analysis report: {{ year }}",
   "tr_groupNotAssigned": "Wala pang grupo",
   "tr_publisherLastReport": "Huling ulat sa {{ month }}",
-  "tr_myGroup": "My group"
+  "tr_myGroup": "My group",
+  "tr_publishers": "Mga publisher"
 }

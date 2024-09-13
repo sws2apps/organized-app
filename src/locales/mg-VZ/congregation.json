@@ -276,7 +276,6 @@
   "tr_highestStudiesNumberMonthly": "Tampon’isan’ny fampianarana Baiboly isam-bolana",
   "tr_avgStudiesMonthly": "Salanisan’ny fampianarana Baiboly isam-bolana",
   "tr_highestHourNumberMonthly": "Tampon’isan’ny ora isam-bolana",
-  "tr_publishers": "Publishers",
   "tr_recordAttendanceDesc": "Tatitra Momba ny Isan’ny Mpanatrika (S-3)",
   "tr_month": "Volana",
   "tr_details": "Tsipiriany",
@@ -287,7 +286,6 @@
   "tr_averageAttendanceWM": "Salanisa mpanatrika fivoriana faran’ny herinandro",
   "tr_numberReports": "Isan’ny tatitra",
   "tr_filters": "Sivana",
-  "tr_pioneers": "Pioneers",
   "tr_markToBranchOffice": "Marihina hoe nalefa any amin’ny biraon’ny sampana",
   "tr_markToBranchOfficeDesc": "You’re about to mark this report as submitted to the branch office. Are you sure to continue?",
   "tr_markAsSubmitted": "Marihina hoe nalefa",
@@ -375,9 +373,9 @@
   "tr_FS": "Special pioneer",
   "tr_incomingCongregationOnlineNoSpeakers": "This congregation does not have any visiting speakers yet added to their records. If necessary, you can contact them.",
   "tr_incomingCongregationOnlinePending": "This congregation did not yet approve your request to access their outgoing speakers list. If necessary, you can personally contact them.",
-  "tr_incomingCongregationOnlineDisapproved": "This congregation disapproved your request to access their outgoing speakers list. If necessary, you can personally contact them.",
+  "tr_incomingCongregationOnlineDisapproved": "This congregation disapproved your request to access their outgoing speakers list. If necessary, you can contact them personally.",
   "tr_congregationRequestRejected": "Your request was rejected",
-  "tr_congregationRequestRejectedDesc": "The <strong>{{ congregationNameAndNumber }}</strong> congregation rejected your request to view their outgoing speakers list. If necessary, you can contact them.",
+  "tr_congregationRequestRejectedDesc": "The <strong>{{ congregationNameAndNumber }}</strong> congregation rejected your request to view their outgoing speakers list. If necessary, you can contact them personally.",
   "tr_congregationAccessRevoke": "Revoke access for this congregation",
   "tr_congregationAccessRevokeDesc": "Revoke access to your speakers list for <strong>{{ congregationName }}</strong> congregation? They won't be able to see it anymore, but you can share it with them again later if they make a new request.",
   "tr_noGroupsYet": "You don’t have any field service groups created yet. Create a group first to start adding publishers and reordering groups.",
@@ -436,5 +434,6 @@
   "tr_S10ReportWithYear": "Congregation analysis report: {{ year }}",
   "tr_groupNotAssigned": "Group not assigned",
   "tr_publisherLastReport": "Last report on {{ month }}",
-  "tr_myGroup": "My group"
+  "tr_myGroup": "My group",
+  "tr_publishers": "Publishers"
 }

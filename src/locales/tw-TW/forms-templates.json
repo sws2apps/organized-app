@@ -75,7 +75,6 @@
   "tr_discussion": "Ntobo",
   "tr_demonstration": "Nkwa",
   "tr_partNo": "Nhyehyee no nɔ:",
-  "tr_assistant": "Assistant",
   "tr_chairman": "Dwumadini",
   "tr_prayer": "Mpae",
   "tr_partDuration": "({{ time }} min.)",
@@ -89,5 +88,6 @@
   "tr_S21HoursComment": "(If pioneer or field missionary)",
   "tr_remarks": "Remarks",
   "tr_approvedAssignments": "Approved assignments",
-  "tr_credit": "Credit"
+  "tr_credit": "Credit",
+  "tr_assistantS89": "Assistant"
 }
