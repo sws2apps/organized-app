@@ -57,7 +57,7 @@
   "tr_remindMeTomorrow": "Напомнить завтра",
   "tr_goToReports": "Перейти к отчётам",
   "tr_noInternetConnection": "Нет интернета",
-  "tr_noInternetConnectionDesc": "Organized is working offline right now. When you’re back online, any new data you entered will be able to sync.",
+  "tr_noInternetConnectionDesc": "Orginized сейчас работает в режиме оффлайн. Когда интернет-соединение вернется, все новые данные, которые ты ввёл, будут синхронизированы.",
   "tr_done": "Готово",
   "tr_notifications": "Уведомления",
   "tr_reject": "Отклонить",
@@ -70,7 +70,7 @@
   "tr_tertitoryCardRequestDesc": "Пожалуйста, рассмотри запросы на получение участка:",
   "tr_markAsRead": "Прочитано",
   "tr_yourRequestAccepted": "Твой запрос принят",
-  "tr_yourRequestAcceptedDesc": "The <strong>{{ congregationNameAndNumber }}</strong> congregation accepted your request to view their outgoing speakers list.",
+  "tr_yourRequestAcceptedDesc": "Собрание <strong>{{ congregationNameAndNumber }}</strong> приняло твой запрос на доступ к их списку рекомендованных докладчиков.",
   "tr_returnedTerritory": "{{ publisherName }} вернул(а) территорию",
   "tr_returnedTerritoryDesc": "Участок {{ territoryNumber }} был обработан и  возвращена. Количество домов, который сообщил возвещатель: {{ numberOfHouses }}. Пожалуйста, обнови информацию об участке, если необходимо.",
   "tr_whatsNew": "Что нового в Organized",
@@ -105,5 +105,5 @@
   "tr_newOrganizedUpdate": "New Organized update",
   "tr_newOrganizedUpdateDesc": "Organized just got better! See what’s new in this update!",
   "tr_improvements": "Improvements:",
-  "tr_ok": "OK"
+  "tr_ok": "Хорошо"
 }
