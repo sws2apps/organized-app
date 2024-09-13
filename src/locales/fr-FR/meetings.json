@@ -144,6 +144,6 @@
   "tr_outgoingTalkDeleteDesc": "Are you sure you want to delete this outgoing talk schedule?",
   "tr_deliveredBy": "Delivers: {{ name }}",
   "tr_toCurrentWeek": "To current week",
-  "tr_recordAttendance": "Record attendance",
+  "tr_recordAttendance": "Attendance records",
   "tr_assignmentPreferences": "Assignment preferences"
 }
