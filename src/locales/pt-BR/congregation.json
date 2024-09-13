@@ -377,7 +377,7 @@
   "tr_incomingCongregationOnlinePending": "Esta congregação ainda não aprovou o seu pedido para acessar a lista de oradores. Se necessário, você pode entrar em contato com eles.",
   "tr_incomingCongregationOnlineDisapproved": "Esta congregação desaprovou o seu pedido para acessar a lista de oradores. Se necessário, você pode entrar em contato com eles.",
   "tr_congregationRequestRejected": "O seu pedido foi rejeitado",
-  "tr_congregationRequestRejectedDesc": "A congregação <strong>{{ congregationNameAndNumber }}</strong> rejeitou seu pedido para visualizar sua lista de oradores. Se necessário, você pode entrar em contato com eles.",
+  "tr_congregationRequestRejectedDesc": "The <strong>{{ congregationNameAndNumber }}</strong> congregation rejected your request to view their outgoing speakers list. If necessary, you can contact them personally.",
   "tr_congregationAccessRevoke": "Revogar acesso para esta congregação",
   "tr_congregationAccessRevokeDesc": "Revogar o acesso à lista de oradores da congregação <strong>{{ congregationName }}</strong>? Eles não poderão mais vê-la, mas você poderá compartilhá-la novamente com eles posteriormente se eles fizerem uma nova solicitação.",
   "tr_noGroupsYet": "You don’t have any field service groups created yet. Create a group first to start adding publishers and reordering groups.",
