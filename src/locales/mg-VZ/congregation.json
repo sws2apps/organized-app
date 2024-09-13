@@ -128,7 +128,7 @@
   "tr_userEmailAddress": "Adiresy email",
   "tr_searchUser": "Hikaroka",
   "tr_noUserError": "Tsy misy kaonty hita mifandray amin’io email io",
-  "tr_userFoundSuccess": "Afaka manamboatra ny kaonty ho an’io olona io ianao izao, dia avy eo manome andraikitra azy",
+  "tr_userFoundSuccess": "User found! Set up his user profile and rights",
   "tr_addNewPublisherDesc": "Misafidiana olona iray ao amin’ny lisitra ny olona ao amin’ny fiangonanareo mba hamoronana ny kaody fidirana ho azy.",
   "tr_inviteUserDesc": "Omeo an’ilay olona ilay kaody eo ambany mba hanomezana alalana azy hampiasa Organized. Azo jerena ao amin’ny pejy misy ny mombamomba ny kaontiny koa ity kaody ity.",
   "tr_invitePersonTitle": "Hampiditra: {{ PersonName }}",

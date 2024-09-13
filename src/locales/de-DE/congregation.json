@@ -128,7 +128,7 @@
   "tr_userEmailAddress": "E-Mail des Benutzers",
   "tr_searchUser": "Nutzer suchen",
   "tr_noUserError": "Kein Benutzer mit dieser E-Mail-Adresse gefunden",
-  "tr_userFoundSuccess": "Benutzer gefunden! Benutzer erstellen und sein Profil und seine Rechte einrichten",
+  "tr_userFoundSuccess": "User found! Set up his user profile and rights",
   "tr_addNewPublisherDesc": "Select a member from your congregation’s Persons list to generate and share their unique invitation code.",
   "tr_inviteUserDesc": "Provide this personal invitation code to grant the user access to your congregation on Organized. It’s also available on their user page.",
   "tr_invitePersonTitle": "Einladen: {{ PersonName }}",

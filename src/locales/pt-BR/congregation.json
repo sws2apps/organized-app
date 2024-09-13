@@ -128,7 +128,7 @@
   "tr_userEmailAddress": "Email do usuário",
   "tr_searchUser": "Procurar usuário",
   "tr_noUserError": "Nenhum usuário encontrado com este endereço de email",
-  "tr_userFoundSuccess": "Usuário encontrado! Configure seu perfil e funções",
+  "tr_userFoundSuccess": "User found! Set up his user profile and rights",
   "tr_addNewPublisherDesc": "Selecione um membro da lista de Pessoas da sua congregação para gerar e compartilhar seu código de convite único.",
   "tr_inviteUserDesc": "Forneça este código de convite pessoal para conceder a eles acesso à sua congregação no Organized. Ele também está disponível em sua página de usuário.",
   "tr_invitePersonTitle": "Convidar: {{ PersonName }}",
