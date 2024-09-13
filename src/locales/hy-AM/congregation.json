@@ -128,7 +128,7 @@
   "tr_userEmailAddress": "User’s email address",
   "tr_searchUser": "Search user",
   "tr_noUserError": "No user found with this email address",
-  "tr_userFoundSuccess": "User found! Create user and set up his profile and rights",
+  "tr_userFoundSuccess": "User found! Set up his user profile and rights",
   "tr_addNewPublisherDesc": "Ընտրեք որևէ անդամի ձեր ժողովի Անհատների ցանկից, որպեսզի գեներացնեք և կիսվեք իրենց ունիկալ հրավերի կոդով։",
   "tr_inviteUserDesc": "Provide this personal invitation code to grant the user access to your congregation on Organized. It’s also available on their user page.",
   "tr_invitePersonTitle": "Invite: {{ PersonName }}",
