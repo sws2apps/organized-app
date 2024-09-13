@@ -36,7 +36,7 @@
   "tr_assemblyWeek": "Circuit assembly",
   "tr_internationalConventionWeek": "International convention",
   "tr_specialCampaignWeek": "Special campaign",
-  "tr_theocraticTrainingWeek": "Theocratic training",
+  "tr_theocraticTrainingWeek": "Теократическое обучение",
   "tr_hallMaintenanceTrainingWeek": "Hall maintenance training",
   "tr_bethelTour": "Bethel tour",
   "tr_congregationTrip": "Congregation trip",
@@ -75,7 +75,6 @@
   "tr_discussion": "Обсуждение",
   "tr_demonstration": "Диалог",
   "tr_partNo": "Задание №:",
-  "tr_assistant": "Assistant",
   "tr_chairman": "Председатель",
   "tr_prayer": "Молитва",
   "tr_partDuration": "({{ time }} min.)",
@@ -89,5 +88,6 @@
   "tr_S21HoursComment": "(If pioneer or field missionary)",
   "tr_remarks": "Remarks",
   "tr_approvedAssignments": "Approved assignments",
-  "tr_credit": "Credit"
+  "tr_credit": "Credit",
+  "tr_assistantS89": "Помощник"
 }
