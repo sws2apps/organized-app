@@ -377,7 +377,7 @@
   "tr_congregationRequestRejected": "Твій запит був відхилений",
   "tr_congregationRequestRejectedDesc": "The <strong>{{ congregationNameAndNumber }}</strong> congregation rejected your request to view their outgoing speakers list. If necessary, you can contact them personally.",
   "tr_congregationAccessRevoke": "Скасувати доступ для цього збору",
-  "tr_congregationAccessRevokeDesc": "Скасувати доступ до твого списку промовців для збору <strong>{{ congregationName }}</strong>? Вони більше не зможуть його бачити, але ти можеш знову поділитися ним пізніше, якщо вони зроблять новий запит.",
+  "tr_congregationAccessRevokeDesc": "Скасувати доступ до твого списку промовців для збору <strong>{{ congregationName }}</strong>? Вони більше не зможуть його бачити, але ти все ще зможеш поділитися ним пізніше після нового запиту.",
   "tr_noGroupsYet": "Ти ще не створив жодної групи для служіння. Спершу створи групу, щоб додати вісників і впорядкувати групи.",
   "tr_coordinator": "Координатор",
   "tr_secretary": "Секретар",
