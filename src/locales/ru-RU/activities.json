@@ -2,7 +2,7 @@
   "tr_addNewDate": "Добавить новую дату",
   "tr_deepCleaning": "Генаральная уборка",
   "tr_noCleaningSchedulesYet": "У тебя пока нет созданных расписаний уборки. Добавьте новый месяц, чтобы начать создание твоего первого расписания.",
-  "tr_addMonthDesc": "First, choose the months you want to schedule. Then, create a plan for each specific meeting date.",
+  "tr_addMonthDesc": "Сначала выбери месяцы, которые хочешь спланировать. Затем создай расписание для каждой конкретной даты встречи.",
   "tr_responsiblePerson": "Ответственное лицо",
   "tr_deleteDate": "Удалить дату",
   "tr_deleteDateDecs": "Это действие нельзя отменить, но ты можешь добавить новую неделю в любое время.",
