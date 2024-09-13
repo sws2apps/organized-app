@@ -434,5 +434,6 @@
   "tr_S10ReportWithYear": "Congregation analysis report: {{ year }}",
   "tr_groupNotAssigned": "グループが割り当てられていません",
   "tr_publisherLastReport": "Last report on {{ month }}",
-  "tr_myGroup": "私のグループ"
+  "tr_myGroup": "私のグループ",
+  "tr_publishers": "伝道者"
 }
