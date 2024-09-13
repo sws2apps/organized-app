@@ -128,7 +128,7 @@
   "tr_userEmailAddress": "User’s email address",
   "tr_searchUser": "Search user",
   "tr_noUserError": "No user found with this email address",
-  "tr_userFoundSuccess": "Tìm thấy người dùng! Tạo người dùng và thiết lập hồ sơ và quyền của anh",
+  "tr_userFoundSuccess": "User found! Set up his user profile and rights",
   "tr_addNewPublisherDesc": "Chọn một thành viên từ danh sách Người trong hội thánh của anh/chị để tạo và chia sẻ mã mời cá nhân của họ.",
   "tr_inviteUserDesc": "Cung cấp mã mời cá nhân này để cấp quyền truy cập cho họ vào hội thánh của anh/chị trên Organized. Nó cũng có sẵn trên trang người dùng của họ.",
   "tr_invitePersonTitle": "Mời: {{ PersonName }}",
