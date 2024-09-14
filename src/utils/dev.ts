@@ -731,11 +731,27 @@ export const importDummyPersons = async (showLoading?: boolean) => {
         }
 
         if (maleStatus === 'elderWTConductor') {
-          person.person_data.assignments.push({
-            code: AssignmentCode.WM_WTStudyConductor,
-            updatedAt: new Date().toISOString(),
+          person.person_data.enrollments.push({
+            id: crypto.randomUUID(),
             _deleted: false,
+            updatedAt: new Date().toISOString(),
+            enrollment: 'FR',
+            start_date: startDateTemp,
+            end_date: null,
           });
+
+          person.person_data.assignments.push(
+            {
+              code: AssignmentCode.WM_WTStudyConductor,
+              updatedAt: new Date().toISOString(),
+              _deleted: false,
+            },
+            {
+              code: AssignmentCode.MINISTRY_HOURS_CREDIT,
+              _deleted: false,
+              updatedAt: new Date().toISOString(),
+            }
+          );
         }
 
         if (maleStatus === 'FR') {
