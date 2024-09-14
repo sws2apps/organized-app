@@ -115,7 +115,7 @@
   "tr_specialMonthsDesc": "Liste der Monate, in denen Hilfspioniere 15 Stunden dienen können",
   "tr_reportHoursCredit": "Kreditstunden berichten",
   "tr_averageMonthlyHourss": "Durchschnittlich monatlich",
-  "tr_bibleStudiesNotice": "Report one study per student each month",
+  "tr_bibleStudiesNotice": "Berichte jeden Monat einem Studium pro Schüler",
   "tr_presets": "Voreinstellungen",
   "tr_hoursCreditPresetAddedInfo": "The chosen credit hours preset will appear in the monthly report's comment field. Edit it there if needed.",
   "tr_lateReportSent": "An Bethel gesendet: {{ date }}",
