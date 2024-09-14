@@ -206,7 +206,7 @@
   "tr_deleteServiceGroupDesc": "Om du tar bort denna grupp, måste du manuellt lägga till dessa förkunnare igen. Är du säker på att du vill fortsätta?",
   "tr_deleteServiceGroupTitle": "Delete Group {{ GroupNumber }}",
   "tr_createNewGroupTitle": "Create new group",
-  "tr_createNewGroupDesc": "The group number is defined by its order in the list. Optionally, give the group a name if your congregation uses one, for example, a location-based name. Select a group overseer and his assistant. ",
+  "tr_createNewGroupDesc": "The group number is defined by its order in the list. Optionally, give the group a name if your congregation uses one, for example, a location-based name. Select a group overseer and his assistant.",
   "tr_createNewGroupLastStep": "Finally, add publishers to the group. You can edit all these details later if needed.",
   "tr_groupOverseer": "Group overseer",
   "tr_groupOverseerAssistant": "Medhjälpare",
