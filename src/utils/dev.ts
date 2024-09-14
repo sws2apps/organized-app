@@ -6,7 +6,11 @@ import {
   FieldServiceGroupMemberType,
   FieldServiceGroupType,
 } from '@definition/field_service_groups';
-import { generateDisplayName, getRandomArrayItem } from './common';
+import {
+  generateDisplayName,
+  getRandomArrayItem,
+  getRandomNumber,
+} from './common';
 import { personIsElder, personIsMS } from '@services/app/persons';
 import PERSON_MOCK from '@constants/person_mock';
 import appDb from '@db/appDb';
@@ -786,6 +790,13 @@ export const dbFieldGroupAutoAssign = async () => {
   const groups: FieldServiceGroupType[] = [];
   const persons = await appDb.persons.toArray();
 
+  const publishers = persons.filter((person) => {
+    const isBaptized = person.person_data.publisher_baptized.active.value;
+    const isUnbaptized = person.person_data.publisher_unbaptized.active.value;
+
+    return isBaptized || isUnbaptized;
+  });
+
   // assign overseers and assistants first
   for (let i = 1; i <= 5; i++) {
     const assigned_members = groups.reduce(
@@ -799,8 +810,8 @@ export const dbFieldGroupAutoAssign = async () => {
 
     const members: FieldServiceGroupMemberType[] = [];
 
-    const elders = persons.filter((person) => personIsElder(person));
-    const ms = persons.filter((person) => personIsMS(person));
+    const elders = publishers.filter((person) => personIsElder(person));
+    const ms = publishers.filter((person) => personIsMS(person));
 
     // assign overseer
     let assigned: FieldServiceGroupMemberType;
@@ -857,6 +868,7 @@ export const dbFieldGroupAutoAssign = async () => {
   }
 
   // assign group members
+  let i = 1;
   for (const group of groups) {
     const assigned_members = groups.reduce(
       (acc: FieldServiceGroupMemberType[], current) => {
@@ -868,9 +880,14 @@ export const dbFieldGroupAutoAssign = async () => {
     );
 
     const members = group.group_data.members;
+    const length =
+      i < 5
+        ? getRandomNumber(16, 20)
+        : publishers.length - assigned_members.length + 2;
 
     do {
-      const person = getRandomArrayItem(persons);
+      const person = getRandomArrayItem(publishers);
+
       const find = assigned_members.some(
         (record) => record.person_uid === person.person_uid
       );
@@ -886,7 +903,9 @@ export const dbFieldGroupAutoAssign = async () => {
         members.push(assigned);
         assigned_members.push(assigned);
       }
-    } while (members.length < 20);
+    } while (members.length < length);
+
+    i++;
   }
 
   await appDb.field_service_groups.bulkPut(groups);
