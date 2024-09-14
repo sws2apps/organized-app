@@ -100,7 +100,7 @@
   "tr_setCongregationMasterKey": "Set congregation master key",
   "tr_createCongregationMasterKey": "Create congregation master key",
   "tr_congregationAccessCodeAsk": "Enter congregation access code",
-  "tr_congregationAccessCode": "Congregation access code",
+  "tr_congregationAccessCode": "Versammlungszugangscode",
   "tr_congregationMasterKeyLostDesc": "Enter your congregation’s master key to access it",
   "tr_congregationMasterKeyAsk": "Enter congregation master key",
   "tr_can'tFindCongregation": "Kann deine Versammlung nicht finden?",
