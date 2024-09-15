@@ -60,15 +60,14 @@ const AddEvent = ({
   const { t } = useAppTranslation();
 
   const handleDone = () => {
-    onDone &&
-      onDone(
-        values.map((v) => ({
-          type: v.type,
-          description: v.description,
-          time: v.time ? v.time.toLocaleTimeString() : '',
-          title: v.type === 'tr_custom' ? v.custom : undefined,
-        }))
-      );
+    onDone?.(
+      values.map((v) => ({
+        type: v.type,
+        description: v.description,
+        time: v.time ? v.time.toLocaleTimeString() : '',
+        title: v.type === 'tr_custom' ? v.custom : undefined,
+      }))
+    );
   };
 
   const handleCancel = () => onCancel && onCancel();
@@ -149,11 +148,6 @@ const EventFields = ({
           label={t('tr_date')}
           value={values.date ?? null}
           onChange={(value) => setValues({ ...values, date: value })}
-          sx={{
-            '.MuiFormLabel-root[data-shrink=false]': {
-              top: '-3px !important',
-            },
-          }}
         />
         <TimePicker
           ampm

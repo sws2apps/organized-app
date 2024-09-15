@@ -99,6 +99,7 @@ const useCongregationAccessCode = () => {
         'cong_settings.cong_access_code': tmpAccessCode,
       });
     } catch (err) {
+      console.error(err);
       await displayOnboardingFeedback({
         title: t('tr_errorGeneric'),
         message: t('tr_encryptionCodeInvalid'),

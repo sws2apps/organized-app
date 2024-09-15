@@ -49,7 +49,7 @@ export const AssignmentCheckList = ({
     setCheckedItems(newCheckedItems);
     setCheckedMain(newCheckedState);
 
-    onChange && onChange(newCheckedState);
+    onChange?.(newCheckedState);
   }, [allChecked, checkedMain, children, onChange]);
 
   const onChildCheckboxClick = (index) => {

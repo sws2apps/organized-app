@@ -56,6 +56,7 @@ const useOnline = () => {
         }, 250);
       }
     } catch (err) {
+      console.error(err);
       setIsLoading(false);
     }
 

@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import {
   dbFieldGroupAutoAssign,
+  dbReportsFillRandom,
   dbSettingsAssignMainWTStudyConductor,
   importDummyPersons,
 } from '@utils/dev';
@@ -28,6 +29,7 @@ const useStart = () => {
       await dbVisitingSpeakersDummy();
       await dbSettingsAssignMainWTStudyConductor();
       await dbFieldGroupAutoAssign();
+      await dbReportsFillRandom();
 
       await loadApp();
       await runUpdater();

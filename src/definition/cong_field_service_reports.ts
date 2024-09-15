@@ -8,10 +8,7 @@ export type PersonFixedFilterOption =
   | 'not_submitted'
   | 'appointed';
 
-export type PersonFilterOption =
-  | PersonFixedFilterOption
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  | (string & {});
+export type PersonFilterOption = PersonFixedFilterOption | (string & {});
 
 export type CongFieldServiceReportType = {
   report_id: string;

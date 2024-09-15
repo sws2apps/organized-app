@@ -46,7 +46,7 @@ const SearchBar = ({ placeholder, onSearch, value }: SearchBarProps) => {
 
   const handleClear = () => {
     setValueTmp('');
-    onSearch && onSearch('');
+    onSearch?.('');
   };
 
   useEffect(() => {

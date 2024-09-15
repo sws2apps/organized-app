@@ -54,7 +54,7 @@ const Tabs = ({ tabs, value, onChange }: CustomTabProps) => {
     event.preventDefault();
     setValueOfActivePanel(newValue);
 
-    onChange && onChange(newValue);
+    onChange?.(newValue);
   };
 
   useEffect(() => {

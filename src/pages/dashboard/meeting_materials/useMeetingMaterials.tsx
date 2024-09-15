@@ -46,6 +46,7 @@ const useMeetingMaterials = () => {
         });
       }
     } catch (error) {
+      console.error(error);
       await displaySnackNotification({
         header: t('tr_EPUBImportFailed'),
         message: t('tr_EPUBImportFailedDesc'),

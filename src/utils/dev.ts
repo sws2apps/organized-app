@@ -11,9 +11,18 @@ import {
   getRandomArrayItem,
   getRandomNumber,
 } from './common';
-import { personIsElder, personIsMS } from '@services/app/persons';
+import {
+  personIsBaptizedPublisher,
+  personIsElder,
+  personIsEnrollmentActive,
+  personIsMS,
+  personIsPublisher,
+} from '@services/app/persons';
 import PERSON_MOCK from '@constants/person_mock';
 import appDb from '@db/appDb';
+import { CongFieldServiceReportType } from '@definition/cong_field_service_reports';
+import { createArrayFromMonths, currentReportMonth } from './date';
+import { congFieldServiceReportSchema } from '@services/dexie/schema';
 
 const getRandomDate = (
   start_date = new Date(1970, 0, 1),
@@ -31,13 +40,15 @@ export const importDummyPersons = async (showLoading?: boolean) => {
   const showProgress = showLoading ?? true;
 
   try {
-    showProgress && (await promiseSetRecoil(rootModalOpenState, true));
+    if (showProgress) {
+      await promiseSetRecoil(rootModalOpenState, true);
+    }
 
     await appDb.persons.clear();
 
     const startDateTemp = new Date(
-      new Date().getUTCFullYear(),
-      new Date().getMonth() - 1,
+      new Date().getUTCFullYear() - 1,
+      8,
       1
     ).toISOString();
 
@@ -766,9 +777,9 @@ export const importDummyPersons = async (showLoading?: boolean) => {
 
     await appDb.persons.bulkPut(formattedData);
 
-    showProgress && (await promiseSetRecoil(rootModalOpenState, false));
+    if (showProgress) await promiseSetRecoil(rootModalOpenState, false);
   } catch (err) {
-    showProgress && (await promiseSetRecoil(rootModalOpenState, false));
+    if (showProgress) await promiseSetRecoil(rootModalOpenState, false);
     console.error(err);
   }
 };
@@ -925,4 +936,89 @@ export const dbFieldGroupAutoAssign = async () => {
   }
 
   await appDb.field_service_groups.bulkPut(groups);
+};
+
+export const getPublishersActive = async (month: string) => {
+  const persons = await appDb.persons.toArray();
+
+  const result = persons.filter((record) => {
+    const isPublisher = personIsPublisher(record, month);
+    return isPublisher;
+  });
+
+  return result;
+};
+
+export const dbReportsFillRandom = async () => {
+  await appDb.cong_field_service_reports.clear();
+
+  const year = new Date().getFullYear();
+  const startMonth = `${year - 1}/09`;
+  const endMonth = currentReportMonth();
+
+  const monthRange = createArrayFromMonths(startMonth, endMonth);
+
+  const reportsToSave: CongFieldServiceReportType[] = [];
+
+  for await (const month of monthRange) {
+    const active_publishers = await getPublishersActive(month);
+
+    for (const person of active_publishers) {
+      const report = structuredClone(congFieldServiceReportSchema);
+      report.report_id = crypto.randomUUID();
+      report.report_data.person_uid = person.person_uid;
+      report.report_data.report_date = month;
+
+      const isAP = personIsEnrollmentActive(person, 'AP', month);
+      const isFMF = personIsEnrollmentActive(person, 'FMF', month);
+      const isFR = personIsEnrollmentActive(person, 'FR', month);
+      const isFS = personIsEnrollmentActive(person, 'FS', month);
+      const isBaptized = personIsBaptizedPublisher(person, month);
+
+      if (isFMF || isFS) {
+        report.report_data.hours.field_service = getRandomNumber(100, 115);
+
+        if (isFMF) report.report_data.bible_studies = getRandomNumber(20, 30);
+        if (isFS) report.report_data.bible_studies = getRandomNumber(15, 20);
+      }
+
+      if (isFR) {
+        const reportCredit = person.person_data.assignments.some(
+          (record) =>
+            record._deleted === false &&
+            record.code === AssignmentCode.MINISTRY_HOURS_CREDIT
+        );
+
+        if (reportCredit) {
+          const service = getRandomNumber(20, 40);
+          const credit = 55 - service;
+
+          report.report_data.hours.field_service = service;
+          report.report_data.hours.credit = { approved: credit, value: 0 };
+        }
+
+        if (!reportCredit) {
+          report.report_data.hours.field_service = getRandomNumber(50, 60);
+        }
+
+        report.report_data.bible_studies = getRandomNumber(10, 15);
+      }
+
+      if (isAP) {
+        report.report_data.hours.field_service = getRandomNumber(30, 40);
+        report.report_data.bible_studies = getRandomNumber(5, 10);
+      }
+
+      if (!isFMF && !isFS && !isFR && !isAP && isBaptized) {
+        report.report_data.bible_studies = getRandomNumber(1, 5);
+      }
+
+      report.report_data.shared_ministry = true;
+      report.report_data.status = 'confirmed';
+      report.report_data.updatedAt = new Date().toISOString();
+      reportsToSave.push(report);
+    }
+  }
+
+  await appDb.cong_field_service_reports.bulkPut(reportsToSave);
 };
