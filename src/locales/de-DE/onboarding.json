@@ -86,7 +86,7 @@
   "tr_tryOrganized": "Schau dir die Organized-App im Testmodus an",
   "tr_testStart": "Starte den Test",
   "tr_testAppWelcome": "Willkommen im Organized Testmodus!",
-  "tr_testAppWelcomeDesc": "<p>This is a test environment with pre-filled data for an imaginary congregation. Explore features such as schedules, assignments, ministry, reports, and more! Any changes you make will reset after the app reload.</p><p>To start using the real Organized app, open <a href='https://organized-app.com' target='_blank'>organized-app.com</a> in your browser.</p>",
+  "tr_testAppWelcomeDesc": "<p>Dies ist eine Testumgebung mit vorab ausgefüllten Daten für eine imaginäre, nicht existierende Versammlung. Erkunde Funktionen wie Programme, Aufgaben, Dienst, Berichte und mehr! Alle Änderungen, die du vornimmst, werden nach dem Neuladen der App zurückgesetzt.</p><p>Um die echte Organized-App zu verwenden, öffne <a href='https://organized-app.com' target='_blank'>organized-app.com</a> in deinem Browser.</p>",
   "tr_congregationExists": "This congregation already exists in Organized. Contact your congregation administrator to give you the necessary roles.",
   "tr_congregationMasterKeyVerify": "Verify congregation master key",
   "tr_encryptionCodeNoticeMatch": "Schlüssel übereinstimmen",
