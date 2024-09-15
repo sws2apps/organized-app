@@ -7,7 +7,7 @@
   "tr_appPWADesc": "<p>Als Progressive Web Application (PWA) funktioniert Organized direkt in deinem Webbrowser. Sie ist darauf ausgelegt, über verschiedene Betriebssysteme hinweg zu arbeiten und unterstützt sowohl Desktop- als auch Mobilgeräte.</p><p>Nach der Installation auf deinem Gerät und dem Abschluss der anfänglichen Einrichtung bleibt Organized offline zugänglich. Dadurch kannst du die Hauptfunktionen auch ohne Internetverbindung nutzen.</p>",
   "tr_appSecure": "Wie sicher sind deine Daten bei der Nutzung von Organized?",
   "tr_appSecureDesc": "<p>Wir haben zusätzliche Sicherheitsebenen hinzugefügt, um deine Daten zu schützen. In der sich schnell verändernden Technologiewelt von heute aktualisieren wir Organized regelmäßig, um es vollständig sicher zu halten.</p><p>Auch wenn Organized eine Web-App ist, werden deine Daten zunächst direkt auf deinem Gerät gespeichert. Das bedeutet, dass du darauf zugreifen kannst, auch wenn du offline bist. Wenn du Informationen mit anderen in deiner Versammlung teilst, werden sie sicher über die Cloud-Server synchronisiert. Außerdem sorgen wir dafür, dass alle privaten Daten durch starke Sicherheitsmaßnahmen geschützt sind, wie zum Beispiel doppelte Verschlüsselung auf unseren Servern.</p>",
-  "tr_clearBrowserData": "<p>Please note that when you clear your browser history or cookies, you’re also deleting unsynchronized Organized data. Before doing this, ensure that your recently created data has been synced.</p>",
+  "tr_clearBrowserData": "<p>Bitte beachte, dass beim Löschen deines Browserverlaufs oder der Cookies auch nicht synchronisierte Organized-Daten gelöscht werden. Stelle vor dem Löschen sicher, dass deine kürzlich erstellten Daten synchronisiert wurden.</p>",
   "tr_appPrivacy": "Wie gut kümmert sich Organized um deine Privatsphäre?",
   "tr_appPrivacyDesc": "<p>Wenn du dich entscheidest, unsere Organized-App zu nutzen, erheben wir nur wesentliche Informationen wie deinen Namen und deine E-Mail-Adresse. Zusätzlich erfassen wir die IP-Adresse deines Geräts und die Details des User Agents, um dein Erlebnis mit unserer App zu verbessern.</p><p>Sei versichert, dass wir deine Privatsphäre priorisieren. Wir erlauben niemals Werbeunternehmen, dich über unsere Dienste zu verfolgen oder deine Daten für gezielte Werbung zu verwenden. Alle Informationen, die du in der Organized-App bereitstellst, bleiben streng vertraulich und werden niemals an Dritte weitergegeben.</p>",
   "tr_readComplete": "Ich habe das oben Gesagte gelesen und stimme mit dem zu",
@@ -76,9 +76,9 @@
   "tr_2FAIncorrect": "Falscher 2FA-Code",
   "tr_2FAIncorrectDesc": "The code might be incorrect or expired. Try again.",
   "tr_unauthorizedAccount": "Your access permissions need to be adjusted",
-  "tr_unauthorizedAccountDesc": "Contact your congregation app administrator to confirm your role, then try again in 5 minutes. For any further assistance, elders can contact us via email.",
+  "tr_unauthorizedAccountDesc": "Kontaktiere deinen Versammlungs-App-Administrator, um deine Rolle zu bestätigen, und versuche es dann in 5 Minuten erneut. Für weitere Unterstützung können Älteste uns per E-Mail kontaktieren.",
   "tr_noSchedulesYet": "Es wurden noch keine Pläne veröffentlicht",
-  "tr_noSchedulesYetDesc": "The meeting schedules aren’t available yet. Please ask your congregation elders to not only create but also publish them in the app.",
+  "tr_noSchedulesYetDesc": "Die Zusammenkunftsprogramme sind noch nicht verfügbar. Bitte fordere die Ältesten deiner Versammlung auf, sie nicht nur zu erstellen, sondern auch in der App zu veröffentlichen.",
   "tr_reconnectAccount": "Reconnect my account",
   "tr_registeringApproved": "The body of elders has approved registering this congregation in Organized",
   "tr_testAppMode": "Organized test mode",
@@ -96,7 +96,7 @@
   "tr_congregationAccessCodeSet": "Zugangscode setzen",
   "tr_congregationAccessCodeVerify": "Verify congregation access code",
   "tr_congregationAccessCodeNotice": "Please note and safeguard this code. Every user accessing your congregation need it to use the Organized app.",
-  "tr_congregationAccessCodeLostDesc": "Please enter the access code to your congregation. This unique code is specific to your congregation and is necessary to connect and access it.",
+  "tr_congregationAccessCodeLostDesc": "Bitte gib den Zugriffscode für deine Versammlung ein. Dieser einzigartige Code ist spezifisch für deine Versammlung und notwendig, um dich zu verbinden und darauf zuzugreifen.",
   "tr_setCongregationMasterKey": "Set congregation master key",
   "tr_createCongregationMasterKey": "Create congregation master key",
   "tr_congregationAccessCodeAsk": "Enter congregation access code",
@@ -104,5 +104,5 @@
   "tr_congregationMasterKeyLostDesc": "Enter your congregation’s master key to access it",
   "tr_congregationMasterKeyAsk": "Enter congregation master key",
   "tr_can'tFindCongregation": "Kann deine Versammlung nicht finden?",
-  "tr_cantFindCongregationDesc": "Check for mistakes (minimum input is 2 characters). If your congregation isn’t listed on the jw.org search page, contact <a href=\"mailto:support@organized-app.com\">support@organized-app.com</a> for help."
+  "tr_cantFindCongregationDesc": "Überprüfe auf Fehler (minimale Eingabe sind 2 Zeichen). Falls deine Versammlung auf der jw.org-Suchseite nicht aufgeführt ist, kontaktiere <a href=\"mailto:support@organized-app.com\">support@organized-app.com</a> für Hilfe."
 }
