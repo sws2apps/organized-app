@@ -66,7 +66,7 @@
   "tr_autofillWM": "Zusammenkunft am Wochenende ausfüllenautoausfüllen",
   "tr_autofillDesc": "Wähle aus, welche Zeitpläne du mit qualifizierten Teilnehmern automatisch ausfüllen möchtest.",
   "tr_exportWM": "Zusammenkunft am Wochenende exportieren",
-  "tr_exportWMDesc": "Select which schedules to export.",
+  "tr_exportWMDesc": "Wähle aus, welche Programme exportiert werden sollen.",
   "tr_autofillCompleted": "Autoausfüllen abgeschlossen",
   "tr_autofillCompletedDesc": "Weekend assignments added to the selected weeks",
   "tr_newWeekAddedDesc": "You can find it in the meeting weeks list",
@@ -80,7 +80,7 @@
   "tr_JWImport": "Materialien von jw.org importieren",
   "tr_JWImportDesc": "Downloading meeting materials, please wait",
   "tr_successfullyImported": "Erfolgreich importiert",
-  "tr_successfullyImportedDesc": "New materials now available on related scheduling pages",
+  "tr_successfullyImportedDesc": "Neue Materialien jetzt auf den entsprechenden Planungsseiten verfügbar",
   "tr_EPUBImportFailed": "Die ausgewählte .epub-Datei konnte nicht importiert werden",
   "tr_EPUBImportFailedDesc": "Stelle sicher, dass die Sprache deiner App der Sprache der .epub-Datei entspricht und versuche es erneut.",
   "tr_EPUBImport": "Materialien aus der .epub-Datei importieren",
@@ -127,7 +127,7 @@
   "tr_reader": "Leser",
   "tr_conductor": "Leiter",
   "tr_serviceTalk": "Dienstvortrag",
-  "tr_chairmanWeekendMeetingHistory": "Weekend meeting chairman",
+  "tr_chairmanWeekendMeetingHistory": "Vorsitzender der Zusammenkunft am Wochenende",
   "tr_studyArticle": "Studienartikel",
   "tr_firstSpeaker": "1. Redner",
   "tr_secondSpeaker": "2. Redner",
@@ -136,7 +136,7 @@
   "tr_speakersCatalog": "Vortragsredner Katalog",
   "tr_speakersCatalogLocalDesc": "Basierend auf deiner Auswahl siehst du Gastredner aus anderen Versammlungen. Um einen anderen Redner, der nicht im Katalog ist, zuzuweisen, schließe einfach dieses Fenster und wähle ihn im Rednerfeld aus.",
   "tr_speakersCatalogVisitingDesc": "Basierend auf deiner Auswahl siehst du die auswärtigen Redner deiner Versammlung. Um einen anderen lokalen Bruder, der nicht im Katalog ist, zuzuweisen, schließe einfach dieses Fenster und wähle ihn im Rednerfeld aus.",
-  "tr_clearMultipleAssignments": "Clear multiple meeting assignments",
+  "tr_clearMultipleAssignments": "Mehrere Versammlungsaufgaben löschen",
   "tr_outgoingTalk": "Auswärtiger Vortrag",
   "tr_outgoingTalkSynced": "Dieser auswärtige Vortrag wurde mit dem Zeitplan der Versammlung <strong>{{ congregation }}</strong> synchronisiert. Bitte kontaktiere deren öffentlichen Vortrags Koordinator für Korrekturen oder Aktualisierungen.",
   "tr_clearOutgoingTalkDesc": "Bist du sicher, dass du alle Aufgaben und Versammlungsdetails für diesen auswärtigen Vortrag löschen möchtest? Du kannst sie später jederzeit ausfüllen.",
@@ -145,5 +145,5 @@
   "tr_deliveredBy": "Hält: {{ name }}",
   "tr_toCurrentWeek": "Zur aktuellen Woche",
   "tr_recordAttendance": "Attendance records",
-  "tr_assignmentPreferences": "Assignment preferences"
+  "tr_assignmentPreferences": "Aufgabenpräferenzen"
 }
