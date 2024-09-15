@@ -73,7 +73,7 @@
   "tr_manageAccessFullTitle": "Gestionar el acceso a Organized",
   "tr_addUser": "Añadir usuario",
   "tr_congregationPersons": "Personas de la congregación",
-  "tr_congregationPersonsDesc": "Bind user profiles with their Organized user records, edit their rights, view the personal invitation code or delegate people by clicking on the profile of a participant.",
+  "tr_congregationPersonsDesc": "Bind user profiles with their Organized person records, edit their rights, view the personal invitation code or delegate people by clicking on the profile of a participant.",
   "tr_baptizedAndAppointed": "Hermanos bautizados y nombrados",
   "tr_baptizedAndAppointedDesc": "El rol de administrador debe otorgarse solo a los ancianos o hermanos que hayan sido autorizados por los ancianos.",
   "tr_appAdministrators": "Administradores de la aplicación",
