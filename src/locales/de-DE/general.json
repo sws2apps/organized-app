@@ -101,7 +101,7 @@
   "tr_longDateWithYearLocale": "{{ date }} {{ month }}, {{ year }}",
   "tr_edit": "Bearbeiten",
   "tr_noPersonsFound": "Keine Personen gefunden",
-  "tr_noPersonsFoundDesc": "Keine Personen stimmen mit Ihren Suchparametern überein. Bitte wählen Sie die Kategorie oder das Datum aus.",
+  "tr_noPersonsFoundDesc": "Keine Personen stimmen mit deinen Suchparametern überein. Bitte wähle die Kategorie oder das Datum aus.",
   "tr_categories": "Kategorien",
   "tr_description": "Beschreibung",
   "tr_day": "Tag",
