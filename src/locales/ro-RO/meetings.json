@@ -4,7 +4,7 @@
   "tr_hallWithName": "Hall {{ name }}",
   "tr_yourUserRecordOfTheList": "To find your name in the list, make sure your person record exists on the <a href='#'>All persons page</a>.",
   "tr_yourPersonRecord": "Your person record",
-  "tr_export": "Export",
+  "tr_export": "Exportă",
   "tr_autofill": "Autofill",
   "tr_infoPlanMidweekMeeting": "Select a week to start adding assignments and editing the program parts if needed. You can also use the Autofill feature and Organized will fill in assignments based on user qualifications.",
   "tr_infoSecondPlanMidweekMeeting": "Select a week to schedule it manually, or allow Organized to auto-generate assignments with the Autofill feature, considering person’s qualifications and past assignments. You can modify them as needed.",

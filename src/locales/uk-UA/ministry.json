@@ -22,7 +22,7 @@
   "tr_btnSubmitReport": "Надіслати звіт",
   "tr_badgeGoalHours": "з {{ ministryTime }} год",
   "tr_btnAddCreditHours": "Додати кредит годин",
-  "tr_extraTime": "You have extra minutes: {{ ministryTime }}",
+  "tr_extraTime": "У тебе залишилися додаткові хвилини: {{ ministryTime }}",
   "tr_extraTimeDesc": "Ти хочеш перенести цей раз на наступний місяць?",
   "tr_btnTransfer": "Перенести",
   "tr_btnNoKeepIt": "Ні, залишити",

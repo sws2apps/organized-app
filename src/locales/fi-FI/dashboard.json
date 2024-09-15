@@ -17,7 +17,7 @@
   "tr_lastSyncAppDataRecently": "Last synced recently",
   "tr_lastSyncAppData": "Synced {{ duration }} min ago",
   "tr_greeting": "Hello, {{ firstName }}",
-  "tr_timerLabelTime": "Timp",
+  "tr_timerLabelTime": "Time",
   "tr_timerLabelStart": "Start",
   "tr_timerLabelPause": "Pause",
   "tr_timerLabelStop": "Stop",
