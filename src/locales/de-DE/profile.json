@@ -15,10 +15,10 @@
   "tr_reportReminder": "Predigtdienstbericht Erinnerung",
   "tr_reportReminderDesc": "Receive reminders on the last day of each month, and if you forget, you’ll get another reminder in a few days",
   "tr_collabActivities": "Neue gemeinsame Aktivitäten",
-  "tr_collabActivitiesDesc": "Get notifications about activities where assistance is needed, e.g. garden work or preparing the hall for school or circuit assembly",
+  "tr_collabActivitiesDesc": "Erhalte Benachrichtigungen über Aktivitäten, bei denen Hilfe benötigt wird, z.B. Gartenarbeit oder Vorbereitung der Halle für die Schule oder den Kreiskongress",
   "tr_myAssignmentsDesc": "Erhalte sofortige Benachrichtigungen über alle deine neuen Aufgaben",
   "tr_infoBoardAnnouncements": "New information board announcements",
-  "tr_infoBoardAnnouncementsDesc": "If turned off, you won’t receive notifications for new announcements, unless elders choose to notify the entire congregation about something important",
+  "tr_infoBoardAnnouncementsDesc": "Wenn diese Funktion deaktiviert ist, erhältst du keine Benachrichtigungen für neue Ankündigungen, es sei denn, Älteste entscheiden sich, die gesamte Versammlung über etwas Wichtiges zu informieren",
   "tr_partnerSearch": "Publisher seeking a service partner",
   "tr_partnerSearchDesc": "Get a notification as soon as somebody publishes a partner request",
   "tr_organizedSettings": "Organized Einstellungen",
@@ -75,6 +75,6 @@
   "tr_2FASetupKey": "Setup-Schlüssel",
   "tr_2FASetupKeyDesc": "Kopiere den Setup-Schlüssel und füge ihn in deine Authentifizierungs-App ein, um die Zwei-Faktor-Authentifizierung einzurichten.",
   "tr_2FAStep2": "Schritt 2: Gib den 2FA-Code ein",
-  "tr_timeAwayDesc": "No time away added yet. Keep your time away up-to-date so that the brothers can take it into account when scheduling future meetings.",
+  "tr_timeAwayDesc": "Noch keine Abwesenheiten hinzugefügt. Halte deine Abwesenheiten aktuell, damit die Brüder sie bei der Planung zukünftiger Zusammenkünfte berücksichtigen können.",
   "tr_terminatedDesc": "Die Sitzung auf diesem Gerät ist beendet"
 }
