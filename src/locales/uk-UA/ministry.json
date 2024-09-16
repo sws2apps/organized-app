@@ -124,10 +124,10 @@
   "tr_quickAssignAP": "Допоміжний піонера призначений",
   "tr_quickAssignAPDesc": "Цей вісник призначений допоміжним піонером цього місяця. Ти можеш змінити це у вікні види служіння вісника на сторінці \"Особи\".",
   "tr_reactivatePublisher": "Ре-активувати цього вісника",
-  "tr_S21CardTitle": "Export multiple publisher records (S-21)",
+  "tr_S21CardTitle": "Експорт кількох записів вісників (S-21)",
   "tr_S21CardTitleDesc": "Select ‘All records’ to export and sort all records for publishers, full-time, and auxiliary servants, or ‘Specific records’ to export records only for selected publishers.",
-  "tr_allPublisherRecords": "All publisher records",
-  "tr_specificPublisherRecords": "Specific publisher records",
+  "tr_allPublisherRecords": "Всі вісники",
+  "tr_specificPublisherRecords": "Конкретні вісники",
   "tr_S21ExportMultipleDesc": "Select the publishers you want to include in the exported records. Each publisher will have a separate file.",
-  "tr_activePublishersAll": "All other publishers"
+  "tr_activePublishersAll": "Всі інші вісники"
 }
