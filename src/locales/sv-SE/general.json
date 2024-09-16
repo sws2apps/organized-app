@@ -39,7 +39,7 @@
   "tr_october": "Oktober",
   "tr_november": "November",
   "tr_december": "December",
-  "tr_longDateFormat": "EEE, MMM dd, yyyy",
+  "tr_longDateFormat": "DDD, MMM dd, åååå",
   "tr_delete": "Radera",
   "tr_add": "Lägg till",
   "tr_pickerSelectTime": "Välj tid",
@@ -123,5 +123,5 @@
   "tr_decemberShort": "Dec",
   "tr_published": "Publicerad",
   "tr_longDateWithYearAndDayLocale": "{{ day }}, {{ date }} {{ month }}, {{ year }}",
-  "tr_selectAll": "Select all"
+  "tr_selectAll": "Välj alla"
 }
