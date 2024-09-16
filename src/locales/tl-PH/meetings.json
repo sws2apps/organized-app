@@ -78,7 +78,7 @@
   "tr_infoOutgoingTalk": "Mga kapatid na pupunta sa ibang kongregasyon upang magbigay ng pahayag pangmadla",
   "tr_speakersWithCount": "Mga speaker: {{ speakersCount }}",
   "tr_JWImport": "Pag-import ng materials mula sa jw.org",
-  "tr_JWImportDesc": "Nagda-download ng matrials sa pagpupulong, pakisuyong maghintay",
+  "tr_JWImportDesc": "Nagda-download ng materials sa pagpupulong, pakisuyong maghintay",
   "tr_successfullyImported": "Nakapag-import na",
   "tr_successfullyImportedDesc": "Available na ang materials para makapag-schedule",
   "tr_EPUBImportFailed": "Hindi maaaring i-import ang napiling .epub",

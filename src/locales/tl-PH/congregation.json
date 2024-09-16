@@ -375,7 +375,7 @@
   "tr_incomingCongregationOnlinePending": "Hindi pa naaprubahan ng kongregasyong ito ang request para sa listahan ng kanilang mga lumalabas na speaker. Kung maaari, kontakin sila.",
   "tr_incomingCongregationOnlineDisapproved": "Tinanggihan ng kongregasyong ito ang iyong request para sa listahan ng kanilang mga lumalabas na speaker. Kung maaari, maaari mo silang kontakin.",
   "tr_congregationRequestRejected": "Na-reject ang iyong request",
-  "tr_congregationRequestRejectedDesc": "The <strong>{{ congregationNameAndNumber }}</strong> congregation rejected your request to view their outgoing speakers list. If necessary, you can contact them personally.",
+  "tr_congregationRequestRejectedDesc": "Tumanggi ang <strong>{{ congregationNameAndNumber }}</strong> congregation sa iyong request na makita ang listahan ng mga lumalabas na speaker. Maaari mo silang kontakin hinggil dito.",
   "tr_congregationAccessRevoke": "Alisin ang access sa kongregasyon",
   "tr_congregationAccessRevokeDesc": "Alisin ang access sa listahan ng mga speaker sa <strong>{{ congregationName }}</strong> congregation? Hindi na nila ito makikita, pero makikita ulit ito kapag nag-request silang muli.",
   "tr_noGroupsYet": "Wala pang nagagawang mga field service group. Gumawa muna upang makapaglagay ng mga publisher at maiayos ang mga ito.",
@@ -435,5 +435,5 @@
   "tr_groupNotAssigned": "Wala pang grupo",
   "tr_publisherLastReport": "Huling ulat sa {{ month }}",
   "tr_myGroup": "My group",
-  "tr_publishers": "Mga publisher"
+  "tr_publishers": "Publishers"
 }

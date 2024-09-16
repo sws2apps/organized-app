@@ -1,11 +1,11 @@
 {
   "tr_addNewDate": "Hanampy daty vaovao",
-  "tr_deepCleaning": "Fanadiovana faobe",
-  "tr_noCleaningSchedulesYet": "Tsy mbola misy fandaharam-panadiovana izao. Mampidira volana vaovao raha te hanamboatra fandaharana.",
-  "tr_addMonthDesc": "Safidio aloha ny volana tianao hanamboarana fandaharana. Amboary avy eo ny fandaharana ho an’ny daty tokony hanaovana an’izany.",
-  "tr_responsiblePerson": "Mpiandraikitra",
+  "tr_deepCleaning": "Fanadiova faobe",
+  "tr_noCleaningSchedulesYet": "Mbo tsy misy fandahara fanadiova henanizao. Mampilira vola na mois vaovao laha ta hanamboatsy fandahara.",
+  "tr_addMonthDesc": "Filio aloha ty vola mois teanao hanamboara fandahara. Amboaro bakeo ty fandahara amy daty tokony hanaova ani-zay.",
+  "tr_responsiblePerson": "Mpiandraikitsy",
   "tr_deleteDate": "Hamafa daty",
-  "tr_deleteDateDecs": "Tsy azo averina intsony ity, fa mbola afaka manamboatra daty vaovao foana ianao avy eo.",
-  "tr_deleteMonth": "Hamafa volana",
-  "tr_deleteMonthDesc": "Tsy azo averina intsony ity, fa mbola afaka manamboatra volana vaovao foana ianao avy eo."
+  "tr_deleteDateDecs": "Tsy azo ampoly sasy toy, fa mbo afaka manamboatsy daty vaovao avao iha bakeo.",
+  "tr_deleteMonth": "Hamafa vola na mois",
+  "tr_deleteMonthDesc": "Tsy azo ampoly sasy toy, fa mbo afaky manamboatsy daty vaovao avao iha bakeo."
 }
