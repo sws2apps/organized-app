@@ -90,7 +90,7 @@ export type UserLoginResponseType = {
   lastname: { value: string; updatedAt: string };
   mfa: 'not_enabled' | 'enabled';
   cong_name: string;
-  cong_role: string[];
+  cong_role: AppRoleType[];
 };
 
 export type User2FAResponseType = {

@@ -1,4 +1,3 @@
-/* eslint-disable react-refresh/only-export-components */
 import { Document, Font, Page, View } from '@react-pdf/renderer';
 import { useAppTranslation } from '@hooks/index';
 import { S140Type } from '../shared/index.types';
@@ -25,7 +24,12 @@ Font.register({
   fonts: [{ src: FontRegular }, { src: FontBold }],
 });
 
-const S140 = ({ data, class_count, cong_name, cong_number }: S140Type) => {
+const ScheduleS140 = ({
+  data,
+  class_count,
+  cong_name,
+  cong_number,
+}: S140Type) => {
   const { t } = useAppTranslation();
 
   const minLabel = t('tr_minLabel');
@@ -292,4 +296,4 @@ const S140 = ({ data, class_count, cong_name, cong_number }: S140Type) => {
   );
 };
 
-export default S140;
+export default ScheduleS140;

@@ -23,6 +23,7 @@ import appDb from '@db/appDb';
 import { CongFieldServiceReportType } from '@definition/cong_field_service_reports';
 import { createArrayFromMonths, currentReportMonth } from './date';
 import { congFieldServiceReportSchema } from '@services/dexie/schema';
+import { MeetingAttendanceType } from '@definition/meeting_attendance';
 
 const getRandomDate = (
   start_date = new Date(1970, 0, 1),
@@ -1021,4 +1022,43 @@ export const dbReportsFillRandom = async () => {
   }
 
   await appDb.cong_field_service_reports.bulkPut(reportsToSave);
+};
+
+export const dbMeetingAttendanceFill = async () => {
+  await appDb.meeting_attendance.clear();
+
+  const year = new Date().getFullYear();
+  const startMonth = `${year - 1}/09`;
+  const endMonth = currentReportMonth();
+
+  const monthRange = createArrayFromMonths(startMonth, endMonth);
+
+  const attendances: MeetingAttendanceType[] = [];
+
+  for (const month of monthRange) {
+    const [year, monthValue] = month.split('/').map(Number);
+
+    const firstDay = new Date(year, monthValue - 1, 1);
+
+    const firstMonday =
+      firstDay.getDay() === 1
+        ? firstDay
+        : new Date(
+            year,
+            monthValue - 1,
+            firstDay.getDate() + ((8 - firstDay.getDay()) % 7)
+          );
+
+    let weeks = 0;
+    const currentMonday = new Date(firstMonday);
+
+    while (currentMonday.getMonth() === firstMonday.getMonth()) {
+      weeks++;
+      currentMonday.setDate(currentMonday.getDate() + 7);
+    }
+
+    console.log(month, weeks);
+  }
+
+  await appDb.meeting_attendance.bulkPut(attendances);
 };

@@ -128,7 +128,7 @@ export const schedulesMidweekInfo = async (week: string) => {
     ).value || Week.NORMAL;
   const hasNoMeeting =
     weekType === Week.ASSEMBLY ||
-    weekType == Week.CONVENTION ||
+    weekType === Week.CONVENTION ||
     weekType === Week.MEMORIAL ||
     weekType === Week.NO_MEETING;
 
@@ -419,7 +419,7 @@ export const schedulesWeekendInfo = async (week: string) => {
 
   const hasNoMeeting =
     weekType === Week.ASSEMBLY ||
-    weekType == Week.CONVENTION ||
+    weekType === Week.CONVENTION ||
     weekType === Week.MEMORIAL ||
     weekType === Week.NO_MEETING;
 

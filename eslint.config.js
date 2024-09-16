@@ -59,6 +59,8 @@ export default [
       ],
       'react/jsx-uses-react': 'error',
       'react/jsx-uses-vars': 'error',
+      'jsx-a11y/alt-text': 'off',
+      '@typescript-eslint/consistent-type-assertions': 'off',
       'import/no-cycle': ['error', { maxDepth: 9999 }],
     },
   },

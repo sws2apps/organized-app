@@ -86,7 +86,7 @@ const useScheduleAutofill = (
 
       const noMeeting =
         weekType === Week.ASSEMBLY ||
-        weekType == Week.CONVENTION ||
+        weekType === Week.CONVENTION ||
         weekType === Week.MEMORIAL ||
         weekType === Week.NO_MEETING;
 
@@ -144,7 +144,7 @@ const useScheduleAutofill = (
 
       const noMeeting =
         weekType === Week.ASSEMBLY ||
-        weekType == Week.CONVENTION ||
+        weekType === Week.CONVENTION ||
         weekType === Week.MEMORIAL ||
         weekType === Week.NO_MEETING;
 
@@ -180,7 +180,7 @@ const useScheduleAutofill = (
 
       const noMeeting =
         weekType === Week.ASSEMBLY ||
-        weekType == Week.CONVENTION ||
+        weekType === Week.CONVENTION ||
         weekType === Week.MEMORIAL ||
         weekType === Week.NO_MEETING;
 
@@ -767,7 +767,7 @@ const useScheduleAutofill = (
 
       const noMeeting =
         weekType === Week.ASSEMBLY ||
-        weekType == Week.CONVENTION ||
+        weekType === Week.CONVENTION ||
         weekType === Week.MEMORIAL ||
         weekType === Week.NO_MEETING;
 
