@@ -122,5 +122,6 @@
   "tr_novemberShort": "Ноя",
   "tr_decemberShort": "Дек",
   "tr_published": "Опубликовано",
-  "tr_longDateWithYearAndDayLocale": "{{ day }}, {{ date }} {{ month }} {{ year }}"
+  "tr_longDateWithYearAndDayLocale": "{{ day }}, {{ date }} {{ month }} {{ year }}",
+  "tr_selectAll": "Select all"
 }
