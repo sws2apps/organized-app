@@ -46,7 +46,7 @@
   "tr_theMonthsOf": "Para sa (mga) buwan ng",
   "tr_hoursGoal": "Hour goal",
   "tr_continuousAPS": "Nais kong maglingkod nang patuloy bilang isang auxiliary pioneer sa loob ng ilang panahon.",
-  "tr_pioneerApplicationMoral": "Ako ay may mabuting pag-uugali. Ako ay nagplano ng mga hakbang na magpapahintulot sa akin upang matugunan ang oras na kinakailangan. – Tingnan ang <a href=\"https://wol.jw.org/tl/wol/d/r27/lp-tg/202013206\">Hunyo 2013 Ating Ministeryo sa Kaharian, p. 2</a>.",
+  "tr_pioneerApplicationMoral": "Ako ay may mabuting pag-uugali. Ako ay nagplano ng mga hakbang na magpapahintulot sa akin upang matugunan ang oras na kinakailangan. – Tingnan ang <0>Hunyo 2013 Ating Ministeryo sa Kaharian, p. 2</0>.",
   "tr_nameAPSApplication": "Pangalan, magsisilbing iyong lagda",
   "tr_noteAPSApplication": "PAUNAWA: Kung maaari, mangyaring isumite ang aplikasyong ito na hindi bababa sa isang linggo bago mo nais simulan ang paglilingkod bilang auxilary pioneer. Ang aplikasyong ito ay hindi ipapadala sa tanggapan ng sangay kundi, sa halip, ito ay itatabi sa pangangalaga ng kongregasyon para sa talaan nito.",
   "tr_attentionServiceCommittee": "<p>Paalala sa Congregation Service committee:</p><p>1. Ang naga-apply ba ay may mabuting halimbawa ng Kristiyanong pamumuhay, at may magandang pag-uugali? </p><p>2. Hindi qualified ang mga sinaway o kababalik sa loob ng nakaraang taon o ang mga mayroong restriksyon.</p><p>3. Nakausap na ba ang nangangasiwa ng grupo?</p>",
@@ -124,10 +124,10 @@
   "tr_quickAssignAP": "Naitalaga bilang auxiliary pioneer",
   "tr_quickAssignAPDesc": "Ang publisher na ito ay naitalaga bilang isang auxiliary pioneer ngayong buwan. Maaari baguhin ito sa enrollment window ng publisher sa page ng mga User.",
   "tr_reactivatePublisher": "I-reactivate ang publisher na ito",
-  "tr_S21CardTitle": "Export multiple publisher records (S-21)",
-  "tr_S21CardTitleDesc": "Select ‘All records’ to export and sort all records for publishers, full-time, and auxiliary servants, or ‘Specific records’ to export records only for selected publishers.",
-  "tr_allPublisherRecords": "All publisher records",
-  "tr_specificPublisherRecords": "Specific publisher records",
-  "tr_S21ExportMultipleDesc": "Select the publishers you want to include in the exported records. Each publisher will have a separate file.",
-  "tr_activePublishersAll": "All other publishers"
+  "tr_S21CardTitle": "I-export ang mga record ng publisher nang maramihan (S-21)",
+  "tr_S21CardTitleDesc": "Piliin ang ‘Lahat ng mga rekord’ upang i-export at i-sort ang lahat ng rekord ng mga publisher, full-time, at mga auxiliary servant, o ‘Espisipikong mga record’ upang i-export lamang ang mga rekord para sa mga piling publisher.",
+  "tr_allPublisherRecords": "Lahat ng publisher",
+  "tr_specificPublisherRecords": "Espisipikong publisher",
+  "tr_S21ExportMultipleDesc": "Piliin ang mga publisher na isasama sa mga na-export na record. Bawat publisher ay mayroong sariling file.",
+  "tr_activePublishersAll": "Lahat ng iba pang publisher"
 }
