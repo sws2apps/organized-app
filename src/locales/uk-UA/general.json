@@ -123,5 +123,5 @@
   "tr_decemberShort": "Гру",
   "tr_published": "Опубліковано",
   "tr_longDateWithYearAndDayLocale": "{{ day }}, {{ date }} {{ month }} {{ year }}",
-  "tr_selectAll": "Select all"
+  "tr_selectAll": "Вибрати все"
 }
