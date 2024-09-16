@@ -126,8 +126,8 @@
   "tr_reactivatePublisher": "Reactivate this publisher",
   "tr_S21CardTitle": "Export multiple publisher records (S-21)",
   "tr_S21CardTitleDesc": "Select ‘All records’ to export and sort all records for publishers, full-time, and auxiliary servants, or ‘Specific records’ to export records only for selected publishers.",
-  "tr_allPublisherRecords": "All publisher records",
-  "tr_specificPublisherRecords": "Specific publisher records",
+  "tr_allPublisherRecords": "All publishers",
+  "tr_specificPublisherRecords": "Specific publishers",
   "tr_S21ExportMultipleDesc": "Select the publishers you want to include in the exported records. Each publisher will have a separate file.",
   "tr_activePublishersAll": "All other publishers"
 }
