@@ -89,7 +89,7 @@
   "tr_delegatePersons": "I-delegate ang mga user",
   "tr_delegatePersonsDesc": "Sa pag-delegate ng user mula sa kongregasyon, pinapayagan mo siyang makita ang kaniyang mga bahagi sa pulong at magpasa ng ulat sa paglilingkod.",
   "tr_delegatedPersons": "Mga delegated user",
-  "tr_invitationCodeInstruction": "Upang magdagdag ng bagong device ng user, mag-generate ng invitation code, at hilingin silang pumunta sa <a href='https://organized-app.com' class='h4' style='color: var(--accent-dark)' >organizedapp.com</a>. Pagkatapos, piliin nila kung anong user type sila at ilagay ang invitation code kapag hiningi.",
+  "tr_invitationCodeInstruction": "Upang magdagdag ng bagong device ng user, mag-generate ng invitation code, at hilingin silang pumunta sa <a href='https://organized-app.com' style='color: var(--accent-dark)'>organized-app.com</a>. Pagkatapos, piliin nila kung anong user type sila at ilagay ang invitation code kapag hiningi.",
   "tr_generateInvitationCode": "Gumawa ng invitation code",
   "tr_terminateSessionAdminDesc": "Ang user ay mananatiling naka-log-in sa kanilang device hanggang i-terminate mo ito. Pagkatapos nito, kailangang mag-log in muli sa Organized gamit ang kanilang invitation code. Gamitin lamang ang feature na ito kung kinakailangan at sa mga piling security-related cases.",
   "tr_baptizedBrotherUserDesc": "Ang bautisadong brother na ito ay inatasan bilang <b>Publisher</b> spiritual status. Kaya makikita niya ang mga iskedyul ng mga pulong at magpasa ng ulat sa paglilingkod. Maari rin siyang bigyan ng karagdagang access sa ibaba.",
