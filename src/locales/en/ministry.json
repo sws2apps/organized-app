@@ -122,7 +122,7 @@
   "tr_fieldService": "Field service",
   "tr_S10ReportNotGenerated": "This year’s report hasn’t been generated yet. Generate it to see all the details and then submit.",
   "tr_quickAssignAP": "Auxiliary pioneer assigned",
-  "tr_quickAssignAPDesc": "This publisher is assigned as an auxiliary pioneer this month. You can change this on the publisher's enrollments window on the Persons page.",
+  "tr_quickAssignAPDesc": "This publisher is assigned as an auxiliary pioneer this month. You can change this on the publisher's enrollments list on the Persons page.",
   "tr_reactivatePublisher": "Reactivate this publisher",
   "tr_S21CardTitle": "Export multiple publisher records (S-21)",
   "tr_S21CardTitleDesc": "Select ‘All records’ to export and sort all records for publishers, full-time, and auxiliary servants, or ‘Specific records’ to export records only for selected publishers.",

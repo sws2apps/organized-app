@@ -50,7 +50,7 @@
   "tr_encryptionCode": "Код шифрования",
   "tr_encryptionCodeSetupDesc": "Создай код шифрования для твоего собрания.",
   "tr_encryptionCodeLostDesc": "Введи код шифрования твоего собрания для доступа к нему",
-  "tr_encryptionCodeNotice": "Пожалуйста, запиши этот ключ и надёжно сохраняй его. Потеря его может означать потерю всех данных твоего собрания.",
+  "tr_encryptionCodeNotice": "Пожалуйста, запиши этот ключ и надёжно сохраняй его. Его потеря может означать потерю всех данных твоего собрания.",
   "tr_encryptionCodeCreate": "Придумай код шифрования",
   "tr_encryptionCodeNoticeLength": "Минимум 16 символов",
   "tr_encryptionCodeNoticeNumber": "Цифра",
