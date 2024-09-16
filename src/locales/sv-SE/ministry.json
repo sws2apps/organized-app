@@ -124,10 +124,10 @@
   "tr_quickAssignAP": "Hjälppionjär tilldelad",
   "tr_quickAssignAPDesc": "Denna förkunnare är tilldelad som hjälppionjär denna månad. Du kan ändra detta på förkunnarens registreringssida på Personsidan.",
   "tr_reactivatePublisher": "Återaktivera denna förkunnare",
-  "tr_S21CardTitle": "Export multiple publisher records (S-21)",
-  "tr_S21CardTitleDesc": "Select ‘All records’ to export and sort all records for publishers, full-time, and auxiliary servants, or ‘Specific records’ to export records only for selected publishers.",
-  "tr_allPublisherRecords": "All publisher records",
-  "tr_specificPublisherRecords": "Specific publisher records",
-  "tr_S21ExportMultipleDesc": "Select the publishers you want to include in the exported records. Each publisher will have a separate file.",
-  "tr_activePublishersAll": "All other publishers"
+  "tr_S21CardTitle": "Exportera flera registerkort (S-21)",
+  "tr_S21CardTitleDesc": "Välj \"Alla poster\" för att exportera och sortera alla poster för förkunnare, pionjärer och hjälppionärer eller välj \"enstaka poster\" för att exportera poster efter valda förkunnare.",
+  "tr_allPublisherRecords": "Alla förkunnarregister",
+  "tr_specificPublisherRecords": "Utvalda förkunnare",
+  "tr_S21ExportMultipleDesc": "Välj de förkunnare du vill inkludera i de exporterade posterna. Varje förkunnare kommer att bli till en separat fil.",
+  "tr_activePublishersAll": "Övriga förkunnare"
 }
