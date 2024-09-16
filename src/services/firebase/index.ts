@@ -13,8 +13,14 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-connectAuthEmulator(getAuth(), 'http://127.0.0.1:9099', {
-  disableWarnings: true,
-});
+if (import.meta.env.VITE_FIREBASE_AUTH_EMULATOR_HOST) {
+  connectAuthEmulator(
+    getAuth(),
+    import.meta.env.VITE_FIREBASE_AUTH_EMULATOR_HOST,
+    {
+      disableWarnings: true,
+    }
+  );
+}
 
 getAnalytics(app);

@@ -4,7 +4,7 @@ import { WeekOptionsType, WeekRangeSelectorType } from './index.types';
 import { sourcesState } from '@states/sources';
 import { getWeekDate } from '@utils/date';
 import { useAppTranslation } from '@hooks/index';
-import { monthNamesState } from '@states/app';
+import { JWLangState, monthNamesState } from '@states/app';
 
 const useWeekRangeSelector = (
   onStartChange: WeekRangeSelectorType['onStartChange'],
@@ -14,6 +14,7 @@ const useWeekRangeSelector = (
 
   const sources = useRecoilValue(sourcesState);
   const monthNames = useRecoilValue(monthNamesState);
+  const lang = useRecoilValue(JWLangState);
 
   const [startWeek, setStartWeek] = useState('');
 
@@ -22,7 +23,7 @@ const useWeekRangeSelector = (
       (source) =>
         new Date(source.weekOf) >= getWeekDate() &&
         ((meeting === 'midweek' &&
-          source.midweek_meeting.week_date_locale['E']) ||
+          source.midweek_meeting.week_date_locale[lang]) ||
           meeting === 'weekend')
     );
 
@@ -37,7 +38,7 @@ const useWeekRangeSelector = (
     });
 
     return result;
-  }, [sources, t, monthNames, meeting]);
+  }, [sources, t, monthNames, meeting, lang]);
 
   const endWeekOptions = useMemo(() => {
     if (startWeek.length <= 0) return [];
@@ -46,7 +47,7 @@ const useWeekRangeSelector = (
       (source) =>
         new Date(source.weekOf) >= new Date(startWeek) &&
         ((meeting === 'midweek' &&
-          source.midweek_meeting.week_date_locale['E']) ||
+          source.midweek_meeting.week_date_locale[lang]) ||
           meeting === 'weekend')
     );
 
@@ -61,7 +62,7 @@ const useWeekRangeSelector = (
     });
 
     return result;
-  }, [sources, t, monthNames, startWeek, meeting]);
+  }, [sources, t, monthNames, startWeek, meeting, lang]);
 
   const handleStartWeekChange = (value: string) => {
     setStartWeek(value);

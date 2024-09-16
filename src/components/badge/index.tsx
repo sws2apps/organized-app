@@ -92,17 +92,17 @@ const Badge = (props: BadgePropsType) => {
   };
 
   const getBackgroundColor = () => {
-    if (color == 'transparent') return color;
+    if (color === 'transparent') return color;
     if (filled) {
-      if (color == 'grey') {
+      if (color === 'grey') {
         return `var(--${color}-400)`;
       } else {
         return `var(--${color}-main)`;
       }
     } else {
-      if (color == 'grey') {
+      if (color === 'grey') {
         return `var(--${color}-150)`;
-      } else if (color == 'accent') {
+      } else if (color === 'accent') {
         return `var(--accent-200)`;
       } else {
         return `var(--${color}-secondary)`;
@@ -112,7 +112,7 @@ const Badge = (props: BadgePropsType) => {
 
   return (
     <>
-      {size == 'small' && (
+      {size === 'small' && (
         <Box
           sx={{
             border: '2px',
@@ -150,7 +150,7 @@ const Badge = (props: BadgePropsType) => {
           </BadgeContent>
         </Box>
       )}
-      {size == 'medium' && (
+      {size === 'medium' && (
         <Box
           sx={{
             border: '1px',
@@ -189,7 +189,7 @@ const Badge = (props: BadgePropsType) => {
           </BadgeContent>
         </Box>
       )}
-      {size == 'big' && (
+      {size === 'big' && (
         <Box
           sx={{
             border: '4px',

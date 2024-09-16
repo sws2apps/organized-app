@@ -186,7 +186,7 @@ const InitialSetupModalWindow = (props: InitialSetupModalWindowProps) => {
         >
           <Gapped16Box sx={{ gap: '4px !important', alignItems: 'center' }}>
             <Radio
-              checked={gender == 'male'}
+              checked={gender === 'male'}
               onChange={() => setGender('male')}
             />
             <Typography className="body-regular" color={'var(--black)'}>
@@ -195,7 +195,7 @@ const InitialSetupModalWindow = (props: InitialSetupModalWindowProps) => {
           </Gapped16Box>
           <Gapped16Box sx={{ gap: '4px !important', alignItems: 'center' }}>
             <Radio
-              checked={gender == 'female'}
+              checked={gender === 'female'}
               onChange={() => setGender('female')}
             />
             <Typography className="body-regular" color={'var(--black)'}>
@@ -230,7 +230,7 @@ const InitialSetupModalWindow = (props: InitialSetupModalWindowProps) => {
         </Typography>
       </Gapped16Box>
 
-      {currentInitialSetupStep == 1 ? (
+      {currentInitialSetupStep === 1 ? (
         <>
           <Step1Switches />
           <Step1SelectFields />
@@ -242,7 +242,7 @@ const InitialSetupModalWindow = (props: InitialSetupModalWindowProps) => {
         <Button
           variant="main"
           onClick={() => {
-            if (currentInitialSetupStep == 1) {
+            if (currentInitialSetupStep === 1) {
               setCurrentInitialSetupStep(2);
             } else {
               // let hasError = false;
@@ -264,21 +264,21 @@ const InitialSetupModalWindow = (props: InitialSetupModalWindowProps) => {
             }
           }}
         >
-          {currentInitialSetupStep == 1
+          {currentInitialSetupStep === 1
             ? t('tr_saveAndContinueBtn')
             : t('tr_done')}
         </Button>
         <Button
           variant="secondary"
           onClick={() => {
-            if (currentInitialSetupStep == 1) {
+            if (currentInitialSetupStep === 1) {
               setCurrentInitialSetupStep(2);
             } else {
               setCurrentInitialSetupStep(1);
             }
           }}
         >
-          {currentInitialSetupStep == 1
+          {currentInitialSetupStep === 1
             ? t('tr_skipThisStepBtn')
             : t('tr_back')}
         </Button>

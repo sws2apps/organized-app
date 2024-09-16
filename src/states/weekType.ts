@@ -20,7 +20,7 @@ export const weekTypeLocaleState = selector({
     const newList: WeekTypeLocale[] = [];
 
     for (const weekType of list) {
-      const obj = <WeekTypeLocale>{};
+      const obj = {} as WeekTypeLocale;
       obj.id = weekType.id;
       obj.sort_index = weekType.sort_index;
       obj.meeting = weekType.meeting;

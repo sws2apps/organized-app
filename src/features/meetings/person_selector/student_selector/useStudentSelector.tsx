@@ -87,7 +87,11 @@ const useStudentSelector = ({ type, assignment, week }: PersonSelectorType) => {
             )
           );
         }
+
+        return false;
       }
+
+      return false;
     });
 
     const newPersons: PersonOptionsType[] = filteredPersons.map((record) => {

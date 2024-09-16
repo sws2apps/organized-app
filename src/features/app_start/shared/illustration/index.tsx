@@ -77,6 +77,7 @@ const StartupIllustration = () => {
                 </Typography>
               </Box>
               <img
+                alt=""
                 src={MinistryAssignments}
                 style={{ width: '100%', height: 'auto' }}
               />
@@ -101,6 +102,7 @@ const StartupIllustration = () => {
                 </Typography>
               </Box>
               <img
+                alt=""
                 src={MultiPlattform}
                 style={{ width: '100%', height: 'auto' }}
               />
@@ -125,6 +127,7 @@ const StartupIllustration = () => {
                 </Typography>
               </Box>
               <img
+                alt=""
                 src={MeetingSchedules}
                 style={{ width: '100%', height: 'auto' }}
               />
@@ -149,7 +152,11 @@ const StartupIllustration = () => {
                 </Typography>
               </Box>
 
-              <img src={Secretary} style={{ width: '100%', height: 'auto' }} />
+              <img
+                alt=""
+                src={Secretary}
+                style={{ width: '100%', height: 'auto' }}
+              />
             </Box>
           </SwiperSlide>
         </Swiper>

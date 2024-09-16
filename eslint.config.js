@@ -5,6 +5,7 @@ import pluginReact from 'eslint-plugin-react';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import importPlugin from 'eslint-plugin-import';
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default [
   { files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}'] },
   { languageOptions: { globals: globals.browser } },
@@ -59,8 +60,6 @@ export default [
       ],
       'react/jsx-uses-react': 'error',
       'react/jsx-uses-vars': 'error',
-      'jsx-a11y/alt-text': 'off',
-      '@typescript-eslint/consistent-type-assertions': 'off',
       'import/no-cycle': ['error', { maxDepth: 9999 }],
     },
   },

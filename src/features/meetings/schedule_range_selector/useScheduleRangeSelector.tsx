@@ -3,13 +3,14 @@ import { useRecoilValue } from 'recoil';
 import { ScheduleRangeSelectorType, ScheduleOptionsType } from './index.types';
 import { sourcesState } from '@states/sources';
 import { getWeekDate } from '@utils/date';
-import { monthNamesState } from '@states/app';
+import { JWLangState, monthNamesState } from '@states/app';
 
 const useScheduleRangeSelector = (
   onStartChange: ScheduleRangeSelectorType['onStartChange']
 ) => {
   const sources = useRecoilValue(sourcesState);
   const monthNames = useRecoilValue(monthNamesState);
+  const lang = useRecoilValue(JWLangState);
 
   const [startMonth, setStartMonth] = useState('');
 
@@ -17,7 +18,7 @@ const useScheduleRangeSelector = (
     const recentSources = sources.filter(
       (source) =>
         new Date(source.weekOf) >= getWeekDate() &&
-        source.midweek_meeting.week_date_locale['E']
+        source.midweek_meeting.week_date_locale[lang]
     );
     recentSources.sort(
       (a, b) => new Date(a.weekOf).getTime() - new Date(b.weekOf).getTime()
@@ -42,7 +43,7 @@ const useScheduleRangeSelector = (
     }
 
     return result;
-  }, [sources, monthNames]);
+  }, [sources, monthNames, lang]);
 
   const endMonthOptions = useMemo(() => {
     if (startMonth.length <= 0) return [];

@@ -340,3 +340,28 @@ export const createArrayFromMonths = (startMonth: string, endMonth: string) => {
 
   return result;
 };
+
+export const weeksInMonth = (month: string) => {
+  const [year, monthValue] = month.split('/').map(Number);
+
+  const firstDay = new Date(year, monthValue - 1, 1);
+
+  const firstMonday =
+    firstDay.getDay() === 1
+      ? firstDay
+      : new Date(
+          year,
+          monthValue - 1,
+          firstDay.getDate() + ((8 - firstDay.getDay()) % 7)
+        );
+
+  const weeks: string[] = [];
+  const currentMonday = new Date(firstMonday);
+
+  while (currentMonday.getMonth() === firstMonday.getMonth()) {
+    weeks.push(formatDate(new Date(currentMonday), 'yyyy/MM/dd'));
+    currentMonday.setDate(currentMonday.getDate() + 7);
+  }
+
+  return weeks;
+};

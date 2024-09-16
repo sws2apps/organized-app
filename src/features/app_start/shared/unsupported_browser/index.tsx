@@ -38,6 +38,7 @@ const UnsupportedBrowser = () => {
         }}
       >
         <img
+          alt=""
           src={UnsupportedBrowserImg}
           style={{ width: '200px', height: 'auto' }}
         />

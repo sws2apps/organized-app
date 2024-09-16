@@ -82,7 +82,7 @@ const Checkbox = (props: CheckboxPropsType) => {
           >
             {label}
           </Typography>
-          {labelDescription != '' ? (
+          {labelDescription !== '' ? (
             <Typography
               className="body-small-regular"
               color={'var(--grey-400)'}

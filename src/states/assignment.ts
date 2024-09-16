@@ -23,7 +23,7 @@ export const assignmentTypeLocaleState = selector({
 
     const result: AssignmentLocalType[] = [];
     for (const type of assignmentType) {
-      const obj = <AssignmentLocalType>{};
+      const obj = {} as AssignmentLocalType;
       obj.value = type.code;
       obj.label = type.assignment_type_name[JWLang.toUpperCase()];
       obj.assignable = type.assignable;

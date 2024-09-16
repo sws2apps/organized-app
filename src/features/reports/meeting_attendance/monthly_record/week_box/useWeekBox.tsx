@@ -1,7 +1,7 @@
 import { ChangeEvent, useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { formatDate } from '@services/dateformat';
-import { getWeekDate } from '@utils/date';
+import { getWeekDate, weeksInMonth } from '@utils/date';
 import { WeekBoxProps } from './index.types';
 import { meetingAttendanceState } from '@states/meeting_attendance';
 import { WeeklyAttendance } from '@definition/meeting_attendance';
@@ -65,27 +65,7 @@ const useWeekBox = ({ month, index, type }: WeekBoxProps) => {
   }, [present, online]);
 
   const weeksList = useMemo(() => {
-    const [year, monthValue] = month.split('/').map(Number);
-
-    const firstDay = new Date(year, monthValue - 1, 1);
-
-    const firstMonday =
-      firstDay.getDay() === 1
-        ? firstDay
-        : new Date(
-            year,
-            monthValue - 1,
-            firstDay.getDate() + ((8 - firstDay.getDay()) % 7)
-          );
-
-    const weeks = [];
-    const currentMonday = new Date(firstMonday);
-
-    while (currentMonday.getMonth() === firstMonday.getMonth()) {
-      weeks.push(formatDate(new Date(currentMonday), 'yyyy/MM/dd'));
-      currentMonday.setDate(currentMonday.getDate() + 7);
-    }
-
+    const weeks = weeksInMonth(month);
     return weeks;
   }, [month]);
 
