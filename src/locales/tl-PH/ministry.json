@@ -49,10 +49,10 @@
   "tr_pioneerApplicationMoral": "Ako ay may mabuting pag-uugali. Ako ay nagplano ng mga hakbang na magpapahintulot sa akin upang matugunan ang oras na kinakailangan. – Tingnan ang <a href=\"https://wol.jw.org/tl/wol/d/r27/lp-tg/202013206\">Hunyo 2013 Ating Ministeryo sa Kaharian, p. 2</a>.",
   "tr_nameAPSApplication": "Pangalan, magsisilbing iyong lagda",
   "tr_noteAPSApplication": "PAUNAWA: Kung maaari, mangyaring isumite ang aplikasyong ito na hindi bababa sa isang linggo bago mo nais simulan ang paglilingkod bilang auxilary pioneer. Ang aplikasyong ito ay hindi ipapadala sa tanggapan ng sangay kundi, sa halip, ito ay itatabi sa pangangalaga ng kongregasyon para sa talaan nito.",
-  "tr_attentionServiceCommittee": "<p>Paalala sa Congregation Service committee:</p><p>1. Ang nag-a-apply ba ay may mabuting halimbawa ng Kristiyanong pamumuhay, at may magandang pag-uugali? </p><p>2. Hindi qualified ang mga sinaway o kababalik sa loob ng nakaraang taon o ang mga mayroong restriksyon.</p><p>3. Nakausap na ba ang nangangasiwa ng grupo?</p>",
+  "tr_attentionServiceCommittee": "<p>Paalala sa Congregation Service committee:</p><p>1. Ang naga-apply ba ay may mabuting halimbawa ng Kristiyanong pamumuhay, at may magandang pag-uugali? </p><p>2. Hindi qualified ang mga sinaway o kababalik sa loob ng nakaraang taon o ang mga mayroong restriksyon.</p><p>3. Nakausap na ba ang nangangasiwa ng grupo?</p>",
   "tr_approvingAPSApplication": "Aaprubahan ng mga nasa service committee:",
   "tr_serviceOverseer": "Service overseer",
-  "tr_moreInformationForAP": "Interesado ka bang maging full-time pioneer? Mag-apply sa <a href='https://hub.jw.org'>hub.jw.org</a> o makipag-ugnayan sa mga elder sa inyong kongregasyon.",
+  "tr_moreInformationForAP": "Interesado ka bang maging full-time pioneer? Mag-apply sa <0>hub.jw.org</0> o makipag-ugnayan sa mga elder sa inyong kongregasyon.",
   "tr_btnSubmitApplication": "I-submit ang aplikasyon",
   "tr_hourGoal": "Nakaset ang hour goal sa 30",
   "tr_hourGoalDesc": "Upang patuloy na makapaglingkod, ang goal ay dapat na 30 oras. Subalit may mga espesipikong mga buwan na maaari mag-apply ng 15 oras na sasabihin ng mga elder.",
@@ -123,5 +123,11 @@
   "tr_S10ReportNotGenerated": "Hindi pa na-generate ang ulat na ito. I-generate ito upang makita lahat ng detalye at pagkatapos ay ipasa.",
   "tr_quickAssignAP": "Naitalaga bilang auxiliary pioneer",
   "tr_quickAssignAPDesc": "Ang publisher na ito ay naitalaga bilang isang auxiliary pioneer ngayong buwan. Maaari baguhin ito sa enrollment window ng publisher sa page ng mga User.",
-  "tr_reactivatePublisher": "I-reactivate ang publisher na ito"
+  "tr_reactivatePublisher": "I-reactivate ang publisher na ito",
+  "tr_S21CardTitle": "Export multiple publisher records (S-21)",
+  "tr_S21CardTitleDesc": "Select ‘All records’ to export and sort all records for publishers, full-time, and auxiliary servants, or ‘Specific records’ to export records only for selected publishers.",
+  "tr_allPublisherRecords": "All publisher records",
+  "tr_specificPublisherRecords": "Specific publisher records",
+  "tr_S21ExportMultipleDesc": "Select the publishers you want to include in the exported records. Each publisher will have a separate file.",
+  "tr_activePublishersAll": "All other publishers"
 }
