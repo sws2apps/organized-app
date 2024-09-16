@@ -128,7 +128,7 @@ export const schedulesMidweekInfo = async (week: string) => {
     ).value || Week.NORMAL;
   const hasNoMeeting =
     weekType === Week.ASSEMBLY ||
-    weekType == Week.CONVENTION ||
+    weekType === Week.CONVENTION ||
     weekType === Week.MEMORIAL ||
     weekType === Week.NO_MEETING;
 
@@ -419,7 +419,7 @@ export const schedulesWeekendInfo = async (week: string) => {
 
   const hasNoMeeting =
     weekType === Week.ASSEMBLY ||
-    weekType == Week.CONVENTION ||
+    weekType === Week.CONVENTION ||
     weekType === Week.MEMORIAL ||
     weekType === Week.NO_MEETING;
 
@@ -1792,7 +1792,7 @@ export const schedulesS89Data = async (
     if (assigned.value?.length > 0) {
       const person = await personsStateFind(assigned.value);
 
-      const obj = <S89DataType>{};
+      const obj = {} as S89DataType;
 
       obj.id = crypto.randomUUID();
       obj.weekOf = schedule.weekOf;
@@ -1874,7 +1874,7 @@ export const schedulesMidweekGetTiming = ({
   lang: string;
   pgmStart: string;
 }) => {
-  const timing = <MidweekMeetingDataType['timing']>{};
+  const timing = {} as MidweekMeetingDataType['timing'];
 
   timing.pgm_start = pgmStart;
 
@@ -2005,7 +2005,7 @@ export const schedulesMidweekData = async (
 
   const minLabel = getTranslation({ key: 'tr_minLabel' });
 
-  const result = <MidweekMeetingDataType>{};
+  const result = {} as MidweekMeetingDataType;
 
   // get meeting parts timing
   const pgmStart = await promiseGetRecoil(midweekMeetingTimeState);
@@ -2376,7 +2376,7 @@ export const schedulesWeekendData = async (
   );
   const shortDateFormat: string = await promiseGetRecoil(shortDateFormatState);
 
-  const result = <WeekendMeetingDataType>{};
+  const result = {} as WeekendMeetingDataType;
   result.weekOf = schedule.weekOf;
 
   const [year, month, day] = schedule.weekOf.split('/');

@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getAnalytics } from 'firebase/analytics';
+import { connectAuthEmulator, getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_APIKEY,
@@ -11,5 +12,15 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
+if (import.meta.env.VITE_FIREBASE_AUTH_EMULATOR_HOST) {
+  connectAuthEmulator(
+    getAuth(),
+    import.meta.env.VITE_FIREBASE_AUTH_EMULATOR_HOST,
+    {
+      disableWarnings: true,
+    }
+  );
+}
 
 getAnalytics(app);

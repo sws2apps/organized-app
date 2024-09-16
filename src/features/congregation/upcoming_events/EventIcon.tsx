@@ -1,7 +1,8 @@
-import { lazy } from 'react';
+import { ComponentType, lazy } from 'react';
 import { eventValue } from './index.types';
 
-const EventTypeIcon: Record<eventValue, React.ComponentType<any>> = {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const EventTypeIcon: Record<eventValue, ComponentType<any>> = {
   tr_circuitOverseerWeek: lazy(
     () => import('@components/icons/IconWavingHand')
   ),

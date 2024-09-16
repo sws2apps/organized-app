@@ -84,6 +84,7 @@ const useCongregation = (
         }, 250);
       }
     } catch (err) {
+      console.error(err);
       setIsLoading(false);
     }
 

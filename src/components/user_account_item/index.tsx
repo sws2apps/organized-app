@@ -61,7 +61,7 @@ const UserAccountItemTextContent = (props: UserAccountItemTextContentType) => {
             className="body-small-regular"
             style={{
               color:
-                props.color != 'var(--black)'
+                props.color !== 'var(--black)'
                   ? 'var(--accent-400)'
                   : props.color,
             }}

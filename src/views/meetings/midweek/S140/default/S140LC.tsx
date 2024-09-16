@@ -1,4 +1,3 @@
-/* eslint-disable react-refresh/only-export-components */
 import { View } from '@react-pdf/renderer';
 import { S140LCType } from '../shared/index.types';
 import styles from './index.styles';
@@ -7,7 +6,7 @@ import S140Person from './S140Person';
 import S140SourceExtended from './S140SourceExtended';
 import S140PartMiniLabel from './S140PartMiniLabel';
 
-const S140LC = ({ meetingData }: S140LCType) => {
+const LivingPartRow = ({ meetingData }: S140LCType) => {
   return (
     <>
       {[1, 2, 3].map((index) => {
@@ -37,4 +36,4 @@ const S140LC = ({ meetingData }: S140LCType) => {
   );
 };
 
-export default S140LC;
+export default LivingPartRow;

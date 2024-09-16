@@ -6,10 +6,36 @@ import {
   FieldServiceGroupMemberType,
   FieldServiceGroupType,
 } from '@definition/field_service_groups';
-import { generateDisplayName, getRandomArrayItem } from './common';
-import { personIsElder, personIsMS } from '@services/app/persons';
+import {
+  generateDisplayName,
+  getRandomArrayItem,
+  getRandomNumber,
+} from './common';
+import {
+  personIsBaptizedPublisher,
+  personIsElder,
+  personIsEnrollmentActive,
+  personIsMS,
+  personIsPublisher,
+} from '@services/app/persons';
 import PERSON_MOCK from '@constants/person_mock';
 import appDb from '@db/appDb';
+import { CongFieldServiceReportType } from '@definition/cong_field_service_reports';
+import {
+  createArrayFromMonths,
+  currentReportMonth,
+  weeksInMonth,
+} from './date';
+import {
+  SchemaBranchFieldServiceReport,
+  congFieldServiceReportSchema,
+  meetingAttendanceSchema,
+} from '@services/dexie/schema';
+import {
+  MeetingAttendanceType,
+  WeeklyAttendance,
+} from '@definition/meeting_attendance';
+import { BranchFieldServiceReportType } from '@definition/branch_field_service_reports';
 
 const getRandomDate = (
   start_date = new Date(1970, 0, 1),
@@ -27,13 +53,15 @@ export const importDummyPersons = async (showLoading?: boolean) => {
   const showProgress = showLoading ?? true;
 
   try {
-    showProgress && (await promiseSetRecoil(rootModalOpenState, true));
+    if (showProgress) {
+      await promiseSetRecoil(rootModalOpenState, true);
+    }
 
     await appDb.persons.clear();
 
     const startDateTemp = new Date(
-      new Date().getUTCFullYear(),
-      new Date().getMonth() - 1,
+      new Date().getUTCFullYear() - 1,
+      8,
       1
     ).toISOString();
 
@@ -727,11 +755,27 @@ export const importDummyPersons = async (showLoading?: boolean) => {
         }
 
         if (maleStatus === 'elderWTConductor') {
-          person.person_data.assignments.push({
-            code: AssignmentCode.WM_WTStudyConductor,
-            updatedAt: new Date().toISOString(),
+          person.person_data.enrollments.push({
+            id: crypto.randomUUID(),
             _deleted: false,
+            updatedAt: new Date().toISOString(),
+            enrollment: 'FR',
+            start_date: startDateTemp,
+            end_date: null,
           });
+
+          person.person_data.assignments.push(
+            {
+              code: AssignmentCode.WM_WTStudyConductor,
+              updatedAt: new Date().toISOString(),
+              _deleted: false,
+            },
+            {
+              code: AssignmentCode.MINISTRY_HOURS_CREDIT,
+              _deleted: false,
+              updatedAt: new Date().toISOString(),
+            }
+          );
         }
 
         if (maleStatus === 'FR') {
@@ -746,9 +790,9 @@ export const importDummyPersons = async (showLoading?: boolean) => {
 
     await appDb.persons.bulkPut(formattedData);
 
-    showProgress && (await promiseSetRecoil(rootModalOpenState, false));
+    if (showProgress) await promiseSetRecoil(rootModalOpenState, false);
   } catch (err) {
-    showProgress && (await promiseSetRecoil(rootModalOpenState, false));
+    if (showProgress) await promiseSetRecoil(rootModalOpenState, false);
     console.error(err);
   }
 };
@@ -786,6 +830,13 @@ export const dbFieldGroupAutoAssign = async () => {
   const groups: FieldServiceGroupType[] = [];
   const persons = await appDb.persons.toArray();
 
+  const publishers = persons.filter((person) => {
+    const isBaptized = person.person_data.publisher_baptized.active.value;
+    const isUnbaptized = person.person_data.publisher_unbaptized.active.value;
+
+    return isBaptized || isUnbaptized;
+  });
+
   // assign overseers and assistants first
   for (let i = 1; i <= 5; i++) {
     const assigned_members = groups.reduce(
@@ -799,8 +850,8 @@ export const dbFieldGroupAutoAssign = async () => {
 
     const members: FieldServiceGroupMemberType[] = [];
 
-    const elders = persons.filter((person) => personIsElder(person));
-    const ms = persons.filter((person) => personIsMS(person));
+    const elders = publishers.filter((person) => personIsElder(person));
+    const ms = publishers.filter((person) => personIsMS(person));
 
     // assign overseer
     let assigned: FieldServiceGroupMemberType;
@@ -857,6 +908,7 @@ export const dbFieldGroupAutoAssign = async () => {
   }
 
   // assign group members
+  let i = 1;
   for (const group of groups) {
     const assigned_members = groups.reduce(
       (acc: FieldServiceGroupMemberType[], current) => {
@@ -868,9 +920,14 @@ export const dbFieldGroupAutoAssign = async () => {
     );
 
     const members = group.group_data.members;
+    const length =
+      i < 5
+        ? getRandomNumber(16, 20)
+        : publishers.length - assigned_members.length + 2;
 
     do {
-      const person = getRandomArrayItem(persons);
+      const person = getRandomArrayItem(publishers);
+
       const find = assigned_members.some(
         (record) => record.person_uid === person.person_uid
       );
@@ -886,8 +943,267 @@ export const dbFieldGroupAutoAssign = async () => {
         members.push(assigned);
         assigned_members.push(assigned);
       }
-    } while (members.length < 20);
+    } while (members.length < length);
+
+    i++;
   }
 
   await appDb.field_service_groups.bulkPut(groups);
+};
+
+export const getPublishersActive = async (month: string) => {
+  const persons = await appDb.persons.toArray();
+
+  const result = persons.filter((record) => {
+    const isPublisher = personIsPublisher(record, month);
+    return isPublisher;
+  });
+
+  return result;
+};
+
+export const dbReportsFillRandom = async () => {
+  await appDb.cong_field_service_reports.clear();
+
+  const year = new Date().getFullYear();
+  const startMonth = `${year - 1}/09`;
+  const endMonth = currentReportMonth();
+
+  const monthRange = createArrayFromMonths(startMonth, endMonth);
+
+  const reportsToSave: CongFieldServiceReportType[] = [];
+
+  for await (const month of monthRange) {
+    const active_publishers = await getPublishersActive(month);
+
+    for (const person of active_publishers) {
+      const report = structuredClone(congFieldServiceReportSchema);
+      report.report_id = crypto.randomUUID();
+      report.report_data.person_uid = person.person_uid;
+      report.report_data.report_date = month;
+
+      const isAP = personIsEnrollmentActive(person, 'AP', month);
+      const isFMF = personIsEnrollmentActive(person, 'FMF', month);
+      const isFR = personIsEnrollmentActive(person, 'FR', month);
+      const isFS = personIsEnrollmentActive(person, 'FS', month);
+      const isBaptized = personIsBaptizedPublisher(person, month);
+
+      if (isFMF || isFS) {
+        report.report_data.hours.field_service = getRandomNumber(100, 115);
+
+        if (isFMF) report.report_data.bible_studies = getRandomNumber(20, 30);
+        if (isFS) report.report_data.bible_studies = getRandomNumber(15, 20);
+      }
+
+      if (isFR) {
+        const reportCredit = person.person_data.assignments.some(
+          (record) =>
+            record._deleted === false &&
+            record.code === AssignmentCode.MINISTRY_HOURS_CREDIT
+        );
+
+        if (reportCredit) {
+          const service = getRandomNumber(20, 40);
+          const credit = 55 - service;
+
+          report.report_data.hours.field_service = service;
+          report.report_data.hours.credit = { approved: credit, value: 0 };
+        }
+
+        if (!reportCredit) {
+          report.report_data.hours.field_service = getRandomNumber(50, 60);
+        }
+
+        report.report_data.bible_studies = getRandomNumber(10, 15);
+      }
+
+      if (isAP) {
+        report.report_data.hours.field_service = getRandomNumber(30, 40);
+        report.report_data.bible_studies = getRandomNumber(5, 10);
+      }
+
+      if (!isFMF && !isFS && !isFR && !isAP && isBaptized) {
+        report.report_data.bible_studies = getRandomNumber(1, 5);
+      }
+
+      report.report_data.shared_ministry = true;
+      report.report_data.status = 'confirmed';
+      report.report_data.updatedAt = new Date().toISOString();
+      reportsToSave.push(report);
+    }
+  }
+
+  await appDb.cong_field_service_reports.bulkPut(reportsToSave);
+};
+
+export const dbMeetingAttendanceFill = async () => {
+  await appDb.meeting_attendance.clear();
+
+  const year = new Date().getFullYear();
+  const startMonth = `${year - 1}/09`;
+  const endMonth = currentReportMonth();
+
+  const monthRange = createArrayFromMonths(startMonth, endMonth);
+
+  const attendances: MeetingAttendanceType[] = [];
+
+  for (const month of monthRange) {
+    const attendance = structuredClone(meetingAttendanceSchema);
+    attendance.month_date = month;
+    const weeks = weeksInMonth(month);
+
+    for (let i = 1; i <= weeks.length; i++) {
+      const weeklyAttendance = attendance[`week_${i}`] as WeeklyAttendance;
+
+      const mainMidweek = weeklyAttendance.midweek.find(
+        (record) => record.type === 'main'
+      );
+      mainMidweek.present = getRandomNumber(95, 110);
+      mainMidweek.updatedAt = new Date().toISOString();
+
+      const mainWeekend = weeklyAttendance.weekend.find(
+        (record) => record.type === 'main'
+      );
+      mainWeekend.present = getRandomNumber(105, 130);
+      mainWeekend.updatedAt = new Date().toISOString();
+    }
+
+    attendances.push(attendance);
+  }
+
+  await appDb.meeting_attendance.bulkPut(attendances);
+};
+
+export const dbBranchS1ReportsFill = async () => {
+  await appDb.branch_field_service_reports.clear();
+
+  const congReports = await appDb.cong_field_service_reports.toArray();
+  const persons = await appDb.persons.toArray();
+  const attendances = await appDb.meeting_attendance.toArray();
+
+  const year = new Date().getFullYear();
+  const startMonth = `${year - 1}/09`;
+  const endMonth = currentReportMonth();
+
+  const reportsToSave: BranchFieldServiceReportType[] = [];
+
+  const monthRange = createArrayFromMonths(startMonth, endMonth);
+
+  for (const month of monthRange) {
+    // get all confirmed reports
+    const reports = congReports.filter(
+      (record) =>
+        record.report_data.status === 'confirmed' &&
+        record.report_data.shared_ministry &&
+        record.report_data.report_date === month
+    );
+
+    // group reports
+    const publishers: CongFieldServiceReportType[] = [];
+    const APs: CongFieldServiceReportType[] = [];
+    const FRs: CongFieldServiceReportType[] = [];
+
+    for (const report of reports) {
+      const person = persons.find(
+        (record) => record.person_uid === report.report_data.person_uid
+      );
+
+      if (!person) continue;
+
+      const isAP = personIsEnrollmentActive(person, 'AP', month);
+      const isFMF = personIsEnrollmentActive(person, 'FMF', month);
+      const isFR = personIsEnrollmentActive(person, 'FR', month);
+      const isFS = personIsEnrollmentActive(person, 'FS', month);
+
+      // skip SFTS reports
+      if (isFMF || isFS) continue;
+
+      if (isAP) {
+        APs.push(report);
+        continue;
+      }
+
+      if (isFR) {
+        FRs.push(report);
+        continue;
+      }
+
+      // default to publishers
+      publishers.push(report);
+    }
+
+    const branchReport = structuredClone(SchemaBranchFieldServiceReport);
+    branchReport.report_date = month;
+
+    const active = await getPublishersActive(month);
+    branchReport.report_data.publishers_active = active.length;
+
+    // get weekend total
+    const attendance = attendances.find(
+      (record) => record.month_date === month
+    );
+    let weekendTotal = 0;
+    let weekendCount = 0;
+
+    for (let i = 1; i <= 5; i++) {
+      const weekData = attendance[`week_${i}`] as WeeklyAttendance;
+      const meetingData = weekData.weekend;
+
+      const sum = meetingData.reduce((acc, current) => {
+        if (current?.present) {
+          return acc + current.present;
+        }
+
+        return acc;
+      }, 0);
+
+      if (sum > 0) weekendCount++;
+
+      weekendTotal += sum;
+    }
+
+    const weekendAverage =
+      weekendTotal === 0 ? 0 : Math.round(weekendTotal / weekendCount);
+
+    branchReport.report_data.weekend_meeting_average = weekendAverage;
+
+    branchReport.report_data.publishers = {
+      report_count: publishers.length,
+      bible_studies: publishers.reduce(
+        (acc, current) => acc + current.report_data.bible_studies,
+        0
+      ),
+    };
+
+    branchReport.report_data.APs = {
+      report_count: APs.length,
+      hours: APs.reduce(
+        (acc, current) => acc + current.report_data.hours.field_service,
+        0
+      ),
+      bible_studies: APs.reduce(
+        (acc, current) => acc + current.report_data.bible_studies,
+        0
+      ),
+    };
+
+    branchReport.report_data.FRs = {
+      report_count: FRs.length,
+      hours: FRs.reduce(
+        (acc, current) => acc + current.report_data.hours.field_service,
+        0
+      ),
+      bible_studies: FRs.reduce(
+        (acc, current) => acc + current.report_data.bible_studies,
+        0
+      ),
+    };
+
+    branchReport.report_data.submitted = true;
+    branchReport.report_data.updatedAt = new Date().toISOString();
+
+    reportsToSave.push(branchReport);
+  }
+
+  await appDb.branch_field_service_reports.bulkPut(reportsToSave);
 };

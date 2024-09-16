@@ -86,7 +86,7 @@ const useScheduleAutofill = (
 
       const noMeeting =
         weekType === Week.ASSEMBLY ||
-        weekType == Week.CONVENTION ||
+        weekType === Week.CONVENTION ||
         weekType === Week.MEMORIAL ||
         weekType === Week.NO_MEETING;
 
@@ -144,7 +144,7 @@ const useScheduleAutofill = (
 
       const noMeeting =
         weekType === Week.ASSEMBLY ||
-        weekType == Week.CONVENTION ||
+        weekType === Week.CONVENTION ||
         weekType === Week.MEMORIAL ||
         weekType === Week.NO_MEETING;
 
@@ -180,7 +180,7 @@ const useScheduleAutofill = (
 
       const noMeeting =
         weekType === Week.ASSEMBLY ||
-        weekType == Week.CONVENTION ||
+        weekType === Week.CONVENTION ||
         weekType === Week.MEMORIAL ||
         weekType === Week.NO_MEETING;
 
@@ -679,7 +679,7 @@ const useScheduleAutofill = (
 
       const noMeeting =
         weekType === Week.ASSEMBLY ||
-        weekType == Week.CONVENTION ||
+        weekType === Week.CONVENTION ||
         weekType === Week.MEMORIAL ||
         weekType === Week.NO_MEETING;
 
@@ -718,6 +718,7 @@ const useScheduleAutofill = (
             // #region Speaker 2
             if (selected) {
               const speaker1 = persons.find(
+                // eslint-disable-next-line no-loop-func
                 (record) => record.person_uid === selected.person_uid
               );
               const speakerSymposium = speaker1.person_data.assignments.find(
@@ -767,7 +768,7 @@ const useScheduleAutofill = (
 
       const noMeeting =
         weekType === Week.ASSEMBLY ||
-        weekType == Week.CONVENTION ||
+        weekType === Week.CONVENTION ||
         weekType === Week.MEMORIAL ||
         weekType === Week.NO_MEETING;
 

@@ -50,8 +50,8 @@ const CustomPublicWitnessingPlaceCard = ({
         <StyledIconWrapper
           color={isDelete ? 'var(--red-main)' : 'var(--accent-main)'}
           onClick={() => {
-            isDelete && onDelete && onDelete();
-            onClick && onClick();
+            onDelete?.();
+            onClick?.();
           }}
         >
           {isDelete ? (

@@ -15,6 +15,7 @@ const Accordion = ({
   id,
   children,
   summaryTextProps,
+  sx,
   ...props
 }: AccordionProps) => {
   const handleChange = (panel: string) => (_, isExpanded: boolean) => {
@@ -30,6 +31,7 @@ const Accordion = ({
         boxShadow: 'none',
         backgroundColor: 'unset',
         '::before': { backgroundColor: 'unset', content: 'unset' },
+        ...sx,
       }}
       {...props}
     >
@@ -44,6 +46,9 @@ const Accordion = ({
             margin: '10px 0 !important',
           },
           ...summaryProps?.sx,
+        }}
+        onClick={(e) => {
+          e.stopPropagation();
         }}
       >
         {typeof label === 'string' && (

@@ -256,6 +256,10 @@ export const dbAppSettingsBuildTest = async () => {
     'secretary',
   ];
   baseSettings.user_settings.account_type = 'vip';
+  baseSettings.user_settings.hour_credits_enabled = {
+    value: true,
+    updatedAt: new Date().toISOString(),
+  };
   baseSettings.cong_settings.country_code = 'USA';
   baseSettings.cong_settings.cong_name = 'Central English - Seattle WA';
   baseSettings.cong_settings.cong_number = '11163';

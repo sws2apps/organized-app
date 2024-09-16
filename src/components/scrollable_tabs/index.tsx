@@ -39,7 +39,7 @@ function ScrollableTabs({
     }
 
     setValueOfActivePanel(newValue);
-    onChange && onChange(newValue);
+    onChange?.(newValue);
   };
 
   useEffect(() => {

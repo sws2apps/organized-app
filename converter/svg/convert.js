@@ -53,7 +53,7 @@ for await (const svgFile of svgFiles) {
     !specialIcons.includes(componentName) ? `color = '#222222', ` : ''
   }width = 24, height = 24, sx = {}, className }: IconProps) => {
     return (
-      <SvgIcon className={} sx={{ width: widthPx, height: heightPx, ...sx }}>`;
+      <SvgIcon className={} sx={{ width: widthPx, height: heightPx, animation, ...sx }}>`;
 
   data = data.replace('widthPx', '`${width}px`');
   data = data.replace('heightPx', '`${height}px`');
@@ -61,6 +61,13 @@ for await (const svgFile of svgFiles) {
     'className={}',
     'className={`organized-icon-${iconName} ${className}`}'
   );
+
+  if (componentName === 'IconLoading') {
+    data.replace(' animation,', ' animation: rotate 2s linear infinite,');
+  } else {
+    data.replace(' animation,', '');
+  }
+
   data = data.replace('${iconName}', originalName);
 
   const filePath = path.join(ROOT_FOLDER, svgFile);
@@ -96,21 +103,6 @@ for await (const svgFile of svgFiles) {
   svgContent = svgContent.replaceAll('stop-color', 'stopColor');
   svgContent = svgContent.replaceAll('stroke-width', 'strokeWidth');
   svgContent = svgContent.replaceAll('stroke-dasharray', 'strokeDasharray');
-
-  if (componentName === 'IconLoading') {
-    svgContent = svgContent.replace(
-      '</g>',
-      `<animateTransform
-          attributeName="transform"
-          type="rotate"
-          from="0 12 12"
-          to="360 12 12"
-          dur="2s"
-          repeatCount="indefinite"
-        />
-      </g>`
-    );
-  }
 
   data += svgContent;
 

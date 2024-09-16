@@ -1,4 +1,3 @@
-/* eslint-disable react-refresh/only-export-components */
 import { Fragment } from 'react';
 import { View } from '@react-pdf/renderer';
 import { S140AYFType } from '../shared/index.types';
@@ -7,7 +6,11 @@ import S140Source from './S140Source';
 import S140Person from './S140Person';
 import styles from './index.styles';
 
-const S140AYF = ({ meetingData, class_count, fullname }: S140AYFType) => {
+const ApplyMinistryRow = ({
+  meetingData,
+  class_count,
+  fullname,
+}: S140AYFType) => {
   return (
     <>
       {[1, 2, 3, 4].map((index) => {
@@ -65,4 +68,4 @@ const S140AYF = ({ meetingData, class_count, fullname }: S140AYFType) => {
   );
 };
 
-export default S140AYF;
+export default ApplyMinistryRow;

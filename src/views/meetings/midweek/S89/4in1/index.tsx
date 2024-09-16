@@ -1,4 +1,3 @@
-/* eslint-disable react-refresh/only-export-components */
 import { Fragment } from 'react';
 import { Document, Font, Page, View } from '@react-pdf/renderer';
 import { S89DataType } from '@definition/schedules';
@@ -22,7 +21,7 @@ Font.register({
 
 Font.registerHyphenationCallback((word) => [word]);
 
-const S89Doc4in1 = ({ s89Data, lang }: S89Doc4in1Type) => {
+const TemplateS89Doc4in1 = ({ s89Data, lang }: S89Doc4in1Type) => {
   const { t } = useAppTranslation();
 
   const formatData = () => {
@@ -102,4 +101,4 @@ const S89Doc4in1 = ({ s89Data, lang }: S89Doc4in1Type) => {
   );
 };
 
-export default S89Doc4in1;
+export default TemplateS89Doc4in1;

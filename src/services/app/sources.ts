@@ -52,7 +52,7 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
   const source_lang = await promiseGetRecoil(JWLangState);
 
   for await (const src of data) {
-    const obj = <SourceWeekType>{};
+    const obj = {} as SourceWeekType;
 
     const isMWB = Object.keys(src).includes('mwb_week_date_locale');
     const isW = Object.keys(src).includes('w_study_date_locale');
@@ -65,7 +65,7 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
         assignmentTypeAYFOnlyState
       );
 
-      obj.midweek_meeting = <SourceWeekType['midweek_meeting']>{};
+      obj.midweek_meeting = {} as SourceWeekType['midweek_meeting'];
 
       obj.midweek_meeting.week_date_locale = {
         [source_lang]: src.mwb_week_date_locale,
@@ -192,7 +192,7 @@ const sourcesFormatAndSaveData = async (data: SourceWeekIncomingType[]) => {
     }
 
     if (isW) {
-      obj.weekend_meeting = <SourceWeekType['weekend_meeting']>{};
+      obj.weekend_meeting = {} as SourceWeekType['weekend_meeting'];
 
       obj.weekend_meeting.song_first = [];
       obj.weekend_meeting.public_talk = [];

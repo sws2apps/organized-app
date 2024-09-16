@@ -28,6 +28,7 @@ const Checkbox = (props: CheckboxPropsType) => {
 
   return (
     <FormControlLabel
+      onClick={props.stopPropagation ? (e) => e.stopPropagation() : null}
       sx={{
         padding: '4px 0px',
         marginLeft: '-4px',
@@ -81,7 +82,7 @@ const Checkbox = (props: CheckboxPropsType) => {
           >
             {label}
           </Typography>
-          {labelDescription != '' ? (
+          {labelDescription !== '' ? (
             <Typography
               className="body-small-regular"
               color={'var(--grey-400)'}

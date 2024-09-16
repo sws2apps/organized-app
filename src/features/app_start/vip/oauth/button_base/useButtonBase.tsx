@@ -153,6 +153,7 @@ const useButtonBase = ({ provider, isEmail }) => {
 
       setIsAuthProcessing(false);
     } catch (error) {
+      console.error(error);
       await handleAuthorizationError(error.code || t('tr_errorGeneric'));
     }
   };

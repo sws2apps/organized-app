@@ -99,6 +99,7 @@ const useCongregationMasterKey = () => {
         'cong_settings.cong_master_key': tmpMasterKey,
       });
     } catch (err) {
+      console.error(err);
       await displayOnboardingFeedback({
         title: t('tr_errorGeneric'),
         message: t('tr_encryptionCodeInvalid'),

@@ -36,7 +36,7 @@
   --group-3-base: 83, 96, 208;
   --group-4: #ea8135ff;
   --group-4-base: 234, 129, 53;
-  --group-5: #946951ff;
+  --group-5: #a8b93eff;
   --group-5-base: 168, 185, 62;
   --group-6: #944cb5ff;
   --group-6-base: 148, 76, 181;
@@ -44,12 +44,10 @@
   --group-7-base: 37, 169, 169;
   --group-8: #518accff;
   --group-8-base: 81, 138, 204;
-  --group-9: #a8b93eff;
-  --group-9-base: 168, 185, 62;
+  --group-9: #946951ff;
+  --group-9-base: 148, 105, 81;
   --group-10: #e46badff;
-  --group-10-base: 148, 105, 81;
-  --group-11: #e46badff;
-  --group-11-base: 228, 107, 173;
+  --group-10-base: 228, 107, 173;
 
   /* global print-pdf-templates variables */
   --pdf-blue-main: #6876beff;

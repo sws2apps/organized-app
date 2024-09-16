@@ -192,7 +192,7 @@ const NewUpdateModalWindow = (props: NewUpdateModalWindowProps) => {
               />
             ))}
           </Box>
-          {props.improvements.length != 0 ? improvementList() : null}
+          {props.improvements.length !== 0 ? improvementList() : null}
 
           <Box
             sx={{
@@ -204,21 +204,21 @@ const NewUpdateModalWindow = (props: NewUpdateModalWindowProps) => {
             <Button
               variant="main"
               onClick={(event) => {
-                if (currentSlideIndex != validSlides.length - 1) {
+                if (currentSlideIndex !== validSlides.length - 1) {
                   setCurrentSlideIndex((prev) => prev + 1);
                 } else {
                   props.onOkButtonClick(event);
                 }
               }}
             >
-              {currentSlideIndex != validSlides.length - 1
+              {currentSlideIndex !== validSlides.length - 1
                 ? t('tr_next')
                 : t('tr_ok')}
             </Button>
             <Button
               variant="secondary"
               onClick={() => {
-                if (currentSlideIndex != 0) {
+                if (currentSlideIndex !== 0) {
                   setCurrentSlideIndex((prev) => prev - 1);
                 } else {
                   props.onCloseButtonClick();

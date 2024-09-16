@@ -265,37 +265,36 @@ export const personIsEnrollmentActive = (
   month?: string
 ) => {
   if (!month) {
-    const hasActive = person.person_data.enrollments.find(
+    const isActive = person.person_data.enrollments.some(
       (record) =>
         record.enrollment === enrollment &&
         record.end_date === null &&
         record._deleted === false
     );
 
-    return hasActive ? true : false;
+    return isActive;
   }
 
-  // month provided
-  const date = `${month}/01`;
-
-  const baseList = person.person_data.enrollments.filter(
+  const history = person.person_data.enrollments.filter(
     (record) =>
-      record.enrollment === enrollment &&
       record._deleted === false &&
-      record.start_date.length > 0
+      record.enrollment === enrollment &&
+      record.start_date?.length > 0
   );
 
-  const found = baseList.find((record) => {
-    const dateStart = formatDate(new Date(record.start_date), 'yyyy/MM/dd');
-    const dateEndValue = record.end_date
+  const isActive = history.some((record) => {
+    const startDate = new Date(record.start_date);
+    const endDate = record.end_date
       ? new Date(record.end_date)
-      : new Date();
-    const dateEnd = formatDate(dateEndValue, 'yyyy/MM/dd');
+      : new Date(`${month}/01`);
 
-    return date >= dateStart && date <= dateEnd;
+    const startMonth = formatDate(startDate, 'yyyy/MM');
+    const endMonth = formatDate(endDate, 'yyyy/MM');
+
+    return month >= startMonth && month <= endMonth;
   });
 
-  return found ? true : false;
+  return isActive;
 };
 
 export const personIsAP = (person: PersonType) => {
@@ -568,18 +567,74 @@ export const updateRecentPersons = (
   return recentPersons;
 };
 
-export const personIsBaptizedPublisher = (person: PersonType) => {
-  return person.person_data.publisher_baptized.active.value;
-};
+export const personIsBaptizedPublisher = (
+  person: PersonType,
+  month?: string
+) => {
+  // default month to current month if undefined
+  if (!month) {
+    month = formatDate(new Date(), 'yyyy/MM');
+  }
 
-export const personIsUnbaptizedPublisher = (person: PersonType) => {
-  return person.person_data.publisher_unbaptized.active.value;
-};
+  const isValid = person.person_data.publisher_baptized.history.some(
+    (record) => {
+      if (record._deleted) return false;
+      if (!record.start_date) return false;
 
-export const personIsPublisher = (person: PersonType) => {
-  return (
-    personIsBaptizedPublisher(person) || personIsUnbaptizedPublisher(person)
+      const startDate = new Date(record.start_date);
+      const endDate = record.end_date
+        ? new Date(record.end_date)
+        : new Date(`${month}/01`);
+
+      const startMonth = formatDate(startDate, 'yyyy/MM');
+      const endMonth = formatDate(endDate, 'yyyy/MM');
+
+      return month >= startMonth && month <= endMonth;
+    }
   );
+
+  return isValid;
+};
+
+export const personIsUnbaptizedPublisher = (
+  person: PersonType,
+  month?: string
+) => {
+  // default month to current month if undefined
+  if (!month) {
+    month = formatDate(new Date(), 'yyyy/MM');
+  }
+
+  const isValid = person.person_data.publisher_unbaptized.history.some(
+    (record) => {
+      if (record._deleted) return false;
+      if (!record.start_date) return false;
+
+      const startDate = new Date(record.start_date);
+      const endDate = record.end_date
+        ? new Date(record.end_date)
+        : new Date(`${month}/01`);
+
+      const startMonth = formatDate(startDate, 'yyyy/MM');
+      const endMonth = formatDate(endDate, 'yyyy/MM');
+
+      return month >= startMonth && month <= endMonth;
+    }
+  );
+
+  return isValid;
+};
+
+export const personIsPublisher = (person: PersonType, month?: string) => {
+  // default month to current month if undefined
+  if (!month) {
+    month = formatDate(new Date(), 'yyyy/MM');
+  }
+
+  const isBaptized = personIsBaptizedPublisher(person, month);
+  const isUnbaptized = personIsUnbaptizedPublisher(person, month);
+
+  return isBaptized || isUnbaptized;
 };
 
 export const personIsMidweekStudent = (person: PersonType) => {
