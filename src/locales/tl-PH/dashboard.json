@@ -75,7 +75,7 @@
   "tr_returnedTerritoryDesc": "Ang {{ territoryNumber }} ay nakubrehan na at ibinalik. Ang bilang ng mga bahay na isinumite ng publisher ay {{ numberOfHouses }}. Mangyaring i-update ang impormasyon ng teritoryo kung kinakailangan.",
   "tr_whatsNew": "Anong bago sa Organized",
   "tr_shareFeeback": "Magbigay ng feedback",
-  "tr_shareFeebackDesc": "May magandang ideya ka ba? Ibahagi ito sa amin! Para sa mas teknikal o mas detalyadong \nmga diskusyon, ine-encourage ka namin na gamitin ang aming <a href='https://github.com/sws2apps/organized-app/discussions'>GitHub Discussions</a> kung maaari.",
+  "tr_shareFeebackDesc": "May magandang ideya ka ba? Ibahagi ito sa amin! Para sa mas teknikal o mas detalyadong \nmga diskusyon, pinapasigla ka naming gamitin ang aming <a href='https://github.com/sws2apps/organized-app/discussions'>GitHub Discussions</a> kung posible.",
   "tr_feedback": "Feedback",
   "tr_subject": "Paksa",
   "tr_sendFeedback": "I-send ang message",
