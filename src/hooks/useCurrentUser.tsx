@@ -1,10 +1,13 @@
 import { useMemo } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, waitForAllSettled } from 'recoil';
 import { personsState } from '@states/persons';
 import { userLocalUIDState } from '@states/settings';
 import { formatDate } from '@services/dateformat';
+import usePerson from '@features/persons/hooks/usePerson';
 
 const useCurrentUser = () => {
+  const { personIsEnrollmentActive, personIsBaptizedPublisher } = usePerson();
+
   const userUID = useRecoilValue(userLocalUIDState);
   const persons = useRecoilValue(personsState);
 
@@ -34,7 +37,24 @@ const useCurrentUser = () => {
     return formatDate(firstDate, 'yyyy/MM');
   }, [person]);
 
-  return { person, first_report };
+  const enable_AP_application = useMemo(() => {
+    if (!person) return waitForAllSettled;
+
+    const isBaptized = personIsBaptizedPublisher(person);
+
+    if (!isBaptized) return false;
+
+    const isAP = personIsEnrollmentActive(person, 'AP');
+    const isFMF = personIsEnrollmentActive(person, 'FMF');
+    const isFR = personIsEnrollmentActive(person, 'FR');
+    const isFS = personIsEnrollmentActive(person, 'FS');
+
+    const hasEnrollments = isAP || isFMF || isFR || isFS;
+
+    return !hasEnrollments;
+  }, [person]);
+
+  return { person, first_report, enable_AP_application };
 };
 
 export default useCurrentUser;

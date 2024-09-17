@@ -105,6 +105,11 @@ export type SettingsType = {
     format_24h_enabled: { type: string; value: boolean; updatedAt: string }[];
     week_start_sunday: { type: string; value: boolean; updatedAt: string }[];
     attendance_online_record: { value: boolean; updatedAt: string };
+    responsabilities: {
+      coordinator: string;
+      secretary: string;
+      service: string;
+    };
   };
   user_settings: {
     cong_role: AppRoleType[];

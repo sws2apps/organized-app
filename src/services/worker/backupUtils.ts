@@ -23,9 +23,9 @@ import { VisitingSpeakerType } from '@definition/visiting_speakers';
 const personIsElder = (person: PersonType) => {
   const hasActive = person?.person_data.privileges.find(
     (record) =>
-      record.privilege.value === 'elder' &&
-      record.end_date.value === null &&
-      record._deleted.value === false
+      record.privilege === 'elder' &&
+      record.end_date === null &&
+      record._deleted === false
   );
 
   return hasActive ? true : false;
@@ -34,9 +34,9 @@ const personIsElder = (person: PersonType) => {
 const personIsMS = (person: PersonType) => {
   const hasActive = person?.person_data.privileges.find(
     (record) =>
-      record.privilege.value === 'ms' &&
-      record.end_date.value === null &&
-      record._deleted.value === false
+      record.privilege === 'ms' &&
+      record.end_date === null &&
+      record._deleted === false
   );
 
   return hasActive ? true : false;
@@ -324,6 +324,8 @@ export const dbExportDataBackup = async (
     speakers_congregations,
     visiting_speakers,
   } = await dbGetTableData();
+
+  console.log(settings);
 
   const adminRole = userRole.includes('admin');
 

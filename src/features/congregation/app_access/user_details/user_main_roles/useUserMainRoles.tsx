@@ -16,7 +16,7 @@ const useUserMainRoles = () => {
   const [isCoordinator, setIsCoordinator] = useState(false);
   const [isSecretary, setIsSecretary] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [isFieldOverseer, setIsFieldOverseer] = useState(false);
+  const [isServiceOverseer, setIsServiceOverseer] = useState(false);
 
   const handleToggleAdmin = async (value: boolean) => {
     try {
@@ -104,19 +104,19 @@ const useUserMainRoles = () => {
     }
   };
 
-  const handleToggleFieldOverseer = async (value: boolean) => {
+  const handleToggleServiceOverseer = async (value: boolean) => {
     try {
-      setIsFieldOverseer(value);
+      setIsServiceOverseer(value);
 
       const newUser = structuredClone(user);
 
       if (value) {
-        newUser.cong_role.push('field_service_group_overseer');
+        newUser.cong_role.push('service_overseer');
       }
 
       if (!value) {
         newUser.cong_role = newUser.cong_role.filter(
-          (role) => role !== 'field_service_group_overseer'
+          (role) => role !== 'service_overseer'
         );
       }
 
@@ -142,10 +142,8 @@ const useUserMainRoles = () => {
     const isAdmin = user.cong_role.includes('admin');
     setIsAdmin(isAdmin);
 
-    const isFieldOverseer = user.cong_role.includes(
-      'field_service_group_overseer'
-    );
-    setIsFieldOverseer(isFieldOverseer);
+    const isFieldOverseer = user.cong_role.includes('service_overseer');
+    setIsServiceOverseer(isFieldOverseer);
   }, [user]);
 
   return {
@@ -154,9 +152,9 @@ const useUserMainRoles = () => {
     isCoordinator,
     handleToggleCoordinator,
     isSecretary,
-    isFieldOverseer,
+    isServiceOverseer,
     handleToggleSecretary,
-    handleToggleFieldOverseer,
+    handleToggleServiceOverseer,
   };
 };
 
