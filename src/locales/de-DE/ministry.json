@@ -125,9 +125,9 @@
   "tr_quickAssignAPDesc": "Dieser Verkündiger ist diesen Monat als Hilfspionier zugewiesen. Du kannst dies in der Liste „Art des Dienstes“ des Verkündigers auf der Personen-Seite ändern.",
   "tr_reactivatePublisher": "Diesen Verkündiger reaktivieren",
   "tr_S21CardTitle": "Export multiple publisher records (S-21)",
-  "tr_S21CardTitleDesc": "Select ‘All records’ to export and sort all records for publishers, full-time, and auxiliary servants, or ‘Specific records’ to export records only for selected publishers.",
+  "tr_S21CardTitleDesc": "Select ‘All publishers’ to export and sort all records for publishers, full-time, and auxiliary servants, or ‘Specific publishers’ to export records only for selected publishers.",
   "tr_allPublisherRecords": "Alle Verkündiger",
   "tr_specificPublisherRecords": "Specific publishers",
-  "tr_S21ExportMultipleDesc": "Select the publishers you want to include in the exported records. Each publisher will have a separate file.",
+  "tr_S21ExportMultipleDesc": "Select the publishers you want to include in the exported records. Each publisher will be included in a separate file.",
   "tr_activePublishersAll": "All other publishers"
 }
