@@ -83,7 +83,7 @@
   "tr_thursday": "Lakamisy",
   "tr_friday": "Zoma",
   "tr_saturday": "Sabotsy",
-  "tr_sunday": "Lahady",
+  "tr_sunday": "Alahady",
   "tr_enterPIN": "Ampidiro ny kaody PIN",
   "tr_pinRequired": "Ampidiro ny kaody PIN raha te hijery na hanova fanazavana.",
   "tr_approve": "Ekè",
@@ -95,9 +95,9 @@
   "tr_longDateNoYearLocale": "{{ date }} {{ month }}",
   "tr_brother": "Rahalahy",
   "tr_brothers": "Rahalahy",
-  "tr_editingFinished": "Vita ny fanamboarana",
+  "tr_editingFinished": "Vita ty fanamboara",
   "tr_minLabel": "min.",
-  "tr_textCopied": "Voadika ny fanazavana",
+  "tr_textCopied": "Fa voadika fanazavà io",
   "tr_longDateWithYearLocale": "{{ date }} {{ month }} {{ year }}",
   "tr_edit": "Hanova",
   "tr_noPersonsFound": "Tsy misy valiny hita",
@@ -112,7 +112,7 @@
   "tr_januaryShort": "Zan",
   "tr_februaryShort": "Fev",
   "tr_marchShort": "Mar",
-  "tr_aprilShort": "Apr",
+  "tr_aprilShort": "Avr",
   "tr_mayShort": "Mey",
   "tr_juneShort": "Jon",
   "tr_julyShort": "Jol",
@@ -123,5 +123,5 @@
   "tr_decemberShort": "Des",
   "tr_published": "Published",
   "tr_longDateWithYearAndDayLocale": "{{ day }}, {{ month }} {{ date }}, {{ year }}",
-  "tr_selectAll": "Select all"
+  "tr_selectAll": "Rozy iaby"
 }
