@@ -125,9 +125,9 @@
   "tr_quickAssignAPDesc": "This publisher is assigned as an auxiliary pioneer this month. You can change this on the publisher's enrollments list on the Persons page.",
   "tr_reactivatePublisher": "Reactivate this publisher",
   "tr_S21CardTitle": "Export multiple publisher records (S-21)",
-  "tr_S21CardTitleDesc": "Select ‘All records’ to export and sort all records for publishers, full-time, and auxiliary servants, or ‘Specific records’ to export records only for selected publishers.",
+  "tr_S21CardTitleDesc": "Select ‘All publishers’ to export and sort all records for publishers, full-time, and auxiliary servants, or ‘Specific publishers’ to export records only for selected publishers.",
   "tr_allPublisherRecords": "Tous les proclamateurs",
   "tr_specificPublisherRecords": "Proclamateurs spécifiques",
-  "tr_S21ExportMultipleDesc": "Sélectionnez les proclamateurs que vous souhaitez inclure dans les enregistrements exportés. Chaque proclamateur aura un fichier séparé.",
+  "tr_S21ExportMultipleDesc": "Select the publishers you want to include in the exported records. Each publisher will be included in a separate file.",
   "tr_activePublishersAll": "Tous les autres proclamateurs"
 }
