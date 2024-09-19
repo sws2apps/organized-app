@@ -89,5 +89,21 @@
   "tr_remarks": "Remarks",
   "tr_approvedAssignments": "Approved assignments",
   "tr_credit": "Credit",
-  "tr_assistantS89": "Ajudante"
+  "tr_assistantS89": "Ajudante",
+  "tr_applicationAPS": "Petição de serviço de pioneiro auxiliar",
+  "tr_applicationAPSDesc": "Por causa do meu amor a Jeová e do meu desejo de ajudar outros a aprender sobre ele e seus amorosos propósitos, gostaria de aumentar minha participação no serviço de campo por trabalhar como pioneiro(a) auxiliar no período indicado a seguir:",
+  "tr_theMonthsOf": "Para o(s) mes(es) de",
+  "tr_hoursGoal": "Alvo de horas",
+  "tr_continuousAPS": "Dê um tique aqui caso deseje servir continuamente como pioneiro auxiliar até posterior comunicado.",
+  "tr_pioneerApplicationMoral": "I am of good moral standing and habits. I have made plans that will enable me to meet the hour requirement.—See the <a href='' title='wol.jw.org' rel='noopener' target='_blank'>June 2013 <em>Our Kingdom Ministry,</em> p. 2</a>.",
+  "tr_nameAPSApplication": "Nome, serve como assinatura",
+  "tr_noteAPSApplication": "NOTA: Depois de preencher esta petição, entregue-a ao coordenador do corpo de anciãos. Se possível, faça isso pelo menos uma semana antes, da data em que deseja iniciar seu serviço de pioneiro auxiliar. Esta petição não deve ser enviada ao escritório da filial, mas, antes, deve ser guardada nos arquivos da congregação.",
+  "tr_attentionServiceCommittee": "<p>Para consideração da Comissão de Serviço da Congregação:</p><p>1. O peticionário é um bom exemplo de vida cristã, gozando de boa reputação moral? </p><p>2. Pessoas repreendidas ou readmitidas nos últimos 12 meses ou as que estiverem sob restrições não se qualificam.</p><p>3. Consultaram o respetivo superintendente de grupo?</p>",
+  "tr_approvingAPSApplication": "Aprovada pelos membros da comissão de serviço:",
+  "tr_moreInformationForAP": "Interested in becoming a full-time pioneer? Apply at <a href='https://hub.jw.org/' title='JW HuB' target='_blank' rel='noopener'>hub.jw.org</a> or contact the elders in your congregation.",
+  "tr_btnSubmitApplication": "Enviar a petição",
+  "tr_hourGoal": "O alvo de horas está definido para 30",
+  "tr_hourGoalDesc": "Para servir continuamente, a meta deve ser de 30 horas. No entanto, durante meses específicos anunciados pelos anciãos, também pode se inscrever por 15 horas.",
+  "tr_applicationSubmitted": "A petição foi enviada",
+  "tr_applicationSubmittedDesc": "A comissão de serviço da sua congregação irá rever e, se aprovada, será notificado"
 }

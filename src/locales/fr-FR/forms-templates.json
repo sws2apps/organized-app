@@ -89,5 +89,21 @@
   "tr_remarks": "Remarques",
   "tr_approvedAssignments": "Affectations approuvées",
   "tr_credit": "Crédit",
-  "tr_assistantS89": "Assistant"
+  "tr_assistantS89": "Assistant",
+  "tr_applicationAPS": "Demande d'admission au service de pionnier auxiliaire",
+  "tr_applicationAPSDesc": "Because of my love for Jehovah and my desire to help others to learn about him and his loving purposes, I would like to increase my share in the field service by enrolling as an auxiliary pioneer for the period indicated below:",
+  "tr_theMonthsOf": "Le(s) mois de",
+  "tr_hoursGoal": "Objectif horaire",
+  "tr_continuousAPS": "I desire to serve continuously as an auxiliary pioneer until further notice.",
+  "tr_pioneerApplicationMoral": "I am of good moral standing and habits. I have made plans that will enable me to meet the hour requirement.—See the <a href='' title='wol.jw.org' rel='noopener' target='_blank'>June 2013 <em>Our Kingdom Ministry,</em> p. 2</a>.",
+  "tr_nameAPSApplication": "Nom en toutes lettres, servant de signature",
+  "tr_noteAPSApplication": "NOTE: If possible, please submit this application at least a week before you desire to begin your auxilary pioneer service. This application is not to be sent to the branch office but, rather, will be kept by the congregation for its files.",
+  "tr_attentionServiceCommittee": "<p>À l'attention du comité de service de l'assemblée :</p><p>1. Le proclammateur donne-t-il un bon exemple de la vie chrétienne ?</p><p>2. Quelqu'un qui a été repris ou réintégré au cours de l'année écoulée ou qui est toujours sous restrictions ne remplit pas les conditions.</p><p>3. Avez-vous consulté le responsable de groupe du concerné ?</p>",
+  "tr_approvingAPSApplication": "À approuver par les membres du comité de service :",
+  "tr_moreInformationForAP": "Souhaitez-vous devenir un pionnier permanent ? Faites une demande sur <a href='https://hub.jw.org/' title='JW HuB' target='_blank' rel='noopener'>hub.jw.org</a> ou contactez les anciens de votre assemblée.",
+  "tr_btnSubmitApplication": "Envoyer la demande",
+  "tr_hourGoal": "L'objectif horaire est fixé à 30h",
+  "tr_hourGoalDesc": "Pour servir comme pionnier auxiliaire à durée indéterminée, 30 heures devrait être fixées comme objectif. Cependant, vous pouvez prêcher 15 heures pendant les mois spéciaux comme lorsque annoncé par les anciens de votre assemblée.",
+  "tr_applicationSubmitted": "Votre demande a été soumise",
+  "tr_applicationSubmittedDesc": "Le comité de service de ton assemblée va examiner ta requête, et si elle est approuvée, tu en seras averti"
 }
