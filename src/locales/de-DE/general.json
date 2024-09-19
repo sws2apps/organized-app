@@ -123,5 +123,5 @@
   "tr_decemberShort": "Dez",
   "tr_published": "Veröffentlicht",
   "tr_longDateWithYearAndDayLocale": "{{ day }}, {{ date }} {{ month }} {{ year }}",
-  "tr_selectAll": "Select all"
+  "tr_selectAll": "Alle auswählen"
 }
