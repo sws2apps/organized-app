@@ -431,7 +431,7 @@
   "tr_editUpcomingEvent": "Ein kommendes Ereignis bearbeiten",
   "tr_eventType": "Ereignistyp",
   "tr_averageAttendanceMM": "Durchschnittliche Besucher unter der Woche",
-  "tr_S10ReportWithYear": "Congregation analysis report: {{ year }}",
+  "tr_S10ReportWithYear": "Gemeindeanalyse-Bericht: {{ year }}",
   "tr_groupNotAssigned": "Gruppe nicht zugewiesen",
   "tr_publisherLastReport": "Letzter Bericht im {{ month }}",
   "tr_myGroup": "Meine Gruppe",
