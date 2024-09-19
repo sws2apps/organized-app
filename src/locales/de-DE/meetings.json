@@ -141,9 +141,9 @@
   "tr_outgoingTalkSynced": "Dieser auswärtige Vortrag wurde mit dem Zeitplan der Versammlung <strong>{{ congregation }}</strong> synchronisiert. Bitte kontaktiere deren öffentlichen Vortrags Koordinator für Korrekturen oder Aktualisierungen.",
   "tr_clearOutgoingTalkDesc": "Bist du sicher, dass du alle Aufgaben und Versammlungsdetails für diesen auswärtigen Vortrag löschen möchtest? Du kannst sie später jederzeit ausfüllen.",
   "tr_outgoingTalkDelete": "Auswärtigen Vortrag löschen",
-  "tr_outgoingTalkDeleteDesc": "Are you sure you want to delete this outgoing talk schedule?",
+  "tr_outgoingTalkDeleteDesc": "Bist du sicher, dass du diesen auswärtigen Vortrag löschen möchtest?",
   "tr_deliveredBy": "Hält: {{ name }}",
   "tr_toCurrentWeek": "Zur aktuellen Woche",
-  "tr_recordAttendance": "Attendance records",
+  "tr_recordAttendance": "Anwesenheitsaufzeichnungen",
   "tr_assignmentPreferences": "Aufgabenpräferenzen"
 }
