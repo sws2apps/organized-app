@@ -52,7 +52,7 @@ const useCurrentUser = () => {
     const hasEnrollments = isAP || isFMF || isFR || isFS;
 
     return !hasEnrollments;
-  }, [person]);
+  }, [person, personIsBaptizedPublisher, personIsEnrollmentActive]);
 
   return { person, first_report, enable_AP_application };
 };

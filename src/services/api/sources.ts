@@ -9,17 +9,18 @@ export const apiFetchSources = async () => {
   } = await apiDefault();
 
   if (isOnline && apiHost !== '') {
-    const res = await fetch(
-      `${apiHost}api/v3/public/source-material/${JWLang}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          appclient: 'organized',
-          appversion,
-        },
-      }
-    );
+    const url =
+      import.meta.env.VITE_SOURCE_MATERIALS_API ||
+      'https://source-materials.organized-app.com';
+
+    const res = await fetch(`${url}/api/${JWLang}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        appclient: 'organized',
+        appversion,
+      },
+    });
 
     const data = await res.json();
 

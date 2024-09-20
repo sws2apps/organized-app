@@ -54,15 +54,18 @@ const useButtonBase = ({ provider, isEmail }) => {
     const nextStep: NextStepType = {};
 
     if (data.mfa === 'not_enabled') {
-      if (data.cong_name.length === 0) {
+      if (!data.cong_name || data.cong_name?.length === 0) {
         nextStep.createCongregation = true;
       }
 
-      if (data.cong_name.length > 0 && data.cong_role.length === 0) {
+      if (
+        data.cong_name?.length > 0 &&
+        (!data.cong_role || data.cong_role?.length === 0)
+      ) {
         nextStep.unauthorized = true;
       }
 
-      if (data.cong_name.length > 0 && data.cong_role.length > 0) {
+      if (data.cong_name?.length > 0 && data.cong_role?.length > 0) {
         const approvedRole = data.cong_role.some((role) =>
           APP_ROLES.includes(role)
         );
@@ -88,7 +91,7 @@ const useButtonBase = ({ provider, isEmail }) => {
   ) => {
     await dbAppSettingsUpdate({
       'user_settings.account_type': 'vip',
-      'user_settings.cong_role': data.cong_role,
+      'user_settings.cong_role': data.cong_role || [],
       'user_settings.lastname': data.lastname,
       'user_settings.firstname': data.firstname,
     });
