@@ -104,14 +104,14 @@
   "tr_hoursCreditPresetAddedInfo": "The chosen credit hours preset will appear in the monthly report's comment field. Edit it there if needed.",
   "tr_lateReportSent": "Sent to Bethel: {{ date }}",
   "tr_fieldService": "Fanompoa",
-  "tr_S10ReportNotGenerated": "This year’s report hasn’t been generated yet. Generate it to see all the details and then submit.",
+  "tr_S10ReportNotGenerated": "Mbo tsy namboary tatitsy io. Laha ta hahita ty tsipiriany noho handefa azy, le amboary tse raha io.",
   "tr_quickAssignAP": "Fanendrea mpisava lala mpanampy",
   "tr_quickAssignAPDesc": "This publisher is assigned as an auxiliary pioneer this month. You can change this on the publisher's enrollments list on the Persons page.",
   "tr_reactivatePublisher": "Mimpoly nitory ndraiky",
   "tr_S21CardTitle": "Export multiple publisher records (S-21)",
   "tr_S21CardTitleDesc": "Select ‘All publishers’ to export and sort all records for publishers, full-time, and auxiliary servants, or ‘Specific publishers’ to export records only for selected publishers.",
   "tr_allPublisherRecords": "Mpitory iaby",
-  "tr_specificPublisherRecords": "Specific publishers",
+  "tr_specificPublisherRecords": "Ze mpitory nifilỳ",
   "tr_S21ExportMultipleDesc": "Select the publishers you want to include in the exported records. Each publisher will be included in a separate file.",
   "tr_activePublishersAll": "Mpitory hafa"
 }
