@@ -108,7 +108,7 @@
   "tr_assignmentsDeleteMultiple": "Hamafa fanendrea maromaro",
   "tr_editAssignments": "Hanova fanendrenea",
   "tr_editParts": "Hanova fandaharana",
-  "tr_customMeetingPartDesc": "Anjara fanampiny ity. Raha tsy misy fanazavana ampidirinao eto, dia tsy hiseho ao amin’ny fandaharana ilay anjara.",
+  "tr_customMeetingPartDesc": "Anjara fanampiny raha toy. Laha tsy misy fanazavà ampilirinao ato, le tsy hiseho amy fandahara ilay anjara.",
   "tr_customMeetingPartDelete": "Hamafa anjara",
   "tr_clearAllAssignmentsDesc": "Tena teanao ho fafà va ty anjara iaby nampilirinao? Fe mbo afaky mampilitsy ao avao iha.",
   "tr_templateS89": "Modely S-89",
@@ -142,7 +142,7 @@
   "tr_clearOutgoingTalkDesc": "Teanao hofafà va ty fanendrea noho ty mikasiky fiangona amy fandahara lahateny toy? Mbo azonao fenoa raha reo bakaeo.",
   "tr_outgoingTalkDelete": "Hamafa lahateny",
   "tr_outgoingTalkDeleteDesc": "Teanao hofafà va lahateny amy fiangona hafa any toy?",
-  "tr_deliveredBy": "Delivers: {{ name }}",
+  "tr_deliveredBy": "Ataon’i {{ name }}",
   "tr_toCurrentWeek": "Amy herinandro toy",
   "tr_recordAttendance": "Tafilitsy ty tatitsy isan’ny mpanatriky",
   "tr_assignmentPreferences": "Fanendrea"
