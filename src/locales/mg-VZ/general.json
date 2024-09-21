@@ -121,7 +121,7 @@
   "tr_octoberShort": "Okt",
   "tr_novemberShort": "Nov",
   "tr_decemberShort": "Des",
-  "tr_published": "Published",
-  "tr_longDateWithYearAndDayLocale": "{{ day }}, {{ month }} {{ date }}, {{ year }}",
+  "tr_published": "Mpitory",
+  "tr_longDateWithYearAndDayLocale": "{{ date }} {{ month }} {{ year }}",
   "tr_selectAll": "Rozy iaby"
 }
