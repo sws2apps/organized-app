@@ -72,7 +72,7 @@
   "tr_deletePWLocationDesc": "Mawawala nang tuluyan ang lahat ng data kapag binura ang lokasyong ito. Hindi na ito maibabalik.",
   "tr_changeImage": "Palitan ang larawan",
   "tr_addImage": "Mag-add ng larawan",
-  "tr_cantDeductStudiesDesc": "Hindi puwedeng pumili ng mas kaunting mga pag-aaral sa Bibliya kaysa sa iyong mga napili sa menu ng “Indibidwal na mga Pag-aaral sa Bibliya.”",
+  "tr_cantDeductStudiesDesc": "You can’t select fewer studies than you already have selected in the 'Bible studies' menu.",
   "tr_cantDeductStudiesTitle": "Hindi maaaring bawasan ang Pag-aaral ng Bibliya",
   "tr_includesServiceAndCredit": "Kasama ang oras sa larangan at credit hours",
   "tr_noDailyRecordsDesc": "Wala pang record. Maglagay ng record para maisama ito sa buwanang ulat.",
