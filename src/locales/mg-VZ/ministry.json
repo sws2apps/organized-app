@@ -72,7 +72,7 @@
   "tr_deletePWLocationDesc": "Hifafa iaby ty firaketa mifandramby amy pilasy toy noho ze fandaharam-potoa miaraky aminy. Tsy azo safidinao toy.",
   "tr_changeImage": "Hanova sary",
   "tr_addImage": "Hanampy sary",
-  "tr_cantDeductStudiesDesc": "Tsy afaky mifily mpianatsy Baiboly latsakin'ny isa fa nisoraty amy isan'ny fampianara Baiboly nitarihinao iha.",
+  "tr_cantDeductStudiesDesc": "You can’t select fewer studies than you already have selected in the 'Bible studies' menu.",
   "tr_cantDeductStudiesTitle": "Tsy afaky ahena ty isan’ny mpianatsy",
   "tr_includesServiceAndCredit": "Mitambatsy amy fanompoa an-tonda eny noho ty lera amea ahy",
   "tr_noDailyRecordsDesc": "Mbo tsy misy tatitsy amy andro androany. Mampilira vaovao mba ho hita amy tatitsinao anatin'ny vola iny.",
