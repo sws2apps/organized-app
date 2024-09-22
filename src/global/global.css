@@ -348,7 +348,7 @@
   --accent-400: rgba(var(--accent-400-base), 1);
   --accent-350-base: 142, 132, 156;
   --accent-350: rgba(var(--accent-350-base), 1);
-  --accent-300-base: 104, 192, 117;
+  --accent-300-base: 104, 92, 117;
   --accent-300: rgba(var(--accent-300-base), 1);
   --accent-200-base: 60, 55, 67;
   --accent-200: rgba(var(--accent-200-base), 1);
