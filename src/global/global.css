@@ -220,7 +220,7 @@
   --accent-400: rgba(var(--accent-400-base), 1);
   --accent-350-base: 142, 172, 134;
   --accent-350: rgba(var(--accent-350-base), 1);
-  --accent-300-base: 209, 234, 200;
+  --accent-300-base: 225, 240, 210;
   --accent-300: rgba(var(--accent-300-base), 1);
   --accent-200-base: 216, 237, 210;
   --accent-200: rgba(var(--accent-200-base), 1);
@@ -284,7 +284,7 @@
   --accent-400: rgba(var(--accent-400-base), 1);
   --accent-350-base: 116, 137, 116;
   --accent-350: rgba(var(--accent-350-base), 1);
-  --accent-300-base: 50, 63, 50;
+  --accent-300-base: 86, 101, 86;
   --accent-300: rgba(var(--accent-300-base), 1);
   --accent-200-base: 55, 69, 55;
   --accent-200: rgba(var(--accent-200-base), 1);
