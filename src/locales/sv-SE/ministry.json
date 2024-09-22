@@ -72,7 +72,7 @@
   "tr_deletePWLocationDesc": "Om du tar bort denna plats raderas all dess information permanent. Åtgärden kan inte ångras.",
   "tr_changeImage": "Byt bild",
   "tr_addImage": "Lägg till bild",
-  "tr_cantDeductStudiesDesc": "Du kan inte välja färre studier än du redan har valt i menyn \"Individuella Bibelstudier\".",
+  "tr_cantDeductStudiesDesc": "You can’t select fewer studies than you already have selected in the 'Bible studies' menu.",
   "tr_cantDeductStudiesTitle": "Kan inte dra av Bibelstudier",
   "tr_includesServiceAndCredit": "Inkluderar tjänst och tid tillgodo",
   "tr_noDailyRecordsDesc": "Du har ännu inga dagliga rapporter ännu. Lägg till posten för att inkludera den i din månadsrapport.",
