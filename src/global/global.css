@@ -156,7 +156,7 @@
   --accent-400: rgba(var(--accent-400-base), 1);
   --accent-350-base: 133, 140, 159;
   --accent-350: rgba(var(--accent-350-base), 1);
-  --accent-300-base: 73, 78, 92;
+  --accent-300-base: 83, 92, 115;
   --accent-300: rgba(var(--accent-300-base), 1);
   --accent-200-base: 61, 64, 73;
   --accent-200: rgba(var(--accent-200-base), 1);
@@ -348,7 +348,7 @@
   --accent-400: rgba(var(--accent-400-base), 1);
   --accent-350-base: 142, 132, 156;
   --accent-350: rgba(var(--accent-350-base), 1);
-  --accent-300-base: 104, 92, 117;
+  --accent-300-base: 95, 81, 111;
   --accent-300: rgba(var(--accent-300-base), 1);
   --accent-200-base: 60, 55, 67;
   --accent-200: rgba(var(--accent-200-base), 1);
@@ -472,11 +472,11 @@
   --accent-click: rgba(var(--accent-click-base), 1);
   --accent-main-base: 200, 136, 40;
   --accent-main: rgba(var(--accent-main-base), 1);
-  --accent-400-base: 215, 200, 190;
+  --accent-400-base: 189, 154, 131;
   --accent-400: rgba(var(--accent-400-base), 1);
-  --accent-350-base: 150, 137, 126;
+  --accent-350-base: 154, 120, 93;
   --accent-350: rgba(var(--accent-350-base), 1);
-  --accent-300-base: 100, 86, 70;
+  --accent-300-base: 106, 89, 70;
   --accent-300: rgba(var(--accent-300-base), 1);
   --accent-200-base: 71, 63, 56;
   --accent-200: rgba(var(--accent-200-base), 1);
@@ -536,11 +536,11 @@
   --accent-click: rgba(var(--accent-click-base), 1);
   --accent-main-base: 229, 156, 15;
   --accent-main: rgba(var(--accent-main-base), 1);
-  --accent-400-base: 185, 145, 90;
+  --accent-400-base: 182, 138, 78;
   --accent-400: rgba(var(--accent-400-base), 1);
-  --accent-350-base: 210, 177, 127;
+  --accent-350-base: 212, 169, 105;
   --accent-350: rgba(var(--accent-350-base), 1);
-  --accent-300-base: 235, 204, 164;
+  --accent-300-base: 240, 201, 150;
   --accent-300: rgba(var(--accent-300-base), 1);
   --accent-200-base: 247, 234, 208;
   --accent-200: rgba(var(--accent-200-base), 1);
