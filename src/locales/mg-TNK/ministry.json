@@ -72,7 +72,7 @@
   "tr_deletePWLocationDesc": "Hifafa daholo ny firaketana mifandray amin’ity toerana ity sy ireo fandaharam-potoana miaraka aminy. Tsy azo iverenana intsony ity safidy ity.",
   "tr_changeImage": "Hanova sary",
   "tr_addImage": "Hanampy sary",
-  "tr_cantDeductStudiesDesc": "Tsy afaka misafidy mpianatra Baiboly latsaky ny isa efa nosoratanao eo amin’ny isan’ny fampianarana Baiboly notarihana ianao.",
+  "tr_cantDeductStudiesDesc": "You can’t select fewer studies than you already have selected in the 'Bible studies' menu.",
   "tr_cantDeductStudiesTitle": "Tsy afaka ahena ny isan’ny mpianatra",
   "tr_includesServiceAndCredit": "Mitambatra ao ny fanompoana eny amin’ny saha sy ny ora omena",
   "tr_noDailyRecordsDesc": "Tsy mbola misy tatitra ho an’ny andro. Mampidira vaovao mba ho hita ao amin’ny tatitrao mandritra ny volana.",

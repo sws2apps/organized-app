@@ -72,7 +72,7 @@
   "tr_deletePWLocationDesc": "Bu konumu silmek, tüm verilerini ve düzenlemelerini kalıcı olarak kaldırır. Bu işlem geri alınamaz.",
   "tr_changeImage": "Resmi değiştir",
   "tr_addImage": "Resim ekle",
-  "tr_cantDeductStudiesDesc": "You can’t select fewer studies than you already have selected in the “Individual Bible studies” menu.",
+  "tr_cantDeductStudiesDesc": "You can’t select fewer studies than you already have selected in the 'Bible studies' menu.",
   "tr_cantDeductStudiesTitle": "Kutsal Kitap tetkiki sayısı azaltılamıyor",
   "tr_includesServiceAndCredit": "Saha hizmeti ve kredi saatlerini içerir",
   "tr_noDailyRecordsDesc": "Henüz gün gün hizmet kaydı yok. Aylık raporunuza dahil etmek için kayıt ekleyin.",
