@@ -72,7 +72,7 @@
   "tr_deletePWLocationDesc": "Видалення цього місця повністю видаляє всі його дані та записи. Цю дію неможливо скасувати.",
   "tr_changeImage": "Змінити зображення",
   "tr_addImage": "Додати зображення",
-  "tr_cantDeductStudiesDesc": "You can’t select fewer studies than you already have selected in the 'Bible studies' menu.",
+  "tr_cantDeductStudiesDesc": "Ти не можеш вибрати менше вивчень, ніж уже вибрано в меню \"Біблійні вивчення\".",
   "tr_cantDeductStudiesTitle": "Неможливо зменшити кількість біблійних вивчень",
   "tr_includesServiceAndCredit": "Включає години служіння та кредитні години",
   "tr_noDailyRecordsDesc": "Ще немає щоденних записів про служіння. Додай запис, щоб включити його до свого місячного звіту.",
