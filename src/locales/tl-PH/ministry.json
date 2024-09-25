@@ -112,6 +112,6 @@
   "tr_S21CardTitleDesc": "Piliin ang ‘Lahat ng mga rekord’ upang i-export at i-sort ang lahat ng rekord ng mga publisher, full-time, at mga auxiliary servant, o ‘Espesipikong mga record’ upang i-export lamang ang mga record sa mga napiling publisher.",
   "tr_allPublisherRecords": "Lahat ng publisher",
   "tr_specificPublisherRecords": "Espisipikong publisher",
-  "tr_S21ExportMultipleDesc": "Piliin ang mga publisher na isasama sa mga na-export na record. Bawat publisher ay mayroong sariling file.",
+  "tr_S21ExportMultipleDesc": "Pumili ng mga publisher na isasama sa mga na-export na record. Mayroong sariling file ang bawat publisher.",
   "tr_activePublishersAll": "Lahat ng iba pang publisher"
 }
