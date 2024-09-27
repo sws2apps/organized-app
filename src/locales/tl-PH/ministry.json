@@ -72,7 +72,7 @@
   "tr_deletePWLocationDesc": "Mawawala nang tuluyan ang lahat ng data kapag binura ang lokasyong ito. Hindi na ito maibabalik.",
   "tr_changeImage": "Palitan ang larawan",
   "tr_addImage": "Mag-add ng larawan",
-  "tr_cantDeductStudiesDesc": "You can’t select fewer studies than you already have selected in the 'Bible studies' menu.",
+  "tr_cantDeductStudiesDesc": "Hindi puwedeng pumili ng mas kaunting mga pag-aaral sa Bibliya kaysa sa iyong mga napili sa 'Bible studies' menu.",
   "tr_cantDeductStudiesTitle": "Hindi maaaring bawasan ang Pag-aaral ng Bibliya",
   "tr_includesServiceAndCredit": "Kasama ang oras sa larangan at credit hours",
   "tr_noDailyRecordsDesc": "Wala pang record. Maglagay ng record para maisama ito sa buwanang ulat.",
@@ -112,6 +112,6 @@
   "tr_S21CardTitleDesc": "Piliin ang ‘Lahat ng mga rekord’ upang i-export at i-sort ang lahat ng rekord ng mga publisher, full-time, at mga auxiliary servant, o ‘Espesipikong mga record’ upang i-export lamang ang mga record sa mga napiling publisher.",
   "tr_allPublisherRecords": "Lahat ng publisher",
   "tr_specificPublisherRecords": "Espisipikong publisher",
-  "tr_S21ExportMultipleDesc": "Piliin ang mga publisher na isasama sa mga na-export na record. Bawat publisher ay mayroong sariling file.",
+  "tr_S21ExportMultipleDesc": "Pumili ng mga publisher na isasama sa mga na-export na record. Mayroong sariling file ang bawat publisher.",
   "tr_activePublishersAll": "Lahat ng iba pang publisher"
 }
