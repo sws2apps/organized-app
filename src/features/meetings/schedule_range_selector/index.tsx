@@ -29,7 +29,7 @@ const ScheduleRangeSelector = ({
       <Select
         label={t('tr_startMonth')}
         defaultValue=""
-        onChange={(e) => handleStartMonthChange(e.target.value)}
+        onChange={(e) => handleStartMonthChange(e.target.value as string)}
       >
         {startMonthOptions.map((option) => (
           <MenuItem key={option.value} value={option.value}>
@@ -43,7 +43,7 @@ const ScheduleRangeSelector = ({
       <Select
         label={t('tr_endMonth')}
         defaultValue=""
-        onChange={(e) => onEndChange?.(e.target.value)}
+        onChange={(e) => onEndChange?.(e.target.value as string)}
       >
         {endMonthOptions.map((option) => (
           <MenuItem key={option.value} value={option.value}>

@@ -26,7 +26,7 @@ const PrivilegeItem = ({
         className="body-regular"
         label={t('tr_privilege')}
         value={privilege}
-        onChange={(e) => onPrivilegeChange(id, e.target.value)}
+        onChange={(e) => onPrivilegeChange(id, e.target.value as string)}
       >
         <MenuItem value="ms">
           <Typography>{t('tr_ministerialServant')}</Typography>

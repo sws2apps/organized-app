@@ -1,4 +1,5 @@
 import { AppRoleType } from './app';
+import { APRecordType } from './ministry';
 
 export type CongregationResponseType = {
   address: string;
@@ -29,23 +30,26 @@ export type SessionResponseType = {
 };
 
 export type CongregationCreateResponseType = {
+  user_id: string;
   cong_id: string;
-  firstname: { value: string; updatedAt: string };
-  lastname: { value: string; updatedAt: string };
-  country_code: string;
-  cong_name: string;
-  cong_number: string;
-  cong_role: string[];
-  id: string;
-  cong_circuit: { type: string; value: string; updatedAt: string }[];
-  cong_location: {
-    address: string;
-    lat: number;
-    lng: number;
-    updatedAt: string;
+  firstname: string;
+  lastname: string;
+  cong_settings: {
+    cong_circuit: { type: string; value: string; updatedAt: string }[];
+    cong_discoverable: { value: boolean; updatedAt: string };
+    cong_location: {
+      address: string;
+      lat: number;
+      lng: number;
+      updatedAt: string;
+    };
+    cong_name: string;
+    cong_new: boolean;
+    cong_number: string;
+    country_code: string;
+    midweek_meeting: MeetingResponseType[];
+    weekend_meeting: MeetingResponseType[];
   };
-  midweek_meeting: MeetingResponseType[];
-  weekend_meeting: MeetingResponseType[];
 };
 
 type MeetingResponseType = {
@@ -59,38 +63,46 @@ export type ValidateMeResponseType = {
   result: {
     message: string;
     cong_id: string;
-    firstname: { value: string; updatedAt: string };
-    lastname: { value: string; updatedAt: string };
     country_code: string;
     cong_name: string;
     cong_number: string;
     cong_role: AppRoleType[];
     id: string;
-    mfaEnabled: boolean;
-    cong_circuit: { type: string; value: string; updatedAt: string }[];
-    cong_location: {
-      address: string;
-      lat: number;
-      lng: number;
-      updatedAt: string;
-    };
-    midweek_meeting: MeetingResponseType[];
-    weekend_meeting: MeetingResponseType[];
     cong_master_key: string;
     cong_access_code: string;
-    user_local_uid: string;
-    user_delegates: string[];
   };
 };
 
 export type UserLoginResponseType = {
-  cong_master_key: string;
-  cong_password: string;
-  firstname: { value: string; updatedAt: string };
-  lastname: { value: string; updatedAt: string };
-  mfa: 'not_enabled' | 'enabled';
-  cong_name: string;
-  cong_role: AppRoleType[];
+  message?: string;
+  id: string;
+  app_settings: {
+    user_settings: {
+      firstname: { value: string; updatedAt: string };
+      lastname: { value: string; updatedAt: string };
+      role: UserGlobalRoleType;
+      mfa: 'not_enabled' | 'enabled';
+      user_local_uid?: string;
+      cong_role?: AppRoleType[];
+    };
+    cong_settings?: {
+      id: string;
+      country_code: string;
+      cong_circuit: { type: string; value: string; updatedAt: string }[];
+      cong_name: string;
+      cong_number: string;
+      cong_master_key: string;
+      cong_access_code: string;
+      cong_location: {
+        address: string;
+        lat: number;
+        lng: number;
+        updatedAt: string;
+      };
+      midweek_meeting: MeetingResponseType[];
+      weekend_meeting: MeetingResponseType[];
+    };
+  };
 };
 
 export type User2FAResponseType = {
@@ -183,6 +195,7 @@ export type CongregationUpdatesResponseType = {
     pending_speakers_requests?: CongregationRequestType[];
     remote_congregations?: RemoteCongregationType[];
     rejected_requests?: RemoteCongregationType[];
+    applications?: APRecordType[];
   };
 };
 
@@ -215,27 +228,31 @@ export type UserSession = {
 
 export type CongregationUserType = {
   id: string;
-  user_email: string;
-  user_local_uid: string;
-  pocket_oCode: string;
-  cong_id: string;
-  cong_country: string;
-  cong_name: string;
-  cong_number: string;
-  cong_role: AppRoleType[];
-  mfaEnabled: boolean;
-  firstname: { value: string; updatedAt: string };
-  lastname: { value: string; updatedAt: string };
-  global_role: UserGlobalRoleType;
+  profile: {
+    global_role: UserGlobalRoleType;
+    cong_role: AppRoleType[];
+    firstname: { value: string; updatedAt: string };
+    lastname: { value: string; updatedAt: string };
+    user_local_uid: string;
+    user_members_delegate: string[];
+    pocket_invitation_code?: string;
+  };
   sessions?: SessionResponseType[];
-  last_seen: string;
-  auth_uid: string;
-  secret: string;
-  pocket_invitation_code: string;
-  user_delegates: string[];
 };
 
 export type APICongregationUserType = {
   status: number;
   users: CongregationUserType[];
+};
+
+export type APFormOutgoing = {
+  continuous: string;
+  months: string;
+  submitted: string;
+};
+
+export type APFormIncoming = {
+  continuous: string;
+  months: string;
+  submitted: string;
 };

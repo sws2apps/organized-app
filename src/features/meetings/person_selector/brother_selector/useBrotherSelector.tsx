@@ -123,6 +123,8 @@ const useBrotherSelector = ({ type, week, assignment }: PersonSelectorType) => {
           }
         }
       }
+
+      return false;
     });
 
     const newPersons: PersonOptionsType[] = filteredPersons.map((record) => {

@@ -3,11 +3,13 @@ import { useRecoilValue } from 'recoil';
 import { useCurrentUser } from '@hooks/index';
 import { congAccountConnectedState } from '@states/app';
 import { AssignmentCode } from '@definition/assignment';
+import { settingsState } from '@states/settings';
 
 const useMyProfile = () => {
   const { person } = useCurrentUser();
 
   const isConnected = useRecoilValue(congAccountConnectedState);
+  const settings = useRecoilValue(settingsState);
 
   const hoursCreditEnabled = useMemo(() => {
     if (!person) return false;
@@ -21,6 +23,12 @@ const useMyProfile = () => {
     return find ? true : false;
   }, [person]);
 
+  const showTimeAway = useMemo(() => {
+    if (!person) return false;
+
+    return settings.cong_settings.data_sync.value;
+  }, [person, settings]);
+
   const [isLogoutConfirm, setIsLogoutConfirm] = useState(false);
 
   const handleOpenLogoutConfirm = () => {
@@ -32,6 +40,7 @@ const useMyProfile = () => {
   };
 
   return {
+    showTimeAway,
     isLogoutConfirm,
     handleOpenLogoutConfirm,
     handleCloseConfirm,

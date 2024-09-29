@@ -13,11 +13,22 @@ import '@global/global.css';
 import '@global/index.css';
 import { handleSWOnInstalled, handleSWOnUpdated } from '@services/recoil/app';
 import '@services/firebase/index';
-import i18n from '@services/i18n/index';
+import '@services/i18n/index';
 
-await i18n.init();
+const getFont = () => {
+  const cookiesConsent = Boolean(localStorage.getItem('userConsent'));
 
-const font = localStorage.getItem('app_font') || 'Inter';
+  if (cookiesConsent) {
+    return localStorage.getItem('app_font') || 'Inter';
+  }
+
+  const hash = new URL(window.location.href).hash;
+  const params = new URLSearchParams(hash.substring(2));
+
+  return params.get('font') || 'Inter';
+};
+
+const font = getFont();
 
 const cache = createCache({
   key: 'css',

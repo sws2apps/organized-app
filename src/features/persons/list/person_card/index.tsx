@@ -18,14 +18,7 @@ const PersonCard = ({ person }: PersonCardType) => {
   } = usePersonCard(person);
 
   return (
-    <Grid
-      key={person.person_uid}
-      item
-      desktop={4}
-      laptop={6}
-      tablet={12}
-      sx={{ width: '100%' }}
-    >
+    <Grid item desktop={4} laptop={6} tablet={12} sx={{ width: '100%' }}>
       <DeletePersonConfirm
         open={isDeleting}
         onClose={handleDeleteCancel}

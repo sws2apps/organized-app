@@ -12,7 +12,7 @@ import usePersons from './usePersons';
 const PersonsCard = () => {
   const { t } = useAppTranslation();
 
-  const { handleAddNewPerson } = usePersons();
+  const { handleAddNewPerson, show_AP, AP_count } = usePersons();
 
   return (
     <DashboardCard header={t('tr_persons')}>
@@ -30,13 +30,18 @@ const PersonsCard = () => {
           onClick={handleAddNewPerson}
         />
       </ListItem>
-      <ListItem disablePadding>
-        <DashboardMenu
-          icon={<IconApplications color="var(--black)" />}
-          primaryText={t('tr_pioneerApplications')}
-          badgeText="11"
-        />
-      </ListItem>
+
+      {show_AP && (
+        <ListItem disablePadding>
+          <DashboardMenu
+            icon={<IconApplications color="var(--black)" />}
+            primaryText={t('tr_pioneerApplications')}
+            badgeText={AP_count}
+            path="/pioneer-applications"
+          />
+        </ListItem>
+      )}
+
       <ListItem disablePadding>
         <DashboardMenu
           icon={<IconVisitingSpeaker color="var(--black)" />}

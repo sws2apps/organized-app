@@ -40,7 +40,7 @@ const useProfileSettings = () => {
 
   const delegateOptions = useMemo(() => {
     return persons.filter(
-      (record) => record.person_uid !== user.user_local_uid
+      (record) => record.person_uid !== user.profile.user_local_uid
     );
   }, [persons, user]);
 
@@ -49,18 +49,18 @@ const useProfileSettings = () => {
       setSelectedPerson(value);
 
       const newUser = structuredClone(user);
-      newUser.user_local_uid = value.person_uid;
+      newUser.profile.user_local_uid = value.person_uid;
 
       if (
-        newUser.cong_role.includes('admin') &&
-        newUser.cong_role.length === 1
+        newUser.profile.cong_role.includes('admin') &&
+        newUser.profile.cong_role.length === 1
       ) {
         const person = personsActive.find(
           (record) => record.person_uid === value.person_uid
         );
 
         if (personIsMidweekStudent(person)) {
-          newUser.cong_role.push('view_schedules');
+          newUser.profile.cong_role.push('view_schedules');
         }
 
         const isPublisher =
@@ -68,7 +68,7 @@ const useProfileSettings = () => {
           personIsUnbaptizedPublisher(person);
 
         if (isPublisher) {
-          newUser.cong_role.push('publisher', 'view_schedules');
+          newUser.profile.cong_role.push('publisher', 'view_schedules');
         }
       }
 
@@ -91,7 +91,7 @@ const useProfileSettings = () => {
       const persons = value.map((record) => record.person_uid);
 
       const newUser = structuredClone(user);
-      newUser.user_delegates = persons;
+      newUser.profile.user_members_delegate = persons;
 
       await handleSaveDetails(newUser);
     } catch (error) {
@@ -114,7 +114,9 @@ const useProfileSettings = () => {
       setDelegatedPersons(values);
 
       const newUser = structuredClone(user);
-      newUser.user_delegates = values.map((record) => record.person_uid);
+      newUser.profile.user_members_delegate = values.map(
+        (record) => record.person_uid
+      );
 
       await handleSaveDetails(newUser);
     } catch (error) {
@@ -133,7 +135,7 @@ const useProfileSettings = () => {
     setDelegatedPersons([]);
 
     const person = personsActive.find(
-      (record) => record.person_uid === user.user_local_uid
+      (record) => record.person_uid === user.profile.user_local_uid
     );
 
     if (person) {
@@ -149,7 +151,7 @@ const useProfileSettings = () => {
 
     const delegates: UsersOption[] = [];
 
-    for (const person of user.user_delegates) {
+    for (const person of user.profile.user_members_delegate) {
       const found = personsActive.find(
         (record) => record.person_uid === person
       );

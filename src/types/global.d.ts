@@ -8,8 +8,6 @@ interface MyWorkerGlobalScope extends DedicatedWorkerGlobalScope {
   setting: {
     apiHost: string | undefined;
     congID: string | undefined;
-    userRole: string[];
-    accountType: string | undefined;
     userID: string | undefined;
     idToken: string | undefined;
   };

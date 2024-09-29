@@ -29,7 +29,10 @@ const PersonFilter = () => {
   const { filter, handleChangeFilter, filters, show_group } = usePersonFilter();
 
   return (
-    <Select value={filter} onChange={(e) => handleChangeFilter(e.target.value)}>
+    <Select
+      value={filter}
+      onChange={(e) => handleChangeFilter(e.target.value as string)}
+    >
       <MenuSubHeader>{t('tr_publishers')}</MenuSubHeader>
 
       {filters

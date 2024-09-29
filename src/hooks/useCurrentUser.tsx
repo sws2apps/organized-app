@@ -1,7 +1,8 @@
 import { useMemo } from 'react';
-import { useRecoilValue, waitForAllSettled } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { personsState } from '@states/persons';
-import { userLocalUIDState } from '@states/settings';
+import { settingsState, userLocalUIDState } from '@states/settings';
+import { congAccountConnectedState } from '@states/app';
 import { formatDate } from '@services/dateformat';
 import usePerson from '@features/persons/hooks/usePerson';
 
@@ -10,6 +11,8 @@ const useCurrentUser = () => {
 
   const userUID = useRecoilValue(userLocalUIDState);
   const persons = useRecoilValue(personsState);
+  const settings = useRecoilValue(settingsState);
+  const connected = useRecoilValue(congAccountConnectedState);
 
   const person = useMemo(() => {
     return persons.find((record) => record.person_uid === userUID);
@@ -38,7 +41,11 @@ const useCurrentUser = () => {
   }, [person]);
 
   const enable_AP_application = useMemo(() => {
-    if (!person) return waitForAllSettled;
+    if (!connected) return false;
+
+    if (!person) return false;
+
+    if (!settings.cong_settings.data_sync.value) return false;
 
     const isBaptized = personIsBaptizedPublisher(person);
 
@@ -52,7 +59,13 @@ const useCurrentUser = () => {
     const hasEnrollments = isAP || isFMF || isFR || isFS;
 
     return !hasEnrollments;
-  }, [person, personIsBaptizedPublisher, personIsEnrollmentActive]);
+  }, [
+    connected,
+    person,
+    personIsBaptizedPublisher,
+    personIsEnrollmentActive,
+    settings,
+  ]);
 
   return { person, first_report, enable_AP_application };
 };

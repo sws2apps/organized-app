@@ -15,11 +15,11 @@ import {
   Startup,
   Support,
   UnsupportedBrowser,
-  WorkInProgressNotif,
 } from '@features/index';
 import { isDemo } from '@constants/index';
 import useGlobal from '@hooks/useGlobal';
 import useRootLayout from './useRootLayout';
+import CookiesConsent from '@features/cookies_consent';
 import DashboardSkeletonLoader from '@features/dashboard/skeleton_loader';
 import JWAutoImport from '@features/meeting_materials/jw_auto_import';
 import NavBar from '@layouts/navbar';
@@ -36,6 +36,7 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
     isImportJWOrg,
     isImportEPUB,
     isDashboard,
+    userConsent,
   } = useRootLayout();
 
   return (
@@ -45,7 +46,7 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
 
       <AppFeedback />
 
-      <WorkInProgressNotif />
+      {!isDemo && !userConsent && <CookiesConsent open={!userConsent} />}
 
       {isImportJWOrg && <JWMaterialsImport />}
       {isImportEPUB && <EPUBMaterialsImport />}

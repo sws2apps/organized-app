@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useAppTranslation } from '@hooks/index';
 import {
@@ -19,8 +19,6 @@ import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 import worker from '@services/worker/backupWorker';
 
 const useCongregationInfo = () => {
-  const cancel = useRef<boolean>();
-
   const { t } = useAppTranslation();
 
   const { hideMessage, message, showMessage, title, variant } = useFeedback();
@@ -97,89 +95,66 @@ const useCongregationInfo = () => {
         return;
       }
 
-      if (status === 200) {
-        const result = data as CongregationCreateResponseType;
+      const result = data as CongregationCreateResponseType;
 
-        setCongID(result.cong_id);
-        worker.postMessage({ field: 'congID', value: result.cong_id });
+      setCongID(result.cong_id);
+      worker.postMessage({ field: 'congID', value: result.cong_id });
 
-        const congCircuit = structuredClone(
-          settings.cong_settings.cong_circuit
+      const midweekMeeting = structuredClone(
+        settings.cong_settings.midweek_meeting
+      );
+
+      for (const midweekRemote of result.cong_settings.midweek_meeting) {
+        const midweekLocal = midweekMeeting.find(
+          (record) => record.type === midweekRemote.type
         );
 
-        for (const circuitRemote of result.cong_circuit) {
-          const circuitLocal = congCircuit.find(
-            (record) => record.type === circuitRemote.type
-          );
-
-          circuitLocal.value = circuitRemote.value;
-          circuitLocal.updatedAt = circuitRemote.updatedAt;
-        }
-
-        const midweekMeeting = structuredClone(
-          settings.cong_settings.midweek_meeting
-        );
-
-        for (const midweekRemote of result.midweek_meeting) {
-          const midweekLocal = midweekMeeting.find(
-            (record) => record.type === midweekRemote.type
-          );
-
-          midweekLocal.time = midweekRemote.time;
-          midweekLocal.weekday = midweekRemote.weekday;
-        }
-
-        const weekendMeeting = structuredClone(
-          settings.cong_settings.weekend_meeting
-        );
-
-        for (const weekendRemote of result.weekend_meeting) {
-          const weekendLocal = weekendMeeting.find(
-            (record) => record.type === weekendRemote.type
-          );
-
-          weekendLocal.time = weekendRemote.time;
-          weekendLocal.weekday = weekendRemote.weekday;
-        }
-
-        await dbAppSettingsUpdate({
-          'cong_settings.country_code': result.country_code,
-          'cong_settings.cong_name': result.cong_name,
-          'cong_settings.cong_number': result.cong_number,
-          'user_settings.cong_role': result.cong_role,
-          'cong_settings.cong_location': result.cong_location,
-          'cong_settings.cong_circuit': congCircuit,
-          'cong_settings.midweek_meeting': midweekMeeting,
-          'cong_settings.weekend_meeting': weekendMeeting,
-        });
-
-        await setIsNewCongregation(true);
-
-        setUserID(result.id);
-
-        setIsCongAccountCreate(false);
-        setIsEncryptionCodeOpen(true);
+        midweekLocal.time = midweekRemote.time;
+        midweekLocal.weekday = midweekRemote.weekday;
       }
+
+      const weekendMeeting = structuredClone(
+        settings.cong_settings.weekend_meeting
+      );
+
+      for (const weekendRemote of result.cong_settings.weekend_meeting) {
+        const weekendLocal = weekendMeeting.find(
+          (record) => record.type === weekendRemote.type
+        );
+
+        weekendLocal.time = weekendRemote.time;
+        weekendLocal.weekday = weekendRemote.weekday;
+      }
+
+      await dbAppSettingsUpdate({
+        'cong_settings.country_code': result.cong_settings.country_code,
+        'cong_settings.cong_name': result.cong_settings.cong_name,
+        'cong_settings.cong_number': result.cong_settings.cong_number,
+        'user_settings.cong_role': ['admin'],
+        'cong_settings.cong_location': result.cong_settings.cong_location,
+        'cong_settings.cong_circuit': result.cong_settings.cong_circuit,
+        'cong_settings.midweek_meeting': midweekMeeting,
+        'cong_settings.weekend_meeting': weekendMeeting,
+      });
+
+      await setIsNewCongregation(true);
+
+      setUserID(result.user_id);
+
+      setIsCongAccountCreate(false);
+      setIsEncryptionCodeOpen(true);
     } catch (err) {
-      if (!cancel.current) {
-        await displayOnboardingFeedback({
-          title: t('tr_errorGeneric'),
-          message: getMessageByCode(err.message),
-        });
-        showMessage();
+      setIsProcessing(false);
 
-        setIsProcessing(false);
-      }
+      console.error(err);
+
+      await displayOnboardingFeedback({
+        title: t('tr_errorGeneric'),
+        message: getMessageByCode(err.message),
+      });
+      showMessage();
     }
   };
-
-  useEffect(() => {
-    return () => {
-      if (cancel) {
-        cancel.current = true;
-      }
-    };
-  }, []);
 
   return {
     country,
