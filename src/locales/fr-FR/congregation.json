@@ -435,5 +435,9 @@
   "tr_groupNotAssigned": "Groupe non assigné",
   "tr_publisherLastReport": "Dernier rapport en {{ month }}",
   "tr_myGroup": "Mon groupe",
-  "tr_publishers": "Proclamateurs"
+  "tr_publishers": "Proclamateurs",
+  "tr_enableCongregationDataSync": "Enable congregation data sync",
+  "tr_enableCongregationDataSyncDesc": "This option will allow your congregation to share the Organized data. It will be possible also to sync data between multiple devices.",
+  "tr_applicationRejected": "Pioneer application rejected",
+  "tr_applicationRejectedDesc": "This application has been rejected. Inform the publisher about its status."
 }
