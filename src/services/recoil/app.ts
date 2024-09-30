@@ -30,7 +30,6 @@ import {
   isUserMfaSetupState,
   isAuthProcessingState,
   currentMFAStageState,
-  isShowTermsUseState,
   isMyAssignmentOpenState,
   isWhatsNewOpenState,
   isAboutOpenState,
@@ -192,10 +191,6 @@ export const setIsAuthProcessing = async (value) => {
 
 export const setCurrentMFAStage = async (value) => {
   await promiseSetRecoil(currentMFAStageState, value);
-};
-
-export const setShowTermsUse = async (value) => {
-  await promiseSetRecoil(isShowTermsUseState, value);
 };
 
 export const setMyAssignmentOpen = async (value) => {

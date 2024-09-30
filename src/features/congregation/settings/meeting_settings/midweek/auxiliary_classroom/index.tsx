@@ -46,7 +46,9 @@ const AuxiliaryClassroom = () => {
           <Select
             label={t('tr_auxClassCounselor')}
             value={auxCounselorMainPerson}
-            onChange={(e) => handleAuxCounselorMainPersonChange(e.target.value)}
+            onChange={(e) =>
+              handleAuxCounselorMainPersonChange(e.target.value as string)
+            }
           >
             {personsAuxCounselorList.map((person) => (
               <MenuItem key={person.value} value={person.value}>

@@ -4,9 +4,23 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
 export const defaultNS = 'ui';
+
 const resources = {};
 
-const appLang = localStorage.getItem('app_lang') || 'en';
+const getAppLang = () => {
+  const cookiesConsent = Boolean(localStorage.getItem('userConsent'));
+
+  if (cookiesConsent) {
+    return localStorage.getItem('app_lang')?.toString() || 'en';
+  }
+
+  const hash = new URL(window.location.href).hash;
+  const params = new URLSearchParams(hash.substring(2));
+
+  return params.get('locale')?.toString() || 'en';
+};
+
+const appLang = getAppLang();
 
 const languages = [appLang];
 

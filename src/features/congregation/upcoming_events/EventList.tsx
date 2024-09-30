@@ -53,7 +53,7 @@ const EventList = ({
 
   return (
     <VerticalFlex>
-      {data.length == 0 && (
+      {data.length === 0 && (
         <InfoTip
           isBig={false}
           icon={<IconInfo />}

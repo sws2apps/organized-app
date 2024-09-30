@@ -6,7 +6,7 @@ import useSecurity from './useSecurity';
 import {
   ProfileItemContainer,
   SettingWithBorderContainer,
-} from '../my_profile.styles';
+} from '../index.styles';
 import { useAppTranslation } from '@hooks/index';
 import MFAEnable from './mfaEnable';
 import MFADisable from './mfaDisable';

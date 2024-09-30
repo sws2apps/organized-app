@@ -1,13 +1,23 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useQuery } from '@tanstack/react-query';
-import { apiHostState, isAppLoadState, isOnlineState } from '@states/app';
+import {
+  apiHostState,
+  congAccountConnectedState,
+  congIDState,
+  isAppLoadState,
+  isOnlineState,
+  userIDState,
+} from '@states/app';
 import { apiValidateMe } from '@services/api/user';
 import { userSignOut } from '@services/firebase/auth';
 import { handleDeleteDatabase } from '@services/app';
 import { APP_ROLES, isDemo } from '@constants/index';
-import { accountTypeState, congNumberState } from '@states/settings';
-import { dbAppSettingsUpdateUserInfoAfterLogin } from '@services/dexie/settings';
+import {
+  accountTypeState,
+  backupAutoState,
+  congNumberState,
+} from '@states/settings';
 import useFirebaseAuth from '@hooks/useFirebaseAuth';
 import logger from '@services/logger/index';
 import worker from '@services/worker/backupWorker';
@@ -15,11 +25,16 @@ import worker from '@services/worker/backupWorker';
 const useUserAutoLogin = () => {
   const { isAuthenticated } = useFirebaseAuth();
 
+  const setCongID = useSetRecoilState(congIDState);
+  const setCongConnected = useSetRecoilState(congAccountConnectedState);
+  const setUserID = useSetRecoilState(userIDState);
+
   const isOnline = useRecoilValue(isOnlineState);
   const apiHost = useRecoilValue(apiHostState);
   const isAppLoad = useRecoilValue(isAppLoadState);
   const accountType = useRecoilValue(accountTypeState);
   const congNumber = useRecoilValue(congNumberState);
+  const backupAuto = useRecoilValue(backupAutoState);
 
   const runFetch =
     !isDemo &&
@@ -79,8 +94,22 @@ const useUserAutoLogin = () => {
           }
 
           if (approvedRole) {
-            await dbAppSettingsUpdateUserInfoAfterLogin(data);
-            worker.postMessage('startWorker');
+            setUserID(data.result.id);
+            setCongID(data.result.cong_id);
+            setCongConnected(true);
+
+            if (backupAuto) {
+              worker.postMessage({ field: 'userID', value: data.result.id });
+
+              worker.postMessage({
+                field: 'congID',
+                value: data.result.cong_id,
+              });
+
+              worker.postMessage({ field: 'accountType', value: 'vip' });
+
+              worker.postMessage('startWorker');
+            }
           }
 
           setAutoLoginStatus('auto login process completed');
@@ -91,7 +120,16 @@ const useUserAutoLogin = () => {
     };
 
     handleLoginData();
-  }, [isPending, data, error, congNumber]);
+  }, [
+    isPending,
+    data,
+    error,
+    congNumber,
+    backupAuto,
+    setCongConnected,
+    setCongID,
+    setUserID,
+  ]);
 
   return { autoLoginStatus };
 };

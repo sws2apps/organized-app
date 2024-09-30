@@ -21,12 +21,13 @@ import {
   dbVisitingSpeakersUpdateRemote,
   decryptVisitingSpeakers,
 } from '@services/dexie/visiting_speakers';
-import { congMasterKeyState } from '@states/settings';
-import { decryptData } from '@services/encryption';
+import { congAccessCodeState, congMasterKeyState } from '@states/settings';
+import { decryptData, decryptObject } from '@services/encryption';
 import { displaySnackNotification } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { dbSpeakersCongregationsUpdate } from '@services/dexie/speakers_congregations';
 import usePendingRequests from './usePendingRequests';
+import { applicationsState } from '@states/persons';
 
 const useContainer = () => {
   const { t } = useAppTranslation();
@@ -37,6 +38,7 @@ const useContainer = () => {
 
   const setSpeakersKey = useSetRecoilState(speakersKeyState);
   const setEncryptedMasterKey = useSetRecoilState(encryptedMasterKeyState);
+  const setApplications = useSetRecoilState(applicationsState);
 
   const congAccountConnected = useRecoilValue(congAccountConnectedState);
   const pendingRequests = useRecoilValue(congregationsPendingState);
@@ -45,6 +47,7 @@ const useContainer = () => {
     congregationsNotDisapprovedState
   );
   const congMasterKey = useRecoilValue(congMasterKeyState);
+  const congAccessCode = useRecoilValue(congAccessCodeState);
 
   const { isLoading, data } = useQuery({
     enabled: congAccountConnected,
@@ -241,6 +244,33 @@ const useContainer = () => {
     congregationsNotDisapproved,
   ]);
 
+  const handleApplications = useCallback(async () => {
+    try {
+      const incoming = data?.result?.applications;
+
+      if (!incoming) return;
+
+      const remoteAccessCode = data.result.cong_access_code;
+      const accessCode = decryptData(remoteAccessCode, congAccessCode);
+
+      const applications = incoming.map((record) => {
+        const application = structuredClone(record);
+        decryptObject({ data: application, table: 'applications', accessCode });
+        return application;
+      });
+
+      setApplications(applications);
+    } catch (err) {
+      console.error(err);
+
+      await displaySnackNotification({
+        header: t('tr_errorTitle'),
+        message: getMessageByCode(err.message),
+        severity: 'error',
+      });
+    }
+  }, [t, data, congAccessCode, setApplications]);
+
   useEffect(() => {
     if (!isLoading) {
       handlePendingSpeakersRequests();
@@ -248,12 +278,15 @@ const useContainer = () => {
       handleRemoteCongregations();
 
       handleRejectedRequests();
+
+      handleApplications();
     }
   }, [
     isLoading,
     handlePendingSpeakersRequests,
     handleRemoteCongregations,
     handleRejectedRequests,
+    handleApplications,
   ]);
 
   useEffect(() => {

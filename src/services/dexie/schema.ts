@@ -297,6 +297,13 @@ export const settingSchema: SettingsType = {
       },
     ],
     language_groups: [],
+    responsabilities: {
+      coordinator: '',
+      secretary: '',
+      service: '',
+      updatedAt: '',
+    },
+    data_sync: { value: false, updatedAt: '' },
   },
   user_settings: {
     cong_role: [],
@@ -312,7 +319,6 @@ export const settingSchema: SettingsType = {
     user_avatar: undefined,
     user_local_uid: '',
     user_members_delegate: [],
-    user_time_away: [],
     data_view: 'main',
   },
 };

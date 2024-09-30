@@ -1,19 +1,9 @@
 import { UpdateSpec } from 'dexie';
-import { TimeAwayType } from '@definition/person';
 import { SettingsType } from '@definition/settings';
-import {
-  setCongAccountConnected,
-  setCongID,
-  setEncryptedMasterKey,
-  setIsMFAEnabled,
-  setUserID,
-} from '@services/recoil/app';
 import { settingSchema } from './schema';
-import { ValidateMeResponseType } from '@definition/api';
 import { AssignmentCode } from '@definition/assignment';
 import { getRandomArrayItem } from '@utils/common';
 import appDb from '@db/appDb';
-import worker from '@services/worker/backupWorker';
 
 export const dbAppSettingsSave = async (setting: SettingsType) => {
   const current = await appDb.app_settings.get(1);
@@ -26,44 +16,6 @@ export const dbAppSettingsUpdate = async (
   changes: UpdateSpec<SettingsType>
 ) => {
   await appDb.app_settings.update(1, changes);
-};
-
-export const dbAppSettingsTimeAwayAdd = async () => {
-  const setting = await appDb.app_settings.get(1);
-
-  setting.user_settings.user_time_away.push({
-    id: crypto.randomUUID(),
-    _deleted: false,
-    updatedAt: new Date().toISOString(),
-    start_date: new Date().toISOString(),
-    end_date: null,
-    comments: '',
-  });
-
-  await appDb.app_settings.put(setting);
-};
-
-export const dbAppSettingsTimeAwayDelete = async (id) => {
-  const setting = await appDb.app_settings.get(1);
-
-  const currentTimeAway = setting.user_settings.user_time_away.find(
-    (record) => record.id === id
-  );
-  currentTimeAway._deleted = true;
-  currentTimeAway.updatedAt = new Date().toISOString();
-
-  await appDb.app_settings.put(setting);
-};
-
-export const dbAppSettingsTimeAwayUpdate = async (timeAway: TimeAwayType) => {
-  const setting = await appDb.app_settings.get(1);
-
-  const currentIndex = setting.user_settings.user_time_away.findIndex(
-    (record) => record.id === timeAway.id
-  );
-  setting.user_settings.user_time_away[currentIndex] = { ...timeAway };
-
-  await appDb.app_settings.put(setting);
 };
 
 export const dbAppSettingsSaveProfilePic = async (
@@ -105,113 +57,6 @@ export const dbAppSettingsSaveProfilePic = async (
   }
 
   await dbAppSettingsUpdate({ 'user_settings.user_avatar': undefined });
-};
-
-export const dbAppSettingsUpdateUserInfoAfterLogin = async (
-  data: ValidateMeResponseType
-) => {
-  const settings = await appDb.app_settings.get(1);
-
-  await dbAppSettingsUpdate({
-    'cong_settings.country_code': data.result.country_code,
-    'cong_settings.cong_name': data.result.cong_name,
-    'cong_settings.cong_number': data.result.cong_number,
-    'user_settings.cong_role': data.result.cong_role,
-    'user_settings.account_type': 'vip',
-    'user_settings.user_local_uid': data.result.user_local_uid || '',
-    'user_settings.user_members_delegate': data.result.user_delegates || [],
-  });
-
-  if (
-    settings.user_settings.firstname.updatedAt < data.result.firstname.updatedAt
-  ) {
-    await dbAppSettingsUpdate({
-      'user_settings.firstname': data.result.firstname,
-    });
-  }
-
-  if (
-    settings.user_settings.lastname.updatedAt < data.result.lastname.updatedAt
-  ) {
-    await dbAppSettingsUpdate({
-      'user_settings.lastname': data.result.lastname,
-    });
-  }
-
-  if (
-    settings.cong_settings.cong_location.updatedAt <
-    data.result.cong_location.updatedAt
-  ) {
-    await dbAppSettingsUpdate({
-      'cong_settings.cong_location': data.result.cong_location,
-    });
-  }
-
-  const congCircuit = structuredClone(settings.cong_settings.cong_circuit);
-
-  for (const item of congCircuit) {
-    const remoteItem = data.result.cong_circuit.find(
-      (record) => record.type === item.type
-    );
-
-    if (item?.updatedAt < remoteItem?.updatedAt) {
-      item.updatedAt = remoteItem.updatedAt;
-      item.value = remoteItem.value;
-    }
-  }
-
-  const midweekMeeting = structuredClone(
-    settings.cong_settings.midweek_meeting
-  );
-
-  for (const item of midweekMeeting) {
-    const remoteItem = data.result.midweek_meeting.find(
-      (record) => record.type === item.type
-    );
-
-    if (item.time.updatedAt < remoteItem?.time.updatedAt) {
-      item.time = remoteItem.time;
-    }
-
-    if (item?.weekday.updatedAt < remoteItem?.weekday.updatedAt) {
-      item.weekday = remoteItem.weekday;
-    }
-  }
-
-  const weekendMeeting = structuredClone(
-    settings.cong_settings.weekend_meeting
-  );
-
-  for (const item of weekendMeeting) {
-    const remoteItem = data.result.weekend_meeting.find(
-      (record) => record.type === item.type
-    );
-
-    if (item.time.updatedAt < remoteItem.time.updatedAt) {
-      item.time = remoteItem.time;
-    }
-
-    if (item.weekday.updatedAt < remoteItem.weekday.updatedAt) {
-      item.weekday = remoteItem.weekday;
-    }
-  }
-
-  await dbAppSettingsUpdate({
-    'cong_settings.cong_circuit': congCircuit,
-    'cong_settings.midweek_meeting': midweekMeeting,
-    'cong_settings.weekend_meeting': weekendMeeting,
-  });
-
-  await setIsMFAEnabled(data.result.mfaEnabled);
-  await setCongID(data.result.cong_id);
-  await setCongAccountConnected(true);
-  await setUserID(data.result.id);
-  await setEncryptedMasterKey(data.result.cong_master_key);
-
-  worker.postMessage({ field: 'userRole', value: data.result.cong_role });
-  worker.postMessage({ field: 'userID', value: data.result.id });
-  worker.postMessage({ field: 'congID', value: data.result.cong_id });
-  worker.postMessage({ field: 'accountType', value: 'vip' });
 };
 
 export const dbAppSettingsBuildTest = async () => {

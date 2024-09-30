@@ -11,7 +11,7 @@ const PersonDetails = (props: PersonDetailsProps) => {
 
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: '13px' }}>
-      {female ? <img src={UserCardFemaleImg} /> : <img src={UserCardMaleImg} />}
+      <img alt="" src={female ? UserCardFemaleImg : UserCardMaleImg} />
       <Stack spacing="4px">
         <Typography className={props.className || 'h4'}>{name}</Typography>
         <Box

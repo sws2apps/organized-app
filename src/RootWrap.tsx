@@ -2,8 +2,7 @@ import { RecoilRoot } from 'recoil';
 import RecoilOutside from 'recoil-outside';
 import CssBaseline from '@mui/material/CssBaseline';
 import ServiceWorkerWrapper from '@sws2apps/react-sw-helper';
-import { ThemeProvider } from '@mui/material/styles';
-import createTheme from '@mui/material/styles/createTheme';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import logger from '@services/logger/index';
@@ -13,11 +12,22 @@ import '@global/global.css';
 import '@global/index.css';
 import { handleSWOnInstalled, handleSWOnUpdated } from '@services/recoil/app';
 import '@services/firebase/index';
-import i18n from '@services/i18n/index';
+import '@services/i18n/index';
 
-await i18n.init();
+const getFont = () => {
+  const cookiesConsent = Boolean(localStorage.getItem('userConsent'));
 
-const font = localStorage.getItem('app_font') || 'Inter';
+  if (cookiesConsent) {
+    return localStorage.getItem('app_font') || 'Inter';
+  }
+
+  const hash = new URL(window.location.href).hash;
+  const params = new URLSearchParams(hash.substring(2));
+
+  return params.get('font') || 'Inter';
+};
+
+const font = getFont();
 
 const cache = createCache({
   key: 'css',
@@ -43,16 +53,6 @@ const theme = createTheme({
     },
   },
   breakpoints: {
-    keys: [
-      'mobile',
-      'mobile400',
-      'tablet',
-      'tablet500',
-      'tablet600',
-      'tablet688',
-      'laptop',
-      'desktop',
-    ],
     values: {
       mobile: 0,
       mobile400: 400,

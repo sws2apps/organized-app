@@ -30,7 +30,7 @@ const useAppSettings = () => {
     });
   };
 
-  const handleUpdateSyncInterval = async (value) => {
+  const handleUpdateSyncInterval = async (value: number) => {
     setAutoSyncInterval(value);
 
     await dbAppSettingsUpdate({

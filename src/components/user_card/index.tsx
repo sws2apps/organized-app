@@ -34,6 +34,7 @@ const UserCard = ({
   onDelete,
   chipLabels = [],
   children,
+  showArrow,
 }: CustomUserCardProps) => {
   return (
     <StyledCardBox>
@@ -72,7 +73,7 @@ const UserCard = ({
                   {children}
                 </StyledBox>
               </StyledBoxSpaceBetween>
-              {type !== 'person' && (
+              {(type !== 'person' || showArrow) && (
                 <StyledBox
                   gap="8px"
                   sx={{

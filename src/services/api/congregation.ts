@@ -5,6 +5,7 @@ import {
 } from '@definition/api';
 import { apiDefault } from './common';
 import { AppRoleType } from '@definition/app';
+import { APRecordType } from '@definition/ministry';
 
 export const apiFetchCountries = async () => {
   const {
@@ -540,4 +541,77 @@ export const apiCongregationUserDelete = async (user_id: string) => {
   const data = await res.json();
 
   return { status: res.status, message: data?.message as string };
+};
+
+export const apiCongregationSaveApplication = async (
+  application: APRecordType
+) => {
+  const {
+    apiHost,
+    appVersion: appversion,
+    congID,
+    idToken,
+  } = await apiDefault();
+
+  const res = await fetch(
+    `${apiHost}api/v3/congregations/${congID}/applications/${application.request_id}`,
+    {
+      method: 'PATCH',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${idToken}`,
+        appclient: 'organized',
+        appversion,
+      },
+      body: JSON.stringify({ application }),
+    }
+  );
+
+  if (res.ok && res.status === 200) {
+    const data = await res.json();
+
+    return data as APRecordType[];
+  }
+
+  if (res.status !== 200) {
+    const data = await res.json();
+
+    throw new Error(data.message);
+  }
+};
+
+export const apiCongregationDeleteApplication = async (request_id: string) => {
+  const {
+    apiHost,
+    appVersion: appversion,
+    congID,
+    idToken,
+  } = await apiDefault();
+
+  const res = await fetch(
+    `${apiHost}api/v3/congregations/${congID}/applications/${request_id}`,
+    {
+      method: 'DELETE',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${idToken}`,
+        appclient: 'organized',
+        appversion,
+      },
+    }
+  );
+
+  if (res.ok && res.status === 200) {
+    const data = await res.json();
+
+    return data as APRecordType[];
+  }
+
+  if (res.status !== 200) {
+    const data = await res.json();
+
+    throw new Error(data.message);
+  }
 };
