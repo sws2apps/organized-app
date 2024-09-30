@@ -7,10 +7,10 @@
   "tr_appPWADesc": "<p>作为渐进式 Web 应用程序（PWA），Organized 直接在您的 Web 浏览器中运行。它设计为跨多个操作系统运行，因此支持桌面和移动设备。</p><p>一旦安装在您的设备上并完成初始设置后，Organized 将保持脱机可访问，确保您可以在没有互联网连接的情况下使用其主要功能。</p>",
   "tr_appSecure": "在使用 Organized 时，数据有多安全？",
   "tr_appSecureDesc": "<p>我们为保护您的数据增加了额外的安全层。在快速变化的技术世界中，我们定期更新 Organized 以确保其完全安全。</p><p>尽管 Organized 是一个 Web 应用程序，您的数据首先存储在您的设备上，这意味着即使在脱机时，您也可以访问它。如果您与会众中的其他人共享信息，它将通过云服务器安全同步。此外，我们确保通过双重加密等强大的安全措施保护所有私密数据。</p>",
-  "tr_clearBrowserData": "<p>Please note that when you clear your browser history or cookies, you’re also deleting unsynchronized Organized data. Before doing this, ensure that your recently created data has been synced.</p>",
+  "tr_clearBrowserData": "<p>Clearing your browser history or cookies will also delete any unsynchronized Organized data. Please ensure your data is synced before doing this.</p>",
   "tr_appPrivacy": "Organized 如何处理您的隐私？",
   "tr_appPrivacyDesc": "<p>当您选择使用我们的 Organized 应用程序时，我们只会收集基本信息，如您的姓名和电子邮件地址。此外，我们还会收集您的设备 IP 地址和设备用户代理的详细信息，以改善您使用应用程序的体验。</p><p>请放心，我们优先考虑您的隐私。我们绝不会允许广告公司通过我们的服务跟踪您，或使用您的数据进行定向广告。您在 Organized 应用程序中提供的任何信息都将严格保密，绝不会与外部方共享。</p>",
-  "tr_readComplete": "I have read and agree with the above",
+  "tr_readComplete": "I accept the <a href='https://sws2apps.com/terms/' title='Terms of Use' target='_blank' rel='noopener'>Terms of Use</a> and <a href='https://sws2apps.com/privacy/' title='Privacy Policy' target='_blank' rel='noopener'>Privacy Policy</a> and consent to the processing of my personal data as described.",
   "tr_email": "电子邮件",
   "tr_accountCreated": "您的 Organized 帐户已创建。通知您的会众管理员授予您必要的权限，然后刷新页面。",
   "tr_createCongregationAccount": "创建会众",
@@ -104,5 +104,11 @@
   "tr_congregationMasterKeyLostDesc": "输入您会众的主密钥以访问",
   "tr_congregationMasterKeyAsk": "输入会众主密钥",
   "tr_can'tFindCongregation": "找不到你的会众？",
-  "tr_cantFindCongregationDesc": "请检查输入是否有误（最少需输入 2 个字符）。如果您的会众未在 jw.org 搜索页面上列出，请联系 <a href=\"mailto:support@organized-app.com\">support@organized-app.com</a> 获取帮助。"
+  "tr_cantFindCongregationDesc": "请检查输入是否有误（最少需输入 2 个字符）。如果您的会众未在 jw.org 搜索页面上列出，请联系 <a href=\"mailto:support@organized-app.com\">support@organized-app.com</a> 获取帮助。",
+  "tr_appFunctionalityDataPrivacy": "App functionality and data privacy",
+  "tr_appIntro": "Organized is an unofficial app created by enthusiastic brothers and sisters to simplify scheduling tasks for Jehovah's Witnesses congregations. Please get approval from your body of elders before registering your congregation.",
+  "tr_privacySecurityTitle": "Privacy and security",
+  "tr_privacySecurityDesc": "<p>Organized is created with privacy and data security as top priority. Full details are provided in our <a href='https://sws2apps.com/terms' target='_blank' rel='noopener'>Terms of use</a> and <a href='https://sws2apps.com/privacy' target='_blank' rel='noopener'>Privacy policy</a>. Here is a brief overview of our data storage and security approach:</p><ul><li><strong>Local storage, cloud sync:</strong> Your data is stored locally on your device for strong security and offline access. If enabled by elders, synchronization is protected by end-to-end encryption through our secure cloud servers.</li><li><strong>Data security:</strong> We use advanced security measures like encryption and in-app protections to keep your data safe. We also follow GDPR rules, including using EU-based servers and collecting user data only after consent, with options to request, update, or delete it.</li><li><strong>Data collection:</strong> We collect only basic details – name, email, IP address, and device info – for login, security, and app functionality. We cannot access your app data; all information is entered by elders or authorized brothers in your congregation.</li><li><strong>We never share your data:</strong> Your data belongs only to you, and we never share it with any third-party companies for marketing or advertising purposes.</li></ul>",
+  "tr_dataManagementTitle": "Data management",
+  "tr_dataManagementDesc": "<p>You can access, correct, delete, or export your data in your profile settings or by contacting us at <a href='mailto:support@organized-app.com'>support@organized-app.com</a>. You can withdraw your consent anytime by deleting your account. Organized only collects data and cookies essential for app functionality. Data entered by your congregation’s elders is not managed by us. Your data (name, email, IP, device ID) is kept only as long as needed for app use, until your account is deleted, or as required by law.</p>"
 }
