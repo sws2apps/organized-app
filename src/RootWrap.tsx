@@ -2,8 +2,7 @@ import { RecoilRoot } from 'recoil';
 import RecoilOutside from 'recoil-outside';
 import CssBaseline from '@mui/material/CssBaseline';
 import ServiceWorkerWrapper from '@sws2apps/react-sw-helper';
-import { ThemeProvider } from '@mui/material/styles';
-import createTheme from '@mui/material/styles/createTheme';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import logger from '@services/logger/index';
@@ -54,16 +53,6 @@ const theme = createTheme({
     },
   },
   breakpoints: {
-    keys: [
-      'mobile',
-      'mobile400',
-      'tablet',
-      'tablet500',
-      'tablet600',
-      'tablet688',
-      'laptop',
-      'desktop',
-    ],
     values: {
       mobile: 0,
       mobile400: 400,

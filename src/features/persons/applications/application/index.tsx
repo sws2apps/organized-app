@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material';
+import { Grid2 as Grid } from '@mui/material';
 import { ApplicationProps } from './index.types';
 import useApplication from './useApplication';
 import UserCard from '@components/user_card';
@@ -8,7 +8,7 @@ const Application = (props: ApplicationProps) => {
   const { name, isFemale, submitted, handleOpen } = useApplication(props);
 
   return (
-    <Grid item desktop={4} laptop={6} tablet={12} sx={{ width: '100%' }}>
+    <Grid size={{ desktop: 4, laptop: 6, tablet: 12 }} sx={{ width: '100%' }}>
       <UserCard
         type="person"
         name={name}

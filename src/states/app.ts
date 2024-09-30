@@ -3,7 +3,7 @@ import {
   getShortDatePickerFormat,
   getTranslation,
 } from '@services/i18n/translation';
-import { convertStringToBoolean, localStorageGetItem } from '@utils/common';
+import { localStorageGetItem } from '@utils/common';
 import { SnackBarSeverityType } from '@definition/app';
 import { ReactElement } from 'react';
 import { LANGUAGE_LIST } from '@constants/index';
@@ -151,13 +151,6 @@ export const isEmailBlockedState = atom({
 export const isCongAccountCreateState = atom({
   key: 'isCongAccountCreate',
   default: false,
-});
-
-export const isShowTermsUseState = atom({
-  key: 'isShowLAG',
-  default:
-    typeof window !== 'undefined' &&
-    convertStringToBoolean(localStorage.getItem('termsUse') || 'true'),
 });
 
 export const qrCodePathState = atom({

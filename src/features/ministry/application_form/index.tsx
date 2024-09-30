@@ -2,15 +2,8 @@ import { Stack } from '@mui/material';
 import { ApplicationFormProps } from './index.types';
 import FormBody from './body';
 
-const ApplicationForm = ({ application, onChange }: ApplicationFormProps) => {
-  return (
-    <Stack>
-      <FormBody
-        application={application}
-        onChange={(application) => onChange(application)}
-      />
-    </Stack>
-  );
+const ApplicationForm = (props: ApplicationFormProps) => {
+  return <Stack>{props.application && <FormBody {...props} />}</Stack>;
 };
 
 export default ApplicationForm;

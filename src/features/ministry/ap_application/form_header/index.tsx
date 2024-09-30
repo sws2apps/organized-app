@@ -30,7 +30,7 @@ const FormHeader = (props: FormHeaderProps) => {
           <Markup
             className="body-regular"
             color="var(--green-main)"
-            content={t('tr_monthsApprovedAP')}
+            content={t('tr_monthsApprovedAP', { months: approved })}
           />
         </Box>
       )}

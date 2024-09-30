@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
-import useCurrentUser from '@hooks/useCurrentUser';
 import { dbPersonsSave } from '@services/dexie/persons';
+import { formatDate } from '@services/dateformat';
+import useCurrentUser from '@hooks/useCurrentUser';
 
 const useUserTimeAway = () => {
   const { person } = useCurrentUser();
@@ -18,7 +19,7 @@ const useUserTimeAway = () => {
       id: crypto.randomUUID(),
       _deleted: false,
       updatedAt: new Date().toISOString(),
-      start_date: new Date().toISOString(),
+      start_date: formatDate(new Date(), 'yyyy/MM/dd'),
       end_date: null,
       comments: '',
     });
@@ -35,7 +36,7 @@ const useUserTimeAway = () => {
       (record) => record.id === id
     );
     item.updatedAt = new Date().toISOString();
-    item.start_date = value.toISOString();
+    item.start_date = formatDate(value, 'yyyy/MM/dd');
 
     await dbPersonsSave(newPerson);
   };
@@ -47,7 +48,7 @@ const useUserTimeAway = () => {
       (record) => record.id === id
     );
     item.updatedAt = new Date().toISOString();
-    item.end_date = value === null ? null : value.toISOString();
+    item.end_date = value === null ? null : formatDate(value, 'yyyy/MM/dd');
 
     await dbPersonsSave(newPerson);
   };

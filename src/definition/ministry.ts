@@ -3,6 +3,9 @@ export type APFormType = {
   continuous: boolean;
   date: Date;
   name: string;
+  coordinator?: 'waiting' | 'approved' | 'rejected';
+  secretary?: 'waiting' | 'approved' | 'rejected';
+  service?: 'waiting' | 'approved' | 'rejected';
 };
 
 export type APRecordType = {
@@ -15,4 +18,7 @@ export type APRecordType = {
   updatedAt: string;
   person_uid: string;
   request_id: string;
+  coordinator?: 'waiting' | 'approved' | 'rejected';
+  secretary?: 'waiting' | 'approved' | 'rejected';
+  service?: 'waiting' | 'approved' | 'rejected';
 };

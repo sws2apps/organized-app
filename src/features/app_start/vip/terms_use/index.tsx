@@ -14,12 +14,12 @@ const TermsUse = () => {
     handleTermsUse,
     readComplete,
     setReadComplete,
-    showTermsUse,
     handleRejectTerms,
+    cookiesConsent,
   } = useTermsUse();
 
   return (
-    <Dialog open={showTermsUse} onClose={null}>
+    <Dialog open={!cookiesConsent} onClose={null}>
       <Box
         sx={{
           display: 'flex',

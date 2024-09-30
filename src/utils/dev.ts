@@ -36,6 +36,7 @@ import {
   WeeklyAttendance,
 } from '@definition/meeting_attendance';
 import { BranchFieldServiceReportType } from '@definition/branch_field_service_reports';
+import { formatDate } from '@services/dateformat';
 
 const getRandomDate = (
   start_date = new Date(1970, 0, 1),
@@ -46,7 +47,8 @@ const getRandomDate = (
   const timestamp = Math.floor(
     Math.random() * (maxValue - minValue + 1) + minValue
   );
-  return new Date(timestamp).toISOString();
+
+  return formatDate(new Date(timestamp), 'yyyy/MM/dd');
 };
 
 export const importDummyPersons = async (showLoading?: boolean) => {
@@ -59,11 +61,10 @@ export const importDummyPersons = async (showLoading?: boolean) => {
 
     await appDb.persons.clear();
 
-    const startDateTemp = new Date(
-      new Date().getUTCFullYear() - 1,
-      8,
-      1
-    ).toISOString();
+    const startDateTemp = formatDate(
+      new Date(new Date().getUTCFullYear() - 1, 8, 1),
+      'yyyy/MM/dd'
+    );
 
     const formattedData: PersonType[] = PERSON_MOCK.map((user) => {
       const obj = {

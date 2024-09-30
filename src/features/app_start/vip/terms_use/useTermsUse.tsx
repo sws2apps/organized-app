@@ -1,19 +1,34 @@
 import { useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { isAccountChooseState, isShowTermsUseState } from '@states/app';
-import { setShowTermsUse } from '@services/recoil/app';
+import { useSearchParams } from 'react-router-dom';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { cookiesConsentState, isAccountChooseState } from '@states/app';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 
 const useTermsUse = () => {
-  const setIsAccountChoose = useSetRecoilState(isAccountChooseState);
+  const [params, setParams] = useSearchParams();
 
-  const showTermsUse = useRecoilValue(isShowTermsUseState);
+  const [cookiesConsent, setCookiesConsent] =
+    useRecoilState(cookiesConsentState);
+
+  const setIsAccountChoose = useSetRecoilState(isAccountChooseState);
 
   const [readComplete, setReadComplete] = useState(false);
 
   const handleTermsUse = () => {
-    localStorage.setItem('termsUse', 'false');
-    setShowTermsUse(false);
+    const lang = params.get('locale') || 'en';
+    const font = params.get('font') || 'Inter';
+
+    localStorage.setItem('userConsent', 'accept');
+    localStorage.setItem('app_lang', lang);
+    localStorage.setItem('app_font', font);
+    setCookiesConsent(true);
+
+    setParams((params) => {
+      params.delete('locale');
+      params.delete('font');
+
+      return params;
+    });
   };
 
   const handleRejectTerms = async () => {
@@ -22,7 +37,7 @@ const useTermsUse = () => {
   };
 
   return {
-    showTermsUse,
+    cookiesConsent,
     handleTermsUse,
     readComplete,
     setReadComplete,

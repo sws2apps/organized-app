@@ -1,4 +1,9 @@
+import { APFormType } from '@definition/ministry';
+
 export type CommitteeMemberProps = {
+  type: 'coordinator' | 'service' | 'secretary';
   name: string;
-  role: string;
+  onApproved?: VoidFunction;
+  onRejected?: VoidFunction;
+  application?: APFormType;
 };

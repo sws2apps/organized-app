@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useRecoilValue } from 'recoil';
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import { applicationsState, personsState } from '@states/persons';
 import { fullnameOptionState } from '@states/settings';
 import { buildPersonFullname } from '@utils/common';
@@ -17,6 +17,8 @@ const useApplicationDetails = () => {
   }, [id, applications]);
 
   const name = useMemo(() => {
+    if (!application) return '';
+
     const person = persons.find(
       (record) => record.person_uid === application.person_uid
     );
@@ -29,6 +31,8 @@ const useApplicationDetails = () => {
       fullnameOption
     );
   }, [application, persons, fullnameOption]);
+
+  if (!application) return <Navigate to="/pioneer-applications" />;
 
   return { name };
 };
