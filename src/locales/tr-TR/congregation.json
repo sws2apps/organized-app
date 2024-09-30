@@ -435,9 +435,5 @@
   "tr_groupNotAssigned": "Group not assigned",
   "tr_publisherLastReport": "Last report on {{ month }}",
   "tr_myGroup": "My group",
-  "tr_publishers": "Müjdeciler",
-  "tr_enableCongregationDataSync": "Enable congregation data sync",
-  "tr_enableCongregationDataSyncDesc": "This option will allow your congregation to share the Organized data. It will be possible also to sync data between multiple devices.",
-  "tr_applicationRejected": "Pioneer application rejected",
-  "tr_applicationRejectedDesc": "This application has been rejected. Inform the publisher about its status."
+  "tr_publishers": "Müjdeciler"
 }

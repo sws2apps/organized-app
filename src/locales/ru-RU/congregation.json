@@ -435,9 +435,5 @@
   "tr_groupNotAssigned": "Группа не назначена",
   "tr_publisherLastReport": "Последний отчет за {{ month }}",
   "tr_myGroup": "Моя группа",
-  "tr_publishers": "Возвещатели",
-  "tr_enableCongregationDataSync": "Enable congregation data sync",
-  "tr_enableCongregationDataSyncDesc": "This option will allow your congregation to share the Organized data. It will be possible also to sync data between multiple devices.",
-  "tr_applicationRejected": "Pioneer application rejected",
-  "tr_applicationRejectedDesc": "This application has been rejected. Inform the publisher about its status."
+  "tr_publishers": "Возвещатели"
 }

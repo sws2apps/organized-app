@@ -105,8 +105,5 @@
   "tr_hourGoal": "Das Stundenziel ist auf 30 eingestellt",
   "tr_hourGoalDesc": "Um bis auf Widerruf ständig als Hilfspionier zu dienen, sollte das Ziel 30 Stunden betragen. In bestimmten Monaten, die von deinen Ältesten angekündigt werden, kannst du jedoch auch 15 Stunden beantragen.",
   "tr_applicationSubmitted": "Die Bewerbung wurde eingereicht",
-  "tr_applicationSubmittedDesc": "Das Dienstkomitee deiner Versammlung wird sie prüfen, und wenn sie genehmigt wird, wirst du benachrichtigt",
-  "tr_continuousAP": "I wish to serve continuously as an auxiliary pioneer until further notice.",
-  "tr_monthsPendingAP": "<p>You have already submitted the auxiliary pioneer application for the following months: <strong>{{ months }}.</strong> You can apply for future months at any time.</p>",
-  "tr_monthsApprovedAP": "<p>You have been approved to serve as an auxiliary pioneer during the following months: <strong>{{ months }}.</strong> You can apply for future months at any time.</p>"
+  "tr_applicationSubmittedDesc": "Das Dienstkomitee deiner Versammlung wird sie prüfen, und wenn sie genehmigt wird, wirst du benachrichtigt"
 }
