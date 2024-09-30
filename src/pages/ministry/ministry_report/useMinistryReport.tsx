@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { reportUserSelectedMonthState } from '@states/user_field_service_reports';
+import { settingsState } from '@states/settings';
 import useMinistryMonthlyRecord from '@features/ministry/hooks/useMinistryMonthlyRecord';
 
 const useMinistryReport = () => {
@@ -8,8 +9,20 @@ const useMinistryReport = () => {
 
   const { status, shared_ministry } = useMinistryMonthlyRecord(selectedMonth);
 
+  const settings = useRecoilValue(settingsState);
+
   const [submitOpen, setSubmitOpen] = useState(false);
   const [withdrawOpen, setWithdrawOpen] = useState(false);
+
+  const disabled = useMemo(() => {
+    if (!settings.cong_settings.data_sync.value) {
+      return true;
+    }
+
+    if (status === 'confirmed') return true;
+
+    return !shared_ministry;
+  }, [settings, shared_ministry, status]);
 
   const handleCloseSubmit = () => setSubmitOpen(false);
 
@@ -32,7 +45,7 @@ const useMinistryReport = () => {
     status,
     handleCloseWithdraw,
     withdrawOpen,
-    shared_ministry,
+    disabled,
   };
 };
 
