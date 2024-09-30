@@ -435,9 +435,5 @@
   "tr_groupNotAssigned": "Group not assigned",
   "tr_publisherLastReport": "Tatitsy amy farany vola {{ month }}",
   "tr_myGroup": "Andiam-pitory misy ahy",
-  "tr_publishers": "Mpitory",
-  "tr_enableCongregationDataSync": "Enable congregation data sync",
-  "tr_enableCongregationDataSyncDesc": "This option will allow your congregation to share the Organized data. It will be possible also to sync data between multiple devices.",
-  "tr_applicationRejected": "Pioneer application rejected",
-  "tr_applicationRejectedDesc": "This application has been rejected. Inform the publisher about its status."
+  "tr_publishers": "Mpitory"
 }
