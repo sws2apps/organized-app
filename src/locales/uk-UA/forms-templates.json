@@ -107,6 +107,6 @@
   "tr_applicationSubmitted": "Заяву подано",
   "tr_applicationSubmittedDesc": "Службовий комітет твого збору перегляне заяву та якщо її буде затверджено, брати тебе сповістять",
   "tr_continuousAP": "Я хочу безперервно служити допоміжним піонером до наступного повідомлення.",
-  "tr_monthsPendingAP": "<p>You have already submitted the auxiliary pioneer application for the following months: <strong>{{ months }}.</strong> You can apply for future months at any time.</p>",
-  "tr_monthsApprovedAP": "<p>You have been approved to serve as an auxiliary pioneer during the following months: <strong>{{ months }}</strong>. You can apply for future months at any time.</p>"
+  "tr_monthsPendingAP": "<p>Ти вже маєш подану заявку на служіння допоміжним піонером на наступні місяці: <strong>{{ months }}</strong>. Ти можеш подати заяву на майбутні місяці в будь-який час.</p>",
+  "tr_monthsApprovedAP": "<p>Тебе було схвалено служити допоміжним піонером впродовж наступних місяців: <strong>{{ months }}</strong>. Ти можеш подати заяву на майбутні місяці в будь-який час.</p>"
 }
