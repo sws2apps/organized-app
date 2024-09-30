@@ -72,7 +72,7 @@
   "tr_deletePWLocationDesc": "Mawawala nang tuluyan ang lahat ng data kapag binura ang lokasyong ito. Hindi na ito maibabalik.",
   "tr_changeImage": "Palitan ang larawan",
   "tr_addImage": "Mag-add ng larawan",
-  "tr_cantDeductStudiesDesc": "Hindi puwedeng pumili ng mas kaunting mga pag-aaral sa Bibliya kaysa sa iyong mga napili sa menu ng “Indibidwal na mga Pag-aaral sa Bibliya.”",
+  "tr_cantDeductStudiesDesc": "Hindi puwedeng pumili ng mas kaunting mga pag-aaral sa Bibliya kaysa sa iyong mga napili sa 'Bible studies' menu.",
   "tr_cantDeductStudiesTitle": "Hindi maaaring bawasan ang Pag-aaral ng Bibliya",
   "tr_includesServiceAndCredit": "Kasama ang oras sa larangan at credit hours",
   "tr_noDailyRecordsDesc": "Wala pang record. Maglagay ng record para maisama ito sa buwanang ulat.",
@@ -109,9 +109,9 @@
   "tr_quickAssignAPDesc": "Ang publisher na ito ay naitalaga bilang isang auxiliary pioneer ngayong buwan. Maaari baguhin ito sa enrollment window ng publisher sa page ng mga User.",
   "tr_reactivatePublisher": "I-reactivate ang publisher na ito",
   "tr_S21CardTitle": "I-export ang mga record ng publisher nang maramihan (S-21)",
-  "tr_S21CardTitleDesc": "Select ‘All publishers’ to export and sort all records for publishers, full-time, and auxiliary servants, or ‘Specific publishers’ to export records only for selected publishers.",
+  "tr_S21CardTitleDesc": "Piliin ang ‘Lahat ng mga rekord’ upang i-export at i-sort ang lahat ng rekord ng mga publisher, full-time, at mga auxiliary servant, o ‘Espesipikong mga record’ upang i-export lamang ang mga record sa mga napiling publisher.",
   "tr_allPublisherRecords": "Lahat ng publisher",
   "tr_specificPublisherRecords": "Espisipikong publisher",
-  "tr_S21ExportMultipleDesc": "Select the publishers you want to include in the exported records. Each publisher will be included in a separate file.",
+  "tr_S21ExportMultipleDesc": "Pumili ng mga publisher na isasama sa mga na-export na record. Mayroong sariling file ang bawat publisher.",
   "tr_activePublishersAll": "Lahat ng iba pang publisher"
 }

@@ -72,7 +72,7 @@
   "tr_deletePWLocationDesc": "A exclusão deste local remove permanentemente todos os seus dados e arranjos. Esta ação não pode ser desfeita.",
   "tr_changeImage": "Alterar imagem",
   "tr_addImage": "Adicionar imagem",
-  "tr_cantDeductStudiesDesc": "Não pode selecionar menos estudos bíblicos do que já selecionou no menu suspenso 'Estudos bíblicos individuais'.",
+  "tr_cantDeductStudiesDesc": "You can’t select fewer studies than you already have selected in the 'Bible studies' menu.",
   "tr_cantDeductStudiesTitle": "Não é possível deduzir estudos bíblicos",
   "tr_includesServiceAndCredit": "Inclui serviço de campo e horas de crédito",
   "tr_noDailyRecordsDesc": "Nenhum registo de serviço diário ainda. Adicione o registo para incluí-lo no seu relatório mensal.",

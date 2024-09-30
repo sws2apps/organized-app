@@ -10,7 +10,7 @@
   "tr_pubApprovedAsAP": "Этот возвещатель был утвержден в качестве подсобного пионера и теперь находится в соответствующем списке.",
   "tr_filter": "Фильтр",
   "tr_amountApplied": "{{ amount }} применено",
-  "tr_personsAmount": "Людей: {{ amount }}",
+  "tr_personsAmount": "Персоны: {{ amount }}",
   "tr_recentlyViewed": "Недавно просмотренные",
   "tr_midweekStudent": "Ученик собрания в будние",
   "tr_publisher": "Возвещатель",

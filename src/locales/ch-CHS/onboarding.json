@@ -57,7 +57,7 @@
   "tr_encryptionCodeNoticeLowerCase": "Lowercase letter",
   "tr_encryptionCodeNoticeUpperCase": "Uppercase letter",
   "tr_encryptionCodeNoticeSpecialSymbol": "Special symbol",
-  "tr_encryptionCodeSet": "Set master key",
+  "tr_encryptionCodeSet": "设置主密钥",
   "tr_encryptionCodeAsk": "Enter congregation encryption code",
   "tr_encryptionCodeValidate": "Validate",
   "tr_encryptionCodeInvalid": "The encryption code you provided is incorrect",
