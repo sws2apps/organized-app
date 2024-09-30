@@ -435,9 +435,5 @@
   "tr_groupNotAssigned": "グループが割り当てられていません",
   "tr_publisherLastReport": "最後の報告：{{ month }}",
   "tr_myGroup": "私のグループ",
-  "tr_publishers": "伝道者",
-  "tr_enableCongregationDataSync": "Enable congregation data sync",
-  "tr_enableCongregationDataSyncDesc": "This option will allow your congregation to share the Organized data. It will be possible also to sync data between multiple devices.",
-  "tr_applicationRejected": "Pioneer application rejected",
-  "tr_applicationRejectedDesc": "This application has been rejected. Inform the publisher about its status."
+  "tr_publishers": "伝道者"
 }
