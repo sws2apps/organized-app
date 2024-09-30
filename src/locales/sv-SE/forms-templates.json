@@ -105,8 +105,5 @@
   "tr_hourGoal": "Timmålet är inställt på 30h",
   "tr_hourGoalDesc": "För att tjänstgöra kontinuerligt bör målet vara 30 timmar. Under vissa månader som tillkännages av dina äldste kan du dock även ansöka för 15 timmar.",
   "tr_applicationSubmitted": "Ansökan har skickats in",
-  "tr_applicationSubmittedDesc": "Tjänstekommittén i din församling kommer att granska den och om den godkänns kommer du att bli underrättad av dem",
-  "tr_continuousAP": "I wish to serve continuously as an auxiliary pioneer until further notice.",
-  "tr_monthsPendingAP": "<p>You have already submitted the auxiliary pioneer application for the following months: <strong>{{ months }}.</strong> You can apply for future months at any time.</p>",
-  "tr_monthsApprovedAP": "<p>You have been approved to serve as an auxiliary pioneer during the following months: <strong>{{ months }}.</strong> You can apply for future months at any time.</p>"
+  "tr_applicationSubmittedDesc": "Tjänstekommittén i din församling kommer att granska den och om den godkänns kommer du att bli underrättad av dem"
 }
