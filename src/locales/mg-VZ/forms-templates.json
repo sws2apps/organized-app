@@ -105,5 +105,8 @@
   "tr_hourGoal": "Niovà ho 30 ty lera tratsiry",
   "tr_hourGoalDesc": "Tokony ho 30 lera ro tratsiry laha hanao mpisava lala mpanampy mitohy. Afaky manatratsy 15 lera koa iha amy vola ampandrenesan'ny anti-panahy hoe azo anaova ani-zay.",
   "tr_applicationSubmitted": "Lasa fangataha iny",
-  "tr_applicationSubmittedDesc": "Hodinihan’ny komitin’ny fanompoa raha io, le hiresaky aminao rozy laha ekè ty fangatahanao"
+  "tr_applicationSubmittedDesc": "Hodinihan’ny komitin’ny fanompoa raha io, le hiresaky aminao rozy laha ekè ty fangatahanao",
+  "tr_continuousAP": "I wish to serve continuously as an auxiliary pioneer until further notice.",
+  "tr_monthsPendingAP": "<p>You have already submitted the auxiliary pioneer application for the following months: <strong>{{ months }}.</strong> You can apply for future months at any time.</p>",
+  "tr_monthsApprovedAP": "<p>You have been approved to serve as an auxiliary pioneer during the following months: <strong>{{ months }}.</strong> You can apply for future months at any time.</p>"
 }
