@@ -109,7 +109,7 @@
   "tr_quickAssignAPDesc": "This publisher is assigned as an auxiliary pioneer this month. You can change this on the publisher's enrollments list on the Persons page.",
   "tr_reactivatePublisher": "Reactivate this publisher",
   "tr_S21CardTitle": "Export multiple publisher records (S-21)",
-  "tr_S21CardTitleDesc": "Select ‘All publishers’ to export and sort all records for publishers, full-time, and auxiliary servants, or ‘Specific publishers’ to export records only for selected publishers.",
+  "tr_S21CardTitleDesc": "选择“所有传道员”以导出并排序所有传道员、全时和辅助先驱的记录，或选择“特定传道员”以仅导出所选传道员的记录。",
   "tr_allPublisherRecords": "All publishers",
   "tr_specificPublisherRecords": "Specific publishers",
   "tr_S21ExportMultipleDesc": "Select the publishers you want to include in the exported records. Each publisher will be included in a separate file.",
