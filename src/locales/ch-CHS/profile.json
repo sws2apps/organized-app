@@ -6,7 +6,7 @@
   "tr_ministryPreferences": "Ministry preferences",
   "tr_theocraticAssignmentsField": "Add credit hours field to my report",
   "tr_theocraticAssignmentsFieldDesc": "Hours spent on schools and approved theocratic assignments (LDC, HLC, work for Bethel, etc.)",
-  "tr_timeAway": "Time away",
+  "tr_timeAway": "暂时离开",
   "tr_startDate": "Start date",
   "tr_endDate": "End date",
   "tr_save": "Save",
@@ -75,6 +75,6 @@
   "tr_2FASetupKey": "Setup key",
   "tr_2FASetupKeyDesc": "Copy the setup key and paste it into your authenticator app to set up Two-Factor Authentication.",
   "tr_2FAStep2": "Step 2: Enter the 2FA code",
-  "tr_timeAwayDesc": "No time away added yet. Keep your time away up-to-date so that the brothers can take it into account when scheduling future meetings.",
+  "tr_timeAwayDesc": "尚未添加离开时间。请保持你的离开时间信息更新，以便弟兄们在安排未来聚会时可以考虑到这一点。",
   "tr_terminatedDesc": "连接已终止"
 }
