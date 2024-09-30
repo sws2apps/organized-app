@@ -72,5 +72,4 @@ export { default as IncomingSpeakers } from './persons/speakers_catalog/incoming
 export { default as OutgoingSpeakers } from './persons/speakers_catalog/outgoing';
 
 /* -------------------------------- Ministry -------------------------------- */
-export { default as ButtonSubmitApplication } from './ministry/report/button_submit';
 export { default as MinistryTimer } from './ministry/report/ministry_timer';
