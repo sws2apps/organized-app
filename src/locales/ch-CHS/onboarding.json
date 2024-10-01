@@ -110,5 +110,7 @@
   "tr_privacySecurityTitle": "隐私和安全",
   "tr_privacySecurityDesc": "<p>Organized 应用程序在隐私和数据安全方面优先考虑。我们的 <a href='https://sws2apps.com/terms' target='_blank' rel='noopener'>使用条款</a> 和 <a href='https://sws2apps.com/privacy' target='_blank' rel='noopener'>隐私政策</a> 中提供了详细信息。以下是我们数据存储和安全方法的简要概述：</p><ul><li><strong>本地存储，云同步：</strong>您的数据本地存储在设备中，确保强大的安全性和离线访问。如果长老启用同步，数据将在我们安全的云服务器上进行端到端加密保护。</li><li><strong>数据安全：</strong>我们使用先进的安全措施，如加密和应用内保护，以确保您的数据安全。我们还遵循 GDPR 规定，包括使用位于欧盟的服务器，并且仅在获得同意后才收集用户数据，同时提供请求、更新或删除数据的选项。</li><li><strong>数据收集：</strong>我们只收集基本信息——姓名、电子邮件、IP 地址和设备信息，用于登录、安全和应用功能。我们无法访问您应用内的数据；所有信息都仅由您会众中的长老或授权的弟兄输入。</li><li><strong>我们绝不分享您的数据：</strong>您的数据仅属于您，我们绝不会将其与任何第三方公司共享用于营销或广告目的。</li></ul>",
   "tr_dataManagementTitle": "数据管理",
-  "tr_dataManagementDesc": "<p>您可以在个人资料设置中访问、修正、删除或导出您的数据，或者通过联系 <a href='mailto:support@organized-app.com'>support@organized-app.com</a> 与我们联系。您可以随时通过删除帐户来撤回您的同意。Organized 仅收集应用功能所需的基本数据和 Cookie。您会众的长老输入的数据不由我们管理。您的数据（姓名、电子邮件、IP 地址、设备 ID）仅在应用使用所需的时间内保留，直到您的帐户被删除，或法律要求的时间为止。</p>"
+  "tr_dataManagementDesc": "<p>您可以在个人资料设置中访问、修正、删除或导出您的数据，或者通过联系 <a href='mailto:support@organized-app.com'>support@organized-app.com</a> 与我们联系。您可以随时通过删除帐户来撤回您的同意。Organized 仅收集应用功能所需的基本数据和 Cookie。您会众的长老输入的数据不由我们管理。您的数据（姓名、电子邮件、IP 地址、设备 ID）仅在应用使用所需的时间内保留，直到您的帐户被删除，或法律要求的时间为止。</p>",
+  "tr_mfaVerifyTitle": "Let’s make sure it is you",
+  "tr_mfaVerifyDesc": "Enter a code from your authenticator app"
 }
