@@ -106,7 +106,7 @@
   "tr_hourGoalDesc": "要持续服务，目标应为30小时。然而，在您会众的长老宣布的特定月份，您也可以申请15小时。",
   "tr_applicationSubmitted": "申请已提交",
   "tr_applicationSubmittedDesc": "您会众的服务委员会将审核申请，如果获得批准，长老会通知您。",
-  "tr_continuousAP": "I wish to serve continuously as an auxiliary pioneer until further notice.",
-  "tr_monthsPendingAP": "<p>You have already submitted the auxiliary pioneer application for the following months: <strong>{{ months }}</strong>. You can apply for future months at any time.</p>",
-  "tr_monthsApprovedAP": "<p>You have been approved to serve as an auxiliary pioneer during the following months: <strong>{{ months }}</strong>. You can apply for future months at any time.</p>"
+  "tr_continuousAP": "如果打算继续做辅助先驱，请在方格内打钩，直至另行通知为止。",
+  "tr_monthsPendingAP": "<p>您已提交了以下月份的辅助先驱申请：<strong>{{ months }}</strong>。您可以随时申请未来的月份。</p>",
+  "tr_monthsApprovedAP": "<p>您已获批准在以下月份担任辅助先驱：<strong>{{ months }}</strong>。您可以随时申请未来的月份。</p>"
 }
