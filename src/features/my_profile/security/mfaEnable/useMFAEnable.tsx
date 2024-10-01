@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import QRCode from 'qrcode';
 import { useAppTranslation } from '@hooks/index';
 import {
@@ -7,7 +8,6 @@ import {
 } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { apiGetUser2FA, apiHandleVerifyOTP } from '@services/api/user';
-import { useQuery } from '@tanstack/react-query';
 
 const useMFAEnable = (closeDialog: VoidFunction) => {
   const { t } = useAppTranslation();
@@ -25,6 +25,7 @@ const useMFAEnable = (closeDialog: VoidFunction) => {
   const [token, setToken] = useState('');
   const [userOTP, setUserOTP] = useState('');
   const [codeError, setCodeError] = useState(false);
+  const [tokenDev, setTokenDev] = useState<string>(undefined);
 
   const handleCopyTokenClipboard = async () => {
     await navigator.clipboard.writeText(token);
@@ -103,10 +104,11 @@ const useMFAEnable = (closeDialog: VoidFunction) => {
       }
 
       if (!isPending && data && data.status === 200) {
-        const { qrCode, secret } = data.result;
+        const { qrCode, secret, MFA_CODE } = data.result;
 
         setQrCode(qrCode);
         setToken(secret);
+        setTokenDev(MFA_CODE);
 
         const qrImg = await QRCode.toDataURL(qrCode);
         setImgSrc(qrImg);
@@ -128,6 +130,7 @@ const useMFAEnable = (closeDialog: VoidFunction) => {
     isProcessing,
     imgSrc,
     codeError,
+    tokenDev,
   };
 };
 

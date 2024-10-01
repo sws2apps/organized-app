@@ -70,11 +70,13 @@ export type ValidateMeResponseType = {
     id: string;
     cong_master_key: string;
     cong_access_code: string;
+    mfa: boolean;
   };
 };
 
 export type UserLoginResponseType = {
   message?: string;
+  code?: string;
   id: string;
   app_settings: {
     user_settings: {
@@ -112,6 +114,7 @@ export type User2FAResponseType = {
     mfaEnabled?: boolean;
     qrCode?: string;
     secret?: string;
+    MFA_CODE?: string;
   };
 };
 

@@ -283,11 +283,6 @@ export const isFetchingScheduleState = atom({
   default: true,
 });
 
-export const currentMFAStageState = atom({
-  key: 'currentMFAStage',
-  default: 'setup',
-});
-
 export const refreshScreenState = atom({
   key: 'refreshScreen',
   default: false,
@@ -475,4 +470,9 @@ export const encryptedMasterKeyState = atom({
 export const cookiesConsentState = atom({
   key: 'cookiesConsent',
   default: Boolean(localStorageGetItem('userConsent')),
+});
+
+export const tokenDevState = atom({
+  key: 'tokenDev',
+  default: '',
 });

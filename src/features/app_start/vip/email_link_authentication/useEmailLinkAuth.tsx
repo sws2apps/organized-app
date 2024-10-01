@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import {
   setAuthPersistence,
   userSignInCustomToken,
@@ -8,7 +8,6 @@ import {
 import { apiUpdatePasswordlessInfo } from '@services/api/user';
 import {
   displayOnboardingFeedback,
-  setCurrentMFAStage,
   setIsCongAccountCreate,
   setIsEmailAuth,
   setIsEmailLinkAuthenticate,
@@ -17,13 +16,14 @@ import {
   setIsUserSignIn,
 } from '@services/recoil/app';
 import { APP_ROLES } from '@constants/index';
-import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 import { useAppTranslation } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
 import { NextStepType } from './index.types';
 import { UserLoginResponseType } from '@definition/api';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { settingsState } from '@states/settings';
+import { isUserMfaVerifyState, tokenDevState } from '@states/app';
+import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 
 const useEmailLinkAuth = () => {
   const { t } = useAppTranslation();
@@ -31,6 +31,9 @@ const useEmailLinkAuth = () => {
   const { hideMessage, message, showMessage, title, variant } = useFeedback();
 
   const [searchParams, setSearchParams] = useSearchParams();
+
+  const setVerifyMFA = useSetRecoilState(isUserMfaVerifyState);
+  const setTokenDev = useSetRecoilState(tokenDevState);
 
   const settings = useRecoilValue(settingsState);
 
@@ -53,11 +56,13 @@ const useEmailLinkAuth = () => {
     setIsEmailLinkAuthenticate(false);
     setIsEmailAuth(false);
 
-    await dbAppSettingsUpdate({
-      'user_settings.account_type': 'vip',
-      'user_settings.lastname': data.app_settings.user_settings.lastname,
-      'user_settings.firstname': data.app_settings.user_settings.firstname,
-    });
+    if (data.app_settings) {
+      await dbAppSettingsUpdate({
+        'user_settings.account_type': 'vip',
+        'user_settings.lastname': data.app_settings.user_settings.lastname,
+        'user_settings.firstname': data.app_settings.user_settings.firstname,
+      });
+    }
 
     if (result.encryption) {
       const { app_settings } = data;
@@ -101,7 +106,7 @@ const useEmailLinkAuth = () => {
 
       setIsEncryptionCodeOpen(true);
     } else if (result.isVerifyMFA) {
-      setCurrentMFAStage('verify');
+      setVerifyMFA(true);
     } else if (result.unauthorized) {
       setIsUnauthorizedRole(true);
     } else if (result.createCongregation) {
@@ -133,9 +138,19 @@ const useEmailLinkAuth = () => {
       }
 
       const result: NextStepType = {};
-      const { app_settings } = data as UserLoginResponseType;
 
-      if (app_settings.user_settings.mfa === 'not_enabled') {
+      const {
+        app_settings,
+        message,
+        code: tokenDev,
+      } = data as UserLoginResponseType;
+
+      if (message === 'MFA_VERIFY') {
+        setTokenDev(tokenDev);
+        result.isVerifyMFA = true;
+      }
+
+      if (app_settings?.user_settings.mfa === 'not_enabled') {
         if (!app_settings.cong_settings) {
           result.createCongregation = true;
         } else if (app_settings.user_settings.cong_role.length === 0) {
@@ -150,13 +165,13 @@ const useEmailLinkAuth = () => {
         } else {
           result.unauthorized = true;
         }
-      } else {
-        result.isVerifyMFA = true;
       }
 
       await handleResult(data, result);
       setIsProcessing(false);
     } catch (err) {
+      console.error(err);
+
       await displayOnboardingFeedback({
         title: t('tr_errorGeneric'),
         message: getMessageByCode(err.message),

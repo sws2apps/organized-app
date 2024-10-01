@@ -8,12 +8,12 @@ const useSecurity = () => {
   const [isOpenMFAEnable, setIsOpenMFAEnable] = useState(false);
   const [isOpenMFADisable, setIsOpenMFADisable] = useState(false);
 
-  const handleToggleMFA = async (value) => {
-    if (value) {
+  const handleToggleMFA = () => {
+    if (!isMFAEnabled) {
       setIsOpenMFAEnable(true);
     }
 
-    if (!value) {
+    if (isMFAEnabled) {
       setIsOpenMFADisable(true);
     }
   };
