@@ -141,7 +141,7 @@ const BrotherSelector = (props: PersonSelectorType) => {
           </>
         }
         styleIcon={false}
-        startIcon={<IconMale />}
+        startIcon={!props.notShowIcon && <IconMale />}
         decorator={helperText.length > 0}
         clearIcon={<IconClose width={20} height={20} />}
         sx={{

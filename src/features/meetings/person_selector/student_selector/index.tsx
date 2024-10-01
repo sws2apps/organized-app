@@ -223,7 +223,9 @@ const StudentSelector = (props: PersonSelectorType) => {
           </>
         }
         styleIcon={false}
-        startIcon={<StudentIcon type={props.type} value={value} />}
+        startIcon={
+          !props.notShowIcon && <StudentIcon type={props.type} value={value} />
+        }
         decorator={helperText.length > 0}
         clearIcon={<IconClose width={20} height={20} />}
         sx={{

@@ -17,7 +17,7 @@ export { default as AppUpdater } from './app_updater';
 /* -------------------------- Color scheme selector ------------------------- */
 export { default as ColorSchemeSelector } from './color_scheme_selector';
 
-/* -------------------------------- Contact ------------------------------- */
+/* --------------------------------- Contact -------------------------------- */
 export { default as Contact } from './contact';
 
 /* -------------------------------- Dashboard ------------------------------- */
@@ -28,7 +28,7 @@ export { default as NewUpdateModalWindow } from './dashboard/new_update_modal_wi
 
 export { default as InitialSetupModalWindow } from './dashboard/initial_setup_modal_window';
 
-/* -------------------------------- Demo ------------------------------- */
+/* ---------------------------------- Demo ---------------------------------- */
 export { default as DemoBanner } from './demo/banner';
 export { default as DemoNotice } from './demo/notice';
 export { default as DemoStartup } from './demo/start';
@@ -61,6 +61,7 @@ export { default as MidweekExport } from './meetings/midweek_export';
 export { default as MyAssignments } from './meetings/my_assignments';
 export { default as ScheduleAutofillDialog } from './meetings/schedule_autofill';
 export { default as WeekSelector } from './meetings/week_selector';
+export { default as MonthlyView } from './meetings/monthly_view';
 
 /* --------------------------------- Persons -------------------------------- */
 export { default as PersonAssignment } from './persons/assignments';
@@ -76,7 +77,7 @@ export { default as PersonsSearch } from './persons/search';
 export { default as PersonTimeAway } from './persons/time_away';
 export { default as PersonAssignmentsHistory } from './persons/assignments_history';
 
-/* -------------------------------- Speakers Catalog -------------------------------- */
+/* ---------------------------- Speakers Catalog ---------------------------- */
 export { default as IncomingSpeakers } from './persons/speakers_catalog/incoming';
 export { default as OutgoingSpeakers } from './persons/speakers_catalog/outgoing';
 
@@ -84,5 +85,5 @@ export { default as OutgoingSpeakers } from './persons/speakers_catalog/outgoing
 export { default as ButtonSubmitApplication } from './ministry/report/button_submit';
 export { default as MinistryTimer } from './ministry/report/ministry_timer';
 
-/* -------------------------------- Work In Progress -------------------------------- */
+/* ---------------------------- Work In Progress ---------------------------- */
 export { default as WorkInProgressNotif } from './wip';

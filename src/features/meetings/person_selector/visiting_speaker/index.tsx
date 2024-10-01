@@ -95,7 +95,7 @@ const VisitingSpeaker = (props: PersonSelectorType) => {
           </>
         }
         styleIcon={false}
-        startIcon={<IconMale />}
+        startIcon={!props.notShowIcon && <IconMale />}
         clearIcon={<IconClose width={20} height={20} />}
       />
 

@@ -19,7 +19,7 @@ const CircuitOverseer = (props: PersonSelectorType) => {
       onKeyUp={handleValueSave}
       fullWidth={true}
       styleIcon={false}
-      startIcon={<IconMale />}
+      startIcon={!props.notShowIcon && <IconMale />}
     />
   );
 };

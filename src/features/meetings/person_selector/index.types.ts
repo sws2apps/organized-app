@@ -14,6 +14,7 @@ export type PersonSelectorType = {
   circuitOverseer?: boolean;
   jwStreamRecording?: boolean;
   schedule_id?: string;
+  notShowIcon?: boolean;
 };
 
 export type PersonOptionsType = PersonType & {
