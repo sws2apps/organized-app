@@ -26,8 +26,9 @@ import { decryptData, decryptObject } from '@services/encryption';
 import { displaySnackNotification } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { dbSpeakersCongregationsUpdate } from '@services/dexie/speakers_congregations';
-import usePendingRequests from './usePendingRequests';
 import { applicationsState } from '@states/persons';
+import { handleDeleteDatabase } from '@services/app';
+import usePendingRequests from './usePendingRequests';
 
 const useContainer = () => {
   const { t } = useAppTranslation();
@@ -271,8 +272,18 @@ const useContainer = () => {
     }
   }, [t, data, congAccessCode, setApplications]);
 
+  const handleUnauthorized = useCallback(async () => {
+    const status = data?.status;
+
+    if (status === 404) {
+      await handleDeleteDatabase();
+    }
+  }, [data]);
+
   useEffect(() => {
     if (!isLoading) {
+      handleUnauthorized();
+
       handlePendingSpeakersRequests();
 
       handleRemoteCongregations();
@@ -283,6 +294,7 @@ const useContainer = () => {
     }
   }, [
     isLoading,
+    handleUnauthorized,
     handlePendingSpeakersRequests,
     handleRemoteCongregations,
     handleRejectedRequests,

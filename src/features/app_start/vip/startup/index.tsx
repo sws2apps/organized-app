@@ -4,13 +4,13 @@ import EmailAuth from '../email_auth';
 import EmailLinkAuthentication from '../email_link_authentication';
 import Signin from '../signin';
 import TermsUse from '../terms_use';
-// import VerifyMFA from '../verify_mfa';
+import VerifyMFA from '../verify_mfa';
 import useStartup from './useStartup';
 
 const VipStartup = () => {
   const {
     isUserSignIn,
-    // isUserMfaVerify,
+    isUserMfaVerify,
     isCongAccountCreate,
     isEmailAuth,
     isEmailLinkAuth,
@@ -21,7 +21,7 @@ const VipStartup = () => {
     <>
       <TermsUse />
       {isUserSignIn && <Signin />}
-      {/* {isUserMfaVerify && <VerifyMFA />} */}
+      {isUserMfaVerify && <VerifyMFA />}
       {isCongAccountCreate && <CongregationCreate />}
       {isEmailAuth && <EmailAuth />}
       {isEmailLinkAuth && <EmailLinkAuthentication />}

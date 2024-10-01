@@ -1,6 +1,5 @@
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
-  currentMFAStageState,
   currentProviderState,
   isAuthProcessingState,
   isCongAccountCreateState,
@@ -9,6 +8,7 @@ import {
   isUnauthorizedRoleState,
   isUserMfaVerifyState,
   isUserSignInState,
+  tokenDevState,
 } from '@states/app';
 import { setAuthPersistence, userSignInPopup } from '@services/firebase/auth';
 import { displayOnboardingFeedback } from '@services/recoil/app';
@@ -32,12 +32,12 @@ const useButtonBase = ({ provider, isEmail }) => {
   );
   const [isUserSignIn, setIsUserSignIn] = useRecoilState(isUserSignInState);
 
-  const setCurrentMFAStage = useSetRecoilState(currentMFAStageState);
   const setUserMfaVerify = useSetRecoilState(isUserMfaVerifyState);
   const setIsCongAccountCreate = useSetRecoilState(isCongAccountCreateState);
   const setIsUnauthorizedRole = useSetRecoilState(isUnauthorizedRoleState);
   const setIsEncryptionCodeOpen = useSetRecoilState(isEncryptionCodeOpenState);
   const setIsEmailAuth = useSetRecoilState(isEmailAuthState);
+  const setTokenDev = useSetRecoilState(tokenDevState);
 
   const settings = useRecoilValue(settingsState);
   const currentProvider = useRecoilValue(currentProviderState);
@@ -54,10 +54,15 @@ const useButtonBase = ({ provider, isEmail }) => {
 
   const determineNextStep = ({
     app_settings,
+    code,
   }: UserLoginResponseType): NextStepType => {
     const nextStep: NextStepType = {};
 
-    if (app_settings.user_settings.mfa === 'not_enabled') {
+    if (code) {
+      nextStep.isVerifyMFA = true;
+    }
+
+    if (app_settings?.user_settings.mfa === 'not_enabled') {
       if (!app_settings.cong_settings) {
         nextStep.createCongregation = true;
       }
@@ -82,28 +87,29 @@ const useButtonBase = ({ provider, isEmail }) => {
           nextStep.encryption = true;
         }
       }
-    } else {
-      nextStep.isVerifyMFA = true;
     }
 
     return nextStep;
   };
 
   const updateUserSettings = async (
-    { app_settings }: UserLoginResponseType,
+    { app_settings, code }: UserLoginResponseType,
     nextStep: NextStepType
   ) => {
-    await dbAppSettingsUpdate({
-      'user_settings.account_type': 'vip',
-      'user_settings.lastname': app_settings.user_settings.lastname,
-      'user_settings.firstname': app_settings.user_settings.firstname,
-    });
+    if (app_settings) {
+      await dbAppSettingsUpdate({
+        'user_settings.account_type': 'vip',
+        'user_settings.lastname': app_settings.user_settings.lastname,
+        'user_settings.firstname': app_settings.user_settings.firstname,
+      });
+    }
 
     if (nextStep.isVerifyMFA) {
-      setCurrentMFAStage('verify');
-      setUserMfaVerify(true);
+      setTokenDev(code);
+      setIsUserSignIn(false);
       setIsCongAccountCreate(false);
       setIsUnauthorizedRole(false);
+      setUserMfaVerify(true);
     }
 
     if (nextStep.createCongregation) {
@@ -165,12 +171,14 @@ const useButtonBase = ({ provider, isEmail }) => {
       if (isAuthProcessing) return;
 
       hideMessage();
+
       await setAuthPersistence();
       const result = await userSignInPopup(provider);
 
       if (!result) return;
 
       setIsAuthProcessing(true);
+
       const { status, data } = await apiSendAuthorization();
 
       if (status !== 200) {

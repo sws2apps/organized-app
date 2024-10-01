@@ -6,6 +6,7 @@ import {
   congAccountConnectedState,
   congIDState,
   isAppLoadState,
+  isMFAEnabledState,
   isOnlineState,
   userIDState,
 } from '@states/app';
@@ -28,6 +29,7 @@ const useUserAutoLogin = () => {
   const setCongID = useSetRecoilState(congIDState);
   const setCongConnected = useSetRecoilState(congAccountConnectedState);
   const setUserID = useSetRecoilState(userIDState);
+  const setIsMFAEnabled = useSetRecoilState(isMFAEnabledState);
 
   const isOnline = useRecoilValue(isOnlineState);
   const apiHost = useRecoilValue(apiHostState);
@@ -97,6 +99,7 @@ const useUserAutoLogin = () => {
             setUserID(data.result.id);
             setCongID(data.result.cong_id);
             setCongConnected(true);
+            setIsMFAEnabled(data.result.mfa);
 
             if (backupAuto) {
               worker.postMessage({ field: 'userID', value: data.result.id });
@@ -129,6 +132,7 @@ const useUserAutoLogin = () => {
     setCongConnected,
     setCongID,
     setUserID,
+    setIsMFAEnabled,
   ]);
 
   return { autoLoginStatus };
