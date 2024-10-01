@@ -36,3 +36,4 @@ replit.nix
 *.sln
 *.sw?
 **/tasks.json
+.vercel
