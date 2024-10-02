@@ -286,7 +286,7 @@
   "tr_averageAttendanceWM": "Genomsnittlig närvaro på helgmöten",
   "tr_numberReports": "Antal rapporter",
   "tr_filters": "Filter",
-  "tr_markToBranchOffice": "Märk rapport som skickad till kontoret",
+  "tr_markToBranchOffice": "Märk rapport som skickad till avdelningskontoret",
   "tr_markToBranchOfficeDesc": "Du är på väg att markera den här rapporten som skickad till avdelningskontoret. Är du säker på att du vill fortsätta?",
   "tr_markAsSubmitted": "Märk som skickad",
   "tr_undoSubmission": "Ångra skickandet",
