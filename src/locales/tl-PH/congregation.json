@@ -437,7 +437,7 @@
   "tr_myGroup": "My group",
   "tr_publishers": "Publishers",
   "tr_enableCongregationDataSync": "Enable congregation data sync",
-  "tr_enableCongregationDataSyncDesc": "This option will allow your congregation to share the Organized data. It will be possible also to sync data between multiple devices.",
-  "tr_applicationRejected": "Pioneer application rejected",
-  "tr_applicationRejectedDesc": "This application has been rejected. Inform the publisher about its status."
+  "tr_enableCongregationDataSyncDesc": "Pinapayagan na ibahagi ang data sa Organized ng inyong kongregasyon sa option na ito. Magiging posible ang pag-sinc ng data sa maraming device.",
+  "tr_applicationRejected": "Hindi pinayagan ang aplikasyon sa pagpapayunir",
+  "tr_applicationRejectedDesc": "Hindi inaprubahan ang aplikasyong ito. Ipaalam ito sa publisher."
 }
