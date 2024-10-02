@@ -1,36 +1,7 @@
 {
-  "compilerOptions": {
-    "jsx": "react",
-    "skipLibCheck": true,
-    "baseUrl": "./src",
-    "paths": {
-      "@mui/styled-engine": ["./node_modules/@mui/styled-engine-sc"],
-      "@assets/*": ["assets/*"],
-      "@components/*": ["components/*"],
-      "@icons/*": ["components/icons/*"],
-      "@constants/*": ["constants/*"],
-      "@features/*": ["features/*"],
-      "@hooks/*": ["hooks/*"],
-      "@layouts/*": ["layouts/*"],
-      "@pages/*": ["pages/*"],
-      "@routes/*": ["routes/*"],
-      "@services/*": ["services/*"],
-      "@states/*": ["states/*"],
-      "@utils/*": ["utils/*"],
-      "@wrapper/*": ["wrapper/*"],
-      "@locales/*": ["shared/*"],
-      "@definition/*": ["definition/*"],
-      "@global/*": ["global/*"],
-      "@db/*": ["indexedDb/*"],
-      "@talks/*": ["public_talks/*"],
-      "@views/*": ["views/*"]
-    },
-    "esModuleInterop": true,
-    "moduleResolution": "Node",
-    "module": "ESNext",
-    "types": ["@svgx/vite-plugin-react", "node", "vite/client"],
-    "lib": ["ESNext", "DOM"],
-    "target": "ESNext"
-  },
-  "include": ["src/**/*", "types/**/*"]
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
 }

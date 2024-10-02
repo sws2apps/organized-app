@@ -62,6 +62,8 @@ const useUserAutoLogin = () => {
           return;
         }
 
+        if (!data) return;
+
         if (data.status === 403) {
           await userSignOut();
           return;
