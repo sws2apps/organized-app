@@ -437,7 +437,7 @@
   "tr_myGroup": "Ryhmäni",
   "tr_publishers": "Julistajat",
   "tr_enableCongregationDataSync": "Ota seurakunnan tietojen synkronointi käyttöön",
-  "tr_enableCongregationDataSyncDesc": "Tämä vaihtoehto sallii seurakuntasi jakaa Organized-tietoja. Tiedot voidaan myös synkronoida useiden laitteiden välillä.",
+  "tr_enableCongregationDataSyncDesc": "This feature lets sync data like schedules with other users in your congregation and use the app on multiple devices at the same time.",
   "tr_applicationRejected": "Tienraivaushakemus hylätty",
   "tr_applicationRejectedDesc": "Tämä hakemus on hylätty. Ilmoita julistajalle hakemuksen tilasta."
 }
