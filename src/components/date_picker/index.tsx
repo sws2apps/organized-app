@@ -39,15 +39,15 @@ import { shortDateFormatState } from '@states/settings';
  * @returns {JSX.Element} CustomDatePicker component.
  */
 const DatePicker = ({
-  value = null,
+  value,
   onChange,
   view = 'input',
   label,
   disablePast,
   shortDateFormat,
   longDateFormat,
-  maxDate = null,
-  minDate = null,
+  maxDate,
+  minDate,
   readOnly = false,
 }: CustomDatePickerProps) => {
   const { t } = useAppTranslation();
@@ -58,14 +58,14 @@ const DatePicker = ({
   const longDateFormatLocale = longDateFormat || t('tr_longDateFormat');
 
   const [open, setOpen] = useState<boolean>(false);
-  const [valueTmp, setValueTmp] = useState<Date | null>(value);
-  const [innerValue, setInnerValue] = useState<Date | null>(value);
+  const [valueTmp, setValueTmp] = useState<Date | undefined>(value);
+  const [innerValue, setInnerValue] = useState<Date | undefined>(value);
 
   const [height, setHeight] = useState(240); // Initial height
 
-  const changeHeight = (event) => {
+  const changeHeight = (value: Date) => {
     if (
-      getWeeksInMonth(new Date(event), { locale: enUS, weekStartsOn: 0 }) === 6
+      getWeeksInMonth(new Date(value), { locale: enUS, weekStartsOn: 0 }) === 6
     )
       setHeight(290);
     else setHeight(240);
@@ -80,13 +80,13 @@ const DatePicker = ({
       ? { field: ButtonField }
       : { textField: DatePickerInputField };
 
-  const handleFormatSelected = (value) => {
-    if (isNaN(Date.parse(value))) return '***';
+  const handleFormatSelected = (value: Date | undefined) => {
+    if (isNaN(Date.parse(value as unknown as string))) return '***';
 
-    return format(value, longDateFormatLocale);
+    return format(value as Date, longDateFormatLocale);
   };
 
-  const handleValueChange = (value: Date) => {
+  const handleValueChange = (value: Date | undefined) => {
     setInnerValue(value);
 
     if (view === 'button') {
@@ -119,8 +119,8 @@ const DatePicker = ({
             slots={{
               ...viewProps,
               actionBar:
-                view === 'button'
-                  ? null
+                view === 'input'
+                  ? undefined
                   : () => (
                       <Stack
                         direction={'row'}
@@ -132,8 +132,8 @@ const DatePicker = ({
                           variant="secondary"
                           onClick={() => {
                             setOpen(false);
-                            setValueTmp(null);
-                            onChange?.(null);
+                            setValueTmp(undefined);
+                            onChange?.(undefined);
                           }}
                         >
                           {t('tr_clear')}
@@ -152,7 +152,7 @@ const DatePicker = ({
                     ),
               toolbar:
                 view === 'button'
-                  ? null
+                  ? undefined
                   : () => (
                       <Stack
                         direction={'column'}
@@ -172,8 +172,8 @@ const DatePicker = ({
                     ),
             }}
             open={!readOnly && open}
-            minDate={minDate}
-            maxDate={maxDate}
+            minDate={minDate as Date}
+            maxDate={maxDate as Date}
             disablePast={disablePast}
             yearsPerRow={3}
             showDaysOutsideCurrentMonth={true}
@@ -197,7 +197,7 @@ const DatePicker = ({
               field: {
                 format: shortDateFormatLocale,
                 setOpen: setOpen,
-                value: valueTmp,
+                value: valueTmp
               } as FieldProps,
               popper: {
                 sx: {

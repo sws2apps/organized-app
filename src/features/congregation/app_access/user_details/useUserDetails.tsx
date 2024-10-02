@@ -26,8 +26,9 @@ const useUserDetails = () => {
   const settings = useRecoilValue(settingsState);
 
   const refetchUser = () => {
-    const congregation_users: APICongregationUserType =
-      queryClient.getQueryData(['congregation_users']);
+    const congregation_users = queryClient.getQueryData([
+      'congregation_users',
+    ]) as APICongregationUserType;
 
     const user = congregation_users.users.find((record) => record.id === id);
 
@@ -67,9 +68,9 @@ const useUserDetails = () => {
       await queryClient.refetchQueries({ queryKey: ['congregation_users'] });
 
       // update congregation responsabilties
-      const data: APICongregationUserType = queryClient.getQueryData([
+      const data = queryClient.getQueryData([
         'congregation_users',
-      ]);
+      ]) as APICongregationUserType;
 
       const users = data.users;
 
@@ -133,7 +134,7 @@ const useUserDetails = () => {
 
       refetchUser();
     } catch (error) {
-      throw new Error(error?.message);
+      throw new Error((error as Error).message);
     }
   };
 
@@ -154,7 +155,7 @@ const useUserDetails = () => {
 
       refetchUser();
     } catch (error) {
-      throw new Error(error.message);
+      throw new Error((error as Error).message);
     }
   };
 

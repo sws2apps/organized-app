@@ -56,7 +56,7 @@ const useInvitationCode = () => {
 
       await displaySnackNotification({
         header: t('tr_errorTitle'),
-        message: getMessageByCode(error.message),
+        message: getMessageByCode((error as Error).message)!,
         severity: 'error',
       });
     }
@@ -68,20 +68,18 @@ const useInvitationCode = () => {
 
   useEffect(() => {
     const handleGetCode = async () => {
+      const pocketCode = user.profile.pocket_invitation_code;
+
+      if (!pocketCode || pocketCode?.length === 0) return;
+
       const { status, message } = await apiGetCongregationAccessCode();
 
       if (status === 200) {
         const remoteCode = decryptData(message, congLocalAccessCode);
         setRemoteAccessCode(remoteCode);
 
-        if (user.profile.pocket_invitation_code?.length > 0) {
-          const invitationCode = decryptData(
-            user.profile.pocket_invitation_code,
-            remoteCode
-          );
-
-          setCode(invitationCode);
-        }
+        const invitationCode = decryptData(pocketCode, remoteCode);
+        setCode(invitationCode);
       }
     };
 

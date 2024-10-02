@@ -54,7 +54,7 @@ const UserProfileDetails = () => {
           <TextField
             label={t('tr_emailAddress')}
             value={userEmail}
-            InputProps={{ readOnly: true }}
+            slotProps={{ input: { readOnly: true } }}
             helperText={
               <Typography
                 className="label-small-regular"

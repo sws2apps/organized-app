@@ -20,14 +20,14 @@ const PublisherDetails = () => {
 
   return (
     <Card sx={{ flex: 1, gap: '24px', width: '100%' }}>
-      <PersonDetails className="h2" person={person} month={month} />
+      <PersonDetails className="h2" person={person!} month={month} />
 
       <Stack spacing="16px">
         <Box sx={{ display: 'flex', alignItems: 'stretch', gap: '8px' }}>
           <TextField
             label={t('tr_dateOfBirth')}
             value={birth_date_value}
-            InputProps={{ readOnly: true }}
+            slotProps={{ input: { readOnly: true } }}
           />
           <YearsCount>{t('tr_userAge', { userAge: age })}</YearsCount>
         </Box>
@@ -37,7 +37,7 @@ const PublisherDetails = () => {
             <TextField
               label={t('tr_baptismDate')}
               value={baptism_date_value}
-              InputProps={{ readOnly: true }}
+              slotProps={{ input: { readOnly: true } }}
             />
             <YearsCount>
               {t('tr_yearsNumber', { yearsCount: baptism_years })}
