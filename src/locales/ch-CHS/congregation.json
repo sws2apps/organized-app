@@ -437,7 +437,7 @@
   "tr_myGroup": "我的小组",
   "tr_publishers": "传道员",
   "tr_enableCongregationDataSync": "启用会众数据同步",
-  "tr_enableCongregationDataSyncDesc": "此选项将允许您的会众共享Organized的数据。还可以在多个设备之间同步数据。",
+  "tr_enableCongregationDataSyncDesc": "This feature lets sync data like schedules with other users in your congregation and use the app on multiple devices at the same time.",
   "tr_applicationRejected": "先驱申请表被拒绝",
   "tr_applicationRejectedDesc": "此应用已被拒绝。请通知传道员其状态。"
 }
