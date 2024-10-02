@@ -437,7 +437,7 @@
   "tr_myGroup": "My group",
   "tr_publishers": "Publishers",
   "tr_enableCongregationDataSync": "Enable congregation data sync",
-  "tr_enableCongregationDataSyncDesc": "Pinapayagan na ibahagi ang data sa Organized ng inyong kongregasyon sa option na ito. Magiging posible ang pag-sinc ng data sa maraming device.",
+  "tr_enableCongregationDataSyncDesc": "This feature lets sync data like schedules with other users in your congregation and use the app on multiple devices at the same time.",
   "tr_applicationRejected": "Hindi pinayagan ang aplikasyon sa pagpapayunir",
   "tr_applicationRejectedDesc": "Hindi inaprubahan ang aplikasyong ito. Ipaalam ito sa publisher."
 }
