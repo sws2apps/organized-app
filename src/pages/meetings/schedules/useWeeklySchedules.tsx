@@ -10,6 +10,8 @@ const useWeeklySchedules = () => {
   ) as WeeklySchedulesType;
 
   const value = useMemo(() => {
+    if (!scheduleType) return 0;
+
     if (scheduleType === 'midweek') return 0;
     if (scheduleType === 'weekend') return 1;
     if (scheduleType === 'outgoing') return 2;
@@ -22,7 +24,7 @@ const useWeeklySchedules = () => {
     if (value === 1) type = 'weekend';
     if (value === 2) type = 'outgoing';
 
-    localStorage.setItem(LOCALSTORAGE_KEY, type);
+    localStorage.setItem(LOCALSTORAGE_KEY, type!);
   };
 
   return { value, handleScheduleChange };
