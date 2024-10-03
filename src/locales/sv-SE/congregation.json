@@ -437,7 +437,7 @@
   "tr_myGroup": "Min grupp",
   "tr_publishers": "Förkunnare",
   "tr_enableCongregationDataSync": "Aktivera synkronisering av församlingsdata",
-  "tr_enableCongregationDataSyncDesc": "This feature lets sync data like schedules with other users in your congregation and use the app on multiple devices at the same time.",
+  "tr_enableCongregationDataSyncDesc": "Den här funktionen synkroniserar data såsom scheman med andra användare i din församling och tillåter användning av appen på flera enheter samtidigt.",
   "tr_applicationRejected": "Pionjäransökan nekad",
   "tr_applicationRejectedDesc": "Denna ansökan har nekats. Informera förkunnaren om dess status."
 }
