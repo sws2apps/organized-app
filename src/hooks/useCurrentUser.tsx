@@ -1,7 +1,11 @@
 import { useMemo } from 'react';
 import { useRecoilValue } from 'recoil';
 import { personsState } from '@states/persons';
-import { settingsState, userLocalUIDState } from '@states/settings';
+import {
+  accountTypeState,
+  settingsState,
+  userLocalUIDState,
+} from '@states/settings';
 import { congAccountConnectedState } from '@states/app';
 import { formatDate } from '@services/dateformat';
 import usePerson from '@features/persons/hooks/usePerson';
@@ -17,6 +21,7 @@ const useCurrentUser = () => {
   const persons = useRecoilValue(personsState);
   const settings = useRecoilValue(settingsState);
   const connected = useRecoilValue(congAccountConnectedState);
+  const accountType = useRecoilValue(accountTypeState);
 
   const person = useMemo(() => {
     return persons.find((record) => record.person_uid === userUID);
@@ -146,6 +151,7 @@ const useCurrentUser = () => {
     isAppointed,
     isMidweekEditor,
     isWeekendEditor,
+    accountType,
   };
 };
 

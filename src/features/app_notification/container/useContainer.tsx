@@ -7,7 +7,7 @@ import {
   encryptedMasterKeyState,
   speakersKeyState,
 } from '@states/app';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { NotificationRecordType } from '@definition/notification';
 import { notificationsState } from '@states/notification';
 import { apiGetCongregationUpdates } from '@services/api/congregation';
@@ -33,6 +33,8 @@ import usePendingRequests from './usePendingRequests';
 const useContainer = () => {
   const { t } = useAppTranslation();
 
+  const { isAdmin } = useCurrentUser();
+
   const { updatePendingRequestsNotification } = usePendingRequests();
 
   const [notifications, setNotifications] = useRecoilState(notificationsState);
@@ -51,7 +53,7 @@ const useContainer = () => {
   const congAccessCode = useRecoilValue(congAccessCodeState);
 
   const { isLoading, data } = useQuery({
-    enabled: congAccountConnected,
+    enabled: congAccountConnected && isAdmin,
     queryKey: ['congregation_updates'],
     queryFn: apiGetCongregationUpdates,
     refetchInterval: 60 * 1000,

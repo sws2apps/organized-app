@@ -86,6 +86,7 @@ export type UserLoginResponseType = {
       mfa: 'not_enabled' | 'enabled';
       user_local_uid?: string;
       cong_role?: AppRoleType[];
+      user_members_delegate?: string[];
     };
     cong_settings?: {
       id: string;

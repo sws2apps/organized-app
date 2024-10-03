@@ -54,9 +54,13 @@ const Dashboard = () => {
         {publisher && <MinistryCard />}
 
         <MeetingsCard assignmentCount={countFutureAssignments} />
-        <PersonsCard />
-        <MeetingsMaterialsCard />
-        <ReportsCard />
+
+        {publisher && <PersonsCard />}
+
+        {publisher && <MeetingsMaterialsCard />}
+
+        {publisher && <ReportsCard />}
+
         <CongregationCard />
       </Box>
 

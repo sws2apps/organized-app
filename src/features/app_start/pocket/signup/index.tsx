@@ -1,22 +1,21 @@
 import { Box } from '@mui/material';
+import { IconError, IconLoading } from '@icons/index';
+import { useAppTranslation } from '@hooks/index';
+import useSignup from './useSignup';
 import Button from '@components/button';
 import InfoMessage from '@components/info-message';
-import TextField from '@components/textfield';
 import PageHeader from '@features/app_start/shared/page_header';
-import { IconError, IconLoading } from '@icons/index';
-import useAppTranslation from '@hooks/useAppTranslation';
-import useSignup from './useSignup';
+import TextField from '@components/textfield';
 
 const PocketSignUp = () => {
   const { t } = useAppTranslation();
 
   const {
     handleReturnChooser,
-    handleSignUp,
+    handleValidate,
     isOnline,
     isProcessing,
-    setCode,
-    visitorID,
+    handleCodeChange,
     code,
     hideMessage,
     title,
@@ -45,18 +44,14 @@ const PocketSignUp = () => {
           <TextField
             label={t('tr_invitationCode')}
             value={code}
-            onChange={(e) => setCode(e.target.value)}
+            onChange={(e) => handleCodeChange(e.target.value)}
             sx={{ width: '100%', color: 'var(--black)' }}
             className="h4"
           />
           <Button
             variant="main"
-            disabled={
-              code.length === 0 ||
-              !isOnline ||
-              visitorID.toString().length === 0
-            }
-            onClick={handleSignUp}
+            disabled={code.length === 0 || !isOnline}
+            onClick={handleValidate}
             sx={{ padding: '8px 32px', minHeight: '44px' }}
             startIcon={
               isProcessing ? <IconLoading width={22} height={22} /> : null

@@ -62,6 +62,8 @@ export const getMessageByCode = (code: string) => {
       return getTranslation({
         key: 'tr_oauthAccountExistsWithDifferentCredential',
       });
+    case 'INVALID_CODE':
+      return getTranslation({ key: 'tr_checkInvitationCode' });
     default:
       return code;
   }

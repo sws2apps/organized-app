@@ -7,6 +7,7 @@ import { localStorageGetItem } from '@utils/common';
 import { SnackBarSeverityType } from '@definition/app';
 import { ReactElement } from 'react';
 import { LANGUAGE_LIST } from '@constants/index';
+import { CongregationUserType } from '@definition/api';
 
 export const isDarkThemeState = atom({
   key: 'isDarkTheme',
@@ -475,4 +476,41 @@ export const cookiesConsentState = atom({
 export const tokenDevState = atom({
   key: 'tokenDev',
   default: '',
+});
+
+export const congregationUsersState = atom<CongregationUserType[]>({
+  key: 'congregationUsers',
+  default: [],
+});
+
+export const congregationsPersonsState = selector({
+  key: 'congregationsPersons',
+  get: ({ get }) => {
+    const users = get(congregationUsersState);
+
+    return users.filter((record) => record.profile.global_role === 'pocket');
+  },
+});
+
+export const congregationsAppAdminState = selector({
+  key: 'congregationsAppAdmin',
+  get: ({ get }) => {
+    const users = get(congregationUsersState);
+
+    return users.filter((record) => record.profile.cong_role.includes('admin'));
+  },
+});
+
+export const congregationsBaptizedPersonsState = selector({
+  key: 'congregationsBaptizedPersons',
+  get: ({ get }) => {
+    const users = get(congregationUsersState);
+
+    return users.filter(
+      (record) =>
+        record.profile.global_role === 'vip' &&
+        !record.profile.cong_role.includes('admin') &&
+        !record.profile.cong_role.includes('coordinator')
+    );
+  },
 });
