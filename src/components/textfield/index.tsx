@@ -138,7 +138,7 @@ const TextField = (props: TextFieldTypeProps) => {
           '& svg, & svg g, & svg g path': 'var(--black)',
         },
 
-        '& .MuiAutocomplete-startAdornment .MuiSvgIcon-root': {
+        '& .MuiInputAdornment-positionStart .MuiSvgIcon-root': {
           color: startIcon?.props.color || 'var(--black)',
         },
 
@@ -149,9 +149,11 @@ const TextField = (props: TextFieldTypeProps) => {
         ...props.sx,
       }}
       slotProps={{
+        ...slotProps,
         input: {
+          ...slotProps?.input,
           className: props.className,
-          startAdornment: startIcon && (
+          startAdornment: startIcon ? (
             <InputAdornment
               position="start"
               sx={{
@@ -162,8 +164,10 @@ const TextField = (props: TextFieldTypeProps) => {
             >
               {startIcon}
             </InputAdornment>
+          ) : (
+            slotProps?.input['startAdornment']
           ),
-          endAdornment: endIconLocal && (
+          endAdornment: endIconLocal ? (
             <InputAdornment
               position="end"
               sx={{
@@ -187,8 +191,9 @@ const TextField = (props: TextFieldTypeProps) => {
                 </IconButton>
               )}
             </InputAdornment>
+          ) : (
+            slotProps?.input['endAdornment']
           ),
-          ...slotProps?.input,
         },
         formHelperText: {
           component: 'div',

@@ -10,7 +10,7 @@ export interface CustomDatePickerProps {
   /**
    * The selected date value.
    */
-  value?: Date | undefined;
+  value?: Date;
 
   /**
    * The view type of the date picker.
@@ -46,17 +46,17 @@ export interface CustomDatePickerProps {
    * Function called when the selected date changes.
    * @param value - The new selected date value.
    */
-  onChange?: (value: Date | undefined) => void | Promise<void>;
+  onChange?: (value: Date) => void | Promise<void>;
 
   /**
    * The minimum selectable date.
    */
-  minDate?: Date;
+  minDate?: Date | null;
 
   /**
    * The maximum selectable date.
    */
-  maxDate?: Date;
+  maxDate?: Date | null;
 
   readOnly?: boolean;
 }

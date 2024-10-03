@@ -13,12 +13,12 @@ type ButtonFieldProps = Omit<
   'setOpen'
 > & {
   setOpen?: Dispatch<SetStateAction<boolean>>;
-  value: Date | undefined;
+  value: Date;
 };
 
 export type FieldProps = SlotComponentPropsFromProps<
   ButtonFieldProps,
-  {},
+  unknown,
   UsePickerProps<never, never, never, never, never, never>
 >;
 
@@ -62,7 +62,7 @@ const ButtonField: FC<ButtonFieldProps> = ({
         padding: '4px 8px',
       }}
     >
-      {value ? `${formatDate(value, format!)}` : 'Pick a date'}
+      {value ? `${formatDate(value, format)}` : 'Pick a date'}
     </Button>
   );
 };

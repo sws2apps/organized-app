@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 /* eslint-disable import/no-duplicates */
 import { getWeeksInMonth, format } from 'date-fns';
 import { enUS } from 'date-fns/locale';
@@ -39,17 +39,19 @@ import { shortDateFormatState } from '@states/settings';
  * @returns {JSX.Element} CustomDatePicker component.
  */
 const DatePicker = ({
-  value,
+  value = null,
   onChange,
   view = 'input',
   label,
   disablePast,
   shortDateFormat,
   longDateFormat,
-  maxDate,
-  minDate,
+  maxDate = null,
+  minDate = null,
   readOnly = false,
 }: CustomDatePickerProps) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const { t } = useAppTranslation();
 
   const shortDateFormatDefault = useRecoilValue(shortDateFormatState);
@@ -58,14 +60,14 @@ const DatePicker = ({
   const longDateFormatLocale = longDateFormat || t('tr_longDateFormat');
 
   const [open, setOpen] = useState<boolean>(false);
-  const [valueTmp, setValueTmp] = useState<Date | undefined>(value);
-  const [innerValue, setInnerValue] = useState<Date | undefined>(value);
+  const [valueTmp, setValueTmp] = useState<Date | null>(value);
+  const [innerValue, setInnerValue] = useState<Date | null>(value);
 
   const [height, setHeight] = useState(240); // Initial height
 
-  const changeHeight = (value: Date) => {
+  const changeHeight = (event) => {
     if (
-      getWeeksInMonth(new Date(value), { locale: enUS, weekStartsOn: 0 }) === 6
+      getWeeksInMonth(new Date(event), { locale: enUS, weekStartsOn: 0 }) === 6
     )
       setHeight(290);
     else setHeight(240);
@@ -80,13 +82,13 @@ const DatePicker = ({
       ? { field: ButtonField }
       : { textField: DatePickerInputField };
 
-  const handleFormatSelected = (value: Date | undefined) => {
-    if (isNaN(Date.parse(value as unknown as string))) return '***';
+  const handleFormatSelected = (value) => {
+    if (isNaN(Date.parse(value))) return '***';
 
-    return format(value as Date, longDateFormatLocale);
+    return format(value, longDateFormatLocale);
   };
 
-  const handleValueChange = (value: Date | undefined) => {
+  const handleValueChange = (value: Date) => {
     setInnerValue(value);
 
     if (view === 'button') {
@@ -119,8 +121,8 @@ const DatePicker = ({
             slots={{
               ...viewProps,
               actionBar:
-                view === 'input'
-                  ? undefined
+                view === 'button'
+                  ? null
                   : () => (
                       <Stack
                         direction={'row'}
@@ -132,8 +134,8 @@ const DatePicker = ({
                           variant="secondary"
                           onClick={() => {
                             setOpen(false);
-                            setValueTmp(undefined);
-                            onChange?.(undefined);
+                            setValueTmp(null);
+                            onChange?.(null);
                           }}
                         >
                           {t('tr_clear')}
@@ -152,7 +154,7 @@ const DatePicker = ({
                     ),
               toolbar:
                 view === 'button'
-                  ? undefined
+                  ? null
                   : () => (
                       <Stack
                         direction={'column'}
@@ -172,8 +174,8 @@ const DatePicker = ({
                     ),
             }}
             open={!readOnly && open}
-            minDate={minDate as Date}
-            maxDate={maxDate as Date}
+            minDate={minDate}
+            maxDate={maxDate}
             disablePast={disablePast}
             yearsPerRow={3}
             showDaysOutsideCurrentMonth={true}
@@ -186,6 +188,7 @@ const DatePicker = ({
             value={valueTmp}
             slotProps={{
               textField: {
+                inputRef,
                 onClick: () => {
                   if (readOnly) return;
                   setOpen(true);
@@ -197,9 +200,10 @@ const DatePicker = ({
               field: {
                 format: shortDateFormatLocale,
                 setOpen: setOpen,
-                value: valueTmp
+                value: valueTmp,
               } as FieldProps,
               popper: {
+                anchorEl: inputRef.current,
                 sx: {
                   ...StyleDatePickerPopper,
                   '.MuiDateCalendar-viewTransitionContainer': {
