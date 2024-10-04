@@ -18,7 +18,6 @@ const MonthlyView = () => {
   const {
     selectedWeeks,
     weeksTypes,
-    monthName,
     getWeekLocale,
     selectedMonth,
     monthNames,
@@ -54,13 +53,6 @@ const MonthlyView = () => {
   } = useMonthlyView();
 
   const { t } = useAppTranslation();
-
-  console.log(selectedWeeks);
-  console.log(getWeekLocale(new Date(selectedWeeks[0]).getDate(), monthName));
-
-  console.log(weeksTypes);
-  console.log(monthName);
-  console.log(showDoublePerson);
 
   return (
     <Box
