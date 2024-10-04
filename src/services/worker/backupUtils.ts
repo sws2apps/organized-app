@@ -75,6 +75,9 @@ const dbGetTableData = async () => {
   const persons = await appDb.persons.toArray();
   const visiting_speakers = await appDb.visiting_speakers.toArray();
   const speakers_congregations = await appDb.speakers_congregations.toArray();
+  const user_bible_studies = await appDb.user_bible_studies.toArray();
+  const user_field_service_reports =
+    await appDb.user_field_service_reports.toArray();
 
   const congId = speakers_congregations.find(
     (record) =>
@@ -110,6 +113,8 @@ const dbGetTableData = async () => {
     outgoing_speakers,
     speakers_congregations,
     visiting_speakers,
+    user_bible_studies,
+    user_field_service_reports,
   };
 };
 
@@ -361,31 +366,47 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
 
   await dbRestoreFromBackup(backupData, accessCode, masterKey);
 
+  const {
+    persons,
+    settings,
+    outgoing_speakers,
+    speakers_congregations,
+    visiting_speakers,
+    user_bible_studies,
+    user_field_service_reports,
+  } = await dbGetTableData();
+
+  const adminRole = userRole.includes('admin');
+
+  const settingEditor = adminRole;
+
+  const personEditor =
+    adminRole ||
+    userRole.some(
+      (role) =>
+        role === 'midweek_schedule' ||
+        role === 'weekend_schedule' ||
+        role === 'public_talk_schedule'
+    );
+
+  const publicTalkEditor =
+    adminRole || userRole.some((role) => role === 'public_talk_schedule');
+
+  const isPublisher = userRole.includes('publisher');
+
+  const { user_settings, cong_settings } = settings;
+
+  const userBaseSettings = {
+    firstname: user_settings.firstname,
+    lastname: user_settings.lastname,
+    data_view: user_settings.data_view,
+  };
+
   if (dataSync) {
-    const {
-      persons,
-      settings,
-      outgoing_speakers,
-      speakers_congregations,
-      visiting_speakers,
-    } = await dbGetTableData();
-
     if (accountType === 'vip') {
-      const adminRole = userRole.includes('admin');
-
-      const settingEditor = adminRole;
-
-      const personEditor =
-        adminRole ||
-        userRole.some(
-          (role) =>
-            role === 'midweek_schedule' ||
-            role === 'weekend_schedule' ||
-            role === 'public_talk_schedule'
-        );
-
-      const publicTalkEditor =
-        adminRole || userRole.some((role) => role === 'public_talk_schedule');
+      obj.app_settings = {
+        user_settings: userBaseSettings,
+      };
 
       if (settingEditor) {
         const localSettings = structuredClone(settings);
@@ -469,55 +490,98 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
         }
       }
     }
+
+    if (accountType === 'pocket') {
+      const userSettings = {
+        ...userBaseSettings,
+        backup_automatic: settings.user_settings.backup_automatic,
+        theme_follow_os_enabled: settings.user_settings.theme_follow_os_enabled,
+        hour_credits_enabled: settings.user_settings.hour_credits_enabled,
+      };
+
+      encryptObject({
+        data: userSettings,
+        table: 'app_settings',
+        accessCode,
+      });
+
+      obj.app_settings = { user_settings: userSettings };
+
+      if (isPublisher) {
+        const backupBibleStudies = user_bible_studies.map((study) => {
+          encryptObject({
+            data: study,
+            table: 'user_bible_studies',
+            accessCode,
+          });
+
+          return study;
+        });
+
+        obj.user_bible_studies = backupBibleStudies;
+
+        const backupReports = user_field_service_reports.map((report) => {
+          encryptObject({
+            data: report,
+            table: 'user_field_service_reports',
+            accessCode,
+          });
+
+          return report;
+        });
+
+        obj.user_field_service_reports = backupReports;
+      }
+    }
   }
 
   if (!dataSync) {
-    const adminRole = userRole.includes('admin');
-    const settingEditor = adminRole;
-
-    const { settings } = await dbGetTableData();
-    const { user_settings, cong_settings } = settings;
-
-    obj.app_settings = {
-      user_settings: {
-        cong_role: user_settings.cong_role,
-        account_type: user_settings.account_type,
-        user_local_uid: user_settings.user_local_uid,
-        firstname: user_settings.firstname,
-        lastname: user_settings.lastname,
-        data_view: user_settings.data_view,
-      },
-    };
-
-    if (settingEditor) {
-      const midweek = cong_settings.midweek_meeting.map((record) => {
-        return {
-          type: record.type,
-          weekday: record.weekday,
-          time: record.time,
-        };
-      });
-
-      const weekend = cong_settings.weekend_meeting.map((record) => {
-        return {
-          type: record.type,
-          weekday: record.weekday,
-          time: record.time,
-        };
-      });
-
-      obj.app_settings.cong_settings = {
-        cong_circuit: cong_settings.cong_circuit,
-        cong_discoverable: cong_settings.cong_discoverable,
-        cong_location: cong_settings.cong_location,
-        cong_name: cong_settings.cong_name,
-        cong_new: cong_settings.cong_new,
-        cong_number: cong_settings.cong_number,
-        country_code: cong_settings.country_code,
-        data_sync: cong_settings.data_sync,
-        midweek_meeting: midweek,
-        weekend_meeting: weekend,
+    if (accountType === 'vip') {
+      obj.app_settings = {
+        user_settings: userBaseSettings,
       };
+
+      if (settingEditor) {
+        const midweek = cong_settings.midweek_meeting.map((record) => {
+          return {
+            type: record.type,
+            weekday: record.weekday,
+            time: record.time,
+          };
+        });
+
+        const weekend = cong_settings.weekend_meeting.map((record) => {
+          return {
+            type: record.type,
+            weekday: record.weekday,
+            time: record.time,
+          };
+        });
+
+        obj.app_settings.user_settings = {
+          ...userBaseSettings,
+          cong_role: user_settings.cong_role,
+          account_type: user_settings.account_type,
+          user_local_uid: user_settings.user_local_uid,
+        };
+
+        obj.app_settings.cong_settings = {
+          cong_circuit: cong_settings.cong_circuit,
+          cong_discoverable: cong_settings.cong_discoverable,
+          cong_location: cong_settings.cong_location,
+          cong_name: cong_settings.cong_name,
+          cong_new: cong_settings.cong_new,
+          cong_number: cong_settings.cong_number,
+          country_code: cong_settings.country_code,
+          data_sync: cong_settings.data_sync,
+          midweek_meeting: midweek,
+          weekend_meeting: weekend,
+        };
+      }
+    }
+
+    if (accountType === 'pocket') {
+      obj.app_settings = { user_settings: userBaseSettings };
     }
   }
 
