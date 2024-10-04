@@ -147,5 +147,7 @@
   "tr_recordAttendance": "Attendance records",
   "tr_assignmentPreferences": "Assignment preferences",
   "tr_monthlyView": "Monthly view",
-  "tr_weeklyView": "Weekly view"
+  "tr_weeklyView": "Weekly view",
+  "tr_ayfAssignment": "Assignment {{ assignmentNumber }}",
+  "tr_lcPartNum": "Living part {{ partNumber }}"
 }

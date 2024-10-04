@@ -1,3 +1,4 @@
+import { AssignmentCode } from '@definition/assignment';
 import useAppTranslation from '@hooks/useAppTranslation';
 import { monthNamesState } from '@states/app';
 import { schedulesState } from '@states/schedules';
