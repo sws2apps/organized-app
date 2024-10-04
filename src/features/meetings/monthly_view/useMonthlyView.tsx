@@ -345,7 +345,7 @@ const useMonthlyView = () => {
         changeValueInArrayState(setLcNoAssignParts3, index, noAssign);
       }
     });
-  }, [selectedWeeks, schedules, sources, lang, dataView]);
+  }, [selectedWeeks, schedules, sources, lang, dataView, selectedMonth]);
 
   return {
     currentYear,

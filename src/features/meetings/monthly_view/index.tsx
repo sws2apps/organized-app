@@ -1073,7 +1073,7 @@ const MonthlyView = () => {
               {t('tr_cbs')}
             </Typography>
             {selectedWeeks.map((value, index) => {
-              return weeksTypes[index].value != Week.CO_VISIT ? (
+              return showDoublePerson[index] ? (
                 <Box
                   flex={1}
                   key={`lc-cbs-${index}`}
