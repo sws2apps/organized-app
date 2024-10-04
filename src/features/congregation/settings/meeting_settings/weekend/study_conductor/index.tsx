@@ -36,7 +36,9 @@ const StudyConductor = () => {
       <Select
         label={t('tr_mainStudyConductor')}
         value={wtConductorMainPerson}
-        onChange={(e) => handleWTConductorMainPersonChange(e.target.value)}
+        onChange={(e) =>
+          handleWTConductorMainPersonChange(e.target.value as string)
+        }
       >
         {personsWTCondcutorList.map((person) => (
           <MenuItem key={person.value} value={person.value}>

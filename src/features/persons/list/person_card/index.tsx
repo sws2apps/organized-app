@@ -1,10 +1,10 @@
-import { Grid } from '@mui/material';
-import Badge from '@components/badge';
-import UserCard from '@components/user_card';
+import { Grid2 as Grid } from '@mui/material';
 import { PersonCardType } from './index.types';
-import usePersonCard from './usePersonCard';
-import DeletePersonConfirm from '../person_delete';
 import { buildPersonFullname } from '@utils/common';
+import usePersonCard from './usePersonCard';
+import Badge from '@components/badge';
+import DeletePersonConfirm from '../person_delete';
+import UserCard from '@components/user_card';
 
 const PersonCard = ({ person }: PersonCardType) => {
   const {
@@ -18,14 +18,7 @@ const PersonCard = ({ person }: PersonCardType) => {
   } = usePersonCard(person);
 
   return (
-    <Grid
-      key={person.person_uid}
-      item
-      desktop={4}
-      laptop={6}
-      tablet={12}
-      sx={{ width: '100%' }}
-    >
+    <Grid size={{ desktop: 4, laptop: 6, tablet: 12 }} sx={{ width: '100%' }}>
       <DeletePersonConfirm
         open={isDeleting}
         onClose={handleDeleteCancel}

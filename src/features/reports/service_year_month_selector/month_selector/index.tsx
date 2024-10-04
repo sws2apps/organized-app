@@ -21,7 +21,7 @@ const MonthSelector = ({
       readOnly={readOnly}
       label={t('tr_month')}
       value={value}
-      onChange={(e) => onChange(e.target.value)}
+      onChange={(e) => onChange(e.target.value as string)}
       sx={sx}
     >
       {months.map((record) => (

@@ -435,5 +435,9 @@
   "tr_groupNotAssigned": "Grupp inte tilldelad",
   "tr_publisherLastReport": "Senaste rapporten för {{ month }}",
   "tr_myGroup": "Min grupp",
-  "tr_publishers": "Förkunnare"
+  "tr_publishers": "Förkunnare",
+  "tr_enableCongregationDataSync": "Aktivera synkronisering av församlingsdata",
+  "tr_enableCongregationDataSyncDesc": "Det här alternativet gör det möjligt för din församling att dela Organized-data. Det kommer också att vara möjligt att synkronisera data mellan flera enheter.",
+  "tr_applicationRejected": "Pionjäransökan nekad",
+  "tr_applicationRejectedDesc": "Denna ansökan har nekats. Informera förkunnaren om dess status."
 }

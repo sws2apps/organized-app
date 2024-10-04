@@ -3,7 +3,7 @@ import {
   getShortDatePickerFormat,
   getTranslation,
 } from '@services/i18n/translation';
-import { convertStringToBoolean, localStorageGetItem } from '@utils/common';
+import { localStorageGetItem } from '@utils/common';
 import { SnackBarSeverityType } from '@definition/app';
 import { ReactElement } from 'react';
 import { LANGUAGE_LIST } from '@constants/index';
@@ -153,13 +153,6 @@ export const isCongAccountCreateState = atom({
   default: false,
 });
 
-export const isShowTermsUseState = atom({
-  key: 'isShowLAG',
-  default:
-    typeof window !== 'undefined' &&
-    convertStringToBoolean(localStorage.getItem('termsUse') || 'true'),
-});
-
 export const qrCodePathState = atom({
   key: 'qrCodePath',
   default: '',
@@ -288,11 +281,6 @@ export const isAccountChooseState = atom({
 export const isFetchingScheduleState = atom({
   key: 'isFetchingSchedule',
   default: true,
-});
-
-export const currentMFAStageState = atom({
-  key: 'currentMFAStage',
-  default: 'setup',
 });
 
 export const refreshScreenState = atom({
@@ -464,11 +452,6 @@ export const currentDrawerState = atom({
   default: '',
 });
 
-export const isWIPSnackOpenState = atom({
-  key: 'isWIPSnackOpen',
-  default: false,
-});
-
 export const isAppNotificationOpenState = atom({
   key: 'isAppNotificationOpen',
   default: false,
@@ -481,5 +464,15 @@ export const speakersKeyState = atom({
 
 export const encryptedMasterKeyState = atom({
   key: 'encryptedMasterKey',
+  default: '',
+});
+
+export const cookiesConsentState = atom({
+  key: 'cookiesConsent',
+  default: Boolean(localStorageGetItem('userConsent')),
+});
+
+export const tokenDevState = atom({
+  key: 'tokenDev',
   default: '',
 });

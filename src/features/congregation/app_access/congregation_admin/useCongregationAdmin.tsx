@@ -48,11 +48,11 @@ const useCongregationAdmin = (users: CongregationUserType[]) => {
       return {
         person_id: user.id,
         person_name: buildPersonFullname(
-          user.lastname.value,
-          user.firstname.value,
+          user.profile.lastname.value,
+          user.profile.firstname.value,
           fullnameOption
         ),
-        person_role: getUserMainRole(user.cong_role),
+        person_role: getUserMainRole(user.profile.cong_role),
       };
     });
   }, [users, fullnameOption, getUserMainRole]);

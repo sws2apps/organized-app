@@ -8,7 +8,7 @@ import Typography from '@components/typography';
 import {
   ProfileItemContainer,
   SettingWithBorderContainer,
-} from '../my_profile.styles';
+} from '../index.styles';
 import { useAppTranslation } from '@hooks/index';
 import useAppSettings from './useAppSettings';
 
@@ -56,13 +56,12 @@ const AppSettings = () => {
             </Box>
             <Select
               label={t('tr_syncInterval')}
-              value={autoSyncInterval}
-              onChange={(e) => handleUpdateSyncInterval(e.target.value)}
-              height={48}
+              value={autoSyncInterval.toString()}
+              onChange={(e) => handleUpdateSyncInterval(+e.target.value)}
               sx={{ maxWidth: '200px' }}
             >
               {[5, 15, 30, 45].map((time) => (
-                <MenuItem key={time} value={time}>
+                <MenuItem key={time} value={time.toString()}>
                   <Typography className="body-regular" color="var(--black)">
                     {`${time} ${t('tr_minLabel')}`}
                   </Typography>

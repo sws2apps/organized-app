@@ -3,7 +3,7 @@ import { SessionResponseType } from '@definition/api';
 import {
   ProfileItemContainer,
   SettingWithBorderContainer,
-} from '../my_profile.styles';
+} from '../index.styles';
 import { useAppTranslation } from '@hooks/index';
 import useSessions from './useSessions';
 import Typography from '@components/typography';

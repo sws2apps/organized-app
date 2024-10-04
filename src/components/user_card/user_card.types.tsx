@@ -35,4 +35,6 @@ export interface CustomUserCardProps extends PropsWithChildren {
    * Callback function to handle delete events on the user card.
    */
   onDelete?: MouseEventHandler<HTMLButtonElement>;
+
+  showArrow?: boolean;
 }

@@ -1,11 +1,11 @@
 {
-  "tr_addNewDate": "Add new date",
-  "tr_deepCleaning": "Deep cleaning",
-  "tr_noCleaningSchedulesYet": "You have no cleaning schedules created yet. Add a new month to start creating your first schedule.",
-  "tr_addMonthDesc": "First, choose the months you want to schedule. Then, create a plan for each specific meeting date.",
-  "tr_responsiblePerson": "Responsible person",
-  "tr_deleteDate": "Delete the date",
-  "tr_deleteDateDecs": "You cannot undo this action, but you can create a new date at any time.",
-  "tr_deleteMonth": "Delete the month",
-  "tr_deleteMonthDesc": "You cannot undo this action, but you can add a new month at any time."
+  "tr_addNewDate": "添加新日期",
+  "tr_deepCleaning": "深度清洁",
+  "tr_noCleaningSchedulesYet": "您尚未创建清洁计划。添加一个新的月份，开始创建你的第一个安排表。",
+  "tr_addMonthDesc": "首先, 选择您想要安排的月份. 然后, 为每个具体的聚会日期创建一个计划.",
+  "tr_responsiblePerson": "负责人",
+  "tr_deleteDate": "删除日期",
+  "tr_deleteDateDecs": "您无法撤销此操作, 但您可以随时创建一个新的日期。",
+  "tr_deleteMonth": "删除该月",
+  "tr_deleteMonthDesc": "您无法撤销此操作, 但您可以随时创建一个新的月份."
 }

@@ -1,7 +1,13 @@
+import { BackupDataType } from './backupType';
+
 export const apiGetCongregationBackup = async ({
   apiHost,
   congID,
   idToken,
+}: {
+  apiHost: string;
+  congID: string;
+  idToken: string;
 }) => {
   const res = await fetch(`${apiHost}api/v3/congregations/${congID}/backup`, {
     method: 'GET',
@@ -17,7 +23,11 @@ export const apiGetCongregationBackup = async ({
 
   const data = await res.json();
 
-  return data;
+  if (res.status !== 200) {
+    throw new Error(data.message);
+  }
+
+  return data as BackupDataType;
 };
 
 export const apiSendCongregationBackup = async ({

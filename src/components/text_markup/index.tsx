@@ -52,7 +52,20 @@ const Markup = (props: TextMarkupTypeProps) => {
     }
 
     if (tagName === 'ul') {
-      return <ul style={{ paddingInlineStart: '32px', color }}>{children}</ul>;
+      return (
+        <ul
+          className={props.className}
+          style={{
+            paddingInlineStart: '32px',
+            color,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '8px',
+          }}
+        >
+          {children}
+        </ul>
+      );
     }
 
     // Check if the tag has a class name assigned in the props

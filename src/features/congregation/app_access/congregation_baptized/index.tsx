@@ -29,8 +29,8 @@ const CongregationBaptized = ({ users }: UsersListType) => {
             key={user.id}
             variant="baptized"
             name={buildPersonFullname(
-              user.lastname.value,
-              user.firstname.value,
+              user.profile.lastname.value,
+              user.profile.firstname.value,
               fullnameOption
             )}
             clickOnUserAccountItem={() => handleOpenUserDetails(user.id)}

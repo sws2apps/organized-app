@@ -3,7 +3,7 @@ import { SelectProps } from '@mui/material';
 /**
  * Props for the Select component.
  */
-export type SelectPropsType = SelectProps<string> & {
+export type SelectPropsType<T = unknown> = SelectProps<T> & {
   /**
    * Additional CSS class for styling the component.
    */

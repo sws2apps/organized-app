@@ -12,10 +12,10 @@ const UserMainRoles = () => {
     handleToggleAdmin,
     handleToggleCoordinator,
     isCoordinator,
-    handleToggleFieldOverseer,
     handleToggleSecretary,
-    isFieldOverseer,
     isSecretary,
+    handleToggleServiceOverseer,
+    isServiceOverseer,
   } = useUserMainRoles();
 
   return (
@@ -49,11 +49,11 @@ const UserMainRoles = () => {
       />
 
       <Checkbox
-        label={t('tr_serviceGroupOverseerOrAssistantRole')}
-        labelDescription={t('tr_serviceGroupOverseerRoleDesc')}
+        label={t('tr_serviceOverseer')}
+        labelDescription={t('tr_serviceOverseerRoleDesc')}
         sx={{ paddingLeft: '7px' }}
-        checked={isFieldOverseer}
-        onChange={(e) => handleToggleFieldOverseer(e.target.checked)}
+        checked={isServiceOverseer}
+        onChange={(e) => handleToggleServiceOverseer(e.target.checked)}
       />
 
       <Divider color="var(--accent-200)" />
