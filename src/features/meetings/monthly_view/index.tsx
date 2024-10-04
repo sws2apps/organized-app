@@ -11,13 +11,11 @@ import {
   IconTreasuresPart,
 } from '@components/icons';
 import MeetingSection from '../meeting_section';
-import { Week } from '@definition/week_type';
 import useMonthlyView from './useMonthlyView';
 
 const MonthlyView = () => {
   const {
     selectedWeeks,
-    weeksTypes,
     getWeekLocale,
     selectedMonth,
     monthNames,
