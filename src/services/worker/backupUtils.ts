@@ -339,6 +339,7 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
 
   const userRole = oldData.settings.user_settings.cong_role;
   const dataSync = oldData.settings.cong_settings.data_sync.value;
+  const accountType = oldData.settings.user_settings.account_type;
 
   const cong_access_code =
     await oldData.settings.cong_settings.cong_access_code;
@@ -369,91 +370,103 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
       visiting_speakers,
     } = await dbGetTableData();
 
-    const adminRole = userRole.includes('admin');
+    if (accountType === 'vip') {
+      const adminRole = userRole.includes('admin');
 
-    const settingEditor = adminRole;
-    const personEditor = adminRole;
-    const publicTalkEditor = adminRole;
+      const settingEditor = adminRole;
 
-    if (settingEditor) {
-      const localSettings = structuredClone(settings);
+      const personEditor =
+        adminRole ||
+        userRole.some(
+          (role) =>
+            role === 'midweek_schedule' ||
+            role === 'weekend_schedule' ||
+            role === 'public_talk_schedule'
+        );
 
-      encryptObject({
-        data: localSettings,
-        table: 'app_settings',
-        masterKey,
-        accessCode,
-      });
+      const publicTalkEditor =
+        adminRole || userRole.some((role) => role === 'public_talk_schedule');
 
-      obj.app_settings = {
-        user_settings: localSettings.user_settings,
-        cong_settings: localSettings.cong_settings,
-      };
-    }
+      if (settingEditor) {
+        const localSettings = structuredClone(settings);
 
-    // include person data
-    if (personEditor) {
-      const backupPersons = persons.map((person) => {
         encryptObject({
-          data: person,
-          table: 'persons',
+          data: localSettings,
+          table: 'app_settings',
           masterKey,
           accessCode,
         });
 
-        return person;
-      });
+        obj.app_settings = {
+          user_settings: localSettings.user_settings,
+          cong_settings: localSettings.cong_settings,
+        };
+      }
 
-      obj.persons = backupPersons;
-    }
+      // include person data
+      if (personEditor) {
+        const backupPersons = persons.map((person) => {
+          encryptObject({
+            data: person,
+            table: 'persons',
+            masterKey,
+            accessCode,
+          });
 
-    // include visiting speakers info
-    if (publicTalkEditor) {
-      const congregations = speakers_congregations.map((congregation) => {
-        encryptObject({
-          data: congregation,
-          table: 'speakers_congregations',
-          masterKey,
-          accessCode,
+          return person;
         });
 
-        return congregation;
-      });
+        obj.persons = backupPersons;
+      }
 
-      obj.speakers_congregations = congregations;
+      // include visiting speakers info
+      if (publicTalkEditor) {
+        const congregations = speakers_congregations.map((congregation) => {
+          encryptObject({
+            data: congregation,
+            table: 'speakers_congregations',
+            masterKey,
+            accessCode,
+          });
 
-      const speakers = visiting_speakers.map((speaker) => {
-        encryptObject({
-          data: speaker,
-          table: 'visiting_speakers',
-          masterKey,
-          accessCode,
+          return congregation;
         });
 
-        return speaker;
-      });
+        obj.speakers_congregations = congregations;
 
-      obj.visiting_speakers = speakers;
+        const speakers = visiting_speakers.map((speaker) => {
+          encryptObject({
+            data: speaker,
+            table: 'visiting_speakers',
+            masterKey,
+            accessCode,
+          });
 
-      const speakersKey =
-        backupData.speakers_key?.length > 0
-          ? decryptData(backupData.speakers_key, masterKey)
-          : generateKey();
-
-      const outgoing = outgoing_speakers.map((speaker) => {
-        encryptObject({
-          data: speaker,
-          table: 'visiting_speakers',
-          accessCode: speakersKey,
+          return speaker;
         });
 
-        return speaker;
-      });
+        obj.visiting_speakers = speakers;
 
-      obj.outgoing_speakers = outgoing;
+        const speakersKey =
+          backupData.speakers_key?.length > 0
+            ? decryptData(backupData.speakers_key, masterKey)
+            : generateKey();
 
-      if (backupData.speakers_key === '') {
-        obj.speakers_key = encryptData(speakersKey, masterKey);
+        const outgoing = outgoing_speakers.map((speaker) => {
+          encryptObject({
+            data: speaker,
+            table: 'visiting_speakers',
+            accessCode: speakersKey,
+          });
+
+          return speaker;
+        });
+
+        obj.outgoing_speakers = outgoing;
+
+        if (backupData.speakers_key === '') {
+          obj.speakers_key = encryptData(speakersKey, masterKey);
+        }
       }
     }
   }

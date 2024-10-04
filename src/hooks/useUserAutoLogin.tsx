@@ -22,6 +22,7 @@ import {
 import useFirebaseAuth from '@hooks/useFirebaseAuth';
 import logger from '@services/logger/index';
 import worker from '@services/worker/backupWorker';
+import { apiPocketValidateMe } from '@services/api/pocket';
 
 const useUserAutoLogin = () => {
   const { isAuthenticated } = useFirebaseAuth();
@@ -38,7 +39,7 @@ const useUserAutoLogin = () => {
   const congNumber = useRecoilValue(congNumberState);
   const backupAuto = useRecoilValue(backupAutoState);
 
-  const runFetch =
+  const runFetchVip =
     !isDemo &&
     apiHost !== '' &&
     accountType === 'vip' &&
@@ -46,10 +47,31 @@ const useUserAutoLogin = () => {
     isOnline &&
     isAuthenticated;
 
-  const { isPending, data, error } = useQuery({
-    queryKey: ['whoami'],
+  const runFetchPocket =
+    !isDemo &&
+    apiHost !== '' &&
+    accountType === 'pocket' &&
+    !isAppLoad &&
+    isOnline;
+
+  const {
+    isPending: isPendingVip,
+    data: dataVip,
+    error: errorVip,
+  } = useQuery({
+    queryKey: ['whoami-vip'],
     queryFn: apiValidateMe,
-    enabled: runFetch,
+    enabled: runFetchVip,
+  });
+
+  const {
+    isPending: isPendingPocket,
+    data: dataPocket,
+    error: errorPocket,
+  } = useQuery({
+    queryKey: ['whoami-pocket'],
+    queryFn: apiPocketValidateMe,
+    enabled: runFetchPocket,
   });
 
   const [autoLoginStatus, setAutoLoginStatus] = useState('');
@@ -57,38 +79,41 @@ const useUserAutoLogin = () => {
   useEffect(() => {
     const handleLoginData = async () => {
       try {
-        if (isPending) {
+        if (isPendingVip) {
           setAutoLoginStatus('auto login process started');
           return;
         }
 
-        if (!data) return;
+        if (!dataVip) return;
 
-        if (data.status === 403) {
+        if (dataVip.status === 403) {
           await userSignOut();
           return;
         }
 
         // congregation not found -> user not authorized and delete local data
-        if (data.status === 404) {
+        if (dataVip.status === 404) {
           await handleDeleteDatabase();
           return;
         }
 
-        if (error || data.result.message) {
-          const msg = error?.message || data.result.message;
+        if (errorVip || dataVip.result.message) {
+          const msg = errorVip?.message || dataVip.result.message;
           logger.error('app', msg);
 
           return;
         }
 
-        if (data.status === 200) {
-          if (congNumber.length > 0 && data.result.cong_number !== congNumber) {
+        if (dataVip.status === 200) {
+          if (
+            congNumber.length > 0 &&
+            dataVip.result.cong_number !== congNumber
+          ) {
             await handleDeleteDatabase();
             return;
           }
 
-          const approvedRole = data.result.cong_role.some((role) =>
+          const approvedRole = dataVip.result.cong_role.some((role) =>
             APP_ROLES.includes(role)
           );
 
@@ -98,17 +123,17 @@ const useUserAutoLogin = () => {
           }
 
           if (approvedRole) {
-            setUserID(data.result.id);
-            setCongID(data.result.cong_id);
+            setUserID(dataVip.result.id);
+            setCongID(dataVip.result.cong_id);
             setCongConnected(true);
-            setIsMFAEnabled(data.result.mfa);
+            setIsMFAEnabled(dataVip.result.mfa);
 
             if (backupAuto) {
-              worker.postMessage({ field: 'userID', value: data.result.id });
+              worker.postMessage({ field: 'userID', value: dataVip.result.id });
 
               worker.postMessage({
                 field: 'congID',
-                value: data.result.cong_id,
+                value: dataVip.result.cong_id,
               });
 
               worker.postMessage({ field: 'accountType', value: 'vip' });
@@ -124,11 +149,103 @@ const useUserAutoLogin = () => {
       }
     };
 
-    handleLoginData();
+    if (accountType === 'vip') {
+      handleLoginData();
+    }
   }, [
-    isPending,
-    data,
-    error,
+    accountType,
+    isPendingVip,
+    dataVip,
+    errorVip,
+    congNumber,
+    backupAuto,
+    setCongConnected,
+    setCongID,
+    setUserID,
+    setIsMFAEnabled,
+  ]);
+
+  useEffect(() => {
+    const handleLoginData = async () => {
+      try {
+        if (isPendingPocket) {
+          setAutoLoginStatus('auto login process started');
+          return;
+        }
+
+        if (!dataPocket) return;
+
+        // congregation not found -> user not authorized and delete local data
+
+        if (dataPocket.status === 403 || dataPocket.status === 404) {
+          await handleDeleteDatabase();
+          return;
+        }
+
+        if (errorPocket || dataPocket.result.message) {
+          const msg = errorPocket?.message || dataPocket.result.message;
+          logger.error('app', msg);
+
+          return;
+        }
+
+        if (dataPocket.status === 200) {
+          if (
+            congNumber.length > 0 &&
+            dataPocket.result.app_settings.cong_settings.cong_number !==
+              congNumber
+          ) {
+            await handleDeleteDatabase();
+            return;
+          }
+
+          const approvedRole =
+            dataPocket.result.app_settings.user_settings.cong_role.some(
+              (role) => APP_ROLES.includes(role)
+            );
+
+          if (!approvedRole) {
+            await handleDeleteDatabase();
+            return;
+          }
+
+          if (approvedRole) {
+            setUserID(dataPocket.result.id);
+            setCongID(dataPocket.result.app_settings.cong_settings.id);
+            setCongConnected(true);
+
+            if (backupAuto) {
+              worker.postMessage({
+                field: 'userID',
+                value: dataPocket.result.id,
+              });
+
+              worker.postMessage({
+                field: 'congID',
+                value: dataPocket.result.app_settings.cong_settings.id,
+              });
+
+              worker.postMessage({ field: 'accountType', value: 'pocket' });
+
+              worker.postMessage('startWorker');
+            }
+          }
+
+          setAutoLoginStatus('auto login process completed');
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    if (accountType === 'pocket') {
+      handleLoginData();
+    }
+  }, [
+    accountType,
+    isPendingPocket,
+    dataPocket,
+    errorPocket,
     congNumber,
     backupAuto,
     setCongConnected,

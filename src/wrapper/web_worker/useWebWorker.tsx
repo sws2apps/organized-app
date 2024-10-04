@@ -45,11 +45,14 @@ const useWebWorker = () => {
 
   useEffect(() => {
     const runBackupTimer = setInterval(async () => {
-      if (backupEnabled && user) {
-        worker.postMessage({
-          field: 'idToken',
-          value: await user.getIdToken(true),
-        });
+      if (backupEnabled) {
+        if (user) {
+          worker.postMessage({
+            field: 'idToken',
+            value: await user.getIdToken(true),
+          });
+        }
+
         worker.postMessage('startWorker');
       }
     }, interval);

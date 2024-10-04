@@ -6,12 +6,14 @@ import {
   IconDiamond,
   IconTalk,
 } from '@icons/index';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { MeetingsCardProps } from './index.types';
 import useMeetings from './useMeetings';
 
 const MeetingsCard = ({ assignmentCount }: MeetingsCardProps) => {
   const { t } = useAppTranslation();
+
+  const { isMidweekEditor, isWeekendEditor } = useCurrentUser();
 
   const { handleOpenMyAssignments } = useMeetings();
 
@@ -32,20 +34,26 @@ const MeetingsCard = ({ assignmentCount }: MeetingsCardProps) => {
           path="/weekly-schedules"
         />
       </ListItem>
-      <ListItem disablePadding>
-        <DashboardMenu
-          icon={<IconDiamond color="var(--black)" />}
-          primaryText={t('tr_midweekMeeting')}
-          path="/midweek-meeting"
-        />
-      </ListItem>
-      <ListItem disablePadding>
-        <DashboardMenu
-          icon={<IconTalk color="var(--black)" />}
-          primaryText={t('tr_weekendMeeting')}
-          path="/weekend-meeting"
-        />
-      </ListItem>
+
+      {isMidweekEditor && (
+        <ListItem disablePadding>
+          <DashboardMenu
+            icon={<IconDiamond color="var(--black)" />}
+            primaryText={t('tr_midweekMeeting')}
+            path="/midweek-meeting"
+          />
+        </ListItem>
+      )}
+
+      {isWeekendEditor && (
+        <ListItem disablePadding>
+          <DashboardMenu
+            icon={<IconTalk color="var(--black)" />}
+            primaryText={t('tr_weekendMeeting')}
+            path="/weekend-meeting"
+          />
+        </ListItem>
+      )}
     </DashboardCard>
   );
 };

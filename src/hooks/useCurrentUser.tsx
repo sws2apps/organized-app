@@ -138,6 +138,16 @@ const useCurrentUser = () => {
     return userRole.includes('weekend_schedule');
   }, [isAdmin, userRole]);
 
+  const isMeetingEditor = useMemo(() => {
+    return isMidweekEditor || isWeekendEditor;
+  }, [isMidweekEditor, isWeekendEditor]);
+
+  const isSecretary = useMemo(() => {
+    if (isAdmin) return true;
+
+    return userRole.includes('secretary');
+  }, [isAdmin, userRole]);
+
   return {
     person,
     first_report,
@@ -152,6 +162,8 @@ const useCurrentUser = () => {
     isMidweekEditor,
     isWeekendEditor,
     accountType,
+    isMeetingEditor,
+    isSecretary,
   };
 };
 

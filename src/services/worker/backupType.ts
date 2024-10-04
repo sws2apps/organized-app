@@ -11,4 +11,6 @@ export type BackupDataType = {
   speakers_congregations?: object;
   visiting_speakers?: object;
   outgoing_speakers?: object;
+  user_bible_studies?: object;
+  user_field_service_reports?: object;
 };

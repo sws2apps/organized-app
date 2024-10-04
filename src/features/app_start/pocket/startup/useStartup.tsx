@@ -36,7 +36,6 @@ const useStartup = () => {
 
       setTimeout(async () => {
         setOfflineOverride(false);
-        setCongAccountConnected(true);
         setIsAppLoad(false);
       }, 2000);
     };
@@ -86,11 +85,13 @@ const useStartup = () => {
         'cong_settings.weekend_meeting': weekendMeeting,
       });
 
+      setCongAccountConnected(true);
+
       await handleLoadApp();
     };
 
     const handleValidate = async () => {
-      const { data, status } = await apiPocketValidateMe();
+      const { result, status } = await apiPocketValidateMe();
 
       if (status === 403 || status === 404) {
         await handleDeleteDatabase();
@@ -98,21 +99,21 @@ const useStartup = () => {
       }
 
       if (status !== 200) {
-        throw new Error(data?.message);
+        throw new Error(result?.message);
       }
 
-      await handleUpdateSettings(data);
+      await handleUpdateSettings(result);
     };
 
     const checkLoginState = async () => {
       try {
-        if (isNavigatorOnline) {
-          await handleValidate();
+        if (userLocalUID.length === 0) {
+          setIsSignUp(true);
           return;
         }
 
-        if (userLocalUID.length === 0) {
-          setIsSignUp(true);
+        if (isNavigatorOnline) {
+          await handleValidate();
           return;
         }
 

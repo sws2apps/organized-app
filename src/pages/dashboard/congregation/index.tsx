@@ -12,14 +12,14 @@ import useCongregation from './useCongregation';
 const CongregationCard = () => {
   const { t } = useAppTranslation();
 
-  const { isPublisher } = useCurrentUser();
+  const { isPublisher, isAdmin, isAppointed } = useCurrentUser();
 
   const { secondaryText, handleManualSync, isConnected, isUserAdmin } =
     useCongregation();
 
   return (
     <DashboardCard header={t('tr_congregation')}>
-      {isPublisher && (
+      {(isAdmin || isPublisher) && (
         <ListItem disablePadding>
           <DashboardMenu
             icon={<IconGroups color="var(--black)" />}
@@ -39,7 +39,7 @@ const CongregationCard = () => {
         </ListItem>
       )}
 
-      {isPublisher && (
+      {(isAdmin || isAppointed) && (
         <ListItem disablePadding>
           <DashboardMenu
             path="/congregation-settings"

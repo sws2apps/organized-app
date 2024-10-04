@@ -35,5 +35,5 @@ export const apiPocketValidateMe = async () => {
 
   const data = (await res.json()) as UserLoginResponseType;
 
-  return { status: res.status, data };
+  return { status: res.status, result: data };
 };

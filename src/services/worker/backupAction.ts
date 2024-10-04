@@ -1,7 +1,9 @@
 import { delay } from '@utils/common';
 import {
   apiGetCongregationBackup,
+  apiGetPocketBackup,
   apiSendCongregationBackup,
+  apiSendPocketBackup,
 } from './backupApi';
 import { dbExportDataBackup, dbGetSettings } from './backupUtils';
 
@@ -55,6 +57,38 @@ const runBackup = async () => {
           congID,
           reqPayload,
           idToken,
+          lastBackup,
+        });
+
+        if (data.message === 'UNAUTHORIZED_REQUEST') {
+          backup = 'failed';
+          self.postMessage({
+            error: 'BACKUP_FAILED',
+            details: 'UNAUTHORIZED_ACCESS',
+          });
+        }
+
+        if (data.message !== 'UNAUTHORIZED_REQUEST') {
+          if (data?.message === 'BACKUP_SENT') backup = 'completed';
+        }
+
+        if (backup !== 'completed') {
+          await delay(5000);
+        }
+      } while (backup === 'started');
+    }
+
+    if (accountType === 'pocket') {
+      // loop until server responds backup completed excluding failure
+      do {
+        const backupData = await apiGetPocketBackup({ apiHost });
+        const lastBackup = backupData.app_settings.cong_settings['last_backup'];
+
+        const reqPayload = await dbExportDataBackup(backupData);
+
+        const data = await apiSendPocketBackup({
+          apiHost,
+          reqPayload,
           lastBackup,
         });
 
