@@ -74,6 +74,3 @@ export { default as OutgoingSpeakers } from './persons/speakers_catalog/outgoing
 
 /* -------------------------------- Ministry -------------------------------- */
 export { default as MinistryTimer } from './ministry/report/ministry_timer';
-
-/* ---------------------------- Work In Progress ---------------------------- */
-export { default as WorkInProgressNotif } from './wip';

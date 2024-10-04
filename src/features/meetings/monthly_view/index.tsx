@@ -12,6 +12,7 @@ import {
 } from '@components/icons';
 import MeetingSection from '../meeting_section';
 import useMonthlyView from './useMonthlyView';
+import WeekHoverBox from './week_hoverbox';
 
 const MonthlyView = () => {
   const {
@@ -79,7 +80,7 @@ const MonthlyView = () => {
             maxWidth: '196px',
           }}
           value={selectedMonth.toString()}
-          onChange={(e) => setSelectedMonth(parseInt(e.target.value))}
+          onChange={(e) => setSelectedMonth(e.target.value as number)}
         >
           {monthNames.map((value, index) => {
             return (
@@ -219,15 +220,19 @@ const MonthlyView = () => {
             </Typography>
             {selectedWeeks.map((value, index) => {
               return (
-                <PersonSelector
-                  week={value}
-                  key={`tgw-talk-${index}`}
-                  notShowIcon
-                  label={t('tr_conductor')}
-                  type={AssignmentCode.MM_TGWTalk}
-                  assignment="MM_TGWTalk"
-                  readOnly={false}
-                />
+                <>
+                  <WeekHoverBox type={'tgw_talk'} week={value}>
+                    <PersonSelector
+                      week={value}
+                      key={`tgw-talk-${index}`}
+                      notShowIcon
+                      label={t('tr_conductor')}
+                      type={AssignmentCode.MM_TGWTalk}
+                      assignment="MM_TGWTalk"
+                      readOnly={false}
+                    />
+                  </WeekHoverBox>
+                </>
               );
             })}
           </Box>
@@ -252,15 +257,19 @@ const MonthlyView = () => {
             </Typography>
             {selectedWeeks.map((value, index) => {
               return (
-                <PersonSelector
-                  week={value}
-                  key={`tgw-gems-${index}`}
-                  notShowIcon
-                  label={t('tr_conductor')}
-                  type={AssignmentCode.MM_TGWGems}
-                  assignment="MM_TGWGems"
-                  readOnly={false}
-                />
+                <>
+                  <WeekHoverBox type={'tgw_gems'} week={value}>
+                    <PersonSelector
+                      week={value}
+                      key={`tgw-gems-${index}`}
+                      notShowIcon
+                      label={t('tr_conductor')}
+                      type={AssignmentCode.MM_TGWGems}
+                      assignment="MM_TGWGems"
+                      readOnly={false}
+                    />
+                  </WeekHoverBox>
+                </>
               );
             })}
           </Box>
@@ -1072,32 +1081,36 @@ const MonthlyView = () => {
             </Typography>
             {selectedWeeks.map((value, index) => {
               return showDoublePerson[index] ? (
-                <Box
-                  flex={1}
-                  key={`lc-cbs-${index}`}
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '12px',
-                  }}
-                >
-                  <PersonSelector
-                    week={value}
-                    label={t('tr_cbsConductor')}
-                    type={AssignmentCode.MM_CBSConductor}
-                    assignment="MM_LCCBSConductor"
-                    readOnly={false}
-                    notShowIcon
-                  />
-                  <PersonSelector
-                    week={value}
-                    label={t('tr_cbsReader')}
-                    type={AssignmentCode.MM_CBSReader}
-                    assignment="MM_LCCBSReader"
-                    readOnly={false}
-                    notShowIcon
-                  />
-                </Box>
+                <>
+                  <WeekHoverBox type={'lc_cbs'} week={value}>
+                    <Box
+                      flex={1}
+                      key={`lc-cbs-${index}`}
+                      sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '12px',
+                      }}
+                    >
+                      <PersonSelector
+                        week={value}
+                        label={t('tr_cbsConductor')}
+                        type={AssignmentCode.MM_CBSConductor}
+                        assignment="MM_LCCBSConductor"
+                        readOnly={false}
+                        notShowIcon
+                      />
+                      <PersonSelector
+                        week={value}
+                        label={t('tr_cbsReader')}
+                        type={AssignmentCode.MM_CBSReader}
+                        assignment="MM_LCCBSReader"
+                        readOnly={false}
+                        notShowIcon
+                      />
+                    </Box>
+                  </WeekHoverBox>
+                </>
               ) : (
                 <Box flex={1} />
               );

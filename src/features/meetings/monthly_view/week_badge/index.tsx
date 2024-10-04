@@ -8,7 +8,7 @@ const WeekBadge = (props: WeekBadgeType) => {
       sx={{
         flex: '1',
         height: '32px',
-        padding: '6px, 8px, 6px, 8px',
+        padding: '6px 8px 6px 8px',
         gap: '8px',
         display: 'flex',
         alignItems: 'center',
