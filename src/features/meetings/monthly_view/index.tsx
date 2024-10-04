@@ -1,5 +1,4 @@
 import { Box } from '@mui/material';
-import useMonthlyViewNew from './useMonthlyView.new';
 import useAppTranslation from '@hooks/useAppTranslation';
 import { MenuItem, Select, Typography } from '@components/index';
 import WeekBadge from './week_badge';
@@ -13,6 +12,7 @@ import {
 } from '@components/icons';
 import MeetingSection from '../meeting_section';
 import { Week } from '@definition/week_type';
+import useMonthlyView from './useMonthlyView';
 
 const MonthlyView = () => {
   const {
@@ -51,7 +51,7 @@ const MonthlyView = () => {
     lcNoAssignParts3,
     hasCustomPart,
     lcCount,
-  } = useMonthlyViewNew();
+  } = useMonthlyView();
 
   const { t } = useAppTranslation();
 
