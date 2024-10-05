@@ -114,7 +114,6 @@
   "tr_specialMonths": "Besondere Monate",
   "tr_specialMonthsDesc": "Liste der Monate, in denen Hilfspioniere 15 Stunden dienen können",
   "tr_reportHoursCredit": "Stundengutschrift berichten",
-  "tr_averageMonthlyHourss": "Durchschnittlich monatlich",
   "tr_bibleStudiesNotice": "Berichte jeden Monat einem Studium pro Schüler",
   "tr_presets": "Voreinstellungen",
   "tr_hoursCreditPresetAddedInfo": "Die gewählte Stundengutschrift wird im Kommentarfeld des Monatsberichts angezeigt. Bearbeite sie dort, falls nötig.",
@@ -129,5 +128,6 @@
   "tr_allPublisherRecords": "Alle Verkündiger",
   "tr_specificPublisherRecords": "Bestimmte Verkündiger",
   "tr_S21ExportMultipleDesc": "Wähle die Verkündiger aus, die du in den exportierten Verkündigerberichtskarten einschließen möchtest. Jeder Verkündiger wird in einer separaten Datei enthalten sein.",
-  "tr_activePublishersAll": "Alle andere Verkündiger"
+  "tr_activePublishersAll": "Alle andere Verkündiger",
+  "tr_averageMonthlyHours": "Durchschnittlich monatlich"
 }

@@ -114,7 +114,6 @@
   "tr_specialMonths": "Mga pantanging buwan",
   "tr_specialMonthsDesc": "Mga buwan kung saan ang mga auxiliary pioneer ay maaaring mag-ulat ng 15 oras",
   "tr_reportHoursCredit": "Mag-ulat ng credit hours",
-  "tr_averageMonthlyHourss": "Buwanang average",
   "tr_bibleStudiesNotice": "Mag-ulat ng isang pag-aaral bawat estudyante sa bawat buwan",
   "tr_presets": "Presets",
   "tr_hoursCreditPresetAddedInfo": "Ang napiling preset ng mga credit hours ay lalabas sa comment field ng buwanang ulat. Mababago ito kung kinakailangan.",
@@ -129,5 +128,6 @@
   "tr_allPublisherRecords": "Lahat ng publisher",
   "tr_specificPublisherRecords": "Espisipikong publisher",
   "tr_S21ExportMultipleDesc": "Pumili ng mga publisher na isasama sa mga na-export na record. Mayroong sariling file ang bawat publisher.",
-  "tr_activePublishersAll": "Lahat ng iba pang publisher"
+  "tr_activePublishersAll": "Lahat ng iba pang publisher",
+  "tr_averageMonthlyHours": "Buwanang average"
 }

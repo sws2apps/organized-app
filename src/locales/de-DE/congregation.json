@@ -437,7 +437,7 @@
   "tr_myGroup": "Meine Gruppe",
   "tr_publishers": "Verkündiger",
   "tr_enableCongregationDataSync": "Enable congregation data sync",
-  "tr_enableCongregationDataSyncDesc": "This option will allow your congregation to share the Organized data. It will be possible also to sync data between multiple devices.",
+  "tr_enableCongregationDataSyncDesc": "This feature lets sync data like schedules with other users in your congregation and use the app on multiple devices at the same time.",
   "tr_applicationRejected": "Pioneer application rejected",
   "tr_applicationRejectedDesc": "This application has been rejected. Inform the publisher about its status."
 }
