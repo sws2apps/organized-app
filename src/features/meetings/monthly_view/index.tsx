@@ -305,14 +305,18 @@ const MonthlyView = () => {
             </Typography>
             {selectedWeeks.map((value, index) => {
               return (
-                <PersonSelector
-                  key={`main-hall-reader-${index}`}
-                  week={value}
-                  label={t('tr_student')}
-                  type={AssignmentCode.MM_BibleReading}
-                  assignment="MM_TGWBibleReading_A"
-                  readOnly={false}
-                />
+                <>
+                  <WeekHoverBox week={value} type="tgw_bible_reading">
+                    <PersonSelector
+                      key={`main-hall-reader-${index}`}
+                      week={value}
+                      label={t('tr_student')}
+                      type={AssignmentCode.MM_BibleReading}
+                      assignment="MM_TGWBibleReading_A"
+                      readOnly={false}
+                    />
+                  </WeekHoverBox>
+                </>
               );
             })}
           </Box>
@@ -345,14 +349,18 @@ const MonthlyView = () => {
                 <Box width={'196px'}></Box>
                 {selectedWeeks.map((value, index) => {
                   return showDoublePerson[index] ? (
-                    <PersonSelector
-                      key={`aux-classroom-reader-${index}`}
-                      week={value}
-                      label={t('tr_student')}
-                      type={AssignmentCode.MM_BibleReading}
-                      assignment="MM_TGWBibleReading_B"
-                      readOnly={false}
-                    />
+                    <>
+                      <WeekHoverBox week={value} type="tgw_bible_reading">
+                        <PersonSelector
+                          key={`aux-classroom-reader-${index}`}
+                          week={value}
+                          label={t('tr_student')}
+                          type={AssignmentCode.MM_BibleReading}
+                          assignment="MM_TGWBibleReading_B"
+                          readOnly={false}
+                        />
+                      </WeekHoverBox>
+                    </>
                   ) : (
                     <Box flex={1} />
                   );
@@ -405,38 +413,42 @@ const MonthlyView = () => {
             </Typography>
             {selectedWeeks.map((value, index) => {
               return (
-                <Box
-                  flex={1}
-                  key={`ayf-part1-${index}`}
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '12px',
-                  }}
-                >
-                  <PersonSelector
-                    week={value}
-                    label={
-                      ayfParts1[index] === AssignmentCode.MM_Discussion
-                        ? t('tr_brother')
-                        : t('tr_student')
-                    }
-                    type={ayfParts1[index]}
-                    assignment="MM_AYFPart1_Student_A"
-                    readOnly={false}
-                  />
-                  {showAYFParts1Assistant[index] ? (
-                    <PersonSelector
-                      week={value}
-                      label={t('tr_assistant')}
-                      type={ayfParts1[index]}
-                      assignment="MM_AYFPart1_Assistant_A"
-                      readOnly={false}
-                    />
-                  ) : (
-                    <Box height={48} />
-                  )}
-                </Box>
+                <>
+                  <WeekHoverBox week={value} type="ayf_part1">
+                    <Box
+                      flex={1}
+                      key={`ayf-part1-${index}`}
+                      sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '12px',
+                      }}
+                    >
+                      <PersonSelector
+                        week={value}
+                        label={
+                          ayfParts1[index] === AssignmentCode.MM_Discussion
+                            ? t('tr_brother')
+                            : t('tr_student')
+                        }
+                        type={ayfParts1[index]}
+                        assignment="MM_AYFPart1_Student_A"
+                        readOnly={false}
+                      />
+                      {showAYFParts1Assistant[index] ? (
+                        <PersonSelector
+                          week={value}
+                          label={t('tr_assistant')}
+                          type={ayfParts1[index]}
+                          assignment="MM_AYFPart1_Assistant_A"
+                          readOnly={false}
+                        />
+                      ) : (
+                        <Box height={48} />
+                      )}
+                    </Box>
+                  </WeekHoverBox>
+                </>
               );
             })}
           </Box>
@@ -541,38 +553,42 @@ const MonthlyView = () => {
             </Typography>
             {selectedWeeks.map((value, index) => {
               return ayfCount[index] > 1 ? (
-                <Box
-                  flex={1}
-                  key={`ayf-part2-${index}`}
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '12px',
-                  }}
-                >
-                  <PersonSelector
-                    week={value}
-                    label={
-                      ayfParts2[index] === AssignmentCode.MM_Discussion
-                        ? t('tr_brother')
-                        : t('tr_student')
-                    }
-                    type={ayfParts2[index]}
-                    assignment="MM_AYFPart2_Student_A"
-                    readOnly={false}
-                  />
-                  {showAYFParts2Assistant[index] ? (
-                    <PersonSelector
-                      week={value}
-                      label={t('tr_assistant')}
-                      type={ayfParts2[index]}
-                      assignment="MM_AYFPart2_Assistant_A"
-                      readOnly={false}
-                    />
-                  ) : (
-                    <Box height={48} />
-                  )}
-                </Box>
+                <>
+                  <WeekHoverBox week={value} type="ayf_part2">
+                    <Box
+                      flex={1}
+                      key={`ayf-part2-${index}`}
+                      sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '12px',
+                      }}
+                    >
+                      <PersonSelector
+                        week={value}
+                        label={
+                          ayfParts2[index] === AssignmentCode.MM_Discussion
+                            ? t('tr_brother')
+                            : t('tr_student')
+                        }
+                        type={ayfParts2[index]}
+                        assignment="MM_AYFPart2_Student_A"
+                        readOnly={false}
+                      />
+                      {showAYFParts2Assistant[index] ? (
+                        <PersonSelector
+                          week={value}
+                          label={t('tr_assistant')}
+                          type={ayfParts2[index]}
+                          assignment="MM_AYFPart2_Assistant_A"
+                          readOnly={false}
+                        />
+                      ) : (
+                        <Box height={48} />
+                      )}
+                    </Box>
+                  </WeekHoverBox>
+                </>
               ) : (
                 <Box flex={1} />
               );
@@ -679,38 +695,42 @@ const MonthlyView = () => {
             </Typography>
             {selectedWeeks.map((value, index) => {
               return ayfCount[index] > 2 ? (
-                <Box
-                  flex={1}
-                  key={`ayf-part3-${index}`}
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '12px',
-                  }}
-                >
-                  <PersonSelector
-                    week={value}
-                    label={
-                      ayfParts3[index] === AssignmentCode.MM_Discussion
-                        ? t('tr_brother')
-                        : t('tr_student')
-                    }
-                    type={ayfParts3[index]}
-                    assignment="MM_AYFPart3_Student_A"
-                    readOnly={false}
-                  />
-                  {showAYFParts3Assistant[index] ? (
-                    <PersonSelector
-                      week={value}
-                      label={t('tr_assistant')}
-                      type={ayfParts3[index]}
-                      assignment="MM_AYFPart3_Assistant_A"
-                      readOnly={false}
-                    />
-                  ) : (
-                    <Box height={48} />
-                  )}
-                </Box>
+                <>
+                  <WeekHoverBox week={value} type="ayf_part3">
+                    <Box
+                      flex={1}
+                      key={`ayf-part3-${index}`}
+                      sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '12px',
+                      }}
+                    >
+                      <PersonSelector
+                        week={value}
+                        label={
+                          ayfParts3[index] === AssignmentCode.MM_Discussion
+                            ? t('tr_brother')
+                            : t('tr_student')
+                        }
+                        type={ayfParts3[index]}
+                        assignment="MM_AYFPart3_Student_A"
+                        readOnly={false}
+                      />
+                      {showAYFParts3Assistant[index] ? (
+                        <PersonSelector
+                          week={value}
+                          label={t('tr_assistant')}
+                          type={ayfParts3[index]}
+                          assignment="MM_AYFPart3_Assistant_A"
+                          readOnly={false}
+                        />
+                      ) : (
+                        <Box height={48} />
+                      )}
+                    </Box>
+                  </WeekHoverBox>
+                </>
               ) : (
                 <Box flex={1} />
               );
@@ -818,38 +838,42 @@ const MonthlyView = () => {
               </Typography>
               {selectedWeeks.map((value, index) => {
                 return ayfCount[index] > 3 ? (
-                  <Box
-                    flex={1}
-                    key={`ayf-part4-${index}`}
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: '12px',
-                    }}
-                  >
-                    <PersonSelector
-                      week={value}
-                      label={
-                        ayfParts4[index] === AssignmentCode.MM_Discussion
-                          ? t('tr_brother')
-                          : t('tr_student')
-                      }
-                      type={ayfParts4[index]}
-                      assignment="MM_AYFPart4_Student_A"
-                      readOnly={false}
-                    />
-                    {showAYFParts4Assistant[index] ? (
-                      <PersonSelector
-                        week={value}
-                        label={t('tr_assistant')}
-                        type={ayfParts4[index]}
-                        assignment="MM_AYFPart4_Assistant_A"
-                        readOnly={false}
-                      />
-                    ) : (
-                      <Box height={48} />
-                    )}
-                  </Box>
+                  <>
+                    <WeekHoverBox type="ayf_part4" week={value}>
+                      <Box
+                        flex={1}
+                        key={`ayf-part4-${index}`}
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'column',
+                          gap: '12px',
+                        }}
+                      >
+                        <PersonSelector
+                          week={value}
+                          label={
+                            ayfParts4[index] === AssignmentCode.MM_Discussion
+                              ? t('tr_brother')
+                              : t('tr_student')
+                          }
+                          type={ayfParts4[index]}
+                          assignment="MM_AYFPart4_Student_A"
+                          readOnly={false}
+                        />
+                        {showAYFParts4Assistant[index] ? (
+                          <PersonSelector
+                            week={value}
+                            label={t('tr_assistant')}
+                            type={ayfParts4[index]}
+                            assignment="MM_AYFPart4_Assistant_A"
+                            readOnly={false}
+                          />
+                        ) : (
+                          <Box height={48} />
+                        )}
+                      </Box>
+                    </WeekHoverBox>
+                  </>
                 ) : (
                   <Box flex={1} />
                 );
@@ -949,14 +973,18 @@ const MonthlyView = () => {
             </Typography>
             {selectedWeeks.map((value, index) => {
               return !lcNoAssignParts1[index] ? (
-                <PersonSelector
-                  week={value}
-                  key={`lc-part1-${index}`}
-                  label={t('tr_conductor')}
-                  type={AssignmentCode.MM_LCPart}
-                  assignment="MM_LCPart1"
-                  readOnly={false}
-                />
+                <>
+                  <WeekHoverBox week={value} type="lc_part1">
+                    <PersonSelector
+                      week={value}
+                      key={`lc-part1-${index}`}
+                      label={t('tr_conductor')}
+                      type={AssignmentCode.MM_LCPart}
+                      assignment="MM_LCPart1"
+                      readOnly={false}
+                    />
+                  </WeekHoverBox>
+                </>
               ) : (
                 <Box flex={1} />
               );
@@ -984,14 +1012,18 @@ const MonthlyView = () => {
               </Typography>
               {selectedWeeks.map((value, index) => {
                 return lcCount[index] > 1 && !lcNoAssignParts2[index] ? (
-                  <PersonSelector
-                    week={value}
-                    key={`lc-part2-${index}`}
-                    label={t('tr_conductor')}
-                    type={AssignmentCode.MM_LCPart}
-                    assignment="MM_LCPart2"
-                    readOnly={false}
-                  />
+                  <>
+                    <WeekHoverBox week={value} type="lc_part2">
+                      <PersonSelector
+                        week={value}
+                        key={`lc-part2-${index}`}
+                        label={t('tr_conductor')}
+                        type={AssignmentCode.MM_LCPart}
+                        assignment="MM_LCPart2"
+                        readOnly={false}
+                      />
+                    </WeekHoverBox>
+                  </>
                 ) : (
                   <Box flex={1} />
                 );
@@ -1016,18 +1048,22 @@ const MonthlyView = () => {
                 color={'var(--living-as-christians)'}
                 width={`${196}px`}
               >
-                {t('tr_lcPartNum', { partNumber: '2' })}
+                {t('tr_lcPartNum', { partNumber: '3' })}
               </Typography>
               {selectedWeeks.map((value, index) => {
                 return lcCount[index] > 1 && !lcNoAssignParts3[index] ? (
-                  <PersonSelector
-                    week={value}
-                    key={`lc-part3-${index}`}
-                    label={t('tr_conductor')}
-                    type={AssignmentCode.MM_LCPart}
-                    assignment="MM_LCPart3"
-                    readOnly={false}
-                  />
+                  <>
+                    <WeekHoverBox week={value} type="lc_part3">
+                      <PersonSelector
+                        week={value}
+                        key={`lc-part3-${index}`}
+                        label={t('tr_conductor')}
+                        type={AssignmentCode.MM_LCPart}
+                        assignment="MM_LCPart3"
+                        readOnly={false}
+                      />
+                    </WeekHoverBox>
+                  </>
                 ) : (
                   <Box flex={1} />
                 );
