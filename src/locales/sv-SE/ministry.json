@@ -114,7 +114,6 @@
   "tr_specialMonths": "Kampanjmånader",
   "tr_specialMonthsDesc": "Lista över månader där hjälppionjärer kan rapportera 15 timmar",
   "tr_reportHoursCredit": "Rapportera tid tillgodo",
-  "tr_averageMonthlyHourss": "Genomsnitt per månad",
   "tr_bibleStudiesNotice": "Rapportera en studie per elev varje månad",
   "tr_presets": "Förinställningar",
   "tr_hoursCreditPresetAddedInfo": "Den valda inställningen för tid tillgodo kommer att visas i kommentarsfältet i månadsrapporten. Redigera det där vid behov.",
@@ -129,5 +128,6 @@
   "tr_allPublisherRecords": "Alla förkunnarregister",
   "tr_specificPublisherRecords": "Utvalda förkunnare",
   "tr_S21ExportMultipleDesc": "Välj de förkunnare du vill inkludera i de exporterade posterna. Varje förkunnare kommer att bli till en separat fil.",
-  "tr_activePublishersAll": "Övriga förkunnare"
+  "tr_activePublishersAll": "Övriga förkunnare",
+  "tr_averageMonthlyHours": "Genomsnitt per månad"
 }
