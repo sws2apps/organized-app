@@ -1,12 +1,15 @@
 import { Box } from '@mui/material';
+import { useAppTranslation } from '@hooks/index';
+import { ProfileItemContainer } from '../index.styles';
+import useCurrentUser from '@hooks/useCurrentUser';
+import useUserProfileDetails from './useUserProfileDetails';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
-import useAppTranslation from '@hooks/useAppTranslation';
-import useUserProfileDetails from './useUserProfileDetails';
-import { ProfileItemContainer } from '../index.styles';
 
 const UserProfileDetails = () => {
   const { t } = useAppTranslation();
+
+  const { accountType } = useCurrentUser();
 
   const {
     tabletDown,
@@ -50,7 +53,7 @@ const UserProfileDetails = () => {
             onChange={(e) => handleChangeLastName(e.target.value)}
           />
         </Box>
-        {isConnected && (
+        {isConnected && accountType === 'vip' && (
           <TextField
             label={t('tr_emailAddress')}
             value={userEmail}

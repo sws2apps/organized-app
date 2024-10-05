@@ -140,18 +140,16 @@ const useUserDetails = () => {
 
   const handleTerminateSession = async (identifier: string) => {
     try {
-      if (user.profile.global_role === 'vip') {
-        const result = await apiAdminRevokeUserSession(user.id, identifier);
+      const result = await apiAdminRevokeUserSession(user.id, identifier);
 
-        if (result.status !== 200) {
-          throw new Error(result.data.message);
-        }
-
-        await queryClient.invalidateQueries({
-          queryKey: ['congregation_users'],
-        });
-        await queryClient.refetchQueries({ queryKey: ['congregation_users'] });
+      if (result.status !== 200) {
+        throw new Error(result.data.message);
       }
+
+      await queryClient.invalidateQueries({
+        queryKey: ['congregation_users'],
+      });
+      await queryClient.refetchQueries({ queryKey: ['congregation_users'] });
 
       refetchUser();
     } catch (error) {

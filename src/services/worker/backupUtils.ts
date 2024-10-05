@@ -399,8 +399,11 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
   const userBaseSettings = {
     firstname: user_settings.firstname,
     lastname: user_settings.lastname,
-    data_view: user_settings.data_view,
   };
+
+  const myPerson = persons.find(
+    (record) => record.person_uid === user_settings.user_local_uid
+  );
 
   if (dataSync) {
     if (accountType === 'vip') {
@@ -489,6 +492,31 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
           obj.speakers_key = encryptData(speakersKey, masterKey);
         }
       }
+
+      // include self data if not person editor
+      if (!personEditor && isPublisher) {
+        const person = {
+          person_uid: myPerson.person_uid,
+          person_data: {
+            timeAway:
+              myPerson.person_data.timeAway?.filter(
+                (record) => !record._deleted
+              ) || [],
+            emergency_contacts: myPerson.person_data.emergency_contacts.filter(
+              (record) => !record._deleted
+            ),
+          },
+        };
+
+        encryptObject({
+          data: person,
+          table: 'persons',
+          masterKey,
+          accessCode,
+        });
+
+        obj.persons = [person];
+      }
     }
 
     if (accountType === 'pocket') {
@@ -507,31 +535,52 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
 
       obj.app_settings = { user_settings: userSettings };
 
-      if (isPublisher) {
-        const backupBibleStudies = user_bible_studies.map((study) => {
-          encryptObject({
-            data: study,
-            table: 'user_bible_studies',
-            accessCode,
-          });
+      const person = {
+        person_uid: myPerson.person_uid,
+        person_data: {
+          timeAway: myPerson.person_data.timeAway.filter(
+            (record) => !record._deleted
+          ),
+          emergency_contacts: myPerson.person_data.emergency_contacts.filter(
+            (record) => !record._deleted
+          ),
+        },
+      };
 
-          return study;
+      encryptObject({
+        data: person,
+        table: 'persons',
+        masterKey,
+        accessCode,
+      });
+
+      obj.persons = [person];
+    }
+
+    if (isPublisher) {
+      const backupBibleStudies = user_bible_studies.map((study) => {
+        encryptObject({
+          data: study,
+          table: 'user_bible_studies',
+          accessCode,
         });
 
-        obj.user_bible_studies = backupBibleStudies;
+        return study;
+      });
 
-        const backupReports = user_field_service_reports.map((report) => {
-          encryptObject({
-            data: report,
-            table: 'user_field_service_reports',
-            accessCode,
-          });
+      obj.user_bible_studies = backupBibleStudies;
 
-          return report;
+      const backupReports = user_field_service_reports.map((report) => {
+        encryptObject({
+          data: report,
+          table: 'user_field_service_reports',
+          accessCode,
         });
 
-        obj.user_field_service_reports = backupReports;
-      }
+        return report;
+      });
+
+      obj.user_field_service_reports = backupReports;
     }
   }
 

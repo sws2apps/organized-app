@@ -1,21 +1,25 @@
 import { useRecoilValue } from 'recoil';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { apiGetUserSessions, apiRevokeVIPSession } from '@services/api/user';
-import { userIDState } from '@states/app';
+import { congAccountConnectedState, userIDState } from '@states/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { accountTypeState } from '@states/settings';
 import { SessionResponseType } from '@definition/api';
+import {
+  apiGetPocketSessions,
+  apiRevokePocketSession,
+} from '@services/api/pocket';
 
 const useSessions = () => {
-  const queryClient = useQueryClient();
-
   const userID = useRecoilValue(userIDState);
   const accountType = useRecoilValue(accountTypeState);
+  const isConnected = useRecoilValue(congAccountConnectedState);
 
-  const { isLoading, data, error } = useQuery({
+  const { isLoading, data, error, refetch } = useQuery({
     queryKey: ['sessions'],
-    queryFn: apiGetUserSessions,
-    enabled: userID.length > 0,
+    queryFn: accountType === 'vip' ? apiGetUserSessions : apiGetPocketSessions,
+    enabled:
+      accountType === 'vip' ? isConnected && userID.length > 0 : isConnected,
     refetchOnWindowFocus: 'always',
     refetchInterval: 15000,
   });
@@ -29,15 +33,26 @@ const useSessions = () => {
 
   const handleTerminate = async (session: SessionResponseType) => {
     try {
+      let status: number;
+      let message: string;
+
       if (accountType === 'vip') {
         const result = await apiRevokeVIPSession(session.identifier);
-
-        if (result.status !== 200) {
-          throw new Error(result.data.message);
-        }
-
-        await queryClient.refetchQueries({ queryKey: ['sessions'] });
+        status = result.status;
+        message = result?.data?.message || '';
       }
+
+      if (accountType === 'pocket') {
+        const result = await apiRevokePocketSession(session.identifier);
+        status = result.status;
+        message = result?.data?.message || '';
+      }
+
+      if (status && status !== 200) {
+        throw new Error(message);
+      }
+
+      await refetch();
     } catch (error) {
       throw new Error(error.message);
     }

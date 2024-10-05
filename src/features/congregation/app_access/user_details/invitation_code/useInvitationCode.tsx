@@ -68,15 +68,14 @@ const useInvitationCode = () => {
 
   useEffect(() => {
     const handleGetCode = async () => {
-      const pocketCode = user.profile.pocket_invitation_code;
-
-      if (!pocketCode || pocketCode?.length === 0) return;
-
       const { status, message } = await apiGetCongregationAccessCode();
-
       if (status === 200) {
         const remoteCode = decryptData(message, congLocalAccessCode);
         setRemoteAccessCode(remoteCode);
+
+        const pocketCode = user.profile.pocket_invitation_code;
+
+        if (!pocketCode || pocketCode?.length === 0) return;
 
         const invitationCode = decryptData(pocketCode, remoteCode);
         setCode(invitationCode);
