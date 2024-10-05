@@ -61,6 +61,7 @@ export { default as MidweekExport } from './meetings/midweek_export';
 export { default as MyAssignments } from './meetings/my_assignments';
 export { default as ScheduleAutofillDialog } from './meetings/schedule_autofill';
 export { default as WeekSelector } from './meetings/week_selector';
+export { default as MonthlyView } from './meetings/monthly_view';
 
 /* --------------------------------- Persons -------------------------------- */
 export { default as PersonAssignment } from './persons/assignments';
