@@ -16,7 +16,7 @@ const useUserMainRoles = () => {
   const [isCoordinator, setIsCoordinator] = useState(false);
   const [isSecretary, setIsSecretary] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [isFieldOverseer, setIsFieldOverseer] = useState(false);
+  const [isServiceOverseer, setIsServiceOverseer] = useState(false);
 
   const handleToggleAdmin = async (value: boolean) => {
     try {
@@ -26,11 +26,11 @@ const useUserMainRoles = () => {
         const newUser = structuredClone(user);
 
         if (value) {
-          newUser.cong_role.push('admin');
+          newUser.profile.cong_role.push('admin');
         }
 
         if (!value) {
-          newUser.cong_role = newUser.cong_role.filter(
+          newUser.profile.cong_role = newUser.profile.cong_role.filter(
             (role) => role !== 'admin'
           );
         }
@@ -55,11 +55,11 @@ const useUserMainRoles = () => {
       const newUser = structuredClone(user);
 
       if (value) {
-        newUser.cong_role.push('coordinator');
+        newUser.profile.cong_role.push('coordinator');
       }
 
       if (!value) {
-        newUser.cong_role = newUser.cong_role.filter(
+        newUser.profile.cong_role = newUser.profile.cong_role.filter(
           (role) => role !== 'coordinator'
         );
       }
@@ -83,11 +83,11 @@ const useUserMainRoles = () => {
       const newUser = structuredClone(user);
 
       if (value) {
-        newUser.cong_role.push('secretary');
+        newUser.profile.cong_role.push('secretary');
       }
 
       if (!value) {
-        newUser.cong_role = user.cong_role.filter(
+        newUser.profile.cong_role = user.profile.cong_role.filter(
           (role) => role !== 'secretary'
         );
       }
@@ -104,19 +104,19 @@ const useUserMainRoles = () => {
     }
   };
 
-  const handleToggleFieldOverseer = async (value: boolean) => {
+  const handleToggleServiceOverseer = async (value: boolean) => {
     try {
-      setIsFieldOverseer(value);
+      setIsServiceOverseer(value);
 
       const newUser = structuredClone(user);
 
       if (value) {
-        newUser.cong_role.push('field_service_group_overseer');
+        newUser.profile.cong_role.push('service_overseer');
       }
 
       if (!value) {
-        newUser.cong_role = newUser.cong_role.filter(
-          (role) => role !== 'field_service_group_overseer'
+        newUser.profile.cong_role = newUser.profile.cong_role.filter(
+          (role) => role !== 'service_overseer'
         );
       }
 
@@ -133,19 +133,17 @@ const useUserMainRoles = () => {
   };
 
   useEffect(() => {
-    const isCoordinator = user.cong_role.includes('coordinator');
+    const isCoordinator = user.profile.cong_role.includes('coordinator');
     setIsCoordinator(isCoordinator);
 
-    const isSecretary = user.cong_role.includes('secretary');
+    const isSecretary = user.profile.cong_role.includes('secretary');
     setIsSecretary(isSecretary);
 
-    const isAdmin = user.cong_role.includes('admin');
+    const isAdmin = user.profile.cong_role.includes('admin');
     setIsAdmin(isAdmin);
 
-    const isFieldOverseer = user.cong_role.includes(
-      'field_service_group_overseer'
-    );
-    setIsFieldOverseer(isFieldOverseer);
+    const isFieldOverseer = user.profile.cong_role.includes('service_overseer');
+    setIsServiceOverseer(isFieldOverseer);
   }, [user]);
 
   return {
@@ -154,9 +152,9 @@ const useUserMainRoles = () => {
     isCoordinator,
     handleToggleCoordinator,
     isSecretary,
-    isFieldOverseer,
+    isServiceOverseer,
     handleToggleSecretary,
-    handleToggleFieldOverseer,
+    handleToggleServiceOverseer,
   };
 };
 

@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { personCurrentDetailsState } from '@states/persons';
 import { setPersonCurrentDetails } from '@services/recoil/persons';
+import { formatDate } from '@services/dateformat';
 
 const useTimeAway = () => {
   const { id } = useParams();
@@ -20,7 +21,7 @@ const useTimeAway = () => {
       id: crypto.randomUUID(),
       _deleted: false,
       updatedAt: new Date().toISOString(),
-      start_date: new Date().toISOString(),
+      start_date: formatDate(new Date(), 'yyyy/MM/dd'),
       end_date: null,
       comments: '',
     });
@@ -50,13 +51,15 @@ const useTimeAway = () => {
   };
 
   const handleStartDateChange = async (id: string, value: Date) => {
+    if (value === null) return;
+
     const newPerson = structuredClone(person);
 
     const current = newPerson.person_data.timeAway.find(
       (history) => history.id === id
     );
 
-    current.start_date = value.toISOString();
+    current.start_date = formatDate(value, 'yyyy/MM/dd');
     current.updatedAt = new Date().toISOString();
 
     await setPersonCurrentDetails(newPerson);
@@ -69,7 +72,7 @@ const useTimeAway = () => {
       (history) => history.id === id
     );
 
-    current.end_date = value === null ? null : value.toISOString();
+    current.end_date = value === null ? null : formatDate(value, 'yyyy/MM/dd');
     current.updatedAt = new Date().toISOString();
 
     await setPersonCurrentDetails(newPerson);

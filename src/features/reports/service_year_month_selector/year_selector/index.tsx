@@ -14,7 +14,7 @@ const YearSelector = ({ onChange, value, sx }: YearSelectorProps) => {
     <Select
       label={t('tr_serviceYear')}
       value={value}
-      onChange={(e) => onChange(e.target.value)}
+      onChange={(e) => onChange(e.target.value as string)}
       sx={sx}
     >
       {serviceYears.map((record) => (

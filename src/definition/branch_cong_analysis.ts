@@ -16,7 +16,6 @@ export type BranchCongAnalysisType = {
       total: number;
       uncovered: number;
     };
-
     submitted: boolean;
   };
 };

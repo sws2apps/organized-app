@@ -29,8 +29,8 @@ const UserDetails = () => {
       {user && (
         <PageTitle
           title={buildPersonFullname(
-            user.lastname.value,
-            user.firstname.value,
+            user.profile.lastname.value,
+            user.profile.firstname.value,
             fullnameOption
           )}
           buttons={

@@ -1,8 +1,9 @@
 import { useCallback, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useFirebaseAuth } from '@hooks/index';
 import {
+  cookiesConsentState,
   isCongAccountCreateState,
   isEmailAuthState,
   isEmailLinkAuthenticateState,
@@ -18,7 +19,6 @@ import {
   setIsEncryptionCodeOpen,
   setIsSetup,
   setIsUserSignIn,
-  setShowTermsUse,
   setUserMfaSetup,
   setUserMfaVerify,
 } from '@services/recoil/app';
@@ -29,12 +29,13 @@ import {
 } from '@states/settings';
 import { APP_ROLES } from '@constants/index';
 import { loadApp, runUpdater } from '@services/app';
-import { convertStringToBoolean } from '@utils/common';
 
 const useStartup = () => {
   const { isAuthenticated } = useFirebaseAuth();
 
   const [searchParams] = useSearchParams();
+
+  const setCookiesConsent = useSetRecoilState(cookiesConsentState);
 
   const isEmailLinkAuth = useRecoilValue(isEmailLinkAuthenticateState);
   const isEmailAuth = useRecoilValue(isEmailAuthState);
@@ -102,15 +103,13 @@ const useStartup = () => {
   }, [isAuthenticated, runNotAuthenticatedStep]);
 
   useEffect(() => {
-    const checkTermsUseStatus = async () => {
-      const localValue = convertStringToBoolean(
-        localStorage.getItem('termsUse') || 'true'
-      );
-      await setShowTermsUse(localValue);
+    const checkCookiesConsent = async () => {
+      const localValue = Boolean(localStorage.getItem('userConsent'));
+      setCookiesConsent(localValue);
     };
 
-    checkTermsUseStatus();
-  }, []);
+    checkCookiesConsent();
+  }, [setCookiesConsent]);
 
   return {
     isEmailAuth,

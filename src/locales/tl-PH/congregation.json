@@ -435,5 +435,9 @@
   "tr_groupNotAssigned": "Wala pang grupo",
   "tr_publisherLastReport": "Huling ulat sa {{ month }}",
   "tr_myGroup": "My group",
-  "tr_publishers": "Publishers"
+  "tr_publishers": "Publishers",
+  "tr_enableCongregationDataSync": "Enable congregation data sync",
+  "tr_enableCongregationDataSyncDesc": "This feature lets sync data like schedules with other users in your congregation and use the app on multiple devices at the same time.",
+  "tr_applicationRejected": "Hindi pinayagan ang aplikasyon sa pagpapayunir",
+  "tr_applicationRejectedDesc": "Hindi inaprubahan ang aplikasyong ito. Ipaalam ito sa publisher."
 }

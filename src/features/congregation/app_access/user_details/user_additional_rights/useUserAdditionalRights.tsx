@@ -21,11 +21,11 @@ const useUserAdditionalRights = () => {
       const newUser = structuredClone(user);
 
       if (value) {
-        newUser.cong_role.push('midweek_schedule');
+        newUser.profile.cong_role.push('midweek_schedule');
       }
 
       if (!value) {
-        newUser.cong_role = newUser.cong_role.filter(
+        newUser.profile.cong_role = newUser.profile.cong_role.filter(
           (role) => role !== 'midweek_schedule'
         );
       }
@@ -49,11 +49,11 @@ const useUserAdditionalRights = () => {
       const newUser = structuredClone(user);
 
       if (value) {
-        newUser.cong_role.push('weekend_schedule');
+        newUser.profile.cong_role.push('weekend_schedule');
       }
 
       if (!value) {
-        newUser.cong_role = newUser.cong_role.filter(
+        newUser.profile.cong_role = newUser.profile.cong_role.filter(
           (role) => role !== 'weekend_schedule'
         );
       }
@@ -77,11 +77,11 @@ const useUserAdditionalRights = () => {
       const newUser = structuredClone(user);
 
       if (value) {
-        newUser.cong_role.push('public_talk_schedule');
+        newUser.profile.cong_role.push('public_talk_schedule');
       }
 
       if (!value) {
-        newUser.cong_role = newUser.cong_role.filter(
+        newUser.profile.cong_role = newUser.profile.cong_role.filter(
           (role) => role !== 'public_talk_schedule'
         );
       }
@@ -105,11 +105,11 @@ const useUserAdditionalRights = () => {
       const newUser = structuredClone(user);
 
       if (value) {
-        newUser.cong_role.push('attendance_tracking');
+        newUser.profile.cong_role.push('attendance_tracking');
       }
 
       if (!value) {
-        newUser.cong_role = newUser.cong_role.filter(
+        newUser.profile.cong_role = newUser.profile.cong_role.filter(
           (role) => role !== 'attendance_tracking'
         );
       }
@@ -127,16 +127,18 @@ const useUserAdditionalRights = () => {
   };
 
   useEffect(() => {
-    const isMidweek = user.cong_role.includes('midweek_schedule');
+    const isMidweek = user.profile.cong_role.includes('midweek_schedule');
     setIsMidweek(isMidweek);
 
-    const isWeekend = user.cong_role.includes('weekend_schedule');
+    const isWeekend = user.profile.cong_role.includes('weekend_schedule');
     setIsWeekend(isWeekend);
 
-    const isPublicTalk = user.cong_role.includes('public_talk_schedule');
+    const isPublicTalk = user.profile.cong_role.includes(
+      'public_talk_schedule'
+    );
     setIsPublicTalk(isPublicTalk);
 
-    const isAttendance = user.cong_role.includes('attendance_tracking');
+    const isAttendance = user.profile.cong_role.includes('attendance_tracking');
     setIsAttendance(isAttendance);
   }, [user]);
 

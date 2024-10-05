@@ -74,9 +74,9 @@ const useInvitationCode = () => {
         const remoteCode = decryptData(message, congLocalAccessCode);
         setRemoteAccessCode(remoteCode);
 
-        if (user.pocket_invitation_code?.length > 0) {
+        if (user.profile.pocket_invitation_code?.length > 0) {
           const invitationCode = decryptData(
-            user.pocket_invitation_code,
+            user.profile.pocket_invitation_code,
             remoteCode
           );
 

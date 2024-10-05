@@ -74,7 +74,7 @@ const SpeakerEditView = ({ speaker }: SpeakerEditViewType) => {
         <Select
           label={t('tr_speaker')}
           value={selectedSpeaker}
-          onChange={(e) => handleChangeSpeaker(e.target.value)}
+          onChange={(e) => handleChangeSpeaker(e.target.value as string)}
           fullWidth={false}
           sx={{
             flexGrow: 1,

@@ -86,7 +86,9 @@ const MeetingForms = () => {
           <Select
             label={t('tr_dateFormatSelect')}
             value={shortDateFormat}
-            onChange={(e) => handleShortDateFormatChange(e.target.value)}
+            onChange={(e) =>
+              handleShortDateFormatChange(e.target.value as string)
+            }
           >
             {shortDateFormatOptions.map((format) => (
               <MenuItem key={format} value={format}>

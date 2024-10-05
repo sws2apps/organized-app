@@ -365,3 +365,30 @@ export const weeksInMonth = (month: string) => {
 
   return weeks;
 };
+
+export const groupConsecutiveMonths = (months: string[]) => {
+  const result: string[] = [];
+  let start = months[0];
+  let end = months[0];
+
+  for (let i = 1; i < months.length; i++) {
+    const current = months[i];
+    const prev = months[i - 1];
+    const [currentYear, currentMonth] = current.split('/').map(Number);
+    const [prevYear, prevMonth] = prev.split('/').map(Number);
+
+    if (
+      (currentYear === prevYear && currentMonth === prevMonth + 1) ||
+      (currentYear === prevYear + 1 && currentMonth === 1 && prevMonth === 12)
+    ) {
+      end = current;
+    } else {
+      result.push(start === end ? start : `${start}-${end}`);
+      start = current;
+      end = current;
+    }
+  }
+
+  result.push(start === end ? start : `${start}-${end}`);
+  return result;
+};

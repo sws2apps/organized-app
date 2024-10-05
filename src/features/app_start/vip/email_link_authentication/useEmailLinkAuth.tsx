@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import {
   setAuthPersistence,
   userSignInCustomToken,
@@ -7,7 +8,6 @@ import {
 import { apiUpdatePasswordlessInfo } from '@services/api/user';
 import {
   displayOnboardingFeedback,
-  setCurrentMFAStage,
   setIsCongAccountCreate,
   setIsEmailAuth,
   setIsEmailLinkAuthenticate,
@@ -16,12 +16,14 @@ import {
   setIsUserSignIn,
 } from '@services/recoil/app';
 import { APP_ROLES } from '@constants/index';
-import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 import { useAppTranslation } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
 import { NextStepType } from './index.types';
 import { UserLoginResponseType } from '@definition/api';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
+import { settingsState } from '@states/settings';
+import { isUserMfaVerifyState, tokenDevState } from '@states/app';
+import useFeedback from '@features/app_start/shared/hooks/useFeedback';
 
 const useEmailLinkAuth = () => {
   const { t } = useAppTranslation();
@@ -29,6 +31,12 @@ const useEmailLinkAuth = () => {
   const { hideMessage, message, showMessage, title, variant } = useFeedback();
 
   const [searchParams, setSearchParams] = useSearchParams();
+
+  const setVerifyMFA = useSetRecoilState(isUserMfaVerifyState);
+  const setTokenDev = useSetRecoilState(tokenDevState);
+
+  const settings = useRecoilValue(settingsState);
+
   const [isProcessing, setIsProcessing] = useState(false);
 
   const code = searchParams.get('code');
@@ -48,17 +56,57 @@ const useEmailLinkAuth = () => {
     setIsEmailLinkAuthenticate(false);
     setIsEmailAuth(false);
 
-    await dbAppSettingsUpdate({
-      'user_settings.account_type': 'vip',
-      'user_settings.cong_role': data.cong_role,
-      'user_settings.lastname': data.lastname,
-      'user_settings.firstname': data.firstname,
-    });
+    if (data.app_settings) {
+      await dbAppSettingsUpdate({
+        'user_settings.account_type': 'vip',
+        'user_settings.lastname': data.app_settings.user_settings.lastname,
+        'user_settings.firstname': data.app_settings.user_settings.firstname,
+      });
+    }
 
     if (result.encryption) {
+      const { app_settings } = data;
+
+      const midweekMeeting = structuredClone(
+        settings.cong_settings.midweek_meeting
+      );
+
+      for (const midweekRemote of app_settings.cong_settings.midweek_meeting) {
+        const midweekLocal = midweekMeeting.find(
+          (record) => record.type === midweekRemote.type
+        );
+
+        midweekLocal.time = midweekRemote.time;
+        midweekLocal.weekday = midweekRemote.weekday;
+      }
+
+      const weekendMeeting = structuredClone(
+        settings.cong_settings.weekend_meeting
+      );
+
+      for (const weekendRemote of app_settings.cong_settings.weekend_meeting) {
+        const weekendLocal = weekendMeeting.find(
+          (record) => record.type === weekendRemote.type
+        );
+
+        weekendLocal.time = weekendRemote.time;
+        weekendLocal.weekday = weekendRemote.weekday;
+      }
+
+      await dbAppSettingsUpdate({
+        'cong_settings.country_code': app_settings.cong_settings.country_code,
+        'cong_settings.cong_name': app_settings.cong_settings.cong_name,
+        'cong_settings.cong_number': app_settings.cong_settings.cong_number,
+        'user_settings.cong_role': app_settings.user_settings.cong_role,
+        'cong_settings.cong_location': app_settings.cong_settings.cong_location,
+        'cong_settings.cong_circuit': app_settings.cong_settings.cong_circuit,
+        'cong_settings.midweek_meeting': midweekMeeting,
+        'cong_settings.weekend_meeting': weekendMeeting,
+      });
+
       setIsEncryptionCodeOpen(true);
     } else if (result.isVerifyMFA) {
-      setCurrentMFAStage('verify');
+      setVerifyMFA(true);
     } else if (result.unauthorized) {
       setIsUnauthorizedRole(true);
     } else if (result.createCongregation) {
@@ -90,26 +138,40 @@ const useEmailLinkAuth = () => {
       }
 
       const result: NextStepType = {};
-      const { cong_name, cong_role, mfa } = data;
 
-      if (mfa === 'not_enabled') {
-        if (cong_name.length === 0) {
+      const {
+        app_settings,
+        message,
+        code: tokenDev,
+      } = data as UserLoginResponseType;
+
+      if (message === 'MFA_VERIFY') {
+        setTokenDev(tokenDev);
+        result.isVerifyMFA = true;
+      }
+
+      if (app_settings?.user_settings.mfa === 'not_enabled') {
+        if (!app_settings.cong_settings) {
           result.createCongregation = true;
-        } else if (cong_role.length === 0) {
+        } else if (app_settings.user_settings.cong_role.length === 0) {
           result.unauthorized = true;
-        } else if (cong_role.some((role) => APP_ROLES.includes(role))) {
+        } else if (
+          app_settings.user_settings.cong_role.some((role) =>
+            APP_ROLES.includes(role)
+          )
+        ) {
           await userSignInCustomToken(code);
           result.encryption = true;
         } else {
           result.unauthorized = true;
         }
-      } else {
-        result.isVerifyMFA = true;
       }
 
       await handleResult(data, result);
       setIsProcessing(false);
     } catch (err) {
+      console.error(err);
+
       await displayOnboardingFeedback({
         title: t('tr_errorGeneric'),
         message: getMessageByCode(err.message),

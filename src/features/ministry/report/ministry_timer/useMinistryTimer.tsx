@@ -187,6 +187,29 @@ const useMinistryTimer = () => {
     await dbUserFieldServiceReportsSave(report);
   };
 
+  // restore state from db on tab active
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        if (timer.state === 'started') {
+          const now = Date.now();
+          const elapsedTime = timer.value;
+
+          const additionalTime = Math.floor((now - timer.start) / 1000);
+          setTime(elapsedTime + additionalTime);
+        } else {
+          setTime(timer.value);
+        }
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [timer]);
+
   // launch timer
   useEffect(() => {
     if (timerState === 'started') {

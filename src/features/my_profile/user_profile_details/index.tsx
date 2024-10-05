@@ -3,7 +3,7 @@ import TextField from '@components/textfield';
 import Typography from '@components/typography';
 import useAppTranslation from '@hooks/useAppTranslation';
 import useUserProfileDetails from './useUserProfileDetails';
-import { ProfileItemContainer } from '../my_profile.styles';
+import { ProfileItemContainer } from '../index.styles';
 
 const UserProfileDetails = () => {
   const { t } = useAppTranslation();

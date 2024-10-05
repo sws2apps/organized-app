@@ -435,5 +435,9 @@
   "tr_groupNotAssigned": "Група не призначена",
   "tr_publisherLastReport": "Останній звіт за {{ month }}",
   "tr_myGroup": "Моя група",
-  "tr_publishers": "Вісники"
+  "tr_publishers": "Вісники",
+  "tr_enableCongregationDataSync": "Увімкнути синхронізацію даних збору",
+  "tr_enableCongregationDataSyncDesc": "Ця опція дозволяє синхронізувати дані, такі як розклади, з іншими користувачами у твоєму зборі, а також уможливлює користування додатком на кількох пристроях одночасно.",
+  "tr_applicationRejected": "Заяву на служіння піонером відхилено",
+  "tr_applicationRejectedDesc": "Ця заява була відхилена. Повідом вісника про її статус."
 }
