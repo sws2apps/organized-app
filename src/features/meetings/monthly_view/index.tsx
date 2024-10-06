@@ -80,7 +80,7 @@ const MonthlyView = () => {
             maxWidth: '196px',
           }}
           value={selectedMonth.toString()}
-          onChange={(e) => setSelectedMonth(parseInt(e.target.value))}
+          onChange={(e) => setSelectedMonth(parseInt(e.target.value as string))}
         >
           {monthNames.map((value, index) => {
             return (
@@ -156,7 +156,7 @@ const MonthlyView = () => {
                   readOnly={false}
                 />
               ) : (
-                <Box flex={1}></Box>
+                <Box flex={1} key={index}></Box>
               );
             })}
           </Box>
@@ -362,7 +362,7 @@ const MonthlyView = () => {
                       </WeekHoverBox>
                     </>
                   ) : (
-                    <Box flex={1} />
+                    <Box flex={1} key={index} />
                   );
                 })}
               </Box>
@@ -590,7 +590,7 @@ const MonthlyView = () => {
                   </WeekHoverBox>
                 </>
               ) : (
-                <Box flex={1} />
+                <Box flex={1} key={index} />
               );
             })}
           </Box>
@@ -652,7 +652,7 @@ const MonthlyView = () => {
                       )}
                     </Box>
                   ) : (
-                    <Box flex={1} />
+                    <Box flex={1} key={index} />
                   );
                 })}
               </Box>
@@ -732,7 +732,7 @@ const MonthlyView = () => {
                   </WeekHoverBox>
                 </>
               ) : (
-                <Box flex={1} />
+                <Box flex={1} key={index} />
               );
             })}
           </Box>
@@ -794,7 +794,7 @@ const MonthlyView = () => {
                       )}
                     </Box>
                   ) : (
-                    <Box flex={1} />
+                    <Box flex={1} key={index} />
                   );
                 })}
               </Box>
@@ -875,7 +875,7 @@ const MonthlyView = () => {
                     </WeekHoverBox>
                   </>
                 ) : (
-                  <Box flex={1} />
+                  <Box flex={1} key={index} />
                 );
               })}
             </Box>
@@ -937,7 +937,7 @@ const MonthlyView = () => {
                         )}
                       </Box>
                     ) : (
-                      <Box flex={1} />
+                      <Box flex={1} key={index} />
                     );
                   })}
                 </Box>
@@ -986,7 +986,7 @@ const MonthlyView = () => {
                   </WeekHoverBox>
                 </>
               ) : (
-                <Box flex={1} />
+                <Box flex={1} key={index} />
               );
             })}
           </Box>
@@ -1025,7 +1025,7 @@ const MonthlyView = () => {
                     </WeekHoverBox>
                   </>
                 ) : (
-                  <Box flex={1} />
+                  <Box flex={1} key={index} />
                 );
               })}
             </Box>
@@ -1065,7 +1065,7 @@ const MonthlyView = () => {
                     </WeekHoverBox>
                   </>
                 ) : (
-                  <Box flex={1} />
+                  <Box flex={1} key={index} />
                 );
               })}
             </Box>
@@ -1120,7 +1120,7 @@ const MonthlyView = () => {
                   </WeekHoverBox>
                 </>
               ) : (
-                <Box flex={1} />
+                <Box flex={1} key={index} />
               );
             })}
           </Box>
