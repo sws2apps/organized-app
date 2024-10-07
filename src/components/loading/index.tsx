@@ -1,4 +1,3 @@
-import { IconLoading } from '@icons/index';
 import Typography from '@components/typography';
 import { StyledCircleBox } from './index.styles';
 import { useAppTranslation } from '@hooks/index';

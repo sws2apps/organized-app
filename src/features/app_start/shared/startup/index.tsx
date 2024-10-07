@@ -1,5 +1,4 @@
 import { Box } from '@mui/material';
-import WaitingCircular from '@components/waiting_circular';
 import AccountChooser from '@features/app_start/shared/account_chooser';
 import PocketStartup from '@features/app_start/pocket/startup';
 import VipStartup from '@features/app_start/vip/startup';
