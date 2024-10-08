@@ -15,7 +15,7 @@ const AppLoading = ({ text, sx }: AppLoadingType) => {
 
   return (
     <StyledCircleBox sx={sx}>
-      <Organized3DLoader width={72} height={72} />
+      <Organized3DLoader width={72} height={72} centered={false} />
       <Typography align="center" className="h4" color="var(--accent-main)">
         {loadingText}
       </Typography>

@@ -5,9 +5,11 @@ import Lottie from 'react-lottie';
 const Organized3DLoader = ({
   width = 72,
   height = 72,
+  centered = true,
 }: {
-  width: number;
-  height: number;
+  width?: number;
+  height?: number;
+  centered?: boolean;
 }) => {
   const defaultOptions = {
     loop: true,
@@ -18,7 +20,7 @@ const Organized3DLoader = ({
     },
   };
 
-  return (
+  return centered ? (
     <Box
       sx={{
         display: 'flex',
@@ -39,6 +41,8 @@ const Organized3DLoader = ({
         <Lottie options={defaultOptions} width={width} height={height} />
       </Box>
     </Box>
+  ) : (
+    <Lottie options={defaultOptions} width={width} height={height} />
   );
 };
 
