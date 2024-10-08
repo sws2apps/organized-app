@@ -81,3 +81,54 @@ export const apiRevokePocketSession = async (id: string) => {
 
   return { status: res.status, data };
 };
+
+export const apiPocketFieldServiceReportPost = async ({
+  report_month,
+  shared_ministry,
+  bible_studies,
+  comments,
+  hours,
+  hours_credits,
+}: {
+  report_month: string;
+  shared_ministry: boolean;
+  hours: number;
+  hours_credits: number;
+  bible_studies: number;
+  comments: string;
+}) => {
+  const { apiHost, appVersion: appversion } = await apiDefault();
+
+  const res = await fetch(`${apiHost}api/v3/pockets/field-service-reports`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      appclient: 'organized',
+      appversion,
+    },
+    body: JSON.stringify({
+      report_month,
+      shared_ministry,
+      bible_studies,
+      comments,
+      hours,
+      hours_credits,
+    }),
+  });
+
+  if (res.ok && res.status === 200) {
+    const data = await res.json();
+
+    return {
+      status: res.status,
+      message: data.message as string,
+    };
+  }
+
+  if (res.status !== 200) {
+    const data = await res.json();
+
+    throw new Error(data.message);
+  }
+};

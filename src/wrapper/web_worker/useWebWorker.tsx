@@ -4,11 +4,15 @@ import { setIsAppDataSyncing, setLastAppDataSync } from '@services/recoil/app';
 import { isDemo } from '@constants/index';
 import { congAccountConnectedState, isOnlineState } from '@states/app';
 import { backupAutoState, backupIntervalState } from '@states/settings';
-import { useFirebaseAuth } from '@hooks/index';
+import { useCurrentUser, useFirebaseAuth } from '@hooks/index';
+import { schedulesBuildHistoryList } from '@services/app/schedules';
+import { setAssignmentsHistory } from '@services/recoil/schedules';
 import worker from '@services/worker/backupWorker';
 
 const useWebWorker = () => {
   const { user } = useFirebaseAuth();
+
+  const { isMeetingEditor } = useCurrentUser();
 
   const isOnline = useRecoilValue(isOnlineState);
   const isConnected = useRecoilValue(congAccountConnectedState);
@@ -29,6 +33,12 @@ const useWebWorker = () => {
 
         if (event.data === 'Done') {
           await setIsAppDataSyncing(false);
+
+          // sync complete -> refresh assignment
+          if (!isMeetingEditor) {
+            const history = await schedulesBuildHistoryList();
+            await setAssignmentsHistory(history);
+          }
         }
 
         if (event.data.error === 'BACKUP_FAILED') {
@@ -41,7 +51,7 @@ const useWebWorker = () => {
         }
       };
     }
-  }, []);
+  }, [isMeetingEditor]);
 
   useEffect(() => {
     const runBackupTimer = setInterval(async () => {

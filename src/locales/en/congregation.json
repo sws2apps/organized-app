@@ -439,5 +439,6 @@
   "tr_enableCongregationDataSync": "Enable congregation data sync",
   "tr_enableCongregationDataSyncDesc": "This option will allow your congregation to share the Organized data. It will be possible also to sync data between multiple devices.",
   "tr_applicationRejected": "Pioneer application rejected",
-  "tr_applicationRejectedDesc": "This application has been rejected. Inform the publisher about its status."
+  "tr_applicationRejectedDesc": "This application has been rejected. Inform the publisher about its status.",
+  "tr_serviceGroupsListNone": "No field service groups yet. The groups will appear here as soon as they are created."
 }

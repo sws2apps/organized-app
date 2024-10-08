@@ -8,10 +8,10 @@ export const defaultNS = 'ui';
 const resources = {};
 
 const getAppLang = () => {
-  const cookiesConsent = Boolean(localStorage.getItem('userConsent'));
+  const langStorage = localStorage.getItem('app_lang');
 
-  if (cookiesConsent) {
-    return localStorage.getItem('app_lang')?.toString() || 'en';
+  if (langStorage) {
+    return langStorage;
   }
 
   const hash = new URL(window.location.href).hash;

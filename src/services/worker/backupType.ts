@@ -13,4 +13,6 @@ export type BackupDataType = {
   outgoing_speakers?: object;
   user_bible_studies?: object;
   user_field_service_reports?: object;
+  public_schedules?: object;
+  public_sources?: object;
 };

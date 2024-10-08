@@ -13,6 +13,7 @@ import { SpeakersCongregationsType } from '@definition/speakers_congregations';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
 import { decryptObject, encryptObject } from './backupEncryption';
 import { SettingsType } from '@definition/settings';
+import { SourceWeekType } from '@definition/sources';
 
 const personIsElder = (person: PersonType) => {
   const hasActive = person?.person_data.privileges.find(
@@ -334,6 +335,18 @@ const dbRestoreFromBackup = async (
 
   if (backupData.outgoing_talks) {
     await dbInsertOutgoingTalks(backupData.outgoing_talks);
+  }
+
+  if (backupData.public_schedules) {
+    await appDb.sched.clear();
+    const data = backupData.public_schedules as SchedWeekType[];
+    await appDb.sched.bulkPut(data);
+  }
+
+  if (backupData.public_sources) {
+    await appDb.sources.clear();
+    const data = backupData.public_sources as SourceWeekType[];
+    await appDb.sources.bulkPut(data);
   }
 };
 

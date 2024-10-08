@@ -62,6 +62,7 @@ const useUserAutoLogin = () => {
     queryKey: ['whoami-vip'],
     queryFn: apiValidateMe,
     enabled: runFetchVip,
+    refetchOnWindowFocus: 'always',
   });
 
   const {
@@ -72,6 +73,7 @@ const useUserAutoLogin = () => {
     queryKey: ['whoami-pocket'],
     queryFn: apiPocketValidateMe,
     enabled: runFetchPocket,
+    refetchOnWindowFocus: 'always',
   });
 
   const [autoLoginStatus, setAutoLoginStatus] = useState('');

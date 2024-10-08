@@ -18,9 +18,14 @@ import {
 import useMinistryMonthlyRecord from '@features/ministry/hooks/useMinistryMonthlyRecord';
 import { dbUserFieldServiceReportsSave } from '@services/dexie/user_field_service_reports';
 import { apiUserFieldServiceReportPost } from '@services/api/user';
-import { secretaryRoleState, userLocalUIDState } from '@states/settings';
+import {
+  accountTypeState,
+  secretaryRoleState,
+  userLocalUIDState,
+} from '@states/settings';
 import { congFieldServiceReportsState } from '@states/field_service_reports';
 import { handleSaveFieldServiceReports } from '@services/app/cong_field_service_reports';
+import { apiPocketFieldServiceReportPost } from '@services/api/pocket';
 
 const useSubmitReport = ({ onClose }: SubmitReportProps) => {
   const { t } = useAppTranslation();
@@ -31,6 +36,7 @@ const useSubmitReport = ({ onClose }: SubmitReportProps) => {
   const secretary = useRecoilValue(secretaryRoleState);
   const congReports = useRecoilValue(congFieldServiceReportsState);
   const userUID = useRecoilValue(userLocalUIDState);
+  const accountType = useRecoilValue(accountTypeState);
 
   const {
     minutes_remains,
@@ -156,14 +162,27 @@ const useSubmitReport = ({ onClose }: SubmitReportProps) => {
   };
 
   const handleSubmitPublisher = async () => {
-    await apiUserFieldServiceReportPost({
-      bible_studies,
-      comments: comments,
-      hours,
-      hours_credits: hours_credit,
-      report_month: selectedMonth,
-      shared_ministry,
-    });
+    if (accountType === 'vip') {
+      await apiUserFieldServiceReportPost({
+        bible_studies,
+        comments: comments,
+        hours,
+        hours_credits: hours_credit,
+        report_month: selectedMonth,
+        shared_ministry,
+      });
+    }
+
+    if (accountType === 'pocket') {
+      await apiPocketFieldServiceReportPost({
+        bible_studies,
+        comments: comments,
+        hours,
+        hours_credits: hours_credit,
+        report_month: selectedMonth,
+        shared_ministry,
+      });
+    }
   };
 
   const handleSubmit = async () => {

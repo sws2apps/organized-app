@@ -1,12 +1,14 @@
 import { useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { IconAdd, IconReorder } from '@components/icons';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { fieldGroupsState } from '@states/field_service_groups';
 import Button from '@components/button';
 
 const useFieldServiceGroups = () => {
   const { t } = useAppTranslation();
+
+  const { isServiceCommittee } = useCurrentUser();
 
   const groups = useRecoilValue(fieldGroupsState);
 
@@ -22,6 +24,8 @@ const useFieldServiceGroups = () => {
   const handleCloseReorder = () => setReorderOpen(false);
 
   const buttons = useMemo(() => {
+    if (!isServiceCommittee) return <></>;
+
     return (
       <>
         {groups.length > 1 && (
@@ -43,7 +47,7 @@ const useFieldServiceGroups = () => {
         </Button>
       </>
     );
-  }, [t, groups]);
+  }, [t, groups, isServiceCommittee]);
 
   return {
     buttons,

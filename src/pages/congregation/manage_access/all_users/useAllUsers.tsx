@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { apiCongregationUsersGet } from '@services/api/congregation';
@@ -8,6 +8,7 @@ import {
   congregationsPersonsState,
   congregationUsersState,
 } from '@states/app';
+import { settingsState } from '@states/settings';
 
 const useAllUsers = () => {
   const { data } = useQuery({
@@ -21,6 +22,11 @@ const useAllUsers = () => {
   const congregationsPersons = useRecoilValue(congregationsPersonsState);
   const appAdmin = useRecoilValue(congregationsAppAdminState);
   const baptizedPersons = useRecoilValue(congregationsBaptizedPersonsState);
+  const settings = useRecoilValue(settingsState);
+
+  const sync_disabled = useMemo(() => {
+    return !settings.cong_settings.data_sync.value;
+  }, [settings.cong_settings.data_sync.value]);
 
   const [userAddOpen, setUserAddOpen] = useState(false);
 
@@ -41,6 +47,7 @@ const useAllUsers = () => {
     congregationsPersons,
     baptizedPersons,
     appAdmin,
+    sync_disabled,
   };
 };
 

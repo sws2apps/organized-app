@@ -678,12 +678,14 @@ export const schedulesGetHistoryDetails = ({
     const partNum = assignment.match(/\d+\.?\d*/g).at(0);
     const code: AssignmentCode =
       source.midweek_meeting[`ayf_part${partNum}`].type[lang];
+
     if (code) {
       const src: string =
         source.midweek_meeting[`ayf_part${partNum}`].src[lang];
+
       const title = assignmentOptions.find(
         (record) => record.value === code
-      ).label;
+      )?.label;
 
       history.assignment.src = src;
       history.assignment.ayf = {};
@@ -841,16 +843,21 @@ export const schedulesBuildHistoryList = async () => {
   const result: AssignmentHistoryType[] = [];
   const schedules: SchedWeekType[] = await promiseGetRecoil(schedulesState);
   const sources: SourceWeekType[] = await promiseGetRecoil(sourcesState);
+
   const assignmentOptions: AssignmentLocalType[] = await promiseGetRecoil(
     assignmentTypeLocaleState
   );
+
   const lang: string = await promiseGetRecoil(JWLangState);
+
   const dataView: string = await promiseGetRecoil(userDataViewState);
   const shortDateFormat: string = await promiseGetRecoil(shortDateFormatState);
   const talks: PublicTalkType[] = await promiseGetRecoil(publicTalksState);
 
   for (const schedule of schedules) {
     const source = sources.find((record) => record.weekOf === schedule.weekOf);
+
+    if (!source) continue;
 
     for (const [key, value] of Object.entries(ASSIGNMENT_PATH)) {
       const record = schedulesGetData(schedule, value);
