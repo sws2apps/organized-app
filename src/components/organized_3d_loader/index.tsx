@@ -2,6 +2,18 @@ import animationData from '@assets/lotties/organized-3d-loader.json';
 import { Box } from '@mui/material';
 import Lottie from 'react-lottie';
 
+/**
+ * Organized3DLoader Component
+ *
+ * A reusable loading component that displays a 3D animated loader using the Lottie animation library.
+ * It allows customization of its width, height, and whether it should be centered on the screen.
+ *
+ * @param {number} width - Optional. The width of the animation. Default is 72.
+ * @param {number} height - Optional. The height of the animation. Default is 72.
+ * @param {boolean} centered - Optional. If true, the loader will be centered in the container. Default is true.
+ *
+ * @returns {JSX.Element} A loader animation wrapped in a Box container from Material UI.
+ */
 const Organized3DLoader = ({
   width = 72,
   height = 72,
