@@ -26,7 +26,7 @@ const EnrollmentItem = ({
         className="body-regular"
         label={t('tr_enrollment')}
         value={enrollment}
-        onChange={(e) => onEnrollmentChange(id, e.target.value)}
+        onChange={(e) => onEnrollmentChange(id, e.target.value as string)}
       >
         <MenuItem value="AP">
           <Typography>{t('tr_AP')}</Typography>

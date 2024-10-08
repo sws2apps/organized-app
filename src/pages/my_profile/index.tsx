@@ -2,16 +2,14 @@ import { Box } from '@mui/material';
 import { Button, PageTitle } from '@components/index';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { IconLogout } from '@icons/index';
-import {
-  MinistryPreferences,
-  UserAccountSecurity,
-  UserAppSettings,
-  UserLogoutConfirm,
-  UserProfileDetails,
-  UserSessions,
-  UserTimeAway,
-} from '@features/index';
 import useMyProfile from './useMyProfile';
+import AppSettings from '@features/my_profile/app_settings';
+import LogoutConfirm from '@features/my_profile/logout_confirm';
+import MinistryPreferences from '@features/my_profile/ministry_preferences';
+import Security from '@features/my_profile/security';
+import UserProfileDetails from '@features/my_profile/user_profile_details';
+import UserSessions from '@features/my_profile/sessions';
+import UserTimeAway from '@features/my_profile/user_time_away';
 
 const MyProfile = () => {
   const { t } = useAppTranslation();
@@ -24,6 +22,7 @@ const MyProfile = () => {
     handleOpenLogoutConfirm,
     isConnected,
     hoursCreditEnabled,
+    showTimeAway,
   } = useMyProfile();
 
   return (
@@ -43,10 +42,7 @@ const MyProfile = () => {
       />
 
       {isLogoutConfirm && (
-        <UserLogoutConfirm
-          open={isLogoutConfirm}
-          onClose={handleCloseConfirm}
-        />
+        <LogoutConfirm open={isLogoutConfirm} onClose={handleCloseConfirm} />
       )}
 
       {/* container */}
@@ -71,7 +67,7 @@ const MyProfile = () => {
 
           {hoursCreditEnabled && <MinistryPreferences />}
 
-          <UserTimeAway />
+          {showTimeAway && <UserTimeAway />}
         </Box>
 
         {/* right-column */}
@@ -84,10 +80,11 @@ const MyProfile = () => {
             flexGrow: 1,
           }}
         >
-          <UserAppSettings />
+          <AppSettings />
+
           {isConnected && (
             <>
-              <UserAccountSecurity />
+              <Security />
               <UserSessions />
             </>
           )}

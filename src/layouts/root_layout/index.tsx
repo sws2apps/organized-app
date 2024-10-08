@@ -15,7 +15,6 @@ import {
   Startup,
   Support,
   UnsupportedBrowser,
-  WorkInProgressNotif,
 } from '@features/index';
 import { isDemo } from '@constants/index';
 import useGlobal from '@hooks/useGlobal';
@@ -44,8 +43,6 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
       <AppUpdater updatePwa={updatePwa} />
 
       <AppFeedback />
-
-      <WorkInProgressNotif />
 
       {isImportJWOrg && <JWMaterialsImport />}
       {isImportEPUB && <EPUBMaterialsImport />}

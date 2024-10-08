@@ -33,8 +33,8 @@ const useDeleteUser = (
       }
 
       const personName = buildPersonFullname(
-        user.lastname.value,
-        user.firstname.value,
+        user.profile.lastname.value,
+        user.profile.firstname.value,
         fullnameOption
       );
 

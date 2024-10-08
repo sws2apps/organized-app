@@ -21,7 +21,7 @@ const MinistryReport = () => {
     status,
     withdrawOpen,
     handleCloseWithdraw,
-    shared_ministry,
+    disabled,
   } = useMinistryReport();
 
   return (
@@ -32,7 +32,7 @@ const MinistryReport = () => {
           <Button
             variant="main"
             onClick={handleOpenModal}
-            disabled={status === 'confirmed' || !shared_ministry}
+            disabled={disabled}
             startIcon={status === 'pending' ? <IconSend /> : <IconUndo />}
             color={status !== 'pending' && 'orange'}
           >

@@ -14,10 +14,11 @@ const useOutgoingTalkAccess = () => {
       settings.cong_settings.weekend_meeting
     );
 
-    const current = weekendSettings.find((record) => record.type === dataView);
-
-    current.outgoing_talks_schedule_public.value = !outgoingTalksPublic;
-    current.outgoing_talks_schedule_public.updatedAt = new Date().toISOString();
+    for (const current of weekendSettings) {
+      current.outgoing_talks_schedule_public.value = !outgoingTalksPublic;
+      current.outgoing_talks_schedule_public.updatedAt =
+        new Date().toISOString();
+    }
 
     await dbAppSettingsUpdate({
       'cong_settings.weekend_meeting': weekendSettings,

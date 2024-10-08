@@ -3,6 +3,7 @@ import { useRecoilValue } from 'recoil';
 import { personCurrentDetailsState } from '@states/persons';
 import { setPersonCurrentDetails } from '@services/recoil/persons';
 import { EnrollmentType } from '@definition/person';
+import { formatDate } from '@services/dateformat';
 
 const useEnrollments = () => {
   const { id } = useParams();
@@ -22,7 +23,7 @@ const useEnrollments = () => {
       _deleted: false,
       updatedAt: new Date().toISOString(),
       enrollment: 'AP',
-      start_date: new Date().toISOString(),
+      start_date: formatDate(new Date(), 'yyyy/MM/dd'),
       end_date: null,
     });
 
@@ -50,13 +51,15 @@ const useEnrollments = () => {
   };
 
   const handleStartDateChange = async (id: string, value: Date) => {
+    if (value === null) return;
+
     const newPerson = structuredClone(person);
 
     const current = newPerson.person_data.enrollments.find(
       (history) => history.id === id
     );
 
-    current.start_date = value.toISOString();
+    current.start_date = formatDate(value, 'yyyy/MM/dd');
     current.updatedAt = new Date().toISOString();
 
     await setPersonCurrentDetails(newPerson);
@@ -69,7 +72,7 @@ const useEnrollments = () => {
       (history) => history.id === id
     );
 
-    current.end_date = value === null ? null : value.toISOString();
+    current.end_date = value === null ? null : formatDate(value, 'yyyy/MM/dd');
     current.updatedAt = new Date().toISOString();
 
     await setPersonCurrentDetails(newPerson);

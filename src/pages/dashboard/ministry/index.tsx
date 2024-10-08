@@ -11,7 +11,7 @@ import useMinistry from './useMinistry';
 const MinistryCard = () => {
   const { t } = useAppTranslation();
 
-  const { isPioneer, hours } = useMinistry();
+  const { isPioneer, hours, enable_AP_application } = useMinistry();
 
   return (
     <DashboardCard header={t('tr_ministry')}>
@@ -36,13 +36,16 @@ const MinistryCard = () => {
           path="/service-year"
         />
       </ListItem>
-      <ListItem disablePadding>
-        <DashboardMenu
-          icon={<IconPioneerForm color="var(--black)" />}
-          primaryText={t('tr_applicationAuxiliaryPioneer')}
-          path="/auxiliary-pioneer-application"
-        />
-      </ListItem>
+
+      {enable_AP_application && (
+        <ListItem disablePadding>
+          <DashboardMenu
+            icon={<IconPioneerForm color="var(--black)" />}
+            primaryText={t('tr_applicationAuxiliaryPioneer')}
+            path="/auxiliary-pioneer-application"
+          />
+        </ListItem>
+      )}
     </DashboardCard>
   );
 };

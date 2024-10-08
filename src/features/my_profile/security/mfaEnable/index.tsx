@@ -1,13 +1,13 @@
-import { Box, IconButton } from '@mui/material';
+import { Badge, Box, IconButton } from '@mui/material';
 import { IconCopy, IconLoading } from '@components/icons';
+import { useAppTranslation } from '@hooks/index';
+import useMFAEnable from './useMFAEnable';
 import Button from '@components/button';
 import Dialog from '@components/dialog';
 import OTPInput from '@components/otp_input';
 import Tabs from '@components/tabs';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
-import { useAppTranslation } from '@hooks/index';
-import useMFAEnable from './useMFAEnable';
 
 type MFAEnableType = {
   open: boolean;
@@ -28,6 +28,7 @@ const MFAEnable = ({ open, onClose }: MFAEnableType) => {
     isProcessing,
     imgSrc,
     codeError,
+    tokenDev,
   } = useMFAEnable(onClose);
 
   return (
@@ -174,6 +175,15 @@ const MFAEnable = ({ open, onClose }: MFAEnableType) => {
               </Typography>
             )}
           </Box>
+
+          {tokenDev && (
+            <Box sx={{ display: 'flex', gap: '20px', marginLeft: '20px' }}>
+              <Badge badgeContent={'dev'} color="error" />
+              <Box>
+                <Typography>Enter this code to continue: {tokenDev}</Typography>
+              </Box>
+            </Box>
+          )}
 
           <Box
             sx={{

@@ -598,12 +598,3 @@ export const hoursCreditsEnabledState = selector({
     return settings.user_settings.hour_credits_enabled.value;
   },
 });
-
-export const userTimeAwayState = selector({
-  key: 'userTimeAway',
-  get: ({ get }) => {
-    const settings = get(settingsState);
-
-    return settings.user_settings.user_time_away;
-  },
-});

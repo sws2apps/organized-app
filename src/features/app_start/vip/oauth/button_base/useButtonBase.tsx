@@ -1,6 +1,5 @@
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
-  currentMFAStageState,
   currentProviderState,
   isAuthProcessingState,
   isCongAccountCreateState,
@@ -9,6 +8,7 @@ import {
   isUnauthorizedRoleState,
   isUserMfaVerifyState,
   isUserSignInState,
+  tokenDevState,
 } from '@states/app';
 import { setAuthPersistence, userSignInPopup } from '@services/firebase/auth';
 import { displayOnboardingFeedback } from '@services/recoil/app';
@@ -20,6 +20,7 @@ import { dbAppSettingsUpdate } from '@services/dexie/settings';
 import { APP_ROLES } from '@constants/index';
 import { NextStepType } from './index.types';
 import { UserLoginResponseType } from '@definition/api';
+import { settingsState } from '@states/settings';
 
 const useButtonBase = ({ provider, isEmail }) => {
   const { t } = useAppTranslation();
@@ -31,13 +32,14 @@ const useButtonBase = ({ provider, isEmail }) => {
   );
   const [isUserSignIn, setIsUserSignIn] = useRecoilState(isUserSignInState);
 
-  const setCurrentMFAStage = useSetRecoilState(currentMFAStageState);
   const setUserMfaVerify = useSetRecoilState(isUserMfaVerifyState);
   const setIsCongAccountCreate = useSetRecoilState(isCongAccountCreateState);
   const setIsUnauthorizedRole = useSetRecoilState(isUnauthorizedRoleState);
   const setIsEncryptionCodeOpen = useSetRecoilState(isEncryptionCodeOpenState);
   const setIsEmailAuth = useSetRecoilState(isEmailAuthState);
+  const setTokenDev = useSetRecoilState(tokenDevState);
 
+  const settings = useRecoilValue(settingsState);
   const currentProvider = useRecoilValue(currentProviderState);
 
   const handleAuthorizationError = async (message: string) => {
@@ -50,20 +52,30 @@ const useButtonBase = ({ provider, isEmail }) => {
     setIsAuthProcessing(false);
   };
 
-  const determineNextStep = (data: UserLoginResponseType): NextStepType => {
+  const determineNextStep = ({
+    app_settings,
+    code,
+  }: UserLoginResponseType): NextStepType => {
     const nextStep: NextStepType = {};
 
-    if (data.mfa === 'not_enabled') {
-      if (data.cong_name.length === 0) {
+    if (code) {
+      nextStep.isVerifyMFA = true;
+    }
+
+    if (app_settings?.user_settings.mfa === 'not_enabled') {
+      if (!app_settings.cong_settings) {
         nextStep.createCongregation = true;
       }
 
-      if (data.cong_name.length > 0 && data.cong_role.length === 0) {
+      if (
+        app_settings.cong_settings &&
+        app_settings.user_settings.cong_role?.length === 0
+      ) {
         nextStep.unauthorized = true;
       }
 
-      if (data.cong_name.length > 0 && data.cong_role.length > 0) {
-        const approvedRole = data.cong_role.some((role) =>
+      if (app_settings.user_settings.cong_role?.length > 0) {
+        const approvedRole = app_settings.user_settings.cong_role.some((role) =>
           APP_ROLES.includes(role)
         );
 
@@ -75,29 +87,29 @@ const useButtonBase = ({ provider, isEmail }) => {
           nextStep.encryption = true;
         }
       }
-    } else {
-      nextStep.isVerifyMFA = true;
     }
 
     return nextStep;
   };
 
   const updateUserSettings = async (
-    data: UserLoginResponseType,
+    { app_settings, code }: UserLoginResponseType,
     nextStep: NextStepType
   ) => {
-    await dbAppSettingsUpdate({
-      'user_settings.account_type': 'vip',
-      'user_settings.cong_role': data.cong_role,
-      'user_settings.lastname': data.lastname,
-      'user_settings.firstname': data.firstname,
-    });
+    if (app_settings) {
+      await dbAppSettingsUpdate({
+        'user_settings.account_type': 'vip',
+        'user_settings.lastname': app_settings.user_settings.lastname,
+        'user_settings.firstname': app_settings.user_settings.firstname,
+      });
+    }
 
     if (nextStep.isVerifyMFA) {
-      setCurrentMFAStage('verify');
-      setUserMfaVerify(true);
+      setTokenDev(code);
+      setIsUserSignIn(false);
       setIsCongAccountCreate(false);
       setIsUnauthorizedRole(false);
+      setUserMfaVerify(true);
     }
 
     if (nextStep.createCongregation) {
@@ -106,6 +118,43 @@ const useButtonBase = ({ provider, isEmail }) => {
     }
 
     if (nextStep.encryption) {
+      const midweekMeeting = structuredClone(
+        settings.cong_settings.midweek_meeting
+      );
+
+      for (const midweekRemote of app_settings.cong_settings.midweek_meeting) {
+        const midweekLocal = midweekMeeting.find(
+          (record) => record.type === midweekRemote.type
+        );
+
+        midweekLocal.time = midweekRemote.time;
+        midweekLocal.weekday = midweekRemote.weekday;
+      }
+
+      const weekendMeeting = structuredClone(
+        settings.cong_settings.weekend_meeting
+      );
+
+      for (const weekendRemote of app_settings.cong_settings.weekend_meeting) {
+        const weekendLocal = weekendMeeting.find(
+          (record) => record.type === weekendRemote.type
+        );
+
+        weekendLocal.time = weekendRemote.time;
+        weekendLocal.weekday = weekendRemote.weekday;
+      }
+
+      await dbAppSettingsUpdate({
+        'cong_settings.country_code': app_settings.cong_settings.country_code,
+        'cong_settings.cong_name': app_settings.cong_settings.cong_name,
+        'cong_settings.cong_number': app_settings.cong_settings.cong_number,
+        'user_settings.cong_role': app_settings.user_settings.cong_role,
+        'cong_settings.cong_location': app_settings.cong_settings.cong_location,
+        'cong_settings.cong_circuit': app_settings.cong_settings.cong_circuit,
+        'cong_settings.midweek_meeting': midweekMeeting,
+        'cong_settings.weekend_meeting': weekendMeeting,
+      });
+
       setIsUserSignIn(false);
       setIsEncryptionCodeOpen(true);
     }
@@ -122,12 +171,14 @@ const useButtonBase = ({ provider, isEmail }) => {
       if (isAuthProcessing) return;
 
       hideMessage();
+
       await setAuthPersistence();
       const result = await userSignInPopup(provider);
 
       if (!result) return;
 
       setIsAuthProcessing(true);
+
       const { status, data } = await apiSendAuthorization();
 
       if (status !== 200) {

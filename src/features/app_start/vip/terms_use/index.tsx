@@ -1,62 +1,25 @@
-import { Box, Dialog } from '@mui/material';
-import {
-  IconDownload,
-  IconHelp,
-  IconLock,
-  IconManageAccess,
-} from '@icons/index';
-import Button from '@components/button';
-import Checkbox from '@components/checkbox';
-import TextMarkup from '@components/text_markup';
-import Typography from '@components/typography';
+import { Box, Stack } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
 import useTermsUse from './useTermsUse';
-
-const itemQuestion = {
-  display: 'flex',
-  gap: '8px',
-  alignItems: 'center',
-};
+import Button from '@components/button';
+import Checkbox from '@components/checkbox';
+import Dialog from '../../../../components/dialog';
+import TextMarkup from '@components/text_markup';
+import Typography from '@components/typography';
 
 const TermsUse = () => {
   const { t } = useAppTranslation();
-  const { handleTermsUse, readComplete, setReadComplete, showTermsUse } =
-    useTermsUse();
+
+  const {
+    handleTermsUse,
+    readComplete,
+    setReadComplete,
+    handleRejectTerms,
+    cookiesConsent,
+  } = useTermsUse();
 
   return (
-    <Dialog
-      fullWidth={true}
-      maxWidth={false}
-      open={showTermsUse}
-      sx={{
-        maxWidth: '993px',
-        width: '100%',
-        margin: 'auto',
-        '.MuiBackdrop-root': {
-          backgroundColor: 'var(--accent-dark-overlay)',
-          opacity: '0.48 !important',
-        },
-        '.MuiDialog-paper': {
-          width: '100%',
-          maxWidth: '100%',
-          margin: '12px',
-          maxHeight: 'calc(100vh - 115px)',
-          borderRadius: {
-            mobile: 'var(--radius-xl)',
-            laptop: 'var(--radius-xxl)',
-          },
-          background: 'var(--white)',
-          padding: {
-            mobile: '24px 16px',
-            tablet: '24px 16px 24px 24px',
-            laptop: '48px 19px 48px 48px',
-          },
-        },
-      }}
-      PaperProps={{
-        className: 'pop-up-shadow',
-      }}
-    >
+    <Dialog open={!cookiesConsent} onClose={null}>
       <Box
         sx={{
           display: 'flex',
@@ -65,93 +28,72 @@ const TermsUse = () => {
           gap: '16px',
         }}
       >
-        <Typography className="h1">{t('tr_importantNotice')}</Typography>
+        <Typography className="h1">
+          {t('tr_appFunctionalityDataPrivacy')}
+        </Typography>
 
-        <Box sx={itemQuestion}>
-          <IconHelp color="var(--black)" />
-          <Typography className="h3">{t('tr_whatIsApp')}</Typography>
-        </Box>
+        <TextMarkup className="body-regular" content={t('tr_appIntro')} />
 
-        <TextMarkup
-          className="body-small-regular"
-          color="var(--grey-400)"
-          content={t('tr_descApp')}
-        />
-
-        <Box sx={itemQuestion}>
-          <IconDownload color="var(--black)" />
-          <Typography className="h3">{t('tr_appPWA')}</Typography>
-        </Box>
-
-        <TextMarkup
-          className="body-small-regular"
-          color="var(--grey-400)"
-          content={t('tr_appPWADesc')}
-        />
-
-        <Box sx={itemQuestion}>
-          <IconManageAccess color="var(--black)" />
-          <Typography className="h3">{t('tr_appSecure')}</Typography>
-        </Box>
-
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        <Box
+          sx={{
+            backgroundColor: 'var(--orange-secondary)',
+            borderRadius: 'var(--radius-s)',
+            padding: '16px',
+          }}
+        >
           <TextMarkup
-            className="body-small-regular"
-            color="var(--grey-400)"
-            content={t('tr_appSecureDesc')}
+            color="var(--orange-dark)"
+            className="body-regular"
+            content={t('tr_clearBrowserData')}
           />
-
-          <Box
-            sx={{
-              flex: '1 0 0',
-              padding: '8px',
-              borderRadius: 'var(--radius-s)',
-              background: 'var(--red-secondary)',
-            }}
-          >
-            <TextMarkup
-              className="body-small-regular"
-              color="var(--red-main)"
-              content={t('tr_clearBrowserData')}
-            />
-          </Box>
         </Box>
 
-        <Box sx={itemQuestion}>
-          <IconLock color="var(--black)" />
-          <Typography className="h3">{t('tr_appPrivacy')}</Typography>
-        </Box>
+        <Typography className="h3">{t('tr_privacySecurityTitle')}</Typography>
 
         <TextMarkup
-          className="body-small-regular"
-          color="var(--grey-400)"
-          content={t('tr_appPrivacyDesc')}
+          className="body-regular"
+          anchorClassName="h4"
+          content={t('tr_privacySecurityDesc')}
+        />
+
+        <Typography className="h3">{t('tr_dataManagementTitle')}</Typography>
+
+        <TextMarkup
+          className="body-regular"
+          anchorClassName="h4"
+          content={t('tr_dataManagementDesc')}
         />
 
         <Checkbox
           checked={readComplete}
           onChange={(e) => setReadComplete(e.target.checked)}
-          label={t('tr_readComplete')}
+          label={
+            <TextMarkup
+              className="body-regular"
+              anchorClassName="h4"
+              content={t('tr_readComplete')}
+            />
+          }
         />
 
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            flexWrap: 'wrap',
-            gap: '10px',
-            width: '100%',
-          }}
-        >
+        <Stack spacing="8px" width="100%">
           <Button
             variant="main"
             disabled={!readComplete}
             onClick={handleTermsUse}
-            sx={{ flex: '1 0 0' }}
+            sx={{ flex: 1 }}
           >
             {t('tr_next')}
           </Button>
-        </Box>
+
+          <Button
+            variant="secondary"
+            onClick={handleRejectTerms}
+            sx={{ flex: 1 }}
+          >
+            {t('tr_cancel')}
+          </Button>
+        </Stack>
       </Box>
     </Dialog>
   );

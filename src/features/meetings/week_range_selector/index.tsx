@@ -30,7 +30,7 @@ const WeekRangeSelector = ({
       <Select
         label={t('tr_startWeek')}
         defaultValue=""
-        onChange={(e) => handleStartWeekChange(e.target.value)}
+        onChange={(e) => handleStartWeekChange(e.target.value as string)}
       >
         {startWeekOptions.map((option) => (
           <MenuItem key={option.value} value={option.value}>
@@ -44,7 +44,7 @@ const WeekRangeSelector = ({
       <Select
         label={t('tr_endWeek')}
         defaultValue=""
-        onChange={(e) => onEndChange?.(e.target.value)}
+        onChange={(e) => onEndChange?.(e.target.value as string)}
       >
         {endWeekOptions.map((option) => (
           <MenuItem key={option.value} value={option.value}>

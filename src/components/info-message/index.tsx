@@ -1,16 +1,16 @@
 import { Box, IconButton } from '@mui/material';
+import { IconClose } from '@icons/index';
+import { InfoMessagePropsType } from './index.types';
 import Button from '@components/button';
 import TextMarkup from '@components/text_markup';
 import Typography from '@components/typography';
-import { IconClose } from '@icons/index';
-import { InfoMessagePropsType } from './index.types';
 
 /**
  * Custom component for displaying information messages.
  * @param props The props for the CustomInfoMessage component.
  * @returns JSX element for the CustomInfoMessage component.
  */
-const CustomInfoMessage = (props: InfoMessagePropsType) => {
+const InfoMessage = (props: InfoMessagePropsType) => {
   const messageHeader = props.messageHeader || '';
   const message = props.message || '';
   const variant = props.variant || 'message-with-button';
@@ -120,4 +120,4 @@ const CustomInfoMessage = (props: InfoMessagePropsType) => {
   );
 };
 
-export default CustomInfoMessage;
+export default InfoMessage;

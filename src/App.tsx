@@ -45,6 +45,10 @@ const CongregationSettings = lazy(() => import('@pages/congregation/settings'));
 const UpcomingEvents = lazy(
   () => import('@pages/congregation/upcoming_events')
 );
+const Applications = lazy(() => import('@pages/persons/applications'));
+const ApplicationDetails = lazy(
+  () => import('@pages/persons/application_details')
+);
 
 const queryClient = new QueryClient();
 
@@ -72,6 +76,11 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
             },
             { path: '/persons/:id', element: <PersonDetails /> },
             { path: '/persons/new', element: <PersonDetails /> },
+            { path: '/pioneer-applications', element: <Applications /> },
+            {
+              path: '/pioneer-applications/:id',
+              element: <ApplicationDetails />,
+            },
             { path: '/user-profile', element: <MyProfile /> },
             { path: '/public-talks-list', element: <PublicTalksList /> },
             { path: '/ministry-report', element: <MinistryReport /> },
