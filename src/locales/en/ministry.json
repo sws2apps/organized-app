@@ -114,7 +114,6 @@
   "tr_specialMonths": "Special months",
   "tr_specialMonthsDesc": "List of months where auxiliary pioneers can report 15 hours",
   "tr_reportHoursCredit": "Report credit hours",
-  "tr_averageMonthlyHourss": "Average monthly",
   "tr_bibleStudiesNotice": "Report one study per student each month",
   "tr_presets": "Presets",
   "tr_hoursCreditPresetAddedInfo": "The chosen credit hours preset will appear in the monthly report's comment field. Edit it there if needed.",
@@ -130,5 +129,6 @@
   "tr_specificPublisherRecords": "Specific publishers",
   "tr_S21ExportMultipleDesc": "Select the publishers you want to include in the exported records. Each publisher will be included in a separate file.",
   "tr_activePublishersAll": "All other publishers",
-  "tr_markAsVerified": "Mark as verified"
+  "tr_markAsVerified": "Mark as verified",
+  "tr_averageMonthlyHours": "Average monthly"
 }

@@ -286,7 +286,7 @@
   "tr_averageAttendanceWM": "Genomsnittlig närvaro på helgmöten",
   "tr_numberReports": "Antal rapporter",
   "tr_filters": "Filter",
-  "tr_markToBranchOffice": "Märk rapport som skickad till kontoret",
+  "tr_markToBranchOffice": "Märk rapport som skickad till avdelningskontoret",
   "tr_markToBranchOfficeDesc": "Du är på väg att markera den här rapporten som skickad till avdelningskontoret. Är du säker på att du vill fortsätta?",
   "tr_markAsSubmitted": "Märk som skickad",
   "tr_undoSubmission": "Ångra skickandet",
@@ -437,7 +437,7 @@
   "tr_myGroup": "Min grupp",
   "tr_publishers": "Förkunnare",
   "tr_enableCongregationDataSync": "Aktivera synkronisering av församlingsdata",
-  "tr_enableCongregationDataSyncDesc": "Det här alternativet gör det möjligt för din församling att dela Organized-data. Det kommer också att vara möjligt att synkronisera data mellan flera enheter.",
+  "tr_enableCongregationDataSyncDesc": "Den här funktionen synkroniserar data såsom scheman med andra användare i din församling och tillåter användning av appen på flera enheter samtidigt.",
   "tr_applicationRejected": "Pionjäransökan nekad",
   "tr_applicationRejectedDesc": "Denna ansökan har nekats. Informera förkunnaren om dess status."
 }

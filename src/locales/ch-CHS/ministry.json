@@ -114,7 +114,6 @@
   "tr_specialMonths": "特殊月份",
   "tr_specialMonthsDesc": "辅助先驱可报告 15 小时的特殊月份列表",
   "tr_reportHoursCredit": "报告减免时间",
-  "tr_averageMonthlyHourss": "月均时间",
   "tr_bibleStudiesNotice": "每月为每个学生报告一个圣经课程",
   "tr_presets": "预设",
   "tr_hoursCreditPresetAddedInfo": "选择的减免时间预设将显示在月度报告的备注字段中。如有需要，请在那里进行编辑。",
@@ -129,5 +128,6 @@
   "tr_allPublisherRecords": "所有传道员",
   "tr_specificPublisherRecords": "特定传道员",
   "tr_S21ExportMultipleDesc": "选择要包含在导出记录中的传道员。每个传道员将包含在一个单独的文件中。",
-  "tr_activePublishersAll": "所有其他传道员"
+  "tr_activePublishersAll": "所有其他传道员",
+  "tr_averageMonthlyHours": "月均时间"
 }

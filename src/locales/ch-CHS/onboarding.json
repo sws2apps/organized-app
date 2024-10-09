@@ -7,10 +7,10 @@
   "tr_appPWADesc": "<p>作为渐进式 Web 应用程序（PWA），Organized 直接在您的 Web 浏览器中运行。它设计为跨多个操作系统运行，因此支持桌面和移动设备。</p><p>一旦安装在您的设备上并完成初始设置后，Organized 将保持脱机可访问，确保您可以在没有互联网连接的情况下使用其主要功能。</p>",
   "tr_appSecure": "在使用 Organized 时，数据有多安全？",
   "tr_appSecureDesc": "<p>我们为保护您的数据增加了额外的安全层。在快速变化的技术世界中，我们定期更新 Organized 以确保其完全安全。</p><p>尽管 Organized 是一个 Web 应用程序，您的数据首先存储在您的设备上，这意味着即使在脱机时，您也可以访问它。如果您与会众中的其他人共享信息，它将通过云服务器安全同步。此外，我们确保通过双重加密等强大的安全措施保护所有私密数据。</p>",
-  "tr_clearBrowserData": "<p>Clearing your browser history or cookies will also delete any unsynchronized Organized data. Please ensure your data is synced before doing this.</p>",
+  "tr_clearBrowserData": "<p>请注意：清除浏览器历史记录或 cookies 时，未同步的 Organized 数据也会被删除。因此，在执行清除操作前，请确保您最近创建的数据已完全同步。</p>",
   "tr_appPrivacy": "Organized 如何处理您的隐私？",
   "tr_appPrivacyDesc": "<p>当您选择使用我们的 Organized 应用程序时，我们只会收集基本信息，如您的姓名和电子邮件地址。此外，我们还会收集您的设备 IP 地址和设备用户代理的详细信息，以改善您使用应用程序的体验。</p><p>请放心，我们优先考虑您的隐私。我们绝不会允许广告公司通过我们的服务跟踪您，或使用您的数据进行定向广告。您在 Organized 应用程序中提供的任何信息都将严格保密，绝不会与外部方共享。</p>",
-  "tr_readComplete": "I accept the <a href='https://sws2apps.com/terms/' title='Terms of Use' target='_blank' rel='noopener'>Terms of Use</a> and <a href='https://sws2apps.com/privacy/' title='Privacy Policy' target='_blank' rel='noopener'>Privacy Policy</a> and consent to the processing of my personal data as described.",
+  "tr_readComplete": "我接受<a href='https://sws2apps.com/terms/' title='使用条款' target='_blank' rel='noopener'>使用条款</a>和<a href='https://sws2apps.com/privacy/' title='隐私政策' target='_blank' rel='noopener'>隐私政策</a>，并同意按照描述处理我的个人数据。",
   "tr_email": "电子邮件",
   "tr_accountCreated": "您的 Organized 帐户已创建。通知您的会众管理员授予您必要的权限，然后刷新页面。",
   "tr_createCongregationAccount": "创建会众",
@@ -111,6 +111,6 @@
   "tr_privacySecurityDesc": "<p>Organized 应用程序在隐私和数据安全方面优先考虑。我们的 <a href='https://sws2apps.com/terms' target='_blank' rel='noopener'>使用条款</a> 和 <a href='https://sws2apps.com/privacy' target='_blank' rel='noopener'>隐私政策</a> 中提供了详细信息。以下是我们数据存储和安全方法的简要概述：</p><ul><li><strong>本地存储，云同步：</strong>您的数据本地存储在设备中，确保强大的安全性和离线访问。如果长老启用同步，数据将在我们安全的云服务器上进行端到端加密保护。</li><li><strong>数据安全：</strong>我们使用先进的安全措施，如加密和应用内保护，以确保您的数据安全。我们还遵循 GDPR 规定，包括使用位于欧盟的服务器，并且仅在获得同意后才收集用户数据，同时提供请求、更新或删除数据的选项。</li><li><strong>数据收集：</strong>我们只收集基本信息——姓名、电子邮件、IP 地址和设备信息，用于登录、安全和应用功能。我们无法访问您应用内的数据；所有信息都仅由您会众中的长老或授权的弟兄输入。</li><li><strong>我们绝不分享您的数据：</strong>您的数据仅属于您，我们绝不会将其与任何第三方公司共享用于营销或广告目的。</li></ul>",
   "tr_dataManagementTitle": "数据管理",
   "tr_dataManagementDesc": "<p>您可以在个人资料设置中访问、修正、删除或导出您的数据，或者通过联系 <a href='mailto:support@organized-app.com'>support@organized-app.com</a> 与我们联系。您可以随时通过删除帐户来撤回您的同意。Organized 仅收集应用功能所需的基本数据和 Cookie。您会众的长老输入的数据不由我们管理。您的数据（姓名、电子邮件、IP 地址、设备 ID）仅在应用使用所需的时间内保留，直到您的帐户被删除，或法律要求的时间为止。</p>",
-  "tr_mfaVerifyTitle": "Let’s make sure it is you",
-  "tr_mfaVerifyDesc": "Enter a code from your authenticator app"
+  "tr_mfaVerifyTitle": "让我们确认是您本人",
+  "tr_mfaVerifyDesc": "从您的身份验证器应用中输入代码"
 }
