@@ -5,7 +5,7 @@ import VipStartup from '@features/app_start/vip/startup';
 import StartupIllustration from '../illustration';
 import UnauthorizedRole from '../unauthorized_role';
 import useStartup from './useStartup';
-import Organized3DLoader from '@components/lottie_loader';
+import WaitingLoader from '@components/waiting_loader';
 
 const Startup = () => {
   const { isSetup, isAuth, isAccountChoose, accountType, isUnauthorizedRole } =
@@ -14,7 +14,7 @@ const Startup = () => {
   if (isSetup) {
     return (
       <>
-        {isAuth && <Organized3DLoader width={72} height={72} />}
+        {isAuth && <WaitingLoader />}
         {!isAuth && (
           <Box
             sx={{
@@ -62,7 +62,7 @@ const Startup = () => {
     );
   }
 
-  return <Organized3DLoader width={72} height={72} />;
+  return <WaitingLoader />;
 };
 
 export default Startup;
