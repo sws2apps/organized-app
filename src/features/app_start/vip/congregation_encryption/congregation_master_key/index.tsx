@@ -4,7 +4,7 @@ import Button from '@components/button';
 import InfoMessage from '@components/info-message';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
-import WaitingCircular from '@components/waiting_circular';
+import WaitingLoader from '@components/waiting_loader';
 import Criteria from './criteria';
 import { IconEncryptionKey, IconError, IconLoading } from '@icons/index';
 import { useAppTranslation } from '@hooks/index';
@@ -46,7 +46,7 @@ const CongregationEncryption = () => {
         gap: '24px',
       }}
     >
-      {isLoading && <WaitingCircular variant="standard" />}
+      {isLoading && <WaitingLoader variant="standard" />}
       {!isLoading && (
         <>
           <Box

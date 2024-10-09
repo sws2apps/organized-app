@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useQueryClient } from '@tanstack/react-query';
 import randomString from '@smakss/random-string';
 import { useAppTranslation } from '@hooks/index';
@@ -27,6 +27,8 @@ import {
 } from '@services/api/congregation';
 import { decryptData, encryptData } from '@services/encryption';
 import { isEmailValid } from '@services/validator';
+import { APICongregationUserType } from '@definition/api';
+import { congregationUsersState } from '@states/app';
 
 const usePersonSelect = ({
   onSetStep,
@@ -36,6 +38,8 @@ const usePersonSelect = ({
   const { t } = useAppTranslation();
 
   const queryClient = useQueryClient();
+
+  const setUsers = useSetRecoilState(congregationUsersState);
 
   const personsDb = useRecoilValue(personsState);
   const personsActive = useRecoilValue(personsActiveState);
@@ -152,7 +156,14 @@ const usePersonSelect = ({
         onSetStep();
       }
 
+      await queryClient.invalidateQueries({ queryKey: ['congregation_users'] });
       await queryClient.refetchQueries({ queryKey: ['congregation_users'] });
+
+      const data: APICongregationUserType = queryClient.getQueryData([
+        'congregation_users',
+      ]);
+
+      setUsers(data?.users || []);
     } catch (error) {
       console.error(error);
 

@@ -46,7 +46,7 @@ const CongregationInfoEdit = ({ cong_number }: CongregationInfoEditType) => {
         label={t('tr_congregationName')}
         value={name}
         onChange={(e) => handleNameChange(e.target.value)}
-        InputProps={{ readOnly: cong_synced }}
+        slotProps={{ input: { readOnly: cong_synced } }}
       />
 
       <Box
@@ -61,13 +61,13 @@ const CongregationInfoEdit = ({ cong_number }: CongregationInfoEditType) => {
           label={t('tr_number')}
           value={number}
           onChange={(e) => handleNumberChange(e.target.value)}
-          InputProps={{ readOnly: cong_synced }}
+          slotProps={{ input: { readOnly: cong_synced } }}
         />
         <TextField
           label={t('tr_circuitNumber')}
           value={circuit}
           onChange={(e) => handleCircuitChange(e.target.value)}
-          InputProps={{ readOnly: cong_synced }}
+          slotProps={{ input: { readOnly: cong_synced } }}
         />
       </Box>
 
@@ -83,20 +83,20 @@ const CongregationInfoEdit = ({ cong_number }: CongregationInfoEditType) => {
 
       <MeetingTime
         label={t('tr_midweekMeeting')}
-        weekday={congregation.cong_data.midweek_meeting.weekday.value}
+        weekday={congregation!.cong_data.midweek_meeting.weekday.value}
         onWeekdayChange={handleMidweekWeekdayChange}
         time={generateDateFromTime(
-          congregation.cong_data.midweek_meeting.time.value
+          congregation!.cong_data.midweek_meeting.time.value
         )}
         onTimeChange={handleMidweekTimeChange}
       />
 
       <MeetingTime
         label={t('tr_weekendMeeting')}
-        weekday={congregation.cong_data.weekend_meeting.weekday.value}
+        weekday={congregation!.cong_data.weekend_meeting.weekday.value}
         onWeekdayChange={handleWeekendWeekdayChange}
         time={generateDateFromTime(
-          congregation.cong_data.weekend_meeting.time.value
+          congregation!.cong_data.weekend_meeting.time.value
         )}
         onTimeChange={handleWeekendTimeChange}
       />

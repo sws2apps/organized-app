@@ -1,11 +1,13 @@
 import { useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { userLocalUIDState } from '@states/settings';
 import { GroupHeaderProps } from './index.types';
 
 const useHeader = ({ group, index }: GroupHeaderProps) => {
   const { t } = useAppTranslation();
+
+  const { isServiceCommittee } = useCurrentUser();
 
   const userUID = useRecoilValue(userLocalUIDState);
 
@@ -65,6 +67,7 @@ const useHeader = ({ group, index }: GroupHeaderProps) => {
     handleCloseDialog,
     handleOpenDelete,
     type,
+    isServiceCommittee,
   };
 };
 

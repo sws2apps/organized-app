@@ -7,7 +7,7 @@ import {
   encryptedMasterKeyState,
   speakersKeyState,
 } from '@states/app';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { NotificationRecordType } from '@definition/notification';
 import { notificationsState } from '@states/notification';
 import { apiGetCongregationUpdates } from '@services/api/congregation';
@@ -28,10 +28,13 @@ import { getMessageByCode } from '@services/i18n/translation';
 import { dbSpeakersCongregationsUpdate } from '@services/dexie/speakers_congregations';
 import { applicationsState } from '@states/persons';
 import { handleDeleteDatabase } from '@services/app';
+import { dbHandleIncomingReports } from '@services/dexie/cong_field_service_reports';
 import usePendingRequests from './usePendingRequests';
 
 const useContainer = () => {
   const { t } = useAppTranslation();
+
+  const { isAdmin } = useCurrentUser();
 
   const { updatePendingRequestsNotification } = usePendingRequests();
 
@@ -50,11 +53,12 @@ const useContainer = () => {
   const congMasterKey = useRecoilValue(congMasterKeyState);
   const congAccessCode = useRecoilValue(congAccessCodeState);
 
-  const { isLoading, data } = useQuery({
-    enabled: congAccountConnected,
+  const { data, isPending } = useQuery({
+    enabled: congAccountConnected && isAdmin,
     queryKey: ['congregation_updates'],
     queryFn: apiGetCongregationUpdates,
     refetchInterval: 60 * 1000,
+    refetchOnWindowFocus: 'always',
   });
 
   const indices = Array.from({ length: notifications.length }, (_, i) => i);
@@ -280,8 +284,35 @@ const useContainer = () => {
     }
   }, [data]);
 
+  const handleIncomingReports = useCallback(async () => {
+    try {
+      const incoming = data?.result?.incoming_reports;
+
+      if (!incoming) return;
+
+      const remoteAccessCode = data.result.cong_access_code;
+      const accessCode = decryptData(remoteAccessCode, congAccessCode);
+
+      const reports = incoming.map((record) => {
+        const report = structuredClone(record);
+        decryptObject({ data: report, table: 'incoming_reports', accessCode });
+        return report;
+      });
+
+      dbHandleIncomingReports(reports);
+    } catch (err) {
+      console.error(err);
+
+      await displaySnackNotification({
+        header: t('tr_errorTitle'),
+        message: getMessageByCode(err.message),
+        severity: 'error',
+      });
+    }
+  }, [t, data, congAccessCode]);
+
   useEffect(() => {
-    if (!isLoading) {
+    if (!isPending) {
       handleUnauthorized();
 
       handlePendingSpeakersRequests();
@@ -291,14 +322,17 @@ const useContainer = () => {
       handleRejectedRequests();
 
       handleApplications();
+
+      handleIncomingReports();
     }
   }, [
-    isLoading,
+    isPending,
     handleUnauthorized,
     handlePendingSpeakersRequests,
     handleRemoteCongregations,
     handleRejectedRequests,
     handleApplications,
+    handleIncomingReports,
   ]);
 
   useEffect(() => {

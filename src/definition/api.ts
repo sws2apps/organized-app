@@ -1,5 +1,5 @@
 import { AppRoleType } from './app';
-import { APRecordType } from './ministry';
+import { APRecordType, IncomingReport } from './ministry';
 
 export type CongregationResponseType = {
   address: string;
@@ -86,6 +86,7 @@ export type UserLoginResponseType = {
       mfa: 'not_enabled' | 'enabled';
       user_local_uid?: string;
       cong_role?: AppRoleType[];
+      user_members_delegate?: string[];
     };
     cong_settings?: {
       id: string;
@@ -199,6 +200,7 @@ export type CongregationUpdatesResponseType = {
     remote_congregations?: RemoteCongregationType[];
     rejected_requests?: RemoteCongregationType[];
     applications?: APRecordType[];
+    incoming_reports?: IncomingReport[];
   };
 };
 

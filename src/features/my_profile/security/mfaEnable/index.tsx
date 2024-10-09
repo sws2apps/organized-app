@@ -133,7 +133,7 @@ const MFAEnable = ({ open, onClose }: MFAEnableType) => {
                       <TextField
                         label={t('tr_2FASetupKey')}
                         value={token}
-                        InputProps={{ readOnly: true }}
+                        slotProps={{ input: { readOnly: true } }}
                         endIcon={
                           <IconButton
                             sx={{ padding: 0 }}
@@ -200,7 +200,7 @@ const MFAEnable = ({ open, onClose }: MFAEnableType) => {
               endIcon={
                 isProcessing ? (
                   <IconLoading width={22} height={22} color="var(--black)" />
-                ) : null
+                ) : undefined
               }
             >
               {t('tr_verify')}

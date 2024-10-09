@@ -85,7 +85,6 @@ export const sourceSchema: SourceWeekType = {
 
 export const scheduleSchema: SchedWeekType = {
   weekOf: '',
-  released: [{ type: 'main', value: false, updatedAt: '' }],
   midweek_meeting: {
     chairman: {
       main_hall: [{ type: 'main', value: '', name: '', updatedAt: '' }],

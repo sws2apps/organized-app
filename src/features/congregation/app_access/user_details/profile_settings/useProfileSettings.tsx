@@ -7,15 +7,18 @@ import { fullnameOptionState } from '@states/settings';
 import { displaySnackNotification } from '@services/recoil/app';
 import { useAppTranslation } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
-import {
-  personIsBaptizedPublisher,
-  personIsMidweekStudent,
-  personIsUnbaptizedPublisher,
-} from '@services/app/persons';
 import useUserDetails from '../useUserDetails';
+import usePerson from '@features/persons/hooks/usePerson';
 
 const useProfileSettings = () => {
   const { t } = useAppTranslation();
+
+  const {
+    personIsBaptizedPublisher,
+    personIsMidweekStudent,
+    personIsUnbaptizedPublisher,
+    personIsPrivilegeActive,
+  } = usePerson();
 
   const { handleSaveDetails, user } = useUserDetails();
 
@@ -51,26 +54,38 @@ const useProfileSettings = () => {
       const newUser = structuredClone(user);
       newUser.profile.user_local_uid = value.person_uid;
 
-      if (
-        newUser.profile.cong_role.includes('admin') &&
-        newUser.profile.cong_role.length === 1
-      ) {
-        const person = personsActive.find(
-          (record) => record.person_uid === value.person_uid
-        );
+      const userRole = newUser.profile.cong_role;
 
-        if (personIsMidweekStudent(person)) {
-          newUser.profile.cong_role.push('view_schedules');
-        }
+      const person = personsActive.find(
+        (record) => record.person_uid === value.person_uid
+      );
 
-        const isPublisher =
-          personIsBaptizedPublisher(person) ||
-          personIsUnbaptizedPublisher(person);
+      const isMidweekStudent = personIsMidweekStudent(person);
 
-        if (isPublisher) {
-          newUser.profile.cong_role.push('publisher', 'view_schedules');
-        }
+      const isPublisher =
+        personIsBaptizedPublisher(person) ||
+        personIsUnbaptizedPublisher(person);
+
+      const isElder = personIsPrivilegeActive(person, 'elder');
+      const isMS = personIsPrivilegeActive(person, 'ms');
+
+      if (isMidweekStudent || isPublisher) {
+        userRole.push('view_schedules');
       }
+
+      if (isPublisher) {
+        userRole.push('publisher');
+      }
+
+      if (isElder) {
+        userRole.push('elder');
+      }
+
+      if (isMS) {
+        userRole.push('ms');
+      }
+
+      newUser.profile.cong_role = Array.from(new Set(userRole));
 
       await handleSaveDetails(newUser);
     } catch (error) {

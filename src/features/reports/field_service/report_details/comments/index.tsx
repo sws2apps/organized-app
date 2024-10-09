@@ -10,7 +10,7 @@ const Comments = ({ person }: CommentsProps) => {
 
   return (
     <TextField
-      InputProps={{ readOnly }}
+    slotProps={{ input: { readOnly } }}
       placeholder={t('tr_comments')}
       multiline
       rows={2}

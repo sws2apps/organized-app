@@ -26,8 +26,9 @@ const useUserDetails = () => {
   const settings = useRecoilValue(settingsState);
 
   const refetchUser = () => {
-    const congregation_users: APICongregationUserType =
-      queryClient.getQueryData(['congregation_users']);
+    const congregation_users = queryClient.getQueryData([
+      'congregation_users',
+    ]) as APICongregationUserType;
 
     const user = congregation_users.users.find((record) => record.id === id);
 
@@ -43,7 +44,7 @@ const useUserDetails = () => {
     try {
       const { status, message } = await apiCongregationUserUpdate({
         user_id: user.id,
-        cong_person_uid: user.profile.user_local_uid,
+        cong_person_uid: user.profile.user_local_uid || '',
         cong_person_delegates: user.profile.user_members_delegate,
         cong_role: user.profile.cong_role,
         user_secret_code: code,
@@ -56,7 +57,7 @@ const useUserDetails = () => {
       // update local record
       if (userID === id) {
         await dbAppSettingsUpdate({
-          'user_settings.user_local_uid': user.profile.user_local_uid,
+          'user_settings.user_local_uid': user.profile.user_local_uid || '',
           'user_settings.user_members_delegate':
             user.profile.user_members_delegate,
           'user_settings.cong_role': user.profile.cong_role,
@@ -67,9 +68,9 @@ const useUserDetails = () => {
       await queryClient.refetchQueries({ queryKey: ['congregation_users'] });
 
       // update congregation responsabilties
-      const data: APICongregationUserType = queryClient.getQueryData([
+      const data = queryClient.getQueryData([
         'congregation_users',
-      ]);
+      ]) as APICongregationUserType;
 
       const users = data.users;
 
@@ -133,28 +134,26 @@ const useUserDetails = () => {
 
       refetchUser();
     } catch (error) {
-      throw new Error(error?.message);
+      throw new Error((error as Error).message);
     }
   };
 
   const handleTerminateSession = async (identifier: string) => {
     try {
-      if (user.profile.global_role === 'vip') {
-        const result = await apiAdminRevokeUserSession(user.id, identifier);
+      const result = await apiAdminRevokeUserSession(user.id, identifier);
 
-        if (result.status !== 200) {
-          throw new Error(result.data.message);
-        }
-
-        await queryClient.invalidateQueries({
-          queryKey: ['congregation_users'],
-        });
-        await queryClient.refetchQueries({ queryKey: ['congregation_users'] });
+      if (result.status !== 200) {
+        throw new Error(result.data.message);
       }
+
+      await queryClient.invalidateQueries({
+        queryKey: ['congregation_users'],
+      });
+      await queryClient.refetchQueries({ queryKey: ['congregation_users'] });
 
       refetchUser();
     } catch (error) {
-      throw new Error(error.message);
+      throw new Error((error as Error).message);
     }
   };
 

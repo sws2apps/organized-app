@@ -77,7 +77,7 @@ export const APP_ROLES = [
   'elder',
   'ms',
   'publisher',
-  'view_meeting_schedule',
+  'view_schedules',
 ];
 
 export const VIP_ROLES = [

@@ -6,24 +6,28 @@ import {
   IconSettings,
   IconSynced,
 } from '@icons/index';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import useCongregation from './useCongregation';
 
 const CongregationCard = () => {
   const { t } = useAppTranslation();
+
+  const { isPublisher, isAdmin, isAppointed } = useCurrentUser();
 
   const { secondaryText, handleManualSync, isConnected, isUserAdmin } =
     useCongregation();
 
   return (
     <DashboardCard header={t('tr_congregation')}>
-      <ListItem disablePadding>
-        <DashboardMenu
-          icon={<IconGroups color="var(--black)" />}
-          primaryText={t('tr_fieldServiceGroups')}
-          path="/field-service-groups"
-        />
-      </ListItem>
+      {(isAdmin || isPublisher) && (
+        <ListItem disablePadding>
+          <DashboardMenu
+            icon={<IconGroups color="var(--black)" />}
+            primaryText={t('tr_fieldServiceGroups')}
+            path="/field-service-groups"
+          />
+        </ListItem>
+      )}
 
       {isConnected && isUserAdmin && (
         <ListItem disablePadding>
@@ -35,13 +39,15 @@ const CongregationCard = () => {
         </ListItem>
       )}
 
-      <ListItem disablePadding>
-        <DashboardMenu
-          path="/congregation-settings"
-          icon={<IconSettings color="var(--black)" />}
-          primaryText={t('tr_congregationSettings')}
-        />
-      </ListItem>
+      {(isAdmin || isAppointed) && (
+        <ListItem disablePadding>
+          <DashboardMenu
+            path="/congregation-settings"
+            icon={<IconSettings color="var(--black)" />}
+            primaryText={t('tr_congregationSettings')}
+          />
+        </ListItem>
+      )}
 
       {isConnected && (
         <ListItem disablePadding>

@@ -2,6 +2,13 @@
   "compilerOptions": {
     "jsx": "react",
     "skipLibCheck": true,
+    "esModuleInterop": true,
+    "moduleResolution": "Node",
+    "module": "ESNext",
+    "types": ["@svgx/vite-plugin-react", "node", "vite/client"],
+    "lib": ["ESNext", "DOM"],
+    "target": "ESNext",
+    "resolveJsonModule": true,
     "baseUrl": "./src",
     "paths": {
       "@mui/styled-engine": ["./node_modules/@mui/styled-engine-sc"],
@@ -24,13 +31,7 @@
       "@db/*": ["indexedDb/*"],
       "@talks/*": ["public_talks/*"],
       "@views/*": ["views/*"]
-    },
-    "esModuleInterop": true,
-    "moduleResolution": "Node",
-    "module": "ESNext",
-    "types": ["@svgx/vite-plugin-react", "node", "vite/client"],
-    "lib": ["ESNext", "DOM"],
-    "target": "ESNext"
+    }
   },
   "include": ["src/**/*", "types/**/*"]
 }

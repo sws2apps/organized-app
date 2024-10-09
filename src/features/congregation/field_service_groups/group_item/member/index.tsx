@@ -34,6 +34,7 @@ const GroupMember = (props: GroupMemberProps) => {
     handleOpenRemove,
     handlePersonRemove,
     removeOpen,
+    isServiceCommittee,
   } = useMember(props);
 
   return (
@@ -78,67 +79,74 @@ const GroupMember = (props: GroupMemberProps) => {
         </Stack>
       </Box>
 
-      <IconButton
-        onClick={handleOpenMenu}
-        sx={{ padding: 0, '&:hover': { backgroundColor: icon_hover_color } }}
-      >
-        <IconMore color="var(--grey-400)" />
-      </IconButton>
-
-      <Menu
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleCloseMenu}
-        sx={{
-          marginTop: '8px',
-          '& li': {
-            borderBottom: '1px solid var(--accent-200)',
-          },
-          '& li:last-child': {
-            borderBottom: 'none',
-          },
-        }}
-        slotProps={{
-          paper: {
-            className: 'small-card-shadow',
-            style: {
-              borderRadius: 'var(--radius-l)',
-              border: '1px solid var(--accent-200)',
-              backgroundColor: 'var(--white)',
-            },
-          },
-        }}
-      >
-        {make_overseer && (
-          <MenuItem
-            onClick={handleMakeOverseer}
-            sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+      {isServiceCommittee && (
+        <>
+          <IconButton
+            onClick={handleOpenMenu}
+            sx={{
+              padding: 0,
+              '&:hover': { backgroundColor: icon_hover_color },
+            }}
           >
-            <IconOverseer color="var(--black)" />
-            <Typography>{t('tr_makeOverseer')}</Typography>
-          </MenuItem>
-        )}
+            <IconMore color="var(--grey-400)" />
+          </IconButton>
 
-        {make_assistant && (
-          <MenuItem
-            onClick={handleMakeAssistant}
-            sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+          <Menu
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleCloseMenu}
+            sx={{
+              marginTop: '8px',
+              '& li': {
+                borderBottom: '1px solid var(--accent-200)',
+              },
+              '& li:last-child': {
+                borderBottom: 'none',
+              },
+            }}
+            slotProps={{
+              paper: {
+                className: 'small-card-shadow',
+                style: {
+                  borderRadius: 'var(--radius-l)',
+                  border: '1px solid var(--accent-200)',
+                  backgroundColor: 'var(--white)',
+                },
+              },
+            }}
           >
-            <IconAssistant color="var(--black)" />
-            <Typography>{t('tr_makeAssistant')}</Typography>
-          </MenuItem>
-        )}
+            {make_overseer && (
+              <MenuItem
+                onClick={handleMakeOverseer}
+                sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+              >
+                <IconOverseer color="var(--black)" />
+                <Typography>{t('tr_makeOverseer')}</Typography>
+              </MenuItem>
+            )}
 
-        <MenuItem
-          onClick={handleOpenRemove}
-          sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}
-        >
-          <IconRemovePerson color="var(--red-main)" />
-          <Typography color="var(--red-main)">
-            {t('tr_removeFromGroups')}
-          </Typography>
-        </MenuItem>
-      </Menu>
+            {make_assistant && (
+              <MenuItem
+                onClick={handleMakeAssistant}
+                sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+              >
+                <IconAssistant color="var(--black)" />
+                <Typography>{t('tr_makeAssistant')}</Typography>
+              </MenuItem>
+            )}
+
+            <MenuItem
+              onClick={handleOpenRemove}
+              sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+            >
+              <IconRemovePerson color="var(--red-main)" />
+              <Typography color="var(--red-main)">
+                {t('tr_removeFromGroups')}
+              </Typography>
+            </MenuItem>
+          </Menu>
+        </>
+      )}
     </Box>
   );
 };

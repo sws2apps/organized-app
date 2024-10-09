@@ -35,7 +35,7 @@ const Security = () => {
 
       <SettingWithBorderContainer>
         <SwitcherContainer>
-          <Switch checked={isMFAEnabled} onClick={handleToggleMFA} />
+          <Switch checked={isMFAEnabled} onChange={handleToggleMFA} />
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
             <Typography>{t('tr_2FA')}</Typography>
             <Typography className="label-small-regular" color="var(--grey-350)">

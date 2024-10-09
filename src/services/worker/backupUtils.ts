@@ -13,6 +13,9 @@ import { SpeakersCongregationsType } from '@definition/speakers_congregations';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
 import { decryptObject, encryptObject } from './backupEncryption';
 import { SettingsType } from '@definition/settings';
+import { SourceWeekType } from '@definition/sources';
+import { IncomingReport } from '@definition/ministry';
+import { FieldServiceGroupType } from '@definition/field_service_groups';
 
 const personIsElder = (person: PersonType) => {
   const hasActive = person?.person_data.privileges.find(
@@ -73,8 +76,14 @@ export const dbGetSettings = async () => {
 const dbGetTableData = async () => {
   const settings = await dbGetSettings();
   const persons = await appDb.persons.toArray();
+  const cong_field_service_reports =
+    await appDb.cong_field_service_reports.toArray();
+  const field_service_groups = await appDb.field_service_groups.toArray();
   const visiting_speakers = await appDb.visiting_speakers.toArray();
   const speakers_congregations = await appDb.speakers_congregations.toArray();
+  const user_bible_studies = await appDb.user_bible_studies.toArray();
+  const user_field_service_reports =
+    await appDb.user_field_service_reports.toArray();
 
   const congId = speakers_congregations.find(
     (record) =>
@@ -110,6 +119,10 @@ const dbGetTableData = async () => {
     outgoing_speakers,
     speakers_congregations,
     visiting_speakers,
+    user_bible_studies,
+    user_field_service_reports,
+    cong_field_service_reports,
+    field_service_groups,
   };
 };
 
@@ -330,6 +343,57 @@ const dbRestoreFromBackup = async (
   if (backupData.outgoing_talks) {
     await dbInsertOutgoingTalks(backupData.outgoing_talks);
   }
+
+  if (backupData.public_schedules) {
+    await appDb.sched.clear();
+    const data = backupData.public_schedules as SchedWeekType[];
+    await appDb.sched.bulkPut(data);
+  }
+
+  if (backupData.public_sources) {
+    await appDb.sources.clear();
+    const data = backupData.public_sources as SourceWeekType[];
+    await appDb.sources.bulkPut(data);
+  }
+
+  if (backupData.field_service_groups) {
+    const remoteGroups = (backupData.field_service_groups as object[]).map(
+      (group: FieldServiceGroupType) => {
+        decryptObject({
+          data: group,
+          table: 'field_service_groups',
+          accessCode,
+        });
+
+        return group;
+      }
+    );
+
+    const groups = await appDb.field_service_groups.toArray();
+
+    const groupsToUpdate: FieldServiceGroupType[] = [];
+
+    for (const remoteGroup of remoteGroups) {
+      const localGroup = groups.find(
+        (record) => record.group_id === remoteGroup.group_id
+      );
+
+      if (!localGroup) {
+        groupsToUpdate.push(remoteGroup);
+      }
+
+      if (localGroup) {
+        const newGroup = structuredClone(localGroup);
+        syncFromRemote(newGroup, remoteGroup);
+
+        groupsToUpdate.push(newGroup);
+      }
+    }
+
+    if (groupsToUpdate.length > 0) {
+      await appDb.field_service_groups.bulkPut(groupsToUpdate);
+    }
+  }
 };
 
 export const dbExportDataBackup = async (backupData: BackupDataType) => {
@@ -339,6 +403,7 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
 
   const userRole = oldData.settings.user_settings.cong_role;
   const dataSync = oldData.settings.cong_settings.data_sync.value;
+  const accountType = oldData.settings.user_settings.account_type;
 
   const cong_access_code =
     await oldData.settings.cong_settings.cong_access_code;
@@ -360,40 +425,159 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
 
   await dbRestoreFromBackup(backupData, accessCode, masterKey);
 
+  const {
+    persons,
+    settings,
+    outgoing_speakers,
+    speakers_congregations,
+    visiting_speakers,
+    user_bible_studies,
+    user_field_service_reports,
+    cong_field_service_reports,
+    field_service_groups,
+  } = await dbGetTableData();
+
+  const secretaryRole = userRole.includes('secretary');
+
+  const adminRole =
+    secretaryRole ||
+    userRole.some((role) => role === 'admin' || role === 'coordinator');
+
+  const serviceCommitteeRole =
+    adminRole ||
+    secretaryRole ||
+    userRole.some((role) => role === 'service_overseer');
+
+  const publicTalkEditor =
+    adminRole || userRole.some((role) => role === 'public_talk_schedule');
+
+  const scheduleEditor =
+    adminRole ||
+    publicTalkEditor ||
+    userRole.some(
+      (role) => role === 'midweek_schedule' || role === 'weekend_schedule'
+    );
+
+  const personEditor = serviceCommitteeRole || scheduleEditor;
+
+  const settingEditor = adminRole || scheduleEditor;
+
+  const isPublisher = userRole.includes('publisher');
+
+  const { user_settings, cong_settings } = settings;
+
+  const userBaseSettings = {
+    firstname: user_settings.firstname,
+    lastname: user_settings.lastname,
+  };
+
+  const myPerson = persons.find(
+    (record) => record.person_uid === user_settings.user_local_uid
+  );
+
   if (dataSync) {
-    const {
-      persons,
-      settings,
-      outgoing_speakers,
-      speakers_congregations,
-      visiting_speakers,
-    } = await dbGetTableData();
-
-    const adminRole = userRole.includes('admin');
-
-    const settingEditor = adminRole;
-    const personEditor = adminRole;
-    const publicTalkEditor = adminRole;
-
-    if (settingEditor) {
-      const localSettings = structuredClone(settings);
-
-      encryptObject({
-        data: localSettings,
-        table: 'app_settings',
-        masterKey,
-        accessCode,
-      });
-
+    if (accountType === 'vip') {
       obj.app_settings = {
-        user_settings: localSettings.user_settings,
-        cong_settings: localSettings.cong_settings,
+        user_settings: userBaseSettings,
       };
-    }
 
-    // include person data
-    if (personEditor) {
-      const backupPersons = persons.map((person) => {
+      if (settingEditor) {
+        const localSettings = structuredClone(settings);
+
+        encryptObject({
+          data: localSettings,
+          table: 'app_settings',
+          masterKey,
+          accessCode,
+        });
+
+        obj.app_settings = {
+          user_settings: localSettings.user_settings,
+          cong_settings: localSettings.cong_settings,
+        };
+      }
+
+      // include person data
+      if (personEditor) {
+        const backupPersons = persons.map((person) => {
+          encryptObject({
+            data: person,
+            table: 'persons',
+            masterKey,
+            accessCode,
+          });
+
+          return person;
+        });
+
+        obj.persons = backupPersons;
+      }
+
+      // include visiting speakers info
+      if (publicTalkEditor) {
+        const congregations = speakers_congregations.map((congregation) => {
+          encryptObject({
+            data: congregation,
+            table: 'speakers_congregations',
+            masterKey,
+            accessCode,
+          });
+
+          return congregation;
+        });
+
+        obj.speakers_congregations = congregations;
+
+        const speakers = visiting_speakers.map((speaker) => {
+          encryptObject({
+            data: speaker,
+            table: 'visiting_speakers',
+            masterKey,
+            accessCode,
+          });
+
+          return speaker;
+        });
+
+        obj.visiting_speakers = speakers;
+
+        const speakersKey =
+          backupData.speakers_key?.length > 0
+            ? decryptData(backupData.speakers_key, masterKey)
+            : generateKey();
+
+        const outgoing = outgoing_speakers.map((speaker) => {
+          encryptObject({
+            data: speaker,
+            table: 'visiting_speakers',
+            accessCode: speakersKey,
+          });
+
+          return speaker;
+        });
+
+        obj.outgoing_speakers = outgoing;
+
+        if (backupData.speakers_key === '') {
+          obj.speakers_key = encryptData(speakersKey, masterKey);
+        }
+      }
+
+      // include self data if not person editor
+      if (!personEditor && isPublisher) {
+        const person = {
+          person_uid: myPerson.person_uid,
+          person_data: {
+            timeAway:
+              myPerson.person_data.timeAway?.filter(
+                (record) => !record._deleted
+              ) || [],
+            emergency_contacts: myPerson.person_data.emergency_contacts.filter(
+              (record) => !record._deleted
+            ),
+          },
+        };
+
         encryptObject({
           data: person,
           table: 'persons',
@@ -401,110 +585,183 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
           accessCode,
         });
 
-        return person;
-      });
+        obj.persons = [person];
+      }
 
-      obj.persons = backupPersons;
+      // update incoming reports
+      if (secretaryRole && backupData.incoming_reports) {
+        const newReports: IncomingReport[] = [];
+
+        const remoteReports = (backupData.incoming_reports as object[]).map(
+          (report: IncomingReport) => {
+            decryptObject({
+              data: report,
+              table: 'incoming_reports',
+              accessCode,
+            });
+
+            return report;
+          }
+        );
+
+        for (const report of remoteReports) {
+          const findReport = cong_field_service_reports.find(
+            (record) => record.report_id === report.report_id
+          );
+
+          if (!findReport) {
+            newReports.push(report);
+          }
+
+          if (
+            findReport &&
+            findReport.report_data.updatedAt < report.updatedAt
+          ) {
+            newReports.push(report);
+          }
+        }
+
+        const backupIncomingReports = newReports.map((report) => {
+          encryptObject({
+            data: report,
+            table: 'incoming_reports',
+            accessCode,
+          });
+
+          return report;
+        });
+
+        obj.incoming_reports = backupIncomingReports;
+      }
+
+      // include field service groups
+      if (serviceCommitteeRole) {
+        const backupGroups = field_service_groups.map((group) => {
+          encryptObject({
+            data: group,
+            table: 'field_service_groups',
+            accessCode,
+          });
+
+          return group;
+        });
+
+        obj.field_service_groups = backupGroups;
+      }
     }
 
-    // include visiting speakers info
-    if (publicTalkEditor) {
-      const congregations = speakers_congregations.map((congregation) => {
+    if (accountType === 'pocket') {
+      const userSettings = {
+        ...userBaseSettings,
+        backup_automatic: settings.user_settings.backup_automatic,
+        theme_follow_os_enabled: settings.user_settings.theme_follow_os_enabled,
+        hour_credits_enabled: settings.user_settings.hour_credits_enabled,
+      };
+
+      encryptObject({
+        data: userSettings,
+        table: 'app_settings',
+        accessCode,
+      });
+
+      obj.app_settings = { user_settings: userSettings };
+
+      const person = {
+        person_uid: myPerson.person_uid,
+        person_data: {
+          timeAway: myPerson.person_data.timeAway.filter(
+            (record) => !record._deleted
+          ),
+          emergency_contacts: myPerson.person_data.emergency_contacts.filter(
+            (record) => !record._deleted
+          ),
+        },
+      };
+
+      encryptObject({
+        data: person,
+        table: 'persons',
+        masterKey,
+        accessCode,
+      });
+
+      obj.persons = [person];
+    }
+
+    if (isPublisher) {
+      const backupBibleStudies = user_bible_studies.map((study) => {
         encryptObject({
-          data: congregation,
-          table: 'speakers_congregations',
-          masterKey,
+          data: study,
+          table: 'user_bible_studies',
           accessCode,
         });
 
-        return congregation;
+        return study;
       });
 
-      obj.speakers_congregations = congregations;
+      obj.user_bible_studies = backupBibleStudies;
 
-      const speakers = visiting_speakers.map((speaker) => {
+      const backupReports = user_field_service_reports.map((report) => {
         encryptObject({
-          data: speaker,
-          table: 'visiting_speakers',
-          masterKey,
+          data: report,
+          table: 'user_field_service_reports',
           accessCode,
         });
 
-        return speaker;
+        return report;
       });
 
-      obj.visiting_speakers = speakers;
-
-      const speakersKey =
-        backupData.speakers_key?.length > 0
-          ? decryptData(backupData.speakers_key, masterKey)
-          : generateKey();
-
-      const outgoing = outgoing_speakers.map((speaker) => {
-        encryptObject({
-          data: speaker,
-          table: 'visiting_speakers',
-          accessCode: speakersKey,
-        });
-
-        return speaker;
-      });
-
-      obj.outgoing_speakers = outgoing;
-
-      if (backupData.speakers_key === '') {
-        obj.speakers_key = encryptData(speakersKey, masterKey);
-      }
+      obj.user_field_service_reports = backupReports;
     }
   }
 
   if (!dataSync) {
-    const adminRole = userRole.includes('admin');
-    const settingEditor = adminRole;
-
-    const { settings } = await dbGetTableData();
-    const { user_settings, cong_settings } = settings;
-
-    obj.app_settings = {
-      user_settings: {
-        cong_role: user_settings.cong_role,
-        account_type: user_settings.account_type,
-        user_local_uid: user_settings.user_local_uid,
-        firstname: user_settings.firstname,
-        lastname: user_settings.lastname,
-        data_view: user_settings.data_view,
-      },
-    };
-
-    if (settingEditor) {
-      const midweek = cong_settings.midweek_meeting.map((record) => {
-        return {
-          type: record.type,
-          weekday: record.weekday,
-          time: record.time,
-        };
-      });
-
-      const weekend = cong_settings.weekend_meeting.map((record) => {
-        return {
-          type: record.type,
-          weekday: record.weekday,
-          time: record.time,
-        };
-      });
-
-      obj.app_settings.cong_settings = {
-        cong_circuit: cong_settings.cong_circuit,
-        cong_discoverable: cong_settings.cong_discoverable,
-        cong_location: cong_settings.cong_location,
-        cong_name: cong_settings.cong_name,
-        cong_new: cong_settings.cong_new,
-        cong_number: cong_settings.cong_number,
-        country_code: cong_settings.country_code,
-        data_sync: cong_settings.data_sync,
-        midweek_meeting: midweek,
-        weekend_meeting: weekend,
+    if (accountType === 'vip') {
+      obj.app_settings = {
+        user_settings: userBaseSettings,
       };
+
+      if (settingEditor) {
+        const midweek = cong_settings.midweek_meeting.map((record) => {
+          return {
+            type: record.type,
+            weekday: record.weekday,
+            time: record.time,
+          };
+        });
+
+        const weekend = cong_settings.weekend_meeting.map((record) => {
+          return {
+            type: record.type,
+            weekday: record.weekday,
+            time: record.time,
+          };
+        });
+
+        obj.app_settings.user_settings = {
+          ...userBaseSettings,
+          cong_role: user_settings.cong_role,
+          account_type: user_settings.account_type,
+          user_local_uid: user_settings.user_local_uid,
+        };
+
+        obj.app_settings.cong_settings = {
+          cong_circuit: cong_settings.cong_circuit,
+          cong_discoverable: cong_settings.cong_discoverable,
+          cong_location: cong_settings.cong_location,
+          cong_name: cong_settings.cong_name,
+          cong_new: cong_settings.cong_new,
+          cong_number: cong_settings.cong_number,
+          country_code: cong_settings.country_code,
+          data_sync: cong_settings.data_sync,
+          midweek_meeting: midweek,
+          weekend_meeting: weekend,
+        };
+      }
+    }
+
+    if (accountType === 'pocket') {
+      obj.app_settings = { user_settings: userBaseSettings };
     }
   }
 

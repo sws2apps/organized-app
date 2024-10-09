@@ -25,21 +25,25 @@ const DatabaseWrapper = ({ children }: PropsWithChildren) => {
   } = useIndexedDb();
 
   useEffect(() => {
-    loadSettings();
-    loadAssignment();
-    loadPersons();
-    loadSchedules();
-    loadWeekType();
-    loadSources();
-    loadSpeakersCongregations();
-    loadVisitingSpeakers();
-    loadMeetingAttendance();
-    loadUserBibleStudies();
-    loadUserFieldServiceReports();
-    loadCongFieldServiceReports();
-    loadBranchFieldReports();
-    loadBranchCongAnalysis();
-    loadFieldGroups();
+    const refreshData = async () => {
+      loadSettings();
+      loadAssignment();
+      loadPersons();
+      loadSchedules();
+      loadWeekType();
+      loadSources();
+      loadSpeakersCongregations();
+      loadVisitingSpeakers();
+      loadMeetingAttendance();
+      loadUserBibleStudies();
+      loadUserFieldServiceReports();
+      loadCongFieldServiceReports();
+      loadBranchFieldReports();
+      loadBranchCongAnalysis();
+      loadFieldGroups();
+    };
+
+    refreshData();
   }, [
     loadSettings,
     loadAssignment,
