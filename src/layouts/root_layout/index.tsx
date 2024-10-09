@@ -22,7 +22,7 @@ import useRootLayout from './useRootLayout';
 import DashboardSkeletonLoader from '@features/dashboard/skeleton_loader';
 import JWAutoImport from '@features/meeting_materials/jw_auto_import';
 import NavBar from '@layouts/navbar';
-import WaitingCircular from '@components/waiting_circular';
+import Organized3DLoader from '@components/organized_3d_loader';
 
 const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
   const { isSupported } = useGlobal();
@@ -82,7 +82,7 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
                   isDashboard ? (
                     <DashboardSkeletonLoader />
                   ) : (
-                    <WaitingCircular />
+                    <Organized3DLoader width={72} height={72} />
                   )
                 }
               >
