@@ -8,7 +8,7 @@ const useSecurity = () => {
   const [isOpenMFAEnable, setIsOpenMFAEnable] = useState(false);
   const [isOpenMFADisable, setIsOpenMFADisable] = useState(false);
 
-  const handleToggleMFA = (e: ChangeEvent<HTMLInputElement>, _: boolean) => {
+  const handleToggleMFA = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
 
     if (!isMFAEnabled) {
