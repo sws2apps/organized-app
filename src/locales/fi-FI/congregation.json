@@ -439,5 +439,6 @@
   "tr_enableCongregationDataSync": "Ota seurakunnan tietojen synkronointi käyttöön",
   "tr_enableCongregationDataSyncDesc": "Tämä ominaisuus mahdollistaa datan synkronoinnin esimerkiksi aikatauluja muiden seurakuntasi käyttäjien kanssa ja käyttää sovellusta useilla laitteilla samanaikaisesti.",
   "tr_applicationRejected": "Tienraivaushakemus hylätty",
-  "tr_applicationRejectedDesc": "Tämä hakemus on hylätty. Ilmoita julistajalle hakemuksen tilasta."
+  "tr_applicationRejectedDesc": "Tämä hakemus on hylätty. Ilmoita julistajalle hakemuksen tilasta.",
+  "tr_serviceGroupsListNone": "No field service groups yet. The groups will appear here as soon as they are created."
 }
