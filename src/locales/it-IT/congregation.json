@@ -439,5 +439,6 @@
   "tr_enableCongregationDataSync": "Abilita la sincronizzazione dei dati della congregazione",
   "tr_enableCongregationDataSyncDesc": "This feature lets sync data like schedules with other users in your congregation and use the app on multiple devices at the same time.",
   "tr_applicationRejected": "Domanda pioniere rifiutata",
-  "tr_applicationRejectedDesc": "Questa domanda è stata respinta. Informa il proclamatore sul suo stato."
+  "tr_applicationRejectedDesc": "Questa domanda è stata respinta. Informa il proclamatore sul suo stato.",
+  "tr_serviceGroupsListNone": "No field service groups yet. The groups will appear here as soon as they are created."
 }
