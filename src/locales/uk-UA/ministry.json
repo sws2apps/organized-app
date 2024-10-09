@@ -129,5 +129,6 @@
   "tr_specificPublisherRecords": "Конкретні вісники",
   "tr_S21ExportMultipleDesc": "Вибери вісників, яких ти хочеш включити в експортовані записи. Кожен вісник буде включений в окремий файл.",
   "tr_activePublishersAll": "Всі інші вісники",
+  "tr_markAsVerified": "Mark as verified",
   "tr_averageMonthlyHours": "В середньому щомісяця"
 }
