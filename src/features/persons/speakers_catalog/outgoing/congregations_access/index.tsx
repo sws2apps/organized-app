@@ -8,7 +8,7 @@ import OutgoingSpeakersListActive from './active';
 import OutgoingSpeakersListInactive from './inactive';
 import TextMarkup from '@components/text_markup';
 import Typography from '@components/typography';
-import WaitingCircular from '@components/waiting_circular';
+import WaitingLoader from '@components/waiting_loader';
 
 const OutgoingSpeakersAccess = ({ open, onClose }: CongregationAccessType) => {
   const { t } = useAppTranslation();
@@ -29,7 +29,7 @@ const OutgoingSpeakersAccess = ({ open, onClose }: CongregationAccessType) => {
             {t('tr_outgoingSpeakersAccess')}
           </Typography>
 
-          {isPending && <WaitingCircular variant="standard" />}
+          {isPending && <WaitingLoader variant="standard" />}
 
           {!isPending && congregations.length === 0 && (
             <OutgoingSpeakersListInactive />

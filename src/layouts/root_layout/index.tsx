@@ -22,7 +22,7 @@ import useRootLayout from './useRootLayout';
 import DashboardSkeletonLoader from '@features/dashboard/skeleton_loader';
 import JWAutoImport from '@features/meeting_materials/jw_auto_import';
 import NavBar from '@layouts/navbar';
-import WaitingCircular from '@components/waiting_circular';
+import WaitingLoader from '@components/waiting_loader';
 
 const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
   const { isSupported } = useGlobal();
@@ -79,11 +79,7 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
             {!isAppLoad && (
               <Suspense
                 fallback={
-                  isDashboard ? (
-                    <DashboardSkeletonLoader />
-                  ) : (
-                    <WaitingCircular />
-                  )
+                  isDashboard ? <DashboardSkeletonLoader /> : <WaitingLoader />
                 }
               >
                 <Box sx={{ marginBottom: '32px' }}>

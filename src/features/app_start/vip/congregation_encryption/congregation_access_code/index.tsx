@@ -7,7 +7,7 @@ import Button from '@components/button';
 import InfoMessage from '@components/info-message';
 import TextField from '@components/textfield';
 import Typography from '@components/typography';
-import WaitingCircular from '@components/waiting_circular';
+import WaitingLoader from '@components/waiting_loader';
 import Criteria from './criteria';
 
 const CongregationAccessCode = () => {
@@ -46,7 +46,7 @@ const CongregationAccessCode = () => {
         gap: '24px',
       }}
     >
-      {isLoading && <WaitingCircular variant="standard" />}
+      {isLoading && <WaitingLoader variant="standard" />}
       {!isLoading && (
         <>
           <Box
