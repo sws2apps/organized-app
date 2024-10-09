@@ -1,8 +1,8 @@
-import { IconLoading } from '@icons/index';
 import Typography from '@components/typography';
 import { StyledCircleBox } from './index.styles';
 import { useAppTranslation } from '@hooks/index';
 import { AppLoadingType } from './index.types';
+import Organized3DLoader from '@components/organized_3d_loader';
 
 /**
  * Component for displaying a loading indicator.
@@ -15,7 +15,7 @@ const AppLoading = ({ text, sx }: AppLoadingType) => {
 
   return (
     <StyledCircleBox sx={sx}>
-      <IconLoading color="var(--accent-main)" width={72} height={72} />
+      <Organized3DLoader width={72} height={72} centered={false} />
       <Typography align="center" className="h4" color="var(--accent-main)">
         {loadingText}
       </Typography>
