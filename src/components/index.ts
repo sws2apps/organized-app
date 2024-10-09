@@ -49,4 +49,3 @@ export { default as UserAccountItem } from './user_account_item/index';
 export { default as DarkOverlay } from './dark_overlay/index';
 export { default as CardHeader } from './card_header/index';
 export { default as CustomDivider } from './divider/index';
-export { default as Organized3DLoader } from './organized_3d_loader';
