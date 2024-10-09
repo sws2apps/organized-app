@@ -22,6 +22,7 @@ const GroupHeader = (props: GroupHeaderProps) => {
     dlgOpen,
     handleCloseDialog,
     type,
+    isServiceCommittee,
   } = useHeader(props);
 
   return (
@@ -67,9 +68,11 @@ const GroupHeader = (props: GroupHeaderProps) => {
           </Box>
         )}
 
-        <IconButton onClick={handleOpenEdit} sx={{ padding: 0 }}>
-          <IconEdit color={color} />
-        </IconButton>
+        {isServiceCommittee && (
+          <IconButton onClick={handleOpenEdit} sx={{ padding: 0 }}>
+            <IconEdit color={color} />
+          </IconButton>
+        )}
       </Box>
     </Box>
   );

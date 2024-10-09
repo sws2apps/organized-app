@@ -32,7 +32,7 @@ const runBackup = async () => {
   let backup = 'started';
 
   try {
-    const { apiHost, congID, idToken } = self.setting;
+    const { apiHost, userID, idToken } = self.setting;
 
     const settings = await dbGetSettings();
     const accountType = settings.user_settings.account_type;
@@ -44,7 +44,7 @@ const runBackup = async () => {
       do {
         const backupData = await apiGetCongregationBackup({
           apiHost,
-          congID,
+          userID,
           idToken,
         });
 
@@ -54,7 +54,7 @@ const runBackup = async () => {
 
         const data = await apiSendCongregationBackup({
           apiHost,
-          congID,
+          userID,
           reqPayload,
           idToken,
           lastBackup,

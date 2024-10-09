@@ -14,6 +14,8 @@ import { VisitingSpeakerType } from '@definition/visiting_speakers';
 import { decryptObject, encryptObject } from './backupEncryption';
 import { SettingsType } from '@definition/settings';
 import { SourceWeekType } from '@definition/sources';
+import { IncomingReport } from '@definition/ministry';
+import { FieldServiceGroupType } from '@definition/field_service_groups';
 
 const personIsElder = (person: PersonType) => {
   const hasActive = person?.person_data.privileges.find(
@@ -74,6 +76,9 @@ export const dbGetSettings = async () => {
 const dbGetTableData = async () => {
   const settings = await dbGetSettings();
   const persons = await appDb.persons.toArray();
+  const cong_field_service_reports =
+    await appDb.cong_field_service_reports.toArray();
+  const field_service_groups = await appDb.field_service_groups.toArray();
   const visiting_speakers = await appDb.visiting_speakers.toArray();
   const speakers_congregations = await appDb.speakers_congregations.toArray();
   const user_bible_studies = await appDb.user_bible_studies.toArray();
@@ -116,6 +121,8 @@ const dbGetTableData = async () => {
     visiting_speakers,
     user_bible_studies,
     user_field_service_reports,
+    cong_field_service_reports,
+    field_service_groups,
   };
 };
 
@@ -348,6 +355,45 @@ const dbRestoreFromBackup = async (
     const data = backupData.public_sources as SourceWeekType[];
     await appDb.sources.bulkPut(data);
   }
+
+  if (backupData.field_service_groups) {
+    const remoteGroups = (backupData.field_service_groups as object[]).map(
+      (group: FieldServiceGroupType) => {
+        decryptObject({
+          data: group,
+          table: 'field_service_groups',
+          accessCode,
+        });
+
+        return group;
+      }
+    );
+
+    const groups = await appDb.field_service_groups.toArray();
+
+    const groupsToUpdate: FieldServiceGroupType[] = [];
+
+    for (const remoteGroup of remoteGroups) {
+      const localGroup = groups.find(
+        (record) => record.group_id === remoteGroup.group_id
+      );
+
+      if (!localGroup) {
+        groupsToUpdate.push(remoteGroup);
+      }
+
+      if (localGroup) {
+        const newGroup = structuredClone(localGroup);
+        syncFromRemote(newGroup, remoteGroup);
+
+        groupsToUpdate.push(newGroup);
+      }
+    }
+
+    if (groupsToUpdate.length > 0) {
+      await appDb.field_service_groups.bulkPut(groupsToUpdate);
+    }
+  }
 };
 
 export const dbExportDataBackup = async (backupData: BackupDataType) => {
@@ -387,23 +433,34 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
     visiting_speakers,
     user_bible_studies,
     user_field_service_reports,
+    cong_field_service_reports,
+    field_service_groups,
   } = await dbGetTableData();
 
-  const adminRole = userRole.includes('admin');
+  const secretaryRole = userRole.includes('secretary');
 
-  const settingEditor = adminRole;
+  const adminRole =
+    secretaryRole ||
+    userRole.some((role) => role === 'admin' || role === 'coordinator');
 
-  const personEditor =
+  const serviceCommitteeRole =
     adminRole ||
-    userRole.some(
-      (role) =>
-        role === 'midweek_schedule' ||
-        role === 'weekend_schedule' ||
-        role === 'public_talk_schedule'
-    );
+    secretaryRole ||
+    userRole.some((role) => role === 'service_overseer');
 
   const publicTalkEditor =
     adminRole || userRole.some((role) => role === 'public_talk_schedule');
+
+  const scheduleEditor =
+    adminRole ||
+    publicTalkEditor ||
+    userRole.some(
+      (role) => role === 'midweek_schedule' || role === 'weekend_schedule'
+    );
+
+  const personEditor = serviceCommitteeRole || scheduleEditor;
+
+  const settingEditor = adminRole || scheduleEditor;
 
   const isPublisher = userRole.includes('publisher');
 
@@ -529,6 +586,67 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
         });
 
         obj.persons = [person];
+      }
+
+      // update incoming reports
+      if (secretaryRole && backupData.incoming_reports) {
+        const newReports: IncomingReport[] = [];
+
+        const remoteReports = (backupData.incoming_reports as object[]).map(
+          (report: IncomingReport) => {
+            decryptObject({
+              data: report,
+              table: 'incoming_reports',
+              accessCode,
+            });
+
+            return report;
+          }
+        );
+
+        for (const report of remoteReports) {
+          const findReport = cong_field_service_reports.find(
+            (record) => record.report_id === report.report_id
+          );
+
+          if (!findReport) {
+            newReports.push(report);
+          }
+
+          if (
+            findReport &&
+            findReport.report_data.updatedAt < report.updatedAt
+          ) {
+            newReports.push(report);
+          }
+        }
+
+        const backupIncomingReports = newReports.map((report) => {
+          encryptObject({
+            data: report,
+            table: 'incoming_reports',
+            accessCode,
+          });
+
+          return report;
+        });
+
+        obj.incoming_reports = backupIncomingReports;
+      }
+
+      // include field service groups
+      if (serviceCommitteeRole) {
+        const backupGroups = field_service_groups.map((group) => {
+          encryptObject({
+            data: group,
+            table: 'field_service_groups',
+            accessCode,
+          });
+
+          return group;
+        });
+
+        obj.field_service_groups = backupGroups;
       }
     }
 

@@ -7,7 +7,7 @@ import { apiDefault } from './common';
 export const apiPocketSignup = async (code: string) => {
   const { apiHost, appVersion: appversion } = await apiDefault();
 
-  const res = await fetch(`${apiHost}api/v3/pocket/signup`, {
+  const res = await fetch(`${apiHost}api/v3/pockets/signup`, {
     method: 'POST',
     credentials: 'include',
     headers: {
@@ -26,7 +26,7 @@ export const apiPocketSignup = async (code: string) => {
 export const apiPocketValidateMe = async () => {
   const { apiHost, appVersion: appversion } = await apiDefault();
 
-  const res = await fetch(`${apiHost}api/v3/pocket/validate-me`, {
+  const res = await fetch(`${apiHost}api/v3/pockets/validate-me`, {
     method: 'GET',
     credentials: 'include',
     headers: {
@@ -45,7 +45,7 @@ export const apiGetPocketSessions =
   async (): Promise<UserSessionsResponseType> => {
     const { apiHost, appVersion: appversion } = await apiDefault();
 
-    const res = await fetch(`${apiHost}api/v3/pocket/sessions`, {
+    const res = await fetch(`${apiHost}api/v3/pockets/sessions`, {
       method: 'GET',
       credentials: 'include',
       headers: {
@@ -66,7 +66,7 @@ export const apiGetPocketSessions =
 export const apiRevokePocketSession = async (id: string) => {
   const { apiHost, appVersion: appversion } = await apiDefault();
 
-  const res = await fetch(`${apiHost}api/v3/pocket/sessions`, {
+  const res = await fetch(`${apiHost}api/v3/pockets/sessions`, {
     method: 'DELETE',
     credentials: 'include',
     headers: {
@@ -82,21 +82,7 @@ export const apiRevokePocketSession = async (id: string) => {
   return { status: res.status, data };
 };
 
-export const apiPocketFieldServiceReportPost = async ({
-  report_month,
-  shared_ministry,
-  bible_studies,
-  comments,
-  hours,
-  hours_credits,
-}: {
-  report_month: string;
-  shared_ministry: boolean;
-  hours: number;
-  hours_credits: number;
-  bible_studies: number;
-  comments: string;
-}) => {
+export const apiPocketFieldServiceReportPost = async (report: object) => {
   const { apiHost, appVersion: appversion } = await apiDefault();
 
   const res = await fetch(`${apiHost}api/v3/pockets/field-service-reports`, {
@@ -107,14 +93,7 @@ export const apiPocketFieldServiceReportPost = async ({
       appclient: 'organized',
       appversion,
     },
-    body: JSON.stringify({
-      report_month,
-      shared_ministry,
-      bible_studies,
-      comments,
-      hours,
-      hours_credits,
-    }),
+    body: JSON.stringify({ report }),
   });
 
   if (res.ok && res.status === 200) {

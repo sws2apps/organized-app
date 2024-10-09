@@ -1,5 +1,5 @@
 import { AppRoleType } from './app';
-import { APRecordType } from './ministry';
+import { APRecordType, IncomingReport } from './ministry';
 
 export type CongregationResponseType = {
   address: string;
@@ -200,6 +200,7 @@ export type CongregationUpdatesResponseType = {
     remote_congregations?: RemoteCongregationType[];
     rejected_requests?: RemoteCongregationType[];
     applications?: APRecordType[];
+    incoming_reports?: IncomingReport[];
   };
 };
 

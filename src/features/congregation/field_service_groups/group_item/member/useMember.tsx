@@ -1,7 +1,7 @@
 import { MouseEvent, useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { IconAssistant, IconOverseer, IconPerson } from '@components/icons';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { buildPersonFullname } from '@utils/common';
 import { personsState } from '@states/persons';
 import { fullnameOptionState } from '@states/settings';
@@ -14,6 +14,8 @@ import usePerson from '@features/persons/hooks/usePerson';
 
 const useMember = ({ member, index, group_id }: GroupMemberProps) => {
   const { t } = useAppTranslation();
+
+  const { isServiceCommittee } = useCurrentUser();
 
   const { personIsElder, personIsMS, personIsBaptizedPublisher } = usePerson();
 
@@ -75,6 +77,8 @@ const useMember = ({ member, index, group_id }: GroupMemberProps) => {
   }, [member, t]);
 
   const make_overseer = useMemo(() => {
+    if (!isServiceCommittee) return false;
+
     if (member.isOverseer) return false;
 
     if (!person) return false;
@@ -83,9 +87,11 @@ const useMember = ({ member, index, group_id }: GroupMemberProps) => {
     const isMS = personIsMS(person);
 
     return isElder || isMS;
-  }, [person, personIsMS, personIsElder, member]);
+  }, [isServiceCommittee, person, personIsMS, personIsElder, member]);
 
   const make_assistant = useMemo(() => {
+    if (!isServiceCommittee) return false;
+
     if (member.isAssistant) return false;
 
     if (!person) return false;
@@ -94,7 +100,7 @@ const useMember = ({ member, index, group_id }: GroupMemberProps) => {
 
     const isBaptized = personIsBaptizedPublisher(person);
     return isBaptized;
-  }, [person, personIsBaptizedPublisher, member]);
+  }, [isServiceCommittee, person, personIsBaptizedPublisher, member]);
 
   const current_group = useMemo(() => {
     return groups.find((record) => record.group_id === group_id);
@@ -273,6 +279,7 @@ const useMember = ({ member, index, group_id }: GroupMemberProps) => {
     handleCloseRemove,
     handlePersonRemove,
     removeOpen,
+    isServiceCommittee,
   };
 };
 

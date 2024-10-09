@@ -107,4 +107,21 @@ export const TABLE_ENCRYPTION_MAP = {
     shared_ministry: 'shared',
     status: 'shared',
   },
+  incoming_reports: {
+    bible_studies: 'shared',
+    comments: 'shared',
+    hours: 'shared',
+    hours_credits: 'shared',
+    shared_ministry: 'shared',
+    updatedAt: 'shared',
+    _deleted: 'shared',
+  },
+  field_service_groups: {
+    group_id: 'shared',
+    _deleted: 'shared',
+    updatedAt: 'shared',
+    name: 'shared',
+    sort_index: 'shared',
+    members: 'shared',
+  },
 };

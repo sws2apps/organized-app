@@ -42,11 +42,13 @@ const PocketSignUp = () => {
       >
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
           <TextField
+            type="password"
+            autoComplete="off"
+            className="h4"
             label={t('tr_invitationCode')}
             value={code}
             onChange={(e) => handleCodeChange(e.target.value)}
             sx={{ width: '100%', color: 'var(--black)' }}
-            className="h4"
           />
           <Button
             variant="main"

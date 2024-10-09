@@ -44,7 +44,7 @@ const useUserDetails = () => {
     try {
       const { status, message } = await apiCongregationUserUpdate({
         user_id: user.id,
-        cong_person_uid: user.profile.user_local_uid,
+        cong_person_uid: user.profile.user_local_uid || '',
         cong_person_delegates: user.profile.user_members_delegate,
         cong_role: user.profile.cong_role,
         user_secret_code: code,
@@ -57,7 +57,7 @@ const useUserDetails = () => {
       // update local record
       if (userID === id) {
         await dbAppSettingsUpdate({
-          'user_settings.user_local_uid': user.profile.user_local_uid,
+          'user_settings.user_local_uid': user.profile.user_local_uid || '',
           'user_settings.user_members_delegate':
             user.profile.user_members_delegate,
           'user_settings.cong_role': user.profile.cong_role,

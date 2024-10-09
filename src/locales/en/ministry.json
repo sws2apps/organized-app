@@ -129,5 +129,6 @@
   "tr_allPublisherRecords": "All publishers",
   "tr_specificPublisherRecords": "Specific publishers",
   "tr_S21ExportMultipleDesc": "Select the publishers you want to include in the exported records. Each publisher will be included in a separate file.",
-  "tr_activePublishersAll": "All other publishers"
+  "tr_activePublishersAll": "All other publishers",
+  "tr_markAsVerified": "Mark as verified"
 }

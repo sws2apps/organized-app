@@ -568,7 +568,7 @@ export const userLocalUIDState = selector({
   get: ({ get }) => {
     const settings = get(settingsState);
 
-    return settings.user_settings.user_local_uid;
+    return settings.user_settings.user_local_uid || '';
   },
 });
 
