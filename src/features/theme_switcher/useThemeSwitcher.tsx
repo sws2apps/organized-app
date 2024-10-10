@@ -3,12 +3,13 @@ import { useRecoilValue } from 'recoil';
 import { cookiesConsentState, isDarkThemeState } from '@states/app';
 import { setIsDarkTheme } from '@services/recoil/app';
 import { dbAppSettingsUpdate } from '@services/dexie/settings';
-import { themeFollowOSEnabledState } from '@states/settings';
+import { accountTypeState, themeFollowOSEnabledState } from '@states/settings';
 
 const useThemeSwitcher = () => {
   const isDark = useRecoilValue(isDarkThemeState);
   const followOSTheme = useRecoilValue(themeFollowOSEnabledState);
   const cookiesConsent = useRecoilValue(cookiesConsentState);
+  const accountType = useRecoilValue(accountTypeState);
 
   const [isOpenConfirm, setIsOpenConfirm] = useState(false);
 
@@ -55,10 +56,10 @@ const useThemeSwitcher = () => {
       .querySelector("meta[name='theme-color']")
       .setAttribute('content', themeColor);
 
-    if (cookiesConsent) {
+    if (cookiesConsent || accountType === 'pocket') {
       localStorage.setItem('theme', isDark ? 'dark' : 'light');
     }
-  }, [isDark, cookiesConsent]);
+  }, [isDark, cookiesConsent, accountType]);
 
   useEffect(() => {
     if (!followOSTheme) return;
@@ -69,11 +70,15 @@ const useThemeSwitcher = () => {
     // Function to handle the change event
     const handleDarkModeChange = async (e) => {
       if (e.matches) {
-        if (cookiesConsent) localStorage.setItem('theme', 'dark');
+        if (cookiesConsent || accountType === 'pocket') {
+          localStorage.setItem('theme', 'dark');
+        }
 
         await setIsDarkTheme(true);
       } else {
-        if (cookiesConsent) localStorage.setItem('theme', 'light');
+        if (cookiesConsent || accountType === 'pocket') {
+          localStorage.setItem('theme', 'light');
+        }
 
         await setIsDarkTheme(false);
       }
@@ -88,7 +93,7 @@ const useThemeSwitcher = () => {
     return () => {
       darkModeMediaQuery.removeEventListener('change', handleDarkModeChange);
     };
-  }, [followOSTheme, cookiesConsent]);
+  }, [followOSTheme, cookiesConsent, accountType]);
 
   return {
     isDark,

@@ -55,12 +55,12 @@ const InvitationCode = () => {
         </Box>
       </Box>
 
-      {user.pocket_invitation_code && (
+      {user.profile.pocket_invitation_code && (
         <>
           <TextField
             label={t('tr_invitationCode')}
             sx={{ marginBottom: '-8px' }}
-            InputProps={{ readOnly: true }}
+            slotProps={{ input: { readOnly: true, }, }}
             value={code}
             endIcon={
               <InputAdornment
@@ -113,7 +113,7 @@ const InvitationCode = () => {
         </>
       )}
 
-      {!user.pocket_invitation_code && (
+      {!user.profile.pocket_invitation_code && (
         <Button
           variant="tertiary"
           startIcon={

@@ -27,7 +27,7 @@ const MasterKeyView = () => {
         value={masterKey}
         startIcon={<IconEncryptionKey />}
         resetHelperPadding={true}
-        InputProps={{ readOnly: true }}
+        slotProps={{ input: { readOnly: true } }}
       />
       <Button
         variant="small"

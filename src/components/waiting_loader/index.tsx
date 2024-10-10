@@ -1,13 +1,13 @@
 import { Box, SxProps, Theme } from '@mui/material';
 import { VariantProps } from './index.types';
-import { IconLoading } from '@components/icons';
+import LottieLoader from '@components/lottie_loader';
 
 /**
  * Circular loading indicator component.
  * @param variant The variant of the loading indicator.
  * @param size (width and height)
  */
-const WaitingCircular = ({ variant = 'fixed', size = 72 }: VariantProps) => {
+const WaitingLoader = ({ variant = 'fixed' }: VariantProps) => {
   let sx: SxProps<Theme> = {};
 
   if (variant === 'fixed') {
@@ -30,10 +30,10 @@ const WaitingCircular = ({ variant = 'fixed', size = 72 }: VariantProps) => {
       }}
     >
       <Box sx={sx}>
-        <IconLoading width={size} height={size} color="var(--accent-dark)" />
+        <LottieLoader />
       </Box>
     </Box>
   );
 };
 
-export default WaitingCircular;
+export default WaitingLoader;

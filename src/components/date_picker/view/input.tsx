@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, forwardRef, Ref, SetStateAction } from 'react';
 import { TextFieldProps } from '@mui/material';
 import TextField from '@components/textfield';
 import { IconDate } from '@icons/index';
@@ -14,7 +14,10 @@ type DateTextFieldProps = TextFieldProps & {
  * @param {Dispatch<SetStateAction<boolean>>} props.setOpen - Function to set the open state of the date picker.
  * @returns {JSX.Element} DatePickerInputField component.
  */
-const DatePickerInputField = (props: DateTextFieldProps) => {
+const DatePickerInputField = forwardRef(function DatePickerInputField(
+  props: DateTextFieldProps,
+  ref: Ref<HTMLInputElement>
+) {
   const { setOpen, ...defaultProps } = props;
 
   const handleClick = () => {
@@ -23,6 +26,7 @@ const DatePickerInputField = (props: DateTextFieldProps) => {
 
   return (
     <TextField
+      ref={ref}
       {...defaultProps}
       className={'body-regular'}
       height={48}
@@ -34,6 +38,6 @@ const DatePickerInputField = (props: DateTextFieldProps) => {
       }
     />
   );
-};
+});
 
 export default DatePickerInputField;

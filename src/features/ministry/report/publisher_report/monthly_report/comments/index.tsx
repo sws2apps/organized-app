@@ -12,7 +12,7 @@ const Comments = () => {
       placeholder={t('tr_comments')}
       multiline
       rows={2}
-      InputProps={{ readOnly: status !== 'pending' }}
+      slotProps={{ input: { readOnly: status !== 'pending' } }}
       value={value}
       onChange={(e) => handleCommentsChange(e.target.value)}
     />

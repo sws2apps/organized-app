@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 /* eslint-disable import/no-duplicates */
 import { getWeeksInMonth, format } from 'date-fns';
 import { enUS } from 'date-fns/locale';
@@ -50,6 +50,8 @@ const DatePicker = ({
   minDate = null,
   readOnly = false,
 }: CustomDatePickerProps) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const { t } = useAppTranslation();
 
   const shortDateFormatDefault = useRecoilValue(shortDateFormatState);
@@ -186,6 +188,7 @@ const DatePicker = ({
             value={valueTmp}
             slotProps={{
               textField: {
+                inputRef,
                 onClick: () => {
                   if (readOnly) return;
                   setOpen(true);
@@ -200,6 +203,7 @@ const DatePicker = ({
                 value: valueTmp,
               } as FieldProps,
               popper: {
+                anchorEl: inputRef.current,
                 sx: {
                   ...StyleDatePickerPopper,
                   '.MuiDateCalendar-viewTransitionContainer': {

@@ -9,12 +9,6 @@ export type AssignmentCongregation = {
   solo?: boolean;
 };
 
-type SwitchCongregation = {
-  type: string;
-  value: boolean;
-  updatedAt: string;
-};
-
 export type WeekTypeCongregation = {
   type: string;
   value: Week;
@@ -119,7 +113,6 @@ export type SchedWeekType = {
     week_type: WeekTypeCongregation[];
     outgoing_talks: OutgoingTalkScheduleType[];
   };
-  released: SwitchCongregation[];
 };
 
 export type AssignmentHistoryType = {

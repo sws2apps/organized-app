@@ -17,6 +17,7 @@ import {
   SetStateAction,
   useCallback,
   useEffect,
+  useRef,
   useState,
 } from 'react';
 import { CustomTimePickerProps } from './time_picker.types';
@@ -110,6 +111,8 @@ const TimePicker = ({
   sx,
   readOnly = false,
 }: CustomTimePickerProps) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const { t } = useAppTranslation();
 
   const [currentValue, setCurrentValue] = useState(value);
@@ -174,6 +177,7 @@ const TimePicker = ({
                 onClear: handleClear,
               } as never,
               textField: {
+                inputRef,
                 label: label,
                 value: currentValue,
                 onClick: () => setOpen(!open),
@@ -225,6 +229,7 @@ const TimePicker = ({
                 className: 'pop-up pop-up-shadow',
               },
               popper: {
+                anchorEl: inputRef.current,
                 sx: {
                   ...StyleTimePickerPopper,
                   '.MuiPickersToolbar-content': {

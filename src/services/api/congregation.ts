@@ -33,7 +33,7 @@ export const apiFetchCountries = async () => {
   return { status: res.status, data };
 };
 
-export const apiFetchCongregations = async (country, name) => {
+export const apiFetchCongregations = async (country: string, name: string) => {
   const {
     apiHost,
     appVersion: appversion,
@@ -65,11 +65,11 @@ export const apiFetchCongregations = async (country, name) => {
 };
 
 export const apiCreateCongregation = async (
-  country_code,
-  cong_name,
-  cong_number,
-  firstname,
-  lastname
+  country_code: string,
+  cong_name: string,
+  cong_number: string,
+  firstname: string,
+  lastname: string
 ) => {
   const {
     apiHost,
@@ -348,7 +348,7 @@ export const apiCongregationUserUpdate = async ({
   user_secret_code,
 }: {
   user_id: string;
-  user_secret_code: string;
+  user_secret_code?: string;
   cong_role: AppRoleType[];
   cong_person_uid: string;
   cong_person_delegates: string[];

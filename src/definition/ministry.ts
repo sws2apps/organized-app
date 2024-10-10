@@ -22,3 +22,16 @@ export type APRecordType = {
   secretary?: 'waiting' | 'approved' | 'rejected';
   service?: 'waiting' | 'approved' | 'rejected';
 };
+
+export type IncomingReport = {
+  report_id: string;
+  person_uid: string;
+  bible_studies: number;
+  comments: string;
+  hours: number;
+  hours_credits: number;
+  report_month: string;
+  shared_ministry: boolean;
+  updatedAt: string;
+  _deleted: boolean;
+};

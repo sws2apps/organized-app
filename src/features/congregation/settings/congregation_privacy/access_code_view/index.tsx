@@ -27,7 +27,7 @@ const AccessCodeView = () => {
         value={accessCode}
         startIcon={<IconEncryptionKey />}
         resetHelperPadding={true}
-        InputProps={{ readOnly: true }}
+        slotProps={{ input: { readOnly: true } }}
       />
       <Button
         variant="small"

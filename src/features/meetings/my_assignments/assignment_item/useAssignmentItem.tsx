@@ -21,6 +21,8 @@ const useAssignmentItem = (assignment: AssignmentHistoryType) => {
 
   const personGetName = (value: string) => {
     const person = persons.find((record) => record.person_uid === value);
+    if (!person) return '';
+
     const name = buildPersonFullname(
       person.person_data.person_lastname.value,
       person.person_data.person_firstname.value,

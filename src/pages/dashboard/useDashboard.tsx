@@ -9,14 +9,8 @@ import {
 import { isMyAssignmentOpenState } from '@states/app';
 import { assignmentsHistoryState } from '@states/schedules';
 import { getWeekDate } from '@utils/date';
-import { useCurrentUser } from '@hooks/index';
-import usePerson from '@features/persons/hooks/usePerson';
 
 const useDashboard = () => {
-  const { person } = useCurrentUser();
-
-  const { personIsPublisher } = usePerson();
-
   const setIsMyAssignmentOpen = useSetRecoilState(isMyAssignmentOpenState);
 
   const firstName = useRecoilValue(firstnameState);
@@ -36,13 +30,6 @@ const useDashboard = () => {
     return personAssignments.length;
   }, [assignmentsHistory, userUID]);
 
-  const publisher = useMemo(() => {
-    if (!person) return false;
-
-    const isPublisher = personIsPublisher(person);
-    return isPublisher;
-  }, [person, personIsPublisher]);
-
   const handleCloseNewCongNotice = async () => {
     await dbAppSettingsUpdate({ 'cong_settings.cong_new': false });
   };
@@ -57,7 +44,6 @@ const useDashboard = () => {
     handleCloseNewCongNotice,
     handleOpenMyAssignments,
     countFutureAssignments,
-    publisher,
   };
 };
 

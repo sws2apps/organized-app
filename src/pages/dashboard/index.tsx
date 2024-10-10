@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import { SnackBar, TextMarkup, Typography } from '@components/index';
 import { IconCheckCircle } from '@icons/index';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { isDemo } from '@constants/index';
 import CongregationCard from './congregation';
 import MinistryCard from './ministry';
@@ -15,13 +15,15 @@ import { DemoNotice } from '@features/index';
 const Dashboard = () => {
   const { t } = useAppTranslation();
 
+  const { isAdmin, isMeetingEditor, isPublisher, isPersonEditor } =
+    useCurrentUser();
+
   const {
     firstName,
     isCongNew,
     handleCloseNewCongNotice,
     handleOpenMyAssignments,
     countFutureAssignments,
-    publisher,
   } = useDashboard();
 
   return (
@@ -51,12 +53,16 @@ const Dashboard = () => {
           gridGap: '24px',
         }}
       >
-        {publisher && <MinistryCard />}
+        {isPublisher && <MinistryCard />}
 
         <MeetingsCard assignmentCount={countFutureAssignments} />
-        <PersonsCard />
-        <MeetingsMaterialsCard />
-        <ReportsCard />
+
+        {isPersonEditor && <PersonsCard />}
+
+        {isMeetingEditor && <MeetingsMaterialsCard />}
+
+        {isAdmin && <ReportsCard />}
+
         <CongregationCard />
       </Box>
 

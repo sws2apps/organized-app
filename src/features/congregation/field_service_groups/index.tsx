@@ -1,6 +1,10 @@
 import { Box } from '@mui/material';
 import { IconInfo } from '@components/icons';
-import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import {
+  useAppTranslation,
+  useBreakpoints,
+  useCurrentUser,
+} from '@hooks/index';
 import { GroupsContainer } from './index.styles';
 import useFieldServiceGroups from './useFieldServiceGroups';
 import GroupItem from './group_item';
@@ -10,6 +14,8 @@ const FieldServiceGroupsContainer = () => {
   const { t } = useAppTranslation();
 
   const { desktopUp } = useBreakpoints();
+
+  const { isServiceCommittee } = useCurrentUser();
 
   const { groups, masonry_columns } = useFieldServiceGroups();
 
@@ -29,7 +35,11 @@ const FieldServiceGroupsContainer = () => {
           }}
         >
           <IconInfo color="var(--grey-350)" />
-          <Typography color="var(--grey-350)">{t('tr_noGroupsYet')}</Typography>
+          <Typography color="var(--grey-350)">
+            {isServiceCommittee
+              ? t('tr_noGroupsYet')
+              : t('tr_serviceGroupsListNone')}
+          </Typography>
         </Box>
       )}
 

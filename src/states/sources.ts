@@ -2,8 +2,8 @@
 This file holds the source of the truth from the table "sources".
 */
 
-import { SourceWeekType, SourcesFormattedType } from '@definition/sources';
 import { atom, selector } from 'recoil';
+import { SourceWeekType, SourcesFormattedType } from '@definition/sources';
 
 export const sourcesState = atom<SourceWeekType[]>({
   key: 'sources',
