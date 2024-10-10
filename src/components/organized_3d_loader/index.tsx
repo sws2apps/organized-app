@@ -25,6 +25,7 @@ const Organized3DLoader = ({
 }) => {
   const defaultOptions = {
     loop: true,
+    speed: 1.3,
     autoplay: true,
     animationData: animationData,
     rendererSettings: {
