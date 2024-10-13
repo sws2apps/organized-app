@@ -22,7 +22,7 @@
   "tr_btnSubmitReport": "Enviar o relatório",
   "tr_badgeGoalHours": "de {{ ministryTime }} h",
   "tr_btnAddCreditHours": "Adicionar crédito de horas",
-  "tr_extraTime": "You have extra minutes: {{ ministryTime }}",
+  "tr_extraTime": "Tem {{ ministryTime }} minutos extra",
   "tr_extraTimeDesc": "Deseja transferir este tempo para o próximo mês?",
   "tr_btnTransfer": "Transferir",
   "tr_btnNoKeepIt": "Não, manter",
@@ -88,7 +88,7 @@
   "tr_deletePWLocationDesc": "A exclusão deste local remove permanentemente todos os seus dados e arranjos. Esta ação não pode ser desfeita.",
   "tr_changeImage": "Alterar imagem",
   "tr_addImage": "Adicionar imagem",
-  "tr_cantDeductStudiesDesc": "You can’t select fewer studies than you already have selected in the 'Bible studies' menu.",
+  "tr_cantDeductStudiesDesc": "Não pode selecionar menos estudos bíblicos do que já selecionou no menu suspenso 'Estudos bíblicos individuais'.",
   "tr_cantDeductStudiesTitle": "Não é possível deduzir estudos bíblicos",
   "tr_includesServiceAndCredit": "Inclui serviço de campo e horas de crédito",
   "tr_noDailyRecordsDesc": "Nenhum registo de serviço diário ainda. Adicione o registo para incluí-lo no seu relatório mensal.",
@@ -129,5 +129,6 @@
   "tr_specificPublisherRecords": "Specific publishers",
   "tr_S21ExportMultipleDesc": "Select the publishers you want to include in the exported records. Each publisher will be included in a separate file.",
   "tr_activePublishersAll": "All other publishers",
+  "tr_markAsVerified": "Mark as verified",
   "tr_averageMonthlyHours": "Average monthly"
 }

@@ -439,5 +439,6 @@
   "tr_enableCongregationDataSync": "Aktivera synkronisering av församlingsdata",
   "tr_enableCongregationDataSyncDesc": "Den här funktionen synkroniserar data såsom scheman med andra användare i din församling och tillåter användning av appen på flera enheter samtidigt.",
   "tr_applicationRejected": "Pionjäransökan nekad",
-  "tr_applicationRejectedDesc": "Denna ansökan har nekats. Informera förkunnaren om dess status."
+  "tr_applicationRejectedDesc": "Denna ansökan har nekats. Informera förkunnaren om dess status.",
+  "tr_serviceGroupsListNone": "No field service groups yet. The groups will appear here as soon as they are created."
 }

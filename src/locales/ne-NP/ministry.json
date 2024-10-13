@@ -22,7 +22,7 @@
   "tr_btnSubmitReport": "रिपोर्ट पेस गर्ने",
   "tr_badgeGoalHours": "{{ ministryTime }} घण्टामा",
   "tr_btnAddCreditHours": "घण्टा क्रेडिट थप्ने",
-  "tr_extraTime": "You have extra minutes: {{ ministryTime }}",
+  "tr_extraTime": "तपाईंसँग थप {{ ministryTime }} मिनेट छ",
   "tr_extraTimeDesc": "के तपाईं यो समयलाई अर्को महिनामा सार्न चाहनुहुन्छ?",
   "tr_btnTransfer": "सार्ने",
   "tr_btnNoKeepIt": "होइन, राख्ने",
@@ -129,5 +129,6 @@
   "tr_specificPublisherRecords": "Specific publishers",
   "tr_S21ExportMultipleDesc": "Select the publishers you want to include in the exported records. Each publisher will be included in a separate file.",
   "tr_activePublishersAll": "All other publishers",
+  "tr_markAsVerified": "Mark as verified",
   "tr_averageMonthlyHours": "Average monthly"
 }
