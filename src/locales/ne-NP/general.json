@@ -3,7 +3,7 @@
   "tr_errorTitle": "त्रुटि भयो",
   "tr_about": "एपबारे",
   "tr_errorHeaderText": "केही त्रुटि भयो",
-  "tr_errorActionText": "An error occurred. Try to refresh the page. If this won’t help, try to fully restart Organized. Note, that this will clear all your unsynced data.",
+  "tr_errorActionText": "समस्या भयो। रिफ्रेस गर्नुहोस्। यदि त्यसो गर्दा भएन भने Organized एप बन्द गरेर फेरि खोल्नुहोस्। याद गर्नुहोस्, यसो गर्दा सिङ्‍क नगरिएका सबै डाटा हट्नेछ।",
   "tr_restart": "रिस्टार्ट गर्ने",
   "tr_refreshPage": "पृष्ठ रिफ्रेस गर्ने",
   "tr_updateAvailable": "अपडेट उपलब्ध छ",
