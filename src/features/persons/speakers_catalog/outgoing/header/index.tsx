@@ -5,7 +5,7 @@ import {
   IconExpand,
   IconSharedWith,
 } from '@components/icons';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { OutgoingSpeakersHeaderType } from './index.types';
 import useHeader from './useHeader';
 import Typography from '@components/typography';
@@ -18,6 +18,8 @@ const OutgoingSpeakersHeader = ({
   onEditModeChange,
 }: OutgoingSpeakersHeaderType) => {
   const { t } = useAppTranslation();
+
+  const { isPublicTalkCoordinator } = useCurrentUser();
 
   const {
     congName,
@@ -70,14 +72,18 @@ const OutgoingSpeakersHeader = ({
       </Box>
 
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-        <IconButton onClick={onEditModeChange}>
-          {!editMode && <IconEdit color="var(--accent-main)" />}
-          {editMode && <IconCheck color="var(--accent-main)" />}
-        </IconButton>
-        {congAccountConnected && (
-          <IconButton onClick={handleOpenAccess}>
-            <IconSharedWith color="var(--accent-main)" />
-          </IconButton>
+        {isPublicTalkCoordinator && (
+          <>
+            <IconButton onClick={onEditModeChange}>
+              {!editMode && <IconEdit color="var(--accent-main)" />}
+              {editMode && <IconCheck color="var(--accent-main)" />}
+            </IconButton>
+            {congAccountConnected && (
+              <IconButton onClick={handleOpenAccess}>
+                <IconSharedWith color="var(--accent-main)" />
+              </IconButton>
+            )}
+          </>
         )}
 
         <IconButton onClick={onExpandChange}>

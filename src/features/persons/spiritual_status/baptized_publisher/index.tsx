@@ -1,5 +1,9 @@
 import { Box, Collapse, FormControlLabel, RadioGroup } from '@mui/material';
-import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import {
+  useAppTranslation,
+  useBreakpoints,
+  useCurrentUser,
+} from '@hooks/index';
 import { BaptizedPublisherType } from './index.types';
 import useBaptizedPublisher from './useBaptizedPublisher';
 import DateHistory from '../../date_history';
@@ -18,6 +22,8 @@ const BaptizedPublisher = ({
   const { t } = useAppTranslation();
 
   const { tabletDown } = useBreakpoints();
+
+  const { isPersonEditor } = useCurrentUser();
 
   const {
     person,
@@ -70,7 +76,9 @@ const BaptizedPublisher = ({
                   ? 'anointed'
                   : 'otherSheep'
               }
-              onChange={(e) => handleToggleHope(e.target.value)}
+              onChange={
+                isPersonEditor ? (e) => handleToggleHope(e.target.value) : null
+              }
             >
               <FormControlLabel
                 value="otherSheep"
@@ -116,6 +124,7 @@ const BaptizedPublisher = ({
                 }
                 onChange={handleChangeBaptismDate}
                 maxDate={new Date()}
+                readOnly={!isPersonEditor}
               />
             </Box>
             <Box
@@ -155,6 +164,7 @@ const BaptizedPublisher = ({
                 {activeHistory.map((history, index) => (
                   <DateHistory
                     key={history.id}
+                    readOnly={!isPersonEditor}
                     id={history.id}
                     start_date={history.start_date}
                     end_date={history.end_date}

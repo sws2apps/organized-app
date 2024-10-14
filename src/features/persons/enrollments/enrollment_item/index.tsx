@@ -17,6 +17,7 @@ const EnrollmentItem = ({
   start_date,
   enrollment,
   onEnrollmentChange,
+  readOnly,
 }: EnrollmentItemType) => {
   const { t } = useAppTranslation();
 
@@ -27,6 +28,7 @@ const EnrollmentItem = ({
         label={t('tr_enrollment')}
         value={enrollment}
         onChange={(e) => onEnrollmentChange(id, e.target.value as string)}
+        readOnly={readOnly}
       >
         <MenuItem value="AP">
           <Typography>{t('tr_AP')}</Typography>
@@ -44,6 +46,7 @@ const EnrollmentItem = ({
 
       <DateHistory
         id={id}
+        readOnly={readOnly}
         start_date={start_date}
         end_date={end_date}
         isLast={isLast}

@@ -1,11 +1,11 @@
 import { Box, Collapse } from '@mui/material';
+import { IconAdd } from '@components/icons';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
+import { MidweekMeetingStudentType } from './index.types';
+import useMidweekMeetingStudent from './useMidweekMeetingStudent';
 import Button from '@components/button';
 import DateHistory from '../../date_history';
 import SpiritualStatusTitle from '../title';
-import { MidweekMeetingStudentType } from './index.types';
-import { useAppTranslation } from '@hooks/index';
-import useMidweekMeetingStudent from './useMidweekMeetingStudent';
-import { IconAdd } from '@components/icons';
 
 const MidweekMeetingStudent = ({
   checked,
@@ -14,6 +14,8 @@ const MidweekMeetingStudent = ({
   onExpand,
 }: MidweekMeetingStudentType) => {
   const { t } = useAppTranslation();
+
+  const { isPersonEditor } = useCurrentUser();
 
   const {
     handleAddHistory,
@@ -42,7 +44,7 @@ const MidweekMeetingStudent = ({
             gap: '16px',
           }}
         >
-          {activeHistory.length === 0 && (
+          {isPersonEditor && activeHistory.length === 0 && (
             <Button
               variant="small"
               startIcon={<IconAdd />}
@@ -60,6 +62,7 @@ const MidweekMeetingStudent = ({
           {activeHistory.map((history, index) => (
             <DateHistory
               key={history.id}
+              readOnly={!isPersonEditor}
               id={history.id}
               start_date={history.start_date}
               end_date={history.end_date}

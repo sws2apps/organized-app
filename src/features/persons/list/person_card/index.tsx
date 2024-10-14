@@ -1,12 +1,15 @@
 import { Grid2 as Grid } from '@mui/material';
 import { PersonCardType } from './index.types';
 import { buildPersonFullname } from '@utils/common';
+import useCurrentUser from '@hooks/useCurrentUser';
 import usePersonCard from './usePersonCard';
 import Badge from '@components/badge';
 import DeletePersonConfirm from '../person_delete';
 import UserCard from '@components/user_card';
 
 const PersonCard = ({ person }: PersonCardType) => {
+  const { isPersonEditor } = useCurrentUser();
+
   const {
     badges,
     handleDeleteCancel,
@@ -33,7 +36,7 @@ const PersonCard = ({ person }: PersonCardType) => {
           fullnameOption
         )}
         female={person.person_data.female.value}
-        onDelete={handleDelete}
+        onDelete={isPersonEditor ? handleDelete : null}
         onClick={handleOpenPerson}
       >
         {badges.map((badge) => (

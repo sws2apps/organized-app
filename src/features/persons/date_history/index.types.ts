@@ -7,4 +7,5 @@ export type DateHistoryType = {
   onAdd: () => void;
   onDelete: (id: string) => void;
   isLast: boolean;
+  readOnly?: boolean;
 };

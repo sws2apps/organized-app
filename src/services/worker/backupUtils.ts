@@ -550,7 +550,7 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
           encryptObject({
             data: speaker,
             table: 'visiting_speakers',
-            accessCode: speakersKey,
+            masterKey: speakersKey,
           });
 
           return speaker;
@@ -558,7 +558,7 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
 
         obj.outgoing_speakers = outgoing;
 
-        if (backupData.speakers_key === '') {
+        if (!backupData.speakers_key || backupData?.speakers_key.length === 0) {
           obj.speakers_key = encryptData(speakersKey, masterKey);
         }
       }

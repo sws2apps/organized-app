@@ -117,6 +117,7 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
               children: [
                 { path: '/persons', element: <PersonsAll /> },
                 { path: '/persons/:id', element: <PersonDetails /> },
+                { path: '/speakers-catalog', element: <SpeakersCatalog /> },
                 {
                   path: '/congregation-settings',
                   element: <CongregationSettings />,
@@ -158,7 +159,6 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
             {
               element: <RouteProtected allowed={isWeekendEditor} />,
               children: [
-                { path: '/speakers-catalog', element: <SpeakersCatalog /> },
                 { path: '/weekend-meeting', element: <WeekendMeeting /> },
               ],
             },

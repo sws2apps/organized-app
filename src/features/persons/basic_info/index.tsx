@@ -1,5 +1,9 @@
 import { Box, Divider, FormControlLabel, RadioGroup } from '@mui/material';
-import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import {
+  useAppTranslation,
+  useBreakpoints,
+  useCurrentUser,
+} from '@hooks/index';
 import useBasicInfo from './useBasicInfo';
 import Badge from '@components/badge';
 import DatePicker from '@components/date_picker';
@@ -11,6 +15,8 @@ const PersonBasicInfo = () => {
   const { t } = useAppTranslation();
 
   const { tabletDown } = useBreakpoints();
+
+  const { isPersonEditor } = useCurrentUser();
 
   const {
     person,
@@ -110,11 +116,13 @@ const PersonBasicInfo = () => {
             label={t('tr_firstname')}
             value={person.person_data.person_firstname.value}
             onChange={(e) => handleChangeFirstname(e.target.value)}
+            slotProps={{ input: { readOnly: !isPersonEditor } }}
           />
           <TextField
             label={t('tr_lastname')}
             value={person.person_data.person_lastname.value}
             onChange={(e) => handleChangeLastname(e.target.value)}
+            slotProps={{ input: { readOnly: !isPersonEditor } }}
           />
         </Box>
         {displayNameEnabled && (
@@ -122,19 +130,22 @@ const PersonBasicInfo = () => {
             label={t('tr_displayName')}
             value={person.person_data.person_display_name.value}
             onChange={(e) => handleChangeDisplayName(e.target.value)}
+            slotProps={{ input: { readOnly: !isPersonEditor } }}
           />
         )}
       </Box>
 
       <RadioGroup
+        value={person.person_data.male.value ? 'male' : 'female'}
+        onChange={
+          isPersonEditor ? (e) => handleToggleGender(e.target.value) : null
+        }
         sx={{
           marginLeft: '4px',
           flexDirection: 'row',
           gap: tabletDown ? '16px' : '24px',
           flexWrap: 'wrap',
         }}
-        value={person.person_data.male.value ? 'male' : 'female'}
-        onChange={(e) => handleToggleGender(e.target.value)}
       >
         <FormControlLabel
           value="male"
@@ -167,6 +178,7 @@ const PersonBasicInfo = () => {
             }
             onChange={handleChangeBirthDate}
             maxDate={new Date()}
+            readOnly={!isPersonEditor}
           />
         </Box>
         <Box
@@ -210,17 +222,20 @@ const PersonBasicInfo = () => {
             label={t('tr_emailAddress')}
             value={person.person_data.email.value}
             onChange={(e) => handleChangeEmailAddress(e.target.value)}
+            slotProps={{ input: { readOnly: !isPersonEditor } }}
           />
           <TextField
             label={t('tr_phoneNumber')}
             value={person.person_data.phone.value}
             onChange={(e) => handleChangePhone(e.target.value)}
+            slotProps={{ input: { readOnly: !isPersonEditor } }}
           />
         </Box>
         <TextField
           label={t('tr_address')}
           value={person.person_data.address.value}
           onChange={(e) => handleChangeAddress(e.target.value)}
+          slotProps={{ input: { readOnly: !isPersonEditor } }}
         />
       </Box>
     </Box>

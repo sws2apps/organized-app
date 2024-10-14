@@ -13,6 +13,7 @@ const AssignmentGroup = ({
   checkedItems,
   male,
   disqualified = false,
+  readOnly,
 }: AssignmentGroupType) => {
   const { checkAssignmentDisabled, checkGroupDisabled } =
     useAssignmentGroup(male);
@@ -23,10 +24,12 @@ const AssignmentGroup = ({
       color={color}
       disabled={disqualified || checkGroupDisabled(id)}
       onChange={(checked) => onHeaderChange(checked, id)}
+      readOnly={readOnly}
     >
       {items.map((assignment) => (
         <Checkbox
           key={assignment.code}
+          readOnly={readOnly}
           label={assignment.name}
           checked={
             checkAssignmentDisabled(assignment.code)

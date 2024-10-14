@@ -7,10 +7,10 @@ import {
   IconEdit,
   IconExpand,
 } from '@components/icons';
+import { useBreakpoints, useCurrentUser } from '@hooks/index';
 import { IncomingCongregationHeaderType } from './index.types';
 import useHeader from './useHeader';
 import Typography from '@components/typography';
-import useBreakpoints from '@hooks/useBreakpoints';
 
 const IncomingCongregationHeader = ({
   expanded,
@@ -23,6 +23,8 @@ const IncomingCongregationHeader = ({
   onDelete,
 }: IncomingCongregationHeaderType) => {
   const { laptopDown } = useBreakpoints();
+
+  const { isPublicTalkCoordinator } = useCurrentUser();
 
   const { handleHideDelete, handleShowDelete, showDelete } = useHeader();
 
@@ -59,16 +61,20 @@ const IncomingCongregationHeader = ({
       </Box>
 
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-        {(laptopDown || showDelete) && (
-          <IconButton onClick={onDelete}>
-            <IconDelete color="var(--red-main)" />
-          </IconButton>
-        )}
+        {isPublicTalkCoordinator && (
+          <>
+            {(laptopDown || showDelete) && (
+              <IconButton onClick={onDelete}>
+                <IconDelete color="var(--red-main)" />
+              </IconButton>
+            )}
 
-        <IconButton onClick={onEditModeChange}>
-          {!editMode && <IconEdit color="var(--accent-main)" />}
-          {editMode && <IconCheck color="var(--accent-main)" />}
-        </IconButton>
+            <IconButton onClick={onEditModeChange}>
+              {!editMode && <IconEdit color="var(--accent-main)" />}
+              {editMode && <IconCheck color="var(--accent-main)" />}
+            </IconButton>
+          </>
+        )}
 
         <IconButton onClick={() => onExpandChange(cong_number)}>
           <IconExpand

@@ -1,3 +1,4 @@
+import { AppRoleType } from '@definition/app';
 import { AssignmentCode } from '@definition/assignment';
 import { FullnameOption } from '@definition/settings';
 
@@ -68,31 +69,37 @@ export const LANGUAGE_LIST = [
   { code: 'tpo', locale: 'pt-PT', name: 'Português (Portugal)' },
 ].sort((a, b) => a.code.localeCompare(b.code));
 
-export const APP_ROLES = [
+export const APP_ROLES: AppRoleType[] = [
   'admin',
   'coordinator',
-  'public_talk_coordinator',
-  'lmmo',
+  'view_schedules',
+  'midweek_schedule',
+  'weekend_schedule',
+  'public_talk_schedule',
+  'attendance_tracking',
   'secretary',
+  'elder',
+  'service_overseer',
+  'ms',
+  'publisher',
+];
+
+export const VIP_ROLES: AppRoleType[] = [
+  'admin',
+  'coordinator',
+  'midweek_schedule',
+  'weekend_schedule',
+  'public_talk_schedule',
+  'secretary',
+  'service_overseer',
+  'elder',
+];
+
+export const POCKET_ROLES: AppRoleType[] = [
   'elder',
   'ms',
   'publisher',
   'view_schedules',
-];
-
-export const VIP_ROLES = [
-  'admin',
-  'coordinator',
-  'public_talk_coordinator',
-  'lmmo',
-  'secretary',
-];
-
-export const POCKET_ROLES = [
-  'elder',
-  'ms',
-  'publisher',
-  'view_meeting_schedule',
 ];
 
 export const isDemo = import.meta.env.VITE_APP_MODE === 'DEMO';

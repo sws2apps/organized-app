@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { personCurrentDetailsState } from '@states/persons';
@@ -7,6 +8,8 @@ const useAllPersons = () => {
   const navigate = useNavigate();
 
   const person = useRecoilValue(personCurrentDetailsState);
+
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
 
   const handlePersonAdd = async () => {
     const newPerson = structuredClone(person);
@@ -23,7 +26,12 @@ const useAllPersons = () => {
     await importDummyPersons();
   };
 
-  return { handlePersonAdd, handleGetDummyPersons };
+  return {
+    handlePersonAdd,
+    handleGetDummyPersons,
+    isPanelOpen,
+    setIsPanelOpen,
+  };
 };
 
 export default useAllPersons;

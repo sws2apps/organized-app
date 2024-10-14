@@ -15,7 +15,7 @@ import { DemoNotice } from '@features/index';
 const Dashboard = () => {
   const { t } = useAppTranslation();
 
-  const { isAdmin, isMeetingEditor, isPublisher, isPersonEditor } =
+  const { isAdmin, isMeetingEditor, isPublisher, isPersonViewer } =
     useCurrentUser();
 
   const {
@@ -57,7 +57,7 @@ const Dashboard = () => {
 
         <MeetingsCard assignmentCount={countFutureAssignments} />
 
-        {isPersonEditor && <PersonsCard />}
+        {isPersonViewer && <PersonsCard />}
 
         {isMeetingEditor && <MeetingsMaterialsCard />}
 

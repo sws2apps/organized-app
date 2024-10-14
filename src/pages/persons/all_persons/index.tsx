@@ -6,18 +6,22 @@ import {
   IconPanelClose,
   IconPanelOpen,
 } from '@components/icons';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { PersonsFilter, PersonsList, PersonsSearch } from '@features/index';
 import { isDemo } from '@constants/index';
 import useAllPersons from './useAllPersons';
-import { useState } from 'react';
 
 const PersonsAll = () => {
   const { t } = useAppTranslation();
 
-  const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const { isPersonEditor } = useCurrentUser();
 
-  const { handlePersonAdd, handleGetDummyPersons } = useAllPersons();
+  const {
+    handlePersonAdd,
+    handleGetDummyPersons,
+    isPanelOpen,
+    setIsPanelOpen,
+  } = useAllPersons();
 
   return (
     <Box sx={{ display: 'flex', gap: '16px', flexDirection: 'column' }}>
@@ -25,7 +29,7 @@ const PersonsAll = () => {
         title={t('tr_personsAll')}
         buttons={
           <>
-            {!isDemo && (
+            {isPersonEditor && !isDemo && (
               <Button
                 variant="main"
                 startIcon={<IconDownload />}
@@ -40,13 +44,15 @@ const PersonsAll = () => {
               </Button>
             )}
 
-            <Button
-              variant="main"
-              startIcon={<IconAddPerson />}
-              onClick={handlePersonAdd}
-            >
-              {t('tr_personAdd')}
-            </Button>
+            {isPersonEditor && (
+              <Button
+                variant="main"
+                startIcon={<IconAddPerson />}
+                onClick={handlePersonAdd}
+              >
+                {t('tr_personAdd')}
+              </Button>
+            )}
           </>
         }
       />
