@@ -1,5 +1,6 @@
 import {
   APFormOutgoing,
+  CongregationUpdatesResponseType,
   User2FAResponseType,
   UserSessionsResponseType,
   ValidateMeResponseType,
@@ -330,3 +331,31 @@ export const apiUserGetApplications = async (): Promise<APRecordType[]> => {
     throw new Error(data.message);
   }
 };
+
+export const apiUserGetUpdates =
+  async (): Promise<CongregationUpdatesResponseType> => {
+    const {
+      apiHost,
+      appVersion: appversion,
+      userID,
+      idToken,
+    } = await apiDefault();
+
+    const res = await fetch(
+      `${apiHost}api/v3/users/${userID}/updates-routine`,
+      {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${idToken}`,
+          appclient: 'organized',
+          appversion,
+        },
+      }
+    );
+
+    const data = await res.json();
+
+    return { status: res.status, result: data };
+  };

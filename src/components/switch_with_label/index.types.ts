@@ -3,4 +3,5 @@ export type SwitchWithLabelProps = {
   helper?: string;
   checked: boolean;
   onChange: (value: boolean) => void;
+  readOnly?: boolean;
 };

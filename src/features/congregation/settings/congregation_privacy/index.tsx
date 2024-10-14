@@ -4,7 +4,7 @@ import {
   CardSectionContent,
   CardSectionHeader,
 } from '../shared_styles';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import useCongregationPrivacy from './useCongregationPrivacy';
 import AccessCodeView from './access_code_view';
 import DataSharing from './data_sharing';
@@ -15,12 +15,10 @@ import SwitchWithLabel from '@components/switch_with_label';
 const CongregationPrivacy = () => {
   const { t } = useAppTranslation();
 
-  const {
-    timeAwayPublic,
-    handleTimeAwayPublicToggle,
-    isUserAdmin,
-    isConnected,
-  } = useCongregationPrivacy();
+  const { isAdmin } = useCurrentUser();
+
+  const { timeAwayPublic, handleTimeAwayPublicToggle, isConnected } =
+    useCongregationPrivacy();
 
   return (
     <CardSection>
@@ -38,14 +36,15 @@ const CongregationPrivacy = () => {
             helper={t('tr_showAwayToAllDesc')}
             checked={timeAwayPublic}
             onChange={handleTimeAwayPublicToggle}
+            readOnly={!isAdmin}
           />
 
           <OutgoingTalkAccess />
         </Stack>
 
-        {isConnected && isUserAdmin && <MasterKeyView />}
+        {isConnected && isAdmin && <MasterKeyView />}
 
-        {isConnected && isUserAdmin && <AccessCodeView />}
+        {isConnected && isAdmin && <AccessCodeView />}
       </CardSectionContent>
     </CardSection>
   );
