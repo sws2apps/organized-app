@@ -15,7 +15,7 @@ import { DemoNotice } from '@features/index';
 const Dashboard = () => {
   const { t } = useAppTranslation();
 
-  const { isAdmin, isMeetingEditor, isPublisher, isPersonViewer } =
+  const { isMeetingEditor, isPublisher, isPersonViewer, isElder } =
     useCurrentUser();
 
   const {
@@ -61,7 +61,7 @@ const Dashboard = () => {
 
         {isMeetingEditor && <MeetingsMaterialsCard />}
 
-        {isAdmin && <ReportsCard />}
+        {isElder && <ReportsCard />}
 
         <CongregationCard />
       </Box>

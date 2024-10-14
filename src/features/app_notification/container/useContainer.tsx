@@ -7,7 +7,7 @@ import {
   encryptedMasterKeyState,
   speakersKeyState,
 } from '@states/app';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { NotificationRecordType } from '@definition/notification';
 import { notificationsState } from '@states/notification';
 import {
@@ -38,6 +38,8 @@ import usePendingRequests from './usePendingRequests';
 const useContainer = () => {
   const { t } = useAppTranslation();
 
+  const { isElder } = useCurrentUser();
+
   const { updatePendingRequestsNotification } = usePendingRequests();
 
   const [notifications, setNotifications] = useRecoilState(notificationsState);
@@ -57,9 +59,9 @@ const useContainer = () => {
   const accountType = useRecoilValue(accountTypeState);
 
   const { data, isPending } = useQuery({
-    enabled: congAccountConnected,
+    enabled: accountType === 'vip' && isElder && congAccountConnected,
     queryKey: ['congregation_updates'],
-    queryFn: accountType === 'vip' ? () => apiUserGetUpdates() : null,
+    queryFn: apiUserGetUpdates,
     refetchInterval: 60 * 1000,
     refetchOnWindowFocus: 'always',
   });

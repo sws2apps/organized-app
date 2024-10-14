@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { SpeakerTalksSongsType } from './index.types';
 import useTalksSongs from './useTalksSongs';
 import Button from '@components/button';
@@ -8,6 +8,8 @@ import SongsTalk from '../../songs_talk';
 
 const SpeakerTalksSongs = ({ speaker, onClose }: SpeakerTalksSongsType) => {
   const { t } = useAppTranslation();
+
+  const { isPublicTalkCoordinator } = useCurrentUser();
 
   const {
     talks,
@@ -20,9 +22,11 @@ const SpeakerTalksSongs = ({ speaker, onClose }: SpeakerTalksSongsType) => {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      <Typography color="var(--grey-400)">
-        {t('tr_speakerTalksSongsDesc')}
-      </Typography>
+      {isPublicTalkCoordinator && (
+        <Typography color="var(--grey-400)">
+          {t('tr_speakerTalksSongsDesc')}
+        </Typography>
+      )}
 
       <Box
         sx={{
@@ -50,7 +54,7 @@ const SpeakerTalksSongs = ({ speaker, onClose }: SpeakerTalksSongsType) => {
         ))}
       </Box>
 
-      {!cong_synced && (
+      {isPublicTalkCoordinator && !cong_synced && (
         <Box
           sx={{
             display: 'flex',
@@ -68,7 +72,7 @@ const SpeakerTalksSongs = ({ speaker, onClose }: SpeakerTalksSongsType) => {
         </Box>
       )}
 
-      {cong_synced && (
+      {(!isPublicTalkCoordinator || cong_synced) && (
         <Button variant="main" onClick={onClose} sx={{ width: '100%' }}>
           {t('tr_close')}
         </Button>
