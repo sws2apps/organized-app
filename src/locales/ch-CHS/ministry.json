@@ -129,6 +129,6 @@
   "tr_specificPublisherRecords": "特定传道员",
   "tr_S21ExportMultipleDesc": "选择要包含在导出记录中的传道员。每个传道员将包含在一个单独的文件中。",
   "tr_activePublishersAll": "所有其他传道员",
-  "tr_markAsVerified": "Mark as verified",
+  "tr_markAsVerified": "标记为已确认",
   "tr_averageMonthlyHours": "月均时间"
 }
