@@ -440,5 +440,5 @@
   "tr_enableCongregationDataSyncDesc": "该功能允许与您所在会众的其他用户同步日程等数据，并且可以同时在多个设备上使用该应用程序。",
   "tr_applicationRejected": "先驱申请表被拒绝",
   "tr_applicationRejectedDesc": "此应用已被拒绝。请通知传道员其状态。",
-  "tr_serviceGroupsListNone": "No field service groups yet. The groups will appear here as soon as they are created."
+  "tr_serviceGroupsListNone": "还没有传道小组。创建小组后，小组信息将会立即出现在这里。"
 }

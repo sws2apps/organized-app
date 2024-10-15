@@ -41,17 +41,17 @@ const CongregationDetails = ({
 
       <MeetingTime
         label={t('tr_midweekMeeting')}
-        weekday={congregation.midweek_meeting.weekday.value}
+        weekday={congregation.midweek_meeting.weekday}
         onWeekdayChange={handleMidweekWeekdayChange}
-        time={generateDateFromTime(congregation.midweek_meeting.time.value)}
+        time={generateDateFromTime(congregation.midweek_meeting.time)}
         onTimeChange={handleMidweekTimeChange}
       />
 
       <MeetingTime
         label={t('tr_weekendMeeting')}
-        weekday={congregation.weekend_meeting.weekday.value}
+        weekday={congregation.weekend_meeting.weekday}
         onWeekdayChange={handleWeekendWeekdayChange}
-        time={generateDateFromTime(congregation.weekend_meeting.time.value)}
+        time={generateDateFromTime(congregation.weekend_meeting.time)}
         onTimeChange={handleWeekendTimeChange}
       />
 

@@ -1,9 +1,11 @@
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import useTimeAway from './useTimeAway';
 import TimeAwayEditor from '../time_away_editor';
 
 const PersonTimeAway = () => {
   const { t } = useAppTranslation();
+
+  const { isPersonEditor } = useCurrentUser();
 
   const {
     handleAddTimeAway,
@@ -16,6 +18,7 @@ const PersonTimeAway = () => {
 
   return (
     <TimeAwayEditor
+      readOnly={!isPersonEditor}
       desc={t('tr_personTimeAwayDesc')}
       items={activeTimeAway}
       onAdd={handleAddTimeAway}

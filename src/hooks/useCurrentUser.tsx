@@ -110,9 +110,18 @@ const useCurrentUser = () => {
     if (isAdmin) return true;
 
     return userRole.some(
-      (role) => role === 'midweek_schedule' || role === 'weekend_schedule'
+      (role) =>
+        role === 'midweek_schedule' ||
+        role === 'weekend_schedule' ||
+        role === 'public_talk_schedule'
     );
   }, [isAdmin, userRole]);
+
+  const isPersonViewer = useMemo(() => {
+    if (isPersonEditor) return true;
+
+    return userRole.some((role) => role === 'elder');
+  }, [isPersonEditor, userRole]);
 
   const isAttendanceEditor = useMemo(() => {
     if (isAdmin) return true;
@@ -148,6 +157,12 @@ const useCurrentUser = () => {
     return userRole.includes('secretary');
   }, [isAdmin, userRole]);
 
+  const isPublicTalkCoordinator = useMemo(() => {
+    if (isAdmin) return true;
+
+    return userRole.includes('public_talk_schedule');
+  }, [isAdmin, userRole]);
+
   return {
     person,
     first_report,
@@ -164,6 +179,8 @@ const useCurrentUser = () => {
     accountType,
     isMeetingEditor,
     isSecretary,
+    isPersonViewer,
+    isPublicTalkCoordinator,
   };
 };
 

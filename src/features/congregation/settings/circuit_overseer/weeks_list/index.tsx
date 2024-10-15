@@ -1,12 +1,14 @@
 import { Box } from '@mui/material';
 import { IconAdd } from '@components/icons';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import useWeeksList from './useWeeksList';
 import Button from '@components/button';
 import WeekItem from '../week_item';
 
 const WeeksList = () => {
   const { t } = useAppTranslation();
+
+  const { isAdmin } = useCurrentUser();
 
   const { handleAddVisit, weeks } = useWeeksList();
 
@@ -23,17 +25,19 @@ const WeeksList = () => {
         <WeekItem key={visit.id} visit={visit} />
       ))}
 
-      <Button
-        variant="small"
-        sx={{
-          alignSelf: 'flex-start',
-          minHeight: '32px',
-        }}
-        startIcon={<IconAdd />}
-        onClick={handleAddVisit}
-      >
-        {t('tr_addNextVisit')}
-      </Button>
+      {isAdmin && (
+        <Button
+          variant="small"
+          sx={{
+            alignSelf: 'flex-start',
+            minHeight: '32px',
+          }}
+          startIcon={<IconAdd />}
+          onClick={handleAddVisit}
+        >
+          {t('tr_addNextVisit')}
+        </Button>
+      )}
     </Box>
   );
 };

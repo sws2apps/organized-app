@@ -27,6 +27,7 @@ export const AssignmentCheckList = ({
   disabled = false,
   children,
   onChange,
+  readOnly,
 }: AssignmentCheckListProps) => {
   const [checkedItems, setCheckedItems] = useState({});
   const [checkedMain, setCheckedMain] = useState(false);
@@ -107,7 +108,8 @@ export const AssignmentCheckList = ({
               disabled={disabled}
               checked={allChecked || checkedMain}
               indeterminate={someChecked && !allChecked}
-              onChange={onMainCheckboxClick}
+              onChange={!readOnly ? onMainCheckboxClick : null}
+              readOnly={readOnly}
             />
           }
         />

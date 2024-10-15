@@ -1,8 +1,9 @@
 import { Box, IconButton } from '@mui/material';
+import { IconExpand } from '@components/icons';
+import { SpiritualStatusTitleType } from './index.types';
+import useCurrentUser from '@hooks/useCurrentUser';
 import Switch from '@components/switch';
 import Typography from '@components/typography';
-import { SpiritualStatusTitleType } from './index.types';
-import { IconExpand } from '@components/icons';
 
 const SpiritualStatusTitle = ({
   checked,
@@ -11,6 +12,8 @@ const SpiritualStatusTitle = ({
   isExpanded,
   onExpand,
 }: SpiritualStatusTitleType) => {
+  const { isPersonEditor } = useCurrentUser();
+
   return (
     <Box
       sx={{
@@ -21,7 +24,11 @@ const SpiritualStatusTitle = ({
       }}
     >
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-        <Switch checked={checked} onChange={onChange} />
+        <Switch
+          checked={checked}
+          onChange={onChange}
+          readOnly={!isPersonEditor}
+        />
         <Typography className="h3">{title}</Typography>
       </Box>
       <IconButton sx={{ padding: 0 }} onClick={onExpand}>

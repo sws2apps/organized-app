@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import { IconAdd, IconInfo } from '@icons/index';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import useEmergencyContacts from './useEmergencyContacts';
 import Button from '@components/button';
 import Typography from '@components/typography';
@@ -8,6 +8,8 @@ import ContactItem from './contact_item';
 
 const PersonEmergencyContacts = () => {
   const { t } = useAppTranslation();
+
+  const { isPersonEditor } = useCurrentUser();
 
   const {
     handleAddContact,
@@ -40,18 +42,20 @@ const PersonEmergencyContacts = () => {
             </Typography>
           </Box>
 
-          <Button
-            variant="small"
-            startIcon={<IconAdd />}
-            onClick={handleAddContact}
-            sx={{
-              height: '32px',
-              minHeight: '32px !important',
-              alignSelf: 'flex-start',
-            }}
-          >
-            {t('tr_add')}
-          </Button>
+          {isPersonEditor && (
+            <Button
+              variant="small"
+              startIcon={<IconAdd />}
+              onClick={handleAddContact}
+              sx={{
+                height: '32px',
+                minHeight: '32px !important',
+                alignSelf: 'flex-start',
+              }}
+            >
+              {t('tr_add')}
+            </Button>
+          )}
         </Box>
       )}
 
@@ -67,6 +71,7 @@ const PersonEmergencyContacts = () => {
           {activeContacts.map((contactItem, index) => (
             <ContactItem
               key={contactItem.id}
+              readOnly={!isPersonEditor}
               id={contactItem.id}
               name={contactItem.name}
               contact={contactItem.contact}

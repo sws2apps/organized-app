@@ -11,4 +11,5 @@ export type AssignmentGroupType = {
   checkedItems: AssignmentCode[];
   male: boolean;
   disqualified?: boolean;
+  readOnly?: boolean;
 };

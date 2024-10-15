@@ -1,7 +1,11 @@
 import { Box } from '@mui/material';
 import { IconAdd } from '@components/icons';
 import { Button, PageTitle } from '@components/index';
-import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import {
+  useAppTranslation,
+  useBreakpoints,
+  useCurrentUser,
+} from '@hooks/index';
 import { IncomingSpeakers, OutgoingSpeakers } from '@features/index';
 import useSpeakersCatalog from './useSpeakersCatalog';
 
@@ -10,6 +14,8 @@ const SpeakersCatalog = () => {
 
   const { desktopUp } = useBreakpoints();
 
+  const { isPublicTalkCoordinator } = useCurrentUser();
+
   const { handleIsAddingOpen } = useSpeakersCatalog();
 
   return (
@@ -17,13 +23,17 @@ const SpeakersCatalog = () => {
       <PageTitle
         title={t('tr_speakersCatalog')}
         buttons={
-          <Button
-            variant="main"
-            startIcon={<IconAdd />}
-            onClick={handleIsAddingOpen}
-          >
-            {t('tr_addCongregation')}
-          </Button>
+          <>
+            {isPublicTalkCoordinator && (
+              <Button
+                variant="main"
+                startIcon={<IconAdd />}
+                onClick={handleIsAddingOpen}
+              >
+                {t('tr_addCongregation')}
+              </Button>
+            )}
+          </>
         }
       />
 

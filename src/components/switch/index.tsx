@@ -11,6 +11,14 @@ const Switch: FC<SwitchProps> = (props) => {
         <IconOnCircle width={18} height={18} color="var(--accent-main)" />
       }
       {...props}
+      onChange={(e) => {
+        if (props.readOnly) {
+          e.preventDefault();
+          return;
+        }
+
+        props.onChange?.(e, e.target.checked);
+      }}
       sx={{
         padding: 0,
         width: '40px',

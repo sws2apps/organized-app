@@ -60,8 +60,7 @@ const useCongregationAdd = (onClose: VoidFunction) => {
   const handleMidweekWeekdayChange = (value: number) => {
     setIncomingCongregation((prev) => {
       const obj = structuredClone(prev);
-      obj.midweek_meeting.weekday.value = value;
-      obj.midweek_meeting.weekday.updatedAt = new Date().toISOString();
+      obj.midweek_meeting.weekday = value;
 
       return obj;
     });
@@ -70,8 +69,7 @@ const useCongregationAdd = (onClose: VoidFunction) => {
   const handleMidweekTimeChange = (value: Date) => {
     setIncomingCongregation((prev) => {
       const obj = structuredClone(prev);
-      obj.midweek_meeting.time.value = formatDate(value, 'HH:MM');
-      obj.midweek_meeting.time.updatedAt = new Date().toISOString();
+      obj.midweek_meeting.time = formatDate(value, 'HH:MM');
 
       return obj;
     });
@@ -80,8 +78,7 @@ const useCongregationAdd = (onClose: VoidFunction) => {
   const handleWeekendWeekdayChange = (value: number) => {
     setIncomingCongregation((prev) => {
       const obj = structuredClone(prev);
-      obj.weekend_meeting.weekday.value = value;
-      obj.weekend_meeting.weekday.updatedAt = new Date().toISOString();
+      obj.weekend_meeting.weekday = value;
 
       return obj;
     });
@@ -90,8 +87,7 @@ const useCongregationAdd = (onClose: VoidFunction) => {
   const handleWeekendTimeChange = (value: Date) => {
     setIncomingCongregation((prev) => {
       const obj = structuredClone(prev);
-      obj.weekend_meeting.time.value = formatDate(value, 'HH:MM');
-      obj.weekend_meeting.time.updatedAt = new Date().toISOString();
+      obj.weekend_meeting.time = formatDate(value, 'HH:MM');
 
       return obj;
     });
@@ -207,21 +203,21 @@ const useCongregationAdd = (onClose: VoidFunction) => {
           },
           midweek_meeting: {
             time: {
-              value: incomingCongregation.midweek_meeting.time.value,
+              value: incomingCongregation.midweek_meeting.time,
               updatedAt: new Date().toISOString(),
             },
             weekday: {
-              value: incomingCongregation.midweek_meeting.weekday.value,
+              value: incomingCongregation.midweek_meeting.weekday,
               updatedAt: new Date().toISOString(),
             },
           },
           weekend_meeting: {
             time: {
-              value: incomingCongregation.weekend_meeting.time.value,
+              value: incomingCongregation.weekend_meeting.time,
               updatedAt: new Date().toISOString(),
             },
             weekday: {
-              value: incomingCongregation.weekend_meeting.weekday.value,
+              value: incomingCongregation.weekend_meeting.weekday,
               updatedAt: new Date().toISOString(),
             },
           },

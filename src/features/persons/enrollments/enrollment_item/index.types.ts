@@ -11,4 +11,5 @@ export type EnrollmentItemType = {
   onDelete: (id: string) => void;
   isLast: boolean;
   enrollment: EnrollmentType;
+  readOnly?: boolean;
 };

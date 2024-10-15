@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import { IconAdd } from '@components/icons';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import usePrivileges from './usePrivileges';
 import Button from '@components/button';
 import Typography from '@components/typography';
@@ -8,6 +8,8 @@ import PrivilegeItem from './privilege_item';
 
 const Privileges = () => {
   const { t } = useAppTranslation();
+
+  const { isPersonEditor } = useCurrentUser();
 
   const {
     activeHistory,
@@ -38,7 +40,7 @@ const Privileges = () => {
           gap: '16px',
         }}
       >
-        {activeHistory.length === 0 && (
+        {isPersonEditor && activeHistory.length === 0 && (
           <Button
             variant="small"
             startIcon={<IconAdd />}
@@ -57,6 +59,7 @@ const Privileges = () => {
           <PrivilegeItem
             key={history.id}
             id={history.id}
+            readOnly={!isPersonEditor}
             privilege={history.privilege}
             start_date={history.start_date}
             end_date={history.end_date}

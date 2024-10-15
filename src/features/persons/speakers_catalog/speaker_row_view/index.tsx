@@ -93,7 +93,7 @@ const SpeakerRowView = ({ speaker }: SpeakerReadOnlyViewType) => {
             {!tabletDown && (
               <Button
                 variant="small"
-                color="var(--accent-main)"
+                color="accent"
                 onClick={handleOpenSpeakerDetails}
                 sx={{
                   height: laptopDown ? 'unset' : '20px',

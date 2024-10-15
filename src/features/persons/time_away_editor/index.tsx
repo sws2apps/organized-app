@@ -14,6 +14,7 @@ const TimeAwayEditor = ({
   onDelete,
   onEndDateChange,
   onStartDateChange,
+  readOnly,
 }: TimeAwayEditorProps) => {
   const { t } = useAppTranslation();
 
@@ -40,18 +41,20 @@ const TimeAwayEditor = ({
             </Box>
           )}
 
-          <Button
-            variant="small"
-            startIcon={<IconAdd />}
-            onClick={onAdd}
-            sx={{
-              height: '32px',
-              minHeight: '32px !important',
-              alignSelf: 'flex-start',
-            }}
-          >
-            {t('tr_add')}
-          </Button>
+          {!readOnly && (
+            <Button
+              variant="small"
+              startIcon={<IconAdd />}
+              onClick={onAdd}
+              sx={{
+                height: '32px',
+                minHeight: '32px !important',
+                alignSelf: 'flex-start',
+              }}
+            >
+              {t('tr_add')}
+            </Button>
+          )}
         </Box>
       )}
 
@@ -67,6 +70,7 @@ const TimeAwayEditor = ({
           {items.map((timeAwayItem, index) => (
             <TimeAwayItem
               key={timeAwayItem.id}
+              readOnly={readOnly}
               id={timeAwayItem.id}
               start_date={timeAwayItem.start_date}
               end_date={timeAwayItem.end_date}

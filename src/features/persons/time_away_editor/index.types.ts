@@ -8,4 +8,5 @@ export type TimeAwayEditorProps = {
   onEndDateChange: (id: string, value: Date) => void;
   onCommentsChange: (id: string, value: string) => void;
   onDelete: (id: string) => void;
+  readOnly?: boolean;
 };

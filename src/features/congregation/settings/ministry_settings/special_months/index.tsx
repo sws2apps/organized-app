@@ -1,13 +1,15 @@
 import { Stack } from '@mui/material';
 import { IconAdd } from '@components/icons';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { CardSubSectionHeader } from '@features/congregation/settings/shared_styles';
-import { useAppTranslation } from '@hooks/index';
 import useSpecialMonths from './useSpecialMonths';
 import Button from '@components/button';
 import MonthsRecord from './months_record';
 
 const SpecialMonths = () => {
   const { t } = useAppTranslation();
+
+  const { isServiceCommittee } = useCurrentUser();
 
   const { months, handleAddRecord, handleDelete } = useSpecialMonths();
 
@@ -32,7 +34,7 @@ const SpecialMonths = () => {
         </Stack>
       )}
 
-      {months.length === 0 && (
+      {isServiceCommittee && months.length === 0 && (
         <Button
           variant="small"
           startIcon={<IconAdd />}
