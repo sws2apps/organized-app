@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-named-as-default
 import Dexie from 'dexie';
 import appDb from '@db/appDb';
 

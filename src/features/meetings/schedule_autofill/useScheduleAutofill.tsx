@@ -718,7 +718,6 @@ const useScheduleAutofill = (
             // #region Speaker 2
             if (selected) {
               const speaker1 = persons.find(
-                // eslint-disable-next-line no-loop-func
                 (record) => record.person_uid === selected.person_uid
               );
               const speakerSymposium = speaker1.person_data.assignments.find(
