@@ -438,15 +438,13 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
   } = await dbGetTableData();
 
   const secretaryRole = userRole.includes('secretary');
+  const coordinatorRole = userRole.includes('coordinator');
 
   const adminRole =
-    secretaryRole ||
-    userRole.some((role) => role === 'admin' || role === 'coordinator');
+    userRole.includes('admin') || secretaryRole || coordinatorRole;
 
   const serviceCommitteeRole =
-    adminRole ||
-    secretaryRole ||
-    userRole.some((role) => role === 'service_overseer');
+    adminRole || userRole.some((role) => role === 'service_overseer');
 
   const publicTalkEditor =
     adminRole || userRole.some((role) => role === 'public_talk_schedule');
@@ -481,6 +479,7 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
         user_settings: userBaseSettings,
       };
 
+      // include settings data
       if (settingEditor) {
         const localSettings = structuredClone(settings);
 
@@ -588,7 +587,7 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
         obj.persons = [person];
       }
 
-      // update incoming reports
+      // include incoming reports
       if (secretaryRole && backupData.incoming_reports) {
         const newReports: IncomingReport[] = [];
 
