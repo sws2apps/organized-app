@@ -284,7 +284,7 @@ const useContainer = () => {
   const handleUnauthorized = useCallback(async () => {
     const status = data?.status;
 
-    if (status === 404) {
+    if (status === 403) {
       await handleDeleteDatabase();
     }
   }, [data]);

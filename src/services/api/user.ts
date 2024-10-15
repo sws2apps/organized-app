@@ -341,6 +341,8 @@ export const apiUserGetUpdates =
       idToken,
     } = await apiDefault();
 
+    if (!userID) return;
+
     const res = await fetch(
       `${apiHost}api/v3/users/${userID}/updates-routine`,
       {
