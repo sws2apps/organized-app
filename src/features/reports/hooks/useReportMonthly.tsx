@@ -27,6 +27,14 @@ const useReportMonthly = () => {
     let isInactive = true;
     let countReport = 0;
 
+    const findReport = (toFind: string) => {
+      return reports.find(
+        (record) =>
+          record.report_data.person_uid === person.person_uid &&
+          record.report_data.report_date === toFind
+      );
+    };
+
     do {
       // exit and count reports if it reaches first month report
       if (month === startDate) {
@@ -35,11 +43,7 @@ const useReportMonthly = () => {
       }
 
       // find report and check shared_ministry
-      const report = reports.find(
-        (record) =>
-          record.report_data.person_uid === person.person_uid &&
-          record.report_data.report_date === month
-      );
+      const report = findReport(month);
 
       if (report?.report_data.shared_ministry) {
         isInactive = false;
