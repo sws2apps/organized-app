@@ -83,7 +83,7 @@
   "tr_midweekMeetingOverseer": "Midweek meeting overseer",
   "tr_userRights": "사용자 권한",
   "tr_midweekStudentStatusDefault": "이 사용자는 <b>평일 집회 학생</b> 영적 상태로 지정되었습니다. 따라서 기본적으로 모임 일정을 볼 수 있습니다.",
-  "tr_publisherStatusDefault": "이 사용자는 <b>\b전도인</b> 영적 상태로 지정되었습니다. 따라서 기본적으로 모임 일정을 보고 현장 봉사 보고를 제출할 수 있습니다.",
+  "tr_publisherStatusDefault": "이 사용자는 <b>\b전도인</b> 영적 상태로 지정되었습니다. 따라서 기본적으로 모임 일정을 보고 야외 봉사 보고를 제출할 수 있습니다.",
   "tr_profileSettings": "Profile settings",
   "tr_bindWithRecord": "Bind with a person record",
   "tr_delegatePersons": "사용자 위임",
