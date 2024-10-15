@@ -78,7 +78,7 @@
   "tr_unauthorizedAccount": "Erişim izniniz ayarlanmalıdır",
   "tr_unauthorizedAccountDesc": "Lütfen rollerinizi onaylamak için cemaatinizin uygulama yöneticisine başvurun ve 5 dakika sonra tekrar deneyin. İhtiyarlar, ek yardım için bize e-posta yoluyla ulaşabilirler.",
   "tr_noSchedulesYet": "Henüz program yayınlanmamış",
-  "tr_noSchedulesYetDesc": "İbadet programı henüz mevcut değil. Lütfen cemaatinizin ihtiyarlarından sadece oluşturmalarını değil, aynı zamanda uygulamada yayımlamalarını isteyin.",
+  "tr_noSchedulesYetDesc": "The meeting schedule isn't available yet. Please ask your congregation elders to not only create, but also publish it in the app.",
   "tr_reconnectAccount": "Hesabımı yeniden bağla",
   "tr_registeringApproved": "İhtiyar kurulu, bu cemaatin Organized'da kaydını onaylamıştır",
   "tr_testAppMode": "Organized test modu",
