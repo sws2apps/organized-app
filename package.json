@@ -76,7 +76,7 @@
     "eslint-plugin-cypress": "^3.6.0",
     "prop-types": "^15.8.1",
     "rollup": "^4.24.0",
-    "serve": "^14.2.3",
+    "serve": "^14.2.4",
     "vite-plugin-eslint": "^1.8.1"
   }
 }
