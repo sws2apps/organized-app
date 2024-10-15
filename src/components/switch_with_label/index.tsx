@@ -9,12 +9,14 @@ const SwitchWithLabel = ({
   helper,
   checked,
   onChange,
+  readOnly,
 }: SwitchWithLabelProps) => {
   return (
     <SwitcherContainer>
       <Switch
         checked={checked}
         onChange={(e) => onChange?.(e.target.checked)}
+        readOnly={readOnly}
       />
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
         <Typography color="var(--black)">{label}</Typography>

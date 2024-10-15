@@ -1,6 +1,10 @@
 import { Box } from '@mui/material';
 import { PageTitle } from '@components/index';
-import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import {
+  useAppTranslation,
+  useBreakpoints,
+  useCurrentUser,
+} from '@hooks/index';
 import {
   PersonAssignment,
   PersonAssignmentsHistory,
@@ -18,6 +22,8 @@ const PersonDetails = () => {
   const { t } = useAppTranslation();
 
   const { desktopUp, laptopUp } = useBreakpoints();
+
+  const { isPersonEditor } = useCurrentUser();
 
   const { isNewPerson, isBaptized, male } = usePersonDetails();
 
@@ -87,7 +93,7 @@ const PersonDetails = () => {
         </Box>
       </Box>
 
-      {!laptopUp && (
+      {isPersonEditor && !laptopUp && (
         <Box
           sx={{ display: 'flex', flexDirection: 'column-reverse', gap: '8px' }}
         >

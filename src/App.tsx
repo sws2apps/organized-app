@@ -57,7 +57,6 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
   const {
     isAdmin,
     isPublisher,
-    isServiceCommittee,
     isElder,
     isPersonEditor,
     isAttendanceEditor,
@@ -117,6 +116,7 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
               children: [
                 { path: '/persons', element: <PersonsAll /> },
                 { path: '/persons/:id', element: <PersonDetails /> },
+                { path: '/speakers-catalog', element: <SpeakersCatalog /> },
                 {
                   path: '/congregation-settings',
                   element: <CongregationSettings />,
@@ -125,6 +125,21 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
                 {
                   path: '/publisher-records/:id',
                   element: <PublisherRecordDetails />,
+                },
+
+                // only if connected
+                {
+                  element: <RouteProtected allowed={isConnected} />,
+                  children: [
+                    {
+                      path: '/pioneer-applications',
+                      element: <Applications />,
+                    },
+                    {
+                      path: '/pioneer-applications/:id',
+                      element: <ApplicationDetails />,
+                    },
+                  ],
                 },
               ],
             },
@@ -158,22 +173,7 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
             {
               element: <RouteProtected allowed={isWeekendEditor} />,
               children: [
-                { path: '/speakers-catalog', element: <SpeakersCatalog /> },
                 { path: '/weekend-meeting', element: <WeekendMeeting /> },
-              ],
-            },
-
-            // service committee routes
-            {
-              element: (
-                <RouteProtected allowed={isConnected && isServiceCommittee} />
-              ),
-              children: [
-                { path: '/pioneer-applications', element: <Applications /> },
-                {
-                  path: '/pioneer-applications/:id',
-                  element: <ApplicationDetails />,
-                },
               ],
             },
 

@@ -142,12 +142,12 @@ export type IncomingCongregationResponseType = {
   cong_circuit: string;
   cong_location: { address: string; lat: number; lng: number };
   midweek_meeting: {
-    weekday: { value: number; updatedAt: string };
-    time: { value: string; updatedAt: string };
+    weekday: number;
+    time: string;
   };
   weekend_meeting: {
-    weekday: { value: number; updatedAt: string };
-    time: { value: string; updatedAt: string };
+    weekday: number;
+    time: string;
   };
 };
 

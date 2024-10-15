@@ -10,7 +10,6 @@ import {
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { NotificationRecordType } from '@definition/notification';
 import { notificationsState } from '@states/notification';
-import { apiGetCongregationUpdates } from '@services/api/congregation';
 import {
   congregationsNotDisapprovedState,
   congregationsPendingState,
@@ -21,7 +20,11 @@ import {
   dbVisitingSpeakersUpdateRemote,
   decryptVisitingSpeakers,
 } from '@services/dexie/visiting_speakers';
-import { congAccessCodeState, congMasterKeyState } from '@states/settings';
+import {
+  accountTypeState,
+  congAccessCodeState,
+  congMasterKeyState,
+} from '@states/settings';
 import { decryptData, decryptObject } from '@services/encryption';
 import { displaySnackNotification } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
@@ -29,12 +32,13 @@ import { dbSpeakersCongregationsUpdate } from '@services/dexie/speakers_congrega
 import { applicationsState } from '@states/persons';
 import { handleDeleteDatabase } from '@services/app';
 import { dbHandleIncomingReports } from '@services/dexie/cong_field_service_reports';
+import { apiUserGetUpdates } from '@services/api/user';
 import usePendingRequests from './usePendingRequests';
 
 const useContainer = () => {
   const { t } = useAppTranslation();
 
-  const { isAdmin } = useCurrentUser();
+  const { isElder } = useCurrentUser();
 
   const { updatePendingRequestsNotification } = usePendingRequests();
 
@@ -52,11 +56,12 @@ const useContainer = () => {
   );
   const congMasterKey = useRecoilValue(congMasterKeyState);
   const congAccessCode = useRecoilValue(congAccessCodeState);
+  const accountType = useRecoilValue(accountTypeState);
 
   const { data, isPending } = useQuery({
-    enabled: congAccountConnected && isAdmin,
+    enabled: accountType === 'vip' && isElder && congAccountConnected,
     queryKey: ['congregation_updates'],
-    queryFn: apiGetCongregationUpdates,
+    queryFn: apiUserGetUpdates,
     refetchInterval: 60 * 1000,
     refetchOnWindowFocus: 'always',
   });

@@ -1,6 +1,10 @@
 import { Box, Stack } from '@mui/material';
 import { IconAdd, IconDelete } from '@components/icons';
-import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import {
+  useAppTranslation,
+  useBreakpoints,
+  useCurrentUser,
+} from '@hooks/index';
 import { MonthsRecordProps } from './index.types';
 import useMonthsRecord from './useMonthsRecord';
 import DatePicker from '@components/date_picker';
@@ -10,6 +14,8 @@ const MonthsRecord = (props: MonthsRecordProps) => {
   const { t } = useAppTranslation();
 
   const { tabletDown } = useBreakpoints();
+
+  const { isServiceCommittee } = useCurrentUser();
 
   const {
     endMonth,
@@ -33,6 +39,7 @@ const MonthsRecord = (props: MonthsRecordProps) => {
           value={startMonth}
           onChange={handleStartDateChange}
           minDate={startMinDate}
+          readOnly={!isServiceCommittee}
         />
 
         <DatePicker
@@ -40,40 +47,42 @@ const MonthsRecord = (props: MonthsRecordProps) => {
           value={endMonth}
           onChange={handleEndDateChange}
           minDate={startMonth}
-          readOnly={startMonth === null}
+          readOnly={!isServiceCommittee || startMonth === null}
         />
       </Box>
 
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-          justifyContent: props.isLast ? 'space-between' : 'flex-end',
-          flexDirection: tabletDown ? 'column-reverse' : 'row',
-        }}
-      >
-        {props.isLast && (
+      {isServiceCommittee && (
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            justifyContent: props.isLast ? 'space-between' : 'flex-end',
+            flexDirection: tabletDown ? 'column-reverse' : 'row',
+          }}
+        >
+          {props.isLast && (
+            <Button
+              variant="small"
+              startIcon={<IconAdd />}
+              sx={{ height: '32px', minHeight: '32px !important' }}
+              onClick={props.onAdd}
+            >
+              {t('tr_add')}
+            </Button>
+          )}
+
           <Button
             variant="small"
-            startIcon={<IconAdd />}
+            color="red"
+            startIcon={<IconDelete />}
             sx={{ height: '32px', minHeight: '32px !important' }}
-            onClick={props.onAdd}
+            onClick={() => props.onDelete(props.month.id)}
           >
-            {t('tr_add')}
+            {t('tr_delete')}
           </Button>
-        )}
-
-        <Button
-          variant="small"
-          color="red"
-          startIcon={<IconDelete />}
-          sx={{ height: '32px', minHeight: '32px !important' }}
-          onClick={() => props.onDelete(props.month.id)}
-        >
-          {t('tr_delete')}
-        </Button>
-      </Box>
+        </Box>
+      )}
     </Stack>
   );
 };

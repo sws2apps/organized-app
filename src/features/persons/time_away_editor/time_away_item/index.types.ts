@@ -9,4 +9,5 @@ export type TimeAwayItemType = {
   onCommentsChange: (id: string, value: string) => void;
   onDelete: (id: string) => void;
   isLast: boolean;
+  readOnly?: boolean;
 };

@@ -115,8 +115,8 @@
     "workbox-cli": "^7.1.0"
   },
   "engines": {
-    "node": ">18 <21",
-    "npm": ">=9"
+    "node": ">=20 <21",
+    "npm": ">=10"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,css,md,json,html}": "prettier --write"

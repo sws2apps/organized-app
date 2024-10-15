@@ -17,6 +17,7 @@ const TimeAwayItem = ({
   isLast,
   onAdd,
   onDelete,
+  readOnly,
 }: TimeAwayItemType) => {
   const { t } = useAppTranslation();
 
@@ -38,11 +39,13 @@ const TimeAwayItem = ({
           label={t('tr_startDate')}
           value={new Date(start_date)}
           onChange={(value) => onStartDateChange(id, value)}
+          readOnly={readOnly}
         />
         <DatePicker
           label={t('tr_endDate')}
           value={end_date === null ? null : new Date(end_date)}
           onChange={(value) => onEndDateChange(id, value)}
+          readOnly={readOnly}
         />
       </Box>
 
@@ -50,6 +53,7 @@ const TimeAwayItem = ({
         label={t('tr_comments')}
         value={comments}
         onChange={(e) => onCommentsChange(id, e.target.value)}
+        slotProps={{ input: { readOnly } }}
       />
 
       <Box
@@ -61,7 +65,7 @@ const TimeAwayItem = ({
           flexDirection: tabletDown ? 'column-reverse' : 'row',
         }}
       >
-        {isLast && (
+        {!readOnly && isLast && (
           <Button
             variant="small"
             startIcon={<IconAdd />}
@@ -72,15 +76,17 @@ const TimeAwayItem = ({
           </Button>
         )}
 
-        <Button
-          variant="small"
-          color="red"
-          startIcon={<IconDelete />}
-          sx={{ height: '32px', minHeight: '32px !important' }}
-          onClick={() => onDelete(id)}
-        >
-          {t('tr_delete')}
-        </Button>
+        {!readOnly && (
+          <Button
+            variant="small"
+            color="red"
+            startIcon={<IconDelete />}
+            sx={{ height: '32px', minHeight: '32px !important' }}
+            onClick={() => onDelete(id)}
+          >
+            {t('tr_delete')}
+          </Button>
+        )}
       </Box>
     </Box>
   );

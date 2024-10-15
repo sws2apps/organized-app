@@ -1,5 +1,9 @@
 import { Box, Stack } from '@mui/material';
-import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import {
+  useAppTranslation,
+  useBreakpoints,
+  useCurrentUser,
+} from '@hooks/index';
 import { ApplicationFormProps } from '../index.types';
 import useFormBody from './useFormBody';
 import Card from '@components/card';
@@ -16,6 +20,8 @@ const FormBody = (props: ApplicationFormProps) => {
   const { t } = useAppTranslation();
 
   const { laptopUp, tabletDown } = useBreakpoints();
+
+  const { isServiceCommittee } = useCurrentUser();
 
   const {
     moral_text,
@@ -53,6 +59,7 @@ const FormBody = (props: ApplicationFormProps) => {
               renderValue={(values: string[]) => handleFormatMonths(values)}
               onChange={(e) => handleSetMonths(e.target.value as string[])}
               sx={{ flex: 1 }}
+              readOnly={!isServiceCommittee}
             >
               {monthOptions.map((record) => (
                 <MenuItem key={record.value} value={record.value}>
@@ -71,6 +78,7 @@ const FormBody = (props: ApplicationFormProps) => {
               checked={application?.continuous ?? false}
               onChange={(e) => handleToggleContinuous(e.target.checked)}
               sx={{ flex: 1 }}
+              readOnly={!isServiceCommittee}
             />
           </Box>
 
@@ -97,6 +105,7 @@ const FormBody = (props: ApplicationFormProps) => {
               <DatePicker
                 value={application?.date}
                 onChange={(value) => handleSetDate(value)}
+                readOnly={!isServiceCommittee}
               />
             </Box>
             <TextField
@@ -104,6 +113,7 @@ const FormBody = (props: ApplicationFormProps) => {
               value={application?.name}
               onChange={(e) => handleSetName(e.target.value)}
               sx={{ flex: 1 }}
+              slotProps={{ input: { readOnly: !isServiceCommittee } }}
             />
           </Box>
 

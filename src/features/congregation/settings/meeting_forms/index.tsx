@@ -1,6 +1,6 @@
 import { Stack } from '@mui/material';
 import { formatDate } from '@services/dateformat';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import {
   CardSection,
   CardSectionContent,
@@ -16,6 +16,9 @@ import SwitchWithLabel from '@components/switch_with_label';
 
 const MeetingForms = () => {
   const { t } = useAppTranslation();
+
+  const { isMidweekEditor, isWeekendEditor, isPublicTalkCoordinator } =
+    useCurrentUser();
 
   const {
     sourceAutoUpdate,
@@ -34,34 +37,36 @@ const MeetingForms = () => {
       <CardSectionHeader title={t('tr_meetinMaterialsTitle')} />
 
       <CardSectionContent marginTop="-8px !important">
-        <Stack spacing="16px">
-          <SwitchWithLabel
-            label={t('tr_autoCheckUpdate')}
-            helper={t('tr_autoCheckUpdateDesc')}
-            checked={sourceAutoUpdate}
-            onChange={handleSourceAutoUpdateToggle}
-          />
+        {(isMidweekEditor || isWeekendEditor || isPublicTalkCoordinator) && (
+          <Stack spacing="16px">
+            <SwitchWithLabel
+              label={t('tr_autoCheckUpdate')}
+              helper={t('tr_autoCheckUpdateDesc')}
+              checked={sourceAutoUpdate}
+              onChange={handleSourceAutoUpdateToggle}
+            />
 
-          {sourceAutoUpdate && (
-            <Select
-              label={t('tr_autoCheckFrequency')}
-              value={sourceUpdateFrequency}
-              onChange={(e) =>
-                handleSourceUpdateFrequencyChange(+e.target.value)
-              }
-            >
-              <MenuItem value={SourceFrequency.WEEKLY}>
-                {t('tr_everyWeek')}
-              </MenuItem>
-              <MenuItem value={SourceFrequency.BIWEEKLY}>
-                {t('tr_everyTwoWeeks')}
-              </MenuItem>
-              <MenuItem value={SourceFrequency.MONTHLY}>
-                {t('tr_everyMonth')}
-              </MenuItem>
-            </Select>
-          )}
-        </Stack>
+            {sourceAutoUpdate && (
+              <Select
+                label={t('tr_autoCheckFrequency')}
+                value={sourceUpdateFrequency}
+                onChange={(e) =>
+                  handleSourceUpdateFrequencyChange(+e.target.value)
+                }
+              >
+                <MenuItem value={SourceFrequency.WEEKLY}>
+                  {t('tr_everyWeek')}
+                </MenuItem>
+                <MenuItem value={SourceFrequency.BIWEEKLY}>
+                  {t('tr_everyTwoWeeks')}
+                </MenuItem>
+                <MenuItem value={SourceFrequency.MONTHLY}>
+                  {t('tr_everyMonth')}
+                </MenuItem>
+              </Select>
+            )}
+          </Stack>
+        )}
 
         <Stack spacing="16px">
           <MidweekExactDate />
@@ -74,6 +79,9 @@ const MeetingForms = () => {
             label={t('tr_nameFormat')}
             value={fullnameOption}
             onChange={(e) => handleFullnameOptionChange(+e.target.value)}
+            readOnly={
+              !isMidweekEditor && !isWeekendEditor && !isPublicTalkCoordinator
+            }
           >
             <MenuItem value={FullnameOption.FIRST_BEFORE_LAST}>
               {t('tr_formatFirstLast')}
@@ -88,6 +96,9 @@ const MeetingForms = () => {
             value={shortDateFormat}
             onChange={(e) =>
               handleShortDateFormatChange(e.target.value as string)
+            }
+            readOnly={
+              !isMidweekEditor && !isWeekendEditor && !isPublicTalkCoordinator
             }
           >
             {shortDateFormatOptions.map((format) => (

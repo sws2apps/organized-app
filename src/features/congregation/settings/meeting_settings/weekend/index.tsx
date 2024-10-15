@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import AssignmentPreferences from '../midweek/assignment_preferences';
+import AssignmentPreferences from './assignment_preferences';
 import DayTime from './day_time';
 import MonthlyWarning from './monthly_warning';
 import StudyConductor from './study_conductor';

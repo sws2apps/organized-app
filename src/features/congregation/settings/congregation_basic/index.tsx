@@ -1,5 +1,9 @@
 import { Box, Stack } from '@mui/material';
-import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import {
+  useAppTranslation,
+  useBreakpoints,
+  useCurrentUser,
+} from '@hooks/index';
 import {
   CardSection,
   CardSectionContent,
@@ -15,6 +19,8 @@ const CongregationBasic = () => {
   const { t } = useAppTranslation();
 
   const { tabletUp } = useBreakpoints();
+
+  const { isAdmin } = useCurrentUser();
 
   const {
     congFullName,
@@ -47,11 +53,12 @@ const CongregationBasic = () => {
         />
 
         <TextField
-          sx={{ width: tabletUp ? '120px' : '100%' }}
           label={t('tr_circuitNumber')}
           value={circuitNumber}
           onChange={(e) => handleCircuitChange(e.target.value)}
           onKeyUp={handleCircuitSave}
+          slotProps={{ input: { readOnly: !isAdmin } }}
+          sx={{ width: tabletUp ? '120px' : '100%' }}
         />
       </Box>
 
@@ -59,15 +66,16 @@ const CongregationBasic = () => {
         <Stack spacing="16px">
           <TextField
             label={t('tr_kingdomHallAddress')}
+            helperText={t('tr_kingdomHallAddressDesc')}
+            value={address}
+            onChange={(e) => handleAddressChange(e.target.value)}
+            onKeyUp={handleAddressSave}
+            slotProps={{ input: { readOnly: !isAdmin } }}
             sx={{
               '.MuiFormHelperText-root': {
                 color: 'var(--accent-350) !important',
               },
             }}
-            helperText={t('tr_kingdomHallAddressDesc')}
-            value={address}
-            onChange={(e) => handleAddressChange(e.target.value)}
-            onKeyUp={handleAddressSave}
           />
 
           <Box
@@ -81,6 +89,7 @@ const CongregationBasic = () => {
               label={t('tr_24hFormat')}
               checked={hour24}
               onChange={handleHour24Toggle}
+              readOnly={!isAdmin}
             />
 
             <MeetingAttendance />

@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import Switch from '@components/switch';
 import SwitcherContainer from '@components/switcher_container';
 import Typography from '@components/typography';
@@ -8,6 +8,8 @@ import useVisibilityToggle from './useVisibilityToggle';
 
 const VisibilityToggle = () => {
   const { t } = useAppTranslation();
+
+  const { isPublicTalkCoordinator } = useCurrentUser();
 
   const {
     handleToggleVisibility,
@@ -36,6 +38,7 @@ const VisibilityToggle = () => {
         <Switch
           checked={isVisible}
           onChange={(e) => handleToggleVisibility(e.target.checked)}
+          readOnly={!isPublicTalkCoordinator}
         />
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
           <Typography>{t('tr_discoverableSetting')}</Typography>
