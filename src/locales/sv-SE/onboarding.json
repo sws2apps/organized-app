@@ -78,7 +78,7 @@
   "tr_unauthorizedAccount": "Dina åtkomstbehörigheter måste justeras",
   "tr_unauthorizedAccountDesc": "Kontakta din församlingsappadministratör för att bekräfta din roll och försök igen om 5 minuter. För ytterligare assistans kan äldste kontakta oss via e-post.",
   "tr_noSchedulesYet": "Inga scheman än",
-  "tr_noSchedulesYetDesc": "Mötescheman är inte tillgängliga än. Vänligen be dina församlingsäldste att inte bara skapa utan även publicera dem i appen.",
+  "tr_noSchedulesYetDesc": "The meeting schedule isn't available yet. Please ask your congregation elders to not only create, but also publish it in the app.",
   "tr_reconnectAccount": "Återanslut mitt konto",
   "tr_registeringApproved": "Äldstekåren har godkänt registreringen av denna församling i Organized",
   "tr_testAppMode": "Organized testläge",
