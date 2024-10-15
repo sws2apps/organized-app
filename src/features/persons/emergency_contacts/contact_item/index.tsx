@@ -47,38 +47,36 @@ const ContactItem = ({
       </Box>
 
       {!readOnly && (
-        <>
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              justifyContent: isLast ? 'space-between' : 'flex-end',
-              flexDirection: tabletDown ? 'column-reverse' : 'row',
-            }}
-          >
-            {isLast && (
-              <Button
-                variant="small"
-                startIcon={<IconAdd />}
-                sx={{ height: '32px', minHeight: '32px !important' }}
-                onClick={onAdd}
-              >
-                {t('tr_add')}
-              </Button>
-            )}
-
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            justifyContent: isLast ? 'space-between' : 'flex-end',
+            flexDirection: tabletDown ? 'column-reverse' : 'row',
+          }}
+        >
+          {isLast && (
             <Button
               variant="small"
-              color="red"
-              startIcon={<IconDelete />}
+              startIcon={<IconAdd />}
               sx={{ height: '32px', minHeight: '32px !important' }}
-              onClick={() => onDelete(id)}
+              onClick={onAdd}
             >
-              {t('tr_delete')}
+              {t('tr_add')}
             </Button>
-          </Box>
-        </>
+          )}
+
+          <Button
+            variant="small"
+            color="red"
+            startIcon={<IconDelete />}
+            sx={{ height: '32px', minHeight: '32px !important' }}
+            onClick={() => onDelete(id)}
+          >
+            {t('tr_delete')}
+          </Button>
+        </Box>
       )}
     </Box>
   );
