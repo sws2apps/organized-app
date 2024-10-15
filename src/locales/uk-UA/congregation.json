@@ -440,5 +440,5 @@
   "tr_enableCongregationDataSyncDesc": "Ця опція дозволяє синхронізувати дані, такі як розклади, з іншими користувачами у твоєму зборі, а також уможливлює користування додатком на кількох пристроях одночасно.",
   "tr_applicationRejected": "Заяву на служіння піонером відхилено",
   "tr_applicationRejectedDesc": "Ця заява була відхилена. Повідом вісника про її статус.",
-  "tr_serviceGroupsListNone": "No field service groups yet. The groups will appear here as soon as they are created."
+  "tr_serviceGroupsListNone": "Поки немає груп для поповідницького служіння. Ці групи з'являться тут, щойно вони будуть створені."
 }
