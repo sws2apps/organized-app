@@ -6,6 +6,7 @@ import {
   congAccountConnectedState,
   encryptedMasterKeyState,
   speakersKeyState,
+  userIDState,
 } from '@states/app';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { NotificationRecordType } from '@definition/notification';
@@ -57,9 +58,14 @@ const useContainer = () => {
   const congMasterKey = useRecoilValue(congMasterKeyState);
   const congAccessCode = useRecoilValue(congAccessCodeState);
   const accountType = useRecoilValue(accountTypeState);
+  const userID = useRecoilValue(userIDState);
 
   const { data, isPending } = useQuery({
-    enabled: accountType === 'vip' && isElder && congAccountConnected,
+    enabled:
+      userID.length > 0 &&
+      accountType === 'vip' &&
+      isElder &&
+      congAccountConnected,
     queryKey: ['congregation_updates'],
     queryFn: apiUserGetUpdates,
     refetchInterval: 60 * 1000,
