@@ -5,7 +5,11 @@ import {
   IconCheck,
   IconInfo,
 } from '@components/icons';
-import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import {
+  useAppTranslation,
+  useBreakpoints,
+  useCurrentUser,
+} from '@hooks/index';
 import useReportDetails from './useReportDetails';
 import BibleStudies from './bible_studies';
 import Button from '@components/button';
@@ -23,6 +27,8 @@ const ReportDetails = () => {
   const { t } = useAppTranslation();
 
   const { desktopUp } = useBreakpoints();
+
+  const { isSecretary } = useCurrentUser();
 
   const {
     person,
@@ -102,7 +108,7 @@ const ReportDetails = () => {
 
           <Comments person={person} />
 
-          {(enable_quick_AP || unverified) && (
+          {isSecretary && (enable_quick_AP || unverified) && (
             <Stack spacing="8px">
               {enable_quick_AP && (
                 <Button
@@ -126,7 +132,7 @@ const ReportDetails = () => {
             </Stack>
           )}
 
-          {isInactive && (
+          {isSecretary && isInactive && (
             <Button
               variant="main"
               onClick={handleMarkAsActive}
