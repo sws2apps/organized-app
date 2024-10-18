@@ -6,13 +6,12 @@ import {
 } from '@states/user_field_service_reports';
 import { WithdrawReportProps } from './index.types';
 import { displaySnackNotification } from '@services/recoil/app';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
 import { dbUserFieldServiceReportsSave } from '@services/dexie/user_field_service_reports';
 import {
   accountTypeState,
   congAccessCodeState,
-  secretaryRoleState,
   userLocalUIDState,
 } from '@states/settings';
 import {
@@ -28,9 +27,10 @@ import {
 const useWithdrawReport = ({ onClose }: WithdrawReportProps) => {
   const { t } = useAppTranslation();
 
+  const { isSecretary, isGroupOverseer } = useCurrentUser();
+
   const selectedMonth = useRecoilValue(reportUserSelectedMonthState);
   const monthlyReports = useRecoilValue(userFieldServiceMonthlyReportsState);
-  const secretary = useRecoilValue(secretaryRoleState);
   const accountType = useRecoilValue(accountTypeState);
   const userUID = useRecoilValue(userLocalUIDState);
   const localAccessCode = useRecoilValue(congAccessCodeState);
@@ -72,15 +72,15 @@ const useWithdrawReport = ({ onClose }: WithdrawReportProps) => {
     try {
       setIsProcessing(true);
 
-      if (!secretary) {
+      if (!isSecretary && !isGroupOverseer) {
         await handleAPI();
       }
 
-      let report = monthlyReports.find(
+      const findReport = monthlyReports.find(
         (record) => record.report_date === selectedMonth
       );
 
-      report = structuredClone(report);
+      const report = structuredClone(findReport);
 
       report.report_data.status = 'pending';
 
@@ -110,10 +110,7 @@ const useWithdrawReport = ({ onClose }: WithdrawReportProps) => {
     }
   };
 
-  return {
-    handleWithdrawal,
-    isProcessing,
-  };
+  return { handleWithdrawal, isProcessing };
 };
 
 export default useWithdrawReport;

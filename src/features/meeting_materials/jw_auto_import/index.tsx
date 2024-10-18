@@ -11,7 +11,7 @@ import useCurrentUser from '@hooks/useCurrentUser';
 const JWAutoImport = () => {
   const { isNavigatorOnline } = useInternetChecker();
 
-  const { isMidweekEditor } = useCurrentUser();
+  const { isMeetingEditor } = useCurrentUser();
 
   const isAppLoad = useRecoilValue(isAppLoadState);
   const isAutoImportEnabled = useRecoilValue(sourcesJWAutoImportState);
@@ -29,7 +29,7 @@ const JWAutoImport = () => {
         handleJWAutoImport();
       }
 
-      if (!isDemo && isMidweekEditor && isAutoImportEnabled) {
+      if (!isDemo && isMeetingEditor && isAutoImportEnabled) {
         const now = new Date().toISOString();
         const nextSync = localStorage.getItem('organized_jw_import_next_sync');
 
@@ -43,7 +43,7 @@ const JWAutoImport = () => {
     isAppLoad,
     isAutoImportEnabled,
     isNavigatorOnline,
-    isMidweekEditor,
+    isMeetingEditor,
   ]);
 
   return <></>;

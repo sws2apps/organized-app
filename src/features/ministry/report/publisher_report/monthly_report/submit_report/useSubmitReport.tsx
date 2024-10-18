@@ -7,7 +7,7 @@ import {
 } from '@states/user_field_service_reports';
 import { SubmitReportProps } from './index.types';
 import { displaySnackNotification } from '@services/recoil/app';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
 import { currentReportMonth } from '@utils/date';
 import {
@@ -37,6 +37,8 @@ import { decryptData, encryptObject } from '@services/encryption';
 
 const useSubmitReport = ({ onClose }: SubmitReportProps) => {
   const { t } = useAppTranslation();
+
+  const { isSecretary, isGroupOverseer } = useCurrentUser();
 
   const selectedMonth = useRecoilValue(reportUserSelectedMonthState);
   const dailyReports = useRecoilValue(userFieldServiceDailyReportsState);
@@ -159,12 +161,14 @@ const useSubmitReport = ({ onClose }: SubmitReportProps) => {
 
     report.report_data.bible_studies = bible_studies;
     report.report_data.comments = comments;
+
     report.report_data.hours = {
       credit: { value: hours_credit, approved: 0 },
       field_service: hours,
     };
+
     report.report_data.shared_ministry = shared_ministry;
-    report.report_data.status = 'received';
+    report.report_data.status = secretary ? 'confirmed' : 'received';
     report.report_data.updatedAt = new Date().toISOString();
 
     await handleSaveFieldServiceReports(report);
@@ -208,11 +212,11 @@ const useSubmitReport = ({ onClose }: SubmitReportProps) => {
 
   const handleSubmit = async () => {
     // check if current role is secretary
-    if (secretary) {
+    if (isSecretary || isGroupOverseer) {
       await handleSubmitSelf();
     }
 
-    if (!secretary) {
+    if (!isSecretary && !isGroupOverseer) {
       await handleSubmitPublisher();
     }
 
