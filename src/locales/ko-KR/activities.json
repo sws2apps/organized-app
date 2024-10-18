@@ -1,11 +1,11 @@
 {
-  "tr_addNewDate": "Add new date",
-  "tr_deepCleaning": "Deep cleaning",
-  "tr_noCleaningSchedulesYet": "You have no cleaning schedules created yet. Add a new month to start creating your first schedule.",
-  "tr_addMonthDesc": "First, choose the months you want to schedule. Then, create a plan for each specific meeting date.",
-  "tr_responsiblePerson": "Responsible person",
-  "tr_deleteDate": "Delete the date",
-  "tr_deleteDateDecs": "You cannot undo this action, but you can create a new date at any time.",
-  "tr_deleteMonth": "Delete the month",
-  "tr_deleteMonthDesc": "You cannot undo this action, but you can add a new month at any time."
+  "tr_addNewDate": "새 날짜 추가",
+  "tr_deepCleaning": "대청소",
+  "tr_noCleaningSchedulesYet": "아직 청소 계획이 없습니다. 새로운 달을 추가해서 첫 계획을 만들어보세요.",
+  "tr_addMonthDesc": "먼저 계획할 달을 선택하세요. 그런 다음 각 집회 날짜에 맞춰 계획을 세우세요.",
+  "tr_responsiblePerson": "책임자",
+  "tr_deleteDate": "날짜 삭제",
+  "tr_deleteDateDecs": "이 작업은 되돌릴 수 없지만 언제든지 새 날짜를 추가할 수 있습니다.",
+  "tr_deleteMonth": "달 삭제",
+  "tr_deleteMonthDesc": "이 작업은 되돌릴 수 없지만 언제든지 새 달을 추가할 수 있습니다."
 }
