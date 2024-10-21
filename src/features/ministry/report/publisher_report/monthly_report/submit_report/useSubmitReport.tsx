@@ -211,7 +211,7 @@ const useSubmitReport = ({ onClose }: SubmitReportProps) => {
   };
 
   const handleSubmit = async () => {
-    // check if current role is secretary
+    // check if current role is secretary or group overseer
     if (isSecretary || isGroupOverseer) {
       await handleSubmitSelf();
     }

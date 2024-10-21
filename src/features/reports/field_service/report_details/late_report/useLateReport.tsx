@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import {
   congFieldServiceReportsState,
   selectedMonthFieldServiceReportState,
@@ -17,6 +17,8 @@ import { branchFieldReportsState } from '@states/branch_field_service_reports';
 
 const useLateReport = (person: PersonType) => {
   const { t } = useAppTranslation();
+
+  const { isSecretary } = useCurrentUser();
 
   const reports = useRecoilValue(congFieldServiceReportsState);
   const currentMonth = useRecoilValue(selectedMonthFieldServiceReportState);
@@ -97,6 +99,7 @@ const useLateReport = (person: PersonType) => {
       }
 
       lateReport.report_data.late.value = value;
+      lateReport.report_data.status = isSecretary ? 'confirmed' : 'received';
       lateReport.report_data.updatedAt = new Date().toISOString();
 
       await handleSaveFieldServiceReports(lateReport);

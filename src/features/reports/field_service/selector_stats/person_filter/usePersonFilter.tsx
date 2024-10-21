@@ -36,6 +36,8 @@ const usePersonFilter = () => {
             { key: 'unbaptized', name: t('tr_unbaptizedPublishers') },
             { key: 'baptized', name: t('tr_baptizedPublishers') },
             { key: 'not_submitted', name: t('tr_reportNotSubmitted') },
+            { key: 'unverified', name: t('tr_reportUnverified') },
+            { key: 'verified', name: t('tr_reportVerified') },
             { key: 'appointed', name: t('tr_appointedBrothers') },
           ],
         },

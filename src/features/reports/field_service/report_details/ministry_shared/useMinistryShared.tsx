@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useRecoilValue } from 'recoil';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { PersonType } from '@definition/person';
 import {
   congFieldServiceReportsState,
@@ -16,6 +16,8 @@ import usePerson from '@features/persons/hooks/usePerson';
 
 const useMinistryShared = (person: PersonType) => {
   const { t } = useAppTranslation();
+
+  const { isSecretary } = useCurrentUser();
 
   const { personIsBaptizedPublisher, personIsUnbaptizedPublisher } =
     usePerson();
@@ -88,6 +90,7 @@ const useMinistryShared = (person: PersonType) => {
       }
 
       report.report_data.shared_ministry = value;
+      report.report_data.status = isSecretary ? 'confirmed' : 'received';
       report.report_data.updatedAt = new Date().toISOString();
 
       await handleSaveFieldServiceReports(report);

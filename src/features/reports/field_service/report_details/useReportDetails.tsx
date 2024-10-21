@@ -189,6 +189,7 @@ const useReportDetails = () => {
 
       const report = structuredClone(foundReport);
       report.report_data.status = 'confirmed';
+      report.report_data.updatedAt = new Date().toISOString();
 
       await dbFieldServiceReportsSave(report);
     } catch (error) {

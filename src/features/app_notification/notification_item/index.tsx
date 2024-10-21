@@ -1,12 +1,17 @@
 import { Box, Divider, Stack } from '@mui/material';
 import { IconCheck } from '@components/icons';
-import { NotificationRecordType } from '@definition/notification';
+import {
+  NotificationRecordType,
+  SpeakerNotificationType,
+  UnverifiedReportNotificationType,
+} from '@definition/notification';
 import { useAppTranslation } from '@hooks/index';
 import useNotificationItem from './useNotificationItem';
 import Button from '@components/button';
+import SpeakerAccessRequest from '../speakers_access_request';
 import TextMarkup from '@components/text_markup';
 import Typography from '@components/typography';
-import SpeakerAccessRequest from '../speakers_access_request';
+import TabLabelWithBadge from '@components/tab_label_with_badge';
 
 const NotificationItem = ({
   notification,
@@ -15,14 +20,28 @@ const NotificationItem = ({
 }) => {
   const { t } = useAppTranslation();
 
-  const { itemDate, handleMarkAsRead } = useNotificationItem(notification);
+  const { itemDate, handleMarkAsRead, handleAnchorClick } =
+    useNotificationItem(notification);
 
   return (
     <Box>
       <Stack mb={2.3} spacing={1}>
         <Stack direction="row" spacing={1}>
           {notification.icon}
-          <Typography className="h3">{notification.title}</Typography>
+
+          {notification.id !== 'reports-unverified' && (
+            <Typography className="h3">{notification.title}</Typography>
+          )}
+
+          {notification.id === 'reports-unverified' && (
+            <TabLabelWithBadge
+              className="h3"
+              label={notification.title}
+              badgeColor="var(--accent-main)"
+              count={(notification as UnverifiedReportNotificationType).count}
+            />
+          )}
+
           {!notification.read && (
             <Box
               sx={{
@@ -47,11 +66,12 @@ const NotificationItem = ({
           className="body-regular"
           color="var(--grey-400)"
           tagClassNames={{ strong: 'h4' }}
+          anchorClassName="h4"
+          anchorClick={handleAnchorClick}
         />
 
-        {notification.type === 'speakers-request' &&
-          notification.options &&
-          notification.options.map((request) => (
+        {notification.id === 'speakers-request' &&
+          (notification as SpeakerNotificationType).congs.map((request) => (
             <SpeakerAccessRequest key={request.request_id} request={request} />
           ))}
 
