@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { congFieldServiceReportSchema } from '@services/dexie/schema';
 import { displaySnackNotification } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
@@ -16,6 +16,8 @@ import usePerson from '@features/persons/hooks/usePerson';
 
 const useComments = (person: PersonType) => {
   const { t } = useAppTranslation();
+
+  const { isSecretary } = useCurrentUser();
 
   const { personIsBaptizedPublisher, personIsUnbaptizedPublisher } =
     usePerson();
@@ -92,6 +94,7 @@ const useComments = (person: PersonType) => {
       }
 
       report.report_data.comments = value;
+      report.report_data.status = isSecretary ? 'confirmed' : 'received';
       report.report_data.updatedAt = new Date().toISOString();
 
       debounceFieldServiceSave(report);

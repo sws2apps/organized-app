@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { useRecoilValue } from 'recoil';
+import { formatDate } from '@services/dateformat';
 import { personsState } from '@states/persons';
 import {
   accountTypeState,
@@ -7,7 +8,7 @@ import {
   userLocalUIDState,
 } from '@states/settings';
 import { congAccountConnectedState } from '@states/app';
-import { formatDate } from '@services/dateformat';
+import { fieldGroupsState } from '@states/field_service_groups';
 import usePerson from '@features/persons/hooks/usePerson';
 
 const useCurrentUser = () => {
@@ -22,6 +23,7 @@ const useCurrentUser = () => {
   const settings = useRecoilValue(settingsState);
   const connected = useRecoilValue(congAccountConnectedState);
   const accountType = useRecoilValue(accountTypeState);
+  const fieldGroups = useRecoilValue(fieldGroupsState);
 
   const person = useMemo(() => {
     return persons.find((record) => record.person_uid === userUID);
@@ -163,6 +165,26 @@ const useCurrentUser = () => {
     return userRole.includes('public_talk_schedule');
   }, [isAdmin, userRole]);
 
+  const my_group = useMemo(() => {
+    const findGroup = fieldGroups.find((record) =>
+      record.group_data.members.some((member) => member.person_uid === userUID)
+    );
+
+    return findGroup;
+  }, [fieldGroups, userUID]);
+
+  const isGroupOverseer = useMemo(() => {
+    if (isAdmin) return true;
+
+    if (!my_group) return false;
+
+    const overseer = my_group.group_data.members.find(
+      (record) => record.person_uid === userUID
+    );
+
+    return overseer.isOverseer;
+  }, [isAdmin, userUID, my_group]);
+
   return {
     person,
     first_report,
@@ -181,6 +203,8 @@ const useCurrentUser = () => {
     isSecretary,
     isPersonViewer,
     isPublicTalkCoordinator,
+    isGroupOverseer,
+    my_group,
   };
 };
 

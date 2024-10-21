@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useRecoilValue } from 'recoil';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { PersonType } from '@definition/person';
 import {
   congFieldServiceReportsState,
@@ -16,6 +16,8 @@ import usePerson from '@features/persons/hooks/usePerson';
 
 const useHoursField = (person: PersonType) => {
   const { t } = useAppTranslation();
+
+  const { isSecretary } = useCurrentUser();
 
   const { personIsBaptizedPublisher, personIsUnbaptizedPublisher } =
     usePerson();
@@ -89,6 +91,7 @@ const useHoursField = (person: PersonType) => {
 
       report.report_data.hours.field_service = value;
       report.report_data.shared_ministry = value > 0;
+      report.report_data.status = isSecretary ? 'confirmed' : 'received';
       report.report_data.updatedAt = new Date().toISOString();
 
       await handleSaveFieldServiceReports(report);

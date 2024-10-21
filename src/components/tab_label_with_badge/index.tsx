@@ -1,6 +1,14 @@
+import Typography from '@components/typography';
+import { CustomClassName } from '@definition/app';
 import { Box } from '@mui/material';
 
-const LabelBadge = ({ value }: { value: number }) => (
+const LabelBadge = ({
+  value,
+  badgeColor = 'inherit',
+}: {
+  value: number;
+  badgeColor?: string;
+}) => (
   <Box
     sx={{
       backgroundColor: 'var(--accent-150)',
@@ -15,16 +23,22 @@ const LabelBadge = ({ value }: { value: number }) => (
       transition: 'opacity 0.2s',
     }}
   >
-    {value.toString()}
+    <Typography className="body-small-semibold" sx={{ color: badgeColor }}>
+      {value.toString()}
+    </Typography>
   </Box>
 );
 
 const TabLabelWithBadge = ({
   label,
   count,
+  className = 'body-regular',
+  badgeColor,
 }: {
   label: string;
   count: number;
+  className?: CustomClassName;
+  badgeColor?: string;
 }) => {
   return (
     <Box
@@ -36,8 +50,8 @@ const TabLabelWithBadge = ({
         transition: 'transform 0.2s',
       }}
     >
-      {label}
-      <LabelBadge value={count} />
+      <Typography className={className}>{label}</Typography>
+      <LabelBadge value={count} badgeColor={badgeColor} />
     </Box>
   );
 };

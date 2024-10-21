@@ -1,7 +1,7 @@
 import { Box, Stack } from '@mui/material';
 import { IconGenerate } from '@components/icons';
 import { isDEV, isDemo } from '@constants/index';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import usePersonsList from './usePersonsList';
 import Button from '@components/button';
 import Card from '@components/card';
@@ -11,6 +11,8 @@ import Typography from '@components/typography';
 
 const PersonsList = () => {
   const { t } = useAppTranslation();
+
+  const { isSecretary } = useCurrentUser();
 
   const { persons, handleAddRandomData, report_editable } = usePersonsList();
 
@@ -27,7 +29,7 @@ const PersonsList = () => {
           {t('tr_personsAmount', { amount: persons.length })}
         </Typography>
 
-        {report_editable && (isDEV || isDemo) && (
+        {(isDEV || isDemo) && isSecretary && report_editable && (
           <Button
             variant="small"
             startIcon={<IconGenerate />}

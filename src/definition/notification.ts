@@ -7,14 +7,39 @@ export type CongregationSpeakerRequestType = {
   request_id: string;
 };
 
-export type NotificationRecordType = {
-  id: string;
-  type: 'speakers-request';
+export type SpeakerNotificationType = {
+  id: 'speakers-request';
   title: string;
   description: string;
   date: string;
   icon: ReactElement;
-  options?: CongregationSpeakerRequestType[];
-  enableRead?: boolean;
+  congs: CongregationSpeakerRequestType[];
+  enableRead: boolean;
   read?: boolean;
 };
+
+export type UnverifiedReportNotificationType = {
+  id: 'reports-unverified';
+  title: string;
+  description: string;
+  date: string;
+  icon: ReactElement;
+  count: number;
+  enableRead: boolean;
+  read?: boolean;
+};
+
+export type StandardNotificationType = {
+  id: string;
+  title: string;
+  description: string;
+  date: string;
+  icon: ReactElement;
+  enableRead: boolean;
+  read: boolean;
+};
+
+export type NotificationRecordType =
+  | SpeakerNotificationType
+  | UnverifiedReportNotificationType
+  | StandardNotificationType;

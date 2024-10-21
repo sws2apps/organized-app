@@ -2399,7 +2399,7 @@ export const schedulesWeekendData = async (
   result.no_meeting = schedulesWeekNoMeeting(week_type);
 
   const event_name = source.weekend_meeting.event_name.value;
-  if (event_name.length > 0) {
+  if (event_name?.length > 0) {
     result.event_name = event_name;
   }
 

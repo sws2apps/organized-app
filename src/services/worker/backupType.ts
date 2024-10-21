@@ -17,4 +17,10 @@ export type BackupDataType = {
   public_sources?: object;
   incoming_reports?: object;
   field_service_groups?: object;
+  cong_field_service_reports?: object;
+  branch_cong_analysis?: object;
+  branch_field_service_reports?: object;
+  sched?: object;
+  sources?: object;
+  meeting_attendance?: object;
 };
