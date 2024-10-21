@@ -131,8 +131,8 @@
   "tr_activePublishersAll": "Всі інші вісники",
   "tr_markAsVerified": "Позначити перевіреним",
   "tr_averageMonthlyHours": "В середньому щомісяця",
-  "tr_reportVerified": "Verified reports",
-  "tr_reportUnverified": "Reports awaiting verification",
-  "tr_unverifiedReportTitle": "You have unverified reports",
-  "tr_unverifiedReportDesc": "Open the <a title=''>Field service reports</a> to page to check and verify reports from the publishers."
+  "tr_reportVerified": "Перевірені звіти",
+  "tr_reportUnverified": "Звіти очікують на перевірку",
+  "tr_unverifiedReportTitle": "В тебе є неперевірені звіти",
+  "tr_unverifiedReportDesc": "Відкрий сторінку <a title=''>Звіти про служіння</a>, щоб переглянути та перевірити звіти від вісників."
 }
