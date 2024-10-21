@@ -130,5 +130,9 @@
   "tr_S21ExportMultipleDesc": "Valitse julistajat, jotka haluat sisällyttää vientiin. Jokainen julistaja saa oman tiedoston.",
   "tr_activePublishersAll": "Muut julistajat",
   "tr_markAsVerified": "Merkitse vahvistetuksi",
-  "tr_averageMonthlyHours": "Kuukausittainen keskiarvo"
+  "tr_averageMonthlyHours": "Kuukausittainen keskiarvo",
+  "tr_reportVerified": "Verified reports",
+  "tr_reportUnverified": "Reports awaiting verification",
+  "tr_unverifiedReportTitle": "You have unverified reports",
+  "tr_unverifiedReportDesc": "Open the <a title=''>Field service reports</a> to page to check and verify reports from the publishers."
 }
