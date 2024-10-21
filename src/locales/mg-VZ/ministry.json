@@ -130,5 +130,9 @@
   "tr_S21ExportMultipleDesc": "Safidio ny mpitory tianao ho ampidirina amin’ny lisitry ny karatra hotehirizina. Hanana karatra tsirairay avy ireo mpitory safidinao ireo.",
   "tr_activePublishersAll": "Mpitory hafa",
   "tr_markAsVerified": "Mark as verified",
-  "tr_averageMonthlyHours": "Salanisa sambola"
+  "tr_averageMonthlyHours": "Salanisa sambola",
+  "tr_reportVerified": "Verified reports",
+  "tr_reportUnverified": "Reports awaiting verification",
+  "tr_unverifiedReportTitle": "You have unverified reports",
+  "tr_unverifiedReportDesc": "Open the <a title=''>Field service reports</a> to page to check and verify reports from the publishers."
 }
