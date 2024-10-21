@@ -2,7 +2,7 @@
 
 ![Organized-devices](https://github.com/sws2apps/organized-app/assets/26148770/9526daa0-ad34-4a1b-8611-c50f0d3375b7)
 
-A free web app for Jehovah’s Witnesses congregations, helping with assignments and responsibilities, making things easier, and freeing up time for other important things! Create schedules, view your upcoming assignments, submit service reports, generate congregation reports, and much more! In a nutshell, the Organized app is:
+A free app for Jehovah’s Witnesses congregations, helping with assignments and responsibilities, making things easier, and freeing up time for other important things! Create schedules, view your upcoming assignments, submit service reports, generate congregation reports, and much more. [Try Organized](https://test.organized-app.com) and experience the difference yourself! In a nutshell, the Organized app is:
 
 🔵 **Cross-platform:** All modern desktop and mobile operating systems: Windows, macOS, Linux, ChromeOS, iPadOS, iOS, Android, and even SailfishOS and HarmonyOS
 
@@ -36,15 +36,21 @@ _Learn even more about Organized features, benefits and use-cases on our [About 
 
 ## Who Organized is made for?
 
-The app is available for all congregation members, including elders, ministerial servants, pioneers, publishers, and even midweek meeting students – everyone will see its benefits. However, we kindly suggest discussing its use with your body of elders, as local circumstances and directions may vary.
+The app is available to all congregation members — elders, ministerial servants, pioneers, publishers, and even midweek meeting students — ensuring everyone can benefit from its features. However, be sure to first get approval from your body of elders, as local circumstances and directions may vary.
 
-## Can my device run Organized? Device compatibility
+## Device compatibility
 
-Organized is designed as a Progressive Web Application (PWA), which is a huge benefit for a cross-platform experience and an advantage for users with less powerful devices or those using less common operating systems. This means that as long as you have a modern web browser, you can run Organized smoothly, whether you're on a smartphone, tablet, or computer with almost any OS.
+Organized is designed as a Progressive Web Application (PWA), offering a seamless cross-platform experience. This makes it ideal for all users, and especially for users with less powerful devices or those using less common operating systems. A major benefit is that there is no operation system-lock, meaning you aren’t restricted to specific platforms or devices. This means it can run directly from your browser without needing to install anything, but you still have the option to add it to your device for easier access and offline use. PWAs combine the best of both web and native apps, making them fast, reliable, and convenient across multiple devices and platforms. As long as you have a modern web browser, you can run Organized smoothly on a smartphone, tablet, or computer with almost any OS.
 
-To enhance your experience, you can also install Organized on your device. This adds an icon to your home screen, providing offline functionality and offering a more app-like experience, similar to native apps. Simply open the app in your device’s browser and follow the prompt to add it to your home screen (or click More/Share button → Install).
+To enhance your experience, you can also install Organized on your device. This adds an icon to your home screen, provides offline functionality, and offers a more app-like experience, similar to native apps. Simply open the app in your device’s browser and follow the prompt to add it to your home screen (or click More/Share button → Install).
 
-Whether you're on the go or at home, Organized is easy to access and use, helping you manage your congregation tasks seamlessly — anytime, anywhere, on any device!
+## Is Organized a web-based app?
+
+The Organized app is not a typical online or cloud-based app. While it can be accessed via a web browser, it can also be downloaded and used locally on your device. The app is designed to store all data directly on your device, ensuring that your information remains in your hands and you can access the app offline.
+
+An online server connection is only required for login purposes and to organize data sharing between congregation members. This connection is securely encrypted, guaranteeing the protection of your data. In essence, the Organized app combines the convenience of web access with the security and local storage of a downloaded application.
+
+### • To dive deeper into how the app works, discover its features, or view other frequently asked questions, go to our [User guide](https://guide.organized-app.com/) website.
 
 ## Real-world benefits of using the app
 
@@ -108,12 +114,14 @@ The translation for the Organized app is handled at our [Crowdin project page](h
 We're working hard to help you manage your congregation tasks easily ❤️. Our goal is to create an app that covers all aspects of congregation life and ministry. While many features are already available, there are still plenty more we plan to add:
 
 • Territories management <br>
+• Public witnessing <br>
 • Meeting duties scheduling <br>
 • Field service meeting scheduling and viewing <br>
-• Upcoming events <br>
 • Hall cleaning scheduling <br>
 • Congregation activities <br>
 • More printed schedules and forms (like S-12, S-13, S-99, and more) <br>
+• Advanced collaboration features for circuit overseers <br>
+• Wrapper apps for popular operating systems that will help users easily find and download the app as a native application from the app stores.
 
 We're excited to add these new features and more! Development takes time, but if you're a web development enthusiast and want to help out, we'd love to have you on board. Together, we can make the app better for our worldwide brotherhood!
 
