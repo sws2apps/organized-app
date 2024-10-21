@@ -130,5 +130,9 @@
   "tr_S21ExportMultipleDesc": "내보내려는 전도인을 선택하세요. 각 전도인은 별도의 파일로 포함됩니다.",
   "tr_activePublishersAll": "다른 모든 전도인",
   "tr_markAsVerified": "확인함으로 표시",
-  "tr_averageMonthlyHours": "월 평균"
+  "tr_averageMonthlyHours": "월 평균",
+  "tr_reportVerified": "Verified reports",
+  "tr_reportUnverified": "Reports awaiting verification",
+  "tr_unverifiedReportTitle": "You have unverified reports",
+  "tr_unverifiedReportDesc": "Open the <a title=''>Field service reports</a> to page to check and verify reports from the publishers."
 }
