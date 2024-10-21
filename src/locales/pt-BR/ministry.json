@@ -47,10 +47,10 @@
   "tr_hoursGoal": "Alvo de horas",
   "tr_continuousAPS": "Tique aqui caso deseje servir continuamente como pioneiro auxiliar até segundo aviso.",
   "tr_pioneerApplicationMoral": "Tenho boa conduta moral e bons hábitos. Fiz planos que me permitirão cumprir o requisito de horas. — Veja o <a href='https://www.jw.org/pt/biblioteca/ministerio-do-reino/km201306/' title=\"NOSSO MINISTÉRIO DO REINO Junho de 2013\" rel='noopener' target='_blank'>Nosso Ministério do Reino de Junho de 2013,</em> p. 2</a>.",
-  "tr_nameAPSApplication": "Nome(serve como assinatura)",
+  "tr_nameAPSApplication": "Nome (serve como assinatura)",
   "tr_noteAPSApplication": "NOTA: Se possível, envie esta solicitação pelo menos uma semana antes de começar como pioneiro auxiliar. Esta solicitação não deve ser enviada para a filial, mas será mantida nos arquivos da sua congregação.",
-  "tr_attentionServiceCommittee": "<p>Atenção: A Comissão de Serviço da Congregação:</p><p>1. O solicitante é um bom exemplo na vida cristã, sendo de bom caráter moral? </p><p>2. Pessoas repreendidas ou reintegradas durante o último ano ou aquelas que ainda têm restrições não se qualificam.</p><p>3. Você consultou o superintendente de grupo apropriado?</p>",
-  "tr_approvingAPSApplication": "Para ser aprovado pelos membros do comitê de serviço:",
+  "tr_attentionServiceCommittee": "<p>A ser avaliado pela Comissão de Serviço da Congregação:</p><p>1. O peticionário é um bom exemplo de vida cristā, tendo boa reputação moral? </p><p>2. Pessoas repreendidas ou readmitidas nos últimos 12 meses ou as que ainda estiverem sob restrições não se qualificam.</p><p>3. O superintendente do grupo do peticionário foi consultado?</p>",
+  "tr_approvingAPSApplication": "Aprovada pelos membros da comissão de serviço:",
   "tr_serviceOverseer": "Superintendente de serviço",
   "tr_moreInformationForAP": "Interessado em se tornar um pioneiro em tempo integral? Inscreva-se em <a href='https://hub.jw.org/' title='JW HuB' target='_blank' rel='noopener'>hub.jw.org</a> ou entre em contato com os anciãos da sua congregação.",
   "tr_btnSubmitApplication": "Enviar a petição",
@@ -130,5 +130,9 @@
   "tr_S21ExportMultipleDesc": "Selecione os publicadores que você deseja incluir nos registros exportados. Cada publicador será incluído em um arquivo separado.",
   "tr_activePublishersAll": "Todos os outros publicadores",
   "tr_markAsVerified": "Marcar como verificado",
-  "tr_averageMonthlyHours": "Média mensal"
+  "tr_averageMonthlyHours": "Média mensal",
+  "tr_reportVerified": "Verified reports",
+  "tr_reportUnverified": "Reports awaiting verification",
+  "tr_unverifiedReportTitle": "You have unverified reports",
+  "tr_unverifiedReportDesc": "Open the <a title=''>Field service reports</a> to page to check and verify reports from the publishers."
 }
