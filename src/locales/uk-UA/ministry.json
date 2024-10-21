@@ -130,5 +130,9 @@
   "tr_S21ExportMultipleDesc": "Вибери вісників, яких ти хочеш включити в експортовані записи. Кожен вісник буде включений в окремий файл.",
   "tr_activePublishersAll": "Всі інші вісники",
   "tr_markAsVerified": "Позначити перевіреним",
-  "tr_averageMonthlyHours": "В середньому щомісяця"
+  "tr_averageMonthlyHours": "В середньому щомісяця",
+  "tr_reportVerified": "Verified reports",
+  "tr_reportUnverified": "Reports awaiting verification",
+  "tr_unverifiedReportTitle": "You have unverified reports",
+  "tr_unverifiedReportDesc": "Open the <a title=''>Field service reports</a> to page to check and verify reports from the publishers."
 }
