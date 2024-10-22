@@ -65,6 +65,7 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
     isWeekendEditor,
     isGroupOverseer,
     isSecretary,
+    isPublicTalkCoordinator,
   } = useCurrentUser();
   const isConnected = useRecoilValue(congAccountConnectedState);
 
@@ -173,7 +174,11 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
 
             // weekend editor routes
             {
-              element: <RouteProtected allowed={isWeekendEditor} />,
+              element: (
+                <RouteProtected
+                  allowed={isWeekendEditor || isPublicTalkCoordinator}
+                />
+              ),
               children: [
                 { path: '/weekend-meeting', element: <WeekendMeeting /> },
               ],

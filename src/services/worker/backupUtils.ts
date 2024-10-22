@@ -234,6 +234,15 @@ const dbRestoreSettings = async (
 
     syncFromRemote(localSettings, remoteSettings);
 
+    localSettings.user_settings.cong_role =
+      remoteSettings.user_settings.cong_role;
+    localSettings.user_settings.data_view =
+      remoteSettings.user_settings.data_view || 'main';
+    localSettings.user_settings.user_local_uid =
+      remoteSettings.user_settings.user_local_uid;
+    localSettings.user_settings.user_members_delegate =
+      remoteSettings.user_settings.user_members_delegate;
+
     await appDb.app_settings.update(1, localSettings);
   }
 };
@@ -845,7 +854,6 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
 
   const oldData = await dbGetTableData();
 
-  const userRole = oldData.settings.user_settings.cong_role;
   const dataSync = oldData.settings.cong_settings.data_sync.value;
   const accountType = oldData.settings.user_settings.account_type;
 
@@ -885,6 +893,8 @@ export const dbExportDataBackup = async (backupData: BackupDataType) => {
     sources,
     meeting_attendance,
   } = await dbGetTableData();
+
+  const userRole = settings.user_settings.cong_role;
 
   const secretaryRole = userRole.includes('secretary');
   const coordinatorRole = userRole.includes('coordinator');

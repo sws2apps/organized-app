@@ -1,12 +1,14 @@
 import { Box } from '@mui/material';
 import { IconAdd } from '@components/icons';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import useOutgoingTalks from './useOutgoingTalks';
 import Button from '@components/button';
 import ScheduleItem from './schedule_item';
 
 const OutgoingTalks = () => {
   const { t } = useAppTranslation();
+
+  const { isPublicTalkCoordinator } = useCurrentUser();
 
   const { selectedWeek, handleAddOutgoingTalk, outgoingTalkSchedules } =
     useOutgoingTalks();
@@ -30,13 +32,15 @@ const OutgoingTalks = () => {
             />
           ))}
 
-          <Button
-            variant="tertiary"
-            startIcon={<IconAdd />}
-            onClick={handleAddOutgoingTalk}
-          >
-            {t('tr_addOutgoingTalk')}
-          </Button>
+          {isPublicTalkCoordinator && (
+            <Button
+              variant="tertiary"
+              startIcon={<IconAdd />}
+              onClick={handleAddOutgoingTalk}
+            >
+              {t('tr_addOutgoingTalk')}
+            </Button>
+          )}
         </Box>
       )}
     </>

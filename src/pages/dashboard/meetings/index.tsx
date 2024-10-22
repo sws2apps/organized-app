@@ -13,7 +13,8 @@ import useMeetings from './useMeetings';
 const MeetingsCard = ({ assignmentCount }: MeetingsCardProps) => {
   const { t } = useAppTranslation();
 
-  const { isMidweekEditor, isWeekendEditor } = useCurrentUser();
+  const { isMidweekEditor, isWeekendEditor, isPublicTalkCoordinator } =
+    useCurrentUser();
 
   const { handleOpenMyAssignments } = useMeetings();
 
@@ -45,7 +46,7 @@ const MeetingsCard = ({ assignmentCount }: MeetingsCardProps) => {
         </ListItem>
       )}
 
-      {isWeekendEditor && (
+      {(isWeekendEditor || isPublicTalkCoordinator) && (
         <ListItem disablePadding>
           <DashboardMenu
             icon={<IconTalk color="var(--black)" />}

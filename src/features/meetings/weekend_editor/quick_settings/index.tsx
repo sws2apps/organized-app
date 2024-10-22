@@ -1,5 +1,5 @@
 import { Stack } from '@mui/material';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { QuickSettingsWeekendMeetingProps } from './index.types';
 import DayTime from '@features/congregation/settings/meeting_settings/weekend/day_time';
 import AssignmentPreferences from '@features/congregation/settings/meeting_settings/weekend/assignment_preferences';
@@ -17,6 +17,8 @@ const QuickSettingsWeekendMeeting = ({
 }: QuickSettingsWeekendMeetingProps) => {
   const { t } = useAppTranslation();
 
+  const { isWeekendEditor, isPublicTalkCoordinator } = useCurrentUser();
+
   return (
     <QuickSettings title={t('tr_weekendMeeting')} open={open} onClose={onClose}>
       <Stack
@@ -27,7 +29,7 @@ const QuickSettingsWeekendMeeting = ({
         <Stack spacing="16px">
           <DayTime />
 
-          <StudyConductor />
+          {isWeekendEditor && <StudyConductor />}
 
           <DisplayName />
         </Stack>
@@ -35,14 +37,14 @@ const QuickSettingsWeekendMeeting = ({
         <Stack spacing="16px">
           <MonthlyWarning />
 
-          <OutgoingTalkAccess />
+          {isPublicTalkCoordinator && <OutgoingTalkAccess />}
         </Stack>
 
         <Stack spacing="16px">
           <Typography className="body-small-semibold" color="var(--grey-400)">
             {t('tr_assignmentPreferences')}
           </Typography>
-          <AssignmentPreferences />
+          <AssignmentPreferences quickSettings={true} />
         </Stack>
       </Stack>
     </QuickSettings>
