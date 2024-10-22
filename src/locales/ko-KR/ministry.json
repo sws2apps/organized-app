@@ -131,8 +131,8 @@
   "tr_activePublishersAll": "다른 모든 전도인",
   "tr_markAsVerified": "확인함으로 표시",
   "tr_averageMonthlyHours": "월 평균",
-  "tr_reportVerified": "Verified reports",
-  "tr_reportUnverified": "Reports awaiting verification",
-  "tr_unverifiedReportTitle": "You have unverified reports",
-  "tr_unverifiedReportDesc": "Open the <a title=''>Field service reports</a> page to check and verify reports from the publishers."
+  "tr_reportVerified": "확인한 보고",
+  "tr_reportUnverified": "확인이 필요한 보고",
+  "tr_unverifiedReportTitle": "확인이 필요한 보고가 있습니다",
+  "tr_unverifiedReportDesc": "<a title=''>봉사 보고</a> 페이지를 열어서 전도인의 보고를 확인합니다."
 }
