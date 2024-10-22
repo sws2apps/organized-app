@@ -5,7 +5,7 @@ import glob from 'glob';
 let translationKeys: string[] = [];
 
 // Use glob to get all .json files in the translations directory
-let translationFiles = glob.sync('src/shared/locales/en/*.json');
+let translationFiles = glob.sync('src/locales/en/*.json');
 
 // Exclude files based on filename
 const excludedFiles = ['source.json', 'ui.json']; // replace with your filenames
@@ -25,7 +25,7 @@ translationFiles.forEach((file) => {
 const usedKeys: string[] = [];
 
 // Use glob to get all .js and .jsx files in the project directory
-const files = glob.sync('src/v3/**/*.+(js|jsx|ts|tsx)');
+const files = glob.sync('src/**/*.+(js|jsx|ts|tsx)');
 
 files.forEach((file) => {
   const sourceCode = fs.readFileSync(file, 'utf-8');
@@ -37,6 +37,8 @@ files.forEach((file) => {
 });
 
 // Step 3: Find unused keys
-const unusedKeys = translationKeys.filter((key) => !usedKeys.includes(key));
+const unusedKeys = translationKeys.filter(
+  (key) => !usedKeys.includes(key) && !key.includes('tr_song')
+);
 
 console.log('Unused keys:', JSON.stringify(unusedKeys));

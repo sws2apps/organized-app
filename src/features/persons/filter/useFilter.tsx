@@ -132,21 +132,21 @@ const useFilter = () => {
         ],
       },
       {
-        name: t('tr_pioneers'),
+        name: t('tr_enrollments'),
         items: [
           { id: 'pioneerAll', name: t('tr_allPioneers') },
-          { id: 'AP', name: t('tr_APs') },
-          { id: 'FR', name: t('tr_FRs') },
-          { id: 'FS', name: t('tr_FSs') },
-          { id: 'FMF', name: t('tr_FMFs') },
+          { id: 'AP', name: t('tr_AP') },
+          { id: 'FR', name: t('tr_FR') },
+          { id: 'FS', name: t('tr_FS') },
+          { id: 'FMF', name: t('tr_FMF') },
         ],
       },
       {
         name: t('tr_appointedBrothers'),
         items: [
           { id: 'appointedBrotherAll', name: t('tr_allAppointedBrothers') },
-          { id: 'elder', name: t('tr_elders') },
-          { id: 'ministerialServant', name: t('tr_ministerialServants') },
+          { id: 'elder', name: t('tr_elder') },
+          { id: 'ministerialServant', name: t('tr_ministerialServant') },
         ],
       },
       {
