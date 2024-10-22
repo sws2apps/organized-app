@@ -131,8 +131,8 @@
   "tr_activePublishersAll": "所有其他传道员",
   "tr_markAsVerified": "标记为已确认",
   "tr_averageMonthlyHours": "月均时间",
-  "tr_reportVerified": "Verified reports",
-  "tr_reportUnverified": "Reports awaiting verification",
-  "tr_unverifiedReportTitle": "You have unverified reports",
-  "tr_unverifiedReportDesc": "Open the <a title=''>Field service reports</a> page to check and verify reports from the publishers."
+  "tr_reportVerified": "已确认的报告",
+  "tr_reportUnverified": "待确认的报告",
+  "tr_unverifiedReportTitle": "您有未确定的报告",
+  "tr_unverifiedReportDesc": "打开<a title=''>传道报告</a>页面，查看并确认传道员的报告。"
 }
