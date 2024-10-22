@@ -130,5 +130,9 @@
   "tr_S21ExportMultipleDesc": "Välj de förkunnare du vill inkludera i de exporterade posterna. Varje förkunnare kommer att bli till en separat fil.",
   "tr_activePublishersAll": "Övriga förkunnare",
   "tr_markAsVerified": "Markera som verifierad",
-  "tr_averageMonthlyHours": "Genomsnitt per månad"
+  "tr_averageMonthlyHours": "Genomsnitt per månad",
+  "tr_reportVerified": "Verified reports",
+  "tr_reportUnverified": "Reports awaiting verification",
+  "tr_unverifiedReportTitle": "You have unverified reports",
+  "tr_unverifiedReportDesc": "Open the <a title=''>Field service reports</a> page to check and verify reports from the publishers."
 }

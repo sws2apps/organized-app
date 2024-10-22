@@ -130,5 +130,9 @@
   "tr_S21ExportMultipleDesc": "Pumili ng mga publisher na isasama sa mga na-export na record. Mayroong sariling file ang bawat publisher.",
   "tr_activePublishersAll": "Lahat ng iba pang publisher",
   "tr_markAsVerified": "Mark as verified",
-  "tr_averageMonthlyHours": "Buwanang average"
+  "tr_averageMonthlyHours": "Buwanang average",
+  "tr_reportVerified": "Verified reports",
+  "tr_reportUnverified": "Reports awaiting verification",
+  "tr_unverifiedReportTitle": "You have unverified reports",
+  "tr_unverifiedReportDesc": "Open the <a title=''>Field service reports</a> page to check and verify reports from the publishers."
 }

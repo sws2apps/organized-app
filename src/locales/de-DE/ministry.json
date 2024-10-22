@@ -130,5 +130,9 @@
   "tr_S21ExportMultipleDesc": "Wähle die Verkündiger aus, die du in den exportierten Verkündigerberichtskarten einschließen möchtest. Jeder Verkündiger wird in einer separaten Datei enthalten sein.",
   "tr_activePublishersAll": "Alle andere Verkündiger",
   "tr_markAsVerified": "Mark as verified",
-  "tr_averageMonthlyHours": "Durchschnittlich monatlich"
+  "tr_averageMonthlyHours": "Durchschnittlich monatlich",
+  "tr_reportVerified": "Verified reports",
+  "tr_reportUnverified": "Reports awaiting verification",
+  "tr_unverifiedReportTitle": "You have unverified reports",
+  "tr_unverifiedReportDesc": "Open the <a title=''>Field service reports</a> page to check and verify reports from the publishers."
 }

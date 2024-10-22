@@ -130,5 +130,9 @@
   "tr_S21ExportMultipleDesc": "Sélectionnez les proclamateurs que vous souhaitez inclure dans les enregistrements exportés. Chaque proclamateur aura un fichier séparé.",
   "tr_activePublishersAll": "Tous les autres proclamateurs",
   "tr_markAsVerified": "Marquer comme vérifié",
-  "tr_averageMonthlyHours": "Average monthly"
+  "tr_averageMonthlyHours": "Average monthly",
+  "tr_reportVerified": "Verified reports",
+  "tr_reportUnverified": "Reports awaiting verification",
+  "tr_unverifiedReportTitle": "You have unverified reports",
+  "tr_unverifiedReportDesc": "Open the <a title=''>Field service reports</a> page to check and verify reports from the publishers."
 }
