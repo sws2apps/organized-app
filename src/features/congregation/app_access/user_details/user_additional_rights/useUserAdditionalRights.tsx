@@ -44,7 +44,7 @@ const useUserAdditionalRights = () => {
 
   const handleToggleWeekend = async (value: boolean) => {
     try {
-      setIsMidweek(value);
+      setIsWeekend(value);
 
       const newUser = structuredClone(user);
 
