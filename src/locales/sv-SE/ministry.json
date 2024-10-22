@@ -115,8 +115,8 @@
   "tr_activePublishersAll": "Övriga förkunnare",
   "tr_markAsVerified": "Markera som verifierad",
   "tr_averageMonthlyHours": "Genomsnitt per månad",
-  "tr_reportVerified": "Verified reports",
-  "tr_reportUnverified": "Reports awaiting verification",
-  "tr_unverifiedReportTitle": "You have unverified reports",
-  "tr_unverifiedReportDesc": "Open the <a title=''>Field service reports</a> page to check and verify reports from the publishers."
+  "tr_reportVerified": "Verifierade rapporter",
+  "tr_reportUnverified": "Rapporter väntar på verifiering",
+  "tr_unverifiedReportTitle": "Du har overifierade rapporter",
+  "tr_unverifiedReportDesc": "Öppna <a title=''>Tjänsterapporter</a> sidan för att kontrollera och verifiera rapporter från förkunnarna."
 }
