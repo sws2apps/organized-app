@@ -115,8 +115,8 @@
   "tr_activePublishersAll": "Muut julistajat",
   "tr_markAsVerified": "Merkitse vahvistetuksi",
   "tr_averageMonthlyHours": "Kuukausittainen keskiarvo",
-  "tr_reportVerified": "Verified reports",
-  "tr_reportUnverified": "Reports awaiting verification",
-  "tr_unverifiedReportTitle": "You have unverified reports",
-  "tr_unverifiedReportDesc": "Open the <a title=''>Field service reports</a> page to check and verify reports from the publishers."
+  "tr_reportVerified": "Vahvistetut raportit",
+  "tr_reportUnverified": "Vahvistusta odottavat raportit",
+  "tr_unverifiedReportTitle": "Sinulla on vahvistamattomia raportteja",
+  "tr_unverifiedReportDesc": "Avaa <a title=''>Kenttäpalveluraportit</a> sivu tarkistaaksesi juliastajien raportit."
 }
