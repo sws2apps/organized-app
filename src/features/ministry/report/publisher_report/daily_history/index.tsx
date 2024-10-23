@@ -21,6 +21,7 @@ const DailyHistory = () => {
     handleCloseEditor,
     handleOpenEditor,
     status,
+    noCongReport,
   } = useDailyHistory();
 
   return (
@@ -43,7 +44,7 @@ const DailyHistory = () => {
         }}
       >
         <Typography className="h2">{t('tr_dailyHistory')}</Typography>
-        {status === 'pending' && reportMonth.length > 0 && (
+        {noCongReport && status === 'pending' && reportMonth.length > 0 && (
           <Button
             variant="secondary"
             minHeight={38}

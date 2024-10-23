@@ -10,6 +10,8 @@ import { dbUserFieldServiceReportsSave } from '@services/dexie/user_field_servic
 import { displaySnackNotification } from '@services/recoil/app';
 import { useAppTranslation } from '@hooks/index';
 import { getMessageByCode } from '@services/i18n/translation';
+import { congFieldServiceReportsState } from '@states/field_service_reports';
+import { userLocalUIDState } from '@states/settings';
 import useMinistryMonthlyRecord from '@features/ministry/hooks/useMinistryMonthlyRecord';
 
 const useMinistryShared = () => {
@@ -17,10 +19,22 @@ const useMinistryShared = () => {
 
   const currentMonth = useRecoilValue(reportUserSelectedMonthState);
   const reports = useRecoilValue(userFieldServiceMonthlyReportsState);
+  const congReports = useRecoilValue(congFieldServiceReportsState);
+  const userUID = useRecoilValue(userLocalUIDState);
 
   const { shared_ministry, status } = useMinistryMonthlyRecord(currentMonth);
 
   const [checked, setChecked] = useState(shared_ministry);
+
+  const readOnly = useMemo(() => {
+    const findReport = congReports.find(
+      (record) =>
+        record.report_data.report_date === currentMonth &&
+        record.report_data.person_uid === userUID
+    );
+
+    return findReport ? true : false;
+  }, [congReports, currentMonth, userUID]);
 
   const monthReport = useMemo(() => {
     return reports.find((record) => record.report_date === currentMonth);
@@ -58,7 +72,7 @@ const useMinistryShared = () => {
     setChecked(shared_ministry);
   }, [shared_ministry]);
 
-  return { checked, handleToggleChecked, status };
+  return { checked, handleToggleChecked, status, readOnly };
 };
 
 export default useMinistryShared;

@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useAppTranslation } from '@hooks/index';
 import { S21CardData, S21CardMonthData } from '@definition/report';
-import { createArrayFromMonths, currentReportMonth } from '@utils/date';
+import { createArrayFromMonths, currentServiceYear } from '@utils/date';
 import { JWLangState, monthNamesState } from '@states/app';
 import { personsState } from '@states/persons';
 import { PersonType } from '@definition/person';
@@ -30,8 +30,7 @@ const usePublisherCard = () => {
 
   const years = useMemo(() => {
     const result: string[] = [];
-    const currentMonth = currentReportMonth();
-    const year = currentMonth.split('/')[0];
+    const year = currentServiceYear();
     const prevYear = String(+year - 1).toString();
 
     result.push(prevYear, year);
