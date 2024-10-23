@@ -23,9 +23,8 @@ export type CircuitOverseerVisitType = {
 export type SpecialMonthType = {
   _deleted: boolean;
   updatedAt: string;
-  id: string;
-  month_start: string;
-  month_end: string;
+  year: string;
+  months: string[]
 };
 
 export type SettingsType = {

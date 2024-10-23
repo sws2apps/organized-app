@@ -9,7 +9,11 @@ const useNotice = () => {
     setOpen(false);
   };
 
-  return { open, handleClose };
+  const handleOpenRealApp = () => {
+    window.open('https://organized-app.com', '_blank', 'noopener');
+  };
+
+  return { open, handleClose, handleOpenRealApp };
 };
 
 export default useNotice;

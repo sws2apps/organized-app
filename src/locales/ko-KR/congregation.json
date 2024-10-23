@@ -235,7 +235,7 @@
   "tr_disqualified": "자격 잃음",
   "tr_timeAwayAddedSuccess": "부재 시간이 추가되었습니다.",
   "tr_timeAwayAddedSuccessDesc": "일정을 최신으로 유지해 주셔서 감사합니다.",
-  "tr_appointSubstituteSpeaker": "Appoint a substitution for visiting speakers",
+  "tr_appointSubstituteSpeaker": "방문 연사를 위한 대체 연사 지정",
   "tr_displayWSConductorSubstitutions": "일정에 파수대 연구 사회자 대체 표시",
   "tr_displayWSConductorDesc": "주 사회자가 없는 날이나 아픈 날을 위해",
   "tr_repeatedMonthlyWarning": "반복된 지정 경고 표시 - 월간",
