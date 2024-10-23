@@ -32,6 +32,12 @@ const useMonthItem = ({ month, person }: MonthItemProps) => {
     return month === current;
   }, [month]);
 
+  const isAhead = useMemo(() => {
+    const current = currentMonthServiceYear();
+
+    return month > current;
+  }, [month]);
+
   const monthStatus: MonthStatusType = useMemo(() => {
     if (!report) return;
 
@@ -72,6 +78,7 @@ const useMonthItem = ({ month, person }: MonthItemProps) => {
     isAP,
     comments,
     isCurrent,
+    isAhead,
   };
 };
 

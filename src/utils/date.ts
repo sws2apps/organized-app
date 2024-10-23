@@ -192,7 +192,9 @@ export const buildServiceYearsList = () => {
       maxIndex = 13;
     } else {
       const currentMonth = new Date().getMonth();
-      maxIndex = currentMonth < 9 ? currentMonth - 6 : currentMonth + 7;
+      maxIndex = currentMonth < 9 ? currentMonth + 7 : currentMonth - 5;
+
+      if (maxIndex > 13) maxIndex = 13;
     }
 
     for (let i = 1; i < maxIndex; i++) {
