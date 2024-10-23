@@ -1,4 +1,4 @@
-import { useMemo, useRef } from 'react';
+import { useMemo } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { AssignmentCheckListColors } from '@definition/app';
@@ -11,8 +11,6 @@ import {
 } from '@states/persons';
 
 const useFilter = () => {
-  const filterTime = useRef<NodeJS.Timeout>(null);
-
   const { t } = useAppTranslation();
 
   const { desktopUp } = useBreakpoints();
@@ -179,15 +177,7 @@ const useFilter = () => {
   };
 
   const handleCloseFilterMobile = () => {
-    if (!desktopUp) {
-      if (filterTime.current) {
-        clearTimeout(filterTime.current);
-      }
-
-      filterTime.current = setTimeout(() => {
-        setFilterOpen(false);
-      }, 500);
-    }
+    setFilterOpen(false);
   };
 
   const handleToggleGroup = (checked: boolean, id: string) => {
