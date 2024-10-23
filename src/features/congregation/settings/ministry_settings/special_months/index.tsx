@@ -11,7 +11,8 @@ const SpecialMonths = () => {
 
   const { isServiceCommittee } = useCurrentUser();
 
-  const { yearsList, handleFormatMonths, handleSetMonths } = useSpecialMonths();
+  const { yearsList, handleFormatMonths, handleSetMonths, currentYear } =
+    useSpecialMonths();
 
   return (
     <Stack spacing="16px" marginTop="-16px !important">
@@ -32,7 +33,7 @@ const SpecialMonths = () => {
               handleSetMonths(option.year, e.target.value as string[])
             }
             sx={{ flex: 1 }}
-            readOnly={!isServiceCommittee}
+            readOnly={!isServiceCommittee || option.year < currentYear}
           >
             {option.months.map((record) => (
               <MenuItem key={record.value} value={record.value}>
