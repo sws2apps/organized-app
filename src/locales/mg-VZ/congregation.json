@@ -235,7 +235,7 @@
   "tr_disqualified": "Tsy mahafeno fepetra",
   "tr_timeAwayAddedSuccess": "Tafilitsy ty andro tsy maha eo",
   "tr_timeAwayAddedSuccessDesc": "Misaotsy bevata nanavao ty fotoa ahafahanao",
-  "tr_appointSubsisuteSpeaker": "Hanendry mpandahateny mpisolo toeran'ny mpandahateny mpitsidiky",
+  "tr_appointSubstituteSpeaker": "Appoint a substitution for visiting speakers",
   "tr_displayWSConductorSubstitutions": "Aseho amy fandahara ty mpitarik ty fianara Tilikambo Fiambena mpisolo toera",
   "tr_displayWSConductorDesc": "Amy fotoa tsy maha eo ty mpitariky laha sendra tsy eo na marary ie",
   "tr_repeatedMonthlyWarning": "Hampiseho ty fampahafantara anjara mimpoly anatin’ny vola iny",
@@ -435,5 +435,6 @@
   "tr_enableCongregationDataSyncDesc": "Lasa afaka mahita rakitra sasany ampiasain’ny fiangonana ny olona hafa rehefa alefanao ity. Lasa azonao jerena amin’ny fitaovana samihafa koa ireo rakitra ireo.",
   "tr_applicationRejected": "Tsy nekena ny fangatahana",
   "tr_applicationRejectedDesc": "Tsy nekena ity fangatahana hanao mpisava lalana mpanampy ity. Ampahafantaro an’ilay mpitory izany.",
-  "tr_serviceGroupsListNone": "No field service groups yet. The groups will appear here as soon as they are created."
+  "tr_serviceGroupsListNone": "No field service groups yet. The groups will appear here as soon as they are created.",
+  "tr_serviceYearAlt": "{{ year }} service year"
 }
