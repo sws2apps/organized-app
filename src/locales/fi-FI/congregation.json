@@ -235,7 +235,7 @@
   "tr_disqualified": "Poistettu",
   "tr_timeAwayAddedSuccess": "Poissaoloaika lisätty",
   "tr_timeAwayAddedSuccessDesc": "Kiitos, että pidät saatavuutesi ajan tasalla",
-  "tr_appointSubsisuteSpeaker": "Määritä sijainen vieraileville puhujille",
+  "tr_appointSubstituteSpeaker": "Appoint a substitution for visiting speakers",
   "tr_displayWSConductorSubstitutions": "Näytä Vartiotornitutkisteun johtajan sijaiset aikataulussa",
   "tr_displayWSConductorDesc": "Päiville, jolloin pääjohtaja on poissa tai sairas",
   "tr_repeatedMonthlyWarning": "Näytä toistuva tehtävävaroitus – kuukausittain",
@@ -435,5 +435,6 @@
   "tr_enableCongregationDataSyncDesc": "Tämä ominaisuus mahdollistaa datan synkronoinnin esimerkiksi aikatauluja muiden seurakuntasi käyttäjien kanssa ja käyttää sovellusta useilla laitteilla samanaikaisesti.",
   "tr_applicationRejected": "Tienraivaushakemus hylätty",
   "tr_applicationRejectedDesc": "Tämä hakemus on hylätty. Ilmoita julistajalle hakemuksen tilasta.",
-  "tr_serviceGroupsListNone": "Ei kenttäryhmiä vielä. Ne ilmestyvät tänne heti kun ne on luotu."
+  "tr_serviceGroupsListNone": "Ei kenttäryhmiä vielä. Ne ilmestyvät tänne heti kun ne on luotu.",
+  "tr_serviceYearAlt": "{{ year }} service year"
 }
