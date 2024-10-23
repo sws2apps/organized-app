@@ -435,5 +435,6 @@
   "tr_enableCongregationDataSyncDesc": "Den här funktionen synkroniserar data såsom scheman med andra användare i din församling och tillåter användning av appen på flera enheter samtidigt.",
   "tr_applicationRejected": "Pionjäransökan nekad",
   "tr_applicationRejectedDesc": "Denna ansökan har nekats. Informera förkunnaren om dess status.",
-  "tr_serviceGroupsListNone": "Inga tjänstegrupper än. De kommer att synas här när de skapats."
+  "tr_serviceGroupsListNone": "Inga tjänstegrupper än. De kommer att synas här när de skapats.",
+  "tr_serviceYearAlt": "{{ year }} service year"
 }

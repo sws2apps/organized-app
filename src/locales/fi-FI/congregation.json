@@ -435,5 +435,6 @@
   "tr_enableCongregationDataSyncDesc": "Tämä ominaisuus mahdollistaa datan synkronoinnin esimerkiksi aikatauluja muiden seurakuntasi käyttäjien kanssa ja käyttää sovellusta useilla laitteilla samanaikaisesti.",
   "tr_applicationRejected": "Tienraivaushakemus hylätty",
   "tr_applicationRejectedDesc": "Tämä hakemus on hylätty. Ilmoita julistajalle hakemuksen tilasta.",
-  "tr_serviceGroupsListNone": "Ei kenttäryhmiä vielä. Ne ilmestyvät tänne heti kun ne on luotu."
+  "tr_serviceGroupsListNone": "Ei kenttäryhmiä vielä. Ne ilmestyvät tänne heti kun ne on luotu.",
+  "tr_serviceYearAlt": "{{ year }} service year"
 }

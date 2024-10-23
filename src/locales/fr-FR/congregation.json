@@ -435,5 +435,6 @@
   "tr_enableCongregationDataSyncDesc": "Cette option permet de synchroniser les données avec les autres utilisateurs de votre congrégation et de pouvoir utiliser l'application sur plusieurs appareils en même temps.",
   "tr_applicationRejected": "Demande d'admission au service de pionnier rejetée",
   "tr_applicationRejectedDesc": "Cette demande a été rejetée. Veuillez informer le proclamateur de son statut.",
-  "tr_serviceGroupsListNone": "Aucun groupe de prédication pour le moment. Les groupes apparaîtront automatiquement ici dès qu'ils seront créé."
+  "tr_serviceGroupsListNone": "Aucun groupe de prédication pour le moment. Les groupes apparaîtront automatiquement ici dès qu'ils seront créé.",
+  "tr_serviceYearAlt": "{{ year }} service year"
 }
