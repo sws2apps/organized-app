@@ -235,7 +235,7 @@
   "tr_disqualified": "Disqualified",
   "tr_timeAwayAddedSuccess": "Naidagdag ang oras na hindi available",
   "tr_timeAwayAddedSuccessDesc": "Salamat sa pagpapanatili ng iyong availability na updated",
-  "tr_appointSubstituteSpeaker": "Mag-appoint ng kahalili para sa mga naimbitahang speaker",
+  "tr_appointSubstituteSpeaker": "Appoint a substitution for visiting speakers",
   "tr_displayWSConductorSubstitutions": "Ipakita ang mga kahalili sa pag-aaral ng Bantayan sa iskedyul",
   "tr_displayWSConductorDesc": "Para sa mga petsa na hindi available o nagkakasakit ang main conductor",
   "tr_repeatedMonthlyWarning": "Ipakita ang babala na nabibigyan ulit ng assignment – buwanan",
