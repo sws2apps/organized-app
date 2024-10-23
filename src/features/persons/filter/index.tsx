@@ -46,7 +46,7 @@ const LabelBadge = ({ value }: { value: number }) => (
 const PersonsFilter = () => {
   const { t } = useAppTranslation();
 
-  const { tabletDown } = useBreakpoints();
+  const { tabletDown, mobile400Down, desktopUp } = useBreakpoints();
 
   const {
     filters,
@@ -56,6 +56,7 @@ const PersonsFilter = () => {
     filterGroups,
     handleToggleAssignment,
     checkedItems,
+    handleCloseFilterMobile,
   } = useFilter();
 
   const tabs = [
@@ -110,7 +111,7 @@ const PersonsFilter = () => {
           <Box
             sx={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(2, 1fr)',
+              gridTemplateColumns: tabletDown ? '1fr' : 'repeat(2, 1fr)',
               gap: '16px',
               flexWrap: 'wrap',
             }}
@@ -171,6 +172,7 @@ const PersonsFilter = () => {
       >
         <Tabs tabs={tabs} />
       </Box>
+
       <Box
         sx={{
           display: 'flex',
@@ -178,8 +180,17 @@ const PersonsFilter = () => {
           justifyContent: 'center',
           marginTop: '8px',
           height: '48px',
+          gap: '8px',
+          flexDirection: mobile400Down ? 'column' : 'row',
+          padding: mobile400Down ? '42px 0' : 'unset',
         }}
       >
+        {!desktopUp && (
+          <Button variant="main" onClick={handleCloseFilterMobile}>
+            {t('tr_search')}
+          </Button>
+        )}
+
         <Button variant="secondary" onClick={handleClearFilters}>
           {t('tr_clearAll')}
         </Button>

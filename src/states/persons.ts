@@ -199,3 +199,8 @@ export const applicationsApprovedState = selector({
       .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
   },
 });
+
+export const personsFilterOpenState = atom({
+  key: 'personsFilterOpen',
+  default: false,
+});

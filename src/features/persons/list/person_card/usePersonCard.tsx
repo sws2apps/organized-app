@@ -17,7 +17,7 @@ import {
   personIsMS,
   updateRecentPersons,
 } from '@services/app/persons';
-import { personsRecentState } from '@states/persons';
+import { personsFilterOpenState, personsRecentState } from '@states/persons';
 import { fullnameOptionState } from '@states/settings';
 
 const usePersonCard = (person: PersonType) => {
@@ -25,9 +25,10 @@ const usePersonCard = (person: PersonType) => {
 
   const { t } = useAppTranslation();
 
-  const fullnameOption = useRecoilValue(fullnameOptionState);
-
   const setPersonsRecent = useSetRecoilState(personsRecentState);
+
+  const fullnameOption = useRecoilValue(fullnameOptionState);
+  const filterOpen = useRecoilValue(personsFilterOpenState);
 
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -147,6 +148,7 @@ const usePersonCard = (person: PersonType) => {
     handleDeleteConfirm,
     handleOpenPerson,
     fullnameOption,
+    filterOpen,
   };
 };
 

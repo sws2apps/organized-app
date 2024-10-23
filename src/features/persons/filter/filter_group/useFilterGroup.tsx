@@ -1,11 +1,12 @@
-import { useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { personsFiltersKeyState } from '@states/persons';
-import { setPersonsFiltersKey } from '@services/recoil/persons';
 
 const useFilterGroup = () => {
-  const filtersKey = useRecoilValue(personsFiltersKeyState);
+  const [filtersKey, setPersonsFiltersKey] = useRecoilState(
+    personsFiltersKeyState
+  );
 
-  const handleClick = async (key) => {
+  const handleClick = (key) => {
     const hasKey = filtersKey.find((activeKey) => activeKey === key);
     let newFiltersKey = [];
 
@@ -34,7 +35,7 @@ const useFilterGroup = () => {
       }
     }
 
-    await setPersonsFiltersKey(newFiltersKey);
+    setPersonsFiltersKey(newFiltersKey);
   };
 
   return { filtersKey, handleClick };
