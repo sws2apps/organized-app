@@ -235,7 +235,7 @@
   "tr_disqualified": "Disqualifié",
   "tr_timeAwayAddedSuccess": "Absence ajoutée",
   "tr_timeAwayAddedSuccessDesc": "Merci de maintenir votre disponibilité à jour",
-  "tr_appointSubsisuteSpeaker": "Nommer un remplaçant pour les orateurs visiteurs",
+  "tr_appointSubstituteSpeaker": "Nommer un remplaçant pour les orateurs visiteurs",
   "tr_displayWSConductorSubstitutions": "Afficher les remplaçants des conducteurs d'étude de la Tour de Garde dans le programme",
   "tr_displayWSConductorDesc": "Pour les dates où le responsable est absent ou malade",
   "tr_repeatedMonthlyWarning": "Afficher l'avertissement d'affectation répétée - mensuelle",

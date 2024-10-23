@@ -235,7 +235,7 @@
   "tr_disqualified": "Uygunsuz",
   "tr_timeAwayAddedSuccess": "Uzakta olunan süre eklendi",
   "tr_timeAwayAddedSuccessDesc": "Uygunluk durumunuzu güncel tuttuğunuz için teşekkürler",
-  "tr_appointSubsisuteSpeaker": "Misafir konuşmacılar için bir yedek ata",
+  "tr_appointSubstituteSpeaker": "Misafir konuşmacılar için bir yedek ata",
   "tr_displayWSConductorSubstitutions": "Gözcü kulesi idareci yedeklerini programda gösterin",
   "tr_displayWSConductorDesc": "İdare edenin izin veya hastalık durumunda olduğu tarihler için",
   "tr_repeatedMonthlyWarning": "Tekrarlanan görev uyarısını göster - aylık",

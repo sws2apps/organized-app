@@ -235,7 +235,7 @@
   "tr_disqualified": "Disqualified",
   "tr_timeAwayAddedSuccess": "Time away added",
   "tr_timeAwayAddedSuccessDesc": "Thanks for keeping your availability up-to-date",
-  "tr_appointSubsisuteSpeaker": "Appoint a substitution for visiting speakers",
+  "tr_appointSubstituteSpeaker": "Appoint a substitution for visiting speakers",
   "tr_displayWSConductorSubstitutions": "Display Watchtower study conductor substitutions in the schedule",
   "tr_displayWSConductorDesc": "For dates when the main conductor is away or sick",
   "tr_repeatedMonthlyWarning": "Show repeated assignment warning – monthly",

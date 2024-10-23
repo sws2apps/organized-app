@@ -30,7 +30,7 @@ const AssignmentPreferences = ({
 
       {(!quickSettings || (quickSettings && isPublicTalkCoordinator)) && (
         <SwitchWithLabel
-          label={t('tr_appointSubsisuteSpeaker')}
+          label={t('tr_appointSubstituteSpeaker')}
           checked={substituteSpeakerEnabled}
           onChange={handleSubstituteSpeakerToggle}
           readOnly={!isPublicTalkCoordinator}
