@@ -235,7 +235,7 @@
   "tr_disqualified": "Poistettu",
   "tr_timeAwayAddedSuccess": "Poissaoloaika lisätty",
   "tr_timeAwayAddedSuccessDesc": "Kiitos, että pidät saatavuutesi ajan tasalla",
-  "tr_appointSubstituteSpeaker": "Määritä sijainen vieraileville puhujille",
+  "tr_appointSubstituteSpeaker": "Appoint a substitution for visiting speakers",
   "tr_displayWSConductorSubstitutions": "Näytä Vartiotornitutkisteun johtajan sijaiset aikataulussa",
   "tr_displayWSConductorDesc": "Päiville, jolloin pääjohtaja on poissa tai sairas",
   "tr_repeatedMonthlyWarning": "Näytä toistuva tehtävävaroitus – kuukausittain",
