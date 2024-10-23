@@ -235,7 +235,7 @@
   "tr_disqualified": "자격 잃음",
   "tr_timeAwayAddedSuccess": "부재 시간이 추가되었습니다.",
   "tr_timeAwayAddedSuccessDesc": "일정을 최신으로 유지해 주셔서 감사합니다.",
-  "tr_appointSubsisuteSpeaker": "방문 연사를 위한 대체 연사 지정",
+  "tr_appointSubstituteSpeaker": "Appoint a substitution for visiting speakers",
   "tr_displayWSConductorSubstitutions": "일정에 파수대 연구 사회자 대체 표시",
   "tr_displayWSConductorDesc": "주 사회자가 없는 날이나 아픈 날을 위해",
   "tr_repeatedMonthlyWarning": "반복된 지정 경고 표시 - 월간",
@@ -435,5 +435,6 @@
   "tr_enableCongregationDataSyncDesc": "이 기능은 다른 사용자와 일정을 동기화하고 여러 장치에서 동시에 앱을 사용할 수 있도록 합니다.",
   "tr_applicationRejected": "파이오니아 신청이 거부되었습니다",
   "tr_applicationRejectedDesc": "이 신청이 거부되었습니다. 전도인에게 상태를 알려주세요.",
-  "tr_serviceGroupsListNone": "야외봉사 집단이 없습니다. 집단이 만들어지면 여기에 나타납니다."
+  "tr_serviceGroupsListNone": "야외봉사 집단이 없습니다. 집단이 만들어지면 여기에 나타납니다.",
+  "tr_serviceYearAlt": "{{ year }} service year"
 }
