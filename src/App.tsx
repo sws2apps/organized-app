@@ -63,6 +63,9 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
     isAppointed,
     isMidweekEditor,
     isWeekendEditor,
+    isGroupOverseer,
+    isSecretary,
+    isPublicTalkCoordinator,
   } = useCurrentUser();
   const isConnected = useRecoilValue(congAccountConnectedState);
 
@@ -171,20 +174,33 @@ const App = ({ updatePwa }: { updatePwa: VoidFunction }) => {
 
             // weekend editor routes
             {
-              element: <RouteProtected allowed={isWeekendEditor} />,
+              element: (
+                <RouteProtected
+                  allowed={isWeekendEditor || isPublicTalkCoordinator}
+                />
+              ),
               children: [
                 { path: '/weekend-meeting', element: <WeekendMeeting /> },
               ],
             },
 
-            // congregation admin routes
+            // secretary routes and group overseer
             {
-              element: <RouteProtected allowed={isAdmin} />,
+              element: (
+                <RouteProtected allowed={isGroupOverseer || isSecretary} />
+              ),
               children: [
                 {
                   path: '/reports/field-service',
                   element: <FieldServiceReportsPage />,
                 },
+              ],
+            },
+
+            // congregation admin routes (admin - secretary - coordinator)
+            {
+              element: <RouteProtected allowed={isAdmin} />,
+              children: [
                 {
                   path: '/reports/branch-office',
                   element: <BranchOfficeReports />,

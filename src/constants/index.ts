@@ -67,6 +67,7 @@ export const LANGUAGE_LIST = [
   { code: 'rea', locale: 'hy-AM', name: 'Հայերեն' },
   { code: 'h', locale: 'hy-HU', name: 'magyar' },
   { code: 'tpo', locale: 'pt-PT', name: 'Português (Portugal)' },
+  { code: 'fi', locale: 'fi-FI', name: 'suomi' },
 ].sort((a, b) => a.code.localeCompare(b.code));
 
 export const APP_ROLES: AppRoleType[] = [

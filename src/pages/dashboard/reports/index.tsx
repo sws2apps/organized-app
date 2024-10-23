@@ -11,7 +11,8 @@ import { useAppTranslation, useCurrentUser } from '@hooks/index';
 const ReportsCard = () => {
   const { t } = useAppTranslation();
 
-  const { isAttendanceEditor, isSecretary } = useCurrentUser();
+  const { isAttendanceEditor, isSecretary, isGroupOverseer, isElder } =
+    useCurrentUser();
 
   return (
     <DashboardCard header={t('tr_reports')}>
@@ -25,7 +26,7 @@ const ReportsCard = () => {
         </ListItem>
       )}
 
-      {isSecretary && (
+      {(isSecretary || isGroupOverseer) && (
         <ListItem disablePadding>
           <DashboardMenu
             icon={<IconPublishersReports color="var(--black)" />}
@@ -45,13 +46,15 @@ const ReportsCard = () => {
         </ListItem>
       )}
 
-      <ListItem disablePadding>
-        <DashboardMenu
-          icon={<IconPublisherRecordCard color="var(--black)" />}
-          primaryText={t('tr_publishersRecords')}
-          path="/publisher-records"
-        />
-      </ListItem>
+      {isElder && (
+        <ListItem disablePadding>
+          <DashboardMenu
+            icon={<IconPublisherRecordCard color="var(--black)" />}
+            primaryText={t('tr_publishersRecords')}
+            path="/publisher-records"
+          />
+        </ListItem>
+      )}
     </DashboardCard>
   );
 };

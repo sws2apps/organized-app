@@ -1,6 +1,10 @@
 import { Box, Slide } from '@mui/material';
 import { IconPrepareReport } from '@components/icons';
-import { useAppTranslation, useBreakpoints } from '@hooks/index';
+import {
+  useAppTranslation,
+  useBreakpoints,
+  useCurrentUser,
+} from '@hooks/index';
 import useFieldService from './useFieldService';
 import Button from '@components/button';
 import PageTitle from '@components/page_title';
@@ -12,6 +16,8 @@ const FieldService = () => {
   const { t } = useAppTranslation();
 
   const { desktopUp } = useBreakpoints();
+
+  const { isSecretary } = useCurrentUser();
 
   const { editorOpen, handleOpenBranchReport } = useFieldService();
 
@@ -26,12 +32,16 @@ const FieldService = () => {
       <PageTitle
         title={t('tr_fieldServiceReports')}
         buttons={
-          <Button
-            startIcon={<IconPrepareReport />}
-            onClick={handleOpenBranchReport}
-          >
-            {t('tr_createS1')}
-          </Button>
+          <>
+            {isSecretary && (
+              <Button
+                startIcon={<IconPrepareReport />}
+                onClick={handleOpenBranchReport}
+              >
+                {t('tr_createS1')}
+              </Button>
+            )}
+          </>
         }
       />
 

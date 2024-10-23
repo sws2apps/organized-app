@@ -16,6 +16,7 @@ const TalkTitleSolo = (props: TalkTitleSoloType) => {
       value={title}
       onChange={(e) => handleTitleChange(e.target.value)}
       onKeyUp={handleTitleSave}
+      slotProps={{ input: { readOnly: props.readOnly } }}
     />
   );
 };

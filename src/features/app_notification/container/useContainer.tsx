@@ -6,9 +6,10 @@ import {
   congAccountConnectedState,
   encryptedMasterKeyState,
   speakersKeyState,
+  userIDState,
 } from '@states/app';
 import { useAppTranslation, useCurrentUser } from '@hooks/index';
-import { NotificationRecordType } from '@definition/notification';
+import { StandardNotificationType } from '@definition/notification';
 import { notificationsState } from '@states/notification';
 import {
   congregationsNotDisapprovedState,
@@ -34,6 +35,7 @@ import { handleDeleteDatabase } from '@services/app';
 import { dbHandleIncomingReports } from '@services/dexie/cong_field_service_reports';
 import { apiUserGetUpdates } from '@services/api/user';
 import usePendingRequests from './usePendingRequests';
+import useUnverifiedReports from './useUnverifiedReports';
 
 const useContainer = () => {
   const { t } = useAppTranslation();
@@ -41,6 +43,8 @@ const useContainer = () => {
   const { isElder } = useCurrentUser();
 
   const { updatePendingRequestsNotification } = usePendingRequests();
+
+  const { checkUnverifiedReports } = useUnverifiedReports();
 
   const [notifications, setNotifications] = useRecoilState(notificationsState);
 
@@ -57,9 +61,14 @@ const useContainer = () => {
   const congMasterKey = useRecoilValue(congMasterKeyState);
   const congAccessCode = useRecoilValue(congAccessCodeState);
   const accountType = useRecoilValue(accountTypeState);
+  const userID = useRecoilValue(userIDState);
 
   const { data, isPending } = useQuery({
-    enabled: accountType === 'vip' && isElder && congAccountConnected,
+    enabled:
+      userID.length > 0 &&
+      accountType === 'vip' &&
+      isElder &&
+      congAccountConnected,
     queryKey: ['congregation_updates'],
     queryFn: apiUserGetUpdates,
     refetchInterval: 60 * 1000,
@@ -112,9 +121,8 @@ const useContainer = () => {
           );
 
           if (findApproved) {
-            const requestNotification: NotificationRecordType = {
+            const requestNotification: StandardNotificationType = {
               id: `request-cong-approved-${findApproved.cong_id}`,
-              type: 'speakers-request',
               title: t('tr_yourRequestAccepted'),
               description: t('tr_yourRequestAcceptedDesc', {
                 congregationNameAndNumber: `${findApproved.cong_name} (${findApproved.cong_number})`,
@@ -188,9 +196,8 @@ const useContainer = () => {
             );
 
             if (findRejected) {
-              const requestNotification: NotificationRecordType = {
+              const requestNotification: StandardNotificationType = {
                 id: `request-cong-rejected-${findRejected.cong_id}`,
-                type: 'speakers-request',
                 title: t('tr_congregationRequestRejected'),
                 description: t('tr_congregationRequestRejectedDesc', {
                   congregationNameAndNumber: `${findRejected.cong_name} (${findRejected.cong_number})`,
@@ -284,7 +291,7 @@ const useContainer = () => {
   const handleUnauthorized = useCallback(async () => {
     const status = data?.status;
 
-    if (status === 404) {
+    if (status === 403) {
       await handleDeleteDatabase();
     }
   }, [data]);
@@ -329,6 +336,8 @@ const useContainer = () => {
       handleApplications();
 
       handleIncomingReports();
+
+      checkUnverifiedReports();
     }
   }, [
     isPending,
@@ -338,6 +347,7 @@ const useContainer = () => {
     handleRejectedRequests,
     handleApplications,
     handleIncomingReports,
+    checkUnverifiedReports,
   ]);
 
   useEffect(() => {

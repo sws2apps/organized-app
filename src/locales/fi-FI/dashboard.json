@@ -63,7 +63,7 @@
   "tr_reject": "Hylkää",
   "tr_accept": "Hyväksy",
   "tr_requestSpeakersList": "Puhujien luettelon pyynnöt",
-  "tr_requestSpeakersListDesc": "Seuraavat seurakunnat ovat pyytäneet pääsyä nähdäksesi saapuvien puhujien luettelosi:",
+  "tr_requestSpeakersListDesc": "Seuraavat seurakunnat ovat pyytäneet pääsyä nähdäksesi lähtevien puhujien luetteloasi:",
   "tr_publicMinistryRequest": "Julkisen palvelun pyyntö",
   "tr_publicMinistryRequestDesc": "Tarkista pyynnöt julkiseen kenttäpalveluun:",
   "tr_tertitoryCardRequest": "Aluepyyntö",

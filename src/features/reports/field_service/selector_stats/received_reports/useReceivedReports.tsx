@@ -4,9 +4,12 @@ import {
   congFieldServiceReportsState,
   selectedMonthFieldServiceReportState,
 } from '@states/field_service_reports';
+import useCurrentUser from '@hooks/useCurrentUser';
 import usePersons from '@features/persons/hooks/usePersons';
 
 const useReceivedReports = () => {
+  const { isSecretary, isGroupOverseer, my_group } = useCurrentUser();
+
   const { getPublishersActive } = usePersons();
 
   const currentMonth = useRecoilValue(selectedMonthFieldServiceReportState);
@@ -15,8 +18,28 @@ const useReceivedReports = () => {
   const publishers_active = useMemo(() => {
     const data = getPublishersActive(currentMonth);
 
-    return data.length;
-  }, [currentMonth, getPublishersActive]);
+    if (isSecretary) {
+      return data.length;
+    }
+
+    if (!isSecretary && isGroupOverseer) {
+      const active_members = my_group.group_data.members.filter((member) => {
+        const isActive = data.find(
+          (record) => record.person_uid === member.person_uid
+        );
+
+        return isActive;
+      });
+
+      return active_members.length;
+    }
+  }, [
+    isSecretary,
+    isGroupOverseer,
+    my_group,
+    currentMonth,
+    getPublishersActive,
+  ]);
 
   const received_reports = useMemo(() => {
     const results = reports.filter(

@@ -6,6 +6,8 @@ export type PersonFixedFilterOption =
   | 'AP'
   | 'FR'
   | 'not_submitted'
+  | 'unverified'
+  | 'verified'
   | 'appointed';
 
 export type PersonFilterOption = PersonFixedFilterOption | (string & {});

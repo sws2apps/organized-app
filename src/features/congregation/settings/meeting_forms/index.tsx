@@ -13,6 +13,7 @@ import MenuItem from '@components/menuitem';
 import MidweekExactDate from './midweek_exact_date';
 import Select from '@components/select';
 import SwitchWithLabel from '@components/switch_with_label';
+import Typography from '@components/typography';
 
 const MeetingForms = () => {
   const { t } = useAppTranslation();
@@ -55,13 +56,13 @@ const MeetingForms = () => {
                 }
               >
                 <MenuItem value={SourceFrequency.WEEKLY}>
-                  {t('tr_everyWeek')}
+                  <Typography>{t('tr_everyWeek')}</Typography>
                 </MenuItem>
                 <MenuItem value={SourceFrequency.BIWEEKLY}>
-                  {t('tr_everyTwoWeeks')}
+                  <Typography>{t('tr_everyTwoWeeks')}</Typography>
                 </MenuItem>
                 <MenuItem value={SourceFrequency.MONTHLY}>
-                  {t('tr_everyMonth')}
+                  <Typography>{t('tr_everyMonth')}</Typography>
                 </MenuItem>
               </Select>
             )}
@@ -84,10 +85,10 @@ const MeetingForms = () => {
             }
           >
             <MenuItem value={FullnameOption.FIRST_BEFORE_LAST}>
-              {t('tr_formatFirstLast')}
+              <Typography>{t('tr_formatFirstLast')}</Typography>
             </MenuItem>
             <MenuItem value={FullnameOption.LAST_BEFORE_FIRST}>
-              {t('tr_formatLastFirst')}
+              <Typography>{t('tr_formatLastFirst')}</Typography>
             </MenuItem>
           </Select>
 
@@ -103,7 +104,9 @@ const MeetingForms = () => {
           >
             {shortDateFormatOptions.map((format) => (
               <MenuItem key={format} value={format}>
-                {formatDate(new Date(2024, 10, 20), format)}
+                <Typography>
+                  {formatDate(new Date(2024, 10, 20), format)}
+                </Typography>
               </MenuItem>
             ))}
           </Select>

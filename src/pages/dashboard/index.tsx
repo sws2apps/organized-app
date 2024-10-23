@@ -15,8 +15,13 @@ import { DemoNotice } from '@features/index';
 const Dashboard = () => {
   const { t } = useAppTranslation();
 
-  const { isMeetingEditor, isPublisher, isPersonViewer, isElder } =
-    useCurrentUser();
+  const {
+    isMeetingEditor,
+    isPublisher,
+    isPersonViewer,
+    isElder,
+    isAttendanceEditor,
+  } = useCurrentUser();
 
   const {
     firstName,
@@ -61,7 +66,7 @@ const Dashboard = () => {
 
         {isMeetingEditor && <MeetingsMaterialsCard />}
 
-        {isElder && <ReportsCard />}
+        {(isElder || isAttendanceEditor) && <ReportsCard />}
 
         <CongregationCard />
       </Box>

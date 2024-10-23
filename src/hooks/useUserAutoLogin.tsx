@@ -178,8 +178,7 @@ const useUserAutoLogin = () => {
         if (!dataPocket) return;
 
         // congregation not found -> user not authorized and delete local data
-
-        if (dataPocket.status === 403 || dataPocket.status === 404) {
+        if (dataPocket.status === 403) {
           await handleDeleteDatabase();
           return;
         }

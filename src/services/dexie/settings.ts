@@ -5,6 +5,11 @@ import { AssignmentCode } from '@definition/assignment';
 import { getRandomArrayItem } from '@utils/common';
 import appDb from '@db/appDb';
 
+export const dbAppSettingsGet = async () => {
+  const current = await appDb.app_settings.get(1);
+  return current;
+};
+
 export const dbAppSettingsSave = async (setting: SettingsType) => {
   const current = await appDb.app_settings.get(1);
 

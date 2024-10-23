@@ -8,6 +8,7 @@ const StreamSpeaker = (props: PersonSelectorType) => {
 
   return (
     <AutoComplete
+      readOnly={props.readOnly}
       options={[]}
       label={props.label}
       freeSolo={true}

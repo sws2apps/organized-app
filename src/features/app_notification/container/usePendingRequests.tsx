@@ -3,8 +3,8 @@ import { useSetRecoilState } from 'recoil';
 import { IconTalk } from '@components/icons';
 import { CongregationRequestType } from '@definition/api';
 import {
-  CongregationSpeakerRequestType,
   NotificationRecordType,
+  SpeakerNotificationType,
 } from '@definition/notification';
 import useAppTranslation from '@hooks/useAppTranslation';
 import { notificationsState } from '@states/notification';
@@ -21,18 +21,18 @@ const usePendingRequests = () => {
           a.updatedAt.localeCompare(b.updatedAt)
         )[0].updatedAt;
 
-        const requestNotification: NotificationRecordType = {
-          id: 'request-cong',
-          type: 'speakers-request',
+        const requestNotification: SpeakerNotificationType = {
+          id: 'speakers-request',
           title: t('tr_requestSpeakersList'),
           description: t('tr_requestSpeakersListDesc'),
           date: lastUpdated,
-          options: [] as CongregationSpeakerRequestType[],
           icon: <IconTalk color="var(--black)" />,
+          congs: [],
+          enableRead: false,
         };
 
         for (const congRequest of requets) {
-          requestNotification.options.push({
+          requestNotification.congs.push({
             request_id: congRequest.request_id,
             cong_name: congRequest.cong_name,
             cong_number: congRequest.cong_number,
@@ -41,10 +41,12 @@ const usePendingRequests = () => {
         }
 
         setNotifications((prev) => {
-          const newValue = prev.filter(
-            (record) => record.id !== 'request-cong'
+          const newValue: NotificationRecordType[] = prev.filter(
+            (record) => record.id !== 'speakers-request'
           );
+
           newValue.push(requestNotification);
+
           return newValue;
         });
       }
@@ -52,8 +54,9 @@ const usePendingRequests = () => {
       if (requets.length === 0) {
         setNotifications((prev) => {
           const newValue = prev.filter(
-            (record) => record.id !== 'request-cong'
+            (record) => record.id !== 'speakers-request'
           );
+
           return newValue;
         });
       }

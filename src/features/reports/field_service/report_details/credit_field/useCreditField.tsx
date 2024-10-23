@@ -1,6 +1,6 @@
 import { useMemo, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
-import { useAppTranslation } from '@hooks/index';
+import { useAppTranslation, useCurrentUser } from '@hooks/index';
 import { PersonType } from '@definition/person';
 import {
   congFieldServiceReportsState,
@@ -17,6 +17,8 @@ const useCreditField = (person: PersonType) => {
   const creditRef = useRef<Element>(null);
 
   const { t } = useAppTranslation();
+
+  const { isSecretary } = useCurrentUser();
 
   const reports = useRecoilValue(congFieldServiceReportsState);
   const currentMonth = useRecoilValue(selectedMonthFieldServiceReportState);
@@ -77,6 +79,7 @@ const useCreditField = (person: PersonType) => {
         report.report_data.shared_ministry = value > 0;
       }
 
+      report.report_data.status = isSecretary ? 'confirmed' : 'received';
       report.report_data.updatedAt = new Date().toISOString();
 
       await handleSaveFieldServiceReports(report);
@@ -110,6 +113,7 @@ const useCreditField = (person: PersonType) => {
         report.report_data.shared_ministry = true;
       }
 
+      report.report_data.status = isSecretary ? 'confirmed' : 'received';
       report.report_data.updatedAt = new Date().toISOString();
 
       await handleSaveFieldServiceReports(report);
