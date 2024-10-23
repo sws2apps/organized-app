@@ -235,7 +235,7 @@
   "tr_disqualified": "Desqualificado",
   "tr_timeAwayAddedSuccess": "Tempo ausente adicionado",
   "tr_timeAwayAddedSuccessDesc": "Obrigado por manter sua disponibilidade atualizada",
-  "tr_appointSubsisuteSpeaker": "Designar um substituto para os oradores visitantes",
+  "tr_appointSubstituteSpeaker": "Appoint a substitution for visiting speakers",
   "tr_displayWSConductorSubstitutions": "Exibir substituições do dirigente do estudo de À Sentinela na programação",
   "tr_displayWSConductorDesc": "Para datas em que o dirigente principal está ausente ou doente",
   "tr_repeatedMonthlyWarning": "Mostrar aviso de designação repetida – mensal",
@@ -435,5 +435,6 @@
   "tr_enableCongregationDataSyncDesc": "Esse recurso permite sincronizar dados como agendamentos com outros usuários em sua congregação e usar o aplicativo em vários dispositivos simultaneamente.",
   "tr_applicationRejected": "Petição para pioneiro rejeitada",
   "tr_applicationRejectedDesc": "Esta petição foi rejeitada. Informe o publicador sobre seu status.",
-  "tr_serviceGroupsListNone": "Nenhum grupo de serviços de campo ainda. Os grupos aparecerão aqui assim que forem criados."
+  "tr_serviceGroupsListNone": "Nenhum grupo de serviços de campo ainda. Os grupos aparecerão aqui assim que forem criados.",
+  "tr_serviceYearAlt": "{{ year }} service year"
 }
