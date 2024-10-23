@@ -4,11 +4,15 @@ import { userFieldServiceMonthlyReportsState } from '@states/user_field_service_
 import { useCurrentUser } from '@hooks/index';
 import { personIsEnrollmentActive } from '@services/app/persons';
 import { formatDate } from '@services/dateformat';
+import { congFieldServiceReportsState } from '@states/field_service_reports';
+import { userLocalUIDState } from '@states/settings';
 
 const useMinistryYearlyRecord = (year: string) => {
   const { person } = useCurrentUser();
 
   const reports = useRecoilValue(userFieldServiceMonthlyReportsState);
+  const congReports = useRecoilValue(congFieldServiceReportsState);
+  const userUID = useRecoilValue(userLocalUIDState);
 
   const start_month = useMemo(() => {
     const yearStart = +year - 1;
@@ -20,28 +24,52 @@ const useMinistryYearlyRecord = (year: string) => {
     return `${year}/08`;
   }, [year]);
 
-  const yearlyReports = useMemo(() => {
+  const yearlyCongReports = useMemo(() => {
+    const results = congReports.filter(
+      (record) =>
+        record.report_data.person_uid === userUID &&
+        record.report_data.report_date <= end_month &&
+        record.report_data.report_date >= start_month
+    );
+
+    return results;
+  }, [congReports, start_month, end_month, userUID]);
+
+  const yearlyUserReports = useMemo(() => {
     const results = reports.filter(
       (record) =>
         record.report_date <= end_month &&
         record.report_date >= start_month &&
-        record.report_data.status !== 'pending'
+        record.report_data.status !== 'pending' &&
+        yearlyCongReports.some(
+          (report) => report.report_data.report_date === record.report_date
+        ) === false
     );
 
     return results;
-  }, [reports, start_month, end_month]);
+  }, [congReports, reports, start_month, end_month]);
 
   const hours_field_service = useMemo(() => {
-    const total = yearlyReports.reduce(
+    const congTotal = yearlyCongReports.reduce(
       (acc, current) => acc + current.report_data.hours.field_service,
       0
     );
 
-    return total;
-  }, [yearlyReports]);
+    const userTotal = yearlyUserReports.reduce(
+      (acc, current) => acc + current.report_data.hours.field_service,
+      0
+    );
+
+    return congTotal + userTotal;
+  }, [yearlyCongReports, yearlyUserReports]);
 
   const hours_credit = useMemo(() => {
-    const total = yearlyReports.reduce((acc, current) => {
+    const congTotal = yearlyCongReports.reduce(
+      (acc, current) => acc + current.report_data.hours.credit.approved,
+      0
+    );
+
+    const userTotal = yearlyUserReports.reduce((acc, current) => {
       if (current.report_data.hours.credit.approved > 0) {
         acc += current.report_data.hours.credit.approved;
       }
@@ -53,8 +81,8 @@ const useMinistryYearlyRecord = (year: string) => {
       return acc;
     }, 0);
 
-    return total;
-  }, [yearlyReports]);
+    return congTotal + userTotal;
+  }, [yearlyCongReports, yearlyUserReports]);
 
   const total_hours = useMemo(() => {
     return hours_field_service + hours_credit;
@@ -63,8 +91,10 @@ const useMinistryYearlyRecord = (year: string) => {
   const hours = useMemo(() => {
     let avg = 0;
 
-    if (yearlyReports.length > 0) {
-      avg = Math.round(total_hours / yearlyReports.length);
+    const totalReports = yearlyCongReports.length + yearlyUserReports.length;
+
+    if (totalReports > 0) {
+      avg = Math.round(total_hours / totalReports);
     }
 
     return {
@@ -73,12 +103,24 @@ const useMinistryYearlyRecord = (year: string) => {
       field: hours_field_service,
       credit: hours_credit,
     };
-  }, [yearlyReports, total_hours, hours_field_service, hours_credit]);
+  }, [
+    yearlyCongReports,
+    yearlyUserReports,
+    total_hours,
+    hours_field_service,
+    hours_credit,
+  ]);
 
   const bible_studies = useMemo(() => {
-    const studies = yearlyReports
+    const congStudies = yearlyCongReports
       .map((record) => record.report_data.bible_studies)
       .sort((a, b) => b - a);
+
+    const userStudies = yearlyUserReports
+      .map((record) => record.report_data.bible_studies)
+      .sort((a, b) => b - a);
+
+    const studies = [...congStudies, ...userStudies];
 
     const sumStudies = studies.reduce((acc, current) => acc + current, 0);
 
@@ -89,7 +131,7 @@ const useMinistryYearlyRecord = (year: string) => {
     }
 
     return { average: avg, peak: studies.at(0) || 0 };
-  }, [yearlyReports]);
+  }, [yearlyCongReports, yearlyUserReports]);
 
   const isFR = useMemo(() => {
     let value = false;
@@ -156,7 +198,7 @@ const useMinistryYearlyRecord = (year: string) => {
     bible_studies,
     hoursEnabled,
     isFR,
-    yearlyReports,
+    yearlyReports: yearlyUserReports,
   };
 };
 

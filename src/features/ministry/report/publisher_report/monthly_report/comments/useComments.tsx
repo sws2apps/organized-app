@@ -11,18 +11,32 @@ import { displaySnackNotification } from '@services/recoil/app';
 import { getMessageByCode } from '@services/i18n/translation';
 import { useAppTranslation } from '@hooks/index';
 import useMinistryMonthlyRecord from '@features/ministry/hooks/useMinistryMonthlyRecord';
+import { congFieldServiceReportsState } from '@states/field_service_reports';
+import { userLocalUIDState } from '@states/settings';
 
 const useComments = () => {
   const { t } = useAppTranslation();
 
   const currentMonth = useRecoilValue(reportUserSelectedMonthState);
   const reports = useRecoilValue(userFieldServiceMonthlyReportsState);
+  const congReports = useRecoilValue(congFieldServiceReportsState);
+  const userUID = useRecoilValue(userLocalUIDState);
 
   const { comments, status } = useMinistryMonthlyRecord(currentMonth);
 
   const [value, setValue] = useState(comments);
 
-  const monthReport = useMemo(() => {
+  const readOnly = useMemo(() => {
+    const findReport = congReports.find(
+      (record) =>
+        record.report_data.report_date === currentMonth &&
+        record.report_data.person_uid === userUID
+    );
+
+    return findReport ? true : false;
+  }, [congReports, currentMonth, userUID]);
+
+  const userReport = useMemo(() => {
     return reports.find((record) => record.report_date === currentMonth);
   }, [reports, currentMonth]);
 
@@ -34,13 +48,13 @@ const useComments = () => {
     try {
       let report: UserFieldServiceMonthlyReportType;
 
-      if (!monthReport) {
+      if (!userReport) {
         report = structuredClone(userFieldServiceMonthlyReportSchema);
         report.report_date = currentMonth;
       }
 
-      if (monthReport) {
-        report = structuredClone(monthReport);
+      if (userReport) {
+        report = structuredClone(userReport);
       }
 
       report.report_data.comments = value;
@@ -60,7 +74,7 @@ const useComments = () => {
     setValue(comments);
   }, [comments]);
 
-  return { value, handleCommentsChange, status };
+  return { value, handleCommentsChange, status, readOnly };
 };
 
 export default useComments;
