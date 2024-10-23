@@ -11,15 +11,19 @@ const useSpecialMonths = () => {
   const monthNames = useRecoilValue(monthNamesState);
   const settings = useRecoilValue(settingsState);
 
+  const currentYear = useMemo(() => {
+    return currentServiceYear();
+  }, []);
+
   const yearsList = useMemo(() => {
     const result: YearOptionType[] = [];
 
-    const currentYear = currentServiceYear();
     const previousYear = String(+currentYear - 1);
     const nextYear = String(+currentYear + 1);
 
     const hasPrevious =
-      specialMonths.find((record) => record.year === previousYear)?.months.length > 0;
+      specialMonths.find((record) => record.year === previousYear)?.months
+        .length > 0;
 
     const years: string[] = [];
 
@@ -49,7 +53,7 @@ const useSpecialMonths = () => {
     }
 
     return result;
-  }, [specialMonths, monthNames]);
+  }, [specialMonths, monthNames, currentYear]);
 
   const handleFormatMonths = (values: string[]) => {
     const months = values
@@ -87,7 +91,7 @@ const useSpecialMonths = () => {
     });
   };
 
-  return { yearsList, handleFormatMonths, handleSetMonths };
+  return { yearsList, handleFormatMonths, handleSetMonths, currentYear };
 };
 
 export default useSpecialMonths;

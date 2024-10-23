@@ -10,7 +10,7 @@ const useNotice = () => {
   };
 
   const handleOpenRealApp = () => {
-    window.open('https://organized-app.com', '_blank');
+    window.open('https://organized-app.com', '_blank', 'noopener');
   };
 
   return { open, handleClose, handleOpenRealApp };
