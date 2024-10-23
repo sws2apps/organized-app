@@ -168,16 +168,17 @@ const useFilter = () => {
     ];
   }, [t]);
 
+  const handleCloseFilterMobile = () => {
+    setFilterOpen(false);
+    window.scroll({ top: 0 });
+  };
+
   const handleClearFilters = () => {
     setPersonsFiltersKey([]);
 
     setActiveTab(PersonsTab.ALL);
 
-    if (!desktopUp) setFilterOpen(false);
-  };
-
-  const handleCloseFilterMobile = () => {
-    setFilterOpen(false);
+    if (!desktopUp) handleCloseFilterMobile();
   };
 
   const handleToggleGroup = (checked: boolean, id: string) => {
