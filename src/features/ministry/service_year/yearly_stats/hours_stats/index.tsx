@@ -41,7 +41,7 @@ const HoursStats = ({ year }: HoursStatsProps) => {
       </Stack>
 
       {isFR && (
-        <LabelRow name={t('tr_averageMonthlyHourss')} value={hours.average} />
+        <LabelRow name={t('tr_averageMonthlyHours')} value={hours.average} />
       )}
     </Stack>
   );

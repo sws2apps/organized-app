@@ -19,6 +19,7 @@ const MonthItem = (props: MonthItemProps) => {
     isAP,
     comments,
     isCurrent,
+    isAhead,
   } = useMonthItem(props);
 
   return (
@@ -34,14 +35,19 @@ const MonthItem = (props: MonthItemProps) => {
     >
       <Stack spacing="4px">
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          {monthStatus === 'shared' && (
+          {!isCurrent && !isAhead && monthStatus === 'shared' && (
             <IconCheck width={20} height={20} color="var(--accent-main)" />
           )}
-          {monthStatus === 'not_shared' && (
+          {!isCurrent && !isAhead && monthStatus === 'not_shared' && (
             <IconClose width={20} height={20} color="var(--red-main)" />
           )}
 
-          <Typography className="h4">{monthname}</Typography>
+          <Typography
+            className="h4"
+            sx={{ color: isAhead ? 'var(--grey-300)' : 'var(--black)' }}
+          >
+            {monthname}
+          </Typography>
 
           {isAP && (
             <Badge
@@ -54,7 +60,7 @@ const MonthItem = (props: MonthItemProps) => {
           )}
         </Box>
 
-        {!isCurrent && comments.length > 0 && (
+        {!isCurrent && !isAhead && comments.length > 0 && (
           <Typography className="body-small-regular" color="var(--grey-350)">
             {comments}
           </Typography>
@@ -72,7 +78,18 @@ const MonthItem = (props: MonthItemProps) => {
           />
         )}
 
-        {!isCurrent && (
+        {isAhead && (
+          <Badge
+            faded
+            className="body-small-semibold"
+            size="big"
+            color="grey"
+            sx={{ borderRadius: 'var(--radius-s)' }}
+            text={t('tr_ahead')}
+          />
+        )}
+
+        {!isCurrent && !isAhead && (
           <>
             {bible_studies > 0 && (
               <Badge

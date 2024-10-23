@@ -71,6 +71,7 @@ const Badge = (props: BadgePropsType) => {
     centerContent,
     borderStyle,
     className,
+    faded,
     sx = {},
   } = props;
 
@@ -78,6 +79,10 @@ const Badge = (props: BadgePropsType) => {
     if (filled) return `var(--always-white)`;
 
     if (color === 'grey') {
+      if (faded) {
+        return `var(--${color}-300)`;
+      }
+
       return `var(--${color}-400)`;
     } else if (color === 'green') {
       return `var(--${color}-main)`;
@@ -101,6 +106,10 @@ const Badge = (props: BadgePropsType) => {
       }
     } else {
       if (color === 'grey') {
+        if (faded) {
+          return `var(--${color}-100)`;
+        }
+
         return `var(--${color}-150)`;
       } else if (color === 'accent') {
         return `var(--accent-200)`;
