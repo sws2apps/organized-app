@@ -37,6 +37,7 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
     isImportJWOrg,
     isImportEPUB,
     isDashboard,
+    isDemoNoticeOpen,
   } = useRootLayout();
 
   return (
@@ -86,7 +87,7 @@ const RootLayout = ({ updatePwa }: { updatePwa: VoidFunction }) => {
               >
                 {isDemo && <DemoNotice />}
 
-                <WhatsNew />
+                {(!isDemo || (isDemo && !isDemoNoticeOpen)) && <WhatsNew />}
 
                 <Box sx={{ marginBottom: '32px' }}>
                   <MyAssignments />

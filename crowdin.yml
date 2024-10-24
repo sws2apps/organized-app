@@ -7,4 +7,5 @@ files:
       - /src/locales/en/source.json
       - /src/locales/en/ui.json
       - /src/locales/en/public_talks.json
+      - /src/locales/en/release_notes.json
     translation: /src/locales/%locale%/%original_file_name%

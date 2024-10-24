@@ -12,8 +12,15 @@ import Typography from '@components/typography';
 const WhatsNew = () => {
   const { t } = useAppTranslation();
 
-  const { open, handleClose, currentImage, images, improvements } =
-    useWhatsNew();
+  const {
+    open,
+    handleClose,
+    currentImage,
+    images,
+    improvements,
+    handleBackAction,
+    handleNextAction,
+  } = useWhatsNew();
 
   return (
     <Dialog
@@ -54,6 +61,8 @@ const WhatsNew = () => {
         slides={images}
         current={currentImage}
         onClose={handleClose}
+        onNext={handleNextAction}
+        onBack={handleBackAction}
       />
     </Dialog>
   );

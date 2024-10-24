@@ -1,6 +1,6 @@
-import { SliderCard } from '../index.types';
+import { ImageSlide } from '../index.types';
 
 export type ImageViewerProps = {
-  slides: SliderCard[];
+  slides: ImageSlide[];
   current: number;
 };

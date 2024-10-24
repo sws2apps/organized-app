@@ -64,6 +64,11 @@ for await (const language of languages) {
     (module) => module.default
   );
 
+  // load releases namespace
+  const releases = await import(`@locales/${language}/release_notes.json`).then(
+    (module) => module.default
+  );
+
   resources[language] = {
     ui: {
       ...activities,
@@ -78,6 +83,7 @@ for await (const language of languages) {
     },
     talks,
     songs,
+    releases,
   };
 }
 
