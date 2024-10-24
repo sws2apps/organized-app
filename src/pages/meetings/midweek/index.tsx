@@ -1,7 +1,14 @@
 import { Box } from '@mui/material';
-import { IconGenerate, IconPrint, IconPublish } from '@components/icons';
+import {
+  IconCalendarMonth,
+  IconCalendarWeek,
+  IconGenerate,
+  IconPrint,
+  IconPublish,
+} from '@components/icons';
 import {
   MidweekExport,
+  MonthlyView,
   ScheduleAutofillDialog,
   WeekSelector,
 } from '@features/index';
@@ -33,6 +40,9 @@ const MidweekMeeting = () => {
     handleCloseQuickSettings,
     handleOpenQuickSettings,
     quickSettingsOpen,
+    openWeekView,
+    handleOpenWeekView,
+    handleCloseWeekView,
   } = useMidweek();
 
   return (
@@ -76,6 +86,24 @@ const MidweekMeeting = () => {
         buttons={
           hasWeeks && (
             <>
+              {openWeekView && desktopUp ? (
+                <Button
+                  variant="secondary"
+                  onClick={handleCloseWeekView}
+                  startIcon={<IconCalendarMonth />}
+                >
+                  {t('tr_monthlyView')}
+                </Button>
+              ) : (
+                <Button
+                  variant="secondary"
+                  onClick={handleOpenWeekView}
+                  startIcon={<IconCalendarWeek />}
+                >
+                  {t('tr_weeklyView')}
+                </Button>
+              )}
+
               <Button
                 variant="secondary"
                 onClick={handleOpenExport}
@@ -104,17 +132,21 @@ const MidweekMeeting = () => {
         }
       />
 
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: desktopUp ? 'row' : 'column',
-          gap: '16px',
-          alignItems: desktopUp ? 'flex-start' : 'unset',
-        }}
-      >
-        <WeekSelector />
-        <MidweekEditor />
-      </Box>
+      {openWeekView ? (
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: desktopUp ? 'row' : 'column',
+            gap: '16px',
+            alignItems: desktopUp ? 'flex-start' : 'unset',
+          }}
+        >
+          <WeekSelector />
+          <MidweekEditor />
+        </Box>
+      ) : (
+        <MonthlyView />
+      )}
     </Box>
   );
 };
