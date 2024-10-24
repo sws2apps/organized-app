@@ -1,7 +1,9 @@
-import { SliderCard } from '../index.types';
+import { ImageSlide } from '../index.types';
 
 export type ButtonsActionProps = {
-  slides: SliderCard[];
+  slides: ImageSlide[];
   current: number;
   onClose: VoidFunction;
+  onNext: VoidFunction;
+  onBack: VoidFunction;
 };

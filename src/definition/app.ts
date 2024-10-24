@@ -49,3 +49,22 @@ export type AppRoleType =
   | 'view_schedules'
   | 'elder'
   | 'ms';
+
+export type ReleaseNoteType = {
+  [version: string]: {
+    images: {
+      [tag: string]: {
+        src: string;
+        tr_title: string;
+        tr_desc: string;
+      };
+    };
+    improvements: {
+      [tag: string]: string;
+    };
+  };
+};
+
+export type UpdateStatusType = {
+  [version: string]: boolean;
+};

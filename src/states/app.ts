@@ -554,3 +554,8 @@ export const congregationsBaptizedPersonsState = selector({
     );
   },
 });
+
+export const demoNoticeOpenState = atom({
+  key: 'demoNoticeOpen',
+  default: true,
+});
