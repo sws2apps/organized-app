@@ -3,4 +3,4 @@ pull_request_labels:
   - crowdin
 files:
   - source: /src/locales/en/public_talks.json
-    translation: /src/public_talks/%locale%/%original_file_name%
+    translation: /src/locales/%locale%/%original_file_name%
