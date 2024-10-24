@@ -29,7 +29,6 @@
       "@definition/*": ["definition/*"],
       "@global/*": ["global/*"],
       "@db/*": ["indexedDb/*"],
-      "@talks/*": ["public_talks/*"],
       "@views/*": ["views/*"]
     }
   },

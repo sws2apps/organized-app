@@ -55,7 +55,7 @@ for await (const language of languages) {
   );
 
   // load talks namespace
-  const talks = await import(`@talks/${language}/public_talks.json`).then(
+  const talks = await import(`@locales/${language}/public_talks.json`).then(
     (module) => module.default
   );
 
