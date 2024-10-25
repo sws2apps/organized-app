@@ -428,7 +428,7 @@
   "tr_averageAttendanceMM": "Durchschnittliche Besucher unter der Woche",
   "tr_S10ReportWithYear": "Gemeindeanalyse-Bericht: {{ year }}",
   "tr_groupNotAssigned": "Gruppe nicht zugewiesen",
-  "tr_publisherLastReport": "Letzter Bericht im {{ month }}",
+  "tr_publisherLastReport": "Last report: {{ month }}",
   "tr_myGroup": "Meine Gruppe",
   "tr_publishers": "Verkündiger",
   "tr_enableCongregationDataSync": "Enable congregation data sync",
