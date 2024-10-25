@@ -3,7 +3,7 @@ import { useRecoilValue } from 'recoil';
 import { SpeakersCatalogType, TalkOptionType } from './index.types';
 import {
   incomingSpeakersState,
-  outgoingSpeakersState,
+  myCongSpeakersState,
 } from '@states/visiting_speakers';
 import { publicTalksState } from '@states/public_talks';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
@@ -27,7 +27,7 @@ const useSpeakersCatalog = ({
   const { handleTalkChange } = usePublicTalkSelector(week, schedule_id);
 
   const incomingSpeakers = useRecoilValue(incomingSpeakersState);
-  const outgoingSpeakers = useRecoilValue(outgoingSpeakersState);
+  const localSpeakers = useRecoilValue(myCongSpeakersState);
   const talksData = useRecoilValue(publicTalksState);
   const useDisplayName = useRecoilValue(displayNameMeetingsEnableState);
   const fullnameOption = useRecoilValue(fullnameOptionState);
@@ -40,7 +40,7 @@ const useSpeakersCatalog = ({
     const records: VisitingSpeakerType[] = [];
 
     if (type === 'localSpeaker') {
-      const validSpeakers = outgoingSpeakers.filter(
+      const validSpeakers = localSpeakers.filter(
         (record) =>
           record.speaker_data.talks.filter(
             (record) => record._deleted === false
@@ -85,7 +85,7 @@ const useSpeakersCatalog = ({
     );
   }, [
     incomingSpeakers,
-    outgoingSpeakers,
+    localSpeakers,
     type,
     fullnameOption,
     useDisplayName,

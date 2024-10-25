@@ -6,8 +6,9 @@ import {
   useBreakpoints,
   useCurrentUser,
 } from '@hooks/index';
-import { IncomingSpeakers, OutgoingSpeakers } from '@features/index';
 import useSpeakersCatalog from './useSpeakersCatalog';
+import MyCongregation from '@features/persons/speakers_catalog/my_congregation';
+import OtherCongregations from '@features/persons/speakers_catalog/other_congregations';
 
 const SpeakersCatalog = () => {
   const { t } = useAppTranslation();
@@ -47,8 +48,8 @@ const SpeakersCatalog = () => {
           borderRadius: 'var(--radius-xl)',
         }}
       >
-        <OutgoingSpeakers />
-        <IncomingSpeakers />
+        <MyCongregation />
+        <OtherCongregations />
       </Box>
     </Box>
   );

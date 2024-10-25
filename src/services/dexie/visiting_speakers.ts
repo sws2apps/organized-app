@@ -10,7 +10,7 @@ import appDb from '@db/appDb';
 import { AssignmentCode } from '@definition/assignment';
 import { generateDisplayName } from '@utils/common';
 
-export const dbVisitingSpeakersLocalCongSpeakerAdd = async () => {
+export const dbVisitingSpeakersLocalCongSpeakerAdd = async (local: boolean) => {
   try {
     const settings = await appDb.app_settings.get(1);
     const cong_number = settings.cong_settings.cong_number;
@@ -32,6 +32,10 @@ export const dbVisitingSpeakersLocalCongSpeakerAdd = async () => {
     const newSpeaker = structuredClone(vistingSpeakerSchema);
     newSpeaker.person_uid = crypto.randomUUID();
     newSpeaker.speaker_data.cong_id = congLocal.id;
+    newSpeaker.speaker_data.local = {
+      value: local,
+      updatedAt: new Date().toISOString(),
+    };
 
     await appDb.visiting_speakers.put(newSpeaker);
   } catch (err) {
@@ -235,6 +239,7 @@ export const dbVisitingSpeakersDummy = async () => {
       value: '+61 929-572-140',
       updatedAt: new Date().toISOString(),
     },
+    local: { value: false, updatedAt: new Date().toISOString() },
     talks: [
       {
         _deleted: false,
@@ -285,6 +290,7 @@ export const dbVisitingSpeakersDummy = async () => {
       value: '+92 378-326-3439',
       updatedAt: new Date().toISOString(),
     },
+    local: { value: false, updatedAt: new Date().toISOString() },
     talks: [
       {
         _deleted: false,
@@ -335,6 +341,7 @@ export const dbVisitingSpeakersDummy = async () => {
       value: '+61 929-572-140',
       updatedAt: new Date().toISOString(),
     },
+    local: { value: false, updatedAt: new Date().toISOString() },
     talks: [
       {
         _deleted: false,
@@ -385,6 +392,7 @@ export const dbVisitingSpeakersDummy = async () => {
       value: '+92 378-326-3439',
       updatedAt: new Date().toISOString(),
     },
+    local: { value: false, updatedAt: new Date().toISOString() },
     talks: [
       {
         _deleted: false,
