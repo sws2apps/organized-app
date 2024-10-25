@@ -428,7 +428,7 @@
   "tr_averageAttendanceMM": "平均周中聚会出席人数",
   "tr_S10ReportWithYear": "会众分析报告: {{ year }}",
   "tr_groupNotAssigned": "小组尚未指定",
-  "tr_publisherLastReport": "最后一次报告于 {{ month }}",
+  "tr_publisherLastReport": "Last report: {{ month }}",
   "tr_myGroup": "我的小组",
   "tr_publishers": "传道员",
   "tr_enableCongregationDataSync": "启用会众数据同步",
