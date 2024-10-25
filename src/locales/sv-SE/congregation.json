@@ -428,7 +428,7 @@
   "tr_averageAttendanceMM": "Genomsnittlig närvaro på veckomöten",
   "tr_S10ReportWithYear": "Församlingsanalysrapport",
   "tr_groupNotAssigned": "Grupp inte tilldelad",
-  "tr_publisherLastReport": "Senaste rapporten för {{ month }}",
+  "tr_publisherLastReport": "Last report: {{ month }}",
   "tr_myGroup": "Min grupp",
   "tr_publishers": "Förkunnare",
   "tr_enableCongregationDataSync": "Aktivera synkronisering av församlingsdata",

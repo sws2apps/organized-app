@@ -428,7 +428,7 @@
   "tr_averageAttendanceMM": "평균 평일 집회 참석",
   "tr_S10ReportWithYear": "회중 분석 보고서: {{ year }}",
   "tr_groupNotAssigned": "집단 미지정",
-  "tr_publisherLastReport": "지난 {{ month }}월 보고",
+  "tr_publisherLastReport": "Last report: {{ month }}",
   "tr_myGroup": "내 집단",
   "tr_publishers": "전도인",
   "tr_enableCongregationDataSync": "회중 데이터 동기화 활성화",

@@ -428,7 +428,7 @@
   "tr_averageAttendanceMM": "Salanisa mpanatrika fivoriana andavanandro",
   "tr_S10ReportWithYear": "Tatitsy famakafakà fiangona: {{ year }}",
   "tr_groupNotAssigned": "Tsy misy andiam-pitory",
-  "tr_publisherLastReport": "Tatitsy amy farany vola {{ month }}",
+  "tr_publisherLastReport": "Last report: {{ month }}",
   "tr_myGroup": "Andiam-pitory misy ahy",
   "tr_publishers": "Mpitory",
   "tr_enableCongregationDataSync": "Alefa ny fizarana rakitra ampiasain’ny rehetra",
