@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { SpeakersCatalogType, TalkOptionType } from './index.types';
 import {
   incomingSpeakersState,
@@ -15,7 +15,10 @@ import { speakerGetDisplayName } from '@utils/common';
 import { personsState } from '@states/persons';
 import { PublicTalkType } from '@definition/public_talks';
 import { schedulesSaveAssignment } from '@services/app/schedules';
-import { schedulesState } from '@states/schedules';
+import {
+  schedulesState,
+  weekendSongSelectorOpenState,
+} from '@states/schedules';
 import usePublicTalkSelector from '../public_talk_selector/usePublicTalkSelector';
 
 const useSpeakersCatalog = ({
@@ -25,6 +28,10 @@ const useSpeakersCatalog = ({
   schedule_id,
 }: SpeakersCatalogType) => {
   const { handleTalkChange } = usePublicTalkSelector(week, schedule_id);
+
+  const setLocalSongSelectorOpen = useSetRecoilState(
+    weekendSongSelectorOpenState
+  );
 
   const incomingSpeakers = useRecoilValue(incomingSpeakersState);
   const localSpeakers = useRecoilValue(myCongSpeakersState);
@@ -136,6 +143,8 @@ const useSpeakersCatalog = ({
 
     if (!schedule_id) {
       await schedulesSaveAssignment(schedule, 'WM_Speaker_Part1', speaker);
+
+      setLocalSongSelectorOpen(true);
     }
 
     if (schedule_id) {

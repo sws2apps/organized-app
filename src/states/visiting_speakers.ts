@@ -12,10 +12,19 @@ export const visitingSpeakersState = atom<VisitingSpeakerType[]>({
   default: [],
 });
 
+export const visitingSpeakersActiveState = selector({
+  key: 'visitingSpeakersActive',
+  get: ({ get }) => {
+    const speakers = get(visitingSpeakersState);
+
+    return speakers.filter((record) => record._deleted.value === false);
+  },
+});
+
 export const myCongSpeakersState = selector({
   key: 'myCongSpeakers',
   get: ({ get }) => {
-    const speakers = get(visitingSpeakersState);
+    const speakers = get(visitingSpeakersActiveState);
 
     if (!speakers) return [];
 
@@ -65,7 +74,7 @@ export const localSpeakersState = selector({
 export const incomingSpeakersState = selector({
   key: 'incomingSpeakers',
   get: ({ get }) => {
-    const speakers = get(visitingSpeakersState);
+    const speakers = get(visitingSpeakersActiveState);
     const congregations = get(speakersCongregationsState);
     const congNumber = get(congNumberState);
 

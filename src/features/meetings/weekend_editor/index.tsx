@@ -34,6 +34,7 @@ import TalkTitleSolo from './talk_title_solo';
 import Typography from '@components/typography';
 import WeekTypeSelector from '../week_type_selector';
 import Markup from '@components/text_markup';
+import SongSelector from './song_selector';
 
 const WeekendEditor = () => {
   const { t } = useAppTranslation();
@@ -60,6 +61,8 @@ const WeekendEditor = () => {
     handleCloseClearAll,
     handleOpenClearAll,
     autoAssignOpeningPrayer,
+    handleCloseSongSelector,
+    songSelectorOpen,
   } = useWeekendEditor();
 
   const { talkType } = usePublicTalkTypeSelector(selectedWeek);
@@ -75,6 +78,10 @@ const WeekendEditor = () => {
           week={selectedWeek}
           onClose={handleCloseClearAll}
         />
+      )}
+
+      {songSelectorOpen && (
+        <SongSelector onClose={handleCloseSongSelector} week={selectedWeek} />
       )}
 
       {weekDateLocale.length === 0 && (
