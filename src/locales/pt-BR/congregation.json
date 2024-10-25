@@ -436,5 +436,7 @@
   "tr_applicationRejected": "Petição para pioneiro rejeitada",
   "tr_applicationRejectedDesc": "Esta petição foi rejeitada. Informe o publicador sobre seu status.",
   "tr_serviceGroupsListNone": "Nenhum grupo de serviços de campo ainda. Os grupos aparecerão aqui assim que forem criados.",
-  "tr_serviceYearAlt": "{{ year }} service year"
+  "tr_serviceYearAlt": "{{ year }} service year",
+  "tr_speakersOutgoing": "Outgoing speakers",
+  "tr_speakersLocal": "Local speakers"
 }
