@@ -1,1 +1,26 @@
-{}
+{
+  "next": {
+    "images": {
+      "img_01": {
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_organized_ui.svg",
+        "tr_title": "Повністю новий дизайн, краща продуктивність!",
+        "tr_desc": "Organized has a brand new design that’s better, faster and easier to use than ever! Now it’s your turn to explore!"
+      },
+      "img_02": {
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_pioneer_application.svg",
+        "tr_title": "Quick and easy auxiliary pioneer submissions!",
+        "tr_desc": "Наскільки легко подати для тебе, настільки ж легко для старійшин розглянути її!"
+      },
+      "img_03": {
+        "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_publisher_records.svg",
+        "tr_title": "Записи вісників (S-21) у тебе під рукою!",
+        "tr_desc": "Переглядай та експортуй всю інформацію та статистику. Все, що потрібно секретарю для звіту – це лише один клік!"
+      }
+    },
+    "improvements": {
+      "tr_note_01": "Новий посібник користувача тепер доступний на <a href='https://guide.organized-app.com' target='_blank' rel='noopener'>guide.organized-app.com</a>.",
+      "tr_note_02": "Включай пісні у список публічних промов для промовців-гостей та місцевих промовців.",
+      "tr_note_03": "4 нові кольорові схеми на додаток до темної та світлої теми."
+    }
+  }
+}

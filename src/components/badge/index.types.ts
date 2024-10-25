@@ -61,6 +61,8 @@ export type BadgePropsType = {
    * Key for the badge.
    */
   key?: number | string;
+
+  faded?: boolean
 };
 
 /**

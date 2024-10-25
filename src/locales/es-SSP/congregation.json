@@ -235,7 +235,7 @@
   "tr_disqualified": "Descalificado",
   "tr_timeAwayAddedSuccess": "Tiempo fuera agregado",
   "tr_timeAwayAddedSuccessDesc": "Gracias por mantener actualizada tu disponibilidad",
-  "tr_appointSubsisuteSpeaker": "Asignar un sustituto para los oradores visitantes",
+  "tr_appointSubstituteSpeaker": "Asignar un sustituto para los oradores visitantes",
   "tr_displayWSConductorSubstitutions": "Mostrar las sustituciones de los conductores del estudio de La Atalaya en el programa",
   "tr_displayWSConductorDesc": "Para las fechas en las que el conductor principal esté ausente o enfermo",
   "tr_repeatedMonthlyWarning": "Mostrar advertencia de asignación repetida - mensual",
@@ -435,5 +435,6 @@
   "tr_enableCongregationDataSyncDesc": "This feature lets sync data like schedules with other users in your congregation and use the app on multiple devices at the same time.",
   "tr_applicationRejected": "Pioneer application rejected",
   "tr_applicationRejectedDesc": "This application has been rejected. Inform the publisher about its status.",
-  "tr_serviceGroupsListNone": "No field service groups yet. The groups will appear here as soon as they are created."
+  "tr_serviceGroupsListNone": "No field service groups yet. The groups will appear here as soon as they are created.",
+  "tr_serviceYearAlt": "{{ year }} service year"
 }

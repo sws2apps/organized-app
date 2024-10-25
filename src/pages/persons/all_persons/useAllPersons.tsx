@@ -1,15 +1,17 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
-import { personCurrentDetailsState } from '@states/persons';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import {
+  personCurrentDetailsState,
+  personsFilterOpenState,
+} from '@states/persons';
 import { setPersonCurrentDetails } from '@services/recoil/persons';
 
 const useAllPersons = () => {
   const navigate = useNavigate();
 
-  const person = useRecoilValue(personCurrentDetailsState);
+  const [isPanelOpen, setIsPanelOpen] = useRecoilState(personsFilterOpenState);
 
-  const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const person = useRecoilValue(personCurrentDetailsState);
 
   const handlePersonAdd = async () => {
     const newPerson = structuredClone(person);

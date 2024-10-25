@@ -235,7 +235,7 @@
   "tr_disqualified": "Disqualifiziert",
   "tr_timeAwayAddedSuccess": "Zeit der Abwesenheit hinzugefügt",
   "tr_timeAwayAddedSuccessDesc": "Danke, dass du deine Verfügbarkeit aktuell hältst",
-  "tr_appointSubsisuteSpeaker": "Ersatz eines Gastredners zuweisen",
+  "tr_appointSubstituteSpeaker": "Ersatz eines Gastredners zuweisen",
   "tr_displayWSConductorSubstitutions": "Ersatzleiter für Wachtturmstudium im Zusammenkunftsprogramm anzeigen",
   "tr_displayWSConductorDesc": "Für Daten, an denen der Hauptleiter abwesend oder krank ist",
   "tr_repeatedMonthlyWarning": "Zeige wiederholte Aufgabe Warnung – monatlich",
@@ -435,5 +435,6 @@
   "tr_enableCongregationDataSyncDesc": "This feature lets sync data like schedules with other users in your congregation and use the app on multiple devices at the same time.",
   "tr_applicationRejected": "Pioneer application rejected",
   "tr_applicationRejectedDesc": "This application has been rejected. Inform the publisher about its status.",
-  "tr_serviceGroupsListNone": "No field service groups yet. The groups will appear here as soon as they are created."
+  "tr_serviceGroupsListNone": "No field service groups yet. The groups will appear here as soon as they are created.",
+  "tr_serviceYearAlt": "{{ year }} service year"
 }

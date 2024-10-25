@@ -530,6 +530,7 @@ const dbRestoreCongReports = async (
   const coordinatorRole = userRole.includes('coordinator');
   const adminRole =
     userRole.includes('admin') || secretaryRole || coordinatorRole;
+  const publisherRole = userRole.includes('publisher');
 
   const userUID = settings.user_settings.user_local_uid;
 
@@ -543,7 +544,7 @@ const dbRestoreCongReports = async (
 
   const isGroupOverseer = findPerson?.isOverseer ?? false;
 
-  const allowRestore = adminRole || isGroupOverseer;
+  const allowRestore = adminRole || isGroupOverseer || publisherRole;
 
   if (allowRestore && backupData.cong_field_service_reports) {
     const remoteData = (

@@ -235,7 +235,7 @@
   "tr_disqualified": "Непригоден",
   "tr_timeAwayAddedSuccess": "Время отсутствия добавлено",
   "tr_timeAwayAddedSuccessDesc": "Спасибо за своевременное обновление доступности",
-  "tr_appointSubsisuteSpeaker": "Назначать замену для приглашённых докладчиков",
+  "tr_appointSubstituteSpeaker": "Назначать замену для приглашённых докладчиков",
   "tr_displayWSConductorSubstitutions": "Показывать замену ведущего изучения Сторожевой Башни в расписании",
   "tr_displayWSConductorDesc": "Для дат, когда основной ведущий отсутствует или болен",
   "tr_repeatedMonthlyWarning": "Показывать предупреждение о повторении – ежемесячно",
@@ -435,5 +435,6 @@
   "tr_enableCongregationDataSyncDesc": "This feature lets sync data like schedules with other users in your congregation and use the app on multiple devices at the same time.",
   "tr_applicationRejected": "Pioneer application rejected",
   "tr_applicationRejectedDesc": "This application has been rejected. Inform the publisher about its status.",
-  "tr_serviceGroupsListNone": "No field service groups yet. The groups will appear here as soon as they are created."
+  "tr_serviceGroupsListNone": "No field service groups yet. The groups will appear here as soon as they are created.",
+  "tr_serviceYearAlt": "{{ year }} service year"
 }

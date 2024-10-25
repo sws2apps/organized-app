@@ -235,7 +235,7 @@
   "tr_disqualified": "Disqualified",
   "tr_timeAwayAddedSuccess": "Naidagdag ang oras na hindi available",
   "tr_timeAwayAddedSuccessDesc": "Salamat sa pagpapanatili ng iyong availability na updated",
-  "tr_appointSubsisuteSpeaker": "Mag-appoint ng kahalili para sa mga naimbitahang speaker",
+  "tr_appointSubstituteSpeaker": "Mag-appoint ng kahalili para sa mga naimbitahang speaker",
   "tr_displayWSConductorSubstitutions": "Ipakita ang mga kahalili sa pag-aaral ng Bantayan sa iskedyul",
   "tr_displayWSConductorDesc": "Para sa mga petsa na hindi available o nagkakasakit ang main conductor",
   "tr_repeatedMonthlyWarning": "Ipakita ang babala na nabibigyan ulit ng assignment – buwanan",
@@ -435,5 +435,6 @@
   "tr_enableCongregationDataSyncDesc": "This feature lets sync data like schedules with other users in your congregation and use the app on multiple devices at the same time.",
   "tr_applicationRejected": "Hindi pinayagan ang aplikasyon sa pagpapayunir",
   "tr_applicationRejectedDesc": "Hindi inaprubahan ang aplikasyong ito. Ipaalam ito sa publisher.",
-  "tr_serviceGroupsListNone": "No field service groups yet. The groups will appear here as soon as they are created."
+  "tr_serviceGroupsListNone": "No field service groups yet. The groups will appear here as soon as they are created.",
+  "tr_serviceYearAlt": "{{ year }} service year"
 }

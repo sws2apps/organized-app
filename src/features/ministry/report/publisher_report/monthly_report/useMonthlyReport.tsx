@@ -1,6 +1,7 @@
 import { ReactElement, useEffect, useMemo } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { IconCheck, IconClose } from '@components/icons';
+import { useCurrentUser } from '@hooks/index';
 import {
   buildPublisherReportMonths,
   currentMonthServiceYear,
@@ -9,7 +10,8 @@ import {
   reportUserSelectedMonthState,
   userFieldServiceMonthlyReportsState,
 } from '@states/user_field_service_reports';
-import { useCurrentUser } from '@hooks/index';
+import { congFieldServiceReportsState } from '@states/field_service_reports';
+import { userLocalUIDState } from '@states/settings';
 import usePerson from '@features/persons/hooks/usePerson';
 
 const useMonthlyReport = () => {
@@ -22,6 +24,8 @@ const useMonthlyReport = () => {
   );
 
   const reports = useRecoilValue(userFieldServiceMonthlyReportsState);
+  const congReports = useRecoilValue(congFieldServiceReportsState);
+  const userUID = useRecoilValue(userLocalUIDState);
 
   const isHourEnabled = useMemo(() => {
     if (!person) return false;
@@ -54,17 +58,33 @@ const useMonthlyReport = () => {
     return monthsList.map((month) => {
       let icon: ReactElement;
 
-      const monthInReport = reports.find(
+      const congReport = congReports.find(
+        (record) =>
+          record.report_data.report_date === month.value &&
+          record.report_data.person_uid === userUID
+      );
+
+      const userReport = reports.find(
         (record) => record.report_date === month.value
       );
 
-      if (monthInReport) {
-        if (monthInReport.report_data.status !== 'pending') {
+      if (congReport) {
+        if (congReport.report_data.shared_ministry) {
+          icon = <IconCheck height={20} width={20} />;
+        }
+
+        if (!congReport.report_data.shared_ministry) {
+          icon = <IconClose height={20} width={20} />;
+        }
+      }
+
+      if (!congReport && userReport) {
+        if (userReport.report_data.status !== 'pending') {
           icon = <IconCheck height={20} width={20} />;
         }
 
         if (
-          monthInReport.report_data.status === 'pending' &&
+          userReport.report_data.status === 'pending' &&
           month.value < currentMonth
         ) {
           icon = <IconClose height={20} width={20} />;
@@ -76,7 +96,7 @@ const useMonthlyReport = () => {
         icon,
       };
     });
-  }, [monthsList, reports]);
+  }, [monthsList, reports, congReports, userUID]);
 
   const initialValue = useMemo(() => {
     const current = currentMonthServiceYear();

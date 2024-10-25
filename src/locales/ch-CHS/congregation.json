@@ -235,7 +235,7 @@
   "tr_disqualified": "被取消资格",
   "tr_timeAwayAddedSuccess": "已添加暂时离开信息",
   "tr_timeAwayAddedSuccessDesc": "感谢您及时更新您的可用时间",
-  "tr_appointSubsisuteSpeaker": "为来访讲者指定替补",
+  "tr_appointSubstituteSpeaker": "为来访讲者指定替补",
   "tr_displayWSConductorSubstitutions": "在安排表上显示《守望台》研究班主持人的替补安排",
   "tr_displayWSConductorDesc": "主要主持人缺席或生病时",
   "tr_repeatedMonthlyWarning": "显示重复安排警告 - 每月",
@@ -435,5 +435,6 @@
   "tr_enableCongregationDataSyncDesc": "该功能允许与您所在会众的其他用户同步日程等数据，并且可以同时在多个设备上使用该应用程序。",
   "tr_applicationRejected": "先驱申请表被拒绝",
   "tr_applicationRejectedDesc": "此应用已被拒绝。请通知传道员其状态。",
-  "tr_serviceGroupsListNone": "还没有传道小组。创建小组后，小组信息将会立即出现在这里。"
+  "tr_serviceGroupsListNone": "还没有传道小组。创建小组后，小组信息将会立即出现在这里。",
+  "tr_serviceYearAlt": "{{ year }}工作年度"
 }

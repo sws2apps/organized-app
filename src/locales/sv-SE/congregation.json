@@ -235,7 +235,7 @@
   "tr_disqualified": "Inte godkänd",
   "tr_timeAwayAddedSuccess": "Frånvaro tillagd",
   "tr_timeAwayAddedSuccessDesc": "Tack för att du håller din tillgänglighet uppdaterad",
-  "tr_appointSubsisuteSpeaker": "Utse en ersättare för gästande talare",
+  "tr_appointSubstituteSpeaker": "Utse en ersättare för gästande talare",
   "tr_displayWSConductorSubstitutions": "Visa ersättare för Vakttornsstudieledare i schemat",
   "tr_displayWSConductorDesc": "För datum då den ordinarie ledaren är borta eller sjuk",
   "tr_repeatedMonthlyWarning": "Visa varning vid ofta återkommande uppgifter – månatligt",
@@ -435,5 +435,6 @@
   "tr_enableCongregationDataSyncDesc": "Den här funktionen synkroniserar data såsom scheman med andra användare i din församling och tillåter användning av appen på flera enheter samtidigt.",
   "tr_applicationRejected": "Pionjäransökan nekad",
   "tr_applicationRejectedDesc": "Denna ansökan har nekats. Informera förkunnaren om dess status.",
-  "tr_serviceGroupsListNone": "Inga tjänstegrupper än. De kommer att synas här när de skapats."
+  "tr_serviceGroupsListNone": "Inga tjänstegrupper än. De kommer att synas här när de skapats.",
+  "tr_serviceYearAlt": "Tjänsteår {{ year }}"
 }

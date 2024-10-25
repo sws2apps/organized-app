@@ -1,17 +1,26 @@
 import { useMemo } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { personsFiltersKeyState, personsTabState } from '@states/persons';
-import { setPersonsFiltersKey } from '@services/recoil/persons';
-import { useAppTranslation } from '@hooks/index';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useAppTranslation, useBreakpoints } from '@hooks/index';
 import { AssignmentCheckListColors } from '@definition/app';
 import { AssignmentCode } from '@definition/assignment';
 import { PersonsTab } from '@definition/person';
+import {
+  personsFilterOpenState,
+  personsFiltersKeyState,
+  personsTabState,
+} from '@states/persons';
 
 const useFilter = () => {
   const { t } = useAppTranslation();
 
+  const { desktopUp } = useBreakpoints();
+
+  const [filters, setPersonsFiltersKey] = useRecoilState(
+    personsFiltersKeyState
+  );
+
   const setActiveTab = useSetRecoilState(personsTabState);
-  const filters = useRecoilValue(personsFiltersKeyState);
+  const setFilterOpen = useSetRecoilState(personsFilterOpenState);
 
   const checkedItems = filters.filter(
     (record) => typeof record === 'number'
@@ -159,13 +168,20 @@ const useFilter = () => {
     ];
   }, [t]);
 
-  const handleClearFilters = async () => {
-    await setPersonsFiltersKey([]);
-
-    setActiveTab(PersonsTab.ALL);
+  const handleCloseFilterMobile = () => {
+    setFilterOpen(false);
+    window.scroll({ top: 0 });
   };
 
-  const handleToggleGroup = async (checked: boolean, id: string) => {
+  const handleClearFilters = () => {
+    setPersonsFiltersKey([]);
+
+    setActiveTab(PersonsTab.ALL);
+
+    if (!desktopUp) handleCloseFilterMobile();
+  };
+
+  const handleToggleGroup = (checked: boolean, id: string) => {
     let newFiltersKey = [...filters];
 
     const items = assignments.find((group) => group.id === id).items;
@@ -186,15 +202,12 @@ const useFilter = () => {
       }
     }
 
-    await setPersonsFiltersKey(newFiltersKey);
+    setPersonsFiltersKey(newFiltersKey);
 
     setActiveTab(PersonsTab.ALL);
   };
 
-  const handleToggleAssignment = async (
-    checked: boolean,
-    code: AssignmentCode
-  ) => {
+  const handleToggleAssignment = (checked: boolean, code: AssignmentCode) => {
     let newFiltersKey = [...filters];
 
     if (checked) {
@@ -209,7 +222,7 @@ const useFilter = () => {
       }
     }
 
-    await setPersonsFiltersKey(newFiltersKey);
+    setPersonsFiltersKey(newFiltersKey);
 
     setActiveTab(PersonsTab.ALL);
   };
@@ -222,6 +235,7 @@ const useFilter = () => {
     filterGroups,
     handleToggleAssignment,
     checkedItems,
+    handleCloseFilterMobile,
   };
 };
 

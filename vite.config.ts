@@ -42,10 +42,6 @@ export default defineConfig({
       },
       { find: '@global', replacement: resolve(__dirname, 'src/global') },
       { find: '@db', replacement: resolve(__dirname, 'src/indexedDb') },
-      {
-        find: '@talks',
-        replacement: resolve(__dirname, 'src/public_talks'),
-      },
       { find: '@views', replacement: resolve(__dirname, 'src/views') },
     ],
   },

@@ -55,12 +55,17 @@ for await (const language of languages) {
   );
 
   // load talks namespace
-  const talks = await import(`@talks/${language}/public_talks.json`).then(
+  const talks = await import(`@locales/${language}/public_talks.json`).then(
     (module) => module.default
   );
 
   // load songs namespace
   const songs = await import(`@locales/${language}/songs.json`).then(
+    (module) => module.default
+  );
+
+  // load releases namespace
+  const releases = await import(`@locales/${language}/release_notes.json`).then(
     (module) => module.default
   );
 
@@ -78,6 +83,7 @@ for await (const language of languages) {
     },
     talks,
     songs,
+    releases,
   };
 }
 

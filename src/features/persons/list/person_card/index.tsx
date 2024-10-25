@@ -1,4 +1,5 @@
 import { Grid2 as Grid } from '@mui/material';
+import { useBreakpoints } from '@hooks/index';
 import { PersonCardType } from './index.types';
 import { buildPersonFullname } from '@utils/common';
 import useCurrentUser from '@hooks/useCurrentUser';
@@ -10,6 +11,8 @@ import UserCard from '@components/user_card';
 const PersonCard = ({ person }: PersonCardType) => {
   const { isPersonEditor } = useCurrentUser();
 
+  const { desktopUp } = useBreakpoints();
+
   const {
     badges,
     handleDeleteCancel,
@@ -18,10 +21,18 @@ const PersonCard = ({ person }: PersonCardType) => {
     handleDeleteConfirm,
     handleOpenPerson,
     fullnameOption,
+    filterOpen,
   } = usePersonCard(person);
 
   return (
-    <Grid size={{ desktop: 4, laptop: 6, tablet: 12 }} sx={{ width: '100%' }}>
+    <Grid
+      size={{
+        desktop: filterOpen && desktopUp ? 6 : 4,
+        laptop: filterOpen && desktopUp ? 12 : 6,
+        tablet: 12,
+      }}
+      sx={{ width: '100%' }}
+    >
       <DeletePersonConfirm
         open={isDeleting}
         onClose={handleDeleteCancel}
