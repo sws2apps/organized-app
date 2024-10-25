@@ -428,7 +428,7 @@
   "tr_averageAttendanceMM": "Média de presença nas reuniões de meio de semana",
   "tr_S10ReportWithYear": "Relatório de análise da congregação: {{ year }}",
   "tr_groupNotAssigned": "Group not assigned",
-  "tr_publisherLastReport": "Last report on {{ month }}",
+  "tr_publisherLastReport": "Last report: {{ month }}",
   "tr_myGroup": "My group",
   "tr_publishers": "Publicadores",
   "tr_enableCongregationDataSync": "Enable congregation data sync",
