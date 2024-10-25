@@ -436,5 +436,7 @@
   "tr_applicationRejected": "先驱申请表被拒绝",
   "tr_applicationRejectedDesc": "此应用已被拒绝。请通知传道员其状态。",
   "tr_serviceGroupsListNone": "还没有传道小组。创建小组后，小组信息将会立即出现在这里。",
-  "tr_serviceYearAlt": "{{ year }}工作年度"
+  "tr_serviceYearAlt": "{{ year }}工作年度",
+  "tr_speakersOutgoing": "Outgoing speakers",
+  "tr_speakersLocal": "Local speakers"
 }
