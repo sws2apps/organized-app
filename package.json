@@ -47,7 +47,7 @@
     "file-saver": "^2.0.5",
     "file-select-dialog": "^1.5.4",
     "firebase": "^11.0.1",
-    "i18next": "^23.16.3",
+    "i18next": "^23.16.4",
     "interweave": "^13.1.0",
     "jszip": "^3.10.1",
     "jw-epub-parser": "^3.26.0",
