@@ -428,7 +428,7 @@
   "tr_averageAttendanceMM": "Средняя посещаемость встреч в будние дни",
   "tr_S10ReportWithYear": "Отчет анализа собрания: {{ year }}",
   "tr_groupNotAssigned": "Группа не назначена",
-  "tr_publisherLastReport": "Последний отчет за {{ month }}",
+  "tr_publisherLastReport": "Last report: {{ month }}",
   "tr_myGroup": "Моя группа",
   "tr_publishers": "Возвещатели",
   "tr_enableCongregationDataSync": "Enable congregation data sync",
