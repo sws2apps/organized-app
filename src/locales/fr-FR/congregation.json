@@ -428,7 +428,7 @@
   "tr_averageAttendanceMM": "Assistance moyenne aux réunions de semaine",
   "tr_S10ReportWithYear": "Rapport d'analyse de l'assemblée : {{ year }}",
   "tr_groupNotAssigned": "Groupe non assigné",
-  "tr_publisherLastReport": "Dernier rapport en {{ month }}",
+  "tr_publisherLastReport": "Last report: {{ month }}",
   "tr_myGroup": "Mon groupe",
   "tr_publishers": "Proclamateurs",
   "tr_enableCongregationDataSync": "Activer la synchronisation de données de la congrégation",
