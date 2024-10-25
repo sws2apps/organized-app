@@ -335,6 +335,7 @@ export const vistingSpeakerSchema: VisitingSpeakerType = {
     ministerial_servant: { value: false, updatedAt: '' },
     person_email: { value: '', updatedAt: '' },
     person_phone: { value: '', updatedAt: '' },
+    local: { value: false, updatedAt: '' },
     talks: [],
   },
 };

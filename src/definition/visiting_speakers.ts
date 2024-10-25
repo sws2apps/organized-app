@@ -19,6 +19,7 @@ export type VisitingSpeakerType = {
     elder: { value: boolean; updatedAt: string };
     ministerial_servant: { value: boolean; updatedAt: string };
     talks: SpeakerTalk[];
+    local: { value: boolean; updatedAt: string };
   };
 };
 

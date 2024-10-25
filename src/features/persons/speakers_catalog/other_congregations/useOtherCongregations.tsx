@@ -5,7 +5,7 @@ import {
   isAddingCongregationState,
 } from '@states/speakers_congregations';
 
-const useIncoming = () => {
+const useOtherCongregations = () => {
   const [isAdding, setIsAdding] = useRecoilState(isAddingCongregationState);
 
   const incomingCongs = useRecoilValue(incomingCongSpeakersState);
@@ -25,4 +25,4 @@ const useIncoming = () => {
   };
 };
 
-export default useIncoming;
+export default useOtherCongregations;

@@ -6,7 +6,7 @@ import { userDataViewState } from '@states/settings';
 import { dbSourcesUpdate } from '@services/dexie/sources';
 import {
   incomingSpeakersState,
-  outgoingSpeakersState,
+  myCongSpeakersState,
 } from '@states/visiting_speakers';
 import { PublicTalkOptionType } from './index.types';
 import { PublicTalkType } from '@definition/public_talks';
@@ -18,7 +18,7 @@ const usePublicTalkSelector = (week: string, schedule_id?: string) => {
   const sources = useRecoilValue(sourcesState);
   const dataView = useRecoilValue(userDataViewState);
   const incomingSpeakers = useRecoilValue(incomingSpeakersState);
-  const outgoingSpeakers = useRecoilValue(outgoingSpeakersState);
+  const localSpeakers = useRecoilValue(myCongSpeakersState);
   const schedules = useRecoilValue(schedulesState);
 
   const [selectedTalk, setSelectedTalk] = useState<PublicTalkOptionType>(null);
@@ -44,7 +44,7 @@ const usePublicTalkSelector = (week: string, schedule_id?: string) => {
           )?.value || '';
 
         const speakers =
-          talkType === 'localSpeaker' ? outgoingSpeakers : incomingSpeakers;
+          talkType === 'localSpeaker' ? localSpeakers : incomingSpeakers;
 
         for (const talk of talksData) {
           const cnSpeakers = speakers.filter((record) =>
@@ -81,13 +81,13 @@ const usePublicTalkSelector = (week: string, schedule_id?: string) => {
         const speaker = outgoingSchedule.speaker;
 
         for (const talk of talksData) {
-          const cnSpeakers = outgoingSpeakers.filter((record) =>
+          const cnSpeakers = localSpeakers.filter((record) =>
             record.speaker_data.talks.find(
               (item) => item.talk_number === talk.talk_number
             )
           );
 
-          const visitingSpeaker = outgoingSpeakers.find(
+          const visitingSpeaker = localSpeakers.find(
             (item) =>
               item._deleted.value === false && item.person_uid === speaker
           );
@@ -105,7 +105,7 @@ const usePublicTalkSelector = (week: string, schedule_id?: string) => {
     return data;
   }, [
     talksData,
-    outgoingSpeakers,
+    localSpeakers,
     schedule,
     dataView,
     incomingSpeakers,
