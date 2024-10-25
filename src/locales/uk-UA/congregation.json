@@ -436,5 +436,7 @@
   "tr_applicationRejected": "Заяву на служіння піонером відхилено",
   "tr_applicationRejectedDesc": "Ця заява була відхилена. Повідом вісника про її статус.",
   "tr_serviceGroupsListNone": "Поки немає груп для поповідницького служіння. Ці групи з'являться тут, щойно вони будуть створені.",
-  "tr_serviceYearAlt": "{{ year }} службовий рік"
+  "tr_serviceYearAlt": "{{ year }} службовий рік",
+  "tr_speakersOutgoing": "Outgoing speakers",
+  "tr_speakersLocal": "Local speakers"
 }
