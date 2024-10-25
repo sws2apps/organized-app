@@ -3,24 +3,24 @@
     "images": {
       "img_01": {
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_organized_ui.svg",
-        "tr_title": "All-new design, faster performance!",
+        "tr_title": "¡Nuevo diseño, mayor rendimiento!",
         "tr_desc": "Organized has a brand new design that’s better, faster and easier to use than ever! Now it’s your turn to explore!"
       },
       "img_02": {
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_pioneer_application.svg",
         "tr_title": "Quick and easy auxiliary pioneer submissions!",
-        "tr_desc": "Just as easy for you to submit, as it is for your elders to review!"
+        "tr_desc": "¡Tan fácil de enviar como para que los ancianos lo revisen!"
       },
       "img_03": {
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_publisher_records.svg",
-        "tr_title": "Publisher records (S-21) at your fingertips!",
-        "tr_desc": "View and export all the info and statistics. Everything a secretary needs for reporting is just one click away!"
+        "tr_title": "¡Registros de publicadores (S-21) al alcance de tu mano!",
+        "tr_desc": "Consulta y exporta toda la información y estadísticas. ¡Todo lo que necesita un secretario para los informes está a un clic de distancia!"
       }
     },
     "improvements": {
-      "tr_note_01": "A new user guide is now available at <a href='https://guide.organized-app.com' target='_blank' rel='noopener'>guide.organized-app.com</a>.",
-      "tr_note_02": "Include songs in the public talk list for both visiting and local speakers.",
-      "tr_note_03": "4 new color schemes in addition to the dark and light themes."
+      "tr_note_01": "Una nueva guía de usuario ya está disponible en <a href='https://guide.organized-app.com' target='_blank' rel='noopener'>guide.organized-app.com</a>.",
+      "tr_note_02": "Incluye canciones en la lista de discursos públicos tanto para oradores visitantes como locales.",
+      "tr_note_03": "4 nuevos esquemas de color además de los temas claro y oscuro."
     }
   }
 }
