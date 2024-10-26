@@ -428,7 +428,7 @@
   "tr_averageAttendanceMM": "Keskimääräinen viikkokokouksen läsnäolo",
   "tr_S10ReportWithYear": "Seurakunnan analyysiraportti: {{ year }}",
   "tr_groupNotAssigned": "Ryhmää ei määritelty",
-  "tr_publisherLastReport": "Last report: {{ month }}",
+  "tr_publisherLastReport": "Viimeisin raportti {{ month }}",
   "tr_myGroup": "Ryhmäni",
   "tr_publishers": "Julistajat",
   "tr_enableCongregationDataSync": "Ota seurakunnan tietojen synkronointi käyttöön",
@@ -437,6 +437,6 @@
   "tr_applicationRejectedDesc": "Tämä hakemus on hylätty. Ilmoita julistajalle hakemuksen tilasta.",
   "tr_serviceGroupsListNone": "Ei kenttäryhmiä vielä. Ne ilmestyvät tänne heti kun ne on luotu.",
   "tr_serviceYearAlt": "Palvelusvuosi {{ year }}",
-  "tr_speakersOutgoing": "Outgoing speakers",
-  "tr_speakersLocal": "Local speakers"
+  "tr_speakersOutgoing": "Lähtevät puhujat",
+  "tr_speakersLocal": "Paikalliset puhujat"
 }
