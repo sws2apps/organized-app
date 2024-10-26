@@ -17,7 +17,7 @@ import { CustomTooltipProps } from './index.types';
  * @returns {JSX.Element} - Rendered tooltip component surrounding the provided child content.
  */
 const CustomTooltip = (props: CustomTooltipProps) => {
-  return (
+  return props.use ? (
     <Tooltip
       title={props.label}
       enterDelay={props.delaySpeed === 'fast' ? 0 : 2000}
@@ -40,6 +40,8 @@ const CustomTooltip = (props: CustomTooltipProps) => {
     >
       <Box>{props.children}</Box>
     </Tooltip>
+  ) : (
+    <Box>{props.children}</Box>
   );
 };
 

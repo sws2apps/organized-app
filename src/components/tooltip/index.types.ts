@@ -46,4 +46,6 @@ export type CustomTooltipProps = {
     | 'top-end'
     | 'top-start'
     | 'top';
+
+  use?: boolean;
 };

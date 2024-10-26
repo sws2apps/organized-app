@@ -60,14 +60,14 @@ const GroupHeader = (props: GroupHeaderProps) => {
 
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
         {my_group && (
-          <Tooltip label={t('tr_myGroup')} delaySpeed={'fast'}>
+          <Tooltip label={t('tr_myGroup')} delaySpeed={'fast'} use>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <IconMyGroup color={color} />
             </Box>
           </Tooltip>
         )}
 
-        <Tooltip label={t('tr_edit')} delaySpeed={'fast'}>
+        <Tooltip label={t('tr_edit')} delaySpeed={'fast'} use>
           <IconButton onClick={handleOpenEdit} sx={{ padding: 0 }}>
             <IconEdit color={color} />
           </IconButton>
