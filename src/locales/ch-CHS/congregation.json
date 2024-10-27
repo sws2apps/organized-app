@@ -428,7 +428,7 @@
   "tr_averageAttendanceMM": "平均周中聚会出席人数",
   "tr_S10ReportWithYear": "会众分析报告: {{ year }}",
   "tr_groupNotAssigned": "小组尚未指定",
-  "tr_publisherLastReport": "Last report: {{ month }}",
+  "tr_publisherLastReport": "上次报告：{{ month }}",
   "tr_myGroup": "我的小组",
   "tr_publishers": "传道员",
   "tr_enableCongregationDataSync": "启用会众数据同步",
@@ -437,6 +437,6 @@
   "tr_applicationRejectedDesc": "此应用已被拒绝。请通知传道员其状态。",
   "tr_serviceGroupsListNone": "还没有传道小组。创建小组后，小组信息将会立即出现在这里。",
   "tr_serviceYearAlt": "{{ year }}工作年度",
-  "tr_speakersOutgoing": "Outgoing speakers",
-  "tr_speakersLocal": "Local speakers"
+  "tr_speakersOutgoing": "探访讲者",
+  "tr_speakersLocal": "本地讲者"
 }
