@@ -428,15 +428,15 @@
   "tr_averageAttendanceMM": "Salanisa mpanatrika fivoriana andavanandro",
   "tr_S10ReportWithYear": "Tatitsy famakafakà fiangona: {{ year }}",
   "tr_groupNotAssigned": "Tsy misy andiam-pitory",
-  "tr_publisherLastReport": "Last report: {{ month }}",
+  "tr_publisherLastReport": "Tatitra farany: {{ month }}",
   "tr_myGroup": "Andiam-pitory misy ahy",
   "tr_publishers": "Mpitory",
   "tr_enableCongregationDataSync": "Alefa ny fizarana rakitra ampiasain’ny rehetra",
   "tr_enableCongregationDataSyncDesc": "Lasa afaka mahita rakitra sasany ampiasain’ny fiangonana ny olona hafa rehefa alefanao ity. Lasa azonao jerena amin’ny fitaovana samihafa koa ireo rakitra ireo.",
   "tr_applicationRejected": "Tsy nekena ny fangatahana",
   "tr_applicationRejectedDesc": "Tsy nekena ity fangatahana hanao mpisava lalana mpanampy ity. Ampahafantaro an’ilay mpitory izany.",
-  "tr_serviceGroupsListNone": "No field service groups yet. The groups will appear here as soon as they are created.",
-  "tr_serviceYearAlt": "{{ year }} service year",
-  "tr_speakersOutgoing": "Outgoing speakers",
-  "tr_speakersLocal": "Local speakers"
+  "tr_serviceGroupsListNone": "Tsy mbola misy andiam-pitory. Hiseho eto izany rehefa avy amboarina.",
+  "tr_serviceYearAlt": "Taom-panompoana {{ year }}",
+  "tr_speakersOutgoing": "Mpitsidika",
+  "tr_speakersLocal": "Eo an-toerana"
 }
