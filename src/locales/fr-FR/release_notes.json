@@ -13,14 +13,14 @@
       },
       "img_03": {
         "src": "https://raw.githubusercontent.com/sws2apps/organized-app/refs/heads/main/src/assets/img/whatsnew_publisher_records.svg",
-        "tr_title": "Publisher records (S-21) at your fingertips!",
-        "tr_desc": "View and export all the info and statistics. Everything a secretary needs for reporting is just one click away!"
+        "tr_title": "Enregistrements des proclamateurs (S-21) à portée de main !",
+        "tr_desc": "Voir et exporter toutes les info et statistiques. Tout ce dont un secrétaire a besoin pour faire rapport en un clic !"
       }
     },
     "improvements": {
-      "tr_note_01": "A new user guide is now available at <a href='https://guide.organized-app.com' target='_blank' rel='noopener'>guide.organized-app.com</a>.",
-      "tr_note_02": "Include songs in the public talk list for both visiting and local speakers.",
-      "tr_note_03": "4 new color schemes in addition to the dark and light themes."
+      "tr_note_01": "Un nouveau guide utilisateur est maintenant disponible sur <a href='https://guide.organized-app.com' target='_blank' rel='noopener'>guide.organized-app.com</a>.",
+      "tr_note_02": "Inclure des cantiques dans la liste des discours publique pour les orateurs locaux et externes.",
+      "tr_note_03": "4 nouveaux modèles de couleurs en plus des thèmes sombres et clairs."
     }
   }
 }
