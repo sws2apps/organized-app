@@ -428,7 +428,7 @@
   "tr_averageAttendanceMM": "Genomsnittlig närvaro på veckomöten",
   "tr_S10ReportWithYear": "Församlingsanalysrapport",
   "tr_groupNotAssigned": "Grupp inte tilldelad",
-  "tr_publisherLastReport": "Last report: {{ month }}",
+  "tr_publisherLastReport": "Senaste rapporten för {{ month }}",
   "tr_myGroup": "Min grupp",
   "tr_publishers": "Förkunnare",
   "tr_enableCongregationDataSync": "Aktivera synkronisering av församlingsdata",
@@ -437,6 +437,6 @@
   "tr_applicationRejectedDesc": "Denna ansökan har nekats. Informera förkunnaren om dess status.",
   "tr_serviceGroupsListNone": "Inga tjänstegrupper än. De kommer att synas här när de skapats.",
   "tr_serviceYearAlt": "Tjänsteår {{ year }}",
-  "tr_speakersOutgoing": "Outgoing speakers",
-  "tr_speakersLocal": "Local speakers"
+  "tr_speakersOutgoing": "Dina utresande talare",
+  "tr_speakersLocal": "Lokala talare"
 }

@@ -428,7 +428,7 @@
   "tr_averageAttendanceMM": "Середня відвідуваність зібрань серед тижня",
   "tr_S10ReportWithYear": "Аналіз збору: {{ year }}",
   "tr_groupNotAssigned": "Група не призначена",
-  "tr_publisherLastReport": "Last report: {{ month }}",
+  "tr_publisherLastReport": "Останній звіт: {{ month }}",
   "tr_myGroup": "Моя група",
   "tr_publishers": "Вісники",
   "tr_enableCongregationDataSync": "Увімкнути синхронізацію даних збору",

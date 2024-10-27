@@ -428,7 +428,7 @@
   "tr_averageAttendanceMM": "평균 평일 집회 참석",
   "tr_S10ReportWithYear": "회중 분석 보고서: {{ year }}",
   "tr_groupNotAssigned": "집단 미지정",
-  "tr_publisherLastReport": "Last report: {{ month }}",
+  "tr_publisherLastReport": "지난 보고: {{ month }}",
   "tr_myGroup": "내 집단",
   "tr_publishers": "전도인",
   "tr_enableCongregationDataSync": "회중 데이터 동기화 활성화",
@@ -437,6 +437,6 @@
   "tr_applicationRejectedDesc": "이 신청이 거부되었습니다. 전도인에게 상태를 알려주세요.",
   "tr_serviceGroupsListNone": "야외봉사 집단이 없습니다. 집단이 만들어지면 여기에 나타납니다.",
   "tr_serviceYearAlt": "{{ year }} 봉사연도",
-  "tr_speakersOutgoing": "Outgoing speakers",
-  "tr_speakersLocal": "Local speakers"
+  "tr_speakersOutgoing": "외부 연사",
+  "tr_speakersLocal": "현지 연사"
 }
