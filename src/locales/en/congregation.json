@@ -435,5 +435,7 @@
   "tr_groupNotAssigned": "Group not assigned",
   "tr_publisherLastReport": "Last report on {{ month }}",
   "tr_myGroup": "My group",
-  "tr_publishers": "Publishers"
+  "tr_publishers": "Publishers",
+  "tr_activePublisher": "Active publisher",
+  "tr_activePublisherTooltip": "Clicking this checkbox will automatically create the activity start and end records. You can edit them by expanding the detailed history menu below."
 }

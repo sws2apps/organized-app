@@ -47,5 +47,8 @@ export type CustomTooltipProps = {
     | 'top-start'
     | 'top';
 
+  /**
+   * Show tooltip if hover on child element
+   */
   use?: boolean;
 };

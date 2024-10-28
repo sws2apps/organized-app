@@ -1,9 +1,11 @@
 import { Box, Collapse, IconButton } from '@mui/material';
-import { IconAdd, IconExpand } from '@components/icons';
+import { IconAdd, IconExpand, IconHelpFilled } from '@components/icons';
 import Button from '@components/button';
 import Checkbox from '@components/checkbox';
 import { useAppTranslation } from '@hooks/index';
 import { StatusHistoryType } from './index.types';
+import { useState } from 'react';
+import { Tooltip } from '@components/index';
 
 const StatusHistory = ({
   active,
@@ -16,10 +18,47 @@ const StatusHistory = ({
 }: StatusHistoryType) => {
   const { t } = useAppTranslation();
 
+  const [helpIconHovered, setHelpIconIsHovered] = useState(false);
+
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-        <Checkbox label="Active" checked={active} onChange={onChange} />
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
+          <Checkbox
+            label={t('tr_activePublisher')}
+            checked={active}
+            onChange={onChange}
+            sx={{
+              margin: '4px',
+            }}
+          />
+          <Tooltip
+            label={t('tr_activePublisherTooltip')}
+            delaySpeed={'fast'}
+            placement="bottom-start"
+            use
+          >
+            <Box
+              onMouseEnter={() => setHelpIconIsHovered(true)}
+              onMouseLeave={() => setHelpIconIsHovered(false)}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+              <IconHelpFilled
+                width={16}
+                height={16}
+                color={helpIconHovered ? 'var(--accent-main)' : 'var(--black)'}
+              />
+            </Box>
+          </Tooltip>
+        </Box>
         <IconButton sx={{ padding: 0 }} onClick={onExpand}>
           <IconExpand
             color="var(--black)"
