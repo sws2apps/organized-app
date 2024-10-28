@@ -60,7 +60,11 @@ const useSongSelector = ({ onClose, week }: SongSelectorProps) => {
     const load = () => {
       if (song.length > 0 || speaker.length === 0) return onClose();
 
-      const speakerData = speakers.find;
+      const speakerData = speakers.find(
+        (record) => record.person_uid === speaker
+      );
+
+      console.log(speakerData);
     };
 
     load();
