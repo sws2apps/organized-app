@@ -8,7 +8,7 @@ import {
 } from '@services/dexie/visiting_speakers';
 import { publicTalksState } from '@states/public_talks';
 import { PublicTalkType } from '@definition/public_talks';
-import { outgoingSpeakersState } from '@states/visiting_speakers';
+import { myCongSpeakersState } from '@states/visiting_speakers';
 import { VisitingSpeakerType } from '@definition/visiting_speakers';
 import { fullnameOptionState } from '@states/settings';
 import { SongType } from '@definition/songs';
@@ -16,7 +16,7 @@ import { SongType } from '@definition/songs';
 const useEdit = (speaker: VisitingSpeakerType) => {
   const activePersons = useRecoilValue(personsActiveState);
   const publicTalks = useRecoilValue(publicTalksState);
-  const outgoingSpeakers = useRecoilValue(outgoingSpeakersState);
+  const outgoingSpeakers = useRecoilValue(myCongSpeakersState);
   const fullnameOption = useRecoilValue(fullnameOptionState);
 
   const [openSongAdd, setOpenSongAdd] = useState(false);

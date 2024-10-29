@@ -436,5 +436,7 @@
   "tr_applicationRejected": "Pionjäransökan nekad",
   "tr_applicationRejectedDesc": "Denna ansökan har nekats. Informera förkunnaren om dess status.",
   "tr_serviceGroupsListNone": "Inga tjänstegrupper än. De kommer att synas här när de skapats.",
-  "tr_serviceYearAlt": "Tjänsteår {{ year }}"
+  "tr_serviceYearAlt": "Tjänsteår {{ year }}",
+  "tr_speakersOutgoing": "Dina utresande talare",
+  "tr_speakersLocal": "Lokala talare"
 }

@@ -1,12 +1,12 @@
 import { Box } from '@mui/material';
 import { useAppTranslation } from '@hooks/index';
-import useIncoming from './useIncoming';
+import useOtherCongregations from './useOtherCongregations';
 import CongregationAdd from './congregation_add';
 import IncomingCongregation from './congregation_item';
 import Typography from '@components/typography';
 import NoCongregations from './no_congregations';
 
-const IncomingSpeakers = () => {
+const OtherCongregations = () => {
   const { t } = useAppTranslation();
 
   const {
@@ -15,7 +15,7 @@ const IncomingSpeakers = () => {
     handleIsAddingClose,
     currentExpanded,
     handleSetExpanded,
-  } = useIncoming();
+  } = useOtherCongregations();
 
   return (
     <Box
@@ -48,4 +48,4 @@ const IncomingSpeakers = () => {
   );
 };
 
-export default IncomingSpeakers;
+export default OtherCongregations;

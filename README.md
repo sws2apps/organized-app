@@ -44,6 +44,8 @@ Organized is designed as a Progressive Web Application (PWA), offering a seamles
 
 To enhance your experience, you can also install Organized on your device. This adds an icon to your home screen, provides offline functionality, and offers a more app-like experience, similar to native apps. Simply open the app in your device’s browser and follow the prompt to add it to your home screen (or click More/Share button → Install).
 
+_This project is tested with BrowserStack_
+
 ## Is Organized a web-based app?
 
 The Organized app is not a typical online or cloud-based app. While it can be accessed via a web browser, it can also be downloaded and used locally on your device. The app is designed to store all data directly on your device, ensuring that your information remains in your hands and you can access the app offline.

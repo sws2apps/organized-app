@@ -428,7 +428,7 @@
   "tr_averageAttendanceMM": "Assistance moyenne aux réunions de semaine",
   "tr_S10ReportWithYear": "Rapport d'analyse de l'assemblée : {{ year }}",
   "tr_groupNotAssigned": "Groupe non assigné",
-  "tr_publisherLastReport": "Dernier rapport en {{ month }}",
+  "tr_publisherLastReport": "Last report: {{ month }}",
   "tr_myGroup": "Mon groupe",
   "tr_publishers": "Proclamateurs",
   "tr_enableCongregationDataSync": "Activer la synchronisation de données de la congrégation",
@@ -436,5 +436,7 @@
   "tr_applicationRejected": "Demande d'admission au service de pionnier rejetée",
   "tr_applicationRejectedDesc": "Cette demande a été rejetée. Veuillez informer le proclamateur de son statut.",
   "tr_serviceGroupsListNone": "Aucun groupe de prédication pour le moment. Les groupes apparaîtront automatiquement ici dès qu'ils seront créé.",
-  "tr_serviceYearAlt": "{{ year }} service year"
+  "tr_serviceYearAlt": "{{ year }} service year",
+  "tr_speakersOutgoing": "Outgoing speakers",
+  "tr_speakersLocal": "Local speakers"
 }

@@ -428,7 +428,7 @@
   "tr_averageAttendanceMM": "Durchschnittliche Besucher unter der Woche",
   "tr_S10ReportWithYear": "Gemeindeanalyse-Bericht: {{ year }}",
   "tr_groupNotAssigned": "Gruppe nicht zugewiesen",
-  "tr_publisherLastReport": "Letzter Bericht im {{ month }}",
+  "tr_publisherLastReport": "Letzter Bericht: {{ month }}",
   "tr_myGroup": "Meine Gruppe",
   "tr_publishers": "Verkündiger",
   "tr_enableCongregationDataSync": "Enable congregation data sync",
@@ -436,5 +436,7 @@
   "tr_applicationRejected": "Pioneer application rejected",
   "tr_applicationRejectedDesc": "This application has been rejected. Inform the publisher about its status.",
   "tr_serviceGroupsListNone": "No field service groups yet. The groups will appear here as soon as they are created.",
-  "tr_serviceYearAlt": "{{ year }} service year"
+  "tr_serviceYearAlt": "{{ year }} service year",
+  "tr_speakersOutgoing": "Auswärtige Redner",
+  "tr_speakersLocal": "Lokale Redner"
 }

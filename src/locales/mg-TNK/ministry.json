@@ -113,10 +113,10 @@
   "tr_specificPublisherRecords": "Mpitory sasantsasany ihany",
   "tr_S21ExportMultipleDesc": "Safidio ny mpitory tianao ho ampidirina amin’ny lisitry ny karatra hotehirizina. Hanana karatra tsirairay avy ireo mpitory safidinao ireo.",
   "tr_activePublishersAll": "Mpitory hafa rehetra",
-  "tr_markAsVerified": "Mark as verified",
+  "tr_markAsVerified": "Hanamarina",
   "tr_averageMonthlyHours": "Salanisa isam-bolana",
-  "tr_reportVerified": "Verified reports",
-  "tr_reportUnverified": "Reports awaiting verification",
-  "tr_unverifiedReportTitle": "You have unverified reports",
-  "tr_unverifiedReportDesc": "Open the <a title=''>Field service reports</a> page to check and verify reports from the publishers."
+  "tr_reportVerified": "Tatitra voamarina",
+  "tr_reportUnverified": "Tatitra mila hamarinina",
+  "tr_unverifiedReportTitle": "Tatitra mila hamarinina",
+  "tr_unverifiedReportDesc": "Sokafy ny pejy <a title=''>Tatitra momba ny fanompoana</a> mba ahafahanao manamarina ny tatitra avy amin’ny mpitory."
 }

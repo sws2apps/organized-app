@@ -436,5 +436,7 @@
   "tr_applicationRejected": "Tienraivaushakemus hylätty",
   "tr_applicationRejectedDesc": "Tämä hakemus on hylätty. Ilmoita julistajalle hakemuksen tilasta.",
   "tr_serviceGroupsListNone": "Ei kenttäryhmiä vielä. Ne ilmestyvät tänne heti kun ne on luotu.",
-  "tr_serviceYearAlt": "Palvelusvuosi {{ year }}"
+  "tr_serviceYearAlt": "Palvelusvuosi {{ year }}",
+  "tr_speakersOutgoing": "Lähtevät puhujat",
+  "tr_speakersLocal": "Paikalliset puhujat"
 }

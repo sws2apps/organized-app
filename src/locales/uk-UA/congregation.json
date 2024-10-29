@@ -428,7 +428,7 @@
   "tr_averageAttendanceMM": "Середня відвідуваність зібрань серед тижня",
   "tr_S10ReportWithYear": "Аналіз збору: {{ year }}",
   "tr_groupNotAssigned": "Група не призначена",
-  "tr_publisherLastReport": "Останній звіт за {{ month }}",
+  "tr_publisherLastReport": "Останній звіт: {{ month }}",
   "tr_myGroup": "Моя група",
   "tr_publishers": "Вісники",
   "tr_enableCongregationDataSync": "Увімкнути синхронізацію даних збору",
@@ -436,5 +436,7 @@
   "tr_applicationRejected": "Заяву на служіння піонером відхилено",
   "tr_applicationRejectedDesc": "Ця заява була відхилена. Повідом вісника про її статус.",
   "tr_serviceGroupsListNone": "Поки немає груп для поповідницького служіння. Ці групи з'являться тут, щойно вони будуть створені.",
-  "tr_serviceYearAlt": "{{ year }} службовий рік"
+  "tr_serviceYearAlt": "{{ year }} службовий рік",
+  "tr_speakersOutgoing": "Рекомендовані промовці",
+  "tr_speakersLocal": "Місцеві промовці"
 }
