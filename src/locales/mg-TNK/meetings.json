@@ -145,5 +145,6 @@
   "tr_deliveredBy": "Ataon’i {{ name }}",
   "tr_toCurrentWeek": "Ity herinandro ity",
   "tr_recordAttendance": "Isan'ny mpanatrika",
-  "tr_assignmentPreferences": "Fanamboarana momba ny fanendrena"
+  "tr_assignmentPreferences": "Fanamboarana momba ny fanendrena",
+  "tr_notEditableInEditPartsMode": "Not editable in ‘Edit parts’ mode"
 }
