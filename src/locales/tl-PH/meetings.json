@@ -145,5 +145,6 @@
   "tr_deliveredBy": "Ginagampanan: {{ name }}",
   "tr_toCurrentWeek": "Kasalukuyang linggo",
   "tr_recordAttendance": "Record ng attendance",
-  "tr_assignmentPreferences": "Assignment preferences"
+  "tr_assignmentPreferences": "Assignment preferences",
+  "tr_notEditableInEditPartsMode": "Not editable in ‘Edit parts’ mode"
 }

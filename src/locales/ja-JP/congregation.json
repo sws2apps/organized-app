@@ -431,6 +431,8 @@
   "tr_publisherLastReport": "Last report: {{ month }}",
   "tr_myGroup": "私のグループ",
   "tr_publishers": "伝道者",
+  "tr_activePublisher": "Active publisher",
+  "tr_activePublisherTooltip": "Clicking this checkbox will automatically create the activity start and end records. You can edit them by expanding the detailed history menu below.",
   "tr_enableCongregationDataSync": "Enable congregation data sync",
   "tr_enableCongregationDataSyncDesc": "This feature lets sync data like schedules with other users in your congregation and use the app on multiple devices at the same time.",
   "tr_applicationRejected": "Pioneer application rejected",

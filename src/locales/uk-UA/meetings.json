@@ -145,5 +145,6 @@
   "tr_deliveredBy": "Виголошує: {{ name }}",
   "tr_toCurrentWeek": "До поточного тижня",
   "tr_recordAttendance": "Записи відвідуваності",
-  "tr_assignmentPreferences": "Налаштування завдань"
+  "tr_assignmentPreferences": "Налаштування завдань",
+  "tr_notEditableInEditPartsMode": "Not editable in ‘Edit parts’ mode"
 }

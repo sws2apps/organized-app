@@ -145,5 +145,6 @@
   "tr_deliveredBy": "由{{ name }}发表",
   "tr_toCurrentWeek": "转到本周",
   "tr_recordAttendance": "出席记录",
-  "tr_assignmentPreferences": "任务偏好设置"
+  "tr_assignmentPreferences": "任务偏好设置",
+  "tr_notEditableInEditPartsMode": "Not editable in ‘Edit parts’ mode"
 }

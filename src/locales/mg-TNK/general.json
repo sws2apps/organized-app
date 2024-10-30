@@ -123,5 +123,8 @@
   "tr_decemberShort": "Des",
   "tr_published": "Nozaraina",
   "tr_longDateWithYearAndDayLocale": "{{ day }} {{ date }} {{ month }} {{ year }}",
-  "tr_selectAll": "Izy rehetra"
+  "tr_selectAll": "Izy rehetra",
+  "tr_verified": "Verified",
+  "tr_notSubmitted": "Not submitted",
+  "tr_pendingVerification": "Pending verification"
 }
