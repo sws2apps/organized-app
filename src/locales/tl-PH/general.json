@@ -123,5 +123,8 @@
   "tr_decemberShort": "Dis",
   "tr_published": "Nai-publish",
   "tr_longDateWithYearAndDayLocale": "{{ day }}, {{ month }} {{ date }}, {{ year }}",
-  "tr_selectAll": "Piliin lahat"
+  "tr_selectAll": "Piliin lahat",
+  "tr_verified": "Verified",
+  "tr_notSubmitted": "Not submitted",
+  "tr_pendingVerification": "Pending verification"
 }
