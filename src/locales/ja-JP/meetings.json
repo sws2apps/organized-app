@@ -145,5 +145,6 @@
   "tr_deliveredBy": "Delivers: {{ name }}",
   "tr_toCurrentWeek": "To current week",
   "tr_recordAttendance": "Attendance records",
-  "tr_assignmentPreferences": "割り当ての設定"
+  "tr_assignmentPreferences": "割り当ての設定",
+  "tr_notEditableInEditPartsMode": "Not editable in ‘Edit parts’ mode"
 }
