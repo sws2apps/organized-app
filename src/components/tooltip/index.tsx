@@ -1,4 +1,4 @@
-import { Grow, Tooltip as MUITooltip } from '@mui/material';
+import { Box, Grow, Tooltip as MUITooltip } from '@mui/material';
 import { CustomTooltipProps } from './index.types';
 
 /**
@@ -40,7 +40,7 @@ const Tooltip = ({
         },
       }}
     >
-      {props.children}
+      <Box>{props.children}</Box>
     </MUITooltip>
   ) : (
     props.children
