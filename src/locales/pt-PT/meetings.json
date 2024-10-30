@@ -145,5 +145,6 @@
   "tr_deliveredBy": "Delivers: {{ name }}",
   "tr_toCurrentWeek": "Para a semana atual",
   "tr_recordAttendance": "Registar assistência",
-  "tr_assignmentPreferences": "Preferências de atribuição"
+  "tr_assignmentPreferences": "Preferências de atribuição",
+  "tr_notEditableInEditPartsMode": "Not editable in ‘Edit parts’ mode"
 }
