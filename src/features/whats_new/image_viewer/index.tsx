@@ -1,42 +1,76 @@
 import { Box } from '@mui/material';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Pagination } from 'swiper/modules';
+import { useBreakpoints } from '@hooks/index';
 import { ImageViewerProps } from './index.types';
+import { SlideItem } from './index.styles';
 import Typography from '@components/typography';
 
-const ImageViewer = ({ current, slides }: ImageViewerProps) => {
+const ImageViewer = ({
+  current,
+  slides,
+  swiperRef,
+  onImageChange,
+}: ImageViewerProps) => {
+  const { tablet500Down } = useBreakpoints();
+
   return (
     <>
       <Box
         sx={{
-          padding: '24px',
+          padding: '24px 0',
           display: 'flex',
           flexDirection: 'column',
           gap: '24px',
           borderRadius: 'var(--radius-l)',
           backgroundColor: 'var(--accent-150)',
           width: '100%',
-          height: '340px',
+          height: tablet500Down ? 'unset' : '340px',
         }}
       >
-        <Box
-          component="img"
-          src={slides[current].src}
-          sx={{ height: '200px', width: 'auto' }}
-        />
+        <Box>
+          <Swiper
+            ref={swiperRef}
+            slidesPerView="auto"
+            spaceBetween={0}
+            centeredSlides={true}
+            autoplay={{ delay: 10000, disableOnInteraction: false }}
+            modules={[Autoplay, Pagination]}
+            className="mySwiper"
+            style={{ height: '100%' }}
+            onRealIndexChange={(swiper) => onImageChange(swiper.realIndex)}
+          >
+            {slides.map((slide) => (
+              <SwiperSlide key={slide.src}>
+                <SlideItem>
+                  <Box
+                    component="img"
+                    src={slide.src}
+                    sx={{ height: '200px', width: '100%' }}
+                  />
 
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '4px',
-            textAlign: 'center',
-          }}
-        >
-          <Typography className="h4" color="var(--accent-dark)">
-            {slides[current].tr_title}
-          </Typography>
-          <Typography className="body-small-regular" color="var(--accent-400)">
-            {slides[current].tr_desc}
-          </Typography>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '4px',
+                      textAlign: 'center',
+                    }}
+                  >
+                    <Typography className="h4" color="var(--accent-dark)">
+                      {slides[current].tr_title}
+                    </Typography>
+                    <Typography
+                      className="body-small-regular"
+                      color="var(--accent-400)"
+                    >
+                      {slides[current].tr_desc}
+                    </Typography>
+                  </Box>
+                </SlideItem>
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </Box>
       </Box>
 
